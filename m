@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FA623B7BD
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 11:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959C023B7C5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 11:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F50589D4B;
-	Tue,  4 Aug 2020 09:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 418306E02F;
+	Tue,  4 Aug 2020 09:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E0C89D4B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 09:31:41 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id 25so12203421oir.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 02:31:41 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749DE6E02F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 09:33:55 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id g8so2036964wmk.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 02:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Bx8QnSbD21aKEv4HPh/WQgnpCovb+oX4WSI/yUidvUA=;
- b=hSRc18DI12vibI2y/PhLUpEH+n2WEK43Hx+65fY+/xoVAy8Nk+iOU1wBQlXk53IF+q
- am4mS9n9SJASS+m1vHXi9FxNsGa2Z/5oejaQoiErvncEZ9HLXEK9RJfWfdRctFk5aNT8
- eXpK2q6Ga41ilbw3cwzfxFdgg0/zYkp4LetcA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=NFwnBuUV6bVAwnm6zIwLZz6xFgzPWKISMQC0BJF3oys=;
+ b=UoPVoVRzcsw6cieJIVlsnj/wuU9LmN3VfVRrZ+MKwKQQxr+9xLbRnacDmgsrLkpFk8
+ OLqylsQVWdcyLNjSoixDW1lfZwEglNY276klOaFmuPYng2Iu/NInbg46Xd78hATFLAYi
+ 8Mx23cu3tS+0KXJx89zbDDgmGsZE2Hm/gm9LA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Bx8QnSbD21aKEv4HPh/WQgnpCovb+oX4WSI/yUidvUA=;
- b=rZXAvGbVT1vd5UJsW2UVb3oWtYemTJGSJUmmga9JT8CK0TzB5c6vYmENJnTOAK7r4I
- LAyPIONHkOXxSYK707JQwBMwnsGKx0WnG3Hh7+p5V72RGBqonSLPR18IEJr8gDL0wF5p
- FaqG0uSKAgCH5MrnFp6WtvbKQa1SobVC5TF69mUZ8Bxxp6yPIb188bbebBLCiYLDY/n8
- M+Y1L7+s15NYBcKdvUuz2PB/lQ8XT/QcklvxjGobQMY0tkV3X11BYcA/JtIfcBW7Q4sU
- v25CxbGzgxSldjWy7NJeWSOZiwvYPP+5RLZ4lUVkhInVavdL3ZwvJBIwcj1BT9Em8NTh
- mf1w==
-X-Gm-Message-State: AOAM533yREdnMR6KbvoAj5IRUsxZ4MWMdsEnGTyQub1+wMIyc2FHFKkc
- sghERUzdcjBGEC89iL36KUUkLN933wd0XXR2cDNI6Q==
-X-Google-Smtp-Source: ABdhPJwdpUdLPhrTPAaU7NeuwyRn6hE1IzDc4jwEglS1bZDZpyn1A79/YYbgME6XqG72lThDZ7VnwRdmnDyTYRZ8hEI=
-X-Received: by 2002:aca:ab87:: with SMTP id u129mr2628735oie.128.1596533501194; 
- Tue, 04 Aug 2020 02:31:41 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=NFwnBuUV6bVAwnm6zIwLZz6xFgzPWKISMQC0BJF3oys=;
+ b=Hcpu9rqLHGRxMNlWdm+/pqd9VCr9B/w5ITa6z1VNsrAgMfZXWUHjUTEhYIuxZqnF+f
+ SPZ+QpcBk4g1jtxI1QH6E4naaC4FG2BGsiMGV27Bqy3W48IjJ6B+84mjBivHFGFRxk+a
+ N7LH8OSDA6fHnm3xhjtpDpOy5EYaotoLOYfIUrvPk2ltDYJQfL/odxc/X41Z5hHPpYos
+ Jlt2mIgA3A8wJAlC3KjqjXQluUgamzQob9iTAmVR8TOIMKnbm4Eqzdvj8Y96hSxd1L89
+ WfUda0nov+4FiVCdgaX7n2bwekP4fLRtcgcMwxaVBEe1CsNcE0rcKdRoqv16U/wgSr5H
+ 73Gg==
+X-Gm-Message-State: AOAM530vqVwuZ4ESV02zUGvWrAoNLaA6dI9HYguRWs2JB/gx53CdTsfb
+ ++sQNn6rfbLCuzLZG6/83FGtGw==
+X-Google-Smtp-Source: ABdhPJxrrGidzQhwfTb1jWqCDcxs0YR82vstHBGZpvbp2FYaqscg6VnidhLropJSAgj/04fpqf7IWg==
+X-Received: by 2002:a1c:ba83:: with SMTP id k125mr3240823wmf.160.1596533634127; 
+ Tue, 04 Aug 2020 02:33:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q5sm28336286wrp.60.2020.08.04.02.33.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Aug 2020 02:33:53 -0700 (PDT)
+Date: Tue, 4 Aug 2020 11:33:51 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH] drm/vkms: modify sequence disable/plane/enable in
+ commit_tail
+Message-ID: <20200804093351.GI6419@phenom.ffwll.local>
+Mail-Followup-To: Melissa Wen <melissa.srw@gmail.com>,
+ Sidong Yang <realwakka@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200729152231.13249-1-realwakka@gmail.com>
+ <CAJeY4oEAHmY5icF_EPpojW5U+ryt3-guuvGQfj_S=XskO_xyRA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200730144830.10479-1-paul@crapouillou.net>
- <20200730144830.10479-4-paul@crapouillou.net>
- <20200730152958.GB1474381@ravnborg.org> <6RIAEQ.2KRLCE1YRKKB1@crapouillou.net>
-In-Reply-To: <6RIAEQ.2KRLCE1YRKKB1@crapouillou.net>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 4 Aug 2020 11:31:29 +0200
-Message-ID: <CAKMK7uFfS0XuGAeT0t_UF7f0gALUK-BHFVsk4w_u9BjoeFtNYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/ingenic: ipu: Only enable clock when needed
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <CAJeY4oEAHmY5icF_EPpojW5U+ryt3-guuvGQfj_S=XskO_xyRA@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,94 +74,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sidong Yang <realwakka@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMzAsIDIwMjAgYXQgMDY6MjE6MDVQTSArMDIwMCwgUGF1bCBDZXJjdWVpbCB3
-cm90ZToKPgo+Cj4gTGUgamV1LiAzMCBqdWlsLiAyMDIwIMOgIDE3OjI5LCBTYW0gUmF2bmJvcmcg
-PHNhbUByYXZuYm9yZy5vcmc+IGEgw6ljcml0IDoKPiA+IE9uIFRodSwgSnVsIDMwLCAyMDIwIGF0
-IDA0OjQ4OjMwUE0gKzAyMDAsIFBhdWwgQ2VyY3VlaWwgd3JvdGU6Cj4gPiA+ICBJbnN0ZWFkIG9m
-IGtlZXBpbmcgdGhlIElQVSBjbG9jayBlbmFibGVkIGNvbnN0YW50bHksIGVuYWJsZSBhbmQKPiA+
-ID4gZGlzYWJsZQo+ID4gPiAgaXQgb24gZGVtYW5kLCB3aGVuIHRoZSBJUFUgcGxhbmUgaXMgdXNl
-ZC4gVGhhdCB3YXksIHdlIHdvbid0IHVzZSBhbnkKPiA+ID4gIGV4dHJhIHBvd2VyIHdoZW4gdGhl
-IElQVSBpcyBub3QgdXNlZC4KPiA+ID4KPiA+ID4gIHYyOiBFeHBsYWluIHRoZSByZWFzb24gb2Yg
-dGhpcyBwYXRjaAo+ID4gPgo+ID4gPiAgU2lnbmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1
-bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gPiBSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2
-bmJvcmcub3JnPgo+ID4KPiA+IEFuZCB0aGFua3MgZm9yIHRoZSBxdWljayB1cGRhdGUhCj4KPiBQ
-dXNoZWQgdG8gZHJtLW1pc2MtbmV4dC4gVGhhbmtzIQoKSGkgUGF1bCwKCk1heWJlIEknbSBtaXhp
-bmcgdXAgcGVvcGxlLCBidXQgaWlyYyB5b3UncmUgdGhlIG9uZSB2ZXJ5IG11Y2ggaW50ZXJlc3Rl
-ZAppbiBydW5uaW5nIGZiZGV2IHVzZXJzcGFjZS4gRGlkIHlvdSB0aGluayBhYm91dCBidWlsZGlu
-ZyB1cCBhIHNldCBvZgpyZWdyZXNzaW9uIHRlc3RzIGluIGlndCAod2hpY2ggd2UgY291bGQgZXZl
-bnR1YWxseSBldmVuIHJ1biBvbiBzb21ldGhpbmcKbGlrZSB2a21zIGZvciBody1mcmVlIHJlZ3Jl
-c3Npb24gdGVzdGluZykgc28gdGhhdCB3ZSBtYWtlIHN1cmUgZmJkZXYga2VlcHMKd3Jva2luZz8K
-CkRlZmFjdG8gZHJtX2ZiX2hlbHBlci5jIGhhcyBiZWNvbWUgdGhlIGZiZGV2IHJlZmVyZW5jZSBp
-bXBsZW1lbnRhdGlvbgphbHJlYWR5IGFueXdheSAoZS5nLiB3aXRoIHN0dWZmIGxpa2Ugc3RhbmFy
-ZGl6aW5nIHZibGFuayB3YWl0aW5nCmJlaGF2aW91ciksIHNvIHRoaXMgd291bGQgb25seSBiZSB0
-aGUgbmV4dCBsb2dpY2FsIHN0ZXAuCgpBbHNvIGFkZGluZyBCYXJ0LgoKQ2hlZXJzLCBEYW5pZWwK
-Cgo+Cj4gQ2hlZXJzLAo+IC1QYXVsCj4KPiA+Cj4gPiAgICAgU2FtCj4gPgo+ID4gPiAgLS0tCj4g
-PiA+ICAgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1pcHUuYyB8IDIzICsrKysrKysr
-KysrKysrKysrKysrLS0tCj4gPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyks
-IDMgZGVsZXRpb25zKC0pCj4gPiA+Cj4gPiA+ICBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2luZ2VuaWMvaW5nZW5pYy1pcHUuYwo+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2lu
-Z2VuaWMtaXB1LmMKPiA+ID4gIGluZGV4IDdkZDJhNmFlNDk5NC4uZmM4YzZlOTcwZWUzIDEwMDY0
-NAo+ID4gPiAgLS0tIGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1pcHUuYwo+ID4g
-PiAgKysrIGIvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1pcHUuYwo+ID4gPiAgQEAg
-LTQ5LDYgKzQ5LDcgQEAgc3RydWN0IGluZ2VuaWNfaXB1IHsKPiA+ID4gICAgICAgICAgIHN0cnVj
-dCByZWdtYXAgKm1hcDsKPiA+ID4gICAgICAgICAgIHN0cnVjdCBjbGsgKmNsazsKPiA+ID4gICAg
-ICAgICAgIGNvbnN0IHN0cnVjdCBzb2NfaW5mbyAqc29jX2luZm87Cj4gPiA+ICArICAgICAgICBi
-b29sIGNsa19lbmFibGVkOwo+ID4gPgo+ID4gPiAgICAgICAgICAgdW5zaWduZWQgaW50IG51bV93
-LCBudW1faCwgZGVub21fdywgZGVub21faDsKPiA+ID4KPiA+ID4gIEBAIC0yODgsMTIgKzI4OSwy
-MyBAQCBzdGF0aWMgdm9pZAo+ID4gPiBpbmdlbmljX2lwdV9wbGFuZV9hdG9taWNfdXBkYXRlKHN0
-cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAo+ID4gPiAgICAgICAgICAgY29uc3Qgc3RydWN0IGRybV9m
-b3JtYXRfaW5mbyAqZmluZm87Cj4gPiA+ICAgICAgICAgICB1MzIgY3RybCwgc3RyaWRlID0gMCwg
-Y29lZl9pbmRleCA9IDAsIGZvcm1hdCA9IDA7Cj4gPiA+ICAgICAgICAgICBib29sIG5lZWRzX21v
-ZGVzZXQsIHVwc2NhbGluZ193LCB1cHNjYWxpbmdfaDsKPiA+ID4gICsgICAgICAgIGludCBlcnI7
-Cj4gPiA+Cj4gPiA+ICAgICAgICAgICBpZiAoIXN0YXRlIHx8ICFzdGF0ZS0+ZmIpCj4gPiA+ICAg
-ICAgICAgICAgICAgICAgIHJldHVybjsKPiA+ID4KPiA+ID4gICAgICAgICAgIGZpbmZvID0gZHJt
-X2Zvcm1hdF9pbmZvKHN0YXRlLT5mYi0+Zm9ybWF0LT5mb3JtYXQpOwo+ID4gPgo+ID4gPiAgKyAg
-ICAgICAgaWYgKCFpcHUtPmNsa19lbmFibGVkKSB7Cj4gPiA+ICArICAgICAgICAgICAgICAgIGVy
-ciA9IGNsa19lbmFibGUoaXB1LT5jbGspOwo+ID4gPiAgKyAgICAgICAgICAgICAgICBpZiAoZXJy
-KSB7Cj4gPiA+ICArICAgICAgICAgICAgICAgICAgICAgICAgZGV2X2VycihpcHUtPmRldiwgIlVu
-YWJsZSB0byBlbmFibGUgY2xvY2s6ICVkXG4iLCBlcnIpOwo+ID4gPiAgKyAgICAgICAgICAgICAg
-ICAgICAgICAgIHJldHVybjsKPiA+ID4gICsgICAgICAgICAgICAgICAgfQo+ID4gPiAgKwo+ID4g
-PiAgKyAgICAgICAgICAgICAgICBpcHUtPmNsa19lbmFibGVkID0gdHJ1ZTsKPiA+ID4gICsgICAg
-ICAgIH0KPiA+ID4gICsKPiA+ID4gICAgICAgICAgIC8qIFJlc2V0IGFsbCB0aGUgcmVnaXN0ZXJz
-IGlmIG5lZWRlZCAqLwo+ID4gPiAgICAgICAgICAgbmVlZHNfbW9kZXNldCA9IGRybV9hdG9taWNf
-Y3J0Y19uZWVkc19tb2Rlc2V0KHN0YXRlLT5jcnRjLT5zdGF0ZSk7Cj4gPiA+ICAgICAgICAgICBp
-ZiAobmVlZHNfbW9kZXNldCkgewo+ID4gPiAgQEAgLTU3OCw2ICs1OTAsMTEgQEAgc3RhdGljIHZv
-aWQKPiA+ID4gaW5nZW5pY19pcHVfcGxhbmVfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9wbGFu
-ZSAqcGxhbmUsCj4gPiA+ICAgICAgICAgICByZWdtYXBfY2xlYXJfYml0cyhpcHUtPm1hcCwgSlpf
-UkVHX0lQVV9DVFJMLCBKWl9JUFVfQ1RSTF9DSElQX0VOKTsKPiA+ID4KPiA+ID4gICAgICAgICAg
-IGluZ2VuaWNfZHJtX3BsYW5lX2Rpc2FibGUoaXB1LT5tYXN0ZXIsIHBsYW5lKTsKPiA+ID4gICsK
-PiA+ID4gICsgICAgICAgIGlmIChpcHUtPmNsa19lbmFibGVkKSB7Cj4gPiA+ICArICAgICAgICAg
-ICAgICAgIGNsa19kaXNhYmxlKGlwdS0+Y2xrKTsKPiA+ID4gICsgICAgICAgICAgICAgICAgaXB1
-LT5jbGtfZW5hYmxlZCA9IGZhbHNlOwo+ID4gPiAgKyAgICAgICAgfQo+ID4gPiAgIH0KPiA+ID4K
-PiA+ID4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9oZWxwZXJfZnVuY3MKPiA+ID4g
-aW5nZW5pY19pcHVfcGxhbmVfaGVscGVyX2Z1bmNzID0gewo+ID4gPiAgQEAgLTc2MSw5ICs3Nzgs
-OSBAQCBzdGF0aWMgaW50IGluZ2VuaWNfaXB1X2JpbmQoc3RydWN0IGRldmljZSAqZGV2LAo+ID4g
-PiBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsIHZvaWQgKmQpCj4gPiA+ICAgICAgICAgICBkcm1fb2Jq
-ZWN0X2F0dGFjaF9wcm9wZXJ0eSgmcGxhbmUtPmJhc2UsIGlwdS0+c2hhcnBuZXNzX3Byb3AsCj4g
-PiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpcHUtPnNoYXJwbmVzcyk7
-Cj4gPiA+Cj4gPiA+ICAtICAgICAgICBlcnIgPSBjbGtfcHJlcGFyZV9lbmFibGUoaXB1LT5jbGsp
-Owo+ID4gPiAgKyAgICAgICAgZXJyID0gY2xrX3ByZXBhcmUoaXB1LT5jbGspOwo+ID4gPiAgICAg
-ICAgICAgaWYgKGVycikgewo+ID4gPiAgLSAgICAgICAgICAgICAgICBkZXZfZXJyKGRldiwgIlVu
-YWJsZSB0byBlbmFibGUgY2xvY2tcbiIpOwo+ID4gPiAgKyAgICAgICAgICAgICAgICBkZXZfZXJy
-KGRldiwgIlVuYWJsZSB0byBwcmVwYXJlIGNsb2NrXG4iKTsKPiA+ID4gICAgICAgICAgICAgICAg
-ICAgcmV0dXJuIGVycjsKPiA+ID4gICAgICAgICAgIH0KPiA+ID4KPiA+ID4gIEBAIC03NzUsNyAr
-NzkyLDcgQEAgc3RhdGljIHZvaWQgaW5nZW5pY19pcHVfdW5iaW5kKHN0cnVjdCBkZXZpY2UKPiA+
-ID4gKmRldiwKPiA+ID4gICB7Cj4gPiA+ICAgICAgICAgICBzdHJ1Y3QgaW5nZW5pY19pcHUgKmlw
-dSA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwo+ID4gPgo+ID4gPiAgLSAgICAgICAgY2xrX2Rpc2Fi
-bGVfdW5wcmVwYXJlKGlwdS0+Y2xrKTsKPiA+ID4gICsgICAgICAgIGNsa191bnByZXBhcmUoaXB1
-LT5jbGspOwo+ID4gPiAgIH0KPiA+ID4KPiA+ID4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGNvbXBv
-bmVudF9vcHMgaW5nZW5pY19pcHVfb3BzID0gewo+ID4gPiAgLS0KPiA+ID4gIDIuMjcuMAo+Cj4K
-Ci0tCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0
-dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On Sat, Aug 01, 2020 at 04:30:23PM -0300, Melissa Wen wrote:
+> On Wed, Jul 29, 2020 at 12:22 PM Sidong Yang <realwakka@gmail.com> wrote:
+> >
+> > This patch modifies function call sequence in commit tail. This is for
+> > the problem that raised when kms_cursor_crc test is tested repeatedly.
+> > In second test, there is an bug that crtc commit doesn't start vblank e=
+vents.
+> > Because there is some error about vblank's refcount. in commit_flush() =
+that
+> > called from commit_plane, drm_vblank_get() is called and vblank is enab=
+led
+> > in normal case. But in second test, vblank isn't enable for vblank->ref=
+count
+> > is already increased in previous test. Increased refcount will be decre=
+ased
+> > in drm_atomic_helper_commit_modeset_enables() after commit_plane.
+> > Therefore, commit_plane should be called after commit_modeset_enable.
+> >
+> > In this situation, there is a warning raised in get_vblank_timestamp().
+> > hrtimer.node.expires and vblank->time are zero for no vblank events bef=
+ore.
+> > This patch returns current time when vblank is not enabled.
+> >
+> Hi Sidong,
+> =
+
+> I think this patch tries to solve two different issues.
+> =
+
+> I am not a maintainer, but I believe you can split it.
+> =
+
+> Everything indicates that changing the commit tail sequence does not
+> ideally solve the problem of subtests getting stuck (as we have dicussed);
+> however, for me, the treatment of the warning is valid and it is also rel=
+ated
+> to other IGT tests using VKMS.
+
+Yeah I think (but haven't tested, definitely need to confirm that) that
+the vblank get/put fix from Melissa is the correct fix for all these
+issues.
+
+> One option is to send a patch that only treats the warning. I believe that
+> in the body of the commit message, it would be nice to have the warning
+> that this patch addresses, and when it appears by running an IGT test.
+> Also, say why it should be done this way in vkms.
+> This info could help future debugging.
+
+Yeah I think splitting out the warning fix is the right thing to do here.
+-Daniel
+
+> =
+
+> Off-topic: I removed the group's mailing list of the University of S=E3o
+> Paulo (kernel-usp) from the cc, since I believe you had no intention of
+> sending the patch to them.
+> =
+
+> Best regards,
+> =
+
+> Melissa
+> =
+
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> >
+> > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_crtc.c | 5 +++++
+> >  drivers/gpu/drm/vkms/vkms_drv.c  | 4 ++--
+> >  2 files changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vk=
+ms_crtc.c
+> > index ac85e17428f8..09c012d54d58 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > @@ -86,6 +86,11 @@ static bool vkms_get_vblank_timestamp(struct drm_crt=
+c *crtc,
+> >         struct vkms_output *output =3D &vkmsdev->output;
+> >         struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
+> >
+> > +       if (!READ_ONCE(vblank->enabled)) {
+> > +               *vblank_time =3D ktime_get();
+> > +               return true;
+> > +       }
+> > +
+> >         *vblank_time =3D READ_ONCE(output->vblank_hrtimer.node.expires);
+> >
+> >         if (WARN_ON(*vblank_time =3D=3D vblank->time))
+> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkm=
+s_drv.c
+> > index 1e8b2169d834..c2c83a01d4a7 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > @@ -76,10 +76,10 @@ static void vkms_atomic_commit_tail(struct drm_atom=
+ic_state *old_state)
+> >
+> >         drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> >
+> > -       drm_atomic_helper_commit_planes(dev, old_state, 0);
+> > -
+> >         drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> >
+> > +       drm_atomic_helper_commit_planes(dev, old_state, 0);
+> > +
+> >         drm_atomic_helper_fake_vblank(old_state);
+> >
+> >         drm_atomic_helper_commit_hw_done(old_state);
+> > --
+> > 2.17.1
+> >
+> > --
+> > You received this message because you are subscribed to the Google Grou=
+ps "Kernel USP" group.
+> > To unsubscribe from this group and stop receiving emails from it, send =
+an email to kernel-usp+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/ms=
+gid/kernel-usp/20200729152231.13249-1-realwakka%40gmail.com.
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
