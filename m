@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CC623BE4F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 18:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C198A23BE62
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 18:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6448A6E488;
-	Tue,  4 Aug 2020 16:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C06689FF7;
+	Tue,  4 Aug 2020 16:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE06B6E48E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:43:34 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id r4so35065836wrx.9
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 09:43:34 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87E426E48C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:51:31 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id a5so28100953wrm.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 09:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uw/uWNrGxAVlmP7iT2huZjdiTQmL9drTIUgRvx/hWA0=;
- b=PTEjYl66hGWbOd0qQWNCgfpJO26UJASQ+xO9qaylc+UIKL927uuaMxfB0XEoSHEJSD
- 9SHlezrlbFjYBlRh1KDHcAs8fIsJcVC9letMtwyVC+qtIZYT1yvj7aHx+8uNo6E3OsAN
- O23MWmzWB11XGm1IVmBzW+bPTw8JaNORZKjZw=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=wUbgutt9s0+CCMHi1qud9oNrcmOOFtkb66mgbjS4rEA=;
+ b=IN57bkXjy0RshEYGFTxN/4j5lylwCW1mPwLmhq2YXvUbI3Wd9JDSoJzBPwZcL9ne3Z
+ Ex451xozQNGVqEwiyxyIjQvrJFe7P80s6Nq1GfTnu994wYpwFdGXVkScEPlhUYrsPQg7
+ 1pFzVXlji7qZ2Q3SbPmtYaDk7Q+aSkCa+EVNo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uw/uWNrGxAVlmP7iT2huZjdiTQmL9drTIUgRvx/hWA0=;
- b=I7p5N5Uz12ruP7Zcxum+nYPirv3Q23kQE4KxfqX1Rj+sRwKMxrH08zwssqd/415cQd
- KFBbRBoqFbdIsu2KET682nSVW/VFc1s5DsCxttxaudoP/dbPCgOy21fNYXgb4VBRgy3v
- j0sNlRsazq43Hpco3/XlOkEGhWjMnJ4uWJMk8/wMNRUD4YAyBr8MAy0g7hhluvulFREF
- jJ9e1YYKIt15KhP53J/OW6+oqkPJeHO1fNIlFvt4dTj4Q+F8GKxjc48SZhgntSOCLopJ
- ryqzU0t9tEkBYiK0WUetHPhjQ301OzZpaP5uaK9BOlcZtjLTlABV7K4VvdBUeeQFG15o
- 0XKw==
-X-Gm-Message-State: AOAM533GYajTVLyF0Bz5rg94O8NnqgzXo5O5xrdvGWsf/3E3nTtnBne9
- YOfpp4+ihJ7rcoT9JTnFiD8jQA==
-X-Google-Smtp-Source: ABdhPJy316ft8ta1qcdMb7MnYdxroTvG2dFkZoJXs9wtVMookGpQOGOtakwe0sEfCAY2uv+u9EwuKw==
-X-Received: by 2002:a5d:540c:: with SMTP id g12mr19739280wrv.120.1596559413443; 
- Tue, 04 Aug 2020 09:43:33 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wUbgutt9s0+CCMHi1qud9oNrcmOOFtkb66mgbjS4rEA=;
+ b=Wt034vqRMvN8TkmwSuKTvZCKVk2xQymJ/tUJvOrEmZ+JW/dLDCsg0BbdqUhSWH4nGU
+ bPfT5Xbwkx+yeFI2fGoo1Yy1z8kvLKQLhied48Gsqn4ZJ/8zWeKLihE2FG5Mo/tLc9+6
+ lDIyculC/tnibBzIVCaYpeaNkerql1BndQ96Q+X+6436CG19J0OomIVNgbtjDmOeLdMk
+ 6s6Bjbt0DMBkRfB95zMbxFgThx3CYIpp2fCMYK1sNbPdKSYbf3LNyfTn9bGqQYYpNxIs
+ q/Ws0VT7ImbVJW4x5l/SY8ZyLoBFmqUgdfM2e3T0e+Va7/xZCJ0LNvnBwlvgt99IKzar
+ vfKQ==
+X-Gm-Message-State: AOAM5333VKl/3ixSvPBw1fgKBb5ylD5JZKJMAaHOqbBb044WPD8ITJWx
+ tv8PqH1Ic49GyaqOb2HtMKbc0Q==
+X-Google-Smtp-Source: ABdhPJyt77JgawFZyjfhRmRpXgrohlDBQM6vv3o2xf0fZLT0bJ/pclPUCZUGXIWMuIDtEjV+vmatWA==
+X-Received: by 2002:adf:fdce:: with SMTP id i14mr19848772wrs.273.1596559890052; 
+ Tue, 04 Aug 2020 09:51:30 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i14sm37318295wrc.19.2020.08.04.09.43.31
+ by smtp.gmail.com with ESMTPSA id o125sm5719234wma.27.2020.08.04.09.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 09:43:32 -0700 (PDT)
-Date: Tue, 4 Aug 2020 18:43:30 +0200
+ Tue, 04 Aug 2020 09:51:28 -0700 (PDT)
+Date: Tue, 4 Aug 2020 18:51:26 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH v1 03/22] backlight: Add get/set operations for
- brightness/power properties
-Message-ID: <20200804164330.GL6419@phenom.ffwll.local>
+Subject: Re: [RFC PATCH v1 0/22] backlight: add init macros and accessors
+Message-ID: <20200804165126.GM6419@phenom.ffwll.local>
 References: <20200802110636.1018743-1-sam@ravnborg.org>
- <20200802110636.1018743-4-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200802110636.1018743-4-sam@ravnborg.org>
+In-Reply-To: <20200802110636.1018743-1-sam@ravnborg.org>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,136 +65,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Konrad Dybcio <konradybcio@gmail.com>, amd-gfx@lists.freedesktop.org,
+ Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Robert Chiras <robert.chiras@nxp.com>, Vinay Simha BN <simhavcs@gmail.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Hans de Goede <hdegoede@redhat.com>,
+ Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jingoo Han <jingoohan1@gmail.com>,
+ Philippe CORNU <philippe.cornu@st.com>, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 02, 2020 at 01:06:17PM +0200, Sam Ravnborg wrote:
-> Add get and set operations to incapsualte access to backlight properties.
-> 
-> One easy win is that the get/set operatiosn can be used when backlight
-> is not included in the configuration, resulting in simpler code with
-> less ifdef's and thus more readable code.
-> 
-> The set/get methods hides some of the confusing power states, limiting
-> the power state to either ON or OFF for the drivers.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> ---
->  include/linux/backlight.h | 72 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
-> 
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index d683c053ec09..882ceea45ace 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -474,6 +474,78 @@ static inline int backlight_get_brightness(const struct backlight_device *bd)
->  		return bd->props.brightness;
->  }
->  
-> +/**
-> + * backlight_get_actual_brightness - Returns the actual brightness
-> + *
-> + * On failure a negative error code is returned.
-> + */
-> +static inline int backlight_get_actual_brightness(struct backlight_device *bd)
-> +{
-> +	if (bd && bd->ops && bd->ops->get_brightness)
-> +		return bd->ops->get_brightness(bd);
-> +	else
-> +		return -EINVAL;
-> +}
-> +
-> +/**
-> + * backlight_get_max_brightness - Returns maximum brightness
-> + *
-> + * This helper operation is preferred over direct access to
-> + * &backlight_properties.max_brightness
-> + *
-> + * Returns 0 if backlight_device is NULL
-> + */
-> +
-> +static inline int backlight_get_max_brightness(const struct backlight_device *bd)
-> +{
-> +	if (bd)
-> +		return bd->props.max_brightness;
-> +	else
-> +		return 0;
-> +}
-> +
-> +/**
-> + * backlight_set_brightness - Set the brightness to the specified value
-> + *
-> + * This helper operation is preferred over direct assignment to
-> + * &backlight_properties.brightness.
-> + *
-> + * If backlight_device is NULL then silently exit.
-> + */
-> +static inline void backlight_set_brightness(struct backlight_device *bd, int brightness)
-> +{
-> +	if (bd)
-> +		bd->props.brightness = brightness;
-
-Looking at the drivers I think including a call to backlight_update_status
-would simplify a lot of code.
-
-> +}
-> +
-> +/**
-> + * backlight_set_power_on - Set power state to ON.
-> + *
-> + * This helper operation is preferred over direct assignment to
-> + * backlight_properties.power.
-> + *
-> + * If backlight_device is NULL then silently exit.
-> + */
-> +static inline void backlight_set_power_on(struct backlight_device *bd)
-> +{
-> +	if (bd)
-> +		bd->props.power = FB_BLANK_UNBLANK;
-> +}
-> +
-> +/**
-> + * backlight_set_power_off - Set power state to OFF.
-> + *
-> + * This helper operation is preferred over direct assignment to
-> + * backlight_properties.power.
-> + *
-> + * If backlight_device is NULL then silently exit.
-> + */
-> +static inline void backlight_set_power_off(struct backlight_device *bd)
-
-I'm not clear why we need these two above? I thought the long-term plan is
-only use backlight_enable/disable and then remove the tri-state power
-handling once everyone is converted over?
-
-Or maybe I'm just confused about the goal here ...
--Daniel
-
-> +{
-> +	if (bd)
-> +		bd->props.power = FB_BLANK_POWERDOWN;
-> +}
-> +
->  struct backlight_device *
->  backlight_device_register(const char *name, struct device *dev, void *devdata,
->  			  const struct backlight_ops *ops,
-> -- 
-> 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU3VuLCBBdWcgMDIsIDIwMjAgYXQgMDE6MDY6MTRQTSArMDIwMCwgU2FtIFJhdm5ib3JnIHdy
+b3RlOgo+IFRoZSBiYWNrbGlnaHQgZHJpdmVycyB1c2VzIHNldmVyYWwgZGlmZmVyZW50IHBhdHRl
+cm5zIHdoZW4gcmVnaXN0ZXJpbmcKPiBhIGJhY2tsaWdodDoKPiAKPiAtIFJlZ2lzdGVyIGJhY2ts
+aWdodCBhbmQgYXNzaWduIHByb3BlcnRpZXMgbGF0ZXIKPiAtIERlZmluZSBhIGxvY2FsIGJhY2ts
+aWdodF9wcm9wZXJ0aWVzIHZhcmlhYmxlIGFuZCB1c2UgbWVtc2V0Cj4gLSBEZWZpbmUgYSBjb25z
+dCBiYWNrbGlnaHRfcHJvcGVydGllcyBhbmQgYXNzaWduIHJlbGV2YW50IHByb3BlcnRpZXMKPiAK
+PiBPbiB0b3Agb2YgdGhpcyB0aGVyZSB3YXMgZGlmZmVyZW5jZXMgaW4gd2hhdCBtZW1iZXJzIHdh
+cyBhc3NpZ25lZCBpbgo+IGJhY2tsaWdodF9wcm9wZXJ0aWVzLgo+IAo+IFRvIGFsaWduIGhvdyBi
+YWNrbGlnaHQgZHJpdmVycyBhcmUgaW5pdGlhbGl6ZWQgaW50cm9kdWNlIGZvbGxvd2luZyBoZWxw
+ZXIgbWFjcm9zOgo+IC0gREVDTEFSRV9CQUNLTElHSFRfSU5JVF9GSVJNV0FSRSgpCj4gLSBERUNM
+QVJFX0JBQ0tMSUdIVF9JTklUX1BMQVRGT1JNKCkKPiAtIERFQ0xBUkVfQkFDS0xJR0hUX0lOSVRf
+UkFXKCkKPiAKPiBUaGUgbWFjcm9zIGFyZSBpbnRyb2R1Y2VkIGluIHBhdGNoIDIuCj4gCj4gVGhl
+IGJhY2tsaWdodCBkcml2ZXJzIHVzZWQgZGlyZWN0IGFjY2VzcyB0byBiYWNrbGlnaHRfcHJvcGVy
+dGllcy4KPiBFbmNhcHN1bGF0ZSB0aGVzZSBpbiBnZXQvc2V0IGFjY2VzcyBvcGVyYXRpb25zIHJl
+c3VsdGluZyBpbiBmb2xsb3dpbmcgYmVuZWZpdHM6Cj4gLSBUaGUgZHJpdmVycyBubyBsb25nZXIg
+bmVlZCB0byBiZSBjb25jZXJuZWQgYWJvdXQgdGhlIGNvbmZ1c2luZyBwb3dlciBzdGF0ZXMsCj4g
+ICBhcyB0aGVyZSBpcyBub3cgb25seSBhIHNldF9wb3dlcl9vbigpIGFuZCBzZXRfcG93ZXJfb2Zm
+KCkgb3BlcmF0aW9uLgo+IC0gVGhlIGFjY2VzcyBtZXRob2RzIGNhbiBiZSBjYWxsZWQgd2l0aCBh
+IE5VTEwgcG9pbnRlciBzbyBsb2dpYyBhcm91bmQgdGhlCj4gICBhY2Nlc3MgY2FuIGJlIG1hZGUg
+c2ltcGxlci4KPiAtIFRoZSBjb2RlIGlzIGluIG1vc3QgY2FzZXMgbW9yZSByZWFkYWJsZSB3aXRo
+IHRoZSBhY2Nlc3Mgb3BlcmF0aW9ucy4KPiAtIFdoZW4gZXZlcnlvbmUgdXNlcyB0aGUgYWNjZXNz
+IG1ldGhvZHMgcmVmYWN0cm9yaW5nIGluIHRoZSBiYWNrbGlnaHQgY29yZSBpcyBzaW1wbGVyLgo+
+IAo+IFRoZSBnZXQvc2V0IG9wZXJhdGlvbnMgYXJlIGludHJvZHVjZWQgaW4gcGF0Y2ggMy4KPiAK
+PiBUaGUgZmlyc3QgcGF0Y2ggdHJpbXMgYmFja2xpZ2h0X3VwZGF0ZV9zdGF0dXMoKSBzbyBpdCBj
+YW4gYmUgY2FsbGVkIHdpdGggYSBOVUxMCj4gYmFja2xpZ2h0X2RldmljZS4gVGhlbiB0aGUgY2Fs
+bGVkIGRvIG5vdCBuZWVkIHRvIGFkZCB0aGlzIGNoZWNrIGp1c3QgdG8gYXZvaWQKPiBhIE5VTEwg
+cmVmZXJlbmNlLgo+IAo+IFRoZSBmb3VydGggcGF0Y2ggaW50cm9kdWNlIHRoZSBuZXcgbWFjcm9z
+IGFuZCBnZXQvc2V0IG9wZXJhdGlvbnMgZm9yIHRoZQo+IGdwaW8gYmFja2xpZ2h0IGRyaXZlciwg
+YXMgYW4gZXhhbXBsZS4KPiAKPiBUaGUgcmVtYWluaW5nIHBhdGNoZXMgdXBkYXRlcyBtb3N0IGJh
+Y2tsaWdodCB1c2VycyBpbiBkcml2ZXJzL2dwdS9kcm0vKgo+IFdpdGggdGhpcyBwYXRjaCBzZXQg
+YXBwbGllZCB0aGVuOgo+IC0gQWxtb3N0IGFsbCByZWZlcmVuY2VzIHRvIEZCX0JMQU5LKiBhcmUg
+Z29uZSBmcm9tIGRybS8qCj4gLSBBbGwgcGFuZWwgZHJpdmVycyB1c2VzIGRldm1fIHZhcmlhbnQg
+Zm9yIHJlZ2lzdGVyaW5nIGJhY2tsaWdodAo+IC0gQWxtb3N0IGFsbCBkaXJlY3QgcmVmZXJlbmNl
+cyB0byBiYWNrbGlnaHQgcHJvcGVydGllcyBhcmUgZ29uZQo+IAo+IFRoZSBkcm0vKiBwYXRjaGVz
+IGFyZSAgdXNlZCBhcyBleGFtcGxlcyBob3cgZHJpdmVycyBjYW4gYmVuZWZpdCBmcm9tIHRoZQo+
+IG5ldyBtYWNyb3MgYW5kIGdldC9zZXQgb3BlcmF0aW9ucy4KPiAKPiBJbmRpdmlkdWFsIHBhdGNo
+ZXMgYXJlIG9ubHkgc2VudCB0byB0aGUgcGVvcGxlIGxpc3RlZCBpbiB0aGUgcGF0Y2ggKyBhIGZl
+dyBtb3JlLgo+IFBsZWFzZSBjaGVjayBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwv
+IGZvciB0aGUgZnVsbCBzZXJpZXMuCj4gCj4gRmVlZGJhY2sgd2VsY29tZSEKClNpbmNlIHRoaXMg
+bmVlZHMgYmFja2xpZ2h0IHBhdGNoZXMgcXVldWVkIHVwIG91dHNpZGUgb2YgZHJtIHRoZXJlJ3Mg
+dHdvCm9wdGlvbnM6CgotIG1lcmdlIHRoZSBiYWNrbGlnaHQgc3R1ZmYgdGhyb3VnaCBkcm0tbWlz
+YyAoaW1vIHNpbXBsZXN0LCB3ZSBoYXZlIGFsbAogIHRoZSBmYmRldiBzdHVmZiBpbiB0aGVyZSB0
+b28gYnkgbm93KQotIHNoYXJlZCB0b3BpYyBicmFuY2ggbWVyZ2VkIGluIGRybS1taXNjIGFuZCBv
+cHRpb25hbGx5IGJhY2tsaWdodCB0cmVlCgpPdGhlcndpc2UgdGhpcyBpcyBnb2luZyB0byBiZSBh
+IHBhaW4gdG8gbWVyZ2UuCi1EYW5pZWwKCj4gCj4gCVNhbQo+IAo+IENjOiBBbGV4IERldWNoZXIg
+PGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCj4gQ2M6IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4gQ2M6IENo
+cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogQ2hyaXMgV2ls
+c29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4gQ2M6IERhbmllbCBUaG9tcHNvbiA8ZGFu
+aWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4gQ2M6IEV6ZXF1aWVsIEdhcmNpYSA8ZXplcXVpZWxA
+dmFuZ3VhcmRpYXN1ci5jb20uYXI+Cj4gQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhh
+dC5jb20+Cj4gQ2M6IEhvZWdldW4gS3dvbiA8aG9lZ2V1bi5rd29uQHNhbXN1bmcuY29tPgo+IENj
+OiBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+Cj4gQ2M6IEphbmkgTmlrdWxhIDxqYW5p
+Lm5pa3VsYUBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2ty
+YWJlY0BzaW9sLm5ldD4KPiBDYzogSmluZ29vIEhhbiA8amluZ29vaGFuMUBnbWFpbC5jb20+Cj4g
+Q2M6IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3aWJvby5zZT4KPiBDYzogSm9vbmFzIExhaHRpbmVu
+IDxqb29uYXMubGFodGluZW5AbGludXguaW50ZWwuY29tPgo+IENjOiBKeXJpIFNhcmhhIDxqc2Fy
+aGFAdGkuY29tPgo+IENjOiBLaWVyYW4gQmluZ2hhbSA8a2llcmFuLmJpbmdoYW0rcmVuZXNhc0Bp
+ZGVhc29uYm9hcmQuY29tPgo+IENjOiBLb25yYWQgRHliY2lvIDxrb25yYWR5YmNpb0BnbWFpbC5j
+b20+Cj4gQ2M6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJk
+LmNvbT4KPiBDYzogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KPiBDYzogTGludXMg
+V2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+IENjOiBsaW51eC1yZW5lc2FzLXNv
+Y0B2Z2VyLmtlcm5lbC5vcmcKPiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hv
+cnN0QGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJl
+QGludGVsLmNvbT4KPiBDYzogTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29t
+Pgo+IENjOiBQYXRyaWsgSmFrb2Jzc29uIDxwYXRyaWsuci5qYWtvYnNzb25AZ21haWwuY29tPgo+
+IENjOiBQYXdlxYIgQ2htaWVsIDxwYXdlbC5taWtvbGFqLmNobWllbEBnbWFpbC5jb20+Cj4gQ2M6
+IFBoaWxpcHBlIENPUk5VIDxwaGlsaXBwZS5jb3JudUBzdC5jb20+Cj4gQ2M6IFJvYiBDbGFyayA8
+cm9iZGNsYXJrQGdtYWlsLmNvbT4KPiBDYzogUm9iZXJ0IENoaXJhcyA8cm9iZXJ0LmNoaXJhc0Bu
+eHAuY29tPgo+IENjOiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+Cj4gQ2M6
+IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBDYzogU2ViYXN0aWFuIFJlaWNoZWwg
+PHNlYmFzdGlhbi5yZWljaGVsQGNvbGxhYm9yYS5jb20+Cj4gQ2M6IFRoaWVycnkgUmVkaW5nIDx0
+aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+Cj4gQ2M6IFRvbWkgVmFsa2VpbmVuIDx0b21pLnZhbGtl
+aW5lbkB0aS5jb20+Cj4gQ2M6ICJWaWxsZSBTeXJqw6Rsw6QiIDx2aWxsZS5zeXJqYWxhQGxpbnV4
+LmludGVsLmNvbT4KPiBDYzogVmluYXkgU2ltaGEgQk4gPHNpbWhhdmNzQGdtYWlsLmNvbT4KPiBD
+YzogV2FtYnVpIEthcnVnYSA8d2FtYnVpLmthcnVnYXhAZ21haWwuY29tPgo+IENjOiBaaGVuZyBC
+aW4gPHpoZW5nYmluMTNAaHVhd2VpLmNvbT4KPiAKPiBTYW0gUmF2bmJvcmcgKDIyKToKPiAgICAg
+ICBiYWNrbGlnaHQ6IFNpbGVudGx5IGZhaWwgYmFja2xpZ2h0X3VwZGF0ZV9zdGF0dXMoKSBpZiBu
+byBkZXZpY2UKPiAgICAgICBiYWNrbGlnaHQ6IEFkZCBERUNMQVJFXyogbWFjcm8gZm9yIGRldmlj
+ZSByZWdpc3RyYXRpb24KPiAgICAgICBiYWNrbGlnaHQ6IEFkZCBnZXQvc2V0IG9wZXJhdGlvbnMg
+Zm9yIGJyaWdodG5lc3MvcG93ZXIgcHJvcGVydGllcwo+ICAgICAgIGJhY2tsaWdodDogZ3Bpbzog
+VXNlIERFQ0xBUkVfQkFDS0xJR0hUX0lOSVRfUkFXIGFuZCBnZXQvc2V0dGVycwo+ICAgICAgIGRy
+bS9nbWE1MDA6IEJhY2tsaWdodCBzdXBwb3J0Cj4gICAgICAgZHJtL3BhbmVsOiBhc3VzLXowMHQt
+dG01cDUtbjM1NTk2OiBCYWNrbGlnaHQgdXBkYXRlCj4gICAgICAgZHJtL3BhbmVsOiBqZGktbHQw
+NzBtZTA1MDAwOiBCYWNrbGlnaHQgdXBkYXRlCj4gICAgICAgZHJtL3BhbmVsOiBub3ZhdGVrLW50
+MzU1MTA6IEJhY2tsaWdodCB1cGRhdGUKPiAgICAgICBkcm0vcGFuZWw6IG9yaXNldGVjaC1vdG04
+MDA5YTogQmFja2xpZ2h0IHVwZGF0ZQo+ICAgICAgIGRybS9wYW5lbDogcmF5ZGl1bS1ybTY3MTkx
+OiBCYWNrbGlnaHQgdXBkYXRlCj4gICAgICAgZHJtL3BhbmVsOiBzYW1zdW5nLXM2ZTYzbTA6IEJh
+Y2tsaWdodCB1cGRhdGUKPiAgICAgICBkcm0vcGFuZWw6IHNhbXN1bmctczZlNjNqMHgwMzogQmFj
+a2xpZ2h0IHVwZGF0ZQo+ICAgICAgIGRybS9wYW5lbDogc2Ftc3VuZy1zNmUzaGEyOiBCYWNrbGln
+aHQgdXBkYXRlCj4gICAgICAgZHJtL3BhbmVsOiBzb255LWFjeDQyNGFrcDogQmFja2xpZ2h0IHVw
+ZGF0ZQo+ICAgICAgIGRybS9wYW5lbDogc29ueS1hY3g1NjVha206IEJhY2tsaWdodCB1cGRhdGUK
+PiAgICAgICBkcm0vYnJpZGdlOiBwYXJhZGUtcHM4NjIyOiBCYWNrbGlnaHQgdXBkYXRlCj4gICAg
+ICAgZHJtL3RpbGNkYzogQmFja2xpZ2h0IHVwZGF0ZQo+ICAgICAgIGRybS9yYWRlb246IEJhY2ts
+aWdodCB1cGRhdGUKPiAgICAgICBkcm0vYW1kZ3B1L2F0b206IEJhY2tsaWdodCB1cGRhdGUKPiAg
+ICAgICBkcm0vaTkxNTogQmFja2xpZ2h0IHVwZGF0ZQo+ICAgICAgIGRybS9vbWFwOiBkaXNwbGF5
+OiBCYWNrbGlnaHQgdXBkYXRlCj4gICAgICAgZHJtL3NobW9iaWxlOiBCYWNrbGlnaHQgdXBkYXRl
+Cj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2VuY29kZXJzLmMgICAg
+IHwgIDE1ICsrLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3BhcmFkZS1wczg2MjIuYyAgICAg
+ICAgICAgICB8ICA0MyArKysrLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2JhY2tsaWdo
+dC5jICAgICAgICAgICAgICAgICB8ICAzNSArKy0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUw
+MC9jZHZfZGV2aWNlLmMgICAgICAgICAgICAgICAgfCAgMjkgKysrLS0KPiAgZHJpdmVycy9ncHUv
+ZHJtL2dtYTUwMC9tZGZsZF9kZXZpY2UuYyAgICAgICAgICAgICAgfCAgIDkgKy0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9kZXZpY2UuYyAgICAgICAgICAgfCAgMTAgKy0KPiAg
+ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vcHJlZ2lvbi5jICAgICAgICAgICAgICAgICAgfCAgIDIg
+Ky0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZGV2aWNlLmMgICAgICAgICAgICAgICAg
+fCAgMTAgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2LmMgICAgICAgICAgICAg
+ICAgICAgfCAgIDggKy0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wYW5l
+bC5jICAgICAgICAgfCAgODggKysrKysrKy0tLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9vbWFw
+ZHJtL2Rpc3BsYXlzL3BhbmVsLWRzaS1jbS5jICAgIHwgIDM1ICsrLS0tLQo+ICAuLi4vZ3B1L2Ry
+bS9wYW5lbC9wYW5lbC1hc3VzLXowMHQtdG01cDUtbjM1NTk2LmMgICB8ICAxNSArLS0KPiAgZHJp
+dmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWpkaS1sdDA3MG1lMDUwMDAuYyAgICAgfCAgMTcgKyst
+Cj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1ub3ZhdGVrLW50MzU1MTAuYyAgICAgIHwg
+ICA5ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1vcmlzZXRlY2gtb3RtODAwOWEu
+YyAgIHwgIDE0ICstLQo+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtcmF5ZGl1bS1ybTY3
+MTkxLmMgICAgICB8ICAxMSArLQo+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3Vu
+Zy1zNmUzaGEyLmMgICAgICB8ICA2OCArKysrKystLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3Bh
+bmVsL3BhbmVsLXNhbXN1bmctczZlNjNqMHgwMy5jICAgfCAgNTYgKysrKystLS0tLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMgICAgICB8ICAyNSArKy0t
+LQo+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc29ueS1hY3g0MjRha3AuYyAgICAgICB8
+ICA0OSArKy0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNvbnktYWN4NTY1
+YWttLmMgICAgICAgfCAgNDQgKysrLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9hdG9t
+Ymlvc19lbmNvZGVycy5jICAgICAgICAgfCAgMjMgKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFk
+ZW9uL3JhZGVvbl9sZWdhY3lfZW5jb2RlcnMuYyAgICB8ICAxNSArKy0KPiAgZHJpdmVycy9ncHUv
+ZHJtL3NobW9iaWxlL3NobW9iX2RybV9iYWNrbGlnaHQuYyAgICAgfCAgMjAgKystLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vdGlsY2RjL3RpbGNkY19wYW5lbC5jICAgICAgICAgICAgICB8ICAxMSArLQo+
+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9ncGlvX2JhY2tsaWdodC5jICAgICAgICAgICB8ICAx
+NyArKy0KPiAgaW5jbHVkZS9saW51eC9iYWNrbGlnaHQuaCAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfCAxMjAgKysrKysrKysrKysrKysrKysrKysrCj4gIDI3IGZpbGVzIGNoYW5nZWQsIDM3NyBp
+bnNlcnRpb25zKCspLCA0MjEgZGVsZXRpb25zKC0pCj4gCj4gCgotLSAKRGFuaWVsIFZldHRlcgpT
+b2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
