@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DB023B310
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1077423B311
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58EFC6E3F7;
-	Tue,  4 Aug 2020 02:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92996E400;
+	Tue,  4 Aug 2020 02:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B214D6E3F7
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99BD76E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:49 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-ut7zQJReO4a-9DqP901VRA-1; Mon, 03 Aug 2020 22:58:42 -0400
-X-MC-Unique: ut7zQJReO4a-9DqP901VRA-1
+ us-mta-391-RX1gYvoqPD6HCfvdvKN0Yg-1; Mon, 03 Aug 2020 22:58:44 -0400
+X-MC-Unique: RX1gYvoqPD6HCfvdvKN0Yg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8167B100AA21;
- Tue,  4 Aug 2020 02:58:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AE0F8010C7;
+ Tue,  4 Aug 2020 02:58:43 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D425E8AD1C;
- Tue,  4 Aug 2020 02:58:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1B3F90E68;
+ Tue,  4 Aug 2020 02:58:41 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 49/59] drm/vmwgfx/gmrid: convert to driver controlled
- allocation.
-Date: Tue,  4 Aug 2020 12:56:22 +1000
-Message-Id: <20200804025632.3868079-50-airlied@gmail.com>
+Subject: [PATCH 50/59] drm/nouveau/ttm: move to driver allocated manager
+Date: Tue,  4 Aug 2020 12:56:23 +1000
+Message-Id: <20200804025632.3868079-51-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -62,104 +61,112 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 32 +++++++++++--------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_ttm.c | 45 +++++++++++++++++++--------
+ 1 file changed, 32 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-index 54c85a59dd8b..bc51b7773084 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-@@ -37,6 +37,7 @@
- #include <linux/kernel.h>
- 
- struct vmwgfx_gmrid_man {
-+	struct ttm_mem_type_manager manager;
- 	spinlock_t lock;
- 	struct ida gmr_ida;
- 	uint32_t max_gmr_ids;
-@@ -44,13 +45,17 @@ struct vmwgfx_gmrid_man {
- 	uint32_t used_gmr_pages;
- };
- 
-+static struct vmwgfx_gmrid_man *to_gmrid_manager(struct ttm_mem_type_manager *man)
-+{
-+	return container_of(man, struct vmwgfx_gmrid_man, manager);
-+}
-+
- static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
- 				  struct ttm_buffer_object *bo,
- 				  const struct ttm_place *place,
- 				  struct ttm_mem_reg *mem)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index 1c636723823c..58d9bd708e95 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -157,12 +157,12 @@ static int
+ nouveau_ttm_init_vram(struct nouveau_drm *drm)
  {
--	struct vmwgfx_gmrid_man *gman =
--		(struct vmwgfx_gmrid_man *)man->priv;
-+	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
- 	int id;
- 
- 	id = ida_alloc_max(&gman->gmr_ida, gman->max_gmr_ids - 1, GFP_KERNEL);
-@@ -82,8 +87,7 @@ static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
- static void vmw_gmrid_man_put_node(struct ttm_mem_type_manager *man,
- 				   struct ttm_mem_reg *mem)
- {
--	struct vmwgfx_gmrid_man *gman =
--		(struct vmwgfx_gmrid_man *)man->priv;
-+	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
- 
- 	if (mem->mm_node) {
- 		ida_free(&gman->gmr_ida, mem->start);
-@@ -98,13 +102,15 @@ static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
- 
- int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
-+	struct ttm_mem_type_manager *man;
- 	struct vmwgfx_gmrid_man *gman =
- 		kzalloc(sizeof(*gman), GFP_KERNEL);
- 
- 	if (unlikely(!gman))
- 		return -ENOMEM;
- 
-+	man = &gman->manager;
-+
- 	man->func = &vmw_gmrid_manager_func;
- 	man->available_caching = TTM_PL_FLAG_CACHED;
- 	man->default_caching = TTM_PL_FLAG_CACHED;
-@@ -127,8 +133,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- 	default:
- 		BUG();
- 	}
--	man->priv = (void *) gman;
+ 	struct nvif_mmu *mmu = &drm->client.mmu;
 -
-+	ttm_set_driver_manager(&dev_priv->bdev, type, &gman->manager);
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+-		struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
+-
+ 		/* Some BARs do not support being ioremapped WC */
+ 		const u8 type = mmu->type[drm->ttm.type_vram].type;
++		struct ttm_mem_type_manager *man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
++		if (!man)
++			return -ENOMEM;
+ 
+ 		man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+ 		man->default_caching = TTM_PL_FLAG_WC;
+@@ -174,8 +174,10 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+ 
+ 		man->func = &nouveau_vram_manager;
+ 		man->use_io_reserve_lru = true;
++
+ 		ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+ 					  drm->gem.vram_available >> PAGE_SHIFT);
++		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
+ 		ttm_mem_type_manager_set_used(man, true);
+ 		return 0;
+ 	} else {
+@@ -195,6 +197,8 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+ 		ttm_mem_type_manager_disable(man);
+ 		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+ 		ttm_mem_type_manager_cleanup(man);
++		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
++		kfree(man);
+ 	} else
+ 		ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_VRAM);
+ }
+@@ -202,30 +206,43 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+ static int
+ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
++	struct ttm_mem_type_manager *man;
+ 	unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
+-	man->use_tt = true;
++	unsigned available_caching, default_caching;
++	const struct ttm_mem_type_manager_func *func = NULL;
+ 	if (drm->agp.bridge) {
+-		man->available_caching = TTM_PL_FLAG_UNCACHED |
++		available_caching = TTM_PL_FLAG_UNCACHED |
+ 			TTM_PL_FLAG_WC;
+-		man->default_caching = TTM_PL_FLAG_WC;
++		default_caching = TTM_PL_FLAG_WC;
+ 	} else {
+-		man->available_caching = TTM_PL_MASK_CACHING;
+-		man->default_caching = TTM_PL_FLAG_CACHED;
++		available_caching = TTM_PL_MASK_CACHING;
++		default_caching = TTM_PL_FLAG_CACHED;
+ 	}
+ 
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
+-		man->func = &nouveau_gart_manager;
++		func = &nouveau_gart_manager;
+ 	else if (!drm->agp.bridge)
+-		man->func = &nv04_gart_manager;
++		func = &nv04_gart_manager;
+ 	else
+ 		return ttm_range_man_init(&drm->ttm.bdev, TTM_PL_TT,
+-					  TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
+-					  TTM_PL_FLAG_WC, true,
++					  available_caching, default_caching,
++					  true,
+ 					  size_pages);
++
++	man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
++	if (!man)
++		return -ENOMEM;
++
++	man->func = func;
++	man->available_caching = available_caching;
++	man->default_caching = default_caching;
++	man->use_tt = true;
+ 	ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+ 				  size_pages);
++
++	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
  	ttm_mem_type_manager_set_used(man, true);
++
  	return 0;
  }
-@@ -136,19 +141,18 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type)
- {
- 	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
--	struct vmwgfx_gmrid_man *gman =
--		(struct vmwgfx_gmrid_man *)man->priv;
-+	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
  
- 	ttm_mem_type_manager_disable(man);
- 
- 	ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
- 
--	if (gman) {
--		ida_destroy(&gman->gmr_ida);
--		kfree(gman);
--	}
--
- 	ttm_mem_type_manager_cleanup(man);
-+
-+	ttm_set_driver_manager(&dev_priv->bdev, type, NULL);
-+	ida_destroy(&gman->gmr_ida);
-+	kfree(gman);
-+
+@@ -241,6 +258,8 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+ 		ttm_mem_type_manager_disable(man);
+ 		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+ 		ttm_mem_type_manager_cleanup(man);
++		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
++		kfree(man);
+ 	}
  }
  
- static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
 -- 
 2.26.2
 
