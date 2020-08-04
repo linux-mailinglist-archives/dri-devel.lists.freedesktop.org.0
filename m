@@ -2,94 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22C823B5B3
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F3423B5A3
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2EF46E44D;
-	Tue,  4 Aug 2020 07:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD5D6E435;
+	Tue,  4 Aug 2020 07:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2051.outbound.protection.outlook.com [40.107.21.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A727D6E37C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 23:34:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QIULIi7bIrX/VrL0VK48ieuSFsxOYiOPM7UYQ7yxYYsKcFLs5w00mp5wiFvZUYMuRnAZgx2rWLW/AxkAr8ksnxclNbIaFeUPuOTF1AA3htWRgpFsxHQaGkPQqLobs27Y8YQQjxLVaTrSzqHb5cxAZaO6s6tgsvdTTk1A9etihOuHObJqurgLGvDnLr0VFUmI6+8NwKG3uidMwXWFpjj0O6SRTH4GrGCndJVQQgAxtsBoWpOCwOUADE3yg7Xcn3aDefkPtxW564ZX5XR0Ujqg32WcEic+0AUahuwqbhRZSq9KR/oxi/TVaQW8d1Ess+DG4tH9JsxUgHW3/lOwwnkoow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+eaH+EFDjNL7/5j4OCMZZX4seUGPNX61bi+tebUfEVs=;
- b=P5VXQLvYOPW+IMkZc/c8aSY2eCx9410+kxw6w6Z06FP86l7NnVo00VahkgkWtQkd2kV1rOMtQ7QoQ/SuDsm/E7nUE6btiR5foBI2Nio4R90ztAWeWLtVOs8e4aftv5w0Lyspn+Olaf8ll2mU+o9lnh/aoNw7CRN1YVLzat7wH7Etnz8px7JggKQaU7eRWyU9we9JkW1ZkrFUlokg0vpu8YUPek0qYk8oRxe5TVm57lR/ZBtHpO59Pd4fN+BlBi/OatjM3cBpC5YWACDghEER3ptGRupDorIcV5DFHRks+cAyXQkxx/CpfcIUT/YVkslHV7MpW2AyZpZdJ28/SYtejQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+eaH+EFDjNL7/5j4OCMZZX4seUGPNX61bi+tebUfEVs=;
- b=UNwQ3bTwg3AN5AdhoTfV2Giu86blt3UiTLgRSQW8UipRPDVmrE3Fj/Ck81l93UW++aMwTlE/Ld26OTwNV92FiMmEgohkOEOYu2eNe0C8NtpXOrE1jpkuJw1irtWIKQK1hl4CpcwyOyM2SZB80Ereb/oSt1RxgmbJ5SHm+WvoNdU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=mellanox.com;
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (2603:10a6:803:44::15)
- by VI1PR05MB6720.eurprd05.prod.outlook.com (2603:10a6:800:139::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.18; Mon, 3 Aug
- 2020 23:34:30 +0000
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::10b0:e5f1:adab:799a]) by VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::10b0:e5f1:adab:799a%4]) with mapi id 15.20.3239.021; Mon, 3 Aug 2020
- 23:34:30 +0000
-Date: Mon, 3 Aug 2020 20:34:26 -0300
-From: Jason Gunthorpe <jgg@mellanox.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Subject: Re: linux-next: manual merge of the hmm tree with the drm tree
-Message-ID: <20200803233426.GS19097@mellanox.com>
-References: <20200730192110.1466e63e@canb.auug.org.au>
- <20200730120303.GQ19097@mellanox.com>
- <cf7af4c9-592a-2143-831a-cb0f44bc768e@nvidia.com>
- <20200803231923.GR19097@mellanox.com>
- <CABDvA=mvks3Nrs=8wo1jomPxGjWFxwz4EWrppmmHTzsOuQO6Kg@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CABDvA=mvks3Nrs=8wo1jomPxGjWFxwz4EWrppmmHTzsOuQO6Kg@mail.gmail.com>
-X-ClientProxiedBy: MN2PR14CA0029.namprd14.prod.outlook.com
- (2603:10b6:208:23e::34) To VI1PR05MB4141.eurprd05.prod.outlook.com
- (2603:10a6:803:44::15)
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5D86E171
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 00:31:13 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id x6so12433683qvr.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Aug 2020 17:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Keb4Jl8eGTMNDh85x/MoXRXdhRswB8awzn31D2vbMj0=;
+ b=XSTwLSZ1mADWjStO1ZNWRlwInkzdfEkyVSUc8QZ7UMJD2/JREd2lztc/i9omVInOj6
+ 3gK1qEvMEiseqAKq/F384o3Yp/u51Vrx+lJWgkgq+uqyUlsqbTOPCV4Sg43QaJhFvr+Z
+ c7Okotqw3+F9HP7Eh5oNxhVKmZCce3oOW6E5SzaUDtdWQl+Lkt2tnu9kmHllfPWwkoId
+ 9eaNI28lQOQ738moL42u723ahUZXoYVNrr/aTxt/QKjkG1idXCYYTCyoO3Wk3f4gxFls
+ 0Zkn7AL88C5G8qpmrudx7OXgchljK+Tb6n1IliP0Mz6AP/ahxAJIogxWdgdfRFsGEfQv
+ ulFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Keb4Jl8eGTMNDh85x/MoXRXdhRswB8awzn31D2vbMj0=;
+ b=TG04uvgfi3KBEyC4rTwGIlVRXpD0j6e8tlDpD6lTibeCpVpyLq83afuJswnggMLEG9
+ XGsg8PNKk1SHDYl3AqmBhoEOWF/DLuIjzK6BedCMm+kndvGOgq/ulcljVBJS3nOxMNwb
+ zVAgvqzcElwidlnrHtdH/OQlu/8ejP+/gjo+e97rNY12LjNiOJFnLfLOayA0YbyzT7Ig
+ bw1QyirBKUsmzI5lTaMJuWnq9tcvhx6v/yWZ7dY2S9r0gC4qhgS06eWGWkqmFG+Ns8zO
+ 2TxXR9M7I4okSs6/Lw1dotU8JeGVos4j1vYOP9laQhDCf3UzY/jSNK177s6ZrqyRvVf5
+ fGxA==
+X-Gm-Message-State: AOAM530kQpC15AfZWzw/CbN4pHIHaFTe0vfBwL9AAR2qj0guMUV9G7ti
+ k+oaqvSsUNlWpwYEknPQB8VJDA9v+Xp8N6uA4N140g==
+X-Google-Smtp-Source: ABdhPJwzMvPWvyBxmyaZCvmqJjM3a+Az+ZwSYEPaUKkscBswzjvkcy7RYCd4ipv9IlL5fWfBRoT2auKF3Vsb/KH734w=
+X-Received: by 2002:a0c:9b96:: with SMTP id o22mr10770174qve.213.1596501071827; 
+ Mon, 03 Aug 2020 17:31:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- MN2PR14CA0029.namprd14.prod.outlook.com (2603:10b6:208:23e::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
- Transport; Mon, 3 Aug 2020 23:34:30 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@mellanox.com>)	id 1k2jyM-003ANj-Bu; Mon, 03 Aug 2020 20:34:26 -0300
-X-Originating-IP: [156.34.48.30]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 85468d41-4aa7-443c-3753-08d83805c505
-X-MS-TrafficTypeDiagnostic: VI1PR05MB6720:
-X-Microsoft-Antispam-PRVS: <VI1PR05MB6720E3778CFD895EF28BCF36CF4D0@VI1PR05MB6720.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IWkr1Swztp05j3H3L9AQ5Pt0ysnRth2MbS5dzJwJrAi6d0xdPnyNg8HwIA+JwsLutjHksR9he0TkKhjpIzIsIsqQQPaiFoG5g6ccfy2qOtDQ3Qu9Rm7BnB8be/saBeasSjdIVyLFPIWeGRUkPBH7IJ/KV9JlJgRR/kkqaQdwgpzTFnwmz7puOeMQMNVeHs/7B8l6f/2KEd8aNku5bw/tdcv8METdQ4pmzd7YTFIMsqsU/MmTVJs6Ua9hf/qWxBrAWryxx2KJ6f06HthewWooAm8P8Dlmsf2bemYliY/rNE09qI1lkeOC6CpNQM4l61Qm
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR05MB4141.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(1076003)(316002)(186003)(66556008)(66476007)(54906003)(8936002)(478600001)(66946007)(26005)(9786002)(36756003)(53546011)(4326008)(6916009)(2616005)(9746002)(2906002)(5660300002)(8676002)(426003)(86362001)(33656002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 2ClXS7fMHJ8HluRfoUCPr2CfRgFW/w2s0hbWUW2X52ZXbZDK/Hy3bB2tuxQlDGUYaM68AKJPYfbqbKm7hmfqs9TVr2un0AkKNJSD6yzBcwH4p6tGIMTviDUFbxZjGSxllQsKaY73xQn8CQX9j9ETSf6btncXx8vBv3CH1RN4M1T+mv9m7MEgFF24oBbcEs/0Ujc9OSOhGHc8RVbluItLq/Lovv6H6cPGQcSMAYgMAlV39m91qQs7eHtcBmsHrZUjZw2vvBdhE+hsIaJix4keIISweKt+94WeU/ZR1K4xykHRD5ihLdYNjN9u+iWGc314Xu4BPO2CSX/NtwMkEte9QxsLp+iYAUSMhFL87Mw6WwT8PxjlmVF1EqYAdD8WXkiy3CnFDQsxIwtXqJWT+4oovb34zWYFbWobtqxw2GIej6A9Bibgejg/wsODmlI5kgqKYoM+xnAE7viBNvgyKh4q7+S3bhRBW4+FCKEtnL41hqMHlxLkjqGZLDVi1GfeW+FGrR3/qtjQnOHa4RY1elcDk0s4f1RxGILAYPsBmtala6WdjZdHwXFIMqjFTVwaKdqJWKPk74OzQXifvHV0OPT9GJpcSiiai6I3svvUXiQ2Pu1uDKsM9M2UEOiL+Ed8af/fXdHw4UemPWKNAHsrpHhS9w==
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85468d41-4aa7-443c-3753-08d83805c505
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR05MB4141.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2020 23:34:30.5629 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YIDTNcW1mS/S96K0cKUZrW0oZkmEIe77zROJFlXSpHa5lC34T/Qfl2o4URQukZXuIVNVs6K7nesYv/yzo4TkHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6720
-X-MS-Exchange-Transport-Forked: True
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-2-kaleshsingh@google.com>
+In-Reply-To: <20200803144719.3184138-2-kaleshsingh@google.com>
+From: Joel Fernandes <joelaf@google.com>
+Date: Mon, 3 Aug 2020 20:30:59 -0400
+Message-ID: <CAJWu+orzhpO5hPfUWd0EJp-ViWMifeQ_Ng+R4fHf7xabL+Bggw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fs: Add fd_install file operation
+To: Kalesh Singh <kaleshsingh@google.com>
 X-Mailman-Approved-At: Tue, 04 Aug 2020 07:27:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,59 +62,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Ralph Campbell <rcampbell@nvidia.com>, Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "Cc: Android Kernel" <kernel-team@android.com>,
+ dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
+ Ioannis Ilkos <ilkos@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, linaro-mm-sig@lists.linaro.org,
+ Hridya Valsaraju <hridya@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 04, 2020 at 09:29:30AM +1000, Ben Skeggs wrote:
-> On Tue, Aug 4, 2020 at 9:19 AM Jason Gunthorpe <jgg@mellanox.com> wrote:
-> >
-> > On Thu, Jul 30, 2020 at 10:31:45AM -0700, Ralph Campbell wrote:
-> > >
-> > > On 7/30/20 5:03 AM, Jason Gunthorpe wrote:
-> > > > On Thu, Jul 30, 2020 at 07:21:10PM +1000, Stephen Rothwell wrote:
-> > > > > Hi all,
-> > > > >
-> > > > > Today's linux-next merge of the hmm tree got a conflict in:
-> > > > >
-> > > > >    drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> > > > >
-> > > > > between commit:
-> > > > >
-> > > > >    7763d24f3ba0 ("drm/nouveau/vmm/gp100-: fix mapping 2MB sysmem pages")
-> > > > >
-> > > > > from the drm tree and commits:
-> > > > >
-> > > > >    4725c6b82a48 ("nouveau: fix mapping 2MB sysmem pages")
-> > > > >    1a77decd0cae ("nouveau: fix storing invalid ptes")
-> > > > >
-> > > > > from the hmm tree.
-> > > > >
-> > > > > 7763d24f3ba0 and 4725c6b82a48 are exactly the same patch.
-> > > >
-> > > > Oh? Ralph? What happened here?
-> > >
-> > > Ben did email me saying he was planning to take this patch into
-> > > his nouveau tree and I did reply to him saying you had also taken it
-> > > into your tree and that I had more nouveau/SVM patches for you on the way.
-> > > So, I'm not sure what happened.
-> >
-> > Well no answer from Ben and it looks like it is in the main DRM tree,
-> > so I will drop the 4725c6b82a48 patch from hmm.
-> My apologies, both for this slipping past me, and for the trouble.  I
-> did mean to drop that patch from my tree before sending it on to Dave.
+On Mon, Aug 3, 2020 at 10:47 AM 'Kalesh Singh' via kernel-team
+<kernel-team@android.com> wrote:
+>
+> Provides a per process hook for the acquisition of file descriptors,
+> despite the method used to obtain the descriptor.
+>
 
-No worries, it looks like I can't drop it anyhow as the later
-1a77decd0cae really does thoroughly depend on it. :(
+Hi,
+So apart from all of the comments received, I think it is hard to
+understand what the problem is, what the front-end looks like etc.
+Your commit message is 1 line only.
 
-Thanks!
-Jason
+I do remember some of the challenges discussed before, but it would
+describe the problem in the commit message in detail and then discuss
+why this solution is fit.  Please read submitting-patches.rst
+especially "2) Describe your changes".
+
+thanks,
+
+ - Joel
+
+
+> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> ---
+>  Documentation/filesystems/vfs.rst | 5 +++++
+>  fs/file.c                         | 3 +++
+>  include/linux/fs.h                | 1 +
+>  3 files changed, 9 insertions(+)
+>
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index ed17771c212b..95b30142c8d9 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -1123,6 +1123,11 @@ otherwise noted.
+>  ``fadvise``
+>         possibly called by the fadvise64() system call.
+>
+> +``fd_install``
+> +       called by the VFS when a file descriptor is installed in the
+> +       process's file descriptor table, regardless how the file descriptor
+> +       was acquired -- be it via the open syscall, received over IPC, etc.
+> +
+>  Note that the file operations are implemented by the specific
+>  filesystem in which the inode resides.  When opening a device node
+>  (character or block special) most filesystems will call special
+> diff --git a/fs/file.c b/fs/file.c
+> index abb8b7081d7a..f5db8622b851 100644
+> --- a/fs/file.c
+> +++ b/fs/file.c
+> @@ -616,6 +616,9 @@ void __fd_install(struct files_struct *files, unsigned int fd,
+>  void fd_install(unsigned int fd, struct file *file)
+>  {
+>         __fd_install(current->files, fd, file);
+> +
+> +       if (file->f_op->fd_install)
+> +               file->f_op->fd_install(fd, file);
+>  }
+>
+>  EXPORT_SYMBOL(fd_install);
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index f5abba86107d..b976fbe8c902 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -1864,6 +1864,7 @@ struct file_operations {
+>                                    struct file *file_out, loff_t pos_out,
+>                                    loff_t len, unsigned int remap_flags);
+>         int (*fadvise)(struct file *, loff_t, loff_t, int);
+> +       void (*fd_install)(int, struct file *);
+>  } __randomize_layout;
+>
+>  struct inode_operations {
+> --
+> 2.28.0.163.g6104cc2f0b6-goog
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
