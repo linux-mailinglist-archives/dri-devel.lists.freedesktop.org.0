@@ -1,64 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1B223B5AA
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E3A23B5F8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A69116E436;
-	Tue,  4 Aug 2020 07:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 969546E434;
+	Tue,  4 Aug 2020 07:46:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B986E42C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 06:45:49 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1596523550; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=9I+2fbpSXUFTiHD9lLljbO/ir26qO7xMDZYv1p85L6U=;
- b=Fruzch/HBvOCg4U+uAgH1884MwJRojbFD+qTXcz9AEt479t4KnTr9UaSWIfh3iuHYFhmpN93
- gWPS39DXLMrsTvE/gIMQYgOr8c+EJJRUELt8t/yxDyOkTPvEIOVqiahGFfYQlV/F4UNtHewo
- wgS2akKF7bQmK6RCiTYnar31mnk=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 5f2903f18ecb2754f9a927c9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 04 Aug 2020 06:45:05
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id EFF34C433B2; Tue,  4 Aug 2020 06:45:04 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-253.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 91954C4339C;
- Tue,  4 Aug 2020 06:44:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 91954C4339C
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none
- smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>,
-	Sean Paul <sean@poorly.run>
-Subject: [PATCH 2/2] drm/msm/mdp5: Remove unused downstream bus scaling apis
-Date: Tue,  4 Aug 2020 12:14:43 +0530
-Message-Id: <5e836765699bfeb74495eaca37c1da26daab66dc.1596523010.git.saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1596523009.git.saiprakash.ranjan@codeaurora.org>
-References: <cover.1596523009.git.saiprakash.ranjan@codeaurora.org>
+X-Greylist: delayed 537 seconds by postgrey-1.36 at gabe;
+ Tue, 04 Aug 2020 07:46:32 UTC
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 276606E434
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 07:46:32 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9BDF85803B6;
+ Tue,  4 Aug 2020 03:37:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Tue, 04 Aug 2020 03:37:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=F
+ ocaEVAZNOs0ka4mL6/6OKxNWgHGmuyCC7zusvr1Pd4=; b=FUh4tqaVdu4BCwO17
+ 1kbbYDF7QOanYfyAl6laql1JXzWhnS8A8QlrfS3CdUZLXUAeLCdEk4JYjW+FzWb+
+ HdQcHUL8nqK7aRVXWV5EQ9n/ihOnQKr7f802t/3KXFYAxLz8FQjw0dp0fyVe1bm3
+ lspxwY32F3W0gN/HAhFWFIDDA1D+7R8XHrbivUiI5ePbcwM+cMyCu9L7RdN8kgG8
+ 2Kd5V3iQr8r3fAEuCRL33lulvObydW2aJaiff5GRxrRA8oZHt9qP5anVlWpSohoE
+ f08KhdQNKlETk3Mi6GoaMmNIlCS/gwb7QGcBKUN0hkQyaAa9QTeYT78jIEmI7ac3
+ XSDcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=FocaEVAZNOs0ka4mL6/6OKxNWgHGmuyCC7zusvr1P
+ d4=; b=kQ004FSg9gs4aPO4D9qVcddcL27QJfEF+krIFkz/PSlsD7jT49WWF1Pyi
+ Oxf/QaiPNBpKAMPAD0JeGktU5a73RdAIQ3v4m99uBTtFFZeweZBOgLcNC2MGjpiH
+ agc6ZH7zh0S7IPnP85LpVaQpoeUSShrY2kewmnTnjjAvaJMvkvhngbv7etR08DiY
+ yCp3HcR8ntRwQS+1nU5fs7y+X/VclWxzE659ys0bHvuJT+e4pqqkaa2BUlzV0D4k
+ woNxnKgfYHoHVJtvfWmSVT/jlWSZJSNBatic/H4z2Yb4DEaZqGyzz8wRKBL3XL4o
+ ezodNClD7d4VjdbSh8LCwXXHVLhqg==
+X-ME-Sender: <xms:OhApX3OQzB_EZn2dDOhkhCf4ipDnmc5RLLf_TeUTJ7aUwH2HUL3wOQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeehgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepifhrvghg
+ ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepueehke
+ ehlefffeeiudetfeekjeffvdeuheejjeffheeludfgteekvdelkeduuddvnecukfhppeek
+ fedrkeeirdekledruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+ grihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:OhApXx_v2n9lecvivSPrCjw2ZFh8vZeJ1MlYDBc6ipjjNeMwFsTkfQ>
+ <xmx:OhApX2QCAm1NoA70VI4fVBwUdt4IACAI4IOKTGNaNAQolAxURIguIw>
+ <xmx:OhApX7tIFGk6mj6tbsp5zfY-vuPw54tIcP1DOX5uSsod7y-8ZerjeA>
+ <xmx:PBApXz4OiQiYB_CIyeAVDDntFVYjAO_7_J-59wVmtvT4YY4zi71l7A>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D7EF030600B1;
+ Tue,  4 Aug 2020 03:37:29 -0400 (EDT)
+Date: Tue, 4 Aug 2020 09:37:11 +0200
+From: Greg KH <greg@kroah.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH] vgacon: fix out of bounds write to the scrollback buffer
+Message-ID: <20200804073711.GA1749774@kroah.com>
+References: <659f8dcf-7802-1ca1-1372-eb7fefd4d8f4@kernel.org>
+ <dbcf2841-7718-2ba7-11e0-efa4b9de8de1@nsfocus.com>
+ <9fb43895-ca91-9b07-ebfd-808cf854ca95@nsfocus.com>
+ <9386c640-34dd-0a50-5694-4f87cc600e0f@kernel.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 04 Aug 2020 07:27:04 +0000
+Content-Disposition: inline
+In-Reply-To: <9386c640-34dd-0a50-5694-4f87cc600e0f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,183 +82,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Kyungtae Kim <kt0755@gmail.com>, Anthony Liguori <aliguori@amazon.com>,
+ b.zolnierkie@samsung.com,
+ Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ DRI devel <dri-devel@lists.freedesktop.org>,
+ "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>,
+ Solar Designer <solar@openwall.com>, Yang Yingliang <yangyingliang@huawei.com>,
+ xiao.zhang@windriver.com, Linus Torvalds <torvalds@linux-foundation.org>,
+ =?utf-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MSM bus scaling has moved on to use interconnect framework
-and downstream bus scaling apis are not present anymore.
-Remove them as they are nop anyways in the current code,
-no functional change.
-
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
----
- .../gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c  | 24 -------
- drivers/gpu/drm/msm/disp/mdp5/mdp5_encoder.c  | 68 -------------------
- 2 files changed, 92 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-index eeef41fcd4e1..ff2c1d583c79 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c
-@@ -14,27 +14,6 @@ static struct mdp5_kms *get_kms(struct drm_encoder *encoder)
- 	return to_mdp5_kms(to_mdp_kms(priv->kms));
- }
- 
--#ifdef DOWNSTREAM_CONFIG_MSM_BUS_SCALING
--#include <mach/board.h>
--#include <linux/msm-bus.h>
--#include <linux/msm-bus-board.h>
--
--static void bs_set(struct mdp5_encoder *mdp5_cmd_enc, int idx)
--{
--	if (mdp5_cmd_enc->bsc) {
--		DBG("set bus scaling: %d", idx);
--		/* HACK: scaling down, and then immediately back up
--		 * seems to leave things broken (underflow).. so
--		 * never disable:
--		 */
--		idx = 1;
--		msm_bus_scale_client_update_request(mdp5_cmd_enc->bsc, idx);
--	}
--}
--#else
--static void bs_set(struct mdp5_encoder *mdp5_cmd_enc, int idx) {}
--#endif
--
- #define VSYNC_CLK_RATE 19200000
- static int pingpong_tearcheck_setup(struct drm_encoder *encoder,
- 				    struct drm_display_mode *mode)
-@@ -146,8 +125,6 @@ void mdp5_cmd_encoder_disable(struct drm_encoder *encoder)
- 	mdp5_ctl_set_encoder_state(ctl, pipeline, false);
- 	mdp5_ctl_commit(ctl, pipeline, mdp_ctl_flush_mask_encoder(intf), true);
- 
--	bs_set(mdp5_cmd_enc, 0);
--
- 	mdp5_cmd_enc->enabled = false;
- }
- 
-@@ -161,7 +138,6 @@ void mdp5_cmd_encoder_enable(struct drm_encoder *encoder)
- 	if (WARN_ON(mdp5_cmd_enc->enabled))
- 		return;
- 
--	bs_set(mdp5_cmd_enc, 1);
- 	if (pingpong_tearcheck_enable(encoder))
- 		return;
- 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_encoder.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_encoder.c
-index f48827283c2b..79d67c495780 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_encoder.c
-@@ -16,72 +16,9 @@ static struct mdp5_kms *get_kms(struct drm_encoder *encoder)
- 	return to_mdp5_kms(to_mdp_kms(priv->kms));
- }
- 
--#ifdef DOWNSTREAM_CONFIG_MSM_BUS_SCALING
--#include <mach/board.h>
--#include <mach/msm_bus.h>
--#include <mach/msm_bus_board.h>
--#define MDP_BUS_VECTOR_ENTRY(ab_val, ib_val)		\
--	{						\
--		.src = MSM_BUS_MASTER_MDP_PORT0,	\
--		.dst = MSM_BUS_SLAVE_EBI_CH0,		\
--		.ab = (ab_val),				\
--		.ib = (ib_val),				\
--	}
--
--static struct msm_bus_vectors mdp_bus_vectors[] = {
--	MDP_BUS_VECTOR_ENTRY(0, 0),
--	MDP_BUS_VECTOR_ENTRY(2000000000, 2000000000),
--};
--static struct msm_bus_paths mdp_bus_usecases[] = { {
--		.num_paths = 1,
--		.vectors = &mdp_bus_vectors[0],
--}, {
--		.num_paths = 1,
--		.vectors = &mdp_bus_vectors[1],
--} };
--static struct msm_bus_scale_pdata mdp_bus_scale_table = {
--	.usecase = mdp_bus_usecases,
--	.num_usecases = ARRAY_SIZE(mdp_bus_usecases),
--	.name = "mdss_mdp",
--};
--
--static void bs_init(struct mdp5_encoder *mdp5_encoder)
--{
--	mdp5_encoder->bsc = msm_bus_scale_register_client(
--			&mdp_bus_scale_table);
--	DBG("bus scale client: %08x", mdp5_encoder->bsc);
--}
--
--static void bs_fini(struct mdp5_encoder *mdp5_encoder)
--{
--	if (mdp5_encoder->bsc) {
--		msm_bus_scale_unregister_client(mdp5_encoder->bsc);
--		mdp5_encoder->bsc = 0;
--	}
--}
--
--static void bs_set(struct mdp5_encoder *mdp5_encoder, int idx)
--{
--	if (mdp5_encoder->bsc) {
--		DBG("set bus scaling: %d", idx);
--		/* HACK: scaling down, and then immediately back up
--		 * seems to leave things broken (underflow).. so
--		 * never disable:
--		 */
--		idx = 1;
--		msm_bus_scale_client_update_request(mdp5_encoder->bsc, idx);
--	}
--}
--#else
--static void bs_init(struct mdp5_encoder *mdp5_encoder) {}
--static void bs_fini(struct mdp5_encoder *mdp5_encoder) {}
--static void bs_set(struct mdp5_encoder *mdp5_encoder, int idx) {}
--#endif
--
- static void mdp5_encoder_destroy(struct drm_encoder *encoder)
- {
- 	struct mdp5_encoder *mdp5_encoder = to_mdp5_encoder(encoder);
--	bs_fini(mdp5_encoder);
- 	drm_encoder_cleanup(encoder);
- 	kfree(mdp5_encoder);
- }
-@@ -222,8 +159,6 @@ static void mdp5_vid_encoder_disable(struct drm_encoder *encoder)
- 	 */
- 	mdp_irq_wait(&mdp5_kms->base, intf2vblank(mixer, intf));
- 
--	bs_set(mdp5_encoder, 0);
--
- 	mdp5_encoder->enabled = false;
- }
- 
-@@ -240,7 +175,6 @@ static void mdp5_vid_encoder_enable(struct drm_encoder *encoder)
- 	if (WARN_ON(mdp5_encoder->enabled))
- 		return;
- 
--	bs_set(mdp5_encoder, 1);
- 	spin_lock_irqsave(&mdp5_encoder->intf_lock, flags);
- 	mdp5_write(mdp5_kms, REG_MDP5_INTF_TIMING_ENGINE_EN(intfn), 1);
- 	spin_unlock_irqrestore(&mdp5_encoder->intf_lock, flags);
-@@ -426,8 +360,6 @@ struct drm_encoder *mdp5_encoder_init(struct drm_device *dev,
- 
- 	drm_encoder_helper_add(encoder, &mdp5_encoder_helper_funcs);
- 
--	bs_init(mdp5_encoder);
--
- 	return encoder;
- 
- fail:
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBBdWcgMDMsIDIwMjAgYXQgMTA6MDg6NDNBTSArMDIwMCwgSmlyaSBTbGFieSB3cm90
+ZToKPiBIaSwKPiAKPiBPbiAzMS4gMDcuIDIwLCA3OjIyLCDlvKDkupHmtbcgd3JvdGU6Cj4gPiBS
+ZW1vdmUgd2hpdGVzcGFjZSBhdCBFT0wKPiAKPiBJIGFtIGZpbmUgd2l0aCB0aGUgcGF0Y2guIEhv
+d2V2ZXIgaXQgc2hvdWxkIGJlIHNlbnQgcHJvcGVybHkgKGlubGluZQo+IG1haWwsIGhhdmluZyBh
+IFBBVENIIHN1YmplY3QgZXRjLiAtLSBzZWUKPiBEb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0
+dGluZy1wYXRjaGVzLnJzdCkuIGdpdCBzZW5kLWVtYWlsIGFmdGVyIGdpdAo+IGZvcm1hdC1wYXRj
+aCBoYW5kbGVzIG1vc3Qgb2YgaXQuCgpJJ2xsIGdvIGZpeCB0aGlzIGFsbCB1cCBub3cgImJ5IGhh
+bmQiIDooCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
