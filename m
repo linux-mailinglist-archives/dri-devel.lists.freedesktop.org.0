@@ -1,22 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1FBA23C6BB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D067023C6C6
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:14:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93B386E4F4;
-	Wed,  5 Aug 2020 07:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA88E6E51A;
+	Wed,  5 Aug 2020 07:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mxwww.masterlogin.de (mxwww.masterlogin.de [95.129.51.220])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899C86E48F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:56:12 +0000 (UTC)
-Received: from mxout2.routing.net (unknown [192.168.10.82])
- by forward.mxwww.masterlogin.de (Postfix) with ESMTPS id 3BAA496148;
+Received: from mxwww.masterlogin.de (mxwww.masterlogin.de
+ [IPv6:2a03:2900:1:1::b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D7436E48F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:56:13 +0000 (UTC)
+Received: from mxout4.routing.net (unknown [192.168.10.112])
+ by forward.mxwww.masterlogin.de (Postfix) with ESMTPS id EA78E9614F;
  Tue,  4 Aug 2020 16:56:11 +0000 (UTC)
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
- by mxout2.routing.net (Postfix) with ESMTP id 09E0A5FA21;
+ by mxout4.routing.net (Postfix) with ESMTP id BD9671014A6;
  Tue,  4 Aug 2020 16:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
  s=20200217; t=1596560171;
@@ -24,19 +25,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fAxB8FMw1RdmCyat0mKDQj17vHc5n1XZwQpV53Cpf1Y=;
- b=rxR7PRph6EoO/i7t+XmJVhi+FTTq75/xxVcYLFMVjan2HNNbjK8dMftAyWXPR1W0C4A6YC
- o4gEh9HKno+xzwhUjQG5QVPZRdOO82v77Oh70Tn6serRYxMBPK3c7nYTKy0hVrurwNBSPU
- W6PiT/kJjJi1anZzh8+38XUGGakqlv8=
+ bh=Tvt7koxlgmMWFSYlV9RwSNCWybA13LVEGNqsglV8N/o=;
+ b=nrCQShCUiKb/bluJS6ekx73gjPCb+mpkwkkU5P+PfWHmgBVsxxsXKL3hNG2OaQ3ducby0z
+ e4TFVfo0fVZjUSPVbS/eUfzYOKK3M2zroiH0lxYsVBG/Qk/2MKpSyY8we6WwPZfDGBhtJX
+ 0bKJ29FNQtGffNrUIiOCdv4LYD5LxmI=
 Received: from localhost.localdomain (fttx-pool-217.61.144.119.bambit.de
  [217.61.144.119])
- by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 57CA73605F9;
- Tue,  4 Aug 2020 16:56:10 +0000 (UTC)
+ by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 1124E3603C2;
+ Tue,  4 Aug 2020 16:56:11 +0000 (UTC)
 From: Frank Wunderlich <linux@fw-web.de>
 To: linux-mediatek@lists.infradead.org
-Subject: [PATCH v4 2/6] drm/mediatek: add ddp routing for mt7623
-Date: Tue,  4 Aug 2020 18:55:51 +0200
-Message-Id: <20200804165555.75159-4-linux@fw-web.de>
+Subject: [PATCH v4 3/6] drm/mediatek: disable tmds on mt2701
+Date: Tue,  4 Aug 2020 18:55:52 +0200
+Message-Id: <20200804165555.75159-5-linux@fw-web.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200804165555.75159-1-linux@fw-web.de>
 References: <20200804165555.75159-1-linux@fw-web.de>
@@ -56,72 +57,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
+ chunhui dai <chunhui.dai@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Frank Wunderlich <frank-w@public-files.de>
+From: chunhui dai <chunhui.dai@mediatek.com>
 
-on BPi-R2/mt7623 main-path have to be routed to DPI0 (hdmi) instead of DSI0
-using compatible "mt7623-mmsys" already defined in dts
+disable tmds on phy on mt2701 to support other resolutions like 1280x1024
 
+Signed-off-by: chunhui dai <chunhui.dai@mediatek.com>
 Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Tested-by: Frank Wunderlich <frank-w@public-files.de>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_hdmi_phy.c        | 3 +++
+ drivers/gpu/drm/mediatek/mtk_hdmi_phy.h        | 1 +
+ drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c | 1 +
+ 3 files changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 6bd369434d9d..11e3752c670d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -74,6 +74,19 @@ static const enum mtk_ddp_comp_id mt2701_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
+index 5223498502c4..edadb7a700f1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
+@@ -184,6 +184,9 @@ static int mtk_hdmi_phy_probe(struct platform_device *pdev)
+ 		return PTR_ERR(phy_provider);
+ 	}
  
-+static const enum mtk_ddp_comp_id mt7623_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_BLS,
-+	DDP_COMPONENT_DPI0,
-+};
++	if (hdmi_phy->conf->pll_default_off)
++		hdmi_phy->conf->hdmi_phy_disable_tmds(hdmi_phy);
 +
-+static const enum mtk_ddp_comp_id mt7623_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_RDMA1,
-+	DDP_COMPONENT_DSI0,
-+};
-+
- static const enum mtk_ddp_comp_id mt2712_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_COLOR0,
-@@ -127,6 +140,14 @@ static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.shadow_register = true,
- };
- 
-+static const struct mtk_mmsys_driver_data mt7623_mmsys_driver_data = {
-+	.main_path = mt7623_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt7623_mtk_ddp_main),
-+	.ext_path = mt7623_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt7623_mtk_ddp_ext),
-+	.shadow_register = true,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
- 	.main_path = mt2712_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2712_mtk_ddp_main),
-@@ -422,6 +443,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt7623-mmsys",
-+	  .data = &mt7623_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt2712-mmsys",
- 	  .data = &mt2712_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8173-mmsys",
+ 	return of_clk_add_provider(dev->of_node, of_clk_src_simple_get,
+ 				   hdmi_phy->pll);
+ }
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+index 2d8b3182470d..f472fdeb63dc 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+@@ -22,6 +22,7 @@ struct mtk_hdmi_phy;
+ struct mtk_hdmi_phy_conf {
+ 	bool tz_disabled;
+ 	unsigned long flags;
++	bool pll_default_off;
+ 	const struct clk_ops *hdmi_phy_clk_ops;
+ 	void (*hdmi_phy_enable_tmds)(struct mtk_hdmi_phy *hdmi_phy);
+ 	void (*hdmi_phy_disable_tmds)(struct mtk_hdmi_phy *hdmi_phy);
+diff --git a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+index d3cc4022e988..6fbedacfc1e8 100644
+--- a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
++++ b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+@@ -239,6 +239,7 @@ static void mtk_hdmi_phy_disable_tmds(struct mtk_hdmi_phy *hdmi_phy)
+ struct mtk_hdmi_phy_conf mtk_hdmi_phy_2701_conf = {
+ 	.tz_disabled = true,
+ 	.flags = CLK_SET_RATE_GATE,
++	.pll_default_off = true,
+ 	.hdmi_phy_clk_ops = &mtk_hdmi_phy_pll_ops,
+ 	.hdmi_phy_enable_tmds = mtk_hdmi_phy_enable_tmds,
+ 	.hdmi_phy_disable_tmds = mtk_hdmi_phy_disable_tmds,
 -- 
 2.25.1
 
