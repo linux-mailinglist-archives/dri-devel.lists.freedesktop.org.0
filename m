@@ -2,53 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB1823B546
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 08:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791F923B547
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 08:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064516E42F;
-	Tue,  4 Aug 2020 06:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91BAE6E42C;
+	Tue,  4 Aug 2020 06:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93B116E42C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 06:54:24 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id kq25so28256490ejb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Aug 2020 23:54:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jAD7axU7Dn+KBW9it92fCcSPMEJ+N2HZXcb+HA+Kkoc=;
- b=LB+iaGkcw9BNq17JvOftQtWJyrkcy38uFKxIk6eE2+XMaYpAroNJuyqAZO+wopPava
- kER51c3+eBgUL/0flM27baZZnqI/dla2/3slpeU26q40+F5/W/AWXpr89AtGSzPIG996
- SR8np7+hQP92ko0BVdVlc9CJv0qb5eCntb2mOa+tyDWJcHobzmdA2hX/4DWfNsS9LRMK
- h4D0zDdgbODQ7VqNb44rwGx3WD6bBVtR9MWnK9RJdgeLsYLy+GdO+xjRitZ6mUH9Pcj0
- PSnuMG1ptF71sI1Cmd/YXNez/uaU9v8lC48brCUU2XNeaLWOqUPjx90lbna1Q2Gcbhu+
- GyRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jAD7axU7Dn+KBW9it92fCcSPMEJ+N2HZXcb+HA+Kkoc=;
- b=qFNoSUgr6Pnymaik+LPNPFD1XNb5HNENNuS5UGaa24JsbZCEB1cdRqasUCGf5NJcvB
- FUDIgXeAPkJarfQkWgLE7Z5aIZVj2wWwZ7Lr2l4bVTaJSjWXsJk3eTRXcBcpu6AYdP9w
- Bo6Cg2eS66tVYYnspEfuBr7MBdDbgThzJiQphMU21D47uOsRQdUQj3QlWEYfXbGGsdhd
- WjU3/g3nt5UpZKV4QdGrkUqk0YmoBGuLMrVQq0JtOTJgq0fUhHks3kC/elvnY5g/RNLp
- JD0vcfe7b6BTYS/+broSqn1h876u64Ags5EdvxNEAyBSw23eTzOdVdrPsp1PmROAeVKc
- FpRQ==
-X-Gm-Message-State: AOAM5311BZUrF6ec3DNdJ3Kn+G6mOqf8CaJQ2GtUYHYTsksXX26E/Pwk
- bAkHWc0cBjydHeI9tpWO9xxd4D+mLJAfCylUHg0=
-X-Google-Smtp-Source: ABdhPJy9+/ylEp/d8DMsgjZGjOPE007Rc9dZd5zLVjaQoFa/mYmYtWFBoVnjNQDrqAiSPpXDKezsOPEb8GP/QGutO6Y=
-X-Received: by 2002:a17:906:8782:: with SMTP id
- za2mr19711449ejb.419.1596524063161; 
- Mon, 03 Aug 2020 23:54:23 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 555406E42C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 06:54:41 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B956DAC7D;
+ Tue,  4 Aug 2020 06:54:55 +0000 (UTC)
+Subject: Re: [PATCH 07/59] drm/vram-helper: remove populate/unpopulate
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200804025632.3868079-1-airlied@gmail.com>
+ <20200804025632.3868079-8-airlied@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <cfbe4a84-411b-ea50-add3-86a78204ae48@suse.de>
+Date: Tue, 4 Aug 2020 08:54:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200804065158.21049-1-tzimmermann@suse.de>
-In-Reply-To: <20200804065158.21049-1-tzimmermann@suse.de>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 4 Aug 2020 16:54:11 +1000
-Message-ID: <CAPM=9txb7qv3oEmQW5LaiSQy-jDmYT4ikbMSZhBiMA8Lxhn13w@mail.gmail.com>
-Subject: Re: [PATCH] drm/mgag200: Set PCI option register in G200SE models
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20200804025632.3868079-8-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +39,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-graphics-maintainer@vmware.com, kraxel@redhat.com, sroland@vmware.com,
+ christian.koenig@amd.com, bskeggs@redhat.com
+Content-Type: multipart/mixed; boundary="===============1809771652=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Aug 2020 at 16:52, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> The initial value of the PCI option register got lost while refactoring
-> the driver init code. Restore the setting.
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1809771652==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="AU98K5RczMBriWgiqlOU7WICu51gIcTmy"
 
-Ooops,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--AU98K5RczMBriWgiqlOU7WICu51gIcTmy
+Content-Type: multipart/mixed; boundary="8NdSQEkarTWd53oDsxZzVYlmZPCfdaMS0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: sroland@vmware.com, christian.koenig@amd.com,
+ linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
+Message-ID: <cfbe4a84-411b-ea50-add3-86a78204ae48@suse.de>
+Subject: Re: [PATCH 07/59] drm/vram-helper: remove populate/unpopulate
+References: <20200804025632.3868079-1-airlied@gmail.com>
+ <20200804025632.3868079-8-airlied@gmail.com>
+In-Reply-To: <20200804025632.3868079-8-airlied@gmail.com>
 
-Reviewed-by: Dave Airlie <airlied@redhat.com>
+--8NdSQEkarTWd53oDsxZzVYlmZPCfdaMS0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Fixes: 2021708e0d6e ("drm/mgag200: Initialize PCI registers early during device setup")
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Emil Velikov <emil.velikov@collabora.com>
+
+
+Am 04.08.20 um 04:55 schrieb Dave Airlie:
+> From: Dave Airlie <airlied@redhat.com>
+>=20
+> The default path for populate/unpopulate is already this.
+>=20
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
->  drivers/gpu/drm/mgag200/mgag200_drv.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 5c854bc7dc86..09170d46aa53 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -74,6 +74,7 @@ static int mgag200_regs_init(struct mga_device *mdev)
->                 break;
->         case G200_SE_A:
->         case G200_SE_B:
-> +               option = 0x40049120;
->                 if (mgag200_has_sgram(mdev))
->                         option |= PCI_MGA_OPTION_HARDPWMSK;
->                 option2 = 0x00008000;
-> --
-> 2.28.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
+m_gem_vram_helper.c
+> index 5f03c6137ef9..a93a00966f3a 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1061,8 +1061,6 @@ static int bo_driver_io_mem_reserve(struct ttm_bo=
+_device *bdev,
+> =20
+>  static struct ttm_bo_driver bo_driver =3D {
+>  	.ttm_tt_create =3D bo_driver_ttm_tt_create,
+> -	.ttm_tt_populate =3D ttm_pool_populate,
+> -	.ttm_tt_unpopulate =3D ttm_pool_unpopulate,
+>  	.eviction_valuable =3D ttm_bo_eviction_valuable,
+>  	.evict_flags =3D bo_driver_evict_flags,
+>  	.move_notify =3D bo_driver_move_notify,
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--8NdSQEkarTWd53oDsxZzVYlmZPCfdaMS0--
+
+--AU98K5RczMBriWgiqlOU7WICu51gIcTmy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8pBi8UHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP2+ggAuiI8AN9iRRjJGXARyTJpL3sHWksC
+se6AHlyINFv1mpKDWb01DBAj8oQJKIKUqCZg8LlwdsePyd/t1teTau3IX/MaWwu4
+0YBTLnz/Ydc1rK00sjK48d0s57//ox6+yC8xnwJf1zJjcfdyBc9CqR163ByIIck6
+sDWs+ew41HgKLD1snipPIld3NTefQPcYDyPTOjfLr9n/osmISmw+q5x2DIy9fbe/
+ynAc+OEEgvW3uiZvKYQr92esx61Vfe4rk7rl+ZVacdrAPxIZoREO3qRjFxcnVJA+
+BL3p1cN8LFmLGbnt9Fx3bkNgU2ARqk12BLZjMI2Q/I9FsfF+3PDSkEDNpQ==
+=iLx/
+-----END PGP SIGNATURE-----
+
+--AU98K5RczMBriWgiqlOU7WICu51gIcTmy--
+
+--===============1809771652==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1809771652==--
