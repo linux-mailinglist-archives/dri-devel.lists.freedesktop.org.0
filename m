@@ -2,47 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E494523C6C7
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5262123C6C5
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:14:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B12A26E514;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C44E6E507;
 	Wed,  5 Aug 2020 07:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mxwww.masterlogin.de (mxwww.masterlogin.de
- [IPv6:2a03:2900:1:1::b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A946E497
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:56:15 +0000 (UTC)
-Received: from mxout1.routing.net (unknown [192.168.10.81])
- by forward.mxwww.masterlogin.de (Postfix) with ESMTPS id 371FC96151;
- Tue,  4 Aug 2020 16:56:14 +0000 (UTC)
-Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
- by mxout1.routing.net (Postfix) with ESMTP id F387C402F8;
- Tue,  4 Aug 2020 16:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
- s=20200217; t=1596560174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AzBGcZ+vbk/R/lBHASsN4TX5ORmNe1ddeJtTwA/FqeQ=;
- b=Gq6MX+KBgiiOpWed/9+P5b9/A42SGpHYsGVvQsoGrwaPFtLH5bnRUhhLLQP+WHiCCM41bD
- XgLiJCcPFzYhRW1WCQrnBZiDDkDl1uE6a6LK12YaF2Nwtw+UVtOU4KN5/hluX4jcLU+0Td
- glhUUMByuOrh70iLyah+2oMLObkswGY=
-Received: from localhost.localdomain (fttx-pool-217.61.144.119.bambit.de
- [217.61.144.119])
- by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 2DEFF3603C2;
- Tue,  4 Aug 2020 16:56:13 +0000 (UTC)
-From: Frank Wunderlich <linux@fw-web.de>
-To: linux-mediatek@lists.infradead.org
-Subject: [PATCH v4 6/6] arm: dts: mt7623: add display subsystem related device
- nodes
-Date: Tue,  4 Aug 2020 18:55:55 +0200
-Message-Id: <20200804165555.75159-8-linux@fw-web.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200804165555.75159-1-linux@fw-web.de>
-References: <20200804165555.75159-1-linux@fw-web.de>
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70043.outbound.protection.outlook.com [40.107.7.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC7E6E25B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 17:03:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FbmOvc1yqLDC0CEmZ+SJ0+bxokjsuPSWaksneOHlX9MvfZ+tHQT//RfE7VkTTsudo5Xo3if9RD8JO6/xbVt3PcOYROkL+iBvuuCyd3bOzfOh2wqEbHyK90TJukvdfhHDGGOFVO/w8NmdmyCeA45/8MbeXiZ2G/DZtmN5cHK5/r1lbFJaWY7BKkraCak2ughQiIQ9q+bwlOPgHp+h8bTNlixNtQsSly2lOiMHARvyu6iSJQ8GfC9tPGth6INQ56/JG0x0kUk7rVSrbwaxKBJRn1S3s+wTvjo5y1LXuRUDAmkQvQqbrTZdboJPq/XmJyrqOhFSmLu2p8TE0vBS6TcTgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7wLHGsl2C6BI5j1457dAed07dHoa/4CliwDGpeWowms=;
+ b=EihtR8bw1bvL1BFx20M+abDXu/yIggTyWRTokAumOcge+DMlMN/VbDQEcL5dJSlBtGVzXE63eqcFWVSAlqGHFdam5D0LIeULt3TRCxCs3AcSHtaHDqxWZ/VPbiIJUW3pOWnYpaV7fBVGHoR3wL6dyOjDLXzZn0HGR8MtMZx7pmvQx4AP7Zjcw22UGkHya9fBX2S5krHuixegVoHXvkHz3eAenTcjpFl3+dUKHF7r5Hr1ge2xucRZCCtaBjm/j4YBBBXjOvwkkyqgCX2YkKv9GkBADqtCsrE7rvDbiulzQqtwuXPyQVxSbHkFZmaaLSy2fG5gF4q0XgpzEOKOcXgX8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7wLHGsl2C6BI5j1457dAed07dHoa/4CliwDGpeWowms=;
+ b=CiW6z32ZyxRj7D3q9bT8Iuoev15rOBsjdgw96aRA7g53EYm03m8CrI31YTQCdPWQMtCMJXpoq4VI5R1O3/dnKbDAsA27t1cJwbMwMLcTaOKIZZUBihtMqJWH9mfl9eNAzGE9M7eS/H9xIkKpBbte+cIHGKZjoPHXrAxFVKwWkJ4=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=mellanox.com;
+Received: from DB7PR05MB4138.eurprd05.prod.outlook.com (2603:10a6:5:23::16) by
+ DB8PR05MB6698.eurprd05.prod.outlook.com (2603:10a6:10:132::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.16; Tue, 4 Aug 2020 17:03:02 +0000
+Received: from DB7PR05MB4138.eurprd05.prod.outlook.com
+ ([fe80::4025:1579:1d10:fd4d]) by DB7PR05MB4138.eurprd05.prod.outlook.com
+ ([fe80::4025:1579:1d10:fd4d%7]) with mapi id 15.20.3239.021; Tue, 4 Aug 2020
+ 17:03:02 +0000
+Date: Tue, 4 Aug 2020 14:02:58 -0300
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 00/23] device-dax: Support sub-dividing soft-reserved
+ ranges
+Message-ID: <20200804170258.GV19097@mellanox.com>
+References: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
+Content-Disposition: inline
+In-Reply-To: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
+X-ClientProxiedBy: BL0PR0102CA0061.prod.exchangelabs.com
+ (2603:10b6:208:25::38) To DB7PR05MB4138.eurprd05.prod.outlook.com
+ (2603:10a6:5:23::16)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ BL0PR0102CA0061.prod.exchangelabs.com (2603:10b6:208:25::38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.17 via Frontend Transport; Tue, 4 Aug 2020 17:03:02 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@mellanox.com>)	id 1k30L5-003QOA-0S; Tue, 04 Aug 2020 14:02:59 -0300
+X-Originating-IP: [156.34.48.30]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c561fd81-bafb-45b2-6a16-08d838983f6d
+X-MS-TrafficTypeDiagnostic: DB8PR05MB6698:
+X-Microsoft-Antispam-PRVS: <DB8PR05MB6698AF9564BCD10DFACEFDA7CF4A0@DB8PR05MB6698.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H3oLK4DQy34IthsePWj+m2eUxKMWw32fALHR08cTHhfC1YCjn6Sbke6O516IPeZqLXEyscPRgrEen+KMQcwOw4Y5xgJKYfWIZDyV+YAlYCMfYxwtgq5x6Ykx9AN7xSn8fT+iyV/GLKCK7BvizYrwIP/dmFazcxTkjjrOeuIKT5YHGhOEbaV0gVzEXegvxcH1GX3OyCBHZCEJCJBps+DPwUGVTNzB9DlcLt1GjRHqsMF8aPEdtm395gy5DGNQBIbMtVkPkqqKIa8A5KNVdYyvrLbCr8PujbWJfrdbH3E71DYtsloEUahjdAnJK5hrOovT
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR05MB4138.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(346002)(136003)(396003)(39860400002)(366004)(2616005)(4326008)(9746002)(9786002)(558084003)(5660300002)(36756003)(7406005)(7416002)(426003)(26005)(186003)(66556008)(66946007)(66476007)(316002)(54906003)(1076003)(2906002)(478600001)(33656002)(8676002)(8936002)(86362001)(6916009);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: ooX1gXy+Unzj5ZgWTuhCl4+QjUgNuUDYr9BP99YBYYIwDbW0L34SzMiYI6uEiXDQilu2h4J5VoM3a6Y0TlcU5sJ8jbajC8YH/uyPiabwBEfCcx2Wya1ZBZA1YacFGJ9fx6NXtWNaPJYzj5uWKuk5uOd2zMaN/1M11nUFFOZ7l0YqL68evnuiixtmiUqb9Z8kkBW7zFeB/3XmlDMlcDN3nsSYlCzwbwfKZONOVw6HcX5qRWZ1aq4440wXsnP7utp6cv4kgrtioNapuEyvYk0NSnqd50UMDZaYre9ulBqUJVF+wnpIdUyIz/dakZ03r8EDtQWwRtC8dnWWdYAJqCM63W1jleZab2sauVr0t6kA4xeIbUCn6H4ePLQlbA9Ba8ztvlgm4EZD4gfe2+tpuT/oGvsKcIl+Kz/5FdxF/1Cr2hX6nw2C4I55PeId69/PU6lwXihyorHTG1YhlckZMrkKZUJn586A9uVutI8WCSVL11h/yh3XJaFLpXDLc73b67ilGGCEZrdkatkv6lNHjwn1o6ew6kAz9JRQsemGeI9GEmn6keBEXQx5c8d0f1GJNvbREqWLFasT12ssbx8sM5hc11xS5UVkl/BWCDePa4c5TPVQW4DHdEFI7X+1pWStkOMX+fd+Bt3cfD8ohqDJzkun5g==
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c561fd81-bafb-45b2-6a16-08d838983f6d
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR05MB4138.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2020 17:03:02.7362 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VzQLuCw32OZmSzSwbCewJA0UXR68m5N9rn3ogeA9QLUAW5V9CZrohYyFDBqtZ6XcFe+t/qXXq1QexO7CjF4HdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR05MB6698
 X-Mailman-Approved-At: Wed, 05 Aug 2020 07:13:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,480 +98,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- chunhui dai <chunhui.dai@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: x86@kernel.org, David Hildenbrand <david@redhat.com>,
+ David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Paul Mackerras <paulus@ozlabs.org>, linux-mm@kvack.org,
+ Michael Ellerman <mpe@ellerman.id.au>, "H. Peter Anvin" <hpa@zytor.com>,
+ Joao Martins <joao.m.martins@oracle.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Mike Rapoport <rppt@linux.ibm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Jeff Moyer <jmoyer@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Pavel Tatashin <pasha.tatashin@soleen.com>, Ira Weiny <ira.weiny@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jia He <justin.he@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Wei Yang <richardw.yang@linux.intel.com>, Brice Goglin <Brice.Goglin@inria.fr>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, akpm@linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ryder Lee <ryder.lee@mediatek.com>
+On Fri, Jul 31, 2020 at 08:24:58PM -0700, Dan Williams wrote:
 
-Add display subsystem related device nodes for MT7623.
+> - Fix test_hmm and other compilation fixups (Ralph)
 
-Cc: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: chunhui dai <chunhui.dai@mediatek.com>
-Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-Signed-off-by: Ryder Lee <ryder.lee@mediatek.com>
-Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-Tested-by: Frank Wunderlich <frank-w@public-files.de>
----
-changed
-v3->v4:
-  drop display_components which is duplicate of existing mmsys
-v2->v3:
-  drop bls to dpi routing
----
- arch/arm/boot/dts/mt7623.dtsi                 | 170 ++++++++++++++++++
- arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts |  72 ++++++++
- arch/arm/boot/dts/mt7623n-rfb-emmc.dts        |  72 ++++++++
- 3 files changed, 314 insertions(+)
+The hmm parts look OK
 
-diff --git a/arch/arm/boot/dts/mt7623.dtsi b/arch/arm/boot/dts/mt7623.dtsi
-index a106c0d90a52..f2cb44a69454 100644
---- a/arch/arm/boot/dts/mt7623.dtsi
-+++ b/arch/arm/boot/dts/mt7623.dtsi
-@@ -24,6 +24,11 @@ / {
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
-+	aliases {
-+		rdma0 = &rdma0;
-+		rdma1 = &rdma1;
-+	};
-+
- 	cpu_opp_table: opp-table {
- 		compatible = "operating-points-v2";
- 		opp-shared;
-@@ -321,6 +326,25 @@ pwrap: pwrap@1000d000 {
- 		clock-names = "spi", "wrap";
- 	};
- 
-+	mipi_tx0: mipi-dphy@10010000 {
-+		compatible = "mediatek,mt7623-mipi-tx",
-+			     "mediatek,mt2701-mipi-tx";
-+		reg = <0 0x10010000 0 0x90>;
-+		clocks = <&clk26m>;
-+		clock-output-names = "mipi_tx0_pll";
-+		#clock-cells = <0>;
-+		#phy-cells = <0>;
-+	};
-+
-+	cec: cec@10012000 {
-+		compatible = "mediatek,mt7623-cec",
-+			     "mediatek,mt8173-cec";
-+		reg = <0 0x10012000 0 0xbc>;
-+		interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&infracfg CLK_INFRA_CEC>;
-+		status = "disabled";
-+	};
-+
- 	cir: cir@10013000 {
- 		compatible = "mediatek,mt7623-cir";
- 		reg = <0 0x10013000 0 0x1000>;
-@@ -369,6 +393,18 @@ apmixedsys: syscon@10209000 {
- 		#clock-cells = <1>;
- 	};
- 
-+	hdmi_phy: phy@10209100 {
-+		compatible = "mediatek,mt7623-hdmi-phy",
-+			     "mediatek,mt2701-hdmi-phy";
-+		reg = <0 0x10209100 0 0x24>;
-+		clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
-+		clock-names = "pll_ref";
-+		clock-output-names = "hdmitx_dig_cts";
-+		#clock-cells = <0>;
-+		#phy-cells = <0>;
-+		status = "disabled";
-+	};
-+
- 	rng: rng@1020f000 {
- 		compatible = "mediatek,mt7623-rng";
- 		reg = <0 0x1020f000 0 0x1000>;
-@@ -568,6 +604,16 @@ bch: ecc@1100e000 {
- 		status = "disabled";
- 	};
- 
-+	hdmiddc0: i2c@11013000 {
-+		compatible = "mediatek,mt7623-hdmi-ddc",
-+			     "mediatek,mt8173-hdmi-ddc";
-+		interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_LOW>;
-+		reg = <0 0x11013000 0 0x1C>;
-+		clocks = <&pericfg CLK_PERI_I2C3>;
-+		clock-names = "ddc-i2c";
-+		status = "disabled";
-+	};
-+
- 	nor_flash: spi@11014000 {
- 		compatible = "mediatek,mt7623-nor",
- 			     "mediatek,mt8173-nor";
-@@ -766,6 +812,77 @@ mmsys: syscon@14000000 {
- 		#clock-cells = <1>;
- 	};
- 
-+	ovl@14007000 {
-+		compatible = "mediatek,mt7623-disp-ovl",
-+			     "mediatek,mt2701-disp-ovl";
-+		reg = <0 0x14007000 0 0x1000>;
-+		interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DISP_OVL>;
-+		iommus = <&iommu MT2701_M4U_PORT_DISP_OVL_0>;
-+		mediatek,larb = <&larb0>;
-+	};
-+
-+	rdma0: rdma@14008000 {
-+		compatible = "mediatek,mt7623-disp-rdma",
-+			     "mediatek,mt2701-disp-rdma";
-+		reg = <0 0x14008000 0 0x1000>;
-+		interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DISP_RDMA>;
-+		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA>;
-+		mediatek,larb = <&larb0>;
-+	};
-+
-+	wdma@14009000 {
-+		compatible = "mediatek,mt7623-disp-wdma",
-+			     "mediatek,mt2701-disp-wdma";
-+		reg = <0 0x14009000 0 0x1000>;
-+		interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DISP_WDMA>;
-+		iommus = <&iommu MT2701_M4U_PORT_DISP_WDMA>;
-+		mediatek,larb = <&larb0>;
-+	};
-+
-+	bls: pwm@1400a000 {
-+		compatible = "mediatek,mt7623-disp-pwm",
-+			     "mediatek,mt2701-disp-pwm";
-+		reg = <0 0x1400a000 0 0x1000>;
-+		#pwm-cells = <2>;
-+		clocks = <&mmsys CLK_MM_MDP_BLS_26M>,
-+			 <&mmsys CLK_MM_DISP_BLS>;
-+		clock-names = "main", "mm";
-+		status = "disabled";
-+	};
-+
-+	color@1400b000 {
-+		compatible = "mediatek,mt7623-disp-color",
-+			     "mediatek,mt2701-disp-color";
-+		reg = <0 0x1400b000 0 0x1000>;
-+		interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DISP_COLOR>;
-+	};
-+
-+	dsi: dsi@1400c000 {
-+		compatible = "mediatek,mt7623-dsi",
-+			     "mediatek,mt2701-dsi";
-+		reg = <0 0x1400c000 0 0x1000>;
-+		interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DSI_ENGINE>,
-+			 <&mmsys CLK_MM_DSI_DIG>,
-+			 <&mipi_tx0>;
-+		clock-names = "engine", "digital", "hs";
-+		phys = <&mipi_tx0>;
-+		phy-names = "dphy";
-+		status = "disabled";
-+	};
-+
-+	mutex: mutex@1400e000 {
-+		compatible = "mediatek,mt7623-disp-mutex",
-+			     "mediatek,mt2701-disp-mutex";
-+		reg = <0 0x1400e000 0 0x1000>;
-+		interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_MUTEX_32K>;
-+	};
-+
- 	larb0: larb@14010000 {
- 		compatible = "mediatek,mt7623-smi-larb",
- 			     "mediatek,mt2701-smi-larb";
-@@ -778,6 +895,44 @@ larb0: larb@14010000 {
- 		power-domains = <&scpsys MT2701_POWER_DOMAIN_DISP>;
- 	};
- 
-+	rdma1: rdma@14012000 {
-+		compatible = "mediatek,mt7623-disp-rdma",
-+			     "mediatek,mt2701-disp-rdma";
-+		reg = <0 0x14012000 0 0x1000>;
-+		interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DISP_RDMA1>;
-+		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA1>;
-+		mediatek,larb = <&larb0>;
-+	};
-+
-+	dpi0: dpi@14014000 {
-+		compatible = "mediatek,mt7623-dpi",
-+			     "mediatek,mt2701-dpi";
-+		reg = <0 0x14014000 0 0x1000>;
-+		interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&mmsys CLK_MM_DPI1_DIGL>,
-+			 <&mmsys CLK_MM_DPI1_ENGINE>,
-+			 <&apmixedsys CLK_APMIXED_TVDPLL>;
-+		clock-names = "pixel", "engine", "pll";
-+		status = "disabled";
-+	};
-+
-+	hdmi0: hdmi@14015000 {
-+		compatible = "mediatek,mt7623-hdmi",
-+			     "mediatek,mt8173-hdmi";
-+		reg = <0 0x14015000 0 0x400>;
-+		clocks = <&mmsys CLK_MM_HDMI_PIXEL>,
-+			 <&mmsys CLK_MM_HDMI_PLL>,
-+			 <&mmsys CLK_MM_HDMI_AUDIO>,
-+			 <&mmsys CLK_MM_HDMI_SPDIF>;
-+		clock-names = "pixel", "pll", "bclk", "spdif";
-+		phys = <&hdmi_phy>;
-+		phy-names = "hdmi";
-+		mediatek,syscon-hdmi = <&mmsys 0x900>;
-+		cec = <&cec>;
-+		status = "disabled";
-+	};
-+
- 	imgsys: syscon@15000000 {
- 		compatible = "mediatek,mt7623-imgsys",
- 			     "mediatek,mt2701-imgsys",
-@@ -1102,6 +1257,21 @@ pins-cir {
- 		};
- 	};
- 
-+	hdmi_pins_a: hdmi-default {
-+		pins-hdmi {
-+			pinmux = <MT7623_PIN_123_HTPLG_FUNC_HTPLG>;
-+			input-enable;
-+			bias-pull-down;
-+		};
-+	};
-+
-+	hdmi_ddc_pins_a: hdmi_ddc-default {
-+		pins-hdmi-ddc {
-+			pinmux = <MT7623_PIN_124_GPIO124_FUNC_HDMISCK>,
-+				 <MT7623_PIN_125_GPIO125_FUNC_HDMISD>;
-+		};
-+	};
-+
- 	i2c0_pins_a: i2c0-default {
- 		pins-i2c0 {
- 			pinmux = <MT7623_PIN_75_SDA0_FUNC_SDA0>,
-diff --git a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
-index 2b760f90f38c..b1c83e919015 100644
---- a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
-+++ b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
-@@ -21,6 +21,19 @@ chosen {
- 		stdout-path = "serial2:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		label = "hdmi";
-+		type = "d";
-+		ddc-i2c-bus = <&hdmiddc0>;
-+
-+		port {
-+			hdmi_connector_in: endpoint {
-+				remote-endpoint = <&hdmi0_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu@0 {
- 			proc-supply = <&mt6323_vproc_reg>;
-@@ -114,10 +127,18 @@ memory@80000000 {
- 	};
- };
- 
-+&bls {
-+	status = "okay";
-+};
-+
- &btif {
- 	status = "okay";
- };
- 
-+&cec {
-+	status = "okay";
-+};
-+
- &cir {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&cir_pins_a>;
-@@ -128,6 +149,21 @@ &crypto {
- 	status = "okay";
- };
- 
-+&dpi0 {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			dpi0_out: endpoint {
-+				remote-endpoint = <&hdmi0_in>;
-+			};
-+		};
-+	};
-+};
-+
- &eth {
- 	status = "okay";
- 
-@@ -199,6 +235,42 @@ fixed-link {
- 	};
- };
- 
-+&hdmi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&hdmi_pins_a>;
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			hdmi0_in: endpoint {
-+				remote-endpoint = <&dpi0_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			hdmi0_out: endpoint {
-+				remote-endpoint = <&hdmi_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&hdmiddc0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&hdmi_ddc_pins_a>;
-+	status = "okay";
-+};
-+
-+&hdmi_phy {
-+	mediatek,ibias = <0xa>;
-+	mediatek,ibias_up = <0x1c>;
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&i2c0_pins_a>;
-diff --git a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
-index 0447748f9fa0..7e3ded7d9e7d 100644
---- a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
-+++ b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
-@@ -24,6 +24,19 @@ chosen {
- 		stdout-path = "serial2:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		label = "hdmi";
-+		type = "d";
-+		ddc-i2c-bus = <&hdmiddc0>;
-+
-+		port {
-+			hdmi_connector_in: endpoint {
-+				remote-endpoint = <&hdmi0_out>;
-+			};
-+		};
-+	};
-+
- 	cpus {
- 		cpu@0 {
- 			proc-supply = <&mt6323_vproc_reg>;
-@@ -106,10 +119,18 @@ sound {
- 	};
- };
- 
-+&bls {
-+	status = "okay";
-+};
-+
- &btif {
- 	status = "okay";
- };
- 
-+&cec {
-+	status = "okay";
-+};
-+
- &cir {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&cir_pins_a>;
-@@ -120,6 +141,21 @@ &crypto {
- 	status = "okay";
- };
- 
-+&dpi0 {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			dpi0_out: endpoint {
-+				remote-endpoint = <&hdmi0_in>;
-+			};
-+		};
-+	};
-+};
-+
- &eth {
- 	status = "okay";
- 
-@@ -203,6 +239,42 @@ fixed-link {
- 	};
- };
- 
-+&hdmi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&hdmi_pins_a>;
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			hdmi0_in: endpoint {
-+				remote-endpoint = <&dpi0_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			hdmi0_out: endpoint {
-+				remote-endpoint = <&hdmi_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&hdmiddc0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&hdmi_ddc_pins_a>;
-+	status = "okay";
-+};
-+
-+&hdmi_phy {
-+	mediatek,ibias = <0xa>;
-+	mediatek,ibias_up = <0x1c>;
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&i2c0_pins_a>;
--- 
-2.25.1
+Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
