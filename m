@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E438D23B2FC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A75323B2FD
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE23F6E3CE;
-	Tue,  4 Aug 2020 02:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9336E3D3;
+	Tue,  4 Aug 2020 02:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8E26E3CE
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED25B6E3D0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:04 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-zfEo7J9qMSCTv7_IdlcvZQ-1; Mon, 03 Aug 2020 22:57:57 -0400
-X-MC-Unique: zfEo7J9qMSCTv7_IdlcvZQ-1
+ us-mta-444-tYCNyn_HMmiTRGuKGbzY-w-1; Mon, 03 Aug 2020 22:57:59 -0400
+X-MC-Unique: tYCNyn_HMmiTRGuKGbzY-w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C9A91270;
- Tue,  4 Aug 2020 02:57:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC8DB8005B0;
+ Tue,  4 Aug 2020 02:57:58 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 462598AD1C;
- Tue,  4 Aug 2020 02:57:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FF078AD1C;
+ Tue,  4 Aug 2020 02:57:56 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 30/59] drm/nouveau: use new cleanup paths
-Date: Tue,  4 Aug 2020 12:56:03 +1000
-Message-Id: <20200804025632.3868079-31-airlied@gmail.com>
+Subject: [PATCH 31/59] drm/radeon/ttm: use new takedown paths
+Date: Tue,  4 Aug 2020 12:56:04 +1000
+Message-Id: <20200804025632.3868079-32-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -52,116 +52,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 41 ++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index cfcbecd332ef..bb310719e3f5 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -31,12 +31,6 @@
- 
- #include <core/tegra.h>
- 
--static int
--nouveau_manager_fini(struct ttm_mem_type_manager *man)
--{
--	return 0;
--}
--
- static void
- nouveau_manager_del(struct ttm_mem_type_manager *man, struct ttm_mem_reg *reg)
- {
-@@ -70,7 +64,6 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
- }
- 
- const struct ttm_mem_type_manager_func nouveau_vram_manager = {
--	.takedown = nouveau_manager_fini,
- 	.get_node = nouveau_vram_manager_new,
- 	.put_node = nouveau_manager_del,
- };
-@@ -94,7 +87,6 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
- }
- 
- const struct ttm_mem_type_manager_func nouveau_gart_manager = {
--	.takedown = nouveau_manager_fini,
- 	.get_node = nouveau_gart_manager_new,
- 	.put_node = nouveau_manager_del,
- };
-@@ -127,7 +119,6 @@ nv04_gart_manager_new(struct ttm_mem_type_manager *man,
- }
- 
- const struct ttm_mem_type_manager_func nv04_gart_manager = {
--	.takedown = nouveau_manager_fini,
- 	.get_node = nv04_gart_manager_new,
- 	.put_node = nouveau_manager_del,
- };
-@@ -192,6 +183,19 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 	}
- }
- 
-+static void
-+nouveau_ttm_fini_vram(struct nouveau_drm *drm)
-+{
-+	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_VRAM];
-+
-+	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
-+		ttm_mem_type_manager_disable(man);
-+		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
-+		ttm_mem_type_manager_cleanup(man);
-+	} else
-+		ttm_range_man_fini(&drm->ttm.bdev, man);
-+}
-+
- static int
- nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- {
-@@ -221,6 +225,21 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- 	return 0;
- }
- 
-+static void
-+nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
-+{
-+	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_TT];
-+
-+	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA &&
-+	    drm->agp.bridge)
-+		ttm_range_man_fini(&drm->ttm.bdev, man);
-+	else {
-+		ttm_mem_type_manager_disable(man);
-+		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
-+		ttm_mem_type_manager_cleanup(man);
-+	}
-+}
-+
- int
- nouveau_ttm_init(struct nouveau_drm *drm)
- {
-@@ -310,8 +329,8 @@ nouveau_ttm_fini(struct nouveau_drm *drm)
- {
- 	struct nvkm_device *device = nvxx_device(&drm->client.device);
- 
--	ttm_bo_clean_mm(&drm->ttm.bdev, TTM_PL_VRAM);
--	ttm_bo_clean_mm(&drm->ttm.bdev, TTM_PL_TT);
-+	nouveau_ttm_fini_vram(drm);
-+	nouveau_ttm_fini_gtt(drm);
- 
- 	ttm_bo_device_release(&drm->ttm.bdev);
- 
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClJldmlld2VkLWJ5OiBDaHJp
+c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IERh
+dmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fdHRtLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwppbmRleCA4NGMw
+MmI0NTI5YzAuLjc2YjQwOWFmOTQ3NiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMK
+QEAgLTgyNSw4ICs4MjUsOCBAQCB2b2lkIHJhZGVvbl90dG1fZmluaShzdHJ1Y3QgcmFkZW9uX2Rl
+dmljZSAqcmRldikKIAkJfQogCQlyYWRlb25fYm9fdW5yZWYoJnJkZXYtPnN0b2xlbl92Z2FfbWVt
+b3J5KTsKIAl9Ci0JdHRtX2JvX2NsZWFuX21tKCZyZGV2LT5tbWFuLmJkZXYsIFRUTV9QTF9WUkFN
+KTsKLQl0dG1fYm9fY2xlYW5fbW0oJnJkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1RUKTsKKwl0dG1f
+cmFuZ2VfbWFuX2ZpbmkoJnJkZXYtPm1tYW4uYmRldiwgJnJkZXYtPm1tYW4uYmRldi5tYW5bVFRN
+X1BMX1ZSQU1dKTsKKwl0dG1fcmFuZ2VfbWFuX2ZpbmkoJnJkZXYtPm1tYW4uYmRldiwgJnJkZXYt
+Pm1tYW4uYmRldi5tYW5bVFRNX1BMX1RUXSk7CiAJdHRtX2JvX2RldmljZV9yZWxlYXNlKCZyZGV2
+LT5tbWFuLmJkZXYpOwogCXJhZGVvbl9nYXJ0X2ZpbmkocmRldik7CiAJcmRldi0+bW1hbi5pbml0
+aWFsaXplZCA9IGZhbHNlOwotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
