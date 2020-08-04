@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45CE23C182
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:32:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B008623C181
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:32:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A846B6E133;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACB66E0AA;
 	Tue,  4 Aug 2020 21:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79C176E03E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:32:10 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id c15so2515765wrs.11
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 14:32:10 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 789556E067
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:32:11 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id x5so3968715wmi.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 14:32:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hm6vvQCNB8lhjjgdZDH+zk/Q4v5q4HRwVjHg5LGRZhM=;
- b=0ckm9rENEFCcymU6hW9vxnXVYLiWhXEw5apwIFjKkObWFHrbJ2W02ff5gHaGHeBQnm
- TJpIU8wADhQj+Wiv1yUvycI0lLa9tzoZ13Knshda0VAXianJGjPp7cXaS4G/Qo2jQIHC
- 1ZqqYfw5O0cGLGTnIP+COKU1JX5fHPEglwjCarOS3efgBRElL7J4MXKl+AujHoFejUPK
- 7/A8lCWP8l2cQsvLF83Q3HpD0tM6nPbQrFv/Sadq+hOQc8mgSssZfDNg0wCiqO2bcngh
- L5qWwfqiOyu3XKvqs6zb1nLpVDB3QfybdgmyGktiBPDdMbptqVQXLbVJ/vo33zBD9C7E
- mg/Q==
+ bh=i7RjU3C/5Tb6jLW/v4DIQIukxcUqY46qUqpQsce2gQs=;
+ b=fMhaVVSURSGWXG/bmV+V+DtMYP5sBT9lppI7KPJnWoHE4YZWDzQL/H8oORCRccpm4T
+ 1fgaLyQJCx+Af+v2ydGWiWvTG3VBk7nxEzPHultgVle/GhDYxLmTGTD6cWH6+My4wluz
+ mrRRJLLVDABB4jC0FKGyMJlwiL2QawwAPnitPz1hHeQg5sQPyeMeotTp+rPM9qZkzqTh
+ RLwQDhj5UasVaxTCq6yOvoNE0ivvv41HNBU36cSO8A8mpELFJj3WJ9U1pyeCalyepGyO
+ hrCQQM53Le4yGQEgv7WF9sWsp7VMs4HvxJAl1c5+3pQ/TySoInAqnF8DzQYoe3tZVY3o
+ Xv8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hm6vvQCNB8lhjjgdZDH+zk/Q4v5q4HRwVjHg5LGRZhM=;
- b=sCtNAlWx2ipN2JHAhkqGemzptHeS3rPDwPlquNNTwTJNuABW1JcOojsSj5HZn1ORRf
- v2icWHJ/bgIwiPUBX8xHM5D4UCbkNkZ+FIpekBgTjzX9PwAhzfhxLyjPS8WkJ2XUvY2b
- nRxVwnbP96hLIDUO38PJ7DplmlJe3jNHevL8N8R4yrJxYOP7d1QLRFSL8tsNc3Ljk+E7
- xxI7YQmepMclQCJ1S6y7DMAxZJo0up0IyQ9UcNRkE0LZsvBBI5g+7n3CVb60ob2LdwyC
- +QyI13ZbZtH9BAvv4rcQ7k6nLyS/PU232eNgHv9CVBQVghtTO3yz/pn8uSmdmkFjAM+l
- m1yQ==
-X-Gm-Message-State: AOAM531uq0kD2nZSPndT+pSbIDhlb/7+6HoC7Y7Oyhnrd5tEXBHCwfXf
- 6XZ92oiIu1UANO/VXQYHidlkaw==
-X-Google-Smtp-Source: ABdhPJwEZeJQb5h9FLNAtMw1J6L5MpeSuzX2gu6UNJc3EQQy6O1r3apIOmmtYIsnyn/BIDE6zZEQCg==
-X-Received: by 2002:adf:ea4f:: with SMTP id j15mr20857075wrn.253.1596576729235; 
- Tue, 04 Aug 2020 14:32:09 -0700 (PDT)
+ bh=i7RjU3C/5Tb6jLW/v4DIQIukxcUqY46qUqpQsce2gQs=;
+ b=q165X4NKTHjLLwpjZfUOqwocFh3hqiBNld7u28gLRB7j/xH0pZOKG5JV7MCpY9NgJI
+ 6qPjhz5/rte9EWImISIoRFmiKdZmEgbDNwtwbJffFo7Xpy/sCK5RrOKYxQ3rqjReg4dr
+ L6fl9+0IJwHk/Xq/p5MLqdvc1K38gsL/9gTfPghjXcyn2fBCKQ0dm7mRyuIZUkqyX9gr
+ T/N+egNslCIBbpqSylRe718FVhxGhDiZCNKPkkIOjYytxoZT3uxYTZNSmV9c3Xk4swHx
+ YbrBRwcjKkH3Dzkzzx8acijrgx5t9mv1IcrmqxSxsKGmVEeuIcsWmTuIdimfjYrAAgFS
+ TN6A==
+X-Gm-Message-State: AOAM5317P5iqDQaury45MzjK3X/SWdZo3Z0co9+CrMehbhcvYtTfoikk
+ uIePabGhwyDsKr18iZPpq1WTBqZ8WJ907A==
+X-Google-Smtp-Source: ABdhPJzyUZOS+6tMx3qeSYu6/OugEV3exrgg4HeWaOAqb/J9wpthzl7ajkvtheUuG/IuIEcTE5fA6A==
+X-Received: by 2002:a1c:bd04:: with SMTP id n4mr356338wmf.83.1596576730183;
+ Tue, 04 Aug 2020 14:32:10 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:aa12:a77f:2000:ce92:471f:873f:fc56])
- by smtp.gmail.com with ESMTPSA id x11sm97612wmc.33.2020.08.04.14.32.08
+ by smtp.gmail.com with ESMTPSA id x11sm97612wmc.33.2020.08.04.14.32.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 14:32:08 -0700 (PDT)
+ Tue, 04 Aug 2020 14:32:09 -0700 (PDT)
 From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH 1/8] drm/amd/display: Do not silently accept DCC for
- multiplane formats.
-Date: Tue,  4 Aug 2020 23:31:12 +0200
-Message-Id: <20200804213119.25091-2-bas@basnieuwenhuizen.nl>
+Subject: [PATCH 2/8] drm/amd: Init modifier field of helper fb.
+Date: Tue,  4 Aug 2020 23:31:13 +0200
+Message-Id: <20200804213119.25091-3-bas@basnieuwenhuizen.nl>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
 References: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
@@ -75,26 +74,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Silently accepting it could result in corruption.
+Otherwise the field ends up being used uninitialized when
+enabling modifiers, failing validation with high likelihood.
 
 Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f348693217d8..005331c772b7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3637,7 +3637,7 @@ fill_plane_dcc_attributes(struct amdgpu_device *adev,
- 		return 0;
- 
- 	if (format >= SURFACE_PIXEL_FORMAT_VIDEO_BEGIN)
--		return 0;
-+		return -EINVAL;
- 
- 	if (!dc->cap_funcs.get_dcc_compression_cap)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
+index 25ddb482466a..c2d6952d0a7d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
+@@ -201,7 +201,7 @@ static int amdgpufb_create(struct drm_fb_helper *helper,
+ 	struct amdgpu_device *adev = rfbdev->adev;
+ 	struct fb_info *info;
+ 	struct drm_framebuffer *fb = NULL;
+-	struct drm_mode_fb_cmd2 mode_cmd;
++	struct drm_mode_fb_cmd2 mode_cmd = {0};
+ 	struct drm_gem_object *gobj = NULL;
+ 	struct amdgpu_bo *abo = NULL;
+ 	int ret;
 -- 
 2.28.0
 
