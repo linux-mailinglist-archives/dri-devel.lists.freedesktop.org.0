@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160BE23B911
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 12:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A850A23B913
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 12:49:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6E089ED6;
-	Tue,  4 Aug 2020 10:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CD289F0A;
+	Tue,  4 Aug 2020 10:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4E789ED6
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 10:49:17 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9341A89F0A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 10:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596538156;
+ s=mimecast20190719; t=1596538173;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=v6NpeDE0AbWyqfhgQ+6xkWHq7kHFmOGnhjGBnvvMBcg=;
- b=N6xI4hUCuXA9O9TCg6zUMK+Eg3kT0a4KW8PfSkS0PdYULi/DE2+PBs/1r69bnPPlgUIb85
- Taroup1OHMynLU/sa3ciFAz1XK4BwWFl/wxDwc7XxjS8Da0LVyrx6zYmvVpjjcy7iAXlWy
- yu+h+CfY83/neIOvrbGD8dU7Gs5ZU+4=
+ bh=wh9zIrhrr/JErQdxk9PUxC3biBKCPGG7AiAz5O43B3Q=;
+ b=RRlsK5Ypn4+3i/sruqRPSL7xI8CAStHThMyYZnZkW6JJGPa4Zqs+1hX0O31W4OzhIog02y
+ 6doOfQhN1JgOB8fo8ghYMtCgY3TQQ2wB/La3RdKZ7P/fQN3ME8febdXw+AmJdqQt2nZVGS
+ als+nhQvcVbyKIYGrUJnzzH3z/fhRIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-JN8r1CD3OgiHpjHIjNjL5Q-1; Tue, 04 Aug 2020 06:49:14 -0400
-X-MC-Unique: JN8r1CD3OgiHpjHIjNjL5Q-1
+ us-mta-502-lrTMSB8OP7Suyuud05tl8Q-1; Tue, 04 Aug 2020 06:49:32 -0400
+X-MC-Unique: lrTMSB8OP7Suyuud05tl8Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FD181005504;
- Tue,  4 Aug 2020 10:49:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EACCD10CE781;
+ Tue,  4 Aug 2020 10:49:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
  [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43CF45DA75;
- Tue,  4 Aug 2020 10:49:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFEE65D9F7;
+ Tue,  4 Aug 2020 10:49:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 443EB11AB5; Tue,  4 Aug 2020 12:49:12 +0200 (CEST)
-Date: Tue, 4 Aug 2020 12:49:12 +0200
+ id EA0D711AB5; Tue,  4 Aug 2020 12:49:29 +0200 (CEST)
+Date: Tue, 4 Aug 2020 12:49:29 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 17/59] drm/qxl/ttm: use new init path for manager
-Message-ID: <20200804104912.se247kpifdvl5zkr@sirius.home.kraxel.org>
+Subject: Re: [PATCH 18/59] drm/vram_helper: use new ttm manager init function
+Message-ID: <20200804104929.sftjafbl2efrxos7@sirius.home.kraxel.org>
 References: <20200804025632.3868079-1-airlied@gmail.com>
- <20200804025632.3868079-18-airlied@gmail.com>
+ <20200804025632.3868079-19-airlied@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200804025632.3868079-18-airlied@gmail.com>
+In-Reply-To: <20200804025632.3868079-19-airlied@gmail.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -70,7 +70,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 04, 2020 at 12:55:50PM +1000, Dave Airlie wrote:
+On Tue, Aug 04, 2020 at 12:55:51PM +1000, Dave Airlie wrote:
 > From: Dave Airlie <airlied@redhat.com>
 > 
 > Signed-off-by: Dave Airlie <airlied@redhat.com>
