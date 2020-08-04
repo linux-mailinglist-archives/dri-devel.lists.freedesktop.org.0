@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3CA23B315
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7F123B316
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32C7A6E408;
-	Tue,  4 Aug 2020 02:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB9686E409;
+	Tue,  4 Aug 2020 02:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43B26E409
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDE76E408
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:59:00 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-tvvLziGHMPO0HgI41LZCwQ-1; Mon, 03 Aug 2020 22:58:55 -0400
-X-MC-Unique: tvvLziGHMPO0HgI41LZCwQ-1
+ us-mta-9-_dCQKb5yMmSrMl-gXS8p0g-1; Mon, 03 Aug 2020 22:58:57 -0400
+X-MC-Unique: _dCQKb5yMmSrMl-gXS8p0g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 832EC1005504;
- Tue,  4 Aug 2020 02:58:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D60B100CD01;
+ Tue,  4 Aug 2020 02:58:56 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 102098AD1C;
- Tue,  4 Aug 2020 02:58:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E341E8AD1C;
+ Tue,  4 Aug 2020 02:58:54 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 54/59] drm/ttm: drop list of memory managers from device. (v2)
-Date: Tue,  4 Aug 2020 12:56:27 +1000
-Message-Id: <20200804025632.3868079-55-airlied@gmail.com>
+Subject: [PATCH 55/59] drm/ttm: drop type manager has_type
+Date: Tue,  4 Aug 2020 12:56:28 +1000
+Message-Id: <20200804025632.3868079-56-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,80 +61,201 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-The driver now controls these, the core just controls the system
-memory one.
-
-v2: init sysman explicitly and assign it as a driver manager
-to simplify the lookup sequence.
+under driver control, this flag isn't needed anymore,
+remove the API that used to access it, and consoldiate
+with the used api.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c    | 6 +++---
- include/drm/ttm/ttm_bo_driver.h | 6 ++----
- 2 files changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |  4 ++--
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  8 +++-----
+ drivers/gpu/drm/ttm/ttm_bo_manager.c          |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           |  2 +-
+ include/drm/ttm/ttm_bo_driver.h               | 17 -----------------
+ 8 files changed, 10 insertions(+), 29 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 9fc3d876ed38..71461d652fcc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -146,7 +146,7 @@ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
+ 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
+ 	int ret;
+ 
+-	ttm_mem_type_manager_disable(man);
++	ttm_mem_type_manager_set_used(man, false);
+ 
+ 	ret = ttm_mem_type_manager_force_list_clean(&adev->mman.bdev, man);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 684698cdf772..8cc44c3d2fdd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -223,7 +223,7 @@ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+ 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
+ 	int ret;
+ 
+-	ttm_mem_type_manager_disable(man);
++	ttm_mem_type_manager_set_used(man, false);
+ 
+ 	ret = ttm_mem_type_manager_force_list_clean(&adev->mman.bdev, man);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index d408e1485cce..22185a8dcfa1 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -194,7 +194,7 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+ 	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
+ 
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+-		ttm_mem_type_manager_disable(man);
++		ttm_mem_type_manager_set_used(man, false);
+ 		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+ 		ttm_mem_type_manager_cleanup(man);
+ 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
+@@ -253,7 +253,7 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+ 	    drm->agp.bridge)
+ 		ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_TT);
+ 	else {
+-		ttm_mem_type_manager_disable(man);
++		ttm_mem_type_manager_set_used(man, false);
+ 		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+ 		ttm_mem_type_manager_cleanup(man);
+ 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 78b72443a9ef..12abe46bfbc1 100644
+index 12abe46bfbc1..cda33b4af681 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1558,6 +1558,7 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
+@@ -80,7 +80,6 @@ static inline int ttm_mem_type_from_place(const struct ttm_place *place,
+ void ttm_mem_type_manager_debug(struct ttm_mem_type_manager *man,
+ 				struct drm_printer *p)
+ {
+-	drm_printf(p, "    has_type: %d\n", man->has_type);
+ 	drm_printf(p, "    use_type: %d\n", man->use_type);
+ 	drm_printf(p, "    use_tt: %d\n", man->use_tt);
+ 	drm_printf(p, "    size: %llu\n", man->size);
+@@ -1003,7 +1002,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+ 		return ret;
+ 
+ 	man = ttm_manager_type(bdev, mem_type);
+-	if (!man->has_type || !man->use_type)
++	if (!man || !man->use_type)
+ 		return -EBUSY;
+ 
+ 	if (!ttm_bo_mt_compatible(man, mem_type, place, &cur_flags))
+@@ -1462,7 +1461,7 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!man->has_type) {
++	if (!man) {
+ 		pr_err("Memory type %u has not been initialized\n", mem_type);
+ 		return 0;
+ 	}
+@@ -1476,7 +1475,6 @@ void ttm_mem_type_manager_init(struct ttm_mem_type_manager *man,
+ {
+ 	unsigned i;
+ 
+-	BUG_ON(man->has_type);
+ 	man->use_io_reserve_lru = false;
+ 	mutex_init(&man->io_reserve_mutex);
+ 	spin_lock_init(&man->move_lock);
+@@ -1557,7 +1555,7 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
+ 	struct ttm_mem_type_manager *man;
  
  	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
- 	ttm_mem_type_manager_disable(man);
-+	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
+-	ttm_mem_type_manager_disable(man);
++	ttm_mem_type_manager_set_used(man, false);
+ 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
  
  	mutex_lock(&ttm_global_mutex);
- 	list_del(&bdev->device_list);
-@@ -1583,7 +1584,7 @@ EXPORT_SYMBOL(ttm_bo_device_release);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_manager.c b/drivers/gpu/drm/ttm/ttm_bo_manager.c
+index 1b7245ce3356..6679dc11934f 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_manager.c
+@@ -152,7 +152,7 @@ int ttm_range_man_fini(struct ttm_bo_device *bdev,
+ 	struct drm_mm *mm = &rman->mm;
+ 	int ret;
  
- static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
-+	struct ttm_mem_type_manager *man = &bdev->sysman;
+-	ttm_mem_type_manager_disable(man);
++	ttm_mem_type_manager_set_used(man, false);
  
- 	/*
- 	 * Initialize the system memory buffer type.
-@@ -1594,6 +1595,7 @@ static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
- 	man->default_caching = TTM_PL_FLAG_CACHED;
+ 	ret = ttm_mem_type_manager_force_list_clean(bdev, man);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index c3fa25161fd0..ca5037184814 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -143,7 +143,7 @@ void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type)
+ 	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
+ 	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
  
- 	ttm_mem_type_manager_init(man, 0);
-+	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, man);
- 	ttm_mem_type_manager_set_used(man, true);
- }
+-	ttm_mem_type_manager_disable(man);
++	ttm_mem_type_manager_set_used(man, false);
  
-@@ -1615,8 +1617,6 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
+ 	ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
  
- 	bdev->driver = driver;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+index 0b9c29249393..4110e8309188 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+@@ -152,7 +152,7 @@ void vmw_thp_fini(struct vmw_private *dev_priv)
+ 	struct drm_mm *mm = &rman->mm;
+ 	int ret;
  
--	memset(bdev->man_priv, 0, sizeof(bdev->man_priv));
--
- 	ttm_bo_init_sysman(bdev);
+-	ttm_mem_type_manager_disable(man);
++	ttm_mem_type_manager_set_used(man, false);
  
- 	bdev->vma_manager = vma_manager;
+ 	ret = ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
+ 	if (ret)
 diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index bfd19400372f..d5646d7cac60 100644
+index d5646d7cac60..300934289e64 100644
 --- a/include/drm/ttm/ttm_bo_driver.h
 +++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -414,7 +414,7 @@ struct ttm_bo_device {
+@@ -111,7 +111,6 @@ struct ttm_mem_type_manager_func {
+ /**
+  * struct ttm_mem_type_manager
+  *
+- * @has_type: The memory type has been initialized.
+  * @use_type: The memory type is enabled.
+  * @flags: TTM_MEMTYPE_XX flags identifying the traits of the memory
+  * managed by this memory type.
+@@ -141,8 +140,6 @@ struct ttm_mem_type_manager {
  	/*
- 	 * access via ttm_manager_type.
+ 	 * No protection. Constant from start.
  	 */
--	struct ttm_mem_type_manager man_priv[TTM_NUM_MEM_TYPES];
-+	struct ttm_mem_type_manager sysman;
- 	struct ttm_mem_type_manager *man_drv[TTM_NUM_MEM_TYPES];
- 	/*
- 	 * Protected by internal locks.
-@@ -446,9 +446,7 @@ struct ttm_bo_device {
- static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
- 							    int mem_type)
+-
+-	bool has_type;
+ 	bool use_type;
+ 	bool use_tt;
+ 	uint64_t size;
+@@ -678,23 +675,9 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
+  */
+ static inline void ttm_mem_type_manager_set_used(struct ttm_mem_type_manager *man, bool used)
  {
--	if (bdev->man_drv[mem_type])
--		return bdev->man_drv[mem_type];
--	return &bdev->man_priv[mem_type];
-+	return bdev->man_drv[mem_type];
+-	man->has_type = true;
+ 	man->use_type = used;
  }
  
- static inline void ttm_set_driver_manager(struct ttm_bo_device *bdev,
+-/**
+- * ttm_mem_type_manager_disable.
+- *
+- * @man: A memory manager object.
+- *
+- * Indicate the manager is not to be used and deregistered. (temporary during rework).
+- */
+-static inline void ttm_mem_type_manager_disable(struct ttm_mem_type_manager *man)
+-{
+-	man->has_type = false;
+-	man->use_type = false;
+-}
+-
+ /**
+  * ttm_mem_type_manager_cleanup
+  *
 -- 
 2.26.2
 
