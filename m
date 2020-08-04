@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BE823C17B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:31:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E058E23C17E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4AD88A27;
-	Tue,  4 Aug 2020 21:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4679E6E03E;
+	Tue,  4 Aug 2020 21:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFE288A27
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:31:19 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id v9so10795409ljk.6
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 14:31:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FSn8/3wQ+aneWpipF9I9x9eCCHOZwD+FOtKfa7L45tQ=;
- b=Xxj7tSaDtmF3oTx8eDLXf+K5XAonJt+jNywbelZv+veVJihvYxxXO7Ki3NJ1vojjQO
- WDw1VH1Fp5pkQcQJMAA90PhP3Pn0UNECg4ONaxY/yqScvglBxSS5eQrgHRTnyChqKHM8
- rlRyWCeJWkHPSyIH30C8067uq4tt6I+l+MJ/xNywpHkicBc3TQW9FWzi2GmAUtIbA+Xs
- zdGFNzPENEKeOEw3qpl30Zvuo2w9AqcfUS8deCTSlQAbMU4IzFSqGEcFQ5kaf6Y/c0b0
- 79I96r+9nSMzfwtT/mM32lzwHzusZG4EZzClrZsV7dr3J6sCqpjBwlVKGa+rs6eaDttz
- ZqlQ==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86D226E03E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:32:09 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id q76so4293634wme.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 14:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DF5yKzOPMXVYngQSBfD05wSpsfrYcHWC8kfD4ia0he8=;
+ b=X5Hetv2i20phNPeysBMxrpvbCw1680QQcLa9h94KZpQN+puvrnT2Vt+tz59KPZLvst
+ d7nxvSsNM980eMV3iuwL3f9MoryemPn4GwFytGIxtCBWDEh4ZR4QIIXvU112pZBrHXdw
+ VGsUFwCinb3qG4QdVLVokiEBOeMGFknnSzvbj5XJ9w7FNMczQkMZC7CRU+JfHYiW4uNQ
+ JrAMlNa7jwd0mdbtu593vZjlK3k+k8fiIsAQALmzchn+CqCTJFBQRirizzWwAnEmhnha
+ oR8zBjHSRpD0+Z1NLI5n/B/Yv7EwnBmKcfrIZSU7Arm7oUvPSjQQEDEz20qdiSscZ8JZ
+ kjIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FSn8/3wQ+aneWpipF9I9x9eCCHOZwD+FOtKfa7L45tQ=;
- b=F1Ega3FOfc1HLwExb7SWVP9V55Jx04bli2bWkCU9MtrmXdI8zCfdbvozpGIBygFdpR
- b0L5InNhTO5D6n6hqMnoQIMeUzSwdw99SipLQbdQFnjVyknQT6vFCbrythcg5ngnbaNz
- oN7iv7/Ovp/MhmFiUUuFHvsApzKCj6zrAH3Hjo+RLH1zlv0JN1sCw1EXhVViw8T/iWgT
- I+7cR9Kglehhrh5dnB4/TAF2tNqW6QHMOepfJoHDbfb5aCDDAAwHTtKCOyIkS6oqXic9
- 82VFkexi3aigC0nIiqH++6PEvrzKrP9wl4HRbedL0jm1xwWErJq2Z+VJIaTMIWF4V5T2
- /kjg==
-X-Gm-Message-State: AOAM532c/m6K+Lg7Iz3dexZmlIZeDV1f2YAR3Z65o4iuD7h6lJB8Az26
- dQy0UnEaCpXfZesrj49zIabdm9+kGfuDLkrxOS0Ilg==
-X-Google-Smtp-Source: ABdhPJzTLgwMSkBUsIqvigMPlUyPkahNZ+4pPykZVUkzAkDC4PBFmVJhLHqKUxt/6nnYgCKLm2tifiINaBE0zK9wTiE=
-X-Received: by 2002:a2e:9a4d:: with SMTP id k13mr11580556ljj.283.1596576677792; 
- Tue, 04 Aug 2020 14:31:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DF5yKzOPMXVYngQSBfD05wSpsfrYcHWC8kfD4ia0he8=;
+ b=kRXAT8KAYqkemT0hHdArHonf8vhzcfi4E84MNSk5BmkrIKGhB5SiN+thEzyfrOuqql
+ kjO4TV8AkwhHt//MCzEjApuWsJphdcxYSdvw6AUElfWLG1ONjLMSt05Rkxr+8xsIppNa
+ PeNqHwJWwaMdqG4wDHMo0b4fQa7RMy3dpiw3OXEY0OwqOrwVNz8ObgrxZX2P1ZHwfcGD
+ zx9WPbL4xQRwJOgpt3b5fxHvWMFYS4m9ZZsYTAtoXHRYn4FynFydzDwGBo3Y4JPpl1N9
+ 0LlsqmMc2IkvaLMFSU3ap/2zXEwdS1ExW7RXIABD4CooxrA8BmlsGYtT8fOirK5biiSk
+ GCPA==
+X-Gm-Message-State: AOAM530KwusrMCc9EMQWXOCaVBy5XMd7MbgLFrr4pbRPdrMg0t7kMLjp
+ CYHX6PHpEiKG9+95hR5Jg8kimQ==
+X-Google-Smtp-Source: ABdhPJyqjoYqAxdILDMHmmRCdSipij570vuqXhhbIObdvyHI//y80TnursbmM7JKudu5PlcObRw/AA==
+X-Received: by 2002:a1c:9803:: with SMTP id a3mr323249wme.57.1596576728200;
+ Tue, 04 Aug 2020 14:32:08 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2a02:aa12:a77f:2000:ce92:471f:873f:fc56])
+ by smtp.gmail.com with ESMTPSA id x11sm97612wmc.33.2020.08.04.14.32.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Aug 2020 14:32:07 -0700 (PDT)
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] amd/display: Add GFX9+ modifier support.
+Date: Tue,  4 Aug 2020 23:31:11 +0200
+Message-Id: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200802110636.1018743-1-sam@ravnborg.org>
- <20200802110636.1018743-15-sam@ravnborg.org>
-In-Reply-To: <20200802110636.1018743-15-sam@ravnborg.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 4 Aug 2020 23:31:06 +0200
-Message-ID: <CACRpkdbCf67tWODBcUphNduWo_Oo4WdKqztMkxM55Xp7LL_bNA@mail.gmail.com>
-Subject: Re: [PATCH v1 14/22] drm/panel: sony-acx424akp: Backlight update
-To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,36 +66,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Lee Jones <lee.jones@linaro.org>
+Cc: maraeo@gmail.com, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 2, 2020 at 1:07 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+This adds modifier support to radeonsi.
+It has been tested on
 
-> - Use get method to read brightness
-> - Use drm_panel support for backlight
->   - This drops enable/disable operations as they are no longer needed.
->     The enable/disable operations had some backlight related comments
->     that are no longer valid. The only correct way to enable/disable
->     backlight is using the backlight enable/disable helpers.
-> - Use macro for backlight initialization
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Linus Walleij <linus.walleij@linaro.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+- VEGA10, RAVEN, NAVI14
+- weston, sway, X with xf86-video-amdgpu (i.e. legacy path still works)
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+and includes some basic testing of the layout code.
 
-Yours,
-Linus Walleij
+The main goal is to keep it somewhat simple and regression free, so
+on the display side this series only exposes what the current GPU
+can render to. While we could expose more I think that is more
+suitable for follow-up work as the benefit would be minimal and
+there are some more design discussion there to discuss that are
+orthogonal from the initial implementation.
+
+Similarly this series only exposes 32-bpp displayable DCC in the cases
+that radeonsi would use it and any extra capabilities here should be
+future work.
+
+I believe these are by far the most complicated modifiers we've seen
+up till now, mostly related to
+
+- GPU identification for cases where it matters wrt tiling.
+- Every generation having tiling layout changes
+- Compression settings.
+
+I believe the complexity is necessary as every layout should be different
+and all layouts should be the best in some situation (though not all
+combinations of GPU parameters will actually have an existing GPU).
+
+That said, on the render side the number of modifiers actually listed for
+a given GPU is ~10, and in the current implementation that is the same
+for the display side. (we could expose more actually differing layouts
+on the display side for cross-GPU compatibility, but I consider that
+out of scope for this initial work).
+
+This series can be found on
+https://github.com/BNieuwenhuizen/linux/tree/modifiers
+
+An userspace implementation in radeonsi can be found on
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6176
+
+Bas Nieuwenhuizen (8):
+  drm/amd/display: Do not silently accept DCC for multiplane formats.
+  drm/amd: Init modifier field of helper fb.
+  drm/amd/display: Honor the offset for plane 0.
+  drm/fourcc:  Add AMD DRM modifiers.
+  drm/amd/display: Refactor surface tiling setup.
+  drm/amd/display: Set DC options from modifiers.
+  drm/amd/display: Add formats for DCC with 2/3 planes.
+  drm/amd/display: Expose modifiers.
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |   2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 758 +++++++++++++++---
+ include/uapi/drm/drm_fourcc.h                 | 115 +++
+ 3 files changed, 775 insertions(+), 100 deletions(-)
+
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
