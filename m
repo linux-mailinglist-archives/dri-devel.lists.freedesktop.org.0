@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA8A23BC71
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 16:41:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD2523BCA1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 16:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0C86E174;
-	Tue,  4 Aug 2020 14:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81BE6E21F;
+	Tue,  4 Aug 2020 14:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9D566E174
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 14:41:29 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 726D822B42
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 14:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596552089;
- bh=49+4jaBGejOQEj2mBMoA+n/qjCxSINfX1ZlDTF4RB9g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=SIo20VzQD1hcKkTqZ3z6GBe+Nk04OJx3rnyojyF0dO0yfKTibSzFTxzo9XexiAGpL
- 7kift6qM8OTaCC660NCKLt6bJH6Yq6r+KkBvLatUZlR7pHxBD1y4RuGzEjCe+xwcIQ
- /sG0jMIKiPHNmA+iSLJKMuPh+iI8pcYgGIjtOg34=
-Received: by mail-ej1-f45.google.com with SMTP id m19so2200854ejd.8
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 07:41:29 -0700 (PDT)
-X-Gm-Message-State: AOAM533HQvW5UA1VxvM+ibOkqTVM8Nej5ufZp472UB/PCihsuWeKlYWr
- 4GOmmf/KCoqtQQSPF1j6Sz+u+YM+njXa8C98qw==
-X-Google-Smtp-Source: ABdhPJxZ0G5jQrTt8tCKNFsHW0hKmhaebXxOjBoQebMkyIg/uoMGnJRW5xIni95vs+vqhJWTPzUYNN6/fLd4aQtB8v8=
-X-Received: by 2002:a17:906:d92c:: with SMTP id
- rn12mr21013338ejb.187.1596552088025; 
- Tue, 04 Aug 2020 07:41:28 -0700 (PDT)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18CF6E21F;
+ Tue,  4 Aug 2020 14:49:01 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id c2so24221201edx.8;
+ Tue, 04 Aug 2020 07:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g4HmwOYH2FipfU55YwXNgn+/KWI9nU6qQar00eEKnTI=;
+ b=jARuo43f4imeZbHxuoML4wNyRPTOwuEdSxdGaGmmEjiQMf0k+ARZ+35S8UliQueShq
+ eP0wC8Ag/bCp+Zrr1kaAC9ZuZGyh2J/cqvk1OBx0WpDyelZgZdAiRCd0WFo8tZmYqo0Y
+ 7PiuhEGNILTeXGo46kKTLVePah8v3wCgRDJum0EXMPbocMpUleVTqO0Y272GXbjUyPH5
+ lYGAdiePK9a28RHry1cVndmlMfgRO4RvoJjBqJJDQK0K4ygPlXwB8/yGPyFFCbWItV6u
+ UQ9oavX098EpyXsAOA9V3NiotNgRWXOY0NuVucJnh4q/wfX2aBpvyy4qCt4UMFYOlEUY
+ KpZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g4HmwOYH2FipfU55YwXNgn+/KWI9nU6qQar00eEKnTI=;
+ b=IM++2ZkY584qHhnN5lzJl7tJ8OqybU+DDcxz8KSLy4bjo1IQZPZkP4SfY07CFOk+If
+ sd/4peYsR6PNGKa+YnEWMKft7tK1VY9C9XcLssGpQB6H90NtkXb9ZAFYjPukzF0eAz0M
+ BgNffYIll4SsJvsc2zxOFxiTMcRQRXXLvDoMkVe2YkCjT50ZObhc5ScNqGTw9+B33fwS
+ HMXRsUBGq+nsmiZP8WPM5ke0s4xMf2gfE6xpK7YLk0gX91a5/xqENzbdwkmV2gCII6en
+ L84UM6mRup5wIfNg7m0Fr2yXfI9qVuwr12JH/yy7X9NlgS8UY9GmYWsjTFtpbj99F3Hu
+ Zerg==
+X-Gm-Message-State: AOAM5311RW0AFMUGgZ0Oy+UVMOB/UQzBVZonphM9DLNjzvrNTTNPQrMn
+ RukX9vO3/y6JiMCaoMqx8hGLiIsJCdug4T28/2k=
+X-Google-Smtp-Source: ABdhPJzvDZkA05JzMe/6DGwbz7nTKib7xTiBIdtvgBQrjNjFlefh8ZT9iPjGtuAI7EG71+3trm7KlYtgLwGlIRjAHP0=
+X-Received: by 2002:aa7:da46:: with SMTP id w6mr17536741eds.7.1596552540239;
+ Tue, 04 Aug 2020 07:49:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200804105849.70876-1-linux@fw-web.de>
- <20200804105849.70876-5-linux@fw-web.de>
-In-Reply-To: <20200804105849.70876-5-linux@fw-web.de>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 4 Aug 2020 22:41:16 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-Nd9jTiSZPZDUj3YtuqJTWCJTR91y2xjNT6y9f4v1+aQ@mail.gmail.com>
-Message-ID: <CAAOTY_-Nd9jTiSZPZDUj3YtuqJTWCJTR91y2xjNT6y9f4v1+aQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] drm/mediatek: dpi/dsi: change the getting
- possible_crtc way
-To: Frank Wunderlich <linux@fw-web.de>
+References: <20200726111215.22361-1-konradybcio@gmail.com>
+ <20200726111215.22361-5-konradybcio@gmail.com>
+ <20200803110016.GL12965@vkoul-mobl>
+ <CAF6AEGtW29BtJPq1xDEtvtkPHFVWEd_QJk5FpJEQPbmofnS64Q@mail.gmail.com>
+ <20200804120946.GQ12965@vkoul-mobl>
+In-Reply-To: <20200804120946.GQ12965@vkoul-mobl>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 4 Aug 2020 07:49:44 -0700
+Message-ID: <CAF6AEGttPJSy+PcspPgxj2OELEyh2Xj-Gm2Uiv7Pcv6JMDE-tg@mail.gmail.com>
+Subject: Re: [PATCH 4/9] drm/msm/dsi: Add phy configuration for SDM630/636/660
+To: Vinod Koul <vkoul@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,61 +64,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Krzysztof Wilczynski <kw@linux.com>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Konrad Dybcio <konradybcio@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>,
+ martin.botka1@gmail.com, Andy Gross <agross@kernel.org>,
+ Brian Masney <masneyb@onstation.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Xiaozhe Shi <xiaozhes@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <sean@poorly.run>, Ben Dooks <ben.dooks@codethink.co.uk>,
+ Felipe Balbi <balbi@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ zhengbin <zhengbin13@huawei.com>, Manu Gautam <mgautam@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEZyYW5rOgoKRnJhbmsgV3VuZGVybGljaCA8bGludXhAZnctd2ViLmRlPiDmlrwgMjAyMOW5
-tDjmnIg05pelIOmAseS6jCDkuIvljYg3OjAw5a+r6YGT77yaCj4KPiBGcm9tOiBKaXRhbyBTaGkg
-PGppdGFvLnNoaUBtZWRpYXRlay5jb20+Cj4KPiBGb3IgY3VycmVudCBtZWRpYXRlayBkc2kgZW5j
-b2RlciwgaXRzIHBvc3NpYmxlIGNydGMgaXMgZml4ZWQgaW4gY3J0Ywo+IDAsIGFuZCBtZWRpYXRl
-ayBkcGkgZW5jb2RlcidzIHBvc3NpYmxlIGNydGMgaXMgZml4ZWQgaW4gY3J0YyAxLiBJbgo+IHNv
-bWUgU29DIHRoZSBwb3NzaWJsZSBjcnRjIGlzIG5vdCBmaXhlZCBpbiB0aGlzIGNhc2UsIHNvIGNh
-bGwKPiBtdGtfZHJtX2ZpbmRfcG9zc2libGVfY3J0Y19ieV9jb21wKCkgdG8gZmluZCBvdXQgdGhl
-IGNvcnJlY3QgcG9zc2libGUKPiBjcnRjLgoKUmV2aWV3ZWQtYnk6IENodW4tS3VhbmcgSHUgPGNo
-dW5rdWFuZy5odUBrZXJuZWwub3JnPgoKPgo+IFNpZ25lZC1vZmYtYnk6IEppdGFvIFNoaSA8aml0
-YW8uc2hpQG1lZGlhdGVrLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBGcmFuayBXdW5kZXJsaWNoIDxm
-cmFuay13QHB1YmxpYy1maWxlcy5kZT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kcGkuYyB8IDMgKystCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMg
-fCAzICsrLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwaS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYwo+IGluZGV4IGQ0ZjBmYjdhZDMxMi4u
-ZTQzOTc3MDE1ODQzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
-ZHBpLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwaS5jCj4gQEAgLTYw
-OCw3ICs2MDgsOCBAQCBzdGF0aWMgaW50IG10a19kcGlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYs
-IHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgdm9pZCAqZGF0YSkKPiAgICAgICAgIGRybV9lbmNvZGVy
-X2hlbHBlcl9hZGQoJmRwaS0+ZW5jb2RlciwgJm10a19kcGlfZW5jb2Rlcl9oZWxwZXJfZnVuY3Mp
-Owo+Cj4gICAgICAgICAvKiBDdXJyZW50bHkgRFBJMCBpcyBmaXhlZCB0byBiZSBkcml2ZW4gYnkg
-T1ZMMSAqLwo+IC0gICAgICAgZHBpLT5lbmNvZGVyLnBvc3NpYmxlX2NydGNzID0gQklUKDEpOwo+
-ICsgICAgICAgZHBpLT5lbmNvZGVyLnBvc3NpYmxlX2NydGNzID0KPiArICAgICAgICAgICAgICAg
-bXRrX2RybV9maW5kX3Bvc3NpYmxlX2NydGNfYnlfY29tcChkcm1fZGV2LCBkcGktPmRkcF9jb21w
-KTsKPgo+ICAgICAgICAgcmV0ID0gZHJtX2JyaWRnZV9hdHRhY2goJmRwaS0+ZW5jb2RlciwgZHBp
-LT5icmlkZ2UsIE5VTEwsIDApOwo+ICAgICAgICAgaWYgKHJldCkgewo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kc2kuYwo+IGluZGV4IDI3MGJmMjJjOThmZS4uYzMxZDljMTJkNGE5IDEwMDY0NAo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gQEAgLTg5Miw3ICs4OTIsOCBAQCBzdGF0aWMg
-aW50IG10a19kc2lfY3JlYXRlX2Nvbm5fZW5jKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHN0cnVj
-dCBtdGtfZHNpICpkc2kpCj4gICAgICAgICAgKiBDdXJyZW50bHkgZGlzcGxheSBkYXRhIHBhdGhz
-IGFyZSBzdGF0aWNhbGx5IGFzc2lnbmVkIHRvIGEgY3J0YyBlYWNoLgo+ICAgICAgICAgICogY3J0
-YyAwIGlzIE9WTDAgLT4gQ09MT1IwIC0+IEFBTCAtPiBPRCAtPiBSRE1BMCAtPiBVRk9FIC0+IERT
-STAKPiAgICAgICAgICAqLwo+IC0gICAgICAgZHNpLT5lbmNvZGVyLnBvc3NpYmxlX2NydGNzID0g
-MTsKPiArICAgICAgIGRzaS0+ZW5jb2Rlci5wb3NzaWJsZV9jcnRjcyA9Cj4gKyAgICAgICAgICAg
-ICAgIG10a19kcm1fZmluZF9wb3NzaWJsZV9jcnRjX2J5X2NvbXAoZHJtLCBkc2ktPmRkcF9jb21w
-KTsKPgo+ICAgICAgICAgLyogSWYgdGhlcmUncyBhIGJyaWRnZSwgYXR0YWNoIHRvIGl0IGFuZCBs
-ZXQgaXQgY3JlYXRlIHRoZSBjb25uZWN0b3IgKi8KPiAgICAgICAgIGlmIChkc2ktPmJyaWRnZSkg
-ewo+IC0tCj4gMi4yNS4xCj4KPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCj4gTGludXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0Cj4gTGludXgtbWVkaWF0
-ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxt
-YW4vbGlzdGluZm8vbGludXgtbWVkaWF0ZWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On Tue, Aug 4, 2020 at 5:09 AM Vinod Koul <vkoul@kernel.org> wrote:
+>
+> On 03-08-20, 09:06, Rob Clark wrote:
+> > On Mon, Aug 3, 2020 at 4:00 AM Vinod Koul <vkoul@kernel.org> wrote:
+> > >
+> > > On 26-07-20, 13:12, Konrad Dybcio wrote:
+> > > > These SoCs make use of the 14nm phy, but at different
+> > > > addresses than other 14nm units.
+> > > >
+> > > > Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
+> > > > ---
+> > > >  .../devicetree/bindings/display/msm/dsi.txt    |  1 +
+> > > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c          |  2 ++
+> > > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h          |  1 +
+> > > >  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c     | 18 ++++++++++++++++++
+> > >
+> > > Is there a reason why dsi phy needs to be here and not in phy subsystem
+> > > drivers/phy/ ?
+> >
+> > *maybe* it would be possible to split out all of the dsi (and hdmi)
+> > phy to drivers/phy.  But splitting out just the new ones wouldn't be
+> > practical (it would duplicate a lot of code, and make the rest of the
+> > dsi code have to deal with both cases).  And unlike dp/usb-c I'm not
+> > really sure I see an advantage to justify the churn.
+>
+> So the question would be if it helps in reuse if we do that and does it
+> result in a better solution than dsi code managing the phy. The
+> advantage of framework (like phy) is that different subsystems can use
+> a (phy) driver and common framework helps reduce duplicates.
+
+I'm not aware of any re-use that would be possible by splitting it
+out.. if there were, it would be a more compelling argument.
+
+It does increase the complexity and possibilities for getting kernel
+config wrong.  There are devices like the aarch64 laptops which do not
+have a debug serial port, where debugging issues like that can be a
+pain when you get no display.  OTOH that might be balanced out a bit
+by using a common framework/api that others are familiar with.
+
+Overall, nowhere near high enough on my priority list to spend time
+on.. there are bigger fires.  If someone was really motivated about
+this and wanted to send (tested) patches, then I'd take a look and see
+how it turned out.
+
+BR,
+-R
+
+> Yes sure the question was not for a new phy but about the whole
+> msm/dsi/phy code and future for it.
+>
+> --
+> ~Vinod
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
