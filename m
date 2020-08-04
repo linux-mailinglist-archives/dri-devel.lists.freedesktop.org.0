@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D61223B2EA
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBB923B2EB
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55EAC6E3A4;
-	Tue,  4 Aug 2020 02:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CD66E3A2;
+	Tue,  4 Aug 2020 02:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 443306E3A0
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:18 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3EB26E3A6
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:20 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-hc-LO5xrP6GqtwyRI4K82Q-1; Mon, 03 Aug 2020 22:57:13 -0400
-X-MC-Unique: hc-LO5xrP6GqtwyRI4K82Q-1
+ us-mta-361-NNSj8g1OM2eWwHwhPiTl9Q-1; Mon, 03 Aug 2020 22:57:15 -0400
+X-MC-Unique: NNSj8g1OM2eWwHwhPiTl9Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EC178017FB;
- Tue,  4 Aug 2020 02:57:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8770C91270;
+ Tue,  4 Aug 2020 02:57:14 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D5D828AD1C;
- Tue,  4 Aug 2020 02:57:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE3EA8AD1C;
+ Tue,  4 Aug 2020 02:57:12 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/59] drm/ttm: split the mm manager init code (v2)
-Date: Tue,  4 Aug 2020 12:55:46 +1000
-Message-Id: <20200804025632.3868079-14-airlied@gmail.com>
+Subject: [PATCH 14/59] drm/ttm: provide a driver-led init path for range mm
+ manager. (v2)
+Date: Tue,  4 Aug 2020 12:55:47 +1000
+Message-Id: <20200804025632.3868079-15-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -52,150 +53,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
-
-This will allow the driver to control the ordering here better.
-
-Eventually the old path will be removed.
-
-v2: add docs for new APIs.
-rename new path to ttm_mem_type_manager_init/set_used(for now)
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c    | 34 +++++++++++++++++++--------------
- include/drm/ttm/ttm_bo_api.h    | 15 +++++++++++++++
- include/drm/ttm/ttm_bo_driver.h | 15 +++++++++++++++
- 3 files changed, 50 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 2ac70ec1f37d..300bcc10696a 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1509,35 +1509,41 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
- }
- EXPORT_SYMBOL(ttm_bo_evict_mm);
- 
--int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
--			unsigned long p_size)
-+void ttm_mem_type_manager_init(struct ttm_bo_device *bdev,
-+			       struct ttm_mem_type_manager *man,
-+			       unsigned long p_size)
- {
--	int ret;
--	struct ttm_mem_type_manager *man;
- 	unsigned i;
- 
--	BUG_ON(type >= TTM_NUM_MEM_TYPES);
--	man = &bdev->man[type];
- 	BUG_ON(man->has_type);
- 	man->use_io_reserve_lru = false;
- 	mutex_init(&man->io_reserve_mutex);
- 	spin_lock_init(&man->move_lock);
- 	INIT_LIST_HEAD(&man->io_reserve_lru);
- 	man->bdev = bdev;
--
--	if (type != TTM_PL_SYSTEM) {
--		ret = (*man->func->init)(man, p_size);
--		if (ret)
--			return ret;
--	}
--	man->has_type = true;
--	man->use_type = true;
- 	man->size = p_size;
- 
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		INIT_LIST_HEAD(&man->lru[i]);
- 	man->move = NULL;
-+}
-+EXPORT_SYMBOL(ttm_mem_type_manager_init);
- 
-+int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
-+			unsigned long p_size)
-+{
-+	int ret;
-+	struct ttm_mem_type_manager *man;
-+
-+	BUG_ON(type >= TTM_NUM_MEM_TYPES);
-+	ttm_mem_type_manager_init(bdev, &bdev->man[type], p_size);
-+
-+	if (type != TTM_PL_SYSTEM) {
-+		ret = (*man->func->init)(man, p_size);
-+		if (ret)
-+			return ret;
-+	}
-+	ttm_mem_type_manager_set_used(man, true);
- 	return 0;
- }
- EXPORT_SYMBOL(ttm_bo_init_mm);
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index a9e13b252820..89053e761a69 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -54,6 +54,8 @@ struct ttm_place;
- 
- struct ttm_lru_bulk_move;
- 
-+struct ttm_mem_type_manager;
-+
- /**
-  * struct ttm_bus_placement
-  *
-@@ -531,6 +533,19 @@ int ttm_bo_create(struct ttm_bo_device *bdev, unsigned long size,
- 		  uint32_t page_alignment, bool interruptible,
- 		  struct ttm_buffer_object **p_bo);
- 
-+/**
-+ * ttm_mem_type_manager_init
-+ *
-+ * @bdev: Pointer to a ttm_bo_device struct.
-+ * @man: memory manager object to init
-+ * @p_size: size managed area in pages.
-+ *
-+ * Initialise core parts of a a manager object.
-+ */
-+void ttm_mem_type_manager_init(struct ttm_bo_device *bdev,
-+			       struct ttm_mem_type_manager *man,
-+			       unsigned long p_size);
-+
- /**
-  * ttm_bo_init_mm
-  *
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 73f5d9c766cc..6b49c0356343 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -678,6 +678,21 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
- 	dma_resv_unlock(bo->base.resv);
- }
- 
-+/**
-+ * ttm_mem_type_manager_set_used
-+ *
-+ * @man: A memory manager object.
-+ * @used: usage state to set.
-+ *
-+ * Set the manager in use flag. If disabled the manager is no longer
-+ * used for object placement.
-+ */
-+static inline void ttm_mem_type_manager_set_used(struct ttm_mem_type_manager *man, bool used)
-+{
-+	man->has_type = true;
-+	man->use_type = used;
-+}
-+
- /*
-  * ttm_bo_util.c
-  */
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClRoaXMgbGV0cyB0aGUgZ2Vu
+ZXJpYyByYW5nZSBtbSBtYW5hZ2VyIGJlIGluaXRpYWxpc2VkIGJ5IHRoZSBkcml2ZXIuCgp2Mjog
+YWRkIGRvY3MuCnJlbmFtZSBhcGkgdG8gcmFuZ2VfbWFuX2luaXQgZm9yIG5vdy4KCnYxLVJldmll
+d2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClNpZ25l
+ZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9n
+cHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jIHwgMjMgKysrKysrKysrKysrKysrKysrKystLS0K
+IGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggICAgICB8IDE0ICsrKysrKysrKysrKysr
+CiAyIGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jIGIvZHJpdmVycy9n
+cHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCmluZGV4IGZhY2QzMDQ5YzNhYS4uZWI4NmM4Njk0
+ZjQ3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib19tYW5hZ2VyLmMKKysr
+IGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCkBAIC0xMDQsOCArMTA0LDgg
+QEAgc3RhdGljIHZvaWQgdHRtX2JvX21hbl9wdXRfbm9kZShzdHJ1Y3QgdHRtX21lbV90eXBlX21h
+bmFnZXIgKm1hbiwKIAl9CiB9CiAKLXN0YXRpYyBpbnQgdHRtX2JvX21hbl9pbml0KHN0cnVjdCB0
+dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAotCQkJICAgdW5zaWduZWQgbG9uZyBwX3NpemUpCitz
+dGF0aWMgaW50IHR0bV9ib19tYW5faW5pdF9wcml2YXRlKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFu
+YWdlciAqbWFuLAorCQkJCSAgIHVuc2lnbmVkIGxvbmcgcF9zaXplKQogewogCXN0cnVjdCB0dG1f
+cmFuZ2VfbWFuYWdlciAqcm1hbjsKIApAQCAtMTE5LDYgKzExOSwyMyBAQCBzdGF0aWMgaW50IHR0
+bV9ib19tYW5faW5pdChzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKIAlyZXR1cm4g
+MDsKIH0KIAoraW50IHR0bV9yYW5nZV9tYW5faW5pdChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
+diwKKwkJICAgICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAorCQkgICAgICAg
+dW5zaWduZWQgbG9uZyBwX3NpemUpCit7CisJaW50IHJldDsKKworCW1hbi0+ZnVuYyA9ICZ0dG1f
+Ym9fbWFuYWdlcl9mdW5jOworCisJdHRtX21lbV90eXBlX21hbmFnZXJfaW5pdChiZGV2LCBtYW4s
+IHBfc2l6ZSk7CisJcmV0ID0gdHRtX2JvX21hbl9pbml0X3ByaXZhdGUobWFuLCBwX3NpemUpOwor
+CWlmIChyZXQpCisJCXJldHVybiByZXQ7CisJdHRtX21lbV90eXBlX21hbmFnZXJfc2V0X3VzZWQo
+bWFuLCB0cnVlKTsKKwlyZXR1cm4gMDsKK30KK0VYUE9SVF9TWU1CT0wodHRtX3JhbmdlX21hbl9p
+bml0KTsKKwogc3RhdGljIGludCB0dG1fYm9fbWFuX3Rha2Vkb3duKHN0cnVjdCB0dG1fbWVtX3R5
+cGVfbWFuYWdlciAqbWFuKQogewogCXN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqcm1hbiA9IChz
+dHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKikgbWFuLT5wcml2OwpAQCAtMTQ3LDcgKzE2NCw3IEBA
+IHN0YXRpYyB2b2lkIHR0bV9ib19tYW5fZGVidWcoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
+ICptYW4sCiB9CiAKIGNvbnN0IHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlcl9mdW5jIHR0bV9i
+b19tYW5hZ2VyX2Z1bmMgPSB7Ci0JLmluaXQgPSB0dG1fYm9fbWFuX2luaXQsCisJLmluaXQgPSB0
+dG1fYm9fbWFuX2luaXRfcHJpdmF0ZSwKIAkudGFrZWRvd24gPSB0dG1fYm9fbWFuX3Rha2Vkb3du
+LAogCS5nZXRfbm9kZSA9IHR0bV9ib19tYW5fZ2V0X25vZGUsCiAJLnB1dF9ub2RlID0gdHRtX2Jv
+X21hbl9wdXRfbm9kZSwKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVy
+LmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCmluZGV4IDZiNDljMDM1NjM0My4u
+MzY3MmRlYTNlZGNhIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5o
+CisrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKQEAgLTgwOCw2ICs4MDgsMjAg
+QEAgaW50IHR0bV9ib19waXBlbGluZV9ndXR0aW5nKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
+Ym8pOwogICovCiBwZ3Byb3RfdCB0dG1faW9fcHJvdCh1aW50MzJfdCBjYWNoaW5nX2ZsYWdzLCBw
+Z3Byb3RfdCB0bXApOwogCisvKioKKyAqIHR0bV9yYW5nZV9tYW5faW5pdAorICoKKyAqIEBiZGV2
+OiB0dG0gZGV2aWNlCisgKiBAbWFuOiB0aGUgbWFuYWdlciB0byBpbml0aWFsaXNlIHdpdGggdGhl
+IHJhbmdlIG1hbmFnZXIuCisgKiBAcF9zaXplOiBzaXplIG9mIGFyZWEgdG8gYmUgbWFuYWdlZCBp
+biBwYWdlcy4KKyAqCisgKiBJbml0aWFsaXNlIGEgZ2VuZXJpYyByYW5nZSBtYW5hZ2VyIGZvciB0
+aGUgc2VsZWN0ZWQgbWVtb3J5IHR5cGUuCisgKiBUaGUgcmFuZ2UgbWFuYWdlciBpcyBpbnN0YWxs
+ZWQgZm9yIHRoaXMgZGV2aWNlIGluIHRoZSB0eXBlIHNsb3QuCisgKi8KK2ludCB0dG1fcmFuZ2Vf
+bWFuX2luaXQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCisJCSAgICAgICBzdHJ1Y3QgdHRt
+X21lbV90eXBlX21hbmFnZXIgKm1hbiwKKwkJICAgICAgIHVuc2lnbmVkIGxvbmcgcF9zaXplKTsK
+KwogZXh0ZXJuIGNvbnN0IHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlcl9mdW5jIHR0bV9ib19t
+YW5hZ2VyX2Z1bmM7CiAKIC8qKgotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
