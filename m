@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B01C23B301
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F127E23B302
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC896E3DA;
-	Tue,  4 Aug 2020 02:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2F76E3DB;
+	Tue,  4 Aug 2020 02:58:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA6786E3DB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:12 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D836E3DF
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:15 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-j38aKiqlNQS6WnHZWLpqrA-1; Mon, 03 Aug 2020 22:58:08 -0400
-X-MC-Unique: j38aKiqlNQS6WnHZWLpqrA-1
+ us-mta-93-qYv-RyJZMLOTaHMxtTmi-w-1; Mon, 03 Aug 2020 22:58:10 -0400
+X-MC-Unique: qYv-RyJZMLOTaHMxtTmi-w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E79738005B0;
- Tue,  4 Aug 2020 02:58:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEF1791272;
+ Tue,  4 Aug 2020 02:58:08 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49CDB8AD1C;
- Tue,  4 Aug 2020 02:58:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 533358AD1C;
+ Tue,  4 Aug 2020 02:58:07 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 35/59] drm/ttm: make TTM responsible for cleaning system only.
-Date: Tue,  4 Aug 2020 12:56:08 +1000
-Message-Id: <20200804025632.3868079-36-airlied@gmail.com>
+Subject: [PATCH 36/59] drm/ttm: add wrapper to get manager from bdev.
+Date: Tue,  4 Aug 2020 12:56:09 +1000
+Message-Id: <20200804025632.3868079-37-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -52,96 +52,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KCkRyaXZlcnMgc2hvdWxkIGFs
-bCBiZSBjbGVhbmluZyB1cCB0aGVpciBtZW1vcnkgbWFuYWdlcnMKdGhlbXNlbHZlcyBub3csIHNv
-IGxldCB0aGUgY29yZSBqdXN0IGNsZWFuIHRoZSBzeXN0ZW0gb25lIHVwLgoKUmVtb3ZlIHRoZSBs
-ZWdhY3kgY2xlYW5pbmcgaW50ZXJmYWNlLgoKUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcg
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogRGF2ZSBBaXJsaWUgPGFp
-cmxpZWRAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jICAgIHwg
-NTQgKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiBpbmNsdWRlL2RybS90dG0vdHRt
-X2JvX2FwaS5oICAgIHwgMjggLS0tLS0tLS0tLS0tLS0tLS0KIGluY2x1ZGUvZHJtL3R0bS90dG1f
-Ym9fZHJpdmVyLmggfCAxMCAtLS0tLS0KIDMgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
-LCA4OCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
-by5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwppbmRleCBhNDUwMzhjNzRkZTYuLmVi
-ZWNiNzk2ZGQ0OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCkBAIC0xNDUyLDQyICsxNDUyLDYgQEAgaW50
-IHR0bV9tZW1fdHlwZV9tYW5hZ2VyX2ZvcmNlX2xpc3RfY2xlYW4oc3RydWN0IHR0bV9ib19kZXZp
-Y2UgKmJkZXYsCiB9CiBFWFBPUlRfU1lNQk9MKHR0bV9tZW1fdHlwZV9tYW5hZ2VyX2ZvcmNlX2xp
-c3RfY2xlYW4pOwogCi1pbnQgdHRtX2JvX2NsZWFuX21tKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpi
-ZGV2LCB1bnNpZ25lZCBtZW1fdHlwZSkKLXsKLQlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIg
-Km1hbjsKLQlpbnQgcmV0ID0gLUVJTlZBTDsKLQotCWlmIChtZW1fdHlwZSA+PSBUVE1fTlVNX01F
-TV9UWVBFUykgewotCQlwcl9lcnIoIklsbGVnYWwgbWVtb3J5IHR5cGUgJWRcbiIsIG1lbV90eXBl
-KTsKLQkJcmV0dXJuIHJldDsKLQl9Ci0JbWFuID0gJmJkZXYtPm1hblttZW1fdHlwZV07Ci0KLQlp
-ZiAoIW1hbi0+aGFzX3R5cGUpIHsKLQkJcHJfZXJyKCJUcnlpbmcgdG8gdGFrZSBkb3duIHVuaW5p
-dGlhbGl6ZWQgbWVtb3J5IG1hbmFnZXIgdHlwZSAldVxuIiwKLQkJICAgICAgIG1lbV90eXBlKTsK
-LQkJcmV0dXJuIHJldDsKLQl9Ci0KLQl0dG1fbWVtX3R5cGVfbWFuYWdlcl9kaXNhYmxlKG1hbik7
-Ci0KLQlyZXQgPSAwOwotCWlmIChtZW1fdHlwZSA+IDApIHsKLQkJcmV0ID0gdHRtX21lbV90eXBl
-X21hbmFnZXJfZm9yY2VfbGlzdF9jbGVhbihiZGV2LCBtYW4pOwotCQlpZiAocmV0KSB7Ci0JCQlw
-cl9lcnIoIkNsZWFudXAgZXZpY3Rpb24gZmFpbGVkXG4iKTsKLQkJCXJldHVybiByZXQ7Ci0JCX0K
-LQotCQlpZiAobWFuLT5mdW5jLT50YWtlZG93bikKLQkJCXJldCA9ICgqbWFuLT5mdW5jLT50YWtl
-ZG93bikobWFuKTsKLQl9Ci0KLQl0dG1fbWVtX3R5cGVfbWFuYWdlcl9jbGVhbnVwKG1hbik7Ci0K
-LQlyZXR1cm4gcmV0OwotfQotRVhQT1JUX1NZTUJPTCh0dG1fYm9fY2xlYW5fbW0pOwogCiBpbnQg
-dHRtX2JvX2V2aWN0X21tKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1bnNpZ25lZCBtZW1f
-dHlwZSkKIHsKQEAgLTE1OTEsMjEgKzE1NTUsMTEgQEAgaW50IHR0bV9ib19kZXZpY2VfcmVsZWFz
-ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldikKIHsKIAlzdHJ1Y3QgdHRtX2JvX2dsb2JhbCAq
-Z2xvYiA9ICZ0dG1fYm9fZ2xvYjsKIAlpbnQgcmV0ID0gMDsKLQl1bnNpZ25lZCBpID0gVFRNX05V
-TV9NRU1fVFlQRVM7CisJdW5zaWduZWQgaTsKIAlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIg
-Km1hbjsKIAotCXdoaWxlIChpLS0pIHsKLQkJbWFuID0gJmJkZXYtPm1hbltpXTsKLQkJaWYgKG1h
-bi0+aGFzX3R5cGUpIHsKLQkJCW1hbi0+dXNlX3R5cGUgPSBmYWxzZTsKLQkJCWlmICgoaSAhPSBU
-VE1fUExfU1lTVEVNKSAmJiB0dG1fYm9fY2xlYW5fbW0oYmRldiwgaSkpIHsKLQkJCQlyZXQgPSAt
-RUJVU1k7Ci0JCQkJcHJfZXJyKCJEUk0gbWVtb3J5IG1hbmFnZXIgdHlwZSAlZCBpcyBub3QgY2xl
-YW5cbiIsCi0JCQkJICAgICAgIGkpOwotCQkJfQotCQkJbWFuLT5oYXNfdHlwZSA9IGZhbHNlOwot
-CQl9Ci0JfQorCW1hbiA9ICZiZGV2LT5tYW5bVFRNX1BMX1NZU1RFTV07CisJdHRtX21lbV90eXBl
-X21hbmFnZXJfZGlzYWJsZShtYW4pOwogCiAJbXV0ZXhfbG9jaygmdHRtX2dsb2JhbF9tdXRleCk7
-CiAJbGlzdF9kZWwoJmJkZXYtPmRldmljZV9saXN0KTsKQEAgLTE2MTgsNyArMTU3Miw3IEBAIGlu
-dCB0dG1fYm9fZGV2aWNlX3JlbGVhc2Uoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpCiAKIAlz
-cGluX2xvY2soJmdsb2ItPmxydV9sb2NrKTsKIAlmb3IgKGkgPSAwOyBpIDwgVFRNX01BWF9CT19Q
-UklPUklUWTsgKytpKQotCQlpZiAobGlzdF9lbXB0eSgmYmRldi0+bWFuWzBdLmxydVswXSkpCisJ
-CWlmIChsaXN0X2VtcHR5KCZtYW4tPmxydVswXSkpCiAJCQlwcl9kZWJ1ZygiU3dhcCBsaXN0ICVk
-IHdhcyBjbGVhblxuIiwgaSk7CiAJc3Bpbl91bmxvY2soJmdsb2ItPmxydV9sb2NrKTsKIApkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90
-dG1fYm9fYXBpLmgKaW5kZXggMmM4NDYyMmZhYTQ0Li45YzU1ZWFmZDBlN2QgMTAwNjQ0Ci0tLSBh
-L2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9i
-b19hcGkuaApAQCAtNTQ2LDM0ICs1NDYsNiBAQCB2b2lkIHR0bV9tZW1fdHlwZV9tYW5hZ2VyX2lu
-aXQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCiAJCQkgICAgICAgc3RydWN0IHR0bV9tZW1f
-dHlwZV9tYW5hZ2VyICptYW4sCiAJCQkgICAgICAgdW5zaWduZWQgbG9uZyBwX3NpemUpOwogCi0v
-KioKLSAqIHR0bV9ib19jbGVhbl9tbQotICoKLSAqIEBiZGV2OiBQb2ludGVyIHRvIGEgdHRtX2Jv
-X2RldmljZSBzdHJ1Y3QuCi0gKiBAbWVtX3R5cGU6IFRoZSBtZW1vcnkgdHlwZS4KLSAqCi0gKiBU
-YWtlIGRvd24gYSBtYW5hZ2VyIGZvciBhIGdpdmVuIG1lbW9yeSB0eXBlIGFmdGVyIGZpcnN0IHdh
-bGtpbmcKLSAqIHRoZSBMUlUgbGlzdCB0byBldmljdCBhbnkgYnVmZmVycyBsZWZ0IGFsaXZlLgot
-ICoKLSAqIE5vcm1hbGx5LCB0aGlzIGZ1bmN0aW9uIGlzIHBhcnQgb2YgbGFzdGNsb3NlKCkgb3Ig
-dW5sb2FkKCksIGFuZCBhdCB0aGF0Ci0gKiBwb2ludCB0aGVyZSBzaG91bGRuJ3QgYmUgYW55IGJ1
-ZmZlcnMgbGVmdCBjcmVhdGVkIGJ5IHVzZXItc3BhY2UsIHNpbmNlCi0gKiB0aGVyZSBzaG91bGQn
-dmUgYmVlbiByZW1vdmVkIGJ5IHRoZSBmaWxlIGRlc2NyaXB0b3IgcmVsZWFzZSgpIG1ldGhvZC4K
-LSAqIEhvd2V2ZXIsIGJlZm9yZSB0aGlzIGZ1bmN0aW9uIGlzIHJ1biwgbWFrZSBzdXJlIHRvIHNp
-Z25hbCBhbGwgc3luYyBvYmplY3RzLAotICogYW5kIHZlcmlmeSB0aGF0IHRoZSBkZWxheWVkIGRl
-bGV0ZSBxdWV1ZSBpcyBlbXB0eS4gVGhlIGRyaXZlciBtdXN0IGFsc28KLSAqIG1ha2Ugc3VyZSB0
-aGF0IHRoZXJlIGFyZSBubyBOT19FVklDVCBidWZmZXJzIHByZXNlbnQgaW4gdGhpcyBtZW1vcnkg
-dHlwZQotICogd2hlbiB0aGUgY2FsbCBpcyBtYWRlLgotICoKLSAqIElmIHRoaXMgZnVuY3Rpb24g
-aXMgcGFydCBvZiBhIFZUIHN3aXRjaCwgdGhlIGNhbGxlciBtdXN0IG1ha2Ugc3VyZSB0aGF0Ci0g
-KiB0aGVyZSBhcmUgbm8gYXBwaWNhdGlvbnMgY3VycmVudGx5IHZhbGlkYXRpbmcgYnVmZmVycyBi
-ZWZvcmUgdGhpcwotICogZnVuY3Rpb24gaXMgY2FsbGVkLiBUaGUgY2FsbGVyIGNhbiBkbyB0aGF0
-IGJ5IGZpcnN0IHRha2luZyB0aGUKLSAqIHN0cnVjdCB0dG1fYm9fZGV2aWNlOjp0dG1fbG9jayBp
-biB3cml0ZSBtb2RlLgotICoKLSAqIFJldHVybnM6Ci0gKiAtRUlOVkFMOiBpbnZhbGlkIG9yIHVu
-aW5pdGlhbGl6ZWQgbWVtb3J5IHR5cGUuCi0gKiAtRUJVU1k6IFRoZXJlIGFyZSBzdGlsbCBidWZm
-ZXJzIGxlZnQgaW4gdGhpcyBtZW1vcnkgdHlwZS4KLSAqLwotaW50IHR0bV9ib19jbGVhbl9tbShz
-dHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdW5zaWduZWQgbWVtX3R5cGUpOwotCiAvKioKICAq
-IHR0bV9ib19ldmljdF9tbQogICoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9f
-ZHJpdmVyLmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCmluZGV4IDliNGMyMmFi
-YzIyYy4uOGNjMzljZDU1YTE0IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2Ry
-aXZlci5oCisrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKQEAgLTQ4LDE2ICs0
-OCw2IEBACiBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXI7CiAKIHN0cnVjdCB0dG1fbWVtX3R5
-cGVfbWFuYWdlcl9mdW5jIHsKLQkvKioKLQkgKiBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIg
-bWVtYmVyIHRha2Vkb3duCi0JICoKLQkgKiBAbWFuOiBQb2ludGVyIHRvIGEgbWVtb3J5IHR5cGUg
-bWFuYWdlci4KLQkgKgotCSAqIENhbGxlZCB0byB1bmRvIHRoZSBzZXR1cCBkb25lIGluIGluaXQu
-IEFsbCBhbGxvY2F0ZWQgcmVzb3VyY2VzCi0JICogc2hvdWxkIGJlIGZyZWVkLgotCSAqLwotCWlu
-dCAgKCp0YWtlZG93bikoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pOwotCiAJLyoq
-CiAJICogc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyIG1lbWJlciBnZXRfbm9kZQogCSAqCi0t
-IAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Dave Airlie <airlied@redhat.com>
+
+This will allow different abstractions later.
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c      | 34 +++++++++++++++----------------
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 20 +++++++++---------
+ drivers/gpu/drm/ttm/ttm_bo_vm.c   |  2 +-
+ include/drm/ttm/ttm_bo_driver.h   |  6 ++++++
+ 4 files changed, 34 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index ebecb796dd49..8777c323e7de 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -108,7 +108,7 @@ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
+ 			return;
+ 		drm_printf(&p, "  placement[%d]=0x%08X (%d)\n",
+ 			   i, placement->placement[i].flags, mem_type);
+-		man = &bo->bdev->man[mem_type];
++		man = ttm_manager_type(bo->bdev, mem_type);
+ 		ttm_mem_type_manager_debug(man, &p);
+ 	}
+ }
+@@ -157,7 +157,7 @@ static void ttm_bo_add_mem_to_lru(struct ttm_buffer_object *bo,
+ 	if (mem->placement & TTM_PL_FLAG_NO_EVICT)
+ 		return;
+ 
+-	man = &bdev->man[mem->mem_type];
++	man = ttm_manager_type(bdev, mem->mem_type);
+ 	list_add_tail(&bo->lru, &man->lru[bo->priority]);
+ 
+ 	if (man->use_tt && bo->ttm &&
+@@ -232,7 +232,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
+ 		dma_resv_assert_held(pos->first->base.resv);
+ 		dma_resv_assert_held(pos->last->base.resv);
+ 
+-		man = &pos->first->bdev->man[TTM_PL_TT];
++		man = ttm_manager_type(pos->first->bdev, TTM_PL_TT);
+ 		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+ 				    &pos->last->lru);
+ 	}
+@@ -247,7 +247,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
+ 		dma_resv_assert_held(pos->first->base.resv);
+ 		dma_resv_assert_held(pos->last->base.resv);
+ 
+-		man = &pos->first->bdev->man[TTM_PL_VRAM];
++		man = ttm_manager_type(pos->first->bdev, TTM_PL_VRAM);
+ 		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+ 				    &pos->last->lru);
+ 	}
+@@ -273,8 +273,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 				  struct ttm_operation_ctx *ctx)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_type_manager *old_man = &bdev->man[bo->mem.mem_type];
+-	struct ttm_mem_type_manager *new_man = &bdev->man[mem->mem_type];
++	struct ttm_mem_type_manager *old_man = ttm_manager_type(bdev, bo->mem.mem_type);
++	struct ttm_mem_type_manager *new_man = ttm_manager_type(bdev, mem->mem_type);
+ 	int ret;
+ 
+ 	ret = ttm_mem_io_lock(old_man, true);
+@@ -340,7 +340,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 	return 0;
+ 
+ out_err:
+-	new_man = &bdev->man[bo->mem.mem_type];
++	new_man = ttm_manager_type(bdev, bo->mem.mem_type);
+ 	if (!new_man->use_tt) {
+ 		ttm_tt_destroy(bo->ttm);
+ 		bo->ttm = NULL;
+@@ -552,7 +552,7 @@ static void ttm_bo_release(struct kref *kref)
+ 	struct ttm_buffer_object *bo =
+ 	    container_of(kref, struct ttm_buffer_object, kref);
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_type_manager *man = &bdev->man[bo->mem.mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
+ 	size_t acc_size = bo->acc_size;
+ 	int ret;
+ 
+@@ -844,7 +844,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
+ 			  const struct ttm_place *place,
+ 			  struct ttm_mem_reg *mem)
+ {
+-	struct ttm_mem_type_manager *man = &bo->bdev->man[mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
+ 
+ 	mem->mm_node = NULL;
+ 	if (!man->func || !man->func->get_node)
+@@ -855,7 +855,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
+ 
+ void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_mem_reg *mem)
+ {
+-	struct ttm_mem_type_manager *man = &bo->bdev->man[mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
+ 
+ 	if (!man->func || !man->func->put_node)
+ 		return;
+@@ -912,7 +912,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+ 				  struct ttm_operation_ctx *ctx)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
+ 	struct ww_acquire_ctx *ticket;
+ 	int ret;
+ 
+@@ -1002,7 +1002,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+ 	if (ret)
+ 		return ret;
+ 
+-	man = &bdev->man[mem_type];
++	man = ttm_manager_type(bdev, mem_type);
+ 	if (!man->has_type || !man->use_type)
+ 		return -EBUSY;
+ 
+@@ -1065,7 +1065,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 		if (unlikely(ret))
+ 			goto error;
+ 
+-		man = &bdev->man[mem->mem_type];
++		man = ttm_manager_type(bdev, mem->mem_type);
+ 		ret = ttm_bo_add_move_fence(bo, man, mem, ctx->no_wait_gpu);
+ 		if (unlikely(ret)) {
+ 			ttm_bo_mem_put(bo, mem);
+@@ -1455,7 +1455,7 @@ EXPORT_SYMBOL(ttm_mem_type_manager_force_list_clean);
+ 
+ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+ {
+-	struct ttm_mem_type_manager *man = &bdev->man[mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem_type);
+ 
+ 	if (mem_type == 0 || mem_type >= TTM_NUM_MEM_TYPES) {
+ 		pr_err("Illegal memory manager memory type %u\n", mem_type);
+@@ -1558,7 +1558,7 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
+ 	unsigned i;
+ 	struct ttm_mem_type_manager *man;
+ 
+-	man = &bdev->man[TTM_PL_SYSTEM];
++	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
+ 	ttm_mem_type_manager_disable(man);
+ 
+ 	mutex_lock(&ttm_global_mutex);
+@@ -1585,7 +1585,7 @@ EXPORT_SYMBOL(ttm_bo_device_release);
+ 
+ static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
+ {
+-	struct ttm_mem_type_manager *man = &bdev->man[TTM_PL_SYSTEM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
+ 
+ 	/*
+ 	 * Initialize the system memory buffer type.
+@@ -1649,7 +1649,7 @@ void ttm_bo_unmap_virtual_locked(struct ttm_buffer_object *bo)
+ void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_type_manager *man = &bdev->man[bo->mem.mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
+ 
+ 	ttm_mem_io_lock(man, false);
+ 	ttm_bo_unmap_virtual_locked(bo);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 1f502be0b646..879c8ded0cd8 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -129,7 +129,7 @@ static int ttm_mem_io_evict(struct ttm_mem_type_manager *man)
+ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+ 		       struct ttm_mem_reg *mem)
+ {
+-	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
+ 	int ret;
+ 
+ 	if (mem->bus.io_reserved_count++)
+@@ -162,7 +162,7 @@ void ttm_mem_io_free(struct ttm_bo_device *bdev,
+ 
+ int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
+ {
+-	struct ttm_mem_type_manager *man = &bo->bdev->man[bo->mem.mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
+ 	struct ttm_mem_reg *mem = &bo->mem;
+ 	int ret;
+ 
+@@ -195,7 +195,7 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
+ 			       struct ttm_mem_reg *mem,
+ 			       void **virtual)
+ {
+-	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
+ 	int ret;
+ 	void *addr;
+ 
+@@ -232,7 +232,7 @@ static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev,
+ {
+ 	struct ttm_mem_type_manager *man;
+ 
+-	man = &bdev->man[mem->mem_type];
++	man = ttm_manager_type(bdev, mem->mem_type);
+ 
+ 	if (virtual && mem->bus.addr == NULL)
+ 		iounmap(virtual);
+@@ -303,7 +303,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 		       struct ttm_mem_reg *new_mem)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_type_manager *man = &bdev->man[new_mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
+ 	struct ttm_tt *ttm = bo->ttm;
+ 	struct ttm_mem_reg *old_mem = &bo->mem;
+ 	struct ttm_mem_reg old_copy = *old_mem;
+@@ -571,7 +571,7 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
+ 		struct ttm_bo_kmap_obj *map)
+ {
+ 	struct ttm_mem_type_manager *man =
+-		&bo->bdev->man[bo->mem.mem_type];
++		ttm_manager_type(bo->bdev, bo->mem.mem_type);
+ 	unsigned long offset, size;
+ 	int ret;
+ 
+@@ -601,7 +601,7 @@ void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map)
+ {
+ 	struct ttm_buffer_object *bo = map->bo;
+ 	struct ttm_mem_type_manager *man =
+-		&bo->bdev->man[bo->mem.mem_type];
++		ttm_manager_type(bo->bdev, bo->mem.mem_type);
+ 
+ 	if (!map->virtual)
+ 		return;
+@@ -634,7 +634,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+ 			      struct ttm_mem_reg *new_mem)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_type_manager *man = &bdev->man[new_mem->mem_type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
+ 	struct ttm_mem_reg *old_mem = &bo->mem;
+ 	int ret;
+ 	struct ttm_buffer_object *ghost_obj;
+@@ -697,8 +697,8 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
+ 	struct ttm_bo_device *bdev = bo->bdev;
+ 	struct ttm_mem_reg *old_mem = &bo->mem;
+ 
+-	struct ttm_mem_type_manager *from = &bdev->man[old_mem->mem_type];
+-	struct ttm_mem_type_manager *to = &bdev->man[new_mem->mem_type];
++	struct ttm_mem_type_manager *from = ttm_manager_type(bdev, old_mem->mem_type);
++	struct ttm_mem_type_manager *to = ttm_manager_type(bdev, new_mem->mem_type);
+ 
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index 468a0eb9e632..5ae679184eb5 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -282,7 +282,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 	vm_fault_t ret = VM_FAULT_NOPAGE;
+ 	unsigned long address = vmf->address;
+ 	struct ttm_mem_type_manager *man =
+-		&bdev->man[bo->mem.mem_type];
++		ttm_manager_type(bdev, bo->mem.mem_type);
+ 
+ 	/*
+ 	 * Refuse to fault imported pages. This should be handled
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 8cc39cd55a14..e80deee3ae99 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -444,6 +444,12 @@ struct ttm_bo_device {
+ 	bool no_retry;
+ };
+ 
++static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
++							    int mem_type)
++{
++	return &bdev->man[mem_type];
++}
++
+ /**
+  * struct ttm_lru_bulk_move_pos
+  *
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
