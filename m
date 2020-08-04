@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC0C23B2F0
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD2F23B2EE
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC316E3B0;
-	Tue,  4 Aug 2020 02:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91A9F6E3AA;
+	Tue,  4 Aug 2020 02:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACA806E3AC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:34 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3C196E3AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:29 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-8smRxAc6MrWx9d75mkxw-w-1; Mon, 03 Aug 2020 22:57:24 -0400
-X-MC-Unique: 8smRxAc6MrWx9d75mkxw-w-1
+ us-mta-485-o7tm_5r0NJuzK6IWRnU2mQ-1; Mon, 03 Aug 2020 22:57:26 -0400
+X-MC-Unique: o7tm_5r0NJuzK6IWRnU2mQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E7718FF662;
- Tue,  4 Aug 2020 02:57:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 899AD18FF665;
+ Tue,  4 Aug 2020 02:57:25 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D87838AD1C;
- Tue,  4 Aug 2020 02:57:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E09FA8AD1C;
+ Tue,  4 Aug 2020 02:57:23 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 17/59] drm/qxl/ttm: use new init path for manager
-Date: Tue,  4 Aug 2020 12:55:50 +1000
-Message-Id: <20200804025632.3868079-18-airlied@gmail.com>
+Subject: [PATCH 18/59] drm/vram_helper: use new ttm manager init function
+Date: Tue,  4 Aug 2020 12:55:51 +1000
+Message-Id: <20200804025632.3868079-19-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,26 +61,25 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/qxl/qxl_ttm.c | 3 +--
+ drivers/gpu/drm/drm_gem_vram_helper.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index 3e664bb58764..bfbd2c5c38a2 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -221,11 +221,10 @@ static int qxl_ttm_init_mem_type(struct qxl_device *qdev,
- {
- 	struct ttm_mem_type_manager *man = &qdev->mman.bdev.man[type];
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index c20aee2fddf3..d7c0fdf82eb6 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -1116,10 +1116,9 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
  
 -	man->func = &ttm_bo_manager_func;
- 	man->available_caching = TTM_PL_MASK_CACHING;
- 	man->default_caching = TTM_PL_FLAG_CACHED;
+ 	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+ 	man->default_caching = TTM_PL_FLAG_WC;
+-	ret = ttm_bo_init_mm(&vmm->bdev, TTM_PL_VRAM, vram_size >> PAGE_SHIFT);
++	ret = ttm_range_man_init(&vmm->bdev, man, vram_size >> PAGE_SHIFT);
+ 	if (ret)
+ 		return ret;
  
--	return ttm_bo_init_mm(&qdev->mman.bdev, type, size);
-+	return ttm_range_man_init(&qdev->mman.bdev, man, size);
- }
- 
- int qxl_ttm_init(struct qxl_device *qdev)
 -- 
 2.26.2
 
