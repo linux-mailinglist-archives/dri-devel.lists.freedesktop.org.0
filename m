@@ -2,35 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AB223C6B9
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9809123C6C1
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648CF6E50E;
-	Wed,  5 Aug 2020 07:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 945DA6E524;
+	Wed,  5 Aug 2020 07:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7A8B6E4B1
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 18:27:43 +0000 (UTC)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1k31em-009HhW-2E; Tue, 04 Aug 2020 18:27:24 +0000
-Date: Tue, 4 Aug 2020 19:27:24 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Kalesh Singh <kaleshsingh@google.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200804182724.GK1236603@ZenIV.linux.org.uk>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org>
- <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
- <20200803222831.GI1236603@ZenIV.linux.org.uk>
- <20200804010913.GA2096725@ZenIV.linux.org.uk>
- <20200804154451.GA948167@google.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFF589E52;
+ Tue,  4 Aug 2020 20:07:08 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id w25so9585075ljo.12;
+ Tue, 04 Aug 2020 13:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3azTrGP+LhHvSC09M4k8Vw28GxxV8PL/Fmjx/psKnVE=;
+ b=KD3U4/FABUKWR1juhGbVRQ1Y/MC22u+FfGKWnvS2okLXEIMhyY8rJYmqIWpChTclgK
+ odWpgxAEob6xjlmB8BrGY+z5JzGAt4USWspVBigQLML5OEhzjUpFl/uH8M3gZ1+xE9qE
+ HTsT3dAeJMYYrq2dqC4Ucq0DxpwzlZZUhLzp+0L4fmP5RLUjGR+sYsMPwAXiNbFoNK7V
+ 1jBmby/vCggXOMFr5DilaagPTwqRsvRpQ0M/YhcxaMxRPaxU4qu705/FOo16JVV98CKv
+ +Hncxu27XUQ5LRoaAy8NDMQ/73OgqbafNmuXJe8LKUG3QU4bB2p3IE1kqSlbITTpu1fG
+ g/vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3azTrGP+LhHvSC09M4k8Vw28GxxV8PL/Fmjx/psKnVE=;
+ b=DgVuLvWJfjL5AaZKXHE+H0bGAVkSlMN87SMwHiqYj8YfxzwX9wFsIW1Js5HHbT8yFL
+ dlfTl4WIaxgnP7+SuSnyqqTThpfoFRm10f91v2CbDIO6dT9DciUHEn/9F/LVQVkMehtW
+ OuaiyTPAS8fesuXxhlU9pxMq9/Gv5eCHzpjwqcZV4dHQ6kzn7fop832fuPm9TA9yFy62
+ BnoxRwpREWu60UCWAz3Ng7cyaM5gGEcj8DeU9T5X/nt9QIVVpWeG5NgJ9GQTpfDNsLEZ
+ splZP2VVyDzwNWw9rzKTVkKvDte1nFdxVWzehz24fYi0jn4OgyA7lfmegRM+VAJ/C4aM
+ qnag==
+X-Gm-Message-State: AOAM530ZZNLE0WqtlYi7QCIYfddDgUic7eAPaInggmvirlEz3V5mtjLE
+ AMIXQPDM/PcgsPwzY/HebvM=
+X-Google-Smtp-Source: ABdhPJy3AsPNQaIKiToyk18pBgh3WPFP2MudjbtbKX6Ce/AOCPL8HID0YU1jQ5OnAZqwhLBdXlUuog==
+X-Received: by 2002:a2e:8197:: with SMTP id e23mr11882263ljg.406.1596571625718; 
+ Tue, 04 Aug 2020 13:07:05 -0700 (PDT)
+Received: from localhost.localdomain (h-82-196-111-59.NA.cust.bahnhof.se.
+ [82.196.111.59])
+ by smtp.gmail.com with ESMTPSA id g21sm3080020ljh.103.2020.08.04.13.07.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Aug 2020 13:07:05 -0700 (PDT)
+From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
+Subject: [PATCH 0/3] drm/amd/display: Constify static resource_funcs
+Date: Tue,  4 Aug 2020 22:06:52 +0200
+Message-Id: <20200804200655.30495-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200804154451.GA948167@google.com>
 X-Mailman-Approved-At: Wed, 05 Aug 2020 07:13:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,74 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, kernel-team <kernel-team@android.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>, linux-doc@vger.kernel.org,
- Ioannis Ilkos <ilkos@google.com>, LKML <linux-kernel@vger.kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, linaro-mm-sig@lists.linaro.org,
- Hridya Valsaraju <hridya@google.com>, Ingo Molnar <mingo@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
+Constify a couple of instances of resource_funcs that are never
+modified to allow the compiler to put it in read-only memory.
 
-> Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
-> that hold a file reference to the dma-buf. Unfortunately we can't use only
-> explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
-> between processes the file references are taken implicitly.
-> 
-> For example, on the sender side:
->    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
-> and on the receiver side:
->    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
-> 
-> I understand now that fd_install is not an appropriate abstraction level to track these.
-> Is there a more appropriate alternative where we could use to track these implicit file
-> references?
+The other drivers in drivers/gpu/drm/amd/display/dc already have
+these as const.
 
-There is no single lock that would stabilize the descriptor tables of all
-processes.  And there's not going to be one, ever - it would be a contention
-point from hell, since that would've been a system-wide lock that would have
-to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
-happen, for obvious reasons.  Moreover, you would have to have fork(2) take
-the same lock, since it does copy descriptor table.  And clone(2) either does
-the same, or has the child share the descriptor table of parent.
+Rikard Falkeborn (3):
+  drm/amd/display: Constify dcn20_res_pool_funcs
+  drm/amd/display: Constify dcn21_res_pool_funcs
+  drm/amd/display: Constify dcn30_res_pool_funcs
 
-What's more, a reference to struct file can bloody well survive without
-a single descriptor refering to that file.  In the example you've mentioned
-above, sender has ever right to close all descriptors it has sent.   Files
-will stay opened as long as the references are held in the datagram; when
-that datagram is received, the references will be inserted into recepient's
-descriptor table.  At that point you again have descriptors refering to
-that file, can do any IO on it, etc.
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-So "the set of processes that hold a file reference to the dma-buf" is
-	* inherently unstable, unless you are willing to freeze every
-process in the system except for the one trying to find that set.
-	* can remain empty for any amount of time (hours, weeks, whatever),
-only to get non-empty later, with syscalls affecting the object in question
-done afterwards.
+-- 
+2.28.0
 
-So... what were you going to do with that set if you could calculate it?
-If it's really "how do we debug a leak?", it's one thing; in that case
-I would suggest keeping track of creation/destruction of objects (not
-gaining/dropping references - actual constructors and destructors) to
-see what gets stuck around for too long and use fuser(1) to try and locate
-the culprits if you see that something *was* living for too long.  "Try"
-since the only reference might indeed have been stashed into an SCM_RIGHTS
-datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
-needs elevated priveleges" is not a strong argument - the ability to
-do that sort of tracking does imply elevated priveleges anyway, and
-having a root process taking requests along the lines of "gimme the
-list of PIDs that have such-and-such dma_buf in their descriptor table"
-is not much of an attack surface.
-
-If you want to use it for something else, you'll need to describe that
-intended use; there might be sane ways to do that, but it's hard to
-come up with one without knowing what's being attempted...
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
