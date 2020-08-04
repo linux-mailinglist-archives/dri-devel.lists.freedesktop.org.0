@@ -1,70 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455BC23B496
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 07:50:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B32823B4C1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 08:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E52366E3F5;
-	Tue,  4 Aug 2020 05:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C08C6E415;
+	Tue,  4 Aug 2020 06:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E3C6E3BC;
- Tue,  4 Aug 2020 05:49:55 +0000 (UTC)
-IronPort-SDR: Lh66lTmEIoIt9sdswRBKJsqMJ6PbMHECfF/PlzojShYs6p511+rEsJREMiPiQAFXyVM93WXFwK
- xn3UnzGA33lg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9702"; a="132313645"
-X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; d="scan'208";a="132313645"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2020 22:49:54 -0700
-IronPort-SDR: gdrudahZ5Y1iH7hK+2y1WfGrBe2vnx1EdX4d8GKsx0Wa5yfuGdDxc8IL1G+hin6KULMNf4i0Pu
- MDfVAb3BlRuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; d="scan'208";a="330491015"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2020 22:49:54 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 3 Aug 2020 22:49:53 -0700
-Received: from fmsmsx121.amr.corp.intel.com (10.18.125.36) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 3 Aug 2020 22:49:53 -0700
-Received: from bgsmsx151.gar.corp.intel.com (10.224.48.42) by
- fmsmsx121.amr.corp.intel.com (10.18.125.36) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 3 Aug 2020 22:49:52 -0700
-Received: from bgsmsx152.gar.corp.intel.com ([169.254.6.230]) by
- BGSMSX151.gar.corp.intel.com ([169.254.3.196]) with mapi id 14.03.0439.000;
- Tue, 4 Aug 2020 11:19:48 +0530
-From: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>
-To: =?utf-8?B?TWljaGVsIETDpG56ZXI=?= <michel@daenzer.net>, "Zanoni, Paulo R"
- <paulo.r.zanoni@intel.com>, "Vetter, Daniel" <daniel.vetter@intel.com>, "B S, 
- Karthik" <karthik.b.s@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v5 0/5] Asynchronous flip implementation for i915
-Thread-Topic: [PATCH v5 0/5] Asynchronous flip implementation for i915
-Thread-Index: AQHWXoyF0I+Yv7gbOU2b76Vu8RIWKqkXCk8AgAcHqLD//8nwAIAJqTLw
-Date: Tue, 4 Aug 2020 05:49:48 +0000
-Message-ID: <57510F3E2013164E925CD03ED7512A3B916F1058@BGSMSX152.gar.corp.intel.com>
-References: <20200720113117.16131-1-karthik.b.s@intel.com>
- <9e43a819525424c36438329222fa1a3946c57c89.camel@intel.com>
- <57510F3E2013164E925CD03ED7512A3B86351230@BGSMSX102.gar.corp.intel.com>
- <f439795a-6a95-2e96-b511-42b4f5725e04@daenzer.net>
-In-Reply-To: <f439795a-6a95-2e96-b511-42b4f5725e04@daenzer.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D34706E415
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 06:01:50 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200804060148euoutp0213d3c7dfb0ba80b582fce8bfb663311f~n_07USHEr2458124581euoutp026
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 06:01:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200804060148euoutp0213d3c7dfb0ba80b582fce8bfb663311f~n_07USHEr2458124581euoutp026
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1596520908;
+ bh=kzgLDXR1KCs9nds/AsklhENC8LndGd3HWtHi/4wKZU0=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=joaEHRjn6GAV10zjxTR/r66/s/QLcIWCBFx4L4iMJv3j//eSmyy6KThokasunccp4
+ 3bPsEPjnhZ1i3+d5YT42g8Amkal0j/eOg3/UHHGXvurKPlm17m+YkxBy4uqijBXeKE
+ MVHy/BcKxtPhjnCoKNn5unTs0Wdsm3wvhmP37r3Y=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200804060148eucas1p2def809de912c8e418481630191628011~n_07HMUCu0199801998eucas1p2n;
+ Tue,  4 Aug 2020 06:01:48 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 86.22.06456.CC9F82F5; Tue,  4
+ Aug 2020 07:01:48 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200804060148eucas1p1e88fb4817903f756c86a39260d0f239e~n_065l5Gv0386703867eucas1p19;
+ Tue,  4 Aug 2020 06:01:48 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200804060148eusmtrp2c9e38b9eee0740a5b9833e020f9cfc9b~n_064_O6q1137911379eusmtrp2P;
+ Tue,  4 Aug 2020 06:01:48 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-66-5f28f9cc2171
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 5C.EA.06314.CC9F82F5; Tue,  4
+ Aug 2020 07:01:48 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200804060148eusmtip21040dc1ef574b5d57778d2a28233dd3f~n_06nWHKl1112311123eusmtip2K;
+ Tue,  4 Aug 2020 06:01:48 +0000 (GMT)
+Subject: Re: [PATCH] MAINTAINERS: enlist Greg formally for console stuff
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <42015d40-2f21-4c72-4c6e-3c27776423a4@samsung.com>
+Date: Tue, 4 Aug 2020 08:01:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200803141142.1606661-1-daniel.vetter@ffwll.ch>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAKsWRmVeSWpSXmKPExsWy7djPc7pnfmrEG8w4o2Gx8OFdZovlZ9Yx
+ W1z5+p7N4tyCGYwWl3fNYXNg9dj7bQGLx+I9L5k83j4M8LjffZzJ4/MmuQDWKC6blNSczLLU
+ In27BK6Mff3HWAvWclc82VXXwDiHs4uRk0NCwERiYsMj9i5GLg4hgRWMEs2L/jKDJIQEvjBK
+ nL8hAZH4zCjR+eYkI0zHwkvL2CASyxklZi17ywLhvGWUOLD6B1iVsICHxN7WP0wgtoiAlkTH
+ /xawImaBXkaJlSdusIAk2ASsJCa2rwJr4BWwk/h9YBJYA4uAisTexVPB7hAViJD49OAwK0SN
+ oMTJmU/AejmB6j/c6gerYRYQl7j1ZD4ThC0vsf3tHGaQZRICi9glfizpZ4K420Vi2+sLLBC2
+ sMSr41vYIWwZif87QZpBGtYxSvzteAHVvZ1RYvnkf2wQVdYSd879ArI5gFZoSqzfpQ8RdpSY
+ +OUqC0hYQoBP4sZbQYgj+CQmbZvODBHmlehoE4KoVpPYsGwDG8zarp0rmScwKs1C8tosJO/M
+ QvLOLIS9CxhZVjGKp5YW56anFhvmpZbrFSfmFpfmpesl5+duYgSmm9P/jn/awfj1UtIhRgEO
+ RiUe3gWsGvFCrIllxZW5hxglOJiVRHidzp6OE+JNSaysSi3Kjy8qzUktPsQozcGiJM5rvOhl
+ rJBAemJJanZqakFqEUyWiYNTqoExapmcsuXMNT1fn/+bsW3x8+8qJ36ZOeX4LHvSzutwSdt5
+ zwHeIjWO3vNNasG/vr6R6WJPmPW2/e6ClNdiBh3rdlX/Xf8xoWqiSPXBi9OEt576rMLbtaRm
+ MVt6Wmg278PjBUeXaOyd6N5/Wfjqp9pPaaUNbcnTJgZYxv1wvLG10vtO5R5BtuDVSizFGYmG
+ WsxFxYkABOcIhDMDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRmVeSWpSXmKPExsVy+t/xe7pnfmrEG/S+kLBY+PAus8XyM+uY
+ La58fc9mcW7BDEaLy7vmsDmweuz9toDFY/Gel0webx8GeNzvPs7k8XmTXABrlJ5NUX5pSapC
+ Rn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7Gvv5jrAVruSue7Kpr
+ YJzD2cXIySEhYCKx8NIyti5GLg4hgaWMEqv/NzN2MXIAJWQkjq8vg6gRlvhzrQuq5jWjxJ6G
+ 5cwgCWEBD4m9rX+YQGwRAS2Jjv8tLCBFzAK9jBI35/1jheiYyChx7tpvFpAqNgEriYntqxhB
+ bF4BO4nfByaBdbMIqEjsXTwVbKqoQITE4R2zoGoEJU7OfALWywlU/+FWP1gNs4C6xJ95l6Bs
+ cYlbT+YzQdjyEtvfzmGewCg0C0n7LCQts5C0zELSsoCRZRWjSGppcW56brGhXnFibnFpXrpe
+ cn7uJkZgfG079nPzDsZLG4MPMQpwMCrx8C5g1YgXYk0sK67MPcQowcGsJMLrdPZ0nBBvSmJl
+ VWpRfnxRaU5q8SFGU6DnJjJLiSbnA2M/ryTe0NTQ3MLS0NzY3NjMQkmct0PgYIyQQHpiSWp2
+ ampBahFMHxMHp1QDY/TdunjNByeXfrWTvbTn2/pjb3//O+m9tPGASOXxPuemxiPhmiJtLm1N
+ VdnFXxvmG07yU9/ydu4UOZVTrxK2LMlxzjHY6dp73tIxZPMficUXdp0yma8o4L08pu+EcI+v
+ WcaHhQ9Wxk4qrnzxwXSr9GJ3vTNd1zJdDJ32exmsvGc6i/Vno89OBiWW4oxEQy3mouJEAKyx
+ Z07FAgAA
+X-CMS-MailID: 20200804060148eucas1p1e88fb4817903f756c86a39260d0f239e
+X-Msg-Generator: CA
+X-RootMTR: 20200803141200eucas1p1181045e1d41a1780db15677778209d45
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200803141200eucas1p1181045e1d41a1780db15677778209d45
+References: <CGME20200803141200eucas1p1181045e1d41a1780db15677778209d45@eucas1p1.samsung.com>
+ <20200803141142.1606661-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,64 +106,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Shankar, Uma" <uma.shankar@intel.com>,
- "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Greg KH <greg@kroah.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNaWNoZWwgRMOkbnplciA8bWlj
-aGVsQGRhZW56ZXIubmV0Pg0KPiBTZW50OiBXZWRuZXNkYXksIEp1bHkgMjksIDIwMjAgMTowNCBQ
-TQ0KPiBUbzogS3Vsa2FybmksIFZhbmRpdGEgPHZhbmRpdGEua3Vsa2FybmlAaW50ZWwuY29tPjsg
-WmFub25pLCBQYXVsbyBSDQo+IDxwYXVsby5yLnphbm9uaUBpbnRlbC5jb20+OyBWZXR0ZXIsIERh
-bmllbCA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+OyBCIFMsDQo+IEthcnRoaWsgPGthcnRoaWsu
-Yi5zQGludGVsLmNvbT47IGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6IGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IFNoYW5rYXIsIFVtYQ0KPiA8dW1hLnNoYW5r
-YXJAaW50ZWwuY29tPjsgbmljaG9sYXMua2F6bGF1c2thc0BhbWQuY29tDQo+IFN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjUgMC81XSBBc3luY2hyb25vdXMgZmxpcCBpbXBsZW1lbnRhdGlvbiBmb3IgaTkx
-NQ0KPiANCj4gT24gMjAyMC0wNy0yOSA5OjIzIGEubS4sIEt1bGthcm5pLCBWYW5kaXRhIHdyb3Rl
-Og0KPiA+DQo+ID4gT24gYXN5bmMgZmxpcHMsIHRoZXJlIG5lZWRzIHRvIGJlIHNvbWUgY2xhcml0
-eS9ndWlkZWxpbmUgb24gdGhlDQo+ID4gYmVoYXZpb3VyIGFuZCBldmVudCBleHBlY3RhdGlvbiBm
-cm9tIHRoZSBkcml2ZXIgYnkgdXNlciBzcGFjZS4NCj4gPiBIZXJlIGFyZSBmZXcgYXNzdW1wdGlv
-bnMgdGhhdCB3ZSBoYXZlLCAxLiBPdXIgdW5kZXJzdGFuZGluZyBpcyB0aGF0DQo+ID4gdGhlIHVz
-ZXIgc3BhY2UgZG9lc27igJl0IGV4cGVjdCB0aGUgdGltZXN0YW1wIGZvciBhc3luYyBmbGlwcyAo
-YnV0IHN0aWxsDQo+ID4gZXhwZWN0cyB2YmxhbmsgdGltZXN0YW1wKSAsIG9yIGRvZXNu4oCZdCBk
-byBhbnl0aGluZyB3aXRoIHRoYXQsIHNhbWUgaXMgdGhlDQo+IGFzc3VtcHRpb24gd3J0IHRoZSBm
-bGlwIHNlcXVlbmNlLCBwbGVhc2UgY29ycmVjdCB1cyBpZiB3ZSBhcmUgd3JvbmcuDQo+ID4gMi4g
-SW4gdGhlIHNlcXVlbmNlIHRoZSB1c2VyIHNwYWNlIHN0aWxsIGV4cGVjdHMgdGhlIGNvdW50ZXIg
-dGhhdCBtYXJrcw0KPiB2YmxhbmtzLg0KPiA+IDMuIFRoZSB1c2VyIHNwYWNlIGNhbiB1c2UgZGlm
-ZmVyZW50IGV2ZW50IHR5cGVzIGxpa2UgRFJNX0VWRU5UX1ZCTEFOSw0KPiA+IG9yIERSTV9FVkVO
-VF9GTElQX0NPTVBMRVRFIGZvciBnZXR0aW5nIHRoZSBjb3JyZXNwb25kaW5nIGV2ZW50LiBBbmQN
-Cj4gdGhlaXIgZGVzaWducyBhcmUgc3RpbGwgYWxpZ25lZCB0byB0aGlzIGV2ZW4gaW4gY2FzZSBv
-ZiBhc3luYy4NCj4gPg0KPiA+IElmIHRoZXJlIGFyZSBhbnkgbW9yZSBleHBlY3RhdGlvbnMgZnJv
-bSB0aGUgdXNlciBzcGFjZSB3cnQgdG8gdGhlDQo+ID4gZXZlbnQgdGhhdCBpcyBiZWluZyBzZW50
-IGZyb20gdGhlIGRyaXZlciBpbiBjYXNlIG9mIGFzeW5jIGZsaXAsIHBsZWFzZSBsZXQgdXMNCj4g
-a25vdy4NCj4gPg0KPiA+IElmIHRoZSB1c2VyIHNwYWNlIGRvZXNu4oCZdCBjYXJlIG11Y2ggYWJv
-dXQgdGhlIGZsaXAgc2VxdWVuY2UgdGhlbiwgd2UNCj4gPiBjYW4ganVzdCBub3QgZG8gYW55dGhp
-bmcgbGlrZSByZXR1cm5pbmcgdGhlIGZsaXAgY291bnRlciBsaWtlIHRoaXMgdmVyc2lvbiBpcw0K
-PiBkb2luZyBhbmQganVzdCBzdGljayB0byByZXR1cm5pbmcgb2YgdGhlIGZyYW1lIGNvdW50ZXIg
-dmFsdWUod2hpY2ggbWFya3MNCj4gdmJsYW5rcykuDQo+IA0KPiBUaGVyZSdzIG5vIHN1Y2ggdGhp
-bmcgYXMgYSAiZmxpcCBzZXF1ZW5jZSIgaW4gdGhlIEtNUyBBUEkuIFRoZXJlJ3Mgb25seSB0aGUN
-Cj4gcGVyLUNSVEMgdmJsYW5rIGNvdW50ZXIuIEVhY2ggZmxpcCBjb21wbGV0aW9uIGV2ZW50IG5l
-ZWRzIHRvIGNvbnRhaW4gdGhlDQo+IHZhbHVlIG9mIHRoYXQgY291bnRlciB3aGVuIHRoZSBoYXJk
-d2FyZSBjb21wbGV0ZWQgdGhlIGZsaXAsIHJlZ2FyZGxlc3Mgb2YNCj4gd2hldGhlciBpdCB3YXMg
-YW4gYXN5bmMgZmxpcCBvciBub3QuDQo+IA0KPiBBcyBmb3IgdGhlIHRpbWVzdGFtcCBpbiB0aGUg
-ZXZlbnQsIEknbSBub3Qgc3VyZSB3aGF0IHRoZSBleHBlY3RhdGlvbnMgYXJlIGZvcg0KPiBhc3lu
-YyBmbGlwcywgYnV0IEkgc3VzcGVjdCBpdCBtYXkgbm90IHJlYWxseSBtYXR0ZXIuIEUuZy4gdGhl
-IHRpbWVzdGFtcA0KPiBjYWxjdWxhdGVkIHRvIGNvcnJlc3BvbmQgdG8gdGhlIGVuZCBvZiB0aGUg
-cHJldmlvdXMgdmVydGljYWwgYmxhbmsgcGVyaW9kDQo+IG1pZ2h0IGJlIGZpbmUuDQoNClRoYW5r
-cyBNaWNoZWwsIFBhdWxvLCBEYW5pZWwsIE5pY2hvbGFzLCBWaWxsZSBmb3IgeW91ciBpbnB1dHMu
-DQpBZnRlciBhbGwgdGhlIGRpc2N1c3Npb25zLCBsb29rcyBsaWtlIHRoZSBhc3luYyBmbGlwIHRp
-bWUgc3RhbXAgaXMgbm90IG9mIG11Y2gNCnVzZSB0byB0aGUgdXNlcnNwYWNlIGFuZCB0aGUgYXN5
-bmMgZmxpcCBzZXF1ZW5jZTsgaGVuY2Ugd2Ugd2lsbCBzdGljayB0byB0aGUgYXBwcm9hY2ggb2Yg
-c2VuZGluZyB2YmxhbmsgdGltZSBzdGFtcA0KaXRzZWxmIGFuZCBoYXZlIGEgdGVzdCBjYXNlIGlu
-IHRoZSBpZ3QgdG8gY292ZXIgdGhlIGFzeW5jIGZsaXBzIGNhc2VzIGluIGEgc2xpZ2h0bHkgZGlm
-ZmVyZW50IHdheS4NCkFuZCB1cGRhdGUgdGhlIGRvY3VtZW50YXRpb24uDQoNClRoYW5rcywNClZh
-bmRpdGENCj4gDQo+IA0KPiAtLQ0KPiBFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAgICAg
-ICAgICB8ICAgICAgICAgICAgICAgaHR0cHM6Ly9yZWRoYXQuY29tDQo+IExpYnJlIHNvZnR3YXJl
-IGVudGh1c2lhc3QgICAgICAgICAgICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3Bl
-cg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+On 8/3/20 4:11 PM, Daniel Vetter wrote:
+> I did a few greps for main console data structures, and there's a few
+> places outside of drivers/video/console:
+> - a braille driver
+> - a sisusbvga driver
+> - fbcon, but I think that's fine if we leave that officially under
+>   fbdev maintainership
+> - lots of stuff in drivers/tty/vt, which is already under Greg's
+>   maintainership.
+> 
+> So I think this match gives reasonably useful Cc: lists for the files
+> and places I've tested.
+> 
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Greg KH <greg@kroah.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+
+Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
+
+> ---
+>  MAINTAINERS | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ab94723c0cae..8084d118892c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4343,6 +4343,12 @@ L:	netdev@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/connector/
+>  
+> +CONSOLE SUBSYSTEM
+> +M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> +S:	Supported
+> +F:	drivers/video/console/
+> +F:	include/linux/console*
+> +
+>  CONTROL GROUP (CGROUP)
+>  M:	Tejun Heo <tj@kernel.org>
+>  M:	Li Zefan <lizefan@huawei.com>
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
