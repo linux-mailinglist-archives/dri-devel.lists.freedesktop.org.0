@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C66923BE74
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 18:59:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330A523BE82
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 19:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 200F96E492;
-	Tue,  4 Aug 2020 16:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6596E25B;
+	Tue,  4 Aug 2020 17:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
  [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F40C76E492
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:59:21 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id 88so38055829wrh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 09:59:21 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 262146E25B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 17:04:15 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id f1so37554887wro.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 10:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=u311Hp3+FlIAdoQ7563W+xB0F3aPlrRzNQAAkWiq5SE=;
- b=IYUwOKuqDXfK/LXpbdKziS2GW8qozZCWUqYGRpbeA8isv2eUogsOvWHBrE+rWkX7Lj
- XQ4WJp2XulKy54aiGL1DDaz9YWz64/7pS4bYPdTBUbr6GIQkl8E4Olzgl7MeGEQCRIJs
- a9Y1ymWhbDMCX5fEbhusOCQ5s5WLYL/kvRf8k=
+ bh=SJmkw0nSLw4m3B98dhc6CnT8NG6TGxfacruv3nV7TWU=;
+ b=lg5GIsimCkxV7EjRYy8NYITfC9QhMBu3RqWboYBTGvhFuEImNVBwDL+dV4HsekGAuU
+ auGMXxfRHXJBILOHQHfN8LY6Mrr8PJlm4CVMfyxFVMSSGANeI0uKnLOEPxOAnAKHhsgu
+ bnIvvx6n6m2aWIaVLQyhagT+fJ2D858sHuyr0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=u311Hp3+FlIAdoQ7563W+xB0F3aPlrRzNQAAkWiq5SE=;
- b=EZICSY5Kv4C6Mpv4qP1KgQaYR49atmqqDSK3AfCwA11c7Qlo2+rXVD39yNzQAYqtUC
- ulk6u6tIDOqRLGS074IqTLjbSUacNl5JvktCGbhC0HG8WZ/YBYj8wvarJ1/l58JoxMrx
- Ht8VN1R6jIE0s4vwzcngLrdVMSHEelMQvcqCfTLR2LIYntZP208uacoqVim9SLTy6jR8
- pp3JlbVY/jyXcz+Zv70eTzWnQzyp+e6Ewi1fXlCXmkrnjggqzNJSnx/bzRFi4bsFKEAk
- FBBTP3shpyd63Gb/JK/GcPMnNc9AMJUMldkk8TRyU6ET7TDPqrDZSqYCh9kNkAsDqLip
- Pr9Q==
-X-Gm-Message-State: AOAM530ROEyTLBMsY9p5u+oQcsU01QEm3yFEAPVSw9uhmTFFpPU11XeL
- b/8tg9hpvzN5GanOYKuvhQdb+w==
-X-Google-Smtp-Source: ABdhPJzOXEh1JsSwgAaxZ3ww4H+xbQK9fmNHtPEe0UAXJTrLNIupDUPs8uUY8OgSp0UXRLktrRHZdQ==
-X-Received: by 2002:adf:ed85:: with SMTP id c5mr3304183wro.307.1596560360706; 
- Tue, 04 Aug 2020 09:59:20 -0700 (PDT)
+ bh=SJmkw0nSLw4m3B98dhc6CnT8NG6TGxfacruv3nV7TWU=;
+ b=merhOY/Xbx0F9T/h03h86VmjAtGh6azF9KDCGofpmNepZYs4ODdI1Z0mCpBEqxwBCS
+ saA/2NF5qb/7IzuRpV1UWVQ+bLfwLedcG0doMFIG2Sr3nzgK8rZFELTR1+nIXiIkp2dx
+ G55WpZ95WbgunGkEfEGMjOiEKkOEr4ZbqqCS6lGgih5JuSgPOmj476FpvR/97GhBiZgL
+ 9aawrFpAdlDo+HvHcqFrq3oqlq7KtH9RsL44AQC8Rwj9xDkzpZaiuaq5VeSB5J+VR9w7
+ vGFgxLZGRRUGRyzrHBWUiZ2TZxvQUaSgIVer5KHuPE5MaLfjyYgo9msJ/XeJsabYQIIA
+ rP7g==
+X-Gm-Message-State: AOAM532CIihpeysuiYBK0+Si2rRZIkv7igKfKV93eamnnGpyh5i1mYBe
+ vVAJmbZybqPC5aee0Zkrs6OJcg==
+X-Google-Smtp-Source: ABdhPJw1rUyWxj/rQ7s0pO1/ZBzj/DtAE619tC7a39yGBjBSweJ42T83q5rRWfVBHySS3qfqj7D1pA==
+X-Received: by 2002:adf:fd04:: with SMTP id e4mr19803357wrr.353.1596560653827; 
+ Tue, 04 Aug 2020 10:04:13 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p3sm5004407wma.44.2020.08.04.09.59.19
+ by smtp.gmail.com with ESMTPSA id k204sm5489228wma.21.2020.08.04.10.04.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 09:59:20 -0700 (PDT)
-Date: Tue, 4 Aug 2020 18:59:18 +0200
+ Tue, 04 Aug 2020 10:04:13 -0700 (PDT)
+Date: Tue, 4 Aug 2020 19:04:11 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH v1 06/22] drm/panel: asus-z00t-tm5p5-n35596: Backlight
- update
-Message-ID: <20200804165918.GN6419@phenom.ffwll.local>
+Subject: Re: [PATCH v1 10/22] drm/panel: raydium-rm67191: Backlight update
+Message-ID: <20200804170411.GO6419@phenom.ffwll.local>
 References: <20200802110636.1018743-1-sam@ravnborg.org>
- <20200802110636.1018743-7-sam@ravnborg.org>
+ <20200802110636.1018743-11-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200802110636.1018743-7-sam@ravnborg.org>
+In-Reply-To: <20200802110636.1018743-11-sam@ravnborg.org>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,89 +66,83 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Konrad Dybcio <konradybcio@gmail.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Lee Jones <lee.jones@linaro.org>
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Robert Chiras <robert.chiras@nxp.com>,
+ Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 02, 2020 at 01:06:20PM +0200, Sam Ravnborg wrote:
-> Update backlight to use macro for initialization and the
-> backlight_get_brightness() operation to simply the update operation.
+On Sun, Aug 02, 2020 at 01:06:24PM +0200, Sam Ravnborg wrote:
+> - Replace direct access to backlight_properties with
+>   backlight_get_brightness().
+> - Use macro for initialization
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Konrad Dybcio <konradybcio@gmail.com>
+> Cc: Robert Chiras <robert.chiras@nxp.com>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  .../gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 15 +++------------
->  1 file changed, 3 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/panel/panel-raydium-rm67191.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> index 39e0f0373f3c..c090fc6f1ed5 100644
-> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> @@ -216,14 +216,9 @@ static const struct drm_panel_funcs tm5p5_nt35596_panel_funcs = {
->  static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
->  {
->  	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> -	u16 brightness = bl->props.brightness;
-> +	int brightness = backlight_get_brightness(bl);
->  	int ret;
+> diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+> index 313637d53d28..5553db385dd5 100644
+> --- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+> +++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+> @@ -479,7 +479,7 @@ static int rad_bl_get_brightness(struct backlight_device *bl)
+>  	if (ret < 0)
+>  		return ret;
 >  
-> -	if (bl->props.power != FB_BLANK_UNBLANK ||
-> -	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
-> -	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-> -		brightness = 0;
-> -
->  	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->  
->  	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-> @@ -238,7 +233,7 @@ static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
->  static int tm5p5_nt35596_bl_get_brightness(struct backlight_device *bl)
->  {
->  	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> -	u16 brightness = bl->props.brightness;
-> +	u16 brightness = backlight_get_brightness(bl);
+> -	bl->props.brightness = brightness;
+> +	backlight_set_brightness(bl, brightness);
 
-I'm not sure why we do this, but your patch here changes behaviour in a
-way that has bitten us in the past: This now reports a brightness of 0
-when the backlight is off. On some backlights (especially firmware ones) 0
-means "lowest value", not actually off, so that's one confusion. The other
-problem is then that userspace tends to use this as the backlight value to
-restore on next boot (or after resume, or after vt switch, resulting in a
-very dark or black screen).
+This sounds like a bad idea, again because this overrides the software
+brightness value potentially when the backlight is off. Althought that's
+checked a bit higher up, so not too terrible.
 
-Therefore I think in these cases we actually need the direct
-bl->props.brightness value.
-
-I think an even cleaner way to solve this would be to change the
-get_brightness code in actual_brightness_show to handle negative error
-codes from ->get_brightness and use that to fall back to
-bd->props.brightness, then we could remove this code here.
-
-That reminds me, probably not a good idea to store a negative value in
-backlight_force_update() if this goes wrong into bl->props.brightness.
+I'm also feeling like a helper for standard mipi dsi panel backlight would
+be great, it's pretty much all the same code.
 -Daniel
 
->  	int ret;
+>  
+>  	return brightness & 0xff;
+>  }
+> @@ -495,7 +495,7 @@ static int rad_bl_update_status(struct backlight_device *bl)
 >  
 >  	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> @@ -261,11 +256,7 @@ static struct backlight_device *
->  tm5p5_nt35596_create_backlight(struct mipi_dsi_device *dsi)
->  {
->  	struct device *dev = &dsi->dev;
-> -	const struct backlight_properties props = {
-> -		.type = BACKLIGHT_RAW,
-> -		.brightness = 255,
-> -		.max_brightness = 255,
-> -	};
-> +	DECLARE_BACKLIGHT_INIT_RAW(props, 255, 255);
 >  
->  	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
->  					      &tm5p5_nt35596_bl_ops, &props);
+> -	ret = mipi_dsi_dcs_set_display_brightness(dsi, bl->props.brightness);
+> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, backlight_get_brightness(bl));
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -539,10 +539,10 @@ static int rad_init_regulators(struct rad_panel *rad)
+>  
+>  static int rad_panel_probe(struct mipi_dsi_device *dsi)
+>  {
+> +	DECLARE_BACKLIGHT_INIT_RAW(bl_props, 255, 255);
+>  	struct device *dev = &dsi->dev;
+>  	struct device_node *np = dev->of_node;
+>  	struct rad_panel *panel;
+> -	struct backlight_properties bl_props;
+>  	int ret;
+>  	u32 video_mode;
+>  
+> @@ -588,11 +588,6 @@ static int rad_panel_probe(struct mipi_dsi_device *dsi)
+>  	if (IS_ERR(panel->reset))
+>  		return PTR_ERR(panel->reset);
+>  
+> -	memset(&bl_props, 0, sizeof(bl_props));
+> -	bl_props.type = BACKLIGHT_RAW;
+> -	bl_props.brightness = 255;
+> -	bl_props.max_brightness = 255;
+> -
+>  	panel->backlight = devm_backlight_device_register(dev, dev_name(dev),
+>  							  dev, dsi, &rad_bl_ops,
+>  							  &bl_props);
 > -- 
 > 2.25.1
 > 
