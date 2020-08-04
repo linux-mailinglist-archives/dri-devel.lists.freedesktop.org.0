@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2833623C6AB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0EF23C6BC
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413EE6E098;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7D289FDD;
 	Wed,  5 Aug 2020 07:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mxwww.masterlogin.de (mxwww.masterlogin.de [95.129.51.220])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEDF46E48F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:56:10 +0000 (UTC)
-Received: from mxout1.routing.net (unknown [192.168.10.81])
- by forward.mxwww.masterlogin.de (Postfix) with ESMTPS id 871D59614E;
- Tue,  4 Aug 2020 16:56:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D636E48F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 16:56:12 +0000 (UTC)
+Received: from mxout4.routing.net (unknown [192.168.10.112])
+ by forward.mxwww.masterlogin.de (Postfix) with ESMTPS id AD31796135;
+ Tue,  4 Aug 2020 16:56:10 +0000 (UTC)
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
- by mxout1.routing.net (Postfix) with ESMTP id 5922040295;
- Tue,  4 Aug 2020 16:56:09 +0000 (UTC)
+ by mxout4.routing.net (Postfix) with ESMTP id 65C451014A6;
+ Tue,  4 Aug 2020 16:56:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
- s=20200217; t=1596560169;
+ s=20200217; t=1596560170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4ewXB5FpohxgJpmkvbol3KpCl1csVHrG3vmcWsHV3gc=;
- b=lZemiGumuSpSI/q66uA5a9WrKtHLa4xuMZDfSUWRRizIvx+mbfG/VPtSmqYLA39Hq5et5F
- h65yZq4KGy3G6aV3NZvSEyUXMF5LL7fwTbzNGFn9dcv/CEFMlrz9IPGQCKJWZh2uYrT6Lo
- C0vGG9ubDs0zG+JWUhE5JtyWPK2ah70=
+ bh=sO6tybaMOJ1Y/9jRMHEuMbPOV8G3l1zST2AlvdQbQc4=;
+ b=G5QrEXusd7O180Uc4HbCX88/NhgIAjUvUG/poFT8KiVuY+bL5KLI7P/3YGHEXMXVv5TjT3
+ qhJxbMsqIrF5w4ESj438PffNefB0XFfEYy7yyKexhi36jJiz2qIRjPqK+POzfHiQ3Ie6AK
+ op1YFQPXAET5ZGv7kQUNBgD8QrCh2YM=
 Received: from localhost.localdomain (fttx-pool-217.61.144.119.bambit.de
  [217.61.144.119])
- by mxbox3.masterlogin.de (Postfix) with ESMTPSA id A3D223605F9;
- Tue,  4 Aug 2020 16:56:08 +0000 (UTC)
+ by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 5B5443601C7;
+ Tue,  4 Aug 2020 16:56:09 +0000 (UTC)
 From: Frank Wunderlich <linux@fw-web.de>
 To: linux-mediatek@lists.infradead.org
-Subject: [PATCH v4 1/6] dt-bindings: mediatek: add mt7623 display-nodes
-Date: Tue,  4 Aug 2020 18:55:49 +0200
-Message-Id: <20200804165555.75159-2-linux@fw-web.de>
+Subject: [PATCH v4] net: ethernet: mtk_eth_soc: fix MTU warnings
+Date: Tue,  4 Aug 2020 18:55:50 +0200
+Message-Id: <20200804165555.75159-3-linux@fw-web.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200804165555.75159-1-linux@fw-web.de>
 References: <20200804165555.75159-1-linux@fw-web.de>
@@ -55,111 +55,55 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Landen Chao <landen.chao@mediatek.com>,
  Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
+ netdev@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+ "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
+ John Crispin <john@phrozen.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, Mark Lee <Mark-MC.Lee@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, Felix Fietkau <nbd@nbd.name>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Frank Wunderlich <frank-w@public-files.de>
+From: Landen Chao <landen.chao@mediatek.com>
 
-mt7623 uses mt2701/mt8173 for drm, but have own compatibles
+in recent kernel versions there are warnings about incorrect MTU size
+like these:
 
+eth0: mtu greater than device maximum
+mtk_soc_eth 1b100000.ethernet eth0: error -22 setting MTU to include DSA overhead
+
+Fixes: bfcb813203e6 ("net: dsa: configure the MTU for switch ports")
+Fixes: 72579e14a1d3 ("net: dsa: don't fail to probe if we couldn't set the MTU")
+Fixes: 7a4c53bee332 ("net: report invalid mtu value via netlink extack")
+Signed-off-by: Landen Chao <landen.chao@mediatek.com>
 Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,disp.txt    | 2 +-
- .../devicetree/bindings/display/mediatek/mediatek,dpi.txt     | 2 +-
- .../devicetree/bindings/display/mediatek/mediatek,dsi.txt     | 4 ++--
- .../devicetree/bindings/display/mediatek/mediatek,hdmi.txt    | 4 ++++
- 4 files changed, 8 insertions(+), 4 deletions(-)
+v3->v4
+  - fix commit-message (hyphernations,capitalisation) as suggested by Russell
+  - add Signed-off-by Landen
+  - dropped wrong signed-off from rene (because previous v1/2 was from him)
+---
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-index b91e709db7a4..121220745d46 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-@@ -43,7 +43,7 @@ Required properties (all function blocks):
- 	"mediatek,<chip>-dpi"        		- DPI controller, see mediatek,dpi.txt
- 	"mediatek,<chip>-disp-mutex" 		- display mutex
- 	"mediatek,<chip>-disp-od"    		- overdrive
--  the supported chips are mt2701, mt2712 and mt8173.
-+  the supported chips are mt2701, mt7623, mt2712 and mt8173.
- - reg: Physical base address and length of the function block register space
- - interrupts: The interrupt signal from the function block (required, except for
-   merge and split function blocks).
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-index 77def4456706..dc1ebd13cc88 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
-@@ -7,7 +7,7 @@ output bus.
+diff --git a/drivers/net/ethernet/mediatek/mtk_eth_soc.c b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+index 85735d32ecb0..a1c45b39a230 100644
+--- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
++++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+@@ -2891,6 +2891,8 @@ static int mtk_add_mac(struct mtk_eth *eth, struct device_node *np)
+ 	eth->netdev[id]->irq = eth->irq[0];
+ 	eth->netdev[id]->dev.of_node = np;
  
- Required properties:
- - compatible: "mediatek,<chip>-dpi"
--  the supported chips are mt2701 , mt8173 and mt8183.
-+  the supported chips are mt2701, mt7623, mt8173 and mt8183.
- - reg: Physical base address and length of the controller's registers
- - interrupts: The interrupt signal from the function block.
- - clocks: device clocks
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-index 8e4729de8c85..f06f24d405a5 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-@@ -7,7 +7,7 @@ channel output.
++	eth->netdev[id]->max_mtu = MTK_MAX_RX_LENGTH - MTK_RX_ETH_HLEN;
++
+ 	return 0;
  
- Required properties:
- - compatible: "mediatek,<chip>-dsi"
--  the supported chips are mt2701, mt8173 and mt8183.
-+- the supported chips are mt2701, mt7623, mt8173 and mt8183.
- - reg: Physical base address and length of the controller's registers
- - interrupts: The interrupt signal from the function block.
- - clocks: device clocks
-@@ -26,7 +26,7 @@ The MIPI TX configuration module controls the MIPI D-PHY.
- 
- Required properties:
- - compatible: "mediatek,<chip>-mipi-tx"
--  the supported chips are mt2701, mt8173 and mt8183.
-+- the supported chips are mt2701, 7623, mt8173 and mt8183.
- - reg: Physical base address and length of the controller's registers
- - clocks: PLL reference clock
- - clock-output-names: name of the output clock line to the DSI encoder
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
-index 7b124242b0c5..6b1c586403e4 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
-@@ -6,6 +6,7 @@ its parallel input.
- 
- Required properties:
- - compatible: Should be "mediatek,<chip>-hdmi".
-+- the supported chips are mt2701, mt7623 and mt8173
- - reg: Physical base address and length of the controller's registers
- - interrupts: The interrupt signal from the function block.
- - clocks: device clocks
-@@ -32,6 +33,7 @@ The HDMI CEC controller handles hotplug detection and CEC communication.
- 
- Required properties:
- - compatible: Should be "mediatek,<chip>-cec"
-+- the supported chips are mt7623 and mt8173
- - reg: Physical base address and length of the controller's registers
- - interrupts: The interrupt signal from the function block.
- - clocks: device clock
-@@ -44,6 +46,7 @@ The Mediatek's I2C controller is used to interface with I2C devices.
- 
- Required properties:
- - compatible: Should be "mediatek,<chip>-hdmi-ddc"
-+- the supported chips are mt7623 and mt8173
- - reg: Physical base address and length of the controller's registers
- - clocks: device clock
- - clock-names: Should be "ddc-i2c".
-@@ -56,6 +59,7 @@ output and drives the HDMI pads.
- 
- Required properties:
- - compatible: "mediatek,<chip>-hdmi-phy"
-+- the supported chips are mt2701, mt7623 and mt8173
- - reg: Physical base address and length of the module's registers
- - clocks: PLL reference clock
- - clock-names: must contain "pll_ref"
+ free_netdev:
 -- 
 2.25.1
 
