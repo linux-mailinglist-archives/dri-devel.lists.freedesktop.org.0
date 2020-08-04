@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F2923C6B4
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE9D23C6B7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285376E50D;
-	Wed,  5 Aug 2020 07:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C24D36E516;
+	Wed,  5 Aug 2020 07:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72876E4B6;
- Tue,  4 Aug 2020 20:07:10 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id w14so15192452ljj.4;
- Tue, 04 Aug 2020 13:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=u8vVd3eNYQguySxvKcCaV5W8ooNVhtOP1CKm/UC6A7I=;
- b=s9xx/Duk98DAB0+L8vFJMaT7WWygK0TAVyP8WfoNoaFx3f2OxDMsQm34eFo1UqG5Xr
- d9dpxhegHqwtwtW6evsWeDD9utm7jF5dneGl3JlS/3ERywgRsNOPa5o0gke2M+69aSwY
- O9wZPw8E8PiOT0Mo3LmYhFOdJvbUlxHqUTdcU3XwO1/LAH8DVBMbxlw8SIkK30Hdz+Za
- KXs8UGhnHkIcTbM9q/sVxhDjpXK/r1vgmHsLL3AO8VYtuijNNqWECRksnrVnZ4x/i53X
- KoS7hM2sZgmiDw2nxwUeo6qssL0XXACOrQKM150LTEUabBJ/VC+boW6XHPfAwM/xQEZR
- mtDQ==
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374706E08C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 20:43:03 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id i20so935199vkk.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 13:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TlCjdbRMbP/wUOWxhVpHiQRbe/DkH4AfQXHxlQhoVjA=;
+ b=EOi3TYycOATstmP6d5D/4kHK77cpmm07nIj5AHuvfKmnLxKlJXrFY2QFvli6qNNCKA
+ wqQ6Gx1OjpknqNrHPOsQ6i5pA4Nsl/0P+o8YnHG9NApjT17RZYWFm2ppHG2Oa91sfuxA
+ V7/UnvO5E3bSeNaQiSfAOAo3JPrbiEZyVWI1xZBomo1Dr5q+3bfJwXgF9dxiWHQGZQ2B
+ pLhcuu+09iTwu7nNQoaBdcI38gAj4GsGHfeAu8E+COwEkQ7qG41AYUnujdSx6sdIvWGB
+ LIzkgD64Cktj4Lrk9qYaJk7E7mh6dWZ2/a0BboxrjqurpZNuVBcAGleuhJxvMUPytp7k
+ 494Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=u8vVd3eNYQguySxvKcCaV5W8ooNVhtOP1CKm/UC6A7I=;
- b=HyC9r/V3OFBAQFQQs0UvwGVS0iOnbZwL4cInkPV4nnIRnEROg2ClUftCjlRKedW61e
- iHfv9sjJEFOMgLLrN3Bd/PdYLBQd1RC1hTg4NgR5Gtqy+Kgdyk7mwokKa5uMIjOx95o1
- VCkBNrfFTrn4SxRqiXv0DeF6Ow8pD7POIovTKyQTjrr1vP6d0qx3OcMdUuzfKz8lIJej
- KP4dZ5s/ZQP6U2kzlGUTycqzF+Lq+859AxewaM3LDSHopAhNU37S4E4UO9b+oojVxeKT
- NemOLxmM7Y14IHW4SKsttt+bM4xvwsGBqZoEkIr0ucFcZHyCeQZYONzw2nvn3nm6iJzA
- z2nQ==
-X-Gm-Message-State: AOAM533qwFV4ReUJw+DeGci6J2s0nIAwFooQ4og6CSh3B6knnwCcQXBn
- wcXjEB5ZY0QHFdkptimHduk=
-X-Google-Smtp-Source: ABdhPJyBRrbSBhdu9xngj5VBMCOa3dus0RevnDqkrLCpPxaq4pkyHzKmzy8Eur5swB9DFOpFQqCLPg==
-X-Received: by 2002:a05:651c:c6:: with SMTP id
- 6mr10769338ljr.237.1596571629160; 
- Tue, 04 Aug 2020 13:07:09 -0700 (PDT)
-Received: from localhost.localdomain (h-82-196-111-59.NA.cust.bahnhof.se.
- [82.196.111.59])
- by smtp.gmail.com with ESMTPSA id g21sm3080020ljh.103.2020.08.04.13.07.07
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TlCjdbRMbP/wUOWxhVpHiQRbe/DkH4AfQXHxlQhoVjA=;
+ b=KJk3u6F+ufaUSfzDCowWCipy78+RfKjpWV0bxy0pGLMRMdqQWBv/ADUwg8JWOB20i5
+ bkBo73GmadYE95eoKCk0z5hLfCpGXC4OpXK8w0Hdx5rI1G+cu5T5AgnfJN7P1kG98h95
+ yufa7utsDYKuIeP2T8c2/5b53EGWk22rTQjbdUlMUIQYhM83pyGfBZt1yLBhcnFgr0fl
+ O9LyjePI09p9gXE56WIYxYbZUmSYJMKfpjclw+paMr+EujZavwgBgfOsxdHL1OPhhgY3
+ g54L+k2lWg/RJe5ATxsoJDGsByuLEwMRPpb+UGqbLmqZnQ4gNvidEtoY+XBJvH0p1c5b
+ fEAA==
+X-Gm-Message-State: AOAM530lSLnEw76rPw6VAGdmfTeQ4z3qhdG7wa0imlo6p8JlVZP8/zXE
+ hxkNRfaS4xRHUqrTciDg0gniAg==
+X-Google-Smtp-Source: ABdhPJw4pSB0K0iA7nRulTXnJfiqTxaQf1+i2vnos6vZbo7/HN0GM59TI/tMLvET0NGIlCFNwPQn1A==
+X-Received: by 2002:a1f:eac1:: with SMTP id i184mr80498vkh.66.1596573782070;
+ Tue, 04 Aug 2020 13:43:02 -0700 (PDT)
+Received: from google.com (182.71.196.35.bc.googleusercontent.com.
+ [35.196.71.182])
+ by smtp.gmail.com with ESMTPSA id a3sm2560129vsh.31.2020.08.04.13.43.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 13:07:08 -0700 (PDT)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
-Subject: [PATCH 3/3] drm/amd/display: Constify dcn30_res_pool_funcs
-Date: Tue,  4 Aug 2020 22:06:55 +0200
-Message-Id: <20200804200655.30495-4-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200804200655.30495-1-rikard.falkeborn@gmail.com>
-References: <20200804200655.30495-1-rikard.falkeborn@gmail.com>
+ Tue, 04 Aug 2020 13:43:01 -0700 (PDT)
+Date: Tue, 4 Aug 2020 20:42:58 +0000
+From: Kalesh Singh <kaleshsingh@google.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+Message-ID: <20200804204258.GA1002979@google.com>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-3-kaleshsingh@google.com>
+ <20200803154125.GA23808@casper.infradead.org>
+ <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
+ <20200803161230.GB23808@casper.infradead.org>
+ <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+ <20200803222831.GI1236603@ZenIV.linux.org.uk>
+ <20200804010913.GA2096725@ZenIV.linux.org.uk>
+ <20200804154451.GA948167@google.com>
+ <20200804182724.GK1236603@ZenIV.linux.org.uk>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200804182724.GK1236603@ZenIV.linux.org.uk>
 X-Mailman-Approved-At: Wed, 05 Aug 2020 07:13:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,39 +77,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jonathan Corbet <corbet@lwn.net>, kernel-team <kernel-team@android.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>, linux-doc@vger.kernel.org,
+ Ioannis Ilkos <ilkos@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, linaro-mm-sig@lists.linaro.org,
+ Hridya Valsaraju <hridya@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only usage of dcn30_res_pool_funcs is to assign its address to a
-const pointer. Make it const to allow the compiler to put it in
-read-only memory.
+On Tue, Aug 04, 2020 at 07:27:24PM +0100, Al Viro wrote:
+> On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
+> 
+> > Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
+> > that hold a file reference to the dma-buf. Unfortunately we can't use only
+> > explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
+> > between processes the file references are taken implicitly.
+> > 
+> > For example, on the sender side:
+> >    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
+> > and on the receiver side:
+> >    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
+> > 
+> > I understand now that fd_install is not an appropriate abstraction level to track these.
+> > Is there a more appropriate alternative where we could use to track these implicit file
+> > references?
+> 
+> There is no single lock that would stabilize the descriptor tables of all
+> processes.  And there's not going to be one, ever - it would be a contention
+> point from hell, since that would've been a system-wide lock that would have
+> to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
+> happen, for obvious reasons.  Moreover, you would have to have fork(2) take
+> the same lock, since it does copy descriptor table.  And clone(2) either does
+> the same, or has the child share the descriptor table of parent.
+> 
+> What's more, a reference to struct file can bloody well survive without
+> a single descriptor refering to that file.  In the example you've mentioned
+> above, sender has ever right to close all descriptors it has sent.   Files
+> will stay opened as long as the references are held in the datagram; when
+> that datagram is received, the references will be inserted into recepient's
+> descriptor table.  At that point you again have descriptors refering to
+> that file, can do any IO on it, etc.
+> 
+> So "the set of processes that hold a file reference to the dma-buf" is
+> 	* inherently unstable, unless you are willing to freeze every
+> process in the system except for the one trying to find that set.
+> 	* can remain empty for any amount of time (hours, weeks, whatever),
+> only to get non-empty later, with syscalls affecting the object in question
+> done afterwards.
+> 
+> So... what were you going to do with that set if you could calculate it?
+> If it's really "how do we debug a leak?", it's one thing; in that case
+> I would suggest keeping track of creation/destruction of objects (not
+> gaining/dropping references - actual constructors and destructors) to
+> see what gets stuck around for too long and use fuser(1) to try and locate
+> the culprits if you see that something *was* living for too long.  "Try"
+> since the only reference might indeed have been stashed into an SCM_RIGHTS
+> datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
+> needs elevated priveleges" is not a strong argument - the ability to
+> do that sort of tracking does imply elevated priveleges anyway, and
+> having a root process taking requests along the lines of "gimme the
+> list of PIDs that have such-and-such dma_buf in their descriptor table"
+> is not much of an attack surface.
+> 
+> If you want to use it for something else, you'll need to describe that
+> intended use; there might be sane ways to do that, but it's hard to
+> come up with one without knowing what's being attempted...
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Al. Thanks for the guidance and detailed explanation. It appears what we
+were trying to accomplish here is not feasible.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
-index 653a571e366d..d474a6188445 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
-@@ -2412,7 +2412,7 @@ static void dcn30_update_bw_bounding_box(struct dc *dc, struct clk_bw_params *bw
- 		dml_init_instance(&dc->current_state->bw_ctx.dml, &dcn3_0_soc, &dcn3_0_ip, DML_PROJECT_DCN30);
- }
- 
--static struct resource_funcs dcn30_res_pool_funcs = {
-+static const struct resource_funcs dcn30_res_pool_funcs = {
- 	.destroy = dcn30_destroy_resource_pool,
- 	.link_enc_create = dcn30_link_encoder_create,
- 	.panel_cntl_create = dcn30_panel_cntl_create,
--- 
-2.28.0
-
+Thanks, Kalesh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
