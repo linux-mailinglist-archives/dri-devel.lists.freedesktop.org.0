@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35A923B30E
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5074E23B30F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015616E3FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05676E3FC;
 	Tue,  4 Aug 2020 02:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83996E3FB
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7686F6E3F7
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:45 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-srbyL8hGNKiLhj0IDk6Aeg-1; Mon, 03 Aug 2020 22:58:38 -0400
-X-MC-Unique: srbyL8hGNKiLhj0IDk6Aeg-1
+ us-mta-413-X7HqRbFiOmSzlR7wHXaAXQ-1; Mon, 03 Aug 2020 22:58:40 -0400
+X-MC-Unique: X7HqRbFiOmSzlR7wHXaAXQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B42D100AA22;
- Tue,  4 Aug 2020 02:58:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 740A98015F4;
+ Tue,  4 Aug 2020 02:58:39 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C055F90E68;
- Tue,  4 Aug 2020 02:58:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAE5190E68;
+ Tue,  4 Aug 2020 02:58:37 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 47/59] drm/ttm: move range manager to subclassed driver
- allocation
-Date: Tue,  4 Aug 2020 12:56:20 +1000
-Message-Id: <20200804025632.3868079-48-airlied@gmail.com>
+Subject: [PATCH 48/59] drm/vmwgfx/ttm: move thp to driver managed
+Date: Tue,  4 Aug 2020 12:56:21 +1000
+Message-Id: <20200804025632.3868079-49-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -53,73 +52,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClJldmlld2VkLWJ5OiBDaHJp
-c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IERh
-dmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fYm9fbWFuYWdlci5jIHwgMzEgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQogMSBmaWxl
-IGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX2JvX21hbmFnZXIuYwppbmRleCBkODNjYjk2N2ExMDcuLjAxZDQxYzZmMmY3YiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwpAQCAtNDQsMTYgKzQ0LDIyIEBACiAgKi8K
-IAogc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyIHsKKwlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFn
-ZXIgbWFuYWdlcjsKIAlzdHJ1Y3QgZHJtX21tIG1tOwogCXNwaW5sb2NrX3QgbG9jazsKIH07CiAK
-K3N0YXRpYyBpbmxpbmUgc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICp0b19yYW5nZV9tYW5hZ2Vy
-KHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQoreworCXJldHVybiBjb250YWluZXJf
-b2YobWFuLCBzdHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIsIG1hbmFnZXIpOworfQorCiBzdGF0aWMg
-aW50IHR0bV9ib19tYW5fZ2V0X25vZGUoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4s
-CiAJCQkgICAgICAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKIAkJCSAgICAgICBjb25z
-dCBzdHJ1Y3QgdHRtX3BsYWNlICpwbGFjZSwKIAkJCSAgICAgICBzdHJ1Y3QgdHRtX21lbV9yZWcg
-Km1lbSkKIHsKLQlzdHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKnJtYW4gPSAoc3RydWN0IHR0bV9y
-YW5nZV9tYW5hZ2VyICopIG1hbi0+cHJpdjsKKwlzdHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKnJt
-YW4gPSB0b19yYW5nZV9tYW5hZ2VyKG1hbik7CiAJc3RydWN0IGRybV9tbSAqbW0gPSAmcm1hbi0+
-bW07CiAJc3RydWN0IGRybV9tbV9ub2RlICpub2RlOwogCWVudW0gZHJtX21tX2luc2VydF9tb2Rl
-IG1vZGU7CkBAIC05Miw3ICs5OCw3IEBAIHN0YXRpYyBpbnQgdHRtX2JvX21hbl9nZXRfbm9kZShz
-dHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKIHN0YXRpYyB2b2lkIHR0bV9ib19tYW5f
-cHV0X25vZGUoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sCiAJCQkJc3RydWN0IHR0
-bV9tZW1fcmVnICptZW0pCiB7Ci0Jc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFuID0gKHN0
-cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqKSBtYW4tPnByaXY7CisJc3RydWN0IHR0bV9yYW5nZV9t
-YW5hZ2VyICpybWFuID0gdG9fcmFuZ2VfbWFuYWdlcihtYW4pOwogCiAJaWYgKG1lbS0+bW1fbm9k
-ZSkgewogCQlzcGluX2xvY2soJnJtYW4tPmxvY2spOwpAQCAtMTEzLDI1ICsxMTksMjYgQEAgaW50
-IHR0bV9yYW5nZV9tYW5faW5pdChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKIAkJICAgICAg
-IGJvb2wgdXNlX3R0LAogCQkgICAgICAgdW5zaWduZWQgbG9uZyBwX3NpemUpCiB7Ci0Jc3RydWN0
-IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4gPSB0dG1fbWFuYWdlcl90eXBlKGJkZXYsIHR5cGUp
-OworCXN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuOwogCXN0cnVjdCB0dG1fcmFuZ2Vf
-bWFuYWdlciAqcm1hbjsKIAotCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBhdmFpbGFibGVfY2Fj
-aGluZzsKLQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IGRlZmF1bHRfY2FjaGluZzsKLQltYW4tPnVz
-ZV90dCA9IHVzZV90dDsKLQogCXJtYW4gPSBremFsbG9jKHNpemVvZigqcm1hbiksIEdGUF9LRVJO
-RUwpOwogCWlmICghcm1hbikKIAkJcmV0dXJuIC1FTk9NRU07CiAKKwltYW4gPSAmcm1hbi0+bWFu
-YWdlcjsKKwltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gYXZhaWxhYmxlX2NhY2hpbmc7CisJbWFu
-LT5kZWZhdWx0X2NhY2hpbmcgPSBkZWZhdWx0X2NhY2hpbmc7CisJbWFuLT51c2VfdHQgPSB1c2Vf
-dHQ7CisKIAltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsKIAogCXR0bV9tZW1fdHlw
-ZV9tYW5hZ2VyX2luaXQoYmRldiwgbWFuLCBwX3NpemUpOwogCiAJZHJtX21tX2luaXQoJnJtYW4t
-Pm1tLCAwLCBwX3NpemUpOwogCXNwaW5fbG9ja19pbml0KCZybWFuLT5sb2NrKTsKLQltYW4tPnBy
-aXYgPSBybWFuOwogCisJdHRtX3NldF9kcml2ZXJfbWFuYWdlcihiZGV2LCB0eXBlLCAmcm1hbi0+
-bWFuYWdlcik7CiAJdHRtX21lbV90eXBlX21hbmFnZXJfc2V0X3VzZWQobWFuLCB0cnVlKTsKIAly
-ZXR1cm4gMDsKIH0KQEAgLTE0MSw3ICsxNDgsNyBAQCBpbnQgdHRtX3JhbmdlX21hbl9maW5pKHN0
-cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAogCQkgICAgICAgdW5zaWduZWQgdHlwZSkKIHsKIAlz
-dHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwg
-dHlwZSk7Ci0Jc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFuID0gKHN0cnVjdCB0dG1fcmFu
-Z2VfbWFuYWdlciAqKSBtYW4tPnByaXY7CisJc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFu
-ID0gdG9fcmFuZ2VfbWFuYWdlcihtYW4pOwogCXN0cnVjdCBkcm1fbW0gKm1tID0gJnJtYW4tPm1t
-OwogCWludCByZXQ7CiAKQEAgLTE1NSwxMCArMTYyLDEwIEBAIGludCB0dG1fcmFuZ2VfbWFuX2Zp
-bmkoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCiAJZHJtX21tX2NsZWFuKG1tKTsKIAlkcm1f
-bW1fdGFrZWRvd24obW0pOwogCXNwaW5fdW5sb2NrKCZybWFuLT5sb2NrKTsKLQlrZnJlZShybWFu
-KTsKLQltYW4tPnByaXYgPSBOVUxMOwogCiAJdHRtX21lbV90eXBlX21hbmFnZXJfY2xlYW51cCht
-YW4pOworCXR0bV9zZXRfZHJpdmVyX21hbmFnZXIoYmRldiwgdHlwZSwgTlVMTCk7CisJa2ZyZWUo
-cm1hbik7CiAJcmV0dXJuIDA7CiB9CiBFWFBPUlRfU1lNQk9MKHR0bV9yYW5nZV9tYW5fZmluaSk7
-CkBAIC0xNjYsNyArMTczLDcgQEAgRVhQT1JUX1NZTUJPTCh0dG1fcmFuZ2VfbWFuX2ZpbmkpOwog
-c3RhdGljIHZvaWQgdHRtX2JvX21hbl9kZWJ1ZyhzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIg
-Km1hbiwKIAkJCSAgICAgc3RydWN0IGRybV9wcmludGVyICpwcmludGVyKQogewotCXN0cnVjdCB0
-dG1fcmFuZ2VfbWFuYWdlciAqcm1hbiA9IChzdHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKikgbWFu
-LT5wcml2OworCXN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqcm1hbiA9IHRvX3JhbmdlX21hbmFn
-ZXIobWFuKTsKIAogCXNwaW5fbG9jaygmcm1hbi0+bG9jayk7CiAJZHJtX21tX3ByaW50KCZybWFu
-LT5tbSwgcHJpbnRlcik7Ci0tIAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+From: Dave Airlie <airlied@redhat.com>
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c | 32 +++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+index 720a24214c74..1cefd9c1e8ea 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+@@ -16,10 +16,16 @@
+  * @lock: Manager lock.
+  */
+ struct vmw_thp_manager {
++	struct ttm_mem_type_manager manager;
+ 	struct drm_mm mm;
+ 	spinlock_t lock;
+ };
+ 
++static struct vmw_thp_manager *to_thp_manager(struct ttm_mem_type_manager *man)
++{
++	return container_of(man, struct vmw_thp_manager, manager);
++}
++
+ static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
+ 				  unsigned long align_pages,
+ 				  const struct ttm_place *place,
+@@ -43,7 +49,7 @@ static int vmw_thp_get_node(struct ttm_mem_type_manager *man,
+ 			    const struct ttm_place *place,
+ 			    struct ttm_mem_reg *mem)
+ {
+-	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
++	struct vmw_thp_manager *rman = to_thp_manager(man);
+ 	struct drm_mm *mm = &rman->mm;
+ 	struct drm_mm_node *node;
+ 	unsigned long align_pages;
+@@ -103,7 +109,7 @@ static int vmw_thp_get_node(struct ttm_mem_type_manager *man,
+ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
+ 			     struct ttm_mem_reg *mem)
+ {
+-	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
++	struct vmw_thp_manager *rman = to_thp_manager(man);
+ 
+ 	if (mem->mm_node) {
+ 		spin_lock(&rman->lock);
+@@ -117,20 +123,24 @@ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
+ 
+ int vmw_thp_init(struct vmw_private *dev_priv)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
++	struct ttm_mem_type_manager *man;
+ 	struct vmw_thp_manager *rman;
++
++	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
++	if (!rman)
++		return -ENOMEM;
++
++	man = &rman->manager;
+ 	man->available_caching = TTM_PL_FLAG_CACHED;
+ 	man->default_caching = TTM_PL_FLAG_CACHED;
+ 
+ 	ttm_mem_type_manager_init(&dev_priv->bdev, man,
+ 				  dev_priv->vram_size >> PAGE_SHIFT);
+-	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
+-	if (!rman)
+-		return -ENOMEM;
+ 
+ 	drm_mm_init(&rman->mm, 0, man->size);
+ 	spin_lock_init(&rman->lock);
+-	man->priv = rman;
++
++	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, &rman->manager);
+ 	ttm_mem_type_manager_set_used(man, true);
+ 	return 0;
+ }
+@@ -138,7 +148,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
+ void vmw_thp_fini(struct vmw_private *dev_priv)
+ {
+ 	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+-	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
++	struct vmw_thp_manager *rman = to_thp_manager(man);
+ 	struct drm_mm *mm = &rman->mm;
+ 	int ret;
+ 
+@@ -151,15 +161,15 @@ void vmw_thp_fini(struct vmw_private *dev_priv)
+ 	drm_mm_clean(mm);
+ 	drm_mm_takedown(mm);
+ 	spin_unlock(&rman->lock);
+-	kfree(rman);
+-	man->priv = NULL;
+ 	ttm_mem_type_manager_cleanup(man);
++	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, NULL);
++	kfree(rman);
+ }
+ 
+ static void vmw_thp_debug(struct ttm_mem_type_manager *man,
+ 			  struct drm_printer *printer)
+ {
+-	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
++	struct vmw_thp_manager *rman = to_thp_manager(man);
+ 
+ 	spin_lock(&rman->lock);
+ 	drm_mm_print(&rman->mm, printer);
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
