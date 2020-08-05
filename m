@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FCA23C54A
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 07:52:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8409023C54E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 07:54:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD11B6E4DD;
-	Wed,  5 Aug 2020 05:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82E896E4DE;
+	Wed,  5 Aug 2020 05:54:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
  [IPv6:2607:f8b0:4864:20::b44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17F76E4DD
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 05:52:34 +0000 (UTC)
-Received: by mail-yb1-xb44.google.com with SMTP id 2so23186778ybr.13
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 22:52:34 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24CB16E4DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 05:54:08 +0000 (UTC)
+Received: by mail-yb1-xb44.google.com with SMTP id n141so21022676ybf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 22:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ootLaWPvo9NqJAxmfKu/+QdQliPGcMYK7vMlDWBH4H0=;
- b=gRtwTH6qvz/No/t5P3QyCnj6ueXv2e+iV57FHhPy0tdey5A+SEkGczdj+HghIOCPQz
- QnZ1/estq6rVDlOb9Xjasu/zssfvCEBz8tht6J19hx1JG0nD9eE6lcLXsxRJZ3mfsQnt
- 2POEravc1zqiWBVJ/izlJcM5qjUsGXKTrQemvs2N2JKKQXAmEbLMXhM8ZDWZo1PfQCYH
- NlqFMk5CwI53DZK64HzJ+AxOGFZ6n1UpIJhxSWUDP8JaLgAX9ogvPzmteFsHvgp5yw+9
- bwUtups+yGM7zeJf35wNWhMafmpWWmTytuBJ54/qn408BZkqvpEwZ1ROI6eM8B5Mobha
- GF4A==
+ :cc; bh=3psiKbas/uLdk90iDtYQLLy2/myClf0YhdTxB5nj6TI=;
+ b=ZhBq1OvpS8jxNRFKU5novrzxlWfgPCZoIOIDyKRSCesltCP+mIxxIR7sOjsb4twIP0
+ o4VUGAKE37oesehJpNBSo/mvdpZhg4oQf4K7aEFuBCxPmkaG60sFCssTooUNHLYdto0X
+ w5cVRY6lmKkZ3L1x7b1f+N/3TnVgTa6vH2x3OE5W9U1d8TgmzBYfSm4yTQJL6G4sa0Fs
+ d/WtQL5VrUTYug3wyXU6Jvt69WDJcT3HWk4ADP3PdXjWfv4Kg/BIlcTHTJHvK4g9Y9BB
+ Pb+DsnptBbzD6cCOJzVP98igVIFS/d6M9fWSyS7yQQWQ/AqbIEJH9d3Xs7jJvekf+Yu0
+ T7kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ootLaWPvo9NqJAxmfKu/+QdQliPGcMYK7vMlDWBH4H0=;
- b=LMnZnbOsfPqIxulwy7UycdA0Z+seKI6uY/fr8HyzKTObm87xSYO2SQpheoH1ZpMBXX
- 0VQhxn3qAuHFfLiNNmYvhM5oUBdnBnSrB/QuIGI8t09YHJfPS+NYROwhktcpDsnz0mYI
- wwOdq51Z49Ehome9rdQMFZMH1Mhq6toawI0TXhySGtvlVBy9JAtYC5t8k6NStPj3N/pa
- HzmFKtn7yDeFtWTDKWqvfu/+BnGE4/MYHu8JXJGS8rat9rwJq1/McwvGOWWFhbDMUmrT
- 4tiD8GyI8FiTROfB0GNVXWud5XKwkg2os/5MIYv1jPpUtQdmIjYEMVmXzqyL4/Rk54eS
- b9og==
-X-Gm-Message-State: AOAM532UJemkybuIPzvd21inm5AWKxOEO+of/NYuVWjqBQSyzl8CUwSz
- b4wK3zPANkWeDbSW7iFScNAgvihRU0X4o7VFs1A=
-X-Google-Smtp-Source: ABdhPJw79NICMyYbo0pyFYMdP0iR9iMiI7/bG3r7QHrR+KAgrW2bE9QD5bojzsjlJCNi29bz4X5ejF8VgEk122I/eJ8=
-X-Received: by 2002:a25:cc46:: with SMTP id l67mr2260588ybf.283.1596606754175; 
- Tue, 04 Aug 2020 22:52:34 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=3psiKbas/uLdk90iDtYQLLy2/myClf0YhdTxB5nj6TI=;
+ b=NHll2/b2Wcq7Ff8EdjGVpnPv7kksnkYCKsNkgi7H6p7xEKH9piIE6q/Q9WjEMjTrHV
+ SH1lFj+xqqWz6zB0VU0MGsqjTP5JNdMINRbLk7k7eHFpQq3gihuPIFAho0804LgRCaUT
+ HbTl1JJv3cPg+p88B6rp9axXi/l3nq32cGS6ADqltmkg5J0Y5TykyekNdwsZ80Icb/ZK
+ nLvoOwgcKn9QMqwscXzXTvQhD7e3j4a55/4BeIviROyUkcUHvB+EPYAL5XbWCM3e+b6S
+ 3JjXwrF7MTnX1jfRkrwZsCWWkBtYSQWbzKrxwwOhcWQO73VA1lRXmloI4BNxzflXFh5A
+ SSYA==
+X-Gm-Message-State: AOAM530RoHqDfygoDk7ayp040UEOB5P99R2kbdI2kt7KJivN7wYVf3Ud
+ JjtXMWjJlNkJoV0efAlrPw1XnSkpIIZGe5xevOw=
+X-Google-Smtp-Source: ABdhPJyhtAacFigVJGEF94GfXh7YtMG1enSJYwI2qcrgpFwqJXUaD3t0XvYjsBTvJFCGLWcAj/CQhdY6zwGurT6Ws/4=
+X-Received: by 2002:a25:c4c5:: with SMTP id u188mr2327224ybf.162.1596606847397; 
+ Tue, 04 Aug 2020 22:54:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200804025632.3868079-1-airlied@gmail.com>
- <20200804025632.3868079-48-airlied@gmail.com>
-In-Reply-To: <20200804025632.3868079-48-airlied@gmail.com>
+ <20200804025632.3868079-51-airlied@gmail.com>
+In-Reply-To: <20200804025632.3868079-51-airlied@gmail.com>
 From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 5 Aug 2020 15:52:23 +1000
-Message-ID: <CACAvsv6vvejseQRae2--r0ZoyzZ6KoVRAHNzy7t1rePbxVuS4w@mail.gmail.com>
-Subject: Re: [PATCH 47/59] drm/ttm: move range manager to subclassed driver
- allocation
+Date: Wed, 5 Aug 2020 15:53:56 +1000
+Message-ID: <CACAvsv74r4Ymdz+-Mb2iJuFbGpwK_cxCZnsucYZS1x5DHGyCiQ@mail.gmail.com>
+Subject: Re: [PATCH 50/59] drm/nouveau/ttm: move to driver allocated manager
 To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,90 +65,133 @@ Cc: sroland@vmware.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
  linux-graphics-maintainer@vmware.com, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCA0IEF1ZyAyMDIwIGF0IDEyOjU4LCBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5j
-b20+IHdyb3RlOgo+Cj4gRnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPgo+
-IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-Cj4gU2lnbmVkLW9mZi1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KUmV2aWV3
-ZWQtYnk6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KCj4gLS0tCj4gIGRyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYyB8IDMxICsrKysrKysrKysrKysrKysrLS0tLS0t
-LS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygt
-KQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYyBi
-L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwo+IGluZGV4IGQ4M2NiOTY3YTEw
-Ny4uMDFkNDFjNmYyZjdiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
-X21hbmFnZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwo+
-IEBAIC00NCwxNiArNDQsMjIgQEAKPiAgICovCj4KPiAgc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2Vy
-IHsKPiArICAgICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciBtYW5hZ2VyOwo+ICAgICAg
-ICAgc3RydWN0IGRybV9tbSBtbTsKPiAgICAgICAgIHNwaW5sb2NrX3QgbG9jazsKPiAgfTsKPgo+
-ICtzdGF0aWMgaW5saW5lIHN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqdG9fcmFuZ2VfbWFuYWdl
-cihzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbikKPiArewo+ICsgICAgICAgcmV0dXJu
-IGNvbnRhaW5lcl9vZihtYW4sIHN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciwgbWFuYWdlcik7Cj4g
-K30KPiArCj4gIHN0YXRpYyBpbnQgdHRtX2JvX21hbl9nZXRfbm9kZShzdHJ1Y3QgdHRtX21lbV90
-eXBlX21hbmFnZXIgKm1hbiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0
-IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Y29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2UsCj4gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHN0cnVjdCB0dG1fbWVtX3JlZyAqbWVtKQo+ICB7Cj4gLSAgICAgICBzdHJ1Y3QgdHRt
-X3JhbmdlX21hbmFnZXIgKnJtYW4gPSAoc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICopIG1hbi0+
-cHJpdjsKPiArICAgICAgIHN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqcm1hbiA9IHRvX3Jhbmdl
-X21hbmFnZXIobWFuKTsKPiAgICAgICAgIHN0cnVjdCBkcm1fbW0gKm1tID0gJnJtYW4tPm1tOwo+
-ICAgICAgICAgc3RydWN0IGRybV9tbV9ub2RlICpub2RlOwo+ICAgICAgICAgZW51bSBkcm1fbW1f
-aW5zZXJ0X21vZGUgbW9kZTsKPiBAQCAtOTIsNyArOTgsNyBAQCBzdGF0aWMgaW50IHR0bV9ib19t
-YW5fZ2V0X25vZGUoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sCj4gIHN0YXRpYyB2
-b2lkIHR0bV9ib19tYW5fcHV0X25vZGUoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4s
-Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1l
-bSkKPiAgewo+IC0gICAgICAgc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFuID0gKHN0cnVj
-dCB0dG1fcmFuZ2VfbWFuYWdlciAqKSBtYW4tPnByaXY7Cj4gKyAgICAgICBzdHJ1Y3QgdHRtX3Jh
-bmdlX21hbmFnZXIgKnJtYW4gPSB0b19yYW5nZV9tYW5hZ2VyKG1hbik7Cj4KPiAgICAgICAgIGlm
-IChtZW0tPm1tX25vZGUpIHsKPiAgICAgICAgICAgICAgICAgc3Bpbl9sb2NrKCZybWFuLT5sb2Nr
-KTsKPiBAQCAtMTEzLDI1ICsxMTksMjYgQEAgaW50IHR0bV9yYW5nZV9tYW5faW5pdChzdHJ1Y3Qg
-dHRtX2JvX2RldmljZSAqYmRldiwKPiAgICAgICAgICAgICAgICAgICAgICAgIGJvb2wgdXNlX3R0
-LAo+ICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9uZyBwX3NpemUpCj4gIHsKPiAt
-ICAgICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuID0gdHRtX21hbmFnZXJfdHlw
-ZShiZGV2LCB0eXBlKTsKPiArICAgICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFu
-Owo+ICAgICAgICAgc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFuOwo+Cj4gLSAgICAgICBt
-YW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gYXZhaWxhYmxlX2NhY2hpbmc7Cj4gLSAgICAgICBtYW4t
-PmRlZmF1bHRfY2FjaGluZyA9IGRlZmF1bHRfY2FjaGluZzsKPiAtICAgICAgIG1hbi0+dXNlX3R0
-ID0gdXNlX3R0Owo+IC0KPiAgICAgICAgIHJtYW4gPSBremFsbG9jKHNpemVvZigqcm1hbiksIEdG
-UF9LRVJORUwpOwo+ICAgICAgICAgaWYgKCFybWFuKQo+ICAgICAgICAgICAgICAgICByZXR1cm4g
-LUVOT01FTTsKPgo+ICsgICAgICAgbWFuID0gJnJtYW4tPm1hbmFnZXI7Cj4gKyAgICAgICBtYW4t
-PmF2YWlsYWJsZV9jYWNoaW5nID0gYXZhaWxhYmxlX2NhY2hpbmc7Cj4gKyAgICAgICBtYW4tPmRl
-ZmF1bHRfY2FjaGluZyA9IGRlZmF1bHRfY2FjaGluZzsKPiArICAgICAgIG1hbi0+dXNlX3R0ID0g
-dXNlX3R0Owo+ICsKPiAgICAgICAgIG1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwo+
-Cj4gICAgICAgICB0dG1fbWVtX3R5cGVfbWFuYWdlcl9pbml0KGJkZXYsIG1hbiwgcF9zaXplKTsK
-Pgo+ICAgICAgICAgZHJtX21tX2luaXQoJnJtYW4tPm1tLCAwLCBwX3NpemUpOwo+ICAgICAgICAg
-c3Bpbl9sb2NrX2luaXQoJnJtYW4tPmxvY2spOwo+IC0gICAgICAgbWFuLT5wcml2ID0gcm1hbjsK
-Pgo+ICsgICAgICAgdHRtX3NldF9kcml2ZXJfbWFuYWdlcihiZGV2LCB0eXBlLCAmcm1hbi0+bWFu
-YWdlcik7Cj4gICAgICAgICB0dG1fbWVtX3R5cGVfbWFuYWdlcl9zZXRfdXNlZChtYW4sIHRydWUp
-Owo+ICAgICAgICAgcmV0dXJuIDA7Cj4gIH0KPiBAQCAtMTQxLDcgKzE0OCw3IEBAIGludCB0dG1f
-cmFuZ2VfbWFuX2Zpbmkoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICAgICAgICAgICAg
-ICAgICAgICAgICB1bnNpZ25lZCB0eXBlKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgdHRtX21lbV90
-eXBlX21hbmFnZXIgKm1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwgdHlwZSk7Cj4gLSAgICAg
-ICBzdHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKnJtYW4gPSAoc3RydWN0IHR0bV9yYW5nZV9tYW5h
-Z2VyICopIG1hbi0+cHJpdjsKPiArICAgICAgIHN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqcm1h
-biA9IHRvX3JhbmdlX21hbmFnZXIobWFuKTsKPiAgICAgICAgIHN0cnVjdCBkcm1fbW0gKm1tID0g
-JnJtYW4tPm1tOwo+ICAgICAgICAgaW50IHJldDsKPgo+IEBAIC0xNTUsMTAgKzE2MiwxMCBAQCBp
-bnQgdHRtX3JhbmdlX21hbl9maW5pKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+ICAgICAg
-ICAgZHJtX21tX2NsZWFuKG1tKTsKPiAgICAgICAgIGRybV9tbV90YWtlZG93bihtbSk7Cj4gICAg
-ICAgICBzcGluX3VubG9jaygmcm1hbi0+bG9jayk7Cj4gLSAgICAgICBrZnJlZShybWFuKTsKPiAt
-ICAgICAgIG1hbi0+cHJpdiA9IE5VTEw7Cj4KPiAgICAgICAgIHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-X2NsZWFudXAobWFuKTsKPiArICAgICAgIHR0bV9zZXRfZHJpdmVyX21hbmFnZXIoYmRldiwgdHlw
-ZSwgTlVMTCk7Cj4gKyAgICAgICBrZnJlZShybWFuKTsKPiAgICAgICAgIHJldHVybiAwOwo+ICB9
-Cj4gIEVYUE9SVF9TWU1CT0wodHRtX3JhbmdlX21hbl9maW5pKTsKPiBAQCAtMTY2LDcgKzE3Myw3
-IEBAIEVYUE9SVF9TWU1CT0wodHRtX3JhbmdlX21hbl9maW5pKTsKPiAgc3RhdGljIHZvaWQgdHRt
-X2JvX21hbl9kZWJ1ZyhzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKPiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fcHJpbnRlciAqcHJpbnRlcikKPiAgewo+
-IC0gICAgICAgc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFuID0gKHN0cnVjdCB0dG1fcmFu
-Z2VfbWFuYWdlciAqKSBtYW4tPnByaXY7Cj4gKyAgICAgICBzdHJ1Y3QgdHRtX3JhbmdlX21hbmFn
-ZXIgKnJtYW4gPSB0b19yYW5nZV9tYW5hZ2VyKG1hbik7Cj4KPiAgICAgICAgIHNwaW5fbG9jaygm
-cm1hbi0+bG9jayk7Cj4gICAgICAgICBkcm1fbW1fcHJpbnQoJnJtYW4tPm1tLCBwcmludGVyKTsK
-PiAtLQo+IDIuMjYuMgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On Tue, 4 Aug 2020 at 12:58, Dave Airlie <airlied@gmail.com> wrote:
+>
+> From: Dave Airlie <airlied@redhat.com>
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_ttm.c | 45 +++++++++++++++++++--------
+>  1 file changed, 32 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> index 1c636723823c..58d9bd708e95 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> @@ -157,12 +157,12 @@ static int
+>  nouveau_ttm_init_vram(struct nouveau_drm *drm)
+>  {
+>         struct nvif_mmu *mmu = &drm->client.mmu;
+> -
+>         if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+> -               struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
+> -
+>                 /* Some BARs do not support being ioremapped WC */
+>                 const u8 type = mmu->type[drm->ttm.type_vram].type;
+> +               struct ttm_mem_type_manager *man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
+> +               if (!man)
+> +                       return -ENOMEM;
+>
+>                 man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+>                 man->default_caching = TTM_PL_FLAG_WC;
+> @@ -174,8 +174,10 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+>
+>                 man->func = &nouveau_vram_manager;
+>                 man->use_io_reserve_lru = true;
+> +
+>                 ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+>                                           drm->gem.vram_available >> PAGE_SHIFT);
+> +               ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
+>                 ttm_mem_type_manager_set_used(man, true);
+>                 return 0;
+>         } else {
+> @@ -195,6 +197,8 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+>                 ttm_mem_type_manager_disable(man);
+>                 ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+>                 ttm_mem_type_manager_cleanup(man);
+> +               ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
+> +               kfree(man);
+>         } else
+>                 ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_VRAM);
+>  }
+> @@ -202,30 +206,43 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+>  static int
+>  nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+>  {
+> -       struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
+> +       struct ttm_mem_type_manager *man;
+>         unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
+> -       man->use_tt = true;
+> +       unsigned available_caching, default_caching;
+> +       const struct ttm_mem_type_manager_func *func = NULL;
+>         if (drm->agp.bridge) {
+> -               man->available_caching = TTM_PL_FLAG_UNCACHED |
+> +               available_caching = TTM_PL_FLAG_UNCACHED |
+>                         TTM_PL_FLAG_WC;
+> -               man->default_caching = TTM_PL_FLAG_WC;
+> +               default_caching = TTM_PL_FLAG_WC;
+>         } else {
+> -               man->available_caching = TTM_PL_MASK_CACHING;
+> -               man->default_caching = TTM_PL_FLAG_CACHED;
+> +               available_caching = TTM_PL_MASK_CACHING;
+> +               default_caching = TTM_PL_FLAG_CACHED;
+>         }
+>
+>         if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
+> -               man->func = &nouveau_gart_manager;
+> +               func = &nouveau_gart_manager;
+>         else if (!drm->agp.bridge)
+> -               man->func = &nv04_gart_manager;
+> +               func = &nv04_gart_manager;
+>         else
+>                 return ttm_range_man_init(&drm->ttm.bdev, TTM_PL_TT,
+> -                                         TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
+> -                                         TTM_PL_FLAG_WC, true,
+> +                                         available_caching, default_caching,
+> +                                         true,
+>                                           size_pages);
+> +
+> +       man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
+> +       if (!man)
+> +               return -ENOMEM;
+> +
+> +       man->func = func;
+> +       man->available_caching = available_caching;
+> +       man->default_caching = default_caching;
+> +       man->use_tt = true;
+>         ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+>                                   size_pages);
+> +
+> +       ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
+>         ttm_mem_type_manager_set_used(man, true);
+> +
+>         return 0;
+>  }
+>
+> @@ -241,6 +258,8 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+>                 ttm_mem_type_manager_disable(man);
+>                 ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+>                 ttm_mem_type_manager_cleanup(man);
+> +               ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
+> +               kfree(man);
+>         }
+>  }
+>
+> --
+> 2.26.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
