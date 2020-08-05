@@ -1,28 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B8623CA0E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 12:54:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6AF23CA10
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 12:54:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E153989EA6;
-	Wed,  5 Aug 2020 10:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8F96E0D5;
+	Wed,  5 Aug 2020 10:54:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70F6289337
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1A1389337
  for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 10:54:33 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8F67CB680;
+ by mx2.suse.de (Postfix) with ESMTP id F2A3DB694;
  Wed,  5 Aug 2020 10:54:48 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
  emil.l.velikov@gmail.com
-Subject: [PATCH v1 0/4] drm/ast: Disable HW cursor when switching modes
-Date: Wed,  5 Aug 2020 12:54:24 +0200
-Message-Id: <20200805105428.2590-1-tzimmermann@suse.de>
+Subject: [PATCH v1 1/4] drm/ast: Only set format registers if primary plane's
+ format changes
+Date: Wed,  5 Aug 2020 12:54:25 +0200
+Message-Id: <20200805105428.2590-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200805105428.2590-1-tzimmermann@suse.de>
+References: <20200805105428.2590-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -36,51 +39,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since converting the ast driver to atomic modesettting, modesetting
-occationally locks up the graphics hardware and turns the display
-permanently dark. This happens once or twice per 10 mode switches.
-Investigation shows that the ast hardware presumably requires the HW
-cursor to be disabled while the modeswitch takes place.
+The atomic modesetting code tried to distinguish format changes from
+full modesetting operations. But the implementation was buggy and the
+format registers were often updated even for simple pageflips.
 
-This patchset fixes the problem by disabling planes before programming
-the CRTC mode or format. After the switch, the planes gets re-enabled if
-they were enabled before. For mere pageflip operations, nothing changes.
+Fix this problem by distinguishing between format and mode changes; and
+handle each in it's own branch.
 
-Patches #1 makes format changes work as intended: format registers are
-only updated if necessary. They used to be changed on each pageflip.
-Patch #2 puts the modesetting code before the plane-update code. This
-way, mode setting runs while planes are disabled. Patches #3 and #4
-add a commit-tail function that disables planes if the display's mode
-or format is going to change. The active planes will later get re-enabled
-by the plane-update handler.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 4961eb60f145 ("drm/ast: Enable atomic modesetting")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
+Cc: <stable@vger.kernel.org> # v5.6+
+---
+ drivers/gpu/drm/ast/ast_mode.c | 52 ++++++++++++++++------------------
+ 1 file changed, 25 insertions(+), 27 deletions(-)
 
-Tested on AST2100 HW. The issue is not 100% reproducible, but does not
-show up after applying the patchset. I think the problem has been fixed.
-
-v2:
-	* rewrote the whole patchset
-	* dropped the cursor patches
-	* moved modesetting into atomic_begin()
-	* disable planes in commit-tail function
-	* don't require full modeset for format changes
-
-Thomas Zimmermann (4):
-  drm/ast: Only set format registers if primary plane's format changes
-  drm/ast: Set display mode in atomic_begin()
-  drm/ast: Add commit-tail function
-  drm/ast: Disable planes while switching display modes
-
- drivers/gpu/drm/ast/ast_drv.h  |   2 +
- drivers/gpu/drm/ast/ast_mode.c | 148 +++++++++++++++++++++++++--------
- 2 files changed, 114 insertions(+), 36 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 62fe682a7de6..b129833c0821 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -768,34 +768,32 @@ static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct drm_device *dev = crtc->dev;
+ 	struct ast_private *ast = to_ast_private(dev);
+-	struct ast_crtc_state *ast_state;
+-	const struct drm_format_info *format;
+-	struct ast_vbios_mode_info *vbios_mode_info;
+-	struct drm_display_mode *adjusted_mode;
+-
+-	ast_state = to_ast_crtc_state(crtc->state);
+-
+-	format = ast_state->format;
+-	if (!format)
+-		return;
+-
+-	vbios_mode_info = &ast_state->vbios_mode_info;
+-
+-	ast_set_color_reg(ast, format);
+-	ast_set_vbios_color_reg(ast, format, vbios_mode_info);
+-
+-	if (!crtc->state->mode_changed)
+-		return;
+-
+-	adjusted_mode = &crtc->state->adjusted_mode;
++	struct drm_crtc_state *crtc_state = crtc->state;
++	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
++	struct ast_crtc_state *old_ast_crtc_state =
++		to_ast_crtc_state(old_crtc_state);
++	const struct drm_format_info *format = ast_crtc_state->format;
++	struct ast_vbios_mode_info *vbios_mode_info =
++		&ast_crtc_state->vbios_mode_info;
++	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
++
++	if (drm_WARN_ON_ONCE(dev, !format))
++		return; /* BUG: We didn't set format in primary check(). */
++
++	if (format != old_ast_crtc_state->format) {
++		ast_set_color_reg(ast, format);
++		ast_set_vbios_color_reg(ast, format, vbios_mode_info);
++	}
+ 
+-	ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
+-	ast_set_std_reg(ast, adjusted_mode, vbios_mode_info);
+-	ast_set_crtc_reg(ast, adjusted_mode, vbios_mode_info);
+-	ast_set_dclk_reg(ast, adjusted_mode, vbios_mode_info);
+-	ast_set_crtthd_reg(ast);
+-	ast_set_sync_reg(ast, adjusted_mode, vbios_mode_info);
++	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
++		ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
++		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
++		ast_set_std_reg(ast, adjusted_mode, vbios_mode_info);
++		ast_set_crtc_reg(ast, adjusted_mode, vbios_mode_info);
++		ast_set_dclk_reg(ast, adjusted_mode, vbios_mode_info);
++		ast_set_crtthd_reg(ast);
++		ast_set_sync_reg(ast, adjusted_mode, vbios_mode_info);
++	}
+ }
+ 
+ static void
+-- 
 2.28.0
 
 _______________________________________________
