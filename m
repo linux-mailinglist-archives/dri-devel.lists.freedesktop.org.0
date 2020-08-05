@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4886223D776
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EE423D778
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD5D86E877;
-	Thu,  6 Aug 2020 07:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4546E872;
+	Thu,  6 Aug 2020 07:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C26DA6E82E
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 18:10:16 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id o1so25765860plk.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 11:10:16 -0700 (PDT)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF3C16E830
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 18:10:22 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id s15so13387938pgc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 11:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wr1R0/Ze2G4IecD2JkfhRTVYXHTVK1Tx0wo+bfHFfJI=;
- b=sJdfVwrs67VSWJ5Urnu3dK5b8A8dylK7mh1xnF8wRETervUk9RNicZKtC+qvch4EFV
- k26HGRHycRlUbPnzAzmeVzlHJHTPxIuPT0hzGI/0edcqMTs6QxFztZsAYKTzI/3AuyW9
- Q+MMx6BOgb47Xcgt8E6FTwNIFije/ztkRl9lifaif5/f0H0F29Wha7hVxyCaJ3YcoGHu
- aqSTjF1lsue7sZtzPF9fQvJOlQrT5+iWp+K1nLpsudiy+Cuqa1oF9H9EsLdYlmamTQuL
- dQuQQUvftJye8+UOMCuoEqKOivnQGMZ9Ut9CFVD3GznkJVvB9d2ltjwYLrY6OnsjR27k
- mRqw==
+ bh=oVv4Wzhn3JTwGtZviwAnr4HC2ws5LBgl7lYKjJuNKZY=;
+ b=BrpYJEVk8N/XVlt4jsasznf003BTu7lhnJ1yz6JbHpFcdbh0Jgwy5vrSZZzMMpXNuG
+ rOCr8SOkoAUK5ZMGdgz4COUznIrU9pfS1GFtceCstYb8ZmuWiqwS9T01VCXsRcny3SD0
+ 8SK+j9Lv9xT4IBuOUEiGFY9p2ilme1znS6pOMaj//glr5nnDJI8CJUmOFiFQD0f7NoRF
+ 5Q7c1ON8o7dzq+Dq8i6ssclH+jsM/2vInABBoozfXimoPjvFEv1eGrBXTITf3ANqucbK
+ e8MtS3enVGZa5I4TOXD50C2ibKk8cBoPjYGBQLEZSATPyhJDUErPbVmNDHEqOEa4M05x
+ WhgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wr1R0/Ze2G4IecD2JkfhRTVYXHTVK1Tx0wo+bfHFfJI=;
- b=ulK8z85zLFJ21WdxA+/gTSjC2/O2Nq4UESxoYwDqXDt+N/kBQ7ATz7vpf8AtwWwcAw
- KSIEBObedYxsixY7P6wTrt4Qf5EIhudbMlavMyHquikaoKIC3jzAuU1dARSAV9rPU8Kf
- ydaq+VL3qngbGIlPlNoIpJKdqKggulmcsEer5gL7+DQRojzwy15NOVtHl9hmNsKLTG6U
- 6yfbPexaYR9MxpTuQDL+Q7fMNVqRoJZKG30VxbL74DQ099fayPp047tcaldFc9SkJRJZ
- WhH3oQ8M9qr8ussZryG01Pc7zW8RX8aBMo34ef1ed5VC/DiLkIrg7Oq5wx+YalbOMxI+
- il0g==
-X-Gm-Message-State: AOAM530DvOkOxvpPUYHgztRc9Zwuilbcg6VUbhJegu/rXwPIOGjodSWK
- jaOcufa0fK7DiWJEf32g88M=
-X-Google-Smtp-Source: ABdhPJxyu6VM6PZNHf9Q6CWK4FZqzh1F468GpS4fZ5DdCQVfyzwWEr5vdgsuKzP6qjzcCo2AdWK0ag==
-X-Received: by 2002:a17:90b:4a0a:: with SMTP id
- kk10mr4520046pjb.30.1596651016370; 
- Wed, 05 Aug 2020 11:10:16 -0700 (PDT)
+ bh=oVv4Wzhn3JTwGtZviwAnr4HC2ws5LBgl7lYKjJuNKZY=;
+ b=T4WKFQiOj5dVeyT70eoDtxWeKOdXz5IjiAhhzxSeGpbhXvmpei1NHcN8WksVKpgSgJ
+ jMJk+l9kG9PhP3II24QUezMMTLP+kYk/f5cYZjBUKX/MiMM+HwLp8BzAGm6ZmnvW8tvL
+ rZmKY7ODTbwhIhZv9V4nkW/j/iJOOerQGSnSAnSZkVcwE5Nf+4+sii5WkGIRz6yWXhFO
+ hpRdIo0HEBgfBSCKEoWrhrhwBG64edBqgG8Pt/+4QuHXIShJozj7HkptHAW7fhErRhlf
+ nKVRPjfK4EmDciGelGyaQLD2mj5iFiEHq1p8wz4IMJqkIe1N354cZKaez1LP6owvTCrr
+ c4xw==
+X-Gm-Message-State: AOAM531zuUiT4zB6U5QNE/4+0fANT0qrv4uo1r571SfvyFJbZFyha2Bf
+ DQQJIuksz/L8lCkQStPDVgQ=
+X-Google-Smtp-Source: ABdhPJwDZAcI2ajtEzbJOnXXP2LJhU/UuVb3xTgiB80quyQR0y4N5pspuNUgpRuAZpoI77zZkWfobg==
+X-Received: by 2002:a65:524b:: with SMTP id q11mr4075709pgp.372.1596651022278; 
+ Wed, 05 Aug 2020 11:10:22 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id t63sm4977510pfb.210.2020.08.05.11.10.11
+ by smtp.gmail.com with ESMTPSA id t63sm4977510pfb.210.2020.08.05.11.10.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:10:15 -0700 (PDT)
+ Wed, 05 Aug 2020 11:10:21 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -54,9 +53,9 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Paul Mackerras <paulus@samba.org>, Russell King <linux@armlinux.org.uk>,
  Andres Salomon <dilinger@queued.net>, Antonino Daplas <adaplas@gmail.com>,
  Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-Subject: [PATCH v1 09/12] fbdev: i740fb: use generic power management
-Date: Wed,  5 Aug 2020 23:37:19 +0530
-Message-Id: <20200805180722.244008-10-vaibhavgupta40@gmail.com>
+Subject: [PATCH v1 10/12] fbdev: vt8623fb: use generic power management
+Date: Wed,  5 Aug 2020 23:37:20 +0530
+Message-Id: <20200805180722.244008-11-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
 References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
@@ -97,33 +96,38 @@ and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/i740fb.c | 40 +++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 24 deletions(-)
+ drivers/video/fbdev/vt8623fb.c | 41 ++++++++++++++--------------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-index c65ec7386e87..8d7f06fc8a5a 100644
---- a/drivers/video/fbdev/i740fb.c
-+++ b/drivers/video/fbdev/i740fb.c
-@@ -1175,16 +1175,11 @@ static void i740fb_remove(struct pci_dev *dev)
- 	}
+diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623fb.c
+index 7b3eef1b893f..c488e0117758 100644
+--- a/drivers/video/fbdev/vt8623fb.c
++++ b/drivers/video/fbdev/vt8623fb.c
+@@ -815,12 +815,11 @@ static void vt8623_pci_remove(struct pci_dev *dev)
  }
  
+ 
 -#ifdef CONFIG_PM
--static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
-+static int __maybe_unused i740fb_suspend(struct device *dev)
+ /* PCI suspend */
+ 
+-static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
++static int __maybe_unused vt8623_pci_suspend(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct i740fb_par *par = info->par;
+ 	struct vt8623fb_info *par = info->par;
  
--	/* don't disable console during hibernation and wakeup from it */
--	if (state.event == PM_EVENT_FREEZE || state.event == PM_EVENT_PRETHAW)
--		return 0;
--
+ 	dev_info(info->device, "suspend\n");
+@@ -828,7 +827,7 @@ static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
  	console_lock();
  	mutex_lock(&(par->open_lock));
  
-@@ -1197,19 +1192,15 @@ static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
+-	if ((state.event == PM_EVENT_FREEZE) || (par->ref_count == 0)) {
++	if (par->ref_count == 0) {
+ 		mutex_unlock(&(par->open_lock));
+ 		console_unlock();
+ 		return 0;
+@@ -836,10 +835,6 @@ static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
  
  	fb_set_suspend(info, 1);
  
@@ -134,61 +138,65 @@ index c65ec7386e87..8d7f06fc8a5a 100644
  	mutex_unlock(&(par->open_lock));
  	console_unlock();
  
- 	return 0;
- }
+@@ -849,9 +844,9 @@ static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
  
--static int i740fb_resume(struct pci_dev *dev)
-+static int __maybe_unused i740fb_resume(struct device *dev)
+ /* PCI resume */
+ 
+-static int vt8623_pci_resume(struct pci_dev* dev)
++static int __maybe_unused vt8623_pci_resume(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct i740fb_par *par = info->par;
+ 	struct vt8623fb_info *par = info->par;
  
- 	console_lock();
-@@ -1218,11 +1209,6 @@ static int i740fb_resume(struct pci_dev *dev)
+ 	dev_info(info->device, "resume\n");
+@@ -862,14 +857,6 @@ static int vt8623_pci_resume(struct pci_dev* dev)
  	if (par->ref_count == 0)
  		goto fail;
  
 -	pci_set_power_state(dev, PCI_D0);
 -	pci_restore_state(dev);
+-
 -	if (pci_enable_device(dev))
 -		goto fail;
 -
- 	i740fb_set_par(info);
+-	pci_set_master(dev);
+-
+ 	vt8623fb_set_par(info);
  	fb_set_suspend(info, 0);
  
-@@ -1231,10 +1217,17 @@ static int i740fb_resume(struct pci_dev *dev)
- 	console_unlock();
+@@ -879,10 +866,17 @@ static int vt8623_pci_resume(struct pci_dev* dev)
+ 
  	return 0;
  }
 -#else
--#define i740fb_suspend NULL
--#define i740fb_resume NULL
+-#define vt8623_pci_suspend NULL
+-#define vt8623_pci_resume NULL
 -#endif /* CONFIG_PM */
 +
-+static const struct dev_pm_ops i740fb_pm_ops = {
++static const struct dev_pm_ops vt8623_pci_pm_ops = {
 +#ifdef CONFIG_PM_SLEEP
-+	.suspend	= i740fb_suspend,
-+	.resume		= i740fb_resume,
++	.suspend	= vt8623_pci_suspend,
++	.resume		= vt8623_pci_resume,
 +	.freeze		= NULL,
-+	.thaw		= i740fb_resume,
-+	.poweroff	= i740fb_suspend,
-+	.restore	= i740fb_resume,
++	.thaw		= vt8623_pci_resume,
++	.poweroff	= vt8623_pci_suspend,
++	.restore	= vt8623_pci_resume,
 +#endif /* CONFIG_PM_SLEEP */
 +};
  
- #define I740_ID_PCI 0x00d1
- #define I740_ID_AGP 0x7800
-@@ -1251,8 +1244,7 @@ static struct pci_driver i740fb_driver = {
- 	.id_table	= i740fb_id_table,
- 	.probe		= i740fb_probe,
- 	.remove		= i740fb_remove,
--	.suspend	= i740fb_suspend,
--	.resume		= i740fb_resume,
-+	.driver.pm	= &i740fb_pm_ops,
+ /* List of boards that we are trying to support */
+ 
+@@ -898,8 +892,7 @@ static struct pci_driver vt8623fb_pci_driver = {
+ 	.id_table	= vt8623_devices,
+ 	.probe		= vt8623_pci_probe,
+ 	.remove		= vt8623_pci_remove,
+-	.suspend	= vt8623_pci_suspend,
+-	.resume		= vt8623_pci_resume,
++	.driver.pm	= &vt8623_pci_pm_ops,
  };
  
- #ifndef MODULE
+ /* Cleanup */
 -- 
 2.27.0
 
