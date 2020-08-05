@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAA223CA11
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 12:54:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB98323CA14
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 12:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4668F89FCE;
-	Wed,  5 Aug 2020 10:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0955B89BF3;
+	Wed,  5 Aug 2020 10:55:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 028856E0BE
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 10:54:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAAC189BF3
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 10:55:51 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 33F38B697;
- Wed,  5 Aug 2020 10:54:49 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
+ by mx2.suse.de (Postfix) with ESMTP id 30E40B680;
+ Wed,  5 Aug 2020 10:56:07 +0000 (UTC)
+Subject: Re: [PATCH v1 0/4] drm/ast: Disable HW cursor when switching modes
+To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com, 
  emil.l.velikov@gmail.com
-Subject: [PATCH v1 4/4] drm/ast: Disable planes while switching display modes
-Date: Wed,  5 Aug 2020 12:54:28 +0200
-Message-Id: <20200805105428.2590-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200805105428.2590-1-tzimmermann@suse.de>
 References: <20200805105428.2590-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <64579013-da9a-f1b2-9c72-9e4a3e055948@suse.de>
+Date: Wed, 5 Aug 2020 12:55:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200805105428.2590-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,157 +39,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0250544638=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ast HW cursor requires the primary plane and CRTC to display at
-a valid mode and format. This is not the case while switching
-display modes, which can lead to the screen turing permanently dark.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0250544638==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Rd6brzv6acMrOnkXZa9HPT7F6BrfIhGrV"
 
-As a workaround, the ast driver now disables active planes while the
-mode or format switch takes place. It also synchronizes with the vertical
-refresh to give CRTC and planes some time to catch up on each other.
-The active planes planes (primary or cursor) will be re-enabled by
-each plane's atomic_update() function.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Rd6brzv6acMrOnkXZa9HPT7F6BrfIhGrV
+Content-Type: multipart/mixed; boundary="YaowDgZdzdCb1E62Xsxtn9hbKKNVlj94U";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
+ emil.l.velikov@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <64579013-da9a-f1b2-9c72-9e4a3e055948@suse.de>
+Subject: Re: [PATCH v1 0/4] drm/ast: Disable HW cursor when switching modes
+References: <20200805105428.2590-1-tzimmermann@suse.de>
+In-Reply-To: <20200805105428.2590-1-tzimmermann@suse.de>
 
-v2:
-	* move the logic into the commit-tail function
+--YaowDgZdzdCb1E62Xsxtn9hbKKNVlj94U
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 4961eb60f145 ("drm/ast: Enable atomic modesetting")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
-Cc: <stable@vger.kernel.org> # v5.6+
----
- drivers/gpu/drm/ast/ast_drv.h  |  2 +
- drivers/gpu/drm/ast/ast_mode.c | 68 ++++++++++++++++++++++++++++++++--
- 2 files changed, 66 insertions(+), 4 deletions(-)
+Should say [PATCH v2 0/4] instead
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index c1af6b725933..467049ca8430 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -177,6 +177,8 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
- 
- #define AST_IO_MM_OFFSET		(0x380)
- 
-+#define AST_IO_VGAIR1_VREFRESH		BIT(3)
-+
- #define __ast_read(x) \
- static inline u##x ast_read##x(struct ast_private *ast, u32 reg) { \
- u##x val = 0;\
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index ae5cb0a333f7..a379d51f3543 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -514,6 +514,17 @@ static void ast_set_start_address_crt1(struct ast_private *ast,
- 
- }
- 
-+static void ast_wait_for_vretrace(struct ast_private *ast)
-+{
-+	unsigned long timeout = jiffies + HZ;
-+	u8 vgair1;
-+
-+	do {
-+		vgair1 = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-+	} while (!(vgair1 & AST_IO_VGAIR1_VREFRESH) &&
-+		 time_before(jiffies, timeout));
-+}
-+
- /*
-  * Primary plane
-  */
-@@ -1043,23 +1054,72 @@ static int ast_connector_init(struct drm_device *dev)
-  * Mode config
-  */
- 
-+static bool
-+ast_crtc_needs_planes_disabled(struct drm_crtc_state *old_crtc_state,
-+			       struct drm_crtc_state *new_crtc_state)
-+{
-+	struct ast_crtc_state *old_ast_crtc_state, *new_ast_crtc_state;
-+
-+	if (drm_atomic_crtc_needs_modeset(new_crtc_state))
-+		return true;
-+
-+	old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
-+	new_ast_crtc_state = to_ast_crtc_state(new_crtc_state);
-+
-+	if (old_ast_crtc_state->format != new_ast_crtc_state->format)
-+		return true;
-+
-+	return false;
-+}
-+
- static void
- ast_mode_config_helper_commit_tail(struct drm_atomic_state *old_state)
- {
- 	struct drm_device *dev = old_state->dev;
-+	struct ast_private *ast = to_ast_private(dev);
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+	struct drm_crtc *crtc;
-+	int i;
-+	bool wait_for_vretrace = false;
- 
- 	drm_atomic_helper_commit_modeset_disables(dev, old_state);
- 
--	drm_atomic_helper_commit_planes(dev, old_state, 0);
-+	/*
-+	 * HW cursors require the underlying primary plane and CRTC to
-+	 * display a valid mode and image. This is not the case during
-+	 * full modeset operations. So we temporarily disable any active
-+	 * plane, including the HW cursor. Each plane's atomic_update()
-+	 * helper will re-enable it if necessary.
-+	 *
-+	 * We only do this during *full* modesets. It does not affect
-+	 * simple pageflips on the planes.
-+	 */
-+	for_each_oldnew_crtc_in_state(old_state, crtc,
-+				      old_crtc_state,
-+				      new_crtc_state, i) {
-+		if (!ast_crtc_needs_planes_disabled(old_crtc_state,
-+						    new_crtc_state))
-+			continue;
-+		drm_atomic_helper_disable_planes_on_crtc(old_crtc_state,
-+							 false);
-+		wait_for_vretrace = true;
-+	}
-+
-+	/*
-+	 * Ensure that no scanout takes place before reprogramming mode
-+	 * and format registers.
-+	 */
-+	if (wait_for_vretrace)
-+		ast_wait_for_vretrace(ast);
-+
-+	drm_atomic_helper_commit_planes(dev, old_state,
-+					DRM_PLANE_COMMIT_ACTIVE_ONLY);
- 
- 	drm_atomic_helper_commit_modeset_enables(dev, old_state);
- 
- 	drm_atomic_helper_fake_vblank(old_state);
--
- 	drm_atomic_helper_commit_hw_done(old_state);
--
- 	drm_atomic_helper_wait_for_vblanks(dev, old_state);
--
- 	drm_atomic_helper_cleanup_planes(dev, old_state);
- }
- 
--- 
-2.28.0
+Am 05.08.20 um 12:54 schrieb Thomas Zimmermann:
+> Since converting the ast driver to atomic modesettting, modesetting
+> occationally locks up the graphics hardware and turns the display
+> permanently dark. This happens once or twice per 10 mode switches.
+> Investigation shows that the ast hardware presumably requires the HW
+> cursor to be disabled while the modeswitch takes place.
+>=20
+> This patchset fixes the problem by disabling planes before programming
+> the CRTC mode or format. After the switch, the planes gets re-enabled i=
+f
+> they were enabled before. For mere pageflip operations, nothing changes=
+=2E
+>=20
+> Patches #1 makes format changes work as intended: format registers are
+> only updated if necessary. They used to be changed on each pageflip.
+> Patch #2 puts the modesetting code before the plane-update code. This
+> way, mode setting runs while planes are disabled. Patches #3 and #4
+> add a commit-tail function that disables planes if the display's mode
+> or format is going to change. The active planes will later get re-enabl=
+ed
+> by the plane-update handler.
+>=20
+> Tested on AST2100 HW. The issue is not 100% reproducible, but does not
+> show up after applying the patchset. I think the problem has been fixed=
+=2E
+>=20
+> v2:
+> 	* rewrote the whole patchset
+> 	* dropped the cursor patches
+> 	* moved modesetting into atomic_begin()
+> 	* disable planes in commit-tail function
+> 	* don't require full modeset for format changes
+>=20
+> Thomas Zimmermann (4):
+>   drm/ast: Only set format registers if primary plane's format changes
+>   drm/ast: Set display mode in atomic_begin()
+>   drm/ast: Add commit-tail function
+>   drm/ast: Disable planes while switching display modes
+>=20
+>  drivers/gpu/drm/ast/ast_drv.h  |   2 +
+>  drivers/gpu/drm/ast/ast_mode.c | 148 +++++++++++++++++++++++++--------=
+
+>  2 files changed, 114 insertions(+), 36 deletions(-)
+>=20
+> --
+> 2.28.0
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--YaowDgZdzdCb1E62Xsxtn9hbKKNVlj94U--
+
+--Rd6brzv6acMrOnkXZa9HPT7F6BrfIhGrV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8qkDYUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP2Mgf/aXfVs+K4esxDQXkOhNp8AYzuQW0y
+pjktdIfJ1Y4oQoKNH6fIiJgmYTF/kyUQDUCQLP0+wV9npbnWJrIhglStd8gML6WA
+Yk9BQjipmhJR3KNlhFD3j4Y86ZbZ/FEeIt2YZUwDRtvmJcss7gK40QK86qo2tGWf
+CsxSLuPwdFELemwLMmu20iiiZwnx5tH7jVvlYLPtCVxQXUJ8saV1sBYvkWrwajvZ
+F64DmzWVbll8G1neI84EyfOyRuz0EClJ411NLj5dSU74FVgHfMUNbPz6590Ks5dI
+THL7tG6JnpM83c0gU6ciEK5n+zmAQY9R5K2DB9DkWTZdDqkmqxu4R3r4hw==
+=3070
+-----END PGP SIGNATURE-----
+
+--Rd6brzv6acMrOnkXZa9HPT7F6BrfIhGrV--
+
+--===============0250544638==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0250544638==--
