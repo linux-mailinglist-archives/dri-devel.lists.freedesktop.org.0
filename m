@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6283C23D777
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3386923D775
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA9F6E874;
-	Thu,  6 Aug 2020 07:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1E8B6E196;
+	Thu,  6 Aug 2020 07:39:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB7E26E578
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 12:29:41 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id x9so47485254ljc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 05:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=m/HjrwgANJ8PQYoygV3h9t78fC88XwgOTu6N21/7jsU=;
- b=wJESEINa50YXFAOvvT+ZjoFcwfezYCjc+aFZwKvaqZgKzJkvDJ3dDvDHgb3d+YlpiV
- Zu/xKxVk8HXXbc6bqS+9Xsi9wdRtSo3zfueJOQxOu2zJDRI8ov8UCP1NOYhlSllRZbxK
- uAZprp4t2CmB87pxUcIjU0Tw+SIoG4ekrPels87nZiMVu70rlMszzl3etxDyL4fjSR5G
- H/63ayB5Cfr1wqSu8BTvktM8UNczdcnydn7WGwiqLp4JKcheq3r+mIt0SSVw6aBtCf0p
- 2Ov0/7UIjc4+H5QI5bHF9zVVu5Sp4UTrjs/HZJgS2Ch/lzcEn3mPZZts37p41CgdXNn8
- m3zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=m/HjrwgANJ8PQYoygV3h9t78fC88XwgOTu6N21/7jsU=;
- b=Wp/mqL/aAGau0AqRflexq1iZjPOSLtBuGirYkr0MfuE+Zk4P/xZihZJJZv5aCDQwQC
- Clf/U5s5iUkbuaxeIspfOjbNezYfJCv/ZnalK+5lm4Sksbxx4qD3v2k1HtQKWafwQn2l
- ZFk9WZJavHqtTQ41nAOyUP0LyYhsXarWO5aMpVWPAohgvH5fA0QGEXu9Wg9MnNFCeeOq
- CMsRBHQu7NFcKfQ4I2YZ6XoosAqpKtbSqZ/1COdbBdorN5zYb1aa8AwLETQMIosMi4Wy
- kE6jUxs1MEpliqXKRrHJ+pW4YljqvMKg8cHtroIPeXhGY1jvLwIknGbXkpeoMAx/elTJ
- IN9g==
-X-Gm-Message-State: AOAM530jejxp3hnWGisq06lw5KGQfL0QLLDop+DhvF+Gh5etrTrLHHO8
- oDONX6MjAiCPRqX6x5AIrKtLPD7n/uGX5pNEUKvFLw==
-X-Google-Smtp-Source: ABdhPJyOjEZP47sZuldKNYJEYhNasYStQC+Fa3ES/mPukklZJ0Ni87yn1PSduKSm1D8JMHN41/q6VU9WiSOspSt7ifk=
-X-Received: by 2002:a2e:844a:: with SMTP id u10mr1402186ljh.213.1596630579936; 
- Wed, 05 Aug 2020 05:29:39 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9651789F6D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 13:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1596632512;
+ bh=30nFNzwPxZmz9Y2oABIElubYun9r6VlJJIvIzFQZ2Xg=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=NvNUEbg1eTjb8vxJMZ0W8xXnbs9/JscXJ3mszIMsD8v9lFpwCVgS5DVp8WSBERSCM
+ KGFK7GawcJMt7WSUcLSQG4vMclL0NulaBgvSve8sxjwqV9nIfEirpf19ggzIz1ZoS+
+ oUAD6LODuMyoWnSzYRV19IJHRPQpDzIcJizHw1Lg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [80.208.209.197] ([80.208.209.197]) by web-mail.gmx.net
+ (3c-app-gmx-bap13.server.lan [172.19.172.83]) (via HTTP); Wed, 5 Aug 2020
+ 15:01:52 +0200
 MIME-Version: 1.0
-References: <20200722051851.72662-1-hexin.op@bytedance.com>
-In-Reply-To: <20200722051851.72662-1-hexin.op@bytedance.com>
-From: =?UTF-8?B?5L2V6ZGr?= <hexin.op@bytedance.com>
-Date: Wed, 5 Aug 2020 20:29:29 +0800
-Message-ID: <CACKzwjntROYA0WjdVewmozrXnzb=YX2dvqHgEpj4POOy0-QXOw@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: fix memory leak in virtio_gpu_cleanup_object()
-To: airlied@linux.ie, kraxel@redhat.com, Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <trinity-9f86ac52-5249-44e7-b51d-1ee00850f544-1596632511956@3c-app-gmx-bap13>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: David Woodhouse <dwmw2@infradead.org>
+Subject: Aw: [PATCH 2/3] arm: dts: mt7623: move MT7623N GPU to separate
+ mt7623n.dtsi file
+Date: Wed, 5 Aug 2020 15:01:52 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20200805113013.2763510-2-dwmw2@infradead.org>
+References: <8ef96e4d02ef82e171409945ee6cc0348c4fe594.camel@infradead.org>
+ <20200805113013.2763510-1-dwmw2@infradead.org>
+ <20200805113013.2763510-2-dwmw2@infradead.org>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:G8MRnqoV1D2B0ErxKua+b90DZKS/NUdemUbrgGRwofr3Vs3wa3sLtGJLSaIjAmckjfQuY
+ N2q+Z1WAU5keJxhmjgF2SFnKLAx/+ssSg5jG4hUSN4rhMAozwVfyIJHClWHwJMkftrm1YI9Hdl3N
+ N2EZp25fXiSYSNd4CgWyeh3C56OTSnt6jPqOH91UQ3q3+VeqQ8/hSKikviDmaPX5zjuc+ZoBk88W
+ vF8v75+g6PyEv8XnV1zeMlKR5e7LgiTjKKDbo3QbXbuY0GPdBBboJNcu7cnHK7c5hBWoJyu0lqbH
+ o0=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jiGjo3r8E60=:SBV9Be3eLAX/vuefSNp4aT
+ LkYXJUqZT8gJj5PqcNiEwuwkS6pryGTowBjPlaoDRcO0PpqHZF3SIL8U6V3RY7Wn7BCn6bj4o
+ Etz6RdBQ4pAfWntN20HvWnRT9RwtwiQNOjdcYq2tiY5pZn0vJ0E62+HJ3KfVh2jc4r4NQgGBY
+ PLjmlL2O2TeWsHBqCeIfHIT7Oy2889kOIWIJkWb5iWXv3Suw+lHxJSnxEce3WpXNPFu2whau2
+ KaAnWxDuLN5H5mXGf6gf2aYTY5vHoUFB0SDZKnHj30EM/AvPXTIuKM/KZrvAT6CkJZASi1RBW
+ wAnnWjiv95cUOcwEJ7yq08IterdkJFn++PEtDgeRpnnCmO9++OPT4wUsdb/uXbOcc26zYB+JU
+ ajzULtPfh7SjFTOjPLwj0ypXysExotP3Krs1vBFVECARsiPTfeEgw4HGzjlr+h8kP+afXwAEQ
+ yprfDYRgMyKmVj96fjfF3rBhHtytYk1o2UU2t/s4hQssUzGOXf9dLl0cVk//6bqMYnwG8H2cY
+ DUzmTP0UOx73F4+nwW2EizlJZcZ7HXTAKRg/sKvuTJ5psVDH5Ss4Dm6TtACBHcFHt8YEkxZnS
+ eHzfZXNZXe0d/mR7iMqk1jm7yM3ox7eF2Qqnw/IjwY2BEbL2uXKgFUtltb3qGp4uRqnbAcFOy
+ dZZmG6aVBAmKCcWwlGYbwZV5vNM8kXO2C5Pyy1RWYWhkGvsOQsMJ1I7MaJrueJZCof9E=
 X-Mailman-Approved-At: Thu, 06 Aug 2020 07:39:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,31 +68,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qi Liu <liuqi.16@bytedance.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
+ chunhui dai <chunhui.dai@mediatek.com>, David Airlie <airlied@linux.ie>,
+ Sean Wang <sean.wang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Frank Wunderlich <linux@fw-web.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WGluIEhlIDxoZXhpbi5vcEBieXRlZGFuY2UuY29tPiDkuo4yMDIw5bm0N+aciDIy5pel5ZGo5LiJ
-IOS4i+WNiDE6MTnlhpnpgZPvvJoKPgo+IEJlZm9yZSBzZXR0aW5nIHNobWVtLT5wYWdlcyB0byBO
-VUxMLCBrZnJlZSgpIHNob3VsZAo+IGJlIGNhbGxlZC4KPgo+IFNpZ25lZC1vZmYtYnk6IFhpbiBI
-ZSA8aGV4aW4ub3BAYnl0ZWRhbmNlLmNvbT4KPiBSZXZpZXdlZC1ieTogUWkgTGl1IDxsaXVxaS4x
-NkBieXRlZGFuY2UuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVf
-b2JqZWN0LmMgfCAxICsKPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jCj4gaW5kZXggNmNjYmQwMWNkODg4Li43
-MDNiNWNkNTE3NTEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1
-X29iamVjdC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5j
-Cj4gQEAgLTc5LDYgKzc5LDcgQEAgdm9pZCB2aXJ0aW9fZ3B1X2NsZWFudXBfb2JqZWN0KHN0cnVj
-dCB2aXJ0aW9fZ3B1X29iamVjdCAqYm8pCj4gICAgICAgICAgICAgICAgICAgICAgICAgfQo+Cj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgc2dfZnJlZV90YWJsZShzaG1lbS0+cGFnZXMpOwo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgIGtmcmVlKHNobWVtLT5wYWdlcyk7Cj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgc2htZW0tPnBhZ2VzID0gTlVMTDsKPiAgICAgICAgICAgICAgICAgICAgICAg
-ICBkcm1fZ2VtX3NobWVtX3VucGluKCZiby0+YmFzZS5iYXNlKTsKPiAgICAgICAgICAgICAgICAg
-fQo+IC0tCj4gMi4yMS4xIChBcHBsZSBHaXQtMTIyLjMpCj4KClBpbmcgZ3V5cy4gQW55IGNvbW1l
-bnRzIG9yIHN1Z2dlc3Rpb25z77yfCgotLQpYaW4gSGUKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi David
+
+> Gesendet: Mittwoch, 05. August 2020 um 13:30 Uhr
+> Von: "David Woodhouse" <dwmw2@infradead.org>
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>
+> The MT7623A doesn't have a GPU; add it only for MT7623N boards.
+>
+> Fixes: 1f6ed224594 ("arm: dts: mt7623: add Mali-450 device node")
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+
+> diff --git a/arch/arm/boot/dts/mt7623.dtsi b/arch/arm/boot/dts/mt7623.dtsi
+> index 3a6b856e5b74..dcd2f5ba4e20 100644
+> --- a/arch/arm/boot/dts/mt7623.dtsi
+> +++ b/arch/arm/boot/dts/mt7623.dtsi
+> @@ -734,30 +734,6 @@ g3dsys: syscon@13000000 {
+>  		#reset-cells = <1>;
+>  	};
+>
+> -	mali: gpu@13040000 {
+> -		compatible = "mediatek,mt7623-mali", "arm,mali-450";
+...
+> -		clocks = <&topckgen CLK_TOP_MMPLL>,
+> -			 <&g3dsys CLK_G3DSYS_CORE>;
+> -		clock-names = "bus", "core";
+> -		power-domains = <&scpsys MT2701_POWER_DOMAIN_MFG>;
+> -		resets = <&g3dsys MT2701_G3DSYS_CORE_RST>;
+> -	};
+
+i guess you should to move g3dsys too, and maybe the mmsys which is also drm-related?
+
+I can add this to my series, but before i change my series, i need advice from MTK/DT owners whats the preferred way ;)
+
+regards Frank
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
