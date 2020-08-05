@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E5123D76F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E71223D782
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:40:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362456E873;
-	Thu,  6 Aug 2020 07:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B05616E87E;
+	Thu,  6 Aug 2020 07:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C266E832
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 18:09:45 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id p1so25745142pls.4
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 11:09:45 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86B946E832
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 18:09:51 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id f10so807983plj.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 11:09:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B1dL9NIqPaG8kTtxrKrQZP2Mw3nbKryvhXJJhuiXF3I=;
- b=PSluF0FtdT+Om/bzBDquw3qF0LxOPjniWWeaGZe5f1u4fXAfbfPfTPE4tOA8oGXjKe
- SdK6vVKOsHOnS9c6GjmBKj+3NBigffqUQkvku2E5VbJAywb3NnTWnqL1Przbl35TLUYD
- r87i6InR6SIWjuZu7j38/XHbZfteiddwuiV6ydKo1Gxv/lcqkvvF7mcxyvcD4+BwijLq
- vvK/cwIzopjXNwodmnjjr85ID7eGGpsmi9UHh0vDsvbrxlxtgybYgsbEJxKoYKzyrwAU
- p3nxyFiekf1jXA36LKz03k+0VOMURFdkOAW4hqQTHcCDUUlnGh0ehmDo+M5HuSc+Dk7O
- cdzQ==
+ bh=VdNiALEgQ/Tw0IhAxmU7az6lLgcNbLOEAuDmANrnfiA=;
+ b=cpYfgwkQEP2bfsWRB/iVZRH2zrSxLRKcuJ0SMrxw0P1y3eCwkEg98QxaDBvvtOL80B
+ LJPRCOV1klEqeHCOroXhZRlVL+oWZgwRa8ajKVzDGk9zioTu5G3cmhenrt5ZX3SeSUxd
+ NDBsNkd0dLRvlwt84lTb8Da1o38oGpVwEYRd4e6k6hxVLloxJMcPrCN5GjceT2b2cyFr
+ ddbwvDOJzw7yPqzg6kx51vIvjDbRY2ZRq+8qxdAxC+UT5zl/vwTHeaP2RIvzQvhTbDOp
+ Z2ahvmTpHyMuWu9aCcE7DKXUZ87kyLLqxMwFvKXFcNoeQVXZ1n330wFDOktOokpHONSF
+ vyyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B1dL9NIqPaG8kTtxrKrQZP2Mw3nbKryvhXJJhuiXF3I=;
- b=JZDdVTqVSZ5rJNQmnsBbqui1Y/1/8Sv53fBRFLyVXdJ89HIW+obOLitBbgz66dnlq5
- BnCa5Jdr3+t+PNeJIVcIZ8bEkxlRWFyUkvuO/yA1lHf83zFropNRMvoSmJ+xDwf5bEkP
- P3fS0L8jsxpF0NexqK8B5hPB6WdG7fzqJUmrzW8tdMaaMVgKdzVr+Ti87joNv/l+b6JD
- EDvc0VXEyvE4c/60DGTmzOFiMaHMgN8rWcMel9iiATKPOIeA8fHipOAMsfRTGT1WJ4Ju
- b11EPBy6r9vF0gpfarDvQAk4Diim8NedWrDk69nzU7gZZ+nUD/1niAypbaJDOSEBvpEA
- wEbg==
-X-Gm-Message-State: AOAM533Kp/qBT4h01ueQPgQCokfCgJXIARyp+acjaafNm4euytkUV2TB
- /MTqyzVHb0Ciq2wQzsnqUt4=
-X-Google-Smtp-Source: ABdhPJwPs+1RKcGAtXdbkaMuXzE72m2vxBZT/zcxGLG4rjME36hPn5Q3MfrQIKsdMVnlVU+1WOyZJg==
-X-Received: by 2002:a17:90a:f290:: with SMTP id
- fs16mr4432461pjb.35.1596650984881; 
- Wed, 05 Aug 2020 11:09:44 -0700 (PDT)
+ bh=VdNiALEgQ/Tw0IhAxmU7az6lLgcNbLOEAuDmANrnfiA=;
+ b=uRSdTDmccSQxMpT94/QakiVlW/6LpiNyV29Mxzx0oDAe0zmjPWopo2PMQKyQOT6y22
+ xJSemBLtrCCrwSzObef8ryRjp5zEgRdiJCHfEdsAoxumv8FZC30jb1mcmw6/GY7+jpc7
+ ATCZxxOALJclwXUv0TkacSITPJLiqocactPRPMX7yKRzFKmgYgH4o+l+OTH3joNee7h/
+ f3BY6evYrvcmAJZw2lwBfEr5a4sVYXaUSEYdxrVYVS79WGN3jSQYPPifgom3Bqaa26+k
+ Ih6CQ9gbWcdA5yM7UYKDy42LxI341HCSuHMWPsCCZG1gckSSoDLfbo8GYtzkvC5ir/44
+ eiTQ==
+X-Gm-Message-State: AOAM532UDWoaFWkXPdsWGXQdhnvAkrNZuQEhqd28gabEJivMrIcO3d90
+ /JxvQYQlBpakMoZ07XrXDvY=
+X-Google-Smtp-Source: ABdhPJyDd6hePwgMx1pVDIy6sNSuRn+nHzmygK+IonbCInDlhNLVZGl75c+GI/m8YHSip6M5lXCFTg==
+X-Received: by 2002:a17:902:b203:: with SMTP id
+ t3mr4063000plr.50.1596650991064; 
+ Wed, 05 Aug 2020 11:09:51 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id t63sm4977510pfb.210.2020.08.05.11.09.39
+ by smtp.gmail.com with ESMTPSA id t63sm4977510pfb.210.2020.08.05.11.09.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:09:44 -0700 (PDT)
+ Wed, 05 Aug 2020 11:09:50 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -54,9 +54,9 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Paul Mackerras <paulus@samba.org>, Russell King <linux@armlinux.org.uk>,
  Andres Salomon <dilinger@queued.net>, Antonino Daplas <adaplas@gmail.com>,
  Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-Subject: [PATCH v1 04/12] fbdev: aty: use generic power management
-Date: Wed,  5 Aug 2020 23:37:14 +0530
-Message-Id: <20200805180722.244008-5-vaibhavgupta40@gmail.com>
+Subject: [PATCH v1 05/12] fbdev: aty128fb: use generic power management
+Date: Wed,  5 Aug 2020 23:37:15 +0530
+Message-Id: <20200805180722.244008-6-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
 References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
@@ -97,135 +97,119 @@ and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/aty/atyfb_base.c | 50 ++++++++++++++++++++--------
- 1 file changed, 36 insertions(+), 14 deletions(-)
+ drivers/video/fbdev/aty/aty128fb.c | 51 ++++++++++++++++++++----------
+ 1 file changed, 34 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index b0ac895e5ac9..a24d5bf6ade1 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -132,8 +132,8 @@
- #define PRINTKI(fmt, args...)	printk(KERN_INFO "atyfb: " fmt, ## args)
- #define PRINTKE(fmt, args...)	printk(KERN_ERR "atyfb: " fmt, ## args)
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index d05d4195acad..dd7762fea058 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -162,10 +162,22 @@ static char * const r128_family[] = {
+ static int aty128_probe(struct pci_dev *pdev,
+                                const struct pci_device_id *ent);
+ static void aty128_remove(struct pci_dev *pdev);
+-static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state);
+-static int aty128_pci_resume(struct pci_dev *pdev);
++static int aty128_pci_suspend_late(struct device *dev, pm_message_t state);
++static int __maybe_unused aty128_pci_suspend(struct device *dev);
++static int __maybe_unused aty128_pci_hibernate(struct device *dev);
++static int __maybe_unused aty128_pci_freeze(struct device *dev);
++static int __maybe_unused aty128_pci_resume(struct device *dev);
+ static int aty128_do_resume(struct pci_dev *pdev);
  
--#if defined(CONFIG_PM) || defined(CONFIG_PMAC_BACKLIGHT) || \
--defined (CONFIG_FB_ATY_GENERIC_LCD) || defined(CONFIG_FB_ATY_BACKLIGHT)
-+#if defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_GENERIC_LCD) || \
-+defined(CONFIG_FB_ATY_BACKLIGHT)
- static const u32 lt_lcd_regs[] = {
- 	CNFG_PANEL_LG,
- 	LCD_GEN_CNTL_LG,
-@@ -175,7 +175,7 @@ u32 aty_ld_lcd(int index, const struct atyfb_par *par)
- 		return aty_ld_le32(LCD_DATA, par);
- 	}
- }
--#endif /* defined(CONFIG_PM) || defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) */
-+#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) */
- 
- #ifdef CONFIG_FB_ATY_GENERIC_LCD
- /*
-@@ -1994,7 +1994,7 @@ static int atyfb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 
- 
- 
--#if defined(CONFIG_PM) && defined(CONFIG_PCI)
-+#if defined(CONFIG_PCI)
- 
- #ifdef CONFIG_PPC_PMAC
- /* Power management routines. Those are used for PowerBook sleep.
-@@ -2055,8 +2055,9 @@ static int aty_power_mgmt(int sleep, struct atyfb_par *par)
- }
- #endif /* CONFIG_PPC_PMAC */
- 
--static int atyfb_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int atyfb_pci_suspend_late(struct device *dev, pm_message_t state)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct fb_info *info = pci_get_drvdata(pdev);
- 	struct atyfb_par *par = (struct atyfb_par *) info->par;
- 
-@@ -2082,7 +2083,6 @@ static int atyfb_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	 * first save the config space content so the core can
- 	 * restore it properly on resume.
- 	 */
--	pci_save_state(pdev);
- 
- #ifdef CONFIG_PPC_PMAC
- 	/* Set chip to "suspend" mode */
-@@ -2094,8 +2094,6 @@ static int atyfb_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 		console_unlock();
- 		return -EIO;
- 	}
--#else
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
- #endif
- 
- 	console_unlock();
-@@ -2105,6 +2103,21 @@ static int atyfb_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	return 0;
- }
- 
-+static int __maybe_unused atyfb_pci_suspend(struct device *dev)
-+{
-+	return atyfb_pci_suspend_late(dev, PMSG_SUSPEND);
-+}
-+
-+static int __maybe_unused atyfb_pci_hibernate(struct device *dev)
-+{
-+	return atyfb_pci_suspend_late(dev, PMSG_HIBERNATE);
-+}
-+
-+static int __maybe_unused atyfb_pci_freeze(struct device *dev)
-+{
-+	return atyfb_pci_suspend_late(dev, PMSG_FREEZE);
-+}
-+
- static void aty_resume_chip(struct fb_info *info)
- {
- 	struct atyfb_par *par = info->par;
-@@ -2119,8 +2132,9 @@ static void aty_resume_chip(struct fb_info *info)
- 			aty_ld_le32(BUS_CNTL, par) | BUS_APER_REG_DIS, par);
- }
- 
--static int atyfb_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused atyfb_pci_resume(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct fb_info *info = pci_get_drvdata(pdev);
- 	struct atyfb_par *par = (struct atyfb_par *) info->par;
- 
-@@ -2162,7 +2176,18 @@ static int atyfb_pci_resume(struct pci_dev *pdev)
- 	return 0;
- }
- 
--#endif /*  defined(CONFIG_PM) && defined(CONFIG_PCI) */
-+static const struct dev_pm_ops atyfb_pci_pm_ops = {
-+#ifdef CONFIG_PM_SLEEP
-+	.suspend	= atyfb_pci_suspend,
-+	.resume		= atyfb_pci_resume,
-+	.freeze		= atyfb_pci_freeze,
-+	.thaw		= atyfb_pci_resume,
-+	.poweroff	= atyfb_pci_hibernate,
-+	.restore	= atyfb_pci_resume,
-+#endif /* CONFIG_PM_SLEEP */
++static const struct dev_pm_ops aty128_pci_pm_ops = {
++	.suspend	= aty128_pci_suspend,
++	.resume		= aty128_pci_resume,
++	.freeze		= aty128_pci_freeze,
++	.thaw		= aty128_pci_resume,
++	.poweroff	= aty128_pci_hibernate,
++	.restore	= aty128_pci_resume,
 +};
 +
-+#endif /*  defined(CONFIG_PCI) */
- 
- /* Backlight */
- #ifdef CONFIG_FB_ATY_BACKLIGHT
-@@ -3801,10 +3826,7 @@ static struct pci_driver atyfb_driver = {
- 	.id_table	= atyfb_pci_tbl,
- 	.probe		= atyfb_pci_probe,
- 	.remove		= atyfb_pci_remove,
--#ifdef CONFIG_PM
--	.suspend	= atyfb_pci_suspend,
--	.resume		= atyfb_pci_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm	= &atyfb_pci_pm_ops,
+ /* supported Rage128 chipsets */
+ static const struct pci_device_id aty128_pci_tbl[] = {
+ 	{ PCI_VENDOR_ID_ATI, PCI_DEVICE_ID_ATI_RAGE128_LE,
+@@ -272,8 +284,7 @@ static struct pci_driver aty128fb_driver = {
+ 	.id_table	= aty128_pci_tbl,
+ 	.probe		= aty128_probe,
+ 	.remove		= aty128_remove,
+-	.suspend	= aty128_pci_suspend,
+-	.resume		= aty128_pci_resume,
++	.driver.pm	= &aty128_pci_pm_ops,
  };
  
- #endif /* CONFIG_PCI */
+ /* packed BIOS settings */
+@@ -2320,7 +2331,6 @@ static int aty128fb_ioctl(struct fb_info *info, u_int cmd, u_long arg)
+ static void aty128_set_suspend(struct aty128fb_par *par, int suspend)
+ {
+ 	u32	pmgt;
+-	struct pci_dev *pdev = par->pdev;
+ 
+ 	if (!par->pdev->pm_cap)
+ 		return;
+@@ -2347,23 +2357,15 @@ static void aty128_set_suspend(struct aty128fb_par *par, int suspend)
+ 		aty_st_le32(BUS_CNTL1, 0x00000010);
+ 		aty_st_le32(MEM_POWER_MISC, 0x0c830000);
+ 		msleep(100);
+-
+-		/* Switch PCI power management to D2 */
+-		pci_set_power_state(pdev, PCI_D2);
+ 	}
+ }
+ 
+-static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state)
++static int aty128_pci_suspend_late(struct device *dev, pm_message_t state)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct fb_info *info = pci_get_drvdata(pdev);
+ 	struct aty128fb_par *par = info->par;
+ 
+-	/* Because we may change PCI D state ourselves, we need to
+-	 * first save the config space content so the core can
+-	 * restore it properly on resume.
+-	 */
+-	pci_save_state(pdev);
+-
+ 	/* We don't do anything but D2, for now we return 0, but
+ 	 * we may want to change that. How do we know if the BIOS
+ 	 * can properly take care of D3 ? Also, with swsusp, we
+@@ -2422,6 +2424,21 @@ static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state)
+ 	return 0;
+ }
+ 
++static int __maybe_unused aty128_pci_suspend(struct device *dev)
++{
++	return aty128_pci_suspend_late(dev, PMSG_SUSPEND);
++}
++
++static int __maybe_unused aty128_pci_hibernate(struct device *dev)
++{
++	return aty128_pci_suspend_late(dev, PMSG_HIBERNATE);
++}
++
++static int __maybe_unused aty128_pci_freeze(struct device *dev)
++{
++	return aty128_pci_suspend_late(dev, PMSG_FREEZE);
++}
++
+ static int aty128_do_resume(struct pci_dev *pdev)
+ {
+ 	struct fb_info *info = pci_get_drvdata(pdev);
+@@ -2468,12 +2485,12 @@ static int aty128_do_resume(struct pci_dev *pdev)
+ 	return 0;
+ }
+ 
+-static int aty128_pci_resume(struct pci_dev *pdev)
++static int __maybe_unused aty128_pci_resume(struct device *dev)
+ {
+ 	int rc;
+ 
+ 	console_lock();
+-	rc = aty128_do_resume(pdev);
++	rc = aty128_do_resume(to_pci_dev(dev));
+ 	console_unlock();
+ 
+ 	return rc;
 -- 
 2.27.0
 
