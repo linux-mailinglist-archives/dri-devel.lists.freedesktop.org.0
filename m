@@ -1,50 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1342723CB46
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 15:53:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BDD23CB7C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 16:28:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1016E7D3;
-	Wed,  5 Aug 2020 13:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E14D96E7DD;
+	Wed,  5 Aug 2020 14:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179866E7D3;
- Wed,  5 Aug 2020 13:53:35 +0000 (UTC)
-IronPort-SDR: VVgZvnBJ1CvmY+ICuBldSGQLWTLfgZWUvwrol053lMj5ICK/N1pv3kdlhuf27lLmQry9iTaK2g
- v67kFShhhxTA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9703"; a="237395974"
-X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; d="scan'208";a="237395974"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2020 06:53:34 -0700
-IronPort-SDR: /u9WI21hMGKjJqS1Hlrs94KZQqvCNuWy6QcF4xhKV9pZqZrUW47Zfe26okh0eTcuNss6V0adFw
- 3f6aXSGim3wQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; d="scan'208";a="467472304"
-Received: from kbs1-mobl1.gar.corp.intel.com (HELO [10.215.203.73])
- ([10.215.203.73])
- by orsmga005.jf.intel.com with ESMTP; 05 Aug 2020 06:53:29 -0700
-Subject: Re: [PATCH v5 1/5] drm/i915: Add enable/disable flip done and flip
- done handler
-To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
- <michel@daenzer.net>
-References: <20200720113117.16131-1-karthik.b.s@intel.com>
- <20200720113117.16131-2-karthik.b.s@intel.com>
- <d67715965a3de220137db377953da700944e89e6.camel@intel.com>
- <f00f637e-639e-5d12-83bd-274ad0a23abe@daenzer.net>
- <CAKMK7uFzvuT81J38Y_4NnZx3xQhJ4Ha4dVyDy+pwCRF8gbuRVw@mail.gmail.com>
-From: Karthik B S <karthik.b.s@intel.com>
-Message-ID: <e124de77-bd32-d14d-fdce-51d8fa4cee1a@intel.com>
-Date: Wed, 5 Aug 2020 19:23:28 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4489A6E7DD
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 14:28:18 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id w25so12466849ljo.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 07:28:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ZbOi0D7M/PRwgvshYFcvWxzIu7Wyn7LDMOyV3J5YUc=;
+ b=nl252fG29+SirZzVvdBcsuRzWW1QY/lQcBb4AgpxxJDsQrvAkTd/s1iZ+haw7uAumS
+ iyt8rLjz6r8ZRSWXGbfZFSjAseTGSUtTnJFBnoPuszCl1Oz0QhGTtkCKewJonq21O74r
+ amRBwrEgnA5RfNLWkXS+UazQNay5iBtfosFI3Sk+nP0pGUKPKSOGfG+cF4E9GsC3uDpM
+ Y4cI3pNSZPE4PksIUxCopXDxmySPhN+oyLaXxoZ8sEbuF5MnsLly6v/7ShTgCifsZPta
+ 7DxPzBFMLQjokp/114XDKhvDiwaiTQ9hTsHMR+EftlOL88Q+PhldS57UnBXK8kvWFJl2
+ zq4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ZbOi0D7M/PRwgvshYFcvWxzIu7Wyn7LDMOyV3J5YUc=;
+ b=p3BNB57FX6LH8H7tyI1yWrxXd9//GDlVC0LzcTuCpzcYjqA+pECO6Jt/Z4gnUtuJnU
+ K56GV3fa/BAXS1Cqub6QjbxPLA0KiyIKK5+tpPS0L4ZGh7r0vF394mvow9CK3+8lRD+a
+ VYmJPKOzyoxC2A3T0JYwxIIqBcbp2z4CUJyBo/zeOrjh6/kZq98AqIUIDOODuDgCnAmo
+ mS50zg64/EIySDtz7s/LfU4kI/cVxhe2RgPvs8rViDCfhV2ZLdlh6jPxFfLW8OlCewtU
+ IM4hXXZ312UbiED4Cg4NKNlUDZiojZuYbu5KSxa6Qo07SwNsMEcu5iwPBDPVmB1MW+EL
+ /b7Q==
+X-Gm-Message-State: AOAM533/cG9le4V6Oa7lw80LxIRw8Ivny6zv4LEVBpqmwmy5BmVznE01
+ dDW1Up9iJi4oRayWbZfkCHJlxQ==
+X-Google-Smtp-Source: ABdhPJwV/NEgR6NieDhGJjgcrqIdQbR1B6RGw3il19Yl4uCOVU9JOpcYqglqXiONsOorB84nCRogBA==
+X-Received: by 2002:a2e:5d8:: with SMTP id 207mr1434991ljf.58.1596637696557;
+ Wed, 05 Aug 2020 07:28:16 -0700 (PDT)
+Received: from localhost.bredbandsbolaget
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id t20sm950086ljd.12.2020.08.05.07.28.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Aug 2020 07:28:15 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel-notatek-nt35510: Fix enable/disable sequence
+Date: Wed,  5 Aug 2020 16:28:08 +0200
+Message-Id: <20200805142808.670451-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFzvuT81J38Y_4NnZx3xQhJ4Ha4dVyDy+pwCRF8gbuRVw@mail.gmail.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,62 +66,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vandita Kulkarni <vandita.kulkarni@intel.com>,
- Uma Shankar <uma.shankar@intel.com>, Daniel Vetter <daniel.vetter@intel.com>,
- "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiA3LzI4LzIwMjAgMzowNCBBTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBPbiBNb24sIEp1
-bCAyNywgMjAyMCBhdCAyOjI3IFBNIE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+
-IHdyb3RlOgo+Pgo+PiBPbiAyMDIwLTA3LTI1IDE6MjYgYS5tLiwgUGF1bG8gWmFub25pIHdyb3Rl
-Ogo+Pj4gRW0gc2VnLCAyMDIwLTA3LTIwIMOgcyAxNzowMSArMDUzMCwgS2FydGhpayBCIFMgZXNj
-cmV2ZXU6Cj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9p
-cnEuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMKPj4+PiBpbmRleCAxZmE2Nzcw
-MGQ4ZjQuLjk1OTUzYjM5Mzk0MSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X2lycS5jCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9pcnEuYwo+
-Pj4+IEBAIC02OTcsMTQgKzY5NywyNCBAQCB1MzIgaTkxNV9nZXRfdmJsYW5rX2NvdW50ZXIoc3Ry
-dWN0IGRybV9jcnRjICpjcnRjKQo+Pj4+ICAgICAgIHJldHVybiAoKChoaWdoMSA8PCA4KSB8IGxv
-dykgKyAocGl4ZWwgPj0gdmJsX3N0YXJ0KSkgJiAweGZmZmZmZjsKPj4+PiAgIH0KPj4+Pgo+Pj4+
-ICtzdGF0aWMgdTMyIGc0eF9nZXRfZmxpcF9jb3VudGVyKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykK
-Pj4+PiArewo+Pj4+ICsgICAgc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9f
-aTkxNShjcnRjLT5kZXYpOwo+Pj4+ICsgICAgZW51bSBwaXBlIHBpcGUgPSB0b19pbnRlbF9jcnRj
-KGNydGMpLT5waXBlOwo+Pj4+ICsKPj4+PiArICAgIHJldHVybiBJOTE1X1JFQUQoUElQRV9GTElQ
-Q09VTlRfRzRYKHBpcGUpKTsKPj4+PiArfQo+Pj4+ICsKPj4+PiAgIHUzMiBnNHhfZ2V0X3ZibGFu
-a19jb3VudGVyKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPj4+PiAgIHsKPj4+PiAgICAgICBzdHJ1
-Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1KGNydGMtPmRldik7Cj4+Pj4g
-ICAgICAgZW51bSBwaXBlIHBpcGUgPSB0b19pbnRlbF9jcnRjKGNydGMpLT5waXBlOwo+Pj4+Cj4+
-Pj4gKyAgICBpZiAoY3J0Yy0+c3RhdGUtPmFzeW5jX2ZsaXApCj4+Pj4gKyAgICAgICAgICAgIHJl
-dHVybiBnNHhfZ2V0X2ZsaXBfY291bnRlcihjcnRjKTsKPj4+PiArCj4+Pj4gICAgICAgcmV0dXJu
-IEk5MTVfUkVBRChQSVBFX0ZSTUNPVU5UX0c0WChwaXBlKSk7Cj4+Pgo+Pj4gSSBkb24ndCB1bmRl
-cnN0YW5kIHRoZSBpbnRlbnRpb24gYmVoaW5kIHRoaXMsIGNhbiB5b3UgcGxlYXNlIGNsYXJpZnk/
-Cj4+PiBUaGlzIGdvZXMgYmFjayB0byBteSByZXBseSBvZiB0aGUgY292ZXIgbGV0dGVyLiBJdCBz
-ZWVtcyB0aGF0IGhlcmUKPj4+IHdlJ3JlIGdvaW5nIHRvIGFsdGVybmF0ZSBiZXR3ZWVuIHR3byBk
-aWZmZXJlbnQgY291bnRlcnMgaW4gb3VyIHZibGFuawo+Pj4gY291bnQuIFNvIGlmIHVzZXIgc3Bh
-Y2UgYWx0ZXJuYXRlcyBiZXR3ZWVuIHNvbWV0aW1lcyB1c2luZyBhc3luYyBmbGlwcwo+Pj4gYW5k
-IHNvbWV0aW1lcyB1c2luZyBub3JtYWwgZmxpcCBpdCdzIGdvaW5nIHRvIGdldCBzb21lIHZlcnkg
-d2VpcmQKPj4+IGRlbHRhcywgaXNuJ3QgaXQ/IEF0IGxlYXN0IHRoaXMgaXMgd2hhdCBJIHJlbWVt
-YmVyIGZyb20gd2hlbiBJIHBsYXllZAo+Pj4gd2l0aCB0aGVzZSByZWdpc3RlcnM6IEZMSVBDT1VO
-VCBkcmlmdHMgYXdheSBmcm9tIEZSTUNPVU5UIHdoZW4gd2Ugc3RhcnQKPj4+IHVzaW5nIGFzeW5j
-IGZsaXBzLgo+Pgo+PiBUaGlzIGRlZmluaXRlbHkgbG9va3Mgd3JvbmcuIFRoZSBjb3VudGVyIHZh
-bHVlIHJldHVybmVkIGJ5IHRoZQo+PiBnZXRfdmJsYW5rX2NvdW50ZXIgaG9vayBpcyBzdXBwb3Nl
-ZCB0byBpbmNyZW1lbnQgd2hlbiBhIHZlcnRpY2FsIGJsYW5rCj4+IHBlcmlvZCBvY2N1cnM7IHBh
-Z2UgZmxpcHMgYXJlIG5vdCBzdXBwb3NlZCB0byBhZmZlY3QgdGhpcyBpbiBhbnkgd2F5Lgo+IAo+
-IEFsc28geW91IGp1c3QgZmxhdCBvdXQgY2FuJ3QgYWNjZXNzIGNydGMtPnN0YXRlIGZyb20gaW50
-ZXJydXB0Cj4gY29udGV4dC4gQW55dGhpbmcgeW91IG5lZWQgaW4gdGhlcmUgbmVlZHMgdG8gYmUg
-cHJvdGVjdGVkIGJ5IHRoZSByaWdodAo+IGlycS10eXBlIHNwaW5fbG9jaywgdXBkYXRlcyBjb3Jy
-ZWN0bHkgc3luY2hyb25pemVkIGFnYWluc3QgYm90aCB0aGUKPiBpbnRlcnJ1cHQgaGFuZGxlciBh
-bmQgYXRvbWljIHVwZGF0ZXMsIGFuZCBkYXRhIGNvcGllZCBvdmVyLCBub3QKPiBwb2ludGVycy4g
-T3RoZXJ3aXNlIGp1c3QgY3Jhc2gmYnVybi4KClRoYW5rcyBmb3IgdGhlIHJldmlldy4KSSB3aWxs
-IGJlIHJlbW92aW5nIHRoaXMgY2hhbmdlIGluIHRoZSBuZXh0IHJldmlzaW9uIGJhc2VkIG9uIHRo
-ZSAKZmVlZGJhY2sgcmVjZWl2ZWQsIGJ1dCBJIHdpbGwga2VlcCB0aGlzIGluIG1pbmQgd2hlbmV2
-ZXIgSSdsbCBoYXZlIHRvIAphY2Nlc3Mgc29tZXRoaW5nIGZyb20gdGhlIGludGVycnVwdCBjb250
-ZXh0LgoKVGhhbmtzLApLYXJ0aGlrLkIuUwo+IC1EYW5pZWwKPiAKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The driver was relying on only prepare()/unprepare() to
+enable/disable the display.
+
+This does not work because prepare() will be called
+before the DSI host/bridge is ready to send any DSI
+commands and disable() will be called after the DSI
+host/bridge is disabled and thus unable to send any
+DSI commands.
+
+Move all DCS command sending to the enable() and
+disable() callbacks, as is proper.
+
+The prepare() and unprepare() is now only used to
+enable and disable the regulators() and
+asserting/de-asserting the reset line so we inline the
+regulator and reset code here.
+
+While developing this it was discovered that during
+powercycling the device looses its ability to read
+the MTP ID:s. We were lucky before as the display
+came up with MTP reading enabled, but as this makes
+powercycling work, we also need to send two small
+sequences that enable the reading of the MTP ID
+after powering on the regulators.
+
+This makes it possible to use the user space UI
+stack Phosh on the Samsung GT-S7710 as Phosh
+enables/disables the display when starting.
+
+Rename the nt35510_power_on() function to
+nt35510_power_on_sequence() to reflect the fact
+that this is not really about regulators but a
+DCS command sequence.
+
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c | 107 +++++++++++-------
+ 1 file changed, 68 insertions(+), 39 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+index 4a8fa908a2cf..39113601e944 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+@@ -376,6 +376,10 @@ struct nt35510 {
+ };
+ 
+ /* Manufacturer command has strictly this byte sequence */
++static const u8 nt35510_mauc_mtp_read_param[] = { 0xAA, 0x55, 0x25, 0x01 };
++static const u8 nt35510_mauc_mtp_read_setting[] = { 0x01, 0x02, 0x00, 0x20,
++						    0x33, 0x13, 0x00, 0x40,
++						    0x00, 0x00, 0x23, 0x02 };
+ static const u8 nt35510_mauc_select_page_0[] = { 0x55, 0xAA, 0x52, 0x08, 0x00 };
+ static const u8 nt35510_mauc_select_page_1[] = { 0x55, 0xAA, 0x52, 0x08, 0x01 };
+ static const u8 nt35510_vgh_on[] = { 0x01 };
+@@ -674,29 +678,22 @@ static const struct backlight_ops nt35510_bl_ops = {
+ /*
+  * This power-on sequence
+  */
+-static int nt35510_power_on(struct nt35510 *nt)
++static int nt35510_power_on_sequence(struct nt35510 *nt)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
+ 	int ret;
+ 
+-	ret = regulator_bulk_enable(ARRAY_SIZE(nt->supplies), nt->supplies);
+-	if (ret < 0) {
+-		dev_err(nt->dev, "unable to enable regulators\n");
++	ret = nt35510_send_long(nt, dsi, MCS_CMD_MTP_READ_PARAM,
++				ARRAY_SIZE(nt35510_mauc_mtp_read_param),
++				nt35510_mauc_mtp_read_param);
++	if (ret)
+ 		return ret;
+-	}
+ 
+-	/* Toggle RESET in accordance with datasheet page 370 */
+-	if (nt->reset_gpio) {
+-		gpiod_set_value(nt->reset_gpio, 1);
+-		/* Active min 10 us according to datasheet, let's say 20 */
+-		usleep_range(20, 1000);
+-		gpiod_set_value(nt->reset_gpio, 0);
+-		/*
+-		 * 5 ms during sleep mode, 120 ms during sleep out mode
+-		 * according to datasheet, let's use 120-140 ms.
+-		 */
+-		usleep_range(120000, 140000);
+-	}
++	ret = nt35510_send_long(nt, dsi, MCS_CMD_MTP_READ_SETTING,
++				ARRAY_SIZE(nt35510_mauc_mtp_read_setting),
++				nt35510_mauc_mtp_read_setting);
++	if (ret)
++		return ret;
+ 
+ 	ret = nt35510_read_id(nt);
+ 	if (ret)
+@@ -758,26 +755,16 @@ static int nt35510_power_on(struct nt35510 *nt)
+ 	return 0;
+ }
+ 
+-static int nt35510_power_off(struct nt35510 *nt)
+-{
+-	int ret;
+-
+-	ret = regulator_bulk_disable(ARRAY_SIZE(nt->supplies), nt->supplies);
+-	if (ret)
+-		return ret;
+-
+-	if (nt->reset_gpio)
+-		gpiod_set_value(nt->reset_gpio, 1);
+-
+-	return 0;
+-}
+-
+-static int nt35510_unprepare(struct drm_panel *panel)
++static int nt35510_disable(struct drm_panel *panel)
+ {
+ 	struct nt35510 *nt = panel_to_nt35510(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
+ 	int ret;
+ 
++	/*
++	 * The final DCS traffic must happen here, at unprepare() the
++	 * DSI host will not accept traffic any more.
++	 */
+ 	ret = mipi_dsi_dcs_set_display_off(dsi);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(nt->dev, "failed to turn display off (%d)\n",
+@@ -797,20 +784,36 @@ static int nt35510_unprepare(struct drm_panel *panel)
+ 	/* Wait 4 frames, how much is that 5ms in the vendor driver */
+ 	usleep_range(5000, 10000);
+ 
+-	ret = nt35510_power_off(nt);
++	return 0;
++}
++
++static int nt35510_unprepare(struct drm_panel *panel)
++{
++	struct nt35510 *nt = panel_to_nt35510(panel);
++	int ret;
++
++	ret = regulator_bulk_disable(ARRAY_SIZE(nt->supplies), nt->supplies);
+ 	if (ret)
+ 		return ret;
+ 
++	if (nt->reset_gpio)
++		gpiod_set_value(nt->reset_gpio, 1);
++
++
+ 	return 0;
+ }
+ 
+-static int nt35510_prepare(struct drm_panel *panel)
++static int nt35510_enable(struct drm_panel *panel)
+ {
+ 	struct nt35510 *nt = panel_to_nt35510(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
+ 	int ret;
+ 
+-	ret = nt35510_power_on(nt);
++	/*
++	 * At this point the DSI host is up and clocked and we can start
++	 * sending DCS commands.
++	 */
++	ret = nt35510_power_on_sequence(nt);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -836,6 +839,33 @@ static int nt35510_prepare(struct drm_panel *panel)
+ 	return 0;
+ }
+ 
++static int nt35510_prepare(struct drm_panel *panel)
++{
++	struct nt35510 *nt = panel_to_nt35510(panel);
++	int ret;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(nt->supplies), nt->supplies);
++	if (ret < 0) {
++		dev_err(nt->dev, "unable to enable regulators\n");
++		return ret;
++	}
++
++	/* Toggle RESET in accordance with datasheet page 370 */
++	if (nt->reset_gpio) {
++		gpiod_set_value(nt->reset_gpio, 1);
++		/* Active min 10 us according to datasheet, let's say 20 */
++		usleep_range(20, 1000);
++		gpiod_set_value(nt->reset_gpio, 0);
++		/*
++		 * 5 ms during sleep mode, 120 ms during sleep out mode
++		 * according to datasheet, let's use 120-140 ms.
++		 */
++		usleep_range(120000, 140000);
++	}
++
++	return 0;
++}
++
+ static int nt35510_get_modes(struct drm_panel *panel,
+ 			     struct drm_connector *connector)
+ {
+@@ -862,6 +892,8 @@ static int nt35510_get_modes(struct drm_panel *panel,
+ }
+ 
+ static const struct drm_panel_funcs nt35510_drm_funcs = {
++	.enable = nt35510_enable,
++	.disable = nt35510_disable,
+ 	.unprepare = nt35510_unprepare,
+ 	.prepare = nt35510_prepare,
+ 	.get_modes = nt35510_get_modes,
+@@ -970,14 +1002,11 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
+ static int nt35510_remove(struct mipi_dsi_device *dsi)
+ {
+ 	struct nt35510 *nt = mipi_dsi_get_drvdata(dsi);
+-	int ret;
+ 
+ 	mipi_dsi_detach(dsi);
+-	/* Power off */
+-	ret = nt35510_power_off(nt);
+ 	drm_panel_remove(&nt->panel);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ /*
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
