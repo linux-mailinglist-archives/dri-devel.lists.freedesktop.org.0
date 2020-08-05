@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA4223CA59
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 13:45:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEBB23CA5B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 13:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C0589D73;
-	Wed,  5 Aug 2020 11:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33ACD6E52D;
+	Wed,  5 Aug 2020 11:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B25689D73
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 11:45:41 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 075BjXds061534;
- Wed, 5 Aug 2020 06:45:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1596627933;
- bh=oLXOtVGM0XldeErZ7lnDxDWT67udBtkfwHx5aUoMNbM=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=O90REE9dvBBeRL3oeN+FvYeFbekVdTViw1Uo2UfwrOrorIcFFqlRZPLtTde2wOXII
- ZG//xv3T3axRuyxgvSPsXQHvK0+1uZv++K1ep+BN+8AUbHUxcaRyRHZcC1IvaLw2Ul
- eDD25IQdOFw2pbsu+nO3H+XdWzY8FVkdcrMEpHW4=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 075BjXW3063923
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 5 Aug 2020 06:45:33 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 5 Aug
- 2020 06:45:33 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 5 Aug 2020 06:45:33 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 075BjViD085971;
- Wed, 5 Aug 2020 06:45:31 -0500
-Subject: Re: [PATCH] drm/omap: fix spelling mistake "propert" -> "property"
-To: Colin King <colin.king@canonical.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Sebastian Reichel
- <sebastian.reichel@collabora.com>, <dri-devel@lists.freedesktop.org>
-References: <20200805102015.14891-1-colin.king@canonical.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <ad33a2ea-3596-0b4c-35ae-ca8eb76d1a3f@ti.com>
-Date: Wed, 5 Aug 2020 14:45:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D05556E52D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 11:47:48 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id z6so45606713iow.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 04:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iFbgx6sSKn2KplYN4e0YkhTZbCj58dXCDRAcIYrVDDg=;
+ b=Q6xl32Q2c9knGtMceLyP/dswR+fcy6nPbDwAWPY4dnExhUIoChwySrryiP8pOOeBFl
+ mX/TF5WdiCkm6RyDiNd5oFv0U0BUs1nC1pDLIWYJHbbjwmh61S9uxdclq536OsEQ2Two
+ HIVgzyzHggG5967rR9FYffuOwSEMmJ0R+JolcM4/f30wHjxUduejkxdS2ore3LP6AvdN
+ cT1Xyr4zID/NFQ6/UaZS0Di0QpZYsPGMERWUllCBLkO+9aHwHxDNBwteS/K2p7Ar0Wtp
+ +QV6j70owptrsSodgvVY/145pOCyC/IWsUUApdcscoH8eQm1i+C31ME00NCe0VXb+lZJ
+ bNDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iFbgx6sSKn2KplYN4e0YkhTZbCj58dXCDRAcIYrVDDg=;
+ b=Dy7wSxwEMdYRA1R/l7xNWuAnlEWKwizsjrQ3pykfRyOjDziq71IGBXI3UJ3lqeEqCG
+ qdDnwE9h1S3iCC3JHgpuMvEDDk2mR9IPRFLLVKrmO9Dy+WTvxDT+OUMbry5FWBUODSN7
+ 8g8dTMQOrTf/29ZOzgzHP7xiGYYK++nRh/09zOMZyuA2BF+kbexSIE/qx58dTK+FCzxt
+ 31OgYT8ENs1kcTRwoWIEZ+a3o2vedWBI/X7edeWzWQ9NetgdJODARWPuWC1rZqg+Qrcm
+ zEQfthwFjjjxO/jhnMcKx7i6SpNbLA4DtiFKvka98lbHV3AoV1s7fNfe8+s5uP1/4bJ9
+ rsdg==
+X-Gm-Message-State: AOAM530MPYkW3Ez+6P9NAKzpP3oCocdetD7IdMsJcgOqseBEaIKtMMlW
+ uL42CcF+6E6xCG3gdJZVKnejvOU6KeEu4IJZSg7/YQ==
+X-Google-Smtp-Source: ABdhPJz9djBV7hoVsRm1SwhbQ5YsQSiBukc50OtsFH/43jtE27zlIu2W234Iq0tET+8jTuTuv2/LmBQDTxbrJo2z7AI=
+X-Received: by 2002:a05:6638:621:: with SMTP id
+ h1mr3678431jar.143.1596628067929; 
+ Wed, 05 Aug 2020 04:47:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200805102015.14891-1-colin.king@canonical.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <CAKT=dD=_8daRz2h9pCvRQV4bvM6Wu6QGsBu7676-Jujfaf-Tuw@mail.gmail.com>
+In-Reply-To: <CAKT=dD=_8daRz2h9pCvRQV4bvM6Wu6QGsBu7676-Jujfaf-Tuw@mail.gmail.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Wed, 5 Aug 2020 13:47:37 +0200
+Message-ID: <CAP+8YyEn-+gq_RiM0sOmPagD46eGPT7wzAS9y_j52Or6ETBx2A@mail.gmail.com>
+Subject: Re: Question about per process GPU context global priority enforcement
+To: Yiwei Zhang <zzyiwei@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +62,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Peiyong Lin <lpy@google.com>, Prahlad Kilambi <prahladk@google.com>,
+ Android Kernel Team <kernel-team@android.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/08/2020 13:20, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> There is a spelling mistake in a pr_err message. Fix it.
-> 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/omapdrm/dss/venc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-> index e0817934ee16..0fa8f677b647 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/venc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-> @@ -781,7 +781,7 @@ static int venc_probe_of(struct venc_device *venc)
->  		venc->type = OMAP_DSS_VENC_TYPE_SVIDEO;
->  		break;
->  	default:
-> -		dev_err(&venc->pdev->dev, "bad channel propert '%d'\n",
-> +		dev_err(&venc->pdev->dev, "bad channel property '%d'\n",
->  			channels);
->  		r = -EINVAL;
->  		goto err;
-> 
+I don't think we have a uniform mechanism, currently each driver
+decides on their own.
 
-Thanks, I'll pick this up.
+For the amdgpu driver we check that the process either has
+CAP_SYS_NICE or is the DRM master.
 
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+On Wed, Aug 5, 2020 at 9:14 AM Yiwei Zhang <zzyiwei@google.com> wrote:
+>
+> Hi friends,
+>
+> For Vulkan/EGL, upon creating gpu contexts, applications can ask for a
+> system-wide higher priority levels via VK_EXT_global_priority or
+> EGL_IMG_context_priority extensions.
+>
+> I'm curious if we have certain rules(some form of process privilege
+> check) in the kernel to limit non-privileged ones to never go beyond
+> default system-wide gpu scheduling priority. (e.g. not allow random
+> app processes to contend the GPU queues repeatedly/infinitely with
+> high/realtime priorities)
+>
+> Many thanks,
+> Yiwei - from Android Platform Graphics Team
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
