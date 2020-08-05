@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC3123CA49
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 13:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEDE23CA4F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 13:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9CF6E52C;
-	Wed,  5 Aug 2020 11:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6BE26E544;
+	Wed,  5 Aug 2020 11:35:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848346E52C
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 11:31:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3196E542;
+ Wed,  5 Aug 2020 11:35:13 +0000 (UTC)
 Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
  by youngberry.canonical.com with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <colin.king@canonical.com>)
- id 1k3HeF-0000A2-96; Wed, 05 Aug 2020 11:31:55 +0000
+ id 1k3HhO-0000Km-E9; Wed, 05 Aug 2020 11:35:10 +0000
 From: Colin King <colin.king@canonical.com>
-To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: fix spelling mistake "Cound" -> "Could"
-Date: Wed,  5 Aug 2020 12:31:55 +0100
-Message-Id: <20200805113155.18006-1-colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: fix spelling mistake "Falied" -> "Failed"
+Date: Wed,  5 Aug 2020 12:35:10 +0100
+Message-Id: <20200805113510.18277-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,20 +52,20 @@ There is a spelling mistake in a DRM_ERROR message. Fix it.
 
 Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 4284c4bd444d..e67e2e8f6e6f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -3037,7 +3037,7 @@ static int vmw_cmd_dx_bind_streamoutput(struct vmw_private *dev_priv,
- 	res = vmw_dx_streamoutput_lookup(vmw_context_res_man(ctx_node->ctx),
- 					 cmd->body.soid);
- 	if (IS_ERR(res)) {
--		DRM_ERROR("Cound not find streamoutput to bind.\n");
-+		DRM_ERROR("Could not find streamoutput to bind.\n");
- 		return PTR_ERR(res);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index 49d4514aa6ed..c68369731b20 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -2010,7 +2010,7 @@ static int psp_suspend(void *handle)
+ 
+ 	ret = psp_tmr_terminate(psp);
+ 	if (ret) {
+-		DRM_ERROR("Falied to terminate tmr\n");
++		DRM_ERROR("Failed to terminate tmr\n");
+ 		return ret;
  	}
  
 -- 
