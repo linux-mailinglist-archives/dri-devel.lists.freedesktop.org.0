@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8409023C54E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 07:54:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D6223C54F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 07:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E896E4DE;
-	Wed,  5 Aug 2020 05:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A92C46E4E3;
+	Wed,  5 Aug 2020 05:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
- [IPv6:2607:f8b0:4864:20::b44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24CB16E4DE
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 05:54:08 +0000 (UTC)
-Received: by mail-yb1-xb44.google.com with SMTP id n141so21022676ybf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 22:54:08 -0700 (PDT)
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD5C36E4E3
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 05:54:22 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id c18so15780667ybr.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 22:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3psiKbas/uLdk90iDtYQLLy2/myClf0YhdTxB5nj6TI=;
- b=ZhBq1OvpS8jxNRFKU5novrzxlWfgPCZoIOIDyKRSCesltCP+mIxxIR7sOjsb4twIP0
- o4VUGAKE37oesehJpNBSo/mvdpZhg4oQf4K7aEFuBCxPmkaG60sFCssTooUNHLYdto0X
- w5cVRY6lmKkZ3L1x7b1f+N/3TnVgTa6vH2x3OE5W9U1d8TgmzBYfSm4yTQJL6G4sa0Fs
- d/WtQL5VrUTYug3wyXU6Jvt69WDJcT3HWk4ADP3PdXjWfv4Kg/BIlcTHTJHvK4g9Y9BB
- Pb+DsnptBbzD6cCOJzVP98igVIFS/d6M9fWSyS7yQQWQ/AqbIEJH9d3Xs7jJvekf+Yu0
- T7kA==
+ :cc:content-transfer-encoding;
+ bh=0b3kD6wG2oQdbqzbhNvaSDTPmvunmpRw+PcO0mgf1u8=;
+ b=Oa2xdc0Dvf7NmymmGKLFzcvnfzzW0y37GZcalWqIS2N812GFusIqmjd8hw8m98xF0q
+ 3i6QKdA4DsR9O/LnAUa4Wb2T7/qhrOhbP7OU78W+3vZkmeCcqn4dWnuF64cgysL+bmPl
+ iUGkeQey63TXzeh6Js8DHkVirAIZCKGHZ2UHBUo8R3JrqwKf7A162+Pkv+B7VX+V8l/G
+ GmMM8YY3mCnucSv0iiN8RTPGTC6r/OuC0cuwldo51tXxcSJ0GIDI6bSz43Z18LotXIYj
+ Fe80jysKlsPQxrpUvIhNHEd6kS9P/qPZ9Y5amHSASjJs7GlEfggdDHkcyZfZFaP/6oc0
+ Tlqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3psiKbas/uLdk90iDtYQLLy2/myClf0YhdTxB5nj6TI=;
- b=NHll2/b2Wcq7Ff8EdjGVpnPv7kksnkYCKsNkgi7H6p7xEKH9piIE6q/Q9WjEMjTrHV
- SH1lFj+xqqWz6zB0VU0MGsqjTP5JNdMINRbLk7k7eHFpQq3gihuPIFAho0804LgRCaUT
- HbTl1JJv3cPg+p88B6rp9axXi/l3nq32cGS6ADqltmkg5J0Y5TykyekNdwsZ80Icb/ZK
- nLvoOwgcKn9QMqwscXzXTvQhD7e3j4a55/4BeIviROyUkcUHvB+EPYAL5XbWCM3e+b6S
- 3JjXwrF7MTnX1jfRkrwZsCWWkBtYSQWbzKrxwwOhcWQO73VA1lRXmloI4BNxzflXFh5A
- SSYA==
-X-Gm-Message-State: AOAM530RoHqDfygoDk7ayp040UEOB5P99R2kbdI2kt7KJivN7wYVf3Ud
- JjtXMWjJlNkJoV0efAlrPw1XnSkpIIZGe5xevOw=
-X-Google-Smtp-Source: ABdhPJyhtAacFigVJGEF94GfXh7YtMG1enSJYwI2qcrgpFwqJXUaD3t0XvYjsBTvJFCGLWcAj/CQhdY6zwGurT6Ws/4=
-X-Received: by 2002:a25:c4c5:: with SMTP id u188mr2327224ybf.162.1596606847397; 
- Tue, 04 Aug 2020 22:54:07 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0b3kD6wG2oQdbqzbhNvaSDTPmvunmpRw+PcO0mgf1u8=;
+ b=mTt4luaO/ghbJwezGiuDnx+HMwUsRvuIQP0leY0ab+PyvsULZ4aK6mmzQOLgXy3Azn
+ hF0LM2vWX2M7KXLoqqidRH/n771S6bB/ZX38pVTN+VpQiAGE0KMAS2y5IDyPlLnt1EFZ
+ 5O4LwgZ2kGquXUM1Ppk4FiB9Tmo+C0ZuZmbMRF03nDD8p1wGAxvDzqOIkyyo8JK52T0B
+ Inqf2piDnVp4UKqvymmwQLTS0CdZz0peNfpJThfmUx4JAMb972IZ9zRn7/YUtc6r7qey
+ klZztKmgxeZEUQaD7ndU3SBnl/8QuBCA3UjG7zH1MQ+cqKgzppdtJuc+AXB5TUXyF0cA
+ J9oA==
+X-Gm-Message-State: AOAM530WCtrhsvvBN17/XXlBB6OOJHUcvQ+ubIhMNjFwCh5e8yllQq0b
+ 4NDVyJEX9EKblPpEyvTJeMQivYYrAfhMlW0MxKY=
+X-Google-Smtp-Source: ABdhPJwLkXXGBgO4H+jD46r8aceKEYmZwfjpFSZOFHhaxvBorXjQGIb9b7NmmjFsrsT9QKPhkOn/q/2oC8MlfNJNvO4=
+X-Received: by 2002:a25:cf08:: with SMTP id f8mr2238462ybg.435.1596606862211; 
+ Tue, 04 Aug 2020 22:54:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200804025632.3868079-1-airlied@gmail.com>
- <20200804025632.3868079-51-airlied@gmail.com>
-In-Reply-To: <20200804025632.3868079-51-airlied@gmail.com>
+ <20200804025632.3868079-52-airlied@gmail.com>
+In-Reply-To: <20200804025632.3868079-52-airlied@gmail.com>
 From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 5 Aug 2020 15:53:56 +1000
-Message-ID: <CACAvsv74r4Ymdz+-Mb2iJuFbGpwK_cxCZnsucYZS1x5DHGyCiQ@mail.gmail.com>
-Subject: Re: [PATCH 50/59] drm/nouveau/ttm: move to driver allocated manager
+Date: Wed, 5 Aug 2020 15:54:11 +1000
+Message-ID: <CACAvsv45wGyk=k0GxCfkJPtkENg_QQECLqT2GGt86nHJdZ_ooQ@mail.gmail.com>
+Subject: Re: [PATCH 51/59] drm/ttm: drop priv pointer in memory manager
 To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,133 +66,40 @@ Cc: sroland@vmware.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
  linux-graphics-maintainer@vmware.com, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Aug 2020 at 12:58, Dave Airlie <airlied@gmail.com> wrote:
->
-> From: Dave Airlie <airlied@redhat.com>
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
-
-> ---
->  drivers/gpu/drm/nouveau/nouveau_ttm.c | 45 +++++++++++++++++++--------
->  1 file changed, 32 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> index 1c636723823c..58d9bd708e95 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> @@ -157,12 +157,12 @@ static int
->  nouveau_ttm_init_vram(struct nouveau_drm *drm)
->  {
->         struct nvif_mmu *mmu = &drm->client.mmu;
-> -
->         if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
-> -               struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
-> -
->                 /* Some BARs do not support being ioremapped WC */
->                 const u8 type = mmu->type[drm->ttm.type_vram].type;
-> +               struct ttm_mem_type_manager *man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
-> +               if (!man)
-> +                       return -ENOMEM;
->
->                 man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
->                 man->default_caching = TTM_PL_FLAG_WC;
-> @@ -174,8 +174,10 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
->
->                 man->func = &nouveau_vram_manager;
->                 man->use_io_reserve_lru = true;
-> +
->                 ttm_mem_type_manager_init(&drm->ttm.bdev, man,
->                                           drm->gem.vram_available >> PAGE_SHIFT);
-> +               ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
->                 ttm_mem_type_manager_set_used(man, true);
->                 return 0;
->         } else {
-> @@ -195,6 +197,8 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
->                 ttm_mem_type_manager_disable(man);
->                 ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
->                 ttm_mem_type_manager_cleanup(man);
-> +               ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
-> +               kfree(man);
->         } else
->                 ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_VRAM);
->  }
-> @@ -202,30 +206,43 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
->  static int
->  nouveau_ttm_init_gtt(struct nouveau_drm *drm)
->  {
-> -       struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
-> +       struct ttm_mem_type_manager *man;
->         unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
-> -       man->use_tt = true;
-> +       unsigned available_caching, default_caching;
-> +       const struct ttm_mem_type_manager_func *func = NULL;
->         if (drm->agp.bridge) {
-> -               man->available_caching = TTM_PL_FLAG_UNCACHED |
-> +               available_caching = TTM_PL_FLAG_UNCACHED |
->                         TTM_PL_FLAG_WC;
-> -               man->default_caching = TTM_PL_FLAG_WC;
-> +               default_caching = TTM_PL_FLAG_WC;
->         } else {
-> -               man->available_caching = TTM_PL_MASK_CACHING;
-> -               man->default_caching = TTM_PL_FLAG_CACHED;
-> +               available_caching = TTM_PL_MASK_CACHING;
-> +               default_caching = TTM_PL_FLAG_CACHED;
->         }
->
->         if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
-> -               man->func = &nouveau_gart_manager;
-> +               func = &nouveau_gart_manager;
->         else if (!drm->agp.bridge)
-> -               man->func = &nv04_gart_manager;
-> +               func = &nv04_gart_manager;
->         else
->                 return ttm_range_man_init(&drm->ttm.bdev, TTM_PL_TT,
-> -                                         TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
-> -                                         TTM_PL_FLAG_WC, true,
-> +                                         available_caching, default_caching,
-> +                                         true,
->                                           size_pages);
-> +
-> +       man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
-> +       if (!man)
-> +               return -ENOMEM;
-> +
-> +       man->func = func;
-> +       man->available_caching = available_caching;
-> +       man->default_caching = default_caching;
-> +       man->use_tt = true;
->         ttm_mem_type_manager_init(&drm->ttm.bdev, man,
->                                   size_pages);
-> +
-> +       ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
->         ttm_mem_type_manager_set_used(man, true);
-> +
->         return 0;
->  }
->
-> @@ -241,6 +258,8 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
->                 ttm_mem_type_manager_disable(man);
->                 ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
->                 ttm_mem_type_manager_cleanup(man);
-> +               ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
-> +               kfree(man);
->         }
->  }
->
-> --
-> 2.26.2
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCA0IEF1ZyAyMDIwIGF0IDEyOjU4LCBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5j
+b20+IHdyb3RlOgo+Cj4gRnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPgo+
+IFRoaXMgaXNuJ3QgbmVlZGVkIGFueW1vcmUgYnkgYW55IGRyaXZlcnMuCj4KPiBSZXZpZXdlZC1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IFNpZ25lZC1v
+ZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBCZW4g
+U2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Cgo+IC0tLQo+ICBpbmNsdWRlL2RybS90dG0vdHRt
+X2JvX2RyaXZlci5oIHwgMiAtLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKPgo+
+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oIGIvaW5jbHVkZS9k
+cm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+IGluZGV4IDc4OWMxZWIyNjg1OS4uYjQ3N2MxYWQ1YzNl
+IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPiArKysgYi9p
+bmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCj4gQEAgLTEyMyw3ICsxMjMsNiBAQCBzdHJ1
+Y3QgdHRtX21lbV90eXBlX21hbmFnZXJfZnVuYyB7Cj4gICAqIEBkZWZhdWx0X2NhY2hpbmc6IFRo
+ZSBkZWZhdWx0IGNhY2hpbmcgcG9saWN5IHVzZWQgZm9yIGEgYnVmZmVyIG9iamVjdAo+ICAgKiBw
+bGFjZWQgaW4gdGhpcyBtZW1vcnkgdHlwZSBpZiB0aGUgdXNlciBkb2Vzbid0IHByb3ZpZGUgb25l
+Lgo+ICAgKiBAZnVuYzogc3RydWN0dXJlIHBvaW50ZXIgaW1wbGVtZW50aW5nIHRoZSByYW5nZSBt
+YW5hZ2VyLiBTZWUgYWJvdmUKPiAtICogQHByaXY6IERyaXZlciBwcml2YXRlIGNsb3N1cmUgZm9y
+IEBmdW5jLgo+ICAgKiBAaW9fcmVzZXJ2ZV9tdXRleDogTXV0ZXggb3B0aW9uYWxseSBwcm90ZWN0
+aW5nIHNoYXJlZCBpb19yZXNlcnZlIHN0cnVjdHVyZXMKPiAgICogQHVzZV9pb19yZXNlcnZlX2xy
+dTogVXNlIGFuIGxydSBsaXN0IHRvIHRyeSB0byB1bnJlc2VydmUgaW9fbWVtX3JlZ2lvbnMKPiAg
+ICogcmVzZXJ2ZWQgYnkgdGhlIFRUTSB2bSBzeXN0ZW0uCj4gQEAgLTE1Miw3ICsxNTEsNiBAQCBz
+dHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgewo+ICAgICAgICAgdWludDMyX3QgYXZhaWxhYmxl
+X2NhY2hpbmc7Cj4gICAgICAgICB1aW50MzJfdCBkZWZhdWx0X2NhY2hpbmc7Cj4gICAgICAgICBj
+b25zdCBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXJfZnVuYyAqZnVuYzsKPiAtICAgICAgIHZv
+aWQgKnByaXY7Cj4gICAgICAgICBzdHJ1Y3QgbXV0ZXggaW9fcmVzZXJ2ZV9tdXRleDsKPiAgICAg
+ICAgIGJvb2wgdXNlX2lvX3Jlc2VydmVfbHJ1Owo+ICAgICAgICAgc3BpbmxvY2tfdCBtb3ZlX2xv
+Y2s7Cj4gLS0KPiAyLjI2LjIKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
