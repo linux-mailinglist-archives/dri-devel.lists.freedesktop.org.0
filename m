@@ -1,57 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CE923CB4C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 15:56:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E47E723CB21
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 15:43:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 279B06E7D4;
-	Wed,  5 Aug 2020 13:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B22DC6E5D3;
+	Wed,  5 Aug 2020 13:43:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1FC36E7D4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 13:56:14 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 075BjXds061534;
- Wed, 5 Aug 2020 06:45:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1596627933;
- bh=oLXOtVGM0XldeErZ7lnDxDWT67udBtkfwHx5aUoMNbM=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=O90REE9dvBBeRL3oeN+FvYeFbekVdTViw1Uo2UfwrOrorIcFFqlRZPLtTde2wOXII
- ZG//xv3T3axRuyxgvSPsXQHvK0+1uZv++K1ep+BN+8AUbHUxcaRyRHZcC1IvaLw2Ul
- eDD25IQdOFw2pbsu+nO3H+XdWzY8FVkdcrMEpHW4=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 075BjXW3063923
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 5 Aug 2020 06:45:33 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 5 Aug
- 2020 06:45:33 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 5 Aug 2020 06:45:33 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 075BjViD085971;
- Wed, 5 Aug 2020 06:45:31 -0500
-Subject: Re: [PATCH] drm/omap: fix spelling mistake "propert" -> "property"
-To: Colin King <colin.king@canonical.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Sebastian Reichel
- <sebastian.reichel@collabora.com>, <dri-devel@lists.freedesktop.org>
-References: <20200805102015.14891-1-colin.king@canonical.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <ad33a2ea-3596-0b4c-35ae-ca8eb76d1a3f@ti.com>
-Date: Wed, 5 Aug 2020 14:45:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 922996E5D3
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 13:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596635028;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QNkBL0MOslnxA1lTPWBDwCkBLDnBYOCw/rGPZtjWTCU=;
+ b=ZIScxlACOASOF8EC8m6eNcqI31nt6wZ8BFjuyIJ67yHc7UTx+Rcc0UUVPAVunqyEPWSnFQ
+ EzMhI86Cit8QzlKlbLspt6cLm8WIZU5ifvMkiTUtliZsmmyKn7Yqx6Ln2Nj50nek3z1i9Q
+ k3V1hBND3IkzG2tmjn6yo6V3sYxCArc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-5SIHGVq2MKSCEcqXSb95lA-1; Wed, 05 Aug 2020 09:43:46 -0400
+X-MC-Unique: 5SIHGVq2MKSCEcqXSb95lA-1
+Received: by mail-wr1-f72.google.com with SMTP id f7so13582507wrs.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 06:43:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QNkBL0MOslnxA1lTPWBDwCkBLDnBYOCw/rGPZtjWTCU=;
+ b=NJUcuiplhlC9jX+eaRrBA96XumThiRvbSSnEXbtBwF5LSMcozGV4zD/xGMwg2/XMvL
+ wLwmvHDSm128do6im2+lAAf0ozAUtWnK/RkvbZ4phNrVSSdcCWe7kYUinlibcj7bH1AC
+ hyuQnupr3hSknmfSdSU3TXvpc8KyXhg5o8C4vHXdfa07X2JngFPyV/CBl2lfv2r91T3w
+ KNHVY28JncUD4nd7lA/F+2DvnQxiqE3aCQ58QmNPgD0fJnUUwv5xzbVbKbt2riSqAmHm
+ XkIOjFT73LFcSYyLJbnmmDVZ0971ObV+8VWDwnzme1TAaMY3a+WqmA94RKD59NY6oXnF
+ WsXg==
+X-Gm-Message-State: AOAM533oOCyPZ1vXhLrOMTbROERRxcMND7AlO7T6let6liu4BiyqCT5x
+ c6NrMuXxU1x7fd7hP8QGT7Q3T5CofKVzzmc6FQyiLln6OPIk3JPsHwCgbrl7lyqFsbBa0SoYnMT
+ dNGwqEHznEnud4fAF9WKj9AEfAPRP
+X-Received: by 2002:adf:f64a:: with SMTP id x10mr2692846wrp.99.1596635025560; 
+ Wed, 05 Aug 2020 06:43:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+wOWu/BUGFDnYiFNkYnDk0qc3NvkypKVIbTb4eZBzRtJysZaIOINp4bGehYs8hyi8ABgcfQ==
+X-Received: by 2002:adf:f64a:: with SMTP id x10mr2692831wrp.99.1596635025403; 
+ Wed, 05 Aug 2020 06:43:45 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-0-181.red.bezeqint.net. [79.180.0.181])
+ by smtp.gmail.com with ESMTPSA id
+ s131sm2941176wme.17.2020.08.05.06.43.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Aug 2020 06:43:44 -0700 (PDT)
+Date: Wed, 5 Aug 2020 09:43:42 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 10/38] virtio_gpu: correct tags for config space fields
+Message-ID: <20200805134226.1106164-11-mst@redhat.com>
+References: <20200805134226.1106164-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200805102015.14891-1-colin.king@canonical.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200805134226.1106164-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +79,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/08/2020 13:20, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> There is a spelling mistake in a pr_err message. Fix it.
-> 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/omapdrm/dss/venc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-> index e0817934ee16..0fa8f677b647 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/venc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-> @@ -781,7 +781,7 @@ static int venc_probe_of(struct venc_device *venc)
->  		venc->type = OMAP_DSS_VENC_TYPE_SVIDEO;
->  		break;
->  	default:
-> -		dev_err(&venc->pdev->dev, "bad channel propert '%d'\n",
-> +		dev_err(&venc->pdev->dev, "bad channel property '%d'\n",
->  			channels);
->  		r = -EINVAL;
->  		goto err;
-> 
+Since gpu is a modern-only device,
+tag config space fields as having little endian-ness.
 
-Thanks, I'll pick this up.
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+---
+ include/uapi/linux/virtio_gpu.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- Tomi
-
+diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+index 0c85914d9369..ccbd174ef321 100644
+--- a/include/uapi/linux/virtio_gpu.h
++++ b/include/uapi/linux/virtio_gpu.h
+@@ -320,10 +320,10 @@ struct virtio_gpu_resp_edid {
+ #define VIRTIO_GPU_EVENT_DISPLAY (1 << 0)
+ 
+ struct virtio_gpu_config {
+-	__u32 events_read;
+-	__u32 events_clear;
+-	__u32 num_scanouts;
+-	__u32 num_capsets;
++	__le32 events_read;
++	__le32 events_clear;
++	__le32 num_scanouts;
++	__le32 num_capsets;
+ };
+ 
+ /* simple formats for fbcon/X use */
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+MST
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
