@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C5E23C526
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 07:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E039323C528
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 07:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1200689ECD;
-	Wed,  5 Aug 2020 05:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 642D789EF7;
+	Wed,  5 Aug 2020 05:40:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
- [IPv6:2607:f8b0:4864:20::b42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBC189ECD
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 05:34:30 +0000 (UTC)
-Received: by mail-yb1-xb42.google.com with SMTP id y134so17930063yby.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 22:34:30 -0700 (PDT)
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com
+ [IPv6:2607:f8b0:4864:20::b43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B9689EF7
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 05:40:29 +0000 (UTC)
+Received: by mail-yb1-xb43.google.com with SMTP id y134so17935962yby.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 22:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ucd8gOiAAZHbDAeLwBmuyJyu6gD51CWTG552YBC7mug=;
- b=dnPoiQV1YwUxvrA2iTN9dAKKFNkUQ9iCzczglQMBqYEf9tCFq22YSgGyUAlkGPd1jj
- /iSonb/mZg2XibtWV6McOvF33Se78DCxW6Z0wC2G2hjoMY2pCFFCxVVtNJvJd+RzXAsF
- fdzpdWmVjy14xlN65GrpRxiAfq+EoZUP1OmG22GAB5qBZCTiUkid1wNr9g+1GC4pQCG9
- X2djOZuIesnvcyYkSwAErhZGmGPxNYa8FsSLJu4MrTBnjq5Zh2gKEjcUclKVUA+k/5oQ
- 13qh+qm1YDCbN6uGkwtwn5VR5uPXSKlpSR62xDoNaaxvGEVNEgQkjK6gyKxA55RqTJnt
- SDnQ==
+ :cc; bh=GedR4FO3b+D+mStbotcsp1tQ7PsM3bvYs9nPA6XDqKM=;
+ b=sS63OrpkyZp5h9rwYofPLW8xVSpBPok6VpNsBCvliGL5KpDowH1HyxkeFXEnbRaCFE
+ UBXsIoF1lmzH3leFiTNCsMrRxiTwPuSjKy6xyA/LkY2H6GfNf1wHpCLUrepIXrsDkWeP
+ gIgIPNDwKIbl4VIe0vzfXvqxywhaSgl+X1nnIVfsMaOAOLeXoZrG8CtnMPAPfEbrW/TN
+ cAc+SPBcG8mKmYy8SU5YLXGPoOof6rA2VeAnsrs3KgnKVYViENCwYL2VXvKfxFQdzprL
+ TfOdRK13W4pMBY5b5sbmunCorQgBJTDCXJC056nozODBaepEWcphVcOofhIHFQcpFNCD
+ 01OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ucd8gOiAAZHbDAeLwBmuyJyu6gD51CWTG552YBC7mug=;
- b=A0jl8buWv0LzO1oYKuQLziN/A4Ho7i9BUVOGDVb6iMNCjU8iDTJAPDcf7f/IIdsIS+
- vaSn6sh1WPS/7pyiOf3KuliWbot9G0rXNKv26nYyRKOElrNPZ2HYSdBR3Z9ncfECGEY2
- AEtDSMFmVEeHm/2Wi6U9XAX91pP/3pTxIW8ULA3paTXikBXvzDDILLe11hnvJYlbil/Q
- MuJ9D/wybQ2QpdJLyzvv9ZEZLagoZ9yVdJ3cVnjAfqWXMOo65tEteeXC3oC5fx2ojgyr
- cq/kxFEbigzuOrRWVfqArLfTfmFcOwG/QSwKrEK8cxDXVOqOd7Sg6rzlkzR12f8rfzWw
- 4SgA==
-X-Gm-Message-State: AOAM533KsmZ3UDWimD44RCumMm2dbUSHgunQm0t3DuIO8fjRUBrZNtXL
- SStw4It8nxeYfU3ipkU7au4F9+dkxwy4iPUdpds=
-X-Google-Smtp-Source: ABdhPJyBKksiBd7z4g0mVuoNOE+OYkrO+F1EKsbeBTbnb2dBQN7OrC+af7JhecSbbC+E14ToDAYjzyKBDXg4Sx6Bmow=
-X-Received: by 2002:a25:cf08:: with SMTP id f8mr2163842ybg.435.1596605669399; 
- Tue, 04 Aug 2020 22:34:29 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=GedR4FO3b+D+mStbotcsp1tQ7PsM3bvYs9nPA6XDqKM=;
+ b=R1CWNULxt2apXCMEpqGfmRqoEodIEUmRdosoXQiL7krROcBLRk0d54YMzhrr21LBxs
+ DoEkZVXUGVMfXBVYLAOI4EeaRbfLF/EcbhDWtZ/jCxZydP6DRIlYnqlpoP+jNWBsOx/v
+ 6WXxTIQ1kcg5RfEDq/el83mKLvKLMZlvgiGHuCduZW2xNwSX8YQ1mKgCEoTeDb+q3cCX
+ JU/SjWmjFe2dOCDTha53MXOf59S2VHt3r2zDygvF8PNXWPbs6+MryPay4SU16GSKCrYP
+ Gs+JSfl2G8aPYedwJMtH0PdPUDyx8H8d1JmXHNq6tKL6s/mmAPa8FnedkcC92WootnTi
+ LZ1A==
+X-Gm-Message-State: AOAM531RUJrRe7oL7cQ9fkg/CYJ/v86C4FF/s/zUm+cSZB8Mhv0hzRQT
+ HJviNrP1Quz0/M4ZVLFplU7iy2aZsc5+HH+m7oo=
+X-Google-Smtp-Source: ABdhPJwp8qKudoaHKM9rtW5qsaxWnth65y3Mh7gi7lXvYngxRtO+yBryGaAK0wuaAX5B0sYaSUpwfWK2SWvfgd5fexA=
+X-Received: by 2002:a25:c4c5:: with SMTP id u188mr2276427ybf.162.1596606028961; 
+ Tue, 04 Aug 2020 22:40:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200804025632.3868079-1-airlied@gmail.com>
- <20200804025632.3868079-10-airlied@gmail.com>
-In-Reply-To: <20200804025632.3868079-10-airlied@gmail.com>
+ <20200804025632.3868079-20-airlied@gmail.com>
+In-Reply-To: <20200804025632.3868079-20-airlied@gmail.com>
 From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 5 Aug 2020 15:34:18 +1000
-Message-ID: <CACAvsv7=qS05nLmbXrB6dCB+5LtWi3Q-RN=UCXMiwjcu2C2D7w@mail.gmail.com>
-Subject: Re: [PATCH 09/59] drm/nouveau/ttm: don't fill in blank ttm debug
- callback
+Date: Wed, 5 Aug 2020 15:40:17 +1000
+Message-ID: <CACAvsv4c3CtqNfg3WdfC4v+MWGNz0qufVhMcYB86PEnJmpVUaA@mail.gmail.com>
+Subject: Re: [PATCH 19/59] drm/nouveau: use new memory manager init paths
 To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,47 +65,127 @@ Cc: sroland@vmware.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
  linux-graphics-maintainer@vmware.com, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCA0IEF1ZyAyMDIwIGF0IDEyOjU3LCBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5j
-b20+IHdyb3RlOgo+Cj4gRnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPgo+
-IEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4g
-U2lnbmVkLW9mZi1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KUmV2aWV3ZWQt
-Ynk6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L25vdXZlYXVfdHRtLmMgfCA5IC0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdl
-ZCwgOSBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVh
-dS9ub3V2ZWF1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV90dG0uYwo+
-IGluZGV4IGIwMDEyMDIxYWUxMi4uNmRlNzYyYTBjMjI5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfdHRtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91
-dmVhdS9ub3V2ZWF1X3R0bS5jCj4gQEAgLTQ5LDEyICs0OSw2IEBAIG5vdXZlYXVfbWFuYWdlcl9k
-ZWwoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sIHN0cnVjdCB0dG1fbWVtX3JlZyAq
-cmVnKQo+ICAgICAgICAgbm91dmVhdV9tZW1fZGVsKHJlZyk7Cj4gIH0KPgo+IC1zdGF0aWMgdm9p
-ZAo+IC1ub3V2ZWF1X21hbmFnZXJfZGVidWcoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICpt
-YW4sCj4gLSAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fcHJpbnRlciAqcHJpbnRlcikK
-PiAtewo+IC19Cj4gLQo+ICBzdGF0aWMgaW50Cj4gIG5vdXZlYXVfdnJhbV9tYW5hZ2VyX25ldyhz
-dHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKPiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiBAQCAtODYsNyArODAsNiBAQCBjb25z
-dCBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXJfZnVuYyBub3V2ZWF1X3ZyYW1fbWFuYWdlciA9
-IHsKPiAgICAgICAgIC50YWtlZG93biA9IG5vdXZlYXVfbWFuYWdlcl9maW5pLAo+ICAgICAgICAg
-LmdldF9ub2RlID0gbm91dmVhdV92cmFtX21hbmFnZXJfbmV3LAo+ICAgICAgICAgLnB1dF9ub2Rl
-ID0gbm91dmVhdV9tYW5hZ2VyX2RlbCwKPiAtICAgICAgIC5kZWJ1ZyA9IG5vdXZlYXVfbWFuYWdl
-cl9kZWJ1ZywKPiAgfTsKPgo+ICBzdGF0aWMgaW50Cj4gQEAgLTExMiw3ICsxMDUsNiBAQCBjb25z
-dCBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXJfZnVuYyBub3V2ZWF1X2dhcnRfbWFuYWdlciA9
-IHsKPiAgICAgICAgIC50YWtlZG93biA9IG5vdXZlYXVfbWFuYWdlcl9maW5pLAo+ICAgICAgICAg
-LmdldF9ub2RlID0gbm91dmVhdV9nYXJ0X21hbmFnZXJfbmV3LAo+ICAgICAgICAgLnB1dF9ub2Rl
-ID0gbm91dmVhdV9tYW5hZ2VyX2RlbCwKPiAtICAgICAgIC5kZWJ1ZyA9IG5vdXZlYXVfbWFuYWdl
-cl9kZWJ1Zwo+ICB9Owo+Cj4gIHN0YXRpYyBpbnQKPiBAQCAtMTQ3LDcgKzEzOSw2IEBAIGNvbnN0
-IHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlcl9mdW5jIG52MDRfZ2FydF9tYW5hZ2VyID0gewo+
-ICAgICAgICAgLnRha2Vkb3duID0gbm91dmVhdV9tYW5hZ2VyX2ZpbmksCj4gICAgICAgICAuZ2V0
-X25vZGUgPSBudjA0X2dhcnRfbWFuYWdlcl9uZXcsCj4gICAgICAgICAucHV0X25vZGUgPSBub3V2
-ZWF1X21hbmFnZXJfZGVsLAo+IC0gICAgICAgLmRlYnVnID0gbm91dmVhdV9tYW5hZ2VyX2RlYnVn
-Cj4gIH07Cj4KPiAgaW50Cj4gLS0KPiAyLjI2LjIKPgo+IF9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Tue, 4 Aug 2020 at 12:57, Dave Airlie <airlied@gmail.com> wrote:
+>
+> From: Dave Airlie <airlied@redhat.com>
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_ttm.c | 43 ++++++++++++---------------
+>  1 file changed, 19 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> index 6de762a0c229..cfcbecd332ef 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> @@ -31,12 +31,6 @@
+>
+>  #include <core/tegra.h>
+>
+> -static int
+> -nouveau_manager_init(struct ttm_mem_type_manager *man, unsigned long psize)
+> -{
+> -       return 0;
+> -}
+> -
+>  static int
+>  nouveau_manager_fini(struct ttm_mem_type_manager *man)
+>  {
+> @@ -76,7 +70,6 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
+>  }
+>
+>  const struct ttm_mem_type_manager_func nouveau_vram_manager = {
+> -       .init = nouveau_manager_init,
+>         .takedown = nouveau_manager_fini,
+>         .get_node = nouveau_vram_manager_new,
+>         .put_node = nouveau_manager_del,
+> @@ -101,7 +94,6 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
+>  }
+>
+>  const struct ttm_mem_type_manager_func nouveau_gart_manager = {
+> -       .init = nouveau_manager_init,
+>         .takedown = nouveau_manager_fini,
+>         .get_node = nouveau_gart_manager_new,
+>         .put_node = nouveau_manager_del,
+> @@ -135,7 +127,6 @@ nv04_gart_manager_new(struct ttm_mem_type_manager *man,
+>  }
+>
+>  const struct ttm_mem_type_manager_func nv04_gart_manager = {
+> -       .init = nouveau_manager_init,
+>         .takedown = nouveau_manager_fini,
+>         .get_node = nv04_gart_manager_new,
+>         .put_node = nouveau_manager_del,
+> @@ -191,27 +182,21 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+>
+>                 man->func = &nouveau_vram_manager;
+>                 man->use_io_reserve_lru = true;
+> +               ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+> +                                         drm->gem.vram_available >> PAGE_SHIFT);
+> +               ttm_mem_type_manager_set_used(man, true);
+> +               return 0;
+>         } else {
+> -               man->func = &ttm_bo_manager_func;
+> +               return ttm_range_man_init(&drm->ttm.bdev, man,
+> +                                         drm->gem.vram_available >> PAGE_SHIFT);
+>         }
+> -
+> -       return ttm_bo_init_mm(&drm->ttm.bdev, TTM_PL_VRAM,
+> -                             drm->gem.vram_available >> PAGE_SHIFT);
+>  }
+>
+>  static int
+>  nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+>  {
+>         struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_TT];
+> -
+> -       if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
+> -               man->func = &nouveau_gart_manager;
+> -       else
+> -       if (!drm->agp.bridge)
+> -               man->func = &nv04_gart_manager;
+> -       else
+> -               man->func = &ttm_bo_manager_func;
+> -
+> +       unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
+>         man->use_tt = true;
+>         if (drm->agp.bridge) {
+>                 man->available_caching = TTM_PL_FLAG_UNCACHED |
+> @@ -222,8 +207,18 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+>                 man->default_caching = TTM_PL_FLAG_CACHED;
+>         }
+>
+> -       return ttm_bo_init_mm(&drm->ttm.bdev, TTM_PL_TT,
+> -                             drm->gem.gart_available >> PAGE_SHIFT);
+> +       if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
+> +               man->func = &nouveau_gart_manager;
+> +       else if (!drm->agp.bridge)
+> +               man->func = &nv04_gart_manager;
+> +       else
+> +               return ttm_range_man_init(&drm->ttm.bdev, man,
+> +                                         size_pages);
+> +
+> +       ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+> +                                 size_pages);
+> +       ttm_mem_type_manager_set_used(man, true);
+> +       return 0;
+>  }
+>
+>  int
+> --
+> 2.26.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
