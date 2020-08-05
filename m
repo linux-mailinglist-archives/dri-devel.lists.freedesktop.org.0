@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505AE23CD2E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 19:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976E723CD43
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 19:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAF476E81D;
-	Wed,  5 Aug 2020 17:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A184B6E82A;
+	Wed,  5 Aug 2020 17:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90F8B6E81D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 17:22:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 737846E82A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 17:23:41 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208811] AMDGPU on-load null pointer dereference
-Date: Wed, 05 Aug 2020 17:22:35 +0000
+Date: Wed, 05 Aug 2020 17:23:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208811-2300-1GCmFKkZ1u@https.bugzilla.kernel.org/>
+Message-ID: <bug-208811-2300-PCm9K20cfw@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208811-2300@https.bugzilla.kernel.org/>
 References: <bug-208811-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,12 +58,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208811
 
---- Comment #8 from Alex Deucher (alexdeucher@gmail.com) ---
-(In reply to R0b0t1 from comment #7)
-> Related Bug 204181, related
-> https://bugzilla.redhat.com/show_bug.cgi?id=1851855.
-
-Those are unrelated.
+--- Comment #9 from Alex Deucher (alexdeucher@gmail.com) ---
+Does disabling memory encryption fix the issue?
 
 -- 
 You are receiving this mail because:
