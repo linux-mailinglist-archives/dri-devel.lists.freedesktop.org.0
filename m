@@ -2,43 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFF023CA48
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 13:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC3123CA49
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 13:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03FB089DA9;
-	Wed,  5 Aug 2020 11:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9CF6E52C;
+	Wed,  5 Aug 2020 11:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB71F89DA9
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 11:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=J08654X7H3kbc58/m2gL+bfcL2jyb0HzXVeKBQozN18=; b=DC8aYJFt9cO5OYGZXYZ4pk5oxV
- +8JcsbVbK3VPyo8Rqa1zrayMTV25RJIgCiEFVYdntVbNcbl/W/L8yxfEDBIZxqO7ExarM07ZZLIXF
- /DfydtCqSvavDLR0MTVFO/RKveDDydmsL67zqd02pXJf1i6lK0XPCNARjPP5QG1lVKPo/nOZgIiXH
- kKto+7OnkDAbfE6fGtfntJiJslatSVyIfBpqIqW0R6ofjAhlbBppIAqr/Xu5JC9b/3WP3jyY21ACY
- DFd0XOgngt31L6mWcqKubsxBwHcyGopOuxQzNlWx02B8ygbE/ejNAP/7nr3ygleS1IJbek2tw+PiA
- OYbmVQSg==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3Hcc-0007nH-4c; Wed, 05 Aug 2020 11:30:14 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat
- Linux)) id 1k3Hcb-00BavU-NB; Wed, 05 Aug 2020 12:30:13 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: Frank Wunderlich <frank-w@public-files.de>
-Subject: [PATCH 1/3] arm: dts: remove stray /dts-v1/ from mt7623a.dtsi
-Date: Wed,  5 Aug 2020 12:30:11 +0100
-Message-Id: <20200805113013.2763510-1-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <8ef96e4d02ef82e171409945ee6cc0348c4fe594.camel@infradead.org>
-References: <8ef96e4d02ef82e171409945ee6cc0348c4fe594.camel@infradead.org>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 848346E52C
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 11:31:57 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1k3HeF-0000A2-96; Wed, 05 Aug 2020 11:31:55 +0000
+From: Colin King <colin.king@canonical.com>
+To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Roland Scheidegger <sroland@vmware.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: fix spelling mistake "Cound" -> "Could"
+Date: Wed,  5 Aug 2020 12:31:55 +0100
+Message-Id: <20200805113155.18006-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,41 +39,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
- chunhui dai <chunhui.dai@mediatek.com>, David Airlie <airlied@linux.ie>,
- Sean Wang <sean.wang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Frank Wunderlich <linux@fw-web.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Colin Ian King <colin.king@canonical.com>
 
-This isn't needed in dtsi files.
+There is a spelling mistake in a DRM_ERROR message. Fix it.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- arch/arm/boot/dts/mt7623a.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/mt7623a.dtsi b/arch/arm/boot/dts/mt7623a.dtsi
-index 0735a1fb8ad9..a96075206cce 100644
---- a/arch/arm/boot/dts/mt7623a.dtsi
-+++ b/arch/arm/boot/dts/mt7623a.dtsi
-@@ -5,7 +5,6 @@
-  *
-  */
- 
--/dts-v1/;
- #include <dt-bindings/power/mt7623a-power.h>
- #include "mt7623.dtsi"
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 4284c4bd444d..e67e2e8f6e6f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -3037,7 +3037,7 @@ static int vmw_cmd_dx_bind_streamoutput(struct vmw_private *dev_priv,
+ 	res = vmw_dx_streamoutput_lookup(vmw_context_res_man(ctx_node->ctx),
+ 					 cmd->body.soid);
+ 	if (IS_ERR(res)) {
+-		DRM_ERROR("Cound not find streamoutput to bind.\n");
++		DRM_ERROR("Could not find streamoutput to bind.\n");
+ 		return PTR_ERR(res);
+ 	}
  
 -- 
-2.26.2
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
