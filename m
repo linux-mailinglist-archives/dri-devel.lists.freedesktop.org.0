@@ -1,60 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0DA23C91F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 11:26:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEB423C93E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 11:35:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF3E89F92;
-	Wed,  5 Aug 2020 09:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE2D489FC9;
+	Wed,  5 Aug 2020 09:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2E7C89F73
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 09:26:26 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id c19so3972338wmd.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 02:26:26 -0700 (PDT)
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E478489FC9
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Aug 2020 09:35:06 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id l84so26460321oig.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 02:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OehDK90EwyFG7im41dDsNlaUDXwTFsUMR/naXiVdyU4=;
- b=DxYOglURIhpn3Xk68QKv3zylzcvsKTYRE3yFLEp/zCCURXeJDsNPEVhvbKBJng0y5s
- FyU+YRx7tR7+049WSm4BFmClPbYh0rAwICGahuLtGaFTJu6tFhq+u7XjMAu0tJ5Kdi7Q
- Q/P5vfvyh3fKDaoLpFfSvlzQCRrH3iFlXugxI=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XRvAB/ps1B65nhH6QU622+QN6T8+IT77meTb1Eq0VYk=;
+ b=VcqJJVZKpNJHfogUdt1XhvMZGhSAijgZjTvarKC98oo/TEz+IfGQCNNQLY4NZJvWg+
+ YO5OkPAalrPO/E0TjD82WlYTJYhoXu4edZtnR/71b6Xm6H6Gurjg0ftdLWdwdrBfT3dJ
+ 2OE8Fw2DR+SgSdOFcUTUfQuSP1Eu/kQkq9pOg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OehDK90EwyFG7im41dDsNlaUDXwTFsUMR/naXiVdyU4=;
- b=PRzhiyZ6qHaDdnW9aI6GEWj85s0Ch72IG0//u3MCtUOVJ8myYQ55WPKL7dsoy0S5Bm
- 9PztL6Snr6iDGulNBKXFNDlgCsRab5z5ejmXk9GuYdvvMl4QHwBDj92f2Kz951taN6Jp
- nT+0MobZQ4UBVt83tTVyE//mHW6LxH2LcfM8qFmb/bWgOQlM5f992Pe1Frzp9ubuZyxg
- ljZwdPLrmv78IIFvlg7mvrLzNuTk+y+ttt28/NJ/4K8yqkBL1TeBYddHeJH5DHO3zj+x
- W1mPrhU02CsrmZ+bg02AwE1kK5usOzlMz/KifMoKXMDuWjzM5gQ1fNrL5VBcUPcYWF1D
- JjJA==
-X-Gm-Message-State: AOAM531jYlqIsPlg0S9naPy29awBlzqr4wPxrrpevUP8agHdxomTLmD7
- yipoPTxdLURzJlohI2D8Z6L7hQ==
-X-Google-Smtp-Source: ABdhPJxV0QCTXCyafnMEFAkmGkfgJqtL6J4+p9V6ffTS+GR9WZJBIL+jjxdIF5tPBb9Q8fT9aH92YA==
-X-Received: by 2002:a05:600c:2907:: with SMTP id
- i7mr2297024wmd.182.1596619585353; 
- Wed, 05 Aug 2020 02:26:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b142sm2122487wmd.19.2020.08.05.02.26.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 02:26:24 -0700 (PDT)
-Date: Wed, 5 Aug 2020 11:26:23 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH 49/59] drm/vmwgfx/gmrid: convert to driver controlled
- allocation.
-Message-ID: <20200805092623.GE6419@phenom.ffwll.local>
-References: <20200804025632.3868079-1-airlied@gmail.com>
- <20200804025632.3868079-50-airlied@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XRvAB/ps1B65nhH6QU622+QN6T8+IT77meTb1Eq0VYk=;
+ b=DYCq8tRpsz/jcJTKK5EEySUqoPKLDFQSc2vMvBuTteV5hTgZWAYjwsr6kbCcerj81Y
+ dRNMCD2HQqLKqd67jfvaYyz2lrOuAkb1FsApQVYeqz+0qzHPjYsyRx/Yh05Bz+4p86Cm
+ Oze20V6vBQtxHLHQYKBq4JxupL34CKYBqMgoIy0l4uKJnUP6X2VOV1FStPzaGJcIsQMg
+ XwmqVdfEdTcu652RaaovCPJKxZaZFb2SJ7gruh/TluxsM978I2tB8CC9rfMKqeGUMoVF
+ eDG9cLUK3mIWFQpqSm5sfIs/rbYCDl28J2KG6MhVGyfdDQy8FGF0mCqy6m0s//ckbNr0
+ 89Hw==
+X-Gm-Message-State: AOAM531S+Q0m4nvLHEu2lZ36IOZnkRVf0sa0l/ysaYTshmgj/DINpWo0
+ UTmnyxme4L3qcA3oJpXhoz6j69s/jHyB5TLqMPLHXA==
+X-Google-Smtp-Source: ABdhPJxgLrWkcPL+GQGMJiS4Jq2BVeB41cKVKOgKePDneKPEtXAIVTmwUZuFhJZmRqSOEEfVHDofej5XX0lfnH8azzQ=
+X-Received: by 2002:aca:ab87:: with SMTP id u129mr1994406oie.128.1596620105894; 
+ Wed, 05 Aug 2020 02:35:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200804025632.3868079-50-airlied@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20200805105137.2b272efc@coco.lan>
+In-Reply-To: <20200805105137.2b272efc@coco.lan>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 5 Aug 2020 11:34:54 +0200
+Message-ID: <CAKMK7uFdp_3gm-2DNko4AYa-EOgt5MTwuQLSXbo=xn-9oXayVg@mail.gmail.com>
+Subject: Re: DRM/KMS experimental drivers for HiKey 970
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,130 +57,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sroland@vmware.com, dri-devel@lists.freedesktop.org,
- linux-graphics-maintainer@vmware.com, kraxel@redhat.com,
- christian.koenig@amd.com, bskeggs@redhat.com
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, mani@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 04, 2020 at 12:56:22PM +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 32 +++++++++++--------
->  1 file changed, 18 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> index 54c85a59dd8b..bc51b7773084 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> @@ -37,6 +37,7 @@
->  #include <linux/kernel.h>
->  
->  struct vmwgfx_gmrid_man {
-> +	struct ttm_mem_type_manager manager;
->  	spinlock_t lock;
->  	struct ida gmr_ida;
->  	uint32_t max_gmr_ids;
-> @@ -44,13 +45,17 @@ struct vmwgfx_gmrid_man {
->  	uint32_t used_gmr_pages;
->  };
->  
-> +static struct vmwgfx_gmrid_man *to_gmrid_manager(struct ttm_mem_type_manager *man)
-> +{
-> +	return container_of(man, struct vmwgfx_gmrid_man, manager);
-> +}
-> +
->  static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
->  				  struct ttm_buffer_object *bo,
->  				  const struct ttm_place *place,
->  				  struct ttm_mem_reg *mem)
->  {
-> -	struct vmwgfx_gmrid_man *gman =
-> -		(struct vmwgfx_gmrid_man *)man->priv;
-> +	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
->  	int id;
->  
->  	id = ida_alloc_max(&gman->gmr_ida, gman->max_gmr_ids - 1, GFP_KERNEL);
-> @@ -82,8 +87,7 @@ static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
->  static void vmw_gmrid_man_put_node(struct ttm_mem_type_manager *man,
->  				   struct ttm_mem_reg *mem)
->  {
-> -	struct vmwgfx_gmrid_man *gman =
-> -		(struct vmwgfx_gmrid_man *)man->priv;
-> +	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
->  
->  	if (mem->mm_node) {
->  		ida_free(&gman->gmr_ida, mem->start);
-> @@ -98,13 +102,15 @@ static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
->  
->  int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
->  {
-> -	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
-> +	struct ttm_mem_type_manager *man;
->  	struct vmwgfx_gmrid_man *gman =
->  		kzalloc(sizeof(*gman), GFP_KERNEL);
->  
->  	if (unlikely(!gman))
->  		return -ENOMEM;
->  
-> +	man = &gman->manager;
-> +
->  	man->func = &vmw_gmrid_manager_func;
->  	man->available_caching = TTM_PL_FLAG_CACHED;
->  	man->default_caching = TTM_PL_FLAG_CACHED;
-> @@ -127,8 +133,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
->  	default:
->  		BUG();
->  	}
-> -	man->priv = (void *) gman;
-> -
-> +	ttm_set_driver_manager(&dev_priv->bdev, type, &gman->manager);
->  	ttm_mem_type_manager_set_used(man, true);
->  	return 0;
->  }
-> @@ -136,19 +141,18 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
->  void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type)
->  {
->  	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
-> -	struct vmwgfx_gmrid_man *gman =
-> -		(struct vmwgfx_gmrid_man *)man->priv;
-> +	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
->  
->  	ttm_mem_type_manager_disable(man);
->  
->  	ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
->  
-> -	if (gman) {
+On Wed, Aug 5, 2020 at 10:51 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Hi,
+>
+> I've been working to get upstream support for the DRM driver on HiKey 970.
+>
+> While the patches are not ready yet for upstream merge, I'm placing
+> what I've sone so far on this repository:
+>
+>         https://github.com/mchehab/linux/tree/hikey970/to_upstream-2.0-v1.1
+>
+> The drivers there are a port from the Linaro's HiKey official Kernel:
+>
+>         https://github.com/96boards-hikey/linux
+>
+> The patches there preserve the old history. The porting patches
+> are applied after the original patches imported from that tree.
+>
+> Besides the DRM driver, this repository contains:
+>
+> - a PMIC/regulator driver;
+> - an iommu driver (still requiring some changes at DT properties);
+> - A DMA driver;
+> - a small ugly hack reverting some PM changes at the WiFi driver,
+>   causing a regression on this board for HiKey 970.
+>
+> My current plans are to start upstreaming those needed drivers.
+>
+> The KMS/DRM driver there still need some changes. I guess it is
+> not ready for being upstreamed yet. Also, it depends on the
+> other drivers to work.
+>
+> In particular, its support for DPMS is broken: if the monitor is
+> suspended, it won't return back to the right frequency settings.
 
-Ah, here it goes, please disregard my suggestion earlier for adding a
-WARN_ON, that's just churn.
+Hm this is somewhat surprising, at least with atomic, since DPMS as a
+separate thing doesn't exist anymore - it's the same path as any other
+modeset. With the suspend/resume helpers even the same as after
+resume. But of course in reality there's always potential for some
+differences between boot-up state and what your atomic_disable leaves
+behind to creep in.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Just figured I drop this in quickly, always great to have more hw
+drivers showing up!
 
-> -		ida_destroy(&gman->gmr_ida);
-> -		kfree(gman);
-> -	}
-> -
->  	ttm_mem_type_manager_cleanup(man);
-> +
-> +	ttm_set_driver_manager(&dev_priv->bdev, type, NULL);
-> +	ida_destroy(&gman->gmr_ida);
-> +	kfree(gman);
-> +
->  }
->  
->  static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
-> -- 
-> 2.26.2
-> 
+Cheers, Daniel
+
+> Feel free to test it and send me patches fixing things there :-)
+>
+> Thanks,
+> Mauro
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
 
 -- 
 Daniel Vetter
