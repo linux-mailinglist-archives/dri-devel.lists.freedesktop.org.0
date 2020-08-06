@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873A623D77B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4478423D781
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:40:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE176E875;
-	Thu,  6 Aug 2020 07:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 473876E87B;
+	Thu,  6 Aug 2020 07:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72446E196
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 07:24:39 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id 17so4075485pfw.9
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Aug 2020 00:24:39 -0700 (PDT)
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 240656E196
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 07:28:42 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id t6so6031195pjr.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Aug 2020 00:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
  bh=XxdgRFlQigk4lLEnKCMOhpL5rmLS0bgdeVzH2zzhbYk=;
- b=gLHgg2FDEjjPLyXBuhI/MzcN+g8tUjZ6ANigM+BEjYlSOioVM7Q9mJoOou77/wLgP8
- q3C36bh00vAMR7Mp/11TiYzH7VLQ2jMkFJtu6v2kMh+VLDOSgOEtGHAMW/s9lQ81uO+T
- L2DaDX7s1IYVTYdWEySZujl4UvhM8Wedfmaa5CJGbWShekQ8rroNHX8kwQmWWtf024vt
- KquJx56ldPRmTa2VbMawPrCO/bME6t0aq3G/aJwcphoKKU3tugxrpsYV9oP5m5ltuACw
- nzrPTPcOm3YiygFmsRLUSOiudU9l5EpOuVHAcpHhmr9RANsg9iUqu9pckY1beFS+dIiy
- 3b9A==
+ b=FlHv4vQ3VE/olmEyXl/0XGGhlOpr/3Wij7v72m3kCKiJ8HQN64oV/l2YU6MpViKD/c
+ VzriSXtzL1h10FtNlHeGdJFQdfemeX+u/yNotMOdpLtO+npHb1nsBD6M579Bd0RM7Akz
+ TbvVB8Ex6/YW7ZRmE/1vGxX7gl19yorBetIWPr5QIEY6AZB/kCh6NJFzppkjQnakoH6Q
+ RPTFCddX7l/tegFjdysNNCgDMYpgyQAyPKU5OFSIfzTzcDS6l3AHJoOrIerAQaIiUZHx
+ 1QcqOue1z1k9sId/jFdRzdAEvJvU2sm8hJOYSNZ3y07QmZuV69+W9IRprFpWLBJmypFW
+ vKsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
  bh=XxdgRFlQigk4lLEnKCMOhpL5rmLS0bgdeVzH2zzhbYk=;
- b=cuoq9vMyQIj7ZHeSY/qBhB8VTOx1tIm4EbvFVYN3bmMg1B6/ztx2mfC3s25s30z3e1
- ZuELfxoT+az3zrrz2qDlgpkfRKua8dvuCugqDi2zN6TMrqf/WaamygPUXY7Pbaq0wSdN
- 0qTC/U57VmtXBPePCJFIsTBpHmhnFZvpVtKHJK4MFViT0eAIk3mqu39p/5HkUQ8Tu9+r
- DTHuSTjqrXB+TpKMdT9MeJQt9tLsZEBda3Jx2eFUQH/BwIP8qKoRBFT8V+T2+dKEwBsI
- cwwo7lVM69GNaNUmLjcCJQ15eHaAQb9Px2V37S04zjVFNIPM54g/sbm7Z9rs9NDtFhBP
- 88Kg==
-X-Gm-Message-State: AOAM5330HAOsuPpH4sON+f9nGln4k8Af6wxfDqiZrglZmmoEgMK36Xs8
- 1gSVCATiObLY8rleU1r0rzE=
-X-Google-Smtp-Source: ABdhPJy5IRLInbKEewuJcoFWlYSZ7y95C3u9BHwPJBs5gSkClT1546uXOobVCr9Tbi0huxbgv3FyPg==
-X-Received: by 2002:a62:d084:: with SMTP id p126mr5801419pfg.287.1596698679368; 
- Thu, 06 Aug 2020 00:24:39 -0700 (PDT)
+ b=pL6GmqhvdgtnSdgjE3OM36IW38ZRKF7fgMcocl8L4VBhak7i+/YvEe9b0Nm286a2nz
+ r+nMzSZIT8T6qxzZNeuvzYOlyEf/OcQTyUkBFbztACYuBDNeYdpxQTGWPy0XYXHJi9Qo
+ Xv5F5IWCcLsu4FK/j781W8aQDDt6nRniRTzVb/XJjFTnimArrdBHShGP7COCIKQ/raww
+ HuC48al0RtKeDrouvVaYYtgKkVDp8SsRigZEao+8fM3hiYsGrdPfTq3WUN3L9Yl3aQbN
+ lx1tb/TU+eN1wHLoMae/T2lmCg6Dr5XNzjpxYe9saTb9mcdy/mNt6AJe46SLWFD9ktJ0
+ MtnQ==
+X-Gm-Message-State: AOAM532idCh+HQ0XTJlp0T2TOf1U8RetRcCabDTdo0u582qy6+I/nqdy
+ 2CLmFzjMBvVxmdrGrZL5m9RhZsM0QN9WmA==
+X-Google-Smtp-Source: ABdhPJy7rdcwXEx1kuFL2y1hDY5pQJYgbk0CrGVGdH58fTlyJBq3RxNFJpj108XYiC7FRL9fXS9JyQ==
+X-Received: by 2002:a17:90b:368c:: with SMTP id
+ mj12mr6307408pjb.152.1596698921683; 
+ Thu, 06 Aug 2020 00:28:41 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id t28sm5665205pgn.81.2020.08.06.00.24.34
+ by smtp.gmail.com with ESMTPSA id e125sm6654646pfh.69.2020.08.06.00.28.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 00:24:38 -0700 (PDT)
+ Thu, 06 Aug 2020 00:28:41 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -55,9 +56,11 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Thierry Reding <treding@nvidia.com>
 Subject: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade and
  fix-ups.
-Date: Thu,  6 Aug 2020 12:52:54 +0530
-Message-Id: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+Date: Thu,  6 Aug 2020 12:56:56 +0530
+Message-Id: <20200806072658.592444-1-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 06 Aug 2020 07:39:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
