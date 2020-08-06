@@ -1,30 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F76123D82D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 10:52:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2488123D82F
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 10:53:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE756E89B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA966E89E;
 	Thu,  6 Aug 2020 08:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0DC96E899
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E4C6E89B
  for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 08:52:44 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4F518ABE9;
+ by mx2.suse.de (Postfix) with ESMTP id 4F65AB17B;
  Thu,  6 Aug 2020 08:53:00 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, hdegoede@redhat.com,
  sean@poorly.run, sam@ravnborg.org, emil.l.velikov@gmail.com,
  lyude@redhat.com, noralf@tronnes.org, zou_wei@huawei.com
-Subject: [RFC][PATCH v2 0/4] Support GEM object mappings from I/O memory
-Date: Thu,  6 Aug 2020 10:52:35 +0200
-Message-Id: <20200806085239.4606-1-tzimmermann@suse.de>
+Subject: [PATCH v2 1/4] drm/vboxvideo: Use drm_gem_vram_vmap() interfaces
+Date: Thu,  6 Aug 2020 10:52:36 +0200
+Message-Id: <20200806085239.4606-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200806085239.4606-1-tzimmermann@suse.de>
+References: <20200806085239.4606-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,69 +46,150 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM's fbdev console uses regular load and store operations to update
-framebuffer memory. The bochs driver on sparc64 requires the use of
-I/O-specific load and store operations. We have a workaround, but need
-a long-term solution to the problem. Previous attempts to resolve the
-issue returned an extra is_iomem flag from vmap(), or added a separate
-vmap_iomem() callback to GEM objects.
+VRAM helpers support ref counting for pin and vmap operations, no need to
+avoid these operations with the internal kmap interface. Also unexport
+the kmap interfaces from VRAM helpers.
 
-This patchset is yet another iteration with a different idea. Instead
-of a raw pointer, vmap() interfaces now return a structure that contains
-the buffer address in system or I/O memory, plus a flag that signals
-which location the address is in.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_gem_vram_helper.c | 56 +--------------------------
+ drivers/gpu/drm/vboxvideo/vbox_mode.c | 10 +++--
+ include/drm/drm_gem_vram_helper.h     |  3 --
+ 3 files changed, 8 insertions(+), 61 deletions(-)
 
-Patch #1 updates the vboxvideo driver to match the latest VRAM helpers.
-This simplifies the other patches and should be merged in any case.
-
-Patch #2 adds struct drm_gem_membuf, which contains the pointer and flag,
-and converts the generic GEM interfaces to use it.
-
-Patch #3 converts vmap/vunmap in GEM object functions and updates most
-GEM backends. A few drivers are still missing, but the patch should be
-acceptable for an RFC.
-
-Patch #4 changes fbdev helpers to access framebuffer memory either with
-system or I/O memcpy functions.
-
-Thomas Zimmermann (4):
-  drm/vboxvideo: Use drm_gem_vram_vmap() interfaces
-  drm/gem: Update client API to use struct drm_gem_membuf
-  drm/gem: Use struct drm_gem_membuf in vmap op and convert GEM backends
-  drm/fb_helper: Access framebuffer as I/O memory, if required
-
- drivers/gpu/drm/ast/ast_cursor.c       |  29 ++-
- drivers/gpu/drm/ast/ast_drv.h          |   2 +-
- drivers/gpu/drm/bochs/bochs_kms.c      |   1 -
- drivers/gpu/drm/drm_client.c           |  25 ++-
- drivers/gpu/drm/drm_fb_helper.c        | 246 ++++++++++++++++++++++---
- drivers/gpu/drm/drm_gem.c              |  28 +--
- drivers/gpu/drm/drm_gem_cma_helper.c   |  15 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c |  31 ++--
- drivers/gpu/drm/drm_gem_vram_helper.c  | 142 +++++---------
- drivers/gpu/drm/drm_internal.h         |   5 +-
- drivers/gpu/drm/drm_prime.c            |  16 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c |  11 +-
- drivers/gpu/drm/qxl/qxl_display.c      |  12 +-
- drivers/gpu/drm/qxl/qxl_draw.c         |  14 +-
- drivers/gpu/drm/qxl/qxl_drv.h          |   6 +-
- drivers/gpu/drm/qxl/qxl_object.c       |  19 +-
- drivers/gpu/drm/qxl/qxl_object.h       |   2 +-
- drivers/gpu/drm/qxl/qxl_prime.c        |  12 +-
- drivers/gpu/drm/tiny/cirrus.c          |  15 +-
- drivers/gpu/drm/tiny/gm12u320.c        |  12 +-
- drivers/gpu/drm/udl/udl_modeset.c      |  10 +-
- drivers/gpu/drm/vboxvideo/vbox_mode.c  |  17 +-
- include/drm/drm_client.h               |   7 +-
- include/drm/drm_device.h               |  26 +++
- include/drm/drm_gem.h                  |   5 +-
- include/drm/drm_gem_cma_helper.h       |   4 +-
- include/drm/drm_gem_shmem_helper.h     |   4 +-
- include/drm/drm_gem_vram_helper.h      |   9 +-
- include/drm/drm_mode_config.h          |  12 --
- 29 files changed, 464 insertions(+), 273 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 5f03c6137ef9..a6af198e26ea 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -97,8 +97,8 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+  * hardware's draing engine.
+  *
+  * To access a buffer object's memory from the DRM driver, call
+- * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
+- * space and returns the memory address. Use drm_gem_vram_kunmap() to
++ * drm_gem_vram_vmap(). It maps the buffer into kernel address
++ * space and returns the memory address. Use drm_gem_vram_vunmap() to
+  * release the mapping.
+  */
+ 
+@@ -436,39 +436,6 @@ static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
+ 	return kmap->virtual;
+ }
+ 
+-/**
+- * drm_gem_vram_kmap() - Maps a GEM VRAM object into kernel address space
+- * @gbo:	the GEM VRAM object
+- * @map:	establish a mapping if necessary
+- * @is_iomem:	returns true if the mapped memory is I/O memory, or false \
+-	otherwise; can be NULL
+- *
+- * This function maps the buffer object into the kernel's address space
+- * or returns the current mapping. If the parameter map is false, the
+- * function only queries the current mapping, but does not establish a
+- * new one.
+- *
+- * Returns:
+- * The buffers virtual address if mapped, or
+- * NULL if not mapped, or
+- * an ERR_PTR()-encoded error code otherwise.
+- */
+-void *drm_gem_vram_kmap(struct drm_gem_vram_object *gbo, bool map,
+-			bool *is_iomem)
+-{
+-	int ret;
+-	void *virtual;
+-
+-	ret = ttm_bo_reserve(&gbo->bo, true, false, NULL);
+-	if (ret)
+-		return ERR_PTR(ret);
+-	virtual = drm_gem_vram_kmap_locked(gbo, map, is_iomem);
+-	ttm_bo_unreserve(&gbo->bo);
+-
+-	return virtual;
+-}
+-EXPORT_SYMBOL(drm_gem_vram_kmap);
+-
+ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+ {
+ 	if (WARN_ON_ONCE(!gbo->kmap_use_count))
+@@ -484,22 +451,6 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+ 	 */
+ }
+ 
+-/**
+- * drm_gem_vram_kunmap() - Unmaps a GEM VRAM object
+- * @gbo:	the GEM VRAM object
+- */
+-void drm_gem_vram_kunmap(struct drm_gem_vram_object *gbo)
+-{
+-	int ret;
+-
+-	ret = ttm_bo_reserve(&gbo->bo, false, false, NULL);
+-	if (WARN_ONCE(ret, "ttm_bo_reserve_failed(): ret=%d\n", ret))
+-		return;
+-	drm_gem_vram_kunmap_locked(gbo);
+-	ttm_bo_unreserve(&gbo->bo);
+-}
+-EXPORT_SYMBOL(drm_gem_vram_kunmap);
+-
+ /**
+  * drm_gem_vram_vmap() - Pins and maps a GEM VRAM object into kernel address
+  *                       space
+@@ -511,9 +462,6 @@ EXPORT_SYMBOL(drm_gem_vram_kunmap);
+  * permanently. Call drm_gem_vram_vunmap() with the returned address to
+  * unmap and unpin the GEM VRAM object.
+  *
+- * If you have special requirements for the pinning or mapping operations,
+- * call drm_gem_vram_pin() and drm_gem_vram_kmap() directly.
+- *
+  * Returns:
+  * The buffer's virtual address on success, or
+  * an ERR_PTR()-encoded error code otherwise.
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+index d9a5af62af89..4fcc0a542b8a 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+@@ -397,11 +397,13 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+ 
+ 	vbox_crtc->cursor_enabled = true;
+ 
+-	/* pinning is done in prepare/cleanup framebuffer */
+-	src = drm_gem_vram_kmap(gbo, true, NULL);
++	src = drm_gem_vram_vmap(gbo);
+ 	if (IS_ERR(src)) {
++		/*
++		 * BUG: we should have pinned the BO in prepare_fb().
++		 */
+ 		mutex_unlock(&vbox->hw_mutex);
+-		DRM_WARN("Could not kmap cursor bo, skipping update\n");
++		DRM_WARN("Could not map cursor bo, skipping update\n");
+ 		return;
+ 	}
+ 
+@@ -414,7 +416,7 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+ 	data_size = width * height * 4 + mask_size;
+ 
+ 	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size);
+-	drm_gem_vram_kunmap(gbo);
++	drm_gem_vram_vunmap(gbo, src);
+ 
+ 	flags = VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
+ 		VBOX_MOUSE_POINTER_ALPHA;
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index 035332f3723f..b34f1da89cc7 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -101,9 +101,6 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
+ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
+ int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
+ int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
+-void *drm_gem_vram_kmap(struct drm_gem_vram_object *gbo, bool map,
+-			bool *is_iomem);
+-void drm_gem_vram_kunmap(struct drm_gem_vram_object *gbo);
+ void *drm_gem_vram_vmap(struct drm_gem_vram_object *gbo);
+ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, void *vaddr);
+ 
+-- 
 2.28.0
 
 _______________________________________________
