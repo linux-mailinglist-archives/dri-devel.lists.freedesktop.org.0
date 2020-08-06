@@ -1,36 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8E123D56D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 04:27:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F16D523D575
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 04:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3ED6E86D;
-	Thu,  6 Aug 2020 02:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4DD6E86E;
+	Thu,  6 Aug 2020 02:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E106E86D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 02:27:15 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B07E050E;
- Thu,  6 Aug 2020 04:27:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1596680832;
- bh=3KNpcr/VAYokA85eIPs3KnP5XeCnzeYeaRru+cPCVBw=;
- h=From:To:Cc:Subject:Date:From;
- b=p6BNDsKc6q3DL5Cgp8Ke/fcEWm1zGSj36bigAZeNHhsrKv1/1Q/owc96jDFH44yct
- 21tdAdxiZTwGZlwp5j0WAefXylbwESGgGFadJnql8aBcLNvQ4fEbzts69qkeEqk0X9
- psvdQ1bFjaOwsWYCS3oJBEMMEmRYkkRch33he+/E=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: rcar-du: Fix pitch handling for fully planar YUV formats
-Date: Thu,  6 Aug 2020 05:26:49 +0300
-Message-Id: <20200806022649.22506-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 662C26E86E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 02:28:39 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id di22so26823112edb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 19:28:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZEm+dlp1WdNi0+PXsBNsNlqTbpmLlIffHnRCEZ/ShIw=;
+ b=LHytj7wEOoUKbN8Af702TsxP7iQcm0vGOWJ/kzlC+zRXabbRwX3UYnXrz9ca1HNhnv
+ 9ZTJXYUEW6rx66iYOaoLglszTSuPCjuoxh/nAe0Jo3edR8OQBgNihGxWExdft0TGUK2j
+ DLyu54D/KcPwUXxzvRzfKyi3D0nsh2mpXtCzZQ6Jqvso1KEZ/IUJZ4wayMXdlCKlelyJ
+ 4f0QSW1B2n5TcCkkWn6dQqPiVr+hnjlazZ0QqL3D3rcMOXDe2U36dtkrSL1XhWRNcz9Y
+ 0nQOtAcln4FY+D99l+IdYOCIDpZ7Z984QRyx6ey6ieD6dvKYJeEDgyhjJqEMTmF+zx8d
+ ZEzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZEm+dlp1WdNi0+PXsBNsNlqTbpmLlIffHnRCEZ/ShIw=;
+ b=fmccAbk3pBTidbvBxXJ2Xpg3qi23yu3kNtOa2Ed3jyt+jE4GjeC1I80TUJl6CAEL+d
+ FeKGGzMiNchT1Yb4K1+Abqx0HrFU1LDrqQ8vGDKrdJk3bUwxdTZWOt8w85TK3KqQl4qH
+ y+UiTvRWvoqztP79Qc6iWbHnD1Z0pFY6tfW5Z8hy8IjHXRf2J25SFTX18ujAfudaqPlO
+ MKkqH0Lzbn0TosRTSvAV0TkEi5X3d3bGRRYG/jVwEJmsRKhz3kNmQ6ixG+XFSbR7gPva
+ /24e7+LG2bwf7Q4g0yBTOMm0DPYXhFEXHV1e2yred2Kjla/bdHSLH/RwKIkDfUNP5QLi
+ 1EcQ==
+X-Gm-Message-State: AOAM531DP+vRr6P3+JPoyVoqAudleT7XI4+VzlywtZHMVqB52gkKHSHa
+ 4/rNvPbYcieNd/aDkWA2RI0J8o4HXwJ6i4GVvHA=
+X-Google-Smtp-Source: ABdhPJzZOFtmp8gmQerAwygw4JMNDMYMMF73frKCBmWS8ROr79j8FTkhETlIodmilbZKIOf3K+uwiPnXvyJHimIJDbk=
+X-Received: by 2002:aa7:c983:: with SMTP id c3mr1977991edt.383.1596680917928; 
+ Wed, 05 Aug 2020 19:28:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAPM=9ty8hOY0m2+RJdRiRADY5Li-hs3ZaDEK-DTf6rgFewar7g@mail.gmail.com>
+In-Reply-To: <CAPM=9ty8hOY0m2+RJdRiRADY5Li-hs3ZaDEK-DTf6rgFewar7g@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 6 Aug 2020 12:28:25 +1000
+Message-ID: <CAPM=9tx5bMLofaA75ZrBwdjAF-ZpQ3xU+pf5QGKJakLUQYNKNg@mail.gmail.com>
+Subject: Re: [git pull] drm next for 5.9-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,332 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When creating a frame buffer, the driver verifies that the pitches for
-the chroma planes match the luma plane. This is done incorrectly for
-fully planar YUV formats, without taking horizontal subsampling into
-account. Fix it.
+On Thu, 6 Aug 2020 at 11:07, Dave Airlie <airlied@gmail.com> wrote:
+>
+> Hi Linus,
+>
+> This the main drm pull request for 5.9-rc1.
+>
+> New xilinx displayport driver, AMD support for two new GPUs (more
+> header files), i915 initial support for RocketLake and some work on
+> their DG1 (discrete chip).
+>
+> The core also grew some lockdep annotations to try and constrain what
+> drivers do with dma-fences, and added some documentation on why the
+> idea of indefinite fences doesn't work.
+>
+> The long list is below.
+>
+> I did a test merge into your tree and only had two minor conflicts, so
+> I think you should be able to take care of it fine.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 52 ++++++++++++++++++++++++++-
- drivers/gpu/drm/rcar-du/rcar_du_kms.h |  1 +
- 2 files changed, 52 insertions(+), 1 deletion(-)
+I should say I did a test merge yesterday, but you likely pulled more trees,
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 482329102f19..2fda3734a57e 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -40,6 +40,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_RGB565,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 		.pnmr = PnMR_SPIM_TP | PnMR_DDDF_16BPP,
- 		.edf = PnDDCR4_EDF_NONE,
- 	}, {
-@@ -47,6 +48,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_ARGB555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 		.pnmr = PnMR_SPIM_ALP | PnMR_DDDF_ARGB,
- 		.edf = PnDDCR4_EDF_NONE,
- 	}, {
-@@ -61,6 +63,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_XBGR32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 		.pnmr = PnMR_SPIM_TP | PnMR_DDDF_16BPP,
- 		.edf = PnDDCR4_EDF_RGB888,
- 	}, {
-@@ -68,6 +71,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_ABGR32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 		.pnmr = PnMR_SPIM_ALP | PnMR_DDDF_16BPP,
- 		.edf = PnDDCR4_EDF_ARGB8888,
- 	}, {
-@@ -75,6 +79,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_UYVY,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 2,
- 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
- 		.edf = PnDDCR4_EDF_NONE,
- 	}, {
-@@ -82,6 +87,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_YUYV,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 2,
- 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
- 		.edf = PnDDCR4_EDF_NONE,
- 	}, {
-@@ -89,6 +95,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_NV12M,
- 		.bpp = 12,
- 		.planes = 2,
-+		.hsub = 2,
- 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
- 		.edf = PnDDCR4_EDF_NONE,
- 	}, {
-@@ -96,6 +103,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_NV21M,
- 		.bpp = 12,
- 		.planes = 2,
-+		.hsub = 2,
- 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
- 		.edf = PnDDCR4_EDF_NONE,
- 	}, {
-@@ -103,6 +111,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_NV16M,
- 		.bpp = 16,
- 		.planes = 2,
-+		.hsub = 2,
- 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
- 		.edf = PnDDCR4_EDF_NONE,
- 	},
-@@ -115,156 +124,187 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.v4l2 = V4L2_PIX_FMT_RGB332,
- 		.bpp = 8,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_ARGB4444,
- 		.v4l2 = V4L2_PIX_FMT_ARGB444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_XRGB4444,
- 		.v4l2 = V4L2_PIX_FMT_XRGB444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGBA4444,
- 		.v4l2 = V4L2_PIX_FMT_RGBA444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGBX4444,
- 		.v4l2 = V4L2_PIX_FMT_RGBX444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_ABGR4444,
- 		.v4l2 = V4L2_PIX_FMT_ABGR444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_XBGR4444,
- 		.v4l2 = V4L2_PIX_FMT_XBGR444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGRA4444,
- 		.v4l2 = V4L2_PIX_FMT_BGRA444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGRX4444,
- 		.v4l2 = V4L2_PIX_FMT_BGRX444,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGBA5551,
- 		.v4l2 = V4L2_PIX_FMT_RGBA555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGBX5551,
- 		.v4l2 = V4L2_PIX_FMT_RGBX555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_ABGR1555,
- 		.v4l2 = V4L2_PIX_FMT_ABGR555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_XBGR1555,
- 		.v4l2 = V4L2_PIX_FMT_XBGR555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGRA5551,
- 		.v4l2 = V4L2_PIX_FMT_BGRA555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGRX5551,
- 		.v4l2 = V4L2_PIX_FMT_BGRX555,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGR888,
- 		.v4l2 = V4L2_PIX_FMT_RGB24,
- 		.bpp = 24,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGB888,
- 		.v4l2 = V4L2_PIX_FMT_BGR24,
- 		.bpp = 24,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGBA8888,
- 		.v4l2 = V4L2_PIX_FMT_BGRA32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_RGBX8888,
- 		.v4l2 = V4L2_PIX_FMT_BGRX32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_ABGR8888,
- 		.v4l2 = V4L2_PIX_FMT_RGBA32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_XBGR8888,
- 		.v4l2 = V4L2_PIX_FMT_RGBX32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGRA8888,
- 		.v4l2 = V4L2_PIX_FMT_ARGB32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_BGRX8888,
- 		.v4l2 = V4L2_PIX_FMT_XRGB32,
- 		.bpp = 32,
- 		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_YVYU,
- 		.v4l2 = V4L2_PIX_FMT_YVYU,
- 		.bpp = 16,
- 		.planes = 1,
-+		.hsub = 2,
- 	}, {
- 		.fourcc = DRM_FORMAT_NV61,
- 		.v4l2 = V4L2_PIX_FMT_NV61M,
- 		.bpp = 16,
- 		.planes = 2,
-+		.hsub = 2,
- 	}, {
- 		.fourcc = DRM_FORMAT_YUV420,
- 		.v4l2 = V4L2_PIX_FMT_YUV420M,
- 		.bpp = 12,
- 		.planes = 3,
-+		.hsub = 2,
- 	}, {
- 		.fourcc = DRM_FORMAT_YVU420,
- 		.v4l2 = V4L2_PIX_FMT_YVU420M,
- 		.bpp = 12,
- 		.planes = 3,
-+		.hsub = 2,
- 	}, {
- 		.fourcc = DRM_FORMAT_YUV422,
- 		.v4l2 = V4L2_PIX_FMT_YUV422M,
- 		.bpp = 16,
- 		.planes = 3,
-+		.hsub = 2,
- 	}, {
- 		.fourcc = DRM_FORMAT_YVU422,
- 		.v4l2 = V4L2_PIX_FMT_YVU422M,
- 		.bpp = 16,
- 		.planes = 3,
-+		.hsub = 2,
- 	}, {
- 		.fourcc = DRM_FORMAT_YUV444,
- 		.v4l2 = V4L2_PIX_FMT_YUV444M,
- 		.bpp = 24,
- 		.planes = 3,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_YVU444,
- 		.v4l2 = V4L2_PIX_FMT_YVU444M,
- 		.bpp = 24,
- 		.planes = 3,
-+		.hsub = 1,
- 	},
- };
- 
-@@ -311,6 +351,7 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- {
- 	struct rcar_du_device *rcdu = dev->dev_private;
- 	const struct rcar_du_format_info *format;
-+	unsigned int chroma_pitch;
- 	unsigned int max_pitch;
- 	unsigned int align;
- 	unsigned int i;
-@@ -353,8 +394,17 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 		return ERR_PTR(-EINVAL);
- 	}
- 
-+	/*
-+	 * Calculate the chroma plane(s) pitch using the horizontal subsampling
-+	 * factor. For semi-planar formats, the U and V planes are combined, the
-+	 * pitch must thus be doubled.
-+	 */
-+	chroma_pitch = mode_cmd->pitches[0] / format->hsub;
-+	if (format->planes == 2)
-+		chroma_pitch *= 2;
-+
- 	for (i = 1; i < format->planes; ++i) {
--		if (mode_cmd->pitches[i] != mode_cmd->pitches[0]) {
-+		if (mode_cmd->pitches[i] != chroma_pitch) {
- 			dev_dbg(dev->dev,
- 				"luma and chroma pitches do not match\n");
- 			return ERR_PTR(-EINVAL);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-index 0346504d8c59..8f5fff176754 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-@@ -22,6 +22,7 @@ struct rcar_du_format_info {
- 	u32 v4l2;
- 	unsigned int bpp;
- 	unsigned int planes;
-+	unsigned int hsub;
- 	unsigned int pnmr;
- 	unsigned int edf;
- };
--- 
-Regards,
+https://lore.kernel.org/dri-devel/20200806115140.6aa46042@canb.auug.org.au/T/#t
 
-Laurent Pinchart
+So there was an unfortunate miscommunication and one patch went two
+ways, in future Jason and Ben will coordinate better.
 
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
