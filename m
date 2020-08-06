@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BEC23D52F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 03:49:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC9423D533
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 03:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7036E10C;
-	Thu,  6 Aug 2020 01:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6716E10E;
+	Thu,  6 Aug 2020 01:51:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB59A6E10C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 01:49:02 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD88C6E10E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 01:51:44 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4BMWcR5H9gz9sPC;
- Thu,  6 Aug 2020 11:48:55 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4BMWgd3JmYz9sPC;
+ Thu,  6 Aug 2020 11:51:41 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1596678540;
- bh=Ceb6LToJ+7vmEHhGywFYyHWH3nc/3SWKpK13hR/D9sU=;
+ s=201702; t=1596678703;
+ bh=hY6aF8lk0dgBIQGUdKWk8ajvOayIoxwiR/69jIOPWKQ=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Yx3BJr6pOw4OmA8EZp0nMhU9EQiiGK96eNm+E244cdRsEyxS9+lBXbwYyVLTzlM7I
- HXN43s7N8yL3VoE8wdrGycmcFjBch7eM6Sdygp3dMEFmX0vdESx6bfMFhjoAYF3utQ
- NMU1wKsqKRBBLxrHOLIvH4dOBzUnwcmGJXAY5OdiRYX1UkRGQy1zEZ0p9GhV59UqZs
- wcMycN8JK9znIBjOP7bIiZWE6UmJ/6eMOfFbUD6qmFjvy6Sb5EagMd9mZ/tFT3qxVm
- G3XrUyVZg0LdrrGFKclf7CAGO+PUbFSX1JBmT8K3Yo0boBOWqVnotwRCn5dpV3fesU
- VdZpXCieSOaDQ==
-Date: Thu, 6 Aug 2020 11:48:53 +1000
+ b=hpKhnU9wl7Td7ZcXPihJnaH7qY1Yh4qzlgOyVBlSv4kW4pZwcwt8EqeJUzqxIrMbE
+ 7qY4eUPVqKMoohurt1NR/d4XyS2PXYVbcNFFzUSwYgOTbeqJar3oBSn7k/JoXIF9b8
+ hcSgVJf0JzMvaz4JGqsMMATUre2GHJGN2D8V++BsRNIz9RYlqoVIm6dmioW4zm3Hx6
+ 8n606zeQlkWo0cJ9xJCkVWkJLX2wOPQLyl4bPmLMF4B/1AzHQJIFidh1+EKsmcViOz
+ y++AS3/Ue1z1eGP6tm6jAcF47XMVagwKV+xFSXHE8KjqMxRjB0C6LSGQbwolt6Rg4S
+ dqQY2pv3dvaDA==
+Date: Thu, 6 Aug 2020 11:51:40 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the devicetree tree with the drm tree
-Message-ID: <20200806114853.43f2e6fb@canb.auug.org.au>
-In-Reply-To: <20200722155239.07bafdfc@canb.auug.org.au>
-References: <20200722155239.07bafdfc@canb.auug.org.au>
+Subject: Re: linux-next: manual merge of the hmm tree with the drm tree
+Message-ID: <20200806115140.6aa46042@canb.auug.org.au>
+In-Reply-To: <20200730192110.1466e63e@canb.auug.org.au>
+References: <20200730192110.1466e63e@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,80 +48,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
+Cc: Ben Skeggs <bskeggs@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>,
+ Jason Gunthorpe <jgg@mellanox.com>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
- Rob Herring <robherring2@gmail.com>,
- "Alexander A. Klimov" <grandmaster@al2klimov.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0473382598=="
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1015963011=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0473382598==
-Content-Type: multipart/signed; boundary="Sig_/ciKrCbctQVDTvj=cVrqeP4m";
+--===============1015963011==
+Content-Type: multipart/signed; boundary="Sig_/.=FcYe9T1r9uoFGqml0sKBG";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/ciKrCbctQVDTvj=cVrqeP4m
+--Sig_/.=FcYe9T1r9uoFGqml0sKBG
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Wed, 22 Jul 2020 15:52:39 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
+On Thu, 30 Jul 2020 19:21:10 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
 wrote:
->
-> Today's linux-next merge of the devicetree tree got a conflict in:
 >=20
->   Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
+> Today's linux-next merge of the hmm tree got a conflict in:
+>=20
+>   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
 >=20
 > between commit:
 >=20
->   5a2e9b658cdc ("dt-bindings: drm/bridge: ti-sn65dsi86: Convert to yaml")
+>   7763d24f3ba0 ("drm/nouveau/vmm/gp100-: fix mapping 2MB sysmem pages")
 >=20
-> from the drm tree and commit:
+> from the drm tree and commits:
 >=20
->   382646090f7f ("dt-bindings: drm/bridge: Replace HTTP links with HTTPS o=
-nes")
+>   4725c6b82a48 ("nouveau: fix mapping 2MB sysmem pages")
+>   1a77decd0cae ("nouveau: fix storing invalid ptes")
 >=20
-> from the devicetree tree.
+> from the hmm tree.
 >=20
-> I fixed it up (I delete the file and adde the following merge fix
-> patch) and can carry the fix as necessary. This is now fixed as far as
-> linux-next is concerned, but any non trivial conflicts should be
-> mentioned to your upstream maintainer when your tree is submitted for
-> merging.  You may also want to consider cooperating with the maintainer
-> of the conflicting tree to minimise any particularly complex conflicts.
+> 7763d24f3ba0 and 4725c6b82a48 are exactly the same patch.
 >=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Wed, 22 Jul 2020 15:47:22 +1000
-> Subject: [PATCH] fix for "dt-bindings: drm/bridge: Replace HTTP links wit=
-h HTTPS ones"
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8=
-6.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> index be10e8cf31e1..f8622bd0f61e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> @@ -11,7 +11,7 @@ maintainers:
-> =20
->  description: |
->    The Texas Instruments SN65DSI86 bridge takes MIPI DSI in and outputs e=
-DP.
-> -  http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=
-=3Dsn65dsi86&fileType=3Dpdf
-> +  https://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumbe=
-r=3Dsn65dsi86&fileType=3Dpdf
-> =20
->  properties:
->    compatible:
-> --=20
-> 2.27.0
+> I fixed it up (I just used the latter version) and can carry the fix as
+> necessary. This is now fixed as far as linux-next is concerned, but any
+> non trivial conflicts should be mentioned to your upstream maintainer
+> when your tree is submitted for merging.  You may also want to consider
+> cooperating with the maintainer of the conflicting tree to minimise any
+> particularly complex conflicts.
 
 This is now a conflict between the drm tree and Linus' tree.
 
@@ -129,25 +99,25 @@ This is now a conflict between the drm tree and Linus' tree.
 Cheers,
 Stephen Rothwell
 
---Sig_/ciKrCbctQVDTvj=cVrqeP4m
+--Sig_/.=FcYe9T1r9uoFGqml0sKBG
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl8rYYUACgkQAVBC80lX
-0GwIXQf/SLzjkXaFmkX9wJyeKhhsoMGpM7T59b9DWNPtr1S4cP7EIuDXY7+cBhde
-UsF9GfJux7P2i1OadYftdH843y4rGP+SmxxKt0/2DsNjgsWQXz1u4/khJ3tEz9Q7
-aRQD9ukn9F6UjiJmWvWtn1RTpJj58RYjHAoMGEB7aKIMD1bBCWiq30CD8cxheBZt
-z/hm4bPSpK3JoyP2JH0lz901ZmgoAhEwek3eX2F8FYgAaAvnDwS9FqjsZbJ8g3OR
-y0VgI/y+6CnLinCWeYkH+kMJZa4rCU+dBdkRZBeMio/T9DC7mwHvZHjPJ0Ec7wmm
-2wr2T2pU6kEHlf+QMYbkq1Z4Hs7Q4w==
-=D5vb
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl8rYiwACgkQAVBC80lX
+0Gw7fAf+KnSav4Q90iErqeMElDcGjnp1gxUYGWuURo7kCjZP1pw2MQ/EgcbWntQF
+aSSdUltwW6YFAgG/BqQwkyVXaO/mqDEPs+v3/MKcU8TGJ9gS9OWfHCE2AyACB1P7
+R6iWtR8ZLu9Dfuis0grlwIiCVDjJRzmkUVliPuQ9LXBl9iccvKtGsl9OjgQEtpwn
+QMR63J1pvjJmk7I/SZkUKXR7YYn//Jou1A7B/pFQZ9vryT8u/4En8BouJreW9reP
+FCHH8C/N02/HN584YBXzoeG4FCwEVd4XWVtxfj326K8mE1yLOLY2AJRkNaidwx4d
+vnEievjSwAUAuvAZUboFuZhyeiAV9A==
+=89ZD
 -----END PGP SIGNATURE-----
 
---Sig_/ciKrCbctQVDTvj=cVrqeP4m--
+--Sig_/.=FcYe9T1r9uoFGqml0sKBG--
 
---===============0473382598==
+--===============1015963011==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -158,4 +128,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0473382598==--
+--===============1015963011==--
