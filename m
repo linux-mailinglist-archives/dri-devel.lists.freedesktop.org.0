@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8A023DC22
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 18:47:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6173C23DD10
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 19:00:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5EBF6E8DF;
-	Thu,  6 Aug 2020 16:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1846E8E7;
+	Thu,  6 Aug 2020 16:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9266E8DF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 16:47:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C511B6E8E7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 16:59:58 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207137] AMDGPU incorrectly reports vddgfx voltage for R9 390
-Date: Thu, 06 Aug 2020 16:47:09 +0000
+Subject: [Bug 208839] New: AMDGPU: DPM is not enabled after hibernate and
+ resume for CIK/Hawaii GPUs (e.g R9 390)
+Date: Thu, 06 Aug 2020 16:59:58 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: sandy.8925@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-207137-2300-7c608sp0kM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207137-2300@https.bugzilla.kernel.org/>
-References: <bug-207137-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-208839-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,13 +57,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207137
+https://bugzilla.kernel.org/show_bug.cgi?id=208839
 
-sandy.8925@gmail.com changed:
+            Bug ID: 208839
+           Summary: AMDGPU: DPM is not enabled after hibernate and resume
+                    for CIK/Hawaii GPUs (e.g R9 390)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.8
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: sandy.8925@gmail.com
+        Regression: No
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.6                         |5.8
+Created attachment 290801
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290801&action=edit
+Resume after suspend ftrace
+
+After hibernating and resuming, DPM is not enabled. This remains the case even
+if you test hibernate using the steps here:
+https://www.kernel.org/doc/html/latest/power/basic-pm-debugging.html
+
+I debugged the problem, and figured out that in the file hardwaremanager.c, in
+the function, phm_enable_dynamic_state_management(), the check 'if
+(!hwmgr->pp_one_vf && smum_is_dpm_running(hwmgr) && !amdgpu_passthrough(adev)
+&& adev->in_suspend)' returns true for the hibernate case, and false for the
+suspend case.
+
+This means that for the hibernate case, the AMDGPU driver doesn't enable DPM
+(even though it should) and simply returns from that function. In the suspend
+case, it goes ahead and enables DPM, even though it doesn't need to.
+
+I debugged further, and found out that in the case of suspend, for the
+CIK/Hawaii GPUs, smum_is_dpm_running(hwmgr) returns false, while in the case of
+hibernate, smum_is_dpm_running(hwmgr) returns true.
+
+For CIK, the function ci_is_smc_ram_running() is ultimately used to determine
+if DPM is currentle enabled or not, and this seems to provide the wrong answer.
+
+I've attached ftrace traces for the resume after suspend and resume after
+hibernate cases (with some functions excluded for brevity).
 
 -- 
 You are receiving this mail because:
