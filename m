@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026D623E3AD
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 23:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D61E23E440
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 01:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076C16E91E;
-	Thu,  6 Aug 2020 21:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 598BA6E92E;
+	Thu,  6 Aug 2020 23:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623C56E91E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 21:58:08 +0000 (UTC)
-Received: from mail-io1-f53.google.com ([209.85.166.53]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MHoZS-1jyngO0PFm-00Evsz for <dri-devel@lists.freedesktop.org>; Thu, 06
- Aug 2020 23:58:06 +0200
-Received: by mail-io1-f53.google.com with SMTP id v6so35925730iow.11
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Aug 2020 14:58:05 -0700 (PDT)
-X-Gm-Message-State: AOAM532PmMMEItalWAOcPzHL9eW0RMyDfjW2ljWpkLS28T0NsxNNb6ew
- 8vlzLW8LjZ/RG0uOvwekyGL6SWCfqQxev9tCpn8=
-X-Google-Smtp-Source: ABdhPJxgZbzUezUsGBZmsJqABgfct0c0RuS1c93rT/QNCas4jRck1zkiTI9WMDo0l2MxpsdfxgH1+JL7NncTMPc4G48=
-X-Received: by 2002:a37:385:: with SMTP id 127mr10191416qkd.3.1596751084212;
- Thu, 06 Aug 2020 14:58:04 -0700 (PDT)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2786E92E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 23:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596754981;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Xesw/0R7dO8ukumL0049322cMVGw9mWIzQSjuD9xFrA=;
+ b=fmKOvu/LH+4iqh8S5tzB80eDkRkvDclqhVZ89AtSZMXB9FhlTOsddet60Jyf5wVf5hmyXV
+ cgPK+DQ1nKzGIrMY9kzrglqUNgcM6y9Hfqo+BWFxDk3ENd06G4KQVziwBsdr+96dOGjCCJ
+ j03bIdjARWvWeQGtZWONIU69rCOMmNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-8qtPoFiXOM-dqQZRmzKUyg-1; Thu, 06 Aug 2020 19:01:56 -0400
+X-MC-Unique: 8qtPoFiXOM-dqQZRmzKUyg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02E7A106B243;
+ Thu,  6 Aug 2020 23:01:55 +0000 (UTC)
+Received: from Whitewolf.redhat.com (unknown [10.10.119.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 874145D994;
+ Thu,  6 Aug 2020 23:01:53 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH] drm/nouveau/kms/nv50-: Program notifier offset before
+ requesting disp caps
+Date: Thu,  6 Aug 2020 19:01:29 -0400
+Message-Id: <20200806230129.324035-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20200806181932.2253-1-krzk@kernel.org>
-In-Reply-To: <20200806181932.2253-1-krzk@kernel.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 6 Aug 2020 23:57:48 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2=KXyeb=fZNkHBJ0wUT1fr0TSS5wX=wuXz9y3kSkLQQQ@mail.gmail.com>
-Message-ID: <CAK8P3a2=KXyeb=fZNkHBJ0wUT1fr0TSS5wX=wuXz9y3kSkLQQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/41] spi / fbdev / cpufreq / usb / mmc / hwmon / ARM:
- Prepare for multiplatform S3C
-To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Provags-ID: V03:K1:ojnrxcBDWuahkG32awLXbg1UhBwQLGPXMAPGRREA2UBE+6fcg14
- GD8WCVhCgIANC5sGcyc+SBfdNZnzJWmpJc5cGrFcbAYtl+acnjPpBwjSwzJnwjTh3DmiNLr
- G8hmjn3XkGvECiFBU43E91BY3eEzKnuzfKDzlbPnROJOOm2w6adRXzhiu9TOeHoNepprGaW
- kLMutDfCldL97sxeRt/PQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3qasnTit1JA=:/Gw+OhPeLfW+QmRETZ0i4h
- HMn7Fvn5gT1P9CUlF1fn/8gcEDTqlY+6EnwfN6rnpDHOHS8/9OP0MMHZRG1BjchXTpnEvaiuM
- f4Amkla6oFJryVtp0HzVT2yj9qNwMJhw4/oWTGo5nTWu8rrydPBKvuekkTmvtEZ9qv4IgLnWB
- VeH8a4r9F0aFwDXxbpwQ42ghTpVl+YzIgog7DQ/kcQ/RfuM0Gf3YDQHv1krj1A+xcGsNwslyV
- qZDpNOnlwe7BJvQy5ydIbhJZKEXQv+DGrWEgtW5hzk5dQA8xeq+d77mNnwNVuUz4bv/aEsslM
- KEWj22XkNF2EmflQBbjY+Qvc7P7uLDTmLpBtNvNQLCMFVYpy3+TSU60w6AhqbJYmMXv//qUQn
- uEybnV/YDQ/7W46S3yYeK+8EQnMXgxPD7rSeavmbKnsaDS2OUbAjEGYKxBA9Qq64tVOVMCVtD
- h7EMpJGl9xfAcre6VMYZKWzwYNxOFgAkQdojP7KHahXBroUVBUJoK8VLSFtgRb0uXuzxl7CDN
- quucyB1h2qMjYaGYB+Ca7hthVwQ6u1zZ6EEcHbVRGbniFLwG/OXMvg4jVjYWH0NhB4emz+toc
- 5uba9d2N1Y72tzoGAkRQxzpiNpGO/T/Y0s5+RfPgDZxqby/mWfcynjq4QoCRjlSyGvBGciitT
- tNE7kzj8O03h9PpfpYzfzqWBHSQpzNGZ4cK/aUOEw5d59BWCnAbkCVuMuZxFjCEgH8IR1kSH4
- WqmxfDQIBSiB1a36uF9v8jbDqvbzgze98IJRxDwT96kBY0cX3B9pSLGK8XYIsdwVmCO9yf3HI
- hbtR0SuSKc2+vei+arARdcSJJFdYY80sXXzfgEqwDey1qh5umUmjVlxeUs2jEZgsFjQdjvIy1
- 7tbR2l6O4mv8ogEc4qgHT7FN2Dobq6GPj4TOw+jiCf5Ok697bMpUP83vWKlVrrAA7N41qwz22
- 1PRDOTCJSDiBK8YVJCD67MkV5MICX9NfvcFGQoFuR+IO98RIcvD5c
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,79 +55,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- Jiri Slaby <jirislaby@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Tomasz Figa <tomasz.figa@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Russell King <linux@armlinux.org.uk>, linux-spi <linux-spi@vger.kernel.org>,
- Lee Jones <lee.jones@linaro.org>, Andi Shyti <andi@etezian.org>,
- Jason Cooper <jason@lakedaemon.net>,
- "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
- <linux-samsung-soc@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linux-stm32@st-md-mailman.stormreply.com, Chanwoo Choi <cw00.choi@samsung.com>,
- Kukjin Kim <kgene@kernel.org>, linux-serial@vger.kernel.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-mmc <linux-mmc@vger.kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Linux PWM List <linux-pwm@vger.kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- linux-clk <linux-clk@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- Ben Dooks <ben-linux@fluff.org>, Takashi Iwai <tiwai@suse.com>,
- Thomas Gleixner <tglx@linutronix.de>, Jaroslav Kysela <perex@perex.cz>,
- Simtec Linux Team <linux@simtec.co.uk>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
- Felipe Balbi <balbi@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Sebastian Reichel <sre@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Sangbeom Kim <sbkim73@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, patches@opensource.cirrus.com
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ stable@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 6, 2020 at 8:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> Hi All,
->
-> Shortly
-> =======
-> This is a continuation of Arnd's work from 2019 [1].  The goal is to
-> cleanup, merge and finally make the Samsung S3C24xx and S3C64xx
-> architectures multiplatform.  The multiplatform did not happen yet
-> here... just cleaning up and merging into one mach-s3c.
->
-> I intend to take it through Samsung SoC tree so all Acks are welcomed.
->
-> Changes since v1
-> ================
-> 1. Rebased,
-> 2. Addressed comments (including mine),
-> 3. Few new patches.
->
-> Please see individual changelogs (per patch).
->
-> [1] https://patchwork.kernel.org/project/linux-samsung-soc/list/?series=185855&state=*
+Not entirely sure why this never came up when I originally tested this
+(maybe some BIOSes already have this setup?) but the ->caps_init vfunc
+appears to cause the display engine to throw an exception on driver
+init, at least on my ThinkPad P72:
 
-Thanks a lot for picking up my old branch!
+nouveau 0000:01:00.0: disp: chid 0 mthd 008c data 00000000 0000508c 0000102b
 
-All your additional changes look fine to me, feel free to add
+This is magic nvidia speak for "You need to have the DMA notifier offset
+programmed before you can call NV507D_GET_CAPABILITIES." So, let's fix
+this by doing that.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP interlacing support")
+Cc: <stable@vger.kernel.org> # v5.8+
+---
+ drivers/gpu/drm/nouveau/dispnv50/core507d.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-to the patches you added on top my original series.
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+index ad1f09a143aa4..c984080ce99f2 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+@@ -80,11 +80,19 @@ core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
+ 	struct nvif_push *push = disp->core->chan.push;
+ 	int ret;
+ 
+-	if ((ret = PUSH_WAIT(push, 2)))
++	if ((ret = PUSH_WAIT(push, 4)))
+ 		return ret;
+ 
++	PUSH_MTHD(push, NV507D, SET_NOTIFIER_CONTROL,
++		  NVDEF(NV507D, SET_NOTIFIER_CONTROL, MODE, WRITE) |
++		  NVVAL(NV507D, SET_NOTIFIER_CONTROL, OFFSET, NV50_DISP_CORE_NTFY >> 2) |
++		  NVDEF(NV507D, SET_NOTIFIER_CONTROL, NOTIFY, ENABLE));
+ 	PUSH_MTHD(push, NV507D, GET_CAPABILITIES, 0x00000000);
+-	return PUSH_KICK(push);
++	ret = PUSH_KICK(push);
++	if (ret)
++		return ret;
++
++	return 0;
+ }
+ 
+ int
+-- 
+2.26.2
 
-     Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
