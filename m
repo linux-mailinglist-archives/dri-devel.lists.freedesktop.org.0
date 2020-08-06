@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628B823D62F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 06:39:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F2C23D663
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 07:21:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B187899B5;
-	Thu,  6 Aug 2020 04:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABAA89D2E;
+	Thu,  6 Aug 2020 05:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866D8899B5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 04:39:15 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-DqSJ4AEGOPO17AtS9q8zpA-1; Thu, 06 Aug 2020 00:39:10 -0400
-X-MC-Unique: DqSJ4AEGOPO17AtS9q8zpA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AE67800685
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 04:39:09 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-227.bne.redhat.com
- [10.64.54.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8752F6FEDC
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 04:39:08 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/ttm/nouveau: move io_lru storage into driver.
-Date: Thu,  6 Aug 2020 14:39:03 +1000
-Message-Id: <20200806043903.4024333-3-airlied@gmail.com>
-In-Reply-To: <20200806043903.4024333-1-airlied@gmail.com>
-References: <20200806043903.4024333-1-airlied@gmail.com>
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DD889D2E
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 05:21:13 +0000 (UTC)
+Received: by mail-ej1-x642.google.com with SMTP id g19so35077568ejc.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 22:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=LCgy1gxM30M22PIsWbId11v5IBUbSCtj3cxS/cRrXtE=;
+ b=GirpY+wZXX7p6BoHdV2hswVVPptmCIgxr8Uvp1tQS47Vv9qlzxirlsA75NBJA3s9SZ
+ fpRV+0Tu9cfedWg+HTSQaq8oTWCOK5X8IBQ49YvgoHAgNakNxyvh0j4bub8snwIzWbw1
+ n2bYTD+ZB+mO1NgcCCkqhd0MyjWwko+t/T8467+FNep9J84SOqd33CkUxZmoZ27Hws87
+ Q3SWWzR8U3sxPltIBBl0425/BxFRED2oEIv8z71+92Im77aLeclk91icnt829fW0pqKa
+ kVlthdCls13+5GknX9fMZqZNprhhcnDsZrHJEV+e3iSMDurJjc68NNkD0SJ6I/xzEOLf
+ RRxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=LCgy1gxM30M22PIsWbId11v5IBUbSCtj3cxS/cRrXtE=;
+ b=l4CquEOuXvI2ncQSraDa5fVVhw3nljZmFMuZTjMmxcWCsoxJy/Ldvu2rW9rnrGovn8
+ yknSVNj26CejsCXXl5RjQKiK01Y0S9mk8ISQxYoHYhupJnikg0BxojfvyACw+eW6EhiE
+ m/q+BLRben4/r5tOt45kHBxwWRIzA31AK+x0WaxldFrY7R7caGv9CeH2gy9kvTOelYyc
+ bY5eW1ihBW4qP+eyAlaJXzD+V0dHjEOCpMIjYKNzvN7dsvFHpVDmmVRBQcs1Zfl9knIo
+ wza0kAad9oPasVBBc7Ag+USwNnE7TgR5l9R2YypUfiQp/jKxs2okbjt+UW7cBj/sy1hb
+ KKWg==
+X-Gm-Message-State: AOAM5334kKsTx+ON3pLuz1qvTzlS0lsY25xCr2uk2FB6ruRZlSCD8DQw
+ +K/jCon/0klbePkHPewAuea9OUDft953SjJ3FOuQWA==
+X-Google-Smtp-Source: ABdhPJwiaEUGXJ3Y9PpbbVVLJXfYgIsFFolFkWW+uB9EWIr5k5bNzoK8oPI5n2v0n1E/TUJPDSYT6W3m3pNGXQKZcto=
+X-Received: by 2002:a17:907:72c8:: with SMTP id
+ du8mr2533656ejc.237.1596691271965; 
+ Wed, 05 Aug 2020 22:21:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
+References: <20200806043903.4024333-1-airlied@gmail.com>
+ <20200806043903.4024333-2-airlied@gmail.com>
+In-Reply-To: <20200806043903.4024333-2-airlied@gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 6 Aug 2020 15:21:00 +1000
+Message-ID: <CAPM=9tzCZCWr8K8NHhiroRCnjtN34LNRBEQYQJ5paUWh2Lq+ew@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/ttm: drop size from resource manager base class.
+To: dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,255 +67,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On Thu, 6 Aug 2020 at 14:39, Dave Airlie <airlied@gmail.com> wrote:
+>
+> From: Dave Airlie <airlied@redhat.com>
 
-This moves the io lru tracking into the driver allocated structure.
+Just realised this is on an unpublished base, I'd had amended one
+amdgpu ttm patch to avoid kzalloc, but not sent it out, but hadn't
+rebased it either.
 
-Probably need to consider if we can move more stuff in there around the
-nouveau only io_lru functionality.
----
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 24 +++++++++++++++++++++---
- drivers/gpu/drm/ttm/ttm_bo.c          | 11 ++++++++---
- drivers/gpu/drm/ttm/ttm_bo_util.c     | 24 +++++++++++++++---------
- include/drm/ttm/ttm_bo_api.h          |  3 +++
- include/drm/ttm/ttm_bo_driver.h       | 19 +++++++++++--------
- 5 files changed, 58 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 2aba2e245548..5e0008d98b07 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -31,6 +31,16 @@
- 
- #include <core/tegra.h>
- 
-+struct nouveau_resource_manager {
-+	struct ttm_resource_manager manager;
-+	struct ttm_resource_manager_io_lru io_lru;
-+};
-+
-+static inline struct nouveau_resource_manager *to_mgr(struct ttm_resource_manager *man)
-+{
-+	return container_of(man, struct nouveau_resource_manager, manager);
-+}
-+
- static void
- nouveau_manager_del(struct ttm_resource_manager *man, struct ttm_resource *reg)
- {
-@@ -63,9 +73,15 @@ nouveau_vram_manager_new(struct ttm_resource_manager *man,
- 	return 0;
- }
- 
-+static struct ttm_resource_manager_io_lru *nouveau_resource_io_lru(struct ttm_resource_manager *man)
-+{
-+	return &to_mgr(man)->io_lru;
-+}
-+
- const struct ttm_resource_manager_func nouveau_vram_manager = {
- 	.get_node = nouveau_vram_manager_new,
- 	.put_node = nouveau_manager_del,
-+	.io_lru = nouveau_resource_io_lru,
- };
- 
- static int
-@@ -160,7 +176,8 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
- 		/* Some BARs do not support being ioremapped WC */
- 		const u8 type = mmu->type[drm->ttm.type_vram].type;
--		struct ttm_resource_manager *man = kzalloc(sizeof(struct ttm_resource_manager), GFP_KERNEL);
-+		struct nouveau_resource_manager *nman = kzalloc(sizeof(*nman), GFP_KERNEL);
-+		struct ttm_resource_manager *man = &nman->manager;
- 		if (!man)
- 			return -ENOMEM;
- 
-@@ -173,9 +190,9 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 		}
- 
- 		man->func = &nouveau_vram_manager;
--		man->use_io_reserve_lru = true;
- 
- 		ttm_resource_manager_init(man);
-+		ttm_resource_manager_io_lru_init(&nman->io_lru);
- 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
- 		ttm_resource_manager_set_used(man, true);
- 		return 0;
-@@ -193,11 +210,12 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
- 	struct ttm_resource_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
- 
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
-+		struct nouveau_resource_manager *nman = to_mgr(man);
- 		ttm_resource_manager_set_used(man, false);
- 		ttm_resource_manager_force_list_clean(&drm->ttm.bdev, man);
- 		ttm_resource_manager_cleanup(man);
- 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
--		kfree(man);
-+		kfree(nman);
- 	} else
- 		ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_VRAM);
- }
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 74b7def25f91..e4aa6eb60a50 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1469,14 +1469,19 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
- }
- EXPORT_SYMBOL(ttm_bo_evict_mm);
- 
-+void ttm_resource_manager_io_lru_init(struct ttm_resource_manager_io_lru *io_lru)
-+{
-+	mutex_init(&io_lru->io_reserve_mutex);
-+	INIT_LIST_HEAD(&io_lru->io_reserve_lru);
-+}
-+EXPORT_SYMBOL(ttm_resource_manager_io_lru_init);
-+
- void ttm_resource_manager_init(struct ttm_resource_manager *man)
- {
- 	unsigned i;
- 
--	man->use_io_reserve_lru = false;
--	mutex_init(&man->io_reserve_mutex);
-+
- 	spin_lock_init(&man->move_lock);
--	INIT_LIST_HEAD(&man->io_reserve_lru);
- 
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		INIT_LIST_HEAD(&man->lru[i]);
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 496158acd5b9..137aab6c53ae 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -93,29 +93,33 @@ EXPORT_SYMBOL(ttm_bo_move_ttm);
- 
- int ttm_mem_io_lock(struct ttm_resource_manager *man, bool interruptible)
- {
--	if (likely(!man->use_io_reserve_lru))
-+	struct ttm_resource_manager_io_lru *io_lru;
-+	if (!man->func && !man->func->io_lru)
- 		return 0;
- 
-+	io_lru = man->func->io_lru(man);
- 	if (interruptible)
--		return mutex_lock_interruptible(&man->io_reserve_mutex);
-+		return mutex_lock_interruptible(&io_lru->io_reserve_mutex);
- 
--	mutex_lock(&man->io_reserve_mutex);
-+	mutex_lock(&io_lru->io_reserve_mutex);
- 	return 0;
- }
- 
- void ttm_mem_io_unlock(struct ttm_resource_manager *man)
- {
--	if (likely(!man->use_io_reserve_lru))
-+	struct ttm_resource_manager_io_lru *io_lru;
-+	if (!man->func && !man->func->io_lru)
- 		return;
- 
--	mutex_unlock(&man->io_reserve_mutex);
-+	io_lru = man->func->io_lru(man);
-+	mutex_unlock(&io_lru->io_reserve_mutex);
- }
- 
- static int ttm_mem_io_evict(struct ttm_resource_manager *man)
- {
- 	struct ttm_buffer_object *bo;
--
--	bo = list_first_entry_or_null(&man->io_reserve_lru,
-+	struct ttm_resource_manager_io_lru *io_lru = man->func->io_lru(man);
-+	bo = list_first_entry_or_null(&io_lru->io_reserve_lru,
- 				      struct ttm_buffer_object,
- 				      io_reserve_lru);
- 	if (!bo)
-@@ -173,9 +177,11 @@ int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
- 	if (unlikely(ret != 0))
- 		return ret;
- 	mem->bus.io_reserved_vm = true;
--	if (man->use_io_reserve_lru)
-+	if (man->func && man->func->io_lru) {
-+		struct ttm_resource_manager_io_lru *io_lru = man->func->io_lru(man);
- 		list_add_tail(&bo->io_reserve_lru,
--			      &man->io_reserve_lru);
-+			      &io_lru->io_reserve_lru);
-+	}
- 	return 0;
- }
- 
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 9570ed7d01bf..0861de24335c 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -56,6 +56,8 @@ struct ttm_lru_bulk_move;
- 
- struct ttm_resource_manager;
- 
-+struct ttm_resource_manager_io_lru;
-+
- /**
-  * struct ttm_bus_placement
-  *
-@@ -542,6 +544,7 @@ int ttm_bo_create(struct ttm_bo_device *bdev, unsigned long size,
-  */
- void ttm_resource_manager_init(struct ttm_resource_manager *man);
- 
-+void ttm_resource_manager_io_lru_init(struct ttm_resource_manager_io_lru *io_lru);
- /**
-  * ttm_bo_evict_mm
-  *
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index dc57445f90e6..7408ee01b6f3 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -46,6 +46,7 @@
- #define TTM_MAX_BO_PRIORITY	4U
- 
- struct ttm_resource_manager;
-+struct ttm_resource_manager_io_lru;
- 
- struct ttm_resource_manager_func {
- 	/**
-@@ -106,6 +107,8 @@ struct ttm_resource_manager_func {
- 	 */
- 	void (*debug)(struct ttm_resource_manager *man,
- 		      struct drm_printer *printer);
-+
-+	struct ttm_resource_manager_io_lru *(*io_lru)(struct ttm_resource_manager *man);
- };
- 
- /**
-@@ -133,7 +136,14 @@ struct ttm_resource_manager_func {
-  * This structure is used to identify and manage memory types for a device.
-  */
- 
-+struct ttm_resource_manager_io_lru {
-+	/*
-+	 * Protected by @io_reserve_mutex:
-+	 */
- 
-+	struct list_head io_reserve_lru;
-+	struct mutex io_reserve_mutex;
-+};
- 
- struct ttm_resource_manager {
- 	/*
-@@ -144,15 +154,8 @@ struct ttm_resource_manager {
- 	uint32_t available_caching;
- 	uint32_t default_caching;
- 	const struct ttm_resource_manager_func *func;
--	struct mutex io_reserve_mutex;
--	bool use_io_reserve_lru;
--	spinlock_t move_lock;
- 
--	/*
--	 * Protected by @io_reserve_mutex:
--	 */
--
--	struct list_head io_reserve_lru;
-+	spinlock_t move_lock;
- 
- 	/*
- 	 * Protected by the global->lru_lock.
--- 
-2.27.0
-
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
