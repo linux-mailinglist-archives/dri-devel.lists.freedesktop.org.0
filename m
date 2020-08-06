@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1ED23D788
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:40:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7672823D785
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 09:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 929D66E88A;
-	Thu,  6 Aug 2020 07:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE1A86E886;
+	Thu,  6 Aug 2020 07:39:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E014589306
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 06:00:39 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id mt12so6084138pjb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Aug 2020 23:00:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=MQuBJ0AZA3Ql/KbLn468nE0MeNrmfmZUYry76u8WWnU=;
- b=jfX2ioH7ZSJzrDANkazGM2XJ7JGsVM3tBYR+RSYwcg/QLerDtmI8jEw3H/5e15kW44
- RdeU2DdDLmI10zC0CweUu8fZ37g6mnn5baVOhReo3lXeWp9XSKC+4V7Of0+OwqCuI4HG
- 77axr46GEeY2Jmgoy9wGnQoCNgx0L8uhh/bI4zWmrr1GhqvMaz59mfSuqAv7niwihqTD
- AbKBMVdEaT6bS/ggY3wjGM+36AjP0+JIvLXMVkdJ9y8RhNy3U7pvaEhKR8SwCrGFOpAJ
- p6pnV/p/0+ayK2r2gatPQWKV31vBIQYHFCugvJfaWXQrwbYd30qXTnmP1G2alMR9rXzv
- gAsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MQuBJ0AZA3Ql/KbLn468nE0MeNrmfmZUYry76u8WWnU=;
- b=YAfxK2SXHQBT24NuxI6lXXr1k7sPH6s5Fu6sZdNQ9neITPBJGLqdASifgRB7Kg58Rr
- 6sMXYGqHPBKtDAbS/OWvG+hjIY2anwwWarDwOzljYLZQrHkBxd1hwpye5EnoC9ERTpVM
- kyZGZvWJNgyqFAp8Myw+x/zQbfOdhQ30uUZ6r/kBM4qSqh7xNXoXPeXUW9WJwut4A+tf
- k0ZrNXj/ooTBS99/xDusgd1Ym9+vzuj1JTDbCpX3gd/oQkNK8UrQV2kb9gUTBIqUj+x3
- orUOhf6oYLNjDhWTSMgWuRscB+VBx6wUcoZqKNA4mTFmvNirZrpfv8j5Js1m1rc1Tpoc
- m35g==
-X-Gm-Message-State: AOAM532dALyidj+heq7FncDKlp+tS9GBoTH/rnmHe2Qat4NOKSat3FPi
- RiqHo9NDtUVnyvZBNEGEmOI=
-X-Google-Smtp-Source: ABdhPJz1AigiTfRNCtWEJT/qDJuvjr1ZSqs97lpsBEC1kzhcEQtEN0LMSmKPKOzO3LsEollShQ8VxQ==
-X-Received: by 2002:a17:90b:124e:: with SMTP id
- gx14mr6994509pjb.225.1596693639235; 
- Wed, 05 Aug 2020 23:00:39 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id a33sm5485817pgl.75.2020.08.05.23.00.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 23:00:38 -0700 (PDT)
-Date: Thu, 6 Aug 2020 11:29:06 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v1 01/12] fbdev: gxfb: use generic power management
-Message-ID: <20200806055843.GA486683@gmail.com>
-References: <20200805180722.244008-2-vaibhavgupta40@gmail.com>
- <20200805201901.GA529929@bjorn-Precision-5520>
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88E1A6E144
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 06:44:34 +0000 (UTC)
+Received: from fsav404.sakura.ne.jp (fsav404.sakura.ne.jp [133.242.250.103])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 0766h3Ud099616;
+ Thu, 6 Aug 2020 15:43:03 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav404.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav404.sakura.ne.jp);
+ Thu, 06 Aug 2020 15:43:03 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav404.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 0766h2O5099613
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Thu, 6 Aug 2020 15:43:03 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH 1/8] drm/atomic-helper: reset vblank on crtc reset
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
+ <20200702112722.GA18036@pendragon.ideasonboard.com>
+ <CAKMK7uGny5Kssrusr5JQSV29WJE62iigD+hx8bgWYAYqhJAiYw@mail.gmail.com>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <a0efe731-dd81-03c7-a539-769492222e42@i-love.sakura.ne.jp>
+Date: Thu, 6 Aug 2020 15:43:02 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200805201901.GA529929@bjorn-Precision-5520>
+In-Reply-To: <CAKMK7uGny5Kssrusr5JQSV29WJE62iigD+hx8bgWYAYqhJAiYw@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 06 Aug 2020 07:39:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,198 +53,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-geode@lists.infradead.org, Bjorn Helgaas <bjorn@helgaas.com>,
- Paul Mackerras <paulus@samba.org>, Andres Salomon <dilinger@queued.net>,
- Bjorn Helgaas <bhelgaas@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Thierry Reding <treding@nvidia.com>, Brian Masney <masneyb@onstation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jyri Sarha <jsarha@ti.com>, Sean Paul <seanpaul@chromium.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, zhengbin <zhengbin13@huawei.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 05, 2020 at 03:19:01PM -0500, Bjorn Helgaas wrote:
-> On Wed, Aug 05, 2020 at 11:37:11PM +0530, Vaibhav Gupta wrote:
-> > Drivers using legacy power management .suspen()/.resume() callbacks
-> > have to manage PCI states and device's PM states themselves. They also
-> > need to take care of standard configuration registers.
-> 
-> s/using legacy/using legacy PCI/
-> s/.suspen/.suspend/ (in all these patches)
-> 
-Oh, that's a blunder. Since most of the drivers in my project need similar
-changes, I made a template for commit message. And by mistake I would have
-edited the template itself.
-> I wouldn't necessarily repost the whole series just for that (unless
-> the maintainer wants it), but maybe update your branch so if you have
-> occasion to repost for other reasons, this will be fixed.
-> 
-> This particular driver actually doesn't *do* any of the PCI state or
-> device PM state management you mention.  And I don't see the "single
-> 'struct dev_pm_ops'" you mention below -- I thought that meant you
-> would have a single struct shared between drivers (I think you did
-> that for IDE?), but that's not what you're doing.  This driver has
-> gxfb_pm_ops, the next has lxfb_pm_ops, etc.
-> 
-Yeah, the sentence sounds misleading. What I meant was that earlier there
-were two pointers for PM, .suspend and .resume. Whereas now there is a single
-"struct dev_pm_ops" variable inside pci_driver.
-> AFAICT the patches are fine, but the commit logs don't seem exactly
-> accurate.
-> 
-I am fixing it.
+As of commit 47ec5303d73ea344 ("Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next") on linux.git ,
+my VMware environment cannot boot. Do I need to bisect?
 
-Thanks
-Vaibhav Gupta
-> > Switch to generic power management framework using a single
-> > "struct dev_pm_ops" variable to take the unnecessary load from the driver.
-> > This also avoids the need for the driver to directly call most of the PCI
-> > helper functions and device power state control functions, as through
-> > the generic framework PCI Core takes care of the necessary operations,
-> > and drivers are required to do only device-specific jobs.
-> >
-> > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > ---
-> >  drivers/video/fbdev/geode/gxfb.h       |  5 ----
-> >  drivers/video/fbdev/geode/gxfb_core.c  | 36 ++++++++++++++------------
-> >  drivers/video/fbdev/geode/suspend_gx.c |  4 ---
-> >  3 files changed, 20 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/drivers/video/fbdev/geode/gxfb.h b/drivers/video/fbdev/geode/gxfb.h
-> > index d2e9c5c8e294..792c111c21e4 100644
-> > --- a/drivers/video/fbdev/geode/gxfb.h
-> > +++ b/drivers/video/fbdev/geode/gxfb.h
-> > @@ -21,7 +21,6 @@ struct gxfb_par {
-> >  	void __iomem *dc_regs;
-> >  	void __iomem *vid_regs;
-> >  	void __iomem *gp_regs;
-> > -#ifdef CONFIG_PM
-> >  	int powered_down;
-> >  
-> >  	/* register state, for power management functionality */
-> > @@ -36,7 +35,6 @@ struct gxfb_par {
-> >  	uint64_t fp[FP_REG_COUNT];
-> >  
-> >  	uint32_t pal[DC_PAL_COUNT];
-> > -#endif
-> >  };
-> >  
-> >  unsigned int gx_frame_buffer_size(void);
-> > @@ -49,11 +47,8 @@ void gx_set_dclk_frequency(struct fb_info *info);
-> >  void gx_configure_display(struct fb_info *info);
-> >  int gx_blank_display(struct fb_info *info, int blank_mode);
-> >  
-> > -#ifdef CONFIG_PM
-> >  int gx_powerdown(struct fb_info *info);
-> >  int gx_powerup(struct fb_info *info);
-> > -#endif
-> > -
-> >  
-> >  /* Graphics Processor registers (table 6-23 from the data book) */
-> >  enum gp_registers {
-> > diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
-> > index d38a148d4746..44089b331f91 100644
-> > --- a/drivers/video/fbdev/geode/gxfb_core.c
-> > +++ b/drivers/video/fbdev/geode/gxfb_core.c
-> > @@ -322,17 +322,14 @@ static struct fb_info *gxfb_init_fbinfo(struct device *dev)
-> >  	return info;
-> >  }
-> >  
-> > -#ifdef CONFIG_PM
-> > -static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> > +static int __maybe_unused gxfb_suspend(struct device *dev)
-> >  {
-> > -	struct fb_info *info = pci_get_drvdata(pdev);
-> > +	struct fb_info *info = dev_get_drvdata(dev);
-> >  
-> > -	if (state.event == PM_EVENT_SUSPEND) {
-> > -		console_lock();
-> > -		gx_powerdown(info);
-> > -		fb_set_suspend(info, 1);
-> > -		console_unlock();
-> > -	}
-> > +	console_lock();
-> > +	gx_powerdown(info);
-> > +	fb_set_suspend(info, 1);
-> > +	console_unlock();
-> >  
-> >  	/* there's no point in setting PCI states; we emulate PCI, so
-> >  	 * we don't end up getting power savings anyways */
-> > @@ -340,9 +337,9 @@ static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> >  	return 0;
-> >  }
-> >  
-> > -static int gxfb_resume(struct pci_dev *pdev)
-> > +static int __maybe_unused gxfb_resume(struct device *dev)
-> >  {
-> > -	struct fb_info *info = pci_get_drvdata(pdev);
-> > +	struct fb_info *info = dev_get_drvdata(dev);
-> >  	int ret;
-> >  
-> >  	console_lock();
-> > @@ -356,7 +353,6 @@ static int gxfb_resume(struct pci_dev *pdev)
-> >  	console_unlock();
-> >  	return 0;
-> >  }
-> > -#endif
-> >  
-> >  static int gxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> >  {
-> > @@ -467,15 +463,23 @@ static const struct pci_device_id gxfb_id_table[] = {
-> >  
-> >  MODULE_DEVICE_TABLE(pci, gxfb_id_table);
-> >  
-> > +static const struct dev_pm_ops gxfb_pm_ops = {
-> > +#ifdef CONFIG_PM_SLEEP
-> > +	.suspend	= gxfb_suspend,
-> > +	.resume		= gxfb_resume,
-> > +	.freeze		= NULL,
-> > +	.thaw		= gxfb_resume,
-> > +	.poweroff	= NULL,
-> > +	.restore	= gxfb_resume,
-> > +#endif
-> > +};
-> > +
-> >  static struct pci_driver gxfb_driver = {
-> >  	.name		= "gxfb",
-> >  	.id_table	= gxfb_id_table,
-> >  	.probe		= gxfb_probe,
-> >  	.remove		= gxfb_remove,
-> > -#ifdef CONFIG_PM
-> > -	.suspend	= gxfb_suspend,
-> > -	.resume		= gxfb_resume,
-> > -#endif
-> > +	.driver.pm	= &gxfb_pm_ops,
-> >  };
-> >  
-> >  #ifndef MODULE
-> > diff --git a/drivers/video/fbdev/geode/suspend_gx.c b/drivers/video/fbdev/geode/suspend_gx.c
-> > index 1110a527c35c..8c49d4e98772 100644
-> > --- a/drivers/video/fbdev/geode/suspend_gx.c
-> > +++ b/drivers/video/fbdev/geode/suspend_gx.c
-> > @@ -11,8 +11,6 @@
-> >  
-> >  #include "gxfb.h"
-> >  
-> > -#ifdef CONFIG_PM
-> > -
-> >  static void gx_save_regs(struct gxfb_par *par)
-> >  {
-> >  	int i;
-> > @@ -259,5 +257,3 @@ int gx_powerup(struct fb_info *info)
-> >  	par->powered_down  = 0;
-> >  	return 0;
-> >  }
-> > -
-> > -#endif
-> > -- 
-> > 2.27.0
-> > 
+[    9.314496][    T1] vga16fb: mapped to 0x0000000071050562
+[    9.467770][    T1] Console: switching to colour frame buffer device 80x30
+[    9.632092][    T1] fb0: VGA16 VGA frame buffer device
+[    9.651768][    T1] ACPI: AC Adapter [ACAD] (on-line)
+[    9.672544][    T1] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+[    9.722373][    T1] ACPI: Power Button [PWRF]
+[    9.744231][    T1] ioatdma: Intel(R) QuickData Technology Driver 5.00
+[    9.820147][    T1] N_HDLC line discipline registered with maxframe=4096
+[    9.835649][    T1] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    9.852567][    T1] 00:05: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[   10.033372][    T1] Cyclades driver 2.6
+[   10.049928][    T1] Initializing Nozomi driver 2.1d
+[   10.065493][    T1] RocketPort device driver module, version 2.09, 12-June-2003
+[   10.095368][    T1] No rocketport ports found; unloading driver
+[   10.112430][    T1] Non-volatile memory driver v1.3
+[   10.127090][    T1] Linux agpgart interface v0.103
+[   10.144037][    T1] agpgart-intel 0000:00:00.0: Intel 440BX Chipset
+[   10.162275][    T1] agpgart-intel 0000:00:00.0: AGP aperture is 256M @ 0x0
+[   10.181130][    T1] [drm] DMA map mode: Caching DMA mappings.
+[   10.195150][    T1] [drm] Capabilities:
+[   10.208728][    T1] [drm]   Rect copy.
+[   10.222772][    T1] [drm]   Cursor.
+[   10.235364][    T1] [drm]   Cursor bypass.
+[   10.249121][    T1] [drm]   Cursor bypass 2.
+[   10.260590][    T1] [drm]   8bit emulation.
+[   10.272220][    T1] [drm]   Alpha cursor.
+[   10.284670][    T1] [drm]   3D.
+[   10.295051][    T1] [drm]   Extended Fifo.
+[   10.305180][    T1] [drm]   Multimon.
+[   10.315506][    T1] [drm]   Pitchlock.
+[   10.325167][    T1] [drm]   Irq mask.
+[   10.334262][    T1] [drm]   Display Topology.
+[   10.343519][    T1] [drm]   GMR.
+[   10.352775][    T1] [drm]   Traces.
+[   10.362166][    T1] [drm]   GMR2.
+[   10.370716][    T1] [drm]   Screen Object 2.
+[   10.379220][    T1] [drm]   Command Buffers.
+[   10.388489][    T1] [drm]   Command Buffers 2.
+[   10.396055][    T1] [drm]   Guest Backed Resources.
+[   10.403290][    T1] [drm]   DX Features.
+[   10.409911][    T1] [drm]   HP Command Queue.
+[   10.417820][    T1] [drm] Capabilities2:
+[   10.424216][    T1] [drm]   Grow oTable.
+[   10.430423][    T1] [drm]   IntraSurface copy.
+[   10.436371][    T1] [drm] Max GMR ids is 64
+[   10.442651][    T1] [drm] Max number of GMR pages is 65536
+[   10.450317][    T1] [drm] Max dedicated hypervisor surface memory is 0 kiB
+[   10.458809][    T1] [drm] Maximum display memory size is 262144 kiB
+[   10.466330][    T1] [drm] VRAM at 0xe8000000 size is 4096 kiB
+[   10.474704][    T1] [drm] MMIO at 0xfe000000 size is 256 kiB
+[   10.484625][    T1] [TTM] Zone  kernel: Available graphics memory: 4030538 KiB
+[   10.500730][    T1] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[   10.516851][    T1] [TTM] Initializing pool allocator
+[   10.527542][    T1] [TTM] Initializing DMA pool allocator
+[   10.540197][    T1] BUG: kernel NULL pointer dereference, address: 0000000000000438
+[   10.550087][    T1] #PF: supervisor read access in kernel mode
+[   10.550087][    T1] #PF: error_code(0x0000) - not-present page
+[   10.550087][    T1] PGD 0 P4D 0 
+[   10.550087][    T1] Oops: 0000 [#1] PREEMPT SMP
+[   10.550087][    T1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0+ #271
+[   10.550087][    T1] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
+[   10.550087][    T1] RIP: 0010:drm_dev_has_vblank+0x9/0x20
+[   10.550087][    T1] Code: 5d 41 5e 41 5f e9 e7 fa 01 ff e8 e2 fa 01 ff 45 31 e4 41 8b 5f 48 eb a7 cc cc cc cc cc cc cc cc cc 53 48 89 fb e8 c7 fa 01 ff <8b> 83 38 04 00 00 5b 85 c0 0f 95 c0 c3 66 2e 0f 1f 84 00 00 00 00
+[   10.550087][    T1] RSP: 0000:ffffc90000027b80 EFLAGS: 00010293
+[   10.550087][    T1] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[   10.550087][    T1] RDX: ffff88823544c040 RSI: ffffffff823265b9 RDI: 0000000000000000
+[   10.550087][    T1] RBP: ffff888227238800 R08: 0000000000000001 R09: 0000000000000000
+[   10.550087][    T1] R10: ffff888227238800 R11: 0000000000000001 R12: 0000000000000000
+[   10.550087][    T1] R13: ffff888235103000 R14: 0000000000000000 R15: ffff888226cc6af0
+[   10.850690][    T1] FS:  0000000000000000(0000) GS:ffff888236e00000(0000) knlGS:0000000000000000
+[   10.850690][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   10.850690][    T1] CR2: 0000000000000438 CR3: 0000000004a89001 CR4: 00000000003706f0
+[   10.850690][    T1] Call Trace:
+[   10.850690][    T1]  __drm_atomic_helper_crtc_reset+0x28/0x50
+[   10.850690][    T1]  vmw_du_crtc_reset+0x62/0x80
+[   10.850690][    T1]  vmw_kms_stdu_init_display+0x302/0x3f0
+[   10.850690][    T1]  vmw_kms_init+0x6f/0xe0
+[   10.850690][    T1]  vmw_probe+0xd52/0x1730
+[   10.850690][    T1]  local_pci_probe+0x3a/0x90
+[   10.850690][    T1]  pci_device_probe+0x163/0x230
+[   10.850690][    T1]  ? pci_device_remove+0x100/0x100
+[   10.850690][    T1]  really_probe+0x228/0x480
+[   10.850690][    T1]  ? rdinit_setup+0x3b/0x3b
+[   10.850690][    T1]  driver_probe_device+0x6c/0xe0
+[   10.850690][    T1]  device_driver_attach+0x5a/0x60
+[   10.850690][    T1]  __driver_attach+0xbd/0x100
+[   10.850690][    T1]  ? device_driver_attach+0x60/0x60
+[   10.850690][    T1]  bus_for_each_dev+0x9e/0x110
+[   10.850690][    T1]  bus_add_driver+0x1c8/0x260
+[   10.850690][    T1]  driver_register+0x96/0x160
+[   10.850690][    T1]  ? i915_global_vma_init+0x51/0x51
+[   11.202435][    T1]  vmwgfx_init+0x2e/0x4e
+[   11.202435][    T1]  do_one_initcall+0x84/0x4a0
+[   11.202435][    T1]  ? rdinit_setup+0x3b/0x3b
+[   11.202435][    T1]  ? rcu_read_lock_sched_held+0x4d/0x80
+[   11.202435][    T1]  ? cpumask_test_cpu.constprop.19+0x12/0x30
+[   11.202435][    T1]  ? rdinit_setup+0x3b/0x3b
+[   11.202435][    T1]  kernel_init_freeable+0x298/0x30c
+[   11.202435][    T1]  ? rest_init+0x2c0/0x2c0
+[   11.202435][    T1]  kernel_init+0xf/0x170
+[   11.282173][    T1]  ? _raw_spin_unlock_irq+0x3a/0x50
+[   11.282173][    T1]  ? rest_init+0x2c0/0x2c0
+[   11.282173][    T1]  ret_from_fork+0x1f/0x30
+[   11.282173][    T1] Modules linked in:
+[   11.282173][    T1] CR2: 0000000000000438
+[   11.282173][    T1] ---[ end trace fb560758d9d704d3 ]---
+[   11.282173][    T1] RIP: 0010:drm_dev_has_vblank+0x9/0x20
+[   11.282173][    T1] Code: 5d 41 5e 41 5f e9 e7 fa 01 ff e8 e2 fa 01 ff 45 31 e4 41 8b 5f 48 eb a7 cc cc cc cc cc cc cc cc cc 53 48 89 fb e8 c7 fa 01 ff <8b> 83 38 04 00 00 5b 85 c0 0f 95 c0 c3 66 2e 0f 1f 84 00 00 00 00
+[   11.282173][    T1] RSP: 0000:ffffc90000027b80 EFLAGS: 00010293
+[   11.282173][    T1] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[   11.282173][    T1] RDX: ffff88823544c040 RSI: ffffffff823265b9 RDI: 0000000000000000
+[   11.282173][    T1] RBP: ffff888227238800 R08: 0000000000000001 R09: 0000000000000000
+[   11.282173][    T1] R10: ffff888227238800 R11: 0000000000000001 R12: 0000000000000000
+[   11.282173][    T1] R13: ffff888235103000 R14: 0000000000000000 R15: ffff888226cc6af0
+[   11.282173][    T1] FS:  0000000000000000(0000) GS:ffff888236e00000(0000) knlGS:0000000000000000
+[   11.282173][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   11.282173][    T1] CR2: 0000000000000438 CR3: 0000000004a89001 CR4: 00000000003706f0
+[   11.282173][    T1] Kernel panic - not syncing: Fatal exception
+[   11.282173][    T1] Kernel Offset: disabled
+[   11.282173][    T1] Rebooting in 86400 seconds..
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
