@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0569D23E0E2
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 20:39:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC5A23E163
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Aug 2020 20:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE536E900;
-	Thu,  6 Aug 2020 18:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9D06E8FC;
+	Thu,  6 Aug 2020 18:48:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B34D36E8F8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 18:39:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F91A6E8FC
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Aug 2020 18:48:55 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208839] AMDGPU: DPM is not enabled after hibernate and resume
  for CIK/Hawaii GPUs (e.g R9 390)
-Date: Thu, 06 Aug 2020 18:39:19 +0000
+Date: Thu, 06 Aug 2020 18:48:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208839-2300-73ldfYwLr1@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-208839-2300-RXomKqo47m@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208839-2300@https.bugzilla.kernel.org/>
 References: <bug-208839-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,9 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208839
 
---- Comment #3 from sandy.8925@gmail.com ---
-That doesn't seem to be the case, based on the traces I took. AFAICT the kernel
-just calls the freeze function and then the restore function.
+--- Comment #4 from sandy.8925@gmail.com ---
+Created attachment 290805
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290805&action=edit
+dmesg on Arch Linux 5.8 kernel, after hibernate and resume
 
 -- 
 You are receiving this mail because:
