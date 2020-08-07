@@ -1,36 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76B423F26E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 20:05:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D380A23F2D2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 20:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA6376E160;
-	Fri,  7 Aug 2020 18:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA036E1B2;
+	Fri,  7 Aug 2020 18:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E27156E160
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 18:05:51 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 05A9C80562;
- Fri,  7 Aug 2020 20:05:48 +0200 (CEST)
-Date: Fri, 7 Aug 2020 20:05:47 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/mgag200: fix build on alpha arch
-Message-ID: <20200807180547.GA923146@ravnborg.org>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41C96E1A4;
+ Fri,  7 Aug 2020 18:35:11 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id r2so2531658wrs.8;
+ Fri, 07 Aug 2020 11:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/7v8tLZPCG6zEGppTbnr/mOQh18VtmETDIdiYaSnWP4=;
+ b=GMJYlwU4paaFWGfBg5xc4htfZR0j3RuMsCImhjl4L0pS49fbajy9/llOEcQPxIxo18
+ n8/esKaUsGlne0LZD6w7qqCfWlu03X/IHF1k96AixDQWmOr/jQbLD5UrJynNahS2DIX9
+ tlj4B3h3SWY1DYgts730/6n14UBICFltHEZtiDrQjxH2A2e7kknkTnifSy7J/v3mnQx3
+ nI8DtzTkgg1unTBk4BxO03qkbh5jwkaFinosFuMU5OTPjl0js8pCDowp/qlzUKcz+G0q
+ +0VvuE6uhB1fIxEd99TfFEoXkarY3kYDE+DX8gZZdi/tmugVHd/V2dwX3rViqBMyHLM/
+ /sxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/7v8tLZPCG6zEGppTbnr/mOQh18VtmETDIdiYaSnWP4=;
+ b=SUQ6QQTeDLvZ/b30E/7HMlMpuE3bOrPTGHejARPcs5KDZgsAb+MDxXGUw11fx9zK6C
+ XA2YThbkButCV5rE+7L1bumjiop0XS3ttPutRCS7mE9Bu9Wu8qKHyFQf/P4VhxH6EKdg
+ l5hmalr5zmrjtYAK/O1gZk2jGtzyymSgV+fC3Y4bhvUivfenb/BLWHU9ayvbedEiuosG
+ tWADkAMZV9wRg5+3gZa/zerPIRPN0IhQLQ9/rwd8T2MGRhI05d7yEZUe31IOYV+n6TfF
+ dGDKOi98Ne3QYgNV4vvOhtEKQCAt/BrCi+avkx8tVYM4021gYtBX6GCqX61zkQKwVvrf
+ tC5w==
+X-Gm-Message-State: AOAM532KsdUTCfNkouYS6SYww7XphSBzosdwSZAZqJP5/QxmpOpYo2eC
+ SHMb7oDm9V6QkQis0v1JZJciAXn8YUNZatQTzRY=
+X-Google-Smtp-Source: ABdhPJxiSl+Xf4ZOjRL9fxYlXlSSB7aIXCHCh2kclUFefC9ORTjb2cvzLFJYlbiCHFrVGJM4zmJKVF4OaMQY4g0/yVM=
+X-Received: by 2002:adf:ec04:: with SMTP id x4mr12529322wrn.28.1596825310354; 
+ Fri, 07 Aug 2020 11:35:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=iox4zFpeAAAA:8 a=20KFwNOVAAAA:8
- a=Aw8h9_w_h_JpQ7wKU3UA:9 a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=WzC6qhA0u3u7Ye7llzcV:22
+References: <cover.1596523009.git.saiprakash.ranjan@codeaurora.org>
+In-Reply-To: <cover.1596523009.git.saiprakash.ranjan@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 7 Aug 2020 11:35:54 -0700
+Message-ID: <CAF6AEGv3drZA64mRLxqwJ5nW597=GRV80GM6k7vLO306nytDkg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Remove unused downstream bus scaling apis
+To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,35 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiBidWlsZGluZyBpbWdhZzIwMCBmb3IgdGhlIGFscGhhIGFyY2hpdGVjdHVyZSBpdCBmYWls
-cyBsaWtlIHRoaXM6Cm1nYWcyMDBfZHJ2LmM6MjMzOjk6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJh
-dGlvbiBvZiBmdW5jdGlvbiDigJh2bWFsbG9j4oCZCiAgMjMzIHwgIGJpb3MgPSB2bWFsbG9jKHNp
-emUpOwogICAgICB8ICAgICAgICAgXn5+fn5+fgogICAgICB8ICAgICAgICAga21hbGxvYwoKV2hl
-biBidWlsZGluZyBmb3Igb3RoZXIgYXJjaGl0ZWN0dXJlcyB2bWFsbG9jLmggaXMgcHVsbGVkIGlu
-IHZpYSBzb21lCm90aGVyIGhlYWRlciBmaWxlIC0gZm9yIGV4YW1wbGUgYXNtLWdlbmVyaWMvaW8u
-aC4KVXNlIGFuIGV4cGxpY2l0IGluY2x1ZGUgb2Ygdm1hbGxvYy5oIHRvIGZpeCB0aGUgYnVpbGQu
-CgpTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CkZpeGVzOiBl
-MjBkZmQyN2Y3YWEgKCJkcm0vbWdhZzIwMDogQWRkIHN1cHBvcnQgZm9yIEcyMDAgZGVza3RvcCBj
-YXJkcyIpCkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KQ2M6IEVn
-YmVydCBFaWNoIDxlaWNoQHN1c2UuY29tPgpDYzogVGFrYXNoaSBJd2FpIDx0aXdhaUBzdXNlLmRl
-PgpDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KLS0tCkkgaGF2ZSBsb3N0IHRyYWNr
-IGlmIHRoZSBvZmZlbmRpbmcgY29tbWl0IGlzIG9uIHRoZSB3YXkgdG8gdXBzdHJlYW0gb3IKaXQg
-aXMganVzdCBpbiBkcm0tbWlzYy1uZXh0LiBCdXQgSSB0aGluayBpdCBpcyB0aGUgbGF0dGVyIHNv
-IHdlIGNhbgphcHBseSB0aGlzIHRvIGRybS1taXNjLW5leHQuCgoJU2FtCgogZHJpdmVycy9ncHUv
-ZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMKaW5kZXggMDkxNzBkNDZh
-YTUzLi5iMjgyYjBlNDJjMmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
-YWcyMDBfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYwpA
-QCAtOSw2ICs5LDcgQEAKICNpbmNsdWRlIDxsaW51eC9jb25zb2xlLmg+CiAjaW5jbHVkZSA8bGlu
-dXgvbW9kdWxlLmg+CiAjaW5jbHVkZSA8bGludXgvcGNpLmg+CisjaW5jbHVkZSA8bGludXgvdm1h
-bGxvYy5oPgogCiAjaW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2Zp
-bGUuaD4KLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+On Mon, Aug 3, 2020 at 11:45 PM Sai Prakash Ranjan
+<saiprakash.ranjan@codeaurora.org> wrote:
+>
+> MSM bus scaling has moved on to use interconnect framework
+> and downstream bus scaling apis are not present anymore.
+> Remove them as they are nop anyways in the current code,
+> no functional change.
+>
+
+thanks, nice cleanup.. I'm pulling into msm-next-staging
+
+BR,
+-R
+
+> Sai Prakash Ranjan (2):
+>   drm/msm/mdp4: Remove unused downstream bus scaling apis
+>   drm/msm/mdp5: Remove unused downstream bus scaling apis
+>
+>  .../gpu/drm/msm/disp/mdp4/mdp4_dtv_encoder.c  | 51 --------------
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h      | 13 ----
+>  .../gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c | 47 -------------
+>  .../gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c  | 24 -------
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_encoder.c  | 68 -------------------
+>  5 files changed, 203 deletions(-)
+>
+> --
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
