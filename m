@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EE223E8E2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 10:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EAEB23E8EB
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 10:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C2D6E0EB;
-	Fri,  7 Aug 2020 08:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5683B6E959;
+	Fri,  7 Aug 2020 08:30:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8040B6E073
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 08:29:16 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r4so867747wrx.9
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 01:29:16 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 683746E073
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 08:30:45 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id p14so989532wmg.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 01:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=CRdvfCZQ25pKhMuyy5C8/o66fLnI2l+uFCdUehGQFlA=;
- b=O9HUD1hO5VeLLA2H4G79GWAQrOIwSM139rEtPFCdJBmkZxHv4DQE6S8qGcnKBJZSHG
- 1CK06i8N6vHG/NoMtE6HMkq9Qv6rIdBdBDR11EO84YOyjbTN83KQBqB3zwGZLuXJhheO
- eOp239XGujA/7MJlhjtnRJWgZFtjnKh8o7UqE=
+ bh=VvwI/VlqEyFoPx7gkROTwN80J/W2Xb8ciD1QsTw1Sas=;
+ b=L6HBwv8MxF+PEaA6Adu2i+WZ+lfjn7Tx2SM6GoiJKimARAjgIoTcnVxdL4Luwu5hLv
+ knZHFHIs/jPWx1u/efQxvnhEU5421qGi4IT8x3079AnShtud1q9ATY87Y8y53ZdkwA1T
+ OKFR/Qao+uPvYhAcNPB463EBD1ufx6qPQs3Ss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=CRdvfCZQ25pKhMuyy5C8/o66fLnI2l+uFCdUehGQFlA=;
- b=D/O1WZXNZ5mZY3HbV0UJZ0eZoJHzveA8m8u+WyCMyWeEgfiLHKQZggcUi59EV1RwdZ
- cnmJDsZI44kD0WlT2nKkXjKZ0Nlz0/+lcjCbSzBvD/Yr+VUadO7hDr2yrqZOrpUyPO4V
- 1lTT6LuOlNXMEShURm41gi/P8DzUXoZTwBOqS07qAKddEOnzmdZvJNB69I3/kNKz10s7
- 7aP0sO9v4ZG/gtxJ/qlhgW9OBcd1KalodSY1NEz1+n7DTYxO0kyBD5FUcZFEZ06ovALG
- t0T6wEtvEqwb62hwI5P7Bp42PqvKYYh4vSMVohWj8XF4aHnjThuQcIuLnk4cZfPxGmiE
- D9uw==
-X-Gm-Message-State: AOAM533t4Iryyj2w3DK0M4gF09nzsxCYK4vn5WJOt3DvRtF7MnM8vOcG
- G/Xc2qJS1dL7sUrTcRkyrAsGpg==
-X-Google-Smtp-Source: ABdhPJwAaIEhb/S+GRkSr2fWh2aR0IRsR5H5lmX1+kHhyZi+uo3GpgotFZx/8fh1bZ8XhHzhQYGBdg==
-X-Received: by 2002:adf:dc83:: with SMTP id r3mr11925338wrj.172.1596788955183; 
- Fri, 07 Aug 2020 01:29:15 -0700 (PDT)
+ bh=VvwI/VlqEyFoPx7gkROTwN80J/W2Xb8ciD1QsTw1Sas=;
+ b=Aay7LJHBjRu+jO4/KARzjDSkL6ClpATqOogjssXGpxLpsSj/hwHWOvBK2mEKY5PLLS
+ 4IQmHS/UvI/9VpupcAaJY6Q8NC1Pp9PiHsgiazoL98uYoXocUUE4oqd433RzK0BgMvOY
+ m1+UcXo02f6rkRclO5i6noLTT32U3vABW1Z9Cu7dxeGgg9VVXv9xDkR4j+9kPQCo1QCe
+ oLhS63K4X3buGps+Osp54MADQBHvg81uPUB4sWzvZnPogzWoGatlqlQ841lJtFgeQXd3
+ ORRNZq6u7FzsK3QOKsPc6iWGPy3goGpg1+aOaBGAnBShxK+Muz+xz/H4+yWKLnuCMnw/
+ NIzw==
+X-Gm-Message-State: AOAM531KBWt4nQRLZNR+DCNBPgmBTR8NOheWwt8tYPTxPTgzUbUDZOUF
+ Pyzk+iM9UapqPRHkms8eaaejCg==
+X-Google-Smtp-Source: ABdhPJzAeTtCNHCfdgR0fg3Rp7PoOnX84VNciugGQVlgQpKVhZBD0Iyogq2Q1sNdP7AtUWsHkoiNiA==
+X-Received: by 2002:a1c:7c17:: with SMTP id x23mr11559730wmc.30.1596789043953; 
+ Fri, 07 Aug 2020 01:30:43 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m8sm9696008wro.75.2020.08.07.01.29.14
+ by smtp.gmail.com with ESMTPSA id c24sm9603339wrb.11.2020.08.07.01.30.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 01:29:14 -0700 (PDT)
-Date: Fri, 7 Aug 2020 10:29:12 +0200
+ Fri, 07 Aug 2020 01:30:43 -0700 (PDT)
+Date: Fri, 7 Aug 2020 10:30:41 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH 0/7] drm/amd/display: Drop DRM private objects from
- amdgpu_dm
-Message-ID: <20200807082912.GK6419@phenom.ffwll.local>
+Subject: Re: [PATCH 3/7] drm/amd/display: Avoid using unvalidated
+ tiling_flags and tmz_surface in prepare_planes
+Message-ID: <20200807083041.GL6419@phenom.ffwll.local>
 References: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
+ <20200730203642.17553-4-nicholas.kazlauskas@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
+In-Reply-To: <20200730203642.17553-4-nicholas.kazlauskas@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,57 +66,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 30, 2020 at 04:36:35PM -0400, Nicholas Kazlauskas wrote:
-> Based on the analysis of the bug from [1] the best course of action seems
-> to be swapping off of DRM private objects back to subclassing DRM atomic
-> state instead.
-> 
-> This patch series implements this change, but not yet the other changes
-> suggested in the threads from that bug - these will come later.
-> 
-> CCing dri-devel per Daniel's suggestion since this issue brought
-> some interesting misuse of private objects.
+On Thu, Jul 30, 2020 at 04:36:38PM -0400, Nicholas Kazlauskas wrote:
+> [Why]
+> We're racing with userspace as the flags could potentially change
+> from when we acquired and validated them in commit_check.
 
-I ended up reading around a bit, and it feels like the sub-objects might
-make a reasonable private state structure perhaps. Like dc_stream_state,
-at least when reading around in e.g. dc_remove_stream_from_ctx.
-
-But would need to come up with a plan how to integrate this on the other
-os side of DC I guess :-)
-
-Anyway I'd say more evidence that dc_state needs to subclass
-drm_atomic_state.
-
-Another thing I wondered is whether we should rename drm_atomic_state to
-drm_atomic_state_update, so it's clear it's the container with the updated
-states, not a real state object thing itself.
+Uh ... I didn't know these could change. I think my comments on Bas'
+series are even more relevant now. I think long term would be best to bake
+these flags in at addfb time when modifiers aren't set. And otherwise
+always use the modifiers flag, and completely ignore the legacy flags
+here.
 -Daniel
 
 > 
-> [1] https://bugzilla.kernel.org/show_bug.cgi?id=207383
+> [How]
+> We unfortunately can't drop this function in its entirety from
+> prepare_planes since we don't know the afb->address at commit_check
+> time yet.
 > 
-> Nicholas Kazlauskas (7):
->   drm/amd/display: Store tiling_flags and tmz_surface on dm_plane_state
->   drm/amd/display: Reset plane when tiling flags change
->   drm/amd/display: Avoid using unvalidated tiling_flags and tmz_surface
->     in prepare_planes
->   drm/amd/display: Use validated tiling_flags and tmz_surface in
->     commit_tail
->   drm/amd/display: Reset plane for anything that's not a FAST update
->   drm/amd/display: Drop dm_determine_update_type_for_commit
->   drm/amd/display: Replace DRM private objects with subclassed DRM
->     atomic state
+> So instead of querying new tiling_flags and tmz_surface use the ones
+> from the plane_state directly.
 > 
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 967 ++++++------------
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  13 +-
->  2 files changed, 343 insertions(+), 637 deletions(-)
+> While we're at it, also update the force_disable_dcc option based
+> on the state from atomic check.
 > 
+> Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 36 ++++++++++---------
+>  1 file changed, 19 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index bf1881bd492c..f78c09c9585e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5794,14 +5794,8 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
+>  	struct list_head list;
+>  	struct ttm_validate_buffer tv;
+>  	struct ww_acquire_ctx ticket;
+> -	uint64_t tiling_flags;
+>  	uint32_t domain;
+>  	int r;
+> -	bool tmz_surface = false;
+> -	bool force_disable_dcc = false;
+> -
+> -	dm_plane_state_old = to_dm_plane_state(plane->state);
+> -	dm_plane_state_new = to_dm_plane_state(new_state);
+>  
+>  	if (!new_state->fb) {
+>  		DRM_DEBUG_DRIVER("No FB bound\n");
+> @@ -5845,27 +5839,35 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
+>  		return r;
+>  	}
+>  
+> -	amdgpu_bo_get_tiling_flags(rbo, &tiling_flags);
+> -
+> -	tmz_surface = amdgpu_bo_encrypted(rbo);
+> -
+>  	ttm_eu_backoff_reservation(&ticket, &list);
+>  
+>  	afb->address = amdgpu_bo_gpu_offset(rbo);
+>  
+>  	amdgpu_bo_ref(rbo);
+>  
+> +	/**
+> +	 * We don't do surface updates on planes that have been newly created,
+> +	 * but we also don't have the afb->address during atomic check.
+> +	 *
+> +	 * Fill in buffer attributes depending on the address here, but only on
+> +	 * newly created planes since they're not being used by DC yet and this
+> +	 * won't modify global state.
+> +	 */
+> +	dm_plane_state_old = to_dm_plane_state(plane->state);
+> +	dm_plane_state_new = to_dm_plane_state(new_state);
+> +
+>  	if (dm_plane_state_new->dc_state &&
+> -			dm_plane_state_old->dc_state != dm_plane_state_new->dc_state) {
+> -		struct dc_plane_state *plane_state = dm_plane_state_new->dc_state;
+> +	    dm_plane_state_old->dc_state != dm_plane_state_new->dc_state) {
+> +		struct dc_plane_state *plane_state =
+> +			dm_plane_state_new->dc_state;
+> +		bool force_disable_dcc = !plane_state->dcc.enable;
+>  
+> -		force_disable_dcc = adev->asic_type == CHIP_RAVEN && adev->in_suspend;
+>  		fill_plane_buffer_attributes(
+>  			adev, afb, plane_state->format, plane_state->rotation,
+> -			tiling_flags, &plane_state->tiling_info,
+> -			&plane_state->plane_size, &plane_state->dcc,
+> -			&plane_state->address, tmz_surface,
+> -			force_disable_dcc);
+> +			dm_plane_state_new->tiling_flags,
+> +			&plane_state->tiling_info, &plane_state->plane_size,
+> +			&plane_state->dcc, &plane_state->address,
+> +			dm_plane_state_new->tmz_surface, force_disable_dcc);
+>  	}
+>  
+>  	return 0;
 > -- 
 > 2.25.1
 > 
