@@ -2,41 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F01A23EB1B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 12:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4423EBAC
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 12:54:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAAAB6E9C3;
-	Fri,  7 Aug 2020 10:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AB36E9CE;
+	Fri,  7 Aug 2020 10:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24D96E9BD;
- Fri,  7 Aug 2020 10:02:08 +0000 (UTC)
-IronPort-SDR: 99SipvRhL7f0UQrZuA7JAHGCsObYcjEEVpT8Njyhe2+VGTHMxLwdrnHpa8ORsWMFFZjE7fWgjN
- uKwNamB1vX9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9705"; a="132604178"
-X-IronPort-AV: E=Sophos;i="5.75,445,1589266800"; d="scan'208";a="132604178"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2020 03:02:08 -0700
-IronPort-SDR: 1yCDtPNIVDUIuDLXqk00YYSixtA6ams/6UZD4f1n6lz0ykNJ6eR0QW+O+r4kgUtLJ8Z68lZ0+O
- 7zZnOrxp9aKQ==
-X-IronPort-AV: E=Sophos;i="5.75,445,1589266800"; d="scan'208";a="468178433"
-Received: from unknown (HELO karthik-2012-Client-Platform.iind.intel.com)
- ([10.223.74.217])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 07 Aug 2020 03:02:04 -0700
-From: Karthik B S <karthik.b.s@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 7/7] drm/i915: Enable async flips in i915
-Date: Fri,  7 Aug 2020 15:05:51 +0530
-Message-Id: <20200807093551.10673-8-karthik.b.s@intel.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200807093551.10673-1-karthik.b.s@intel.com>
-References: <20200807093551.10673-1-karthik.b.s@intel.com>
-MIME-Version: 1.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF7B6E9CB
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 10:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596797685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc; bh=SebiSFSvaUNdq26nIA+KqtCZ23a0eXZDimZTww2A8Sg=;
+ b=aj9A4rY2awkDXF48viTJsp2eO+gsyDDjfeFIFVOwsXonVbiL6BcDZNr5mWPACBu30CWp9B
+ Uv3fh9p46sLYqv5yUQUG0nzsDElqurdxeb/4tq4tePUfLT3MPjwyGqDDGptagf3rzdillv
+ mVUGxKKA6tURJ8DMRlxPSyXsadJCSkc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-UU5rZ_o5N1-B9dA0K-2Xzw-1; Fri, 07 Aug 2020 06:54:37 -0400
+X-MC-Unique: UU5rZ_o5N1-B9dA0K-2Xzw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A2998005B0;
+ Fri,  7 Aug 2020 10:54:35 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
+ [10.36.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B2F661176;
+ Fri,  7 Aug 2020 10:54:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5A1689CBC; Fri,  7 Aug 2020 12:54:29 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: fix unblank
+Date: Fri,  7 Aug 2020 12:54:29 +0200
+Message-Id: <20200807105429.24208-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,49 +54,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
- Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- nicholas.kazlauskas@amd.com
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, 1882851@bugs.launchpad.net
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable asynchronous flips in i915 for gen9+ platforms.
+When going through a disable/enable cycle without changing the
+framebuffer the optimization added by commit 3954ff10e06e ("drm/virtio:
+skip set_scanout if framebuffer didn't change") causes the screen stay
+blank.  Add a bool to force an update to fix that.
 
-v2: -Async flip enablement should be a stand alone patch (Paulo)
-
-v3: -Move the patch to the end of the serires (Paulo)
-
-v4: -Rebased.
-
-v5: -Rebased.
-
-v6: -Rebased.
-
-Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
+Cc: 1882851@bugs.launchpad.net
+Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn't change")
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
+ drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
+ drivers/gpu/drm/virtio/virtgpu_plane.c   | 4 +++-
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 9629c751d2af..3574b2700b99 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -17901,6 +17901,9 @@ static void intel_mode_config_init(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 9ff9f4ac0522..7b0c319f23c9 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -138,6 +138,7 @@ struct virtio_gpu_output {
+ 	int cur_x;
+ 	int cur_y;
+ 	bool enabled;
++	bool need_update;
+ };
+ #define drm_crtc_to_virtio_gpu_output(x) \
+ 	container_of(x, struct virtio_gpu_output, crtc)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index cc7fd957a307..378be5956b30 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -100,6 +100,7 @@ static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
  
- 	mode_config->funcs = &intel_mode_funcs;
+ 	output->enabled = true;
++	output->need_update = true;
+ }
  
-+	if (INTEL_GEN(i915) >= 9)
-+		mode_config->async_page_flip = true;
-+
- 	/*
- 	 * Maximum framebuffer dimensions, chosen to match
- 	 * the maximum render engine surface size on gen4+.
+ static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 52d24179bcec..5948031a9ce8 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -163,7 +163,8 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+ 	    plane->state->src_w != old_state->src_w ||
+ 	    plane->state->src_h != old_state->src_h ||
+ 	    plane->state->src_x != old_state->src_x ||
+-	    plane->state->src_y != old_state->src_y) {
++	    plane->state->src_y != old_state->src_y ||
++	    output->need_update) {
+ 		DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
+ 			  bo->hw_res_handle,
+ 			  plane->state->crtc_w, plane->state->crtc_h,
+@@ -178,6 +179,7 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+ 					   plane->state->src_h >> 16,
+ 					   plane->state->src_x >> 16,
+ 					   plane->state->src_y >> 16);
++		output->need_update = false;
+ 	}
+ 
+ 	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
 -- 
-2.22.0
+2.18.4
 
 _______________________________________________
 dri-devel mailing list
