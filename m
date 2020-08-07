@@ -1,36 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C60A23F430
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 23:22:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BF123F470
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 23:34:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6BD6E1A8;
-	Fri,  7 Aug 2020 21:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFEF36EA4E;
+	Fri,  7 Aug 2020 21:34:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B56BC6E1A8
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 21:22:43 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B9E954E;
- Fri,  7 Aug 2020 23:22:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1596835358;
- bh=PjQnxLstR8J/Vin/vZzG15w+dOZJXyHi4qOTh0mZ0uI=;
- h=From:To:Cc:Subject:Date:From;
- b=vZ9AMhkg3eKN4sy5DCc6tpjatHI7TBcoPKOACbSqEL6t+eVIzjjUNDLc1jZuR/XlW
- TvaAWtZlK+YqW2WFEKoSQepgXSsoIERJwSS7N0T6VEhDyUhEtDafnYBXDj8L91OHxt
- v2i9QDNbrfVDVGz0hRKT+ZnEepaWmVoQIG8WI9VM=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: rcar-du: Fix crash when enabling a non-visible plane
-Date: Sat,  8 Aug 2020 00:22:18 +0300
-Message-Id: <20200807212218.24773-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7DA6EA4E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 21:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596836060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o2fOsP31iqD+NVP7vZuFT60+fYRTZ6+2U2X/HkQb/bM=;
+ b=Crlo+fKVgc0ixvN+m/fdFal5aGSr/69TKclxDub35sKWq40S7GVfsCqczvvqoBsduRTR1F
+ a322MCR/QcV496ZJSpz1uiuKTrUSox1v4/JfS5wWF0/jXWOjLEOAVt1bYo8wFmNdjO5EY/
+ lzY7+s4e670aPJYcDLEjMN3T0+M7ZfU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-ayioxAteOTi6apMmkRxoNA-1; Fri, 07 Aug 2020 17:34:18 -0400
+X-MC-Unique: ayioxAteOTi6apMmkRxoNA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAC151923763;
+ Fri,  7 Aug 2020 21:34:14 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-119-194.rdu2.redhat.com
+ [10.10.119.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB5B5108BC;
+ Fri,  7 Aug 2020 21:34:10 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/nouveau/kms/nv50-: Program notifier offset before
+ requesting disp caps
+Date: Fri,  7 Aug 2020 17:34:03 -0400
+Message-Id: <20200807213405.442877-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,42 +56,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ stable@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DU driver handles non-visible planes (fully clipped by the display's
-boundaries) by considering them as disabled. It thus disables the plane
-at the hardware level when the plane if moved off-screen. However, if
-the plane was previously disabled and is non-visible when it gets
-enabled, the attempt to disable it crashes, ad the plane wasn't
-previously enabled. Fix it.
+Not entirely sure why this never came up when I originally tested this
+(maybe some BIOSes already have this setup?) but the ->caps_init vfunc
+appears to cause the display engine to throw an exception on driver
+init, at least on my ThinkPad P72:
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+nouveau 0000:01:00.0: disp: chid 0 mthd 008c data 00000000 0000508c 0000102b
+
+This is magic nvidia speak for "You need to have the DMA notifier offset
+programmed before you can call NV507D_GET_CAPABILITIES." So, let's fix
+this by doing that, and also perform an update afterwards to prevent
+racing with the GPU when reading capabilities.
+
+Changes since v1:
+* Don't just program the DMA notifier offset, make sure to actually
+  perform an update
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP interlacing support")
+Cc: <stable@vger.kernel.org> # v5.8+
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/dispnv50/core507d.c | 22 +++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f1a81c9b184d..ff233a7b398d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -279,7 +279,7 @@ static void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+index ad1f09a143aa4..fc4bf9ca59f85 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+@@ -77,14 +77,32 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
+ int
+ core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
+ {
++	struct nv50_core *core = disp->core;
+ 	struct nvif_push *push = disp->core->chan.push;
++	u32 interlock[NV50_DISP_INTERLOCK__SIZE] = {0};
+ 	int ret;
  
- 	if (plane->state->visible)
- 		rcar_du_vsp_plane_setup(rplane);
--	else
-+	else if (old_state->crtc)
- 		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
- 				      rplane->index, NULL);
+-	if ((ret = PUSH_WAIT(push, 2)))
++	core->func->ntfy_init(disp->sync, NV50_DISP_CORE_NTFY);
++
++	if ((ret = PUSH_WAIT(push, 4)))
+ 		return ret;
+ 
++	PUSH_MTHD(push, NV507D, SET_NOTIFIER_CONTROL,
++		  NVDEF(NV507D, SET_NOTIFIER_CONTROL, MODE, WRITE) |
++		  NVVAL(NV507D, SET_NOTIFIER_CONTROL, OFFSET, NV50_DISP_CORE_NTFY >> 2) |
++		  NVDEF(NV507D, SET_NOTIFIER_CONTROL, NOTIFY, ENABLE));
+ 	PUSH_MTHD(push, NV507D, GET_CAPABILITIES, 0x00000000);
+-	return PUSH_KICK(push);
++
++	ret = PUSH_KICK(push);
++	if (ret)
++		return ret;
++
++	core->func->update(core, interlock, false);
++	if (core->func->ntfy_wait_done(disp->sync, NV50_DISP_CORE_NTFY,
++				       core->chan.base.device))
++		NV_ERROR(drm, "core notifier timeout\n");
++
++	return 0;
  }
+ 
+ int
 -- 
-Regards,
-
-Laurent Pinchart
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
