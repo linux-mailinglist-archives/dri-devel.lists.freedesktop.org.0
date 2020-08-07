@@ -1,106 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B23423EF02
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 16:27:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B69C23EF01
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 16:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2C16E9F1;
-	Fri,  7 Aug 2020 14:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006AB6E9EF;
+	Fri,  7 Aug 2020 14:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1169 seconds by postgrey-1.36 at gabe;
- Fri, 07 Aug 2020 14:27:21 UTC
-Received: from hetgrotebos.org (a80-127-99-228.adsl.xs4all.nl [80.127.99.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9170E6E9F1
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 14:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org; 
- s=mail;
- h=Content-Type:MIME-Version:Date:Message-ID:Cc:To:Subject:From:
- Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=e+wIzyY6z3uqciSWam9BMSIeR4ehR5Lu9amlr+jm56U=; b=jm+rAc2QFwDpwIjXCoy+Cm+h3D
- 8YMe4D4ERjmwErMs/6v+ajHprodC2IWEZ3TWAAlHq3TCaHJLDLtYZzNp3jFNI/LW3VAc2M5ccbql5
- pMt83hrpUBHFPjEzlHChaULIZ2aLrJBpq4rh7Hh7dj3W2IUej2HCfYrvbZj1rHyEZDRcVp+OMhPQf
- 6LP0qxTxM5BtbrPACKxQA775FnsRJ3pzPbLivC0djbZCECsz9MrKkPsxMhlz/WJ+OzpOv9jInje8E
- wcm9ZqzMSxA/8DLB3T43AFlcLMc7KCPbWldoALlGZNG2Rc0vPCnZ+YWl0KAmXRIEtDQaC8ATABe8k
- dQfjU6zw==;
-Received: from kgpe-d16.fritz.box ([192.168.178.75] helo=[0.0.0.0])
- by hetgrotebos.org with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
- (Exim 4.93) (envelope-from <merlijn@wizzup.org>)
- id 1k432C-0003H1-W1; Fri, 07 Aug 2020 14:07:49 +0000
-From: Merlijn Wajer <merlijn@wizzup.org>
-Subject: How to prevent input devices from unblanking the X screen when DPMS
- is on?
-To: xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org
-Autocrypt: addr=merlijn@wizzup.org; prefer-encrypt=mutual; keydata=
- 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
- /XslHw==
-Message-ID: <12302ae3-901f-7a13-975e-273fbda4e7b4@wizzup.org>
-Date: Fri, 7 Aug 2020 16:07:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2074.outbound.protection.outlook.com [40.107.236.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C066E9DA;
+ Fri,  7 Aug 2020 14:27:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SjGO0DoEp+J2wBjdS6PyJf6HI/M+UqlrVNlXD7uqKy3YkaTJu1g8BwF04Tbr2B4Rb16ZGkoLuHAOrDbLeyMHvxvFzPmdlpMfq5sOacJpt/0tasNILyR2CIe+CDzTkGawRMUJSn0Jeo2rjEUT/6ezM14xUFRpvgZaycAuYIWlb6YQGVH38dI0b+LMj9fiKVSpluQuM47QCihyvB/lfVZDL+NlNaar59LHQrNGAJ680bzaI9HzrPsk75dda3wZ/Xja+REki+39tUI5Vmk+WCOVm1S2rQEAuM/nPRKT3bf6F88OgErrQ4p/vkoIwJhBjyeV8TqDdC3+UInatySXtYwFbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JqFS15gdHx2jjHC0BhkkA/3jhvNzI9MAORtYms3VN8I=;
+ b=V+kmudYk5cpEcgo1dvDM/8SrqTMvXgo5RUDMCZM+HbmmCi2xdk1ht8hSNHNl88TYSj2Kwd3SbvDnuiYG7Vr/u7Zv0Wo1ckCzocA1H2IwKMJ7tcMuWZU/rtgo2JhTdY6lbrxmEnbxWHA5eLJJlNDOw2TXrSAXBMkMopquEuBLqqKxrjguoOPyJP3oegB8y1OcVUVx0q/YQiW/DgpsGVuFgLjZmzlxJSV6Ongf9JPkXSKVEic7AxNOsRjkURLCNHMxsUz9WlzyuxjQ3vOShCUdEmn9Xi4u9Xne37tMhvvF8Mus+/YLpWZ7u5a9om8HUEJUr4mIzT31WnwmTKpE0ZlTrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JqFS15gdHx2jjHC0BhkkA/3jhvNzI9MAORtYms3VN8I=;
+ b=juQ3+Bue2zoT78JuhI01D0uHzhkY/FwbtVjoJJUdP+hh+FOHqCrqsKFqhQTU//MMBIddm2THeqv8atILxpCuUWVUjR1hWjva1bWP/5ayG04rGH3oEt9Q5aXlmzXepDrWvg6pKY7GrAcyB+oMBotVdfR7m1ru6BYUeodDABD/6L8=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3560.namprd12.prod.outlook.com (2603:10b6:a03:ae::10)
+ by BYAPR12MB3285.namprd12.prod.outlook.com (2603:10b6:a03:134::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Fri, 7 Aug
+ 2020 14:26:58 +0000
+Received: from BYAPR12MB3560.namprd12.prod.outlook.com
+ ([fe80::7d42:c932:e35f:71b1]) by BYAPR12MB3560.namprd12.prod.outlook.com
+ ([fe80::7d42:c932:e35f:71b1%7]) with mapi id 15.20.3239.024; Fri, 7 Aug 2020
+ 14:26:57 +0000
+Subject: Re: [PATCH 5/7] drm/amd/display: Reset plane for anything that's not
+ a FAST update
+To: daniel@ffwll.ch
+References: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
+ <20200730203642.17553-6-nicholas.kazlauskas@amd.com>
+ <20200807083424.GM6419@phenom.ffwll.local>
+From: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Message-ID: <6790c248-d46c-d3e0-b87d-c73823556888@amd.com>
+Date: Fri, 7 Aug 2020 10:26:51 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+In-Reply-To: <20200807083424.GM6419@phenom.ffwll.local>
+Content-Language: en-US
+X-ClientProxiedBy: YTXPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::33) To BYAPR12MB3560.namprd12.prod.outlook.com
+ (2603:10b6:a03:ae::10)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.31.148.234] (165.204.55.211) by
+ YTXPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19 via Frontend
+ Transport; Fri, 7 Aug 2020 14:26:56 +0000
+X-Originating-IP: [165.204.55.211]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 6211666d-1d4c-4e9a-0c5b-08d83addf09c
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3285:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR12MB328531200F036CBF9F87BA78EC490@BYAPR12MB3285.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6ZfkGZxleKRtdiLP3JZv1FjJopx/RRoObgjBUVDbj8fdmlLqI5rXhh9j23noRCKN8KkIsMW4AfMAbg1UtEiQHRsbRiDzumxEzL5XNxHwk57ThWQBLOYGkDd6w3XT+EL1eEHp+kvMMIVUTvlQvpDBzGKhxomGP/HAirEoXbMzzaczdZptmvLoO4JvS2pwNPWsWMoUAmpJRp6fZtNTj2qhQvNAw7RaiR4FELAu2zKzQCkFWxsAOF9dyag5AqkQfZQjQxb/S0Vu86fRUysNRMu0VtLiqxWXjGNvP1Nc7DyCxmf20L7TVaHH9kbGUvSbD7V8l99xB4VrCOsjXORnJ6kVElrAReQ3k41m7h3c5XLN1gDv+cVaAGypP09ZbhcG5XP7yL5dEqWbLgq0Cy1ZODGhPSGD1oU3zBXfcLpj4HMbrYA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(136003)(39860400002)(366004)(396003)(376002)(15650500001)(16576012)(8936002)(316002)(2906002)(66476007)(6666004)(5660300002)(66556008)(36756003)(66946007)(16526019)(186003)(52116002)(966005)(2616005)(54906003)(31696002)(6486002)(53546011)(26005)(83380400001)(86362001)(6916009)(478600001)(4326008)(8676002)(31686004)(956004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 4YcVd3iX/QRCHjoKCPUqaVkcmY2GAMvtjYFGc4NZPVM88eLl33uwMnGTLWUeUeSmV3XQ+uor0cRV4KKsbxwJJlUflMGMdH1ncTkrQuOOubphzbdkNaW+p9eiLTTePMoWb+0br7WUU33jCZ1iVAi2tH5o4+1GkiDNpC0KZE4ysqNbUac6fy6UjhDrEqB5r5Q97A7/Xs45hQ5J5k1Yiw7rsvfgkgEAdoDpf5q6A5H0z3hJ68k2FUVPPcs16Df1Xfk1uINm4TXoTiMfQuqSikCvHUpJZWoI0mQWBcq0yFAgAd1+nsm9SKXmXDrxRb9XYFQYXK6cwNhLOVoxaYfOdKZSZjEycfSAKK0s/eHPNBvcYj8HJbVqQlbmRQwFY3F/7TrF34KvW2BM8QaIlsYOqSeiEe/SrwEWSfalvohaaT67PTDYM1Y1qVbPtRq4gZ4wP/1DmqS1PpW58pLjFex9wKtbd24orJxKkufm2z9GGE9vGytzatF9YfPkPmHaWR5ac1pXuT3yccs8MdT9uF7GNurCjB3rseYEcQesUN96fFADOXLq0YSflb0m0dSsbhWgCnLYlA4EkeLZdJLatnqKuDy8HIFr5YvWLYV2aYnVapFOvboxoVx+/xC8FDj8oYP9Eu7KqWkoKq/SZWMMr6pOKIvF9g==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6211666d-1d4c-4e9a-0c5b-08d83addf09c
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3560.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2020 14:26:57.7843 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FgPvJQbGkqwsKD3oN1wS/JknkYvaSGkBj+UehLq/s6EUtpABwCNp60jWY6r3v8/+V+osG0m0Llbw1tpa4+1ZMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3285
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,96 +101,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Carl Philipp Klemm <philipp@uvos.xyz>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0688003201=="
+Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0688003201==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="mIyNmMA4Gx8BgOVQQjwB9YOd5DbZ8tQQj"
+On 2020-08-07 4:34 a.m., daniel@ffwll.ch wrote:
+> On Thu, Jul 30, 2020 at 04:36:40PM -0400, Nicholas Kazlauskas wrote:
+>> [Why]
+>> MEDIUM or FULL updates can require global validation or affect
+>> bandwidth. By treating these all simply as surface updates we aren't
+>> actually passing this through DC global validation.
+>>
+>> [How]
+>> There's currently no way to pass surface updates through DC global
+>> validation, nor do I think it's a good idea to change the interface
+>> to accept these.
+>>
+>> DC global validation itself is currently stateless, and we can move
+>> our update type checking to be stateless as well by duplicating DC
+>> surface checks in DM based on DRM properties.
+>>
+>> We wanted to rely on DC automatically determining this since DC knows
+>> best, but DM is ultimately what fills in everything into DC plane
+>> state so it does need to know as well.
+>>
+>> There are basically only three paths that we exercise in DM today:
+>>
+>> 1) Cursor (async update)
+>> 2) Pageflip (fast update)
+>> 3) Full pipe programming (medium/full updates)
+>>
+>> Which means that anything that's more than a pageflip really needs to
+>> go down path #3.
+>>
+>> So this change duplicates all the surface update checks based on DRM
+>> state instead inside of should_reset_plane().
+>>
+>> Next step is dropping dm_determine_update_type_for_commit and we no
+>> longer require the old DC state at all for global validation.
+> 
+> I think we do something similar in i915, where we have a "nothing except
+> base address changed" fast path, but for anything else we fully compute a
+> new state. Obviously you should try to keep global state synchronization
+> to a minimum for this step, so it's not entirely only 2 options.
+> 
+> Once we have the states, we compare them and figure out whether we can get
+> away with a fast modeset operation (maybe what you guys call medium
+> update). Anyway I think being slightly more aggressive with computing full
+> state, and then falling back to more optimized update again is a good
+> approach. Only risk is if we you have too much synchronization in your
+> locking (e.g. modern compositors do like to change tiling and stuff,
+> especially once you have modifiers enabled, so this shouldn't cause a sync
+> across crtc except when absolutely needed).
+> -Daniel
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---mIyNmMA4Gx8BgOVQQjwB9YOd5DbZ8tQQj
-Content-Type: multipart/mixed; boundary="ZjT4VSnfNptoleZVymbAXPMHj0oGXhsHA"
+Sounds like the right approach then.
 
---ZjT4VSnfNptoleZVymbAXPMHj0oGXhsHA
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-Is it possible to have X handle input events, but not actually unblank
-the screen upon input events when dpms is enabled?
-
-Our use case (in Maemo Leste, GNU/Linux+Debian smartphone OS) is
-reporting physical volume buttons to X clients when the device is
-locked. When the device is locked, the screen is blanked / turned off
-(via DPMS), but pressing a volume button causes the screen to unblank,
-leading to significant power drain.
-
-I am aware that one can tell X to close certain/all input devices, but
-then the volume buttons (and others: like 'next') would not be sent to X
-applications.
-
-I have not tested this, but I assume the same would apply for "headphone
-buttons": play, stop, pause, etc. Or if someone has a phone in their
-pocket: pressing a button by accident shouldn't cause the screen to
-unblank and cause significant battery drain. By design, the DPMS timeout
-is set to 0, and an external program will dim the screen brightness, and
-tell X when to blank and unblank.
-
-Turning off the screen with DPMS, and then disabling DPMS in an attempt
-to keep the screen blanked (and have input not affect it) also does not
-work - then the screen doesn't stay blanked - this is with the
-modesetting driver.
-
-Due to the way DRM works, X is the master of the screen, so it is my
-understanding that there also cannot be another helper tool that blanks
-the display via DRM, because X is still the master, even when DPMS is
-disabled.
-
-On older versions of Maemo, where DRM was not used (10+ years ago),
-external tools can just blank the fb and everything works as expected.
-Then DPMS is simply disabled, and external tools control the blanking
-behaviour, but it looks like with DRM, this is no longer possible.
-
-Any suggestions are highly appreciated.
+We can support tiling changes in the fast path, but the more optimized 
+version of that last check is really linear <-> tiled. That requires 
+global validation with DC to revalidate bandwidth and calculate 
+requestor parameters for HW. So we'll have to stall for some of these 
+changes unfortunately since we need the full HW state for validation.
 
 Regards,
-Merlijn
+Nicholas Kazlauskas
 
-
---ZjT4VSnfNptoleZVymbAXPMHj0oGXhsHA--
-
---mIyNmMA4Gx8BgOVQQjwB9YOd5DbZ8tQQj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYIAB0WIQRM5LT7NbLF9yb6a/UGN09rynK8WgUCXy1gPAAKCRAGN09rynK8
-WlEmAQCWjt5ru2EBXAbwGZ31psOD/mxiFqBZ6UE0vGhUzMakswD/YL3tKCyodrsk
-Pmqd11+ppl/xCL8UMUfvJ4oDDtfC9gU=
-=479m
------END PGP SIGNATURE-----
-
---mIyNmMA4Gx8BgOVQQjwB9YOd5DbZ8tQQj--
-
---===============0688003201==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+>>
+>> Optimization can come later so we don't reset DC planes at all for
+>> MEDIUM udpates and avoid validation, but we might require some extra
+>> checks in DM to achieve this.
+>>
+>> Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+>> Cc: Hersen Wu <hersenxs.wu@amd.com>
+>> Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+>> ---
+>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 25 +++++++++++++++++++
+>>   1 file changed, 25 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> index 0d5f45742bb5..2cbb29199e61 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> @@ -8336,6 +8336,31 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+>>   		if (old_other_state->crtc != new_other_state->crtc)
+>>   			return true;
+>>   
+>> +		/* Src/dst size and scaling updates. */
+>> +		if (old_other_state->src_w != new_other_state->src_w ||
+>> +		    old_other_state->src_h != new_other_state->src_h ||
+>> +		    old_other_state->crtc_w != new_other_state->crtc_w ||
+>> +		    old_other_state->crtc_h != new_other_state->crtc_h)
+>> +			return true;
+>> +
+>> +		/* Rotation / mirroring updates. */
+>> +		if (old_other_state->rotation != new_other_state->rotation)
+>> +			return true;
+>> +
+>> +		/* Blending updates. */
+>> +		if (old_other_state->pixel_blend_mode !=
+>> +		    new_other_state->pixel_blend_mode)
+>> +			return true;
+>> +
+>> +		/* Alpha updates. */
+>> +		if (old_other_state->alpha != new_other_state->alpha)
+>> +			return true;
+>> +
+>> +		/* Colorspace changes. */
+>> +		if (old_other_state->color_range != new_other_state->color_range ||
+>> +		    old_other_state->color_encoding != new_other_state->color_encoding)
+>> +			return true;
+>> +
+>>   		/* Framebuffer checks fall at the end. */
+>>   		if (!old_other_state->fb || !new_other_state->fb)
+>>   			continue;
+>> -- 
+>> 2.25.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0688003201==--
