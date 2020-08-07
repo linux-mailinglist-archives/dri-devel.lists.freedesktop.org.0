@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8B323E7E8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 09:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DD023E7E3
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 09:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D65356E97F;
-	Fri,  7 Aug 2020 07:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D5B6E97C;
+	Fri,  7 Aug 2020 07:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A36516E03D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 00:27:54 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id d14so258283qke.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Aug 2020 17:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76EEB6E03C
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 03:00:24 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id t23so616310ljc.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Aug 2020 20:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DGA8+gwrB3sAonXBmChAGNY7ZvvzV2hTqZrY8zZK8EE=;
- b=Xso+VvmrMIUE21k+VszWrrK9Wx9Dkz6fhw6UZwNM31KX0l0YZsv4hPHNk6NsBhrO4/
- EhySBd8R4ixubMzTBx47NcLptPEQcc9nhOQRSp68KR5MF7H5V+wmK/wQWIIHDavV0fkZ
- SBKvHvdritZ9w4z/GVNAyhuj5yZkOHVWHB5YiuwjLvq9gihTrGRPhgrFnz6kLD7KFFmc
- hyuKGOnA8rf9hKzlwP+5JbQlcQvsg8aQEn+cF8l1n95oGqvimoPoe8kUzqyAJdVU/T6M
- VFIfkNNn2/SGiyNeFabIps/1SCSDV1oMpNeo24un+tlqQ9PIyRVW8Wu29+Ri2l+HBok/
- n9Jg==
+ :cc:content-transfer-encoding;
+ bh=wTsG01+FAeINX7tJPCyhTMiFIIvHpHWzQDxM2xhAlu0=;
+ b=Gm31v+4cDz5MOdOXgxbVeFLOkDmj2PWmhCK9B44JcVcB9EGVqb2EHJ0glPrQdedeoE
+ +dPxtK2Xc4SGtVJ0QTwcIjnwhBQLRJ6/jUNKjdOiYs3niZ53XsOdbdI5ttB999I6uP+H
+ iWK3PQQX3DLEjizrqFQvsKsZmACpiG1RLlyK+tME069oyyEudHRoRjWP8AHYf4ryErIi
+ 35fufUI9RK1j7dKbgGkydHUIbns0c81ybZVZ9dmrf+hcULwDmTTdzQCxgNcwlUDuMqrn
+ BFJUbsGedZMnaLb7fdruesQNZV88xD2p2V5MlqR6ObkfvHqhb7BvgMQ1rGKCa4veKuCZ
+ W4jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DGA8+gwrB3sAonXBmChAGNY7ZvvzV2hTqZrY8zZK8EE=;
- b=itjR8NyipVbJPU0s8OUC01X+PWhCkLtGOWZUMz2vHWDnW6SP5Qe8ai246qP+A62FET
- MvjyouXa85NhOJF2VlqL3kJ6Db0JBNlrQJgzSX+RVAchOo2MSVhA3DCvr3mH9ByVkFq4
- ZY3xBRUMfYnZ0G8XPtgk/xVnTJPEfnTbqTBPRfp3unoHvFr14He9i4tVXGCCO8OFJ3Xk
- ncD/j3lLWBqaD8IMKjeQ/aRn2VCXV/4Z3Hs8CMN42Dr3QwSGzaHO0XeUBD5tO/rtFpzx
- 3j6UMLX8xxBa4UB2KLYAV9jAo22ZpyPFbjLv8G/G9cjWFsQFhOPRSb0mHUBg4LRRjx+h
- GzgQ==
-X-Gm-Message-State: AOAM533KnwLk+mFK5M2zbN/Z8bVU6mvcXM2Iq3NFdWz4zhpJj1T7Notx
- z4QhESk2UmJ9fg/D3OtvfckKqo4uiLfdW8UzboixJg==
-X-Google-Smtp-Source: ABdhPJxYSpi1BHzeBCHwCIqOzLWVTcTjGnDSiBqngNyrcb+IxPDN8WOHCv0iGeIsP7xXL3Opes7weirBZfL8IM+8VEk=
-X-Received: by 2002:a37:a088:: with SMTP id
- j130mr11365723qke.147.1596760073565; 
- Thu, 06 Aug 2020 17:27:53 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wTsG01+FAeINX7tJPCyhTMiFIIvHpHWzQDxM2xhAlu0=;
+ b=eErMsIxJWuVfFiv/13vg7OubFl0cZfYXB8tNJ2tJD/IYt4uwQKQK5skNSLfDJdKVLW
+ jFo0w2ABZWM1UpHXarhSTqmdKlJmjZ57Cr/bw7QqJiA1wwKDkHV967JLYxna54mpNtva
+ 15W1Z1LCupFSn+AjDXnpHC2zBM3quFsRWT68xqPUL9N9YrBoAnQoNeO2qPgC3FpkGHDe
+ /v5xobAwfOgBB/gWpeoZEkyMDWEtXvU/fDJ+INbfFOekI9r1JTjcKaK6Hnv6RrZLmf3q
+ 5jDwROHhiTSaBCJxNlrl77h+m6vrOz3etw+ZD8ItKT76ifI4tvg6KDNN5z7YW/sP4bw2
+ W4sw==
+X-Gm-Message-State: AOAM533v78Kpqq8WkPnoJ4jZJ1y27E9cMW3fH5MvTXrB4gUQjzeCgksd
+ VyVAT28NHmCJ7JXeWdNRQ5y6CIBUw7AibMISDaK1LA==
+X-Google-Smtp-Source: ABdhPJyksl15UPkEtHxTCd6XOj4wYFTTaeSdOFSPR45CICDOdBMwsjVD+2gtHPnL9heaHDSkTdbmmnz6Q2VSG4Gis7Q=
+X-Received: by 2002:a2e:87c4:: with SMTP id v4mr5180563ljj.8.1596769222640;
+ Thu, 06 Aug 2020 20:00:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200805112655.17696-1-colin.king@canonical.com>
-In-Reply-To: <20200805112655.17696-1-colin.king@canonical.com>
-From: Hridya Valsaraju <hridya@google.com>
-Date: Thu, 6 Aug 2020 17:27:17 -0700
-Message-ID: <CA+wgaPPL_sdo+fkQa3pqNmTadg9X6mfJZy5nyR5YTt4L6pHWtg@mail.gmail.com>
-Subject: Re: [PATCH] staging: ion: fix spelling mistake in function name
- "detatch" -> "detach"
-To: Colin King <colin.king@canonical.com>
+References: <20200721101647.42653-1-hexin.op@bytedance.com>
+In-Reply-To: <20200721101647.42653-1-hexin.op@bytedance.com>
+From: =?UTF-8?B?5L2V6ZGr?= <hexin.op@bytedance.com>
+Date: Fri, 7 Aug 2020 11:00:11 +0800
+Message-ID: <CACKzwj=obkJPmMb1cGKDwBdgkxa92kpPTP9c2SzFWbbzcD6Luw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/virtio: fix missing dma_fence_put() in
+ virtio_gpu_execbuffer_ioctl()
+To: Daniel Vetter <daniel@ffwll.ch>, airlied@linux.ie, kraxel@redhat.com, 
+ Sumit Semwal <sumit.semwal@linaro.org>
 X-Mailman-Approved-At: Fri, 07 Aug 2020 07:25:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,64 +65,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
- linaro-mm-sig@lists.linaro.org, Todd Kjos <tkjos@android.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Suren Baghdasaryan <surenb@google.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <labbott@redhat.com>,
- Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Muchun Song <songmuchun@bytedance.com>, linux-media@vger.kernel.org,
+ Qi Liu <liuqi.16@bytedance.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 5, 2020 at 4:26 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> There is a spelling mistake in the function name ion_dma_buf_detatch.
-> Fix it by removing the extraneous t.
->
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
-
-Thanks Colin!
-Acked-by: Hridya Valsaraju <hridya@google.com>
-
->  drivers/staging/android/ion/ion.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
-> index 3c9f09506ffa..e1fe03ceb7f1 100644
-> --- a/drivers/staging/android/ion/ion.c
-> +++ b/drivers/staging/android/ion/ion.c
-> @@ -205,8 +205,8 @@ static int ion_dma_buf_attach(struct dma_buf *dmabuf,
->         return 0;
->  }
->
-> -static void ion_dma_buf_detatch(struct dma_buf *dmabuf,
-> -                               struct dma_buf_attachment *attachment)
-> +static void ion_dma_buf_detach(struct dma_buf *dmabuf,
-> +                              struct dma_buf_attachment *attachment)
->  {
->         struct ion_dma_buf_attachment *a = attachment->priv;
->         struct ion_buffer *buffer = dmabuf->priv;
-> @@ -331,7 +331,7 @@ static const struct dma_buf_ops dma_buf_ops = {
->         .mmap = ion_mmap,
->         .release = ion_dma_buf_release,
->         .attach = ion_dma_buf_attach,
-> -       .detach = ion_dma_buf_detatch,
-> +       .detach = ion_dma_buf_detach,
->         .begin_cpu_access = ion_dma_buf_begin_cpu_access,
->         .end_cpu_access = ion_dma_buf_end_cpu_access,
->  };
-> --
-> 2.27.0
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+WGluIEhlIDxoZXhpbi5vcEBieXRlZGFuY2UuY29tPiDkuo4yMDIw5bm0N+aciDIx5pel5ZGo5LqM
+IOS4i+WNiDY6MTflhpnpgZPvvJoKPgo+IEZyb206IFFpIExpdSA8bGl1cWkuMTZAYnl0ZWRhbmNl
+LmNvbT4KPgo+IFdlIHNob3VsZCBwdXQgdGhlIHJlZmVyZW5jZSBjb3VudCBvZiB0aGUgZmVuY2Ug
+YWZ0ZXIgY2FsbGluZwo+IHZpcnRpb19ncHVfY21kX3N1Ym1pdCgpLiBTbyBhZGQgdGhlIG1pc3Np
+bmcgZG1hX2ZlbmNlX3B1dCgpLgo+Cj4gRml4ZXM6IDJjZDdiNmYwOGJjNCAoImRybS92aXJ0aW86
+IGFkZCBpbi9vdXQgZmVuY2Ugc3VwcG9ydCBmb3IgZXhwbGljaXQgc3luY2hyb25pemF0aW9uIikK
+PiBDby1kZXZlbG9wZWQtYnk6IFhpbiBIZSA8aGV4aW4ub3BAYnl0ZWRhbmNlLmNvbT4KPiBTaWdu
+ZWQtb2ZmLWJ5OiBYaW4gSGUgPGhleGluLm9wQGJ5dGVkYW5jZS5jb20+Cj4gU2lnbmVkLW9mZi1i
+eTogUWkgTGl1IDxsaXVxaS4xNkBieXRlZGFuY2UuY29tPgo+IFJldmlld2VkLWJ5OiBNdWNodW4g
+U29uZyA8c29uZ211Y2h1bkBieXRlZGFuY2UuY29tPgo+IC0tLQo+Cj4gY2hhbmdlbG9nIGluIHYz
+Ogo+IDEpIENoYW5nZSB0aGUgc3ViamVjdCBmcm9tICJkcm0vdmlydGlvOiBmaXhlZCBtZW1vcnkg
+bGVhayBpbiB2aXJ0aW9fZ3B1X2V4ZWNidWZmZXJfaW9jdGwoKSIgdG8KPiAgICAiZHJtL3ZpcnRp
+bzogZml4IG1pc3NpbmcgZG1hX2ZlbmNlX3B1dCgpIGluIHZpcnRpb19ncHVfZXhlY2J1ZmZlcl9p
+b2N0bCgpIgo+IDIpIFJld29yayB0aGUgY29tbWl0IGxvZwo+Cj4gY2hhbmdlbG9nIGluIHYyOgo+
+IDEpIEFkZCBhIGNoYW5nZSBkZXNjcmlwdGlvbgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8v
+dmlydGdwdV9pb2N0bC5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2lvY3RsLmMKPiBpbmRleCA1ZGY3MjIwNzJi
+YTAuLjE5YzViYzAxZWI3OSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3Zp
+cnRncHVfaW9jdGwuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0
+bC5jCj4gQEAgLTE3OSw2ICsxNzksNyBAQCBzdGF0aWMgaW50IHZpcnRpb19ncHVfZXhlY2J1ZmZl
+cl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+Cj4gICAgICAgICB2
+aXJ0aW9fZ3B1X2NtZF9zdWJtaXQodmdkZXYsIGJ1ZiwgZXhidWYtPnNpemUsCj4gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgdmZwcml2LT5jdHhfaWQsIGJ1Zmxpc3QsIG91dF9mZW5jZSk7
+Cj4gKyAgICAgICBkbWFfZmVuY2VfcHV0KCZvdXRfZmVuY2UtPmYpOwo+ICAgICAgICAgdmlydGlv
+X2dwdV9ub3RpZnkodmdkZXYpOwo+ICAgICAgICAgcmV0dXJuIDA7Cj4KPiAtLQo+IDIuMjEuMSAo
+QXBwbGUgR2l0LTEyMi4zKQo+CgpjYyBHcmVnCgotLQpYaW4gSGUKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
