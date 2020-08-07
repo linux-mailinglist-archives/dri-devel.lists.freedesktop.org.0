@@ -1,62 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E7523EE4F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 15:37:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E666923EE83
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 16:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F74D6E9EE;
-	Fri,  7 Aug 2020 13:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E23D46E13C;
+	Fri,  7 Aug 2020 14:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC23D6E9E9;
- Fri,  7 Aug 2020 13:37:03 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r4so1702558wrx.9;
- Fri, 07 Aug 2020 06:37:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4LVGnEnOhzHJYp7k/0jPrqpIv6dziA/YJ8laLNioGFM=;
- b=vPrchpkKsG/T8AFiA7Yn7M46PLKiPZDNi/VQkH2XagE4mkxFfqePQ0DxXi+WpJ0U+R
- 6+Tigj2zd0aonU/AOQBMGGxh/7cj9dH4jhH2VUrWClb3vy1rnD1tCXk42aJL1AHYH9BG
- Q4Uz5H0srLIX9r+VyELVxP9kuxiAsEbUqq9hEoDmU5/crvFK+xwDOtq3mnLgQkLKHdLX
- ZrLAMvRodPLri/9wPmrIwsmz4cFf505+ZmWsdmEO9LLOySAhCm/VB094CFm7/MxkVVh0
- h70Gf9ij6xNTbK0wO3r9fgqqJItuYk3DK8aD5rK/6yo4wsXCG5VGzupDxsUhheb284q4
- WXFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4LVGnEnOhzHJYp7k/0jPrqpIv6dziA/YJ8laLNioGFM=;
- b=app3am3td3swYga6JyQU0BbERLak1SP3PV1MQunXL6kpq0Y+LwGRFWDCYVX/O1o0ok
- 3BK04QUhIESLoiFce1u+C1KyQfcOzexzGrfvG4tkkfqbHK5cQVLYQE0eg9s/oLITQwDN
- GXaidbGx8K0UgEmHWEi9jRIRdQg/ogOjqqXoaJ659lKsuqmoAQ1gC0gsT1irjYzTGQE2
- 7LLM/i5AlAIuBx9jtHmohoddZhx5xYNPd59QcZ1TJPtROh2H4oUdiYqrfj03C+Nur8Gk
- PXw5Z5ANnylbuo9HyY/73fnSCQWr0gnvC9szwYUSOjOHaJXJ+JqYsFg9kCSydHE+R8pq
- F8nA==
-X-Gm-Message-State: AOAM531vAkbtVk8P4sM1YmojcqsUngfBKjvBRjB6cTkZqy9fVOne2D9J
- kgabhjxW/eE1khHQVMd0Sx8csQNM
-X-Google-Smtp-Source: ABdhPJyy6/1Evq0AWxcj8cS24OPjPyqAVqG2TPNcf52PUYgYZc8VHPTAJXAA/0IWvQkVVjS73ndtbw==
-X-Received: by 2002:a5d:630b:: with SMTP id i11mr12856842wru.95.1596807422267; 
- Fri, 07 Aug 2020 06:37:02 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:8a1:e63e:700c:859e])
- by smtp.gmail.com with ESMTPSA id k126sm11084609wme.17.2020.08.07.06.37.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 06:37:01 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: adjust the pid in the grab_id trace point
-Date: Fri,  7 Aug 2020 15:36:58 +0200
-Message-Id: <20200807133658.1866-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200807133658.1866-1-christian.koenig@amd.com>
-References: <20200807133658.1866-1-christian.koenig@amd.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD836E13C
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 14:02:03 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 4EC7DB5F1;
+ Fri,  7 Aug 2020 14:02:20 +0000 (UTC)
+Subject: Re: [PATCH] drm/malidp: Use struct drm_gem_object_funcs.get_sg_table
+ internally
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200807111022.12117-1-tzimmermann@suse.de>
+ <20200807131252.GG2352366@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <07a956c0-10ac-f6e2-73c5-3dd584c4d2d9@suse.de>
+Date: Fri, 7 Aug 2020 16:01:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200807131252.GG2352366@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,25 +40,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, daniel.vetter@ffwll.ch, Shashank.Sharma@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ malidp@foss.arm.com, emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============0347804078=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VHJhY2Ugc29tZXRoaW5nIHVzZWZ1bCBpbnN0ZWFkIG9mIHRoZSBwaWQgb2YgYSBrZXJuZWwgdGhy
-ZWFkIGhlcmUuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
-bmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3RyYWNl
-LmggfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90cmFjZS5oIGIvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X3RyYWNlLmgKaW5kZXggNWRhMjBmYzE2NmQ5Li4wN2Y5OWVmNjlk
-OTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90cmFjZS5o
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90cmFjZS5oCkBAIC0yMjgs
-NiArMjI4LDcgQEAgVFJBQ0VfRVZFTlQoYW1kZ3B1X3ZtX2dyYWJfaWQsCiAJCQkgICAgICksCiAK
-IAkgICAgVFBfZmFzdF9hc3NpZ24oCisJCQkgICBfX2VudHJ5LT5lbnQucGlkID0gdm0tPnRhc2tf
-aW5mby5waWQ7CiAJCQkgICBfX2VudHJ5LT5wYXNpZCA9IHZtLT5wYXNpZDsKIAkJCSAgIF9fYXNz
-aWduX3N0cihyaW5nLCByaW5nLT5uYW1lKQogCQkJICAgX19lbnRyeS0+dm1pZCA9IGpvYi0+dm1p
-ZDsKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0347804078==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="GEVhdbrzLgJwRhWRdCisUIlh28jtBK2FJ"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--GEVhdbrzLgJwRhWRdCisUIlh28jtBK2FJ
+Content-Type: multipart/mixed; boundary="0LiZNvpq10LNTYgSM5hahgk4PEMoLnijn";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: liviu.dudau@arm.com, brian.starkey@arm.com, airlied@linux.ie,
+ emil.velikov@collabora.com, dri-devel@lists.freedesktop.org,
+ malidp@foss.arm.com
+Message-ID: <07a956c0-10ac-f6e2-73c5-3dd584c4d2d9@suse.de>
+Subject: Re: [PATCH] drm/malidp: Use struct drm_gem_object_funcs.get_sg_table
+ internally
+References: <20200807111022.12117-1-tzimmermann@suse.de>
+ <20200807131252.GG2352366@phenom.ffwll.local>
+In-Reply-To: <20200807131252.GG2352366@phenom.ffwll.local>
+
+--0LiZNvpq10LNTYgSM5hahgk4PEMoLnijn
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 07.08.20 um 15:12 schrieb Daniel Vetter:
+> On Fri, Aug 07, 2020 at 01:10:22PM +0200, Thomas Zimmermann wrote:
+>> The malidp driver uses GEM object functions for callbacks. Fix it to
+>> use them internally as well.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: ecdd6474644f ("drm/malidp: Use GEM CMA object functions")
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Emil Velikov <emil.velikov@collabora.com>
+>> Cc: Liviu Dudau <liviu.dudau@arm.com>
+>> Cc: Brian Starkey <brian.starkey@arm.com>
+>> ---
+>>  drivers/gpu/drm/arm/malidp_planes.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm=
+/malidp_planes.c
+>> index ab45ac445045..351a85088d0e 100644
+>> --- a/drivers/gpu/drm/arm/malidp_planes.c
+>> +++ b/drivers/gpu/drm/arm/malidp_planes.c
+>> @@ -346,7 +346,7 @@ static bool malidp_check_pages_threshold(struct ma=
+lidp_plane_state *ms,
+>>  		if (cma_obj->sgt)
+>>  			sgt =3D cma_obj->sgt;
+>>  		else
+>> -			sgt =3D obj->dev->driver->gem_prime_get_sg_table(obj);
+>> +			sgt =3D obj->funcs->get_sg_table(obj);
+>=20
+> Uh if there's not a switch somewhere I'd just call the right function
+> directly. Or call the right wrapper for this, this feels a bit fishy ..=
+=2E
+
+The driver initializes the pointer via CMA helper macro to an
+CMA-internal default. Calling the actual function here is fragile if the
+CMA-internal default ever changes.
+
+But I have no strong feelings. I'll go with whatever the driver's
+maintainer prefers.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>> =20
+>>  		if (!sgt)
+>>  			return false;
+>> --=20
+>> 2.28.0
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--0LiZNvpq10LNTYgSM5hahgk4PEMoLnijn--
+
+--GEVhdbrzLgJwRhWRdCisUIlh28jtBK2FJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8tXtYUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOqsQf/bdWV/F4mLvnHL0bJ+L/5/vxh3NLF
+zJlwxW0lOG9P0SlB+EFaakj3ojBO9qR9tXwzYR5lmmzRF3tXBfXLk+GmFZDrXPON
+Ie27jIqJgJ4m9qU7wr2zHWtLdNExwLY6dy4jWe7a9NCJeEbjcAU/u273JWRGQZBH
+P0zwYNks3LtHTxV4EGdxugDf50qkKzHGEum+OfDz3blElCxTD8AgxEM0GKCfmZad
+9ECKKdXU3t3RGwUp+ndBkFFxO1Hf0tXtGcokDE8Sa8xU1tyF7wRYPbdtvDPeXcWx
+mXM7hhtHSBl8l8OzGdyFKUXYqSNxN19qCevyfAXxduO/TPqI05y4yh2L3g==
+=qb+V
+-----END PGP SIGNATURE-----
+
+--GEVhdbrzLgJwRhWRdCisUIlh28jtBK2FJ--
+
+--===============0347804078==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0347804078==--
