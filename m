@@ -1,54 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A886723EC53
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 13:22:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C8823EC7E
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 13:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7399D6E0BF;
-	Fri,  7 Aug 2020 11:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8262B6E108;
+	Fri,  7 Aug 2020 11:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A1F6E0BF
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 11:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596799364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wmY0pi0vTdwUJljBgbmTvJ8LrWvebIFkEGaf8XDSBO8=;
- b=cTda8laKTJ3zQQToGVnWDOVm63tWqhaTGmEkKsMk3QieDA6T+sKnzOD5m5D9KOcYLbWv8M
- v+CFR8Hp1VYXyOJ7IUbClwnXj4Qx91SGskqPY6RvSC4PpcFBN+SHCYz4BolfNH5CqzyD2h
- UdwBpkbezTuIocgHc2wGp1mSil9Hu4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-DPHROuQ_NoCSy3DJ4xdVBw-1; Fri, 07 Aug 2020 07:22:40 -0400
-X-MC-Unique: DPHROuQ_NoCSy3DJ4xdVBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D13F6E108
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 11:29:20 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de
+ [95.90.213.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94714800685;
- Fri,  7 Aug 2020 11:22:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
- [10.36.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 700B88AC10;
- Fri,  7 Aug 2020 11:22:36 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F26837828; Fri,  7 Aug 2020 13:22:34 +0200 (CEST)
-Date: Fri, 7 Aug 2020 13:22:34 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3 34/38] drm/virtio: convert to LE accessors
-Message-ID: <20200807112234.4ycjbtyhjvsxoeio@sirius.home.kraxel.org>
-References: <20200805134226.1106164-1-mst@redhat.com>
- <20200805134226.1106164-35-mst@redhat.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id E71C72075D;
+ Fri,  7 Aug 2020 11:29:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1596799760;
+ bh=2JO2qwpAelZwwN528SuEDP5/1BeDcXQDZwzFngk84Mg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WnRYJ+GaYJUsUT1XcKXM1hxTWAAVWjVPJ9Mz64glMrlMGtb4SFiQTL3VDutmtW+KR
+ 6YnfVbTEP0Dx3+oJ7Oe7N8ChP9LyKemQ3AwB5VANkYujn3vwqVG0TW7cpB2RrI8b1l
+ O703VSR0SYxMqQPuLFR8xKJ0rIhyGUD93qkK7ims=
+Date: Fri, 7 Aug 2020 13:29:16 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: DRM/KMS experimental drivers for HiKey 970
+Message-ID: <20200807132916.70772823@coco.lan>
+In-Reply-To: <20200807085943.GA966139@ravnborg.org>
+References: <20200805105137.2b272efc@coco.lan>
+ <CALAqxLV_8phvdvezZV39sumS=D42+cZdfxCrCz6ht6eia8totQ@mail.gmail.com>
+ <20200807092418.57843051@coco.lan>
+ <20200807085943.GA966139@ravnborg.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200805134226.1106164-35-mst@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,20 +49,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, mani@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 05, 2020 at 09:44:48AM -0400, Michael S. Tsirkin wrote:
-> Virtgpu is modern-only. Use LE accessors for config space.
+Em Fri, 7 Aug 2020 10:59:43 +0200
+Sam Ravnborg <sam@ravnborg.org> escreveu:
+
+> Hi Mauro.
 > 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > 
+> > I know. What can be done is to send a diff at patch 00/xx with
+> > the entire history for each driver folded, in order to easy
+> > for reviewers.  
+> Personnaly this would be preferred as I assume the history is a lot of
+> forth and back rather than incremental logical changes.
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Actually, it is not that bad. The changes at the code are incremental. 
+I suspect that the initial patch is actually a folded changeset for
+the Linaro's 4.9 Kernel tree. The changes afterwards happened inside
+the Linaro tree, more or less following the usual one patch per
+logical change approach.
 
+On the top of that, there are the changes I did myself, in order to port
+it from 4.9. Having those at the history helps a lot, in the case
+I made any mistake on such ports.
+
+> No promises of any useful reviews though...
+
+A review on the folded change should be enough. In case of doubts
+about something, the detailed changeset could be useful, specially
+to help identifying eventual mistakes I could have done during the 
+port.
+
+Anyway, my plan is to first get the non-DRM changesets reviewed, as
+I may need to modify some things depending on the feedback from
+the other subsystems.
+
+Thanks,
+Mauro
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
