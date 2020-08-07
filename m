@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F7E23E9D1
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 11:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363BE23E9E8
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 11:18:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD6356E98C;
-	Fri,  7 Aug 2020 09:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438F16E98B;
+	Fri,  7 Aug 2020 09:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 571A86E98C
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 09:10:48 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id f7so1002430wrw.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 02:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=yIduASxOSE1is+l6ba3Ib+q/uSjP1gWsCSN6YMU1MGM=;
- b=JQwvG7SK70jkxfMfT30/3cNZrD0PDGXLYYzyABgNj0q59whRkvEyofQ6QxfiRLcKn6
- nO/Klfw7scX4KxlZij3JbF8aLOT94AYvbbF9BQq/2dIQsWwnJLd4is1d2M0gDhQOEYdy
- CXn5QDUOLpAVJvt/ZTysbRcCVI8yutvfQQ/00=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=yIduASxOSE1is+l6ba3Ib+q/uSjP1gWsCSN6YMU1MGM=;
- b=k9Oog+omD2rusjfTEf4S5sXxPDX1wKMB0WbXpqHgeVtZG6pHJsBygLfwqD7MgKBAwd
- 8jlKxiQt2SDifkCNzQaj3HvILCTNaIa04K6zMPvwEjVKGE2bJaK2xZdFUFkEj5OhtxhK
- g1aJP41QgGEY/ULGSXe6JQTtRi9AUfs/0cm97voj6aJh1LPC1AqHv63OboeklBZOqU4+
- j8E5ysvu2DbIcFInsiXPp/BDqk5stwaLac/VOKHmt6R8JwoMsganxC5PhYst44vZfjrn
- b+UFYCLjXvXpoSlw9x5YnwgZ+uZkyk6w7Kh3GDA7YGcNrLV4Xs4FE/ZwHtl14gb6oHpY
- i3Fw==
-X-Gm-Message-State: AOAM533pura3yet1scyb40qcFJz41vFM7c6F9HqPvKMbY85tGBEskz+Y
- sGgYOen2AYKfgg5LEUMU5noNyg==
-X-Google-Smtp-Source: ABdhPJw8ep9/pbXF2Su/zlcXhSRw0Tiq7c3D4P/Ith2AwJI316p7Uapmu81omHOlAmZusLXqij3mSg==
-X-Received: by 2002:a5d:6a41:: with SMTP id t1mr10202625wrw.388.1596791446966; 
- Fri, 07 Aug 2020 02:10:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c15sm9291026wme.23.2020.08.07.02.10.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 02:10:46 -0700 (PDT)
-Date: Fri, 7 Aug 2020 11:10:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [PATCH v2] drm/vkms: guarantee vblank when capturing crc
-Message-ID: <20200807091044.GB2352366@phenom.ffwll.local>
-Mail-Followup-To: Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Sidong Yang <realwakka@gmail.com>, twoerner@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-usp@googlegroups.com
-References: <20200806111705.xebopzucxr3367z4@smtp.gmail.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2063.outbound.protection.outlook.com [40.107.244.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5586E98B
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 09:18:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nQ3YVwmaZoqSkweXnAxYQKXF39Kt+Z7T0xdVJichrr94/KqPKOLmaRnZCwX2Wf0THOj7cbvvaD/ALMzL4NrnIo3njlcHfuT7kaU4JyQk8DTuqoT0fTo2U0gL+2Q6d8gnN2FTVKIS22TZCQVZ4IYGYi+sMHcR3zhlsYmMzhEmcFw40b1+wFsHx75LaaY2HjPn1r7PkDOS+20n5YdiDRiSl0eV2Vs6rP2/0cydGM9yGKfeUowxyU0vBjKYMg6TKjM9gYzAw1m96LGg2vvTsnAYPU7dC2k4VVahQZJH8U6HtGF2yeCh40puKUW6ETRHWcovDfFgNQzAhhhi2P8G7dUQfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aaE6aM8oWGuKWl6980AhBFR5VFelYHsqpgnrgrb9phw=;
+ b=IzlKcK8Eb5Y6berFQaRAsTljSFnGfxJYc7CSeG4p4H1VsMxDSnx+h4G8ac43qMKbs2mm4jKrnFGpO8Gk6Lnr2+JLS9QAA1QJqqspxyvDvBouPB5rqTi5m3kyiGbaV516SMsXa710+cFQaJ1xFMUelPBp5mqOW/V83qp2IcnaHZOK14oJPuJtMyr0FuXPugSGCzQMyFzJ6uEBVkwcvIH8y2RUj5hJ4+mPFOqJkEK8LhdRYeXvpXENRG7aR9jb4E2c0rAHesYRB9BB0lQ/u8H5GUpZYA+aZVDL/ldt8hjBYvqttJZRuMLXHHSOpqpBSx/vqwv+9MatHjsxpC4D5KmUIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aaE6aM8oWGuKWl6980AhBFR5VFelYHsqpgnrgrb9phw=;
+ b=ANGGsPlCjtOjoJzrvt8j6AHxW/aV/AGcFKwdyX10VcSDkPepXk781NHgCbudnlHPBZJywSkyVRmSA5/HVU5YiIEKKpgLD6AbvoLPkGis4A6ycccdmpjlqvDOUP0f1XBkJxpeBP9l1MbMhHc2Vn/B+Y5lh6CI5v/2HJR3iJSOPo0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4221.namprd12.prod.outlook.com (2603:10b6:208:1d2::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.17; Fri, 7 Aug
+ 2020 09:17:59 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3239.023; Fri, 7 Aug 2020
+ 09:17:59 +0000
+Subject: Re: [PATCH 1/4] drm/amdgpu/ttm: move vram/gtt mgr allocations to mman.
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200806233459.4057784-1-airlied@gmail.com>
+ <20200806233459.4057784-2-airlied@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <bce67984-78b1-2d72-d375-ce788025536e@amd.com>
+Date: Fri, 7 Aug 2020 11:17:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200806233459.4057784-2-airlied@gmail.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR06CA0091.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::32) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200806111705.xebopzucxr3367z4@smtp.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR06CA0091.eurprd06.prod.outlook.com (2603:10a6:208:fa::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3261.17 via Frontend Transport; Fri, 7 Aug 2020 09:17:58 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e92cfbaf-9ea2-4a60-7e33-08d83ab2c70f
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4221:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42216A88C57355CC6BDB080283490@MN2PR12MB4221.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yMFZwGQDNVxWcbmrkI9NxpnVDH8rOcDGDdBSRTAcb35Pa4zmj7MMqi3zODLI1+9bpTxPB6OMANR82dvjivfrKo3JcmneKHyykS0N64L80guu/G75MmC9GOoyCo7qYNfT40w93h7JDk4hmZ/A2JFE//vq8APqt7am9/yL6Q/xSoKVZW6kGqlviJ6gng928RAg8bk8qaOkp/LsCBfmyR8LhmgMQOzr/PagLdgcxUo0dFtcAEIv6Mi34PzmtHsDbYs3uyIFFhPs3XHgHiLyJX4tyTgPQ9uTLjJLNApGyY9XE2hjJR/rS4O/VxRgfSQj+zLiWsow0WS+8cIsCqlxDXrg2R1AFcGBRvMZmm03yJiMudIXcxgdKoXHVkZc/2eVED48
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39860400002)(36756003)(66556008)(6666004)(478600001)(66476007)(4326008)(31686004)(5660300002)(52116002)(6486002)(31696002)(316002)(66946007)(8936002)(186003)(16526019)(66574015)(86362001)(83380400001)(2906002)(8676002)(2616005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: ZYI2+yn2KPd46GzBJQAjYyz8LWylNQEaQKUmckJAhQfA9hkUTxukq/NxHzoNbaFGJv9Ef/r3QxA3utkpPewsmcUduVFsfASa/qTEMN3B71/0SBwkvv9v5Ju51Bc7ihlPM+vcCQ9dwU9l3p+CnzJnc3xO5AOBYijFGs1YSimzVSwcBh92xWCAb+NPPE7ATk3LO8/R8bDXitrqVQSuGTFIpnlBBIkxaSkr/kP6fPJlgcZxlIdr7888gD70pd1HF4YIGZ65yLPqRZFu5RLfx+eP0+K41p3E19HjY8IXEnTy2KO2uIX7XQtt0FCh544Bwa2a18Z0rPoY9dWBPXe1Qz7afFMHC+mQ15DimCvhpfMJGde9CICulixMxboIejKKZfWfjcGrqXXscdPWxtQk3/dd8xIeo5pAGKPsHiYst0GpwfiphHMZsqJ3aODCcSVQqzD2OTp3xrB8e6mS9LyJsu7xg20Zds0amWfKNZoGx9NOD3Jo4B0N+uW4J+BtYbW403ch9zl+w+BFaog69vG+Os62Z0sqJsPoh+qGpAlrasLRQ8vQ0z0+/kwpz1NIvJ0QW4wlvVhKiwUTk8X4MjSMkoaN6XCLN/l79fANRiqRvfmqTZ+1UsMN7OeMQMnaJOMXrlAFKe7jBqoUwJXATVPzcKLLxSf7q9Bm3IeaMMamH9sDCYSjjPWC9QErN5UQVvQSgPn0JqUXmQ1py3IA9LdpAIuGbQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e92cfbaf-9ea2-4a60-7e33-08d83ab2c70f
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2020 09:17:59.3374 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qaRZa94XOHNpiMaSv5rNqpAUfrTkn1LqIRYWiki+M8BpfWplkjNBZroKSy1WkjOr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4221
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,146 +98,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel-usp@googlegroups.com, Sidong Yang <realwakka@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: bskeggs@redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 06, 2020 at 08:17:05AM -0300, Melissa Wen wrote:
-> VKMS needs vblank interrupts enabled to capture CRC. When vblank is
-> disabled, tests like kms_cursor_crc and kms_pipe_crc_basic getting stuck
-> waiting for a capture that will not occur until vkms wakes up. This patch
-> adds a helper to set composer and ensure that vblank remains enabled as
-> long as the CRC capture is needed.
-> 
-> It clears the execution of the following kms_cursor_crc subtests:
-> 1. pipe-A-cursor-[size,alpha-opaque, NxN-(on-screen, off-screen, sliding,
-> random, fast-moving])] - successful when running individually.
-> 2. pipe-A-cursor-dpms passes again
-> 3. pipe-A-cursor-suspend also passes
-> 
-> The issue was initially tracked in the sequential execution of IGT
-> kms_cursor_crc subtest: when running the test sequence or one of its
-> subtests twice, the odd execs complete and the pairs get stuck in an
-> endless wait. In the IGT code, calling a wait_for_vblank on preparing for
-> CRC capture prevented the busy-wait. But the problem persisted in the
-> pipe-A-cursor-dpms and -suspend subtests.
-> 
-> Checking the history, the pipe-A-cursor-dpms subtest was successful when,
-> in vkms_atomic_commit_tail, instead of using the flip_done op, it used
-> wait_for_vblanks. Another way to prevent blocking was wait_one_vblank when
-> enabling crtc. However, in both cases, pipe-A-cursor-suspend persisted
-> blocking in the 2nd start of CRC capture, which may indicate that
-> something got stuck in the step of CRC setup. Indeed, wait_one_vblank in
-> the crc setup was able to sync things and free all kms_cursor_crc
-> subtests. Besides, other alternatives to force enabling vblanks or prevent
-> disabling them such as calling drm_crtc_put_vblank or modeset_enables
-> before commit_planes + offdelay = 0, also unlock all subtests executions.
-> 
-> Finally, due to vkms's dependence on vblank interruptions to perform
-> tasks, this patch uses refcount to ensure that vblanks happen when
-> enabling composer and while crc capture is needed.
-
-For next time around, please include a patch changelog here so people know
-what was changed, and why. E.g.
-
-v2:
-- extract a vkms_set_composer helper
-- fix vblank refcounting for the disabling case
-
-> 
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Co-developed-by: Sidong Yang <realwakka@gmail.com>
-> Signed-off-by: Sidong Yang <realwakka@gmail.com>
-> Co-developed-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Daniel Vetter <daniel@ffwll.ch>
-
-Nah that's a bit too much credit for me, I'll get the r-b tag. You &
-Sidong figured this story out, so I'd use Co-debugged-by: Sidong here for
-credits.
-
-> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 20 +++++++++++++++++---
->  drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
->  2 files changed, 18 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index b8b060354667..e2ac2b9759bf 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -233,6 +233,22 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
->  	return 0;
->  }
->  
-> +void vkms_set_composer(struct vkms_output *out, bool enabled)
-
-Since this isn't yet used outside of this file I'd just make this static.
-Writeback connector support can then add the prototype in the header. With
-that
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Please include that tag for revision 3.
-
-Cheers, Daniel
-
-> +{
-> +	bool old_enabled;
-> +
-> +	if (enabled)
-> +		drm_crtc_vblank_get(&out->crtc);
-> +
-> +	spin_lock_irq(&out->lock);
-> +	old_enabled = out->composer_enabled;
-> +	out->composer_enabled = enabled;
-> +	spin_unlock_irq(&out->lock);
-> +
-> +	if (old_enabled)
-> +		drm_crtc_vblank_put(&out->crtc);
-> +}
-> +
->  int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->  {
->  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> @@ -241,9 +257,7 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->  
->  	ret = vkms_crc_parse_source(src_name, &enabled);
->  
-> -	spin_lock_irq(&out->lock);
-> -	out->composer_enabled = enabled;
-> -	spin_unlock_irq(&out->lock);
-> +	vkms_set_composer(out, enabled);
->  
->  	return ret;
->  }
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index f4036bb0b9a8..2cc86d08bd4e 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -142,6 +142,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
->  			   size_t *values_cnt);
->  
->  /* Composer Support */
-> +void vkms_set_composer(struct vkms_output *output, bool enabled);
->  void vkms_composer_worker(struct work_struct *work);
->  
->  #endif /* _VKMS_DRV_H_ */
-> -- 
-> 2.27.0
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMDcuMDguMjAgdW0gMDE6MzQgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
+cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gQ2hyaXN0aWFuIHN1Z2dlc3RlZCB0aGlzIGFu
+ZCBpdCBtYWtlcyBzZW5zZS4KPgo+IFNpZ25lZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVk
+QHJlZGhhdC5jb20+CgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
+ZW5pZ0BhbWQuY29tPgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9ndHRfbWdyLmMgIHwgMjEgKysrKy0tLS0tLS0tLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV90dG0uaCAgICAgIHwgMTkgKysrKysrKysrKysrKysrKwo+ICAgZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMgfCAyNCArKysrLS0tLS0t
+LS0tLS0tLS0tLQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspLCAzNyBkZWxl
+dGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfZ3R0X21nci5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2d0dF9tZ3Iu
+Ywo+IGluZGV4IGM4NDdhNWZlOTRjOS4uMDEwNTE4MTQ4ZWY4IDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMKPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jCj4gQEAgLTI0LDEzICsyNCw2IEBACj4g
+ICAKPiAgICNpbmNsdWRlICJhbWRncHUuaCIKPiAgIAo+IC1zdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3Ig
+ewo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyIG1hbmFnZXI7Cj4gLQlzdHJ1Y3QgZHJt
+X21tIG1tOwo+IC0Jc3BpbmxvY2tfdCBsb2NrOwo+IC0JYXRvbWljNjRfdCBhdmFpbGFibGU7Cj4g
+LX07Cj4gLQo+ICAgc3RhdGljIGlubGluZSBzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKnRvX2d0dF9t
+Z3Ioc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4pCj4gICB7Cj4gICAJcmV0dXJuIGNv
+bnRhaW5lcl9vZihtYW4sIHN0cnVjdCBhbWRncHVfZ3R0X21nciwgbWFuYWdlcik7Cj4gQEAgLTkz
+LDE2ICs4NiwxMSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2Z1
+bmMgYW1kZ3B1X2d0dF9tZ3JfZnVuYzsKPiAgICAqLwo+ICAgaW50IGFtZGdwdV9ndHRfbWdyX2lu
+aXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHVpbnQ2NF90IGd0dF9zaXplKQo+ICAgewo+
+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW47Cj4gLQlzdHJ1Y3QgYW1kZ3B1X2d0
+dF9tZ3IgKm1ncjsKPiArCXN0cnVjdCBhbWRncHVfZ3R0X21nciAqbWdyID0gJmFkZXYtPm1tYW4u
+Z3R0X21ncjsKPiArCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJm1nci0+bWFu
+YWdlcjsKPiAgIAl1aW50NjRfdCBzdGFydCwgc2l6ZTsKPiAgIAlpbnQgcmV0Owo+ICAgCj4gLQlt
+Z3IgPSBremFsbG9jKHNpemVvZigqbWdyKSwgR0ZQX0tFUk5FTCk7Cj4gLQlpZiAoIW1ncikKPiAt
+CQlyZXR1cm4gLUVOT01FTTsKPiAtCj4gLQltYW4gPSAmbWdyLT5tYW5hZ2VyOwo+ICAgCW1hbi0+
+dXNlX3R0ID0gdHJ1ZTsKPiAgIAltYW4tPmZ1bmMgPSAmYW1kZ3B1X2d0dF9tZ3JfZnVuYzsKPiAg
+IAltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKPiBAQCAtMTQy
+LDggKzEzMCw4IEBAIGludCBhbWRncHVfZ3R0X21ncl9pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNl
+ICphZGV2LCB1aW50NjRfdCBndHRfc2l6ZSkKPiAgICAqLwo+ICAgdm9pZCBhbWRncHVfZ3R0X21n
+cl9maW5pKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQo+ICAgewo+IC0Jc3RydWN0IHR0bV9y
+ZXNvdXJjZV9tYW5hZ2VyICptYW4gPSB0dG1fbWFuYWdlcl90eXBlKCZhZGV2LT5tbWFuLmJkZXYs
+IFRUTV9QTF9UVCk7Cj4gLQlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IHRvX2d0dF9tZ3Io
+bWFuKTsKPiArCXN0cnVjdCBhbWRncHVfZ3R0X21nciAqbWdyID0gJmFkZXYtPm1tYW4uZ3R0X21n
+cjsKPiArCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJm1nci0+bWFuYWdlcjsK
+PiAgIAlpbnQgcmV0Owo+ICAgCj4gICAJdHRtX3Jlc291cmNlX21hbmFnZXJfc2V0X3VzZWQobWFu
+LCBmYWxzZSk7Cj4gQEAgLTE2MSw3ICsxNDksNiBAQCB2b2lkIGFtZGdwdV9ndHRfbWdyX2Zpbmko
+c3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gICAKPiAgIAl0dG1fcmVzb3VyY2VfbWFuYWdl
+cl9jbGVhbnVwKG1hbik7Cj4gICAJdHRtX3NldF9kcml2ZXJfbWFuYWdlcigmYWRldi0+bW1hbi5i
+ZGV2LCBUVE1fUExfVFQsIE5VTEwpOwo+IC0Ja2ZyZWUobWdyKTsKPiAgIH0KPiAgIAo+ICAgLyoq
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uaCBi
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uaAo+IGluZGV4IDM2YjAyNGZk
+MDc3ZS4uMTY4Mjk0YmUyNzZkIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV90dG0uaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV90dG0uaAo+IEBAIC00MSw2ICs0MSwyMiBAQAo+ICAgCj4gICAjZGVmaW5lIEFNREdQVV9QT0lT
+T04JMHhkMGJlZDBiZQo+ICAgCj4gK3N0cnVjdCBhbWRncHVfdnJhbV9tZ3Igewo+ICsJc3RydWN0
+IHR0bV9yZXNvdXJjZV9tYW5hZ2VyIG1hbmFnZXI7Cj4gKwlzdHJ1Y3QgZHJtX21tIG1tOwo+ICsJ
+c3BpbmxvY2tfdCBsb2NrOwo+ICsJYXRvbWljNjRfdCB1c2FnZTsKPiArCWF0b21pYzY0X3Qgdmlz
+X3VzYWdlOwo+ICsJc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXY7Cj4gK307Cj4gKwo+ICtzdHJ1
+Y3QgYW1kZ3B1X2d0dF9tZ3Igewo+ICsJc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyIG1hbmFn
+ZXI7Cj4gKwlzdHJ1Y3QgZHJtX21tIG1tOwo+ICsJc3BpbmxvY2tfdCBsb2NrOwo+ICsJYXRvbWlj
+NjRfdCBhdmFpbGFibGU7Cj4gK307Cj4gKwo+ICAgc3RydWN0IGFtZGdwdV9tbWFuIHsKPiAgIAlz
+dHJ1Y3QgdHRtX2JvX2RldmljZQkJYmRldjsKPiAgIAlib29sCQkJCW1lbV9nbG9iYWxfcmVmZXJl
+bmNlZDsKPiBAQCAtNTksNiArNzUsOSBAQCBzdHJ1Y3QgYW1kZ3B1X21tYW4gewo+ICAgCXN0cnVj
+dCBtdXRleAkJCQlndHRfd2luZG93X2xvY2s7Cj4gICAJLyogU2NoZWR1bGVyIGVudGl0eSBmb3Ig
+YnVmZmVyIG1vdmVzICovCj4gICAJc3RydWN0IGRybV9zY2hlZF9lbnRpdHkJCQllbnRpdHk7Cj4g
+Kwo+ICsJc3RydWN0IGFtZGdwdV92cmFtX21nciB2cmFtX21ncjsKPiArCXN0cnVjdCBhbWRncHVf
+Z3R0X21nciBndHRfbWdyOwo+ICAgfTsKPiAgIAo+ICAgc3RydWN0IGFtZGdwdV9jb3B5X21lbSB7
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92cmFtX21n
+ci5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMKPiBpbmRl
+eCA4OTU2MzRjYmY5OTkuLmE0MWE4YWJjOTkyNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV92cmFtX21nci5jCj4gQEAgLTI4LDE1ICsyOCw2IEBACj4gICAjaW5j
+bHVkZSAiYW1kZ3B1X2F0b21maXJtd2FyZS5oIgo+ICAgI2luY2x1ZGUgImF0b20uaCIKPiAgIAo+
+IC1zdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyIHsKPiAtCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdl
+ciBtYW5hZ2VyOwo+IC0Jc3RydWN0IGRybV9tbSBtbTsKPiAtCXNwaW5sb2NrX3QgbG9jazsKPiAt
+CWF0b21pYzY0X3QgdXNhZ2U7Cj4gLQlhdG9taWM2NF90IHZpc191c2FnZTsKPiAtCXN0cnVjdCBh
+bWRncHVfZGV2aWNlICphZGV2Owo+IC19Owo+IC0KPiAgIHN0YXRpYyBpbmxpbmUgc3RydWN0IGFt
+ZGdwdV92cmFtX21nciAqdG9fdnJhbV9tZ3Ioc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICpt
+YW4pCj4gICB7Cj4gICAJcmV0dXJuIGNvbnRhaW5lcl9vZihtYW4sIHN0cnVjdCBhbWRncHVfdnJh
+bV9tZ3IsIG1hbmFnZXIpOwo+IEBAIC0xNzcsMTYgKzE2OCwxMCBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2Z1bmMgYW1kZ3B1X3ZyYW1fbWdyX2Z1bmM7Cj4gICAg
+Ki8KPiAgIGludCBhbWRncHVfdnJhbV9tZ3JfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRl
+dikKPiAgIHsKPiAtCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuOwo+IC0Jc3RydWN0
+IGFtZGdwdV92cmFtX21nciAqbWdyOwo+ICsJc3RydWN0IGFtZGdwdV92cmFtX21nciAqbWdyID0g
+JmFkZXYtPm1tYW4udnJhbV9tZ3I7Cj4gKwlzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1h
+biA9ICZtZ3ItPm1hbmFnZXI7Cj4gICAJaW50IHJldDsKPiAgIAo+IC0JbWdyID0ga3phbGxvYyhz
+aXplb2YoKm1nciksIEdGUF9LRVJORUwpOwo+IC0JaWYgKCFtZ3IpCj4gLQkJcmV0dXJuIC1FTk9N
+RU07Cj4gLQo+IC0JbWFuID0gJm1nci0+bWFuYWdlcjsKPiAtCj4gICAJbWFuLT5hdmFpbGFibGVf
+Y2FjaGluZyA9IFRUTV9QTF9GTEFHX1VOQ0FDSEVEIHwgVFRNX1BMX0ZMQUdfV0M7Cj4gICAJbWFu
+LT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19XQzsKPiAgIAo+IEBAIC0yMTksOCArMjA0
+LDggQEAgaW50IGFtZGdwdV92cmFtX21ncl9pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2
+KQo+ICAgICovCj4gICB2b2lkIGFtZGdwdV92cmFtX21ncl9maW5pKHN0cnVjdCBhbWRncHVfZGV2
+aWNlICphZGV2KQo+ICAgewo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4gPSB0
+dG1fbWFuYWdlcl90eXBlKCZhZGV2LT5tbWFuLmJkZXYsIFRUTV9QTF9WUkFNKTsKPiAtCXN0cnVj
+dCBhbWRncHVfdnJhbV9tZ3IgKm1nciA9IHRvX3ZyYW1fbWdyKG1hbik7Cj4gKwlzdHJ1Y3QgYW1k
+Z3B1X3ZyYW1fbWdyICptZ3IgPSAmYWRldi0+bW1hbi52cmFtX21ncjsKPiArCXN0cnVjdCB0dG1f
+cmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJm1nci0+bWFuYWdlcjsKPiAgIAlpbnQgcmV0Owo+ICAg
+Cj4gICAJdHRtX3Jlc291cmNlX21hbmFnZXJfc2V0X3VzZWQobWFuLCBmYWxzZSk7Cj4gQEAgLTIz
+Nyw3ICsyMjIsNiBAQCB2b2lkIGFtZGdwdV92cmFtX21ncl9maW5pKHN0cnVjdCBhbWRncHVfZGV2
+aWNlICphZGV2KQo+ICAgCj4gICAJdHRtX3Jlc291cmNlX21hbmFnZXJfY2xlYW51cChtYW4pOwo+
+ICAgCXR0bV9zZXRfZHJpdmVyX21hbmFnZXIoJmFkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1ZSQU0s
+IE5VTEwpOwo+IC0Ja2ZyZWUobWdyKTsKPiAgIH0KPiAgIAo+ICAgLyoqCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
