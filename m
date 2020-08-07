@@ -1,39 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488ED23F410
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 23:00:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B52723F42C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 23:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFA6E6EA37;
-	Fri,  7 Aug 2020 21:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F9F6E127;
+	Fri,  7 Aug 2020 21:17:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811926EA37
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 21:00:22 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 629FA8045F;
- Fri,  7 Aug 2020 23:00:20 +0200 (CEST)
-Date: Fri, 7 Aug 2020 23:00:18 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/mgag200: fix build on alpha arch
-Message-ID: <20200807210018.GA1037199@ravnborg.org>
-References: <20200807180547.GA923146@ravnborg.org>
- <CAKMK7uHb7HEgnYVF45C9UA3CRPN8k6pDj8mZ4dhYcgTHi-kT8Q@mail.gmail.com>
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9FD6E127
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 21:17:18 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id s15so1597284pgc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 14:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=mTi25uKDeno+kjIGWxKtG9bnSzwH+0hK7ejqxU/R1EA=;
+ b=PWwhGBchg2tJbjQiYkAtlcJdXTvewWyYBMHTHHrKFz2Px+GJ5NXCZfJ7x5pG3p5K8c
+ 6FhQTKgwg48cZFRfGsdGe6mYPYH2dLTU+qCzpRfJXDHU5jT/bH8VyQUZ0ngvIIGG13my
+ ZUjFuSEKUTRIoUtwlx+fekBRDEZLzvdAKhTPtX25rUOj36ZEdkgbf4Q4wCEDvVJFIaNr
+ dlUloyzVjagzcCYchfILiAavp7KC7EMg7VwsKSCC1mQxULEK8ELFy6kIyyAi3DvhwDw7
+ PS8cGJVHwjXzWUpcVHd2RLZK19nTPA/gSYq50xrZM2aQAAWBDiWFrgxiWaq2F/OXVfoV
+ uYEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=mTi25uKDeno+kjIGWxKtG9bnSzwH+0hK7ejqxU/R1EA=;
+ b=FdHrUCp88DBWJk4mYK64GLxq2jtKr1N5/SzAbMKfpBtl3IMhuYJFbybryST6P14K12
+ t3p8qA/uLR4Gnc07nP/FffQoSnh1xAHD3iCuYaSTAWCByOFJtIelJtjimtJA8POldQvG
+ Zxi+RfsVPLDMfiwukm881Z4vNwZGPvgPZ+nw3y1sR3wtZcSRVmuw8bc66VDqGtIGfYe/
+ EYAGkJu9mxFdTFl/CUnvD6FzL0MpiVhuxEYRIflLwip1QzVGu+w5XlEX8l1ThzsWvFLb
+ 5nYNmgfMYMvNVrlPxjY52H48u2Fyud8Mo9WyqrhpKHw+R92qlM31NF9941eLJNYC1rm1
+ zZ2Q==
+X-Gm-Message-State: AOAM531hpZJckFtB9GIlh8nMWW9G+QDsA9XF5dnSXoouh2aweQrX8PD7
+ hAsg194O7mE6n7dHIUtAZ9ADnGge
+X-Google-Smtp-Source: ABdhPJyX8dokEBECvrJtr/HspUEzUCXoXJ2w+iu74hAdocV4J9yYNtCOIKOnx/uQYxfab10QHJTsWw==
+X-Received: by 2002:a62:62c5:: with SMTP id
+ w188mr15527675pfb.133.1596835037973; 
+ Fri, 07 Aug 2020 14:17:17 -0700 (PDT)
+Received: from realwakka ([61.83.141.80])
+ by smtp.gmail.com with ESMTPSA id i185sm4358478pgd.28.2020.08.07.14.17.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 07 Aug 2020 14:17:17 -0700 (PDT)
+Date: Fri, 7 Aug 2020 21:17:00 +0000
+From: Sidong Yang <realwakka@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/vkms: modify sequence disable/plane/enable in
+ commit_tail
+Message-ID: <20200807211700.GA30117@realwakka>
+References: <20200729152231.13249-1-realwakka@gmail.com>
+ <CAJeY4oEAHmY5icF_EPpojW5U+ryt3-guuvGQfj_S=XskO_xyRA@mail.gmail.com>
+ <20200804093351.GI6419@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uHb7HEgnYVF45C9UA3CRPN8k6pDj8mZ4dhYcgTHi-kT8Q@mail.gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=iox4zFpeAAAA:8 a=20KFwNOVAAAA:8
- a=e5mUnYsNAAAA:8 a=25-AhOLfAAAA:8 a=y7WX3AVZ_yhgokfXTLgA:9
- a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=WzC6qhA0u3u7Ye7llzcV:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=dnuY3_Gu-P7Vi9ynLKQe:22
+In-Reply-To: <20200804093351.GI6419@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,60 +76,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLgoKT24gRnJpLCBBdWcgMDcsIDIwMjAgYXQgMTA6MzY6MzRQTSArMDIwMCwgRGFu
-aWVsIFZldHRlciB3cm90ZToKPiBPbiBGcmksIEF1ZyA3LCAyMDIwIGF0IDg6MDUgUE0gU2FtIFJh
-dm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPiB3cm90ZToKPiA+Cj4gPiBXaGVuIGJ1aWxkaW5nIGlt
-Z2FnMjAwIGZvciB0aGUgYWxwaGEgYXJjaGl0ZWN0dXJlIGl0IGZhaWxzIGxpa2UgdGhpczoKPiA+
-IG1nYWcyMDBfZHJ2LmM6MjMzOjk6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5j
-dGlvbiDigJh2bWFsbG9j4oCZCj4gPiAgIDIzMyB8ICBiaW9zID0gdm1hbGxvYyhzaXplKTsKPiA+
-ICAgICAgIHwgICAgICAgICBefn5+fn5+Cj4gPiAgICAgICB8ICAgICAgICAga21hbGxvYwo+ID4K
-PiA+IFdoZW4gYnVpbGRpbmcgZm9yIG90aGVyIGFyY2hpdGVjdHVyZXMgdm1hbGxvYy5oIGlzIHB1
-bGxlZCBpbiB2aWEgc29tZQo+ID4gb3RoZXIgaGVhZGVyIGZpbGUgLSBmb3IgZXhhbXBsZSBhc20t
-Z2VuZXJpYy9pby5oLgo+ID4gVXNlIGFuIGV4cGxpY2l0IGluY2x1ZGUgb2Ygdm1hbGxvYy5oIHRv
-IGZpeCB0aGUgYnVpbGQuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1A
-cmF2bmJvcmcub3JnPgo+ID4gRml4ZXM6IGUyMGRmZDI3ZjdhYSAoImRybS9tZ2FnMjAwOiBBZGQg
-c3VwcG9ydCBmb3IgRzIwMCBkZXNrdG9wIGNhcmRzIikKPiA+IENjOiBUaG9tYXMgWmltbWVybWFu
-biA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENjOiBFZ2JlcnQgRWljaCA8ZWljaEBzdXNlLmNv
-bT4KPiA+IENjOiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+Cj4gPiBDYzogTHl1ZGUgUGF1
-bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+IC0tLQo+ID4gSSBoYXZlIGxvc3QgdHJhY2sgaWYgdGhl
-IG9mZmVuZGluZyBjb21taXQgaXMgb24gdGhlIHdheSB0byB1cHN0cmVhbSBvcgo+ID4gaXQgaXMg
-anVzdCBpbiBkcm0tbWlzYy1uZXh0LiBCdXQgSSB0aGluayBpdCBpcyB0aGUgbGF0dGVyIHNvIHdl
-IGNhbgo+ID4gYXBwbHkgdGhpcyB0byBkcm0tbWlzYy1uZXh0Lgo+IAo+ICQgZGltIHN0YXR1cyAj
-IGZldGNoZXMgYWxsIHRoZSB0cmVlcwpIbW0sIGV4Y2VwdCB0aGF0IGl0IGRpZCBub3QgdXBkYXRl
-IGRybS1taXNjLW5leHQ/IT8KCkkgaGF2ZSByZWFkICJDb21taXRlcnMgdGhhdCB3YW50IHRvIGNo
-ZWNrIHRoZSBzdGF0dXMgb2YgdGhlaXIKY3VycmVudCBicmFuY2ggc2hvdWxkIHVzZSBub3JtYWwg
-Z2l0IHN0YXR1cyBjb21tYW5kcy4iCgpTbyB0aGF0LCBJIGd1ZXNzLCBtYXkgZXhwbGFpbiBpdC4K
-Cj4gJCBkaW0gdGFnLWNvbnRhaW5zIGUyMGRmZDI3ZjdhYQo+IGRybS1taXNjL2RybS1taXNjLW5l
-eHQKTmljZSBsaXR0bGUgY29tbWFuZCAtIGJ1dCBubyAidGFnLWNvbnRhaW5zIiBpbiBteSBkaW0g
-dmVyc2lvbi4KVGhlcmUgaXMgImRpbSB0YyIgYnV0IG5vLW9uZSBoYXZlIGFueSBjaGFuY2UgZ3Vl
-c3Npbmcgd2hhdCB0YwppcyBhbiBhYmJyZXZhdGlvbiBmb3IgLSBzaWdoLgoKPiAKPiBZb3UgZ3Vl
-c3MgY29ycmVjdGx5IDotKQo+IAo+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPgoKVGhhbmtzLCBwdXNoZWQgdG8gZHJtLW1pc2MtbmV4dC4KCglTYW0K
-Cgo+ID4KPiA+ICAgICAgICAgU2FtCj4gPgo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
-YWcyMDBfZHJ2LmMgfCAxICsKPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiA+
-Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMKPiA+IGluZGV4IDA5MTcwZDQ2
-YWE1My4uYjI4MmIwZTQyYzJkIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcy
-MDAvbWdhZzIwMF9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIw
-MF9kcnYuYwo+ID4gQEAgLTksNiArOSw3IEBACj4gPiAgI2luY2x1ZGUgPGxpbnV4L2NvbnNvbGUu
-aD4KPiA+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L3Bj
-aS5oPgo+ID4gKyNpbmNsdWRlIDxsaW51eC92bWFsbG9jLmg+Cj4gPgo+ID4gICNpbmNsdWRlIDxk
-cm0vZHJtX2Rydi5oPgo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2ZpbGUuaD4KPiA+IC0tCj4gPiAy
-LjI1LjEKPiA+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKPiAKPiAKPiAKPiAtLSAKPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdhcmUg
-RW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPiBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Aug 04, 2020 at 11:33:51AM +0200, daniel@ffwll.ch wrote:
+> On Sat, Aug 01, 2020 at 04:30:23PM -0300, Melissa Wen wrote:
+> > On Wed, Jul 29, 2020 at 12:22 PM Sidong Yang <realwakka@gmail.com> wrot=
+e:
+> > >
+> > > This patch modifies function call sequence in commit tail. This is for
+> > > the problem that raised when kms_cursor_crc test is tested repeatedly.
+> > > In second test, there is an bug that crtc commit doesn't start vblank=
+ events.
+> > > Because there is some error about vblank's refcount. in commit_flush(=
+) that
+> > > called from commit_plane, drm_vblank_get() is called and vblank is en=
+abled
+> > > in normal case. But in second test, vblank isn't enable for vblank->r=
+efcount
+> > > is already increased in previous test. Increased refcount will be dec=
+reased
+> > > in drm_atomic_helper_commit_modeset_enables() after commit_plane.
+> > > Therefore, commit_plane should be called after commit_modeset_enable.
+> > >
+> > > In this situation, there is a warning raised in get_vblank_timestamp(=
+).
+> > > hrtimer.node.expires and vblank->time are zero for no vblank events b=
+efore.
+> > > This patch returns current time when vblank is not enabled.
+> > >
+> > Hi Sidong,
+> > =
+
+> > I think this patch tries to solve two different issues.
+> > =
+
+> > I am not a maintainer, but I believe you can split it.
+> > =
+
+> > Everything indicates that changing the commit tail sequence does not
+> > ideally solve the problem of subtests getting stuck (as we have dicusse=
+d);
+> > however, for me, the treatment of the warning is valid and it is also r=
+elated
+> > to other IGT tests using VKMS.
+> =
+
+> Yeah I think (but haven't tested, definitely need to confirm that) that
+> the vblank get/put fix from Melissa is the correct fix for all these
+> issues.
+> =
+
+> > One option is to send a patch that only treats the warning. I believe t=
+hat
+> > in the body of the commit message, it would be nice to have the warning
+> > that this patch addresses, and when it appears by running an IGT test.
+> > Also, say why it should be done this way in vkms.
+> > This info could help future debugging.
+> =
+
+> Yeah I think splitting out the warning fix is the right thing to do here.
+
+Okay, I'll write another patch about the warning.
+Thanks.
+
+-Sidong
+
+> -Daniel
+> =
+
+> > =
+
+> > Off-topic: I removed the group's mailing list of the University of S=E3o
+> > Paulo (kernel-usp) from the cc, since I believe you had no intention of
+> > sending the patch to them.
+> > =
+
+> > Best regards,
+> > =
+
+> > Melissa
+> > =
+
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > >
+> > > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/vkms/vkms_crtc.c | 5 +++++
+> > >  drivers/gpu/drm/vkms/vkms_drv.c  | 4 ++--
+> > >  2 files changed, 7 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/=
+vkms_crtc.c
+> > > index ac85e17428f8..09c012d54d58 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > @@ -86,6 +86,11 @@ static bool vkms_get_vblank_timestamp(struct drm_c=
+rtc *crtc,
+> > >         struct vkms_output *output =3D &vkmsdev->output;
+> > >         struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
+> > >
+> > > +       if (!READ_ONCE(vblank->enabled)) {
+> > > +               *vblank_time =3D ktime_get();
+> > > +               return true;
+> > > +       }
+> > > +
+> > >         *vblank_time =3D READ_ONCE(output->vblank_hrtimer.node.expire=
+s);
+> > >
+> > >         if (WARN_ON(*vblank_time =3D=3D vblank->time))
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/v=
+kms_drv.c
+> > > index 1e8b2169d834..c2c83a01d4a7 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > @@ -76,10 +76,10 @@ static void vkms_atomic_commit_tail(struct drm_at=
+omic_state *old_state)
+> > >
+> > >         drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> > >
+> > > -       drm_atomic_helper_commit_planes(dev, old_state, 0);
+> > > -
+> > >         drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> > >
+> > > +       drm_atomic_helper_commit_planes(dev, old_state, 0);
+> > > +
+> > >         drm_atomic_helper_fake_vblank(old_state);
+> > >
+> > >         drm_atomic_helper_commit_hw_done(old_state);
+> > > --
+> > > 2.17.1
+> > >
+> > > --
+> > > You received this message because you are subscribed to the Google Gr=
+oups "Kernel USP" group.
+> > > To unsubscribe from this group and stop receiving emails from it, sen=
+d an email to kernel-usp+unsubscribe@googlegroups.com.
+> > > To view this discussion on the web visit https://groups.google.com/d/=
+msgid/kernel-usp/20200729152231.13249-1-realwakka%40gmail.com.
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
