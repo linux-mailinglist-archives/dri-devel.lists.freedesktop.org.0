@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C124C23EDC4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 15:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAD523EE4A
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 15:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21446E9D7;
-	Fri,  7 Aug 2020 13:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C01156E9E7;
+	Fri,  7 Aug 2020 13:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CAD6E9D7
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 13:12:57 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id f7so1652317wrw.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 06:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=EBzRDQiH1juPey4CQ8iHwA0/NZ1mPhDK894jrfw/HyM=;
- b=LuPxcjJJIeC8L7mhF1I35jbCWNsWFgmY5Wb9CN3NcZtLmICRh2RdHG/R9IgP434iAf
- MFLbMr4t4UGRwAJfLNi7i2yJJHgLhXhUyf5WxLRA64fE0Xmbf9DuJ4IABpYMC3m+aWVO
- 32f7FdbB+z+i1dOz6sokyFr0znDfGFCRZ8kKM=
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6986E9E7;
+ Fri,  7 Aug 2020 13:37:02 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id r2so1702574wrs.8;
+ Fri, 07 Aug 2020 06:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rox1xDaHqeLFe+gN0pc5zVRxJLvYZNTbM46yT38dB4g=;
+ b=JM86ub7ONRDreDT8vPEgJxHq9AIxYi8EyOjPLQTEuF9NEkzX7A+R9zi8ZbsYA1FRO4
+ btZzgtnwgDkIVElYoGn1biVgPDHL8OAEaHZ7CvGfORiS811XsvyVluJJ5goun3CGTiya
+ 5p2gHDoTed8RhF1TM+p2QLTSKmDMZbcH+EFx71OfpvdVykAa8A2HTS5tgNJV/Wfff4I4
+ VuSmUExazZhnLONYuhgRNUSJre9LivIcHCT2t2Q58Dzi3bsumXDpwVOyLbBJ2kqTAH7g
+ OjzE++n6dKZSz5T9hzSQDMVmQZ3k05TEKXKYGi3qpflg/D8s3oOj3tZWPm9pt8GJxBlH
+ s4VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EBzRDQiH1juPey4CQ8iHwA0/NZ1mPhDK894jrfw/HyM=;
- b=T+TB4zrrWHu16NHGBVNjJr5Vq2NLqCwPcmrMqPgn6qYZHoxh8JoWRJGcH9lZoDuzK4
- 1vhdJB2dZU+byOjo3yBwyS2QONEUmbX7dKanZ6P9ZRyV+5HAJOknsDXMKUMCK5pFW62J
- mPipAmbzC1t7iXVJzG/Vdwnj+Dl2l26Q0vCgxlbWN67vCd3jLm8nYDu4W6scY2fQ9ir3
- +DquCHtGaQUoXZ8wOF8RnxYr5tppMJQIBRGSnv1Xx9MaHAajs9R6R/Vc4sBC57B6DnQz
- HBVM7ykP9mzG4hbGxLToVYJqJh/Vo4NYfSdsb4gAjdKkmYBz9i73Zjn/4BVYXeIAyrUI
- nNgQ==
-X-Gm-Message-State: AOAM531t5tPT+DkzyPqE55NqNGnxht1YCUS6Seb/xy+AT/L16r0yd7DX
- FRmRRFyjoWHLKzYtw2cb+gRf9A==
-X-Google-Smtp-Source: ABdhPJyfuf8HPb0BHZfW3OOU0WkiJMq8rdMd+jkYOY+IvDD8/p1i0hQF3xzSZrstZU5kKs5ur/ppsw==
-X-Received: by 2002:adf:e9cd:: with SMTP id l13mr13330060wrn.340.1596805975885; 
- Fri, 07 Aug 2020 06:12:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k184sm10385423wme.1.2020.08.07.06.12.54
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rox1xDaHqeLFe+gN0pc5zVRxJLvYZNTbM46yT38dB4g=;
+ b=rbMYsd5bdrli5l+IP+wvCNofsux6ZQR9k1lz5uB8eI0cySeiseEa2hRgycjlUfPkuX
+ a6qOsJlYXB7aqKizAbqqTe6eSaVrwJSZfhFjtaufGDOx/2OZA4QFnHk5j+waopeGdQiH
+ h1LlKinoTMrvRMjBQnlIM0dOJ3TudRhcy0PTythL0uD5+gkLRXOtJZUIxNZrQjnCeGPB
+ rVtzJuNMKMWjzKLSvojYmyz+gZ7qxQgt4R96KFV9BeSpft6K9RC8foAHQt1ZTq3guIj8
+ 0A8fKl9RCNAC+4qWVmtVMGS/IxOkhxKkrWJh7YBiR7AnaAZF0lG8V67IAPELfaJ/Z9J/
+ vXcA==
+X-Gm-Message-State: AOAM533Xh/SyQom2UiUdxwakcHUi5lPAiFsWCtgsPC1tbDEXJ+Yl1FTo
+ aOci2wWcM2FKJ3PuQmQbHomYZivv
+X-Google-Smtp-Source: ABdhPJyULErq7nubgGIzjN71SVBfJWwLKzZf4O+DlRc4zCsgkKgKr97X+yeNhVZggqq/3+Qemwuzsw==
+X-Received: by 2002:adf:ec45:: with SMTP id w5mr12346016wrn.415.1596807421085; 
+ Fri, 07 Aug 2020 06:37:01 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:8a1:e63e:700c:859e])
+ by smtp.gmail.com with ESMTPSA id k126sm11084609wme.17.2020.08.07.06.36.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 06:12:54 -0700 (PDT)
-Date: Fri, 7 Aug 2020 15:12:52 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/malidp: Use struct drm_gem_object_funcs.get_sg_table
- internally
-Message-ID: <20200807131252.GG2352366@phenom.ffwll.local>
-References: <20200807111022.12117-1-tzimmermann@suse.de>
+ Fri, 07 Aug 2020 06:37:00 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: RFC: How to adjust the trace pid?
+Date: Fri,  7 Aug 2020 15:36:57 +0200
+Message-Id: <20200807133658.1866-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200807111022.12117-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,53 +67,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- malidp@foss.arm.com, emil.velikov@collabora.com
+Cc: alexander.deucher@amd.com, daniel.vetter@ffwll.ch, Shashank.Sharma@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 07, 2020 at 01:10:22PM +0200, Thomas Zimmermann wrote:
-> The malidp driver uses GEM object functions for callbacks. Fix it to
-> use them internally as well.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: ecdd6474644f ("drm/malidp: Use GEM CMA object functions")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Emil Velikov <emil.velikov@collabora.com>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> ---
->  drivers/gpu/drm/arm/malidp_planes.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-> index ab45ac445045..351a85088d0e 100644
-> --- a/drivers/gpu/drm/arm/malidp_planes.c
-> +++ b/drivers/gpu/drm/arm/malidp_planes.c
-> @@ -346,7 +346,7 @@ static bool malidp_check_pages_threshold(struct malidp_plane_state *ms,
->  		if (cma_obj->sgt)
->  			sgt = cma_obj->sgt;
->  		else
-> -			sgt = obj->dev->driver->gem_prime_get_sg_table(obj);
-> +			sgt = obj->funcs->get_sg_table(obj);
+Hi everybody,
 
-Uh if there's not a switch somewhere I'd just call the right function
-directly. Or call the right wrapper for this, this feels a bit fishy ...
--Daniel
+in amdgpu we got the following issue which I'm seeking advise how to cleanly handle it.
 
->  
->  		if (!sgt)
->  			return false;
-> -- 
-> 2.28.0
-> 
+We have a bunch of trace points which are related to the VM subsystem and executed in either a work item, kthread or foreign process context.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Now tracing the pid of the context which we are executing in is not really that useful, so I'm wondering if we could just overwrite the pid recorded in the trace entry?
+
+The following patch does exactly that for the vm_grab_id() trace point, but I'm not 100% sure if that is legal or not.
+
+Any ideas? Comments?
+
+Thanks,
+Christian.
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
