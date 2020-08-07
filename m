@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FD82402C3
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44702402D1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA4E6E3A8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1D06E3AC;
 	Mon, 10 Aug 2020 07:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 20DB96E17A
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 17:55:08 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.75,446,1589209200"; d="scan'208";a="54150737"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 39AA86E17D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 17:55:12 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.75,446,1589209200"; d="scan'208";a="53937348"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 08 Aug 2020 02:50:06 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 08 Aug 2020 02:50:09 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id D3BA94004BA6;
- Sat,  8 Aug 2020 02:50:03 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id C873A40061B5;
+ Sat,  8 Aug 2020 02:50:06 +0900 (JST)
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -26,10 +26,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
  Magnus Damm <magnus.damm@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/7] dt-bindings: display: renesas,
- lvds: Document r8a7742 bindings
-Date: Fri,  7 Aug 2020 18:49:50 +0100
-Message-Id: <20200807174954.14448-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 4/7] drm: rcar-du: lvds: Add r8a7742 support
+Date: Fri,  7 Aug 2020 18:49:51 +0100
+Message-Id: <20200807174954.14448-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -55,26 +54,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the RZ/G1H (R8A7742) LVDS bindings.
+The LVDS encoders on RZ/G1H SoC is identical to the R-Car Gen2 family. Add
+support for RZ/G1H (R8A7742) SoC to the LVDS encoder driver.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 ---
- .../devicetree/bindings/display/bridge/renesas,lvds.txt          | 1 +
+ drivers/gpu/drm/rcar-du/rcar_lvds.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-index c62ce2494ed9..40aa809f41cd 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-@@ -7,6 +7,7 @@ Gen2, R-Car Gen3 and RZ/G SoCs.
- Required properties:
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index ab0d49618cf9..34b833cc05be 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -982,6 +982,7 @@ static const struct rcar_lvds_device_info rcar_lvds_r8a77995_info = {
+ };
  
- - compatible : Shall contain one of
-+  - "renesas,r8a7742-lvds" for R8A7742 (RZ/G1H) compatible LVDS encoders
-   - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
-   - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
-   - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
+ static const struct of_device_id rcar_lvds_of_table[] = {
++	{ .compatible = "renesas,r8a7742-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a7743-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
 -- 
 2.17.1
 
