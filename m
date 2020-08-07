@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF402402AF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:36:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 211DA2402AE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8DD89C21;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9775989C80;
 	Mon, 10 Aug 2020 07:36:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36506EA28
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 20:22:48 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id p191so1651957ybg.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 13:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CsGAzF1cPgjR5U2chybR/34PsTJZMXTV2eRl8YfPD/g=;
- b=aTGkunXdWv1XHYI57lxGJXPFaz0e9RMIT43sZbSptStj4uUtfgtVeVKhoKm1aywWJd
- CMy9SpsonlKx9gVBxOPzrM4p5q19Pjfe08RRZPvpUTGOZ+jRzx/s53Vy9b9WMzoTWbrW
- m0DSH8NIMKZ+8++c1ih0D3/Rm0y9NJbCYoIrEjfFEriurpXmLSN3lH7FMjZAvi8xT2xf
- yc2S/EfsMvJZXcfR13n8DVj0iaBLKGpcqEB/xlZDTFgm0gTrIMRaBrVrASs3t0eiALQ1
- 7YjSXltn5r+3EBQXl1n01c+hgCKmNPzaJGgh22o7VAqM9+IZ1TzqdH+3ZpwKkLb0AFt2
- 8siA==
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1466EA29
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 20:24:04 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id g19so1675614plq.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 13:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=8kRWK6mpY0yuzrMz6VeBLLcMrpVG8ZtSX/iAsw+ut4A=;
+ b=WEQMKsvxL+jGuutK/BX9GjKhG9V6iqjN0wIPhLgvikM+b48e3QcXAaeBfnLsnUbVQM
+ sEPO5cpmUWUqe4CGQPLKERNzawMZGhiNtw2+3gnBjmoKN8srnzPI9ngJ2NslwuAjvSVk
+ RgOZqa5CfaRROKBbMjMpTLlU7cxtbupJL0vwY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CsGAzF1cPgjR5U2chybR/34PsTJZMXTV2eRl8YfPD/g=;
- b=bjHF3g2pZYCCkKP1d4XowZ6zLLrzx82SWRqpKnndPPV2DNZKEk+/YcEjBR2qbwI1Ql
- IgOe7ejMRzVJqP7AqlAU56pBCRBy7bmXk4XnbEe23xF1VwoZfiHi6gjvPA1XmbrZKek/
- TwkR8d3VFIPiHJRA29aqerRxwnlBXrVQkQomvvuSISOGJRtj9we21Zyv+gA0ClnwWg5N
- oYN5SfI6w8y3zYVdmSY3uJA7Ru4oPlGuJs9G8fDYhYYHxa4ga+wJAqixO+gkcezBK+dn
- 7QlCbg3xBcFxEYrgP8IXtO7s0omQnCVMVKMSUuPqiN1FEnVWOjCL2m8cvJbaHn8rut29
- kBiQ==
-X-Gm-Message-State: AOAM530cbQa4I9Aq3EhUBXD79gf8iMEZ+cddTkNZ8eSqrVph5sQQ+fDg
- 1A0KptO16magOb2CIiT1AcQ92Lms0phYQam3pts=
-X-Google-Smtp-Source: ABdhPJwro+0RDRj67NhZBXu85V+P8xPYUdbMBmG8V8i6WiFWj6fPvyOCHkdl7DUTqRWkp6fxPWe3n2K+0Ky96+ge5to=
-X-Received: by 2002:a25:2f4d:: with SMTP id v74mr2520053ybv.401.1596831768018; 
- Fri, 07 Aug 2020 13:22:48 -0700 (PDT)
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=8kRWK6mpY0yuzrMz6VeBLLcMrpVG8ZtSX/iAsw+ut4A=;
+ b=ie2CVw3uvXubj76pupcuWEJMNj/iNaTad5HGLdQHz5OScN7vnla8ScKUB1V5Y39X0S
+ vnopbBTjbT315K7Qn36FiFReuSxQiqyIETp0NfAIpTs6bCBCq6QNUT7Y268M8JEdNaBi
+ 5C4C3sVW4KgyoLf5NqwJSjL2uZK7uO6wEzDWPQYy+MX2MHvV2SAsQEcopPOg9dldErRm
+ Fi/e1rPeF4xd1xgm0TC1+g+AY/NQWvYeXb3HcjiZnkwL6wWNhP1C0QYe4ZT7V9coo2Ky
+ lZvtQ7DJ+iXZndMt3alsrdBl2GnMfkMx9Ixxa9JSoaXz3UTxMQyGNFlPGsZEye+JCekb
+ NqFg==
+X-Gm-Message-State: AOAM531ntrv0LhZU+83GhuBqqYet9K1+NIrTB927vfbXRLv8mdFFdzVy
+ JmT7GCuUIT6B2s5SI4eWIuVDDQ==
+X-Google-Smtp-Source: ABdhPJwUCMA+qcCj4NBJ6bH6GJrNHolYmVbC63o7ey2y7ucXrSodd1KiH1QHhuAQODHYrQ6iqRsEPQ==
+X-Received: by 2002:a17:902:b089:: with SMTP id
+ p9mr13616774plr.52.1596831843666; 
+ Fri, 07 Aug 2020 13:24:03 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+ by smtp.gmail.com with ESMTPSA id z23sm11490482pgv.57.2020.08.07.13.24.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Aug 2020 13:24:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <e67a94e8-c9ed-dc9e-cab8-453a09441bcb@gmail.com>
-In-Reply-To: <e67a94e8-c9ed-dc9e-cab8-453a09441bcb@gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 7 Aug 2020 21:22:21 +0100
-Message-ID: <CA+V-a8snp3EUFRuMHLxVhnc=zPq-LaQL8du7LgGcswi+6NthLQ@mail.gmail.com>
-Subject: Re: [PATCH 5/7] ARM: dts: r8a7742: Add DU support
-To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <CAF6AEGv5Yf1x7aCEauP7XtzTjpUCxJt6_GzxFhFXyf_DX_Gi+g@mail.gmail.com>
+References: <20200807071718.17937-1-tanmay@codeaurora.org>
+ <20200807071718.17937-4-tanmay@codeaurora.org>
+ <3b0d0e49-5fe8-e217-4ddc-1ff08e65ab48@infradead.org>
+ <CAF6AEGv5Yf1x7aCEauP7XtzTjpUCxJt6_GzxFhFXyf_DX_Gi+g@mail.gmail.com>
+Subject: Re: [PATCH v9 3/5] drm/msm/dp: add support for DP PLL driver
+From: Stephen Boyd <swboyd@chromium.org>
+To: Randy Dunlap <rdunlap@infradead.org>, Rob Clark <robdclark@gmail.com>
+Date: Fri, 07 Aug 2020 13:24:01 -0700
+Message-ID: <159683184187.1360974.15575847254880429529@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Mon, 10 Aug 2020 07:35:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,48 +69,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, khsieh@codeaurora.org,
+ Sean Paul <seanpaul@chromium.org>, Tanmay Shah <tanmay@codeaurora.org>,
+ Vara Reddy <varar@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sergei,
-
-Thank you for the review.
-
-On Fri, Aug 7, 2020 at 8:48 PM Sergei Shtylyov
-<sergei.shtylyov@gmail.com> wrote:
->
-> Hello!
->
-> On 8/7/20 8:49 PM, Lad Prabhakar wrote:
->
-> > Add du node to r8a7742 SoC DT. Boards that want to enable the DU
->
->   Both "du" and "DU" on a single line? :-)
->
-Argh my bad.
-
-Cheers,
-Prabhakar
-
-> > need to specify the output topology.
+Quoting Rob Clark (2020-08-07 08:51:48)
+> On Fri, Aug 7, 2020 at 8:27 AM Randy Dunlap <rdunlap@infradead.org> wrote:
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> [...]
->
-> MBR, Sergei
+> > On 8/7/20 12:17 AM, Tanmay Shah wrote:
+> > > diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> > > index ea3c4d094d09..cc1392b29022 100644
+> > > --- a/drivers/gpu/drm/msm/Kconfig
+> > > +++ b/drivers/gpu/drm/msm/Kconfig
+> > > @@ -60,6 +60,7 @@ config DRM_MSM_HDMI_HDCP
+> > >  config DRM_MSM_DP
+> > >       bool "Enable DP support in MSM DRM driver"
+> > >       depends on DRM_MSM
+> > > +     default y
+> > >       help
+> > >         Compile in support for DP driver in msm drm driver. DP external
+> > >         display support is enabled through this config option. It can
+> >
+> > Hi,
+> >
+> > You need a very strong justification to make an optional part of a driver
+> > to be "default y".
+> 
+> My opinion is that if the driver is built, everything should be built.
+> This is what makes sense for distro's.  It is only the embedded case
+> where you want to trim down unneeded features where you might want to
+> disable some parts.  So 'default y' makes sense to me.
+> 
+
+Maybe use 'default DRM_MSM' so that it doesn't trigger the 'default y'
+filters people have?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
