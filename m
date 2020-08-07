@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F160D23EDB2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 15:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BA423EDBE
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Aug 2020 15:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6AC6E9D6;
-	Fri,  7 Aug 2020 13:10:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC226E137;
+	Fri,  7 Aug 2020 13:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8236E137
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 13:10:00 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id 88so1638933wrh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 06:10:00 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5AC86E12F
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Aug 2020 13:12:05 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id x5so1700870wmi.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Aug 2020 06:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=h/9NLZ4ReA+HnaQVY6McKcG5jzY2nrGCSkB9IBxfWTk=;
- b=L751dIlgU27AYm2WGwfGweb8D0uvZR0rzfBZfvm5T1K7Tx2mDct5RcUgWLMjcXRCNG
- tDPSWr01eY0/HIpmUGdOygtzTm7gakHH5C0DHtsZIbDfxSofwaIJbihrxTV6xGEwXvy1
- my1Ws0TjqSRnIzGH1L7Ua8XDjiA07YBpegYHY=
+ bh=EEI1Q+fppn24GUPwdHUe/rrjbN2XPprAGHaCmC9qOCk=;
+ b=N78Hjx0pAcuP2VQLKJkukTxDF+52k9EvIjw1q3rhWkg1C+u2aeSRZYWPwPKisJXP8Q
+ Dbx7yoJIM1L5p+lScZJ5ji9JdlO60MwT7urL//OWbV4LZewRq5sblDIb7zYNecfVdw7+
+ j2I7l6qqQeMtKspM19SnVntRgx2QpvKM/9eAU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=h/9NLZ4ReA+HnaQVY6McKcG5jzY2nrGCSkB9IBxfWTk=;
- b=XuC4/GlX2xLH/IolbDkgaOhaePhg6K05rGWjeKe76FqDrVD33mtezjE/mFbOesd7wu
- WAsie3sULcfWMrSuWnBN3AmuvxwU56tjQBui07PEaZyOty3fzYF0CXEh19kB2nknRodh
- I8ErUoTj0+Vfeu6PNuI/6taDbFZy2c00dEylMr/MScF5vGmcl6IEOHcdldSlkp0FqVc2
- G2RlA/YRpSAKBfpZgiX9PGDTQsNyGwa8MJoDZuO4k4V5tnsLyOk959Fb5HXRUKzYVTgU
- A589n/7h44H4nbqQX6yL7YhTxn6X+iGvUH8g8BY2+JpYQdcPbaLROggxiadsiCuQx2ty
- OzUg==
-X-Gm-Message-State: AOAM531pk5Xy3tjg/B70hd1egE5L7wfe/yN2bARYmXT27zjdxgn7pHMv
- Ptj63OQ5SQJcOlT6FQlD66VsTg==
-X-Google-Smtp-Source: ABdhPJzRC3u1EBaYAkd2FdtfLOXeNU8Du4KwE6MIjBntk/q16CUg6W1Gjnc0iKsJubIdyof6+6wssA==
-X-Received: by 2002:a5d:484d:: with SMTP id n13mr12124520wrs.297.1596805799195; 
- Fri, 07 Aug 2020 06:09:59 -0700 (PDT)
+ bh=EEI1Q+fppn24GUPwdHUe/rrjbN2XPprAGHaCmC9qOCk=;
+ b=JBFJ6qaKxC+ZIbWCG4YsPJ5Ux7l0B1benFzqL1fbcagIBAKVnEkSfYG/IzE7GKwjbg
+ It5M18Mea1OHkTpfzq+o/V5IrL8fTfLYgzHPinefVhIyReYv8hPH0C0Z/t/seDE3bygj
+ Gkbfe0EWzYf/aOPa+A5bywUNPC/GgO1qlbY5U1INYt6rfB8RbuJbkXtLaEdFOWaEwIeZ
+ JdEqLtXShcLl/7WqYGDPDKmCE96vc+q9dXXB7Ji/RCR8+cd8HoLXl8x7dtRM3ru0l6VU
+ 6UZukVOH/6satYSyuAf9zmifCwR2yi5T00zfY2l3T/vYVY+ylxPsFq97d/F/hPZ53BC4
+ vwIQ==
+X-Gm-Message-State: AOAM531KxAOHDWXAYUUWnobBdhCI5LPGgqMtpolPrLsXrE1RZ4wFS1bB
+ Dequd2Q0Lojrfwc/OGLCj3CnKA==
+X-Google-Smtp-Source: ABdhPJyD5OPGKoTthEZngYIDRYz+e6OwbxqKcFkbXwnJNTrU9Di7izRE54UTv2wtNjkvOJXMA2srGQ==
+X-Received: by 2002:a7b:c258:: with SMTP id b24mr12470414wmj.122.1596805924546; 
+ Fri, 07 Aug 2020 06:12:04 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d7sm10840945wra.29.2020.08.07.06.09.57
+ by smtp.gmail.com with ESMTPSA id l11sm9904436wme.11.2020.08.07.06.12.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Aug 2020 06:09:58 -0700 (PDT)
-Date: Fri, 7 Aug 2020 15:09:56 +0200
+ Fri, 07 Aug 2020 06:12:03 -0700 (PDT)
+Date: Fri, 7 Aug 2020 15:12:01 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] drm/virtio: fix unblank
-Message-ID: <20200807130956.GE2352366@phenom.ffwll.local>
+Subject: Re: [PATCH v2] drm/qxl: don't take vga ports on rev5+
+Message-ID: <20200807131201.GF2352366@phenom.ffwll.local>
 Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org, 1882851@bugs.launchpad.net,
- David Airlie <airlied@linux.ie>, Chia-I Wu <olvaffe@gmail.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, 
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>
-References: <20200807105429.24208-1-kraxel@redhat.com>
+References: <20200807105501.24599-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200807105429.24208-1-kraxel@redhat.com>
+In-Reply-To: <20200807105501.24599-1-kraxel@redhat.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,83 +73,62 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- 1882851@bugs.launchpad.net
+ dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 07, 2020 at 12:54:29PM +0200, Gerd Hoffmann wrote:
-> When going through a disable/enable cycle without changing the
-> framebuffer the optimization added by commit 3954ff10e06e ("drm/virtio:
-> skip set_scanout if framebuffer didn't change") causes the screen stay
-> blank.  Add a bool to force an update to fix that.
+On Fri, Aug 07, 2020 at 12:55:01PM +0200, Gerd Hoffmann wrote:
+> qemu 5.0 introduces a new qxl hardware revision 5.  Unlike revision 4
+> (and below) the device doesn't switch back into vga compatibility mode
+> when someone touches the vga ports.  So we don't have to reserve the
+> vga ports any more to avoid that happening.
 > 
-> Cc: 1882851@bugs.launchpad.net
-> Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn't change")
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Does what it says on the label.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
->  drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
->  drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
->  drivers/gpu/drm/virtio/virtgpu_plane.c   | 4 +++-
->  3 files changed, 5 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/qxl/qxl_drv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index 9ff9f4ac0522..7b0c319f23c9 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -138,6 +138,7 @@ struct virtio_gpu_output {
->  	int cur_x;
->  	int cur_y;
->  	bool enabled;
-> +	bool need_update;
->  };
->  #define drm_crtc_to_virtio_gpu_output(x) \
->  	container_of(x, struct virtio_gpu_output, crtc)
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-> index cc7fd957a307..378be5956b30 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-> @@ -100,6 +100,7 @@ static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
->  	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+> index 13872b882775..6e7f16f4cec7 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.c
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
+> @@ -96,7 +96,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  	if (ret)
+>  		goto disable_pci;
 >  
->  	output->enabled = true;
-> +	output->need_update = true;
+> -	if (is_vga(pdev)) {
+> +	if (is_vga(pdev) && pdev->revision < 5) {
+>  		ret = vga_get_interruptible(pdev, VGA_RSRC_LEGACY_IO);
+>  		if (ret) {
+>  			DRM_ERROR("can't get legacy vga ioports\n");
+> @@ -127,7 +127,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  unload:
+>  	qxl_device_fini(qdev);
+>  put_vga:
+> -	if (is_vga(pdev))
+> +	if (is_vga(pdev) && pdev->revision < 5)
+>  		vga_put(pdev, VGA_RSRC_LEGACY_IO);
+>  disable_pci:
+>  	pci_disable_device(pdev);
+> @@ -155,7 +155,7 @@ qxl_pci_remove(struct pci_dev *pdev)
+>  
+>  	drm_dev_unregister(dev);
+>  	drm_atomic_helper_shutdown(dev);
+> -	if (is_vga(pdev))
+> +	if (is_vga(pdev) && pdev->revision < 5)
+>  		vga_put(pdev, VGA_RSRC_LEGACY_IO);
 >  }
 >  
->  static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> index 52d24179bcec..5948031a9ce8 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> @@ -163,7 +163,8 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
->  	    plane->state->src_w != old_state->src_w ||
->  	    plane->state->src_h != old_state->src_h ||
->  	    plane->state->src_x != old_state->src_x ||
-> -	    plane->state->src_y != old_state->src_y) {
-> +	    plane->state->src_y != old_state->src_y ||
-> +	    output->need_update) {
-
-Uh instead of hand-rolling what's essentially a drm_crtc_needs_modeset
-check, why not use that one? atomic helpers try to keep the usual suspects
-for state transitions already handy, to avoid every driver rolling their
-own. Or do I miss something here?
--Daniel
-
-
->  		DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
->  			  bo->hw_res_handle,
->  			  plane->state->crtc_w, plane->state->crtc_h,
-> @@ -178,6 +179,7 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
->  					   plane->state->src_h >> 16,
->  					   plane->state->src_x >> 16,
->  					   plane->state->src_y >> 16);
-> +		output->need_update = false;
->  	}
->  
->  	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
 > -- 
 > 2.18.4
 > 
