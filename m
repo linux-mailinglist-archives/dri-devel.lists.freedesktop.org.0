@@ -2,44 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED28E23F75C
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 13:29:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9870023F775
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 14:09:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D766E20B;
-	Sat,  8 Aug 2020 11:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9CD6E11A;
+	Sat,  8 Aug 2020 12:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A10D86E20B
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 11:28:55 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BF5BD221E5;
- Sat,  8 Aug 2020 11:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596886135;
- bh=vBFMhdAEamx/FNEl4l+v1WdLPZvkH2+eLo10uDinHqg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ue2UD2xWyI1T6gnQ/OY0ZX3oh8RfImSbhbHzKASzdDO/Weq3v/FUFSeWJHskqyoTv
- 2hZ+k/CmDVj9NBVI/cEjmMB8FlTIOWThqmcerd6ksiGVBjBdhFd7n8bNENq/gvCBH7
- vOa0vtQpd/5OHwJqEUKFWyiTd/2064kSZSXw6XBU=
-Date: Sat, 8 Aug 2020 13:29:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
- mgag200_mmap() from header" was seriously submitted to be applied to the
- 5.8-stable tree?
-Message-ID: <20200808112908.GA3063898@kroah.com>
-References: <159680700523135@kroah.com>
- <a92e73b9-c3da-76f6-9405-b2456fe68ce6@suse.de>
- <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
- <20200808102512.GA3039253@kroah.com>
- <CAKMK7uF2zeOS714mq2Y29TgjLB7h3A51FhKs70YL+kK84DCyRQ@mail.gmail.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427A66E11A
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 12:09:09 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id y3so3975361wrl.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Aug 2020 05:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=aFE2vApEsxGQPxJ2aaE7mn5V0vaQd/4mHqKbbWgPqtI=;
+ b=UKSq1rTl+v6j+60J1gtJbhNyrGzjwlgfuv7WmJujW6i/buxfIA8hgC+uIBSzb/7wUJ
+ b9YH/41e3teu0+udooD+ijZr9c5DwzWZd+ohCxkoslP9GAgpXhKAsRIf4lklitSK4h/R
+ zVZPT7xzV2e7pJezmLpO3C54cyjZ8MkSZ0I6jiZAjKiQNaPGMMvkuyIeNGxvuC2AhLpS
+ ZDCFRY0ylhGCNsmigBd+xEEfUwSdIo3Ni12NHNWas09317QcvVvAXB2bgl8WAHQXe1HG
+ e9++bxO/i1tMDWoLwTTuKBCAs7pK0WiusPa/4sE+Os+KbV30QR+YjgVxmsvkqhOMxSZT
+ nIkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=aFE2vApEsxGQPxJ2aaE7mn5V0vaQd/4mHqKbbWgPqtI=;
+ b=gbLeKXJF2veCY/u4Lc/RsOU9mWOGx2VBiLn3L9VAekpHh3NReBcHGWQch8q+2X8OZR
+ +UThtjGp8/rDn34fZ+eR4eO7TDm3tLNjoxnFGDZNopeyHdUS4ya7K8XSlSZcDWOfFg+J
+ 7mGO9ZGSu+MnhrysfheeEQ0JtEq4iZeZUTXSENxPIsRXIVCASPg9aMyReqBMX/XcmHUV
+ 8iIOZmmCy1JlwqXxtpxxnh2FTuEPGYynlXDk4p4b8pdTwcrs0tEdIxfZrvF3JAfrqD4D
+ 1lzpRUX1Z1rD0IUxkPfxH0ZA4BL3goKvvGM6WTAHGBeOp2h8F4FEHTpfriX9yli5kkjC
+ VoHQ==
+X-Gm-Message-State: AOAM533/yl29Rm8PP0aDRuAC7mpENKGDX2BUFvuOGV8GSx8hORNLv6Q/
+ RabgSafXHQlwnwV+a5xtGRw=
+X-Google-Smtp-Source: ABdhPJznJpm2SKrLDMOzCjP88RLwwdWp6GpZHViUanWb11iiB13gKCZxUE0DV0sR8IR/Z93MQG8SKg==
+X-Received: by 2002:a5d:5273:: with SMTP id l19mr16023674wrc.257.1596888547801; 
+ Sat, 08 Aug 2020 05:09:07 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id v15sm14328847wrm.23.2020.08.08.05.09.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Aug 2020 05:09:07 -0700 (PDT)
+Date: Sat, 8 Aug 2020 09:09:00 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Sidong Yang <realwakka@gmail.com>
+Subject: [PATCH v3] drm/vkms: guarantee vblank when capturing crc
+Message-ID: <20200808120900.pudwwrfz44g3rqx7@smtp.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uF2zeOS714mq2Y29TgjLB7h3A51FhKs70YL+kK84DCyRQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,104 +67,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, armijn@tjaldur.nl,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: kernel-usp@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 08, 2020 at 01:02:34PM +0200, Daniel Vetter wrote:
-> On Sat, Aug 8, 2020 at 12:24 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Sat, Aug 08, 2020 at 11:13:54AM +0200, Daniel Vetter wrote:
-> > > On Fri, Aug 7, 2020 at 3:54 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > >
-> > > > Hi
-> > > >
-> > > > Am 07.08.20 um 15:30 schrieb gregkh@linuxfoundation.org:
-> > > > > The patch below was submitted to be applied to the 5.8-stable tree.
-> > > > >
-> > > > > I fail to see how this patch meets the stable kernel rules as found at
-> > > > > Documentation/process/stable-kernel-rules.rst.
-> > > > >
-> > > > > I could be totally wrong, and if so, please respond to
-> > > > > <stable@vger.kernel.org> and let me know why this patch should be
-> > > > > applied.  Otherwise, it is now dropped from my patch queues, never to be
-> > > > > seen again.
-> > > >
-> > > > Sorry for the noise. There's no reason this should go into stable.
-> > >
-> > > We have a little script in our maintainer toolbox for bugfixes, which
-> > > generates the Fixes: line, adds everyone from the original commit to
-> > > the cc: list and also adds Cc: stable if that sha1 the patch fixes is
-> > > in a release already.
-> > >
-> > > I guess we trained people a bit too much on using Fixes: tags like
-> > > that with the tooling, since they often do that for checkpatch stuff
-> > > and spelling fixes like this here too. I think the autoselect bot also
-> > > loves Fixes: tags a bit too much for its own good.
-> > >
-> > > Not sure what to do, since telling people to "please sprinkle less
-> > > Fixes: tags" doesn't sound great either. I also don't want to tell
-> > > people to use the maintainer toolbox less, the autogenerated cc: list
-> > > is generally the right thing to do. Maybe best if the stable team
-> > > catches the obvious ones before adding them to the stable queue, if
-> > > you're ok with that Greg?
-> >
-> > As I think this is the first time that I've had this problem for a DRM
-> > submission, I don't think it's a big issue yet at all, so whatever you
-> > are doing today is fine.
-> >
-> > I do think that the number of patches submitted for stable for
-> > drm-related issues feels very very low given the rate of change and
-> > number of overall patches you all submit to the kernel, so if anything,
-> > you all should be increasing the number of times you tag stuff for
-> > stable, not reducing it :)
-> 
-> Ok, sounds like we should encourage people to use the Fixes: tag and
-> auto-cc tooling more, not less.
-> 
-> I also crunched some quick numbers:
-> commits with cc: stable in drm/amd: 2.6%
-> ... in drm/i915: 2.5%
-> ... drm overall: 2.3%
-> drivers/ overall: 3.1%
-> 
-> So from a quick look no big outliers at least, maybe not quite enough
-> cc: stable from smaller drivers (i915+amd is about 60% of everything
-> in drm). This is for the past year. Compared to drivers/ overall a bit
-> lower, but not drastically so. At least if I didn't screw up my
-> scripting.
+VKMS needs vblank interrupts enabled to capture CRC. When vblank is
+disabled, tests like kms_cursor_crc and kms_pipe_crc_basic getting stuck
+waiting for a capture that will not occur until vkms wakes up. This patch
+adds a helper to set composer and ensure that vblank remains enabled as
+long as the CRC capture is needed.
 
-Seems about right, so on those averages, you have missed about 40-50
-patches that should have been cc:ed stable.
+It clears the execution of the following kms_cursor_crc subtests:
+1. pipe-A-cursor-[size,alpha-opaque, NxN-(on-screen, off-screen, sliding,
+random, fast-moving])] - successful when running individually.
+2. pipe-A-cursor-dpms passes again
+3. pipe-A-cursor-suspend also passes
 
-However, you are comparing yourself against stuff like drivers/net/
-which shouldn't have cc: stable for most stuff (as per the networking
-workflow), and other subsystems that seem to never want to cc: stable
-for various reasons (offenders not mentioned to be nice...)
+The issue was initially tracked in the sequential execution of IGT
+kms_cursor_crc subtests: when running the test sequence or one of its
+subtests twice, the odd execs complete and the pairs get stuck in an
+endless wait. In the IGT code, calling a wait_for_vblank on preparing for
+CRC capture prevented the busy-wait. But the problem persisted in the
+pipe-A-cursor-dpms and -suspend subtests.
 
-So let's bump that number up a bit, maybe you are missing 100 patches
-this past year that should have been backported?
+Checking the history, the pipe-A-cursor-dpms subtest was successful when,
+in vkms_atomic_commit_tail, instead of using the flip_done op, it used
+wait_for_vblanks. Another way to prevent blocking was wait_one_vblank when
+enabling crtc. However, in both cases, pipe-A-cursor-suspend persisted
+blocking in the 2nd start of CRC capture, which may indicate that
+something got stuck in the step of CRC setup. Indeed, wait_one_vblank in
+the crc setup was able to sync things and free all kms_cursor_crc
+subtests. Besides, other alternatives to force enabling vblanks or prevent
+disabling them such as calling drm_crtc_put_vblank or modeset_enables
+before commit_planes + offdelay = 0, also unlock all subtests executions.
 
-Feels like you all could tag more, even if the number is only 40-50 :)
+Finally, due to vkms's dependence on vblank interruptions to perform
+tasks, this patch uses refcount to ensure that vblanks happen when
+enabling composer and while crc capture is needed.
 
-Oh wait, are you sure you don't count the horrid "double commits" where
-you backport something from your development branch to your "for linus"
-branch, and have cc: stable on both, so that during the -rc1 merge
-window I see a ton of commits that are already in the tree?  That would
-inflate your numbers a lot more so your real percentages might be a lot
-lower...
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
 
-fun with math.
+Co-debugged-by: Sidong Yang <realwakka@gmail.com>
+Signed-off-by: Sidong Yang <realwakka@gmail.com>
+Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-greg k-h
+---
+
+v2:
+- extract a vkms_set_composer helper
+- fix vblank refcounting for the disabling case
+
+v3:
+- make the vkms_set_composer helper static
+- review the credit tags
+
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index b8b060354667..4f3b07a32b60 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -233,6 +233,22 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
+ 	return 0;
+ }
+ 
++static void vkms_set_composer(struct vkms_output *out, bool enabled)
++{
++	bool old_enabled;
++
++	if (enabled)
++		drm_crtc_vblank_get(&out->crtc);
++
++	spin_lock_irq(&out->lock);
++	old_enabled = out->composer_enabled;
++	out->composer_enabled = enabled;
++	spin_unlock_irq(&out->lock);
++
++	if (old_enabled)
++		drm_crtc_vblank_put(&out->crtc);
++}
++
+ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ {
+ 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+@@ -241,9 +257,7 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 
+ 	ret = vkms_crc_parse_source(src_name, &enabled);
+ 
+-	spin_lock_irq(&out->lock);
+-	out->composer_enabled = enabled;
+-	spin_unlock_irq(&out->lock);
++	vkms_set_composer(out, enabled);
+ 
+ 	return ret;
+ }
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
