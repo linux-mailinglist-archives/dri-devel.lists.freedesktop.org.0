@@ -1,37 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A810823F759
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 13:19:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED28E23F75C
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 13:29:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF30C6E20A;
-	Sat,  8 Aug 2020 11:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48D766E20B;
+	Sat,  8 Aug 2020 11:28:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510516E20A
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 11:19:40 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A10D86E20B
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 11:28:55 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 2B8B220021;
- Sat,  8 Aug 2020 13:19:36 +0200 (CEST)
-Date: Sat, 8 Aug 2020 13:19:34 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: Re: [PATCH v1 02/12] fbdev: lxfb: use generic power management
-Message-ID: <20200808111934.GB24172@ravnborg.org>
-References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
- <20200805180722.244008-3-vaibhavgupta40@gmail.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id BF5BD221E5;
+ Sat,  8 Aug 2020 11:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1596886135;
+ bh=vBFMhdAEamx/FNEl4l+v1WdLPZvkH2+eLo10uDinHqg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ue2UD2xWyI1T6gnQ/OY0ZX3oh8RfImSbhbHzKASzdDO/Weq3v/FUFSeWJHskqyoTv
+ 2hZ+k/CmDVj9NBVI/cEjmMB8FlTIOWThqmcerd6ksiGVBjBdhFd7n8bNENq/gvCBH7
+ vOa0vtQpd/5OHwJqEUKFWyiTd/2064kSZSXw6XBU=
+Date: Sat, 8 Aug 2020 13:29:08 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
+ mgag200_mmap() from header" was seriously submitted to be applied to the
+ 5.8-stable tree?
+Message-ID: <20200808112908.GA3063898@kroah.com>
+References: <159680700523135@kroah.com>
+ <a92e73b9-c3da-76f6-9405-b2456fe68ce6@suse.de>
+ <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
+ <20200808102512.GA3039253@kroah.com>
+ <CAKMK7uF2zeOS714mq2Y29TgjLB7h3A51FhKs70YL+kK84DCyRQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200805180722.244008-3-vaibhavgupta40@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8
- a=9vxFon6PXiDQMAcgzJ0A:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <CAKMK7uF2zeOS714mq2Y29TgjLB7h3A51FhKs70YL+kK84DCyRQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,184 +52,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <bjorn@helgaas.com>,
- Bjorn Helgaas <helgaas@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Paul Mackerras <paulus@samba.org>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-geode@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, armijn@tjaldur.nl,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vaibhav
-
-On Wed, Aug 05, 2020 at 11:37:12PM +0530, Vaibhav Gupta wrote:
-> Drivers using legacy power management .suspen()/.resume() callbacks
-> have to manage PCI states and device's PM states themselves. They also
-> need to take care of standard configuration registers.
+On Sat, Aug 08, 2020 at 01:02:34PM +0200, Daniel Vetter wrote:
+> On Sat, Aug 8, 2020 at 12:24 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sat, Aug 08, 2020 at 11:13:54AM +0200, Daniel Vetter wrote:
+> > > On Fri, Aug 7, 2020 at 3:54 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > >
+> > > > Hi
+> > > >
+> > > > Am 07.08.20 um 15:30 schrieb gregkh@linuxfoundation.org:
+> > > > > The patch below was submitted to be applied to the 5.8-stable tree.
+> > > > >
+> > > > > I fail to see how this patch meets the stable kernel rules as found at
+> > > > > Documentation/process/stable-kernel-rules.rst.
+> > > > >
+> > > > > I could be totally wrong, and if so, please respond to
+> > > > > <stable@vger.kernel.org> and let me know why this patch should be
+> > > > > applied.  Otherwise, it is now dropped from my patch queues, never to be
+> > > > > seen again.
+> > > >
+> > > > Sorry for the noise. There's no reason this should go into stable.
+> > >
+> > > We have a little script in our maintainer toolbox for bugfixes, which
+> > > generates the Fixes: line, adds everyone from the original commit to
+> > > the cc: list and also adds Cc: stable if that sha1 the patch fixes is
+> > > in a release already.
+> > >
+> > > I guess we trained people a bit too much on using Fixes: tags like
+> > > that with the tooling, since they often do that for checkpatch stuff
+> > > and spelling fixes like this here too. I think the autoselect bot also
+> > > loves Fixes: tags a bit too much for its own good.
+> > >
+> > > Not sure what to do, since telling people to "please sprinkle less
+> > > Fixes: tags" doesn't sound great either. I also don't want to tell
+> > > people to use the maintainer toolbox less, the autogenerated cc: list
+> > > is generally the right thing to do. Maybe best if the stable team
+> > > catches the obvious ones before adding them to the stable queue, if
+> > > you're ok with that Greg?
+> >
+> > As I think this is the first time that I've had this problem for a DRM
+> > submission, I don't think it's a big issue yet at all, so whatever you
+> > are doing today is fine.
+> >
+> > I do think that the number of patches submitted for stable for
+> > drm-related issues feels very very low given the rate of change and
+> > number of overall patches you all submit to the kernel, so if anything,
+> > you all should be increasing the number of times you tag stuff for
+> > stable, not reducing it :)
 > 
-> Switch to generic power management framework using a single
-> "struct dev_pm_ops" variable to take the unnecessary load from the driver.
-> This also avoids the need for the driver to directly call most of the PCI
-> helper functions and device power state control functions, as through
-> the generic framework PCI Core takes care of the necessary operations,
-> and drivers are required to do only device-specific jobs.
+> Ok, sounds like we should encourage people to use the Fixes: tag and
+> auto-cc tooling more, not less.
 > 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-
-Some of the same comments from fxfb applies to lxfb.
-Please address these and re-submit.
-
-	Sam
-
-> ---
->  drivers/video/fbdev/geode/lxfb.h      |  5 ----
->  drivers/video/fbdev/geode/lxfb_core.c | 37 +++++++++++++++------------
->  drivers/video/fbdev/geode/lxfb_ops.c  |  4 ---
->  3 files changed, 20 insertions(+), 26 deletions(-)
+> I also crunched some quick numbers:
+> commits with cc: stable in drm/amd: 2.6%
+> ... in drm/i915: 2.5%
+> ... drm overall: 2.3%
+> drivers/ overall: 3.1%
 > 
-> diff --git a/drivers/video/fbdev/geode/lxfb.h b/drivers/video/fbdev/geode/lxfb.h
-> index ef24bf6d49dc..d37b32dbcd68 100644
-> --- a/drivers/video/fbdev/geode/lxfb.h
-> +++ b/drivers/video/fbdev/geode/lxfb.h
-> @@ -29,7 +29,6 @@ struct lxfb_par {
->  	void __iomem *gp_regs;
->  	void __iomem *dc_regs;
->  	void __iomem *vp_regs;
-> -#ifdef CONFIG_PM
->  	int powered_down;
->  
->  	/* register state, for power mgmt functionality */
-> @@ -50,7 +49,6 @@ struct lxfb_par {
->  	uint32_t hcoeff[DC_HFILT_COUNT * 2];
->  	uint32_t vcoeff[DC_VFILT_COUNT];
->  	uint32_t vp_coeff[VP_COEFF_SIZE / 4];
-> -#endif
->  };
->  
->  static inline unsigned int lx_get_pitch(unsigned int xres, int bpp)
-> @@ -64,11 +62,8 @@ int lx_blank_display(struct fb_info *, int);
->  void lx_set_palette_reg(struct fb_info *, unsigned int, unsigned int,
->  			unsigned int, unsigned int);
->  
-> -#ifdef CONFIG_PM
->  int lx_powerdown(struct fb_info *info);
->  int lx_powerup(struct fb_info *info);
-> -#endif
-> -
->  
->  /* Graphics Processor registers (table 6-29 from the data book) */
->  enum gp_registers {
-> diff --git a/drivers/video/fbdev/geode/lxfb_core.c b/drivers/video/fbdev/geode/lxfb_core.c
-> index adc2d9c2395e..66c81262d18f 100644
-> --- a/drivers/video/fbdev/geode/lxfb_core.c
-> +++ b/drivers/video/fbdev/geode/lxfb_core.c
-> @@ -443,17 +443,14 @@ static struct fb_info *lxfb_init_fbinfo(struct device *dev)
->  	return info;
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int lxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused lxfb_suspend(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(pdev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  
-> -	if (state.event == PM_EVENT_SUSPEND) {
-> -		console_lock();
-> -		lx_powerdown(info);
-> -		fb_set_suspend(info, 1);
-> -		console_unlock();
-> -	}
-> +	console_lock();
-> +	lx_powerdown(info);
-> +	fb_set_suspend(info, 1);
-> +	console_unlock();
->  
->  	/* there's no point in setting PCI states; we emulate PCI, so
->  	 * we don't end up getting power savings anyways */
-> @@ -461,9 +458,9 @@ static int lxfb_suspend(struct pci_dev *pdev, pm_message_t state)
->  	return 0;
->  }
->  
-> -static int lxfb_resume(struct pci_dev *pdev)
-> +static int __maybe_unused lxfb_resume(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(pdev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  	int ret;
->  
->  	console_lock();
-> @@ -477,10 +474,6 @@ static int lxfb_resume(struct pci_dev *pdev)
->  	console_unlock();
->  	return 0;
->  }
-> -#else
-> -#define lxfb_suspend NULL
-> -#define lxfb_resume NULL
-> -#endif
->  
->  static int lxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  {
-> @@ -600,13 +593,23 @@ static struct pci_device_id lxfb_id_table[] = {
->  
->  MODULE_DEVICE_TABLE(pci, lxfb_id_table);
->  
-> +static const struct dev_pm_ops lxfb_pm_ops = {
-> +#ifdef CONFIG_PM_SLEEP
-> +	.suspend	= lxfb_suspend,
-> +	.resume		= lxfb_resume,
-> +	.freeze		= NULL,
-> +	.thaw		= lxfb_resume,
-> +	.poweroff	= NULL,
-> +	.restore	= lxfb_resume,
-> +#endif
-> +};
-> +
->  static struct pci_driver lxfb_driver = {
->  	.name		= "lxfb",
->  	.id_table	= lxfb_id_table,
->  	.probe		= lxfb_probe,
->  	.remove		= lxfb_remove,
-> -	.suspend	= lxfb_suspend,
-> -	.resume		= lxfb_resume,
-> +	.driver.pm	= &lxfb_pm_ops,
->  };
->  
->  #ifndef MODULE
-> diff --git a/drivers/video/fbdev/geode/lxfb_ops.c b/drivers/video/fbdev/geode/lxfb_ops.c
-> index 5be8bc62844c..b3a041fce570 100644
-> --- a/drivers/video/fbdev/geode/lxfb_ops.c
-> +++ b/drivers/video/fbdev/geode/lxfb_ops.c
-> @@ -580,8 +580,6 @@ int lx_blank_display(struct fb_info *info, int blank_mode)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM
-> -
->  static void lx_save_regs(struct lxfb_par *par)
->  {
->  	uint32_t filt;
-> @@ -837,5 +835,3 @@ int lx_powerup(struct fb_info *info)
->  	par->powered_down = 0;
->  	return 0;
->  }
-> -
-> -#endif
-> -- 
-> 2.27.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> So from a quick look no big outliers at least, maybe not quite enough
+> cc: stable from smaller drivers (i915+amd is about 60% of everything
+> in drm). This is for the past year. Compared to drivers/ overall a bit
+> lower, but not drastically so. At least if I didn't screw up my
+> scripting.
+
+Seems about right, so on those averages, you have missed about 40-50
+patches that should have been cc:ed stable.
+
+However, you are comparing yourself against stuff like drivers/net/
+which shouldn't have cc: stable for most stuff (as per the networking
+workflow), and other subsystems that seem to never want to cc: stable
+for various reasons (offenders not mentioned to be nice...)
+
+So let's bump that number up a bit, maybe you are missing 100 patches
+this past year that should have been backported?
+
+Feels like you all could tag more, even if the number is only 40-50 :)
+
+Oh wait, are you sure you don't count the horrid "double commits" where
+you backport something from your development branch to your "for linus"
+branch, and have cc: stable on both, so that during the -rc1 merge
+window I see a ton of commits that are already in the tree?  That would
+inflate your numbers a lot more so your real percentages might be a lot
+lower...
+
+fun with math.
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
