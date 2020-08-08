@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2EE23F8DD
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 22:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8811523F8E7
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 23:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED976E0DC;
-	Sat,  8 Aug 2020 20:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257826E262;
+	Sat,  8 Aug 2020 21:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9DC6E0DC
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 20:59:29 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6B06E262
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 21:02:38 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (85-76-78-184-nat.elisa-mobile.fi
  [85.76.78.184])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D2F4F9;
- Sat,  8 Aug 2020 22:59:26 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AC2DF9;
+ Sat,  8 Aug 2020 23:02:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1596920367;
- bh=1cB/pP1jARUtsxomS+jZNhztWdWhNRAjAwHIioho3Iw=;
+ s=mail; t=1596920554;
+ bh=vINdyI0QCckZCf5KNzdqgtA/iyl+UJhlXN/pjqWdvHQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=huPpA5SZvk4brR/qr6lQVFw7SPapiwUSPED83jHTzr/G5x2NAMzFIeDgzTCpdjWP/
- /Op+gszQBh1U7nk5IF8Sis1NMgHx4Wf2OdWokeH9FlDBva1BdisjE4+3HZJCQ0pVMC
- b3utTeirTeIAWY+cYCfQ0tjZzOxklu32qNONJXrw=
-Date: Sat, 8 Aug 2020 23:59:12 +0300
+ b=Tr3ZDKIU7VvZv5QU7zUuZjEn4MT79dGZ8kmsjcPXEjufzfADIp/qBt5zi8gVowQYC
+ 10vtti+jZTAGdHO+JOxzmeVwm8nmTl12X4Fcil9xwZishp7xL+Say8oh9ptEWbCaaK
+ 28ZsjKtD9xb7433fwZSj1RvE2rrX6jG62DR2zulI=
+Date: Sun, 9 Aug 2020 00:02:19 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/7] dt-bindings: display: renesas,du: Document the
- r8a7742 bindings
-Message-ID: <20200808205912.GM6186@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/7] drm: rcar-du: Add r8a7742 support
+Message-ID: <20200808210219.GN6186@pendragon.ideasonboard.com>
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200807174954.14448-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200807174954.14448-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200807174954.14448-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,38 +61,49 @@ Hi Prabhakar,
 
 Thank you for the patch.
 
-On Fri, Aug 07, 2020 at 06:49:48PM +0100, Lad Prabhakar wrote:
-> Document the RZ/G1H (R8A7742) SoC in the R-Car DU bindings.
+On Fri, Aug 07, 2020 at 06:49:49PM +0100, Lad Prabhakar wrote:
+> Add direct support for the r8a7742 (RZ/G1H).
+> 
+> The RZ/G1H shares a common, compatible configuration with the r8a7790
+> (R-Car H2) so that device info structure is reused, the only difference
+> being TCON is unsupported on RZ/G1H (Currently unsupported by the driver).
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 3e67cf70f040..7e286c7a7a6c 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -216,8 +216,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+>  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
+>  	.routes = {
+>  		/*
+> -		 * R8A7790 has one RGB output, two LVDS outputs and one
+> -		 * (currently unsupported) TCON output.
+> +		 * R8A7742 and R8A7790 each have one RGB output and two LVDS outputs. Additionally
+> +		 * R8A7790 supports one TCON output (currently unsupported by the driver).
+
+Once we support TCON we'll have to split this, but for now I suppose
+it's fine. Would you however mind wrapping this to 80 columns ? I can do
+so when applying if it's fine with you.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> index 51cd4d162770..3f1e3ca4bea9 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -3,6 +3,7 @@
->  Required Properties:
+>  		 */
+>  		[RCAR_DU_OUTPUT_DPAD0] = {
+>  			.possible_crtcs = BIT(2) | BIT(1) | BIT(0),
+> @@ -443,6 +443,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+>  };
 >  
->    - compatible: must be one of the following.
-> +    - "renesas,du-r8a7742" for R8A7742 (RZ/G1H) compatible DU
->      - "renesas,du-r8a7743" for R8A7743 (RZ/G1M) compatible DU
->      - "renesas,du-r8a7744" for R8A7744 (RZ/G1N) compatible DU
->      - "renesas,du-r8a7745" for R8A7745 (RZ/G1E) compatible DU
-> @@ -68,6 +69,7 @@ corresponding to each DU output.
->  
->                          Port0          Port1          Port2          Port3
->  -----------------------------------------------------------------------------
-> + R8A7742 (RZ/G1H)       DPAD 0         LVDS 0         LVDS 1         -
->   R8A7743 (RZ/G1M)       DPAD 0         LVDS 0         -              -
->   R8A7744 (RZ/G1N)       DPAD 0         LVDS 0         -              -
->   R8A7745 (RZ/G1E)       DPAD 0         DPAD 1         -              -
+>  static const struct of_device_id rcar_du_of_table[] = {
+> +	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+>  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+>  	{ .compatible = "renesas,du-r8a7744", .data = &rzg1_du_r8a7743_info },
+>  	{ .compatible = "renesas,du-r8a7745", .data = &rzg1_du_r8a7745_info },
 
 -- 
 Regards,
