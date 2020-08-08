@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1629323F80B
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 17:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B8523F856
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 19:28:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D06D6E218;
-	Sat,  8 Aug 2020 15:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB91E6E0FD;
+	Sat,  8 Aug 2020 17:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C62A96E08A
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 15:25:06 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id r21so3929428ota.10
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Aug 2020 08:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yrzy+JsBJ0EGnxyVed9IcWy040CRV7UWXCXtzolHvWE=;
- b=RgX+TPj8G+wiUGjYdNqs9iNtNoGZxaMb3nNOKlcOZ5HuGC6OeiIIOV1glNKkWHkf5n
- XAJbsp6NY3+lumfUUACsZyyG3cp3ulidw8FtiibtS7MYhV12P9syIKIq3BJhdDwJuIC3
- mgL+QtPFLbbjddn42N+mrW8Q8ODfTh4hIrhy0=
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5536E0FD;
+ Sat,  8 Aug 2020 17:28:30 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id ep8so2594196pjb.3;
+ Sat, 08 Aug 2020 10:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v4VG68yjsSgJtRppBPF3uOrudyHEUR7Dzur3xN68sJo=;
+ b=LrumZTBTGBsFlxmSWq3tdNULI4G/LxjTqO7lrauGcYh59HaMmOQ/HpjplxEAKGw3Wr
+ jnZC8tOCSXmxU/n9HkWPLYthFW4fCWd13GtKO5vG6VJfRz4I/IkwnAeddxRxGNOKvhBI
+ yGRkyfpKht291PbtrNkaNHspu/bkYnSPFQFoKTpeo5EXO20TcjjCrMPq3F9y1HfXXFVu
+ C1INfLwg9aSZiLnCDM7h6sAecEmB2JjpviqYLyw09Wp+Rr+rkHxHwbeTJBdu4Q+sGBFG
+ Cns1iJ+Rd4NQL+vC47RX4oLc3fCFhwP2Iv8VDSWc2a7C5RHJ2jccZXAvKzIypxC3SqU6
+ prbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yrzy+JsBJ0EGnxyVed9IcWy040CRV7UWXCXtzolHvWE=;
- b=O8PWF6qCVwjignN/NHtR9PGrrbzMOYIVkrPt+3QshU+cCVqYBb8m5NQVIFVyfOlrt5
- GPqZ5Iie5AXqBWShHjMRMZlvju7ptLUl3/mBlIPor6Ig2ke5l4FhQ4FNf6gFrXYAwFQQ
- WKYU6oyhYbvip+xoGAjmVleagTJ4fAwnswQYLJ5tI7q9WfsCDwvXfjX15FYD2H/T2FCR
- i+D/g9nFsrNRigF88uZR8sE1dM7Y3QpN+jWsoO3un0AFS8GDeImbFvhsKTsDfB5nWUiW
- Qet/+rbz2D7ixTN+PN3RFRhNsJ4/jSpddrMvWXaLn9PlmHz+P1tB9RXlyuxwKzKHF6CA
- TnZg==
-X-Gm-Message-State: AOAM530rXajHQO+aBL7O21DJmGBj/R324WETE7/f0HHoSSNIoTkQ1k3F
- 0T6jgnuXB8Bs0T0CK9nlc5EOA75amcOGeddRbgiemg==
-X-Google-Smtp-Source: ABdhPJyNi+AcjHkhM/4cX7gxxdeO4yF4kEtw/u2Zp6FOhIQlQmVmEXfAegn6YxYmU8p8fClfAxubJiffUhhTc+QXhm4=
-X-Received: by 2002:a9d:f29:: with SMTP id 38mr17444971ott.281.1596900305490; 
- Sat, 08 Aug 2020 08:25:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v4VG68yjsSgJtRppBPF3uOrudyHEUR7Dzur3xN68sJo=;
+ b=btZ66NId1K/cShDeYwgH4/xradUm6+p67MbE6pd5XirgPmyzhDMExu7+eagoESXagY
+ G/FgDwjZ51UzzXCdxRmMj8EhERFKaScnMsdu+DESSLYV7+vb4E2dupuPt/7nEKz7nrC/
+ dMal8Ifvt15tmC0CsGXhZ3xqjt+6ORdZV/utWqlW0fJ8aA7Me7m935RWkB3aJOK0yrAX
+ /XFM6O6U18Jxo5w8Uvp6H/VFijUjQ2sObg2Z5OEO7put8mHhjUvXVli/SHrSAJIOXaha
+ iZ4PTPx/lrleK7CqUzMiqa69CS6q7aG0nrkLCCGN64WEVdqSVNMzRlm+IX59Im1n0Wx/
+ IF1g==
+X-Gm-Message-State: AOAM532EK4P4BmH1u4ccbqPVe/sndc+EAL4Ho9TMD1L1oTAHU1UJYmBk
+ O9A5javGX4zhf0s+6Mlp+UjpFQWhYsg=
+X-Google-Smtp-Source: ABdhPJzYr7usx3fGNyyPrJWCnyL3rFFa3Db/Q54TjWtTPXqE1GkwwM99QtEJztB1F3g1c1ejhy8NjA==
+X-Received: by 2002:a17:90b:378d:: with SMTP id
+ mz13mr18857396pjb.98.1596907709800; 
+ Sat, 08 Aug 2020 10:28:29 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id a7sm7594801pfd.194.2020.08.08.10.28.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Aug 2020 10:28:28 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/a6xx: fix crashdec section name typo
+Date: Sat,  8 Aug 2020 10:29:11 -0700
+Message-Id: <20200808172913.380050-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <159680700523135@kroah.com>
- <a92e73b9-c3da-76f6-9405-b2456fe68ce6@suse.de>
- <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
- <20200808102512.GA3039253@kroah.com>
- <CAKMK7uF2zeOS714mq2Y29TgjLB7h3A51FhKs70YL+kK84DCyRQ@mail.gmail.com>
- <20200808112908.GA3063898@kroah.com>
-In-Reply-To: <20200808112908.GA3063898@kroah.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Sat, 8 Aug 2020 17:24:53 +0200
-Message-ID: <CAKMK7uG=JBvmkAAN_Jq-N96zO-Xp5WwN9fQJqRdaxbRqus13ow@mail.gmail.com>
-Subject: Re: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
- mgag200_mmap() from header" was seriously submitted to be applied to the
- 5.8-stable tree?
-To: Greg KH <gregkh@linuxfoundation.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- "Nikula, Jani" <jani.nikula@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,120 +65,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, armijn@tjaldur.nl,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 8, 2020 at 1:28 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Aug 08, 2020 at 01:02:34PM +0200, Daniel Vetter wrote:
-> > On Sat, Aug 8, 2020 at 12:24 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Sat, Aug 08, 2020 at 11:13:54AM +0200, Daniel Vetter wrote:
-> > > > On Fri, Aug 7, 2020 at 3:54 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > > >
-> > > > > Hi
-> > > > >
-> > > > > Am 07.08.20 um 15:30 schrieb gregkh@linuxfoundation.org:
-> > > > > > The patch below was submitted to be applied to the 5.8-stable tree.
-> > > > > >
-> > > > > > I fail to see how this patch meets the stable kernel rules as found at
-> > > > > > Documentation/process/stable-kernel-rules.rst.
-> > > > > >
-> > > > > > I could be totally wrong, and if so, please respond to
-> > > > > > <stable@vger.kernel.org> and let me know why this patch should be
-> > > > > > applied.  Otherwise, it is now dropped from my patch queues, never to be
-> > > > > > seen again.
-> > > > >
-> > > > > Sorry for the noise. There's no reason this should go into stable.
-> > > >
-> > > > We have a little script in our maintainer toolbox for bugfixes, which
-> > > > generates the Fixes: line, adds everyone from the original commit to
-> > > > the cc: list and also adds Cc: stable if that sha1 the patch fixes is
-> > > > in a release already.
-> > > >
-> > > > I guess we trained people a bit too much on using Fixes: tags like
-> > > > that with the tooling, since they often do that for checkpatch stuff
-> > > > and spelling fixes like this here too. I think the autoselect bot also
-> > > > loves Fixes: tags a bit too much for its own good.
-> > > >
-> > > > Not sure what to do, since telling people to "please sprinkle less
-> > > > Fixes: tags" doesn't sound great either. I also don't want to tell
-> > > > people to use the maintainer toolbox less, the autogenerated cc: list
-> > > > is generally the right thing to do. Maybe best if the stable team
-> > > > catches the obvious ones before adding them to the stable queue, if
-> > > > you're ok with that Greg?
-> > >
-> > > As I think this is the first time that I've had this problem for a DRM
-> > > submission, I don't think it's a big issue yet at all, so whatever you
-> > > are doing today is fine.
-> > >
-> > > I do think that the number of patches submitted for stable for
-> > > drm-related issues feels very very low given the rate of change and
-> > > number of overall patches you all submit to the kernel, so if anything,
-> > > you all should be increasing the number of times you tag stuff for
-> > > stable, not reducing it :)
-> >
-> > Ok, sounds like we should encourage people to use the Fixes: tag and
-> > auto-cc tooling more, not less.
-> >
-> > I also crunched some quick numbers:
-> > commits with cc: stable in drm/amd: 2.6%
-> > ... in drm/i915: 2.5%
-> > ... drm overall: 2.3%
-> > drivers/ overall: 3.1%
-> >
-> > So from a quick look no big outliers at least, maybe not quite enough
-> > cc: stable from smaller drivers (i915+amd is about 60% of everything
-> > in drm). This is for the past year. Compared to drivers/ overall a bit
-> > lower, but not drastically so. At least if I didn't screw up my
-> > scripting.
->
-> Seems about right, so on those averages, you have missed about 40-50
-> patches that should have been cc:ed stable.
->
-> However, you are comparing yourself against stuff like drivers/net/
-> which shouldn't have cc: stable for most stuff (as per the networking
-> workflow), and other subsystems that seem to never want to cc: stable
-> for various reasons (offenders not mentioned to be nice...)
->
-> So let's bump that number up a bit, maybe you are missing 100 patches
-> this past year that should have been backported?
->
-> Feels like you all could tag more, even if the number is only 40-50 :)
->
-> Oh wait, are you sure you don't count the horrid "double commits" where
-> you backport something from your development branch to your "for linus"
-> branch, and have cc: stable on both, so that during the -rc1 merge
-> window I see a ton of commits that are already in the tree?  That would
-> inflate your numbers a lot more so your real percentages might be a lot
-> lower...
->
-> fun with math.
+From: Rob Clark <robdclark@chromium.org>
 
-Even drivers/net has like 1.0% cc: stable or so, but yeah maybe a
-third cc: stable might be missing overall in drm. The math aint more
-accurate no matter what, but agrees with your "about 100 patches".
+Backport note: maybe wait some time for the crashdec MR[1] to look for
+both the old typo'd name and the corrected name to land in mesa 20.2
 
-And yeah I didn't take out the cherry-picked ones. Trying to grep for
-those (yay more fun with math) says there's 37 stable commits I
-double-counted, leaving 1.4% left over for drm/i915. That seems indeed
-a bit too low :-/
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6242
 
-I guess time to add intel maintainers (kinda not my direct business anymore).
--Daniel
+Fixes: 1707add81551 ("drm/msm/a6xx: Add a6xx gpu state")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+index 846fd5b54c23..2fb58b7098e4 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+@@ -372,7 +372,7 @@ static const struct a6xx_indexed_registers {
+ 	u32 data;
+ 	u32 count;
+ } a6xx_indexed_reglist[] = {
+-	{ "CP_SEQ_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
++	{ "CP_SQE_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
+ 		REG_A6XX_CP_SQE_STAT_DATA, 0x33 },
+ 	{ "CP_DRAW_STATE", REG_A6XX_CP_DRAW_STATE_ADDR,
+ 		REG_A6XX_CP_DRAW_STATE_DATA, 0x100 },
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
