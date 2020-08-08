@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C806723F8F3
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 23:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C3123F8FC
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 23:13:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52E46E264;
-	Sat,  8 Aug 2020 21:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8626E277;
+	Sat,  8 Aug 2020 21:13:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807D26E264
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 21:06:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C426E277
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 21:13:41 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (85-76-78-184-nat.elisa-mobile.fi
  [85.76.78.184])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37A64F9;
- Sat,  8 Aug 2020 23:06:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92B2AF9;
+ Sat,  8 Aug 2020 23:13:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1596920813;
- bh=wBoG54W+/jDooiVBY76hppIsOwwlaHbKCiW74XOTc/s=;
+ s=mail; t=1596921219;
+ bh=rtS6tS3nmrZ2AAjnJbktvLuwGb3JE1Bru8oeDg8DkDk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wbOX5wvD20ZYK7WxF1vHAF8CqhL16GWG0UV+DlPa31b4mjzq1ScU9TPhd3zXeO/VQ
- czp/pItI0cINu6VmtM3ywKTeh1y0QfWFvmxSts4XnT78eu7sXzl5GaIQJ1823T1dUe
- aFGb/Tk8k+yyTnxWCb66QIx2OzNcVLXkHbIc0/pg=
-Date: Sun, 9 Aug 2020 00:06:31 +0300
+ b=NL2MjYY6cydNHOnjQ3wufTITscClL0972hLsySCWwOibCWKCN688Uw4V3/Fbm2suL
+ W9K5hSXQP1N+476ZYm7l669wpGinOL66oDPrQi+t44XlEiJkRABi64nwAu30io5yBK
+ 4FlXBL5PUt15aEtA3ql4FPp941fPuSr382DhpS+I=
+Date: Sun, 9 Aug 2020 00:13:23 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 4/7] drm: rcar-du: lvds: Add r8a7742 support
-Message-ID: <20200808210631.GQ6186@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 6/7] ARM: dts: r8a7742: Add LVDS support
+Message-ID: <20200808211323.GR6186@pendragon.ideasonboard.com>
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200807174954.14448-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200807174954.14448-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200807174954.14448-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,31 +61,93 @@ Hi Prabhakar,
 
 Thank you for the patch.
 
-On Fri, Aug 07, 2020 at 06:49:51PM +0100, Lad Prabhakar wrote:
-> The LVDS encoders on RZ/G1H SoC is identical to the R-Car Gen2 family. Add
-> support for RZ/G1H (R8A7742) SoC to the LVDS encoder driver.
+On Fri, Aug 07, 2020 at 06:49:53PM +0100, Lad Prabhakar wrote:
+> Add LVDS encoder node to r8a7742 SoC DT.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> ---
+>  arch/arm/boot/dts/r8a7742.dtsi | 54 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
+> index a979a4b3de61..a7e66220d63a 100644
+> --- a/arch/arm/boot/dts/r8a7742.dtsi
+> +++ b/arch/arm/boot/dts/r8a7742.dtsi
+> @@ -1534,11 +1534,65 @@
+>  				port@1 {
+>  					reg = <1>;
+>  					du_out_lvds0: endpoint {
+> +						remote-endpoint = <&lvds0_in>;
+>  					};
+>  				};
+>  				port@2 {
+>  					reg = <2>;
+>  					du_out_lvds1: endpoint {
+> +						remote-endpoint = <&lvds1_in>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		lvds0: lvds@feb90000 {
+> +			compatible = "renesas,r8a7742-lvds";
+> +			reg = <0 0xfeb90000 0 0x1c>;
+
+Isn't 0x14 enough for the size ? 0x1c won't hurt though. Same comment
+below.
+
+With or without this addressed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_lvds.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index ab0d49618cf9..34b833cc05be 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -982,6 +982,7 @@ static const struct rcar_lvds_device_info rcar_lvds_r8a77995_info = {
->  };
->  
->  static const struct of_device_id rcar_lvds_of_table[] = {
-> +	{ .compatible = "renesas,r8a7742-lvds", .data = &rcar_lvds_gen2_info },
->  	{ .compatible = "renesas,r8a7743-lvds", .data = &rcar_lvds_gen2_info },
->  	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
->  	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
+> +			clocks = <&cpg CPG_MOD 726>;
+> +			power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
+> +			resets = <&cpg 726>;
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					lvds0_in: endpoint {
+> +						remote-endpoint = <&du_out_lvds0>;
+> +					};
+> +				};
+> +				port@1 {
+> +					reg = <1>;
+> +					lvds0_out: endpoint {
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		lvds1: lvds@feb94000 {
+> +			compatible = "renesas,r8a7742-lvds";
+> +			reg = <0 0xfeb94000 0 0x1c>;
+> +			clocks = <&cpg CPG_MOD 725>;
+> +			power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
+> +			resets = <&cpg 725>;
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					lvds1_in: endpoint {
+> +						remote-endpoint = <&du_out_lvds1>;
+> +					};
+> +				};
+> +				port@1 {
+> +					reg = <1>;
+> +					lvds1_out: endpoint {
+>  					};
+>  				};
+>  			};
 
 -- 
 Regards,
