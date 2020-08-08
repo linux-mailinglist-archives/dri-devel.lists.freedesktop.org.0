@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171EF23F72E
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 12:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CEE23F73A
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Aug 2020 12:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C14516E1F8;
-	Sat,  8 Aug 2020 10:03:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8BA6E204;
+	Sat,  8 Aug 2020 10:25:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 900726E1F8
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 10:03:20 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id g6so4667004ljn.11
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Aug 2020 03:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bY1+ejRUfvb0F6yLEgYZXgNa6+RS7H+Cj3Ozktz76Ak=;
- b=ccv9h6USbtcK84tfnxpM/1A65JH98BtuqSHvoScMkohJrwk8oA6V56doPVEcJ2xduS
- y+QNWK2Qeseqwwtdv23/Khvg1bPT6ycN9D6OnL29t/D4Bn8xpoLo5hcwY2Ygetq4y77j
- Yi55Jk3byY1OEC19NMpdEvBMkuK6LEMsGXQeb1GSr2N4GGsKPGRwhz0f0P//EjKK+OIR
- k9tseFdEU587+mKlgqpriBp/m6Si9ns+HPYP1LFoyeIgQcW3/RNeAFuspkHgeix6MNaB
- pOg0jUApmDETyYQwttq55/6EuMcGD3xDt4zrBvkCZgL9I15moXUwe6kgtuJCxBHPsOBX
- P4FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bY1+ejRUfvb0F6yLEgYZXgNa6+RS7H+Cj3Ozktz76Ak=;
- b=dyqVJ3ZQwN5FgJNDuj/M8Vj2AeLHd7xaRlLv0MP/LT8v0enWBBiKK64xNkdFRG2FE4
- qbyIOFra4zRqi9FXpNilDry2gO6PaO8o5VZVzClxlzbVfSkFHsCJJf9OF/ELo4dHakPR
- cw1oicHlkMs6RxC2sqsaaPKi4g4T96C5APmJXbR5qNyk8ZOkmg1fFA7+g3L1QBvnArgY
- RbIJ9zFwiLQjsnYrUPv0o+gp2r+cafSBHKs0CNKt1Lnq/YoSmQrR3IM0XkDHDyQoFkcR
- aI1sCPTOZ/lNwQAiLHtnXZZF/a20Sb7j7FMkuNq5Ibc9ZOitsTOqBFvEMPcLEKSVYtQN
- 6+7g==
-X-Gm-Message-State: AOAM530e6wPwH4e8okCOdAt4VmN+pk83e6wcWXuDCgdBJlBxmgCJ80n1
- TEXnutvE5aRFYLJ2I84m4qJBNhk563LdyAl8n9TKgQ==
-X-Google-Smtp-Source: ABdhPJwuJPAqktxjBFGxY96W/VTkQGdCMa/9Rk3OIIqqV4JkPDK5r8c4vPqTueq7bOurPhNR4mhJNIK3Fc7L6F/CIgk=
-X-Received: by 2002:a2e:6a17:: with SMTP id f23mr7382164ljc.338.1596880998831; 
- Sat, 08 Aug 2020 03:03:18 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAAA06E204
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 10:24:59 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1080B20748;
+ Sat,  8 Aug 2020 10:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1596882298;
+ bh=EzN2OPCQKm6E+fKW7n/naWHLH9Bx9qn5xJ62OMUy8CQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uFKsFYtyHMVteYWuEaR3uiMrRe+WU8WysWPeJoiHdrWUpz32eUimcJyjRrcE63efN
+ s9h21FXvSTUcGfKkZJ4NS4vI6RgJvQ1IsAc+Qg90hUe0nhWuemot8N3PATbAob4yHz
+ 9qwR503jn7ZVcuR/CcuJClCWHdwhTHp305Qu4ngk=
+Date: Sat, 8 Aug 2020 12:25:12 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
+ mgag200_mmap() from header" was seriously submitted to be applied to the
+ 5.8-stable tree?
+Message-ID: <20200808102512.GA3039253@kroah.com>
+References: <159680700523135@kroah.com>
+ <a92e73b9-c3da-76f6-9405-b2456fe68ce6@suse.de>
+ <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200805142808.670451-1-linus.walleij@linaro.org>
-In-Reply-To: <20200805142808.670451-1-linus.walleij@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 8 Aug 2020 12:03:08 +0200
-Message-ID: <CACRpkdYuJMxEBhkraGZFPzRCReytU+J=bD0W+saVcjaaEpjgvA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-notatek-nt35510: Fix enable/disable sequence
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,34 +50,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, armijn@tjaldur.nl,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 5, 2020 at 4:28 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+On Sat, Aug 08, 2020 at 11:13:54AM +0200, Daniel Vetter wrote:
+> On Fri, Aug 7, 2020 at 3:54 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> > Hi
+> >
+> > Am 07.08.20 um 15:30 schrieb gregkh@linuxfoundation.org:
+> > > The patch below was submitted to be applied to the 5.8-stable tree.
+> > >
+> > > I fail to see how this patch meets the stable kernel rules as found at
+> > > Documentation/process/stable-kernel-rules.rst.
+> > >
+> > > I could be totally wrong, and if so, please respond to
+> > > <stable@vger.kernel.org> and let me know why this patch should be
+> > > applied.  Otherwise, it is now dropped from my patch queues, never to be
+> > > seen again.
+> >
+> > Sorry for the noise. There's no reason this should go into stable.
+> 
+> We have a little script in our maintainer toolbox for bugfixes, which
+> generates the Fixes: line, adds everyone from the original commit to
+> the cc: list and also adds Cc: stable if that sha1 the patch fixes is
+> in a release already.
+> 
+> I guess we trained people a bit too much on using Fixes: tags like
+> that with the tooling, since they often do that for checkpatch stuff
+> and spelling fixes like this here too. I think the autoselect bot also
+> loves Fixes: tags a bit too much for its own good.
+> 
+> Not sure what to do, since telling people to "please sprinkle less
+> Fixes: tags" doesn't sound great either. I also don't want to tell
+> people to use the maintainer toolbox less, the autogenerated cc: list
+> is generally the right thing to do. Maybe best if the stable team
+> catches the obvious ones before adding them to the stable queue, if
+> you're ok with that Greg?
 
-> The driver was relying on only prepare()/unprepare() to
-> enable/disable the display.
->
-> This does not work because prepare() will be called
-> before the DSI host/bridge is ready to send any DSI
-> commands and disable() will be called after the DSI
-> host/bridge is disabled and thus unable to send any
-> DSI commands.
->
-> Move all DCS command sending to the enable() and
-> disable() callbacks, as is proper.
+As I think this is the first time that I've had this problem for a DRM
+submission, I don't think it's a big issue yet at all, so whatever you
+are doing today is fine.
 
-Ahem this is against how all panel drivers are written.
-Surely the DSI host must be up and running at
-prepare() and unprepare() time.
+I do think that the number of patches submitted for stable for
+drm-related issues feels very very low given the rate of change and
+number of overall patches you all submit to the kernel, so if anything,
+you all should be increasing the number of times you tag stuff for
+stable, not reducing it :)
 
-I take this patch back to the drawing table.
+thanks,
 
-Yours,
-Linus Walleij
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
