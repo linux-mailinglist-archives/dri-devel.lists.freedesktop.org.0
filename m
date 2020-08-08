@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365972402B2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:36:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3428D2402CC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57C889C8D;
-	Mon, 10 Aug 2020 07:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39506E39E;
+	Mon, 10 Aug 2020 07:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519406EA29;
- Fri,  7 Aug 2020 20:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=xRUD55pKuLg6gojA/cds2ffAUN36ReNagtqRG0GQuOQ=; b=eMECZogztFAvPBcu91JBf/wLGM
- k1ceU0vlipiSyF/G/oMzLceUJUkmnts30fR0q2pmDv82h1fK80oSlFWBy8h78KX7AiVirD+JYaJxy
- tXpFbNVVNfKY4cuNjqdQBKxlNJ5k7EfvRwx5DrJOSYcQB1lY0LQsWjpTvI0R9nyB2LyNsR6CeJe8R
- zGc5QI7AEsgMCNtqPdk4LZ28D+nZnjXA+qImpWBbKE1C1AMO6wG5mShWIw8NjQJvFKBbkygQBr/Qh
- HrP6IkmCYd6dCSvDooYUEj2SzoS3QhuYD4ld+Mzq8LJd2BKL1LvTwVvph76zE+uCdeKXqjNqslrtl
- iOfpdiUw==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k48yo-0004Yn-VD; Fri, 07 Aug 2020 20:28:43 +0000
-Subject: Re: [PATCH v9 3/5] drm/msm/dp: add support for DP PLL driver
-To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>
-References: <20200807071718.17937-1-tanmay@codeaurora.org>
- <20200807071718.17937-4-tanmay@codeaurora.org>
- <3b0d0e49-5fe8-e217-4ddc-1ff08e65ab48@infradead.org>
- <CAF6AEGv5Yf1x7aCEauP7XtzTjpUCxJt6_GzxFhFXyf_DX_Gi+g@mail.gmail.com>
- <159683184187.1360974.15575847254880429529@swboyd.mtv.corp.google.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <75acac5a-b4a5-9c5a-4404-fb936d738e46@infradead.org>
-Date: Fri, 7 Aug 2020 13:28:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 403D96E0F6
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 02:54:44 +0000 (UTC)
+X-UUID: 9d98cbe1fc1546d9a5d2c6c601b4cf18-20200808
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=88Oan/DCv4ZxqhgZhz72479y9BC+k/u9ZQCcKP31Pt8=; 
+ b=r1TRE7aGbcUUsG4ssDNgCGBnDIh7ymTfIcpGcDKKiqeL02uWfTHga8S6eCoC0g2DtrmE+/JouPrQJs8UNUxTecGyPGrdfLB8nzPMAguasMERLTyOYSqgkkyUkeonbicfev8ytMUrDan2sm8wPjka9/Z9k5XS1PzTyGJAXCEOgTo=;
+X-UUID: 9d98cbe1fc1546d9a5d2c6c601b4cf18-20200808
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 21590948; Sat, 08 Aug 2020 10:54:40 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 8 Aug 2020 10:54:39 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 8 Aug 2020 10:54:38 +0800
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
+ Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [RESEND v7, PATCH 0/7] add drm support for MT8183
+Date: Sat, 8 Aug 2020 10:53:44 +0800
+Message-ID: <1596855231-5782-1-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-In-Reply-To: <159683184187.1360974.15575847254880429529@swboyd.mtv.corp.google.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Mon, 10 Aug 2020 07:35:58 +0000
+X-MTK: N
+X-Mailman-Approved-At: Mon, 10 Aug 2020 07:35:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,60 +51,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, khsieh@codeaurora.org,
- Sean Paul <seanpaul@chromium.org>, Tanmay Shah <tanmay@codeaurora.org>,
- Vara Reddy <varar@codeaurora.org>, aravindh@codeaurora.org,
- freedreno <freedreno@lists.freedesktop.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/7/20 1:24 PM, Stephen Boyd wrote:
-> Quoting Rob Clark (2020-08-07 08:51:48)
->> On Fri, Aug 7, 2020 at 8:27 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>>
->>> On 8/7/20 12:17 AM, Tanmay Shah wrote:
->>>> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
->>>> index ea3c4d094d09..cc1392b29022 100644
->>>> --- a/drivers/gpu/drm/msm/Kconfig
->>>> +++ b/drivers/gpu/drm/msm/Kconfig
->>>> @@ -60,6 +60,7 @@ config DRM_MSM_HDMI_HDCP
->>>>  config DRM_MSM_DP
->>>>       bool "Enable DP support in MSM DRM driver"
->>>>       depends on DRM_MSM
->>>> +     default y
->>>>       help
->>>>         Compile in support for DP driver in msm drm driver. DP external
->>>>         display support is enabled through this config option. It can
->>>
->>> Hi,
->>>
->>> You need a very strong justification to make an optional part of a driver
->>> to be "default y".
->>
->> My opinion is that if the driver is built, everything should be built.
->> This is what makes sense for distro's.  It is only the embedded case
->> where you want to trim down unneeded features where you might want to
->> disable some parts.  So 'default y' makes sense to me.
+This series are based on 5.8-rc1 and provide 7 patch
+to support mediatek SOC MT8183
 
-We don't set defaults for distro convenience.
+Change since v6
+- move ddp component define into mtk_mmsys.h
+- add mmsys private data to support different ic path connection
+- add mt8183-mmsys.c to support 8183 path connection
+- fix reviewed issue in v6
 
-> 
-> Maybe use 'default DRM_MSM' so that it doesn't trigger the 'default y'
-> filters people have?
+Change since v5
+- fix reviewed issue in v5
+base https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
 
-Most people can figure that one out.  ;)
-I don't have any automated filters.
+Change since v4
+- fix reviewed issue in v4
+
+Change since v3
+- fix reviewed issue in v3
+- fix type error in v3
+- fix conflict with iommu patch
+
+Change since v2
+- fix reviewed issue in v2
+- add mutex node into dts file
+
+Changes since v1:
+- fix reviewed issue in v1
+- add dts for mt8183 display nodes
+- adjust display clock control flow in patch 22
+- add vmap support for mediatek drm in patch 23
+- fix page offset issue for mmap function in patch 24
+- enable allow_fb_modifiers for mediatek drm in patch 25
+
+Yongqiang Niu (7):
+  dt-bindings: mediatek: add rdma_fifo_size description for mt8183
+    display
+  drm/mediatek: move ddp component define into mtk_mmsys.h
+  mtk-mmsys: add mmsys private data
+  mtk-mmsys: add mt8183 mmsys support
+  drm/mediatek: add fifo_size into rdma private data
+  drm/mediatek: add support for mediatek SOC MT8183
+  arm64: dts: add display nodes for mt8183
+
+ .../bindings/display/mediatek/mediatek,disp.txt    |  14 ++
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi           |  98 ++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  18 ++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  25 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c             |  47 ++++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  34 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  43 ++++
+ drivers/soc/mediatek/Makefile                      |   1 +
+ drivers/soc/mediatek/mmsys/Makefile                |   3 +
+ drivers/soc/mediatek/mmsys/mt2701-mmsys.c          | 250 +++++++++++++++++++
+ drivers/soc/mediatek/mmsys/mt8183-mmsys.c          | 154 ++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c                   | 276 ++++-----------------
+ include/linux/soc/mediatek/mtk-mmsys.h             |  48 ++++
+ 13 files changed, 749 insertions(+), 262 deletions(-)
+ create mode 100644 drivers/soc/mediatek/mmsys/Makefile
+ create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+ create mode 100644 drivers/soc/mediatek/mmsys/mt8183-mmsys.c
 
 -- 
-~Randy
-
+1.8.1.1.dirty
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
