@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3428D2402CC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:37:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E94F22402B6
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39506E39E;
-	Mon, 10 Aug 2020 07:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A92989E14;
+	Mon, 10 Aug 2020 07:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 403D96E0F6
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 02:54:44 +0000 (UTC)
-X-UUID: 9d98cbe1fc1546d9a5d2c6c601b4cf18-20200808
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 734E56EA9B
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 02:54:46 +0000 (UTC)
+X-UUID: ddbac345f5e74a21981891c55e09fc18-20200808
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=88Oan/DCv4ZxqhgZhz72479y9BC+k/u9ZQCcKP31Pt8=; 
- b=r1TRE7aGbcUUsG4ssDNgCGBnDIh7ymTfIcpGcDKKiqeL02uWfTHga8S6eCoC0g2DtrmE+/JouPrQJs8UNUxTecGyPGrdfLB8nzPMAguasMERLTyOYSqgkkyUkeonbicfev8ytMUrDan2sm8wPjka9/Z9k5XS1PzTyGJAXCEOgTo=;
-X-UUID: 9d98cbe1fc1546d9a5d2c6c601b4cf18-20200808
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=kWZieeEiWrI+QZxqM8iMJlo9waGC/mplSmKIIdhtLMI=; 
+ b=PdgSFw7vspKz17JdzFIEkma5RdcW3k+kTkWggYb+mTlFmeJaGYU7ME7rm+AluucggevyUCyMCYlJPEjeALEnG2OYS34lOqjJkAPdklg0qIWN9tedegs5HpN3tAss310WcTUHlHClWWk8VDM+BijQtxBRku3nW+dcLpzxBUneLNA=;
+X-UUID: ddbac345f5e74a21981891c55e09fc18-20200808
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 21590948; Sat, 08 Aug 2020 10:54:40 +0800
+ with ESMTP id 8359250; Sat, 08 Aug 2020 10:54:41 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Sat, 8 Aug 2020 10:54:39 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 8 Aug 2020 10:54:38 +0800
+ Transport; Sat, 8 Aug 2020 10:54:39 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [RESEND v7, PATCH 0/7] add drm support for MT8183
-Date: Sat, 8 Aug 2020 10:53:44 +0800
-Message-ID: <1596855231-5782-1-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [RESEND v7,
+ PATCH 1/7] dt-bindings: mediatek: add rdma_fifo_size description for
+ mt8183 display
+Date: Sat, 8 Aug 2020 10:53:45 +0800
+Message-ID: <1596855231-5782-2-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1596855231-5782-1-git-send-email-yongqiang.niu@mediatek.com>
+References: <1596855231-5782-1-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 X-MTK: N
 X-Mailman-Approved-At: Mon, 10 Aug 2020 07:35:59 +0000
@@ -60,67 +64,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series are based on 5.8-rc1 and provide 7 patch
-to support mediatek SOC MT8183
+rdma fifo size may be different even in same SOC, add this
+property to the corresponding rdma
 
-Change since v6
-- move ddp component define into mtk_mmsys.h
-- add mmsys private data to support different ic path connection
-- add mt8183-mmsys.c to support 8183 path connection
-- fix reviewed issue in v6
+Change-Id: I67635ec7f3f59cf4cbc7737285e5e28ff0ab71c9
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,disp.txt | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Change since v5
-- fix reviewed issue in v5
-base https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
-
-Change since v4
-- fix reviewed issue in v4
-
-Change since v3
-- fix reviewed issue in v3
-- fix type error in v3
-- fix conflict with iommu patch
-
-Change since v2
-- fix reviewed issue in v2
-- add mutex node into dts file
-
-Changes since v1:
-- fix reviewed issue in v1
-- add dts for mt8183 display nodes
-- adjust display clock control flow in patch 22
-- add vmap support for mediatek drm in patch 23
-- fix page offset issue for mmap function in patch 24
-- enable allow_fb_modifiers for mediatek drm in patch 25
-
-Yongqiang Niu (7):
-  dt-bindings: mediatek: add rdma_fifo_size description for mt8183
-    display
-  drm/mediatek: move ddp component define into mtk_mmsys.h
-  mtk-mmsys: add mmsys private data
-  mtk-mmsys: add mt8183 mmsys support
-  drm/mediatek: add fifo_size into rdma private data
-  drm/mediatek: add support for mediatek SOC MT8183
-  arm64: dts: add display nodes for mt8183
-
- .../bindings/display/mediatek/mediatek,disp.txt    |  14 ++
- arch/arm64/boot/dts/mediatek/mt8183.dtsi           |  98 ++++++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  18 ++
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  25 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c             |  47 ++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  34 +--
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  43 ++++
- drivers/soc/mediatek/Makefile                      |   1 +
- drivers/soc/mediatek/mmsys/Makefile                |   3 +
- drivers/soc/mediatek/mmsys/mt2701-mmsys.c          | 250 +++++++++++++++++++
- drivers/soc/mediatek/mmsys/mt8183-mmsys.c          | 154 ++++++++++++
- drivers/soc/mediatek/mtk-mmsys.c                   | 276 ++++-----------------
- include/linux/soc/mediatek/mtk-mmsys.h             |  48 ++++
- 13 files changed, 749 insertions(+), 262 deletions(-)
- create mode 100644 drivers/soc/mediatek/mmsys/Makefile
- create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
- create mode 100644 drivers/soc/mediatek/mmsys/mt8183-mmsys.c
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+index b91e709..e6bbe32 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+@@ -66,6 +66,11 @@ Required properties (DMA function blocks):
+   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   for details.
+ 
++Optional properties (RDMA function blocks):
++- mediatek,rdma_fifo_size: rdma fifo size may be different even in same SOC, add this
++  property to the corresponding rdma
++  the value is the Max value which defined in hardware data sheet.
++
+ Examples:
+ 
+ mmsys: clock-controller@14000000 {
+@@ -207,3 +212,12 @@ od@14023000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_OD>;
+ };
++
++rdma1: rdma@1400c000 {
++	compatible = "mediatek,mt8183-disp-rdma";
++	reg = <0 0x1400c000 0 0x1000>;
++	interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_LOW>;
++	power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
++	clocks = <&mmsys CLK_MM_DISP_RDMA1>;
++	mediatek,rdma_fifo_size = <2048>;
++};
 -- 
 1.8.1.1.dirty
 _______________________________________________
