@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00ADD23FF1A
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Aug 2020 17:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51F223FF1E
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Aug 2020 17:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79BCA6E1B1;
-	Sun,  9 Aug 2020 15:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047C56E21F;
+	Sun,  9 Aug 2020 15:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDE36E1B9
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 15:53:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 028DB6E21C
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 15:53:15 +0000 (UTC)
 Received: from localhost (unknown [70.37.104.77])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E724F2073E;
- Sun,  9 Aug 2020 15:53:11 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A08EE20772;
+ Sun,  9 Aug 2020 15:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596988392;
+ s=default; t=1596988395;
  bh=sH4Vuic7mcb5kc+ZXbE8/JTtggI05DY+XJSZJp+wPfs=;
  h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:In-Reply-To:
  References:From;
- b=QrbWwaDYxSaPWOdQs+NU4c1XvzIL7d1OTbDgImHr62sPzhg7qtXb1/bBTz8EgfE6C
- HXlGBPfwmmOlyC2ot8YicGDSXga/tmTgst7xW14BGNaS0lVdt1cehlYht7vmhjOGpZ
- MXpPdYAtYeIBVwmr90IepX7yWCfEfEm+wkDkx+I4=
-Date: Sun, 09 Aug 2020 15:53:11 +0000
+ b=yfvDNNCT+xU5g4baxciMnyg/lgzANZZ9Mbp7zw86ph97D7jrwlHmxGcNE5l8sjmfg
+ sApHY7zWd6BD6+f7sUcdQabOqkrjAeMW0SzuLAERY85gLnJPZQDBhEmDryH172zEhu
+ NHVK6Xay15n2jQikRrjgDJbQyuY8AMSVpQ5YcFhw=
+Date: Sun, 09 Aug 2020 15:53:15 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org
-Subject: Re: [PATCH v1 2/4] drm/ast: Set display mode in atomic_begin()
-In-Reply-To: <20200805105428.2590-3-tzimmermann@suse.de>
-References: <20200805105428.2590-3-tzimmermann@suse.de>
-Message-Id: <20200809155311.E724F2073E@mail.kernel.org>
+Subject: Re: [PATCH v1 1/4] drm/ast: Only set format registers if primary
+ plane's format changes
+In-Reply-To: <20200805105428.2590-2-tzimmermann@suse.de>
+References: <20200805105428.2590-2-tzimmermann@suse.de>
+Message-Id: <20200809155315.A08EE20772@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
