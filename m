@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A05623F95B
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Aug 2020 00:43:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C10F23FBF4
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Aug 2020 02:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FDA56E2AF;
-	Sat,  8 Aug 2020 22:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241746E162;
+	Sun,  9 Aug 2020 00:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A116E2AF
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Aug 2020 22:43:26 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id v9so5833843ljk.6
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Aug 2020 15:43:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zyRYAAosTPHfICqU6xbVT2RtBtStioZtMcci7LezLaQ=;
- b=fDZiOjqSQCMwezd46e74wpZAsXsgK5wMUVUSE+N6rZ1YNhljEL1vnZOTNIX3b87hcF
- fGNNvBKn+H/ccvWoIEVoQGTYrfYY8TrSi9KxMBNOGOgQOxaIw1bicvcn6xtvXJOcczNg
- zK3bBZSxL2p1bFhoW3f3dkmdMPiGmDJcOn4ld+/zi5smHmKy4+GRWNFY5sQauSSZxvfA
- yp+c3CV6doPaI7jMVb3VU02zRQNrl6iA+jgOXcOaNF8444S15fNXhXAhvbLKxqwOTelt
- d9ijHsRoBd+zmyipSCW1dEQX1oOMaXrARFSpzVXdLeFscHUcUqmUDHD9dm33+Y3wVvk4
- YNyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zyRYAAosTPHfICqU6xbVT2RtBtStioZtMcci7LezLaQ=;
- b=atYaESCw9pM4GbZRzeQw4zfLy2nvRYSdLy7ntVWWOznA6hQj1pTHSYxa+djXUUkenT
- EoHXw+8oc3ybQNnf8ebgMUuQL8uoiny5mDGdBsGX/r9zTEXMs6zC+gP0FuKnzeTuyFuT
- FfsXyS/AWC0jsjt3U2cdCZo1m4ZeaDtVIOvSCOxQxJHKcGXzygDNHgN1orLwDUWySkXi
- pMBAOVmnrEfZsIDJYfodkDWjg81wx8UGf1ucS+s95C7F3FImhDmJ1Jdnsyf7YN3NghqU
- 8vwUAy+Y07NH8YFqzPszJLeOq72TJuFXWkZnF9uPrwoeoC87fScHczCU/vzKhlRBkBFm
- ayvA==
-X-Gm-Message-State: AOAM532zmYPt8sjQuXs6lcdYXk8RmuqO5+GSRiL/XZU5CvABeGlOK8Iy
- CpLswAgwAHFD7hCgg1PTXAT0BA==
-X-Google-Smtp-Source: ABdhPJyfDx1ZRBNempgrDaaP4+rcaMJXPi6/f+PBkZDfTCor/FHPYQ4bGvkvAQVrXwYZqiOtVdKH/g==
-X-Received: by 2002:a2e:910b:: with SMTP id m11mr9199317ljg.159.1596926604429; 
- Sat, 08 Aug 2020 15:43:24 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id 203sm6577878lfk.49.2020.08.08.15.43.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Aug 2020 15:43:23 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel-notatek-nt35510: Fix MTP read init
-Date: Sun,  9 Aug 2020 00:43:22 +0200
-Message-Id: <20200808224322.1507713-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 966BC6E162
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 00:35:34 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 082642073E
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 00:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1596933333;
+ bh=coQD0wBPaBdDQivRZlkVTAL9bKjxlMoqwYidiCYobu8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZhdXHSbGknQR+b+3YLI9YqMjsJmJW+yYdR4b9uOVrGZRu+SOjPpI4W6MI+qb4zD1G
+ gQCWZk7GJOgQQakgyUQUaM48Ej8u9z1HE0O4IHBQDQqlhWYb/hADg8auRSzisTMMQe
+ pg7hsgKz1+jnLfV6QaWpVMMtJuJb+6xgSPjrKjkg=
+Received: by mail-ed1-f53.google.com with SMTP id a14so3894966edx.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Aug 2020 17:35:32 -0700 (PDT)
+X-Gm-Message-State: AOAM532IpKuTs91rwCczPxXu3b7pAg8yQccK3aBeyFC66Rzv61/g3zLq
+ /sqrIYrsdSgekgIcTUmwIy0aEw7+NlJWAS9lLA==
+X-Google-Smtp-Source: ABdhPJxZvcW8PgfFlsq/+msJNbIn+ca0CblF0488HSrYloUzKvPr/KfxkqW6W3mw1LCCbvI377JkyUuaVPVehXXvAnA=
+X-Received: by 2002:a05:6402:2037:: with SMTP id
+ ay23mr14822310edb.48.1596933331512; 
+ Sat, 08 Aug 2020 17:35:31 -0700 (PDT)
 MIME-Version: 1.0
+References: <1596855231-5782-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1596855231-5782-7-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1596855231-5782-7-git-send-email-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 9 Aug 2020 08:35:20 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8B0xC5QspmLS0NNTD5fG1V+OY6hNU9F4+qcqHFdQtCWw@mail.gmail.com>
+Message-ID: <CAAOTY_8B0xC5QspmLS0NNTD5fG1V+OY6hNU9F4+qcqHFdQtCWw@mail.gmail.com>
+Subject: Re: [RESEND v7,
+ PATCH 6/7] drm/mediatek: add support for mediatek SOC MT8183
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,63 +56,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to successfully read ID of the MTP panel the
-panel MTP control page must be unlocked. Previously
-this wasn't encountered because in the setup with this
-panel the power wasn't ever really dropped. When power
-gets dropped from the panel, MTP needs to be unlocked.
-
-Cc: newbytee@protonmail.com
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/panel/panel-novatek-nt35510.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-index 4a8fa908a2cf..d0cd2128df1d 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-@@ -376,6 +376,10 @@ struct nt35510 {
- };
- 
- /* Manufacturer command has strictly this byte sequence */
-+static const u8 nt35510_mauc_mtp_read_param[] = { 0xAA, 0x55, 0x25, 0x01 };
-+static const u8 nt35510_mauc_mtp_read_setting[] = { 0x01, 0x02, 0x00, 0x20,
-+						    0x33, 0x13, 0x00, 0x40,
-+						    0x00, 0x00, 0x23, 0x02 };
- static const u8 nt35510_mauc_select_page_0[] = { 0x55, 0xAA, 0x52, 0x08, 0x00 };
- static const u8 nt35510_mauc_select_page_1[] = { 0x55, 0xAA, 0x52, 0x08, 0x01 };
- static const u8 nt35510_vgh_on[] = { 0x01 };
-@@ -698,6 +702,18 @@ static int nt35510_power_on(struct nt35510 *nt)
- 		usleep_range(120000, 140000);
- 	}
- 
-+	ret = nt35510_send_long(nt, dsi, MCS_CMD_MTP_READ_PARAM,
-+				ARRAY_SIZE(nt35510_mauc_mtp_read_param),
-+				nt35510_mauc_mtp_read_param);
-+	if (ret)
-+		return ret;
-+
-+	ret = nt35510_send_long(nt, dsi, MCS_CMD_MTP_READ_SETTING,
-+				ARRAY_SIZE(nt35510_mauc_mtp_read_setting),
-+				nt35510_mauc_mtp_read_setting);
-+	if (ret)
-+		return ret;
-+
- 	ret = nt35510_read_id(nt);
- 	if (ret)
- 		return ret;
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMOW5tDjmnIg45pelIOmAseWFrSDkuIrljYgxMTowNeWvq+mBk++8mgo+Cj4gVGhp
+cyBwYXRjaCBhZGQgc3VwcG9ydCBmb3IgbWVkaWF0ZWsgU09DIE1UODE4Mwo+IDEuIGFkZCBvdmwg
+cHJpdmF0ZSBkYXRhCj4gMi4gYWRkIHJkbWEgcHJpdmF0ZSBkYXRhCj4gMy4gYWRkIG11dGVzIHBy
+aXZhdGUgZGF0YQo+IDQuIGFkZCBtYWluIGFuZCBleHRlcm5hbCBwYXRoIG1vZHVsZSBmb3IgY3J0
+YyBjcmVhdGUKPgo+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVA
+bWVkaWF0ZWsuY29tPgoKW3NuaXBdCgo+ICsKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZp
+Y2VfaWQgbXRrX2Rpc3Bfb3ZsX2RyaXZlcl9kdF9tYXRjaFtdID0gewo+ICAgICAgICAgeyAuY29t
+cGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZGlzcC1vdmwiLAo+ICAgICAgICAgICAuZGF0YSA9
+ICZtdDI3MDFfb3ZsX2RyaXZlcl9kYXRhfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVk
+aWF0ZWssbXQ4MTczLWRpc3Atb3ZsIiwKPiAgICAgICAgICAgLmRhdGEgPSAmbXQ4MTczX292bF9k
+cml2ZXJfZGF0YX0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1k
+aXNwLW92bCIsCgoibWVkaWF0ZWssbXQ4MTgzLWRpc3Atb3ZsIiBpcyBub3QgZGVmaW5lZCBpbiBi
+aW5kaW5nIGRvY3VtZW50IFsxXQoKWzFdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
+aW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRpc3AudHh0P2g9djUu
+OAoKPiArICAgICAgICAgLmRhdGEgPSAmbXQ4MTgzX292bF9kcml2ZXJfZGF0YX0sCj4gKyAgICAg
+ICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1kaXNwLW92bC0ybCIsCgpEaXR0by4K
+Cj4gKyAgICAgICAgIC5kYXRhID0gJm10ODE4M19vdmxfMmxfZHJpdmVyX2RhdGF9LAo+ICAgICAg
+ICAge30sCj4gIH07Cgpbc25pcF0KCj4gKwo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2Rldmlj
+ZV9pZCBtdGtfZGlzcF9yZG1hX2RyaXZlcl9kdF9tYXRjaFtdID0gewo+ICAgICAgICAgeyAuY29t
+cGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZGlzcC1yZG1hIiwKPiAgICAgICAgICAgLmRhdGEg
+PSAmbXQyNzAxX3JkbWFfZHJpdmVyX2RhdGF9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJt
+ZWRpYXRlayxtdDgxNzMtZGlzcC1yZG1hIiwKPiAgICAgICAgICAgLmRhdGEgPSAmbXQ4MTczX3Jk
+bWFfZHJpdmVyX2RhdGF9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgx
+ODMtZGlzcC1yZG1hIiwKCkRpdHRvLgoKPiArICAgICAgICAgLmRhdGEgPSAmbXQ4MTgzX3JkbWFf
+ZHJpdmVyX2RhdGF9LAo+ICAgICAgICAge30sCj4gIH07Cj4gIE1PRFVMRV9ERVZJQ0VfVEFCTEUo
+b2YsIG10a19kaXNwX3JkbWFfZHJpdmVyX2R0X21hdGNoKTsKCltzbmlwXQoKPiArCj4gIHN0cnVj
+dCBtdGtfZGlzcF9tdXRleCAqbXRrX2Rpc3BfbXV0ZXhfZ2V0KHN0cnVjdCBkZXZpY2UgKmRldiwg
+dW5zaWduZWQgaW50IGlkKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgbXRrX2RkcCAqZGRwID0gZGV2
+X2dldF9kcnZkYXRhKGRldik7Cj4gQEAgLTQwMiw2ICs0NDcsOCBAQCBzdGF0aWMgaW50IG10a19k
+ZHBfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gICAgICAgICAgIC5kYXRh
+ID0gJm10MjcxMl9kZHBfZHJpdmVyX2RhdGF9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJt
+ZWRpYXRlayxtdDgxNzMtZGlzcC1tdXRleCIsCj4gICAgICAgICAgIC5kYXRhID0gJm10ODE3M19k
+ZHBfZHJpdmVyX2RhdGF9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgx
+ODMtZGlzcC1tdXRleCIsCgpEaXR0by4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+ICsgICAgICAg
+ICAuZGF0YSA9ICZtdDgxODNfZGRwX2RyaXZlcl9kYXRhfSwKPiAgICAgICAgIHt9LAo+ICB9Owo+
+ICBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkZHBfZHJpdmVyX2R0X21hdGNoKTsKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
