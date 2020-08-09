@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6DD2402D5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:37:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 857222402DA
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11116E384;
-	Mon, 10 Aug 2020 07:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 922416E088;
+	Mon, 10 Aug 2020 07:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C1D6E2A5
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 21:29:59 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id a34so4125519ybj.9
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Aug 2020 14:29:59 -0700 (PDT)
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com
+ [IPv6:2607:f8b0:4864:20::b43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DE66E039
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 21:36:19 +0000 (UTC)
+Received: by mail-yb1-xb43.google.com with SMTP id i10so3749226ybt.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Aug 2020 14:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ORAT8UucilC3IwrKP3UItEtUbW3Qy+oRV7IOUt8IGrw=;
- b=skYyeSEoTdqbH1+pnfJFV9NFJ+4eS+a2Mks1/TnaCZu4YH64WLfkTPwkE+nCEc82xO
- FRJMQN5rQHvWHAAeqA2pVaXn+UbvK13FrkBNMXADx+yoaQjvIwZxCFjTjwx4LI1WyvFH
- nYMfGKGMUvSIFdSZn7ViEsu7X/GCxA/4iFe1GUenYqCbCaufBOW8yF6nTnuqJm1Rhbq7
- iLFs+MvzRQ8Qn8wvbiSZLlZvDQcWRxaFKFp3H2bXzrLKvf6iBSjQ0Jw5rWTnNz3BTGUj
- zFIlO+sgQyLYlulJF2/xofKQjyzTBF4vQrm53HqYrX5+i1ZGhrHW9Nh89+LejHNCKMAE
- +1HQ==
+ :cc; bh=gSgeMeM92UZgCX6qDhSZFFvtX43xfRefeT6Hws5M7oI=;
+ b=XQCqbz9WfysmOgYmCKuxLbxrP7Oa3PJYKZHPk4tTYoiNcL6xw3dGbGxCtbPlj5sCZ3
+ NFcIpOV5Ze7UObTmt5FVJTH0AhOCwM0emH5wiXY947E3W9g7etNrbsm3JqYjyRQUQYcr
+ +6Mwt0Ez7KVSGmXOhT9B7+rVZpdrsQAdpowPb/EluQ4QAEHvZG8kVSqoaG0/sQ5TQ8or
+ ftH4q5JatOohq5T9K4aWna8sTu6pACBDAB9ywTZU3L/EYKEoFLnwgf7FlKeLQxx+BIFo
+ ekjSz6bPDrmSgPahYgHLkyOs10pqGvFHCg8dSLYTOycxaiwbghhVcUq3oFaktg26Fdh3
+ mHCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ORAT8UucilC3IwrKP3UItEtUbW3Qy+oRV7IOUt8IGrw=;
- b=WBFzxikwkdR+tWHneMaaGY1xCDgPOD1c7sXbxX1aaint8c8t8QwKo3qQ3n2C3dIhbn
- nE+R5BA5osPuyyxCUqHMX8UpAFDCSlVLDC4YDZN+ZhknPC2jIV5MS3L/5ultRa/i+QEp
- h//VhGxQU/vo+sSbJR7ReXOTikW4pZqd5Ir1ZESbzVR0+qSzJB+zR+FdigMG5RGevLTn
- RRfKR8mYrphUHeniE922P+ULTo5+Q/yk86+vxYoQQfTpwkYWt+BCZf7LFpep9A0JL5bS
- x9XIxYZ/+yii3l7xou9fz+WZiY0TMA5UfF2L1otXunJFP0YDspa94hPdPBS4FpDntemg
- SKXA==
-X-Gm-Message-State: AOAM53115B3+6U0048vLU/5Y1JcpzqEdIuFxD1Y3YpUZbN3jtZs5iRz5
- Pxve82URi2pjTskEieaqoyvZG+Dml2TgrArklXI=
-X-Google-Smtp-Source: ABdhPJykZDTT3kd4F6y0xhJQLQH0CY1/8xLgR6i6+pWRSXQv+cKO4hgtt71iv+8B4K1WLpq6EaUav0+9fAu/PlN+990=
-X-Received: by 2002:a25:6ad6:: with SMTP id f205mr35763935ybc.76.1597008599048; 
- Sun, 09 Aug 2020 14:29:59 -0700 (PDT)
+ bh=gSgeMeM92UZgCX6qDhSZFFvtX43xfRefeT6Hws5M7oI=;
+ b=iQpKSHy4KRRoA4tY8nLGw30GXNDEaJyd8LRfUr3/8v6xZwO4sUMqxEFGAu1x8SZ1Uf
+ MpRyX41ejQ86vAyAZE4sxILcyhuY3DxVvzQ8dUotVJcsPJWWGAYKbBI7NvZg3sZudvuE
+ jE+T/VI5Vx1BzOJIBCXP0y9+CnOQUjZN7VjBO+ke5b+vKU1vvD1fGz/vIsdRlsX1O/ew
+ ozmVg+tb/JFJ+TbrlatweUHMm/oz69B9YOIkhKhsU20ZxeSN51wd4xbWLyT51Fq5kTWV
+ YasCu4bt1tJG1topT5IoACAAtlD1iVgnKzg5NpwP9N4DD0RPaqEPsjDsGgJxoKR1J8nA
+ 9gTA==
+X-Gm-Message-State: AOAM533kHkkBFv2dxLyrW8iQcSSbPa2k3m3l5GWFqLyOnpmc7htvQ83A
+ W3qaPHXCZurKexr8FtsI/iyNhJP2jK75lRZMnrLrVQ==
+X-Google-Smtp-Source: ABdhPJxoVO1r86GGnFCKO+vhg2M3UxMaaechdbpAQp++qmRpPuBLos7WAHroyuf2blk9J3m4QQTX3cr9vMgKYKekOJ8=
+X-Received: by 2002:a25:3355:: with SMTP id z82mr36932104ybz.445.1597008978611; 
+ Sun, 09 Aug 2020 14:36:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200808211323.GR6186@pendragon.ideasonboard.com>
-In-Reply-To: <20200808211323.GR6186@pendragon.ideasonboard.com>
+ <20200807174954.14448-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200808212259.GT6186@pendragon.ideasonboard.com>
+In-Reply-To: <20200808212259.GT6186@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 9 Aug 2020 22:29:32 +0100
-Message-ID: <CA+V-a8v0nXwe0iN2ymqE5YgcgOymWYv-Xf6N+rw_nJnUgx4yMQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] ARM: dts: r8a7742: Add LVDS support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Sun, 9 Aug 2020 22:35:52 +0100
+Message-ID: <CA+V-a8uQg3Jjdwe7PQM=v3Hs+Hm9yKGbQ0G0v5B17QAqjNy6MA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ARM: dts: r8a7742-iwg21d-q7: Add LCD support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Chris Paterson <Chris.Paterson2@renesas.com>
 X-Mailman-Approved-At: Mon, 10 Aug 2020 07:35:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,105 +82,174 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Sat, Aug 8, 2020 at 10:13 PM Laurent Pinchart
+
+On Sat, Aug 8, 2020 at 10:23 PM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Prabhakar,
 >
 > Thank you for the patch.
 >
-> On Fri, Aug 07, 2020 at 06:49:53PM +0100, Lad Prabhakar wrote:
-> > Add LVDS encoder node to r8a7742 SoC DT.
-> >
+> On Fri, Aug 07, 2020 at 06:49:54PM +0100, Lad Prabhakar wrote:
+> > The iwg21d comes with a 7" capacitive touch screen, therefore
+> > add support for it.
+>
+> I can't review most of this properly as I don't have access to the
+> schematics. Is there a way to get it ?
+>
+I'll check with Chris, how we could get the schematics for you.
+
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > > ---
-> >  arch/arm/boot/dts/r8a7742.dtsi | 54 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 54 insertions(+)
+> >  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 84 +++++++++++++++++++++++++
+> >  1 file changed, 84 insertions(+)
 > >
-> > diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
-> > index a979a4b3de61..a7e66220d63a 100644
-> > --- a/arch/arm/boot/dts/r8a7742.dtsi
-> > +++ b/arch/arm/boot/dts/r8a7742.dtsi
-> > @@ -1534,11 +1534,65 @@
-> >                               port@1 {
-> >                                       reg = <1>;
-> >                                       du_out_lvds0: endpoint {
-> > +                                             remote-endpoint = <&lvds0_in>;
-> >                                       };
-> >                               };
-> >                               port@2 {
-> >                                       reg = <2>;
-> >                                       du_out_lvds1: endpoint {
-> > +                                             remote-endpoint = <&lvds1_in>;
-> > +                                     };
+> > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > index b3461a61a4bf..cf59fd61e422 100644
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > @@ -30,6 +30,7 @@
+> >
+> >  /dts-v1/;
+> >  #include "r8a7742-iwg21m.dtsi"
+> > +#include <dt-bindings/pwm/pwm.h>
+> >
+> >  / {
+> >       model = "iWave Systems RainboW-G21D-Qseven board based on RZ/G1H";
+> > @@ -52,6 +53,50 @@
+> >               clock-frequency = <26000000>;
+> >       };
+> >
+> > +     lcd_backlight: backlight {
+> > +             compatible = "pwm-backlight";
+> > +             pwms = <&tpu 2 5000000 0>;
+> > +             brightness-levels = <0 4 8 16 32 64 128 255>;
+> > +             pinctrl-0 = <&backlight_pins>;
+> > +             pinctrl-names = "default";
+> > +             default-brightness-level = <7>;
+> > +             enable-gpios = <&gpio3 11 GPIO_ACTIVE_HIGH>;
+> > +     };
+> > +
+> > +     lvds-receiver {
+> > +             compatible = "ti,ds90cf384a", "lvds-decoder";
+> > +             powerdown-gpios = <&gpio5 28 GPIO_ACTIVE_LOW>;
+> > +
+> > +             ports {
+> > +                     #address-cells = <1>;
+> > +                     #size-cells = <0>;
+> > +
+> > +                     port@0 {
+> > +                             reg = <0>;
+> > +                             lvds_receiver_in: endpoint {
+> > +                                     remote-endpoint = <&lvds0_out>;
+> > +                             };
+> > +                     };
+> > +                     port@1 {
+> > +                             reg = <1>;
+> > +                             lvds_receiver_out: endpoint {
+> > +                                     remote-endpoint = <&panel_in>;
 > > +                             };
 > > +                     };
 > > +             };
+> > +     };
 > > +
-> > +             lvds0: lvds@feb90000 {
-> > +                     compatible = "renesas,r8a7742-lvds";
-> > +                     reg = <0 0xfeb90000 0 0x1c>;
+> > +     panel {
+> > +             compatible = "edt,etm0700g0dh6";
+> > +             backlight = <&lcd_backlight>;
+> > +
+> > +             port {
+> > +                     panel_in: endpoint {
+> > +                             remote-endpoint = <&lvds_receiver_out>;
+> > +                     };
+> > +             };
+> > +     };
+> > +
+> >       reg_1p5v: 1p5v {
+> >               compatible = "regulator-fixed";
+> >               regulator-name = "1P5V";
+> > @@ -129,12 +174,31 @@
+> >               VDDIO-supply = <&reg_3p3v>;
+> >               VDDD-supply = <&reg_1p5v>;
+> >       };
+> > +
+> > +     touch: touchpanel@38 {
+> > +             compatible = "edt,edt-ft5406";
+> > +             reg = <0x38>;
+> > +             interrupt-parent = <&gpio0>;
+> > +             interrupts = <24 IRQ_TYPE_EDGE_FALLING>;
+> > +     };
+> >  };
+> >
+> >  &cmt0 {
+> >       status = "okay";
+> >  };
+> >
+> > +&du {
+> > +     status = "okay";
+> > +};
+> > +
+> > +&gpio0 {
+> > +     touch-interrupt {
+> > +             gpio-hog;
+> > +             gpios = <24 GPIO_ACTIVE_LOW>;
+> > +             input;
 >
-> Isn't 0x14 enough for the size ? 0x1c won't hurt though. Same comment
-> below.
+> Is this required, won't requesting the interrupt be enough to configure
+> the pin properly ?
 >
-Agreed, 0x1c comes from Gen-3 manuals.
+Agreed.
 
 Cheers,
 Prabhakar
 
-> With or without this addressed,
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> > +                     clocks = <&cpg CPG_MOD 726>;
-> > +                     power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
-> > +                     resets = <&cpg 726>;
-> > +                     status = "disabled";
+> > +     };
+> > +};
 > > +
-> > +                     ports {
-> > +                             #address-cells = <1>;
-> > +                             #size-cells = <0>;
+> >  &hsusb {
+> >       pinctrl-0 = <&usb0_pins>;
+> >       pinctrl-names = "default";
+> > @@ -165,6 +229,11 @@
+> >               function = "avb";
+> >       };
+> >
+> > +     backlight_pins: backlight {
+> > +             groups = "tpu0_to2";
+> > +             function = "tpu0";
+> > +     };
 > > +
-> > +                             port@0 {
-> > +                                     reg = <0>;
-> > +                                     lvds0_in: endpoint {
-> > +                                             remote-endpoint = <&du_out_lvds0>;
-> > +                                     };
-> > +                             };
-> > +                             port@1 {
-> > +                                     reg = <1>;
-> > +                                     lvds0_out: endpoint {
-> > +                                     };
-> > +                             };
+> >       i2c2_pins: i2c2 {
+> >               groups = "i2c2_b";
+> >               function = "i2c2";
+> > @@ -208,6 +277,17 @@
+> >       };
+> >  };
+> >
+> > +&lvds0 {
+> > +     status = "okay";
+> > +     ports {
+> > +             port@1 {
+> > +                     lvds0_out: endpoint {
+> > +                             remote-endpoint = <&lvds_receiver_in>;
 > > +                     };
 > > +             };
+> > +     };
+> > +};
 > > +
-> > +             lvds1: lvds@feb94000 {
-> > +                     compatible = "renesas,r8a7742-lvds";
-> > +                     reg = <0 0xfeb94000 0 0x1c>;
-> > +                     clocks = <&cpg CPG_MOD 725>;
-> > +                     power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
-> > +                     resets = <&cpg 725>;
-> > +                     status = "disabled";
+> >  &rcar_sound {
+> >       pinctrl-0 = <&sound_pins>;
+> >       pinctrl-names = "default";
+> > @@ -261,6 +341,10 @@
+> >       shared-pin;
+> >  };
+> >
+> > +&tpu {
+> > +     status = "okay";
+> > +};
 > > +
-> > +                     ports {
-> > +                             #address-cells = <1>;
-> > +                             #size-cells = <0>;
-> > +
-> > +                             port@0 {
-> > +                                     reg = <0>;
-> > +                                     lvds1_in: endpoint {
-> > +                                             remote-endpoint = <&du_out_lvds1>;
-> > +                                     };
-> > +                             };
-> > +                             port@1 {
-> > +                                     reg = <1>;
-> > +                                     lvds1_out: endpoint {
-> >                                       };
-> >                               };
-> >                       };
+> >  &usbphy {
+> >       status = "okay";
+> >  };
 >
 > --
 > Regards,
