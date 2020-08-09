@@ -2,61 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5899B24003D
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Aug 2020 23:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C9224005C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 01:03:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D19E6E133;
-	Sun,  9 Aug 2020 21:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F02F16E2A5;
+	Sun,  9 Aug 2020 23:03:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1202E6E133
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 21:51:59 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id t23so7539684ljc.3
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Aug 2020 14:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=f2zW0kVKZw0Q6+2fznTr2R798o2bszAlCE1c0i0bfQ8=;
- b=hS0SjdPKscry2rWAA4o7k8T5BOFFcgP0QfAdRsDr29xMRFR0lwCN3uQ4jLkAWfSao+
- xir7589ytdBcQrIR6NxIN0Nz0qlHdmUhBQv09xvFOqrQF2KVvxFzuLtFvPUf5ndsRe8W
- NgbRjI4L5TRWB7sJpp19Guxce9Lp6ZnT3+PhEpBQsqa4h7tB+47Nq35hlMNXXUjrUOKc
- hqbYTjMHMmWu+N4YEgNzIvtzHkVXquY1vtmCm3+NmG/+sDnFFhPmoaBchG/KGl7t9cWo
- m2Q4qW4hCNK5zQmSi5JiuJHSBqUnfOEocNnbyoA+OwwhlnEzwUqyjpdLVEuiaMTGn9Vu
- z2pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=f2zW0kVKZw0Q6+2fznTr2R798o2bszAlCE1c0i0bfQ8=;
- b=GHtiQH6Io3wJncDYZwgmP9NDqsBpNcyKwkxHi2VhVFnfbouMkfYpzPE1PhewhniYKv
- MauRAs1djc7rLfaiqjSMqhYULNmLa7trQXHlelZXvtFA7uNzBPLesggqyLxqExfaBtw6
- pooHSlp36lZsWAbg71lBCffNPi+VfXBLjqg7p9avFmdUcnWMTPBd+3ftldLClygiZjMV
- iySFPwJXpcM3/34C3t87NHQPqvLpZL6evW9k2gKjKyQuoGN+In5GUZoG69QBsV/fbylS
- 1kSpv8uiL404OJ6WbjorzwKEoJCj27tga9aIrobHr74qKbduqNSAL7AOAbLsTw76hrX6
- ljlg==
-X-Gm-Message-State: AOAM532d8bdZLPdNrhZJtu6B92t+p7MCIzfwQzn+NDnmK2WVbNJNHU9+
- pC1FOXdOcBYnifRYKzCmhOErEg==
-X-Google-Smtp-Source: ABdhPJzIgq8D/ril5g++ZBvw/J39NKpixMJgqCX9fqCI3bqpFxlTlPSP/t57T5fXM1zS7PGzh+vO+w==
-X-Received: by 2002:a2e:b607:: with SMTP id r7mr10101008ljn.356.1597009917475; 
- Sun, 09 Aug 2020 14:51:57 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id t20sm8277045ljd.12.2020.08.09.14.51.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Aug 2020 14:51:56 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Stephan Gerhold <stephan@gerhold.net>,
- =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>
-Subject: [PATCH 4/4] drm/panel: s6e63m0: Add code to identify panel
-Date: Sun,  9 Aug 2020 23:51:04 +0200
-Message-Id: <20200809215104.1830206-5-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200809215104.1830206-1-linus.walleij@linaro.org>
-References: <20200809215104.1830206-1-linus.walleij@linaro.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA2E6E0CA
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 23:03:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04897F9;
+ Mon, 10 Aug 2020 01:03:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597014224;
+ bh=Kk+tp0hb9UsCcHFvuEh/LTmlcLsTugnaUod79jKG4WQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VtVnT3xcPU0HcewhkSz1Wn++3m01M5NnNU4t08w/nWeK+64gvqP4zx20lfCoW+zN8
+ pDnNZS1BJp8kAg7W8V4A1sCQaftbW6Ski6g+mBr4cDIzVP3uflcMDSH1g2yjyh77fo
+ 7IEa7S52D4HtgH3h48Gsuzl/83sUGAD7xo8HDDSM=
+Date: Mon, 10 Aug 2020 02:03:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 2/7] drm: rcar-du: Add r8a7742 support
+Message-ID: <20200809230330.GA12018@pendragon.ideasonboard.com>
+References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200807174954.14448-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200808210219.GN6186@pendragon.ideasonboard.com>
+ <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,71 +48,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgYWRkIGNvZGUgdG8gaWRlbnRpZnkgYSBmZXcgZGlmZmVyZW50IHBhbmVscyBtb3VudGVkCm9u
-IHRoZSBzNmU2M20wIGNvbnRyb2xsZXIuIFRoaXMgaXMgbmVjZXNzYXJ5IHRvIGFjaGlldmUKdGhl
-IHByb3BlciBiaWFzaW5nIHdpdGggRFNJIHZlcnNpb25zIG9mIHRoZSBwYW5lbC4KCkNjOiBTdGVw
-aGFuIEdlcmhvbGQgPHN0ZXBoYW5AZ2VyaG9sZC5uZXQ+CkNjOiBQYXdlxYIgQ2htaWVsIDxwYXdl
-bC5taWtvbGFqLmNobWllbEBnbWFpbC5jb20+ClNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWog
-PGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFu
-ZWwtc2Ftc3VuZy1zNmU2M20wLmMgfCA2MSArKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hh
-bmdlZCwgNjEgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5l
-bC9wYW5lbC1zYW1zdW5nLXM2ZTYzbTAuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1z
-YW1zdW5nLXM2ZTYzbTAuYwppbmRleCBiMjUwMjFiZGQ3MjQuLjBiMjJlMzgyYjgwZiAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZTYzbTAuYwpAQCAtMjYsMTIg
-KzI2LDIxIEBACiAjZGVmaW5lIE1DU19FTFZTU19PTiAgICAgICAgICAgICAgICAweGIxCiAjZGVm
-aW5lIE1DU19NSUVDVEwxICAgICAgICAgICAgICAgIDB4YzAKICNkZWZpbmUgTUNTX0JDTU9ERSAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDB4YzEKKyNkZWZpbmUgTUNTX1JFQURfSUQxCQkw
-eGRhCisjZGVmaW5lIE1DU19SRUFEX0lEMgkJMHhkYgorI2RlZmluZSBNQ1NfUkVBRF9JRDMJCTB4
-ZGMKKyNkZWZpbmUgTUNTX0xFVkVMXzJfS0VZCQkweGYwCisjZGVmaW5lIE1DU19NVFBfS0VZCQkw
-eGYxCiAjZGVmaW5lIE1DU19ESVNDVEwgICAweGYyCiAjZGVmaW5lIE1DU19TUkNDVEwgICAgICAg
-ICAgIDB4ZjYKICNkZWZpbmUgTUNTX0lGQ1RMICAgICAgICAgICAgICAgICAgICAgICAweGY3CiAj
-ZGVmaW5lIE1DU19QQU5FTENUTCAgICAgICAgIDB4RjgKICNkZWZpbmUgTUNTX1BHQU1NQUNUTCAg
-ICAgICAgICAgICAgICAgICAweGZhCiAKKyNkZWZpbmUgUzZFNjNNMF9MQ0RfSURfVkFMVUVfTTIJ
-CTB4QTQKKyNkZWZpbmUgUzZFNjNNMF9MQ0RfSURfVkFMVUVfU00yCTB4QjQKKyNkZWZpbmUgUzZF
-NjNNMF9MQ0RfSURfVkFMVUVfU00yXzEJMHhCNgorCiAjZGVmaW5lIE5VTV9HQU1NQV9MRVZFTFMg
-ICAgICAgICAgICAgMTEKICNkZWZpbmUgR0FNTUFfVEFCTEVfQ09VTlQgICAgICAgICAgIDIzCiAK
-QEAgLTkxLDYgKzEwMCw3IEBAIHN0cnVjdCBzNmU2M20wIHsKIAlpbnQgKCpkY3Nfd3JpdGUpKHN0
-cnVjdCBkZXZpY2UgKmRldiwgY29uc3QgdTggKmRhdGEsIHNpemVfdCBsZW4pOwogCXN0cnVjdCBk
-cm1fcGFuZWwgcGFuZWw7CiAJc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsX2RldjsKKwl1OCBs
-Y2RfdHlwZTsKIAogCXN0cnVjdCByZWd1bGF0b3JfYnVsa19kYXRhIHN1cHBsaWVzWzJdOwogCXN0
-cnVjdCBncGlvX2Rlc2MgKnJlc2V0X2dwaW87CkBAIC0xNTksNiArMTY5LDQ4IEBAIHN0YXRpYyB2
-b2lkIHM2ZTYzbTBfZGNzX3dyaXRlKHN0cnVjdCBzNmU2M20wICpjdHgsIGNvbnN0IHU4ICpkYXRh
-LCBzaXplX3QgbGVuKQogCQlzNmU2M20wX2Rjc193cml0ZShjdHgsIGQsIEFSUkFZX1NJWkUoZCkp
-OyBcCiAJfSkKIAorCitzdGF0aWMgaW50IHM2ZTYzbTBfY2hlY2tfbGNkX3R5cGUoc3RydWN0IHM2
-ZTYzbTAgKmN0eCkKK3sKKwl1OCBpZDEsIGlkMiwgaWQzOworCWludCByZXQ7CisKKwlzNmU2M20w
-X2Rjc19yZWFkKGN0eCwgTUNTX1JFQURfSUQxLCAmaWQxKTsKKwlzNmU2M20wX2Rjc19yZWFkKGN0
-eCwgTUNTX1JFQURfSUQyLCAmaWQyKTsKKwlzNmU2M20wX2Rjc19yZWFkKGN0eCwgTUNTX1JFQURf
-SUQzLCAmaWQzKTsKKworCXJldCA9IHM2ZTYzbTBfY2xlYXJfZXJyb3IoY3R4KTsKKwlpZiAocmV0
-KSB7CisJCURSTV9ERVZfRVJST1IoY3R4LT5kZXYsICJlcnJvciBjaGVja2luZyBMQ0QgdHlwZSAo
-JWQpXG4iLAorCQkJICAgICAgcmV0KTsKKwkJY3R4LT5sY2RfdHlwZSA9IDB4MDA7CisJCXJldHVy
-biByZXQ7CisJfQorCisJRFJNX0RFVl9JTkZPKGN0eC0+ZGV2LCAiTVRQIElEOiAlMDJ4ICUwMngg
-JTAyeFxuIiwgaWQxLCBpZDIsIGlkMyk7CisKKwkvKiBXZSBhdHRlbXB0IHRvIGRldGVjdCB3aGF0
-IHBhbmVsIGlzIG1vdW50ZWQgb24gdGhlIGNvbnRyb2xsZXIgKi8KKwlzd2l0Y2ggKGlkMikgewor
-CWNhc2UgUzZFNjNNMF9MQ0RfSURfVkFMVUVfTTI6CisJCURSTV9ERVZfSU5GTyhjdHgtPmRldiwK
-KwkJCSAgICAgImRldGVjdGVkIExDRCBwYW5lbCBBTVMzOTdHRSBNSVBJIE0yXG4iKTsKKwkJYnJl
-YWs7CisJY2FzZSBTNkU2M00wX0xDRF9JRF9WQUxVRV9TTTI6CisJY2FzZSBTNkU2M00wX0xDRF9J
-RF9WQUxVRV9TTTJfMToKKwkJRFJNX0RFVl9JTkZPKGN0eC0+ZGV2LAorCQkJICAgICAiZGV0ZWN0
-ZWQgTENEIHBhbmVsIEFNUzM5N0dFIE1JUEkgU00yXG4iKTsKKwkJYnJlYWs7CisJZGVmYXVsdDoK
-KwkJRFJNX0RFVl9JTkZPKGN0eC0+ZGV2LAorCQkJICAgICAidW5rbm93biBMQ0QgcGFuZWwgdHlw
-ZSAlMDJ4XG4iLCBpZDIpOworCQlicmVhazsKKwl9CisKKwljdHgtPmxjZF90eXBlID0gaWQyOwor
-CisJcmV0dXJuIDA7Cit9CisKIHN0YXRpYyB2b2lkIHM2ZTYzbTBfaW5pdChzdHJ1Y3QgczZlNjNt
-MCAqY3R4KQogewogCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNQ1NfUEFORUxD
-VEwsCkBAIC0zMTIsNiArMzY0LDE1IEBAIHN0YXRpYyBpbnQgczZlNjNtMF9wcmVwYXJlKHN0cnVj
-dCBkcm1fcGFuZWwgKnBhbmVsKQogCWlmIChyZXQgPCAwKQogCQlyZXR1cm4gcmV0OwogCisJLyog
-TWFnaWMgdG8gdW5sb2NrIGxldmVsIDIgY29udHJvbCBvZiB0aGUgZGlzcGxheSAqLworCXM2ZTYz
-bTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNQ1NfTEVWRUxfMl9LRVksIDB4NWEsIDB4NWEp
-OworCS8qIE1hZ2ljIHRvIHVubG9jayBNVFAgcmVhZGluZyAqLworCXM2ZTYzbTBfZGNzX3dyaXRl
-X3NlcV9zdGF0aWMoY3R4LCBNQ1NfTVRQX0tFWSwgMHg1YSwgMHg1YSk7CisKKwlyZXQgPSBzNmU2
-M20wX2NoZWNrX2xjZF90eXBlKGN0eCk7CisJaWYgKHJldCA8IDApCisJCXJldHVybiByZXQ7CisK
-IAlzNmU2M20wX2luaXQoY3R4KTsKIAogCXJldCA9IHM2ZTYzbTBfY2xlYXJfZXJyb3IoY3R4KTsK
-LS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Hi Prabhakar,
+
+On Sun, Aug 09, 2020 at 09:38:05PM +0100, Lad, Prabhakar wrote:
+> On Sat, Aug 8, 2020 at 10:02 PM Laurent Pinchart wrote:
+> > On Fri, Aug 07, 2020 at 06:49:49PM +0100, Lad Prabhakar wrote:
+> > > Add direct support for the r8a7742 (RZ/G1H).
+> > >
+> > > The RZ/G1H shares a common, compatible configuration with the r8a7790
+> > > (R-Car H2) so that device info structure is reused, the only difference
+> > > being TCON is unsupported on RZ/G1H (Currently unsupported by the driver).
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > > ---
+> > >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 +++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > > index 3e67cf70f040..7e286c7a7a6c 100644
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > > @@ -216,8 +216,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+> > >       .channels_mask = BIT(2) | BIT(1) | BIT(0),
+> > >       .routes = {
+> > >               /*
+> > > -              * R8A7790 has one RGB output, two LVDS outputs and one
+> > > -              * (currently unsupported) TCON output.
+> > > +              * R8A7742 and R8A7790 each have one RGB output and two LVDS outputs. Additionally
+> > > +              * R8A7790 supports one TCON output (currently unsupported by the driver).
+> >
+> > Once we support TCON we'll have to split this, but for now I suppose
+> > it's fine. Would you however mind wrapping this to 80 columns ? I can do
+> > so when applying if it's fine with you.
+>
+> Agreed once TCON is added this has to be split. But isn't  the column
+> size has been increased (checkpatch too doesn't complain about), but
+
+It has, but it doesn't mean it's mandatory to increase line length :-)
+I think aligning with the style of the existing code should be favoured.
+
+> feel free to wrapp it for 80 columns.
+
+OK, I'll do that.
+
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > >                */
+> > >               [RCAR_DU_OUTPUT_DPAD0] = {
+> > >                       .possible_crtcs = BIT(2) | BIT(1) | BIT(0),
+> > > @@ -443,6 +443,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+> > >  };
+> > >
+> > >  static const struct of_device_id rcar_du_of_table[] = {
+> > > +     { .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+> > >       { .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+> > >       { .compatible = "renesas,du-r8a7744", .data = &rzg1_du_r8a7743_info },
+> > >       { .compatible = "renesas,du-r8a7745", .data = &rzg1_du_r8a7745_info },
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
