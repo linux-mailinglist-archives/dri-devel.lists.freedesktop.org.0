@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADAA2402C1
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6DD2402D5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE6D6E3A0;
-	Mon, 10 Aug 2020 07:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11116E384;
+	Mon, 10 Aug 2020 07:36:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
  [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095A86E32D
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 21:10:33 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id e187so4118954ybc.5
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Aug 2020 14:10:32 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5C1D6E2A5
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 21:29:59 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id a34so4125519ybj.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Aug 2020 14:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FS8VaTKhvmE9nkcm+P7/rVO4xd8egtxbMts7IrjMZwI=;
- b=ZQRUBrsPLmUUs7t88nCb6LotejwEP/cgcI98kyJDCKbSVi2Kololr0uWmXdZ01Bg66
- wFLgXUSdinK/mEHiVQaUOwXdNcfU/8T7bzJvmhasepu3KGqp6GvvGGzjHj7a7jRZ4s3E
- RpkAkbyttWxwchd2mE7vxkKqF4KynL+rlghuwUqTDg0KsrXR6ZedXD54/l9dNhdapTBo
- fl+qvqSQT5wYii5j9Z/RpMZ4GbMG4uha9zP6a6FnfzjNH4+AEsM3tYj1zWEoRu1b+s9r
- vJrq9+l2M4NA/P8uXUpqolBNY3Ey2QbpIfjI/TFKvhI/1suRYlRAdP1LiiVf580gGp18
- YZUw==
+ :cc; bh=ORAT8UucilC3IwrKP3UItEtUbW3Qy+oRV7IOUt8IGrw=;
+ b=skYyeSEoTdqbH1+pnfJFV9NFJ+4eS+a2Mks1/TnaCZu4YH64WLfkTPwkE+nCEc82xO
+ FRJMQN5rQHvWHAAeqA2pVaXn+UbvK13FrkBNMXADx+yoaQjvIwZxCFjTjwx4LI1WyvFH
+ nYMfGKGMUvSIFdSZn7ViEsu7X/GCxA/4iFe1GUenYqCbCaufBOW8yF6nTnuqJm1Rhbq7
+ iLFs+MvzRQ8Qn8wvbiSZLlZvDQcWRxaFKFp3H2bXzrLKvf6iBSjQ0Jw5rWTnNz3BTGUj
+ zFIlO+sgQyLYlulJF2/xofKQjyzTBF4vQrm53HqYrX5+i1ZGhrHW9Nh89+LejHNCKMAE
+ +1HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FS8VaTKhvmE9nkcm+P7/rVO4xd8egtxbMts7IrjMZwI=;
- b=L3GUh9gVn972uI4TF6vBV79pAjzgV/BOGGP8dYEaKbwEd3ezGbB5vZIPPJZkkcMh2Y
- 46vVDjk9Pa2i1W4ppHCGD6W7l+y8DXy/RFWqPEIxs+xF5ul0AJVFez+HSNJXpKTj4cI+
- /x4+3rRwdsSe4grH5t+SMLtiBuxiRYc08K2L3EHJy6wzR2kPFPy/onRcVVtyGafLHNFL
- ODWKf3oWcfs60OpCNLtMBY3SvdYREbgLgKrAdtE/OUMpNZKBKSsHeArWBjczFoXeJ6Go
- ppp3BBQQa762xieVMs6UFZHFfTXc8n7vUoj1/HnxQ/kMYfQofsmyFuQ3r3PJzAvTJCqe
- A6MQ==
-X-Gm-Message-State: AOAM5314f/4702H99NOMx9KVBpMi/YwzCiyd+/BzIOFjfPpAQucuAas/
- Xo+DpfJlQh2zRNtE3W0hTFAVuP0+KhagKN+fDEE=
-X-Google-Smtp-Source: ABdhPJzkl+3oTLnEZzeGv+iWA/CW3+k2mTV9RRXQRR9+q7yU8D9yy1zyS867h86taMVevrq1/x0F54w50zETzAA9MFQ=
-X-Received: by 2002:a5b:40f:: with SMTP id m15mr32122222ybp.25.1597007432213; 
- Sun, 09 Aug 2020 14:10:32 -0700 (PDT)
+ bh=ORAT8UucilC3IwrKP3UItEtUbW3Qy+oRV7IOUt8IGrw=;
+ b=WBFzxikwkdR+tWHneMaaGY1xCDgPOD1c7sXbxX1aaint8c8t8QwKo3qQ3n2C3dIhbn
+ nE+R5BA5osPuyyxCUqHMX8UpAFDCSlVLDC4YDZN+ZhknPC2jIV5MS3L/5ultRa/i+QEp
+ h//VhGxQU/vo+sSbJR7ReXOTikW4pZqd5Ir1ZESbzVR0+qSzJB+zR+FdigMG5RGevLTn
+ RRfKR8mYrphUHeniE922P+ULTo5+Q/yk86+vxYoQQfTpwkYWt+BCZf7LFpep9A0JL5bS
+ x9XIxYZ/+yii3l7xou9fz+WZiY0TMA5UfF2L1otXunJFP0YDspa94hPdPBS4FpDntemg
+ SKXA==
+X-Gm-Message-State: AOAM53115B3+6U0048vLU/5Y1JcpzqEdIuFxD1Y3YpUZbN3jtZs5iRz5
+ Pxve82URi2pjTskEieaqoyvZG+Dml2TgrArklXI=
+X-Google-Smtp-Source: ABdhPJykZDTT3kd4F6y0xhJQLQH0CY1/8xLgR6i6+pWRSXQv+cKO4hgtt71iv+8B4K1WLpq6EaUav0+9fAu/PlN+990=
+X-Received: by 2002:a25:6ad6:: with SMTP id f205mr35763935ybc.76.1597008599048; 
+ Sun, 09 Aug 2020 14:29:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200808210321.GO6186@pendragon.ideasonboard.com>
- <20200808210507.GP6186@pendragon.ideasonboard.com>
-In-Reply-To: <20200808210507.GP6186@pendragon.ideasonboard.com>
+ <20200807174954.14448-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200808211323.GR6186@pendragon.ideasonboard.com>
+In-Reply-To: <20200808211323.GR6186@pendragon.ideasonboard.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 9 Aug 2020 22:10:06 +0100
-Message-ID: <CA+V-a8vGYtVUjXXGAMeZjMYq4BCt2ZVkkWeuqn8EffcRx46P0g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] dt-bindings: display: renesas,
- lvds: Document r8a7742 bindings
+Date: Sun, 9 Aug 2020 22:29:32 +0100
+Message-ID: <CA+V-a8v0nXwe0iN2ymqE5YgcgOymWYv-Xf6N+rw_nJnUgx4yMQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ARM: dts: r8a7742: Add LVDS support
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-Mailman-Approved-At: Mon, 10 Aug 2020 07:35:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,47 +81,105 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Sat, Aug 8, 2020 at 10:05 PM Laurent Pinchart
+On Sat, Aug 8, 2020 at 10:13 PM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> On Sun, Aug 09, 2020 at 12:03:27AM +0300, Laurent Pinchart wrote:
-> > Hi Prabhakar,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Aug 07, 2020 at 06:49:50PM +0100, Lad Prabhakar wrote:
-> > > Document the RZ/G1H (R8A7742) LVDS bindings.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Hi Prabhakar,
 >
-> I actually spoke too soon, this binding has been concerted to YAML in
-> drm-next. I can fix this when applying, no need to resubmit just for
-> this.
+> Thank you for the patch.
 >
-Thank you for taking care of it.
+> On Fri, Aug 07, 2020 at 06:49:53PM +0100, Lad Prabhakar wrote:
+> > Add LVDS encoder node to r8a7742 SoC DT.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > ---
+> >  arch/arm/boot/dts/r8a7742.dtsi | 54 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 54 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
+> > index a979a4b3de61..a7e66220d63a 100644
+> > --- a/arch/arm/boot/dts/r8a7742.dtsi
+> > +++ b/arch/arm/boot/dts/r8a7742.dtsi
+> > @@ -1534,11 +1534,65 @@
+> >                               port@1 {
+> >                                       reg = <1>;
+> >                                       du_out_lvds0: endpoint {
+> > +                                             remote-endpoint = <&lvds0_in>;
+> >                                       };
+> >                               };
+> >                               port@2 {
+> >                                       reg = <2>;
+> >                                       du_out_lvds1: endpoint {
+> > +                                             remote-endpoint = <&lvds1_in>;
+> > +                                     };
+> > +                             };
+> > +                     };
+> > +             };
+> > +
+> > +             lvds0: lvds@feb90000 {
+> > +                     compatible = "renesas,r8a7742-lvds";
+> > +                     reg = <0 0xfeb90000 0 0x1c>;
+>
+> Isn't 0x14 enough for the size ? 0x1c won't hurt though. Same comment
+> below.
+>
+Agreed, 0x1c comes from Gen-3 manuals.
 
 Cheers,
 Prabhakar
 
-> > > ---
-> > >  .../devicetree/bindings/display/bridge/renesas,lvds.txt          | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> > > index c62ce2494ed9..40aa809f41cd 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> > > @@ -7,6 +7,7 @@ Gen2, R-Car Gen3 and RZ/G SoCs.
-> > >  Required properties:
-> > >
-> > >  - compatible : Shall contain one of
-> > > +  - "renesas,r8a7742-lvds" for R8A7742 (RZ/G1H) compatible LVDS encoders
-> > >    - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
-> > >    - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
-> > >    - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
+> With or without this addressed,
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > +                     clocks = <&cpg CPG_MOD 726>;
+> > +                     power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
+> > +                     resets = <&cpg 726>;
+> > +                     status = "disabled";
+> > +
+> > +                     ports {
+> > +                             #address-cells = <1>;
+> > +                             #size-cells = <0>;
+> > +
+> > +                             port@0 {
+> > +                                     reg = <0>;
+> > +                                     lvds0_in: endpoint {
+> > +                                             remote-endpoint = <&du_out_lvds0>;
+> > +                                     };
+> > +                             };
+> > +                             port@1 {
+> > +                                     reg = <1>;
+> > +                                     lvds0_out: endpoint {
+> > +                                     };
+> > +                             };
+> > +                     };
+> > +             };
+> > +
+> > +             lvds1: lvds@feb94000 {
+> > +                     compatible = "renesas,r8a7742-lvds";
+> > +                     reg = <0 0xfeb94000 0 0x1c>;
+> > +                     clocks = <&cpg CPG_MOD 725>;
+> > +                     power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
+> > +                     resets = <&cpg 725>;
+> > +                     status = "disabled";
+> > +
+> > +                     ports {
+> > +                             #address-cells = <1>;
+> > +                             #size-cells = <0>;
+> > +
+> > +                             port@0 {
+> > +                                     reg = <0>;
+> > +                                     lvds1_in: endpoint {
+> > +                                             remote-endpoint = <&du_out_lvds1>;
+> > +                                     };
+> > +                             };
+> > +                             port@1 {
+> > +                                     reg = <1>;
+> > +                                     lvds1_out: endpoint {
+> >                                       };
+> >                               };
+> >                       };
 >
 > --
 > Regards,
