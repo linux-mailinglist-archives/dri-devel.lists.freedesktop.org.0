@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B11240DE6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:12:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1DF240DE7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC496E1E2;
-	Mon, 10 Aug 2020 19:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB5E46E21C;
+	Mon, 10 Aug 2020 19:12:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 251046E21C;
- Mon, 10 Aug 2020 19:12:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961E96E21C;
+ Mon, 10 Aug 2020 19:12:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0EF6321775;
- Mon, 10 Aug 2020 19:12:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5571422CA1;
+ Mon, 10 Aug 2020 19:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086737;
- bh=OVDkHsSG07NKTNVnTJzwLv0lVIcR7G7fqta95REk53A=;
+ s=default; t=1597086743;
+ bh=ZiaolnjIZq/xKnJoPIeccT6Nyg/HSL5K/OjpsfDFZts=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ygUXxq27cIaStgwdALlaJ6++6uunEmURmyIGt0g426ni7Ceg/2/al8xfYdvGJGXfy
- BALEn+laeLGKoX8+bhvy1zHxru8tVKL6bWbfk8vBs43hwDJTEEJauPosfd0kiWbeGP
- 1rkyHN0uj5pDjUQhInUkQR0r5jKgZSbnIRDPgdzE=
+ b=OUDNCw1MCZRkAR4Btk4o+Lw/f6PKE9dtEXb5Y1vSXbquhHQ2g5sQfhuWGPeSoHhnc
+ BJeKMEfJ6W7kfJiLs82pHOOj6vWftbKHKxChPUK/XCTQVFNdzkhGPwokVydhPR6WD0
+ b5OjKMJoynwy78QXZ3+UgDxCgLIUYdHS/A+3OcW8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 17/45] drm/nouveau: fix multiple instances of
- reference count leaks
-Date: Mon, 10 Aug 2020 15:11:25 -0400
-Message-Id: <20200810191153.3794446-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 21/45] drm: msm: a6xx: fix gpu failure after
+ system resume
+Date: Mon, 10 Aug 2020 15:11:29 -0400
+Message-Id: <20200810191153.3794446-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810191153.3794446-1-sashal@kernel.org>
 References: <20200810191153.3794446-1-sashal@kernel.org>
@@ -50,74 +50,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
- Aditya Pakki <pakki001@umn.edu>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, Matthias Kaehlcke <mka@chromium.org>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aditya Pakki <pakki001@umn.edu>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
 
-[ Upstream commit 659fb5f154c3434c90a34586f3b7aa1c39cf6062 ]
+[ Upstream commit 57c0bd517c06b088106b0236ed604056c8e06da5 ]
 
-On calling pm_runtime_get_sync() the reference count of the device
-is incremented. In case of failure, decrement the
-ref count before returning the error.
+On targets where GMU is available, GMU takes over the ownership of GX GDSC
+during its initialization. So, move the refcount-get on GX PD before we
+initialize the GMU. This ensures that nobody can collapse the GX GDSC
+once GMU owns the GX GDSC. This patch fixes some GMU OOB errors seen
+during GPU wake up during a system resume.
 
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Reported-by: Matthias Kaehlcke <mka@chromium.org>
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+Tested-by: Matthias Kaehlcke <mka@chromium.org>
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_drm.c | 8 ++++++--
- drivers/gpu/drm/nouveau/nouveau_gem.c | 4 +++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index b1beed40e746a..5347e5bdee8cc 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1052,8 +1052,10 @@ nouveau_drm_open(struct drm_device *dev, struct drm_file *fpriv)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index e62b286947a7f..9ea748667fab0 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -713,10 +713,19 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+ 	/* Turn on the resources */
+ 	pm_runtime_get_sync(gmu->dev);
  
- 	/* need to bring up power immediately if opening device */
- 	ret = pm_runtime_get_sync(dev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put_autosuspend(dev->dev);
++	/*
++	 * "enable" the GX power domain which won't actually do anything but it
++	 * will make sure that the refcounting is correct in case we need to
++	 * bring down the GX after a GMU failure
++	 */
++	if (!IS_ERR_OR_NULL(gmu->gxpd))
++		pm_runtime_get_sync(gmu->gxpd);
++
+ 	/* Use a known rate to bring up the GMU */
+ 	clk_set_rate(gmu->core_clk, 200000000);
+ 	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
+ 	if (ret) {
++		pm_runtime_put(gmu->gxpd);
+ 		pm_runtime_put(gmu->dev);
  		return ret;
-+	}
+ 	}
+@@ -752,19 +761,12 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+ 	/* Set the GPU to the highest power frequency */
+ 	__a6xx_gmu_set_freq(gmu, gmu->nr_gpu_freqs - 1);
  
- 	get_task_comm(tmpname, current);
- 	snprintf(name, sizeof(name), "%s[%d]", tmpname, pid_nr(fpriv->pid));
-@@ -1135,8 +1137,10 @@ nouveau_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	long ret;
+-	/*
+-	 * "enable" the GX power domain which won't actually do anything but it
+-	 * will make sure that the refcounting is correct in case we need to
+-	 * bring down the GX after a GMU failure
+-	 */
+-	if (!IS_ERR_OR_NULL(gmu->gxpd))
+-		pm_runtime_get(gmu->gxpd);
+-
+ out:
+ 	/* On failure, shut down the GMU to leave it in a good state */
+ 	if (ret) {
+ 		disable_irq(gmu->gmu_irq);
+ 		a6xx_rpmh_stop(gmu);
++		pm_runtime_put(gmu->gxpd);
+ 		pm_runtime_put(gmu->dev);
+ 	}
  
- 	ret = pm_runtime_get_sync(dev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put_autosuspend(dev->dev);
- 		return ret;
-+	}
- 
- 	switch (_IOC_NR(cmd) - DRM_COMMAND_BASE) {
- 	case DRM_NOUVEAU_NVIF:
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index 1324c19f4e5cf..fbfe254227740 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -45,8 +45,10 @@ nouveau_gem_object_del(struct drm_gem_object *gem)
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(dev);
--	if (WARN_ON(ret < 0 && ret != -EACCES))
-+	if (WARN_ON(ret < 0 && ret != -EACCES)) {
-+		pm_runtime_put_autosuspend(dev);
- 		return;
-+	}
- 
- 	if (gem->import_attach)
- 		drm_prime_gem_destroy(gem, nvbo->bo.sg);
 -- 
 2.25.1
 
