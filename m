@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6BC2405D6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 14:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AD12405DE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 14:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CEDC89F5F;
-	Mon, 10 Aug 2020 12:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F5389F6D;
+	Mon, 10 Aug 2020 12:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2567789F63
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 12:25:58 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id 184so8156437wmb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 05:25:58 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2581789F6D
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 12:28:24 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a14so7991807wra.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 05:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
+ h=date:from:to:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=b3OoEEdMwMrmKUMYmH+zb4XpVVjWGK+gf31ILXRHaSw=;
- b=kb9fzKclPhf56lIrTevHzKGEbJzJlHS1bVfd6A2NCGcg3LwML2AIzje9k869hkdq3N
- t/3s7UvEuc27IZJ/BPKqv1tugdEK4DZxxlc23m/VAxrQUjdnGXRVtGIM7HKV1cWPo6xD
- hLJEWHVLWBfw3Qksy7UzRQv1yqnaDhw8Fv8fU=
+ bh=eaIFsD+hoNLL20dznuclcVsRdvgYr891wOnd6wLUjec=;
+ b=Yvy/UK8vKUjrKoyV+hTC42+eQBPiz1TOCCHOBCZ/Cr7lLUPoUSvho737YejL1LWMNg
+ 8dbyJSyva8raZdNFV0/AZiPEfJ0q3bsqkSJdu251XZQ3kgzdjFIkXtF+w+6tGeOX3vG8
+ lCQO3V/RiSTo9+b4Npk7GtcqmZ0Ta+LaEWOoM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ h=x-gm-message-state:date:from:to:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=b3OoEEdMwMrmKUMYmH+zb4XpVVjWGK+gf31ILXRHaSw=;
- b=r5XCjGmxq8OxB1nVHaaISkZ6sm3HaKVX84RBVA6oi8FBdnAjMFYWvlxBxyS1IS6jYs
- v8r2g5uUomUqE/Yiw1xR3Rwp6UM6hXTkNqwXM2rF+UpXn08iodMHQ2wHS5uZyn6R00bp
- 342UIKb23Jdm6ZWH1jJ884MF8IC/RmXdcPFIiEhpWGfIeoAdgNwZiUp/WpeSjFNwal3N
- OU6qjgGMN4GBFFkxX7PZcSn4nMeRtZaiG4ATvlhs+tN+HP1mIciyLZ1e9gSiDZ2fHiZP
- 6ha/YWIE1TX3ByxvpnpzAl9lmrrhHL7RmaMffVVnbDbrN6aVM8cAEGkiCWm/x1PzkNPM
- G58A==
-X-Gm-Message-State: AOAM533PBZ9vi1ewxY4YynQ6+GgadjNwWHR/snHQX98M1vW8DrZUbUyB
- M4QpGXMiqLr+a3+Y65aXNTwcTg==
-X-Google-Smtp-Source: ABdhPJxIjqkTUhXE3Vs74CTmFKDG0oeOy6Hu70Ht3cj2yYP5cL5K288kmMPDcGl7h4/dN1o/IyfAdQ==
-X-Received: by 2002:a1c:80c1:: with SMTP id
- b184mr26695970wmd.121.1597062356672; 
- Mon, 10 Aug 2020 05:25:56 -0700 (PDT)
+ bh=eaIFsD+hoNLL20dznuclcVsRdvgYr891wOnd6wLUjec=;
+ b=HPgmdZcT8Q78H9acGi7SBWpTM9boS2xqOjMW1wqwb3flhqxQy0Vd2lg4+gDf9YwFuu
+ KrEczeIJopHAowEc6zC9mK1dj/8YlWNdGcayD0ermYG5hEGaxJIfDNkkouKjn+Xy/Urv
+ UTlWoqkWVqwHhYXjvSDfEeQBUy5FbjroI3v5hr1lNhfE8PKowJ5kRHS7DXrzZVD5YBZL
+ qgvj4OwMp7YHERJ8QPH/JeokdvEicP2znp8jNQxMl75S7OLoQEff60lSnibdBxaBTDQR
+ 3/xyAw7JB240L6KKhku/o53VG16AZg5AMY+vqLhlUlizcng2udJLp2SvnPPktfC9FbfF
+ VkAw==
+X-Gm-Message-State: AOAM531UL/Eh/CmUw2XGQ68vAn9xe2/TietymazXgz0ZCDVLEghpYASg
+ +V33Mkrb4QYG96y+4FT/uO2rFSlZlHM=
+X-Google-Smtp-Source: ABdhPJw7YOfKEvH1CsffpGjmuSHWL9OJ7P8To7sa/l5yz1NIVFwTz2OfpIGtChWTZL4wOce2Xr0yDQ==
+X-Received: by 2002:adf:ec04:: with SMTP id x4mr23231761wrn.28.1597062502722; 
+ Mon, 10 Aug 2020 05:28:22 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m8sm21030820wro.75.2020.08.10.05.25.54
+ by smtp.gmail.com with ESMTPSA id v11sm20800057wrr.10.2020.08.10.05.28.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 05:25:55 -0700 (PDT)
-Date: Mon, 10 Aug 2020 14:25:53 +0200
+ Mon, 10 Aug 2020 05:28:22 -0700 (PDT)
+Date: Mon, 10 Aug 2020 14:28:20 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-Subject: Re: [PATCH 3/7] drm/amd/display: Avoid using unvalidated
- tiling_flags and tmz_surface in prepare_planes
-Message-ID: <20200810122553.GI2352366@phenom.ffwll.local>
-References: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
- <20200730203642.17553-4-nicholas.kazlauskas@amd.com>
- <20200807083041.GL6419@phenom.ffwll.local>
- <4117cdee-2f5d-a8bd-1e80-1c550c9d9af3@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, daniel@ffwll.ch, daniel@fooishbar.org,
+ maraeo@gmail.com
+Subject: Re: [PATCH 6/8] drm/amd/display: Set DC options from modifiers.
+Message-ID: <20200810122820.GJ2352366@phenom.ffwll.local>
+References: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
+ <20200804213119.25091-7-bas@basnieuwenhuizen.nl>
+ <20200805073210.GU6419@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <4117cdee-2f5d-a8bd-1e80-1c550c9d9af3@amd.com>
+In-Reply-To: <20200805073210.GU6419@phenom.ffwll.local>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,142 +68,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 07, 2020 at 10:29:09AM -0400, Kazlauskas, Nicholas wrote:
-> On 2020-08-07 4:30 a.m., daniel@ffwll.ch wrote:
-> > On Thu, Jul 30, 2020 at 04:36:38PM -0400, Nicholas Kazlauskas wrote:
-> > > [Why]
-> > > We're racing with userspace as the flags could potentially change
-> > > from when we acquired and validated them in commit_check.
+On Wed, Aug 05, 2020 at 09:32:10AM +0200, daniel@ffwll.ch wrote:
+> On Tue, Aug 04, 2020 at 11:31:17PM +0200, Bas Nieuwenhuizen wrote:
+> > This sets the DC tiling options from the modifier, if modifiers
+> > are used for the FB. This patch by itself does not expose the
+> > support yet though.
 > > 
-> > Uh ... I didn't know these could change. I think my comments on Bas'
-> > series are even more relevant now. I think long term would be best to bake
-> > these flags in at addfb time when modifiers aren't set. And otherwise
-> > always use the modifiers flag, and completely ignore the legacy flags
-> > here.
-> > -Daniel
+> > There is not much validation yet to limit the scope of this
+> > patch, but the current validation is at the same level as
+> > the BO metadata path.
+> > 
+> > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> > ---
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 109 +++++++++++++++++-
+> >  1 file changed, 103 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index 6ef7f2f8acab..ac913b8f10ef 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -3754,6 +3754,93 @@ fill_gfx9_plane_attributes_from_flags(struct amdgpu_device *adev,
+> >  	return 0;
+> >  }
+> >  
+> > +static bool
+> > +modifier_has_dcc(uint64_t modifier)
+> > +{
+> > +	return IS_AMD_FMT_MOD(modifier) && AMD_FMT_MOD_GET(DCC, modifier);
+> > +}
+> > +
+> > +static unsigned
+> > +modifier_gfx9_swizzle_mode(uint64_t modifier)
+> > +{
+> > +	if (modifier == DRM_FORMAT_MOD_LINEAR)
+> > +		return 0;
+> > +
+> > +	return AMD_FMT_MOD_GET(TILE, modifier);
+> > +}
+> > +
+> > +static void
+> > +fill_gfx9_tiling_info_from_modifier(const struct amdgpu_device *adev,
+> > +				  union dc_tiling_info *tiling_info,
+> > +				  uint64_t modifier)
+> > +{
+> > +	unsigned int mod_bank_xor_bits = AMD_FMT_MOD_GET(BANK_XOR_BITS, modifier);
+> > +	unsigned int mod_pipe_xor_bits = AMD_FMT_MOD_GET(PIPE_XOR_BITS, modifier);
+> > +	unsigned int pkrs_log2 = AMD_FMT_MOD_GET(PACKERS, modifier);
+> > +	unsigned int pipes_log2 = min(4u, mod_pipe_xor_bits);
+> > +
+> > +	fill_gfx9_tiling_info_from_device(adev, tiling_info);
+> > +
+> > +	if (!IS_AMD_FMT_MOD(modifier))
+> > +		return;
+> > +
+> > +	tiling_info->gfx9.num_pipes = 1u << pipes_log2;
+> > +	tiling_info->gfx9.num_shader_engines = 1u << (mod_pipe_xor_bits - pipes_log2);
+> > +
+> > +	if (adev->family >= AMDGPU_FAMILY_NV) {
+> > +		tiling_info->gfx9.num_pkrs = 1u << pkrs_log2;
+> > +	} else {
+> > +		tiling_info->gfx9.num_banks = 1u << mod_bank_xor_bits;
+> > +
+> > +		/* for DCC we know it isn't rb aligned, so rb_per_se doesn't matter. */
+> > +	}
+> > +}
+> > +
+> > +static void
+> > +block_alignment(unsigned int blocksize_log2, unsigned int *width, unsigned int *height)
+> > +{
+> > +	unsigned int height_log2 = blocksize_log2 / 2;
+> > +	unsigned int width_log2 = blocksize_log2 - height_log2;
+> > +
+> > +	*width = 1u << width_log2;
+> > +	*height = 1u << height_log2;
+> > +}
+> > +
+> > +static int
+> > +fill_gfx9_plane_attributes_from_modifiers(struct amdgpu_device *adev,
+> > +				      const struct amdgpu_framebuffer *afb,
+> > +				      const enum surface_pixel_format format,
+> > +				      const enum dc_rotation_angle rotation,
+> > +				      const struct plane_size *plane_size,
+> > +				      union dc_tiling_info *tiling_info,
+> > +				      struct dc_plane_dcc_param *dcc,
+> > +				      struct dc_plane_address *address,
+> > +				      const bool force_disable_dcc)
+> > +{
+> > +	const uint64_t modifier = afb->base.modifier;
+> > +	int ret;
+> > +
+> > +	fill_gfx9_tiling_info_from_modifier(adev, tiling_info, modifier);
+> > +	tiling_info->gfx9.swizzle = modifier_gfx9_swizzle_mode(modifier);
+> > +
+> > +	if (modifier_has_dcc(modifier) && !force_disable_dcc) {
+> > +		uint64_t dcc_address = afb->address + afb->base.offsets[1];
+> > +
+> > +		dcc->enable = 1;
+> > +		dcc->meta_pitch = afb->base.pitches[1];
+> > +		dcc->independent_64b_blks = AMD_FMT_MOD_GET(DCC_INDEPENDENT_64B, modifier);
+> > +
+> > +		address->grph.meta_addr.low_part = lower_32_bits(dcc_address);
+> > +		address->grph.meta_addr.high_part = upper_32_bits(dcc_address);
+> > +	}
+> > +
+> > +	ret = validate_dcc(adev, format, rotation, tiling_info, dcc, address, plane_size);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int
+> >  fill_plane_buffer_attributes(struct amdgpu_device *adev,
+> >  			     const struct amdgpu_framebuffer *afb,
+> > @@ -3823,12 +3910,22 @@ fill_plane_buffer_attributes(struct amdgpu_device *adev,
+> >  
+> >  
+> >  	if (adev->family >= AMDGPU_FAMILY_AI) {
+> > -		ret = fill_gfx9_plane_attributes_from_flags(adev, afb, format, rotation,
+> > -							    plane_size, tiling_info, dcc,
+> > -							    address, tiling_flags,
+> > -							    force_disable_dcc);
+> > -		if (ret)
+> > -			return ret;
+> > +		if (afb->base.flags & DRM_MODE_FB_MODIFIERS) {
+> > +			ret = fill_gfx9_plane_attributes_from_modifiers(adev, afb, format,
+> > +								      rotation, plane_size,
+> > +								      tiling_info, dcc,
+> > +								      address,
+> > +								      force_disable_dcc);
+> > +			if (ret)
+> > +				return ret;
+> > +		} else {
+> > +			ret = fill_gfx9_plane_attributes_from_flags(adev, afb, format, rotation,
+> > +								  plane_size, tiling_info, dcc,
+> > +								  address, tiling_flags,
+> > +								  force_disable_dcc);
+> > +			if (ret)
+> > +				return ret;
+> 
+> So what we've done in i915, but might be too cumbersome with the amdgpu
+> modifiers, is to map legacy tiling information into modifiers once, at the
+> beginning of addfb. So in amdgpu_display_user_framebuffer_create(). And
+> once modifiers are filled in, you ofc set the DRM_MODE_FB_MODIFIERS flag
+> too in the fb.
+> 
+> Then all the display code only works with modifiers, instead of having a
+> mix and possible confusion, with breakage when people only test the legacy
+> path. Which I kinda expect to happen, since amd probably runs with their
+> own ddx in their CI rig only.
+> 
+> This also avoids a bunch of layering and locking unprettiness, since
+> display code doesn't need to dig around in gem_bo side of things. On that,
+> there's another amdgpu_bo_get_tiling_flags in amdgpu_dm_commit_planes
+> which probably shouldn't be there, and should use computed stuff from
+> plane state or fb (I changed it to a lockless version to just hack around
+> locking issues, but still there).
+> 
+> This hopefully/eventually should allow us to entirely phase out the legacy
+> magic tiling blob attached to bo (we've pulled the trigger on that for
+> intel now, would have needed to extend the uapi to keep it working was a
+> good excuse).
+
+Ok just learned that amdgpu hat set/get_tiling, so I'm upgrading my idea
+here to a very strong recommendation, i.e. please do this except if
+there's and amd ddx which somehow wants to change tiling mode while a fb
+exists, and expects this to propagate.
+
+In i915 we even disallow the set_tiling ioctl with an error if an fb
+exists, just to make sure userspace behaves. Even if userspace uses
+set_tiling, this way we can at least enforce the same semantics of "client
+can't pull compositor over the table with a set_tiling at the wrong time"
+of modifiers.
+-Daniel
+
+> 
+> Cheers, Daniel
+> 
+> > +		}
+> >  	} else {
+> >  		fill_gfx8_tiling_info_from_flags(tiling_info, tiling_flags);
+> >  	}
+> > -- 
+> > 2.28.0
 > > 
 > 
-> There's a set tiling/mod flags IOCTL that can be called after addfb happens,
-> so unless there's some sort of driver magic preventing this from working
-> when it's already been pinned for scanout then I don't see anything stopping
-> this from happening.
-> 
-> I still need to review the modifiers series in a little more detail but that
-> looks like a good approach to fixing these kind of issues.
-
-Yeah we had the same model for i915, but it's awkward and can surprise
-compositors (since the client could change the tiling mode from underneath
-the compositor). So freezing the tiling mode at addfb time is the right
-thing to do, and anyway how things work with modifiers.
-
-Ofc maybe good to audit the -amd driver, but hopefully it doesn't do
-anything silly with changed tiling. If it does, it's kinda sad day.
-
-Btw for i915 we even went a step further, and made the set_tiling ioctl
-return an error if a framebuffer for that gem_bo existed. Just to make
-sure we don't ever accidentally break this.
-
-Cheers, Daniel
-
-> 
-> Regards,
-> Nicholas Kazlauskas
-> 
-> > > 
-> > > [How]
-> > > We unfortunately can't drop this function in its entirety from
-> > > prepare_planes since we don't know the afb->address at commit_check
-> > > time yet.
-> > > 
-> > > So instead of querying new tiling_flags and tmz_surface use the ones
-> > > from the plane_state directly.
-> > > 
-> > > While we're at it, also update the force_disable_dcc option based
-> > > on the state from atomic check.
-> > > 
-> > > Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-> > > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > > Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > > ---
-> > >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 36 ++++++++++---------
-> > >   1 file changed, 19 insertions(+), 17 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > index bf1881bd492c..f78c09c9585e 100644
-> > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > @@ -5794,14 +5794,8 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
-> > >   	struct list_head list;
-> > >   	struct ttm_validate_buffer tv;
-> > >   	struct ww_acquire_ctx ticket;
-> > > -	uint64_t tiling_flags;
-> > >   	uint32_t domain;
-> > >   	int r;
-> > > -	bool tmz_surface = false;
-> > > -	bool force_disable_dcc = false;
-> > > -
-> > > -	dm_plane_state_old = to_dm_plane_state(plane->state);
-> > > -	dm_plane_state_new = to_dm_plane_state(new_state);
-> > >   	if (!new_state->fb) {
-> > >   		DRM_DEBUG_DRIVER("No FB bound\n");
-> > > @@ -5845,27 +5839,35 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
-> > >   		return r;
-> > >   	}
-> > > -	amdgpu_bo_get_tiling_flags(rbo, &tiling_flags);
-> > > -
-> > > -	tmz_surface = amdgpu_bo_encrypted(rbo);
-> > > -
-> > >   	ttm_eu_backoff_reservation(&ticket, &list);
-> > >   	afb->address = amdgpu_bo_gpu_offset(rbo);
-> > >   	amdgpu_bo_ref(rbo);
-> > > +	/**
-> > > +	 * We don't do surface updates on planes that have been newly created,
-> > > +	 * but we also don't have the afb->address during atomic check.
-> > > +	 *
-> > > +	 * Fill in buffer attributes depending on the address here, but only on
-> > > +	 * newly created planes since they're not being used by DC yet and this
-> > > +	 * won't modify global state.
-> > > +	 */
-> > > +	dm_plane_state_old = to_dm_plane_state(plane->state);
-> > > +	dm_plane_state_new = to_dm_plane_state(new_state);
-> > > +
-> > >   	if (dm_plane_state_new->dc_state &&
-> > > -			dm_plane_state_old->dc_state != dm_plane_state_new->dc_state) {
-> > > -		struct dc_plane_state *plane_state = dm_plane_state_new->dc_state;
-> > > +	    dm_plane_state_old->dc_state != dm_plane_state_new->dc_state) {
-> > > +		struct dc_plane_state *plane_state =
-> > > +			dm_plane_state_new->dc_state;
-> > > +		bool force_disable_dcc = !plane_state->dcc.enable;
-> > > -		force_disable_dcc = adev->asic_type == CHIP_RAVEN && adev->in_suspend;
-> > >   		fill_plane_buffer_attributes(
-> > >   			adev, afb, plane_state->format, plane_state->rotation,
-> > > -			tiling_flags, &plane_state->tiling_info,
-> > > -			&plane_state->plane_size, &plane_state->dcc,
-> > > -			&plane_state->address, tmz_surface,
-> > > -			force_disable_dcc);
-> > > +			dm_plane_state_new->tiling_flags,
-> > > +			&plane_state->tiling_info, &plane_state->plane_size,
-> > > +			&plane_state->dcc, &plane_state->address,
-> > > +			dm_plane_state_new->tmz_surface, force_disable_dcc);
-> > >   	}
-> > >   	return 0;
-> > > -- 
-> > > 2.25.1
-> > > 
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > 
-> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
