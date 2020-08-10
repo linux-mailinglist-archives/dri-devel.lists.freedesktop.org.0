@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407142402EF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 09:44:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B71240352
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 10:20:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3DB6E395;
-	Mon, 10 Aug 2020 07:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9CD89FE6;
+	Mon, 10 Aug 2020 08:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02C386E083
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 07:44:12 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id i10so8507141ljn.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 00:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=NovQ265dYhuSdvy0UDlMK2Yq8bdWvc8jjr+ylGlqUs0=;
- b=jJgKkmX5n9D0qfk0t7Xns7KUgpVgTerxQNKDeI9n/rIsdgT90OJ88dmypkM5osijPq
- i1VAmXFzs1xe+v1TvfA0ysQLrzxgiSkHuIGLpbLX3SvXzWwxoMojQTxX9+zMAG8zeGTj
- ohZw7vLtGZkWuVzld48tv7UdXvrsUFFJgTbyXyRQxLAzR9zQwBZhkF386WMMIJX3jCrN
- K1QWFM64owFNNAuUvbz5dLvWr7UZ3i9RXrDNNvkca3ggnn+Ycfu4zURJqO3q7Dv52WgB
- WtHyxWMWxtD6h6CeHkjDeQMd67NIGWEPTfTpFgTi0yS/yT8GVIOtKwirt1EvLWYUTACQ
- Xy9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=NovQ265dYhuSdvy0UDlMK2Yq8bdWvc8jjr+ylGlqUs0=;
- b=EvvTvq2eJ3LTXZEPDwP/j6nbWuoZL9qEUhSwzposZp+EGJbueEqop06TgOfFlTKPSR
- GqLwTy1fUj6pIK2vhu7i8dBi318r77ulVBeCGbxkRBjdHquEDWl42pd0W8EMj8E4zUOl
- egfY43q+FiRUOE+gfkagYRFo/Va53BSOU3MEEXcppvZ7bMRU8VWnNS2rKT+ot5vNgRPg
- hdyQay6CQhCHQavXzvAzHMtdzEa81QEstfV6Ep/7HJQz1OY4NBvxLYIJqLFDlSQBqA4i
- tVOomaVztDpTHftCepIB2rKrfalqD+N4SK/Hxh/A6FpUN1xxLuKVuhtax83+8mNs22S4
- suKQ==
-X-Gm-Message-State: AOAM532pCYtP379aeuFPi5Jy/xwvSRPaVIgICDNFkNEk9s+XYsEEk8rN
- CV8klVddwGVjOxXTukKoxwI=
-X-Google-Smtp-Source: ABdhPJwjwGqZ8HNTl37zeyXnNJegVLEYIR7e3zNDRthvSKuehsHKJ8AloLnc8KeAuG2bzWuPQo6HMA==
-X-Received: by 2002:a2e:88d4:: with SMTP id a20mr12088594ljk.326.1597045450344; 
- Mon, 10 Aug 2020 00:44:10 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id d6sm9102198ljg.25.2020.08.10.00.44.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 00:44:09 -0700 (PDT)
-Date: Mon, 10 Aug 2020 10:43:58 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Merlijn Wajer <merlijn@wizzup.org>
-Subject: Re: How to prevent input devices from unblanking the X screen when
- DPMS is on?
-Message-ID: <20200810104358.1d28e355@eldfell>
-In-Reply-To: <12302ae3-901f-7a13-975e-273fbda4e7b4@wizzup.org>
-References: <12302ae3-901f-7a13-975e-273fbda4e7b4@wizzup.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A97289FE6
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 08:20:51 +0000 (UTC)
+IronPort-SDR: /c9+qmspEv2X0EeUedTq6iMEWWJCrg+iyxV4XZSfpfxs9t1BXuSeowbNxzcveJQ86MRiX6DmOF
+ n6uMJcn0AZPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9708"; a="154624753"
+X-IronPort-AV: E=Sophos;i="5.75,457,1589266800"; d="scan'208";a="154624753"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2020 01:20:49 -0700
+IronPort-SDR: WvpZDOMWzYWGf+fT0WgbLG/tj2t0mDpbX/dcZ77WSwnbgHBmAO1HpylnapqyTiku2cXGwAMka8
+ yw+bBK2dTpBg==
+X-IronPort-AV: E=Sophos;i="5.75,457,1589266800"; d="scan'208";a="494719354"
+Received: from unknown (HELO localhost) ([10.249.44.171])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2020 01:20:45 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
+ mgag200_mmap() from header" was seriously submitted to be applied to the
+ 5.8-stable tree?
+In-Reply-To: <20200808093708.GA14702@ravnborg.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <159680700523135@kroah.com>
+ <a92e73b9-c3da-76f6-9405-b2456fe68ce6@suse.de>
+ <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
+ <20200808093708.GA14702@ravnborg.org>
+Date: Mon, 10 Aug 2020 11:20:42 +0300
+Message-ID: <87tuxaj4it.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,123 +53,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Carl Philipp Klemm <philipp@uvos.xyz>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, xorg-devel@lists.x.org,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0801986912=="
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, armijn@tjaldur.nl,
+ Krzysztof Kozlowski <krzk@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ stable <stable@vger.kernel.org>, Emil Velikov <emil.velikov@collabora.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0801986912==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/YY.RExmeh7+QNZRgfm49+so"; protocol="application/pgp-signature"
-
---Sig_/YY.RExmeh7+QNZRgfm49+so
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 7 Aug 2020 16:07:35 +0200
-Merlijn Wajer <merlijn@wizzup.org> wrote:
-
-> Hi,
->=20
-> Is it possible to have X handle input events, but not actually unblank
-> the screen upon input events when dpms is enabled?
-
-Hi,
-
-by "blanking", do you mean that the CRTC turns off (as opposed to the
-display turning off) so that it no longer produces a video stream
-regardless of whether the display is actually receiving it or not?
-
-> Our use case (in Maemo Leste, GNU/Linux+Debian smartphone OS) is
-> reporting physical volume buttons to X clients when the device is
-> locked. When the device is locked, the screen is blanked / turned off
-> (via DPMS), but pressing a volume button causes the screen to unblank,
-> leading to significant power drain.
->=20
-> I am aware that one can tell X to close certain/all input devices, but
-> then the volume buttons (and others: like 'next') would not be sent to X
-> applications.
->=20
-> I have not tested this, but I assume the same would apply for "headphone
-> buttons": play, stop, pause, etc. Or if someone has a phone in their
-> pocket: pressing a button by accident shouldn't cause the screen to
-> unblank and cause significant battery drain. By design, the DPMS timeout
-> is set to 0, and an external program will dim the screen brightness, and
-> tell X when to blank and unblank.
->=20
-> Turning off the screen with DPMS, and then disabling DPMS in an attempt
-> to keep the screen blanked (and have input not affect it) also does not
-> work - then the screen doesn't stay blanked - this is with the
-> modesetting driver.
-
-What does "disabling DPMS" mean?
-
-> Due to the way DRM works, X is the master of the screen, so it is my
-> understanding that there also cannot be another helper tool that blanks
-> the display via DRM, because X is still the master, even when DPMS is
-> disabled.
-
-There can be only one DRM master having access to KMS functionality at a
-time, yes. This is deliberately designed to prevent any "rogue"
-applications from touching the display state without going through the
-display server in charge.
-
-DRM is the wrong layer to look at. DRM only does what a display server
-tells it to, and has no connection to any input side at all. Your
-problem has to be solved in co-operation with the display server.
-
-> On older versions of Maemo, where DRM was not used (10+ years ago),
-> external tools can just blank the fb and everything works as expected.
-> Then DPMS is simply disabled, and external tools control the blanking
-> behaviour, but it looks like with DRM, this is no longer possible.
-
-Have you tried using X11 RandR protocol to turn the output off? I'm
-not sure it fits your use case, but maybe worth a try.
-
-The ultimate solution in my opinion though is to ditch X11 and go for a
-Wayland architecture. There you provide the display server yourself
-(with the help from any Wayland compositor libraries you may want)
-which means you are fully in control of the behaviour. Obviously that
-would be a huge change.
-
-
-Thanks,
-pq
-
---Sig_/YY.RExmeh7+QNZRgfm49+so
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl8w+r4ACgkQI1/ltBGq
-qqdGFw/8CSclOhr2v7HcTxZt4SkpW+lrFOaOkJkyMvHlc/6Y1wrsS7FKFUWNTEMi
-X7KGazWV427jCUKbY0Qf2I+tm7ox0gc0itcU8hPCPQMAWC5alNV0oUz5E2U62WpP
-bOGUNc4DV3P5QnCoNS17N4KCF1WX4Rw1RexAw3coKAQwksleEMYl7FAgujvKOGB6
-5DbcvAY/KQUhiU7E1oTXAMQ1eMFWfwOaG8xMwtHC8Q+CCL7Ns2YLImTrcXy8HSrv
-mb/88dmcJXVQkKYOGga6shJckiaPgz727KrUFtOCTy+Pjnchh1Q7jihO5D1VSzpo
-WN/pod9PgYqRWs7i43e5Y84a7i6WrnMvqcmmHySXZcDVeM4UlzJpoYR029dCrQ4B
-qKn7JrwTSCbWi78otMcYtx43uY8JABY8pSZCUNCOW/MVb1N7MJA1leGD+gUkYIr9
-pCRLl3r3Hi1xddezAdVdfPTGFf5A/XS6kjj4e3eR00TCVYfXSjXgTOem+dN2u8uJ
-1bkkMdFMsVaMy8b6e/Hpzyjr2L+rlORo/rTGdtCPd8k3YtKoa/knKSqyYfJLoQYj
-pSrt7GpV4Qhg8juq5ZFjGUnCGN9eL4BhCM92g90E81sKa37AWkiIXhh9kOmJ1CY6
-ha5fongILgucbsgpbn1Y4lmw+Gx2Rv5IWYxP1kfOTx3t5tU7Mww=
-=X5Jw
------END PGP SIGNATURE-----
-
---Sig_/YY.RExmeh7+QNZRgfm49+so--
-
---===============0801986912==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0801986912==--
+T24gU2F0LCAwOCBBdWcgMjAyMCwgU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPiB3cm90
+ZToKPiBIaSBEYW5pZWwuCj4KPiBPbiBTYXQsIEF1ZyAwOCwgMjAyMCBhdCAxMToxMzo1NEFNICsw
+MjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+PiBPbiBGcmksIEF1ZyA3LCAyMDIwIGF0IDM6NTQg
+UE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+PiA+Cj4+
+ID4gSGkKPj4gPgo+PiA+IEFtIDA3LjA4LjIwIHVtIDE1OjMwIHNjaHJpZWIgZ3JlZ2toQGxpbnV4
+Zm91bmRhdGlvbi5vcmc6Cj4+ID4gPiBUaGUgcGF0Y2ggYmVsb3cgd2FzIHN1Ym1pdHRlZCB0byBi
+ZSBhcHBsaWVkIHRvIHRoZSA1Ljgtc3RhYmxlIHRyZWUuCj4+ID4gPgo+PiA+ID4gSSBmYWlsIHRv
+IHNlZSBob3cgdGhpcyBwYXRjaCBtZWV0cyB0aGUgc3RhYmxlIGtlcm5lbCBydWxlcyBhcyBmb3Vu
+ZCBhdAo+PiA+ID4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N0YWJsZS1rZXJuZWwtcnVsZXMucnN0
+Lgo+PiA+ID4KPj4gPiA+IEkgY291bGQgYmUgdG90YWxseSB3cm9uZywgYW5kIGlmIHNvLCBwbGVh
+c2UgcmVzcG9uZCB0bwo+PiA+ID4gPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+IGFuZCBsZXQgbWUg
+a25vdyB3aHkgdGhpcyBwYXRjaCBzaG91bGQgYmUKPj4gPiA+IGFwcGxpZWQuICBPdGhlcndpc2Us
+IGl0IGlzIG5vdyBkcm9wcGVkIGZyb20gbXkgcGF0Y2ggcXVldWVzLCBuZXZlciB0byBiZQo+PiA+
+ID4gc2VlbiBhZ2Fpbi4KPj4gPgo+PiA+IFNvcnJ5IGZvciB0aGUgbm9pc2UuIFRoZXJlJ3Mgbm8g
+cmVhc29uIHRoaXMgc2hvdWxkIGdvIGludG8gc3RhYmxlLgo+PiAKPj4gV2UgaGF2ZSBhIGxpdHRs
+ZSBzY3JpcHQgaW4gb3VyIG1haW50YWluZXIgdG9vbGJveCBmb3IgYnVnZml4ZXMsIHdoaWNoCj4+
+IGdlbmVyYXRlcyB0aGUgRml4ZXM6IGxpbmUsIGFkZHMgZXZlcnlvbmUgZnJvbSB0aGUgb3JpZ2lu
+YWwgY29tbWl0IHRvCj4+IHRoZSBjYzogbGlzdCBhbmQgYWxzbyBhZGRzIENjOiBzdGFibGUgaWYg
+dGhhdCBzaGExIHRoZSBwYXRjaCBmaXhlcyBpcwo+PiBpbiBhIHJlbGVhc2UgYWxyZWFkeS4KPj4g
+Cj4+IEkgZ3Vlc3Mgd2UgdHJhaW5lZCBwZW9wbGUgYSBiaXQgdG9vIG11Y2ggb24gdXNpbmcgRml4
+ZXM6IHRhZ3MgbGlrZQo+PiB0aGF0IHdpdGggdGhlIHRvb2xpbmcsIHNpbmNlIHRoZXkgb2Z0ZW4g
+ZG8gdGhhdCBmb3IgY2hlY2twYXRjaCBzdHVmZgo+PiBhbmQgc3BlbGxpbmcgZml4ZXMgbGlrZSB0
+aGlzIGhlcmUgdG9vLiBJIHRoaW5rIHRoZSBhdXRvc2VsZWN0IGJvdCBhbHNvCj4+IGxvdmVzIEZp
+eGVzOiB0YWdzIGEgYml0IHRvbyBtdWNoIGZvciBpdHMgb3duIGdvb2QuCj4+IAo+PiBOb3Qgc3Vy
+ZSB3aGF0IHRvIGRvLCBzaW5jZSB0ZWxsaW5nIHBlb3BsZSB0byAicGxlYXNlIHNwcmlua2xlIGxl
+c3MKPj4gRml4ZXM6IHRhZ3MiIGRvZXNuJ3Qgc291bmQgZ3JlYXQgZWl0aGVyLgo+Cj4gV2Uga25v
+dyB0aGF0IGF0IGxvdCBvZiB0aGUgZHJtIHBlb3BsZSB1c2VzICJkaW0gZml4ZXMiLgo+IFNvIG1h
+eWJlIHRlYWNoIHRoZW0gYSBsaXR0ZSBoZXJlPwo+Cj4gZGlmZiAtLWdpdCBhL2RpbSBiL2RpbQo+
+IGluZGV4IGU0ZjRkMmUuLmQ0ZmQzMTAgMTAwNzU1Cj4gLS0tIGEvZGltCj4gKysrIGIvZGltCj4g
+QEAgLTI0MjgsNiArMjQyOCwxMCBAQCBmdW5jdGlvbiBkaW1fZml4ZXMKPiAgCj4gIAlzaGExPSR7
+MTo/JHVzYWdlfQo+ICAKPiArCWVjaG8gIiIKPiArCWVjaG8gIk5vdGU6IFBhdGNoIG11c3QgbWVl
+dCB0aGUgc3RhYmxlLWtlcm5lbC1ydWxlcyBjcml0ZXJpYXMgKERvY3VtZW50YXRpb24vcHJvY2Vz
+cy9zdGFibGUta2VybmVsLXJ1bGVzLnJzdCkiCj4gKwllY2hvICIiCj4gKwoKSSBkb24ndCB0aGlu
+ayB0aGlzIGlzIHJpZ2h0LCBiZWNhdXNlIHdlIGFsc28gdXNlIEZpeGVzOiB0byByZWZlciB0bwpj
+b21taXRzIHRoYXQgaGF2ZW4ndCBldmVuIGJlZW4gbWVyZ2VkIHVwc3RyZWFtIHlldCwgaS5lLiBj
+b21taXRzIHRoYXQKYXJlIGluIHRoZSAtbmV4dCBmZWF0dXJlIGJyYW5jaGVzLCBhbmQgdGhlIHN0
+YWJsZSBrZXJuZWwgcnVsZXMgZG8gbm90CmFwcGx5LgoKQlIsCkphbmkuCgoKCgoKPiAgCWNkICRE
+SU1fUFJFRklYLyRESU1fUkVQTwo+ICAJZWNobyAiRml4ZXM6ICQoZGltX2NpdGUgJHNoYTEpIgo+
+ICAKPgo+IE91dHB1dCB3b3VsZCB0aGVuIGxvb2sgbGlrZSB0aGlzOgo+Cj4gJCBkaW0gZml4ZXMg
+MWQ4ZDQyYmEzNjUxMDFmYTY4ZDIxMGMwZTJlZDJiYzk1ODJmZGE2Ywo+Cj4gTm90ZTogUGF0Y2gg
+bXVzdCBtZWV0IHRoZSBzdGFibGUta2VybmVsLXJ1bGVzIGNyaXRlcmlhcyAoRG9jdW1lbnRhdGlv
+bi9wcm9jZXNzL3N0YWJsZS1rZXJuZWwtcnVsZXMucnN0KQo+Cj4gRml4ZXM6IDFkOGQ0MmJhMzY1
+MSAoImRybS9tZ2FnMjAwOiBSZW1vdmUgZGVjbGFyYXRpb24gb2YgbWdhZzIwMF9tbWFwKCkgZnJv
+bSBoZWFkZXIgZmlsZSIpCj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
+LmRlPgo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6IEdlcmQgSG9m
+Zm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+IENjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRo
+YXQuY29tPgo+IENjOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+Cj4gQ2M6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IEdyZWcgS3JvYWgt
+SGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gQ2M6IFRob21hcyBHbGVpeG5l
+ciA8dGdseEBsaW51dHJvbml4LmRlPgo+IENjOiAiTm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRy
+b25uZXMub3JnPgo+IENjOiBBcm1pam4gSGVtZWwgPGFybWlqbkB0amFsZHVyLm5sPgo+IENjOiBB
+bGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6IEVtaWwgVmVsaWtv
+diA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwu
+b3JnPiAjIHY1LjMrCj4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4KPiBObyBn
+dWFyYW50ZWUgdGhhdCBwZW9wbGUgd2lsbCBsb29rIHVwIHRoZSBydWxlcyBvdXRsaW5lZCBpbgo+
+IHN0YWJsZS1rZXJuZWwtcnVsZXMucnN0IC0gYnV0IGF0IGxlYXN0IGEgcmVtaW5kZXIuCj4KPiAJ
+U2FtCj4KPj4gSSBhbHNvIGRvbid0IHdhbnQgdG8gdGVsbAo+PiBwZW9wbGUgdG8gdXNlIHRoZSBt
+YWludGFpbmVyIHRvb2xib3ggbGVzcywgdGhlIGF1dG9nZW5lcmF0ZWQgY2M6IGxpc3QKPj4gaXMg
+Z2VuZXJhbGx5IHRoZSByaWdodCB0aGluZyB0byBkby4gTWF5YmUgYmVzdCBpZiB0aGUgc3RhYmxl
+IHRlYW0KPj4gY2F0Y2hlcyB0aGUgb2J2aW91cyBvbmVzIGJlZm9yZSBhZGRpbmcgdGhlbSB0byB0
+aGUgc3RhYmxlIHF1ZXVlLCBpZgo+PiB5b3UncmUgb2sgd2l0aCB0aGF0IEdyZWc/Cj4+IAo+PiBB
+bHNvIGFkZGluZyBkcmktZGV2ZWwgaGVyZSBpbiBjYXNlIHRoaXMgYmVjb21lcyBhIGJpZ2dlciBk
+aXNjdXNzaW9uLgo+PiAKPj4gQ2hlZXJzLCBEYW5pZWwKPj4gCj4+ID4KPj4gPiBCZXN0IHJlZ2Fy
+ZHMKPj4gPiBUaG9tYXMKPj4gPgo+PiA+ID4KPj4gPiA+IHRoYW5rcywKPj4gPiA+Cj4+ID4gPiBn
+cmVnIGstaAo+PiA+ID4KPj4gPiA+IC0tLS0tLS0tLS0tLS0tLS0tLSBvcmlnaW5hbCBjb21taXQg
+aW4gTGludXMncyB0cmVlIC0tLS0tLS0tLS0tLS0tLS0tLQo+PiA+ID4KPj4gPiA+IEZyb20gMWQ4
+ZDQyYmEzNjUxMDFmYTY4ZDIxMGMwZTJlZDJiYzk1ODJmZGE2YyBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKPj4gPiA+IEZyb206IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+Pgo+PiA+ID4gRGF0ZTogRnJpLCA1IEp1biAyMDIwIDE1OjU3OjUwICswMjAwCj4+ID4gPiBTdWJq
+ZWN0OiBbUEFUQ0hdIGRybS9tZ2FnMjAwOiBSZW1vdmUgZGVjbGFyYXRpb24gb2YgbWdhZzIwMF9t
+bWFwKCkgZnJvbSBoZWFkZXIKPj4gPiA+ICBmaWxlCj4+ID4gPiBNSU1FLVZlcnNpb246IDEuMAo+
+PiA+ID4gQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04Cj4+ID4gPiBDb250
+ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0Cj4+ID4gPgo+PiA+ID4gQ29tbWl0IDk0NjY4YWM3
+OTZhNSAoImRybS9tZ2FnMjAwOiBDb252ZXJ0IG1nYWcyMDAgZHJpdmVyIHRvIFZSQU0gTU0iKQo+
+PiA+ID4gcmVtb3ZlZCB0aGUgaW1wbGVtZW50YXRpb24gb2YgbWdhZzIwMF9tbWFwKCkuIEFsc28g
+cmVtb3ZlIHRoZSBkZWNsYXJhdGlvbi4KPj4gPiA+Cj4+ID4gPiBTaWduZWQtb2ZmLWJ5OiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj4gPiA+IEFja2VkLWJ5OiBTYW0g
+UmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4+ID4gPiBGaXhlczogOTQ2NjhhYzc5NmE1ICgi
+ZHJtL21nYWcyMDA6IENvbnZlcnQgbWdhZzIwMCBkcml2ZXIgdG8gVlJBTSBNTSIpCj4+ID4gPiBD
+YzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Cj4+ID4gPiBDYzogRGF2ZSBBaXJs
+aWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPj4gPiA+IENjOiBLcnp5c3p0b2YgS296bG93c2tpIDxr
+cnprQGtlcm5lbC5vcmc+Cj4+ID4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBm
+ZndsbC5jaD4KPj4gPiA+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4+ID4g
+PiBDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPj4g
+PiA+IENjOiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4KPj4gPiA+IENjOiAi
+Tm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3JnPgo+PiA+ID4gQ2M6IEFybWlqbiBI
+ZW1lbCA8YXJtaWpuQHRqYWxkdXIubmw+Cj4+ID4gPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5k
+ZXIuZGV1Y2hlckBhbWQuY29tPgo+PiA+ID4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292
+QGNvbGxhYm9yYS5jb20+Cj4+ID4gPiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjUu
+MysKPj4gPiA+IExpbms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9t
+c2dpZC8yMDIwMDYwNTEzNTgwMy4xOTgxMS0yLXR6aW1tZXJtYW5uQHN1c2UuZGUKPj4gPiA+Cj4+
+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuaCBi
+L2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmgKPj4gPiA+IGluZGV4IDQ3ZGY2
+MmIxYWQyOS4uOTJiNjY3OTAyOWZlIDEwMDY0NAo+PiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L21nYWcyMDAvbWdhZzIwMF9kcnYuaAo+PiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcy
+MDAvbWdhZzIwMF9kcnYuaAo+PiA+ID4gQEAgLTE5OCw2ICsxOTgsNSBAQCB2b2lkIG1nYWcyMDBf
+aTJjX2Rlc3Ryb3koc3RydWN0IG1nYV9pMmNfY2hhbiAqaTJjKTsKPj4gPiA+Cj4+ID4gPiAgaW50
+IG1nYWcyMDBfbW1faW5pdChzdHJ1Y3QgbWdhX2RldmljZSAqbWRldik7Cj4+ID4gPiAgdm9pZCBt
+Z2FnMjAwX21tX2Zpbmkoc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYpOwo+PiA+ID4gLWludCBtZ2Fn
+MjAwX21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKTsK
+Pj4gPiA+Cj4+ID4gPiAgI2VuZGlmICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8qIF9f
+TUdBRzIwMF9EUlZfSF9fICovCj4+ID4gPgo+PiA+Cj4+ID4gLS0KPj4gPiBUaG9tYXMgWmltbWVy
+bWFubgo+PiA+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPj4gPiBTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgKPj4gPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcs
+IEdlcm1hbnkKPj4gPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4+ID4gR2VzY2jDpGZ0c2bD
+vGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+PiA+Cj4+IAo+PiAKPj4gLS0gCj4+IERhbmllbCBW
+ZXR0ZXIKPj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4+IGh0dHA6Ly9i
+bG9nLmZmd2xsLmNoCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENl
+bnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
