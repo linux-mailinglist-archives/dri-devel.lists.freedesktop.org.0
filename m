@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D96240DC6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095EE240DC7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:11:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A226E17F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B03106E18F;
 	Mon, 10 Aug 2020 19:11:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C771B6E188
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:11:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 242FE6E18F;
+ Mon, 10 Aug 2020 19:11:07 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CC1B82078D;
- Mon, 10 Aug 2020 19:11:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1B44422D6F;
+ Mon, 10 Aug 2020 19:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086665;
- bh=c5QOL1QgbzR/JoY99O/Ik4GYLGGKIIPwqLUVpA8E+kA=;
+ s=default; t=1597086667;
+ bh=kuKbBbIW1D6iNkwGTnt8x0BsK8vTtVUUYTADUevJW/w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J9QZzEdn+dnFvTPu4DscTaIVjWk+ty29HgnoJKp3aZ13lO+Jy2pdW01IgVc0c9vgG
- IW2HNqT+8PkACCXbxHje2eWnvODI3Jtzpy2Xp8yzQgSbm/3JLEnEmh+bVMGEd6VPnv
- cGcDFP2DftTSrEiCUPZxJVxJMJDbmN34TpXyTHsc=
+ b=PbEq/S7wJgA3pMzkPaGNM1WeQhywUdBaAgOfvDBrv2Sf1Z6fUOtMTjJDrmYlOruoP
+ m1WOyfVNgxKrGbdl8+alNNfKLKiAu3Zbk6BuRkNEsaEBJA1OXr89lTUflKyFsEa8yJ
+ +XJp+8F7Z61qF5pnnpCYybjfeSeWqdo0NQrQiPBg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 27/60] drm/debugfs: fix plain echo to connector
- "force" attribute
-Date: Mon, 10 Aug 2020 15:09:55 -0400
-Message-Id: <20200810191028.3793884-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 28/60] drm/radeon: disable AGP by default
+Date: Mon, 10 Aug 2020 15:09:56 -0400
+Message-Id: <20200810191028.3793884-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
 References: <20200810191028.3793884-1-sashal@kernel.org>
@@ -50,61 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Sasha Levin <sashal@kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Michael Tretter <m.tretter@pengutronix.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Tretter <m.tretter@pengutronix.de>
-
-[ Upstream commit c704b17071c4dc571dca3af4e4151dac51de081a ]
-
-Using plain echo to set the "force" connector attribute fails with
--EINVAL, because echo appends a newline to the output.
-
-Replace strcmp with sysfs_streq to also accept strings that end with a
-newline.
-
-v2: use sysfs_streq instead of stripping trailing whitespace
-
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20170817104307.17124-1-m.tretter@pengutronix.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/drm_debugfs.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 4e673d318503c..fb251c00fdd3e 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -336,13 +336,13 @@ static ssize_t connector_write(struct file *file, const char __user *ubuf,
- 
- 	buf[len] = '\0';
- 
--	if (!strcmp(buf, "on"))
-+	if (sysfs_streq(buf, "on"))
- 		connector->force = DRM_FORCE_ON;
--	else if (!strcmp(buf, "digital"))
-+	else if (sysfs_streq(buf, "digital"))
- 		connector->force = DRM_FORCE_ON_DIGITAL;
--	else if (!strcmp(buf, "off"))
-+	else if (sysfs_streq(buf, "off"))
- 		connector->force = DRM_FORCE_OFF;
--	else if (!strcmp(buf, "unspecified"))
-+	else if (sysfs_streq(buf, "unspecified"))
- 		connector->force = DRM_FORCE_UNSPECIFIED;
- 	else
- 		return -EINVAL;
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
+cmVhbSBjb21taXQgYmE4MDZmOThmODY4Y2UxMDdhYTljNDUzZmVmNzUxZGU5OTgwZTRhZiBdCgpB
+bHdheXMgdXNlIHRoZSBQQ0kgR0FSVCBpbnN0ZWFkLiBXZSBqdXN0IGhhdmUgdG8gbWFueSBjYXNl
+cwp3aGVyZSBBR1Agc3RpbGwgY2F1c2VzIHByb2JsZW1zLiBUaGlzIG1lYW5zIGEgcGVyZm9ybWFu
+Y2UKcmVncmVzc2lvbiBmb3Igc29tZSBHUFVzLCBidXQgYWxzbyBhIGJ1ZyBmaXggZm9yIHNvbWUg
+b3RoZXJzLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
+Z0BhbWQuY29tPgpSZXZpZXdlZC1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBh
+bWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFt
+ZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuYyB8IDUgLS0tLS0KIDEgZmlsZSBj
+aGFuZ2VkLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMKaW5k
+ZXggMGNmMGIwMGEwNjIzZS4uNmYwZDE5NzEwOTliNyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fZHJ2LmMKQEAgLTE3MSwxMiArMTcxLDcgQEAgaW50IHJhZGVvbl9ub193YjsKIGludCByYWRl
+b25fbW9kZXNldCA9IC0xOwogaW50IHJhZGVvbl9keW5jbGtzID0gLTE7CiBpbnQgcmFkZW9uX3I0
+eHhfYXRvbSA9IDA7Ci0jaWZkZWYgX19wb3dlcnBjX18KLS8qIERlZmF1bHQgdG8gUENJIG9uIFBv
+d2VyUEMgKGZkbyAjOTUwMTcpICovCiBpbnQgcmFkZW9uX2FncG1vZGUgPSAtMTsKLSNlbHNlCi1p
+bnQgcmFkZW9uX2FncG1vZGUgPSAwOwotI2VuZGlmCiBpbnQgcmFkZW9uX3ZyYW1fbGltaXQgPSAw
+OwogaW50IHJhZGVvbl9nYXJ0X3NpemUgPSAtMTsgLyogYXV0byAqLwogaW50IHJhZGVvbl9iZW5j
+aG1hcmtpbmcgPSAwOwotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
