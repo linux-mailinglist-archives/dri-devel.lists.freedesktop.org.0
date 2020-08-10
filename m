@@ -2,35 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1262411C9
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 22:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BBF2411D8
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 22:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C1889C69;
-	Mon, 10 Aug 2020 20:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A0889BF3;
+	Mon, 10 Aug 2020 20:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2D189BF3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 20:35:52 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 176D920023;
- Mon, 10 Aug 2020 22:35:47 +0200 (CEST)
-Date: Mon, 10 Aug 2020 22:35:46 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v14 0/2] Add initial support for slimport anx7625
-Message-ID: <20200810203546.GA421906@ravnborg.org>
-References: <cover.1594283160.git.xji@analogixsemi.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A68C089BF3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 20:38:09 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208573] Black screen on boot if two displays plugged in with
+ NAVI 10
+Date: Mon, 10 Aug 2020 20:38:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208573-2300-GnxMB7ycWV@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208573-2300@https.bugzilla.kernel.org/>
+References: <bug-208573-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1594283160.git.xji@analogixsemi.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=Q7Y_AtYsOxiy2qtOLeEA:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,99 +52,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin Ji.
+https://bugzilla.kernel.org/show_bug.cgi?id=208573
 
-On Thu, Jul 09, 2020 at 04:31:09PM +0800, Xin Ji wrote:
-> Hi all,
-> 
-> The following series add support for the Slimport ANX7625 transmitter, a
-> ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
-> 
-> 
-> This is the v14 version, any mistakes, please let me know, I will fix it in
-> the next series.
-> 
-> Change history:
-> v14: Fix comments from Sam and Nicolas
->  - Check flags at drm_bridge_attach
->  - Use panel_bridge instead of drm_panel
->  - Fix not correct return value
+--- Comment #10 from Alex Deucher (alexdeucher@gmail.com) ---
+You can probably mark this bug as a duplicate of 208573 then.
 
-Sorry for ignoring this for so long time.
-The patch applies but no longer builds.
-
-I could fix it locally but wanted to know if you have a later version to
-be applied?
-
-	Sam
-
-
-> 
-> v13: Fix comments from Launrent Pinchart and Rob Herring
->  - Picked up Rob's Reviewed-By
->  - Add .detect and .get_edid interface in bridge funcs.
-> 
-> v12: Fix comments from Hsin-Yi Wang
->  - Rebase the code on kernel 5.7, fix DRM interface not match issue.
-> 
-> v11: Fix comments from Rob Herring
->  - Update commit message.
->  - Remove unused label.
-> 
-> v10: Fix comments from Rob Herring, Daniel.
->  - Fix dt_binding_check warning.
->  - Update description.
-> 
-> v9: Fix comments from Sam, Nicolas, Daniel
->  - Remove extcon interface.
->  - Remove DPI support.
->  - Fix dt_binding_check complains.
->  - Code clean up and update description.
-> 
-> v8: Fix comments from Nicolas.
->  - Fix several coding format.
->  - Update description.
-> 
-> v7:
->  - Fix critical timing(eg:odd hfp/hbp) in "mode_fixup" interface,
->    enhance MIPI RX tolerance by setting register MIPI_DIGITAL_ADJ_1 to 0x3D.
-> 
-> 
-> Xin Ji (2):
->   dt-bindings: drm/bridge: anx7625: MIPI to DP transmitter DT schema
->   drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP
-> 
->  .../bindings/display/bridge/analogix,anx7625.yaml  |   95 +
->  drivers/gpu/drm/bridge/analogix/Kconfig            |    9 +
->  drivers/gpu/drm/bridge/analogix/Makefile           |    1 +
->  drivers/gpu/drm/bridge/analogix/anx7625.c          | 1939 ++++++++++++++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.h          |  391 ++++
->  5 files changed, 2435 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
->  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
->  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
-> 
-> -- 
-> 2.7.4
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
