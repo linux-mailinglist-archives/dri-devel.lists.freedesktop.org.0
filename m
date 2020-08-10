@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D507241693
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:58:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370EC2416B3
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF7B6E103;
-	Tue, 11 Aug 2020 06:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 851596E4B0;
+	Tue, 11 Aug 2020 06:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E4D6E40D;
- Mon, 10 Aug 2020 12:49:53 +0000 (UTC)
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 10 Aug 2020 05:49:52 -0700
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 10 Aug 2020 05:49:51 -0700
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg01-blr.qualcomm.com with ESMTP; 10 Aug 2020 18:19:21 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 8338048E5; Mon, 10 Aug 2020 18:19:20 +0530 (IST)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v3] drm/msm/dpu: Fix reservation failures in modeset
-Date: Mon, 10 Aug 2020 18:19:18 +0530
-Message-Id: <1597063758-26238-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEBBC89D8E;
+ Mon, 10 Aug 2020 12:56:58 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 40A3B26EEED119206D00;
+ Mon, 10 Aug 2020 20:56:55 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 10 Aug 2020 20:56:46 +0800
+From: Qinglang Miao <miaoqinglang@huawei.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: [PATCH] drm/amd/display: convert to use le16_add_cpu()
+Date: Mon, 10 Aug 2020 20:59:19 +0800
+Message-ID: <20200810125919.185312-1-miaoqinglang@huawei.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 11 Aug 2020 06:58:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,112 +41,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
- abhinavk@codeaurora.org, linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, ddavenport@chromium.org,
- hoegsberg@chromium.org, swboyd@chromium.org
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, miaoqinglang@huawei.com,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In TEST_ONLY commit, rm global_state will duplicate the
-object and request for new reservations, once they pass
-then the new state will be swapped with the old and will
-be available for the Atomic Commit.
+Convert cpu_to_le16(le16_to_cpu(E1) + E2) to use le16_add_cpu().
 
-This patch fixes some of missing links in the resource
-reservation sequence mentioned above.
-
-1) Creation of duplicate state in test_only commit (Rob)
-2) Allocate and release the resources on every modeset.
-3) Avoid allocation only when active is false.
-
-In a modeset operation, swap state happens well before
-disable. Hence clearing reservations in disable will
-cause failures in modeset enable.
-
-Allow reservations to be cleared/allocated before swap,
-such that only newly committed resources are pushed to HW.
-
-Changes in v1:
- - Move the rm release to atomic_check.
- - Ensure resource allocation and free happens when active
-   is not changed i.e only when mode is changed.(Rob)
-
-Changes in v2:
- - Handle dpu_kms_get_global_state API failure as it may
-   return EDEADLK (swboyd).
-
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/display/dc/bios/command_table.c  | 4 +---
+ drivers/gpu/drm/amd/display/dc/bios/command_table2.c | 5 +----
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 63976dc..39e0b32 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -582,7 +582,10 @@ static int dpu_encoder_virt_atomic_check(
- 	dpu_kms = to_dpu_kms(priv->kms);
- 	mode = &crtc_state->mode;
- 	adj_mode = &crtc_state->adjusted_mode;
--	global_state = dpu_kms_get_existing_global_state(dpu_kms);
-+	global_state = dpu_kms_get_global_state(crtc_state->state);
-+	if (IS_ERR(global_state))
-+		return PTR_ERR(global_state);
-+
- 	trace_dpu_enc_atomic_check(DRMID(drm_enc));
- 
- 	/*
-@@ -617,12 +620,15 @@ static int dpu_encoder_virt_atomic_check(
- 	/* Reserve dynamic resources now. */
- 	if (!ret) {
- 		/*
--		 * Avoid reserving resources when mode set is pending. Topology
--		 * info may not be available to complete reservation.
-+		 * Release and Allocate resources on every modeset
-+		 * Dont allocate when active is false.
- 		 */
- 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
--			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
--					drm_enc, crtc_state, topology);
-+			dpu_rm_release(global_state, drm_enc);
-+
-+			if (!crtc_state->active_changed || crtc_state->active)
-+				ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
-+						drm_enc, crtc_state, topology);
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table.c b/drivers/gpu/drm/amd/display/dc/bios/command_table.c
+index 5815983ca..070459e3e 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/command_table.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/command_table.c
+@@ -1877,9 +1877,7 @@ static enum bp_result set_crtc_using_dtd_timing_v3(
+ 			 * but it is 4 either from Edid data (spec CEA 861)
+ 			 * or CEA timing table.
+ 			 */
+-			params.usV_SyncOffset =
+-					cpu_to_le16(le16_to_cpu(params.usV_SyncOffset) + 1);
+-
++			le16_add_cpu(&params.usV_SyncOffset, 1);
  		}
  	}
  
-@@ -1171,7 +1177,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 	struct dpu_encoder_virt *dpu_enc = NULL;
- 	struct msm_drm_private *priv;
- 	struct dpu_kms *dpu_kms;
--	struct dpu_global_state *global_state;
- 	int i = 0;
- 
- 	if (!drm_enc) {
-@@ -1190,7 +1195,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 
- 	priv = drm_enc->dev->dev_private;
- 	dpu_kms = to_dpu_kms(priv->kms);
--	global_state = dpu_kms_get_existing_global_state(dpu_kms);
- 
- 	trace_dpu_enc_disable(DRMID(drm_enc));
- 
-@@ -1220,8 +1224,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 
- 	DPU_DEBUG_ENC(dpu_enc, "encoder disabled\n");
- 
--	dpu_rm_release(global_state, drm_enc);
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table2.c b/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
+index bed91572f..e8f52eb8e 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
+@@ -569,10 +569,7 @@ static enum bp_result set_crtc_using_dtd_timing_v3(
+ 			 * but it is 4 either from Edid data (spec CEA 861)
+ 			 * or CEA timing table.
+ 			 */
+-			params.v_syncoffset =
+-				cpu_to_le16(le16_to_cpu(params.v_syncoffset) +
+-						1);
 -
- 	mutex_unlock(&dpu_enc->enc_lock);
- }
++			le16_add_cpu(&params.v_syncoffset, 1);
+ 		}
+ 	}
  
 -- 
-1.9.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
