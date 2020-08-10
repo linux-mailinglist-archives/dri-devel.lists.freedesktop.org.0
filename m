@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001BE240574
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 13:47:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C52D524058E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 14:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E06D6E40C;
-	Mon, 10 Aug 2020 11:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 133186E40F;
+	Mon, 10 Aug 2020 12:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA286E40C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 11:47:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6FC6E40D
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 12:06:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208573] Black screen on boot if two displays plugged in with
  NAVI 10
-Date: Mon, 10 Aug 2020 11:47:31 +0000
+Date: Mon, 10 Aug 2020 12:06:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-208573-2300-eD3BukRWZ6@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208573-2300-TuPRLVf3K7@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208573-2300@https.bugzilla.kernel.org/>
 References: <bug-208573-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,11 +59,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208573
 
-Thomas Langkamp (thomas.langkamp@medicalschool-hamburg.de) changed:
+--- Comment #6 from Thomas Langkamp (thomas.langkamp@medicalschool-hamburg.de) ---
+(In reply to Thomas Langkamp from comment #5)
+> Created attachment 290817 [details]
+> reproducable error messages after suspend, then reboot
+> 
+> This error message is reproducable if I boot
+> - with 1 display
+> - on KDE connect second display
+> - suspend, then wakeup (both screens work normal until this point)
+> - then reboot => error message, then black screen on one and green screen on
+> secondary display.
+> 
+> Because my Mainboard got a new Bios I tried that with no effect. But I
+> realized, that I get the black screen only if I dial in the 3200 Mhz XMP
+> Profile of my RAM. If not - there is no black screen with 2 displays on the
+> new BIOS. On the old BIOS XMP Profile or not made no difference. Thus the
+> mainboard may be part of the problem.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.7.8-6-MANJARO             |5.8.0-2-MANJARO
+Still, Mainboard being part of the problem or not - all was fine til I switched
+the Fury X to the 5700 XT (first an ASROCK, now a Gigabyte one).
 
 -- 
 You are receiving this mail because:
