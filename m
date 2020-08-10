@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01713240DBA
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4275240DBC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF79C89F49;
-	Mon, 10 Aug 2020 19:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A27C76E122;
+	Mon, 10 Aug 2020 19:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F345A89F43;
- Mon, 10 Aug 2020 19:10:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C15B26E122;
+ Mon, 10 Aug 2020 19:10:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0253A207FF;
- Mon, 10 Aug 2020 19:10:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AAD2F2078D;
+ Mon, 10 Aug 2020 19:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086650;
- bh=Z6K4uvy4C7W23CznrC/gasZ1erGhoQ4x23h6wbcUX98=;
+ s=default; t=1597086653;
+ bh=1hUmOdoEj32TW0X8WVtmQHKVAglxkLerFvsfjtaXHtE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SZv2fHr4LqkyO49K/1D8bIvl8sdooHDKT/HdFinIRBIpg6tkPxKLNsv30ZSRNv4OJ
- 04VX8Dv0uEw4XwLh7LxZioZa5tacLG5PQ3YHEp04RJcolfjHpPmHr4LeVcKf2vdV8d
- tXRpb+C2//XOevd/8UdGzPfEZaMRR2u43nrZHQLY=
+ b=suwk/qp6MUVwynZE41B3+sfRnQc/KL2r5pj+uSRUweNgxks5qZgGpZZeJLrMo2ShD
+ 36LNFFrRwS6v9j0C8LNCr46zo924EPGjX/DIra3hGBmg7vXk15oBaSkZpAhe52mIYw
+ xokFD33UKCIsZgBivN4qYvH5YpNBOYpb/8RnI0yg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 16/60] drm/nouveau/kms/nv50-: Fix disabling
- dithering
-Date: Mon, 10 Aug 2020 15:09:44 -0400
-Message-Id: <20200810191028.3793884-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 18/60] drm/etnaviv: fix ref count leak via
+ pm_runtime_get_sync
+Date: Mon, 10 Aug 2020 15:09:46 -0400
+Message-Id: <20200810191028.3793884-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
 References: <20200810191028.3793884-1-sashal@kernel.org>
@@ -50,69 +50,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Navid Emamdoost <navid.emamdoost@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lyude Paul <lyude@redhat.com>
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
 
-[ Upstream commit fb2420b701edbf96c2b6d557f0139902f455dc2b ]
+[ Upstream commit c5d5a32ead1e3a61a07a1e59eb52a53e4a6b2a7f ]
 
-While we expose the ability to turn off hardware dithering for nouveau,
-we actually make the mistake of turning it on anyway, due to
-dithering_depth containing a non-zero value if our dithering depth isn't
-also set to 6 bpc.
+in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
+and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
+counter even in case of failure, leading to incorrect ref count.
+In case of failure, decrement the ref count before returning.
 
-So, fix it by never enabling dithering when it's disabled.
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
-Acked-by: Dave Airlie <airlied@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200627194657.156514-6-lyude@redhat.com
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/head.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-index 8f6455697ba72..ed6819519f6d8 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-@@ -84,18 +84,20 @@ nv50_head_atomic_check_dither(struct nv50_head_atom *armh,
- {
- 	u32 mode = 0x00;
- 
--	if (asyc->dither.mode == DITHERING_MODE_AUTO) {
--		if (asyh->base.depth > asyh->or.bpc * 3)
--			mode = DITHERING_MODE_DYNAMIC2X2;
--	} else {
--		mode = asyc->dither.mode;
--	}
-+	if (asyc->dither.mode) {
-+		if (asyc->dither.mode == DITHERING_MODE_AUTO) {
-+			if (asyh->base.depth > asyh->or.bpc * 3)
-+				mode = DITHERING_MODE_DYNAMIC2X2;
-+		} else {
-+			mode = asyc->dither.mode;
-+		}
- 
--	if (asyc->dither.depth == DITHERING_DEPTH_AUTO) {
--		if (asyh->or.bpc >= 8)
--			mode |= DITHERING_DEPTH_8BPC;
--	} else {
--		mode |= asyc->dither.depth;
-+		if (asyc->dither.depth == DITHERING_DEPTH_AUTO) {
-+			if (asyh->or.bpc >= 8)
-+				mode |= DITHERING_DEPTH_8BPC;
-+		} else {
-+			mode |= asyc->dither.depth;
-+		}
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index a31eeff2b297a..7c9f3f9ba1235 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 	ret = pm_runtime_get_sync(gpu->dev);
+ 	if (ret < 0) {
+ 		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
+-		return ret;
++		goto pm_put;
  	}
  
- 	asyh->dither.enable = mode;
+ 	etnaviv_hw_identify(gpu);
+@@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 
+ fail:
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ 
+ 	return ret;
+@@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 
+ 	ret = pm_runtime_get_sync(gpu->dev);
+ 	if (ret < 0)
+-		return ret;
++		goto pm_put;
+ 
+ 	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
+ 	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
+@@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 	ret = 0;
+ 
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ 
+ 	return ret;
+@@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 	dev_err(gpu->dev, "recover hung GPU!\n");
+ 
+ 	if (pm_runtime_get_sync(gpu->dev) < 0)
+-		return;
++		goto pm_put;
+ 
+ 	mutex_lock(&gpu->lock);
+ 
+@@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 
+ 	mutex_unlock(&gpu->lock);
+ 	pm_runtime_mark_last_busy(gpu->dev);
++pm_put:
+ 	pm_runtime_put_autosuspend(gpu->dev);
+ }
+ 
+@@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 
+ 	if (!submit->runtime_resumed) {
+ 		ret = pm_runtime_get_sync(gpu->dev);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_noidle(gpu->dev);
+ 			return NULL;
++		}
+ 		submit->runtime_resumed = true;
+ 	}
+ 
+@@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	ret = event_alloc(gpu, nr_events, event);
+ 	if (ret) {
+ 		DRM_ERROR("no free events\n");
++		pm_runtime_put_noidle(gpu->dev);
+ 		return NULL;
+ 	}
+ 
 -- 
 2.25.1
 
