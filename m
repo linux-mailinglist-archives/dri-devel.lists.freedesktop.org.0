@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AB524069B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 15:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BE52406F0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 15:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E14A6E40D;
-	Mon, 10 Aug 2020 13:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D93C89F31;
+	Mon, 10 Aug 2020 13:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64DBE6E40D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 13:32:42 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id f1so8192173wro.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 06:32:42 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FC389F31
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 13:45:45 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z18so8223331wrm.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 06:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=a+nmwnQku2NPETSpBDN/P5VVyyO+hZH4dE82TSAC310=;
- b=XgunidY4u2HlfrT7vWG1augSLzJLtFtt3MwWEaGZU0TEkWgCm8vp13Wp9OEkdH8cif
- Myvc84JtAWcLoxHkNL54GxRSxWXMuRjjH6BJf4aKPj78zZmGJ3l/dUaVNmHN81D5faLR
- NB3OTBiN1rgf+K3sqXS7g2el9wItvmalo6Wlk=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=vJ/PjI/EKPpJLxr7HWp1vsjQGVNaqLsJv7tLOvlDJ7Q=;
+ b=biHZh22zxSQNTO2/bdmRruPQNaNIAQMG3BmdYi68hYrfDOQyZbHC4/Sx9RhLiAvLhp
+ o9BI0/ggic/nGUQvTGGT7kC5wVG/RfVNCxDD1j9btg5EgErqgU6BQcR2uO/+4COku9O2
+ Nf6ZD/0ZXiN1ce1h6f38EZTI0OlLSCZXGUX1k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=a+nmwnQku2NPETSpBDN/P5VVyyO+hZH4dE82TSAC310=;
- b=dYrJtEYLenIwzMADnjJFjsdhNmmYuKYgCB/SxGq8p8Y4gAia/sNE9xbtp7Ax87xPss
- hdAywdEEMYMO4Jm9Cbw/zigjxhD3NzQ2JyT36oRgtwnSPS2/Qr6kzMSLnk+d/0U/o/EZ
- pBQvNLprukkoyJ868X9jmaK9nMIdzwnGm3X1FuwESmgBtbPlane7Nw+8ydnoZrc1am2x
- U/u1fXDwqPEhjKosI7BpMmLzCasUt9IsNY+Sf509sMwSbyzuu78gHyKihnvcfz+9jjfC
- 6DHKbDvbJ1o++5ab+ngKhWUeZngjeM9+mfSGBk64hV9Hqzc/miv6ixxbqEUEe7VJP64i
- 9DCw==
-X-Gm-Message-State: AOAM532DCW6CgeWynZYDASUaN1sy+odGy73dGXJhaX+KynPS2T44xUSx
- xmNMsLP5FoCwzuc1Jvmrs/aRQA==
-X-Google-Smtp-Source: ABdhPJwTLj+RebIoQLWCXGNcoMBm0EOS1JlGZLvmXwPU1hi7d1FhGfALDOJkrCtq5nQijkDH6PGBsQ==
-X-Received: by 2002:adf:a351:: with SMTP id d17mr24489798wrb.111.1597066361100; 
- Mon, 10 Aug 2020 06:32:41 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vJ/PjI/EKPpJLxr7HWp1vsjQGVNaqLsJv7tLOvlDJ7Q=;
+ b=omK55vflOkmWLUxZmot5DtX/nFgUHH8Nk6f3PfDXNd1cmgKzyukf/CJYyvwC76+Hit
+ BFvslf+ZgIYQ9jkvqDPl8yC/iAjmr0weXiMtg1/SazmdTzOhe2fhSOaw8+GxaaLF19RL
+ 4kLqjwrpljQsSePZ7wwKvzoAFs2eqka5WUE4oR2K4+XOk46w5Kk6TvykEA6IxAuK7827
+ 0Mly9/xmeBqHbTSov8THQ3aIs19gBhG2+AJQnptC7rpfbIYsjll2N8M/gDQZ6SSU4Afi
+ BKGU9r1gcMcU6DO4qT4bAEkb4+9aUqAins25Iq5U5ptkCgzwUkZdqES9oavyEFBYwx8q
+ sazw==
+X-Gm-Message-State: AOAM533b3agWBEOkdNamn9cE5w0zhh/2DauoSJL16EY5rW5jrzOHCEpD
+ ThGFkehcx9aVJafsRd7I92OHT0xt7ZA=
+X-Google-Smtp-Source: ABdhPJyvinoiNsWr8EVQ0tzQ4zm8JeWTVYEbx1rdqZTo28RXGT/5GEoDP6oGn1MlcJx+ne2vkzCMzQ==
+X-Received: by 2002:a5d:68cf:: with SMTP id p15mr25473168wrw.148.1597067143805; 
+ Mon, 10 Aug 2020 06:45:43 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k10sm20501231wrm.74.2020.08.10.06.32.39
+ by smtp.gmail.com with ESMTPSA id g188sm24322910wma.5.2020.08.10.06.45.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 06:32:40 -0700 (PDT)
-Date: Mon, 10 Aug 2020 15:32:38 +0200
+ Mon, 10 Aug 2020 06:45:43 -0700 (PDT)
+Date: Mon, 10 Aug 2020 15:45:41 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Qinglang Miao <miaoqinglang@huawei.com>
-Subject: Re: [PATCH] drm/vkms: add missing platform_device_unregister() in
- vkms_init()
-Message-ID: <20200810133238.GW2352366@phenom.ffwll.local>
-Mail-Followup-To: Qinglang Miao <miaoqinglang@huawei.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20200810130011.187691-1-miaoqinglang@huawei.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx/ttm: fix the non-THP cleanup path.
+Message-ID: <20200810134541.GX2352366@phenom.ffwll.local>
+References: <20200810054110.4192239-1-airlied@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200810130011.187691-1-miaoqinglang@huawei.com>
+In-Reply-To: <20200810054110.4192239-1-airlied@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,47 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 10, 2020 at 09:00:11PM +0800, Qinglang Miao wrote:
-> When vkms_init() get into out_put, the unregister call of
-> vkms_device->platform is missing. So add it before return.
+On Mon, Aug 10, 2020 at 03:41:10PM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
 > 
-> Fixes: c27f0cc4d43a "drm/vkms: enable cursor by default"
+> I fixed the init path, but missed the cleanup path.
+> 
+> Fixes: e0830704de7c ("drm/vmwgfx: takedown vram manager")
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-This is the wrong commit, I fixed that up while applying.
--Daniel
+Oopsies.
 
-> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 57a8a397d..83dd5567d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -190,8 +190,8 @@ static int __init vkms_init(void)
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index a68ae0204bf5..2c4858ea89b1 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -639,7 +639,7 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  	vmw_thp_fini(dev_priv);
+>  #else
+> -	ttm_bo_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
+> +	ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
+>  #endif
+>  }
 >  
->  out_put:
->  	drm_dev_put(&vkms_device->drm);
-> +	platform_device_unregister(vkms_device->platform);
->  	return ret;
-> -
->  out_unregister:
->  	platform_device_unregister(vkms_device->platform);
->  out_free:
 > -- 
-> 2.25.1
+> 2.27.0
 > 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
