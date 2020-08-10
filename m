@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C9224005C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 01:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2E9240088
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 02:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F02F16E2A5;
-	Sun,  9 Aug 2020 23:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579326E0EE;
+	Mon, 10 Aug 2020 00:26:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA2E6E0CA
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Aug 2020 23:03:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04897F9;
- Mon, 10 Aug 2020 01:03:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597014224;
- bh=Kk+tp0hb9UsCcHFvuEh/LTmlcLsTugnaUod79jKG4WQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VtVnT3xcPU0HcewhkSz1Wn++3m01M5NnNU4t08w/nWeK+64gvqP4zx20lfCoW+zN8
- pDnNZS1BJp8kAg7W8V4A1sCQaftbW6Ski6g+mBr4cDIzVP3uflcMDSH1g2yjyh77fo
- 7IEa7S52D4HtgH3h48Gsuzl/83sUGAD7xo8HDDSM=
-Date: Mon, 10 Aug 2020 02:03:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 2/7] drm: rcar-du: Add r8a7742 support
-Message-ID: <20200809230330.GA12018@pendragon.ideasonboard.com>
-References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200808210219.GN6186@pendragon.ideasonboard.com>
- <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391686E0EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 00:26:45 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
+ 4.19/4.20/5.0
+Date: Mon, 10 Aug 2020 00:26:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: supasean@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201539-2300-PX4zkAy0on@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
+References: <bug-201539-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,82 +52,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
+https://bugzilla.kernel.org/show_bug.cgi?id=201539
 
-On Sun, Aug 09, 2020 at 09:38:05PM +0100, Lad, Prabhakar wrote:
-> On Sat, Aug 8, 2020 at 10:02 PM Laurent Pinchart wrote:
-> > On Fri, Aug 07, 2020 at 06:49:49PM +0100, Lad Prabhakar wrote:
-> > > Add direct support for the r8a7742 (RZ/G1H).
-> > >
-> > > The RZ/G1H shares a common, compatible configuration with the r8a7790
-> > > (R-Car H2) so that device info structure is reused, the only difference
-> > > being TCON is unsupported on RZ/G1H (Currently unsupported by the driver).
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > index 3e67cf70f040..7e286c7a7a6c 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > @@ -216,8 +216,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
-> > >       .channels_mask = BIT(2) | BIT(1) | BIT(0),
-> > >       .routes = {
-> > >               /*
-> > > -              * R8A7790 has one RGB output, two LVDS outputs and one
-> > > -              * (currently unsupported) TCON output.
-> > > +              * R8A7742 and R8A7790 each have one RGB output and two LVDS outputs. Additionally
-> > > +              * R8A7790 supports one TCON output (currently unsupported by the driver).
-> >
-> > Once we support TCON we'll have to split this, but for now I suppose
-> > it's fine. Would you however mind wrapping this to 80 columns ? I can do
-> > so when applying if it's fine with you.
->
-> Agreed once TCON is added this has to be split. But isn't  the column
-> size has been increased (checkpatch too doesn't complain about), but
+--- Comment #56 from Sean Birkholz (supasean@hotmail.com) ---
+I was going to try and get a fancontrol script working, but I found the
+following as I started to play around:
 
-It has, but it doesn't mean it's mandatory to increase line length :-)
-I think aligning with the style of the existing code should be favoured.
+I got my results on Arch Linux's 5.7.12-arch1-1 kernel.  
 
-> feel free to wrapp it for 80 columns.
+On boot pwm1_enable is set to 1 (manual mode).  On 4.18.x it is normally set to
+2 (automatic mode) iirc.  Changing this value to 2 does essentially nothing for
+me and the fans do not spin up with increasing temp.  
 
-OK, I'll do that.
+However, I've found that running pwmconfig and not even answering the first
+question (ie; I can just ctrl+c out) causes the automatic temp control to start
+functioning.  So after you run pwmconfig, then change pwm1_enable to 2 and
+everything works again.  So far it appears doing these two things gets me the
+same functionality I had on 4.18.x and I can finally upgrade my kernel.  No fan
+control script needed.
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > >                */
-> > >               [RCAR_DU_OUTPUT_DPAD0] = {
-> > >                       .possible_crtcs = BIT(2) | BIT(1) | BIT(0),
-> > > @@ -443,6 +443,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
-> > >  };
-> > >
-> > >  static const struct of_device_id rcar_du_of_table[] = {
-> > > +     { .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
-> > >       { .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> > >       { .compatible = "renesas,du-r8a7744", .data = &rzg1_du_r8a7743_info },
-> > >       { .compatible = "renesas,du-r8a7745", .data = &rzg1_du_r8a7745_info },
+It is interesting to note, if you do these in the opposite order; set
+pwm1_enable to 2 and then run pwmconfig, you must say yes to enabling manual
+mode on the gpu's fan before they start functioning properly.  This also causes
+the fan to run full speed (like pwm1_enable is set to 0) and you will need to
+set 2 in pwm1_enable again.
+
+I dont know what pwmconfig is modifying to cause pwm to work again... I wish i
+knew so I could set that up with a script and not have to manually start it,
+but this is good enough for now as I reboot rarely.  Maybe I can make a script
+to use with systemctl when I'm not lazy.
 
 -- 
-Regards,
-
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
