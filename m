@@ -1,58 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD07241697
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9807B2416B8
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01AC6E101;
-	Tue, 11 Aug 2020 06:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23DC06E4CA;
+	Tue, 11 Aug 2020 06:59:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED8A089E7B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 18:43:30 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5f31951d0000>; Mon, 10 Aug 2020 11:42:37 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 10 Aug 2020 11:43:30 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 10 Aug 2020 11:43:30 -0700
-Received: from [172.20.40.66] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Aug
- 2020 18:43:29 +0000
-Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
- ACPI-driven muxes
-To: Lukas Wunner <lukas@wunner.de>
-References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
- <20200729210557.9195-1-ddadap@nvidia.com>
- <20200810083757.2jbwebbvocqe5rle@wunner.de>
-From: Daniel Dadap <ddadap@nvidia.com>
-Message-ID: <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
-Date: Mon, 10 Aug 2020 13:44:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8318E89951
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 18:59:18 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id p37so1283582pgl.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 11:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=x87wiamKK8IpHrYWyQZkX28BwuSCR2wXWSfYCvqc6Rg=;
+ b=ZZsnFz6L+wbM1Zgg5QA7lgADPT6oEH8/ADKOklgw32TAKsJT37pzlRTS8P3PEYEU21
+ 0a5tolSF9/i6pWJzA1Ezl7Lmuroho8D9xIgHerRNXT5z2bFEzWjqeFDUNBNJ5j0CozVE
+ WVZCtUqwr5eChlEX3rtzkrtXYQRS+F/KAJJOwggs2PcBOip781/p8XMRT8WEr+s1rII0
+ nAmGLbJwKfTsy/ySJlzup63SsbjrJ727FRySv3UAg5IWXReYUSy76ylEygkQ1VnZMFE+
+ cIxdPQafbXsER2xhNcurt51yWutvFr8nD+sGheu+NIer6bZs1UbfeEq8GTYPsucTFlNl
+ cjIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=x87wiamKK8IpHrYWyQZkX28BwuSCR2wXWSfYCvqc6Rg=;
+ b=h9gFCcK+lZ5jK8CxuagNoEAHF+3idyjHd1Z/FAp0UGZSKA4WHV5CmHc+bZJAaYgFGO
+ PymJ2uce8DgfV7eJTO4Sa6N0bo70ZaFKXJyxnfya6O7YtCt/eSbpxjG32cjAEu9/0/jp
+ gO8JzStfxCUJAYVaPNNxNf31e6obtJcgMk/m7qDkRpwCgjlojQE3611k3O5lhz6d/mvz
+ h4xxpHUWbv8hhgVDpBIao05CLd5XHmoRtpWkCeeymvWtHHrzSMZQKCFjjx5h5G9s286d
+ 1IIs9gdjLIHQnZN9iUvml9MIPcMaTlzWeGRb0DrR+0mqpaUdmtY5HQBmeO/At9sYPnnv
+ bZHg==
+X-Gm-Message-State: AOAM531glf/kr+kYeVrYJrfaEkso6LwDWpUbh0946k1RNyQp4Pl7/rNe
+ pYFot81be6bNCiUTyzqgRUYgZz2ELt60eQ==
+X-Google-Smtp-Source: ABdhPJyPqIiE4/6f56BZE0TAQHYbCJrcQ8/BTUQoQnH8DzVTNJrbgDzgOiV0zuWvmdXily+zD39Uqw==
+X-Received: by 2002:a62:cfc1:: with SMTP id b184mr2255523pfg.262.1597085957970; 
+ Mon, 10 Aug 2020 11:59:17 -0700 (PDT)
+Received: from varodek.localdomain ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.11.59.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Aug 2020 11:59:17 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
+ Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
+ Antonino Daplas <adaplas@gmail.com>
+Subject: [PATCH v2 00/12] video: fbdev: use generic power management
+Date: Tue, 11 Aug 2020 00:27:11 +0530
+Message-Id: <20200810185723.15540-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200810165458.GA292825@ravnborg.org>
+References: <20200810165458.GA292825@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200810083757.2jbwebbvocqe5rle@wunner.de>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1597084957; bh=SzBLgHjB26ZW+phBa80l41xf15YlZglGp7LynW49+kA=;
- h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
- User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
- X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
- Content-Language;
- b=LaEmMJoCtyTTIIRW27PsDBXx59T/tcG4XXCNIshccoDEoHvKDI3ERSl7IO3P94THq
- cqPVUF8uFOkw3bAL3WefIHL+t4UA09WPkpcjENVl21OSoEJNg2sPWSV1/BIx92Y2Z+
- d81epUIudwEqE24GEqRR8z7YCsgiQbFVXsm02DrF8ZKNqrGH7Rlm14DzHmagUNkRV/
- EL5yFcNS2wuPeljXKYDc4qYHHjoh2n0UR/oovx0cHvp1N7OhfV+TpSQCupfZ3kAuoh
- Q29I+fu2hlHq3Y0O92x+r0xJpflSlfTuhUHXIgQ01WBB3NR8PFrxQPrlKQwPihwZYt
- Hjy5bUxu/aLNQ==
 X-Mailman-Approved-At: Tue, 11 Aug 2020 06:58:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,150 +73,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- pobrn@protonmail.com, peter@lekensteyn.nl, dvhart@infradead.org,
- andy@infradead.org
+Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Linux Kernel Mentee: Remove Legacy Power Management.
 
-On 8/10/20 3:37 AM, Lukas Wunner wrote:
-> External email: Use caution opening links or attachments
->
->
-> On Wed, Jul 29, 2020 at 04:05:57PM -0500, Daniel Dadap wrote:
->> + * This program is free software; you can redistribute it and/or modify it
->> + * under the terms and conditions of the GNU General Public License,
->> + * version 2, as published by the Free Software Foundation.
->> + *
->> + * This program is distributed in the hope that it will be useful, but WITHOUT
->> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
->> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
->> + * more details.
->> + *
->> + * You should have received a copy of the GNU General Public License
->> + * along with this program; if not, see <http://www.gnu.org/licenses>.
-> This boilerplate is unnecessary, the SPDX identifier is sufficient.
+The purpose of this patch series is to upgrade power management in video fbdev
+drivers. This has been done by upgrading .suspend() and .resume() callbacks.
 
+The upgrade makes sure that the involvement of PCI Core does not change the
+order of operations executed in a driver. Thus, does not change its behavior.
 
-I don't doubt that it's unnecessary, but this is the recommended 
-boilerplate license text for NVIDIA-copyrighted GPLv2-licensed code by 
-NVIDIA legal. Unless there's a compelling reason to omit it, I'll leave 
-it as-is. If anybody feels strongly about removing it, I can ask our 
-legal team for guidance.
+In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
+pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+their job.
 
+The conversion requires the removal of those function calls, change the
+callbacks' definition accordingly and make use of dev_pm_ops structure.
 
->
->> +static int mxds_gmux_switchto(enum vga_switcheroo_client_id);
->> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(struct pci_dev *);
->> +
->> +static const struct vga_switcheroo_handler handler = {
->> +     .switchto = mxds_gmux_switchto,
->> +     .get_client_id = mxds_gmux_get_client_id,
->> +};
-> Move the handler struct further down to avoid the forward declarations.
->
+All patches are compile-tested only.
 
-Sure.
+Test tools:
+    - Compiler: gcc (GCC) 10.1.0
+    - allmodconfig build: make -j$(nproc) W=1 all
 
+Vaibhav Gupta (12):
+  fbdev: gxfb: use generic power management
+  fbdev: lxfb: use generic power management
+  fbdev: via-core: use generic power management
+  fbdev: aty: use generic power management
+  fbdev: aty128fb: use generic power management
+  fbdev: nvidia: use generic power management
+  fbdev: savagefb: use generic power management
+  fbdev: cyber2000fb: use generic power management
+  fbdev: i740fb: use generic power management
+  fbdev: vt8623fb: use generic power management
+  fbdev: s3fb: use generic power management
+  fbdev: arkfb: use generic power management
 
->> + * Call MXDS with bit 0 set to change the current state.
->> + * When changing state, clear bit 4 for iGPU and set bit 4 for dGPU.
-> [...]
->> +enum mux_state_command {
->> +     MUX_STATE_GET = 0,
->> +     MUX_STATE_SET_IGPU = 0x01,
->> +     MUX_STATE_SET_DGPU = 0x11,
->> +};
-> It looks like the code comment is wrong and bit 1 (instead of bit 4) is
-> used to select the GPU.
+ drivers/video/fbdev/arkfb.c                  | 41 ++++++-------
+ drivers/video/fbdev/aty/aty128fb.c           | 51 ++++++++++------
+ drivers/video/fbdev/aty/atyfb_base.c         | 50 ++++++++++-----
+ drivers/video/fbdev/cyber2000fb.c            | 13 ++--
+ drivers/video/fbdev/geode/gxfb.h             |  5 --
+ drivers/video/fbdev/geode/gxfb_core.c        | 36 ++++++-----
+ drivers/video/fbdev/geode/lxfb.h             |  5 --
+ drivers/video/fbdev/geode/lxfb_core.c        | 37 +++++------
+ drivers/video/fbdev/geode/lxfb_ops.c         |  4 --
+ drivers/video/fbdev/geode/suspend_gx.c       |  4 --
+ drivers/video/fbdev/i740fb.c                 | 40 +++++-------
+ drivers/video/fbdev/nvidia/nvidia.c          | 64 +++++++++++---------
+ drivers/video/fbdev/s3fb.c                   | 39 +++++-------
+ drivers/video/fbdev/savage/savagefb_driver.c | 52 ++++++++++------
+ drivers/video/fbdev/via/via-core.c           | 39 +++++-------
+ drivers/video/fbdev/vt8623fb.c               | 41 ++++++-------
+ include/linux/via-core.h                     |  2 -
+ 17 files changed, 267 insertions(+), 256 deletions(-)
 
+-- 
+2.27.0
 
-The code comment is correct. The enum values are hexadecimal, not 
-binary. Would it be clearer to write it out as something like 0 << 4 & 1 
-<< 0 for MUX_STATE_SET_IGPU and 1 << 4 & 1 << 0 for MUX_STATE_SET_DGPU?
-
-
->> +static acpi_integer acpi_helper(acpi_handle handle, enum acpi_method method,
->> +                             acpi_integer action)
->> +{
->> +     union acpi_object arg;
->> +     struct acpi_object_list in = {.count = 1, .pointer = &arg};
->> +     acpi_integer ret;
->> +     acpi_status status;
->> +
->> +     arg.integer.type = ACPI_TYPE_INTEGER;
->> +     arg.integer.value = action;
-> Hm, why not use an initializer for "arg", as you do for "in"?
->
-
-Sure.
-
-
->> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(
->> +     struct pci_dev *dev)
->> +{
->> +     if (dev) {
->> +             if (ig_dev && dev->vendor == ig_dev->vendor)
->> +                     return VGA_SWITCHEROO_IGD;
->> +             if (dg_dev && dev->vendor == dg_dev->vendor)
->> +                     return VGA_SWITCHEROO_DIS;
->> +     }
-> That's a little odd.  Why not use "ig_dev == dev" and "dg_dev == dev"?
-
-
-No reason; that is indeed better. I think originally these comparisons 
-got a vendor ID from some other means.
-
-
->
->> +static acpi_status find_acpi_methods(
->> +     acpi_handle object, u32 nesting_level, void *context,
->> +     void **return_value)
->> +{
->> +     acpi_handle search;
->> +
->> +     /* If either MXDM or MXDS is missing, we can't use this object */
->> +     if (acpi_get_handle(object, "MXDM", &search))
->> +             return 0;
-> Since this function returns an acpi_status, all the return statements
-> should use AE_OK intead of 0.
-
-
-Okay.
-
-
-> Otherwise LGTM.
->
-> Please cc dri-devel when respinning since this concerns vga_switcheroo.
-
-
-Will do, after testing the updated change. I'll leave the GPL 
-boilerplate text and hexadecimal enum definitions as-is unless I hear 
-otherwise.
-
-
-> I'm also cc'ing Peter Wu who has lots of experience with hybrid graphics
-> through his involvement with Bumblebee, hence might be interested.
-> Searching through his collection of ACPI dumps, it seems MXDS and MXMX
-> have been present for years, but not MXDM:
->
-> https://github.com/search?q=user%3ALekensteyn+MXDS&type=Code
-
-
-Yes, MXMX and MXDS go back a ways, it seems. I'm not familiar enough 
-with the MXMX+MXDS designs to know if MXDS uses the same API in those 
-designs as it doesn in the MXDM+MXDS designs. I'm not aware of any 
-already available designs with MXDM. MXMX was used for switching DDC 
-lines independently back when LVDS panels were the norm. The upcoming 
-MXDM+MXDS designs are eDP-based and do not support independent DDC muxing.
-
-
-> Thanks,
->
-> Lukas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
