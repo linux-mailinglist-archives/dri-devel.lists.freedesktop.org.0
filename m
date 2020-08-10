@@ -2,36 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F04E241155
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 22:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C48241156
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 22:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEA0289CCB;
-	Mon, 10 Aug 2020 20:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47A6D89CDF;
+	Mon, 10 Aug 2020 20:05:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F8989CCB
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 20:04:35 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 95498804CE;
- Mon, 10 Aug 2020 22:04:33 +0200 (CEST)
-Date: Mon, 10 Aug 2020 22:04:32 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH] gpu: ipu-v3: remove unused functions
-Message-ID: <20200810200432.GA415947@ravnborg.org>
-References: <20200721130504.22081-1-p.zabel@pengutronix.de>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38EE789CDF
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 20:05:20 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id t10so6299023ejs.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 13:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=m8L6pbnjhaM1t3UvZsLhQvEvWnKtsKGSkMxJCD9SPvE=;
+ b=Nkz5Sfmri+1mTjIpSqYV/5b5cnE9EJsEERFtebTmidN6d/ggrwHSCU+e+QT03z22nE
+ 27ANXXOXMXxvWvsoW6Me/zK31GxzzajVurYt7Y5h0Q0bUyiuj/6LhEr8shIhjZVK2hzv
+ zYu62TpiFzBnNrC7Nj3LwTMMDvSTPERjlSYAsqcDiu1KsUufM+vwO9lQx6iFZvtM461Q
+ 6EkaC5Wx4qRr6eat4l5KAxi0aHUE+8A/bDfzi+muMaoMh2NAoVIwUcy2hzneVCgcn+g2
+ 1aECZ3bS4D+XLlADpvIGDLS62H7njEc5IetF0HoV8mTKSzdoD+rcVZj/TFRS/JgLqQSD
+ NpVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=m8L6pbnjhaM1t3UvZsLhQvEvWnKtsKGSkMxJCD9SPvE=;
+ b=SE/62WyruSHjdjK+1P/eqeZGky0EUc0mphupKi7/aRLdk9KClXeBxcTysawxcYcEBB
+ D7iuhn+SqCeyYdOsypDjhZA++n0ZYxiDBRef4ySb5qvsIpJDFRkZOZg0NINc2Eryx1Ih
+ XWpPad9UtqU26FQ8QBh1+dRkZQ6uY1h7Qf5TMoCnHtbop1J2I3+pF+F0FB86+oRhxRk5
+ lqHTEKw0PeTCc5XzUj0cVlL/EmbGCR7U6u1hQ+He/fA+T2ukiSBkL4a7JRglHjGvBQ70
+ DrDc0O56xfLgNLW6cFODTHlsXePLXoGBMQkT07NvkEZih8UrkmcfIKdBfiSnLE045v9t
+ d9tw==
+X-Gm-Message-State: AOAM531wLd9tfmhjOIBOEv0odv3xcJEUlhLjkg+pdDGu4QC8wrQY8Q/w
+ F4/2STzLJTq2Q24OARq/i/D/dAMt7jl2C1fPDx0=
+X-Google-Smtp-Source: ABdhPJxdj7ze+dJc89mjfdfFoxbaDvcxO1o5z89xU46pPkNkArqcEl1Ah+UtXwxrgbXyGV39gFqgqopM18GII8uzRAc=
+X-Received: by 2002:a17:906:13d8:: with SMTP id
+ g24mr22453623ejc.317.1597089918717; 
+ Mon, 10 Aug 2020 13:05:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200721130504.22081-1-p.zabel@pengutronix.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=Fe9iELajE1JTs8reR74A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22
+References: <230cc360-89b9-bb39-ee7e-d68ac037345f@i-love.sakura.ne.jp>
+ <e5822548-4373-5020-eb3a-9d6144b74d25@amd.com>
+ <be670819-20d0-0757-a0f9-20054a527e77@vmware.com>
+ <33c4495c-7fb5-f075-b30b-9ab9bdd4ce32@amd.com>
+ <e4055371-5a78-0b32-9e1f-d17d865cbb8c@amd.com>
+ <CAPM=9txMmSdHqnTsq97voJnNabh+dzfSzeJL302z=WJJD9j8Gw@mail.gmail.com>
+ <551d34e3-945f-cb76-f3a6-d2a7533ed2a6@amd.com>
+In-Reply-To: <551d34e3-945f-cb76-f3a6-d2a7533ed2a6@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 11 Aug 2020 06:05:07 +1000
+Message-ID: <CAPM=9tzS992VBjTX24wsz=Oey3SVO6PS50oXaW7o9kBqt156eQ@mail.gmail.com>
+Subject: Re: [linux.git drm/ttm]: NULL pointer dereference upon driver probe
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,127 +68,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 03:05:04PM +0200, Philipp Zabel wrote:
-> ipu_mbus_code_to_colorspace, ipu_stride_to_bytes, and
-> ipu_pixelformat_is_planar are unused. Remove them.
-> 
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-git grep agrees with you.
-
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-> ---
->  drivers/gpu/ipu-v3/ipu-common.c | 67 ---------------------------------
->  include/video/imx-ipu-v3.h      |  3 --
->  2 files changed, 70 deletions(-)
-> 
-> diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
-> index b3dae9ec1a38..d166ee262ce4 100644
-> --- a/drivers/gpu/ipu-v3/ipu-common.c
-> +++ b/drivers/gpu/ipu-v3/ipu-common.c
-> @@ -133,73 +133,6 @@ enum ipu_color_space ipu_pixelformat_to_colorspace(u32 pixelformat)
->  }
->  EXPORT_SYMBOL_GPL(ipu_pixelformat_to_colorspace);
->  
-> -bool ipu_pixelformat_is_planar(u32 pixelformat)
-> -{
-> -	switch (pixelformat) {
-> -	case V4L2_PIX_FMT_YUV420:
-> -	case V4L2_PIX_FMT_YVU420:
-> -	case V4L2_PIX_FMT_YUV422P:
-> -	case V4L2_PIX_FMT_NV12:
-> -	case V4L2_PIX_FMT_NV21:
-> -	case V4L2_PIX_FMT_NV16:
-> -	case V4L2_PIX_FMT_NV61:
-> -		return true;
-> -	}
-> -
-> -	return false;
-> -}
-> -EXPORT_SYMBOL_GPL(ipu_pixelformat_is_planar);
-> -
-> -enum ipu_color_space ipu_mbus_code_to_colorspace(u32 mbus_code)
-> -{
-> -	switch (mbus_code & 0xf000) {
-> -	case 0x1000:
-> -		return IPUV3_COLORSPACE_RGB;
-> -	case 0x2000:
-> -		return IPUV3_COLORSPACE_YUV;
-> -	default:
-> -		return IPUV3_COLORSPACE_UNKNOWN;
-> -	}
-> -}
-> -EXPORT_SYMBOL_GPL(ipu_mbus_code_to_colorspace);
-> -
-> -int ipu_stride_to_bytes(u32 pixel_stride, u32 pixelformat)
-> -{
-> -	switch (pixelformat) {
-> -	case V4L2_PIX_FMT_YUV420:
-> -	case V4L2_PIX_FMT_YVU420:
-> -	case V4L2_PIX_FMT_YUV422P:
-> -	case V4L2_PIX_FMT_NV12:
-> -	case V4L2_PIX_FMT_NV21:
-> -	case V4L2_PIX_FMT_NV16:
-> -	case V4L2_PIX_FMT_NV61:
-> -		/*
-> -		 * for the planar YUV formats, the stride passed to
-> -		 * cpmem must be the stride in bytes of the Y plane.
-> -		 * And all the planar YUV formats have an 8-bit
-> -		 * Y component.
-> -		 */
-> -		return (8 * pixel_stride) >> 3;
-> -	case V4L2_PIX_FMT_RGB565:
-> -	case V4L2_PIX_FMT_YUYV:
-> -	case V4L2_PIX_FMT_UYVY:
-> -		return (16 * pixel_stride) >> 3;
-> -	case V4L2_PIX_FMT_BGR24:
-> -	case V4L2_PIX_FMT_RGB24:
-> -		return (24 * pixel_stride) >> 3;
-> -	case V4L2_PIX_FMT_BGR32:
-> -	case V4L2_PIX_FMT_RGB32:
-> -	case V4L2_PIX_FMT_XBGR32:
-> -	case V4L2_PIX_FMT_XRGB32:
-> -		return (32 * pixel_stride) >> 3;
-> -	default:
-> -		break;
-> -	}
-> -
-> -	return -EINVAL;
-> -}
-> -EXPORT_SYMBOL_GPL(ipu_stride_to_bytes);
-> -
->  int ipu_degrees_to_rot_mode(enum ipu_rotate_mode *mode, int degrees,
->  			    bool hflip, bool vflip)
->  {
-> diff --git a/include/video/imx-ipu-v3.h b/include/video/imx-ipu-v3.h
-> index 06b0b57e996c..d1b3889f74d8 100644
-> --- a/include/video/imx-ipu-v3.h
-> +++ b/include/video/imx-ipu-v3.h
-> @@ -484,9 +484,6 @@ int ipu_smfc_set_watermark(struct ipu_smfc *smfc, u32 set_level, u32 clr_level);
->  
->  enum ipu_color_space ipu_drm_fourcc_to_colorspace(u32 drm_fourcc);
->  enum ipu_color_space ipu_pixelformat_to_colorspace(u32 pixelformat);
-> -enum ipu_color_space ipu_mbus_code_to_colorspace(u32 mbus_code);
-> -int ipu_stride_to_bytes(u32 pixel_stride, u32 pixelformat);
-> -bool ipu_pixelformat_is_planar(u32 pixelformat);
->  int ipu_degrees_to_rot_mode(enum ipu_rotate_mode *mode, int degrees,
->  			    bool hflip, bool vflip);
->  int ipu_rot_mode_to_degrees(int *degrees, enum ipu_rotate_mode mode,
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxMSBBdWcgMjAyMCBhdCAwNToyNCwgQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
+LmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDEwLjA4LjIwIHVtIDIwOjUxIHNjaHJpZWIg
+RGF2ZSBBaXJsaWU6Cj4gPiBPbiBNb24sIDEwIEF1ZyAyMDIwIGF0IDIyOjIwLCBDaHJpc3RpYW4g
+S8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+ID4+IEFtIDA3LjA4LjIw
+IHVtIDA5OjAyIHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiA+Pj4gQW0gMDYuMDguMjAgdW0g
+MjA6NTAgc2NocmllYiBSb2xhbmQgU2NoZWlkZWdnZXI6Cj4gPj4+PiBBbSAwNi4wOC4yMCB1bSAx
+NzoyOCBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gPj4+Pj4gTXkgYmVzdCBndWVzcyBpcyB0
+aGF0IHlvdSBhcmUgZmFjaW5nIHR3byBzZXBhcmF0ZSBidWdzIGhlcmUuCj4gPj4+Pj4KPiA+Pj4+
+PiBDcmFzaCAjMSBpcyBzb21laG93IHJlbGF0ZWQgdG8gQ1JUQ3MgYW5kIG1pZ2h0IGV2ZW4gYmUg
+Y2F1c2UgYnkgdGhlCj4gPj4+Pj4gYXRvbWljLWhlbHBlciBjaGFuZ2UgeW91IG5vdGVkIGJlbG93
+Lgo+ID4+Pj4+Cj4gPj4+Pj4gQ3Jhc2ggIzIgaXMgY2F1c2VkIGJlY2F1c2Ugdm13X2JvX2NyZWF0
+ZV9hbmRfcG9wdWxhdGUoKSB0cmllcyB0bwo+ID4+Pj4+IG1hbnVhbGx5IHBvcHVsYXRlIGEgQk8g
+b2JqZWN0IGluc3RlYWQgb2YgcmVseWluZyBvbiBUVE0gdG8gZG8gaXQgd2hlbgo+ID4+Pj4+IG5l
+Y2Vzc2FyeS4gVGhpcyBpbmRlZWQgZG9lc24ndCB3b3JrIGFueSBtb3JlIGJlY2F1c2Ugb2YgImRy
+bS90dG06IG1ha2UKPiA+Pj4+PiBUVCBjcmVhdGlvbiBwdXJlbHkgb3B0aW9uYWwgdjMiLgo+ID4+
+Pj4+Cj4gPj4+Pj4gUXVlc3Rpb24gaXMgd2h5IHZtd2dmeCBpcyBkb2luZyB0aGlzPwo+ID4+Pj4g
+Tm90IHJlYWxseSBzdXJlIHVuZm9ydHVuYXRlbHksIGl0J3MgcG9zc2libGUgdm13Z2Z4IGlzIGRv
+aW5nIGl0IGJlY2F1c2UKPiA+Pj4+IHR0bSBsYWNrZWQgc29tZSBjYXBhYmlsaXRpZXMgYXQgc29t
+ZSBwb2ludD8KPiA+Pj4gSSB0aGluayBzbyBhcyB3ZWxsLCB5ZXMuCj4gPj4+Cj4gPj4+PiAgICBU
+cnlpbmcgdG8gZmlndXJlIHRoaXMgb25lIG91dC4uLgo+ID4+PiBQcm9ibGVtIGlzIHRoYXQgd2hh
+dCB2bXdnZnggaXMgZG9pbmcgaGVyZSBpcyBxdWVzdGlvbmFibGUgYXQgYmVzdC4KPiA+Pj4KPiA+
+Pj4gQnkgZGVmaW5pdGlvbiBCT3MgaW4gdGhlIFNZU1RFTSBkb21haW4gYXJlIG5vdCBhY2Nlc3Np
+YmxlIGJ5IHRoZSBHUFUsCj4gPj4+IGV2ZW4gaWYgaXQgaXMgYSB2aXJ0dWFsIG9uZS4KPiA+Pj4K
+PiA+Pj4gQW5kIHdoYXQgdm13Z2Z4IGRvZXMgaXMgYWxsb2NhdGluZyBvbmUgaW4gdGhlIFNZU1RF
+TSBkb21haW4gYXMgbm90Cj4gPj4+IGV2aWN0YWJsZSBhbmQgdGhlbiBieXBhc3NpbmcgVFRNIGlu
+IGZpbGxpbmcgYW5kIG1hcHBpbmcgaXQgdG8gdGhlIEdQVS4KPiA+Pj4KPiA+Pj4gVGhhdCBkb2Vz
+bid0IHJlYWxseSBtYWtlcyBzZW5zZSB0byBtZSwgd2h5IHNob3VsZG4ndCB0aGF0IEJPIGJlIHB1
+dCBpbgo+ID4+PiB0aGUgR1RUIGRvbWFpbiB0aGVuIGluIHRoZSBmaXJzdCBwbGFjZT8KPiA+PiBX
+ZWxsIEkgdGhpbmsgSSBmaWd1cmVkIG91dCB3aGF0IFZNV0dGWCBpcyBkb2luZyBoZXJlLCBidXQg
+eW91IHdvbid0IGxpa2UgaXQuCj4gPj4KPiA+PiBTZWUgVk1XR0ZYIGRvZXNuJ3Qgc3VwcG9ydCBU
+VE1zIEdUVCBkb21haW4uIFNvIHRvIGltcGxlbWVudCB0aGUgbW9iIGFuZAo+ID4+IG90YWJsZSBC
+T3MgaXQgaXMgYWxsb2NhdGluZyBzeXN0ZW0gZG9tYWluIEJPcywgcGlubmluZyB0aGVtIGFuZCBt
+YW51YWxseQo+ID4+IGZpbGxpbmcgdGhlbSB3aXRoIHBhZ2VzLgo+ID4+Cj4gPj4gVGhlIGNvcnJl
+Y3QgZml4IHdvdWxkIGJlIHRvIGF1ZGl0IFZNV0dGWCBhbmQgZml4IHRoaXMgaGFuZGxpbmcgc28g
+dGhhdAo+ID4+IGl0IGRvZXNuJ3QgbWVzcyBhbnkgbW9yZSB3aXRoIFRUTSBpbnRlcm5hbCBvYmpl
+Y3Qgc3RhdGUuCj4gPj4KPiA+PiBUaWxsIHRoYXQgaGFwcGVucyB3ZSBjYW4gb25seSByZXZlcnQg
+dGhlIHBhdGNoIGZvciBub3cuCj4gPiBQcm9iYWJseSBnb29kIHRvIGRvLCBhdCBsZWFzdCB3ZSBr
+bm93IHRoZSBwcm9ibGVtIG5vdy4KPiA+Cj4gPiBIb3dldmVyIEkgZm91bmQgbXlzZWxmIGluIHRo
+ZSBzYW1lIHBsYWNlIHllc3RlcmRheSBzbyB3ZSBzaG91bGQKPiA+IGRpc2N1c3MgaG93IHRvIGZp
+eCBpdCBnb2luZyBmb3J3YXJkLgo+ID4KPiA+IEF0IGxlYXN0IG9uIEludGVsIElHUHMgeW91IGhh
+dmUgR1RUIGFuZCBQUEdUVCAocGVyLXByb2Nlc3MgdGFibGUpLiBHVFQKPiA+IG9uIGxhdGVyIGh3
+IGlzIG9ubHkgbmVlZGVkIGZvciBjZXJ0YWluIG9iamVjdHMsIGxpa2Ugc2Nhbm91dCBldGMuIE5v
+dAo+ID4gZXZlcnkgb2JqZWN0IG5lZWRzIHRvIGJlIGluIHRoZSBHVFQgZG9tYWluLgo+Cj4gV2Ug
+aGF2ZSB0aGUgc2FtZSBzaXR1YXRpb24gb24gYW1kZ3B1LiBHQVJUIG9iamVjdHMgYXJlIG9ubHkg
+YWxsb2NhdGVkCj4gZm9yIHNjYW5vdXQgYW5kIFZNSUQwIGFjY2Vzcy4KPgo+IFNlZSBvdXQgYW1k
+Z3B1X2d0dF9tZ3IuYy4KPgo+ID4gQnV0IHdoZW4geW91IGdldCBhbiBleGVjYnVmZmVyIGFuZCB5
+b3Ugd2FudCB0byBiaW5kIHRoZSBQUEdUVCBvYmplY3RzLAo+ID4geW91IG5lZWQgdG8gZWl0aGVy
+IG1vdmUgdGhlIG9iamVjdCB0byB0aGUgR1RUIGRvbWFpbiBwb2ludGxlc3NseSBhbmQKPiA+IHN1
+Ym9wdGltYWxseSwgc2luY2UgdGhlIEdUVCBkb21haW4gY291bGQgZmlsbCB1cCBhbmQgc3RhcnQg
+bmVlZGluZwo+ID4gZXZpY3Rpb25zLgo+Cj4gVGhhdCBpcyBpbnRlbnRpb25hbCBiZWhhdmlvci4g
+VGhlIEdUVCBkb21haW4gaXMgdGhlIG92ZXIgYWxsIG1lbW9yeQo+IHdoaWNoIGlzIGN1cnJlbnRs
+eSBHUFUgYWNjZXNzaWJsZS4KPgo+IFRoZSBHQVJUIGNhbiBiZSBtdWNoIHNtYWxsZXIgdGhhbiB0
+aGUgR1RUIGRvbWFpbi4KPgo+ID4gU28gdGhlIG9wdGlvbiBpcyB0byBnZXQgU1lTVEVNIGRvbWFp
+biBvYmplY3RzLCBvbmx5IG1vdmUgdGhlbSB0bwo+ID4gVFRNX1BMX1RUIHdoZW4gcGlubmluZyBm
+b3Igc2Nhbm91dCBldGMsIGJ1dCBvdGhlcndpc2UgZ2VuZXJhdGUgdGhlCj4gPiBwYWdlcyBsaXN0
+cyBmcm9tIHRoZSBvYmplY3RzLiBJbiBteSBwbGF5aW5nIGFyb3VuZCBJJ3ZlIGhhY2tlZCB1cCBh
+IFRUCj4gPiBjcmVhdGUvcG9wdWxhdGUgcGF0aCwgd2l0aCBubyBiaW5kLgo+Cj4gV2UgYWxyZWFk
+eSB0cmllZCB0aGlzIGFuZCBpdCB0dXJuZWQgb3V0IHRvIGJlIGEgYmFkIGlkZWEuCj4KPiBTZWUg
+YW1kZ3B1X3R0bV9hbGxvY19nYXJ0KCkgaG93IHRvIGVhc2lseSBkbyBpdCB3aXRoIHRoZSBHVFQg
+ZG9tYWluLgoKT2theSBJIHRoaW5rIHRoaXMgbmVlZHMgc29tZSBjb21tZW50aW5nLiBCZWNhdXNl
+IGl0J3Mgbm90IGltbWVkaWF0ZWx5Cm9idmlvdXMgd2hhdCBpdCBtZWFucyBpZiB5b3UgaGF2ZSBh
+biBpbnZhbGlkIGFkZHJlc3MgaGVyZSBhbmQgaG93IHRoYXQKY29tZXMgYWJvdXQuCgpNeSByZWFk
+aW5nIGlzIHRoYXQgeW91IHVzZSBscGZuIHRvIGRlY2lkZSBpZiBzb21ldGhpbmcgc2hvdWxkIGJl
+CmFsbG9jYXRlZCBHVFQgc3BhY2UgYXQgYWxsLCBhbmQgb25seSBzZXQgbHBmbiB3aGVuIHlvdSBo
+YXZlIHJlcXVlc3RlZApHQVJUIHNwYWNlIGV4cGxpY2l0bHk/CgpUbyBtZSBpdCBmZWVscyBsaWtl
+IHdlIGFyZSB3b3JraW5nIGFyb3VuZCBUVE0gaGVyZSwgSSB0aGluayB0aGlzIHNvcnQKb2YgZmVh
+dHVyZSBzaG91bGQgYmUgbW9yZSBmaXJzdC1jbGFzcyBpbiB0aGUgVFRNIEFQSSBpbnN0ZWFkIG9m
+IGhhdmluZwpldmVyeSBkcml2ZXIgd3JpdGUgZmlndXJlIGl0IG91dCBvbiBhIGRpc2NvdmVyIHlv
+dXIgb3duIGpvdXJuZXkgcGF0aC4KCkkgc3VwcG9zZSBzZXBhcmF0aW5nIHRoZSBjb25jZXB0IG9m
+IFRUTV9QTF9UVCBmcm9tIHRoZSBjb25jZXB0IG9mCmJlaW5nIGJvdW5kIHRvIGEgZ2xvYmFsIFRU
+IGlzIHdoYXQgd2UgbmVlZCB0byBkbyBoZXJlIHNvbWVob3cuCgpEYXZlLgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
