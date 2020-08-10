@@ -2,46 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394A224036C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 10:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3E5240388
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 10:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4724D6E397;
-	Mon, 10 Aug 2020 08:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24C426E3AE;
+	Mon, 10 Aug 2020 08:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7CFB6E397
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 08:28:08 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id h16so6648755oti.7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 01:28:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eh3W9EtO5pIjBRNzAhGPiTVpKKJqj3aKGwA7TcnbRiM=;
- b=Bq2eqYzjhVbkrXwqpF2xCFU3pPeNSPbmUFS6e93G4y6/fnXrf/7XpuXI0fsrADw7Mn
- yQwBOK2lMkMdt38XWrZ74xae83NpGpOFx3kTe0Lw8gI9s05mMh0nCh330QR05m25CaJ8
- cxZLiNnUuGXsbutjdauZDhb0JoKMoQoJDihpFLfgFWa2absFVjAYb3VPt5fxVcRVg9RE
- LGXgOSwFvVJp5wPKpyA7oJu2/9PtUeTDioIzMowGy68t+8GHfPCdtkO6v2WuXYQH+Rv1
- 0pSFsZTrtOnGcg0CqbtouLU0+ToD32IBb+Gyk2//0enNtbQvgT9t5BRQ+n1tkMADCRs4
- SXCQ==
-X-Gm-Message-State: AOAM530Ceg8muAvNmufWFhJk5QZ5Okk4IJa4m5zs3iLfbd55csmGA1CM
- D0l5JSrdMsukA/XVjHP/SSLqJw3Gg1qCjXrsfOQ=
-X-Google-Smtp-Source: ABdhPJxQulcE7/JusbTYnqwHYnQVJLDRBysRxEAhgyWpRidsDiU/4VQm001qLWGLopsYWkEwjeMlWoNhcMBoGoX0YDc=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id
- d25mr21101979ote.107.1597048088183; 
- Mon, 10 Aug 2020 01:28:08 -0700 (PDT)
+X-Greylist: delayed 486 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Aug 2020 08:46:07 UTC
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net
+ [176.9.242.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E990889FDD
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 08:46:07 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.hostsharing.net",
+ Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+ by bmailout3.hostsharing.net (Postfix) with ESMTPS id 2DF09100E4178;
+ Mon, 10 Aug 2020 10:37:58 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id D567F34F184; Mon, 10 Aug 2020 10:37:57 +0200 (CEST)
+Date: Mon, 10 Aug 2020 10:37:57 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Daniel Dadap <ddadap@nvidia.com>
+Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
+ ACPI-driven muxes
+Message-ID: <20200810083757.2jbwebbvocqe5rle@wunner.de>
+References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
+ <20200729210557.9195-1-ddadap@nvidia.com>
 MIME-Version: 1.0
-References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200808205543.GL6186@pendragon.ideasonboard.com>
- <CA+V-a8tisbiAuk6sVDokAjxwrLv1Xjkd6ydU_2haqtOKJucB2w@mail.gmail.com>
-In-Reply-To: <CA+V-a8tisbiAuk6sVDokAjxwrLv1Xjkd6ydU_2haqtOKJucB2w@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Aug 2020 10:27:57 +0200
-Message-ID: <CAMuHMdXBR1t8gCfEiE88QvAaJ6diohmZnhOZxLYES6n5cSxYpg@mail.gmail.com>
-Subject: Re: [PATCH 0/7] r8a7742: Enable DU and LVDS
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200729210557.9195-1-ddadap@nvidia.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,66 +47,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ pobrn@protonmail.com, peter@lekensteyn.nl, dvhart@infradead.org,
+ andy@infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
+On Wed, Jul 29, 2020 at 04:05:57PM -0500, Daniel Dadap wrote:
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope that it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see <http://www.gnu.org/licenses>.
 
-On Sun, Aug 9, 2020 at 11:44 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Sat, Aug 8, 2020 at 9:55 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Fri, Aug 07, 2020 at 06:49:47PM +0100, Lad Prabhakar wrote:
-> > > This patch series adds support for DU and LVDS to r8a7742
-> > > SoC and enables LCD support on r8a7742-iwg21d-q7 board.
-> > >
-> > > This patch series applies on top of [1].
-> > >
-> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
-> > >     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
-> >
-> > The driver changes will need to go through the DRM/KMS tree, and I'd
-> > recommend the DT binding changes to go the same route as well. I can
-> > handle the rebase when applying, and once the bindings get accept, you
-> > can ask Geert to upstream the last 3 patchs. Would that work for you ?
-> >
-> I'm OK with it as long as Geert is happy. (Fyi I still have bunch of
-> patches for G1H)
+This boilerplate is unnecessary, the SPDX identifier is sufficient.
 
-I'm fine with that.  BTW, I use an R-b from Laurent on the DT bindings
-as the acceptance criterium, so you're good.
+> +static int mxds_gmux_switchto(enum vga_switcheroo_client_id);
+> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(struct pci_dev *);
+> +
+> +static const struct vga_switcheroo_handler handler = {
+> +	.switchto = mxds_gmux_switchto,
+> +	.get_client_id = mxds_gmux_get_client_id,
+> +};
 
-> > > Lad Prabhakar (7):
-> > >   dt-bindings: display: renesas,du: Document the r8a7742 bindings
-> > >   drm: rcar-du: Add r8a7742 support
-> > >   dt-bindings: display: renesas,lvds: Document r8a7742 bindings
-> > >   drm: rcar-du: lvds: Add r8a7742 support
-> > >   ARM: dts: r8a7742: Add DU support
-> > >   ARM: dts: r8a7742: Add LVDS support
-> > >   ARM: dts: r8a7742-iwg21d-q7: Add LCD support
+Move the handler struct further down to avoid the forward declarations.
 
-Gr{oetje,eeting}s,
+> + * Call MXDS with bit 0 set to change the current state.
+> + * When changing state, clear bit 4 for iGPU and set bit 4 for dGPU.
+[...]
+> +enum mux_state_command {
+> +	MUX_STATE_GET = 0,
+> +	MUX_STATE_SET_IGPU = 0x01,
+> +	MUX_STATE_SET_DGPU = 0x11,
+> +};
 
-                        Geert
+It looks like the code comment is wrong and bit 1 (instead of bit 4) is
+used to select the GPU.
 
+> +static acpi_integer acpi_helper(acpi_handle handle, enum acpi_method method,
+> +				acpi_integer action)
+> +{
+> +	union acpi_object arg;
+> +	struct acpi_object_list in = {.count = 1, .pointer = &arg};
+> +	acpi_integer ret;
+> +	acpi_status status;
+> +
+> +	arg.integer.type = ACPI_TYPE_INTEGER;
+> +	arg.integer.value = action;
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Hm, why not use an initializer for "arg", as you do for "in"?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(
+> +	struct pci_dev *dev)
+> +{
+> +	if (dev) {
+> +		if (ig_dev && dev->vendor == ig_dev->vendor)
+> +			return VGA_SWITCHEROO_IGD;
+> +		if (dg_dev && dev->vendor == dg_dev->vendor)
+> +			return VGA_SWITCHEROO_DIS;
+> +	}
+
+That's a little odd.  Why not use "ig_dev == dev" and "dg_dev == dev"?
+
+> +static acpi_status find_acpi_methods(
+> +	acpi_handle object, u32 nesting_level, void *context,
+> +	void **return_value)
+> +{
+> +	acpi_handle search;
+> +
+> +	/* If either MXDM or MXDS is missing, we can't use this object */
+> +	if (acpi_get_handle(object, "MXDM", &search))
+> +		return 0;
+
+Since this function returns an acpi_status, all the return statements
+should use AE_OK intead of 0.
+
+Otherwise LGTM.
+
+Please cc dri-devel when respinning since this concerns vga_switcheroo.
+
+I'm also cc'ing Peter Wu who has lots of experience with hybrid graphics
+through his involvement with Bumblebee, hence might be interested.
+Searching through his collection of ACPI dumps, it seems MXDS and MXMX
+have been present for years, but not MXDM:
+
+https://github.com/search?q=user%3ALekensteyn+MXDS&type=Code
+
+Thanks,
+
+Lukas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
