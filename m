@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404D5240E74
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C263E240E75
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471306E448;
-	Mon, 10 Aug 2020 19:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D32936E451;
+	Mon, 10 Aug 2020 19:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3301B6E448
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:14:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17966E451
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:14:20 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1524B22BED;
- Mon, 10 Aug 2020 19:14:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7D6F422B47;
+ Mon, 10 Aug 2020 19:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086847;
- bh=h4djccU8SRHv5HAmTc/Lbs8dPuas84jJHHnm4Ggawq4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jF7TTUIKK9qajq2WX43m9/ty/UDvfxTJRvR8zRarVP5IZ/q9CxQrS3xXM19egwydb
- 1uYN0nczMDCwd0FUJB+RqctfdBzFxZLJhwJX0V6EKiTYOraJ+RM67GqUxCaM1QayRK
- 26Gys+hBdhfMa31iUiymI/zsXhckLlUY/hWrUd74=
+ s=default; t=1597086860;
+ bh=9dXlDKGLbrOgIRkHFz31a5WQZiJQracrBZxkjz0LR6Q=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fv/H/O/jsaKToAQRmhhPRiK06Iuqvzbde3GzCICYFR+krdfQrRzDB97nZRcXAOegd
+ YaoKk2OB8YoprBXOi62SMZuxhirT+uqTKVn+747JTvTYTMJeHb2SCaWENZqXCz9Pvr
+ FWNCfWtoYAIh1PgNCQ+jDx2Q+koOXH7Czp0oiVqo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 15/22] gpu: host1x: debug: Fix multiple channels
- emitting messages simultaneously
-Date: Mon, 10 Aug 2020 15:13:37 -0400
-Message-Id: <20200810191345.3795166-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 01/17] drm/tilcdc: fix leak & null ref in
+ panel_connector_get_modes
+Date: Mon, 10 Aug 2020 15:14:02 -0400
+Message-Id: <20200810191418.3795394-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191345.3795166-1-sashal@kernel.org>
-References: <20200810191345.3795166-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,59 +48,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <treding@nvidia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Jyri Sarha <jsarha@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Osipenko <digetx@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-[ Upstream commit 35681862808472a0a4b9a8817ae2789c0b5b3edc ]
+[ Upstream commit 3f9c1c872cc97875ddc8d63bc9fe6ee13652b933 ]
 
-Once channel's job is hung, it dumps the channel's state into KMSG before
-tearing down the offending job. If multiple channels hang at once, then
-they dump messages simultaneously, making the debug info unreadable, and
-thus, useless. This patch adds mutex which allows only one channel to emit
-debug messages at a time.
+If videomode_from_timings() returns true, the mode allocated with
+drm_mode_create will be leaked.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Also, the return value of drm_mode_create() is never checked, and thus
+could cause NULL deref.
+
+Fix these two issues.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200429104234.18910-1-tomi.valkeinen@ti.com
+Reviewed-by: Jyri Sarha <jsarha@ti.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/host1x/debug.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
-index 2aae0e63214c2..0b8c23c399c2a 100644
---- a/drivers/gpu/host1x/debug.c
-+++ b/drivers/gpu/host1x/debug.c
-@@ -25,6 +25,8 @@
- #include "debug.h"
- #include "channel.h"
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+index 2134bb20fbe9d..2836154dbb126 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+@@ -159,12 +159,16 @@ static int panel_connector_get_modes(struct drm_connector *connector)
+ 	int i;
  
-+static DEFINE_MUTEX(debug_lock);
+ 	for (i = 0; i < timings->num_timings; i++) {
+-		struct drm_display_mode *mode = drm_mode_create(dev);
++		struct drm_display_mode *mode;
+ 		struct videomode vm;
+ 
+ 		if (videomode_from_timings(timings, &vm, i))
+ 			break;
+ 
++		mode = drm_mode_create(dev);
++		if (!mode)
++			break;
 +
- unsigned int host1x_debug_trace_cmdbuf;
+ 		drm_display_mode_from_videomode(&vm, mode);
  
- static pid_t host1x_debug_force_timeout_pid;
-@@ -49,12 +51,14 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
- 	struct output *o = data;
- 
- 	mutex_lock(&ch->cdma.lock);
-+	mutex_lock(&debug_lock);
- 
- 	if (show_fifo)
- 		host1x_hw_show_channel_fifo(m, ch, o);
- 
- 	host1x_hw_show_channel_cdma(m, ch, o);
- 
-+	mutex_unlock(&debug_lock);
- 	mutex_unlock(&ch->cdma.lock);
- 
- 	return 0;
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
 -- 
 2.25.1
 
