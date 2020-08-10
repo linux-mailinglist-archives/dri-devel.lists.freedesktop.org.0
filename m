@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E112B240E6A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:13:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCDA240E6C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:13:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F0B6E188;
-	Mon, 10 Aug 2020 19:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272A16E44A;
+	Mon, 10 Aug 2020 19:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D026E188
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:13:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279306E448;
+ Mon, 10 Aug 2020 19:13:44 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C7747207FF;
- Mon, 10 Aug 2020 19:13:32 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1F5EB22B49;
+ Mon, 10 Aug 2020 19:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086813;
- bh=cUwC9Yi8xFwUR3ud0kfob6ueTPMUW+ozY7s6/mmjJgY=;
+ s=default; t=1597086824;
+ bh=5SdRxwewqwZ7KrqOvfnH5u5FxN5Aybc+C9XT0SFfjLE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2vwv5lweNtmV5eQVVoUF4WCxbV3szyEtX8zpnEiSUBu8z3uNzRz0o+BUEN1nRRSZm
- vcdMyPDU7BDXS4Aj0W5qCTdGBuJfXfw+lnUG6XQW9kiwfsETsHKfGlI4b8pRFeUVvP
- KFEvWbUqSJ/wbFqySLLK4f03Tn+mU+CQta6FZS9w=
+ b=o3RKHiWVI33KMZLFvFNDZH9IC2ptg5xeH5eWAEiMqYO4hQ341FIl8PTv4rkrYGAcr
+ 102kAyRIfLfPAcF3yzEOOtyGEaKD9X82KIdMFnYbPA/jbGgW9FFBokFyk+WSl7uuz+
+ gJLMJtviuQr7Gr420VBNeSc5V7xyj2T7oz2qjbSk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 23/31] gpu: host1x: debug: Fix multiple channels
- emitting messages simultaneously
-Date: Mon, 10 Aug 2020 15:12:51 -0400
-Message-Id: <20200810191259.3794858-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 31/31] drm/msm: ratelimit crtc event overflow
+ error
+Date: Mon, 10 Aug 2020 15:12:59 -0400
+Message-Id: <20200810191259.3794858-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810191259.3794858-1-sashal@kernel.org>
 References: <20200810191259.3794858-1-sashal@kernel.org>
@@ -50,59 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <treding@nvidia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Osipenko <digetx@gmail.com>
+From: Rob Clark <robdclark@chromium.org>
 
-[ Upstream commit 35681862808472a0a4b9a8817ae2789c0b5b3edc ]
+[ Upstream commit 5e16372b5940b1fecc3cc887fc02a50ba148d373 ]
 
-Once channel's job is hung, it dumps the channel's state into KMSG before
-tearing down the offending job. If multiple channels hang at once, then
-they dump messages simultaneously, making the debug info unreadable, and
-thus, useless. This patch adds mutex which allows only one channel to emit
-debug messages at a time.
+This can happen a lot when things go pear shaped.  Lets not flood dmesg
+when this happens.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/host1x/debug.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
-index 329e4a3d8ae7b..6c9ad4533999c 100644
---- a/drivers/gpu/host1x/debug.c
-+++ b/drivers/gpu/host1x/debug.c
-@@ -25,6 +25,8 @@
- #include "debug.h"
- #include "channel.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 4752f08f0884c..3c3b7f7013e87 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -659,7 +659,7 @@ static void dpu_crtc_frame_event_cb(void *data, u32 event)
+ 	spin_unlock_irqrestore(&dpu_crtc->spin_lock, flags);
  
-+static DEFINE_MUTEX(debug_lock);
-+
- unsigned int host1x_debug_trace_cmdbuf;
+ 	if (!fevent) {
+-		DRM_ERROR("crtc%d event %d overflow\n", crtc->base.id, event);
++		DRM_ERROR_RATELIMITED("crtc%d event %d overflow\n", crtc->base.id, event);
+ 		return;
+ 	}
  
- static pid_t host1x_debug_force_timeout_pid;
-@@ -61,12 +63,14 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
- 	struct output *o = data;
- 
- 	mutex_lock(&ch->cdma.lock);
-+	mutex_lock(&debug_lock);
- 
- 	if (show_fifo)
- 		host1x_hw_show_channel_fifo(m, ch, o);
- 
- 	host1x_hw_show_channel_cdma(m, ch, o);
- 
-+	mutex_unlock(&debug_lock);
- 	mutex_unlock(&ch->cdma.lock);
- 
- 	return 0;
 -- 
 2.25.1
 
