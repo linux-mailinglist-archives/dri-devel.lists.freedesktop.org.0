@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCDA240E6C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D629D240E6D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 272A16E44A;
-	Mon, 10 Aug 2020 19:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97476E44C;
+	Mon, 10 Aug 2020 19:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279306E448;
- Mon, 10 Aug 2020 19:13:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303F76E44C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:13:47 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1F5EB22B49;
- Mon, 10 Aug 2020 19:13:43 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 40BF4207FF;
+ Mon, 10 Aug 2020 19:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086824;
- bh=5SdRxwewqwZ7KrqOvfnH5u5FxN5Aybc+C9XT0SFfjLE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o3RKHiWVI33KMZLFvFNDZH9IC2ptg5xeH5eWAEiMqYO4hQ341FIl8PTv4rkrYGAcr
- 102kAyRIfLfPAcF3yzEOOtyGEaKD9X82KIdMFnYbPA/jbGgW9FFBokFyk+WSl7uuz+
- gJLMJtviuQr7Gr420VBNeSc5V7xyj2T7oz2qjbSk=
+ s=default; t=1597086827;
+ bh=2V8O/8NIypxvZs/NebqPdpo3C9WCOWyFh1QBb239wzo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=obZDsGWIBsx3/SIR7TA3etrWWpfQs91cNl9urPtTEeJSVcNbJfw4K1kht8ir4AI6x
+ mc+c/ftA/L+M8+3XnuY/7zTy7dC7ybcLQXNerRu2TzrcOL8qW9hyAxglyRTgI/ExAG
+ LYj33Ifb/aKsBB/+J3LirmVQogRHKshjPmhKtn2g=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 31/31] drm/msm: ratelimit crtc event overflow
- error
-Date: Mon, 10 Aug 2020 15:12:59 -0400
-Message-Id: <20200810191259.3794858-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/22] drm/tilcdc: fix leak & null ref in
+ panel_connector_get_modes
+Date: Mon, 10 Aug 2020 15:13:23 -0400
+Message-Id: <20200810191345.3795166-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191259.3794858-1-sashal@kernel.org>
-References: <20200810191259.3794858-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,42 +48,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, freedreno@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Jyri Sarha <jsarha@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-[ Upstream commit 5e16372b5940b1fecc3cc887fc02a50ba148d373 ]
+[ Upstream commit 3f9c1c872cc97875ddc8d63bc9fe6ee13652b933 ]
 
-This can happen a lot when things go pear shaped.  Lets not flood dmesg
-when this happens.
+If videomode_from_timings() returns true, the mode allocated with
+drm_mode_create will be leaked.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Also, the return value of drm_mode_create() is never checked, and thus
+could cause NULL deref.
+
+Fix these two issues.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200429104234.18910-1-tomi.valkeinen@ti.com
+Reviewed-by: Jyri Sarha <jsarha@ti.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 4752f08f0884c..3c3b7f7013e87 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -659,7 +659,7 @@ static void dpu_crtc_frame_event_cb(void *data, u32 event)
- 	spin_unlock_irqrestore(&dpu_crtc->spin_lock, flags);
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+index 1813a3623ce60..0484b2cf0e2b5 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+@@ -152,12 +152,16 @@ static int panel_connector_get_modes(struct drm_connector *connector)
+ 	int i;
  
- 	if (!fevent) {
--		DRM_ERROR("crtc%d event %d overflow\n", crtc->base.id, event);
-+		DRM_ERROR_RATELIMITED("crtc%d event %d overflow\n", crtc->base.id, event);
- 		return;
- 	}
+ 	for (i = 0; i < timings->num_timings; i++) {
+-		struct drm_display_mode *mode = drm_mode_create(dev);
++		struct drm_display_mode *mode;
+ 		struct videomode vm;
  
+ 		if (videomode_from_timings(timings, &vm, i))
+ 			break;
+ 
++		mode = drm_mode_create(dev);
++		if (!mode)
++			break;
++
+ 		drm_display_mode_from_videomode(&vm, mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
 -- 
 2.25.1
 
