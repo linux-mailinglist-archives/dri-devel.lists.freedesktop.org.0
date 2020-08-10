@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D272416B0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4168224169B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA4A6E140;
-	Tue, 11 Aug 2020 06:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385586E106;
+	Tue, 11 Aug 2020 06:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617D889AEE
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:00:42 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id t11so5523184plr.5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 12:00:42 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6865789AEE
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 19:00:49 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id k18so6127538pfp.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 12:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R+174NPN5cAUcf6KvtsV0Xpgm37coEdke8RyoD2D7Ak=;
- b=XfIC0l+qtuFLY5WzdRxHWjMwbOKObVzDTzniqDiZ1cjXBSyr01K921ZPVsmzFKeO/8
- /KfYYuOz+4H63OM45aMQ2cAYNVs0izkwa0eHLowgDJZ84f9TOTNHwPuKo3WHWS8YispL
- j1nwaXnnFtcHlIdENaQIlwfdWl98bx0IqDAhuOKwIVkkI7McegP6DJVotXolhVp69OMY
- ev7FJeNLM/wyWr8TPU2arOhEerY3oyHUMl0CrRarjueBjEAKJM8/PRvvt3vfCqn9cMR2
- 8pArOdp5XsEj5hq6j/Cb9E7+uk2gzm67X7bL2AtWUDsuCABpfEmW9+QmkSUlMVjsT92e
- S/GA==
+ bh=vUB+rA3wMgyIGCTgDMTDExS1DTdL7k930vthzu2b58I=;
+ b=Ef7/XI6fXp2PdOxr7kRX47309hXJcNbM4NqFwiRvuciUILVKoTxZjSAF4uICpm6euz
+ 2BN5Vy5ogfx/lcIwuk8Ue20WASNEkJXthoHnQ3FgGXtdTO/d8FWdxfLIbrWwO038bdL7
+ h/CykS470RoIf8oW7CJOk0IycTobYDdd3MDciM39KC7SPyQSgEpKavf3vLL2EILk01/E
+ okP9VZFtNxIS6Abu5JVjtxtvx5/9uFBGhizqpC7SGjDi4/ECicadSN1GHRuu8hKC6KJ/
+ Q4/n/ov/5jioDN+gpDIra1uQadVW0eS9VVsYGeka0qL9LRbSkOUHHoixo0+glJ4RvhLS
+ IfEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R+174NPN5cAUcf6KvtsV0Xpgm37coEdke8RyoD2D7Ak=;
- b=myp1ZjBQzKvlW2S1/h/FQWfnY4bF4pF2mlHWL+ytJt9lhJhLV4RB5wCJJApxBrgsdR
- +TCNaTRcxNEkqv9EQxyg+yeswod+OV6/nXYiK0mQPHr6ctL3TOmU5lKQqWqFMhKz0wkc
- 93DIznlIRM7jCpIFLhY0Z3suvZsK6rrJmdK3B6z71vm2IwuBNaxfUFTYqJ531A1vIYXH
- eWEFmsYiGg5Ck/0yUMYeBy7//5FPW1o9iICmXAT3ahbv5fa2kDorlGzLmeB4l35DR6OD
- whkJwXivBSlIQi0/XjD1SyevbYOItQYZhhh7TMLms5CsAiPw5u3ySxJALAXM4vWrP8z1
- mEDw==
-X-Gm-Message-State: AOAM532zkKSFGEIEPxzmwHpT+lPxUQqao+JRc89yd49n7GQKSx4/zLrV
- /fbZZ1JAPAtqxXeJPB4o1Io=
-X-Google-Smtp-Source: ABdhPJxt23r0SFVVEHLjk3fUIuS+XluMj98GM01cCkKsQcmnOLrOSdIgi+TvLREGQy1zK92jrxYbjg==
-X-Received: by 2002:a17:90a:4e8f:: with SMTP id
- o15mr685304pjh.220.1597086041938; 
- Mon, 10 Aug 2020 12:00:41 -0700 (PDT)
+ bh=vUB+rA3wMgyIGCTgDMTDExS1DTdL7k930vthzu2b58I=;
+ b=gyrYUdQxG4ThHnskVy00++AZZh3tgkETQieGnI2ZD3tZAbi8fv1NGU1YV0pB35MRAl
+ 809+tygN9+/kmIxLKDYzqGuJcCMXgUdNAWWqXiPqiUT5xyccFjB9rzCzHxumWpHq6T6m
+ cyxYT2SGcE25MN+K4baEFa0CDZVrtyQkb0HQaapBYvRydyBLMQa+gAAcc/v67KUSQ3e6
+ XerfeIk5Gjt4mv3NP7Xx61XKsMGv7nkL4pUGHls9RPgkpr04LiLu6g1aZgX09AIvXfJR
+ 0nKk6LzuhxwI0hc/cNW3u7wgVSiDh2iBjfb07mh6Ed6StN9OwU2EKqpmKz5/3Etgu58I
+ oycg==
+X-Gm-Message-State: AOAM531fkmkYLainGncP0dAdyozciAKAUE/HQDp4Zs0tnXrS33GU+8At
+ F7n/UFNWgQuLdvRAyy2wajg=
+X-Google-Smtp-Source: ABdhPJxEmlFDCZfhZX0GJe9P/FvsH260+WSzBurbLHgA3ag3KBCOkHuX9/WWHwNw2rTdcLEYiEeGvQ==
+X-Received: by 2002:a62:1a49:: with SMTP id a70mr2488335pfa.297.1597086048906; 
+ Mon, 10 Aug 2020 12:00:48 -0700 (PDT)
 Received: from varodek.localdomain ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.12.00.36
+ by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.12.00.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 12:00:41 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:48 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -54,9 +53,9 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH v2 11/12] fbdev: s3fb: use generic power management
-Date: Tue, 11 Aug 2020 00:27:22 +0530
-Message-Id: <20200810185723.15540-12-vaibhavgupta40@gmail.com>
+Subject: [PATCH v2 12/12] fbdev: arkfb: use generic power management
+Date: Tue, 11 Aug 2020 00:27:23 +0530
+Message-Id: <20200810185723.15540-13-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200810185723.15540-1-vaibhavgupta40@gmail.com>
 References: <20200810165458.GA292825@ravnborg.org>
@@ -98,26 +97,29 @@ unnecessary calls to the PCI Helper functions along with the legacy
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/s3fb.c | 39 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 23 deletions(-)
+ drivers/video/fbdev/arkfb.c | 41 +++++++++++++++----------------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/video/fbdev/s3fb.c b/drivers/video/fbdev/s3fb.c
-index 60c424fae988..5c74253e7b2c 100644
---- a/drivers/video/fbdev/s3fb.c
-+++ b/drivers/video/fbdev/s3fb.c
-@@ -1410,9 +1410,9 @@ static void s3_pci_remove(struct pci_dev *dev)
+diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
+index 11ab9a153860..6a4114db0dfd 100644
+--- a/drivers/video/fbdev/arkfb.c
++++ b/drivers/video/fbdev/arkfb.c
+@@ -1085,12 +1085,11 @@ static void ark_pci_remove(struct pci_dev *dev)
+ }
  
+ 
+-#ifdef CONFIG_PM
  /* PCI suspend */
  
--static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
-+static int __maybe_unused s3_pci_suspend(struct device *dev)
+-static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
++static int __maybe_unused ark_pci_suspend(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct s3fb_info *par = info->par;
+ 	struct arkfb_info *par = info->par;
  
  	dev_info(info->device, "suspend\n");
-@@ -1420,7 +1420,7 @@ static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
+@@ -1098,7 +1097,7 @@ static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
  	console_lock();
  	mutex_lock(&(par->open_lock));
  
@@ -126,7 +128,7 @@ index 60c424fae988..5c74253e7b2c 100644
  		mutex_unlock(&(par->open_lock));
  		console_unlock();
  		return 0;
-@@ -1428,10 +1428,6 @@ static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
+@@ -1106,10 +1105,6 @@ static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
  
  	fb_set_suspend(info, 1);
  
@@ -137,65 +139,65 @@ index 60c424fae988..5c74253e7b2c 100644
  	mutex_unlock(&(par->open_lock));
  	console_unlock();
  
-@@ -1441,11 +1437,10 @@ static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
+@@ -1119,9 +1114,9 @@ static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
  
  /* PCI resume */
  
--static int s3_pci_resume(struct pci_dev* dev)
-+static int __maybe_unused s3_pci_resume(struct device *dev)
+-static int ark_pci_resume (struct pci_dev* dev)
++static int __maybe_unused ark_pci_resume(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct s3fb_info *par = info->par;
--	int err;
+ 	struct arkfb_info *par = info->par;
  
  	dev_info(info->device, "resume\n");
- 
-@@ -1458,17 +1453,6 @@ static int s3_pci_resume(struct pci_dev* dev)
- 		return 0;
- 	}
+@@ -1132,14 +1127,6 @@ static int ark_pci_resume (struct pci_dev* dev)
+ 	if (par->ref_count == 0)
+ 		goto fail;
  
 -	pci_set_power_state(dev, PCI_D0);
 -	pci_restore_state(dev);
--	err = pci_enable_device(dev);
--	if (err) {
--		mutex_unlock(&(par->open_lock));
--		console_unlock();
--		dev_err(info->device, "error %d enabling device for resume\n", err);
--		return err;
--	}
+-
+-	if (pci_enable_device(dev))
+-		goto fail;
+-
 -	pci_set_master(dev);
 -
- 	s3fb_set_par(info);
+ 	arkfb_set_par(info);
  	fb_set_suspend(info, 0);
  
-@@ -1478,6 +1462,16 @@ static int s3_pci_resume(struct pci_dev* dev)
+@@ -1148,10 +1135,17 @@ static int ark_pci_resume (struct pci_dev* dev)
+ 	console_unlock();
  	return 0;
  }
- 
-+static const struct dev_pm_ops s3_pci_pm_ops = {
+-#else
+-#define ark_pci_suspend NULL
+-#define ark_pci_resume NULL
+-#endif /* CONFIG_PM */
++
++static const struct dev_pm_ops ark_pci_pm_ops = {
 +#ifdef CONFIG_PM_SLEEP
-+	.suspend	= s3_pci_suspend,
-+	.resume		= s3_pci_resume,
-+	.freeze		= NULL,
-+	.thaw		= s3_pci_resume,
-+	.poweroff	= s3_pci_suspend,
-+	.restore	= s3_pci_resume,
++	.suspend	= ark_pci_suspend,
++	.resume		= ark_pci_resume,
++	.freeze		= ark_pci_suspend,
++	.thaw		= ark_pci_resume,
++	.poweroff	= ark_pci_suspend,
++	.restore	= ark_pci_resume,
 +#endif
 +};
  
  /* List of boards that we are trying to support */
  
-@@ -1510,8 +1504,7 @@ static struct pci_driver s3fb_pci_driver = {
- 	.id_table	= s3_devices,
- 	.probe		= s3_pci_probe,
- 	.remove		= s3_pci_remove,
--	.suspend	= s3_pci_suspend,
--	.resume		= s3_pci_resume,
-+	.driver.pm	= &s3_pci_pm_ops,
+@@ -1168,8 +1162,7 @@ static struct pci_driver arkfb_pci_driver = {
+ 	.id_table	= ark_devices,
+ 	.probe		= ark_pci_probe,
+ 	.remove		= ark_pci_remove,
+-	.suspend	= ark_pci_suspend,
+-	.resume		= ark_pci_resume,
++	.driver.pm	= &ark_pci_pm_ops,
  };
  
- /* Parse user specified options */
+ /* Cleanup */
 -- 
 2.27.0
 
