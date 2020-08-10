@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C924B240D90
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3174240D95
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Aug 2020 21:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3E089EBB;
-	Mon, 10 Aug 2020 19:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7C889DDD;
+	Mon, 10 Aug 2020 19:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCDA589EB8;
- Mon, 10 Aug 2020 19:09:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC9F89CD4;
+ Mon, 10 Aug 2020 19:09:46 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D762122CA1;
- Mon, 10 Aug 2020 19:09:39 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E36D622BEA;
+ Mon, 10 Aug 2020 19:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597086580;
- bh=FAWNIdyvFpKy3gLuGZk3l1aE1ffiq5S95HtYP5TCpc4=;
+ s=default; t=1597086586;
+ bh=sP4va8tw/LWQq1aLYu/jsNtjodsiB3MIonkDEyyS1RI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YHnGZAWBNdvAkXNGUyu7IlLKC2RmY5M3TMNWgNOBurd2aUL+jZUYIqMD91BA3QH7z
- NSHv7mUVtkbn0tDjeoeQwx29LROPzxCLnHB4AeRqABxCKJPcfSBybk4KdVI9skpDMg
- 6uTDogOD12SzUro1pNGKIvDPgBHWOWqqRwRjY+5M=
+ b=UlojHyICd57g9qHSLgu9y7jBwV3J/KohZCtxiMJQF7dZm2jogp/nnpjQBgyWs8+qR
+ KLDsUuATb5Qp31irmIRBTeMUQ6v+ME3RdyMjS37cMq+nnzh4uzCvhaeN/oHXepu36c
+ vQijQmlTdGGgszgnZ85u81WHS/WY2P4fRs8RmWQE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 30/64] drm/radeon: disable AGP by default
-Date: Mon, 10 Aug 2020 15:08:25 -0400
-Message-Id: <20200810190859.3793319-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 34/64] drm/amd/display: Improve DisplayPort
+ monitor interop
+Date: Mon, 10 Aug 2020 15:08:29 -0400
+Message-Id: <20200810190859.3793319-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
 References: <20200810190859.3793319-1-sashal@kernel.org>
@@ -49,36 +50,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Wenjing Liu <Wenjing.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Tony Cheng <Tony.Cheng@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
-cmVhbSBjb21taXQgYmE4MDZmOThmODY4Y2UxMDdhYTljNDUzZmVmNzUxZGU5OTgwZTRhZiBdCgpB
-bHdheXMgdXNlIHRoZSBQQ0kgR0FSVCBpbnN0ZWFkLiBXZSBqdXN0IGhhdmUgdG8gbWFueSBjYXNl
-cwp3aGVyZSBBR1Agc3RpbGwgY2F1c2VzIHByb2JsZW1zLiBUaGlzIG1lYW5zIGEgcGVyZm9ybWFu
-Y2UKcmVncmVzc2lvbiBmb3Igc29tZSBHUFVzLCBidXQgYWxzbyBhIGJ1ZyBmaXggZm9yIHNvbWUg
-b3RoZXJzLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgpSZXZpZXdlZC1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBh
-bWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFt
-ZC5jb20+ClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0t
-CiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuYyB8IDUgLS0tLS0KIDEgZmlsZSBj
-aGFuZ2VkLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
-b24vcmFkZW9uX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMKaW5k
-ZXggNjJiNTA2OTEyMmNjNC4uNGNkMzA2MTNmYTFkZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
-b25fZHJ2LmMKQEAgLTE3MSwxMiArMTcxLDcgQEAgaW50IHJhZGVvbl9ub193YjsKIGludCByYWRl
-b25fbW9kZXNldCA9IC0xOwogaW50IHJhZGVvbl9keW5jbGtzID0gLTE7CiBpbnQgcmFkZW9uX3I0
-eHhfYXRvbSA9IDA7Ci0jaWZkZWYgX19wb3dlcnBjX18KLS8qIERlZmF1bHQgdG8gUENJIG9uIFBv
-d2VyUEMgKGZkbyAjOTUwMTcpICovCiBpbnQgcmFkZW9uX2FncG1vZGUgPSAtMTsKLSNlbHNlCi1p
-bnQgcmFkZW9uX2FncG1vZGUgPSAwOwotI2VuZGlmCiBpbnQgcmFkZW9uX3ZyYW1fbGltaXQgPSAw
-OwogaW50IHJhZGVvbl9nYXJ0X3NpemUgPSAtMTsgLyogYXV0byAqLwogaW50IHJhZGVvbl9iZW5j
-aG1hcmtpbmcgPSAwOwotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+From: Aric Cyr <aric.cyr@amd.com>
+
+[ Upstream commit eec3303de3378cdfaa0bb86f43546dbbd88f94e2 ]
+
+[Why]
+DC is very fast at link training and stream enablement
+which causes issues such as blackscreens for non-compliant
+monitors.
+
+[How]
+After debugging with scaler vendors we implement the
+minimum delays at the necessary locations to ensure
+the monitor does not hang.  Delays are generic due to
+lack of IEEE OUI information on the failing displays.
+
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Acked-by: Tony Cheng <Tony.Cheng@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c    |  4 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 16 ++++++++++------
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c  | 11 ++++++++++-
+ 3 files changed, 23 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index 48ab51533d5d6..841cc051b7d01 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -3298,9 +3298,11 @@ void core_link_disable_stream(struct pipe_ctx *pipe_ctx)
+ 			write_i2c_redriver_setting(pipe_ctx, false);
+ 		}
+ 	}
+-	dc->hwss.disable_stream(pipe_ctx);
+ 
+ 	disable_link(pipe_ctx->stream->link, pipe_ctx->stream->signal);
++
++	dc->hwss.disable_stream(pipe_ctx);
++
+ 	if (pipe_ctx->stream->timing.flags.DSC) {
+ 		if (dc_is_dp_signal(pipe_ctx->stream->signal))
+ 			dp_set_dsc_enable(pipe_ctx, false);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 91cd884d6f257..6124af571bff6 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -1102,6 +1102,10 @@ static inline enum link_training_result perform_link_training_int(
+ 	dpcd_pattern.v1_4.TRAINING_PATTERN_SET = DPCD_TRAINING_PATTERN_VIDEOIDLE;
+ 	dpcd_set_training_pattern(link, dpcd_pattern);
+ 
++	/* delay 5ms after notifying sink of idle pattern before switching output */
++	if (link->connector_signal != SIGNAL_TYPE_EDP)
++		msleep(5);
++
+ 	/* 4. mainlink output idle pattern*/
+ 	dp_set_hw_test_pattern(link, DP_TEST_PATTERN_VIDEO_MODE, NULL, 0);
+ 
+@@ -1551,6 +1555,12 @@ bool perform_link_training_with_retries(
+ 	struct dc_link *link = stream->link;
+ 	enum dp_panel_mode panel_mode = dp_get_panel_mode(link);
+ 
++	/* We need to do this before the link training to ensure the idle pattern in SST
++	 * mode will be sent right after the link training
++	 */
++	link->link_enc->funcs->connect_dig_be_to_fe(link->link_enc,
++							pipe_ctx->stream_res.stream_enc->id, true);
++
+ 	for (j = 0; j < attempts; ++j) {
+ 
+ 		dp_enable_link_phy(
+@@ -1567,12 +1577,6 @@ bool perform_link_training_with_retries(
+ 
+ 		dp_set_panel_mode(link, panel_mode);
+ 
+-		/* We need to do this before the link training to ensure the idle pattern in SST
+-		 * mode will be sent right after the link training
+-		 */
+-		link->link_enc->funcs->connect_dig_be_to_fe(link->link_enc,
+-								pipe_ctx->stream_res.stream_enc->id, true);
+-
+ 		if (link->aux_access_disabled) {
+ 			dc_link_dp_perform_link_training_skip_aux(link, link_setting);
+ 			return true;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index b77e9dc160863..2af1d74d16ad8 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -1069,8 +1069,17 @@ void dce110_blank_stream(struct pipe_ctx *pipe_ctx)
+ 		link->dc->hwss.set_abm_immediate_disable(pipe_ctx);
+ 	}
+ 
+-	if (dc_is_dp_signal(pipe_ctx->stream->signal))
++	if (dc_is_dp_signal(pipe_ctx->stream->signal)) {
+ 		pipe_ctx->stream_res.stream_enc->funcs->dp_blank(pipe_ctx->stream_res.stream_enc);
++
++		/*
++		 * After output is idle pattern some sinks need time to recognize the stream
++		 * has changed or they enter protection state and hang.
++		 */
++		if (!dc_is_embedded_signal(pipe_ctx->stream->signal))
++			msleep(60);
++	}
++
+ }
+ 
+ 
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
