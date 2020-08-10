@@ -1,63 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79642416B4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EC42416C2
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 09:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1356E16F;
-	Tue, 11 Aug 2020 06:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 333DF6E4C7;
+	Tue, 11 Aug 2020 06:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B16D89F38
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 18:00:08 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id r4so5409172pls.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 11:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CVnt4d+5Wgp08r0J7kB3+z69GIQYYz/zExR5olEcjBk=;
- b=OG3YOqJTj856emQJ3jR409bssaVQwfnYH0xuv2WQ0GHOM4s2pRjpkpDcWzBP7lsonY
- akKkViAu32WuxL3jDgt22x0Uk6iTqdVmrUJlITyNP4CuY5oYVULrhQXxpolyq6lzx5+b
- PeNDcVAOTuKyYGLZjEUrVEnMNhIMw5UIynPS+7uxG81umBjsI1m0fIME2EbErEXi59fQ
- rW4ximTQ+LcZ4E7XyV010NsoMjs2FrvMra9vDp9kc+RvEEeJHqzzfVKLBYZlDwKX99Ve
- 5Yb+7qolIojRPM2Bj7+eZI3na8bE2vx+eW0V1k6IZ+BqeQyWhr6CHFX2t9q/hRCdS5lN
- 5MgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CVnt4d+5Wgp08r0J7kB3+z69GIQYYz/zExR5olEcjBk=;
- b=hUyiKXWn0PsWf50FBv5kowLEJUtOlTBIOXVZ801JT4DicY6CwGBUHDb3ShFjXtXO0D
- M233BA19TNAy5e/Rep7SHtLOe8SLHwJZ0Xd8G9Ul8UUNJeGoATiCXkpTCSuTORqMpbAX
- 8yQl5ifrYU5OIaLu/b09WrCpsmMB7ReboVszlZda5RWVJAP2yPbnTgJH47XTfbHTlK0A
- AMkx3k/c5ETobJEnXNckw22tmLkvSbHW1RXWh7Fz8Bu8XDX2seQrThkBTNi07E4RO63w
- 52licpyDLNUvJSRzdvBiYPJT2v+BEuynj1Cnzve1sgUhDd26jGRhpjisBSyyzO8p1kZU
- itPA==
-X-Gm-Message-State: AOAM530BdDQaMv0wsXu4IcXS2p/R58YBScwb2aoXdUWrgPkm2b778MAM
- vXngHF6ZNGbLtB9rkbrp2mI=
-X-Google-Smtp-Source: ABdhPJyLO10tNKJfrNNNS8apU2Jzw6LHJjonfo4M/fgSFqV01U0K0zEx/p1yzdsH7qunDhTB4a4HNA==
-X-Received: by 2002:a17:90a:c7:: with SMTP id v7mr470303pjd.139.1597082408007; 
- Mon, 10 Aug 2020 11:00:08 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id l12sm192017pjq.31.2020.08.10.11.00.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 11:00:07 -0700 (PDT)
-Date: Mon, 10 Aug 2020 23:28:27 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 01/12] fbdev: gxfb: use generic power management
-Message-ID: <20200810175827.GA14392@gmail.com>
-References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
- <20200805180722.244008-2-vaibhavgupta40@gmail.com>
- <20200808111746.GA24172@ravnborg.org>
- <20200810093948.GB6615@gmail.com>
- <20200810165458.GA292825@ravnborg.org>
+Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr
+ [80.12.242.128])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEFF89E7B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Aug 2020 18:41:24 +0000 (UTC)
+Received: from [192.168.42.210] ([93.22.133.151]) by mwinf5d63 with ME
+ id DuhF2300D3G8tn903uhF7e; Mon, 10 Aug 2020 20:41:22 +0200
+X-ME-Helo: [192.168.42.210]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 10 Aug 2020 20:41:22 +0200
+X-ME-IP: 93.22.133.151
+Subject: Re: [PATCH] drm: amdgpu: Use the correct size when allocating memory
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20200809203406.751971-1-christophe.jaillet@wanadoo.fr>
+ <20200810154213.GM1793@kadam>
+From: Marion & Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <8c414dd7-4a80-6ff2-03de-5340fb0d9c61@wanadoo.fr>
+Date: Mon, 10 Aug 2020 20:41:14 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200810165458.GA292825@ravnborg.org>
+In-Reply-To: <20200810154213.GM1793@kadam>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 11 Aug 2020 06:58:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,241 +44,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <bjorn@helgaas.com>,
- Bjorn Helgaas <helgaas@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Paul Mackerras <paulus@samba.org>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-geode@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ori.Messinger@amd.com, airlied@linux.ie, bernard@vivo.com,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, colton.w.lewis@protonmail.com,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, m.szyprowski@samsung.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 10, 2020 at 06:54:58PM +0200, Sam Ravnborg wrote:
-> Hi Vaibhav
-> On Mon, Aug 10, 2020 at 03:09:48PM +0530, Vaibhav Gupta wrote:
-> > On Sat, Aug 08, 2020 at 01:17:46PM +0200, Sam Ravnborg wrote:
-> > > Hi Vaibhav
-> > > 
-> > > On Wed, Aug 05, 2020 at 11:37:11PM +0530, Vaibhav Gupta wrote:
-> > > > Drivers using legacy power management .suspen()/.resume() callbacks
-> > > > have to manage PCI states and device's PM states themselves. They also
-> > > > need to take care of standard configuration registers.
-> > > > 
-> > > > Switch to generic power management framework using a single
-> > > > "struct dev_pm_ops" variable
-> > > 
-> > > "to take the unnecessary load from the driver."
-> > > - I do not parse the above - I cannot see what load is removed.
-> > > But the code is simpler which is fine. The drawback is that we now
-> > > always link in the suspend_gx functions but hopefultl the linker drops
-> > > them later.
-> > > 
-> > > > This also avoids the need for the driver to directly call most of the PCI
-> > > > helper functions and device power state control functions, as through
-> > > > the generic framework PCI Core takes care of the necessary operations,
-> > > > and drivers are required to do only device-specific jobs.
-> > > Again, I do not see what calles are removed.
-> > > A single check for the state is dropped - anything else?
-> > >
-> > Yeah, the commit messages are bit misleading, I have modified them. 
-> > > > 
-> > > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > > > ---
-> > > >  drivers/video/fbdev/geode/gxfb.h       |  5 ----
-> > > >  drivers/video/fbdev/geode/gxfb_core.c  | 36 ++++++++++++++------------
-> > > >  drivers/video/fbdev/geode/suspend_gx.c |  4 ---
-> > > >  3 files changed, 20 insertions(+), 25 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/video/fbdev/geode/gxfb.h b/drivers/video/fbdev/geode/gxfb.h
-> > > > index d2e9c5c8e294..792c111c21e4 100644
-> > > > --- a/drivers/video/fbdev/geode/gxfb.h
-> > > > +++ b/drivers/video/fbdev/geode/gxfb.h
-> > > > @@ -21,7 +21,6 @@ struct gxfb_par {
-> > > >  	void __iomem *dc_regs;
-> > > >  	void __iomem *vid_regs;
-> > > >  	void __iomem *gp_regs;
-> > > > -#ifdef CONFIG_PM
-> > > >  	int powered_down;
-> > > >  
-> > > >  	/* register state, for power management functionality */
-> > > > @@ -36,7 +35,6 @@ struct gxfb_par {
-> > > >  	uint64_t fp[FP_REG_COUNT];
-> > > >  
-> > > >  	uint32_t pal[DC_PAL_COUNT];
-> > > > -#endif
-> > > >  };
-> > > >  
-> > > >  unsigned int gx_frame_buffer_size(void);
-> > > > @@ -49,11 +47,8 @@ void gx_set_dclk_frequency(struct fb_info *info);
-> > > >  void gx_configure_display(struct fb_info *info);
-> > > >  int gx_blank_display(struct fb_info *info, int blank_mode);
-> > > >  
-> > > > -#ifdef CONFIG_PM
-> > > >  int gx_powerdown(struct fb_info *info);
-> > > >  int gx_powerup(struct fb_info *info);
-> > > > -#endif
-> > > > -
-> > > >  
-> > > >  /* Graphics Processor registers (table 6-23 from the data book) */
-> > > >  enum gp_registers {
-> > > > diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
-> > > > index d38a148d4746..44089b331f91 100644
-> > > > --- a/drivers/video/fbdev/geode/gxfb_core.c
-> > > > +++ b/drivers/video/fbdev/geode/gxfb_core.c
-> > > > @@ -322,17 +322,14 @@ static struct fb_info *gxfb_init_fbinfo(struct device *dev)
-> > > >  	return info;
-> > > >  }
-> > > >  
-> > > > -#ifdef CONFIG_PM
-> > > > -static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > > +static int __maybe_unused gxfb_suspend(struct device *dev)
-> > > >  {
-> > > > -	struct fb_info *info = pci_get_drvdata(pdev);
-> > > > +	struct fb_info *info = dev_get_drvdata(dev);
-> > > I do not see any dev_set_drvdata() so I guess we get a NULL pointer
-> > > here which is not intended.
-> > > Adding a dev_set_data() to gxfb_probe() would do the trick.
-> > > 
-> > gxfb_probe() invokes pci_set_drvdata(pdev, info) which in turn calls
-> > dev_set_drvdata(&pdev->dev, data). Adding dev_get_drvdata() will be redundant.
-> OK, not obvious but you are right that calling dev_get_drvdata() would
-> be redundant and no need.
-> There is a pci_get_drvdata() user left so we cannot just skip it and use
-> the dev_set_drvdata() direct.
-> 
-> > 
-> > > >  
-> > > > -	if (state.event == PM_EVENT_SUSPEND) {
-> > > > -		console_lock();
-> > > > -		gx_powerdown(info);
-> > > > -		fb_set_suspend(info, 1);
-> > > > -		console_unlock();
-> > > > -	}
-> > > > +	console_lock();
-> > > > +	gx_powerdown(info);
-> > > > +	fb_set_suspend(info, 1);
-> > > > +	console_unlock();
-> > > >  
-> > > >  	/* there's no point in setting PCI states; we emulate PCI, so
-> > > >  	 * we don't end up getting power savings anyways */
-> > > > @@ -340,9 +337,9 @@ static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > >  	return 0;
-> > > >  }
-> > > >  
-> > > > -static int gxfb_resume(struct pci_dev *pdev)
-> > > > +static int __maybe_unused gxfb_resume(struct device *dev)
-> > > >  {
-> > > > -	struct fb_info *info = pci_get_drvdata(pdev);
-> > > > +	struct fb_info *info = dev_get_drvdata(dev);
-> > > >  	int ret;
-> > > >  
-> > > >  	console_lock();
-> > > > @@ -356,7 +353,6 @@ static int gxfb_resume(struct pci_dev *pdev)
-> > > >  	console_unlock();
-> > > >  	return 0;
-> > > >  }
-> > > > -#endif
-> > > >  
-> > > >  static int gxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> > > >  {
-> > > > @@ -467,15 +463,23 @@ static const struct pci_device_id gxfb_id_table[] = {
-> > > >  
-> > > >  MODULE_DEVICE_TABLE(pci, gxfb_id_table);
-> > > >  
-> > > > +static const struct dev_pm_ops gxfb_pm_ops = {
-> > > > +#ifdef CONFIG_PM_SLEEP
-> > > > +	.suspend	= gxfb_suspend,
-> > > > +	.resume		= gxfb_resume,
-> > > > +	.freeze		= NULL,
-> > > > +	.thaw		= gxfb_resume,
-> > > > +	.poweroff	= NULL,
-> > > > +	.restore	= gxfb_resume,
-> > > > +#endif
-> > > > +};
-> > > Can we use SET_SYSTEM_SLEEP_PM_OPS here?
-> > > .freeze will be assigned gxfb_suspend, but gxfb_suspend will anyway be
-> > > called as far as I read the code.
-> > > Likewise for poweroff.
-> > > 
-> > Earlier, gxfb_suspend() performed each operation just for suspend event.
-> > And as it was legacy code, it was invoked by pci_legacy_suspend() for
-> > pci_pm_suspend(), pci_pm_freeze() and pci_pm_poweroff().
-> > Thus, the code was wrapped inside "if" container:
-> > 	if (state.event == PM_EVENT_SUSPEND) { }
-> > 
-> > After binding it with dev_pm_ops variable, pm->suspend() is invoked by just
-> > pci_pm_suspend() which is required.
-> > 
-> > So I removed the "if" container and bind the callback with pm->suspend pointer
-> > only.
-> Looking at platform.c I got the impression that freeze() would call
-> pci_legacy_suspend() anyway - but I may have missind something.
-> So I guess this is OK then.
-> 
-> I look forward for next revision with updated changelogs.
-Hello Sam,
-
-Yeah, I have updated the logs, will be sending the v2 soon. :)
-
-Thanks
-Vaibhav Gupta
-> 
-> 	Sam
-> > 
-> > Using SET_SYSTEM_PM_OPS will bring back the extra step of invoking gxfb_suspend()
-> > for freeze and poweroff, even though the function will do nothing in that case.
-> > 
-> > Vaibhav Gupta
-> > > 	Sam
-> > > 
-> > > > +
-> > > >  static struct pci_driver gxfb_driver = {
-> > > >  	.name		= "gxfb",
-> > > >  	.id_table	= gxfb_id_table,
-> > > >  	.probe		= gxfb_probe,
-> > > >  	.remove		= gxfb_remove,
-> > > > -#ifdef CONFIG_PM
-> > > > -	.suspend	= gxfb_suspend,
-> > > > -	.resume		= gxfb_resume,
-> > > > -#endif
-> > > > +	.driver.pm	= &gxfb_pm_ops,
-> > > >  };
-> > > >  
-> > > >  #ifndef MODULE
-> > > > diff --git a/drivers/video/fbdev/geode/suspend_gx.c b/drivers/video/fbdev/geode/suspend_gx.c
-> > > > index 1110a527c35c..8c49d4e98772 100644
-> > > > --- a/drivers/video/fbdev/geode/suspend_gx.c
-> > > > +++ b/drivers/video/fbdev/geode/suspend_gx.c
-> > > > @@ -11,8 +11,6 @@
-> > > >  
-> > > >  #include "gxfb.h"
-> > > >  
-> > > > -#ifdef CONFIG_PM
-> > > > -
-> > > >  static void gx_save_regs(struct gxfb_par *par)
-> > > >  {
-> > > >  	int i;
-> > > > @@ -259,5 +257,3 @@ int gx_powerup(struct fb_info *info)
-> > > >  	par->powered_down  = 0;
-> > > >  	return 0;
-> > > >  }
-> > > > -
-> > > > -#endif
-> > > > -- 
-> > > > 2.27.0
-> > > > 
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CkxlIDEwLzA4LzIwMjAgw6AgMTc6NDIsIERhbiBDYXJwZW50ZXIgYSDDqWNyaXTCoDoKPiBPbiBT
+dW4sIEF1ZyAwOSwgMjAyMCBhdCAxMDozNDowNlBNICswMjAwLCBDaHJpc3RvcGhlIEpBSUxMRVQg
+d3JvdGU6Cj4+IFdoZW4gJypzZ3QnIGlzIGFsbG9jYXRlZCwgd2UgbXVzdCBhbGxvY2F0ZWQgJ3Np
+emVvZigqKnNndCknIGJ5dGVzIGluc3RlYWQKPj4gb2YgJ3NpemVvZigqc2cpJy4gJ3NnJyAoaS5l
+LiBzdHJ1Y3Qgc2NhdHRlcmxpc3QpIGlzIHNtYWxsZXIgdGhhbgo+PiAnc2d0JyAoaS5lIHN0cnVj
+dCBzZ190YWJsZSksIHNvIHRoaXMgY291bGQgbGVhZCB0byBtZW1vcnkgY29ycnVwdGlvbi4KPiBU
+aGUgc2l6ZW9mKCpzZykgaXMgYmlnZ2VyIHRoYW4gc2l6ZW9mKCoqc2d0KSBzbyB0aGlzIHdhc3Rl
+cyBtZW1vcnkgYnV0Cj4gaXQgd29uJ3QgbGVhZCB0byBjb3JydXB0aW9uLgo+Cj4gICAgICAxMSAg
+c3RydWN0IHNjYXR0ZXJsaXN0IHsKPiAgICAgIDEyICAgICAgICAgIHVuc2lnbmVkIGxvbmcgICBw
+YWdlX2xpbms7Cj4gICAgICAxMyAgICAgICAgICB1bnNpZ25lZCBpbnQgICAgb2Zmc2V0Owo+ICAg
+ICAgMTQgICAgICAgICAgdW5zaWduZWQgaW50ICAgIGxlbmd0aDsKPiAgICAgIDE1ICAgICAgICAg
+IGRtYV9hZGRyX3QgICAgICBkbWFfYWRkcmVzczsKPiAgICAgIDE2ICAjaWZkZWYgQ09ORklHX05F
+RURfU0dfRE1BX0xFTkdUSAo+ICAgICAgMTcgICAgICAgICAgdW5zaWduZWQgaW50ICAgIGRtYV9s
+ZW5ndGg7Cj4gICAgICAxOCAgI2VuZGlmCj4gICAgICAxOSAgfTsKPgo+ICAgICAgNDIgIHN0cnVj
+dCBzZ190YWJsZSB7Cj4gICAgICA0MyAgICAgICAgICBzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnbDsg
+ICAgICAgIC8qIHRoZSBsaXN0ICovCj4gICAgICA0NCAgICAgICAgICB1bnNpZ25lZCBpbnQgbmVu
+dHM7ICAgICAgICAgICAgIC8qIG51bWJlciBvZiBtYXBwZWQgZW50cmllcyAqLwo+ICAgICAgNDUg
+ICAgICAgICAgdW5zaWduZWQgaW50IG9yaWdfbmVudHM7ICAgICAgICAvKiBvcmlnaW5hbCBzaXpl
+IG9mIGxpc3QgKi8KPiAgICAgIDQ2ICB9Owo+Cj4gcmVnYXJkcywKPiBkYW4gY2FycGVudGVyCgoK
+TXkgYmFkLiBJIHJlYWQgJ3N0cnVjdCBzY2F0dGVybGlzdCBzZ2wnICh3aXRob3V0IHRoZSAqKQpU
+aGFua3MgZm9yIHRoZSBmb2xsb3ctdXAsIERhbi4KCkRvZXNuJ3Qgc21hdGNoIGNhdGNoIHN1Y2gg
+bWlzbWF0Y2g/CihJJ3ZlIG5vdCBydW4gc21hdGNoIGZvciBhIHdoaWxlLCBzbyBpdCBpcyBtYXli
+ZSByZXBvcnRlZCkKCldlbGwsIHRoZSBwcm9wb3NhbCBpcyBzdGlsbCB2YWxpZCwgZXZlbiBpZiBp
+dCBoYXMgbGVzcyBpbXBhY3QgYXMgCmluaXRpYWxseSB0aG91Z2h0LgoKVGh4IGZvciB0aGUgcmV2
+aWV3LgoKQ0oKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
