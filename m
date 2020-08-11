@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456D22420FF
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4E4242106
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85F66E82F;
-	Tue, 11 Aug 2020 20:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0FF56E833;
+	Tue, 11 Aug 2020 20:06:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 82083 seconds by postgrey-1.36 at gabe;
- Tue, 11 Aug 2020 20:06:52 UTC
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F396E830
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEBD66E82F
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597176411;
+ s=mimecast20190719; t=1597176412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RWbyluC+fFKOD9cEtqyeVjPUd+5ObnZXVxPfAt8VXE0=;
- b=DBYWrWYG2y/1PGh3oPa+2+71wmg4FB6jJQc5hurZCW4mkvcav0YKrlWnnnv+3yD8WPpGmQ
- 3TbHMYe8i4UwzGHOijPlBbHZnam9/j9IXmHttJYr5Jb5Hxpz5EV1C9+xG9RF/rtoh/WDy2
- daPK51UvUVbGfgSQj04+xlr0k9GlCfs=
+ bh=EaqW4Gmy6cVcouD31SK1bgkpRdbI1OQBzcDJEb3YKEs=;
+ b=KSyTE3TXkMtG+P9PoN67S7KtPSOGzCDe2obQBqE7tgs12HBt5m1aMWb7PbkUVID9Ea4yJZ
+ JlCZf2ov/T3gIjPmPJz+6tXl6qEGNSBxrhxaazskLhHiySGf1lQ5zUNXldiO8F/yxrCexj
+ 5n4667u0QhdCwlrgnvAWRK7yH6QFX9E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-VA19RoBZMi2CgxKFt7b_0A-1; Tue, 11 Aug 2020 16:06:49 -0400
-X-MC-Unique: VA19RoBZMi2CgxKFt7b_0A-1
+ us-mta-483-4bMzXPW6MACDGn2mLUIJaQ-1; Tue, 11 Aug 2020 16:06:50 -0400
+X-MC-Unique: 4bMzXPW6MACDGn2mLUIJaQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA2951005504;
- Tue, 11 Aug 2020 20:06:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 154AB1DE1;
+ Tue, 11 Aug 2020 20:06:49 +0000 (UTC)
 Received: from Ruby.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9BD55D9D7;
- Tue, 11 Aug 2020 20:06:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 224FC5D9D7;
+ Tue, 11 Aug 2020 20:06:48 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [RFC 17/20] drm/nouveau/kms/nv50-: Add support for DP_SINK_COUNT
-Date: Tue, 11 Aug 2020 16:04:54 -0400
-Message-Id: <20200811200457.134743-18-lyude@redhat.com>
+Subject: [RFC 18/20] drm/nouveau/kms: Don't change EDID when it hasn't
+ actually changed
+Date: Tue, 11 Aug 2020 16:04:55 -0400
+Message-Id: <20200811200457.134743-19-lyude@redhat.com>
 In-Reply-To: <20200811200457.134743-1-lyude@redhat.com>
 References: <20200811200457.134743-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -67,152 +66,159 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is another bit that we never implemented for nouveau: dongle
-detection. When a "dongle", e.g. an active display adaptor, is hooked up
-to the system and causes an HPD to be fired, we don't actually know
-whether or not there's anything plugged into the dongle without checking
-the sink count. As a result, plugging in a dongle without anything
-plugged into it currently results in a bogus EDID retrieval error in the kernel log.
+Currently in nouveau_connector_ddc_detect() and
+nouveau_connector_detect_lvds(), we start the connector probing process
+by releasing the previous EDID and informing DRM of the change. However,
+since commit 5186421cbfe2 ("drm: Introduce epoch counter to
+drm_connector") drm_connector_update_edid_property() actually checks
+whether the new EDID we've specified is different from the previous one,
+and updates the connector's epoch accordingly if it is. But, because we
+always set the EDID to NULL first in nouveau_connector_ddc_detect() and
+nouveau_connector_detect_lvds() we end up making DRM think that the EDID
+changes every single time we do a connector probe - which isn't needed.
 
-Additionally, most dongles won't send another long HPD signal if the
-user suddenly plugs something in, they'll only send a short HPD IRQ with
-the expectation that the source will check the sink count and reprobe
-the connector if it's changed - something we don't actually do. As a
-result, nothing will happen if the user plugs the dongle in before
-plugging something into the dongle.
-
-So, let's fix this by checking the sink count in both
-nouveau_dp_probe_dpcd() and nouveau_dp_irq(), and reprobing the
-connector if things change.
+So, let's fix this by not clearing the EDID at the start of the
+connector probing process, and instead simply changing or removing it
+once near the end of the probing process. This will help prevent us from
+sending unneeded hotplug events to userspace when nothing has actually
+changed.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_dp.c      | 54 ++++++++++++++++++++---
- drivers/gpu/drm/nouveau/nouveau_encoder.h |  2 +
- 2 files changed, 51 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 54 ++++++++++-----------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index f6950a62138ca..f41fa513023fd 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -36,12 +36,22 @@ MODULE_PARM_DESC(mst, "Enable DisplayPort multi-stream (default: enabled)");
- static int nouveau_mst = 1;
- module_param_named(mst, nouveau_mst, int, 0400);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 637e91594fbe8..49dd0cbc332ff 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -528,6 +528,17 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
+ 	}
+ }
  
-+static bool
-+nouveau_dp_has_sink_count(struct drm_connector *connector,
-+			  struct nouveau_encoder *outp)
++static void
++nouveau_connector_set_edid(struct nouveau_connector *nv_connector,
++			   struct edid *edid)
 +{
-+	return drm_dp_has_sink_count(connector, outp->dp.dpcd,
-+				     &outp->dp.desc);
++	struct edid *old_edid = nv_connector->edid;
++
++	drm_connector_update_edid_property(&nv_connector->base, edid);
++	kfree(old_edid);
++	nv_connector->edid = edid;
 +}
 +
  static enum drm_connector_status
- nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 		      struct nouveau_encoder *outp)
+ nouveau_connector_detect(struct drm_connector *connector, bool force)
  {
-+	struct drm_connector *connector = &nv_connector->base;
- 	struct drm_dp_aux *aux = &nv_connector->aux;
- 	struct nv50_mstm *mstm = NULL;
-+	enum drm_connector_status status = connector_status_disconnected;
+@@ -541,13 +552,6 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
  	int ret;
- 	u8 *dpcd = outp->dp.dpcd;
+ 	enum drm_connector_status conn_status = connector_status_disconnected;
  
-@@ -50,9 +60,9 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 		ret = drm_dp_read_desc(aux, &outp->dp.desc,
- 				       drm_dp_is_branch(dpcd));
- 		if (ret < 0)
--			return connector_status_disconnected;
-+			goto out;
- 	} else {
+-	/* Cleanup the previous EDID block. */
+-	if (nv_connector->edid) {
+-		drm_connector_update_edid_property(connector, NULL);
+-		kfree(nv_connector->edid);
+-		nv_connector->edid = NULL;
+-	}
+-
+ 	/* Outputs are only polled while runtime active, so resuming the
+ 	 * device here is unnecessary (and would deadlock upon runtime suspend
+ 	 * because it waits for polling to finish). We do however, want to
+@@ -560,22 +564,23 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
+ 		ret = pm_runtime_get_sync(dev->dev);
+ 		if (ret < 0 && ret != -EACCES) {
+ 			pm_runtime_put_autosuspend(dev->dev);
++			nouveau_connector_set_edid(nv_connector, NULL);
+ 			return conn_status;
+ 		}
+ 	}
+ 
+ 	nv_encoder = nouveau_connector_ddc_detect(connector);
+ 	if (nv_encoder && (i2c = nv_encoder->i2c) != NULL) {
++		struct edid *new_edid;
++
+ 		if ((vga_switcheroo_handler_flags() &
+ 		     VGA_SWITCHEROO_CAN_SWITCH_DDC) &&
+ 		    nv_connector->type == DCB_CONNECTOR_LVDS)
+-			nv_connector->edid = drm_get_edid_switcheroo(connector,
+-								     i2c);
++			new_edid = drm_get_edid_switcheroo(connector, i2c);
+ 		else
+-			nv_connector->edid = drm_get_edid(connector, i2c);
++			new_edid = drm_get_edid(connector, i2c);
+ 
+-		drm_connector_update_edid_property(connector,
+-							nv_connector->edid);
++		nouveau_connector_set_edid(nv_connector, new_edid);
+ 		if (!nv_connector->edid) {
+ 			NV_ERROR(drm, "DDC responded, but no EDID for %s\n",
+ 				 connector->name);
+@@ -609,6 +614,8 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
+ 		conn_status = connector_status_connected;
+ 		drm_dp_cec_set_edid(&nv_connector->aux, nv_connector->edid);
+ 		goto out;
++	} else {
++		nouveau_connector_set_edid(nv_connector, NULL);
+ 	}
+ 
+ 	nv_encoder = nouveau_connector_of_detect(connector);
+@@ -652,18 +659,12 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
+ 	struct nouveau_encoder *nv_encoder = NULL;
++	struct edid *edid = NULL;
+ 	enum drm_connector_status status = connector_status_disconnected;
+ 
+-	/* Cleanup the previous EDID block. */
+-	if (nv_connector->edid) {
+-		drm_connector_update_edid_property(connector, NULL);
+-		kfree(nv_connector->edid);
+-		nv_connector->edid = NULL;
+-	}
+-
+ 	nv_encoder = find_encoder(connector, DCB_OUTPUT_LVDS);
+ 	if (!nv_encoder)
 -		return connector_status_disconnected;
 +		goto out;
+ 
+ 	/* Try retrieving EDID via DDC */
+ 	if (!drm->vbios.fp_no_ddc) {
+@@ -682,7 +683,8 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
+ 	 * valid - it's not (rh#613284)
+ 	 */
+ 	if (nv_encoder->dcb->lvdsconf.use_acpi_for_edid) {
+-		if ((nv_connector->edid = nouveau_acpi_edid(dev, connector))) {
++		edid = nouveau_acpi_edid(dev, connector);
++		if (edid) {
+ 			status = connector_status_connected;
+ 			goto out;
+ 		}
+@@ -702,12 +704,10 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
+ 	 * stored for the panel stored in them.
+ 	 */
+ 	if (!drm->vbios.fp_no_ddc) {
+-		struct edid *edid =
+-			(struct edid *)nouveau_bios_embedded_edid(dev);
++		edid = (struct edid *)nouveau_bios_embedded_edid(dev);
+ 		if (edid) {
+-			nv_connector->edid =
+-					kmemdup(edid, EDID_LENGTH, GFP_KERNEL);
+-			if (nv_connector->edid)
++			edid = kmemdup(edid, EDID_LENGTH, GFP_KERNEL);
++			if (edid)
+ 				status = connector_status_connected;
+ 		}
  	}
+@@ -720,7 +720,7 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
+ 		status = connector_status_unknown;
+ #endif
  
- 	if (nouveau_mst) {
-@@ -61,12 +71,33 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 			mstm->can_mst = drm_dp_has_mst(aux, dpcd);
- 	}
- 
-+	if (nouveau_dp_has_sink_count(connector, outp)) {
-+		ret = drm_dp_get_sink_count(aux);
-+		if (ret < 0)
-+			goto out;
-+
-+		outp->dp.sink_count = ret;
-+
-+		/*
-+		 * Dongle connected, but no display. Don't bother reading
-+		 * downstream port info
-+		 */
-+		if (!outp->dp.sink_count)
-+			return connector_status_disconnected;
-+	}
-+
- 	ret = drm_dp_downstream_read_info(aux, dpcd,
- 					  outp->dp.downstream_ports);
- 	if (ret < 0)
--		return connector_status_disconnected;
-+		goto out;
- 
--	return connector_status_connected;
-+	status = connector_status_connected;
-+out:
-+	if (status != connector_status_connected) {
-+		/* Clear any cached info */
-+		outp->dp.sink_count = 0;
-+	}
-+	return status;
+-	drm_connector_update_edid_property(connector, nv_connector->edid);
++	nouveau_connector_set_edid(nv_connector, edid);
+ 	nouveau_connector_set_encoder(connector, nv_encoder);
+ 	return status;
  }
- 
- int
-@@ -161,6 +192,8 @@ void nouveau_dp_irq(struct nouveau_drm *drm,
- 	struct drm_connector *connector = &nv_connector->base;
- 	struct nouveau_encoder *outp = find_encoder(connector, DCB_OUTPUT_DP);
- 	struct nv50_mstm *mstm;
-+	int ret;
-+	bool send_hpd = false;
- 
- 	if (!outp)
- 		return;
-@@ -172,12 +205,23 @@ void nouveau_dp_irq(struct nouveau_drm *drm,
- 
- 	if (mstm && mstm->is_mst) {
- 		if (!nv50_mstm_service(drm, nv_connector, mstm))
--			nouveau_connector_hpd(connector);
-+			send_hpd = true;
- 	} else {
- 		drm_dp_cec_irq(&nv_connector->aux);
-+
-+		if (nouveau_dp_has_sink_count(connector, outp)) {
-+			ret = drm_dp_get_sink_count(&nv_connector->aux);
-+			if (ret != outp->dp.sink_count)
-+				send_hpd = true;
-+			if (ret >= 0)
-+				outp->dp.sink_count = ret;
-+		}
- 	}
- 
- 	mutex_unlock(&outp->dp.hpd_irq_lock);
-+
-+	if (send_hpd)
-+		nouveau_connector_hpd(connector);
- }
- 
- /* TODO:
-diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
-index c1924a4529a7b..21937f1c7dd90 100644
---- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
-@@ -74,6 +74,8 @@ struct nouveau_encoder {
- 			u8 dpcd[DP_RECEIVER_CAP_SIZE];
- 			u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS];
- 			struct drm_dp_desc desc;
-+
-+			u8 sink_count;
- 		} dp;
- 	};
- 
 -- 
 2.26.2
 
