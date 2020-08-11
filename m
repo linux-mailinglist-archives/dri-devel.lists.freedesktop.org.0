@@ -1,48 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743652425D1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F422425CB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98AF96E8B8;
-	Wed, 12 Aug 2020 07:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB3A6E8AD;
+	Wed, 12 Aug 2020 07:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10E86E7EC;
- Tue, 11 Aug 2020 20:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=mu8ZGHCtLzfb4Q1brYigGzESLOWdAu8Y0s2c7XTplC8=; b=284/OXxnHd747ZUgC23m/S9th+
- 7fU/+S+BrIfZAzGbDCJ9hKskEz65vFxHjCYXwR4+nsltIHh+uEV/PLGeTNtQC67TxZlyxTE5fERG2
- NXdSnWsZnb/Br3YZBMqcz/n7ERi4JfJoRq4CuklWCIfbeneuN0b9BMPvKXOGFde8FCQ7gV/5EY9PW
- pZfsQHsKAwqKnIugSYP8VXO1scYbxv1Ti4ZmOQP0BlDCVlv01mHc9AYEw7lLzmQXUzL1u22oywuqC
- lXrNFtsh2UvZp5u61MAbyx9tQ/22xMJ+iZ1Du7AaVB5bNd8V+n7m8NM23Jiv/GMi2iAQPbVGGq32e
- bsdMdEgw==;
-Received: from [2601:1c0:6280:3f0::19c2]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5amB-0001WQ-HM; Tue, 11 Aug 2020 20:21:39 +0000
-Subject: Re: [PATCH v9 3/5] drm/msm/dp: add support for DP PLL driver
-To: tanmay@codeaurora.org
-References: <20200807071718.17937-1-tanmay@codeaurora.org>
- <20200807071718.17937-4-tanmay@codeaurora.org>
- <3b0d0e49-5fe8-e217-4ddc-1ff08e65ab48@infradead.org>
- <CAF6AEGv5Yf1x7aCEauP7XtzTjpUCxJt6_GzxFhFXyf_DX_Gi+g@mail.gmail.com>
- <159683184187.1360974.15575847254880429529@swboyd.mtv.corp.google.com>
- <75acac5a-b4a5-9c5a-4404-fb936d738e46@infradead.org>
- <639438051c1b2fe1d9bec5f6343a6dec@codeaurora.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7222ceca-9fe2-f91b-4129-5a70952875f7@infradead.org>
-Date: Tue, 11 Aug 2020 13:21:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5523D6E83F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:26:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 85BD329916D
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, stable@vger.kernel.org,
+ hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
+ andrzej.p@collabora.com, daniels@collabora.com
+Subject: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
+Date: Tue, 11 Aug 2020 16:26:31 -0400
+Message-Id: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <639438051c1b2fe1d9bec5f6343a6dec@codeaurora.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 12 Aug 2020 07:05:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,52 +38,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, khsieh@codeaurora.org,
- Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Vara Reddy <varar@codeaurora.org>, aravindh@codeaurora.org,
- freedreno <freedreno@lists.freedesktop.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gOC8xMS8yMCAxMjo0OSBQTSwgdGFubWF5QGNvZGVhdXJvcmEub3JnIHdyb3RlOgo+IE9uIDIw
-MjAtMDgtMDcgMTM6MjgsIFJhbmR5IER1bmxhcCB3cm90ZToKPj4gT24gOC83LzIwIDE6MjQgUE0s
-IFN0ZXBoZW4gQm95ZCB3cm90ZToKPj4+IFF1b3RpbmcgUm9iIENsYXJrICgyMDIwLTA4LTA3IDA4
-OjUxOjQ4KQo+Pj4+IE9uIEZyaSwgQXVnIDcsIDIwMjAgYXQgODoyNyBBTSBSYW5keSBEdW5sYXAg
-PHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4KPj4+PiB3cm90ZToKPj4+Pj4KPj4+Pj4gT24gOC83LzIw
-IDEyOjE3IEFNLCBUYW5tYXkgU2hhaCB3cm90ZToKPj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vbXNtL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL0tjb25maWcKPj4+Pj4+
-IGluZGV4IGVhM2M0ZDA5NGQwOS4uY2MxMzkyYjI5MDIyIDEwMDY0NAo+Pj4+Pj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL21zbS9LY29uZmlnCj4+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNt
-L0tjb25maWcKPj4+Pj4+IEBAIC02MCw2ICs2MCw3IEBAIGNvbmZpZyBEUk1fTVNNX0hETUlfSERD
-UAo+Pj4+Pj4gwqBjb25maWcgRFJNX01TTV9EUAo+Pj4+Pj4gwqDCoMKgwqDCoCBib29sICJFbmFi
-bGUgRFAgc3VwcG9ydCBpbiBNU00gRFJNIGRyaXZlciIKPj4+Pj4+IMKgwqDCoMKgwqAgZGVwZW5k
-cyBvbiBEUk1fTVNNCj4+Pj4+PiArwqDCoMKgwqAgZGVmYXVsdCB5Cj4+Pj4+PiDCoMKgwqDCoMKg
-IGhlbHAKPj4+Pj4+IMKgwqDCoMKgwqDCoMKgIENvbXBpbGUgaW4gc3VwcG9ydCBmb3IgRFAgZHJp
-dmVyIGluIG1zbSBkcm0gZHJpdmVyLiBEUCBleHRlcm5hbAo+Pj4+Pj4gwqDCoMKgwqDCoMKgwqAg
-ZGlzcGxheSBzdXBwb3J0IGlzIGVuYWJsZWQgdGhyb3VnaCB0aGlzIGNvbmZpZyBvcHRpb24uIEl0
-IGNhbgo+Pj4+Pgo+Pj4+PiBIaSwKPj4+Pj4KPj4+Pj4gWW91IG5lZWQgYSB2ZXJ5IHN0cm9uZyBq
-dXN0aWZpY2F0aW9uIHRvIG1ha2UgYW4gb3B0aW9uYWwgcGFydCBvZiBhCj4+Pj4+IGRyaXZlcgo+
-Pj4+PiB0byBiZSAiZGVmYXVsdCB5Ii4KPj4+Pgo+Pj4+IE15IG9waW5pb24gaXMgdGhhdCBpZiB0
-aGUgZHJpdmVyIGlzIGJ1aWx0LCBldmVyeXRoaW5nIHNob3VsZCBiZSBidWlsdC4KPj4+PiBUaGlz
-IGlzIHdoYXQgbWFrZXMgc2Vuc2UgZm9yIGRpc3RybydzLsKgIEl0IGlzIG9ubHkgdGhlIGVtYmVk
-ZGVkIGNhc2UKPj4+PiB3aGVyZSB5b3Ugd2FudCB0byB0cmltIGRvd24gdW5uZWVkZWQgZmVhdHVy
-ZXMgd2hlcmUgeW91IG1pZ2h0IHdhbnQgdG8KPj4+PiBkaXNhYmxlIHNvbWUgcGFydHMuwqAgU28g
-J2RlZmF1bHQgeScgbWFrZXMgc2Vuc2UgdG8gbWUuCj4+Cj4+IFdlIGRvbid0IHNldCBkZWZhdWx0
-cyBmb3IgZGlzdHJvIGNvbnZlbmllbmNlLgo+Pgo+Pj4KPj4+IE1heWJlIHVzZSAnZGVmYXVsdCBE
-Uk1fTVNNJyBzbyB0aGF0IGl0IGRvZXNuJ3QgdHJpZ2dlciB0aGUgJ2RlZmF1bHQgeScKPj4+IGZp
-bHRlcnMgcGVvcGxlIGhhdmU/Cj4+Cj4+IE1vc3QgcGVvcGxlIGNhbiBmaWd1cmUgdGhhdCBvbmUg
-b3V0LsKgIDspCj4+IEkgZG9uJ3QgaGF2ZSBhbnkgYXV0b21hdGVkIGZpbHRlcnMuCj4gCj4gQWZ0
-ZXIgYWZ0ZXIgZnVydGhlciByZXZpZXdzLCBJIGFncmVlIHdpdGggUm9iLiBEaXNwbGF5IFBvcnQg
-aXMgcmVxdWlyZWQgbW9kdWxlIGFzIG9mIG5vdyBzbyBpdCBtYWtlcyBzZW5zZSB0byBrZWVwICdk
-ZWZhdWx0IHknLgoKSWYgaXQgaXMgcmVxdWlyZWQsIHRoZW4geW91IGRvbid0IG5lZWQgdG8gaGF2
-ZSBhIEtjb25maWcgZW50cnkvc3ltYm9sIGZvciBpdC4KCgotLSAKflJhbmR5CgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+The AFBC decoder used in the Rockchip VOP assumes the use of the
+YUV-like colourspace transform (YTR). YTR is lossless for RGB(A)
+buffers, which covers the RGBA8 and RGB565 formats supported in
+vop_convert_afbc_format. Use of YTR is signaled with the
+AFBC_FORMAT_MOD_YTR modifier, which prior to this commit was missing. As
+such, a producer would have to generate buffers that do not use YTR,
+which the VOP would erroneously decode as YTR, leading to severe visual
+corruption.
+
+The upstream AFBC support was developed against a captured frame, which
+failed to exercise modifier support. Prior to bring-up of AFBC in Mesa
+(in the Panfrost driver), no open userspace respected modifier
+reporting. As such, this change is not expected to affect broken
+userspaces.
+
+Tested on RK3399 with Panfrost and Weston.
+
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+index 4a2099cb5..857d97cdc 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+@@ -17,9 +17,20 @@
+ 
+ #define NUM_YUV2YUV_COEFFICIENTS 12
+ 
++/* AFBC supports a number of configurable modes. Relevant to us is block size
++ * (16x16 or 32x8), storage modifiers (SPARSE, SPLIT), and the YUV-like
++ * colourspace transform (YTR). 16x16 SPARSE mode is always used. SPLIT mode
++ * could be enabled via the hreg_block_split register, but is not currently
++ * handled. The colourspace transform is implicitly always assumed by the
++ * decoder, so consumers must use this transform as well.
++ *
++ * Failure to match modifiers will cause errors displaying AFBC buffers
++ * produced by conformant AFBC producers, including Mesa.
++ */
+ #define ROCKCHIP_AFBC_MOD \
+ 	DRM_FORMAT_MOD_ARM_AFBC( \
+ 		AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 | AFBC_FORMAT_MOD_SPARSE \
++			| AFBC_FORMAT_MOD_YTR \
+ 	)
+ 
+ enum vop_data_format {
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
