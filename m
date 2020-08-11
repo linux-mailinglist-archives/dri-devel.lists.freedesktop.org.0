@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2853B2416AB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E5D2416BA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578656E226;
-	Tue, 11 Aug 2020 06:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE006E4B6;
+	Tue, 11 Aug 2020 06:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4826E03D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:23:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 062DD6E49F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1597105372; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1597105373; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JjIL9moCS0z1R5alv49aEL6O8PlqQzsA7GoxoF/cqMw=;
- b=pK9ShE4tFRjKFD+mxFvMa/9QiWoOgvWQPajZrDK8Gng10jd0U2ta3YPUdqCwxlBB6sNNnG
- aIx1XIjVVZK7U+zQ2VI50PAL9gDHYxPE+1xHjDAqjmXI8oOe8fvAV0rCmbIFAQRjFPkZgw
- JeP7SmmvFEo+ZriFb6yWXGOhR+VX8W4=
+ bh=GktzCBVn5TL5skxl6f39MlCJqX9Y1dfzq1NIw7kCWEM=;
+ b=eQqJ7WpMqyRcqSiOsp1qOfPwvIpBwnxypyTpdM7IrUu+Rb5HqnhXiQGu0RQyIjk8lR/Uqd
+ w6XiTbUzQCzo0jJzHzIclAOViJxazw8Wj8KWvBdcK3JB+RieClX+xXueM0bNgN9iHe2qg1
+ QqzLRjc/8xvnx+aWijegYWVFmCsj8Ns=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH 2/5] drm/panel: novatek,
- nt39016: Add missing CR to error messages
-Date: Tue, 11 Aug 2020 02:22:37 +0200
-Message-Id: <20200811002240.55194-3-paul@crapouillou.net>
+Subject: [PATCH 3/5] drm/panel: simple: Convert sharp,
+ ls020b1dd01d from timings to videomode
+Date: Tue, 11 Aug 2020 02:22:38 +0200
+Message-Id: <20200811002240.55194-4-paul@crapouillou.net>
 In-Reply-To: <20200811002240.55194-1-paul@crapouillou.net>
 References: <20200811002240.55194-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -51,95 +51,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If you pass a string that is not terminated with a carriage return to
-dev_err(), it will eventually be printed with a carriage return, but
-not right away, since the kernel will wait for a pr_cont().
+Convert the Sharp LS020B1DD01D panel entry from using a struct
+display_timing to using a struct drm_display_mode, as display_timing
+seems to be the old and legacy format.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/panel/panel-novatek-nt39016.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-index ba05165b6050..39f7be679da5 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-@@ -124,7 +124,7 @@ static int nt39016_prepare(struct drm_panel *drm_panel)
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 3787748b5bd0..60052976e616 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3382,22 +3382,24 @@ static const struct panel_desc sharp_lq123p1jx31 = {
+ 	},
+ };
  
- 	err = regulator_enable(panel->supply);
- 	if (err) {
--		dev_err(panel->dev, "Failed to enable power supply: %d", err);
-+		dev_err(panel->dev, "Failed to enable power supply: %d\n", err);
- 		return err;
- 	}
+-static const struct display_timing sharp_ls020b1dd01d_timing = {
+-	.pixelclock = { 2000000, 4200000, 5000000 },
+-	.hactive = { 240, 240, 240 },
+-	.hfront_porch = { 66, 66, 66 },
+-	.hback_porch = { 1, 1, 1 },
+-	.hsync_len = { 1, 1, 1 },
+-	.vactive = { 160, 160, 160 },
+-	.vfront_porch = { 52, 52, 52 },
+-	.vback_porch = { 6, 6, 6 },
+-	.vsync_len = { 10, 10, 10 },
+-	.flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_LOW,
++static const struct drm_display_mode sharp_ls020b1dd01d_modes[] = {
++	{ /* 60 Hz */
++		.clock = 4200,
++		.hdisplay = 240,
++		.hsync_start = 240 + 66,
++		.hsync_end = 240 + 66 + 1,
++		.htotal = 240 + 66 + 1 + 1,
++		.vdisplay = 160,
++		.vsync_start = 160 + 52,
++		.vsync_end = 160 + 52 + 10,
++		.vtotal = 160 + 52 + 10 + 6,
++		.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
++	},
+ };
  
-@@ -143,7 +143,7 @@ static int nt39016_prepare(struct drm_panel *drm_panel)
- 	err = regmap_multi_reg_write(panel->map, nt39016_panel_regs,
- 				     ARRAY_SIZE(nt39016_panel_regs));
- 	if (err) {
--		dev_err(panel->dev, "Failed to init registers: %d", err);
-+		dev_err(panel->dev, "Failed to init registers: %d\n", err);
- 		goto err_disable_regulator;
- 	}
- 
-@@ -173,7 +173,7 @@ static int nt39016_enable(struct drm_panel *drm_panel)
- 	ret = regmap_write(panel->map, NT39016_REG_SYSTEM,
- 			   NT39016_SYSTEM_RESET_N | NT39016_SYSTEM_STANDBY);
- 	if (ret) {
--		dev_err(panel->dev, "Unable to enable panel: %d", ret);
-+		dev_err(panel->dev, "Unable to enable panel: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -193,7 +193,7 @@ static int nt39016_disable(struct drm_panel *drm_panel)
- 	err = regmap_write(panel->map, NT39016_REG_SYSTEM,
- 			   NT39016_SYSTEM_RESET_N);
- 	if (err) {
--		dev_err(panel->dev, "Unable to disable panel: %d", err);
-+		dev_err(panel->dev, "Unable to disable panel: %d\n", err);
- 		return err;
- 	}
- 
-@@ -261,13 +261,13 @@ static int nt39016_probe(struct spi_device *spi)
- 
- 	panel->supply = devm_regulator_get(dev, "power");
- 	if (IS_ERR(panel->supply)) {
--		dev_err(dev, "Failed to get power supply");
-+		dev_err(dev, "Failed to get power supply\n");
- 		return PTR_ERR(panel->supply);
- 	}
- 
- 	panel->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(panel->reset_gpio)) {
--		dev_err(dev, "Failed to get reset GPIO");
-+		dev_err(dev, "Failed to get reset GPIO\n");
- 		return PTR_ERR(panel->reset_gpio);
- 	}
- 
-@@ -275,20 +275,20 @@ static int nt39016_probe(struct spi_device *spi)
- 	spi->mode = SPI_MODE_3 | SPI_3WIRE;
- 	err = spi_setup(spi);
- 	if (err) {
--		dev_err(dev, "Failed to setup SPI");
-+		dev_err(dev, "Failed to setup SPI\n");
- 		return err;
- 	}
- 
- 	panel->map = devm_regmap_init_spi(spi, &nt39016_regmap_config);
- 	if (IS_ERR(panel->map)) {
--		dev_err(dev, "Failed to init regmap");
-+		dev_err(dev, "Failed to init regmap\n");
- 		return PTR_ERR(panel->map);
- 	}
- 
- 	err = drm_panel_of_backlight(&panel->drm_panel);
- 	if (err) {
- 		if (err != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get backlight handle");
-+			dev_err(dev, "Failed to get backlight handle\n");
- 		return err;
- 	}
- 
+ static const struct panel_desc sharp_ls020b1dd01d = {
+-	.timings = &sharp_ls020b1dd01d_timing,
+-	.num_timings = 1,
++	.modes = sharp_ls020b1dd01d_modes,
++	.num_modes = ARRAY_SIZE(sharp_ls020b1dd01d_modes),
+ 	.bpc = 6,
+ 	.size = {
+ 		.width = 42,
 -- 
 2.28.0
 
