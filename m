@@ -1,54 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D753D24259D
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 08:49:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 262712425D2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 907CF6E8A6;
-	Wed, 12 Aug 2020 06:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6076E8AF;
+	Wed, 12 Aug 2020 07:05:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 318286E8A6
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 06:48:56 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id v4so1044346ljd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 23:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J31UG4xZfaTIfqQug3jDowpRaMecAJvi+cR7RWW/6Kc=;
- b=VpYvDBU0f25AQ9m3GDVHoUNKGkkDhwbrnVrRQGv9qnG12eXf4IY7Tpb4nKzyaA5GnR
- AHtuTeNxArmL+axuWPrSumZ/XebgP77RRcTE+GQkB8i0oVWOsRSw3z0wBHwftrhm/jFP
- CvNNCuSx/bwusMpWV+mV9dc66XOoA5fxPM26P+c7ZZjLqGy7wW5QVw4vw9fqIqUTa5cF
- PSVEIwmtvgOvsay+aDb9WpoGr6AwxjmjiR43zYa7iWp4i2u/PL9XMjOAPLVij/0Pn1yV
- +mULTLZ5F3Go7VxJFDc79NuukaGuX283qR5QhEyWTK2QvmhsNtuRRq7Luw33QF6WG0Zs
- U7Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J31UG4xZfaTIfqQug3jDowpRaMecAJvi+cR7RWW/6Kc=;
- b=XaGv6tTUpl/Bzqjzrnvqu58AfSh22XVFPAmYJACO9cnoaNzDkGJG3UqsLMkIVG6aJp
- qbX5QbyjMSankr5G6scN+ui8DiLbjuw2m0adaXgiVGans42PkpGUPpN57v32NQ5prlSw
- 32q/3sZUGR/hiH4lbqtZxVhwjM0na1yfgeAZRfohI3FyMRyM9bTqXuYvf1kYCix9hV3d
- i/pjgCchDOMFbcfpzJaDlCfXlIpDtBeH9w2HajFCSTFETS6Ih2adQokbjfRLX3lm2ITW
- Yc0eHHO/tpZMsjTwSkGLwAmJ3SMXTEIJdpfe8I8SP/L7mRkeEWqhzsoXOfsls3fouCMy
- W2mQ==
-X-Gm-Message-State: AOAM532OF5mSqFqnaZXmUwWOyJ+KT0DaubSYEN09HjVnSqDEW5LnUfcE
- brqD9sSOP5/faBaqeCBKZq6rbGGBeqPLn53AEZuTXw==
-X-Google-Smtp-Source: ABdhPJxHxwmcGrskpI/3oFiCVwxSZLG0pwpgInuuMV19jZuo3wuyU4iLrgAO3cTWdJQBKcHLd6uIZH9VRx2ad2MKIIE=
-X-Received: by 2002:a2e:8144:: with SMTP id t4mr4977361ljg.100.1597214934520; 
- Tue, 11 Aug 2020 23:48:54 -0700 (PDT)
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0499A6E4CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 08:25:19 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 88D87F9B3E0E55298B57;
+ Tue, 11 Aug 2020 16:25:15 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 11 Aug 2020 16:25:06 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.c>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>
+Subject: [PATCH] MAINTAINERS: Change maintainer for hisilicon DRM driver
+Date: Tue, 11 Aug 2020 16:23:06 +0800
+Message-ID: <1597134186-58423-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20200720203506.3883129-1-linus.walleij@linaro.org>
- <20200721083228.GA283099@ravnborg.org>
-In-Reply-To: <20200721083228.GA283099@ravnborg.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 12 Aug 2020 08:48:42 +0200
-Message-ID: <CACRpkdbuihAwvsx4QmV6PnVM5aDFMiaR9h-8aBF8EzXRGZ1XNA@mail.gmail.com>
-Subject: Re: [PATCH 1/2 v1] dt-bindings: backlight: Add Kinetic KTD253 bindings
-To: Sam Ravnborg <sam@ravnborg.org>
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Wed, 12 Aug 2020 07:05:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +42,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>
+Cc: linuxarm@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 10:32 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+Remove Rongrong Zou and change tiantao as hisilicon DRM maintainer.
 
-> > +description: |
-> > +  The Kinetic Technologies KTD253 is a white LED backlight that is
-> > +  controlled by a single GPIO line. If you just turn on the backlight
-> > +  it goes to maximum backlight then you can set the level of backlight
-> > +  using pulses on the enable wire.
->
-> No $ref for common.yaml?
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Since this is a backlight, and we do not have common bindings for,
-backlight I first looked into using the LED bindings in
-../common.yaml, but that has several problems, it cannot really
-be used for backlight. Backlight doesn't have "triggers",
-patterns, flash properties, the function is also pretty much
-evident.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f12a868..f4e49e0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5694,7 +5694,7 @@ F:	drivers/gpu/drm/gma500/
+ 
+ DRM DRIVERS FOR HISILICON
+ M:	Xinliang Liu <xinliang.liu@linaro.org>
+-M:	Rongrong Zou <zourongrong@gmail.com>
++M:	Tian Tao  <tiantao6@hisilicon.com>
+ R:	John Stultz <john.stultz@linaro.org>
+ R:	Xinwei Kong <kong.kongxinwei@hisilicon.com>
+ R:	Chen Feng <puck.chen@hisilicon.com>
+-- 
+2.7.4
 
-So I will look into creating a new common for backlight.
-
-Yours,
-Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
