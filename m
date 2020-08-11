@@ -2,39 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DC82422C9
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 01:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87AD2422DA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 01:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D976E2D5;
-	Tue, 11 Aug 2020 23:12:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 529E26E85F;
+	Tue, 11 Aug 2020 23:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED36E2D5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 23:12:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A36689A8;
- Wed, 12 Aug 2020 01:12:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597187572;
- bh=bsZIpSrl5v4vESB1vCsrKXg6WuAzyrOEr1BzCY32iLQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=v6Zyqzfyn28EmLyu13Soj9xSC/hbhe5clYZwLV0Ju6xkVKlMRrfI2V6ej2Zrsp5dN
- heGK+1ip4HSA9JBfRi3k8gBtOXVqcU8xKQdvbyQOZQLdgzzR5b7/ATlkVcld/p0TF1
- jbMzHQs3SXkfjcUSiVh00K0zrVZWzVtrygXCdX3w=
-Date: Wed, 12 Aug 2020 02:12:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-Subject: Re: [RFC PATCH V2 1/2] dt-bindings: display: xlnx: dsi: This add a
- DT binding for Xilinx DSI TX subsystem.
-Message-ID: <20200811231238.GA23600@pendragon.ideasonboard.com>
-References: <1597106777-30913-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
- <1597106777-30913-2-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D68FF6E85F;
+ Tue, 11 Aug 2020 23:36:17 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id t6so215656pjr.0;
+ Tue, 11 Aug 2020 16:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qJacNYTNjzvH1OwtDhhId+31gqWxjTcV/w1QSNegM+s=;
+ b=CaYwq5LCxIlp+3gYSayjOxXtKRP6v2EROxO/iEm3y8UwMofSDO5cUtWm+cKJOVBFoM
+ 2rKFMuaC9rhvn/bSxR6nyOPkWatNI5cpAVIV+Oldh4XzmE0yQzHd1jtiaH9oRfLeOiUn
+ GvUGjf+1xeTxs7BAU4shdSlz0LMPkQhtsptdYDhayUc+8qzs15B7BpjPnI2C3NHIEjPf
+ 67fHHiF5O0JD0tDCP04f7Fs987VRj2UjMrGhDMJEgj6pOmlHuTnh9MnAdLbuw4BLVDbH
+ wXPbJ14LJwDPjhrGvLv3LlJNIMegdoDBw9fqvk4AORulucMVy56eDx9TQC0xaWInAUfa
+ Y9IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qJacNYTNjzvH1OwtDhhId+31gqWxjTcV/w1QSNegM+s=;
+ b=F+zbicby4YXvdwRNPojFXxh9PnRg2Xy4g7ODD9zfT4ywjFCeZBEUhZjW3m21UkIpnc
+ zeDpFCcRRUFBHAHi+5QBTj4OhBp/iL4clJ3sKn72tvPNO474FdbpzhF71yAbtrhdFcpv
+ d8XE6811o2t59tdPVuOlkOtq72FTWbsMQhjqk5pA/JbRVT3sXp07H69rObQeBaan17B4
+ MmbQIy4KbtcBRz1YHOZh00RVFbqLjdCVIWO26QrXqolg0SSGKAZMbGrCwwsTK2cU7L54
+ 97uT5dv1QCWdisrxj1W02S5nC6ekgMFmCB12hBEH+lwfJXQbMVURu3FaRYKUVP2Hqws/
+ Tn2Q==
+X-Gm-Message-State: AOAM532+cpU5rmqcPrMSXoJvh/gwAlEMTRfSOFrDJecUOA6kijRUuq3H
+ r5yyEvoTmpxkaftqOqRxcI0P5Mpey4E=
+X-Google-Smtp-Source: ABdhPJwxWi7J5+1MuA33io5kkO68CeF200KVuyXZNGvfWESG3ekCOHUR+qXq4mmgKbNk3jfCFaQofA==
+X-Received: by 2002:a17:902:523:: with SMTP id
+ 32mr2948980plf.176.1597188976937; 
+ Tue, 11 Aug 2020 16:36:16 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ j20sm90019pjy.51.2020.08.11.16.36.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Aug 2020 16:36:15 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/a6xx: add module param to enable debugbus snapshot
+Date: Tue, 11 Aug 2020 16:36:57 -0700
+Message-Id: <20200811233702.580744-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1597106777-30913-2-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,254 +66,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sandipk@xilinx.com, hyun.kwon@xilinx.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- vgannava@xilinx.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>,
+ Brian Masney <masneyb@onstation.org>, Wambui Karuga <wambui.karugax@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi GVRao,
+From: Rob Clark <robdclark@chromium.org>
 
-Thank you for the patch.
+For production devices, the debugbus sections will typically be fused
+off and empty in the gpu device coredump.  But since this may contain
+data like cache contents, don't capture it by default.
 
-On Tue, Aug 11, 2020 at 06:16:16AM +0530, Venkateshwar Rao Gannavarapu wrote:
-> The Xilinx MIPI DSI (Display Serial Interface) Transmitter subsystem
-> implements the Mobile Industry Processor Interface (MIPI) based display
-> interface. It supports the interface with programmable logic (FPGA).
-> 
-> Signed-off-by: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-> ---
->  .../devicetree/bindings/display/xlnx/xlnx,dsi.yaml | 147 +++++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
-> new file mode 100644
-> index 0000000..73da0d8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
-> @@ -0,0 +1,147 @@
-> +# SPDX-License-Identifier: GPL-2.0
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 ++-
+ drivers/gpu/drm/msm/adreno/adreno_device.c  | 4 ++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h     | 2 ++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-New bindings must be licensed as (GPL-2.0-only OR BSD-2-Clause).
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/xlnx/xlnx,dsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Xilinx Programmable DSI-TX Subsystem
-> +
-> +description: |
-> +  The programmable MIPI DSI controller of Xilinx implements display pipeline
-> +  based on DSI v1.3 specification. The subsystem includes multiple functional
-> +  blocks as below
-> +
-> +  +---------------+                +-----------------------------------------------+
-> +  |               |                |                      +------------------+     |
-> +  |               |                |         v----------->+AXI CROSBAR       |XXX  |
-> +  |FRAME BUFFER   | AXI STREAM     |         |            |                  X   X |
-> +  |(DMA)          |       +------->+    +------------+    +------------------+  XX |
-> +  |               +<------+        |    |MIPI        |                          X  |
-> +  |               |                |    |DSI-TX      |                          X  |
-> +  |               |                |    |Controller  |             +------------+  |
-> +  |               |                |    |            +------------->D-PHY       |  |
-> +  +---------------+                |    |            |             |            |  |
-> +                  S_AXIS_ACLK      |    +-------------<------------+            |  |
-> +                 +---------------->+                               |            |  |
-> +                                   |                               |            |  |
-> +                  DPHY_CLK_200M    |                               |            |  |
-> +                 +---------------->+                               |            |  |
-> +                 +                 |                               +------------+  |
-> +                                   |                                               |
-> +                                   | MIPI DSI TX SUBSYSTEM                         |
-> +                                   +-----------------------------------------------+
-> +
-> +  The DSI TX controller consists of multiple layers such as lane management layer,
-> +  low-level protocol and pixel-to-byte conversion. The DSI TX controller core
-> +  receives stream of image data through an input stream interface. The subsystem
-> +  driver supports upto 4 lane support and generates PPI trasfers towards DPHY
-
-DT bindings shouldn't mention drivers, you can just say "The subsystem
-supports up to 4 data lanes ...".
-
-s/trasfers/transfers/
-
-> +  with continuous clock. It supports Burst, non-burst modes and command modes.
-> +
-> +maintainers:
-> +  - Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: xlnx,dsi-1.0
-
-I think calling it just "dsi-1.0" isn't specific enough, as it could
-also be a DSI RX. "xlnx,dsi-tx-1.0" would be a better value.
-
-Is this binding for v1.0 of the IP core ? There's a v2.0 too. Only v2.0
-supports command mode as far as I can tell, so with the
-xlnx,dsi-cmd-mode property below, this seems to match v2.0.
-
-> +
-> +  reg:
-> +    maxItems: 1
-
-This should specify in the description if only the DSI TX registers are
-covered, or if the D-PHY registers are included too.
-
-> +
-> +  clocks:
-> +    description: List of clock specifiers
-> +    items:
-> +      - description: AXI Lite clock
-> +      - description: Video DPHY clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: s_axis_aclk
-> +      - const: dphy_clk_200M
-> +
-> +  xlnx,dsi-num-lanes:
-> +    description: Maximum number of lanes that IP configured with.
-> +           possible values are 1, 2, 4.
-
-You can drop the second sentence as it's implied by the enum below.
-
-> +
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [1, 2, 4]
-
-Do we need this property ? The protocol configuration register has an
-Active Lanes field that reports the number of lanes. Could we read the
-information from the register, and drop this property ?
-
-> +
-> +  xlnx,dsi-data-type:
-> +    description: MIPI DSI pixel format.
-> +           possible values are 0, 1, 2, 3.
-
-Same here.
-
-> +
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [0, 1, 2, 3]
-
-Same comment as above, should this be read from the Pixel Format field
-instead of being specified in DT ?
-
-> +
-> +  xlnx,dsi-cmd-mode:
-> +    description: denotes command mode support
-> +
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [0, 1]
-
-I don't see a command mode user parameter in the datasheet, it seems
-that command mode is a runtime configuration parameter (bit 3 in the
-Core Configuration Register). It shouldn't be specified in DT, but
-queried at runtime from the connected panel.
-
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: |
-> +          output / source port node, endpoint describing modules
-> +          connected the DSI TX subsystem
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-
-There should also be a port for the AXI4-Stream interface. The common
-practice is to number the input port@0 and the output port@1.
-
-Shouldn't ports specify
-
-    required:
-      - port@0
-      - port@1
-
-?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - xlnx,dsi-num-lanes
-> +  - xlnx,dsi-data-type
-> +  - xlnx,dsi-cmd-mode
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> + -  |
-> +    mipi_dsi_tx_subsystem@80000000 {
-> +      compatible = "xlnx,dsi-1.0";
-> +      reg = <0x0 0x80000000 0x0 0x10000>;
-
-DT examples are compiled in a context where #address-cells and
-#size-cells are both set to 1. The reg property should thus be
-<0x80000000 0x10000>; in the example, even if it doesn't match the
-hardware.
-
-Could you please validate the bindings with
-
-	make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
-
-as explained in Documentation/devicetree/writing-schema.rst ? This will
-also compile the example to make sure that everything is right.
-
-> +      clocks = <&misc_clk_0>, <&misc_clk_1>;
-> +      clock-names = "s_axis_aclk", "dphy_clk_200M";
-> +      xlnx,dsi-num-lanes = <4>;
-> +      xlnx,dsi-data-type = <1>;
-> +      xlnx,dsi-cmd-mode = <0>;
-> +      ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +              reg = <0x0>;
-> +              dsi_tx_out: endpoint {
-> +                   remote-endpoint = <&panel_in>;
-> +              };
-> +          };
-> +      };
-> +    };
-> +
-> +...
-
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 959656ad6987..b12f5b4a1bea 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -938,7 +938,8 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+ 		msm_gem_kernel_put(dumper.bo, gpu->aspace, true);
+ 	}
+ 
+-	a6xx_get_debugbus(gpu, a6xx_state);
++	if (snapshot_debugbus)
++		a6xx_get_debugbus(gpu, a6xx_state);
+ 
+ 	return  &a6xx_state->base;
+ }
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 4e84f3c76f4f..9eeb46bf2a5d 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -14,6 +14,10 @@ bool hang_debug = false;
+ MODULE_PARM_DESC(hang_debug, "Dump registers when hang is detected (can be slow!)");
+ module_param_named(hang_debug, hang_debug, bool, 0600);
+ 
++bool snapshot_debugbus = false;
++MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
++module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
++
+ static const struct adreno_info gpulist[] = {
+ 	{
+ 		.rev   = ADRENO_REV(2, 0, 0, 0),
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 99bb468f5f24..e55abae365b5 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -21,6 +21,8 @@
+ #define REG_SKIP ~0
+ #define REG_ADRENO_SKIP(_offset) [_offset] = REG_SKIP
+ 
++extern bool snapshot_debugbus;
++
+ /**
+  * adreno_regs: List of registers that are used in across all
+  * 3D devices. Each device type has different offset value for the same
 -- 
-Regards,
+2.26.2
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
