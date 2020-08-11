@@ -1,54 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E732417CE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 10:02:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD0F241807
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 10:12:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C06D289DE3;
-	Tue, 11 Aug 2020 08:02:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6606E175;
+	Tue, 11 Aug 2020 08:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A959289DE3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 08:02:22 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id v22so8368543edy.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 01:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=n6VRx93UP7SVJ3en7iZoi4oZyf8lmnAm3OUl4YLhako=;
- b=pMZWzX3LFBY0UvXbRpGZr17MiaVulx8wyyDzpUfKck9ZVO36biPsFD1zhFBnIJqQ+6
- W7TMwkCn/DX3Idf7He0RviCGcUxOGS6w3s5GJmO6xnPq59GTFvm3Y1ifwTcM+hV7bEGD
- tYVR1k35TSeBfNYwUETsMT8DwuTT8cvyC2YWNgxf69p0VPwacNp8RYhxP/XXuCy+fKrF
- PusQoszmV912FagftJFBAisE/Oa4srGGW1sT5J5CUyPML5ThSM8LvJ6K/0YfHJ3AY++6
- C3Bpv9gTKKFALxMzCeTlekGKIRNjcXkZZmzMrVvtNW1L74zNV0SdNbnZcV0CqFfT557v
- yCFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=n6VRx93UP7SVJ3en7iZoi4oZyf8lmnAm3OUl4YLhako=;
- b=Lx8OvKSf6N2ntaDIZWtksBOOztkyFIfPLCM1NW2Hucvm05ZSMIHSdiBBzTNNjP07Ha
- JRVS12h+zG7Ff2K4sqh3YW/Oe+l6QA8ZOr53MIGP2/Ak1Qnc8amQ5uYkopBkXl04GYzi
- 6bM0QfZAQwfXa4a9bxnDlh3TkRONKTYIbT6NDjIvIXFTjpYsfuA8CAX6rY9Hbit6NMJq
- QMDp5znO+smOcADyUPjwTZEywp8FguPp3PyqYszjU40zivrZEHKsbf+cDqJg6PeEvFhz
- vgL4aR7Km5+/re0xhGXiYgDMFZPYdiuYjeAL0kGCGHwLBBhaHHTki1SFrcRg/fgHzkjX
- L3KA==
-X-Gm-Message-State: AOAM530WWO+wSqLU7xIu16uidKSOgcuOTAL59GBvpcVspwOZZ/dzuntd
- NWvzJU+UssfIbskZg0JOzW8olyNuUgY/eWeB3x2c3Q==
-X-Google-Smtp-Source: ABdhPJzFTF8MIhlJxlEaw1NXdm5kWcfhKTtgee1uiajIXTzP7VDFc0mI5PxOG9XecBKjToKEpUN6nCS7Qhy8OLAMjJA=
-X-Received: by 2002:aa7:c246:: with SMTP id y6mr25807932edo.78.1597132941099; 
- Tue, 11 Aug 2020 01:02:21 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571AA6E175
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 08:12:05 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id E036A804C8;
+ Tue, 11 Aug 2020 10:12:02 +0200 (CEST)
+Date: Tue, 11 Aug 2020 10:12:01 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/mgag200: fix build on alpha arch
+Message-ID: <20200811081201.GA470897@ravnborg.org>
+References: <20200807180547.GA923146@ravnborg.org>
+ <bc77eba7-a49b-15cf-f72f-6c78af015813@suse.de>
 MIME-Version: 1.0
-References: <20200811074658.58309-1-airlied@gmail.com>
-In-Reply-To: <20200811074658.58309-1-airlied@gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 11 Aug 2020 18:02:09 +1000
-Message-ID: <CAPM=9tw2nZB569FUw_KGhhP07m0n8ZugcFNrAsa0kn+9xtndsg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/ttm: init mem->bus in common code.
-To: dri-devel <dri-devel@lists.freedesktop.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <bc77eba7-a49b-15cf-f72f-6c78af015813@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=iox4zFpeAAAA:8 a=20KFwNOVAAAA:8
+ a=d_3pEfQ1oISyZ1YTlTAA:9 a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=WzC6qhA0u3u7Ye7llzcV:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,158 +45,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(cc'ing Christian, just in case he misses them). 2 small cleanups.
-
-On Tue, 11 Aug 2020 at 17:47, Dave Airlie <airlied@gmail.com> wrote:
->
-> From: Dave Airlie <airlied@redhat.com>
->
-> The drivers all do the same thing here.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 6 ------
->  drivers/gpu/drm/drm_gem_vram_helper.c      | 6 ------
->  drivers/gpu/drm/nouveau/nouveau_bo.c       | 6 ------
->  drivers/gpu/drm/qxl/qxl_ttm.c              | 6 ------
->  drivers/gpu/drm/radeon/radeon_ttm.c        | 6 ------
->  drivers/gpu/drm/ttm/ttm_bo_util.c          | 5 +++++
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 6 ------
->  7 files changed, 5 insertions(+), 36 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 67d2eef2f9eb..324abf7a3cba 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -751,12 +751,6 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
->         struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
->         struct drm_mm_node *mm_node = mem->mm_node;
->
-> -       mem->bus.addr = NULL;
-> -       mem->bus.offset = 0;
-> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
-> -       mem->bus.base = 0;
-> -       mem->bus.is_iomem = false;
-> -
->         switch (mem->mem_type) {
->         case TTM_PL_SYSTEM:
->                 /* system memory */
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index b410930d94a0..545a877406f4 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -1038,14 +1038,8 @@ static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
->  {
->         struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bdev);
->
-> -       mem->bus.addr = NULL;
-> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
-> -
->         switch (mem->mem_type) {
->         case TTM_PL_SYSTEM:     /* nothing to do */
-> -               mem->bus.offset = 0;
-> -               mem->bus.base = 0;
-> -               mem->bus.is_iomem = false;
->                 break;
->         case TTM_PL_VRAM:
->                 mem->bus.offset = mem->start << PAGE_SHIFT;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 604a74323696..7cfe3898ce62 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1380,12 +1380,6 @@ nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *reg)
->         struct nvkm_device *device = nvxx_device(&drm->client.device);
->         struct nouveau_mem *mem = nouveau_mem(reg);
->
-> -       reg->bus.addr = NULL;
-> -       reg->bus.offset = 0;
-> -       reg->bus.size = reg->num_pages << PAGE_SHIFT;
-> -       reg->bus.base = 0;
-> -       reg->bus.is_iomem = false;
-> -
->         switch (reg->mem_type) {
->         case TTM_PL_SYSTEM:
->                 /* System memory */
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index b1ea984f143a..c55ac31f5476 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -75,12 +75,6 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
->  {
->         struct qxl_device *qdev = qxl_get_qdev(bdev);
->
-> -       mem->bus.addr = NULL;
-> -       mem->bus.offset = 0;
-> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
-> -       mem->bus.base = 0;
-> -       mem->bus.is_iomem = false;
-> -
->         switch (mem->mem_type) {
->         case TTM_PL_SYSTEM:
->                 /* system memory */
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 3355b69b13d1..1f1e025b9f06 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -380,12 +380,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
->  {
->         struct radeon_device *rdev = radeon_get_rdev(bdev);
->
-> -       mem->bus.addr = NULL;
-> -       mem->bus.offset = 0;
-> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
-> -       mem->bus.base = 0;
-> -       mem->bus.is_iomem = false;
-> -
->         switch (mem->mem_type) {
->         case TTM_PL_SYSTEM:
->                 /* system memory */
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 496158acd5b9..023f0a2d07c9 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -138,6 +138,11 @@ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
->         if (!bdev->driver->io_mem_reserve)
->                 return 0;
->
-> +       mem->bus.addr = NULL;
-> +       mem->bus.offset = 0;
-> +       mem->bus.size = mem->num_pages << PAGE_SHIFT;
-> +       mem->bus.base = 0;
-> +       mem->bus.is_iomem = false;
->  retry:
->         ret = bdev->driver->io_mem_reserve(bdev, mem);
->         if (ret == -ENOSPC) {
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> index 69e7e7fe2a4c..6ae4a856241b 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -717,12 +717,6 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resourc
->  {
->         struct vmw_private *dev_priv = container_of(bdev, struct vmw_private, bdev);
->
-> -       mem->bus.addr = NULL;
-> -       mem->bus.is_iomem = false;
-> -       mem->bus.offset = 0;
-> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
-> -       mem->bus.base = 0;
-> -
->         switch (mem->mem_type) {
->         case TTM_PL_SYSTEM:
->         case VMW_PL_GMR:
-> --
-> 2.27.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgVGhvbWFzLgoKT24gVHVlLCBBdWcgMTEsIDIwMjAgYXQgMDg6NTk6MTNBTSArMDIwMCwgVGhv
+bWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gSGkgU2FtCj4gCj4gdGhhbmtzIGZvciB0YWtlbiBjYXJl
+IG9mIHRoaXMgaXNzdWUuIEFscGhhIGlzIGEgcmFyZSBhcmNoaXRlY3R1cmUgdGhlc2UKPiBkYXlz
+LiBIb3cgZG8geW91IGJ1aWxkIGFuZCB0ZXN0IGZvciBpdD8KCkkgYW0gb24gdWJ1bnR1IGhlcmUg
+c28gSSBoYXZlIGluc3RhbGxlZDoKYXB0IGluc3RhbGwgZ2NjLWFscGhhLWxpbnV4LWdudQoKQW5k
+IHRoZW4gYWxwaGEgaXMgb25lIG9mIHRoZSBhcmNoaXRlY3R1cmVzIEkgYnVpbGQgZm9yLgpNeSBm
+dWxsIGxpc3Q6CmFyY2hzPSJhbHBoYSBhcm0gYXJtNjQgc3BhcmM2NCBpMzg2IHg4NiBwb3dlcnBj
+IHMzOTAgcmlzY3Ygc2giCgpJIGJ1aWxkIHRoZXNlIGNvbmZpZ3M6CmNvbmZpZ3M9ImFsbG1vZGNv
+bmZpZyBhbGx5ZXNjb25maWcgYWxsbm9jb25maWcgZGVmY29uZmlnIgoKSXQgdGFrZXMgYSB3aGls
+ZSBzbyB1c3VhbGx5IEkgYnVpbGQgb25seSB0aGUgcmVsZXZhbnQgc3ViLXNldCBzdWNoIGFzCmRy
+aXZlcnMvZ3B1L2RybS9icmlkZ2UvCgpJIGhhdmUsIHVuZm9ydHVuYXRlbHksIG5vIHRlc3Rpbmcu
+IFdvdWxkIGxvdmUgc29tZXRoaW5nIHFlbXUgYmFzZWQgYnV0CmhhdmUgbmV2ZXIgaW52ZXN0ZWQg
+dGltZSBpbnRvIHRoaXMuCgoJU2FtCgo+IAo+IEFtIDA3LjA4LjIwIHVtIDIwOjA1IHNjaHJpZWIg
+U2FtIFJhdm5ib3JnOgo+ID4gV2hlbiBidWlsZGluZyBpbWdhZzIwMCBmb3IgdGhlIGFscGhhIGFy
+Y2hpdGVjdHVyZSBpdCBmYWlscyBsaWtlIHRoaXM6Cj4gPiBtZ2FnMjAwX2Rydi5jOjIzMzo5OiBl
+cnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYdm1hbGxvY+KAmQo+ID4g
+ICAyMzMgfCAgYmlvcyA9IHZtYWxsb2Moc2l6ZSk7Cj4gPiAgICAgICB8ICAgICAgICAgXn5+fn5+
+fgo+ID4gICAgICAgfCAgICAgICAgIGttYWxsb2MKPiA+IAo+ID4gV2hlbiBidWlsZGluZyBmb3Ig
+b3RoZXIgYXJjaGl0ZWN0dXJlcyB2bWFsbG9jLmggaXMgcHVsbGVkIGluIHZpYSBzb21lCj4gPiBv
+dGhlciBoZWFkZXIgZmlsZSAtIGZvciBleGFtcGxlIGFzbS1nZW5lcmljL2lvLmguCj4gPiBVc2Ug
+YW4gZXhwbGljaXQgaW5jbHVkZSBvZiB2bWFsbG9jLmggdG8gZml4IHRoZSBidWlsZC4KPiA+IAo+
+ID4gU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+IAo+IFNv
+cnJ5IGZvciBiZWluZyAodG9vKSBsYXRlLCBidXQgc3RpbGw6Cj4gCj4gUmV2aWV3ZWQtYnk6IFRo
+b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IAo+IEJlc3QgcmVnYXJkcwo+
+IFRob21hcwo+IAo+ID4gRml4ZXM6IGUyMGRmZDI3ZjdhYSAoImRybS9tZ2FnMjAwOiBBZGQgc3Vw
+cG9ydCBmb3IgRzIwMCBkZXNrdG9wIGNhcmRzIikKPiA+IENjOiBUaG9tYXMgWmltbWVybWFubiA8
+dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENjOiBFZ2JlcnQgRWljaCA8ZWljaEBzdXNlLmNvbT4K
+PiA+IENjOiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+Cj4gPiBDYzogTHl1ZGUgUGF1bCA8
+bHl1ZGVAcmVkaGF0LmNvbT4KPiA+IC0tLQo+ID4gSSBoYXZlIGxvc3QgdHJhY2sgaWYgdGhlIG9m
+ZmVuZGluZyBjb21taXQgaXMgb24gdGhlIHdheSB0byB1cHN0cmVhbSBvcgo+ID4gaXQgaXMganVz
+dCBpbiBkcm0tbWlzYy1uZXh0LiBCdXQgSSB0aGluayBpdCBpcyB0aGUgbGF0dGVyIHNvIHdlIGNh
+bgo+ID4gYXBwbHkgdGhpcyB0byBkcm0tbWlzYy1uZXh0Lgo+ID4gCj4gPiAJU2FtCj4gPiAKPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jIHwgMSArCj4gPiAgMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
+ZzIwMF9kcnYuYwo+ID4gaW5kZXggMDkxNzBkNDZhYTUzLi5iMjgyYjBlNDJjMmQgMTAwNjQ0Cj4g
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jCj4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jCj4gPiBAQCAtOSw2ICs5LDcgQEAK
+PiA+ICAjaW5jbHVkZSA8bGludXgvY29uc29sZS5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9tb2R1
+bGUuaD4KPiA+ICAjaW5jbHVkZSA8bGludXgvcGNpLmg+Cj4gPiArI2luY2x1ZGUgPGxpbnV4L3Zt
+YWxsb2MuaD4KPiA+ICAKPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4KPiA+ICAjaW5jbHVk
+ZSA8ZHJtL2RybV9maWxlLmg+Cj4gPiAKPiAKPiAtLSAKPiBUaG9tYXMgWmltbWVybWFubgo+IEdy
+YXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2
+ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZl
+cgo+IAoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
