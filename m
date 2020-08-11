@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103ED24210C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:07:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6109F242141
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:24:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 643AD6E83E;
-	Tue, 11 Aug 2020 20:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECA9C6E7EC;
+	Tue, 11 Aug 2020 20:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4626E83A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597176421;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0PGG//CtuoOTYv2p77D8V5k7E6MAMYxPO8Vv8577Zp8=;
- b=bFvbcCMguCjvU111njve4CvT0OxiEz38KcIOnviM4Cy1Rc67fycIM/sNuAqgCKPkg2eT0z
- iail5LYKthbWIeOFnPbEEHpBqLdePuSqLjhqusF/HWQCRNN5RZ3sb86ySjWza1AMSiN53P
- iYlWIP6XugPyJrWurMWpQBxACfF1ZWU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-VKygY5HSMxeH3V02zJJllw-1; Tue, 11 Aug 2020 16:06:58 -0400
-X-MC-Unique: VKygY5HSMxeH3V02zJJllw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 383BA1DE1;
- Tue, 11 Aug 2020 20:06:57 +0000 (UTC)
-Received: from Ruby.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44FEA5D9D7;
- Tue, 11 Aug 2020 20:06:56 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [RFC 20/20] drm/nouveau/kms: Start using drm_dp_read_dpcd_caps()
-Date: Tue, 11 Aug 2020 16:04:57 -0400
-Message-Id: <20200811200457.134743-21-lyude@redhat.com>
-In-Reply-To: <20200811200457.134743-1-lyude@redhat.com>
-References: <20200811200457.134743-1-lyude@redhat.com>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5076E7EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:24:20 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id m15so7368572lfp.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 13:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w1WZcT2N89epHZkK3xQi5ihJL9xPdQJm4LMVYnxpOeQ=;
+ b=Jdca4/ZYgpMsTyJjgTNNaYtewzTQbzWV9F4EKgFOaUZUmmlPDvsgQPUuFmJ1Pa/7yF
+ 7EznhdA+ptpOxM9Wmr+RJmdYD/7YGx6zxF6dP5bx+pGRB00mBH1NpkNPvOBQjIeyWGHD
+ kOWbHSON93RwyHAP7SUXqQf+Av7V3yw+C9G+t90xcZGXevboydr6bPqW14BtZ+tht3a5
+ ztt83GSOKMX9/CwFzm7vuhbswxPi2CMhOswbDeYzunmIaQwSWQbSlLRm7VqItLPZk6O3
+ hWBB+MT58mEfjmZueanspsP8Zy1u7LKJUE1MSNZopKkFFk4YvvC3Uj8DiVzm4DbYJvzE
+ Xc6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w1WZcT2N89epHZkK3xQi5ihJL9xPdQJm4LMVYnxpOeQ=;
+ b=CujAXxD3OBW6mYkYNJ7X90pRA2VvqTuq6X04UctFJ5LULc4GVvRFiMjslG9UFXUKL0
+ DMdPw1upBtp5Ed1pTWvP2QMI25/CCrLPUXRKy+2LxzhhKYIKckuF85g2KJBjpaeOkKJM
+ oKCYYP4gryxhjX0ArKU+rF7096+G5u5Dk5CsUS9VHKSPkVq7XcEI0D0NZPbvwzTNvhtv
+ /TzFT4l/XfU3gVl1oqH4WLZAYnnGlO9TLAwJs0Pc45Z6IiJCIYkah3u82aucTCFTWqZd
+ 8DUvF7Jm0rkKldbmxLOFmp8PUC1G5ad8+FFEGLgOOhFLC5+D4p6G+auiDWHsTJ0QbO23
+ /rig==
+X-Gm-Message-State: AOAM530Q5SqWViEjL3DAfKjM0oMFw2A9FUYsMKMlD2Tl0/x8luGtRP2V
+ ilIBBHkbbbqB+OpnyvuNon019C+YNs1NSnvOCyD6Rw==
+X-Google-Smtp-Source: ABdhPJxSu2O6bFSCtUt+63bmev8Wj62ChpgxO3Eh8tqpO9j9rm/9sxusSVHjaoRPYY3F90D5+kGqmMqF/mqyHFbsXQM=
+X-Received: by 2002:ac2:488c:: with SMTP id x12mr3772463lfc.4.1597177458364;
+ Tue, 11 Aug 2020 13:24:18 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20200808224322.1507713-1-linus.walleij@linaro.org>
+ <20200810130449.GR2352366@phenom.ffwll.local>
+In-Reply-To: <20200810130449.GR2352366@phenom.ffwll.local>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 11 Aug 2020 22:24:06 +0200
+Message-ID: <CACRpkdb+CQxdd1gDbQCft8_AJjbX6b9c8sdmj1LXVByUE-mkpw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-notatek-nt35510: Fix MTP read init
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,51 +61,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: newbytee@protonmail.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Stephan Gerhold <stephan@gerhold.net>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we've extracted i915's code for reading both the normal DPCD
-caps and extended DPCD caps into a shared helper, let's start using this
-in nouveau to enable us to start checking extended DPCD caps for free.
+On Mon, Aug 10, 2020 at 3:04 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Sun, Aug 09, 2020 at 12:43:22AM +0200, Linus Walleij wrote:
+> > In order to successfully read ID of the MTP panel the
+> > panel MTP control page must be unlocked. Previously
+> > this wasn't encountered because in the setup with this
+> > panel the power wasn't ever really dropped. When power
+> > gets dropped from the panel, MTP needs to be unlocked.
+> >
+> > Cc: newbytee@protonmail.com
+> > Cc: Stephan Gerhold <stephan@gerhold.net>
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> I guess this needs to be merged together with the mcde changes, or things
+> break?
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_dp.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Yes this should be merged first.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index f41fa513023fd..a4e07d116972f 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -55,15 +55,13 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 	int ret;
- 	u8 *dpcd = outp->dp.dpcd;
- 
--	ret = drm_dp_dpcd_read(aux, DP_DPCD_REV, dpcd, DP_RECEIVER_CAP_SIZE);
--	if (ret == DP_RECEIVER_CAP_SIZE && dpcd[DP_DPCD_REV]) {
--		ret = drm_dp_read_desc(aux, &outp->dp.desc,
--				       drm_dp_is_branch(dpcd));
--		if (ret < 0)
--			goto out;
--	} else {
-+	ret = drm_dp_read_dpcd_caps(aux, dpcd);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = drm_dp_read_desc(aux, &outp->dp.desc, drm_dp_is_branch(dpcd));
-+	if (ret < 0)
- 		goto out;
--	}
- 
- 	if (nouveau_mst) {
- 		mstm = outp->dp.mstm;
--- 
-2.26.2
+> Either way looks reasonable. Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+Thanks!
+
+BTW I need to merge v5.8 (final) into drm-misc-next so as to get
+a smallish fix from the late -rc:s back. It is currently at v5.8-rc2.
+Is that something you'd say I can be bold and attempt myself
+of should I stay off it?
+
+I asked on dri-devel but didn't get any help there.
+
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
