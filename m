@@ -1,30 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F422425CB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C112425D5
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB3A6E8AD;
-	Wed, 12 Aug 2020 07:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6939A6E8B9;
+	Wed, 12 Aug 2020 07:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5523D6E83F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:26:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 85BD329916D
-From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, stable@vger.kernel.org,
- hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
- andrzej.p@collabora.com, daniels@collabora.com
-Subject: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
-Date: Tue, 11 Aug 2020 16:26:31 -0400
-Message-Id: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
-X-Mailer: git-send-email 2.27.0
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E683F6E850
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 21:21:26 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f330bc90000>; Tue, 11 Aug 2020 14:21:13 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 11 Aug 2020 14:21:26 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 11 Aug 2020 14:21:26 -0700
+Received: from [172.20.40.66] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 11 Aug
+ 2020 21:21:25 +0000
+Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
+ ACPI-driven muxes
+To: Lukas Wunner <lukas@wunner.de>
+References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
+ <20200729210557.9195-1-ddadap@nvidia.com>
+ <20200810083757.2jbwebbvocqe5rle@wunner.de>
+ <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
+ <20200811034301.nlhue4xgfv4p3utr@wunner.de>
+From: Daniel Dadap <ddadap@nvidia.com>
+Message-ID: <c7dcb052-0ccf-dae3-49dd-1518f5ab182e@nvidia.com>
+Date: Tue, 11 Aug 2020 16:22:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200811034301.nlhue4xgfv4p3utr@wunner.de>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1597180873; bh=R2i9R+envwB1tq+uKoKa3kcK4HJWK1Npmh4i7DeM6e0=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+ Content-Language;
+ b=FayKKNJP9hXS6Z8PTFlWtbm0Fs7Hm30fTZ9PmJNRroiWPH7fdMpF5pScO0iL2+j4y
+ z0Gbe9MCB9/krKw7/A++bd9F8KfvECzA3L0hiCFU2CuuXf58b7zif96wrxh0VhxWF/
+ FyX7+76b2pNcO7lgSdLeUniKcg1fepGlcgWFA8fdCygvLV9qe8aLeS9o5ZL/YnGaCU
+ 2nqEYjF8yFQm0fvFilXE8wQSyRwSXRyOvoEAWrWB2XFuy0ULEsu4+Y+JVYm+7j+7zf
+ wpXmJscyulFPYo9SuXq4fmshuPeT0WiQCc6e6umTFNA/d9ub6aC3XJxpjr6iPbMQgC
+ aolV9yVO6l+tg==
 X-Mailman-Approved-At: Wed, 12 Aug 2020 07:05:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,61 +68,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ pobrn@protonmail.com, peter@lekensteyn.nl, dvhart@infradead.org,
+ andy@infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AFBC decoder used in the Rockchip VOP assumes the use of the
-YUV-like colourspace transform (YTR). YTR is lossless for RGB(A)
-buffers, which covers the RGBA8 and RGB565 formats supported in
-vop_convert_afbc_format. Use of YTR is signaled with the
-AFBC_FORMAT_MOD_YTR modifier, which prior to this commit was missing. As
-such, a producer would have to generate buffers that do not use YTR,
-which the VOP would erroneously decode as YTR, leading to severe visual
-corruption.
 
-The upstream AFBC support was developed against a captured frame, which
-failed to exercise modifier support. Prior to bring-up of AFBC in Mesa
-(in the Panfrost driver), no open userspace respected modifier
-reporting. As such, this change is not expected to affect broken
-userspaces.
+On 8/10/20 10:43 PM, Lukas Wunner wrote:
+> On Mon, Aug 10, 2020 at 01:44:58PM -0500, Daniel Dadap wrote:
+>
+>> Would it be clearer to write it out as something like 0 << 4 & 1 << 0 for
+>> MUX_STATE_SET_IGPU and 1 << 4 & 1 << 0 for MUX_STATE_SET_DGPU?
+> BIT(4) | BIT(0) might be clearer, but that gives you an unsigned long
+> and I'm not sure if gcc accepts that as an enum (=int) initializer.
 
-Tested on RK3399 with Panfrost and Weston.
 
-Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-index 4a2099cb5..857d97cdc 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-@@ -17,9 +17,20 @@
- 
- #define NUM_YUV2YUV_COEFFICIENTS 12
- 
-+/* AFBC supports a number of configurable modes. Relevant to us is block size
-+ * (16x16 or 32x8), storage modifiers (SPARSE, SPLIT), and the YUV-like
-+ * colourspace transform (YTR). 16x16 SPARSE mode is always used. SPLIT mode
-+ * could be enabled via the hreg_block_split register, but is not currently
-+ * handled. The colourspace transform is implicitly always assumed by the
-+ * decoder, so consumers must use this transform as well.
-+ *
-+ * Failure to match modifiers will cause errors displaying AFBC buffers
-+ * produced by conformant AFBC producers, including Mesa.
-+ */
- #define ROCKCHIP_AFBC_MOD \
- 	DRM_FORMAT_MOD_ARM_AFBC( \
- 		AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 | AFBC_FORMAT_MOD_SPARSE \
-+			| AFBC_FORMAT_MOD_YTR \
- 	)
- 
- enum vop_data_format {
--- 
-2.28.0
+Ah yes, I forgot the BIT() macro. And it does seem to work just fine for 
+initializing enum values, and there does seem to be precedent in other 
+code in the kernel for doing so. And of course I meant | instead of & 
+earlier. :)
 
 _______________________________________________
 dri-devel mailing list
