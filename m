@@ -2,30 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97142416C5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 09:00:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56A9241712
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 09:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6956E4D4;
-	Tue, 11 Aug 2020 06:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B856E153;
+	Tue, 11 Aug 2020 07:19:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC516E153
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 06:59:19 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B7EBBB05D;
- Tue, 11 Aug 2020 06:59:38 +0000 (UTC)
-Subject: Re: [PATCH] drm/mgag200: fix build on alpha arch
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-References: <20200807180547.GA923146@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <bc77eba7-a49b-15cf-f72f-6c78af015813@suse.de>
-Date: Tue, 11 Aug 2020 08:59:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2755C6E153
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 07:19:56 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id v22so8285175edy.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WzeE0ETsHwTrcZjkyPeaVgFzhKSLH7P6eZu9dM+LgBc=;
+ b=hbJnw4PXWmc+6MdsTR1Az6ulYyXGveGuVDuaBfuNG7/8dboe2+eQyTEt774tXiUUPJ
+ uTOZyMK7DUeUSpsnhFsUBPgJQL2QnjXGkZr2PO79secdVBVRFXAqIXcNYBDZQgRjOUo3
+ NPZExuOhtX4aUPHr7oo1e5hrq+Ui5+Xm6GkAJPOL2jUnUdMiTIqIHE/UoE3o/E6u5eIz
+ pGCKy+VLj1IlCATEG7t943e84ls/VUH03ZnIVvscmRiMQlL6x2WoVuOocBlvfyEbX4KT
+ 5SMXjom7bFqUBkyEGS+s8EeZJlemq6NOodmh9DtqgajcNuDY1CFUZjO2kHsDunFlq9vo
+ 1gaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WzeE0ETsHwTrcZjkyPeaVgFzhKSLH7P6eZu9dM+LgBc=;
+ b=NKa2GSUBt9sCHhK+/q6mQS7iMU8KwaDFFH1I1NjJJuFgCKIZxDG4Adz4GaIwpuCJ+j
+ hLpBlc378CpyEHkBTfc0q1r9DzdX17m2dNsu5wgZiYdHV+Yp3+l9opDpMuWOdDTmWB3U
+ fQp+CDlUzKOoqc6AEunKvHrh9sqDBEnSMqIAgzKJM3OcJEWIlVMOZhdke+VV3e0L/2IR
+ NIrSPFRpGUcdsodzBdZ2+2uNyC0BHOvSrwKQFb3n6VDQ2aIsOleY3lSKPGuQKm4ciOte
+ o51KQMZvy+2sPcmhBEcHW1KjlDgoNXSuTcUTVidwDJDuheer3BRFFRSiceKlob7ZogIe
+ K/OA==
+X-Gm-Message-State: AOAM530KZ9a1Kl3gT0IVK1gfhZT/LqzL5dsok8/3pZCSXGUr9gzgHNwB
+ Yhb5ueG0ab+pYjCpeRODbzXnvu9prp3wEhr/XeU=
+X-Google-Smtp-Source: ABdhPJwIgJ+gg5KkKRM42u+CmfJVOb4FSiEWBgQO/jHRoII+HNJgltAvZDEH2lwjL0Y8ydzr3Shs4xp13N2Zs6E+Bag=
+X-Received: by 2002:aa7:cc12:: with SMTP id q18mr10758548edt.113.1597130394743; 
+ Tue, 11 Aug 2020 00:19:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200807180547.GA923146@ravnborg.org>
+References: <230cc360-89b9-bb39-ee7e-d68ac037345f@i-love.sakura.ne.jp>
+ <e5822548-4373-5020-eb3a-9d6144b74d25@amd.com>
+ <be670819-20d0-0757-a0f9-20054a527e77@vmware.com>
+ <33c4495c-7fb5-f075-b30b-9ab9bdd4ce32@amd.com>
+ <e4055371-5a78-0b32-9e1f-d17d865cbb8c@amd.com>
+ <CAPM=9txMmSdHqnTsq97voJnNabh+dzfSzeJL302z=WJJD9j8Gw@mail.gmail.com>
+ <551d34e3-945f-cb76-f3a6-d2a7533ed2a6@amd.com>
+ <CAPM=9tzS992VBjTX24wsz=Oey3SVO6PS50oXaW7o9kBqt156eQ@mail.gmail.com>
+ <36e09aae-a758-43c0-2a3d-4eeb393d3e5a@amd.com>
+In-Reply-To: <36e09aae-a758-43c0-2a3d-4eeb393d3e5a@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 11 Aug 2020 17:19:43 +1000
+Message-ID: <CAPM=9txRCV=rANdzki1KSHZExpDse_hkXD26Jvt-d=cevTdgYg@mail.gmail.com>
+Subject: Re: [linux.git drm/ttm]: NULL pointer dereference upon driver probe
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,128 +68,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1925722700=="
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1925722700==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="AhkEshkqLnteA9Bo5mg6fgAG6YefeLIDq"
+> Well how about completely removing the concept of a global TT from TTM?
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---AhkEshkqLnteA9Bo5mg6fgAG6YefeLIDq
-Content-Type: multipart/mixed; boundary="pi3h9TzS377Rw3uGyafp2ges9ivDudkK5";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Message-ID: <bc77eba7-a49b-15cf-f72f-6c78af015813@suse.de>
-Subject: Re: [PATCH] drm/mgag200: fix build on alpha arch
-References: <20200807180547.GA923146@ravnborg.org>
-In-Reply-To: <20200807180547.GA923146@ravnborg.org>
+Yes makes sense to me to try and rip out the global TT from the core
+and turn it into a driver optional feature is possible.
 
---pi3h9TzS377Rw3uGyafp2ges9ivDudkK5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Dave.
 
-Hi Sam
-
-thanks for taken care of this issue. Alpha is a rare architecture these
-days. How do you build and test for it?
-
-Am 07.08.20 um 20:05 schrieb Sam Ravnborg:
-> When building imgag200 for the alpha architecture it fails like this:
-> mgag200_drv.c:233:9: error: implicit declaration of function =E2=80=98v=
-malloc=E2=80=99
->   233 |  bios =3D vmalloc(size);
->       |         ^~~~~~~
->       |         kmalloc
->=20
-> When building for other architectures vmalloc.h is pulled in via some
-> other header file - for example asm-generic/io.h.
-> Use an explicit include of vmalloc.h to fix the build.
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-
-Sorry for being (too) late, but still:
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
-> Fixes: e20dfd27f7aa ("drm/mgag200: Add support for G200 desktop cards")=
-
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Egbert Eich <eich@suse.com>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Cc: Lyude Paul <lyude@redhat.com>
-> ---
-> I have lost track if the offending commit is on the way to upstream or
-> it is just in drm-misc-next. But I think it is the latter so we can
-> apply this to drm-misc-next.
->=20
-> 	Sam
->=20
->  drivers/gpu/drm/mgag200/mgag200_drv.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mg=
-ag200/mgag200_drv.c
-> index 09170d46aa53..b282b0e42c2d 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -9,6 +9,7 @@
->  #include <linux/console.h>
->  #include <linux/module.h>
->  #include <linux/pci.h>
-> +#include <linux/vmalloc.h>
-> =20
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---pi3h9TzS377Rw3uGyafp2ges9ivDudkK5--
-
---AhkEshkqLnteA9Bo5mg6fgAG6YefeLIDq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8yQcQUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOy8wf/ZS2fm3uUj6hK8/2LhHo+IfdXkDIG
-y9cnOVvIsRacZqAT43GdYoEfiNw7A4iU7RQP4tEFHdkZwwX2WGTm2x6ZUB+HksTV
-mZtOYhPM9PbR+SpWpNEfvhS0N/336l+BTALvyhMqIjVh6BSHK/MbMtjyzuwz0jim
-7DN+ZwD+ECCbt3IdDkybBIYXiXyIJDeXxjJsR0/H1whqgHjpUTKLpQhqp6QKdG+n
-yYCBOsF6NIhECBCAB+HonBUBc6lrnJ1BV9epTz5XpPyGptwNvVUR89V8QXyfU/ex
-2JbdthODKK7HHTi8NEzN+JDn5kV/QzBqAqYdz/ynaVuvntl+OrZk6M58nQ==
-=+cb8
------END PGP SIGNATURE-----
-
---AhkEshkqLnteA9Bo5mg6fgAG6YefeLIDq--
-
---===============1925722700==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>
+> What TTM should do is managing domains and help with the transitions
+> between those domains.
+>
+> That one of those domains maps the backing pages into a global TT is
+> completely specific to that domain and shouldn't bother TTM in any way.
+>
+> We can of course provide some default functions to manage AGP and
+> classic GART, but TTM shouldn't enforce using those.
+>
+> Regards,
+> Christian.
+>
+> >
+> > Dave.
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1925722700==--
