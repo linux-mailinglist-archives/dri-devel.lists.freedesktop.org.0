@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913CB2420D6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:06:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D132420DA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:06:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD366E7F1;
-	Tue, 11 Aug 2020 20:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15A816E817;
+	Tue, 11 Aug 2020 20:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0891D6E802
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:05:49 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 671846E7F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597176349;
+ s=mimecast20190719; t=1597176355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JmTNhsPZLdpUnVNZa+gMWlRtbGSg6BTHeH385f0X4wk=;
- b=AfH7vNzotABLltFzp1Xh+6W+du6CayyhuHWExg2gDORGCB71H6RanVyPSXTV6Eo5S/hlEl
- s+a2izxeEbqIW2LWhbHRR6BYvEITI9DYBzZ8dEHPrxCTlhunfCgLKPzioZPuG1uktuwheh
- tSJYkdiG3bzVRU48jPfIk6MtwStPwXQ=
+ bh=dcFp48n/aLMtpSE/1lSAUTj8bSRshm4WBYhHn9wvw8Q=;
+ b=Pi9UKPYkmKbJkFR3cJ1uRK+msxFyQL7cxJP4Qm7Q3Nlo+3XCKlDUxyfz3fXK/vQNQK6jb6
+ Ih23sIZ1hAK7a1tEkcMIyZVXsVcmv97Lzmn7UIAnHxdLKSe5GkeIDaWrLgL2Uf6h4t4ik1
+ ZaAVOnnnLgUAXW6bpUzN7PQwdyJllMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-GqCtYWh2Nm2cOnFKo5p2-A-1; Tue, 11 Aug 2020 16:05:45 -0400
-X-MC-Unique: GqCtYWh2Nm2cOnFKo5p2-A-1
+ us-mta-228-5u0jNafaM5KBtOc9swDD7w-1; Tue, 11 Aug 2020 16:05:53 -0400
+X-MC-Unique: 5u0jNafaM5KBtOc9swDD7w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2C748017F4;
- Tue, 11 Aug 2020 20:05:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 161818014D8;
+ Tue, 11 Aug 2020 20:05:52 +0000 (UTC)
 Received: from Ruby.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDBD15D9D7;
- Tue, 11 Aug 2020 20:05:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F0F45D9DD;
+ Tue, 11 Aug 2020 20:05:45 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [RFC 04/20] drm/nouveau/kms/nv50-: Use macros for DP registers in
- nouveau_dp.c
-Date: Tue, 11 Aug 2020 16:04:41 -0400
-Message-Id: <20200811200457.134743-5-lyude@redhat.com>
+Subject: [RFC 05/20] drm/nouveau/kms: Don't clear DP_MST_CTRL DPCD in
+ nv50_mstm_new()
+Date: Tue, 11 Aug 2020 16:04:42 -0400
+Message-Id: <20200811200457.134743-6-lyude@redhat.com>
 In-Reply-To: <20200811200457.134743-1-lyude@redhat.com>
 References: <20200811200457.134743-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -59,42 +59,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional changes.
+Since fa3cdf8d0b09 ("drm/nouveau: Reset MST branching unit before
+enabling") we've been clearing DP_MST_CTRL before we start enabling MST.
+Since then clearing DP_MST_CTRL in nv50_mstm_new() has been unnecessary
+and redundant, so let's remove it.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_dp.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index 8db9216d52c69..4030806e3522b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -50,11 +50,13 @@ nouveau_dp_detect(struct nouveau_connector *nv_connector,
- 	if (ret != sizeof(dpcd))
- 		return ret;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index e7874877da858..c4d138f0ca054 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -1535,17 +1535,6 @@ nv50_mstm_new(struct nouveau_encoder *outp, struct drm_dp_aux *aux, int aux_max,
+ 	struct drm_device *dev = outp->base.base.dev;
+ 	struct nv50_mstm *mstm;
+ 	int ret;
+-	u8 dpcd;
+-
+-	/* This is a workaround for some monitors not functioning
+-	 * correctly in MST mode on initial module load.  I think
+-	 * some bad interaction with the VBIOS may be responsible.
+-	 *
+-	 * A good ol' off and on again seems to work here ;)
+-	 */
+-	ret = drm_dp_dpcd_readb(aux, DP_DPCD_REV, &dpcd);
+-	if (ret >= 0 && dpcd >= 0x12)
+-		drm_dp_dpcd_writeb(aux, DP_MSTM_CTRL, 0);
  
--	nv_encoder->dp.link_bw = 27000 * dpcd[1];
--	nv_encoder->dp.link_nr = dpcd[2] & DP_MAX_LANE_COUNT_MASK;
-+	nv_encoder->dp.link_bw = 27000 * dpcd[DP_MAX_LINK_RATE];
-+	nv_encoder->dp.link_nr =
-+		dpcd[DP_MAX_LANE_COUNT] & DP_MAX_LANE_COUNT_MASK;
- 
- 	NV_DEBUG(drm, "display: %dx%d dpcd 0x%02x\n",
--		 nv_encoder->dp.link_nr, nv_encoder->dp.link_bw, dpcd[0]);
-+		 nv_encoder->dp.link_nr, nv_encoder->dp.link_bw,
-+		 dpcd[DP_DPCD_REV]);
- 	NV_DEBUG(drm, "encoder: %dx%d\n",
- 		 nv_encoder->dcb->dpconf.link_nr,
- 		 nv_encoder->dcb->dpconf.link_bw);
+ 	if (!(mstm = *pmstm = kzalloc(sizeof(*mstm), GFP_KERNEL)))
+ 		return -ENOMEM;
 -- 
 2.26.2
 
