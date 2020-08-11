@@ -1,74 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D83A2417DE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 10:02:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E732417CE
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 10:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB2F6E4A5;
-	Tue, 11 Aug 2020 08:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C06D289DE3;
+	Tue, 11 Aug 2020 08:02:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46A5D6E057;
- Tue, 11 Aug 2020 08:02:36 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07B7w3WB181527;
- Tue, 11 Aug 2020 08:02:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=GRGFv4TBi3bpKYmz228Zg1/rk7iTOPq7cAFHPbz0XqU=;
- b=tv8zAIY1s+kS8HP2+tYeG0B3fpahMIAFboVmXBvyWEUcEucAemoTX2WQFxRIrZPU1aSF
- SEGUJMZZpeRdZg7jH68HjZxgqRVAsKEJ+p/vyWz3lKqbAHFm2FBydIolQTUyvOedG9iB
- B51m5u+HbxDOkrwVoibN8/83WyyqWwTMbP1JCEFue1GAibYistjiEo6rVL20/PLbYFFH
- 8zSoQmo1grQSyHqcxyPh3ed0+vTeDp6ZuhrQp8PjuagNGQwRXaKgepCZg7+jC6xuu9Sz
- O03gpXD/DpTsGOgzoRnL2qfale/MSs22OFxtuwNQi/DROJ8wHYtz5vLJMArUI74Iqq3S /w== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 32t2ydhd80-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 11 Aug 2020 08:02:32 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07B7xRi0147291;
- Tue, 11 Aug 2020 08:00:32 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 32u3h12tue-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Aug 2020 08:00:32 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07B80Tp7029665;
- Tue, 11 Aug 2020 08:00:29 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 11 Aug 2020 08:00:28 +0000
-Date: Tue, 11 Aug 2020 11:00:20 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Marion & Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] drm: amdgpu: Use the correct size when allocating memory
-Message-ID: <20200811080020.GF5493@kadam>
-References: <20200809203406.751971-1-christophe.jaillet@wanadoo.fr>
- <20200810154213.GM1793@kadam>
- <8c414dd7-4a80-6ff2-03de-5340fb0d9c61@wanadoo.fr>
- <20200811075702.GE5493@kadam>
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A959289DE3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 08:02:22 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id v22so8368543edy.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 01:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=n6VRx93UP7SVJ3en7iZoi4oZyf8lmnAm3OUl4YLhako=;
+ b=pMZWzX3LFBY0UvXbRpGZr17MiaVulx8wyyDzpUfKck9ZVO36biPsFD1zhFBnIJqQ+6
+ W7TMwkCn/DX3Idf7He0RviCGcUxOGS6w3s5GJmO6xnPq59GTFvm3Y1ifwTcM+hV7bEGD
+ tYVR1k35TSeBfNYwUETsMT8DwuTT8cvyC2YWNgxf69p0VPwacNp8RYhxP/XXuCy+fKrF
+ PusQoszmV912FagftJFBAisE/Oa4srGGW1sT5J5CUyPML5ThSM8LvJ6K/0YfHJ3AY++6
+ C3Bpv9gTKKFALxMzCeTlekGKIRNjcXkZZmzMrVvtNW1L74zNV0SdNbnZcV0CqFfT557v
+ yCFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=n6VRx93UP7SVJ3en7iZoi4oZyf8lmnAm3OUl4YLhako=;
+ b=Lx8OvKSf6N2ntaDIZWtksBOOztkyFIfPLCM1NW2Hucvm05ZSMIHSdiBBzTNNjP07Ha
+ JRVS12h+zG7Ff2K4sqh3YW/Oe+l6QA8ZOr53MIGP2/Ak1Qnc8amQ5uYkopBkXl04GYzi
+ 6bM0QfZAQwfXa4a9bxnDlh3TkRONKTYIbT6NDjIvIXFTjpYsfuA8CAX6rY9Hbit6NMJq
+ QMDp5znO+smOcADyUPjwTZEywp8FguPp3PyqYszjU40zivrZEHKsbf+cDqJg6PeEvFhz
+ vgL4aR7Km5+/re0xhGXiYgDMFZPYdiuYjeAL0kGCGHwLBBhaHHTki1SFrcRg/fgHzkjX
+ L3KA==
+X-Gm-Message-State: AOAM530WWO+wSqLU7xIu16uidKSOgcuOTAL59GBvpcVspwOZZ/dzuntd
+ NWvzJU+UssfIbskZg0JOzW8olyNuUgY/eWeB3x2c3Q==
+X-Google-Smtp-Source: ABdhPJzFTF8MIhlJxlEaw1NXdm5kWcfhKTtgee1uiajIXTzP7VDFc0mI5PxOG9XecBKjToKEpUN6nCS7Qhy8OLAMjJA=
+X-Received: by 2002:aa7:c246:: with SMTP id y6mr25807932edo.78.1597132941099; 
+ Tue, 11 Aug 2020 01:02:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200811075702.GE5493@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9709
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999 mlxscore=0
- malwarescore=0 spamscore=0 suspectscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008110050
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9709
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- priorityscore=1501
- malwarescore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 phishscore=0 adultscore=0 spamscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008110050
+References: <20200811074658.58309-1-airlied@gmail.com>
+In-Reply-To: <20200811074658.58309-1-airlied@gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 11 Aug 2020 18:02:09 +1000
+Message-ID: <CAPM=9tw2nZB569FUw_KGhhP07m0n8ZugcFNrAsa0kn+9xtndsg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/ttm: init mem->bus in common code.
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,81 +61,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ori.Messinger@amd.com, airlied@linux.ie, bernard@vivo.com,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, colton.w.lewis@protonmail.com,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, m.szyprowski@samsung.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 11, 2020 at 10:57:02AM +0300, Dan Carpenter wrote:
-> On Mon, Aug 10, 2020 at 08:41:14PM +0200, Marion & Christophe JAILLET wro=
-te:
-> > =
+(cc'ing Christian, just in case he misses them). 2 small cleanups.
 
-> > Le 10/08/2020 =E0 17:42, Dan Carpenter a =E9crit=A0:
-> > > On Sun, Aug 09, 2020 at 10:34:06PM +0200, Christophe JAILLET wrote:
-> > > > When '*sgt' is allocated, we must allocated 'sizeof(**sgt)' bytes i=
-nstead
-> > > > of 'sizeof(*sg)'. 'sg' (i.e. struct scatterlist) is smaller than
-> > > > 'sgt' (i.e struct sg_table), so this could lead to memory corruptio=
-n.
-> > > The sizeof(*sg) is bigger than sizeof(**sgt) so this wastes memory but
-> > > it won't lead to corruption.
-> > > =
-
-> > >      11  struct scatterlist {
-> > >      12          unsigned long   page_link;
-> > >      13          unsigned int    offset;
-> > >      14          unsigned int    length;
-> > >      15          dma_addr_t      dma_address;
-> > >      16  #ifdef CONFIG_NEED_SG_DMA_LENGTH
-> > >      17          unsigned int    dma_length;
-> > >      18  #endif
-> > >      19  };
-> > > =
-
-> > >      42  struct sg_table {
-> > >      43          struct scatterlist *sgl;        /* the list */
-> > >      44          unsigned int nents;             /* number of mapped =
-entries */
-> > >      45          unsigned int orig_nents;        /* original size of =
-list */
-> > >      46  };
-> > > =
-
-> > > regards,
-> > > dan carpenter
-> > =
-
-> > =
-
-> > My bad. I read 'struct scatterlist sgl' (without the *)
-> > Thanks for the follow-up, Dan.
-> > =
-
-> > Doesn't smatch catch such mismatch?
-> > (I've not run smatch for a while, so it is maybe reported)
-> =
-
-> That's why I was investigating it, because Smatch didn't catch it.
-> =
-
-> Smatch would have warned if it led to memory corruption.  Smatch also
-> tries to detect struct mismatches as a separate check but for some
-> reason it missed it.  I'm not totally sure why yet.  I suspect that it's
-> a complicated internal reason where Sparse is the sizeof to a normal
-
-s/is/changes/
-
-> number...  It's a known issue and hard to fix.
-
-regards,
-dan carpenter
-
+On Tue, 11 Aug 2020 at 17:47, Dave Airlie <airlied@gmail.com> wrote:
+>
+> From: Dave Airlie <airlied@redhat.com>
+>
+> The drivers all do the same thing here.
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 6 ------
+>  drivers/gpu/drm/drm_gem_vram_helper.c      | 6 ------
+>  drivers/gpu/drm/nouveau/nouveau_bo.c       | 6 ------
+>  drivers/gpu/drm/qxl/qxl_ttm.c              | 6 ------
+>  drivers/gpu/drm/radeon/radeon_ttm.c        | 6 ------
+>  drivers/gpu/drm/ttm/ttm_bo_util.c          | 5 +++++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 6 ------
+>  7 files changed, 5 insertions(+), 36 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 67d2eef2f9eb..324abf7a3cba 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -751,12 +751,6 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
+>         struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+>         struct drm_mm_node *mm_node = mem->mm_node;
+>
+> -       mem->bus.addr = NULL;
+> -       mem->bus.offset = 0;
+> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
+> -       mem->bus.base = 0;
+> -       mem->bus.is_iomem = false;
+> -
+>         switch (mem->mem_type) {
+>         case TTM_PL_SYSTEM:
+>                 /* system memory */
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index b410930d94a0..545a877406f4 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1038,14 +1038,8 @@ static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
+>  {
+>         struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bdev);
+>
+> -       mem->bus.addr = NULL;
+> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
+> -
+>         switch (mem->mem_type) {
+>         case TTM_PL_SYSTEM:     /* nothing to do */
+> -               mem->bus.offset = 0;
+> -               mem->bus.base = 0;
+> -               mem->bus.is_iomem = false;
+>                 break;
+>         case TTM_PL_VRAM:
+>                 mem->bus.offset = mem->start << PAGE_SHIFT;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> index 604a74323696..7cfe3898ce62 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -1380,12 +1380,6 @@ nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *reg)
+>         struct nvkm_device *device = nvxx_device(&drm->client.device);
+>         struct nouveau_mem *mem = nouveau_mem(reg);
+>
+> -       reg->bus.addr = NULL;
+> -       reg->bus.offset = 0;
+> -       reg->bus.size = reg->num_pages << PAGE_SHIFT;
+> -       reg->bus.base = 0;
+> -       reg->bus.is_iomem = false;
+> -
+>         switch (reg->mem_type) {
+>         case TTM_PL_SYSTEM:
+>                 /* System memory */
+> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+> index b1ea984f143a..c55ac31f5476 100644
+> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+> @@ -75,12 +75,6 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
+>  {
+>         struct qxl_device *qdev = qxl_get_qdev(bdev);
+>
+> -       mem->bus.addr = NULL;
+> -       mem->bus.offset = 0;
+> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
+> -       mem->bus.base = 0;
+> -       mem->bus.is_iomem = false;
+> -
+>         switch (mem->mem_type) {
+>         case TTM_PL_SYSTEM:
+>                 /* system memory */
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index 3355b69b13d1..1f1e025b9f06 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -380,12 +380,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
+>  {
+>         struct radeon_device *rdev = radeon_get_rdev(bdev);
+>
+> -       mem->bus.addr = NULL;
+> -       mem->bus.offset = 0;
+> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
+> -       mem->bus.base = 0;
+> -       mem->bus.is_iomem = false;
+> -
+>         switch (mem->mem_type) {
+>         case TTM_PL_SYSTEM:
+>                 /* system memory */
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 496158acd5b9..023f0a2d07c9 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -138,6 +138,11 @@ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+>         if (!bdev->driver->io_mem_reserve)
+>                 return 0;
+>
+> +       mem->bus.addr = NULL;
+> +       mem->bus.offset = 0;
+> +       mem->bus.size = mem->num_pages << PAGE_SHIFT;
+> +       mem->bus.base = 0;
+> +       mem->bus.is_iomem = false;
+>  retry:
+>         ret = bdev->driver->io_mem_reserve(bdev, mem);
+>         if (ret == -ENOSPC) {
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> index 69e7e7fe2a4c..6ae4a856241b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> @@ -717,12 +717,6 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resourc
+>  {
+>         struct vmw_private *dev_priv = container_of(bdev, struct vmw_private, bdev);
+>
+> -       mem->bus.addr = NULL;
+> -       mem->bus.is_iomem = false;
+> -       mem->bus.offset = 0;
+> -       mem->bus.size = mem->num_pages << PAGE_SHIFT;
+> -       mem->bus.base = 0;
+> -
+>         switch (mem->mem_type) {
+>         case TTM_PL_SYSTEM:
+>         case VMW_PL_GMR:
+> --
+> 2.27.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
