@@ -2,41 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF3A241CF1
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 17:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABB4241D0B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 17:18:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C40D26E581;
-	Tue, 11 Aug 2020 15:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACF866E575;
+	Tue, 11 Aug 2020 15:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 152E06E581
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 15:10:02 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1085320782;
- Tue, 11 Aug 2020 15:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597158602;
- bh=/2rz7VAq8cyEk4SPG3pzOlwfbcdudd7aW9vaBSW0CHU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MRqylVWX6O5m7nica0yVumQWqSwjwlXcxChU2WnlUMO7N8vsKwmXz5drr1ec/XX13
- dNQkTHCHrJDYIYhYyb2zEs/+TUpyOYMyYuZ+UGBj3TTYFPCXkjRg+NqzWRzLDFrPMp
- sXLDb+lqtSeiZ9dCSUhtDSf/NWo8mAwEDz7V2dMc=
-Date: Tue, 11 Aug 2020 17:10:12 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Subject: Re: [PATCH] vt: defer kfree() of vc_screenbuf in vc_do_resize()
-Message-ID: <20200811151012.GA427920@kroah.com>
-References: <1596034621-4714-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
- <0c9d8003-ba3f-8f2d-7c5a-56c5ca7db750@i-love.sakura.ne.jp>
- <20200804125831.GA221149@kroah.com>
- <6053bc22-0876-f503-c1b6-3181a70d97de@i-love.sakura.ne.jp>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CCE86E575
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 15:18:39 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id l204so12565241oib.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 08:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PRHFf+1V4zs1Z1mpFWt+/3W5MvoHt6dY6emjYsF2JRo=;
+ b=NQYFWaCoc5YUoeGNnjlE0qIBLYA7+Kt7geVuoqISdqg7uHGa7E1ky8EHhlZwzOg1pG
+ 4Y1BrX0r23qbH06IIIf6TH05AuKDIUbOvHWoMBxIJnx1Se5BGfZ7/Sn3uKHy0+DKDgKi
+ Rt5RROtOKHE5FQ+KYx1/9+8dODgdSJaV/Ya3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PRHFf+1V4zs1Z1mpFWt+/3W5MvoHt6dY6emjYsF2JRo=;
+ b=hXzc/tknWi1U5PgNR9629qLJgTVac6YZ//tRXrFJMHp8nCruYe38jro9ctLJM9iBqX
+ jC33NrHCFPCOZGGCLZyEHGTbS4Wl3cvKXjcaC6zdMksPx5Vcfm/Dx4W7pbKICwEvZ7MM
+ UAoUmjkcbK/71gZFfPucfcJ+Nc9qxxgThg89n29pyXERbjuYK450vMHz5D53LVZwy7ww
+ mD+aT5s80Y1xBm8UKSZMmV4SQ/guN6uBigMwM7ldffZ/ZH2wDibKWj25qhRJ6OvZS/Qh
+ fqSuXoI8FVO7CjuiuQyllOMZna4E/eysJECLrvHJIhfR4Smo7798OxSihmAee4rN2NDE
+ lOlA==
+X-Gm-Message-State: AOAM5327gRnIcZrk9/CljCSLd4GmCO9+G43Qm7TdAPDezFM+S81y/ZF8
+ MXdk7JNW29Vne+1OnA5f1mrq6CFFYnaXYaKES8K3ERQA
+X-Google-Smtp-Source: ABdhPJyeGGiG1Ew5w0WgMsU6OA6Qa74bcQJ/Ai6znmls3Fh7l3rGTJm0jJiQBzDdjkcdnXJ3uk2wYJlontmF+ezZXRk=
+X-Received: by 2002:aca:88a:: with SMTP id 132mr3328060oii.101.1597159026695; 
+ Tue, 11 Aug 2020 08:17:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6053bc22-0876-f503-c1b6-3181a70d97de@i-love.sakura.ne.jp>
+References: <f25a430a491c46a9bacef9f62c3c2129@systecnet.com>
+In-Reply-To: <f25a430a491c46a9bacef9f62c3c2129@systecnet.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 11 Aug 2020 17:16:55 +0200
+Message-ID: <CAKMK7uFaAMmnLOEdm29fKmVpK4i=HnCLDGhk8sTu2KAhhn3cMQ@mail.gmail.com>
+Subject: Re: imx-drm: master bind failed: -517 with parallel_display (on
+ i.MX6DL)
+To: Stefan Birkholz <Birkholz@systecnet.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,33 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- syzbot <syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com>,
- Jiri Slaby <jslaby@suse.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 12, 2020 at 12:02:03AM +0900, Tetsuo Handa wrote:
-> On 2020/08/04 21:58, Greg Kroah-Hartman wrote:
-> > On Tue, Aug 04, 2020 at 08:15:43PM +0900, Tetsuo Handa wrote:
-> >> Do you think this approach is acceptable? Or, do we need to modify set_origin() ?
-> >>
-> > I think what you have here is fine, as cleaning up set_orgin() might be
-> > hard to do at this point in time.
-> > 
-> 
-> Seems that there is no comment. Greg, will you pick up this patch?
+On Tue, Aug 11, 2020 at 5:07 PM Stefan Birkholz <Birkholz@systecnet.com> wrote:
+>
+> Hello,
+>
+> we are using the mainline kernel (currently on 4.19.128) successfully on an i.MX6DL-based system, but when we try to upgrade to any more recent kernel (>5.1) the display output stops working (screen is blank, backlight works).
+>
+> The relevant entries from the kernel log seem to be:
+> [    8.954942] imx-drm display-subsystem: bound imx-ipuv3-crtc.3 (ops imx_drm_exit [imxdrm])
+> [    9.028406] imx-drm display-subsystem: failed to bind disp0 (ops imx_pd_ops [parallel_display]): -517
+> [    9.037873] imx-drm display-subsystem: master bind failed: -517
+>
+> (I can reproduce those by un-/reloading the parallel-display.ko module.)
+>
+> On a working 4.19.128 the corresponding entries are:
+> [    8.879050] imx-drm display-subsystem: bound imx-ipuv3-crtc.3 (ops imx_drm_exit [imxdrm])
+> [    8.887361] imx-drm display-subsystem: bound disp0 (ops imx_pd_ops [parallel_display])
+> [    9.131288] imx-drm display-subsystem: fb0: DRM emulated frame buffer device
+> [    9.139618] [drm] Initialized imx-drm 1.0.0 20120507 for display-subsystem on minor 2
+>
+> Via git bisection I found the last "good" commit at [044175a06706d516aa42874bb44dbbfc3c4d20eb], and the next "bad" commit at [228cd2dba27cee9956c1af97e6445be056881e41].
 
-Yes, will do after -rc1 is out.
+There's over 8k commits in that range, what's the reason git bisect
+didn't continue to further drill down into what the bad commit is?
+This range contains an entire drm merge window pull request, so pretty
+hard to guess what broke.
 
-thanks,
+> I tested both these versions with exactly the same .dtb and our .config (adapted via "make olddefconfig" for both versions) from the 4.19.128 kernel.
+>
+> Do you have any suggestions what we can do to try and fix this problem?
 
-greg k-h
+Further reducing the range of suspect commits should help. Maybe imx
+maintainers have some guess, but I definitely don't have much idea
+what's missing among that big a pile of commits.
+
+Thanks, Daniel
+
+>
+> Kind regards,
+>  Stefan Birkholz
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
