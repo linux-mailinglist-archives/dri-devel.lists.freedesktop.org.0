@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF5424169D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5882416A6
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 08:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27B156E11E;
-	Tue, 11 Aug 2020 06:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3824A6E141;
+	Tue, 11 Aug 2020 06:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4303B6E4A1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:23:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 654BE6E49D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
  s=mail; t=1597105374; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PaKv81WQbkYK27ko6vcwQCQZgJ0sxMpHG+hYhPbwT7U=;
- b=xsvpiWDblQ9dyB62tybIa/UxD+yAnd9rVZoM1NyT9g+USATMdDyShZ33QlYICi+xgRd8ly
- uzH7hdUDbGuRBsG3kcvCZi4Yn50uIe06hRA0hnIR+flyYnN1LgwrUqYbye3WSLXgxhbuKy
- YzkDR4hM+tFEJ2ss7ZvSQ13PM+qhNa4=
+ bh=8AQMkbmdhOguOVhFrlhaDMnBpKno97BYw594g3hdJ4U=;
+ b=crs9kUCotubhHCSrMtCvBxvgzCbzdCHdDYhpIvJW/4kWWOMuBYlgBtWyR/772iRZ4+fGBY
+ 0TNhg8koRNG1EIluSegEYHKteqp2f9Rlf672emmaFZY+seE7xlL1TAHDv1nBE4GOqtnMvd
+ UWBL7r/ShCQhOGskMna2MW5NZ62IK78=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH 4/5] drm/panel: simple: Tweak timings of sharp,
- ls020b1dd01d for perfect 60Hz
-Date: Tue, 11 Aug 2020 02:22:39 +0200
-Message-Id: <20200811002240.55194-5-paul@crapouillou.net>
+Subject: [PATCH 5/5] drm/panel: simple: Add 50Hz mode for sharp,ls020b1dd01d
+Date: Tue, 11 Aug 2020 02:22:40 +0200
+Message-Id: <20200811002240.55194-6-paul@crapouillou.net>
 In-Reply-To: <20200811002240.55194-1-paul@crapouillou.net>
 References: <20200811002240.55194-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -51,41 +50,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modify the video mode in order to obtain a perfect 60.00 Hz frame rate
-using a 3 MHz pixel clock.
+Add a perfect 50.00 Hz frame rate mode to the list of available modes
+for the Sharp LS020B1DD01D panel.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 60052976e616..4aee7eca6ded 100644
+index 4aee7eca6ded..1cf63582b5a2 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3384,15 +3384,15 @@ static const struct panel_desc sharp_lq123p1jx31 = {
+@@ -3383,6 +3383,18 @@ static const struct panel_desc sharp_lq123p1jx31 = {
+ };
  
  static const struct drm_display_mode sharp_ls020b1dd01d_modes[] = {
- 	{ /* 60 Hz */
--		.clock = 4200,
++	{ /* 50 Hz */
 +		.clock = 3000,
- 		.hdisplay = 240,
--		.hsync_start = 240 + 66,
--		.hsync_end = 240 + 66 + 1,
--		.htotal = 240 + 66 + 1 + 1,
-+		.hsync_start = 240 + 8,
-+		.hsync_end = 240 + 8 + 1,
-+		.htotal = 240 + 8 + 1 + 1,
- 		.vdisplay = 160,
--		.vsync_start = 160 + 52,
--		.vsync_end = 160 + 52 + 10,
--		.vtotal = 160 + 52 + 10 + 6,
++		.hdisplay = 240,
++		.hsync_start = 240 + 58,
++		.hsync_end = 240 + 58 + 1,
++		.htotal = 240 + 58 + 1 + 1,
++		.vdisplay = 160,
 +		.vsync_start = 160 + 24,
 +		.vsync_end = 160 + 24 + 10,
 +		.vtotal = 160 + 24 + 10 + 6,
- 		.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
- 	},
- };
++		.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
++	},
+ 	{ /* 60 Hz */
+ 		.clock = 3000,
+ 		.hdisplay = 240,
 -- 
 2.28.0
 
