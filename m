@@ -1,38 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B7C24215C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:40:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3757242173
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3269889CBC;
-	Tue, 11 Aug 2020 20:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8991C6E842;
+	Tue, 11 Aug 2020 20:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC2686E843
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:40:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DA8A9A8;
- Tue, 11 Aug 2020 22:40:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597178438;
- bh=fBtWiY90WEtks1wYjy4x/pgIM6iFN5zcWTXLdLVWDhA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VcxrVn0e5nDySsG2O+/rBkfEOsRXVUSP9QeeHHSZ8iJyfsbz6tJMMu3XyIBY64kzC
- Ph3dJr5MGNIRtFDKL0vbq+NYwE2aFFP+qwxSuJRPeN9LgNfaFm7UfqcAQMo1YrLmVo
- tkDVjg1T6P+PtHFy1IzaFR8T319G57usMsddelFw=
-Date: Tue, 11 Aug 2020 23:40:24 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-Subject: Re: [RFC PATCH V2 0/2] Add Xilinx DSI TX driver
-Message-ID: <20200811204024.GC17446@pendragon.ideasonboard.com>
-References: <1597106777-30913-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
+ [IPv6:2607:f8b0:4864:20::c43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EAC6E842
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:58:19 +0000 (UTC)
+Received: by mail-oo1-xc43.google.com with SMTP id y30so15777ooj.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 13:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dtEDO1t2zy+1zeaF2RQV/qclEsl4EO9kMLrrOS4Xuyo=;
+ b=VinKTHFlUuh6PVvQo6OpNkDDqVPQdc2yBaViMfBBxGPLi3QLsH3oYsQPlR8Hfj6AU/
+ 0XaTAaj+9MYV0r5f+ocNUl69jFFjFiZxXNhIlcvOWbxVH5B2ULj5O1RudqEu2nbaKmXb
+ Hxe/Rv9NndJ8g0mIuZ55/o46XVTGl+HefYw2c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dtEDO1t2zy+1zeaF2RQV/qclEsl4EO9kMLrrOS4Xuyo=;
+ b=YpwlA0Rsc5xHNyuH/+ZN5nUSV7aYBdsozvag4heL82ZGcGTAW72st6lTC1yylxkojy
+ iQl8anaYTqN46pkpRpAGuTtePTZlcVAhfk3eKB0q6RncfSczFJTo6QqL78fgZhHOYwbr
+ u7KKH2/vP1Zdfgv6MS7Imu8sz1x49aQk3F8/hGJgNssw3zJftSh+wyagtCUmxskQOS/C
+ B/W/LZ99w7cuotLLikorimoBwJ1v1pIKpv/GYARUqeBsXHXq6oGS7nvLCqmG++Lt1JDP
+ tItrrRFfSfLPYzfo05o4mb1ip58+YGLIGDaf0WPjwPUqgQMNeIi6kg6iDZEwTc7jASYp
+ Qexw==
+X-Gm-Message-State: AOAM533D9JTRMQxUSKO5Ukj3FUCmMqHka/kJLi9Xyu04vMovdV34AMzZ
+ u2hdQW29NHCsVm+ThxtUtF+CISyd8G9DSLLakYU2Qw==
+X-Google-Smtp-Source: ABdhPJyGtSRmxl0WxU9e6qBkMiA7XKEKfC8frV3ubadYcivwTCTe07ov2HUl8VZIMzasuiicNLZ8uhuOKOGb3+4kaRI=
+X-Received: by 2002:a4a:9e05:: with SMTP id t5mr6911907ook.89.1597179498827;
+ Tue, 11 Aug 2020 13:58:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1597106777-30913-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+References: <20200808224322.1507713-1-linus.walleij@linaro.org>
+ <20200810130449.GR2352366@phenom.ffwll.local>
+ <CACRpkdb+CQxdd1gDbQCft8_AJjbX6b9c8sdmj1LXVByUE-mkpw@mail.gmail.com>
+In-Reply-To: <CACRpkdb+CQxdd1gDbQCft8_AJjbX6b9c8sdmj1LXVByUE-mkpw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 11 Aug 2020 22:58:07 +0200
+Message-ID: <CAKMK7uEqCM_S3ckq0rTK0nky6gWaQFww5_BgUAWBZRQh-Ytsjg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-notatek-nt35510: Fix MTP read init
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,67 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sandipk@xilinx.com, hyun.kwon@xilinx.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- vgannava@xilinx.com
+Cc: newbytee@protonmail.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Stephan Gerhold <stephan@gerhold.net>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi GVRao,
+On Tue, Aug 11, 2020 at 10:24 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Mon, Aug 10, 2020 at 3:04 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Sun, Aug 09, 2020 at 12:43:22AM +0200, Linus Walleij wrote:
+> > > In order to successfully read ID of the MTP panel the
+> > > panel MTP control page must be unlocked. Previously
+> > > this wasn't encountered because in the setup with this
+> > > panel the power wasn't ever really dropped. When power
+> > > gets dropped from the panel, MTP needs to be unlocked.
+> > >
+> > > Cc: newbytee@protonmail.com
+> > > Cc: Stephan Gerhold <stephan@gerhold.net>
+> > > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> >
+> > I guess this needs to be merged together with the mcde changes, or things
+> > break?
+>
+> Yes this should be merged first.
+>
+> > Either way looks reasonable. Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Thanks!
+>
+> BTW I need to merge v5.8 (final) into drm-misc-next so as to get
+> a smallish fix from the late -rc:s back. It is currently at v5.8-rc2.
+> Is that something you'd say I can be bold and attempt myself
+> of should I stay off it?
+>
+> I asked on dri-devel but didn't get any help there.
 
-Thank you for the patches.
+Hm I also asked Maxime already for a backmerge, I guess it didn't
+happen yet. Maybe time for Maarten or Thomas to do it instead. Adding
+them all.
 
-On Tue, Aug 11, 2020 at 06:16:15AM +0530, Venkateshwar Rao Gannavarapu wrote:
-> Xilinx DSI-TX subsytem consists of DSI controller core, AXI crossbar
-> and D-PHY as sub blocks. DSI TX subsystem driver supports multiple lanes
-> upto 4, RGB color formats, video mode and command modes.
-> 
-> DSI-TX driver is implemented as an encoder driver, as it going to be
-> the final node in display pipeline. Xilinx doesn't support any converter
-> logic to make this as bridge driver. Xilinx doesn't have such
-> use cases where end node can't be an encoder like DSI-TX. And Xilinx
-> encoder drivers represents a subsystem where individual blocks can't be
-> used with external components / encoders.
-> 
-> Venkateshwar Rao Gannavarapu (2):
->   dt-bindings: display: xlnx: dsi: This add a DT binding for Xilinx DSI
->     TX     subsystem.
->   drm: xlnx: dsi: driver for Xilinx DSI TX subsystem
-> 
->  .../devicetree/bindings/display/xlnx/xlnx,dsi.yaml | 147 +++++
->  drivers/gpu/drm/xlnx/Kconfig                       |  11 +
->  drivers/gpu/drm/xlnx/Makefile                      |   2 +
->  drivers/gpu/drm/xlnx/xlnx_dsi.c                    | 701 +++++++++++++++++++++
->  4 files changed, 861 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
->  create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
-> 
-> --
-> 1.8.3.1
-> 
-> This email and any attachments are intended for the sole use of the
-> named recipient(s) and contain(s) confidential information that may be
-> proprietary, privileged or copyrighted under applicable law. If you
-> are not the intended recipient, do not read, copy, or forward this
-> email message or any attachments. Delete this email message and any
-> attachments immediately.
-
-Unrelated to the technical contents of this series, this footer makes no
-sense for upstream submissions. It's actually a legal issue, and I know
-several maintainers who would delete the e-mails without even looking at
-them due to this (Greg KH has stated this publicly before for instance).
-
-I assume this is added by the mail server, but it would be good if
-someone could get in touch with the IT department to see how this can be
-dropped for patches sent to mailing lists. There's no specific urgency,
-it can be a background task.
-
+Usually maintainers should do this, least to avoid surprises and stuff
+when they do the next pull request. And yeah a quick ping on irc
+should be enough to make it happen.
+-Daniel
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
