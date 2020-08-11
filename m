@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6109F242141
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:24:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C6E242153
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 22:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA9C6E7EC;
-	Tue, 11 Aug 2020 20:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB9F6E83F;
+	Tue, 11 Aug 2020 20:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5076E7EC
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:24:20 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id m15so7368572lfp.7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 13:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3519F6E83F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 20:37:16 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id z18so178636otk.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 13:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w1WZcT2N89epHZkK3xQi5ihJL9xPdQJm4LMVYnxpOeQ=;
- b=Jdca4/ZYgpMsTyJjgTNNaYtewzTQbzWV9F4EKgFOaUZUmmlPDvsgQPUuFmJ1Pa/7yF
- 7EznhdA+ptpOxM9Wmr+RJmdYD/7YGx6zxF6dP5bx+pGRB00mBH1NpkNPvOBQjIeyWGHD
- kOWbHSON93RwyHAP7SUXqQf+Av7V3yw+C9G+t90xcZGXevboydr6bPqW14BtZ+tht3a5
- ztt83GSOKMX9/CwFzm7vuhbswxPi2CMhOswbDeYzunmIaQwSWQbSlLRm7VqItLPZk6O3
- hWBB+MT58mEfjmZueanspsP8Zy1u7LKJUE1MSNZopKkFFk4YvvC3Uj8DiVzm4DbYJvzE
- Xc6w==
+ :cc:content-transfer-encoding;
+ bh=cyAdGLpsSHEg2WGh7JZfkmwsxkBgafP7iF5apU/n2CY=;
+ b=Y2LCGsOpN0RldBzIMy48v+04TzKnyHcLpJToEgT+4rGAxSGdVtYwypLiVftvRHBOPE
+ i+OlqvcAfb1XVHq8fZEdcZYKKnf1oG+gB8R7wAcAjI+0kT7MKjYvsw9Gaf99EnI06ogT
+ HfPwLCmgC5PbrPp+Kf4RZvBDb5lF0nJLsiCyM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w1WZcT2N89epHZkK3xQi5ihJL9xPdQJm4LMVYnxpOeQ=;
- b=CujAXxD3OBW6mYkYNJ7X90pRA2VvqTuq6X04UctFJ5LULc4GVvRFiMjslG9UFXUKL0
- DMdPw1upBtp5Ed1pTWvP2QMI25/CCrLPUXRKy+2LxzhhKYIKckuF85g2KJBjpaeOkKJM
- oKCYYP4gryxhjX0ArKU+rF7096+G5u5Dk5CsUS9VHKSPkVq7XcEI0D0NZPbvwzTNvhtv
- /TzFT4l/XfU3gVl1oqH4WLZAYnnGlO9TLAwJs0Pc45Z6IiJCIYkah3u82aucTCFTWqZd
- 8DUvF7Jm0rkKldbmxLOFmp8PUC1G5ad8+FFEGLgOOhFLC5+D4p6G+auiDWHsTJ0QbO23
- /rig==
-X-Gm-Message-State: AOAM530Q5SqWViEjL3DAfKjM0oMFw2A9FUYsMKMlD2Tl0/x8luGtRP2V
- ilIBBHkbbbqB+OpnyvuNon019C+YNs1NSnvOCyD6Rw==
-X-Google-Smtp-Source: ABdhPJxSu2O6bFSCtUt+63bmev8Wj62ChpgxO3Eh8tqpO9j9rm/9sxusSVHjaoRPYY3F90D5+kGqmMqF/mqyHFbsXQM=
-X-Received: by 2002:ac2:488c:: with SMTP id x12mr3772463lfc.4.1597177458364;
- Tue, 11 Aug 2020 13:24:18 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cyAdGLpsSHEg2WGh7JZfkmwsxkBgafP7iF5apU/n2CY=;
+ b=BwPfXCTdWjZBi9uSOQDb2LLxH9ZDcv7vmf2ii7oxrUC/t0NrtjGR7Ibx0/Rjwum49B
+ scDCbCAyLYu35YDtkS4PQqZbhETIQOHqvd/QLhi2qCZXOsX53m7AJ+xQlhBlIKehkq8z
+ snVyixtW9+W4xtKGEgOVTfoq5uD764FpLsgRKoIGEAeExP7ORJgxrIdGenSkfFdkYr7F
+ TNUoXQekO1+ezp4AygTUmWWj5zNZpZHi6hLO+EyW/rOr8fauMu+ot3Tha8iELtZUsKp7
+ Ak3HPT6Vmagnh0GvavYw8otiLubEyopT3XOt3qc1vwUOZEzjZEwdF2WUJIiLgVSRZMzy
+ TNdw==
+X-Gm-Message-State: AOAM530GBRo3LS05gzEOcJoJ6YFdxcawuexWRCz4Fgzh8/oI8v+pet2d
+ FpYHGN0UjRNaIF/5bPpvZhNG4X/fmcITF8K0Ze8PKQ==
+X-Google-Smtp-Source: ABdhPJxcgyXaX2x4hKWYec2RgVCtOonhZp1fq6FNvEKDqlAjlAYywhMckS+x9KVczzXwmCrjQz4q/gqy6pfHxpswrYY=
+X-Received: by 2002:a05:6830:1e71:: with SMTP id
+ m17mr6955382otr.188.1597178235447; 
+ Tue, 11 Aug 2020 13:37:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200808224322.1507713-1-linus.walleij@linaro.org>
- <20200810130449.GR2352366@phenom.ffwll.local>
-In-Reply-To: <20200810130449.GR2352366@phenom.ffwll.local>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 11 Aug 2020 22:24:06 +0200
-Message-ID: <CACRpkdb+CQxdd1gDbQCft8_AJjbX6b9c8sdmj1LXVByUE-mkpw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-notatek-nt35510: Fix MTP read init
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <1597106777-30913-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+In-Reply-To: <1597106777-30913-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 11 Aug 2020 22:37:04 +0200
+Message-ID: <CAKMK7uGcbaABtUuzWpOi8TA=ERSHBP6hwiX-YnQSXVHKWQo+mA@mail.gmail.com>
+Subject: Re: [RFC PATCH V2 0/2] Add Xilinx DSI TX driver
+To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,44 +59,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: newbytee@protonmail.com, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Stephan Gerhold <stephan@gerhold.net>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: sandipk@xilinx.com, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, vgannava@xilinx.com,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 10, 2020 at 3:04 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Sun, Aug 09, 2020 at 12:43:22AM +0200, Linus Walleij wrote:
-> > In order to successfully read ID of the MTP panel the
-> > panel MTP control page must be unlocked. Previously
-> > this wasn't encountered because in the setup with this
-> > panel the power wasn't ever really dropped. When power
-> > gets dropped from the panel, MTP needs to be unlocked.
-> >
-> > Cc: newbytee@protonmail.com
-> > Cc: Stephan Gerhold <stephan@gerhold.net>
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+On Tue, Aug 11, 2020 at 2:46 AM Venkateshwar Rao Gannavarapu
+<venkateshwar.rao.gannavarapu@xilinx.com> wrote:
 >
-> I guess this needs to be merged together with the mcde changes, or things
-> break?
+> Xilinx DSI-TX subsytem consists of DSI controller core, AXI crossbar
+> and D-PHY as sub blocks. DSI TX subsystem driver supports multiple lanes
+> upto 4, RGB color formats, video mode and command modes.
+>
+> DSI-TX driver is implemented as an encoder driver, as it going to be
+> the final node in display pipeline. Xilinx doesn't support any converter
+> logic to make this as bridge driver. Xilinx doesn't have such
+> use cases where end node can't be an encoder like DSI-TX. And Xilinx
+> encoder drivers represents a subsystem where individual blocks can't be
+> used with external components / encoders.
 
-Yes this should be merged first.
+So there's indeed a bit of an argument about when it should just be
+stitched together as components, and when it is better a bridge. But
+bridges also come with plenty of convenience glue, and we're talking
+about fpga so the point pretty much is to rewire this all eventually.
+Maybe not by you folks, but people are r/e-ing these things so who
+knows.
 
-> Either way looks reasonable. Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+The other thing is you do have a bridge attached already, or should
+have: The drm_panel. And you do get the entire drm-connector
+instantiation rather wrong, at least the ->dpms hook is breaking
+atomic real bad. The ->detect implementation is also quite the
+adventure. So panel bridge is definitely required here.
 
-Thanks!
+Finally this also would avoid component.c usage in xlnx - not that
+there's something wrong with that per se, but it always means driver
+specific logic and interactions, so harder to maintain for people not
+involved in the code base on a daily basis. Also I'm not sure how this
+works, the component integration glue in the main driver seems to be
+missing. And the upstream drm/xlnx doesn't seem to have it either.
 
-BTW I need to merge v5.8 (final) into drm-misc-next so as to get
-a smallish fix from the late -rc:s back. It is currently at v5.8-rc2.
-Is that something you'd say I can be bold and attempt myself
-of should I stay off it?
+So all together I do think drm_bridge sounds like the right thing to do here.
+-Daniel
 
-I asked on dri-devel but didn't get any help there.
+>
+> Venkateshwar Rao Gannavarapu (2):
+>   dt-bindings: display: xlnx: dsi: This add a DT binding for Xilinx DSI
+>     TX     subsystem.
+>   drm: xlnx: dsi: driver for Xilinx DSI TX subsystem
+>
+>  .../devicetree/bindings/display/xlnx/xlnx,dsi.yaml | 147 +++++
+>  drivers/gpu/drm/xlnx/Kconfig                       |  11 +
+>  drivers/gpu/drm/xlnx/Makefile                      |   2 +
+>  drivers/gpu/drm/xlnx/xlnx_dsi.c                    | 701 +++++++++++++++++++++
+>  4 files changed, 861 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
+>  create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
+>
+> --
+> 1.8.3.1
+>
+> This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
 
-Yours,
-Linus Walleij
+
+
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
