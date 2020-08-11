@@ -1,88 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E09E2425CC
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4DFC2425C6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59726E8AC;
-	Wed, 12 Aug 2020 07:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF0F36E8A8;
+	Wed, 12 Aug 2020 07:05:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320112.outbound.protection.outlook.com [40.107.132.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36FC789D7C
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 11:03:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fp+MJA2Jud8j2Ah4jb53jvOYMLl8mdusm8wW+ofszzSDNjskfLY22r5P2pbokhAceQs4SAeerDzEZ/FImm6cpHntphCkvnl09OZ7IxJEDqxD38qcqoM5kXtAW+U2Qal/Xnc14CKJo9PbUAK7Qi9uaFZvZlUNtqIRLKkWZ55hvU8z9DLshR88Ht9i9fl5sGCARs+yULnPg1W7v62S5Lga9RK8Nf29VUWeMoFQwKjnCYPRqcUaKgY8ZUfEZz56R3otYPMdPq7Zv2Hr0OHJD57nvKG/qgvHquV/8AKi6wG9d0AjCfaobNY8WcaKH2XPmTLXnBLXN9xFFmZcfuoyBaLOeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UnDFtGaBbH87J/9C6YlxEKrbSagg3TyKC8mcAXxsnRo=;
- b=l062zOhKTdfYISgyUfDxjo22KV/5tJ7n7AwTrZ9EoVu/COpgPwAFNd2FcQ37qm4AussnKSqTn4we8wWcU6k3SRDrJxborVODbXoNedKXp1UIO8IZw2plKIc9npIc4zrA3KHRxpzK1NHysCm1cxODfVKjojYSdroZgWQuk3Srg0FJtPyzEiXNjF+8FqHEVSHxel2eEnx7o95pCwGx4T5Uvl5ynkrl9BuT7suCQikeqnfxXiqkiYRqWw4jPy3n3fwmyFRrkRt59pAmFuHGfK7QnR1UQLdCfleViS3crQF+XPsM7Oy8iFbk3xx7VbpGjZ3SHTeUVb3WWJ4xYLwPoK2Z4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UnDFtGaBbH87J/9C6YlxEKrbSagg3TyKC8mcAXxsnRo=;
- b=m+/SvfXbuM9VZsbZEq8DwQm7VaYeMnYBnrfYLrihUB+MWCYp2FMZjZ148Zz4QNbXhSBa3FcLVZ66Fi0xuPBPRCjoX27pWnMsIOidM7fOV0Ob1Y/ZauHUJwtFIktBq79X+hgXIi1m9KuwpFekn/LafUTarHythQsR6YkWE5bTEP8=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TY2PR01MB3834.jpnprd01.prod.outlook.com
- (2603:1096:404:d8::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Tue, 11 Aug
- 2020 11:03:07 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::c141:37ba:af8c:b2ee]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::c141:37ba:af8c:b2ee%7]) with mapi id 15.20.3261.025; Tue, 11 Aug 2020
- 11:03:07 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v2 2/3] drm/bridge: lvds-codec: Add support for regulator
-Thread-Topic: [PATCH v2 2/3] drm/bridge: lvds-codec: Add support for regulator
-Thread-Index: AQHWbyoUe/wbIA6WqU+/YSDXc2CLDakyvsOAgAAAdpA=
-Date: Tue, 11 Aug 2020 11:03:07 +0000
-Message-ID: <TYBPR01MB5309733E900B575CF1AF42DD86450@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <20200810152219.6254-1-biju.das.jz@bp.renesas.com>
- <20200810152219.6254-3-biju.das.jz@bp.renesas.com>
- <20200811105955.GE6054@pendragon.ideasonboard.com>
-In-Reply-To: <20200811105955.GE6054@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 82e04512-1553-49ec-8c1a-08d83de62107
-x-ms-traffictypediagnostic: TY2PR01MB3834:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB3834C401EF17D751DE14BF3686450@TY2PR01MB3834.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FpRZg5eYOwQlwHP031bzv79sg8Ypp0oCrTyGZc7YqoipMh7QoD5x5MVVmSRe6vyrwfAWlbc3MnF/XxZdMl0ioTQNScaNPmydQseF77k+BRkNHTwyiSZyQS5YS0l76k31pqYcLsAFSunS/TEjzYI0C1i+TQW9Pm+/ifhnzRUSKB96JB3tTCUMRsdjjVbMHFEcJRl7jwDucotii7NxszR2fe6nDjhg0ojYREpLkVa5BCXK6lt49yuvYzBK3Ns06qPJwNLgVb+zvyawd/xtaRzPK2w3V43zY97+eTNniGbdZlb+TsXeoB+QD9iiktATJtXE9TOWd/Ij3v3uoAtR2K+B+thWUYkVzlqSfWobdEakYeKEPUJCjVEW9jxEhcO415IJCkS/lKTz3QcEW7NE4rvdDA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYBPR01MB5309.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(39860400002)(376002)(396003)(136003)(366004)(86362001)(9686003)(2906002)(7416002)(33656002)(7696005)(316002)(478600001)(66476007)(71200400001)(76116006)(66946007)(55016002)(66556008)(8936002)(54906003)(6916009)(186003)(6506007)(5660300002)(4326008)(66446008)(8676002)(64756008)(26005)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: dWzwyYXVVK5TconmAmD2pWDh82s/WgnZ5BD0Ou9atE5FjObRPIbTMzazNaucT7S72WJ12C9kuK0+1G+eat4XXJcAFcjrtgM8vjlbf7bep+8TTHh1Wc27n1PbyqNk/08jM17sGoNs7D33aVPNbXdTlF42l8kW6QoPaTkdqS05y1crmnkZnboAaiYKVAxLzS/NQecOIGs3zFc0K1WNGMSpcZ5TQUlTIh7N2hZ1xKcd9+uyKmJg3jpO0I3LN5NBcfQwEv/P+T6mpY+u3syfiUNvMhSvMASJ/WJOzzYvIbpT98FlqXl1sewUZ+uwJb633a3MnICvVB0yh9YG1lnY0ASq/nFgaZQ5LYDG1U5EclmN7SSl++eUMgBy8gKwbFBeAzxmGP4FuIWaIro+zmbMZhnlaBgNj6GpRzYNwqV8w7/fs+X0uk2felPbRb9d5FJ98PUzUwRXU8kO1IUWcUIJxZsqixjJYaNqRV9mmXTyRDMP5MBOm4Yj8XzY2HixNpmCJ6ZwBz7e+7dukTu3vmD0m1l6dN8JMgfccc4bqiUh7N+JslPupavTxL9CUkqon/XQrOH0Li/SrDlxBBqCX9lP7/quIX7OedEwwcQOL9McENzMl9oGAAD4mPyeiDKwi/3dYd2QigOYBqVco2vFmuAl8i7jpQ==
+X-Greylist: delayed 723 seconds by postgrey-1.36 at gabe;
+ Tue, 11 Aug 2020 11:22:35 UTC
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
+ [81.169.146.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 537AF89A98
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 11:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597144953;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:Date:Message-ID:To:From:References:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=hXEGHWMyRUQrNc/ZFNn/T2PMpFyQViNoZOQvcvCZMjM=;
+ b=mU3E330cyXJvkj8ZmTMh6H7izzY9mf4gcml0zIFETzy/rPmRRlXmyw2TpXEoK1C1Re
+ CzEzLmvrVofkc4kdK9NcJguzh+HGcXKmQBcuipNFE4Cz4tKGj/FcJ0aQDKWWeziiZovE
+ lut8Y+OJD1+68Yq9J9rgqatvCDL9Klm51d91Gvrq5kTpAf0Oj43EmngjN2dLlXJCYmta
+ 2WL+hDZzwVAKsUe82kvbMyn2y8KoT3wOqfOEz/MnPn3gvDMSult+z6txfC09YMB//1K2
+ UqATRXyatb8BMKKIPvbsK4IZQykSexT+YCJPLxmMMmXEaFTvwWQfkGO59K8Iq3pNnbeK
+ Zw4Q==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySd+h5Fvhoai69SqY56N8="
+X-RZG-CLASS-ID: mo00
+Received: from [192.168.178.37] by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
+ with ESMTPSA id 60686ew7BBAUYWG
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate)
+ for <dri-devel@lists.freedesktop.org>;
+ Tue, 11 Aug 2020 13:10:30 +0200 (CEST)
+Subject: Fwd: [Virtual ppce500] virtio_gpu virtio0: swiotlb buffer is full
+References: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+To: "dri-devel@lists.freedesktop.org >> Maling list - DRI developers"
+ <dri-devel@lists.freedesktop.org>
+X-Forwarded-Message-Id: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
+Message-ID: <580dfbb6-f992-2d0d-78db-80be2ac5301c@xenosoft.de>
+Date: Tue, 11 Aug 2020 13:10:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82e04512-1553-49ec-8c1a-08d83de62107
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Aug 2020 11:03:07.7088 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YlDvka/6aTMSN47X6mj/ALSfSwrhPMDMxLEcTxcz4s0qFmp1AoIMhy4y9nbAH4w923Kxopwdf537V6RNRaHl3AMKWGFR3sGZ433PkLqisEY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3834
+In-Reply-To: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
+Content-Language: de-DE
 X-Mailman-Approved-At: Wed, 12 Aug 2020 07:05:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,119 +60,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-Thanks for the feedback.
-
-> Subject: Re: [PATCH v2 2/3] drm/bridge: lvds-codec: Add support for
-> regulator
->
-> Hi Biju,
->
-> Thank you for the patch.
->
-> On Mon, Aug 10, 2020 at 04:22:18PM +0100, Biju Das wrote:
-> > Add the support for enabling optional regulator that may be used as
-> > VCC source.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > New Patch Ref: Ref:https://patchwork.kernel.org/patch/11705819/
-> > ---
-> >  drivers/gpu/drm/bridge/lvds-codec.c | 29
-> > +++++++++++++++++++++++++++++
-> >  1 file changed, 29 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/lvds-codec.c
-> > b/drivers/gpu/drm/bridge/lvds-codec.c
-> > index 24fb1befdfa2..5858a29aafe6 100644
-> > --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> > +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> > @@ -10,13 +10,16 @@
-> >  #include <linux/of_device.h>
-> >  #include <linux/of_graph.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/regulator/consumer.h>
-> >
-> >  #include <drm/drm_bridge.h>
-> >  #include <drm/drm_panel.h>
-> >
-> >  struct lvds_codec {
-> > +struct device *dev;
-> >  struct drm_bridge bridge;
-> >  struct drm_bridge *panel_bridge;
-> > +struct regulator *vcc;
-> >  struct gpio_desc *powerdown_gpio;
-> >  u32 connector_type;
-> >  };
-> > @@ -38,6 +41,14 @@ static int lvds_codec_attach(struct drm_bridge
-> > *bridge,  static void lvds_codec_enable(struct drm_bridge *bridge)  {
-> >  struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-> > +int ret;
-> > +
-> > +ret = regulator_enable(lvds_codec->vcc);
-> > +if (ret) {
-> > +dev_err(lvds_codec->dev,
-> > +"Failed to enable regulator \"vcc\": %d\n", ret);
-> > +return;
-> > +}
-> >
-> >  if (lvds_codec->powerdown_gpio)
-> >  gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
-> 0); @@ -46,9
-> > +57,15 @@ static void lvds_codec_enable(struct drm_bridge *bridge)
-> > static void lvds_codec_disable(struct drm_bridge *bridge)  {
-> >  struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-> > +int ret;
-> >
-> >  if (lvds_codec->powerdown_gpio)
-> >  gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
-> 1);
-> > +
-> > +ret = regulator_disable(lvds_codec->vcc);
-> > +if (ret)
-> > +dev_err(lvds_codec->dev,
-> > +"Failed to disable regulator \"vcc\": %d\n", ret);
-> >  }
-> >
-> >  static const struct drm_bridge_funcs funcs = { @@ -63,12 +80,24 @@
-> > static int lvds_codec_probe(struct platform_device *pdev)
-> >  struct device_node *panel_node;
-> >  struct drm_panel *panel;
-> >  struct lvds_codec *lvds_codec;
-> > +int error;
->
-> The driver tends to use "ret" for error status variables. If you're fine with this
-> change there's no need to resubmit the patch, I can fix when applying.
-
-Yes, I am ok with that.
-
-Cheers,
-Biju
-
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-
-
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, 40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldorf, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WEEE reg. no.: DE 14978647
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQWxsLAoKSSBob3BlIHlvdSBhcmUgcmVzcG9uc2libGUgZm9yIHRoZSB2aXJ0aW9fZ3B1LgoK
+Q291bGQgeW91IHBsZWFzZSB0ZXN0IHRoZSB2aXJ0aW9fZ3B1IGJlY2F1c2UgaXQgZG9lc24ndCB3
+b3JrIGFueW1vcmUgCndpdGggdGhlIGxhdGVzdCBHaXQga2VybmVsIChzZWUgYmVsb3cpLgoKVGhh
+bmtzLApDaHJpc3RpYW4KCgotLS0tLS0tLSBXZWl0ZXJnZWxlaXRldGUgTmFjaHJpY2h0IC0tLS0t
+LS0tCkJldHJlZmY6IAlbVmlydHVhbCBwcGNlNTAwXSB2aXJ0aW9fZ3B1IHZpcnRpbzA6IHN3aW90
+bGIgYnVmZmVyIGlzIGZ1bGwKRGF0dW06IAlNb24sIDEwIEF1ZyAyMDIwIDE1OjAxOjM3ICswMjAw
+ClZvbjogCUNocmlzdGlhbiBaaWdvdHpreSA8Y2h6aWdvdHpreUB4ZW5vc29mdC5kZT4KQW46IAlB
+bmVlc2ggS3VtYXIgSy5WIDxhbmVlc2gua3VtYXJAbGludXguaWJtLmNvbT4KS29waWUgKENDKTog
+CVIuVC5EaWNraW5zb24gPHJ0ZDJAeHRyYS5jby5uej4sIERhcnJlbiBTdGV2ZW5zIAo8ZGFycmVu
+QHN0ZXZlbnMtem9uZS5uZXQ+LCBPbG9mIEpvaGFuc3NvbiA8b2xvZkBsaXhvbS5uZXQ+LCBtYWQg
+c2thdGVtYW4gCjxtYWRza2F0ZW1hbkBnbWFpbC5jb20+LCBsaW51eHBwYy1kZXYgPGxpbnV4cHBj
+LWRldkBsaXN0cy5vemxhYnMub3JnPiwgCmt2bS1wcGNAdmdlci5rZXJuZWwub3JnIDxrdm0tcHBj
+QHZnZXIua2VybmVsLm9yZz4KCgoKSGVsbG8sCgpKdXN0IGZvciBpbmZvLiBUaGUgbGF0ZXN0IGdp
+dCBrZXJuZWwgZG9lc24ndCB3b3JrIHdpdGggYSB2aXJ0aW9fZ3B1IGFueW1vcmUuCgpRRU1VIGNv
+bW1hbmQ6IHFlbXUtc3lzdGVtLXBwYzY0IC1NIHBwY2U1MDAgLWNwdSBlNTUwMCAtZW5hYmxlLWt2
+bSAtbSAKMTAyNCAta2VybmVsIHVJbWFnZSAtZHJpdmUgCmZvcm1hdD1yYXcsZmlsZT1maWVuaXgt
+c29hcl8zLjAtMjAyMDYwOC1uZXQuaW1nLGluZGV4PTAsaWY9dmlydGlvIC1uaWMgCnVzZXIsbW9k
+ZWw9ZTEwMDAgLWFwcGVuZCAicncgcm9vdD0vZGV2L3ZkYTIiIC1kZXZpY2UgdmlydGlvLXZnYSAt
+ZGV2aWNlIAp2aXJ0aW8tbW91c2UtcGNpIC1kZXZpY2UgdmlydGlvLWtleWJvYXJkLXBjaSAtZGV2
+aWNlIHBjaS1vaGNpLGlkPW5ld3VzYiAKLWRldmljZSB1c2ItYXVkaW8sYnVzPW5ld3VzYi4wIC1z
+bXAgNAoKRXJyb3IgbWVzc2FnZXM6Cgp2aXJ0aW9fZ3B1IHZpcnRpbzA6IHN3aW90bGIgYnVmZmVy
+IGlzIGZ1bGwgKHN6OiA0MDk2IGJ5dGVzKSwgdG90YWwgMCAKKHNsb3RzKSwgdXNlZCAwIChzbG90
+cykKQlVHOiBLZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlIG9uIHJlYWQgYXQgMHgwMDAw
+MDAxMApGYXVsdGluZyBpbnN0cnVjdGlvbiBhZGRyZXNzOiAweGMwMDAwMDAwMDAwYzczMjQKT29w
+czogS2VybmVsIGFjY2VzcyBvZiBiYWQgYXJlYSwgc2lnOiAxMSBbIzFdCkJFIFBBR0VfU0laRT00
+SyBQUkVFTVBUIFNNUCBOUl9DUFVTPTQgUUVNVSBlNTAwCk1vZHVsZXMgbGlua2VkIGluOgpDUFU6
+IDIgUElEOiAxNjc4IENvbW06IGt3b3JrZXIvMjoyIE5vdCB0YWludGVkIAo1LjktYTNfQS1FT05f
+WDUwMDAtMTE3MzUtZzA2YTgxYzFjN2RiOS1kaXJ0eSAjMQpXb3JrcXVldWU6IGV2ZW50cyAudmly
+dGlvX2dwdV9kZXF1ZXVlX2N0cmxfZnVuYwpOSVA6wqAgYzAwMDAwMDAwMDBjNzMyNCBMUjogYzAw
+MDAwMDAwMDBjNzJlNCBDVFI6IGMwMDAwMDAwMDA0NjI5MzAKUkVHUzogYzAwMDAwMDAzZGJhNzVl
+MCBUUkFQOiAwMzAwwqDCoCBOb3QgdGFpbnRlZCAKKDUuOS1hM19BLUVPTl9YNTAwMC0xMTczNS1n
+MDZhODFjMWM3ZGI5LWRpcnR5KQpNU1I6wqAgMDAwMDAwMDA5MDAyOTAwMCA8Q0UsRUUsTUU+wqAg
+Q1I6IDI0MDAyMjg4wqAgWEVSOiAwMDAwMDAwMApERUFSOiAwMDAwMDAwMDAwMDAwMDEwIEVTUjog
+MDAwMDAwMDAwMDAwMDAwMCBJUlFNQVNLOiAwCkdQUjAwOiBjMDAwMDAwMDAwMGM2MTg4IGMwMDAw
+MDAwM2RiYTc4NzAgYzAwMDAwMDAwMTdmMjMwMCBjMDAwMDAwMDNkODkzMDEwCkdQUjA0OiAwMDAw
+MDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDEgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAw
+MDAwMDAwCkdQUjA4OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAw
+MDAwMDAwMCA3ZjdmN2Y3ZjdmN2Y3ZjdmCkdQUjEyOiAwMDAwMDAwMDI0MDAyMjg0IGMwMDAwMDAw
+M2ZmZjkyMDAgYzAwMDAwMDAwMDA4YzNhMCBjMDAwMDAwMDA2MTU2NmMwCkdQUjE2OiAwMDAwMDAw
+MDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAw
+MDAwCkdQUjIwOiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAw
+MDAwMCAwMDAwMDAwMDAwMDAwMDAwCkdQUjI0OiAwMDAwMDAwMDAwMDAwMDAxIDAwMDAwMDAwMDAx
+MTAwMDAgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAwCkdQUjI4OiBjMDAwMDAwMDNk
+ODkzMDEwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMCBjMDAwMDAwMDNkODkzMDEw
+Ck5JUCBbYzAwMDAwMDAwMDBjNzMyNF0gLmRtYV9kaXJlY3RfdW5tYXBfc2crMHg0Yy8weGQ4CkxS
+IFtjMDAwMDAwMDAwMGM3MmU0XSAuZG1hX2RpcmVjdF91bm1hcF9zZysweGMvMHhkOApDYWxsIFRy
+YWNlOgpbYzAwMDAwMDAzZGJhNzg3MF0gW2MwMDAwMDAwM2RiYTc5NTBdIDB4YzAwMDAwMDAzZGJh
+Nzk1MCAodW5yZWxpYWJsZSkKW2MwMDAwMDAwM2RiYTc5MjBdIFtjMDAwMDAwMDAwMGM2MTg4XSAu
+ZG1hX3VubWFwX3NnX2F0dHJzKzB4NWMvMHg5OApbYzAwMDAwMDAzZGJhNzlkMF0gW2MwMDAwMDAw
+MDA1Y2Q0MzhdIC5kcm1fZ2VtX3NobWVtX2ZyZWVfb2JqZWN0KzB4OTgvMHhjYwpbYzAwMDAwMDAz
+ZGJhN2E1MF0gW2MwMDAwMDAwMDA2YWY1YjRdIC52aXJ0aW9fZ3B1X2NsZWFudXBfb2JqZWN0KzB4
+YzgvMHhkNApbYzAwMDAwMDAzZGJhN2FkMF0gW2MwMDAwMDAwMDA2YWQzYmNdIC52aXJ0aW9fZ3B1
+X2NtZF91bnJlZl9jYisweDFjLzB4MzAKW2MwMDAwMDAwM2RiYTdiNDBdIFtjMDAwMDAwMDAwNmFk
+YWI4XSAKLnZpcnRpb19ncHVfZGVxdWV1ZV9jdHJsX2Z1bmMrMHgyMDgvMHgyOGMKW2MwMDAwMDAw
+M2RiYTdjMTBdIFtjMDAwMDAwMDAwMDg2YjcwXSAucHJvY2Vzc19vbmVfd29yaysweDFhNC8weDI1
+OApbYzAwMDAwMDAzZGJhN2NiMF0gW2MwMDAwMDAwMDAwODcwZjRdIC53b3JrZXJfdGhyZWFkKzB4
+MjE0LzB4Mjg0CltjMDAwMDAwMDNkYmE3ZDcwXSBbYzAwMDAwMDAwMDA4YzRmMF0gLmt0aHJlYWQr
+MHgxNTAvMHgxNTgKW2MwMDAwMDAwM2RiYTdlMjBdIFtjMDAwMDAwMDAwMDAwODJjXSAucmV0X2Zy
+b21fa2VybmVsX3RocmVhZCsweDU4LzB4NjAKSW5zdHJ1Y3Rpb24gZHVtcDoKZjgyMWZmNTEgN2Ni
+ODJiNzggN2NkYjMzNzggNGUwMDAwMDAgN2NmYTNiNzggM2JjMDAwMDAgN2Y5ZWMwMDAgNDFmYzAw
+MTQKMzgyMTAwYjAgODE4MTAwMDggN2Q4MDgxMjAgNDhiYzFiYTggPGU5M2QwMDEwPiBlYmZjMDI0
+OCA4MzNkMDAxOCA3ZmZmNDg1MAotLS1bIGVuZCB0cmFjZSBmMjhkMTk0ZDlmMDk1NWE4IF0tLS0K
+CnZpcnRpb19ncHUgdmlydGlvMDogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAoc3o6IDQwOTYgYnl0
+ZXMpLCB0b3RhbCAwIAooc2xvdHMpLCB1c2VkIDAgKHNsb3RzKQp2aXJ0aW9fZ3B1IHZpcnRpbzA6
+IHN3aW90bGIgYnVmZmVyIGlzIGZ1bGwgKHN6OiAxNjM4NCBieXRlcyksIHRvdGFsIDAgCihzbG90
+cyksIHVzZWQgMCAoc2xvdHMpCgotLS0tCgpUaGUga2VybmVsIDUuOCB3b3JrcyB3aXRob3V0IGFu
+eSBwcm9ibGVtcyBpbiB0aGlzIHZpcnR1YWwgbWFjaGluZS4KCkNvdWxkIHlvdSBwbGVhc2UgY2hl
+Y2sgdGhlIGxhdGVzdCB1cGRhdGVzPwoKVGhhbmtzLApDaHJpc3RpYW4KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
