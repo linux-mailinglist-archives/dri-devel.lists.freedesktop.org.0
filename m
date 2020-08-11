@@ -2,60 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56A9241712
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 09:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2254824178B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 09:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B856E153;
-	Tue, 11 Aug 2020 07:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB2536E14D;
+	Tue, 11 Aug 2020 07:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2755C6E153
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 07:19:56 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id v22so8285175edy.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WzeE0ETsHwTrcZjkyPeaVgFzhKSLH7P6eZu9dM+LgBc=;
- b=hbJnw4PXWmc+6MdsTR1Az6ulYyXGveGuVDuaBfuNG7/8dboe2+eQyTEt774tXiUUPJ
- uTOZyMK7DUeUSpsnhFsUBPgJQL2QnjXGkZr2PO79secdVBVRFXAqIXcNYBDZQgRjOUo3
- NPZExuOhtX4aUPHr7oo1e5hrq+Ui5+Xm6GkAJPOL2jUnUdMiTIqIHE/UoE3o/E6u5eIz
- pGCKy+VLj1IlCATEG7t943e84ls/VUH03ZnIVvscmRiMQlL6x2WoVuOocBlvfyEbX4KT
- 5SMXjom7bFqUBkyEGS+s8EeZJlemq6NOodmh9DtqgajcNuDY1CFUZjO2kHsDunFlq9vo
- 1gaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WzeE0ETsHwTrcZjkyPeaVgFzhKSLH7P6eZu9dM+LgBc=;
- b=NKa2GSUBt9sCHhK+/q6mQS7iMU8KwaDFFH1I1NjJJuFgCKIZxDG4Adz4GaIwpuCJ+j
- hLpBlc378CpyEHkBTfc0q1r9DzdX17m2dNsu5wgZiYdHV+Yp3+l9opDpMuWOdDTmWB3U
- fQp+CDlUzKOoqc6AEunKvHrh9sqDBEnSMqIAgzKJM3OcJEWIlVMOZhdke+VV3e0L/2IR
- NIrSPFRpGUcdsodzBdZ2+2uNyC0BHOvSrwKQFb3n6VDQ2aIsOleY3lSKPGuQKm4ciOte
- o51KQMZvy+2sPcmhBEcHW1KjlDgoNXSuTcUTVidwDJDuheer3BRFFRSiceKlob7ZogIe
- K/OA==
-X-Gm-Message-State: AOAM530KZ9a1Kl3gT0IVK1gfhZT/LqzL5dsok8/3pZCSXGUr9gzgHNwB
- Yhb5ueG0ab+pYjCpeRODbzXnvu9prp3wEhr/XeU=
-X-Google-Smtp-Source: ABdhPJwIgJ+gg5KkKRM42u+CmfJVOb4FSiEWBgQO/jHRoII+HNJgltAvZDEH2lwjL0Y8ydzr3Shs4xp13N2Zs6E+Bag=
-X-Received: by 2002:aa7:cc12:: with SMTP id q18mr10758548edt.113.1597130394743; 
- Tue, 11 Aug 2020 00:19:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <230cc360-89b9-bb39-ee7e-d68ac037345f@i-love.sakura.ne.jp>
- <e5822548-4373-5020-eb3a-9d6144b74d25@amd.com>
- <be670819-20d0-0757-a0f9-20054a527e77@vmware.com>
- <33c4495c-7fb5-f075-b30b-9ab9bdd4ce32@amd.com>
- <e4055371-5a78-0b32-9e1f-d17d865cbb8c@amd.com>
- <CAPM=9txMmSdHqnTsq97voJnNabh+dzfSzeJL302z=WJJD9j8Gw@mail.gmail.com>
- <551d34e3-945f-cb76-f3a6-d2a7533ed2a6@amd.com>
- <CAPM=9tzS992VBjTX24wsz=Oey3SVO6PS50oXaW7o9kBqt156eQ@mail.gmail.com>
- <36e09aae-a758-43c0-2a3d-4eeb393d3e5a@amd.com>
-In-Reply-To: <36e09aae-a758-43c0-2a3d-4eeb393d3e5a@amd.com>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 510206E14D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 07:47:06 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-dUVtm65RPsSQzVsJsgetnw-1; Tue, 11 Aug 2020 03:47:01 -0400
+X-MC-Unique: dUVtm65RPsSQzVsJsgetnw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4660102C7F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 07:47:00 +0000 (UTC)
+Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-101.bne.redhat.com
+ [10.64.54.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42CD48A16F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 07:47:00 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 11 Aug 2020 17:19:43 +1000
-Message-ID: <CAPM=9txRCV=rANdzki1KSHZExpDse_hkXD26Jvt-d=cevTdgYg@mail.gmail.com>
-Subject: Re: [linux.git drm/ttm]: NULL pointer dereference upon driver probe
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/ttm: init mem->bus in common code.
+Date: Tue, 11 Aug 2020 17:46:57 +1000
+Message-Id: <20200811074658.58309-1-airlied@gmail.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +48,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Well how about completely removing the concept of a global TT from TTM?
+From: Dave Airlie <airlied@redhat.com>
 
-Yes makes sense to me to try and rip out the global TT from the core
-and turn it into a driver optional feature is possible.
+The drivers all do the same thing here.
 
-Dave.
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 6 ------
+ drivers/gpu/drm/drm_gem_vram_helper.c      | 6 ------
+ drivers/gpu/drm/nouveau/nouveau_bo.c       | 6 ------
+ drivers/gpu/drm/qxl/qxl_ttm.c              | 6 ------
+ drivers/gpu/drm/radeon/radeon_ttm.c        | 6 ------
+ drivers/gpu/drm/ttm/ttm_bo_util.c          | 5 +++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 6 ------
+ 7 files changed, 5 insertions(+), 36 deletions(-)
 
->
-> What TTM should do is managing domains and help with the transitions
-> between those domains.
->
-> That one of those domains maps the backing pages into a global TT is
-> completely specific to that domain and shouldn't bother TTM in any way.
->
-> We can of course provide some default functions to manage AGP and
-> classic GART, but TTM shouldn't enforce using those.
->
-> Regards,
-> Christian.
->
-> >
-> > Dave.
->
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 67d2eef2f9eb..324abf7a3cba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -751,12 +751,6 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+ 	struct drm_mm_node *mm_node = mem->mm_node;
+ 
+-	mem->bus.addr = NULL;
+-	mem->bus.offset = 0;
+-	mem->bus.size = mem->num_pages << PAGE_SHIFT;
+-	mem->bus.base = 0;
+-	mem->bus.is_iomem = false;
+-
+ 	switch (mem->mem_type) {
+ 	case TTM_PL_SYSTEM:
+ 		/* system memory */
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index b410930d94a0..545a877406f4 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -1038,14 +1038,8 @@ static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
+ {
+ 	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bdev);
+ 
+-	mem->bus.addr = NULL;
+-	mem->bus.size = mem->num_pages << PAGE_SHIFT;
+-
+ 	switch (mem->mem_type) {
+ 	case TTM_PL_SYSTEM:	/* nothing to do */
+-		mem->bus.offset = 0;
+-		mem->bus.base = 0;
+-		mem->bus.is_iomem = false;
+ 		break;
+ 	case TTM_PL_VRAM:
+ 		mem->bus.offset = mem->start << PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 604a74323696..7cfe3898ce62 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1380,12 +1380,6 @@ nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *reg)
+ 	struct nvkm_device *device = nvxx_device(&drm->client.device);
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+ 
+-	reg->bus.addr = NULL;
+-	reg->bus.offset = 0;
+-	reg->bus.size = reg->num_pages << PAGE_SHIFT;
+-	reg->bus.base = 0;
+-	reg->bus.is_iomem = false;
+-
+ 	switch (reg->mem_type) {
+ 	case TTM_PL_SYSTEM:
+ 		/* System memory */
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index b1ea984f143a..c55ac31f5476 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -75,12 +75,6 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
+ {
+ 	struct qxl_device *qdev = qxl_get_qdev(bdev);
+ 
+-	mem->bus.addr = NULL;
+-	mem->bus.offset = 0;
+-	mem->bus.size = mem->num_pages << PAGE_SHIFT;
+-	mem->bus.base = 0;
+-	mem->bus.is_iomem = false;
+-
+ 	switch (mem->mem_type) {
+ 	case TTM_PL_SYSTEM:
+ 		/* system memory */
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 3355b69b13d1..1f1e025b9f06 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -380,12 +380,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
+ {
+ 	struct radeon_device *rdev = radeon_get_rdev(bdev);
+ 
+-	mem->bus.addr = NULL;
+-	mem->bus.offset = 0;
+-	mem->bus.size = mem->num_pages << PAGE_SHIFT;
+-	mem->bus.base = 0;
+-	mem->bus.is_iomem = false;
+-
+ 	switch (mem->mem_type) {
+ 	case TTM_PL_SYSTEM:
+ 		/* system memory */
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 496158acd5b9..023f0a2d07c9 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -138,6 +138,11 @@ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+ 	if (!bdev->driver->io_mem_reserve)
+ 		return 0;
+ 
++	mem->bus.addr = NULL;
++	mem->bus.offset = 0;
++	mem->bus.size = mem->num_pages << PAGE_SHIFT;
++	mem->bus.base = 0;
++	mem->bus.is_iomem = false;
+ retry:
+ 	ret = bdev->driver->io_mem_reserve(bdev, mem);
+ 	if (ret == -ENOSPC) {
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 69e7e7fe2a4c..6ae4a856241b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -717,12 +717,6 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resourc
+ {
+ 	struct vmw_private *dev_priv = container_of(bdev, struct vmw_private, bdev);
+ 
+-	mem->bus.addr = NULL;
+-	mem->bus.is_iomem = false;
+-	mem->bus.offset = 0;
+-	mem->bus.size = mem->num_pages << PAGE_SHIFT;
+-	mem->bus.base = 0;
+-
+ 	switch (mem->mem_type) {
+ 	case TTM_PL_SYSTEM:
+ 	case VMW_PL_GMR:
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
