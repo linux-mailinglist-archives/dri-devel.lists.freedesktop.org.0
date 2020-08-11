@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A912418A6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 10:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622752418D4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 11:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC9D889CF5;
-	Tue, 11 Aug 2020 08:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DADFE6E4C5;
+	Tue, 11 Aug 2020 09:24:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30BD89CF5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 08:58:33 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id 184so2088580wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 01:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=kI5qakFErIhAtlSahv1ie780vLsnJZJzRH85CVk9xkc=;
- b=ZhqiEQB0gxx0HMNGdIud33HXbwCcUGzAFvTEZOcnfrRehwjb8pJce47DxCS3Vpe/hO
- 0W/c/dlmjtWDghDUtpf+BYA89HTOVxVctUrjarY7zXxYNXIwVqSUqn6u4n2MAPyGdHzH
- dPBRBhHUwVzJsYQnp6o2LC1HI/cO4MqsXyKNA=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6309E6E4B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 09:24:04 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id 184so2161184wmb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 02:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rBqbwEY2HqwKxQcJZFlOq0xS/wPUKjcUW7yYRdhCbsY=;
+ b=tJb2ENCZvEzDoVK+MbSnnOawjm0Rz7Kc0v3lgW38raEgBdCdfYRbMnNXer9mq+YxR0
+ VSmPvGbiACWywpe1xT+COTFUMb0gbukmtw8s4DZPGGPzPI4kir0ZDFIiXwxNpt/mHefC
+ QhcoR6Rk9Iv2NgtmNXQC5MvhFnk7Yf9ma+iyccQRFymD90mInHo9rExWZHUf3H6ywoZ1
+ BdpM/uRBcYp7EAnXJ5PLndvp4h1lX6X0dRGZFZDy6vmaouoCV3FG9vXkIa1ovPi7PoCh
+ tK73xeCR2Nwl2T0Un47EompZWibLYPR+Ca9ANylGNU1vCe8RBeCjUbG9feXz9/yHKGhU
+ 6dpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=kI5qakFErIhAtlSahv1ie780vLsnJZJzRH85CVk9xkc=;
- b=X7rDbtM7WoHlyrFavzqyhT2l4EAE2ZkeuoGgQs5074I3ib1Ej5/Q9ildsXxWUbgGXL
- oS3cy4OwvEWdFzZr2/XHLKxVyAlpCGqWJqHGoMtwUWfn7/kpUt2htPz5yKbtdp53khPN
- O9G8nf1ol0v68ycxLVsXZuIDA2tW6QzyLQsSRcsKJ0aWKa/NWeRXvSE5O7xioj8JUnMW
- 6/IA4CM5voOeu5M3isbv9SQbA3+X9wkcnR2VfIplG0ppcctZQslHZa91ZB3giDjAPRSX
- 6j9Xrqn84LgQgco86BAHfOEfE8f+KN58KO4pmp1a/el2WI2MqBvUcax4w7cOYrh4kozU
- mhVQ==
-X-Gm-Message-State: AOAM530CGzElsVEM6i16sl7TisK+vUmiHCk4mctAtQlRRFurrYpXCT9I
- RKNxwUB4HsazPxJ6bZEcP2KuuQ==
-X-Google-Smtp-Source: ABdhPJySHjTR0UHPleGabdZv7zNIZM+F28Kgk+liHl+qFW7HhY9BvenSYNBJUkXh68zLkce7tt7d0g==
-X-Received: by 2002:a1c:e244:: with SMTP id z65mr3067068wmg.34.1597136312570; 
- Tue, 11 Aug 2020 01:58:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g25sm3735876wmh.35.2020.08.11.01.58.31
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rBqbwEY2HqwKxQcJZFlOq0xS/wPUKjcUW7yYRdhCbsY=;
+ b=Xu7aZiOz7ZNT6pcOsVQ9bFOwKOOdyqrsEF3/lVT+50NXJFb+eLGNtw/D6CcH+3GmiL
+ iaDNIKLqqhiVKPeGd3WohsQ+VhYJMclmjivDTz2Rfxt+6BoUHA5qfDWm58ZWDYaZpWfV
+ s9Z12KJxcdvd/16blSK0QI+26MUlCUwXQLpzoAlpkkZy3R323+Czlf/IkPpqH67rQmVs
+ sVKSDNGSUBLysGlyBhtY4wLsFMPve3dqVvQEzBJdTTutaL6nEVcp89Yw70UqJ8hTBOkM
+ pBgLZkD4mxv9AuseQ7NZSY1/deXnDqWHsfxZhxl4H4/LMF6+PQlvYozb7iOB2lUqO+/H
+ G4uA==
+X-Gm-Message-State: AOAM531W8xCfiaOnZTAGfjxO5eNnix1QsA+2RrTHl+QQ0j/zTZP38/3n
+ 3RVt/dGKfpD3fXJG6VK2RWOTSOiW
+X-Google-Smtp-Source: ABdhPJwGnQRGa6la5MIM+NR/v9u8mXZHQFCEv/EfZ8NpPGbJLMLoPYBtuElLIjJq1s5CfR5YsIGWrg==
+X-Received: by 2002:a1c:2d95:: with SMTP id t143mr3053690wmt.44.1597137842599; 
+ Tue, 11 Aug 2020 02:24:02 -0700 (PDT)
+Received: from laptop.fritz.box ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id 8sm26868453wrl.7.2020.08.11.02.24.01
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Aug 2020 01:58:31 -0700 (PDT)
-Date: Tue, 11 Aug 2020 10:58:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Zwane Mwaikambo <zwanem@gmail.com>
-Subject: Re: [PATCH] drm: assure aux_dev is nonzero before using it
-Message-ID: <20200811085830.GZ2352366@phenom.ffwll.local>
-Mail-Followup-To: Zwane Mwaikambo <zwanem@gmail.com>, tcamuso@redhat.com,
- dkwon@redhat.com, Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
-References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
+ Tue, 11 Aug 2020 02:24:02 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: revert "make TT creation purely optional v3"
+Date: Tue, 11 Aug 2020 11:24:00 +0200
+Message-Id: <20200811092400.188124-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dkwon@redhat.com, Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, tcamuso@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 10, 2020 at 10:11:50AM -0700, Zwane Mwaikambo wrote:
-> Hi Folks,
-> 	I know this thread eventually dropped off due to not identifying 
-> the underlying issue. It's still occuring on 5.8 and in my case it 
-> happened because the udev device nodes for the DP aux devices were not 
-> cleaned up whereas the kernel had no association with them. I can 
-> reproduce the bug just by creating a device node for a non-existent minor 
-> device and calling open().
-
-Hm I don't have that thread anymore, but generally these bugs are solved
-by not registering the device before it's ready for use. We do have
-drm_connector->late_register for that stuff. Just a guess since I'm not
-seeing full details here.
--Daniel
-
-> 
-> To me it still makes sense to just check aux_dev because the chardev has 
-> no way to check before calling.
-> 
-> (gdb) list *drm_dp_aux_dev_get_by_minor+0x29
-> 0x17b39 is in drm_dp_aux_dev_get_by_minor (drivers/gpu/drm/drm_dp_aux_dev.c:65).
-> 60      static struct drm_dp_aux_dev *drm_dp_aux_dev_get_by_minor(unsigned index)
-> 61      {
-> 62              struct drm_dp_aux_dev *aux_dev = NULL;
-> 63
-> 64              mutex_lock(&aux_idr_mutex);
-> 65              aux_dev = idr_find(&aux_idr, index);
-> 66              if (!kref_get_unless_zero(&aux_dev->refcount))
-> 67                      aux_dev = NULL;
-> 68              mutex_unlock(&aux_idr_mutex);
-> 69
-> (gdb) p/x &((struct drm_dp_aux_dev *)(0x0))->refcount
-> $8 = 0x18
-> 
-> static int auxdev_open(struct inode *inode, struct file *file)
-> {
->     unsigned int minor = iminor(inode);
->     struct drm_dp_aux_dev *aux_dev;
-> 
->     aux_dev = drm_dp_aux_dev_get_by_minor(minor);
->     if (!aux_dev)
->         return -ENODEV;
-> 
->     file->private_data = aux_dev;
->     return 0;
-> }
-> 
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyByZXZlcnRzIGNvbW1pdCAyZGRlZjE3Njc4YmMyZWExZDIwNTE3ZGQyYjRlZDRhYTk2N2Zm
+YThiLgoKQXMgaXQgdHVybmVkIG91dCBWTVdHRlggbmVlZHMgYSBtdWNoIHdpZGVyIGF1ZGl0IHRv
+IGZpeCB0aGlzLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
+ZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICB8IDE5
+ICsrKysrKysrKysrKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyB8
+ICA3ICsrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMgICB8ICA1IC0tLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jICAgICAgfCAgMSArCiA0IGZpbGVzIGNoYW5n
+ZWQsIDE5IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCmlu
+ZGV4IGFkMDkzMjliNjJkMy4uNDIzODZiZGEzMmZlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9iby5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKQEAgLTY1
+Niw3ICs2NTYsNyBAQCBzdGF0aWMgaW50IHR0bV9ib19ldmljdChzdHJ1Y3QgdHRtX2J1ZmZlcl9v
+YmplY3QgKmJvLAogCQl0dG1fYm9fd2FpdChibywgZmFsc2UsIGZhbHNlKTsKIAogCQl0dG1fYm9f
+Y2xlYW51cF9tZW10eXBlX3VzZShibyk7Ci0JCXJldHVybiAwOworCQlyZXR1cm4gdHRtX3R0X2Ny
+ZWF0ZShibywgZmFsc2UpOwogCX0KIAogCWV2aWN0X21lbSA9IGJvLT5tZW07CkBAIC0xMTkxLDgg
+KzExOTEsMTMgQEAgaW50IHR0bV9ib192YWxpZGF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
+KmJvLAogCS8qCiAJICogUmVtb3ZlIHRoZSBiYWNraW5nIHN0b3JlIGlmIG5vIHBsYWNlbWVudCBp
+cyBnaXZlbi4KIAkgKi8KLQlpZiAoIXBsYWNlbWVudC0+bnVtX3BsYWNlbWVudCAmJiAhcGxhY2Vt
+ZW50LT5udW1fYnVzeV9wbGFjZW1lbnQpCi0JCXJldHVybiB0dG1fYm9fcGlwZWxpbmVfZ3V0dGlu
+Zyhibyk7CisJaWYgKCFwbGFjZW1lbnQtPm51bV9wbGFjZW1lbnQgJiYgIXBsYWNlbWVudC0+bnVt
+X2J1c3lfcGxhY2VtZW50KSB7CisJCXJldCA9IHR0bV9ib19waXBlbGluZV9ndXR0aW5nKGJvKTsK
+KwkJaWYgKHJldCkKKwkJCXJldHVybiByZXQ7CisKKwkJcmV0dXJuIHR0bV90dF9jcmVhdGUoYm8s
+IGZhbHNlKTsKKwl9CiAKIAkvKgogCSAqIENoZWNrIHdoZXRoZXIgd2UgbmVlZCB0byBtb3ZlIGJ1
+ZmZlci4KQEAgLTEyMDksNiArMTIxNCwxNCBAQCBpbnQgdHRtX2JvX3ZhbGlkYXRlKHN0cnVjdCB0
+dG1fYnVmZmVyX29iamVjdCAqYm8sCiAJCXR0bV9mbGFnX21hc2tlZCgmYm8tPm1lbS5wbGFjZW1l
+bnQsIG5ld19mbGFncywKIAkJCQl+VFRNX1BMX01BU0tfTUVNVFlQRSk7CiAJfQorCS8qCisJICog
+V2UgbWlnaHQgbmVlZCB0byBhZGQgYSBUVE0uCisJICovCisJaWYgKGJvLT5tZW0ubWVtX3R5cGUg
+PT0gVFRNX1BMX1NZU1RFTSAmJiBiby0+dHRtID09IE5VTEwpIHsKKwkJcmV0ID0gdHRtX3R0X2Ny
+ZWF0ZShibywgdHJ1ZSk7CisJCWlmIChyZXQpCisJCQlyZXR1cm4gcmV0OworCX0KIAlyZXR1cm4g
+MDsKIH0KIEVYUE9SVF9TWU1CT0wodHRtX2JvX3ZhbGlkYXRlKTsKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
+X3V0aWwuYwppbmRleCA0OTYxNThhY2Q1YjkuLjc2Mzc2ZGM3MWYyNSAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2JvX3V0aWwuYwpAQCAtNTMxLDE1ICs1MzEsMTIgQEAgc3RhdGljIGludCB0dG1fYm9fa21h
+cF90dG0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKIAkJLmludGVycnVwdGlibGUgPSBm
+YWxzZSwKIAkJLm5vX3dhaXRfZ3B1ID0gZmFsc2UKIAl9OwotCXN0cnVjdCB0dG1fdHQgKnR0bTsK
+KwlzdHJ1Y3QgdHRtX3R0ICp0dG0gPSBiby0+dHRtOwogCXBncHJvdF90IHByb3Q7CiAJaW50IHJl
+dDsKIAotCXJldCA9IHR0bV90dF9jcmVhdGUoYm8sIHRydWUpOwotCWlmIChyZXQpCi0JCXJldHVy
+biByZXQ7CisJQlVHX09OKCF0dG0pOwogCi0JdHRtID0gYm8tPnR0bTsKIAlyZXQgPSB0dG1fdHRf
+cG9wdWxhdGUodHRtLCAmY3R4KTsKIAlpZiAocmV0KQogCQlyZXR1cm4gcmV0OwpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2JvX3ZtLmMKaW5kZXggYmEyZThiZDE5OGFkLi5lOTBjNWM4MDY2NDUgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm9fdm0uYwpAQCAtMzQ3LDExICszNDcsNiBAQCB2bV9mYXVsdF90IHR0bV9ib192bV9m
+YXVsdF9yZXNlcnZlZChzdHJ1Y3Qgdm1fZmF1bHQgKnZtZiwKIAogCQl9OwogCi0JCWlmICh0dG1f
+dHRfY3JlYXRlKGJvLCB0cnVlKSkgewotCQkJcmV0ID0gVk1fRkFVTFRfT09NOwotCQkJZ290byBv
+dXRfaW9fdW5sb2NrOwotCQl9Ci0KIAkJdHRtID0gYm8tPnR0bTsKIAkJaWYgKHR0bV90dF9wb3B1
+bGF0ZShiby0+dHRtLCAmY3R4KSkgewogCQkJcmV0ID0gVk1fRkFVTFRfT09NOwpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
+X3R0LmMKaW5kZXggYmRkNjE2OWNlZjEzLi4wNWM5MTQ3YWM2ZDMgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS90dG0vdHRtX3R0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQu
+YwpAQCAtNzAsNiArNzAsNyBAQCBpbnQgdHRtX3R0X2NyZWF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9v
+YmplY3QgKmJvLCBib29sIHplcm9fYWxsb2MpCiAJCXBhZ2VfZmxhZ3MgfD0gVFRNX1BBR0VfRkxB
+R19TRzsKIAkJYnJlYWs7CiAJZGVmYXVsdDoKKwkJYm8tPnR0bSA9IE5VTEw7CiAJCXByX2Vycigi
+SWxsZWdhbCBidWZmZXIgb2JqZWN0IHR5cGVcbiIpOwogCQlyZXR1cm4gLUVJTlZBTDsKIAl9Ci0t
+IAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
