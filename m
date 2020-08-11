@@ -2,39 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1AA724142E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 02:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D882B24143D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 02:46:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE2F76E49B;
-	Tue, 11 Aug 2020 00:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921866E49D;
+	Tue, 11 Aug 2020 00:46:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015DB6E49B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:36:55 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B85258;
- Tue, 11 Aug 2020 02:36:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597106211;
- bh=WT68YabTY7ddQtfmBQDHNawp8dKMoR3tuUNkUHEYri8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U/ZYWgTR0lteTac7vshe8KLcnDQhg18O1y4w88+HuaU7uRPqtIYegIMJcB/v6JOIn
- 1L2sfaJ7TL0nBT1s6YOu6MjZBAJzpOjpLarFFsmxPqyg6xIVlBh6dLQK0QhfmYvFOQ
- VkGn6r82gLmg5Me9dGehE+y++xE70HnqcOPhnvSI=
-Date: Tue, 11 Aug 2020 03:36:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Swapnil Jakhade <sjakhade@cadence.com>
-Subject: Re: [PATCH v8 1/3] dt-bindings: drm/bridge: Document Cadence MHDP
- bridge bindings
-Message-ID: <20200811003638.GB13513@pendragon.ideasonboard.com>
-References: <1596713672-8146-1-git-send-email-sjakhade@cadence.com>
- <1596713672-8146-2-git-send-email-sjakhade@cadence.com>
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690088.outbound.protection.outlook.com [40.107.69.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85396E49D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 00:46:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U04FjEbSgMIXMAH7YYVDNxkNMe+fKNm+06wdC55QXwQnGzecmpt8QQUiriPEiUUnboVWuRx6n0fdu7SQJVHJ3BqeKtPSSx2sD1fEpSHaqkACZrHdYvxIJSUzuqukJhMBvTQmA5xt23qngw2zG76NPAVMtLwxZIppSHhl22ch0hU1X14hJkYX62STPaPGXX6I9df4E6wt81266JRUX33NHfaFzRF5XjM4NehLK0J2P8XxIWOe5b3B18BLTCCOXcNSlHIqVG6EOLl7+kND6XC4tzKyOVXoj2zYHqrk0bdsjb81uOVhsSdk6zUpThVV4qjaNJ3WvdSsuUB2izdA4kJz/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hf+kX7toRnc1H+Mm/SMFbHLlMDYEuy1AKtF4Ee18HlI=;
+ b=lOTm3M4m5nopIkQL0DhDK5ZkjeJXCqdPigLYzUBGdlEH0NNvGxJ12MWPMvM7c9+lQvnQOuzN6IJ080YOuC73l4sPdQ2wTEmoXhxPnL6l5Z6NDq0NkXqYQOd4t58hHoq7jRmWdW5SofZgLpxM8mzdsKPBblhh5B7LgztDMNZgmvrSvWZMat1YtzGLBv2CIGHIc/O/894MYKCdaNDbJrk8tza7GGdZEHHtAqxn2l3Jl1xfRXPN7aQvFurXjdBY62pOLkG1ll8r+md2s7QDnC+l7UTxI9HSneke9TBITJNiD9rY89QV/7S4c7nwwCpZOsg0Q5/soMpNokGbDQpDnPtssQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hf+kX7toRnc1H+Mm/SMFbHLlMDYEuy1AKtF4Ee18HlI=;
+ b=L/H19DTppCYWjry38EOpn1m0v+FGPtIlB3NHGXf+mF+lbRID+iioF3tKZIPSkJCTZe9ldKUgmCwr8p7K2ZihmgzkXskIfb9Uv/D0b9IFmczHo54V6DHdy1ZCChXiHGofU8ORXxl7K4v97ybjQ+aTPDo2h/xNk1jSc+VS+7OkVA8=
+Received: from DM6PR02CA0084.namprd02.prod.outlook.com (2603:10b6:5:1f4::25)
+ by DM5PR02MB2281.namprd02.prod.outlook.com (2603:10b6:3:59::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Tue, 11 Aug
+ 2020 00:46:41 +0000
+Received: from DM3NAM02FT024.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:5:1f4:cafe::2c) by DM6PR02CA0084.outlook.office365.com
+ (2603:10b6:5:1f4::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.18 via Frontend
+ Transport; Tue, 11 Aug 2020 00:46:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ DM3NAM02FT024.mail.protection.outlook.com (10.13.5.128) with Microsoft SMTP
+ Server id 15.20.3261.19 via Frontend Transport; Tue, 11 Aug 2020 00:46:41
+ +0000
+Received: from [149.199.38.66] (port=39380 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <venkateshwar.rao.gannavarapu@xilinx.com>)
+ id 1k5IR0-0006Xt-Ps; Mon, 10 Aug 2020 17:46:34 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <venkateshwar.rao.gannavarapu@xilinx.com>)
+ id 1k5IR7-0000Bj-7G; Mon, 10 Aug 2020 17:46:41 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 07B0kUxl005574; 
+ Mon, 10 Aug 2020 17:46:30 -0700
+Received: from [172.23.155.151] (helo=xhdengvm155151.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <venkateshwar.rao.gannavarapu@xilinx.com>)
+ id 1k5IQw-00009x-9a; Mon, 10 Aug 2020 17:46:30 -0700
+From: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+To: hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
+ dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH V2 0/2] Add Xilinx DSI TX driver
+Date: Tue, 11 Aug 2020 06:16:15 +0530
+Message-Id: <1597106777-30913-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+X-Mailer: git-send-email 2.1.1
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1596713672-8146-2-git-send-email-sjakhade@cadence.com>
+X-MS-Office365-Filtering-Correlation-Id: 779b67c4-d76d-4efa-1648-08d83d900365
+X-MS-TrafficTypeDiagnostic: DM5PR02MB2281:
+X-Microsoft-Antispam-PRVS: <DM5PR02MB22812AAC0925966888BD1801B1450@DM5PR02MB2281.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D72s+PddBj3YA2VQPKT5tYMeQ5ICfVQ704SATdSMD5aRmf6AhpJ2gChhdZiApQeVV4jBnip5O2dk5uYYoDvSW9McrkMmi+0vLYpV9WxBIkxzl+Z9PBXOOL9qxRhP6wjMFFvPX1DIM3RAmt+6WRXlfE8TXRX46vLsQXmatTxoQtozYuVq9kPsdAivFF1aHdqVrotj/ncWSgHfN7SZAH8MzCGC5rerdTggzFOgMpeM5TJX7NQBnQIntd17BMxwEEkfH3mbxhP/qGm+Wrw7OhydEqNJL8QdKbnFGSanv5JE5FT1TKJc7zVUCeYvwoinYeKXAzQAlRaGj2D2sher1XRsIVC+7v/tMzwWhcKvOusF7E5tseFZcYUngyq36weT6EbjGkStc523mbWS0grnWFuTGA==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(39860400002)(396003)(346002)(376002)(46966005)(186003)(5660300002)(9786002)(83380400001)(8936002)(2906002)(26005)(36756003)(70586007)(70206006)(356005)(336012)(82310400002)(81166007)(82740400003)(47076004)(4326008)(426003)(478600001)(8676002)(7696005)(316002)(6666004)(107886003)(2616005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 00:46:41.4426 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 779b67c4-d76d-4efa-1648-08d83d900365
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT024.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2281
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,195 +114,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie, tomi.valkeinen@ti.com,
- narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
- jsarha@ti.com, mparab@cadence.com
+Cc: sandipk@xilinx.com,
+ Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>,
+ airlied@linux.ie, linux-kernel@vger.kernel.org, vgannava@xilinx.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Swapnil,
+Xilinx DSI-TX subsytem consists of DSI controller core, AXI crossbar
+and D-PHY as sub blocks. DSI TX subsystem driver supports multiple lanes
+upto 4, RGB color formats, video mode and command modes.
 
-Thank you for the patch.
+DSI-TX driver is implemented as an encoder driver, as it going to be
+the final node in display pipeline. Xilinx doesn't support any converter
+logic to make this as bridge driver. Xilinx doesn't have such
+use cases where end node can't be an encoder like DSI-TX. And Xilinx
+encoder drivers represents a subsystem where individual blocks can't be
+used with external components / encoders.
 
-On Thu, Aug 06, 2020 at 01:34:30PM +0200, Swapnil Jakhade wrote:
-> From: Yuti Amonkar <yamonkar@cadence.com>
-> 
-> Document the bindings used for the Cadence MHDP DPI/DP bridge in
-> yaml format.
-> 
-> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../bindings/display/bridge/cdns,mhdp.yaml    | 139 ++++++++++++++++++
->  1 file changed, 139 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> new file mode 100644
-> index 000000000000..dabccefe0983
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp.yaml
-> @@ -0,0 +1,139 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/display/bridge/cdns,mhdp.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Cadence MHDP bridge
-> +
-> +maintainers:
-> +  - Swapnil Jakhade <sjakhade@cadence.com>
-> +  - Yuti Amonkar <yamonkar@cadence.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cdns,mhdp8546
-> +      - ti,j721e-mhdp8546
-> +
-> +  reg:
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - description:
-> +          Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
-> +          The AUX and PMA registers are not part of this range, they are instead
-> +          included in the associated PHY.
-> +      - description:
-> +          Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: mhdptx
-> +      - const: j721e-intg
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description:
-> +      DP bridge clock, used by the IP to know how to translate a number of
-> +      clock cycles into a time (which is used to comply with DP standard timings
-> +      and delays).
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description:
-> +      phandle to the DisplayPort PHY.
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      Ports as described in Documentation/devicetree/bindings/graph.txt.
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description:
-> +          Input port representing the DP bridge input.
-> +
-> +      port@1:
-> +        type: object
-> +        description:
-> +          Output port representing the DP bridge output.
+Venkateshwar Rao Gannavarapu (2):
+  dt-bindings: display: xlnx: dsi: This add a DT binding for Xilinx DSI
+    TX     subsystem.
+  drm: xlnx: dsi: driver for Xilinx DSI TX subsystem
 
-I've got a chance to study the J721E datasheet, and it shows the DP
-bridge has 4 inputs, to support MST. Shouldn't this already be reflected
-in the DT bindings ? I think it should be as simple as having 4 input
-ports (port@0 to port@3) and one output port (port@4).
+ .../devicetree/bindings/display/xlnx/xlnx,dsi.yaml | 147 +++++
+ drivers/gpu/drm/xlnx/Kconfig                       |  11 +
+ drivers/gpu/drm/xlnx/Makefile                      |   2 +
+ drivers/gpu/drm/xlnx/xlnx_dsi.c                    | 701 +++++++++++++++++++++
+ 4 files changed, 861 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,dsi.yaml
+ create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
 
-The bindings are ABI, so care must be taken to support all features and
-avoid future changes that would break backward compatibility. It's fine
-if the driver doesn't implement this feature yet.
+--
+1.8.3.1
 
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +      - '#address-cells'
-> +      - '#size-cells'
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,j721e-mhdp8546
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 2
-> +        reg-names:
-> +          minItems: 2
-> +    else:
-> +      properties:
-> +        reg:
-> +          maxItems: 1
-> +        reg-names:
-> +          maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - clocks
-> +  - reg
-> +  - reg-names
-> +  - phys
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        mhdp: dp-bridge@f0fb000000 {
-> +            compatible = "cdns,mhdp8546";
-> +            reg = <0xf0 0xfb000000 0x0 0x1000000>;
-> +            reg-names = "mhdptx";
-> +            clocks = <&mhdp_clock>;
-> +            phys = <&dp_phy>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    dp_bridge_input: endpoint {
-> +                        remote-endpoint = <&xxx_dpi_output>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    dp_bridge_output: endpoint {
-> +                        remote-endpoint = <&xxx_dp_connector_input>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-
--- 
-Regards,
-
-Laurent Pinchart
+This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
