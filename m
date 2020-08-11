@@ -1,60 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E0F241BA9
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 15:42:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3407241C28
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 16:14:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0076E516;
-	Tue, 11 Aug 2020 13:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7C26E51B;
+	Tue, 11 Aug 2020 14:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E298A6E50C;
- Tue, 11 Aug 2020 13:42:25 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id 2so1885760pjx.5;
- Tue, 11 Aug 2020 06:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=acr0H6bjplSuH3jFhn/PRz6bXpxAqSXjdFwXNbPnR24=;
- b=UdtCloL2EaQh4RPmsH4JGk21oKU+bstNRN0MFNJfd7QgJGlRbv6SGW9/k2X05bmZ+7
- 32Ln0xXzJUt9BX1E3K0k8WyMIYLQDi/HhNYjYNxqJKS3AA2P9P4QzIk2VaovlaOAzyDG
- p2uMMmRUYqpAwvyMBAawJkN+toi7QlZle5Npr6wFYVDo/xV4CUHB+8avlvc7LhKDr0zW
- wkEOeWhYlBpS5IQ9pPhdvl8mJBuibEd4OeQYU/r7TmWiCiE2yBC/F/5F3gUiIMN5FcAP
- Zvq30v17dVgJmvWyZe4lX3t/iAYP8cw4MLkzp4IDif8rXzjgZd0b+v3Uqj4D1DBGOs5z
- BhRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=acr0H6bjplSuH3jFhn/PRz6bXpxAqSXjdFwXNbPnR24=;
- b=jFIy+zHQ05zd7kHmVwdXHijOYG4Q4TYH8kVpIm3359hOIAh3JhgK24Vrk4bFmQwZvT
- 1PpFWQLetF7xDVqTKtMgs0bIZLz0Sz+MBMEsLl+5L1X7o+UoDU041HdQP+ZOOKZmDbZS
- RXhq+GuP5/ZDM65TGc0UqPDQarIMmWVOxvxaIQIdXU9mD+uaNiWxbG0IjekA2EAlkGy7
- dSnplWwx8XeGCK7eBAg8Gd666sRrp0T2U4xzQHWQCurVyhjipGX7BjGJL+hDuaTkdBqd
- B4T/6npEnCD88OKmSVphQ+ZAeM7FmPwyBt/5weNjkdRVuUOXmFNTwfauLYF1p9/uXTik
- fs+g==
-X-Gm-Message-State: AOAM530uoOWVRAp9y8ZLUoKbUrkbUz6UjGxl42/4wHTILla7CTer6DTU
- /ua/tVIoD8XfH1skCWFO/ij5lqhyLZiTUn+zVXDz9g==
-X-Google-Smtp-Source: ABdhPJxg9zr+OF3zRlqH9dkmkmCbrvGaJ5IDw55tVUj1Fomooaz0Dol415tx9iZWqC8iYBvpmqSlZtx4DIL02Czp2ss=
-X-Received: by 2002:a17:902:a50e:: with SMTP id
- s14mr905557plq.164.1597153343910; 
- Tue, 11 Aug 2020 06:42:23 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 847DF6E51B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 14:14:03 +0000 (UTC)
+IronPort-SDR: VWEQlbGdLdAN4o84oEpvocEcB2y7FDMcbzsaP1aesfDeVbJm9dEejCk97HdINU8vCwDpIZeixH
+ 9hPq2djrCRJg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9709"; a="133271311"
+X-IronPort-AV: E=Sophos;i="5.75,461,1589266800"; d="scan'208";a="133271311"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2020 07:14:02 -0700
+IronPort-SDR: ivxge3TGxLwJ8F2OXvGWmfn2+ZCMGSL0lxUlN+V2jU46jPCLrj/9cndhvl0xYALuJi4Ld2sRBb
+ x4j1kHNg4ZWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,461,1589266800"; d="scan'208";a="308412261"
+Received: from orsmsx604-2.jf.intel.com (HELO ORSMSX604.amr.corp.intel.com)
+ ([10.22.229.84])
+ by orsmga002.jf.intel.com with ESMTP; 11 Aug 2020 07:14:02 -0700
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 11 Aug 2020 07:14:02 -0700
+Received: from orsmsx106.amr.corp.intel.com (10.22.225.133) by
+ orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 11 Aug 2020 07:14:02 -0700
+Received: from orsmsx163.amr.corp.intel.com ([169.254.9.31]) by
+ ORSMSX106.amr.corp.intel.com ([169.254.1.122]) with mapi id 14.03.0439.000;
+ Tue, 11 Aug 2020 07:14:02 -0700
+From: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+To: "daniel@ffwll. ch" <daniel@ffwll.ch>
+Subject: Re: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
+ mgag200_mmap() from header" was seriously submitted to be applied to the
+ 5.8-stable tree?
+Thread-Topic: WTF: patch "[PATCH] drm/mgag200: Remove declaration of
+ mgag200_mmap() from header" was seriously submitted to be applied to the
+ 5.8-stable tree?
+Thread-Index: AQHWbZgiapOlBxtRVEO++lDYV3x3EKkxw2UAgAGqFAA=
+Date: Tue, 11 Aug 2020 14:14:01 +0000
+Message-ID: <B6E0F69E-7D9B-41B7-8323-FE8FC5332309@intel.com>
+References: <159680700523135@kroah.com>
+ <a92e73b9-c3da-76f6-9405-b2456fe68ce6@suse.de>
+ <CAKMK7uFJVzm1avAOZd0kPAzRUQkTQv3LtrjafjpjXh4K8TaAHg@mail.gmail.com>
+ <20200808102512.GA3039253@kroah.com>
+ <CAKMK7uF2zeOS714mq2Y29TgjLB7h3A51FhKs70YL+kK84DCyRQ@mail.gmail.com>
+ <20200808112908.GA3063898@kroah.com>
+ <CAKMK7uG=JBvmkAAN_Jq-N96zO-Xp5WwN9fQJqRdaxbRqus13ow@mail.gmail.com>
+ <20200810124900.GN2352366@phenom.ffwll.local>
+In-Reply-To: <20200810124900.GN2352366@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.212.29.17]
+Content-ID: <9917E71748748A4383182228F11DDB9D@intel.com>
 MIME-Version: 1.0
-References: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
- <20200730203642.17553-4-nicholas.kazlauskas@amd.com>
- <20200807083041.GL6419@phenom.ffwll.local>
- <4117cdee-2f5d-a8bd-1e80-1c550c9d9af3@amd.com>
- <20200810122553.GI2352366@phenom.ffwll.local>
- <9fc38b52-6b46-fec8-e511-3fc3e9d2c151@gmail.com>
-In-Reply-To: <9fc38b52-6b46-fec8-e511-3fc3e9d2c151@gmail.com>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Tue, 11 Aug 2020 09:42:11 -0400
-Message-ID: <CAAxE2A5BXVJ9xQ=C6F=Df1MCGUKTjV7yR=6x5hu6vfARp1SD7Q@mail.gmail.com>
-Subject: Re: [PATCH 3/7] drm/amd/display: Avoid using unvalidated tiling_flags
- and tmz_surface in prepare_planes
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,433 +78,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Olsak, Marek" <Marek.Olsak@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Type: multipart/mixed; boundary="===============1182794003=="
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "armijn@tjaldur.nl" <armijn@tjaldur.nl>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Alex
+ Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1182794003==
-Content-Type: multipart/alternative; boundary="000000000000b7389d05ac9a3d36"
 
---000000000000b7389d05ac9a3d36
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-There are a few cases when the flags can change, for example DCC can be
-disabled due to a hw limitation in the 3d engine. Modifiers give the
-misleading impression that they help with that, but they don't. They don't
-really help with anything.
+> On Aug 10, 2020, at 5:49 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> On Sat, Aug 08, 2020 at 05:24:53PM +0200, Daniel Vetter wrote:
+>> On Sat, Aug 8, 2020 at 1:28 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>>> 
+>>> On Sat, Aug 08, 2020 at 01:02:34PM +0200, Daniel Vetter wrote:
+>>>> On Sat, Aug 8, 2020 at 12:24 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>>>>> 
+>>>>> On Sat, Aug 08, 2020 at 11:13:54AM +0200, Daniel Vetter wrote:
+>>>>>> On Fri, Aug 7, 2020 at 3:54 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>>>>>> 
+>>>>>>> Hi
+>>>>>>> 
+>>>>>>> Am 07.08.20 um 15:30 schrieb gregkh@linuxfoundation.org:
+>>>>>>>> The patch below was submitted to be applied to the 5.8-stable tree.
+>>>>>>>> 
+>>>>>>>> I fail to see how this patch meets the stable kernel rules as found at
+>>>>>>>> Documentation/process/stable-kernel-rules.rst.
+>>>>>>>> 
+>>>>>>>> I could be totally wrong, and if so, please respond to
+>>>>>>>> <stable@vger.kernel.org> and let me know why this patch should be
+>>>>>>>> applied.  Otherwise, it is now dropped from my patch queues, never to be
+>>>>>>>> seen again.
+>>>>>>> 
+>>>>>>> Sorry for the noise. There's no reason this should go into stable.
+>>>>>> 
+>>>>>> We have a little script in our maintainer toolbox for bugfixes, which
+>>>>>> generates the Fixes: line, adds everyone from the original commit to
+>>>>>> the cc: list and also adds Cc: stable if that sha1 the patch fixes is
+>>>>>> in a release already.
+>>>>>> 
+>>>>>> I guess we trained people a bit too much on using Fixes: tags like
+>>>>>> that with the tooling, since they often do that for checkpatch stuff
+>>>>>> and spelling fixes like this here too. I think the autoselect bot also
+>>>>>> loves Fixes: tags a bit too much for its own good.
+>>>>>> 
+>>>>>> Not sure what to do, since telling people to "please sprinkle less
+>>>>>> Fixes: tags" doesn't sound great either. I also don't want to tell
+>>>>>> people to use the maintainer toolbox less, the autogenerated cc: list
+>>>>>> is generally the right thing to do. Maybe best if the stable team
+>>>>>> catches the obvious ones before adding them to the stable queue, if
+>>>>>> you're ok with that Greg?
+>>>>> 
+>>>>> As I think this is the first time that I've had this problem for a DRM
+>>>>> submission, I don't think it's a big issue yet at all, so whatever you
+>>>>> are doing today is fine.
+>>>>> 
+>>>>> I do think that the number of patches submitted for stable for
+>>>>> drm-related issues feels very very low given the rate of change and
+>>>>> number of overall patches you all submit to the kernel, so if anything,
+>>>>> you all should be increasing the number of times you tag stuff for
+>>>>> stable, not reducing it :)
+>>>> 
+>>>> Ok, sounds like we should encourage people to use the Fixes: tag and
+>>>> auto-cc tooling more, not less.
+>>>> 
+>>>> I also crunched some quick numbers:
+>>>> commits with cc: stable in drm/amd: 2.6%
+>>>> ... in drm/i915: 2.5%
+>>>> ... drm overall: 2.3%
+>>>> drivers/ overall: 3.1%
+>>>> 
+>>>> So from a quick look no big outliers at least, maybe not quite enough
+>>>> cc: stable from smaller drivers (i915+amd is about 60% of everything
+>>>> in drm). This is for the past year. Compared to drivers/ overall a bit
+>>>> lower, but not drastically so. At least if I didn't screw up my
+>>>> scripting.
+>>> 
+>>> Seems about right, so on those averages, you have missed about 40-50
+>>> patches that should have been cc:ed stable.
+>>> 
+>>> However, you are comparing yourself against stuff like drivers/net/
+>>> which shouldn't have cc: stable for most stuff (as per the networking
+>>> workflow), and other subsystems that seem to never want to cc: stable
+>>> for various reasons (offenders not mentioned to be nice...)
+>>> 
+>>> So let's bump that number up a bit, maybe you are missing 100 patches
+>>> this past year that should have been backported?
+>>> 
+>>> Feels like you all could tag more, even if the number is only 40-50 :)
+>>> 
+>>> Oh wait, are you sure you don't count the horrid "double commits" where
+>>> you backport something from your development branch to your "for linus"
+>>> branch, and have cc: stable on both, so that during the -rc1 merge
+>>> window I see a ton of commits that are already in the tree?  That would
+>>> inflate your numbers a lot more so your real percentages might be a lot
+>>> lower...
+>>> 
+>>> fun with math.
+>> 
+>> Even drivers/net has like 1.0% cc: stable or so, but yeah maybe a
+>> third cc: stable might be missing overall in drm. The math aint more
+>> accurate no matter what, but agrees with your "about 100 patches".
+>> 
+>> And yeah I didn't take out the cherry-picked ones. Trying to grep for
+>> those (yay more fun with math) says there's 37 stable commits I
+>> double-counted, leaving 1.4% left over for drm/i915. That seems indeed
+>> a bit too low :-/
+>> 
+>> I guess time to add intel maintainers (kinda not my direct business anymore).
+> 
+> So for comparison I also looked at mesa3d, which at least compared to
+> drivers/gpu is very similar:
+> - 3 months release cycle, 1 month -rc
+> - very low level C codebase dealing with gpu nonsense
+> - same Cc: stable process, shamelessly copied from the kernel
+> - roughly same review process, but recently switched from patch bombs on
+>  m-l to gitlab merge requests (but still pretty similar flow with
+>  detailed per-commit review)
+> 
+> It has a 0.9% stable ratio over the past year.
+> 
+> The really big difference is that mesa3d CI is really, really good. Like
+> we run a ton of unit tests, sw rendering tests and then a bunch of hw
+> platforms running validation suits. All pre-merge, i.e. before the patches
+> are even reviewed in detail. And there's a bot used for merging, to make
+> sure you're patches pass, or they don't go in.
+> 
+> tldr; roughly the same, except a CI that's a few orders of magnitude
+> better than what drm/i915 has (especially wrt sporadic issues). Which I
+> think is still lots better than what any other drm driver has (but it does
+> help the subsytem overall with catching lots of issues in helpers an core
+> code).
+> 
+> So maybe the lower cc: stable is because we catch more crap before it
+> even lands ... no idea really, and no human can go and quickly review 10k
+> patches for why there's fewer cc: stable.
 
-Marek
+Or maybe because we have a higher rate of code refactor? :/
 
-On Mon., Aug. 10, 2020, 08:30 Christian K=C3=B6nig, <
-ckoenig.leichtzumerken@gmail.com> wrote:
+But yes, let's work to encourage more people of using Fixes; and cc-stable
+properly. Luckily we already have some tools in place (dim fixes <has>) that
+our developers are used to. This will dump the right "Fixes: <hash><commit-subject>"
+line, and appropriated Ccs, including stable when needed.
 
-> Am 10.08.20 um 14:25 schrieb Daniel Vetter:
-> > On Fri, Aug 07, 2020 at 10:29:09AM -0400, Kazlauskas, Nicholas wrote:
-> >> On 2020-08-07 4:30 a.m., daniel@ffwll.ch wrote:
-> >>> On Thu, Jul 30, 2020 at 04:36:38PM -0400, Nicholas Kazlauskas wrote:
-> >>>> [Why]
-> >>>> We're racing with userspace as the flags could potentially change
-> >>>> from when we acquired and validated them in commit_check.
-> >>> Uh ... I didn't know these could change. I think my comments on Bas'
-> >>> series are even more relevant now. I think long term would be best to
-> bake
-> >>> these flags in at addfb time when modifiers aren't set. And otherwise
-> >>> always use the modifiers flag, and completely ignore the legacy flags
-> >>> here.
-> >>> -Daniel
-> >>>
-> >> There's a set tiling/mod flags IOCTL that can be called after addfb
-> happens,
-> >> so unless there's some sort of driver magic preventing this from worki=
-ng
-> >> when it's already been pinned for scanout then I don't see anything
-> stopping
-> >> this from happening.
-> >>
-> >> I still need to review the modifiers series in a little more detail bu=
-t
-> that
-> >> looks like a good approach to fixing these kind of issues.
-> > Yeah we had the same model for i915, but it's awkward and can surprise
-> > compositors (since the client could change the tiling mode from
-> underneath
-> > the compositor). So freezing the tiling mode at addfb time is the right
-> > thing to do, and anyway how things work with modifiers.
-> >
-> > Ofc maybe good to audit the -amd driver, but hopefully it doesn't do
-> > anything silly with changed tiling. If it does, it's kinda sad day.
->
-> Marek should know this right away, but I think we only set the tilling
-> flags once while exporting the BO and then never change them.
->
-> Regards,
-> Christian.
->
-> >
-> > Btw for i915 we even went a step further, and made the set_tiling ioctl
-> > return an error if a framebuffer for that gem_bo existed. Just to make
-> > sure we don't ever accidentally break this.
-> >
-> > Cheers, Daniel
-> >
-> >> Regards,
-> >> Nicholas Kazlauskas
-> >>
-> >>>> [How]
-> >>>> We unfortunately can't drop this function in its entirety from
-> >>>> prepare_planes since we don't know the afb->address at commit_check
-> >>>> time yet.
-> >>>>
-> >>>> So instead of querying new tiling_flags and tmz_surface use the ones
-> >>>> from the plane_state directly.
-> >>>>
-> >>>> While we're at it, also update the force_disable_dcc option based
-> >>>> on the state from atomic check.
-> >>>>
-> >>>> Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-> >>>> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> >>>> Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> >>>> ---
-> >>>>    .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 36
-> ++++++++++---------
-> >>>>    1 file changed, 19 insertions(+), 17 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>> index bf1881bd492c..f78c09c9585e 100644
-> >>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>> @@ -5794,14 +5794,8 @@ static int dm_plane_helper_prepare_fb(struct
-> drm_plane *plane,
-> >>>>            struct list_head list;
-> >>>>            struct ttm_validate_buffer tv;
-> >>>>            struct ww_acquire_ctx ticket;
-> >>>> -  uint64_t tiling_flags;
-> >>>>            uint32_t domain;
-> >>>>            int r;
-> >>>> -  bool tmz_surface =3D false;
-> >>>> -  bool force_disable_dcc =3D false;
-> >>>> -
-> >>>> -  dm_plane_state_old =3D to_dm_plane_state(plane->state);
-> >>>> -  dm_plane_state_new =3D to_dm_plane_state(new_state);
-> >>>>            if (!new_state->fb) {
-> >>>>                    DRM_DEBUG_DRIVER("No FB bound\n");
-> >>>> @@ -5845,27 +5839,35 @@ static int dm_plane_helper_prepare_fb(struct
-> drm_plane *plane,
-> >>>>                    return r;
-> >>>>            }
-> >>>> -  amdgpu_bo_get_tiling_flags(rbo, &tiling_flags);
-> >>>> -
-> >>>> -  tmz_surface =3D amdgpu_bo_encrypted(rbo);
-> >>>> -
-> >>>>            ttm_eu_backoff_reservation(&ticket, &list);
-> >>>>            afb->address =3D amdgpu_bo_gpu_offset(rbo);
-> >>>>            amdgpu_bo_ref(rbo);
-> >>>> +  /**
-> >>>> +   * We don't do surface updates on planes that have been newly
-> created,
-> >>>> +   * but we also don't have the afb->address during atomic check.
-> >>>> +   *
-> >>>> +   * Fill in buffer attributes depending on the address here, but
-> only on
-> >>>> +   * newly created planes since they're not being used by DC yet an=
-d
-> this
-> >>>> +   * won't modify global state.
-> >>>> +   */
-> >>>> +  dm_plane_state_old =3D to_dm_plane_state(plane->state);
-> >>>> +  dm_plane_state_new =3D to_dm_plane_state(new_state);
-> >>>> +
-> >>>>            if (dm_plane_state_new->dc_state &&
-> >>>> -                  dm_plane_state_old->dc_state !=3D
-> dm_plane_state_new->dc_state) {
-> >>>> -          struct dc_plane_state *plane_state =3D
-> dm_plane_state_new->dc_state;
-> >>>> +      dm_plane_state_old->dc_state !=3D dm_plane_state_new->dc_stat=
-e) {
-> >>>> +          struct dc_plane_state *plane_state =3D
-> >>>> +                  dm_plane_state_new->dc_state;
-> >>>> +          bool force_disable_dcc =3D !plane_state->dcc.enable;
-> >>>> -          force_disable_dcc =3D adev->asic_type =3D=3D CHIP_RAVEN &=
-&
-> adev->in_suspend;
-> >>>>                    fill_plane_buffer_attributes(
-> >>>>                            adev, afb, plane_state->format,
-> plane_state->rotation,
-> >>>> -                  tiling_flags, &plane_state->tiling_info,
-> >>>> -                  &plane_state->plane_size, &plane_state->dcc,
-> >>>> -                  &plane_state->address, tmz_surface,
-> >>>> -                  force_disable_dcc);
-> >>>> +                  dm_plane_state_new->tiling_flags,
-> >>>> +                  &plane_state->tiling_info,
-> &plane_state->plane_size,
-> >>>> +                  &plane_state->dcc, &plane_state->address,
-> >>>> +                  dm_plane_state_new->tmz_surface,
-> force_disable_dcc);
-> >>>>            }
-> >>>>            return 0;
-> >>>> --
-> >>>> 2.25.1
-> >>>>
-> >>>> _______________________________________________
-> >>>> dri-devel mailing list
-> >>>> dri-devel@lists.freedesktop.org
-> >>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
->
-
---000000000000b7389d05ac9a3d36
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">There are a few cases when the flags can change, for exam=
-ple DCC can be disabled due to a hw limitation in the 3d engine. Modifiers =
-give the misleading impression that they help with that, but they don&#39;t=
-. They don&#39;t really help with anything.<div dir=3D"auto"><br></div><div=
- dir=3D"auto">Marek</div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Mon., Aug. 10, 2020, 08:30 Christian K=C3=B6nig=
-, &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gmail.com">ckoenig.leichtzum=
-erken@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Am 1=
-0.08.20 um 14:25 schrieb Daniel Vetter:<br>
-&gt; On Fri, Aug 07, 2020 at 10:29:09AM -0400, Kazlauskas, Nicholas wrote:<=
-br>
-&gt;&gt; On 2020-08-07 4:30 a.m., <a href=3D"mailto:daniel@ffwll.ch" target=
-=3D"_blank" rel=3D"noreferrer">daniel@ffwll.ch</a> wrote:<br>
-&gt;&gt;&gt; On Thu, Jul 30, 2020 at 04:36:38PM -0400, Nicholas Kazlauskas =
-wrote:<br>
-&gt;&gt;&gt;&gt; [Why]<br>
-&gt;&gt;&gt;&gt; We&#39;re racing with userspace as the flags could potenti=
-ally change<br>
-&gt;&gt;&gt;&gt; from when we acquired and validated them in commit_check.<=
-br>
-&gt;&gt;&gt; Uh ... I didn&#39;t know these could change. I think my commen=
-ts on Bas&#39;<br>
-&gt;&gt;&gt; series are even more relevant now. I think long term would be =
-best to bake<br>
-&gt;&gt;&gt; these flags in at addfb time when modifiers aren&#39;t set. An=
-d otherwise<br>
-&gt;&gt;&gt; always use the modifiers flag, and completely ignore the legac=
-y flags<br>
-&gt;&gt;&gt; here.<br>
-&gt;&gt;&gt; -Daniel<br>
-&gt;&gt;&gt;<br>
-&gt;&gt; There&#39;s a set tiling/mod flags IOCTL that can be called after =
-addfb happens,<br>
-&gt;&gt; so unless there&#39;s some sort of driver magic preventing this fr=
-om working<br>
-&gt;&gt; when it&#39;s already been pinned for scanout then I don&#39;t see=
- anything stopping<br>
-&gt;&gt; this from happening.<br>
-&gt;&gt;<br>
-&gt;&gt; I still need to review the modifiers series in a little more detai=
-l but that<br>
-&gt;&gt; looks like a good approach to fixing these kind of issues.<br>
-&gt; Yeah we had the same model for i915, but it&#39;s awkward and can surp=
-rise<br>
-&gt; compositors (since the client could change the tiling mode from undern=
-eath<br>
-&gt; the compositor). So freezing the tiling mode at addfb time is the righ=
-t<br>
-&gt; thing to do, and anyway how things work with modifiers.<br>
-&gt;<br>
-&gt; Ofc maybe good to audit the -amd driver, but hopefully it doesn&#39;t =
-do<br>
-&gt; anything silly with changed tiling. If it does, it&#39;s kinda sad day=
-.<br>
-<br>
-Marek should know this right away, but I think we only set the tilling <br>
-flags once while exporting the BO and then never change them.<br>
-<br>
-Regards,<br>
-Christian.<br>
-<br>
-&gt;<br>
-&gt; Btw for i915 we even went a step further, and made the set_tiling ioct=
-l<br>
-&gt; return an error if a framebuffer for that gem_bo existed. Just to make=
-<br>
-&gt; sure we don&#39;t ever accidentally break this.<br>
-&gt;<br>
-&gt; Cheers, Daniel<br>
-&gt;<br>
-&gt;&gt; Regards,<br>
-&gt;&gt; Nicholas Kazlauskas<br>
-&gt;&gt;<br>
-&gt;&gt;&gt;&gt; [How]<br>
-&gt;&gt;&gt;&gt; We unfortunately can&#39;t drop this function in its entir=
-ety from<br>
-&gt;&gt;&gt;&gt; prepare_planes since we don&#39;t know the afb-&gt;address=
- at commit_check<br>
-&gt;&gt;&gt;&gt; time yet.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; So instead of querying new tiling_flags and tmz_surface us=
-e the ones<br>
-&gt;&gt;&gt;&gt; from the plane_state directly.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; While we&#39;re at it, also update the force_disable_dcc o=
-ption based<br>
-&gt;&gt;&gt;&gt; on the state from atomic check.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Cc: Bhawanpreet Lakha &lt;<a href=3D"mailto:Bhawanpreet.La=
-kha@amd.com" target=3D"_blank" rel=3D"noreferrer">Bhawanpreet.Lakha@amd.com=
-</a>&gt;<br>
-&gt;&gt;&gt;&gt; Cc: Rodrigo Siqueira &lt;<a href=3D"mailto:Rodrigo.Siqueir=
-a@amd.com" target=3D"_blank" rel=3D"noreferrer">Rodrigo.Siqueira@amd.com</a=
->&gt;<br>
-&gt;&gt;&gt;&gt; Signed-off-by: Nicholas Kazlauskas &lt;<a href=3D"mailto:n=
-icholas.kazlauskas@amd.com" target=3D"_blank" rel=3D"noreferrer">nicholas.k=
-azlauskas@amd.com</a>&gt;<br>
-&gt;&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=
- | 36 ++++++++++---------<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 1 file changed, 19 insertions(+), 17 deletion=
-s(-)<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_=
-dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
-&gt;&gt;&gt;&gt; index bf1881bd492c..f78c09c9585e 100644<br>
-&gt;&gt;&gt;&gt; --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br=
->
-&gt;&gt;&gt;&gt; +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br=
->
-&gt;&gt;&gt;&gt; @@ -5794,14 +5794,8 @@ static int dm_plane_helper_prepare_=
-fb(struct drm_plane *plane,<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct list_head =
-list;<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ttm_valida=
-te_buffer tv;<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ww_acquire=
-_ctx ticket;<br>
-&gt;&gt;&gt;&gt; -=C2=A0 uint64_t tiling_flags;<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t domain;<=
-br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int r;<br>
-&gt;&gt;&gt;&gt; -=C2=A0 bool tmz_surface =3D false;<br>
-&gt;&gt;&gt;&gt; -=C2=A0 bool force_disable_dcc =3D false;<br>
-&gt;&gt;&gt;&gt; -<br>
-&gt;&gt;&gt;&gt; -=C2=A0 dm_plane_state_old =3D to_dm_plane_state(plane-&gt=
-;state);<br>
-&gt;&gt;&gt;&gt; -=C2=A0 dm_plane_state_new =3D to_dm_plane_state(new_state=
-);<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!new_state-&g=
-t;fb) {<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 DRM_DEBUG_DRIVER(&quot;No FB bound\n&quot;);<br>
-&gt;&gt;&gt;&gt; @@ -5845,27 +5839,35 @@ static int dm_plane_helper_prepare=
-_fb(struct drm_plane *plane,<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 return r;<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;&gt;&gt;&gt; -=C2=A0 amdgpu_bo_get_tiling_flags(rbo, &amp;tiling_flags)=
-;<br>
-&gt;&gt;&gt;&gt; -<br>
-&gt;&gt;&gt;&gt; -=C2=A0 tmz_surface =3D amdgpu_bo_encrypted(rbo);<br>
-&gt;&gt;&gt;&gt; -<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ttm_eu_backoff_re=
-servation(&amp;ticket, &amp;list);<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 afb-&gt;address =
-=3D amdgpu_bo_gpu_offset(rbo);<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 amdgpu_bo_ref(rbo=
-);<br>
-&gt;&gt;&gt;&gt; +=C2=A0 /**<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0* We don&#39;t do surface updates on planes =
-that have been newly created,<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0* but we also don&#39;t have the afb-&gt;add=
-ress during atomic check.<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0*<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0* Fill in buffer attributes depending on the=
- address here, but only on<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0* newly created planes since they&#39;re not=
- being used by DC yet and this<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0* won&#39;t modify global state.<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0*/<br>
-&gt;&gt;&gt;&gt; +=C2=A0 dm_plane_state_old =3D to_dm_plane_state(plane-&gt=
-;state);<br>
-&gt;&gt;&gt;&gt; +=C2=A0 dm_plane_state_new =3D to_dm_plane_state(new_state=
-);<br>
-&gt;&gt;&gt;&gt; +<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dm_plane_stat=
-e_new-&gt;dc_state &amp;&amp;<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 dm_plane_state_old-&gt;dc_state !=3D dm_plane_state_new-&gt;dc_state=
-) {<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct dc_plane_state =
-*plane_state =3D dm_plane_state_new-&gt;dc_state;<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 dm_plane_state_old-&gt;dc_state !=3D=
- dm_plane_state_new-&gt;dc_state) {<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct dc_plane_state =
-*plane_state =3D<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 dm_plane_state_new-&gt;dc_state;<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool force_disable_dcc=
- =3D !plane_state-&gt;dcc.enable;<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 force_disable_dcc =3D =
-adev-&gt;asic_type =3D=3D CHIP_RAVEN &amp;&amp; adev-&gt;in_suspend;<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 fill_plane_buffer_attributes(<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adev, afb, plane_state-&gt;format, p=
-lane_state-&gt;rotation,<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 tiling_flags, &amp;plane_state-&gt;tiling_info,<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 &amp;plane_state-&gt;plane_size, &amp;plane_state-&gt;dcc,<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 &amp;plane_state-&gt;address, tmz_surface,<br>
-&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 force_disable_dcc);<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 dm_plane_state_new-&gt;tiling_flags,<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 &amp;plane_state-&gt;tiling_info, &amp;plane_state-&gt;plane_size,<b=
-r>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 &amp;plane_state-&gt;dcc, &amp;plane_state-&gt;address,<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 dm_plane_state_new-&gt;tmz_surface, force_disable_dcc);<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;&gt;&gt;&gt; -- <br>
-&gt;&gt;&gt;&gt; 2.25.1<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; _______________________________________________<br>
-&gt;&gt;&gt;&gt; dri-devel mailing list<br>
-&gt;&gt;&gt;&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=
-=3D"_blank" rel=3D"noreferrer">dri-devel@lists.freedesktop.org</a><br>
-&gt;&gt;&gt;&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/=
-dri-devel" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.fr=
-eedesktop.org/mailman/listinfo/dri-devel</a><br>
-<br>
-_______________________________________________<br>
-amd-gfx mailing list<br>
-<a href=3D"mailto:amd-gfx@lists.freedesktop.org" target=3D"_blank" rel=3D"n=
-oreferrer">amd-gfx@lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/amd-gfx" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailm=
-an/listinfo/amd-gfx</a><br>
-</blockquote></div>
-
---000000000000b7389d05ac9a3d36--
-
---===============1182794003==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+> Cheers, Daniel
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1182794003==--
