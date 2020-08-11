@@ -1,52 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DFC2425C6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D2D2425D0
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF0F36E8A8;
-	Wed, 12 Aug 2020 07:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9CB66E8B5;
+	Wed, 12 Aug 2020 07:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 723 seconds by postgrey-1.36 at gabe;
- Tue, 11 Aug 2020 11:22:35 UTC
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
- [81.169.146.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537AF89A98
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 11:22:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597144953;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:To:From:References:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=hXEGHWMyRUQrNc/ZFNn/T2PMpFyQViNoZOQvcvCZMjM=;
- b=mU3E330cyXJvkj8ZmTMh6H7izzY9mf4gcml0zIFETzy/rPmRRlXmyw2TpXEoK1C1Re
- CzEzLmvrVofkc4kdK9NcJguzh+HGcXKmQBcuipNFE4Cz4tKGj/FcJ0aQDKWWeziiZovE
- lut8Y+OJD1+68Yq9J9rgqatvCDL9Klm51d91Gvrq5kTpAf0Oj43EmngjN2dLlXJCYmta
- 2WL+hDZzwVAKsUe82kvbMyn2y8KoT3wOqfOEz/MnPn3gvDMSult+z6txfC09YMB//1K2
- UqATRXyatb8BMKKIPvbsK4IZQykSexT+YCJPLxmMMmXEaFTvwWQfkGO59K8Iq3pNnbeK
- Zw4Q==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySd+h5Fvhoai69SqY56N8="
-X-RZG-CLASS-ID: mo00
-Received: from [192.168.178.37] by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
- with ESMTPSA id 60686ew7BBAUYWG
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate)
- for <dri-devel@lists.freedesktop.org>;
- Tue, 11 Aug 2020 13:10:30 +0200 (CEST)
-Subject: Fwd: [Virtual ppce500] virtio_gpu virtio0: swiotlb buffer is full
-References: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-To: "dri-devel@lists.freedesktop.org >> Maling list - DRI developers"
- <dri-devel@lists.freedesktop.org>
-X-Forwarded-Message-Id: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
-Message-ID: <580dfbb6-f992-2d0d-78db-80be2ac5301c@xenosoft.de>
-Date: Tue, 11 Aug 2020 13:10:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E25436E57A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 15:02:16 +0000 (UTC)
+Received: from fsav108.sakura.ne.jp (fsav108.sakura.ne.jp [27.133.134.235])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 07BF2AxJ015080;
+ Wed, 12 Aug 2020 00:02:10 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav108.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav108.sakura.ne.jp);
+ Wed, 12 Aug 2020 00:02:10 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav108.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 07BF24QW015054
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Wed, 12 Aug 2020 00:02:10 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH] vt: defer kfree() of vc_screenbuf in vc_do_resize()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <1596034621-4714-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
+ <0c9d8003-ba3f-8f2d-7c5a-56c5ca7db750@i-love.sakura.ne.jp>
+ <20200804125831.GA221149@kroah.com>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <6053bc22-0876-f503-c1b6-3181a70d97de@i-love.sakura.ne.jp>
+Date: Wed, 12 Aug 2020 00:02:03 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
-Content-Language: de-DE
+In-Reply-To: <20200804125831.GA221149@kroah.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 12 Aug 2020 07:05:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,79 +52,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ syzbot <syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com>,
+ Jiri Slaby <jslaby@suse.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQWxsLAoKSSBob3BlIHlvdSBhcmUgcmVzcG9uc2libGUgZm9yIHRoZSB2aXJ0aW9fZ3B1LgoK
-Q291bGQgeW91IHBsZWFzZSB0ZXN0IHRoZSB2aXJ0aW9fZ3B1IGJlY2F1c2UgaXQgZG9lc24ndCB3
-b3JrIGFueW1vcmUgCndpdGggdGhlIGxhdGVzdCBHaXQga2VybmVsIChzZWUgYmVsb3cpLgoKVGhh
-bmtzLApDaHJpc3RpYW4KCgotLS0tLS0tLSBXZWl0ZXJnZWxlaXRldGUgTmFjaHJpY2h0IC0tLS0t
-LS0tCkJldHJlZmY6IAlbVmlydHVhbCBwcGNlNTAwXSB2aXJ0aW9fZ3B1IHZpcnRpbzA6IHN3aW90
-bGIgYnVmZmVyIGlzIGZ1bGwKRGF0dW06IAlNb24sIDEwIEF1ZyAyMDIwIDE1OjAxOjM3ICswMjAw
-ClZvbjogCUNocmlzdGlhbiBaaWdvdHpreSA8Y2h6aWdvdHpreUB4ZW5vc29mdC5kZT4KQW46IAlB
-bmVlc2ggS3VtYXIgSy5WIDxhbmVlc2gua3VtYXJAbGludXguaWJtLmNvbT4KS29waWUgKENDKTog
-CVIuVC5EaWNraW5zb24gPHJ0ZDJAeHRyYS5jby5uej4sIERhcnJlbiBTdGV2ZW5zIAo8ZGFycmVu
-QHN0ZXZlbnMtem9uZS5uZXQ+LCBPbG9mIEpvaGFuc3NvbiA8b2xvZkBsaXhvbS5uZXQ+LCBtYWQg
-c2thdGVtYW4gCjxtYWRza2F0ZW1hbkBnbWFpbC5jb20+LCBsaW51eHBwYy1kZXYgPGxpbnV4cHBj
-LWRldkBsaXN0cy5vemxhYnMub3JnPiwgCmt2bS1wcGNAdmdlci5rZXJuZWwub3JnIDxrdm0tcHBj
-QHZnZXIua2VybmVsLm9yZz4KCgoKSGVsbG8sCgpKdXN0IGZvciBpbmZvLiBUaGUgbGF0ZXN0IGdp
-dCBrZXJuZWwgZG9lc24ndCB3b3JrIHdpdGggYSB2aXJ0aW9fZ3B1IGFueW1vcmUuCgpRRU1VIGNv
-bW1hbmQ6IHFlbXUtc3lzdGVtLXBwYzY0IC1NIHBwY2U1MDAgLWNwdSBlNTUwMCAtZW5hYmxlLWt2
-bSAtbSAKMTAyNCAta2VybmVsIHVJbWFnZSAtZHJpdmUgCmZvcm1hdD1yYXcsZmlsZT1maWVuaXgt
-c29hcl8zLjAtMjAyMDYwOC1uZXQuaW1nLGluZGV4PTAsaWY9dmlydGlvIC1uaWMgCnVzZXIsbW9k
-ZWw9ZTEwMDAgLWFwcGVuZCAicncgcm9vdD0vZGV2L3ZkYTIiIC1kZXZpY2UgdmlydGlvLXZnYSAt
-ZGV2aWNlIAp2aXJ0aW8tbW91c2UtcGNpIC1kZXZpY2UgdmlydGlvLWtleWJvYXJkLXBjaSAtZGV2
-aWNlIHBjaS1vaGNpLGlkPW5ld3VzYiAKLWRldmljZSB1c2ItYXVkaW8sYnVzPW5ld3VzYi4wIC1z
-bXAgNAoKRXJyb3IgbWVzc2FnZXM6Cgp2aXJ0aW9fZ3B1IHZpcnRpbzA6IHN3aW90bGIgYnVmZmVy
-IGlzIGZ1bGwgKHN6OiA0MDk2IGJ5dGVzKSwgdG90YWwgMCAKKHNsb3RzKSwgdXNlZCAwIChzbG90
-cykKQlVHOiBLZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlIG9uIHJlYWQgYXQgMHgwMDAw
-MDAxMApGYXVsdGluZyBpbnN0cnVjdGlvbiBhZGRyZXNzOiAweGMwMDAwMDAwMDAwYzczMjQKT29w
-czogS2VybmVsIGFjY2VzcyBvZiBiYWQgYXJlYSwgc2lnOiAxMSBbIzFdCkJFIFBBR0VfU0laRT00
-SyBQUkVFTVBUIFNNUCBOUl9DUFVTPTQgUUVNVSBlNTAwCk1vZHVsZXMgbGlua2VkIGluOgpDUFU6
-IDIgUElEOiAxNjc4IENvbW06IGt3b3JrZXIvMjoyIE5vdCB0YWludGVkIAo1LjktYTNfQS1FT05f
-WDUwMDAtMTE3MzUtZzA2YTgxYzFjN2RiOS1kaXJ0eSAjMQpXb3JrcXVldWU6IGV2ZW50cyAudmly
-dGlvX2dwdV9kZXF1ZXVlX2N0cmxfZnVuYwpOSVA6wqAgYzAwMDAwMDAwMDBjNzMyNCBMUjogYzAw
-MDAwMDAwMDBjNzJlNCBDVFI6IGMwMDAwMDAwMDA0NjI5MzAKUkVHUzogYzAwMDAwMDAzZGJhNzVl
-MCBUUkFQOiAwMzAwwqDCoCBOb3QgdGFpbnRlZCAKKDUuOS1hM19BLUVPTl9YNTAwMC0xMTczNS1n
-MDZhODFjMWM3ZGI5LWRpcnR5KQpNU1I6wqAgMDAwMDAwMDA5MDAyOTAwMCA8Q0UsRUUsTUU+wqAg
-Q1I6IDI0MDAyMjg4wqAgWEVSOiAwMDAwMDAwMApERUFSOiAwMDAwMDAwMDAwMDAwMDEwIEVTUjog
-MDAwMDAwMDAwMDAwMDAwMCBJUlFNQVNLOiAwCkdQUjAwOiBjMDAwMDAwMDAwMGM2MTg4IGMwMDAw
-MDAwM2RiYTc4NzAgYzAwMDAwMDAwMTdmMjMwMCBjMDAwMDAwMDNkODkzMDEwCkdQUjA0OiAwMDAw
-MDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDEgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAw
-MDAwMDAwCkdQUjA4OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAw
-MDAwMDAwMCA3ZjdmN2Y3ZjdmN2Y3ZjdmCkdQUjEyOiAwMDAwMDAwMDI0MDAyMjg0IGMwMDAwMDAw
-M2ZmZjkyMDAgYzAwMDAwMDAwMDA4YzNhMCBjMDAwMDAwMDA2MTU2NmMwCkdQUjE2OiAwMDAwMDAw
-MDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAw
-MDAwCkdQUjIwOiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAw
-MDAwMCAwMDAwMDAwMDAwMDAwMDAwCkdQUjI0OiAwMDAwMDAwMDAwMDAwMDAxIDAwMDAwMDAwMDAx
-MTAwMDAgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAwCkdQUjI4OiBjMDAwMDAwMDNk
-ODkzMDEwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMCBjMDAwMDAwMDNkODkzMDEw
-Ck5JUCBbYzAwMDAwMDAwMDBjNzMyNF0gLmRtYV9kaXJlY3RfdW5tYXBfc2crMHg0Yy8weGQ4CkxS
-IFtjMDAwMDAwMDAwMGM3MmU0XSAuZG1hX2RpcmVjdF91bm1hcF9zZysweGMvMHhkOApDYWxsIFRy
-YWNlOgpbYzAwMDAwMDAzZGJhNzg3MF0gW2MwMDAwMDAwM2RiYTc5NTBdIDB4YzAwMDAwMDAzZGJh
-Nzk1MCAodW5yZWxpYWJsZSkKW2MwMDAwMDAwM2RiYTc5MjBdIFtjMDAwMDAwMDAwMGM2MTg4XSAu
-ZG1hX3VubWFwX3NnX2F0dHJzKzB4NWMvMHg5OApbYzAwMDAwMDAzZGJhNzlkMF0gW2MwMDAwMDAw
-MDA1Y2Q0MzhdIC5kcm1fZ2VtX3NobWVtX2ZyZWVfb2JqZWN0KzB4OTgvMHhjYwpbYzAwMDAwMDAz
-ZGJhN2E1MF0gW2MwMDAwMDAwMDA2YWY1YjRdIC52aXJ0aW9fZ3B1X2NsZWFudXBfb2JqZWN0KzB4
-YzgvMHhkNApbYzAwMDAwMDAzZGJhN2FkMF0gW2MwMDAwMDAwMDA2YWQzYmNdIC52aXJ0aW9fZ3B1
-X2NtZF91bnJlZl9jYisweDFjLzB4MzAKW2MwMDAwMDAwM2RiYTdiNDBdIFtjMDAwMDAwMDAwNmFk
-YWI4XSAKLnZpcnRpb19ncHVfZGVxdWV1ZV9jdHJsX2Z1bmMrMHgyMDgvMHgyOGMKW2MwMDAwMDAw
-M2RiYTdjMTBdIFtjMDAwMDAwMDAwMDg2YjcwXSAucHJvY2Vzc19vbmVfd29yaysweDFhNC8weDI1
-OApbYzAwMDAwMDAzZGJhN2NiMF0gW2MwMDAwMDAwMDAwODcwZjRdIC53b3JrZXJfdGhyZWFkKzB4
-MjE0LzB4Mjg0CltjMDAwMDAwMDNkYmE3ZDcwXSBbYzAwMDAwMDAwMDA4YzRmMF0gLmt0aHJlYWQr
-MHgxNTAvMHgxNTgKW2MwMDAwMDAwM2RiYTdlMjBdIFtjMDAwMDAwMDAwMDAwODJjXSAucmV0X2Zy
-b21fa2VybmVsX3RocmVhZCsweDU4LzB4NjAKSW5zdHJ1Y3Rpb24gZHVtcDoKZjgyMWZmNTEgN2Ni
-ODJiNzggN2NkYjMzNzggNGUwMDAwMDAgN2NmYTNiNzggM2JjMDAwMDAgN2Y5ZWMwMDAgNDFmYzAw
-MTQKMzgyMTAwYjAgODE4MTAwMDggN2Q4MDgxMjAgNDhiYzFiYTggPGU5M2QwMDEwPiBlYmZjMDI0
-OCA4MzNkMDAxOCA3ZmZmNDg1MAotLS1bIGVuZCB0cmFjZSBmMjhkMTk0ZDlmMDk1NWE4IF0tLS0K
-CnZpcnRpb19ncHUgdmlydGlvMDogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAoc3o6IDQwOTYgYnl0
-ZXMpLCB0b3RhbCAwIAooc2xvdHMpLCB1c2VkIDAgKHNsb3RzKQp2aXJ0aW9fZ3B1IHZpcnRpbzA6
-IHN3aW90bGIgYnVmZmVyIGlzIGZ1bGwgKHN6OiAxNjM4NCBieXRlcyksIHRvdGFsIDAgCihzbG90
-cyksIHVzZWQgMCAoc2xvdHMpCgotLS0tCgpUaGUga2VybmVsIDUuOCB3b3JrcyB3aXRob3V0IGFu
-eSBwcm9ibGVtcyBpbiB0aGlzIHZpcnR1YWwgbWFjaGluZS4KCkNvdWxkIHlvdSBwbGVhc2UgY2hl
-Y2sgdGhlIGxhdGVzdCB1cGRhdGVzPwoKVGhhbmtzLApDaHJpc3RpYW4KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 2020/08/04 21:58, Greg Kroah-Hartman wrote:
+> On Tue, Aug 04, 2020 at 08:15:43PM +0900, Tetsuo Handa wrote:
+>> Do you think this approach is acceptable? Or, do we need to modify set_origin() ?
+>>
+> I think what you have here is fine, as cleaning up set_orgin() might be
+> hard to do at this point in time.
+> 
+
+Seems that there is no comment. Greg, will you pick up this patch?
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
