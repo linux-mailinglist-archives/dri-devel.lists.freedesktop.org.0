@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900772425D3
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743652425D1
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF3E26E8B2;
-	Wed, 12 Aug 2020 07:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98AF96E8B8;
+	Wed, 12 Aug 2020 07:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E69B16E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 19:30:30 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id mt12so2368261pjb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 12:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=+n9PUP/yu05/9MDe2VuxcN4yg1PRKAeGWVDeYP991FY=;
- b=lpt7Jm9cDHqdN9rwJn9az98LIyC8PWOAXXdc78UL2gjQNuYua8XrdpG+POwMqKX9XB
- VyYODz3OKowxSXkD5UMXyRoCr6j1yD6TQBP1AMmD2lNsNEIMj9+9D9uEG7figGQCkTI9
- 4PaMD18uQVJm6IdYI6oiKA3MPtbWp8CC8dFG4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=+n9PUP/yu05/9MDe2VuxcN4yg1PRKAeGWVDeYP991FY=;
- b=KN0pSOkDyteJ/q/F2u1oVZSYFMEmxYV1EDUB1oCeND0J1r6kvmbpYMI1B2uLcPDtPY
- PgizzEOvNeA+oF2qLdzKTT5VwPY7qUhW9OVmHw2hApeCs50EAMBaT0rNjn7ZveirOVWV
- pb1D2TSoy0ZJf4B78BpSx9gN5Imd8zQw5wsKgN6oLu4Z+HqVftztZgrVu6a/an2tMTtr
- VGQqatZsNPB8UJlRkQgAT38dn8uGGB5cNAvl6CwQ21x/6PYYG1s57wmBt9az8ES00xaT
- I7VcoD9OeljVj9qM0qGjdqTqk7dzM4y4vHFHsl3irl0JTuOSnF4gm2OKaB/raalTfaFA
- l2tw==
-X-Gm-Message-State: AOAM530IS7LQBMXggDW540hIck+rGIigPMGVOkn+qSjT9pi8QoO1bwOb
- p+2GL3JjsbgLE5GUYQf96Y24UQ==
-X-Google-Smtp-Source: ABdhPJwe4qk4u80qb7K6M0UTxshn2s9EH/901eeU60PzedzdUY+tVv6ME7a5eBT8eA4fvUg13Z569w==
-X-Received: by 2002:a17:902:82c1:: with SMTP id
- u1mr2289880plz.224.1597174230361; 
- Tue, 11 Aug 2020 12:30:30 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id y12sm16694716pgi.75.2020.08.11.12.30.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Aug 2020 12:30:29 -0700 (PDT)
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F10E86E7EC;
+ Tue, 11 Aug 2020 20:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=mu8ZGHCtLzfb4Q1brYigGzESLOWdAu8Y0s2c7XTplC8=; b=284/OXxnHd747ZUgC23m/S9th+
+ 7fU/+S+BrIfZAzGbDCJ9hKskEz65vFxHjCYXwR4+nsltIHh+uEV/PLGeTNtQC67TxZlyxTE5fERG2
+ NXdSnWsZnb/Br3YZBMqcz/n7ERi4JfJoRq4CuklWCIfbeneuN0b9BMPvKXOGFde8FCQ7gV/5EY9PW
+ pZfsQHsKAwqKnIugSYP8VXO1scYbxv1Ti4ZmOQP0BlDCVlv01mHc9AYEw7lLzmQXUzL1u22oywuqC
+ lXrNFtsh2UvZp5u61MAbyx9tQ/22xMJ+iZ1Du7AaVB5bNd8V+n7m8NM23Jiv/GMi2iAQPbVGGq32e
+ bsdMdEgw==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k5amB-0001WQ-HM; Tue, 11 Aug 2020 20:21:39 +0000
+Subject: Re: [PATCH v9 3/5] drm/msm/dp: add support for DP PLL driver
+To: tanmay@codeaurora.org
+References: <20200807071718.17937-1-tanmay@codeaurora.org>
+ <20200807071718.17937-4-tanmay@codeaurora.org>
+ <3b0d0e49-5fe8-e217-4ddc-1ff08e65ab48@infradead.org>
+ <CAF6AEGv5Yf1x7aCEauP7XtzTjpUCxJt6_GzxFhFXyf_DX_Gi+g@mail.gmail.com>
+ <159683184187.1360974.15575847254880429529@swboyd.mtv.corp.google.com>
+ <75acac5a-b4a5-9c5a-4404-fb936d738e46@infradead.org>
+ <639438051c1b2fe1d9bec5f6343a6dec@codeaurora.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7222ceca-9fe2-f91b-4129-5a70952875f7@infradead.org>
+Date: Tue, 11 Aug 2020 13:21:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200811021553.25023-1-tanmay@codeaurora.org>
-References: <20200811021553.25023-1-tanmay@codeaurora.org>
-Subject: Re: [PATCH v5] arm64: dts: qcom: sc7180: Add Display Port dt node
-From: Stephen Boyd <swboyd@chromium.org>
-To: Tanmay Shah <tanmay@codeaurora.org>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- robdclark@gmail.com
-Date: Tue, 11 Aug 2020 12:30:28 -0700
-Message-ID: <159717422853.1360974.2200109790995932014@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+In-Reply-To: <639438051c1b2fe1d9bec5f6343a6dec@codeaurora.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 12 Aug 2020 07:05:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,121 +56,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- khsieh@codeaurora.org, seanpaul@chromium.org,
- Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, khsieh@codeaurora.org,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Vara Reddy <varar@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tanmay Shah (2020-08-10 19:15:53)
-> @@ -2440,6 +2447,71 @@ dsi_phy: dsi-phy@ae94400 {
->  
->                                 status = "disabled";
->                         };
-> +
-> +                       msm_dp: displayport-controller@ae90000 {
-> +                               status = "disabled";
-> +                               compatible = "qcom,sc7180-dp";
-> +
-> +                               reg = <0 0x0ae90000 0 0x1400>;
-> +
-> +                               interrupt-parent = <&mdss>;
-> +                               interrupts = <12 IRQ_TYPE_NONE>;
-
-Please drop the flags. It's not required per the binding. It should just
-be a single number, i.e. <12>.
-
-> +
-> +                               clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-> +                               clock-names = "core_iface", "core_aux", "ctrl_link",
-> +                                             "ctrl_link_iface", "stream_pixel";
-> +                               #clock-cells = <1>;
-> +                               assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
-> +                                                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-> +                               assigned-clock-parents = <&msm_dp 0>, <&msm_dp 1>;
-> +
-> +                               operating-points-v2 = <&dp_opp_table>;
-> +                               power-domains = <&rpmhpd SC7180_CX>;
-
-Can you send another patch to add the hpd pinctrl binding for the hpd
-function? It would be useful to have that in the SoC level in case any
-board wants to use the hpd pin on this SoC without having to implement
-it themselves. It could be assigned here too as the pinctrl but I'm not
-sure if that is correct. Probably better to just have it in the SoC file
-and then let boards pick to use it.
-
-> +
-> +                               ports {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       port@0 {
-> +                                               reg = <0>;
-> +                                               dp_in: endpoint {
-> +                                                       remote-endpoint = <&dpu_intf0_out>;
-> +                                               };
-> +                                       };
-> +
-> +                                       port@1 {
-> +                                               reg = <1>;
-> +                                               dp_out: endpoint { };
-> +                                       };
-> +                               };
-> +
-> +                               dp_opp_table: dp-opp-table {
-
-Can this be called opp-table? I don't see the need to make it more
-specific given that it doesn't share the namespace at this level with
-anything else that is an opp table.
-
-> +                                       compatible = "operating-points-v2";
-> +
-> +                                       opp-160000000 {
-> +                                               opp-hz = /bits/ 64 <160000000>;
-> +                                               required-opps = <&rpmhpd_opp_low_svs>;
-> +                                       };
-> +
-> +                                       opp-270000000 {
-> +                                               opp-hz = /bits/ 64 <270000000>;
-> +                                               required-opps = <&rpmhpd_opp_svs>;
-> +                                       };
-> +
-> +                                       opp-540000000 {
-> +                                               opp-hz = /bits/ 64 <540000000>;
-> +                                               required-opps = <&rpmhpd_opp_svs_l1>;
-> +                                       };
-> +
-> +                                       opp-810000000 {
-> +                                               opp-hz = /bits/ 64 <810000000>;
-> +                                               required-opps = <&rpmhpd_opp_nom>;
-> +                                       };
-> +                               };
-> +                       };
->                 };
->  
->                 dispcc: clock-controller@af00000 {
-> @@ -2449,8 +2521,8 @@ dispcc: clock-controller@af00000 {
->                                  <&gcc GCC_DISP_GPLL0_CLK_SRC>,
->                                  <&dsi_phy 0>,
->                                  <&dsi_phy 1>,
-> -                                <0>,
-> -                                <0>;
-> +                                <&msm_dp 0>,
-> +                                <&msm_dp 1>;
-
-This bit will have to change when the DP phy is split off into the qmp
-driver.
-
->                         clock-names = "bi_tcxo",
->                                       "gcc_disp_gpll0_clk_src",
->                                       "dsi0_phy_pll_out_byteclk",
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gOC8xMS8yMCAxMjo0OSBQTSwgdGFubWF5QGNvZGVhdXJvcmEub3JnIHdyb3RlOgo+IE9uIDIw
+MjAtMDgtMDcgMTM6MjgsIFJhbmR5IER1bmxhcCB3cm90ZToKPj4gT24gOC83LzIwIDE6MjQgUE0s
+IFN0ZXBoZW4gQm95ZCB3cm90ZToKPj4+IFF1b3RpbmcgUm9iIENsYXJrICgyMDIwLTA4LTA3IDA4
+OjUxOjQ4KQo+Pj4+IE9uIEZyaSwgQXVnIDcsIDIwMjAgYXQgODoyNyBBTSBSYW5keSBEdW5sYXAg
+PHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4KPj4+PiB3cm90ZToKPj4+Pj4KPj4+Pj4gT24gOC83LzIw
+IDEyOjE3IEFNLCBUYW5tYXkgU2hhaCB3cm90ZToKPj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vbXNtL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL0tjb25maWcKPj4+Pj4+
+IGluZGV4IGVhM2M0ZDA5NGQwOS4uY2MxMzkyYjI5MDIyIDEwMDY0NAo+Pj4+Pj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL21zbS9LY29uZmlnCj4+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNt
+L0tjb25maWcKPj4+Pj4+IEBAIC02MCw2ICs2MCw3IEBAIGNvbmZpZyBEUk1fTVNNX0hETUlfSERD
+UAo+Pj4+Pj4gwqBjb25maWcgRFJNX01TTV9EUAo+Pj4+Pj4gwqDCoMKgwqDCoCBib29sICJFbmFi
+bGUgRFAgc3VwcG9ydCBpbiBNU00gRFJNIGRyaXZlciIKPj4+Pj4+IMKgwqDCoMKgwqAgZGVwZW5k
+cyBvbiBEUk1fTVNNCj4+Pj4+PiArwqDCoMKgwqAgZGVmYXVsdCB5Cj4+Pj4+PiDCoMKgwqDCoMKg
+IGhlbHAKPj4+Pj4+IMKgwqDCoMKgwqDCoMKgIENvbXBpbGUgaW4gc3VwcG9ydCBmb3IgRFAgZHJp
+dmVyIGluIG1zbSBkcm0gZHJpdmVyLiBEUCBleHRlcm5hbAo+Pj4+Pj4gwqDCoMKgwqDCoMKgwqAg
+ZGlzcGxheSBzdXBwb3J0IGlzIGVuYWJsZWQgdGhyb3VnaCB0aGlzIGNvbmZpZyBvcHRpb24uIEl0
+IGNhbgo+Pj4+Pgo+Pj4+PiBIaSwKPj4+Pj4KPj4+Pj4gWW91IG5lZWQgYSB2ZXJ5IHN0cm9uZyBq
+dXN0aWZpY2F0aW9uIHRvIG1ha2UgYW4gb3B0aW9uYWwgcGFydCBvZiBhCj4+Pj4+IGRyaXZlcgo+
+Pj4+PiB0byBiZSAiZGVmYXVsdCB5Ii4KPj4+Pgo+Pj4+IE15IG9waW5pb24gaXMgdGhhdCBpZiB0
+aGUgZHJpdmVyIGlzIGJ1aWx0LCBldmVyeXRoaW5nIHNob3VsZCBiZSBidWlsdC4KPj4+PiBUaGlz
+IGlzIHdoYXQgbWFrZXMgc2Vuc2UgZm9yIGRpc3RybydzLsKgIEl0IGlzIG9ubHkgdGhlIGVtYmVk
+ZGVkIGNhc2UKPj4+PiB3aGVyZSB5b3Ugd2FudCB0byB0cmltIGRvd24gdW5uZWVkZWQgZmVhdHVy
+ZXMgd2hlcmUgeW91IG1pZ2h0IHdhbnQgdG8KPj4+PiBkaXNhYmxlIHNvbWUgcGFydHMuwqAgU28g
+J2RlZmF1bHQgeScgbWFrZXMgc2Vuc2UgdG8gbWUuCj4+Cj4+IFdlIGRvbid0IHNldCBkZWZhdWx0
+cyBmb3IgZGlzdHJvIGNvbnZlbmllbmNlLgo+Pgo+Pj4KPj4+IE1heWJlIHVzZSAnZGVmYXVsdCBE
+Uk1fTVNNJyBzbyB0aGF0IGl0IGRvZXNuJ3QgdHJpZ2dlciB0aGUgJ2RlZmF1bHQgeScKPj4+IGZp
+bHRlcnMgcGVvcGxlIGhhdmU/Cj4+Cj4+IE1vc3QgcGVvcGxlIGNhbiBmaWd1cmUgdGhhdCBvbmUg
+b3V0LsKgIDspCj4+IEkgZG9uJ3QgaGF2ZSBhbnkgYXV0b21hdGVkIGZpbHRlcnMuCj4gCj4gQWZ0
+ZXIgYWZ0ZXIgZnVydGhlciByZXZpZXdzLCBJIGFncmVlIHdpdGggUm9iLiBEaXNwbGF5IFBvcnQg
+aXMgcmVxdWlyZWQgbW9kdWxlIGFzIG9mIG5vdyBzbyBpdCBtYWtlcyBzZW5zZSB0byBrZWVwICdk
+ZWZhdWx0IHknLgoKSWYgaXQgaXMgcmVxdWlyZWQsIHRoZW4geW91IGRvbid0IG5lZWQgdG8gaGF2
+ZSBhIEtjb25maWcgZW50cnkvc3ltYm9sIGZvciBpdC4KCgotLSAKflJhbmR5CgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
