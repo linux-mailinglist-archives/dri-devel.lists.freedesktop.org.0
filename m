@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEC124207C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 21:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7629524208D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Aug 2020 21:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 263846E7D1;
-	Tue, 11 Aug 2020 19:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17EFD6E7D2;
+	Tue, 11 Aug 2020 19:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC4C56E5D5;
- Tue, 11 Aug 2020 19:41:22 +0000 (UTC)
-IronPort-SDR: eexYEmH/6fgF2MW+9DQJ6Mg8RdwdUBhiCDUBul8zg55w/7MU+NwYq+ejAnkItEUhRXqoL4Dq1K
- iDCG1iBLa2rQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="151249372"
-X-IronPort-AV: E=Sophos;i="5.76,301,1592895600"; d="scan'208";a="151249372"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2020 12:41:22 -0700
-IronPort-SDR: 5iNQThVkDLiJNDfCIGC8AbXe65rvbx4/Mw3hkBvgih/FD6AyWjemvLHpk8aA2X6EA6Jzoxn+xN
- 0ziO7oXJJ3oQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,301,1592895600"; d="scan'208";a="276376765"
-Received: from lkp-server01.sh.intel.com (HELO 71729f5ca340) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2020 12:41:21 -0700
-Received: from kbuild by 71729f5ca340 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1k5a9A-0000jY-Fb; Tue, 11 Aug 2020 19:41:20 +0000
-Date: Wed, 12 Aug 2020 03:41:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: [PATCH] drm/i915/gt: fix itnull.cocci warnings
-Message-ID: <20200811194108.GA12904@295007ce90c4>
-References: <202008120355.g31CBwfF%lkp@intel.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA66C6E7D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 19:49:14 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597175357; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=JjTim0gb+1hEs7u9Q27jb9eJJjx9k1/9OYuzAM5+4TM=;
+ b=T/901ttw2aqeqrdbkPziZGh2lhbwT8bSYZlWxlJByLUE/n+QISXbF2nDmyomh1/BYe1Fmsj6
+ 7twmwUFOl3kCGZ1wwX9Z+yyRwRajbgA5oQeJz4ku8CoftoKutPMX5kDuqUkQIc1sFnMR/s4d
+ MlMF4VIjUDZNtujPHQZqKNMzSR0=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n15.prod.us-east-1.postgun.com with SMTP id
+ 5f32f62eba4c2cd3678bed1d (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 11 Aug 2020 19:49:02
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D4C01C4339C; Tue, 11 Aug 2020 19:49:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8F82BC433C9;
+ Tue, 11 Aug 2020 19:49:00 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202008120355.g31CBwfF%lkp@intel.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date: Tue, 11 Aug 2020 12:49:00 -0700
+From: tanmay@codeaurora.org
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v9 3/5] drm/msm/dp: add support for DP PLL driver
+In-Reply-To: <75acac5a-b4a5-9c5a-4404-fb936d738e46@infradead.org>
+References: <20200807071718.17937-1-tanmay@codeaurora.org>
+ <20200807071718.17937-4-tanmay@codeaurora.org>
+ <3b0d0e49-5fe8-e217-4ddc-1ff08e65ab48@infradead.org>
+ <CAF6AEGv5Yf1x7aCEauP7XtzTjpUCxJt6_GzxFhFXyf_DX_Gi+g@mail.gmail.com>
+ <159683184187.1360974.15575847254880429529@swboyd.mtv.corp.google.com>
+ <75acac5a-b4a5-9c5a-4404-fb936d738e46@infradead.org>
+Message-ID: <639438051c1b2fe1d9bec5f6343a6dec@codeaurora.org>
+X-Sender: tanmay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,65 +67,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, khsieh@codeaurora.org,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Vara Reddy <varar@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: kernel test robot <lkp@intel.com>
+On 2020-08-07 13:28, Randy Dunlap wrote:
+> On 8/7/20 1:24 PM, Stephen Boyd wrote:
+>> Quoting Rob Clark (2020-08-07 08:51:48)
+>>> On Fri, Aug 7, 2020 at 8:27 AM Randy Dunlap <rdunlap@infradead.org>
+>>> wrote:
+>>>> 
+>>>> On 8/7/20 12:17 AM, Tanmay Shah wrote:
+>>>>> diff --git a/drivers/gpu/drm/msm/Kconfig 
+>>>>> b/drivers/gpu/drm/msm/Kconfig
+>>>>> index ea3c4d094d09..cc1392b29022 100644
+>>>>> --- a/drivers/gpu/drm/msm/Kconfig
+>>>>> +++ b/drivers/gpu/drm/msm/Kconfig
+>>>>> @@ -60,6 +60,7 @@ config DRM_MSM_HDMI_HDCP
+>>>>>  config DRM_MSM_DP
+>>>>>       bool "Enable DP support in MSM DRM driver"
+>>>>>       depends on DRM_MSM
+>>>>> +     default y
+>>>>>       help
+>>>>>         Compile in support for DP driver in msm drm driver. DP 
+>>>>> external
+>>>>>         display support is enabled through this config option. It 
+>>>>> can
+>>>> 
+>>>> Hi,
+>>>> 
+>>>> You need a very strong justification to make an optional part of a
+>>>> driver
+>>>> to be "default y".
+>>> 
+>>> My opinion is that if the driver is built, everything should be 
+>>> built.
+>>> This is what makes sense for distro's.  It is only the embedded case
+>>> where you want to trim down unneeded features where you might want to
+>>> disable some parts.  So 'default y' makes sense to me.
+> 
+> We don't set defaults for distro convenience.
+> 
+>> 
+>> Maybe use 'default DRM_MSM' so that it doesn't trigger the 'default y'
+>> filters people have?
+> 
+> Most people can figure that one out.  ;)
+> I don't have any automated filters.
 
-drivers/gpu/drm/i915/gt/gen6_ppgtt.c:263:6-8: ERROR: iterator variable bound on line 262 cannot be NULL
-drivers/gpu/drm/i915/gt/gen6_ppgtt.c:322:7-9: ERROR: iterator variable bound on line 321 cannot be NULL
+After after further reviews, I agree with Rob. Display Port is required 
+module as of now so it makes sense to keep 'default y'.
 
- Many iterators have the property that the first argument is always bound
- to a real list element, never NULL.
-
-Semantic patch information:
- False positives arise for some iterators that do not have this property,
- or in cases when the loop cursor is reassigned.  The latter should only
- happen when the matched code is on the way to a loop exit (break, goto,
- or return).
-
-Generated by: scripts/coccinelle/iterators/itnull.cocci
-
-Fixes: 1d567ec61933 ("drm/i915/gt: Switch to object allocations for page directories")
-Signed-off-by: kernel test robot <lkp@intel.com>
----
-
-tree:   git://anongit.freedesktop.org/drm-intel drm-intel-next-queued
-head:   06b108297b5cc24418e91c1103587ac7ca6fd03f
-commit: 1d567ec619333e54283dcd02780ab9a71ef86e44 [27/28] drm/i915/gt: Switch to object allocations for page directories
-
-Please take the patch only if it's a positive warning. Thanks!
-
- gen6_ppgtt.c |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
---- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-@@ -260,8 +260,9 @@ static void gen6_ppgtt_free_pd(struct ge
- 	u32 pde;
- 
- 	gen6_for_all_pdes(pt, pd, pde)
--		if (pt)
--			free_px(&ppgtt->base.vm, pt);
-+	{
-+		free_px(&ppgtt->base.vm, pt);
-+	}
- }
- 
- static void gen6_ppgtt_cleanup(struct i915_address_space *vm)
-@@ -319,7 +320,7 @@ static void pd_vma_unbind(struct i915_ad
- 
- 	/* Free all no longer used page tables */
- 	gen6_for_all_pdes(pt, ppgtt->base.pd, pde) {
--		if (!pt || atomic_read(&pt->used))
-+		if (atomic_read(&pt->used))
- 			continue;
- 
- 		free_px(&ppgtt->base.vm, pt);
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
