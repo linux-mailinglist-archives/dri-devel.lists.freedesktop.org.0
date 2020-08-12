@@ -1,75 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC34F242EB4
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 20:51:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7DE242F3F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 21:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7814889DC9;
-	Wed, 12 Aug 2020 18:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 293A26E130;
+	Wed, 12 Aug 2020 19:30:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC4EF89DC7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 18:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597258301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OugzKAi6x6et7NMn2YzJxBvsuXRet+he78dzEXvVXpg=;
- b=g9yPtKjb10FNhBf4jsrQIwFZZVZtd3J9hGSHSacEDMwGBsua8TeIozuNsnVuUj0aM9l0ng
- XsRKshbHb0W5Yntsnx2Y1/5/8SjA/uiyIXzUq9EKMsyPo2v2Rkn7NXe2/Ubu7vAZ1+rI5u
- q0EsjDeD3WCSfG+3dDqRhhfDZ+FPsNY=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-NJ1dwBNnOj2YpM3gXAIdJQ-1; Wed, 12 Aug 2020 14:51:33 -0400
-X-MC-Unique: NJ1dwBNnOj2YpM3gXAIdJQ-1
-Received: by mail-qv1-f70.google.com with SMTP id v5so2160498qvr.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 11:51:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OugzKAi6x6et7NMn2YzJxBvsuXRet+he78dzEXvVXpg=;
- b=Qi1MCzdMRyBEEoe3ns2J3DBXoDjKVNDSXpO9VptGWTurxT2hZ/KQRc7KSOcMuShsl9
- GYiDIyMA/VCKsy2B0nncRWefLdJ+uUOcL4X5ZAcBJZkP0kqudd9hOpvm/ahbMGHo4XuH
- SIwjF/bf+MJ13cZPMiwVxHCQvDbsKzJ7rZoLJl/UUH1Gyn6ccoT8qHx68VQTVqc0aUeq
- JmONf6Zu7xTKQkofTtqlDCsT/KDvSB+RL+dM+c7yyFhkp0Rwv0am5oNOJaXqU6EvwKIg
- 5WPKlgaYGJmPLK/AH5QEcIBXv/zbODDnpXLZlsKfDW7+P75KqcdNQtDtlPUuaOa89P74
- /LGw==
-X-Gm-Message-State: AOAM533yRowmEKJENCG1s1lbyyqmVN7bvV3nBssVWatcqXFFSzXXRze6
- x6zW5lJ56u/I5RnBwBYayw4Yfn0OLXu0bOVToEFGyXwxx0XKv7gpatp8nZmHgzkIhrYu1nfBPfz
- mc31qp3La3xoBkbhY8h+wI6S1iLJZk1oMBhTu3zMJJZc/
-X-Received: by 2002:aed:24f2:: with SMTP id u47mr1145856qtc.137.1597258292232; 
- Wed, 12 Aug 2020 11:51:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnB30K0GeYt7XZJCqaPQ8Fm/Uv5Ft3SZv0pw2gd4QTxz7uhUJ/YvrUz5pteHJcM87NLGI+c/2wyaLtf+7nK4A=
-X-Received: by 2002:aed:24f2:: with SMTP id u47mr1145830qtc.137.1597258291983; 
- Wed, 12 Aug 2020 11:51:31 -0700 (PDT)
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 217496E03A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 19:30:26 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597260626; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4+/wN/ZFlubPC8f06kWYCcnSStIOeSWNXCfdlUIBb6Q=;
+ b=pm1U6Q2I8M8hItidCnxho4pwucBFeNwT0R2kMX7gZSDtI8XEQpDzC+qXCO4vzd5zr2pBn8eQ
+ xXcfd1SG22FjOJcW8VEHjpWifer5pvsBhNVONp7EZKlRfQBm3Nkll/xaXkUoUtfQhAuelreb
+ n8mlbxJYnPmIUe8QlAltJ9rEsns=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f3443512f4952907de04f3a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 12 Aug 2020 19:30:25
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id BBAEBC43395; Wed, 12 Aug 2020 19:30:24 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id DC4C6C433C9;
+ Wed, 12 Aug 2020 19:30:23 +0000 (UTC)
 MIME-Version: 1.0
-References: <261cd7c9-6853-3d5f-3a3e-86b65c9dba71@nvidia.com>
- <CACO55ttJwjh2HZsygwqA7HUeF5UMuP0=Y9RyZU=UJsf-gWGagA@mail.gmail.com>
- <ad64c242-95f3-d346-87f3-a9ac149dc3a2@nvidia.com>
- <CACO55tt81q3VwpEmz9wxeUzWGPLXA1XPj8ZgxhuELUBPDpX1PA@mail.gmail.com>
- <CACO55ts2AHgDNZKBvoU8NZf26V8BJDGkKiapY=1xaUQ1DrC8SA@mail.gmail.com>
- <CACO55tvF0dOQ=myUpccmfHc+hCVQZoXQnCA0iHeXQo3B=UaD0Q@mail.gmail.com>
- <CAKb7UviVa32hWv+y+_kwbZzkJAxKcWr1RPCgkGt-mi=uayUKyw@mail.gmail.com>
- <0e882aa7-d0ea-19b0-a13d-4f7bc0d384aa@nvidia.com>
- <CACO55ttP_J8riS_PhCG+-Br+AvsYKRTLg_+wn2pXF9kgXkmjeQ@mail.gmail.com>
- <785eb70c-d9e7-dbdf-b044-337618fcea1a@nvidia.com>
- <20200812174005.GA1705@kevin>
- <2c5cf2e8-afd2-446d-1f27-2c225c65d447@nvidia.com>
-In-Reply-To: <2c5cf2e8-afd2-446d-1f27-2c225c65d447@nvidia.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 12 Aug 2020 20:51:20 +0200
-Message-ID: <CACO55tto89kT-_QKGjQ50Ht8U-4Dop6sTjNsbr1qHXhgNuDHEA@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.8-rc1
-To: James Jones <jajones@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Date: Wed, 12 Aug 2020 12:30:23 -0700
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v5] arm64: dts: qcom: sc7180: Add Display Port dt node
+In-Reply-To: <159717422853.1360974.2200109790995932014@swboyd.mtv.corp.google.com>
+References: <20200811021553.25023-1-tanmay@codeaurora.org>
+ <159717422853.1360974.2200109790995932014@swboyd.mtv.corp.google.com>
+Message-ID: <70d8a4f073abf7a038c9830ec6586709@codeaurora.org>
+X-Sender: tanmay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,55 +64,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <treding@nvidia.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org,
+ dri-devel <dri-devel-bounces@lists.freedesktop.org>, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ abhinavk@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-in case you all were wondering, it works on xorg-server git because of
-this commit: https://gitlab.freedesktop.org/xorg/xserver/-/commit/9b8999411033c9473cd68e92e4690a91aecf5b95
+On 2020-08-11 12:30, Stephen Boyd wrote:
+> Quoting Tanmay Shah (2020-08-10 19:15:53)
+>> @@ -2440,6 +2447,71 @@ dsi_phy: dsi-phy@ae94400 {
+>> 
+>>                                 status = "disabled";
+>>                         };
+>> +
+>> +                       msm_dp: displayport-controller@ae90000 {
+>> +                               status = "disabled";
+>> +                               compatible = "qcom,sc7180-dp";
+>> +
+>> +                               reg = <0 0x0ae90000 0 0x1400>;
+>> +
+>> +                               interrupt-parent = <&mdss>;
+>> +                               interrupts = <12 IRQ_TYPE_NONE>;
+> 
+> Please drop the flags. It's not required per the binding. It should 
+> just
+> be a single number, i.e. <12>.
+> 
 
-On Wed, Aug 12, 2020 at 8:25 PM James Jones <jajones@nvidia.com> wrote:
->
-> On 8/12/20 10:40 AM, Alyssa Rosenzweig wrote:
-> >> ...and in merging my code with Alyssa's new panfrost format modifier
-> >> support, I see panfrost does the opposite of this and treats a format
-> >> modifier list of only INVALID as "don't care".  I modeled the new nouveau
-> >> behavior on the Iris driver.  Now I'm not sure which is correct :-(
-> >
-> > ....and neither am I. Uh-oh.
-> >
-> > I modeled the panfrost code after v3d_resource_create_with_modifiers,
-> > which treats INVALID as "don't care". I can confirm the panfrost code
-> > works (in the sense that it's functional on the machines I've tested),
-> > but I don't know if it is actually correct. I think it is, since
-> > otherwise you end up using linear in places it's unnecessary, but I'm
-> > not sure where this is spec'd.
->
-> It would depend on whether an app actually calls the function this way,
-> and whether that app was tested I suppose.  If I'm interpreting the Iris
-> code correctly and it doesn't break anything, then I'm assuming both
-> implementations are equally valid in that nothing exercises this path,
-> but it would be good to have the intended behavior documented somewhere
-> so we can try to work towards consistent in case someone tries it in the
-> future.
->
-> My nouveau change runs afoul of assumptions in the tegra driver, but
-> that's easy enough to fix in lockstep if desired.
->
-> Also, heads up: I'll ping you on my format modifier cleanup MR once I've
-> pushed the latest version.  The panfrost modifier usage was harder to
-> merge into the refactoring than most, so it'll be good to have your
-> review and if you have time, some testing.  I think I landed on an
-> elegant solution, but open to suggestions.
->
-> Thanks,
-> -James
->
+Sure. I will change DP-bindings accordingly as well.
 
+>> +
+>> +                               clocks = <&dispcc 
+>> DISP_CC_MDSS_AHB_CLK>,
+>> +                                        <&dispcc
+> DISP_CC_MDSS_DP_AUX_CLK>,
+>> +                                        <&dispcc
+> DISP_CC_MDSS_DP_LINK_CLK>,
+>> +                                        <&dispcc
+> DISP_CC_MDSS_DP_LINK_INTF_CLK>,
+>> +                                        <&dispcc
+> DISP_CC_MDSS_DP_PIXEL_CLK>;
+>> +                               clock-names = "core_iface", 
+>> "core_aux",
+> "ctrl_link",
+>> +                                             "ctrl_link_iface",
+> "stream_pixel";
+>> +                               #clock-cells = <1>;
+>> +                               assigned-clocks = <&dispcc
+> DISP_CC_MDSS_DP_LINK_CLK_SRC>,
+>> +                                                 <&dispcc
+> DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+>> +                               assigned-clock-parents = <&msm_dp 0>,
+> <&msm_dp 1>;
+>> +
+>> +                               operating-points-v2 = <&dp_opp_table>;
+>> +                               power-domains = <&rpmhpd SC7180_CX>;
+> 
+> Can you send another patch to add the hpd pinctrl binding for the hpd
+> function? It would be useful to have that in the SoC level in case any
+> board wants to use the hpd pin on this SoC without having to implement
+> it themselves. It could be assigned here too as the pinctrl but I'm not
+> sure if that is correct. Probably better to just have it in the SoC 
+> file
+> and then let boards pick to use it.
+> 
+
+We have tlmm node in sc7180.dtsi. We can define pinctrl definition for 
+"dp_hot" funtionality there.
+
+>> +
+>> +                               ports {
+>> +                                       #address-cells = <1>;
+>> +                                       #size-cells = <0>;
+>> +                                       port@0 {
+>> +                                               reg = <0>;
+>> +                                               dp_in: endpoint {
+>> +                                                       
+>> remote-endpoint
+> = <&dpu_intf0_out>;
+>> +                                               };
+>> +                                       };
+>> +
+>> +                                       port@1 {
+>> +                                               reg = <1>;
+>> +                                               dp_out: endpoint { };
+>> +                                       };
+>> +                               };
+>> +
+>> +                               dp_opp_table: dp-opp-table {
+> 
+> Can this be called opp-table? I don't see the need to make it more
+> specific given that it doesn't share the namespace at this level with
+> anything else that is an opp table.
+> 
+
+DSI and MDP's OPP table names were posted here:
+https://lore.kernel.org/dri-devel/1594292674-15632-4-git-send-email-rnayak@codeaurora.org/
+
+So, It makes sense to keep naming conventions similar to dsi and mdp's 
+opp table.
+
+>> +                                       compatible =
+> "operating-points-v2";
+>> +
+>> +                                       opp-160000000 {
+>> +                                               opp-hz = /bits/ 64
+> <160000000>;
+>> +                                               required-opps =
+> <&rpmhpd_opp_low_svs>;
+>> +                                       };
+>> +
+>> +                                       opp-270000000 {
+>> +                                               opp-hz = /bits/ 64
+> <270000000>;
+>> +                                               required-opps =
+> <&rpmhpd_opp_svs>;
+>> +                                       };
+>> +
+>> +                                       opp-540000000 {
+>> +                                               opp-hz = /bits/ 64
+> <540000000>;
+>> +                                               required-opps =
+> <&rpmhpd_opp_svs_l1>;
+>> +                                       };
+>> +
+>> +                                       opp-810000000 {
+>> +                                               opp-hz = /bits/ 64
+> <810000000>;
+>> +                                               required-opps =
+> <&rpmhpd_opp_nom>;
+>> +                                       };
+>> +                               };
+>> +                       };
+>>                 };
+>> 
+>>                 dispcc: clock-controller@af00000 {
+>> @@ -2449,8 +2521,8 @@ dispcc: clock-controller@af00000 {
+>>                                  <&gcc GCC_DISP_GPLL0_CLK_SRC>,
+>>                                  <&dsi_phy 0>,
+>>                                  <&dsi_phy 1>,
+>> -                                <0>,
+>> -                                <0>;
+>> +                                <&msm_dp 0>,
+>> +                                <&msm_dp 1>;
+> 
+> This bit will have to change when the DP phy is split off into the qmp
+> driver.
+> 
+
+Yes. It will be <&dp_phy 0> and <&dp_phy 1> assuming dp_phy is DP PHY 
+dts node name.
+
+>>                         clock-names = "bi_tcxo",
+>>                                       "gcc_disp_gpll0_clk_src",
+>>                                       "dsi0_phy_pll_out_byteclk",
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
