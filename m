@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA792242CDF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 18:09:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1209E242CEC
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 18:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F73A6E912;
-	Wed, 12 Aug 2020 16:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF5A86E148;
+	Wed, 12 Aug 2020 16:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E6C26E912
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 16:09:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A72F6E148
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 16:13:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46B5C9E7;
- Wed, 12 Aug 2020 18:09:46 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 921E99E7;
+ Wed, 12 Aug 2020 18:13:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597248586;
- bh=mvaE9LRN2Vt1ZNzUVCtlae6gaNBI7AG1lJg+ohOIPbw=;
+ s=mail; t=1597248804;
+ bh=paGdrqoDcCHXfS3iQFE0pq46zYjXCMhjb+Pvocaz4b0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h7TuowcKaI+k5MhXWhn9BBr+xNXe0zFVCBU2eTgRN+JZAC4SPXKm8maN3frNZ1KQN
- UXCxrQwY9JTMGvos3oKsweCPpSVizFLxCAomy6yW5vGz9i2qsmbjJf+m/IWPXcMOpR
- dPgc9mLGPANblj4wlRnVmDpkOp1JjrFICQPQAmEU=
-Date: Wed, 12 Aug 2020 19:09:32 +0300
+ b=Kt13Y3o2D7/GhQ6D08ue5MU0mouuTvGpTTVhj8joYxKTywftFebRHAb0CCf8GAGhh
+ YuaEdQDII7JpKms3nDMbBlg7hJZ5UWrFF6UDRlxVEQMCbQyn259m1PDCzPr3dHet/H
+ is16VljXQqkqf4CPG05UAQpCX0iOoC9shsmSv3+Y=
+Date: Wed, 12 Aug 2020 19:13:10 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/9] dt-bindings: display: renesas,du: Document r8a774e1
- bindings
-Message-ID: <20200812160932.GK6057@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/9] drm: rcar-du: Add support for R8A774E1 SoC
+Message-ID: <20200812161310.GL6057@pendragon.ideasonboard.com>
 References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200812140217.24251-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200812140217.24251-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,10 +62,11 @@ Hi Prabhakar,
 
 Thank you for the patch.
 
-On Wed, Aug 12, 2020 at 03:02:09PM +0100, Lad Prabhakar wrote:
+On Wed, Aug 12, 2020 at 03:02:10PM +0100, Lad Prabhakar wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > 
-> Document the RZ/G2H (a.k.a. r8a774e1) SoC in the R-Car DU bindings.
+> Hookup RZ/G2H (R8A774E1) to DU driver. R8A774E1 has one RGB output,
+> one LVDS output and one HDMI output.
 > 
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -74,29 +74,57 @@ On Wed, Aug 12, 2020 at 03:02:09PM +0100, Lad Prabhakar wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 30 +++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> index 51cd4d162770..67cded5ad827 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -10,6 +10,7 @@ Required Properties:
->      - "renesas,du-r8a774a1" for R8A774A1 (RZ/G2M) compatible DU
->      - "renesas,du-r8a774b1" for R8A774B1 (RZ/G2N) compatible DU
->      - "renesas,du-r8a774c0" for R8A774C0 (RZ/G2E) compatible DU
-> +    - "renesas,du-r8a774e1" for R8A774E1 (RZ/G2H) compatible DU
->      - "renesas,du-r8a7779" for R8A7779 (R-Car H1) compatible DU
->      - "renesas,du-r8a7790" for R8A7790 (R-Car H2) compatible DU
->      - "renesas,du-r8a7791" for R8A7791 (R-Car M2-W) compatible DU
-> @@ -75,6 +76,7 @@ corresponding to each DU output.
->   R8A774A1 (RZ/G2M)      DPAD 0         HDMI 0         LVDS 0         -
->   R8A774B1 (RZ/G2N)      DPAD 0         HDMI 0         LVDS 0         -
->   R8A774C0 (RZ/G2E)      DPAD 0         LVDS 0         LVDS 1         -
-> + R8A774E1 (RZ/G2H)      DPAD 0         HDMI 0         LVDS 0         -
->   R8A7779 (R-Car H1)     DPAD 0         DPAD 1         -              -
->   R8A7790 (R-Car H2)     DPAD 0         LVDS 0         LVDS 1         -
->   R8A7791 (R-Car M2-W)   DPAD 0         LVDS 0         -              -
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 3e67cf70f040..398c180b8731 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -186,6 +186,35 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
+>  	.lvds_clk_mask =  BIT(1) | BIT(0),
+>  };
+>  
+> +static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
+> +	.gen = 3,
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
+> +		  | RCAR_DU_FEATURE_INTERLACED
+> +		  | RCAR_DU_FEATURE_TVM_SYNC,
+> +	.channels_mask = BIT(3) | BIT(1) | BIT(0),
+> +	.routes = {
+> +		/*
+> +		 * R8A774E1 has one RGB output, one LVDS output and one HDMI
+> +		 * output.
+> +		 */
+> +		[RCAR_DU_OUTPUT_DPAD0] = {
+> +			.possible_crtcs = BIT(2),
+> +			.port = 0,
+> +		},
+> +		[RCAR_DU_OUTPUT_HDMI0] = {
+> +			.possible_crtcs = BIT(1),
+> +			.port = 1,
+> +		},
+> +		[RCAR_DU_OUTPUT_LVDS0] = {
+> +			.possible_crtcs = BIT(0),
+> +			.port = 2,
+> +		},
+> +	},
+> +	.num_lvds = 1,
+> +	.dpll_mask =  BIT(1),
+> +};
+> +
+>  static const struct rcar_du_device_info rcar_du_r8a7779_info = {
+>  	.gen = 1,
+>  	.features = RCAR_DU_FEATURE_INTERLACED
+> @@ -450,6 +479,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+>  	{ .compatible = "renesas,du-r8a774a1", .data = &rcar_du_r8a774a1_info },
+>  	{ .compatible = "renesas,du-r8a774b1", .data = &rcar_du_r8a774b1_info },
+>  	{ .compatible = "renesas,du-r8a774c0", .data = &rcar_du_r8a774c0_info },
+> +	{ .compatible = "renesas,du-r8a774e1", .data = &rcar_du_r8a774e1_info },
+>  	{ .compatible = "renesas,du-r8a7779", .data = &rcar_du_r8a7779_info },
+>  	{ .compatible = "renesas,du-r8a7790", .data = &rcar_du_r8a7790_info },
+>  	{ .compatible = "renesas,du-r8a7791", .data = &rcar_du_r8a7791_info },
 
 -- 
 Regards,
