@@ -2,32 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D3324260A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D95A242610
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD5E6E8BE;
-	Wed, 12 Aug 2020 07:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 576696E8BF;
+	Wed, 12 Aug 2020 07:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7026E8BE
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:28:48 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 82F8FB1EE;
- Wed, 12 Aug 2020 07:29:08 +0000 (UTC)
-Subject: Re: [PATCH v4 2/2] xen: add helpers to allocate unpopulated memory
-To: Roger Pau Monne <roger.pau@citrix.com>, linux-kernel@vger.kernel.org
-References: <20200811094447.31208-1-roger.pau@citrix.com>
- <20200811094447.31208-3-roger.pau@citrix.com>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Message-ID: <7c9a25fa-c52c-66d2-3b03-14a59e069ab6@suse.com>
-Date: Wed, 12 Aug 2020 09:28:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899AC6E8BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:30:31 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id m15so629915lfp.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 00:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5FdXAIZx+ZP41PS8ejWt0zp2dMev1+Pg53fxOJb49go=;
+ b=zdy95b1kTPcTbrYCuGrt2C7Mi8xpkU0SHcP3cHovIvD8Rf8PcG/9Y4VLbg39S9gweq
+ FxEP/lmv6XHHGIgWcfar5m/IGWRMciwaw2f62Xezz5t/KZZ1tU9gOdsRk2p+FOQ+vKUb
+ 9P2pGawIOuIANgF0+HWyVLwfTgOpI31SsDgCWY0rjzD1XpQ6R2NmtxWpnDO3JGXpcUaw
+ 2MXLfuQl5U7csaDC7/5zEvjZX+YywjdEWnPa+z7gF5q4zFjRxTGoJM4huW5c6humymcO
+ r4BbIxlPHUQOk9R+nJdV4AAUKhqpeiHazJbNaf+Atp+blNAiOqI2RwVZ8M47yqPt7YQy
+ NT3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5FdXAIZx+ZP41PS8ejWt0zp2dMev1+Pg53fxOJb49go=;
+ b=q039x4oUCmKyalKfcKowEy3DsRVvZ3E87d9aSSxRzr9WnHXqi6nC/o9GVFN8GLs1wd
+ xv3huoHyL6Snyp9XGA1Z4Wc985uxJvYFh+NvsGDdjev6qzkjpyhSqAUL5g3JuXuNxVK3
+ U6rviYqK+hhXp0XmHLiWxiqogxbm1YoPcU1BLTr6LHn21Sw36q+5vMWaiDnnl7WowIF2
+ SudNhyVJ0amhK0RLJZ814KO0cJor26gkxS6W9jgF/Btbse6Xib3a50iaavj6tuyazra0
+ YAl0NGxkdNfBt+a7p2Phk09/I1THzPubKktBosJiNLNYWtZp8cO1CFDkWNHi+Du2Ls6S
+ dI0g==
+X-Gm-Message-State: AOAM533F36OYpjuxJfoRlUSYYaPvJBiXzGXpJB23x478r+Mn/vCViU4o
+ qieXOZe3IFQVPqB2fV1ik2Or4VpCgSvH0wlc95zn4Q==
+X-Google-Smtp-Source: ABdhPJz4sufS9uL7t6Eocg+3nINh6YsIEewzxgjPWMWJmSeXpCf0IVIfT6TSWwDe2md+cFp4whCdIXttT1Jknix5buY=
+X-Received: by 2002:a19:cb53:: with SMTP id b80mr5027209lfg.77.1597217428378; 
+ Wed, 12 Aug 2020 00:30:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200811094447.31208-3-roger.pau@citrix.com>
-Content-Language: en-US
+References: <20200720203506.3883129-1-linus.walleij@linaro.org>
+ <20200721112841.jxocq26yxhwy3gag@holly.lan>
+In-Reply-To: <20200721112841.jxocq26yxhwy3gag@holly.lan>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 12 Aug 2020 09:30:17 +0200
+Message-ID: <CACRpkdZF5i8e100UG5aM_WmMRXvfugjB8KOr+AzXVnMJxJhkvA@mail.gmail.com>
+Subject: Re: [PATCH 1/2 v1] dt-bindings: backlight: Add Kinetic KTD253 bindings
+To: Daniel Thompson <daniel.thompson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,90 +61,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
- David Hildenbrand <david@redhat.com>, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEuMDguMjAgMTE6NDQsIFJvZ2VyIFBhdSBNb25uZSB3cm90ZToKPiBUbyBiZSB1c2VkIGlu
-IG9yZGVyIHRvIGNyZWF0ZSBmb3JlaWduIG1hcHBpbmdzLiBUaGlzIGlzIGJhc2VkIG9uIHRoZQo+
-IFpPTkVfREVWSUNFIGZhY2lsaXR5IHdoaWNoIGlzIHVzZWQgYnkgcGVyc2lzdGVudCBtZW1vcnkg
-ZGV2aWNlcyBpbgo+IG9yZGVyIHRvIGNyZWF0ZSBzdHJ1Y3QgcGFnZXMgYW5kIGtlcm5lbCB2aXJ0
-dWFsIG1hcHBpbmdzIGZvciB0aGUgSU9NRU0KPiBhcmVhcyBvZiBzdWNoIGRldmljZXMuIE5vdGUg
-dGhhdCBvbiBrZXJuZWxzIHdpdGhvdXQgc3VwcG9ydCBmb3IKPiBaT05FX0RFVklDRSBYZW4gd2ls
-bCBmYWxsYmFjayB0byB1c2UgYmFsbG9vbmVkIHBhZ2VzIGluIG9yZGVyIHRvCj4gY3JlYXRlIGZv
-cmVpZ24gbWFwcGluZ3MuCj4gCj4gVGhlIG5ld2x5IGFkZGVkIGhlbHBlcnMgdXNlIHRoZSBzYW1l
-IHBhcmFtZXRlcnMgYXMgdGhlIGV4aXN0aW5nCj4ge2FsbG9jL2ZyZWV9X3hlbmJhbGxvb25lZF9w
-YWdlcyBmdW5jdGlvbnMsIHdoaWNoIGFsbG93cyBmb3IgaW4tcGxhY2UKPiByZXBsYWNlbWVudCBv
-ZiB0aGUgY2FsbGVycy4gT25jZSBhIG1lbW9yeSByZWdpb24gaGFzIGJlZW4gYWRkZWQgdG8gYmUK
-PiB1c2VkIGFzIHNjcmF0Y2ggbWFwcGluZyBzcGFjZSBpdCB3aWxsIG5vIGxvbmdlciBiZSByZWxl
-YXNlZCwgYW5kIHBhZ2VzCj4gcmV0dXJuZWQgYXJlIGtlcHQgaW4gYSBsaW5rZWQgbGlzdC4gVGhp
-cyBhbGxvd3MgdG8gaGF2ZSBhIGJ1ZmZlciBvZgo+IHBhZ2VzIGFuZCBwcmV2ZW50cyByZXNvcnRp
-bmcgdG8gZnJlcXVlbnQgYWRkaXRpb25zIGFuZCByZW1vdmFscyBvZgo+IHJlZ2lvbnMuCj4gCj4g
-SWYgZW5hYmxlZCAoYmVjYXVzZSBaT05FX0RFVklDRSBpcyBzdXBwb3J0ZWQpIHRoZSB1c2FnZSBv
-ZiB0aGUgbmV3Cj4gZnVuY3Rpb25hbGl0eSB1bnRhbmdsZXMgWGVuIGJhbGxvb24gYW5kIFJBTSBo
-b3RwbHVnIGZyb20gdGhlIHVzYWdlIG9mCj4gdW5wb3B1bGF0ZWQgcGh5c2ljYWwgbWVtb3J5IHJh
-bmdlcyB0byBtYXAgZm9yZWlnbiBwYWdlcywgd2hpY2ggaXMgdGhlCj4gY29ycmVjdCB0aGluZyB0
-byBkbyBpbiBvcmRlciB0byBhdm9pZCBtYXBwaW5ncyBvZiBmb3JlaWduIHBhZ2VzIGRlcGVuZAo+
-IG9uIG1lbW9yeSBob3RwbHVnLgo+IAo+IE5vdGUgdGhlIGRyaXZlciBpcyBjdXJyZW50bHkgbm90
-IGVuYWJsZWQgb24gQXJtIHBsYXRmb3JtcyBiZWNhdXNlIGl0Cj4gd291bGQgaW50ZXJmZXJlIHdp
-dGggdGhlIGlkZW50aXR5IG1hcHBpbmcgcmVxdWlyZWQgb24gc29tZSBwbGF0Zm9ybXMuCj4gCj4g
-U2lnbmVkLW9mZi1ieTogUm9nZXIgUGF1IE1vbm7DqSA8cm9nZXIucGF1QGNpdHJpeC5jb20+Cj4g
-LS0tCj4gQ2M6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtvIDxvbGVrc2FuZHJfYW5kcnVzaGNoZW5r
-b0BlcGFtLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IEJvcmlzIE9zdHJvdnNreSA8Ym9y
-aXMub3N0cm92c2t5QG9yYWNsZS5jb20+Cj4gQ2M6IEp1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNl
-LmNvbT4KPiBDYzogU3RlZmFubyBTdGFiZWxsaW5pIDxzc3RhYmVsbGluaUBrZXJuZWwub3JnPgo+
-IENjOiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Cj4gQ2M6IFJvZ2Vy
-IFBhdSBNb25uZSA8cm9nZXIucGF1QGNpdHJpeC5jb20+Cj4gQ2M6IFdlaSBMaXUgPHdsQHhlbi5v
-cmc+Cj4gQ2M6IFlhbiBZYW5rb3Zza3lpIDx5eWFua292c2t5aUBnbWFpbC5jb20+Cj4gQ2M6IGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogeGVuLWRldmVsQGxpc3RzLnhlbnBy
-b2plY3Qub3JnCj4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+IENjOiBEYXZpZCBIaWxkZW5icmFu
-ZCA8ZGF2aWRAcmVkaGF0LmNvbT4KPiBDYzogTWljaGFsIEhvY2tvIDxtaG9ja29Aa2VybmVsLm9y
-Zz4KPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gLS0tCj4g
-Q2hhbmdlcyBzaW5jZSB2MzoKPiAgIC0gSW50cm9kdWNlIGEgS2NvbmZpZyBvcHRpb24gdGhhdCBn
-YXRlcyB0aGUgYWRkaXRpb24gb2YgdGhlCj4gICAgIHVucG9wdWxhdGVkIGFsbG9jIGRyaXZlci4g
-VGhpcyBhbGxvd3MgdG8gZWFzaWx5IGRpc2FibGUgaXQgb24gQXJtCj4gICAgIHBsYXRmb3Jtcy4K
-PiAgIC0gRHJvcHBlZCBKdWVyZ2VuIFJCIGR1ZSB0byB0aGUgYWRkaXRpb24gb2YgdGhlIEtjb25m
-aWcgb3B0aW9uLgo+ICAgLSBTd2l0Y2hlZCBmcm9tIE1FTU9SWV9ERVZJQ0VfREVWREFYIHRvIE1F
-TU9SWV9ERVZJQ0VfR0VORVJJQy4KPiAKPiBDaGFuZ2VzIHNpbmNlIHYyOgo+ICAgLSBEcm9wIEJV
-SUxEX0JVR19PTiByZWdhcmRpbmcgUFZNTVUgcGFnZSBzaXplcy4KPiAgIC0gVXNlIGEgU1BEWCBs
-aWNlbnNlIGlkZW50aWZpZXIuCj4gICAtIENhbGwgZmlsbCB3aXRoIG9ubHkgdGhlIG1pbmltdW0g
-cmVxdWlyZWQgbnVtYmVyIG9mIHBhZ2VzLgo+ICAgLSBJbmNsdWRlIHhlbi5oIGhlYWRlciBpbiB4
-ZW5fZHJtX2Zyb250X2dlbS5jLgo+ICAgLSBVc2UgbGVzcyBnZW5lcmljIGZ1bmN0aW9uIG5hbWVz
-Lgo+ICAgLSBFeGl0IGVhcmx5IGZyb20gdGhlIGluaXQgZnVuY3Rpb24gaWYgbm90IGEgUFYgZ3Vl
-c3QuCj4gICAtIERvbid0IHVzZSBhbGwgY2FwcyBmb3IgcmVnaW9uIG5hbWUuCj4gLS0tCj4gICBk
-cml2ZXJzL2dwdS9kcm0veGVuL3hlbl9kcm1fZnJvbnRfZ2VtLmMgfCAgIDkgKy0KPiAgIGRyaXZl
-cnMveGVuL0tjb25maWcgICAgICAgICAgICAgICAgICAgICB8ICAgNCArCj4gICBkcml2ZXJzL3hl
-bi9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwo+ICAgZHJpdmVycy94ZW4vYmFs
-bG9vbi5jICAgICAgICAgICAgICAgICAgIHwgICA0ICstCj4gICBkcml2ZXJzL3hlbi9ncmFudC10
-YWJsZS5jICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAgIGRyaXZlcnMveGVuL3ByaXZjbWQuYyAg
-ICAgICAgICAgICAgICAgICB8ICAgNCArLQo+ICAgZHJpdmVycy94ZW4vdW5wb3B1bGF0ZWQtYWxs
-b2MuYyAgICAgICAgIHwgMTg1ICsrKysrKysrKysrKysrKysrKysrKysrKwo+ICAgZHJpdmVycy94
-ZW4veGVuYnVzL3hlbmJ1c19jbGllbnQuYyAgICAgIHwgICA2ICstCj4gICBkcml2ZXJzL3hlbi94
-bGF0ZV9tbXUuYyAgICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAgIGluY2x1ZGUveGVuL3hlbi5o
-ICAgICAgICAgICAgICAgICAgICAgICB8ICAgOSArKwo+ICAgMTAgZmlsZXMgY2hhbmdlZCwgMjE1
-IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
-aXZlcnMveGVuL3VucG9wdWxhdGVkLWFsbG9jLmMKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy94
-ZW4vS2NvbmZpZyBiL2RyaXZlcnMveGVuL0tjb25maWcKPiBpbmRleCAxZDMzOWVmOTI0MjIuLjAx
-ODAyMGI5MWJhYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3hlbi9LY29uZmlnCj4gKysrIGIvZHJp
-dmVycy94ZW4vS2NvbmZpZwo+IEBAIC0zMjcsNCArMzI3LDggQEAgY29uZmlnIFhFTl9IQVZFX1ZQ
-TVUKPiAgIGNvbmZpZyBYRU5fRlJPTlRfUEdESVJfU0hCVUYKPiAgIAl0cmlzdGF0ZQo+ICAgCj4g
-K2NvbmZpZyBYRU5fVU5QT1BVTEFURURfQUxMT0MKPiArCWJvb2wKPiArCWRlZmF1bHQgeSBpZiBa
-T05FX0RFVklDRSAmJiAhQVJNICYmICFBUk02NAoKVGhlcmUgaXMgYSBjdXJyZW50IGVmZm9ydCB0
-byBlbmFibGUgWGVuIG9uIFJJU0MtVi4gRG8gd2UgZXhwZWN0IHRoaXMKb3B0aW9uIHRvIGJlIHVz
-YWJsZSBmb3IgdGhpcyBhcmNoaXRlY3R1cmU/IElmIHllcywgSSdtIGZpbmUgd2l0aCB0aGUKZXhj
-bHVzaW9uIG9mIEFybSwgb3RoZXJ3aXNlIEknZCBvcHQgZm9yIGRlZmF1bHRpbmcgdG8geWVzIG9u
-bHkgZm9yClg4Ni4KCkVpdGhlciB3YXkgeW91IGNhbiBoYXZlIG15OgoKUmV2aWV3ZWQtYnk6IEp1
-ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT4KCgpKdWVyZ2VuCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Jul 21, 2020 at 1:28 PM Daniel Thompson
+<daniel.thompson@linaro.org> wrote:
+
+> I'm a bit sceptical of having a max-brightness in the DT and a driver
+> defined lookup table in the driver itself. That doesn't make a whole lot
+> of sense to me since the maximum brightness here is basically relies on
+> knowing what scale the Linux driver has opted to implement in its tables.
+
+That's a good point.
+
+> I think there are two options here.
+>
+> 1. Throw away the brightness table in the driver and expose the hardware
+>    steps directly (maybe using allowing properties such as
+>    max-brightness = 24 if the top 8 values cannot be distinguished
+>    visually).
+
+I think I will opt for this. It makes most sense given how we use the
+device tree to restrict maximum brightness, and that is definitely
+related to the hardware max brightness.
+
+Thanks Daniel!
+Linus Walleij
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
