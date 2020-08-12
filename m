@@ -1,43 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA36242470
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 05:59:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D96C2424C6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 06:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 709256E03C;
-	Wed, 12 Aug 2020 03:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BCB6E89F;
+	Wed, 12 Aug 2020 04:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D3F6E03C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 03:59:35 +0000 (UTC)
-Received: from localhost (unknown [122.171.202.192])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3F65C207F7;
- Wed, 12 Aug 2020 03:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597204774;
- bh=Sb4NHeOvwvLl7zWwn8/9QvmOut296xUPDSZPKp9RxUE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XWD91RYe9OFSYn0TYx+/w89WfcYtoPO3ZO14hOTtCZkDZ8mFfKARWd6sCbwtr1TEU
- azXSCU0fHjHdlXHwSG2fh/wCEvPh7WTFY7yGGX+57qBjy8ZJo2kXJsVQBpfytmoR/8
- 7H2xPmpaMZkBRziHqH9qOH9jqaSJVW8DYDeQxZwc=
-Date: Wed, 12 Aug 2020 09:29:29 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 0/3] Fix Kconfig dependency issue with DMAENGINES
- selection
-Message-ID: <20200812035929.GS12965@vkoul-mobl>
-References: <20200731152433.1297-1-laurent.pinchart@ideasonboard.com>
- <20200731164744.GF12965@vkoul-mobl>
- <20200731204206.GC24315@pendragon.ideasonboard.com>
- <20200802064409.GH12965@vkoul-mobl>
- <20200811225203.GG17446@pendragon.ideasonboard.com>
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19CE16E89F
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 04:42:52 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597207373; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=0l/yxiLv9yk+WALesvOO125wOcWo89hw2RahBgzY1yI=;
+ b=gmp0bmnIlVDsXOB7stpZlbtWF0wT0LOcN8iRxzIatqa3Xq76zcXD+RHATmFopUiaDoJopbN1
+ Ysls/hYDfoZ17eO4PDxxq2GRXWYq1K8s+Pp74ZvzWrjIHeISR7F3qUj2J6EJggbnqb3Qbq0l
+ uj94qlWtSa3kCjvblw5FMGgVLEk=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 5f33733fd48d4625caf6787d (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 12 Aug 2020 04:42:39
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id DD8F1C433CB; Wed, 12 Aug 2020 04:42:38 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5A543C433C9;
+ Wed, 12 Aug 2020 04:42:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5A543C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=tanmay@codeaurora.org
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: swboyd@chromium.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com
+Subject: [PATCH v10 0/5] Add support for DisplayPort driver on SnapDragon
+Date: Tue, 11 Aug 2020 21:42:18 -0700
+Message-Id: <20200812044223.19279-1-tanmay@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200811225203.GG17446@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,79 +68,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Hyun Kwon <hyun.kwon@xilinx.com>,
- Randy Dunlap <rdunlap@infradead.org>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, Michal Simek <michal.simek@xilinx.com>,
- Alexandre Bounine <alex.bou9@gmail.com>, Mark Brown <broonie@kernel.org>,
- dmaengine@vger.kernel.org, Matt Porter <mporter@kernel.crashing.org>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
+ khsieh@codeaurora.org, seanpaul@chromium.org,
+ Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HI Laurent,
+These patches add Display-Port driver on SnapDragon/msm hardware.
+This series also contains device-tree bindings for msm DP driver.
+It also contains Makefile and Kconfig changes to compile msm DP driver.
 
-On 12-08-20, 01:52, Laurent Pinchart wrote:
-> Hi Vinod,
-> 
-> On Sun, Aug 02, 2020 at 12:14:09PM +0530, Vinod Koul wrote:
-> > On 31-07-20, 23:42, Laurent Pinchart wrote:
-> > > On Fri, Jul 31, 2020 at 10:17:44PM +0530, Vinod Koul wrote:
-> > > > On 31-07-20, 18:24, Laurent Pinchart wrote:
-> > > > > Hello,
-> > > > > 
-> > > > > This small series fixes a Kconfig dependency issue with the recently
-> > > > > merged Xilixn DPSUB DRM/KMS driver. The fix is in patch 3/3, but
-> > > > > requires a separate fixes in patches 1/3 and 2/3 to avoid circular
-> > > > > dependencies:
-> > > > > 
-> > > > >         drivers/i2c/Kconfig:8:error: recursive dependency detected!
-> > > > >         drivers/i2c/Kconfig:8:  symbol I2C is selected by FB_DDC
-> > > > >         drivers/video/fbdev/Kconfig:63: symbol FB_DDC depends on FB
-> > > > >         drivers/video/fbdev/Kconfig:12: symbol FB is selected by DRM_KMS_FB_HELPER
-> > > > >         drivers/gpu/drm/Kconfig:80:     symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
-> > > > >         drivers/gpu/drm/Kconfig:74:     symbol DRM_KMS_HELPER is selected by DRM_ZYNQMP_DPSUB
-> > > > >         drivers/gpu/drm/xlnx/Kconfig:1: symbol DRM_ZYNQMP_DPSUB depends on DMA_ENGINE
-> > > > >         drivers/dma/Kconfig:44: symbol DMA_ENGINE depends on DMADEVICES
-> > > > >         drivers/dma/Kconfig:6:  symbol DMADEVICES is selected by SND_SOC_SH4_SIU
-> > > > >         sound/soc/sh/Kconfig:30:        symbol SND_SOC_SH4_SIU is selected by SND_SIU_MIGOR
-> > > > >         sound/soc/sh/Kconfig:60:        symbol SND_SIU_MIGOR depends on I2C
-> > > > >         For a resolution refer to Documentation/kbuild/kconfig-language.rst
-> > > > >         subsection "Kconfig recursive dependency limitations"
-> > > > > 
-> > > > > Due to the DPSUB driver being merged in v5.9, this is a candidate fix
-> > > > > for v5.9 as well. 1/3 and 2/3 can be merged independently, 3/3 depends
-> > > > > on the first two. What's the best course of action, can I merge this all
-> > > > > in a single tree, or should the rapidio and ASoC patches be merged
-> > > > > independently early in the -rc cycle, and the DRM patch later on top ? I
-> > > > > don't expect conflicts (especially in 2/3 and 3/3), so merging the whole
-> > > > > series in one go would be simpler in my opinion.
-> > > > 
-> > > > Acked-By: Vinod Koul <vkoul@kernel.org>
-> > > 
-> > > Thank you.
-> > > 
-> > > As Mark as queued the sound fix in his for-next branch for v5.9, could
-> > > you queue the dmaengine fix for v5.9 too ?
-> > 
-> > Dmaengine? I see three patches none of which touch dmaengine..
-> > Did I miss something?
-> 
-> I'm not sure what I was thinking... It's the rapidio patch that needs to
-> be merged.
+The block diagram of DP driver is shown below:
 
-No worries :)
 
-> Matt, Alexandre, can you either merge the patch as a v5.9 fix, or give
-> me an ack to get it merged through the DRM tree ?
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+                 +-------------+
+                 |DRM FRAMEWORK|
+                 +------+------+
+                        |
+                   +----v----+
+                   | DP DRM  |
+                   +----+----+
+                        |
+                   +----v----+
+     +------------+|   DP    +----------++------+
+     +        +---+| DISPLAY |+---+      |      |
+     |        +    +-+-----+-+    |      |      |
+     |        |      |     |      |      |      |
+     |        |      |     |      |      |      |
+     |        |      |     |      |      |      |
+     v        v      v     v      v      v      v
+ +------+ +------+ +---+ +----+ +----+ +---+ +-----+
+ |  DP  | |  DP  | |DP | | DP | | DP | |DP | | DP  |
+ |PARSER| | HPD  | |AUX| |LINK| |CTRL| |PHY| |POWER|
+ +--+---+ +---+--+ +---+ +----+ +--+-+ +-+-+ +-----+
+    |                              |     |
+ +--v---+                         +v-----v+
+ |DEVICE|                         |  DP   |
+ | TREE |                         |CATALOG|
+ +------+                         +---+---+
+                                      |
+                                  +---v----+
+                                  |CTRL/PHY|
+                                  |   HW   |
+                                  +--------+
 
+Changes in v7:
+
+- Modify cover letter description and fix title.
+- Introduce dp-controller.yaml for common bindings across SOC
+- Rename dp-sc7180.yaml to dp-controller-sc7180.yaml for SC7180 bindings
+- Rename compatible string to qcom,sc7180-dp
+- Add assigned-clocks and assigned-clock-parents properties in bindings
+- Remove redundant code from driver
+- Extend series to include HPD detection logic
+
+Changes in v8:
+
+- Add MDSS AHB clock in bindings 
+- Replace mode->vrefresh use with drm_mode_vrefresh API
+- Remove redundant aux config code from parser and aux module
+- Assign default max lanes if data-lanes property is not available
+- Fix use-after-free during DP driver remove
+- Unregister hardware clocks during driver cleanup
+
+Changes in v9:
+
+- Drop YAML bindings change from the series
+- Use assigne-clock-parents property and remove clk_set_parent use from code
+- Access register address space without name
+- Fix DP register dump utility
+- Disable DP clocks after vsync generated
+- Avoid 64-bit modulo operation
+- Drop any unused code and fix function proptotyes to avoid W=1 warnings
+- Drop DRM_MSM_DP_10NM_PLL config as only 10nm PLL is available
+
+Changes in v10:
+
+- Fix help description of Kconfig entry
+
+Chandan Uddaraju (4):
+  dt-bindings: msm/dp: add bindings of DP/DP-PLL driver for Snapdragon
+  drm: add constant N value in helper file
+  drm/msm/dp: add displayPort driver support
+  drm/msm/dp: add support for DP PLL driver
+
+Jeykumar Sankaran (1):
+  drm/msm/dpu: add display port support in DPU
+
+Tanmay Shah (1):
+  drm/msm/dp: Add Display Port HPD feature
+
+ drivers/gpu/drm/i915/display/intel_display.c  |    2 +-
+ drivers/gpu/drm/msm/Kconfig                   |    9 +
+ drivers/gpu/drm/msm/Makefile                  |   14 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   27 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |    8 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   83 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c               |  510 +++++
+ drivers/gpu/drm/msm/dp/dp_aux.h               |   29 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c           | 1030 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h           |  104 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              | 1693 +++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h              |   35 +
+ drivers/gpu/drm/msm/dp/dp_display.c           | 1017 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h           |   31 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |  168 ++
+ drivers/gpu/drm/msm/dp/dp_drm.h               |   18 +
+ drivers/gpu/drm/msm/dp/dp_hpd.c               |   69 +
+ drivers/gpu/drm/msm/dp/dp_hpd.h               |   79 +
+ drivers/gpu/drm/msm/dp/dp_link.c              | 1214 ++++++++++++
+ drivers/gpu/drm/msm/dp/dp_link.h              |  132 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c             |  486 +++++
+ drivers/gpu/drm/msm/dp/dp_panel.h             |   95 +
+ drivers/gpu/drm/msm/dp/dp_parser.c            |  269 +++
+ drivers/gpu/drm/msm/dp/dp_parser.h            |  138 ++
+ drivers/gpu/drm/msm/dp/dp_pll.c               |   99 +
+ drivers/gpu/drm/msm/dp/dp_pll.h               |   61 +
+ drivers/gpu/drm/msm/dp/dp_pll_10nm.c          |  917 +++++++++
+ drivers/gpu/drm/msm/dp/dp_pll_private.h       |   98 +
+ drivers/gpu/drm/msm/dp/dp_power.c             |  373 ++++
+ drivers/gpu/drm/msm/dp/dp_power.h             |  103 +
+ drivers/gpu/drm/msm/dp/dp_reg.h               |  517 +++++
+ drivers/gpu/drm/msm/msm_drv.c                 |    2 +
+ drivers/gpu/drm/msm/msm_drv.h                 |   59 +-
+ include/drm/drm_dp_helper.h                   |    1 +
+ 34 files changed, 9471 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_10nm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_private.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_reg.h
+
+
+base-commit: 418eda8f3fe292782c150266d693d55d284c0c98
 -- 
-~Vinod
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
