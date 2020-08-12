@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B35B24238E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 03:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301E32423C7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 03:33:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E576E888;
-	Wed, 12 Aug 2020 01:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9A46E889;
+	Wed, 12 Aug 2020 01:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A45D36E888
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 01:00:00 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l2so452417wrc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 18:00:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=VikuBdcAHg+0vtlQUX8EZkd3qJ5zfXzHomxqGlBAveg=;
- b=q7c/84CcN2f6s25ATtA1utzBb/AyLg/agUsQBt2K67xO/YbDORfIEw7mrCdyUWLPzF
- nRJ7tta9PNHpodYVg3JAwIyGHZHUxNfWZ8rzwuBsgyf8coDJsTpOvo4CT6AFBGGIgwJm
- fPEsONmzxVYfJQ9J28prXOQWCBiOnh6fokYZzY7GYK1Txk0Nadhg2F7KI0ker5vgec93
- NJSpXocMsyeV6ocHZpwPT+dKyhOhJ6DsDrappKqlJ873FKZoH4EX2HVjbkvhw60KpkQu
- /IzJ5K+w5bc+rIIrWEl5CiJ5i3eU3HWrnxekkLT1lb/Hqfd5OTqPgJTFFDnLomqHVaHN
- NFkQ==
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF256E88A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 01:33:48 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id 93so729072otx.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 18:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OOPEDXgtktX+STOhnXLIGFgUbz2AXCn5XtOhUs7FFWI=;
+ b=qSkeLFvVCBeyPkmdkgo9OCu5OWH5Dw6+0Twq6g7pWRUKkrgMSI2z7oY5mGZviazadc
+ spoPzCobAhW7sEDx1xtNZWsQ/0F5j9CvS7EzK+4CW832Mnin/Tfo74DU3bVJJmh1Dw+u
+ 12je9qrMQ19aLS/Ik6iyA4QMhSdyMq16Q2Wk0lYS7xTu0JEVkE/wofm+Ov+w029jUpR5
+ lELK88tQ8d/m445rIjFhk4LKCQ/rYg6C2Xur4Da8IfMcqe85B6YdRVQRj4d5QPCbhkIU
+ RCK17RLFpRllpJN4hkBKlEYHX7P6xA7j56ZedLQjmPHHtCOzIyZ6joZ7irT53PcAqEqZ
+ OdDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=VikuBdcAHg+0vtlQUX8EZkd3qJ5zfXzHomxqGlBAveg=;
- b=IJsjlv9al6Ip1DmALw9+34nqRXoZ/4wMzWsRoKDhXMsbDbVXr6xVBfZT9bppDxEIoj
- vq20lpJzEN5WFUFUJFZWUgdTfrfPbz4qcPbfylJU3VmjlS//Fj6wvdg/SUtBGCUyIDVN
- VGdAWZiU30ATDTdp6QzoIuYpgZpDVi95eTQ/BZj7uuQywMuFGwN8dgTrKtd3Tj1AxzTG
- 3YYQ5JsjD93IInQ4NTb5PQTWPfzEWBiCUT9H9AXawHiUgFNmytCoIDY9Ol4j8lE1mbp3
- wg4s85Qm7B0EvWaSzVVVQOgZ0jcUQneTyXJwTkRoBJz3bxxjqfMYfTXaJNBPZ73yw+tg
- +wbQ==
-X-Gm-Message-State: AOAM532KADMMIfKuBpfogjE0K3VoCNhJ9SNKRe/jBjtXJ7V8Smt5HRQY
- TsqBVl1eMG84q22WurwqXcFmFBdI
-X-Google-Smtp-Source: ABdhPJwCkf9MmaM5KxG7177K4e9Y/CRBx2Yd8LriDE/wRtNxOArX1tMhwWWTcoTC5v5bb+K5f0mJew==
-X-Received: by 2002:a5d:5048:: with SMTP id h8mr610962wrt.424.1597193999066;
- Tue, 11 Aug 2020 17:59:59 -0700 (PDT)
-Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
- [46.126.183.173])
- by smtp.gmail.com with ESMTPSA id i4sm1024884wrw.26.2020.08.11.17.59.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Aug 2020 17:59:58 -0700 (PDT)
-From: "Roland Scheidegger (VMware)" <rscheidegger.oss@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [git pull] vmwgfx-next-5.9
-Date: Wed, 12 Aug 2020 02:59:41 +0200
-Message-Id: <20200812005941.19465-1-rscheidegger.oss@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OOPEDXgtktX+STOhnXLIGFgUbz2AXCn5XtOhUs7FFWI=;
+ b=H7gy8Llt9ITDIKUuVZ77JAkxa3GSWTOGvRXeZHB9QomK+eReHiIveYrRA2poKyn75F
+ kX6QoKaTBY2CD+6Wbgez58bnO9ssgjRCViIXhE3eD7u6fmxniepRzm7YcerbZ8UUaYc4
+ PKak85Tjg4fUKlUeL5wMMP0Y3iGJHtcuEYuvojWbUNi5Z8y4f/QByIE2d6EJiQzPGGDX
+ GaQyAZjF7aSI9zQPSEtp3z6yBpl2gWl2QMYK7lawNjUveCp++N9HsgPYwdkcYzLmb+ur
+ 0i7uTiebFWCBEK7mxa/j5UEdNiUfD3QbLtvJ/SPD7IVDb8vX1P7C1NzbQ81RXxWZRX5F
+ g0sA==
+X-Gm-Message-State: AOAM532XTIqAg8a04y19T90AyEEPTZPuiZCq5kMri8q8qHxtn2OFOeCg
+ 4bdeGJ+1CxbBl5IlV/0Jl2Q9y3uVw3z/x/3VPQu+3A==
+X-Google-Smtp-Source: ABdhPJxLxPaIzKvPWsnNCzFrhyTFYZetvE3df4QriA+UBfu0xBdgDZG7G/eP+D69kfw+gwQ/XsFyZuhoDhcuSqY1Mvw=
+X-Received: by 2002:a9d:6f8f:: with SMTP id h15mr7099143otq.221.1597196027730; 
+ Tue, 11 Aug 2020 18:33:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190320094918.20234-1-rnayak@codeaurora.org>
+ <20190320094918.20234-4-rnayak@codeaurora.org>
+ <CALAqxLV2TBk9ScUM6MeJMCkL8kJnCihjQ7ac5fLzcqOg1rREVQ@mail.gmail.com>
+In-Reply-To: <CALAqxLV2TBk9ScUM6MeJMCkL8kJnCihjQ7ac5fLzcqOg1rREVQ@mail.gmail.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Tue, 11 Aug 2020 18:33:36 -0700
+Message-ID: <CALAqxLWg3jJKJFLnnne-mrQEnH=m7R_9azCGaGnEmFYR4EMh=A@mail.gmail.com>
+Subject: Re: [RFC v2 03/11] tty: serial: qcom_geni_serial: Use OPP API to set
+ clk/perf state
+To: Rajendra Nayak <rnayak@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com,
- Roland Scheidegger <rscheidegger.oss@gmail.com>
-MIME-Version: 1.0
+Cc: Amit Pundir <amit.pundir@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-scsi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Linux PM list <linux-pm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Doug Anderson <dianders@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-serial@vger.kernel.org,
+ Viresh Kumar <viresh.kumar@linaro.org>, linux-spi@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dave, Daniel,
+On Tue, Aug 11, 2020 at 4:11 PM John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Wed, Mar 20, 2019 at 2:49 AM Rajendra Nayak <rnayak@codeaurora.org> wrote:
+> >
+> > geni serial needs to express a perforamnce state requirement on CX
+> > depending on the frequency of the clock rates. Use OPP table from
+> > DT to register with OPP framework and use dev_pm_opp_set_rate() to
+> > set the clk/perf state.
+> >
+> > Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> > ---
+> >  drivers/tty/serial/qcom_geni_serial.c | 15 +++++++++++++--
+> >  1 file changed, 13 insertions(+), 2 deletions(-)
+> >
+>
+> Hey,
+>   I just wanted to follow up on this patch, as I've bisected it
+> (a5819b548af0) down as having broken qca bluetooth on the Dragonboard
+> 845c.
+>
+> I haven't yet had time to debug it yet, but wanted to raise the issue
+> in case anyone else has seen similar trouble.
 
-vmwgfx fixes pull for 5.9.
-The drm_mode_config_reset patches are very important fixing a recently
-introduced kernel crash, the others fix various older issues which are
-a bit less serious in practice.
-(Although still pending a solution for the other crash introduced by
-2ddef17678bc2ea1d20517dd2b4ed4aa967ffa8b.)
+So I dug in a bit further, and this chunk seems to be causing the issue:
+> @@ -961,7 +963,7 @@ static void qcom_geni_serial_set_termios(struct uart_port *uport,
+>                 goto out_restart_rx;
+>
+>         uport->uartclk = clk_rate;
+> -       clk_set_rate(port->se.clk, clk_rate);
+> +       dev_pm_opp_set_rate(port->dev, clk_rate);
+>         ser_clk_cfg = SER_CLK_EN;
+>         ser_clk_cfg |= clk_div << CLK_DIV_SHFT;
+>
 
-The following changes since commit dc100bc8fae59aafd2ea2e1a1a43ef1f65f8a8bc:
 
-  Merge tag 'drm-msm-next-2020-07-30' of https://gitlab.freedesktop.org/drm/msm into drm-next (2020-08-05 08:05:31 +1000)
+With that applied, I see the following errors in dmesg and bluetooth
+fails to function:
+[    4.763467] qcom_geni_serial 898000.serial: dev_pm_opp_set_rate:
+failed to find OPP for freq 102400000 (-34)
+[    4.773493] qcom_geni_serial 898000.serial: dev_pm_opp_set_rate:
+failed to find OPP for freq 102400000 (-34)
 
-are available in the Git repository at:
+With just that chunk reverted on linus/HEAD, bluetooth seems to work ok.
 
-  git://people.freedesktop.org/~sroland/linux vmwgfx-next-5.9
-
-for you to fetch changes up to e97644ebcdc83854e6e29e96285b25042445c28c:
-
-  drm/vmwgfx: fix spelling mistake "Cant" -> "Can't" (2020-08-11 03:16:03 +0200)
-
-----------------------------------------------------------------
-Colin Ian King (2):
-      drm/vmwgfx: fix spelling mistake "Cound" -> "Could"
-      drm/vmwgfx: fix spelling mistake "Cant" -> "Can't"
-
-Dan Carpenter (2):
-      drm/vmwgfx: Use correct vmw_legacy_display_unit pointer
-      drm/vmwgfx: Fix two list_for_each loop exit tests
-
-Daniel Vetter (1):
-      drm/vmwgfx/stdu: Use drm_mode_config_reset
-
-Gustavo A. R. Silva (1):
-      drm/vmwgfx: Use struct_size() helper
-
-Roland Scheidegger (2):
-      drm/vmwgfx/sou: Use drm_mode_config_reset
-      drm/vmwgfx/ldu: Use drm_mode_config_reset
-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c     | 10 +++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c     | 13 ++++---------
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c    |  9 ++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c    |  9 ++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |  2 +-
- 6 files changed, 15 insertions(+), 30 deletions(-)
+thanks
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
