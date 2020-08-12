@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594B6243482
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:12:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3B124348D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46706E466;
-	Thu, 13 Aug 2020 07:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2146E47B;
+	Thu, 13 Aug 2020 07:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0270A6E07D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:42:09 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.209])
- by lucky1.263xmail.com (Postfix) with ESMTP id 1D2F4C0C54;
- Wed, 12 Aug 2020 16:34:15 +0800 (CST)
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91F6E6E07D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:44:06 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.16])
+ by lucky1.263xmail.com (Postfix) with ESMTP id F163AC5ED8;
+ Wed, 12 Aug 2020 16:34:44 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED: 0
@@ -22,10 +22,10 @@ X-ANTISPAM-LEVEL: 2
 X-ABS-CHECKED: 0
 Received: from localhost.localdomain (unknown [103.29.142.67])
  by smtp.263.net (postfix) whith ESMTP id
- P31771T140662796187392S1597221250509047_; 
- Wed, 12 Aug 2020 16:34:15 +0800 (CST)
+ P18983T140547726436096S1597221280087704_; 
+ Wed, 12 Aug 2020 16:34:44 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <69b1af1b415bf5000b6580fc378eeefa>
+X-UNIQUE-TAG: <aabb62171f4c56eb93f47e37d26bd229>
 X-RL-SENDER: algea.cao@rock-chips.com
 X-SENDER: algea.cao@rock-chips.com
 X-LOGIN-NAME: algea.cao@rock-chips.com
@@ -44,9 +44,10 @@ To: a.hajda@samsung.com, kuankuan.y@gmail.com, hjc@rock-chips.com,
  linux-arm-kernel@lists.infradead.org, cychiang@chromium.org,
  linux-kernel@vger.kernel.org, narmstrong@baylibre.com,
  jbrunet@baylibre.com, maarten.lankhorst@linux.intel.com, daniel@ffwll.ch
-Subject: [PATCH 1/6] drm: Add connector atomic_begin/atomic_flush
-Date: Wed, 12 Aug 2020 16:34:07 +0800
-Message-Id: <20200812083407.856-1-algea.cao@rock-chips.com>
+Subject: [PATCH 2/6] drm: bridge: dw-hdmi: Implement connector
+ atomic_begin/atomic_flush
+Date: Wed, 12 Aug 2020 16:34:33 +0800
+Message-Id: <20200812083433.934-1-algea.cao@rock-chips.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200812083120.743-1-algea.cao@rock-chips.com>
 References: <20200812083120.743-1-algea.cao@rock-chips.com>
@@ -69,126 +70,141 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In some situations, connector should get some work done
-when plane is updating. Such as when change output color
-format, hdmi should send AVMUTE to make screen black before
-crtc updating color format, or screen may flash. After color
-updating, hdmi should clear AVMUTE bring screen back to normal.
+Introduce dw_hdmi_connector_atomic_begin() and
+dw_hdmi_connector_atomic_flush() to implement connector
+atomic_begin/atomic_flush. When enc_out_bus_format or
+enc_in_bus_format changed, dw_hdmi_setup is called.
 
-The process is as follows:
-AVMUTE -> Update CRTC -> Update HDMI -> Clear AVMUTE
-
-So we introduce connector atomic_begin/atomic_flush.
+To avoid screen flash when updating bus format, it's need
+to send AVMUTE flag to make screen black, and clear flag
+after bus format updated.
 
 Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
-
 ---
 
- drivers/gpu/drm/drm_atomic_helper.c      | 46 ++++++++++++++++++++++++
- include/drm/drm_modeset_helper_vtables.h | 19 ++++++++++
- 2 files changed, 65 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 65 +++++++++++++++++++++++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.h |  4 ++
+ 2 files changed, 69 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index f68c69a45752..f4abd700d2c4 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -2471,6 +2471,8 @@ void drm_atomic_helper_commit_planes(struct drm_device *dev,
- 				     struct drm_atomic_state *old_state,
- 				     uint32_t flags)
- {
-+	struct drm_connector *connector;
-+	struct drm_connector_state *old_connector_state, *new_connector_state;
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_plane *plane;
-@@ -2479,6 +2481,28 @@ void drm_atomic_helper_commit_planes(struct drm_device *dev,
- 	bool active_only = flags & DRM_PLANE_COMMIT_ACTIVE_ONLY;
- 	bool no_disable = flags & DRM_PLANE_COMMIT_NO_DISABLE_AFTER_MODESET;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 6148a022569a..a1a81fc768c2 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -108,6 +108,8 @@ struct hdmi_vmode {
+ };
  
-+	for_each_oldnew_connector_in_state(old_state, connector,
-+					   old_connector_state,
-+					   new_connector_state, i) {
-+		const struct drm_connector_helper_funcs *funcs;
-+
-+		if (!connector->state->crtc)
-+			continue;
-+
-+		if (!connector->state->crtc->state->active)
-+			continue;
-+
-+		funcs = connector->helper_private;
-+
-+		if (!funcs || !funcs->atomic_begin)
-+			continue;
-+
-+		DRM_DEBUG_ATOMIC("flush beginning [CONNECTOR:%d:%s]\n",
-+				 connector->base.id, connector->name);
-+
-+		funcs->atomic_begin(connector, old_connector_state);
-+	}
-+
- 	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
- 		const struct drm_crtc_helper_funcs *funcs;
+ struct hdmi_data_info {
++	unsigned int prev_enc_in_bus_format;
++	unsigned int prev_enc_out_bus_format;
+ 	unsigned int enc_in_bus_format;
+ 	unsigned int enc_out_bus_format;
+ 	unsigned int enc_in_encoding;
+@@ -116,6 +118,7 @@ struct hdmi_data_info {
+ 	unsigned int hdcp_enable;
+ 	struct hdmi_vmode video_mode;
+ 	bool rgb_limited_range;
++	bool update;
+ };
  
-@@ -2550,6 +2574,28 @@ void drm_atomic_helper_commit_planes(struct drm_device *dev,
- 
- 		funcs->atomic_flush(crtc, old_crtc_state);
- 	}
-+
-+	for_each_oldnew_connector_in_state(old_state, connector,
-+					   old_connector_state,
-+					   new_connector_state, i) {
-+		const struct drm_connector_helper_funcs *funcs;
-+
-+		if (!connector->state->crtc)
-+			continue;
-+
-+		if (!connector->state->crtc->state->active)
-+			continue;
-+
-+		funcs = connector->helper_private;
-+
-+		if (!funcs || !funcs->atomic_flush)
-+			continue;
-+
-+		DRM_DEBUG_ATOMIC("flushing [CONNECTOR:%d:%s]\n",
-+				 connector->base.id, connector->name);
-+
-+		funcs->atomic_flush(connector, old_connector_state);
-+	}
+ struct dw_hdmi_i2c {
+@@ -2401,6 +2404,60 @@ static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
+ 	return ret;
  }
- EXPORT_SYMBOL(drm_atomic_helper_commit_planes);
  
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index 421a30f08463..10f3f2e2fe28 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -1075,6 +1075,25 @@ struct drm_connector_helper_funcs {
- 	void (*atomic_commit)(struct drm_connector *connector,
- 			      struct drm_connector_state *state);
- 
-+	/**
-+	 * @atomic_begin:
-+	 *
-+	 * flush atomic update
-+	 *
-+	 * This callback is used by the atomic modeset helpers but it is optional.
-+	 */
-+	void (*atomic_begin)(struct drm_connector *connector,
-+			     struct drm_connector_state *state);
++static void
++dw_hdmi_connector_atomic_begin(struct drm_connector *connector,
++			       struct drm_connector_state *conn_state)
++{
++	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
++					    connector);
++	unsigned int enc_in_bus_fmt = hdmi->hdmi_data.enc_in_bus_format;
++	unsigned int enc_out_bus_fmt = hdmi->hdmi_data.enc_out_bus_format;
++	unsigned int prev_enc_in_bus_fmt =
++		hdmi->hdmi_data.prev_enc_in_bus_format;
++	unsigned int prev_enc_out_bus_fmt =
++		hdmi->hdmi_data.prev_enc_out_bus_format;
 +
-+	/**
-+	 * @atomic_begin:
-+	 *
-+	 * begin atomic update
-+	 *
-+	 * This callback is used by the atomic modeset helpers but it is optional.
-+	 */
-+	void (*atomic_flush)(struct drm_connector *connector,
-+			     struct drm_connector_state *state);
- 	/**
- 	 * @prepare_writeback_job:
- 	 *
++	if (!conn_state->crtc)
++		return;
++
++	if (!hdmi->hdmi_data.video_mode.mpixelclock)
++		return;
++
++	if (enc_in_bus_fmt != prev_enc_in_bus_fmt ||
++	    enc_out_bus_fmt != prev_enc_out_bus_fmt) {
++		hdmi->hdmi_data.update = true;
++		hdmi_writeb(hdmi, HDMI_FC_GCP_SET_AVMUTE, HDMI_FC_GCP);
++		/* Add delay to make av mute work on sink*/
++		msleep(50);
++	} else {
++		hdmi->hdmi_data.update = false;
++	}
++}
++
++static void
++dw_hdmi_connector_atomic_flush(struct drm_connector *connector,
++			       struct drm_connector_state *conn_state)
++{
++	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
++					     connector);
++
++	if (!conn_state->crtc)
++		return;
++
++	DRM_DEBUG("%s\n", __func__);
++
++	if (hdmi->hdmi_data.update) {
++		dw_hdmi_setup(hdmi, hdmi->curr_conn, &hdmi->previous_mode);
++		/*
++		 * Before clear AVMUTE, delay is needed to
++		 * prevent display flash.
++		 */
++		msleep(50);
++		hdmi_writeb(hdmi, HDMI_FC_GCP_CLEAR_AVMUTE, HDMI_FC_GCP);
++		hdmi->hdmi_data.update = false;
++	}
++}
++
+ static bool hdr_metadata_equal(const struct drm_connector_state *old_state,
+ 			       const struct drm_connector_state *new_state)
+ {
+@@ -2465,6 +2522,8 @@ static const struct drm_connector_funcs dw_hdmi_connector_funcs = {
+ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs = {
+ 	.get_modes = dw_hdmi_connector_get_modes,
+ 	.atomic_check = dw_hdmi_connector_atomic_check,
++	.atomic_begin = dw_hdmi_connector_atomic_begin,
++	.atomic_flush = dw_hdmi_connector_atomic_flush,
+ };
+ 
+ static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+@@ -2778,6 +2837,12 @@ static int dw_hdmi_bridge_atomic_check(struct drm_bridge *bridge,
+ {
+ 	struct dw_hdmi *hdmi = bridge->driver_private;
+ 
++	hdmi->hdmi_data.prev_enc_out_bus_format =
++			hdmi->hdmi_data.enc_out_bus_format;
++
++	hdmi->hdmi_data.prev_enc_in_bus_format =
++			hdmi->hdmi_data.enc_in_bus_format;
++
+ 	hdmi->hdmi_data.enc_out_bus_format =
+ 			bridge_state->output_bus_cfg.format;
+ 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+index 1999db05bc3b..05182418efbb 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+@@ -842,6 +842,10 @@ enum {
+ 	HDMI_FC_AVICONF3_QUANT_RANGE_LIMITED = 0x00,
+ 	HDMI_FC_AVICONF3_QUANT_RANGE_FULL = 0x04,
+ 
++/* HDMI_FC_GCP */
++	HDMI_FC_GCP_SET_AVMUTE = 0x2,
++	HDMI_FC_GCP_CLEAR_AVMUTE = 0x1,
++
+ /* FC_DBGFORCE field values */
+ 	HDMI_FC_DBGFORCE_FORCEAUDIO = 0x10,
+ 	HDMI_FC_DBGFORCE_FORCEVIDEO = 0x1,
 -- 
 2.25.1
 
