@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76309242D2B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 18:28:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F14BF242D33
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 18:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5F46E91C;
-	Wed, 12 Aug 2020 16:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7196E91D;
+	Wed, 12 Aug 2020 16:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 360156E91C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 16:28:40 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7216E91D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 16:29:44 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 579329E7;
- Wed, 12 Aug 2020 18:28:38 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA4E39E7;
+ Wed, 12 Aug 2020 18:29:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597249718;
- bh=uzFeii+3PI4OvTFWxc2HhIz9TI3kpJD/u8DiZLup8P4=;
+ s=mail; t=1597249783;
+ bh=PlLgJBlNgcEsVC/aAOnVl2ZoYIkjcFM5Lt8dvxb7AB0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vg3305EwVaNs9KQKwleqGTW/I+KSvMN4IfvXRuOsJGFtgabxLOoQmD+A9N56D/rEI
- WA1fxhiq2FzUkNAbHZqxsH6GdwYBAWn1lqjsvBd3QR4biNuEkdCIRx8FvODxqNErE3
- /SoNAwMDNORl6uo434n8Kr+yz3ls6UEdoG2vzU9w=
-Date: Wed, 12 Aug 2020 19:28:24 +0300
+ b=rqOvwCMqtY11PPydCh0Vy9nC3CpAevMAH1aaeYM6BeRfvNSrjENYjEiKz5wBwwHlH
+ Te1jdmFfNL9I/aQKUe3BXqnHUQIXfqN2jNzGGBr6LKhYwjhDnQ9yFD7Gqw4n7crUpD
+ L5267sOarF4BaoxLa2exxeKv/LXhMXp8tPSe5sgk=
+Date: Wed, 12 Aug 2020 19:29:29 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 6/9] arm64: dts: renesas: r8a774e1: Populate HDMI encoder
- node
-Message-ID: <20200812162824.GQ6057@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 7/9] drm: rcar-du: lvds: Add support for R8A774E1 SoC
+Message-ID: <20200812162929.GR6057@pendragon.ideasonboard.com>
 References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200812140217.24251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200812140217.24251-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200812140217.24251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200812140217.24251-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,10 +62,12 @@ Hi Prabhakar,
 
 Thank you for the patch.
 
-On Wed, Aug 12, 2020 at 03:02:14PM +0100, Lad Prabhakar wrote:
+On Wed, Aug 12, 2020 at 03:02:15PM +0100, Lad Prabhakar wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > 
-> Populate HDMI node properties in R8A774E1 SoC dtsi.
+> The LVDS encoder on RZ/G2H (R8A774E1) SoC is identical to R-Car Gen3 so
+> just reuse the rcar_lvds_gen3_info structure to hookup R8A774E1 to LVDS
+> encoder driver.
 > 
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -74,56 +75,21 @@ On Wed, Aug 12, 2020 at 03:02:14PM +0100, Lad Prabhakar wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> index 4b57c1ea762c..79efcd73cc46 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> @@ -2601,22 +2601,32 @@
->  		};
->  
->  		hdmi0: hdmi@fead0000 {
-> +			compatible = "renesas,r8a774e1-hdmi",
-> +				     "renesas,rcar-gen3-hdmi";
->  			reg = <0 0xfead0000 0 0x10000>;
-> +			interrupts = <GIC_SPI 389 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 729>,
-> +				 <&cpg CPG_CORE R8A774E1_CLK_HDMI>;
-> +			clock-names = "iahb", "isfr";
-> +			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-> +			resets = <&cpg 729>;
->  			status = "disabled";
->  
-> -			/* placeholder */
-> -
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
->  
->  				port@0 {
->  					reg = <0>;
-> +					dw_hdmi0_in: endpoint {
-> +						remote-endpoint = <&du_out_hdmi0>;
-> +					};
->  				};
->  				port@1 {
->  					reg = <1>;
->  				};
->  				port@2 {
-> +					/* HDMI sound */
->  					reg = <2>;
->  				};
->  			};
-> @@ -2650,6 +2660,7 @@
->  				port@1 {
->  					reg = <1>;
->  					du_out_hdmi0: endpoint {
-> +						remote-endpoint = <&dw_hdmi0_in>;
->  					};
->  				};
->  				port@2 {
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index ab0d49618cf9..424ca2b7d9ac 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -987,6 +987,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
+>  	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
+>  	{ .compatible = "renesas,r8a774b1-lvds", .data = &rcar_lvds_gen3_info },
+>  	{ .compatible = "renesas,r8a774c0-lvds", .data = &rcar_lvds_r8a77990_info },
+> +	{ .compatible = "renesas,r8a774e1-lvds", .data = &rcar_lvds_gen3_info },
+>  	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_gen2_info },
+>  	{ .compatible = "renesas,r8a7791-lvds", .data = &rcar_lvds_gen2_info },
+>  	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
 
 -- 
 Regards,
