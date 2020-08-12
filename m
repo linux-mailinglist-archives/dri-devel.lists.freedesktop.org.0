@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC640242AEF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 16:06:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B190F242AF9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 16:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF4D089BCD;
-	Wed, 12 Aug 2020 14:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2679F6E126;
+	Wed, 12 Aug 2020 14:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B1989BB2;
- Wed, 12 Aug 2020 14:06:31 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id p24so2373813ejf.13;
- Wed, 12 Aug 2020 07:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=d8f3pH5/ZCKSKStfszgIlZxnw3uyn/996p8sG8HyjxQ=;
- b=fAR/xXiaC+iP55fNn6oDuokITntCFEBi1xlzqIOiXdpufTT+WXrxe16rF8df2MiHZY
- er7UtqFH2MHRU7xYYD1IApTAK7fdlpfxic9pzjkwK5cY5cYUmVOs2zgzIvB8c+XvSiZR
- 3L25GBDd93gJK37iUq3pqEhk5NLOUD9oT6bLhsIDtTdX/ne0Yg0xt9gS1NnFCxJxEQIB
- sskLpOZFE0XZFdBoFghrvl7obOn7ywiRYPOrKLFwLku3v746zDYlZPGdpOyW7kwQ8mQJ
- Wf8ihmeQWtY7mcxKWzJxDDH4F7cARHazoA3nwmdj5ULhEOfNu4ehVklCkuUeqEuOJ+vS
- FrZw==
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 282096E126
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 14:10:20 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id o21so1881670oie.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fQpYDgkPY9yLnBp0UJp8jvJUvHu94wXm2Rvd4KAL1+8=;
+ b=MYObIKtEhualdDLE4KCuFf0k1rLOTRrmO/XY5GYjlct7s5zBj12CSi+TCHJKcq43Em
+ iA2ub8UeRKVY23cHauGk+Fq1eqbGYFEELgT0rbSVhgvH4eSGBNDiY7z5P3QzrhhhpH1a
+ f4Z0XIXeu2yLjoFhKHpwiKFUkNopB75wb/ZHA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=d8f3pH5/ZCKSKStfszgIlZxnw3uyn/996p8sG8HyjxQ=;
- b=HvDHOsX0IEK9lI9FxinbPobQyMOQnXlh/ehVOz1kuAiaVe0AknoRuAhEFOr6J0i5cx
- cgpBxxIFJWL4RDoU7RkTucD/hxAomjGniF8P7VXHFrTt4qkUUw30zk2+3vmlqJohpOgI
- CJpee5x1Apjpts2lpVIuxbONaSSD7TrSXpj05SLGq1uv5EYrdLZVuI1Ias7GPO4juP5w
- XOTJL4xtSTx70ff2tVxDQwvUVhMMpQIwZd7PL7aZyAwHle5i8lYEeNoELcAHSKH+uUx1
- QttCVBkMv34AL0GMZnQXXD/Ts44is2Y0JfbUBmjpwne0LQyrLEG347lcmDZ7WRpA8rM6
- yQZA==
-X-Gm-Message-State: AOAM530aYbCch0rXb28DQpxV1Lrb+GphR+ByjOcSf4Xg7gnXvXCHw+mM
- Nfnk4FO5xXsu2Vg0+Uc+3uE=
-X-Google-Smtp-Source: ABdhPJznwOGp/qyo5pGS6jX40SdNtqxQhEKTMsJPS7+o051ebKYTfT0qr3V1BC6oqvTcaOqZcyqkbw==
-X-Received: by 2002:a17:906:140e:: with SMTP id
- p14mr31966727ejc.430.1597241189936; 
- Wed, 12 Aug 2020 07:06:29 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id gl20sm1674979ejb.86.2020.08.12.07.06.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Aug 2020 07:06:28 -0700 (PDT)
-Subject: Re: RFC: How to adjust the trace pid?
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Ingo Molnar <mingo@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>
-References: <20200807133658.1866-1-christian.koenig@amd.com>
- <1975d7d1-8f94-5852-6ccc-19fde4d4a919@gmail.com>
- <CAKMK7uF7nTgJE38Krhnw9Ca4FtFpw4b=nFr8-tWqPxTkRrh=Pw@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <dca018cb-8455-874f-7473-fbfbd1d4c7a9@gmail.com>
-Date: Wed, 12 Aug 2020 16:06:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fQpYDgkPY9yLnBp0UJp8jvJUvHu94wXm2Rvd4KAL1+8=;
+ b=NYP8tPcuF8adDrlfaqFGXk1mGBSX2k33C08Q3uYrfpQmMCF7Jlfn1v5p6GUw4X8T30
+ nRkrv68+MMRNB0e0NVovM5jX8RFQH/B8NVMZAMxkm+5DDT6ptBYv9d9pVgphtNply9Bs
+ ywytEYkVesqQ+7KGcmhCtr13ifYIKuiKFh1vek8dCEoB5ogqVZftggEsaBPQ73niUad5
+ 7c8gzwBmKWbm7ME/3ICTHoziNGLP1lYZ9A7uP/ZswZmX10uemwlKLIsoH12P5GRZit1/
+ 0FejF7qPh/85Yyd0fi+uLD1PPHjFlES6e4xhLXS8jCcOVgXWKRSuHDw4NqCPlID7DlpW
+ jY0Q==
+X-Gm-Message-State: AOAM532VUKuAjDRQLWp8QeIUttpMUqCPVbPXvS9u0p3+Ph19wBIShwwV
+ j4jj8VSA8kXu+nVC7DHUTOd4h8GWLEviNn9hwUv+6w==
+X-Google-Smtp-Source: ABdhPJynZpsDvSna0C6RcraPgGewhfAurY7C4qKG2dom85yF0RCs4jaNttjcC9KqInWQ5ZVcRPwP5rJXJxhnPIlnF88=
+X-Received: by 2002:aca:88a:: with SMTP id 132mr6823888oii.101.1597241419407; 
+ Wed, 12 Aug 2020 07:10:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uF7nTgJE38Krhnw9Ca4FtFpw4b=nFr8-tWqPxTkRrh=Pw@mail.gmail.com>
-Content-Language: en-US
+References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
+ <20200811085830.GZ2352366@phenom.ffwll.local>
+ <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
+In-Reply-To: <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 12 Aug 2020 16:10:08 +0200
+Message-ID: <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
+Subject: Re: [PATCH] drm: assure aux_dev is nonzero before using it
+To: Zwane Mwaikambo <zwanem@gmail.com>, Lyude <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,54 +59,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Shashank.Sharma@amd.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dkwon@redhat.com, Linux Kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, tcamuso@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTIuMDguMjAgdW0gMTU6NDkgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgQXVn
-IDEyLCAyMDIwIGF0IDM6NDIgUE0gQ2hyaXN0aWFuIEvDtm5pZwo+IDxja29lbmlnLmxlaWNodHp1
-bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4+IFBpbmc/IERhbmllbCwgRGF2ZSBhbnkgb3Bpbmlv
-biBvbiB0aGlzPwo+IFR5cGUgcGF0Y2gsIGNjOiB0cmFjaW5nIHBlb3BsZSwgc2VlIHdoYXQgdGhl
-eSBzYXk/CgpBZGRpbmcgSW5nbyBhbmQgU3RldmVuIHRoZW4uCgo+IHRiaCBJIGhhdmUgbm8gaWRl
-YSwKPiBidXQgdGhleSBoYXZlIGJlZW4gbWFraW5nIHVuaGFwcHkgbm9pc2VzIGFib3V0IHNvbWUg
-b2YgdGhlIHRyaWNrcwo+IHdlJ3ZlIHBsYXllZCBpbiB0aGUgcGFzdCBpbiBpOTE1IHRyYWNlcG9p
-bnRzLiBTbyBub3QgZXZlcnl0aGluZyBpcwo+IGNvb2wgaW4gdGhlcmUuCgpXZWxsIHRoYXQgd2Fz
-IHRoZSBmZWVkYmFjayBJIHdhcyBsb29raW5nIGZvci4KCj4gT3RoZXJ3aXNlIEkgZ3Vlc3MganVz
-dCBhZGQgYW5vdGhlciB0cmFjZXBvaW50IHBhcmFtZXRlciB0byBkdW1wIHRoZQo+IGNvcnJlY3Qg
-dXNlcnNwYWNlIG1tLgoKV2VsbCB0aGUgdHJhY2luZyBzdWJzeXN0ZW0gbG9va3MgbGlrZSByYXRo
-ZXIgY29tcGxpY2F0ZWQgbWFjcm8gbWFnaWMsIHNvIApJJ20gbm90IHRvdWNoaW5nIHRoYXQgYmVm
-b3JlIHNwZWFraW5nIHRvIGhlIG1haW50YWluZXIgd2hhdCBhcHByb2FjaCB3ZSAKc2hvdWxkIHRh
-a2UuCgo+IDNyZCBvcHRpb24gY291bGQgYmUgdG8gZHVtcCB0aGUgY3VycmVudCBtbSAoc2luY2Ug
-SSdtIGFzc3VtaW5nIHRob3NlCj4gdGhyZWFkcyBkbyBrdGhyZWFkX3VzZS91bnVzZV9tbSB0byBp
-bXBlcnNvbmF0ZSB0aGUgcmlnaHQgdXNlcnNwYWNlCj4gcHJvY2VzcyBjb3JyZWN0bHkpIGluIHRo
-ZSB0cmFjZXBvaW50IGluZnJhc3RydWN0dXJlIHRvbz8KCk5vcGUsIHdlIGRvbid0IHVzZSBrdGhy
-ZWFkX3VzZS91bnVzZV9tbSBzaW5jZSB3ZSBkb24ndCB0b3VjaCB0aGUgcHJvY2VzcyAKd2hpY2gg
-aW5pdGlhdGVkIHRoZSBvcGVyYXRpb24gaW4gYW55IHdheS4KClRoaXMgaXMganVzdCB0byBpbXBy
-b3ZlIGRlYnVnZ2luZyBzaW5jZSBpdCBkb2Vzbid0IG1ha2UgbXVjaCBzZW5zZSB0byAKdHJhY2Ug
-dGhlIHBpZCBvZiB0aGUgd29ya2VyIHRocmVhZC4gQW5kIHNpbmNlIHdlIGhhdmUgdGhlIHBpZCBv
-ZiB0aGUgCmluaXRpYXRvciBhcm91bmQgYW55d2F5IHVzaW5nIGl0IHNob3VsZCBiZSB0cml2aWFs
-LgoKUXVlc3Rpb24gaXMgcmF0aGVyIGhvdyB0byBkbyBpdCBjb3JyZWN0bHk/IEkgY291bGRuJ3Qg
-ZmluZCBtdWNoIApwcmVjZWRlbmNlIGZvciB0aGlzLgoKVGhhbmtzLApDaHJpc3RpYW4uCgo+Cj4g
-Q2hlZXJzLCBEYW5pZWwKPgo+PiBDaHJpc3RpYW4uCj4+Cj4+IEFtIDA3LjA4LjIwIHVtIDE1OjM2
-IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPj4+IEhpIGV2ZXJ5Ym9keSwKPj4+Cj4+PiBpbiBh
-bWRncHUgd2UgZ290IHRoZSBmb2xsb3dpbmcgaXNzdWUgd2hpY2ggSSdtIHNlZWtpbmcgYWR2aXNl
-IGhvdyB0byBjbGVhbmx5IGhhbmRsZSBpdC4KPj4+Cj4+PiBXZSBoYXZlIGEgYnVuY2ggb2YgdHJh
-Y2UgcG9pbnRzIHdoaWNoIGFyZSByZWxhdGVkIHRvIHRoZSBWTSBzdWJzeXN0ZW0gYW5kIGV4ZWN1
-dGVkIGluIGVpdGhlciBhIHdvcmsgaXRlbSwga3RocmVhZCBvciBmb3JlaWduIHByb2Nlc3MgY29u
-dGV4dC4KPj4+Cj4+PiBOb3cgdHJhY2luZyB0aGUgcGlkIG9mIHRoZSBjb250ZXh0IHdoaWNoIHdl
-IGFyZSBleGVjdXRpbmcgaW4gaXMgbm90IHJlYWxseSB0aGF0IHVzZWZ1bCwgc28gSSdtIHdvbmRl
-cmluZyBpZiB3ZSBjb3VsZCBqdXN0IG92ZXJ3cml0ZSB0aGUgcGlkIHJlY29yZGVkIGluIHRoZSB0
-cmFjZSBlbnRyeT8KPj4+Cj4+PiBUaGUgZm9sbG93aW5nIHBhdGNoIGRvZXMgZXhhY3RseSB0aGF0
-IGZvciB0aGUgdm1fZ3JhYl9pZCgpIHRyYWNlIHBvaW50LCBidXQgSSdtIG5vdCAxMDAlIHN1cmUg
-aWYgdGhhdCBpcyBsZWdhbCBvciBub3QuCj4+Pgo+Pj4gQW55IGlkZWFzPyBDb21tZW50cz8KPj4+
-Cj4+PiBUaGFua3MsCj4+PiBDaHJpc3RpYW4uCj4+Pgo+Pj4KPgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Aug 12, 2020 at 12:16 AM Zwane Mwaikambo <zwanem@gmail.com> wrote:
+>
+> On Tue, 11 Aug 2020, Daniel Vetter wrote:
+>
+> > On Mon, Aug 10, 2020 at 10:11:50AM -0700, Zwane Mwaikambo wrote:
+> > > Hi Folks,
+> > >     I know this thread eventually dropped off due to not identifying
+> > > the underlying issue. It's still occuring on 5.8 and in my case it
+> > > happened because the udev device nodes for the DP aux devices were not
+> > > cleaned up whereas the kernel had no association with them. I can
+> > > reproduce the bug just by creating a device node for a non-existent minor
+> > > device and calling open().
+> >
+> > Hm I don't have that thread anymore, but generally these bugs are solved
+> > by not registering the device before it's ready for use. We do have
+> > drm_connector->late_register for that stuff. Just a guess since I'm not
+> > seeing full details here.
+>
+> In this particular case, the physical device disappeared before the nodes
+> were cleaned up. It involves putting a computer to sleep with a monitor
+> plugged in and then waking it up with the monitor unplugged.
+
+We also have early_unregister for the reverse, but yes this sounds
+more tricky ... Adding Lyude who's been working on way too much
+lifetime fun around dp recently.
+-Daniel
+
+>
+>
+> > >
+> > > To me it still makes sense to just check aux_dev because the chardev has
+> > > no way to check before calling.
+> > >
+> > > (gdb) list *drm_dp_aux_dev_get_by_minor+0x29
+> > > 0x17b39 is in drm_dp_aux_dev_get_by_minor (drivers/gpu/drm/drm_dp_aux_dev.c:65).
+> > > 60      static struct drm_dp_aux_dev *drm_dp_aux_dev_get_by_minor(unsigned index)
+> > > 61      {
+> > > 62              struct drm_dp_aux_dev *aux_dev = NULL;
+> > > 63
+> > > 64              mutex_lock(&aux_idr_mutex);
+> > > 65              aux_dev = idr_find(&aux_idr, index);
+> > > 66              if (!kref_get_unless_zero(&aux_dev->refcount))
+> > > 67                      aux_dev = NULL;
+> > > 68              mutex_unlock(&aux_idr_mutex);
+> > > 69
+> > > (gdb) p/x &((struct drm_dp_aux_dev *)(0x0))->refcount
+> > > $8 = 0x18
+> > >
+> > > static int auxdev_open(struct inode *inode, struct file *file)
+> > > {
+> > >     unsigned int minor = iminor(inode);
+> > >     struct drm_dp_aux_dev *aux_dev;
+> > >
+> > >     aux_dev = drm_dp_aux_dev_get_by_minor(minor);
+> > >     if (!aux_dev)
+> > >         return -ENODEV;
+> > >
+> > >     file->private_data = aux_dev;
+> > >     return 0;
+> > > }
+> > >
+> > >
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+> >
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
