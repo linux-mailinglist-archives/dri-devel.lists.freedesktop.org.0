@@ -1,65 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9762D24250F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 07:48:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D84324255D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 08:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271496E051;
-	Wed, 12 Aug 2020 05:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D73416E8A3;
+	Wed, 12 Aug 2020 06:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89FBB6E051
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 05:48:21 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1597211304; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=pcchFqlGO204owbj4tYlSsiQCb+7lLvPn9Lhykdi2Js=;
- b=Ii0co2PPZ5ay02q0+fJEmIHTjAXNm4lmowciPehqh3eXdTeBI2BGOMXqylLkbzTrJk3H+Qxw
- jRVSqYDyStV3ybtKAfe5+MnZcHNMWJ2sF9GAlDN+TyHUVTfrWQgL6w62FvH7uSbv98SgkkRG
- cKgtW+naeYV/pQf4kV+hwFPATxI=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 5f33829bd96d28d61e2768df (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 12 Aug 2020 05:48:11
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1358AC433CA; Wed, 12 Aug 2020 05:48:11 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
- SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.15] (unknown [61.1.229.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: rnayak)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 339F8C433C6;
- Wed, 12 Aug 2020 05:48:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 339F8C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [RFC v2 03/11] tty: serial: qcom_geni_serial: Use OPP API to set
- clk/perf state
-To: John Stultz <john.stultz@linaro.org>
-References: <20190320094918.20234-1-rnayak@codeaurora.org>
- <20190320094918.20234-4-rnayak@codeaurora.org>
- <CALAqxLV2TBk9ScUM6MeJMCkL8kJnCihjQ7ac5fLzcqOg1rREVQ@mail.gmail.com>
- <CALAqxLWg3jJKJFLnnne-mrQEnH=m7R_9azCGaGnEmFYR4EMh=A@mail.gmail.com>
-From: Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <ec5eeb21-48e4-5dcc-583a-ac9419659e44@codeaurora.org>
-Date: Wed, 12 Aug 2020 11:18:01 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42F106E8A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 06:31:57 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6F7AF20768;
+ Wed, 12 Aug 2020 06:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597213917;
+ bh=aSKIYDCe9tCyqEEVWCR4TOBC4YZZ/qu7KDEDekxFTko=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZoXBSqpm1KpbUGNJjLg471ehyQ0rOqZl77C3TpyrozdKhrpJaBpDOWgwMFtkYBu4s
+ VBb6Ta6yv989xsvQxX2xY6izCalYXxRHKGtAsR5skSZ2gFlVwZf+KvgAxKbPdY4+ul
+ X2A5CLjS7m4ArqQ5o9dXfKGv+XlH92cGMnxQlRxo=
+Date: Wed, 12 Aug 2020 08:31:54 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Subject: Re: [PATCH] drm/rockchip: Require the YTR modifier for AFBC
+Message-ID: <20200812063154.GB1300894@kroah.com>
+References: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <CALAqxLWg3jJKJFLnnne-mrQEnH=m7R_9azCGaGnEmFYR4EMh=A@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200811202631.3603-1-alyssa.rosenzweig@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,84 +46,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-scsi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Linux PM list <linux-pm@vger.kernel.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Anderson <dianders@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-serial@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>, linux-spi@vger.kernel.org
+Cc: airlied@linux.ie, hjc@rock-chips.com, stable@vger.kernel.org,
+ andrzej.p@collabora.com, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ daniels@collabora.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 8/12/2020 7:03 AM, John Stultz wrote:
-> On Tue, Aug 11, 2020 at 4:11 PM John Stultz <john.stultz@linaro.org> wrote:
->>
->> On Wed, Mar 20, 2019 at 2:49 AM Rajendra Nayak <rnayak@codeaurora.org> wrote:
->>>
->>> geni serial needs to express a perforamnce state requirement on CX
->>> depending on the frequency of the clock rates. Use OPP table from
->>> DT to register with OPP framework and use dev_pm_opp_set_rate() to
->>> set the clk/perf state.
->>>
->>> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
->>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->>> ---
->>>   drivers/tty/serial/qcom_geni_serial.c | 15 +++++++++++++--
->>>   1 file changed, 13 insertions(+), 2 deletions(-)
->>>
->>
->> Hey,
->>    I just wanted to follow up on this patch, as I've bisected it
->> (a5819b548af0) down as having broken qca bluetooth on the Dragonboard
->> 845c.
->>
->> I haven't yet had time to debug it yet, but wanted to raise the issue
->> in case anyone else has seen similar trouble.
+On Tue, Aug 11, 2020 at 04:26:31PM -0400, Alyssa Rosenzweig wrote:
+> The AFBC decoder used in the Rockchip VOP assumes the use of the
+> YUV-like colourspace transform (YTR). YTR is lossless for RGB(A)
+> buffers, which covers the RGBA8 and RGB565 formats supported in
+> vop_convert_afbc_format. Use of YTR is signaled with the
+> AFBC_FORMAT_MOD_YTR modifier, which prior to this commit was missing. As
+> such, a producer would have to generate buffers that do not use YTR,
+> which the VOP would erroneously decode as YTR, leading to severe visual
+> corruption.
 > 
-> So I dug in a bit further, and this chunk seems to be causing the issue:
->> @@ -961,7 +963,7 @@ static void qcom_geni_serial_set_termios(struct uart_port *uport,
->>                  goto out_restart_rx;
->>
->>          uport->uartclk = clk_rate;
->> -       clk_set_rate(port->se.clk, clk_rate);
->> +       dev_pm_opp_set_rate(port->dev, clk_rate);
->>          ser_clk_cfg = SER_CLK_EN;
->>          ser_clk_cfg |= clk_div << CLK_DIV_SHFT;
->>
+> The upstream AFBC support was developed against a captured frame, which
+> failed to exercise modifier support. Prior to bring-up of AFBC in Mesa
+> (in the Panfrost driver), no open userspace respected modifier
+> reporting. As such, this change is not expected to affect broken
+> userspaces.
 > 
+> Tested on RK3399 with Panfrost and Weston.
 > 
-> With that applied, I see the following errors in dmesg and bluetooth
-> fails to function:
-> [    4.763467] qcom_geni_serial 898000.serial: dev_pm_opp_set_rate:
-> failed to find OPP for freq 102400000 (-34)
-> [    4.773493] qcom_geni_serial 898000.serial: dev_pm_opp_set_rate:
-> failed to find OPP for freq 102400000 (-34)
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> With just that chunk reverted on linus/HEAD, bluetooth seems to work ok.
-
-This seems like the same issue that was also reported on venus [1] because the
-clock frequency tables apparently don;t exactly match the achievable clock
-frequencies (which we also used to construct the OPP tables)
-
-Can you try updating the OPP table for QUP to have 102400000 instead of the
-current 100000000 and see if that fixes it?
-
-[1] https://lkml.org/lkml/2020/7/27/507
-
-> 
-> thanks
-> -john
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> index 4a2099cb5..857d97cdc 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> @@ -17,9 +17,20 @@
+>  
+>  #define NUM_YUV2YUV_COEFFICIENTS 12
+>  
+> +/* AFBC supports a number of configurable modes. Relevant to us is block size
+> + * (16x16 or 32x8), storage modifiers (SPARSE, SPLIT), and the YUV-like
+> + * colourspace transform (YTR). 16x16 SPARSE mode is always used. SPLIT mode
+> + * could be enabled via the hreg_block_split register, but is not currently
+> + * handled. The colourspace transform is implicitly always assumed by the
+> + * decoder, so consumers must use this transform as well.
+> + *
+> + * Failure to match modifiers will cause errors displaying AFBC buffers
+> + * produced by conformant AFBC producers, including Mesa.
+> + */
+>  #define ROCKCHIP_AFBC_MOD \
+>  	DRM_FORMAT_MOD_ARM_AFBC( \
+>  		AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 | AFBC_FORMAT_MOD_SPARSE \
+> +			| AFBC_FORMAT_MOD_YTR \
+>  	)
+>  
+>  enum vop_data_format {
+> -- 
+> 2.28.0
 > 
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+<formletter>
+
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
+
+</formletter>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
