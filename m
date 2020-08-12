@@ -2,50 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000E2242899
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 13:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE94B242941
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 14:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FDD26E8D4;
-	Wed, 12 Aug 2020 11:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B666E0D4;
+	Wed, 12 Aug 2020 12:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3E06E8D4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 11:26:36 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07CBQWle100715;
- Wed, 12 Aug 2020 06:26:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1597231592;
- bh=f4RHJ14Y3f32Gu3AdhDDlCKoLvZ47K8+yr0QHoJy0ys=;
- h=From:To:CC:Subject:Date;
- b=sKY2mwM23XTrG2kjLRhUjbbQ3QY9GH2smUtIjjS2jrLvblDpfegGOi6mrCwlMjEh7
- Y1GBANumXE49aiq9bA/s3DCn9NLPR08Hd/oDdPiNvEUiQh0oVQsNteOga5LJQdVF1J
- yMeBAZ3zxwE/inmTuHP8HWtQzM5vU7VXYA1G8iV4=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CBQWj9040861;
- Wed, 12 Aug 2020 06:26:32 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 12
- Aug 2020 06:26:31 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 12 Aug 2020 06:26:31 -0500
-Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CBQUoe039710;
- Wed, 12 Aug 2020 06:26:30 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Jyri Sarha <jsarha@ti.com>, Jan Kiszka
- <jan.kiszka@siemens.com>
-Subject: [PATCH] drm/tidss: implement WA for AM65xx erratum i2000
-Date: Wed, 12 Aug 2020 14:26:25 +0300
-Message-ID: <20200812112625.59897-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 613ED6E0D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 12:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597235081;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8qaeKJSpEMEVTRywH7XJFxNd5ZO5sfYePo7FUxoQun4=;
+ b=Er5McxOw0CT/jd1FAzShaRFR517r3LUSsiJNCC3NuW8/ZHU3i1JmtL5O17qAH8Or6TN3lK
+ zd3E9QQWQDgW2JJ9oTQpy/oFuvdqwPRw15fKxwGej6GbGdrdXJP/w7tgzJfHS1iITv6WnA
+ kxBWCN2PZ5igp6J3N4l4mL7CYbtli/o=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-_GpLp_FzPde5xsCI2aG-lA-1; Wed, 12 Aug 2020 08:24:37 -0400
+X-MC-Unique: _GpLp_FzPde5xsCI2aG-lA-1
+Received: by mail-qv1-f72.google.com with SMTP id z10so1348140qvm.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 05:24:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8qaeKJSpEMEVTRywH7XJFxNd5ZO5sfYePo7FUxoQun4=;
+ b=GnBnVdyOv55+op73rEculQ2uImkQ6T1g2mJy3C1PRvP9aYi4ivcNx8RqmigYzhvfnt
+ Ngc13ZmO2oBdpCGDdAIcJSss6EmyB+r4zAQ2gSY8hfp7QdfUE587ZLeXppJNVCUJ4hby
+ 8tuuDR7Zu2JF1E/KGfMHT2JilF8grzPZjvPlo9FJBIQCb4I7c2NB/LwyTVJ+pd+nkpqS
+ N3VECt2oKFqv4AuJt2U16EUAkujHuUza9MR5fZwQwglBdzJX855EgsiF5Gx5rUmfwkFL
+ 55zfdaqRrTi4gxCMPb4OeSdxlXPcWECYrkCFASdks59NXJq5BfCnSLJpzt2nyxzCWPFU
+ Vccw==
+X-Gm-Message-State: AOAM532/czIkAFZAOx8y+JxDayGZdxpidEOLrgwgOVxXxq+tRbdi0XFX
+ u+oOlziFafS3RW4JBFAfDds2OooQWfaDoqpaWrfr+8vaL8svDJkCJQ2eWXMahHbofYcDFQYyVcj
+ hDfL78LUn6qdlPxJVJryHwvYqwap0e6U+l8Y3u+H9SVfr
+X-Received: by 2002:ad4:438f:: with SMTP id s15mr6613952qvr.164.1597235076664; 
+ Wed, 12 Aug 2020 05:24:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzz9UB+vnUorqXJrpmQttLzIKSIAcUCj9pfWjABWuF5abxe8Kj3pdkPnC+Bm7PPMBM52/Qjqyaz9n074Eo/nAo=
+X-Received: by 2002:ad4:438f:: with SMTP id s15mr6613924qvr.164.1597235076419; 
+ Wed, 12 Aug 2020 05:24:36 -0700 (PDT)
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+ <20200630230808.wj2xlt44vrszqfzx@box>
+ <ef7816b4-72ee-9e0e-8cac-4d80d8343f9f@nvidia.com>
+ <20200701075719.p7h5zypdtlhqxtgv@box> <20200701075902.hhmaskxtjsm4bcx7@box>
+ <77e744b9-b5e2-9e9b-44c1-98584d2ae2f3@nvidia.com>
+ <CAPj87rOrUHBZZR3cw+iqUMtZL1ZQyjd=RoM2yHt5oUeRO5uDTA@mail.gmail.com>
+ <5ffa32db-4383-80f6-c0cf-a9bb12e729aa@nvidia.com>
+ <a3d331e9-d17e-9135-68c7-8e3e10df184d@nvidia.com>
+ <CAKMK7uG8x4dHrRnzK9FFrJbtWsdLk+TTObK9r-nSncKowHVe3A@mail.gmail.com>
+ <CAPM=9twK34VyR2kwiR1jzxqys1Bng2Vt8FY6aQTvCe2GL0Zopg@mail.gmail.com>
+ <261cd7c9-6853-3d5f-3a3e-86b65c9dba71@nvidia.com>
+ <CACO55ttJwjh2HZsygwqA7HUeF5UMuP0=Y9RyZU=UJsf-gWGagA@mail.gmail.com>
+ <ad64c242-95f3-d346-87f3-a9ac149dc3a2@nvidia.com>
+ <CACO55tt81q3VwpEmz9wxeUzWGPLXA1XPj8ZgxhuELUBPDpX1PA@mail.gmail.com>
+ <CACO55ts2AHgDNZKBvoU8NZf26V8BJDGkKiapY=1xaUQ1DrC8SA@mail.gmail.com>
+In-Reply-To: <CACO55ts2AHgDNZKBvoU8NZf26V8BJDGkKiapY=1xaUQ1DrC8SA@mail.gmail.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 12 Aug 2020 14:24:25 +0200
+Message-ID: <CACO55tvF0dOQ=myUpccmfHc+hCVQZoXQnCA0iHeXQo3B=UaD0Q@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.8-rc1
+To: James Jones <jajones@nvidia.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,124 +85,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Thierry Reding <treding@nvidia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch implements WA for AM65xx erratum i2000, which causes YUV
-formats to show wrong colors.
+On Wed, Aug 12, 2020 at 12:43 PM Karol Herbst <kherbst@redhat.com> wrote:
+>
+> On Wed, Aug 12, 2020 at 12:27 PM Karol Herbst <kherbst@redhat.com> wrote:
+> >
+> > On Wed, Aug 12, 2020 at 2:19 AM James Jones <jajones@nvidia.com> wrote:
+> > >
+> > > Sorry for the slow reply here as well.  I've been in the process of
+> > > rebasing and reworking the userspace patches.  I'm not clear my changes
+> > > will address the Jetson Nano issue, but if you'd like to try them, the
+> > > latest userspace changes are available here:
+> > >
+> > >    https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3724
+> > >
+> > > And the tegra-drm kernel patches are here:
+> > >
+> > >
+> > > https://patchwork.ozlabs.org/project/linux-tegra/patch/20191217005205.2573-1-jajones@nvidia.com/
+> > >
+> > > Those + the kernel changes addressed in this thread are everything I had
+> > > outstanding.
+> > >
+> >
+> > I don't know if that's caused by your changes or not, but now the
+> > assert I hit is a different one pointing out that
+> > nvc0_miptree_select_best_modifier fails in a certain case and returns
+> > MOD_INVALID... anyway, it seems like with your patches applied it's
+> > now way easier to debug and figure out what's going wrong, so maybe I
+> > can figure it out now :)
+> >
+>
+> collected some information which might help to track it down.
+>
+> src/gallium/frontends/dri/dri2.c:648 is the assert hit: assert(*zsbuf)
+>
+> templ is {reference = {count = 0}, width0 = 300, height0 = 300, depth0
+> = 1, array_size = 1, format = PIPE_FORMAT_Z24X8_UNORM, target =
+> PIPE_TEXTURE_2D, last_level = 0, nr_samples = 0, nr_storage_samples =
+> 0, usage = 0, bind = 1, flags = 0, next = 0x0, screen = 0x0}
+>
+> inside tegra_screen_resource_create modifier says
+> DRM_FORMAT_MOD_INVALID as template->bind is 1
+>
+> and nvc0_miptree_select_best_modifier returns DRM_FORMAT_MOD_INVALID,
+> so the call just returns NULL leading to the assert.
+>
+> Btw, this is on Xorg-1.20.8-1.fc32.aarch64 with glxgears.
+>
 
-An earlier patch removed a partial WA:
+So I digged a bit deeper and here is what tripps it of:
 
-a8d9d7da1546349f18eb2d6b6b3a04bdeb38719d ("drm/tidss: remove AM65x PG1 YUV erratum code")
+when the context gets made current, the normal framebuffer validation
+and render buffer allocation is done, but we end up inside
+tegra_screen_resource_create at some point with PIPE_BIND_SCANOUT set
+in template->bind. Now the tegra driver forces the
+DRM_FORMAT_MOD_LINEAR modifier and calls into
+resource_create_with_modifiers.
 
-The patch explains the reasoning for removal. The change in plans has
-been that it has become clear that there are and will be users for PG1
-SoCs and as such it's good to implement the WA for PG1s.
+If it wouldn't do that, nouveau would allocate a tiled buffer, with
+that it's linear and we at some point end up with an assert about a
+depth_stencil buffer being there even though it shouldn't. If I always
+use DRM_FORMAT_MOD_INVALID in tegra_screen_resource_create, things
+just work.
 
-This patch adds the WA back so that it is only used on SR1.0 (which is
-the new name for PG1). The previous WA code didn't check the SoC
-revision, which this patch does.
+That's kind of the cause I pinpointed the issue down to. But I have no
+idea what's supposed to happen and what the actual bug is.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/gpu/drm/tidss/tidss_dispc.c | 32 +++++++++++++++++++++++++----
- drivers/gpu/drm/tidss/tidss_dispc.h |  4 ++++
- 2 files changed, 32 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 629dd06393f6..a3e8caf319bb 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -19,6 +19,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-+#include <linux/sys_soc.h>
- 
- #include <drm/drm_fourcc.h>
- #include <drm/drm_fb_cma_helper.h>
-@@ -302,6 +303,8 @@ struct dispc_device {
- 	u32 num_fourccs;
- 
- 	u32 memory_bandwidth_limit;
-+
-+	struct dispc_errata errata;
- };
- 
- static void dispc_write(struct dispc_device *dispc, u16 reg, u32 val)
-@@ -2641,6 +2644,19 @@ static int dispc_init_am65x_oldi_io_ctrl(struct device *dev,
- 	return 0;
- }
- 
-+static void dispc_init_errata(struct dispc_device *dispc)
-+{
-+	static const struct soc_device_attribute am65x_sr10_soc_devices[] = {
-+		{ .family = "AM65X", .revision = "SR1.0" },
-+		{ /* sentinel */ }
-+	};
-+
-+	if (soc_device_match(am65x_sr10_soc_devices)) {
-+		dispc->errata.i2000 = true;
-+		dev_info(dispc->dev, "WA for erratum i2000: YUV formats disabled\n");
-+	}
-+}
-+
- int dispc_init(struct tidss_device *tidss)
- {
- 	struct device *dev = tidss->dev;
-@@ -2664,19 +2680,27 @@ int dispc_init(struct tidss_device *tidss)
- 	if (!dispc)
- 		return -ENOMEM;
- 
-+	dispc->tidss = tidss;
-+	dispc->dev = dev;
-+	dispc->feat = feat;
-+
-+	dispc_init_errata(dispc);
-+
- 	dispc->fourccs = devm_kcalloc(dev, ARRAY_SIZE(dispc_color_formats),
- 				      sizeof(*dispc->fourccs), GFP_KERNEL);
- 	if (!dispc->fourccs)
- 		return -ENOMEM;
- 
- 	num_fourccs = 0;
--	for (i = 0; i < ARRAY_SIZE(dispc_color_formats); ++i)
-+	for (i = 0; i < ARRAY_SIZE(dispc_color_formats); ++i) {
-+		if (dispc->errata.i2000 &&
-+		    dispc_fourcc_is_yuv(dispc_color_formats[i].fourcc)) {
-+			continue;
-+		}
- 		dispc->fourccs[num_fourccs++] = dispc_color_formats[i].fourcc;
-+	}
- 
- 	dispc->num_fourccs = num_fourccs;
--	dispc->tidss = tidss;
--	dispc->dev = dev;
--	dispc->feat = feat;
- 
- 	dispc_common_regmap = dispc->feat->common_regs;
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index 902e612ff7ac..353972fe658a 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -46,6 +46,10 @@ struct dispc_features_scaling {
- 	u32 xinc_max;
- };
- 
-+struct dispc_errata {
-+	bool i2000; /* DSS Does Not Support YUV Pixel Data Formats */
-+};
-+
- enum dispc_vp_bus_type {
- 	DISPC_VP_DPI,		/* DPI output */
- 	DISPC_VP_OLDI,		/* OLDI (LVDS) output */
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> > > Thanks,
+> > > -James
+> > >
+> > > On 8/4/20 1:58 AM, Karol Herbst wrote:
+> > > > Hi James,
+> > > >
+> > > > I don't know if you knew, but on the Jetson nano we had the issue for
+> > > > quite some time, that GLX/EGL through mesa on X was broken due to some
+> > > > fix in mesa related to modifiers.
+> > > >
+> > > > And I was wondering if the overall state just caused the issue we saw
+> > > > here and wanted to know what branches/patches I needed for the various
+> > > > projects to see if the work you have been doing since the last
+> > > > upstream nouveau regression would be of any help here?
+> > > >
+> > > > Mind pointing me towards everything I'd need to check that?
+> > > >
+> > > > I'd really like to fix this, but didn't have the time to investigate
+> > > > what the core problem here was, but I think it's very likely that a
+> > > > fixed/improved modifier support could actually fix it as well.
+> > > > Alternately I'd like to move to kmsro in mesa as this fixes it as
+> > > > well, but that could just be by coincidence and would break other
+> > > > devices..
+> > > >
+> > > > Thanks
+> > > >
+> > > > On Tue, Jul 14, 2020 at 4:32 PM James Jones <jajones@nvidia.com> wrote:
+> > > >>
+> > > >> Still testing.  I'll get a Sign-off version out this week unless I find
+> > > >> a problem.
+> > > >>
+> > > >> Thanks,
+> > > >> -James
+> > > >>
+> > > >> On 7/12/20 6:37 PM, Dave Airlie wrote:
+> > > >>> How are we going with a fix for this regression I can commit?
+> > > >>>
+> > > >>> Dave.
+> > > >>>
+> > > >> _______________________________________________
+> > > >> dri-devel mailing list
+> > > >> dri-devel@lists.freedesktop.org
+> > > >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > >>
+> > > >
+> > >
 
 _______________________________________________
 dri-devel mailing list
