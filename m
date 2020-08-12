@@ -2,66 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58BA24303A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 22:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C8C243086
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 23:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1798F6E949;
-	Wed, 12 Aug 2020 20:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E1F6E951;
+	Wed, 12 Aug 2020 21:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9D1E6E947
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 20:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597265417;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=aCTPdh49E5sDGn5ZzKjWvZXNyAaCov7XSPlzHVRd6H8=;
- b=RAsNp9fgPVDZc9CPkUsWvaUoEXyOgJ3cEhIFUFWkEvqkd1uLAYs09wwQPsyyuWZWR40Os3
- D0ggZolcFUJg8l2K7YEEgxB5DX1ij6bd0huHpXDwApQlgAJczDU03Sl3zTR/qg9DS9RK7q
- 5iEoqKbwajIDs2xDzEKB+5/ThBmuB7w=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-vvQbKZVqPoOgEXwqZqLdTw-1; Wed, 12 Aug 2020 16:50:16 -0400
-X-MC-Unique: vvQbKZVqPoOgEXwqZqLdTw-1
-Received: by mail-qk1-f199.google.com with SMTP id x20so2354492qki.20
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 13:50:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aCTPdh49E5sDGn5ZzKjWvZXNyAaCov7XSPlzHVRd6H8=;
- b=rUA6wNxzjsknKjqsdgL7MPKN1luVKWoOFIHonp/bJ1orfn+7zqmtvg5Gc5wNWa0skD
- yD0/7VGNTEyI9pufTOfTzZPTQQ6braDLIuE3X+6ImL6mcMfm8wc0c46ywpj9vKiTcRge
- M4eehJk0Sv37IEKZqLVSfY32vwPr9Qvg5kQnRn/LLyzhSPS0TJVUyQyCiX+clXEsV7ae
- XJ2arRwmr8w3CV9VIPM9pTlSPyxbg8bCPBxavb/XioogPLmQo6Lk6pN8zkaPgr2sKpll
- ZZsA7ySa7aT2LJ+wfv3j7u+hNwjkXQXhJcTOtl++KxEkOn7G+U1RF9CY3qJcxW7WWTvx
- HQLQ==
-X-Gm-Message-State: AOAM530u8iHHZLQHtjVjGYCanxLjkl+5omSnV3LOS1kit8+4yhM+ybHn
- n3zc9Zld9z0vYKm874dBwdT9A9pJA/voEbOnJokWpaL96pGjCfwwqoKyl2vUGK+mevXI+3kzUS4
- BmfpHmpP9j5AClkLRlR3N7BaBrufF
-X-Received: by 2002:ac8:776b:: with SMTP id h11mr1626442qtu.59.1597265415501; 
- Wed, 12 Aug 2020 13:50:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDKBegQFFmZIxmsrmwndXdaMUq1PsUfcrePGLpzHuDwoACHNZ2R/9aaSb7HxZTiv4ujX+EDg==
-X-Received: by 2002:ac8:776b:: with SMTP id h11mr1626422qtu.59.1597265415272; 
- Wed, 12 Aug 2020 13:50:15 -0700 (PDT)
-Received: from dev.jcline.org.com ([136.56.87.133])
- by smtp.gmail.com with ESMTPSA id o13sm3692400qko.48.2020.08.12.13.50.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 13:50:14 -0700 (PDT)
-From: Jeremy Cline <jcline@redhat.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [PATCH] drm/nouveau: Add fine-grain temperature reporting
-Date: Wed, 12 Aug 2020 16:49:52 -0400
-Message-Id: <20200812204952.1921587-1-jcline@redhat.com>
-X-Mailer: git-send-email 2.26.2
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D88306E951
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 21:34:58 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id DE6062002E;
+ Wed, 12 Aug 2020 23:34:54 +0200 (CEST)
+Date: Wed, 12 Aug 2020 23:34:53 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
+Message-ID: <20200812213453.GA690477@ravnborg.org>
+References: <20200812203618.2656699-1-robh@kernel.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jcline@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=S2FyQyr5uj24keYp2QUA:9
+ a=CjuIK1q_8ugA:10 a=c0zojPR3vx4A:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,168 +43,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jeremy Cline <jcline@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit d32656373857 ("drm/nouveau/therm/gp100: initial implementation of
-new gp1xx temperature sensor") added support for reading finer-grain
-temperatures, but continued to report temperatures in 1 degree Celsius
-increments via nvkm_therm_temp_get().
+Hi Rob.
 
-Rather than altering nvkm_therm_temp_get() to report finer-grain
-temperatures, which would be inconvenient for other users of the
-function, a second interface has been added to line up with hwmon's
-native unit of temperature.
+On Wed, Aug 12, 2020 at 02:36:18PM -0600, Rob Herring wrote:
+> Clean-up incorrect indentation, extra spaces, long lines, and missing
+> EOF newline in schema files. Most of the clean-ups are for list
+> indentation which should always be 2 spaces more than the preceding
+> keyword.
+> 
+> Found with yamllint (which I plan to integrate into the checks).
 
-Signed-off-by: Jeremy Cline <jcline@redhat.com>
----
- .../drm/nouveau/include/nvkm/subdev/therm.h   | 18 +++++++++++++
- drivers/gpu/drm/nouveau/nouveau_hwmon.c       |  4 +--
- .../gpu/drm/nouveau/nvkm/subdev/therm/base.c  | 16 ++++++++++++
- .../gpu/drm/nouveau/nvkm/subdev/therm/gp100.c | 25 +++++++++++++++++--
- .../gpu/drm/nouveau/nvkm/subdev/therm/priv.h  |  1 +
- 5 files changed, 60 insertions(+), 4 deletions(-)
+I have browsed through the patch - and there was only a few things
+that jumped at me.
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
-index 62c34f98c930..7b9928dd001c 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
-@@ -100,6 +100,24 @@ struct nvkm_therm {
- };
- 
- int nvkm_therm_temp_get(struct nvkm_therm *);
-+
-+/**
-+ * nvkm_therm_temp_millidegree_get() - get the temperature in millidegrees
-+ * @therm: The thermal device to read from.
-+ *
-+ * This interface reports temperatures in units of millidegree Celsius to
-+ * align with the hwmon API. Some cards may only be capable of reporting in
-+ * units of Celsius, and those that report finer grain temperatures may not be
-+ * capable of millidegree Celsius accuracy,
-+ *
-+ * For cases where millidegree temperature is too fine-grain, the
-+ * nvkm_therm_temp_get() interface reports temperatures in one degree Celsius
-+ * increments.
-+ *
-+ * Return: The temperature in millidegrees Celsius, or -ENODEV if temperature
-+ *         reporting is not supported.
-+ */
-+int nvkm_therm_temp_millidegree_get(struct nvkm_therm *therm);
- int nvkm_therm_fan_sense(struct nvkm_therm *);
- int nvkm_therm_cstate(struct nvkm_therm *, int, int);
- void nvkm_therm_clkgate_init(struct nvkm_therm *,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-index 1c3104d20571..e96355f93ce5 100644
---- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-@@ -428,8 +428,8 @@ nouveau_temp_read(struct device *dev, u32 attr, int channel, long *val)
- 	case hwmon_temp_input:
- 		if (drm_dev->switch_power_state != DRM_SWITCH_POWER_ON)
- 			return -EINVAL;
--		ret = nvkm_therm_temp_get(therm);
--		*val = ret < 0 ? ret : (ret * 1000);
-+		ret = nvkm_therm_temp_millidegree_get(therm);
-+		*val = ret;
- 		break;
- 	case hwmon_temp_max:
- 		*val = therm->attr_get(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK)
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
-index 4a4d1e224126..e655b32c78b8 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
-@@ -34,6 +34,22 @@ nvkm_therm_temp_get(struct nvkm_therm *therm)
- 	return -ENODEV;
- }
- 
-+int
-+nvkm_therm_temp_millidegree_get(struct nvkm_therm *therm)
-+{
-+	int ret = -ENODEV;
-+
-+	if (therm->func->temp_millidegree_get)
-+		return therm->func->temp_millidegree_get(therm);
-+
-+	if (therm->func->temp_get) {
-+		ret = therm->func->temp_get(therm);
-+		if (ret > 0)
-+			ret *= 1000;
-+	}
-+	return ret;
-+}
-+
- static int
- nvkm_therm_update_trip(struct nvkm_therm *therm)
- {
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
-index 9f0dea3f61dc..4c3c2895a3cb 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
-@@ -24,7 +24,7 @@
- #include "priv.h"
- 
- static int
--gp100_temp_get(struct nvkm_therm *therm)
-+gp100_temp_get_raw(struct nvkm_therm *therm)
- {
- 	struct nvkm_device *device = therm->subdev.device;
- 	struct nvkm_subdev *subdev = &therm->subdev;
-@@ -37,14 +37,35 @@ gp100_temp_get(struct nvkm_therm *therm)
- 
- 	/* device valid */
- 	if (tsensor & 0x20000000)
--		return (inttemp >> 8);
-+		return inttemp;
- 	else
- 		return -ENODEV;
- }
- 
-+static int
-+gp100_temp_millidegree_get(struct nvkm_therm *therm)
-+{
-+	int raw_temp = gp100_temp_get_raw(therm);
-+
-+	if (raw_temp < 0)
-+		return raw_temp;
-+	return raw_temp * 1000 >> 8;
-+}
-+
-+static int
-+gp100_temp_get(struct nvkm_therm *therm)
-+{
-+	int raw_temp = gp100_temp_get_raw(therm);
-+
-+	if (raw_temp < 0)
-+		return raw_temp;
-+	return raw_temp >> 8;
-+}
-+
- static const struct nvkm_therm_func
- gp100_therm = {
- 	.temp_get = gp100_temp_get,
-+	.temp_millidegree_get = gp100_temp_millidegree_get,
- 	.program_alarms = nvkm_therm_program_alarms_polling,
- };
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
-index 21659daf1864..a53068b4f0b9 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
-@@ -92,6 +92,7 @@ struct nvkm_therm_func {
- 	int (*pwm_clock)(struct nvkm_therm *, int line);
- 
- 	int (*temp_get)(struct nvkm_therm *);
-+	int (*temp_millidegree_get)(struct nvkm_therm *therm);
- 
- 	int (*fan_sense)(struct nvkm_therm *);
- 
--- 
-2.26.2
+With these points considered:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+I expect only some (few) of my points to actually results in any updates.
+
+I look forward to have the lint functionality as part of the built-in
+tools so we catch these things early.
+
+	Sam
+
+> diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+> index f63895c8ce2d..88814a2a14a5 100644
+> --- a/Documentation/devicetree/bindings/arm/fsl.yaml
+> +++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+> @@ -273,8 +273,8 @@ properties:
+>                - fsl,imx6ull-14x14-evk     # i.MX6 UltraLiteLite 14x14 EVK Board
+>                - kontron,imx6ull-n6411-som # Kontron N6411 SOM
+>                - myir,imx6ull-mys-6ulx-eval # MYiR Tech iMX6ULL Evaluation Board
+> -              - toradex,colibri-imx6ull-eval            # Colibri iMX6ULL Module on Colibri Evaluation Board
+> -              - toradex,colibri-imx6ull-wifi-eval       # Colibri iMX6ULL Wi-Fi / Bluetooth Module on Colibri Evaluation Board
+> +              - toradex,colibri-imx6ull-eval      # Colibri iMX6ULL Module on Colibri Eval Board
+> +              - toradex,colibri-imx6ull-wifi-eval # Colibri iMX6ULL Wi-Fi / BT Module on Colibri Eval Board
+>            - const: fsl,imx6ull
+
+This change looks bad as it drops the alignment with the comments below.
+See following patch chunck:
+
+>
+>        - description: Kontron N6411 S Board
+> @@ -312,9 +312,12 @@ properties:
+>                - toradex,colibri-imx7d                   # Colibri iMX7 Dual Module
+>                - toradex,colibri-imx7d-aster             # Colibri iMX7 Dual Module on Aster Carrier Board
+>                - toradex,colibri-imx7d-emmc              # Colibri iMX7 Dual 1GB (eMMC) Module
+> -              - toradex,colibri-imx7d-emmc-aster        # Colibri iMX7 Dual 1GB (eMMC) Module on Aster Carrier Board
+> -              - toradex,colibri-imx7d-emmc-eval-v3      # Colibri iMX7 Dual 1GB (eMMC) Module on Colibri Evaluation Board V3
+> -              - toradex,colibri-imx7d-eval-v3           # Colibri iMX7 Dual Module on Colibri Evaluation Board V3
+> +              - toradex,colibri-imx7d-emmc-aster        # Colibri iMX7 Dual 1GB (eMMC) Module on
+> +                                                        #  Aster Carrier Board
+
+
+
+> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+> index 177d48c5bd97..e89c1ea62ffa 100644
+> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9322.yaml
+> @@ -25,8 +25,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> -        - dlink,dir-685-panel
+> -
+> +          - dlink,dir-685-panel
+>        - const: ilitek,ili9322
+>
+>    reset-gpios: true
+> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+> index a39332276bab..76a9068a85dd 100644
+> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+> @@ -13,8 +13,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> -        - bananapi,lhr050h41
+> -
+> +          - bananapi,lhr050h41
+>        - const: ilitek,ili9881c
+>
+
+The extra lines is a simple way to indicate that here shall be added
+more in the future. So I like the empty line.
+
+
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> index 32e0896c6bc1..47938e372987 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> @@ -79,7 +79,8 @@ properties:
+>      description: |
+>        kHz; switching frequency.
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> -    enum: [ 600, 640, 685, 738, 800, 872, 960, 1066, 1200, 1371, 1600, 1920, 2400, 3200, 4800, 9600 ]
+> +    enum: [ 600, 640, 685, 738, 800, 872, 960, 1066, 1200, 1371, 1600, 1920,
+> +            2400, 3200, 4800, 9600 ]
+>
+>    qcom,ovp:
+>      description: |
+
+In the modern world we are living in now line length of 100 chars are
+OK. checkpatch and coding_style is updated to reflected this.
+
+> diff --git a/Documentation/devicetree/bindings/spi/mikrotik,rb4xx-spi.yaml b/Documentation/devicetree/bindings/spi/mikrotik,rb4xx-spi.yaml
+> index 4ddb42a4ae05..9102feae90a2 100644
+> --- a/Documentation/devicetree/bindings/spi/mikrotik,rb4xx-spi.yaml
+> +++ b/Documentation/devicetree/bindings/spi/mikrotik,rb4xx-spi.yaml
+> @@ -33,4 +33,5 @@ examples:
+>          reg = <0x1f000000 0x10>;
+>      };
+>
+> -...
+> \ No newline at end of file
+> +...
+> +
+
+Added one line too much?
+
+ diff --git a/Documentation/devicetree/bindings/spi/spi-mux.yaml b/Documentation/devicetree/bindings/spi/spi-mux.yaml
+> index 0ae692dc28b5..3d3fed63409b 100644
+> --- a/Documentation/devicetree/bindings/spi/spi-mux.yaml
+> +++ b/Documentation/devicetree/bindings/spi/spi-mux.yaml
+> @@ -43,47 +43,47 @@ properties:
+>      maxItems: 1
+>
+>  required:
+> -   - compatible
+> -   - reg
+> -   - spi-max-frequency
+> -   - mux-controls
+> +  - compatible
+> +  - reg
+> +  - spi-max-frequency
+> +  - mux-controls
+>
+>  examples:
+> -   - |
+> -     #include <dt-bindings/gpio/gpio.h>
+> -     mux: mux-controller {
+> -       compatible = "gpio-mux";
+> -       #mux-control-cells = <0>;
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    mux: mux-controller {
+> +        compatible = "gpio-mux";
+> +        #mux-control-cells = <0>;
+>
+> -       mux-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
+> -     };
+> +        mux-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
+> +    };
+
+Example is updated to use 4-space indent. I like.
+
+But many other examples are left untouched.
+
+So I wonder if updating all examples to the same indent should
+be left for another mega-patch?
+
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index f3d847832fdc..2baee2c817c1 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -993,7 +993,8 @@ patternProperties:
+>    "^sst,.*":
+>      description: Silicon Storage Technology, Inc.
+>    "^sstar,.*":
+> -    description: Xiamen Xingchen(SigmaStar) Technology Co., Ltd. (formerly part of MStar Semiconductor, Inc.)
+> +    description: Xiamen Xingchen(SigmaStar) Technology Co., Ltd.
+> +      (formerly part of MStar Semiconductor, Inc.)
+>    "^st,.*":
+>      description: STMicroelectronics
+>    "^starry,.*":
+
+Did you check that they are all in alphabetical order?
+I would be suprised if this is the only issue in this file.
+
 
 _______________________________________________
 dri-devel mailing list
