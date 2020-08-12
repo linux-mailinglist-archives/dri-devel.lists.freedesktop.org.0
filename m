@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBC22434A4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CC7243491
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2F36E591;
-	Thu, 13 Aug 2020 07:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7356D6E554;
+	Thu, 13 Aug 2020 07:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 212346E904
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 14:55:36 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id a5so2764230ioa.13
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:55:36 -0700 (PDT)
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
+ [IPv6:2607:f8b0:4864:20::942])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824E489262
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 15:11:47 +0000 (UTC)
+Received: by mail-ua1-x942.google.com with SMTP id e20so708679uav.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R4p5FZYPSEOigvGuXY0tarLG+EDadTpC3v0JMerbo7w=;
- b=kgS3MYzW4QzCvYeR39FjArsSFKrj8XdmctbGjDTA4P+O6BYjfuG7Figh/wCOgYGIlo
- At+xXKNAVZysCDkIjS3Qp7SsrScD0iMRZy4xHVhO9fyzB/2ENoWuPQLp+ubbcFYQeoFj
- f/RHU44Dk8Kp6s8CX+3Nw3Py7HGeFDroS+r5tQgdPfjvrj0pu9dtNGOJ9XYAkKVcGAHD
- VaIlPQ6/fyaPP6EyYml6Rv7ojkbT1yw8FZxoXmfXrLJRm4TrM/7rnTjM+FD3/PfnY/jC
- jgMt7ShfoB0JXKm3NndA6ibAektig35N2G9beIuN3C3KxzIVhN0AFF9Rlv+xX73TAOTZ
- zIkQ==
+ :cc; bh=87Qzao6Lbi8v1XuUSAX3Tg/795D/ih1dtdkKHUQH4EU=;
+ b=o12pXmbSJgy6Kb8rM+Q1GLD30rQ0DfGlqy0FfWtEJYD+NkuWhIIZLvB3HxaQNOiJo5
+ N0mLWdFGKXlXIIBK1w6Ir6DcRvOZ//mQ5PPZb138PQfUd8ugWylkU1g+M+TBaEtLamr9
+ fac9KVUyeYnmMWodhf4ovl2Z2SxGYuiNVmampTcQWcRsKDgRT6OBB6LhL6hxXrmJ4i5I
+ qH2+9PqNhUi7I/1vRPJjuwMv2LZ5xIt+NyFPD8zkdY0C+uGtuaiBGMvda0Pxo38+1k3z
+ ond1Ye60wqtOkZheEdFwPDphlwAw24CBYxGjvOjeKNcd11od6PxqtQuEz+6Uk1zFUvPW
+ c3Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=R4p5FZYPSEOigvGuXY0tarLG+EDadTpC3v0JMerbo7w=;
- b=r0vg2hoKP3XnRqp7KiJed2iMQGLqA5qDfWYBf6GVvfM6F8Fe+DeeZ5p1VCFdbLWtmo
- wANpGASTRRmfe13DEwXSyK+eMnYucXHXrZyIh5vTVLM9A0k75dua/BEtd6TcACuMacAu
- /fI/ZDT9LPu47RbhunIdPXLQj59Hjl0WjBQkQ7hNjjeJwI04KcjutblcFWPQ/+thxWva
- 7R6or1RRCP5Jeu0IIkS03yVeK0/SLG2aw+R1Wc9bL2WZX+K8xIHcnXBHwwXHFmTF/RgI
- Ozex5+2NRzurYMw9qeXeMgwbMy3GV553eaZw68Zea15ibqJVgOOJiIkuUf67pLhI8ukN
- X4AQ==
-X-Gm-Message-State: AOAM532zKfL7tmiyU20szvDaZ25W1Zy1nqABAXOTPSTf2PC/IaTyGexq
- u6bU2KBjaOwdMVh3w60OL9FL74fbNni/1FG39P8=
-X-Google-Smtp-Source: ABdhPJzvGcub4TlXtrFZQKtOXNbA93Be9h42Atn6eZ4kqyHszYjCZw4bwo5gVeDa9MXL/yAQhmoxZLXyNFLSsoqCUjA=
-X-Received: by 2002:a05:6602:15d3:: with SMTP id
- f19mr137570iow.91.1597244135178; 
- Wed, 12 Aug 2020 07:55:35 -0700 (PDT)
+ bh=87Qzao6Lbi8v1XuUSAX3Tg/795D/ih1dtdkKHUQH4EU=;
+ b=JaJKvKtJ+8Y8vpj8zPe3dectMq+b8RM6FcT6SJifU0JPcaXfs8tFfVChupTRw/D4Hg
+ oFnGGPtQ1NXrzwSdTrgj/bBxhN5m+P1hoQl2oj+gcEhr9oLQ6ofLRz/g6sEOgafE2gvB
+ hXp9D1dO+d+a9TkcUTu3LbGZpOt5VWGggx3dTgGaDD9Cw05VKX7iYuPsiSVY63a/P1ew
+ /XBx6gFPQkKt3T1RvOFHPQ4bCz3yqjvzzYU+MPV8i49CzLRYVzptIubsyRsokh53if1t
+ BL2MAfKcFH37FazThzvoUAVLIe9vWTAsOWc9ZsO+y+6PnOI/h26WkGfuilzFe0kALxFR
+ mqkw==
+X-Gm-Message-State: AOAM531ILiRD5oJrMKO4yNMMZMj2LCyl+5Kj2kKFSy1A4jaqPi9u8wdd
+ NiI5iXt2Z+kSDW20HXHxzdYJxZlKvjWYs+j5hD0=
+X-Google-Smtp-Source: ABdhPJxqvBm82GiqDiF3SeDSnoY1CCXU9ByjEolMYJ9VBN/Ks2i+ZvwQZB98JvxYxhODvym11bq0XgZFpIvG241po/o=
+X-Received: by 2002:ab0:14c8:: with SMTP id f8mr4437385uae.23.1597245106319;
+ Wed, 12 Aug 2020 08:11:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <1597217150-22911-1-git-send-email-simhavcs@gmail.com>
- <20200812095418.GG6057@pendragon.ideasonboard.com>
- <CAGWqDJ4i=t4Noi7wjGDDhUYkB_uuQ6A-WiMrh1ErKRi2HU9t9w@mail.gmail.com>
- <20200812131818.GI6057@pendragon.ideasonboard.com>
-In-Reply-To: <20200812131818.GI6057@pendragon.ideasonboard.com>
-From: Vinay Simha B N <simhavcs@gmail.com>
-Date: Wed, 12 Aug 2020 20:25:23 +0530
-Message-ID: <CAGWqDJ6eHCNXb5dMCUJ785iUp7gjdCk0bB=GuZesVesaVACucQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge/tc358775: Fixes bus formats read
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200807200957.1269454-9-jim.cromie@gmail.com>
+ <20200809043537.GB30891@shao2-debian>
+In-Reply-To: <20200809043537.GB30891@shao2-debian>
+From: jim.cromie@gmail.com
+Date: Wed, 12 Aug 2020 09:11:19 -0600
+Message-ID: <CAJfuBxyKVXwL+UU12EhZ8V7Omf_gGjzyYo8MezRC+1LnqG6pGQ@mail.gmail.com>
+Subject: Re: [dyndbg] 4397a3e7bf:
+ BUG:sleeping_function_called_from_invalid_context_at_mm/slab.h
+To: kernel test robot <lkp@intel.com>
 X-Mailman-Approved-At: Thu, 13 Aug 2020 07:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,310 +63,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, lkp@lists.01.org,
+ Jason Baron <jbaron@akamai.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-laurent,
+On Sat, Aug 8, 2020 at 10:36 PM kernel test robot <lkp@intel.com> wrote:
+>
+>
+> If you fix the issue, kindly add following tag
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+>
+> [   29.668135] BUG: sleeping function called from invalid context at mm/slab.h:567
+> [   29.668942] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
+> [   29.669798] 4 locks held by swapper/0/1:
+> [   29.670263]  #0: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.671178]  #1: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.672091]  #2: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.672988]  #3: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.673892] Preemption disabled at:
+> [   29.673894] [<ffffffff97bcb678>] zs_map_object+0x38/0x330
 
-Video data input format :  RGB666 loosely packed 24 bits per pixel
-Can we use MEDIA_BUS_FMT_RGB666_1X24_CPADHI? There was no information
-wrt CPADHI or for loosely packed
+So, this looks worrying.
+I mean, 4 locks taken by same code.
+Its feeling like an api misunderstanding.
 
-static const u32 tc_lvds_in_bus_fmts[] = {
-        MEDIA_BUS_FMT_RGB565_1X16,
-        MEDIA_BUS_FMT_RGB666_1X18,
-        MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
-        MEDIA_BUS_FMT_RBG888_1X24,
-};
+so 1st question:  is zpool / zmalloc not intended for use / setup
+during __init ?
+I seem to be breaking basic rules.
+my zpool is filled with a late_initcall, I also tried
+late_initcall_sync to try to
+wait out all the other init stuff, that didnt work.
 
-for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
-                input_fmts[i] = tc_lvds_in_bus_fmts[i];
->> This will have all the available input formats, but finally which video data input format chosen?
-Since dsi->format = MIPI_DSI_FMT_RGB888 is used does it chooses
-MEDIA_BUS_FMT_RBG888_1X24 by the drm pipeline
+the point of this patch was to not retire every mapping right after it is used,
+but to keep those for enabled callsites.
+all these are mapped RO
+It appears those locks are held across the map-unmap interval ??
+I wouldnt expect that much pr-debug traffic, nor any parellelism at
+all (no -smp qemu args)
 
-On Wed, Aug 12, 2020 at 6:48 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Vinay,
->
-> On Wed, Aug 12, 2020 at 06:07:52PM +0530, Vinay Simha B N wrote:
-> > On Wed, Aug 12, 2020 at 3:24 PM Laurent Pinchart wrote:
-> > > On Wed, Aug 12, 2020 at 12:55:50PM +0530, Vinay Simha BN wrote:
-> > > > - bus formats read from drm_bridge_state.output_bus_cfg.format
-> > > >   and .atomic_get_input_bus_fmts() instead of connector
-> > > >
-> > > > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
-> > > >
-> > > > ---
-> > > >  v1:
-> > > >  * Laurent Pinchart review comments incorporated
-> > > >    drm_bridge_state.output_bus_cfg.format
-> > > >    instead of connector
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/tc358775.c | 76 ++++++++++++++++++++++++++++++---------
-> > > >  1 file changed, 59 insertions(+), 17 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-> > > > index 7da15cd..5d8714a 100644
-> > > > --- a/drivers/gpu/drm/bridge/tc358775.c
-> > > > +++ b/drivers/gpu/drm/bridge/tc358775.c
-> > > > @@ -271,6 +271,13 @@ struct tc_data {
-> > > >       struct gpio_desc        *stby_gpio;
-> > > >       u8                      lvds_link; /* single-link or dual-link */
-> > > >       u8                      bpc;
-> > > > +     u32                     output_bus_fmt;
-> > > > +};
-> > > > +
-> > > > +static const u32 tc_lvds_out_bus_fmts[] = {
-> > > > +     MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-> > > > +     MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> > > > +     MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> > > >  };
-> > > >
-> > > >  static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
-> > > > @@ -359,19 +366,6 @@ static void d2l_write(struct i2c_client *i2c, u16 addr, u32 val)
-> > > >                       ret, addr);
-> > > >  }
-> > > >
-> > > > -/* helper function to access bus_formats */
-> > > > -static struct drm_connector *get_connector(struct drm_encoder *encoder)
-> > > > -{
-> > > > -     struct drm_device *dev = encoder->dev;
-> > > > -     struct drm_connector *connector;
-> > > > -
-> > > > -     list_for_each_entry(connector, &dev->mode_config.connector_list, head)
-> > > > -             if (connector->encoder == encoder)
-> > > > -                     return connector;
-> > > > -
-> > > > -     return NULL;
-> > > > -}
-> > > > -
-> > > >  static void tc_bridge_enable(struct drm_bridge *bridge)
-> > > >  {
-> > > >       struct tc_data *tc = bridge_to_tc(bridge);
-> > > > @@ -380,7 +374,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
-> > > >       u32 val = 0;
-> > > >       u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
-> > > >       struct drm_display_mode *mode;
-> > > > -     struct drm_connector *connector = get_connector(bridge->encoder);
-> > > >
-> > > >       mode = &bridge->encoder->crtc->state->adjusted_mode;
-> > > >
-> > > > @@ -451,14 +444,13 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
-> > > >       d2l_write(tc->i2c, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
-> > > >
-> > > >       dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
-> > > > -             connector->display_info.bus_formats[0],
-> > > > +             tc->output_bus_fmt,
-> > > >               tc->bpc);
-> > > >       /*
-> > > >        * Default hardware register settings of tc358775 configured
-> > > >        * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24 format
-> > > >        */
-> > > > -     if (connector->display_info.bus_formats[0] ==
-> > > > -             MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
-> > > > +     if (tc->output_bus_fmt == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
-> > > >               /* VESA-24 */
-> > > >               d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
-> > > >               d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_R7, LVI_R5, LVI_G0));
-> > > > @@ -590,6 +582,51 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > +static int tc_bridge_atomic_check(struct drm_bridge *bridge,
-> > > > +                               struct drm_bridge_state *bridge_state,
-> > > > +                               struct drm_crtc_state *crtc_state,
-> > > > +                               struct drm_connector_state *conn_state)
-> > > > +{
-> > > > +     struct tc_data *tc = bridge_to_tc(bridge);
-> > > > +
-> > > > +     tc->output_bus_fmt = bridge_state->output_bus_cfg.format;
-> > >
-> > > .atomic_check() isn't allowed to modify the device state, neither the
-> > > hardware state nor the software state in drm_bridge or tc_data. You can
-> > > instead access the bridge state directly in tc_bridge_enable(), with
-> > >
-> > >         struct drm_bridge_state *state =
-> > >                 drm_priv_to_bridge_state(bridge->base.state);
-> >
-> > Currently the driver is picking up from the dts panel
-> > (data-mapping = "vesa-24";) or jeida-24 or jeida-18.
-> >
-> > Does state->output_bus_cfg.format  get set from the data-mapping?
->
-> It should. The drm_panel should take care of that. In
-> panel_simple_get_non_edid_modes(), it calls
->
->         if (panel->desc->bus_format)
->                 drm_display_info_set_bus_formats(&connector->display_info,
->                                                  &panel->desc->bus_format, 1);
->
-> to initialize the bus format in display_info. Then, the DRM bridge
-> helper drm_atomic_bridge_chain_select_bus_fmts() retrieves the output
-> format by calling .atomic_get_output_bus_fmts() if implemented by the
-> last bridge in the chain, or directly from the connector display_info.
-> The last bridge in the chain is a DRM panel bridge, and doesn't
-> implement .atomic_get_output_bus_fmts(), so the format from display_info
-> is used, and is stored in the output_bus_cfg.format field of this bridge
-> in select_bus_fmt_recursive().
->
-> If something doesn't work according to the plan, I can help you
-> debugging.
->
-> > > > +
-> > > > +     dev_dbg(tc->dev, "output_bus_fmt %04x\n", tc->output_bus_fmt);
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static u32 *
-> > > > +tc_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-> > > > +                          struct drm_bridge_state *bridge_state,
-> > > > +                          struct drm_crtc_state *crtc_state,
-> > > > +                          struct drm_connector_state *conn_state,
-> > > > +                          u32 output_fmt,
-> > > > +                          unsigned int *num_input_fmts)
-> > > > +{
-> > > > +     u32 *input_fmts = NULL;
-> > > > +     int i;
-> > >
-> > > i only takes positive values, so it can be an unsigned int.
-> > >
-> > > > +
-> > > > +     *num_input_fmts = 0;
-> > > > +
-> > > > +     for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
-> > > > +             if (output_fmt == tc_lvds_out_bus_fmts[i]) {
-> > > > +                     *num_input_fmts = 1;
-> > > > +                     input_fmts = kcalloc(*num_input_fmts,
-> > > > +                                          sizeof(*input_fmts),
-> > > > +                                          GFP_KERNEL);
-> > > > +                     if (!input_fmts)
-> > > > +                             return NULL;
-> > > > +
-> > > > +                     input_fmts[0] = output_fmt;
-> > >
-> > > I don't think this is right, the input of the bridge isn't LVDS, is it ?
-> >
-> > Input to the bridge is DSI, format is already set
-> >
-> > dsi->format = MIPI_DSI_FMT_RGB888;
-> >
-> > enum mipi_dsi_pixel_format {
-> >         MIPI_DSI_FMT_RGB888,
-> >         MIPI_DSI_FMT_RGB666,
-> >         MIPI_DSI_FMT_RGB666_PACKED,
-> >         MIPI_DSI_FMT_RGB565,
-> > };
-> > include/drm/drm_mipi_dsi.h
-> >
-> > Why do we require this atomic_get_input_bus_fmts?
-> >
-> > Do i need to implement both atomic_get_input_bus_fmts and
-> > atomic_get_output_bus_fmts?
->
-> .atomic_get_output_bus_fmts() is only need for the last bridge in the
-> chain, and is not mandatory when that bridge supports a single format.
-> As this bridge can't be last (if the output is connect to a panel, there
-> will be a drm_bridge wrapping the drm_panel), you don't have to
-> implement that operation.
->
-> .atomic_get_input_bus_fmts() is used to negotiate formats along the
-> pipeline. The helps the DRM bridge helpers figure out what formats are
-> possible, with the help of bridges that must report what input formats
-> are compatible with a given output format. The DRM bridge helpers will
-> take care of the rest.
->
-> So, for this bridge, the input and output formats are decoupled. The
-> bridge can output any of the three supported LVDS formats, regardless of
-> what format it gets at its input. You should thus verify that the output
-> format you receive in this function is supported (and return NULL if it
-> isn't), and then return the list of supported input formats. If you
-> don't implement .atomic_get_input_bus_fmts(), then the DRM bridge
-> helpers will consider that the input and output formats are the same,
-> and will set the output format of the previous bridge to, for example,
-> MEDIA_BUS_FMT_RGB666_1X7X3_SPWG. It may work if the previous bridge
-> doesn't care about its output format, but if it does, then it will be
-> puzzled, as the previous bridge outputs DSI, not LVDS.
->
-> > > As far as I can tell, the hardware support transcoding any of the
-> > > supported input formats (RGB565, RGB666 or RGB888) to any of the
-> > > supported output formats. How about the following ?
-> > >
-> > > static const u32 tc_lvds_in_bus_fmts[] = {
-> > >         MEDIA_BUS_FMT_RGB565_1X16,
-> > >         MEDIA_BUS_FMT_RGB666_1X18,
-> > >         MEDIA_BUS_FMT_RBG888_1X24,
-> > > };
-> > >
-> > > ...
-> > >
-> > >         u32 *input_fmts;
-> > >         unsigned int i;
-> > >
-> > >         *num_input_fmts = 0;
-> > >
-> > >         for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
-> > >                 if (output_fmt == tc_lvds_out_bus_fmts[i])
-> > >                         break;
-> > >         }
-> > >
-> > >         if (i == ARRAY_SIZE(tc_lvds_out_bus_fmts))
-> > >                 return NULL;
-> > >
-> > >         input_fmts = kcalloc(*num_input_fmts, ARRAY_SIZE(tc_lvds_in_bus_fmts),
-> > >                              GFP_KERNEL);
-> > >         if (!input_fmts)
-> > >                 return NULL;
-> > >
-> > >         for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
-> > >                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
-> > >
-> > >         *num_inputs_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
-> > >         return input_fmts;
-> > >
-> > > > +
-> > > > +                     break;
-> > > > +             }
-> > > > +     }
-> > > > +
-> > > > +     return input_fmts;
-> > > > +}
-> > > > +
-> > > >  static int tc_bridge_attach(struct drm_bridge *bridge,
-> > > >                           enum drm_bridge_attach_flags flags)
-> > > >  {
-> > > > @@ -639,6 +676,11 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
-> > > >  }
-> > > >
-> > > >  static const struct drm_bridge_funcs tc_bridge_funcs = {
-> > > > +     .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> > > > +     .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> > > > +     .atomic_reset = drm_atomic_helper_bridge_reset,
-> > > > +     .atomic_get_input_bus_fmts = tc_bridge_get_input_bus_fmts,
-> > > > +     .atomic_check = tc_bridge_atomic_check,
-> > > >       .attach = tc_bridge_attach,
-> > > >       .pre_enable = tc_bridge_pre_enable,
-> > > >       .enable = tc_bridge_enable,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Id also add that Ive seen a bunch of different lockdep reports
+from different configurations, all more complicated than this one.
 
 
 
--- 
-regards,
-vinaysimha
+> [   29.674897] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.8.0-10185-g4397a3e7bf020 #1
+> [   29.675728] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+> [   29.676622] Call Trace:
+> [   29.676956]  dump_stack+0x96/0xd0
+> [   29.677358]  ___might_sleep.cold+0xff/0x115
+> [   29.677831]  ? getname_kernel+0x25/0x110
+> [   29.678281]  kmem_cache_alloc+0x212/0x2d0
+> [   29.678739]  getname_kernel+0x25/0x110
+> [   29.679175]  ? rest_init+0x23e/0x23e
+> [   29.679598]  kernel_execve+0x19/0x1c0
+> [   29.680034]  kernel_init+0x6e/0x112
+> [   29.680450]  ret_from_fork+0x22/0x30
+> [   29.680905]
+> [   29.681171] =============================
+> [   29.681629] [ BUG: Invalid wait context ]
+> [   29.682087] 5.8.0-10185-g4397a3e7bf020 #1 Tainted: G        W
+> [   29.682741] -----------------------------
+> [   29.683200] swapper/0/1 is trying to lock:
+> [   29.683663] ffff8fe003808128 (&mm->mmap_lock#2){++++}-{3:3}, at: alloc_bprm+0x126/0x2b0
+> [   29.684537] other info that might help us debug this:
+> [   29.685079] context-{4:4}
+> [   29.685426] 4 locks held by swapper/0/1:
+> [   29.685876]  #0: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.686767]  #1: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.687659]  #2: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.688557]  #3: ffff8fe0d5065040 (&zspage->lock){.+.+}-{2:2}, at: zs_map_object+0x82/0x330
+> [   29.689449] stack backtrace:
+> [   29.689817] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W         5.8.0-10185-g4397a3e7bf020 #1
+> [   29.690762] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+> [   29.691651] Call Trace:
+> [   29.691990]  dump_stack+0x96/0xd0
+> [   29.692396]  __lock_acquire.cold+0xc4/0x1a5
+> [   29.692870]  lock_acquire+0xab/0x390
+> [   29.693295]  ? alloc_bprm+0x126/0x2b0
+> [   29.693728]  down_write_killable+0x3d/0xa0
+> [   29.695267]  ? alloc_bprm+0x126/0x2b0
+> [   29.695701]  alloc_bprm+0x126/0x2b0
+> [   29.696125]  ? rest_init+0x23e/0x23e
+> [   29.696551]  kernel_execve+0x38/0x1c0
+> [   29.696983]  kernel_init+0x6e/0x112
+> [   29.697401]  ret_from_fork+0x22/0x30
+> [   29.697888] BUG: scheduling while atomic: swapper/0/1/0x00000011
+> [   29.698541] INFO: lockdep is turned off.
+> [   29.699000] Modules linked in:
+> [   29.699396] Preemption disabled at:
+> [   29.699398] [<ffffffff97bcb678>] zs_map_object+0x38/0x330
+> [   29.700414] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W         5.8.0-10185-g4397a3e7bf020 #1
+> [   29.701373] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+> [   29.702268] Call Trace:
+> [   29.702604]  dump_stack+0x96/0xd0
+> [   29.703012]  __schedule_bug.cold+0xa1/0xb2
+> [   29.703482]  __schedule+0x8e3/0xa90
+> [   29.703906]  ? try_to_wake_up+0x1d0/0x860
+> [   29.704371]  ? wait_for_completion+0x81/0x110
+> [   29.704861]  schedule+0x53/0x100
+> [   29.705259]  schedule_timeout+0x205/0x2b0
+> [   29.705722]  ? try_to_wake_up+0x7d/0x860
+> [   29.706176]  ? _raw_spin_unlock_irq+0x24/0x50
+> [   29.706666]  ? wait_for_completion+0x81/0x110
+> [   29.707155]  ? wait_for_completion+0x81/0x110
+> [   29.707646]  wait_for_completion+0xab/0x110
+> [   29.708130]  stop_one_cpu+0x87/0xb0
+> [   29.708551]  ? set_cpus_allowed_ptr+0x20/0x20
+> [   29.709044]  ? _raw_spin_unlock_irqrestore+0x41/0x70
+> [   29.709581]  sched_exec+0x98/0xd0
+> [   29.709989]  bprm_execve+0x1d7/0x3a0
+> [   29.710416]  ? rest_init+0x23e/0x23e
+> [   29.710844]  kernel_execve+0x135/0x1c0
+> [   29.711284]  kernel_init+0x6e/0x112
+> [   29.711703]  ret_from_fork+0x22/0x30
+> [   29.712298] Failed to execute /init (error -14)
+> [   29.713523] Run /sbin/init as init process
+> [   29.714612]   with arguments:
+> [   29.715484]     /sbin/init
+> [   29.716328]   with environment:
+> [   29.717235]     HOME=/
+> [   29.717983]     TERM=linux
+> [   29.718801]     user=lkp
+> [   29.719587]     job=/lkp/jobs/scheduled/vm-snb-151/boot-1-aliyun-x86_64-20190626.cgz-4397a3e7bf020ef040be371dcc178db258b928b4-20200808-11882-w8z2ep-10.yaml
+> [   29.721551]     ARCH=x86_64
+> [   29.721986]     kconfig=x86_64-rhel-7.6-kselftests
+> [   29.722623]     branch=linux-review/Jim-Cromie/dyndbg-WIP-diet-plan/20200808-041343
+> [   29.723634]     commit=4397a3e7bf020ef040be371dcc178db258b928b4
+> [   29.724395]     BOOT_IMAGE=/pkg/linux/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/vmlinuz-5.8.0-10185-g4397a3e7bf020
+> [   29.725943]     max_uptime=600
+> [   29.726406]     RESULT_ROOT=/result/boot/1/vm-snb/aliyun-x86_64-20190626.cgz/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/8
+> [   29.728009]     LKP_SERVER=inn
+> [   29.728475]     softlockup_panic=1
+> [   29.728969]     prompt_ramdisk=0
+> [   29.729449]     vga=normal
+> [   29.729967] Starting init: /sbin/init exists but couldn't execute it (error -14)
+> [   29.730967] Run /etc/init as init process
+> [   29.731526]   with arguments:
+> [   29.731986]     /etc/init
+> [   29.732410]   with environment:
+> [   29.732880]     HOME=/
+> [   29.733277]     TERM=linux
+> [   29.733711]     user=lkp
+> [   29.734125]     job=/lkp/jobs/scheduled/vm-snb-151/boot-1-aliyun-x86_64-20190626.cgz-4397a3e7bf020ef040be371dcc178db258b928b4-20200808-11882-w8z2ep-10.yaml
+> [   29.735762]     ARCH=x86_64
+> [   29.736211]     kconfig=x86_64-rhel-7.6-kselftests
+> [   29.736844]     branch=linux-review/Jim-Cromie/dyndbg-WIP-diet-plan/20200808-041343
+> [   29.737860]     commit=4397a3e7bf020ef040be371dcc178db258b928b4
+> [   29.738609]     BOOT_IMAGE=/pkg/linux/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/vmlinuz-5.8.0-10185-g4397a3e7bf020
+> [   29.740172]     max_uptime=600
+> [   29.740634]     RESULT_ROOT=/result/boot/1/vm-snb/aliyun-x86_64-20190626.cgz/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/8
+> [   29.742238]     LKP_SERVER=inn
+> [   29.742699]     softlockup_panic=1
+> [   29.743202]     prompt_ramdisk=0
+> [   29.743680]     vga=normal
+> [   29.744156] Run /bin/init as init process
+> [   29.744719]   with arguments:
+> [   29.745179]     /bin/init
+> [   29.745599]   with environment:
+> [   29.746074]     HOME=/
+> [   29.746468]     TERM=linux
+> [   29.746894]     user=lkp
+> [   29.747309]     job=/lkp/jobs/scheduled/vm-snb-151/boot-1-aliyun-x86_64-20190626.cgz-4397a3e7bf020ef040be371dcc178db258b928b4-20200808-11882-w8z2ep-10.yaml
+> [   29.748964]     ARCH=x86_64
+> [   29.749406]     kconfig=x86_64-rhel-7.6-kselftests
+> [   29.750047]     branch=linux-review/Jim-Cromie/dyndbg-WIP-diet-plan/20200808-041343
+> [   29.751067]     commit=4397a3e7bf020ef040be371dcc178db258b928b4
+> [   29.751818]     BOOT_IMAGE=/pkg/linux/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/vmlinuz-5.8.0-10185-g4397a3e7bf020
+> [   29.753381]     max_uptime=600
+> [   29.753845]     RESULT_ROOT=/result/boot/1/vm-snb/aliyun-x86_64-20190626.cgz/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/8
+> [   29.755455]     LKP_SERVER=inn
+> [   29.755923]     softlockup_panic=1
+> [   29.756425]     prompt_ramdisk=0
+> [   29.756905]     vga=normal
+> [   29.757375] Run /bin/sh as init process
+> [   29.757921]   with arguments:
+> [   29.758380]     /bin/sh
+> [   29.758782]   with environment:
+> [   29.759256]     HOME=/
+> [   29.759650]     TERM=linux
+> [   29.760089]     user=lkp
+> [   29.760501]     job=/lkp/jobs/scheduled/vm-snb-151/boot-1-aliyun-x86_64-20190626.cgz-4397a3e7bf020ef040be371dcc178db258b928b4-20200808-11882-w8z2ep-10.yaml
+> [   29.762137]     ARCH=x86_64
+> [   29.762574]     kconfig=x86_64-rhel-7.6-kselftests
+> [   29.763213]     branch=linux-review/Jim-Cromie/dyndbg-WIP-diet-plan/20200808-041343
+> [   29.764255]     commit=4397a3e7bf020ef040be371dcc178db258b928b4
+> [   29.765006]     BOOT_IMAGE=/pkg/linux/x86_64-rhel-7.6-kselftests/gcc-9/4397a3e7bf020ef040be371dcc178db258b928b4/vmlinuz-5.8.0-10185-g4397a3e7bf020
+> [   29.766567]     max_uptime=600
+>
+>
+> To reproduce:
+>
+>         # build kernel
+>         cd linux
+>         cp config-5.8.0-10185-g4397a3e7bf020 .config
+>         make HOSTCC=gcc-9 CC=gcc-9 ARCH=x86_64 olddefconfig prepare modules_prepare bzImage
+>
+>         git clone https://github.com/intel/lkp-tests.git
+>         cd lkp-tests
+>         bin/lkp qemu -k <bzImage> job-script # job-script is attached in this email
+>
+>
+>
+> Thanks,
+> lkp
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
