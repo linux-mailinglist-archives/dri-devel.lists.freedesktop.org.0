@@ -1,76 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70420242C47
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 17:45:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B551242C4B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 17:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5C66E90A;
-	Wed, 12 Aug 2020 15:45:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF1E6E906;
+	Wed, 12 Aug 2020 15:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6896E90A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 15:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597247102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4SS0jWX/8AdP73VJgwkCVotT/hkNBUzg6SOi5kPmUG4=;
- b=VNM/XquOdrLGY2inmgsuyOlX6D6svsWBRcGg+9wIxHr+F+HgMIy3mxJ4XnWvz7BueNjiff
- RNoPb1jq9K9A0B1AkmW4p6+tDdPV+3J+5T3R20+E9Ur5E49pYVcPL65S1XBrZrs7J7QmKQ
- F0tqZo6E1tIfXB2AUOTyFq5uK5KYam4=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-rjs6VlAnNOuWDnhs4XYcbQ-1; Wed, 12 Aug 2020 11:44:59 -0400
-X-MC-Unique: rjs6VlAnNOuWDnhs4XYcbQ-1
-Received: by mail-qv1-f71.google.com with SMTP id x4so1706342qvu.18
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:44:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=4SS0jWX/8AdP73VJgwkCVotT/hkNBUzg6SOi5kPmUG4=;
- b=e49pTLm8MF6gZZDKKE0xopJVmRWHnuNcOuOf5lGG92vD3kyxgrCkOGiIdxd4Hg7Tj/
- LuU1INAmH1zHnEzFEMAnjuSNvSSTsDiaz7UJwgnAcmnysfT8x9w+TA0TECI/e6tRJPor
- mClO3f1OYKxX9CJKRMG7o5/gxNQf35VpSZikqaI/BSk+U00uNFFIXFfVYraP5FQiLp9V
- FfQWk9jyzEkVVR1r8K+T5NHcXMP3l5h3uZhiZmwHF/p5qDlWgjU9WjMM67ES8fBgJ9mt
- DfElkP/vuhNbImJekXsGeCwD4Giyv5KOtVUFJC6xCP+zPiwhs/0gTr+hKsnw22bAILOv
- UN9Q==
-X-Gm-Message-State: AOAM5307UDDcZskgmdUu02hxkJoXNUkqb3SwRBRlPuCMGDhGB7y/y399
- qfuwRg87Bz4InM5v4X4XT0NvjPVpWhDtwi7eo7Y0vxF3a65m2fVteWbcgA+p8P3m3CmylEQC9or
- ZSy1jBnr/wWQ1xt4rYksXuYKfwWvj
-X-Received: by 2002:aed:2ca5:: with SMTP id g34mr147708qtd.337.1597247098553; 
- Wed, 12 Aug 2020 08:44:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxihC1nazXhwK6q3KqmG+xQT8vcRSFSs9qlG1xH4pBMLdf/U1hCZwc0/JtKxjg0ahn7Xo10Ug==
-X-Received: by 2002:aed:2ca5:: with SMTP id g34mr147682qtd.337.1597247098320; 
- Wed, 12 Aug 2020 08:44:58 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id s4sm2809991qtn.34.2020.08.12.08.44.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 08:44:57 -0700 (PDT)
-Message-ID: <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
-Subject: Re: [PATCH] drm: assure aux_dev is nonzero before using it
-From: Lyude Paul <lyude@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Zwane Mwaikambo <zwanem@gmail.com>
-Date: Wed, 12 Aug 2020 11:44:56 -0400
-In-Reply-To: <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
-References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
- <20200811085830.GZ2352366@phenom.ffwll.local>
- <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
- <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.4 (3.36.4-1.fc32)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1436B6E906
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 15:46:28 +0000 (UTC)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BC69820855
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 15:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597247187;
+ bh=8zjj45MDp5uQvFTIaQ4Tbj5ME5iYtUQlAllvKOxs1Bs=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=BU8KmdYOmx+Vc1hjIb4NWSAP8FA5RL1ADwPVMH3fhrd4N0mF+Dux1/ttl2cVM+5ZH
+ +uTukZXYWmH3q+5RbVPq1653WFW9YLMiQUg/iDe6WuwHUsBBHzuhYAf2nZalBVoaaB
+ Y/LFI7wM5+Yq6cvNj0o1ocif7wzBMEMGHr7MNwLg=
+Received: by mail-ot1-f45.google.com with SMTP id v21so2276128otj.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:46:27 -0700 (PDT)
+X-Gm-Message-State: AOAM531PHmWa5VMOKsUVoww3es3vFOW1fDpyQU4Gq0ObJmhulpzSzca5
+ d2lb2Je8YC+TcBw5fal6ZPjbNuOGupaGLlME9w==
+X-Google-Smtp-Source: ABdhPJzIkz9fmUdhrhBihVEGFcNSEOVjprI3/DwicQgScfWx9wnTC83ZYLmwHWg/jDB8At5B5/84auzV3ufT8ZC6jHM=
+X-Received: by 2002:a05:6830:1d8e:: with SMTP id
+ y14mr261568oti.129.1597247187002; 
+ Wed, 12 Aug 2020 08:46:27 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200812085850.2643820-1-linus.walleij@linaro.org>
+In-Reply-To: <20200812085850.2643820-1-linus.walleij@linaro.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 12 Aug 2020 09:46:16 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLR3HEsbuNq7i+N3ETYVoMtUP90_Ev=tO8GJr+fF4QHWQ@mail.gmail.com>
+Message-ID: <CAL_JsqLR3HEsbuNq7i+N3ETYVoMtUP90_Ev=tO8GJr+fF4QHWQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3 v2] dt-bindings: backlight: Add some common backlight
+ properties
+To: Linus Walleij <linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,93 +55,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dkwon@redhat.com, Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, tcamuso@redhat.com
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Lee Jones <lee.jones@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-08-12 at 16:10 +0200, Daniel Vetter wrote:
-> On Wed, Aug 12, 2020 at 12:16 AM Zwane Mwaikambo <zwanem@gmail.com> wrote:
-> > On Tue, 11 Aug 2020, Daniel Vetter wrote:
-> > 
-> > > On Mon, Aug 10, 2020 at 10:11:50AM -0700, Zwane Mwaikambo wrote:
-> > > > Hi Folks,
-> > > >     I know this thread eventually dropped off due to not identifying
-> > > > the underlying issue. It's still occuring on 5.8 and in my case it
-> > > > happened because the udev device nodes for the DP aux devices were not
-> > > > cleaned up whereas the kernel had no association with them. I can
-> > > > reproduce the bug just by creating a device node for a non-existent
-> > > > minor
-> > > > device and calling open().
-> > > 
-> > > Hm I don't have that thread anymore, but generally these bugs are solved
-> > > by not registering the device before it's ready for use. We do have
-> > > drm_connector->late_register for that stuff. Just a guess since I'm not
-> > > seeing full details here.
-> > 
-> > In this particular case, the physical device disappeared before the nodes
-> > were cleaned up. It involves putting a computer to sleep with a monitor
-> > plugged in and then waking it up with the monitor unplugged.
-> 
-> We also have early_unregister for the reverse, but yes this sounds
-> more tricky ... Adding Lyude who's been working on way too much
-> lifetime fun around dp recently.
-> -Daniel
-> 
-Hi-I think just checking whether the auxdev is NULL or not is a reasonable
-fix, although I am curious as to how exactly the aux dev's parent is getting
-destroyed before it's child, which I would have thought would be the only way
-you could hit this?
+On Wed, Aug 12, 2020 at 2:58 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> Let's use a common.yaml include for the backlight like we do with
+> the LEDs. The LEDs are inherently incompatible so their bindings
+> cannot be reused for backlight.
+>
+> Cc: devicetree@vger.kernel.org
+> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - New patch as suggested by Sam.
+> ---
+>  .../bindings/leds/backlight/common.yaml       | 42 +++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/common.yaml
 
-> > 
-> > > > To me it still makes sense to just check aux_dev because the chardev
-> > > > has
-> > > > no way to check before calling.
-> > > > 
-> > > > (gdb) list *drm_dp_aux_dev_get_by_minor+0x29
-> > > > 0x17b39 is in drm_dp_aux_dev_get_by_minor
-> > > > (drivers/gpu/drm/drm_dp_aux_dev.c:65).
-> > > > 60      static struct drm_dp_aux_dev
-> > > > *drm_dp_aux_dev_get_by_minor(unsigned index)
-> > > > 61      {
-> > > > 62              struct drm_dp_aux_dev *aux_dev = NULL;
-> > > > 63
-> > > > 64              mutex_lock(&aux_idr_mutex);
-> > > > 65              aux_dev = idr_find(&aux_idr, index);
-> > > > 66              if (!kref_get_unless_zero(&aux_dev->refcount))
-> > > > 67                      aux_dev = NULL;
-> > > > 68              mutex_unlock(&aux_idr_mutex);
-> > > > 69
-> > > > (gdb) p/x &((struct drm_dp_aux_dev *)(0x0))->refcount
-> > > > $8 = 0x18
-> > > > 
-> > > > static int auxdev_open(struct inode *inode, struct file *file)
-> > > > {
-> > > >     unsigned int minor = iminor(inode);
-> > > >     struct drm_dp_aux_dev *aux_dev;
-> > > > 
-> > > >     aux_dev = drm_dp_aux_dev_get_by_minor(minor);
-> > > >     if (!aux_dev)
-> > > >         return -ENODEV;
-> > > > 
-> > > >     file->private_data = aux_dev;
-> > > >     return 0;
-> > > > }
-> > > > 
-> > > > 
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> 
--- 
-Cheers,
-	Lyude Paul (she/her)
-	Software Engineer at Red Hat
+I'd expect some refactoring here with existing backlight schemas
+including the ones I just added for 5.9.
 
+Ideally, we shouldn't have any property have a type definition more
+than once. (We don't have any way to detect that though it wouldn't be
+hard to write a program to do so).
+
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/common.yaml b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+> new file mode 100644
+> index 000000000000..8ae7e3818b0d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/common.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common backlight properties
+> +
+> +maintainers:
+> +  - Lee Jones <lee.jones@linaro.org>
+> +  - Daniel Thompson <daniel.thompson@linaro.org>
+> +  - Jingoo Han <jingoohan1@gmail.com>
+> +
+> +description: |
+
+You don't need '|' if there's no formatting to preserve.
+
+> +  Backlight devices provide backlight for different types of graphical
+> +  displays. They are typically but not necessarilt implemented using a white
+
+typo
+
+> +  LED powered by a boost converter.
+> +
+> +properties:
+> +  default-on:
+> +    description:
+> +      The initial state of the backlight can be set to be on with this
+> +      property. This is a state applied by the operating system so that the
+> +      backlight is always turned on at boot.
+
+Needs a type.
+
+> +
+> +  default-brightness:
+> +    description:
+> +      The default brightness that should be applied to the LED by the operating
+> +      system on start-up. The brightness should not exceed the brightness the
+> +      LED can provide.
+> +    $ref: /schemas/types.yaml#definitions/uint32
+> +    minimum: 0
+
+It's an unsigned int, so the min is already 0.
+
+> +
+> +  max-brightness:
+> +    description:
+> +      Normally the maximum brightness is determined by the hardware and this
+> +      property is not required. This property is used to put a software limit
+> +      on the brightness apart from what the driver says, as it could happen
+> +      that a LED can be made so bright that it gets damaged or causes damage
+> +      due to restrictions in a specific system, such as mounting conditions.
+> +    $ref: /schemas/types.yaml#definitions/uint32
+> +    minimum: 0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
