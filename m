@@ -2,51 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D07424349C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6AC624348A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F18B6E536;
-	Thu, 13 Aug 2020 07:12:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E25A26E51D;
+	Thu, 13 Aug 2020 07:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa4.hc3370-68.iphmx.com (esa4.hc3370-68.iphmx.com
- [216.71.155.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 502DC6E8C3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1597217932;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=ShS55PgjfRlFMa0DNNlsr2fNiXMtncLBQuylfP4nMGg=;
- b=X35CVV7qxJIUu1sF5wGBGoVdItnVVy8vqDvVp9Qd9wDuNp1yxlWzqLYP
- 01Nd3h18Tn6Qaz43fiX8r4erOd4KdRHpw3w3I0ocUaCpQQW1p+0biFGJH
- qEVjWnD412fy8zwy+hG9NiyFnggMTNgyx+azEoTJiy6teXESJcd4bHeQ9 E=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: Zs2JsfV+aYnUe+nzG0vfzUdX+ziwoLc3xTEPPEd+NVtYmHmJw+DPYdtS53l1QsrvC/Zxz4eN0/
- A0/nYWVhhDhtycBIX5cmj7XnFzCd0Cbb9CH7NwXunAwDyHJJYQcc69T5BEuEcNMl8PWfoSXX+s
- P7nimTSw40cj4SIbcq/qPkr5JpUauoYCGPpqjzp636wYVroZhErGaj15aTi03BxPwveV7Lcj6n
- s5xgeyApZtCvlmTWosFQMCqnPUJNCVpRHE5Lz4/jbls9uJTBhbW/oNcnDDvw5BOIArvG6fykiH
- 5D8=
-X-SBRS: 2.7
-X-MesageID: 25254199
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.76,303,1592884800"; d="scan'208";a="25254199"
-Date: Wed, 12 Aug 2020 09:38:40 +0200
-From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: =?utf-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Subject: Re: [PATCH v4 2/2] xen: add helpers to allocate unpopulated memory
-Message-ID: <20200812073840.GA975@Air-de-Roger>
-References: <20200811094447.31208-1-roger.pau@citrix.com>
- <20200811094447.31208-3-roger.pau@citrix.com>
- <7c9a25fa-c52c-66d2-3b03-14a59e069ab6@suse.com>
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8126E8C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:45:13 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id EF1D0ACA78552426F5C4;
+ Wed, 12 Aug 2020 15:45:10 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 12 Aug 2020 15:45:00 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH drm/hisilicon v3 0/2] hibmc clean up and code refactoring
+Date: Wed, 12 Aug 2020 15:42:57 +0800
+Message-ID: <1597218179-3938-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7c9a25fa-c52c-66d2-3b03-14a59e069ab6@suse.com>
-X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
- AMSPEX02CL02.citrite.net (10.69.22.126)
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 13 Aug 2020 07:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,108 +43,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
- David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linuxarm@huawei.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBdWcgMTIsIDIwMjAgYXQgMDk6Mjg6NDVBTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3
-cm90ZToKPiBPbiAxMS4wOC4yMCAxMTo0NCwgUm9nZXIgUGF1IE1vbm5lIHdyb3RlOgo+ID4gVG8g
-YmUgdXNlZCBpbiBvcmRlciB0byBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4gVGhpcyBpcyBiYXNl
-ZCBvbiB0aGUKPiA+IFpPTkVfREVWSUNFIGZhY2lsaXR5IHdoaWNoIGlzIHVzZWQgYnkgcGVyc2lz
-dGVudCBtZW1vcnkgZGV2aWNlcyBpbgo+ID4gb3JkZXIgdG8gY3JlYXRlIHN0cnVjdCBwYWdlcyBh
-bmQga2VybmVsIHZpcnR1YWwgbWFwcGluZ3MgZm9yIHRoZSBJT01FTQo+ID4gYXJlYXMgb2Ygc3Vj
-aCBkZXZpY2VzLiBOb3RlIHRoYXQgb24ga2VybmVscyB3aXRob3V0IHN1cHBvcnQgZm9yCj4gPiBa
-T05FX0RFVklDRSBYZW4gd2lsbCBmYWxsYmFjayB0byB1c2UgYmFsbG9vbmVkIHBhZ2VzIGluIG9y
-ZGVyIHRvCj4gPiBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4KPiA+IAo+ID4gVGhlIG5ld2x5IGFk
-ZGVkIGhlbHBlcnMgdXNlIHRoZSBzYW1lIHBhcmFtZXRlcnMgYXMgdGhlIGV4aXN0aW5nCj4gPiB7
-YWxsb2MvZnJlZX1feGVuYmFsbG9vbmVkX3BhZ2VzIGZ1bmN0aW9ucywgd2hpY2ggYWxsb3dzIGZv
-ciBpbi1wbGFjZQo+ID4gcmVwbGFjZW1lbnQgb2YgdGhlIGNhbGxlcnMuIE9uY2UgYSBtZW1vcnkg
-cmVnaW9uIGhhcyBiZWVuIGFkZGVkIHRvIGJlCj4gPiB1c2VkIGFzIHNjcmF0Y2ggbWFwcGluZyBz
-cGFjZSBpdCB3aWxsIG5vIGxvbmdlciBiZSByZWxlYXNlZCwgYW5kIHBhZ2VzCj4gPiByZXR1cm5l
-ZCBhcmUga2VwdCBpbiBhIGxpbmtlZCBsaXN0LiBUaGlzIGFsbG93cyB0byBoYXZlIGEgYnVmZmVy
-IG9mCj4gPiBwYWdlcyBhbmQgcHJldmVudHMgcmVzb3J0aW5nIHRvIGZyZXF1ZW50IGFkZGl0aW9u
-cyBhbmQgcmVtb3ZhbHMgb2YKPiA+IHJlZ2lvbnMuCj4gPiAKPiA+IElmIGVuYWJsZWQgKGJlY2F1
-c2UgWk9ORV9ERVZJQ0UgaXMgc3VwcG9ydGVkKSB0aGUgdXNhZ2Ugb2YgdGhlIG5ldwo+ID4gZnVu
-Y3Rpb25hbGl0eSB1bnRhbmdsZXMgWGVuIGJhbGxvb24gYW5kIFJBTSBob3RwbHVnIGZyb20gdGhl
-IHVzYWdlIG9mCj4gPiB1bnBvcHVsYXRlZCBwaHlzaWNhbCBtZW1vcnkgcmFuZ2VzIHRvIG1hcCBm
-b3JlaWduIHBhZ2VzLCB3aGljaCBpcyB0aGUKPiA+IGNvcnJlY3QgdGhpbmcgdG8gZG8gaW4gb3Jk
-ZXIgdG8gYXZvaWQgbWFwcGluZ3Mgb2YgZm9yZWlnbiBwYWdlcyBkZXBlbmQKPiA+IG9uIG1lbW9y
-eSBob3RwbHVnLgo+ID4gCj4gPiBOb3RlIHRoZSBkcml2ZXIgaXMgY3VycmVudGx5IG5vdCBlbmFi
-bGVkIG9uIEFybSBwbGF0Zm9ybXMgYmVjYXVzZSBpdAo+ID4gd291bGQgaW50ZXJmZXJlIHdpdGgg
-dGhlIGlkZW50aXR5IG1hcHBpbmcgcmVxdWlyZWQgb24gc29tZSBwbGF0Zm9ybXMuCj4gPiAKPiA+
-IFNpZ25lZC1vZmYtYnk6IFJvZ2VyIFBhdSBNb25uw6kgPHJvZ2VyLnBhdUBjaXRyaXguY29tPgo+
-ID4gLS0tCj4gPiBDYzogT2xla3NhbmRyIEFuZHJ1c2hjaGVua28gPG9sZWtzYW5kcl9hbmRydXNo
-Y2hlbmtvQGVwYW0uY29tPgo+ID4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4K
-PiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gPiBDYzogQm9yaXMgT3N0
-cm92c2t5IDxib3Jpcy5vc3Ryb3Zza3lAb3JhY2xlLmNvbT4KPiA+IENjOiBKdWVyZ2VuIEdyb3Nz
-IDxqZ3Jvc3NAc3VzZS5jb20+Cj4gPiBDYzogU3RlZmFubyBTdGFiZWxsaW5pIDxzc3RhYmVsbGlu
-aUBrZXJuZWwub3JnPgo+ID4gQ2M6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xl
-LmNvbT4KPiA+IENjOiBSb2dlciBQYXUgTW9ubmUgPHJvZ2VyLnBhdUBjaXRyaXguY29tPgo+ID4g
-Q2M6IFdlaSBMaXUgPHdsQHhlbi5vcmc+Cj4gPiBDYzogWWFuIFlhbmtvdnNreWkgPHl5YW5rb3Zz
-a3lpQGdtYWlsLmNvbT4KPiA+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-PiBDYzogeGVuLWRldmVsQGxpc3RzLnhlbnByb2plY3Qub3JnCj4gPiBDYzogbGludXgtbW1Aa3Zh
-Y2sub3JnCj4gPiBDYzogRGF2aWQgSGlsZGVuYnJhbmQgPGRhdmlkQHJlZGhhdC5jb20+Cj4gPiBD
-YzogTWljaGFsIEhvY2tvIDxtaG9ja29Aa2VybmVsLm9yZz4KPiA+IENjOiBEYW4gV2lsbGlhbXMg
-PGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiA+IC0tLQo+ID4gQ2hhbmdlcyBzaW5jZSB2MzoK
-PiA+ICAgLSBJbnRyb2R1Y2UgYSBLY29uZmlnIG9wdGlvbiB0aGF0IGdhdGVzIHRoZSBhZGRpdGlv
-biBvZiB0aGUKPiA+ICAgICB1bnBvcHVsYXRlZCBhbGxvYyBkcml2ZXIuIFRoaXMgYWxsb3dzIHRv
-IGVhc2lseSBkaXNhYmxlIGl0IG9uIEFybQo+ID4gICAgIHBsYXRmb3Jtcy4KPiA+ICAgLSBEcm9w
-cGVkIEp1ZXJnZW4gUkIgZHVlIHRvIHRoZSBhZGRpdGlvbiBvZiB0aGUgS2NvbmZpZyBvcHRpb24u
-Cj4gPiAgIC0gU3dpdGNoZWQgZnJvbSBNRU1PUllfREVWSUNFX0RFVkRBWCB0byBNRU1PUllfREVW
-SUNFX0dFTkVSSUMuCj4gPiAKPiA+IENoYW5nZXMgc2luY2UgdjI6Cj4gPiAgIC0gRHJvcCBCVUlM
-RF9CVUdfT04gcmVnYXJkaW5nIFBWTU1VIHBhZ2Ugc2l6ZXMuCj4gPiAgIC0gVXNlIGEgU1BEWCBs
-aWNlbnNlIGlkZW50aWZpZXIuCj4gPiAgIC0gQ2FsbCBmaWxsIHdpdGggb25seSB0aGUgbWluaW11
-bSByZXF1aXJlZCBudW1iZXIgb2YgcGFnZXMuCj4gPiAgIC0gSW5jbHVkZSB4ZW4uaCBoZWFkZXIg
-aW4geGVuX2RybV9mcm9udF9nZW0uYy4KPiA+ICAgLSBVc2UgbGVzcyBnZW5lcmljIGZ1bmN0aW9u
-IG5hbWVzLgo+ID4gICAtIEV4aXQgZWFybHkgZnJvbSB0aGUgaW5pdCBmdW5jdGlvbiBpZiBub3Qg
-YSBQViBndWVzdC4KPiA+ICAgLSBEb24ndCB1c2UgYWxsIGNhcHMgZm9yIHJlZ2lvbiBuYW1lLgo+
-ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udF9nZW0uYyB8ICAg
-OSArLQo+ID4gICBkcml2ZXJzL3hlbi9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgfCAgIDQg
-Kwo+ID4gICBkcml2ZXJzL3hlbi9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwo+
-ID4gICBkcml2ZXJzL3hlbi9iYWxsb29uLmMgICAgICAgICAgICAgICAgICAgfCAgIDQgKy0KPiA+
-ICAgZHJpdmVycy94ZW4vZ3JhbnQtdGFibGUuYyAgICAgICAgICAgICAgIHwgICA0ICstCj4gPiAg
-IGRyaXZlcnMveGVuL3ByaXZjbWQuYyAgICAgICAgICAgICAgICAgICB8ICAgNCArLQo+ID4gICBk
-cml2ZXJzL3hlbi91bnBvcHVsYXRlZC1hbGxvYy5jICAgICAgICAgfCAxODUgKysrKysrKysrKysr
-KysrKysrKysrKysrCj4gPiAgIGRyaXZlcnMveGVuL3hlbmJ1cy94ZW5idXNfY2xpZW50LmMgICAg
-ICB8ICAgNiArLQo+ID4gICBkcml2ZXJzL3hlbi94bGF0ZV9tbXUuYyAgICAgICAgICAgICAgICAg
-fCAgIDQgKy0KPiA+ICAgaW5jbHVkZS94ZW4veGVuLmggICAgICAgICAgICAgICAgICAgICAgIHwg
-ICA5ICsrCj4gPiAgIDEwIGZpbGVzIGNoYW5nZWQsIDIxNSBpbnNlcnRpb25zKCspLCAxNSBkZWxl
-dGlvbnMoLSkKPiA+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMveGVuL3VucG9wdWxhdGVk
-LWFsbG9jLmMKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMveGVuL0tjb25maWcgYi9kcml2
-ZXJzL3hlbi9LY29uZmlnCj4gPiBpbmRleCAxZDMzOWVmOTI0MjIuLjAxODAyMGI5MWJhYSAxMDA2
-NDQKPiA+IC0tLSBhL2RyaXZlcnMveGVuL0tjb25maWcKPiA+ICsrKyBiL2RyaXZlcnMveGVuL0tj
-b25maWcKPiA+IEBAIC0zMjcsNCArMzI3LDggQEAgY29uZmlnIFhFTl9IQVZFX1ZQTVUKPiA+ICAg
-Y29uZmlnIFhFTl9GUk9OVF9QR0RJUl9TSEJVRgo+ID4gICAJdHJpc3RhdGUKPiA+ICtjb25maWcg
-WEVOX1VOUE9QVUxBVEVEX0FMTE9DCj4gPiArCWJvb2wKPiA+ICsJZGVmYXVsdCB5IGlmIFpPTkVf
-REVWSUNFICYmICFBUk0gJiYgIUFSTTY0Cj4gCj4gVGhlcmUgaXMgYSBjdXJyZW50IGVmZm9ydCB0
-byBlbmFibGUgWGVuIG9uIFJJU0MtVi4gRG8gd2UgZXhwZWN0IHRoaXMKPiBvcHRpb24gdG8gYmUg
-dXNhYmxlIGZvciB0aGlzIGFyY2hpdGVjdHVyZT8KCkl0IHdpbGwgZGVwZW5kIG9uIHdoZXRoZXIg
-dGhlIFhlbiBSSVNDLVYgaW1wbGVtZW50YXRpb24gbWFuZGF0ZXMgYW4KSU9NTVUsIGZvciBleGFt
-cGxlIEFybSBkb2Vzbid0IGFuZCBoZW5jZSB1c2VzIGFuIGlkZW50aXR5IHAybSBmb3IKZG9tMC4g
-SWYgUklTQy1WIGRvZXMgdGhlIHNhbWUgdGhlbiBJIHdvdWxkIGFzc3VtZSB0aGlzIHdvbid0IGJl
-CnN1aXRhYmxlIGFzLWlzIChub3QgdGhhdCBpdCBjb3VsZG4ndCBiZSBtYWRlIHRvIHdvcmspLgoK
-SU1PIGl0IHdhc24ndCBjbGVhciBmcm9tIHRoZSBjb21tdW5pdHkgY2FsbCB3aGF0IHdhcyB0aGUg
-UklTQy1WIHBvcnQKcG9zaXRpb24gcmVnYXJkaW5nIHRoaXMsIGJ1dCBJSVJDIHRoZSBJT01NVSBz
-cGVjIGZvciBSSVNDLVYgd2FzIGJlaGluZAp0aGUgdmlydHVhbGl6YXRpb24gb25lLCBzbyBpdCdz
-IGxpa2VseSB0aGF0IHF1aXRlIGEgbG90IG9mIGhhcmR3YXJlCndpbGwgaGF2ZSBoYXJkd2FyZSB2
-aXJ0dWFsaXphdGlvbiBzdXBwb3J0IGJ1dCBubyBJT01NVSwgaW4gd2hpY2ggY2FzZQpJIHRoaW5r
-IGl0J3MgbGlrZWx5IHRoZSBSSVNDLVYgcG9ydCB3aWxsIGZvbGxvdyBBcm0gYW5kIGltcGxlbWVu
-dCBhbgppZGVudGl0eSBwMm0uCgo+IElmIHllcywgSSdtIGZpbmUgd2l0aCB0aGUKPiBleGNsdXNp
-b24gb2YgQXJtLCBvdGhlcndpc2UgSSdkIG9wdCBmb3IgZGVmYXVsdGluZyB0byB5ZXMgb25seSBm
-b3IKPiBYODYuCj4gCj4gRWl0aGVyIHdheSB5b3UgY2FuIGhhdmUgbXk6Cj4gCj4gUmV2aWV3ZWQt
-Ynk6IEp1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT4KClRoYW5rcy4gRmVlbCBmcmVlIHRv
-IGNoYW5nZSB0aGUgJ1pPTkVfREVWSUNFICYmICFBUk0gJiYgIUFSTTY0JyB0bwonWk9ORV9ERVZJ
-Q0UgJiYgWDg2JyBpZiB5b3UgdGhpbmsgaXQncyBzYWZlci4KClJvZ2VyLgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+patch #1 and #3 is clean up, patch #2 is for code refactoring
+
+Changes since v1:
+- Rewrite the commits messages and patch name in #1
+- Rewrite the commits message in #2.
+- Add the new patch #3
+
+Changes since v2:
+- merge patch #3 into patch #2
+
+Tian Tao (2):
+  drm/hisilicon: Remove the unused include statements
+  drm/hisilicon: Code refactoring for hibmc_drv_de
+
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 58 ++++++------------------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  |  5 --
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  2 +
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  2 -
+ 4 files changed, 15 insertions(+), 52 deletions(-)
+
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
