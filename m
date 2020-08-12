@@ -1,55 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C4524348F
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DCA243498
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7916E50C;
-	Thu, 13 Aug 2020 07:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A046E544;
+	Thu, 13 Aug 2020 07:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 93217 seconds by postgrey-1.36 at gabe;
- Wed, 12 Aug 2020 13:10:11 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015086E0EF
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 13:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597237810;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:Cc:To:References:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=Kcodj0v7+WjSyfmFV8xxq/qYKikq4tATpX4BNGbJoj0=;
- b=k19xOo1HmqMAazoYZTURVLYufwTuhRTFmzqhE9KVjwVUA2xbxQlEjgy+KP95KPbJ60
- e88jNxnLyyWC4C7NQX8aWHzUkXO/A73YfSlKYi/AHSVa3llF5BjR/rI+UD66CRnTnjTm
- YUb9TgmpIS4OwlTLJhXleF8242bVJ0JRWxy9CLsDg+iwXGthjFgqN6K1bLd6jmw3prcb
- 9yKexEVaJFFechKWli3BxzudVgTi4HhhM1mV+2aaNbjF1tzdPidnhRYDv43GXQpL/o7S
- 1O9c+v8A8FJrmXsm2U6MeML7tog55AB46kFNkQ2sUr3vQh+/gSEQm84dl+aTrSv605/D
- s2IA==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPgBLnW+lALRBb0WtQiyeOSIyvQMpg=="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a02:8109:89c0:ebfc:b869:b453:e120:98dd]
- by smtp.strato.de (RZmta 46.10.5 AUTH)
- with ESMTPSA id 60686ew7CD9ocIN
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 12 Aug 2020 15:09:50 +0200 (CEST)
-Subject: [Virtual ppce500] virtio_gpu virtio0: swiotlb buffer is full
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-References: <87h7tb4zwp.fsf@linux.ibm.com>
- <E1C071A5-19D1-4493-B04A-4507A70D7848@xenosoft.de>
- <bc1975fb-23df-09c2-540a-c13b39ad56c5@xenosoft.de>
- <51482c70-1007-1202-9ed1-2d174c1e923f@xenosoft.de>
- <9688335c-d7d0-9eaa-22c6-511e708e0d2a@linux.ibm.com>
- <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
-To: daniel.vetter@ffwll.ch
-Message-ID: <3162da18-462c-72b4-f8f0-eef896c6b162@xenosoft.de>
-Date: Wed, 12 Aug 2020 15:09:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
-Content-Language: de-DE
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DFE0B6E123
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 14:02:50 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.76,304,1592838000"; d="scan'208";a="54444312"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie5.idc.renesas.com with ESMTP; 12 Aug 2020 23:02:49 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5B8704007553;
+ Wed, 12 Aug 2020 23:02:46 +0900 (JST)
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>
+Subject: [PATCH 0/9] r8a774e1 add support for DU, HDMI and LVDS
+Date: Wed, 12 Aug 2020 15:02:08 +0100
+Message-Id: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Thu, 13 Aug 2020 07:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,101 +42,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>,
- mad skateman <madskateman@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "kvm-ppc@vger.kernel.org" <kvm-ppc@vger.kernel.org>,
- "R.T.Dickinson" <rtd2@xtra.co.nz>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gRGFuaWVsLAoKVGhlIFZpcnRJTy1HUFUgZG9lc24ndCB3b3JrIGFueW1vcmUgd2l0aCB0
-aGUgbGF0ZXN0IEdpdCBrZXJuZWwgaW4gYSAKdmlydHVhbCBlNTUwMCBQUEM2NCBRRU1VIG1hY2hp
-bmUgWzEsMl0gYWZ0ZXIgdGhlIGNvbW1pdCAiZHJtL3ZpcnRpbzogCkNhbGwgdGhlIHJpZ2h0IHNo
-bWVtIGhlbHBlcnMiLiBbM10KVGhlIGtlcm5lbCA1Ljggd29ya3Mgd2l0aCB0aGUgVmlydElPLUdQ
-VSBpbiB0aGlzIHZpcnR1YWwgbWFjaGluZS4KCkkgYmlzZWN0ZWQgdG9kYXkgWzRdLgoKUmVzdWx0
-OiBkcm0vdmlydGlvOiBDYWxsIHRoZSByaWdodCBzaG1lbSBoZWxwZXJzICggCmQzMjNiYjQ0ZTRk
-MjM4MDJlYjI1ZDEzZGUxZjkzZjIzMzViZDYwZDApIFszXSBpcyB0aGUgZmlyc3QgYmFkIGNvbW1p
-dC4KCkkgd2FzIGFibGUgdG8gcmV2ZXJ0IHRoZSBmaXJzdCBiYWQgY29tbWl0LiBbNV0gQWZ0ZXIg
-dGhhdCBJIGNvbXBpbGVkIGEgCm5ldyBrZXJuZWwgYWdhaW4uIFRoZW4gSSB3YXMgYWJsZSB0byBi
-b290IExpbnV4IHdpdGggdGhpcyBrZXJuZWwgaW4gYSAKdmlydHVhbCBlNTUwMCBQUEM2NCBRRU1V
-IG1hY2hpbmUgd2l0aCB0aGUgVmlydElPLUdQVS4KCkkgY3JlYXRlZCBhIHBhdGNoLiBbNl0gV2l0
-aCB0aGlzIHBhdGNoIEkgY2FuIHVzZSB0aGUgVmlydElPLUdQVSBhZ2Fpbi4KCkNvdWxkIHlvdSBw
-bGVhc2UgY2hlY2sgdGhlIGZpcnN0IGJhZCBjb21taXQ/CgpUaGFua3MsCkNocmlzdGlhbgoKWzFd
-IFFFTVUgY29tbWFuZDogcWVtdS1zeXN0ZW0tcHBjNjQgLU0gcHBjZTUwMCAtY3B1IGU1NTAwIC1l
-bmFibGUta3ZtIC1tIAoxMDI0IC1rZXJuZWwgdUltYWdlIC1kcml2ZSAKZm9ybWF0PXJhdyxmaWxl
-PWZpZW5peC1zb2FyXzMuMC0yMDIwNjA4LW5ldC5pbWcsaW5kZXg9MCxpZj12aXJ0aW8gLW5pYyAK
-dXNlcixtb2RlbD1lMTAwMCAtYXBwZW5kICJydyByb290PS9kZXYvdmRhMiIgLWRldmljZSB2aXJ0
-aW8tdmdhIC1kZXZpY2UgCnZpcnRpby1tb3VzZS1wY2kgLWRldmljZSB2aXJ0aW8ta2V5Ym9hcmQt
-cGNpIC1kZXZpY2UgcGNpLW9oY2ksaWQ9bmV3dXNiIAotZGV2aWNlIHVzYi1hdWRpbyxidXM9bmV3
-dXNiLjAgLXNtcCA0CgpbMl0gRXJyb3IgbWVzc2FnZXM6Cgp2aXJ0aW9fZ3B1IHZpcnRpbzA6IHN3
-aW90bGIgYnVmZmVyIGlzIGZ1bGwgKHN6OiA0MDk2IGJ5dGVzKSwgdG90YWwgMCAKKHNsb3RzKSwg
-dXNlZCAwIChzbG90cykKQlVHOiBLZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlIG9uIHJl
-YWQgYXQgMHgwMDAwMDAxMApGYXVsdGluZyBpbnN0cnVjdGlvbiBhZGRyZXNzOiAweGMwMDAwMDAw
-MDAwYzczMjQKT29wczogS2VybmVsIGFjY2VzcyBvZiBiYWQgYXJlYSwgc2lnOiAxMSBbIzFdCkJF
-IFBBR0VfU0laRT00SyBQUkVFTVBUIFNNUCBOUl9DUFVTPTQgUUVNVSBlNTAwCk1vZHVsZXMgbGlu
-a2VkIGluOgpDUFU6IDIgUElEOiAxNjc4IENvbW06IGt3b3JrZXIvMjoyIE5vdCB0YWludGVkIAo1
-LjktYTNfQS1FT05fWDUwMDAtMTE3MzUtZzA2YTgxYzFjN2RiOS1kaXJ0eSAjMQpXb3JrcXVldWU6
-IGV2ZW50cyAudmlydGlvX2dwdV9kZXF1ZXVlX2N0cmxfZnVuYwpOSVA6wqAgYzAwMDAwMDAwMDBj
-NzMyNCBMUjogYzAwMDAwMDAwMDBjNzJlNCBDVFI6IGMwMDAwMDAwMDA0NjI5MzAKUkVHUzogYzAw
-MDAwMDAzZGJhNzVlMCBUUkFQOiAwMzAwwqDCoCBOb3QgdGFpbnRlZCAKKDUuOS1hM19BLUVPTl9Y
-NTAwMC0xMTczNS1nMDZhODFjMWM3ZGI5LWRpcnR5KQpNU1I6wqAgMDAwMDAwMDA5MDAyOTAwMCA8
-Q0UsRUUsTUU+wqAgQ1I6IDI0MDAyMjg4wqAgWEVSOiAwMDAwMDAwMApERUFSOiAwMDAwMDAwMDAw
-MDAwMDEwIEVTUjogMDAwMDAwMDAwMDAwMDAwMCBJUlFNQVNLOiAwCkdQUjAwOiBjMDAwMDAwMDAw
-MGM2MTg4IGMwMDAwMDAwM2RiYTc4NzAgYzAwMDAwMDAwMTdmMjMwMCBjMDAwMDAwMDNkODkzMDEw
-CkdQUjA0OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDEgMDAwMDAwMDAwMDAwMDAw
-MCAwMDAwMDAwMDAwMDAwMDAwCkdQUjA4OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAw
-MDAgMDAwMDAwMDAwMDAwMDAwMCA3ZjdmN2Y3ZjdmN2Y3ZjdmCkdQUjEyOiAwMDAwMDAwMDI0MDAy
-Mjg0IGMwMDAwMDAwM2ZmZjkyMDAgYzAwMDAwMDAwMDA4YzNhMCBjMDAwMDAwMDA2MTU2NmMwCkdQ
-UjE2OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMCAw
-MDAwMDAwMDAwMDAwMDAwCkdQUjIwOiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAg
-MDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAwCkdQUjI0OiAwMDAwMDAwMDAwMDAwMDAx
-IDAwMDAwMDAwMDAxMTAwMDAgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAwCkdQUjI4
-OiBjMDAwMDAwMDNkODkzMDEwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMCBjMDAw
-MDAwMDNkODkzMDEwCk5JUCBbYzAwMDAwMDAwMDBjNzMyNF0gLmRtYV9kaXJlY3RfdW5tYXBfc2cr
-MHg0Yy8weGQ4CkxSIFtjMDAwMDAwMDAwMGM3MmU0XSAuZG1hX2RpcmVjdF91bm1hcF9zZysweGMv
-MHhkOApDYWxsIFRyYWNlOgpbYzAwMDAwMDAzZGJhNzg3MF0gW2MwMDAwMDAwM2RiYTc5NTBdIDB4
-YzAwMDAwMDAzZGJhNzk1MCAodW5yZWxpYWJsZSkKW2MwMDAwMDAwM2RiYTc5MjBdIFtjMDAwMDAw
-MDAwMGM2MTg4XSAuZG1hX3VubWFwX3NnX2F0dHJzKzB4NWMvMHg5OApbYzAwMDAwMDAzZGJhNzlk
-MF0gW2MwMDAwMDAwMDA1Y2Q0MzhdIC5kcm1fZ2VtX3NobWVtX2ZyZWVfb2JqZWN0KzB4OTgvMHhj
-YwpbYzAwMDAwMDAzZGJhN2E1MF0gW2MwMDAwMDAwMDA2YWY1YjRdIC52aXJ0aW9fZ3B1X2NsZWFu
-dXBfb2JqZWN0KzB4YzgvMHhkNApbYzAwMDAwMDAzZGJhN2FkMF0gW2MwMDAwMDAwMDA2YWQzYmNd
-IC52aXJ0aW9fZ3B1X2NtZF91bnJlZl9jYisweDFjLzB4MzAKW2MwMDAwMDAwM2RiYTdiNDBdIFtj
-MDAwMDAwMDAwNmFkYWI4XSAKLnZpcnRpb19ncHVfZGVxdWV1ZV9jdHJsX2Z1bmMrMHgyMDgvMHgy
-OGMKW2MwMDAwMDAwM2RiYTdjMTBdIFtjMDAwMDAwMDAwMDg2YjcwXSAucHJvY2Vzc19vbmVfd29y
-aysweDFhNC8weDI1OApbYzAwMDAwMDAzZGJhN2NiMF0gW2MwMDAwMDAwMDAwODcwZjRdIC53b3Jr
-ZXJfdGhyZWFkKzB4MjE0LzB4Mjg0CltjMDAwMDAwMDNkYmE3ZDcwXSBbYzAwMDAwMDAwMDA4YzRm
-MF0gLmt0aHJlYWQrMHgxNTAvMHgxNTgKW2MwMDAwMDAwM2RiYTdlMjBdIFtjMDAwMDAwMDAwMDAw
-ODJjXSAucmV0X2Zyb21fa2VybmVsX3RocmVhZCsweDU4LzB4NjAKSW5zdHJ1Y3Rpb24gZHVtcDoK
-ZjgyMWZmNTEgN2NiODJiNzggN2NkYjMzNzggNGUwMDAwMDAgN2NmYTNiNzggM2JjMDAwMDAgN2Y5
-ZWMwMDAgNDFmYzAwMTQKMzgyMTAwYjAgODE4MTAwMDggN2Q4MDgxMjAgNDhiYzFiYTggPGU5M2Qw
-MDEwPiBlYmZjMDI0OCA4MzNkMDAxOCA3ZmZmNDg1MAotLS1bIGVuZCB0cmFjZSBmMjhkMTk0ZDlm
-MDk1NWE4IF0tLS0KCnZpcnRpb19ncHUgdmlydGlvMDogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAo
-c3o6IDQwOTYgYnl0ZXMpLCB0b3RhbCAwIAooc2xvdHMpLCB1c2VkIDAgKHNsb3RzKQp2aXJ0aW9f
-Z3B1IHZpcnRpbzA6IHN3aW90bGIgYnVmZmVyIGlzIGZ1bGwgKHN6OiAxNjM4NCBieXRlcyksIHRv
-dGFsIDAgCihzbG90cyksIHVzZWQgMCAoc2xvdHMpCgotLS0KClszXSAKaHR0cHM6Ly9naXQua2Vy
-bmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbW1p
-dC8/aWQ9ZDMyM2JiNDRlNGQyMzgwMmViMjVkMTNkZTFmOTNmMjMzNWJkNjBkMAoKWzRdIGh0dHBz
-Oi8vZm9ydW0uaHlwZXJpb24tZW50ZXJ0YWlubWVudC5jb20vdmlld3RvcGljLnBocD9wPTUxMzc3
-I3A1MTM3NwoKWzVdIGdpdCByZXZlcnQgZDMyM2JiNDRlNGQyMzgwMmViMjVkMTNkZTFmOTNmMjMz
-NWJkNjBkMCAvL091dHB1dDogClttYXN0ZXIgOTY2OTUwZjcyNGU0XSBSZXZlcnQgImRybS92aXJ0
-aW86IENhbGwgdGhlIHJpZ2h0IHNobWVtIGhlbHBlcnMiIAoxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDEgZGVsZXRpb24oLSkKCls2XQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jIApiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdw
-dV9vYmplY3QuYwppbmRleCA2Y2NiZDAxY2Q4ODguLjM0NmNlZjVjZTI1MSAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS92aXJ0aW8vdmlydGdwdV9vYmplY3QuYwpAQCAtMTUwLDcgKzE1MCw3IEBAIHN0YXRpYyBp
-bnQgdmlydGlvX2dwdV9vYmplY3Rfc2htZW1faW5pdChzdHJ1Y3QgCnZpcnRpb19ncHVfZGV2aWNl
-ICp2Z2RldiwKIMKgwqDCoMKgIGlmIChyZXQgPCAwKQogwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
-LUVJTlZBTDsKCi3CoMKgwqAgc2htZW0tPnBhZ2VzID0gZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNf
-c2d0KCZiby0+YmFzZS5iYXNlKTsKK8KgwqDCoCBzaG1lbS0+cGFnZXMgPSBkcm1fZ2VtX3NobWVt
-X2dldF9zZ190YWJsZSgmYm8tPmJhc2UuYmFzZSk7CiDCoMKgwqDCoCBpZiAoIXNobWVtLT5wYWdl
-cykgewogwqDCoMKgwqDCoMKgwqDCoCBkcm1fZ2VtX3NobWVtX3VucGluKCZiby0+YmFzZS5iYXNl
-KTsKIMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Ci0tLQpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi All,
+
+This patch series adds support for DU, HDMI and LVDS to RZ/G2H SoC.
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (1):
+  arm64: dts: renesas: r8a774e1-hihope-rzg2h: Setup DU clocks
+
+Marian-Cristian Rotariu (8):
+  dt-bindings: display: renesas,du: Document r8a774e1 bindings
+  drm: rcar-du: Add support for R8A774E1 SoC
+  arm64: dts: renesas: r8a774e1: Populate DU device node
+  dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
+  dt-bindings: display: renesas,dw-hdmi: Add r8a774e1 support
+  arm64: dts: renesas: r8a774e1: Populate HDMI encoder node
+  drm: rcar-du: lvds: Add support for R8A774E1 SoC
+  arm64: dts: renesas: r8a774e1: Add LVDS device node
+
+ .../display/bridge/renesas,dw-hdmi.txt        |  1 +
+ .../bindings/display/bridge/renesas,lvds.txt  |  1 +
+ .../bindings/display/renesas,du.txt           |  2 +
+ .../dts/renesas/r8a774e1-hihope-rzg2h.dts     | 11 ++++
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi     | 61 ++++++++++++++++++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         | 30 +++++++++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           |  1 +
+ 7 files changed, 104 insertions(+), 3 deletions(-)
+
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
