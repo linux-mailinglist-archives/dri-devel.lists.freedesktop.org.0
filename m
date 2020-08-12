@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21262243495
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AFF24348B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A584B6E542;
-	Thu, 13 Aug 2020 07:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B9A6E483;
+	Thu, 13 Aug 2020 07:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
- [IPv6:2607:f8b0:4864:20::b44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D356E081
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 16:44:11 +0000 (UTC)
-Received: by mail-yb1-xb44.google.com with SMTP id e187so1711516ybc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 09:44:11 -0700 (PDT)
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3E96E8F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 17:15:53 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id b17so3656569ion.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 10:15:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h2iquYo34B24ccVUFjjX9GsDTrAUF6/oZpH0oyCN98k=;
- b=eAMwB444A71l/cRUbD+Ov6X2M+XLfE3j2RwNgbktlSyqQRE98GrEcb8TF9WsarUwwr
- yoGMZUx3D+FSQbXcd4kFQytbcovydWsAdggBYrAJzlVEcQzKVNfHRAy1oUyEubVhxUIH
- qVVNEGopSMBuCfjO9qAwJ2Sd7A7D5evaTKOJMOsoUcTADVuA+eNbBvv4nId8gjcYdC2s
- PEKQhxE/fcN+iN8bg7ayC76b5AQ93ysEqLxXLDpzE0Bmn4qC76LjwOn4kIIVOF2okU4L
- Lo978xVQOdnQyO74JMHnE8yRQ8mBle1p/BaK2Ki/Zx4BYtUXGygtgLn+Bsz3OX1vI+Cx
- MDvA==
+ :cc; bh=4FHPwIDokTxaV01WqdBixhHARN/0PwLwli+q7UO4rYQ=;
+ b=LFi2sEFi7HoDKEDbKjtKUvMmpAVwD3RZAlhQQxtjdZlRr9uaMcyk9uzMr6hDBWPFYS
+ LKh6Iyni4oTGtKnCLVYBnDe9M3DVmimVgdXyA25VX6eTIDPeUOi+qQV/IOvmyN9BAi/n
+ eH926zlEVPVNhUykbFoSvSkV57Y6GoE7ftrJcPKkqbeuf2v7iR+5pkD30aqXQ5be44hq
+ xbm/cWY7SZKpdeCSEMgT8nF8iDYOyD3HMn3ldJGPScodjCfS0rgN6cW6elVRRmHZMIUh
+ tEcAPjQy2e/zKkDezCVEN7/SyN+ApT9HKacIULXmgZmaUuXhCc4FQl4Sr/ugjCTBCVjY
+ dE4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=h2iquYo34B24ccVUFjjX9GsDTrAUF6/oZpH0oyCN98k=;
- b=KlFzIm9T0BLahv641Q0k8qczeP8jQ2kQUwgjVNk2LF2m+J0hXojHvD1n9yRX/Awr8g
- eStuTxnjB4YYbxPLckyZtYcHlncyDMFzYazfa6o3vIyXbhRI4+qa6wXgTiUnSifRLKlU
- lwlc3KZdU2R/VgOmMrzgm5WiLn3djtwwKrKiFGtEVzJeleCw/UQFb3z8bVoK4pNZXIVB
- Vbx48EwyOf8iClpnxbb9pAQlFnflBIMrP5EEeT6rUbVWd/Htwc+G5KVXbwyb0/c9kHFR
- B3p/YI9DA1E6mGOEXlGMQZNy/jdh1ShhMEgakfJK+TSzGOmc5wmg5HiL5Fx/BiyoiX+x
- 1cqQ==
-X-Gm-Message-State: AOAM5314eld1zb8KcDH4drSiWcEyizn1kx6/JQbtLOV47qk2Y9dr7f9g
- OqkziJpM0PAZ3wuqF8rr/p6EhN2nzkPgYk+W68g=
-X-Google-Smtp-Source: ABdhPJxyQDmaRXdOzNXEYlfOCuSoxFSZaPeNK9+n9dM0SkJ0H7uMGBBt+8dZSyB8CYaVvKi2NFKSJCZQ3UbnYVl7EaE=
-X-Received: by 2002:a5b:40f:: with SMTP id m15mr305211ybp.25.1597250650957;
- Wed, 12 Aug 2020 09:44:10 -0700 (PDT)
+ bh=4FHPwIDokTxaV01WqdBixhHARN/0PwLwli+q7UO4rYQ=;
+ b=lYTeh/Y1FhQI96FBawgkLGg7ADE7iY6o2lM7J/vyf+UytAigcKrn+kqSgapvRr1L2U
+ L21j6l/j+t+Ozl9vBzsHn8tmPsxVGh2rX308c1ksGjRrd43haYuo/+DYW/JUjaAhmlPZ
+ eQfKdq2kpbGoEUxTg4erMDVC7qBCgdnK/y5Q2bbalQWsNUv6ZkAftXZA0zEqqs7ypL3/
+ nkxF0/SScwAAQJIseDjzioDCOqi5DUH/TsugI2g3Rdu/Xz+4KoIJ3Zom8veugB/0ZUF7
+ tPGTcQ1E/EpOm5ZUDotgmyjux+x3nWeirz0WF1RQHlrA14RGfH9Y6ctGpgJhsdtTwaqx
+ OdKw==
+X-Gm-Message-State: AOAM533H+zl4xXqDk5/SwwaMe2sbTThweV3CnW5e3TzT1/+tD7ZWIOOK
+ 6Tu86TFyS3SGLyRu7QxMbdBama3lkPEhxUoECEI=
+X-Google-Smtp-Source: ABdhPJzZJ+wkwSRVJFSSsAhzXMyiwZ1JniTfmBYMAjd7g0Peah0qCY9sKBQb0K7WMrnmUxjqhH8Hl66dKjnpOZ9UgFA=
+X-Received: by 2002:a6b:e31a:: with SMTP id u26mr781847ioc.162.1597252552271; 
+ Wed, 12 Aug 2020 10:15:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200812163855.GU6057@pendragon.ideasonboard.com>
-In-Reply-To: <20200812163855.GU6057@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 12 Aug 2020 17:43:44 +0100
-Message-ID: <CA+V-a8uCuttdzdv7enetaxrXZJ2rkr-6OHZ7uXcQi1tCp9Cbxw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] r8a774e1 add support for DU, HDMI and LVDS
+References: <1597217150-22911-1-git-send-email-simhavcs@gmail.com>
+ <20200812095418.GG6057@pendragon.ideasonboard.com>
+ <CAGWqDJ4i=t4Noi7wjGDDhUYkB_uuQ6A-WiMrh1ErKRi2HU9t9w@mail.gmail.com>
+ <20200812131818.GI6057@pendragon.ideasonboard.com>
+ <CAGWqDJ6eHCNXb5dMCUJ785iUp7gjdCk0bB=GuZesVesaVACucQ@mail.gmail.com>
+In-Reply-To: <CAGWqDJ6eHCNXb5dMCUJ785iUp7gjdCk0bB=GuZesVesaVACucQ@mail.gmail.com>
+From: Vinay Simha B N <simhavcs@gmail.com>
+Date: Wed, 12 Aug 2020 22:45:40 +0530
+Message-ID: <CAGWqDJ5QWyvgJWyink1eH2fHhFWEKSei7XPCdtCRaM1BqRs-Tw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge/tc358775: Fixes bus formats read
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-Mailman-Approved-At: Thu, 13 Aug 2020 07:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,67 +65,331 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>, Magnus Damm <magnus.damm@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+laurent,
 
-On Wed, Aug 12, 2020 at 5:39 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patches.
->
-> On Wed, Aug 12, 2020 at 03:02:08PM +0100, Lad Prabhakar wrote:
-> > Hi All,
-> >
-> > This patch series adds support for DU, HDMI and LVDS to RZ/G2H SoC.
->
-> I have added patches 1/9, 2/9, 4/9, 5/9 and 7/9 to my tree. I expect
-> Geert to handle the rest.
->
-Thank you for the review and taking care of LVDS documentation binding patch.
+if i add the .atomic_get_input_bus_fmts =
+tc_bridge_get_input_bus_fmts, with the implementation suggested,
+system does not boot fully, the reason is, we capture all the
+supported input formats, but not sure where to set the final input
+format. Please suggest.
 
-Cheers,
-Prabhakar
+for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
+                input_fmts[i] = tc_lvds_in_bus_fmts[i];
 
-> > Lad Prabhakar (1):
-> >   arm64: dts: renesas: r8a774e1-hihope-rzg2h: Setup DU clocks
+        *num_input_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
+
+On Wed, Aug 12, 2020 at 8:25 PM Vinay Simha B N <simhavcs@gmail.com> wrote:
+>
+> laurent,
+>
+> Video data input format :  RGB666 loosely packed 24 bits per pixel
+> Can we use MEDIA_BUS_FMT_RGB666_1X24_CPADHI? There was no information
+> wrt CPADHI or for loosely packed
+>
+> static const u32 tc_lvds_in_bus_fmts[] = {
+>         MEDIA_BUS_FMT_RGB565_1X16,
+>         MEDIA_BUS_FMT_RGB666_1X18,
+>         MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
+>         MEDIA_BUS_FMT_RBG888_1X24,
+> };
+>
+> for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
+>                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
+> >> This will have all the available input formats, but finally which video data input format chosen?
+> Since dsi->format = MIPI_DSI_FMT_RGB888 is used does it chooses
+> MEDIA_BUS_FMT_RBG888_1X24 by the drm pipeline
+>
+> On Wed, Aug 12, 2020 at 6:48 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
 > >
-> > Marian-Cristian Rotariu (8):
-> >   dt-bindings: display: renesas,du: Document r8a774e1 bindings
-> >   drm: rcar-du: Add support for R8A774E1 SoC
-> >   arm64: dts: renesas: r8a774e1: Populate DU device node
-> >   dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
-> >   dt-bindings: display: renesas,dw-hdmi: Add r8a774e1 support
-> >   arm64: dts: renesas: r8a774e1: Populate HDMI encoder node
-> >   drm: rcar-du: lvds: Add support for R8A774E1 SoC
-> >   arm64: dts: renesas: r8a774e1: Add LVDS device node
+> > Hi Vinay,
 > >
-> >  .../display/bridge/renesas,dw-hdmi.txt        |  1 +
-> >  .../bindings/display/bridge/renesas,lvds.txt  |  1 +
-> >  .../bindings/display/renesas,du.txt           |  2 +
-> >  .../dts/renesas/r8a774e1-hihope-rzg2h.dts     | 11 ++++
-> >  arch/arm64/boot/dts/renesas/r8a774e1.dtsi     | 61 ++++++++++++++++++-
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c         | 30 +++++++++
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c           |  1 +
-> >  7 files changed, 104 insertions(+), 3 deletions(-)
+> > On Wed, Aug 12, 2020 at 06:07:52PM +0530, Vinay Simha B N wrote:
+> > > On Wed, Aug 12, 2020 at 3:24 PM Laurent Pinchart wrote:
+> > > > On Wed, Aug 12, 2020 at 12:55:50PM +0530, Vinay Simha BN wrote:
+> > > > > - bus formats read from drm_bridge_state.output_bus_cfg.format
+> > > > >   and .atomic_get_input_bus_fmts() instead of connector
+> > > > >
+> > > > > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
+> > > > >
+> > > > > ---
+> > > > >  v1:
+> > > > >  * Laurent Pinchart review comments incorporated
+> > > > >    drm_bridge_state.output_bus_cfg.format
+> > > > >    instead of connector
+> > > > > ---
+> > > > >  drivers/gpu/drm/bridge/tc358775.c | 76 ++++++++++++++++++++++++++++++---------
+> > > > >  1 file changed, 59 insertions(+), 17 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+> > > > > index 7da15cd..5d8714a 100644
+> > > > > --- a/drivers/gpu/drm/bridge/tc358775.c
+> > > > > +++ b/drivers/gpu/drm/bridge/tc358775.c
+> > > > > @@ -271,6 +271,13 @@ struct tc_data {
+> > > > >       struct gpio_desc        *stby_gpio;
+> > > > >       u8                      lvds_link; /* single-link or dual-link */
+> > > > >       u8                      bpc;
+> > > > > +     u32                     output_bus_fmt;
+> > > > > +};
+> > > > > +
+> > > > > +static const u32 tc_lvds_out_bus_fmts[] = {
+> > > > > +     MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> > > > > +     MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> > > > > +     MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> > > > >  };
+> > > > >
+> > > > >  static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
+> > > > > @@ -359,19 +366,6 @@ static void d2l_write(struct i2c_client *i2c, u16 addr, u32 val)
+> > > > >                       ret, addr);
+> > > > >  }
+> > > > >
+> > > > > -/* helper function to access bus_formats */
+> > > > > -static struct drm_connector *get_connector(struct drm_encoder *encoder)
+> > > > > -{
+> > > > > -     struct drm_device *dev = encoder->dev;
+> > > > > -     struct drm_connector *connector;
+> > > > > -
+> > > > > -     list_for_each_entry(connector, &dev->mode_config.connector_list, head)
+> > > > > -             if (connector->encoder == encoder)
+> > > > > -                     return connector;
+> > > > > -
+> > > > > -     return NULL;
+> > > > > -}
+> > > > > -
+> > > > >  static void tc_bridge_enable(struct drm_bridge *bridge)
+> > > > >  {
+> > > > >       struct tc_data *tc = bridge_to_tc(bridge);
+> > > > > @@ -380,7 +374,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+> > > > >       u32 val = 0;
+> > > > >       u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
+> > > > >       struct drm_display_mode *mode;
+> > > > > -     struct drm_connector *connector = get_connector(bridge->encoder);
+> > > > >
+> > > > >       mode = &bridge->encoder->crtc->state->adjusted_mode;
+> > > > >
+> > > > > @@ -451,14 +444,13 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+> > > > >       d2l_write(tc->i2c, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
+> > > > >
+> > > > >       dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
+> > > > > -             connector->display_info.bus_formats[0],
+> > > > > +             tc->output_bus_fmt,
+> > > > >               tc->bpc);
+> > > > >       /*
+> > > > >        * Default hardware register settings of tc358775 configured
+> > > > >        * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24 format
+> > > > >        */
+> > > > > -     if (connector->display_info.bus_formats[0] ==
+> > > > > -             MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+> > > > > +     if (tc->output_bus_fmt == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+> > > > >               /* VESA-24 */
+> > > > >               d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
+> > > > >               d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_R7, LVI_R5, LVI_G0));
+> > > > > @@ -590,6 +582,51 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+> > > > >       return 0;
+> > > > >  }
+> > > > >
+> > > > > +static int tc_bridge_atomic_check(struct drm_bridge *bridge,
+> > > > > +                               struct drm_bridge_state *bridge_state,
+> > > > > +                               struct drm_crtc_state *crtc_state,
+> > > > > +                               struct drm_connector_state *conn_state)
+> > > > > +{
+> > > > > +     struct tc_data *tc = bridge_to_tc(bridge);
+> > > > > +
+> > > > > +     tc->output_bus_fmt = bridge_state->output_bus_cfg.format;
+> > > >
+> > > > .atomic_check() isn't allowed to modify the device state, neither the
+> > > > hardware state nor the software state in drm_bridge or tc_data. You can
+> > > > instead access the bridge state directly in tc_bridge_enable(), with
+> > > >
+> > > >         struct drm_bridge_state *state =
+> > > >                 drm_priv_to_bridge_state(bridge->base.state);
+> > >
+> > > Currently the driver is picking up from the dts panel
+> > > (data-mapping = "vesa-24";) or jeida-24 or jeida-18.
+> > >
+> > > Does state->output_bus_cfg.format  get set from the data-mapping?
+> >
+> > It should. The drm_panel should take care of that. In
+> > panel_simple_get_non_edid_modes(), it calls
+> >
+> >         if (panel->desc->bus_format)
+> >                 drm_display_info_set_bus_formats(&connector->display_info,
+> >                                                  &panel->desc->bus_format, 1);
+> >
+> > to initialize the bus format in display_info. Then, the DRM bridge
+> > helper drm_atomic_bridge_chain_select_bus_fmts() retrieves the output
+> > format by calling .atomic_get_output_bus_fmts() if implemented by the
+> > last bridge in the chain, or directly from the connector display_info.
+> > The last bridge in the chain is a DRM panel bridge, and doesn't
+> > implement .atomic_get_output_bus_fmts(), so the format from display_info
+> > is used, and is stored in the output_bus_cfg.format field of this bridge
+> > in select_bus_fmt_recursive().
+> >
+> > If something doesn't work according to the plan, I can help you
+> > debugging.
+> >
+> > > > > +
+> > > > > +     dev_dbg(tc->dev, "output_bus_fmt %04x\n", tc->output_bus_fmt);
+> > > > > +
+> > > > > +     return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static u32 *
+> > > > > +tc_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+> > > > > +                          struct drm_bridge_state *bridge_state,
+> > > > > +                          struct drm_crtc_state *crtc_state,
+> > > > > +                          struct drm_connector_state *conn_state,
+> > > > > +                          u32 output_fmt,
+> > > > > +                          unsigned int *num_input_fmts)
+> > > > > +{
+> > > > > +     u32 *input_fmts = NULL;
+> > > > > +     int i;
+> > > >
+> > > > i only takes positive values, so it can be an unsigned int.
+> > > >
+> > > > > +
+> > > > > +     *num_input_fmts = 0;
+> > > > > +
+> > > > > +     for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
+> > > > > +             if (output_fmt == tc_lvds_out_bus_fmts[i]) {
+> > > > > +                     *num_input_fmts = 1;
+> > > > > +                     input_fmts = kcalloc(*num_input_fmts,
+> > > > > +                                          sizeof(*input_fmts),
+> > > > > +                                          GFP_KERNEL);
+> > > > > +                     if (!input_fmts)
+> > > > > +                             return NULL;
+> > > > > +
+> > > > > +                     input_fmts[0] = output_fmt;
+> > > >
+> > > > I don't think this is right, the input of the bridge isn't LVDS, is it ?
+> > >
+> > > Input to the bridge is DSI, format is already set
+> > >
+> > > dsi->format = MIPI_DSI_FMT_RGB888;
+> > >
+> > > enum mipi_dsi_pixel_format {
+> > >         MIPI_DSI_FMT_RGB888,
+> > >         MIPI_DSI_FMT_RGB666,
+> > >         MIPI_DSI_FMT_RGB666_PACKED,
+> > >         MIPI_DSI_FMT_RGB565,
+> > > };
+> > > include/drm/drm_mipi_dsi.h
+> > >
+> > > Why do we require this atomic_get_input_bus_fmts?
+> > >
+> > > Do i need to implement both atomic_get_input_bus_fmts and
+> > > atomic_get_output_bus_fmts?
+> >
+> > .atomic_get_output_bus_fmts() is only need for the last bridge in the
+> > chain, and is not mandatory when that bridge supports a single format.
+> > As this bridge can't be last (if the output is connect to a panel, there
+> > will be a drm_bridge wrapping the drm_panel), you don't have to
+> > implement that operation.
+> >
+> > .atomic_get_input_bus_fmts() is used to negotiate formats along the
+> > pipeline. The helps the DRM bridge helpers figure out what formats are
+> > possible, with the help of bridges that must report what input formats
+> > are compatible with a given output format. The DRM bridge helpers will
+> > take care of the rest.
+> >
+> > So, for this bridge, the input and output formats are decoupled. The
+> > bridge can output any of the three supported LVDS formats, regardless of
+> > what format it gets at its input. You should thus verify that the output
+> > format you receive in this function is supported (and return NULL if it
+> > isn't), and then return the list of supported input formats. If you
+> > don't implement .atomic_get_input_bus_fmts(), then the DRM bridge
+> > helpers will consider that the input and output formats are the same,
+> > and will set the output format of the previous bridge to, for example,
+> > MEDIA_BUS_FMT_RGB666_1X7X3_SPWG. It may work if the previous bridge
+> > doesn't care about its output format, but if it does, then it will be
+> > puzzled, as the previous bridge outputs DSI, not LVDS.
+> >
+> > > > As far as I can tell, the hardware support transcoding any of the
+> > > > supported input formats (RGB565, RGB666 or RGB888) to any of the
+> > > > supported output formats. How about the following ?
+> > > >
+> > > > static const u32 tc_lvds_in_bus_fmts[] = {
+> > > >         MEDIA_BUS_FMT_RGB565_1X16,
+> > > >         MEDIA_BUS_FMT_RGB666_1X18,
+> > > >         MEDIA_BUS_FMT_RBG888_1X24,
+> > > > };
+> > > >
+> > > > ...
+> > > >
+> > > >         u32 *input_fmts;
+> > > >         unsigned int i;
+> > > >
+> > > >         *num_input_fmts = 0;
+> > > >
+> > > >         for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
+> > > >                 if (output_fmt == tc_lvds_out_bus_fmts[i])
+> > > >                         break;
+> > > >         }
+> > > >
+> > > >         if (i == ARRAY_SIZE(tc_lvds_out_bus_fmts))
+> > > >                 return NULL;
+> > > >
+> > > >         input_fmts = kcalloc(*num_input_fmts, ARRAY_SIZE(tc_lvds_in_bus_fmts),
+> > > >                              GFP_KERNEL);
+> > > >         if (!input_fmts)
+> > > >                 return NULL;
+> > > >
+> > > >         for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
+> > > >                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
+> > > >
+> > > >         *num_inputs_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
+> > > >         return input_fmts;
+> > > >
+> > > > > +
+> > > > > +                     break;
+> > > > > +             }
+> > > > > +     }
+> > > > > +
+> > > > > +     return input_fmts;
+> > > > > +}
+> > > > > +
+> > > > >  static int tc_bridge_attach(struct drm_bridge *bridge,
+> > > > >                           enum drm_bridge_attach_flags flags)
+> > > > >  {
+> > > > > @@ -639,6 +676,11 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+> > > > >  }
+> > > > >
+> > > > >  static const struct drm_bridge_funcs tc_bridge_funcs = {
+> > > > > +     .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > > > > +     .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> > > > > +     .atomic_reset = drm_atomic_helper_bridge_reset,
+> > > > > +     .atomic_get_input_bus_fmts = tc_bridge_get_input_bus_fmts,
+> > > > > +     .atomic_check = tc_bridge_atomic_check,
+> > > > >       .attach = tc_bridge_attach,
+> > > > >       .pre_enable = tc_bridge_pre_enable,
+> > > > >       .enable = tc_bridge_enable,
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
+>
 >
 > --
-> Regards,
->
-> Laurent Pinchart
+> regards,
+> vinaysimha
+
+
+
+-- 
+regards,
+vinaysimha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
