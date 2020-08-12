@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209C3242DF6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 19:19:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2F4242DFE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 19:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF0086E942;
-	Wed, 12 Aug 2020 17:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78076E944;
+	Wed, 12 Aug 2020 17:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3089B6E940
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 17:19:40 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5f3424410000>; Wed, 12 Aug 2020 10:17:53 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Wed, 12 Aug 2020 10:19:39 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Wed, 12 Aug 2020 10:19:39 -0700
-Received: from [172.20.40.57] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Aug
- 2020 17:19:39 +0000
-Subject: Re: [git pull] drm for 5.8-rc1
-To: Karol Herbst <kherbst@redhat.com>
-References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
- <CAPj87rOrUHBZZR3cw+iqUMtZL1ZQyjd=RoM2yHt5oUeRO5uDTA@mail.gmail.com>
- <5ffa32db-4383-80f6-c0cf-a9bb12e729aa@nvidia.com>
- <a3d331e9-d17e-9135-68c7-8e3e10df184d@nvidia.com>
- <CAKMK7uG8x4dHrRnzK9FFrJbtWsdLk+TTObK9r-nSncKowHVe3A@mail.gmail.com>
- <CAPM=9twK34VyR2kwiR1jzxqys1Bng2Vt8FY6aQTvCe2GL0Zopg@mail.gmail.com>
- <261cd7c9-6853-3d5f-3a3e-86b65c9dba71@nvidia.com>
- <CACO55ttJwjh2HZsygwqA7HUeF5UMuP0=Y9RyZU=UJsf-gWGagA@mail.gmail.com>
- <ad64c242-95f3-d346-87f3-a9ac149dc3a2@nvidia.com>
- <CACO55tt81q3VwpEmz9wxeUzWGPLXA1XPj8ZgxhuELUBPDpX1PA@mail.gmail.com>
- <CACO55ts2AHgDNZKBvoU8NZf26V8BJDGkKiapY=1xaUQ1DrC8SA@mail.gmail.com>
- <CACO55tvF0dOQ=myUpccmfHc+hCVQZoXQnCA0iHeXQo3B=UaD0Q@mail.gmail.com>
- <CAKb7UviVa32hWv+y+_kwbZzkJAxKcWr1RPCgkGt-mi=uayUKyw@mail.gmail.com>
- <0e882aa7-d0ea-19b0-a13d-4f7bc0d384aa@nvidia.com>
- <CACO55ttP_J8riS_PhCG+-Br+AvsYKRTLg_+wn2pXF9kgXkmjeQ@mail.gmail.com>
-X-Nvconfidentiality: public
-From: James Jones <jajones@nvidia.com>
-Message-ID: <785eb70c-d9e7-dbdf-b044-337618fcea1a@nvidia.com>
-Date: Wed, 12 Aug 2020 10:19:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2856E944
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 17:22:29 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id v6so3622254iow.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 10:22:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mZPjNu9BenQRo9fcnBdbhlzFtj5SUldP3dStFNB84mA=;
+ b=CcIe/M1PZ+jTUOoiJWu6bW6DFrJPdoH+JuwCWRoCGPTCNT9uCYyqEVm9Cer5WRVTJM
+ zfoJFgjosw+cnk3Z9ww2iLYId1KX6HHnrIaLRV15aawW+aRmHUzzdhwOf1DT38E13UMw
+ 8yTqMryuSERw9dQfOqBpl3JGaWVwNPwCaCpL/2dB+vDqjxCHP3J4or7gVhHUzqA4W310
+ bHE2gSva3R6UsQL3hfgF3F9H05WZwdF513g2BqAlCNUs+mnvchOSlm1IHSSHES2l5BGw
+ RA6FTt09jhJoU17YrwaFYQTs9tDB5uBQytCdkg20zeeWfRAe02H7dSAREayZqnDE+jng
+ LKPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mZPjNu9BenQRo9fcnBdbhlzFtj5SUldP3dStFNB84mA=;
+ b=XV8amP96lYe7yrfyZO0SWlEORXkBlw5DaMLoz+q+nxorp4s+smzyHRfbLs0qvCeYKq
+ iniNpscZ75U772B8I9WdoN38uoz12Qy4R49j0aXs5chev2938dH8AlS1YAR2qBsMxGTZ
+ SHqDZvszMdedvQZ/3f9e2Iicq/umh+OT8QICNJtEpAOnrZZHfGkQnTxGPEXbkQtkY6Ve
+ cUnSrbfAnkabCKlFBz4F082rQVKZmlMjmBKdJLkh/7YYBl8jVrzyFJ1IDLgRbGCItn/W
+ Cxb2OYBOMbZK47JmGwdka5BQonAp7nYQoJaMDtqyTQDaPvDVgXH/qf0UgGAy61GqLN+I
+ UkEA==
+X-Gm-Message-State: AOAM533w5JKkuXuy71OSR4CBegFAoOpzYrly/5v5rqBf+tU3HWIeS4DE
+ /POFOQlqEKKVLDBPr1oADT7PyYK+3OCnm7U1npHrow==
+X-Google-Smtp-Source: ABdhPJw0/UHV/I2yH7l3I7TO3RHo6D305RKvj7oh8BMOFGuh2GH1WoQ07niOemrv0W3JdIYhv80cxWpiO1vgKAbeU9Q=
+X-Received: by 2002:a05:6602:2801:: with SMTP id
+ d1mr772410ioe.201.1597252947670; 
+ Wed, 12 Aug 2020 10:22:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACO55ttP_J8riS_PhCG+-Br+AvsYKRTLg_+wn2pXF9kgXkmjeQ@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1597252673; bh=yuijPWNjwcibu6hKpIN6Ivj94FWFR2PULoOE8EirIVU=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=P+wkvrMKenkOsMErFrZM6c5ycoixQ83ja8yDCAqqpRzgPLKvu9oBc0vtTpxLEhUw3
- 39LhkhcINRoD5pCKZSuUBc6vPioVj7stcGRsmF4WTqlVQNsvnpoxXj1weOX5P0uUCV
- I9oHPTMfWQ36yQFKOmKFMYgNOAvESRbdN2tBW/WX7kqOd8sMsXnJ2/E5Ybi1LvFUtV
- FV3XuyTShJQsVKrxtAqCVb2SsoK2VEvAetfjH9cXD7W/31slMH0uwK6ShIbJBcAnTp
- eZ6ghemYdw3S4te/XcnBwpoRLUEkZVI6Z95mAcM5Nnl/6N1JP2tDsrLaFbIpAUF8iU
- frydiTX9mxHQg==
+References: <20200623155907.22961-1-sean@poorly.run>
+ <20200623155907.22961-18-sean@poorly.run>
+ <20200709103712.GD13481@intel.com> <20200709122845.GP15183@intel.com>
+ <CAMavQKKFL11e6cCmQaVkyUgRsAst_F5=mwNf3q86qrmXWhvp5Q@mail.gmail.com>
+ <20200812070322.GG30770@intel.com>
+In-Reply-To: <20200812070322.GG30770@intel.com>
+From: Sean Paul <sean@poorly.run>
+Date: Wed, 12 Aug 2020 13:21:51 -0400
+Message-ID: <CAMavQKKw23K4BgcGPeUj10rHQzHyuxCFK_5XhuEcktqOHSj1KQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v7 17/17] drm/i915: Add HDCP 1.4 support for
+ MST connectors
+To: Anshuman Gupta <anshuman.gupta@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,165 +66,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <treding@nvidia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/12/20 10:10 AM, Karol Herbst wrote:
-> On Wed, Aug 12, 2020 at 7:03 PM James Jones <jajones@nvidia.com> wrote:
->>
->> On 8/12/20 5:37 AM, Ilia Mirkin wrote:
->>> On Wed, Aug 12, 2020 at 8:24 AM Karol Herbst <kherbst@redhat.com> wrote:
->>>>
->>>> On Wed, Aug 12, 2020 at 12:43 PM Karol Herbst <kherbst@redhat.com> wrote:
->>>>>
->>>>> On Wed, Aug 12, 2020 at 12:27 PM Karol Herbst <kherbst@redhat.com> wrote:
->>>>>>
->>>>>> On Wed, Aug 12, 2020 at 2:19 AM James Jones <jajones@nvidia.com> wrote:
->>>>>>>
->>>>>>> Sorry for the slow reply here as well.  I've been in the process of
->>>>>>> rebasing and reworking the userspace patches.  I'm not clear my changes
->>>>>>> will address the Jetson Nano issue, but if you'd like to try them, the
->>>>>>> latest userspace changes are available here:
->>>>>>>
->>>>>>>      https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3724
->>>>>>>
->>>>>>> And the tegra-drm kernel patches are here:
->>>>>>>
->>>>>>>
->>>>>>> https://patchwork.ozlabs.org/project/linux-tegra/patch/20191217005205.2573-1-jajones@nvidia.com/
->>>>>>>
->>>>>>> Those + the kernel changes addressed in this thread are everything I had
->>>>>>> outstanding.
->>>>>>>
->>>>>>
->>>>>> I don't know if that's caused by your changes or not, but now the
->>>>>> assert I hit is a different one pointing out that
->>>>>> nvc0_miptree_select_best_modifier fails in a certain case and returns
->>>>>> MOD_INVALID... anyway, it seems like with your patches applied it's
->>>>>> now way easier to debug and figure out what's going wrong, so maybe I
->>>>>> can figure it out now :)
->>>>>>
->>>>>
->>>>> collected some information which might help to track it down.
->>>>>
->>>>> src/gallium/frontends/dri/dri2.c:648 is the assert hit: assert(*zsbuf)
->>>>>
->>>>> templ is {reference = {count = 0}, width0 = 300, height0 = 300, depth0
->>>>> = 1, array_size = 1, format = PIPE_FORMAT_Z24X8_UNORM, target =
->>>>> PIPE_TEXTURE_2D, last_level = 0, nr_samples = 0, nr_storage_samples =
->>>>> 0, usage = 0, bind = 1, flags = 0, next = 0x0, screen = 0x0}
->>>>>
->>>>> inside tegra_screen_resource_create modifier says
->>>>> DRM_FORMAT_MOD_INVALID as template->bind is 1
->>>>>
->>>>> and nvc0_miptree_select_best_modifier returns DRM_FORMAT_MOD_INVALID,
->>>>> so the call just returns NULL leading to the assert.
->>>>>
->>>>> Btw, this is on Xorg-1.20.8-1.fc32.aarch64 with glxgears.
->>>>>
->>>>
->>>> So I digged a bit deeper and here is what tripps it of:
->>>>
->>>> when the context gets made current, the normal framebuffer validation
->>>> and render buffer allocation is done, but we end up inside
->>>> tegra_screen_resource_create at some point with PIPE_BIND_SCANOUT set
->>>> in template->bind. Now the tegra driver forces the
->>>> DRM_FORMAT_MOD_LINEAR modifier and calls into
->>>> resource_create_with_modifiers.
->>>>
->>>> If it wouldn't do that, nouveau would allocate a tiled buffer, with
->>>> that it's linear and we at some point end up with an assert about a
->>>> depth_stencil buffer being there even though it shouldn't. If I always
->>>> use DRM_FORMAT_MOD_INVALID in tegra_screen_resource_create, things
->>>> just work.
->>>>
->>>> That's kind of the cause I pinpointed the issue down to. But I have no
->>>> idea what's supposed to happen and what the actual bug is.
->>>
->>> Yeah, the bug with tegra has always been "trying to render to linear
->>> color + tiled depth", which the hardware plain doesn't support. (And
->>> linear depth isn't a thing.)
->>>
->>> Question is whether what it's doing necessary. PIPE_BIND_SCANOUT
->>> (/linear) requirements are needed for DRI2 to work (well, maybe not in
->>> theory, but at least in practice the nouveau ddx expects linear
->>> buffers). However tegra operates on a more DRI3-like basis, so with
->>> "client" allocations, tiled should work OK as long as there's
->>> something in tegra to copy it to linear when necessary?
->>
->> I can confirm the above: Our hardware can't render to linear depth
->> buffers, nor can it mix linear color buffers with block linear depth
->> buffers.
->>
->> I think there's a misunderstanding on expected behavior of
->> resource_create_with_modifiers() here too:
->> tegra_screen_resource_create() is passing DRM_FORMAT_MOD_INVALID as the
->> only modifier in non-scanout cases.  Previously, I believe nouveau may
->> have treated that as "no modifiers specified.  Fall back to internal
->> layout selection logic", but in my patches I "fixed" it to match other
->> drivers' behavior, in that allocation will fail if that is the only
->> modifier in the list, since it is equivalent to passing in a list
->> containing only unsupported modifiers.  To get fallback behavior,
->> tegra_screen_resource_create() should pass in (NULL, 0) for (modifiers,
->> count), or just call resource_create() on the underlying screen instead.
+On Wed, Aug 12, 2020 at 3:15 AM Anshuman Gupta <anshuman.gupta@intel.com> wrote:
+>
+> On 2020-08-11 at 13:28:46 -0400, Sean Paul wrote:
+> > On Thu, Jul 9, 2020 at 8:40 AM Anshuman Gupta <anshuman.gupta@intel.com> wrote:
+> > >
+> >
+> > \snip
+> >
+> > > > > +static int
+> > > > > +intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *intel_dig_port,
+> > > > > +                               enum transcoder cpu_transcoder,
+> > > > > +                               bool enable)
+> > > > > +{
+> > > > > +   struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
+> > > > > +   int ret;
+> > > > > +
+> > > > > +   if (!enable)
+> > > > > +           usleep_range(6, 60); /* Bspec says >= 6us */
+> > > > > +
+> > > > > +   ret = intel_ddi_toggle_hdcp_signalling(&intel_dig_port->base,
+> > > > > +                                          cpu_transcoder, enable);
+> > > > Sean,
+> > > >
+> > > > This function toggles the TRANS_DDI_HDCP_SIGNALLING (9th)bit of TRANS_DDI_FUNC_CTL(tran)
+> > > > But in the hw specification this bit is mentioned to be ignored for non
+> > > > HDMI/DVI modes of the TRANS DDI.
+> > > >
+> > > > Any reason why we need this? Did you try with out this function?
+> > > >
+> >
+> > Under "Authentication Part 1 for Multi-stream DisplayPort", bspec says:
+> > 2. Select HDCP for the desired stream using the Pipe DDI Function
+> > Control register.
+> This is the 5th bit (Multistream HDCP Select) of Pipe DDI Function Control register i.e
+> TRANS_DDI_FUNC_CTL register. This bit ensures HDCP encryption to this transcoder stream when used in
+> multistream DisplayPort mode.
+> Unfortunately public specs of Gen11 has discrepency and doesn't describe this bit.
+> https://01.org/sites/default/files/documentation/intel-gfx-prm-osrc-icllp-vol02c-commandreference-registers-part2_0.pdf
+> Page No.1026 TRANS_DDI_FUNC_CTL
+> >
+> > > > Apart from that Patch looks good to me.
+> > > IMHO it seems we are still missing to enable the Multistream HDCP Select
+> > > bit (5) in TRANS_DDI_FUNC_CTL register which is required to enable the
+> > > stream encryption.
+> > >
+> >
+> > Could you send me some docs on this? I don't see have info on this bit.
+> This bit is not described in above mentioned public spec, but neither bit TRANS_DDI_HDCP_SIGNALLING bit (9th)
+> which used in this patch, what is the source of public B.spec you are following?
 
-...and in merging my code with Alyssa's new panfrost format modifier 
-support, I see panfrost does the opposite of this and treats a format 
-modifier list of only INVALID as "don't care".  I modeled the new 
-nouveau behavior on the Iris driver.  Now I'm not sure which is correct :-(
+I think it's been removed from public now, but there was a public doc
+on Intel's site when I originally wrote these which described the
+TRANS_DDI_FUNC_CTL register.
 
-Thanks,
--James
+So do I just need to set bit 5 at the same time as the HDCP SIGNALLING bit?
 
->> Beyond that, I can only offer my thoughts based on analysis of the code
->> referenced here so far:
->>
->> While I've learned from the origins of this thread applications/things
->> external to Mesa in general shouldn't be querying format modifiers of
->> buffers created without format modifiers, tegra is a Mesa internal
->> component that already has some intimate knowledge of how the nouveau
->> driver it sits on top of works.  Nouveau will always be able to
->> construct and return a valid format modifier for unorm single sampled
->> color buffers (and hopefully, anything that can scan out going forward),
->> both before and after my patches I believe, regardless of how they were
->> allocated.  After my patches, it should even work for things that can't
->> scan out in theory.  Hence, looking at this without knowledge of what
->> motivated the original changes, it seems like
->> tegra_screen_resource_create should just naively forward the
->> resource_create() call, relying on nouveau to select a layout and
->> provide a valid modifier when queried for import.  As Karol notes, this
->> works fine for at least this simple test case, and it's what nouveau
->> itself would be doing with an equivalent callstack, excepting the
->> modifier query, so I find it hard to believe it breaks some application
->> behavior.  It'll also end up being equivalent (in end result, not quite
->> semantically) to what dri3_alloc_render_buffer() was doing prior to the
->> patch mentioned that broke things for Karol, so certainly for the DRI3
->> usage it's the right behavior.
->>
->> Ilia, what in the nouveau DDX (As in Xfree86 DDX?) assumes linear
->> buffers?  It sounds like you don't think it will interact poorly with
->> this path regardless?  Thierry, do you recall what motivated the
->> force-linear code here?
->>
->> As to why this works for Thierry and not Karol, that's confusing.  Are
->> you both using the same X11 DDX (modesetting I assume?) and X server
->> versions?  Could it be a difference in client-side DRI library code somehow?
->>
-> 
-> it's X. 1.20.99.1 works, 1.20.8 is broken.
-> 
->> Thanks,
->> -James
->>
->>>     -ilia
->>>
->>
-> 
+Sean
+
+> Thanks,
+> Anshuman Gupta.
+> >
+> > Sean
+> >
+> > > Thanks,
+> > > Anshuman Gupta.
+> > > >
+> > > > -Ram
+> > > >
+> > > > > +   if (ret)
+> > > > > +           drm_dbg_kms(&i915->drm, "%s HDCP signalling failed (%d)\n",
+> > > > > +                         enable ? "Enable" : "Disable", ret);
+> > > > > +   return ret;
+> > > > > +}
+> > > > > +
+> > > > > +static
+> > > > > +bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *intel_dig_port,
+> > > > > +                             struct intel_connector *connector)
+> > > > > +{
+> > > > > +   struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
+> > > > > +   struct intel_dp *intel_dp = &intel_dig_port->dp;
+> > > > > +   struct drm_dp_query_stream_enc_status_ack_reply reply;
+> > > > > +   int ret;
+> > > > > +
+> > > > > +   if (!intel_dp_hdcp_check_link(intel_dig_port, connector))
+> > > > > +           return false;
+> > > > > +
+> > > > > +   ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
+> > > > > +                                             connector->port, &reply);
+> > > > > +   if (ret) {
+> > > > > +           drm_dbg_kms(&i915->drm,
+> > > > > +                       "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
+> > > > > +                       connector->base.base.id, connector->base.name, ret);
+> > > > > +           return false;
+> > > > > +   }
+> > > > > +
+> > > > > +   return reply.auth_completed && reply.encryption_enabled;
+> > > > > +}
+> > > > > +
+> > > > > +static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+> > > > > +   .write_an_aksv = intel_dp_hdcp_write_an_aksv,
+> > > > > +   .read_bksv = intel_dp_hdcp_read_bksv,
+> > > > > +   .read_bstatus = intel_dp_hdcp_read_bstatus,
+> > > > > +   .repeater_present = intel_dp_hdcp_repeater_present,
+> > > > > +   .read_ri_prime = intel_dp_hdcp_read_ri_prime,
+> > > > > +   .read_ksv_ready = intel_dp_hdcp_read_ksv_ready,
+> > > > > +   .read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
+> > > > > +   .read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
+> > > > > +   .toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
+> > > > > +   .check_link = intel_dp_mst_hdcp_check_link,
+> > > > > +   .hdcp_capable = intel_dp_hdcp_capable,
+> > > > > +
+> > > > > +   .protocol = HDCP_PROTOCOL_DP,
+> > > > > +};
+> > > > > +
+> > > > >  int intel_dp_init_hdcp(struct intel_digital_port *intel_dig_port,
+> > > > >                    struct intel_connector *intel_connector)
+> > > > >  {
+> > > > > @@ -630,7 +691,10 @@ int intel_dp_init_hdcp(struct intel_digital_port *intel_dig_port,
+> > > > >     if (!is_hdcp_supported(dev_priv, port))
+> > > > >             return 0;
+> > > > >
+> > > > > -   if (!intel_dp_is_edp(intel_dp))
+> > > > > +   if (intel_connector->mst_port)
+> > > > > +           return intel_hdcp_init(intel_connector, port,
+> > > > > +                                  &intel_dp_mst_hdcp_shim);
+> > > > > +   else if (!intel_dp_is_edp(intel_dp))
+> > > > >             return intel_hdcp_init(intel_connector, port,
+> > > > >                                    &intel_dp_hdcp_shim);
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > index 0675825dcc20..abaaeeb963d2 100644
+> > > > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > > @@ -37,6 +37,7 @@
+> > > > >  #include "intel_dp.h"
+> > > > >  #include "intel_dp_mst.h"
+> > > > >  #include "intel_dpio_phy.h"
+> > > > > +#include "intel_hdcp.h"
+> > > > >
+> > > > >  static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+> > > > >                                         struct intel_crtc_state *crtc_state,
+> > > > > @@ -352,6 +353,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+> > > > >     drm_dbg_kms(&i915->drm, "active links %d\n",
+> > > > >                 intel_dp->active_mst_links);
+> > > > >
+> > > > > +   intel_hdcp_disable(intel_mst->connector);
+> > > > > +
+> > > > >     drm_dp_mst_reset_vcpi_slots(&intel_dp->mst_mgr, connector->port);
+> > > > >
+> > > > >     ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr);
+> > > > > @@ -548,6 +551,13 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
+> > > > >
+> > > > >     if (pipe_config->has_audio)
+> > > > >             intel_audio_codec_enable(encoder, pipe_config, conn_state);
+> > > > > +
+> > > > > +   /* Enable hdcp if it's desired */
+> > > > > +   if (conn_state->content_protection ==
+> > > > > +       DRM_MODE_CONTENT_PROTECTION_DESIRED)
+> > > > > +           intel_hdcp_enable(to_intel_connector(conn_state->connector),
+> > > > > +                             pipe_config->cpu_transcoder,
+> > > > > +                             (u8)conn_state->hdcp_content_type);
+> > > > >  }
+> > > > >
+> > > > >  static bool intel_dp_mst_enc_get_hw_state(struct intel_encoder *encoder,
+> > > > > @@ -770,6 +780,14 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
+> > > > >     intel_attach_force_audio_property(connector);
+> > > > >     intel_attach_broadcast_rgb_property(connector);
+> > > > >
+> > > > > +
+> > > > > +   /* TODO: Figure out how to make HDCP work on GEN12+ */
+> > > > > +   if (INTEL_GEN(dev_priv) < 12) {
+> > > > > +           ret = intel_dp_init_hdcp(intel_dig_port, intel_connector);
+> > > > > +           if (ret)
+> > > > > +                   DRM_DEBUG_KMS("HDCP init failed, skipping.\n");
+> > > > > +   }
+> > > > > +
+> > > > >     /*
+> > > > >      * Reuse the prop from the SST connector because we're
+> > > > >      * not allowed to create new props after device registration.
+> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > > > > index 6bd0e4616ee1..ddc9db8de2bc 100644
+> > > > > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > > > > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > > > > @@ -2060,7 +2060,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+> > > > >     if (!shim)
+> > > > >             return -EINVAL;
+> > > > >
+> > > > > -   if (is_hdcp2_supported(dev_priv))
+> > > > > +   if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
+> > > > >             intel_hdcp2_init(connector, port, shim);
+> > > > >
+> > > > >     ret =
+> > > > > --
+> > > > > Sean Paul, Software Engineer, Google / Chromium OS
+> > > > >
+> > > > _______________________________________________
+> > > > Intel-gfx mailing list
+> > > > Intel-gfx@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
