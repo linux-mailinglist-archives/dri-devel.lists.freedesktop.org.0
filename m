@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DB32427A8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 11:33:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE512427EE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 11:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 510D06E2B4;
-	Wed, 12 Aug 2020 09:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1366E1B9;
+	Wed, 12 Aug 2020 09:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9F26E2B4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 09:33:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD3B6E1B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 09:54:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8190A9E7;
- Wed, 12 Aug 2020 11:33:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84D26595;
+ Wed, 12 Aug 2020 11:54:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597224809;
- bh=gW/RdlVLg2uDtxAk51NM9xVzGiDHLcaiEfWssaPGu3Q=;
+ s=mail; t=1597226072;
+ bh=LHqWYKsaLofHO0i8LcYbq9pwMdf80i4uyOKkmzxI25I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R8cuJyRViMDqhxVOSXvFGMGzwC1IKoZ0dn9N0oabm5o5Vvoj7oaA7b2c/PtstwDhV
- d1k3LCiTYTaJGhskdZxkncwpSd52mfN1KRvpacBy00tVvaNoUL77nGO2qPCRJuckNR
- U4fdpm0x+TR5qH7ytmnHZgltKaZxVddQvIl4tKx4=
-Date: Wed, 12 Aug 2020 12:33:15 +0300
+ b=tPI/LbM48L2Elv36CKvAcaIzpObJ0c7ZOHSh/Q8Z8smu3LIFW0EmAMsyvCwfd68ua
+ zT0QO9eGhaQZBM39vOLzwZlJ+fQ3oTRk0xhh02n1sGecfldwyRNRMsGUS3I7fxWxZN
+ f1LGxn4VG8pYdZr4SfMVUWXigxX+nXKieNP8L/mw=
+Date: Wed, 12 Aug 2020 12:54:18 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH 4/6] drm/rockchip: dw_hdmi: Add vendor hdmi properties
-Message-ID: <20200812093315.GE6057@pendragon.ideasonboard.com>
-References: <20200812083120.743-1-algea.cao@rock-chips.com>
- <20200812083543.4231-1-algea.cao@rock-chips.com>
+To: Vinay Simha BN <simhavcs@gmail.com>
+Subject: Re: [PATCH] drm/bridge/tc358775: Fixes bus formats read
+Message-ID: <20200812095418.GG6057@pendragon.ideasonboard.com>
+References: <1597217150-22911-1-git-send-email-simhavcs@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200812083543.4231-1-algea.cao@rock-chips.com>
+In-Reply-To: <1597217150-22911-1-git-send-email-simhavcs@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,315 +45,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, laurent.pinchart+renesas@ideasonboard.com,
- jonas@kwiboo.se, airlied@linux.ie, kuankuan.y@gmail.com,
- narmstrong@baylibre.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, a.hajda@samsung.com, tzimmermann@suse.de,
- jbrunet@baylibre.com, linux-rockchip@lists.infradead.org, darekm@google.com,
- sam@ravnborg.org, linux-arm-kernel@lists.infradead.org, cychiang@chromium.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Algea,
+Hi Vinay,
 
 Thank you for the patch.
 
-On Wed, Aug 12, 2020 at 04:35:43PM +0800, Algea Cao wrote:
-> Introduce struct dw_hdmi_property_ops in plat_data to support
-> vendor hdmi property.
+On Wed, Aug 12, 2020 at 12:55:50PM +0530, Vinay Simha BN wrote:
+> - bus formats read from drm_bridge_state.output_bus_cfg.format
+>   and .atomic_get_input_bus_fmts() instead of connector
 > 
-> Implement hdmi vendor properties color_depth_property and
-> hdmi_output_property to config hdmi output color depth and
-> color format.
+> Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
 > 
-> The property "hdmi_output_format", the possible value
-> could be:
->          - RGB
->          - YCBCR 444
->          - YCBCR 422
->          - YCBCR 420
-> 
-> Default value of the property is set to 0 = RGB, so no changes if you
-> don't set the property.
-> 
-> The property "hdmi_output_depth" possible value could be
->          - Automatic
->            This indicates prefer highest color depth, it is
->            30bit on rockcip platform.
->          - 24bit
->          - 30bit
-> The default value of property is 24bit.
-> 
-> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
 > ---
+>  v1:
+>  * Laurent Pinchart review comments incorporated
+>    drm_bridge_state.output_bus_cfg.format
+>    instead of connector
+> ---
+>  drivers/gpu/drm/bridge/tc358775.c | 76 ++++++++++++++++++++++++++++++---------
+>  1 file changed, 59 insertions(+), 17 deletions(-)
 > 
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 174 ++++++++++++++++++++
->  include/drm/bridge/dw_hdmi.h                |  22 +++
->  2 files changed, 196 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index 23de359a1dec..8f22d9a566db 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -52,6 +52,27 @@
->  
->  #define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
->  
-> +/* HDMI output pixel format */
-> +enum drm_hdmi_output_type {
-> +	DRM_HDMI_OUTPUT_DEFAULT_RGB, /* default RGB */
-> +	DRM_HDMI_OUTPUT_YCBCR444, /* YCBCR 444 */
-> +	DRM_HDMI_OUTPUT_YCBCR422, /* YCBCR 422 */
-> +	DRM_HDMI_OUTPUT_YCBCR420, /* YCBCR 420 */
-> +	DRM_HDMI_OUTPUT_YCBCR_HQ, /* Highest subsampled YUV */
-> +	DRM_HDMI_OUTPUT_YCBCR_LQ, /* Lowest subsampled YUV */
-> +	DRM_HDMI_OUTPUT_INVALID, /* Guess what ? */
-> +};
-
-Vendor-specific properties shouldn't use names starting with drm_ or
-DRM_, that's for the DRM core. But this doesn't seem specific to
-Rockchip at all, it should be a standard property. Additionally, new
-properties need to come with a userspace implementation showing their
-usage, in X.org, Weston, the Android DRM/KMS HW composer, or another
-relevant upstream project (a test tool is usually not enough).
-
-> +
-> +enum dw_hdmi_rockchip_color_depth {
-> +	ROCKCHIP_HDMI_DEPTH_8,
-> +	ROCKCHIP_HDMI_DEPTH_10,
-> +	ROCKCHIP_HDMI_DEPTH_12,
-> +	ROCKCHIP_HDMI_DEPTH_16,
-> +	ROCKCHIP_HDMI_DEPTH_420_10,
-> +	ROCKCHIP_HDMI_DEPTH_420_12,
-> +	ROCKCHIP_HDMI_DEPTH_420_16
+> diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+> index 7da15cd..5d8714a 100644
+> --- a/drivers/gpu/drm/bridge/tc358775.c
+> +++ b/drivers/gpu/drm/bridge/tc358775.c
+> @@ -271,6 +271,13 @@ struct tc_data {
+>  	struct gpio_desc	*stby_gpio;
+>  	u8			lvds_link; /* single-link or dual-link */
+>  	u8			bpc;
+> +	u32			output_bus_fmt;
 > +};
 > +
->  /**
->   * struct rockchip_hdmi_chip_data - splite the grf setting of kind of chips
->   * @lcdsel_grf_reg: grf register offset of lcdc select
-> @@ -73,6 +94,12 @@ struct rockchip_hdmi {
->  	struct clk *grf_clk;
->  	struct dw_hdmi *hdmi;
->  	struct phy *phy;
-> +
-> +	struct drm_property *color_depth_property;
-> +	struct drm_property *hdmi_output_property;
-> +
-> +	unsigned int colordepth;
-> +	enum drm_hdmi_output_type hdmi_output;
+> +static const u32 tc_lvds_out_bus_fmts[] = {
+> +	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> +	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
 >  };
 >  
->  #define to_rockchip_hdmi(x)	container_of(x, struct rockchip_hdmi, x)
-> @@ -327,6 +354,150 @@ static void dw_hdmi_rockchip_genphy_disable(struct dw_hdmi *dw_hdmi, void *data)
->  	phy_power_off(hdmi->phy);
+>  static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
+> @@ -359,19 +366,6 @@ static void d2l_write(struct i2c_client *i2c, u16 addr, u32 val)
+>  			ret, addr);
 >  }
 >  
-> +static const struct drm_prop_enum_list color_depth_enum_list[] = {
-> +	{ 0, "Automatic" }, /* Prefer highest color depth */
-> +	{ 8, "24bit" },
-> +	{ 10, "30bit" },
-> +};
-> +
-> +static const struct drm_prop_enum_list drm_hdmi_output_enum_list[] = {
-> +	{ DRM_HDMI_OUTPUT_DEFAULT_RGB, "output_rgb" },
-> +	{ DRM_HDMI_OUTPUT_YCBCR444, "output_ycbcr444" },
-> +	{ DRM_HDMI_OUTPUT_YCBCR422, "output_ycbcr422" },
-> +	{ DRM_HDMI_OUTPUT_YCBCR420, "output_ycbcr420" },
-> +	{ DRM_HDMI_OUTPUT_YCBCR_HQ, "output_ycbcr_high_subsampling" },
-> +	{ DRM_HDMI_OUTPUT_YCBCR_LQ, "output_ycbcr_low_subsampling" },
-> +	{ DRM_HDMI_OUTPUT_INVALID, "invalid_output" },
-> +};
-> +
-> +static void
-> +dw_hdmi_rockchip_attach_properties(struct drm_connector *connector,
-> +				   unsigned int color, int version,
-> +				   void *data)
-> +{
-> +	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-> +	struct drm_property *prop;
-> +
-> +	switch (color) {
-> +	case MEDIA_BUS_FMT_RGB101010_1X30:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_DEFAULT_RGB;
-> +		hdmi->colordepth = 10;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUV8_1X24:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR444;
-> +		hdmi->colordepth = 8;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUV10_1X30:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR444;
-> +		hdmi->colordepth = 10;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYVY10_1X20:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR422;
-> +		hdmi->colordepth = 10;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR422;
-> +		hdmi->colordepth = 8;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR420;
-> +		hdmi->colordepth = 8;
-> +		break;
-> +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR420;
-> +		hdmi->colordepth = 10;
-> +		break;
-> +	default:
-> +		hdmi->hdmi_output = DRM_HDMI_OUTPUT_DEFAULT_RGB;
-> +		hdmi->colordepth = 8;
-> +	}
-> +
-> +	prop = drm_property_create_enum(connector->dev, 0,
-> +					"hdmi_output_depth",
-> +					color_depth_enum_list,
-> +					ARRAY_SIZE(color_depth_enum_list));
-> +	if (prop) {
-> +		hdmi->color_depth_property = prop;
-> +		drm_object_attach_property(&connector->base, prop, 0);
-> +	}
-> +
-> +	prop = drm_property_create_enum(connector->dev, 0, "hdmi_output_format",
-> +					drm_hdmi_output_enum_list,
-> +					ARRAY_SIZE(drm_hdmi_output_enum_list));
-> +	if (prop) {
-> +		hdmi->hdmi_output_property = prop;
-> +		drm_object_attach_property(&connector->base, prop, 0);
-> +	}
-> +}
-> +
-> +static void
-> +dw_hdmi_rockchip_destroy_properties(struct drm_connector *connector,
-> +				    void *data)
-> +{
-> +	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-> +
-> +	if (hdmi->color_depth_property) {
-> +		drm_property_destroy(connector->dev,
-> +				     hdmi->color_depth_property);
-> +		hdmi->color_depth_property = NULL;
-> +	}
-> +
-> +	if (hdmi->hdmi_output_property) {
-> +		drm_property_destroy(connector->dev,
-> +				     hdmi->hdmi_output_property);
-> +		hdmi->hdmi_output_property = NULL;
-> +	}
-> +}
-> +
-> +static int
-> +dw_hdmi_rockchip_set_property(struct drm_connector *connector,
-> +			      struct drm_connector_state *state,
-> +			      struct drm_property *property,
-> +			      u64 val,
-> +			      void *data)
-> +{
-> +	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-> +
-> +	if (property == hdmi->color_depth_property) {
-> +		hdmi->colordepth = val;
-> +		return 0;
-> +	} else if (property == hdmi->hdmi_output_property) {
-> +		hdmi->hdmi_output = val;
-> +		return 0;
-> +	}
-> +
-> +	DRM_ERROR("failed to set rockchip hdmi connector property\n");
-> +	return -EINVAL;
-> +}
-> +
-> +static int
-> +dw_hdmi_rockchip_get_property(struct drm_connector *connector,
-> +			      const struct drm_connector_state *state,
-> +			      struct drm_property *property,
-> +			      u64 *val,
-> +			      void *data)
-> +{
-> +	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-> +
-> +	if (property == hdmi->color_depth_property) {
-> +		*val = hdmi->colordepth;
-> +		return 0;
-> +	} else if (property == hdmi->hdmi_output_property) {
-> +		*val = hdmi->hdmi_output;
-> +		return 0;
-> +	}
-> +
-> +	DRM_ERROR("failed to get rockchip hdmi connector property\n");
-> +	return -EINVAL;
-> +}
-> +
-> +static const struct dw_hdmi_property_ops dw_hdmi_rockchip_property_ops = {
-> +	.attach_properties	= dw_hdmi_rockchip_attach_properties,
-> +	.destroy_properties	= dw_hdmi_rockchip_destroy_properties,
-> +	.set_property		= dw_hdmi_rockchip_set_property,
-> +	.get_property		= dw_hdmi_rockchip_get_property,
-> +};
-> +
->  static void dw_hdmi_rk3228_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
+> -/* helper function to access bus_formats */
+> -static struct drm_connector *get_connector(struct drm_encoder *encoder)
+> -{
+> -	struct drm_device *dev = encoder->dev;
+> -	struct drm_connector *connector;
+> -
+> -	list_for_each_entry(connector, &dev->mode_config.connector_list, head)
+> -		if (connector->encoder == encoder)
+> -			return connector;
+> -
+> -	return NULL;
+> -}
+> -
+>  static void tc_bridge_enable(struct drm_bridge *bridge)
 >  {
->  	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-> @@ -511,6 +682,9 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
->  	hdmi->dev = &pdev->dev;
->  	hdmi->chip_data = plat_data->phy_data;
->  	plat_data->phy_data = hdmi;
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+> @@ -380,7 +374,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  	u32 val = 0;
+>  	u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
+>  	struct drm_display_mode *mode;
+> -	struct drm_connector *connector = get_connector(bridge->encoder);
+>  
+>  	mode = &bridge->encoder->crtc->state->adjusted_mode;
+>  
+> @@ -451,14 +444,13 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  	d2l_write(tc->i2c, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
+>  
+>  	dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
+> -		connector->display_info.bus_formats[0],
+> +		tc->output_bus_fmt,
+>  		tc->bpc);
+>  	/*
+>  	 * Default hardware register settings of tc358775 configured
+>  	 * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24 format
+>  	 */
+> -	if (connector->display_info.bus_formats[0] ==
+> -		MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+> +	if (tc->output_bus_fmt == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+>  		/* VESA-24 */
+>  		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
+>  		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_R7, LVI_R5, LVI_G0));
+> @@ -590,6 +582,51 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+>  	return 0;
+>  }
+>  
+> +static int tc_bridge_atomic_check(struct drm_bridge *bridge,
+> +				  struct drm_bridge_state *bridge_state,
+> +				  struct drm_crtc_state *crtc_state,
+> +				  struct drm_connector_state *conn_state)
+> +{
+> +	struct tc_data *tc = bridge_to_tc(bridge);
 > +
-> +	plat_data->property_ops = &dw_hdmi_rockchip_property_ops;
+> +	tc->output_bus_fmt = bridge_state->output_bus_cfg.format;
+
+.atomic_check() isn't allowed to modify the device state, neither the
+hardware state nor the software state in drm_bridge or tc_data. You can
+instead access the bridge state directly in tc_bridge_enable(), with
+
+	struct drm_bridge_state *state =
+		drm_priv_to_bridge_state(bridge->base.state);
+
 > +
->  	encoder = &hdmi->encoder;
->  
->  	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index ea34ca146b82..dc561ebe7a9b 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -6,6 +6,7 @@
->  #ifndef __DW_HDMI__
->  #define __DW_HDMI__
->  
-> +#include <drm/drm_property.h>
->  #include <sound/hdmi-codec.h>
->  
->  struct drm_display_info;
-> @@ -123,6 +124,24 @@ struct dw_hdmi_phy_ops {
->  	void (*setup_hpd)(struct dw_hdmi *hdmi, void *data);
->  };
->  
-> +struct dw_hdmi_property_ops {
-> +	void (*attach_properties)(struct drm_connector *connector,
-> +				  unsigned int color, int version,
-> +				  void *data);
-> +	void (*destroy_properties)(struct drm_connector *connector,
-> +				   void *data);
-> +	int (*set_property)(struct drm_connector *connector,
-> +			    struct drm_connector_state *state,
-> +			    struct drm_property *property,
-> +			    u64 val,
-> +			    void *data);
-> +	int (*get_property)(struct drm_connector *connector,
-> +			    const struct drm_connector_state *state,
-> +			    struct drm_property *property,
-> +			    u64 *val,
-> +			    void *data);
-> +};
+> +	dev_dbg(tc->dev, "output_bus_fmt %04x\n", tc->output_bus_fmt);
 > +
->  struct dw_hdmi_plat_data {
->  	struct regmap *regm;
->  
-> @@ -141,6 +160,9 @@ struct dw_hdmi_plat_data {
->  					   const struct drm_display_info *info,
->  					   const struct drm_display_mode *mode);
->  
-> +	/* Vendor Property support */
-> +	const struct dw_hdmi_property_ops *property_ops;
+> +	return 0;
+> +}
 > +
->  	/* Vendor PHY support */
->  	const struct dw_hdmi_phy_ops *phy_ops;
->  	const char *phy_name;
+> +static u32 *
+> +tc_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+> +			     struct drm_bridge_state *bridge_state,
+> +			     struct drm_crtc_state *crtc_state,
+> +			     struct drm_connector_state *conn_state,
+> +			     u32 output_fmt,
+> +			     unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts = NULL;
+> +	int i;
+
+i only takes positive values, so it can be an unsigned int.
+
+> +
+> +	*num_input_fmts = 0;
+> +
+> +	for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
+> +		if (output_fmt == tc_lvds_out_bus_fmts[i]) {
+> +			*num_input_fmts = 1;
+> +			input_fmts = kcalloc(*num_input_fmts,
+> +					     sizeof(*input_fmts),
+> +					     GFP_KERNEL);
+> +			if (!input_fmts)
+> +				return NULL;
+> +
+> +			input_fmts[0] = output_fmt;
+
+I don't think this is right, the input of the bridge isn't LVDS, is it ?
+As far as I can tell, the hardware support transcoding any of the
+supported input formats (RGB565, RGB666 or RGB888) to any of the
+supported output formats. How about the following ?
+
+static const u32 tc_lvds_in_bus_fmts[] = {
+	MEDIA_BUS_FMT_RGB565_1X16,
+	MEDIA_BUS_FMT_RGB666_1X18,
+	MEDIA_BUS_FMT_RBG888_1X24,
+};
+
+...
+
+	u32 *input_fmts;
+	unsigned int i;
+
+	*num_input_fmts = 0;
+
+	for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
+		if (output_fmt == tc_lvds_out_bus_fmts[i])
+			break;
+	}
+
+	if (i == ARRAY_SIZE(tc_lvds_out_bus_fmts))
+		return NULL;
+
+	input_fmts = kcalloc(*num_input_fmts, ARRAY_SIZE(tc_lvds_in_bus_fmts),
+			     GFP_KERNEL);
+	if (!input_fmts)
+		return NULL;
+
+	for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
+		input_fmts[i] = tc_lvds_in_bus_fmts[i];
+
+	*num_inputs_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
+	return input_fmts;
+
+> +
+> +			break;
+> +		}
+> +	}
+> +
+> +	return input_fmts;
+> +}
+> +
+>  static int tc_bridge_attach(struct drm_bridge *bridge,
+>  			    enum drm_bridge_attach_flags flags)
+>  {
+> @@ -639,6 +676,11 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  }
+>  
+>  static const struct drm_bridge_funcs tc_bridge_funcs = {
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_get_input_bus_fmts = tc_bridge_get_input_bus_fmts,
+> +	.atomic_check = tc_bridge_atomic_check,
+>  	.attach = tc_bridge_attach,
+>  	.pre_enable = tc_bridge_pre_enable,
+>  	.enable = tc_bridge_enable,
 
 -- 
 Regards,
