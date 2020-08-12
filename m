@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0840E2424D7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 06:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0AD2424E9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 06:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3A76E89E;
-	Wed, 12 Aug 2020 04:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0446E056;
+	Wed, 12 Aug 2020 04:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5259D6E89E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 04:43:48 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1597207433; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=1Yt3WgR6pbjW91EyE2P0uEN00ukYc144Z2IAF+biMD0=;
- b=XiWh94mlz5Quduc5beCBtKy2ptpB8ksyzKMA2+KKB8g+H0EL+/dldhWpuLD0vgQq0dBYYDKj
- LPfsF7m1DcOrQYQwVv/KINntxdkXMhA6cr4JLv4BQE0u9na/gCuhyZCX4cSTtHdCQ4uA3lPT
- MWttoAa2FkNCKmYUj5/+eOI2i/I=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5f33737ed48d4625caf6b447 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 12 Aug 2020 04:43:42
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 074D3C433C6; Wed, 12 Aug 2020 04:43:40 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6A5FEC43391;
- Wed, 12 Aug 2020 04:43:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6A5FEC43391
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=tanmay@codeaurora.org
-From: Tanmay Shah <tanmay@codeaurora.org>
-To: swboyd@chromium.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com
-Subject: [PATCH v10 5/5] drm/msm/dp: Add Display Port HPD feature
-Date: Tue, 11 Aug 2020 21:42:23 -0700
-Message-Id: <20200812044223.19279-6-tanmay@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200812044223.19279-1-tanmay@codeaurora.org>
-References: <20200812044223.19279-1-tanmay@codeaurora.org>
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 556B56E056
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 04:53:30 +0000 (UTC)
+Received: by mail-ej1-x642.google.com with SMTP id m22so792273eje.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Aug 2020 21:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=6wIp8t0nzxAu+Gvw3Raiqpihz3BHZz5alLcgMe2N8zc=;
+ b=k/0TTVDI9D6+2i2wAtubSL25Ph03TOV8KhvBuQN55BXp+IL56sizMdy+miy+X2WIHK
+ ZbbWFDyvgiqKcKlxlYUszQzJvZ3tbID4yU/8XDlNoC2nfnwrKotIeUvT/xQeaX7vOoGT
+ QiuMZMujg6mJBIuUOFfE6eRNvHOO85JnocfzmvO0/V77DdZ7H+gaFOdDKDaFneYJ40BK
+ OO+GKOKOvZdVZOpISyVhceNp45TXoATHdMhESt11wizt3rJeMDw4FVKy3slJ/kpfFbXj
+ XSE3d83qa867nRMVYqTk1ibHdp2FxDet/bwo3aWQ9J9nz4S6PTdXqTjnzMPBE0LPk9ix
+ Hq1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=6wIp8t0nzxAu+Gvw3Raiqpihz3BHZz5alLcgMe2N8zc=;
+ b=OpOYwAVWbHuDSOmW6XY508xgqZvVrjentpNgpETidMomtCTQq7t8hIi+ysO8xz21w8
+ ukj99ipyEFBbyMAR/C4SgVOpwuTWvZI0FDfhtYACHw+CjTa+OGPBCAFysidfrViK2EMF
+ Vmau+Yx0bh/OvcBYaqJcar94So/VZrU70wr65FhjsfQoihGemgCq8hENvA6Kvdmixexg
+ mQNTfOv2N5RoBCxpZI65I3t5d0OIHFjPI4ok4JVdwEcOMoc9I0LWGvGmc89Hq2r8e6Ux
+ J3a6E63WHZjILdl9wNLM87vi4ClkA6nz7/95KHguigis7X+56sY07lmIO8DHJfNbw7m3
+ uHlw==
+X-Gm-Message-State: AOAM531IFlz8IXCRSpf5xJzCf7ym5OhIBx8kCXBBwviEWeBVNNCuYVTc
+ cUUyRk1BmNhsvINL28PHN8k+lo2QiBDJk0kC+Rw=
+X-Google-Smtp-Source: ABdhPJzlQinBh5Vqwps6I4zj1g5bAhRMwe5y4/argNuva7bEeTbfrvgv0W/rBXoRS7if8SJkPRz8XeyYhD4aOW7o+bw=
+X-Received: by 2002:a17:906:d054:: with SMTP id
+ bo20mr17999687ejb.9.1597208008719; 
+ Tue, 11 Aug 2020 21:53:28 -0700 (PDT)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 12 Aug 2020 14:53:17 +1000
+Message-ID: <CAPM=9tyXhxOGiH9yRsQf5bQ22bib1m_wmJBaVDFxFkEh4Y+dtQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.9-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,415 +61,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- khsieh@codeaurora.org, seanpaul@chromium.org,
- Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Configure HPD registers in DP controller and
-enable HPD interrupt.
-
-Add interrupt to handle HPD connect and disconnect events.
-
-Changes in v8: None
-
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  18 ++++
- drivers/gpu/drm/msm/dp/dp_catalog.c     |  63 ++++++++------
- drivers/gpu/drm/msm/dp/dp_catalog.h     |   5 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c        |   1 -
- drivers/gpu/drm/msm/dp/dp_display.c     | 108 ++++++++++++++++++++++--
- drivers/gpu/drm/msm/dp/dp_reg.h         |  12 +++
- drivers/gpu/drm/msm/msm_drv.h           |   6 ++
- 7 files changed, 180 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index fe86d760ed01..99a83d75ce23 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -765,6 +765,23 @@ static void dpu_irq_preinstall(struct msm_kms *kms)
- 	dpu_core_irq_preinstall(dpu_kms);
- }
- 
-+static int dpu_irq_postinstall(struct msm_kms *kms)
-+{
-+	struct msm_drm_private *priv;
-+	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-+
-+	if (!dpu_kms || !dpu_kms->dev)
-+		return -EINVAL;
-+
-+	priv = dpu_kms->dev->dev_private;
-+	if (!priv)
-+		return -EINVAL;
-+
-+	msm_dp_irq_postinstall(priv->dp);
-+
-+	return 0;
-+}
-+
- static void dpu_irq_uninstall(struct msm_kms *kms)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-@@ -775,6 +792,7 @@ static void dpu_irq_uninstall(struct msm_kms *kms)
- static const struct msm_kms_funcs kms_funcs = {
- 	.hw_init         = dpu_kms_hw_init,
- 	.irq_preinstall  = dpu_irq_preinstall,
-+	.irq_postinstall = dpu_irq_postinstall,
- 	.irq_uninstall   = dpu_irq_uninstall,
- 	.irq             = dpu_irq,
- 	.enable_commit   = dpu_kms_enable_commit,
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index e506e0756e92..d186424044b1 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -17,7 +17,6 @@
- #define POLLING_SLEEP_US			1000
- #define POLLING_TIMEOUT_US			10000
- 
--#define REFTIMER_DEFAULT_VALUE			0x20000
- #define SCRAMBLER_RESET_COUNT_VALUE		0xFC
- 
- #define DP_INTERRUPT_STATUS_ACK_SHIFT	1
-@@ -731,35 +730,51 @@ void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog,
- 	}
- }
- 
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog, bool en)
-+void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
-+			u32 intr_mask, bool en)
- {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
- 
--	if (en) {
--		u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-+	u32 config = dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
- 
--		dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
--				DP_DP_HPD_PLUG_INT_ACK |
--				DP_DP_IRQ_HPD_INT_ACK |
--				DP_DP_HPD_REPLUG_INT_ACK |
--				DP_DP_HPD_UNPLUG_INT_ACK);
--		dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
--				DP_DP_HPD_PLUG_INT_MASK |
--				DP_DP_IRQ_HPD_INT_MASK |
--				DP_DP_HPD_REPLUG_INT_MASK |
--				DP_DP_HPD_UNPLUG_INT_MASK);
-+	config = (en ? config | intr_mask : config & ~intr_mask);
- 
--		/* Configure REFTIMER */
--		reftimer |= REFTIMER_DEFAULT_VALUE;
--		dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
--		/* Enable HPD */
--		dp_write_aux(catalog, REG_DP_DP_HPD_CTRL,
--				DP_DP_HPD_CTRL_HPD_EN);
--	} else {
--		/* Disable HPD */
--		dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, 0x0);
--	}
-+	dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
-+				config & DP_DP_HPD_INT_MASK);
-+}
-+
-+void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-+
-+	/* enable HPD interrupts */
-+	dp_catalog_hpd_config_intr(dp_catalog,
-+		DP_DP_HPD_PLUG_INT_MASK | DP_DP_IRQ_HPD_INT_MASK
-+		| DP_DP_HPD_UNPLUG_INT_MASK, true);
-+
-+	/* Configure REFTIMER and enable it */
-+	reftimer |= DP_DP_HPD_REFTIMER_ENABLE;
-+	dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
-+
-+	/* Enable HPD */
-+	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
-+}
-+
-+u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+	int isr = 0;
-+
-+	isr = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
-+	dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
-+				 (isr & DP_DP_HPD_INT_MASK));
-+
-+	return isr;
- }
- 
- int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 4cf9ad4206cc..bcd381bfc9cd 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -75,7 +75,10 @@ void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_usb_reset(struct dp_catalog *dp_catalog, bool flip);
- bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog, bool enable);
-+void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
-+			u32 intr_mask, bool en);
-+void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
-+u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_phy_lane_cfg(struct dp_catalog *dp_catalog, bool flipped,
- 				u8 lane_cnt);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 9a06cbf40af1..ae07e43b541b 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1563,7 +1563,6 @@ int dp_ctrl_on(struct dp_ctrl *dp_ctrl)
- 	rate = ctrl->panel->link_info.rate;
- 
- 	dp_power_clk_enable(ctrl->power, DP_CORE_PM, true);
--	dp_catalog_ctrl_hpd_config(ctrl->catalog, true);
- 
- 	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
- 		DRM_DEBUG_DP("using phy test link parameters\n");
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 86c958b21c97..36b6ee4131bb 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -17,6 +17,7 @@
- #include "dp_power.h"
- #include "dp_catalog.h"
- #include "dp_aux.h"
-+#include "dp_reg.h"
- #include "dp_link.h"
- #include "dp_panel.h"
- #include "dp_ctrl.h"
-@@ -36,6 +37,7 @@ struct dp_display_private {
- 	bool power_on;
- 	bool hpd_irq_on;
- 	bool audio_supported;
-+	atomic_t hpd_isr_status;
- 
- 	struct platform_device *pdev;
- 	struct dentry *root;
-@@ -54,6 +56,8 @@ struct dp_display_private {
- 	struct dp_usbpd_cb usbpd_cb;
- 	struct dp_display_mode dp_mode;
- 	struct msm_dp dp_display;
-+
-+	struct delayed_work config_hpd_work;
- };
- 
- static const struct of_device_id dp_dt_match[] = {
-@@ -64,6 +68,20 @@ static const struct of_device_id dp_dt_match[] = {
- static irqreturn_t dp_display_irq(int irq, void *dev_id)
- {
- 	struct dp_display_private *dp = dev_id;
-+	irqreturn_t ret = IRQ_HANDLED;
-+	u32 hpd_isr_status;
-+
-+	if (!dp) {
-+		DRM_ERROR("invalid data\n");
-+		return IRQ_NONE;
-+	}
-+
-+	hpd_isr_status = dp_catalog_hpd_get_intr_status(dp->catalog);
-+
-+	if (hpd_isr_status & DP_DP_HPD_INT_MASK) {
-+		atomic_set(&dp->hpd_isr_status, hpd_isr_status);
-+		ret = IRQ_WAKE_THREAD;
-+	}
- 
- 	/* DP controller isr */
- 	dp_ctrl_isr(dp->ctrl);
-@@ -71,6 +89,54 @@ static irqreturn_t dp_display_irq(int irq, void *dev_id)
- 	/* DP aux isr */
- 	dp_aux_isr(dp->aux);
- 
-+	return ret;
-+}
-+
-+static irqreturn_t dp_display_hpd_isr_work(int irq, void *data)
-+{
-+	struct dp_display_private *dp;
-+	struct dp_usbpd *hpd;
-+	u32 isr = 0;
-+
-+	dp = (struct dp_display_private *)data;
-+	if (!dp)
-+		return IRQ_NONE;
-+
-+	isr = atomic_read(&dp->hpd_isr_status);
-+
-+	/* reset to default */
-+	atomic_set(&dp->hpd_isr_status, 0);
-+
-+	hpd = dp->usbpd;
-+	if (!hpd)
-+		return IRQ_NONE;
-+
-+	if (isr & DP_DP_HPD_PLUG_INT_MASK &&
-+		isr & DP_DP_HPD_STATE_STATUS_CONNECTED) {
-+		hpd->hpd_high = 1;
-+		dp->usbpd_cb.configure(&dp->pdev->dev);
-+	} else if (isr & DP_DP_HPD_UNPLUG_INT_MASK &&
-+		(isr & DP_DP_HPD_STATE_STATUS_MASK) ==
-+			 DP_DP_HPD_STATE_STATUS_DISCONNECTED) {
-+
-+		/* disable HPD plug interrupt until disconnect is done
-+		 */
-+		dp_catalog_hpd_config_intr(dp->catalog,
-+			DP_DP_HPD_PLUG_INT_MASK | DP_DP_IRQ_HPD_INT_MASK,
-+			false);
-+
-+		hpd->hpd_high = 0;
-+
-+		/* We don't need separate work for disconnect as
-+		 * connect/attention interrupts are disabled
-+		 */
-+		dp->usbpd_cb.disconnect(&dp->pdev->dev);
-+
-+		dp_catalog_hpd_config_intr(dp->catalog,
-+			DP_DP_HPD_PLUG_INT_MASK | DP_DP_IRQ_HPD_INT_MASK,
-+			true);
-+	}
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -212,8 +278,6 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 	int rc = 0;
- 	struct edid *edid;
- 
--	dp_aux_init(dp->aux);
--
- 	if (dp->link->psm_enabled)
- 		goto notify;
- 
-@@ -270,10 +334,6 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 		return;
- 	}
- 
--	dp_ctrl_host_deinit(dp->ctrl);
--	dp_aux_deinit(dp->aux);
--	dp_power_deinit(dp->power);
--	disable_irq(dp->irq);
- 	dp->core_initialized = false;
- }
- 
-@@ -630,7 +690,8 @@ int dp_display_request_irq(struct msm_dp *dp_display)
- 		return rc;
- 	}
- 
--	rc = devm_request_irq(&dp->pdev->dev, dp->irq, dp_display_irq,
-+	rc = devm_request_threaded_irq(&dp->pdev->dev, dp->irq,
-+		dp_display_irq, dp_display_hpd_isr_work,
- 		IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
- 	if (rc < 0) {
- 		DRM_ERROR("failed to request IRQ%u: %d\n",
-@@ -800,6 +861,39 @@ void __exit msm_dp_unregister(void)
- 	platform_driver_unregister(&dp_display_driver);
- }
- 
-+static void dp_display_config_hpd_work(struct work_struct *work)
-+{
-+	struct dp_display_private *dp;
-+	struct delayed_work *dw = to_delayed_work(work);
-+
-+	dp = container_of(dw, struct dp_display_private, config_hpd_work);
-+
-+	dp_display_host_init(dp);
-+	dp_catalog_ctrl_hpd_config(dp->catalog);
-+
-+	/* set default to 0 */
-+	atomic_set(&dp->hpd_isr_status, 0);
-+
-+	/* Enable interrupt first time
-+	 * we are leaving dp clocks on during disconnect
-+	 * and never disable interrupt
-+	 */
-+	enable_irq(dp->irq);
-+}
-+
-+void msm_dp_irq_postinstall(struct msm_dp *dp_display)
-+{
-+	struct dp_display_private *dp;
-+
-+	if (!dp_display)
-+		return;
-+
-+	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	INIT_DELAYED_WORK(&dp->config_hpd_work, dp_display_config_hpd_work);
-+	queue_delayed_work(system_wq, &dp->config_hpd_work, HZ * 10);
-+}
-+
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder)
- {
-diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-index ad6f1760f893..6b3e297e4e04 100644
---- a/drivers/gpu/drm/msm/dp/dp_reg.h
-+++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-@@ -54,10 +54,22 @@
- #define DP_DP_IRQ_HPD_INT_MASK			(0x00000002)
- #define DP_DP_HPD_REPLUG_INT_MASK		(0x00000004)
- #define DP_DP_HPD_UNPLUG_INT_MASK		(0x00000008)
-+#define DP_DP_HPD_INT_MASK			(DP_DP_HPD_PLUG_INT_MASK | \
-+						DP_DP_IRQ_HPD_INT_MASK | \
-+						DP_DP_HPD_REPLUG_INT_MASK | \
-+						DP_DP_HPD_UNPLUG_INT_MASK)
-+#define DP_DP_HPD_STATE_STATUS_CONNECTED	(0x40000000)
-+#define DP_DP_HPD_STATE_STATUS_PENDING		(0x20000000)
-+#define DP_DP_HPD_STATE_STATUS_DISCONNECTED	(0x00000000)
-+#define DP_DP_HPD_STATE_STATUS_MASK		(0xE0000000)
- 
- #define REG_DP_DP_HPD_REFTIMER			(0x00000018)
-+#define DP_DP_HPD_REFTIMER_ENABLE		(1 << 16)
-+
- #define REG_DP_DP_HPD_EVENT_TIME_0		(0x0000001C)
- #define REG_DP_DP_HPD_EVENT_TIME_1		(0x00000020)
-+#define DP_DP_HPD_EVENT_TIME_0_VAL		(0x3E800FA)
-+#define DP_DP_HPD_EVENT_TIME_1_VAL		(0x1F407D0)
- 
- #define REG_DP_AUX_CTRL				(0x00000030)
- #define DP_AUX_CTRL_ENABLE			(0x00000001)
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 7be4c4f17fcd..d0b79321080c 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -391,6 +391,7 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder);
- void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
- 				struct drm_display_mode *mode,
- 				struct drm_display_mode *adjusted_mode);
-+void msm_dp_irq_postinstall(struct msm_dp *dp_display);
- 
- #else
- static inline int __init msm_dp_register(void)
-@@ -422,6 +423,11 @@ static inline void msm_dp_display_mode_set(struct msm_dp *dp,
- 				struct drm_display_mode *adjusted_mode)
- {
- }
-+
-+static inline void msm_dp_irq_postinstall(struct msm_dp *dp_display)
-+{
-+}
-+
- #endif
- 
- void __init msm_mdp_register(void);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGludXMsCgpUaGlzIGlzIHRoZSBmaXhlcyBwdWxsIGZvciA1LjktcmMxLiBJIGhhZCBzb21l
+IGZpeGVzIGZyb20gdGhlIG1pc2MKZml4ZXMgdHJlZSBjb21lIG9uIGEgbGF0ZXIgYmFzZSB0aGFu
+IGRybS1uZXh0IHdhcyBvbiwgc28gSSBoYWQgdG8KYmFja21lcmdlIDUuOCBpbnRvIHRoaXMgdG8g
+bWFrZSB0aGluZ3Mgd29yayBmb3IgbWUgYW5kIENJLiBIb3dldmVyIGl0CnRvdGFsbHkgbWVzc2Vk
+IHVwIHRoZSBkaWZmc3RhdCBzbyBJIGRpZG4ndCBib3RoZXIgaW5jbHVkaW5nIGl0LiBUaGUKY2hh
+bmdlbG9nIGxvb2tzIGZpbmUuCgpUaGlzIGhhcyBhIGZldyB2bXdnZnggcmVncmVzc2lvbiBmaXhl
+cyB3ZSBoaXQgZnJvbSB0aGUgbWVyZ2Ugd2luZG93CihvbmUgaW4gVFRNKSwgaXQgYWxzbyBoYXMg
+YSBidW5jaCBvZiBhbWRncHUgZml4ZXMgYWxvbmcgd2l0aCBhCnNjYXR0ZXJpbmcgZXZlcnl3aGVy
+ZSBlbHNlLgoKSSdtIG5vdCB3b3JraW5nIGZvciBuZXh0IGZldyBkYXlzLCBidXQgSSdsbCBiZSBh
+cm91bmQgYW5kIGhhdmUgc29tZQp0aW1lIGlmIGFueXRoaW5nIGNvbWVzIHVwLCBidXQgaG9wZWZ1
+bGx5IHRoaXMgaXMgZ29vZCBlbm91Z2ggZm9yIHJjMSwKYW5kIGFueSBwdWxscyBhZnRlciB0aGlz
+IGNhbiB3YWl0IGZvciByYzIuCgpEYXZlLgoKZHJtLW5leHQtMjAyMC0wOC0xMjoKZHJtIGZpeGVz
+IGZvciA1LjktcmMxCgpjb3JlOgotIEZpeCBkcm1fZHBfbXN0X3BvcnQgcmVmY291bnQgbGVha3Mg
+aW4gZHJtX2RwX21zdF9hbGxvY2F0ZV92Y3BpCi0gUmVtb3ZlIG51bGwgY2hlY2sgZm9yIGtmcmVl
+IGluIGRybV9kZXZfcmVsZWFzZS4KLSBGaXggRFJNX0ZPUk1BVF9NT0RfQU1MT0dJQ19GQkMgZGVm
+aW5pdGlvbi4KLSByZS1hZGRlZCBkb2NzIGZvciBkcm1fZ2VtX2ZsaW5rX2lvY3RsKCkKLSBhZGQg
+b3JpZW50YXRpb24gcXVpcmsgZm9yIEFTVVMgVDEwM0hBRgoKdHRtOgotIHR0bTogZml4IHBhZ2Ut
+b2Zmc2V0IGNhbGN1bGF0aW9uIHdpdGhpbiBUVE0KLSByZXZlcnQgcGF0Y2ggY2F1c2luZyB2bXdn
+ZnggcmVncmVzc2lvbnMKCmZiY29uOgotIEZpeCBhIGZiY29uIE9PQiByZWFkIGluIGZiZGV2LCBm
+b3VuZCBieSBzeXpib3QuCgp2Z2E6Ci0gTWFyayB2Z2FfdHJ5Z2V0IHN0YXRpYyBhcyBpdCdzIG5v
+dCB1c2VkIGVsc2V3aGVyZS4KCmFtZGdwdToKLSBSZS1hZGQgc3BlbGxpbmcgdHlwbyBmaXgKLSBT
+aWVubmEgQ2ljaGxpZCBmaXhlcwotIE5hdnkgRmxvdW5kZXIgZml4ZXMKLSBEQyBmaXhlcwotIFNN
+VSBpMmMgZml4Ci0gUG93ZXIgZml4ZXMKCnZtd2dmeDoKLSByZWdyZXNzaW9uIGZpeGVzIGZvciBt
+b2Rlc2V0dGluZyBjcmFzaGVzCi0gbWlzYyBmaXhlcwoKeGxueDoKLSBTbWFsbCBmaXhlcyB0byB4
+bG54LgoKb21hcDoKLSBGaXggbW9kZSBpbml0aWFsaXphdGlvbiBpbiBvbWFwX2Nvbm5lY3Rvcl9t
+b2RlX3ZhbGlkKCkuCi0gZm9yY2UgcnVudGltZSBQTSBzdXNwZW5kIG9uIHN5c3RlbSBzdXNwZW5k
+Cgp0aWRzczoKLSBmaXggbW9kZXNldCBpbml0IGZvciBEUEkgcGFuZWxzClRoZSBmb2xsb3dpbmcg
+Y2hhbmdlcyBzaW5jZSBjb21taXQgZGMxMDBiYzhmYWU1OWFhZmQyZWEyZTFhMWE0M2VmMWY2NWY4
+YThiYzoKCiAgTWVyZ2UgdGFnICdkcm0tbXNtLW5leHQtMjAyMC0wNy0zMCcgb2YKaHR0cHM6Ly9n
+aXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9tc20gaW50byBkcm0tbmV4dCAoMjAyMC0wOC0wNQow
+ODowNTozMSArMTAwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoK
+ICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtIHRhZ3MvZHJtLW5leHQtMjAy
+MC0wOC0xMgoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDYyOTc1ZDI3ZDY0N2E0MGM1
+OGQzYjk2YzI5YjkxMWZjNGYzM2MzMTA6CgogIGRybS90dG06IHJldmVydCAiZHJtL3R0bTogbWFr
+ZSBUVCBjcmVhdGlvbiBwdXJlbHkgb3B0aW9uYWwgdjMiCigyMDIwLTA4LTEyIDEzOjI2OjI4ICsx
+MDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQpkcm0gZml4ZXMgZm9yIDUuOS1yYzEKCmNvcmU6Ci0gRml4IGRybV9kcF9t
+c3RfcG9ydCByZWZjb3VudCBsZWFrcyBpbiBkcm1fZHBfbXN0X2FsbG9jYXRlX3ZjcGkKLSBSZW1v
+dmUgbnVsbCBjaGVjayBmb3Iga2ZyZWUgaW4gZHJtX2Rldl9yZWxlYXNlLgotIEZpeCBEUk1fRk9S
+TUFUX01PRF9BTUxPR0lDX0ZCQyBkZWZpbml0aW9uLgotIHJlLWFkZGVkIGRvY3MgZm9yIGRybV9n
+ZW1fZmxpbmtfaW9jdGwoKQotIGFkZCBvcmllbnRhdGlvbiBxdWlyayBmb3IgQVNVUyBUMTAzSEFG
+Cgp0dG06Ci0gdHRtOiBmaXggcGFnZS1vZmZzZXQgY2FsY3VsYXRpb24gd2l0aGluIFRUTQotIHJl
+dmVydCBwYXRjaCBjYXVzaW5nIHZtd2dmeCByZWdyZXNzaW9ucwoKZmJjb246Ci0gRml4IGEgZmJj
+b24gT09CIHJlYWQgaW4gZmJkZXYsIGZvdW5kIGJ5IHN5emJvdC4KCnZnYToKLSBNYXJrIHZnYV90
+cnlnZXQgc3RhdGljIGFzIGl0J3Mgbm90IHVzZWQgZWxzZXdoZXJlLgoKYW1kZ3B1OgotIFJlLWFk
+ZCBzcGVsbGluZyB0eXBvIGZpeAotIFNpZW5uYSBDaWNobGlkIGZpeGVzCi0gTmF2eSBGbG91bmRl
+ciBmaXhlcwotIERDIGZpeGVzCi0gU01VIGkyYyBmaXgKLSBQb3dlciBmaXhlcwoKdm13Z2Z4Ogot
+IHJlZ3Jlc3Npb24gZml4ZXMgZm9yIG1vZGVzZXR0aW5nIGNyYXNoZXMKLSBtaXNjIGZpeGVzCgp4
+bG54OgotIFNtYWxsIGZpeGVzIHRvIHhsbnguCgpvbWFwOgotIEZpeCBtb2RlIGluaXRpYWxpemF0
+aW9uIGluIG9tYXBfY29ubmVjdG9yX21vZGVfdmFsaWQoKS4KLSBmb3JjZSBydW50aW1lIFBNIHN1
+c3BlbmQgb24gc3lzdGVtIHN1c3BlbmQKCnRpZHNzOgotIGZpeCBtb2Rlc2V0IGluaXQgZm9yIERQ
+SSBwYW5lbHMKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KQWxleCBEZXVjaGVyICgxKToKICAgICAgZHJtL2FtZGdwdS9zbXU6
+IHJld29yayBpMmMgYWRwYXRlciByZWdpc3RyYXRpb24KCkFsdmluIExlZSAoMSk6CiAgICAgIGRy
+bS9hbWQvZGlzcGxheTogRG9uJ3QgY29tcGFyZSBkcHBjbGsgYmVmb3JlIHVwZGF0aW5nIERUTwoK
+QXJpYyBDeXIgKDIpOgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IEZpeCBEUCBDb21wbGlhbmNlIHRl
+c3RzIDQuMy4yLjEgYW5kIDQuMy4yLjIKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBBTUQgT1VJIChE
+UENEIDB4MDAzMDApIHNraXBwZWQgb24gc29tZSBzaW5rCgpCaGF3YW5wcmVldCBMYWtoYSAoMik6
+CiAgICAgIGRybS9hbWQvZGlzcGxheTogVXNlIHNlcGVyYXRlIGRtY3ViIGZpcm13YXJlIGZvciBu
+YXZ5X2Zsb3VuZGVyCiAgICAgIGRybS9hbWQvZGlzcGxheTogVXNlIHByb3BlciBhYm0vYmFja2xp
+Z2h0IGZ1bmN0aW9ucyBmb3IgRENOMwoKQm95dWFuIFpoYW5nICgxKToKICAgICAgZHJtL2FtZGdw
+dTogdXBkYXRlIGRlYyByaW5nIHRlc3QgZm9yIFZDTiAzLjAKCkNoYW5nZmVuZyAoMik6CiAgICAg
+IFJldmVydCAiZHJtL2FtZC9wb3dlcnBsYXk6IGRyb3AgdW5uZWNlc3NhcnkgbWVzc2FnZSBzdXBw
+b3J0IGNoZWNrIgogICAgICBkcm0vYW1kL3Bvd2VycGxheTogZHJvcCB1bm5lY2Vzc2FyeSBtZXNz
+YWdlIHN1cHBvcnQgY2hlY2sodjIpCgpDaHJpc3RpYW4gS8O2bmlnICgxKToKICAgICAgZHJtL3R0
+bTogcmV2ZXJ0ICJkcm0vdHRtOiBtYWtlIFRUIGNyZWF0aW9uIHB1cmVseSBvcHRpb25hbCB2MyIK
+CkNocmlzdG9waCBIZWxsd2lnICgxKToKICAgICAgdmdhYXJiOiBtYXJrIHZnYV90cnlnZXQgc3Rh
+dGljCgpDb2xpbiBJYW4gS2luZyAoNCk6CiAgICAgIGRybTogeGxueDogZml4IHNwZWxsaW5nIG1p
+c3Rha2UgImZhaWxlcyIgLT4gImZhaWxlZCIKICAgICAgZHJtL2FtZGdwdTogZml4IHNwZWxsaW5n
+IG1pc3Rha2UgIkZhbGllZCIgLT4gIkZhaWxlZCIKICAgICAgZHJtL3Ztd2dmeDogZml4IHNwZWxs
+aW5nIG1pc3Rha2UgIkNvdW5kIiAtPiAiQ291bGQiCiAgICAgIGRybS92bXdnZng6IGZpeCBzcGVs
+bGluZyBtaXN0YWtlICJDYW50IiAtPiAiQ2FuJ3QiCgpEYW4gQ2FycGVudGVyICgzKToKICAgICAg
+ZHJtL2FtZC9wb3dlcnBsYXk6IG9mZiBieSBvbmUgYnVncyBpbiBzbXVfY21uX3RvX2FzaWNfc3Bl
+Y2lmaWNfaW5kZXgoKQogICAgICBkcm0vdm13Z2Z4OiBVc2UgY29ycmVjdCB2bXdfbGVnYWN5X2Rp
+c3BsYXlfdW5pdCBwb2ludGVyCiAgICAgIGRybS92bXdnZng6IEZpeCB0d28gbGlzdF9mb3JfZWFj
+aCBsb29wIGV4aXQgdGVzdHMKCkRhbmllbCBWZXR0ZXIgKDEpOgogICAgICBkcm0vdm13Z2Z4L3N0
+ZHU6IFVzZSBkcm1fbW9kZV9jb25maWdfcmVzZXQKCkRhdmUgQWlybGllICg1KToKICAgICAgTWVy
+Z2UgdGFnICdkcm0tbWlzYy1uZXh0LWZpeGVzLTIwMjAtMDgtMDUnIG9mCmdpdDovL2Fub25naXQu
+ZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYyBpbnRvIGRybS1uZXh0CiAgICAgIE1lcmdlIHRh
+ZyAndjUuOCcgaW50byBkcm0tbmV4dAogICAgICBNZXJnZSB0YWcgJ2RybS1taXNjLWZpeGVzLTIw
+MjAtMDgtMDQnIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYyBp
+bnRvIGRybS1uZXh0CiAgICAgIE1lcmdlIHRhZyAnYW1kLWRybS1maXhlcy01LjktMjAyMC0wOC0w
+Nycgb2YKZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGludXggaW50byBkcm0t
+bmV4dAogICAgICBNZXJnZSBicmFuY2ggJ3Ztd2dmeC1uZXh0LTUuOScgb2YKZ2l0Oi8vcGVvcGxl
+LmZyZWVkZXNrdG9wLm9yZy9+c3JvbGFuZC9saW51eCBpbnRvIGRybS1uZXh0CgpEbXl0cm8gTGFr
+dHl1c2hraW4gKDIpOgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IENsZWFuIHVwIGdsb2JhbCBzeW5j
+IHBhcmFtIHJldHJpZXZhbAogICAgICBkcm0vYW1kL2Rpc3BsYXk6IHBvcHVsYXRlIG5ldyBkbWwg
+dmFyaWFibGUKCkVyaWMgQmVybnN0ZWluICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBVc2Ug
+cGFyYW1ldGVyIGZvciBjYWxsIHRvIHNldCBvdXRwdXQgbXV4CgpFcnlrIEJyb2wgKDIpOgogICAg
+ICBkcm0vYW1kL2Rpc3BsYXk6IFJlbmFtZSBieXRlc19wcCB0byB0aGUgY29ycmVjdCBiaXRzX3Bw
+CiAgICAgIGRybS9hbWQvZGlzcGxheTogRml4IG5hbWluZyBvZiBEU0MgRGVidWdmcyBlbnRyeQoK
+RXZhbiBRdWFuICgyKToKICAgICAgZHJtL2FtZC9wb3dlcnBsYXk6IHVwZGF0ZSBzd1NNVSBWQ04v
+SlBFRyBQRyBsb2dpY3MKICAgICAgZHJtL2FtZC9wb3dlcnBsYXk6IHB1dCBWQ04vSlBFRyBpbnRv
+IFBHIHVuZ2F0ZSBzdGF0ZSBiZWZvcmUgZHBtCnRhYmxlIHNldHVwKFYzKQoKRmVsaXggS3VlaGxp
+bmcgKDEpOgogICAgICBkcm0vdHRtOiBmaXggb2Zmc2V0IGluIFZNQXMgd2l0aCBhIHBnX29mZnMg
+aW4gdHRtX2JvX3ZtX2FjY2VzcwoKR2VvcmdlIFNoZW4gKDEpOgogICAgICBkcm0vYW1kL2Rpc3Bs
+YXk6IENoYW5nZSBudWxsIHBsYW5lIHN0YXRlIHN3aXp6bGUgbW9kZSB0byA0a2JfcwoKR3VjaHVu
+IENoZW4gKDEpOgogICAgICBkcm0vYW1kZ3B1OiBhZGQgcHJpbnRpbmcgYWZ0ZXIgZXhlY3V0aW5n
+IHBhZ2UgcmVzZXJ2YXRpb24gdG8gZWVwcm9tCgpHdXN0YXZvIEEuIFIuIFNpbHZhICgxKToKICAg
+ICAgZHJtL3Ztd2dmeDogVXNlIHN0cnVjdF9zaXplKCkgaGVscGVyCgpIYXJyeSBXZW50bGFuZCAo
+MSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTogRml4IGxvZ2dlciBjb250ZXh0CgpIdWFuZyBSdWkg
+KDEpOgogICAgICBkcm0vYW1kZ3B1OiBza2lwIGNyaXQgdGVtcGVyYXR1cmUgdmFsdWVzIG9uIEFQ
+VSAodjIpCgpIeXVuIEt3b24gKDEpOgogICAgICBkcm06IHhsbng6IHp5bnFtcDogVXNlIHN3aXRj
+aCAtIGNhc2UgZm9yIGxpbmsgcmF0ZSBkb3duc2hpZnQKCklnb3IgS3JhdmNoZW5rbyAoMik6CiAg
+ICAgIGRybS9hbWQvZGlzcGxheTogUmVhZCBWQklPUyBHb2xkZW4gU2V0dGluZ3MgVGJsCiAgICAg
+IGRybS9hbWQvZGlzcGxheTogRGlzcGxheSBnb2VzIGJsYW5rIGFmdGVyIGluc3QKCkphbWVzIFpo
+dSAoMSk6CiAgICAgIGRybS9hbWRncHUvanBlZzMuMDogcmVtb3ZlIGV4dHJhIGFzaWMgdHlwZSBj
+aGVjawoKSmlhbnNvbmcgQ2hlbiAoMyk6CiAgICAgIGRybS9hbWQvcG93ZXJwbGF5OiB1cGRhdGUg
+ZHJpdmVyIGlmIHZlcnNpb24gZm9yIG5hdnlfZmxvdW5kZXIKICAgICAgZHJtL2FtZGdwdTogdXBk
+YXRlIEdDIGdvbGRlbiBzZXR0aW5nIGZvciBuYXZ5X2Zsb3VuZGVyCiAgICAgIGRybS9hbWRncHU6
+IGVuYWJsZSBHRlhPRkYgZm9yIG5hdnlfZmxvdW5kZXIKCkppblplLlh1ICgxKToKICAgICAgZHJt
+L2FtZC9kaXNwbGF5OiBVc2UgaGVscGVyIGZ1bmN0aW9uIHRvIGNoZWNrIGZvciBIRE1JIHNpZ25h
+bAoKSm9obiBDbGVtZW50cyAoMSk6CiAgICAgIGRybS9hbWRncHU6IGV4cGFuZCBzaWVubmEgY2hp
+Y2hsaWQgcmVnIGFjY2VzcyAgc3VwcG9ydAoKSnVuIExlaSAoMSk6CiAgICAgIGRybS9hbWQvZGlz
+cGxheTogRGlzYWJsZSBpZGxlIG9wdGltaXphdGlvbnMgYmVmb3JlIHByb2dyYW1taW5nIERDTgoK
+S2VubmV0aCBGZW5nICgxKToKICAgICAgZHJtL2FtZC9wb3dlcnBsYXk6IHJlbW92ZSB0aGUgZHBt
+IGNoZWNraW5nIGluIHRoZSBib290IHNlcXVlbmNlCgpLZXZpbiBXYW5nICgxKToKICAgICAgZHJt
+L2FtZC9zd3NtdTogYWxsb3cgYXNpYyB0byBoYW5kbGUgc2Vuc29yIHR5cGUgYnkgaXRzZWxmCgpM
+aSBIZW5nICgxKToKICAgICAgZHJtOiBSZW1vdmUgcmVkdW5kYW50IE5VTEwgY2hlY2sKCkxpa3Vu
+IEdhbyAoNik6CiAgICAgIGRybS9hbWQvcG93ZXJwbGF5OiBza2lwIGludmFsaWQgbXNnIHdoZW4g
+c211IHNldCBtcDEgc3RhdGUKICAgICAgZHJtL2FtZC9wb3dlcnBsYXk6IGFkZCBtc2cgbWFwIGZv
+ciBtb2RlMSByZXNldAogICAgICBkcm0vYW1kL3Bvd2VycGxheTogY29ycmVjdCBzbXUgbWVzc2Fn
+ZSBmb3IgdmYgbW9kZQogICAgICBkcm0vYW1kZ3B1OiB1cGRhdGUgZ29sZGVuIHNldHRpbmcgZm9y
+IHNpZW5uYV9jaWNobGlkCiAgICAgIGRybS9hbWQvcG93ZXJwbGF5OiB1cGRhdGUgZHJpdmVyIGlm
+IGZpbGUgZm9yIHNpZW5uYV9jaWNobGlkCiAgICAgIGRybS9hbWRncHU6IHVzZSBtb2RlMSByZXNl
+dCBieSBkZWZhdWx0IGZvciBzaWVubmFfY2ljaGxpZAoKTGl1IENoZW5nWmhlICgyKToKICAgICAg
+ZHJtL2FtZGdwdTogZml4IFBTUCBhdXRvbG9hZCB0d2ljZSBpbiBGTFIKICAgICAgZHJtIGFtZGdw
+dTogU2tpcCB0bXIgbG9hZCBmb3IgU1JJT1YKCk1hcml1cyBJYWNvYiAoMSk6CiAgICAgIGRybTog
+QWRkZWQgb3JpZW50YXRpb24gcXVpcmsgZm9yIEFTVVMgdGFibGV0IG1vZGVsIFQxMDNIQUYKCk1h
+cnRpbiBUc2FpICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBDaGVjayBsYW5lIHN0YXR1cyBh
+Z2FpbiBhZnRlciBsaW5rIHRyYWluaW5nIGRvbmUKCk5laWwgQXJtc3Ryb25nICgxKToKICAgICAg
+ZHJtL2ZvdXJjYzogZml4IEFtbG9naWMgVmlkZW8gRnJhbWVidWZmZXIgQ29tcHJlc3Npb24gbWFj
+cm8KClJlemEgQW1pbmkgKDEpOgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IEFsbG93IGFzaWMgc3Bl
+Y2lmaWMgRlNGVCB0aW1pbmcgb3B0aW1pemF0aW9uCgpSb2xhbmQgU2NoZWlkZWdnZXIgKDIpOgog
+ICAgICBkcm0vdm13Z2Z4L3NvdTogVXNlIGRybV9tb2RlX2NvbmZpZ19yZXNldAogICAgICBkcm0v
+dm13Z2Z4L2xkdTogVXNlIGRybV9tb2RlX2NvbmZpZ19yZXNldAoKU2FuZGVlcCBSYWdodXJhbWFu
+ICgxKToKICAgICAgZHJtL2FtZGdwdTogRml4IGJ1ZyB3aGVyZSBEUE0gaXMgbm90IGVuYWJsZWQg
+YWZ0ZXIgaGliZXJuYXRlIGFuZCByZXN1bWUKClN0ZXZlIENvaGVuICgxKToKICAgICAgZHJtOiBy
+ZS1hZGQgZGVsZXRlZCBkb2MgZm9yIGRybV9nZW1fb3Blbl9pb2N0bAoKU3R5bG9uIFdhbmcgKDEp
+OgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IEZpeCBkbWVzZyB3YXJuaW5nIGZyb20gc2V0dGluZyBh
+Ym0gbGV2ZWwKClRldHN1byBIYW5kYSAoMSk6CiAgICAgIGZibWVtOiBwdWxsIGZiY29uX3VwZGF0
+ZV92Y3MoKSBvdXQgb2YgZmJfc2V0X3ZhcigpCgpUaG9tYXMgWmltbWVybWFubiAoMSk6CiAgICAg
+IE1lcmdlIHJlbW90ZS10cmFja2luZyBicmFuY2ggJ2RybS9kcm0tZml4ZXMnIGludG8gZHJtLW1p
+c2MtZml4ZXMKClRvbWkgVmFsa2VpbmVuICgyKToKICAgICAgZHJtL3RpZHNzOiBmaXggbW9kZXNl
+dCBpbml0IGZvciBEUEkgcGFuZWxzCiAgICAgIGRybS9vbWFwOiBmb3JjZSBydW50aW1lIFBNIHN1
+c3BlbmQgb24gc3lzdGVtIHN1c3BlbmQKClZpbGxlIFN5cmrDpGzDpCAoMSk6CiAgICAgIGRybS9v
+bWFwOiBVc2Uge30gdG8gemVybyBpbml0aWFsaXplIHRoZSBtb2RlCgpXZWkgWW9uZ2p1biAoMSk6
+CiAgICAgIGRybTogeGxueDogRml4IHR5cG8gaW4gcGFyYW1ldGVyIGRlc2NyaXB0aW9uCgpXeWF0
+dCBXb29kICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBVc2UgaHcgbG9jayBtZ3IKClhpbiBY
+aW9uZyAoMSk6CiAgICAgIGRybTogZml4IGRybV9kcF9tc3RfcG9ydCByZWZjb3VudCBsZWFrcyBp
+biBkcm1fZHBfbXN0X2FsbG9jYXRlX3ZjcGkKCmhlcnNlbiB3dSAoMSk6CiAgICAgIGRybS9hbWQv
+ZGlzcGxheTogZGNodWJidWIgcC1zdGF0ZSB3YXJuaW5nIGR1cmluZyBzdXJmYWNlIHBsYW5lcyBz
+d2l0Y2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
