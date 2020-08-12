@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6C124349B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:13:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38DA243489
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B97556E52F;
-	Thu, 13 Aug 2020 07:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06FCF6E523;
+	Thu, 13 Aug 2020 07:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB43D6E8CC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:38:03 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.235])
- by lucky1.263xmail.com (Postfix) with ESMTP id 4CFACC5B3D;
- Wed, 12 Aug 2020 16:35:07 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649846E8D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 08:40:04 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.209])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 0969BC5F56;
+ Wed, 12 Aug 2020 16:35:52 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED: 0
@@ -22,10 +22,10 @@ X-ANTISPAM-LEVEL: 2
 X-ABS-CHECKED: 0
 Received: from localhost.localdomain (unknown [103.29.142.67])
  by smtp.263.net (postfix) whith ESMTP id
- P12148T140383044482816S1597221301879174_; 
- Wed, 12 Aug 2020 16:35:06 +0800 (CST)
+ P31771T140662701778688S1597221345736639_; 
+ Wed, 12 Aug 2020 16:35:51 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <9b940f70c8aae58a528400653cfcd4ec>
+X-UNIQUE-TAG: <3650945d1eca47a8101cd35ca78c47f2>
 X-RL-SENDER: algea.cao@rock-chips.com
 X-SENDER: algea.cao@rock-chips.com
 X-LOGIN-NAME: algea.cao@rock-chips.com
@@ -44,10 +44,9 @@ To: a.hajda@samsung.com, kuankuan.y@gmail.com, hjc@rock-chips.com,
  linux-arm-kernel@lists.infradead.org, cychiang@chromium.org,
  linux-kernel@vger.kernel.org, narmstrong@baylibre.com,
  jbrunet@baylibre.com, maarten.lankhorst@linux.intel.com, daniel@ffwll.ch
-Subject: [PATCH 3/6] drm: bridge: dw-hdmi: Introduce
- previous_pixelclock/previous_tmdsclock
-Date: Wed, 12 Aug 2020 16:34:59 +0800
-Message-Id: <20200812083459.989-1-algea.cao@rock-chips.com>
+Subject: [PATCH 4/6] drm/rockchip: dw_hdmi: Add vendor hdmi properties
+Date: Wed, 12 Aug 2020 16:35:43 +0800
+Message-Id: <20200812083543.4231-1-algea.cao@rock-chips.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200812083120.743-1-algea.cao@rock-chips.com>
 References: <20200812083120.743-1-algea.cao@rock-chips.com>
@@ -70,103 +69,291 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce previous_pixelclock/previous_tmdsclock to
-determine whether PHY needs initialization. If phy is power off,
-or mpixelclock/mtmdsclock is different to previous value, phy is
-neet to be reinitialized.
+Introduce struct dw_hdmi_property_ops in plat_data to support
+vendor hdmi property.
+
+Implement hdmi vendor properties color_depth_property and
+hdmi_output_property to config hdmi output color depth and
+color format.
+
+The property "hdmi_output_format", the possible value
+could be:
+         - RGB
+         - YCBCR 444
+         - YCBCR 422
+         - YCBCR 420
+
+Default value of the property is set to 0 = RGB, so no changes if you
+don't set the property.
+
+The property "hdmi_output_depth" possible value could be
+         - Automatic
+           This indicates prefer highest color depth, it is
+           30bit on rockcip platform.
+         - 24bit
+         - 30bit
+The default value of property is 24bit.
 
 Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
 ---
 
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 50 +++++++++++++++++++----
- 1 file changed, 43 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 174 ++++++++++++++++++++
+ include/drm/bridge/dw_hdmi.h                |  22 +++
+ 2 files changed, 196 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index a1a81fc768c2..1eb4736b9b59 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -101,6 +101,8 @@ static const u16 csc_coeff_rgb_full_to_rgb_limited[3][4] = {
- struct hdmi_vmode {
- 	bool mdataenablepolarity;
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index 23de359a1dec..8f22d9a566db 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -52,6 +52,27 @@
  
-+	unsigned int previous_pixelclock;
-+	unsigned int previous_tmdsclock;
- 	unsigned int mpixelclock;
- 	unsigned int mpixelrepetitioninput;
- 	unsigned int mpixelrepetitionoutput;
-@@ -890,6 +892,32 @@ static int hdmi_bus_fmt_color_depth(unsigned int bus_format)
- 	}
+ #define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
+ 
++/* HDMI output pixel format */
++enum drm_hdmi_output_type {
++	DRM_HDMI_OUTPUT_DEFAULT_RGB, /* default RGB */
++	DRM_HDMI_OUTPUT_YCBCR444, /* YCBCR 444 */
++	DRM_HDMI_OUTPUT_YCBCR422, /* YCBCR 422 */
++	DRM_HDMI_OUTPUT_YCBCR420, /* YCBCR 420 */
++	DRM_HDMI_OUTPUT_YCBCR_HQ, /* Highest subsampled YUV */
++	DRM_HDMI_OUTPUT_YCBCR_LQ, /* Lowest subsampled YUV */
++	DRM_HDMI_OUTPUT_INVALID, /* Guess what ? */
++};
++
++enum dw_hdmi_rockchip_color_depth {
++	ROCKCHIP_HDMI_DEPTH_8,
++	ROCKCHIP_HDMI_DEPTH_10,
++	ROCKCHIP_HDMI_DEPTH_12,
++	ROCKCHIP_HDMI_DEPTH_16,
++	ROCKCHIP_HDMI_DEPTH_420_10,
++	ROCKCHIP_HDMI_DEPTH_420_12,
++	ROCKCHIP_HDMI_DEPTH_420_16
++};
++
+ /**
+  * struct rockchip_hdmi_chip_data - splite the grf setting of kind of chips
+  * @lcdsel_grf_reg: grf register offset of lcdc select
+@@ -73,6 +94,12 @@ struct rockchip_hdmi {
+ 	struct clk *grf_clk;
+ 	struct dw_hdmi *hdmi;
+ 	struct phy *phy;
++
++	struct drm_property *color_depth_property;
++	struct drm_property *hdmi_output_property;
++
++	unsigned int colordepth;
++	enum drm_hdmi_output_type hdmi_output;
+ };
+ 
+ #define to_rockchip_hdmi(x)	container_of(x, struct rockchip_hdmi, x)
+@@ -327,6 +354,150 @@ static void dw_hdmi_rockchip_genphy_disable(struct dw_hdmi *dw_hdmi, void *data)
+ 	phy_power_off(hdmi->phy);
  }
  
-+static unsigned int
-+hdmi_get_tmdsclock(struct dw_hdmi *hdmi, unsigned long mpixelclock)
-+{
-+	unsigned int tmdsclock = mpixelclock;
-+	unsigned int depth =
-+		hdmi_bus_fmt_color_depth(hdmi->hdmi_data.enc_out_bus_format);
++static const struct drm_prop_enum_list color_depth_enum_list[] = {
++	{ 0, "Automatic" }, /* Prefer highest color depth */
++	{ 8, "24bit" },
++	{ 10, "30bit" },
++};
 +
-+	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
-+		switch (depth) {
-+		case 16:
-+			tmdsclock = mpixelclock * 2;
-+			break;
-+		case 12:
-+			tmdsclock = mpixelclock * 3 / 2;
-+			break;
-+		case 10:
-+			tmdsclock = mpixelclock * 5 / 4;
-+			break;
-+		default:
-+			break;
-+		}
++static const struct drm_prop_enum_list drm_hdmi_output_enum_list[] = {
++	{ DRM_HDMI_OUTPUT_DEFAULT_RGB, "output_rgb" },
++	{ DRM_HDMI_OUTPUT_YCBCR444, "output_ycbcr444" },
++	{ DRM_HDMI_OUTPUT_YCBCR422, "output_ycbcr422" },
++	{ DRM_HDMI_OUTPUT_YCBCR420, "output_ycbcr420" },
++	{ DRM_HDMI_OUTPUT_YCBCR_HQ, "output_ycbcr_high_subsampling" },
++	{ DRM_HDMI_OUTPUT_YCBCR_LQ, "output_ycbcr_low_subsampling" },
++	{ DRM_HDMI_OUTPUT_INVALID, "invalid_output" },
++};
++
++static void
++dw_hdmi_rockchip_attach_properties(struct drm_connector *connector,
++				   unsigned int color, int version,
++				   void *data)
++{
++	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
++	struct drm_property *prop;
++
++	switch (color) {
++	case MEDIA_BUS_FMT_RGB101010_1X30:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_DEFAULT_RGB;
++		hdmi->colordepth = 10;
++		break;
++	case MEDIA_BUS_FMT_YUV8_1X24:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR444;
++		hdmi->colordepth = 8;
++		break;
++	case MEDIA_BUS_FMT_YUV10_1X30:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR444;
++		hdmi->colordepth = 10;
++		break;
++	case MEDIA_BUS_FMT_UYVY10_1X20:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR422;
++		hdmi->colordepth = 10;
++		break;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR422;
++		hdmi->colordepth = 8;
++		break;
++	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR420;
++		hdmi->colordepth = 8;
++		break;
++	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_YCBCR420;
++		hdmi->colordepth = 10;
++		break;
++	default:
++		hdmi->hdmi_output = DRM_HDMI_OUTPUT_DEFAULT_RGB;
++		hdmi->colordepth = 8;
 +	}
 +
-+	return tmdsclock;
++	prop = drm_property_create_enum(connector->dev, 0,
++					"hdmi_output_depth",
++					color_depth_enum_list,
++					ARRAY_SIZE(color_depth_enum_list));
++	if (prop) {
++		hdmi->color_depth_property = prop;
++		drm_object_attach_property(&connector->base, prop, 0);
++	}
++
++	prop = drm_property_create_enum(connector->dev, 0, "hdmi_output_format",
++					drm_hdmi_output_enum_list,
++					ARRAY_SIZE(drm_hdmi_output_enum_list));
++	if (prop) {
++		hdmi->hdmi_output_property = prop;
++		drm_object_attach_property(&connector->base, prop, 0);
++	}
 +}
 +
- /*
-  * this submodule is responsible for the video data synchronization.
-  * for example, for RGB 4:4:4 input, the data map is defined as
-@@ -1861,11 +1889,13 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 	int hblank, vblank, h_de_hs, v_de_vs, hsync_len, vsync_len;
- 	unsigned int vdisplay, hdisplay;
- 
-+	vmode->previous_pixelclock = vmode->mpixelclock;
- 	vmode->mpixelclock = mode->clock * 1000;
- 
- 	dev_dbg(hdmi->dev, "final pixclk = %d\n", vmode->mpixelclock);
- 
--	vmode->mtmdsclock = vmode->mpixelclock;
-+	vmode->previous_tmdsclock = vmode->mtmdsclock;
-+	vmode->mtmdsclock = hdmi_get_tmdsclock(hdmi, vmode->mpixelclock);
- 
- 	if (!hdmi_bus_fmt_is_yuv422(hdmi->hdmi_data.enc_out_bus_format)) {
- 		switch (hdmi_bus_fmt_color_depth(
-@@ -2172,12 +2202,18 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
- 	hdmi_av_composer(hdmi, &connector->display_info, mode);
- 
- 	/* HDMI Initializateion Step B.2 */
--	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data,
--				  &connector->display_info,
--				  &hdmi->previous_mode);
--	if (ret)
--		return ret;
--	hdmi->phy.enabled = true;
-+	if (!hdmi->phy.enabled ||
-+	    hdmi->hdmi_data.video_mode.previous_pixelclock !=
-+	    hdmi->hdmi_data.video_mode.mpixelclock ||
-+	    hdmi->hdmi_data.video_mode.previous_tmdsclock !=
-+	    hdmi->hdmi_data.video_mode.mtmdsclock) {
-+		ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data,
-+					  &connector->display_info,
-+					  &hdmi->previous_mode);
-+		if (ret)
-+			return ret;
-+		hdmi->phy.enabled = true;
++static void
++dw_hdmi_rockchip_destroy_properties(struct drm_connector *connector,
++				    void *data)
++{
++	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
++
++	if (hdmi->color_depth_property) {
++		drm_property_destroy(connector->dev,
++				     hdmi->color_depth_property);
++		hdmi->color_depth_property = NULL;
 +	}
++
++	if (hdmi->hdmi_output_property) {
++		drm_property_destroy(connector->dev,
++				     hdmi->hdmi_output_property);
++		hdmi->hdmi_output_property = NULL;
++	}
++}
++
++static int
++dw_hdmi_rockchip_set_property(struct drm_connector *connector,
++			      struct drm_connector_state *state,
++			      struct drm_property *property,
++			      u64 val,
++			      void *data)
++{
++	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
++
++	if (property == hdmi->color_depth_property) {
++		hdmi->colordepth = val;
++		return 0;
++	} else if (property == hdmi->hdmi_output_property) {
++		hdmi->hdmi_output = val;
++		return 0;
++	}
++
++	DRM_ERROR("failed to set rockchip hdmi connector property\n");
++	return -EINVAL;
++}
++
++static int
++dw_hdmi_rockchip_get_property(struct drm_connector *connector,
++			      const struct drm_connector_state *state,
++			      struct drm_property *property,
++			      u64 *val,
++			      void *data)
++{
++	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
++
++	if (property == hdmi->color_depth_property) {
++		*val = hdmi->colordepth;
++		return 0;
++	} else if (property == hdmi->hdmi_output_property) {
++		*val = hdmi->hdmi_output;
++		return 0;
++	}
++
++	DRM_ERROR("failed to get rockchip hdmi connector property\n");
++	return -EINVAL;
++}
++
++static const struct dw_hdmi_property_ops dw_hdmi_rockchip_property_ops = {
++	.attach_properties	= dw_hdmi_rockchip_attach_properties,
++	.destroy_properties	= dw_hdmi_rockchip_destroy_properties,
++	.set_property		= dw_hdmi_rockchip_set_property,
++	.get_property		= dw_hdmi_rockchip_get_property,
++};
++
+ static void dw_hdmi_rk3228_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
+ {
+ 	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
+@@ -511,6 +682,9 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 	hdmi->dev = &pdev->dev;
+ 	hdmi->chip_data = plat_data->phy_data;
+ 	plat_data->phy_data = hdmi;
++
++	plat_data->property_ops = &dw_hdmi_rockchip_property_ops;
++
+ 	encoder = &hdmi->encoder;
  
- 	/* HDMI Initialization Step B.3 */
- 	dw_hdmi_enable_video_path(hdmi);
+ 	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
+diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+index ea34ca146b82..dc561ebe7a9b 100644
+--- a/include/drm/bridge/dw_hdmi.h
++++ b/include/drm/bridge/dw_hdmi.h
+@@ -6,6 +6,7 @@
+ #ifndef __DW_HDMI__
+ #define __DW_HDMI__
+ 
++#include <drm/drm_property.h>
+ #include <sound/hdmi-codec.h>
+ 
+ struct drm_display_info;
+@@ -123,6 +124,24 @@ struct dw_hdmi_phy_ops {
+ 	void (*setup_hpd)(struct dw_hdmi *hdmi, void *data);
+ };
+ 
++struct dw_hdmi_property_ops {
++	void (*attach_properties)(struct drm_connector *connector,
++				  unsigned int color, int version,
++				  void *data);
++	void (*destroy_properties)(struct drm_connector *connector,
++				   void *data);
++	int (*set_property)(struct drm_connector *connector,
++			    struct drm_connector_state *state,
++			    struct drm_property *property,
++			    u64 val,
++			    void *data);
++	int (*get_property)(struct drm_connector *connector,
++			    const struct drm_connector_state *state,
++			    struct drm_property *property,
++			    u64 *val,
++			    void *data);
++};
++
+ struct dw_hdmi_plat_data {
+ 	struct regmap *regm;
+ 
+@@ -141,6 +160,9 @@ struct dw_hdmi_plat_data {
+ 					   const struct drm_display_info *info,
+ 					   const struct drm_display_mode *mode);
+ 
++	/* Vendor Property support */
++	const struct dw_hdmi_property_ops *property_ops;
++
+ 	/* Vendor PHY support */
+ 	const struct dw_hdmi_phy_ops *phy_ops;
+ 	const char *phy_name;
 -- 
 2.25.1
 
