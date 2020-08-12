@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D5B2425E7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D3324260A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Aug 2020 09:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4788F6E8BD;
-	Wed, 12 Aug 2020 07:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD5E6E8BE;
+	Wed, 12 Aug 2020 07:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6D66E8BD
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:17:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7026E8BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Aug 2020 07:28:48 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3DA05B1AA;
- Wed, 12 Aug 2020 07:18:12 +0000 (UTC)
-Subject: Re: [PATCH] MAINTAINERS: Change maintainer for hisilicon DRM driver
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.c,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org
-References: <1597134186-58423-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e03e9597-2f25-4f7b-38bd-aa56f3a00542@suse.de>
-Date: Wed, 12 Aug 2020 09:17:47 +0200
+ by mx2.suse.de (Postfix) with ESMTP id 82F8FB1EE;
+ Wed, 12 Aug 2020 07:29:08 +0000 (UTC)
+Subject: Re: [PATCH v4 2/2] xen: add helpers to allocate unpopulated memory
+To: Roger Pau Monne <roger.pau@citrix.com>, linux-kernel@vger.kernel.org
+References: <20200811094447.31208-1-roger.pau@citrix.com>
+ <20200811094447.31208-3-roger.pau@citrix.com>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <7c9a25fa-c52c-66d2-3b03-14a59e069ab6@suse.com>
+Date: Wed, 12 Aug 2020 09:28:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1597134186-58423-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <20200811094447.31208-3-roger.pau@citrix.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,108 +40,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: multipart/mixed; boundary="===============0469516251=="
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
+ David Hildenbrand <david@redhat.com>, dri-devel@lists.freedesktop.org,
+ Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0469516251==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="knU8VmonCekW45Pv1I2KEd3FAfDTj5rNv"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---knU8VmonCekW45Pv1I2KEd3FAfDTj5rNv
-Content-Type: multipart/mixed; boundary="cZrU9yiX73SvcKBEGMnfTVDwhepjSEp3m";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.c,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org
-Cc: linuxarm@huawei.com
-Message-ID: <e03e9597-2f25-4f7b-38bd-aa56f3a00542@suse.de>
-Subject: Re: [PATCH] MAINTAINERS: Change maintainer for hisilicon DRM driver
-References: <1597134186-58423-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1597134186-58423-1-git-send-email-tiantao6@hisilicon.com>
-
---cZrU9yiX73SvcKBEGMnfTVDwhepjSEp3m
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 11.08.20 um 10:23 schrieb Tian Tao:
-> Remove Rongrong Zou and change tiantao as hisilicon DRM maintainer.
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks for looking after the hisilicon drivers.
-
-Best regards
-Thomas
-
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f12a868..f4e49e0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5694,7 +5694,7 @@ F:	drivers/gpu/drm/gma500/
-> =20
->  DRM DRIVERS FOR HISILICON
->  M:	Xinliang Liu <xinliang.liu@linaro.org>
-> -M:	Rongrong Zou <zourongrong@gmail.com>
-> +M:	Tian Tao  <tiantao6@hisilicon.com>
->  R:	John Stultz <john.stultz@linaro.org>
->  R:	Xinwei Kong <kong.kongxinwei@hisilicon.com>
->  R:	Chen Feng <puck.chen@hisilicon.com>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---cZrU9yiX73SvcKBEGMnfTVDwhepjSEp3m--
-
---knU8VmonCekW45Pv1I2KEd3FAfDTj5rNv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8zl5sUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPttwgAmN8w1wkDRPJAlUzZu0wJrbIm7xEs
-/fuddvw2LhR54zgh3CI4ZQlRzFqdJHbxH5qLL4e941BP2pzotYKNNa4VKUNjA+jG
-LdBq4zhyAUKJnNeefjUcFoKzX5ypqBA08B0Xs85uDYiRgVPLCqZQfspL4sajeRR4
-piYDewmqM9KelwIulGfWj6lvRC4FKiYBb1zE8pEG8JbOYQCT3xEviemc1BaTysZH
-JF8uKzXy+cRgA8EVFuSDyfVdKnVKZv09TrmznECFCypUz5GryPY6ttycOG4VWYEY
-E75A1cY2gLi3OuoH3hRqCUVI3YouWAtFcZkwxS+hnc3pdn+KMH7jApTTgQ==
-=UWLL
------END PGP SIGNATURE-----
-
---knU8VmonCekW45Pv1I2KEd3FAfDTj5rNv--
-
---===============0469516251==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0469516251==--
+T24gMTEuMDguMjAgMTE6NDQsIFJvZ2VyIFBhdSBNb25uZSB3cm90ZToKPiBUbyBiZSB1c2VkIGlu
+IG9yZGVyIHRvIGNyZWF0ZSBmb3JlaWduIG1hcHBpbmdzLiBUaGlzIGlzIGJhc2VkIG9uIHRoZQo+
+IFpPTkVfREVWSUNFIGZhY2lsaXR5IHdoaWNoIGlzIHVzZWQgYnkgcGVyc2lzdGVudCBtZW1vcnkg
+ZGV2aWNlcyBpbgo+IG9yZGVyIHRvIGNyZWF0ZSBzdHJ1Y3QgcGFnZXMgYW5kIGtlcm5lbCB2aXJ0
+dWFsIG1hcHBpbmdzIGZvciB0aGUgSU9NRU0KPiBhcmVhcyBvZiBzdWNoIGRldmljZXMuIE5vdGUg
+dGhhdCBvbiBrZXJuZWxzIHdpdGhvdXQgc3VwcG9ydCBmb3IKPiBaT05FX0RFVklDRSBYZW4gd2ls
+bCBmYWxsYmFjayB0byB1c2UgYmFsbG9vbmVkIHBhZ2VzIGluIG9yZGVyIHRvCj4gY3JlYXRlIGZv
+cmVpZ24gbWFwcGluZ3MuCj4gCj4gVGhlIG5ld2x5IGFkZGVkIGhlbHBlcnMgdXNlIHRoZSBzYW1l
+IHBhcmFtZXRlcnMgYXMgdGhlIGV4aXN0aW5nCj4ge2FsbG9jL2ZyZWV9X3hlbmJhbGxvb25lZF9w
+YWdlcyBmdW5jdGlvbnMsIHdoaWNoIGFsbG93cyBmb3IgaW4tcGxhY2UKPiByZXBsYWNlbWVudCBv
+ZiB0aGUgY2FsbGVycy4gT25jZSBhIG1lbW9yeSByZWdpb24gaGFzIGJlZW4gYWRkZWQgdG8gYmUK
+PiB1c2VkIGFzIHNjcmF0Y2ggbWFwcGluZyBzcGFjZSBpdCB3aWxsIG5vIGxvbmdlciBiZSByZWxl
+YXNlZCwgYW5kIHBhZ2VzCj4gcmV0dXJuZWQgYXJlIGtlcHQgaW4gYSBsaW5rZWQgbGlzdC4gVGhp
+cyBhbGxvd3MgdG8gaGF2ZSBhIGJ1ZmZlciBvZgo+IHBhZ2VzIGFuZCBwcmV2ZW50cyByZXNvcnRp
+bmcgdG8gZnJlcXVlbnQgYWRkaXRpb25zIGFuZCByZW1vdmFscyBvZgo+IHJlZ2lvbnMuCj4gCj4g
+SWYgZW5hYmxlZCAoYmVjYXVzZSBaT05FX0RFVklDRSBpcyBzdXBwb3J0ZWQpIHRoZSB1c2FnZSBv
+ZiB0aGUgbmV3Cj4gZnVuY3Rpb25hbGl0eSB1bnRhbmdsZXMgWGVuIGJhbGxvb24gYW5kIFJBTSBo
+b3RwbHVnIGZyb20gdGhlIHVzYWdlIG9mCj4gdW5wb3B1bGF0ZWQgcGh5c2ljYWwgbWVtb3J5IHJh
+bmdlcyB0byBtYXAgZm9yZWlnbiBwYWdlcywgd2hpY2ggaXMgdGhlCj4gY29ycmVjdCB0aGluZyB0
+byBkbyBpbiBvcmRlciB0byBhdm9pZCBtYXBwaW5ncyBvZiBmb3JlaWduIHBhZ2VzIGRlcGVuZAo+
+IG9uIG1lbW9yeSBob3RwbHVnLgo+IAo+IE5vdGUgdGhlIGRyaXZlciBpcyBjdXJyZW50bHkgbm90
+IGVuYWJsZWQgb24gQXJtIHBsYXRmb3JtcyBiZWNhdXNlIGl0Cj4gd291bGQgaW50ZXJmZXJlIHdp
+dGggdGhlIGlkZW50aXR5IG1hcHBpbmcgcmVxdWlyZWQgb24gc29tZSBwbGF0Zm9ybXMuCj4gCj4g
+U2lnbmVkLW9mZi1ieTogUm9nZXIgUGF1IE1vbm7DqSA8cm9nZXIucGF1QGNpdHJpeC5jb20+Cj4g
+LS0tCj4gQ2M6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtvIDxvbGVrc2FuZHJfYW5kcnVzaGNoZW5r
+b0BlcGFtLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IEJvcmlzIE9zdHJvdnNreSA8Ym9y
+aXMub3N0cm92c2t5QG9yYWNsZS5jb20+Cj4gQ2M6IEp1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNl
+LmNvbT4KPiBDYzogU3RlZmFubyBTdGFiZWxsaW5pIDxzc3RhYmVsbGluaUBrZXJuZWwub3JnPgo+
+IENjOiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Cj4gQ2M6IFJvZ2Vy
+IFBhdSBNb25uZSA8cm9nZXIucGF1QGNpdHJpeC5jb20+Cj4gQ2M6IFdlaSBMaXUgPHdsQHhlbi5v
+cmc+Cj4gQ2M6IFlhbiBZYW5rb3Zza3lpIDx5eWFua292c2t5aUBnbWFpbC5jb20+Cj4gQ2M6IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogeGVuLWRldmVsQGxpc3RzLnhlbnBy
+b2plY3Qub3JnCj4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+IENjOiBEYXZpZCBIaWxkZW5icmFu
+ZCA8ZGF2aWRAcmVkaGF0LmNvbT4KPiBDYzogTWljaGFsIEhvY2tvIDxtaG9ja29Aa2VybmVsLm9y
+Zz4KPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gLS0tCj4g
+Q2hhbmdlcyBzaW5jZSB2MzoKPiAgIC0gSW50cm9kdWNlIGEgS2NvbmZpZyBvcHRpb24gdGhhdCBn
+YXRlcyB0aGUgYWRkaXRpb24gb2YgdGhlCj4gICAgIHVucG9wdWxhdGVkIGFsbG9jIGRyaXZlci4g
+VGhpcyBhbGxvd3MgdG8gZWFzaWx5IGRpc2FibGUgaXQgb24gQXJtCj4gICAgIHBsYXRmb3Jtcy4K
+PiAgIC0gRHJvcHBlZCBKdWVyZ2VuIFJCIGR1ZSB0byB0aGUgYWRkaXRpb24gb2YgdGhlIEtjb25m
+aWcgb3B0aW9uLgo+ICAgLSBTd2l0Y2hlZCBmcm9tIE1FTU9SWV9ERVZJQ0VfREVWREFYIHRvIE1F
+TU9SWV9ERVZJQ0VfR0VORVJJQy4KPiAKPiBDaGFuZ2VzIHNpbmNlIHYyOgo+ICAgLSBEcm9wIEJV
+SUxEX0JVR19PTiByZWdhcmRpbmcgUFZNTVUgcGFnZSBzaXplcy4KPiAgIC0gVXNlIGEgU1BEWCBs
+aWNlbnNlIGlkZW50aWZpZXIuCj4gICAtIENhbGwgZmlsbCB3aXRoIG9ubHkgdGhlIG1pbmltdW0g
+cmVxdWlyZWQgbnVtYmVyIG9mIHBhZ2VzLgo+ICAgLSBJbmNsdWRlIHhlbi5oIGhlYWRlciBpbiB4
+ZW5fZHJtX2Zyb250X2dlbS5jLgo+ICAgLSBVc2UgbGVzcyBnZW5lcmljIGZ1bmN0aW9uIG5hbWVz
+Lgo+ICAgLSBFeGl0IGVhcmx5IGZyb20gdGhlIGluaXQgZnVuY3Rpb24gaWYgbm90IGEgUFYgZ3Vl
+c3QuCj4gICAtIERvbid0IHVzZSBhbGwgY2FwcyBmb3IgcmVnaW9uIG5hbWUuCj4gLS0tCj4gICBk
+cml2ZXJzL2dwdS9kcm0veGVuL3hlbl9kcm1fZnJvbnRfZ2VtLmMgfCAgIDkgKy0KPiAgIGRyaXZl
+cnMveGVuL0tjb25maWcgICAgICAgICAgICAgICAgICAgICB8ICAgNCArCj4gICBkcml2ZXJzL3hl
+bi9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwo+ICAgZHJpdmVycy94ZW4vYmFs
+bG9vbi5jICAgICAgICAgICAgICAgICAgIHwgICA0ICstCj4gICBkcml2ZXJzL3hlbi9ncmFudC10
+YWJsZS5jICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAgIGRyaXZlcnMveGVuL3ByaXZjbWQuYyAg
+ICAgICAgICAgICAgICAgICB8ICAgNCArLQo+ICAgZHJpdmVycy94ZW4vdW5wb3B1bGF0ZWQtYWxs
+b2MuYyAgICAgICAgIHwgMTg1ICsrKysrKysrKysrKysrKysrKysrKysrKwo+ICAgZHJpdmVycy94
+ZW4veGVuYnVzL3hlbmJ1c19jbGllbnQuYyAgICAgIHwgICA2ICstCj4gICBkcml2ZXJzL3hlbi94
+bGF0ZV9tbXUuYyAgICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAgIGluY2x1ZGUveGVuL3hlbi5o
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAgOSArKwo+ICAgMTAgZmlsZXMgY2hhbmdlZCwgMjE1
+IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMveGVuL3VucG9wdWxhdGVkLWFsbG9jLmMKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy94
+ZW4vS2NvbmZpZyBiL2RyaXZlcnMveGVuL0tjb25maWcKPiBpbmRleCAxZDMzOWVmOTI0MjIuLjAx
+ODAyMGI5MWJhYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3hlbi9LY29uZmlnCj4gKysrIGIvZHJp
+dmVycy94ZW4vS2NvbmZpZwo+IEBAIC0zMjcsNCArMzI3LDggQEAgY29uZmlnIFhFTl9IQVZFX1ZQ
+TVUKPiAgIGNvbmZpZyBYRU5fRlJPTlRfUEdESVJfU0hCVUYKPiAgIAl0cmlzdGF0ZQo+ICAgCj4g
+K2NvbmZpZyBYRU5fVU5QT1BVTEFURURfQUxMT0MKPiArCWJvb2wKPiArCWRlZmF1bHQgeSBpZiBa
+T05FX0RFVklDRSAmJiAhQVJNICYmICFBUk02NAoKVGhlcmUgaXMgYSBjdXJyZW50IGVmZm9ydCB0
+byBlbmFibGUgWGVuIG9uIFJJU0MtVi4gRG8gd2UgZXhwZWN0IHRoaXMKb3B0aW9uIHRvIGJlIHVz
+YWJsZSBmb3IgdGhpcyBhcmNoaXRlY3R1cmU/IElmIHllcywgSSdtIGZpbmUgd2l0aCB0aGUKZXhj
+bHVzaW9uIG9mIEFybSwgb3RoZXJ3aXNlIEknZCBvcHQgZm9yIGRlZmF1bHRpbmcgdG8geWVzIG9u
+bHkgZm9yClg4Ni4KCkVpdGhlciB3YXkgeW91IGNhbiBoYXZlIG15OgoKUmV2aWV3ZWQtYnk6IEp1
+ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT4KCgpKdWVyZ2VuCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
