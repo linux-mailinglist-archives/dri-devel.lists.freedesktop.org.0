@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1F82433ED
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 08:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7832433F1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 08:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614B26E288;
-	Thu, 13 Aug 2020 06:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379446E28A;
+	Thu, 13 Aug 2020 06:21:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 555066E283;
- Thu, 13 Aug 2020 06:21:22 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id v12so4890398ljc.10;
- Wed, 12 Aug 2020 23:21:22 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0246E28A;
+ Thu, 13 Aug 2020 06:21:23 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id v12so4890440ljc.10;
+ Wed, 12 Aug 2020 23:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IH75Bnms5DPUZxVd4scsKK5yOA6U4dgdsyqfLFTRRs0=;
- b=QKKKrIiwcWdX5YYhi+IBDzFnMzjp6BoSprArgCKJGaFTAFllL2t0ucD3tGKgBwpFvN
- in6kuJpiVUtaHTQ3TW4R/yzg0P2l0ntv2OQXzVQGcjgkUhOYlrGRAGy8n/Iyk8q8BFeu
- 0S/pdYd7UYA/6paTgZms7xIXYMQgqQ9+8vtFqsuCQljaX/b4OSlc1s21jKsJqgd6jG+K
- StlWFVqsso5qkm3ZKbZfI/OYTvxWcpOjGenmx423rC41g52XKhksvmFWK7vYLG9BZ0oN
- hbwz5PzY8SVWx8BqvGgFNteRAgZmgIGQ7p1Pkkaxh+eqmGutPo5m7+oEyxVuY+ptdRtO
- 4biQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ic1tOm+qheUq6zWKsHFH8/lisv9bz4c0DNj333ORfFc=;
+ b=O9T+cO7yS6RByinXxGlmLnMuw8UB7Uq04JQ4MQH8ZaRBOREswU+LwInwis5NeFpWMP
+ 6b4afB4V0u8+vl74/ktAUqv/5NLckdOirqGtDWy0DnfLDzw0F9uS9oFATKIZak9LD0cR
+ EIe1i7j7ul/9h7WHFujo40DWgSI49tHQOpChP2CPy1NIu2Q0p4IeMhjKIPe7GW9sQJzq
+ d5c/3lf54qiYjopAmeFXxgIvsdX3ue0RCxavzsT6hs7ZHte2Ni4c0+gpVNyxj8MAJSIz
+ jWGfGy0Vt9wMXRy75BmyDOX3dfHEFPWVj3RohotOBYiovpXcbaa+zZho0FsfhquQPZ8v
+ IpYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=IH75Bnms5DPUZxVd4scsKK5yOA6U4dgdsyqfLFTRRs0=;
- b=hlJ825D1PwBT4kRWrztKwep44H5v4n4WNwEpiqvfq4ezx3ib3xCh7Jcd9zrgRMcUpI
- LES1AcBSpJsx8DD4i+LEavK7hQXuxUPD05M71kSE8ST0eJ6FfxegqczylkYzHClI0idg
- hio9oTTlZPKH8INVJ2G7RpNYpV9Hjy04Z0B8rAWaRxW6QtFc4Yv7umQgsVKylHrcqjY/
- 3TgKXgStW0zHNYBQ+gQaDe0qgT6RtNQTKbtrfHnroBhsgd8LaM9SjvpMZcydDUopl1rR
- PAKypF0LX71PXDtVtRmbzn+lk69H5dHTvF8+s2yf4hJMjJ2eHSakLOGgiMB58DdwkClP
- uyaA==
-X-Gm-Message-State: AOAM5320rixGWZcTKQRDeUq2eRYcZf1UVOBi5oM2TmVZrCosQghn0wHB
- PWm/HAHwkqOQR2shQPg9m3I=
-X-Google-Smtp-Source: ABdhPJzZ/6L5Z/fBwUE4Dex+np7ONiwAFJpUyzfR48jKW7Q6gk4iOCDuNNlT3JqaSw4e0sXtMyhQ8w==
-X-Received: by 2002:a2e:804b:: with SMTP id p11mr1352175ljg.221.1597299680641; 
- Wed, 12 Aug 2020 23:21:20 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=ic1tOm+qheUq6zWKsHFH8/lisv9bz4c0DNj333ORfFc=;
+ b=Zamr7zQhFo2BTiczKu8VIHW/jzcMDGP3pPfl1n4Ih/keQDSRS77Bg0mRu3KhVdTy2k
+ KY7bb6hZ146RbY2BeO7FbUQQCd0uyHwSHrqUATq8GkCyX29yxhTpsVt18zjJ76fXwEYx
+ UoPTSTuEuY6BDBCEyj306GwLcIvimZ9zAronD28Fa/3f3Y0owGQlTIPAccCJ0kwjaF4a
+ H3s2NEV9om2KdUWYaWud15AGH+u54EhEPNWzjDSBZ8GK4MniksrkWQUfxvyBLRPbMm5y
+ /QbgMNpeT1/GlOzzU528bvE5fE7+wniymsBflQHKbIw/I57tOaZfexqyg9TPBGi/QwNb
+ IGLg==
+X-Gm-Message-State: AOAM531T0KtUrx1qARJsZhsF4tQDbUvxN4z1k4AxA6pO3kVxA3Cihmzi
+ y+WMsf57WV7t6Y2PyZB+RvE=
+X-Google-Smtp-Source: ABdhPJyX+MvFXLa7uDXAhUUkCxsqv4e8xQyC/os7RXs2QYFFoTANe4fzaGRUHzioE6sQe5EkReoukQ==
+X-Received: by 2002:a2e:8144:: with SMTP id t4mr1368074ljg.100.1597299682024; 
+ Wed, 12 Aug 2020 23:21:22 -0700 (PDT)
 Received: from a2klaptop.localdomain ([185.199.97.5])
- by smtp.gmail.com with ESMTPSA id f14sm964060lfd.2.2020.08.12.23.21.19
+ by smtp.gmail.com with ESMTPSA id f14sm964060lfd.2.2020.08.12.23.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 23:21:20 -0700 (PDT)
+ Wed, 12 Aug 2020 23:21:21 -0700 (PDT)
 From: Oleksandr Andrushchenko <andr2000@gmail.com>
 To: xen-devel@lists.xenproject.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, boris.ostrovsky@oracle.com, jgross@suse.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v2 4/5] xen: Sync up with the canonical protocol definition in
- Xen
-Date: Thu, 13 Aug 2020 09:21:12 +0300
-Message-Id: <20200813062113.11030-5-andr2000@gmail.com>
+Subject: [PATCH v2 5/5] drm/xen-front: Pass dumb buffer data offset to the
+ backend
+Date: Thu, 13 Aug 2020 09:21:13 +0300
+Message-Id: <20200813062113.11030-6-andr2000@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200813062113.11030-1-andr2000@gmail.com>
 References: <20200813062113.11030-1-andr2000@gmail.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,229 +72,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: intel-gfx@lists.freedesktop.org, sstabellini@kernel.org,
  dan.carpenter@oracle.com,
  Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-
-This is the sync up with the canonical definition of the
-display protocol in Xen.
-
-1. Add protocol version as an integer
-
-Version string, which is in fact an integer, is hard to handle in the
-code that supports different protocol versions. To simplify that
-also add the version as an integer.
-
-2. Pass buffer offset with XENDISPL_OP_DBUF_CREATE
-
-There are cases when display data buffer is created with non-zero
-offset to the data start. Handle such cases and provide that offset
-while creating a display buffer.
-
-3. Add XENDISPL_OP_GET_EDID command
-
-Add an optional request for reading Extended Display Identification
-Data (EDID) structure which allows better configuration of the
-display connectors over the configuration set in XenStore.
-With this change connectors may have multiple resolutions defined
-with respect to detailed timing definitions and additional properties
-normally provided by displays.
-
-If this request is not supported by the backend then visible area
-is defined by the relevant XenStore's "resolution" property.
-
-If backend provides extended display identification data (EDID) with
-XENDISPL_OP_GET_EDID request then EDID values must take precedence
-over the resolutions defined in XenStore.
-
-4. Bump protocol version to 2.
-
-Signed-off-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Reviewed-by: Juergen Gross <jgross@suse.com>
----
- include/xen/interface/io/displif.h | 91 +++++++++++++++++++++++++++++-
- 1 file changed, 88 insertions(+), 3 deletions(-)
-
-diff --git a/include/xen/interface/io/displif.h b/include/xen/interface/io/displif.h
-index fdc279dc4a88..d43ca0361f86 100644
---- a/include/xen/interface/io/displif.h
-+++ b/include/xen/interface/io/displif.h
-@@ -38,7 +38,8 @@
-  *                           Protocol version
-  ******************************************************************************
-  */
--#define XENDISPL_PROTOCOL_VERSION	"1"
-+#define XENDISPL_PROTOCOL_VERSION	"2"
-+#define XENDISPL_PROTOCOL_VERSION_INT	 2
- 
- /*
-  ******************************************************************************
-@@ -202,6 +203,9 @@
-  *      Width and height of the connector in pixels separated by
-  *      XENDISPL_RESOLUTION_SEPARATOR. This defines visible area of the
-  *      display.
-+ *      If backend provides extended display identification data (EDID) with
-+ *      XENDISPL_OP_GET_EDID request then EDID values must take precedence
-+ *      over the resolutions defined here.
-  *
-  *------------------ Connector Request Transport Parameters -------------------
-  *
-@@ -349,6 +353,8 @@
- #define XENDISPL_OP_FB_DETACH		0x13
- #define XENDISPL_OP_SET_CONFIG		0x14
- #define XENDISPL_OP_PG_FLIP		0x15
-+/* The below command is available in protocol version 2 and above. */
-+#define XENDISPL_OP_GET_EDID		0x16
- 
- /*
-  ******************************************************************************
-@@ -377,6 +383,10 @@
- #define XENDISPL_FIELD_BE_ALLOC		"be-alloc"
- #define XENDISPL_FIELD_UNIQUE_ID	"unique-id"
- 
-+#define XENDISPL_EDID_BLOCK_SIZE	128
-+#define XENDISPL_EDID_BLOCK_COUNT	256
-+#define XENDISPL_EDID_MAX_SIZE		(XENDISPL_EDID_BLOCK_SIZE * XENDISPL_EDID_BLOCK_COUNT)
-+
- /*
-  ******************************************************************************
-  *                          STATUS RETURN CODES
-@@ -451,7 +461,9 @@
-  * +----------------+----------------+----------------+----------------+
-  * |                           gref_directory                          | 40
-  * +----------------+----------------+----------------+----------------+
-- * |                             reserved                              | 44
-+ * |                             data_ofs                              | 44
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             reserved                              | 48
-  * +----------------+----------------+----------------+----------------+
-  * |/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/|
-  * +----------------+----------------+----------------+----------------+
-@@ -494,6 +506,7 @@
-  *   buffer size (buffer_sz) exceeds what can be addressed by this single page,
-  *   then reference to the next page must be supplied (see gref_dir_next_page
-  *   below)
-+ * data_ofs - uint32_t, offset of the data in the buffer, octets
-  */
- 
- #define XENDISPL_DBUF_FLG_REQ_ALLOC	(1 << 0)
-@@ -506,6 +519,7 @@ struct xendispl_dbuf_create_req {
- 	uint32_t buffer_sz;
- 	uint32_t flags;
- 	grant_ref_t gref_directory;
-+	uint32_t data_ofs;
- };
- 
- /*
-@@ -731,6 +745,44 @@ struct xendispl_page_flip_req {
- 	uint64_t fb_cookie;
- };
- 
-+/*
-+ * Request EDID - request EDID describing current connector:
-+ *         0                1                 2               3        octet
-+ * +----------------+----------------+----------------+----------------+
-+ * |               id                | _OP_GET_EDID   |   reserved     | 4
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             buffer_sz                             | 8
-+ * +----------------+----------------+----------------+----------------+
-+ * |                          gref_directory                           | 12
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             reserved                              | 16
-+ * +----------------+----------------+----------------+----------------+
-+ * |/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/|
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             reserved                              | 64
-+ * +----------------+----------------+----------------+----------------+
-+ *
-+ * Notes:
-+ *   - This command is not available in protocol version 1 and should be
-+ *     ignored.
-+ *   - This request is optional and if not supported then visible area
-+ *     is defined by the relevant XenStore's "resolution" property.
-+ *   - Shared buffer, allocated for EDID storage, must not be less then
-+ *     XENDISPL_EDID_MAX_SIZE octets.
-+ *
-+ * buffer_sz - uint32_t, buffer size to be allocated, octets
-+ * gref_directory - grant_ref_t, a reference to the first shared page
-+ *   describing EDID buffer references. See XENDISPL_OP_DBUF_CREATE for
-+ *   grant page directory structure (struct xendispl_page_directory).
-+ *
-+ * See response format for this request.
-+ */
-+
-+struct xendispl_get_edid_req {
-+	uint32_t buffer_sz;
-+	grant_ref_t gref_directory;
-+};
-+
- /*
-  *---------------------------------- Responses --------------------------------
-  *
-@@ -753,6 +805,35 @@ struct xendispl_page_flip_req {
-  * id - uint16_t, private guest value, echoed from request
-  * status - int32_t, response status, zero on success and -XEN_EXX on failure
-  *
-+ *
-+ * Get EDID response - response for XENDISPL_OP_GET_EDID:
-+ *         0                1                 2               3        octet
-+ * +----------------+----------------+----------------+----------------+
-+ * |               id                |    operation   |    reserved    | 4
-+ * +----------------+----------------+----------------+----------------+
-+ * |                              status                               | 8
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             edid_sz                               | 12
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             reserved                              | 16
-+ * +----------------+----------------+----------------+----------------+
-+ * |/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/|
-+ * +----------------+----------------+----------------+----------------+
-+ * |                             reserved                              | 64
-+ * +----------------+----------------+----------------+----------------+
-+ *
-+ * Notes:
-+ *   - This response is not available in protocol version 1 and should be
-+ *     ignored.
-+ *
-+ * edid_sz - uint32_t, size of the EDID, octets
-+ */
-+
-+struct xendispl_get_edid_resp {
-+	uint32_t edid_sz;
-+};
-+
-+/*
-  *----------------------------------- Events ----------------------------------
-  *
-  * Events are sent via a shared page allocated by the front and propagated by
-@@ -804,6 +885,7 @@ struct xendispl_req {
- 		struct xendispl_fb_detach_req fb_detach;
- 		struct xendispl_set_config_req set_config;
- 		struct xendispl_page_flip_req pg_flip;
-+		struct xendispl_get_edid_req get_edid;
- 		uint8_t reserved[56];
- 	} op;
- };
-@@ -813,7 +895,10 @@ struct xendispl_resp {
- 	uint8_t operation;
- 	uint8_t reserved;
- 	int32_t status;
--	uint8_t reserved1[56];
-+	union {
-+		struct xendispl_get_edid_resp get_edid;
-+		uint8_t reserved1[56];
-+	} op;
- };
- 
- struct xendispl_evt {
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogT2xla3NhbmRyIEFuZHJ1c2hjaGVua28gPG9sZWtzYW5kcl9hbmRydXNoY2hlbmtvQGVw
+YW0uY29tPgoKV2hpbGUgaW1wb3J0aW5nIGEgZG1hYnVmIGl0IGlzIHBvc3NpYmxlIHRoYXQgdGhl
+IGRhdGEgb2YgdGhlIGJ1ZmZlcgppcyBwdXQgd2l0aCBvZmZzZXQgd2hpY2ggaXMgaW5kaWNhdGVk
+IGJ5IHRoZSBTR1Qgb2Zmc2V0LgpSZXNwZWN0IHRoZSBvZmZzZXQgdmFsdWUgYW5kIGZvcndhcmQg
+aXQgdG8gdGhlIGJhY2tlbmQuCgpTaWduZWQtb2ZmLWJ5OiBPbGVrc2FuZHIgQW5kcnVzaGNoZW5r
+byA8b2xla3NhbmRyX2FuZHJ1c2hjaGVua29AZXBhbS5jb20+CkFja2VkLWJ5OiBOb3JhbGYgVHLD
+uG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0veGVuL3hlbl9k
+cm1fZnJvbnQuYyAgICAgfCA2ICsrKystLQogZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zy
+b250LmggICAgIHwgMiArLQogZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dlbS5j
+IHwgMyArKy0KIDMgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5jIGIvZHJp
+dmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250LmMKaW5kZXggNTE4MThlNzZmYWNkLi4zZGQ1
+Njc5NDU5M2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5j
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5jCkBAIC0xNTcsNyArMTU3
+LDggQEAgaW50IHhlbl9kcm1fZnJvbnRfbW9kZV9zZXQoc3RydWN0IHhlbl9kcm1fZnJvbnRfZHJt
+X3BpcGVsaW5lICpwaXBlbGluZSwKIAogaW50IHhlbl9kcm1fZnJvbnRfZGJ1Zl9jcmVhdGUoc3Ry
+dWN0IHhlbl9kcm1fZnJvbnRfaW5mbyAqZnJvbnRfaW5mbywKIAkJCSAgICAgIHU2NCBkYnVmX2Nv
+b2tpZSwgdTMyIHdpZHRoLCB1MzIgaGVpZ2h0LAotCQkJICAgICAgdTMyIGJwcCwgdTY0IHNpemUs
+IHN0cnVjdCBwYWdlICoqcGFnZXMpCisJCQkgICAgICB1MzIgYnBwLCB1NjQgc2l6ZSwgdTMyIG9m
+ZnNldCwKKwkJCSAgICAgIHN0cnVjdCBwYWdlICoqcGFnZXMpCiB7CiAJc3RydWN0IHhlbl9kcm1f
+ZnJvbnRfZXZ0Y2hubCAqZXZ0Y2hubDsKIAlzdHJ1Y3QgeGVuX2RybV9mcm9udF9kYnVmICpkYnVm
+OwpAQCAtMTk0LDYgKzE5NSw3IEBAIGludCB4ZW5fZHJtX2Zyb250X2RidWZfY3JlYXRlKHN0cnVj
+dCB4ZW5fZHJtX2Zyb250X2luZm8gKmZyb250X2luZm8sCiAJcmVxLT5vcC5kYnVmX2NyZWF0ZS5n
+cmVmX2RpcmVjdG9yeSA9CiAJCQl4ZW5fZnJvbnRfcGdkaXJfc2hidWZfZ2V0X2Rpcl9zdGFydCgm
+ZGJ1Zi0+c2hidWYpOwogCXJlcS0+b3AuZGJ1Zl9jcmVhdGUuYnVmZmVyX3N6ID0gc2l6ZTsKKwly
+ZXEtPm9wLmRidWZfY3JlYXRlLmRhdGFfb2ZzID0gb2Zmc2V0OwogCXJlcS0+b3AuZGJ1Zl9jcmVh
+dGUuZGJ1Zl9jb29raWUgPSBkYnVmX2Nvb2tpZTsKIAlyZXEtPm9wLmRidWZfY3JlYXRlLndpZHRo
+ID0gd2lkdGg7CiAJcmVxLT5vcC5kYnVmX2NyZWF0ZS5oZWlnaHQgPSBoZWlnaHQ7CkBAIC00MDgs
+NyArNDEwLDcgQEAgc3RhdGljIGludCB4ZW5fZHJtX2Rydl9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJt
+X2ZpbGUgKmZpbHAsCiAJcmV0ID0geGVuX2RybV9mcm9udF9kYnVmX2NyZWF0ZShkcm1faW5mby0+
+ZnJvbnRfaW5mbywKIAkJCQkJeGVuX2RybV9mcm9udF9kYnVmX3RvX2Nvb2tpZShvYmopLAogCQkJ
+CQlhcmdzLT53aWR0aCwgYXJncy0+aGVpZ2h0LCBhcmdzLT5icHAsCi0JCQkJCWFyZ3MtPnNpemUs
+CisJCQkJCWFyZ3MtPnNpemUsIDAsCiAJCQkJCXhlbl9kcm1fZnJvbnRfZ2VtX2dldF9wYWdlcyhv
+YmopKTsKIAlpZiAocmV0KQogCQlnb3RvIGZhaWxfYmFja2VuZDsKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5oIGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5f
+ZHJtX2Zyb250LmgKaW5kZXggZjkyYzI1ODM1MGNhLi41NDQ4NmQ4OTY1MGUgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5oCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS94ZW4veGVuX2RybV9mcm9udC5oCkBAIC0xNDUsNyArMTQ1LDcgQEAgaW50IHhlbl9kcm1fZnJv
+bnRfbW9kZV9zZXQoc3RydWN0IHhlbl9kcm1fZnJvbnRfZHJtX3BpcGVsaW5lICpwaXBlbGluZSwK
+IAogaW50IHhlbl9kcm1fZnJvbnRfZGJ1Zl9jcmVhdGUoc3RydWN0IHhlbl9kcm1fZnJvbnRfaW5m
+byAqZnJvbnRfaW5mbywKIAkJCSAgICAgIHU2NCBkYnVmX2Nvb2tpZSwgdTMyIHdpZHRoLCB1MzIg
+aGVpZ2h0LAotCQkJICAgICAgdTMyIGJwcCwgdTY0IHNpemUsIHN0cnVjdCBwYWdlICoqcGFnZXMp
+OworCQkJICAgICAgdTMyIGJwcCwgdTY0IHNpemUsIHUzMiBvZmZzZXQsIHN0cnVjdCBwYWdlICoq
+cGFnZXMpOwogCiBpbnQgeGVuX2RybV9mcm9udF9mYl9hdHRhY2goc3RydWN0IHhlbl9kcm1fZnJv
+bnRfaW5mbyAqZnJvbnRfaW5mbywKIAkJCSAgICB1NjQgZGJ1Zl9jb29raWUsIHU2NCBmYl9jb29r
+aWUsIHUzMiB3aWR0aCwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9m
+cm9udF9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udF9nZW0uYwppbmRl
+eCA0ZWM4YTQ5MjQxZTEuLjM5ZmY5NWI3NTM1NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3hlbi94ZW5fZHJtX2Zyb250X2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2Ry
+bV9mcm9udF9nZW0uYwpAQCAtMjEwLDcgKzIxMCw4IEBAIHhlbl9kcm1fZnJvbnRfZ2VtX2ltcG9y
+dF9zZ190YWJsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCiAJcmV0ID0geGVuX2RybV9mcm9u
+dF9kYnVmX2NyZWF0ZShkcm1faW5mby0+ZnJvbnRfaW5mbywKIAkJCQkJeGVuX2RybV9mcm9udF9k
+YnVmX3RvX2Nvb2tpZSgmeGVuX29iai0+YmFzZSksCi0JCQkJCTAsIDAsIDAsIHNpemUsIHhlbl9v
+YmotPnBhZ2VzKTsKKwkJCQkJMCwgMCwgMCwgc2l6ZSwgc2d0LT5zZ2wtPm9mZnNldCwKKwkJCQkJ
+eGVuX29iai0+cGFnZXMpOwogCWlmIChyZXQgPCAwKQogCQlyZXR1cm4gRVJSX1BUUihyZXQpOwog
+Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
