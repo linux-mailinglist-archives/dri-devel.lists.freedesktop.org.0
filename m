@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157B224340D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 08:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFB124340E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 08:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C97956E0CF;
-	Thu, 13 Aug 2020 06:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84ED96E284;
+	Thu, 13 Aug 2020 06:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057266E0CF
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 06:39:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7A46E284
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 06:39:59 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208893] Navi (RX 5700 XT) system appears to hang with more than
  one display connected
-Date: Thu, 13 Aug 2020 06:39:13 +0000
+Date: Thu, 13 Aug 2020 06:39:58 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208893-2300-oQvVOcsvGy@https.bugzilla.kernel.org/>
+Message-ID: <bug-208893-2300-FvzXxEvzc4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208893-2300@https.bugzilla.kernel.org/>
 References: <bug-208893-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,27 +59,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208893
 
---- Comment #4 from Gordon (gordon@gordonite.tech) ---
-Found a fix for the issue. 
+--- Comment #5 from Gordon (gordon@gordonite.tech) ---
+The problem: the GPU card / seems to make a difference here, some seem to
+require a bigger delay? and some just work.
 
-My card is a PowerColor Red Devil 5600 XT.
-
-
-diff --git a/drivers/gpu/drm/amd/powerplay/smu_cmn.c
-b/drivers/gpu/drm/amd/powerplay/smu_cmn.c
-index 5c23c44c33bd..62917c447ddb 100644
---- a/drivers/gpu/drm/amd/powerplay/smu_cmn.c
-+++ b/drivers/gpu/drm/amd/powerplay/smu_cmn.c
-@@ -87,7 +87,7 @@ static void smu_cmn_read_arg(struct smu_context *smu,
- static int smu_cmn_wait_for_response(struct smu_context *smu)
- {
-        struct amdgpu_device *adev = smu->adev;
--       uint32_t cur_value, i, timeout = adev->usec_timeout * 10;
-+       uint32_t cur_value, i, timeout = adev->usec_timeout * 20;
-
-        for (i = 0; i < timeout; i++) {
-                cur_value = RREG32_SOC15_NO_KIQ(MP1, 0, mmMP1_SMN_C2PMSG_90);
-(END)
+Would be nice to know why.
 
 -- 
 You are receiving this mail because:
