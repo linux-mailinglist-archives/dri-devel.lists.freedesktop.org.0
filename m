@@ -2,44 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4245F243568
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 09:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D91C2435AE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 10:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 626C26E113;
-	Thu, 13 Aug 2020 07:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6A56E51C;
+	Thu, 13 Aug 2020 08:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2476E113
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 07:51:08 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id c4so4065469otf.12
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 00:51:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eU62SrftExeZEPFtSlHLsBRzbUkLx1KNOgZc6VKFeBQ=;
- b=BcTBIMZXed3cIEqxU5M6gyn4o9nHihpLgbsp16YGjFyK2xJOM221Zir2YwmmPQ62XB
- O3IfMRFfJvgyhk7kE/iWcK7NTHBtZt6hvlYDis9bMaNn29u+0YCD/Wxdt+XcsX+1JYhu
- tYYSt3v1Jby+gXULXJgZuSeRj8l9SCAlk171w5j+aajB+kosZ0h6sjtqC6l57Yj8o3l5
- 8nQx8rh5Q8ePYnCK9X6DW0DI3jLL67CTUzjZvwLAfk9PJVAM5gUvtxUM8jLegsnj/6ir
- Egfrwbl8bk7cDEiHN5kivjAysfR9N0WcUXoj0DVhkuZGoiKmbm7ZgrfXGn24+iETrRrB
- hpYA==
-X-Gm-Message-State: AOAM5333rpft55RNkqB9E7YnCnELf8txAjdihRXA5A+ZtzGfiHxSYDPU
- EUCn1ls3yP8xgX8guWVCptF/VDkBuhcQ5qmeZRI=
-X-Google-Smtp-Source: ABdhPJzAAKS8g3t/W5mSJd2Vboc2FEvoNvVXoru7u4kNP7jabPCwVCki2JjTk/fEfMzVv8QAFC24k07bLAU2LYhSK+k=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id
- d25mr2990956ote.107.1597305067462; 
- Thu, 13 Aug 2020 00:51:07 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24A06E51C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 08:03:23 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 85F89AF82;
+ Thu, 13 Aug 2020 08:03:44 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: Fix build error of no type of module_init
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1597289955-27381-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <5e7ed4d6-8961-bdd0-6698-47571066357a@suse.de>
+Date: Thu, 13 Aug 2020 10:03:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200812203618.2656699-1-robh@kernel.org>
-In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Aug 2020 09:50:55 +0200
-Message-ID: <CAMuHMdVXvSRF-G_TYu4P+Bqa2FZJWsUCyzqFur3Rb-tBExfbsw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-To: Rob Herring <robh@kernel.org>
+In-Reply-To: <1597289955-27381-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,78 +41,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linux-iio@vger.kernel.org,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- Linux I2C <linux-i2c@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- linux-rtc@vger.kernel.org,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- linux-input@vger.kernel.org,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Linux PM list <linux-pm@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
- netdev <netdev@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-spi <linux-spi@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============1896444246=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1896444246==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="PViowPfbaTjNTU6mKv6gbP9xhigU5xjHJ"
 
-On Wed, Aug 12, 2020 at 10:36 PM Rob Herring <robh@kernel.org> wrote:
-> Clean-up incorrect indentation, extra spaces, long lines, and missing
-> EOF newline in schema files. Most of the clean-ups are for list
-> indentation which should always be 2 spaces more than the preceding
-> keyword.
->
-> Found with yamllint (which I plan to integrate into the checks).
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--PViowPfbaTjNTU6mKv6gbP9xhigU5xjHJ
+Content-Type: multipart/mixed; boundary="DZf0ynl3KQRcR4aueZHBhokv6F5d3B8Fx";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <5e7ed4d6-8961-bdd0-6698-47571066357a@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Fix build error of no type of module_init
+References: <1597289955-27381-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1597289955-27381-1-git-send-email-tiantao6@hisilicon.com>
 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+--DZf0ynl3KQRcR4aueZHBhokv6F5d3B8Fx
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+Hi
 
-> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-clocks.yaml
-> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-clocks.yaml
-> @@ -24,9 +24,9 @@ properties:
->        - const: renesas,r8a7778-cpg-clocks # R-Car M1
->        - const: renesas,r8a7779-cpg-clocks # R-Car H1
->        - items:
-> -        - enum:
-> -            - renesas,r7s72100-cpg-clocks # RZ/A1H
-> -        - const: renesas,rz-cpg-clocks    # RZ/A1
-> +          - enum:
-> +              - renesas,r7s72100-cpg-clocks # RZ/A1H
-> +          - const: renesas,rz-cpg-clocks    # RZ/A1
+Am 13.08.20 um 05:39 schrieb Tian Tao:
+> Add missing include to fix build error:
+> hibmc_drm_drv.c:385:1: warning: data definition has no type or storage
+> class [enabled by default]
+> hibmc_drm_drv.c:385:1: error: type defaults to =E2=80=98int=E2=80=99 in=
+ declaration
+> of =E2=80=98module_init=E2=80=99 [-Werror=3Dimplicit-int]
+> hibmc_drm_drv.c:385:1: warning: parameter names (without types) in func=
+tion
+> of =E2=80=98module_exit=E2=80=99 [-Werror=3Dimplicit-int]
+> hibmc_drm_drv.c:385:292:1: warning: parameter names (without types) in
+> function declaration [enabled by default]
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Reported-by: kernel test robot <lkp@intel.com>
 
-This change breaks alignment of the comments at the end of each line.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->        - const: renesas,sh73a0-cpg-clocks  # SH-Mobile AG5
+I pushed the patch to drm-misc-next, but forgot to add my R-b tag. If
+anyone complains, it's my fault.
 
-(I only checked the files I care about)
+Best regards
+Thomas
 
-If you don't update commit  e0fe7fc6f2ca0781 ("dt-bindings: Whitespace
-clean-ups in schema files"), I can send a patch after v5.9-rc1.
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index 1ae360d..2b4f821 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -11,6 +11,7 @@
+>   *	Jianhua Li <lijianhua@huawei.com>
+>   */
+> =20
+> +#include <linux/module.h>
+>  #include <linux/pci.h>
+> =20
+>  #include <drm/drm_atomic_helper.h>
+>=20
 
-Gr{oetje,eeting}s,
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--DZf0ynl3KQRcR4aueZHBhokv6F5d3B8Fx--
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--PViowPfbaTjNTU6mKv6gbP9xhigU5xjHJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8088kUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNqzAgArHim/VrpwqUX42uX6B5W6rBex4/V
+RoHBJMg8n9IEPDN5Bc8jtambx64LixZjCGPMIudkUCpcCuXr7NMPMAEz4/00btSu
+b4MLSv6k0pZM1BoIsvaAqzetDYS3J/JFY4a53gEgWA3vMj18490rXuyqpt/wcr7N
+lFiQfx0Qaf2uCI5/xBe0y0HIvRj/JXlTUeIAlsvKvDnnNq2ElSIqpe94BrR4qQEV
+tpf2QLovX7emOFlPho0TVsQvVTlvbxykVnNIZxWSPwUy+os85gUJOxIH/YvI5mg4
+QagqAlBDsIiZd5PcdEiF+O0VSvz2JRSjq4oaxWEh7YScArmvovGaeR6XAQ==
+=7zSe
+-----END PGP SIGNATURE-----
+
+--PViowPfbaTjNTU6mKv6gbP9xhigU5xjHJ--
+
+--===============1896444246==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1896444246==--
