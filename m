@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752FA243913
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 13:04:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9A8243927
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 13:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEF96E1F8;
-	Thu, 13 Aug 2020 11:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3C36E9AE;
+	Thu, 13 Aug 2020 11:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C15566E1F8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 11:04:26 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id f1so4890607wro.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 04:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=yr/mjxUpkY1c/lUEQ4SP0vPJpwMpzcQ8K8L8JyZm16M=;
- b=fxWoJl9JTcWAFzQ1sN5VdxEAh0+vy+RKj/GPr4K9n39MpVFGJgtH3nWpA8OodYIGth
- NsyH7Tpv3yBP6IBJ4tLRTo3IW2a1u3WTdiIdAbBMyDDXDWa3+JkCwDHtfldizY0aWP5Q
- AFK/ZtlexDndbpRgHmUyk8au5r50q8hI5wjeaddIHyApGiakM8Dvi/UTSafE3x+18WE1
- 2/BWnVeGi2Ad7IJgUxhNWYSmLNPVJBF5tzU7Ocpx2l6pVtLHU/wWKHmwDkzo5HJzP+Fv
- gApHSKr49LFFy409Wv4bkKbZ8dgeq8NI9q5kjrRic/s+9VER6Rp+m/sI1YI5d8J6Hs8L
- LzAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yr/mjxUpkY1c/lUEQ4SP0vPJpwMpzcQ8K8L8JyZm16M=;
- b=iC/mhP/uKQ/xfXp7faAnHdXMB5NIshehGwnu5oCFGia6llpQ35pGOxEN9uChrN3B3C
- mSB/nG0R4tu4C+D7dZiv8W7ZIlLkdnodLVYECmqgiDyUyDaWULxDwi5gqjKCSrYLkzt1
- A4zC5sZYQ14URLR1jFqBmArxgaXss0fySGqJ6kehyd3dq7Pz/Dg6/gs8phF+IchnLdDm
- JyJ8uR9zHDJqVE037cOYwJTxGYk15JcCdaI5wMAcfT4HZAml2z1dAd+dQVQ0a6/2ACUV
- Q3VkwUiQUXsRw9eLJnDHe5iq+Kr9CowSpFTLFT7fwoaIhTK/pVyYCl7NN5yTl6G4tHJs
- sp/Q==
-X-Gm-Message-State: AOAM531V27cEqFynfewv7540eFfKlVIsOQJuPXW/jBTf+L/syRuJrb0W
- YZhGE/OUGTWXm1JfBr6Rr8Di9g==
-X-Google-Smtp-Source: ABdhPJzdRWVo06phdhDhcFTY+xzsyPi1aU0HqVp/y5mvmsroDBpq9Cj/8/vse5cbsqFkG/0X6oF3kA==
-X-Received: by 2002:adf:c552:: with SMTP id s18mr3415074wrf.209.1597316665325; 
- Thu, 13 Aug 2020 04:04:25 -0700 (PDT)
-Received: from holly.lan (82-132-221-219.dab.02.net. [82.132.221.219])
- by smtp.gmail.com with ESMTPSA id z8sm8642091wmf.10.2020.08.13.04.04.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 04:04:24 -0700 (PDT)
-Date: Thu, 13 Aug 2020 12:04:22 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 1/3 v2] dt-bindings: backlight: Add some common backlight
- properties
-Message-ID: <20200813110422.25fkbqfldehncjzs@holly.lan>
-References: <20200812085850.2643820-1-linus.walleij@linaro.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 595226E9AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 11:11:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84B3EF9;
+ Thu, 13 Aug 2020 13:11:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597317097;
+ bh=6+OyEWqifsz3+mafd2j5D1bEiypt87Aw3SXgHFWIW6s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tl/wB7wg5y7Z1dm89rsHU0IV98Fg7Y6izj9y/srCp246Udbz0oA5E57i+ff8FBm1T
+ 2GXimbBrECYY5IZTz3QllBEuq854zYzNYOUxotY+djZOrWWZ75rJxCR5xtllswM5b4
+ 0jYTymcQwCuNJmx/ZEu22vVObI+/sg0OOVB7aXaQ=
+Date: Thu, 13 Aug 2020 14:11:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: display: renesas,du: Document r8a774e1
+ bindings
+Message-ID: <20200813111123.GD6057@pendragon.ideasonboard.com>
+References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV4Tp=kz57pAJk0u5hVpbiEdVzTWDvK+F1AZ5TjGmLbMQ@mail.gmail.com>
+ <CA+V-a8svAuDx51vuTCH4w5g0oF9qf8sWAEjMDMm+0+9u-UQhQw@mail.gmail.com>
+ <20200813105910.GB6057@pendragon.ideasonboard.com>
+ <CA+V-a8sRQ_R4UGkSjrZ7Rq5nUqTwPtbvuuT0t69mM8M8ZeTkRQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200812085850.2643820-1-linus.walleij@linaro.org>
+In-Reply-To: <CA+V-a8sRQ_R4UGkSjrZ7Rq5nUqTwPtbvuuT0t69mM8M8ZeTkRQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,73 +51,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Jingoo Han <jingoohan1@gmail.com>,
- Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Magnus Damm <magnus.damm@gmail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 12, 2020 at 10:58:48AM +0200, Linus Walleij wrote:
-> Let's use a common.yaml include for the backlight like we do with
-> the LEDs. The LEDs are inherently incompatible so their bindings
-> cannot be reused for backlight.
-> 
-> Cc: devicetree@vger.kernel.org
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v1->v2:
-> - New patch as suggested by Sam.
-> ---
->  .../bindings/leds/backlight/common.yaml       | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/common.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/common.yaml b/Documentation/devicetree/bindings/leds/backlight/common.yaml
-> new file mode 100644
-> index 000000000000..8ae7e3818b0d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/common.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/common.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common backlight properties
-> +
-> +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +description: |
-> +  Backlight devices provide backlight for different types of graphical
-> +  displays. They are typically but not necessarilt implemented using a white
-> +  LED powered by a boost converter.
-> +
-> +properties:
-> +  default-on:
-> +    description:
-> +      The initial state of the backlight can be set to be on with this
-> +      property. This is a state applied by the operating system so that the
-> +      backlight is always turned on at boot.
+Hi Prabhakar,
 
-Is default-on really a common property? I would describe it as legacy
-that emerged when we added the gpio bindings and didn't spell
-default-brightness correctly!
+On Thu, Aug 13, 2020 at 12:08:58PM +0100, Lad, Prabhakar wrote:
+> On Thu, Aug 13, 2020 at 11:59 AM Laurent Pinchart wrote:
+> > On Thu, Aug 13, 2020 at 11:38:03AM +0100, Lad, Prabhakar wrote:
+> >> On Thu, Aug 13, 2020 at 10:05 AM Geert Uytterhoeven wrote:
+> >>> On Wed, Aug 12, 2020 at 4:02 PM Lad Prabhakar wrote:
+> >>>> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> >>>>
+> >>>> Document the RZ/G2H (a.k.a. r8a774e1) SoC in the R-Car DU bindings.
+> >>>>
+> >>>> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> >>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>> ---
+> >>>>  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
+> >>>>  1 file changed, 2 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> >>>> index 51cd4d162770..67cded5ad827 100644
+> >>>> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> >>>> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> >>>> @@ -10,6 +10,7 @@ Required Properties:
+> >>>>      - "renesas,du-r8a774a1" for R8A774A1 (RZ/G2M) compatible DU
+> >>>>      - "renesas,du-r8a774b1" for R8A774B1 (RZ/G2N) compatible DU
+> >>>>      - "renesas,du-r8a774c0" for R8A774C0 (RZ/G2E) compatible DU
+> >>>> +    - "renesas,du-r8a774e1" for R8A774E1 (RZ/G2H) compatible DU
+> >>>>      - "renesas,du-r8a7779" for R8A7779 (R-Car H1) compatible DU
+> >>>>      - "renesas,du-r8a7790" for R8A7790 (R-Car H2) compatible DU
+> >>>>      - "renesas,du-r8a7791" for R8A7791 (R-Car M2-W) compatible DU
+> >>>> @@ -75,6 +76,7 @@ corresponding to each DU output.
+> >>>>   R8A774A1 (RZ/G2M)      DPAD 0         HDMI 0         LVDS 0         -
+> >>>>   R8A774B1 (RZ/G2N)      DPAD 0         HDMI 0         LVDS 0         -
+> >>>>   R8A774C0 (RZ/G2E)      DPAD 0         LVDS 0         LVDS 1         -
+> >>>> + R8A774E1 (RZ/G2H)      DPAD 0         HDMI 0         LVDS 0         -
+> >>>
+> >>> As LVDS 0 is the fourth channel (DU3), should it be listed under port 3
+> >>> instead of port 2?
+> >>>
+> >>> I know we did it the same for R-Car M3-N and RZ/G2N.
+> >>> But my main worry is adding support for R-Car H3-N later.
+> >
+> > Why should we do so ? The port number here isn't tied to the DU channel
+> > number. It only identifies the output port. Many DUs can route DU
+> > channel outputs to different output ports.
+> >
+> The binding document (renesas,du.txt) does state that "The following
+> table lists for each supported model the port number corresponding to
+> each DU output.", hence the confusion.
 
-Currently I think this is only implemented for GPIO and it is simply
-not needed for most hardware. More specifically, for hardware that is
-capable of flicker-free handover (bootloader -> kernel) by examining
-the hardware state at handover then we don't want a DT property. It is
-duplicative and can only result in bad handovers.
+It can be a bit confusing indeed. "DU output" here refers to the output
+of the whoel DU, made of individual DU channels. Each DU channel is
+listed as a DU device in the datasheet, and collectively they are the DU
+device that Linux handles.
 
+> >> I do agree too, with the below diff I tested the LVDS output on RZ/G2N
+> >> Rev2 board and things work fine. But only thing it doesn't explain is
+> >> why does LVDS work on DU2 for G2[H/N] boards :D
+> >>
+> >> Geert, Laurent, Kieran If you agree with the below changes I shall
+> >> post a proper patch fixing it for RZ/G2[HN]
+> >>
+> >> diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+> >> b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+> >> index d661724fc28a..0b087d287202 100644
+> >> --- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+> >> +++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+> >> @@ -2540,8 +2540,8 @@
+> >>                                                 remote-endpoint =
+> >> <&dw_hdmi0_in>;
+> >>                                         };
+> >>                                 };
+> >> -                               port@2 {
+> >> -                                       reg = <2>;
+> >> +                               port@3 {
+> >> +                                       reg = <3>;
+> >>                                         du_out_lvds0: endpoint {
+> >>                                                 remote-endpoint = <&lvds0_in>;
+> >>                                         };
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >> b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >> index 3e67cf70f040..419d81c7763e 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >> @@ -153,7 +153,7 @@ static const struct rcar_du_device_info
+> >> rcar_du_r8a774b1_info = {
+> >>                 },
+> >>                 [RCAR_DU_OUTPUT_LVDS0] = {
+> >>                         .possible_crtcs = BIT(0),
+> >> -                       .port = 2,
+> >> +                       .port = 3,
+> >>                 },
+> >>         },
+> >>         .num_lvds = 1,
+> >>
+> >>>>   R8A7779 (R-Car H1)     DPAD 0         DPAD 1         -              -
+> >>>>   R8A7790 (R-Car H2)     DPAD 0         LVDS 0         LVDS 1         -
+> >>>>   R8A7791 (R-Car M2-W)   DPAD 0         LVDS 0         -              -
+> >>>
+> >>> Apart from that:
+> >>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Daniel.
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
