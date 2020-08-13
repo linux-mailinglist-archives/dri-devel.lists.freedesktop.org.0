@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889F1243D4E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 18:25:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23508243DC1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 18:56:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20B26EA51;
-	Thu, 13 Aug 2020 16:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313A16EA4B;
+	Thu, 13 Aug 2020 16:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4006E9FE
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 16:25:53 +0000 (UTC)
-Received: from localhost (unknown [70.37.104.77])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5D8082087C;
- Thu, 13 Aug 2020 16:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597335953;
- bh=+AR6QzAB/djo+8lI3KCMPQ1vWDhntWbmdv66b3lNJbE=;
- h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:In-Reply-To:
- References:From;
- b=tsjabq2TjoKwhfdyaVgV1Dt3nc8GO6gIy4M3NpFayO+25O7rlf3ku3Av8L3p5Gdjm
- okq3xs+MvSrMiVufUbetWZlDKvWTvjZIs9xpJASpu5TWDgxh3ZJsytNmuiKt+ZY6dJ
- gbt8C7/Vg8K03QgEF0zFEJBvBBq91fQ7vUlvbb3g=
-Date: Thu, 13 Aug 2020 16:25:52 +0000
-From: Sasha Levin <sashal@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org
-Subject: Re: [PATCH v1 1/4] drm/ast: Only set format registers if primary
- plane's format changes
-In-Reply-To: <20200805105428.2590-2-tzimmermann@suse.de>
-References: <20200805105428.2590-2-tzimmermann@suse.de>
-Message-Id: <20200813162553.5D8082087C@mail.kernel.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 397786EA4B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 16:56:25 +0000 (UTC)
+IronPort-SDR: Je55xH3SzXz9t39yjk4uN2ACoC0G3eRvEhkWvR6v8GklfH/q3UeWVJPeHuqBaXcO2z8eva7wTl
+ j8YtVRKKqHLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="133797233"
+X-IronPort-AV: E=Sophos;i="5.76,309,1592895600"; d="scan'208";a="133797233"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2020 09:56:24 -0700
+IronPort-SDR: Uc80LtS6i3tPbPmBcmTkgi9VIQab3bteaqILMZme+KBX0oDIgCn9Td7b7NzxLFjaDyxgIzZ7i4
+ RZfJz81L7Gzw==
+X-IronPort-AV: E=Sophos;i="5.76,309,1592895600"; d="scan'208";a="470286607"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.168])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2020 09:56:23 -0700
+Date: Thu, 13 Aug 2020 09:56:22 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: ssermsix <sunilx.kumar.dora.sermsity@intel.com>
+Subject: Re: [PATCH libdrm] INTEL: Add PCI ID support to RKL platform
+Message-ID: <20200813165622.GH2909565@mdroper-desk1.amr.corp.intel.com>
+References: <20200813053338.7166-1-sunilx.kumar.dora.sermsity@intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200813053338.7166-1-sunilx.kumar.dora.sermsity@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,43 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
-MIME-Version: 1.0
+Cc: Pankaj.Laxminarayan.Bharadiya@intel.com, Naveen1.Kumar@intel.com,
+ hariom.pandey@intel.com, Srinivasa.RaoX.Tottadi@intel.com,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-[This is an automated email]
-
-This commit has been processed because it contains a "Fixes:" tag
-fixing commit: 4961eb60f145 ("drm/ast: Enable atomic modesetting").
-
-The bot has tested the following trees: v5.8, v5.7.14.
-
-v5.8: Failed to apply! Possible dependencies:
-    05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
-    fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
-
-v5.7.14: Failed to apply! Possible dependencies:
-    05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
-    3a53230e1c4b ("drm/ast: Make ast_primary_plane_helper_atomic_update static")
-    fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
-
-
-NOTE: The patch will not be queued to stable trees until it is upstream.
-
-How should we proceed with this patch?
+On Thu, Aug 13, 2020 at 11:03:38AM +0530, ssermsix wrote:
+> ---
+>  intel/intel_chipset.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/intel/intel_chipset.c b/intel/intel_chipset.c
+> index f6e37ee7..c3ce8f51 100644
+> --- a/intel/intel_chipset.c
+> +++ b/intel/intel_chipset.c
+> @@ -35,6 +35,7 @@ static const struct pci_device {
+>  	uint16_t gen;
+>  } pciids[] = {
+>  	/* Keep ids sorted by gen; latest gen first */
+> +	INTEL_RKL_IDS(12),
+>  	INTEL_TGL_12_IDS(12),
+>  	INTEL_EHL_IDS(11),
+>  	INTEL_ICL_11_IDS(11),
+> -- 
+> 2.25.1
+> 
 
 -- 
-Thanks
-Sasha
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
