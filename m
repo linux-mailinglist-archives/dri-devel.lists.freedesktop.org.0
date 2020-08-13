@@ -1,28 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A78243AFE
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 15:51:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42851243B00
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 15:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 506D96E9F6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26DA6E9F9;
 	Thu, 13 Aug 2020 13:51:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED176E20E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD3D76E9F4
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 13:51:19 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 72B3BABF1;
+ by mx2.suse.de (Postfix) with ESMTP id 72EEEAE08;
  Thu, 13 Aug 2020 13:51:40 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
  emil.l.velikov@gmail.com
-Subject: [PATCH v3 0/4] drm/ast: Disable HW cursor when switching modes
-Date: Thu, 13 Aug 2020 15:51:05 +0200
-Message-Id: <20200813135109.10724-1-tzimmermann@suse.de>
+Subject: [PATCH v3 1/4] drm/ast: Set format registers in primary plane's update
+Date: Thu, 13 Aug 2020 15:51:06 +0200
+Message-Id: <20200813135109.10724-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200813135109.10724-1-tzimmermann@suse.de>
+References: <20200813135109.10724-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,54 +44,106 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since converting the ast driver to atomic modesettting, modesetting
-occationally locks up the graphics hardware and turns the display
-permanently dark. This happens once or twice per 10 mode switches.
-Investigation shows that the ast hardware presumably requires the HW
-cursor to be disabled while the modeswitch takes place.
+The atomic modesetting code tried to distinguish format changes from
+full modesetting operations. But the implementation was buggy and the
+format registers were often updated even for simple pageflips.
 
-This patchset fixes the problem by disabling planes before programming
-the CRTC mode. After the switch, the planes gets re-enabled if they were
-enabled before. For mere pageflip operations, nothing changes.
-
-Patches #1 makes format changes work as intended: format registers are
-only updated if necessary. They used to be changed on each pageflip.
-
-Patches #2 to #4 change the modesetting logic such that planes will be
-disabled with the CRTC, then the CRTC's new mode is being programmed,
-and finally planes are reenabled. The primary plane is enabled before
-the cursor plane. With this setup way, the cursor plane always has a
-valid mode and framebuffer available.
-
-Tested on AST2100 HW. The issue is not 100% reproducible, but does not
-show up after applying the patchset. I think the problem has been fixed.
+Fix this problem by handling format changes in the primary plane's
+update function.
 
 v3:
-	* rewrote the patchset again
-	* format setup is now done on primary-plane update
-	* don't disable cursor for format changes (does not seem necessary)
-	* disable planes in CRTC atomic_disable()
-	* do modeset in atomic_enable()
-	* drop Fixes tags; it's too complicated for a simple bugfix
+	* program format in primary plane's update function
 
-v2:
-	* rewrote the whole patchset
-	* dropped the cursor patches
-	* moved modesetting into atomic_begin()
-	* disable planes in commit-tail function
-	* don't require full modeset for format changes
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 44 +++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-Thomas Zimmermann (4):
-  drm/ast: Set format registers in primary plane's update
-  drm/ast: Disable planes while switching display modes
-  drm/ast: Program display mode in CRTC's atomic_enable()
-  drm/ast: Enable CRTC before planes
-
- drivers/gpu/drm/ast/ast_drv.h  |   2 +
- drivers/gpu/drm/ast/ast_mode.c | 103 ++++++++++++++++++++-------------
- 2 files changed, 64 insertions(+), 41 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 62fe682a7de6..2323fe0b71bd 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -562,13 +562,24 @@ ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *state = plane->state;
+ 	struct drm_gem_vram_object *gbo;
+ 	s64 gpu_addr;
++	struct drm_framebuffer *fb = state->fb;
++	struct drm_framebuffer *old_fb = old_state->fb;
++
++	if (!old_fb || (fb->format != old_fb->format)) {
++		struct drm_crtc_state *crtc_state = state->crtc->state;
++		struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
++		struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
++
++		ast_set_color_reg(ast, fb->format);
++		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
++	}
+ 
+-	gbo = drm_gem_vram_of_gem(state->fb->obj[0]);
++	gbo = drm_gem_vram_of_gem(fb->obj[0]);
+ 	gpu_addr = drm_gem_vram_offset(gbo);
+ 	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
+ 		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
+ 
+-	ast_set_offset_reg(ast, state->fb);
++	ast_set_offset_reg(ast, fb);
+ 	ast_set_start_address_crt1(ast, (u32)gpu_addr);
+ 
+ 	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+@@ -733,6 +744,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 					struct drm_crtc_state *state)
+ {
++	struct drm_device *dev = crtc->dev;
+ 	struct ast_crtc_state *ast_state;
+ 	const struct drm_format_info *format;
+ 	bool succ;
+@@ -743,8 +755,8 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 	ast_state = to_ast_crtc_state(state);
+ 
+ 	format = ast_state->format;
+-	if (!format)
+-		return 0;
++	if (drm_WARN_ON_ONCE(dev, !format))
++		return -EINVAL; /* BUG: We didn't set format in primary check(). */
+ 
+ 	succ = ast_get_vbios_mode_info(format, &state->mode,
+ 				       &state->adjusted_mode,
+@@ -768,27 +780,15 @@ static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct drm_device *dev = crtc->dev;
+ 	struct ast_private *ast = to_ast_private(dev);
+-	struct ast_crtc_state *ast_state;
+-	const struct drm_format_info *format;
+-	struct ast_vbios_mode_info *vbios_mode_info;
+-	struct drm_display_mode *adjusted_mode;
++	struct drm_crtc_state *crtc_state = crtc->state;
++	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
++	struct ast_vbios_mode_info *vbios_mode_info =
++		&ast_crtc_state->vbios_mode_info;
++	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+ 
+-	ast_state = to_ast_crtc_state(crtc->state);
+-
+-	format = ast_state->format;
+-	if (!format)
+-		return;
+-
+-	vbios_mode_info = &ast_state->vbios_mode_info;
+-
+-	ast_set_color_reg(ast, format);
+-	ast_set_vbios_color_reg(ast, format, vbios_mode_info);
+-
+-	if (!crtc->state->mode_changed)
++	if (!drm_atomic_crtc_needs_modeset(crtc_state))
+ 		return;
+ 
+-	adjusted_mode = &crtc->state->adjusted_mode;
+-
+ 	ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
+ 	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
+ 	ast_set_std_reg(ast, adjusted_mode, vbios_mode_info);
+-- 
 2.28.0
 
 _______________________________________________
