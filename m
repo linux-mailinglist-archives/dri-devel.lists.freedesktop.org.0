@@ -1,57 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0318124319D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 02:02:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7EC243214
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 03:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23CE46E963;
-	Thu, 13 Aug 2020 00:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A594C6E34D;
+	Thu, 13 Aug 2020 01:29:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA416E963;
- Thu, 13 Aug 2020 00:02:20 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id j21so1879934pgi.9;
- Wed, 12 Aug 2020 17:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NL6rjLUzSXMKDMOOhTr8S6EoaPbeYW69JWbRVQ0AlOQ=;
- b=U2gNhKgvUtMwI0xzUVhx//Bq/+qwtjFeuaYS1iveIR3A4bsACyis1XddGwiY6dK2Sn
- 6jbT7RsiRVg4o5I9ePAPB9paTugf7W0AFcLzK5wXEbTZo+P35e/+ALwm2rCJrrKtDu3k
- QF8c2z47qQ9ToSjndnfod7w9oaqdqX0rpY9OcEHNQNshW0I1MNOYt8B2wVa6hUuRfxLP
- JX84Att2w1CT9xa5NObA6SMP5S2SXrU9yu9N1jAjKiD8MtKfyIvLn5dP8l7iZy+cIMPr
- eafUH6Ta2blVR9Y7ToWsVuBk8fVhSdKCO5nOlGZBcndN73qqU5NcvBYHd5k9LbAGOJ7U
- 1ZZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NL6rjLUzSXMKDMOOhTr8S6EoaPbeYW69JWbRVQ0AlOQ=;
- b=jeSkjlVGzRNufFy+2RkoFQxIirXTpwUUzBV64I6LAZLyIbEyuDF2V0z4VOQEwOAj19
- f1JZu5OfEBIqGkHRn6yDLAm5F717isM5M0Rg9ETnU0BTbkRz3qxEUZLx1K4kcq9mSuNm
- ZQrU1BF+n7IrjKtfcGXq6J2XPPCyq/ol+2pHf3yrGAh9PIWKtGMd2qnROX4LAeWUpbQW
- QObcQDEtf+LL3IxahCgVADb9NTT3TUYK91ay3QMmyB9CtzpZtH6SEBgf/HWsmT3rlEJQ
- /XdwqntuvkHJYEgf3J3wytH2atk4SS7fNEeXr1N34PNC+CUFQreAou1FJsBsHbw40IQC
- nyQQ==
-X-Gm-Message-State: AOAM53366y9wBfjIwJaqnoV1LNv2qI3l+KFxO3VRL0Nfr6AYaczHazys
- vtcBQqSMlBFRd/kUBjPHJGz23bBjaP0=
-X-Google-Smtp-Source: ABdhPJyrSzvVBwV+Sltkyb+UhvogaKP8htnyL7cUHmv9324U3QvGSXf9RSUI9G2wmyoYoKvDJUop1g==
-X-Received: by 2002:a62:d149:: with SMTP id t9mr1853163pfl.59.1597276939794;
- Wed, 12 Aug 2020 17:02:19 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- y20sm3563448pfn.183.2020.08.12.17.02.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 17:02:18 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261256E2E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 01:29:33 +0000 (UTC)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9FCA2B7;
+ Thu, 13 Aug 2020 03:29:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597282170;
+ bh=bd0qYrwzrJ4bHxah62yG+bSosA6MvnK/Qf6Qk4KfRec=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qA1YrFcfzEx/YVld5LXlgsHPoUO6W2lFzzyWrjAL+0X/PoiJXBR+fRDb3nwNYFPww
+ w5xF6VO5XX/Uz2ZKj3gNVJLpSsQM5C/3t8ix/43sPwRQQbeGhAW7RUoQ1msOEXRevN
+ nlGAdZ/dXy1ait7uEcxrDl3FnSdlcu1rcHm79+Uk=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/adreno: fix updating ring fence
-Date: Wed, 12 Aug 2020 17:03:09 -0700
-Message-Id: <20200813000311.708728-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
+Subject: [PATCH 0/8] drm: mxsfb: Allow overriding bus width
+Date: Thu, 13 Aug 2020 04:29:02 +0300
+Message-Id: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,49 +42,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hello,
 
-We need to set it to the most recent completed fence, not the most
-recent submitted.  Otherwise we have races where we think we can retire
-submits that the GPU is not finished with, if the GPU doesn't manage to
-overwrite the seqno before we look at it.
+This patch series adds support to the mxsfb driver for bus width
+override. The need came from a hardware platform where a 18-bpp panel
+had the R[5:0], G[5:0] and B[5:0] signals connected to LCD_DATA[7:2],
+LCD_DATA[15:10] and LCD_DATA[23:18] instead of LCD_DATA[5:0],
+LCD_DATA[11:6] and LCD_DATA[17:12]. The bus width, automatically
+configured to 18 by querying the panel, is incorrect in this case, and
+needs to be set to 24.
 
-This can show up with hang recovery if one of the submits after the
-crashing submit also hangs after it is replayed.
+To solve this issue, a new bus-width DT property is added to the mxsfb
+DT binding. Patch 1/8 first converts the binding to YAML, with a fix for
+the compatible string values in 2/8. Patch 3/8 then adds the new
+property, and 4/8 renames the binding file to fsl,lcdif.yaml to match
+the usual naming convention. I've kept that patch last to make it easy
+to drop should should mxsfb.yaml be preferred.
 
-Fixes: f97decac5f4c ("drm/msm: Support multiple ringbuffers")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patches 5/8 to 6/8 then fix the DT sources to match the LCDIF bindings,
+as I noticed during the conversion that the compatible strings were
+badly managed (see patch 2/8 for a longer explanation). Patch 7/8 drops
+an unused clock from DT sources.
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index f9e3badf2fca..34e6242c1767 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -405,7 +405,7 @@ int adreno_hw_init(struct msm_gpu *gpu)
- 		ring->next = ring->start;
- 
- 		/* reset completed fence seqno: */
--		ring->memptrs->fence = ring->seqno;
-+		ring->memptrs->fence = ring->fctx->completed_fence;
- 		ring->memptrs->rptr = 0;
- 	}
- 
+Patch 8/8 finally adds support for the bus-width property to the mxsfb
+driver.
+
+Laurent Pinchart (8):
+  dt-bindings: display: mxsfb: Convert binding to YAML
+  dt-bindings: display: mxsfb: Add and fix compatible strings
+  dt-bindings: display: mxsfb: Add a bus-width endpoint property
+  dt-bindings: display: mxsfb: Rename to fsl,lcdif.yaml
+  ARM: dts: imx: Fix LCDIF compatible strings
+  arm64: dts: imx8mq: Fix LCDIF compatible strings
+  ARM: dts: imx: Remove unneeded LCDIF disp_axi clock
+  drm: mxsfb: Add support for the bus-width DT property
+
+ .../bindings/display/fsl,lcdif.yaml           | 135 ++++++++++++++++++
+ .../devicetree/bindings/display/mxsfb.txt     |  87 -----------
+ MAINTAINERS                                   |   2 +-
+ arch/arm/boot/dts/imx6sl.dtsi                 |   7 +-
+ arch/arm/boot/dts/imx6sll.dtsi                |   7 +-
+ arch/arm/boot/dts/imx6sx.dtsi                 |   4 +-
+ arch/arm/boot/dts/imx6ul.dtsi                 |   7 +-
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     |   2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  26 ++++
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h             |   2 +
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c             |   8 +-
+ 11 files changed, 182 insertions(+), 105 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/mxsfb.txt
+
 -- 
-2.26.2
+Regards,
+
+Laurent Pinchart
 
 _______________________________________________
 dri-devel mailing list
