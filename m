@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9611024398A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 14:01:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAB02439F0
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 14:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E396E9CD;
-	Thu, 13 Aug 2020 12:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 255096E20D;
+	Thu, 13 Aug 2020 12:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1491D6E9CD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 12:01:31 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id l84so4763706oig.10
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 05:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5ix5Qgc7EXZg3KYsYWmHUiSNkJp+gH4MF6R1FszzrmI=;
- b=djje4UiQkZNv9cqXfGCHSMQJPxE6DzMN1hzVR8SpTJgUw9ZaTFukFP8ov/nUwAt55y
- f60Ywv63fmq3KIgzpt0B3/RQrk3myUun/BPf8k10tiqX4vZiOlLSC+jRykjTVM1b28sq
- ivFWU3qFoVkG2ZJlGW6QQ3gc0jBlnjm9dZbWs=
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586776E20D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 12:44:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597322651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DuaKe1mZfbQOEy3vU0IvOh3qvOEZnjiR99rYX0WAkfY=;
+ b=SmiBT0lnFaHbkRZKsWrJ2eaa4lllHXVa9oOwfSUtxgz+M7+RljwhJq1pTCbijUxkd2hhIo
+ n3JC03Isml0iPa22zJdA7lemKEsIKhqNIHGThgKeVeLpc/uwXr5qMzVlmNJWm0Fm+uZiFK
+ kq1/cdCWyKrEhrBXbrSTFfhM7JE+InQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-RU1_dDNoMcak7xEbb_IFUg-1; Thu, 13 Aug 2020 08:44:09 -0400
+X-MC-Unique: RU1_dDNoMcak7xEbb_IFUg-1
+Received: by mail-qk1-f200.google.com with SMTP id d131so3847763qke.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 05:44:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5ix5Qgc7EXZg3KYsYWmHUiSNkJp+gH4MF6R1FszzrmI=;
- b=pNaoD8QixwsdK5UwrxbNM8SbCblAM5pc+Ay8vgjizpBQJJ1u+70TvPVI593aMxzTGK
- izr8gsL6Jbo495CdlkG72Qu6k4zGkNN5sJur5byzMFdHdi1qGVAj9VYlxGmCYJ8P+2oQ
- qn0ZTY3zX0AVdfS7RgZZ/5PmaK8i32d6wQfdXv/q6ckAX8P5GiZ5UeeUO2FXRv9IoEC7
- OkeVvH1QU91ENqjPYBUL0eugj72A9GQHRYUKRxWximJnF7MO7o4TYQSJQ//npRPe5niJ
- 7GH2dmKal4DZM7a8v1GEtUW3+1EI2PEIgdU3GFs7XsH3987XDIIpXuVLmzm0k1Q4vTZA
- 6j6A==
-X-Gm-Message-State: AOAM530Atfww5RZvdbeT4+1eC1H7z0kvQLCDkbMptT8YB/DkPiCzQqW/
- qSPDyDkBmUDT+fkunqAbjW89xOn1UtjrByLLCHaNAQ==
-X-Google-Smtp-Source: ABdhPJzGrbifSHYpBhhDpxRkN6yagw/xw0jkdczdirQjjLKrtwNDu/HjKnuruO8RVmzDM5ohWbtLXZ3DCcA9VU703aE=
-X-Received: by 2002:aca:da03:: with SMTP id r3mr3042263oig.14.1597320090273;
- Thu, 13 Aug 2020 05:01:30 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=DuaKe1mZfbQOEy3vU0IvOh3qvOEZnjiR99rYX0WAkfY=;
+ b=ExNVfXhLvnhHygY6/sNGfHu7sweTPHAz+CKViO9juFV+ELus4ApuusKwQObcOuG1QG
+ uQY3P3DHRc3m3v7/LxdKqqAMqXJ0CPO+cYy0OfiIRS+CR340CzgGua0ulMYo7/qfx2TB
+ CdTAaq3Q1W2qxSYNxFQIffEJzS5d7LSnqhJvczZkgsW/Cxj0d6Jt7iglAxpvP+/m0CV6
+ Ux+tB3afS4K4xBKcWIe8TkenuxgSZJseVSWihuAFjy2P57mxQFhMHbi2StqD+gFR6SUO
+ dc650tJHdYVQPEnpvU7xRq7FYMWgSn1Ip+gl9GfIurutXsB7s/uWqPBSp6c2VsJUXelv
+ BJsA==
+X-Gm-Message-State: AOAM532tyVLVk9yVPcay2Wu7gwp2F8klQCcBD9XqvtJKbULot5+udeiN
+ 6Gjdnff7B9G0vpb0fgp5VxRFdDfGB2JADIPMCe+gw1SJx29amKSyT10U6qY/Iw/ZYHkS0d1OHLB
+ DUwwdmVAutv7U2Ls3s2XlNvPaCrSVkA9n9yEt+WnlnCiK
+X-Received: by 2002:ac8:74c7:: with SMTP id j7mr4944641qtr.254.1597322649002; 
+ Thu, 13 Aug 2020 05:44:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxicaEepBIMK6TfbtL+T0MXKjJ+N/gu+zF3IhKDvPZQsjbaCt3vMck1dvybXgaPOkrqmPAFI60DmEZFhhozH9M=
+X-Received: by 2002:ac8:74c7:: with SMTP id j7mr4944601qtr.254.1597322648679; 
+ Thu, 13 Aug 2020 05:44:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200807111022.12117-1-tzimmermann@suse.de>
- <20200807131252.GG2352366@phenom.ffwll.local>
- <07a956c0-10ac-f6e2-73c5-3dd584c4d2d9@suse.de>
- <CAKMK7uHsYqNYuQrbddU7Or6HxZmS8po=WfYvk5z6V5hFuee=wQ@mail.gmail.com>
- <fa21a421-9527-046e-a703-09f4f7f79d16@suse.de>
- <20200813094817.GI2352366@phenom.ffwll.local>
- <3e142611-26be-ebf4-8a9b-37920e27fa7d@suse.de>
- <20200813103126.GM2352366@phenom.ffwll.local>
- <502eee83-80d2-d47a-8e29-ab4cf74151b3@suse.de>
-In-Reply-To: <502eee83-80d2-d47a-8e29-ab4cf74151b3@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 13 Aug 2020 14:01:19 +0200
-Message-ID: <CAKMK7uFRVmceJa4p16vWuUUAepZq9Vang-XEBeM22bQNgRFRgw@mail.gmail.com>
-Subject: Re: [PATCH] drm/malidp: Use struct drm_gem_object_funcs.get_sg_table
- internally
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20200812204952.1921587-1-jcline@redhat.com>
+In-Reply-To: <20200812204952.1921587-1-jcline@redhat.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Thu, 13 Aug 2020 14:43:57 +0200
+Message-ID: <CACO55tuYkFvSXL+i1zcAROq7T=LvGuOzdhzy+2DZVG0O2L4mjA@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau: Add fine-grain temperature reporting
+To: Jeremy Cline <jcline@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,121 +71,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Mali DP Maintainers <malidp@foss.arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBdWcgMTMsIDIwMjAgYXQgMTI6MzkgUE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IEFtIDEzLjA4LjIwIHVtIDEyOjMxIHNj
-aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIFRodSwgQXVnIDEzLCAyMDIwIGF0IDEyOjI4OjU1
-UE0gKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+ID4+Cj4gPj4KPiA+PiBBbSAxMy4w
-OC4yMCB1bSAxMTo0OCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPj4+IE9uIFRodSwgQXVnIDEz
-LCAyMDIwIGF0IDExOjE5OjMxQU0gKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+ID4+
-Pj4gSGkKPiA+Pj4+Cj4gPj4+PiBBbSAwNy4wOC4yMCB1bSAxODoxMCBzY2hyaWViIERhbmllbCBW
-ZXR0ZXI6Cj4gPj4+Pj4gT24gRnJpLCBBdWcgNywgMjAyMCBhdCA0OjAyIFBNIFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToKPiA+Pj4+Pj4KPiA+Pj4+Pj4gSGkK
-PiA+Pj4+Pj4KPiA+Pj4+Pj4gQW0gMDcuMDguMjAgdW0gMTU6MTIgc2NocmllYiBEYW5pZWwgVmV0
-dGVyOgo+ID4+Pj4+Pj4gT24gRnJpLCBBdWcgMDcsIDIwMjAgYXQgMDE6MTA6MjJQTSArMDIwMCwg
-VGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gPj4+Pj4+Pj4gVGhlIG1hbGlkcCBkcml2ZXIgdXNl
-cyBHRU0gb2JqZWN0IGZ1bmN0aW9ucyBmb3IgY2FsbGJhY2tzLiBGaXggaXQgdG8KPiA+Pj4+Pj4+
-PiB1c2UgdGhlbSBpbnRlcm5hbGx5IGFzIHdlbGwuCj4gPj4+Pj4+Pj4KPiA+Pj4+Pj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+Pj4+
-Pj4+PiBGaXhlczogZWNkZDY0NzQ2NDRmICgiZHJtL21hbGlkcDogVXNlIEdFTSBDTUEgb2JqZWN0
-IGZ1bmN0aW9ucyIpCj4gPj4+Pj4+Pj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
-bkBzdXNlLmRlPgo+ID4+Pj4+Pj4+IENjOiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xs
-YWJvcmEuY29tPgo+ID4+Pj4+Pj4+IENjOiBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNv
-bT4KPiA+Pj4+Pj4+PiBDYzogQnJpYW4gU3RhcmtleSA8YnJpYW4uc3RhcmtleUBhcm0uY29tPgo+
-ID4+Pj4+Pj4+IC0tLQo+ID4+Pj4+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9wbGFu
-ZXMuYyB8IDIgKy0KPiA+Pj4+Pj4+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pCj4gPj4+Pj4+Pj4KPiA+Pj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FybS9tYWxpZHBfcGxhbmVzLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9w
-bGFuZXMuYwo+ID4+Pj4+Pj4+IGluZGV4IGFiNDVhYzQ0NTA0NS4uMzUxYTg1MDg4ZDBlIDEwMDY0
-NAo+ID4+Pj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jCj4g
-Pj4+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcGxhbmVzLmMKPiA+Pj4+
-Pj4+PiBAQCAtMzQ2LDcgKzM0Niw3IEBAIHN0YXRpYyBib29sIG1hbGlkcF9jaGVja19wYWdlc190
-aHJlc2hvbGQoc3RydWN0IG1hbGlkcF9wbGFuZV9zdGF0ZSAqbXMsCj4gPj4+Pj4+Pj4gICAgICAg
-ICAgICAgIGlmIChjbWFfb2JqLT5zZ3QpCj4gPj4+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAg
-c2d0ID0gY21hX29iai0+c2d0Owo+ID4+Pj4+Pj4+ICAgICAgICAgICAgICBlbHNlCj4gPj4+Pj4+
-Pj4gLSAgICAgICAgICAgICAgICAgICAgc2d0ID0gb2JqLT5kZXYtPmRyaXZlci0+Z2VtX3ByaW1l
-X2dldF9zZ190YWJsZShvYmopOwo+ID4+Pj4+Pj4+ICsgICAgICAgICAgICAgICAgICAgIHNndCA9
-IG9iai0+ZnVuY3MtPmdldF9zZ190YWJsZShvYmopOwo+ID4+Pj4+Pj4KPiA+Pj4+Pj4+IFVoIGlm
-IHRoZXJlJ3Mgbm90IGEgc3dpdGNoIHNvbWV3aGVyZSBJJ2QganVzdCBjYWxsIHRoZSByaWdodCBm
-dW5jdGlvbgo+ID4+Pj4+Pj4gZGlyZWN0bHkuIE9yIGNhbGwgdGhlIHJpZ2h0IHdyYXBwZXIgZm9y
-IHRoaXMsIHRoaXMgZmVlbHMgYSBiaXQgZmlzaHkgLi4uCj4gPj4+Pj4+Cj4gPj4+Pj4+IFRoZSBk
-cml2ZXIgaW5pdGlhbGl6ZXMgdGhlIHBvaW50ZXIgdmlhIENNQSBoZWxwZXIgbWFjcm8gdG8gYW4K
-PiA+Pj4+Pj4gQ01BLWludGVybmFsIGRlZmF1bHQuIENhbGxpbmcgdGhlIGFjdHVhbCBmdW5jdGlv
-biBoZXJlIGlzIGZyYWdpbGUgaWYgdGhlCj4gPj4+Pj4+IENNQS1pbnRlcm5hbCBkZWZhdWx0IGV2
-ZXIgY2hhbmdlcy4KPiA+Pj4+Pj4KPiA+Pj4+Pj4gQnV0IEkgaGF2ZSBubyBzdHJvbmcgZmVlbGlu
-Z3MuIEknbGwgZ28gd2l0aCB3aGF0ZXZlciB0aGUgZHJpdmVyJ3MKPiA+Pj4+Pj4gbWFpbnRhaW5l
-ciBwcmVmZXJzLgo+ID4+Pj4+Cj4gPj4+Pj4gV2hhdCBJIG1lYW50IGlzOiBUaGVyZSBzaG91bGQg
-YmUgYW4gZXhwb3J0ZWQgaGVscGVyIHRvIGdldCBhdCB0aGUgc2d0Lgo+ID4+Pj4+IERyaXZlcnMg
-dXNpbmcgaGVscGVycyBzaG91bGRuJ3QgbmVlZCB0byBkbyB0aGlzIGtpbmQgb2Ygc3R1ZmYgaGVy
-ZS4KPiA+Pj4+Pgo+ID4+Pj4+IEFsc28gdGhlIGVudGlyZSBjb2RlIGlzIGZhaXJseSBzdXNwZWN0
-LCBnZXR0aW5nIGF0IHRoZSBzZ3QgZnJvbQo+ID4+Pj4+IHBsYW5lX2NoZWNrIGlzIGEgYml0IGlm
-ZnkuIEJ1dCB0aGF0J3MgYSBkaWZmZXJlbnQga2luZCBvZiBwcm9ibGVtLgo+ID4+Pj4KPiA+Pj4+
-IEkgdHJpZWQgdG8gc29tZWhvdyBtb3ZlIHRoZSBjb2RlIHRvIENNQSwgYnV0IGl0J3Mgbm90IGVh
-c3kuIFRoZXJlJ3Mgbm8KPiA+Pj4+IGdvb2QgcGxhY2UgdG8gcHV0IHRoZSBsb29rLXVwIGNvZGUg
-b2Ygc2d0LiBBbmQgc2d0IGlzIGxhdGVyIGJlaW5nIGZyZWVkCj4gPj4+PiBpZmYgaXQgY2FtZSBm
-cm9tIHRoZSBjYWxsYmFjayAoYW5kIG5vdCBmcmVlZCBpZiBpdCB3YXMgc3RvcmVkIGluIHRoZQo+
-ID4+Pj4gb2JqZWN0KS4gQUZJQUNUIHRoZSBiZXN0IG9wdGlvbnMgYXJlIHRvIGVpdGhlciBrZWVw
-IHRoZSBjb2RlIGhlcmUgb3IKPiA+Pj4+IG1vdmUgdGhlIGVudGlyZSBmdW5jdGlvbiB0byBDTUEg
-aGVscGVycy4KPiA+Pj4KPiA+Pj4gT2sgSSByZWFkIHNvbWUgY29kZSAuLi4gSSdtIGNvbmZ1c2Vk
-LiBGcm9tIHRoZSBjb250cm9sIGZsb3cgaXQgbG9va3MgbGlrZQo+ID4+PiBtYWxpZHAgaXMgdXNp
-bmcgY21hIGhlbHBlcnMuIE90aGVyd2lzZSB3aHkgZG9lcyB0aGUgdXBjYXN0aW5nIG5vdCBibG93
-IHVwCj4gPj4+IHNvbWV0aW1lcy4KPiA+Pj4KPiA+Pj4gQnV0IGNtYSBoZWxwZXJzIGFscmVhZHkg
-Y2hlY2sgYXQgaW1wb3J0IHRpbWUgdGhhdCBhbnkgaW1wb3J0ZWQgZG1hLWJ1ZiBpcwo+ID4+PiBj
-b250aWd1b3VzLCBhbmQgdGhleSBndWFyYW50ZWUgdG8gZmlsbCBvdXQgdGhlIGNtYV9vYmotPnNn
-dC4KPiA+Pj4KPiA+Pj4gU28gcmVhbGx5IG5vIGlkZWEgd2hhdCB0aGlzIGNvZGUgaXMgZG9pbmcg
-aGVyZS4KPiA+Pj4KPiA+Pj4gSXQncyBhbHNvIG5vdCBjb3JyZWN0LCBzaW5jZSBpdCBkb2Vzbid0
-IGNvYWxlc2NlIHNndCBlbnRyaWVzLCBzaW5jZSBhCj4gPj4+IHJhbmdlIG1pZ2h0IGJlIHNwbGl0
-IHVwLCBidXQgc3RpbGwgbWFwcGVkIGludG8gYSBjb250aWd1b3VzIGRtYV9hZGRyX3QKPiA+Pj4g
-cmFuZ2Ugd2hlbiB5b3UgdGFrZSBpdCBhbGwgdG9nZXRoZXIuIFRoZSBjb2RlIGluCj4gPj4+IGRy
-bV9nZW1fY21hX3ByaW1lX2ltcG9ydF9zZ190YWJsZSgpIGdldHMgdGhpcyBtb3JlIHJpZ2h0Lgo+
-ID4+Pgo+ID4+PiBTbyBtYXliZSByaWdodCBmaXggaXMgdG8ganVzdCBkaXRjaCB0aGlzIGFsbCwg
-YW5kIHVzZSBjbWEgaGVscGVycyBmdWxseT8KPiA+Pgo+ID4+IFRoZSBkcml2ZXIgYWxyZWFkeSBk
-b2VzIHVzZSBDTUEsIGluY2x1ZGluZwo+ID4+IGRybV9nZW1fY21hX3ByaW1lX2ltcG9ydF9zZ190
-YWJsZSgpLgo+ID4+Cj4gPj4gVGhlIHBhdGNoZWQgY29kZSBpcyBub3QgYWJvdXQgaW1wb3J0aW5n
-L2V4cG9ydGluZyBzZyB0YWJsZXMuIEl0Cj4gPj4gY29uZmlndXJlcyB0aGUgTU1VJ3MgcHJlZmV0
-Y2hpbmcgcGF0dGVybiBieSBsb29raW5nIGF0IHNvbWUgb2YgdGhlIHBhZ2UKPiA+PiBzaXplcy4g
-SSBkb24ndCBmZWVsIGNvbmZpZGVudCBlbm91Z2ggd2l0aCB0aGlzIGNvZGUgdG8gYWx0ZXIgaXQu
-IEknZAo+ID4+IGV4cGVjdCB0byBicmVhayB0aGUgaGV1cmlzdGljcy4KPiA+Cj4gPiBIbSBvaywg
-bm8gaWRlYSBlaXRoZXIuCj4gPgo+ID4gQnV0IHRoZW4gd2UgY2FuIGp1c3QgYXNzdW1lIHRoYXQg
-Y21hX29iai0+c2d0IGlzIGFsd2F5cyBzZXQsIGFuZCB3ZSBkb24ndAo+ID4gaGF2ZSB0byBjYWxs
-IGFueXRoaW5nLiBJZiBhIGRyaXZlciB1c2VzIGNtYSBoZWxwZXJzLCBhbmQgY21hIGRvZXNuJ3Qg
-c2V0Cj4gPiAtPnNndCBvdmVyIHRoZSBsaWZldGltZSBvZiB0aGUgYnVmZmVyLCB0aGF0IGJyZWFr
-cyBhIGNtYSBoZWxwZXIgYXNzdW1wdGlvbgo+ID4gc2luY2UgY21hIGRvZW5zJ3Qgc3VwcG9ydCBz
-d2FwLW91dC4KPgo+IFJlYWxseT8gSSBqdXN0IGxvb2tlZCBhdCBkcm1fZ2VtX2NtYV9oZWxwZXIu
-YyBhbmQgLT5zZ3QgaXMgb25seSBldmVyIHNldAo+IG9uIGltcG9ydHMsIGFuZCBvbmx5IGZyZWVk
-IGZvciBpbXBvcnRlZCBtZW1vcnkuIEknbSBjb25mdXNlZCBub3cuLi4KCkhtIHJpZ2h0IHRoaXMg
-d29ya3MgZGlmZmVyZW50bHkgdGhhbiBJIHRob3VnaHQsIGZvciBuYXRpdmUgY21hIG9iamVjdHMK
-d2UganVzdCBzdG9yZSBwYWRkL3ZhZGRyIGFuZCB0aGF0J3MgaXQuIFN0aWxsIGZlZWxzIHdyb25n
-IHRoYXQgbWFsaWRwCmRpZ3MgYXJvdW5kIGluIGFuIGludGVybmFsIGhlbHBlciB0aGF0J3MgbWVh
-bnQgZm9yIGV4cG9ydGluZyBhcyBhCmRtYS1idWYuCgpPaCB3ZWxsIEkgZ3Vlc3MgdGhpcyBpcyBq
-dXN0IGEgdmVyeSBzcGVjaWFsIHNwZWNpYWwgY2FzZS4KClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cgo+Cj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4KPiA+Cj4g
-PiBTbyBjb252ZXJ0aW5nIHRoZSBpZiB0byBhIFdBUk5fT04gYW5kIGZhaWxpbmcgd2l0aCBhbiBl
-cnJvciwgYW5kIHRoZW4KPiA+IHJlbW92ZSB0aGUgZWxzZSBzaG91bGQgd29yay4KPiA+IC1EYW5p
-ZWwKPiA+Cj4gPj4KPiA+PiBCZXN0IHJlZ2FyZHMKPiA+PiBUaG9tYXMKPiA+Pgo+ID4+PiAtRGFu
-aWVsCj4gPj4+Cj4gPj4+Pgo+ID4+Pj4gQmVzdCByZWdhcmRzCj4gPj4+PiBUaG9tYXMKPiA+Pj4+
-Cj4gPj4+Pj4gLURhbmllbAo+ID4+Pj4+Cj4gPj4+Pgo+ID4+Pj4gLS0KPiA+Pj4+IFRob21hcyBa
-aW1tZXJtYW5uCj4gPj4+PiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gPj4+PiBTVVNFIFNv
-ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiA+Pj4+IE1heGZlbGRzdHIuIDUsIDkwNDA5
-IE7DvHJuYmVyZywgR2VybWFueQo+ID4+Pj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+ID4+
-Pj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+ID4+Pj4KPiA+Pj4KPiA+
-Pj4KPiA+Pj4KPiA+Pj4KPiA+Pgo+ID4+IC0tCj4gPj4gVGhvbWFzIFppbW1lcm1hbm4KPiA+PiBH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gPj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
-bWFueSBHbWJICj4gPj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4g
-Pj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+ID4+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxp
-eCBJbWVuZMO2cmZmZXIKPiA+Pgo+ID4KPiA+Cj4gPgo+ID4KPgo+IC0tCj4gVGhvbWFzIFppbW1l
-cm1hbm4KPiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJICj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
-Cj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJ
-bWVuZMO2cmZmZXIKPgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRl
-bCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
+
+On Wed, Aug 12, 2020 at 10:50 PM Jeremy Cline <jcline@redhat.com> wrote:
+>
+> Commit d32656373857 ("drm/nouveau/therm/gp100: initial implementation of
+> new gp1xx temperature sensor") added support for reading finer-grain
+> temperatures, but continued to report temperatures in 1 degree Celsius
+> increments via nvkm_therm_temp_get().
+>
+> Rather than altering nvkm_therm_temp_get() to report finer-grain
+> temperatures, which would be inconvenient for other users of the
+> function, a second interface has been added to line up with hwmon's
+> native unit of temperature.
+>
+> Signed-off-by: Jeremy Cline <jcline@redhat.com>
+> ---
+>  .../drm/nouveau/include/nvkm/subdev/therm.h   | 18 +++++++++++++
+>  drivers/gpu/drm/nouveau/nouveau_hwmon.c       |  4 +--
+>  .../gpu/drm/nouveau/nvkm/subdev/therm/base.c  | 16 ++++++++++++
+>  .../gpu/drm/nouveau/nvkm/subdev/therm/gp100.c | 25 +++++++++++++++++--
+>  .../gpu/drm/nouveau/nvkm/subdev/therm/priv.h  |  1 +
+>  5 files changed, 60 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
+> index 62c34f98c930..7b9928dd001c 100644
+> --- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
+> +++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
+> @@ -100,6 +100,24 @@ struct nvkm_therm {
+>  };
+>
+>  int nvkm_therm_temp_get(struct nvkm_therm *);
+> +
+> +/**
+> + * nvkm_therm_temp_millidegree_get() - get the temperature in millidegrees
+> + * @therm: The thermal device to read from.
+> + *
+> + * This interface reports temperatures in units of millidegree Celsius to
+> + * align with the hwmon API. Some cards may only be capable of reporting in
+> + * units of Celsius, and those that report finer grain temperatures may not be
+> + * capable of millidegree Celsius accuracy,
+> + *
+> + * For cases where millidegree temperature is too fine-grain, the
+> + * nvkm_therm_temp_get() interface reports temperatures in one degree Celsius
+> + * increments.
+> + *
+> + * Return: The temperature in millidegrees Celsius, or -ENODEV if temperature
+> + *         reporting is not supported.
+> + */
+> +int nvkm_therm_temp_millidegree_get(struct nvkm_therm *therm);
+>  int nvkm_therm_fan_sense(struct nvkm_therm *);
+>  int nvkm_therm_cstate(struct nvkm_therm *, int, int);
+>  void nvkm_therm_clkgate_init(struct nvkm_therm *,
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+> index 1c3104d20571..e96355f93ce5 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+> @@ -428,8 +428,8 @@ nouveau_temp_read(struct device *dev, u32 attr, int channel, long *val)
+>         case hwmon_temp_input:
+>                 if (drm_dev->switch_power_state != DRM_SWITCH_POWER_ON)
+>                         return -EINVAL;
+> -               ret = nvkm_therm_temp_get(therm);
+> -               *val = ret < 0 ? ret : (ret * 1000);
+> +               ret = nvkm_therm_temp_millidegree_get(therm);
+> +               *val = ret;
+>                 break;
+>         case hwmon_temp_max:
+>                 *val = therm->attr_get(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK)
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
+> index 4a4d1e224126..e655b32c78b8 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
+> @@ -34,6 +34,22 @@ nvkm_therm_temp_get(struct nvkm_therm *therm)
+>         return -ENODEV;
+>  }
+>
+> +int
+> +nvkm_therm_temp_millidegree_get(struct nvkm_therm *therm)
+> +{
+> +       int ret = -ENODEV;
+> +
+> +       if (therm->func->temp_millidegree_get)
+> +               return therm->func->temp_millidegree_get(therm);
+> +
+> +       if (therm->func->temp_get) {
+> +               ret = therm->func->temp_get(therm);
+> +               if (ret > 0)
+> +                       ret *= 1000;
+> +       }
+> +       return ret;
+> +}
+> +
+>  static int
+>  nvkm_therm_update_trip(struct nvkm_therm *therm)
+>  {
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
+> index 9f0dea3f61dc..4c3c2895a3cb 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
+> @@ -24,7 +24,7 @@
+>  #include "priv.h"
+>
+>  static int
+> -gp100_temp_get(struct nvkm_therm *therm)
+> +gp100_temp_get_raw(struct nvkm_therm *therm)
+>  {
+>         struct nvkm_device *device = therm->subdev.device;
+>         struct nvkm_subdev *subdev = &therm->subdev;
+> @@ -37,14 +37,35 @@ gp100_temp_get(struct nvkm_therm *therm)
+>
+>         /* device valid */
+>         if (tsensor & 0x20000000)
+> -               return (inttemp >> 8);
+> +               return inttemp;
+>         else
+>                 return -ENODEV;
+>  }
+>
+> +static int
+> +gp100_temp_millidegree_get(struct nvkm_therm *therm)
+> +{
+> +       int raw_temp = gp100_temp_get_raw(therm);
+> +
+> +       if (raw_temp < 0)
+> +               return raw_temp;
+> +       return raw_temp * 1000 >> 8;
+> +}
+> +
+> +static int
+> +gp100_temp_get(struct nvkm_therm *therm)
+> +{
+> +       int raw_temp = gp100_temp_get_raw(therm);
+> +
+> +       if (raw_temp < 0)
+> +               return raw_temp;
+> +       return raw_temp >> 8;
+> +}
+> +
+>  static const struct nvkm_therm_func
+>  gp100_therm = {
+>         .temp_get = gp100_temp_get,
+> +       .temp_millidegree_get = gp100_temp_millidegree_get,
+>         .program_alarms = nvkm_therm_program_alarms_polling,
+>  };
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
+> index 21659daf1864..a53068b4f0b9 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
+> @@ -92,6 +92,7 @@ struct nvkm_therm_func {
+>         int (*pwm_clock)(struct nvkm_therm *, int line);
+>
+>         int (*temp_get)(struct nvkm_therm *);
+> +       int (*temp_millidegree_get)(struct nvkm_therm *therm);
+>
+>         int (*fan_sense)(struct nvkm_therm *);
+>
+> --
+> 2.26.2
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
