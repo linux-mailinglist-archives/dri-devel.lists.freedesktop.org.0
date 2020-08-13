@@ -1,36 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAD124321E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 03:29:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C3124324B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 03:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F1F06E964;
-	Thu, 13 Aug 2020 01:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2668B6E96A;
+	Thu, 13 Aug 2020 01:55:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF9066E351
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 01:29:39 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B365618A7;
- Thu, 13 Aug 2020 03:29:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597282178;
- bh=0MJXmtEOSfpT4GzXXxLVyhw31wcTrvCIzdjEpjQWjNk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dZzlVRMcHkAb4fmN8TC0XiOkuHDGuIQYiBNpK7YZNR+BQ3tfjp6Oq48krhKi4c1qO
- iEa8of+G1SEOwj4gn/q2d70+DZCQUtwp6eSzwyljt0VH5AxcEse7x4sKR7MCZc+aDc
- fjLRwPER1qBBPUv++hD6PfGhtFXgioZPZoPJxY6I=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C1E6E96A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 01:55:10 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597283716; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=FVbzabU1TSlGFSA9oFBmqr0GMmd/zQHCX4wJhSe4MY0=;
+ b=Z6uzClMT5a2rUTbOfDHaTmKyyrOQE5inMpRgV3uxqJcqTiwlEU08VEdiDoCag4ooJuHEaqi5
+ P1cxYIsUP+GdmxP1mtW7kMJ7qALFGsqqp3mhRjPnpj3Z8m4XovWNWkVV63N3pExmNl9agqua
+ Ps+p7B38nHpMMeJCKVo9+blq9HA=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
+ 5f349d6a3f2ce11020e32d20 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 13 Aug 2020 01:54:50
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8D068C43395; Thu, 13 Aug 2020 01:54:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 81046C433C9;
+ Thu, 13 Aug 2020 01:54:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 81046C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=abhinavk@codeaurora.org
+From: Abhinav Kumar <abhinavk@codeaurora.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/8] drm: mxsfb: Add support for the bus-width DT property
-Date: Thu, 13 Aug 2020 04:29:10 +0300
-Message-Id: <20200813012910.13576-9-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
-References: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 0/4] Add audio support for MSM DisplayPort driver
+Date: Wed, 12 Aug 2020 18:54:35 -0700
+Message-Id: <20200813015439.4174-1-abhinavk@codeaurora.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,106 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Rob Herring <robh+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: vsujithk@codeaurora.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, swboyd@chromium.org,
+ khsieh@codeaurora.org, seanpaul@chromium.org, tanmay@codeaurora.org,
+ rohitkr@codeaurora.org, aravindh@codeaurora.org, cychiang@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A new bus-width DT property has been introduced in the bindings to allow
-overriding the bus width. Support it.
+This series adds audio support for DP on MSM chipsets. It leverages
+the hdmi-codec interface [1] to communicate between the Display Port
+driver and the audio subsystem. These changes depend on the series [2]
+which adds Display Port support to MSM chipsets.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/mxsfb/mxsfb_drv.h |  2 ++
- drivers/gpu/drm/mxsfb/mxsfb_kms.c |  8 ++++++--
- 3 files changed, 34 insertions(+), 2 deletions(-)
+[1] https://patchwork.kernel.org/patch/11047883/
+[2] https://patchwork.kernel.org/patch/11708677/
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 8c549c3931af..fab3aae8cf73 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -95,10 +95,36 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- {
- 	struct drm_device *drm = mxsfb->drm;
- 	struct drm_connector_list_iter iter;
-+	struct device_node *ep;
- 	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
-+	u32 bus_width = 0;
- 	int ret;
- 
-+	ep = of_graph_get_endpoint_by_regs(drm->dev->of_node, 0, 0);
-+	if (!ep)
-+		return -ENODEV;
-+
-+	of_property_read_u32(ep, "bus-width", &bus_width);
-+	of_node_put(ep);
-+
-+	switch (bus_width) {
-+	case 16:
-+		mxsfb->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
-+		break;
-+	case 18:
-+		mxsfb->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
-+		break;
-+	case 24:
-+		mxsfb->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+		break;
-+	case 0:
-+		break;
-+	default:
-+		DRM_DEV_ERROR(drm->dev, "Invalid bus-width %u", bus_width);
-+		return -ENODEV;
-+	}
-+
- 	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
- 					  &bridge);
- 	if (ret)
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-index 399d23e91ed1..c4f7a8a0c891 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-@@ -32,6 +32,8 @@ struct mxsfb_drm_private {
- 	struct clk			*clk_axi;
- 	struct clk			*clk_disp_axi;
- 
-+	u32				bus_format;
-+
- 	struct drm_device		*drm;
- 	struct {
- 		struct drm_plane	primary;
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index b721b8b262ce..6d512f346918 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -50,11 +50,15 @@ static void mxsfb_set_formats(struct mxsfb_drm_private *mxsfb)
- {
- 	struct drm_device *drm = mxsfb->drm;
- 	const u32 format = mxsfb->crtc.primary->state->fb->format->format;
--	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+	u32 bus_format;
- 	u32 ctrl, ctrl1;
- 
--	if (mxsfb->connector->display_info.num_bus_formats)
-+	if (mxsfb->bus_format)
-+		bus_format = mxsfb->bus_format;
-+	else if (mxsfb->connector->display_info.num_bus_formats)
- 		bus_format = mxsfb->connector->display_info.bus_formats[0];
-+	else
-+		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
- 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Using bus_format: 0x%08X\n",
- 			     bus_format);
+Abhinav Kumar (4):
+  drm/msm/dp: store dp_display in the driver data
+  drm/msm/dp: add audio support for Display Port on MSM
+  drm/msm/dp: add hook_plugged_cb hdmi-codec op for MSM DP driver
+  drm/msm/dp: signal the hotplug disconnect in the event handler
+
+ drivers/gpu/drm/msm/Makefile                |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |   6 +
+ drivers/gpu/drm/msm/dp/dp_audio.c           | 606 ++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_audio.h           |  72 +++
+ drivers/gpu/drm/msm/dp/dp_catalog.c         | 192 +++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h         |  29 +
+ drivers/gpu/drm/msm/dp/dp_display.c         |  98 +++-
+ drivers/gpu/drm/msm/dp/dp_display.h         |   9 +
+ 8 files changed, 1004 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_audio.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_audio.h
+
 -- 
-Regards,
-
-Laurent Pinchart
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
 _______________________________________________
 dri-devel mailing list
