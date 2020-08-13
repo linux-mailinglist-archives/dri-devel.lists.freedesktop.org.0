@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E0A245D03
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB99245D1F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36CB36E44B;
-	Mon, 17 Aug 2020 07:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6E946E4EC;
+	Mon, 17 Aug 2020 07:06:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa5.hc3370-68.iphmx.com (esa5.hc3370-68.iphmx.com
- [216.71.155.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6EE26E1B8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 10:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1597312954;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=kkFMyNBbOdtaKP3s0IKVuqUHyo7Vk4EymQC6D+Rwakc=;
- b=Rc188J3Ps3oRYU00AsDTa1+Y+SB2tH10tfMeBK/g8iYgSv4+pcrwka9q
- DVknnN1SulQYeo1DKWY4HVnM3T/e51Of7gdbvcdHqP3FJcT1GwByHOMgL
- weBVYWy/QJ1Kd9R+OC+RUQ3P4tqdwFGutcwtnqNHqD6OL8TOVsDI5Kqsr w=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: wDtbUOGkC+v+QIiO9GW5InSj95+N5bZvHh0cz2sCfx8x8/0y/wKXIBeFTsdWA5IVAl9fHYeLN9
- bkgatnmpc6dbgREHUynY40qpDjj/p707iFysIZlm+vriXLDuiKG2hWjEZM5lJMCBJKbBHnmRzT
- Ek4wVev1cfJou5ZUSJS2/wZJUJSBFN8IxZXcndS/Kdi0ZOoHWEwqy1VaqoDA1I5FfmKdrqia00
- lv846+KFNsoIoemtWsa3un39WI8J3cPm1e5CBVfxjR5zuJsQM3Dozc/9+9CouCiP2ZBQIjfCnw
- Sa8=
-X-SBRS: 2.7
-X-MesageID: 24601489
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.76,307,1592884800"; d="scan'208";a="24601489"
-Date: Thu, 13 Aug 2020 12:02:26 +0200
-From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v4 2/2] xen: add helpers to allocate unpopulated memory
-Message-ID: <20200813100226.GG975@Air-de-Roger>
-References: <20200811094447.31208-1-roger.pau@citrix.com>
- <20200811094447.31208-3-roger.pau@citrix.com>
- <20200813073337.GA16160@infradead.org>
- <20200813075420.GC975@Air-de-Roger>
- <20200813094946.GJ2352366@phenom.ffwll.local>
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3370C6E9A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 10:38:30 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id m200so3034907ybf.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 03:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZMZSesP5yzJziVUDR23hWsW+wrdDKjDsymbEjLFqlsQ=;
+ b=sa5APNLzKf8++yFtOdgr0UmEUTQkjLHKmS98JuZjQU8iiXX9W5fsI/pxHxvkQp/pre
+ L1wPQ8UHos5VVPsod04HhKTtIHOLqCwGOMlyfvXCcfcYtXAd05//mXXnj+9Nr9O79lig
+ Gmg5K5MyoBIiiK++bUONSQhbZz3DX0telXDWdsqeEvvcmoILrHlY/SnhCJIMArT17mfw
+ Rf3FgbdozoaaWJpGB9uqw7ZTRP2fGpvxNJCXU52ayjvkDrIsZAC3ZDEurBGTgXoxpL4I
+ 2nTC1uKgB/j8/gZ5YLYOkzCNzufavMKERpimxZM9fsOm3Zqt4weTSFvTBDax4QRTAziy
+ xivw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZMZSesP5yzJziVUDR23hWsW+wrdDKjDsymbEjLFqlsQ=;
+ b=JytYm6uKN57hNZp2BU21iQ4ll2fFgEmPgN95r2IQHmuIht4KXVViDuyp/Am+7kMMDe
+ gDjbWr9h4qjPMiVKqvIwqC9tGbvXUTwbdnBFGC/eGffAbfB7nKJfZlc33kn+Atui4iVj
+ MhKtrvQYoTQD3K9PUlysNBX2bM1OdKfdSjaw1gyCLiaggw8/jw6rAoUaUZ0Uri8GgbhK
+ hU43Dsx0cd8dV/+i6kr/ER5u9XpHNEAP2jYlis6l91a6qwDlAE8DkWK1Cdh4Ap+MzmLG
+ RdJdip51wiV0rtA6wsw/aIikf5jlaam779dF2GhJ7sHbYjIKrg21EkXPEdXNfwRY6i2F
+ vZ8Q==
+X-Gm-Message-State: AOAM530tt7mIVNjC3HL2waIm4+dVrUKQFmOZ9UF1KjGCLYzJRExSEbw0
+ 3YTJqLjku/Ufb5ZDcjRrm52XNSiYr8p+ack8ZOg=
+X-Google-Smtp-Source: ABdhPJxlD8cvv3MGdWdeGBFCofqNyFiyRzL6aLDFdKQMT546vAVCQ0J4+sbcoOKuURBKl4JSRx8EFeWSlvxap8nxl8c=
+X-Received: by 2002:a25:6ad6:: with SMTP id f205mr5654937ybc.76.1597315109361; 
+ Thu, 13 Aug 2020 03:38:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200813094946.GJ2352366@phenom.ffwll.local>
-X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
- AMSPEX02CL02.citrite.net (10.69.22.126)
+References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV4Tp=kz57pAJk0u5hVpbiEdVzTWDvK+F1AZ5TjGmLbMQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdV4Tp=kz57pAJk0u5hVpbiEdVzTWDvK+F1AZ5TjGmLbMQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 13 Aug 2020 11:38:03 +0100
+Message-ID: <CA+V-a8svAuDx51vuTCH4w5g0oF9qf8sWAEjMDMm+0+9u-UQhQw@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: display: renesas,
+ du: Document r8a774e1 bindings
+To: Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,49 +68,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen
- Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
- David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, Dan
- Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WW91ciBlbWFpbCBjbGllbnQgc2VlbXMgdG8gc2V0ICdSZXBseS10bzonIHRvIHBvaW50IHRvIGV2
-ZXJ5b25lIG9uIHRoZQonQ2M6JyBmaWVsZCwgYnV0IG5vdCB5b3Vyc2VsZiwgd2hpY2ggaXMga2lu
-ZCBvZiB3ZWlyZC4gSSd2ZSBtYW51YWxseQpmaXhlZCBpdCBvbiB0aGlzIHJlcGx5IGJ5IG1vdmlu
-ZyBldmVyeW9uZSB0byB0aGUgJ0NjOicgZmllbGQgYW5kCnNldHRpbmcgeW91IG9uICdUbzonLgoK
-T24gVGh1LCBBdWcgMTMsIDIwMjAgYXQgMTE6NDk6NDZBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBUaHUsIEF1ZyAxMywgMjAyMCBhdCAwOTo1NDoyMEFNICswMjAwLCBSb2dlciBQ
-YXUgTW9ubsOpIHdyb3RlOgo+ID4gT24gVGh1LCBBdWcgMTMsIDIwMjAgYXQgMDg6MzM6MzdBTSAr
-MDEwMCwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gPiA+IE9uIFR1ZSwgQXVnIDExLCAyMDIw
-IGF0IDExOjQ0OjQ3QU0gKzAyMDAsIFJvZ2VyIFBhdSBNb25uZSB3cm90ZToKPiA+ID4gPiBJZiBl
-bmFibGVkIChiZWNhdXNlIFpPTkVfREVWSUNFIGlzIHN1cHBvcnRlZCkgdGhlIHVzYWdlIG9mIHRo
-ZSBuZXcKPiA+ID4gPiBmdW5jdGlvbmFsaXR5IHVudGFuZ2xlcyBYZW4gYmFsbG9vbiBhbmQgUkFN
-IGhvdHBsdWcgZnJvbSB0aGUgdXNhZ2Ugb2YKPiA+ID4gPiB1bnBvcHVsYXRlZCBwaHlzaWNhbCBt
-ZW1vcnkgcmFuZ2VzIHRvIG1hcCBmb3JlaWduIHBhZ2VzLCB3aGljaCBpcyB0aGUKPiA+ID4gPiBj
-b3JyZWN0IHRoaW5nIHRvIGRvIGluIG9yZGVyIHRvIGF2b2lkIG1hcHBpbmdzIG9mIGZvcmVpZ24g
-cGFnZXMgZGVwZW5kCj4gPiA+ID4gb24gbWVtb3J5IGhvdHBsdWcuCj4gPiA+IAo+ID4gPiBTbyBw
-bGVhc2UganVzdCBzZWxlY3QgWk9ORV9ERVZJQ0UgaWYgdGhpcyBpcyBzbyBtdWNoIGJldHRlciBy
-YXRoZXIKPiA+ID4gdGhhbiBtYWludGFpbmluZyB0d28gdmFyaWFudHMuCj4gPiAKPiA+IFdlIHN0
-aWxsIG5lZWQgdG8gb3RoZXIgdmFyaWFudCBmb3IgQXJtIGF0IGxlYXN0LCBzbyBib3RoIG5lZWQg
-dG8gYmUKPiA+IG1haW50YWluZWQgYW55d2F5LCBldmVuIGlmIHdlIGZvcmNlIFpPTkVfREVWSUNF
-IG9uIHg4Ni4KPiAKPiBXaHkgZG9lcyBhcm0gbm90IGhhdmUgWk9ORV9ERVZJQ0U/CgpJdCdzIG5v
-dCB0aGF0IEFybSBkb2Vzbid0IGhhdmUgWk9ORV9ERVZJQ0UsIGl0J3MganVzdCB0aGF0IHRoZQph
-cHByb2FjaCB1c2VkIGhlcmUgd29uJ3Qgd29yayBjb3JyZWN0bHkgb24gYW4gQXJtIFhlbiBkb20w
-IGFzLWlzLgoKVGhpcyBpcyBkdWUgdG8gdGhlIHVzYWdlIG9mIGFuIGlkZW50aXR5IHNlY29uZCBz
-dGFnZSB0cmFuc2xhdGlvbiBpbgpvcmRlciB0byB3b3JrYXJvdW5kIHRoZSBsYWNrIG9mIGFuIElP
-TU1VIGluIHNvbWUgQXJtIGJvYXJkcy4KCkl0IGNhbiBiZSBtYWRlIHRvIHdvcmsgb24gQXJtLCBi
-dXQgd2lsbCBsaWtlbHkgcmVxdWlyZSBzb21lb25lIGZyb20KdGhlIEFybSBzaWRlIGRvaW5nIHRo
-YXQuCgpSb2dlci4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Hi Geert,
+
+Thank you for the review.
+
+On Thu, Aug 13, 2020 at 10:05 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar, Laurent, Kieran,
+>
+> On Wed, Aug 12, 2020 at 4:02 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> >
+> > Document the RZ/G2H (a.k.a. r8a774e1) SoC in the R-Car DU bindings.
+> >
+> > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> > index 51cd4d162770..67cded5ad827 100644
+> > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> > @@ -10,6 +10,7 @@ Required Properties:
+> >      - "renesas,du-r8a774a1" for R8A774A1 (RZ/G2M) compatible DU
+> >      - "renesas,du-r8a774b1" for R8A774B1 (RZ/G2N) compatible DU
+> >      - "renesas,du-r8a774c0" for R8A774C0 (RZ/G2E) compatible DU
+> > +    - "renesas,du-r8a774e1" for R8A774E1 (RZ/G2H) compatible DU
+> >      - "renesas,du-r8a7779" for R8A7779 (R-Car H1) compatible DU
+> >      - "renesas,du-r8a7790" for R8A7790 (R-Car H2) compatible DU
+> >      - "renesas,du-r8a7791" for R8A7791 (R-Car M2-W) compatible DU
+> > @@ -75,6 +76,7 @@ corresponding to each DU output.
+> >   R8A774A1 (RZ/G2M)      DPAD 0         HDMI 0         LVDS 0         -
+> >   R8A774B1 (RZ/G2N)      DPAD 0         HDMI 0         LVDS 0         -
+> >   R8A774C0 (RZ/G2E)      DPAD 0         LVDS 0         LVDS 1         -
+> > + R8A774E1 (RZ/G2H)      DPAD 0         HDMI 0         LVDS 0         -
+>
+> As LVDS 0 is the fourth channel (DU3), should it be listed under port 3
+> instead of port 2?
+>
+> I know we did it the same for R-Car M3-N and RZ/G2N.
+> But my main worry is adding support for R-Car H3-N later.
+>
+I do agree too, with the below diff I tested the LVDS output on RZ/G2N
+Rev2 board and things work fine. But only thing it doesn't explain is
+why does LVDS work on DU2 for G2[H/N] boards :D
+
+Geert, Laurent, Kieran If you agree with the below changes I shall
+post a proper patch fixing it for RZ/G2[HN]
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+index d661724fc28a..0b087d287202 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+@@ -2540,8 +2540,8 @@
+                                                remote-endpoint =
+<&dw_hdmi0_in>;
+                                        };
+                                };
+-                               port@2 {
+-                                       reg = <2>;
++                               port@3 {
++                                       reg = <3>;
+                                        du_out_lvds0: endpoint {
+                                                remote-endpoint = <&lvds0_in>;
+                                        };
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index 3e67cf70f040..419d81c7763e 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -153,7 +153,7 @@ static const struct rcar_du_device_info
+rcar_du_r8a774b1_info = {
+                },
+                [RCAR_DU_OUTPUT_LVDS0] = {
+                        .possible_crtcs = BIT(0),
+-                       .port = 2,
++                       .port = 3,
+                },
+        },
+        .num_lvds = 1,
+
+Cheers,
+Prabhakar
+
+
+> >   R8A7779 (R-Car H1)     DPAD 0         DPAD 1         -              -
+> >   R8A7790 (R-Car H2)     DPAD 0         LVDS 0         LVDS 1         -
+> >   R8A7791 (R-Car M2-W)   DPAD 0         LVDS 0         -              -
+>
+> Apart from that:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> {oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
