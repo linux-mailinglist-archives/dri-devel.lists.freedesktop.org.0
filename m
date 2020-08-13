@@ -1,45 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39D2243F3E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 21:16:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 650A2243F44
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 21:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F536E110;
-	Thu, 13 Aug 2020 19:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982036EA91;
+	Thu, 13 Aug 2020 19:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70C9F6E110
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 19:16:50 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208893] Navi (RX 5700 XT) system appears to hang with more than
- one display connected
-Date: Thu, 13 Aug 2020 19:16:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: gordon@gordonite.tech
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208893-2300-kmymVpQHy3@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208893-2300@https.bugzilla.kernel.org/>
-References: <bug-208893-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6526EA91
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 19:18:48 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3FE6B20035;
+ Thu, 13 Aug 2020 21:18:46 +0200 (CEST)
+Date: Thu, 13 Aug 2020 21:18:44 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm: panel: Fix bus format for OrtusTech COM43H4M85ULC
+ panel
+Message-ID: <20200813191844.GA798515@ravnborg.org>
+References: <20200812220244.24500-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200812220244.24500-1-laurent.pinchart@ideasonboard.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=5xfhi8G6m5UgzFcfytMA:9
+ a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,42 +44,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208893
+Hi Laurent.
 
---- Comment #12 from Gordon (gordon@gordonite.tech) ---
-I'm not certain but:
-- uint32_t cur_value, i, timeout = adev->usec_timeout * 10;
+On Thu, Aug 13, 2020 at 01:02:44AM +0300, Laurent Pinchart wrote:
+> The OrtusTech COM43H4M85ULC panel is a 18-bit RGB panel, set the bus
+> format to MEDIA_BUS_FMT_RGB666_1X18.
+> 
+> Fixes: 725c9d40f3fe ("drm/panel: Add support for OrtusTech COM43H4M85ULC panel")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index ef8df838fe14..ef04fd75babd 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3018,7 +3018,7 @@ static const struct panel_desc ortustech_com43h4m85ulc = {
+>  		.width = 56,
+>  		.height = 93,
+>  	},
+> -	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+>  	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+>  	.connector_type = DRM_MODE_CONNECTOR_DPI,
+>  };
 
-if adev_usec_timeout is the microseconds timeout, then most likely the * 10 is
-wrong, as the below for loop uses microseconds too, so possibly they meant to
-add there too. Each iteration is 1 micro second, and the below code makes it 10
-times that for the timeout, i think this explains the 'hanging' but not why it
-inconsistently breaks.
+So basically we say that this panel is bpc=8 but connected so we only
+utilise 6 bits per color - seems like a waste but may be good enough.
+There are other panels that is connected in the same way.
 
-Another few thoughts were:
-- Perhaps there is a period of messages on 'init' / startup where we are
-sending more.
-- I can only think the flaky behaviour is a memory issue, or a problem where
-the GPU is not being reset fully on boot. As it makes zero sense it works
-'sometimes'.
-- When the message / error occours the 'timeout' is 10 times the value, thus
-blocking messages for the other startup events.
-- The display port being connected / or being interfaced with on init might be
-preventing the normal startup messages to be sent to the GPU.
+Applied.
 
-These GPUs have a problem in general with loss of display output, so if there
-is an electronics issue, maybe we don't have the 'hack' to make it work.
+	Sam
 
-IDK for sure, I'm new to kernel devel. I mainly work on Godot.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
