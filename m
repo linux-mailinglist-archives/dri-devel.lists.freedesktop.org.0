@@ -2,38 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239FF2438B8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 12:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E755B2438C7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 12:41:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 810296E9A5;
-	Thu, 13 Aug 2020 10:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE2516E1F9;
+	Thu, 13 Aug 2020 10:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A00D6E9A5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 10:39:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5A46E1F9;
+ Thu, 13 Aug 2020 10:41:55 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 16FACAE16;
- Thu, 13 Aug 2020 10:39:22 +0000 (UTC)
-Subject: Re: [PATCH] drm/malidp: Use struct drm_gem_object_funcs.get_sg_table
- internally
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200807111022.12117-1-tzimmermann@suse.de>
- <20200807131252.GG2352366@phenom.ffwll.local>
- <07a956c0-10ac-f6e2-73c5-3dd584c4d2d9@suse.de>
- <CAKMK7uHsYqNYuQrbddU7Or6HxZmS8po=WfYvk5z6V5hFuee=wQ@mail.gmail.com>
- <fa21a421-9527-046e-a703-09f4f7f79d16@suse.de>
- <20200813094817.GI2352366@phenom.ffwll.local>
- <3e142611-26be-ebf4-8a9b-37920e27fa7d@suse.de>
- <20200813103126.GM2352366@phenom.ffwll.local>
+ by mx2.suse.de (Postfix) with ESMTP id CFEBFB66A;
+ Thu, 13 Aug 2020 10:42:15 +0000 (UTC)
+Subject: Re: [PATCH 12/20] drm/radeon: Introduce GEM object functions
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+ tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
+ thierry.reding@gmail.com, jonathanh@nvidia.com,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+ sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+ tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+ andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
+ aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
+ tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
+ miaoqinglang@huawei.com, emil.velikov@collabora.com
+References: <20200813083644.31711-1-tzimmermann@suse.de>
+ <20200813083644.31711-13-tzimmermann@suse.de>
+ <fb070238-b6ca-8e31-e559-51eda489915e@amd.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <502eee83-80d2-d47a-8e29-ab4cf74151b3@suse.de>
-Date: Thu, 13 Aug 2020 12:38:56 +0200
+Message-ID: <5372b2ef-b7cf-f4e9-9199-6dee5bf6696f@suse.de>
+Date: Thu, 13 Aug 2020 12:41:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200813103126.GM2352366@phenom.ffwll.local>
+In-Reply-To: <fb070238-b6ca-8e31-e559-51eda489915e@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,215 +61,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Mali DP Maintainers <malidp@foss.arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0994603437=="
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1068910524=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0994603437==
+--===============1068910524==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="pbg6j07G9Fh86BmcTW5sGIWVqWbe8T2Kt"
+ boundary="dvpyWKt9GfZXVkJReqmxwaKg1xVlNTKmH"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pbg6j07G9Fh86BmcTW5sGIWVqWbe8T2Kt
-Content-Type: multipart/mixed; boundary="M5XmyW9McKAHTHnYAsqiT6pqqRkIX0j7A";
+--dvpyWKt9GfZXVkJReqmxwaKg1xVlNTKmH
+Content-Type: multipart/mixed; boundary="oRxCNe57YCRejXLT0jiYdnWGOkpGgvM5x";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <502eee83-80d2-d47a-8e29-ab4cf74151b3@suse.de>
-Subject: Re: [PATCH] drm/malidp: Use struct drm_gem_object_funcs.get_sg_table
- internally
-References: <20200807111022.12117-1-tzimmermann@suse.de>
- <20200807131252.GG2352366@phenom.ffwll.local>
- <07a956c0-10ac-f6e2-73c5-3dd584c4d2d9@suse.de>
- <CAKMK7uHsYqNYuQrbddU7Or6HxZmS8po=WfYvk5z6V5hFuee=wQ@mail.gmail.com>
- <fa21a421-9527-046e-a703-09f4f7f79d16@suse.de>
- <20200813094817.GI2352366@phenom.ffwll.local>
- <3e142611-26be-ebf4-8a9b-37920e27fa7d@suse.de>
- <20200813103126.GM2352366@phenom.ffwll.local>
-In-Reply-To: <20200813103126.GM2352366@phenom.ffwll.local>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+ tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
+ thierry.reding@gmail.com, jonathanh@nvidia.com,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+ sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+ tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+ andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
+ aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
+ tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
+ miaoqinglang@huawei.com, emil.velikov@collabora.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ xen-devel@lists.xenproject.org
+Message-ID: <5372b2ef-b7cf-f4e9-9199-6dee5bf6696f@suse.de>
+Subject: Re: [PATCH 12/20] drm/radeon: Introduce GEM object functions
+References: <20200813083644.31711-1-tzimmermann@suse.de>
+ <20200813083644.31711-13-tzimmermann@suse.de>
+ <fb070238-b6ca-8e31-e559-51eda489915e@amd.com>
+In-Reply-To: <fb070238-b6ca-8e31-e559-51eda489915e@amd.com>
 
---M5XmyW9McKAHTHnYAsqiT6pqqRkIX0j7A
+--oRxCNe57YCRejXLT0jiYdnWGOkpGgvM5x
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 13.08.20 um 12:31 schrieb Daniel Vetter:
-> On Thu, Aug 13, 2020 at 12:28:55PM +0200, Thomas Zimmermann wrote:
+Am 13.08.20 um 12:24 schrieb Christian K=C3=B6nig:
+> Am 13.08.20 um 10:36 schrieb Thomas Zimmermann:
+>> GEM object functions deprecate several similar callback interfaces in
+>> struct drm_driver. This patch replaces the per-driver callbacks with
+>> per-instance callbacks in radeon.
 >>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>> =C2=A0 drivers/gpu/drm/radeon/radeon_drv.c=C2=A0=C2=A0=C2=A0 | 23 +---=
+-------------------
+>> =C2=A0 drivers/gpu/drm/radeon/radeon_object.c | 26 +++++++++++++++++++=
++++++++
+>> =C2=A0 2 files changed, 27 insertions(+), 22 deletions(-)
 >>
->> Am 13.08.20 um 11:48 schrieb Daniel Vetter:
->>> On Thu, Aug 13, 2020 at 11:19:31AM +0200, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 07.08.20 um 18:10 schrieb Daniel Vetter:
->>>>> On Fri, Aug 7, 2020 at 4:02 PM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->>>>>>
->>>>>> Hi
->>>>>>
->>>>>> Am 07.08.20 um 15:12 schrieb Daniel Vetter:
->>>>>>> On Fri, Aug 07, 2020 at 01:10:22PM +0200, Thomas Zimmermann wrote=
-:
->>>>>>>> The malidp driver uses GEM object functions for callbacks. Fix i=
-t to
->>>>>>>> use them internally as well.
->>>>>>>>
->>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>>> Fixes: ecdd6474644f ("drm/malidp: Use GEM CMA object functions")=
-
->>>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>>> Cc: Emil Velikov <emil.velikov@collabora.com>
->>>>>>>> Cc: Liviu Dudau <liviu.dudau@arm.com>
->>>>>>>> Cc: Brian Starkey <brian.starkey@arm.com>
->>>>>>>> ---
->>>>>>>>  drivers/gpu/drm/arm/malidp_planes.c | 2 +-
->>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/d=
-rm/arm/malidp_planes.c
->>>>>>>> index ab45ac445045..351a85088d0e 100644
->>>>>>>> --- a/drivers/gpu/drm/arm/malidp_planes.c
->>>>>>>> +++ b/drivers/gpu/drm/arm/malidp_planes.c
->>>>>>>> @@ -346,7 +346,7 @@ static bool malidp_check_pages_threshold(str=
-uct malidp_plane_state *ms,
->>>>>>>>              if (cma_obj->sgt)
->>>>>>>>                      sgt =3D cma_obj->sgt;
->>>>>>>>              else
->>>>>>>> -                    sgt =3D obj->dev->driver->gem_prime_get_sg_=
-table(obj);
->>>>>>>> +                    sgt =3D obj->funcs->get_sg_table(obj);
->>>>>>>
->>>>>>> Uh if there's not a switch somewhere I'd just call the right func=
-tion
->>>>>>> directly. Or call the right wrapper for this, this feels a bit fi=
-shy ...
->>>>>>
->>>>>> The driver initializes the pointer via CMA helper macro to an
->>>>>> CMA-internal default. Calling the actual function here is fragile =
-if the
->>>>>> CMA-internal default ever changes.
->>>>>>
->>>>>> But I have no strong feelings. I'll go with whatever the driver's
->>>>>> maintainer prefers.
->>>>>
->>>>> What I meant is: There should be an exported helper to get at the s=
-gt.
->>>>> Drivers using helpers shouldn't need to do this kind of stuff here.=
-
->>>>>
->>>>> Also the entire code is fairly suspect, getting at the sgt from
->>>>> plane_check is a bit iffy. But that's a different kind of problem.
->>>>
->>>> I tried to somehow move the code to CMA, but it's not easy. There's =
-no
->>>> good place to put the look-up code of sgt. And sgt is later being fr=
-eed
->>>> iff it came from the callback (and not freed if it was stored in the=
-
->>>> object). AFIACT the best options are to either keep the code here or=
-
->>>> move the entire function to CMA helpers.
->>>
->>> Ok I read some code ... I'm confused. From the control flow it looks =
-like
->>> malidp is using cma helpers. Otherwise why does the upcasting not blo=
-w up
->>> sometimes.
->>>
->>> But cma helpers already check at import time that any imported dma-bu=
-f is
->>> contiguous, and they guarantee to fill out the cma_obj->sgt.
->>>
->>> So really no idea what this code is doing here.
->>>
->>> It's also not correct, since it doesn't coalesce sgt entries, since a=
-
->>> range might be split up, but still mapped into a contiguous dma_addr_=
-t
->>> range when you take it all together. The code in
->>> drm_gem_cma_prime_import_sg_table() gets this more right.
->>>
->>> So maybe right fix is to just ditch this all, and use cma helpers ful=
-ly?
->>
->> The driver already does use CMA, including
->> drm_gem_cma_prime_import_sg_table().
->>
->> The patched code is not about importing/exporting sg tables. It
->> configures the MMU's prefetching pattern by looking at some of the pag=
-e
->> sizes. I don't feel confident enough with this code to alter it. I'd
->> expect to break the heuristics.
+>> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c
+>> b/drivers/gpu/drm/radeon/radeon_drv.c
+>> index 4cd30613fa1d..65061c949aee 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+>> @@ -124,13 +124,6 @@ void radeon_driver_irq_preinstall_kms(struct
+>> drm_device *dev);
+>> =C2=A0 int radeon_driver_irq_postinstall_kms(struct drm_device *dev);
+>> =C2=A0 void radeon_driver_irq_uninstall_kms(struct drm_device *dev);
+>> =C2=A0 irqreturn_t radeon_driver_irq_handler_kms(int irq, void *arg);
+>> -void radeon_gem_object_free(struct drm_gem_object *obj);
+>> -int radeon_gem_object_open(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv);
+>> -void radeon_gem_object_close(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv);
+>> -struct dma_buf *radeon_gem_prime_export(struct drm_gem_object *gobj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int flags);
+>> =C2=A0 extern int radeon_get_crtc_scanoutpos(struct drm_device *dev,
+>> unsigned int crtc,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsign=
+ed int flags, int *vpos, int *hpos,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_=
+t *stime, ktime_t *etime,
+>> @@ -145,14 +138,9 @@ int radeon_mode_dumb_mmap(struct drm_file *filp,
+>> =C2=A0 int radeon_mode_dumb_create(struct drm_file *file_priv,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_device *dev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mode_create_dumb *args);
+>> -struct sg_table *radeon_gem_prime_get_sg_table(struct drm_gem_object
+>> *obj);
+>> =C2=A0 struct drm_gem_object *radeon_gem_prime_import_sg_table(struct
+>> drm_device *dev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_attachment *,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sg);
+>> -int radeon_gem_prime_pin(struct drm_gem_object *obj);
+>> -void radeon_gem_prime_unpin(struct drm_gem_object *obj);
+>> -void *radeon_gem_prime_vmap(struct drm_gem_object *obj);
+>> -void radeon_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)=
+;
+>> =C2=A0 =C2=A0 /* atpx handler */
+>> =C2=A0 #if defined(CONFIG_VGA_SWITCHEROO)
+>> @@ -550,7 +538,7 @@ long radeon_drm_ioctl(struct file *filp,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D drm_ioctl(filp, cmd, arg=
+);
+>> -=C2=A0=C2=A0=C2=A0
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_mark_last_busy(dev->dev);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_put_autosuspend(dev->dev);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> @@ -609,22 +597,13 @@ static struct drm_driver kms_driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .irq_uninstall =3D radeon_driver_irq_un=
+install_kms,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .irq_handler =3D radeon_driver_irq_hand=
+ler_kms,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ioctls =3D radeon_ioctls_kms,
+>> -=C2=A0=C2=A0=C2=A0 .gem_free_object_unlocked =3D radeon_gem_object_fr=
+ee,
+>> -=C2=A0=C2=A0=C2=A0 .gem_open_object =3D radeon_gem_object_open,
+>> -=C2=A0=C2=A0=C2=A0 .gem_close_object =3D radeon_gem_object_close,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_create =3D radeon_mode_dumb_creat=
+e,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_map_offset =3D radeon_mode_dumb_m=
+map,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fops =3D &radeon_driver_kms_fops,
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_handle_to_fd =3D drm_gem_=
+prime_handle_to_fd,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_fd_to_handle =3D drm_gem_prime_f=
+d_to_handle,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_export =3D radeon_gem_prime_export,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_pin =3D radeon_gem_prime_pin,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_unpin =3D radeon_gem_prime_unpin,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_get_sg_table =3D radeon_gem_prime_get_s=
+g_table,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_import_sg_table =3D radeon_g=
+em_prime_import_sg_table,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_vmap =3D radeon_gem_prime_vmap,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_vunmap =3D radeon_gem_prime_vunmap,
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D DRIVER_NAME,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .desc =3D DRIVER_DESC,
+>> diff --git a/drivers/gpu/drm/radeon/radeon_object.c
+>> b/drivers/gpu/drm/radeon/radeon_object.c
+>> index bb7582afd803..882390e15dfe 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_object.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_object.c
+>> @@ -45,6 +45,19 @@ int radeon_ttm_init(struct radeon_device *rdev);
+>> =C2=A0 void radeon_ttm_fini(struct radeon_device *rdev);
+>> =C2=A0 static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
+>> =C2=A0 +void radeon_gem_object_free(struct drm_gem_object *obj);
+>> +int radeon_gem_object_open(struct drm_gem_object *obj,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv);
+>> +void radeon_gem_object_close(struct drm_gem_object *obj,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 struct drm_file *file_priv);
+>> +struct dma_buf *radeon_gem_prime_export(struct drm_gem_object *gobj,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int flags);
+>> +struct sg_table *radeon_gem_prime_get_sg_table(struct drm_gem_object
+>> *obj);
+>> +int radeon_gem_prime_pin(struct drm_gem_object *obj);
+>> +void radeon_gem_prime_unpin(struct drm_gem_object *obj);
+>> +void *radeon_gem_prime_vmap(struct drm_gem_object *obj);
+>> +void radeon_gem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)=
+;
+>> +
+>> =C2=A0 /*
+>> =C2=A0=C2=A0 * To exclude mutual BO access we rely on bo_reserve exclu=
+sion, as all
+>> =C2=A0=C2=A0 * function are calling it.
+>> @@ -180,6 +193,18 @@ void radeon_ttm_placement_from_domain(struct
+>> radeon_bo *rbo, u32 domain)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 }
+>> =C2=A0 +static const struct drm_gem_object_funcs radeon_gem_object_fun=
+cs =3D {
+>> +=C2=A0=C2=A0=C2=A0 .free =3D radeon_gem_object_free,
+>> +=C2=A0=C2=A0=C2=A0 .open =3D radeon_gem_object_open,
+>> +=C2=A0=C2=A0=C2=A0 .close =3D radeon_gem_object_close,
+>> +=C2=A0=C2=A0=C2=A0 .export =3D radeon_gem_prime_export,
+>> +=C2=A0=C2=A0=C2=A0 .pin =3D radeon_gem_prime_pin,
+>> +=C2=A0=C2=A0=C2=A0 .unpin =3D radeon_gem_prime_unpin,
+>> +=C2=A0=C2=A0=C2=A0 .get_sg_table =3D radeon_gem_prime_get_sg_table,
+>> +=C2=A0=C2=A0=C2=A0 .vmap =3D radeon_gem_prime_vmap,
+>> +=C2=A0=C2=A0=C2=A0 .vunmap =3D radeon_gem_prime_vunmap,
+>> +};
+>> +
 >=20
-> Hm ok, no idea either.
->=20
-> But then we can just assume that cma_obj->sgt is always set, and we don=
-'t
-> have to call anything. If a driver uses cma helpers, and cma doesn't se=
-t
-> ->sgt over the lifetime of the buffer, that breaks a cma helper assumpt=
-ion
-> since cma doens't support swap-out.
+> Same comment as for amdgpu, please put that into radeon_gem.c instead.
 
-Really? I just looked at drm_gem_cma_helper.c and ->sgt is only ever set
-on imports, and only freed for imported memory. I'm confused now...
+There's no good header file to put the declarations, right? I'm asking
+because checkpatch warns about declarations in the source files.
 
 Best regards
 Thomas
 
 >=20
-> So converting the if to a WARN_ON and failing with an error, and then
-> remove the else should work.
-> -Daniel
+> Christian.
 >=20
->>
->> Best regards
->> Thomas
->>
->>> -Daniel
->>>
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> -Daniel
->>>>>
->>>>
->>>> --=20
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>> (HRB 36809, AG N=C3=BCrnberg)
->>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>
->>>
->>>
->>>
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
->=20
+>> =C2=A0 int radeon_bo_create(struct radeon_device *rdev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 unsigned long size, int byte_align, bool kernel,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 u32 domain, u32 flags, struct sg_table *sg,
+>> @@ -209,6 +234,7 @@ int radeon_bo_create(struct radeon_device *rdev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D kzalloc(sizeof(struct radeon_bo)=
+, GFP_KERNEL);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bo =3D=3D NULL)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;=
+
+>> +=C2=A0=C2=A0=C2=A0 bo->tbo.base.funcs =3D &radeon_gem_object_funcs;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_private_object_init(rdev->ddev,=
+ &bo->tbo.base, size);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo->rdev =3D rdev;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo->surface_reg =3D -1;
 >=20
 
 --=20
@@ -266,28 +316,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---M5XmyW9McKAHTHnYAsqiT6pqqRkIX0j7A--
+--oRxCNe57YCRejXLT0jiYdnWGOkpGgvM5x--
 
---pbg6j07G9Fh86BmcTW5sGIWVqWbe8T2Kt
+--dvpyWKt9GfZXVkJReqmxwaKg1xVlNTKmH
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl81GEAUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP/HggAh/8dbvMIxsXDs3B2b3x7vPgKtSK/
-+cADwgfC8YdEO2Zb08jc9fOHnIriFemDxqeXE4d3A51rM8RP9Mo+w2RvjLrM7YlU
-9enMDOSqXqvkWHK/wMRws1e0avFsSKt/SHhk6POp1mJOc/iKv214h4tnodtG/D+R
-xVIBc+FvJ+iB5o8AFufzrY4dGVQqgo5auk+71Av/jXa+5ezu9w0eRvNJ/L3NewPN
-JxABGZ6Lcm1u50qdXHpOc1f0tuatEVsExdIe5h2liWXinbloBoEaNy7tpGKqP+Ey
-dgdhNga3ZF8vVrUf32nNnYmxuC1vZBjmlqrv2refxr9u1QbEO/QMEbnKEA==
-=reYq
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl81GO8UHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOA6ggAuUVnmM68uUP4+aYhVogVE45exMl2
+eaX7AfXNkklfKJwgOpnqu8g00U134y52xRGfOU1teV/kar0YzgqlKL2Af+YLw5Yp
+7QFKDQpwjXX+MQzei9GtyC9OMfz6nwQgt28MqaMrkaSPyIvqibwF4fzR/nXSTDCQ
+1PpwCVQ1TWGST7SZFdUfHo+v3vdJuOyw0ucRceiJoEX4RQorEqFWXOHx/kR4Z1em
+POPUqdQAxWu8nlX+VUsN9ga3/QtTQ82ZEKfinfr0+ZNobJDIMznNeNTA1uDOwi8O
+RaXxxoYxdOEfvAZatFluUpOPE5T5zrt45Y1jpksTKhfmKPbSZ8ItAAqDhA==
+=qHmz
 -----END PGP SIGNATURE-----
 
---pbg6j07G9Fh86BmcTW5sGIWVqWbe8T2Kt--
+--dvpyWKt9GfZXVkJReqmxwaKg1xVlNTKmH--
 
---===============0994603437==
+--===============1068910524==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -298,4 +348,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0994603437==--
+--===============1068910524==--
