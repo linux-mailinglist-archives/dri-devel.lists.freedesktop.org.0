@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7EC243214
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 03:29:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0251243211
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 03:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A594C6E34D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF4D6E2E6;
 	Thu, 13 Aug 2020 01:29:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 261256E2E6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2684A6E2EC
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 01:29:33 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9FCA2B7;
- Thu, 13 Aug 2020 03:29:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EF7F595;
+ Thu, 13 Aug 2020 03:29:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597282170;
- bh=bd0qYrwzrJ4bHxah62yG+bSosA6MvnK/Qf6Qk4KfRec=;
- h=From:To:Cc:Subject:Date:From;
- b=qA1YrFcfzEx/YVld5LXlgsHPoUO6W2lFzzyWrjAL+0X/PoiJXBR+fRDb3nwNYFPww
- w5xF6VO5XX/Uz2ZKj3gNVJLpSsQM5C/3t8ix/43sPwRQQbeGhAW7RUoQ1msOEXRevN
- nlGAdZ/dXy1ait7uEcxrDl3FnSdlcu1rcHm79+Uk=
+ s=mail; t=1597282171;
+ bh=uU4C4MdMtByUvM4B2Jl1cNR1le9P2r3CIqqkw539nUo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VRH9W72bkXD0K3X90mxXvKsOUldgZFyl5qBP8n10IxIp/qTpI3fZPS7Jj6r7C/pam
+ 4YIuqD7wjqldldBihfk37FUi1NzwOVQ+93e+GKwVQoLzshEkKcRN6Rm9SWhkIutlA3
+ h70F5cb3kIW+Ijz4a06nV2gR/7NJxapeXExDhq+U=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/8] drm: mxsfb: Allow overriding bus width
-Date: Thu, 13 Aug 2020 04:29:02 +0300
-Message-Id: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 1/8] dt-bindings: display: mxsfb: Convert binding to YAML
+Date: Thu, 13 Aug 2020 04:29:03 +0300
+Message-Id: <20200813012910.13576-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
+References: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,56 +54,250 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Convert the mxsfb binding to YAML. The deprecated binding is dropped, as
+neither the DT sources nor the driver support it anymore.
 
-This patch series adds support to the mxsfb driver for bus width
-override. The need came from a hardware platform where a 18-bpp panel
-had the R[5:0], G[5:0] and B[5:0] signals connected to LCD_DATA[7:2],
-LCD_DATA[15:10] and LCD_DATA[23:18] instead of LCD_DATA[5:0],
-LCD_DATA[11:6] and LCD_DATA[17:12]. The bus width, automatically
-configured to 18 by querying the panel, is incorrect in this case, and
-needs to be set to 24.
+The compatible strings are messy, and DT sources use different kinds of
+combination of documented and undocumented values. Keep it simple for
+now, and update the example to make it valid. Aligning the binding with
+the existing DT sources will be performed separately.
 
-To solve this issue, a new bus-width DT property is added to the mxsfb
-DT binding. Patch 1/8 first converts the binding to YAML, with a fix for
-the compatible string values in 2/8. Patch 3/8 then adds the new
-property, and 4/8 renames the binding file to fsl,lcdif.yaml to match
-the usual naming convention. I've kept that patch last to make it easy
-to drop should should mxsfb.yaml be preferred.
-
-Patches 5/8 to 6/8 then fix the DT sources to match the LCDIF bindings,
-as I noticed during the conversion that the compatible strings were
-badly managed (see patch 2/8 for a longer explanation). Patch 7/8 drops
-an unused clock from DT sources.
-
-Patch 8/8 finally adds support for the bus-width property to the mxsfb
-driver.
-
-Laurent Pinchart (8):
-  dt-bindings: display: mxsfb: Convert binding to YAML
-  dt-bindings: display: mxsfb: Add and fix compatible strings
-  dt-bindings: display: mxsfb: Add a bus-width endpoint property
-  dt-bindings: display: mxsfb: Rename to fsl,lcdif.yaml
-  ARM: dts: imx: Fix LCDIF compatible strings
-  arm64: dts: imx8mq: Fix LCDIF compatible strings
-  ARM: dts: imx: Remove unneeded LCDIF disp_axi clock
-  drm: mxsfb: Add support for the bus-width DT property
-
- .../bindings/display/fsl,lcdif.yaml           | 135 ++++++++++++++++++
- .../devicetree/bindings/display/mxsfb.txt     |  87 -----------
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../devicetree/bindings/display/mxsfb.txt     |  87 -------------
+ .../devicetree/bindings/display/mxsfb.yaml    | 115 ++++++++++++++++++
  MAINTAINERS                                   |   2 +-
- arch/arm/boot/dts/imx6sl.dtsi                 |   7 +-
- arch/arm/boot/dts/imx6sll.dtsi                |   7 +-
- arch/arm/boot/dts/imx6sx.dtsi                 |   4 +-
- arch/arm/boot/dts/imx6ul.dtsi                 |   7 +-
- arch/arm64/boot/dts/freescale/imx8mq.dtsi     |   2 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  26 ++++
- drivers/gpu/drm/mxsfb/mxsfb_drv.h             |   2 +
- drivers/gpu/drm/mxsfb/mxsfb_kms.c             |   8 +-
- 11 files changed, 182 insertions(+), 105 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+ 3 files changed, 116 insertions(+), 88 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/display/mxsfb.txt
+ create mode 100644 Documentation/devicetree/bindings/display/mxsfb.yaml
 
+diff --git a/Documentation/devicetree/bindings/display/mxsfb.txt b/Documentation/devicetree/bindings/display/mxsfb.txt
+deleted file mode 100644
+index c985871c46b3..000000000000
+--- a/Documentation/devicetree/bindings/display/mxsfb.txt
++++ /dev/null
+@@ -1,87 +0,0 @@
+-* Freescale MXS LCD Interface (LCDIF)
+-
+-New bindings:
+-=============
+-Required properties:
+-- compatible:	Should be "fsl,imx23-lcdif" for i.MX23.
+-		Should be "fsl,imx28-lcdif" for i.MX28.
+-		Should be "fsl,imx6sx-lcdif" for i.MX6SX.
+-		Should be "fsl,imx8mq-lcdif" for i.MX8MQ.
+-- reg:		Address and length of the register set for LCDIF
+-- interrupts:	Should contain LCDIF interrupt
+-- clocks:	A list of phandle + clock-specifier pairs, one for each
+-		entry in 'clock-names'.
+-- clock-names:	A list of clock names. For MXSFB it should contain:
+-    - "pix" for the LCDIF block clock
+-    - (MX6SX-only) "axi", "disp_axi" for the bus interface clock
+-
+-Required sub-nodes:
+-  - port: The connection to an encoder chip.
+-
+-Example:
+-
+-	lcdif1: display-controller@2220000 {
+-		compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
+-		reg = <0x02220000 0x4000>;
+-		interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+-			 <&clks IMX6SX_CLK_LCDIF_APB>,
+-			 <&clks IMX6SX_CLK_DISPLAY_AXI>;
+-		clock-names = "pix", "axi", "disp_axi";
+-
+-		port {
+-			parallel_out: endpoint {
+-				remote-endpoint = <&panel_in_parallel>;
+-			};
+-		};
+-	};
+-
+-Deprecated bindings:
+-====================
+-Required properties:
+-- compatible:	Should be "fsl,imx23-lcdif" for i.MX23.
+-		Should be "fsl,imx28-lcdif" for i.MX28.
+-- reg:		Address and length of the register set for LCDIF
+-- interrupts:	Should contain LCDIF interrupts
+-- display:	phandle to display node (see below for details)
+-
+-* display node
+-
+-Required properties:
+-- bits-per-pixel:	<16> for RGB565, <32> for RGB888/666.
+-- bus-width:		number of data lines.  Could be <8>, <16>, <18> or <24>.
+-
+-Required sub-node:
+-- display-timings:	Refer to binding doc display-timing.txt for details.
+-
+-Examples:
+-
+-lcdif@80030000 {
+-	compatible = "fsl,imx28-lcdif";
+-	reg = <0x80030000 2000>;
+-	interrupts = <38 86>;
+-
+-	display: display {
+-		bits-per-pixel = <32>;
+-		bus-width = <24>;
+-
+-		display-timings {
+-			native-mode = <&timing0>;
+-			timing0: timing0 {
+-				clock-frequency = <33500000>;
+-				hactive = <800>;
+-				vactive = <480>;
+-				hfront-porch = <164>;
+-				hback-porch = <89>;
+-				hsync-len = <10>;
+-				vback-porch = <23>;
+-				vfront-porch = <10>;
+-				vsync-len = <10>;
+-				hsync-active = <0>;
+-				vsync-active = <0>;
+-				de-active = <1>;
+-				pixelclk-active = <0>;
+-			};
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/mxsfb.yaml b/Documentation/devicetree/bindings/display/mxsfb.yaml
+new file mode 100644
+index 000000000000..202381ec5bb7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mxsfb.yaml
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mxsfb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale/NXP i.MX LCD Interface (LCDIF)
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++  - Stefan Agner <stefan@agner.ch>
++
++description: |
++  (e)LCDIF display controller found in the Freescale/NXP i.MX SoCs.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx23-lcdif
++      - fsl,imx28-lcdif
++      - fsl,imx6sx-lcdif
++      - fsl,imx8mq-lcdif
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Pixel clock
++      - description: Bus clock
++      - description: Display AXI clock
++    minItems: 1
++
++  clock-names:
++    items:
++      - const: "pix"
++      - const: "axi"
++      - const: "disp_axi"
++    minItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  port:
++    description: The LCDIF output port
++    type: object
++
++    properties:
++      endpoint:
++        type: object
++
++        properties:
++          remote-endpoint:
++            $ref: /schemas/types.yaml#/definitions/phandle
++
++        required:
++          - remote-endpoint
++
++        additionalProperties: false
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++  - port
++
++additionalProperties: false
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx6sx-lcdif
++    then:
++      properties:
++        clocks:
++          minItems: 2
++          maxItems: 3
++        clock-names:
++          minItems: 2
++          maxItems: 3
++      required:
++        - clock-names
++    else:
++      properties:
++        clocks:
++          minItems: 1
++        clock-names:
++          minItems: 1
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx6sx-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    display-controller@2220000 {
++        compatible = "fsl,imx6sx-lcdif";
++        reg = <0x02220000 0x4000>;
++        interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
++                 <&clks IMX6SX_CLK_LCDIF_APB>,
++                 <&clks IMX6SX_CLK_DISPLAY_AXI>;
++        clock-names = "pix", "axi", "disp_axi";
++
++        port {
++            endpoint {
++                remote-endpoint = <&panel_in>;
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e3467e88714f..e3fac23383d2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11757,7 +11757,7 @@ M:	Stefan Agner <stefan@agner.ch>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	Documentation/devicetree/bindings/display/mxsfb.txt
++F:	Documentation/devicetree/bindings/display/mxsfb.yaml
+ F:	drivers/gpu/drm/mxsfb/
+ 
+ MYLEX DAC960 PCI RAID Controller
 -- 
 Regards,
 
