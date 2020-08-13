@@ -1,42 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9582438FF
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 12:59:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2D2243950
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 13:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3606E9B1;
-	Thu, 13 Aug 2020 10:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19AC46E9B6;
+	Thu, 13 Aug 2020 11:26:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 540386E9B1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 10:59:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83D07551;
- Thu, 13 Aug 2020 12:59:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597316364;
- bh=MkCO5WRnwp35q3JzVhLn32/9iCBNr/ShuvAxpwbx+0w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OEs+ZoQnEGKW2rKPrLo5ZB2ySsOpJ9yrxXrpapBX+kUbnKBvv70r3Vpd7R6fRFpsS
- QJKuhIM+9V/ZzqJ1LP/wkLMTGhx8/NE9nz9F6nLZA5BuiHnSkavsxaC8VJvulh8ppE
- /tEeOHeoESQX91aKUCO0J5nm9nRkgCTmbsdI3aTw=
-Date: Thu, 13 Aug 2020 13:59:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 1/9] dt-bindings: display: renesas,du: Document r8a774e1
- bindings
-Message-ID: <20200813105910.GB6057@pendragon.ideasonboard.com>
-References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdV4Tp=kz57pAJk0u5hVpbiEdVzTWDvK+F1AZ5TjGmLbMQ@mail.gmail.com>
- <CA+V-a8svAuDx51vuTCH4w5g0oF9qf8sWAEjMDMm+0+9u-UQhQw@mail.gmail.com>
+X-Greylist: delayed 3288 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Aug 2020 11:26:20 UTC
+Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net
+ [89.40.174.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4B16E9B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 11:26:20 +0000 (UTC)
+Received: from [37.161.87.136] (port=46755 helo=[192.168.42.162])
+ by hostingweb31.netsons.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <luca@lucaceresoli.net>)
+ id 1k6AW9-000FlW-5k; Thu, 13 Aug 2020 12:31:29 +0200
+Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
+To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+References: <20200812203618.2656699-1-robh@kernel.org>
+From: Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
+Date: Thu, 13 Aug 2020 12:31:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8svAuDx51vuTCH4w5g0oF9qf8sWAEjMDMm+0+9u-UQhQw@mail.gmail.com>
+In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id:
+ luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,118 +55,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Magnus Damm <magnus.damm@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-hwmon@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-On Thu, Aug 13, 2020 at 11:38:03AM +0100, Lad, Prabhakar wrote:
-> On Thu, Aug 13, 2020 at 10:05 AM Geert Uytterhoeven wrote:
-> > On Wed, Aug 12, 2020 at 4:02 PM Lad Prabhakar wrote:
-> > > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > >
-> > > Document the RZ/G2H (a.k.a. r8a774e1) SoC in the R-Car DU bindings.
-> > >
-> > > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > index 51cd4d162770..67cded5ad827 100644
-> > > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > @@ -10,6 +10,7 @@ Required Properties:
-> > >      - "renesas,du-r8a774a1" for R8A774A1 (RZ/G2M) compatible DU
-> > >      - "renesas,du-r8a774b1" for R8A774B1 (RZ/G2N) compatible DU
-> > >      - "renesas,du-r8a774c0" for R8A774C0 (RZ/G2E) compatible DU
-> > > +    - "renesas,du-r8a774e1" for R8A774E1 (RZ/G2H) compatible DU
-> > >      - "renesas,du-r8a7779" for R8A7779 (R-Car H1) compatible DU
-> > >      - "renesas,du-r8a7790" for R8A7790 (R-Car H2) compatible DU
-> > >      - "renesas,du-r8a7791" for R8A7791 (R-Car M2-W) compatible DU
-> > > @@ -75,6 +76,7 @@ corresponding to each DU output.
-> > >   R8A774A1 (RZ/G2M)      DPAD 0         HDMI 0         LVDS 0         -
-> > >   R8A774B1 (RZ/G2N)      DPAD 0         HDMI 0         LVDS 0         -
-> > >   R8A774C0 (RZ/G2E)      DPAD 0         LVDS 0         LVDS 1         -
-> > > + R8A774E1 (RZ/G2H)      DPAD 0         HDMI 0         LVDS 0         -
-> >
-> > As LVDS 0 is the fourth channel (DU3), should it be listed under port 3
-> > instead of port 2?
-> >
-> > I know we did it the same for R-Car M3-N and RZ/G2N.
-> > But my main worry is adding support for R-Car H3-N later.
-
-Why should we do so ? The port number here isn't tied to the DU channel
-number. It only identifies the output port. Many DUs can route DU
-channel outputs to different output ports.
-
-> I do agree too, with the below diff I tested the LVDS output on RZ/G2N
-> Rev2 board and things work fine. But only thing it doesn't explain is
-> why does LVDS work on DU2 for G2[H/N] boards :D
-> 
-> Geert, Laurent, Kieran If you agree with the below changes I shall
-> post a proper patch fixing it for RZ/G2[HN]
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> index d661724fc28a..0b087d287202 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> @@ -2540,8 +2540,8 @@
->                                                 remote-endpoint =
-> <&dw_hdmi0_in>;
->                                         };
->                                 };
-> -                               port@2 {
-> -                                       reg = <2>;
-> +                               port@3 {
-> +                                       reg = <3>;
->                                         du_out_lvds0: endpoint {
->                                                 remote-endpoint = <&lvds0_in>;
->                                         };
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 3e67cf70f040..419d81c7763e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -153,7 +153,7 @@ static const struct rcar_du_device_info
-> rcar_du_r8a774b1_info = {
->                 },
->                 [RCAR_DU_OUTPUT_LVDS0] = {
->                         .possible_crtcs = BIT(0),
-> -                       .port = 2,
-> +                       .port = 3,
->                 },
->         },
->         .num_lvds = 1,
-> 
-> > >   R8A7779 (R-Car H1)     DPAD 0         DPAD 1         -              -
-> > >   R8A7790 (R-Car H2)     DPAD 0         LVDS 0         LVDS 1         -
-> > >   R8A7791 (R-Car M2-W)   DPAD 0         LVDS 0         -              -
-> >
-> > Apart from that:
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUm9iLAoKT24gMTIvMDgvMjAgMjI6MzYsIFJvYiBIZXJyaW5nIHdyb3RlOgo+IENsZWFuLXVw
+IGluY29ycmVjdCBpbmRlbnRhdGlvbiwgZXh0cmEgc3BhY2VzLCBsb25nIGxpbmVzLCBhbmQgbWlz
+c2luZwo+IEVPRiBuZXdsaW5lIGluIHNjaGVtYSBmaWxlcy4gTW9zdCBvZiB0aGUgY2xlYW4tdXBz
+IGFyZSBmb3IgbGlzdAo+IGluZGVudGF0aW9uIHdoaWNoIHNob3VsZCBhbHdheXMgYmUgMiBzcGFj
+ZXMgbW9yZSB0aGFuIHRoZSBwcmVjZWRpbmcKPiBrZXl3b3JkLgo+IAo+IEZvdW5kIHdpdGggeWFt
+bGxpbnQgKHdoaWNoIEkgcGxhbiB0byBpbnRlZ3JhdGUgaW50byB0aGUgY2hlY2tzKS4KClsuLi5d
+Cgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY2xvY2sv
+aWR0LHZlcnNhY2xvY2s1LnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+Y2xvY2svaWR0LHZlcnNhY2xvY2s1LnlhbWwKPiBpbmRleCAzZDRlMTY4NWNjNTUuLjI4YzY0NjFi
+OWE5YSAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY2xv
+Y2svaWR0LHZlcnNhY2xvY2s1LnlhbWwKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvY2xvY2svaWR0LHZlcnNhY2xvY2s1LnlhbWwKPiBAQCAtOTUsMTAgKzk1LDEwIEBA
+IGFsbE9mOgo+ICAgICAgICAjIERldmljZXMgd2l0aG91dCBidWlsdGluIGNyeXN0YWwKPiAgICAg
+ICAgcHJvcGVydGllczoKPiAgICAgICAgICBjbG9jay1uYW1lczoKPiAtICAgICAgICAgICAgbWlu
+SXRlbXM6IDEKPiAtICAgICAgICAgICAgbWF4SXRlbXM6IDIKPiAtICAgICAgICAgICAgaXRlbXM6
+Cj4gLSAgICAgICAgICAgICAgZW51bTogWyB4aW4sIGNsa2luIF0KPiArICAgICAgICAgIG1pbkl0
+ZW1zOiAxCj4gKyAgICAgICAgICBtYXhJdGVtczogMgo+ICsgICAgICAgICAgaXRlbXM6Cj4gKyAg
+ICAgICAgICAgIGVudW06IFsgeGluLCBjbGtpbiBdCj4gICAgICAgICAgY2xvY2tzOgo+ICAgICAg
+ICAgICAgbWluSXRlbXM6IDEKPiAgICAgICAgICAgIG1heEl0ZW1zOiAyCgpUaGFua3MgZm9yIG5v
+dGljaW5nLCBMR1RNLgoKWy4uLl0KCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9pbnB1dC90b3VjaHNjcmVlbi90b3VjaHNjcmVlbi55YW1sIGIvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L3RvdWNoc2NyZWVuL3RvdWNoc2NyZWVu
+LnlhbWwKPiBpbmRleCBkN2RhYzE2YTM5NjAuLjM2ZGM3YjU2YTQ1MyAxMDA2NDQKPiAtLS0gYS9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW5wdXQvdG91Y2hzY3JlZW4vdG91Y2hz
+Y3JlZW4ueWFtbAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1
+dC90b3VjaHNjcmVlbi90b3VjaHNjcmVlbi55YW1sCj4gQEAgLTMzLDggKzMzLDggQEAgcHJvcGVy
+dGllczoKPiAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQz
+Mgo+ICAKPiAgICB0b3VjaHNjcmVlbi1taW4tcHJlc3N1cmU6Cj4gLSAgICBkZXNjcmlwdGlvbjog
+bWluaW11bSBwcmVzc3VyZSBvbiB0aGUgdG91Y2hzY3JlZW4gdG8gYmUgYWNoaWV2ZWQgaW4gb3Jk
+ZXIgZm9yIHRoZQo+IC0gICAgICAgICAgICAgICAgIHRvdWNoc2NyZWVuIGRyaXZlciB0byByZXBv
+cnQgYSB0b3VjaCBldmVudC4KPiArICAgIGRlc2NyaXB0aW9uOiBtaW5pbXVtIHByZXNzdXJlIG9u
+IHRoZSB0b3VjaHNjcmVlbiB0byBiZSBhY2hpZXZlZCBpbiBvcmRlcgo+ICsgICAgICBmb3IgdGhl
+IHRvdWNoc2NyZWVuIGRyaXZlciB0byByZXBvcnQgYSB0b3VjaCBldmVudC4KCk91dCBvZiBwZXJz
+b25hbCB0YXN0ZSwgSSBmaW5kIHRoZSBvcmlnaW5hbCBsYXlvdXQgbW9yZSBwbGVhc2FudCBhbmQK
+cmVhZGFibGUuIFRoaXMgdGhpcmQgb3B0aW9uIGlzIGFsc28gZ29vZCwgZXNwZWNpYWxseSBmb3Ig
+bG9uZyBkZXNjcmlwdGlvbnM6CgogIGRlc2NyaXB0aW9uOgogICAgbWluaW11bSBwcmVzc3VyZSBv
+biB0aGUgdG91Y2hzY3JlZW4gdG8gYmUgYWNoaWV2ZWQgaW4gb3JkZXIgZm9yIHRoZQogICAgdG91
+Y2hzY3JlZW4gZHJpdmVyIHRvIHJlcG9ydCBhIHRvdWNoIGV2ZW50LgoKQXQgZmlyc3QgZ2xhbmNl
+IHlhbWxsaW50IHNlZW1zIHRvIHN1cHBvcnQgZXhhY3RseSB0aGVzZSB0d28gYnkgZGVmYXVsdDoK
+Cj4gV2l0aCBpbmRlbnRhdGlvbjoge3NwYWNlczogNCwgY2hlY2stbXVsdGktbGluZS1zdHJpbmdz
+OiB0cnVlfQo+IAo+IHRoZSBmb2xsb3dpbmcgY29kZSBzbmlwcGV0IHdvdWxkIFBBU1M6Cj4gCj4g
+QmxhaXNlIFBhc2NhbDoKPiAgICAgSmUgdm91cyDDqWNyaXMgdW5lIGxvbmd1ZSBsZXR0cmUgcGFy
+Y2UgcXVlCj4gICAgIGplIG4nYWkgcGFzIGxlIHRlbXBzIGQnZW4gw6ljcmlyZSB1bmUgY291cnRl
+Lgo+IAo+IHRoZSBmb2xsb3dpbmcgY29kZSBzbmlwcGV0IHdvdWxkIFBBU1M6Cj4gCj4gQmxhaXNl
+IFBhc2NhbDogSmUgdm91cyDDqWNyaXMgdW5lIGxvbmd1ZSBsZXR0cmUgcGFyY2UgcXVlCj4gICAg
+ICAgICAgICAgICAgamUgbidhaSBwYXMgbGUgdGVtcHMgZCdlbiDDqWNyaXJlIHVuZSBjb3VydGUu
+Cj4gCj4gdGhlIGZvbGxvd2luZyBjb2RlIHNuaXBwZXQgd291bGQgRkFJTDoKPiAKPiBCbGFpc2Ug
+UGFzY2FsOiBKZSB2b3VzIMOpY3JpcyB1bmUgbG9uZ3VlIGxldHRyZSBwYXJjZSBxdWUKPiAgIGpl
+IG4nYWkgcGFzIGxlIHRlbXBzIGQnZW4gw6ljcmlyZSB1bmUgY291cnRlLgo+IAooaHR0cHM6Ly95
+YW1sbGludC5yZWFkdGhlZG9jcy5pby9lbi9zdGFibGUvcnVsZXMuaHRtbCNtb2R1bGUteWFtbGxp
+bnQucnVsZXMuaW5kZW50YXRpb24pCgoKLS0gCkx1Y2EKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
