@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD05243AB4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 15:19:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740E7243AD6
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 15:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFCD6E9E5;
-	Thu, 13 Aug 2020 13:19:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783486E147;
+	Thu, 13 Aug 2020 13:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8076E9E5;
- Thu, 13 Aug 2020 13:19:43 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8D15620774;
- Thu, 13 Aug 2020 13:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597324782;
- bh=SknD/q4aQWNYq5Nk/fIPKkA97wOWHoR/XOtsWCarsUg=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1D06E147;
+ Thu, 13 Aug 2020 13:36:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EEF4C80C;
+ Thu, 13 Aug 2020 15:36:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597325779;
+ bh=LFjCPgHaIF6gKZ6ttwoh7vM/ha5xd+8WqVY3LrXFqdY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KyQtPDjjhE0RUI+jOnEFEBNw/+u3ZIzQvrcfs2bqJcSclzMEqquyp5iHRtp1RNgLN
- 0GHvoyF53tu5IMoeKYfshHf8pzTzkTlYFu4UrJiZttWR4h8heT83viHSVM3LlABhmz
- fUatW3ekpHN47Oz+hbzPT5iwPkIrwjnHUHdfpCyU=
-Date: Thu, 13 Aug 2020 14:19:33 +0100
-From: Will Deacon <will@kernel.org>
-To: Jordan Crouse <jcrouse@codeaurora.org>
-Subject: Re: [PATCH v12 00/13] iommu/arm-smmu: Add Adreno SMMU specific
- implementation
-Message-ID: <20200813131933.GC10256@willie-the-truck>
-References: <20200810222657.1841322-1-jcrouse@codeaurora.org>
+ b=mD2ffodeTiALBx4jMPG8qxz9L2zNHMknBM29LVKDZwsuv+HPNiU01uwaTPvLjoGS1
+ sOMLw+vbWye9FliJAd9NJAyN9AUdPYnu7XpJWDyFWNmXGiBOuqF8WtSmdbAdPKkTbA
+ m/8ZHk2o7qVvXfCHUPCtVlJuq/Rqpw7zILkn+1Oc=
+Date: Thu, 13 Aug 2020 16:36:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 19/20] drm/xlnx: Initialize DRM driver instance with CMA
+ helper macro
+Message-ID: <20200813133605.GJ6057@pendragon.ideasonboard.com>
+References: <20200813083644.31711-1-tzimmermann@suse.de>
+ <20200813083644.31711-20-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200810222657.1841322-1-jcrouse@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200813083644.31711-20-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,52 +47,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wambui Karuga <wambui.karugax@gmail.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Hanna Hawa <hannah@marvell.com>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Vivek Gautam <vivek.gautam@codeaurora.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, Joerg Roedel <joro@8bytes.org>,
- Jon Hunter <jonathanh@nvidia.com>, Andy Gross <agross@kernel.org>,
- Sibi Sankar <sibis@codeaurora.org>, Thierry Reding <treding@nvidia.com>,
- Brian Masney <masneyb@onstation.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- Pritesh Raithatha <praithatha@nvidia.com>,
- Nicolin Chen <nicoleotsuka@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Ben Dooks <ben.dooks@codethink.co.uk>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+ emil.velikov@collabora.com, abdiel.janulgue@linux.intel.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
+ linux-tegra@vger.kernel.org, linux@armlinux.org.uk, jonathanh@nvidia.com,
+ linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
+ xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
+ linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
+ etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, rodrigo.vivi@intel.com,
+ matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
+ amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk, hyun.kwon@xilinx.com,
+ rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
+ xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ miaoqinglang@huawei.com, kyungmin.park@samsung.com, nirmoy.das@amd.com,
+ alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 10, 2020 at 04:26:44PM -0600, Jordan Crouse wrote:
-> This series adds an Adreno SMMU implementation to arm-smmu to allow GPU hardware
-> pagetable switching.
+Hi Thomas,
+
+Thank you for the patch.
+
+On Thu, Aug 13, 2020 at 10:36:43AM +0200, Thomas Zimmermann wrote:
+> The xlnx driver uses CMA helpers with default callback functions.
+> Initialize the driver structure with the rsp CMA helper macro. The
+> driver is being converted to use GEM object functions as part of
+> this change.
 > 
-> The Adreno GPU has built in capabilities to switch the TTBR0 pagetable during
-> runtime to allow each individual instance or application to have its own
-> pagetable.  In order to take advantage of the HW capabilities there are certain
-> requirements needed of the SMMU hardware.
+> Two callbacks, .dumb_destroy and .gem_prime_import, were initialized
+> to their default implementations, so they are just kept empty now.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 14 +-------------
+>  1 file changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> index 26328c76305b..058044dcc062 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> @@ -80,19 +80,7 @@ static struct drm_driver zynqmp_dpsub_drm_driver = {
+>  	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
+>  					  DRIVER_ATOMIC,
+>  
+> -	.prime_handle_to_fd		= drm_gem_prime_handle_to_fd,
+> -	.prime_fd_to_handle		= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_export		= drm_gem_prime_export,
+> -	.gem_prime_import		= drm_gem_prime_import,
+> -	.gem_prime_get_sg_table		= drm_gem_cma_prime_get_sg_table,
+> -	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_vmap			= drm_gem_cma_prime_vmap,
+> -	.gem_prime_vunmap		= drm_gem_cma_prime_vunmap,
+> -	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
+> -	.gem_free_object_unlocked	= drm_gem_cma_free_object,
+> -	.gem_vm_ops			= &drm_gem_cma_vm_ops,
+> -	.dumb_create			= zynqmp_dpsub_dumb_create,
+> -	.dumb_destroy			= drm_gem_dumb_destroy,
+> +	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
 
-"capabilities" is a polite way of putting it ;)
+The only effective change here is
 
-Anyway, modulo two design comments, I think this is about as nice as we're
-going to get this. Thanks for persevering, and sorry that you have to deal
-with such dreadful hardware.
+-	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
++	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table_vmap,
++	.gem_prime_mmap			= drm_gem_prime_mmap,
 
-Hopefully the next version will be the one, although I'd like Robin to take
-a quick look as well if he gets a chance.
+The change is significant, and I have a hard time following the code to
+verify that it's correct, or if it's an undesired side effect. If it's
+correct, could the change be mentioned in the commit message, with at
+least a brief explanation of why this is correct, and what the
+consequences here ?
 
-Will
+>  
+>  	.fops				= &zynqmp_dpsub_drm_fops,
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
