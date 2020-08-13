@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0A2245D06
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7F7245CF9
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:06:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A846E44F;
-	Mon, 17 Aug 2020 07:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52F6F6E425;
+	Mon, 17 Aug 2020 07:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC3F6E260
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 21:56:33 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id f26so7828067ljc.8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 14:56:33 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9461B6E261
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 21:56:34 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id b11so3812013lfe.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 14:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZsQa4/wa/hr0FMOOmoE7ekivRXN/hVmPW68FrHf8SvM=;
- b=Ze4erFzxVZru3NYe8ZT3q5z8yGB9elgvo7xXqLgr3HyM8VAXlGsbMRFGm7Vn0nukuD
- iYkmKOCclAEFhHkuONXsFf4vwblr1D366Z/GpDydV78x0rFZ0xoftTPfHf0M+UPcdJ+3
- vavJIqbINSp9T0P/TWNnKjPBg7ekVbBb/O4OnuJI3AYepEXXeN2StzEEmQ4Y5Qhxtil1
- FGfUGs6TCMe8snfF/qGLwUDYVXjU10xrvffpLo1XNOQqx3FFHtJfK3TFq2rxd6JhrJm4
- SOJqamOllhCBPM/6/+oNf83P9OjcrYz72AC/oz0hj/bILw0v9VtBvgAhJWimfZ5COcoL
- olxA==
+ bh=mD1tbRihw0/dSqZZEiPFcDugxOmEjVbt/2mN2YLwJu0=;
+ b=gqNUb2U4Cjk6cKs9FX/HC8gOpEBKd0eI8FZomqWS834t6EEJJEqIGRo4mj7GtWHOxa
+ J/XJq5dqiszoDLkonRZ2A/kjeSB5We/fz7uQX5oYcDWwvcPZJRFNqAAKY6WFyQHwUIMg
+ C9u74Usn6XA1P5dRoBvMWAakW3XumhuDsvxFgYX0+8yBm75FVXjuCoXUOe0wSl42XVZy
+ tzyMcWrkDssGLxvjr/g5WgtbnYl3ZbpeEx6AwwlIUpB01uEQMNlecodINpe1ftHg0bzL
+ VHttyyYbglzaHyPWNPEui2RxLZZpRLrzf5C8Kl35yr5a/E9iSROnwprUbDmdqGtUCXD5
+ h8zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZsQa4/wa/hr0FMOOmoE7ekivRXN/hVmPW68FrHf8SvM=;
- b=UJfh4dFP5JCMD2CFYL2rZjS4fOBmdRsPOnA93yqbZvcEjzpcv1wGy5oH2yKRoWE6Hx
- bc6/DOQPbK0XTDGVBGE2MGVP2U+XKKv8XA93jxp0FDxzS6UA04LybxWdECzfPSFbGL8+
- xdjXnQXhm4P6t+K8b60iUCLl8S+E7BJ4vyet9MH3EDg6gvHVEeARXbPanCjwG/Ar7z6x
- dguffbrghO118mbXyHqaHqmoTkAuDPl9co9QYXUU8yUP7FQBJQNkZyU36sgvh29nkHU/
- QntBwpXhTsQUHR2/zo6MFIoDfGeZRoa5BRgjV6pCMlyUjPdTpY5Ld3LsYdxpf6T1dvgr
- Saow==
-X-Gm-Message-State: AOAM532igbvrHuVZOuYTMUZfmFDkzJWtnmxIbVkewZosaMHfCpamTRdh
- 8bwUikK2pn1s3mFPEG71VHQ=
-X-Google-Smtp-Source: ABdhPJxF5FcrTFOve8Js3QSlq60WT7ItL6LDIqEAG+J+TDbZvERjyEBqiXw7AdoTfQFFusczr4OHvg==
-X-Received: by 2002:a2e:7c0f:: with SMTP id x15mr3055969ljc.205.1597355791880; 
- Thu, 13 Aug 2020 14:56:31 -0700 (PDT)
+ bh=mD1tbRihw0/dSqZZEiPFcDugxOmEjVbt/2mN2YLwJu0=;
+ b=PwwZPXJ5s4I5IuuEkR98gyvnDM1UIay6XsM3t38FttOCsEcqADUTwzqMA1bLFd3XIs
+ HVHisH4xAhZDZuvEA7zCbrxkJ+PjpWP/bwAuGr2dcU+GxQWwEbj3WAZxvjpOCqfVr8MO
+ bgRdKgmWVpeYhSs3l6AHz+GosI6mNZboThAHaHivTNOsVy4kk3nJunR1tSIEyLAUybCE
+ EheZGZFkHLwvGmsd+5x141pIw9AIl8Tx1X2jxD+QJ7jE5jSr8agpzu5x1kYDbSNUDDH7
+ uBHPZBEOAPrr1l4Nog2Ds9gsNuc7fLqNsbS1DQXcAUydCC9uCh21cK8zJ/82JOPf8YMc
+ LxHg==
+X-Gm-Message-State: AOAM532XYttL3NTZpeNfvzvD6dTsGi5d+lBRbsnkeynYmbSJ6g4KDjV1
+ siVx6a4LjFSOkDBE7xdCSkM=
+X-Google-Smtp-Source: ABdhPJxXJ9rih0Dt3yP8eoAOGHV6bcCBCyfCb2U266j6QPsBxHM2lQQLP+giJn7kGx36Kmk7Mtk3uw==
+X-Received: by 2002:a19:830a:: with SMTP id f10mr3172796lfd.28.1597355792965; 
+ Thu, 13 Aug 2020 14:56:32 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru.
  [109.252.170.211])
- by smtp.gmail.com with ESMTPSA id z20sm1349977ljk.97.2020.08.13.14.56.30
+ by smtp.gmail.com with ESMTPSA id z20sm1349977ljk.97.2020.08.13.14.56.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 14:56:31 -0700 (PDT)
+ Thu, 13 Aug 2020 14:56:32 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,10 +55,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  Daniel Stone <daniel@fooishbar.org>
-Subject: [PATCH RESEND v12 2/4] drm/panel: Read panel orientation for BOE
- TV101WUM-NL6
-Date: Fri, 14 Aug 2020 00:56:07 +0300
-Message-Id: <20200813215609.28643-3-digetx@gmail.com>
+Subject: [PATCH RESEND v12 3/4] drm/panel: lvds: Read panel orientation
+Date: Fri, 14 Aug 2020 00:56:08 +0300
+Message-Id: <20200813215609.28643-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200813215609.28643-1-digetx@gmail.com>
 References: <20200813215609.28643-1-digetx@gmail.com>
@@ -83,56 +82,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Derek Basehore <dbasehore@chromium.org>
+The panel orientation needs to parsed from a device-tree and assigned to
+the panel's connector in order to make orientation property available to
+userspace. That's what this patch does for the generic LVDS panel.
 
-This reads the DT setting for the panel rotation to set the panel
-orientation in the get_modes callback.
-
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Derek Basehore <dbasehore@chromium.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/panel/panel-lvds.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index e320aa30b9ae..6824363fcff1 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -11,6 +11,7 @@
- #include <linux/of_device.h>
- #include <linux/regulator/consumer.h>
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index 5ce3f4a2b7a1..f62227059090 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -37,6 +37,8 @@ struct panel_lvds {
  
-+#include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_panel.h>
-@@ -43,6 +44,7 @@ struct boe_panel {
- 
- 	const struct panel_desc *desc;
- 
+ 	struct gpio_desc *enable_gpio;
+ 	struct gpio_desc *reset_gpio;
++
 +	enum drm_panel_orientation orientation;
- 	struct regulator *pp1800;
- 	struct regulator *avee;
- 	struct regulator *avdd;
-@@ -740,6 +742,7 @@ static int boe_panel_get_modes(struct drm_panel *panel,
- 	connector->display_info.width_mm = boe->desc->size.width_mm;
- 	connector->display_info.height_mm = boe->desc->size.height_mm;
- 	connector->display_info.bpc = boe->desc->bpc;
-+	drm_connector_set_panel_orientation(connector, boe->orientation);
+ };
+ 
+ static inline struct panel_lvds *to_panel_lvds(struct drm_panel *panel)
+@@ -99,6 +101,7 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = lvds->data_mirror
+ 					  ? DRM_BUS_FLAG_DATA_LSB_TO_MSB
+ 					  : DRM_BUS_FLAG_DATA_MSB_TO_LSB;
++	drm_connector_set_panel_orientation(connector, lvds->orientation);
  
  	return 1;
  }
-@@ -779,6 +782,9 @@ static int boe_panel_add(struct boe_panel *boe)
+@@ -116,6 +119,13 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ 	const char *mapping;
+ 	int ret;
  
- 	drm_panel_init(&boe->base, dev, &boe_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
-+	err = of_drm_get_panel_orientation(dev->of_node, &boe->orientation);
-+	if (err < 0)
-+		return err;
- 
- 	err = drm_panel_of_backlight(&boe->base);
- 	if (err)
++	ret = of_drm_get_panel_orientation(np, &lvds->orientation);
++	if (ret < 0) {
++		dev_err(lvds->dev, "%pOF: problems parsing rotation (%d)\n",
++			np, ret);
++		return ret;
++	}
++
+ 	ret = of_get_display_timing(np, "panel-timing", &timing);
+ 	if (ret < 0) {
+ 		dev_err(lvds->dev, "%pOF: problems parsing panel-timing (%d)\n",
 -- 
 2.27.0
 
