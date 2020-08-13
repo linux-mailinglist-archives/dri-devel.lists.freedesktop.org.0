@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6364243247
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 03:55:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C35E2432DA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 05:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E626E969;
-	Thu, 13 Aug 2020 01:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8E36E02E;
+	Thu, 13 Aug 2020 03:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 625116E969
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 01:55:08 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1597283711; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=Rhkk8eunrihHd8pV4roEkHcXijF9QoLlK6Dbc6fdia8=;
- b=rJA2Frd9q/xmanKdr/ff1RblxyiUHThbwKbVnYCBID0Zuf81l+19AmLPv/3WpBv7vz0XNK8s
- 0gmLTzSpn7x2bbs6FDz+qkxP+NwVQeQ7HuyErVVIlEQgCuxspM0g0vUTQvuqBWtla7dVut0m
- ovDIO+jJPhPahdp2hbpNcTgDZqU=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 5f349d792f4952907d6ba68b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 13 Aug 2020 01:55:05
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id B2B66C433A0; Thu, 13 Aug 2020 01:55:04 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 8D79DC433CA;
- Thu, 13 Aug 2020 01:55:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8D79DC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/msm/dp: signal the hotplug disconnect in the event
- handler
-Date: Wed, 12 Aug 2020 18:54:39 -0700
-Message-Id: <20200813015439.4174-5-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200813015439.4174-1-abhinavk@codeaurora.org>
-References: <20200813015439.4174-1-abhinavk@codeaurora.org>
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A71436E02E;
+ Thu, 13 Aug 2020 03:36:20 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id e5so3337007qth.5;
+ Wed, 12 Aug 2020 20:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u3YsIH4LmQEWWazGHUZ0k7Mgfr21Zk+t0dzVe2tvcCI=;
+ b=i57o7MNyY61UqvqfmUXJcEnocEWmqmChiWGq3/Ndl01G3s9mMLSu+Q+9YuJRTYC330
+ YWa+pO08s0ne0pL2JTdiudNS1fOMKWWsSROLnR/QFyfrtaKMNlpQaOH89uwrU2sG9CI4
+ d5SpMdXJjkOFeT3GU8GYeeFIyCpl6ePDzv8D4I4N1mk7Q1oRSJu7k5yLkGYOub2GYcKL
+ ao3tWAZnKRU4dvBOCFbmcZDA97/zP0Xgnt9nn0flbMBNSmoqCkqcXMzonRrHC9bYuQo8
+ NXL+5VsX3X5ZZxAluT16lcZVbj0fCXknvnELBOH4Nb4vbD+/rj/ShQ/5bPpMzEGq1cf0
+ I02g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u3YsIH4LmQEWWazGHUZ0k7Mgfr21Zk+t0dzVe2tvcCI=;
+ b=FjOviX6ZKClGONRY8tV/CXTRJeSGRapjjl7nd25WXoOJpkfbToNsaCf89g+Ezv5i3Y
+ laukRK9s5wbNV6aNwjz1Ebjsu8fU9gY4sPX+vWozY8/w4hVElpoIE/2QpRg87q+KuKma
+ EcN5AQVxNGPrZMl0jvAE5sLeUTvQ092JL6WJre+xjiZOTIEiuH4t/3c3HWMM3i4lSYSL
+ WzVUiJDs55FNq6d+DZVG4rAg3SnXTrXKDk5/zJ7r0IjIhsOgXuzH/31jY77KSmLcE0nf
+ ASBtIAO95nc/33kDOeZf9QNGL4tKgkzOAdIrAkqw2qtXJ7MfQCbR2nWwdFrlX9J93ezS
+ fTTg==
+X-Gm-Message-State: AOAM530QCdxThDjb9Vhxo7oeZylV2wd7sYczGsiKSHMHI0mThq5m8WO/
+ oVxJeWrmK64CPqEFOFRkKrywlG9j
+X-Google-Smtp-Source: ABdhPJwx9/w/+52eu1C9up6WJ4QZI0TP6/D9tPep5qdLVQ64+4+b8369au7UDu9MbojncDwldJkxIg==
+X-Received: by 2002:ac8:4747:: with SMTP id k7mr3116481qtp.76.1597289779364;
+ Wed, 12 Aug 2020 20:36:19 -0700 (PDT)
+Received: from localhost.localdomain ([71.219.66.138])
+ by smtp.gmail.com with ESMTPSA id g4sm4814283qtp.89.2020.08.12.20.36.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Aug 2020 20:36:18 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu drm-fixes-5.9
+Date: Wed, 12 Aug 2020 23:36:10 -0400
+Message-Id: <20200813033610.4008-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,80 +66,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vsujithk@codeaurora.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, swboyd@chromium.org,
- khsieh@codeaurora.org, seanpaul@chromium.org, tanmay@codeaurora.org,
- rohitkr@codeaurora.org, aravindh@codeaurora.org, cychiang@chromium.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signal the hotplug disconnect event to the audio side in the
-event handler so that they are notified earlier and have more
-time to process the disconnect event.
+Hi Dave, Daniel,
 
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Fixes for 5.9.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 302cf7ea65d7..11960be33fdb 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -504,6 +504,13 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	return 0;
- };
- 
-+static void dp_display_handle_plugged_change(struct msm_dp *dp_display,
-+		bool plugged)
-+{
-+	if (dp_display->plugged_cb && dp_display->codec_dev)
-+		dp_display->plugged_cb(dp_display->codec_dev, plugged);
-+}
-+
- static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- {
- 	struct dp_usbpd *hpd = dp->usbpd;
-@@ -544,6 +551,9 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	 */
- 	dp_display_usbpd_disconnect_cb(&dp->pdev->dev);
- 
-+	/* signal the disconnect event early to ensure proper teardown */
-+	dp_display_handle_plugged_change(g_dp_display, false);
-+
- 	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK |
- 					DP_DP_IRQ_HPD_INT_MASK, true);
- 
-@@ -711,13 +721,6 @@ static int dp_display_prepare(struct msm_dp *dp)
- 	return 0;
- }
- 
--static void dp_display_handle_plugged_change(struct msm_dp *dp_display,
--		bool plugged)
--{
--	if (dp_display->plugged_cb && dp_display->codec_dev)
--		dp_display->plugged_cb(dp_display->codec_dev, plugged);
--}
--
- static int dp_display_enable(struct dp_display_private *dp, u32 data)
- {
- 	int rc = 0;
-@@ -759,9 +762,6 @@ static int dp_display_pre_disable(struct msm_dp *dp_display)
- 
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
- 
--	/* signal the disconnect event early to ensure proper teardown */
--	dp_display_handle_plugged_change(dp_display, false);
--
- 	return 0;
- }
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+The following changes since commit f87812284172a9809820d10143b573d833cd3f75:
 
+  drm/amdgpu: Fix bug where DPM is not enabled after hibernate and resume (2020-08-07 17:52:15 -0400)
+
+are available in the Git repository at:
+
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.9-2020-08-12
+
+for you to fetch changes up to f41ed88cbd6f025f7a683a11a74f901555fba11c:
+
+  drm/amdgpu/display: use GFP_ATOMIC in dcn20_validate_bandwidth_internal (2020-08-10 18:09:46 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.9-2020-08-12:
+
+amdgpu:
+- Fix allocation size
+- SR-IOV fixes
+- Vega20 SMU feature state caching fix
+- Fix custom pptable handling
+- Arcturus golden settings update
+- Several display fixes
+
+----------------------------------------------------------------
+Anthony Koo (2):
+      drm/amd/display: Fix LFC multiplier changing erratically
+      drm/amd/display: Switch to immediate mode for updating infopackets
+
+Aric Cyr (1):
+      drm/amd/display: Fix incorrect backlight register offset for DCN
+
+Christophe JAILLET (1):
+      drm: amdgpu: Use the correct size when allocating memory
+
+Daniel Kolesa (1):
+      drm/amdgpu/display: use GFP_ATOMIC in dcn20_validate_bandwidth_internal
+
+Evan Quan (2):
+      drm/amd/powerplay: correct Vega20 cached smu feature state
+      drm/amd/powerplay: correct UVD/VCE PG state on custom pptable uploading
+
+Jaehyun Chung (1):
+      drm/amd/display: Blank stream before destroying HDCP session
+
+Liu ChengZhe (1):
+      drm/amdgpu: Skip some registers config for SRIOV
+
+Stylon Wang (1):
+      drm/amd/display: Fix EDID parsing after resume from suspend
+
+shiwu.zhang (1):
+      drm/amdgpu: update gc golden register for arcturus
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  1 +
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v2_1.c           | 19 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c            | 19 ++++++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  1 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  3 +-
+ .../gpu/drm/amd/display/dc/dce/dce_panel_cntl.h    |  2 +-
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.c    | 16 ++++----
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.h    | 14 +++++++
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  2 +-
+ .../drm/amd/display/modules/freesync/freesync.c    | 36 ++++++++++++++----
+ drivers/gpu/drm/amd/powerplay/hwmgr/vega20_hwmgr.c | 44 ++++++++++------------
+ 12 files changed, 114 insertions(+), 45 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
