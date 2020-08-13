@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B88243687
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 10:37:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEEC24368D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 10:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067086E996;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1156E973;
 	Thu, 13 Aug 2020 08:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E89CD6E984;
- Thu, 13 Aug 2020 08:36:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81EAB6E994;
+ Thu, 13 Aug 2020 08:36:58 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3719FB599;
- Thu, 13 Aug 2020 08:37:18 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 25C5DB59A;
+ Thu, 13 Aug 2020 08:37:19 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
@@ -38,9 +38,9 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
  tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
  miaoqinglang@huawei.com, emil.velikov@collabora.com
-Subject: [PATCH 06/20] drm/i915: Introduce GEM object functions
-Date: Thu, 13 Aug 2020 10:36:30 +0200
-Message-Id: <20200813083644.31711-7-tzimmermann@suse.de>
+Subject: [PATCH 07/20] drm/mediatek: Introduce GEM object functions
+Date: Thu, 13 Aug 2020 10:36:31 +0200
+Message-Id: <20200813083644.31711-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200813083644.31711-1-tzimmermann@suse.de>
 References: <20200813083644.31711-1-tzimmermann@suse.de>
@@ -71,92 +71,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 GEM object functions deprecate several similar callback interfaces in
 struct drm_driver. This patch replaces the per-driver callbacks with
-per-instance callbacks in i915.
+per-instance callbacks in mediatek. The only exception is gem_prime_mmap,
+which is non-trivial to convert.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_object.c       |  9 ++++++++-
- drivers/gpu/drm/i915/i915_drv.c                  | 10 ++++++----
- drivers/gpu/drm/i915/i915_drv.h                  |  1 +
- drivers/gpu/drm/i915/selftests/mock_gem_device.c |  3 ---
- 4 files changed, 15 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c |  5 -----
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index c8421fd9d2dc..bc15ee4f2bd5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -41,7 +41,14 @@ static struct i915_global_object {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 040a8f393fe2..2f8d0043fca7 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -301,18 +301,13 @@ struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
+ static struct drm_driver mtk_drm_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
  
- struct drm_i915_gem_object *i915_gem_object_alloc(void)
- {
--	return kmem_cache_zalloc(global.slab_objects, GFP_KERNEL);
-+	struct drm_i915_gem_object *obj;
-+
-+	obj = kmem_cache_zalloc(global.slab_objects, GFP_KERNEL);
-+	if (!obj)
-+		return NULL;
-+	obj->base.funcs = &i915_gem_object_funcs;
-+
-+	return obj;
- }
+-	.gem_free_object_unlocked = mtk_drm_gem_free_object,
+-	.gem_vm_ops = &drm_gem_cma_vm_ops,
+ 	.dumb_create = mtk_drm_gem_dumb_create,
  
- void i915_gem_object_free(struct drm_i915_gem_object *obj)
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 068447f565a9..b09eee11c540 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -1840,6 +1840,12 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(I915_GEM_VM_DESTROY, i915_gem_vm_destroy_ioctl, DRM_RENDER_ALLOW),
- };
- 
-+const struct drm_gem_object_funcs i915_gem_object_funcs = {
-+	.free = i915_gem_free_object,
-+	.close = i915_gem_close_object,
-+	.export = i915_gem_prime_export,
-+};
-+
- static struct drm_driver driver = {
- 	/* Don't use MTRRs here; the Xserver or userspace app should
- 	 * deal with them for Intel hardware.
-@@ -1853,12 +1859,8 @@ static struct drm_driver driver = {
- 	.lastclose = i915_driver_lastclose,
- 	.postclose = i915_driver_postclose,
- 
--	.gem_close_object = i915_gem_close_object,
--	.gem_free_object_unlocked = i915_gem_free_object,
--
  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_export = i915_gem_prime_export,
- 	.gem_prime_import = i915_gem_prime_import,
+ 	.gem_prime_import = mtk_drm_gem_prime_import,
+-	.gem_prime_get_sg_table = mtk_gem_prime_get_sg_table,
+ 	.gem_prime_import_sg_table = mtk_gem_prime_import_sg_table,
+ 	.gem_prime_mmap = mtk_drm_gem_mmap_buf,
+-	.gem_prime_vmap = mtk_drm_gem_prime_vmap,
+-	.gem_prime_vunmap = mtk_drm_gem_prime_vunmap,
+ 	.fops = &mtk_drm_fops,
  
- 	.dumb_create = i915_gem_dumb_create,
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index bacb4c762f5b..666db65fe69e 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1736,6 +1736,7 @@ intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *dev_priv)
+ 	.name = DRIVER_NAME,
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index 6190cc3b7b0d..591b90410e4a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -8,11 +8,20 @@
+ #include <drm/drm.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_gem.h>
++#include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_prime.h>
  
- /* i915_drv.c */
- extern const struct dev_pm_ops i915_pm_ops;
-+extern const struct drm_gem_object_funcs i915_gem_object_funcs;
+ #include "mtk_drm_drv.h"
+ #include "mtk_drm_gem.h"
  
- int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent);
- void i915_driver_remove(struct drm_i915_private *i915);
-diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-index ce4d4303229c..4725dad63e0a 100644
---- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-@@ -86,9 +86,6 @@ static struct drm_driver mock_driver = {
- 	.name = "mock",
- 	.driver_features = DRIVER_GEM,
- 	.release = mock_device_release,
--
--	.gem_close_object = i915_gem_close_object,
--	.gem_free_object_unlocked = i915_gem_free_object,
- };
++static const struct drm_gem_object_funcs mtk_drm_gem_object_funcs = {
++	.free = mtk_drm_gem_free_object,
++	.get_sg_table = mtk_gem_prime_get_sg_table,
++	.vmap = mtk_drm_gem_prime_vmap,
++	.vunmap = mtk_drm_gem_prime_vunmap,
++	.vm_ops = &drm_gem_cma_vm_ops,
++};
++
+ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
+ 						unsigned long size)
+ {
+@@ -25,6 +34,8 @@ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
+ 	if (!mtk_gem_obj)
+ 		return ERR_PTR(-ENOMEM);
  
- static void release_dev(struct device *dev)
++	mtk_gem_obj->base.funcs = &mtk_drm_gem_object_funcs;
++
+ 	ret = drm_gem_object_init(dev, &mtk_gem_obj->base, size);
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed to initialize gem object\n");
 -- 
 2.28.0
 
