@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E86B243D39
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 18:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854C3243D40
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Aug 2020 18:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C28F06E218;
-	Thu, 13 Aug 2020 16:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2036E220;
+	Thu, 13 Aug 2020 16:25:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3636EA3F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 16:25:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8886EA4F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 16:25:44 +0000 (UTC)
 Received: from localhost (unknown [70.37.104.77])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D386020855;
- Thu, 13 Aug 2020 16:25:38 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BAE6220658;
+ Thu, 13 Aug 2020 16:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597335939;
+ s=default; t=1597335943;
  bh=x5dQnqEt4taaXCntDhLxRh5bnOAP4upqjczwcLTho3g=;
  h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:In-Reply-To:
  References:From;
- b=HWRgzggGUzRC5EJFR97s/UvXshw3FQBvn0rLonlkLO3xPzHam8rgSSCvHDa4It/vO
- 5tMu/u/edBe4RTuMG5ZhCn7H3cPIQOgNXaMIPHTzMcqZFitfO9wrFjfJ1RAAyf9Jev
- mZDfSogrZWE3rZn9hIiEP9Qxsi6Zoronz+LnS8Ek=
-Date: Thu, 13 Aug 2020 16:25:38 +0000
+ b=DrMOO4fC3nQETRvS+RSST7OXiki4uajs8HYTLEpnQo7P7AhQKFaBVB9nGuHuUN21z
+ hnJjak7kLVBr8uLirTlrmePZ3SjGT0wd7HUQRUT+f+tTaQAFSN5z5fbRdjHXL0jzJu
+ kGQKHb9xbQQhQ1w1WV1Stn2sHacOXB14crITuPDE=
+Date: Thu, 13 Aug 2020 16:25:43 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org
-Subject: Re: [PATCH v1 4/4] drm/ast: Disable planes while switching display
- modes
-In-Reply-To: <20200805105428.2590-5-tzimmermann@suse.de>
-References: <20200805105428.2590-5-tzimmermann@suse.de>
-Message-Id: <20200813162538.D386020855@mail.kernel.org>
+Subject: Re: [PATCH v1 3/4] drm/ast: Add commit-tail function
+In-Reply-To: <20200805105428.2590-4-tzimmermann@suse.de>
+References: <20200805105428.2590-4-tzimmermann@suse.de>
+Message-Id: <20200813162543.BAE6220658@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
