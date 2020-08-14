@@ -1,41 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4FE245D41
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A0B245D33
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E566E4F9;
-	Mon, 17 Aug 2020 07:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6165D6E4AB;
+	Mon, 17 Aug 2020 07:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
  [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7BC26E2DC
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 08:18:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661A16E2DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 08:30:31 +0000 (UTC)
 Received: from ubuntu.localdomain (unknown [157.0.31.125])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id DAA47482392;
- Fri, 14 Aug 2020 16:17:54 +0800 (CST)
+ by mail-m17613.qiye.163.com (Hmail) with ESMTPA id C2A404826D4;
+ Fri, 14 Aug 2020 16:30:27 +0800 (CST)
 From: Bernard Zhao <bernard@vivo.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Wambui Karuga <wambui.karugax@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Emil Velikov <emil.velikov@collabora.com>, Bernard Zhao <bernard@vivo.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm/adreno: remove return value of function XX_print
-Date: Fri, 14 Aug 2020 01:17:44 -0700
-Message-Id: <20200814081747.8624-1-bernard@vivo.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bernard Zhao <bernard@vivo.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/via: reduce no need mutex_lock area
+Date: Fri, 14 Aug 2020 01:30:19 -0700
+Message-Id: <20200814083021.8962-1-bernard@vivo.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZHhpDHRoYT05CQh5PVkpOQkxIQkhLTE5JSE9VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ oVCBIfWUFZT0JNTh1KTRhLSkNLVkpOQkxIQkhDSUxCT0JVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
  FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NSo6Fhw6Aj8qAjoQIiIOLSlN
- EwwaFExVSlVKTkJMSEJIS0xOTUxOVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU5ZV1kIAVlBT0pPQzcG
-X-HM-Tid: 0a73ec0bfb9193bakuwsdaa47482392
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mhw6Sjo5KT8dCjosSQEOEx4t
+ DjIKCxNVSlVKTkJMSEJIQ0lDTklMVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU5ZV1kIAVlBSkNPSjcG
+X-HM-Tid: 0a73ec17783893bakuwsc2a404826d4
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,91 +51,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-XX_print like pfp_print/me_print/meq_print/roq_print are just
-used in file a5xx_debugfs.c. And these function always return
-0, this return value is meaningless.
-This change is to make the code a bit more readable.
+In function via_mem_alloc`s error branch, DRM_ERROR is protected
+in the mutex_lock(&dev->struct_mutex) area.
+From the code, we see that DRM_ERROR is just an error log print
+without any struct element, there is no need to protect this.
 
 Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_debugfs.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/via/via_mm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-index 68eddac7771c..fc2c905b6c9e 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-@@ -11,7 +11,7 @@
- 
- #include "a5xx_gpu.h"
- 
--static int pfp_print(struct msm_gpu *gpu, struct drm_printer *p)
-+static void pfp_print(struct msm_gpu *gpu, struct drm_printer *p)
- {
- 	int i;
- 
-@@ -22,11 +22,9 @@ static int pfp_print(struct msm_gpu *gpu, struct drm_printer *p)
- 		drm_printf(p, "  %02x: %08x\n", i,
- 			gpu_read(gpu, REG_A5XX_CP_PFP_STAT_DATA));
+diff --git a/drivers/gpu/drm/via/via_mm.c b/drivers/gpu/drm/via/via_mm.c
+index 45cc9e900260..dae1bacd86c1 100644
+--- a/drivers/gpu/drm/via/via_mm.c
++++ b/drivers/gpu/drm/via/via_mm.c
+@@ -129,9 +129,9 @@ int via_mem_alloc(struct drm_device *dev, void *data,
+ 	mutex_lock(&dev->struct_mutex);
+ 	if (0 == ((mem->type == VIA_MEM_VIDEO) ? dev_priv->vram_initialized :
+ 		      dev_priv->agp_initialized)) {
++		mutex_unlock(&dev->struct_mutex);
+ 		DRM_ERROR
+ 		    ("Attempt to allocate from uninitialized memory manager.\n");
+-		mutex_unlock(&dev->struct_mutex);
+ 		return -EINVAL;
  	}
--
--	return 0;
- }
  
--static int me_print(struct msm_gpu *gpu, struct drm_printer *p)
-+static void me_print(struct msm_gpu *gpu, struct drm_printer *p)
- {
- 	int i;
- 
-@@ -37,11 +35,9 @@ static int me_print(struct msm_gpu *gpu, struct drm_printer *p)
- 		drm_printf(p, "  %02x: %08x\n", i,
- 			gpu_read(gpu, REG_A5XX_CP_ME_STAT_DATA));
- 	}
--
--	return 0;
- }
- 
--static int meq_print(struct msm_gpu *gpu, struct drm_printer *p)
-+static void meq_print(struct msm_gpu *gpu, struct drm_printer *p)
- {
- 	int i;
- 
-@@ -52,11 +48,9 @@ static int meq_print(struct msm_gpu *gpu, struct drm_printer *p)
- 		drm_printf(p, "  %02x: %08x\n", i,
- 			gpu_read(gpu, REG_A5XX_CP_MEQ_DBG_DATA));
- 	}
--
--	return 0;
- }
- 
--static int roq_print(struct msm_gpu *gpu, struct drm_printer *p)
-+static void roq_print(struct msm_gpu *gpu, struct drm_printer *p)
- {
- 	int i;
- 
-@@ -71,8 +65,6 @@ static int roq_print(struct msm_gpu *gpu, struct drm_printer *p)
- 		drm_printf(p, "  %02x: %08x %08x %08x %08x\n", i,
- 			val[0], val[1], val[2], val[3]);
- 	}
--
--	return 0;
- }
- 
- static int show(struct seq_file *m, void *arg)
-@@ -81,10 +73,11 @@ static int show(struct seq_file *m, void *arg)
- 	struct drm_device *dev = node->minor->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct drm_printer p = drm_seq_file_printer(m);
--	int (*show)(struct msm_gpu *gpu, struct drm_printer *p) =
-+	void (*show)(struct msm_gpu *gpu, struct drm_printer *p) =
- 		node->info_ent->data;
- 
--	return show(priv->gpu, &p);
-+	show(priv->gpu, &p);
-+	return 0;
- }
- 
- #define ENT(n) { .name = #n, .show = show, .data = n ##_print }
 -- 
 2.26.2
 
