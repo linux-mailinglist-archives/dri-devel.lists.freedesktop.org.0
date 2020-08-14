@@ -2,47 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB7A244CA8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 18:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E312244D3D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 19:01:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBAC6EB91;
-	Fri, 14 Aug 2020 16:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46B46EB84;
+	Fri, 14 Aug 2020 17:01:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net
- [89.40.174.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7426EB91
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 16:30:24 +0000 (UTC)
-Received: from [37.160.38.175] (port=40734 helo=[192.168.42.162])
- by hostingweb31.netsons.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <luca@lucaceresoli.net>)
- id 1k6cay-0001mB-F9; Fri, 14 Aug 2020 18:30:20 +0200
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-To: Rob Herring <robh@kernel.org>
-References: <20200812203618.2656699-1-robh@kernel.org>
- <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
- <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-From: Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <f1963eb9-283f-e903-2a3a-4f324d71d418@lucaceresoli.net>
-Date: Fri, 14 Aug 2020 18:30:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2047.outbound.protection.outlook.com [40.107.93.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD46C6E174;
+ Fri, 14 Aug 2020 17:01:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WuPE/uJhCDeeW0CfWDJgPqdzQ1fja+FczMJuCV2ifpTsp5f5rI3oGYvfbGAXvmFqfuuBo03GO/8oamA9xJML/8yQvBhLNnL58vQ63IUUYlgvjlhBljwilCDNb9g4x8zIUlyzm/m1WWZ5J5GAIxjM4CfI04d+1lGG52tfKgnYvmH9hproOEq0uXP7WkG/2Im4b0jLiJ+EfKuxU7Y+tFKy32pbXhKnC+dP1vt4JuevG5dZOKWYswTnzhBZpMslrHc/HmKpt5kAb+dzvBHV6F1SEVBnsNk3iZdWCpTfcalFmWALVsxcfOyBPl8Wf+ZB8J7sBqtmtOJAaAHCTM0MS5MvYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QBGZ0NbshukLKSLL0IJ71POJ1VskJVI0rDwwwAVQ/GU=;
+ b=l5IXQ9WmtArUWRTMQoynq8IQ80c7M+juo1rA7e0vCKgku3XrIagcsrdWausYN8pEt6HrIkLoXGBqmG5xHpfwysoAc6GOG2asQH5fN2NGimtljy2vXg3qgxd0ubfH15IOOTo1xO58gjtk+cpUXM5Ray1RNTbCH+Q4acVCQvm9gvs6rEj9mtBZRBhRTQTftlh2nf1WnoCziMeMSmx0u0WVauxPMoQSnenLpkPPpMaRd87mUUtK5uszw8ZyAq9Dhhh2k1mFrYZfJVebUjmtXj/QeFpA8q9qBK3Scyx8O64GsSu6kSiXFVdwYqCiUjwc4aCOXmZMoJbwBXoN7CJOvDJ0iQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QBGZ0NbshukLKSLL0IJ71POJ1VskJVI0rDwwwAVQ/GU=;
+ b=LpT9dHf0hUZOdBDAlpch74e27a+QXYVhq73qq1SZG4Oo0wMMM72O8o3swG8Tg2DAwVAEPzr+prJyBmm+m/DFwC5hhe0H7OEqy2hJrSfwwiEToue0LV8CJEi/mQhi6I6vN7TinaqpAjyuzCFu9YdNI+hJ2cAl6rLODdy0tgDDdcs=
+Received: from CO2PR05CA0098.namprd05.prod.outlook.com (2603:10b6:104:1::24)
+ by CH2PR12MB4152.namprd12.prod.outlook.com (2603:10b6:610:a7::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Fri, 14 Aug
+ 2020 17:01:51 +0000
+Received: from CO1NAM11FT013.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:1:cafe::a5) by CO2PR05CA0098.outlook.office365.com
+ (2603:10b6:104:1::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.13 via Frontend
+ Transport; Fri, 14 Aug 2020 17:01:51 +0000
+X-MS-Exchange-Authentication-Results: spf=none (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=permerror action=none
+ header.from=amd.com;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB01.amd.com (165.204.84.17) by
+ CO1NAM11FT013.mail.protection.outlook.com (10.13.174.227) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3283.16 via Frontend Transport; Fri, 14 Aug 2020 17:01:50 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 14 Aug
+ 2020 12:01:50 -0500
+Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 14 Aug
+ 2020 12:01:49 -0500
+Received: from blakha.amd.com (10.180.168.240) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
+ Transport; Fri, 14 Aug 2020 12:01:49 -0500
+From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+To: <mikita.lipski@amd.com>, <nicholas.kazlauskas@amd.com>,
+ <alexander.deucher@amd.com>
+Subject: [PATCH] drm/dp_mst: Don't return error code when crtc is null
+Date: Fri, 14 Aug 2020 13:01:40 -0400
+Message-ID: <20200814170140.24917-1-Bhawanpreet.Lakha@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id:
- luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b3342f5d-e3a7-40b3-ac35-08d84073bd02
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4152:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4152EE3C9DD43147DEAC1846F9400@CH2PR12MB4152.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /4RtYO/b1rMAUDdHQE+epv1oxu12oc0lHE5LtBZrdlRIsurwwGVgoN/o97CfO6C/go/GWkXLIYPzSAhNyaxasKaM5SUS7nLgqKQDoE9kh6x12De5tSCtyNwk5hYwiRp0GOIrNHgRodngnuPOq48hdXRxKSDXBEIrMsdiHPG2x1+fflTZDMhhLlEMwr0VGpNdf18bzaLfiWelmTi7zi/dJ+cTQXGIisajGbAKrE4QNpAjzedCcsG1rePuZpreskCHvmFhWQRcABShwgADJyW3ol1kZ9hEep9hwREsdf/xbIrEYvKk5xjvvYIKWZC+HG+S0AjqYR7h6C2aE7VuIGYIqmY0Fi6pY726uKxtl9/DblUVxwqnmYj5he3DtRXKXoh/rS37egAevAcoHAIVc3B+7w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SATLEXMB01.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(396003)(346002)(39860400002)(46966005)(70586007)(336012)(2906002)(6666004)(478600001)(356005)(82740400003)(70206006)(8676002)(4744005)(83380400001)(7696005)(26005)(86362001)(81166007)(82310400002)(110136005)(47076004)(5660300002)(36756003)(8936002)(1076003)(186003)(316002)(54906003)(6636002)(2616005)(426003)(4326008);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2020 17:01:50.7851 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3342f5d-e3a7-40b3-ac35-08d84073bd02
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB01.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT013.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,113 +104,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>, Linux-ALSA <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- Linux I2C <linux-i2c@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Linux Input <linux-input@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- devicetree@vger.kernel.org, "open list:THERMAL" <linux-pm@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- Linux HWMON List <linux-hwmon@vger.kernel.org>,
- netdev <netdev@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- linux-spi <linux-spi@vger.kernel.org>
+Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+[Why]
+In certain cases the crtc can be NULL and returning -EINVAL causes
+atomic check to fail when it shouln't. This leads to valid
+configurations failing because atomic check fails.
 
-On 14/08/20 16:51, Rob Herring wrote:
-> On Thu, Aug 13, 2020 at 4:31 AM Luca Ceresoli <luca@lucaceresoli.net> wrote:
->>
->> Hi Rob,
->>
->> On 12/08/20 22:36, Rob Herring wrote:
->>> Clean-up incorrect indentation, extra spaces, long lines, and missing
->>> EOF newline in schema files. Most of the clean-ups are for list
->>> indentation which should always be 2 spaces more than the preceding
->>> keyword.
->>>
->>> Found with yamllint (which I plan to integrate into the checks).
->>
->> [...]
->>
->>> diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> index 3d4e1685cc55..28c6461b9a9a 100644
->>> --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> @@ -95,10 +95,10 @@ allOf:
->>>        # Devices without builtin crystal
->>>        properties:
->>>          clock-names:
->>> -            minItems: 1
->>> -            maxItems: 2
->>> -            items:
->>> -              enum: [ xin, clkin ]
->>> +          minItems: 1
->>> +          maxItems: 2
->>> +          items:
->>> +            enum: [ xin, clkin ]
->>>          clocks:
->>>            minItems: 1
->>>            maxItems: 2
->>
->> Thanks for noticing, LGTM.
->>
->> [...]
->>
->>> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> index d7dac16a3960..36dc7b56a453 100644
->>> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> @@ -33,8 +33,8 @@ properties:
->>>      $ref: /schemas/types.yaml#/definitions/uint32
->>>
->>>    touchscreen-min-pressure:
->>> -    description: minimum pressure on the touchscreen to be achieved in order for the
->>> -                 touchscreen driver to report a touch event.
->>> +    description: minimum pressure on the touchscreen to be achieved in order
->>> +      for the touchscreen driver to report a touch event.
->>
->> Out of personal taste, I find the original layout more pleasant and
->> readable. This third option is also good, especially for long descriptions:
->>
->>   description:
->>     minimum pressure on the touchscreen to be achieved in order for the
->>     touchscreen driver to report a touch event.
->>
->> At first glance yamllint seems to support exactly these two by default:
->>
->>> With indentation: {spaces: 4, check-multi-line-strings: true}
-> 
-> Turning on check-multi-line-strings results in 10K+ warnings, so no.
-> 
-> The other issue is the style ruamel.yaml wants to write out is as the
-> patch does above. This matters when doing some scripted
-> transformations where we read in the files and write them back out. I
-> can somewhat work around that by first doing a pass with no changes
-> and then another pass with the actual changes, but that's completely
-> scriptable. Hopefully, ruamel learns to preserve the style better.
+[How]
+Don't early return if crtc is null
 
-Kind of sad, but I understand the reason as far as my understanding of
-the yaml world allows. Thanks for the explanation.
+Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-[For idt,versaclock5.yaml, plus an overview of whole patch]
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 70c4b7afed12..bc90a1485699 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -5037,8 +5037,8 @@ int drm_dp_mst_add_affected_dsc_crtcs(struct drm_atomic_state *state, struct drm
+ 
+ 		crtc = conn_state->crtc;
+ 
+-		if (WARN_ON(!crtc))
+-			return -EINVAL;
++		if (!crtc)
++			continue;
+ 
+ 		if (!drm_dp_mst_dsc_aux_for_port(pos->port))
+ 			continue;
 -- 
-Luca
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
