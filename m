@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91713244664
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 10:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA93B244669
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 10:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48AD86E2DC;
-	Fri, 14 Aug 2020 08:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E21446E32B;
+	Fri, 14 Aug 2020 08:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A76B46E2DC
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 08:22:24 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07E8MEot052857;
- Fri, 14 Aug 2020 03:22:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1597393334;
- bh=nN9rxIxe2PrNFTatI6qBHXFwgSY/cf8NzryVjn5ngHo=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=RV51vlfgmsP1JFGyB2rQcoIXuXoRwPANRcEX5Aj45esq4Zi5OMRUBg3XvvPEHFlu/
- QO01N9js9Ij4EBMpZ+dESN+wLhFKxYabpmYY7SANfrztFk0umhZM+wsWxCBtM5KO4R
- xZOAnRDmG+dHubwgF3K8y01Vy0UdnxhvMhzrJuxU=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07E8MD8R060005
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 14 Aug 2020 03:22:14 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 14
- Aug 2020 03:22:13 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 14 Aug 2020 03:22:13 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07E8MADr012933;
- Fri, 14 Aug 2020 03:22:10 -0500
-Subject: Re: [PATCH v8 2/3] drm: bridge: Add support for Cadence MHDP DPI/DP
- bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Swapnil Jakhade
- <sjakhade@cadence.com>
-References: <1596713672-8146-1-git-send-email-sjakhade@cadence.com>
- <1596713672-8146-3-git-send-email-sjakhade@cadence.com>
- <20200811023622.GC13513@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <a2f2ff9d-0c52-12d9-23c5-bab35ef8f8f6@ti.com>
-Date: Fri, 14 Aug 2020 11:22:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C7D6E32B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 08:23:43 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id m15so4405246lfp.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 01:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=eFnKZN0nDkXEMnVHqpXKPvxHxeInqTtj3cAC5I26ma4=;
+ b=e89zevz81wOF42kMV3hsGa+7BPXPtkxZT5SvAK328YLsMv8YiAmNkzT4L6YaGJLpY2
+ ZJNAx20IoadLD3KkhRWnGUFUlHEMDH4M4JftMFaG7EviQ+IOiWIPntmmuUd2i+R+5AAg
+ /RGL4aJHGHWbS+cr67dF2thOXGwuIP0/QzJDHspGD+onCcco3mYtfxCM8mw6GdaeOE2L
+ gzf2wi+JsmV0GC5mtvK9tQAomhLiacBd8hRLQ0eYU9xpHoYKNojXrcFxygVHdFdpsaji
+ WEDO79rx+9BNmFBANRqlatBAb3e9y6WV/05koeyaIVXRJtLwQX4SwwIAd5cx6rdDpDiD
+ HxOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=eFnKZN0nDkXEMnVHqpXKPvxHxeInqTtj3cAC5I26ma4=;
+ b=hYfbHTRv8iL72+4g2RZtgaTnaw5xnbIN9Yeni29XPs/slF9cLoZ88MMnuupeC4AVSr
+ Wvx3H2Ce/Udh0NnuKg2r/+So9gnYoNFUEI3wp+jfHsjosBSYlw5ukjnJsou7w+USp14q
+ bzuonbjWFBlQeYjLnSVXy2fVjABdoN7F0jmqU3zU6Nd9RtFNnaCnpfBEorTuzeeBqBzn
+ eJ9uzmfTiAduv9JyC2vtnRlZxmYpFTOpuFq4CNVTDdw+/b5mWbntU2GABjlmzCqQzo1T
+ mx44JLaLf4E4cKauD4V6HkbmQYJ36UijFiwmyaR98aZ3FGFBZvyHFkaRxScZpWqi8kiN
+ NX3A==
+X-Gm-Message-State: AOAM531UBZexZtI32zngexwa2q6xnGsrJQlAa1p++Jwm8DgCFlH0cZq3
+ rA0QY18kBh1s6P+EOhmExYE=
+X-Google-Smtp-Source: ABdhPJx1Eta7oqUaKM47XYlHscA1lToyUV1G6AhWGpLRzYA7//kae7qnZT67N8cFYQPLtWHCmeXIrA==
+X-Received: by 2002:a19:c852:: with SMTP id y79mr710040lff.37.1597393421186;
+ Fri, 14 Aug 2020 01:23:41 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id m27sm1731878lfq.19.2020.08.14.01.23.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Aug 2020 01:23:40 -0700 (PDT)
+Date: Fri, 14 Aug 2020 11:23:29 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 4/6] drm/rockchip: dw_hdmi: Add vendor hdmi properties
+Message-ID: <20200814112329.4f83dc7a@eldfell>
+In-Reply-To: <20200813104522.GA6057@pendragon.ideasonboard.com>
+References: <20200812083120.743-1-algea.cao@rock-chips.com>
+ <20200812083543.4231-1-algea.cao@rock-chips.com>
+ <20200812093315.GE6057@pendragon.ideasonboard.com>
+ <52cca26d-b2b3-22b2-f371-a8086f2e6336@rock-chips.com>
+ <20200812133017.GJ6057@pendragon.ideasonboard.com>
+ <20200813104228.096179e7@eldfell>
+ <20200813104522.GA6057@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200811023622.GC13513@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +71,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
- jsarha@ti.com, mparab@cadence.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: jernej.skrabec@siol.net, crj <algea.cao@rock-chips.com>, jonas@kwiboo.se,
+ airlied@linux.ie, sam@ravnborg.org, narmstrong@baylibre.com,
+ hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, a.hajda@samsung.com,
+ laurent.pinchart+renesas@ideasonboard.com, tzimmermann@suse.de,
+ cychiang@chromium.org, linux-rockchip@lists.infradead.org, darekm@google.com,
+ kuankuan.y@gmail.com, linux-arm-kernel@lists.infradead.org,
+ jbrunet@baylibre.com
+Content-Type: multipart/mixed; boundary="===============0558681484=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/08/2020 05:36, Laurent Pinchart wrote:
+--===============0558681484==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/OYJIbNYvQBUhhX5zztcLolA"; protocol="application/pgp-signature"
 
->> +static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
->> +{
->> +	u32 bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
->> +	struct drm_connector *conn = &mhdp->connector;
->> +	struct drm_bridge *bridge = &mhdp->bridge;
->> +	int ret;
->> +
->> +	if (!bridge->encoder) {
->> +		DRM_ERROR("Parent encoder object not found");
->> +		return -ENODEV;
->> +	}
->> +
->> +	conn->polled = DRM_CONNECTOR_POLL_HPD;
->> +
->> +	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
->> +				 DRM_MODE_CONNECTOR_DisplayPort);
->> +	if (ret) {
->> +		DRM_ERROR("Failed to initialize connector with drm\n");
->> +		return ret;
->> +	}
->> +
->> +	drm_connector_helper_add(conn, &cdns_mhdp_conn_helper_funcs);
->> +
->> +	ret = drm_display_info_set_bus_formats(&conn->display_info,
->> +					       &bus_format, 1);
->> +	if (ret)
->> +		return ret;
->> +
->> +	conn->display_info.bus_flags = DRM_BUS_FLAG_DE_HIGH;
-> 
-> Aren't these supposed to be retrieved from the display ? Why do we need
-> to override them here ?
+--Sig_/OYJIbNYvQBUhhX5zztcLolA
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-DE_HIGH is meant for the display controller. I think this should be in bridge->timings->input_bus_flags
+On Thu, 13 Aug 2020 13:45:22 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
->> +static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->> +				  struct drm_bridge_state *bridge_state,
->> +				  struct drm_crtc_state *crtc_state,
->> +				  struct drm_connector_state *conn_state)
->> +{
->> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->> +	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
->> +	int ret;
->> +
->> +	if (!mhdp->plugged)
->> +		return 0;
->> +
->> +	mutex_lock(&mhdp->link_mutex);
->> +
->> +	if (!mhdp->link_up) {
->> +		ret = cdns_mhdp_link_up(mhdp);
->> +		if (ret < 0)
->> +			goto err_check;
->> +	}
-> 
-> atomic_check isn't supposed to access the hardware. Is there a reason
-> this is needed ?
+> On Thu, Aug 13, 2020 at 10:42:28AM +0300, Pekka Paalanen wrote:
+> > On Wed, 12 Aug 2020 16:30:17 +0300 Laurent Pinchart wrote: =20
+> > > On Wed, Aug 12, 2020 at 07:08:10PM +0800, crj wrote: =20
+> > > > =E5=9C=A8 2020/8/12 17:33, Laurent Pinchart =E5=86=99=E9=81=93:   =
+=20
+> > > > > On Wed, Aug 12, 2020 at 04:35:43PM +0800, Algea Cao wrote:   =20
+> > > > >> Introduce struct dw_hdmi_property_ops in plat_data to support
+> > > > >> vendor hdmi property.
+> > > > >>
+> > > > >> Implement hdmi vendor properties color_depth_property and
+> > > > >> hdmi_output_property to config hdmi output color depth and
+> > > > >> color format.
+> > > > >>
+> > > > >> The property "hdmi_output_format", the possible value
+> > > > >> could be:
+> > > > >>           - RGB
+> > > > >>           - YCBCR 444
+> > > > >>           - YCBCR 422
+> > > > >>           - YCBCR 420
+> > > > >>
+> > > > >> Default value of the property is set to 0 =3D RGB, so no changes=
+ if you
+> > > > >> don't set the property.
+> > > > >>
+> > > > >> The property "hdmi_output_depth" possible value could be
+> > > > >>           - Automatic
+> > > > >>             This indicates prefer highest color depth, it is
+> > > > >>             30bit on rockcip platform.
+> > > > >>           - 24bit
+> > > > >>           - 30bit
+> > > > >> The default value of property is 24bit.
+> > > > >>
+> > > > >> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
+> > > > >> ---
+> > > > >>
+> > > > >>   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 174 ++++++++++++=
+++++++++
+> > > > >>   include/drm/bridge/dw_hdmi.h                |  22 +++
+> > > > >>   2 files changed, 196 insertions(+)
+> > > > >>
+> > > > >> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drive=
+rs/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> > > > >> index 23de359a1dec..8f22d9a566db 100644
+> > > > >> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> > > > >> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> > > > >> @@ -52,6 +52,27 @@
+> > > > >>  =20
+> > > > >>   #define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
+> > > > >>  =20
+> > > > >> +/* HDMI output pixel format */
+> > > > >> +enum drm_hdmi_output_type {
+> > > > >> +	DRM_HDMI_OUTPUT_DEFAULT_RGB, /* default RGB */
+> > > > >> +	DRM_HDMI_OUTPUT_YCBCR444, /* YCBCR 444 */
+> > > > >> +	DRM_HDMI_OUTPUT_YCBCR422, /* YCBCR 422 */
+> > > > >> +	DRM_HDMI_OUTPUT_YCBCR420, /* YCBCR 420 */
+> > > > >> +	DRM_HDMI_OUTPUT_YCBCR_HQ, /* Highest subsampled YUV */
+> > > > >> +	DRM_HDMI_OUTPUT_YCBCR_LQ, /* Lowest subsampled YUV */
+> > > > >> +	DRM_HDMI_OUTPUT_INVALID, /* Guess what ? */
+> > > > >> +};   =20
+> > > > >
+> > > > > Vendor-specific properties shouldn't use names starting with drm_=
+ or
+> > > > > DRM_, that's for the DRM core. But this doesn't seem specific to
+> > > > > Rockchip at all, it should be a standard property. Additionally, =
+new
+> > > > > properties need to come with a userspace implementation showing t=
+heir
+> > > > > usage, in X.org, Weston, the Android DRM/KMS HW composer, or anot=
+her
+> > > > > relevant upstream project (a test tool is usually not enough).   =
+=20
+> > > >=20
+> > > > We use these properties only in Android HW composer, But we can't u=
+pstream
+> > > >=20
+> > > > our HW composer code right now.=C2=A0 Can we use this properties as=
+ private=20
+> > > > property
+> > > >=20
+> > > > and do not upstream HW composer for the time being?   =20
+> > >=20
+> > > It's not my decision, it's a policy of the DRM subsystem to require an
+> > > open implementation in userspace to validate all API additions. =20
+> >=20
+> > Also read
+> > https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-us=
+erspace-requirements
+> > very carefully: it calls for a FOSS userspace project's proper upstream
+> > to have reviewed and accepted the patches to use the new UAPI, but
+> > those patches must NOT be MERGED at that time yet. =20
+>=20
+> Correct. Many userspace projects wouldn't merge a patch before the
+> kernel API is merged, so that would create a chicken and egg problem :-)
 
-We have been going back and forth with this. The basic problem is that to understand which
-videomodes can be used, you need to do link training to see the bandwidth available.
+I wouldn't be so sure that absolutely everyone knows that rule. It only
+takes just one userspace project to merge and release with it to
+potentially require renaming everything if any change is needed after
+the kernel review process.
 
-I'm not sure if we strictly need to do LT in atomic check, though... It would then pass modes that
-can't be used, but perhaps that's not a big issue.
+Actually, if I remember right, I may have seen such merging happen.
+After all, "accepted" is usually a synonym for "merged".
 
-I think the main point with doing LT in certain places is to filter the list of video modes passed
-to userspace, as we can't pass the modes from EDID directly without filtering them based on the link
-bandwidth.
 
- Tomi
+Thanks,
+pq
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+--Sig_/OYJIbNYvQBUhhX5zztcLolA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl82SgEACgkQI1/ltBGq
+qqeoPg//QF/KmV+W3r7hJpYNR4Fh9oX2bbkn6C+oa1Op70IyVrpYTJJisVcGIuVx
+YbQd+GAtYLMuS5ooTO6pWn09zXCZ1l1tNLSoKtheiCLKyQZ/QplxTe2Vrm2gLjE/
+MRw6EnAcD3RwHCqLTNWDKlIMehm+MYYRphizLCuGkSJcwNyqn7xFlT3aAIpeSkoA
+UHz3Wg+kfBfbse82XNVLDPJ64zB0LY38/8Ae5U8AoEqcQDdpG+F68jchhR4AseAv
+hQ78LD2q2/hNvSZxmo7rMvdddZMMh8/7qFvjKkZYUL/+9K8U3wZ5KkdqsQbl1azP
+bFFM88zz9MEQWhiAV6Up+aPFo+/fvVOdlo7mHWhNztetbKI5zwUlp/IHd3dEsk6R
+xyOKBU/fgehGpHpFGGR7452nfrwN3w4xNCRbO2RiupbAC1l1ilvMFGw3Il/50L6Y
+DyXdUN5x1zeA7Api94KXSBELWX42/AFijzHo5IGeWLG37Uhq+CmMjyvaGVnJQG2R
+1E+fcOS7wkBTFgbMkkSIieB0sH6/EAD8q8eTvlrZQodRcijZylONSxn+8gOkBlKC
+FR2OuE4Y9ygf4KrlF7FEcYxYoCu4SFblpuc8Ah76dnEHFCNIId9uLZI0uyQTRjVL
+urvGr/Bl0nK7s/52x0WRZnu0uqt2OBM02L7dj5uTVkflkDjqDPU=
+=uVVF
+-----END PGP SIGNATURE-----
+
+--Sig_/OYJIbNYvQBUhhX5zztcLolA--
+
+--===============0558681484==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0558681484==--
