@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD21244701
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2CC24472A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C5E6E3B5;
-	Fri, 14 Aug 2020 09:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB156EB11;
+	Fri, 14 Aug 2020 09:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6826E3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 09:29:50 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07E9Teum124793;
- Fri, 14 Aug 2020 04:29:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1597397380;
- bh=5/rjwRjZWzx8hrnU6DFNe3GilgF9jyJehzM/soNMCzw=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=QV5CY1O9r+ReoIfZBeaDczp4KHVDRwKgrMIat2BjlP1FOdaPEdxVTw1mB7TRFiN6/
- goLZyp4jXwyfPkfHwjNriXlV6p02pyp7fcgmxqntNWGS8U4+fnvLRKgO7YiuPBnA+Z
- PoZ5RKlCxFoqpOY0DYcAjUIcur2vjuWmwySJ5j3U=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07E9TeZI004961
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 14 Aug 2020 04:29:40 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 14
- Aug 2020 04:29:40 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 14 Aug 2020 04:29:40 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07E9Ta8k052359;
- Fri, 14 Aug 2020 04:29:36 -0500
-Subject: Re: [PATCH v8 2/3] drm: bridge: Add support for Cadence MHDP DPI/DP
- bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Swapnil Jakhade
- <sjakhade@cadence.com>
-References: <1596713672-8146-1-git-send-email-sjakhade@cadence.com>
- <1596713672-8146-3-git-send-email-sjakhade@cadence.com>
- <20200811023622.GC13513@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <49c2a4c8-6d84-6164-d350-6a985fc9a3e9@ti.com>
-Date: Fri, 14 Aug 2020 12:29:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD7B6E178
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 09:38:50 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id r4so7741702wrx.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GlRbfN15T5Cg85h0wsIiuda9qqa99m1J2oOUVAH6u5I=;
+ b=fYOi3zNJmQMHegHs2QSvL5wWQhR/7lfJGqv2xN9QUjvneWY9wv3M0eKjKklrgcDoRS
+ zUuAVpQsyX01dVhDn/eJhCkIN5uMBJzDBmvz49m7X4qMeyGufrAVtvwfkffHK2GpMKiQ
+ 0xcPUucA+BzoBQ/XXQvcMEeb9XIrX6QHzNoT4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GlRbfN15T5Cg85h0wsIiuda9qqa99m1J2oOUVAH6u5I=;
+ b=qmo9L9McIzUlIoMVCUmycWLdbl+z2HkNCbu5MdJRJpNfCMQH5Qb9oWgBpcp6XH/lyE
+ PHIHCTAjZD4WKM2Us7Vy/VeCga5JaUXwlc6mNZbbFU+ncJExfFo8XlPoz6poU7tFJgsW
+ 11WRPvB014mKJkcS61OojynQLj/swugpcY/aJ3w346Xc2mUHgKU2jhQaqCR69K1SLIQI
+ eKmHmm/y+hGJ0BLr29ZorH7em19BrL8UOUtzXaktxS3UaRzfKP+FXNGXIsCFj6DV9P9N
+ qy6BDQoShvrM+LneWqRUUQ1Yv56iNGCBkqRq1L77HnhKvRwR38olmcLF7YIk81aUJt5O
+ 6Kag==
+X-Gm-Message-State: AOAM530BLhvwfEtXi9T3q2zGPb4tOFVmdzZfrOtlve9gL93N1EhkARAw
+ dqNVqDnhy3wE+Nx4I8SoqfMYCJi/nGF+7A==
+X-Google-Smtp-Source: ABdhPJxJathjrmL587wR7q0nkRavVrPuzw+35i1QEWinUdWFfDqV2CL2Cu4Cf29RHiHkcGUJPuzcpQ==
+X-Received: by 2002:adf:ab0d:: with SMTP id q13mr1847361wrc.134.1597397928650; 
+ Fri, 14 Aug 2020 02:38:48 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t14sm13790478wrv.14.2020.08.14.02.38.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Aug 2020 02:38:47 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/modeset-lock: Take the modeset BKL for legacy drivers
+Date: Fri, 14 Aug 2020 11:38:42 +0200
+Message-Id: <20200814093842.3048472-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200811023622.GC13513@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,76 +61,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
- jsarha@ti.com, mparab@cadence.com
+Cc: Michal Orzel <michalorzel.eng@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/08/2020 05:36, Laurent Pinchart wrote:
+This fell off in the conversion in
 
->> +static int cdns_mhdp_mailbox_write(struct cdns_mhdp_device *mhdp, u8 val)
->> +{
->> +	int ret, full;
->> +
->> +	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
->> +
->> +	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_FULL,
->> +				 full, !full, MAILBOX_RETRY_US,
->> +				 MAILBOX_TIMEOUT_US);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	writel(val, mhdp->regs + CDNS_MAILBOX_TX_DATA);
->> +
->> +	return 0;
->> +}
-> 
-> As commented previously, I think there's room for optimization here. Two
-> options that I think should be investigated are using the mailbox
-> interrupts, and only polling for the first byte of the message
-> (depending on whether the firmware implementation can guarantee that
-> when the first byte is available, the rest of the message will be
-> immediately available too). This can be done on top of this patch
-> though.
+commit 9bcaa3fe58ab7559e71df798bcff6e0795158695
+Author: Michal Orzel <michalorzel.eng@gmail.com>
+Date:   Tue Apr 28 19:10:04 2020 +0200
 
-I made some tests on this.
+    drm: Replace drm_modeset_lock/unlock_all with DRM_MODESET_LOCK_ALL_* helpers
 
-I cannot see mailbox_write ever looping, mailbox is never full. So in this case the
-readx_poll_timeout() call is there just for safety to catch the cases where something has gone
-totally wrong or perhaps once in a while the mbox can be full for a tiny moment. But we always do
-need to check CDNS_MAILBOX_FULL before each write to CDNS_MAILBOX_TX_DATA, so we can as well use
-readx_poll_timeout for that to catch the odd cases (afaics, there's no real overhead if the exit
-condition is true immediately).
+but it's caught by the drm_warn_on_modeset_not_all_locked() that the
+legacy modeset code uses. Since this is the bkl and it's unclear
+what's all protected, play it safe and grab it again for legacy
+drivers.
 
-mailbox_read polls sometimes. Most often it does not poll, as the data is ready in the mbox, and in
-these cases the situation is the same as for mailbox_write.
+Unfortunately this means we need to sprinkle a few more #includes
+around.
 
-The cases where it does poll are related to things where the fw has to wait for something. The
-longest poll waits seemed to be EDID read (16 ms wait) and adjusting LT (1.7 ms wait). And afaics,
-when the first byte of the received message is there, the rest of the bytes will be available
-without wait.
+Also we need to add the drm_device as a parameter to the _END macro.
 
-For mailbox_write and for most mailbox_reads I think using interrupts makes no sense, as the
-overhead would be big.
+Finally remove the mute_lock() from setcrtc, since that's now done by
+the macro.
 
-For those few long read operations, interrupts would make sense. I guess a simple way to handle this
-would be to add a new function, wait_for_mbox_data() or such, which would use the interrupts to wait
-for mbox not empty. This function could be used in selected functions (edid, LT) after
-cdns_mhdp_mailbox_send().
+Cc: Alex Deucher <alexdeucher@gmail.com>
+References: https://gitlab.freedesktop.org/drm/amd/-/issues/1224
+Fixes: 9bcaa3fe58ab ("drm: Replace drm_modeset_lock/unlock_all with DRM_MODESET_LOCK_ALL_* helpers")
+Cc: Michal Orzel <michalorzel.eng@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.8+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+--
+Patch compiles but otherwise untested, and I'll go on vacations now
+for 2 weeks. Alex, can you pls take care of this?
 
-Although I think it's not that bad currently, MAILBOX_RETRY_US is 1ms, so it's quite lazy polling,
-so perhaps this can be considered TODO optimization.
+Thanks, Daniel
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 7 ++++---
+ drivers/gpu/drm/drm_color_mgmt.c    | 2 +-
+ drivers/gpu/drm/drm_crtc.c          | 4 +---
+ drivers/gpu/drm/drm_mode_object.c   | 4 ++--
+ drivers/gpu/drm/drm_plane.c         | 2 +-
+ include/drm/drm_modeset_lock.h      | 9 +++++++--
+ 6 files changed, 16 insertions(+), 12 deletions(-)
 
- Tomi
-
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index f67ee513a7cc..7515a40b2056 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -34,6 +34,7 @@
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_self_refresh_helper.h>
+@@ -3109,7 +3110,7 @@ void drm_atomic_helper_shutdown(struct drm_device *dev)
+ 	if (ret)
+ 		DRM_ERROR("Disabling all crtc's during unload failed with %i\n", ret);
+ 
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_shutdown);
+ 
+@@ -3249,7 +3250,7 @@ struct drm_atomic_state *drm_atomic_helper_suspend(struct drm_device *dev)
+ 	}
+ 
+ unlock:
+-	DRM_MODESET_LOCK_ALL_END(ctx, err);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+ 	if (err)
+ 		return ERR_PTR(err);
+ 
+@@ -3330,7 +3331,7 @@ int drm_atomic_helper_resume(struct drm_device *dev,
+ 
+ 	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
+ 
+-	DRM_MODESET_LOCK_ALL_END(ctx, err);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+ 	drm_atomic_state_put(state);
+ 
+ 	return err;
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index c93123ff7c21..138ff34b31db 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -294,7 +294,7 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
+ 				     crtc->gamma_size, &ctx);
+ 
+ out:
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 	return ret;
+ 
+ }
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index 283bcc4362ca..aecdd7ea26dc 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -588,7 +588,6 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 	if (crtc_req->mode_valid && !drm_lease_held(file_priv, plane->base.id))
+ 		return -EACCES;
+ 
+-	mutex_lock(&crtc->dev->mode_config.mutex);
+ 	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx,
+ 				   DRM_MODESET_ACQUIRE_INTERRUPTIBLE, ret);
+ 
+@@ -756,8 +755,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 	fb = NULL;
+ 	mode = NULL;
+ 
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
+-	mutex_unlock(&crtc->dev->mode_config.mutex);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+index 901b078abf40..db05f386a709 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -428,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+ out_unref:
+ 	drm_mode_object_put(obj);
+ out:
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 	return ret;
+ }
+ 
+@@ -470,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
+ 		break;
+ 	}
+ 	drm_property_change_valid_put(prop, ref);
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index b7b90b3a2e38..affe1cfed009 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -792,7 +792,7 @@ static int setplane_internal(struct drm_plane *plane,
+ 					  crtc_x, crtc_y, crtc_w, crtc_h,
+ 					  src_x, src_y, src_w, src_h, &ctx);
+ 
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(plane->dev, ctx, ret);
+ 
+ 	return ret;
+ }
+diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+index 4fc9a43ac45a..aafd07388eb7 100644
+--- a/include/drm/drm_modeset_lock.h
++++ b/include/drm/drm_modeset_lock.h
+@@ -164,6 +164,8 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
+  * is 0, so no error checking is necessary
+  */
+ #define DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, flags, ret)		\
++	if (!drm_drv_uses_atomic_modeset(dev))				\
++		mutex_lock(&dev->mode_config.mutex);			\
+ 	drm_modeset_acquire_init(&ctx, flags);				\
+ modeset_lock_retry:							\
+ 	ret = drm_modeset_lock_all_ctx(dev, &ctx);			\
+@@ -172,6 +174,7 @@ modeset_lock_retry:							\
+ 
+ /**
+  * DRM_MODESET_LOCK_ALL_END - Helper to release and cleanup modeset locks
++ * @dev: drm device
+  * @ctx: local modeset acquire context, will be dereferenced
+  * @ret: local ret/err/etc variable to track error status
+  *
+@@ -188,7 +191,7 @@ modeset_lock_retry:							\
+  * to that failure. In both of these cases the code between BEGIN/END will not
+  * be run, so the failure will reflect the inability to grab the locks.
+  */
+-#define DRM_MODESET_LOCK_ALL_END(ctx, ret)				\
++#define DRM_MODESET_LOCK_ALL_END(dev, ctx, ret)				\
+ modeset_lock_fail:							\
+ 	if (ret == -EDEADLK) {						\
+ 		ret = drm_modeset_backoff(&ctx);			\
+@@ -196,6 +199,8 @@ modeset_lock_fail:							\
+ 			goto modeset_lock_retry;			\
+ 	}								\
+ 	drm_modeset_drop_locks(&ctx);					\
+-	drm_modeset_acquire_fini(&ctx);
++	drm_modeset_acquire_fini(&ctx);					\
++	if (!drm_drv_uses_atomic_modeset(dev))				\
++		mutex_unlock(&dev->mode_config.mutex);
+ 
+ #endif /* DRM_MODESET_LOCK_H_ */
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
