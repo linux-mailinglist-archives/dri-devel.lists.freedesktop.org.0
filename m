@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235E3244350
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 04:41:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEC4244354
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 04:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2FA6EAF0;
-	Fri, 14 Aug 2020 02:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7542A6EB04;
+	Fri, 14 Aug 2020 02:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 298896EAF0;
- Fri, 14 Aug 2020 02:41:26 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id g7so2390472plq.1;
- Thu, 13 Aug 2020 19:41:26 -0700 (PDT)
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFBB86EACF;
+ Fri, 14 Aug 2020 02:41:31 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id ha11so3702561pjb.1;
+ Thu, 13 Aug 2020 19:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QZSqosPE87e929PMVaJawJzeXi6lq5p/xdY765Ye8VY=;
- b=Jl8ZKrVeqcpHE/9cX3IGbDic8c9E//iKikanBK0fNcVQf9EBq8/AaBSn+6QRY865HH
- BWUYGfGQEtSfT9iM8c6RpjadExBQYODl/u9vdD/EpQC6Dy79i82z/nYRCB6b4AFpRu0B
- cr6XBS8NIb04nkMe+3v1y0TbceUjglnNMCSXl/mWWPYI7TUE3QjSs+mHHhNq/fRFqe0w
- iOXO+mi/R7K8y51/BeVCmXkO5b+uPus2ghRhYwn0nJ2RLSaMfe6XnJkPa1Rs4b21d1RP
- oOfBPZROaxcqvs9WLwp5d3NWq74wMKBdIMieFvEZ7tlS1wIyh5tjYc5xIUrhrQ0mM7T2
- UXbQ==
+ bh=kSk9Ml31XbJOG2f57h64F+Z+u/H7LjegKljJVlxq3/o=;
+ b=dZm6TlDHBQSDUoqkiGBlFYcIWns/dlRkwOT3McDXM9XwdsNIy+FZqBrJrcHNEuiXdc
+ YTaPUe5n+liTYTvn8kmJQ8qFNj8jWO2BZBSUUKpWL8251W/wQOnP1FRxC/QAMSdpyOs7
+ VVJJ6MS9omPl7AjUQsWpM1CewysGH/zjmckpIMKhXsYOowvBzwm0joLQH+Rmh1NCIKN1
+ 6ANfS4Of/TtKttluwjXjfgmGSbX5ohaInAcawRFucl0zqlYM1YzhIwIqoHRHPBqFUrL6
+ opHCxGh7cVLw3C/R1/nghHZfbunISH20rw+ucvptJePgpYHDN0GwyCzKGX8lBm90xA5X
+ Zt8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QZSqosPE87e929PMVaJawJzeXi6lq5p/xdY765Ye8VY=;
- b=JAvimE+WeQ7ggsb1fpUJOm9oj6VG94eUWtqEeUm7hCUl38PnqrHPNa19rIaDvyNn/w
- arnTLkBpsx+SDyqTyZxmzkd1YJz+04mc6yuEzbbJoakM9RBHtckYUpMgJC7c1VPJXWQR
- CEhI2xnMDbxip3CLUTXiGcV9oGL60XVaCctp9FEGDJ/L5yYttubVXR2yGD2dP4YvtoC7
- 0eViAirfwZZmurpmrW54YruKpWD3G/9zdigJ1shbO4zDqguZeqAnMHiO4VC8InjXefAS
- 6gAFvjvvQdk93nFlI5DifFo7T8cHq2/RfoNLWroxqIKiQ/KSJP5sJN112PhWwmlynY++
- Asnw==
-X-Gm-Message-State: AOAM533v9G9zggos+JoQG9sr44kDoADTp8gvFtl2ZP4/nK41TTm1U8A8
- 6ErlgpjAdV88usS8UnpfzBEnSxEaelhcaw==
-X-Google-Smtp-Source: ABdhPJwP3zxBj8X0vl3pY8kQ3H2TddtgM2lrWQd+wxYR2/ooRvwlAKmhBCaebrrUIdkVUHf4/5pfGA==
-X-Received: by 2002:a17:90b:514:: with SMTP id r20mr561556pjz.82.1597372885479; 
- Thu, 13 Aug 2020 19:41:25 -0700 (PDT)
+ bh=kSk9Ml31XbJOG2f57h64F+Z+u/H7LjegKljJVlxq3/o=;
+ b=QQsOMjE9fMnIzQr6UkTak6SA8xwLwsaQCOJ1rtHyZ5KjuxyDrWJZS4TDiMtFAn4dWa
+ 8ZO2XjI+KULqQzLAd2eodfkRo6fNohrgeZKJWtp3KOg/vpNy19QGrPUzJPXWdo3tKnON
+ tCVDQMvmbj9/qsK1uh1Qe0qxhflR0dHLWX6uITYTCZ5x1yB18nYHom2XlNM/yP9+LPD0
+ Ym5PXckB2XoA0FuSvOg4lG6Q7SSqO9EAfHrp6++Fr6Z3BjdwIQ3jCe8ViJHQb6r/cLP7
+ VuFQrvNOAFUXpkvuEb3nuO5Gm+KY+Z095/NqIO5BxDUc9a8YE7Yre4DGknWbC9ZhvwV1
+ tkbw==
+X-Gm-Message-State: AOAM532IybMq4Dp9aakGSQEv5xklCmh8wUJQEC74+XfchTNFGAzl5RiG
+ 9l7y95dfXh9OaLjlbyMi1SK+I8FtKgY=
+X-Google-Smtp-Source: ABdhPJxNn9klKSCknXigoCt+QGQ9ZakXboaSv2q1rJpsSjEUNzxRP5coR+a+bHMh9UIMN9ZO2/rSaA==
+X-Received: by 2002:a17:90a:6d96:: with SMTP id
+ a22mr484182pjk.165.1597372891324; 
+ Thu, 13 Aug 2020 19:41:31 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id e3sm6691711pgu.40.2020.08.13.19.41.24
+ by smtp.gmail.com with ESMTPSA id x18sm7127549pfc.93.2020.08.13.19.41.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 19:41:24 -0700 (PDT)
+ Thu, 13 Aug 2020 19:41:30 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org
-Subject: [PATCH 07/19] drm/msm: set adreno_smmu as gpu's drvdata
-Date: Thu, 13 Aug 2020 19:41:02 -0700
-Message-Id: <20200814024114.1177553-8-robdclark@gmail.com>
+Subject: [PATCH 08/19] iommu/arm-smmu: constify some helpers
+Date: Thu, 13 Aug 2020 19:41:03 -0700
+Message-Id: <20200814024114.1177553-9-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200810222657.1841322-1-jcrouse@codeaurora.org>
 References: <20200810222657.1841322-1-jcrouse@codeaurora.org>
@@ -69,14 +70,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, Will Deacon <will@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Pritesh Raithatha <praithatha@nvidia.com>, Will Deacon <will@kernel.org>,
  Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>,
- Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- Sharat Masetty <smasetty@codeaurora.org>, linux-arm-kernel@lists.infradead.org
+ Krishna Reddy <vdumpa@nvidia.com>, Sibi Sankar <sibis@codeaurora.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -84,73 +84,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This will be populated by adreno-smmu, to provide a way for coordinating
-enabling/disabling TTBR0 translation.
+Sprinkle a few `const`s where helpers don't need write access.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 2 --
- drivers/gpu/drm/msm/msm_gpu.c              | 2 +-
- drivers/gpu/drm/msm/msm_gpu.h              | 6 +++++-
- 3 files changed, 6 insertions(+), 4 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 26664e1b30c0..58e03b20e1c7 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -417,8 +417,6 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 		return PTR_ERR(gpu);
- 	}
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index 59ff3fc5c6c8..27c83333fc50 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -377,7 +377,7 @@ struct arm_smmu_master_cfg {
+ 	s16				smendx[];
+ };
  
--	dev_set_drvdata(dev, gpu);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 6aa9e04e52e7..806eb0957280 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -892,7 +892,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 		gpu->gpu_cx = NULL;
- 
- 	gpu->pdev = pdev;
--	platform_set_drvdata(pdev, gpu);
-+	platform_set_drvdata(pdev, &gpu->adreno_smmu);
- 
- 	msm_devfreq_init(gpu);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 8bda7beaed4b..f91b141add75 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -7,6 +7,7 @@
- #ifndef __MSM_GPU_H__
- #define __MSM_GPU_H__
- 
-+#include <linux/adreno-smmu-priv.h>
- #include <linux/clk.h>
- #include <linux/interconnect.h>
- #include <linux/pm_opp.h>
-@@ -73,6 +74,8 @@ struct msm_gpu {
- 	struct platform_device *pdev;
- 	const struct msm_gpu_funcs *funcs;
- 
-+	struct adreno_smmu_priv adreno_smmu;
-+
- 	/* performance counters (hw & sw): */
- 	spinlock_t perf_lock;
- 	bool perfcntr_active;
-@@ -143,7 +146,8 @@ struct msm_gpu {
- 
- static inline struct msm_gpu *dev_to_gpu(struct device *dev)
+-static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
++static inline u32 arm_smmu_lpae_tcr(const struct io_pgtable_cfg *cfg)
  {
--	return dev_get_drvdata(dev);
-+	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(dev);
-+	return container_of(adreno_smmu, struct msm_gpu, adreno_smmu);
+ 	u32 tcr = FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
+ 		FIELD_PREP(ARM_SMMU_TCR_SH0, cfg->arm_lpae_s1_cfg.tcr.sh) |
+@@ -398,13 +398,13 @@ static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
+ 	return tcr;
  }
  
- /* It turns out that all targets use the same ringbuffer size */
+-static inline u32 arm_smmu_lpae_tcr2(struct io_pgtable_cfg *cfg)
++static inline u32 arm_smmu_lpae_tcr2(const struct io_pgtable_cfg *cfg)
+ {
+ 	return FIELD_PREP(ARM_SMMU_TCR2_PASIZE, cfg->arm_lpae_s1_cfg.tcr.ips) |
+ 	       FIELD_PREP(ARM_SMMU_TCR2_SEP, ARM_SMMU_TCR2_SEP_UPSTREAM);
+ }
+ 
+-static inline u32 arm_smmu_lpae_vtcr(struct io_pgtable_cfg *cfg)
++static inline u32 arm_smmu_lpae_vtcr(const struct io_pgtable_cfg *cfg)
+ {
+ 	return ARM_SMMU_VTCR_RES1 |
+ 	       FIELD_PREP(ARM_SMMU_VTCR_PS, cfg->arm_lpae_s2_cfg.vtcr.ps) |
 -- 
 2.26.2
 
