@@ -2,109 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67871245D39
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33C6245D28
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 208016E4D0;
-	Mon, 17 Aug 2020 07:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 303386E49A;
+	Mon, 17 Aug 2020 07:06:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61E676EB16;
- Fri, 14 Aug 2020 07:10:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1597388990;
- bh=J1q2Qp41HcRDr7a6XQFVgKBApuGBGV9J/SihM4iSybc=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=SZq4Jh+EtSN7Dbk1gx7vd5EzNFsvBlBbW6rYLXeUqvZOJYs1g3WB+IW83T0bcKm1x
- c0Eef3/a8yjTgXI79XXxt3amIQbbsj3I8BmIwYqTPledvOu2WWBYh1DWvMePk2HdYf
- wSiKJE+s4TMXt2zIVBYglo+nCE3Q08IeZ8w7yVvU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.135.130.210]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MbhSP-1kNKRP0spJ-00J3ks; Fri, 14
- Aug 2020 09:09:50 +0200
-Subject: [PATCH v2] drm/nouveau/gem: Use vmemdup_user() rather than
- duplicating its implementation
-To: kernel test robot <lkp@intel.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>
-References: <12ebdcbe-8a8a-958a-af05-a0593d9756b2@web.de>
- <202008132104.mkULNh4R%lkp@intel.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <f11df9ce-c49a-e172-47dd-5a0ab202ae81@web.de>
-Date: Fri, 14 Aug 2020 09:09:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+X-Greylist: delayed 328 seconds by postgrey-1.36 at gabe;
+ Fri, 14 Aug 2020 08:13:37 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44716E2DC
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 08:13:37 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1597392486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=iLojK6gsLxVcdJp08bjGqtZhGNvA7TdhRv7LWBJosOc=;
+ b=GPJfAKXO+ec4mMS2F49vOIqUxnjghiTLW5RthnxDEMw00o1etYSSD6jdjogutjWCSNfoGB
+ dYYlN4WlohKm6eYIz1BI3p53mXF8XAvR5DDR9X1pnNXmls/5P+KdwlTdyoftdFejLO8Au1
+ IULflMM8xhYAVphJaMc+R0Dz+ugdYSkvSSljV5xMDd/hzxkxK47VZwA/Ug9lkvVWZ87npP
+ l6ZDzhASndETeT8issq5TYcRmQC5OnGktl7THLMxsNsQ3a6Q7xFXm9ru7KoFIqi9WNb1Lv
+ QL/hUazp5AHFpyEKRu56dzgHjGrq4FQJNEe2jh/QV9ILTt9G/RH6Is7BbkXWIg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1597392486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=iLojK6gsLxVcdJp08bjGqtZhGNvA7TdhRv7LWBJosOc=;
+ b=nSdjmLzDOtLwfkKNi5x1s6MMySPnWvucOkuHsMOEZcsDtqLY82J3gTvEg4/JGi+OPZ7owf
+ YO7WTfhI18qi27Bg==
+To: linux-kernel@vger.kernel.org
+Subject: [BUG] drm/ttm: Warning during suspend/freeze
+Date: Fri, 14 Aug 2020 10:08:05 +0200
+Message-ID: <87zh6x3b16.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <202008132104.mkULNh4R%lkp@intel.com>
-Content-Language: en-GB
-X-Provags-ID: V03:K1:dctFnXBnt8RMhxQUmv0FANMgLopssJLXMyutFv11AXonup3eZwQ
- Jj3xRm1SXf+ex7F2wA4kEw0tebSh/KkGTI/SoZTDhnJSs7eX/ckBGjojbqaIUcfeS0RxHmS
- GRkEyQIbBZD/zd9dWjsi7anLJ29EL2zvETbhE/J0WZk9YZvSz1AhClvb5InF6p9m3+kMjpH
- jqH5DY6Wi15ONbRZJBt2Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CZqrR76Tjr8=:MmtTgLIUvEIud2G7p+OelX
- QAnBDis46b/9p+wVr64ilt6gFATHxpCRsDeYF6TyqGQ4yYEl4MlxYX3Sfn83ysauhPincREJl
- YNBYse44bnWF/39GbXy2J/8FkWIQWGDVD8gFfuyt2QUgIoUr5Us/3WUoaGM9c4TLmPiR7fwSf
- cOiSm+K2DEYRXmUlFmBIvNOubxDny3vKVQXoAhgZis+niA+cYFmPYaDT1Z8+y0damL1Lr6e3w
- DFr6ukvCmnrPj9AfC2BRWkq1unqKrLSp9+qdYUgYz+zgnSM9NlRwIfPd3H/jRDOhLxr6KocGM
- OQ4ev5mbky+GFyIkSvnkvmPZcl8WTREhlI+qsL3XB+bT/J82fY2PcDG/0hBAWhVJ3Ih/fBiOk
- HLhDgy2jhq3z8li60W2pq1oELdF6lcUiT5/v33ysi8L3y6p2wMMsAPa6Yf+sKTbLCIbpiDrT1
- 6T9ughssHMwPTdpgUZgTfRm6uMDVVVKLYIV4CytJinj5l5uD9oscmk8Ouyy/BexXgV+LjdxLO
- CiiYzpn7WR8fMUgntE36+3VM8Txq9m3vIHM6chVwiwlGWtOMrnclsFZn9aXdeOUasqWGWoG94
- fFdawxk5EiDGDn5gOwyHgC6jkAHwLrJTVCMwsOZpzPYxXC2iKelQWti+eimaAxDIYzsVYpWhy
- HZiTIvbuJWggD5r44m6xCK6GLjElApw58kr7PsrKG41Q+xKn1D2xPIw0djmRYfV2af1k2pgcJ
- Ne8EUaSDHbcAsLKZ5Ml/BoczmeSVeRUMwGUBHRj7eV1KvbCJlsIU0UAJl3AZUeKqmNXyXjKI1
- GjvwTCtMzhqwevJctUTpVV+yc+i0Yy32BtSImwQy/WKV7SkiJrbDfo7lemy0edhHekCwLWqK1
- qzMBOjrXkQlbU7IFDearBw+ORphjJVDOgnIdjFYT4OJdc/5UJGscfjL3k4A8C1SOA+28W5hFJ
- ZT2cBFdj8/FNYhdwTK67ho0LO6+CiQZk6r9/Xs+HDygMp1rMOAun46aK/Zmp3MhFM41mf91bv
- KyYS8aTfZyHy1WA904/hJ421/5R3+8t/WVlRj+rRtGinlKiPjoP0o0y7iJDNQpUjNgg9Vhinw
- iwjjx2WetzT5mC92keEDwNbwh6nXK5SeIlNq6gNVO6PIo/IR4pdAjcNTEse7q4pnChheQjQK6
- sQOYUKip39NeesnV6LprW6OcvPMJXDBkurVlNo+8FRRq8/ruLb26XG0ZUmuNp68m14u+3NDR0
- hKr6zwFztK6OfLqcglGX4exFtOGIu6PdqjdaP9g==
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,65 +51,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Denis Efremov <efremov@linux.com>,
- Julia Lawall <Julia.Lawall@lip6.fr>, Coccinelle <cocci@systeme.lip6.fr>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Fri, 14 Aug 2020 08:56:54 +0200
+Suspending or freezing a KVM guest triggers the following warning
+reliably on current mainline:
 
-* Reuse existing functionality from vmemdup_user() instead of keeping
-  duplicate source code.
+[56691.550343] printk: Suspending console(s) (use no_console_suspend to debug)
+[56691.578735] WARNING: CPU: 37 PID: 462 at drivers/gpu/drm/ttm/ttm_tt.c:51 ttm_tt_create+0xb6/0xe0 [ttm]
+[56692.795234] Modules linked in: snd_hda_codec_generic(E) qxl(E) drm_ttm_helper(E) ttm(E) snd_hda_intel(E) snd_intel_dspcfg(E) snd_hda_codec(E) drm_kms_helper(E) snd_hwdep(E) snd_hda_core(E) cec(E) snd_pcm(E) snd_timer(E) drm(E) joydev
+(E) snd(E) pcspkr(E) sg(E) evdev(E) virtio_balloon(E) serio_raw(E) virtio_console(E) soundcore(E) button(E) virtio_rng(E) rng_core(E) ip_tables(E) x_tables(E) autofs4(E) ext4(E) crc32c_generic(E) crc16(E) mbcache(E) jbd2(E) hid_generic(E) usbhid(E) hid(E) virtio_net(E) net_failover(E) failover(E) uhci_hcd(E) virtio_blk(E) sr_mod(E) cdrom(E) ata_generic(E) ehci_pci(E) ata_piix(E) ehci_hcd(E) libata(E) virtio_pci(E) usbcore(E) psmouse(E) virtio_ring(E) scsi_mod(E) i2c_piix4(E) virtio(E) floppy(E)
+[56691.578781] CPU: 37 PID: 462 Comm: kworker/37:1 Tainted: G            E     5.8.0+ #8217
+[56691.578784] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+[56692.795348] Workqueue: events drm_fb_helper_dirty_work [drm_kms_helper]
+[56691.578872] RIP: 0010:ttm_tt_create+0xb6/0xe0 [ttm]
+[56691.578903] Call Trace:
+[56691.578912]  ttm_bo_kmap+0x13c/0x260 [ttm]
+[56691.578942]  qxl_bo_kmap+0x40/0x70 [qxl]
+[56691.578947]  qxl_gem_prime_vmap+0x21/0x50 [qxl]
+[56691.579060]  drm_gem_vmap+0x1f/0x50 [drm]
+[56691.579073]  drm_client_buffer_vmap+0x1c/0x30 [drm]
+[56691.579083]  drm_fb_helper_dirty_work+0xb2/0x1c0 [drm_kms_helper]
+[56691.579091]  process_one_work+0x246/0x580
+[56691.579099]  ? process_one_work+0x580/0x580
+[56691.579101]  worker_thread+0x30/0x370
+[56691.579104]  ? process_one_work+0x580/0x580
+[56691.579107]  kthread+0x12a/0x140
+[56691.579110]  ? kthread_park+0x80/0x80
+[56691.579118]  ret_from_fork+0x22/0x30
 
-  Generated by: scripts/coccinelle/api/memdup_user.cocci
+Have not had time to figure out whether this is a regression or an older
+issue. If you need further info please let me know.
 
-* See also:
-  [PATCH] drm/nouveau/gem: fix err_cast.cocci warnings
+Thanks,
 
-* Simplify this function implementation further by omitting the local
-  variable =93mem=94 and extra error handling here.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
----
- drivers/gpu/drm/nouveau/nouveau_gem.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouvea=
-u/nouveau_gem.c
-index 81f111ad3f4f..536ad5e2cbe6 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -583,21 +583,10 @@ u_free(void *addr)
- static inline void *
- u_memcpya(uint64_t user, unsigned nmemb, unsigned size)
- {
--	void *mem;
- 	void __user *userptr =3D (void __force __user *)(uintptr_t)user;
-
- 	size *=3D nmemb;
--
--	mem =3D kvmalloc(size, GFP_KERNEL);
--	if (!mem)
--		return ERR_PTR(-ENOMEM);
--
--	if (copy_from_user(mem, userptr, size)) {
--		u_free(mem);
--		return ERR_PTR(-EFAULT);
--	}
--
--	return mem;
-+	return vmemdup_user(userptr, size);
- }
-
- static int
---
-2.28.0
-
+        tglx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
