@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1E12446B4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:05:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259AB2446B8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CFA6E2DF;
-	Fri, 14 Aug 2020 09:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039516E3B0;
+	Fri, 14 Aug 2020 09:05:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 580FD6E2DF;
- Fri, 14 Aug 2020 09:05:20 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a14so7695900wra.5;
- Fri, 14 Aug 2020 02:05:20 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE95D6E2E4;
+ Fri, 14 Aug 2020 09:05:27 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id g8so6872049wmk.3;
+ Fri, 14 Aug 2020 02:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iO7mw694Q/zibSe98wvgSj4vZ6umHd/bC+tFMWsB/Lk=;
- b=QIpSp0ZdPhCXFTpBbXE3c0uql6bwGWCp4VWj1PX6a6Jcw76pc+DGkH5co02Kj8WWbn
- h/wXjVHnmebPwcobENg+xj4vlFEJxu4HpvojoBNj4Ib2nWehIzKzSdarN2XxcAFE9I9k
- nRJwH9HEwbgUKi1Ek4JmIk3Nl7EMpvRzoaltRWuYdQmTesmiUqcZnn+W+99xh5rYEwl9
- weTT6Gj09mgQTc9ApG9RMWs/MkbxAvtq1JbKLGHkcN6nEpFJfsZLiBA4ESy/KdmJWB7X
- RnnzosPC67X5suag8e72XwwpKUuDuQan/DUtRIfPloqNmmlij8IKN1L0PS2t/xY52oH5
- IHzQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VWo7qfLl0wE2i8zg/BhTlkJQXxIbQK+FJtPUS8AfL7g=;
+ b=CKD0gHxkwv1aBbvAQxLbB0lfmGaTIXlyHM3IqNHHj4IZZ0xUW1gTSf/qil/iLu4/Y2
+ fnToPx6+QVVz0M7gnOS8X9qGFkd4xjV2/T1w0JFywwO3CmgFLWMKtKPOzK8oZF55+/ZP
+ cc0xM5H5yppRMbmyfOXY+D0d020uRVnMpV2j/zHRwWGSkxDlCvnUxSRFTC0jt6EeQQmj
+ 26TVykKdPLJoPSKzutdZqNASsJpsOx6/UtQ86UjMr1TsbTLok+nJGvOjSMv4o/ld56Dq
+ sd4vCcAKuWfGPE2AtY+T6BnOjUN+K0eoNYLIW4PSYFEo5q6tzCvD8FNFaievhUStX/Gd
+ 0lDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iO7mw694Q/zibSe98wvgSj4vZ6umHd/bC+tFMWsB/Lk=;
- b=KuPRdqY27vyvF84Ra6+7M3ypla6X++sbHeM8mFzalLqnfZ/m4ddqFETAIDKvbRR14T
- Qd42Ygf5XVQv43wMZW2XktQZKJKXRykvWy/S4Z+4wkwHYKF0cwqKWfGNd75DZmBsNDAX
- 0VWSG8e8cxwagR66p8b/Stv7GP7+Y+MIvb3yRJbU/B1j5f9SoZO6nAcXf0ya1p0KV4wP
- ZCl5Kv6VcMFUPuKmzRAwu/U0WdSfoSA/XGLOd0NVJh0UHqCBm7gyuWjzwLkTqUPf2ZSp
- bzlcu3jbiQFeN6eFclTIHAsdWk81g5Z3dPHhPq/3TQwa6RCdXjR2pPea9rhcfcrqQtE/
- 6iRQ==
-X-Gm-Message-State: AOAM530YgONAq9wuY8r7QKxtOrfOx97awCGmndkZMtVBsfeS7xw7AWlI
- mt2gHA23RHLu/SbpRuSIwXM=
-X-Google-Smtp-Source: ABdhPJymLYH3K8QMt1MSVRkr+LgMJBwbmUJ/Pd0NyaLN5j3DPjxXJLZ9XYjVxTj8u+VpWCUmq5yr8Q==
-X-Received: by 2002:adf:e712:: with SMTP id c18mr1907130wrm.92.1597395918946; 
- Fri, 14 Aug 2020 02:05:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VWo7qfLl0wE2i8zg/BhTlkJQXxIbQK+FJtPUS8AfL7g=;
+ b=B2W3QrTYpBp00LUqIrvemmoFYmKNPqaUIbJECIGf6N4oj6yfBrulQcZuwUgE7rVD3r
+ qzCDqJqsmhcrtIlNopCcpdqwGwlp3ZwRvn7Dp5dkRpQuuhkWe6h5YigbT5dKqeR+cHxe
+ NfGpwFxN246rIylT7iX7u1yyyLxaSG3+YTY3CekhMKqqWc1ALrxmGR7CVsW8nUE+V1pl
+ YN6sZCYoSI83tYyW8up8haFi8mfnhZw+3sXGBz/dhv9Kmrg9nDIrm0AXbhI+evK7UrD8
+ uN92AOKyASfkPIXkv2zma3RYtHBZQ/El0LjE1Avquam8uOZPGYOOEtvWcqHKhIHaMuZm
+ GGiA==
+X-Gm-Message-State: AOAM533TW020RRHJdN+GfT3jzS+XQfE9TbqQtsRLa4TgoyMd2o97tRTl
+ ao/urMf+ToDDhMOo5R2UPB4=
+X-Google-Smtp-Source: ABdhPJw2g4VEAD+4yHIaD8SWwebBs3rsYJIxKje6Ym86s4qaoAkLOx0vC+saak3csaS+5g51xCGDwA==
+X-Received: by 2002:a1c:2854:: with SMTP id o81mr1572302wmo.61.1597395926454; 
+ Fri, 14 Aug 2020 02:05:26 -0700 (PDT)
 Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
  [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id m14sm14046745wrx.76.2020.08.14.02.05.15
+ by smtp.gmail.com with ESMTPSA id m14sm14046745wrx.76.2020.08.14.02.05.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:05:16 -0700 (PDT)
+ Fri, 14 Aug 2020 02:05:24 -0700 (PDT)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] drm/etnaviv: add total hi bandwidth perf counters
-Date: Fri, 14 Aug 2020 11:05:00 +0200
-Message-Id: <20200814090512.151416-1-christian.gmeiner@gmail.com>
+Subject: [PATCH 1/4] drm/etnaviv: rename pipe_reg_read(..)
+Date: Fri, 14 Aug 2020 11:05:01 +0200
+Message-Id: <20200814090512.151416-2-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200814090512.151416-1-christian.gmeiner@gmail.com>
+References: <20200814090512.151416-1-christian.gmeiner@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,19 +75,124 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This little patch set adds support for the total bandwidth used by HI. The
-basic hi bandwidth read-out is quite simple but I needed to add some little
-clean-ups to make it nice looking.
+pipe_reg_read(..) iterates over all pixel pipes, selects a perf counter
+register and sums the actual perf counter value. Rename the function
+to reflect more what it is actual doing.
 
-Christian Gmeiner (4):
-  drm/etnaviv: rename pipe_reg_read(..)
-  drm/etnaviv: call perf_reg_read(..)
-  drm/etnaviv: add total hi bandwidth perfcounter
-  drm/etnaviv: add pipe_select(..) helper
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 30 +++++++++++------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 78 ++++++++++++++++-------
- 1 file changed, 55 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index 75f9db8f7bec..1f0402f7a7de 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -46,7 +46,7 @@ static u32 perf_reg_read(struct etnaviv_gpu *gpu,
+ 	return gpu_read(gpu, domain->profile_read);
+ }
+ 
+-static u32 pipe_reg_read(struct etnaviv_gpu *gpu,
++static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
+ 	const struct etnaviv_pm_domain *domain,
+ 	const struct etnaviv_pm_signal *signal)
+ {
+@@ -141,22 +141,22 @@ static const struct etnaviv_pm_domain doms_3d[] = {
+ 			{
+ 				"PIXEL_COUNT_KILLED_BY_COLOR_PIPE",
+ 				VIVS_MC_PROFILE_CONFIG0_PE_PIXEL_COUNT_KILLED_BY_COLOR_PIPE,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"PIXEL_COUNT_KILLED_BY_DEPTH_PIPE",
+ 				VIVS_MC_PROFILE_CONFIG0_PE_PIXEL_COUNT_KILLED_BY_DEPTH_PIPE,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"PIXEL_COUNT_DRAWN_BY_COLOR_PIPE",
+ 				VIVS_MC_PROFILE_CONFIG0_PE_PIXEL_COUNT_DRAWN_BY_COLOR_PIPE,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"PIXEL_COUNT_DRAWN_BY_DEPTH_PIPE",
+ 				VIVS_MC_PROFILE_CONFIG0_PE_PIXEL_COUNT_DRAWN_BY_DEPTH_PIPE,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			}
+ 		}
+ 	},
+@@ -184,32 +184,32 @@ static const struct etnaviv_pm_domain doms_3d[] = {
+ 			{
+ 				"VS_INST_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG0_SH_VS_INST_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"RENDERED_VERTICE_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG0_SH_RENDERED_VERTICE_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"VTX_BRANCH_INST_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG0_SH_VTX_BRANCH_INST_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"VTX_TEXLD_INST_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG0_SH_VTX_TEXLD_INST_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"PXL_BRANCH_INST_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG0_SH_PXL_BRANCH_INST_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"PXL_TEXLD_INST_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG0_SH_PXL_TEXLD_INST_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			}
+ 		}
+ 	},
+@@ -237,17 +237,17 @@ static const struct etnaviv_pm_domain doms_3d[] = {
+ 			{
+ 				"DEPTH_CLIPPED_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG1_PA_DEPTH_CLIPPED_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"TRIVIAL_REJECTED_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG1_PA_TRIVIAL_REJECTED_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			},
+ 			{
+ 				"CULLED_COUNTER",
+ 				VIVS_MC_PROFILE_CONFIG1_PA_CULLED_COUNTER,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			}
+ 		}
+ 	},
+@@ -400,7 +400,7 @@ static const struct etnaviv_pm_domain doms_2d[] = {
+ 			{
+ 				"PIXELS_RENDERED_2D",
+ 				VIVS_MC_PROFILE_CONFIG0_PE_PIXELS_RENDERED_2D,
+-				&pipe_reg_read
++				&pipe_perf_reg_read
+ 			}
+ 		}
+ 	}
 -- 
 2.26.2
 
