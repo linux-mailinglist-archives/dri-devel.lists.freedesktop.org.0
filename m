@@ -2,73 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AEC244B55
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 16:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28CE244B62
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 16:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA7276EB74;
-	Fri, 14 Aug 2020 14:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF566EB3B;
+	Fri, 14 Aug 2020 14:51:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E8E6EB74
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 14:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597416353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zSEOSaI7rG/JfA9p/x7LweUTeZPZDqz+1uNeELv9SeA=;
- b=Cx8EWnvP5PUlflx99qfBFwCpUcw4WlkLZbn0ICg3VjcrD7doh4NM2rFM3yRIBTcfcW52xE
- PbEkGNEbxU6hk3AdaIXo0rL6X3hWvGEudzv/C2oG3zuukQB1wdKUzbmliZX6ewd9BWBUxH
- XaE13bM2M2ZcyPMz6/8U5KxKBq05LuA=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-JVQhGZrpOludmg6BhGHOhg-1; Fri, 14 Aug 2020 10:45:51 -0400
-X-MC-Unique: JVQhGZrpOludmg6BhGHOhg-1
-Received: by mail-qt1-f198.google.com with SMTP id u17so7189782qtq.13
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 07:45:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zSEOSaI7rG/JfA9p/x7LweUTeZPZDqz+1uNeELv9SeA=;
- b=NTB6NZNayXInJPLqMrEFrDHbJa/dSx6B3tcRHvVbDwjYeYIDq77iU0jyOeE7jOaqJM
- 8cZzCwRp0vwCx6QMaMXqP+BlFYsQ9fX3egzCbDZqrqWZQ3PkPk8g53lot6SnhXgH2W4z
- KRAPiwJLQBPVz4LBcJJednWSOdtxGWTQXrVbd5mLSx9wh0TclxChLlTrMqwJxQvYdctV
- DMgqVyMYGKEk0L/olZoT1FkoZC/wa2cNJ1/NDbBfDmbeYh6/AClBkLxu6XRdDhTYnAvM
- NA5uBDezVzvx82gpvIjka9trLOCFZGOBw+g5vP7ycY/rU9cPdzCmlESicaJggEJY71YI
- Z0JA==
-X-Gm-Message-State: AOAM530mR9GdOnzg4CIyoSxkEgeYaoY1yu4XblenlurKGTVzqiYSvuVr
- 72eD7EPbgvZFU3+Jl1imr4+la0oLTs9EhUCk91YBFZYXFlg7S2C8UNwHzrnJ8pV/uDV4EaatPFp
- ojuH0eVS8m2DHDL8KZoIV3qkIwHI5w6eCz4mldkKHwcF0
-X-Received: by 2002:ac8:74c7:: with SMTP id j7mr2304501qtr.254.1597416351266; 
- Fri, 14 Aug 2020 07:45:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwiSF78mNDC/Q28nAnzlavwfeT3/e4EPMnHZ/20oiwuNQmf7jimsobJBca2gLTHrSnevaGd6w9yExaCwpSWAHI=
-X-Received: by 2002:ac8:74c7:: with SMTP id j7mr2304493qtr.254.1597416351090; 
- Fri, 14 Aug 2020 07:45:51 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 305A36EB3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 14:51:37 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E7FE8214F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 14:51:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597416697;
+ bh=2azDCJAW0WmwzjFoNP1+Xf1baXp64Ykp/VUpBlKju0s=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bjfRL+mBKQdeXNIPuXX+sib3fYs2/XZWJHPOjPd4x196xwXtWkEnxkwGCGKCP+vXy
+ CxGeqKP68MgYI300g+hNTJd4uQCvZb/zOsnBdJ/cEKlyynKbLGyhuMbkA+R9Y9MLDY
+ rajai6Sqx8HGb8L035zTD4t0BSpxCLooD+BQeHTA=
+Received: by mail-ot1-f51.google.com with SMTP id c4so7704434otf.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 07:51:36 -0700 (PDT)
+X-Gm-Message-State: AOAM530RHuepBhzqEuhz06B1scbqGEcQHQBGEwfTa7NnndtsRo5X3dXh
+ blhZIFX7QozYZJldn9JKfEl8uRwu89kgFK0J1w==
+X-Google-Smtp-Source: ABdhPJzAQOVgwIRLTeJz+4kS8jI7uSM4yy2bV/QUkiEz2152JH8sgfiQxJMSY+wk4abg95jsoFr6h5Ymz6ZJoeFhB2g=
+X-Received: by 2002:a05:6830:1b79:: with SMTP id
+ d25mr1995774ote.107.1597416696235; 
+ Fri, 14 Aug 2020 07:51:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <CACO55tvF0dOQ=myUpccmfHc+hCVQZoXQnCA0iHeXQo3B=UaD0Q@mail.gmail.com>
- <CAKb7UviVa32hWv+y+_kwbZzkJAxKcWr1RPCgkGt-mi=uayUKyw@mail.gmail.com>
- <0e882aa7-d0ea-19b0-a13d-4f7bc0d384aa@nvidia.com>
- <CACO55ttP_J8riS_PhCG+-Br+AvsYKRTLg_+wn2pXF9kgXkmjeQ@mail.gmail.com>
- <785eb70c-d9e7-dbdf-b044-337618fcea1a@nvidia.com>
- <20200812174005.GA1705@kevin>
- <2c5cf2e8-afd2-446d-1f27-2c225c65d447@nvidia.com>
- <CACO55tto89kT-_QKGjQ50Ht8U-4Dop6sTjNsbr1qHXhgNuDHEA@mail.gmail.com>
- <CACO55tu1RWZ0ZGcMcrU-snT3CkJtwxawwJ9990-5a+hpByh-Hw@mail.gmail.com>
- <CACO55tsfV9pGijOF5F=dLqFhpXgPSArGHXa44Mt3eRBk7z-X=g@mail.gmail.com>
- <20200814140811.GE556087@ulmo>
-In-Reply-To: <20200814140811.GE556087@ulmo>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 14 Aug 2020 16:45:39 +0200
-Message-ID: <CACO55tvz1_cp=qrF9M8RtyifLJ3N-ZdLM5O6wR=hy2o5TvSRpg@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.8-rc1
-To: Thierry Reding <thierry.reding@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
+References: <20200812203618.2656699-1-robh@kernel.org>
+ <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
+In-Reply-To: <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 14 Aug 2020 08:51:24 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
+Message-ID: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
+To: Luca Ceresoli <luca@lucaceresoli.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,35 +55,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, Thierry Reding <treding@nvidia.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>, Linux-ALSA <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ Linux I2C <linux-i2c@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Linux Input <linux-input@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ devicetree@vger.kernel.org, "open list:THERMAL" <linux-pm@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ Linux HWMON List <linux-hwmon@vger.kernel.org>,
+ netdev <netdev@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-spi <linux-spi@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 14, 2020 at 4:08 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+On Thu, Aug 13, 2020 at 4:31 AM Luca Ceresoli <luca@lucaceresoli.net> wrote:
 >
-> On Thu, Aug 13, 2020 at 05:39:39PM +0200, Karol Herbst wrote:
-> > btw, I just noticed that wayland with gnome-shell is totally busted.
-> > With this MR it at least displays something, but without it doesn't
-> > work at all.
+> Hi Rob,
 >
-> Interesting, one of my typical test cases is to run Weston with a couple
-> of test programs (like weston-simple-egl). Those usually work. I'll go
-> run a few more tests to see where we are.
+> On 12/08/20 22:36, Rob Herring wrote:
+> > Clean-up incorrect indentation, extra spaces, long lines, and missing
+> > EOF newline in schema files. Most of the clean-ups are for list
+> > indentation which should always be 2 spaces more than the preceding
+> > keyword.
+> >
+> > Found with yamllint (which I plan to integrate into the checks).
 >
-> To clarify, is this gnome-shell/wayland issue happening with Mesa's
-> mainline, or with James' patches already applied?
+> [...]
 >
+> > diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> > index 3d4e1685cc55..28c6461b9a9a 100644
+> > --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> > +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> > @@ -95,10 +95,10 @@ allOf:
+> >        # Devices without builtin crystal
+> >        properties:
+> >          clock-names:
+> > -            minItems: 1
+> > -            maxItems: 2
+> > -            items:
+> > -              enum: [ xin, clkin ]
+> > +          minItems: 1
+> > +          maxItems: 2
+> > +          items:
+> > +            enum: [ xin, clkin ]
+> >          clocks:
+> >            minItems: 1
+> >            maxItems: 2
+>
+> Thanks for noticing, LGTM.
+>
+> [...]
+>
+> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> > index d7dac16a3960..36dc7b56a453 100644
+> > --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> > +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> > @@ -33,8 +33,8 @@ properties:
+> >      $ref: /schemas/types.yaml#/definitions/uint32
+> >
+> >    touchscreen-min-pressure:
+> > -    description: minimum pressure on the touchscreen to be achieved in order for the
+> > -                 touchscreen driver to report a touch event.
+> > +    description: minimum pressure on the touchscreen to be achieved in order
+> > +      for the touchscreen driver to report a touch event.
+>
+> Out of personal taste, I find the original layout more pleasant and
+> readable. This third option is also good, especially for long descriptions:
+>
+>   description:
+>     minimum pressure on the touchscreen to be achieved in order for the
+>     touchscreen driver to report a touch event.
+>
+> At first glance yamllint seems to support exactly these two by default:
+>
+> > With indentation: {spaces: 4, check-multi-line-strings: true}
 
-mainline. It does work for me on weston, but that's because weston is
-always modifier aware afaik. For gnome-shell/wayland we have to enable
-it to make it work.
+Turning on check-multi-line-strings results in 10K+ warnings, so no.
 
-> Thierry
+The other issue is the style ruamel.yaml wants to write out is as the
+patch does above. This matters when doing some scripted
+transformations where we read in the files and write them back out. I
+can somewhat work around that by first doing a pass with no changes
+and then another pass with the actual changes, but that's completely
+scriptable. Hopefully, ruamel learns to preserve the style better.
 
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
