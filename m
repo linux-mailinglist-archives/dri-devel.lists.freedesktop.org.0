@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E3F245CF6
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598DC245D2E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8286E41F;
-	Mon, 17 Aug 2020 07:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1C8F6E4B0;
+	Mon, 17 Aug 2020 07:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08DB26EAC4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 00:07:25 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id i19so3949140lfj.8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 17:07:24 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA546EAC5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 00:07:26 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id d2so3962644lfj.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 17:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K2EFJxFHRRzm3oVjJIWeziT+lWBzLWjopR8bsePJKjY=;
- b=gCLmokeJ8inUJ64Wv4qZoc9xBFaNU6P54dhzlUIu5SlzNuE5ZDDqIAdu0Gnkr2vBSf
- yvhv83NVNMlBt49BK/TThw7IQ2KUdyCQwfHLOkPkbQMseIz7k81oA60MDiaEPfZXGWAZ
- g+H8DYJ+DEn7Gm3vwqups1sBZ17Xc2U64wXre5DxnK+5j+pbil+6qN7JQ02tDIhXXIZu
- ojHm1J+UMxK+iR6aLjRaBm+dFThXqiOGpiIWqsRwSTp7hKcwucfCPHH71BiA02jUnU75
- KtBbOpZNSjrruXOKE3EiNa7SnbGd6+cfDjTKoC2RreOLy30CcCrg2zt01SKYrUI1uFJm
- o51w==
+ bh=6hV/jfb1j57ds6uWusc67dwvrbgr9Nuaem2xPT64pOI=;
+ b=ErKBwp+Pi3uw2mPs1tCdGXty9djbWFZh7U9QKleaHXoAfkxBNKfThE66Q/uzNnc7J4
+ aTk8+/JsZmycsCyPcO8wlyCxP/+7dhTSQleHzgB8RAXh9y9JX/qoA3h0Dt4KqGsgqWgT
+ 32US2OzxXAYh3P3Bq+YMOkgwj1jgCvZwihVWC43so56FI4FPSpixkmxH7Ryz0yw9gdcO
+ oycjad2ZwnRCk/P+MMGMiuHDdDaSqD6SW/HA2t+uraoAPUbv+yCSmeRz8aO8ak/Vfyco
+ dauYMCWTVOLrANbGWhYaug2aCunXB+Mmt8gqYzR6ZB7AEUZVQQHPqWg9rQyiGNg8aABC
+ xSIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K2EFJxFHRRzm3oVjJIWeziT+lWBzLWjopR8bsePJKjY=;
- b=VZjuXmUzohiJCwOd16A+zbS6Mxx3bjfRPJy5ZRdOsq7Msmya/XMv2GvZhYdUHJgsYF
- 6spRGGKJq+cYKwpZkJH35AFDsjZvRBRstRxTn6qkGqOHYUoK3xAwIjcUHI0Ujsjru/D5
- y8/ID2zFXeonwcXkJFeO+9cfijxgeOBHvS4F3YVz5ihpJN/a4d23EoROA73ZygFSZ7KY
- GpC0UH1rGLqHW6nQS6+rGrew+0R8GCizi+Thr/XdQt34TcSh2JoK35KrXGrrawplvnsk
- w1SY5r72IXIsIpkmBIlCKWnCM5oqGNyn4IoA0dA9o89kjXaWySXpGVPBwd0039xf3em5
- 4s9Q==
-X-Gm-Message-State: AOAM533KO5Y+hS5hB8ES/jrU27tfbOwW06ymGP249Gh88XpOEQrUSflr
- C/kgB7t0mgDesz5CgSpscCI=
-X-Google-Smtp-Source: ABdhPJxkP/AmmrkF2DUBKBVT1VxNCH83s2+ZUFMnRJUNWGq20hs6pISg5ezMRacDLEuvgFM4869JMg==
-X-Received: by 2002:a19:c7d0:: with SMTP id x199mr3333278lff.205.1597363643504; 
- Thu, 13 Aug 2020 17:07:23 -0700 (PDT)
+ bh=6hV/jfb1j57ds6uWusc67dwvrbgr9Nuaem2xPT64pOI=;
+ b=jCATUlbXzn3FDkuq2TYoz5mYFjp6eOV+XEWNNyzK8/BFjuX0EjNSlZTnkWXK10sCNQ
+ RlfA8KQSK+Ncdwio4kTz3bssC8Q0b/TuBdcQQqy22yABR4hLN63cY7tRAweC7eJO80kt
+ w3y73Z5TB/r0jUn4UbNZF11B50RUBOg1h445NYCP1rPALXgeoRca/e+LNZrLS3LhbXgP
+ F29aVCjJJoSSzpF+HkcXiWU3o4hlJsfM0ss2SiXSA9b0WMqeV2QtgXYycGozVU8Ea7hZ
+ TnZjCsCKr65Y0yKRRJvSsJSzIkrDfvVyE7a5WTRWuZBICs9HORGs8dSP69dTSL2Piogc
+ 6+lA==
+X-Gm-Message-State: AOAM532GNZ+e8daSUs3RszFudk3rR1QA9aeIIgoStjLuB6VKY135QyTV
+ oN6b8Zflur1bCjAQ+B1CgSw=
+X-Google-Smtp-Source: ABdhPJyX4+8v8JUfhatSVHBEDRahqnCfgVnO8HrDC7HMA1cGJSRRGzDZfveHa/V3VlNsHtHH294fRg==
+X-Received: by 2002:ac2:58c6:: with SMTP id u6mr3340219lfo.105.1597363644627; 
+ Thu, 13 Aug 2020 17:07:24 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru.
  [109.252.170.211])
- by smtp.gmail.com with ESMTPSA id c17sm1504450lfr.23.2020.08.13.17.07.22
+ by smtp.gmail.com with ESMTPSA id c17sm1504450lfr.23.2020.08.13.17.07.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 17:07:22 -0700 (PDT)
+ Thu, 13 Aug 2020 17:07:24 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v5 20/36] dt-bindings: memory: tegra30: mc: Document new
+Subject: [PATCH v5 21/36] dt-bindings: memory: tegra30: emc: Document new
  interconnect property
-Date: Fri, 14 Aug 2020 03:06:05 +0300
-Message-Id: <20200814000621.8415-21-digetx@gmail.com>
+Date: Fri, 14 Aug 2020 03:06:06 +0300
+Message-Id: <20200814000621.8415-22-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814000621.8415-1-digetx@gmail.com>
 References: <20200814000621.8415-1-digetx@gmail.com>
@@ -85,46 +85,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory controller is interconnected with memory clients and with the
-external memory controller. Document new interconnect property which
-turns memory controller into interconnect provider.
+External memory controller is interconnected with memory controller and
+with external memory. Document new interconnect property which turns
+external memory controller into interconnect provider.
 
 Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../bindings/memory-controllers/nvidia,tegra30-mc.yaml       | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../bindings/memory-controllers/nvidia,tegra30-emc.yaml     | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
-index 84fd57bcf0dc..5436e6d420bc 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
-@@ -57,6 +57,9 @@ properties:
-   "#iommu-cells":
-     const: 1
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
+index 112bae2fcbbd..c243986db420 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
+@@ -31,6 +31,9 @@ properties:
+   interrupts:
+     maxItems: 1
  
 +  "#interconnect-cells":
-+    const: 1
++    const: 0
 +
- patternProperties:
-   "^emc-timings-[0-9]+$":
-     type: object
-@@ -120,6 +123,7 @@ required:
-   - clock-names
-   - "#reset-cells"
-   - "#iommu-cells"
+   nvidia,memory-controller:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+@@ -214,6 +217,7 @@ required:
+   - interrupts
+   - clocks
+   - nvidia,memory-controller
 +  - "#interconnect-cells"
  
  additionalProperties: false
  
-@@ -135,6 +139,7 @@ examples:
+@@ -227,6 +231,8 @@ examples:
  
-         #iommu-cells = <1>;
-         #reset-cells = <1>;
-+        #interconnect-cells = <1>;
+         nvidia,memory-controller = <&mc>;
  
++        #interconnect-cells = <0>;
++
          emc-timings-1 {
              nvidia,ram-code = <1>;
+ 
 -- 
 2.27.0
 
