@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED9C244AF2
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 15:57:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E353244B02
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 15:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5336EB61;
-	Fri, 14 Aug 2020 13:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AC36EB5F;
+	Fri, 14 Aug 2020 13:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F386EB68
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 13:57:28 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id 3so8021354wmi.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 06:57:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=HDBviwsXTKiLoVXPPMoJmURYrb3OzGTdFKTsXdkHmxg=;
- b=HZyu/+vc01tWF15d+yONBbUAyz4lOvMCLp3lq0iWF8DuXeshD/mDPy9Emen+13FkxF
- Vp1j8cRVl1TEcMGFfm0y9sIlYWpyxtjmAgMDAg/GpH3FAerowJmMp4lqw9QjfmKAvAHY
- sf/Kjc8+aFheZQkJ8t5rNwpvUdz+3hhu+Da7hfYaf/UclAvOJ5Q4/cp29CVoI9BqIGo/
- +L3j6ph0e/8CRylHUxPw46SgqFzj+hKru1D9Y5MLjwBDxEbURhcLbLY27AVchBWjJMIY
- H/8/NvlxoCkpDoJ/ML53cs6KMdrU41OljTK3dJpRI7JwHm9qwAix0VzE8mrdfFx35xDu
- hq/w==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B47B96EB5F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 13:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597413573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Zj+Zbl8uG0IkxzvkA3VLvAFmCY522+VIKTNpOs2VnE=;
+ b=fOv8iCgCSCD+LGsGJD1Zqj1Hmw0ilvIih9Eefh8q1whZWfM/lSDfo4kMc0JxvsTWt8kGI/
+ qCSWitcVKhS1i0VeuB0CMVU08ISr+jKpFXINXF8ww2hMWoZ+vF5q2x9GgQbupemOI2BdLo
+ +28dWn1Kw4ls2ivE6eK51soCAniuMcM=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-MGyxuuW7NEe3-rLiTlqv8Q-1; Fri, 14 Aug 2020 09:59:29 -0400
+X-MC-Unique: MGyxuuW7NEe3-rLiTlqv8Q-1
+Received: by mail-qt1-f200.google.com with SMTP id e14so7125000qtm.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 06:59:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=HDBviwsXTKiLoVXPPMoJmURYrb3OzGTdFKTsXdkHmxg=;
- b=XRTKB1R/kZ/LZ4lVz1/2KS+JmnqqPaRZ0RACBjk2515y+3noZP+TuTaAwtItAft/G1
- JsBXUPs9qs5oOFfIxIff6OQ83FAZyqb6vbobBiwMUA9YBvmZfxcozWWjsUEDXCwUrzyX
- q99xj5tcNlbX5D4e8fIfNf11AbQLjYDIAzKYXRGfYwkTD52hdYRs9LHCmSM6QJHKYHoj
- YaLbi+jG88hUPv88xbTGjd48/MRbKcXSyHGowotSx33nrF7SqpG0SpyumPVLtid3wOOP
- gycpVgZa1kgYdYgWj1fV3aEmwz3/5xKGGlK/ViXP3K/6JJ5C3WZlpr/Fvu1PKHWLgR3x
- CuXQ==
-X-Gm-Message-State: AOAM532P4W15wvmKntMeXwTWZaSjmCkX+0s87sGMtGteo0jvApk6u6Bw
- mMlmUxO/zTacarF4rWaP6i4=
-X-Google-Smtp-Source: ABdhPJzXBIUMRpszzIJ02jn/6uQ7rG2ZV1miXiKsAUFsEvJgQguIhbImRz8iUM4Mxl195mEdE9zbrQ==
-X-Received: by 2002:a1c:bc54:: with SMTP id m81mr2818136wmf.73.1597413447089; 
- Fri, 14 Aug 2020 06:57:27 -0700 (PDT)
-Received: from localhost
- (p200300e41f10ca00f451c56750ebc625.dip0.t-ipconnect.de.
- [2003:e4:1f10:ca00:f451:c567:50eb:c625])
- by smtp.gmail.com with ESMTPSA id b142sm15439626wmd.19.2020.08.14.06.57.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 06:57:25 -0700 (PDT)
-Date: Fri, 14 Aug 2020 15:57:25 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [git pull] drm for 5.8-rc1
-Message-ID: <20200814135725.GC556087@ulmo>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5Zj+Zbl8uG0IkxzvkA3VLvAFmCY522+VIKTNpOs2VnE=;
+ b=DakuvgG+RTw33/cHFt7j06pV/avkP0C+CqgokXYyu3+h9svoRTiyzRSFD7VEUFB2rU
+ IplJNmRUTNxGHOqbGwMeSe7+kk5LMPBrXWbpCs1sKXb3aDlp1pAukAH4VwGDHtXTM1ps
+ QZz34QRXQ/ZWf6gEcphF8+BVX30KjZ6gWDSxMO+PcC/Bvd7fOWU9ge1ubmYV1YcenGhI
+ 2j0plWyi+WIVLHI4h6Ow0xGIGnd6JV4lZkVvpLYgrq63DIq+8Dfk7J2CrIVZHzAcIjft
+ 0o9jUXqOiyeAt+kV+QCaBOlV07ddLNvKpE23Ij5SB6rmiOW1DUWBqqLkGIXz8DTkWIqI
+ K/RA==
+X-Gm-Message-State: AOAM532PHxqYaMZO2k6yoB+OgItmqegX24lODSStUWzLWLAdKw6nto4I
+ /u0WLai7iqRsXScfv9lOcqNeoikqAif9+zzrg4amzbuUDA5MDp1IdVgpijIbS7QM3uwbpExqp2T
+ 12rgQx6uM+S/ns9TyNc8kg2ORpfhKdS7hM6xZMGnyX85U
+X-Received: by 2002:aed:24f2:: with SMTP id u47mr2116416qtc.137.1597413569328; 
+ Fri, 14 Aug 2020 06:59:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSABxad6AAzOcmrnQIfzWJBGM956ZK0ws2SeQP5/stZ+jamaX776jK0i+WgyK48plqPsz7Enrc+B0CPzLY8Z0=
+X-Received: by 2002:aed:24f2:: with SMTP id u47mr2116399qtc.137.1597413569092; 
+ Fri, 14 Aug 2020 06:59:29 -0700 (PDT)
+MIME-Version: 1.0
 References: <CACO55ttP_J8riS_PhCG+-Br+AvsYKRTLg_+wn2pXF9kgXkmjeQ@mail.gmail.com>
  <785eb70c-d9e7-dbdf-b044-337618fcea1a@nvidia.com>
  <20200812174005.GA1705@kevin>
@@ -62,9 +58,17 @@ References: <CACO55ttP_J8riS_PhCG+-Br+AvsYKRTLg_+wn2pXF9kgXkmjeQ@mail.gmail.com>
  <CACO55tsEjGUhfrBdbcpT9xLa8N-T0JR-t7xFBA5pxDZ5+NiQhg@mail.gmail.com>
  <efb830fe-9ded-f5d3-6944-45adbb2a1f80@nvidia.com>
  <CACO55tsZAh4aThBSqiQJ5o6jCi+6vcfXDEfCueyBmOK62ZsW5Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CACO55tsZAh4aThBSqiQJ5o6jCi+6vcfXDEfCueyBmOK62ZsW5Q@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+ <20200814135725.GC556087@ulmo>
+In-Reply-To: <20200814135725.GC556087@ulmo>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 14 Aug 2020 15:59:16 +0200
+Message-ID: <CACO55ts=LdniSVTEy6opRhAj_vsH0czjJrwy4ExpiWMnRRp3uA@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.8-rc1
+To: Thierry Reding <thierry.reding@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,73 +84,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: James Jones <jajones@nvidia.com>, Thierry Reding <treding@nvidia.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1962720409=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1962720409==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FsscpQKzF/jJk6ya"
-Content-Disposition: inline
-
-
---FsscpQKzF/jJk6ya
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Aug 13, 2020 at 07:48:39PM +0200, Karol Herbst wrote:
-> On Thu, Aug 13, 2020 at 7:45 PM James Jones <jajones@nvidia.com> wrote:
+On Fri, Aug 14, 2020 at 3:57 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Thu, Aug 13, 2020 at 07:48:39PM +0200, Karol Herbst wrote:
+> > On Thu, Aug 13, 2020 at 7:45 PM James Jones <jajones@nvidia.com> wrote:
+> > >
+> > > I'll defer to Thierry, but I think that may be by design.  Tegra format
+> > > modifiers were added to get things like this working in the first place,
+> > > right?  It's not a regression, is it?
+> > >
 > >
-> > I'll defer to Thierry, but I think that may be by design.  Tegra format
-> > modifiers were added to get things like this working in the first place,
-> > right?  It's not a regression, is it?
-> >
->=20
-> That would be slightly annoying as this would mean by design it's
-> broken by default :/ Also, we have no Xorg release supporting
-> modifiers anyway and it does seem to work with X 1.20.8 (which doesn't
-> enable modifier support). And I talked with Jonas (working on mutter)
-> about it and there were no plans to turn on modifier support by
-> default at this point.
+> > That would be slightly annoying as this would mean by design it's
+> > broken by default :/ Also, we have no Xorg release supporting
+> > modifiers anyway and it does seem to work with X 1.20.8 (which doesn't
+> > enable modifier support). And I talked with Jonas (working on mutter)
+> > about it and there were no plans to turn on modifier support by
+> > default at this point.
+>
+> I thought you said earlier that 1.20.8 didn't work and was hitting the
+> assertion?
+>
 
-I thought you said earlier that 1.20.8 didn't work and was hitting the
-assertion?
+uhm, I forgot to mention that it works with the patch I wrote:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6300
 
-Thierry
-
---FsscpQKzF/jJk6ya
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl82mEQACgkQ3SOs138+
-s6EGOg//VJuA/yH4nDYteO3sbpPLB/rcetxc3mm5IoXjKuTbWobdYkC7rfqixMwp
-zn1yorJ+e1cNGgTtYWvxfqCLgOvRoToG/sRr0pgdXdebNVwwT6BO8KjuUZ9EF+7I
-SilsARIAj7hTD1vHSolHyMxzZm/0eUi5J4Zyt7p/Sz1Tp4svuxKhQR4E+WjeoreZ
-zyH/bgjf+PmfPZvHLpsvGn3gpZc05CPxF5sHjOds7fVN1+3/jS4B5IzsXGPnYhXy
-RMok+i+R+snzvG73eeaCM+dskps9M2wgCvZ1kNxkMrlD4ys+RRdyyTJNJSn1XzRR
-zlsqenIhEc0+Thd491RSQw2D5noShH3Ker0vNR6AhXN3vWhNxJN2A9nnf8BWAvNP
-OsGDrYZ/wmUSAw2JYywpIyGNt0kjCMzXvIR9DFZspworpuVMKaVuUXEJpNol5QIx
-zDSt2CmEykprxUNiBHDogYqinPBw4m2Vxfu3h111goUODEL1CJGkDfOspqU6XYZY
-FrIPlB8BwAu0PkSYxWQnHB6bvFT611tddiX5vgIuTmzdXuZ2KfkJkCVGxYFJ5GB9
-PCPKdv+od499cTQYkls1Vwv1N/ntMmh2YHR0ftI5TUF+akEL8wX19bZGiPNEgIF1
-NjAnYpBODgqIwI5aTuDRUFtf5u5TF0bUPluBHRJNJt8cljlQivw=
-=svX7
------END PGP SIGNATURE-----
-
---FsscpQKzF/jJk6ya--
-
---===============1962720409==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> Thierry
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1962720409==--
