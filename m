@@ -1,37 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A0B245D33
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6574B245D35
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6165D6E4AB;
-	Mon, 17 Aug 2020 07:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D34E6E4B7;
+	Mon, 17 Aug 2020 07:06:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 661A16E2DA
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 08:30:31 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.125])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id C2A404826D4;
- Fri, 14 Aug 2020 16:30:27 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Bernard Zhao <bernard@vivo.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/via: reduce no need mutex_lock area
-Date: Fri, 14 Aug 2020 01:30:19 -0700
-Message-Id: <20200814083021.8962-1-bernard@vivo.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9F16EB1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 10:02:58 +0000 (UTC)
+Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com)
+ ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 14 Aug 2020 02:56:54 -0700
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA;
+ 14 Aug 2020 02:56:53 -0700
+Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 14 Aug 2020 15:26:15 +0530
+Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
+ id A98061AC8; Fri, 14 Aug 2020 15:26:14 +0530 (IST)
+From: Roja Rani Yarubandi <rojay@codeaurora.org>
+To: wsa@kernel.org
+Subject: [PATCH 0/2] Implement Shutdown callback for i2c
+Date: Fri, 14 Aug 2020 15:25:38 +0530
+Message-Id: <20200814095540.32115-1-rojay@codeaurora.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZT0JNTh1KTRhLSkNLVkpOQkxIQkhDSUxCT0JVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mhw6Sjo5KT8dCjosSQEOEx4t
- DjIKCxNVSlVKTkJMSEJIQ0lDTklMVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU5ZV1kIAVlBSkNPSjcG
-X-HM-Tid: 0a73ec17783893bakuwsc2a404826d4
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,39 +42,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com
+Cc: linaro-mm-sig@lists.linaro.org, saiprakash.ranjan@codeaurora.org,
+ rnayak@codeaurora.org, linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+ linux-arm-msm@vger.kernel.org, Roja Rani Yarubandi <rojay@codeaurora.org>,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ akashast@codeaurora.org, mka@chromium.org, agross@kernel.org,
+ msavaliy@qti.qualcomm.com, bjorn.andersson@linaro.org, skakit@codeaurora.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In function via_mem_alloc`s error branch, DRM_ERROR is protected
-in the mutex_lock(&dev->struct_mutex) area.
-From the code, we see that DRM_ERROR is just an error log print
-without any struct element, there is no need to protect this.
+Add tx_dma, rx_dma and xfer_len in geni_i2c_dev struct.
+Implement Shutdown callback for geni i2c driver.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/via/via_mm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Roja Rani Yarubandi (2):
+  i2c: i2c-qcom-geni: Add tx_dma, rx_dma and xfer_len to geni_i2c_dev
+    struct
+  i2c: i2c-qcom-geni: Add shutdown callback for i2c
 
-diff --git a/drivers/gpu/drm/via/via_mm.c b/drivers/gpu/drm/via/via_mm.c
-index 45cc9e900260..dae1bacd86c1 100644
---- a/drivers/gpu/drm/via/via_mm.c
-+++ b/drivers/gpu/drm/via/via_mm.c
-@@ -129,9 +129,9 @@ int via_mem_alloc(struct drm_device *dev, void *data,
- 	mutex_lock(&dev->struct_mutex);
- 	if (0 == ((mem->type == VIA_MEM_VIDEO) ? dev_priv->vram_initialized :
- 		      dev_priv->agp_initialized)) {
-+		mutex_unlock(&dev->struct_mutex);
- 		DRM_ERROR
- 		    ("Attempt to allocate from uninitialized memory manager.\n");
--		mutex_unlock(&dev->struct_mutex);
- 		return -EINVAL;
- 	}
- 
+ drivers/i2c/busses/i2c-qcom-geni.c | 59 +++++++++++++++++++++++++-----
+ include/linux/qcom-geni-se.h       |  5 +++
+ 2 files changed, 54 insertions(+), 10 deletions(-)
+
 -- 
-2.26.2
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
 
 _______________________________________________
 dri-devel mailing list
