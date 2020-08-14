@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1421A2446C1
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:05:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCB92446D3
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 145FA6EB19;
-	Fri, 14 Aug 2020 09:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CCD16E2E1;
+	Fri, 14 Aug 2020 09:15:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1116EB19;
- Fri, 14 Aug 2020 09:05:38 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 184so7321420wmb.0;
- Fri, 14 Aug 2020 02:05:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Awajj0R47lm6sx57tIr1UrmZ8iRE0Zm6ScsJs7CwSFQ=;
- b=JXmQmEJMupkWHWGlNYPwlcrexoKuEmdGptmBbT5gBV/GOjX8tatJOc76QTr2x3v5HA
- TSdDeJmSJkwDeAkDKNFjlzClsETHNRLp0S/pDX7sypwGMN0tkX5MtrteI4dldDlanJSr
- pLHrUoKchuGY+mTV3SeYfSlPU4KRqPvz7oTP/6tr3LZqFEMsQmT+JA16tU6WkfMWFeEe
- pGM+cTQajkI5MSBfcdh/FLEO3m9jUuCgpFk1uh9aJbkt/iu+YHJ/98fAQ3Aya5gVqwMr
- ukR1Vy0mbrR9pgP82KZLcyiXPuRJ8pHoxHBEaa1X3g8IgMbjsWyKb6A3RVqj+502id0b
- m6Dw==
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50DDA6E2E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 09:15:47 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r2so7720089wrs.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eYpU3y7ebzKMBuQXVvoEvJvkYtKwGT78NkijSgMoWJY=;
+ b=WFH0MvLQnpQkcUnqvWwQ3IpHELagYVEDmhoOs8XAjsZKt51xf1FPsJgAPfaLCln3Wi
+ jD+HyZoSM1yFtGB0fdISkJcPVS0fyUZ659muQf8tQX+bIpgDUxX0PH/v6awTM1rkO1U5
+ N/99rpMwl0MMgPpGaE7Er3CyAK7tyOb2pzCP4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Awajj0R47lm6sx57tIr1UrmZ8iRE0Zm6ScsJs7CwSFQ=;
- b=pgXYqdUPPBiPWHM6P+fBcUZfci/m/AuaH2QjFJIV2s8fQ3YVVdQBUGmhqCdhiM6IT1
- HlizUvj92y2aLHT7Y9LlEXYgkrodM0ZoJHFOLQUddr0ZRUUYYP44FAZimKKW51DcFKwx
- 3jGpLZ/nsRwOXOiofu0s7DxLWpI+7/VVzB2GzhVSKhyFpwqsxvbkFhgoq6iAMP/tK1i5
- xIVU6H858iAaQl4PYqq9/KC9ChBaPc8RUnMqjVGsrAStCbHc+ooBDwt8qCkKLiHLnTV4
- ES8XecMvhxrhjfao7nIdLQ9jsZDbPle8vnVFJpf/NNDtLl1yIgU6IQdKmlngOzkBM2vS
- itiQ==
-X-Gm-Message-State: AOAM533zDmdCTLxIhWcK/X9GzAgVj8H00768a3ZhfQwHHHcRotBWFCbF
- 6Cw2eUXISmW954aneqBaVks=
-X-Google-Smtp-Source: ABdhPJxqi5bXP8Npuw6YVikeX86l73CGaSFxvFOB8f9irFOzcMaelqhYY2g9h8/LDa36mTZSvAYICg==
-X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr1730642wmh.118.1597395936789; 
- Fri, 14 Aug 2020 02:05:36 -0700 (PDT)
-Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
- [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id m14sm14046745wrx.76.2020.08.14.02.05.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eYpU3y7ebzKMBuQXVvoEvJvkYtKwGT78NkijSgMoWJY=;
+ b=izjQ4TD7ITUkMLeDXRB7gRLJ7bWOcgUDKimFHB7HCR3dZDU75WHi+oB35BUditpIjj
+ oX037IWjtjqPDdff8KohVPovSnvyfwiWTbcwbBRh2rLfvot2hBlmj5H8jvi3RIdTnQoC
+ 7PJXo70Ln+CDi2sLw7GT/xV4rqqTuu2p8il5UWAIe8rwTOv1gKGci/kYmwtq136xW5qn
+ GJSAOn+s18lJ6O06781kZsUNKS+3f95OM3t+WExD+xOmnH5tLWieryqeQSrQ0YKRYp9Y
+ NM2H+s+0u4c6kN6tdIO1ra+P1w/Cz3F4nB/+l/meb9OyE/VnVQrpAMmj87cU5JNVVQ5s
+ zIDA==
+X-Gm-Message-State: AOAM530F9vuo6IlXTZEAMQwPVDjAU/YjwKHNWHidR9D4BSjh+NVQIEAZ
+ MovUSJFYObzBADDOYV0nPJPZbg==
+X-Google-Smtp-Source: ABdhPJyPMqTxP6nOVJYe8zKT3bJ59aEMGWM2FWz8Wx4F6bgsXuU27JMvn8Svpoo4rvg86F0Y46Xd9A==
+X-Received: by 2002:adf:a102:: with SMTP id o2mr1791617wro.319.1597396545670; 
+ Fri, 14 Aug 2020 02:15:45 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 31sm14741758wrp.87.2020.08.14.02.15.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:05:35 -0700 (PDT)
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] drm/etnaviv: add pipe_select(..) helper
-Date: Fri, 14 Aug 2020 11:05:04 +0200
-Message-Id: <20200814090512.151416-5-christian.gmeiner@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200814090512.151416-1-christian.gmeiner@gmail.com>
-References: <20200814090512.151416-1-christian.gmeiner@gmail.com>
+ Fri, 14 Aug 2020 02:15:44 -0700 (PDT)
+Date: Fri, 14 Aug 2020 11:15:42 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: Warnings with drm: Replace drm_modeset_lock/unlock_all with
+ DRM_MODESET_LOCK_ALL_* helpers
+Message-ID: <20200814091542.GN2352366@phenom.ffwll.local>
+References: <CADnq5_O2gEAmNE9Y8jB7xYuLv3cw+YejWfy9r1BzhmQ_Uhamtw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CADnq5_O2gEAmNE9Y8jB7xYuLv3cw+YejWfy9r1BzhmQ_Uhamtw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>,
- cphealy@gmail.com
+Cc: Michal Orzel <michalorzel.eng@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the open coded pixel pipe selection pattern with a function.
+On Thu, Aug 13, 2020 at 11:17:11PM -0400, Alex Deucher wrote:
+> The non-atomic modesetting code in amdgpu now spews warnings[1] with
+> this patch applied.  I haven't really paged the legacy locking stuff
+> into my head in quite a while.  Thoughts on how to proceed?
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 24 +++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Uh that mess.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-index b37459f022d7..bafdfe49c1d8 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-@@ -46,6 +46,14 @@ static u32 perf_reg_read(struct etnaviv_gpu *gpu,
- 	return gpu_read(gpu, domain->profile_read);
- }
- 
-+static inline void pipe_select(struct etnaviv_gpu *gpu, u32 clock, unsigned pipe)
-+{
-+	clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
-+	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(pipe);
-+
-+	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
-+}
-+
- static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
- 	const struct etnaviv_pm_domain *domain,
- 	const struct etnaviv_pm_signal *signal)
-@@ -55,16 +63,12 @@ static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
- 	unsigned i;
- 
- 	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
--		clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
--		clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(i);
--		gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
-+		pipe_select(gpu, clock, i);
- 		value += perf_reg_read(gpu, domain, signal);
- 	}
- 
- 	/* switch back to pixel pipe 0 to prevent GPU hang */
--	clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
--	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(0);
--	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
-+	pipe_select(gpu, clock, 0);
- 
- 	return value;
- }
-@@ -78,16 +82,12 @@ static u32 pipe_reg_read(struct etnaviv_gpu *gpu,
- 	unsigned i;
- 
- 	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
--		clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
--		clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(i);
--		gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
-+		pipe_select(gpu, clock, i);
- 		value += gpu_read(gpu, signal->data);
- 	}
- 
- 	/* switch back to pixel pipe 0 to prevent GPU hang */
--	clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
--	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(0);
--	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
-+	pipe_select(gpu, clock, 0);
- 
- 	return value;
- }
+So the problem (and it's really the same for atomic as for legacy) is that
+we have shared state between connector probe and modeset code. Generally
+that's solved by just copying stuff (like drm_connector->display_info) and
+hoping we don't race badly.
+
+All the probe state is protected by dev->mode_config.mutex, while all the
+modeset stuff is protected by the various drm_modeset_lock.
+
+I think the simplest duct-tape is to reapply the old locking scheme to the
+new macro, but only for non-atomic drivers. I'll type up something. But
+I'll go on vacations for 2 weeks, so if it doesn't work out you have to
+respin (and also merge).
+
+Cheers, Daniel
+> 
+> Thanks,
+> 
+> Alex
+> 
+> commit 9bcaa3fe58ab7559e71df798bcff6e0795158695
+> Author: Michal Orzel <michalorzel.eng@gmail.com>
+> Date:   Tue Apr 28 19:10:04 2020 +0200
+> 
+>     drm: Replace drm_modeset_lock/unlock_all with DRM_MODESET_LOCK_ALL_* helpers
+> 
+>     As suggested by the TODO list for the kernel DRM subsystem, replace
+>     the deprecated functions that take/drop modeset locks with new helpers.
+> 
+>     Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
+>     Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>     Link: https://patchwork.freedesktop.org/patch/msgid/1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com
+> 
+> 
+> [1] https://gitlab.freedesktop.org/drm/amd/-/issues/1224
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 -- 
-2.26.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
