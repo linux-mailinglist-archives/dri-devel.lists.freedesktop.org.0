@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DB92446BD
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1421A2446C1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD2236EB13;
-	Fri, 14 Aug 2020 09:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 145FA6EB19;
+	Fri, 14 Aug 2020 09:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36F826EB13;
- Fri, 14 Aug 2020 09:05:35 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id k20so7301553wmi.5;
- Fri, 14 Aug 2020 02:05:35 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1116EB19;
+ Fri, 14 Aug 2020 09:05:38 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 184so7321420wmb.0;
+ Fri, 14 Aug 2020 02:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dRT5IxQW31/cWLOlxefHWhvflnlqyP6TcqmdhPBQu3E=;
- b=gpvcCjXtfa5TJBoLojYNhodiFxl3dssIiiPpW649i3FkUCzofAQNFBgI2yb253DFIC
- lBiYPbCeC8SxI6QDBwFngeQb2jQjKlPzBkCouDkvqswPWCnJrwQA7gX5a1I15kJLOqfG
- F9I7Ysi0hU6EnabUyIBQv44uT/aWJP/pWQOoMdzsDK1qz7I+uo8c8YOkspG3natl9Ead
- KDYP5Rr2ZcGnl+L+xFTFbf3IOb3vLs38Zh+Sm+RR1u65PV6jaJZF/MH2DvtgSKCU8NPT
- UgkQdQthlDrYbN8RZglMawQqC0ZePiKF2SQr7eWH4+kyt5z11uirIIWYkCijVD+H1B3c
- EGxA==
+ bh=Awajj0R47lm6sx57tIr1UrmZ8iRE0Zm6ScsJs7CwSFQ=;
+ b=JXmQmEJMupkWHWGlNYPwlcrexoKuEmdGptmBbT5gBV/GOjX8tatJOc76QTr2x3v5HA
+ TSdDeJmSJkwDeAkDKNFjlzClsETHNRLp0S/pDX7sypwGMN0tkX5MtrteI4dldDlanJSr
+ pLHrUoKchuGY+mTV3SeYfSlPU4KRqPvz7oTP/6tr3LZqFEMsQmT+JA16tU6WkfMWFeEe
+ pGM+cTQajkI5MSBfcdh/FLEO3m9jUuCgpFk1uh9aJbkt/iu+YHJ/98fAQ3Aya5gVqwMr
+ ukR1Vy0mbrR9pgP82KZLcyiXPuRJ8pHoxHBEaa1X3g8IgMbjsWyKb6A3RVqj+502id0b
+ m6Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dRT5IxQW31/cWLOlxefHWhvflnlqyP6TcqmdhPBQu3E=;
- b=h6FrMtCiicq8SMMKZfwx4xzoiq+cgbltv4M8CjvgUHP186WgMD5L/UzyCUB3Y2zV0e
- vvHwmVN5gUbKTsaFUIDUY82YZIDswcG+WkM+pIzNVrHq8Fr/k1X3AqJdMsRxWsz79Wsc
- qBlDuwcII4xoBQmeKPQ6QoJwrPRyNcmUSOkUYbblJEOMQMcpN7N4CcIrxRE6ECjyjtOW
- oa7rNVOP7IVDQNpAGvxqh05VzcL57hz/i/vaGOnLuBqpX3ikZcC4esegDC6JS8Z8w9Jj
- kHyIYvGLtBd0Z8LdOzC23Ubyk2LfVS1LVq2t/VNThp4LUg2q8w00kK/6OZBCaA8bM6B/
- 2VDw==
-X-Gm-Message-State: AOAM533fSQYjL+DjkU/PcoHwlyOjhjVifU0PPzNnQEVB4FLhbrmR4m7a
- M5ACZMIuomVRC6muxBI1Yxk=
-X-Google-Smtp-Source: ABdhPJxFOVHTXeF5CW+md3xRzIj05YXUjn0KLfX6SFojUdOXMVIJ6AB7QEqc/h1xOAQRM/T/Ef0U8g==
-X-Received: by 2002:a1c:38b:: with SMTP id 133mr1580959wmd.153.1597395933750; 
- Fri, 14 Aug 2020 02:05:33 -0700 (PDT)
+ bh=Awajj0R47lm6sx57tIr1UrmZ8iRE0Zm6ScsJs7CwSFQ=;
+ b=pgXYqdUPPBiPWHM6P+fBcUZfci/m/AuaH2QjFJIV2s8fQ3YVVdQBUGmhqCdhiM6IT1
+ HlizUvj92y2aLHT7Y9LlEXYgkrodM0ZoJHFOLQUddr0ZRUUYYP44FAZimKKW51DcFKwx
+ 3jGpLZ/nsRwOXOiofu0s7DxLWpI+7/VVzB2GzhVSKhyFpwqsxvbkFhgoq6iAMP/tK1i5
+ xIVU6H858iAaQl4PYqq9/KC9ChBaPc8RUnMqjVGsrAStCbHc+ooBDwt8qCkKLiHLnTV4
+ ES8XecMvhxrhjfao7nIdLQ9jsZDbPle8vnVFJpf/NNDtLl1yIgU6IQdKmlngOzkBM2vS
+ itiQ==
+X-Gm-Message-State: AOAM533zDmdCTLxIhWcK/X9GzAgVj8H00768a3ZhfQwHHHcRotBWFCbF
+ 6Cw2eUXISmW954aneqBaVks=
+X-Google-Smtp-Source: ABdhPJxqi5bXP8Npuw6YVikeX86l73CGaSFxvFOB8f9irFOzcMaelqhYY2g9h8/LDa36mTZSvAYICg==
+X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr1730642wmh.118.1597395936789; 
+ Fri, 14 Aug 2020 02:05:36 -0700 (PDT)
 Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
  [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id m14sm14046745wrx.76.2020.08.14.02.05.32
+ by smtp.gmail.com with ESMTPSA id m14sm14046745wrx.76.2020.08.14.02.05.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:05:33 -0700 (PDT)
+ Fri, 14 Aug 2020 02:05:35 -0700 (PDT)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] drm/etnaviv: add total hi bandwidth perfcounter
-Date: Fri, 14 Aug 2020 11:05:03 +0200
-Message-Id: <20200814090512.151416-4-christian.gmeiner@gmail.com>
+Subject: [PATCH 4/4] drm/etnaviv: add pipe_select(..) helper
+Date: Fri, 14 Aug 2020 11:05:04 +0200
+Message-Id: <20200814090512.151416-5-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200814090512.151416-1-christian.gmeiner@gmail.com>
 References: <20200814090512.151416-1-christian.gmeiner@gmail.com>
@@ -75,70 +75,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These two perf counters represent the total read and write
-GPU bandwidth in terms of 64bits.
-
-The used sequence was taken from Vivante kernel driver.
+Replace the open coded pixel pipe selection pattern with a function.
 
 Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 35 ++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 24 +++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-index 782732e6ce72..b37459f022d7 100644
+index b37459f022d7..bafdfe49c1d8 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-@@ -69,6 +69,29 @@ static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
- 	return value;
+@@ -46,6 +46,14 @@ static u32 perf_reg_read(struct etnaviv_gpu *gpu,
+ 	return gpu_read(gpu, domain->profile_read);
  }
  
-+static u32 pipe_reg_read(struct etnaviv_gpu *gpu,
-+	const struct etnaviv_pm_domain *domain,
-+	const struct etnaviv_pm_signal *signal)
++static inline void pipe_select(struct etnaviv_gpu *gpu, u32 clock, unsigned pipe)
 +{
-+	u32 clock = gpu_read(gpu, VIVS_HI_CLOCK_CONTROL);
-+	u32 value = 0;
-+	unsigned i;
-+
-+	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
-+		clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
-+		clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(i);
-+		gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
-+		value += gpu_read(gpu, signal->data);
-+	}
-+
-+	/* switch back to pixel pipe 0 to prevent GPU hang */
 +	clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
-+	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(0);
-+	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
++	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(pipe);
 +
-+	return value;
++	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
 +}
 +
- static u32 hi_total_cycle_read(struct etnaviv_gpu *gpu,
+ static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
  	const struct etnaviv_pm_domain *domain,
  	const struct etnaviv_pm_signal *signal)
-@@ -102,8 +125,18 @@ static const struct etnaviv_pm_domain doms_3d[] = {
- 		.name = "HI",
- 		.profile_read = VIVS_MC_PROFILE_HI_READ,
- 		.profile_config = VIVS_MC_PROFILE_CONFIG2,
--		.nr_signals = 5,
-+		.nr_signals = 7,
- 		.signal = (const struct etnaviv_pm_signal[]) {
-+			{
-+				"TOTAL_READ_BYTES8",
-+				VIVS_HI_PROFILE_READ_BYTES8,
-+				&pipe_reg_read,
-+			},
-+			{
-+				"TOTAL_WRITE_BYTES8",
-+				VIVS_HI_PROFILE_WRITE_BYTES8,
-+				&pipe_reg_read,
-+			},
- 			{
- 				"TOTAL_CYCLES",
- 				0,
+@@ -55,16 +63,12 @@ static u32 pipe_perf_reg_read(struct etnaviv_gpu *gpu,
+ 	unsigned i;
+ 
+ 	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
+-		clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
+-		clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(i);
+-		gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
++		pipe_select(gpu, clock, i);
+ 		value += perf_reg_read(gpu, domain, signal);
+ 	}
+ 
+ 	/* switch back to pixel pipe 0 to prevent GPU hang */
+-	clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
+-	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(0);
+-	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
++	pipe_select(gpu, clock, 0);
+ 
+ 	return value;
+ }
+@@ -78,16 +82,12 @@ static u32 pipe_reg_read(struct etnaviv_gpu *gpu,
+ 	unsigned i;
+ 
+ 	for (i = 0; i < gpu->identity.pixel_pipes; i++) {
+-		clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
+-		clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(i);
+-		gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
++		pipe_select(gpu, clock, i);
+ 		value += gpu_read(gpu, signal->data);
+ 	}
+ 
+ 	/* switch back to pixel pipe 0 to prevent GPU hang */
+-	clock &= ~(VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE__MASK);
+-	clock |= VIVS_HI_CLOCK_CONTROL_DEBUG_PIXEL_PIPE(0);
+-	gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, clock);
++	pipe_select(gpu, clock, 0);
+ 
+ 	return value;
+ }
 -- 
 2.26.2
 
