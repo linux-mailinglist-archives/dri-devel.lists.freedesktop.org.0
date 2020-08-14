@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCA7245D12
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66904245D54
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054416E455;
-	Mon, 17 Aug 2020 07:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D69EB6E4FF;
+	Mon, 17 Aug 2020 07:07:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB4066EABF
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 00:07:05 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id t6so8081593ljk.9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 17:07:05 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E59396EAC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 00:07:06 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id v9so8114236ljk.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 17:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S8WUsWu+WDkJcn4CeG8tWfLig6GMVsRbCZOtSjwc5GA=;
- b=ReKpF9Nh4A3O2mffo48Cg8bRKlALwqgZzoJI2At2j2+5lQLElla390fe/XZrKLdYU+
- wQj8DlEEdYBcZzQn+T49smT/PhDHeTgjpMpS1MaERuF1gYFhd0lLcNskFacKhV4VVwFp
- a75irKF9g1zK8taydsdmGxosWKWUqdCvVYYYG4nWFH+fbXUqcMtfVeH/vYCk6bL0BL1b
- Nf7Ovi6hPoON3hmGi9Itsz3H31az/AuGqSgIJ8xcf68k3CTOOr/e/g24RN8Fsl9dG7qK
- 5v0MCRKjYTFgNM2Ty5rQGxkxKfYoQgXycbZAA/JwKQeRIep2Lgs2krSJJbZVcKX6sbuz
- NIUA==
+ bh=AzqqsKlTIsKI+WxT+RXsQygXtSVSAqLrYwZmJLTNE94=;
+ b=DnpQAdbhKIQvhGCJUiMtzMLFsEUCVFYhDtyao0O8CmRNuiU8bgqOEqx20RaCLZROe+
+ pWNi/QlnMELpem+aW1gE2k5UAuHvyhQiH3II3NwlscixFJlAehP5xK913dQiLT5Iorab
+ 8Q/zVOccqKYZF57qdynjJXyH/bxaz5fTQhOwF+yKvVIkh46Z3FYRSaDLVG1VjAA79NRJ
+ XTy40YEbsHZjpoHajJJc5dF0x6ZLi5xNa8dsJw3pT4+PQ1eg2yueLpZ5ASL44fYWnc4q
+ h83f7bcmG4fft+0l2STGANN5VZzXUAP/lkjOjI/7NJgpcq6JIM0x/z4bp2JGYyEUepyt
+ CQ0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S8WUsWu+WDkJcn4CeG8tWfLig6GMVsRbCZOtSjwc5GA=;
- b=oeAF0vvu00XabaNabi1VzmQW4BBnEQ+NmQTuFIO9F4DyMvFwi8VPaKvdEt4m3/wsX3
- HCEyOSGOfqKG60toE3YlZ0pefVWdomdfMIRlT/q+y94+bYnCcFwb125U2Dac6hd4LV6r
- kWMbtknJG46XkC5edhBu8UOEZBO5fC/7a+B2HpNCKocJRjvpWQyCPIydWZ5a4EBNmZ94
- Zl5yZf09pRwmzLZYq27EqOXRH/Zo5V7Rw0fKSe0V2+2+veXwbtS+TGvnNXp58Yf4WxHH
- kPtMhpPX/LDs8xJC80aRUcOdLC22xo5Sj6lH+ywSuoCXyuiB6z/ZQWUi1e4XdzxCI2Tt
- 9PHQ==
-X-Gm-Message-State: AOAM533cEda+Qc4F4O/MUm2l5wsBF5Z4dzBByNXKz6aDfknNxJvveVWN
- ZYpxtixqNULoV0kacw95EOg=
-X-Google-Smtp-Source: ABdhPJyGDXB6vp3xne6wt6r4gyLq9ymwRWqza2AIFAfNX3uUqYlDJIshUgPgyxS5zOcVTprilhAViw==
-X-Received: by 2002:a2e:8197:: with SMTP id e23mr115493ljg.406.1597363624295; 
- Thu, 13 Aug 2020 17:07:04 -0700 (PDT)
+ bh=AzqqsKlTIsKI+WxT+RXsQygXtSVSAqLrYwZmJLTNE94=;
+ b=GRb9HLMlygqE+OlfoTZfpmtDRxD55yo5OybNku65tnw4cGt7xcbvML3RDmKfXnRxNh
+ eWp9wIISmzSL8mER1jIdADBHePbAD/L7kp0TwlMD2xDiGbeAG1Ua/DWTxKmJ7b0rqZl7
+ vk6Gktsaj/aRrKSAEXNMkq+9ir3w3StZwZwmmQpl9QPWrq0nBvl3bVVij/NEJ7u4WHiY
+ GafcDTrezfVUCAtnGb/jVXV/v7DNjbgVW4o/tkeX4MDpuZ5ZE/DjPpK1GH0Oe2YY5u+V
+ EBZ8kGFkGNtkWnJQ75Ayzy6Of5/4lR2yEbv3M1Vm+wZF7HLEXtpqbdB5xVl0USlRr7by
+ 7//A==
+X-Gm-Message-State: AOAM531mHCm03hwgy9rNqUAkL3T+8cz536vPAvfBc6S2BkQHbKkTHXkp
+ DDIFFP8FORmg9QkXE+ZnilxK6GYQ
+X-Google-Smtp-Source: ABdhPJzjuZl+OgyrslWSF80X9s+m6CSaS1bXPxfLfgeKRWPgF2w9Ngkp8C82e1mbxQc8a6Oy46OLDw==
+X-Received: by 2002:a2e:a370:: with SMTP id i16mr125608ljn.22.1597363625363;
+ Thu, 13 Aug 2020 17:07:05 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru.
  [109.252.170.211])
- by smtp.gmail.com with ESMTPSA id c17sm1504450lfr.23.2020.08.13.17.07.03
+ by smtp.gmail.com with ESMTPSA id c17sm1504450lfr.23.2020.08.13.17.07.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 17:07:03 -0700 (PDT)
+ Thu, 13 Aug 2020 17:07:04 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +56,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v5 03/36] clk: tegra: Export Tegra20 EMC kernel symbols
-Date: Fri, 14 Aug 2020 03:05:48 +0300
-Message-Id: <20200814000621.8415-4-digetx@gmail.com>
+Subject: [PATCH v5 04/36] memory: tegra20-emc: Make driver modular
+Date: Fri, 14 Aug 2020 03:05:49 +0300
+Message-Id: <20200814000621.8415-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814000621.8415-1-digetx@gmail.com>
 References: <20200814000621.8415-1-digetx@gmail.com>
@@ -84,39 +84,68 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're going to modularize Tegra EMC drivers and some of the EMC clk driver
-symbols need to be exported, let's export them.
+This patch adds modularization support to the Tegra20 EMC driver. Driver
+now can be compiled as a loadable kernel module.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/clk/tegra/clk-tegra20-emc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/memory/tegra/Kconfig       |  2 +-
+ drivers/memory/tegra/tegra20-emc.c | 17 ++++++++++++-----
+ 2 files changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/tegra/clk-tegra20-emc.c b/drivers/clk/tegra/clk-tegra20-emc.c
-index 03bf0009a33c..dd74b8543bf1 100644
---- a/drivers/clk/tegra/clk-tegra20-emc.c
-+++ b/drivers/clk/tegra/clk-tegra20-emc.c
-@@ -13,6 +13,7 @@
- #include <linux/clk-provider.h>
- #include <linux/clk/tegra.h>
- #include <linux/err.h>
-+#include <linux/export.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
-@@ -235,6 +236,7 @@ void tegra20_clk_set_emc_round_callback(tegra20_clk_emc_round_cb *round_cb,
- 		emc->cb_arg = cb_arg;
- 	}
- }
-+EXPORT_SYMBOL_GPL(tegra20_clk_set_emc_round_callback);
+diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
+index 9f0a96bf9ccc..7e0e1ef87763 100644
+--- a/drivers/memory/tegra/Kconfig
++++ b/drivers/memory/tegra/Kconfig
+@@ -8,7 +8,7 @@ config TEGRA_MC
+ 	  NVIDIA Tegra SoCs.
  
- bool tegra20_clk_emc_driver_available(struct clk_hw *emc_hw)
- {
-@@ -291,3 +293,4 @@ int tegra20_clk_prepare_emc_mc_same_freq(struct clk *emc_clk, bool same)
+ config TEGRA20_EMC
+-	bool "NVIDIA Tegra20 External Memory Controller driver"
++	tristate "NVIDIA Tegra20 External Memory Controller driver"
+ 	default y
+ 	depends on ARCH_TEGRA_2x_SOC
+ 	help
+diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
+index 83ca46345aba..5aa3a1da2975 100644
+--- a/drivers/memory/tegra/tegra20-emc.c
++++ b/drivers/memory/tegra/tegra20-emc.c
+@@ -724,6 +724,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, emc);
+ 	tegra_emc_debugfs_init(emc);
  
++	/*
++	 * Don't allow the kernel module to be unloaded. Unloading adds some
++	 * extra complexity which doesn't really worth the effort in a case of
++	 * this driver.
++	 */
++	try_module_get(THIS_MODULE);
++
  	return 0;
- }
-+EXPORT_SYMBOL_GPL(tegra20_clk_prepare_emc_mc_same_freq);
+ 
+ unset_cb:
+@@ -736,6 +743,7 @@ static const struct of_device_id tegra_emc_of_match[] = {
+ 	{ .compatible = "nvidia,tegra20-emc", },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra_emc_of_match);
+ 
+ static struct platform_driver tegra_emc_driver = {
+ 	.probe = tegra_emc_probe,
+@@ -745,9 +753,8 @@ static struct platform_driver tegra_emc_driver = {
+ 		.suppress_bind_attrs = true,
+ 	},
+ };
++module_platform_driver(tegra_emc_driver);
+ 
+-static int __init tegra_emc_init(void)
+-{
+-	return platform_driver_register(&tegra_emc_driver);
+-}
+-subsys_initcall(tegra_emc_init);
++MODULE_AUTHOR("Dmitry Osipenko <digetx@gmail.com>");
++MODULE_DESCRIPTION("NVIDIA Tegra20 EMC driver");
++MODULE_LICENSE("GPL v2");
 -- 
 2.27.0
 
