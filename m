@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9764244EED
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 21:45:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4B0244EFA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 21:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26D2F6EC0D;
-	Fri, 14 Aug 2020 19:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCF86EC09;
+	Fri, 14 Aug 2020 19:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76A66EC0D
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 19:45:15 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id t6so11100003ljk.9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 12:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KsFn0c7QdtWCb3DsEhl/Wuyowc273VuyU1hI8J52hq0=;
- b=caTRvB3i0SvVbFZoQGsJ4z/ityAKFAfmcwWcW3TKUjnm5T4qt7zr/3nKA30U7lNWkA
- L4gJypj+EpQA6I0sNEfHUm19XmUhgKkA3p44Ip17Www43aUJ9mu3QKcOCm0Ryf7M0saj
- n4+YlNMu/7lzvTWV9v3+DnUcatqS/jm0JRub9rZKTXMCMy/00HkMcizoXd3F6s0jYVT9
- O4qeI7CAu5rao5eAVk1qa0uiMMQyKZ6eyg+XNKlFI/DXly67QUkchkjkpxOqs1zxs987
- emTdBfdIHdE6fZYpC+e072+RHpOvGB9oEON9v8XExOI7tnOTqjiUGrC+Fgp4/n1awmmp
- AopA==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8DC6E31C;
+ Fri, 14 Aug 2020 19:51:41 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id d190so8388085wmd.4;
+ Fri, 14 Aug 2020 12:51:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZeZ9Xy6DiMTsE1qes3QZF9FoWJER7R9Dps7seD2Lcos=;
+ b=Tv1LGVkgz8Ur6ku3zH9E93+hllKRcwTyZG5EpZCWVpMwTDlZ8XQMeESmJ97uyrmJJ+
+ 3K8aKRBj3IMfMC8hp0+gSrpWTkD4S+hhvc4CN0AAruLlYlTOcW8+wDcGSp9HA1cKywne
+ GjyR8r5u8oeev4My83Vy4sUvg+Jyi4gpRYRFw89wZ0fWhij84mUOwkf2r+9DYbZak072
+ 8tchMEEo9fGgMZFSjmFwjJHdqJ95Md5apMbtGmjbMtUYlLgu6ILi9hlvfqqDc7POTZoD
+ QbKo/QVFEG6M5LkrBwmZWzWkpg3EGvU4Bob6xBVLxGFRMSbvN21lxpQv4zwyxw5EwhTV
+ 9J1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KsFn0c7QdtWCb3DsEhl/Wuyowc273VuyU1hI8J52hq0=;
- b=D6zt8IKjD0aZQ/pa2RDnUKmJ2956RSDlAFGEd5oPPCnJdzo/jZmY2kk/JUhJ97lIlP
- 6z+TEE3xRv/dDdjWB7TtrGMu5wv7TqJUxzfUfKUfwV5E9kqyRat5GexbOkjceleAa85e
- pVpHM2g53ETp8oRJgPvkVF8/Xi9YbQKpieANs5ruIDsSa3VVp9fJgoHve60HFQ9korkb
- 4IKe2hyfEO37uGyEVNd4wmC3Kc2zgFYExQENKemz/Ic3uXhLsIHw3yDfqJBitMgYajOt
- 74phIr0odPnSQ8pEIaPaGnDXRUmEFFchXWrFilcjiPEk+xvTvLXxosHXYdvfNpu1dpPD
- u1OQ==
-X-Gm-Message-State: AOAM533Wul4/5LnGUzgtjDJPQH5ew+M+G1/iCqLASALqpp+9WmbDmTcr
- r6U3/ycjf0S3Ohu+n3HmtmYFfD7dtGaHDA==
-X-Google-Smtp-Source: ABdhPJy3gr7I4uQt50TmckwgPS2JyyL3EDiK6yasn4U+0ppYmKrCJ6EaHk3jyf+JB37iFzTDDjFrVQ==
-X-Received: by 2002:a2e:9a15:: with SMTP id o21mr1969351lji.419.1597434313776; 
- Fri, 14 Aug 2020 12:45:13 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id y16sm1938847ljg.21.2020.08.14.12.45.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 12:45:12 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
-Subject: [PATCH v2] drm/mcde: Retry DSI read/write transactions
-Date: Fri, 14 Aug 2020 21:44:51 +0200
-Message-Id: <20200814194451.3494294-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZeZ9Xy6DiMTsE1qes3QZF9FoWJER7R9Dps7seD2Lcos=;
+ b=qhuh60zv4yjY4nMOIkwY8FKkcxNHB5TrIL4zwuLhgpSsLuoT3iBUsseU3Zn/ijZF+m
+ B3xGNb5I3X03H/Sshw1myzYHQIR917s8Sjowi7JFEQwscbRhZJasraA/S3vNamK8F9Fh
+ gxorz0dmWwKBqn1GVDkFdBu7OVtoVHu+XwLBALcnNcm2AZByezqJ4M9j/BJXoZcJS3sK
+ IlLryR0h5S2S8SFbFP7ruNVL9CTiPyj4bQn3shvCsRLDQ6z+2ifhJ94pnH6WQoX0FtWD
+ 8iA79ML2pPl23UFaTw9zo+DeSX4P9/lXxYZESwK4pGoPSUOIuc5dKDwj+vuriG5psQgd
+ qO5A==
+X-Gm-Message-State: AOAM532wLEYNzyDGkSRTPuieEUAV7pO8uqbvqFAPC+jWaXCfPabRHmmh
+ 6Fgz0/BjJjQP6wfqUXPal9N4yT5NQWaclSUuu3k=
+X-Google-Smtp-Source: ABdhPJxFG7rFieLMiw1j57hM5hHPBuoZug0J3cmHUUlhNSpbU9mYTIc4HK2lhzochFmjdhFIPZMC2QUkhJoOLCzvGpE=
+X-Received: by 2002:a05:600c:2209:: with SMTP id
+ z9mr3770234wml.70.1597434699722; 
+ Fri, 14 Aug 2020 12:51:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200814093842.3048472-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200814093842.3048472-1-daniel.vetter@ffwll.ch>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 14 Aug 2020 15:51:28 -0400
+Message-ID: <CADnq5_O5En26SyjtOHGAi8-X3Ois7J7oLJc6cmPJKpfL2torjQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/modeset-lock: Take the modeset BKL for legacy drivers
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,233 +61,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, Michal Orzel <michalorzel.eng@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, "for 3.8" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vendor driver makes a few retries on read DSI
-transactions, something that is needed especially in
-case of read (such as reading the panel MTP ID) while
-the panel is running in video mode. This happens on
-the Samsung s6e63m0 panel on the Golden device.
+On Fri, Aug 14, 2020 at 5:38 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> This fell off in the conversion in
+>
+> commit 9bcaa3fe58ab7559e71df798bcff6e0795158695
+> Author: Michal Orzel <michalorzel.eng@gmail.com>
+> Date:   Tue Apr 28 19:10:04 2020 +0200
+>
+>     drm: Replace drm_modeset_lock/unlock_all with DRM_MODESET_LOCK_ALL_* helpers
+>
+> but it's caught by the drm_warn_on_modeset_not_all_locked() that the
+> legacy modeset code uses. Since this is the bkl and it's unclear
+> what's all protected, play it safe and grab it again for legacy
+> drivers.
+>
+> Unfortunately this means we need to sprinkle a few more #includes
+> around.
+>
+> Also we need to add the drm_device as a parameter to the _END macro.
+>
+> Finally remove the mute_lock() from setcrtc, since that's now done by
+> the macro.
+>
+> Cc: Alex Deucher <alexdeucher@gmail.com>
+> References: https://gitlab.freedesktop.org/drm/amd/-/issues/1224
+> Fixes: 9bcaa3fe58ab ("drm: Replace drm_modeset_lock/unlock_all with DRM_MODESET_LOCK_ALL_* helpers")
+> Cc: Michal Orzel <michalorzel.eng@gmail.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.8+
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> --
+> Patch compiles but otherwise untested, and I'll go on vacations now
+> for 2 weeks. Alex, can you pls take care of this?
 
-Retry reads and writes alike three times.
+Looks good to me.
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Retry three times.
-- Only retry the actual command transmission like the vendor
-  driver does, no need to set up all registers and do checks
-  all over. Break out a part of the mcde_dsi_host_transfer()
-  function to achieve this.
----
- drivers/gpu/drm/mcde/mcde_dsi.c | 158 +++++++++++++++++++-------------
- 1 file changed, 92 insertions(+), 66 deletions(-)
+Also confirmed to fix the issue.  I'll push to drm-misc.
 
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 4ce8cc5f0be2..b3c5d3cbda92 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -208,79 +208,16 @@ static int mcde_dsi_host_detach(struct mipi_dsi_host *host,
- 	 (type == MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM) || \
- 	 (type == MIPI_DSI_DCS_READ))
- 
--static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
--				      const struct mipi_dsi_msg *msg)
-+static int mcde_dsi_execute_transfer(struct mcde_dsi *d,
-+				     const struct mipi_dsi_msg *msg)
- {
--	struct mcde_dsi *d = host_to_mcde_dsi(host);
- 	const u32 loop_delay_us = 10; /* us */
--	const u8 *tx = msg->tx_buf;
- 	u32 loop_counter;
- 	size_t txlen = msg->tx_len;
- 	size_t rxlen = msg->rx_len;
-+	int i;
- 	u32 val;
- 	int ret;
--	int i;
--
--	if (txlen > 16) {
--		dev_err(d->dev,
--			"dunno how to write more than 16 bytes yet\n");
--		return -EIO;
--	}
--	if (rxlen > 4) {
--		dev_err(d->dev,
--			"dunno how to read more than 4 bytes yet\n");
--		return -EIO;
--	}
--
--	dev_dbg(d->dev,
--		"message to channel %d, write %zd bytes read %zd bytes\n",
--		msg->channel, txlen, rxlen);
--
--	/* Command "nature" */
--	if (MCDE_DSI_HOST_IS_READ(msg->type))
--		/* MCTL_MAIN_DATA_CTL already set up */
--		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_READ;
--	else
--		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_WRITE;
--	/*
--	 * More than 2 bytes will not fit in a single packet, so it's
--	 * time to set the "long not short" bit. One byte is used by
--	 * the MIPI DCS command leaving just one byte for the payload
--	 * in a short package.
--	 */
--	if (mipi_dsi_packet_format_is_long(msg->type))
--		val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LONGNOTSHORT;
--	val |= 0 << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_ID_SHIFT;
--	val |= txlen << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_SIZE_SHIFT;
--	val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LP_EN;
--	val |= msg->type << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_HEAD_SHIFT;
--	writel(val, d->regs + DSI_DIRECT_CMD_MAIN_SETTINGS);
--
--	/* MIPI DCS command is part of the data */
--	if (txlen > 0) {
--		val = 0;
--		for (i = 0; i < 4 && i < txlen; i++)
--			val |= tx[i] << (i * 8);
--	}
--	writel(val, d->regs + DSI_DIRECT_CMD_WRDAT0);
--	if (txlen > 4) {
--		val = 0;
--		for (i = 0; i < 4 && (i + 4) < txlen; i++)
--			val |= tx[i + 4] << (i * 8);
--		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT1);
--	}
--	if (txlen > 8) {
--		val = 0;
--		for (i = 0; i < 4 && (i + 8) < txlen; i++)
--			val |= tx[i + 8] << (i * 8);
--		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT2);
--	}
--	if (txlen > 12) {
--		val = 0;
--		for (i = 0; i < 4 && (i + 12) < txlen; i++)
--			val |= tx[i + 12] << (i * 8);
--		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT3);
--	}
- 
- 	writel(~0, d->regs + DSI_DIRECT_CMD_STS_CLR);
- 	writel(~0, d->regs + DSI_CMD_MODE_STS_CLR);
-@@ -297,6 +234,7 @@ static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
- 			usleep_range(loop_delay_us, (loop_delay_us * 3) / 2);
- 		if (!loop_counter) {
- 			dev_err(d->dev, "DSI read timeout!\n");
-+			/* Set exit code and retry */
- 			return -ETIME;
- 		}
- 	} else {
-@@ -307,6 +245,7 @@ static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
- 			usleep_range(loop_delay_us, (loop_delay_us * 3) / 2);
- 
- 		if (!loop_counter) {
-+			/* Set exit code and retry */
- 			dev_err(d->dev, "DSI write timeout!\n");
- 			return -ETIME;
- 		}
-@@ -348,6 +287,93 @@ static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
- 		ret = rdsz;
- 	}
- 
-+	/* Successful transmission */
-+	return ret;
-+}
-+
-+static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
-+				      const struct mipi_dsi_msg *msg)
-+{
-+	struct mcde_dsi *d = host_to_mcde_dsi(host);
-+	const u8 *tx = msg->tx_buf;
-+	size_t txlen = msg->tx_len;
-+	size_t rxlen = msg->rx_len;
-+	unsigned int retries = 0;
-+	u32 val;
-+	int ret;
-+	int i;
-+
-+	if (txlen > 16) {
-+		dev_err(d->dev,
-+			"dunno how to write more than 16 bytes yet\n");
-+		return -EIO;
-+	}
-+	if (rxlen > 4) {
-+		dev_err(d->dev,
-+			"dunno how to read more than 4 bytes yet\n");
-+		return -EIO;
-+	}
-+
-+	dev_dbg(d->dev,
-+		"message to channel %d, write %zd bytes read %zd bytes\n",
-+		msg->channel, txlen, rxlen);
-+
-+	/* Command "nature" */
-+	if (MCDE_DSI_HOST_IS_READ(msg->type))
-+		/* MCTL_MAIN_DATA_CTL already set up */
-+		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_READ;
-+	else
-+		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_WRITE;
-+	/*
-+	 * More than 2 bytes will not fit in a single packet, so it's
-+	 * time to set the "long not short" bit. One byte is used by
-+	 * the MIPI DCS command leaving just one byte for the payload
-+	 * in a short package.
-+	 */
-+	if (mipi_dsi_packet_format_is_long(msg->type))
-+		val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LONGNOTSHORT;
-+	val |= 0 << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_ID_SHIFT;
-+	val |= txlen << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_SIZE_SHIFT;
-+	val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LP_EN;
-+	val |= msg->type << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_HEAD_SHIFT;
-+	writel(val, d->regs + DSI_DIRECT_CMD_MAIN_SETTINGS);
-+
-+	/* MIPI DCS command is part of the data */
-+	if (txlen > 0) {
-+		val = 0;
-+		for (i = 0; i < 4 && i < txlen; i++)
-+			val |= tx[i] << (i * 8);
-+	}
-+	writel(val, d->regs + DSI_DIRECT_CMD_WRDAT0);
-+	if (txlen > 4) {
-+		val = 0;
-+		for (i = 0; i < 4 && (i + 4) < txlen; i++)
-+			val |= tx[i + 4] << (i * 8);
-+		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT1);
-+	}
-+	if (txlen > 8) {
-+		val = 0;
-+		for (i = 0; i < 4 && (i + 8) < txlen; i++)
-+			val |= tx[i + 8] << (i * 8);
-+		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT2);
-+	}
-+	if (txlen > 12) {
-+		val = 0;
-+		for (i = 0; i < 4 && (i + 12) < txlen; i++)
-+			val |= tx[i + 12] << (i * 8);
-+		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT3);
-+	}
-+
-+	while (retries < 3) {
-+		ret = mcde_dsi_execute_transfer(d, msg);
-+		if (ret >= 0)
-+			break;
-+		retries++;
-+	}
-+	if (ret < 0 && retries)
-+		dev_err(d->dev, "gave up after %d retries\n", retries);
-+
-+	/* Clear any errors */
- 	writel(~0, d->regs + DSI_DIRECT_CMD_STS_CLR);
- 	writel(~0, d->regs + DSI_CMD_MODE_STS_CLR);
- 
--- 
-2.26.2
+Thanks!
 
+Alex
+
+>
+> Thanks, Daniel
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 7 ++++---
+>  drivers/gpu/drm/drm_color_mgmt.c    | 2 +-
+>  drivers/gpu/drm/drm_crtc.c          | 4 +---
+>  drivers/gpu/drm/drm_mode_object.c   | 4 ++--
+>  drivers/gpu/drm/drm_plane.c         | 2 +-
+>  include/drm/drm_modeset_lock.h      | 9 +++++++--
+>  6 files changed, 16 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index f67ee513a7cc..7515a40b2056 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -34,6 +34,7 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_damage_helper.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_plane_helper.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_self_refresh_helper.h>
+> @@ -3109,7 +3110,7 @@ void drm_atomic_helper_shutdown(struct drm_device *dev)
+>         if (ret)
+>                 DRM_ERROR("Disabling all crtc's during unload failed with %i\n", ret);
+>
+> -       DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_shutdown);
+>
+> @@ -3249,7 +3250,7 @@ struct drm_atomic_state *drm_atomic_helper_suspend(struct drm_device *dev)
+>         }
+>
+>  unlock:
+> -       DRM_MODESET_LOCK_ALL_END(ctx, err);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+>         if (err)
+>                 return ERR_PTR(err);
+>
+> @@ -3330,7 +3331,7 @@ int drm_atomic_helper_resume(struct drm_device *dev,
+>
+>         err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
+>
+> -       DRM_MODESET_LOCK_ALL_END(ctx, err);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+>         drm_atomic_state_put(state);
+>
+>         return err;
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index c93123ff7c21..138ff34b31db 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -294,7 +294,7 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
+>                                      crtc->gamma_size, &ctx);
+>
+>  out:
+> -       DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+>         return ret;
+>
+>  }
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index 283bcc4362ca..aecdd7ea26dc 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -588,7 +588,6 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>         if (crtc_req->mode_valid && !drm_lease_held(file_priv, plane->base.id))
+>                 return -EACCES;
+>
+> -       mutex_lock(&crtc->dev->mode_config.mutex);
+>         DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx,
+>                                    DRM_MODESET_ACQUIRE_INTERRUPTIBLE, ret);
+>
+> @@ -756,8 +755,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>         fb = NULL;
+>         mode = NULL;
+>
+> -       DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> -       mutex_unlock(&crtc->dev->mode_config.mutex);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+>
+>         return ret;
+>  }
+> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+> index 901b078abf40..db05f386a709 100644
+> --- a/drivers/gpu/drm/drm_mode_object.c
+> +++ b/drivers/gpu/drm/drm_mode_object.c
+> @@ -428,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+>  out_unref:
+>         drm_mode_object_put(obj);
+>  out:
+> -       DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+>         return ret;
+>  }
+>
+> @@ -470,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
+>                 break;
+>         }
+>         drm_property_change_valid_put(prop, ref);
+> -       DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> +       DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+>
+>         return ret;
+>  }
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index b7b90b3a2e38..affe1cfed009 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -792,7 +792,7 @@ static int setplane_internal(struct drm_plane *plane,
+>                                           crtc_x, crtc_y, crtc_w, crtc_h,
+>                                           src_x, src_y, src_w, src_h, &ctx);
+>
+> -       DRM_MODESET_LOCK_ALL_END(ctx, ret);
+> +       DRM_MODESET_LOCK_ALL_END(plane->dev, ctx, ret);
+>
+>         return ret;
+>  }
+> diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+> index 4fc9a43ac45a..aafd07388eb7 100644
+> --- a/include/drm/drm_modeset_lock.h
+> +++ b/include/drm/drm_modeset_lock.h
+> @@ -164,6 +164,8 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
+>   * is 0, so no error checking is necessary
+>   */
+>  #define DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, flags, ret)               \
+> +       if (!drm_drv_uses_atomic_modeset(dev))                          \
+> +               mutex_lock(&dev->mode_config.mutex);                    \
+>         drm_modeset_acquire_init(&ctx, flags);                          \
+>  modeset_lock_retry:                                                    \
+>         ret = drm_modeset_lock_all_ctx(dev, &ctx);                      \
+> @@ -172,6 +174,7 @@ modeset_lock_retry:                                                 \
+>
+>  /**
+>   * DRM_MODESET_LOCK_ALL_END - Helper to release and cleanup modeset locks
+> + * @dev: drm device
+>   * @ctx: local modeset acquire context, will be dereferenced
+>   * @ret: local ret/err/etc variable to track error status
+>   *
+> @@ -188,7 +191,7 @@ modeset_lock_retry:                                                 \
+>   * to that failure. In both of these cases the code between BEGIN/END will not
+>   * be run, so the failure will reflect the inability to grab the locks.
+>   */
+> -#define DRM_MODESET_LOCK_ALL_END(ctx, ret)                             \
+> +#define DRM_MODESET_LOCK_ALL_END(dev, ctx, ret)                                \
+>  modeset_lock_fail:                                                     \
+>         if (ret == -EDEADLK) {                                          \
+>                 ret = drm_modeset_backoff(&ctx);                        \
+> @@ -196,6 +199,8 @@ modeset_lock_fail:                                                  \
+>                         goto modeset_lock_retry;                        \
+>         }                                                               \
+>         drm_modeset_drop_locks(&ctx);                                   \
+> -       drm_modeset_acquire_fini(&ctx);
+> +       drm_modeset_acquire_fini(&ctx);                                 \
+> +       if (!drm_drv_uses_atomic_modeset(dev))                          \
+> +               mutex_unlock(&dev->mode_config.mutex);
+>
+>  #endif /* DRM_MODESET_LOCK_H_ */
+> --
+> 2.28.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
