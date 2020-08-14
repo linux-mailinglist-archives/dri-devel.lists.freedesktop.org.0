@@ -1,59 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAE42444FB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 08:25:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FE8244513
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 08:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 353E86EB0E;
-	Fri, 14 Aug 2020 06:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A429E6EB14;
+	Fri, 14 Aug 2020 06:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE726EB0B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 06:25:03 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id t10so3714836plz.10
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 23:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yc514AkWycGRwmxm2nApDNeU2mc+4NKToslZzDBRkRs=;
- b=tn1nQuQOUDYrrvjhBTsvpg87EhxQc5Iy653Xjoz0qGHilHL7gTyOkAoVguLaE48+Sh
- XD8KMbBHd+yzmfBGrx/rmlhiPLobgWCfg6YM1ZUVHNS8fgDb8I/fJLQ4AfClX7Z4Uh2X
- vboDg9ypgNVKrf33K0oOMjwV6oUzJdZso6BXESICI7WPMuMtYFEYK3ElYTZyqAYUXWUK
- OOMi8R+Blp4elsbPaU6CTk1iWZJ4dp0yWgvYcT3KCOr805RpWPu2Z0SK8c6G4yzlwppV
- zD0nb1nYZjTDdbQ56mby4tRca5kEH9aGx5qbIPdJ0e4n+194PP9yok8d88Pj/YNWHo6Q
- 4t3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=yc514AkWycGRwmxm2nApDNeU2mc+4NKToslZzDBRkRs=;
- b=OXGfbmNJAcJWPmE7RPjDOS2/sx4AGCF0DZBixVZcVyzpoLIf1PcLjjFWGdKkGlFXir
- TlgjpnTp3kMBki4fP1efmwFeHCtcKENbwvKLfrg6SyZSnLGERg60MctNV1cNMWR9KgHl
- 0Q4vLTC3JfGYZEReG+00FiANGJbk83/9rlfZVfp+rzGz2YsI4Rn2E0RClYf7Rz6DpBwP
- CQ7Eclq5aW2KpIb15ZNSkP6uSTm4SOqOUg/+q5JWTz+OC93d68a9+V+YAqmzp0Bs4qAH
- m72WY6gKxjYd0tsy1oU3sR0ycJvB+IHeGA3yfEsvbMDnz8bfIgNH2/0uxlnpMGld6/yh
- AaTg==
-X-Gm-Message-State: AOAM5307OuGaXS9rYlQOBC0Ad7QkXCICKhjCh5aNm5+q/VDx/R0BeXuE
- LWS87oZFq3BCsgo7auF0f1rQJg==
-X-Google-Smtp-Source: ABdhPJzNU46gn814xgDi01obd3TCQeIweoByG8W8g5RWyfburFvjzu2AfA0ZIAlzGulNGUszAdtVVg==
-X-Received: by 2002:a17:90a:7488:: with SMTP id
- p8mr1121720pjk.158.1597386303209; 
- Thu, 13 Aug 2020 23:25:03 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- z4sm7651496pfb.55.2020.08.13.23.25.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 23:25:02 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH v2 2/2] dma-heap: Add a system-uncached heap
-Date: Fri, 14 Aug 2020 06:24:58 +0000
-Message-Id: <20200814062458.53049-2-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200814062458.53049-1-john.stultz@linaro.org>
-References: <20200814062458.53049-1-john.stultz@linaro.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEB216EB14
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 06:47:34 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 066DAAC46;
+ Fri, 14 Aug 2020 06:47:56 +0000 (UTC)
+Subject: Re: [PATCH v2 2/4] drm/gem: Update client API to use struct
+ drm_gem_membuf
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200806085239.4606-1-tzimmermann@suse.de>
+ <20200806085239.4606-3-tzimmermann@suse.de>
+ <20200813102618.GL2352366@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <aa735e3b-ca63-5a97-4aa3-9763720771d8@suse.de>
+Date: Fri, 14 Aug 2020 08:47:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200813102618.GL2352366@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,474 +41,462 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Liam Mark <lmark@codeaurora.org>,
- "Andrew F . Davis" <afd@ti.com>, Laura Abbott <labbott@kernel.org>,
- Hridya Valsaraju <hridya@google.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-media@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sean@poorly.run, emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ hdegoede@redhat.com, kraxel@redhat.com, airlied@redhat.com, zou_wei@huawei.com,
+ sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============0802406669=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a heap that allocates non-contiguous buffers that are
-marked as writecombined, so they are not cached by the CPU.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0802406669==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JMd5ka9O0nEA390us4tBWnPDPoz5fjUbR"
 
-This is useful, as most graphics buffers are usually not touched
-by the CPU or only written into once by the CPU. So when mapping
-the buffer over and over between devices, we can skip the CPU
-syncing, which saves a lot of cache management overhead, greatly
-improving performance.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JMd5ka9O0nEA390us4tBWnPDPoz5fjUbR
+Content-Type: multipart/mixed; boundary="TsxvfHJ5D2M6HjLcLvAbKaW7VNzUzWnhL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: emil.l.velikov@gmail.com, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, hdegoede@redhat.com, kraxel@redhat.com,
+ airlied@redhat.com, zou_wei@huawei.com, sean@poorly.run
+Message-ID: <aa735e3b-ca63-5a97-4aa3-9763720771d8@suse.de>
+Subject: Re: [PATCH v2 2/4] drm/gem: Update client API to use struct
+ drm_gem_membuf
+References: <20200806085239.4606-1-tzimmermann@suse.de>
+ <20200806085239.4606-3-tzimmermann@suse.de>
+ <20200813102618.GL2352366@phenom.ffwll.local>
+In-Reply-To: <20200813102618.GL2352366@phenom.ffwll.local>
 
-For folk using ION, there was a ION_FLAG_CACHED flag, which
-signaled if the returned buffer should be CPU cacheable or not.
-With DMA-BUF heaps, we have no such flag, and by default the
-current heaps (system and cma) produce CPU cachable buffers.
-So for folks transitioning from ION to DMA-BUF Heaps, this fills
-in some of that missing functionality.
+--TsxvfHJ5D2M6HjLcLvAbKaW7VNzUzWnhL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This does have a few "ugly" bits that were required to get
-the buffer properly flushed out initially which I'd like to
-improve. So feedback would be very welcome!
+Hi
 
-Many thanks to Liam Mark for his help to get this working.
+Am 13.08.20 um 12:26 schrieb Daniel Vetter:
+> On Thu, Aug 06, 2020 at 10:52:37AM +0200, Thomas Zimmermann wrote:
+>> GEM's vmap interface now wraps memory pointers in struct drm_gem_membu=
+f.
+>> The structure represents a pointer into the framebuffer, which is eith=
+er
+>> in I/O memory or in system memory. The structure contains a flag that
+>> distinguishes these cases.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/drm_client.c    | 25 ++++++++++++-------------
+>>  drivers/gpu/drm/drm_fb_helper.c | 18 +++++++++---------
+>>  drivers/gpu/drm/drm_gem.c       | 19 +++++++++++--------
+>>  drivers/gpu/drm/drm_internal.h  |  5 +++--
+>>  drivers/gpu/drm/drm_prime.c     | 16 ++++++++++------
+>>  include/drm/drm_client.h        |  7 ++++---
+>>  include/drm/drm_device.h        | 26 ++++++++++++++++++++++++++
+>>  7 files changed, 75 insertions(+), 41 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client=
+=2Ec
+>> index 495f47d23d87..0359b82928c1 100644
+>> --- a/drivers/gpu/drm/drm_client.c
+>> +++ b/drivers/gpu/drm/drm_client.c
+>> @@ -234,7 +234,7 @@ static void drm_client_buffer_delete(struct drm_cl=
+ient_buffer *buffer)
+>>  {
+>>  	struct drm_device *dev =3D buffer->client->dev;
+>> =20
+>> -	drm_gem_vunmap(buffer->gem, buffer->vaddr);
+>> +	drm_gem_vunmap(buffer->gem, &buffer->membuf);
+>> =20
+>>  	if (buffer->gem)
+>>  		drm_gem_object_put(buffer->gem);
+>> @@ -302,12 +302,13 @@ drm_client_buffer_create(struct drm_client_dev *=
+client, u32 width, u32 height, u
+>>   * Returns:
+>>   *	The mapped memory's address
+>>   */
+>> -void *drm_client_buffer_vmap(struct drm_client_buffer *buffer)
+>> +const struct drm_gem_membuf *
+>> +drm_client_buffer_vmap(struct drm_client_buffer *buffer)
+>>  {
+>> -	void *vaddr;
+>> +	int ret;
+>> =20
+>> -	if (buffer->vaddr)
+>> -		return buffer->vaddr;
+>> +	if (buffer->membuf.vaddr)
+>> +		return &buffer->membuf;
+>> =20
+>>  	/*
+>>  	 * FIXME: The dependency on GEM here isn't required, we could
+>> @@ -317,13 +318,11 @@ void *drm_client_buffer_vmap(struct drm_client_b=
+uffer *buffer)
+>>  	 * fd_install step out of the driver backend hooks, to make that
+>>  	 * final step optional for internal users.
+>>  	 */
+>> -	vaddr =3D drm_gem_vmap(buffer->gem);
+>> -	if (IS_ERR(vaddr))
+>> -		return vaddr;
+>> -
+>> -	buffer->vaddr =3D vaddr;
+>> +	ret =3D drm_gem_vmap(buffer->gem, &buffer->membuf);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> =20
+>> -	return vaddr;
+>> +	return &buffer->membuf;
+>>  }
+>>  EXPORT_SYMBOL(drm_client_buffer_vmap);
+>> =20
+>> @@ -337,8 +336,8 @@ EXPORT_SYMBOL(drm_client_buffer_vmap);
+>>   */
+>>  void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
+>>  {
+>> -	drm_gem_vunmap(buffer->gem, buffer->vaddr);
+>> -	buffer->vaddr =3D NULL;
+>> +	drm_gem_vunmap(buffer->gem, &buffer->membuf);
+>> +	buffer->membuf.vaddr =3D NULL;
+>>  }
+>>  EXPORT_SYMBOL(drm_client_buffer_vunmap);
+>> =20
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_=
+helper.c
+>> index 8697554ccd41..da24874247e7 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -394,7 +394,7 @@ static void drm_fb_helper_dirty_blit_real(struct d=
+rm_fb_helper *fb_helper,
+>>  	unsigned int cpp =3D fb->format->cpp[0];
+>>  	size_t offset =3D clip->y1 * fb->pitches[0] + clip->x1 * cpp;
+>>  	void *src =3D fb_helper->fbdev->screen_buffer + offset;
+>> -	void *dst =3D fb_helper->buffer->vaddr + offset;
+>> +	void *dst =3D fb_helper->buffer->membuf.vaddr + offset;
+>>  	size_t len =3D (clip->x2 - clip->x1) * cpp;
+>>  	unsigned int y;
+>> =20
+>> @@ -416,7 +416,7 @@ static void drm_fb_helper_dirty_work(struct work_s=
+truct *work)
+>>  	struct drm_clip_rect *clip =3D &helper->dirty_clip;
+>>  	struct drm_clip_rect clip_copy;
+>>  	unsigned long flags;
+>> -	void *vaddr;
+>> +	const struct drm_gem_membuf *buf;
+>> =20
+>>  	spin_lock_irqsave(&helper->dirty_lock, flags);
+>>  	clip_copy =3D *clip;
+>> @@ -429,8 +429,8 @@ static void drm_fb_helper_dirty_work(struct work_s=
+truct *work)
+>> =20
+>>  		/* Generic fbdev uses a shadow buffer */
+>>  		if (helper->buffer) {
+>> -			vaddr =3D drm_client_buffer_vmap(helper->buffer);
+>> -			if (IS_ERR(vaddr))
+>> +			buf =3D drm_client_buffer_vmap(helper->buffer);
+>> +			if (IS_ERR(buf))
+>>  				return;
+>>  			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
+>>  		}
+>> @@ -2076,7 +2076,7 @@ static int drm_fb_helper_generic_probe(struct dr=
+m_fb_helper *fb_helper,
+>>  	struct drm_framebuffer *fb;
+>>  	struct fb_info *fbi;
+>>  	u32 format;
+>> -	void *vaddr;
+>> +	const struct drm_gem_membuf *membuf;
+>> =20
+>>  	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
+>>  		    sizes->surface_width, sizes->surface_height,
+>> @@ -2112,11 +2112,11 @@ static int drm_fb_helper_generic_probe(struct =
+drm_fb_helper *fb_helper,
+>>  		fb_deferred_io_init(fbi);
+>>  	} else {
+>>  		/* buffer is mapped for HW framebuffer */
+>> -		vaddr =3D drm_client_buffer_vmap(fb_helper->buffer);
+>> -		if (IS_ERR(vaddr))
+>> -			return PTR_ERR(vaddr);
+>> +		membuf =3D drm_client_buffer_vmap(fb_helper->buffer);
+>> +		if (IS_ERR(membuf))
+>> +			return PTR_ERR(membuf);
+>> =20
+>> -		fbi->screen_buffer =3D vaddr;
+>> +		fbi->screen_buffer =3D membuf->vaddr;
+>>  		/* Shamelessly leak the physical address to user-space */
+>>  #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
+>>  		if (drm_leak_fbdev_smem && fbi->fix.smem_start =3D=3D 0)
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 19d73868490e..36ded6a56fb2 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1220,7 +1220,7 @@ void drm_gem_unpin(struct drm_gem_object *obj)
+>>  		obj->dev->driver->gem_prime_unpin(obj);
+>>  }
+>> =20
+>> -void *drm_gem_vmap(struct drm_gem_object *obj)
+>> +int drm_gem_vmap(struct drm_gem_object *obj, struct drm_gem_membuf *b=
+uf)
+>>  {
+>>  	void *vaddr;
+>> =20
+>> @@ -1229,23 +1229,26 @@ void *drm_gem_vmap(struct drm_gem_object *obj)=
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Andrew F. Davis <afd@ti.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
-v2:
-* Fix build issue on sh reported-by: kernel test robot <lkp@intel.com>
-* Rework to use for_each_sgtable_sg(), dma_map_sgtable(), and
-  for_each_sg_page() along with numerous other cleanups suggested
-  by Robin Murphy
----
- drivers/dma-buf/heaps/Kconfig                |  10 +
- drivers/dma-buf/heaps/Makefile               |   1 +
- drivers/dma-buf/heaps/system_uncached_heap.c | 371 +++++++++++++++++++
- 3 files changed, 382 insertions(+)
- create mode 100644 drivers/dma-buf/heaps/system_uncached_heap.c
+>>  	else if (obj->dev->driver->gem_prime_vmap)
+>>  		vaddr =3D obj->dev->driver->gem_prime_vmap(obj);
+>>  	else
+>> -		vaddr =3D ERR_PTR(-EOPNOTSUPP);
+>> +		return -EOPNOTSUPP;
+>> =20
+>>  	if (!vaddr)
+>> -		vaddr =3D ERR_PTR(-ENOMEM);
+>> +		return -ENOMEM;
+>> +
+>> +	buf->vaddr =3D vaddr;
+>> +	buf->is_iomem =3D false;
+>> =20
+>> -	return vaddr;
+>> +	return 0;
+>>  }
+>> =20
+>> -void drm_gem_vunmap(struct drm_gem_object *obj, void *vaddr)
+>> +void drm_gem_vunmap(struct drm_gem_object *obj, const struct drm_gem_=
+membuf *buf)
+>>  {
+>> -	if (!vaddr)
+>> +	if (!buf || !buf->vaddr)
+>>  		return;
+>> =20
+>>  	if (obj->funcs && obj->funcs->vunmap)
+>> -		obj->funcs->vunmap(obj, vaddr);
+>> +		obj->funcs->vunmap(obj, buf->vaddr);
+>>  	else if (obj->dev->driver->gem_prime_vunmap)
+>> -		obj->dev->driver->gem_prime_vunmap(obj, vaddr);
+>> +		obj->dev->driver->gem_prime_vunmap(obj, buf->vaddr);
+>>  }
+>> =20
+>>  /**
+>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_inte=
+rnal.h
+>> index 8e01caaf95cc..201d71249954 100644
+>> --- a/drivers/gpu/drm/drm_internal.h
+>> +++ b/drivers/gpu/drm/drm_internal.h
+>> @@ -36,6 +36,7 @@ struct dma_buf;
+>>  struct drm_connector;
+>>  struct drm_crtc;
+>>  struct drm_framebuffer;
+>> +struct drm_gem_membuf;
+>>  struct drm_gem_object;
+>>  struct drm_master;
+>>  struct drm_minor;
+>> @@ -186,8 +187,8 @@ void drm_gem_print_info(struct drm_printer *p, uns=
+igned int indent,
+>> =20
+>>  int drm_gem_pin(struct drm_gem_object *obj);
+>>  void drm_gem_unpin(struct drm_gem_object *obj);
+>> -void *drm_gem_vmap(struct drm_gem_object *obj);
+>> -void drm_gem_vunmap(struct drm_gem_object *obj, void *vaddr);
+>> +int drm_gem_vmap(struct drm_gem_object *obj, struct drm_gem_membuf *b=
+uf);
+>> +void drm_gem_vunmap(struct drm_gem_object *obj, const struct drm_gem_=
+membuf *buf);
+>> =20
+>>  /* drm_debugfs.c drm_debugfs_crc.c */
+>>  #if defined(CONFIG_DEBUG_FS)
+>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c=
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c4226..420b0ed0a512 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -5,6 +5,16 @@ config DMABUF_HEAPS_SYSTEM
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
- 
-+config DMABUF_HEAPS_SYSTEM_UNCACHED
-+	bool "DMA-BUF Uncached System Heap"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the uncached system dmabuf heap. This
-+	  heap is backed by pages from the buddy allocator, but pages are setup
-+	  for write combining. This avoids cache management overhead, and can
-+	  be faster if pages are mostly untouched by the cpu.  If in doubt,
-+	  say Y.
-+
- config DMABUF_HEAPS_CMA
- 	bool "DMA-BUF CMA Heap"
- 	depends on DMABUF_HEAPS && DMA_CMA
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 6e54cdec3da0..085685ec478f 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-y					+= heap-helpers.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
-+obj-$(CONFIG_DMABUF_HEAPS_SYSTEM_UNCACHED) += system_uncached_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/system_uncached_heap.c b/drivers/dma-buf/heaps/system_uncached_heap.c
-new file mode 100644
-index 000000000000..3b8e699bcae7
---- /dev/null
-+++ b/drivers/dma-buf/heaps/system_uncached_heap.c
-@@ -0,0 +1,371 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Uncached System DMA-Heap exporter
-+ *
-+ * Copyright (C) 2020 Linaro Ltd.
-+ *
-+ * Based off of Andrew Davis' SRAM heap:
-+ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+ *	Andrew F. Davis <afd@ti.com>
-+ */
-+
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/highmem.h>
-+#include <linux/io.h>
-+#include <linux/mm.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+
-+struct uncached_heap {
-+	struct dma_heap *heap;
-+};
-+
-+struct uncached_heap_buffer {
-+	struct dma_heap *heap;
-+	struct list_head attachments;
-+	struct mutex lock;
-+	unsigned long len;
-+	struct sg_table sg_table;
-+	int vmap_cnt;
-+	void *vaddr;
-+};
-+
-+struct dma_heap_attachment {
-+	struct device *dev;
-+	struct sg_table *table;
-+	struct list_head list;
-+};
-+
-+static struct sg_table *dup_sg_table(struct sg_table *table)
-+{
-+	struct sg_table *new_table;
-+	int ret, i;
-+	struct scatterlist *sg, *new_sg;
-+
-+	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
-+	if (!new_table)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
-+	if (ret) {
-+		kfree(new_table);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	new_sg = new_table->sgl;
-+	for_each_sgtable_sg(table, sg, i) {
-+		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
-+		new_sg = sg_next(new_sg);
-+	}
-+
-+	return new_table;
-+}
-+
-+static int dma_heap_attach(struct dma_buf *dmabuf,
-+			   struct dma_buf_attachment *attachment)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a;
-+	struct sg_table *table;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+
-+	table = dup_sg_table(&buffer->sg_table);
-+	if (IS_ERR(table)) {
-+		kfree(a);
-+		return -ENOMEM;
-+	}
-+
-+	a->table = table;
-+	a->dev = attachment->dev;
-+	INIT_LIST_HEAD(&a->list);
-+
-+	attachment->priv = a;
-+
-+	mutex_lock(&buffer->lock);
-+	list_add(&a->list, &buffer->attachments);
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static void dma_heap_detatch(struct dma_buf *dmabuf,
-+			     struct dma_buf_attachment *attachment)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	list_del(&a->list);
-+	mutex_unlock(&buffer->lock);
-+
-+	sg_free_table(a->table);
-+	kfree(a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+					     enum dma_data_direction direction)
-+{
-+	struct dma_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = a->table;
-+
-+	if (dma_map_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC))
-+		return ERR_PTR(-ENOMEM);
-+
-+	return table;
-+}
-+
-+static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+				   struct sg_table *table,
-+				   enum dma_data_direction direction)
-+{
-+	dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
-+}
-+
-+static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct sg_table *table = &buffer->sg_table;
-+	unsigned long addr = vma->vm_start;
-+	struct sg_page_iter piter;
-+	int ret;
-+
-+	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+
-+	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
-+		struct page *page = sg_page_iter_page(&piter);
-+
-+		ret = remap_pfn_range(vma, addr, page_to_pfn(page), PAGE_SIZE,
-+				      vma->vm_page_prot);
-+		if (ret)
-+			return ret;
-+		addr += PAGE_SIZE;
-+		if (addr >= vma->vm_end)
-+			return 0;
-+	}
-+	return 0;
-+}
-+
-+static void *dma_heap_do_vmap(struct uncached_heap_buffer *buffer)
-+{
-+	struct sg_table *table = &buffer->sg_table;
-+	int npages = PAGE_ALIGN(buffer->len) / PAGE_SIZE;
-+	struct page **pages = vmalloc(sizeof(struct page *) * npages);
-+	struct page **tmp = pages;
-+	struct sg_page_iter piter;
-+	pgprot_t pgprot;
-+	void *vaddr;
-+
-+	if (!pages)
-+		return ERR_PTR(-ENOMEM);
-+
-+	pgprot = pgprot_writecombine(PAGE_KERNEL);
-+
-+	for_each_sgtable_page(table, &piter, 0) {
-+		WARN_ON(tmp - pages >= npages);
-+		*tmp++ = sg_page_iter_page(&piter);
-+	}
-+
-+	vaddr = vmap(pages, npages, VM_MAP, pgprot);
-+	vfree(pages);
-+
-+	if (!vaddr)
-+		return ERR_PTR(-ENOMEM);
-+
-+	return vaddr;
-+}
-+
-+static void *dma_heap_buffer_vmap_get(struct uncached_heap_buffer *buffer)
-+{
-+	void *vaddr;
-+
-+	if (buffer->vmap_cnt) {
-+		buffer->vmap_cnt++;
-+		return buffer->vaddr;
-+	}
-+
-+	vaddr = dma_heap_do_vmap(buffer);
-+	if (IS_ERR(vaddr))
-+		return vaddr;
-+
-+	buffer->vaddr = vaddr;
-+	buffer->vmap_cnt++;
-+	return vaddr;
-+}
-+
-+static void dma_heap_buffer_vmap_put(struct uncached_heap_buffer *buffer)
-+{
-+	if (!--buffer->vmap_cnt) {
-+		vunmap(buffer->vaddr);
-+		buffer->vaddr = NULL;
-+	}
-+}
-+
-+static void *dma_heap_vmap(struct dma_buf *dmabuf)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	void *vaddr;
-+
-+	mutex_lock(&buffer->lock);
-+	vaddr = dma_heap_buffer_vmap_get(buffer);
-+	mutex_unlock(&buffer->lock);
-+
-+	return vaddr;
-+}
-+
-+static void dma_heap_vunmap(struct dma_buf *dmabuf, void *vaddr)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	dma_heap_buffer_vmap_put(buffer);
-+	mutex_unlock(&buffer->lock);
-+}
-+
-+static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	int i;
-+
-+	table = &buffer->sg_table;
-+	dma_unmap_sgtable(dma_heap_get_dev(buffer->heap), table, DMA_BIDIRECTIONAL, 0);
-+
-+	for_each_sgtable_sg(table, sg, i)
-+		__free_page(sg_page(sg));
-+	sg_free_table(table);
-+	kfree(buffer);
-+}
-+
-+const struct dma_buf_ops uncached_heap_buf_ops = {
-+	.attach = dma_heap_attach,
-+	.detach = dma_heap_detatch,
-+	.map_dma_buf = dma_heap_map_dma_buf,
-+	.unmap_dma_buf = dma_heap_unmap_dma_buf,
-+	.mmap = dma_heap_mmap,
-+	.vmap = dma_heap_vmap,
-+	.vunmap = dma_heap_vunmap,
-+	.release = dma_heap_dma_buf_release,
-+};
-+
-+static int uncached_heap_allocate(struct dma_heap *heap,
-+				  unsigned long len,
-+				  unsigned long fd_flags,
-+				  unsigned long heap_flags)
-+{
-+	struct uncached_heap_buffer *buffer;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *dmabuf;
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	pgoff_t pagecount;
-+	pgoff_t pg;
-+	int i, ret = -ENOMEM;
-+
-+	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-+	if (!buffer)
-+		return -ENOMEM;
-+
-+	INIT_LIST_HEAD(&buffer->attachments);
-+	mutex_init(&buffer->lock);
-+	buffer->heap = heap;
-+	buffer->len = len;
-+
-+	table = &buffer->sg_table;
-+	pagecount = len / PAGE_SIZE;
-+	if (sg_alloc_table(table, pagecount, GFP_KERNEL))
-+		goto free_buffer;
-+
-+	sg = table->sgl;
-+	for (pg = 0; pg < pagecount; pg++) {
-+		struct page *page;
-+		/*
-+		 * Avoid trying to allocate memory if the process
-+		 * has been killed by SIGKILL
-+		 */
-+		if (fatal_signal_pending(current))
-+			goto free_pages;
-+		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
-+		if (!page)
-+			goto free_pages;
-+		sg_set_page(sg, page, page_size(page), 0);
-+		sg = sg_next(sg);
-+	}
-+
-+	/* create the dmabuf */
-+	exp_info.ops = &uncached_heap_buf_ops;
-+	exp_info.size = buffer->len;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer;
-+	dmabuf = dma_buf_export(&exp_info);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		goto free_pages;
-+	}
-+
-+	ret = dma_buf_fd(dmabuf, fd_flags);
-+	if (ret < 0) {
-+		dma_buf_put(dmabuf);
-+		/* just return, as put will call release and that will free */
-+		return ret;
-+	}
-+
-+	/*
-+	 * XXX This is hackish. While the buffer will be uncached, we need
-+	 * to initially flush cpu cache, since the __GFP_ZERO on the
-+	 * allocation means the zeroing was done by the cpu and thus it is
-+	 * likely cached. Map (and implicitly flush) it out now so we don't
-+	 * get corruption later on.
-+	 *
-+	 * Ideally we could do this without using the heap device as a dummy dev.
-+	 */
-+	dma_map_sgtable(dma_heap_get_dev(heap), table, DMA_BIDIRECTIONAL, 0);
-+
-+	return ret;
-+
-+free_pages:
-+	for_each_sgtable_sg(table, sg, i)
-+		__free_page(sg_page(sg));
-+	sg_free_table(table);
-+free_buffer:
-+	kfree(buffer);
-+
-+	return ret;
-+}
-+
-+static struct dma_heap_ops uncached_heap_ops = {
-+	.allocate = uncached_heap_allocate,
-+};
-+
-+static int uncached_heap_create(void)
-+{
-+	struct uncached_heap *heap;
-+	struct dma_heap_export_info exp_info;
-+
-+	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
-+	if (!heap)
-+		return -ENOMEM;
-+
-+	exp_info.name = "system-uncached";
-+	exp_info.ops = &uncached_heap_ops;
-+	exp_info.priv = heap;
-+	heap->heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap->heap)) {
-+		int ret = PTR_ERR(heap->heap);
-+
-+		kfree(heap);
-+		return ret;
-+	}
-+	dma_coerce_mask_and_coherent(dma_heap_get_dev(heap->heap), DMA_BIT_MASK(64));
-+
-+	return 0;
-+}
-+device_initcall(uncached_heap_create);
--- 
-2.17.1
+>> index 1693aa7c14b5..d95a39030a93 100644
+>> --- a/drivers/gpu/drm/drm_prime.c
+>> +++ b/drivers/gpu/drm/drm_prime.c
+>> @@ -671,13 +671,14 @@ EXPORT_SYMBOL(drm_gem_unmap_dma_buf);
+>>  void *drm_gem_dmabuf_vmap(struct dma_buf *dma_buf)
+>>  {
+>>  	struct drm_gem_object *obj =3D dma_buf->priv;
+>> -	void *vaddr;
+>> +	struct drm_gem_membuf buf;
+>> +	int ret;
+>> =20
+>> -	vaddr =3D drm_gem_vmap(obj);
+>> -	if (IS_ERR(vaddr))
+>> -		vaddr =3D NULL;
+>> +	ret =3D drm_gem_vmap(obj, &buf);
+>> +	if (ret)
+>> +		buf.vaddr =3D NULL;
+>> =20
+>> -	return vaddr;
+>> +	return buf.vaddr;
+>>  }
+>>  EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
+>> =20
+>> @@ -692,8 +693,11 @@ EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
+>>  void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
+>>  {
+>>  	struct drm_gem_object *obj =3D dma_buf->priv;
+>> +	struct drm_gem_membuf buf;
+>> =20
+>> -	drm_gem_vunmap(obj, vaddr);
+>> +	buf.vaddr =3D vaddr;
+>> +	buf.is_iomem =3D false;
+>> +	drm_gem_vunmap(obj, &buf);
+>>  }
+>>  EXPORT_SYMBOL(drm_gem_dmabuf_vunmap);
+>> =20
+>> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+>> index 7aaea665bfc2..5ed73c390619 100644
+>> --- a/include/drm/drm_client.h
+>> +++ b/include/drm/drm_client.h
+>> @@ -14,6 +14,7 @@ struct drm_client_dev;
+>>  struct drm_device;
+>>  struct drm_file;
+>>  struct drm_framebuffer;
+>> +struct drm_gem_membuf;
+>>  struct drm_gem_object;
+>>  struct drm_minor;
+>>  struct module;
+>> @@ -141,9 +142,9 @@ struct drm_client_buffer {
+>>  	struct drm_gem_object *gem;
+>> =20
+>>  	/**
+>> -	 * @vaddr: Virtual address for the buffer
+>> +	 * @membuf: Virtual address for the buffer
+>>  	 */
+>> -	void *vaddr;
+>> +	struct drm_gem_membuf membuf;
+>> =20
+>>  	/**
+>>  	 * @fb: DRM framebuffer
+>> @@ -155,7 +156,7 @@ struct drm_client_buffer *
+>>  drm_client_framebuffer_create(struct drm_client_dev *client, u32 widt=
+h, u32 height, u32 format);
+>>  void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);=
+
+>>  int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, st=
+ruct drm_rect *rect);
+>> -void *drm_client_buffer_vmap(struct drm_client_buffer *buffer);
+>> +const struct drm_gem_membuf *drm_client_buffer_vmap(struct drm_client=
+_buffer *buffer);
+>>  void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
+>> =20
+>>  int drm_client_modeset_create(struct drm_client_dev *client);
+>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>> index 0988351d743c..6ecf03601c36 100644
+>> --- a/include/drm/drm_device.h
+>> +++ b/include/drm/drm_device.h
+>> @@ -381,4 +381,30 @@ struct drm_device {
+>>  #endif
+>>  };
+>> =20
+>> +/**
+>> + * struct drm_gem_membuf - GEM memory buffer
+>=20
+> This isn't gem specific, and membuf feels a bit strange - it's not a
+> memory buffer, but more a buffer mapping. I'd call these struct
+> drm_bufmap.
+>=20
+>> + */
+>> +struct drm_gem_membuf {
+>> +	union {
+>> +		/**
+>> +		 * @vaddr:
+>> +		 *
+>> +		 * The virtual address for the buffer in system memory.
+>> +		 */
+>> +		void *vaddr;
+>> +		/**
+>> +		 * @vaddr_iomem:
+>> +		 *
+>> +		 * The virtual address for the buffer in I/O memory.
+>> +		 */
+>> +		void __iomem *vaddr_iomem;
+>> +	};
+>> +	/**
+>> +	 * @is_iomem:
+>> +	 *
+>> +	 * True if the memory is located in I/O memory, false otherwise.
+>> +	 */
+>> +	bool is_iomem;
+>> +};
+>=20
+> I think if we do this we should go all in, i.e. create a new header, an=
+d
+> then start to add all kinds of helper functions to it, like:
+>=20
+> static inline drm_memcpy_to_bufmap(bufmap, ...)
+> {
+> 	if (bufmap->is_iomem)
+> 		memcpy_toio(bufmap->vaddr_iomem, ...);
+> 	else
+> 		memcpy(bufmap->vaddr_iomem, ...);
+>=20
+> }
+>=20
+> totally wrong code of course, but I think you get the idea. If we add
+> helpers like this I think a new header file is also warranted, so maybe=
+
+> put it all in drm_bufmap.h and then wire up the kerneldoc.
+
+Just a note: while converting the fbdev blit code, I found it easier to
+open-code the test for is_iomem and have two separate loops. Doing the
+same with drm_memcpy_to_bufmap would also require helpers for pointer
+arithmetics and array indexing to make it comfortable to use.
+
+Best regards
+Thomas
+
+>=20
+> Also I think cc: ttm people for an ack would be good, maybe long-term w=
+e
+> want to roll this out through ttm too.
+>=20
+> Cheers, Daniel
+>=20
+>=20
+>> +
+>>  #endif
+>> --=20
+>> 2.28.0
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--TsxvfHJ5D2M6HjLcLvAbKaW7VNzUzWnhL--
+
+--JMd5ka9O0nEA390us4tBWnPDPoz5fjUbR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl82M4EUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMpvQgAvfoxRk4l1LF8A6xTTMQVMNfV+gxZ
+Yamkl8xvgNaEmny8ILg155PNXKh12JnOiLAvG2d0ZCGFuW2SvNpJ7/rNEyzxxoXp
+qO4nRaGQfoN8HaLVtwypMZqwnRyaTC+v2p0Uj3gFUtUHMwZXA4rA7mX2LpHZ1N8W
+4DqGmGhKOQhGPdgtjC/DJjaVwCsPKhC3kyV6z5oPhxRr98BlYptH4jK8oAMgd0gB
+l/fqX4fMVLOvPffPPyJcRKtCyzd2BlHD8wSnwrTDrE3ghg0kTA4w6m2SYU6iFUsp
+G8uyNbUvlL/rA5Z1TqF/369wa6LA1EKZZ1Nw+NUyYtd6zqp51zNgg+izYg==
+=FmU5
+-----END PGP SIGNATURE-----
+
+--JMd5ka9O0nEA390us4tBWnPDPoz5fjUbR--
+
+--===============0802406669==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0802406669==--
