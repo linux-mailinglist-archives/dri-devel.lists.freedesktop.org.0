@@ -1,48 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28CE244B62
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 16:51:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D51244B87
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 17:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF566EB3B;
-	Fri, 14 Aug 2020 14:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 559BF6EB7C;
+	Fri, 14 Aug 2020 15:00:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 305A36EB3B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 14:51:37 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E7FE8214F1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 14:51:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597416697;
- bh=2azDCJAW0WmwzjFoNP1+Xf1baXp64Ykp/VUpBlKju0s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bjfRL+mBKQdeXNIPuXX+sib3fYs2/XZWJHPOjPd4x196xwXtWkEnxkwGCGKCP+vXy
- CxGeqKP68MgYI300g+hNTJd4uQCvZb/zOsnBdJ/cEKlyynKbLGyhuMbkA+R9Y9MLDY
- rajai6Sqx8HGb8L035zTD4t0BSpxCLooD+BQeHTA=
-Received: by mail-ot1-f51.google.com with SMTP id c4so7704434otf.12
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 07:51:36 -0700 (PDT)
-X-Gm-Message-State: AOAM530RHuepBhzqEuhz06B1scbqGEcQHQBGEwfTa7NnndtsRo5X3dXh
- blhZIFX7QozYZJldn9JKfEl8uRwu89kgFK0J1w==
-X-Google-Smtp-Source: ABdhPJzAQOVgwIRLTeJz+4kS8jI7uSM4yy2bV/QUkiEz2152JH8sgfiQxJMSY+wk4abg95jsoFr6h5Ymz6ZJoeFhB2g=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id
- d25mr1995774ote.107.1597416696235; 
- Fri, 14 Aug 2020 07:51:36 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E80A26EB7A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 15:00:03 +0000 (UTC)
+IronPort-SDR: 8PUa/yeCV1LoHHhSgIAw223BNWypSYhP624MMUiKzMxLmYyABphuMGRT/Ld17+dFiEdFh+Kw8+
+ YWPXnGDmb07Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9713"; a="215942919"
+X-IronPort-AV: E=Sophos;i="5.76,312,1592895600"; d="scan'208";a="215942919"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2020 08:00:02 -0700
+IronPort-SDR: qXLncTL+D12Da8n3XKmSgtAdaPW+F4mm7X8HbRAVha/MH5m61Kq6NkIXTcWjj/wR0oET+VJHtL
+ gnPZUYFqSqfw==
+X-IronPort-AV: E=Sophos;i="5.76,312,1592895600"; d="scan'208";a="470609116"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2020 07:59:59 -0700
+Date: Fri, 14 Aug 2020 17:59:56 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Sam McNally <sammc@chromium.org>
+Subject: Re: [PATCH] drm/dp_mst: Add ddc i2c device links for DP MST connectors
+Message-ID: <20200814145956.GA12962@ideak-desk.fi.intel.com>
+References: <20200729161510.1.Iaa9c3d7c4332cf8717653f3d3ae6f2b955aa3fc6@changeid>
 MIME-Version: 1.0
-References: <20200812203618.2656699-1-robh@kernel.org>
- <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
-In-Reply-To: <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 14 Aug 2020 08:51:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-Message-ID: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-To: Luca Ceresoli <luca@lucaceresoli.net>
+Content-Disposition: inline
+In-Reply-To: <20200729161510.1.Iaa9c3d7c4332cf8717653f3d3ae6f2b955aa3fc6@changeid>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,103 +49,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>, Linux-ALSA <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- Linux I2C <linux-i2c@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Linux Input <linux-input@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- devicetree@vger.kernel.org, "open list:THERMAL" <linux-pm@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- Linux HWMON List <linux-hwmon@vger.kernel.org>,
- netdev <netdev@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- linux-spi <linux-spi@vger.kernel.org>
+Reply-To: imre.deak@intel.com
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 13, 2020 at 4:31 AM Luca Ceresoli <luca@lucaceresoli.net> wrote:
->
-> Hi Rob,
->
-> On 12/08/20 22:36, Rob Herring wrote:
-> > Clean-up incorrect indentation, extra spaces, long lines, and missing
-> > EOF newline in schema files. Most of the clean-ups are for list
-> > indentation which should always be 2 spaces more than the preceding
-> > keyword.
-> >
-> > Found with yamllint (which I plan to integrate into the checks).
->
-> [...]
->
-> > diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > index 3d4e1685cc55..28c6461b9a9a 100644
-> > --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > @@ -95,10 +95,10 @@ allOf:
-> >        # Devices without builtin crystal
-> >        properties:
-> >          clock-names:
-> > -            minItems: 1
-> > -            maxItems: 2
-> > -            items:
-> > -              enum: [ xin, clkin ]
-> > +          minItems: 1
-> > +          maxItems: 2
-> > +          items:
-> > +            enum: [ xin, clkin ]
-> >          clocks:
-> >            minItems: 1
-> >            maxItems: 2
->
-> Thanks for noticing, LGTM.
->
-> [...]
->
-> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> > index d7dac16a3960..36dc7b56a453 100644
-> > --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> > +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> > @@ -33,8 +33,8 @@ properties:
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> >
-> >    touchscreen-min-pressure:
-> > -    description: minimum pressure on the touchscreen to be achieved in order for the
-> > -                 touchscreen driver to report a touch event.
-> > +    description: minimum pressure on the touchscreen to be achieved in order
-> > +      for the touchscreen driver to report a touch event.
->
-> Out of personal taste, I find the original layout more pleasant and
-> readable. This third option is also good, especially for long descriptions:
->
->   description:
->     minimum pressure on the touchscreen to be achieved in order for the
->     touchscreen driver to report a touch event.
->
-> At first glance yamllint seems to support exactly these two by default:
->
-> > With indentation: {spaces: 4, check-multi-line-strings: true}
+On Wed, Jul 29, 2020 at 04:15:28PM +1000, Sam McNally wrote:
+> As of commit d8bd15b37d32 ("drm/dp_mst: Fix the DDC I2C device
+> registration of an MST port"), DP MST DDC I2C devices are consistently
+> parented to the underlying DRM device, making it challenging to
+> associate the ddc i2c device with its connector from userspace.
 
-Turning on check-multi-line-strings results in 10K+ warnings, so no.
+I can't see how was it less challenging before the commit. There is no
+guarantee for a CSN message which was the only way for the i2c device to
+get reparented to the connector.
 
-The other issue is the style ruamel.yaml wants to write out is as the
-patch does above. This matters when doing some scripted
-transformations where we read in the files and write them back out. I
-can somewhat work around that by first doing a pass with no changes
-and then another pass with the actual changes, but that's completely
-scriptable. Hopefully, ruamel learns to preserve the style better.
+> Given the need for further refactoring before the i2c devices can be
+> parented to their connectors, in the meantime follow the pattern of
+> commit e1a29c6c5955 ("drm: Add ddc link in sysfs created by
+> drm_connector"), creating sysfs ddc links to the associated i2c device
+> for MST DP connectors.
+> 
+> If the connector is created and registered before the i2c device, create
+> the link when registering the i2c device; otherwise, create the link
+> during late connector registration.
+> 
+> Signed-off-by: Sam McNally <sammc@chromium.org>
+> ---
+> 
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 29 +++++++++++++++++++++++++--
+>  1 file changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 1ac874e4e7a1..73a2299c2faa 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -2161,11 +2161,23 @@ static void build_mst_prop_path(const struct drm_dp_mst_branch *mstb,
+>  int drm_dp_mst_connector_late_register(struct drm_connector *connector,
+>  				       struct drm_dp_mst_port *port)
+>  {
+> +	int ret;
+>  	DRM_DEBUG_KMS("registering %s remote bus for %s\n",
+>  		      port->aux.name, connector->kdev->kobj.name);
+>  
+>  	port->aux.dev = connector->kdev;
+> -	return drm_dp_aux_register_devnode(&port->aux);
+> +	ret = drm_dp_aux_register_devnode(&port->aux);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (port->pdt != DP_PEER_DEVICE_NONE &&
+> +	    drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
 
-Rob
+How can we get here when drm_dp_mst_is_end_device(port) is not true?
+AFAICS that's only case where we should create a connector and an i2c
+device. (IOW we don't create them for branch ports.)
+
+> +		ret = sysfs_create_link(&port->connector->kdev->kobj,
+> +					&port->aux.ddc.dev.kobj, "ddc");
+> +		if (ret)
+> +			drm_dp_aux_unregister_devnode(&port->aux);
+> +	}
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_dp_mst_connector_late_register);
+>  
+> @@ -5490,6 +5502,7 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
+>  {
+>  	struct drm_dp_aux *aux = &port->aux;
+>  	struct device *parent_dev = port->mgr->dev->dev;
+> +	int ret;
+>  
+>  	aux->ddc.algo = &drm_dp_mst_i2c_algo;
+>  	aux->ddc.algo_data = aux;
+> @@ -5504,7 +5517,17 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
+>  	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
+>  		sizeof(aux->ddc.name));
+>  
+> -	return i2c_add_adapter(&aux->ddc);
+> +	ret = i2c_add_adapter(&aux->ddc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (port->connector && port->connector->kdev) {
+> +		ret = sysfs_create_link(&port->connector->kdev->kobj,
+> +					&port->aux.ddc.dev.kobj, "ddc");
+> +		if (ret)
+> +			i2c_del_adapter(&port->aux.ddc);
+> +	}
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -5513,6 +5536,8 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
+>   */
+>  static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port)
+>  {
+> +	if (port->connector && port->connector->kdev)
+> +		sysfs_remove_link(&port->connector->kdev->kobj, "ddc");
+>  	i2c_del_adapter(&port->aux.ddc);
+>  }
+>  
+> -- 
+> 2.28.0.rc0.142.g3c755180ce-goog
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
