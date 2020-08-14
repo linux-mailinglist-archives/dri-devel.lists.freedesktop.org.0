@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD92244326
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 04:40:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B79244327
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 04:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5876EAD2;
-	Fri, 14 Aug 2020 02:40:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239906EAD5;
+	Fri, 14 Aug 2020 02:40:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4136EACE
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:40:27 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id u10so3519937plr.7
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 19:40:27 -0700 (PDT)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBC16EACE
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:40:28 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id mw10so3701575pjb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 19:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WkQfAjQhLkRFNoZRUSV9JQCgvycIf9GmZWID8Dn4lzY=;
- b=GZAocgtf8H+l9mG/KG2VR+A8fnbKPDfDCAXk0dtTGFe8m7YIxPGaUYz8bOAyOEKeXa
- NXbCVxk4W+1vJ+lRL2/+zSVHO23ODl9G2uMHs6yOvZxeH18EUFA5UDTQxTjVdbHvH4qD
- Tj9Zg4qfJG0Me5SNwzDOVgftr57XiHzopzIsg=
+ bh=mdzXzHv9UtDuhN3xxaKbkaWa+/pShUPTXp/jIk0qUfU=;
+ b=FGdxUUQSXSzMh/ymkl22onbdm9LzcRRicQGQ/zS3UkQ6/bIbcUTh9CEMdyyP5A5oFu
+ 6ogD2bTpNNDA4rG+LKLRvF/Cp/mhbg5L2ZgEXpMFneYnk1wDTXAsrpgE0DIHU0DXkeae
+ UVVXUWZuM8PaW6x+pqL7Q1MmvsYyZ3b0KiZCc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WkQfAjQhLkRFNoZRUSV9JQCgvycIf9GmZWID8Dn4lzY=;
- b=dn6WHfbhfQ68hSx8XEIx9noijL4x2gd6N/oIA0X7envvJiw6pvL862pzJdBvCmd1Ip
- IAXbbmBgsEyIW5w/QcJbvrQNF2A7L2ruRiM0EDIz1ydvmqeqI9SSf0u8pquYs9SyQqed
- 3MXEYNvMh+tXAHcOWYAOvKEBAQlovbpj7fJG8UmjQqH2kwArN5e6QuyMhWlR3kbfrDpF
- XPC5/+Sgvv1eH3XzoHyzNkzc05e1+WbMNGWQMvrBEMACqPGB/t/z103YfP9cFEUEx1zp
- WT3TynpFDRQ3XgHynn3qNKF5GGKM6DKeRdaH5TnVBkuE7EsyImfDEUEPUGQl3hKxmpsY
- Fb6A==
-X-Gm-Message-State: AOAM532R5OZITtTlPcjjZxwf4/TZxTQytxmUfTznORLn5SuxjjHhGIN3
- M1S0IE8xjU26WVe8uSeRfZ5vKo+wor0=
-X-Google-Smtp-Source: ABdhPJyUShIQ4t/DYilWrLyShTwHHz4cWierjco6bF/XO3WS1YWjKP2ifpJNTVgbgl+WXZ2+DpGabQ==
-X-Received: by 2002:a17:90a:80c4:: with SMTP id
- k4mr511069pjw.222.1597372826600; 
- Thu, 13 Aug 2020 19:40:26 -0700 (PDT)
+ bh=mdzXzHv9UtDuhN3xxaKbkaWa+/pShUPTXp/jIk0qUfU=;
+ b=Yaan/sWeejLVWgRoP7l/3VGbq/l2BqDq3/kYRYH987Xm6f1yiEXof3G2o0+g+s6bJ7
+ 17WU4bUSHYjzMsHjdRB7OZiPPWgtRSQOGwLaO9h3mwPuLIvXY22Ykb8IXx4OLCzTNPA4
+ KwP/YldPm1eEz242h/lr1l9IrTbOhFu1IdMVntn6u9b7LGiuvWiTCk+bx/XuO+DYegH2
+ NncoKwEaqw2eAi7TgmtlExAKiARaFowKE8VvRVTQw0oTOoohDQ12CeJPkQZMy50edfsm
+ L0mI1g9qCtFHIMsBnu0J89ppQbtCOYAso8hO+wPD8GGkklOrp9oglVkFUEnbCS65gHl0
+ 45sA==
+X-Gm-Message-State: AOAM533CRt6QXl8NDiMj00BA6m2YuEA//NLjZvAJpriS0BXmtGPrXw4P
+ 3Vyg9Dkmu9tZN7Un/TcAZOUgVwjBbUA=
+X-Google-Smtp-Source: ABdhPJzXJDlYm2oO/UxPkgmrJJySflBI7EElNhc2NMymDxpJcvxqJ9f6nFkC1qj51AEM+qRAVShGKA==
+X-Received: by 2002:a17:90a:6d96:: with SMTP id
+ a22mr481757pjk.165.1597372827845; 
+ Thu, 13 Aug 2020 19:40:27 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id m26sm7103539pfe.184.2020.08.13.19.40.25
+ by smtp.gmail.com with ESMTPSA id m26sm7103539pfe.184.2020.08.13.19.40.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 13 Aug 2020 19:40:25 -0700 (PDT)
+ Thu, 13 Aug 2020 19:40:27 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
-Subject: [PATCH 19/24] drm/virtio: implement blob resources: blob display
- integration
-Date: Thu, 13 Aug 2020 19:39:55 -0700
-Message-Id: <20200814024000.2485-20-gurchetansingh@chromium.org>
+Subject: [PATCH 20/24] drm/virtio: implement blob resources: refactor UUID
+ code somewhat
+Date: Thu, 13 Aug 2020 19:39:56 -0700
+Message-Id: <20200814024000.2485-21-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200814024000.2485-1-gurchetansingh@chromium.org>
 References: <20200814024000.2485-1-gurchetansingh@chromium.org>
@@ -74,53 +74,94 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SCANOUT_BLOB forwards the DRM framebuffer metadata to the host. The
-modifier is intentionally left out -- it may be possible to query
-the host for that.
-
-We also assume one blob resource per DRM framebuffer.  That too is
-an intentional simplification.
+For upcoming blob resources, userspace can specify that the
+resource will be used for cross-device sharing. This is mainly
+for exportable blobs that will only shared with the virtgpu
+display but not across devices.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_plane.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 42 ++++++++++++++++++--------
+ 2 files changed, 31 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 52d24179bcec..1e0754e77723 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -172,12 +172,23 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 			  plane->state->src_h >> 16,
- 			  plane->state->src_x >> 16,
- 			  plane->state->src_y >> 16);
--		virtio_gpu_cmd_set_scanout(vgdev, output->index,
--					   bo->hw_res_handle,
--					   plane->state->src_w >> 16,
--					   plane->state->src_h >> 16,
--					   plane->state->src_x >> 16,
--					   plane->state->src_y >> 16);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index fe9bb95a408b..71c2ea2e3c83 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -430,6 +430,8 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
+ int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
+ 			       uint32_t *resid);
+ /* virtgpu_prime.c */
++int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
++				    struct virtio_gpu_object *bo);
+ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
+ 					 int flags);
+ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+index 3552db128ba3..1ef1e2f22633 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_prime.c
++++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+@@ -59,6 +59,24 @@ const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
+ 	.get_uuid = virtgpu_virtio_get_uuid,
+ };
+ 
++int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
++				    struct virtio_gpu_object *bo)
++{
++	int ret;
++	struct virtio_gpu_object_array *objs;
 +
-+		if (bo->host3d_blob || bo->guest_blob) {
-+			virtio_gpu_cmd_set_scanout_blob(
-+						vgdev, output->index, bo,
-+						plane->state->fb,
-+						plane->state->src_w >> 16,
-+						plane->state->src_h >> 16,
-+						plane->state->src_x >> 16,
-+						plane->state->src_y >> 16);
++	objs = virtio_gpu_array_alloc(1);
++	if (!objs)
++		return -ENOMEM;
++
++	virtio_gpu_array_add_obj(objs, &bo->base.base);
++	ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
+ 					 int flags)
+ {
+@@ -66,22 +84,20 @@ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
+ 	struct drm_device *dev = obj->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+-	struct virtio_gpu_object_array *objs;
+ 	int ret = 0;
++	bool blob = bo->host3d_blob || bo->guest_blob;
+ 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+ 
+-	if (vgdev->has_resource_assign_uuid) {
+-		objs = virtio_gpu_array_alloc(1);
+-		if (!objs)
+-			return ERR_PTR(-ENOMEM);
+-		virtio_gpu_array_add_obj(objs, &bo->base.base);
+-
+-		ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
+-		if (ret)
+-			return ERR_PTR(ret);
+-		virtio_gpu_notify(vgdev);
+-	} else {
+-		bo->uuid_state = STATE_ERR;
++	if (!blob) {
++		if (vgdev->has_resource_assign_uuid) {
++			ret = virtio_gpu_resource_assign_uuid(vgdev, bo);
++			if (ret)
++				return ERR_PTR(ret);
++
++			virtio_gpu_notify(vgdev);
 +		} else {
-+			virtio_gpu_cmd_set_scanout(vgdev, output->index,
-+						   bo->hw_res_handle,
-+						   plane->state->src_w >> 16,
-+						   plane->state->src_h >> 16,
-+						   plane->state->src_x >> 16,
-+						   plane->state->src_y >> 16);
++			bo->uuid_state = STATE_ERR;
 +		}
  	}
  
- 	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
+ 	exp_info.ops = &virtgpu_dmabuf_ops.ops;
 -- 
 2.24.1
 
