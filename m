@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AEE2446D7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:17:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD21244701
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 11:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC3A6E2E4;
-	Fri, 14 Aug 2020 09:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C5E6E3B5;
+	Fri, 14 Aug 2020 09:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4696E2E4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 09:17:17 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id a15so7696023wrh.10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=vo+4rT5TGhb2qZoyIAYfQj7lk7trmrsQws/e3Y0YIpE=;
- b=fpwh1m8CkxEqv3dTywfc+ZaWPvrRmW68vyZKmGRtSV8W98gW0lZoZuUCLbLUrrs6tj
- Gn8tS/K7+vyIxzd7374Ds5uBYlBbKAizB+d7kI/5zKqsU27kkCLS2mX3eFUbW/DOKtsO
- ZN+9DBf/CFftP9v1HV1ayIseO/CBa+t0rbjlA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=vo+4rT5TGhb2qZoyIAYfQj7lk7trmrsQws/e3Y0YIpE=;
- b=KJeUhw+yQpwoUcBz2kdfXH95h3ezCxSrJYBKxKjhT3+nRfMnDVBtS06wQn3/iwNzfA
- 7L7h5OOcMvvcQwqG4HssArBwa/Qo2NBjUN7FWWOfmuo398eFK6aDICHpC1X87b9xxunw
- KooLGJ5HYOQUrO+0nnp5VhN26maloTyO6kf5Bh4xW9VmbEM5M1N9oQ2dNYC7iPemaDKd
- 1Ux8vXeEoJAlYLJixLEsA3HVIPlVAI+uOWYSggOjiIc6XPpnJhLNFNPyFciGe+VID2fh
- 1h5/uM0Mkely4Mr2pBgY3QtIdagnX06oycdD2YyMVBSLMYsiOUPMod3ktb55VV4qju+k
- 1GxA==
-X-Gm-Message-State: AOAM530qhSsaetKcov4h2g3Un0mzbsjat7MODqpdYMr/QFBYvTLPeVcR
- dOT1VqSAlrFZfyz9MbBMCWph4A==
-X-Google-Smtp-Source: ABdhPJww7J4EIOa4YNk3x8XQm8XaUBgRDp9DBq/+/7CPKGRQhF8CufugmvQ4SptK4arELyJbGtupww==
-X-Received: by 2002:a5d:494b:: with SMTP id r11mr1954647wrs.419.1597396635820; 
- Fri, 14 Aug 2020 02:17:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g14sm13677512wme.16.2020.08.14.02.17.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Aug 2020 02:17:15 -0700 (PDT)
-Date: Fri, 14 Aug 2020 11:17:13 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [RFC][PATCH v2 2/2] dma-heap: Add a system-uncached heap
-Message-ID: <20200814091713.GO2352366@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Liam Mark <lmark@codeaurora.org>,
- "Andrew F . Davis" <afd@ti.com>, Laura Abbott <labbott@kernel.org>,
- Hridya Valsaraju <hridya@google.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-media@vger.kernel.org
-References: <20200814062458.53049-1-john.stultz@linaro.org>
- <20200814062458.53049-2-john.stultz@linaro.org>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6826E3B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 09:29:50 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07E9Teum124793;
+ Fri, 14 Aug 2020 04:29:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1597397380;
+ bh=5/rjwRjZWzx8hrnU6DFNe3GilgF9jyJehzM/soNMCzw=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=QV5CY1O9r+ReoIfZBeaDczp4KHVDRwKgrMIat2BjlP1FOdaPEdxVTw1mB7TRFiN6/
+ goLZyp4jXwyfPkfHwjNriXlV6p02pyp7fcgmxqntNWGS8U4+fnvLRKgO7YiuPBnA+Z
+ PoZ5RKlCxFoqpOY0DYcAjUIcur2vjuWmwySJ5j3U=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07E9TeZI004961
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 14 Aug 2020 04:29:40 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 14
+ Aug 2020 04:29:40 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 14 Aug 2020 04:29:40 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07E9Ta8k052359;
+ Fri, 14 Aug 2020 04:29:36 -0500
+Subject: Re: [PATCH v8 2/3] drm: bridge: Add support for Cadence MHDP DPI/DP
+ bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Swapnil Jakhade
+ <sjakhade@cadence.com>
+References: <1596713672-8146-1-git-send-email-sjakhade@cadence.com>
+ <1596713672-8146-3-git-send-email-sjakhade@cadence.com>
+ <20200811023622.GC13513@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <49c2a4c8-6d84-6164-d350-6a985fc9a3e9@ti.com>
+Date: Fri, 14 Aug 2020 12:29:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200814062458.53049-2-john.stultz@linaro.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200811023622.GC13513@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,490 +65,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, "Andrew F . Davis" <afd@ti.com>,
- Laura Abbott <labbott@kernel.org>, Hridya Valsaraju <hridya@google.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
+ yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie,
+ narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
+ jsarha@ti.com, mparab@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 14, 2020 at 06:24:58AM +0000, John Stultz wrote:
-> This adds a heap that allocates non-contiguous buffers that are
-> marked as writecombined, so they are not cached by the CPU.
-> 
-> This is useful, as most graphics buffers are usually not touched
-> by the CPU or only written into once by the CPU. So when mapping
-> the buffer over and over between devices, we can skip the CPU
-> syncing, which saves a lot of cache management overhead, greatly
-> improving performance.
-> 
-> For folk using ION, there was a ION_FLAG_CACHED flag, which
-> signaled if the returned buffer should be CPU cacheable or not.
-> With DMA-BUF heaps, we have no such flag, and by default the
-> current heaps (system and cma) produce CPU cachable buffers.
-> So for folks transitioning from ION to DMA-BUF Heaps, this fills
-> in some of that missing functionality.
-> 
-> This does have a few "ugly" bits that were required to get
-> the buffer properly flushed out initially which I'd like to
-> improve. So feedback would be very welcome!
-> 
-> Many thanks to Liam Mark for his help to get this working.
-> 
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Andrew F. Davis <afd@ti.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: John Stultz <john.stultz@linaro.org>
-> ---
-> v2:
-> * Fix build issue on sh reported-by: kernel test robot <lkp@intel.com>
-> * Rework to use for_each_sgtable_sg(), dma_map_sgtable(), and
->   for_each_sg_page() along with numerous other cleanups suggested
->   by Robin Murphy
+On 11/08/2020 05:36, Laurent Pinchart wrote:
 
-Mildly annoying me, but where's the userspace for this? Do we have a
-gralloc somewhere that works with open driver stacks and uses this?
-
-Without that I'm somewhat afraid we'll engineer ourselves something that
-looks like it should work, but doesn't really work in reality.
--Daniel
-
-> ---
->  drivers/dma-buf/heaps/Kconfig                |  10 +
->  drivers/dma-buf/heaps/Makefile               |   1 +
->  drivers/dma-buf/heaps/system_uncached_heap.c | 371 +++++++++++++++++++
->  3 files changed, 382 insertions(+)
->  create mode 100644 drivers/dma-buf/heaps/system_uncached_heap.c
+>> +static int cdns_mhdp_mailbox_write(struct cdns_mhdp_device *mhdp, u8 val)
+>> +{
+>> +	int ret, full;
+>> +
+>> +	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
+>> +
+>> +	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_FULL,
+>> +				 full, !full, MAILBOX_RETRY_US,
+>> +				 MAILBOX_TIMEOUT_US);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	writel(val, mhdp->regs + CDNS_MAILBOX_TX_DATA);
+>> +
+>> +	return 0;
+>> +}
 > 
-> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> index a5eef06c4226..420b0ed0a512 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -5,6 +5,16 @@ config DMABUF_HEAPS_SYSTEM
->  	  Choose this option to enable the system dmabuf heap. The system heap
->  	  is backed by pages from the buddy allocator. If in doubt, say Y.
->  
-> +config DMABUF_HEAPS_SYSTEM_UNCACHED
-> +	bool "DMA-BUF Uncached System Heap"
-> +	depends on DMABUF_HEAPS
-> +	help
-> +	  Choose this option to enable the uncached system dmabuf heap. This
-> +	  heap is backed by pages from the buddy allocator, but pages are setup
-> +	  for write combining. This avoids cache management overhead, and can
-> +	  be faster if pages are mostly untouched by the cpu.  If in doubt,
-> +	  say Y.
-> +
->  config DMABUF_HEAPS_CMA
->  	bool "DMA-BUF CMA Heap"
->  	depends on DMABUF_HEAPS && DMA_CMA
-> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-> index 6e54cdec3da0..085685ec478f 100644
-> --- a/drivers/dma-buf/heaps/Makefile
-> +++ b/drivers/dma-buf/heaps/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-y					+= heap-helpers.o
->  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
-> +obj-$(CONFIG_DMABUF_HEAPS_SYSTEM_UNCACHED) += system_uncached_heap.o
->  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-> diff --git a/drivers/dma-buf/heaps/system_uncached_heap.c b/drivers/dma-buf/heaps/system_uncached_heap.c
-> new file mode 100644
-> index 000000000000..3b8e699bcae7
-> --- /dev/null
-> +++ b/drivers/dma-buf/heaps/system_uncached_heap.c
-> @@ -0,0 +1,371 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Uncached System DMA-Heap exporter
-> + *
-> + * Copyright (C) 2020 Linaro Ltd.
-> + *
-> + * Based off of Andrew Davis' SRAM heap:
-> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-> + *	Andrew F. Davis <afd@ti.com>
-> + */
-> +
-> +#include <linux/dma-mapping.h>
-> +#include <linux/err.h>
-> +#include <linux/highmem.h>
-> +#include <linux/io.h>
-> +#include <linux/mm.h>
-> +#include <linux/scatterlist.h>
-> +#include <linux/slab.h>
-> +#include <linux/vmalloc.h>
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-heap.h>
-> +
-> +struct uncached_heap {
-> +	struct dma_heap *heap;
-> +};
-> +
-> +struct uncached_heap_buffer {
-> +	struct dma_heap *heap;
-> +	struct list_head attachments;
-> +	struct mutex lock;
-> +	unsigned long len;
-> +	struct sg_table sg_table;
-> +	int vmap_cnt;
-> +	void *vaddr;
-> +};
-> +
-> +struct dma_heap_attachment {
-> +	struct device *dev;
-> +	struct sg_table *table;
-> +	struct list_head list;
-> +};
-> +
-> +static struct sg_table *dup_sg_table(struct sg_table *table)
-> +{
-> +	struct sg_table *new_table;
-> +	int ret, i;
-> +	struct scatterlist *sg, *new_sg;
-> +
-> +	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
-> +	if (!new_table)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
-> +	if (ret) {
-> +		kfree(new_table);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	new_sg = new_table->sgl;
-> +	for_each_sgtable_sg(table, sg, i) {
-> +		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
-> +		new_sg = sg_next(new_sg);
-> +	}
-> +
-> +	return new_table;
-> +}
-> +
-> +static int dma_heap_attach(struct dma_buf *dmabuf,
-> +			   struct dma_buf_attachment *attachment)
-> +{
-> +	struct uncached_heap_buffer *buffer = dmabuf->priv;
-> +	struct dma_heap_attachment *a;
-> +	struct sg_table *table;
-> +
-> +	a = kzalloc(sizeof(*a), GFP_KERNEL);
-> +	if (!a)
-> +		return -ENOMEM;
-> +
-> +	table = dup_sg_table(&buffer->sg_table);
-> +	if (IS_ERR(table)) {
-> +		kfree(a);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	a->table = table;
-> +	a->dev = attachment->dev;
-> +	INIT_LIST_HEAD(&a->list);
-> +
-> +	attachment->priv = a;
-> +
-> +	mutex_lock(&buffer->lock);
-> +	list_add(&a->list, &buffer->attachments);
-> +	mutex_unlock(&buffer->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dma_heap_detatch(struct dma_buf *dmabuf,
-> +			     struct dma_buf_attachment *attachment)
-> +{
-> +	struct uncached_heap_buffer *buffer = dmabuf->priv;
-> +	struct dma_heap_attachment *a = attachment->priv;
-> +
-> +	mutex_lock(&buffer->lock);
-> +	list_del(&a->list);
-> +	mutex_unlock(&buffer->lock);
-> +
-> +	sg_free_table(a->table);
-> +	kfree(a->table);
-> +	kfree(a);
-> +}
-> +
-> +static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-> +					     enum dma_data_direction direction)
-> +{
-> +	struct dma_heap_attachment *a = attachment->priv;
-> +	struct sg_table *table = a->table;
-> +
-> +	if (dma_map_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC))
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	return table;
-> +}
-> +
-> +static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-> +				   struct sg_table *table,
-> +				   enum dma_data_direction direction)
-> +{
-> +	dma_unmap_sgtable(attachment->dev, table, direction, DMA_ATTR_SKIP_CPU_SYNC);
-> +}
-> +
-> +static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-> +{
-> +	struct uncached_heap_buffer *buffer = dmabuf->priv;
-> +	struct sg_table *table = &buffer->sg_table;
-> +	unsigned long addr = vma->vm_start;
-> +	struct sg_page_iter piter;
-> +	int ret;
-> +
-> +	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-> +
-> +	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
-> +		struct page *page = sg_page_iter_page(&piter);
-> +
-> +		ret = remap_pfn_range(vma, addr, page_to_pfn(page), PAGE_SIZE,
-> +				      vma->vm_page_prot);
-> +		if (ret)
-> +			return ret;
-> +		addr += PAGE_SIZE;
-> +		if (addr >= vma->vm_end)
-> +			return 0;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void *dma_heap_do_vmap(struct uncached_heap_buffer *buffer)
-> +{
-> +	struct sg_table *table = &buffer->sg_table;
-> +	int npages = PAGE_ALIGN(buffer->len) / PAGE_SIZE;
-> +	struct page **pages = vmalloc(sizeof(struct page *) * npages);
-> +	struct page **tmp = pages;
-> +	struct sg_page_iter piter;
-> +	pgprot_t pgprot;
-> +	void *vaddr;
-> +
-> +	if (!pages)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	pgprot = pgprot_writecombine(PAGE_KERNEL);
-> +
-> +	for_each_sgtable_page(table, &piter, 0) {
-> +		WARN_ON(tmp - pages >= npages);
-> +		*tmp++ = sg_page_iter_page(&piter);
-> +	}
-> +
-> +	vaddr = vmap(pages, npages, VM_MAP, pgprot);
-> +	vfree(pages);
-> +
-> +	if (!vaddr)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	return vaddr;
-> +}
-> +
-> +static void *dma_heap_buffer_vmap_get(struct uncached_heap_buffer *buffer)
-> +{
-> +	void *vaddr;
-> +
-> +	if (buffer->vmap_cnt) {
-> +		buffer->vmap_cnt++;
-> +		return buffer->vaddr;
-> +	}
-> +
-> +	vaddr = dma_heap_do_vmap(buffer);
-> +	if (IS_ERR(vaddr))
-> +		return vaddr;
-> +
-> +	buffer->vaddr = vaddr;
-> +	buffer->vmap_cnt++;
-> +	return vaddr;
-> +}
-> +
-> +static void dma_heap_buffer_vmap_put(struct uncached_heap_buffer *buffer)
-> +{
-> +	if (!--buffer->vmap_cnt) {
-> +		vunmap(buffer->vaddr);
-> +		buffer->vaddr = NULL;
-> +	}
-> +}
-> +
-> +static void *dma_heap_vmap(struct dma_buf *dmabuf)
-> +{
-> +	struct uncached_heap_buffer *buffer = dmabuf->priv;
-> +	void *vaddr;
-> +
-> +	mutex_lock(&buffer->lock);
-> +	vaddr = dma_heap_buffer_vmap_get(buffer);
-> +	mutex_unlock(&buffer->lock);
-> +
-> +	return vaddr;
-> +}
-> +
-> +static void dma_heap_vunmap(struct dma_buf *dmabuf, void *vaddr)
-> +{
-> +	struct uncached_heap_buffer *buffer = dmabuf->priv;
-> +
-> +	mutex_lock(&buffer->lock);
-> +	dma_heap_buffer_vmap_put(buffer);
-> +	mutex_unlock(&buffer->lock);
-> +}
-> +
-> +static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
-> +{
-> +	struct uncached_heap_buffer *buffer = dmabuf->priv;
-> +	struct sg_table *table;
-> +	struct scatterlist *sg;
-> +	int i;
-> +
-> +	table = &buffer->sg_table;
-> +	dma_unmap_sgtable(dma_heap_get_dev(buffer->heap), table, DMA_BIDIRECTIONAL, 0);
-> +
-> +	for_each_sgtable_sg(table, sg, i)
-> +		__free_page(sg_page(sg));
-> +	sg_free_table(table);
-> +	kfree(buffer);
-> +}
-> +
-> +const struct dma_buf_ops uncached_heap_buf_ops = {
-> +	.attach = dma_heap_attach,
-> +	.detach = dma_heap_detatch,
-> +	.map_dma_buf = dma_heap_map_dma_buf,
-> +	.unmap_dma_buf = dma_heap_unmap_dma_buf,
-> +	.mmap = dma_heap_mmap,
-> +	.vmap = dma_heap_vmap,
-> +	.vunmap = dma_heap_vunmap,
-> +	.release = dma_heap_dma_buf_release,
-> +};
-> +
-> +static int uncached_heap_allocate(struct dma_heap *heap,
-> +				  unsigned long len,
-> +				  unsigned long fd_flags,
-> +				  unsigned long heap_flags)
-> +{
-> +	struct uncached_heap_buffer *buffer;
-> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> +	struct dma_buf *dmabuf;
-> +	struct sg_table *table;
-> +	struct scatterlist *sg;
-> +	pgoff_t pagecount;
-> +	pgoff_t pg;
-> +	int i, ret = -ENOMEM;
-> +
-> +	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-> +	if (!buffer)
-> +		return -ENOMEM;
-> +
-> +	INIT_LIST_HEAD(&buffer->attachments);
-> +	mutex_init(&buffer->lock);
-> +	buffer->heap = heap;
-> +	buffer->len = len;
-> +
-> +	table = &buffer->sg_table;
-> +	pagecount = len / PAGE_SIZE;
-> +	if (sg_alloc_table(table, pagecount, GFP_KERNEL))
-> +		goto free_buffer;
-> +
-> +	sg = table->sgl;
-> +	for (pg = 0; pg < pagecount; pg++) {
-> +		struct page *page;
-> +		/*
-> +		 * Avoid trying to allocate memory if the process
-> +		 * has been killed by SIGKILL
-> +		 */
-> +		if (fatal_signal_pending(current))
-> +			goto free_pages;
-> +		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
-> +		if (!page)
-> +			goto free_pages;
-> +		sg_set_page(sg, page, page_size(page), 0);
-> +		sg = sg_next(sg);
-> +	}
-> +
-> +	/* create the dmabuf */
-> +	exp_info.ops = &uncached_heap_buf_ops;
-> +	exp_info.size = buffer->len;
-> +	exp_info.flags = fd_flags;
-> +	exp_info.priv = buffer;
-> +	dmabuf = dma_buf_export(&exp_info);
-> +	if (IS_ERR(dmabuf)) {
-> +		ret = PTR_ERR(dmabuf);
-> +		goto free_pages;
-> +	}
-> +
-> +	ret = dma_buf_fd(dmabuf, fd_flags);
-> +	if (ret < 0) {
-> +		dma_buf_put(dmabuf);
-> +		/* just return, as put will call release and that will free */
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * XXX This is hackish. While the buffer will be uncached, we need
-> +	 * to initially flush cpu cache, since the __GFP_ZERO on the
-> +	 * allocation means the zeroing was done by the cpu and thus it is
-> +	 * likely cached. Map (and implicitly flush) it out now so we don't
-> +	 * get corruption later on.
-> +	 *
-> +	 * Ideally we could do this without using the heap device as a dummy dev.
-> +	 */
-> +	dma_map_sgtable(dma_heap_get_dev(heap), table, DMA_BIDIRECTIONAL, 0);
-> +
-> +	return ret;
-> +
-> +free_pages:
-> +	for_each_sgtable_sg(table, sg, i)
-> +		__free_page(sg_page(sg));
-> +	sg_free_table(table);
-> +free_buffer:
-> +	kfree(buffer);
-> +
-> +	return ret;
-> +}
-> +
-> +static struct dma_heap_ops uncached_heap_ops = {
-> +	.allocate = uncached_heap_allocate,
-> +};
-> +
-> +static int uncached_heap_create(void)
-> +{
-> +	struct uncached_heap *heap;
-> +	struct dma_heap_export_info exp_info;
-> +
-> +	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
-> +	if (!heap)
-> +		return -ENOMEM;
-> +
-> +	exp_info.name = "system-uncached";
-> +	exp_info.ops = &uncached_heap_ops;
-> +	exp_info.priv = heap;
-> +	heap->heap = dma_heap_add(&exp_info);
-> +	if (IS_ERR(heap->heap)) {
-> +		int ret = PTR_ERR(heap->heap);
-> +
-> +		kfree(heap);
-> +		return ret;
-> +	}
-> +	dma_coerce_mask_and_coherent(dma_heap_get_dev(heap->heap), DMA_BIT_MASK(64));
-> +
-> +	return 0;
-> +}
-> +device_initcall(uncached_heap_create);
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> As commented previously, I think there's room for optimization here. Two
+> options that I think should be investigated are using the mailbox
+> interrupts, and only polling for the first byte of the message
+> (depending on whether the firmware implementation can guarantee that
+> when the first byte is available, the rest of the message will be
+> immediately available too). This can be done on top of this patch
+> though.
+
+I made some tests on this.
+
+I cannot see mailbox_write ever looping, mailbox is never full. So in this case the
+readx_poll_timeout() call is there just for safety to catch the cases where something has gone
+totally wrong or perhaps once in a while the mbox can be full for a tiny moment. But we always do
+need to check CDNS_MAILBOX_FULL before each write to CDNS_MAILBOX_TX_DATA, so we can as well use
+readx_poll_timeout for that to catch the odd cases (afaics, there's no real overhead if the exit
+condition is true immediately).
+
+mailbox_read polls sometimes. Most often it does not poll, as the data is ready in the mbox, and in
+these cases the situation is the same as for mailbox_write.
+
+The cases where it does poll are related to things where the fw has to wait for something. The
+longest poll waits seemed to be EDID read (16 ms wait) and adjusting LT (1.7 ms wait). And afaics,
+when the first byte of the received message is there, the rest of the bytes will be available
+without wait.
+
+For mailbox_write and for most mailbox_reads I think using interrupts makes no sense, as the
+overhead would be big.
+
+For those few long read operations, interrupts would make sense. I guess a simple way to handle this
+would be to add a new function, wait_for_mbox_data() or such, which would use the interrupts to wait
+for mbox not empty. This function could be used in selected functions (edid, LT) after
+cdns_mhdp_mailbox_send().
+
+Although I think it's not that bad currently, MAILBOX_RETRY_US is 1ms, so it's quite lazy polling,
+so perhaps this can be considered TODO optimization.
+
+ Tomi
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
