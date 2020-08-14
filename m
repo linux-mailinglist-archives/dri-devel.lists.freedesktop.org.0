@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F96245D32
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B43E245D4E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 680136E4C5;
-	Mon, 17 Aug 2020 07:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAC36E491;
+	Mon, 17 Aug 2020 07:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
  [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAE86EABF
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 00:07:38 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id w25so8073410ljo.12
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 17:07:38 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D07E6EABF
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 00:07:39 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id v12so8092712ljc.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 17:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8yAUvmC7dB1AvZufMoltXCEKaZJYFALPQadvIxchYtE=;
- b=nZnuIFn4NQ7251gwYTws9nLSOUpePnWTN0wUR3sYcp5FQ9RWkjtClffkh7lFP53eh8
- ugWvszqZJIIGDUX4I3Y1FZgdXBimv4gOIrfNH2l+zxC4vj+5RsroRnqxON7cW4RVu/jQ
- gqp23VL7L0+kGSefSR5HudzGvkDgywh0nkcZ3fVzjkmILhkUf1/Lnlv3GZnkKG4HPQv9
- f0e9uWIE3vUCTO6C+/tXTKWmmquU9N7AeonqQqCVzPfg8ZrRoAIcdwQjF34x9TkNh5UV
- mMmm4YDoocFJlQCkhpPc+17BnKW7mTsThNqB55qwge+Qkdc5zlH4V/kg1uhEk1Ovug+O
- 8V9w==
+ bh=7TkimZ5+ZanNr21bgLfqvhgfqk+ZgY/gXpLxl0PyeFo=;
+ b=Y3djZHIrj67JLuLCM1VemhFmWn4UyJHQqMsQY5mCi1zCiRPBrszuWyZTavAkS8gCJ+
+ /ENLS39pn2gScE8vW1jMRp2kWicPjPmiU3T7JThipiZLOQXlgncpWczrlL/k+oyYxe1g
+ g/Bf48xdr7C2A+nex+ke6ZaNShD8iqbsoQtWotw4XFPq/rk/2l1xSIvb8VFLCeymTW5W
+ ok2BUmkzWWLlWYl9Mxx02eVwrbnwAfai6ZX+6BmkS7nsT6mLfbGU0czS4YiY8Q4upnUC
+ OsJQgFPqnvBYZI2bdidrpOjfTgq6pBv9D6OozGXGktcHrg+CH+JYbB+EzwL9usq1fgOV
+ v9OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8yAUvmC7dB1AvZufMoltXCEKaZJYFALPQadvIxchYtE=;
- b=falLE/m0lbKlTLQPpsvCEQaTTfglZXZ9xnPrnuY4hClwfXJ3+oRC5pyi3Z0toM1IxK
- uImWDut/15lzJ2HKUjWqHo9ojWD0O+JZMjOcY/mCze2vFYghIMi1s3N7O9P7Mac364dd
- ENdAHDkGzvaql2lqTv466NR2hstn/+THlCN31gyj6EnQ3omwjg3ViiuMSzCGXddxWXtu
- ROmLaurzmqLHYP83qAgzWKBZVa9jOT5QkEeue5TfCLZFKCQ8Zb6e0ZGOCX5MCZJ4s4sE
- BgfCkNqEg2KUYzlVWNSJjNX/GtE1RxmBQMYapoUXxeo3q09AbKpZT4Xa04BuIpY9t0UD
- uRHQ==
-X-Gm-Message-State: AOAM532aXR7Hr2FSN1rGY0zn83K8Llwr+PfOtpOSlcECGVkUiR4/eYcy
- /tCtV7PNiXT2KNKYdJoVMN4=
-X-Google-Smtp-Source: ABdhPJwiHCAsmpwTHY7fxXYOvVp2r9Jve/fNJ/xQBu7FZzCkI2bJBYxqcixmLnYy4dsrjOhGDpzE3A==
-X-Received: by 2002:a2e:9010:: with SMTP id h16mr114446ljg.316.1597363657009; 
- Thu, 13 Aug 2020 17:07:37 -0700 (PDT)
+ bh=7TkimZ5+ZanNr21bgLfqvhgfqk+ZgY/gXpLxl0PyeFo=;
+ b=kKcVUb7onX24/CoOhje9XUvUVH4GKdkEOLuEFK2+k6+53o/6AH6cnUoAXscO35wUg3
+ PQzw5tVAIwekpeBCQu7L5yWTEKCa6UcVIwPT3KQVHDZPajLwNVS7OhVZwXGEYGBZC+z4
+ sZT9cdrJ5z1bx83gJDP4CDpnfTon/Q0FaVKD65ZQU+crR2C5/v/3DRe2f/eAXgsw7Hfc
+ ccPS4NWVcvQ24QXSwEH46tzd14BOrryDvE+dslBuTnIe0FKINVpqs+426z6+aNCFkqtA
+ VcEniHwoIaTGQdVmaDlDmxJnSuPKkatmsG+5a1dFAFn0Amq6R7zdkUBoO/MpHOsFyKse
+ ZfFw==
+X-Gm-Message-State: AOAM533Qkrv7VDXJSM6HKoHHp7ISeMs/g9yDQRiiO0QgeG5fx6AgHog2
+ 5rVxh+bVugOAuuIFe6HAqqo=
+X-Google-Smtp-Source: ABdhPJw7QEKf9n3D4WplTgINfkfjS1BdzdYLpsTpIGP3VcZFhnEkM1j1W9oW03Odr/MhaJocJzsKnw==
+X-Received: by 2002:a2e:b058:: with SMTP id d24mr108109ljl.265.1597363658086; 
+ Thu, 13 Aug 2020 17:07:38 -0700 (PDT)
 Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru.
  [109.252.170.211])
- by smtp.gmail.com with ESMTPSA id c17sm1504450lfr.23.2020.08.13.17.07.35
+ by smtp.gmail.com with ESMTPSA id c17sm1504450lfr.23.2020.08.13.17.07.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 17:07:36 -0700 (PDT)
+ Thu, 13 Aug 2020 17:07:37 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v5 32/36] memory: tegra30-emc: Continue probing if timings are
- missing in device-tree
-Date: Fri, 14 Aug 2020 03:06:17 +0300
-Message-Id: <20200814000621.8415-33-digetx@gmail.com>
+Subject: [PATCH v5 33/36] memory: tegra30-emc: Register as interconnect
+ provider
+Date: Fri, 14 Aug 2020 03:06:18 +0300
+Message-Id: <20200814000621.8415-34-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814000621.8415-1-digetx@gmail.com>
 References: <20200814000621.8415-1-digetx@gmail.com>
@@ -85,84 +85,156 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EMC driver will become mandatory after turning it into interconnect
-provider because interconnect users, like display controller driver, will
-fail to probe using newer device-trees that have interconnect properties.
-Thus make EMC driver to probe even if timings are missing in device-tree.
+Now external memory controller is a memory interconnection provider.
+This allows us to use interconnect API to change memory configuration.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra30-emc.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ drivers/memory/tegra/tegra30-emc.c | 110 +++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
 diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-index f3082964cfb6..0cd39bf5f393 100644
+index 0cd39bf5f393..29448d02f750 100644
 --- a/drivers/memory/tegra/tegra30-emc.c
 +++ b/drivers/memory/tegra/tegra30-emc.c
-@@ -988,6 +988,11 @@ static struct device_node *emc_find_node_by_ram_code(struct device *dev)
- 	u32 value, ram_code;
- 	int err;
+@@ -14,6 +14,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
+ #include <linux/err.h>
++#include <linux/interconnect-provider.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+@@ -327,6 +328,7 @@ struct tegra_emc {
+ 	struct device *dev;
+ 	struct tegra_mc *mc;
+ 	struct notifier_block clk_nb;
++	struct icc_provider provider;
+ 	struct clk *clk;
+ 	void __iomem *regs;
+ 	unsigned int irq;
+@@ -1264,6 +1266,113 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
+ 			    emc, &tegra_emc_debug_max_rate_fops);
+ }
  
-+	if (of_get_child_count(dev->of_node) == 0) {
-+		dev_info(dev, "device-tree doesn't have memory timings\n");
-+		return NULL;
++static inline struct tegra_emc *
++to_tegra_emc_provider(struct icc_provider *provider)
++{
++	return container_of(provider, struct tegra_emc, provider);
++}
++
++static struct icc_node *
++emc_of_icc_xlate(struct of_phandle_args *spec, void *data)
++{
++	struct icc_provider *provider = data;
++	struct icc_node *node;
++
++	/* External Memory is the only possible ICC route */
++	list_for_each_entry(node, &provider->nodes, node_list) {
++		if (node->id == TEGRA_ICC_EMEM)
++			return node;
 +	}
 +
- 	ram_code = tegra_read_ram_code();
- 
- 	for_each_child_of_node(dev->of_node, np) {
-@@ -1057,6 +1062,9 @@ static long emc_round_rate(unsigned long rate,
- 	struct tegra_emc *emc = arg;
- 	unsigned int i;
- 
-+	if (!emc->num_timings)
-+		return clk_get_rate(emc->clk);
++	return ERR_PTR(-EINVAL);
++}
 +
- 	min_rate = min(min_rate, emc->timings[emc->num_timings - 1].rate);
++static int emc_icc_set(struct icc_node *src, struct icc_node *dst)
++{
++	struct tegra_emc *emc = to_tegra_emc_provider(dst->provider);
++	unsigned long long rate = icc_units_to_bps(dst->avg_bw);
++	unsigned int dram_data_bus_width_bytes = 4;
++	unsigned int ddr = 2;
++	int err;
++
++	do_div(rate, ddr * dram_data_bus_width_bytes);
++	rate = min_t(u64, rate, U32_MAX);
++
++	err = clk_set_min_rate(emc->clk, rate);
++	if (err)
++		return err;
++
++	err = clk_set_rate(emc->clk, rate);
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static int emc_icc_aggregate(struct icc_node *node,
++			     u32 tag, u32 avg_bw, u32 peak_bw,
++			     u32 *agg_avg, u32 *agg_peak)
++{
++	*agg_avg = min((u64)avg_bw + (*agg_avg), (u64)U32_MAX);
++	*agg_peak = max(*agg_peak, peak_bw);
++
++	return 0;
++}
++
++static int tegra_emc_interconnect_init(struct tegra_emc *emc)
++{
++	struct icc_node *node;
++	int err;
++
++	/* older device-trees don't have interconnect properties */
++	if (!of_find_property(emc->dev->of_node, "#interconnect-cells", NULL))
++		return 0;
++
++	emc->provider.dev = emc->dev;
++	emc->provider.set = emc_icc_set;
++	emc->provider.data = &emc->provider;
++	emc->provider.xlate = emc_of_icc_xlate;
++	emc->provider.aggregate = emc_icc_aggregate;
++
++	err = icc_provider_add(&emc->provider);
++	if (err)
++		goto err_msg;
++
++	/* create External Memory Controller node */
++	node = icc_node_create(TEGRA_ICC_EMC);
++	err = PTR_ERR_OR_ZERO(node);
++	if (err)
++		goto del_provider;
++
++	node->name = "External Memory Controller";
++	icc_node_add(node, &emc->provider);
++
++	/* link External Memory Controller to External Memory (DRAM) */
++	err = icc_link_create(node, TEGRA_ICC_EMEM);
++	if (err)
++		goto remove_nodes;
++
++	/* create External Memory node */
++	node = icc_node_create(TEGRA_ICC_EMEM);
++	err = PTR_ERR_OR_ZERO(node);
++	if (err)
++		goto remove_nodes;
++
++	node->name = "External Memory (DRAM)";
++	icc_node_add(node, &emc->provider);
++
++	return 0;
++
++remove_nodes:
++	icc_nodes_remove(&emc->provider);
++del_provider:
++	icc_provider_del(&emc->provider);
++err_msg:
++	dev_err(emc->dev, "failed to initialize ICC: %d\n", err);
++
++	return err;
++}
++
+ static int tegra_emc_probe(struct platform_device *pdev)
+ {
+ 	struct platform_device *mc;
+@@ -1343,6 +1452,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
  
- 	for (i = 0; i < emc->num_timings; i++) {
-@@ -1263,12 +1271,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	struct tegra_emc *emc;
- 	int err;
+ 	platform_set_drvdata(pdev, emc);
+ 	tegra_emc_debugfs_init(emc);
++	tegra_emc_interconnect_init(emc);
  
--	if (of_get_child_count(pdev->dev.of_node) == 0) {
--		dev_info(&pdev->dev,
--			 "device-tree node doesn't have memory timings\n");
--		return -ENODEV;
--	}
--
- 	np = of_parse_phandle(pdev->dev.of_node, "nvidia,memory-controller", 0);
- 	if (!np) {
- 		dev_err(&pdev->dev, "could not get memory controller node\n");
-@@ -1280,10 +1282,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	if (!mc)
- 		return -ENOENT;
- 
--	np = emc_find_node_by_ram_code(&pdev->dev);
--	if (!np)
--		return -EINVAL;
--
- 	emc = devm_kzalloc(&pdev->dev, sizeof(*emc), GFP_KERNEL);
- 	if (!emc) {
- 		of_node_put(np);
-@@ -1297,10 +1295,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	emc->clk_nb.notifier_call = emc_clk_change_notify;
- 	emc->dev = &pdev->dev;
- 
--	err = emc_load_timings_from_dt(emc, np);
--	of_node_put(np);
--	if (err)
--		return err;
-+	np = emc_find_node_by_ram_code(&pdev->dev);
-+	if (np) {
-+		err = emc_load_timings_from_dt(emc, np);
-+		of_node_put(np);
-+		if (err)
-+			return err;
-+	}
- 
- 	emc->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(emc->regs))
+ 	/*
+ 	 * Don't allow the kernel module to be unloaded. Unloading adds some
 -- 
 2.27.0
 
