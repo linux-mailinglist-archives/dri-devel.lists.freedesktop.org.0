@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F62F245D3C
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16768245D2D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8F46E4A5;
-	Mon, 17 Aug 2020 07:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59A6E4B6;
+	Mon, 17 Aug 2020 07:06:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa6.hc3370-68.iphmx.com (esa6.hc3370-68.iphmx.com
  [216.71.155.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA8D6EB1D
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 09:56:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 367896E090
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 12:47:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1597398999;
+ d=citrix.com; s=securemail; t=1597409254;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=M2heJ5UJIi6VeX83HdtsuKbDz3J1W8I/My2z+YBPJbc=;
- b=VMUPhAunCPJYS7U/d4AcTWAUNCTlkb+q/8skt/OUmXKQ4MaqEQAeVgXX
- BMInVCYqVOYrPRmN/H/+cbHAa9l6X4TmLr6fbLeMioVvrAo49N1rgzyyD
- Wym+QZ5mrVnxXlmY+vv1umCugWKy7RBV5iFubSq01LEZGm70YZ8432AjK o=;
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=vqjMOLWnURMtkyVmLKBVLJihqVbQncODXADZyEOQvAk=;
+ b=PJtz4UOpB6clDELaDb6ZI6pYZdOgQbLMZWb/nkw1XwxImClpjYmCfjXE
+ 6R7meuerV1AUV+yh5JrImShIDtGXjalFHi+m4cRsl0aAXPNj/Dmt02nMF
+ J4uayLnDgKXIq0jTr69nHXixg/2CMpAv7pB4XRKDFg/olz7S0TC4Wuuda Y=;
 Authentication-Results: esa6.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: LSUv+nx7tcMiKh/86la0ov2CD6bm0s6I0CZ/3c8oZ8SKd5FBsD9NTk6X+etvRWHGxjQoN4ifLc
- WZkEtigJTsHGqnWNv9UJ60WQsP5kEKf5sFfIOA6zvU9VIklNrxh92Vbu7Lw/zOteb+Zprr9bcz
- EDqmXPpuivFanGkQt/96ZKFaN0KdR0AoyWD2zxgECUj3l8VTghEId76fKUoi3SYFO8M2Otk1Pf
- CYzZj5rDqfvUJsn9+hgY+6CFXoxaN6UM05eSlIPALUijsytQzL+vRPNV5LDNkQ09XoNxVizA79
- cjQ=
+IronPort-SDR: w0A6Vy4ueaWrF7WgfuyBrSR1ACS+hknjc95m+9zhN7fc2SAsmovKRsi3m41T/jo7eaFuu78C7Z
+ S5MTDLXuflc0oQ1pEQ7/9xHjpo5CwxYh3w/78O9M19ZBSjqnsDO5hTI/QpYfLCVTsqY3rO+TdA
+ lbC/WWyTBQbMerqZS+yaBvI3Y+TDQgr/7/ffkMR3MsIWS/vtCi8ou01AxoCZ+/N/T1DSOpRv+J
+ GZhylUerYrKxWKmzDSfQJlY510XRbTKxifOc5UaGesqqi1ipL3B/WtYRbgtGC/JNVtACLQ8jDM
+ CR0=
 X-SBRS: 2.7
-X-MesageID: 24845878
+X-MesageID: 24855572
 X-Ironport-Server: esa6.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.76,311,1592884800"; d="scan'208";a="24845878"
-Date: Fri, 14 Aug 2020 11:56:29 +0200
+X-IronPort-AV: E=Sophos;i="5.76,312,1592884800"; d="scan'208";a="24855572"
+Date: Fri, 14 Aug 2020 14:47:25 +0200
 From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: Christoph Hellwig <hch@infradead.org>
+To: =?utf-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
 Subject: Re: [PATCH v4 2/2] xen: add helpers to allocate unpopulated memory
-Message-ID: <20200814095629.GJ975@Air-de-Roger>
+Message-ID: <20200814124724.GK975@Air-de-Roger>
 References: <20200811094447.31208-1-roger.pau@citrix.com>
  <20200811094447.31208-3-roger.pau@citrix.com>
  <20200813073337.GA16160@infradead.org>
  <20200813075420.GC975@Air-de-Roger>
  <20200814072920.GA6126@infradead.org>
+ <20200814095629.GJ975@Air-de-Roger>
+ <a907ff4a-c887-7d02-1d45-140d7749afa4@suse.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200814072920.GA6126@infradead.org>
-X-ClientProxiedBy: AMSPEX02CAS01.citrite.net (10.69.22.112) To
+In-Reply-To: <a907ff4a-c887-7d02-1d45-140d7749afa4@suse.com>
+X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
  AMSPEX02CL02.citrite.net (10.69.22.126)
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,70 +64,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
  Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
  David Airlie <airlied@linux.ie>, Yan
  Yankovskyi <yyankovskyi@gmail.com>, David Hildenbrand <david@redhat.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Michal Hocko <mhocko@kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ linux-mm@kvack.org, xen-devel@lists.xenproject.org,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
  Dan Williams <dan.j.williams@intel.com>,
  Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 14, 2020 at 08:29:20AM +0100, Christoph Hellwig wrote:
-> On Thu, Aug 13, 2020 at 09:54:20AM +0200, Roger Pau Monn?? wrote:
-> > On Thu, Aug 13, 2020 at 08:33:37AM +0100, Christoph Hellwig wrote:
-> > > On Tue, Aug 11, 2020 at 11:44:47AM +0200, Roger Pau Monne wrote:
-> > > > If enabled (because ZONE_DEVICE is supported) the usage of the new
-> > > > functionality untangles Xen balloon and RAM hotplug from the usage of
-> > > > unpopulated physical memory ranges to map foreign pages, which is the
-> > > > correct thing to do in order to avoid mappings of foreign pages depend
-> > > > on memory hotplug.
-> > > 
-> > > So please just select ZONE_DEVICE if this is so much better rather
-> > > than maintaining two variants.
-> > 
-> > We still need to other variant for Arm at least, so both need to be
-> > maintained anyway, even if we force ZONE_DEVICE on x86.
-> 
-> Well, it still really helps reproducability if you stick to one
-> implementation of x86.
-> 
-> The alternative would be an explicit config option to opt into it,
-> but just getting a different implementation based on a random
-> kernel option is strange.
-
-Would adding something like the chunk below to the patch be OK?
-
----8<---
-diff --git a/drivers/xen/Kconfig b/drivers/xen/Kconfig
-index 018020b91baa..5f321a1319e6 100644
---- a/drivers/xen/Kconfig
-+++ b/drivers/xen/Kconfig
-@@ -328,7 +328,14 @@ config XEN_FRONT_PGDIR_SHBUF
- 	tristate
- 
- config XEN_UNPOPULATED_ALLOC
--	bool
--	default y if ZONE_DEVICE && !ARM && !ARM64
-+	bool "Use unpopulated memory ranges for guest mappings"
-+	depends on X86
-+	select ZONE_DEVICE
-+	default y
-+	help
-+	  Use unpopulated memory ranges in order to create mappings for guest
-+	  memory regions, including grants maps and foreign pages. This avoids
-+	  having to balloon out RAM regions in order to obtain physical memory
-+	  space to create such mappings.
- 
- endmenu
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBBdWcgMTQsIDIwMjAgYXQgMTI6Mjc6MzJQTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3
+cm90ZToKPiBPbiAxNC4wOC4yMCAxMTo1NiwgUm9nZXIgUGF1IE1vbm7DqSB3cm90ZToKPiA+IE9u
+IEZyaSwgQXVnIDE0LCAyMDIwIGF0IDA4OjI5OjIwQU0gKzAxMDAsIENocmlzdG9waCBIZWxsd2ln
+IHdyb3RlOgo+ID4gPiBPbiBUaHUsIEF1ZyAxMywgMjAyMCBhdCAwOTo1NDoyMEFNICswMjAwLCBS
+b2dlciBQYXUgTW9ubj8/IHdyb3RlOgo+ID4gPiA+IE9uIFRodSwgQXVnIDEzLCAyMDIwIGF0IDA4
+OjMzOjM3QU0gKzAxMDAsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+ID4gPiA+ID4gT24gVHVl
+LCBBdWcgMTEsIDIwMjAgYXQgMTE6NDQ6NDdBTSArMDIwMCwgUm9nZXIgUGF1IE1vbm5lIHdyb3Rl
+Ogo+ID4gPiA+ID4gPiBJZiBlbmFibGVkIChiZWNhdXNlIFpPTkVfREVWSUNFIGlzIHN1cHBvcnRl
+ZCkgdGhlIHVzYWdlIG9mIHRoZSBuZXcKPiA+ID4gPiA+ID4gZnVuY3Rpb25hbGl0eSB1bnRhbmds
+ZXMgWGVuIGJhbGxvb24gYW5kIFJBTSBob3RwbHVnIGZyb20gdGhlIHVzYWdlIG9mCj4gPiA+ID4g
+PiA+IHVucG9wdWxhdGVkIHBoeXNpY2FsIG1lbW9yeSByYW5nZXMgdG8gbWFwIGZvcmVpZ24gcGFn
+ZXMsIHdoaWNoIGlzIHRoZQo+ID4gPiA+ID4gPiBjb3JyZWN0IHRoaW5nIHRvIGRvIGluIG9yZGVy
+IHRvIGF2b2lkIG1hcHBpbmdzIG9mIGZvcmVpZ24gcGFnZXMgZGVwZW5kCj4gPiA+ID4gPiA+IG9u
+IG1lbW9yeSBob3RwbHVnLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBTbyBwbGVhc2UganVzdCBzZWxl
+Y3QgWk9ORV9ERVZJQ0UgaWYgdGhpcyBpcyBzbyBtdWNoIGJldHRlciByYXRoZXIKPiA+ID4gPiA+
+IHRoYW4gbWFpbnRhaW5pbmcgdHdvIHZhcmlhbnRzLgo+ID4gPiA+IAo+ID4gPiA+IFdlIHN0aWxs
+IG5lZWQgdG8gb3RoZXIgdmFyaWFudCBmb3IgQXJtIGF0IGxlYXN0LCBzbyBib3RoIG5lZWQgdG8g
+YmUKPiA+ID4gPiBtYWludGFpbmVkIGFueXdheSwgZXZlbiBpZiB3ZSBmb3JjZSBaT05FX0RFVklD
+RSBvbiB4ODYuCj4gPiA+IAo+ID4gPiBXZWxsLCBpdCBzdGlsbCByZWFsbHkgaGVscHMgcmVwcm9k
+dWNhYmlsaXR5IGlmIHlvdSBzdGljayB0byBvbmUKPiA+ID4gaW1wbGVtZW50YXRpb24gb2YgeDg2
+Lgo+ID4gPiAKPiA+ID4gVGhlIGFsdGVybmF0aXZlIHdvdWxkIGJlIGFuIGV4cGxpY2l0IGNvbmZp
+ZyBvcHRpb24gdG8gb3B0IGludG8gaXQsCj4gPiA+IGJ1dCBqdXN0IGdldHRpbmcgYSBkaWZmZXJl
+bnQgaW1wbGVtZW50YXRpb24gYmFzZWQgb24gYSByYW5kb20KPiA+ID4ga2VybmVsIG9wdGlvbiBp
+cyBzdHJhbmdlLgo+ID4gCj4gPiBXb3VsZCBhZGRpbmcgc29tZXRoaW5nIGxpa2UgdGhlIGNodW5r
+IGJlbG93IHRvIHRoZSBwYXRjaCBiZSBPSz8KPiA+IAo+ID4gLS0tODwtLS0KPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3hlbi9LY29uZmlnIGIvZHJpdmVycy94ZW4vS2NvbmZpZwo+ID4gaW5kZXgg
+MDE4MDIwYjkxYmFhLi41ZjMyMWExMzE5ZTYgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL3hlbi9L
+Y29uZmlnCj4gPiArKysgYi9kcml2ZXJzL3hlbi9LY29uZmlnCj4gPiBAQCAtMzI4LDcgKzMyOCwx
+NCBAQCBjb25maWcgWEVOX0ZST05UX1BHRElSX1NIQlVGCj4gPiAgIAl0cmlzdGF0ZQo+ID4gICBj
+b25maWcgWEVOX1VOUE9QVUxBVEVEX0FMTE9DCj4gPiAtCWJvb2wKPiA+IC0JZGVmYXVsdCB5IGlm
+IFpPTkVfREVWSUNFICYmICFBUk0gJiYgIUFSTTY0Cj4gPiArCWJvb2wgIlVzZSB1bnBvcHVsYXRl
+ZCBtZW1vcnkgcmFuZ2VzIGZvciBndWVzdCBtYXBwaW5ncyIKPiA+ICsJZGVwZW5kcyBvbiBYODYK
+PiA+ICsJc2VsZWN0IFpPTkVfREVWSUNFCj4gPiArCWRlZmF1bHQgeQo+IAo+IEknZCByYXRoZXIg
+dXNlICJkZWZhdWx0IFhFTl9CQUNLRU5EIiBoZXJlLCBhcyBtYXBwaW5ncyBvZiBvdGhlciBndWVz
+dCdzCj4gbWVtb3J5IGlzIHJhcmVseSB1c2VkIGZvciBub24tYmFja2VuZCBndWVzdHMuCgpUaGVy
+ZSdzIGFsc28gdGhlIHByaXZjbWQgYW5kIGdudCBkZXZpY2VzIHdoaWNoIG1ha2UgaGVhdnkgdXNl
+IG9mIHRoaXMsCnNvIEknbSBub3Qgc3VyZSBvbmx5IHNlbGVjdGluZyBieSBkZWZhdWx0IG9uIFhF
+Tl9CQUNLRU5EIGlzIHRoZSBiZXN0Cm9wdGlvbi4KClRoYW5rcywgUm9nZXIuCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
