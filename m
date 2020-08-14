@@ -2,50 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9822449A0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 14:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B18244A02
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 14:54:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10326EB31;
-	Fri, 14 Aug 2020 12:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E55DE6EB33;
+	Fri, 14 Aug 2020 12:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F3866EB31
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 12:12:50 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id 93so7395087otx.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 05:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pealV+VydqDZW06bmrAL2YWzJvMklEWwyLNagmsldhI=;
- b=SshzTGVTX9qSp4jXsV9wNHDUrUp0DTAC7I1wEKGvJcu+kWKbql/3afrqqWf5m0DhfS
- 3AhB0fxrKzQLTMmhw8HURKJZeQYmZ2sRJjjMexL45rjDuZBGRxkaak+c74FTfGiWIL4N
- 4osh+nq1UXZGhhgnSm7T9BepqjYyjWlQTKP4M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pealV+VydqDZW06bmrAL2YWzJvMklEWwyLNagmsldhI=;
- b=hihTDdqaqtxgtjGp7i9NM7OtpNOxu/1OK4wdkCSPmXsBIi21eWTYhc0oZ6OCx7B+MH
- z13q4NCTFTK4pJADDXszzOUS2cl6SLnMsLhBVKGQ9IZIg822DBmXz6CyoWs+tRwKX4Gt
- A9k2BqkkB2NGweZptF8IlnHPzDdADFnaP+1YRnAyGg3e2beAndVCtQUsC1ABN+NFLqnC
- GcFarUSn3LA+MRsbCRy4vtX0ONOI0mjpnGy2Nido6q8TCziua5pSTd2Z4QHAMRrUuBTo
- TybU51cf/yWKArha85OoQm49V/DAKZAdXGLsUci4kBACC7NC3pf+Y1tNr798GtWotGvz
- zmHg==
-X-Gm-Message-State: AOAM532mvkW9R2q9YKIGa+lMLb45c8m303swjbNTIkaJiyVb6HXMvQso
- cuVOeFb5eotrwmvZgR5Orud0gGggSQOmtxOJ1e9m4w==
-X-Google-Smtp-Source: ABdhPJzjIk+koLVPuyqLeA1q3XTupnXm3QaHEKeMDW+mnwE9sPDMUOhSRRI5znL0kjiqqjI+AojPRr1bQ3FPyNkRa/U=
-X-Received: by 2002:a05:6830:1e71:: with SMTP id
- m17mr1780869otr.188.1597407169658; 
- Fri, 14 Aug 2020 05:12:49 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90A7C6EB33
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 12:54:41 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EF0B4B039;
+ Fri, 14 Aug 2020 12:55:02 +0000 (UTC)
+Subject: Re: [PATCH v4 2/2] xen: add helpers to allocate unpopulated memory
+To: =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
+References: <20200811094447.31208-1-roger.pau@citrix.com>
+ <20200811094447.31208-3-roger.pau@citrix.com>
+ <20200813073337.GA16160@infradead.org> <20200813075420.GC975@Air-de-Roger>
+ <20200814072920.GA6126@infradead.org> <20200814095629.GJ975@Air-de-Roger>
+ <a907ff4a-c887-7d02-1d45-140d7749afa4@suse.com>
+ <20200814124724.GK975@Air-de-Roger>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <fc10d3a5-fe79-335e-353a-1bf480af7c7c@suse.com>
+Date: Fri, 14 Aug 2020 14:54:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi>
-In-Reply-To: <57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 14 Aug 2020 14:12:38 +0200
-Message-ID: <CAKMK7uEatNdZ64QmGXLY3GCqDquAr0rcTFF0006K7+L_vySYzg@mail.gmail.com>
-Subject: Re: Role of DMA Heaps vs GEM in allocation
-To: Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <20200814124724.GK975@Air-de-Roger>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,73 +44,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
+ David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 14, 2020 at 1:34 PM Mikko Perttunen <cyndis@kapsi.fi> wrote:
->
-> Hi,
->
-> I'm currently working on a new UAPI for Host1x/TegraDRM (see first draft
-> in thread "[RFC] Host1x/TegraDRM UAPI"[1]). One question that has come
-> up is regarding the buffer allocation mechanism. Traditionally, DRM
-> drivers provide custom GEM allocation IOCTLs. However, we now have DMA
-> Heaps, which would be sufficient for TegraDRM's needs, so we could skip
-> implementing any GEM IOCTLs in the TegraDRM UAPI, and rely on importing
-> DMA-BUFs. This would mean less code on TegraDRM's side.
->
-> However, one complication with using DMA Heaps is that it only provides
-> DMA-BUF FDs, so it is possible that a user application could run out of
-> free file descriptors if it is not adjusting its soft FD limit. This
-> would especially be a problem for existing applications that might have
-> worked with the traditional GEM model and didn't need to adjust their FD
-> limits, but would then fail in some situations with the increased FD
-> usage of DMA-BUF FDs.
->
-> My question is then: what is the role of DMA Heaps? If it is to be used
-> as a central allocator, should the FD issue be left to the application,
-> or addressed somehow? Should it be considered a potential alternative
-> for GEM allocations?
-
-Atm no one knows. What's for sure is that dma-buf fd are meant to
-establish sharing, and then once imported everywhere, closed again.
-dma-buf heaps might or might be useful for sharing the cross-device
-memory allocator problem (the rough idea is that in sysfs every device
-lists all the heaps it can use, and then you pick the common one that
-works for all devices). But that's for shared buffers only.
-
-For an acceleration driver you want drm gem ids, because yes fd
-limits. Also constantly having to reimport dma-buf for every cs ioctl
-doesn't sound like a bright idea either, there's a reason we have the
-drm_prime cache and all that stuff.
-
-I have also no idea why you wouldn't want to use the existing drm
-infrastructure, it's all there.
-
-Cheers, Daniel
-
->
-> Thanks,
-> Mikko
->
-> [1] https://www.spinics.net/lists/dri-devel/msg262021.html
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTQuMDguMjAgMTQ6NDcsIFJvZ2VyIFBhdSBNb25uw6kgd3JvdGU6Cj4gT24gRnJpLCBBdWcg
+MTQsIDIwMjAgYXQgMTI6Mjc6MzJQTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3cm90ZToKPj4gT24g
+MTQuMDguMjAgMTE6NTYsIFJvZ2VyIFBhdSBNb25uw6kgd3JvdGU6Cj4+PiBPbiBGcmksIEF1ZyAx
+NCwgMjAyMCBhdCAwODoyOToyMEFNICswMTAwLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPj4+
+PiBPbiBUaHUsIEF1ZyAxMywgMjAyMCBhdCAwOTo1NDoyMEFNICswMjAwLCBSb2dlciBQYXUgTW9u
+bj8/IHdyb3RlOgo+Pj4+PiBPbiBUaHUsIEF1ZyAxMywgMjAyMCBhdCAwODozMzozN0FNICswMTAw
+LCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPj4+Pj4+IE9uIFR1ZSwgQXVnIDExLCAyMDIwIGF0
+IDExOjQ0OjQ3QU0gKzAyMDAsIFJvZ2VyIFBhdSBNb25uZSB3cm90ZToKPj4+Pj4+PiBJZiBlbmFi
+bGVkIChiZWNhdXNlIFpPTkVfREVWSUNFIGlzIHN1cHBvcnRlZCkgdGhlIHVzYWdlIG9mIHRoZSBu
+ZXcKPj4+Pj4+PiBmdW5jdGlvbmFsaXR5IHVudGFuZ2xlcyBYZW4gYmFsbG9vbiBhbmQgUkFNIGhv
+dHBsdWcgZnJvbSB0aGUgdXNhZ2Ugb2YKPj4+Pj4+PiB1bnBvcHVsYXRlZCBwaHlzaWNhbCBtZW1v
+cnkgcmFuZ2VzIHRvIG1hcCBmb3JlaWduIHBhZ2VzLCB3aGljaCBpcyB0aGUKPj4+Pj4+PiBjb3Jy
+ZWN0IHRoaW5nIHRvIGRvIGluIG9yZGVyIHRvIGF2b2lkIG1hcHBpbmdzIG9mIGZvcmVpZ24gcGFn
+ZXMgZGVwZW5kCj4+Pj4+Pj4gb24gbWVtb3J5IGhvdHBsdWcuCj4+Pj4+Pgo+Pj4+Pj4gU28gcGxl
+YXNlIGp1c3Qgc2VsZWN0IFpPTkVfREVWSUNFIGlmIHRoaXMgaXMgc28gbXVjaCBiZXR0ZXIgcmF0
+aGVyCj4+Pj4+PiB0aGFuIG1haW50YWluaW5nIHR3byB2YXJpYW50cy4KPj4+Pj4KPj4+Pj4gV2Ug
+c3RpbGwgbmVlZCB0byBvdGhlciB2YXJpYW50IGZvciBBcm0gYXQgbGVhc3QsIHNvIGJvdGggbmVl
+ZCB0byBiZQo+Pj4+PiBtYWludGFpbmVkIGFueXdheSwgZXZlbiBpZiB3ZSBmb3JjZSBaT05FX0RF
+VklDRSBvbiB4ODYuCj4+Pj4KPj4+PiBXZWxsLCBpdCBzdGlsbCByZWFsbHkgaGVscHMgcmVwcm9k
+dWNhYmlsaXR5IGlmIHlvdSBzdGljayB0byBvbmUKPj4+PiBpbXBsZW1lbnRhdGlvbiBvZiB4ODYu
+Cj4+Pj4KPj4+PiBUaGUgYWx0ZXJuYXRpdmUgd291bGQgYmUgYW4gZXhwbGljaXQgY29uZmlnIG9w
+dGlvbiB0byBvcHQgaW50byBpdCwKPj4+PiBidXQganVzdCBnZXR0aW5nIGEgZGlmZmVyZW50IGlt
+cGxlbWVudGF0aW9uIGJhc2VkIG9uIGEgcmFuZG9tCj4+Pj4ga2VybmVsIG9wdGlvbiBpcyBzdHJh
+bmdlLgo+Pj4KPj4+IFdvdWxkIGFkZGluZyBzb21ldGhpbmcgbGlrZSB0aGUgY2h1bmsgYmVsb3cg
+dG8gdGhlIHBhdGNoIGJlIE9LPwo+Pj4KPj4+IC0tLTg8LS0tCj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy94ZW4vS2NvbmZpZyBiL2RyaXZlcnMveGVuL0tjb25maWcKPj4+IGluZGV4IDAxODAyMGI5
+MWJhYS4uNWYzMjFhMTMxOWU2IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy94ZW4vS2NvbmZpZwo+
+Pj4gKysrIGIvZHJpdmVycy94ZW4vS2NvbmZpZwo+Pj4gQEAgLTMyOCw3ICszMjgsMTQgQEAgY29u
+ZmlnIFhFTl9GUk9OVF9QR0RJUl9TSEJVRgo+Pj4gICAgCXRyaXN0YXRlCj4+PiAgICBjb25maWcg
+WEVOX1VOUE9QVUxBVEVEX0FMTE9DCj4+PiAtCWJvb2wKPj4+IC0JZGVmYXVsdCB5IGlmIFpPTkVf
+REVWSUNFICYmICFBUk0gJiYgIUFSTTY0Cj4+PiArCWJvb2wgIlVzZSB1bnBvcHVsYXRlZCBtZW1v
+cnkgcmFuZ2VzIGZvciBndWVzdCBtYXBwaW5ncyIKPj4+ICsJZGVwZW5kcyBvbiBYODYKPj4+ICsJ
+c2VsZWN0IFpPTkVfREVWSUNFCj4+PiArCWRlZmF1bHQgeQo+Pgo+PiBJJ2QgcmF0aGVyIHVzZSAi
+ZGVmYXVsdCBYRU5fQkFDS0VORCIgaGVyZSwgYXMgbWFwcGluZ3Mgb2Ygb3RoZXIgZ3Vlc3Qncwo+
+PiBtZW1vcnkgaXMgcmFyZWx5IHVzZWQgZm9yIG5vbi1iYWNrZW5kIGd1ZXN0cy4KPiAKPiBUaGVy
+ZSdzIGFsc28gdGhlIHByaXZjbWQgYW5kIGdudCBkZXZpY2VzIHdoaWNoIG1ha2UgaGVhdnkgdXNl
+IG9mIHRoaXMsCj4gc28gSSdtIG5vdCBzdXJlIG9ubHkgc2VsZWN0aW5nIGJ5IGRlZmF1bHQgb24g
+WEVOX0JBQ0tFTkQgaXMgdGhlIGJlc3QKPiBvcHRpb24uCgpJIGp1c3Qgd2FudCB0byBhdm9pZCB0
+aGF0IGtlcm5lbHMgYnVpbHQgZm9yIHJ1bm5pbmcgYXMgWGVuIGd1ZXN0LCBidXQKbm90IGFzIGRv
+bTAsIHdpbGwgYmUgZm9yY2VkIHRvIHNlbGVjdCBaT05FX0RFVklDRS4KCkFzIHByaXZjbWQgaXMg
+ZG9tMC1vbmx5LCB0aGlzIGlzIG5vIHByb2JsZW0uCgpJbiBjYXNlIHlvdSBhcmUgd29ycnlpbmcg
+YWJvdXQgZ250IGRldmljZXMsIEknZCBiZSBmaW5lIHRvIHN3aXRjaCB0bwoKZGVmYXVsdCBYRU5f
+QkFDS0VORCB8fCBYRU5fR05UREVWCgoKSnVlcmdlbgoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
