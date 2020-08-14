@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553B124431A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 04:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08647244318
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Aug 2020 04:40:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC7696EAC3;
-	Fri, 14 Aug 2020 02:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2BE6E5AE;
+	Fri, 14 Aug 2020 02:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15BA76E593
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:40:12 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id ha11so3701379pjb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 19:40:12 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD0B6E5AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Aug 2020 02:40:13 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id y6so3528498plt.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Aug 2020 19:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uj5OwUKa209o97sWiZ8+oJYiTV5SSBDKEvlfe64N9L8=;
- b=KdUVPzJTMT767jjPo/nucZht365NWp0Stit1h/H6WAUkEGMlQJ0iPmRjTUaTE8fZK8
- 5gUixXbgyNjsv1tkGwp1ct2ctDTKUVEf1NVjXaSN7yLiVKlecH+nJRvRQrr2KsbK7Glr
- Z7XtgSpywVO8TabW7e+AMxrr6ICjc5UAi+3UA=
+ bh=Gm+LAamyC2X0W7Z5wOebTtsHt6Sjfg2y2hu2uvYMdo0=;
+ b=hgTBbwsKLEuY+dyWCpUkZGKBkENqMFfxTrALnECymriynT57f0Nh8R0OWgQkJ+UA1O
+ AKMP+kj+D/DuHzSMXkr8dNDS7QRGSLLQK1KzIkKRrPnUPJNtPam6ib4P2dLQIgL3pSVi
+ SqGhJxgNWydWnbgXjfQMCnjQQA/f1sKLJLc2E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uj5OwUKa209o97sWiZ8+oJYiTV5SSBDKEvlfe64N9L8=;
- b=VHOsbboGRzDnVqjEDYHpzAIl36+6AseVCILKn14ek0wdxdqHl1xNmiYka0Vpr34Hp2
- BFrQwBx4TrpPJVzqFT1QRegr4VQe7/UBDXhI3iWUd3UA9Nwpk5EMsEIt4hGd5yPLKeaW
- kJ228fvpDstmcUMUJCPvED3ggxBPvXEcNabsluV/tMZNPqXrfBoQK7qTCxjMA8+fICGN
- 8nUqiazsqFUlpAeyQcfvEKHdL/GebV5HaOXRIZMeeaS9Y5OsH5Wu6CXocpLNZsFOvRYn
- FwnQzjI9G+KdkwxeGuPSu/4JIPuISwCrZxlCEgbD1BbOesRBl9I1hkGX3rDCs/JV1au3
- n6lg==
-X-Gm-Message-State: AOAM531ygqNKa9LHCLapj20ZU+4vXczMdGHg5bNnFPD822p5cC2Cl3pK
- j7cAfYJtZbU2Z3O7B6pYb33LMytK7/S2VQ==
-X-Google-Smtp-Source: ABdhPJynBsLNCwJH59tVEiEPwPTY9amIU0I7LSvfTMlnYjGrMFmKTML+5ML934JIbWMLqzdBBeR8Bg==
-X-Received: by 2002:a17:902:8d89:: with SMTP id
- v9mr534890plo.113.1597372811379; 
- Thu, 13 Aug 2020 19:40:11 -0700 (PDT)
+ bh=Gm+LAamyC2X0W7Z5wOebTtsHt6Sjfg2y2hu2uvYMdo0=;
+ b=D5b/F0hCMF+j5rpVCm8E+EM7wAeL0/vbVuRTy9aXYSiF3dJsrujffWIaMSKtsmc/9z
+ 4pHKAfebas62I7K0LUR5NQVRH7WsVqkVr1r9yaTwY18kHOrJdxZ/vwvJPccwP3vP0CNd
+ hLqyD1vfqpMWWJj5KJxWwODpiEB0miAUY2OOWJ3o1bD+IItmlePCcPaZ7RwkOoGbt5Xf
+ q5oL33+C0IoOehhk7+0kaQBu7MpkaAvBys5GnoqHToQC7jzoxzkFv2e4rUJvEC8IsVZ/
+ gGuhzzytwLXGMkInmr7OMgPl+BI4/xpoWzEODV06qj7HhJe9nMcvQBI7hYw7p4g5EJo5
+ 1JPQ==
+X-Gm-Message-State: AOAM533y5ByV7bnpZ0Vwq+4PyiHONuulKTGrvWDGW6OpxSZZbCyoP+Ma
+ Ou/n6gUXuCA/PHYaJ/Xvi/TNk2nl/Dt7Kg==
+X-Google-Smtp-Source: ABdhPJwCLxRkxgN+DXVZfHbGt+ir5+7JzG6QSXUNw0icAaxun6IlQdCn7pc0irWiIIyS8+7jJXiOpA==
+X-Received: by 2002:a17:90a:ff07:: with SMTP id
+ ce7mr526376pjb.192.1597372812599; 
+ Thu, 13 Aug 2020 19:40:12 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id m26sm7103539pfe.184.2020.08.13.19.40.10
+ by smtp.gmail.com with ESMTPSA id m26sm7103539pfe.184.2020.08.13.19.40.11
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 13 Aug 2020 19:40:10 -0700 (PDT)
+ Thu, 13 Aug 2020 19:40:12 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
-Subject: [PATCH 07/24] virtio: Implement get_shm_region for MMIO transport
-Date: Thu, 13 Aug 2020 19:39:43 -0700
-Message-Id: <20200814024000.2485-8-gurchetansingh@chromium.org>
+Subject: [PATCH 08/24] drm/virtio: blob prep: refactor getting pages and
+ attaching backing
+Date: Thu, 13 Aug 2020 19:39:44 -0700
+Message-Id: <20200814024000.2485-9-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200814024000.2485-1-gurchetansingh@chromium.org>
 References: <20200814024000.2485-1-gurchetansingh@chromium.org>
@@ -73,87 +74,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sebastien Boeuf <sebastien.boeuf@intel.com>
+Useful for upcoming blob resources.
 
-On MMIO a new set of registers is defined for finding SHM
-regions.  Add their definitions and use them to find the region.
-
-Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 ---
- drivers/virtio/virtio_mmio.c     | 31 +++++++++++++++++++++++++++++++
- include/uapi/linux/virtio_mmio.h | 11 +++++++++++
- 2 files changed, 42 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/virtio/virtio_mmio.c b/drivers/virtio/virtio_mmio.c
-index 627ac0487494..238383ff1064 100644
---- a/drivers/virtio/virtio_mmio.c
-+++ b/drivers/virtio/virtio_mmio.c
-@@ -498,6 +498,36 @@ static const char *vm_bus_name(struct virtio_device *vdev)
- 	return vm_dev->pdev->name;
- }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 1359eb8f1a02..9d68f260d998 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -227,22 +227,22 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 			goto err_put_objs;
+ 	}
  
-+static bool vm_get_shm_region(struct virtio_device *vdev,
-+			      struct virtio_shm_region *region, u8 id)
-+{
-+	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
-+	u64 len, addr;
++	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
++	if (ret != 0) {
++		virtio_gpu_free_object(&shmem_obj->base);
++		return ret;
++	}
 +
-+	/* Select the region we're interested in */
-+	writel(id, vm_dev->base + VIRTIO_MMIO_SHM_SEL);
-+
-+	/* Read the region size */
-+	len = (u64) readl(vm_dev->base + VIRTIO_MMIO_SHM_LEN_LOW);
-+	len |= (u64) readl(vm_dev->base + VIRTIO_MMIO_SHM_LEN_HIGH) << 32;
-+
-+	region->len = len;
-+
-+	/* Check if region length is -1. If that's the case, the shared memory
-+	 * region does not exist and there is no need to proceed further.
-+	 */
-+	if (len == ~(u64)0)
-+		return false;
-+
-+	/* Read the region base address */
-+	addr = (u64) readl(vm_dev->base + VIRTIO_MMIO_SHM_BASE_LOW);
-+	addr |= (u64) readl(vm_dev->base + VIRTIO_MMIO_SHM_BASE_HIGH) << 32;
-+
-+	region->addr = addr;
-+
-+	return true;
-+}
-+
- static const struct virtio_config_ops virtio_mmio_config_ops = {
- 	.get		= vm_get,
- 	.set		= vm_set,
-@@ -510,6 +540,7 @@ static const struct virtio_config_ops virtio_mmio_config_ops = {
- 	.get_features	= vm_get_features,
- 	.finalize_features = vm_finalize_features,
- 	.bus_name	= vm_bus_name,
-+	.get_shm_region = vm_get_shm_region,
- };
+ 	if (params->virgl) {
+ 		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
+ 						  objs, fence);
++		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	} else {
+ 		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+ 					       objs, fence);
++		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	}
  
- 
-diff --git a/include/uapi/linux/virtio_mmio.h b/include/uapi/linux/virtio_mmio.h
-index c4b09689ab64..0650f91bea6c 100644
---- a/include/uapi/linux/virtio_mmio.h
-+++ b/include/uapi/linux/virtio_mmio.h
-@@ -122,6 +122,17 @@
- #define VIRTIO_MMIO_QUEUE_USED_LOW	0x0a0
- #define VIRTIO_MMIO_QUEUE_USED_HIGH	0x0a4
- 
-+/* Shared memory region id */
-+#define VIRTIO_MMIO_SHM_SEL             0x0ac
-+
-+/* Shared memory region length, 64 bits in two halves */
-+#define VIRTIO_MMIO_SHM_LEN_LOW         0x0b0
-+#define VIRTIO_MMIO_SHM_LEN_HIGH        0x0b4
-+
-+/* Shared memory region base address, 64 bits in two halves */
-+#define VIRTIO_MMIO_SHM_BASE_LOW        0x0b8
-+#define VIRTIO_MMIO_SHM_BASE_HIGH       0x0bc
-+
- /* Configuration atomicity value */
- #define VIRTIO_MMIO_CONFIG_GENERATION	0x0fc
+-	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+-	if (ret != 0) {
+-		virtio_gpu_free_object(&shmem_obj->base);
+-		return ret;
+-	}
+-
+-	virtio_gpu_object_attach(vgdev, bo, ents, nents);
+-
+ 	*bo_ptr = bo;
+ 	return 0;
  
 -- 
 2.24.1
