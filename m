@@ -2,36 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5B824517F
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 18:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE262451C3
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 21:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181BB6E3BC;
-	Sat, 15 Aug 2020 16:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 582716E3FE;
+	Sat, 15 Aug 2020 19:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5C06E3BC
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 16:47:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 6788EFB05;
- Sat, 15 Aug 2020 18:47:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rYMbM5R8wXQP; Sat, 15 Aug 2020 18:47:37 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 4A9304576F; Sat, 15 Aug 2020 18:47:37 +0200 (CEST)
-Date: Sat, 15 Aug 2020 18:47:37 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 2/3] dt-bindings: Add Mantix MLAF057WE51-X panel bindings
-Message-ID: <20200815164737.GA3640@bogon.m.sigxcpu.org>
-References: <cover.1597412076.git.agx@sigxcpu.org>
- <9345739df02b8b8630e7dccb61a80a7a7f692526.1597412076.git.agx@sigxcpu.org>
- <20200815083917.GA993113@ravnborg.org>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 704736E3FE
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 19:24:13 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id t23so13328770ljc.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 12:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=E7PzPNqEActvy7NXEpibTBBQfS70Ip8yyz+qKzsTdls=;
+ b=u9c9Cnv8r19BYrwuJlWuM4e23kqae7G72R6GlDU0HqoLliIPf8inwhG579ht04YLA5
+ JthAvAZPxwvh2hmHklZ2mZzshxwpxji7MW/tf6+bG7QrBmUk43+DBP3vv84QWqHsa0SO
+ o3QCAZrwzrY2InGx9W+ks1oJHx03xgmgFvGfrXhQ57vwoC1v2eeum6DnjtnwrFD6lSfV
+ I8l7dSNSQhOHx4LEMSIGaPTtR0kXpufgid1PexN0Yo5vyFmzysbZEiesJOSF3LXI/AVb
+ cAJrg5FyybdR7Wxj3BuCca5ntwcsG1d1/XPwRNKL3fkooWl3k8DTUrmXAi6waeW4wb5V
+ oyCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E7PzPNqEActvy7NXEpibTBBQfS70Ip8yyz+qKzsTdls=;
+ b=Sf2NqbkJ0gzJHnxyCLR6H650yqmRqJYQQYH2bOGXpmGmjAkYEPA2gmWY0gNypoJN00
+ jLmEqbqGlwg8spWJ9cELHQYhD4b4PxleJ56VgjLdg7kYoqwy/JYUVWD3KczLixkUn3U6
+ CUR1h3l+ZyAk9mOD5uAUgoHU+QCkIdENhXmfN3jMFTd9H0Wcrxbch2UXcBo6RE6s9ENt
+ PjmWOMdUBRvJxu2PZDBEVDIneuPl/KSvO5iG0nN9gaTjKNIOM3UaNON/lE/ZSxUPXCxa
+ 9V5OKA+hj4ULMIb2uiVDOfNOuGDCDEI00wHKbvtgCfgMIBLVXJzinZ9ZRv1EVva1HpYA
+ YIbw==
+X-Gm-Message-State: AOAM530DVffiCgZenNnkBpJlvu7YCO2wadL4zvUF3Ue60jbW/KWA9kXi
+ CzZgKPdx6BqWo+gH4MbOf21Zc+nK5dvQzdy3WtY4dw==
+X-Google-Smtp-Source: ABdhPJyd+sqJLp8RwzcKhWQOTVnHaM/D6ihSdE+ef9wePEVUj3TmFqoseDhvwHs/bArfI+oj7OuvBht07BeyrWEfKqk=
+X-Received: by 2002:a2e:6a17:: with SMTP id f23mr3611099ljc.338.1597519451567; 
+ Sat, 15 Aug 2020 12:24:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200815083917.GA993113@ravnborg.org>
+References: <20200815125406.1153224-1-sam@ravnborg.org>
+ <20200815125406.1153224-2-sam@ravnborg.org>
+In-Reply-To: <20200815125406.1153224-2-sam@ravnborg.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 15 Aug 2020 21:23:59 +0200
+Message-ID: <CACRpkdYhYUJGXgHfqsMPoQXPpBma4jOLyEB=wOPXY09RMsVq3A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] drm/panel: samsung: Use dev_ based logging
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,180 +62,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mark Brown <broonie@kernel.org>, allen <allen.chen@ite.com.tw>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@intel.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-On Sat, Aug 15, 2020 at 10:39:17AM +0200, Sam Ravnborg wrote:
-> Hi Guido.
-> =
-
-> On Fri, Aug 14, 2020 at 03:36:22PM +0200, Guido G=FCnther wrote:
-> > The panel uses a Focaltech FT8006p, the touch part is handled by the
-> > already existing edt-ft5x06.
-> > =
-
-> > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> =
-
-> A few trivialities.
-
-Thanks for having a look. One remark inline:
-
-> =
-
-> > ---
-> >  .../display/panel/mantix,mlaf057we51-x.yaml   | 73 +++++++++++++++++++
-> >  1 file changed, 73 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/man=
-tix,mlaf057we51-x.yaml
-> > =
-
-> > diff --git a/Documentation/devicetree/bindings/display/panel/mantix,mla=
-f057we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,ml=
-af057we51-x.yaml
-> > new file mode 100644
-> > index 0000000000000..349f3380ac940
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we5=
-1-x.yaml
-> > @@ -0,0 +1,73 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/mantix,mlaf057we51-x.=
-yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Mantix MLAF057WE51-X 5.7" 720x1440 TFT LCD panel
-> > +
-> > +maintainers:
-> > +  - Guido G=FCnther <agx@sigxcpu.org>
-> > +
-> > +description: |
-> > +             Mantix MLAF057WE51 X is a 720x1440 TFT LCD panel
-> > +             connected using a MIPI-DSI video interface.
-> Indent text with two spaces only.
-> And I have learned that '|' is only needed to preserve formatting - so
-> it can be dropped.
-> =
-
-> > +
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - mantix,mlaf057we51-x
-> This is a list - so needs an extra 2 spaces indent.
-> See https://lore.kernel.org/linux-devicetree/f1963eb9-283f-e903-2a3a-4f32=
-4d71d418@lucaceresoli.net/T/#m65900317fb948f6c40e8fb521f2201fba3c301a7
-> for examples where Rob fixes this.
-
-Doesn't this only apply if the 'outer element' is a list too so e.g.:
-
-   - enum
-     - foo
-
-trips up yamllint but
-
-   enum
-     - foo
-
-doesn't. Since yamllint was happy i kept it as is (looking at your
-reference suggests that too).
-
-All the rest made sense and i fixed that for the upcoming v2.
-Thanks for having a look!
- -- Guido
-
-> =
-
-> > +
-> > +  port: true
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: DSI virtual channel
-> > +
-> > +  avdd-supply:
-> > +    description: Positive analog power supply
-> > +
-> > +  avee-supply:
-> > +    description: Negative analog power supply
-> > +
-> > +  vddi-supply:
-> > +    description: 1.8V I/O voltage supply
-> > +
-> > +  reset-gpios:
-> > +    description: GPIO used for the reset pin
-> > +    maxItems: 1
-> Use reset-gpios: true as we already have it in panel-common.yaml
-> =
-
-> > +
-> > +  backlight:
-> > +    description: Backlight used by the panel
-> > +    $ref: "/schemas/types.yaml#/definitions/phandle"
-> Use backlight from panel-common.yaml.
-> =
-
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - avdd-supply
-> > +  - avee-supply
-> > +  - vddi-supply
-> > +  - reset-gpios
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    dsi {
-> My personal preference is indent with 4 spaces in examples but there are
-> no rules so feel free to ignore.
-> > +      #address-cells =3D <1>;
-> > +      #size-cells =3D <0>;
-> > +      panel@0 {
-> > +        compatible =3D "mantix,mlaf057we51-x";
-> > +        reg =3D <0>;
-> > +        avdd-supply =3D <&reg_avdd>;
-> > +        avee-supply =3D <&reg_avee>;
-> > +        vddi-supply =3D <&reg_1v8_p>;
-> > +        reset-gpios =3D <&gpio1 29 GPIO_ACTIVE_LOW>;
-> > +        backlight =3D <&backlight>;
-> > +      };
-> > +    };
-> I think we need an ampty line here.
-> > +...
-> > -- =
-
-> > 2.26.2
-> > =
-
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> =
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBBdWcgMTUsIDIwMjAgYXQgMjo1NCBQTSBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
+Zy5vcmc+IHdyb3RlOgoKPiBTdGFuZGFyZGl6ZSBvbiB0aGUgZGV2XyBiYXNlZCBsb2dnaW5nIGFu
+ZCBkcm9wIHRoZSBpbmNsdWRlIG9mIGRybV9wcmludC5oLgo+IEZpeCBhIGZldyBjYXNlcyB3aGVy
+ZSAieEAiIHdhcyB1c2VkIHdoZW4gcHJpbnRpbmcgdGhlIG1vZGUuCj4KPiBTaWduZWQtb2ZmLWJ5
+OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6IFRoaWVycnkgUmVkaW5nIDx0
+aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+Cj4gQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
+Lm9yZz4KPiBDYzogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KPiBDYzogTGludXMg
+V2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+IENjOiBMYXVyZW50IFBpbmNoYXJ0
+IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+CgpBdCBvbmUgcG9pbnQgSSB3YXMg
+dG9sZCB0byBub3QgdXNlIGRldl8qIGJ1dCB1c2UgRFJNX0RFVioKbWFjcm9zIGluc3RlYWQuICJP
+SyB0aGUgRFJNIHBlb3BsZSB3YW50IGl0IHRoaXMgd2F5LCBubwpiaWcgZGVhbC4iIEJ1dCBJJ2Qg
+cmF0aGVyIGRvIGl0IGxpa2UgdGhpcyBzbzoKUmV2aWV3ZWQtYnk6IExpbnVzIFdhbGxlaWogPGxp
+bnVzLndhbGxlaWpAbGluYXJvLm9yZz4KCllvdXJzLApMaW51cyBXYWxsZWlqCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
