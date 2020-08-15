@@ -1,36 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F5F245119
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 16:53:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571DA245165
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 18:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BC46E373;
-	Sat, 15 Aug 2020 14:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF9766E3B7;
+	Sat, 15 Aug 2020 16:16:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 504866E373
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 14:53:34 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id B462F20021;
- Sat, 15 Aug 2020 16:53:30 +0200 (CEST)
-Date: Sat, 15 Aug 2020 16:53:29 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 0/4] Add support for Feixin K101-IM2BYL02 panel
-Message-ID: <20200815145329.GA1201814@ravnborg.org>
-References: <20200719170411.275812-1-icenowy@aosc.io>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCCE6E3B7
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 16:16:53 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204609] amdgpu: powerplay failed send message
+Date: Sat, 15 Aug 2020 16:16:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: work@hllmnn.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204609-2300-hKhB2M9qas@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204609-2300@https.bugzilla.kernel.org/>
+References: <bug-204609-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200719170411.275812-1-icenowy@aosc.io>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=8R4CpP16fAPwfkrXZjwA:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,50 +51,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Icenowy
+https://bugzilla.kernel.org/show_bug.cgi?id=204609
 
-On Mon, Jul 20, 2020 at 01:04:06AM +0800, Icenowy Zheng wrote:
-> The controller chip of Feixin K101-IM2BA02 is going to be discontinued,
-> so Feixin start to provide K101-IM2BYL02 panel as a replacement, which
-> utilizes Ilitek ILI9881C controller.
-> 
-> Add support for K101-IM2BYL02 panel.
-> 
-> By the way, is there a way that can try both kind of panels in the same
-> kernel/DTB combo? K101-IM2BYL02 has the same pinout with K101-IM2BA02,
-> and PineTab schedule to switch to it w/o modifying the mainboard.
-> 
-> Icenowy Zheng (4):
->   drm/panel: ilitek-ili9881c: prepare for adding support for extra
->     panels
->   dt-bindings: ili9881c: add compatible string for Feixin K101-IM2BYL02
->   drm/panel: ilitek-ili9881c: add support for Feixin K101-IM2BYL02 panel
-Thanks, applied the above patches to drm-misc-next.
+work@hllmnn.de changed:
 
-	Sam
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |work@hllmnn.de
 
->   [DO NOT MERGE] arm64: allwinner: dts: a64: enable K101-IM2BYL02 panel
->     for PineTab
-> 
->  .../display/panel/ilitek,ili9881c.yaml        |   1 +
->  .../boot/dts/allwinner/sun50i-a64-pinetab.dts |  10 +
->  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 273 ++++++++++++++++--
->  3 files changed, 265 insertions(+), 19 deletions(-)
-> 
-> -- 
-> 2.27.0
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+--- Comment #9 from work@hllmnn.de ---
+I can reproduce this bug with kernel 5.7.0 from Debian bullseye (5.7.0-2-amd64)
+when using a dual monitor setup. If I boot with only one monitor connected and
+connect the second one later, everything seems to work fine. Both monitors are
+connected via DisplayPort, but it does not change anything if I connect one of
+them via HDMI.
+
+The significant errors in dmesg read:
+
+Aug 15 17:15:03 dino kernel: failed send message: TransferTableSmu2Dram (18)   
+     param: 0x00000006 response 0xffffffc2
+Aug 15 17:15:03 dino kernel: Failed to export SMU metrics table!
+Aug 15 17:15:05 dino kernel: Msg issuing pre-check failed and SMU may be not in
+the right state!
+Aug 15 17:15:05 dino kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* Dpm
+enable uvd failed, ret = -62. 
+Aug 15 17:15:06 dino kernel: amdgpu 0000:09:00.0: [drm:amdgpu_ib_ring_tests
+[amdgpu]] *ERROR* IB test failed on vcn_enc0 (-110).
+Aug 15 17:15:07 dino kernel: amdgpu 0000:09:00.0: [drm:amdgpu_ib_ring_tests
+[amdgpu]] *ERROR* IB test failed on vcn_enc1 (-110).
+Aug 15 17:15:08 dino kernel: Msg issuing pre-check failed and SMU may be not in
+the right state!
+Aug 15 17:15:08 dino kernel: Failed to export SMU metrics table!
+Aug 15 17:15:11 dino kernel: Msg issuing pre-check failed and SMU may be not in
+the right state!
+Aug 15 17:15:11 dino kernel: [drm:jpeg_v2_0_set_powergating_state [amdgpu]]
+*ERROR* Dpm enable jpeg failed, ret = -62. 
+Aug 15 17:15:11 dino kernel: [drm:process_one_work] *ERROR* ib ring test failed
+(-110).
+
+I am using the firmware files from that commit:
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=49e9ea898f870ae09b91ccd3dd1c45d520fcb0c3
+(commit date: 2020-08-07)
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
