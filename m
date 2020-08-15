@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA95D2450C4
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 10:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09462450C8
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 10:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2626E04A;
-	Sat, 15 Aug 2020 08:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28FE16E088;
+	Sat, 15 Aug 2020 08:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
- [85.215.255.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C05C16E04A
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 08:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597478916;
- s=strato-dkim-0002; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=HLQXrg/IC9PqTIwbfgIO2LCl6yVYXFoV7ivlVfDOZ30=;
- b=oI3ZwHZ/5oEjAmUHY5cQDTPkFgJnQggagZTKMUQfIJiFXoBslq0QXhSuBba+tM/A9F
- iZO0Avngmhq2mtgpAaN/1bRmFaCZX2Ge8YHMkjr3BYGvGEOgf3ss1rvv7EhnUmB1iyK5
- 5U0md+HwCaMwqvdtENsCAINco2n9G9DNfFLUov9KAyotCYjLLeGlsI9gyoR+VhlqWE0H
- /StH1YHnkjNu9aabSunwGjiUnV6tnPMmF2CUiezA3JTovxodKWP6ZPDNst1SRbID2daC
- jrAbpLRy74KAfJvNJOQsFlKHdW3NMtzUx7i3HKkqo76YIrN9s3c3f3Sggh907Z438HP+
- bOEA==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8j8IcfFBg=="
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
- with ESMTPSA id Y0939ew7F88J6OE
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Sat, 15 Aug 2020 10:08:19 +0200 (CEST)
-Date: Sat, 15 Aug 2020 10:08:13 +0200
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2] drm/mcde: Retry DSI read/write transactions
-Message-ID: <20200815080813.GA850@gerhold.net>
-References: <20200814194451.3494294-1-linus.walleij@linaro.org>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 554E86E088
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 08:39:27 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id DC50880533;
+ Sat, 15 Aug 2020 10:39:18 +0200 (CEST)
+Date: Sat, 15 Aug 2020 10:39:17 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH 2/3] dt-bindings: Add Mantix MLAF057WE51-X panel bindings
+Message-ID: <20200815083917.GA993113@ravnborg.org>
+References: <cover.1597412076.git.agx@sigxcpu.org>
+ <9345739df02b8b8630e7dccb61a80a7a7f692526.1597412076.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200814194451.3494294-1-linus.walleij@linaro.org>
+In-Reply-To: <9345739df02b8b8630e7dccb61a80a7a7f692526.1597412076.git.agx@sigxcpu.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=8nJEP1OIZ-IA:10 a=ze386MxoAAAA:8 a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8
+ a=6yzhs6WGAAAA:8 a=e5mUnYsNAAAA:8 a=hVRzqGFF_kdORxQG3GsA:9
+ a=wPNLvfGTeEIA:10 a=iBZjaW-pnkserzjvUTHh:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=j5F3_G_i7ziBYwdlbqZG:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,252 +47,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Mark Brown <broonie@kernel.org>, allen <allen.chen@ite.com.tw>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 14, 2020 at 09:44:51PM +0200, Linus Walleij wrote:
-> The vendor driver makes a few retries on read DSI
-> transactions, something that is needed especially in
-> case of read (such as reading the panel MTP ID) while
-> the panel is running in video mode. This happens on
-> the Samsung s6e63m0 panel on the Golden device.
-> 
-> Retry reads and writes alike three times.
-> 
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Hi Guido.
+
+On Fri, Aug 14, 2020 at 03:36:22PM +0200, Guido G=FCnther wrote:
+> The panel uses a Focaltech FT8006p, the touch part is handled by the
+> already existing edt-ft5x06.
+> =
+
+> Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+
+A few trivialities.
+
 > ---
-> ChangeLog v1->v2:
-> - Retry three times.
-> - Only retry the actual command transmission like the vendor
->   driver does, no need to set up all registers and do checks
->   all over. Break out a part of the mcde_dsi_host_transfer()
->   function to achieve this.
-> ---
->  drivers/gpu/drm/mcde/mcde_dsi.c | 158 +++++++++++++++++++-------------
->  1 file changed, 92 insertions(+), 66 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-> index 4ce8cc5f0be2..b3c5d3cbda92 100644
-> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> @@ -208,79 +208,16 @@ static int mcde_dsi_host_detach(struct mipi_dsi_host *host,
->  	 (type == MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM) || \
->  	 (type == MIPI_DSI_DCS_READ))
->  
-> -static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
-> -				      const struct mipi_dsi_msg *msg)
-> +static int mcde_dsi_execute_transfer(struct mcde_dsi *d,
-> +				     const struct mipi_dsi_msg *msg)
->  {
-> -	struct mcde_dsi *d = host_to_mcde_dsi(host);
->  	const u32 loop_delay_us = 10; /* us */
-> -	const u8 *tx = msg->tx_buf;
->  	u32 loop_counter;
->  	size_t txlen = msg->tx_len;
->  	size_t rxlen = msg->rx_len;
-> +	int i;
->  	u32 val;
->  	int ret;
-> -	int i;
-> -
-> -	if (txlen > 16) {
-> -		dev_err(d->dev,
-> -			"dunno how to write more than 16 bytes yet\n");
-> -		return -EIO;
-> -	}
-> -	if (rxlen > 4) {
-> -		dev_err(d->dev,
-> -			"dunno how to read more than 4 bytes yet\n");
-> -		return -EIO;
-> -	}
-> -
-> -	dev_dbg(d->dev,
-> -		"message to channel %d, write %zd bytes read %zd bytes\n",
-> -		msg->channel, txlen, rxlen);
-> -
-> -	/* Command "nature" */
-> -	if (MCDE_DSI_HOST_IS_READ(msg->type))
-> -		/* MCTL_MAIN_DATA_CTL already set up */
-> -		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_READ;
-> -	else
-> -		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_WRITE;
-> -	/*
-> -	 * More than 2 bytes will not fit in a single packet, so it's
-> -	 * time to set the "long not short" bit. One byte is used by
-> -	 * the MIPI DCS command leaving just one byte for the payload
-> -	 * in a short package.
-> -	 */
-> -	if (mipi_dsi_packet_format_is_long(msg->type))
-> -		val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LONGNOTSHORT;
-> -	val |= 0 << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_ID_SHIFT;
-> -	val |= txlen << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_SIZE_SHIFT;
-> -	val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LP_EN;
-> -	val |= msg->type << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_HEAD_SHIFT;
-> -	writel(val, d->regs + DSI_DIRECT_CMD_MAIN_SETTINGS);
-> -
-> -	/* MIPI DCS command is part of the data */
-> -	if (txlen > 0) {
-> -		val = 0;
-> -		for (i = 0; i < 4 && i < txlen; i++)
-> -			val |= tx[i] << (i * 8);
-> -	}
-> -	writel(val, d->regs + DSI_DIRECT_CMD_WRDAT0);
-> -	if (txlen > 4) {
-> -		val = 0;
-> -		for (i = 0; i < 4 && (i + 4) < txlen; i++)
-> -			val |= tx[i + 4] << (i * 8);
-> -		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT1);
-> -	}
-> -	if (txlen > 8) {
-> -		val = 0;
-> -		for (i = 0; i < 4 && (i + 8) < txlen; i++)
-> -			val |= tx[i + 8] << (i * 8);
-> -		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT2);
-> -	}
-> -	if (txlen > 12) {
-> -		val = 0;
-> -		for (i = 0; i < 4 && (i + 12) < txlen; i++)
-> -			val |= tx[i + 12] << (i * 8);
-> -		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT3);
-> -	}
->  
->  	writel(~0, d->regs + DSI_DIRECT_CMD_STS_CLR);
->  	writel(~0, d->regs + DSI_CMD_MODE_STS_CLR);
-> @@ -297,6 +234,7 @@ static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
->  			usleep_range(loop_delay_us, (loop_delay_us * 3) / 2);
->  		if (!loop_counter) {
->  			dev_err(d->dev, "DSI read timeout!\n");
-> +			/* Set exit code and retry */
->  			return -ETIME;
->  		}
->  	} else {
-> @@ -307,6 +245,7 @@ static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
->  			usleep_range(loop_delay_us, (loop_delay_us * 3) / 2);
->  
->  		if (!loop_counter) {
-> +			/* Set exit code and retry */
->  			dev_err(d->dev, "DSI write timeout!\n");
->  			return -ETIME;
->  		}
-> @@ -348,6 +287,93 @@ static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
->  		ret = rdsz;
->  	}
->  
-> +	/* Successful transmission */
-> +	return ret;
-> +}
-> +
-> +static ssize_t mcde_dsi_host_transfer(struct mipi_dsi_host *host,
-> +				      const struct mipi_dsi_msg *msg)
-> +{
-> +	struct mcde_dsi *d = host_to_mcde_dsi(host);
-> +	const u8 *tx = msg->tx_buf;
-> +	size_t txlen = msg->tx_len;
-> +	size_t rxlen = msg->rx_len;
-> +	unsigned int retries = 0;
-> +	u32 val;
-> +	int ret;
-> +	int i;
-> +
-> +	if (txlen > 16) {
-> +		dev_err(d->dev,
-> +			"dunno how to write more than 16 bytes yet\n");
-> +		return -EIO;
-> +	}
-> +	if (rxlen > 4) {
-> +		dev_err(d->dev,
-> +			"dunno how to read more than 4 bytes yet\n");
-> +		return -EIO;
-> +	}
-> +
-> +	dev_dbg(d->dev,
-> +		"message to channel %d, write %zd bytes read %zd bytes\n",
-> +		msg->channel, txlen, rxlen);
-> +
-> +	/* Command "nature" */
-> +	if (MCDE_DSI_HOST_IS_READ(msg->type))
-> +		/* MCTL_MAIN_DATA_CTL already set up */
-> +		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_READ;
-> +	else
-> +		val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_WRITE;
-> +	/*
-> +	 * More than 2 bytes will not fit in a single packet, so it's
-> +	 * time to set the "long not short" bit. One byte is used by
-> +	 * the MIPI DCS command leaving just one byte for the payload
-> +	 * in a short package.
-> +	 */
-> +	if (mipi_dsi_packet_format_is_long(msg->type))
-> +		val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LONGNOTSHORT;
-> +	val |= 0 << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_ID_SHIFT;
-> +	val |= txlen << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_SIZE_SHIFT;
-> +	val |= DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_LP_EN;
-> +	val |= msg->type << DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_HEAD_SHIFT;
-> +	writel(val, d->regs + DSI_DIRECT_CMD_MAIN_SETTINGS);
-> +
-> +	/* MIPI DCS command is part of the data */
-> +	if (txlen > 0) {
-> +		val = 0;
-> +		for (i = 0; i < 4 && i < txlen; i++)
-> +			val |= tx[i] << (i * 8);
-> +	}
-> +	writel(val, d->regs + DSI_DIRECT_CMD_WRDAT0);
-> +	if (txlen > 4) {
-> +		val = 0;
-> +		for (i = 0; i < 4 && (i + 4) < txlen; i++)
-> +			val |= tx[i + 4] << (i * 8);
-> +		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT1);
-> +	}
-> +	if (txlen > 8) {
-> +		val = 0;
-> +		for (i = 0; i < 4 && (i + 8) < txlen; i++)
-> +			val |= tx[i + 8] << (i * 8);
-> +		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT2);
-> +	}
-> +	if (txlen > 12) {
-> +		val = 0;
-> +		for (i = 0; i < 4 && (i + 12) < txlen; i++)
-> +			val |= tx[i + 12] << (i * 8);
-> +		writel(val, d->regs + DSI_DIRECT_CMD_WRDAT3);
-> +	}
-> +
-> +	while (retries < 3) {
-> +		ret = mcde_dsi_execute_transfer(d, msg);
-> +		if (ret >= 0)
-> +			break;
-> +		retries++;
-> +	}
+>  .../display/panel/mantix,mlaf057we51-x.yaml   | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/manti=
+x,mlaf057we51-x.yaml
+> =
 
-It might be a bit nicer to write this as a for loop, i.e.
-
-	for (retries = 0; retries < 3; retries++) {
-		ret = mcde_dsi_execute_transfer(d, msg);
-		if (ret >= 0)
-			break;
-	}
-
-But I guess it does not make much of a difference here.
-
-Just a thought, looks good to me otherwise!
-Reviewed-by: Stephan Gerhold <stephan@gerhold.net>
-
-Thanks!
-Stephan
-
-> +	if (ret < 0 && retries)
-> +		dev_err(d->dev, "gave up after %d retries\n", retries);
+> diff --git a/Documentation/devicetree/bindings/display/panel/mantix,mlaf0=
+57we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,mlaf=
+057we51-x.yaml
+> new file mode 100644
+> index 0000000000000..349f3380ac940
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-=
+x.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/mantix,mlaf057we51-x.ya=
+ml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	/* Clear any errors */
->  	writel(~0, d->regs + DSI_DIRECT_CMD_STS_CLR);
->  	writel(~0, d->regs + DSI_CMD_MODE_STS_CLR);
->  
-> -- 
+> +title: Mantix MLAF057WE51-X 5.7" 720x1440 TFT LCD panel
+> +
+> +maintainers:
+> +  - Guido G=FCnther <agx@sigxcpu.org>
+> +
+> +description: |
+> +             Mantix MLAF057WE51 X is a 720x1440 TFT LCD panel
+> +             connected using a MIPI-DSI video interface.
+Indent text with two spaces only.
+And I have learned that '|' is only needed to preserve formatting - so
+it can be dropped.
+
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mantix,mlaf057we51-x
+This is a list - so needs an extra 2 spaces indent.
+See https://lore.kernel.org/linux-devicetree/f1963eb9-283f-e903-2a3a-4f324d=
+71d418@lucaceresoli.net/T/#m65900317fb948f6c40e8fb521f2201fba3c301a7
+for examples where Rob fixes this.
+
+> +
+> +  port: true
+> +  reg:
+> +    maxItems: 1
+> +    description: DSI virtual channel
+> +
+> +  avdd-supply:
+> +    description: Positive analog power supply
+> +
+> +  avee-supply:
+> +    description: Negative analog power supply
+> +
+> +  vddi-supply:
+> +    description: 1.8V I/O voltage supply
+> +
+> +  reset-gpios:
+> +    description: GPIO used for the reset pin
+> +    maxItems: 1
+Use reset-gpios: true as we already have it in panel-common.yaml
+
+> +
+> +  backlight:
+> +    description: Backlight used by the panel
+> +    $ref: "/schemas/types.yaml#/definitions/phandle"
+Use backlight from panel-common.yaml.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - avdd-supply
+> +  - avee-supply
+> +  - vddi-supply
+> +  - reset-gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+My personal preference is indent with 4 spaces in examples but there are
+no rules so feel free to ignore.
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +      panel@0 {
+> +        compatible =3D "mantix,mlaf057we51-x";
+> +        reg =3D <0>;
+> +        avdd-supply =3D <&reg_avdd>;
+> +        avee-supply =3D <&reg_avee>;
+> +        vddi-supply =3D <&reg_1v8_p>;
+> +        reset-gpios =3D <&gpio1 29 GPIO_ACTIVE_LOW>;
+> +        backlight =3D <&backlight>;
+> +      };
+> +    };
+I think we need an ampty line here.
+> +...
+> -- =
+
 > 2.26.2
-> 
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
