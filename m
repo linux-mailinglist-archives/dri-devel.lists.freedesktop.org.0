@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2652E2451D5
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 23:09:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 258D02451D7
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 23:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56AD86E0B7;
-	Sat, 15 Aug 2020 21:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2B56E0C4;
+	Sat, 15 Aug 2020 21:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE396E0B7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 21:09:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id CC94680540;
- Sat, 15 Aug 2020 23:09:32 +0200 (CEST)
-Date: Sat, 15 Aug 2020 23:09:31 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v1 1/5] drm/panel: samsung: Use dev_ based logging
-Message-ID: <20200815210931.GB1242831@ravnborg.org>
-References: <20200815125406.1153224-1-sam@ravnborg.org>
- <20200815125406.1153224-2-sam@ravnborg.org>
- <CACRpkdYhYUJGXgHfqsMPoQXPpBma4jOLyEB=wOPXY09RMsVq3A@mail.gmail.com>
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B61E6E0C4
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 21:16:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 1F9E9FB09;
+ Sat, 15 Aug 2020 23:16:27 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id r8q8YHSa3Wsh; Sat, 15 Aug 2020 23:16:23 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id A05FD4576F; Sat, 15 Aug 2020 23:16:22 +0200 (CEST)
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Daniel Palmer <daniel@0x0f.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ allen <allen.chen@ite.com.tw>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] drm/panel: Add panel driver for the Mantix
+ MLAF057WE51-X DSI panel
+Date: Sat, 15 Aug 2020 23:16:19 +0200
+Message-Id: <cover.1597526107.git.agx@sigxcpu.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYhYUJGXgHfqsMPoQXPpBma4jOLyEB=wOPXY09RMsVq3A@mail.gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8 a=pGLkceISAAAA:8 a=ze386MxoAAAA:8
- a=KKAkSRfTAAAA:8 a=P1BnusSwAAAA:8 a=Igz15Yc0uS9Mdv-RYuMA:9
- a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=iBZjaW-pnkserzjvUTHh:22
- a=cvBusfyB2V15izCimMoJ:22 a=D0XLA9XvdZm18NrgonBM:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,47 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@intel.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 15, 2020 at 09:23:59PM +0200, Linus Walleij wrote:
-> On Sat, Aug 15, 2020 at 2:54 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> =
-
-> > Standardize on the dev_ based logging and drop the include of drm_print=
-.h.
-> > Fix a few cases where "x@" was used when printing the mode.
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Guido G=FCnther <agx@sigxcpu.org>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> =
-
-> At one point I was told to not use dev_* but use DRM_DEV*
-> macros instead. "OK the DRM people want it this way, no
-> big deal."
-That could have been me, sorry!
-
-> But I'd rather do it like this so:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Thanks!
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ClRoZSBwYW5lbCB1c2VzIGEgRm9jYWx0ZWNoIEZUODAwNnAsIHRoZSB0b3VjaCBwYXJ0IGlzIGhh
+bmRsZWQgYnkgdGhlIGFscmVhZHkKZXhpc3RpbmcgZWR0LWZ0NXgwNi4gSXQgY2FuIGJlIGZvdW5k
+IGluIGUuZy4gdGhlIExpYnJlbSA1LgoKQ2hhbmdlcyBmcm9tIHYxOgotIER1ZSB0byByZXZpZXcg
+Y29tbWVudHMgYnkgU2FtIFJhdm5ib3JnLCB0aGFua3MhCiAgaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvZHJpLWRldmVsLzIwMjAwODE1MDgzOTE3LkdBOTkzMTEzQHJhdm5ib3JnLm9yZy8KICAtIERv
+bid0IHByZXNlcnZlIG5ld2xpbmVzIHdpdGggJ3wnIGluIGRlc2NyaXB0aW9uCiAgLSBVc2UgcmVz
+ZXQtZ3Bpb3MgYW5kIGJhY2tsaWdodCBmcm9tIHBhbmVsLWNvbW1vbi55YW1sCiAgLSBSZWluZGVu
+dCBleGFtcGxlCiAgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsLzIwMjAwODE1MDkz
+MjI2LkdCOTkzMTEzQHJhdm5ib3JnLm9yZy8KICAtIERyb3AgdW51c2VkIGluY2x1ZGVzCiAgLSBV
+c2UgZGV2XyogaW5zdGVhZCBvZiBEUk1fKiBmb3IgcHJpbnRpbmcKICAtIFR1cm4gb2ZmIHJlZ3Vs
+YXRvcnMgaW4gcmV2ZXJzZSBvcmRlciBmcm9tIGVuYWJsZQogIC0gU2lsZW5jZSBlcnJvcnMgaW4g
+bWFudGl4X3tzaHV0ZG93bixyZW1vdmV9CiAgLSBEcm9wIGR1cGxpY2F0ZSBtaXBpX2RzaV9kY3Nf
+ZW50ZXJfc2xlZXBfbW9kZSgpCiAgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsLzIw
+MjAwODE1MTAwMjMwLkdBMTAwMjM3NEByYXZuYm9yZy5vcmcvCiAgLSBVc2UgZGV2X2Vycl9wcm9i
+ZSgpCi0gQWRkIGRlbGF5cyB3aGVuIHR1cm5pbmcgb2ZmIHBhbmVsIGFzIHN1Z2dlc3RlZCBieSB0
+aGUgZGF0YSBzaGVldAoKVGhpcyBzZXJpZXMgaXMgYWdhaW5zdCBuZXh0LTIwMjAwODE0LgoKR3Vp
+ZG8gR8O8bnRoZXIgKDMpOgogIGR0LWJpbmRpbmdzOiB2ZW5kb3ItcHJlZml4ZXM6IEFkZCBtYW50
+aXggdmVuZG9yIHByZWZpeAogIGR0LWJpbmRpbmdzOiBBZGQgTWFudGl4IE1MQUYwNTdXRTUxLVgg
+cGFuZWwgYmluZGluZ3MKICBkcm0vcGFuZWw6IEFkZCBwYW5lbCBkcml2ZXIgZm9yIHRoZSBNYW50
+aXggTUxBRjA1N1dFNTEtWCBEU0kgcGFuZWwKCiAuLi4vZGlzcGxheS9wYW5lbC9tYW50aXgsbWxh
+ZjA1N3dlNTEteC55YW1sICAgfCAgNzAgKysrKwogLi4uL2RldmljZXRyZWUvYmluZGluZ3MvdmVu
+ZG9yLXByZWZpeGVzLnlhbWwgIHwgICAyICsKIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB8ICAgNyArCiBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvS2NvbmZpZyAg
+ICAgICAgICAgICAgICAgfCAgMTEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmVsL01ha2VmaWxlICAg
+ICAgICAgICAgICAgIHwgICAxICsKIC4uLi9ncHUvZHJtL3BhbmVsL3BhbmVsLW1hbnRpeC1tbGFm
+MDU3d2U1MS5jICB8IDMyOCArKysrKysrKysrKysrKysrKysKIDYgZmlsZXMgY2hhbmdlZCwgNDE5
+IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9tYW50aXgsbWxhZjA1N3dlNTEteC55YW1sCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLW1hbnRpeC1tbGFmMDU3
+d2U1MS5jCgotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
