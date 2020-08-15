@@ -1,39 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5930B2450E3
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 12:47:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9912450FA
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Aug 2020 14:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 916E96E094;
-	Sat, 15 Aug 2020 10:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26E5A6E296;
+	Sat, 15 Aug 2020 12:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E874E6E094
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 10:47:00 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id CA97720022;
- Sat, 15 Aug 2020 12:46:52 +0200 (CEST)
-Date: Sat, 15 Aug 2020 12:46:51 +0200
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2100B6E102
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 12:54:22 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id j22so6147567lfm.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Aug 2020 05:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pvx2SzgUcRuWE1RepcZ56CM2lEHcyDxlzZ6KGXl/uBk=;
+ b=ajDbz5peTQ99h3xb2LYZJgpo8xX/f75ks5ZQv0ysZhLWb0uJf7rKThSp7W19XlnLrl
+ 5xooLK5W49FHmDeT52rTipUBJQnIzGbgx+HFo6thQ//AmJ15maE4FpNOPsSLLJ4R9XNv
+ EvFpgBLZYf/CKPbKpOTSD80V6O3D0CXtfTEzrKtwOairiWCcKRv+rvy4xeg/D5iId3DA
+ vkxkLC3AEDOMBFI00OThgIt22L7E+6TSLeGfB0l1eRjDZcj5ObXYA6Zat+GhADx8jufs
+ /3r3ffQcVShB/kXHDt99ckAVJblH2uHBVY9/BLI6zPqhv2zry1XpFUh5ZsJESHNbZtcy
+ sx0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Pvx2SzgUcRuWE1RepcZ56CM2lEHcyDxlzZ6KGXl/uBk=;
+ b=poqqPZdtvpBQ3Qyey9jeIOu10EUNPsMKVxgNqC4tDhJjB1okE1tgsy6KzK44YhBtp4
+ IZlKHnFpIE8j49stvjcGLmEr88g4ZoG7MM1ySj06AIFNSswT3rTOVrbzmEwFAuMx0H7F
+ 97V6ZWwhwRGnZsL2X99IrBngGygpwlvQGqXoZKeIv2i5EBjtt36krpsoh0ieQ3/2h7ba
+ pW8czyRqAuSMqaJI5bsY7vMnbpORKbpjnOgDf5mDJLRDOtIz1LbiQlvIKi+NPO2gmNM1
+ DLpjG0RrdduSa4N9hN4XqxLs5qiXTUPOKNlVn0L1lTbq9M94aSiRf4lBMPEDsemf7u44
+ S+TQ==
+X-Gm-Message-State: AOAM532dxU33U/mLm/m7TDJiRK44yavvpIiIU9RMoT1a2wdU6FIhjeVS
+ kPqfaYAm7RmdgYgUdK+M+FVMz53JkyZNhQ==
+X-Google-Smtp-Source: ABdhPJzZaKmWjBRWLCmhIZLMOO5zfq56UQ33haIvu1+sk9OzGNWe3SSSF8T2+cXU6de+3rYeR95brQ==
+X-Received: by 2002:a19:3d4:: with SMTP id 203mr3422305lfd.183.1597496060234; 
+ Sat, 15 Aug 2020 05:54:20 -0700 (PDT)
+Received: from saturn.lan ([2a00:fd00:805f:db00:402:93d8:3e64:6121])
+ by smtp.gmail.com with ESMTPSA id e29sm2396322ljp.136.2020.08.15.05.54.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Aug 2020 05:54:19 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH 3/3] drm/panel: Add panel driver for the Mantix
- MLAF057WE51-X DSI panel
-Message-ID: <20200815104651.GA1005928@ravnborg.org>
-References: <cover.1597412076.git.agx@sigxcpu.org>
- <0a7539135cc46eec5636ca89f52695f4a1197841.1597412076.git.agx@sigxcpu.org>
- <20200815100230.GA1002374@ravnborg.org>
- <20200815104022.GA5641@bogon.m.sigxcpu.org>
+To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v1 0/5] drm/panel: Use dev_ based logging
+Date: Sat, 15 Aug 2020 14:54:01 +0200
+Message-Id: <20200815125406.1153224-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200815104022.GA5641@bogon.m.sigxcpu.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=T4MLU0igAHpipydq7w0A:9 a=wPNLvfGTeEIA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,86 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mark Brown <broonie@kernel.org>, allen <allen.chen@ite.com.tw>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Jani Nikula <jani.nikula@intel.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 15, 2020 at 12:40:22PM +0200, Guido G=FCnther wrote:
-> Hi Sam,
-> On Sat, Aug 15, 2020 at 12:02:30PM +0200, Sam Ravnborg wrote:
-> > Hi Guido.
-> > =
+The drm/panel drivers uses a mixture of DRM_ and dev_ based logging.
+With this patchset all panel drivers are migrated to use dev_ based
+logging as the DRM_ based logging did not add any extra info.
 
-> > > +static int mantix_probe(struct mipi_dsi_device *dsi)
-> > > +{
-> > > +	struct device *dev =3D &dsi->dev;
-> > > +	struct mantix *ctx;
-> > > +	int ret;
-> > > +
-> > > +	ctx =3D devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> > > +	if (!ctx)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	ctx->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > > +	if (IS_ERR(ctx->reset_gpio)) {
-> > > +		DRM_DEV_ERROR(dev, "cannot get reset gpio\n");
-> > > +		return PTR_ERR(ctx->reset_gpio);
-> > > +	}
-> > > +
-> > > +	mipi_dsi_set_drvdata(dsi, ctx);
-> > > +	ctx->dev =3D dev;
-> > > +
-> > > +	dsi->lanes =3D 4;
-> > > +	dsi->format =3D MIPI_DSI_FMT_RGB888;
-> > > +	dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO |
-> > > +		MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-> > > +
-> > > +	ctx->avdd =3D devm_regulator_get(dev, "avdd");
-> > > +	if (IS_ERR(ctx->avdd)) {
-> > > +		ret =3D PTR_ERR(ctx->avdd);
-> > > +		if (ret !=3D -EPROBE_DEFER)
-> > > +			DRM_DEV_ERROR(dev,
-> > > +				      "Failed to request avdd regulator: %d\n",
-> > > +				      ret);
-> > > +		return ret;
-> > > +	}
-> > =
+Drop the now unused include of drm_print.h.
 
-> > Consider to use the recently added dev_err_probe() here and below.
-> > Note: Not part of drm-misc-next yet - but hopefully after -rc1
-> > when a backmerge is done.
-> =
+With this change new panel drivers will be requires to change to dev_
+based logging - so some of the in-flight panel drivers will need trivial
+updates before they are accepted.
 
-> In fact I did decided against it since i was told that missing dev_* and
-> DRM_* logging shouldn't be done. So is that o.k. nowadays?
-s/missing/mixing/
+Patch divided in smaller bites to ease review. There is no dependencies
+between the patches.
 
-I often request that logging is consistent - so I recognize the
-argument.
-
-For panel/* I have not made up my mind what I think is the best
-approach. The DRM_DEV_* and DRM_* logging do not add much value.
-So I have been tempted several times to convert all logging in
-panel/ to dev_* and pr_* (when no struct device * is available).
-That would also avoid that we mix up logging.
-
-We have drm_* logging - but they require a valid drm_device * which we
-do not have in the the panel drivers. So they are ruled out here.
-
-Do you have any opinions/comments on this?
+Copied a few people that may have input to the move away from DRM_ based
+logging (Daniel (presumeably on vacation), Jani).
 
 	Sam
+
+Sam Ravnborg (5):
+      drm/panel: samsung: Use dev_ based logging
+      drm/panel: leadtek: Use dev_ based logging
+      drm/panel: raydium: Use dev_ based logging
+      drm/panel: sitronix: Use dev_ based logging
+      drm/panel: Use dev_ based logging
+
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c       | 44 ++++--------
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c       | 51 +++++---------
+ drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c  | 19 +++--
+ .../gpu/drm/panel/panel-feiyang-fy07024di26a30d.c  | 21 +++---
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c       |  3 +-
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c      | 31 +++------
+ drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c | 33 ++++-----
+ drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 58 ++++++----------
+ drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c | 49 +++++--------
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c      | 40 ++++-------
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   | 13 ++--
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c      | 33 ++++-----
+ drivers/gpu/drm/panel/panel-raydium-rm68200.c      | 18 +++--
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c       | 16 ++---
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c       |  3 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c      | 23 +++---
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |  3 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c   |  3 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c      | 22 +++---
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c      |  3 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c      | 10 ++-
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c      | 61 ++++++----------
+ drivers/gpu/drm/panel/panel-sony-acx424akp.c       | 81 ++++++++--------------
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c           | 38 +++++-----
+ drivers/gpu/drm/panel/panel-truly-nt35597.c        | 63 ++++++-----------
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c     | 41 ++++-------
+ drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c   | 51 +++++---------
+ 27 files changed, 308 insertions(+), 523 deletions(-)
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
