@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9584245D23
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4226245D25
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 338CA6E48E;
-	Mon, 17 Aug 2020 07:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3F886E4B1;
+	Mon, 17 Aug 2020 07:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50DE96E425
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 19:30:15 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id f1so12866415wro.2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 12:30:15 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5B16E425
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 19:31:27 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id t14so12245836wmi.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 12:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=XLquzJ4Zpz4GTbTovMw+SxCIL1JgsFNaSaKJHhRL954=;
- b=kcdFOTXxO6tcXoc/qn0h8QSC7i96hcX9E6mqbvdkkFh4/Ract8XMzLK/Jxzxp79V4J
- l6MD59eS3W5w2E61BeG1GxwFrK/jPrK1Sw0Z3vwGI+8oKnevNVPfVZgm/fquO6aSke8c
- uAoj9Z0Eol/kmopu2Z4UnYudCONS4E2KbbavGv0GejkcswogXOjWtMqnFrGY5pdm12v8
- zGhlpffW9ah0nk/BxxYpwBoP2Pve+lwlrnIO/Fbl1Yi1ylxN3F4YIuAjJeLgevIyQhj/
- lLxszNyq7swn3cIQPXqgEOia8Ed/HVrrnyzexlHhzUKMDmlW1mSkOCiV3zm79AIeXbkC
- dpDQ==
+ bh=riVeaXVjuZmcehfNxxO8lj1kUtlDfTSeuBv9qK6ixUA=;
+ b=M35WWEAt9qJsNNvKpcIIpZDd4UCS92+EA1NKQ1mjYL7EO+BCytO5qucyp5SJ5ycDBW
+ ok6UZvtncPj9Z2neCyQSNZF5vSNZkEwxhdJt5BCBMUbXd4yrGHw7qkcIzGC5oFi5Usn9
+ WQNJXubTHLsJ00fSyWsZcgu/UMYdPTXN0Q6V7/d//ppdwwFoIW4GnLT9KXU/3advb3zz
+ 1UtIGTD9LHNCptcgSJL8oEA7rFk/LIsevxHRWlWzc4oMXZ+k8NWd9nKi1zu0Z8ECfg7p
+ dg9RzfTXM9NoJGKySUUqFARfqIiR6X8xAk4CbHAvRE4W8631hQsy4Sv1NPKyzp5D798y
+ Y8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XLquzJ4Zpz4GTbTovMw+SxCIL1JgsFNaSaKJHhRL954=;
- b=GoJOF5EZQ2riuWdS8pBtUUyvU7x+3cqchjwzjjXlgUgG9tJZlg0eVKIUuB9PL8PYc4
- Y5XYxL/4czHySJu+ucESG6dJvzRCoUtO7zFDn6uMsJcVslR87MmR0L6QJQ33hRFA4wsR
- kcdpr+mNs6qyyVixCDV+3pCpEaaftW2Kcj5jU0Ut6GfqLTHFU/DDykKFuzV3iNzVS7mN
- 7w+cHB3aRFcUEIUQlsVyFQG3CoS2dADDoIf2LsN4mC93Cd4LzlCb23Ktr+CFxifgFQav
- PBiy/jroSGWN/cXwyB8KmYkGQdxDQWRKtX/MZtAluoTXB4+OA8cazDQRyTWLtXw4UB7g
- PaAQ==
-X-Gm-Message-State: AOAM533GrECJalb1ubcluYXB3HLPnx79y+E8g3wWUQQmstluQ28w1F3J
- nGk+nqKEMCSUwRIFA0KGU9Y=
-X-Google-Smtp-Source: ABdhPJyJcXlT1TRHPVd0k3hl02Itec2AZKk9a03oJxboPilmdcG+9rNBFnVIO6i49mzETlfgGhMnhA==
-X-Received: by 2002:a5d:6692:: with SMTP id l18mr11662578wru.211.1597606214107; 
- Sun, 16 Aug 2020 12:30:14 -0700 (PDT)
+ bh=riVeaXVjuZmcehfNxxO8lj1kUtlDfTSeuBv9qK6ixUA=;
+ b=kLsA3nXT+/hTHiiDMWaRBqUVSQ4MumAJhrRsLWw9wBMvDagm0aHh45Y0FWjh0/P3DG
+ GmUkNLgexDYA3E02yrt6bjPkbOXUkGXo6yqNb3uk8L+gwYcA8qBQ9zk5WPJ4531BmQ8u
+ rL5angtvz+4ThnkyguPVe+Qs0OXWew3U/BzIXFK+yWhO7tSQiDvXFu24LfII1U4JtpTb
+ T0wYvBKT1z/ojSqbr8cOe6oxr+vrYsWboLTuWCPOsPBp9ppLi49UqjfUHLs8Gt6cw1vt
+ JD4LleRZl5OwyHeXU1kOsJxNDmmQ0zJJq7tOQ77VwTU9nNUSD7exIRRaYc7JrgM+r0TR
+ hm7A==
+X-Gm-Message-State: AOAM531USO4IgFd+Now9KmGMYra/DyNHMNuEc1ERHPqvzHJBhqSut/6t
+ zsnSI1fMpUmQvkycx2QEKZc=
+X-Google-Smtp-Source: ABdhPJyi4UbmT00nTsoSw/OuAaaFid8FGig1pZoNI7QyAgobSL5JM93sWI/I2tZYZtmJy2gncMhaeQ==
+X-Received: by 2002:a7b:cc13:: with SMTP id f19mr11556318wmh.168.1597606285796; 
+ Sun, 16 Aug 2020 12:31:25 -0700 (PDT)
 Received: from tsnow ([94.159.146.190])
- by smtp.gmail.com with ESMTPSA id b2sm25492527wmj.47.2020.08.16.12.30.12
+ by smtp.gmail.com with ESMTPSA id u66sm27717981wmu.37.2020.08.16.12.31.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Aug 2020 12:30:13 -0700 (PDT)
-Date: Sun, 16 Aug 2020 22:30:10 +0300
+ Sun, 16 Aug 2020 12:31:25 -0700 (PDT)
+Date: Sun, 16 Aug 2020 22:31:22 +0300
 From: Tomer Samara <tomersamara98@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 3/4] staging: android: Convert BUG to WARN
-Message-ID: <3a483158a742a38589c8322e96fc00734da441d9.1597602783.git.tomersamara98@gmail.com>
+Subject: [PATCH v2 4/4] staging: android: Add error handling to
+ order_to_index callers
+Message-ID: <c653c468e0c3044b10df375e8245e5d50634a7fa.1597602783.git.tomersamara98@gmail.com>
 References: <cover.1597602783.git.tomersamara98@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <cover.1597602783.git.tomersamara98@gmail.com>
-X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:43 +0000
+X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,28 +80,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-replace BUG() with WARN() at ion_sytem_heap.c, this
-fix the following checkpatch issue:
-Avoid crashing the kernel - try using WARN_ON &
-recovery code ratherthan BUG() or BUG_ON().
+Add error check to:
+- free_buffer_page
+- alloc_buffer_page
+after calling order_to_index, due to converting BUG to WARN at
+order_to_index.
 
 Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
 ---
- drivers/staging/android/ion/ion_system_heap.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/android/ion/ion_system_heap.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
-index eac0632ab4e8..37065a59ca69 100644
+index 37065a59ca69..1e73bfc88884 100644
 --- a/drivers/staging/android/ion/ion_system_heap.c
 +++ b/drivers/staging/android/ion/ion_system_heap.c
-@@ -30,7 +30,8 @@ static int order_to_index(unsigned int order)
- 	for (i = 0; i < NUM_ORDERS; i++)
- 		if (order == orders[i])
- 			return i;
--	BUG();
+@@ -49,8 +49,13 @@ static struct page *alloc_buffer_page(struct ion_system_heap *heap,
+ 				      struct ion_buffer *buffer,
+ 				      unsigned long order)
+ {
+-	struct ion_page_pool *pool = heap->pools[order_to_index(order)];
++	struct ion_page_pool *pool;
++	int index = order_to_index(order);
 +
-+	WARN(1, "%s: Did not found index to order %d", __FUNCTION__, order);
- 	return -1;
++	if (index < 0)
++		return NULL;
+ 
++	pool = heap->pools[index];
+ 	return ion_page_pool_alloc(pool);
+ }
+ 
+@@ -59,6 +64,7 @@ static void free_buffer_page(struct ion_system_heap *heap,
+ {
+ 	struct ion_page_pool *pool;
+ 	unsigned int order = compound_order(page);
++	int index;
+ 
+ 	/* go to system */
+ 	if (buffer->private_flags & ION_PRIV_FLAG_SHRINKER_FREE) {
+@@ -66,8 +72,11 @@ static void free_buffer_page(struct ion_system_heap *heap,
+ 		return;
+ 	}
+ 
+-	pool = heap->pools[order_to_index(order)];
++	index = order_to_index(order);
++	if (index < 0)
++		return;
+ 
++	pool = heap->pools[index];
+ 	ion_page_pool_free(pool, page);
  }
  
 -- 
