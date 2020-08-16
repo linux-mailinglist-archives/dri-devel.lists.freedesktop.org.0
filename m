@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0FC245D46
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80706245D5B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:09:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A25C189DA4;
-	Mon, 17 Aug 2020 07:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6E96E575;
+	Mon, 17 Aug 2020 07:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A78456E161;
- Sun, 16 Aug 2020 14:51:50 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id f19so6099581qtp.2;
- Sun, 16 Aug 2020 07:51:50 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 521F36E2ED
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 16:17:25 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id 140so7150855lfi.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 09:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id;
- bh=yo6OlECerivcrTTZJKS7ZSTtM/ay7Ma0TpI5jbubrg4=;
- b=UBxbgy52dsv0SOtPDSpRsT6sDw1VmOsVKxYOBCcmypxBL6Bv8kkMtDN/TVVMJeq+GS
- I6ctyozneEz7JOEvs0b9ACgNJt+JJFu4K4P8bGXqj7PzIybWaFT2b3vXDMkLeBKSUsnQ
- YL5S6DUc7SedwwSfg2909/+wbVEeluSXCvCmjkOxnA5KdYMet//f49T1n6UIcjsUZUAN
- 32Jh5UM2hVQZkDxISGC9+Xm3T86X1fgGsuEl87RuhGJ7A+0xQHHrAlW+stef8BHhpu/B
- pS7WKdubWnUIJmPMOrflM2ivQhkt2PXYnCqQ8xZNbhTQuyQizOkXp1uyRHIjbXqx37WZ
- 7OxQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=L2Tn5wRvOs/DSBbKAD6j6c1/papflA9Lc8de+NweZX8=;
+ b=VoumfpBG/21qxzj+0ZlSLzuG3wfSOi7D+wRpUUt3o6jD76eRHBO+19V9K6IxIM2qMp
+ o0TWgcZzmIYr/XZhx+1PQWDTVOaI2B/Fqpq838Y6A8wannrIKgg1HDyN0egE9+mQB1CD
+ DVPzg08Fn8T5enmTf5HSuYykt/Sr4EV+J0+LfF9rygx2jhC1315JwA/RFJMRSqEpX1A7
+ YMj5/sbhFp6JYWpu5tOvBXJM/D4dAiI6ylke95d5ipgUt7Nw0iAwXsO3WvNzB3oouDtN
+ wmGLf2M5XoKV+IdWyblItCWEh8FinO/bkRxe07Gxzba6BhosidjtYSAtnoYD7zZaHRJ6
+ rKVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=yo6OlECerivcrTTZJKS7ZSTtM/ay7Ma0TpI5jbubrg4=;
- b=SD1BjnNTdpeeaILp024wrNgq/I4npSf+wGIAYpnyBrVCDSiTd25uqGOizD3cfVmCGU
- B8ox+WMI+BUm8W1gZr0zPP/po7ynMVe1Vi9pEbyDppm9/NzoBmSO5BjFiP1EknrQY9ly
- st+Dyy5dQ9pq2BCEdYqOgnF87hcXCrf7cnEt5I0hUmja4R0zre6Iw7xrcD44oStCgwc2
- 5J4RzyguyXwlasZD1T/wVn0lleqoYAl9kwRZIsdygENUpIGgnyQ6NwBQH/z9PeGbHp0h
- KbBe+OA2KNPH/C4EuSUHKRD5cqqv70KBGdgUWSo1+789FWSRcG80Wa0tpM02TG0n6T3v
- qKqQ==
-X-Gm-Message-State: AOAM531t+JrSeLUV1jOvMN1chwhwuIOVVmDhX5i6Ml847nHO1rvm0w2e
- RF/0S3Crq0uOwK079RbI1Zk=
-X-Google-Smtp-Source: ABdhPJy68mPDErnd2G9+c742obwbIJnC8gV8NgGp6qaB7zCtOoJZCtyBFFjTUjOZqHwKGSjAtNcV4w==
-X-Received: by 2002:ac8:1948:: with SMTP id g8mr9978248qtk.354.1597589509829; 
- Sun, 16 Aug 2020 07:51:49 -0700 (PDT)
-Received: from linux.home ([2604:2000:1344:41d:55b1:56da:5396:836c])
- by smtp.googlemail.com with ESMTPSA id
- w12sm13808442qkj.116.2020.08.16.07.51.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Aug 2020 07:51:49 -0700 (PDT)
-From: Gaurav Singh <gaurav1086@gmail.com>
-To: gaurav1086@gmail.com, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA
- GEFORCE/QUADRO GPUS), 
- nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
- GPUS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drivers/nouveau_svm: fix bounds check in
- nouveau_svm_fault_buffer_dtor
-Date: Sun, 16 Aug 2020 10:51:41 -0400
-Message-Id: <20200816145142.25062-1-gaurav1086@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=L2Tn5wRvOs/DSBbKAD6j6c1/papflA9Lc8de+NweZX8=;
+ b=COWVQT1jewFzWjeyLWvBZFYADx6/ylq9OyHmN6o0OTGwfJjHg/OFTgffMInIfgzO5m
+ +z18IdQ8O1ZE9ew4bQwrR3JDauQ9h2rxWGGSs7KzSkpw6G892LkiVWy3LsD6fLpzLrq+
+ vxJsChif5IDArDuvpJS1kVwQ/CRavodc+gH/eSlSZBbqXp0PbzS4wk4RQFQmRhxfassS
+ OUaS1Pd1WzQyYyPFacWV9nVpRf3xfHfIJiZh41X4n1JbmPEFeo1MVrg3TtU6DLmFsq1K
+ 7ly4XZblTfZ2ALqiUbi+srHfYEi40OBmON8Temy2v2aX7f4IiSfagXgu/OUvfnnHmm/E
+ FmAA==
+X-Gm-Message-State: AOAM5331iEq/k6wkBnSvMyHcUrUNN4kRow3zxjn/dPuONVTNll98LWjU
+ WBN7FzQAeGnCcrGcj0Ctstc=
+X-Google-Smtp-Source: ABdhPJziCVK3idhEDoxtMrVVaiDN9SWIPK00GHPbNv1yI21z8kcSHD6CbPuaCcaDnDEPAnM98C21Rg==
+X-Received: by 2002:ac2:494c:: with SMTP id o12mr5558237lfi.181.1597594643715; 
+ Sun, 16 Aug 2020 09:17:23 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
+ [109.252.170.211])
+ by smtp.googlemail.com with ESMTPSA id e17sm3860081ljg.85.2020.08.16.09.17.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 Aug 2020 09:17:22 -0700 (PDT)
+Subject: Re: [PATCH RESEND v12 0/4] Panel rotation patches
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200813215609.28643-1-digetx@gmail.com>
+ <20200816151749.GA1394979@ravnborg.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f98d8952-18e6-f761-ae5c-da7738919d08@gmail.com>
+Date: Sun, 16 Aug 2020 19:17:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200816151749.GA1394979@ravnborg.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,37 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Derek Basehore <dbasehore@chromium.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-do the bounds check before accessing the buffer element.
-
-Fixes: eeaf06ac1a558 ("drm/nouveau/svm: initial support for shared virtual memory")
-Signed-off-by: Gaurav Singh <gaurav1086@gmail.com>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index 6586d9d39874..35d24946787d 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -897,7 +897,7 @@ nouveau_svm_fault_buffer_dtor(struct nouveau_svm *svm, int id)
- 	int i;
- 
- 	if (buffer->fault) {
--		for (i = 0; buffer->fault[i] && i < buffer->entries; i++)
-+		for (i = 0; i < buffer->entries && buffer->fault[i]; i++)
- 			kfree(buffer->fault[i]);
- 		kvfree(buffer->fault);
- 	}
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTYuMDguMjAyMCAxODoxNywgU2FtIFJhdm5ib3JnINC/0LjRiNC10YI6Cj4gSGkgRG1pdHJ5Cj4g
+Cj4gT24gRnJpLCBBdWcgMTQsIDIwMjAgYXQgMTI6NTY6MDVBTSArMDMwMCwgRG1pdHJ5IE9zaXBl
+bmtvIHdyb3RlOgo+PiBIZWxsbyEKPj4KPj4gVGhpcyBzZXJpZXMgYWRkcyBzdXBwb3J0IGZvciBk
+aXNwbGF5IHBhbmVsJ3MgRFQgcm90YXRpb24gcHJvcGVydHkuIEl0J3MgYQo+PiBjb250aW51YXRp
+b24gb2YgdGhlIHdvcmsgdGhhdCB3YXMgaW5pdGlhbGx5IHN0YXJ0ZWQgYnkgRGVyZWsgQmFzZWhv
+cmUgZm9yCj4+IHRoZSBwYW5lbCBkcml2ZXIgdGhhdCBpcyB1c2VkIGJ5IHNvbWUgTWVkaWF0ZWsg
+ZGV2aWNlIFsxXS4gSSBwaWNrZWQgdXAgdGhlCj4+IERlcmVrJ3MgcGF0Y2hlcyBhbmQgYWRkZWQg
+bXkgdC1iIGFuZCByLWIgdGFncyB0byB0aGVtLCBJIGFsc28gYWRkZWQKPj4gcm90YXRpb24gc3Vw
+cG9ydCB0byB0aGUgcGFuZWwtbHZkcyBhbmQgcGFuZWwtc2ltcGxlIGRyaXZlcnMuCj4+Cj4+IFdl
+IG5lZWQgdGhlIHJvdGF0aW9uIHN1cHBvcnQgZm9yIHRoZSBOZXh1cyA3IHRhYmxldCBkZXZpY2Ug
+d2hpY2ggaXMgbm93Cj4+IHN1cHBvcnRlZCBieSB0aGUgdXBzdHJlYW0ga2VybmVsLCB0aGUgZGV2
+aWNlIGhhcyBkaXNwbGF5IHBhbmVsIG1vdW50ZWQKPj4gdXBzaWRlLWRvd24gYW5kIGl0IHVzZXMg
+cGFuZWwtbHZkcyBbMl0uCj4+Cj4+IFsxXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAyMC8zLzUv
+MTExOQo+PiBbMl0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
+aXQvbmV4dC9saW51eC1uZXh0LmdpdC90cmVlL2FyY2gvYXJtL2Jvb3QvZHRzL3RlZ3JhMzAtYXN1
+cy1uZXh1czctZ3JvdXBlci1jb21tb24uZHRzaT8jbjEwMzYKPj4KPj4gQ2hhbmdlbG9nOgo+Pgo+
+PiB2MTI6IC0gTm8gY29kZSBjaGFuZ2VzLiBUaGUgdjExIG1pc3NlZCB2NS45IHJlbGVhc2UsIHJl
+LXNlbmRpbmcgcGF0Y2hlcwo+PiAgICAgICAgZm9yIHRoZSB2NS4xMCBrZXJuZWwuIFBsZWFzZSBy
+ZXZpZXcgYW5kIGFwcGx5IHBhdGNoZXMgdG8gbGludXgtbmV4dCwKPj4gICAgICAgIHRoYW5rcyBp
+biBhZHZhbmNlIQo+Pgo+PiB2MTE6IC0gVGhpcyBzZXJpZXMgaXMgZmFjdG9yZWQgb3V0IGZyb20g
+dGhpcyBwYXRjaHNldCBbM10gYmVjYXVzZSB0aGVzZQo+PiAgICAgICAgcGF0Y2hlcyBkbyBub3Qg
+aGF2ZSBoYXJkIGRlcGVuZGVuY3kgb24gdGhlIFRlZ3JhIERSTSBwYXRjaGVzIGFuZAo+PiAgICAg
+ICAgaXQgc2hvdWxkIGJlIG5pY2VyIHRvIHJldmlldyBhbmQgYXBwbHkgdGhlIHByb3Blcmx5IGdy
+b3VwZWQgcGF0Y2hlcy4KPj4KPj4gICAgICAtIEluaXRpYWxseSBbM10gb25seSB0b3VjaGVkIHRo
+ZSBwYW5lbC1sdmRzIGRyaXZlciBhbmQgRW1pbCBWZWxpa292Cj4+ICAgICAgICBzdWdnZXN0ZWQg
+dGhhdCBpdCB3aWxsIGJlIGJldHRlciB0byBzdXBwb3J0IG1vcmUgcGFuZWxzIGluIHRoZSByZXZp
+ZXcKPj4gICAgICAgIGNvbW1lbnRzIHRvIFszXS4gU28gSSBpbmNsdWRlZCB0aGUgRGVyZWsncyBw
+YXRjaCBmb3IgdGhlIEJPRSBwYW5lbAo+PiAgICAgICAgYW5kIGFkZGVkIHJvdGF0aW9uIHN1cHBv
+cnQgdG8gdGhlIHBhbmVsLXNpbXBsZSBkcml2ZXIuIEkgdGVzdGVkIHRoYXQKPj4gICAgICAgIHBh
+bmVsLWx2ZHMgYW5kIHBhbmVsLXNpbXBsZSB3b3JrIHByb3Blcmx5IHdpdGggdGhlIHJvdGF0ZWQg
+cGFuZWwgdXNpbmcKPj4gICAgICAgIHRoZSBPcGVudGVncmEgWG9yZyBkcml2ZXIgWzRdIGFuZCBX
+YXlsYW5kIFdlc3RvbiBbNV0uCj4+Cj4+ICAgICAgLSBUaGUgcGFuZWwtbHZkcyBkcml2ZXIgbm93
+IHByaW50cyBhIGVycm9yIG1lc3NhZ2UgaWYgcm90YXRpb24gcHJvcGVydHkKPj4gICAgICAgIGZh
+aWxzIHRvIGJlIHBhcnNlZC4KPj4KPj4gWzNdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwv
+MjAyMDA2MTQyMDAxMjEuMTQxNDctMS1kaWdldHhAZ21haWwuY29tLwo+PiBbNF0gaHR0cHM6Ly9n
+aXRodWIuY29tL2dyYXRlLWRyaXZlci94Zjg2LXZpZGVvLW9wZW50ZWdyYS9jb21taXQvMjhlYjIw
+YTM5NTliYmU1YmMzYTNiNjdlNTU5NzcwOTNmZDUxMTRjYQo+PiBbNV0gaHR0cHM6Ly9naXRsYWIu
+ZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2VzdG9uLy0vbWVyZ2VfcmVxdWVzdHMvMzE1Cj4+Cj4+
+IERlcmVrIEJhc2Vob3JlICgyKToKPj4gICBkcm0vcGFuZWw6IEFkZCBoZWxwZXIgZm9yIHJlYWRp
+bmcgRFQgcm90YXRpb24KPj4gICBkcm0vcGFuZWw6IFJlYWQgcGFuZWwgb3JpZW50YXRpb24gZm9y
+IEJPRSBUVjEwMVdVTS1OTDYKPj4KPj4gRG1pdHJ5IE9zaXBlbmtvICgyKToKPj4gICBkcm0vcGFu
+ZWw6IGx2ZHM6IFJlYWQgcGFuZWwgb3JpZW50YXRpb24KPj4gICBkcm0vcGFuZWwtc2ltcGxlOiBS
+ZWFkIHBhbmVsIG9yaWVudGF0aW9uCj4gCj4gVGhhbmtzIGZvciB5b3VyIHBlcnNpc3RlbmNlIHdp
+dGggdGhlc2UgcGF0Y2hlcy4KPiBXaGlsZSBhcHBseWluZyBJIG1hZGUgYSBmZXcgdXBkYXRlczoK
+PiAtIGZpeGVkIHR3byB0cml2aWFsIGNoZWNrcGF0Y2ggd2FybmluZ3MKPiAtIHNtYWxsIHVwZGF0
+ZSB0byBrZXJuZWwtZG9jIGZvciB0aGUgbmV3IGZ1bmN0aW9uLCB0byBiZXR0ZXIgbWF0Y2gKPiAg
+IHN1cnJvdW5kaW5nIHdvcmRpbmcKPiAtIGFkZGVkIGVycm9yIG1lc3NhZ2UgdG8gcGFuZWwtYm9l
+LXR2MTAxd3VtLW5sNi5jIHdoZW4gZmFpbGVkIHRvIGdldAo+ICAgb3JpZW50YXRpb24KPiAtIHVz
+ZSBzYW1lIHdvcmRpbmcgaW4gYWxsIGVycm9yIG1lc3NhZ2VzIGFuZCB1c2UgIm9yaWVudGF0aW9u
+IiBhbmQgbm90Cj4gICByb3RhdGlvbiBhcyB0aGlzIG1hdGNoZXMgdGhlIGNhbGxlZCBmdW5jdGlv
+bgoKSGVsbG8sIFNhbSEgVmVyeSBuaWNlIHRvIHNlZSB0aGUgcHJvZ3Jlc3MhIFRoYW5rIHlvdSB2
+ZXJ5IG11Y2ghCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
