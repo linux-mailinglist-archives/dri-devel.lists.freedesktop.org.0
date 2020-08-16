@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B93F24557A
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Aug 2020 04:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F6A245595
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Aug 2020 05:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29C506E0E8;
-	Sun, 16 Aug 2020 02:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6106E08A;
+	Sun, 16 Aug 2020 03:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5176E0E8
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 02:38:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6EE6E08A
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 03:48:52 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208913] amdgpu: RIP:
  0010:amdgpu_dm_atomic_commit_tail+0x1cce/0x1de0
-Date: Sun, 16 Aug 2020 02:37:59 +0000
+Date: Sun, 16 Aug 2020 03:48:51 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -28,13 +28,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: alexander@tsoy.me
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208913-2300-1usF10V9Kn@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-208913-2300-IvHB4iYpGs@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208913-2300@https.bugzilla.kernel.org/>
 References: <bug-208913-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208913
 
---- Comment #1 from Alexander Tsoy (alexander@tsoy.me) ---
-Created attachment 290915
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290915&action=edit
-Xorg.1.log
+Alexander Tsoy (alexander@tsoy.me) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--- Comment #2 from Alexander Tsoy (alexander@tsoy.me) ---
+Migrated to gitlab:
+https://gitlab.freedesktop.org/drm/amd/-/issues/1263
 
 -- 
 You are receiving this mail because:
