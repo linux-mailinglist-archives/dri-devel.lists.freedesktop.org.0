@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6ABE245676
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Aug 2020 09:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB97245678
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Aug 2020 09:28:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB5586E0FB;
-	Sun, 16 Aug 2020 07:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712766E101;
+	Sun, 16 Aug 2020 07:28:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0A06E0FB
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 07:27:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8B26E101
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 07:28:07 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 0ECD6804D0;
- Sun, 16 Aug 2020 09:27:07 +0200 (CEST)
-Date: Sun, 16 Aug 2020 09:27:05 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 1526E804D0;
+ Sun, 16 Aug 2020 09:28:05 +0200 (CEST)
+Date: Sun, 16 Aug 2020 09:28:03 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 4/8] dt-bindings: display: mxsfb: Rename to fsl, lcdif.yaml
-Message-ID: <20200816072705.GE1201814@ravnborg.org>
+Subject: Re: [PATCH 5/8] ARM: dts: imx: Fix LCDIF compatible strings
+Message-ID: <20200816072803.GF1201814@ravnborg.org>
 References: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
- <20200813012910.13576-5-laurent.pinchart@ideasonboard.com>
+ <20200813012910.13576-6-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200813012910.13576-5-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20200813012910.13576-6-laurent.pinchart@ideasonboard.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8
- a=e5mUnYsNAAAA:8 a=YmdqkXPptzrG-ARNvjQA:9 a=CjuIK1q_8ugA:10
- a=D0XLA9XvdZm18NrgonBM:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+ a=vAfjA9iV6H3j0_Dc_b4A:9 a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,51 +55,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 13, 2020 at 04:29:06AM +0300, Laurent Pinchart wrote:
-> Rename the mxsfb.yaml binding schema to fsl,lcdif.yaml to match the
-> usual bindings naming scheme.
+On Thu, Aug 13, 2020 at 04:29:07AM +0300, Laurent Pinchart wrote:
+> The LCDIF in the i.MX6 SoCs has additional features compared to the
+> i.MX28. Replace the fsl,imx28-lcdif fallback compatible string with
+> fsl,imx6sx-lcdif to reflect that.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I have been confused by the mxsfb name in the past, so this rename i
-welcome.
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
 > ---
->  .../devicetree/bindings/display/{mxsfb.yaml => fsl,lcdif.yaml}  | 2 +-
->  MAINTAINERS                                                     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename Documentation/devicetree/bindings/display/{mxsfb.yaml => fsl,lcdif.yaml} (98%)
+>  arch/arm/boot/dts/imx6sl.dtsi  | 2 +-
+>  arch/arm/boot/dts/imx6sll.dtsi | 2 +-
+>  arch/arm/boot/dts/imx6sx.dtsi  | 4 ++--
+>  arch/arm/boot/dts/imx6ul.dtsi  | 2 +-
+>  4 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/mxsfb.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> similarity index 98%
-> rename from Documentation/devicetree/bindings/display/mxsfb.yaml
-> rename to Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> index d15bb8edc29f..60210775c31e 100644
-> --- a/Documentation/devicetree/bindings/display/mxsfb.yaml
-> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: http://devicetree.org/schemas/display/mxsfb.yaml#
-> +$id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/arm/boot/dts/imx6sl.dtsi b/arch/arm/boot/dts/imx6sl.dtsi
+> index 911d8cf77f2c..deeb647ffc3f 100644
+> --- a/arch/arm/boot/dts/imx6sl.dtsi
+> +++ b/arch/arm/boot/dts/imx6sl.dtsi
+> @@ -769,7 +769,7 @@ epdc: epdc@20f4000 {
+>  			};
 >  
->  title: Freescale/NXP i.MX LCD Interface (LCDIF)
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e3fac23383d2..fe1bda639a39 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11757,7 +11757,7 @@ M:	Stefan Agner <stefan@agner.ch>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
-> -F:	Documentation/devicetree/bindings/display/mxsfb.yaml
-> +F:	Documentation/devicetree/bindings/display/fsl,lcdif.yaml
->  F:	drivers/gpu/drm/mxsfb/
+>  			lcdif: lcdif@20f8000 {
+> -				compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
+> +				compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif";
+>  				reg = <0x020f8000 0x4000>;
+>  				interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
+>  				clocks = <&clks IMX6SL_CLK_LCDIF_PIX>,
+> diff --git a/arch/arm/boot/dts/imx6sll.dtsi b/arch/arm/boot/dts/imx6sll.dtsi
+> index edd3abb9a9f1..c51072bb43ba 100644
+> --- a/arch/arm/boot/dts/imx6sll.dtsi
+> +++ b/arch/arm/boot/dts/imx6sll.dtsi
+> @@ -644,7 +644,7 @@ pxp: pxp@20f0000 {
+>  			};
 >  
->  MYLEX DAC960 PCI RAID Controller
+>  			lcdif: lcd-controller@20f8000 {
+> -				compatible = "fsl,imx6sll-lcdif", "fsl,imx28-lcdif";
+> +				compatible = "fsl,imx6sll-lcdif", "fsl,imx6sx-lcdif";
+>  				reg = <0x020f8000 0x4000>;
+>  				interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+>  				clocks = <&clks IMX6SLL_CLK_LCDIF_PIX>,
+> diff --git a/arch/arm/boot/dts/imx6sx.dtsi b/arch/arm/boot/dts/imx6sx.dtsi
+> index 94e3df47d1ad..67da3a2d48ec 100644
+> --- a/arch/arm/boot/dts/imx6sx.dtsi
+> +++ b/arch/arm/boot/dts/imx6sx.dtsi
+> @@ -1241,7 +1241,7 @@ csi2: csi@221c000 {
+>  				};
+>  
+>  				lcdif1: lcdif@2220000 {
+> -					compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
+> +					compatible = "fsl,imx6sx-lcdif";
+>  					reg = <0x02220000 0x4000>;
+>  					interrupts = <GIC_SPI 5 IRQ_TYPE_EDGE_RISING>;
+>  					clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+> @@ -1253,7 +1253,7 @@ lcdif1: lcdif@2220000 {
+>  				};
+>  
+>  				lcdif2: lcdif@2224000 {
+> -					compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
+> +					compatible = "fsl,imx6sx-lcdif";
+>  					reg = <0x02224000 0x4000>;
+>  					interrupts = <GIC_SPI 6 IRQ_TYPE_EDGE_RISING>;
+>  					clocks = <&clks IMX6SX_CLK_LCDIF2_PIX>,
+> diff --git a/arch/arm/boot/dts/imx6ul.dtsi b/arch/arm/boot/dts/imx6ul.dtsi
+> index 5379a03391bd..b16cce1680a9 100644
+> --- a/arch/arm/boot/dts/imx6ul.dtsi
+> +++ b/arch/arm/boot/dts/imx6ul.dtsi
+> @@ -978,7 +978,7 @@ csi: csi@21c4000 {
+>  			};
+>  
+>  			lcdif: lcdif@21c8000 {
+> -				compatible = "fsl,imx6ul-lcdif", "fsl,imx28-lcdif";
+> +				compatible = "fsl,imx6ul-lcdif", "fsl,imx6sx-lcdif";
+>  				reg = <0x021c8000 0x4000>;
+>  				interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+>  				clocks = <&clks IMX6UL_CLK_LCDIF_PIX>,
 > -- 
 > Regards,
 > 
