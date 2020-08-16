@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA25245D29
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0FC245D46
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 09:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB0D6E4BA;
-	Mon, 17 Aug 2020 07:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A25C189DA4;
+	Mon, 17 Aug 2020 07:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275B86E116
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 11:49:27 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id s81so2941386vkb.3
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 04:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5eLrFbLtX7LRVjQXLYXr7fYT+s3oj6NIOAVsECFxqKM=;
- b=VTj4qB+lGNX4zcJf2z0/eYjDFt/mU/QgCVjdHoJIkI0hWZ+9p0oSO+Y5WZXNC7HhF1
- 5oa+J0NYTycEYumJdB9V7XA20vkYlT2hdTpbkYTEsrrYYsKSIfK+/eH4DJ3b5Rw6F7wg
- ospAHxJSgQr3MdA9AVAgL+FzP3xV2j2lkCQjv/2JwZ3mMDaR8Yy2WR+Y+HCibf+lrdm2
- ZoAwAJQEZ3zbcDKbBo5ZBe51Cm3S7mG6c5jgxnCgBc2ToNQziNS9z7mpQO5kcbcB8h8g
- ccq5PdZBZpo9Ewa7PNPgHk95HVokbez7C2uWx9pXLdwdr/6tZRVacEs0n1LBUnQlSAP5
- CZbw==
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A78456E161;
+ Sun, 16 Aug 2020 14:51:50 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id f19so6099581qtp.2;
+ Sun, 16 Aug 2020 07:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=yo6OlECerivcrTTZJKS7ZSTtM/ay7Ma0TpI5jbubrg4=;
+ b=UBxbgy52dsv0SOtPDSpRsT6sDw1VmOsVKxYOBCcmypxBL6Bv8kkMtDN/TVVMJeq+GS
+ I6ctyozneEz7JOEvs0b9ACgNJt+JJFu4K4P8bGXqj7PzIybWaFT2b3vXDMkLeBKSUsnQ
+ YL5S6DUc7SedwwSfg2909/+wbVEeluSXCvCmjkOxnA5KdYMet//f49T1n6UIcjsUZUAN
+ 32Jh5UM2hVQZkDxISGC9+Xm3T86X1fgGsuEl87RuhGJ7A+0xQHHrAlW+stef8BHhpu/B
+ pS7WKdubWnUIJmPMOrflM2ivQhkt2PXYnCqQ8xZNbhTQuyQizOkXp1uyRHIjbXqx37WZ
+ 7OxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5eLrFbLtX7LRVjQXLYXr7fYT+s3oj6NIOAVsECFxqKM=;
- b=azuKI8FXXP2mbnQv7GWzjbCRr5I9AgTArdDnKrSmlwV93SNQozXiQKomPsuntm1MH4
- VcAHhofwhkPbm08TQ3HBzrhJzZ59G3E87c0PMrZcFYckWEsI64Lwo1pHBT1WUUqb0W0y
- h4/m7OyJjGblmGGEV5yAVo7X+HyzIqbZQXlbs+r5s80P8wn6gCaZWLW4OrQH05442vYA
- vieH+GgoP/9LVOOPlJ4Fha+f9RCtlK57DEtxDqLd491xiP+E6OlpYrx91mzmxipdpQrj
- ksZNpiDHyHHY+xptBxUDbmb5AXRjSTm0Ph33uoITQ+70Gta//Uw0hW3O7GdbSX++6d/q
- i8lg==
-X-Gm-Message-State: AOAM532s0sSBKw90R2zBIbF9fK/+7l0q7aX60VufVUXTFZlZ1ybpM3RP
- 2nHMwgKSBLT46+oLKKWYSZjmApTmq8LoNMTNYFIifw==
-X-Google-Smtp-Source: ABdhPJwcwv3PNq9HjzkX1STqOI4ekHlvvRz/TX9fSc2cBc4baD9/4PCjbazeZxB/c0C90LU+HNr2hgJW+Yady09XdOo=
-X-Received: by 2002:a1f:9d85:: with SMTP id g127mr5522018vke.101.1597578566060; 
- Sun, 16 Aug 2020 04:49:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <1597134186-58423-1-git-send-email-tiantao6@hisilicon.com>
- <7b836643-82a6-667e-7ece-77797dc9ae3d@suse.de>
-In-Reply-To: <7b836643-82a6-667e-7ece-77797dc9ae3d@suse.de>
-From: Xinliang Liu <xinliang.liu@linaro.org>
-Date: Sun, 16 Aug 2020 19:49:15 +0800
-Message-ID: <CAKoKPbzZ+74MWqnvqAtfBtEYvoNpo2nxE6GqmY+gvuFPuy+XQQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Change maintainer for hisilicon DRM driver
-To: Tian Tao <tiantao6@hisilicon.com>
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=yo6OlECerivcrTTZJKS7ZSTtM/ay7Ma0TpI5jbubrg4=;
+ b=SD1BjnNTdpeeaILp024wrNgq/I4npSf+wGIAYpnyBrVCDSiTd25uqGOizD3cfVmCGU
+ B8ox+WMI+BUm8W1gZr0zPP/po7ynMVe1Vi9pEbyDppm9/NzoBmSO5BjFiP1EknrQY9ly
+ st+Dyy5dQ9pq2BCEdYqOgnF87hcXCrf7cnEt5I0hUmja4R0zre6Iw7xrcD44oStCgwc2
+ 5J4RzyguyXwlasZD1T/wVn0lleqoYAl9kwRZIsdygENUpIGgnyQ6NwBQH/z9PeGbHp0h
+ KbBe+OA2KNPH/C4EuSUHKRD5cqqv70KBGdgUWSo1+789FWSRcG80Wa0tpM02TG0n6T3v
+ qKqQ==
+X-Gm-Message-State: AOAM531t+JrSeLUV1jOvMN1chwhwuIOVVmDhX5i6Ml847nHO1rvm0w2e
+ RF/0S3Crq0uOwK079RbI1Zk=
+X-Google-Smtp-Source: ABdhPJy68mPDErnd2G9+c742obwbIJnC8gV8NgGp6qaB7zCtOoJZCtyBFFjTUjOZqHwKGSjAtNcV4w==
+X-Received: by 2002:ac8:1948:: with SMTP id g8mr9978248qtk.354.1597589509829; 
+ Sun, 16 Aug 2020 07:51:49 -0700 (PDT)
+Received: from linux.home ([2604:2000:1344:41d:55b1:56da:5396:836c])
+ by smtp.googlemail.com with ESMTPSA id
+ w12sm13808442qkj.116.2020.08.16.07.51.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Aug 2020 07:51:49 -0700 (PDT)
+From: Gaurav Singh <gaurav1086@gmail.com>
+To: gaurav1086@gmail.com, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA
+ GEFORCE/QUADRO GPUS), 
+ nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
+ GPUS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drivers/nouveau_svm: fix bounds check in
+ nouveau_svm_fault_buffer_dtor
+Date: Sun, 16 Aug 2020 10:51:41 -0400
+Message-Id: <20200816145142.25062-1-gaurav1086@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 17 Aug 2020 07:06:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,48 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAxNCBBdWcgMjAyMCBhdCAxNToyNiwgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
-YW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGksCj4KPiBhcyBhIGRyaXZlciBtYWludGFpbmVyLCB5
-b3Ugc2hvdWxkIGhhdmUgY29tbWl0IGFjY2VzcyB0byBkcm0tbWlzYy4gSGVhZAo+IG92ZXIgdG8K
-Pgo+ICAgaHR0cHM6Ly9kcm0ucGFnZXMuZnJlZWRlc2t0b3Aub3JnL21haW50YWluZXItdG9vbHMv
-Y29tbWl0LWFjY2Vzcy5odG1sCj4KPiBmb3IgYSBkZXNjcmlwdGlvbiBvZiB3aGF0IHRoYXQgbWVh
-bnMuIFRoZSBhY2NvdW50IGlzIHJlcXVlc3RlZCBhdAo+Cj4gICBodHRwczovL3d3dy5mcmVlZGVz
-a3RvcC5vcmcvd2lraS9BY2NvdW50UmVxdWVzdHMvCj4KPiBhcyBkZXNjcmliZWQgdW5kZXIgJ0xl
-Z2FjeSBTU0ggYWNjb3VudHMnLgo+Cj4gVGhlIGZpcnN0IHBhdGNoIHRvIGNvbW1pdCB3b3VsZCBi
-ZSB5b3VyIGFwcG9pbnRtZW50IGFzIG1haW50YWluZXIgb2YKPiBoaXNpbGljb24uIDopCgpZZXMs
-IGFmdGVyIHlvdSBnZXQgdGhlIGFjY2VzcyBvZiBkcm0tbWlzYy4gIEl0IG1pZ2h0IGJlIGhlbHBm
-dWwgdG8KcmVhZGluZyB0aGUgZ3VpZGVsaW5lcyBvZiBkcm0tbWlzYy4KaHR0cHM6Ly9kcm0ucGFn
-ZXMuZnJlZWRlc2t0b3Aub3JnL21haW50YWluZXItdG9vbHMvY29tbWl0dGVyLWRybS1taXNjLmh0
-bWwKV2UgdXNlIGRpbSB0b29sIHRvIGNvbW1pdCBwYXRjaGVzIHRvIGRybS1taXNjLiBJdCdzIGdv
-b2QgdG8gbGVhcm4gaG93CnRvIHVzZSBkaW0gdG9vbC4gUGxlYXNlIGFsc28gIHJlYWQgdGhlIGdl
-dHRpbmcgc3RhcnQgZ3VpZGUKaHR0cHM6Ly9kcm0ucGFnZXMuZnJlZWRlc2t0b3Aub3JnL21haW50
-YWluZXItdG9vbHMvZ2V0dGluZy1zdGFydGVkLmh0bWwKCkJlc3QsClhpbmxpYW5nCgo+Cj4gQmVz
-dCByZWdhcmRzCj4gVGhvbWFzCj4KPiBBbSAxMS4wOC4yMCB1bSAxMDoyMyBzY2hyaWViIFRpYW4g
-VGFvOgo+ID4gUmVtb3ZlIFJvbmdyb25nIFpvdSBhbmQgY2hhbmdlIHRpYW50YW8gYXMgaGlzaWxp
-Y29uIERSTSBtYWludGFpbmVyLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFRpYW4gVGFvIDx0aWFu
-dGFvNkBoaXNpbGljb24uY29tPgo+ID4gLS0tCj4gPiAgTUFJTlRBSU5FUlMgfCAyICstCj4gPiAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gPgo+ID4gZGlm
-ZiAtLWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRBSU5FUlMKPiA+IGluZGV4IGYxMmE4NjguLmY0
-ZTQ5ZTAgMTAwNjQ0Cj4gPiAtLS0gYS9NQUlOVEFJTkVSUwo+ID4gKysrIGIvTUFJTlRBSU5FUlMK
-PiA+IEBAIC01Njk0LDcgKzU2OTQsNyBAQCBGOiAgICAgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAv
-Cj4gPgo+ID4gIERSTSBEUklWRVJTIEZPUiBISVNJTElDT04KPiA+ICBNOiAgIFhpbmxpYW5nIExp
-dSA8eGlubGlhbmcubGl1QGxpbmFyby5vcmc+Cj4gPiAtTTogICBSb25ncm9uZyBab3UgPHpvdXJv
-bmdyb25nQGdtYWlsLmNvbT4KPiA+ICtNOiAgIFRpYW4gVGFvICA8dGlhbnRhbzZAaGlzaWxpY29u
-LmNvbT4KPiA+ICBSOiAgIEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0ekBsaW5hcm8ub3JnPgo+ID4g
-IFI6ICAgWGlud2VpIEtvbmcgPGtvbmcua29uZ3hpbndlaUBoaXNpbGljb24uY29tPgo+ID4gIFI6
-ICAgQ2hlbiBGZW5nIDxwdWNrLmNoZW5AaGlzaWxpY29uLmNvbT4KPiA+Cj4KPiAtLQo+IFRob21h
-cyBaaW1tZXJtYW5uCj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+IFNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSAo+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
-R2VybWFueQo+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKPiBHZXNjaMOkZnRzZsO8aHJlcjog
-RmVsaXggSW1lbmTDtnJmZmVyCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+do the bounds check before accessing the buffer element.
+
+Fixes: eeaf06ac1a558 ("drm/nouveau/svm: initial support for shared virtual memory")
+Signed-off-by: Gaurav Singh <gaurav1086@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 6586d9d39874..35d24946787d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -897,7 +897,7 @@ nouveau_svm_fault_buffer_dtor(struct nouveau_svm *svm, int id)
+ 	int i;
+ 
+ 	if (buffer->fault) {
+-		for (i = 0; buffer->fault[i] && i < buffer->entries; i++)
++		for (i = 0; i < buffer->entries && buffer->fault[i]; i++)
+ 			kfree(buffer->fault[i]);
+ 		kvfree(buffer->fault);
+ 	}
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
