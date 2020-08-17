@@ -1,42 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DF52466E4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 15:03:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC57A246715
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 15:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB0D86E50E;
-	Mon, 17 Aug 2020 13:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E31F6E0D4;
+	Mon, 17 Aug 2020 13:11:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2986E50E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 13:03:54 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de
- [95.90.213.163])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C247520825;
- Mon, 17 Aug 2020 13:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597669434;
- bh=wHcCAv3Im+/f3JsOA5Q23pUGXi2Go/hGTpsFxt3yvKI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JDDa2hoF6GZdgWlm1l9stFX4r8wVDpBsHT+xex3dmg2FMHllOANOKSiOR1ez3rt5v
- yRw/lkPFKAmQyOXxohKntIdwrpFuQvB4cQ7cgbpzRMjArJEtdynlKNmrgzYU2eAr0y
- iF6BYjiZwyFpM0Hfxj68n7E3wGAad/uygkf4QPaI=
-Date: Mon, 17 Aug 2020 15:03:49 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: DRM/KMS experimental drivers for HiKey 970
-Message-ID: <20200817150349.0644266e@coco.lan>
-In-Reply-To: <CAKMK7uGWVov+0qmayAvxS+0a-91mRW_1Wp=tqVHFJmTKJ06DuQ@mail.gmail.com>
-References: <20200805105137.2b272efc@coco.lan>
- <CAKMK7uFdp_3gm-2DNko4AYa-EOgt5MTwuQLSXbo=xn-9oXayVg@mail.gmail.com>
- <20200805121343.4553d7ab@coco.lan>
- <CAKMK7uGWVov+0qmayAvxS+0a-91mRW_1Wp=tqVHFJmTKJ06DuQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4D4BC6E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 13:11:44 +0000 (UTC)
+X-UUID: cc3a7c998d4e41beb86266ca4ca0c93f-20200817
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Kc2wbQ5/5ctPeZ+MBcGEqqORVXhdRTfyC3iZHOQDq5c=; 
+ b=ja8TmubBv78/qB7FOeuvo3C9/tBdX+EV2uq7cuJQ58QN9JBAue9/G6c44JFV5RF0z6Ido+6i4SoKC0/GiDsGql08SsZ39U+1kAL58NXVp+9yt8NXU5RT+/bfXvHePAEhlR8NQ5Rq6UWPYlSMRiuNE2FD601f//1hTUIjCXEEkLU=;
+X-UUID: cc3a7c998d4e41beb86266ca4ca0c93f-20200817
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 1227788580; Mon, 17 Aug 2020 21:06:38 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 17 Aug 2020 21:06:36 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 17 Aug 2020 21:06:35 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] drm/mediatek: dsi: fix scrolling of panel with small hfp
+ or hbp
+Date: Mon, 17 Aug 2020 21:06:40 +0800
+Message-ID: <20200817130640.18021-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.12.5
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 4BE646BE1621BC9DA9C810CAA548159897D201F4DC13F4A0D86FCF88B04C65B62000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +54,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, mani@kernel.org
+Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+horizontal_backporch_byte should be hbp * bpp - hbp extra bytes.
+So remove the wrong subtraction 10.
 
-Em Wed, 5 Aug 2020 13:04:18 +0200
-Daniel Vetter <daniel@ffwll.ch> escreveu:
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-
-> > > > I've been working to get upstream support for the DRM driver on HiKey 970.
-> > > >
-> > > > While the patches are not ready yet for upstream merge, I'm placing
-> > > > what I've sone so far on this repository:
-> > > >
-> > > >         https://github.com/mchehab/linux/tree/hikey970/to_upstream-2.0-v1.1
-
-I already started the process of submitting the pending drivers which
-are required for the DRM driver to work (regulators and IOMMU).
-
-I'm now planning what to do with the DRM KMS driver. This driver is
-somewhat similar to the Kirin 6220 driver, but the display engine
-uses a different set of registers which are chipset specific. My
-port should work with either Kirin 960 or 970, although, so far,
-I tested only the Kirin 970 part.
-
-Besides its size, the driver is pretty much a standard KMS driver
-that uses emulation framebuffer.
-
-Yet, as I said before, it currently has some bugs that are hard to
-debug and fix, as the downstream version also has them.
-
-John has a different port, which works only for Kirin 960, adding
-some functionality on the existing Kirin 6220 driver. Based on the
-history on his WIP tree, it sounds to me that the same bugs I'm
-facing are also present on his port. 
-
-The known bugs are:
-
-- EDID reads via adv7135 don't work properly. Adding a delay on
-  some part of adv7135 code may help, but that sounds to me more
-  like a hack than a final solution;
-
-- There are some underflows on a something called LDI. This is the
-  worse bug, as, once it happens, the hardware stops changing the
-  displayed image. At John's tree for Kirin 960, there were several
-  attempts (and several reverts), trying to address it. Based on a comment
-  at the downstream version, at least for Kirin 970 I suspect that this could
-  be due to a too low clock frequency, but increasing it alone breaks the 
-  driver. I suspect that other clock frequencies would need to be adjusted,
-  but I don't know how to adjust the other clocks for it to work with a
-  higher frequency;
-
-- There's currently a hack at the valid modesetting logic; only
-  modes that are known to work return MODE_OK. 	 
-
-I'm planning to test my port on Kirin 960 soon, and ensure that the
-DRM driver will work for both chipsets.
-
-In the future, I'm planning to try merging support for all 3 Kirin
-variants at the same driver, probably using part of John's approach
-for Kirin 960.
-
-In any case, considering the existing bugs, plus the eventual future
-work in order to support multiple Kirin variants at the same driver,
-I would prefer merging this driver first at staging. 
-
-Would that be acceptable?
-
-Thanks,
-Mauro
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 270bf22c98fe..5d031e634571 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -473,14 +473,13 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	horizontal_sync_active_byte = (vm->hsync_len * dsi_tmp_buf_bpp - 10);
+ 
+ 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+-		horizontal_backporch_byte =
+-			(vm->hback_porch * dsi_tmp_buf_bpp - 10);
++		horizontal_backporch_byte = vm->hback_porch * dsi_tmp_buf_bpp;
+ 	else
+-		horizontal_backporch_byte = ((vm->hback_porch + vm->hsync_len) *
+-			dsi_tmp_buf_bpp - 10);
++		horizontal_backporch_byte = (vm->hback_porch + vm->hsync_len) *
++					    dsi_tmp_buf_bpp;
+ 
+ 	data_phy_cycles = timing->lpx + timing->da_hs_prepare +
+-			  timing->da_hs_zero + timing->da_hs_exit + 3;
++			  timing->da_hs_zero + timing->da_hs_exit;
+ 
+ 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+ 		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
+-- 
+2.12.5
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
