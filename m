@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684BB245978
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Aug 2020 22:24:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FA4245A2C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 02:01:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20A46E42A;
-	Sun, 16 Aug 2020 20:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0802A6E12E;
+	Mon, 17 Aug 2020 00:01:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C365F6E42A
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Aug 2020 20:24:46 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 1C02720023;
- Sun, 16 Aug 2020 22:24:44 +0200 (CEST)
-Date: Sun, 16 Aug 2020 22:24:42 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: Re: [PATCH v2 09/12] fbdev: i740fb: use generic power management
-Message-ID: <20200816202442.GB1426650@ravnborg.org>
-References: <20200810165458.GA292825@ravnborg.org>
- <20200810185723.15540-1-vaibhavgupta40@gmail.com>
- <20200810185723.15540-10-vaibhavgupta40@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A80456E12E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 00:01:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA3F3F9;
+ Mon, 17 Aug 2020 02:01:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597622465;
+ bh=WDPbo8HE4yDjtagRmO4s4MqUPYkC1JeTI8HoVQUG6XA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vOBp/ayvA+u0l4PevCbgoYwwHjocKUrzAXBuN7c6eWKYCHq9FP2s6olcSMPKC0r44
+ 2CclaoSO8E0Lq9+OJhyyySvhKAE/RPxL3Z70wCS9aYG351lk0vZHOxbiv6V1KhGWWs
+ cQoEOXFcZbcLdbuCcNdZCE24ATL89zJKVnHJmhTY=
+Date: Mon, 17 Aug 2020 03:00:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 1/8] dt-bindings: display: mxsfb: Convert binding to YAML
+Message-ID: <20200817000049.GB7729@pendragon.ideasonboard.com>
+References: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
+ <20200813012910.13576-2-laurent.pinchart@ideasonboard.com>
+ <20200816062242.GB1201814@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200810185723.15540-10-vaibhavgupta40@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=MP0Wb9vCekDogQPHZHEA:9
- a=CjuIK1q_8ugA:10
+In-Reply-To: <20200816062242.GB1201814@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,143 +47,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, linux-geode@lists.infradead.org,
- Bjorn Helgaas <bjorn@helgaas.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Paul Mackerras <paulus@samba.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vaibhav
+Hi Sam,
 
-On Tue, Aug 11, 2020 at 12:27:20AM +0530, Vaibhav Gupta wrote:
-> Drivers should do only device-specific jobs. But in general, drivers using
-> legacy PCI PM framework for .suspend()/.resume() have to manage many PCI
-> PM-related tasks themselves which can be done by PCI Core itself. This
-> brings extra load on the driver and it directly calls PCI helper functions
-> to handle them.
+On Sun, Aug 16, 2020 at 08:22:42AM +0200, Sam Ravnborg wrote:
+> Hi Laurent.
 > 
-> Switch to the new generic framework by updating function signatures and
-> define a "struct dev_pm_ops" variable to bind PM callbacks. Also, remove
-> unnecessary calls to the PCI Helper functions along with the legacy
-> .suspend & .resume bindings.
+> Good to see one of the imx bindings migrating to yaml.
 > 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-
-I several of the drivers I briefly looked at a new set of helpers were
-introduced for the different types of pm actions.
-They then called a more generic function that uses the passes
-enumeration to decide what to do.
-
-But in this driver the test "state.event == PM_EVENT_FREEZE" is dropped
-and there is no freeze operation.
-Please explain this change so the reader is not left wondering.
-
-	Sam
-
-> ---
->  drivers/video/fbdev/i740fb.c | 40 +++++++++++++++---------------------
->  1 file changed, 16 insertions(+), 24 deletions(-)
+> On Thu, Aug 13, 2020 at 04:29:03AM +0300, Laurent Pinchart wrote:
+> > Convert the mxsfb binding to YAML. The deprecated binding is dropped, as
+> > neither the DT sources nor the driver support it anymore.
+> > 
+> > The compatible strings are messy, and DT sources use different kinds of
+> > combination of documented and undocumented values. Keep it simple for
+> > now, and update the example to make it valid. Aligning the binding with
+> > the existing DT sources will be performed separately.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> But see below for a few nits
 > 
-> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-> index c65ec7386e87..8d7f06fc8a5a 100644
-> --- a/drivers/video/fbdev/i740fb.c
-> +++ b/drivers/video/fbdev/i740fb.c
-> @@ -1175,16 +1175,11 @@ static void i740fb_remove(struct pci_dev *dev)
->  	}
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
-> +static int __maybe_unused i740fb_suspend(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(dev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  	struct i740fb_par *par = info->par;
->  
-> -	/* don't disable console during hibernation and wakeup from it */
-> -	if (state.event == PM_EVENT_FREEZE || state.event == PM_EVENT_PRETHAW)
-> -		return 0;
-> -
->  	console_lock();
->  	mutex_lock(&(par->open_lock));
->  
-> @@ -1197,19 +1192,15 @@ static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
->  
->  	fb_set_suspend(info, 1);
->  
-> -	pci_save_state(dev);
-> -	pci_disable_device(dev);
-> -	pci_set_power_state(dev, pci_choose_state(dev, state));
-> -
->  	mutex_unlock(&(par->open_lock));
->  	console_unlock();
->  
->  	return 0;
->  }
->  
-> -static int i740fb_resume(struct pci_dev *dev)
-> +static int __maybe_unused i740fb_resume(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(dev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  	struct i740fb_par *par = info->par;
->  
->  	console_lock();
-> @@ -1218,11 +1209,6 @@ static int i740fb_resume(struct pci_dev *dev)
->  	if (par->ref_count == 0)
->  		goto fail;
->  
-> -	pci_set_power_state(dev, PCI_D0);
-> -	pci_restore_state(dev);
-> -	if (pci_enable_device(dev))
-> -		goto fail;
-> -
->  	i740fb_set_par(info);
->  	fb_set_suspend(info, 0);
->  
-> @@ -1231,10 +1217,17 @@ static int i740fb_resume(struct pci_dev *dev)
->  	console_unlock();
->  	return 0;
->  }
-> -#else
-> -#define i740fb_suspend NULL
-> -#define i740fb_resume NULL
-> -#endif /* CONFIG_PM */
-> +
-> +static const struct dev_pm_ops i740fb_pm_ops = {
-> +#ifdef CONFIG_PM_SLEEP
-> +	.suspend	= i740fb_suspend,
-> +	.resume		= i740fb_resume,
-> +	.freeze		= NULL,
-> +	.thaw		= i740fb_resume,
-> +	.poweroff	= i740fb_suspend,
-> +	.restore	= i740fb_resume,
-> +#endif /* CONFIG_PM_SLEEP */
-> +};
->  
->  #define I740_ID_PCI 0x00d1
->  #define I740_ID_AGP 0x7800
-> @@ -1251,8 +1244,7 @@ static struct pci_driver i740fb_driver = {
->  	.id_table	= i740fb_id_table,
->  	.probe		= i740fb_probe,
->  	.remove		= i740fb_remove,
-> -	.suspend	= i740fb_suspend,
-> -	.resume		= i740fb_resume,
-> +	.driver.pm	= &i740fb_pm_ops,
->  };
->  
->  #ifndef MODULE
-> -- 
-> 2.27.0
+> > ---
+> >  .../devicetree/bindings/display/mxsfb.txt     |  87 -------------
+> >  .../devicetree/bindings/display/mxsfb.yaml    | 115 ++++++++++++++++++
+> >  MAINTAINERS                                   |   2 +-
+> >  3 files changed, 116 insertions(+), 88 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/display/mxsfb.txt
+> >  create mode 100644 Documentation/devicetree/bindings/display/mxsfb.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/mxsfb.txt b/Documentation/devicetree/bindings/display/mxsfb.txt
+> > deleted file mode 100644
+> > index c985871c46b3..000000000000
+> > --- a/Documentation/devicetree/bindings/display/mxsfb.txt
+> > +++ /dev/null
+> > @@ -1,87 +0,0 @@
+> > -* Freescale MXS LCD Interface (LCDIF)
+> > -
+> > -New bindings:
+> > -=============
+> > -Required properties:
+> > -- compatible:	Should be "fsl,imx23-lcdif" for i.MX23.
+> > -		Should be "fsl,imx28-lcdif" for i.MX28.
+> > -		Should be "fsl,imx6sx-lcdif" for i.MX6SX.
+> > -		Should be "fsl,imx8mq-lcdif" for i.MX8MQ.
+> > -- reg:		Address and length of the register set for LCDIF
+> > -- interrupts:	Should contain LCDIF interrupt
+> > -- clocks:	A list of phandle + clock-specifier pairs, one for each
+> > -		entry in 'clock-names'.
+> > -- clock-names:	A list of clock names. For MXSFB it should contain:
+> > -    - "pix" for the LCDIF block clock
+> > -    - (MX6SX-only) "axi", "disp_axi" for the bus interface clock
+> > -
+> > -Required sub-nodes:
+> > -  - port: The connection to an encoder chip.
+> > -
+> > -Example:
+> > -
+> > -	lcdif1: display-controller@2220000 {
+> > -		compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
+> > -		reg = <0x02220000 0x4000>;
+> > -		interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+> > -		clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+> > -			 <&clks IMX6SX_CLK_LCDIF_APB>,
+> > -			 <&clks IMX6SX_CLK_DISPLAY_AXI>;
+> > -		clock-names = "pix", "axi", "disp_axi";
+> > -
+> > -		port {
+> > -			parallel_out: endpoint {
+> > -				remote-endpoint = <&panel_in_parallel>;
+> > -			};
+> > -		};
+> > -	};
+> > -
+> > -Deprecated bindings:
+> > -====================
+> > -Required properties:
+> > -- compatible:	Should be "fsl,imx23-lcdif" for i.MX23.
+> > -		Should be "fsl,imx28-lcdif" for i.MX28.
+> > -- reg:		Address and length of the register set for LCDIF
+> > -- interrupts:	Should contain LCDIF interrupts
+> > -- display:	phandle to display node (see below for details)
+> > -
+> > -* display node
+> > -
+> > -Required properties:
+> > -- bits-per-pixel:	<16> for RGB565, <32> for RGB888/666.
+> > -- bus-width:		number of data lines.  Could be <8>, <16>, <18> or <24>.
+> > -
+> > -Required sub-node:
+> > -- display-timings:	Refer to binding doc display-timing.txt for details.
+> > -
+> > -Examples:
+> > -
+> > -lcdif@80030000 {
+> > -	compatible = "fsl,imx28-lcdif";
+> > -	reg = <0x80030000 2000>;
+> > -	interrupts = <38 86>;
+> > -
+> > -	display: display {
+> > -		bits-per-pixel = <32>;
+> > -		bus-width = <24>;
+> > -
+> > -		display-timings {
+> > -			native-mode = <&timing0>;
+> > -			timing0: timing0 {
+> > -				clock-frequency = <33500000>;
+> > -				hactive = <800>;
+> > -				vactive = <480>;
+> > -				hfront-porch = <164>;
+> > -				hback-porch = <89>;
+> > -				hsync-len = <10>;
+> > -				vback-porch = <23>;
+> > -				vfront-porch = <10>;
+> > -				vsync-len = <10>;
+> > -				hsync-active = <0>;
+> > -				vsync-active = <0>;
+> > -				de-active = <1>;
+> > -				pixelclk-active = <0>;
+> > -			};
+> > -		};
+> > -	};
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/display/mxsfb.yaml b/Documentation/devicetree/bindings/display/mxsfb.yaml
+> > new file mode 100644
+> > index 000000000000..202381ec5bb7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/mxsfb.yaml
+> > @@ -0,0 +1,115 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/mxsfb.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale/NXP i.MX LCD Interface (LCDIF)
+> > +
+> > +maintainers:
+> > +  - Marek Vasut <marex@denx.de>
+> > +  - Stefan Agner <stefan@agner.ch>
+> > +
+> > +description: |
+> > +  (e)LCDIF display controller found in the Freescale/NXP i.MX SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - fsl,imx23-lcdif
+> > +      - fsl,imx28-lcdif
+> > +      - fsl,imx6sx-lcdif
+> > +      - fsl,imx8mq-lcdif
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Pixel clock
+> > +      - description: Bus clock
+> > +      - description: Display AXI clock
+> > +    minItems: 1
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: "pix"
+> > +      - const: "axi"
+> > +      - const: "disp_axi"
+> > +    minItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  port:
+> > +    description: The LCDIF output port
+> > +    type: object
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +
+> > +        properties:
+> > +          remote-endpoint:
+> > +            $ref: /schemas/types.yaml#/definitions/phandle
+> > +
+> > +        required:
+> > +          - remote-endpoint
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - interrupts
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: fsl,imx6sx-lcdif
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 3
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 3
+> > +      required:
+> > +        - clock-names
+> > +    else:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 1
+> > +        clock-names:
+> > +          minItems: 1
+>
+> The else parts looks like it is not needed.
+> The clock, clock-names properties has minItems: 1 already from above.
+
+Conceptually you're right, this should be maxItems, not minItems.
+However, the DT schema checker automatically adds a maxItems property
+that equal minItems when only minItems is specified (and the other way
+around as well). This is meant to allow shorter notations. I'm not
+convinced it's a good idea, but that's the way it is today.
+
+I'll change to maxItems as it's more explicit.
+
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/imx6sx-clock.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    display-controller@2220000 {
+> > +        compatible = "fsl,imx6sx-lcdif";
+> > +        reg = <0x02220000 0x4000>;
+> > +        interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+> > +                 <&clks IMX6SX_CLK_LCDIF_APB>,
+> > +                 <&clks IMX6SX_CLK_DISPLAY_AXI>;
+> > +        clock-names = "pix", "axi", "disp_axi";
+> > +
+> > +        port {
+> > +            endpoint {
+> > +                remote-endpoint = <&panel_in>;
+> > +            };
+> > +        };
+> > +    };
+>
+> empty line before "..." - at least most files have it
+
+I'll add that.
+
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index e3467e88714f..e3fac23383d2 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11757,7 +11757,7 @@ M:	Stefan Agner <stefan@agner.ch>
+> >  L:	dri-devel@lists.freedesktop.org
+> >  S:	Supported
+> >  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > -F:	Documentation/devicetree/bindings/display/mxsfb.txt
+> > +F:	Documentation/devicetree/bindings/display/mxsfb.yaml
+> >  F:	drivers/gpu/drm/mxsfb/
+> >  
+> >  MYLEX DAC960 PCI RAID Controller
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
