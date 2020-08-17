@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C6F247FFF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:52:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74167247FEC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6505889D9A;
-	Tue, 18 Aug 2020 07:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA57789D4A;
+	Tue, 18 Aug 2020 07:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E5396E0F8;
- Mon, 17 Aug 2020 09:19:30 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id t10so7188270plz.10;
- Mon, 17 Aug 2020 02:19:30 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D4A6E0F8;
+ Mon, 17 Aug 2020 09:19:45 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id u10so7195396plr.7;
+ Mon, 17 Aug 2020 02:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ifLfIrBu1ltO21juvrs7/f94zIPbflxds2FmAIn0JZY=;
- b=QLC6x/O13MeP0lPsSOPKaI+ocf7oT0PGwI9jaqY5n+w05x+fnihg68gNW9IMTCYLmr
- QP7/v8OCTappeLr1ZuVp0BsTJ1mH85ENUZ2a6AmLJxjUUhw01jO65HrM9m3jJ/8fkzOD
- /S951cp1wfO+Ld6aPWrVxO7J0pQj6AA1qxc5UAopaYjDT3vKbgs6OuTAyMB506fY0UDH
- 5Vov97HYXFpYb/YY3HH4v98ijkrDRUNEPcHpqzt4ZRRsovwJz6805sBa4AZVV67aGl1m
- cckpnrRBYuVhiBXYyB2AdVauJXp4muM3muUnNrrm5+mb6Juwp+3iKvIPDL2fSNnGn3kS
- Vy6Q==
+ bh=rg9O+UuIrcRklqdLDyvqN900SVFxVyljAa/s7srCNnQ=;
+ b=WvuNpwFGNWbf3ugG14n+zwKOY/otFa6nSLps1Uk3WhYO9QhlgfX29+70gj4yecSVqe
+ YmEaWyKwvwZLdqCS1f4rjFzeI/WYV2mrJXFqK7u1fv3j1mD6vv7ArpSQ8eB9kebxavUo
+ v4gjm/SQe2dmKaNUs5jSYqEpMcOQLTy1XStSEI/HRZPc81UrOC06O4IvkZlb9P+d+J9+
+ 6iZP3dRMy48wvQtGHCCdONIoXtX+tgg7bwCEGbZzuseWjZ9rC+VhjkH7FoBRe7RFBqof
+ Eu7g0wB9F52zpe5wgpjT7872Gbi0ZB7cwZGvpBfTBYz4nR6UMl9C43xvhapmPwtLTJTg
+ rU/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ifLfIrBu1ltO21juvrs7/f94zIPbflxds2FmAIn0JZY=;
- b=tkt2XQNjdRuM84iFC1CZg4BvLTKWEX9EW4Xx7xg/5CaTbSZSr/tii8MOGEPAJcJsQk
- XrR5mOr/oS1zi/LP1TtGg4xCTLXTD4rUoJMbM9157lxRmY+lkx22kKpK3MiCQ+sFELg1
- 2d2EirhaDIqwvxRPGV9kLTSv1jul5mk6reMa+kQdr54zxyLW+0B0uoVt9tMdnUzpYiX9
- mfkQrDmxDYe0wltP8G6i4T7F8r/TtdF4JQM5k/KaQDIXv/1VWC5TpyY2nu92WDYeq011
- c+DOmMu4R9NxnT1S/tFXVzA1FZecTyTRWbL8Q/YCQ+fpMdIN3NsTqpaQ3jVptguN2QGF
- YZRg==
-X-Gm-Message-State: AOAM530l2lBfH4Q+PzJj8M0OAAEklLz836ieaWodFY5+tqOIaRatWcQ6
- 1J+BgIldBxrj9njFBNyOTTw=
-X-Google-Smtp-Source: ABdhPJwQiN0j3I0XTBAoTEh/kHlRdKQRBPrBZjjvBv7FEdQfK+kQb/LL0lHsiyq2Kw2a6+jej7syqg==
-X-Received: by 2002:a17:90a:2210:: with SMTP id
- c16mr12291145pje.65.1597655969939; 
- Mon, 17 Aug 2020 02:19:29 -0700 (PDT)
+ bh=rg9O+UuIrcRklqdLDyvqN900SVFxVyljAa/s7srCNnQ=;
+ b=TvX9wCWpu61k8vq1l3w+hTKDjf+4cUj0o8sW5j9eiv1z4JduCN+RZ5psOe29B6WusM
+ hhAUQBsialFp6iXQSo8MR5kWFLMemVaOv2Ojd22/DnI5OBPY8ooDVYBor0Z8h8i8wykm
+ NCMTVY7FHMDxExaTN+PLfTM4Y9gP2h6W8q4cd6Kd0NGYvlzgwrkcjgzXLdTcq2sFmKde
+ tIQ1rIC3IFdHfph92tRZcOZWGcnIZPnK0iE0Mi8hux6eDTKkLwFtbLrq8ENnQ/QXpm2K
+ 8LMxzCWP2UL5kc0121zKptyCP+JTKW/KjktWp2NVB/+L/ZxjWv6GPM66DbTJB68xWQh1
+ oRbw==
+X-Gm-Message-State: AOAM530u/4q+TUpHCdkOzs1NGkN39KDhJm2/BogvDE3qTkXvPxYMi2D2
+ ouLaCoInhMrGBz1GQKUcMH8=
+X-Google-Smtp-Source: ABdhPJxVPsBMIEeexKvgRfN8Y85NhtB5FsOgXp8HBPraiCyANuba28QRU7wOPQwsX7fudbCrO/coPA==
+X-Received: by 2002:a17:902:6b05:: with SMTP id
+ o5mr10459515plk.173.1597655985094; 
+ Mon, 17 Aug 2020 02:19:45 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
- by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.19.16
+ by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.19.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:19:29 -0700 (PDT)
+ Mon, 17 Aug 2020 02:19:44 -0700 (PDT)
 From: Allen Pais <allen.cryptic@gmail.com>
 To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -55,10 +55,10 @@ To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  ulf.hansson@linaro.org, mporter@kernel.crashing.org, alex.bou9@gmail.com,
  broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
  mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH 1/2] mailbox: bcm: convert tasklets to use new tasklet_setup()
- API
-Date: Mon, 17 Aug 2020 14:46:08 +0530
-Message-Id: <20200817091617.28119-14-allen.cryptic@gmail.com>
+Subject: [PATCH 1/2] memstick: jmb38x: convert tasklets to use new
+ tasklet_setup() API
+Date: Mon, 17 Aug 2020 14:46:09 +0530
+Message-Id: <20200817091617.28119-15-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -102,34 +102,36 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/mailbox/bcm-pdc-mailbox.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/memstick/host/jmb38x_ms.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mailbox/bcm-pdc-mailbox.c b/drivers/mailbox/bcm-pdc-mailbox.c
-index 53945ca5d785..5b375985f7b8 100644
---- a/drivers/mailbox/bcm-pdc-mailbox.c
-+++ b/drivers/mailbox/bcm-pdc-mailbox.c
-@@ -962,9 +962,9 @@ static irqreturn_t pdc_irq_handler(int irq, void *data)
-  * a DMA receive interrupt. Reenables the receive interrupt.
-  * @data: PDC state structure
-  */
--static void pdc_tasklet_cb(unsigned long data)
-+static void pdc_tasklet_cb(struct tasklet_struct *t)
+diff --git a/drivers/memstick/host/jmb38x_ms.c b/drivers/memstick/host/jmb38x_ms.c
+index 4a6b866b0291..2bcf5ce113bd 100644
+--- a/drivers/memstick/host/jmb38x_ms.c
++++ b/drivers/memstick/host/jmb38x_ms.c
+@@ -603,10 +603,10 @@ static void jmb38x_ms_abort(struct timer_list *t)
+ 	spin_unlock_irqrestore(&host->lock, flags);
+ }
+ 
+-static void jmb38x_ms_req_tasklet(unsigned long data)
++static void jmb38x_ms_req_tasklet(struct tasklet_struct *t)
  {
--	struct pdc_state *pdcs = (struct pdc_state *)data;
-+	struct pdc_state *pdcs = from_tasklet(pdcs, t, rx_tasklet);
+-	struct memstick_host *msh = (struct memstick_host *)data;
+-	struct jmb38x_ms_host *host = memstick_priv(msh);
++	struct jmb38x_ms_host *host = from_tasklet(host, t, notify);
++	struct memstick_host *msh = host->msh;
+ 	unsigned long flags;
+ 	int rc;
  
- 	pdc_receive(pdcs);
+@@ -868,7 +868,7 @@ static struct memstick_host *jmb38x_ms_alloc_host(struct jmb38x_ms *jm, int cnt)
+ 	host->irq = jm->pdev->irq;
+ 	host->timeout_jiffies = msecs_to_jiffies(1000);
  
-@@ -1589,7 +1589,7 @@ static int pdc_probe(struct platform_device *pdev)
- 	pdc_hw_init(pdcs);
+-	tasklet_init(&host->notify, jmb38x_ms_req_tasklet, (unsigned long)msh);
++	tasklet_setup(&host->notify, jmb38x_ms_req_tasklet);
+ 	msh->request = jmb38x_ms_submit_req;
+ 	msh->set_param = jmb38x_ms_set_param;
  
- 	/* Init tasklet for deferred DMA rx processing */
--	tasklet_init(&pdcs->rx_tasklet, pdc_tasklet_cb, (unsigned long)pdcs);
-+	tasklet_setup(&pdcs->rx_tasklet, pdc_tasklet_cb);
- 
- 	err = pdc_interrupts_init(pdcs);
- 	if (err)
 -- 
 2.17.1
 
