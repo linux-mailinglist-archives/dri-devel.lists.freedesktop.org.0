@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65D8247FDD
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4920247FE2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 415BB89D60;
-	Tue, 18 Aug 2020 07:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B21F689D3E;
+	Tue, 18 Aug 2020 07:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF9B6E0F8;
- Mon, 17 Aug 2020 09:18:51 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id f5so7188379plr.9;
- Mon, 17 Aug 2020 02:18:51 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0996E0F8;
+ Mon, 17 Aug 2020 09:19:04 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id x6so7812161pgx.12;
+ Mon, 17 Aug 2020 02:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Y/Lyd9iyb+e3Iwz9Po/fyIeEqiW8mHah9rIvstjO+PU=;
- b=DXgG1thdfskvtuXZP8/vM2gAxPo04jWU1e+8F2TitfrFT6HmCFefFj4nhScJQTVk1q
- gwLxkldM/Z+lONZzeR6zuZqiQyflB90NTYeiTaY2uBfmMOfTAXYT7jbI0r056THCHfBd
- 3Di3net4lwJTB43A0rF2kp+rBzJcJY7T89VTsfvGCemy2qENpzVMLpR5W4yUkLrg5+z4
- 9JO+T6FYEZY6ZUFsXdmos0B6tU4Q5kqzOQ+gRjZVd4YWOoPWnjX11Km6g+E3oY819bdf
- yrJ9k2JC0MEmc+k1DjYwwIX9qR0IT6cjxsIz2qZVtoxc4ZLZ/IK7rkcfNaetwR8RSOCf
- y05g==
+ bh=H53NItB96hhK0lZMvS5UWr62MZO4kDlJxK+OZQUxxIA=;
+ b=Q9//06PpCdzBcB5+2FmR3vcPX8ASc3s+ZqMBFaeRwEkDMjoO3ubFfEuRDvNyw69Dic
+ A+UvP5p7Sa7LwPskN9TiPkDaTIGuH2iea/lkrw98pDSnGmsaUfJX37kbIJa1u46YHB5f
+ Biss505SKwh0HAGB5MaLRxgXu1CO2EwXczixBc538BCK83Jyz086JRCbTSXgutB7e4FX
+ /W9NvIU4fSh/Ib/tv7t7BztqxaZ4vcJQgOiXTE1ktzbLpdXGu8a6uU6wMvjuhA4hl/Yv
+ klgo2KrIpjJmP8zUsX/rM/tO2Wej91r/JteBk1SMuYF1iBTXfyMg4piAFIrY2mqWn3/s
+ KsRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Y/Lyd9iyb+e3Iwz9Po/fyIeEqiW8mHah9rIvstjO+PU=;
- b=OucorLAKMHKG4Bse2/Gp+7bYmfE7W65pWeGm9vjg9IpL8Fiq+bAQV/uy+ytLtbkhXW
- eVq0vxGalQUnubIjFv+51ROleeZ81kfZEoIsNAjYwKefMsKBLV0Rve9WIJ33STfxHHr9
- dNQxcERrpI4DVWxt9Ey1XGQ3epQ3N8GU0z2D4dxzgwKfQVIj1rqfuA6SAFGlG0v/FgPL
- FpTmyPw9LaIce9mEVpPWzlRZ8WLEYmTtLy50dE1NUL2vhmROAPMkjGK0oU2/ZFho0vYK
- XE0CZXn0F3VOtNV451wo01XILXpROLPYi66y57vsxwao6HLxrFmgfa50iF8NSnlh/LUE
- A//w==
-X-Gm-Message-State: AOAM532l12HoSgj7vS0zkna9PzaGNEiYcj4RHs/uasO9fGTEVi7wFe1U
- 3WcqvGGzKU3eW34FHROktk4=
-X-Google-Smtp-Source: ABdhPJyIur6thpXJWevzBAIQBHYV2xsdEEXHh/+HT4l4m1kZQXfbzh30rMtWwCA6A2KqL1fU9TH91w==
-X-Received: by 2002:a17:90a:2525:: with SMTP id
- j34mr12831046pje.208.1597655930802; 
- Mon, 17 Aug 2020 02:18:50 -0700 (PDT)
+ bh=H53NItB96hhK0lZMvS5UWr62MZO4kDlJxK+OZQUxxIA=;
+ b=Xjf69nyaFiOW4ugVp5puY5Vv5n+qceujznAlgI82+iyccQb65+1xnIFI6NuflFanVr
+ y5KKRSRDyRVpcA/ONZIncpZykYj4GPpNyYWAyg57o7IvI/OXdZ9xVg1ktNyWLxc07EIO
+ Qvar1B0NVqY+CqQ3kfwOdP+HOh3aMjUp2PufWr5ZUE/WpZ8YBeEwiUlA9ZDT9U7yLb9g
+ HbxeWusTUS4vKSizwX1X6FUyuhR/dDCAIbwmmiDq0sdR0/7r6612PmueRiGR96nveeU+
+ rFHSqCRM9tJVQu8BYYCShflCsv93wSLB5NegmuOeFKdqGJGRmo9ZTvWrfpklEO7Hqsbf
+ yEAA==
+X-Gm-Message-State: AOAM533iDbC9fZC5ZyShr+MrWtgYJSZgc+C39WuklK1cncOhESjZFPbh
+ Z0TMJ6j157j22KLN3ixZA2Q=
+X-Google-Smtp-Source: ABdhPJwwv5IFUmxu6OFvp0ePee/WauDvfAGFpW7BnuWSsn7pFfdtUZETkOuz5u6jMhvkrLcgz5ASfg==
+X-Received: by 2002:a63:5552:: with SMTP id f18mr8843602pgm.298.1597655944120; 
+ Mon, 17 Aug 2020 02:19:04 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
- by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.18.39
+ by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.18.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:18:50 -0700 (PDT)
+ Mon, 17 Aug 2020 02:19:03 -0700 (PDT)
 From: Allen Pais <allen.cryptic@gmail.com>
 To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -55,10 +54,10 @@ To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  ulf.hansson@linaro.org, mporter@kernel.crashing.org, alex.bou9@gmail.com,
  broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
  mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH] firewire: ohci: convert tasklets to use new tasklet_setup()
- API
-Date: Mon, 17 Aug 2020 14:46:05 +0530
-Message-Id: <20200817091617.28119-11-allen.cryptic@gmail.com>
+Subject: [PATCH 1/2] hsi: nokia-modem: convert tasklets to use new
+ tasklet_setup() API
+Date: Mon, 17 Aug 2020 14:46:06 +0530
+Message-Id: <20200817091617.28119-12-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -102,73 +101,37 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/firewire/ohci.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/hsi/clients/nokia-modem.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/firewire/ohci.c b/drivers/firewire/ohci.c
-index 7dde21b18b04..6298ff03796e 100644
---- a/drivers/firewire/ohci.c
-+++ b/drivers/firewire/ohci.c
-@@ -921,9 +921,9 @@ static void ar_recycle_buffers(struct ar_context *ctx, unsigned int end_buffer)
- 	}
- }
+diff --git a/drivers/hsi/clients/nokia-modem.c b/drivers/hsi/clients/nokia-modem.c
+index cd7ebf4c2e2f..36d373f089ce 100644
+--- a/drivers/hsi/clients/nokia-modem.c
++++ b/drivers/hsi/clients/nokia-modem.c
+@@ -36,9 +36,10 @@ struct nokia_modem_device {
+ 	struct hsi_client	*cmt_speech;
+ };
  
--static void ar_context_tasklet(unsigned long data)
-+static void ar_context_tasklet(struct tasklet_struct *t)
+-static void do_nokia_modem_rst_ind_tasklet(unsigned long data)
++static void do_nokia_modem_rst_ind_tasklet(struct tasklet_struct *t)
  {
--	struct ar_context *ctx = (struct ar_context *)data;
-+	struct ar_context *ctx = from_tasklet(ctx, t, tasklet);
- 	unsigned int end_buffer_index, end_buffer_offset;
- 	void *p, *end;
+-	struct nokia_modem_device *modem = (struct nokia_modem_device *)data;
++	struct nokia_modem_device *modem = from_tasklet(modem, t,
++						nokia_modem_rst_ind_tasklet);
  
-@@ -977,7 +977,7 @@ static int ar_context_init(struct ar_context *ctx, struct fw_ohci *ohci,
+ 	if (!modem)
+ 		return;
+@@ -155,8 +156,8 @@ static int nokia_modem_probe(struct device *dev)
+ 	modem->nokia_modem_rst_ind_irq = irq;
+ 	pflags = irq_get_trigger_type(irq);
  
- 	ctx->regs        = regs;
- 	ctx->ohci        = ohci;
--	tasklet_init(&ctx->tasklet, ar_context_tasklet, (unsigned long)ctx);
-+	tasklet_setup(&ctx->tasklet, ar_context_tasklet);
- 
- 	for (i = 0; i < AR_BUFFERS; i++) {
- 		ctx->pages[i] = alloc_page(GFP_KERNEL | GFP_DMA32);
-@@ -1049,9 +1049,9 @@ static struct descriptor *find_branch_descriptor(struct descriptor *d, int z)
- 		return d + z - 1;
- }
- 
--static void context_tasklet(unsigned long data)
-+static void context_tasklet(struct tasklet_struct *t)
- {
--	struct context *ctx = (struct context *) data;
-+	struct context *ctx = from_tasklet(ctx, t, tasklet);
- 	struct descriptor *d, *last;
- 	u32 address;
- 	int z;
-@@ -1145,7 +1145,7 @@ static int context_init(struct context *ctx, struct fw_ohci *ohci,
- 	ctx->buffer_tail = list_entry(ctx->buffer_list.next,
- 			struct descriptor_buffer, list);
- 
--	tasklet_init(&ctx->tasklet, context_tasklet, (unsigned long)ctx);
-+	tasklet_setup(&ctx->tasklet, context_tasklet);
- 	ctx->callback = callback;
- 
- 	/*
-@@ -1420,7 +1420,7 @@ static void at_context_flush(struct context *ctx)
- 	tasklet_disable(&ctx->tasklet);
- 
- 	ctx->flushing = true;
--	context_tasklet((unsigned long)ctx);
-+	context_tasklet(&ctx->tasklet);
- 	ctx->flushing = false;
- 
- 	tasklet_enable(&ctx->tasklet);
-@@ -3472,7 +3472,7 @@ static int ohci_flush_iso_completions(struct fw_iso_context *base)
- 	tasklet_disable(&ctx->context.tasklet);
- 
- 	if (!test_and_set_bit_lock(0, &ctx->flushing_completions)) {
--		context_tasklet((unsigned long)&ctx->context);
-+		context_tasklet(&ctx->context.tasklet);
- 
- 		switch (base->type) {
- 		case FW_ISO_CONTEXT_TRANSMIT:
+-	tasklet_init(&modem->nokia_modem_rst_ind_tasklet,
+-			do_nokia_modem_rst_ind_tasklet, (unsigned long)modem);
++	tasklet_setup(&modem->nokia_modem_rst_ind_tasklet,
++			do_nokia_modem_rst_ind_tasklet);
+ 	err = devm_request_irq(dev, irq, nokia_modem_rst_ind_isr,
+ 				pflags, "modem_rst_ind", modem);
+ 	if (err < 0) {
 -- 
 2.17.1
 
