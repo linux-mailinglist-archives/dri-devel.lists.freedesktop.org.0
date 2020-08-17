@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59406245A39
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 02:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFFB245A50
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 02:30:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC0C89E39;
-	Mon, 17 Aug 2020 00:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59A0E89F03;
+	Mon, 17 Aug 2020 00:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D3089E39
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 00:18:05 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04CD289F03
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 00:30:05 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3DBAF9;
- Mon, 17 Aug 2020 02:18:02 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19974F9;
+ Mon, 17 Aug 2020 02:30:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1597623483;
- bh=z7ZkF/UGtlwF2klPzyzYz70nGJVgRLeH6o8XLIQWnfI=;
+ s=mail; t=1597624203;
+ bh=8BQyhx7lyZCv4L88FZ8xKeHNkAxqK4InxbmPXHnl1Dc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U6kWgKL0BYS8XZCeRN8LJrzSETrcoazHGMLyZescS0XCpJzK11npnJXNqyx91LlhJ
- zEeQ0X1p1FBLJDzN5154elRs9rJOHOJfbmltsC4RBDM819uaYj31k1aCLJZxgzpCYe
- CDCGQicUxFKKQG3AVnVC0r9b2BM6Oqpxpnb1VHu8=
-Date: Mon, 17 Aug 2020 03:17:47 +0300
+ b=H+S5q7TcBovYm1nmIx4gfwlcA0VNdQv555uCHqICq4PvEAZs7Gd3yM4AScnZuLbJV
+ GHrNX7eIMGYs3Z0NaeEVex8fGz6ytJtdXAeQs3kOlvamtkgZjknkquVEA+IkyVsynp
+ 8ECA896D4pKV4Xxe66KLqJjhb/HbddEBFFwxkbow=
+Date: Mon, 17 Aug 2020 03:29:47 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 3/8] dt-bindings: display: mxsfb: Add a bus-width
- endpoint property
-Message-ID: <20200817001747.GE7729@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 8/8] drm: mxsfb: Add support for the bus-width DT property
+Message-ID: <20200817002947.GF7729@pendragon.ideasonboard.com>
 References: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
- <20200813012910.13576-4-laurent.pinchart@ideasonboard.com>
- <20200816072520.GD1201814@ravnborg.org>
+ <20200813012910.13576-9-laurent.pinchart@ideasonboard.com>
+ <20200816074630.GI1201814@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200816072520.GD1201814@ravnborg.org>
+In-Reply-To: <20200816074630.GI1201814@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +59,127 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Sam,
 
-On Sun, Aug 16, 2020 at 09:25:20AM +0200, Sam Ravnborg wrote:
-> On Thu, Aug 13, 2020 at 04:29:05AM +0300, Laurent Pinchart wrote:
-> > When the PCB routes the display data signals in an unconventional way,
-> > the output bus width may differ from the bus width of the connected
-> > panel or encoder. For instance, when a 18-bit RGB panel has its R[5:0],
-> > G[5:0] and B[5:0] signals connected to LCD_DATA[7:2], LCD_DATA[15:10]
-> > and LCD_DATA[23:18], the output bus width is 24 instead of 18 when the
-> > signals are routed to LCD_DATA[5:0], LCD_DATA[11:6] and LCD_DATA[17:12].
-> > 
-> > Add a bus-width property to describe this data routing.
+On Sun, Aug 16, 2020 at 09:46:30AM +0200, Sam Ravnborg wrote:
+> On Thu, Aug 13, 2020 at 04:29:10AM +0300, Laurent Pinchart wrote:
+> > A new bus-width DT property has been introduced in the bindings to allow
+> > overriding the bus width. Support it.
 > > 
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Some general comments.
-> We have the bus format - for example MEDIA_BUS_FMT_RGB666_1X18.
-> I was under the impression that the bus format defined the wiring used,
-> so for example the bus format would tell if on used 18 bits as above.
-> So with the bus format available the bus-width is not needed.
+> We already reads the bus-width in following files in drm:
+> atmel-hlcdc/atmel_hlcdc_output.c bridge/ti-tfp410.c
 > 
-> Today this detail is not expressed in DT but comes based on the
-> compatible for the panel - so what this patch does is to add the bus
-> format information to DT.
+> So this calls for a common helper to do this like:
 > 
-> But then to do so would we not need to have something so we can specify
-> all relevant MEDIA_BUS_FMT's? bus-width will not cut it.
+> int drm_of_bus_fmt(const struct device_node *ep)
+> {
+> }
+> 
+> This helper could then read bus-width, data-shift (if relevant)
+> and return the relevant bus format.
+> 
+> I can see that bridge/ti-tfp410.c assumes 12 equals
+> MEDIA_BUS_FMT_RGB888_2X12_LE where as mxsfb assumes 12 is
+> MEDIA_BUS_FMT_RGB444_1X12.
+> I do not know why neither how to handle this difference.
+> Maybe this is something to do with DVI as this is what tfp410
+> seems to support.
 
-Different formats can be transported with a given wiring (for instance
-when the full 24-bit RGB bus is wired, the display controller can ouput
-24-bit RGB, or 18-bit RGB on the MSB with dithering enabled), and
-different wirings can transport the same format
-(MEDIA_BUS_FMT_RGB666_1X18 can be transported with a 24 bits wiring, or
-a 18 bits wiring as described in the commit message). While we may in
-this case be able to express the information through bus formats
-(specifying MEDIA_BUS_FMT_RGB666_1X18 would imply that only 18 bits are
-wired), I think it's conceptually speaking the wrong information to
-provide, and would be confusing in some cases.
+I think the mapping from bus width to format is device-specific, I'm not
+sure a common helper is possible.
 
-> Also the bus-width property (and data-shift property you accidentally
-> reference) are both described in media/video-interfaces.txt.
-> If we need bus-witdh - is it possible to re-use video-interfaces?
-> It may need a conversion to yaml to get full validation, but a lot
-> of .yaml files refer to the text file today so conversion can come later.
-
-How do you mean reuse ? I can reference the file in the description, but
-as video-interfaces.txt documents the property just as "number of data
-lines actively used, valid for the parallel busses", I would need a
-description here anyway, to explain how it applies to this device in
-particular, even after video-interfaces.txt gets converted to YAML.
+And now that I think about this, I wonder if data-shift = <2> wouldn't
+be a better option than bus-width = <24>, as a 18-bpp panel will always
+be connected with 18 lines, not 24. One issue, however, is that for the
+565 case, I'd need a different data-shift value for R/B and for G, which
+isn't possible. I don't think that turning data-shift into a
+multi-integers property is worth it though. Given that DT properties are
+interpreted in the context of a particular binding using bus-width could
+be fine here, but I'm open to better alternatives if someone has a good
+proposal.
 
 > > ---
-> >  Documentation/devicetree/bindings/display/mxsfb.yaml | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
+> >  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 26 ++++++++++++++++++++++++++
+> >  drivers/gpu/drm/mxsfb/mxsfb_drv.h |  2 ++
+> >  drivers/gpu/drm/mxsfb/mxsfb_kms.c |  8 ++++++--
+> >  3 files changed, 34 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/Documentation/devicetree/bindings/display/mxsfb.yaml b/Documentation/devicetree/bindings/display/mxsfb.yaml
-> > index ec6533b1d4a3..d15bb8edc29f 100644
-> > --- a/Documentation/devicetree/bindings/display/mxsfb.yaml
-> > +++ b/Documentation/devicetree/bindings/display/mxsfb.yaml
-> > @@ -58,6 +58,18 @@ properties:
-> >          type: object
+> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> > index 8c549c3931af..fab3aae8cf73 100644
+> > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> > @@ -95,10 +95,36 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
+> >  {
+> >  	struct drm_device *drm = mxsfb->drm;
+> >  	struct drm_connector_list_iter iter;
+> > +	struct device_node *ep;
+> >  	struct drm_panel *panel;
+> >  	struct drm_bridge *bridge;
+> > +	u32 bus_width = 0;
+> >  	int ret;
 > >  
-> >          properties:
-> > +          data-shift:
-> > +            enum: [16, 18, 24]
-> > +            description: |
-> > +              The output bus width. This value overrides the configuration
-> > +              derived from the connected device (encoder or panel). It should
-> > +              only be specified when PCB routing of the data signals require a
-> > +              different bus width on the LCDIF and the connected device. For
-> > +              instance, when a 18-bit RGB panel has its R[5:0], G[5:0] and
-> > +              B[5:0] signals connected to LCD_DATA[7:2], LCD_DATA[15:10] and
-> > +              LCD_DATA[23:18] instead of LCD_DATA[5:0], LCD_DATA[11:6] and
-> > +              LCD_DATA[17:12], bus-width should be set to 24.
+> > +	ep = of_graph_get_endpoint_by_regs(drm->dev->of_node, 0, 0);
+> > +	if (!ep)
+> > +		return -ENODEV;
 > > +
-> >            remote-endpoint:
-> >              $ref: /schemas/types.yaml#/definitions/phandle
+> > +	of_property_read_u32(ep, "bus-width", &bus_width);
+> > +	of_node_put(ep);
+> > +
+> > +	switch (bus_width) {
+> > +	case 16:
+> > +		mxsfb->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
+> > +		break;
+> > +	case 18:
+> > +		mxsfb->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+> > +		break;
+> > +	case 24:
+> > +		mxsfb->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> > +		break;
+> > +	case 0:
+> > +		break;
+> > +	default:
+> > +		DRM_DEV_ERROR(drm->dev, "Invalid bus-width %u", bus_width);
+> > +		return -ENODEV;
+> > +	}
+> > +
+> >  	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
+> >  					  &bridge);
+> >  	if (ret)
+> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> > index 399d23e91ed1..c4f7a8a0c891 100644
+> > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> > @@ -32,6 +32,8 @@ struct mxsfb_drm_private {
+> >  	struct clk			*clk_axi;
+> >  	struct clk			*clk_disp_axi;
 > >  
+> > +	u32				bus_format;
+> > +
+> >  	struct drm_device		*drm;
+> >  	struct {
+> >  		struct drm_plane	primary;
+> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > index b721b8b262ce..6d512f346918 100644
+> > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > @@ -50,11 +50,15 @@ static void mxsfb_set_formats(struct mxsfb_drm_private *mxsfb)
+> >  {
+> >  	struct drm_device *drm = mxsfb->drm;
+> >  	const u32 format = mxsfb->crtc.primary->state->fb->format->format;
+> > -	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> > +	u32 bus_format;
+> >  	u32 ctrl, ctrl1;
+> >  
+> > -	if (mxsfb->connector->display_info.num_bus_formats)
+> > +	if (mxsfb->bus_format)
+> > +		bus_format = mxsfb->bus_format;
+> > +	else if (mxsfb->connector->display_info.num_bus_formats)
+> >  		bus_format = mxsfb->connector->display_info.bus_formats[0];
+> > +	else
+> > +		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> >  
+> >  	DRM_DEV_DEBUG_DRIVER(drm->dev, "Using bus_format: 0x%08X\n",
+> >  			     bus_format);
 
 -- 
 Regards,
