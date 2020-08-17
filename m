@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19AD246003
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 10:28:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB2C2461CF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 11:03:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE8416E05D;
-	Mon, 17 Aug 2020 08:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A006E051;
+	Mon, 17 Aug 2020 09:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB83C6E05D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 08:28:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 7AF44FB04;
- Mon, 17 Aug 2020 10:28:18 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8TlX4fRmALQd; Mon, 17 Aug 2020 10:28:17 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id A9DEE4576F; Mon, 17 Aug 2020 10:28:16 +0200 (CEST)
-Date: Mon, 17 Aug 2020 10:28:16 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 3/3] drm/panel: Add panel driver for the Mantix
- MLAF057WE51-X DSI panel
-Message-ID: <20200817082816.GA33443@bogon.m.sigxcpu.org>
-References: <cover.1597526107.git.agx@sigxcpu.org>
- <d4e3f881e3d53166eea0be31a885e08679813558.1597526107.git.agx@sigxcpu.org>
- <20200815212727.GA1244923@ravnborg.org>
- <20200816175521.GC2838@bogon.m.sigxcpu.org>
- <20200816190417.GA1421437@ravnborg.org>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5317C6E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 09:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597655027;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iWLBVVWGQzp5rvaiSkpRpGi21EkmGXSL34WymXzDWrA=;
+ b=RKlhmmrzi6sNxownCya4PqcGSifcOhd5NwmENyVyZ+BaBqKBsGdmceYJyzBr97bTOdnv9q
+ btblH0OmcZcnVZuPXtxz36LgoOa9TkGrhJOErYriyhDwimMhMNu08aIwRcralT9cBRk8Xm
+ 1B6Lwqhzt/F4zJOW1IwlbiorY1kTkgk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-XOr0Q0g5Pm2_V_1gskoIRA-1; Mon, 17 Aug 2020 05:03:45 -0400
+X-MC-Unique: XOr0Q0g5Pm2_V_1gskoIRA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A50801ADB;
+ Mon, 17 Aug 2020 09:03:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
+ [10.36.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 746637A1C0;
+ Mon, 17 Aug 2020 09:03:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AB9611753B; Mon, 17 Aug 2020 11:03:42 +0200 (CEST)
+Date: Mon, 17 Aug 2020 11:03:42 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org, 1882851@bugs.launchpad.net,
+ David Airlie <airlied@linux.ie>, Chia-I Wu <olvaffe@gmail.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/virtio: fix unblank
+Message-ID: <20200817090342.bemmtkvz4seayp2i@sirius.home.kraxel.org>
+References: <20200807105429.24208-1-kraxel@redhat.com>
+ <20200807130956.GE2352366@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200816190417.GA1421437@ravnborg.org>
+In-Reply-To: <20200807130956.GE2352366@phenom.ffwll.local>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,75 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mark Brown <broonie@kernel.org>, allen <allen.chen@ite.com.tw>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-On Sun, Aug 16, 2020 at 09:04:17PM +0200, Sam Ravnborg wrote:
-> On Sun, Aug 16, 2020 at 07:55:21PM +0200, Guido G=FCnther wrote:
-> > Hi Sam,
-> > thanks for having a look!
-> > =
+  Hi,
 
-> > On Sat, Aug 15, 2020 at 11:27:27PM +0200, Sam Ravnborg wrote:
-> > > Hi Guido.
-> > > =
+> > --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> > @@ -100,6 +100,7 @@ static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
+> >  	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
+> >  
+> >  	output->enabled = true;
+> > +	output->need_update = true;
 
-> > > On Sat, Aug 15, 2020 at 11:16:22PM +0200, Guido G=FCnther wrote:
-> > > > The panel uses a Focaltech FT8006p, the touch part is handled by the
-> > > > already existing edt-ft5x06.
-> > > > =
+> > --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> > @@ -163,7 +163,8 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+> >  	    plane->state->src_w != old_state->src_w ||
+> >  	    plane->state->src_h != old_state->src_h ||
+> >  	    plane->state->src_x != old_state->src_x ||
+> > -	    plane->state->src_y != old_state->src_y) {
+> > +	    plane->state->src_y != old_state->src_y ||
+> > +	    output->need_update) {
+> 
+> Uh instead of hand-rolling what's essentially a drm_crtc_needs_modeset
+> check, why not use that one? atomic helpers try to keep the usual suspects
+> for state transitions already handy, to avoid every driver rolling their
+> own. Or do I miss something here?
 
-> > > > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> > > =
+Well, the virtio-gpu virtual hardware can't do plane updates and crtc
+updates independant from each other.  So the crtc callbacks handle
+disable only (we don't need a fb for that) and leave the enable to the
+plane update.
 
-> > > Two small nits - otherwise looks good.
-> > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > > =
+I suspect calling drm_atomic_crtc_needs_modeset() in plane update isn't
+going to fly ...
 
-> > > I can fix while applying or you can send a new revision,
-> > > but I cannot apply until drm-misc-next have seen a backmerge
-> > > due to dev_err_probe() usage.
-> > =
+take care,
+  Gerd
 
-> > I'll send out a v3 with this fixed.
-> > =
-
-> > > Did you have commit rights yet?
-> > > If yes, then please apply yourself.
-> > =
-
-> > No commit rights here. So it would be great if you could apply the
-> > patches. Should I look for commit rights? I assume that means following
-> > =
-
-> >     https://drm.pages.freedesktop.org/maintainer-tools/commit-access.ht=
-ml#drm-misc    =
-
-> I recall we discussed this before for some other driver.
-> For a single panel it is not needed, but if you continue to be active
-> on other parts it makes sense.
-
-I think st7703, mantix and nwl all go in via drm-misc so it might make
-sense. Thanks for the suggestion!
-
-> I will apply v3 when drm-misc-next is backmeged unless you tell me
-> otherwise. And ping me if I forgets.
-
-Thanks!
- -- Guido
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
