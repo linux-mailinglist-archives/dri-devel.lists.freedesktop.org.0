@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F87247ADF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 00:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E6E247B31
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 01:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451506E127;
-	Mon, 17 Aug 2020 22:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62ED889D81;
+	Mon, 17 Aug 2020 23:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 161756E127
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 22:59:35 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1597705177; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=1iMRAOibRi50JnJL7Gy/48bD9j2LMVyK5mB4/xTVJwk=;
- b=JekEa6y/c8yxUxSXziwIs6dSiXDFqXlH8+95P6Sf+nzTSLq152rBqmLdkgSEereJ0t7sON0b
- Bp6RgBd05vnouSww5UWoEzvYqbaLbd/8oADBO8QWKxqemGtXIkumOPcK9qYCJsdWcD9f6CJe
- R/myJNhnlfwKZOwcTRlAI6+UEW4=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5f3b0bcfcbcd42bdeeae1e6f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 17 Aug 2020 22:59:27
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 34B8CC433CB; Mon, 17 Aug 2020 22:59:26 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=ham autolearn_force=no version=3.4.0
-Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 4F84AC433CA;
- Mon, 17 Aug 2020 22:59:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4F84AC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=tanmay@codeaurora.org
-From: Tanmay Shah <tanmay@codeaurora.org>
-To: swboyd@chromium.org
-Subject: [PATCH v2] arm64: dts: qcom: sc7180: Add DisplayPort HPD pin dt node
-Date: Mon, 17 Aug 2020 15:59:12 -0700
-Message-Id: <20200817225912.3149-1-tanmay@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8CB989D81
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 23:42:56 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 954AC207D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 23:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597707775;
+ bh=x2x17PXByjmc5GL+cpiiMIiGtoeX2KrAjZvn4MxGmjM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jc/vz+UQzZaY3RWlTnKJ/1TkiZZistwAP8D5Rbr8gGMvQbCioL9ezZGWDCLTThzMQ
+ I5yeRps1Ms1E0aACHi+zxzWiY6evzagCBlM0RQAdSbsnhAHBIiYPfeCGeWc7+3eOqs
+ dR1K0IcG7QqNsmy+9iOB1VtJ8Sl6Xkug3njoTXFI=
+Received: by mail-ej1-f44.google.com with SMTP id t10so19871534ejs.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 16:42:55 -0700 (PDT)
+X-Gm-Message-State: AOAM533YRoQHh9ZEQoB/EdElWVmIda9tKL6LRZ7aF98prdMukxScjdpl
+ fOqMAbuoO1E7OGMaxaUH9ck0xBmXExk+3q+qRQ==
+X-Google-Smtp-Source: ABdhPJz1blTGXowp+NNEIdFVKpxsWzYUxZj6C7dOmrD54k7lOK5kU33K3omXAVdbUpjCWHkbhkIeIAutfvc+KMgeqYw=
+X-Received: by 2002:a17:906:d92c:: with SMTP id
+ rn12mr16958911ejb.187.1597707774145; 
+ Mon, 17 Aug 2020 16:42:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200817130640.18021-1-jitao.shi@mediatek.com>
+In-Reply-To: <20200817130640.18021-1-jitao.shi@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 18 Aug 2020 07:42:38 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9ggDUdDD9KoOaWBx3XaK+=Q=5qxahG7SJ5uYBQZ4aadw@mail.gmail.com>
+Message-ID: <CAAOTY_9ggDUdDD9KoOaWBx3XaK+=Q=5qxahG7SJ5uYBQZ4aadw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: dsi: fix scrolling of panel with small
+ hfp or hbp
+To: Jitao Shi <jitao.shi@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +55,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- abhinavk@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This node defines alternate DP HPD functionality of GPIO.
-
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index bf2f2bb1aa79..0eedf057acc1 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1457,6 +1457,19 @@ pinconf-sd-cd {
- 					drive-strength = <2>;
- 				};
- 			};
-+
-+			dp_hot_plug_det: dp-hot-plug-det {
-+				pinmux {
-+					pins = "gpio117";
-+					function = "dp_hot";
-+				};
-+
-+				pinconf {
-+					pins = "gpio117";
-+					bias-disable;
-+					input-enable;
-+				};
-+			};
- 		};
- 
- 		gpu: gpu@5000000 {
-
-base-commit: 62975d27d647a40c58d3b96c29b911fc4f33c310
-prerequisite-patch-id: a4d3e51b6e1200ff7d4550f206db98a92c0a098f
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEppdGFvOgoKSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPiDmlrwgMjAyMOW5
+tDjmnIgxN+aXpSDpgLHkuIAg5LiL5Y2IOTowN+Wvq+mBk++8mgo+Cj4gaG9yaXpvbnRhbF9iYWNr
+cG9yY2hfYnl0ZSBzaG91bGQgYmUgaGJwICogYnBwIC0gaGJwIGV4dHJhIGJ5dGVzLgo+IFNvIHJl
+bW92ZSB0aGUgd3Jvbmcgc3VidHJhY3Rpb24gMTAuCj4KPiBTaWduZWQtb2ZmLWJ5OiBKaXRhbyBT
+aGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRp
+YXRlay9tdGtfZHNpLmMgfCA5ICsrKystLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
+b25zKCspLCA1IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4g
+aW5kZXggMjcwYmYyMmM5OGZlLi41ZDAzMWU2MzQ1NzEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
+ay9tdGtfZHNpLmMKPiBAQCAtNDczLDE0ICs0NzMsMTMgQEAgc3RhdGljIHZvaWQgbXRrX2RzaV9j
+b25maWdfdmRvX3RpbWluZyhzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICAgICAgICAgaG9yaXpvbnRh
+bF9zeW5jX2FjdGl2ZV9ieXRlID0gKHZtLT5oc3luY19sZW4gKiBkc2lfdG1wX2J1Zl9icHAgLSAx
+MCk7CgpTbyB0aGlzIHN1YnRyYWN0aW9uIDEwIGlzIGNvcnJlY3Q/CgpSZWdhcmRzLApDaHVuLUt1
+YW5nLgoKPgo+ICAgICAgICAgaWYgKGRzaS0+bW9kZV9mbGFncyAmIE1JUElfRFNJX01PREVfVklE
+RU9fU1lOQ19QVUxTRSkKPiAtICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0
+ZSA9Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgKHZtLT5oYmFja19wb3JjaCAqIGRzaV90bXBf
+YnVmX2JwcCAtIDEwKTsKPiArICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0
+ZSA9IHZtLT5oYmFja19wb3JjaCAqIGRzaV90bXBfYnVmX2JwcDsKPiAgICAgICAgIGVsc2UKPiAt
+ICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZSA9ICgodm0tPmhiYWNrX3Bv
+cmNoICsgdm0tPmhzeW5jX2xlbikgKgo+IC0gICAgICAgICAgICAgICAgICAgICAgIGRzaV90bXBf
+YnVmX2JwcCAtIDEwKTsKPiArICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0
+ZSA9ICh2bS0+aGJhY2tfcG9yY2ggKyB2bS0+aHN5bmNfbGVuKSAqCj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkc2lfdG1wX2J1Zl9icHA7Cj4KPiAgICAgICAg
+IGRhdGFfcGh5X2N5Y2xlcyA9IHRpbWluZy0+bHB4ICsgdGltaW5nLT5kYV9oc19wcmVwYXJlICsK
+PiAtICAgICAgICAgICAgICAgICAgICAgICAgIHRpbWluZy0+ZGFfaHNfemVybyArIHRpbWluZy0+
+ZGFfaHNfZXhpdCArIDM7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICB0aW1pbmctPmRhX2hz
+X3plcm8gKyB0aW1pbmctPmRhX2hzX2V4aXQ7Cj4KPiAgICAgICAgIGlmIChkc2ktPm1vZGVfZmxh
+Z3MgJiBNSVBJX0RTSV9NT0RFX1ZJREVPX0JVUlNUKSB7Cj4gICAgICAgICAgICAgICAgIGlmICgo
+dm0tPmhmcm9udF9wb3JjaCArIHZtLT5oYmFja19wb3JjaCkgKiBkc2lfdG1wX2J1Zl9icHAgPgo+
+IC0tCj4gMi4xMi41Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1tZWRpYXRla0BsaXN0
+cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
