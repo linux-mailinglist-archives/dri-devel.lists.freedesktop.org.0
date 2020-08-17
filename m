@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87453247FDC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33B6247FED
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C63289D5C;
-	Tue, 18 Aug 2020 07:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465B489D8A;
+	Tue, 18 Aug 2020 07:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE45F6E0F8;
- Mon, 17 Aug 2020 09:20:00 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id v15so7823085pgh.6;
- Mon, 17 Aug 2020 02:20:00 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BE886E0F8;
+ Mon, 17 Aug 2020 09:20:15 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id g7so6063960plq.1;
+ Mon, 17 Aug 2020 02:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=lUWUV2v5oTJVUGMm6xf12JUfYyiWzcefGfdAtQk2jwM=;
- b=mbKVOHJMzNpskDzHydVD5JZdcRfrw+xd2+Uv78XbvKMc+387psZ2V2hk4qrHnsS81T
- /zH73TElq4axoclHQIy0bA2CbV9hfC8GYC+eakgtOktC3A5XsD2xiPjCrklKsR3XFyFd
- fsIOloQVGdK6RU/6EWDMjEAfDxSohJd//jLLtalmI0rGbeu1xwfLvpwSymywSxSBVX3G
- uhosJxEfiUcPuUNVJvS0yzIPELIzVumGhuE5Qx9Ojw3cmc6kmaA4ZQewhXRClGiu+tq2
- Aj/I10puZjlvAygrQvpRDOADkQfmJxn+4bXKvfXCvf9sZS7FhECvv/YiYSa/EN75dMVj
- 0suw==
+ bh=48ZUy5TmzQBYUzPrjZvYPJeHWlYkLbZYovshPbclrcg=;
+ b=FoufY+wCt538UGODDBNoxdFMHMLuyZNGQ6MHR7pZXvqvIrAnPj8PHB4pQsWp/mWg6o
+ KsvcX8Y87zDteEZApNo70LMlrBVZaBliAR2vLGx60Xbo7CohHtYkdt/Mg+u50DG1h36h
+ 9Fwly9brTQHjZlbl7lAqxgOWAbzrsFhJBcqUC23aSRj/VpiU2JCK2mbui+uqvhxhgmrl
+ IvuQewyHW9KqIl6MAWFr6dd8dgP34kntnReO4dunTk9vfs81InEHWHE3302xh+V3TqjN
+ 5ledaxK7A0foZnhRefzAA6Ra/wxb6d+K7gxqNB1TdKvqBatRR5FaVQrX9ZSt/5m+frdy
+ H7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=lUWUV2v5oTJVUGMm6xf12JUfYyiWzcefGfdAtQk2jwM=;
- b=goFuqeN2EwgYIq26nY9c5h9iG1S0E8L4m7MQcLAJFO/VNtblLlsosNVex0uV1RyZ9M
- WcoaoxoapSNnA4CuBtSV7JwGK4XVYLcjwQtBdcI9ciwSCE99nH+cu/jlX0LovQ4g2Y2K
- FermPpL3otgqfNryi3ky6IquPfAaABQ2J2NhOaQf8QO/2IDhqyJ9t0EikrcCWEBsmcfx
- NWqE1xa79i5cOi/JTcEgxzU4tZOuiifJtLvYxPNTYM8hOiKwCnc+HU9F5CF4VAVsWsak
- 8sV5fgjbtZwDItNfrHIO/ve4Uq5hqL/OmiyVEnuQhnxHx3KHJ0KVAaLn84UUX3HpXKGm
- Yevw==
-X-Gm-Message-State: AOAM532ziQYTtIrM2sL9iFmQL2Nolo2rFk+0SLBREQFMO6KrgXJzQP58
- kepZf+tDGNd1Nsh2ySrNwN4=
-X-Google-Smtp-Source: ABdhPJxQcfdrrCrfZXVUBP2XgAqTEjdFaPRIHC7BcYbo0cXrAVQPSPy8pM2ZDmwAm4cu8q6kfjMCtw==
-X-Received: by 2002:a62:7785:: with SMTP id
- s127mr10452297pfc.196.1597656000455; 
- Mon, 17 Aug 2020 02:20:00 -0700 (PDT)
+ bh=48ZUy5TmzQBYUzPrjZvYPJeHWlYkLbZYovshPbclrcg=;
+ b=YbLp81nkjQYzCC3RbNefQ0pJ3DtjzsR0IBs814E09oqC2HRSR+/cEK7qaHo95/kFYV
+ Ygd/BOFU/e9J8pKRTQWrmTnPX4Zdc5unW89G/2XyHUczaw0Ic2hzU+clY+W1bo3sZrGc
+ Xj7+Y1RTqO2VeT7J9RszE+bGOYwRJ0tVjdfQvsjcS3ZpYxZpBDnEKORJ/cWN05lcrbBD
+ s9oZi9VZ/glsHjgL0LPV8o4372cVCqPv2oI6zS4i3fUFjaorCqfJLT/Rga9h8ESDSK9K
+ S6m0EYWWAJy80K1MXLCYyCR/mvIn8ypF7VZIaMWuHUWrtK3sMq3igpsoJWyOrnA+HHa4
+ x/gw==
+X-Gm-Message-State: AOAM533PNFwnUzenbWL1ihtDLpQfWxcdqHIJYnEa+Iafnhl6vY/v8Qer
+ x0pzjbMTsVv5pRHPE4Vsy+s=
+X-Google-Smtp-Source: ABdhPJzGq3wy6E/Dy/SnfM+UdmLXd8ExYtYFE4LwG7DZVH6d40QHdot/zCUw6TFKmzo3uMNttbjBZg==
+X-Received: by 2002:a17:902:bd85:: with SMTP id
+ q5mr9922465pls.99.1597656014891; 
+ Mon, 17 Aug 2020 02:20:14 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
- by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.19.45
+ by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.20.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:19:59 -0700 (PDT)
+ Mon, 17 Aug 2020 02:20:14 -0700 (PDT)
 From: Allen Pais <allen.cryptic@gmail.com>
 To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -55,10 +55,9 @@ To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  ulf.hansson@linaro.org, mporter@kernel.crashing.org, alex.bou9@gmail.com,
  broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
  mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH 1/2] misc: ibmvmc: convert tasklets to use new tasklet_setup()
- API
-Date: Mon, 17 Aug 2020 14:46:10 +0530
-Message-Id: <20200817091617.28119-16-allen.cryptic@gmail.com>
+Subject: [PATCH] net: atm: convert tasklets callbacks to use from_tasklet()
+Date: Mon, 17 Aug 2020 14:46:11 +0530
+Message-Id: <20200817091617.28119-17-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -94,44 +93,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Allen Pais <allen.lkml@gmail.com>
 
-In preparation for unconditionally passing the
-struct tasklet_struct pointer to all tasklet
-callbacks, switch to using the new tasklet_setup()
-and from_tasklet() to pass the tasklet pointer explicitly.
+Update all the callbacks of all tasklets by using
+from_tasklet() and remove .data field.
 
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/misc/ibmvmc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ net/atm/pppoatm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/misc/ibmvmc.c b/drivers/misc/ibmvmc.c
-index 2d778d0f011e..347278c1a5e4 100644
---- a/drivers/misc/ibmvmc.c
-+++ b/drivers/misc/ibmvmc.c
-@@ -2064,10 +2064,10 @@ static void ibmvmc_handle_crq(struct ibmvmc_crq_msg *crq,
- 	}
- }
- 
--static void ibmvmc_task(unsigned long data)
-+static void ibmvmc_task(struct tasklet_struct *t)
- {
--	struct crq_server_adapter *adapter =
--		(struct crq_server_adapter *)data;
-+	struct crq_server_adapter *adapter = from_tasklet(adapter, t,
-+							  work_task);
- 	struct vio_dev *vdev = to_vio_dev(adapter->dev);
- 	struct ibmvmc_crq_msg *crq;
- 	int done = 0;
-@@ -2150,7 +2150,7 @@ static int ibmvmc_init_crq_queue(struct crq_server_adapter *adapter)
- 	queue->cur = 0;
- 	spin_lock_init(&queue->lock);
- 
--	tasklet_init(&adapter->work_task, ibmvmc_task, (unsigned long)adapter);
-+	tasklet_setup(&adapter->work_task, ibmvmc_task);
- 
- 	if (request_irq(vdev->irq,
- 			ibmvmc_handle_event,
+diff --git a/net/atm/pppoatm.c b/net/atm/pppoatm.c
+index 579b66da1d95..3803be8470f7 100644
+--- a/net/atm/pppoatm.c
++++ b/net/atm/pppoatm.c
+@@ -416,7 +416,6 @@ static int pppoatm_assign_vcc(struct atm_vcc *atmvcc, void __user *arg)
+ 	pvcc->chan.mtu = atmvcc->qos.txtp.max_sdu - PPP_HDRLEN -
+ 	    (be.encaps == e_vc ? 0 : LLC_LEN);
+ 	pvcc->wakeup_tasklet = tasklet_proto;
+-	pvcc->wakeup_tasklet.data = (unsigned long) &pvcc->chan;
+ 	err = ppp_register_channel(&pvcc->chan);
+ 	if (err != 0) {
+ 		kfree(pvcc);
 -- 
 2.17.1
 
