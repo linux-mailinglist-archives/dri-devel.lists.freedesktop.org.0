@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C460247FF7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EA6247FEE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C77A89DBD;
-	Tue, 18 Aug 2020 07:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B9C89DDF;
+	Tue, 18 Aug 2020 07:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 709C66E079;
- Mon, 17 Aug 2020 09:16:54 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id o13so7839674pgf.0;
- Mon, 17 Aug 2020 02:16:54 -0700 (PDT)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77076E079;
+ Mon, 17 Aug 2020 09:17:07 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id d4so7394344pjx.5;
+ Mon, 17 Aug 2020 02:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mHuwQk3c70LEeVRDgRBhzwGDJ7nUBqanmZ13DbCY85U=;
- b=Q0W/VwIVXHBj9YvXRE65zmYYW7OKSwPOhFA7L33Jnm2I/2WYc9/mTcQlvMPBfa5gSN
- 2RqBUwnnXPqHfFkY/kdefbonLsqR7U5QnIT6xXUYsUHSEwB7JUQ6IrBQUdhBLTxOi/+G
- 33dCqGC85wIzu4sVwhJXWst+XXWWfIhuU8OS9PUM4VbvTcwe9jbpbtJAG7iSDqxdcBMW
- jNrLB+vMhlGjl4glI2SnqDDpzzN+Zo4iUN3eXnADBqhYOpdGyO3gibX0u2a/Ix6ZYq6q
- 3i+c4VwSQrSpK5GhTuNnF/NK1R/BwbjbUR0kjNWUX1g/BGGcsZFog29tDD6yJ+HItruh
- 1xKw==
+ bh=uZ+1GKxChp21LTxKeZeHItaYyTUEZmeDAjJJ3IuyUSU=;
+ b=QOU3It2wstSJQ8rTV/fRKD6g3FxnjKR7x+Yn8XhXibiXjd9f+wMUX06FxPTeJckaOy
+ b461ZvK+YUE+a4MgqglsIfnmBh1hfgw+OcprCrJKfwn6S7iF4u002CSD866ly3D9ewzl
+ KZefKfGEV/Ayb6cOaQMdIuFxRgOzaQ6p54wUjWaECLiKBrgQHy3tV6AeZbifktOme+eH
+ NjF7sOjZeNi5IMHEZbD9MOiEmhtBLqVvzb4547MxWG8lXsvmAhu3YelPfx4zHgGe28Jc
+ 2XbbfK00LrxN/7E2T3xL/1NXOWZUugF7t8FyOW2q/Qb6jXYDE7eKIouYXUKYiMSgzqKW
+ ix0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=mHuwQk3c70LEeVRDgRBhzwGDJ7nUBqanmZ13DbCY85U=;
- b=fkW/f9Zlji5K4v/tF3askd5ESf/y561ar42GAQ+03HoPhCHNrq1hjY8PeXp+wo8nPL
- VMZWn478dML/7ipsFpP988j6IHPfLizP/glPzX3QZiRO+fLcTw21kh39wv/7rWaI4WCS
- vFqAlTQaSgEFAb9+ST0Evi9PlHumiwZUvgjSDuvIo+mbOwHQUSy6NtVJb+u1/kUKxWpj
- bJW0/3NDJaRUpJCF5M0wkK5s/2Ep0K0zNaUXeH6n58R/z5/Cp0HKyGYeuXieLfDdRk2f
- tpLMBXctqXFufNXoSin1yh7H+QlofMdEh2fGi1Rye19jqgp8WnA0Pv9nie6O8oyoRn3S
- f9jA==
-X-Gm-Message-State: AOAM533VKoyViGMbVd7tF8NzDJ+nnb3+bGAHNDcQYBZhoKky2jzKojmd
- hjdH7nCzP8msURVlpvgfTu4=
-X-Google-Smtp-Source: ABdhPJwv96iWwUMvH8VXPkCg2sP5Tpy4AOwF/aDt/4dzgfyafzoO9ePqFKRKBzZcF9Jymu1V1GKZMg==
-X-Received: by 2002:a63:5213:: with SMTP id g19mr8976321pgb.44.1597655813910; 
- Mon, 17 Aug 2020 02:16:53 -0700 (PDT)
+ bh=uZ+1GKxChp21LTxKeZeHItaYyTUEZmeDAjJJ3IuyUSU=;
+ b=NSsr9SYg8hpCWwOD1phaR2GBAqUfoXB/OhzFtFE96c34DL46xT5wymR6yzi8G23syQ
+ EM3wglQ9ghnNeINptYxAjhlZuiU29GL6RK1M5qggkqM8sdOfpWD5QRkP/4+t5GQrY9nc
+ VpZD4dfcwOEugkpb/XHbCF8o59IeJX72pFhUhcuPoFEtsdSEK58f8UmMf0wsIS/8KmxY
+ fH5MuEE/29uvWW/kt0Lr4ESf/XnzTtm1YmCrSaP7oj+Ves3z/plodGhzxSs3xK84FZdd
+ s9lD7iWpooNufebtC8Bp1f7JBPCp/Z15f/rsCH9+NRCYYAaDlDJSvfeynDMA3wwi7La7
+ DmBQ==
+X-Gm-Message-State: AOAM531kwoYU5NDsbg0ysXNqx9X0RkgauAeT5juxOIc5ehnJUaf/8ZQD
+ yGWn+MOWPfQshIBeIJkRmNA=
+X-Google-Smtp-Source: ABdhPJwXoSwxxXkSke3l7PujHUMjPUXY5EKX6zhSfgL0hCl2GRP8rzNL2p+R0J7BH7wXM281JFEI2Q==
+X-Received: by 2002:a17:90a:3948:: with SMTP id
+ n8mr8798780pjf.156.1597655827403; 
+ Mon, 17 Aug 2020 02:17:07 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
- by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.16.40
+ by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.16.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:16:53 -0700 (PDT)
+ Mon, 17 Aug 2020 02:17:06 -0700 (PDT)
 From: Allen Pais <allen.cryptic@gmail.com>
 To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -54,9 +55,9 @@ To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  ulf.hansson@linaro.org, mporter@kernel.crashing.org, alex.bou9@gmail.com,
  broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
  mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH] block: convert tasklets to use new tasklet_setup() API
-Date: Mon, 17 Aug 2020 14:45:56 +0530
-Message-Id: <20200817091617.28119-2-allen.cryptic@gmail.com>
+Subject: [PATCH] char: ipmi: convert tasklets to use new tasklet_setup() API
+Date: Mon, 17 Aug 2020 14:45:57 +0530
+Message-Id: <20200817091617.28119-3-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -100,66 +101,56 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/block/umem.c    | 6 +++---
- drivers/block/xsysace.c | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/char/ipmi/ipmi_msghandler.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/block/umem.c b/drivers/block/umem.c
-index 2b95d7b33b91..320781d5d156 100644
---- a/drivers/block/umem.c
-+++ b/drivers/block/umem.c
-@@ -405,7 +405,7 @@ static int add_bio(struct cardinfo *card)
- 	return 1;
- }
+diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
+index 737c0b6b24ea..e1814b6a1225 100644
+--- a/drivers/char/ipmi/ipmi_msghandler.c
++++ b/drivers/char/ipmi/ipmi_msghandler.c
+@@ -39,7 +39,7 @@
  
--static void process_page(unsigned long data)
-+static void process_page(struct tasklet_struct *t)
- {
- 	/* check if any of the requests in the page are DMA_COMPLETE,
- 	 * and deal with them appropriately.
-@@ -415,7 +415,7 @@ static void process_page(unsigned long data)
- 	 */
- 	struct mm_page *page;
- 	struct bio *return_bio = NULL;
--	struct cardinfo *card = (struct cardinfo *)data;
-+	struct cardinfo *card = from_tasklet(card, t, tasklet);
- 	unsigned int dma_status = card->dma_status;
- 
- 	spin_lock(&card->lock);
-@@ -891,7 +891,7 @@ static int mm_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	if (!card->queue)
- 		goto failed_alloc;
- 
--	tasklet_init(&card->tasklet, process_page, (unsigned long)card);
-+	tasklet_setup(&card->tasklet, process_page);
- 
- 	card->check_batteries = 0;
- 
-diff --git a/drivers/block/xsysace.c b/drivers/block/xsysace.c
-index 5d8e0ab3f054..bdd50a87d10f 100644
---- a/drivers/block/xsysace.c
-+++ b/drivers/block/xsysace.c
-@@ -762,9 +762,9 @@ static void ace_fsm_dostate(struct ace_device *ace)
+ static struct ipmi_recv_msg *ipmi_alloc_recv_msg(void);
+ static int ipmi_init_msghandler(void);
+-static void smi_recv_tasklet(unsigned long);
++static void smi_recv_tasklet(struct tasklet_struct *t);
+ static void handle_new_recv_msgs(struct ipmi_smi *intf);
+ static void need_waiter(struct ipmi_smi *intf);
+ static int handle_one_recv_msg(struct ipmi_smi *intf,
+@@ -3430,9 +3430,8 @@ int ipmi_add_smi(struct module         *owner,
+ 	intf->curr_seq = 0;
+ 	spin_lock_init(&intf->waiting_rcv_msgs_lock);
+ 	INIT_LIST_HEAD(&intf->waiting_rcv_msgs);
+-	tasklet_init(&intf->recv_tasklet,
+-		     smi_recv_tasklet,
+-		     (unsigned long) intf);
++	tasklet_setup(&intf->recv_tasklet,
++		     smi_recv_tasklet);
+ 	atomic_set(&intf->watchdog_pretimeouts_to_deliver, 0);
+ 	spin_lock_init(&intf->xmit_msgs_lock);
+ 	INIT_LIST_HEAD(&intf->xmit_msgs);
+@@ -4467,10 +4466,10 @@ static void handle_new_recv_msgs(struct ipmi_smi *intf)
  	}
  }
  
--static void ace_fsm_tasklet(unsigned long data)
-+static void ace_fsm_tasklet(struct tasklet_struct *t)
+-static void smi_recv_tasklet(unsigned long val)
++static void smi_recv_tasklet(struct tasklet_struct *t)
  {
--	struct ace_device *ace = (void *)data;
-+	struct ace_device *ace = from_tasklet(ace, t, fsm_tasklet);
- 	unsigned long flags;
+ 	unsigned long flags = 0; /* keep us warning-free. */
+-	struct ipmi_smi *intf = (struct ipmi_smi *) val;
++	struct ipmi_smi *intf = from_tasklet(intf, t, recv_tasklet);
+ 	int run_to_completion = intf->run_to_completion;
+ 	struct ipmi_smi_msg *newmsg = NULL;
  
- 	spin_lock_irqsave(&ace->lock, flags);
-@@ -1001,7 +1001,7 @@ static int ace_setup(struct ace_device *ace)
- 	/*
- 	 * Initialize the state machine tasklet and stall timer
- 	 */
--	tasklet_init(&ace->fsm_tasklet, ace_fsm_tasklet, (unsigned long)ace);
-+	tasklet_setup(&ace->fsm_tasklet, ace_fsm_tasklet);
- 	timer_setup(&ace->stall_timer, ace_stall_timer, 0);
+@@ -4542,7 +4541,7 @@ void ipmi_smi_msg_received(struct ipmi_smi *intf,
+ 		spin_unlock_irqrestore(&intf->xmit_msgs_lock, flags);
  
- 	/*
+ 	if (run_to_completion)
+-		smi_recv_tasklet((unsigned long) intf);
++		smi_recv_tasklet(&intf->recv_tasklet);
+ 	else
+ 		tasklet_schedule(&intf->recv_tasklet);
+ }
 -- 
 2.17.1
 
