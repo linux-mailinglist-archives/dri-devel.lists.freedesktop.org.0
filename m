@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EB5247FDA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4327C247FFD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E60F89D5F;
-	Tue, 18 Aug 2020 07:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BAC89E9E;
+	Tue, 18 Aug 2020 07:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6DC16E4B3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 09:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597656021;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=Igq/TLMgvkOXVP7WinmQFpYR30BooBOx4sZndzWkfck=;
- b=ahds+KwQKK474pwjuDE+w6LBvcjuBJ5zEs7cBokFcvUaf7e/PYp2+uIRiFjlo08iwT
- GnywpGJ3JIRrk3wHFkkgqq2BGRnezubiNspCJOpzuFOjVfmjNx+QbTtPJQQhE7v0R7NF
- xG1KjqGQpSRQmHUyecnQJJSQzMV2p8SgFYC+2telkOKVMUCC5tN0+AwsZJ/xw8EGyn/N
- rrH6Ngi0+ARfKN6mHSNqGvwlN3VrQHy1CQnA92ytViCZC4IxAGMU0aEnKYrh6tVHRhid
- aATznCsFh3QWnKztChHGlyxHF3cRtJi9Z0Ktf/wdOhVEkrSKefJa3XMk4IrlRGPu1y5f
- dB5A==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPhSI1Vi9hdbute3wuvmUTfEdg9AyQ=="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a02:8109:89c0:ebfc:15f9:f3ba:c3bc:6875]
- by smtp.strato.de (RZmta 46.10.5 AUTH)
- with ESMTPSA id 60686ew7H9K0n8X
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Mon, 17 Aug 2020 11:20:00 +0200 (CEST)
-Subject: Re: [Virtual ppce500] virtio_gpu virtio0: swiotlb buffer is full
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-To: daniel.vetter@ffwll.ch
-References: <87h7tb4zwp.fsf@linux.ibm.com>
- <E1C071A5-19D1-4493-B04A-4507A70D7848@xenosoft.de>
- <bc1975fb-23df-09c2-540a-c13b39ad56c5@xenosoft.de>
- <51482c70-1007-1202-9ed1-2d174c1e923f@xenosoft.de>
- <9688335c-d7d0-9eaa-22c6-511e708e0d2a@linux.ibm.com>
- <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
- <3162da18-462c-72b4-f8f0-eef896c6b162@xenosoft.de>
-Message-ID: <3eee8130-6913-49d2-2160-abf0bf17c44e@xenosoft.de>
-Date: Mon, 17 Aug 2020 11:19:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D29C6E31D;
+ Mon, 17 Aug 2020 12:15:18 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id x24so13225562otp.3;
+ Mon, 17 Aug 2020 05:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HJ0m+miDorhqglJ9JrK44iTq3d9R15TmbjC29old1f8=;
+ b=KQ04CZsRLDiNek1Hq6BgWjnM11s2YmAiDjqEVGZ1TB6F4rCxf78rX4jbJ0CzT3vabY
+ xrX4JEoDeIRQkHsLGU1+gcp8w5QWNQcEyBm3wuShwRxBfydODrCE4cRQV+E7WBzKB44r
+ nItPN0459qY5GQ/vDZ0NyzENyHv44GovdpKFSl4hiVWaOB2zEjXEpxHT00gUoMHFf0Aj
+ T3icpJ/3pjaEvvW0UMNkSAFYHa1jbJwCP0vrwjpIL/uytt4RzckTqwRdvf5FUeTb7MGh
+ bx2bsLCHbfEXkOD8bVoKRj4Mx5bjsmewyyPYaN17ohutCV8HXhFZHeJnJ+WLeKJ12UV0
+ gebw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to
+ :user-agent;
+ bh=HJ0m+miDorhqglJ9JrK44iTq3d9R15TmbjC29old1f8=;
+ b=ovlHtiVFQ6384+D8o9mVeOCcCBRJotPyw553ucAK2H9bltxUe8h1Z47Pv5sp93d0xm
+ U4Rmjtq6KKct32jiekKIMc6N8XNb3Lrxh5nSWQwAM0UdI3Yvu2bbfMetHyBTgBSgDnkp
+ CZNw15afScOoEzn8YOTDYX5nfhd/Lu+/BLkjBNXy99DlaYDC4kCVEPFyNJPpC1Er6uIk
+ qODRbvJM+TrDBrx/nsx69/lDRgfzpvJUvfYi+bJgGKgJSCDUBE+ZlVk49RTzaRp6JKH+
+ x0xZjEq3NWiLJHF9551HM8k9OMOLMoFuQE1k+DgAjNX8wHWeF21TQoZ153LdMRKXenQL
+ Sc2w==
+X-Gm-Message-State: AOAM533hv3r7yK2B9drxb9AhJQ9daGHUIwpWyMz/HNx7qkQCHURAr6Yj
+ ZghArE6cw222Ga9Sqfgcpg==
+X-Google-Smtp-Source: ABdhPJy4QfXEUBbWmVDtAzyWm157/pCVwSVPWhR0mJ058Fnm0lC/IAUOoEeTjBc9itF58Cw5xKVyqA==
+X-Received: by 2002:a05:6830:1346:: with SMTP id
+ r6mr11152982otq.325.1597666517323; 
+ Mon, 17 Aug 2020 05:15:17 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.146.204])
+ by smtp.gmail.com with ESMTPSA id l17sm3384049otn.2.2020.08.17.05.15.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Aug 2020 05:15:16 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:8b39:c3f3:f502:5c4e])
+ by serve.minyard.net (Postfix) with ESMTPSA id 846E11800D4;
+ Mon, 17 Aug 2020 12:15:15 +0000 (UTC)
+Date: Mon, 17 Aug 2020 07:15:14 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Allen Pais <allen.cryptic@gmail.com>
+Subject: Re: [PATCH] char: ipmi: convert tasklets to use new tasklet_setup()
+ API
+Message-ID: <20200817121514.GE2865@minyard.net>
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-3-allen.cryptic@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <3162da18-462c-72b4-f8f0-eef896c6b162@xenosoft.de>
-Content-Language: de-DE
+Content-Disposition: inline
+In-Reply-To: <20200817091617.28119-3-allen.cryptic@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 18 Aug 2020 07:50:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,111 +76,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>,
- mad skateman <madskateman@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "kvm-ppc@vger.kernel.org" <kvm-ppc@vger.kernel.org>,
- "R.T.Dickinson" <rtd2@xtra.co.nz>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: minyard@acm.org
+Cc: ulf.hansson@linaro.org, linux-atm-general@lists.sourceforge.net,
+ manohar.vanga@gmail.com, airlied@linux.ie, Allen Pais <allen.lkml@gmail.com>,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, James.Bottomley@HansenPartnership.com,
+ kys@microsoft.com, anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+ linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+ kuba@kernel.org, mporter@kernel.crashing.org, jdike@addtoit.com,
+ keescook@chromium.org, oakad@yahoo.com, s.hauer@pengutronix.de,
+ linux-input@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, axboe@kernel.dk,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
+ dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
+ linux-spi@vger.kernel.org, alex.bou9@gmail.com, stefanr@s5r6.in-berlin.de,
+ linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
+ shawnguo@kernel.org, davem@davemloft.net
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8KCkkgY29tcGlsZWQgdGhlIFJDMSBvZiBrZXJuZWwgNS45IHRvZGF5LiBVbmZvcnR1bmF0
-ZWx5IHRoZSBpc3N1ZSB3aXRoIHRoZSAKVmlydElPLUdQVSAoc2VlIGJlbG93KSBzdGlsbCBleGlz
-dHMuIFRoZXJlZm9yZSB3ZSBzdGlsbCBuZWVkIHRoZSBwYXRjaCAKKHNlZSBiZWxvdykgZm9yIHVz
-aW5nIHRoZSBWaXJ0SU8tR1BVIGluIGEgdmlydHVhbCBlNTUwMCBQUEM2NCBRRU1VIG1hY2hpbmUu
-CgpDb3VsZCB5b3UgcGxlYXNlIGNoZWNrIHRoZSBmaXJzdCBiYWQgY29tbWl0PwoKVGhhbmtzCkNo
-cmlzdGlhbgoKCk9uIDEyIEF1Z3VzdCAyMDIwIGF0IDM6MDkgcG0sIENocmlzdGlhbiBaaWdvdHpr
-eSB3cm90ZToKPiBIZWxsbyBEYW5pZWwsCj4KPiBUaGUgVmlydElPLUdQVSBkb2Vzbid0IHdvcmsg
-YW55bW9yZSB3aXRoIHRoZSBsYXRlc3QgR2l0IGtlcm5lbCBpbiBhIAo+IHZpcnR1YWwgZTU1MDAg
-UFBDNjQgUUVNVSBtYWNoaW5lIFsxLDJdIGFmdGVyIHRoZSBjb21taXQgImRybS92aXJ0aW86IAo+
-IENhbGwgdGhlIHJpZ2h0IHNobWVtIGhlbHBlcnMiLiBbM10KPiBUaGUga2VybmVsIDUuOCB3b3Jr
-cyB3aXRoIHRoZSBWaXJ0SU8tR1BVIGluIHRoaXMgdmlydHVhbCBtYWNoaW5lLgo+Cj4gSSBiaXNl
-Y3RlZCB0b2RheSBbNF0uCj4KPiBSZXN1bHQ6IGRybS92aXJ0aW86IENhbGwgdGhlIHJpZ2h0IHNo
-bWVtIGhlbHBlcnMgKCAKPiBkMzIzYmI0NGU0ZDIzODAyZWIyNWQxM2RlMWY5M2YyMzM1YmQ2MGQw
-KSBbM10gaXMgdGhlIGZpcnN0IGJhZCBjb21taXQuCj4KPiBJIHdhcyBhYmxlIHRvIHJldmVydCB0
-aGUgZmlyc3QgYmFkIGNvbW1pdC4gWzVdIEFmdGVyIHRoYXQgSSBjb21waWxlZCBhIAo+IG5ldyBr
-ZXJuZWwgYWdhaW4uIFRoZW4gSSB3YXMgYWJsZSB0byBib290IExpbnV4IHdpdGggdGhpcyBrZXJu
-ZWwgaW4gYSAKPiB2aXJ0dWFsIGU1NTAwIFBQQzY0IFFFTVUgbWFjaGluZSB3aXRoIHRoZSBWaXJ0
-SU8tR1BVLgo+Cj4gSSBjcmVhdGVkIGEgcGF0Y2guIFs2XSBXaXRoIHRoaXMgcGF0Y2ggSSBjYW4g
-dXNlIHRoZSBWaXJ0SU8tR1BVIGFnYWluLgo+Cj4gQ291bGQgeW91IHBsZWFzZSBjaGVjayB0aGUg
-Zmlyc3QgYmFkIGNvbW1pdD8KPgo+IFRoYW5rcywKPiBDaHJpc3RpYW4KPgo+IFsxXSBRRU1VIGNv
-bW1hbmQ6IHFlbXUtc3lzdGVtLXBwYzY0IC1NIHBwY2U1MDAgLWNwdSBlNTUwMCAtZW5hYmxlLWt2
-bSAKPiAtbSAxMDI0IC1rZXJuZWwgdUltYWdlIC1kcml2ZSAKPiBmb3JtYXQ9cmF3LGZpbGU9Zmll
-bml4LXNvYXJfMy4wLTIwMjA2MDgtbmV0LmltZyxpbmRleD0wLGlmPXZpcnRpbyAtbmljIAo+IHVz
-ZXIsbW9kZWw9ZTEwMDAgLWFwcGVuZCAicncgcm9vdD0vZGV2L3ZkYTIiIC1kZXZpY2UgdmlydGlv
-LXZnYSAKPiAtZGV2aWNlIHZpcnRpby1tb3VzZS1wY2kgLWRldmljZSB2aXJ0aW8ta2V5Ym9hcmQt
-cGNpIC1kZXZpY2UgCj4gcGNpLW9oY2ksaWQ9bmV3dXNiIC1kZXZpY2UgdXNiLWF1ZGlvLGJ1cz1u
-ZXd1c2IuMCAtc21wIDQKPgo+IFsyXSBFcnJvciBtZXNzYWdlczoKPgo+IHZpcnRpb19ncHUgdmly
-dGlvMDogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAoc3o6IDQwOTYgYnl0ZXMpLCB0b3RhbCAwIAo+
-IChzbG90cyksIHVzZWQgMCAoc2xvdHMpCj4gQlVHOiBLZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVm
-ZXJlbmNlIG9uIHJlYWQgYXQgMHgwMDAwMDAxMAo+IEZhdWx0aW5nIGluc3RydWN0aW9uIGFkZHJl
-c3M6IDB4YzAwMDAwMDAwMDBjNzMyNAo+IE9vcHM6IEtlcm5lbCBhY2Nlc3Mgb2YgYmFkIGFyZWEs
-IHNpZzogMTEgWyMxXQo+IEJFIFBBR0VfU0laRT00SyBQUkVFTVBUIFNNUCBOUl9DUFVTPTQgUUVN
-VSBlNTAwCj4gTW9kdWxlcyBsaW5rZWQgaW46Cj4gQ1BVOiAyIFBJRDogMTY3OCBDb21tOiBrd29y
-a2VyLzI6MiBOb3QgdGFpbnRlZCAKPiA1LjktYTNfQS1FT05fWDUwMDAtMTE3MzUtZzA2YTgxYzFj
-N2RiOS1kaXJ0eSAjMQo+IFdvcmtxdWV1ZTogZXZlbnRzIC52aXJ0aW9fZ3B1X2RlcXVldWVfY3Ry
-bF9mdW5jCj4gTklQOsKgIGMwMDAwMDAwMDAwYzczMjQgTFI6IGMwMDAwMDAwMDAwYzcyZTQgQ1RS
-OiBjMDAwMDAwMDAwNDYyOTMwCj4gUkVHUzogYzAwMDAwMDAzZGJhNzVlMCBUUkFQOiAwMzAwwqDC
-oCBOb3QgdGFpbnRlZCAKPiAoNS45LWEzX0EtRU9OX1g1MDAwLTExNzM1LWcwNmE4MWMxYzdkYjkt
-ZGlydHkpCj4gTVNSOsKgIDAwMDAwMDAwOTAwMjkwMDAgPENFLEVFLE1FPsKgIENSOiAyNDAwMjI4
-OMKgIFhFUjogMDAwMDAwMDAKPiBERUFSOiAwMDAwMDAwMDAwMDAwMDEwIEVTUjogMDAwMDAwMDAw
-MDAwMDAwMCBJUlFNQVNLOiAwCj4gR1BSMDA6IGMwMDAwMDAwMDAwYzYxODggYzAwMDAwMDAzZGJh
-Nzg3MCBjMDAwMDAwMDAxN2YyMzAwIAo+IGMwMDAwMDAwM2Q4OTMwMTAKPiBHUFIwNDogMDAwMDAw
-MDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAxIDAwMDAwMDAwMDAwMDAwMDAgCj4gMDAwMDAwMDAw
-MDAwMDAwMAo+IEdQUjA4OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAw
-MDAwMDAwMDAwMCAKPiA3ZjdmN2Y3ZjdmN2Y3ZjdmCj4gR1BSMTI6IDAwMDAwMDAwMjQwMDIyODQg
-YzAwMDAwMDAzZmZmOTIwMCBjMDAwMDAwMDAwMDhjM2EwIAo+IGMwMDAwMDAwMDYxNTY2YzAKPiBH
-UFIxNjogMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAg
-Cj4gMDAwMDAwMDAwMDAwMDAwMAo+IEdQUjIwOiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAw
-MDAwMDAgMDAwMDAwMDAwMDAwMDAwMCAKPiAwMDAwMDAwMDAwMDAwMDAwCj4gR1BSMjQ6IDAwMDAw
-MDAwMDAwMDAwMDEgMDAwMDAwMDAwMDExMDAwMCAwMDAwMDAwMDAwMDAwMDAwIAo+IDAwMDAwMDAw
-MDAwMDAwMDAKPiBHUFIyODogYzAwMDAwMDAzZDg5MzAxMCAwMDAwMDAwMDAwMDAwMDAwIDAwMDAw
-MDAwMDAwMDAwMDAgCj4gYzAwMDAwMDAzZDg5MzAxMAo+IE5JUCBbYzAwMDAwMDAwMDBjNzMyNF0g
-LmRtYV9kaXJlY3RfdW5tYXBfc2crMHg0Yy8weGQ4Cj4gTFIgW2MwMDAwMDAwMDAwYzcyZTRdIC5k
-bWFfZGlyZWN0X3VubWFwX3NnKzB4Yy8weGQ4Cj4gQ2FsbCBUcmFjZToKPiBbYzAwMDAwMDAzZGJh
-Nzg3MF0gW2MwMDAwMDAwM2RiYTc5NTBdIDB4YzAwMDAwMDAzZGJhNzk1MCAodW5yZWxpYWJsZSkK
-PiBbYzAwMDAwMDAzZGJhNzkyMF0gW2MwMDAwMDAwMDAwYzYxODhdIC5kbWFfdW5tYXBfc2dfYXR0
-cnMrMHg1Yy8weDk4Cj4gW2MwMDAwMDAwM2RiYTc5ZDBdIFtjMDAwMDAwMDAwNWNkNDM4XSAKPiAu
-ZHJtX2dlbV9zaG1lbV9mcmVlX29iamVjdCsweDk4LzB4Y2MKPiBbYzAwMDAwMDAzZGJhN2E1MF0g
-W2MwMDAwMDAwMDA2YWY1YjRdIAo+IC52aXJ0aW9fZ3B1X2NsZWFudXBfb2JqZWN0KzB4YzgvMHhk
-NAo+IFtjMDAwMDAwMDNkYmE3YWQwXSBbYzAwMDAwMDAwMDZhZDNiY10gLnZpcnRpb19ncHVfY21k
-X3VucmVmX2NiKzB4MWMvMHgzMAo+IFtjMDAwMDAwMDNkYmE3YjQwXSBbYzAwMDAwMDAwMDZhZGFi
-OF0gCj4gLnZpcnRpb19ncHVfZGVxdWV1ZV9jdHJsX2Z1bmMrMHgyMDgvMHgyOGMKPiBbYzAwMDAw
-MDAzZGJhN2MxMF0gW2MwMDAwMDAwMDAwODZiNzBdIC5wcm9jZXNzX29uZV93b3JrKzB4MWE0LzB4
-MjU4Cj4gW2MwMDAwMDAwM2RiYTdjYjBdIFtjMDAwMDAwMDAwMDg3MGY0XSAud29ya2VyX3RocmVh
-ZCsweDIxNC8weDI4NAo+IFtjMDAwMDAwMDNkYmE3ZDcwXSBbYzAwMDAwMDAwMDA4YzRmMF0gLmt0
-aHJlYWQrMHgxNTAvMHgxNTgKPiBbYzAwMDAwMDAzZGJhN2UyMF0gW2MwMDAwMDAwMDAwMDA4MmNd
-IC5yZXRfZnJvbV9rZXJuZWxfdGhyZWFkKzB4NTgvMHg2MAo+IEluc3RydWN0aW9uIGR1bXA6Cj4g
-ZjgyMWZmNTEgN2NiODJiNzggN2NkYjMzNzggNGUwMDAwMDAgN2NmYTNiNzggM2JjMDAwMDAgN2Y5
-ZWMwMDAgNDFmYzAwMTQKPiAzODIxMDBiMCA4MTgxMDAwOCA3ZDgwODEyMCA0OGJjMWJhOCA8ZTkz
-ZDAwMTA+IGViZmMwMjQ4IDgzM2QwMDE4IDdmZmY0ODUwCj4gLS0tWyBlbmQgdHJhY2UgZjI4ZDE5
-NGQ5ZjA5NTVhOCBdLS0tCj4KPiB2aXJ0aW9fZ3B1IHZpcnRpbzA6IHN3aW90bGIgYnVmZmVyIGlz
-IGZ1bGwgKHN6OiA0MDk2IGJ5dGVzKSwgdG90YWwgMCAKPiAoc2xvdHMpLCB1c2VkIDAgKHNsb3Rz
-KQo+IHZpcnRpb19ncHUgdmlydGlvMDogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAoc3o6IDE2Mzg0
-IGJ5dGVzKSwgdG90YWwgMCAKPiAoc2xvdHMpLCB1c2VkIDAgKHNsb3RzKQo+Cj4gLS0tCj4KPiBb
-M10gCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9y
-dmFsZHMvbGludXguZ2l0L2NvbW1pdC8/aWQ9ZDMyM2JiNDRlNGQyMzgwMmViMjVkMTNkZTFmOTNm
-MjMzNWJkNjBkMAo+Cj4gWzRdIGh0dHBzOi8vZm9ydW0uaHlwZXJpb24tZW50ZXJ0YWlubWVudC5j
-b20vdmlld3RvcGljLnBocD9wPTUxMzc3I3A1MTM3Nwo+Cj4gWzVdIGdpdCByZXZlcnQgZDMyM2Ji
-NDRlNGQyMzgwMmViMjVkMTNkZTFmOTNmMjMzNWJkNjBkMCAvL091dHB1dDogCj4gW21hc3RlciA5
-NjY5NTBmNzI0ZTRdIFJldmVydCAiZHJtL3ZpcnRpbzogQ2FsbCB0aGUgcmlnaHQgc2htZW0gCj4g
-aGVscGVycyIgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4K
-PiBbNl0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVj
-dC5jIAo+IGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jCj4gaW5kZXgg
-NmNjYmQwMWNkODg4Li4zNDZjZWY1Y2UyNTEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92
-aXJ0Z3B1X29iamVjdC5jCj4gQEAgLTE1MCw3ICsxNTAsNyBAQCBzdGF0aWMgaW50IHZpcnRpb19n
-cHVfb2JqZWN0X3NobWVtX2luaXQoc3RydWN0IAo+IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwK
-PiDCoMKgwqDCoCBpZiAocmV0IDwgMCkKPiDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlOVkFM
-Owo+Cj4gLcKgwqDCoCBzaG1lbS0+cGFnZXMgPSBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3Qo
-JmJvLT5iYXNlLmJhc2UpOwo+ICvCoMKgwqAgc2htZW0tPnBhZ2VzID0gZHJtX2dlbV9zaG1lbV9n
-ZXRfc2dfdGFibGUoJmJvLT5iYXNlLmJhc2UpOwo+IMKgwqDCoMKgIGlmICghc2htZW0tPnBhZ2Vz
-KSB7Cj4gwqDCoMKgwqDCoMKgwqDCoCBkcm1fZ2VtX3NobWVtX3VucGluKCZiby0+YmFzZS5iYXNl
-KTsKPiDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlOVkFMOwo+IC0tLQoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Aug 17, 2020 at 02:45:57PM +0530, Allen Pais wrote:
+> From: Allen Pais <allen.lkml@gmail.com>
+> 
+> In preparation for unconditionally passing the
+> struct tasklet_struct pointer to all tasklet
+> callbacks, switch to using the new tasklet_setup()
+> and from_tasklet() to pass the tasklet pointer explicitly.
+> 
+> Signed-off-by: Romain Perier <romain.perier@gmail.com>
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+
+This looks good to me.
+
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
+
+Are you planning to push this, or do you want me to take it?  If you
+want me to take it, what is the urgency?
+
+-corey
+
+> ---
+>  drivers/char/ipmi/ipmi_msghandler.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
+> index 737c0b6b24ea..e1814b6a1225 100644
+> --- a/drivers/char/ipmi/ipmi_msghandler.c
+> +++ b/drivers/char/ipmi/ipmi_msghandler.c
+> @@ -39,7 +39,7 @@
+>  
+>  static struct ipmi_recv_msg *ipmi_alloc_recv_msg(void);
+>  static int ipmi_init_msghandler(void);
+> -static void smi_recv_tasklet(unsigned long);
+> +static void smi_recv_tasklet(struct tasklet_struct *t);
+>  static void handle_new_recv_msgs(struct ipmi_smi *intf);
+>  static void need_waiter(struct ipmi_smi *intf);
+>  static int handle_one_recv_msg(struct ipmi_smi *intf,
+> @@ -3430,9 +3430,8 @@ int ipmi_add_smi(struct module         *owner,
+>  	intf->curr_seq = 0;
+>  	spin_lock_init(&intf->waiting_rcv_msgs_lock);
+>  	INIT_LIST_HEAD(&intf->waiting_rcv_msgs);
+> -	tasklet_init(&intf->recv_tasklet,
+> -		     smi_recv_tasklet,
+> -		     (unsigned long) intf);
+> +	tasklet_setup(&intf->recv_tasklet,
+> +		     smi_recv_tasklet);
+>  	atomic_set(&intf->watchdog_pretimeouts_to_deliver, 0);
+>  	spin_lock_init(&intf->xmit_msgs_lock);
+>  	INIT_LIST_HEAD(&intf->xmit_msgs);
+> @@ -4467,10 +4466,10 @@ static void handle_new_recv_msgs(struct ipmi_smi *intf)
+>  	}
+>  }
+>  
+> -static void smi_recv_tasklet(unsigned long val)
+> +static void smi_recv_tasklet(struct tasklet_struct *t)
+>  {
+>  	unsigned long flags = 0; /* keep us warning-free. */
+> -	struct ipmi_smi *intf = (struct ipmi_smi *) val;
+> +	struct ipmi_smi *intf = from_tasklet(intf, t, recv_tasklet);
+>  	int run_to_completion = intf->run_to_completion;
+>  	struct ipmi_smi_msg *newmsg = NULL;
+>  
+> @@ -4542,7 +4541,7 @@ void ipmi_smi_msg_received(struct ipmi_smi *intf,
+>  		spin_unlock_irqrestore(&intf->xmit_msgs_lock, flags);
+>  
+>  	if (run_to_completion)
+> -		smi_recv_tasklet((unsigned long) intf);
+> +		smi_recv_tasklet(&intf->recv_tasklet);
+>  	else
+>  		tasklet_schedule(&intf->recv_tasklet);
+>  }
+> -- 
+> 2.17.1
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
