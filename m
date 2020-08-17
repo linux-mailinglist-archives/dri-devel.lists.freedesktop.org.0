@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E68247FCC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2D8247FCB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8602689C83;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D57889C6C;
 	Tue, 18 Aug 2020 07:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E609B89F07
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 20:02:21 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id v15so8623883pgh.6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 13:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C075889E2A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 20:32:42 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id k13so9063578lfo.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 13:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=97DJCt1f0pZE/lulXm7MIIWiJdssbmLKs4FWP+jsWew=;
- b=aSZhdkNSZ87cEFa5bVOxaRgbLX85Ac+f9y0d86ayXObRrHbI44P6QsGc3j0vxCaOtG
- T2k2WOgfibXFL7wthStQUZ2a3THDVNOGIm8YJURtA34YheOr2MAVAuh07KvbwkyanYJS
- 0EG510E/ggHXtfUb6SqMiyn275eeX4FnCQjVBA0Ynkest98IGBIFATGO7FCiNvsrRbkh
- fmWOvmbqhkjk1q/XQS+NvaPIgrNKptwTVoidsz8P1vd8W5lrCq8X1NqQRsc/NszaPSZV
- B+EkeoLweuq1QOusC/DDv9aQ54VFoeSpo/Y8VIPH3trT8rbQk4iBVBt328RQJCy4a+pu
- mrUw==
+ bh=7UUf0GtAjcXwxOClmWoxhw8w0tZ2fKlaVkQ/G18ibVU=;
+ b=iH7PhF6apID8HfRTQnm3TdWrTVotIcsjPuMHYU94rvbYK1XlWosHk5t9pMpmA1/1/z
+ fsKRmhHp8CZXk0QMciJmQggvYwNDrbIb7uH6HEhWqjWs0tQCg6CXKnTSNhOhGPSLlrwI
+ TYiagBbt8DNdYYgzHYPoFGtEoOrvl6yXoClkDfehLC1p6auV8GaFy8dYm35GdRXPEUTo
+ 0o358WxmOte7Topcgo8aiRo5mjOxwUX1/WO26sPEqxAw/zRNCHJ1JoMFFFWhls0Bms7h
+ Izs3xpbSArKjRVI5yhwWvGAh8MI9xC3S0xMtJD+WQ2oPcLJsTiqoZQYoaabA6ZwuwTFh
+ NcYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=97DJCt1f0pZE/lulXm7MIIWiJdssbmLKs4FWP+jsWew=;
- b=Ftfypwv3l3UoIKqtocDQ6JSRFAyY9810KFetou727vgiOViiLZ8zPROhq0h5gd4wax
- BPT7subuG4EBuVzRXtZt0NXYHAKLUwgUdFwz2SPw57R6NmfDrWqpDiiHbac7/GE3ZH8u
- IDW7hINBs/UiE3LAkRIvdp6NrhHEqxJydmZw5QiCQMf/iZZM+9cGfWWtrDQSkmUyZiJR
- Pabk3zBJAOQvgZpO3GqbqivCSjQMwhJcEXACIa9N96D9aZynxPYw1jSESIYCCgsEWM9q
- Ek+9V8AevOAAeUpVAub6xxng5/FJ2pLM8wFAC6jSm4ieky2OfcALWU+xViGo9iRsaxwk
- d0Vg==
-X-Gm-Message-State: AOAM533lJqAi1uzOFyx1V9vRsyhSzmeGT86z4E7yWFSIgcbYDswqPHmX
- LLGvazQRxo3b9zsgkt2OMI7/Mg==
-X-Google-Smtp-Source: ABdhPJx6fgKnzdqFet7WfKg8Bw76iQ/G91m6PuMxHTNY08ReQtFVhesqdO2JpfqR2BskRMIqTcZ09Q==
-X-Received: by 2002:a63:d143:: with SMTP id c3mr10873272pgj.306.1597694541448; 
- Mon, 17 Aug 2020 13:02:21 -0700 (PDT)
-Received: from ?IPv6:2605:e000:100e:8c61:bd62:5cef:d7f8:5bff?
- ([2605:e000:100e:8c61:bd62:5cef:d7f8:5bff])
- by smtp.gmail.com with ESMTPSA id c27sm18199498pgn.86.2020.08.17.13.02.17
+ bh=7UUf0GtAjcXwxOClmWoxhw8w0tZ2fKlaVkQ/G18ibVU=;
+ b=dnZKTZGdLL5NRBifxk9UGwLCey1Llz8SZjWWBw73evcGchYhOv3OvtriytPMDbmukm
+ b2tHzfBcYBAZn/Oeo2ZAH99izxeJoE5t/DtR/559STverpAChL7Dj0dv2wr3FrDzdxXt
+ G5D5LIUhFWOnUKho6q96mNCBFQpvdQbts62rVJSgY2JeLJRlkVios1SOn5vz4/i3V1db
+ yWzAs3goVBFAPH0MTP+7dhLyCfxQz4mbBc1FA7JXU21iDTzbwG1OWYfa1TIeyM2iEImE
+ 41z23fuHsVtBqN3XAQ/1+NfRx2qeUek3Kf+jr4brztcvhGzOWRis25iGEh9nr8cOsbP8
+ E5QA==
+X-Gm-Message-State: AOAM531K3M2f1/lz8zcGDP0rTqT28beRpeMRLT5PXKBuv+ec5lj/jwYG
+ W+WBLgXB+QC8Sai56U9Rg0H7Rg==
+X-Google-Smtp-Source: ABdhPJwEGamNpOT3Eoy9QL+rlpLKGVgC7rS5VILfXtBOezTtOyz1RLer7bdp602XAU66grZpU0Dp8w==
+X-Received: by 2002:a19:803:: with SMTP id 3mr8181127lfi.15.1597696360059;
+ Mon, 17 Aug 2020 13:32:40 -0700 (PDT)
+Received: from [192.168.1.211] ([188.162.65.254])
+ by smtp.gmail.com with ESMTPSA id p1sm5278763lji.93.2020.08.17.13.32.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Aug 2020 13:02:20 -0700 (PDT)
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-To: Kees Cook <keescook@chromium.org>
-References: <20200817091617.28119-1-allen.cryptic@gmail.com>
- <20200817091617.28119-2-allen.cryptic@gmail.com>
- <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
- <202008171228.29E6B3BB@keescook>
- <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
- <202008171246.80287CDCA@keescook>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
-Date: Mon, 17 Aug 2020 13:02:17 -0700
+ Mon, 17 Aug 2020 13:32:39 -0700 (PDT)
+Subject: Re: [Freedreno] [PATCH v10 3/5] drm/msm/dp: add support for DP PLL
+ driver
+To: Rob Clark <robdclark@gmail.com>, Jonathan Marek <jonathan@marek.ca>
+References: <20200812044223.19279-1-tanmay@codeaurora.org>
+ <20200812044223.19279-4-tanmay@codeaurora.org>
+ <821b5cf9-5ca0-7026-fd99-9a32285ed030@linaro.org>
+ <CAF6AEGtcfXodN1_HSdTcH402FdwTk15Nt6p3F=QYeSRhTc+hqw@mail.gmail.com>
+ <1ea81fa2-1dc8-a0b9-aa32-3127e9354be2@marek.ca>
+ <CAF6AEGt+NV-T7Qo_-gLM981QBWy3865Vbj518sd-4XQJccX_WA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <d67ffcd6-b10c-92a4-55a7-40521b3be68f@linaro.org>
+Date: Mon, 17 Aug 2020 23:32:37 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <202008171246.80287CDCA@keescook>
+In-Reply-To: <CAF6AEGt+NV-T7Qo_-gLM981QBWy3865Vbj518sd-4XQJccX_WA@mail.gmail.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Tue, 18 Aug 2020 07:50:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,75 +76,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, linux-atm-general@lists.sourceforge.net,
- manohar.vanga@gmail.com, airlied@linux.ie, Allen Pais <allen.lkml@gmail.com>,
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, James.Bottomley@HansenPartnership.com,
- kys@microsoft.com, anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
- linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
- maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
- jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
- kuba@kernel.org, mporter@kernel.crashing.org, jdike@addtoit.com,
- oakad@yahoo.com, s.hauer@pengutronix.de, linux-input@vger.kernel.org,
- linux-um@lists.infradead.org, linux-block@vger.kernel.org, broonie@kernel.org,
- openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- netdev@vger.kernel.org, martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
- linux-mmc@vger.kernel.org, sre@kernel.org, linux-spi@vger.kernel.org,
- alex.bou9@gmail.com, Allen Pais <allen.cryptic@gmail.com>,
- stefanr@s5r6.in-berlin.de, linux-ntb@googlegroups.com,
- Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
- davem@davemloft.net
-Content-Type: text/plain; charset="us-ascii"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Tanmay Shah <tanmay@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, khsieh@codeaurora.org,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Vara Reddy <varar@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/17/20 12:48 PM, Kees Cook wrote:
-> On Mon, Aug 17, 2020 at 12:44:34PM -0700, Jens Axboe wrote:
->> On 8/17/20 12:29 PM, Kees Cook wrote:
->>> On Mon, Aug 17, 2020 at 06:56:47AM -0700, Jens Axboe wrote:
->>>> On 8/17/20 2:15 AM, Allen Pais wrote:
->>>>> From: Allen Pais <allen.lkml@gmail.com>
->>>>>
->>>>> In preparation for unconditionally passing the
->>>>> struct tasklet_struct pointer to all tasklet
->>>>> callbacks, switch to using the new tasklet_setup()
->>>>> and from_tasklet() to pass the tasklet pointer explicitly.
->>>>
->>>> Who came up with the idea to add a macro 'from_tasklet' that is just
->>>> container_of? container_of in the code would be _much_ more readable,
->>>> and not leave anyone guessing wtf from_tasklet is doing.
->>>>
->>>> I'd fix that up now before everything else goes in...
->>>
->>> As I mentioned in the other thread, I think this makes things much more
->>> readable. It's the same thing that the timer_struct conversion did
->>> (added a container_of wrapper) to avoid the ever-repeating use of
->>> typeof(), long lines, etc.
+On 16/08/2020 01:45, Rob Clark wrote:
+> On Sat, Aug 15, 2020 at 2:21 PM Jonathan Marek <jonathan@marek.ca> wrote:
 >>
->> But then it should use a generic name, instead of each sub-system using
->> some random name that makes people look up exactly what it does. I'm not
->> huge fan of the container_of() redundancy, but adding private variants
->> of this doesn't seem like the best way forward. Let's have a generic
->> helper that does this, and use it everywhere.
+>> On 8/15/20 4:20 PM, Rob Clark wrote:
+>>> On Fri, Aug 14, 2020 at 10:05 AM Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>>
+>>>> On 12/08/2020 07:42, Tanmay Shah wrote:
+>>>>    > From: Chandan Uddaraju <chandanu@codeaurora.org>
+>>>>    >
+>>>>    > Add the needed DP PLL specific files to support
+>>>>    > display port interface on msm targets.
+>>>>
+>>>> [skipped]
+>>>>
+>>>>    > diff --git a/drivers/gpu/drm/msm/dp/dp_pll_private.h
+>>>> b/drivers/gpu/drm/msm/dp/dp_pll_private.h
+>>>>    > new file mode 100644
+>>>>    > index 000000000000..475ba6ed59ab
+>>>>    > --- /dev/null
+>>>>    > +++ b/drivers/gpu/drm/msm/dp/dp_pll_private.h
+>>>>    > @@ -0,0 +1,98 @@
+>>>>    > +/* SPDX-License-Identifier: GPL-2.0-only */
+>>>>    > +/*
+>>>>    > + * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
+>>>>    > + */
+>>>>    > +
+>>>>    > +#ifndef __DP_PLL_10NM_H
+>>>>    > +#define __DP_PLL_10NM_H
+>>>>    > +
+>>>>    > +#include "dp_pll.h"
+>>>>    > +#include "dp_reg.h"
+>>>>    > +
+>>>>    > +#define DP_VCO_HSCLK_RATE_1620MHZDIV1000    1620000UL
+>>>>    > +#define DP_VCO_HSCLK_RATE_2700MHZDIV1000    2700000UL
+>>>>    > +#define DP_VCO_HSCLK_RATE_5400MHZDIV1000    5400000UL
+>>>>    > +#define DP_VCO_HSCLK_RATE_8100MHZDIV1000    8100000UL
+>>>>    > +
+>>>>    > +#define NUM_DP_CLOCKS_MAX            6
+>>>>    > +
+>>>>    > +#define DP_PHY_PLL_POLL_SLEEP_US        500
+>>>>    > +#define DP_PHY_PLL_POLL_TIMEOUT_US        10000
+>>>>    > +
+>>>>    > +#define DP_VCO_RATE_8100MHZDIV1000        8100000UL
+>>>>    > +#define DP_VCO_RATE_9720MHZDIV1000        9720000UL
+>>>>    > +#define DP_VCO_RATE_10800MHZDIV1000        10800000UL
+>>>>    > +
+>>>>    > +struct dp_pll_vco_clk {
+>>>>    > +    struct clk_hw hw;
+>>>>    > +    unsigned long    rate;        /* current vco rate */
+>>>>    > +    u64        min_rate;    /* min vco rate */
+>>>>    > +    u64        max_rate;    /* max vco rate */
+>>>>    > +    void        *priv;
+>>>>    > +};
+>>>>    > +
+>>>>    > +struct dp_pll_db {
+>>>>
+>>>> This struct should probably go into dp_pll_10nm.c. dp_pll_7nm.c, for
+>>>> example, will use slightly different structure.
+>>>
+>>> Note that sboyd has a WIP series to move all of the pll code out to a
+>>> phy driver.  If there is work already happening on 7nm support, it
+>>> might be better to go with the separate phy driver approach?  I'm
+>>> still a bit undecided about whether to land the dp code initially with
+>>> the pll stuff in drm, and then continue refactoring to move to
+>>> separate phy driver upstream, or to strip out the pll code from the
+>>> beginning.  If you/someone is working on 7nm support, then feedback
+>>> about which approach is easier is welcome.
+>>>
+>>> https://lore.kernel.org/dri-devel/20200611091919.108018-1-swboyd@chromium.org/
+>>>
+>>
+>> I have a sm8150/sm8250 (7nm) upstream kernel stack with DP enabled, and
+>> I have done something similar, with the PLL driver in the QMP phy,
+>> although not based on sboyd's series (along with some typec changes to
+>> negotiate the DP alt mode and get HPD events, etc.). I don't think
+>> having PLL in drm/msm makes sense, the drm/msm DP driver shouldn't need
+>> to be aware of the DP PLL/PHY driver, it only needs to set the
+>> link/pixel clock rates which are in dispcc (and those then have the PLL
+>> clocks as a parent).
 > 
-> I'm open to suggestions, but as things stand, these kinds of treewide
+> yeah, in the dp case, having phy split out makes a ton of sense.. it
+> would maybe be a nice cleanup in other cases (dsi, hdmi) but the
+> combination of usb+dp makes burying this in drm not so great..
+> 
+> It would be good if you could work w/ sboyd on this.. based on what
+> I've seen on previous gens, it is probably a different phy driver for
+> 7nm vs 10nm, but I think where we want to end up upstream is with phy
+> split out of drm.
 
-On naming? Implementation is just as it stands, from_tasklet() is
-totally generic which is why I objected to it. from_member()? Not great
-with naming... But I can see this going further and then we'll suddenly
-have tons of these. It's not good for readability.
+7nm differs in registers programming, so it would end up with a separate 
+set of tables in qmp phy driver. There is also a 14nm version of dp phy, 
+but I don't know if it usable in any actual hardware design.
 
-> changes end up getting whole-release delays because of the need to have
-> the API in place for everyone before patches to do the changes can be
-> sent to multiple maintainers, etc.
-
-Sure, that's always true of treewide changes like that.
 
 -- 
-Jens Axboe
-
+With best wishes
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
