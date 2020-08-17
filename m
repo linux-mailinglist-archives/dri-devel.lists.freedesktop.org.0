@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDF7247FCF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA140247FFE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21EA89C9B;
-	Tue, 18 Aug 2020 07:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0380C89DD3;
+	Tue, 18 Aug 2020 07:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
  [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96AAC6E0F8;
- Mon, 17 Aug 2020 09:17:45 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id t6so7405118pjr.0;
- Mon, 17 Aug 2020 02:17:45 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 113966E0F8;
+ Mon, 17 Aug 2020 09:18:00 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id d4so7395278pjx.5;
+ Mon, 17 Aug 2020 02:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Mo6iICj1w8TKwOisUCBNzTZG5p5dM66mXRaY4cwKyZk=;
- b=TzbwEFTqX0QCsBFflLiO6trddpNRzDxFXlyalb8p8shAuNzSqnVRPY8vMtBs1W5gGO
- YUc9r1hZWkAsv9H25E5N7kwqFWChbTSHzlTwFhWkQtf63DEW68snGk4kLIJ5B50DmJxW
- MWiO1udraHvmpV1CUmZxnsCDK3iuigHsru9yj+Oquzzzyly4+EM9iRLcN2KRuZWEdlkQ
- fk0Czl4+kqYHd4k4r0smEt/HwPMvVApbc9poEuzVer5sNiD49xlJWmv3Z+GjWTQ1m5b+
- aFLAe1vugsFxn+AMoHEAGT8072rZH7m2jZyN/wKgUUmGiQtrTmT5nZIW44CYFt5Ph9RF
- ifXw==
+ bh=b4rgdbawNMIYfrAuQkyVo4UViOG64WWeDycX+5MFQIw=;
+ b=PyMcWayBkiZh2L1sh4qEZP3dTK3G8sAqxmaVVytXPS3SWG3GgG94sw6o0Nrcf1df+Q
+ wERBWbwHQv6Qgu7hNTSGUUVnjknbD/6NI8hJDMspn8CczdQvJPM76KBjotTKq1nRqCMz
+ PeaUjGlQDtl3+8tYa2241Lt0gFMVJ1Pj2m5WjIwAk0QPXbTouobbDDQHD7yRGFSTHJfF
+ TGVqoP9D0FSDOwtCHrJQip7z1NvCco4b1IQwWbk2n5T8eRS7cLsH017gTERiI8GS8Tqs
+ 077uDrcWAyQImiWo67W3QAf+RCwJGajol8woY3NpuxxUzfr5gmwXTFilhRPsJnsV/onK
+ O2Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Mo6iICj1w8TKwOisUCBNzTZG5p5dM66mXRaY4cwKyZk=;
- b=A0aMow6vJ2eY9DqWcssFiELl7G91ZQNc6M444zYR+IGmgcfM/r7UUZRK4pR2y3LTMI
- BtNUgf5rKKAKM15bDoBQYdoO5Gv+qrfubkom9Nu4ZiZLnGR0Dox3NS+r1V/2zc8SDQRN
- Ikq98/QGrHN01Lcfqqqh57RycxsR0gDc/aKi4bdDuDAWa0Pni5YWbd3JPxnBU3rjfpYt
- /qODptzYTlIgIZ7Ep6GEVZ5U8YZgSclx2+So7HV+cNubbSNKFiedczZ0eDstQOA7hRVb
- WHSbHghs8nc3KXg+KCHtDU3VswdPaFiRTT/F5eJ+hZ4yI0g3oNOTDjE5sOeC4LoEHdty
- ryIg==
-X-Gm-Message-State: AOAM531Uo7eg7auFh3XrytjALokDtLfpOJn1QI3w3c9egmmfHBO+DNwt
- nVxIsLojUQUwP6sZZKzm1Go=
-X-Google-Smtp-Source: ABdhPJwq6UEku9ZvxUlcSd9v3lLdDcS44qfn7fyf+CsiORE4iW8DsxOdwJSiRT3OcMi8Q3GfQoOtrg==
-X-Received: by 2002:a17:90a:2210:: with SMTP id
- c16mr12286360pje.65.1597655865119; 
- Mon, 17 Aug 2020 02:17:45 -0700 (PDT)
+ bh=b4rgdbawNMIYfrAuQkyVo4UViOG64WWeDycX+5MFQIw=;
+ b=SaGIuUg+usJdz7Fb38hh1G2evkTN59y6pxyhz+tovL2l2DD1YS3Yd9R1jLJ+nwwFaf
+ OL6xjSKbshraBm/Wq2/y3EFg9ntNbOC1v67tP9W8krLrEu312AfGpyACGA2Ed4yqHOjq
+ yp7n2qXIcdwz3XOv42CyOV4nOR5u+VKtmM/uBpoFcu/5sWdkm4dmrJOeWpNKob1FJCwk
+ M03njbpMMqau0q9L1V0o1y6+tvFci7KsCeexnkGZkWutcGKFhpiHW+wT0i2FmPwZuFAG
+ nbilHtaaCJlbINSaiooLoQgO2aSIocwUwhvxiDMieyX9B5H8uuHR/Lnr/S+TJ7B9TmOA
+ t9gw==
+X-Gm-Message-State: AOAM531YY7UEvJOM+ky7p1U8+Iudawey2qqoB17mZjTGt/uLKQkkKvpn
+ yyEWmLu243HWxOGTWDcVD8M=
+X-Google-Smtp-Source: ABdhPJwJpNSWTk4IID0rEMXxIuI6kibpl/4HWTcEM39pCyHeMQh+u9mKWbVjT3TDQxfuQPdXa1o+UA==
+X-Received: by 2002:a17:90a:a65:: with SMTP id
+ o92mr11920119pjo.104.1597655879719; 
+ Mon, 17 Aug 2020 02:17:59 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
- by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.17.32
+ by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.17.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:17:44 -0700 (PDT)
+ Mon, 17 Aug 2020 02:17:59 -0700 (PDT)
 From: Allen Pais <allen.cryptic@gmail.com>
 To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -55,9 +55,10 @@ To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  ulf.hansson@linaro.org, mporter@kernel.crashing.org, alex.bou9@gmail.com,
  broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
  mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH] drivers: ntb: convert tasklets to use new tasklet_setup() API
-Date: Mon, 17 Aug 2020 14:46:00 +0530
-Message-Id: <20200817091617.28119-6-allen.cryptic@gmail.com>
+Subject: [PATCH] drivers: rapidio: convert tasklets to use new tasklet_setup()
+ API
+Date: Mon, 17 Aug 2020 14:46:01 +0530
+Message-Id: <20200817091617.28119-7-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -101,44 +102,35 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/ntb/ntb_transport.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/rapidio/devices/tsi721_dma.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/ntb/ntb_transport.c b/drivers/ntb/ntb_transport.c
-index e6d1f5b298f3..ab3bee2fc803 100644
---- a/drivers/ntb/ntb_transport.c
-+++ b/drivers/ntb/ntb_transport.c
-@@ -273,7 +273,7 @@ enum {
- #define NTB_QP_DEF_NUM_ENTRIES	100
- #define NTB_LINK_DOWN_TIMEOUT	10
- 
--static void ntb_transport_rxc_db(unsigned long data);
-+static void ntb_transport_rxc_db(struct tasklet_struct *t);
- static const struct ntb_ctx_ops ntb_transport_ops;
- static struct ntb_client ntb_transport_client;
- static int ntb_async_tx_submit(struct ntb_transport_qp *qp,
-@@ -1234,8 +1234,7 @@ static int ntb_transport_init_queue(struct ntb_transport_ctx *nt,
- 	INIT_LIST_HEAD(&qp->rx_free_q);
- 	INIT_LIST_HEAD(&qp->tx_free_q);
- 
--	tasklet_init(&qp->rxc_db_work, ntb_transport_rxc_db,
--		     (unsigned long)qp);
-+	tasklet_setup(&qp->rxc_db_work, ntb_transport_rxc_db);
- 
- 	return 0;
- }
-@@ -1685,9 +1684,9 @@ static int ntb_process_rxc(struct ntb_transport_qp *qp)
- 	return 0;
+diff --git a/drivers/rapidio/devices/tsi721_dma.c b/drivers/rapidio/devices/tsi721_dma.c
+index d375c02059f3..4a2bb6d7c692 100644
+--- a/drivers/rapidio/devices/tsi721_dma.c
++++ b/drivers/rapidio/devices/tsi721_dma.c
+@@ -566,9 +566,9 @@ static void tsi721_advance_work(struct tsi721_bdma_chan *bdma_chan,
+ 		  bdma_chan->id);
  }
  
--static void ntb_transport_rxc_db(unsigned long data)
-+static void ntb_transport_rxc_db(struct tasklet_struct *t)
+-static void tsi721_dma_tasklet(unsigned long data)
++static void tsi721_dma_tasklet(struct tasklet_struct *t)
  {
--	struct ntb_transport_qp *qp = (void *)data;
-+	struct ntb_transport_qp *qp = from_tasklet(qp, t, rxc_db_work);
- 	int rc, i;
+-	struct tsi721_bdma_chan *bdma_chan = (struct tsi721_bdma_chan *)data;
++	struct tsi721_bdma_chan *bdma_chan = from_tasklet(bdma_chan, t, tasklet);
+ 	u32 dmac_int, dmac_sts;
  
- 	dev_dbg(&qp->ndev->pdev->dev, "%s: doorbell %d received\n",
+ 	dmac_int = ioread32(bdma_chan->regs + TSI721_DMAC_INT);
+@@ -988,8 +988,7 @@ int tsi721_register_dma(struct tsi721_device *priv)
+ 		INIT_LIST_HEAD(&bdma_chan->queue);
+ 		INIT_LIST_HEAD(&bdma_chan->free_list);
+ 
+-		tasklet_init(&bdma_chan->tasklet, tsi721_dma_tasklet,
+-			     (unsigned long)bdma_chan);
++		tasklet_setup(&bdma_chan->tasklet, tsi721_dma_tasklet);
+ 		list_add_tail(&bdma_chan->dchan.device_node,
+ 			      &mport->dma.channels);
+ 		nr_channels++;
 -- 
 2.17.1
 
