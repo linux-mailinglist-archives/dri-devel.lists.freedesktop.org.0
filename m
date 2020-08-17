@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9381C246C93
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 18:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80B6246CAC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 18:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D72C489DFB;
-	Mon, 17 Aug 2020 16:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129FF89E08;
+	Mon, 17 Aug 2020 16:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C44889DFB;
- Mon, 17 Aug 2020 16:22:17 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id g15so3872021plj.6;
- Mon, 17 Aug 2020 09:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LMklsHHTMxijqDeAVwRgPfCmNnVtewqnmZOiIx8IoQs=;
- b=RbABWtb8XXpDsj3fj6OykBcPLZ5s6mzXo5+8O5lLzibS4H/7sSSbJxgK232d3ZHNl1
- b9OzjD8Evbx+rgydLEzlQePAE9vfUy5L6WAd/HPRFwk/FX68hop3CG7mzh3ZM81mv6Sx
- syKtTcwlb9dGPXkYfbADlIa/5LOrPQHNFDoPCojDFrab605RRle/eZNq65gZHtMmMWrU
- V0k8w/Htzxgdw5ge65ajA54zbKU9mqntHLqH2bMvqPu/STQuBK6D5VB8TdOgcvrSTl2F
- ssnNqEgnzGyi/N+mbujL5peAmlxByvmEpZg6BnM7T5YM+fbbsqtTUqQQ8HBqO++dG3Np
- sTNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LMklsHHTMxijqDeAVwRgPfCmNnVtewqnmZOiIx8IoQs=;
- b=n3TVgW1a1AeSwgvawBa/j/ukKeNgavAO4hWfR6PEBsox9UfOZlHlPFp/Cq4coa2/xP
- pODgOq6wQGroS9CSfvSWr7KY0aQXE/NvVEgd4mU3NAN4af8kJK3DFl75jktuvZEpdpvv
- AGjrjdSQB+42Ss9zQhI5AvBkbuak8SokOzOydzWjMM/b3jFor2LhHR3dK0OZWHvYhOtC
- Cc5lvy6/PFeIJawno0a4bUceDV/NKaxacFmtQ2UffK30pZnzc6szhaaJxZeC2XXD4yDJ
- aqmnWL0FtBXaN3WmjeGXUFe0Cz6y/HOeGP9Ul36hKX1/OSFrxxw6JjNVfI9vye5ceZv2
- rFNw==
-X-Gm-Message-State: AOAM532UaAhJQzzisrffbBBwCYyRz/Z6kUwJUO4+sb7VzEbsSa5s6+6y
- d4mrw7Nqt4JbYTXKFotMRwMzFvor7f+wwg==
-X-Google-Smtp-Source: ABdhPJxZqVKsxln0UatgdMDzqUQzs7RKNdYGMqEbSpKXAB2AkdX/2A4LN0FQkPSE/xgeFXUS77iQIw==
-X-Received: by 2002:a17:902:7616:: with SMTP id
- k22mr12281766pll.25.1597681336661; 
- Mon, 17 Aug 2020 09:22:16 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- w16sm20513732pfq.13.2020.08.17.09.22.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 09:22:15 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/gpu: make ringbuffer readonly
-Date: Mon, 17 Aug 2020 09:23:09 -0700
-Message-Id: <20200817162309.362032-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E760989E08
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 16:24:55 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597681495; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=gfehkDHwbkMn5YmVHISLwPUHyk48V6qSvEEU/hXpyxo=;
+ b=n5O0D14otMGTXs6CjU0f6eN3DF3FnGC62+kuTiy17m9w31p69PuSYWVbpBLc4OZ4/KdgpsZS
+ IVSo2YvtenV4wtr2Zo43qWsvQa9r2wDCt1QjNFB1aEm9SKuGgiBzToPcD1Wv9Rl6bVb37dCM
+ xFt5PG+GCuCJDpAs533EIikzBAo=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5f3aaf57f2b697637a874571 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 17 Aug 2020 16:24:55
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id F21E9C433CB; Mon, 17 Aug 2020 16:24:53 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=ham autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 07EEEC433C6;
+ Mon, 17 Aug 2020 16:24:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 07EEEC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 17 Aug 2020 10:24:49 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [RFC PATCH v1] dma-fence-array: Deal with sub-fences that are
+ signaled late
+Message-ID: <20200817162449.GC3221@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Chris Wilson <chris@chris-wilson.co.uk>,
+ linux-arm-msm@vger.kernel.org,
+ Gustavo Padovan <gustavo@padovan.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+References: <20200812235544.2289895-1-jcrouse@codeaurora.org>
+ <159730136458.14054.18114194663048046416@build.alporthouse.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <159730136458.14054.18114194663048046416@build.alporthouse.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +77,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Thu, Aug 13, 2020 at 07:49:24AM +0100, Chris Wilson wrote:
+> Quoting Jordan Crouse (2020-08-13 00:55:44)
+> > This is an RFC because I'm still trying to grok the correct behavior.
+> > 
+> > Consider a dma_fence_array created two two fence and signal_on_any is true.
+> > A reference to dma_fence_array is taken for each waiting fence.
+> > 
+> > When the client calls dma_fence_wait() only one of the fences is signaled.
+> > The client returns successfully from the wait and puts it's reference to
+> > the array fence but the array fence still remains because of the remaining
+> > un-signaled fence.
+> > 
+> > Now consider that the unsignaled fence is signaled while the timeline is being
+> > destroyed much later. The timeline destroy calls dma_fence_signal_locked(). The
+> > following sequence occurs:
+> > 
+> > 1) dma_fence_array_cb_func is called
+> > 
+> > 2) array->num_pending is 0 (because it was set to 1 due to signal_on_any) so the
+> > callback function calls dma_fence_put() instead of triggering the irq work
+> > 
+> > 3) The array fence is released which in turn puts the lingering fence which is
+> > then released
+> > 
+> > 4) deadlock with the timeline
+> 
+> It's the same recursive lock as we previously resolved in sw_sync.c by
+> removing the locking from timeline_fence_release().
 
-The GPU has no business writing into the ringbuffer, let's make it
-readonly to the GPU.
+Ah, yep. I'm working on a not-quite-ready-for-primetime version of a vulkan
+timeline implementation for drm/msm and I was doing something similar to how
+sw_sync used to work in the release function. Getting rid of the recursive lock
+in the timeline seems a better solution than this. Thanks for taking the time
+to respond.
 
-Fixes: 7198e6b03155 ("drm/msm: add a3xx gpu support")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_ringbuffer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Jordan
 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index e397c44cc011..39ecb5a18431 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -27,7 +27,8 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 	ring->id = id;
- 
- 	ring->start = msm_gem_kernel_new(gpu->dev, MSM_GPU_RINGBUFFER_SZ,
--		MSM_BO_WC, gpu->aspace, &ring->bo, &ring->iova);
-+		MSM_BO_WC | MSM_BO_GPU_READONLY, gpu->aspace, &ring->bo,
-+		&ring->iova);
- 
- 	if (IS_ERR(ring->start)) {
- 		ret = PTR_ERR(ring->start);
+> -Chris
+
 -- 
-2.26.2
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
