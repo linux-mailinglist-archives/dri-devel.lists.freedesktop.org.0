@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1366A2478F4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 23:39:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE0624796E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 00:02:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772986E037;
-	Mon, 17 Aug 2020 21:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1469289F61;
+	Mon, 17 Aug 2020 22:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB576E037
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 21:39:11 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id s9so9139306lfs.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 14:39:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E6289F45;
+ Mon, 17 Aug 2020 22:01:56 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id g7so7094049plq.1;
+ Mon, 17 Aug 2020 15:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=zzn6R0+MnQqUQo/SeuVfFP5EanHkyE2BgE8d+snk88Q=;
- b=oog6rrcaPrPvQF327SfCX2uMjwdeGnEg4mDQq5hA90CrfoP4+pD/hRcAI4sZLbvQF9
- K9dxyFK7dST4MxzJV1SjNtM4OxVXJ14ZFVpEZtFBuCNuaL77x28FTs3Du5BKQ6T7ytZf
- yBWsTl31LgpLAEAfQH/yyj4HJXZnYFc9cl8j6hFQoT8mFt+1fKHugQv1mmUZ4cb79KP8
- HAvA5M6vP4uNDMhBssHzNaT2xZ6B+E6vOXTtd/Y0IXojCt78fBa6SKEqHxElYDZYS/eq
- 10I6KeNI0C6/Ls9bIRFIIFYusM5kmxh24AdBybziF9CnL79rBokPGXtl4LbaiEIV9Y8o
- 4a6w==
+ bh=trlk/3uXQdYpfCiR6zf1NBJMUfnwN4OseEJTaKFkirk=;
+ b=UgIskbh92JnnX2yxoa9Qd2Snaa/33Eocjr1ug5PGgM8C/G0SbtYI7xZQApMuh9Q34L
+ 32FfU+ig7V85PrVLFlgOru5ICwsL6nl4nyHRFqElEJM5edA+AoRR8nMT8PzNMDQOytYh
+ P0tfH+cBsgBcsqXOH+u8tnbBKRUsGZCjGEr/MZxMhKYtgf+lVI9Jh0gjKTqSaHoG/WqV
+ 5wnJlx6upNKNrTS8D5MkbThxMOcqJR2inYDfOvJJ23OEzVf0f7yo1phyxQF54EQ2Dlrl
+ 0/ilMbwN5QU7lbmOayWOFXR9GevWII/8fqsDceTa9alQ8L88nSLO5q3vSG82CLPFZlrD
+ EOqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=zzn6R0+MnQqUQo/SeuVfFP5EanHkyE2BgE8d+snk88Q=;
- b=leDg1wey72l1yyOrGmKc+K0Bjst5CAyEou/NZzexrzjY5blZec7Z44v3L/bKhEOnzR
- 35Ta4iyRN6pZ+9HPYvc87lKUriTNKzd4F++EwjWLBdG1PiXNtJqQCIaoGEMyVSwgS+kz
- nUG7jM79ZQcrVhLzzjnQfY3k0r4rYHz43trcGsIE2xyTJoBF3I5K+pVMkVgEbKagkEYU
- /KkY40gC4aTmrXy6OvAv79H5YKOZsFyBRO06szPpTubO0LvyTTbJkwuh4E7Mnn8mHZhc
- 7NkLDCeCh4IidWsvGEusMr2HijW6uUmOXui7XbmsO8f2d7Zhjh0GTZbGwlCp4kESWG+i
- kXIg==
-X-Gm-Message-State: AOAM532u0D45rHqMfnqV6SYfRVKSrfIVxXCy5JY6MRHNsP884rRexoDJ
- RSc3j3e+TyNOn4R4TkoFp/+bL1XnL/54RA==
-X-Google-Smtp-Source: ABdhPJxpvm8+T4nwwhXe2b9PxAXgHlo2lUirts9147+liubg2GIVbCCGNkWD9EWWweGraN0JyPQEiQ==
-X-Received: by 2002:a05:6512:358c:: with SMTP id
- m12mr8216889lfr.18.1597700349754; 
- Mon, 17 Aug 2020 14:39:09 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id a30sm5813655lfo.1.2020.08.17.14.39.08
+ bh=trlk/3uXQdYpfCiR6zf1NBJMUfnwN4OseEJTaKFkirk=;
+ b=LbrLbSXigN26ZC7+it0t9RtWFKYx9z2g3UfCBbXSkBdrFpCFEOaicp4OTfppsLOI8b
+ giNA0XcdS/37yfWHxpAkfdPOxrgI+LJybvROuOcuCJHtM2MjgossqUDqEvetF11BSHbl
+ UjdSbdoHDeYD2IKIB7H5raTjkOY/bTMp7g63dDrowQs4BagI+YStYbu/ZJFBPEUwWHHZ
+ OWwLrWGpiH7Fv6yYodRUY/hKV9DImlU+WE8Rf/VMoYuHGUfaSXuJDur/GizT+s9YyM/1
+ 9OClBmgLC3j6cHY1nmi/4iY/V72uoLYhsoRQkybwzCO/GWelrMBJt4j+92GXKT20H3kQ
+ FKFA==
+X-Gm-Message-State: AOAM532ju/CUAyPIONy04Wb+qNP73QHalH3n+nVwz2zoYIpBDmSW802o
+ vdtRJ7VpueuuukSwDBO1CCru5sCBqoOzCDqp
+X-Google-Smtp-Source: ABdhPJxuc4xae1ZADXa97WPg87JZfSDrlOOC/ynLcCZZtE5xQDqUW8tKk8cp6xGc7CLtA+Awk99pQg==
+X-Received: by 2002:a17:902:b788:: with SMTP id
+ e8mr13005586pls.117.1597701715879; 
+ Mon, 17 Aug 2020 15:01:55 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ f27sm20817812pfk.217.2020.08.17.15.01.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 14:39:09 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/panel: s6e63m0: Order enable/disable sequence
-Date: Mon, 17 Aug 2020 23:39:06 +0200
-Message-Id: <20200817213906.88207-1-linus.walleij@linaro.org>
+ Mon, 17 Aug 2020 15:01:54 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linux-arm-msm@vger.kernel.org
+Subject: [PATCH 00/20] iommu/arm-smmu + drm/msm: per-process GPU pgtables
+Date: Mon, 17 Aug 2020 15:01:25 -0700
+Message-Id: <20200817220238.603465-1-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,71 +67,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>, linux-arm-kernel@lists.infradead.org,
- =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Wambui Karuga <wambui.karugax@gmail.com>, Hanna Hawa <hannah@marvell.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>, Will Deacon <will@kernel.org>,
+ Emil Velikov <emil.velikov@collabora.com>, Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Sam Ravnborg <sam@ravnborg.org>,
+ Joerg Roedel <joro@8bytes.org>, Jon Hunter <jonathanh@nvidia.com>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, Sibi Sankar <sibis@codeaurora.org>,
+ Thierry Reding <treding@nvidia.com>, Brian Masney <masneyb@onstation.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Pritesh Raithatha <praithatha@nvidia.com>, Stephen Boyd <swboyd@chromium.org>,
+ Nicolin Chen <nicoleotsuka@gmail.com>, freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krishna Reddy <vdumpa@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHVwc3RyZWFtIFM2RTYzTTAgZHJpdmVyIGhhcyBzb21lIHBlY3VsYXJpdGllcyBhcm91bmQK
-dGhlIHByZXBhcmUvZW5hYmxlIGRpc2FibGUvdW5wcmVwYXJlIHNlcXVlbmNlOiB0aGUgc2NyZWVu
-CmlzIHRha2VuIG91dCBvZiBzbGVlcCBpbiBwcmVwYXJlKCkgYXMgcGFydCBvZgpzNmU2M20wX2lu
-aXQoKSB0aGUgcHV0IHRvIG9uIHdpdGggTUlQSV9EQ1NfU0VUX0RJU1BMQVlfT04KaW4gZW5hYmxl
-KCkuCgpIb3dldmVyIGl0IGlzIGp1c3QgcHV0IGludG8gc2xlZXAgbW9kZSBkaXJlY3RseSBpbgpk
-aXNhYmxlKCkuIEFzIGRpc2FibGUoKS9lbmFibGUoKSBjYW4gYmUgY2FsbGVkIHdpdGhvdXQKdW5w
-cmVwYXJlKCkvcHJlcGFyZSgpIGJlaW5nIGNhbGxlZCwgdGhpcyBpcyB1bmJhbGFuY2VkLAp3ZSBz
-aG91bGQgdGFrZSB0aGUgZGlzcGxheSBvdXQgb2Ygc2xlZXAgaW4gZW5hYmxlKCkKdGhlbiB0dXJu
-IGl0IG9mZigpLgoKRnVydGhlciBNSVBJX0RDU19TRVRfRElTUExBWV9PRkYgaXMgbmV2ZXIgY2Fs
-bGVkCmJhbGFuY2VkIHdpdGggTUlQSV9EQ1NfU0VUX0RJU1BMQVlfT04uCgpUaGUgdmVuZG9yIGRy
-aXZlciBmb3IgU2Ftc3VuZyBHVC1JODE5MCAoR29sZGVuKSBkb2VzIGFsbApvZiB0aGVzZSB0aGlu
-Z3MgaW4gc3RyaWN0IG9yZGVyLgoKQXVnbWVudCB0aGUgZHJpdmVyIHRvIGRvIGV4aXQgc2xlZXAv
-c2V0IGRpc3BsYXkgb24gaW4KZW5hYmxlKCkgYW5kIHNldCBkaXNwbGF5IG9mZi9lbnRlciBzbGVl
-cCBpbiBkaXNhYmxlKCkuCgpGdXJ0aGVyIHNlbmQgYW4gZXhwbGljdCByZXNldCBwdWxzZSBpbiBw
-b3dlcl9vbigpIHNvIHdlCmNvbWUgdXAgaW4gYSBrbm93biBzdGF0ZSwgYW5kIGlzc3VlIHRoZSBN
-Q1NfRVJST1JfQ0hFQ0sKY29tbWFuZCBhZnRlciBzZXR0aW5nIGRpc3BsYXkgb24gbGlrZSB0aGUg
-dmVuZG9yIGRyaXZlcgpkb2VzLiBBbHNvIHVzZSB0aGUgdGltaW5ncyBmcm9tIHRoZSB2ZW5kb3Ig
-ZHJpdmVyIGluCnRoZSBzZXF1ZW5jZS4KCkRvaW5nIGFsbCBvZiB0aGVzZSB0aGluZ3MgbWFrZXMg
-dGhlIGRpc3BsYXkgbXVjaCBtb3JlCnN0YWJsZSBvbiB0aGUgU2Ftc3VuZyBHVC1JODE5MCB3aGVu
-IGVuYWJsaW5nL2Rpc2FibGluZwp0aGUgZGlzcGxheSBwaXBlbGluZS4KCkNjOiBQYXdlxYIgQ2ht
-aWVsIDxwYXdlbC5taWtvbGFqLmNobWllbEBnbWFpbC5jb20+CkNjOiBTdGVwaGFuIEdlcmhvbGQg
-PHN0ZXBoYW5AZ2VyaG9sZC5uZXQ+ClNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVz
-LndhbGxlaWpAbGluYXJvLm9yZz4KLS0tClRoaXMgaXMgYmFzZWQgb24gdG9wIG9mIHRoZSBlYXJs
-aWVyIHBhdGNoZXMgZm9yIHM2ZTYzbTAuCi0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
-LXNhbXN1bmctczZlNjNtMC5jIHwgMTggKysrKysrKysrKysrKysrLS0tCiAxIGZpbGUgY2hhbmdl
-ZCwgMTUgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-cGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMKaW5kZXggZjFkOTZlYzNiNTdmLi40OWIwNDcw
-YmNjY2QgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2
-ZTYzbTAuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20w
-LmMKQEAgLTI2LDYgKzI2LDcgQEAKICNkZWZpbmUgTUNTX0VMVlNTX09OICAgICAgICAgICAgICAg
-IDB4YjEKICNkZWZpbmUgTUNTX01JRUNUTDEgICAgICAgICAgICAgICAgMHhjMAogI2RlZmluZSBN
-Q1NfQkNNT0RFICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMHhjMQorI2RlZmluZSBNQ1Nf
-RVJST1JfQ0hFQ0sJCTB4ZDUKICNkZWZpbmUgTUNTX1JFQURfSUQxCQkweGRhCiAjZGVmaW5lIE1D
-U19SRUFEX0lEMgkJMHhkYgogI2RlZmluZSBNQ1NfUkVBRF9JRDMJCTB4ZGMKQEAgLTI4MSw4ICsy
-ODIsNiBAQCBzdGF0aWMgdm9pZCBzNmU2M20wX2luaXQoc3RydWN0IHM2ZTYzbTAgKmN0eCkKIAog
-CXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNQ1NfRUxWU1NfT04sCiAJCQkJICAg
-ICAweDBiKTsKLQotCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19F
-WElUX1NMRUVQX01PREUpOwogfQogCiBzdGF0aWMgaW50IHM2ZTYzbTBfcG93ZXJfb24oc3RydWN0
-IHM2ZTYzbTAgKmN0eCkKQEAgLTI5NSw2ICsyOTQsOSBAQCBzdGF0aWMgaW50IHM2ZTYzbTBfcG93
-ZXJfb24oc3RydWN0IHM2ZTYzbTAgKmN0eCkKIAogCW1zbGVlcCgyNSk7CiAKKwkvKiBCZSBzdXJl
-IHRvIHNlbmQgYSByZXNldCBwdWxzZSAqLworCWdwaW9kX3NldF92YWx1ZShjdHgtPnJlc2V0X2dw
-aW8sIDEpOworCW1zbGVlcCg1KTsKIAlncGlvZF9zZXRfdmFsdWUoY3R4LT5yZXNldF9ncGlvLCAw
-KTsKIAltc2xlZXAoMTIwKTsKIApAQCAtMzI0LDggKzMyNiwxMCBAQCBzdGF0aWMgaW50IHM2ZTYz
-bTBfZGlzYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKIAogCWJhY2tsaWdodF9kaXNhYmxl
-KGN0eC0+YmxfZGV2KTsKIAorCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJ
-X0RDU19TRVRfRElTUExBWV9PRkYpOworCW1zbGVlcCgxMCk7CiAJczZlNjNtMF9kY3Nfd3JpdGVf
-c2VxX3N0YXRpYyhjdHgsIE1JUElfRENTX0VOVEVSX1NMRUVQX01PREUpOwotCW1zbGVlcCgyMDAp
-OworCW1zbGVlcCgxMjApOwogCiAJY3R4LT5lbmFibGVkID0gZmFsc2U7CiAKQEAgLTM5MSw3ICsz
-OTUsMTUgQEAgc3RhdGljIGludCBzNmU2M20wX2VuYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5l
-bCkKIAlpZiAoY3R4LT5lbmFibGVkKQogCQlyZXR1cm4gMDsKIAorCXM2ZTYzbTBfZGNzX3dyaXRl
-X3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19FWElUX1NMRUVQX01PREUpOworCW1zbGVlcCgxMjAp
-OwogCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19TRVRfRElTUExB
-WV9PTik7CisJbXNsZWVwKDEwKTsKKworCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4
-LCBNQ1NfRVJST1JfQ0hFQ0ssCisJCQkJICAgICAweEU3LCAweDE0LCAweDYwLCAweDE3LCAweDBB
-LCAweDQ5LCAweEMzLAorCQkJCSAgICAgMHg4RiwgMHgxOSwgMHg2NCwgMHg5MSwgMHg4NCwgMHg3
-NiwgMHgyMCwKKwkJCQkgICAgIDB4MEYsIDB4MDApOwogCiAJYmFja2xpZ2h0X2VuYWJsZShjdHgt
-PmJsX2Rldik7CiAKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+From: Rob Clark <robdclark@chromium.org>
+
+This series adds an Adreno SMMU implementation to arm-smmu to allow GPU hardware
+pagetable switching.
+
+The Adreno GPU has built in capabilities to switch the TTBR0 pagetable during
+runtime to allow each individual instance or application to have its own
+pagetable.  In order to take advantage of the HW capabilities there are certain
+requirements needed of the SMMU hardware.
+
+This series adds support for an Adreno specific arm-smmu implementation. The new
+implementation 1) ensures that the GPU domain is always assigned context bank 0,
+2) enables split pagetable support (TTBR1) so that the instance specific
+pagetable can be swapped while the global memory remains in place and 3) shares
+the current pagetable configuration with the GPU driver to allow it to create
+its own io-pgtable instances.
+
+The series then adds the drm/msm code to enable these features. For targets that
+support it allocate new pagetables using the io-pgtable configuration shared by
+the arm-smmu driver and swap them in during runtime.
+
+This version of the series merges the previous patchset(s) [1] and [2]
+with the following improvements:
+
+v14: (Respin by Rob)
+  - Minor update to 16/20 (only force ASID to zero in one place)
+  - Addition of sc7180 dtsi patch.
+v13: (Respin by Rob)
+  - Switch to a private interface between adreno-smmu and GPU driver,
+    dropping the custom domain attr (Will Deacon)
+  - Rework the SCTLR.HUPCF patch to add new fields in smmu_domain->cfg
+    rather than adding new impl hook (Will Deacon)
+  - Drop for_each_cfg_sme() in favor of plain for() loop (Will Deacon)
+  - Fix context refcnt'ing issue which was causing problems with GPU
+    crash recover stress testing.
+  - Spiff up $debugfs/gem to show process information associated with
+    VMAs
+v12:
+  - Nitpick cleanups in gpu/drm/msm/msm_iommu.c (Rob Clark)
+  - Reorg in gpu/drm/msm/msm_gpu.c (Rob Clark)
+  - Use the default asid for the context bank so that iommu_tlb_flush_all works
+  - Flush the UCHE after a page switch
+  - Add the SCTLR.HUPCF patch at the end of the series
+v11:
+  - Add implementation specific get_attr/set_attr functions (per Rob Clark)
+  - Fix context bank allocation (per Bjorn Andersson)
+v10:
+  - arm-smmu: add implementation hook to allocate context banks
+  - arm-smmu: Match the GPU domain by stream ID instead of compatible string
+  - arm-smmu: Make DOMAIN_ATTR_PGTABLE_CFG bi-directional. The leaf driver
+    queries the configuration to create a pagetable and then sends the newly
+    created configuration back to the smmu-driver to enable TTBR0
+  - drm/msm: Add context reference counting for submissions
+  - drm/msm: Use dummy functions to skip TLB operations on per-instance
+    pagetables
+
+[1] https://lists.linuxfoundation.org/pipermail/iommu/2020-June/045653.html
+[2] https://lists.linuxfoundation.org/pipermail/iommu/2020-June/045659.html
+
+
+Jordan Crouse (12):
+  iommu/arm-smmu: Pass io-pgtable config to implementation specific
+    function
+  iommu/arm-smmu: Add support for split pagetables
+  iommu/arm-smmu: Prepare for the adreno-smmu implementation
+  iommu/arm-smmu-qcom: Add implementation for the adreno GPU SMMU
+  dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
+  drm/msm: Add a context pointer to the submitqueue
+  drm/msm: Drop context arg to gpu->submit()
+  drm/msm: Set the global virtual address range from the IOMMU domain
+  drm/msm: Add support to create a local pagetable
+  drm/msm: Add support for private address space instances
+  drm/msm/a6xx: Add support for per-instance pagetables
+  arm: dts: qcom: sm845: Set the compatible string for the GPU SMMU
+
+Rob Clark (8):
+  drm/msm: remove dangling submitqueue references
+  iommu: add private interface for adreno-smmu
+  drm/msm/gpu: add dev_to_gpu() helper
+  drm/msm: set adreno_smmu as gpu's drvdata
+  iommu/arm-smmu: constify some helpers
+  arm: dts: qcom: sc7180: Set the compatible string for the GPU SMMU
+  iommu/arm-smmu: add a way for implementations to influence SCTLR
+  drm/msm: show process names in gem_describe
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |   4 +
+ arch/arm64/boot/dts/qcom/sc7180.dtsi          |   2 +-
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  68 +++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h         |   1 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |  12 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |  18 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   3 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |  16 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |  25 +++
+ drivers/gpu/drm/msm/msm_gem.c                 |  25 ++-
+ drivers/gpu/drm/msm/msm_gem.h                 |   6 +
+ drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+ drivers/gpu/drm/msm/msm_gem_vma.c             |  10 +
+ drivers/gpu/drm/msm/msm_gpu.c                 |  41 +++-
+ drivers/gpu/drm/msm/msm_gpu.h                 |  21 +-
+ drivers/gpu/drm/msm/msm_gpummu.c              |   2 +-
+ drivers/gpu/drm/msm/msm_iommu.c               | 206 +++++++++++++++++-
+ drivers/gpu/drm/msm/msm_mmu.h                 |  16 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h          |   1 +
+ drivers/gpu/drm/msm/msm_submitqueue.c         |   7 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c    |   6 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c    | 155 ++++++++++++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         | 102 ++++-----
+ drivers/iommu/arm/arm-smmu/arm-smmu.h         |  87 +++++++-
+ include/linux/adreno-smmu-priv.h              |  36 +++
+ 27 files changed, 759 insertions(+), 133 deletions(-)
+ create mode 100644 include/linux/adreno-smmu-priv.h
+
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
