@@ -2,43 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAD0247875
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 23:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1366A2478F4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 23:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D58DD89C96;
-	Mon, 17 Aug 2020 21:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 772986E037;
+	Mon, 17 Aug 2020 21:39:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC8B89C96
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 21:02:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208947] New: amdgpu DisplayPort won't recognize all display
- modes after 5.9 merges
-Date: Mon, 17 Aug 2020 21:02:51 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ckane@colemankane.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-208947-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB576E037
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 21:39:11 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id s9so9139306lfs.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 14:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zzn6R0+MnQqUQo/SeuVfFP5EanHkyE2BgE8d+snk88Q=;
+ b=oog6rrcaPrPvQF327SfCX2uMjwdeGnEg4mDQq5hA90CrfoP4+pD/hRcAI4sZLbvQF9
+ K9dxyFK7dST4MxzJV1SjNtM4OxVXJ14ZFVpEZtFBuCNuaL77x28FTs3Du5BKQ6T7ytZf
+ yBWsTl31LgpLAEAfQH/yyj4HJXZnYFc9cl8j6hFQoT8mFt+1fKHugQv1mmUZ4cb79KP8
+ HAvA5M6vP4uNDMhBssHzNaT2xZ6B+E6vOXTtd/Y0IXojCt78fBa6SKEqHxElYDZYS/eq
+ 10I6KeNI0C6/Ls9bIRFIIFYusM5kmxh24AdBybziF9CnL79rBokPGXtl4LbaiEIV9Y8o
+ 4a6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zzn6R0+MnQqUQo/SeuVfFP5EanHkyE2BgE8d+snk88Q=;
+ b=leDg1wey72l1yyOrGmKc+K0Bjst5CAyEou/NZzexrzjY5blZec7Z44v3L/bKhEOnzR
+ 35Ta4iyRN6pZ+9HPYvc87lKUriTNKzd4F++EwjWLBdG1PiXNtJqQCIaoGEMyVSwgS+kz
+ nUG7jM79ZQcrVhLzzjnQfY3k0r4rYHz43trcGsIE2xyTJoBF3I5K+pVMkVgEbKagkEYU
+ /KkY40gC4aTmrXy6OvAv79H5YKOZsFyBRO06szPpTubO0LvyTTbJkwuh4E7Mnn8mHZhc
+ 7NkLDCeCh4IidWsvGEusMr2HijW6uUmOXui7XbmsO8f2d7Zhjh0GTZbGwlCp4kESWG+i
+ kXIg==
+X-Gm-Message-State: AOAM532u0D45rHqMfnqV6SYfRVKSrfIVxXCy5JY6MRHNsP884rRexoDJ
+ RSc3j3e+TyNOn4R4TkoFp/+bL1XnL/54RA==
+X-Google-Smtp-Source: ABdhPJxpvm8+T4nwwhXe2b9PxAXgHlo2lUirts9147+liubg2GIVbCCGNkWD9EWWweGraN0JyPQEiQ==
+X-Received: by 2002:a05:6512:358c:: with SMTP id
+ m12mr8216889lfr.18.1597700349754; 
+ Mon, 17 Aug 2020 14:39:09 -0700 (PDT)
+Received: from localhost.bredbandsbolaget
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id a30sm5813655lfo.1.2020.08.17.14.39.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Aug 2020 14:39:09 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
+Subject: [PATCH] drm/panel: s6e63m0: Order enable/disable sequence
+Date: Mon, 17 Aug 2020 23:39:06 +0200
+Message-Id: <20200817213906.88207-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,72 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Stephan Gerhold <stephan@gerhold.net>, linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208947
-
-            Bug ID: 208947
-           Summary: amdgpu DisplayPort won't recognize all display modes
-                    after 5.9 merges
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.9 staging-testing, rc1, and latest linux.git
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: ckane@colemankane.org
-        Regression: No
-
-I've got an AMD Ryzen 7 1700 and a POLARIS10 Radeon RX 580M GPU in an ASUS ROG
-GL702ZC laptop.
-
-I'm using the regular 5.8.1 kernel on Arch linux, and also have been tracking
-in-development kernel changes via the "staging-testing" branch on the
-gregkh/staging.git Linux tree as well as the torvalds/linux.git tree.
-
-Sometime during the course of the 5.9 updates getting merged into those trees,
-the 5.9 kernels I build no longer recognize all of the graphics modes for my 4K
-(3840x2160) monitor when it is plugged into the DisplayPort. Instead, the
-highest mode reported available is 1024x768, and Xorg also gets limited to
-these choices.
-
-This behavior appears limited to the monitor being plugged in via its
-DisplayPort input. When I use an HDMI input, all of the supported graphics
-modes are reported properly. I am using /sys/class/drm/card0-DP-1/modes to
-display the available modes, and also starting Xorg to test it as well.
-
-Would be happy to test patches if this is a known regression, or would
-appreciate some help/direction in tracking down potential likely culprits of
-the problem so I can try to diagnose it myself. I am somewhat familiar with
-kernel development, so I'm capable of hacking on it a bit if anyone can point
-me in a good direction. I'm just not too familiar with the inner workings of
-the AMDGPU, KMS, or DRM code. Not even certain if this is an issue specific to
-AMDGPU or something agnostic to the specific video hw.
-
-I also tried dumping the /sys/class/drm/card0-DP-1/edid after booting into
-5.8.1 and then 5.9-latest and I get exactly the same data for both, so it seems
-like the EDID data is at least being fetched properly. I also tried saving that
-EDID data to a *.bin file and manually loading that via kernel arguments
-(drm.edid_firmware): verified it was loading properly for DP-1, but I still got
-the same results (no high-resolution video modes).
-
-Let me know what data would be helpful to attach to this issue, as well.
-
-Thanks,
-Coleman Kane
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIHVwc3RyZWFtIFM2RTYzTTAgZHJpdmVyIGhhcyBzb21lIHBlY3VsYXJpdGllcyBhcm91bmQK
+dGhlIHByZXBhcmUvZW5hYmxlIGRpc2FibGUvdW5wcmVwYXJlIHNlcXVlbmNlOiB0aGUgc2NyZWVu
+CmlzIHRha2VuIG91dCBvZiBzbGVlcCBpbiBwcmVwYXJlKCkgYXMgcGFydCBvZgpzNmU2M20wX2lu
+aXQoKSB0aGUgcHV0IHRvIG9uIHdpdGggTUlQSV9EQ1NfU0VUX0RJU1BMQVlfT04KaW4gZW5hYmxl
+KCkuCgpIb3dldmVyIGl0IGlzIGp1c3QgcHV0IGludG8gc2xlZXAgbW9kZSBkaXJlY3RseSBpbgpk
+aXNhYmxlKCkuIEFzIGRpc2FibGUoKS9lbmFibGUoKSBjYW4gYmUgY2FsbGVkIHdpdGhvdXQKdW5w
+cmVwYXJlKCkvcHJlcGFyZSgpIGJlaW5nIGNhbGxlZCwgdGhpcyBpcyB1bmJhbGFuY2VkLAp3ZSBz
+aG91bGQgdGFrZSB0aGUgZGlzcGxheSBvdXQgb2Ygc2xlZXAgaW4gZW5hYmxlKCkKdGhlbiB0dXJu
+IGl0IG9mZigpLgoKRnVydGhlciBNSVBJX0RDU19TRVRfRElTUExBWV9PRkYgaXMgbmV2ZXIgY2Fs
+bGVkCmJhbGFuY2VkIHdpdGggTUlQSV9EQ1NfU0VUX0RJU1BMQVlfT04uCgpUaGUgdmVuZG9yIGRy
+aXZlciBmb3IgU2Ftc3VuZyBHVC1JODE5MCAoR29sZGVuKSBkb2VzIGFsbApvZiB0aGVzZSB0aGlu
+Z3MgaW4gc3RyaWN0IG9yZGVyLgoKQXVnbWVudCB0aGUgZHJpdmVyIHRvIGRvIGV4aXQgc2xlZXAv
+c2V0IGRpc3BsYXkgb24gaW4KZW5hYmxlKCkgYW5kIHNldCBkaXNwbGF5IG9mZi9lbnRlciBzbGVl
+cCBpbiBkaXNhYmxlKCkuCgpGdXJ0aGVyIHNlbmQgYW4gZXhwbGljdCByZXNldCBwdWxzZSBpbiBw
+b3dlcl9vbigpIHNvIHdlCmNvbWUgdXAgaW4gYSBrbm93biBzdGF0ZSwgYW5kIGlzc3VlIHRoZSBN
+Q1NfRVJST1JfQ0hFQ0sKY29tbWFuZCBhZnRlciBzZXR0aW5nIGRpc3BsYXkgb24gbGlrZSB0aGUg
+dmVuZG9yIGRyaXZlcgpkb2VzLiBBbHNvIHVzZSB0aGUgdGltaW5ncyBmcm9tIHRoZSB2ZW5kb3Ig
+ZHJpdmVyIGluCnRoZSBzZXF1ZW5jZS4KCkRvaW5nIGFsbCBvZiB0aGVzZSB0aGluZ3MgbWFrZXMg
+dGhlIGRpc3BsYXkgbXVjaCBtb3JlCnN0YWJsZSBvbiB0aGUgU2Ftc3VuZyBHVC1JODE5MCB3aGVu
+IGVuYWJsaW5nL2Rpc2FibGluZwp0aGUgZGlzcGxheSBwaXBlbGluZS4KCkNjOiBQYXdlxYIgQ2ht
+aWVsIDxwYXdlbC5taWtvbGFqLmNobWllbEBnbWFpbC5jb20+CkNjOiBTdGVwaGFuIEdlcmhvbGQg
+PHN0ZXBoYW5AZ2VyaG9sZC5uZXQ+ClNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVz
+LndhbGxlaWpAbGluYXJvLm9yZz4KLS0tClRoaXMgaXMgYmFzZWQgb24gdG9wIG9mIHRoZSBlYXJs
+aWVyIHBhdGNoZXMgZm9yIHM2ZTYzbTAuCi0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
+LXNhbXN1bmctczZlNjNtMC5jIHwgMTggKysrKysrKysrKysrKysrLS0tCiAxIGZpbGUgY2hhbmdl
+ZCwgMTUgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+cGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMKaW5kZXggZjFkOTZlYzNiNTdmLi40OWIwNDcw
+YmNjY2QgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2
+ZTYzbTAuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20w
+LmMKQEAgLTI2LDYgKzI2LDcgQEAKICNkZWZpbmUgTUNTX0VMVlNTX09OICAgICAgICAgICAgICAg
+IDB4YjEKICNkZWZpbmUgTUNTX01JRUNUTDEgICAgICAgICAgICAgICAgMHhjMAogI2RlZmluZSBN
+Q1NfQkNNT0RFICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMHhjMQorI2RlZmluZSBNQ1Nf
+RVJST1JfQ0hFQ0sJCTB4ZDUKICNkZWZpbmUgTUNTX1JFQURfSUQxCQkweGRhCiAjZGVmaW5lIE1D
+U19SRUFEX0lEMgkJMHhkYgogI2RlZmluZSBNQ1NfUkVBRF9JRDMJCTB4ZGMKQEAgLTI4MSw4ICsy
+ODIsNiBAQCBzdGF0aWMgdm9pZCBzNmU2M20wX2luaXQoc3RydWN0IHM2ZTYzbTAgKmN0eCkKIAog
+CXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNQ1NfRUxWU1NfT04sCiAJCQkJICAg
+ICAweDBiKTsKLQotCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19F
+WElUX1NMRUVQX01PREUpOwogfQogCiBzdGF0aWMgaW50IHM2ZTYzbTBfcG93ZXJfb24oc3RydWN0
+IHM2ZTYzbTAgKmN0eCkKQEAgLTI5NSw2ICsyOTQsOSBAQCBzdGF0aWMgaW50IHM2ZTYzbTBfcG93
+ZXJfb24oc3RydWN0IHM2ZTYzbTAgKmN0eCkKIAogCW1zbGVlcCgyNSk7CiAKKwkvKiBCZSBzdXJl
+IHRvIHNlbmQgYSByZXNldCBwdWxzZSAqLworCWdwaW9kX3NldF92YWx1ZShjdHgtPnJlc2V0X2dw
+aW8sIDEpOworCW1zbGVlcCg1KTsKIAlncGlvZF9zZXRfdmFsdWUoY3R4LT5yZXNldF9ncGlvLCAw
+KTsKIAltc2xlZXAoMTIwKTsKIApAQCAtMzI0LDggKzMyNiwxMCBAQCBzdGF0aWMgaW50IHM2ZTYz
+bTBfZGlzYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKIAogCWJhY2tsaWdodF9kaXNhYmxl
+KGN0eC0+YmxfZGV2KTsKIAorCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJ
+X0RDU19TRVRfRElTUExBWV9PRkYpOworCW1zbGVlcCgxMCk7CiAJczZlNjNtMF9kY3Nfd3JpdGVf
+c2VxX3N0YXRpYyhjdHgsIE1JUElfRENTX0VOVEVSX1NMRUVQX01PREUpOwotCW1zbGVlcCgyMDAp
+OworCW1zbGVlcCgxMjApOwogCiAJY3R4LT5lbmFibGVkID0gZmFsc2U7CiAKQEAgLTM5MSw3ICsz
+OTUsMTUgQEAgc3RhdGljIGludCBzNmU2M20wX2VuYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5l
+bCkKIAlpZiAoY3R4LT5lbmFibGVkKQogCQlyZXR1cm4gMDsKIAorCXM2ZTYzbTBfZGNzX3dyaXRl
+X3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19FWElUX1NMRUVQX01PREUpOworCW1zbGVlcCgxMjAp
+OwogCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19TRVRfRElTUExB
+WV9PTik7CisJbXNsZWVwKDEwKTsKKworCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4
+LCBNQ1NfRVJST1JfQ0hFQ0ssCisJCQkJICAgICAweEU3LCAweDE0LCAweDYwLCAweDE3LCAweDBB
+LCAweDQ5LCAweEMzLAorCQkJCSAgICAgMHg4RiwgMHgxOSwgMHg2NCwgMHg5MSwgMHg4NCwgMHg3
+NiwgMHgyMCwKKwkJCQkgICAgIDB4MEYsIDB4MDApOwogCiAJYmFja2xpZ2h0X2VuYWJsZShjdHgt
+PmJsX2Rldik7CiAKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
