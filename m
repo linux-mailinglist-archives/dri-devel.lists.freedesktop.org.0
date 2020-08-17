@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0B72464A7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 12:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383042464D2
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Aug 2020 12:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4009B6E08C;
-	Mon, 17 Aug 2020 10:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 442CA6E2B8;
+	Mon, 17 Aug 2020 10:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C45126E271
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 10:41:51 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1A06E4E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 10:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597660910;
+ s=mimecast20190719; t=1597661422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TVmgCdLpXIRiRlPkR73rmjLuNrF1gXDX7uw/nBpZ86A=;
- b=JESs3yJyTRp/SkvIMISKjtXRdnnACwlRkZRZH4ipqo7FaDF5OLfXqRQb659jUVG+6G+hkQ
- vc7kESyrbf347b8czwJ76GdKF3TVdoHnKTbzW+XQH2EGrd8x0M2J4dsHhDkEaew9efq84X
- gB0yzQGg/ppGj+8kYG0ScaqI+IKkVVo=
+ bh=SE4dvYNlVB9CSOQDs5hxirUGYULeutap5ZzZDBWVkqE=;
+ b=EpAZ/5Q9rnxxIZ2a/WDrlynqyhfzfzMWE0r192aRbJK2PNMcz0LnLCj+JyeKxYSrwp+P1N
+ ZfEdDVbJ9d3dP5VgTIkS7PG1dZ0IasOEBGSKuEnZhQdNdgoSMZTm9JTxNs+cavJCbySYFH
+ W/EZctlbOh8rMWTI9az2hTGK/ySOIQw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-ddeRsAoXN4eFuNW0N1urmA-1; Mon, 17 Aug 2020 06:41:48 -0400
-X-MC-Unique: ddeRsAoXN4eFuNW0N1urmA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-174-meOXaXeZPg-AMW_PNZAmuA-1; Mon, 17 Aug 2020 06:50:18 -0400
+X-MC-Unique: meOXaXeZPg-AMW_PNZAmuA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6348351B1;
- Mon, 17 Aug 2020 10:41:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91CB11014DEE;
+ Mon, 17 Aug 2020 10:50:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
  [10.36.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72A666F15D;
- Mon, 17 Aug 2020 10:41:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD94A10013D5;
+ Mon, 17 Aug 2020 10:50:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 52C149D5A; Mon, 17 Aug 2020 12:41:44 +0200 (CEST)
-Date: Mon, 17 Aug 2020 12:41:44 +0200
+ id E51B79D5A; Mon, 17 Aug 2020 12:50:08 +0200 (CEST)
+Date: Mon, 17 Aug 2020 12:50:08 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] drm/virtio: Use struct_size() helper in kmalloc()
-Message-ID: <20200817104144.bn5mqzfggtjxwjva@sirius.home.kraxel.org>
-References: <20200617215707.GA16785@embeddedor>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [virtio-dev] Re: [PATCH v5 0/3] Support virtio cross-device
+ resources
+Message-ID: <20200817105008.mi3ukh6kxgi37gjs@sirius.home.kraxel.org>
+References: <20200609012518.198908-1-stevensd@chromium.org>
+ <20200609055021-mutt-send-email-mst@kernel.org>
+ <CAD=HUj7wJfoKj_K44Cs9eEmh=OQHZ1+qz7ZHxoscHjYgOMXvZQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200617215707.GA16785@embeddedor>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAD=HUj7wJfoKj_K44Cs9eEmh=OQHZ1+qz7ZHxoscHjYgOMXvZQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,26 +63,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>, open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ alex.williamson@redhat.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 17, 2020 at 04:57:07PM -0500, Gustavo A. R. Silva wrote:
-> Make use of the struct_size() helper instead of an open-coded version
-> in order to avoid any potential type mistakes.
-> 
-> This code was detected with the help of Coccinelle and, audited and
-> fixed manually.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+On Tue, Jun 23, 2020 at 10:31:28AM +0900, David Stevens wrote:
+> Unless there are any remaining objections to these patches, what are
+> the next steps towards getting these merged? Sorry, I'm not familiar
+> with the workflow for contributing patches to Linux.
 
-Queued up for drm-misc-next.
+Sorry, just have been busy and not paying as much attention to drm
+patches as usual.  Playing catch-up now.  Queued for drm-misc-next,
+unless something goes wrong in my testing the patches should land
+in linux-next soon and be merged upstream in the next merge window.
 
-thanks,
+take care,
   Gerd
 
 _______________________________________________
