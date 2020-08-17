@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF06247FF8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C6F247FFF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:52:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2D289D7F;
-	Tue, 18 Aug 2020 07:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6505889D9A;
+	Tue, 18 Aug 2020 07:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5026E4B3;
- Mon, 17 Aug 2020 09:19:16 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 74so7908895pfx.13;
- Mon, 17 Aug 2020 02:19:16 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E5396E0F8;
+ Mon, 17 Aug 2020 09:19:30 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id t10so7188270plz.10;
+ Mon, 17 Aug 2020 02:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BhmC2dfR9Z2FpcZrdiI/rF+di1B3O2m2kCZjxi0Nzus=;
- b=pH1u/a65jck4CF/HaoBjMB2yQ7DQRuOjq2EQe/YOxb/OD7LRTsfaGPckhcN+7n9R1u
- 8haLtPH3/hoBwBJOPjlUu2iYNKNPElK2iQu8xAhfWEfShI0bje7FwzTh8mTzsrV2FN/G
- T9q7gfYpRkJs922O9WCJDcFzNiLghUNavbp+zlHscWAG2oqdLCD4z56Z3vUZOyp4D6dk
- KhQqBlfrQV46/Pb2iMfJWkdHHcpVNp7jqYJJ9NEWjQKozVbz9oxhRN55xVrJNhB3JaO3
- Dp4F6ts/oPz/ziaWkRipTHlRzYfTQoj0G/RUnkwPSw1bnvtUKBj+EftqSWTMiaLoQ1jv
- lH8g==
+ bh=ifLfIrBu1ltO21juvrs7/f94zIPbflxds2FmAIn0JZY=;
+ b=QLC6x/O13MeP0lPsSOPKaI+ocf7oT0PGwI9jaqY5n+w05x+fnihg68gNW9IMTCYLmr
+ QP7/v8OCTappeLr1ZuVp0BsTJ1mH85ENUZ2a6AmLJxjUUhw01jO65HrM9m3jJ/8fkzOD
+ /S951cp1wfO+Ld6aPWrVxO7J0pQj6AA1qxc5UAopaYjDT3vKbgs6OuTAyMB506fY0UDH
+ 5Vov97HYXFpYb/YY3HH4v98ijkrDRUNEPcHpqzt4ZRRsovwJz6805sBa4AZVV67aGl1m
+ cckpnrRBYuVhiBXYyB2AdVauJXp4muM3muUnNrrm5+mb6Juwp+3iKvIPDL2fSNnGn3kS
+ Vy6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=BhmC2dfR9Z2FpcZrdiI/rF+di1B3O2m2kCZjxi0Nzus=;
- b=B0GpMB1bQQH9VKTtngdxJulOiFvnlRPE01yJrOTouxcV595dMdV3uUaKo5ejgCdgap
- 5HMiPN1Ve/kqfXYRWxB5ugCVpG/8AKWUvGC/SNICUv5+FlnbNCEjxlftkV86TIEguLHY
- Oli0k/p3Am0m5Bz2mgY9ngo3/BroTnqH1XctDcTAuC1sB8URC3tLHrn180bCw3Q333Nq
- flSneUFkv9BYvsMCP5R6WJ1WIkWLng7Pn+WfP7tY0y84TgBFtNTXELW5NiU4PgQrN0xd
- /eX6U2pZd7IYsN5LJuSIUzvLLZW4RqfWLsCA78OG2bQnWiQOob/+hk7Z1PzXkYW2lv5J
- zjTg==
-X-Gm-Message-State: AOAM5318NNGYNnqGnRJaRh2dVU3awmSbKxlk9IK6jJJgT/B2Sx0L73tS
- YO+IFH10Jb1IPkMSHzQvwI4=
-X-Google-Smtp-Source: ABdhPJyB5tc5dUu27VbUdOZ9DzBdNo9HMZYO5yS/FgK5KFnwUfpfaMSoblaoVOfdDSu8KmjNrpWWGw==
-X-Received: by 2002:a63:2e87:: with SMTP id u129mr9420810pgu.347.1597655956522; 
- Mon, 17 Aug 2020 02:19:16 -0700 (PDT)
+ bh=ifLfIrBu1ltO21juvrs7/f94zIPbflxds2FmAIn0JZY=;
+ b=tkt2XQNjdRuM84iFC1CZg4BvLTKWEX9EW4Xx7xg/5CaTbSZSr/tii8MOGEPAJcJsQk
+ XrR5mOr/oS1zi/LP1TtGg4xCTLXTD4rUoJMbM9157lxRmY+lkx22kKpK3MiCQ+sFELg1
+ 2d2EirhaDIqwvxRPGV9kLTSv1jul5mk6reMa+kQdr54zxyLW+0B0uoVt9tMdnUzpYiX9
+ mfkQrDmxDYe0wltP8G6i4T7F8r/TtdF4JQM5k/KaQDIXv/1VWC5TpyY2nu92WDYeq011
+ c+DOmMu4R9NxnT1S/tFXVzA1FZecTyTRWbL8Q/YCQ+fpMdIN3NsTqpaQ3jVptguN2QGF
+ YZRg==
+X-Gm-Message-State: AOAM530l2lBfH4Q+PzJj8M0OAAEklLz836ieaWodFY5+tqOIaRatWcQ6
+ 1J+BgIldBxrj9njFBNyOTTw=
+X-Google-Smtp-Source: ABdhPJwQiN0j3I0XTBAoTEh/kHlRdKQRBPrBZjjvBv7FEdQfK+kQb/LL0lHsiyq2Kw2a6+jej7syqg==
+X-Received: by 2002:a17:90a:2210:: with SMTP id
+ c16mr12291145pje.65.1597655969939; 
+ Mon, 17 Aug 2020 02:19:29 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
- by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.19.04
+ by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.19.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:19:15 -0700 (PDT)
+ Mon, 17 Aug 2020 02:19:29 -0700 (PDT)
 From: Allen Pais <allen.cryptic@gmail.com>
 To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -54,9 +55,10 @@ To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
  ulf.hansson@linaro.org, mporter@kernel.crashing.org, alex.bou9@gmail.com,
  broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
  mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH] input: serio: convert tasklets to use new tasklet_setup() API
-Date: Mon, 17 Aug 2020 14:46:07 +0530
-Message-Id: <20200817091617.28119-13-allen.cryptic@gmail.com>
+Subject: [PATCH 1/2] mailbox: bcm: convert tasklets to use new tasklet_setup()
+ API
+Date: Mon, 17 Aug 2020 14:46:08 +0530
+Message-Id: <20200817091617.28119-14-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -100,31 +102,34 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/input/serio/hp_sdc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/mailbox/bcm-pdc-mailbox.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/serio/hp_sdc.c b/drivers/input/serio/hp_sdc.c
-index 13eacf6ab431..91f8253ac66a 100644
---- a/drivers/input/serio/hp_sdc.c
-+++ b/drivers/input/serio/hp_sdc.c
-@@ -301,7 +301,7 @@ static irqreturn_t hp_sdc_nmisr(int irq, void *dev_id)
- 
- unsigned long hp_sdc_put(void);
- 
--static void hp_sdc_tasklet(unsigned long foo)
-+static void hp_sdc_tasklet(struct tasklet_struct *unused)
+diff --git a/drivers/mailbox/bcm-pdc-mailbox.c b/drivers/mailbox/bcm-pdc-mailbox.c
+index 53945ca5d785..5b375985f7b8 100644
+--- a/drivers/mailbox/bcm-pdc-mailbox.c
++++ b/drivers/mailbox/bcm-pdc-mailbox.c
+@@ -962,9 +962,9 @@ static irqreturn_t pdc_irq_handler(int irq, void *data)
+  * a DMA receive interrupt. Reenables the receive interrupt.
+  * @data: PDC state structure
+  */
+-static void pdc_tasklet_cb(unsigned long data)
++static void pdc_tasklet_cb(struct tasklet_struct *t)
  {
- 	write_lock_irq(&hp_sdc.rtq_lock);
+-	struct pdc_state *pdcs = (struct pdc_state *)data;
++	struct pdc_state *pdcs = from_tasklet(pdcs, t, rx_tasklet);
  
-@@ -890,7 +890,7 @@ static int __init hp_sdc_init(void)
- 	hp_sdc_status_in8();
- 	hp_sdc_data_in8();
+ 	pdc_receive(pdcs);
  
--	tasklet_init(&hp_sdc.task, hp_sdc_tasklet, 0);
-+	tasklet_setup(&hp_sdc.task, hp_sdc_tasklet, 0);
+@@ -1589,7 +1589,7 @@ static int pdc_probe(struct platform_device *pdev)
+ 	pdc_hw_init(pdcs);
  
- 	/* Sync the output buffer registers, thus scheduling hp_sdc_tasklet. */
- 	t_sync.actidx	= 0;
+ 	/* Init tasklet for deferred DMA rx processing */
+-	tasklet_init(&pdcs->rx_tasklet, pdc_tasklet_cb, (unsigned long)pdcs);
++	tasklet_setup(&pdcs->rx_tasklet, pdc_tasklet_cb);
+ 
+ 	err = pdc_interrupts_init(pdcs);
+ 	if (err)
 -- 
 2.17.1
 
