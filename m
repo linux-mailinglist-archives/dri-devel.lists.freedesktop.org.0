@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B99247981
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 00:02:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9478F247984
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 00:02:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B95E6E072;
-	Mon, 17 Aug 2020 22:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 821436E03A;
+	Mon, 17 Aug 2020 22:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 551406E05F;
- Mon, 17 Aug 2020 22:02:24 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id l60so8461923pjb.3;
- Mon, 17 Aug 2020 15:02:24 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72E256E03A;
+ Mon, 17 Aug 2020 22:02:30 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id t10so8219518plz.10;
+ Mon, 17 Aug 2020 15:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JJBCzjdmyb2nZnzBMd/gov55QLqdNUOfxSOvqrduYU8=;
- b=oBqugco8fIoE4idSbUpFj+/z0IdBYlqYQcw83uXRLy20u+V+tLjSyzE8nOJx4oDpA8
- 7AisDZRTvFmjR5lBtgaBHcxhSqGM5IesS2muP8UEUXc5s2xMwiM6InZr6Epkc1GjcywO
- cA5Ko3FS3tSu4dsBDPgWnX6Nz4bNzbk7A3uGaW++vDiIdFXIx71Je9rH3Jv/15UF/pvp
- nUluwDLXoP7oRGg78gR4VmKbLmXQXzuSGoFxB3pV7YC/NQKiv3lnVQHETNtlWGhUebkf
- bmwFSk4Mnj8zAvmnM0cjUhCBZd1w2wOR1J5yZnIgQrHycCND66pntt4b4M7Xs091PcuD
- veUA==
+ bh=FspYJi5b1hDkayAuxe5bJyODfoD6HOjHOWIvusSE/vI=;
+ b=fqbybyBm7z5qHp16UsUH3SOGLylsTrFEsZzyxPJ14MD4pMo7A7oyruGBH/RYNESpDA
+ zA49RiuTo8tr6pJHCAdVih9UxTi3DW5cuEPgku2ES3eGQM9+EopWW2qEzLilMwVRxICy
+ TsZaF4BKDnSK8sWv9FGM503OLhe6y7vNcuSG3QmOGzR53mxXirF10ITO95xIz1zT1FgE
+ RNQ04aKBj+CF6bVv43LJCV355jCDhJWNKOEF6H06BGY2joiysSb4/1U/4ZoQoSabe7Fs
+ mVT30wpWeQd5eQHVob+YO+vcbDHB2cE9Ubyfmw5GhvVpxYAq6VITYrXX7gqIuumaWq0a
+ xf5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JJBCzjdmyb2nZnzBMd/gov55QLqdNUOfxSOvqrduYU8=;
- b=DhcY0Qd4doXcbcXikTJ8axHen04wBeXD/abzhUfZkShfwDyeoXu3aI+OEDTvU0CWiQ
- mKe151K5bHZfYuhnBSNIMMZoMlMXexuoqQuvWRd/dwLgMnJtobW5rNOc80DD4T+Am32W
- 9A+4MqRoc6oLEzDgPij1inoDlXxHrV6sEXFa/thWVBulOMFE1ts3yGLinKtRuqyle5XR
- s11CSjGY/nmDpDEyZFF1nH9Q3SyYUPjIqwJr+GouzZROQvD84W1E9UhvZrCC1nTsQ2ge
- p8Dpf7T8n18m8f68D5/p7lBlZQgEsPQR9jQhZ1Z28LQnOMYGIII63okkTqh87/LNNByw
- pbFQ==
-X-Gm-Message-State: AOAM5311RRz6nJC0FKqoefMImMoBwr7nqNlT0tPeGO6gfiRxRqfMxKGp
- gPnDhJ1d7Tfi99l/HiXL2prIXyyAGvdaPmj2
-X-Google-Smtp-Source: ABdhPJzUgyCDBEcH5iOeJ+682kObQuqHsBDamrPnOCed/eZJGbsrEmsCvcprPUlWRlzUJI1Ppq/FFA==
-X-Received: by 2002:a17:902:a617:: with SMTP id
- u23mr12152932plq.188.1597701743512; 
- Mon, 17 Aug 2020 15:02:23 -0700 (PDT)
+ bh=FspYJi5b1hDkayAuxe5bJyODfoD6HOjHOWIvusSE/vI=;
+ b=uF2TNZTs5VcciOo7D9vMzQHL71kV4rcwC58GR5IQ/r3UsUn49UdAC1J4YRH2bBnQB3
+ 5UWdyQtBjXDpybXU4A9eJsOsIHo0/49eTrHsvsPNMACqIrqcN5QhEhT6H0tCgnKXfYmM
+ iVHn/ClMos0UlrPvyKOYJU+NIMRGVppXUi2g11zn22S9Iuvcr7L20QK/LMT9KZ04U9dZ
+ CqFC2ErX/iUh4DJwY6Knt3Z0Z0bLsuxa2txQmitdDByRkB4UPe6c3Kui8Ny8K5ZMTM/R
+ rk61XPp/Da62AlXGK1V+Wd3Es1CdeXiEL20b6DhEtVpMiwjpj6jZYM9dnOHifWDGo9WU
+ Etow==
+X-Gm-Message-State: AOAM533VTeryqCF5lj21wd4YpYE8GVieaW/wXgYR7sngiHxP89A7CvpD
+ HDU4w0O6Jz7dBvgwDqDbL3xtq4NNjQjVlbTr
+X-Google-Smtp-Source: ABdhPJzb87wot0OJq3pKRI1lcGXVEJD9eArYIfi7vaTspllxzoTevR0H/Rhizmew9avqzmLEP2cUHg==
+X-Received: by 2002:a17:902:4b:: with SMTP id
+ 69mr13118700pla.245.1597701749719; 
+ Mon, 17 Aug 2020 15:02:29 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- x7sm21657493pfc.209.2020.08.17.15.02.21
+ r7sm21658693pfl.186.2020.08.17.15.02.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 15:02:22 -0700 (PDT)
+ Mon, 17 Aug 2020 15:02:28 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org
-Subject: [PATCH 04/20] iommu/arm-smmu: Prepare for the adreno-smmu
- implementation
-Date: Mon, 17 Aug 2020 15:01:29 -0700
-Message-Id: <20200817220238.603465-5-robdclark@gmail.com>
+Subject: [PATCH 05/20] iommu: add private interface for adreno-smmu
+Date: Mon, 17 Aug 2020 15:01:30 -0700
+Message-Id: <20200817220238.603465-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817220238.603465-1-robdclark@gmail.com>
 References: <20200817220238.603465-1-robdclark@gmail.com>
@@ -72,290 +71,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
  Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
  Robin Murphy <robin.murphy@arm.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Nicolin Chen <nicoleotsuka@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>,
  Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- Hanna Hawa <hannah@marvell.com>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jordan Crouse <jcrouse@codeaurora.org>
+From: Rob Clark <robdclark@chromium.org>
 
-Do a bit of prep work to add the upcoming adreno-smmu implementation.
+This interface will be used for drm/msm to coordinate with the
+qcom_adreno_smmu_impl to enable/disable TTBR0 translation.
 
-Add an hook to allow the implementation to choose which context banks
-to allocate.
+Once TTBR0 translation is enabled, the GPU's CP (Command Processor)
+will directly switch TTBR0 pgtables (and do the necessary TLB inv)
+synchronized to the GPU's operation.  But help from the SMMU driver
+is needed to initially bootstrap TTBR0 translation, which cannot be
+done from the GPU.
 
-Move some of the common structs to arm-smmu.h in anticipation of them
-being used by the implementations and update some of the existing hooks
-to pass more information that the implementation will need.
+Since this is a very special case, a private interface is used to
+avoid adding highly driver specific things to the public iommu
+interface.
 
-These modifications will be used by the upcoming Adreno SMMU
-implementation to identify the GPU device and properly configure it
-for pagetable switching.
-
-Co-developed-by: Rob Clark <robdclark@chromium.org>
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  2 +-
- drivers/iommu/arm/arm-smmu/arm-smmu.c      | 69 ++++++----------------
- drivers/iommu/arm/arm-smmu/arm-smmu.h      | 51 +++++++++++++++-
- 3 files changed, 68 insertions(+), 54 deletions(-)
+ include/linux/adreno-smmu-priv.h | 36 ++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 include/linux/adreno-smmu-priv.h
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index a9861dcd0884..88f17cc33023 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -69,7 +69,7 @@ static int cavium_cfg_probe(struct arm_smmu_device *smmu)
- }
- 
- static int cavium_init_context(struct arm_smmu_domain *smmu_domain,
--		struct io_pgtable_cfg *pgtbl_cfg)
-+		struct io_pgtable_cfg *pgtbl_cfg, struct device *dev)
- {
- 	struct cavium_smmu *cs = container_of(smmu_domain->smmu,
- 					      struct cavium_smmu, smmu);
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index 976d43a7f2ff..e63a480d7f71 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -65,41 +65,10 @@ module_param(disable_bypass, bool, S_IRUGO);
- MODULE_PARM_DESC(disable_bypass,
- 	"Disable bypass streams such that incoming transactions from devices that are not attached to an iommu domain will report an abort back to the device and will not be allowed to pass through the SMMU.");
- 
--struct arm_smmu_s2cr {
--	struct iommu_group		*group;
--	int				count;
--	enum arm_smmu_s2cr_type		type;
--	enum arm_smmu_s2cr_privcfg	privcfg;
--	u8				cbndx;
--};
--
- #define s2cr_init_val (struct arm_smmu_s2cr){				\
- 	.type = disable_bypass ? S2CR_TYPE_FAULT : S2CR_TYPE_BYPASS,	\
- }
- 
--struct arm_smmu_smr {
--	u16				mask;
--	u16				id;
--	bool				valid;
--};
--
--struct arm_smmu_cb {
--	u64				ttbr[2];
--	u32				tcr[2];
--	u32				mair[2];
--	struct arm_smmu_cfg		*cfg;
--};
--
--struct arm_smmu_master_cfg {
--	struct arm_smmu_device		*smmu;
--	s16				smendx[];
--};
--#define INVALID_SMENDX			-1
--#define cfg_smendx(cfg, fw, i) \
--	(i >= fw->num_ids ? INVALID_SMENDX : cfg->smendx[i])
--#define for_each_cfg_sme(cfg, fw, i, idx) \
--	for (i = 0; idx = cfg_smendx(cfg, fw, i), i < fw->num_ids; ++i)
--
- static bool using_legacy_binding, using_generic_binding;
- 
- static inline int arm_smmu_rpm_get(struct arm_smmu_device *smmu)
-@@ -234,19 +203,6 @@ static int arm_smmu_register_legacy_master(struct device *dev,
- }
- #endif /* CONFIG_ARM_SMMU_LEGACY_DT_BINDINGS */
- 
--static int __arm_smmu_alloc_bitmap(unsigned long *map, int start, int end)
--{
--	int idx;
--
--	do {
--		idx = find_next_zero_bit(map, end, start);
--		if (idx == end)
--			return -ENOSPC;
--	} while (test_and_set_bit(idx, map));
--
--	return idx;
--}
--
- static void __arm_smmu_free_bitmap(unsigned long *map, int idx)
- {
- 	clear_bit(idx, map);
-@@ -578,7 +534,7 @@ static void arm_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
- 	}
- }
- 
--static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
-+void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
- {
- 	u32 reg;
- 	bool stage1;
-@@ -665,7 +621,8 @@ static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
- }
- 
- static int arm_smmu_init_domain_context(struct iommu_domain *domain,
--					struct arm_smmu_device *smmu)
-+					struct arm_smmu_device *smmu,
-+					struct device *dev)
- {
- 	int irq, start, ret = 0;
- 	unsigned long ias, oas;
-@@ -780,10 +737,20 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		ret = -EINVAL;
- 		goto out_unlock;
- 	}
--	ret = __arm_smmu_alloc_bitmap(smmu->context_map, start,
+diff --git a/include/linux/adreno-smmu-priv.h b/include/linux/adreno-smmu-priv.h
+new file mode 100644
+index 000000000000..a889f28afb42
+--- /dev/null
++++ b/include/linux/adreno-smmu-priv.h
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2020 Google, Inc
++ */
 +
-+	smmu_domain->smmu = smmu;
++#ifndef __ADRENO_SMMU_PRIV_H
++#define __ADRENO_SMMU_PRIV_H
 +
-+	if (smmu->impl && smmu->impl->alloc_context_bank)
-+		ret = smmu->impl->alloc_context_bank(smmu_domain, dev,
-+				start, smmu->num_context_banks);
-+	else
-+		ret = __arm_smmu_alloc_bitmap(smmu->context_map, start,
- 				      smmu->num_context_banks);
--	if (ret < 0)
++#include <linux/io-pgtable.h>
 +
-+	if (ret < 0) {
-+		smmu_domain->smmu = NULL;
- 		goto out_unlock;
-+	}
- 
- 	cfg->cbndx = ret;
- 	if (smmu->version < ARM_SMMU_V2) {
-@@ -798,8 +765,6 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	else
- 		cfg->asid = cfg->cbndx;
- 
--	smmu_domain->smmu = smmu;
--
- 	pgtbl_cfg = (struct io_pgtable_cfg) {
- 		.pgsize_bitmap	= smmu->pgsize_bitmap,
- 		.ias		= ias,
-@@ -810,7 +775,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	};
- 
- 	if (smmu->impl && smmu->impl->init_context) {
--		ret = smmu->impl->init_context(smmu_domain, &pgtbl_cfg);
-+		ret = smmu->impl->init_context(smmu_domain, &pgtbl_cfg, dev);
- 		if (ret)
- 			goto out_clear_smmu;
- 	}
-@@ -1194,7 +1159,7 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- 		return ret;
- 
- 	/* Ensure that the domain is finalised */
--	ret = arm_smmu_init_domain_context(domain, smmu);
-+	ret = arm_smmu_init_domain_context(domain, smmu, dev);
- 	if (ret < 0)
- 		goto rpm_put;
- 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index f3e456893f28..59ff3fc5c6c8 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -256,6 +256,21 @@ enum arm_smmu_implementation {
- 	QCOM_SMMUV2,
- };
- 
-+struct arm_smmu_s2cr {
-+	struct iommu_group		*group;
-+	int				count;
-+	enum arm_smmu_s2cr_type		type;
-+	enum arm_smmu_s2cr_privcfg	privcfg;
-+	u8				cbndx;
++/**
++ * struct adreno_smmu_priv - private interface between adreno-smmu and GPU
++ *
++ * @cookie:        An opque token provided by adreno-smmu and passed
++ *                 back into the callbacks
++ * @get_ttbr1_cfg: Get the TTBR1 config for the GPUs context-bank
++ * @set_ttbr0_cfg: Set the TTBR0 config for the GPUs context bank.  A
++ *                 NULL config disables TTBR0 translation, otherwise
++ *                 TTBR0 translation is enabled with the specified cfg
++ *
++ * The GPU driver (drm/msm) and adreno-smmu work together for controlling
++ * the GPU's SMMU instance.  This is by necessity, as the GPU is directly
++ * updating the SMMU for context switches, while on the other hand we do
++ * not want to duplicate all of the initial setup logic from arm-smmu.
++ *
++ * This private interface is used for the two drivers to coordinate.  The
++ * cookie and callback functions are populated when the GPU driver attaches
++ * it's domain.
++ */
++struct adreno_smmu_priv {
++    const void *cookie;
++    const struct io_pgtable_cfg *(*get_ttbr1_cfg)(const void *cookie);
++    int (*set_ttbr0_cfg)(const void *cookie, const struct io_pgtable_cfg *cfg);
 +};
 +
-+struct arm_smmu_smr {
-+	u16				mask;
-+	u16				id;
-+	bool				valid;
-+	bool				pinned;
-+};
-+
- struct arm_smmu_device {
- 	struct device			*dev;
- 
-@@ -331,6 +346,13 @@ struct arm_smmu_cfg {
- };
- #define ARM_SMMU_INVALID_IRPTNDX	0xff
- 
-+struct arm_smmu_cb {
-+	u64				ttbr[2];
-+	u32				tcr[2];
-+	u32				mair[2];
-+	struct arm_smmu_cfg		*cfg;
-+};
-+
- enum arm_smmu_domain_stage {
- 	ARM_SMMU_DOMAIN_S1 = 0,
- 	ARM_SMMU_DOMAIN_S2,
-@@ -350,6 +372,11 @@ struct arm_smmu_domain {
- 	struct iommu_domain		domain;
- };
- 
-+struct arm_smmu_master_cfg {
-+	struct arm_smmu_device		*smmu;
-+	s16				smendx[];
-+};
-+
- static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
- {
- 	u32 tcr = FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
-@@ -400,14 +427,35 @@ struct arm_smmu_impl {
- 	int (*cfg_probe)(struct arm_smmu_device *smmu);
- 	int (*reset)(struct arm_smmu_device *smmu);
- 	int (*init_context)(struct arm_smmu_domain *smmu_domain,
--			struct io_pgtable_cfg *cfg);
-+			struct io_pgtable_cfg *cfg, struct device *dev);
- 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
- 			 int status);
- 	int (*def_domain_type)(struct device *dev);
- 	irqreturn_t (*global_fault)(int irq, void *dev);
- 	irqreturn_t (*context_fault)(int irq, void *dev);
-+	int (*alloc_context_bank)(struct arm_smmu_domain *smmu_domain,
-+			struct device *dev, int start, int max);
- };
- 
-+#define INVALID_SMENDX			-1
-+#define cfg_smendx(cfg, fw, i) \
-+	(i >= fw->num_ids ? INVALID_SMENDX : cfg->smendx[i])
-+#define for_each_cfg_sme(cfg, fw, i, idx) \
-+	for (i = 0; idx = cfg_smendx(cfg, fw, i), i < fw->num_ids; ++i)
-+
-+static inline int __arm_smmu_alloc_bitmap(unsigned long *map, int start, int end)
-+{
-+	int idx;
-+
-+	do {
-+		idx = find_next_zero_bit(map, end, start);
-+		if (idx == end)
-+			return -ENOSPC;
-+	} while (test_and_set_bit(idx, map));
-+
-+	return idx;
-+}
-+
- static inline void __iomem *arm_smmu_page(struct arm_smmu_device *smmu, int n)
- {
- 	return smmu->base + (n << smmu->pgshift);
-@@ -472,6 +520,7 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu);
- struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu);
- struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu);
- 
-+void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx);
- int arm_mmu500_reset(struct arm_smmu_device *smmu);
- 
- #endif /* _ARM_SMMU_H */
++#endif /* __ADRENO_SMMU_PRIV_H */
+\ No newline at end of file
 -- 
 2.26.2
 
