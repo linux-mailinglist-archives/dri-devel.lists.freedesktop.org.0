@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593D5248FDF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DBC248FE2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F0F6E159;
-	Tue, 18 Aug 2020 21:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC1A6E176;
+	Tue, 18 Aug 2020 21:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21026E15C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:27 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id i20so5464091qkk.8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:27 -0700 (PDT)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 865036E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:29 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id t23so16272535qto.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=bW8e3uBqHkmjmdbdif7X59e+BqToe3orNHNdpYwg/LM=;
- b=KPoKMG1MW4YqCRwjwUY+SQdeOIEFrF4GZ4ngXt4gt8RCsUSNIrcTMzOYy+XSnM7df9
- +WPhpIfUB45+k86MdFLdWJQAFp1V8Z/EJ/n8vvyAi2C5U6GE7BChWL5s1wmAzXNYc9cY
- 2zVucnY37rVjxo+5l2mImn2uJOWftfBWhASJw/Q0iLAP0x3P7A2u3n0DV01VZv/l0RfO
- tVjnzV5ImKCdvVkQfYK5/sz5i6RoWX6mWJbmM/3tdfLEE6yraCtfo7pVaiqZWqtF4lAz
- 9xrBiJbXvvO+19MQUcoLehjnaf9iBAClcDRSM/g8zIPDNUA59+VKVs8qAIpGmTQXhs9O
- YAgQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4Jm090YO1+7FHoZ4sEUb6h6tQUSUe1qBtD8vovVHheQ=;
+ b=BIuERJfoHAy4W0RJt9ym3MaPNXjYJxlLvZp5rXjzwEqyUCb4UTlXEYpfhtfrwtbStx
+ 57+FHZo17bUwUj9sTLrPmAVHKM3hxdj4wr2XVYGcnZjYXdO7KmQHJf6qbz3gB/D3TyIH
+ 1FwydMt3EDMQfwECrD0UOX5K6UNJCsQtvUvJFQzdoXuQCY5s6W0wd/+H91HHOXcwgG0Z
+ bM/aBehQlv2hso2Wxgc6O9Kyfx0cHeVW/hm7Wq4qYJtAYOpYbH9E4nYGPxCYl6eImdGa
+ WzzyfuJuojQbNVmvzLSTWnXm1EwOR+Qh+CLgf93LWP0Zkltq9/CWkyWavuXbasqd7fJ8
+ yDdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=bW8e3uBqHkmjmdbdif7X59e+BqToe3orNHNdpYwg/LM=;
- b=cIYq5xJSDjZM+TYr00FV31IZ7ZoNqHp+kdrjhTt2Ob6Ewgy2A0omSe9Vk8CxV3gfbr
- PMqMzQpw/93jwzT/VIYczLk3UdKJbbvWtOOPv2JXk9WzlunhevX41u6lpvcJyesWfQ1t
- wxmiSNjl0EVNo9fYSLYvs4IguzqDPqa8Yzq4os2o13XWkXxvllDD5slm3Oj06DnxHsI5
- rBhLj8mWt0aHXVwEZvceuyixTdag1SOBCzfLKBpTHLS7JXBoi5nYnxdtNqdgjLDgdX5Q
- 99DfYH0AZAjgG/IFfLoWmlwGLjf+UFtcOuVDqvHDU0/PPEL9TQfNDkamKrFEAFE+wRy6
- H94g==
-X-Gm-Message-State: AOAM531sKw/WqfiVQ5wif+dDsV7VPabIS51yW78H0xjYJo98cQjoIsae
- EwStHFiL0Uct4GTcAJxWLtsFMFFzWz1a+Q==
-X-Google-Smtp-Source: ABdhPJyZ/TfryNxvM/GNsAP2YIQe6hSzgevrcAxOSmfgaycok6dwNP6cZH1Vo4d9BpqAIwrL4YkKOA==
-X-Received: by 2002:a37:9c58:: with SMTP id f85mr17969190qke.345.1597784726773; 
- Tue, 18 Aug 2020 14:05:26 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=4Jm090YO1+7FHoZ4sEUb6h6tQUSUe1qBtD8vovVHheQ=;
+ b=Ud1pflS+4O0aRBhKAbIp4K/6OLWWoMrqKpX2x7xe17H6dLaHaBUdPdXJIJQHLtucA9
+ 33/BY5acPzxCNgKT7oNHUu7MLfwbbnT+q9Ww1skFMozp3d2Iq9AgISLYOz8EcrXGAjGN
+ GFUFr5qZ+VpcCBAdP9siRXz/IJcU5G9MbONfGZ5ho2goVtVidaHLqC2OxKgG+0uqAcrh
+ ju7iVoyqS1IVfj27Yy2ZXocZl16edr4+eiwfUZhvTqTSoutwzJyNPIBpEkcmsWYVsvAW
+ 7oXPa0VSGA0P1WGWuq9Z+DXVpLBMPhnWK0J7aVEVWO23xEjC2np68MJSCpLC62K8wmmJ
+ ylFg==
+X-Gm-Message-State: AOAM530q7liQEfTChYqB+yyQXv7dDfcBmHLhzygNiGwHc9O659+NGJz1
+ WgaAlbZ+PGmf7OjUr2qLnjY3ClAFL94yxQ==
+X-Google-Smtp-Source: ABdhPJwLf3rAmtoKhmRGtIOjr48woa6GEjQtQQB79JdFPv1Mc+dhngPPiaTi4tia7I0yvfyPnaEHJg==
+X-Received: by 2002:aed:2542:: with SMTP id w2mr20474156qtc.272.1597784728452; 
+ Tue, 18 Aug 2020 14:05:28 -0700 (PDT)
 Received: from localhost (mobile-166-177-184-140.mycingular.net.
  [166.177.184.140])
- by smtp.gmail.com with ESMTPSA id n33sm24445314qtd.43.2020.08.18.14.05.26
+ by smtp.gmail.com with ESMTPSA id m26sm26847712qtc.83.2020.08.18.14.05.27
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Aug 2020 14:05:26 -0700 (PDT)
+ Tue, 18 Aug 2020 14:05:28 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  seanpaul@chromium.org, airlied@linux.ie
-Subject: [PATCH v6 05/14] drm/print: rename drm_debug* to be more
- syslog-centric
-Date: Tue, 18 Aug 2020 17:05:01 -0400
-Message-Id: <20200818210510.49730-6-sean@poorly.run>
+Subject: [PATCH v6 06/14] drm/amd: Gate i2c transaction logs on
+ drm_debug_syslog
+Date: Tue, 18 Aug 2020 17:05:02 -0400
+Message-Id: <20200818210510.49730-7-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200818210510.49730-1-sean@poorly.run>
 References: <20200818210510.49730-1-sean@poorly.run>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,125 +71,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@ffwll.ch
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sean Paul <seanpaul@chromium.org>
-
-In preparation for tracefs support, rename drm_debug related functions
-to reflect that it targets the syslog. This will allow us to selectively
-target syslog and/or tracefs.
-
-No functional changes here.
-
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-6-sean@poorly.run #v5
-
-Changes in v5:
--Added to the set
-Changes in v6:
--None
----
- drivers/gpu/drm/drm_print.c | 12 ++++++------
- include/drm/drm_print.h     | 13 +++++++++----
- 2 files changed, 15 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 111b932cf2a9..2ff7a6ecc632 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -37,11 +37,11 @@
- #include <drm/drm_print.h>
- 
- /*
-- * __drm_debug: Enable debug output.
-+ * __drm_debug_syslog: Enable debug output to system logs
-  * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
-  */
--unsigned int __drm_debug;
--EXPORT_SYMBOL(__drm_debug);
-+unsigned int __drm_debug_syslog;
-+EXPORT_SYMBOL(__drm_debug_syslog);
- 
- MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
- "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
-@@ -52,7 +52,7 @@ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug cat
- "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
- "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
- "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
--module_param_named(debug, __drm_debug, int, 0600);
-+module_param_named(debug, __drm_debug_syslog, int, 0600);
- 
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
- {
-@@ -160,11 +160,11 @@ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf)
- }
- EXPORT_SYMBOL(__drm_printfn_info);
- 
--void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf)
-+void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf)
- {
- 	pr_debug("%s %pV", p->prefix, vaf);
- }
--EXPORT_SYMBOL(__drm_printfn_debug);
-+EXPORT_SYMBOL(__drm_printfn_debug_syslog);
- 
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
- {
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 1c9417430d08..ce7675bf0d2b 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -35,7 +35,7 @@
- #include <drm/drm.h>
- 
- /* Do *not* use outside of drm_print.[ch]! */
--extern unsigned int __drm_debug;
-+extern unsigned int __drm_debug_syslog;
- 
- /**
-  * DOC: print
-@@ -85,7 +85,7 @@ void __drm_puts_coredump(struct drm_printer *p, const char *str);
- void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf);
- void __drm_puts_seq_file(struct drm_printer *p, const char *str);
- void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
--void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf);
-+void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
- 
- __printf(2, 3)
-@@ -227,7 +227,7 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
- static inline struct drm_printer drm_debug_printer(const char *prefix)
- {
- 	struct drm_printer p = {
--		.printfn = __drm_printfn_debug,
-+		.printfn = __drm_printfn_debug_syslog,
- 		.prefix = prefix
- 	};
- 	return p;
-@@ -319,9 +319,14 @@ enum drm_debug_category {
- 	DRM_UT_DRMRES		= 0x200,
- };
- 
-+static inline bool drm_debug_syslog_enabled(enum drm_debug_category category)
-+{
-+	return unlikely(__drm_debug_syslog & category);
-+}
-+
- static inline bool drm_debug_enabled(enum drm_debug_category category)
- {
--	return unlikely(__drm_debug & category);
-+	return drm_debug_syslog_enabled(category);
- }
- 
- /*
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpTaW5jZSB0aGUgbG9ncyBw
+cm90ZWN0ZWQgYnkgdGhlc2UgY2hlY2tzIHNwZWNpZmljYWxseSB0YXJnZXQgc3lzbG9nLAp1c2Ug
+dGhlIG5ldyBkcm1fZGVidWdfc3lzbG9nX2VuYWJsZWQoKSBjYWxsIHRvIGF2b2lkIHRyaWdnZXJp
+bmcKdGhlc2UgcHJpbnRzIHdoZW4gb25seSB0cmFjZSBpcyBlbmFibGVkLgoKQWNrZWQtYnk6IENo
+cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTog
+U2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+Ckxpbms6IGh0dHBzOi8vcGF0Y2h3b3Jr
+LmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDIwMDYwODIxMDUwNS40ODUxOS03LXNlYW5A
+cG9vcmx5LnJ1biAjdjUKCkNoYW5nZXMgaW4gdjU6Ci1BZGRlZCB0byB0aGUgc2V0CkNoYW5nZXMg
+aW4gdjY6Ci1Ob25lCi0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvc211X3YxMV8wX2ky
+Yy5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
+cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NtdV92MTFfMF9p
+MmMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NtdV92MTFfMF9pMmMuYwppbmRleCBk
+NTViZjY0NzcwYzQuLjE2MDBhMDA3MzQ0YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvc211X3YxMV8wX2kyYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L3NtdV92MTFfMF9pMmMuYwpAQCAtMjMyLDcgKzIzMiw3IEBAIHN0YXRpYyB1aW50MzJfdCBzbXVf
+djExXzBfaTJjX3RyYW5zbWl0KHN0cnVjdCBpMmNfYWRhcHRlciAqY29udHJvbCwKIAlEUk1fREVC
+VUdfRFJJVkVSKCJJMkNfVHJhbnNtaXQoKSwgYWRkcmVzcyA9ICV4LCBieXRlcyA9ICVkICwgZGF0
+YTogIiwKIAkJICh1aW50MTZfdClhZGRyZXNzLCBudW1ieXRlcyk7CiAKLQlpZiAoZHJtX2RlYnVn
+X2VuYWJsZWQoRFJNX1VUX0RSSVZFUikpIHsKKwlpZiAoZHJtX2RlYnVnX3N5c2xvZ19lbmFibGVk
+KERSTV9VVF9EUklWRVIpKSB7CiAJCXByaW50X2hleF9kdW1wKEtFUk5fSU5GTywgImRhdGE6ICIs
+IERVTVBfUFJFRklYX05PTkUsCiAJCQkgICAgICAgMTYsIDEsIGRhdGEsIG51bWJ5dGVzLCBmYWxz
+ZSk7CiAJfQpAQCAtMzg2LDcgKzM4Niw3IEBAIHN0YXRpYyB1aW50MzJfdCBzbXVfdjExXzBfaTJj
+X3JlY2VpdmUoc3RydWN0IGkyY19hZGFwdGVyICpjb250cm9sLAogCURSTV9ERUJVR19EUklWRVIo
+IkkyQ19SZWNlaXZlKCksIGFkZHJlc3MgPSAleCwgYnl0ZXMgPSAlZCwgZGF0YSA6IiwKIAkJICAo
+dWludDE2X3QpYWRkcmVzcywgYnl0ZXNfcmVjZWl2ZWQpOwogCi0JaWYgKGRybV9kZWJ1Z19lbmFi
+bGVkKERSTV9VVF9EUklWRVIpKSB7CisJaWYgKGRybV9kZWJ1Z19zeXNsb2dfZW5hYmxlZChEUk1f
+VVRfRFJJVkVSKSkgewogCQlwcmludF9oZXhfZHVtcChLRVJOX0lORk8sICJkYXRhOiAiLCBEVU1Q
+X1BSRUZJWF9OT05FLAogCQkJICAgICAgIDE2LCAxLCBkYXRhLCBieXRlc19yZWNlaXZlZCwgZmFs
+c2UpOwogCX0KLS0gClNlYW4gUGF1bCwgU29mdHdhcmUgRW5naW5lZXIsIEdvb2dsZSAvIENocm9t
+aXVtIE9TCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
