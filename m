@@ -2,63 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086B4248F6D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 22:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B8C248FA0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 22:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2B789BE8;
-	Tue, 18 Aug 2020 20:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58F216E110;
+	Tue, 18 Aug 2020 20:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7AA89BFE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 20:10:17 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id r4so9731623pls.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 13:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=TVHg8iic3jhifLJcBgUbuICf6X+/XJrx7XucziWHTh4=;
- b=XJIRNe3GC5+ESqXN1Xu3abO5ZefKkTKOYHKBaOfb9ueeT+8D0u27nucOFMVEcVEIlU
- jmvz6dATQFCtEO6g5yNeaZR33qILQindJ5FbeJ6y98srbza53yHyzyYR5Ae2HVSridP4
- 36Xq5I+k5oTWeayZlqu4WxkJBY7w5Y8AAm/NE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TVHg8iic3jhifLJcBgUbuICf6X+/XJrx7XucziWHTh4=;
- b=qRTd99WLjVo+LyJ2EJ1sIxeLtdijwPUMjfH6J7uxHeuenMsN/fjcDpermfaIDgcEsj
- wDdZYENyYfBXiohNIosLOuAaPI4D1qko8D2b0OeIWCaYEMR9QzCL822+iswP65CNKora
- xiR8XY/qhS6wUh2+inrxKZiLXk/e1U9Jnlt3a2/wui3HoTomzWMH8tCBNTMtFGOy1DLP
- OdeMjBtNWKyHhL2FImbwI+Uo6ofby8y82GJtsg6vrIJbpC03EmiiZpRZc/dNYeCApuMH
- ZHx8ZFE59NzjvphHooHkr6Ii+7/P7WxxxOCs/dB+/LQBF4HQLxplXsXLmQSGdAS8EZ9/
- PtHw==
-X-Gm-Message-State: AOAM530++peIK6+oF8p8XJU+DsZVDfiNyHJCMABrCNscrjPb2prAWLie
- rooKjpGWXjwyu+fZHdFTpSUVwQ==
-X-Google-Smtp-Source: ABdhPJxuNmuIkhrqM6bpbnFGPMCC2Ooxj9YFPlaOufZ98RpuJ8EhlSYOLxahQ/MIWXdKo1mkyqnaIw==
-X-Received: by 2002:a17:902:6b05:: with SMTP id
- o5mr16351190plk.173.1597781417356; 
- Tue, 18 Aug 2020 13:10:17 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id t25sm26530806pfl.198.2020.08.18.13.10.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Aug 2020 13:10:15 -0700 (PDT)
-Date: Tue, 18 Aug 2020 13:10:14 -0700
-From: Kees Cook <keescook@chromium.org>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-Message-ID: <202008181309.FD3940A2D5@keescook>
-References: <20200817091617.28119-1-allen.cryptic@gmail.com>
- <20200817091617.28119-2-allen.cryptic@gmail.com>
- <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
- <202008171228.29E6B3BB@keescook>
- <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
- <202008171246.80287CDCA@keescook>
- <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
- <1597780833.3978.3.camel@HansenPartnership.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2FC6E110
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 20:34:53 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 7C6E380519;
+ Tue, 18 Aug 2020 22:34:48 +0200 (CEST)
+Date: Tue, 18 Aug 2020 22:34:47 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v1 0/5] drm/panel: Use dev_ based logging
+Message-ID: <20200818203447.GA6012@ravnborg.org>
+References: <20200815125406.1153224-1-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1597780833.3978.3.camel@HansenPartnership.com>
+In-Reply-To: <20200815125406.1153224-1-sam@ravnborg.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=_wIc6UtFb8ZiMK45WYkA:9
+ a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +43,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, linux-atm-general@lists.sourceforge.net,
- manohar.vanga@gmail.com, airlied@linux.ie, Allen Pais <allen.lkml@gmail.com>,
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kys@microsoft.com,
- anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
- linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
- maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
- jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
- kuba@kernel.org, mporter@kernel.crashing.org, jdike@addtoit.com,
- oakad@yahoo.com, s.hauer@pengutronix.de, linux-input@vger.kernel.org,
- linux-um@lists.infradead.org, linux-block@vger.kernel.org, broonie@kernel.org,
- openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
- dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
- linux-spi@vger.kernel.org, alex.bou9@gmail.com,
- Allen Pais <allen.cryptic@gmail.com>, stefanr@s5r6.in-berlin.de,
- linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
- shawnguo@kernel.org, davem@davemloft.net
+Cc: David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Icenowy Zheng <icenowy@aosc.io>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 18, 2020 at 01:00:33PM -0700, James Bottomley wrote:
-> On Mon, 2020-08-17 at 13:02 -0700, Jens Axboe wrote:
-> > On 8/17/20 12:48 PM, Kees Cook wrote:
-> > > On Mon, Aug 17, 2020 at 12:44:34PM -0700, Jens Axboe wrote:
-> > > > On 8/17/20 12:29 PM, Kees Cook wrote:
-> > > > > On Mon, Aug 17, 2020 at 06:56:47AM -0700, Jens Axboe wrote:
-> > > > > > On 8/17/20 2:15 AM, Allen Pais wrote:
-> > > > > > > From: Allen Pais <allen.lkml@gmail.com>
-> > > > > > > 
-> > > > > > > In preparation for unconditionally passing the
-> > > > > > > struct tasklet_struct pointer to all tasklet
-> > > > > > > callbacks, switch to using the new tasklet_setup()
-> > > > > > > and from_tasklet() to pass the tasklet pointer explicitly.
-> > > > > > 
-> > > > > > Who came up with the idea to add a macro 'from_tasklet' that
-> > > > > > is just container_of? container_of in the code would be
-> > > > > > _much_ more readable, and not leave anyone guessing wtf
-> > > > > > from_tasklet is doing.
-> > > > > > 
-> > > > > > I'd fix that up now before everything else goes in...
-> > > > > 
-> > > > > As I mentioned in the other thread, I think this makes things
-> > > > > much more readable. It's the same thing that the timer_struct
-> > > > > conversion did (added a container_of wrapper) to avoid the
-> > > > > ever-repeating use of typeof(), long lines, etc.
-> > > > 
-> > > > But then it should use a generic name, instead of each sub-system 
-> > > > using some random name that makes people look up exactly what it
-> > > > does. I'm not huge fan of the container_of() redundancy, but
-> > > > adding private variants of this doesn't seem like the best way
-> > > > forward. Let's have a generic helper that does this, and use it
-> > > > everywhere.
-> > > 
-> > > I'm open to suggestions, but as things stand, these kinds of
-> > > treewide
-> > 
-> > On naming? Implementation is just as it stands, from_tasklet() is
-> > totally generic which is why I objected to it. from_member()? Not
-> > great with naming... But I can see this going further and then we'll
-> > suddenly have tons of these. It's not good for readability.
+On Sat, Aug 15, 2020 at 02:54:01PM +0200, Sam Ravnborg wrote:
+> The drm/panel drivers uses a mixture of DRM_ and dev_ based logging.
+> With this patchset all panel drivers are migrated to use dev_ based
+> logging as the DRM_ based logging did not add any extra info.
 > 
-> Since both threads seem to have petered out, let me suggest in
-> kernel.h:
+> Drop the now unused include of drm_print.h.
 > 
-> #define cast_out(ptr, container, member) \
-> 	container_of(ptr, typeof(*container), member)
+> With this change new panel drivers will be requires to change to dev_
+> based logging - so some of the in-flight panel drivers will need trivial
+> updates before they are accepted.
 > 
-> It does what you want, the argument order is the same as container_of
-> with the only difference being you name the containing structure
-> instead of having to specify its type.
+> Patch divided in smaller bites to ease review. There is no dependencies
+> between the patches.
+> 
+> Copied a few people that may have input to the move away from DRM_ based
+> logging (Daniel (presumeably on vacation), Jani).
+> 
+> 	Sam
+> 
+> Sam Ravnborg (5):
+>       drm/panel: samsung: Use dev_ based logging
+>       drm/panel: leadtek: Use dev_ based logging
+>       drm/panel: raydium: Use dev_ based logging
+>       drm/panel: sitronix: Use dev_ based logging
+>       drm/panel: Use dev_ based logging
 
-I like this! Shall I send this to Linus to see if this can land in -rc2
-for use going forward?
+Thanks for the reviews from Linus and Guido.
+Series is now applied to drm-misc-next.
 
--- 
-Kees Cook
+	Sam
+
+> 
+>  drivers/gpu/drm/panel/panel-boe-himax8279d.c       | 44 ++++--------
+>  drivers/gpu/drm/panel/panel-elida-kd35t133.c       | 51 +++++---------
+>  drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c  | 19 +++--
+>  .../gpu/drm/panel/panel-feiyang-fy07024di26a30d.c  | 21 +++---
+>  drivers/gpu/drm/panel/panel-ilitek-ili9322.c       |  3 +-
+>  drivers/gpu/drm/panel/panel-innolux-p079zca.c      | 31 +++------
+>  drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c | 33 ++++-----
+>  drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 58 ++++++----------
+>  drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c | 49 +++++--------
+>  drivers/gpu/drm/panel/panel-novatek-nt35510.c      | 40 ++++-------
+>  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   | 13 ++--
+>  drivers/gpu/drm/panel/panel-raydium-rm67191.c      | 33 ++++-----
+>  drivers/gpu/drm/panel/panel-raydium-rm68200.c      | 18 +++--
+>  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c       | 16 ++---
+>  drivers/gpu/drm/panel/panel-samsung-ld9040.c       |  3 +-
+>  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c      | 23 +++---
+>  drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |  3 +-
+>  drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c   |  3 +-
+>  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c      | 22 +++---
+>  drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c      |  3 +-
+>  drivers/gpu/drm/panel/panel-sitronix-st7701.c      | 10 ++-
+>  drivers/gpu/drm/panel/panel-sitronix-st7703.c      | 61 ++++++----------
+>  drivers/gpu/drm/panel/panel-sony-acx424akp.c       | 81 ++++++++--------------
+>  drivers/gpu/drm/panel/panel-tpo-tpg110.c           | 38 +++++-----
+>  drivers/gpu/drm/panel/panel-truly-nt35597.c        | 63 ++++++-----------
+>  drivers/gpu/drm/panel/panel-visionox-rm69299.c     | 41 ++++-------
+>  drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c   | 51 +++++---------
+>  27 files changed, 308 insertions(+), 523 deletions(-)
+> 
+> 
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
