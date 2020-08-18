@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53968247CF5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 05:37:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BF1247D15
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 05:49:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9B3189D53;
-	Tue, 18 Aug 2020 03:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F6189D56;
+	Tue, 18 Aug 2020 03:49:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D586089D53
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 03:37:25 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1597721848; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=EnzsWb4qw8FVQC8bz9uigv+OYOJhbGA/vX0ADupBShI=;
- b=xWJIIEIgswg4fh1esZWJHW5TkTmvOBuAyl7X/W7C3m2ojNFYiaN+mHDZGOVW0bJwm86bhL6z
- KsQIPPMSdrywCdNjKnTARrm1gGzBn/pFugSDZ1Hv9xi4tdaPSO2fDLfgJ312X9l/UREhYJn2
- WBN3AlHg8vvy6hwo6GcXRN7qroA=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 5f3b4ce42889723bf8d1c41d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 18 Aug 2020 03:37:08
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 17326C433CB; Tue, 18 Aug 2020 03:37:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 04587C433CA;
- Tue, 18 Aug 2020 03:37:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 04587C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=tanmay@codeaurora.org
-From: Tanmay Shah <tanmay@codeaurora.org>
-To: devicetree@vger.kernel.org
-Subject: [PATCH v3] arm64: dts: qcom: sc7180: Add DisplayPort HPD pin dt node
-Date: Mon, 17 Aug 2020 20:36:57 -0700
-Message-Id: <20200818033657.16074-1-tanmay@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B56789D56
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 03:49:32 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f3b4f910000>; Mon, 17 Aug 2020 20:48:33 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 17 Aug 2020 20:49:31 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 17 Aug 2020 20:49:31 -0700
+Received: from [172.20.40.73] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
+ 2020 03:49:25 +0000
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+To: Brian Starkey <brian.starkey@arm.com>, Ezequiel Garcia
+ <ezequiel@collabora.com>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
+From: James Jones <jajones@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
+Date: Mon, 17 Aug 2020 20:49:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1597722513; bh=E3D1QMN/007xv1q7refetsEcNEdV2V0vO5Foh5kczJQ=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=sGibudKky7RmFrNgE9HMFeyxDAZpURIiDhUdJ4j0HCxJY9hnZKwe6mSQ4gxd4I1RG
+ 5CjrR7taPx/0QPc5GE2DU1/W9h6m8ptdjH0WgZtR7F4VhdIbyO1kg9mzzwp6OLENr3
+ y1TN8NF4Z4LUZGawJRVA9eyi3rfidl17g3xYGvsAd7S0DfX9J5IiEc6v577A8eGi0n
+ MB9PRnCSif2AqitC+hgd0I5bvfIWK0O807SWiVtW5YMeMUadsbbACOQ14a1lI4CTl2
+ tPyjXpjgB7ascMHDVs8YFIIvkMZMoZnSMso70tcuLUjpNlDnqBy/j272BNfBF/CX/k
+ 0L0TUcivJ4AoQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,53 +65,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tanmay Shah <tanmay@codeaurora.org>, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, khsieh@codeaurora.org,
- seanpaul@chromium.org, abhinavk@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Robert Beckett <bob.beckett@collabora.com>, nd@arm.com,
+ Tomasz Figa <tfiga@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Benjamin
+ Gaignard <benjamin.gaignard@st.com>, Liam Mark <lmark@codeaurora.org>,
+ "Andrew F . Davis" <afd@ti.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, Laura Abbott <labbott@kernel.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This node defines alternate DP HPD functionality of GPIO.
+On 8/17/20 8:18 AM, Brian Starkey wrote:
+> Hi Ezequiel,
+> 
+> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
+>> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+>> which will allocate memory suitable for the given device.
+>>
+>> The implementation is mostly a port of the Contiguous Videobuf2
+>> memory allocator (see videobuf2/videobuf2-dma-contig.c)
+>> over to the DMA-BUF Heap interface.
+>>
+>> The intention of this allocator is to provide applications
+>> with a more system-agnostic API: the only thing the application
+>> needs to know is which device to get the buffer for.
+>>
+>> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+>> is unknown to the application.
+>>
+>> I'm not really expecting this patch to be correct or even
+>> a good idea, but just submitting it to start a discussion on DMA-BUF
+>> heap discovery and negotiation.
+>>
+> 
+> My initial reaction is that I thought dmabuf heaps are meant for use
+> to allocate buffers for sharing across devices, which doesn't fit very
+> well with having per-device heaps.
+> 
+> For single-device allocations, would using the buffer allocation
+> functionality of that device's native API be better in most
+> cases? (Some other possibly relevant discussion at [1])
+> 
+> I can see that this can save some boilerplate for devices that want
+> to expose private chunks of memory, but might it also lead to 100
+> aliases for the system's generic coherent memory pool?
+> 
+> I wonder if a set of helpers to allow devices to expose whatever they
+> want with minimal effort would be better.
 
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+I'm rather interested on where this goes, as I was toying with using 
+some sort of heap ID as a basis for a "device-local" constraint in the 
+memory constraints proposals Simon and I will be discussing at XDC this 
+year.  It would be rather elegant if there was one type of heap ID used 
+universally throughout the kernel that could provide a unique handle for 
+the shared system memory heap(s), as well as accelerator-local heaps on 
+fancy NICs, GPUs, NN accelerators, capture devices, etc. so apps could 
+negotiate a location among themselves.  This patch seems to be a step 
+towards that in a way, but I agree it would be counterproductive if a 
+bunch of devices that were using the same underlying system memory ended 
+up each getting their own heap ID just because they used some SW 
+framework that worked that way.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index bf2f2bb1aa79..2e2a0631ab65 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1082,6 +1082,19 @@ tlmm: pinctrl@3500000 {
- 			gpio-ranges = <&tlmm 0 0 120>;
- 			wakeup-parent = <&pdc>;
- 
-+			dp_hot_plug_det: dp-hot-plug-det {
-+				pinmux {
-+					pins = "gpio117";
-+					function = "dp_hot";
-+				};
-+
-+				pinconf {
-+					pins = "gpio117";
-+					bias-disable;
-+					input-enable;
-+				};
-+			};
-+
- 			qspi_clk: qspi-clk {
- 				pinmux {
- 					pins = "gpio63";
+Would appreciate it if you could send along a pointer to your BoF if it 
+happens!
 
-base-commit: 62975d27d647a40c58d3b96c29b911fc4f33c310
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Thanks,
+-James
 
+> Cheers,
+> -Brian
+> 
+> 1. https://lore.kernel.org/dri-devel/57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi/
+> 
+>> Given Plumbers is just a couple weeks from now, I've submitted
+>> a BoF proposal to discuss this, as perhaps it would make
+>> sense to discuss this live?
+>>
+>> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
