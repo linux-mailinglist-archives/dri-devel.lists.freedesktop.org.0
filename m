@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39CA248FDB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 641F5248FDC
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086716E13A;
-	Tue, 18 Aug 2020 21:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE0CC6E139;
+	Tue, 18 Aug 2020 21:05:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC186E13A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:19 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id h21so16232274qtp.11
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:19 -0700 (PDT)
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3571C6E139
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:21 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id v1so8429541qvn.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BHKVTNTGi6cHfaoZOy7Gxm7/imbWNMc5S3azkaOfSS4=;
- b=aLn0H7GBvwyQ/HZxxp4tCqSHaWYd8rqy0KER63R+Mr0coGXd8mLYQR/5NOFJLgmXRS
- mHLfZ8hNJ50kk02N4dz0+zcP/DVFe+sLPn0ke/Xoqp9To1NvaZWyxvWHnzElLUmRae1Y
- /KxdWDHenvRjL9yn9ak3rNgBmJsT8XezkjZAw0JwEdLTG68GqM6OXs98dC01AOFxCZ5x
- p9UCZuZqr2BUq/u9oB6Y+AB2/fQhEcOG64+3/ZSRv0VEzrU4tHU4Ay76bYxSj3yz7PzO
- Bdi5nHOjmS/dubbxgsCf13/N6t95vwJIZ3wsbWwXzGkyMzL8JmqfETCN2+VEzEgEC7Lf
- yaRA==
+ bh=OMkgS3KJ9eUsffAjes/ogVCJh1BrcgeqLuYwbEpCi+w=;
+ b=FzaLrikmaqeXQHzfAdHz3UYiz6xwuuMKPobOdOB6BQ2Tt/v3zt7cdOIEyIoPPMdBJq
+ IY1s0yXQ7R2GmHa/9dCL7BuvLVBsez3HQWe8FDqg1YCsYu1XSYE5L5ZDNJrHvcnqoxr8
+ 8ad6lPxPvORQDRZinoN/nPQ0TxqlOi6EtjLu/8kouP8A1fe7bp1fmwvPVPZ95NiuSv4h
+ 54tx6Omwx4dySDMXt9QDHQmCdwOO90LYucKTWbEzi22+Y/O14camwDkkkgscWVxlw7bo
+ MLzsao7yVf9n0V1yM8prd2825VKy1B2PMBp9Ek1Y0au5jn4jGXV5odFAu7KkYSoA1INY
+ y8bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=BHKVTNTGi6cHfaoZOy7Gxm7/imbWNMc5S3azkaOfSS4=;
- b=L6NSJLwaQu2vJ3wA6bPn2mBrjto7rLZk2b5xVQKFwl9jdAOPzLxfFonckMrVr6lY0W
- M2pngAtfQ6aHTtEjRTPevZybppDD5nXz0TZYGsPnIyvD7i4jh2apiyqjTHsa9b56woN9
- ruxENQSMk5KM1YMYpuiD8bT1pFn5mpFj1ikqB7GLrXv3aM17qGc+6QhvujNbmgkI3Rg0
- jG5L+JDqKr89rBy2y6w56ejxsRfCnwL33pk0xSOzIfpataiqc5M7pqGibDUnQ6n6zEED
- aUXsLq+g6xatn1ekcUCi00zgnAYDVWYbzGCWbgykIwC6lhyDKH7DYJDVY/8tXC5LuIU8
- zFnw==
-X-Gm-Message-State: AOAM5303t36VhttLJn96R0hv5fP43as2ukKiKysJ9WkF13aDTc8Tlj5x
- oJWFBAEbNZHMse9JCHCi0jBwzrZ/PId+Vw==
-X-Google-Smtp-Source: ABdhPJytjSuMmDlf2tRAqTfPkOfsavaSvT/tEytG1YIwHnUzpOz2ZGwe/HD1fpI9JnRAgV1ko51cAA==
-X-Received: by 2002:ac8:318e:: with SMTP id h14mr20657597qte.245.1597784718162; 
- Tue, 18 Aug 2020 14:05:18 -0700 (PDT)
+ bh=OMkgS3KJ9eUsffAjes/ogVCJh1BrcgeqLuYwbEpCi+w=;
+ b=M+0O/nn2wiZxqTndg/+kzuY5rO0fBIGW5lsfVV1M55Ckg4s+bf4QxdE2EUvU0UY/vG
+ 86iFDP2zcCA/XI3ZfBFSl2fNl5RO8w4KNBWIXJ9nNUCWgWY1LUVFHkSMiuidTsnn+TbD
+ /KK7e0D+ENGMVaFxYmF5OYcFE2NsGPDEM//ECBVZTEisolPnVuphLW486aFU59RvnuXq
+ C9L1N9v4IVmEK5qjOq2QW0g4rSY9GcYvFYlXLBs435zk5Rgb4FnLNTsnA8ys+DnaK9Nv
+ ImoHI48WturcVZSi7RLqZ5q3EnXwYoPrrOOXE/+SsmdtJ/hUbLji+G7+IjgRnNjMNDhj
+ x0qA==
+X-Gm-Message-State: AOAM530jqY5aK+R0QhBZ/LsWl1aT93uRQIGezGcfQYVNHvWyZ1325YrO
+ 9fD1jZrYla+kkoJQtHcOjYbvGLc29FjVUg==
+X-Google-Smtp-Source: ABdhPJxqXc5HOTkRijQQ27tVB/9ydAcnZoNYiQe3hhhZJTQHmNxh4zZn2Ped2za+V8SFBpjODg8LQw==
+X-Received: by 2002:ad4:444e:: with SMTP id l14mr20280865qvt.111.1597784720166; 
+ Tue, 18 Aug 2020 14:05:20 -0700 (PDT)
 Received: from localhost (mobile-166-177-184-140.mycingular.net.
  [166.177.184.140])
- by smtp.gmail.com with ESMTPSA id t12sm21191885qkt.56.2020.08.18.14.05.17
+ by smtp.gmail.com with ESMTPSA id g55sm27132608qta.94.2020.08.18.14.05.19
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Aug 2020 14:05:17 -0700 (PDT)
+ Tue, 18 Aug 2020 14:05:19 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  seanpaul@chromium.org, airlied@linux.ie
-Subject: [PATCH v6 01/14] drm/mipi_dbi: Convert pr_debug calls to
- DRM_DEBUG_DRIVER
-Date: Tue, 18 Aug 2020 17:04:57 -0400
-Message-Id: <20200818210510.49730-2-sean@poorly.run>
+Subject: [PATCH v6 02/14] drm/sil164: Convert dev_printk to drm_dev_dbg
+Date: Tue, 18 Aug 2020 17:04:58 -0400
+Message-Id: <20200818210510.49730-3-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200818210510.49730-1-sean@poorly.run>
 References: <20200818210510.49730-1-sean@poorly.run>
@@ -77,45 +76,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-Use the drm logging helpers to output these messages to ensure they'll
-be included by the drm tracefs instance.
+Use the drm debug helper instead of dev_printk in order to leverage the
+upcoming tracefs support
 
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-2-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-3-sean@poorly.run #v5
 
 Changes in v5:
 -Added to the set
 Changes in v6:
 -None
 ---
- drivers/gpu/drm/drm_mipi_dbi.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i2c/sil164_drv.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 230c4fd7131c..e233b6da7cca 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -764,9 +764,7 @@ static int mipi_dbi_spi1e_transfer(struct mipi_dbi *dbi, int dc,
- 	int i, ret;
- 	u8 *dst;
+diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil164_drv.c
+index 741886b54419..b315a789fca2 100644
+--- a/drivers/gpu/drm/i2c/sil164_drv.c
++++ b/drivers/gpu/drm/i2c/sil164_drv.c
+@@ -43,11 +43,6 @@ struct sil164_priv {
+ #define to_sil164_priv(x) \
+ 	((struct sil164_priv *)to_encoder_slave(x)->slave_priv)
  
--	if (drm_debug_enabled(DRM_UT_DRIVER))
--		pr_debug("[drm:%s] dc=%d, max_chunk=%zu, transfers:\n",
--			 __func__, dc, max_chunk);
-+	DRM_DEBUG_DRIVER("dc=%d, max_chunk=%zu, transfers:\n", dc, max_chunk);
+-#define sil164_dbg(client, format, ...) do {				\
+-		if (drm_debug_enabled(DRM_UT_KMS))			\
+-			dev_printk(KERN_DEBUG, &client->dev,		\
+-				   "%s: " format, __func__, ## __VA_ARGS__); \
+-	} while (0)
+ #define sil164_info(client, format, ...)		\
+ 	dev_info(&client->dev, format, __VA_ARGS__)
+ #define sil164_err(client, format, ...)			\
+@@ -359,8 +354,8 @@ sil164_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	int rev = sil164_read(client, SIL164_REVISION);
  
- 	tr.speed_hz = mipi_dbi_spi_cmd_max_speed(spi, len);
- 	spi_message_init_with_transfers(&m, &tr, 1);
-@@ -888,9 +886,7 @@ static int mipi_dbi_spi1_transfer(struct mipi_dbi *dbi, int dc,
- 	max_chunk = dbi->tx_buf9_len;
- 	dst16 = dbi->tx_buf9;
+ 	if (vendor != 0x1 || device != 0x6) {
+-		sil164_dbg(client, "Unknown device %x:%x.%x\n",
+-			   vendor, device, rev);
++		drm_dev_dbg(&client->dev, DRM_UT_KMS,
++			    "Unknown device %x:%x.%x\n", vendor, device, rev);
+ 		return -ENODEV;
+ 	}
  
--	if (drm_debug_enabled(DRM_UT_DRIVER))
--		pr_debug("[drm:%s] dc=%d, max_chunk=%zu, transfers:\n",
--			 __func__, dc, max_chunk);
-+	DRM_DEBUG_DRIVER("dc=%d, max_chunk=%zu, transfers:\n", dc, max_chunk);
+@@ -389,7 +384,8 @@ sil164_detect_slave(struct i2c_client *client)
+ 	};
  
- 	max_chunk = min(max_chunk / 2, len);
+ 	if (i2c_transfer(adap, &msg, 1) != 1) {
+-		sil164_dbg(adap, "No dual-link slave found.");
++		drm_dev_dbg(&adap->dev, DRM_UT_KMS,
++			    "No dual-link slave found.");
+ 		return NULL;
+ 	}
  
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
