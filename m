@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3377824957D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EBC24959A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 971A16E1BD;
-	Wed, 19 Aug 2020 06:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BED2D6E1EC;
+	Wed, 19 Aug 2020 06:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cmta16.telus.net (cmta16.telus.net [209.171.16.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 468C889CE1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 17:58:07 +0000 (UTC)
-Received: from montezuma.home ([154.5.226.127]) by cmsmtp with SMTP
- id 85s1kclQL5b7l85s3kLDKf; Tue, 18 Aug 2020 11:58:05 -0600
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
- a=f8b3WT/FcTuUJCJtQO1udw==:117 a=f8b3WT/FcTuUJCJtQO1udw==:17
- a=kj9zAlcOel0A:10 a=x7bEGLp0ZPQA:10 a=COSDN44dAAMA:10 a=pGLkceISAAAA:8
- a=zPWn4OYR4t-Te5tHu7sA:9 a=CjuIK1q_8ugA:10
-Date: Tue, 18 Aug 2020 10:58:01 -0700 (PDT)
-From: Zwane Mwaikambo <zwanem@gmail.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH] drm: assure aux_dev is nonzero before using it
-In-Reply-To: <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
-Message-ID: <alpine.DEB.2.21.2008181057090.8571@montezuma.home>
-References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
- <20200811085830.GZ2352366@phenom.ffwll.local>
- <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
- <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
- <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8816E110
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 20:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=3ePPQTqSgA3y882cmQuH4cZ0/NskoHX+u9okIl+XkXo=; b=VPb/jaaM5wPvJZro5z+2HSvqCX
+ 9gh6d9rdLjBMT+/Rzt0XAeYCE7X5QxqjNMyDF/PepxRR+45kH2aMWQW6dVxp3UafRWC0QDWIeZoZb
+ yix/GbC5ffGQys759nAYh3aFm9pJ5bESz5QgrYJKbk5W4r38pYryySuHvuNi8zJADmB/s/Pn6Fyaf
+ sf58HlXSYYUp3PS7jC+RUoMp9WFsqR96qQhP1O9Bg8vvOeeiezXn3369DCi1o8pqp+gIMLaz9097n
+ f08h6R75VUaf6OVjySrLADNFJeWwmaemiKWHm8M6GQJfISHlfMGFB8PB+LKm0zwvOM191nSlodsRT
+ 3ReNkIrQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k88DO-0007Di-IE; Tue, 18 Aug 2020 20:28:15 +0000
+To: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Dave Airlie <airlied@redhat.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] drm: ast: fix double __iomem sparse warning
+Message-ID: <a8185578-a69a-16b0-6fdf-f4e46bc4f61f@infradead.org>
+Date: Tue, 18 Aug 2020 13:28:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfKAcyA95kOPAOAZwHufvwnS2/RdfvleXrrWCc7rTEJrWQ7yfHBW4WJewuClsh+VwBNpBMcdYcCW5KpGnfvFWf8e2jGoOHDD81JJl7sTKooDBOjWsbGZn
- 2z7WTlSDnR81sqtX+7regsIyAreaPe6LaFQJMRV9biuUfk6yx+Gz0XHtgJGy6nQDggUk33+wq/nhv9NeRNxZAYgYc1aPDdMQxZwcwBt0QZEsguPqSsDocfFp
- bmnLtNBdGXEf7U8xbJQ2x4nADEkRTjbxwQbgu/9uJrobv7oTuJyS9yHRZNkHWw0OPADglZ2FNy5GeVuOV66D0BQvEkqdRFIwvOlMyUCAFa0=
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 19 Aug 2020 06:56:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,53 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, dkwon@redhat.com,
- Linux Kernel <linux-kernel@vger.kernel.org>, tcamuso@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Aug 2020, Lyude Paul wrote:
+From: Randy Dunlap <rdunlap@infradead.org>
 
-> On Wed, 2020-08-12 at 16:10 +0200, Daniel Vetter wrote:
-> > On Wed, Aug 12, 2020 at 12:16 AM Zwane Mwaikambo <zwanem@gmail.com> wrote:
-> > > On Tue, 11 Aug 2020, Daniel Vetter wrote:
-> > > 
-> > > > On Mon, Aug 10, 2020 at 10:11:50AM -0700, Zwane Mwaikambo wrote:
-> > > > > Hi Folks,
-> > > > >     I know this thread eventually dropped off due to not identifying
-> > > > > the underlying issue. It's still occuring on 5.8 and in my case it
-> > > > > happened because the udev device nodes for the DP aux devices were not
-> > > > > cleaned up whereas the kernel had no association with them. I can
-> > > > > reproduce the bug just by creating a device node for a non-existent
-> > > > > minor
-> > > > > device and calling open().
-> > > > 
-> > > > Hm I don't have that thread anymore, but generally these bugs are solved
-> > > > by not registering the device before it's ready for use. We do have
-> > > > drm_connector->late_register for that stuff. Just a guess since I'm not
-> > > > seeing full details here.
-> > > 
-> > > In this particular case, the physical device disappeared before the nodes
-> > > were cleaned up. It involves putting a computer to sleep with a monitor
-> > > plugged in and then waking it up with the monitor unplugged.
-> > 
-> > We also have early_unregister for the reverse, but yes this sounds
-> > more tricky ... Adding Lyude who's been working on way too much
-> > lifetime fun around dp recently.
-> > -Daniel
-> > 
-> Hi-I think just checking whether the auxdev is NULL or not is a reasonable
-> fix, although I am curious as to how exactly the aux dev's parent is getting
-> destroyed before it's child, which I would have thought would be the only way
-> you could hit this?
+sparse complains about having 2 "__iomem" attributes on the same line
+where only one is needed since the first one applies to everything
+up to the ending ';'.
+However, to make it clear(er) that both of these pointers are
+"__iomem", use separate lines for them.
 
-Hi, If this is acceptable, would you consider an updated patch against 
-5.8?
+../drivers/gpu/drm/ast/ast_cursor.c:256:26: CK: warning: duplicate [noderef]
+../drivers/gpu/drm/ast/ast_cursor.c:256:26: CK: error: multiple address space given: __iomem & __iomem
 
-Thanks,
-	Zwane
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/ast/ast_cursor.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--- lnx-59-rc1.orig/drivers/gpu/drm/ast/ast_cursor.c
++++ lnx-59-rc1/drivers/gpu/drm/ast/ast_cursor.c
+@@ -253,7 +253,8 @@ void ast_cursor_show(struct ast_private
+ 		     unsigned int offset_x, unsigned int offset_y)
+ {
+ 	u8 x_offset, y_offset;
+-	u8 __iomem *dst, __iomem *sig;
++	u8 __iomem *dst;
++	u8 __iomem *sig;
+ 	u8 jreg;
+ 
+ 	dst = ast->cursor.vaddr[ast->cursor.next_index];
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
