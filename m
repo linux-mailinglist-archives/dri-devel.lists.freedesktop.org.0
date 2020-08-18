@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189B9247EAC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 08:48:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B567247EAD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 08:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C74789CF8;
-	Tue, 18 Aug 2020 06:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F8989D1D;
+	Tue, 18 Aug 2020 06:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3315289D30
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 06:48:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D339D89D1D
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 06:49:02 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208909] amdgpu Ryzen 7 4700U NULL pointer dereference multi
  monitor with rotation
-Date: Tue, 18 Aug 2020 06:48:50 +0000
+Date: Tue, 18 Aug 2020 06:49:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208909-2300-ByInB4czGp@https.bugzilla.kernel.org/>
+Message-ID: <bug-208909-2300-Ugi7dZqmaz@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208909-2300@https.bugzilla.kernel.org/>
 References: <bug-208909-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208909
 
---- Comment #2 from kernel@890.at ---
-Created attachment 292003
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292003&action=edit
-complete dmesg output
+--- Comment #3 from kernel@890.at ---
+Created attachment 292005
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292005&action=edit
+xorg log
 
 -- 
 You are receiving this mail because:
