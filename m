@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F7B247D39
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 06:13:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01647247DB8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 07:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53BE89D43;
-	Tue, 18 Aug 2020 04:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F5E89D63;
+	Tue, 18 Aug 2020 05:12:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
- [IPv6:2607:f8b0:4864:20::c44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A62489D43
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 04:13:41 +0000 (UTC)
-Received: by mail-oo1-xc44.google.com with SMTP id j16so3877549ooc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 21:13:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k7iAwBileJ0G1UKlW/P/oYgHIzA/MbhoX0L3kNhgr4Y=;
- b=MZpTMKJAOi/ZwTMoPnuu79VyaoQ8NV1AomrB5KcKmLuQqw4Gq8Hy5WYphdAqc0hYsY
- X/Ih8+44QRhGnnuXXocdyME33WJL68lqdQgLunmQlY6sUTRc9wXZRcKCodF9nLO163g/
- TEuFORBUW6T28dJimhs8o2E+Szdf26zKm1JQcnxPXArxqURVcJXbwsPRTnO892qcwncu
- totiDS0Yfwwdt4XCvI1vl5LBOFs0denGVEowudiJSbvvAApcIwxMoKm0JdqsXUYnPW0/
- hjOMgTyMcpgIwrxmwfrPDx0RPRn6UatANoSTArnwBxhuUECLqizhdbyZRmBnUh7bj3YM
- VQdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k7iAwBileJ0G1UKlW/P/oYgHIzA/MbhoX0L3kNhgr4Y=;
- b=ZR5bzYr5a74YF+5Pn2Q2XhK1xXGtV1596sDNydn1GVx2UTVYwIPEmMHf3eLNlID9uk
- ZzSD9YdyJjl/ULqGadDUHfzn16O2vc0tBx1HeFOXN7V23cwXOjMV+URMOiTNG45v0IZY
- YX9kzEb11yNwqweFsYgBfLCp+2sR5sy9dksHZoL6QUSJGW/QV4Uc48DZsCcL0SS5qB62
- ldrhFEWeKY63xyPY29WxlWoKmQXDFzuytlmRfA9Rn9txeyr3T56DaOqTGQ/BAQ1Lj4qN
- uSHWjZV99T4FyqzAQ3Tv86HtuzBNII9UbtmEEMyFnSFHAp24NCIfQ9ETeCN3/i60ppkY
- BBEA==
-X-Gm-Message-State: AOAM53078uEwnFCNRizAb1O5Di8vRYG8HdcTwRr2HCyagNX4ikLXOOSi
- 37AWKiccUojMG1Xd6ciuwXthbGeRfsYiJ2UCUq4M6A==
-X-Google-Smtp-Source: ABdhPJxrYPAakE/ZtJfH+fAqlGcjEntL4sQ9RdVTLtPqOfEPQ9hnBci10bKEX7nrm5jsBFr2C2NAa4HidGM5i4m/hOU=
-X-Received: by 2002:a4a:924b:: with SMTP id g11mr13689379ooh.9.1597724020264; 
- Mon, 17 Aug 2020 21:13:40 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6241B89CD4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 05:12:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597727528; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=QEpAK5HZ7+g6gftbWDmNJEcQN1FcIZyBjsQxMDU4dBY=;
+ b=ejLS8wcNgivLjN0CfjmDU1RU/uJ5iHyh4BnZUay9XA0aAOV8Qh0lN0jGyljVargLkWHenIrG
+ QZD5WD+rrKj+g2F/GQTV7h+KiMs/xuP8XQ0mxTXqbKuYZnS+FybuzUwuhxukpWcIwQxynHHI
+ CGgZwe5g8Cq2L52ZTC+d+VtqFTs=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5f3b6327440a07969a90d3de (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 18 Aug 2020 05:12:07
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9E136C43395; Tue, 18 Aug 2020 05:12:06 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 34B26C433C6;
+ Tue, 18 Aug 2020 05:12:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 34B26C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=tanmay@codeaurora.org
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, robdclark@gmail.com
+Subject: [PATCH v11 0/5] Add support for DisplayPort driver on SnapDragon
+Date: Mon, 17 Aug 2020 22:11:32 -0700
+Message-Id: <20200818051137.21478-1-tanmay@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200816172246.69146-1-ezequiel@collabora.com>
-In-Reply-To: <20200816172246.69146-1-ezequiel@collabora.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Mon, 17 Aug 2020 21:13:28 -0700
-Message-ID: <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
-Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-To: Ezequiel Garcia <ezequiel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,81 +66,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@st.com>, James Jones <jajones@nvidia.com>,
- Liam Mark <lmark@codeaurora.org>, "Andrew F . Davis" <afd@ti.com>,
- kernel@collabora.com, dri-devel <dri-devel@lists.freedesktop.org>,
- Laura Abbott <labbott@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media <linux-media@vger.kernel.org>
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
+ swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 16, 2020 at 10:23 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
-> which will allocate memory suitable for the given device.
->
-> The implementation is mostly a port of the Contiguous Videobuf2
-> memory allocator (see videobuf2/videobuf2-dma-contig.c)
-> over to the DMA-BUF Heap interface.
->
-> The intention of this allocator is to provide applications
-> with a more system-agnostic API: the only thing the application
-> needs to know is which device to get the buffer for.
->
-> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
-> is unknown to the application.
+These patches add Display-Port driver on SnapDragon/msm hardware.
+This series also contains device-tree bindings for msm DP driver.
+It also contains Makefile and Kconfig changes to compile msm DP driver.
 
-My hesitancy here is that the main reason we have DMA BUF Heaps, and
-ION before it, was to expose different types of memory allocations to
-userspace. The main premise that often these buffers are shared with
-multiple devices, which have differing constraints and it is userspace
-that best understands the path a buffer will take through a series of
-devices. So userspace is best positioned to determine what type of
-memory should be allocated to satisfy the various devices constraints
-(there were some design attempts to allow DMA BUFs to use multiple
-attach with deferred alloc at map time to handle this constraint
-solving in-kernel, but it was never adopted in practice).
+The block diagram of DP driver is shown below:
 
-This however, requires some system specific policy - implemented in
-the Android userspace by gralloc which maps "usage" types (device
-pipeline flows) to heaps. I liken it to fstab, which helps map mount
-points to partitions - it's not going to be the same on every system.
 
-What you seem to be proposing seems a bit contrary to this premise -
-Userland doesn't know what type of memory it needs, but given a device
-can somehow find the heap it should allocate for? This seems to assume
-the buffer is only to be used with a single device?
+                 +-------------+
+                 |DRM FRAMEWORK|
+                 +------+------+
+                        |
+                   +----v----+
+                   | DP DRM  |
+                   +----+----+
+                        |
+                   +----v----+
+     +------------+|   DP    +----------++------+
+     +        +---+| DISPLAY |+---+      |      |
+     |        +    +-+-----+-+    |      |      |
+     |        |      |     |      |      |      |
+     |        |      |     |      |      |      |
+     |        |      |     |      |      |      |
+     v        v      v     v      v      v      v
+ +------+ +------+ +---+ +----+ +----+ +---+ +-----+
+ |  DP  | |  DP  | |DP | | DP | | DP | |DP | | DP  |
+ |PARSER| | HPD  | |AUX| |LINK| |CTRL| |PHY| |POWER|
+ +--+---+ +---+--+ +---+ +----+ +--+-+ +-+-+ +-----+
+    |                              |     |
+ +--v---+                         +v-----v+
+ |DEVICE|                         |  DP   |
+ | TREE |                         |CATALOG|
+ +------+                         +---+---+
+                                      |
+                                  +---v----+
+                                  |CTRL/PHY|
+                                  |   HW   |
+                                  +--------+
 
-There was at some point a discussion where folks (maybe it was
-DanielV? I can't remember...) suggested having something like a sysfs
-device node link from a device to a dma-buf heap chardev. This seems
-like it would add a similar behavior as what you're proposing, however
-without adding possibly a ton of new device specific heaps to the
-/dev/dma_heap/ dir. However, we would potentially need any missing
-heap types added first.
+Changes in v7:
 
-> I'm not really expecting this patch to be correct or even
-> a good idea, but just submitting it to start a discussion on DMA-BUF
-> heap discovery and negotiation.
->
-> Given Plumbers is just a couple weeks from now, I've submitted
-> a BoF proposal to discuss this, as perhaps it would make
-> sense to discuss this live?
+- Modify cover letter description and fix title.
+- Introduce dp-controller.yaml for common bindings across SOC
+- Rename dp-sc7180.yaml to dp-controller-sc7180.yaml for SC7180 bindings
+- Rename compatible string to qcom,sc7180-dp
+- Add assigned-clocks and assigned-clock-parents properties in bindings
+- Remove redundant code from driver
+- Extend series to include HPD detection logic
 
-I do think it's an interesting idea. I agree that having every driver
-implement a dmabuf exporter is a bit silly, but I also think Brian's
-point that maybe we need some drm helper functions that provide
-similar functionality along with a more standardized device ioctl for
-single device allocations might be better.
+Changes in v8:
 
-thanks
--john
+- Add MDSS AHB clock in bindings 
+- Replace mode->vrefresh use with drm_mode_vrefresh API
+- Remove redundant aux config code from parser and aux module
+- Assign default max lanes if data-lanes property is not available
+- Fix use-after-free during DP driver remove
+- Unregister hardware clocks during driver cleanup
+
+Changes in v9:
+
+- Drop YAML bindings change from the series
+- Use assigne-clock-parents property and remove clk_set_parent use from code
+- Access register address space without name
+- Fix DP register dump utility
+- Disable DP clocks after vsync generated
+- Avoid 64-bit modulo operation
+- Drop any unused code and fix function proptotyes to avoid W=1 warnings
+- Drop DRM_MSM_DP_10NM_PLL config as only 10nm PLL is available
+
+Changes in v10:
+
+- Fix help description of Kconfig entry
+
+Changes in v11:
+
+- Fix "stream_pixel" string parsing
+- Limit 10nm PLL functions' scope
+
+Chandan Uddaraju (4):
+  dt-bindings: msm/dp: add bindings of DP/DP-PLL driver for Snapdragon
+  drm: add constant N value in helper file
+  drm/msm/dp: add displayPort driver support
+  drm/msm/dp: add support for DP PLL driver
+
+Jeykumar Sankaran (1):
+  drm/msm/dpu: add display port support in DPU
+
+Tanmay Shah (1):
+  drm/msm/dp: Add Display Port HPD feature
+
+ drivers/gpu/drm/i915/display/intel_display.c  |    2 +-
+ drivers/gpu/drm/msm/Kconfig                   |    9 +
+ drivers/gpu/drm/msm/Makefile                  |   14 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   27 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |    8 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   83 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c               |  510 +++++
+ drivers/gpu/drm/msm/dp/dp_aux.h               |   29 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c           | 1030 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h           |  104 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              | 1693 +++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h              |   35 +
+ drivers/gpu/drm/msm/dp/dp_display.c           | 1017 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h           |   31 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |  168 ++
+ drivers/gpu/drm/msm/dp/dp_drm.h               |   18 +
+ drivers/gpu/drm/msm/dp/dp_hpd.c               |   69 +
+ drivers/gpu/drm/msm/dp/dp_hpd.h               |   79 +
+ drivers/gpu/drm/msm/dp/dp_link.c              | 1214 ++++++++++++
+ drivers/gpu/drm/msm/dp/dp_link.h              |  132 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c             |  486 +++++
+ drivers/gpu/drm/msm/dp/dp_panel.h             |   95 +
+ drivers/gpu/drm/msm/dp/dp_parser.c            |  267 +++
+ drivers/gpu/drm/msm/dp/dp_parser.h            |  138 ++
+ drivers/gpu/drm/msm/dp/dp_pll.c               |   99 +
+ drivers/gpu/drm/msm/dp/dp_pll.h               |   61 +
+ drivers/gpu/drm/msm/dp/dp_pll_10nm.c          |  930 +++++++++
+ drivers/gpu/drm/msm/dp/dp_pll_private.h       |   89 +
+ drivers/gpu/drm/msm/dp/dp_power.c             |  373 ++++
+ drivers/gpu/drm/msm/dp/dp_power.h             |  103 +
+ drivers/gpu/drm/msm/dp/dp_reg.h               |  517 +++++
+ drivers/gpu/drm/msm/msm_drv.c                 |    2 +
+ drivers/gpu/drm/msm/msm_drv.h                 |   59 +-
+ include/drm/drm_dp_helper.h                   |    1 +
+ 34 files changed, 9473 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_10nm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_private.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_reg.h
+
+
+base-commit: 62975d27d647a40c58d3b96c29b911fc4f33c310
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
