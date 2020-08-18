@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF30248605
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 15:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DD424861F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 15:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7527F89CDF;
-	Tue, 18 Aug 2020 13:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C35989817;
+	Tue, 18 Aug 2020 13:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F291B89CDF
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 13:28:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014928981B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 13:34:36 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
- after 5.9 merges
-Date: Tue, 18 Aug 2020 13:28:57 +0000
+Subject: [Bug 208909] amdgpu Ryzen 7 4700U NULL pointer dereference multi
+ monitor with rotation
+Date: Tue, 18 Aug 2020 13:34:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208947-2300-XLP2QnLZS7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
-References: <bug-208947-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208909-2300-3bCBXQdGub@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208909-2300@https.bugzilla.kernel.org/>
+References: <bug-208909-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,17 +57,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208947
+https://bugzilla.kernel.org/show_bug.cgi?id=208909
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-Please attach your dmesg output and xorg log (if using X) in both the working
-and non-working cases.  Can you bisect?
+--- Comment #6 from Alex Deucher (alexdeucher@gmail.com) ---
+What resolutions are your displays?
 
 -- 
 You are receiving this mail because:
