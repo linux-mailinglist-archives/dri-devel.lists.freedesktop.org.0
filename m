@@ -1,38 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6BC247FD4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6DE3247FEF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D414389C9D;
-	Tue, 18 Aug 2020 07:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9388189D7C;
+	Tue, 18 Aug 2020 07:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83F1D89D46
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 06:54:03 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 3459C9DC0F06518D6A40;
- Tue, 18 Aug 2020 14:53:56 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 18 Aug 2020 14:53:50 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm/hisilicon 4/4] drm/hisilicon: Use drv_err instead of
- DRM_ERROR in hibmc_drm_drv
-Date: Tue, 18 Aug 2020 14:51:44 +0800
-Message-ID: <1597733504-30812-5-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1597733504-30812-1-git-send-email-tiantao6@hisilicon.com>
-References: <1597733504-30812-1-git-send-email-tiantao6@hisilicon.com>
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E9C89B84
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 07:11:32 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id w9so14423500qts.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 00:11:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=n3a7THydnGAc5AUiVljLET4u580OnrFmLIy37AEhH7s=;
+ b=cSXYbK0KhcTVcj3BN3p2cBdYHCmnPysTZnSvj9ozXtLSA19RMMmA89oJO5/M1Xu2Sv
+ Q2CmHVgmJ/KCHNsetwkfVKIzQFCyjKAUb6lnuLbq1xJpxHek2X/hnt5SkFX8hXQbF2Io
+ 7W9qXbc0V6MaWGjCotnlmRdc76WVPPRnUfJls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n3a7THydnGAc5AUiVljLET4u580OnrFmLIy37AEhH7s=;
+ b=W1lo9jwZWqb6gp330Bj9urGU1InY7WC1Vn+JNenKhY+T8V7pJmkVxK3ZQNNZTzb7VN
+ PEuaWxLfeJPEWL8A/t1j6D6jaCeIWFEQaCx0SLJK+NL1KhGlVWhiFPHa1oOcXhzwJu+N
+ W+JrLQDfK90AweB4FJS6SfLwS5JyKmvVd2OUzJzZXQWT3ZsX4emqu0fcQAT96IcSUQt+
+ 4+mLXQLfNgnWK1seQljCYgs1AGIe5Ns6i6fnALoR1YYCTl6YsD8S8DgqnPKXYSouVqhc
+ 4P8STSTUPcQSyk9Aslez/xlo0Ad4JbBARobeW31TPMqeFLWJL3IgXQz52HjMt+SLobki
+ 9WlA==
+X-Gm-Message-State: AOAM5332NHA5/apLb3arix1I5rKQwvyOrMm2OYzTlVlJ0a87gxjtYQqN
+ w4Z9CTXSrC5zkc0WAz77PF1hpdpHk/SI3fr8/RgaRA==
+X-Google-Smtp-Source: ABdhPJyZusOXlJEolyPUq2uzLSLnrLlZCeUK74TdElz/4gT5+YLKvVKLVDF3+1Btr0gUklkg9hbaYCqMSoip66/ILus=
+X-Received: by 2002:aed:3587:: with SMTP id c7mr17004433qte.136.1597734691473; 
+ Tue, 18 Aug 2020 00:11:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+References: <20200818013744.3327271-1-stevensd@chromium.org>
+ <20200818055949.6si4jzuubba5dx5u@sirius.home.kraxel.org>
+In-Reply-To: <20200818055949.6si4jzuubba5dx5u@sirius.home.kraxel.org>
+From: David Stevens <stevensd@chromium.org>
+Date: Tue, 18 Aug 2020 00:11:21 -0700
+Message-ID: <CAD=HUj5xqNE=7VPMH5MDq8h735-OnbancrkemJGkDKYmeddfNQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] Support virtio cross-device resources
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-Mailman-Approved-At: Tue, 18 Aug 2020 07:50:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,122 +59,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
+Cc: virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>, open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drv_err instead of DRM_ERROR in hibmc_drm_drv
+> Hmm, checkpatch still complains, full log below.
+>
+> IIRC "dim checkpatch" runs scripts/checkpatch.pl with --strict
+> so it is a bit more picky ...
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Ah, I didn't know --strict was being used. I'll send an update
+momentarily. Sorry for the churn.
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 2b4f821..e3ffa1f 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -98,13 +98,13 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- 
- 	ret = hibmc_de_init(priv);
- 	if (ret) {
--		DRM_ERROR("failed to init de: %d\n", ret);
-+		drm_err(priv->dev, "failed to init de: %d\n", ret);
- 		return ret;
- 	}
- 
- 	ret = hibmc_vdac_init(priv);
- 	if (ret) {
--		DRM_ERROR("failed to init vdac: %d\n", ret);
-+		drm_err(priv->dev, "failed to init vdac: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -212,7 +212,7 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
- 	iosize = pci_resource_len(pdev, 1);
- 	priv->mmio = devm_ioremap(dev->dev, ioaddr, iosize);
- 	if (!priv->mmio) {
--		DRM_ERROR("Cannot map mmio region\n");
-+		drm_err(dev, "Cannot map mmio region\n");
- 		return -ENOMEM;
- 	}
- 
-@@ -220,7 +220,7 @@ static int hibmc_hw_map(struct hibmc_drm_private *priv)
- 	size = pci_resource_len(pdev, 0);
- 	priv->fb_map = devm_ioremap(dev->dev, addr, size);
- 	if (!priv->fb_map) {
--		DRM_ERROR("Cannot map framebuffer\n");
-+		drm_err(dev, "Cannot map framebuffer\n");
- 		return -ENOMEM;
- 	}
- 	priv->fb_base = addr;
-@@ -265,7 +265,7 @@ static int hibmc_load(struct drm_device *dev)
- 
- 	priv = drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv) {
--		DRM_ERROR("no memory to allocate for hibmc_drm_private\n");
-+		drm_err(dev, "no memory to allocate for hibmc_drm_private\n");
- 		return -ENOMEM;
- 	}
- 	dev->dev_private = priv;
-@@ -285,17 +285,17 @@ static int hibmc_load(struct drm_device *dev)
- 
- 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
- 	if (ret) {
--		DRM_ERROR("failed to initialize vblank: %d\n", ret);
-+		drm_err(dev, "failed to initialize vblank: %d\n", ret);
- 		goto err;
- 	}
- 
- 	ret = pci_enable_msi(dev->pdev);
- 	if (ret) {
--		DRM_WARN("enabling MSI failed: %d\n", ret);
-+		drm_warn(dev, "enabling MSI failed: %d\n", ret);
- 	} else {
- 		ret = drm_irq_install(dev, dev->pdev->irq);
- 		if (ret)
--			DRM_WARN("install irq failed: %d\n", ret);
-+			drm_warn(dev, "install irq failed: %d\n", ret);
- 	}
- 
- 	/* reset all the states of crtc/plane/encoder/connector */
-@@ -322,7 +322,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 
- 	dev = drm_dev_alloc(&hibmc_driver, &pdev->dev);
- 	if (IS_ERR(dev)) {
--		DRM_ERROR("failed to allocate drm_device\n");
-+		drm_err(dev, "failed to allocate drm_device\n");
- 		return PTR_ERR(dev);
- 	}
- 
-@@ -331,19 +331,19 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 
- 	ret = pci_enable_device(pdev);
- 	if (ret) {
--		DRM_ERROR("failed to enable pci device: %d\n", ret);
-+		drm_err(dev, "failed to enable pci device: %d\n", ret);
- 		goto err_free;
- 	}
- 
- 	ret = hibmc_load(dev);
- 	if (ret) {
--		DRM_ERROR("failed to load hibmc: %d\n", ret);
-+		drm_err(dev, "failed to load hibmc: %d\n", ret);
- 		goto err_disable;
- 	}
- 
- 	ret = drm_dev_register(dev, 0);
- 	if (ret) {
--		DRM_ERROR("failed to register drv for userspace access: %d\n",
-+		drm_err(dev, "failed to register drv for userspace access: %d\n",
- 			  ret);
- 		goto err_unload;
- 	}
--- 
-2.7.4
+> -:250: CHECK:PREFER_KERNEL_TYPES: Prefer kernel type 'u32' over 'uint32_t'
+> #250: FILE: drivers/gpu/drm/virtio/virtgpu_vq.c:1118:
+> +       uint32_t resp_type = le32_to_cpu(resp->hdr.type);
+>
 
+For consistency with the rest of the virtgpu code, I'll leave uint32_t.
+
+Cheers,
+David
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
