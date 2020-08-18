@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427F32486C4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 16:11:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A962486C9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 16:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81A3A8857E;
-	Tue, 18 Aug 2020 14:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CEA89DE6;
+	Tue, 18 Aug 2020 14:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC938857E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:11:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F0F89DE6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:11:44 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D322E207FF;
- Tue, 18 Aug 2020 14:11:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 28C3C207DE;
+ Tue, 18 Aug 2020 14:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597759866;
- bh=DzJlUfzeP0TeP+vMc/ad4LTrDoiIKji4+B8EHTU9I/A=;
+ s=default; t=1597759904;
+ bh=Vqi/42Mlz96SYAOO6+KKIDxvCtnpMfrrWJ/Z01/wrbs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gCPJn/wrcQ95a8TPz+YUVrgTmkvhitNJeu5xmHCElpo4dCNdiPzpvIxo+MXFEO1GF
- a3LVKzU7+aTXg5jVnxwH3LDejNJzX2b+wC11ikAOnDwHbeRfcBcBoKgSmn42TtuqoH
- mmjzET9NHi2j3wASZIxa364MtTW6kbTCRGoFdVTA=
-Date: Tue, 18 Aug 2020 16:11:29 +0200
+ b=nPuaUiw6KplZId5dUjXhdwWgQwwK/Z334U0FwESa12br3aOOSsMxlwPMDclNcLlYi
+ K0tZJRbGHGIpFvz9GkSi4lqC7gEamqwSbICUg4iLn1tl74sZE3ZHs0NmMEBoj7eZQC
+ 2bf8/BRC+n67kKGaAtnrM8vX3Izke6aOjEbWgijc=
+Date: Tue, 18 Aug 2020 16:12:08 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Tomer Samara <tomersamara98@gmail.com>
-Subject: Re: [PATCH v2 3/4] staging: android: Convert BUG to WARN
-Message-ID: <20200818141129.GC562377@kroah.com>
+Subject: Re: [PATCH v2 4/4] staging: android: Add error handling to
+ order_to_index callers
+Message-ID: <20200818141208.GD562377@kroah.com>
 References: <cover.1597602783.git.tomersamara98@gmail.com>
- <3a483158a742a38589c8322e96fc00734da441d9.1597602783.git.tomersamara98@gmail.com>
+ <c653c468e0c3044b10df375e8245e5d50634a7fa.1597602783.git.tomersamara98@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <3a483158a742a38589c8322e96fc00734da441d9.1597602783.git.tomersamara98@gmail.com>
+In-Reply-To: <c653c468e0c3044b10df375e8245e5d50634a7fa.1597602783.git.tomersamara98@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,31 +61,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 16, 2020 at 10:30:10PM +0300, Tomer Samara wrote:
-> replace BUG() with WARN() at ion_sytem_heap.c, this
-> fix the following checkpatch issue:
-> Avoid crashing the kernel - try using WARN_ON &
-> recovery code ratherthan BUG() or BUG_ON().
-> 
-> Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
-> ---
->  drivers/staging/android/ion/ion_system_heap.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
-> index eac0632ab4e8..37065a59ca69 100644
-> --- a/drivers/staging/android/ion/ion_system_heap.c
-> +++ b/drivers/staging/android/ion/ion_system_heap.c
-> @@ -30,7 +30,8 @@ static int order_to_index(unsigned int order)
->  	for (i = 0; i < NUM_ORDERS; i++)
->  		if (order == orders[i])
->  			return i;
-> -	BUG();
-> +
-> +	WARN(1, "%s: Did not found index to order %d", __FUNCTION__, order);
+On Sun, Aug 16, 2020 at 10:31:22PM +0300, Tomer Samara wrote:
+> Add error check to:
+> - free_buffer_page
+> - alloc_buffer_page
+> after calling order_to_index, due to converting BUG to WARN at
+> order_to_index.
 
-Same question as before, I think this didn't really change anything :(
+You are fixing a bug you caused in a previous patch, not good :)
 
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
