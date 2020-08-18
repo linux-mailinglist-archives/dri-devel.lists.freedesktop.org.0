@@ -1,56 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714462495AA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 198A824957A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 574B96E20B;
-	Wed, 19 Aug 2020 06:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 671E06E1B5;
+	Wed, 19 Aug 2020 06:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0BE89715
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 11:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597748915;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=koJFguAnm5m7Yf22e906vapRRMCc7tRf8L4mLRereyM=;
- b=tE1H5RMmZ0CbpkeMHZPUKGREgamiO+aKUC+F7Qkxs8nE7Geey2obkUiECeTzTol8uR
- VTIl5b5qX2AN1DHmpc1s7u7EtZJws3koMS0oDQD5SHSBk/Y4K0+SWeiIXHndjx9qULgs
- rQ+/gGcX1E5Qv+yoR4i1yWljwy1ryieEcsL1lS9OiYEZ0HE0fJSNfJQzVEjmBihjT4ff
- PI4fMGsJjaKL0PeC2uuKSdRiKeGXcXSgH6kc26IPji4v6Mxt2noDSQc2IfREsmrZwEat
- W2TGNUVsIzXr1oDLq85zQeyARVC0zjKd/cOQZTHEDM7mxdLlDu/wSy5nAwE3ZSBOxpSu
- NRKw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHvJzedV4hp0hM3BukOMWh+LViYiuzXqVlZzVo7xSI73ElHU="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a01:598:b10d:7054:8ddd:9a9:703b:cd26]
- by smtp.strato.de (RZmta 46.10.5 AUTH)
- with ESMTPSA id 60686ew7IB8Sqqz
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 18 Aug 2020 13:08:28 +0200 (CEST)
-Subject: Re: [Virtual ppce500] virtio_gpu virtio0: swiotlb buffer is full
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <87h7tb4zwp.fsf@linux.ibm.com>
- <E1C071A5-19D1-4493-B04A-4507A70D7848@xenosoft.de>
- <bc1975fb-23df-09c2-540a-c13b39ad56c5@xenosoft.de>
- <51482c70-1007-1202-9ed1-2d174c1e923f@xenosoft.de>
- <9688335c-d7d0-9eaa-22c6-511e708e0d2a@linux.ibm.com>
- <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
- <3162da18-462c-72b4-f8f0-eef896c6b162@xenosoft.de>
- <3eee8130-6913-49d2-2160-abf0bf17c44e@xenosoft.de>
- <20200818081830.d2a2cva4hd2jzwba@sirius.home.kraxel.org>
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Message-ID: <56faac9f-49e8-2f0b-6cd5-f8e589db4c8c@xenosoft.de>
-Date: Tue, 18 Aug 2020 13:08:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29DA89BA1;
+ Tue, 18 Aug 2020 11:32:20 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id g1so4069597oop.11;
+ Tue, 18 Aug 2020 04:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ExSCm02y3qpUSj/p3vHeizuT1G9r/WCp9sMwgc77Xhw=;
+ b=lpcmiZRC0Itwnv8XEX0Gt0g4YzYZoFD+0cQTl/lgDNgLVzRe6IuCkiyAsMKmXxtzyS
+ DF5PMESVBKjCzoZjEI411d9Iw1L3XxuPkPVdy8WD0iLU9FEOhQt0C+gxLXxG9FwuHlLM
+ rhDESa4KirIUUOyZAMa3fGnotL1y1ZAkDn7wOqcdEugoXuPZ7SjANkcHlMg4NvyiNbht
+ ty6pszTzwEC7d8yfKI/mGHwXfZomUw3KmQy9Bjfu0tTtXYliq18/FxRxu1WvUqVtTDdI
+ K3vNrDjnKkdMwRXJXjv0FWKEbAC/2OegAiVjrrRDrIlbVqKEFhwQhGoW00TK4+pX8gAo
+ GGSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to
+ :user-agent;
+ bh=ExSCm02y3qpUSj/p3vHeizuT1G9r/WCp9sMwgc77Xhw=;
+ b=aUMGBloJscbF40nAq2l2SJjAK8P8nbPpb/p6V60YHdqas7dsTjtCaJY/djsquFi/qd
+ 3LkPC/M3ZqHcXLi1grL2OGgiy1GBeDKwPBiaB/ivDAiSG9xMyHwgaZoChPbVOOUUQ5pb
+ NO9fsNW78e22hubkKDZNr+Tp0Nttf/DTYXL9Ve6XKwDPrz89zPgz2xBR71191sMJvoLV
+ FeQx0JnRMwKkkgbuQ/kclCfgNTJBhr6np2I/wyS/hna7xaJV4wHUmmCa3CV8p6bBwVIw
+ Xh9RkQW8VpWK6hoVcIMxIFkhZUxs3E5WG+cJKLVI6b36x3czSlaaqHgE18DjriYZOaJU
+ 1SXQ==
+X-Gm-Message-State: AOAM533cZCN7CL2HMpAHyRcvCwhdvzTtG0mEcDgCZUD7aR6SUqsQVeBZ
+ uYQLff3RxfTN6jPlUCgPFQ==
+X-Google-Smtp-Source: ABdhPJywdLvN8lVgc2yDfHhvIZ4/3whUvULM6gOBhid0aKLlGB5miCWrsMhpAucNStAL2zXitNZckQ==
+X-Received: by 2002:a4a:7241:: with SMTP id r1mr14426630ooe.48.1597750340029; 
+ Tue, 18 Aug 2020 04:32:20 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id v35sm3862490otb.32.2020.08.18.04.32.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 04:32:18 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:8b39:c3f3:f502:5c4e])
+ by serve.minyard.net (Postfix) with ESMTPSA id 4AF641800D4;
+ Tue, 18 Aug 2020 11:32:17 +0000 (UTC)
+Date: Tue, 18 Aug 2020 06:32:16 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Allen <allen.lkml@gmail.com>
+Subject: Re: [PATCH] char: ipmi: convert tasklets to use new tasklet_setup()
+ API
+Message-ID: <20200818113216.GD2842@minyard.net>
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-3-allen.cryptic@gmail.com>
+ <20200817121514.GE2865@minyard.net>
+ <CAOMdWSJXCn5KYHen4kynH1A5Oixo+yPzs3oathsfa8gtKZGkjg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200818081830.d2a2cva4hd2jzwba@sirius.home.kraxel.org>
-Content-Language: de-DE
+Content-Disposition: inline
+In-Reply-To: <CAOMdWSJXCn5KYHen4kynH1A5Oixo+yPzs3oathsfa8gtKZGkjg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Wed, 19 Aug 2020 06:56:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,33 +77,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- daniel.vetter@ffwll.ch, =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- "kvm-ppc@vger.kernel.org" <kvm-ppc@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Reply-To: minyard@acm.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
+ airlied@linux.ie, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James.Bottomley@hansenpartnership.com, kys@microsoft.com,
+ anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+ linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+ Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
+ jdike@addtoit.com, Kees Cook <keescook@chromium.org>, oakad@yahoo.com,
+ s.hauer@pengutronix.de, linux-input@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, axboe@kernel.dk,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
+ dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
+ linux-spi@vger.kernel.org, alex.bou9@gmail.com,
+ Allen Pais <allen.cryptic@gmail.com>, stefanr@s5r6.in-berlin.de,
+ linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
+ shawnguo@kernel.org, David Miller <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18 August 2020 at 10:18 am, Gerd Hoffmann wrote:
-> On Mon, Aug 17, 2020 at 11:19:58AM +0200, Christian Zigotzky wrote:
->> Hello
->>
->> I compiled the RC1 of kernel 5.9 today. Unfortunately the issue with the
->> VirtIO-GPU (see below) still exists. Therefore we still need the patch (see
->> below) for using the VirtIO-GPU in a virtual e5500 PPC64 QEMU machine.
-> It is fixed in drm-misc-next (commit 51c3b0cc32d2e17581fce5b487ee95bbe9e8270a).
->
-> Will cherry-pick into drm-misc-fixes once the branch is 5.9-based, which
-> in turn should bring it to 5.9-rc2 or -rc3.
->
-> take care,
->    Gerd
->
-Thank you!
+On Tue, Aug 18, 2020 at 02:46:23PM +0530, Allen wrote:
+> > >
+> > > Signed-off-by: Romain Perier <romain.perier@gmail.com>
+> > > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> >
+> > This looks good to me.
+> >
+> > Reviewed-by: Corey Minyard <cminyard@mvista.com>
+> >
+> > Are you planning to push this, or do you want me to take it?  If you
+> > want me to take it, what is the urgency?
+> 
+>  Thanks. Well, not hurry, as long as it goes into 5.9 with all other
+> changes.
+
+Ok, this is queued in my for-next branch.
+
+-corey
+
+> 
+> 
+> >
+> > -corey
+> >
+> > > ---
+> > >  drivers/char/ipmi/ipmi_msghandler.c | 13 ++++++-------
+> > >  1 file changed, 6 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
+> > > index 737c0b6b24ea..e1814b6a1225 100644
+> > > --- a/drivers/char/ipmi/ipmi_msghandler.c
+> > > +++ b/drivers/char/ipmi/ipmi_msghandler.c
+> > > @@ -39,7 +39,7 @@
+> > >
+> > >  static struct ipmi_recv_msg *ipmi_alloc_recv_msg(void);
+> > >  static int ipmi_init_msghandler(void);
+> > > -static void smi_recv_tasklet(unsigned long);
+> > > +static void smi_recv_tasklet(struct tasklet_struct *t);
+> > >  static void handle_new_recv_msgs(struct ipmi_smi *intf);
+> > >  static void need_waiter(struct ipmi_smi *intf);
+> > >  static int handle_one_recv_msg(struct ipmi_smi *intf,
+> > > @@ -3430,9 +3430,8 @@ int ipmi_add_smi(struct module         *owner,
+> > >       intf->curr_seq = 0;
+> > >       spin_lock_init(&intf->waiting_rcv_msgs_lock);
+> > >       INIT_LIST_HEAD(&intf->waiting_rcv_msgs);
+> > > -     tasklet_init(&intf->recv_tasklet,
+> > > -                  smi_recv_tasklet,
+> > > -                  (unsigned long) intf);
+> > > +     tasklet_setup(&intf->recv_tasklet,
+> > > +                  smi_recv_tasklet);
+> > >       atomic_set(&intf->watchdog_pretimeouts_to_deliver, 0);
+> > >       spin_lock_init(&intf->xmit_msgs_lock);
+> > >       INIT_LIST_HEAD(&intf->xmit_msgs);
+> > > @@ -4467,10 +4466,10 @@ static void handle_new_recv_msgs(struct ipmi_smi *intf)
+> > >       }
+> > >  }
+> > >
+> > > -static void smi_recv_tasklet(unsigned long val)
+> > > +static void smi_recv_tasklet(struct tasklet_struct *t)
+> > >  {
+> > >       unsigned long flags = 0; /* keep us warning-free. */
+> > > -     struct ipmi_smi *intf = (struct ipmi_smi *) val;
+> > > +     struct ipmi_smi *intf = from_tasklet(intf, t, recv_tasklet);
+> > >       int run_to_completion = intf->run_to_completion;
+> > >       struct ipmi_smi_msg *newmsg = NULL;
+> > >
+> > > @@ -4542,7 +4541,7 @@ void ipmi_smi_msg_received(struct ipmi_smi *intf,
+> > >               spin_unlock_irqrestore(&intf->xmit_msgs_lock, flags);
+> > >
+> > >       if (run_to_completion)
+> > > -             smi_recv_tasklet((unsigned long) intf);
+> > > +             smi_recv_tasklet(&intf->recv_tasklet);
+> > >       else
+> > >               tasklet_schedule(&intf->recv_tasklet);
+> > >  }
+> > > --
+> > > 2.17.1
+> > >
+> 
+> 
+> 
+> -- 
+>        - Allen
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
