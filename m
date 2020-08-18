@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CE5248DE9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 20:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F11D248DF4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 20:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4E6789E36;
-	Tue, 18 Aug 2020 18:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D2389FE6;
+	Tue, 18 Aug 2020 18:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37AA89E36
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 18:24:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376C589FE6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 18:27:03 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
  after 5.9 merges
-Date: Tue, 18 Aug 2020 18:24:56 +0000
+Date: Tue, 18 Aug 2020 18:27:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208947-2300-mImmym1rCT@https.bugzilla.kernel.org/>
+Message-ID: <bug-208947-2300-XgRUdbja7f@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
 References: <bug-208947-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,15 +59,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208947
 
---- Comment #3 from Coleman Kane (ckane@colemankane.org) ---
-Created attachment 292013
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292013&action=edit
-dmesg on faliure case from linux-next.git as of 2020-08-18 00:00:00
-(pending-fixes branch)
+--- Comment #4 from Coleman Kane (ckane@colemankane.org) ---
+Created attachment 292015
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292015&action=edit
+Xorg.log from working case (Arch 5.8.1-1 kernel)
 
-I built a bootable kernel from the linux-next "pending-fixes" based upon
-sources synchronized with upstream git repo as of 2020-08-18 morning. Did this
-to verify that there is no pending fix to this issue.
+Xorg from working case on Arch 5.8.1-1 kernel package.
+
+You can see from the following line that it is booting to 3840x2160 resolution:
+[    25.694] (II) AMDGPU(0): Output DisplayPort-0 using initial mode 3840x2160
++1920+0
 
 -- 
 You are receiving this mail because:
