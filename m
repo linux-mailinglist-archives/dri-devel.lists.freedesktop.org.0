@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DBC248FE2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A2F248FE0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC1A6E176;
-	Tue, 18 Aug 2020 21:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06906E15F;
+	Tue, 18 Aug 2020 21:05:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 865036E159
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:29 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id t23so16272535qto.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:29 -0700 (PDT)
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3DC16E15F
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:30 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id v1so8429808qvn.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4Jm090YO1+7FHoZ4sEUb6h6tQUSUe1qBtD8vovVHheQ=;
- b=BIuERJfoHAy4W0RJt9ym3MaPNXjYJxlLvZp5rXjzwEqyUCb4UTlXEYpfhtfrwtbStx
- 57+FHZo17bUwUj9sTLrPmAVHKM3hxdj4wr2XVYGcnZjYXdO7KmQHJf6qbz3gB/D3TyIH
- 1FwydMt3EDMQfwECrD0UOX5K6UNJCsQtvUvJFQzdoXuQCY5s6W0wd/+H91HHOXcwgG0Z
- bM/aBehQlv2hso2Wxgc6O9Kyfx0cHeVW/hm7Wq4qYJtAYOpYbH9E4nYGPxCYl6eImdGa
- WzzyfuJuojQbNVmvzLSTWnXm1EwOR+Qh+CLgf93LWP0Zkltq9/CWkyWavuXbasqd7fJ8
- yDdg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=eJajPBJwhf0xkvC8Oc1cscrVWsD0SBsh6BLFW6m+BMo=;
+ b=bA/MkqMVEoqPMDDqXGTMcOuh3vgMaMyUv5v8E918SbT5O5/Bmpo0lcPtKj3mswdGzm
+ t+R1/VaUG4eNeek3lywAebsyEL0uCcBsP8pFrOwrucewqM+1s/ZrbX9P3Ikqt/MKUQi+
+ An6e45jeHGHbiOXpeHrSrxyn1WD5fWZokV0KgtzAsEhqYAtSmzU6iT2h8V4wEm853a81
+ +930vtTmZk9p2WRtgRCUPtWUhrX8SAtYHfLeLmFEFh9UVwqHCKAEf7UbjC+ldfPpnST6
+ JR7zEPPvTZ4xHTy8nil8KUrWiVdVz7CDZ5BabXkECZYI4AFZwrQkdI1MTG13ftSb1ByB
+ RU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4Jm090YO1+7FHoZ4sEUb6h6tQUSUe1qBtD8vovVHheQ=;
- b=Ud1pflS+4O0aRBhKAbIp4K/6OLWWoMrqKpX2x7xe17H6dLaHaBUdPdXJIJQHLtucA9
- 33/BY5acPzxCNgKT7oNHUu7MLfwbbnT+q9Ww1skFMozp3d2Iq9AgISLYOz8EcrXGAjGN
- GFUFr5qZ+VpcCBAdP9siRXz/IJcU5G9MbONfGZ5ho2goVtVidaHLqC2OxKgG+0uqAcrh
- ju7iVoyqS1IVfj27Yy2ZXocZl16edr4+eiwfUZhvTqTSoutwzJyNPIBpEkcmsWYVsvAW
- 7oXPa0VSGA0P1WGWuq9Z+DXVpLBMPhnWK0J7aVEVWO23xEjC2np68MJSCpLC62K8wmmJ
- ylFg==
-X-Gm-Message-State: AOAM530q7liQEfTChYqB+yyQXv7dDfcBmHLhzygNiGwHc9O659+NGJz1
- WgaAlbZ+PGmf7OjUr2qLnjY3ClAFL94yxQ==
-X-Google-Smtp-Source: ABdhPJwLf3rAmtoKhmRGtIOjr48woa6GEjQtQQB79JdFPv1Mc+dhngPPiaTi4tia7I0yvfyPnaEHJg==
-X-Received: by 2002:aed:2542:: with SMTP id w2mr20474156qtc.272.1597784728452; 
- Tue, 18 Aug 2020 14:05:28 -0700 (PDT)
+ :references;
+ bh=eJajPBJwhf0xkvC8Oc1cscrVWsD0SBsh6BLFW6m+BMo=;
+ b=Joy++KxIznDIzMxX/JiEObwajnjSPIG3VxRv66v1ZzqVQo5jV5PrFcMRShy9SQ2QY2
+ 4U6gXp8CCWzYTFmQC3YmTyw31aV0hI6/lMFXDIBRiSCAi/2jVcQQecm5+CeNMh6sRIfk
+ Di8CtxUbyIyLiwSo1Tt/mXdicUA2TuXZKnfpSVyQglHpnAXbdlzcawJeIi/59ECEyrjY
+ udBfbh4q1GSFaYn1tJoumm2og9g+CqQBIm2run4xnLgrnkcRa61O9kLt3L8Bo8i/IOLs
+ OClGf1huT75zQMXmbxMq7Wat6cYICGWUyFrYXDJTrhUEEDBohbDTaMGwRGM0tx7XjWQq
+ PKXA==
+X-Gm-Message-State: AOAM5316kZYDVZ+kn9/YtiUpXzjuU/tSamQG8oibqzHVGkPn0C6oTQfB
+ SpTntSOmZlNDmitKOCG7B7i/XKMyr391hw==
+X-Google-Smtp-Source: ABdhPJzFRkhP42kRmIrA72EsPkSlVhVJTe/SUAeZKOcCep0nWKpuXKb8zPuX4Qi0U296GzXp53UHuA==
+X-Received: by 2002:a0c:c409:: with SMTP id r9mr21332693qvi.123.1597784729953; 
+ Tue, 18 Aug 2020 14:05:29 -0700 (PDT)
 Received: from localhost (mobile-166-177-184-140.mycingular.net.
  [166.177.184.140])
- by smtp.gmail.com with ESMTPSA id m26sm26847712qtc.83.2020.08.18.14.05.27
+ by smtp.gmail.com with ESMTPSA id c70sm22194733qke.109.2020.08.18.14.05.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Aug 2020 14:05:28 -0700 (PDT)
+ Tue, 18 Aug 2020 14:05:29 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  seanpaul@chromium.org, airlied@linux.ie
-Subject: [PATCH v6 06/14] drm/amd: Gate i2c transaction logs on
- drm_debug_syslog
-Date: Tue, 18 Aug 2020 17:05:02 -0400
-Message-Id: <20200818210510.49730-7-sean@poorly.run>
+Subject: [PATCH v6 07/14] drm/etnaviv: Change buffer dump checks to target
+ syslog
+Date: Tue, 18 Aug 2020 17:05:03 -0400
+Message-Id: <20200818210510.49730-8-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200818210510.49730-1-sean@poorly.run>
 References: <20200818210510.49730-1-sean@poorly.run>
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,40 +69,70 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@ffwll.ch
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpTaW5jZSB0aGUgbG9ncyBw
-cm90ZWN0ZWQgYnkgdGhlc2UgY2hlY2tzIHNwZWNpZmljYWxseSB0YXJnZXQgc3lzbG9nLAp1c2Ug
-dGhlIG5ldyBkcm1fZGVidWdfc3lzbG9nX2VuYWJsZWQoKSBjYWxsIHRvIGF2b2lkIHRyaWdnZXJp
-bmcKdGhlc2UgcHJpbnRzIHdoZW4gb25seSB0cmFjZSBpcyBlbmFibGVkLgoKQWNrZWQtYnk6IENo
-cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTog
-U2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+Ckxpbms6IGh0dHBzOi8vcGF0Y2h3b3Jr
-LmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDIwMDYwODIxMDUwNS40ODUxOS03LXNlYW5A
-cG9vcmx5LnJ1biAjdjUKCkNoYW5nZXMgaW4gdjU6Ci1BZGRlZCB0byB0aGUgc2V0CkNoYW5nZXMg
-aW4gdjY6Ci1Ob25lCi0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvc211X3YxMV8wX2ky
-Yy5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NtdV92MTFfMF9p
-MmMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NtdV92MTFfMF9pMmMuYwppbmRleCBk
-NTViZjY0NzcwYzQuLjE2MDBhMDA3MzQ0YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvc211X3YxMV8wX2kyYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L3NtdV92MTFfMF9pMmMuYwpAQCAtMjMyLDcgKzIzMiw3IEBAIHN0YXRpYyB1aW50MzJfdCBzbXVf
-djExXzBfaTJjX3RyYW5zbWl0KHN0cnVjdCBpMmNfYWRhcHRlciAqY29udHJvbCwKIAlEUk1fREVC
-VUdfRFJJVkVSKCJJMkNfVHJhbnNtaXQoKSwgYWRkcmVzcyA9ICV4LCBieXRlcyA9ICVkICwgZGF0
-YTogIiwKIAkJICh1aW50MTZfdClhZGRyZXNzLCBudW1ieXRlcyk7CiAKLQlpZiAoZHJtX2RlYnVn
-X2VuYWJsZWQoRFJNX1VUX0RSSVZFUikpIHsKKwlpZiAoZHJtX2RlYnVnX3N5c2xvZ19lbmFibGVk
-KERSTV9VVF9EUklWRVIpKSB7CiAJCXByaW50X2hleF9kdW1wKEtFUk5fSU5GTywgImRhdGE6ICIs
-IERVTVBfUFJFRklYX05PTkUsCiAJCQkgICAgICAgMTYsIDEsIGRhdGEsIG51bWJ5dGVzLCBmYWxz
-ZSk7CiAJfQpAQCAtMzg2LDcgKzM4Niw3IEBAIHN0YXRpYyB1aW50MzJfdCBzbXVfdjExXzBfaTJj
-X3JlY2VpdmUoc3RydWN0IGkyY19hZGFwdGVyICpjb250cm9sLAogCURSTV9ERUJVR19EUklWRVIo
-IkkyQ19SZWNlaXZlKCksIGFkZHJlc3MgPSAleCwgYnl0ZXMgPSAlZCwgZGF0YSA6IiwKIAkJICAo
-dWludDE2X3QpYWRkcmVzcywgYnl0ZXNfcmVjZWl2ZWQpOwogCi0JaWYgKGRybV9kZWJ1Z19lbmFi
-bGVkKERSTV9VVF9EUklWRVIpKSB7CisJaWYgKGRybV9kZWJ1Z19zeXNsb2dfZW5hYmxlZChEUk1f
-VVRfRFJJVkVSKSkgewogCQlwcmludF9oZXhfZHVtcChLRVJOX0lORk8sICJkYXRhOiAiLCBEVU1Q
-X1BSRUZJWF9OT05FLAogCQkJICAgICAgIDE2LCAxLCBkYXRhLCBieXRlc19yZWNlaXZlZCwgZmFs
-c2UpOwogCX0KLS0gClNlYW4gUGF1bCwgU29mdHdhcmUgRW5naW5lZXIsIEdvb2dsZSAvIENocm9t
-aXVtIE9TCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Sean Paul <seanpaul@chromium.org>
+
+Since the logs protected by these checks specifically target syslog,
+use the new drm_debug_syslog_enabled() call to avoid triggering
+these prints when only trace is enabled.
+
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-8-sean@poorly.run #v5
+
+Changes in v5:
+-Added to the set
+Changes in v6:
+-None
+---
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+index 76d38561c910..7713474800e8 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+@@ -353,7 +353,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 
+ 	lockdep_assert_held(&gpu->lock);
+ 
+-	if (drm_debug_enabled(DRM_UT_DRIVER))
++	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
+ 		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
+ 
+ 	link_target = etnaviv_cmdbuf_get_va(cmdbuf,
+@@ -509,13 +509,13 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
+ 		 + buffer->user_size - 4);
+ 
+-	if (drm_debug_enabled(DRM_UT_DRIVER))
++	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
+ 		pr_info("stream link to 0x%08x @ 0x%08x %p\n",
+ 			return_target,
+ 			etnaviv_cmdbuf_get_va(cmdbuf, &gpu->mmu_context->cmdbuf_mapping),
+ 			cmdbuf->vaddr);
+ 
+-	if (drm_debug_enabled(DRM_UT_DRIVER)) {
++	if (drm_debug_syslog_enabled(DRM_UT_DRIVER)) {
+ 		print_hex_dump(KERN_INFO, "cmd ", DUMP_PREFIX_OFFSET, 16, 4,
+ 			       cmdbuf->vaddr, cmdbuf->size, 0);
+ 
+@@ -534,6 +534,6 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 				    VIV_FE_LINK_HEADER_PREFETCH(link_dwords),
+ 				    link_target);
+ 
+-	if (drm_debug_enabled(DRM_UT_DRIVER))
++	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
+ 		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
+ }
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
