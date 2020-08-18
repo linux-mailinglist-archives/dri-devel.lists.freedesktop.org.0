@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78162248A2D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 17:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8211B248A2E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 17:40:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4036E047;
-	Tue, 18 Aug 2020 15:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40EC86E02E;
+	Tue, 18 Aug 2020 15:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86BE96E047
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 15:40:39 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id s23so15408979qtq.12
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 08:40:39 -0700 (PDT)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3B86E02E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 15:40:45 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id n129so18636410qkd.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 08:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pKyNB1nBv3O7w2A0j3MvE3ozOPRktLMjXXc4Gm1c23Q=;
- b=Ua5ZXVMiAPjdNrGtUQPZKqgxzAvYbTP7tcnJ8xsbYZuzuDbW+piRLHE3wOaFsUXtU+
- RW54iI7yjlPdVLUprPWySONHbh7hjCoM+K1hAKq23nrfFuZcrrdpaOhpCGBMsFnuLJ4V
- LSkhDuBsYCQtcKr//DA/wrs5E53bwXZ0otzn/g4WjP92ctQtX05Ivw5yJ8BpQ6kykPca
- LHrSv1Se8IdLyaOm+z3XqWBqXWPbvsLQp49RUAMwpnrMqmsUL9pja3kB0ik963Haic8K
- RYB5hjs5WzMmtm1cDVRQWZgyS1R7Z940Htl9/MM88bi0g2pWzqnVFA42rs+w2zLBnbz+
- CrSA==
+ bh=s8yeYTRp3veFBl5nRWU7JmTciSjlllxAAlcmb8om+tM=;
+ b=fRli0q1/B1EKeefsUAWG9QeWG6y2WiNxYDmwBwHS2ZL9NqJsDtx0mSC1TrBENkkBxg
+ 4RML0TZr3Ymp4XpUS1gBQ1imMwJkaAEYuPyweABkxu5i1GRqJAUo/7y2b+QE3wk6X5oj
+ waTVeL49EgaHlgQJmBxerX+qhwGUa51XqcSC+jA2pukVA6VtqgXKgsWmh4LGF6SljCRy
+ CKRORR2WQjAVJNajAQjHDMFPMbNs2fLh7ViyKLusxQlIqJyjgZHhXqaQ0jjxL5GdIEFW
+ tnbxm3fU1A3Uelpd7E+DQE28sHltoBOtf+M9S2QzN09hAr2Rxus4ztrq0QL9vhDvLNiu
+ r7Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=pKyNB1nBv3O7w2A0j3MvE3ozOPRktLMjXXc4Gm1c23Q=;
- b=Jo/V1p4G1p/c5lMD0J+V/M5EnALPQtquSvqI9R6Uvow27RknA8JwzHJ9RoOb+pVw2m
- KUl1c2/ElG0lCg6tthFQ4EtgYGD5T28KbuguCEq+leLiHWyemXc1vq9NjqdQBlXdYTZ1
- Vef04nz3CSP+Gqji2kalBqlPd/rz7G3OzOjp1LqpMUPC9teLeDI0flIG6jqhWp+whJBF
- a6Jn8SU+zwY4OzOq/Eq20McJVCZgaJDPWSZRP051AE/effJnnVIsjbazZrdG9j3qPR4C
- Szfj8DCVvzPQjrInW3UKfpH0krsLtG7Lw6Gi6t6KSaoxluaHJO/cqj2likAP2d3J7Pkg
- fybw==
-X-Gm-Message-State: AOAM533E9szwCnpA653T1RBx3zr8oet1Rdr5MIg8Uq3KDF/dpzzgLLhm
- Asj39rxCTnvtcOdgzQfJaCBnXXqd/7WQoQ==
-X-Google-Smtp-Source: ABdhPJxycA2x3tXMkaelDuAzWBOAJkfS0uHr9+l9HjwmJB95hSjHEZQ4t0EaVIKb1Ma4lxkc5i5Ijg==
-X-Received: by 2002:ac8:6919:: with SMTP id e25mr18455506qtr.339.1597765238517; 
- Tue, 18 Aug 2020 08:40:38 -0700 (PDT)
+ bh=s8yeYTRp3veFBl5nRWU7JmTciSjlllxAAlcmb8om+tM=;
+ b=JDw2UWfj+ZXtFqzmygWxu+Do/wnoFj4aAUeWtL47UdfSKuvZNBHUkZvW0w8EBHmYUx
+ x5Y+fPi8qdKlGxaGFv3u5udwp0IkeG8gZ33fsthT2Le8A8V5NSg+IWPBEdlvDhhBLWvL
+ F19z9WertYMojyaMzzXJGqoIvBl78Y2Jotl9EdnlodhVKWHNS0Su8ZBeqqMkru6i07Zk
+ ZfBDn6szFXxXlONztc8l9jIaV9bjgtGcc04G/yzLcd+qs1imVgS4MEcnPXH3j9AjuzrB
+ RJLZTlCHowKXyoZO3kcG7h9uqZixZlZ/DgpOC/0L2Iwi9ds2I75SJn5lhmo4hnUS3jo7
+ IsdA==
+X-Gm-Message-State: AOAM533L2XnvvnZKsWPY7v3/NjJ+J80AmnpYlrJXdiQomiTWVFzq5aaG
+ KYe0jQbVR9d5a29xBaJKs2Fm9JryZa+wfA==
+X-Google-Smtp-Source: ABdhPJwSIPijR4aUyOXqYlSrk3iWpqAFaThac7gvP2CoDoP26OPd/XLdFPXz11jxXYz07/WliCtDUQ==
+X-Received: by 2002:a37:a981:: with SMTP id
+ s123mr15989950qke.324.1597765244185; 
+ Tue, 18 Aug 2020 08:40:44 -0700 (PDT)
 Received: from localhost (mobile-166-170-57-144.mycingular.net.
  [166.170.57.144])
- by smtp.gmail.com with ESMTPSA id m30sm25616988qtm.46.2020.08.18.08.40.37
+ by smtp.gmail.com with ESMTPSA id v2sm23612756qte.25.2020.08.18.08.40.43
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Aug 2020 08:40:38 -0700 (PDT)
+ Tue, 18 Aug 2020 08:40:43 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  juston.li@intel.com, jani.nikula@linux.intel.com,
  joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
  anshuman.gupta@intel.com
-Subject: [PATCH v8 14/17] drm/i915: Add connector to hdcp_shim->check_link()
-Date: Tue, 18 Aug 2020 11:39:02 -0400
-Message-Id: <20200818153910.27894-15-sean@poorly.run>
+Subject: [PATCH v8 15/17] drm/mst: Add support for
+ QUERY_STREAM_ENCRYPTION_STATUS MST sideband message
+Date: Tue, 18 Aug 2020 11:39:03 -0400
+Message-Id: <20200818153910.27894-16-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200818153910.27894-1-sean@poorly.run>
 References: <20200818153910.27894-1-sean@poorly.run>
@@ -69,7 +71,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
- Sean Paul <seanpaul@chromium.org>
+ Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -78,112 +80,383 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-Currently we derive the connector from digital port in check_link(). For
-MST, this isn't sufficient since the digital port passed into the
-function can have multiple connectors downstream. This patch adds
-connector to the check_link() arguments so we have it when we need it.
+Used to query whether an MST stream is encrypted or not.
 
+Cc: Lyude Paul <lyude@redhat.com>
 Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-13-sean@poorly.run #v4
-Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-14-sean@poorly.run #v5
-Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-14-sean@poorly.run #v6
-Link: https://patchwork.freedesktop.org/patch/msgid/20200623155907.22961-15-sean@poorly.run #v7
+
+Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-14-sean@poorly.run #v4
+Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-15-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-15-sean@poorly.run #v6
+Link: https://patchwork.freedesktop.org/patch/msgid/20200623155907.22961-16-sean@poorly.run #v7
 
 Changes in v4:
 -Added to the set
 Changes in v5:
 -None
 Changes in v6:
--None
+-Use FIELD_PREP to generate request buffer bitfields (Lyude)
+-Add mst selftest and dump/decode_sideband_req for QSES (Lyude)
 Changes in v7:
 -None
 Changes in v8:
--None
+-Reverse the parsing on the hdcp_*x_device_present bits and leave
+ breadcrumb in case this is incorrect (Anshuman)
 ---
- drivers/gpu/drm/i915/display/intel_display_types.h |  3 ++-
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c       |  3 ++-
- drivers/gpu/drm/i915/display/intel_hdcp.c          |  2 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c          | 10 +++++-----
- 4 files changed, 10 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c         | 150 ++++++++++++++++++
+ .../drm/selftests/test-drm_dp_mst_helper.c    |  17 ++
+ include/drm/drm_dp_helper.h                   |   3 +
+ include/drm/drm_dp_mst_helper.h               |  44 +++++
+ 4 files changed, 214 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 5e01f2f840c9..413b60337a0b 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -318,7 +318,8 @@ struct intel_hdcp_shim {
- 				 bool enable);
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 67dd72ea200e..f2b77ef40281 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -20,11 +20,13 @@
+  * OF THIS SOFTWARE.
+  */
  
- 	/* Ensures the link is still protected */
--	bool (*check_link)(struct intel_digital_port *dig_port);
-+	bool (*check_link)(struct intel_digital_port *dig_port,
-+			   struct intel_connector *connector);
- 
- 	/* Detects panel's hdcp capability. This is optional for HDMI. */
- 	int (*hdcp_capable)(struct intel_digital_port *dig_port,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index c164ad11e617..b744253a5924 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -224,7 +224,8 @@ int intel_dp_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
++#include <linux/bitfield.h>
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/random.h>
+ #include <linux/sched.h>
+ #include <linux/seq_file.h>
+ #include <linux/iopoll.h>
+@@ -423,6 +425,22 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+ 		memcpy(&buf[idx], req->u.i2c_write.bytes, req->u.i2c_write.num_bytes);
+ 		idx += req->u.i2c_write.num_bytes;
+ 		break;
++	case DP_QUERY_STREAM_ENC_STATUS: {
++		const struct drm_dp_query_stream_enc_status *msg;
++
++		msg = &req->u.enc_status;
++		buf[idx] = msg->stream_id;
++		idx++;
++		memcpy(&buf[idx], msg->client_id, sizeof(msg->client_id));
++		idx += sizeof(msg->client_id);
++		buf[idx] = 0;
++		buf[idx] |= FIELD_PREP(GENMASK(1, 0), msg->stream_event);
++		buf[idx] |= msg->valid_stream_event ? BIT(2) : 0;
++		buf[idx] |= FIELD_PREP(GENMASK(4, 3), msg->stream_behavior);
++		buf[idx] |= msg->valid_stream_behavior ? BIT(5) : 0;
++		idx++;
++		}
++		break;
+ 	}
+ 	raw->cur_len = idx;
  }
- 
- static
--bool intel_dp_hdcp_check_link(struct intel_digital_port *dig_port)
-+bool intel_dp_hdcp_check_link(struct intel_digital_port *dig_port,
-+			      struct intel_connector *connector)
- {
- 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
- 	ssize_t ret;
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index f25cfb7a9565..028cf3ac548f 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -952,7 +952,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
- 		goto out;
+@@ -551,6 +569,20 @@ drm_dp_decode_sideband_req(const struct drm_dp_sideband_msg_tx *raw,
+ 				return -ENOMEM;
+ 		}
+ 		break;
++	case DP_QUERY_STREAM_ENC_STATUS:
++		req->u.enc_status.stream_id = buf[idx++];
++		for (i = 0; i < sizeof(req->u.enc_status.client_id); i++)
++			req->u.enc_status.client_id[i] = buf[idx++];
++
++		req->u.enc_status.stream_event = FIELD_GET(GENMASK(1, 0),
++							   buf[idx]);
++		req->u.enc_status.valid_stream_event = FIELD_GET(BIT(2),
++								 buf[idx]);
++		req->u.enc_status.stream_behavior = FIELD_GET(GENMASK(4, 3),
++							      buf[idx]);
++		req->u.enc_status.valid_stream_behavior = FIELD_GET(BIT(5),
++								    buf[idx]);
++		break;
  	}
  
--	if (hdcp->shim->check_link(dig_port)) {
-+	if (hdcp->shim->check_link(dig_port, connector)) {
- 		if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
- 			intel_hdcp_update_value(connector,
- 				DRM_MODE_CONTENT_PROTECTION_ENABLED, true);
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index c0ea16dae3b3..0978b0d8f4c6 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -1546,11 +1546,10 @@ int intel_hdmi_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
+ 	return 0;
+@@ -629,6 +661,16 @@ drm_dp_dump_sideband_msg_req_body(const struct drm_dp_sideband_msg_req_body *req
+ 		  req->u.i2c_write.num_bytes, req->u.i2c_write.num_bytes,
+ 		  req->u.i2c_write.bytes);
+ 		break;
++	case DP_QUERY_STREAM_ENC_STATUS:
++		P("stream_id=%u client_id=%*ph stream_event=%x "
++		  "valid_event=%d stream_behavior=%x valid_behavior=%d",
++		  req->u.enc_status.stream_id,
++		  (int)ARRAY_SIZE(req->u.enc_status.client_id),
++		  req->u.enc_status.client_id, req->u.enc_status.stream_event,
++		  req->u.enc_status.valid_stream_event,
++		  req->u.enc_status.stream_behavior,
++		  req->u.enc_status.valid_stream_behavior);
++		break;
+ 	default:
+ 		P("???\n");
+ 		break;
+@@ -936,6 +978,42 @@ static bool drm_dp_sideband_parse_power_updown_phy_ack(struct drm_dp_sideband_ms
+ 	return true;
  }
  
- static
--bool intel_hdmi_hdcp_check_link_once(struct intel_digital_port *dig_port)
-+bool intel_hdmi_hdcp_check_link_once(struct intel_digital_port *dig_port,
-+				     struct intel_connector *connector)
++static bool
++drm_dp_sideband_parse_query_stream_enc_status(
++				struct drm_dp_sideband_msg_rx *raw,
++				struct drm_dp_sideband_msg_reply_body *repmsg)
++{
++	struct drm_dp_query_stream_enc_status_ack_reply *reply;
++
++	reply = &repmsg->u.enc_status;
++
++	reply->stream_id = raw->msg[3];
++
++	reply->reply_signed = raw->msg[2] & BIT(0);
++
++	/*
++	 * NOTE: It's my impression from reading the spec that the below parsing
++	 * is correct. However I noticed while testing with an HDCP 1.4 display
++	 * through an HDCP 2.2 hub that only bit 3 was set. In that case, I
++	 * would expect both bits to be set. So keep the parsing following the
++	 * spec, but beware reality might not match the spec (at least for some
++	 * configurations).
++	 */
++	reply->hdcp_1x_device_present = raw->msg[2] & BIT(4);
++	reply->hdcp_2x_device_present = raw->msg[2] & BIT(3);
++
++	reply->query_capable_device_present = raw->msg[2] & BIT(5);
++	reply->legacy_device_present = raw->msg[2] & BIT(6);
++	reply->unauthorizable_device_present = raw->msg[2] & BIT(7);
++
++	reply->auth_completed = !!(raw->msg[1] & BIT(3));
++	reply->encryption_enabled = !!(raw->msg[1] & BIT(4));
++	reply->repeater_present = !!(raw->msg[1] & BIT(5));
++	reply->state = (raw->msg[1] & GENMASK(7, 6)) >> 6;
++
++	return true;
++}
++
+ static bool drm_dp_sideband_parse_reply(struct drm_dp_sideband_msg_rx *raw,
+ 					struct drm_dp_sideband_msg_reply_body *msg)
  {
- 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
--	struct intel_connector *connector =
--		dig_port->hdmi.attached_connector;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder = connector->hdcp.cpu_transcoder;
- 	int ret;
-@@ -1578,13 +1577,14 @@ bool intel_hdmi_hdcp_check_link_once(struct intel_digital_port *dig_port)
+@@ -970,6 +1048,8 @@ static bool drm_dp_sideband_parse_reply(struct drm_dp_sideband_msg_rx *raw,
+ 		return drm_dp_sideband_parse_power_updown_phy_ack(raw, msg);
+ 	case DP_CLEAR_PAYLOAD_ID_TABLE:
+ 		return true; /* since there's nothing to parse */
++	case DP_QUERY_STREAM_ENC_STATUS:
++		return drm_dp_sideband_parse_query_stream_enc_status(raw, msg);
+ 	default:
+ 		DRM_ERROR("Got unknown reply 0x%02x (%s)\n", msg->req_type,
+ 			  drm_dp_mst_req_type_str(msg->req_type));
+@@ -1121,6 +1201,25 @@ static void build_power_updown_phy(struct drm_dp_sideband_msg_tx *msg,
+ 	msg->path_msg = true;
  }
  
- static
--bool intel_hdmi_hdcp_check_link(struct intel_digital_port *dig_port)
-+bool intel_hdmi_hdcp_check_link(struct intel_digital_port *dig_port,
-+				struct intel_connector *connector)
++static int
++build_query_stream_enc_status(struct drm_dp_sideband_msg_tx *msg, u8 stream_id,
++			      u8 *q_id)
++{
++	struct drm_dp_sideband_msg_req_body req;
++
++	req.req_type = DP_QUERY_STREAM_ENC_STATUS;
++	req.u.enc_status.stream_id = stream_id;
++	memcpy(req.u.enc_status.client_id, q_id,
++	       sizeof(req.u.enc_status.client_id));
++	req.u.enc_status.stream_event = 0;
++	req.u.enc_status.valid_stream_event = false;
++	req.u.enc_status.stream_behavior = 0;
++	req.u.enc_status.valid_stream_behavior = false;
++
++	drm_dp_encode_sideband_req(&req, msg);
++	return 0;
++}
++
+ static int drm_dp_mst_assign_payload_id(struct drm_dp_mst_topology_mgr *mgr,
+ 					struct drm_dp_vcpi *vcpi)
  {
- 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
- 	int retry;
+@@ -3153,6 +3252,57 @@ int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
+ }
+ EXPORT_SYMBOL(drm_dp_send_power_updown_phy);
  
- 	for (retry = 0; retry < 3; retry++)
--		if (intel_hdmi_hdcp_check_link_once(dig_port))
-+		if (intel_hdmi_hdcp_check_link_once(dig_port, connector))
- 			return true;
++int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
++		struct drm_dp_mst_port *port,
++		struct drm_dp_query_stream_enc_status_ack_reply *status)
++{
++	struct drm_dp_sideband_msg_tx *txmsg;
++	u8 nonce[7];
++	int len, ret;
++
++	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
++	if (!txmsg)
++		return -ENOMEM;
++
++	port = drm_dp_mst_topology_get_port_validated(mgr, port);
++	if (!port) {
++		ret = -EINVAL;
++		goto out_get_port;
++	}
++
++	get_random_bytes(nonce, sizeof(nonce));
++
++	/*
++	 * "Source device targets the QUERY_STREAM_ENCRYPTION_STATUS message
++	 *  transaction at the MST Branch device directly connected to the
++	 *  Source"
++	 */
++	txmsg->dst = mgr->mst_primary;
++
++	len = build_query_stream_enc_status(txmsg, port->vcpi.vcpi, nonce);
++
++	drm_dp_queue_down_tx(mgr, txmsg);
++
++	ret = drm_dp_mst_wait_tx_reply(mgr->mst_primary, txmsg);
++	if (ret < 0) {
++		goto out;
++	} else if (txmsg->reply.reply_type == DP_SIDEBAND_REPLY_NAK) {
++		DRM_DEBUG_KMS("query encryption status nak received\n");
++		ret = -ENXIO;
++		goto out;
++	}
++
++	ret = 0;
++	memcpy(status, &txmsg->reply.u.enc_status, sizeof(*status));
++
++out:
++	drm_dp_mst_topology_put_port(port);
++out_get_port:
++	kfree(txmsg);
++	return ret;
++}
++EXPORT_SYMBOL(drm_dp_send_query_stream_enc_status);
++
+ static int drm_dp_create_payload_step1(struct drm_dp_mst_topology_mgr *mgr,
+ 				       int id,
+ 				       struct drm_dp_payload *payload)
+diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+index bd990d178765..1d696ec001cf 100644
+--- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+@@ -5,6 +5,8 @@
  
- 	drm_err(&i915->drm, "Link check failed\n");
+ #define PREFIX_STR "[drm_dp_mst_helper]"
+ 
++#include <linux/random.h>
++
+ #include <drm/drm_dp_mst_helper.h>
+ #include <drm/drm_print.h>
+ 
+@@ -237,6 +239,21 @@ int igt_dp_mst_sideband_msg_req_decode(void *unused)
+ 	in.u.i2c_write.bytes = data;
+ 	DO_TEST();
+ 
++	in.req_type = DP_QUERY_STREAM_ENC_STATUS;
++	in.u.enc_status.stream_id = 1;
++	DO_TEST();
++	get_random_bytes(in.u.enc_status.client_id,
++			 sizeof(in.u.enc_status.client_id));
++	DO_TEST();
++	in.u.enc_status.stream_event = 3;
++	DO_TEST();
++	in.u.enc_status.valid_stream_event = 0;
++	DO_TEST();
++	in.u.enc_status.stream_behavior = 3;
++	DO_TEST();
++	in.u.enc_status.valid_stream_behavior = 1;
++	DO_TEST();
++
+ #undef DO_TEST
+ 	return 0;
+ }
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 5c2819924862..5e41e15cb5a1 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1109,6 +1109,9 @@
+ #define DP_POWER_DOWN_PHY		0x25
+ #define DP_SINK_EVENT_NOTIFY		0x30
+ #define DP_QUERY_STREAM_ENC_STATUS	0x38
++#define  DP_QUERY_STREAM_ENC_STATUS_STATE_NO_EXIST	0
++#define  DP_QUERY_STREAM_ENC_STATUS_STATE_INACTIVE	1
++#define  DP_QUERY_STREAM_ENC_STATUS_STATE_ACTIVE	2
+ 
+ /* DP 1.2 MST sideband reply types */
+ #define DP_SIDEBAND_REPLY_ACK		0x00
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index 8b9eb4db3381..371eef8798ad 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -313,6 +313,34 @@ struct drm_dp_remote_i2c_write_ack_reply {
+ 	u8 port_number;
+ };
+ 
++struct drm_dp_query_stream_enc_status_ack_reply {
++	/* Bit[23:16]- Stream Id */
++	u8 stream_id;
++
++	/* Bit[15]- Signed */
++	bool reply_signed;
++
++	/* Bit[10:8]- Stream Output Sink Type */
++	bool unauthorizable_device_present;
++	bool legacy_device_present;
++	bool query_capable_device_present;
++
++	/* Bit[12:11]- Stream Output CP Type */
++	bool hdcp_1x_device_present;
++	bool hdcp_2x_device_present;
++
++	/* Bit[4]- Stream Authentication */
++	bool auth_completed;
++
++	/* Bit[3]- Stream Encryption */
++	bool encryption_enabled;
++
++	/* Bit[2]- Stream Repeater Function Present */
++	bool repeater_present;
++
++	/* Bit[1:0]- Stream State */
++	u8 state;
++};
+ 
+ #define DRM_DP_MAX_SDP_STREAMS 16
+ struct drm_dp_allocate_payload {
+@@ -374,6 +402,15 @@ struct drm_dp_remote_i2c_write {
+ 	u8 *bytes;
+ };
+ 
++struct drm_dp_query_stream_enc_status {
++	u8 stream_id;
++	u8 client_id[7];	/* 56-bit nonce */
++	u8 stream_event;
++	bool valid_stream_event;
++	u8 stream_behavior;
++	u8 valid_stream_behavior;
++};
++
+ /* this covers ENUM_RESOURCES, POWER_DOWN_PHY, POWER_UP_PHY */
+ struct drm_dp_port_number_req {
+ 	u8 port_number;
+@@ -422,6 +459,8 @@ struct drm_dp_sideband_msg_req_body {
+ 
+ 		struct drm_dp_remote_i2c_read i2c_read;
+ 		struct drm_dp_remote_i2c_write i2c_write;
++
++		struct drm_dp_query_stream_enc_status enc_status;
+ 	} u;
+ };
+ 
+@@ -444,6 +483,8 @@ struct drm_dp_sideband_msg_reply_body {
+ 		struct drm_dp_remote_i2c_read_ack_reply remote_i2c_read_ack;
+ 		struct drm_dp_remote_i2c_read_nak_reply remote_i2c_read_nack;
+ 		struct drm_dp_remote_i2c_write_ack_reply remote_i2c_write_ack;
++
++		struct drm_dp_query_stream_enc_status_ack_reply enc_status;
+ 	} u;
+ };
+ 
+@@ -808,6 +849,9 @@ drm_dp_atomic_release_vcpi_slots(struct drm_atomic_state *state,
+ 				 struct drm_dp_mst_port *port);
+ int drm_dp_send_power_updown_phy(struct drm_dp_mst_topology_mgr *mgr,
+ 				 struct drm_dp_mst_port *port, bool power_up);
++int drm_dp_send_query_stream_enc_status(struct drm_dp_mst_topology_mgr *mgr,
++		struct drm_dp_mst_port *port,
++		struct drm_dp_query_stream_enc_status_ack_reply *status);
+ int __must_check drm_dp_mst_atomic_check(struct drm_atomic_state *state);
+ 
+ void drm_dp_mst_get_port_malloc(struct drm_dp_mst_port *port);
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
