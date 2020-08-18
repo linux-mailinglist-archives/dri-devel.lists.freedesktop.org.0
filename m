@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B013F247FF6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B464F247FD5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9218E89F2E;
-	Tue, 18 Aug 2020 07:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6A5C89C99;
+	Tue, 18 Aug 2020 07:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 560F589B62
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 22:50:59 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id c10so8503902pjn.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 15:50:59 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC216E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 00:22:28 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id u128so9069184pfb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Aug 2020 17:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=SQkF1er9CI/HdoW+CwMyTYmnG8SOeqdla6TOsxwwXL8=;
- b=EVAxOV8OGoEBu6rnvdmhL7nV88zwX29yi/vbnC+n+vOBoGdfRXKTYRNxwwIeZ+BjCL
- n00zv8FJcL4GNWB1T9HqvbiknMeFsz4MVl/oKDDvDv4xSzjhGPRsrR7FG1kxoxuIVabp
- rL28hlM7qopNZnIsSx/06Xt488jLS5/+IANV4=
+ bh=G4S72b5uoF0KvLSq8Fxn7M3pQq4TBaiGBup4iTUl/TU=;
+ b=lD3hYa4SkXByNwvhpt56gj/tstJy1tqXwYDtCWD3Qh1s2U6dZw5MEzqRk08E30ztkT
+ H/Lu0d2EH0rF/bkPDTJVXWn47uVNcdiGJ1hCMU3zKIXlLYl+dtVhUKvm1nAu1iFV1A6i
+ FBmisgXAtLRbUcQ4JPFyzI1jg1WPfNLwNE1gM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=SQkF1er9CI/HdoW+CwMyTYmnG8SOeqdla6TOsxwwXL8=;
- b=quO/ZTYupGkjpTP+KDRn1o51JpVQlms9AgaDOnv+hml4NMSph2oMKa+0HXwA5uEA/5
- LnIbozFpLvPpRXET2k9zSvxLaeJnwpcIYcA4ILNYVZCSXuw96Z3wYG1+QShqqk1T/jXE
- fMInWohwE1d3mkPlqtq4+xnUiBOvhO6CXF/TJ/AJWGGevenNhZyM30AAvKet8JMgI1F6
- GBu1wC12RdyzGPJY2N/AzsUopO6NNHW+jdyAZwCTgWQys/4zLCtZYfCWOj2bod5lAyMZ
- MnU/9IAr7GG3BzJRZRb3AVtb3xWZkwE/pRiQaa25w55obTHZL1GVvqThCH9K1XKDrv1Z
- Yo7g==
-X-Gm-Message-State: AOAM5336lKacpY0oDzLz8toOOMpRXWVGHucPoij6IGrbgsxwUUZdTDQI
- gt6/i0j7cWp3XNXv+7KKObyW1MbTSt34EQ==
-X-Google-Smtp-Source: ABdhPJyJOVgzQkXpdtBDVbGzjM+WmdvtLlVBSbnc4J38wcBX/4/0hz901JkQfbgFaPFVLg8jtt6UJA==
-X-Received: by 2002:a17:90a:d252:: with SMTP id
- o18mr13953355pjw.146.1597704658834; 
- Mon, 17 Aug 2020 15:50:58 -0700 (PDT)
+ bh=G4S72b5uoF0KvLSq8Fxn7M3pQq4TBaiGBup4iTUl/TU=;
+ b=nbnGidBJKGIyOdVa/RKDjqHCS3aWWhLLHQTYMJ5+37QW9OwCodMMH5B59Zpp/fbpQ5
+ 2zTPthAU3Q0x1KzHqxghJf93ckUoLcCwBu7ZVwTzMVdd0kRoYR4UFJY2tGtpkeJCKVte
+ r9/htWmRsfogYKAY+iayrraNusOFPuYp5K1yvdCnwLj6weS+rCL+iUvxeCIStuUDHY+u
+ YWfSjnhZJMrqFJsAPpCYIfTvCxW7dkI67iF0yg+MqqfhRTiwD6Ru+nn8GvTjiEHImoRl
+ OQN0yEUMwh7/9o8JEr5Hhr4q8eEo9TQjRq8JPaWoErAAkofJsnDcUm82XIwNV94vCHUP
+ y/Yg==
+X-Gm-Message-State: AOAM532JetZRTqezRe6OBMX7aG3CPO9wyPI1KXuERE8RECzu+hqhwUhp
+ xRkL4CiasuAaU3b32jGRlPyvog==
+X-Google-Smtp-Source: ABdhPJyx5W7AFU45MW9bjlWtaga4TqK2K/MQWMdH80dZVXkjSwadqmJpL5/JLqjL+aKPBgsgPwBzeg==
+X-Received: by 2002:a63:30c6:: with SMTP id
+ w189mr11295826pgw.241.1597710147966; 
+ Mon, 17 Aug 2020 17:22:27 -0700 (PDT)
 Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id z23sm18201207pgv.57.2020.08.17.15.50.58
+ by smtp.gmail.com with ESMTPSA id h5sm21282963pfq.146.2020.08.17.17.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 15:50:58 -0700 (PDT)
+ Mon, 17 Aug 2020 17:22:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200817224527.28532-1-tanmay@codeaurora.org>
-References: <20200817224527.28532-1-tanmay@codeaurora.org>
-Subject: Re: [PATCH v1] arm64: dts: qcom: sc7180: Add DisplayPort HPD pin dt
+In-Reply-To: <20200817225912.3149-1-tanmay@codeaurora.org>
+References: <20200817225912.3149-1-tanmay@codeaurora.org>
+Subject: Re: [PATCH v2] arm64: dts: qcom: sc7180: Add DisplayPort HPD pin dt
  node
 From: Stephen Boyd <swboyd@chromium.org>
-To: Tanmay Shah <tanmay@codeaurora.org>, devicetree@vger.kernel.org
-Date: Mon, 17 Aug 2020 15:50:56 -0700
-Message-ID: <159770465685.2423498.15137387317243148552@swboyd.mtv.corp.google.com>
+To: Tanmay Shah <tanmay@codeaurora.org>
+Date: Mon, 17 Aug 2020 17:22:25 -0700
+Message-ID: <159771014584.2423498.11072252787625455437@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Tue, 18 Aug 2020 07:50:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,8 +67,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tanmay Shah <tanmay@codeaurora.org>, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
+ airlied@linux.ie, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, khsieh@codeaurora.org, seanpaul@chromium.org,
  abhinavk@codeaurora.org, aravindh@codeaurora.org,
  freedreno@lists.freedesktop.org
@@ -77,41 +77,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tanmay Shah (2020-08-17 15:45:27)
+Quoting Tanmay Shah (2020-08-17 15:59:12)
 > This node defines alternate DP HPD functionality of GPIO.
 > 
 > Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
 > ---
->  arch/arm64/boot/dts/qcom/sc7180.dtsi | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
 > diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> index bf2f2bb1aa79..9f97cf5dd9ab 100644
+> index bf2f2bb1aa79..0eedf057acc1 100644
 > --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
 > +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> @@ -1457,6 +1457,20 @@ pinconf-sd-cd {
+> @@ -1457,6 +1457,19 @@ pinconf-sd-cd {
 >                                         drive-strength = <2>;
 >                                 };
 >                         };
 > +
 > +                       dp_hot_plug_det: dp-hot-plug-det {
+
+And this should be sorted alphabetically instead of put at the end of
+the node.
+
 > +                               pinmux {
 > +                                       pins = "gpio117";
 > +                                       function = "dp_hot";
 > +                               };
 > +
-> +                               config {
-
-The node name is usualy called pinconf. Please use that.
-
+> +                               pinconf {
 > +                                       pins = "gpio117";
 > +                                       bias-disable;
 > +                                       input-enable;
-> +                                       drive-strength = <2>;
-
-My understanding is that drive-strength doesn't do anything when the pin
-is input. So this line should be removed.
-
 > +                               };
 > +                       };
 >                 };
