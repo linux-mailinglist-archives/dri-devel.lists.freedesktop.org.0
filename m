@@ -1,38 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93852248D00
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 19:33:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DF7248DDB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 20:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35B289CCB;
-	Tue, 18 Aug 2020 17:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 353C089C0A;
+	Tue, 18 Aug 2020 18:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28AC489CCB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 17:33:54 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 7ABE42001F;
- Tue, 18 Aug 2020 19:33:51 +0200 (CEST)
-Date: Tue, 18 Aug 2020 19:33:50 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] drm/panel: s6e63m0: Order enable/disable sequence
-Message-ID: <20200818173350.GA2295407@ravnborg.org>
-References: <20200817213906.88207-1-linus.walleij@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E69689C0A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 18:22:09 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
+ after 5.9 merges
+Date: Tue, 18 Aug 2020 18:22:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ckane@colemankane.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-208947-2300-ok3v7tpily@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
+References: <bug-208947-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200817213906.88207-1-linus.walleij@linaro.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=pGLkceISAAAA:8 a=j8Cu_9a8AAAA:8 a=KKAkSRfTAAAA:8
- a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=TZnOqgO_JnwcizMQzX4A:9
- a=QEXdDO2ut3YA:10 a=A2jcf3dkIZPIRbEE90CI:22 a=cvBusfyB2V15izCimMoJ:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,81 +52,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
- =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGludXMuCgpPbiBNb24sIEF1ZyAxNywgMjAyMCBhdCAxMTozOTowNlBNICswMjAwLCBMaW51
-cyBXYWxsZWlqIHdyb3RlOgo+IFRoZSB1cHN0cmVhbSBTNkU2M00wIGRyaXZlciBoYXMgc29tZSBw
-ZWN1bGFyaXRpZXMgYXJvdW5kCj4gdGhlIHByZXBhcmUvZW5hYmxlIGRpc2FibGUvdW5wcmVwYXJl
-IHNlcXVlbmNlOiB0aGUgc2NyZWVuCj4gaXMgdGFrZW4gb3V0IG9mIHNsZWVwIGluIHByZXBhcmUo
-KSBhcyBwYXJ0IG9mCj4gczZlNjNtMF9pbml0KCkgdGhlIHB1dCB0byBvbiB3aXRoIE1JUElfRENT
-X1NFVF9ESVNQTEFZX09OCj4gaW4gZW5hYmxlKCkuCj4gCj4gSG93ZXZlciBpdCBpcyBqdXN0IHB1
-dCBpbnRvIHNsZWVwIG1vZGUgZGlyZWN0bHkgaW4KPiBkaXNhYmxlKCkuIEFzIGRpc2FibGUoKS9l
-bmFibGUoKSBjYW4gYmUgY2FsbGVkIHdpdGhvdXQKPiB1bnByZXBhcmUoKS9wcmVwYXJlKCkgYmVp
-bmcgY2FsbGVkLCB0aGlzIGlzIHVuYmFsYW5jZWQsCj4gd2Ugc2hvdWxkIHRha2UgdGhlIGRpc3Bs
-YXkgb3V0IG9mIHNsZWVwIGluIGVuYWJsZSgpCj4gdGhlbiB0dXJuIGl0IG9mZigpLgo+IAo+IEZ1
-cnRoZXIgTUlQSV9EQ1NfU0VUX0RJU1BMQVlfT0ZGIGlzIG5ldmVyIGNhbGxlZAo+IGJhbGFuY2Vk
-IHdpdGggTUlQSV9EQ1NfU0VUX0RJU1BMQVlfT04uCj4gCj4gVGhlIHZlbmRvciBkcml2ZXIgZm9y
-IFNhbXN1bmcgR1QtSTgxOTAgKEdvbGRlbikgZG9lcyBhbGwKPiBvZiB0aGVzZSB0aGluZ3MgaW4g
-c3RyaWN0IG9yZGVyLgo+IAo+IEF1Z21lbnQgdGhlIGRyaXZlciB0byBkbyBleGl0IHNsZWVwL3Nl
-dCBkaXNwbGF5IG9uIGluCj4gZW5hYmxlKCkgYW5kIHNldCBkaXNwbGF5IG9mZi9lbnRlciBzbGVl
-cCBpbiBkaXNhYmxlKCkuCj4gCj4gRnVydGhlciBzZW5kIGFuIGV4cGxpY3QgcmVzZXQgcHVsc2Ug
-aW4gcG93ZXJfb24oKSBzbyB3ZQo+IGNvbWUgdXAgaW4gYSBrbm93biBzdGF0ZSwgYW5kIGlzc3Vl
-IHRoZSBNQ1NfRVJST1JfQ0hFQ0sKPiBjb21tYW5kIGFmdGVyIHNldHRpbmcgZGlzcGxheSBvbiBs
-aWtlIHRoZSB2ZW5kb3IgZHJpdmVyCj4gZG9lcy4gQWxzbyB1c2UgdGhlIHRpbWluZ3MgZnJvbSB0
-aGUgdmVuZG9yIGRyaXZlciBpbgo+IHRoZSBzZXF1ZW5jZS4KPiAKPiBEb2luZyBhbGwgb2YgdGhl
-c2UgdGhpbmdzIG1ha2VzIHRoZSBkaXNwbGF5IG11Y2ggbW9yZQo+IHN0YWJsZSBvbiB0aGUgU2Ft
-c3VuZyBHVC1JODE5MCB3aGVuIGVuYWJsaW5nL2Rpc2FibGluZwo+IHRoZSBkaXNwbGF5IHBpcGVs
-aW5lLgo+IAo+IENjOiBQYXdlxYIgQ2htaWVsIDxwYXdlbC5taWtvbGFqLmNobWllbEBnbWFpbC5j
-b20+Cj4gQ2M6IFN0ZXBoYW4gR2VyaG9sZCA8c3RlcGhhbkBnZXJob2xkLm5ldD4KPiBTaWduZWQt
-b2ZmLWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+CgpCcm93c2Vk
-IHRocm91Z2ggdGhpcyBwYXRjaCAtIGxvb2tzIGZpbmUuCkFja2VkLWJ5OiBTYW0gUmF2bmJvcmcg
-PHNhbUByYXZuYm9yZy5vcmc+CgoJU2FtCgo+IC0tLQo+IFRoaXMgaXMgYmFzZWQgb24gdG9wIG9m
-IHRoZSBlYXJsaWVyIHBhdGNoZXMgZm9yIHM2ZTYzbTAuCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZTYzbTAuYyB8IDE4ICsrKysrKysrKysrKysrKy0tLQo+
-ICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5j
-IGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5jCj4gaW5kZXgg
-ZjFkOTZlYzNiNTdmLi40OWIwNDcwYmNjY2QgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5jCj4gQEAgLTI2LDYgKzI2LDcgQEAKPiAgI2RlZmlu
-ZSBNQ1NfRUxWU1NfT04gICAgICAgICAgICAgICAgMHhiMQo+ICAjZGVmaW5lIE1DU19NSUVDVEwx
-ICAgICAgICAgICAgICAgIDB4YzAKPiAgI2RlZmluZSBNQ1NfQkNNT0RFICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgMHhjMQo+ICsjZGVmaW5lIE1DU19FUlJPUl9DSEVDSwkJMHhkNQo+ICAj
-ZGVmaW5lIE1DU19SRUFEX0lEMQkJMHhkYQo+ICAjZGVmaW5lIE1DU19SRUFEX0lEMgkJMHhkYgo+
-ICAjZGVmaW5lIE1DU19SRUFEX0lEMwkJMHhkYwo+IEBAIC0yODEsOCArMjgyLDYgQEAgc3RhdGlj
-IHZvaWQgczZlNjNtMF9pbml0KHN0cnVjdCBzNmU2M20wICpjdHgpCj4gIAo+ICAJczZlNjNtMF9k
-Y3Nfd3JpdGVfc2VxX3N0YXRpYyhjdHgsIE1DU19FTFZTU19PTiwKPiAgCQkJCSAgICAgMHgwYik7
-Cj4gLQo+IC0JczZlNjNtMF9kY3Nfd3JpdGVfc2VxX3N0YXRpYyhjdHgsIE1JUElfRENTX0VYSVRf
-U0xFRVBfTU9ERSk7Cj4gIH0KPiAgCj4gIHN0YXRpYyBpbnQgczZlNjNtMF9wb3dlcl9vbihzdHJ1
-Y3QgczZlNjNtMCAqY3R4KQo+IEBAIC0yOTUsNiArMjk0LDkgQEAgc3RhdGljIGludCBzNmU2M20w
-X3Bvd2VyX29uKHN0cnVjdCBzNmU2M20wICpjdHgpCj4gIAo+ICAJbXNsZWVwKDI1KTsKPiAgCj4g
-KwkvKiBCZSBzdXJlIHRvIHNlbmQgYSByZXNldCBwdWxzZSAqLwo+ICsJZ3Bpb2Rfc2V0X3ZhbHVl
-KGN0eC0+cmVzZXRfZ3BpbywgMSk7Cj4gKwltc2xlZXAoNSk7Cj4gIAlncGlvZF9zZXRfdmFsdWUo
-Y3R4LT5yZXNldF9ncGlvLCAwKTsKPiAgCW1zbGVlcCgxMjApOwo+ICAKPiBAQCAtMzI0LDggKzMy
-NiwxMCBAQCBzdGF0aWMgaW50IHM2ZTYzbTBfZGlzYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5l
-bCkKPiAgCj4gIAliYWNrbGlnaHRfZGlzYWJsZShjdHgtPmJsX2Rldik7Cj4gIAo+ICsJczZlNjNt
-MF9kY3Nfd3JpdGVfc2VxX3N0YXRpYyhjdHgsIE1JUElfRENTX1NFVF9ESVNQTEFZX09GRik7Cj4g
-Kwltc2xlZXAoMTApOwo+ICAJczZlNjNtMF9kY3Nfd3JpdGVfc2VxX3N0YXRpYyhjdHgsIE1JUElf
-RENTX0VOVEVSX1NMRUVQX01PREUpOwo+IC0JbXNsZWVwKDIwMCk7Cj4gKwltc2xlZXAoMTIwKTsK
-PiAgCj4gIAljdHgtPmVuYWJsZWQgPSBmYWxzZTsKPiAgCj4gQEAgLTM5MSw3ICszOTUsMTUgQEAg
-c3RhdGljIGludCBzNmU2M20wX2VuYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKPiAgCWlm
-IChjdHgtPmVuYWJsZWQpCj4gIAkJcmV0dXJuIDA7Cj4gIAo+ICsJczZlNjNtMF9kY3Nfd3JpdGVf
-c2VxX3N0YXRpYyhjdHgsIE1JUElfRENTX0VYSVRfU0xFRVBfTU9ERSk7Cj4gKwltc2xlZXAoMTIw
-KTsKPiAgCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9zdGF0aWMoY3R4LCBNSVBJX0RDU19TRVRfRElT
-UExBWV9PTik7Cj4gKwltc2xlZXAoMTApOwo+ICsKPiArCXM2ZTYzbTBfZGNzX3dyaXRlX3NlcV9z
-dGF0aWMoY3R4LCBNQ1NfRVJST1JfQ0hFQ0ssCj4gKwkJCQkgICAgIDB4RTcsIDB4MTQsIDB4NjAs
-IDB4MTcsIDB4MEEsIDB4NDksIDB4QzMsCj4gKwkJCQkgICAgIDB4OEYsIDB4MTksIDB4NjQsIDB4
-OTEsIDB4ODQsIDB4NzYsIDB4MjAsCj4gKwkJCQkgICAgIDB4MEYsIDB4MDApOwo+ICAKPiAgCWJh
-Y2tsaWdodF9lbmFibGUoY3R4LT5ibF9kZXYpOwo+ICAKPiAtLSAKPiAyLjI2LjIKPiAKPiBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=208947
+
+--- Comment #2 from Coleman Kane (ckane@colemankane.org) ---
+Created attachment 292011
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292011&action=edit
+Working dmesg from Arch "linux" kernel 5.8.1-1
+
+Working dmesg from Arch "linux" kernel 5.8.1-1
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
