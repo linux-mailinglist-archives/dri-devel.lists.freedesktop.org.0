@@ -1,90 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E00249441
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 07:01:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9273E249578
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9BB289B12;
-	Wed, 19 Aug 2020 05:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7C06E1B6;
+	Wed, 19 Aug 2020 06:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700087.outbound.protection.outlook.com [40.107.70.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4845B89B18;
- Wed, 19 Aug 2020 05:01:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gJvwUpQ4d0OFZN1XBwJ8xMoqNoJwm1q7zpqLdnIpidRGdITpM6wVw32GeM8F2EUWuKZsxIZgrZhcl88s1LjFVT6acR6L9N0MOxKK3PqH3PAH2FJjKmlBqXcYn3ojc6qCut92GD8GY58YEaNbiYeW99VbxUGcEnc1vimQrrMdXKyUdnqzB20fKSUUwf2VOozdGOCnuTQ/J7ii4fvKx5Fg9LmgzhbLwmhN8sSwLN2zcHDlaR+k8w0FKGYFx0kGPsJPT520RK6mRG6cdd6Vhz9FGaQwM2UOWwvfwbaMDOXuUEYdmo/S45skkPBUW9wqL0YgY8FZfEpPAH7A5wK57Kch7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BOtVYHQ+IwAD0+sK2JkU+3v07JnhsAAbvemtZnsLWzE=;
- b=is5xRaWr2t9rW+6xl7J32U9ovZnG8xidlrITTUsDaaMEchuIojQ3dBVDtu6tv/UdF5RaD2wIPU9roqp03fAg2GH/8wTJtN77UfJm2/wFcdih5JLCo8W0iitGORk1UuKp24jkX+2SRoggy0K4hRypB7VNyDWM5JlQmCcOMMAl99BwiTJHrlpTVttttsup0bO+NMxM4lz2Mg+4Fvu2bMBEnODlgMGYvstqoKETuvegkA06RZuRWUoghJX2KFCcWPW3NfQuRCdS0gTrkktzLnKxlNSZvl3XQ/lfWM0oAaA71Kwldap/Pfu9Oe/EPcS+DWp6I29kbOrln/7btXYiviZ3ZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BOtVYHQ+IwAD0+sK2JkU+3v07JnhsAAbvemtZnsLWzE=;
- b=R3GMbZFYG6IQ6h2L3m35aU0QflReXdETC82wBgpFFMXUTMgAHWJQd38AC4U+VxMr564b1QaRQYSgd37QlvNe0IBmzLIFySWYilhOgg0zB6uylr83jmxkNCRjbSqMKeM+ilPKHXZEZafExsztU6hU47Y1qegBGW4+GrdmAHWgTzw=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
- by DM6PR12MB2618.namprd12.prod.outlook.com (2603:10b6:5:49::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Wed, 19 Aug
- 2020 05:00:59 +0000
-Received: from DM6PR12MB3962.namprd12.prod.outlook.com
- ([fe80::3452:6d8f:e0ef:b45e]) by DM6PR12MB3962.namprd12.prod.outlook.com
- ([fe80::3452:6d8f:e0ef:b45e%6]) with mapi id 15.20.3305.024; Wed, 19 Aug 2020
- 05:00:59 +0000
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/amdgpu: Embed drm_device into amdgpu_device (v2)
-Date: Wed, 19 Aug 2020 01:00:42 -0400
-Message-Id: <20200819050042.7370-4-luben.tuikov@amd.com>
-X-Mailer: git-send-email 2.28.0.215.g878e727637
-In-Reply-To: <20200819050042.7370-1-luben.tuikov@amd.com>
-References: <20200819050042.7370-1-luben.tuikov@amd.com>
-X-ClientProxiedBy: YT1PR01CA0016.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::29)
- To DM6PR12MB3962.namprd12.prod.outlook.com
- (2603:10b6:5:1ce::21)
+X-Greylist: delayed 356 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Aug 2020 07:51:50 UTC
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 210FA89CE1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 07:51:50 +0000 (UTC)
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20200818074551epoutp03fedb451e838e8919fdc43be845540874~sTRxYsa170307303073epoutp033
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 07:45:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20200818074551epoutp03fedb451e838e8919fdc43be845540874~sTRxYsa170307303073epoutp033
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1597736751;
+ bh=dw5oXT9wypsLxfzjFB/LVZWr7Mx69JAVk4Tqy1Lmc7s=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=e7aBJMIM85ftPeuHmE3vZs2agh9KMR430MvPQuxSFePbhwGCiHq6FG/W1RQ08A9FO
+ KxyI2O6CrYiy8pvcI6xgJ0GgvUiYiNxuhstWAq849niKaF/sVFZkp2wgVxRmhocgW6
+ o6vjYU1VEkmMacE5xsyIevQXxDvM2QYOVJCNPOJQ=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas2p3.samsung.com (KnoxPortal) with ESMTP id
+ 20200818074551epcas2p3eafdb6409e1a2636717a4c2f73d76015~sTRwgIcRf2091420914epcas2p3b;
+ Tue, 18 Aug 2020 07:45:51 +0000 (GMT)
+Received: from epsmges2p1.samsung.com (unknown [182.195.40.181]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4BW2yj0RGSzMqYmC; Tue, 18 Aug
+ 2020 07:45:49 +0000 (GMT)
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+ epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 63.BD.19322.C278B3F5; Tue, 18 Aug 2020 16:45:48 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200818074547epcas2p21e0c2442873d03800c7bc2c3e76405d6~sTRtSO3vb2672326723epcas2p2X;
+ Tue, 18 Aug 2020 07:45:47 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200818074547epsmtrp163a93b57be1a23b472e1de5be6cc5044~sTRtRGzpp2704127041epsmtrp1l;
+ Tue, 18 Aug 2020 07:45:47 +0000 (GMT)
+X-AuditID: b6c32a45-7adff70000004b7a-d2-5f3b872c46b0
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 84.78.08303.B278B3F5; Tue, 18 Aug 2020 16:45:47 +0900 (KST)
+Received: from Dabang.dsn.sec.samsung.com (unknown [12.36.155.59]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200818074547epsmtip239546245637fb5172bd79a2d66a02ce9~sTRtBSvcm2582525825epsmtip2n;
+ Tue, 18 Aug 2020 07:45:47 +0000 (GMT)
+From: Hyesoo Yu <hyesoo.yu@samsung.com>
+To: sumit.semwal@linaro.org
+Subject: [PATCH 0/3] Chunk Heap Support on DMA-HEAP
+Date: Tue, 18 Aug 2020 17:04:12 +0900
+Message-Id: <20200818080415.7531-1-hyesoo.yu@samsung.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by
- YT1PR01CA0016.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.16 via Frontend Transport; Wed, 19 Aug 2020 05:00:59 +0000
-X-Mailer: git-send-email 2.28.0.215.g878e727637
-X-Originating-IP: [165.204.55.250]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1a8ddffc-a655-4c79-dc6b-08d843fcdd2b
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2618:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB261890DDEDEF46DD1B05DDF4995D0@DM6PR12MB2618.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zKboyuUcVcRFu38K1j2eeWh8wuF267jh4hGRpiSWoYRaTufDxuzgbNtkm78hDADyvsQ7fr0oOYT+2K1h1edmz7Lws5tmch0TPhN/FkHVCGTQjKy9o+9OJWSV1FnrIEg8bgM/7Bz/BGFUESCAs5Xuett5bR+bQk+E9dvbqBI/YD1MwGhVQGuy2dduC2dmjJ37RtgHudV5p7GGqT5+O3FdK4s/e+bi2drp/6qvhvy5WQuBq5kh26Kg8uhaH/vPymV7NefNDLNQXKrkkSsRgz9ypKfxWwp9t3YEXXQSucqXNeMH75yDUEuwUGl5DbUEIYxZaZ+sqPEKDYkcGl1HW2arAUvfdVa4PD0U0DiLcslsFsvn4tIvDqInGyKnE3SUJDyY
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(396003)(136003)(376002)(346002)(26005)(110011004)(83380400001)(16576012)(316002)(2906002)(4326008)(36756003)(54906003)(8676002)(1076003)(478600001)(186003)(66556008)(66476007)(6486002)(44832011)(66946007)(5660300002)(52116002)(6666004)(8936002)(86362001)(956004)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: MOYhn+RBYr9aumSBUaSomKX8KG7/qjYpQyVjbPlQ+DR7mTnTASrsyhgLDhKsIoro84azbJasd0I132ffc6Dg4iRCas1Jeg95rFeZbkxrhKyvKMJZKj5gRjUDEL6ywnA/JWtdnOLdr6++RCiAJTbjU817C573F/KLD0UcZw4Rg2bYb8s9TiyU6si+oYx0EuyCj8ZyD3kDbfzKhM6RymusidQjEiRof/zN4BfMjQY+lVOMQw5AbJ8AEXJVvSaHztjNRolL33EBF1K6EnnREgiyk81+P8ytGZu0BSOLKf7Xi6/XevEE1zxLM1IPxXHfTeLdNQ1AQGmtrEA3eegAqJY7w/rrC1o3RAacdzn0wz++SCWJruffHM/hpI3BMFM9f32AEJ1xPtuE2Ef6ni/A7vFwP6CNAjy5yy9sB7G1hgmsaLZUTIe85+tpYoi2yGrvjuodp+OEfOWY9RhkJyLOwYuaHorwYyo71s0+TG/GtmLB1phsDo2esPxidxxYd36gMNDb7PLdTFMLzQ2Pb7CU3NRpQFYL/w8HX+hz0jIewSWKMmZQxWqi/SiaSZyNpqJ7G/Cz775la76ck2avoDrJuPDESPc792w7y1wX0azIWMSc1RkGxdFNZf2hj1ARHxjQ7ItmfOiFsMnP5cDWoNN/WJwjXQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a8ddffc-a655-4c79-dc6b-08d843fcdd2b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2020 05:00:59.5773 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DEJ91C0tlxzGpDJnITpxg3CnyfUWbpg3Z+88qdelwEKPsjm8LLdrJchO95jWPtxX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2618
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTZxjG8522p4Wk21lx46MkwEo2A5NLweKHEzVOt2MgjsCyIMtWKhwp
+ obRdD3hpXKYgFxGqgMPRKhRQVhgIloqAiIJkXEQDglgHCkPUyEAQVAgEXGkx47/nfd73l+e7
+ 5OUweGlsPidOnkip5BKZALdn1t3yCPDakP6l2LdhiIemunLY6Fx1JY6SW7twNNrVA9Dk8DUW
+ Kmq7y0L9b6ZwtHSih4XKT6bgaE4/ykDdi16ovGkeQ6/7/8FQX+M5HGXVXGGhx5XvWEjbOYCh
+ sjdTbLSc3QJQ6vU2Nup6NMtGeff0ONId04DtjmTqvSWcrCysBGSfJhsj9cYk0lhxAieNM7ls
+ MnOyHyOHBppwsuP3RSY5fLIdIweXnzDIqeb7OKkxVQCyW9/GJtvNVzFy1ugSSkTKtkgpSQyl
+ cqPk0YqYOHlskCA4XPyVWBTgK/QSBqJNAje5JIEKEuwMCfX6Ok5meQuB2wGJLMlihUpoWuCz
+ dYtKkZRIuUkVdGKQgFLGyJRCodKbliTQSfJY72hFwmahr6+fyDIZJZNqiqTKLO6hlgYddhSc
+ t88EdhxIbITNczdZmcCewyPqAWzNr2HYihkAl8/kYrZiFsBLExPgPfJ4eQi3NRoBnDdcWOXn
+ AHw7PchYmcKJ9bDDVGYl1hHO8KzBYB1iEOVMOJBntjYcCH94YXDeCjCJz2Dm4hmr5hKBsFir
+ WY1zhTm6R8DmfwQ7C8aYK5ph8VOu6KyHhUSeHXx+PpNtA3bClo4qpk07wPF206rPhy9Opa3q
+ g/DO8VGWDT4OYG/+fdzW8IfaZ+mWNI4lwQNWN/qsSEi4w7a/V3M/gBm3ltg2mwsz0ng20B3e
+ KCtcTXWCo1XpLJsm4cU6jVXziB9hTW0K6zRw1a65jXbNbbT/5+oBowJ8QinphFiK9lMK1/6q
+ EVgXwnNXPcibnPZuBRgHtALIYQjWcfd1bBLzuDGSw2pKpRCrkmQU3QpElvfNYfA/jlZYNkqe
+ KBaK/AICfANFSBTghwSO3IRPe37iEbGSRCqeopSU6j2Hcez4R7GCufmwUsm2cJT67qBh0fkZ
+ P/XwUrj62sumyIcjyV1b+w3mhtEs6eZOV8c/f8mO92uujnCumD2S6fG5U99vKT43hbsf7AhR
+ /+UcmfGH5zZ1xPOSq/ELt/dyMvLFpgOnPqy6W7D3i6Gj++hLtbXq+tjSKKco1+2F9SPmEsPT
+ B+3BdTy5S8TppT3xDuYdv/aE5S4szH1fnHyIcr9hfklfbk4+Mp41ZjLxA3ffYZX6364t6z1L
+ Q5WLpHd/3sYNP4QY08Nan+h1/eOXj3VPBbz61in13/aGkTaddqZhoji36O13L5hVF18J1K+f
+ RsbkjvlUs4dLgqf2fzM0/vMe74eFWufr61Ox6V0CJi2VCD0ZKlryH4b59EiZBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA03RfUzMcRzA8b6/3+9+9+u2y69T+uZMdliWdUKbr9XIU75DmGbDcI5+qvV0
+ 7sqz6PKwLi55CL9DV7PknIeuECpcR9cTLTk3JKp5GKmVm0jhNJv/Xvu8t8/njw9DSkqp0Ux8
+ ciqnTlYmymgRdbNaFhA8+VCYIqTquz/qrssVorPXzDTSWuto1F7XBFBX210Byrc9FqAWVzeN
+ BrOaBOhSdiaNvhnbSdQwEIwuVfQT6GvLWwI9vXOWRoev3xCg1+ZfAsTXOghU5OoWoqEjDwA6
+ UGkTorrWPiE63mykkSFDDyL88IHmQRqbz5sBfqo/QmCjJQ1bTFk0tvQeE2JdVwuBXzkqaGw/
+ PUDhtuwaAr8c6iBxd9UzGuvLTAA3GG1CXOO8ReA+y9jl7BpReAyXGL+VU0+ZtUEUp8+PUx0W
+ b39w20DsA+dEOuDJQDYUvh56ReuAiJGw5QB25emFw8Ef8n21xLBHwrb9NoHbEtYFYJ5jj9s0
+ GwjtZUXAbR9WCk8VFwvci0i2moLVV520O4xkp8MLL/tJtyl2ItQNnPhrMTsTFvB6MHwgAOYa
+ WsHw3BvWnumk3Cb/zDNvGMijwIv/L/H/JSMgTMCfU2mSYpM0U1XTkrltco0ySZOWHCvflJJk
+ AX//GhRUDipMPXIrIBhgBZAhZT7ijfYZCok4RrljJ6dOUajTEjmNFUgZSuYndvEF6yVsrDKV
+ S+A4Faf+VwnGc/Q+wlqvXdc4bgzd6FFp73FeWRbcsdmZnjk3RjuPSi9V34kMbJU6zCF+tjC2
+ BHyz3rus++DkewLT5ov6iyO2JZhyol0e4VHaSE47GDUrdAuc77jlVPikfPIu7GVUOeX3CwVz
+ Hofmh+5UfJZYD+ZGT2rwtO5IwEUrOuOjrzbtD3jHzxtFVr7x25XBGiKffLf/GL/Ie+GYD887
+ myetfCT1fRH+UyL1LUZVYWtLd//qW/D20O7bqVl5Hj22givhXgG5MHt9O1orz/CK1xjSHxWW
+ rzrpM7NkLy/fLFFOOF0vrmV9yYcj7PX5X3pnr4ZjP0aocpbkeHRkOBYHLi2d20Jd7HgfIqM0
+ ccqpQaRao/wNZwBpYkYDAAA=
+X-CMS-MailID: 20200818074547epcas2p21e0c2442873d03800c7bc2c3e76405d6
+X-Msg-Generator: CA
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200818074547epcas2p21e0c2442873d03800c7bc2c3e76405d6
+References: <CGME20200818074547epcas2p21e0c2442873d03800c7bc2c3e76405d6@epcas2p2.samsung.com>
+X-Mailman-Approved-At: Wed, 19 Aug 2020 06:56:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,309 +117,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Hyesoo Yu <hyesoo.yu@samsung.com>, labbott@redhat.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org, pullip.cho@samsung.com,
+ surenb@google.com, iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+ linux-kernel@vger.kernel.org, lmark@codeaurora.org, afd@ti.com,
+ minchan@kernel.org, joaodias@google.com, akpm@linux-foundation.org,
+ christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-a) Embed struct drm_device into struct amdgpu_device.
-b) Modify the inline-f drm_to_adev() accordingly.
-c) Modify the inline-f adev_to_drm() accordingly.
-d) Eliminate the use of drm_device.dev_private,
-   in amdgpu.
-e) Switch from using drm_dev_alloc() to
-   drm_dev_init().
-f) Add a DRM driver release function, which frees
-   the container amdgpu_device after all krefs on
-   the contained drm_device have been released.
+These patch series to introduce a new dma heap, chunk heap.
+That heap is needed for special HW that requires bulk allocation of
+fixed high order pages. For example, 64MB dma-buf pages are made up
+to fixed order-4 pages * 1024.
 
-v2: Split out adding adev_to_drm() into its own
-    patch (previous commit), making this patch
-    more succinct and clear. More detailed commit
-    description.
+The chunk heap uses alloc_pages_bulk to allocate high order page.
+https://lore.kernel.org/linux-mm/20200814173131.2803002-1-minchan@kernel.org
 
-Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 10 ++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 15 +++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 43 ++++++++++++++--------
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 20 +++-------
- 4 files changed, 43 insertions(+), 45 deletions(-)
+The chunk heap is registered by device tree with alignment and memory node
+of contiguous memory allocator(CMA). Alignment defines chunk page size.
+For example, alignment 0x1_0000 means chunk page size is 64KB.
+The phandle to memory node indicates contiguous memory allocator(CMA).
+If device node doesn't have cma, the registration of chunk heap fails.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 735480cc7dcf..107a6ec920f7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -724,8 +724,8 @@ struct amd_powerplay {
- #define AMDGPU_MAX_DF_PERFMONS 4
- struct amdgpu_device {
- 	struct device			*dev;
--	struct drm_device		*ddev;
- 	struct pci_dev			*pdev;
-+	struct drm_device		ddev;
- 
- #ifdef CONFIG_DRM_AMD_ACP
- 	struct amdgpu_acp		acp;
-@@ -990,12 +990,12 @@ struct amdgpu_device {
- 
- static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
- {
--	return ddev->dev_private;
-+	return container_of(ddev, struct amdgpu_device, ddev);
- }
- 
- static inline struct drm_device *adev_to_drm(struct amdgpu_device *adev)
- {
--	return adev->ddev;
-+	return &adev->ddev;
- }
- 
- static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
-@@ -1004,8 +1004,6 @@ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
- }
- 
- int amdgpu_device_init(struct amdgpu_device *adev,
--		       struct drm_device *ddev,
--		       struct pci_dev *pdev,
- 		       uint32_t flags);
- void amdgpu_device_fini(struct amdgpu_device *adev);
- int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
-@@ -1195,7 +1193,7 @@ static inline void *amdgpu_atpx_get_dhandle(void) { return NULL; }
- extern const struct drm_ioctl_desc amdgpu_ioctls_kms[];
- extern const int amdgpu_max_kms_ioctl;
- 
--int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags);
-+int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags);
- void amdgpu_driver_unload_kms(struct drm_device *dev);
- void amdgpu_driver_lastclose_kms(struct drm_device *dev);
- int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 07012d71eeea..6e529548e708 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1216,7 +1216,8 @@ static int amdgpu_device_check_arguments(struct amdgpu_device *adev)
-  * Callback for the switcheroo driver.  Suspends or resumes the
-  * the asics before or after it is powered up using ACPI methods.
-  */
--static void amdgpu_switcheroo_set_state(struct pci_dev *pdev, enum vga_switcheroo_state state)
-+static void amdgpu_switcheroo_set_state(struct pci_dev *pdev,
-+					enum vga_switcheroo_state state)
- {
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 	int r;
-@@ -2977,8 +2978,6 @@ static const struct attribute *amdgpu_dev_attributes[] = {
-  * amdgpu_device_init - initialize the driver
-  *
-  * @adev: amdgpu_device pointer
-- * @ddev: drm dev pointer
-- * @pdev: pci dev pointer
-  * @flags: driver flags
-  *
-  * Initializes the driver info and hw (all asics).
-@@ -2986,18 +2985,15 @@ static const struct attribute *amdgpu_dev_attributes[] = {
-  * Called at driver startup.
-  */
- int amdgpu_device_init(struct amdgpu_device *adev,
--		       struct drm_device *ddev,
--		       struct pci_dev *pdev,
- 		       uint32_t flags)
- {
-+	struct drm_device *ddev = adev_to_drm(adev);
-+	struct pci_dev *pdev = adev->pdev;
- 	int r, i;
- 	bool boco = false;
- 	u32 max_MBps;
- 
- 	adev->shutdown = false;
--	adev->dev = &pdev->dev;
--	adev->ddev = ddev;
--	adev->pdev = pdev;
- 	adev->flags = flags;
- 
- 	if (amdgpu_force_asic_type >= 0 && amdgpu_force_asic_type < CHIP_LAST)
-@@ -3451,9 +3447,8 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
- 	struct drm_connector_list_iter iter;
- 	int r;
- 
--	if (dev == NULL || dev->dev_private == NULL) {
-+	if (!dev)
- 		return -ENODEV;
--	}
- 
- 	adev = drm_to_adev(dev);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 38023c879db1..6866c515f00a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1082,7 +1082,7 @@ static struct drm_driver kms_driver;
- static int amdgpu_pci_probe(struct pci_dev *pdev,
- 			    const struct pci_device_id *ent)
- {
--	struct drm_device *dev;
-+	struct drm_device *ddev;
- 	struct amdgpu_device *adev;
- 	unsigned long flags = ent->driver_data;
- 	int ret, retry = 0;
-@@ -1138,36 +1138,42 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- 	if (ret)
- 		return ret;
- 
--	dev = drm_dev_alloc(&kms_driver, &pdev->dev);
--	if (IS_ERR(dev))
--		return PTR_ERR(dev);
-+	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-+	if (!adev)
-+		return -ENOMEM;
-+
-+	adev->dev  = &pdev->dev;
-+	adev->pdev = pdev;
-+	ddev = adev_to_drm(adev);
-+	ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
-+	if (ret)
-+		goto err_free;
- 
- 	if (!supports_atomic)
--		dev->driver_features &= ~DRIVER_ATOMIC;
-+		ddev->driver_features &= ~DRIVER_ATOMIC;
- 
- 	ret = pci_enable_device(pdev);
- 	if (ret)
- 		goto err_free;
- 
--	dev->pdev = pdev;
-+	ddev->pdev = pdev;
-+	pci_set_drvdata(pdev, ddev);
- 
--	pci_set_drvdata(pdev, dev);
--
--	ret = amdgpu_driver_load_kms(dev, ent->driver_data);
-+	ret = amdgpu_driver_load_kms(adev, ent->driver_data);
- 	if (ret)
- 		goto err_pci;
- 
- retry_init:
--	ret = drm_dev_register(dev, ent->driver_data);
-+	ret = drm_dev_register(ddev, ent->driver_data);
- 	if (ret == -EAGAIN && ++retry <= 3) {
- 		DRM_INFO("retry init %d\n", retry);
- 		/* Don't request EX mode too frequently which is attacking */
- 		msleep(5000);
- 		goto retry_init;
--	} else if (ret)
-+	} else if (ret) {
- 		goto err_pci;
-+	}
- 
--	adev = drm_to_adev(dev);
- 	ret = amdgpu_debugfs_init(adev);
- 	if (ret)
- 		DRM_ERROR("Creating debugfs files failed (%d).\n", ret);
-@@ -1177,7 +1183,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- err_pci:
- 	pci_disable_device(pdev);
- err_free:
--	drm_dev_put(dev);
-+	drm_dev_put(ddev);
- 	return ret;
- }
- 
-@@ -1197,6 +1203,14 @@ amdgpu_pci_remove(struct pci_dev *pdev)
- 	drm_dev_put(dev);
- }
- 
-+static void amdgpu_driver_release(struct drm_device *ddev)
-+{
-+	struct amdgpu_device *adev = drm_to_adev(ddev);
-+
-+	drm_dev_fini(ddev);
-+	kfree(adev);
-+}
-+
- static void
- amdgpu_pci_shutdown(struct pci_dev *pdev)
- {
-@@ -1491,6 +1505,7 @@ static struct drm_driver kms_driver = {
- 	.open = amdgpu_driver_open_kms,
- 	.postclose = amdgpu_driver_postclose_kms,
- 	.lastclose = amdgpu_driver_lastclose_kms,
-+	.release   = amdgpu_driver_release,
- 	.irq_handler = amdgpu_irq_handler,
- 	.ioctls = amdgpu_ioctls_kms,
- 	.gem_free_object_unlocked = amdgpu_gem_object_free,
-@@ -1525,8 +1540,6 @@ static struct pci_driver amdgpu_kms_pci_driver = {
- 	.driver.pm = &amdgpu_pm_ops,
- };
- 
--
--
- static int __init amdgpu_init(void)
- {
- 	int r;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 47cd3558f9c7..f2a4fdcd542d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -86,7 +86,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
- 	amdgpu_unregister_gpu_instance(adev);
- 
- 	if (adev->rmmio == NULL)
--		goto done_free;
-+		return;
- 
- 	if (adev->runpm) {
- 		pm_runtime_get_sync(dev->dev);
-@@ -96,10 +96,6 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
- 	amdgpu_acpi_fini(adev);
- 
- 	amdgpu_device_fini(adev);
--
--done_free:
--	kfree(adev);
--	dev->dev_private = NULL;
- }
- 
- void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
-@@ -130,22 +126,18 @@ void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
- /**
-  * amdgpu_driver_load_kms - Main load function for KMS.
-  *
-- * @dev: drm dev pointer
-+ * @adev: pointer to struct amdgpu_device
-  * @flags: device flags
-  *
-  * This is the main load function for KMS (all asics).
-  * Returns 0 on success, error on failure.
-  */
--int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
-+int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags)
- {
--	struct amdgpu_device *adev;
-+	struct drm_device *dev;
- 	int r, acpi_status;
- 
--	adev = kzalloc(sizeof(struct amdgpu_device), GFP_KERNEL);
--	if (adev == NULL) {
--		return -ENOMEM;
--	}
--	dev->dev_private = (void *)adev;
-+	dev = adev_to_drm(adev);
- 
- 	if (amdgpu_has_atpx() &&
- 	    (amdgpu_is_atpx_hybrid() ||
-@@ -160,7 +152,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 	 * properly initialize the GPU MC controller and permit
- 	 * VRAM allocation
- 	 */
--	r = amdgpu_device_init(adev, dev, dev->pdev, flags);
-+	r = amdgpu_device_init(adev, flags);
- 	if (r) {
- 		dev_err(&dev->pdev->dev, "Fatal error during GPU init\n");
- 		goto out;
+The patchset includes the following:
+ - export dma-heap API to register kernel module dma heap.
+ - add chunk heap implementation.
+ - document of device tree to register chunk heap
+
+Hyesoo Yu (3):
+  dma-buf: add missing EXPORT_SYMBOL_GPL() for dma heaps
+  dma-buf: heaps: add chunk heap to dmabuf heaps
+  dma-heap: Devicetree binding for chunk heap
+
+ .../devicetree/bindings/dma-buf/chunk_heap.yaml    |  46 +++++
+ drivers/dma-buf/dma-heap.c                         |   2 +
+ drivers/dma-buf/heaps/Kconfig                      |   9 +
+ drivers/dma-buf/heaps/Makefile                     |   1 +
+ drivers/dma-buf/heaps/chunk_heap.c                 | 222 +++++++++++++++++++++
+ drivers/dma-buf/heaps/heap-helpers.c               |   2 +
+ 6 files changed, 282 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dma-buf/chunk_heap.yaml
+ create mode 100644 drivers/dma-buf/heaps/chunk_heap.c
+
 -- 
-2.28.0.215.g878e727637
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
