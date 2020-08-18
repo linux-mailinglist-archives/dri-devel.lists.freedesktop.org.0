@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D088248FDE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593D5248FDF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CE96E15C;
-	Tue, 18 Aug 2020 21:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F0F6E159;
+	Tue, 18 Aug 2020 21:05:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 079E86E15C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:26 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id v22so16264963qtq.8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:25 -0700 (PDT)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21026E15C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:27 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id i20so5464091qkk.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=a8L8AwV4qdE5/njGYAQ33CWoirWxJ55I+ZVhtLU2cMw=;
- b=O1OryiM/3TYvVnczNJDJOxCAkvfj7WnKzIXQ8NORcXdoEg3bLsnBP3RhYVJXn7NMUd
- aqAP3i+/L14qpRPdTZFss6BYhvaQL4/z9z9bupAEBwJgF0UVm09XaFA3MIJCbMG5cbj+
- MhOB8wB96rXpVpdE+i5UVxR9vk9gSUCOIeZ0gE0HV1rZYC9XnvOnm5mvYTgLRdWT30BJ
- GcIEpH/TH4/QdII6dXVb7HNJF0g7B4/Igz6jerBz6yWIqyKHxGg8PNdhpW5Co6b6DaYr
- p4OzfNFP2a5/tIIqy0AJHPcBFU1oO6uqfSKFHGRH8b1zquJOZuUE2L/X48Ex79YcSm5j
- +A/A==
+ bh=bW8e3uBqHkmjmdbdif7X59e+BqToe3orNHNdpYwg/LM=;
+ b=KPoKMG1MW4YqCRwjwUY+SQdeOIEFrF4GZ4ngXt4gt8RCsUSNIrcTMzOYy+XSnM7df9
+ +WPhpIfUB45+k86MdFLdWJQAFp1V8Z/EJ/n8vvyAi2C5U6GE7BChWL5s1wmAzXNYc9cY
+ 2zVucnY37rVjxo+5l2mImn2uJOWftfBWhASJw/Q0iLAP0x3P7A2u3n0DV01VZv/l0RfO
+ tVjnzV5ImKCdvVkQfYK5/sz5i6RoWX6mWJbmM/3tdfLEE6yraCtfo7pVaiqZWqtF4lAz
+ 9xrBiJbXvvO+19MQUcoLehjnaf9iBAClcDRSM/g8zIPDNUA59+VKVs8qAIpGmTQXhs9O
+ YAgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=a8L8AwV4qdE5/njGYAQ33CWoirWxJ55I+ZVhtLU2cMw=;
- b=IF617vZCSDgkN1uhA6AZ69jNd/WI2oDHJ3mNwXlfxAhAbxZntaVcwHHilRrNrzKjEr
- xvrGHYMnWKlxPNj1kBUey+5Yf93/Z44X+08rU2UxeYdTrSTkoBIylvapnWuY67J4CGch
- xIeNQcsEJd25yLQt0/nYs5h3vlhyAjhqB0xANmY91Z0yRp3EBBi0LgBoY71S1jGOKqgN
- 53KetrAaTV5sXbi/SCzEgTAMNrQPkFPs3WapAG0WQ2jR9nlVogKTtU4SiMp603hVA/GQ
- DYd/CVi2hzop7UoRupQWnpBctvkUyxABg3JVk9gxsbL/C/yj4VBW8CWO78YFtLL15hUQ
- jkVA==
-X-Gm-Message-State: AOAM5337+tZEHNVkkscB3cwBzPw0OjJ91VnrVr7eeUG8SEJ5BKdV+7Nq
- TpmXCJYgafyY9OkeisF8vz2sobW2Mng0/Q==
-X-Google-Smtp-Source: ABdhPJwhvVHMowC+R8msjTRtVNOFVC/43SpUhUgAQKBGZh+58VrI3l8xbb99EXPB622TBIKOylS4yQ==
-X-Received: by 2002:ac8:6647:: with SMTP id j7mr19426985qtp.335.1597784725019; 
- Tue, 18 Aug 2020 14:05:25 -0700 (PDT)
+ bh=bW8e3uBqHkmjmdbdif7X59e+BqToe3orNHNdpYwg/LM=;
+ b=cIYq5xJSDjZM+TYr00FV31IZ7ZoNqHp+kdrjhTt2Ob6Ewgy2A0omSe9Vk8CxV3gfbr
+ PMqMzQpw/93jwzT/VIYczLk3UdKJbbvWtOOPv2JXk9WzlunhevX41u6lpvcJyesWfQ1t
+ wxmiSNjl0EVNo9fYSLYvs4IguzqDPqa8Yzq4os2o13XWkXxvllDD5slm3Oj06DnxHsI5
+ rBhLj8mWt0aHXVwEZvceuyixTdag1SOBCzfLKBpTHLS7JXBoi5nYnxdtNqdgjLDgdX5Q
+ 99DfYH0AZAjgG/IFfLoWmlwGLjf+UFtcOuVDqvHDU0/PPEL9TQfNDkamKrFEAFE+wRy6
+ H94g==
+X-Gm-Message-State: AOAM531sKw/WqfiVQ5wif+dDsV7VPabIS51yW78H0xjYJo98cQjoIsae
+ EwStHFiL0Uct4GTcAJxWLtsFMFFzWz1a+Q==
+X-Google-Smtp-Source: ABdhPJyZ/TfryNxvM/GNsAP2YIQe6hSzgevrcAxOSmfgaycok6dwNP6cZH1Vo4d9BpqAIwrL4YkKOA==
+X-Received: by 2002:a37:9c58:: with SMTP id f85mr17969190qke.345.1597784726773; 
+ Tue, 18 Aug 2020 14:05:26 -0700 (PDT)
 Received: from localhost (mobile-166-177-184-140.mycingular.net.
  [166.177.184.140])
- by smtp.gmail.com with ESMTPSA id u8sm12711328qkj.9.2020.08.18.14.05.24
+ by smtp.gmail.com with ESMTPSA id n33sm24445314qtd.43.2020.08.18.14.05.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Aug 2020 14:05:24 -0700 (PDT)
+ Tue, 18 Aug 2020 14:05:26 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  seanpaul@chromium.org, airlied@linux.ie
-Subject: [PATCH v6 04/14] drm/msm/dpu: Replace definitions for dpu debug macros
-Date: Tue, 18 Aug 2020 17:05:00 -0400
-Message-Id: <20200818210510.49730-5-sean@poorly.run>
+Subject: [PATCH v6 05/14] drm/print: rename drm_debug* to be more
+ syslog-centric
+Date: Tue, 18 Aug 2020 17:05:01 -0400
+Message-Id: <20200818210510.49730-6-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200818210510.49730-1-sean@poorly.run>
 References: <20200818210510.49730-1-sean@poorly.run>
@@ -76,56 +77,113 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-The debug messages shouldn't be logged as errors when debug categories
-are enabled. Use the drm logging helpers to do the right thing
+In preparation for tracefs support, rename drm_debug related functions
+to reflect that it targets the syslog. This will allow us to selectively
+target syslog and/or tracefs.
+
+No functional changes here.
 
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-5-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-6-sean@poorly.run #v5
 
 Changes in v5:
 -Added to the set
 Changes in v6:
 -None
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_print.c | 12 ++++++------
+ include/drm/drm_print.h     | 13 +++++++++----
+ 2 files changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index e140cd633071..b1e9c529d3b5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -29,27 +29,15 @@
-  * DPU_DEBUG - macro for kms/plane/crtc/encoder/connector logs
-  * @fmt: Pointer to format string
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index 111b932cf2a9..2ff7a6ecc632 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -37,11 +37,11 @@
+ #include <drm/drm_print.h>
+ 
+ /*
+- * __drm_debug: Enable debug output.
++ * __drm_debug_syslog: Enable debug output to system logs
+  * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
   */
--#define DPU_DEBUG(fmt, ...)                                                \
--	do {                                                               \
--		if (drm_debug_enabled(DRM_UT_KMS))                         \
--			DRM_DEBUG(fmt, ##__VA_ARGS__); \
--		else                                                       \
--			pr_debug(fmt, ##__VA_ARGS__);                      \
--	} while (0)
-+#define DPU_DEBUG(fmt, ...) DRM_DEBUG_KMS(fmt, ##__VA_ARGS__)
+-unsigned int __drm_debug;
+-EXPORT_SYMBOL(__drm_debug);
++unsigned int __drm_debug_syslog;
++EXPORT_SYMBOL(__drm_debug_syslog);
+ 
+ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
+ "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+@@ -52,7 +52,7 @@ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug cat
+ "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+ "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+ "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+-module_param_named(debug, __drm_debug, int, 0600);
++module_param_named(debug, __drm_debug_syslog, int, 0600);
+ 
+ void __drm_puts_coredump(struct drm_printer *p, const char *str)
+ {
+@@ -160,11 +160,11 @@ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf)
+ }
+ EXPORT_SYMBOL(__drm_printfn_info);
+ 
+-void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf)
++void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf)
+ {
+ 	pr_debug("%s %pV", p->prefix, vaf);
+ }
+-EXPORT_SYMBOL(__drm_printfn_debug);
++EXPORT_SYMBOL(__drm_printfn_debug_syslog);
+ 
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+ {
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 1c9417430d08..ce7675bf0d2b 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -35,7 +35,7 @@
+ #include <drm/drm.h>
+ 
+ /* Do *not* use outside of drm_print.[ch]! */
+-extern unsigned int __drm_debug;
++extern unsigned int __drm_debug_syslog;
  
  /**
-  * DPU_DEBUG_DRIVER - macro for hardware driver logging
-  * @fmt: Pointer to format string
-  */
--#define DPU_DEBUG_DRIVER(fmt, ...)                                         \
--	do {                                                               \
--		if (drm_debug_enabled(DRM_UT_DRIVER))                      \
--			DRM_ERROR(fmt, ##__VA_ARGS__); \
--		else                                                       \
--			pr_debug(fmt, ##__VA_ARGS__);                      \
--	} while (0)
--
--#define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
-+#define DPU_DEBUG_DRIVER(fmt, ...) DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__)
+  * DOC: print
+@@ -85,7 +85,7 @@ void __drm_puts_coredump(struct drm_printer *p, const char *str);
+ void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf);
+ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+-void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf);
++void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+ 
+ __printf(2, 3)
+@@ -227,7 +227,7 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
+ static inline struct drm_printer drm_debug_printer(const char *prefix)
+ {
+ 	struct drm_printer p = {
+-		.printfn = __drm_printfn_debug,
++		.printfn = __drm_printfn_debug_syslog,
+ 		.prefix = prefix
+ 	};
+ 	return p;
+@@ -319,9 +319,14 @@ enum drm_debug_category {
+ 	DRM_UT_DRMRES		= 0x200,
+ };
+ 
++static inline bool drm_debug_syslog_enabled(enum drm_debug_category category)
++{
++	return unlikely(__drm_debug_syslog & category);
++}
 +
-+#define DPU_ERROR(fmt, ...) DRM_ERROR(fmt, ##__VA_ARGS__)
+ static inline bool drm_debug_enabled(enum drm_debug_category category)
+ {
+-	return unlikely(__drm_debug & category);
++	return drm_debug_syslog_enabled(category);
+ }
  
- /**
-  * ktime_compare_safe - compare two ktime structures
+ /*
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
