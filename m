@@ -2,34 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF00B247F9F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC72247FC0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 09:48:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2337989C27;
-	Tue, 18 Aug 2020 07:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7540E89C6A;
+	Tue, 18 Aug 2020 07:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79AFC89C27
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 07:42:04 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AA283ABCC;
- Tue, 18 Aug 2020 07:42:28 +0000 (UTC)
-Subject: Re: [PATCH drm/hisilicon 0/4] Use drv_err instead of DRM_ERROR in
- hibmc driver
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-References: <1597733504-30812-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ddeac968-cbea-9441-2fe5-d1223aa4d5f2@suse.de>
-Date: Tue, 18 Aug 2020 09:41:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 024D389C6A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 07:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597736916;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CNREKDjyEedgV+f7bI//GAm415Pi0i3rx8ACftw+hHs=;
+ b=EhFXIf4MrcObgO+WBYZXGmJF3EMXN1MgXb7/ynjHw2DlxzQADbCpRDalOEUIsyBWp72UsH
+ FjeCcNpPa3L5IydjM1xieRHaUSBoExn/1Omg5uiQsT6ePiTfi4HIDu7lexUviYEtzW/ZwJ
+ mVE7XRxDRAHGRCLYtsdKXDw13nbMKiE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-R80lgWIfMR-USkw3kwleOg-1; Tue, 18 Aug 2020 03:48:35 -0400
+X-MC-Unique: R80lgWIfMR-USkw3kwleOg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E058185E520
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 07:48:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com
+ [10.36.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E48655C1DC;
+ Tue, 18 Aug 2020 07:48:29 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B6B399D59; Tue, 18 Aug 2020 09:48:28 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm: fix virtio-gpu + sev
+Date: Tue, 18 Aug 2020 09:48:26 +0200
+Message-Id: <20200818074828.9509-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1597733504-30812-1-git-send-email-tiantao6@hisilicon.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,106 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: multipart/mixed; boundary="===============0975698412=="
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0975698412==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="csRgyoghWyrutzR6kOCvUjcF7OhhuwMjJ"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---csRgyoghWyrutzR6kOCvUjcF7OhhuwMjJ
-Content-Type: multipart/mixed; boundary="WxrrzYJaIrqhxDw9UDVpkbavTe5rN0CrA";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-Cc: linuxarm@huawei.com
-Message-ID: <ddeac968-cbea-9441-2fe5-d1223aa4d5f2@suse.de>
-Subject: Re: [PATCH drm/hisilicon 0/4] Use drv_err instead of DRM_ERROR in
- hibmc driver
-References: <1597733504-30812-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1597733504-30812-1-git-send-email-tiantao6@hisilicon.com>
-
---WxrrzYJaIrqhxDw9UDVpkbavTe5rN0CrA
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 18.08.20 um 08:51 schrieb Tian Tao:
-> patch #1 is using the drv_err instead of DRM_ERROR in hibmc_ttm.c
-> patch #2 is using the drv_err instead of DRM_ERROR in hibmc_drm_vdac.c
-> patch #3 is using the drv_err and drm_dbg_atomic  instead of DRM_ERROR
-> and DRM_DEBUG_ATOMIC  in hibmc_drm_de.c
-> patch #4 is using the drv_err and drm_warn instead of DRM_ERROR and
-> DRM_WARN in hibmc_drm_drv.c
->=20
-> Tian Tao (4):
->   drm/hisilicon: Use drv_err instead of DRM_ERROR in hibmc_ttm
->   drm/hisilicon: Use drv_err instead of DRM_ERROR in hibmc_drm_vdac
->   drm/hisilicon: Use drv_err instead of DRM_ERROR in hibmc_drm_de
->   drm/hisilicon: Use drv_err instead of DRM_ERROR in hibmc_drm_drv
-
-Series is
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->=20
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 14 +++++++-------
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 24 ++++++++++++----=
---------
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  4 ++--
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c      |  2 +-
->  4 files changed, 22 insertions(+), 22 deletions(-)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---WxrrzYJaIrqhxDw9UDVpkbavTe5rN0CrA--
+Gerd Hoffmann (2):
+  drm: allow limiting the scatter list size.
+  drm/virtio: set max_segment
 
---csRgyoghWyrutzR6kOCvUjcF7OhhuwMjJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+ include/drm/drm_gem.h                       |  8 ++++++++
+ include/drm/drm_prime.h                     |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  3 ++-
+ drivers/gpu/drm/drm_gem_shmem_helper.c      |  3 ++-
+ drivers/gpu/drm/drm_prime.c                 | 10 +++++++---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  3 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  3 ++-
+ drivers/gpu/drm/msm/msm_gem.c               |  3 ++-
+ drivers/gpu/drm/msm/msm_gem_prime.c         |  3 ++-
+ drivers/gpu/drm/nouveau/nouveau_prime.c     |  3 ++-
+ drivers/gpu/drm/radeon/radeon_prime.c       |  3 ++-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  6 ++++--
+ drivers/gpu/drm/tegra/gem.c                 |  3 ++-
+ drivers/gpu/drm/vgem/vgem_drv.c             |  3 ++-
+ drivers/gpu/drm/virtio/virtgpu_object.c     |  1 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c     |  3 ++-
+ 16 files changed, 44 insertions(+), 17 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl87hkoUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP5fQf+NLJld/8hS8rL0w7LexD93Kjje1Gp
-yeaT/2rZDTZ//vC9+BZBNDdSKYwO1WAlhNILfJO12j8zXkVsa1NQEOLlL/dy8pFc
-KKBSoVQEeWxHPjbFnIMOXzj5NbNOYQGXNyWeY8LA2PdbgNRtvjO3RbqeI067Q/z8
-nAxS/md+SyKXQafqzZNQCpW9DDT/07ktrNeRWCoNsbrEmVkzwUA4nOOGhGUR/YoJ
-1k6TFxdyRHfyJKvxxnE5ehpAFGDfKTDuCeMPF5ghX7/PAiJDQwjatH2YlbBIpuxO
-KMj1B6q+Vt5iobC4HnSC1Q7qcpmVL3eScntTFN8Q33SKTpPRcceyTgYSUA==
-=8YPe
------END PGP SIGNATURE-----
-
---csRgyoghWyrutzR6kOCvUjcF7OhhuwMjJ--
-
---===============0975698412==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.18.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0975698412==--
