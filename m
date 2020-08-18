@@ -2,58 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DED24959E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3377824957D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 08:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B596E1ED;
-	Wed, 19 Aug 2020 06:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 971A16E1BD;
+	Wed, 19 Aug 2020 06:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E93389B68
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 15:18:41 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1597763921; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=llOXz6hHf939lRgjzq6PQgYsFaUkZxMefMQodFWY1Y4=;
- b=MIiokSe9Ypc9Zm2BTxgRmPOzeuAH3UmrhJIitXMxRZaC286xhRYIFtm3j+7++rs8pk1sT5ZW
- ibp1uWEgcB/TdWmqe+JToZvmdlrnZG8jd/gBeRLAJATNeB7m2NiXf6vXr24MS1Xr20le5EMZ
- fV+A9EcySvz4znF/o9bmbEZPoi8=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
- 5f3bf14f4c787f237b1cf4e9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 18 Aug 2020 15:18:39
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id BBC2DC433AF; Tue, 18 Aug 2020 15:18:38 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 49A95C433CA;
- Tue, 18 Aug 2020 15:18:37 +0000 (UTC)
+Received: from cmta16.telus.net (cmta16.telus.net [209.171.16.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 468C889CE1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 17:58:07 +0000 (UTC)
+Received: from montezuma.home ([154.5.226.127]) by cmsmtp with SMTP
+ id 85s1kclQL5b7l85s3kLDKf; Tue, 18 Aug 2020 11:58:05 -0600
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
+ a=f8b3WT/FcTuUJCJtQO1udw==:117 a=f8b3WT/FcTuUJCJtQO1udw==:17
+ a=kj9zAlcOel0A:10 a=x7bEGLp0ZPQA:10 a=COSDN44dAAMA:10 a=pGLkceISAAAA:8
+ a=zPWn4OYR4t-Te5tHu7sA:9 a=CjuIK1q_8ugA:10
+Date: Tue, 18 Aug 2020 10:58:01 -0700 (PDT)
+From: Zwane Mwaikambo <zwanem@gmail.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH] drm: assure aux_dev is nonzero before using it
+In-Reply-To: <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
+Message-ID: <alpine.DEB.2.21.2008181057090.8571@montezuma.home>
+References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
+ <20200811085830.GZ2352366@phenom.ffwll.local>
+ <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
+ <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
+ <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Date: Tue, 18 Aug 2020 20:48:37 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [v2] drm/msm: add shutdown support for display platform_driver
-In-Reply-To: <CAF6AEGvDN2B-xxecOt+0aaweWohGSKekb3tCerX42T1eOte-ig@mail.gmail.com>
-References: <1591009402-681-1-git-send-email-mkrishn@codeaurora.org>
- <a3fcad3f97c258043cd4268ef2c99740@codeaurora.org>
- <CAF6AEGvDN2B-xxecOt+0aaweWohGSKekb3tCerX42T1eOte-ig@mail.gmail.com>
-Message-ID: <0c3a5b78537c659f49037e3f9d0d8888@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-CMAE-Envelope: MS4wfKAcyA95kOPAOAZwHufvwnS2/RdfvleXrrWCc7rTEJrWQ7yfHBW4WJewuClsh+VwBNpBMcdYcCW5KpGnfvFWf8e2jGoOHDD81JJl7sTKooDBOjWsbGZn
+ 2z7WTlSDnR81sqtX+7regsIyAreaPe6LaFQJMRV9biuUfk6yx+Gz0XHtgJGy6nQDggUk33+wq/nhv9NeRNxZAYgYc1aPDdMQxZwcwBt0QZEsguPqSsDocfFp
+ bmnLtNBdGXEf7U8xbJQ2x4nADEkRTjbxwQbgu/9uJrobv7oTuJyS9yHRZNkHWw0OPADglZ2FNy5GeVuOV66D0BQvEkqdRFIwvOlMyUCAFa0=
 X-Mailman-Approved-At: Wed, 19 Aug 2020 06:56:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,93 +48,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
- "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-msm-owner@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>, "Kristian
- H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Matthias Kaehlcke <mka@chromium.org>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, dkwon@redhat.com,
+ Linux Kernel <linux-kernel@vger.kernel.org>, tcamuso@redhat.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-08-18 20:42, Rob Clark wrote:
-> On Tue, Aug 18, 2020 at 3:03 AM Sai Prakash Ranjan
-> <saiprakash.ranjan@codeaurora.org> wrote:
->> 
->> Hi,
->> 
->> On 2020-06-01 16:33, Krishna Manikandan wrote:
->> > Define shutdown callback for display drm driver,
->> > so as to disable all the CRTCS when shutdown
->> > notification is received by the driver.
->> >
->> > This change will turn off the timing engine so
->> > that no display transactions are requested
->> > while mmu translations are getting disabled
->> > during reboot sequence.
->> >
->> > Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
->> >
->> > Changes in v2:
->> >       - Remove NULL check from msm_pdev_shutdown (Stephen Boyd)
->> >       - Change commit text to reflect when this issue
->> >         was uncovered (Sai Prakash Ranjan)
->> > ---
->> >  drivers/gpu/drm/msm/msm_drv.c | 8 ++++++++
->> >  1 file changed, 8 insertions(+)
->> >
->> > diff --git a/drivers/gpu/drm/msm/msm_drv.c
->> > b/drivers/gpu/drm/msm/msm_drv.c
->> > index e4b750b..94e3963 100644
->> > --- a/drivers/gpu/drm/msm/msm_drv.c
->> > +++ b/drivers/gpu/drm/msm/msm_drv.c
->> > @@ -1322,6 +1322,13 @@ static int msm_pdev_remove(struct
->> > platform_device *pdev)
->> >       return 0;
->> >  }
->> >
->> > +static void msm_pdev_shutdown(struct platform_device *pdev)
->> > +{
->> > +     struct drm_device *drm = platform_get_drvdata(pdev);
->> > +
->> > +     drm_atomic_helper_shutdown(drm);
->> > +}
->> > +
->> >  static const struct of_device_id dt_match[] = {
->> >       { .compatible = "qcom,mdp4", .data = (void *)KMS_MDP4 },
->> >       { .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
->> > @@ -1334,6 +1341,7 @@ static int msm_pdev_remove(struct platform_device
->> > *pdev)
->> >  static struct platform_driver msm_platform_driver = {
->> >       .probe      = msm_pdev_probe,
->> >       .remove     = msm_pdev_remove,
->> > +     .shutdown   = msm_pdev_shutdown,
->> >       .driver     = {
->> >               .name   = "msm",
->> >               .of_match_table = dt_match,
->> 
->> Any more comments on this patch?
-> 
-> sorry, I managed to overlook this earlier.. I've pulled it in to 
-> msm-next
-> 
+On Wed, 12 Aug 2020, Lyude Paul wrote:
 
-No problem, thanks Rob.
+> On Wed, 2020-08-12 at 16:10 +0200, Daniel Vetter wrote:
+> > On Wed, Aug 12, 2020 at 12:16 AM Zwane Mwaikambo <zwanem@gmail.com> wrote:
+> > > On Tue, 11 Aug 2020, Daniel Vetter wrote:
+> > > 
+> > > > On Mon, Aug 10, 2020 at 10:11:50AM -0700, Zwane Mwaikambo wrote:
+> > > > > Hi Folks,
+> > > > >     I know this thread eventually dropped off due to not identifying
+> > > > > the underlying issue. It's still occuring on 5.8 and in my case it
+> > > > > happened because the udev device nodes for the DP aux devices were not
+> > > > > cleaned up whereas the kernel had no association with them. I can
+> > > > > reproduce the bug just by creating a device node for a non-existent
+> > > > > minor
+> > > > > device and calling open().
+> > > > 
+> > > > Hm I don't have that thread anymore, but generally these bugs are solved
+> > > > by not registering the device before it's ready for use. We do have
+> > > > drm_connector->late_register for that stuff. Just a guess since I'm not
+> > > > seeing full details here.
+> > > 
+> > > In this particular case, the physical device disappeared before the nodes
+> > > were cleaned up. It involves putting a computer to sleep with a monitor
+> > > plugged in and then waking it up with the monitor unplugged.
+> > 
+> > We also have early_unregister for the reverse, but yes this sounds
+> > more tricky ... Adding Lyude who's been working on way too much
+> > lifetime fun around dp recently.
+> > -Daniel
+> > 
+> Hi-I think just checking whether the auxdev is NULL or not is a reasonable
+> fix, although I am curious as to how exactly the aux dev's parent is getting
+> destroyed before it's child, which I would have thought would be the only way
+> you could hit this?
 
--Sai
+Hi, If this is acceptable, would you consider an updated patch against 
+5.8?
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+Thanks,
+	Zwane
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
