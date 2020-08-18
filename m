@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6DA248FE6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E79248FE7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Aug 2020 23:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB8E6E17F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E210E6E185;
 	Tue, 18 Aug 2020 21:05:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33FC56E160
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:40 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id d14so19669398qke.13
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:40 -0700 (PDT)
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2B66E17E
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 21:05:41 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id 62so19674578qkj.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Aug 2020 14:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QjFDNFT8J4hCdfQ/qctieZPGMH8zAiIH2OxQX1b7gbE=;
- b=MTij03kdn6A5Fsd3JykXHo9wNSsfiqNiifc+1IfgC88aL65788c3f2GgGiMQG+Eiiu
- OTGEm7I9C2qJViUMt/UULF5rb3UCWOyBokRDDZWQsYwniEsQc24jX+S/lL3iyZHZOhor
- O25Sx0WbtK9UPMAnUfyzYYbdKEHV7Hm2oZmtPFiD0UqLyj3YVEZSD0Iybyy7GSpWGha/
- +jSE7/ILEBD6FSH+eQqZk42ogIqyz492onMxP2+nWClK1nxdi/yxNt7F8RloSU41vUOJ
- I7AKzRvfqLvdyZKx2ZBHK+5xEAVRO5l+y6H85BU0Y9UFt5QVu8ls4O/XUpI/jCWP8e6t
- YLMA==
+ bh=pXkXss55rzS0+J1j9G8LMC0JZgD8Ur2mdy76naLbvow=;
+ b=WAutCtk2nyozjMSBlmFY17jetDNC4bvP4BhC0GQXYXAfAoFeqajlBOhbc1+/Plpybv
+ IP7ZhsOEYJ//bh4b9uvTFDpPut+1p6mh+4/cPZr5NCMRZqNRwpjnbY5TAvnZdQGq0fNB
+ t7ZwgQpfNYDSEpEjKtyuQDhWvBnFgjXYfh5zCiLtliTfNrXHiX3He8EmFbE4wUmk/+MZ
+ S2SnWFd7+ea+YaqahtcWsDObs+qi+NGdRzxnwUdOKZR49OwPfW+OND/aR9xtt5tcO4GT
+ uSQLJkP0B5fTEZLiH2ga1bx/wlcYIyNX312p3yRLSgemAASX1v1VXuFH0KexhUjTgSIi
+ Hktw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=QjFDNFT8J4hCdfQ/qctieZPGMH8zAiIH2OxQX1b7gbE=;
- b=Vm7wQwCtq/zbgkM8sqDaL+97YkTDjYXLGrj30I+dFAXBXUWvoz92LVPAuF/BRhcSzv
- iczTR5HMzAa11cRlnJH1lk4W6VkdYp+b4WwEQFXU6M+G0xZzjHSSS8JNCu+HIJ7F3U9y
- pJkMjJfj8wmQQlJ4vEYsLhv2GbFzBpV4VWK83hoJVJ2I8JPCrgaYCZGd89OEzgGszZC+
- KdhMgQyLVPNzJAv604fzOkNUVLMa4h6zEjer4dIK6KtoSEJfAiZ5CGXXdiQZiiPiCnI1
- f9Mv752Ou8R1s8iKEO83M1ym/9M5Z7zj/jrfxQFVTLYKM6gC+k9IdZsRGS7NB6m17HAd
- slXw==
-X-Gm-Message-State: AOAM532KiyBwRlPeaJc4VTTJzxa2o/dvaemYH1OsMZACz1I0RFZwg4dO
- Hkw+XI6EZ0fV7k7ogyEqQzJGg4mC7JYDmQ==
-X-Google-Smtp-Source: ABdhPJzKMXvgx0XyPwX3VoTBfYaw8muEILrg/Io1+tiMnn6bYQVfIzRYesjIuinFMeyiiRKQkYypnA==
-X-Received: by 2002:ae9:e8ca:: with SMTP id a193mr18933254qkg.6.1597784738227; 
- Tue, 18 Aug 2020 14:05:38 -0700 (PDT)
+ bh=pXkXss55rzS0+J1j9G8LMC0JZgD8Ur2mdy76naLbvow=;
+ b=d5eWJdrxSqHGPw/3XFNTdHrPGUbzY2uuStnVFYo3ft8RUzc0LBaYdkLhN7a1AepgZ+
+ QSjWm9poMbYoMuO/oIszc+fQf1W/sG3bn0SJtdko7wdu2EG9gx77wm0fLP5izq3XrLa8
+ +n1moUcJuvjCEy8Q6g/Fnojsss/LTHHJyzj6cMuqPfF83mz2nOolkkNhz8q69pdis4EE
+ sL3q3ySw/rHpnThQLI2gp7CQh/cU6E6V1E+k7rmGb7LHjgN+FYtpB5DiqGTbr4PW7+6k
+ JXO5Qrgj+CxCm1F1Vn0mNmjJj2mUAWa9UCCm++KJ/3fXX3HvPzTNdv/N485GwxBF/G8S
+ RvlQ==
+X-Gm-Message-State: AOAM533UZpNL00/bEGTaOjtkmHEKNxGezvM6xAuI44j3XzX6SDdTU+8y
+ sJGSpUp0HxNFWp/0g21lq9FiRHtmULdBRQ==
+X-Google-Smtp-Source: ABdhPJyGv57BDi7otsY4P77LrwXSLTFc/7q5MJRZ7dGvfqc5idTKZescuPzVgq2m+wxYV33subOqAw==
+X-Received: by 2002:a05:620a:15e9:: with SMTP id
+ p9mr19658161qkm.38.1597784740107; 
+ Tue, 18 Aug 2020 14:05:40 -0700 (PDT)
 Received: from localhost (mobile-166-177-184-140.mycingular.net.
  [166.177.184.140])
- by smtp.gmail.com with ESMTPSA id n33sm24445866qtd.43.2020.08.18.14.05.37
+ by smtp.gmail.com with ESMTPSA id b37sm26385985qtk.85.2020.08.18.14.05.39
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Aug 2020 14:05:37 -0700 (PDT)
+ Tue, 18 Aug 2020 14:05:39 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  seanpaul@chromium.org, airlied@linux.ie
-Subject: [PATCH v6 12/14] drm/i915: Use debug category printer for welcome
- message
-Date: Tue, 18 Aug 2020 17:05:08 -0400
-Message-Id: <20200818210510.49730-13-sean@poorly.run>
+Subject: [PATCH v6 13/14] drm/atomic: Use debug category printer for atomic
+ state printer
+Date: Tue, 18 Aug 2020 17:05:09 -0400
+Message-Id: <20200818210510.49730-14-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200818210510.49730-1-sean@poorly.run>
 References: <20200818210510.49730-1-sean@poorly.run>
@@ -77,35 +78,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-The welcome printer is meant to be gated on DRM_UT_DRIVER, so use the
-debug category printer to avoid dumping the message in the wrong
-place.
+The atomic state is printed if the DRM_UT_STATE is active, but it's
+printed at INFO level. This patch converts it to use the debug
+category printer so:
+
+a- it's consistent with other DRM_UT_STATE logging
+b- it's properly routed through drm_trace when introduced
 
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-13-sean@poorly.run #v5
 
-Changes in v5:
--Added to the set
 Changes in v6:
--None
+-Added to the set
 ---
- drivers/gpu/drm/i915/i915_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic.c        | 5 +++--
+ drivers/gpu/drm/drm_atomic_uapi.c   | 2 +-
+ drivers/gpu/drm/drm_crtc_internal.h | 3 ++-
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 00292a849c34..0206be123b28 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -872,7 +872,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- static void i915_welcome_messages(struct drm_i915_private *dev_priv)
- {
- 	if (drm_debug_enabled(DRM_UT_DRIVER)) {
--		struct drm_printer p = drm_debug_printer("i915 device info:");
-+		struct drm_printer p = drm_debug_category_printer(DRM_UT_DRIVER,
-+						"i915 device info:");
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 58527f151984..96b804e85903 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1543,9 +1543,10 @@ int __drm_atomic_helper_set_config(struct drm_mode_set *set,
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_set_config);
  
- 		drm_printf(&p, "pciid=0x%04x rev=0x%02x platform=%s (subplatform=0x%x) gen=%i\n",
- 			   INTEL_DEVID(dev_priv),
+-void drm_atomic_print_state(const struct drm_atomic_state *state)
++void drm_atomic_print_state(const struct drm_atomic_state *state,
++			    const char *prefix)
+ {
+-	struct drm_printer p = drm_info_printer(state->dev->dev);
++	struct drm_printer p = drm_debug_category_printer(DRM_UT_STATE, prefix);
+ 	struct drm_plane *plane;
+ 	struct drm_plane_state *plane_state;
+ 	struct drm_crtc *crtc;
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 25c269bc4681..c6f3c652f47c 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -1413,7 +1413,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+ 		ret = drm_atomic_nonblocking_commit(state);
+ 	} else {
+ 		if (drm_debug_enabled(DRM_UT_STATE))
+-			drm_atomic_print_state(state);
++			drm_atomic_print_state(state, "commit_state");
+ 
+ 		ret = drm_atomic_commit(state);
+ 	}
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index da96b2f64d7e..077ea92fb12a 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -233,7 +233,8 @@ int __drm_atomic_helper_disable_plane(struct drm_plane *plane,
+ int __drm_atomic_helper_set_config(struct drm_mode_set *set,
+ 				   struct drm_atomic_state *state);
+ 
+-void drm_atomic_print_state(const struct drm_atomic_state *state);
++void drm_atomic_print_state(const struct drm_atomic_state *state,
++			    const char *prefix);
+ 
+ /* drm_atomic_uapi.c */
+ int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
