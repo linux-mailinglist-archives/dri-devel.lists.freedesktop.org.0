@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC5824A495
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 19:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E84024A4A5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 19:12:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184926E558;
-	Wed, 19 Aug 2020 17:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187CE6E578;
+	Wed, 19 Aug 2020 17:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4D06E558
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 17:03:13 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id r19so11578942qvw.11
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ktYpsCxiLWJOQgFpjU6rm698Y/qLm2dIO8jCJsadEOU=;
- b=Cf6w4ypyePA72N9OwZ/X/gIqgQ3/Z2O3rsVEAnbMsPXxSteDXfBbrAJ2YKaLKzi+2G
- eJlNvZyKM6mcCsbB8rTNwjE0zNlCUOU27vLJyO1vH/Kf6P5hVdc0XLNeLzE0ilaNzTIL
- c/q/2eCUoXXxQCiuP4bqs7wWJmNaxuO94MGUY=
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856936E578
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 17:12:33 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y3so22286535wrl.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=P/BxB6Tk9AqvsGBqiTBEZmxawpSGqW2VpShvG8egiLE=;
+ b=aOT8FZXVbYAg7wGPDj6bcP9F+iWPGFAHwmYImaZXz4dUZFvLGzdMD5+6ayifi72/FH
+ 21dd5Set+gYeTPzss4RyBymKDuogTsC0beZM4OvOL+ezO23pv46w1CIc/RsIQ6PMUPoL
+ k1P3ymaMirYfMEx6WQ6qQv6OKryMX2mOn99eiEABq5HfSSCwULPH0sV5/UOEvfxjCdcI
+ hsf5z7wcQ7vzqqZNsEj1ft73UrkozG8GecNNKYKCNl8IJU525hQnfL14HmWvmCdnCaYw
+ PZqzYQ6UK5hq3eiWw6FU2yVpuc54RspJhyBq/IXuIJjyuWIy89lFl10O02gOtcOZMCd3
+ +7Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ktYpsCxiLWJOQgFpjU6rm698Y/qLm2dIO8jCJsadEOU=;
- b=NeGKhzENkJOTWDCVettK6aQ38B6TI8/a+Yav/fKByEKey4woQdSeybyk6RdGdZ6bSi
- PR4148PZ3GAppUBzvXu4sZ//0BxvkE0up9F6ZXXBwIgvW9gZVnlpVAOmTGvTlK+jaSLu
- 90Xenz9AbsKOgeQ8sthA/XKVslBmbnX4IiHj8JqwWgI+ctk7vX8W91w7PCqrQVmr0Q6H
- YgRMCDBsXwDTdcXTSmIq3pVH2GOoppncJhYZD2R2BdFTpSUQuVOlmPRmHrBbzFMN8RXi
- T7IIPT+5qpAvNzXiuZlOaHHV3i6Y1BJCqRRw1c+X80sPSXkk6cp5Qd1DzJ8Rgh7LhPFS
- rMxA==
-X-Gm-Message-State: AOAM531y704iKE2yI4HdcENza1vkLPjaVKZGpYzfjR7Dbbbe4H+EYIJY
- EfD9AF7m0zldC2Wu2HU+skA4hVNIfxGsyA==
-X-Google-Smtp-Source: ABdhPJwYfqiJoagN/bGhrsV+88Gv1toU4qGG+WymgUz7UdRjlE2zPBR8eQnF6Nfxda0Enw2k/Mq9MQ==
-X-Received: by 2002:a0c:e604:: with SMTP id z4mr24965357qvm.222.1597856592411; 
- Wed, 19 Aug 2020 10:03:12 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170])
- by smtp.gmail.com with ESMTPSA id p4sm24297201qkj.135.2020.08.19.10.02.35
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P/BxB6Tk9AqvsGBqiTBEZmxawpSGqW2VpShvG8egiLE=;
+ b=nHX3S5YCDoz0KbUII3rWKL51IKsQf8jFINQtb2L+wVQAsjOsimyTFAgv0aWyy0O2Eq
+ VcxCB7Pl9BlwtalDYn3t32JWXeI/qe2cvYBR/BRE+erd2D4J43yjetFYZOmmBoHHdOyb
+ sl1R350r7Vcgf3uLvkr/BZjB9V/26uvXxxhln4zR5LWBwQ7urkDXeHsyeSzWSkB19ztu
+ BsBkA1zGL/FOcJFHh4OhEChBGSfd/tjdQv8xkDXF9UHGoYXtl2zbpeT0cibkDxmrUVcc
+ 2Bqtyt/uRFy/OL84TeVVdYUtE4UThAKvixJd5p24lu8CSQXLW8TiuiR9rcqFG6TD9M5e
+ raWQ==
+X-Gm-Message-State: AOAM533I05iZ4N6UUqAFidiIFAueoskyHEvJ3Kn9npBENRZ4/FVABQVc
+ 8LdXtu4WQSesQ+VvdbFs2vU=
+X-Google-Smtp-Source: ABdhPJxbMdMiABMczUJpbzVpjiKzWMQlXai3V6kLN1aQ5/US5xWa8crZteCDS1MmrXTkNtT+nkvzHQ==
+X-Received: by 2002:adf:9c8c:: with SMTP id d12mr4884761wre.369.1597857151947; 
+ Wed, 19 Aug 2020 10:12:31 -0700 (PDT)
+Received: from ziggy.stardust ([93.176.180.54])
+ by smtp.gmail.com with ESMTPSA id s2sm20811016wrr.55.2020.08.19.10.12.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Aug 2020 10:02:42 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id p191so13725997ybg.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:02:35 -0700 (PDT)
-X-Received: by 2002:a25:d802:: with SMTP id p2mr37420399ybg.446.1597856554388; 
- Wed, 19 Aug 2020 10:02:34 -0700 (PDT)
+ Wed, 19 Aug 2020 10:12:31 -0700 (PDT)
+Subject: Re: [PATCH v5 3/7] drm/mediatek: disable tmds on mt2701
+To: Frank Wunderlich <linux@fw-web.de>, linux-mediatek@lists.infradead.org
+References: <20200819081752.4805-1-linux@fw-web.de>
+ <20200819081752.4805-4-linux@fw-web.de>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Message-ID: <f68cf4c2-6c79-fe46-b7b4-bcc49e0b6b69@gmail.com>
+Date: Wed, 19 Aug 2020 19:12:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200817220238.603465-1-robdclark@gmail.com>
- <20200817220238.603465-11-robdclark@gmail.com>
-In-Reply-To: <20200817220238.603465-11-robdclark@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 19 Aug 2020 10:02:20 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VzYSL-3q0oFPPSP7FiEdLeTEN6Zy=kp-73B=8LAavmVw@mail.gmail.com>
-Message-ID: <CAD=FV=VzYSL-3q0oFPPSP7FiEdLeTEN6Zy=kp-73B=8LAavmVw@mail.gmail.com>
-Subject: Re: [PATCH 10/20] dt-bindings: arm-smmu: Add compatible string for
- Adreno GPU SMMU
-To: Rob Clark <robdclark@gmail.com>
+In-Reply-To: <20200819081752.4805-4-linux@fw-web.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,92 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Rob Herring <robh+dt@kernel.org>, Sibi Sankar <sibis@codeaurora.org>,
- Vivek Gautam <vivek.gautam@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
+ chunhui dai <chunhui.dai@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Aug 17, 2020 at 3:03 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Jordan Crouse <jcrouse@codeaurora.org>
->
-> Every Qcom Adreno GPU has an embedded SMMU for its own use. These
-> devices depend on unique features such as split pagetables,
-> different stall/halt requirements and other settings. Identify them
-> with a compatible string so that they can be identified in the
-> arm-smmu implementation specific code.
->
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+On 19/08/2020 10:17, Frank Wunderlich wrote:
+> From: chunhui dai <chunhui.dai@mediatek.com>
+> 
+> disable tmds on phy on mt2701 to support other resolutions like 1280x1024
+> 
+
+Isn't that worth a Fixes tag?
+
+Regards,
+Matthias
+
+> Signed-off-by: chunhui dai <chunhui.dai@mediatek.com>
+> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de>
 > ---
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> index 503160a7b9a0..5ec5d0d691f6 100644
-> --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> @@ -40,6 +40,10 @@ properties:
->                - qcom,sm8150-smmu-500
->                - qcom,sm8250-smmu-500
->            - const: arm,mmu-500
-> +      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
-> +        items:
-> +          - const: qcom,adreno-smmu
-> +          - const: qcom,smmu-v2
-
-I know I'm kinda late to the game, but this seems weird to me,
-especially given the later patches in the series like:
-
-https://lore.kernel.org/r/20200817220238.603465-19-robdclark@gmail.com
-
-Specifically in that patch you can see that this IOMMU already had a
-compatible string and we're changing it and throwing away the
-model-specific string?  I'm guessing that you're just trying to make
-it easier for code to identify the adreno iommu, but it seems like a
-better way would have been to just add the adreno compatible in the
-middle, like:
-
-      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
-        items:
-          - enum:
-              - qcom,msm8996-smmu-v2
-              - qcom,msm8998-smmu-v2
-              - qcom,sc7180-smmu-v2
-              - qcom,sdm845-smmu-v2
-        - const: qcom,adreno-smmu
-        - const: qcom,smmu-v2
-
-Then we still have the SoC-specific compatible string in case we need
-it but we also have the generic one?  It also means that we're not
-deleting the old compatible string...
-
--Doug
-
-
->        - description: Marvell SoCs implementing "arm,mmu-500"
->          items:
->            - const: marvell,ap806-smmu-500
-> --
-> 2.26.2
->
+>   drivers/gpu/drm/mediatek/mtk_hdmi_phy.c        | 3 +++
+>   drivers/gpu/drm/mediatek/mtk_hdmi_phy.h        | 1 +
+>   drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c | 1 +
+>   3 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
+> index 5223498502c4..edadb7a700f1 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.c
+> @@ -184,6 +184,9 @@ static int mtk_hdmi_phy_probe(struct platform_device *pdev)
+>   		return PTR_ERR(phy_provider);
+>   	}
+>   
+> +	if (hdmi_phy->conf->pll_default_off)
+> +		hdmi_phy->conf->hdmi_phy_disable_tmds(hdmi_phy);
+> +
+>   	return of_clk_add_provider(dev->of_node, of_clk_src_simple_get,
+>   				   hdmi_phy->pll);
+>   }
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+> index 2d8b3182470d..f472fdeb63dc 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_phy.h
+> @@ -22,6 +22,7 @@ struct mtk_hdmi_phy;
+>   struct mtk_hdmi_phy_conf {
+>   	bool tz_disabled;
+>   	unsigned long flags;
+> +	bool pll_default_off;
+>   	const struct clk_ops *hdmi_phy_clk_ops;
+>   	void (*hdmi_phy_enable_tmds)(struct mtk_hdmi_phy *hdmi_phy);
+>   	void (*hdmi_phy_disable_tmds)(struct mtk_hdmi_phy *hdmi_phy);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+> index d3cc4022e988..6fbedacfc1e8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c
+> @@ -239,6 +239,7 @@ static void mtk_hdmi_phy_disable_tmds(struct mtk_hdmi_phy *hdmi_phy)
+>   struct mtk_hdmi_phy_conf mtk_hdmi_phy_2701_conf = {
+>   	.tz_disabled = true,
+>   	.flags = CLK_SET_RATE_GATE,
+> +	.pll_default_off = true,
+>   	.hdmi_phy_clk_ops = &mtk_hdmi_phy_pll_ops,
+>   	.hdmi_phy_enable_tmds = mtk_hdmi_phy_enable_tmds,
+>   	.hdmi_phy_disable_tmds = mtk_hdmi_phy_disable_tmds,
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
