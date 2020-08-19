@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE2F24AFAA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DEA24AFD5
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F391C6E8DC;
-	Thu, 20 Aug 2020 07:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66AC6E8EE;
+	Thu, 20 Aug 2020 07:15:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mxwww.masterlogin.de (mxwww.masterlogin.de [95.129.51.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE156E1FB
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 08:20:34 +0000 (UTC)
-Received: from mxout1.routing.net (unknown [192.168.10.81])
- by backup.mxwww.masterlogin.de (Postfix) with ESMTPS id 0F0862C696
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7AD66E1F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 08:22:45 +0000 (UTC)
+Received: from mxout3.routing.net (unknown [192.168.10.111])
+ by backup.mxwww.masterlogin.de (Postfix) with ESMTPS id 7E7BA2C69D
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 08:18:03 +0000 (UTC)
 Received: from mxbox2.masterlogin.de (unknown [192.168.10.89])
- by mxout1.routing.net (Postfix) with ESMTP id 2E6FE3FD3D;
+ by mxout3.routing.net (Postfix) with ESMTP id DCAD360090;
  Wed, 19 Aug 2020 08:17:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
- s=20200217; t=1597825079;
+ s=20200217; t=1597825080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=FiBKRQX0Yu/oUfxbfaNVaqDxRl64gER3PIg7jU21vW4=;
- b=hZeHVyHF2XrQ/a58hJfkW4rkNI7zUHPiGly8MkwO/TUBgNGu0YQ5rEIrPPwL5MqCYICJIP
- 0E0rFzS+RS8MOHHgeSqX66Ocsb8Lq8XDCiT4buZ0mFishA4OHmPDDJhooTQ/x6VgZQ6L8r
- vqdRqbO/TWkphgOvqTCW/Cv/nVKYyT0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sfRT6Jdl5DYhGl5q2Gfdj5vkPkIaNa57DcrwbMLC9oE=;
+ b=IdJvEcOu+ws9otAGTUsoMhlVHJ4qbu5NvQuUIgth9c9ZfTkZ2AHCQne8FryOD0+mHjDKBL
+ 8m3z6Ob7wF/na07aS87171uwMtvi+F8wXG2/wPC7nh2eI1MuyoLD69MSIM1SMcmgR+jrjP
+ sVTxheILoADgswXdlG84u8YpVE/aDQU=
 Received: from localhost.localdomain (fttx-pool-185.76.97.101.bambit.de
  [185.76.97.101])
- by mxbox2.masterlogin.de (Postfix) with ESMTPSA id 4F837100539;
- Wed, 19 Aug 2020 08:17:58 +0000 (UTC)
+ by mxbox2.masterlogin.de (Postfix) with ESMTPSA id 3209310054E;
+ Wed, 19 Aug 2020 08:17:59 +0000 (UTC)
 From: Frank Wunderlich <linux@fw-web.de>
 To: linux-mediatek@lists.infradead.org
-Subject: [PATCH v5 0/7] make hdmi work on bananapi-r2
-Date: Wed, 19 Aug 2020 10:17:45 +0200
-Message-Id: <20200819081752.4805-1-linux@fw-web.de>
+Subject: [PATCH v5 1/7] dt-bindings: mediatek: add mt7623 display-nodes
+Date: Wed, 19 Aug 2020 10:17:46 +0200
+Message-Id: <20200819081752.4805-2-linux@fw-web.de>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200819081752.4805-1-linux@fw-web.de>
+References: <20200819081752.4805-1-linux@fw-web.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,69 +66,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Frank Wunderlich <frank-w@public-files.de>
 
-This Patch-Series adds missing Patches/Bugfixes to get hdmi working
-on BPI-R2
+mt7623 uses mt2701/mt8173 for drm, but have own compatibles
 
-v4->v5:
- - rebased on 5.9-rc1
- - move existing display-related dts nodes to new mt7623n.dtsi
-   because mt7623a does not have gpu
- - add new display nodes to this new dtsi
-v3->v4:
- - fix removed const in "add ddp routing for mt7623"
- - change subjects to "drm/mediatek:..."
- - add documentation for mt7623-* compatibles
- - dropped redundant display_components node (mmsys compatible)
- - add reviewd-by collected in v3
-v2->v3:
- - use own mmsys-routing for mt7623 instead of code getting different
-   routing from dts
- - remove ddp routing bls -> dpi from bpir2/rfb dts
- - updated some commit-Messages as suggested by CK Hu
-v1->v2:
- - using get_possible_crtc API instead of hardcoded
- - drop unused dts-nodes
- - refine commit-messages as far as i can :)
-   "config component output by device node port" is needed to fix a WARN_ON()
-   "fix boot up for 720 and 480 but 1080" fixes flickering, 
-     which may cause also some resolutions not working on some TFT (had some pr>
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,disp.txt    | 2 +-
+ .../devicetree/bindings/display/mediatek/mediatek,dpi.txt     | 2 +-
+ .../devicetree/bindings/display/mediatek/mediatek,dsi.txt     | 4 ++--
+ .../devicetree/bindings/display/mediatek/mediatek,hdmi.txt    | 4 ++++
+ 4 files changed, 8 insertions(+), 4 deletions(-)
 
-Frank Wunderlich (3):
-  dt-bindings: mediatek: add mt7623 display-nodes
-  drm/mediatek: add ddp routing for mt7623
-  arm: dts: mt7623: move display nodes to separate mt7623n.dtsi
-
-Jitao Shi (1):
-  drm/mediatek: dpi/dsi: change the getting possible_crtc way
-
-Ryder Lee (1):
-  arm: dts: mt7623: add display subsystem related device nodes
-
-Stu Hsieh (1):
-  drm/mediatek: Add get_possible_crtc API for dpi, dsi
-
-chunhui dai (1):
-  drm/mediatek: disable tmds on mt2701
-
- .../display/mediatek/mediatek,disp.txt        |   2 +-
- .../display/mediatek/mediatek,dpi.txt         |   2 +-
- .../display/mediatek/mediatek,dsi.txt         |   4 +-
- .../display/mediatek/mediatek,hdmi.txt        |   4 +
- arch/arm/boot/dts/mt7623.dtsi                 | 123 -------
- arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts |  74 ++++-
- arch/arm/boot/dts/mt7623n-rfb-emmc.dts        |  74 ++++-
- arch/arm/boot/dts/mt7623n.dtsi                | 305 ++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dpi.c            |   3 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  42 +++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   2 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  23 ++
- drivers/gpu/drm/mediatek/mtk_dsi.c            |   3 +-
- drivers/gpu/drm/mediatek/mtk_hdmi_phy.c       |   3 +
- drivers/gpu/drm/mediatek/mtk_hdmi_phy.h       |   1 +
- .../gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c    |   1 +
- 16 files changed, 535 insertions(+), 131 deletions(-)
- create mode 100644 arch/arm/boot/dts/mt7623n.dtsi
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+index b91e709db7a4..121220745d46 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+@@ -43,7 +43,7 @@ Required properties (all function blocks):
+ 	"mediatek,<chip>-dpi"        		- DPI controller, see mediatek,dpi.txt
+ 	"mediatek,<chip>-disp-mutex" 		- display mutex
+ 	"mediatek,<chip>-disp-od"    		- overdrive
+-  the supported chips are mt2701, mt2712 and mt8173.
++  the supported chips are mt2701, mt7623, mt2712 and mt8173.
+ - reg: Physical base address and length of the function block register space
+ - interrupts: The interrupt signal from the function block (required, except for
+   merge and split function blocks).
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+index 77def4456706..dc1ebd13cc88 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+@@ -7,7 +7,7 @@ output bus.
+ 
+ Required properties:
+ - compatible: "mediatek,<chip>-dpi"
+-  the supported chips are mt2701 , mt8173 and mt8183.
++  the supported chips are mt2701, mt7623, mt8173 and mt8183.
+ - reg: Physical base address and length of the controller's registers
+ - interrupts: The interrupt signal from the function block.
+ - clocks: device clocks
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+index 8e4729de8c85..f06f24d405a5 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+@@ -7,7 +7,7 @@ channel output.
+ 
+ Required properties:
+ - compatible: "mediatek,<chip>-dsi"
+-  the supported chips are mt2701, mt8173 and mt8183.
++- the supported chips are mt2701, mt7623, mt8173 and mt8183.
+ - reg: Physical base address and length of the controller's registers
+ - interrupts: The interrupt signal from the function block.
+ - clocks: device clocks
+@@ -26,7 +26,7 @@ The MIPI TX configuration module controls the MIPI D-PHY.
+ 
+ Required properties:
+ - compatible: "mediatek,<chip>-mipi-tx"
+-  the supported chips are mt2701, mt8173 and mt8183.
++- the supported chips are mt2701, 7623, mt8173 and mt8183.
+ - reg: Physical base address and length of the controller's registers
+ - clocks: PLL reference clock
+ - clock-output-names: name of the output clock line to the DSI encoder
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
+index 7b124242b0c5..6b1c586403e4 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
+@@ -6,6 +6,7 @@ its parallel input.
+ 
+ Required properties:
+ - compatible: Should be "mediatek,<chip>-hdmi".
++- the supported chips are mt2701, mt7623 and mt8173
+ - reg: Physical base address and length of the controller's registers
+ - interrupts: The interrupt signal from the function block.
+ - clocks: device clocks
+@@ -32,6 +33,7 @@ The HDMI CEC controller handles hotplug detection and CEC communication.
+ 
+ Required properties:
+ - compatible: Should be "mediatek,<chip>-cec"
++- the supported chips are mt7623 and mt8173
+ - reg: Physical base address and length of the controller's registers
+ - interrupts: The interrupt signal from the function block.
+ - clocks: device clock
+@@ -44,6 +46,7 @@ The Mediatek's I2C controller is used to interface with I2C devices.
+ 
+ Required properties:
+ - compatible: Should be "mediatek,<chip>-hdmi-ddc"
++- the supported chips are mt7623 and mt8173
+ - reg: Physical base address and length of the controller's registers
+ - clocks: device clock
+ - clock-names: Should be "ddc-i2c".
+@@ -56,6 +59,7 @@ output and drives the HDMI pads.
+ 
+ Required properties:
+ - compatible: "mediatek,<chip>-hdmi-phy"
++- the supported chips are mt2701, mt7623 and mt8173
+ - reg: Physical base address and length of the module's registers
+ - clocks: PLL reference clock
+ - clock-names: must contain "pll_ref"
 -- 
 2.25.1
 
