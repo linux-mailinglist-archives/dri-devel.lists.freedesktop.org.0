@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98164249909
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 11:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A97249A23
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 12:21:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6406E200;
-	Wed, 19 Aug 2020 09:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0714B6E20F;
+	Wed, 19 Aug 2020 10:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 35CB86E200;
- Wed, 19 Aug 2020 09:08:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 1A61D2A6042;
- Wed, 19 Aug 2020 11:08:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 2EgwE8ADu5r7; Wed, 19 Aug 2020 11:08:10 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 7AD492A6016;
- Wed, 19 Aug 2020 11:08:10 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1k8K4i-0022xI-ON; Wed, 19 Aug 2020 11:08:04 +0200
-Subject: Re: [PATCH] drm/amdgpu/dc: Simplify drm_crtc_state::active checks
-To: Alex Deucher <alexdeucher@gmail.com>
-References: <20200722123813.721041-1-michel@daenzer.net>
- <CAKMK7uGO3K0P1yJsdT0urEXOVyBCU_Gsm8JaAW3R0TrBkueYNg@mail.gmail.com>
- <c1bed91c-aa9d-140e-701b-6946995cf24f@amd.com>
- <46b17209-09f6-d5a8-1335-0ff5371659f6@daenzer.net>
- <CADnq5_MWoNt5LR3-E8eMbXhXNFS_ccbqev+96BJphzzeKi16nw@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <c0fa93ad-021d-8fb1-3fd3-f0d223a90563@daenzer.net>
-Date: Wed, 19 Aug 2020 11:08:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A55D6E20F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:21:30 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id i6so17638883edy.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 03:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=h6AVtOUwARHRhdJTUOdj1J4qEdgphAeVlE0BK3Yw6sc=;
+ b=eZKE64zdcmxvxoKNb1vnTkYbQMwOebf4/SLPWGsfRD8RTcQJwAD7JPbz2b6tLCrSRn
+ eBeibWLs5d3XZlXMAoVXm9pRBm70o2M3B5cn9cOVd91E4y/O69nNC+dwfjcLlpaQDp0L
+ 3VLpGDJOJHAX4OFXlPeyqWzLKGwSXB81Nc0NiRdWLj6f7pMV3GaE5CWL8R3wK2Yk1/Tn
+ EuQr4SRxhp3zrrR7+KunAozbC5vM3/FwIjGW+RPE0WwSrtsGb4tK4+smrkO4F+deduJs
+ bECHyDGqRzrwcRqS+aU5Y76AA1/tWWXS2yADL6a4BlcUR08gtSHbXIBERVmkikEMhQdO
+ F+nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=h6AVtOUwARHRhdJTUOdj1J4qEdgphAeVlE0BK3Yw6sc=;
+ b=V7ASC3aStfL8icFNKK2AhkjaqZ0DZCDDywmFGk0n7DVvc06ylwe+A12wJ9iY23xG9L
+ jPJAG800W8llmjjWRKWA3y5trk2mTjFDnnGGUcTJHzkp8emX4/y0XthYquX1Iv8JnP1u
+ xFb+o8Psd8yy8jXNQ/l1cHK6UXKlZF3FG5t90PXD3+zCf1LegWFh0xDPT3bmTU2fkfOt
+ 3caz46b1qJ7msthHL1fz+QeuY2Eh5WOxwDnTHuyBbUe5mN/BHSztrJGaad/R0o/9Cqe4
+ +KwW31wvrGkTZVf6mcEcfFiMvxnMG2NclvH18Xnm2bfW+byX+WEiRcMjloQD4sFiG+Ro
+ WaCg==
+X-Gm-Message-State: AOAM53249E5iljV4zEZ1+mdN45P3jO4amtqESZCR/gUi0schJ/A/fprM
+ cp5w1xgwTjjCyu33f9CHA+q9/fHAwdMEWHdSevOSwg==
+X-Google-Smtp-Source: ABdhPJyN4o23uCI8u6SMKS3P8aQjCkQzEh1UJEp5kwFmUMHuSZ3fJle2o0YRChz73QIVReoVsx86IA3Tqp34YFqd1EI=
+X-Received: by 2002:a50:d655:: with SMTP id c21mr23314447edj.49.1597832489451; 
+ Wed, 19 Aug 2020 03:21:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADnq5_MWoNt5LR3-E8eMbXhXNFS_ccbqev+96BJphzzeKi16nw@mail.gmail.com>
-Content-Language: en-CA
+References: <1940005.XIBaf5lNV5@jeremy> <7086465.UhkgK7rEtT@jason>
+ <32cb6f50-1fe1-1484-0512-04590882d35a@baylibre.com> <3158508.CFMi0AOM4G@jason>
+In-Reply-To: <3158508.CFMi0AOM4G@jason>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Wed, 19 Aug 2020 07:21:17 -0300
+Message-ID: <CAAEAJfBHBqT9Lv5zMaizJLnz=L5+Z3RvYoDf=Ex09_PDSUGe5g@mail.gmail.com>
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the
+ Ingenic JZ4780)
+To: Paul Boddie <paul@boddie.org.uk>, Paul Cercueil <paul@crapouillou.net>,
+ hns@goldelico.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +65,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wNy0yMiA3OjEyIHAubS4sIEFsZXggRGV1Y2hlciB3cm90ZToKPiBPbiBXZWQsIEp1
-bCAyMiwgMjAyMCBhdCAxMDoyNSBBTSBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRhZW56ZXIubmV0
-PiB3cm90ZToKPj4gT24gMjAyMC0wNy0yMiAzOjEwIHAubS4sIEthemxhdXNrYXMsIE5pY2hvbGFz
-IHdyb3RlOgo+Pj4gT24gMjAyMC0wNy0yMiA4OjUxIGEubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6
-Cj4+Pj4gT24gV2VkLCBKdWwgMjIsIDIwMjAgYXQgMjozOCBQTSBNaWNoZWwgRMOkbnplciA8bWlj
-aGVsQGRhZW56ZXIubmV0PiB3cm90ZToKPj4+Pj4KPj4+Pj4gRnJvbTogTWljaGVsIETDpG56ZXIg
-PG1kYWVuemVyQHJlZGhhdC5jb20+Cj4+Pj4+Cj4+Pj4+IGRybV9hdG9taWNfY3J0Y19jaGVjayBl
-bmZvcmNlcyB0aGF0IDo6YWN0aXZlIGNhbiBvbmx5IGJlIHRydWUgaWYKPj4+Pj4gOjplbmFibGUg
-aXMgYXMgd2VsbC4KPj4+Pj4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogTWljaGVsIETDpG56ZXIgPG1k
-YWVuemVyQHJlZGhhdC5jb20+Cj4+Pgo+Pj4gTG9va3MgZmluZSB0byBtZS4gVGhlIGNoZWNrIGlz
-IHN1ZmZpY2llbnRseSBvbGQgZW5vdWdoIHRoYXQgSSBkb24ndCBtaW5kCj4+PiByZWx5aW5nIG9u
-IHRoZSBjb3JlIGZvciB0aGlzIGVpdGhlci4KPj4+Cj4+PiBSZXZpZXdlZC1ieTogTmljaG9sYXMg
-S2F6bGF1c2thcyA8bmljaG9sYXMua2F6bGF1c2thc0BhbWQuY29tPgo+Pj4KPj4+Pgo+Pj4+IG1v
-ZGVzZXQgdnMgbW9kZXJlc2V0IGlzIGEgYml0IGFuIGluZ2xvcmlvdXMgbmFtZSBjaG9pY2UgLi4u
-IHNpbmNlIHRoaXMKPj4+PiBzZWVtcyB0byBiZSBnbHVlIGNvZGUgYW5kIG5vdCBwYXJ0IG9mIGNv
-cmUgZGMsIG1heWJlIHJlbmFtZSB0bwo+Pj4+IGVuYWJsZV9yZXF1aXJlZC9kaXNhYmxlX3JlcXVp
-cmVkIHRvIGtlZXAgaXQgY29uc2lzdGVudCB3aXRoIHRoZQo+Pj4+IHdvcmRpbmcgYXRvbWljIGhl
-bHBlcnMgdXNlPyBEQyBhbHNvIHNlZW1zIHRvIHVzZSByZXNldCBmb3IgYSBsb3Qgb2YKPj4+PiBv
-dGhlciB0aGluZ3MgYWxyZWFkeSAoc3RhdGUgcmVzZXQsIGxpa2UgYXRvbWljLCBvciBncHUgcmVz
-ZXQgbGlrZQo+Pj4+IGRybS9zY2hlZHVsZXIncyB0ZF9yXyksIHNvIEkgdGhpbmsgdGhpcyB3b3Vs
-ZCBhbHNvIGhlbHAgY2xhcml0eSBmcm9tIGEKPj4+PiBEQyBwZXJzcGVjdGl2ZS4KPj4+Pgo+Pj4+
-IFBhdGNoIGl0c2VsZiBpcyBnb29kLCBhYm92ZSBqdXN0IGFuIGlkZWEgZm9yIGFub3RoZXIgcGF0
-Y2ggb24gdG9wLgo+Pj4+Cj4+Pj4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52
-ZXR0ZXJAZmZ3bGwuY2g+Cj4+Cj4+IFRoYW5rcyBmb3IgdGhlIHJldmlld3MhIEkgYXNzdW1lIHRo
-aXMgd2lsbCBnZXQgcGlja2VkIHVwIGJ5IGEgREMKPj4gZGV2ZWxvcGVyIG9yIEFsZXgvQ2hyaXN0
-aWFuLgo+IAo+IEFwcGxpZWQuICBUaGFua3MhCgpUaGFuayB5b3UuIENhbid0IHNlZSBpdCBpbiB0
-aGUgRFJNIGNoYW5nZXMgZm9yIDUuOSB0aG91Z2guCgoKLS0gCkVhcnRobGluZyBNaWNoZWwgRMOk
-bnplciAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGli
-cmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAgICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5k
-IFggZGV2ZWxvcGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hello,
+
+First of all, I'd like to thank everyone for the great work
+on ingenic-drm. The driver is in very good shape
+and a pleasure to work with.
+
+Yesterday, I checked out branch "paulb-jz4780-ci20-hdmi-5.8-rc5",
+from git.goldelico.com/letux-kernel.git, rebased it on v5.9-rc1,
+and then run weston over HDMI (how often
+weston runs on mips, uh? :)
+
+The edid of my monitor is properly read
+and modetest reports all modes.
+
+I've only tested the primary plane, for some reason
+the overlay is not working as expected, but it must
+be probably some minor thing.
+
+As for the bus format, I have just added a skip
+for CONNECTOR_HDMIA types in the encoder
+atomic check. And then MEDIA_BUS_FMT_RGB888_1X24
+is hardcoded if there are no bus formats negotiated.
+
+Paul et al, if you guys can rebase your work on v5.9-rc1
+and Cc I will be happy to review and test the patches.
+
+Cheers & thanks again,
+Eze
+
+
+
+
+On Tue, 7 Jul 2020 at 04:27, Paul Boddie <paul@boddie.org.uk> wrote:
+>
+> On Monday, 6 July 2020 14:12:24 CEST Neil Armstrong wrote:
+> >
+> > On 06/07/2020 01:57, Paul Boddie wrote:
+> > >
+> > > It also seems to be appropriate to set the input_bus_format on the
+> > > platform- specific HDMI driver; otherwise, I doubt that appropriate bus
+> > > encodings will be chosen in the Synopsys driver.
+> >
+> > It does but when not provided, it doesn't use it.
+> >
+> > It's handled in drm_atomic_bridge_chain_select_bus_fmts() :
+> >       if (conn->display_info.num_bus_formats &&
+> >                   conn->display_info.bus_formats)
+> >               out_bus_fmts[0] = conn->display_info.bus_formats[0];
+> >       else
+> >               out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+>
+> OK. I thought I'd seen this somewhere, but I had started to think that
+> input_bus_format would remain initialised (presumably to zero) and this would
+> then cause the Synopsys driver to not change the bus format to the actual
+> default.
+>
+> [...]
+>
+> > > Testing against 5.8-rc3 with the above changes seems to have moved the
+> > > needle slightly. Although I still get "Input not supported" from my
+> > > monitor, running modetest now gives a different error:
+> > >
+> > > modetest -D /dev/dri/card0 -M ingenic-drm -s 34@32:1280x1024-60.02
+> > >
+> > > ...now yields this:
+> > >
+> > > setting mode 1280x1024-60.02Hz@XR24 on connectors 34, crtc 32
+> > > failed to set gamma: Invalid argument
+> >
+> > This is because you don't provide the gamma setup ioctl, it's not a fatal
+> > error at all. It should be warning since it's optional.
+> >
+> > Did you check all modes ?
+>
+> I have checked a few more. Currently, testing them is awkward because it
+> involves switching my monitor to DVI input, getting "Input Not Supported",
+> unplugging the cable, and then the hotplug event has most likely caused a bad
+> pointer dereference in ingenic_drm_crtc_atomic_flush and thus a kernel panic.
+>
+> So, I'll try and fix this panic, which appears to be due to the DRM driver
+> accessing a null framebuffer pointer (presumably having been invalidated
+> elsewhere upon unplugging), and see if I can't get some more information about
+> the state of the peripherals.
+>
+> Paul
+>
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
