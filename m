@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DFD24AF9F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E24D24AFE9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C1F6E8BB;
-	Thu, 20 Aug 2020 07:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D67FF6E902;
+	Thu, 20 Aug 2020 07:16:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B45546E5C8
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:59:31 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id j13so1539956pjd.4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:59:31 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9646E5CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:59:38 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id h2so852540plr.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KtowsW54CIH+aT0/jhxelve2MZUhDg13YFERcRrbgHw=;
- b=WmNYstISRHwOeAf0FGSM0IPG3HBnf4AqyKlBux3aJdNzth/QrG5bn8O+IRhd/BjIFj
- 3QA/UCGwVBNfa5Gx8QbudVrcTQev3fH2OmmFxOJMpbprkhCx2sG4ciLLKgQVsbLJJF/i
- 31Hg5QdbhFKr86rLw/4NetVyLqGHQ+BXbxJAxKkCjmCBBaVy9gcb9IQz+sAG/LChmWyS
- RQD3sIO/Tv/7BHUrAz2QnvU8d2OKErKh1vhgXQBH2qcRoG/RDhLt3v4gHwV+JQrVacq1
- /Wfb3n9sped8ReXXl/Os5u/rchvZMA2nz34+vDOWZe+Ds4/dHqnik1aV8JMNTNfrWVcz
- z/zA==
+ bh=y37/kWCMTqf8s6gGg+tFqzxGakyiseEA9ztTG8nsWho=;
+ b=GBeCzwqsj3ZeAG74990Ziv0CxhO+QUcVbRxtOQdnSuDF8Xd/VnUz5QxKLks73a+wlE
+ I3OGimKyk9cSa/lBnn4kd1nyJRsjzY02fzxxQYbU3guQZlb4da/uEN+0w41Ot3pmLQm8
+ hBEnNN6EeeE0ga+okEUo5FzQOg9mFkBHJX+7klIRlyRh10z8SsLYJjpcu/osxTH5hBw5
+ tKkljVmCg4GRroOUVuylmDgLevEi7xkVHqpvx93iQ20yqvBVADCyrI8zp+FmzNDm4Ykw
+ W8Gb8koZylQcLmDFo0FWKtI9AiD2HB1HZBEodXiRMyDWBhMMps8jWV7sGQc+Q4488DUx
+ LNwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KtowsW54CIH+aT0/jhxelve2MZUhDg13YFERcRrbgHw=;
- b=pWo5hLwTW+b9hJb+A7vQSI0irI+SJr7QnCUik0yGXMGcuB7A1SYx54A2vdbTv4M+i2
- F4t1m1ewc/czfz4cH/85nhH5DQsRHuUdKz830wM2auNnVxpm9d3eAXWlRqt61wHqZYy1
- lwI40z5OOKCfo2jZ8qzD/8ZF2hjBdC9CK9Hg9HiT3VMr/q88OvgPY+01FO58onIkGzuo
- qrAlSOoWqfqIJdi+UTcFGhb0M1aLGjfce4Z42LBNY81HbvSzoIP08n//zQsIG1AFc0cO
- 3jtt2Uw9FUCzvWwhnBvBfer/KahaGoB8RRAJfvvOyyPDv2N5vuEf1NT7CeYwruqutKb0
- j1fA==
-X-Gm-Message-State: AOAM531KSOTYCgvGhe19MxKpJij+pqz0q7UEVIArY9XUjCtQXAPt8hgo
- ZuirctW1k2QHKNxcBhIRaAnCwgkJ04HbDTJE
-X-Google-Smtp-Source: ABdhPJyWWnkREn6S/ocS/XEl7VBCiZNYSvodonqmmXZ2LmuacmcagP6m5NS2PU76whZYNetYqJxs3g==
-X-Received: by 2002:a17:90a:dd45:: with SMTP id
- u5mr2892253pjv.198.1597863571216; 
- Wed, 19 Aug 2020 11:59:31 -0700 (PDT)
+ bh=y37/kWCMTqf8s6gGg+tFqzxGakyiseEA9ztTG8nsWho=;
+ b=WlfdpWTapZaupul3Btc3rmsqRr6mtlgFqZT3w/xBFl4asVKyS7HuFxsTsZtIRzwYhM
+ a/nEY5PkInnrnIxum2um1DeeAH2NcNc+ukbOTiToCRhj7V6NSsE314Q3Eu4dVwELHAWf
+ RaCWwoNW3mpVCudqqD2svovEjB6iA/rTN/RdvN6/qP8lWNmtWgPtVCYtlKmUcWaxspwF
+ j9N/JNMYD1ocSu50e9nFqEcf87KgYFi8Sp9Ofjz/cJQGRwPKTW9j04YI1NQtYY1/Luzr
+ XDo7bD92TS8vHxC7UHbwAJsJFrAXqPXCceKQHOB9G3k+NvjfF010kQzmLFuHQXpfVwhB
+ t/ZA==
+X-Gm-Message-State: AOAM531Cw6f9stVS82uZR57vzPhYYM7YqyYETVi0UEBgnD6fKT+EP8cN
+ +VxLDnxSv+G0bYFrJLw9SQA=
+X-Google-Smtp-Source: ABdhPJy4l+YIe+ysFdNOKW6pXx+49Pe57xxd6fOaE3aQbos/QLIyW+ybtU24lNhwcVloGHIxkAaIpA==
+X-Received: by 2002:a17:902:9307:: with SMTP id
+ bc7mr367517plb.213.1597863577593; 
+ Wed, 19 Aug 2020 11:59:37 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.59.26
+ by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.59.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 11:59:30 -0700 (PDT)
+ Wed, 19 Aug 2020 11:59:37 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -54,9 +54,9 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH v3 05/12] fbdev: aty128fb: use generic power management
-Date: Thu, 20 Aug 2020 00:26:47 +0530
-Message-Id: <20200819185654.151170-6-vaibhavgupta40@gmail.com>
+Subject: [PATCH v3 06/12] fbdev: nvidia: use generic power management
+Date: Thu, 20 Aug 2020 00:26:48 +0530
+Message-Id: <20200819185654.151170-7-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
 References: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
@@ -96,134 +96,134 @@ unnecessary calls to the PCI Helper functions along with the legacy
 .suspend & .resume bindings.
 
 Now,
-- aty128_pci_suspend() had a "pm_message_t" type parameter as per legacy
+- nvidiafb_suspend() had a "pm_message_t" type parameter as per legacy
   PCI PM framework that got deprecated in generic.
-- Rename the callback as aty128_pci_suspend_late() and preserve the
+- Rename the callback as nvidiafb_suspend_late() and preserve the
   parameter.
 - Define 3 new callbacks as:
-        * aty128_pci_suspend()
-        * aty128_pci_freeze()
-        * aty128_pci_hibernate()
-  which in turn call aty128_pci_suspend_late() by passing appropriate
-  value for "pm_message_t" type parameter.
+        * nvidiafb_suspend()
+        * nvidiafb_freeze()
+        * nvidiafb_hibernate()
+  which in turn call nvidiafb_suspend_late() by passing appropriate value
+  for "pm_message_t" type parameter.
 - Bind the callbacks in "struct dev_pm_ops" type variable
-  "aty128_pci_pm_ops".
+  "nvidiafb_pm_ops".
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/aty/aty128fb.c | 51 ++++++++++++++++++++----------
- 1 file changed, 34 insertions(+), 17 deletions(-)
+ drivers/video/fbdev/nvidia/nvidia.c | 64 ++++++++++++++++-------------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index d05d4195acad..dd7762fea058 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -162,10 +162,22 @@ static char * const r128_family[] = {
- static int aty128_probe(struct pci_dev *pdev,
-                                const struct pci_device_id *ent);
- static void aty128_remove(struct pci_dev *pdev);
--static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state);
--static int aty128_pci_resume(struct pci_dev *pdev);
-+static int aty128_pci_suspend_late(struct device *dev, pm_message_t state);
-+static int __maybe_unused aty128_pci_suspend(struct device *dev);
-+static int __maybe_unused aty128_pci_hibernate(struct device *dev);
-+static int __maybe_unused aty128_pci_freeze(struct device *dev);
-+static int __maybe_unused aty128_pci_resume(struct device *dev);
- static int aty128_do_resume(struct pci_dev *pdev);
- 
-+static const struct dev_pm_ops aty128_pci_pm_ops = {
-+	.suspend	= aty128_pci_suspend,
-+	.resume		= aty128_pci_resume,
-+	.freeze		= aty128_pci_freeze,
-+	.thaw		= aty128_pci_resume,
-+	.poweroff	= aty128_pci_hibernate,
-+	.restore	= aty128_pci_resume,
-+};
-+
- /* supported Rage128 chipsets */
- static const struct pci_device_id aty128_pci_tbl[] = {
- 	{ PCI_VENDOR_ID_ATI, PCI_DEVICE_ID_ATI_RAGE128_LE,
-@@ -272,8 +284,7 @@ static struct pci_driver aty128fb_driver = {
- 	.id_table	= aty128_pci_tbl,
- 	.probe		= aty128_probe,
- 	.remove		= aty128_remove,
--	.suspend	= aty128_pci_suspend,
--	.resume		= aty128_pci_resume,
-+	.driver.pm	= &aty128_pci_pm_ops,
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index c24de9107958..3a1a4330e0d3 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -1041,10 +1041,9 @@ static struct fb_ops nvidia_fb_ops = {
+ 	.fb_sync        = nvidiafb_sync,
  };
  
- /* packed BIOS settings */
-@@ -2320,7 +2331,6 @@ static int aty128fb_ioctl(struct fb_info *info, u_int cmd, u_long arg)
- static void aty128_set_suspend(struct aty128fb_par *par, int suspend)
+-#ifdef CONFIG_PM
+-static int nvidiafb_suspend(struct pci_dev *dev, pm_message_t mesg)
++static int nvidiafb_suspend_late(struct device *dev, pm_message_t mesg)
  {
- 	u32	pmgt;
--	struct pci_dev *pdev = par->pdev;
+-	struct fb_info *info = pci_get_drvdata(dev);
++	struct fb_info *info = dev_get_drvdata(dev);
+ 	struct nvidia_par *par = info->par;
  
- 	if (!par->pdev->pm_cap)
- 		return;
-@@ -2347,23 +2357,15 @@ static void aty128_set_suspend(struct aty128fb_par *par, int suspend)
- 		aty_st_le32(BUS_CNTL1, 0x00000010);
- 		aty_st_le32(MEM_POWER_MISC, 0x0c830000);
- 		msleep(100);
--
--		/* Switch PCI power management to D2 */
--		pci_set_power_state(pdev, PCI_D2);
+ 	if (mesg.event == PM_EVENT_PRETHAW)
+@@ -1056,46 +1055,54 @@ static int nvidiafb_suspend(struct pci_dev *dev, pm_message_t mesg)
+ 		fb_set_suspend(info, 1);
+ 		nvidiafb_blank(FB_BLANK_POWERDOWN, info);
+ 		nvidia_write_regs(par, &par->SavedReg);
+-		pci_save_state(dev);
+-		pci_disable_device(dev);
+-		pci_set_power_state(dev, pci_choose_state(dev, mesg));
  	}
- }
+-	dev->dev.power.power_state = mesg;
++	dev->power.power_state = mesg;
  
--static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int aty128_pci_suspend_late(struct device *dev, pm_message_t state)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct fb_info *info = pci_get_drvdata(pdev);
- 	struct aty128fb_par *par = info->par;
- 
--	/* Because we may change PCI D state ourselves, we need to
--	 * first save the config space content so the core can
--	 * restore it properly on resume.
--	 */
--	pci_save_state(pdev);
--
- 	/* We don't do anything but D2, for now we return 0, but
- 	 * we may want to change that. How do we know if the BIOS
- 	 * can properly take care of D3 ? Also, with swsusp, we
-@@ -2422,6 +2424,21 @@ static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	return 0;
- }
- 
-+static int __maybe_unused aty128_pci_suspend(struct device *dev)
-+{
-+	return aty128_pci_suspend_late(dev, PMSG_SUSPEND);
-+}
-+
-+static int __maybe_unused aty128_pci_hibernate(struct device *dev)
-+{
-+	return aty128_pci_suspend_late(dev, PMSG_HIBERNATE);
-+}
-+
-+static int __maybe_unused aty128_pci_freeze(struct device *dev)
-+{
-+	return aty128_pci_suspend_late(dev, PMSG_FREEZE);
-+}
-+
- static int aty128_do_resume(struct pci_dev *pdev)
- {
- 	struct fb_info *info = pci_get_drvdata(pdev);
-@@ -2468,12 +2485,12 @@ static int aty128_do_resume(struct pci_dev *pdev)
- 	return 0;
- }
- 
--static int aty128_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused aty128_pci_resume(struct device *dev)
- {
- 	int rc;
- 
- 	console_lock();
--	rc = aty128_do_resume(pdev);
-+	rc = aty128_do_resume(to_pci_dev(dev));
  	console_unlock();
+ 	return 0;
+ }
  
- 	return rc;
+-static int nvidiafb_resume(struct pci_dev *dev)
++static int __maybe_unused nvidiafb_suspend(struct device *dev)
+ {
+-	struct fb_info *info = pci_get_drvdata(dev);
+-	struct nvidia_par *par = info->par;
++	return nvidiafb_suspend_late(dev, PMSG_SUSPEND);
++}
+ 
+-	console_lock();
+-	pci_set_power_state(dev, PCI_D0);
++static int __maybe_unused nvidiafb_hibernate(struct device *dev)
++{
++	return nvidiafb_suspend_late(dev, PMSG_HIBERNATE);
++}
+ 
+-	if (par->pm_state != PM_EVENT_FREEZE) {
+-		pci_restore_state(dev);
++static int __maybe_unused nvidiafb_freeze(struct device *dev)
++{
++	return nvidiafb_suspend_late(dev, PMSG_FREEZE);
++}
+ 
+-		if (pci_enable_device(dev))
+-			goto fail;
++static int __maybe_unused nvidiafb_resume(struct device *dev)
++{
++	struct fb_info *info = dev_get_drvdata(dev);
++	struct nvidia_par *par = info->par;
+ 
+-		pci_set_master(dev);
+-	}
++	console_lock();
+ 
+ 	par->pm_state = PM_EVENT_ON;
+ 	nvidiafb_set_par(info);
+ 	fb_set_suspend (info, 0);
+ 	nvidiafb_blank(FB_BLANK_UNBLANK, info);
+ 
+-fail:
+ 	console_unlock();
+ 	return 0;
+ }
+-#else
+-#define nvidiafb_suspend NULL
+-#define nvidiafb_resume NULL
+-#endif
++
++static const struct dev_pm_ops nvidiafb_pm_ops = {
++#ifdef CONFIG_PM_SLEEP
++	.suspend	= nvidiafb_suspend,
++	.resume		= nvidiafb_resume,
++	.freeze		= nvidiafb_freeze,
++	.thaw		= nvidiafb_resume,
++	.poweroff	= nvidiafb_hibernate,
++	.restore	= nvidiafb_resume,
++#endif /* CONFIG_PM_SLEEP */
++};
+ 
+ static int nvidia_set_fbinfo(struct fb_info *info)
+ {
+@@ -1496,12 +1503,11 @@ static int nvidiafb_setup(char *options)
+ #endif				/* !MODULE */
+ 
+ static struct pci_driver nvidiafb_driver = {
+-	.name = "nvidiafb",
+-	.id_table = nvidiafb_pci_tbl,
+-	.probe    = nvidiafb_probe,
+-	.suspend  = nvidiafb_suspend,
+-	.resume   = nvidiafb_resume,
+-	.remove   = nvidiafb_remove,
++	.name      = "nvidiafb",
++	.id_table  = nvidiafb_pci_tbl,
++	.probe     = nvidiafb_probe,
++	.driver.pm = &nvidiafb_pm_ops,
++	.remove    = nvidiafb_remove,
+ };
+ 
+ /* ------------------------------------------------------------------------- *
 -- 
 2.28.0
 
