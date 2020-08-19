@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B198A24AFF2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF14924AFE0
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB056E911;
-	Thu, 20 Aug 2020 07:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313A36E8FA;
+	Thu, 20 Aug 2020 07:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8E56E5C8
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:59:50 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id h2so852813plr.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:59:50 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E116E5CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:59:56 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id y206so12126145pfb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7pp7ILrXVpYWERUNp+y3FKEvGmfdJxafp13Cd61iIdo=;
- b=Mn+ymFH5Tc2xZr4mSSRBUl7CNfTA0DlesWU0Sq0Xu1T+OqneWcVq4ekASysyYI2ETT
- NOSB7C2Cedt19yXvJ2upXqZodaCRErUqHBJvXJ+y1AG0d1s3aeoXWgX4ydW1wonG1AQJ
- KyyYcwn0E1nHoVzOPWBujC3D3P2PPODBG13GhGBCib7jUZw+yShRX9TFZfqK5/8JvmIY
- Q9fAysRWcGK4QLyVjz9u8ryaERCmVOEyPJXSzbd+3ZARafIcqDvcV2dqniZXDul1xz43
- LQjdek9dXEkDQpvBHd7Ur9Oo/o0EtG2HR0sFPQG850ujw/PavQIQaX7UXDdE6ivpyEku
- Cp4Q==
+ bh=Mos/Rf0TNw2iPmzlPoU65K3iMb1m4mvroOxp61hE7Bc=;
+ b=WvDYup/Kp1NP5gsb3QLWv7Jw7zQT9EK0LsuAPX29ihhdIYei2e6sP8ZOSwFbJBVA7A
+ ta2CILvXyFXMkCKX1E3BhS7dgpZEurOt3qSG40eL6bvDwDjQyCIdmnK3NU9w0J4j2BgC
+ JJZUCVs3oSeiJClFYUixNODeI5caI1l6/cYxvQErqUZ+qF5k8O+TUH7FVa5pULf+/AWO
+ uqLQdyb5Z7Qz0ayAJOVWiVRNPc7iZioUD1GrHfM30nBFXUVftE4ibvYfffXNe8hM488y
+ d9HcZpaPJqC70ZvkdmRfMqp8kUEffjDVwNmtD3oJPusUE94/S01C7o/XL/NmeYKBcn2m
+ mGug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7pp7ILrXVpYWERUNp+y3FKEvGmfdJxafp13Cd61iIdo=;
- b=N1/Oaos/Wnq3wvm2dEQBROlSiH0U3hmIINt9l5zUTBoAN7cJJmpjhFMWi0MKtKTxYk
- cIEtZfmQca45Wssl5hGaeEeO0gbZqfFQWiXobiKJxVOCfrBYqbaRGd7uEWhBJxdFhewC
- ZXEJC0l2iy9tvwB8bBtdW/59OQE64fFD3GwrSDdgb1Pk/wxZxblP4MexOXC5X/SGM6mQ
- gMy6+EbE8RyU509Dhgoi9tD5sHCEKyTfoK7neMlkLucqnjskpPQKpTZK5C3sggOEDSBQ
- 0VZ1sUMrYe6r/nJVPhktn49VE6yFx/opn4LKFcDt0j+FrNaYbJugof/5WW9cAXjCDMiD
- mrtg==
-X-Gm-Message-State: AOAM530wQX+dhzI6a896Pjp0hVNsY8w6BykSHMHeBKhloWsBNd3cG7qY
- PvYeIvj8DpI94NqKUuV/afU=
-X-Google-Smtp-Source: ABdhPJyPQYzgR72iLGG6L45iOOLTCC87J2wjbMAQqVqpLvOesvLqGUTY8VuELv+F5IyITtz4hTGtcA==
-X-Received: by 2002:a17:90a:498b:: with SMTP id
- d11mr5130955pjh.179.1597863589786; 
- Wed, 19 Aug 2020 11:59:49 -0700 (PDT)
+ bh=Mos/Rf0TNw2iPmzlPoU65K3iMb1m4mvroOxp61hE7Bc=;
+ b=lD4OiEitTlOIjAxKpjQQzprDqh5UGS/6+kRV9xymKjN8H8n41Nw+ObKMQoSi4TH4oS
+ O1NqDinpvBeKYuiMykB+HcdZzNjP5Hoq5wzd2iZy2T0SrcubO/j1Rtgx8iXspz3qb8Ss
+ kKRHcUSXXYAVp+ai1B0x8nhQ/7bLZrL4feCKfXGNsDYdDwkFJub5g/CbVjH7F6ZCbIaO
+ zdD4MV8VL54H7zRRikLSs1KRx1Yk7ltpyXeNiV6fqjXwtHH5+lIPugvRzlkQSIyJAxvB
+ hnKzMmEc214lHzBCmIyIqDGiVN+H8TvUIZFVh2v/YCf+vbLl2E+gNEtHJs+6IOQ+ZbC1
+ PLRg==
+X-Gm-Message-State: AOAM53398+7vIe2zAiuK3ADe6ZsniZJRZNOf6BRBuySX8I59FWIfKFWx
+ fjyW6fWUdhIcMP+3IVq0b+E=
+X-Google-Smtp-Source: ABdhPJwDsXvmSlbi9dGwbb/sMCjJSWXePcYUjMwpqIZJfFJhndLVz+PO9CUrhtWaRPyT2nFY++fp4g==
+X-Received: by 2002:a63:5552:: with SMTP id f18mr16741377pgm.298.1597863596269; 
+ Wed, 19 Aug 2020 11:59:56 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.59.44
+ by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.59.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 11:59:49 -0700 (PDT)
+ Wed, 19 Aug 2020 11:59:55 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -54,9 +53,9 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH v3 08/12] fbdev: cyber2000fb: use generic power management
-Date: Thu, 20 Aug 2020 00:26:50 +0530
-Message-Id: <20200819185654.151170-9-vaibhavgupta40@gmail.com>
+Subject: [PATCH v3 09/12] fbdev: i740fb: use generic power management
+Date: Thu, 20 Aug 2020 00:26:51 +0530
+Message-Id: <20200819185654.151170-10-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
 References: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
@@ -84,58 +83,121 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Drivers should do only device-specific jobs. But in general, drivers using
+legacy PCI PM framework for .suspend()/.resume() have to manage many PCI
+PM-related tasks themselves which can be done by PCI Core itself. This
+brings extra load on the driver and it directly calls PCI helper functions
+to handle them.
+
 Switch to the new generic framework by updating function signatures and
-define a "struct dev_pm_ops" variable to bind PM callbacks. This way we can
-remove the legacy .suspend & .resume bindings from "lxfb_driver".
+define a "struct dev_pm_ops" variable to bind PM callbacks. Also, remove
+unnecessary calls to the PCI Helper functions along with the legacy
+.suspend & .resume bindings.
+
+The i740fb_suspend() is not designed to function in the case of Freeze.
+Thus, the code checked for "if (state.event == PM_EVENT_FREEZE....)". This
+is because, in the legacy framework, this callback was invoked even in the
+event of Freeze. Hence, added the load of unnecessary function-call.
+
+The goal can be achieved by binding the callback with only ".suspend" and
+".poweroff" in the "i740fb_pm_ops" const variable. This also avoids the
+step of checking "if (state.event == PM_EVENT_FREEZE....)" every time the
+callback is invoked.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/cyber2000fb.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/i740fb.c | 40 +++++++++++++++---------------------
+ 1 file changed, 16 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyber2000fb.c
-index 42d37bed518a..d45355b9a58c 100644
---- a/drivers/video/fbdev/cyber2000fb.c
-+++ b/drivers/video/fbdev/cyber2000fb.c
-@@ -1810,7 +1810,7 @@ static void cyberpro_pci_remove(struct pci_dev *dev)
+diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
+index c65ec7386e87..8d7f06fc8a5a 100644
+--- a/drivers/video/fbdev/i740fb.c
++++ b/drivers/video/fbdev/i740fb.c
+@@ -1175,16 +1175,11 @@ static void i740fb_remove(struct pci_dev *dev)
  	}
  }
  
--static int cyberpro_pci_suspend(struct pci_dev *dev, pm_message_t state)
-+static int __maybe_unused cyberpro_pci_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+-static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
++static int __maybe_unused i740fb_suspend(struct device *dev)
  {
+-	struct fb_info *info = pci_get_drvdata(dev);
++	struct fb_info *info = dev_get_drvdata(dev);
+ 	struct i740fb_par *par = info->par;
+ 
+-	/* don't disable console during hibernation and wakeup from it */
+-	if (state.event == PM_EVENT_FREEZE || state.event == PM_EVENT_PRETHAW)
+-		return 0;
+-
+ 	console_lock();
+ 	mutex_lock(&(par->open_lock));
+ 
+@@ -1197,19 +1192,15 @@ static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
+ 
+ 	fb_set_suspend(info, 1);
+ 
+-	pci_save_state(dev);
+-	pci_disable_device(dev);
+-	pci_set_power_state(dev, pci_choose_state(dev, state));
+-
+ 	mutex_unlock(&(par->open_lock));
+ 	console_unlock();
+ 
  	return 0;
  }
-@@ -1818,9 +1818,9 @@ static int cyberpro_pci_suspend(struct pci_dev *dev, pm_message_t state)
- /*
-  * Re-initialise the CyberPro hardware
-  */
--static int cyberpro_pci_resume(struct pci_dev *dev)
-+static int __maybe_unused cyberpro_pci_resume(struct device *dev)
+ 
+-static int i740fb_resume(struct pci_dev *dev)
++static int __maybe_unused i740fb_resume(struct device *dev)
  {
--	struct cfb_info *cfb = pci_get_drvdata(dev);
-+	struct cfb_info *cfb = dev_get_drvdata(dev);
+-	struct fb_info *info = pci_get_drvdata(dev);
++	struct fb_info *info = dev_get_drvdata(dev);
+ 	struct i740fb_par *par = info->par;
  
- 	if (cfb) {
- 		cyberpro_pci_enable_mmio(cfb);
-@@ -1846,12 +1846,15 @@ static struct pci_device_id cyberpro_pci_table[] = {
+ 	console_lock();
+@@ -1218,11 +1209,6 @@ static int i740fb_resume(struct pci_dev *dev)
+ 	if (par->ref_count == 0)
+ 		goto fail;
  
- MODULE_DEVICE_TABLE(pci, cyberpro_pci_table);
+-	pci_set_power_state(dev, PCI_D0);
+-	pci_restore_state(dev);
+-	if (pci_enable_device(dev))
+-		goto fail;
+-
+ 	i740fb_set_par(info);
+ 	fb_set_suspend(info, 0);
  
-+static SIMPLE_DEV_PM_OPS(cyberpro_pci_pm_ops,
-+			 cyberpro_pci_suspend,
-+			 cyberpro_pci_resume);
+@@ -1231,10 +1217,17 @@ static int i740fb_resume(struct pci_dev *dev)
+ 	console_unlock();
+ 	return 0;
+ }
+-#else
+-#define i740fb_suspend NULL
+-#define i740fb_resume NULL
+-#endif /* CONFIG_PM */
 +
- static struct pci_driver cyberpro_driver = {
- 	.name		= "CyberPro",
- 	.probe		= cyberpro_pci_probe,
- 	.remove		= cyberpro_pci_remove,
--	.suspend	= cyberpro_pci_suspend,
--	.resume		= cyberpro_pci_resume,
-+	.driver.pm	= &cyberpro_pci_pm_ops,
- 	.id_table	= cyberpro_pci_table
++static const struct dev_pm_ops i740fb_pm_ops = {
++#ifdef CONFIG_PM_SLEEP
++	.suspend	= i740fb_suspend,
++	.resume		= i740fb_resume,
++	.freeze		= NULL,
++	.thaw		= i740fb_resume,
++	.poweroff	= i740fb_suspend,
++	.restore	= i740fb_resume,
++#endif /* CONFIG_PM_SLEEP */
++};
+ 
+ #define I740_ID_PCI 0x00d1
+ #define I740_ID_AGP 0x7800
+@@ -1251,8 +1244,7 @@ static struct pci_driver i740fb_driver = {
+ 	.id_table	= i740fb_id_table,
+ 	.probe		= i740fb_probe,
+ 	.remove		= i740fb_remove,
+-	.suspend	= i740fb_suspend,
+-	.resume		= i740fb_resume,
++	.driver.pm	= &i740fb_pm_ops,
  };
  
+ #ifndef MODULE
 -- 
 2.28.0
 
