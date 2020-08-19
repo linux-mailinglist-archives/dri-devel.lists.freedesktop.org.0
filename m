@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26578249C4D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 13:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FED0249C5F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 13:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05286E231;
-	Wed, 19 Aug 2020 11:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 870F36E284;
+	Wed, 19 Aug 2020 11:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FB16E24D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426846E24E
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:46:24 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de
  [95.90.213.163])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 093342310C;
+ by mail.kernel.org (Postfix) with ESMTPSA id 14E902310F;
  Wed, 19 Aug 2020 11:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1597837583;
- bh=zHf77lVLfTNqIaF9sRrNbaiO3qYSqs9jubzcWDx1ovA=;
+ bh=7JhGbZ+Jj8x10CIemJJxWG5JRE7ESkXx61Uycvwm794=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lqYhiCf4WYrkZPL2mxfY4LFdgDMcf0IqacgkYiFAinHtvsLLw3nGvlRlGBuq2tExC
- sceu3WD8kEwqxZtiHI9Du/wNwhm5UOIo8sSpTykX26dS1KpIiBGQ9TGW+NSCHCDqFT
- NvrVXGF9PpS3l24SHgKq/HPA5yjH1dbBZKrVZ1yM=
+ b=xz4ZHfrzmYdeFttfQAIRRSYrD2365ly1qjd6PJc31330zlEm0tGrV1gEsrvboT6fc
+ g7xY3ys36oMxQj+rNK7uVOhU1L06/iZL1pp/UnNiRKyWQiB2ms8jahZFqBMnkW1ERa
+ xf11uR1goaXfCrffokUvSxEStjA4NhKO1aXMHNEs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
  (envelope-from <mchehab@kernel.org>)
- id 1k8MXt-00Eubj-0d; Wed, 19 Aug 2020 13:46:21 +0200
+ id 1k8MXt-00Eubm-1a; Wed, 19 Aug 2020 13:46:21 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 37/49] staging: hikey9xx/gpu: don't use iommu code
-Date: Wed, 19 Aug 2020 13:46:05 +0200
-Message-Id: <0230300d41aaa80f27aeeeafe585b8d19b4d5146.1597833138.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 38/49] staging: hikey9xx/gpu: add kirin9xx driver to the
+ building system
+Date: Wed, 19 Aug 2020 13:46:06 +0200
+Message-Id: <6bb2c71410a8065e2a2c5f13294b27154dbd786b.1597833138.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1597833138.git.mchehab+huawei@kernel.org>
 References: <cover.1597833138.git.mchehab+huawei@kernel.org>
@@ -52,102 +53,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devel@driverdev.osuosl.org, Liwei Cai <cailiwei@hisilicon.com>,
  Manivannan Sadhasivam <mani@kernel.org>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, Wanchun Zheng <zhengwanchun@hisilicon.com>,
- linuxarm@huawei.com, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiubin Zhang <zhangxiubin1@huawei.com>, mauro.chehab@huawei.com
+ Chen Feng <puck.chen@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, mauro.chehab@huawei.com,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While this driver apparently supports both IOMMU and no-IOMMU
-access, it always enable the IOMMU via some code, at the
-downstream version.
-
-Apparently, the downstream iommu is there just to get the
-physical address of the logical IOMMU address. Based on
-the downstream code, it sounds that the IOMMU would be an
-specific one for the GPU.
-
-Anyway, right now, the driver is set to not use the IOMMU
-at all. So, let's comment out the code which allocates
-IOMMU pages, and the code that would try to use it to
-setup a register, as, without the IOMMU, this would cause
-an OOPS.
+Now that everything is in place, add the driver to the
+building system.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c      | 12 ++++++++++--
- .../hikey9xx/gpu/kirin9xx_drm_overlay_utils.c        | 10 ++++++++++
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ drivers/staging/hikey9xx/Kconfig      |  3 ++
+ drivers/staging/hikey9xx/Makefile     |  1 +
+ drivers/staging/hikey9xx/gpu/Kconfig  | 52 ++++++---------------------
+ drivers/staging/hikey9xx/gpu/Makefile | 21 ++++-------
+ 4 files changed, 22 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-index e3bb0a32dddf..546da775f2fb 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-@@ -769,6 +769,14 @@ static int dss_plane_init(struct drm_device *dev, struct dss_plane *aplane,
- 
- static int dss_enable_iommu(struct platform_device *pdev, struct dss_hw_ctx *ctx)
- {
-+#if 0
-+/*
-+ * FIXME:
-+ *
-+ * Right now, the IOMMU support is actually disabled. See the caller of
-+ * hisi_dss_smmu_config(). Yet, if we end enabling it, this should be
-+ * ported to use io-pgtable directly.
-+ */
- 	struct device *dev = NULL;
- 
- 	dev = &pdev->dev;
-@@ -781,7 +789,7 @@ static int dss_enable_iommu(struct platform_device *pdev, struct dss_hw_ctx *ctx
- 	}
- 
- 	iommu_attach_device(ctx->mmu_domain, dev);
--
-+#endif
- 	return 0;
- }
- 
-@@ -934,7 +942,7 @@ static int dss_dts_parse(struct platform_device *pdev, struct dss_hw_ctx *ctx)
- 			 DSS_MAX_PXL0_CLK_144M, (uint64_t)clk_get_rate(ctx->dss_pxl0_clk));
- 	}
- 
--	/* regulator enable */
-+	/* enable IOMMU */
- 	dss_enable_iommu(pdev, ctx);
- 
- 	return 0;
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-index 9113937478f5..6b6774b8d903 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-@@ -1333,8 +1333,17 @@ static void hisi_dss_mif_on(struct dss_hw_ctx *ctx)
- 	set_reg(dss_base + MIF_CH11_OFFSET + MIF_CTRL0, 0x1, 1, 0);
- }
- 
+diff --git a/drivers/staging/hikey9xx/Kconfig b/drivers/staging/hikey9xx/Kconfig
+index 0e97b5b9a56a..b2ce886e1c4e 100644
+--- a/drivers/staging/hikey9xx/Kconfig
++++ b/drivers/staging/hikey9xx/Kconfig
+@@ -36,3 +36,6 @@ config REGULATOR_HI6421V600
+ 	  This driver provides support for the voltage regulators on
+ 	  HiSilicon Hi6421v600 PMU / Codec IC.
+ 	  This is used on Kirin 3670 boards, like HiKey 970.
 +
- void hisi_dss_smmu_on(struct dss_hw_ctx *ctx)
- {
-+#if 0
-+/*
-+ * FIXME:
-+ *
-+ * Right now, the IOMMU support is actually disabled. See the caller of
-+ * hisi_dss_smmu_config(). Yet, if we end enabling it, this should be
-+ * ported to use io-pgtable directly.
-+ */
- 	void __iomem *smmu_base;
- 	struct iommu_domain_data *domain_data = NULL;
- 	u32 phy_pgd_base = 0;
-@@ -1374,6 +1383,7 @@ void hisi_dss_smmu_on(struct dss_hw_ctx *ctx)
- 	phy_pgd_base = (uint32_t)(domain_data->phy_pgd_base);
- 	DRM_DEBUG("fama_phy_pgd_base = %llu, phy_pgd_base =0x%x \n", fama_phy_pgd_base, phy_pgd_base);
- 	set_reg(smmu_base + SMMU_CB_TTBR0, phy_pgd_base, 32, 0);
-+#endif
- }
++# DRM/KMS driver
++source "drivers/staging/hikey9xx/gpu/Kconfig"
+diff --git a/drivers/staging/hikey9xx/Makefile b/drivers/staging/hikey9xx/Makefile
+index 9371dcc3d35b..1a848d398ab6 100644
+--- a/drivers/staging/hikey9xx/Makefile
++++ b/drivers/staging/hikey9xx/Makefile
+@@ -3,3 +3,4 @@
+ obj-$(CONFIG_SPMI_HISI3670)		+= hisi-spmi-controller.o
+ obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
+ obj-$(CONFIG_REGULATOR_HI6421V600)	+= hi6421v600-regulator.o
++obj-y					+= gpu/
+diff --git a/drivers/staging/hikey9xx/gpu/Kconfig b/drivers/staging/hikey9xx/gpu/Kconfig
+index 5533ee624f29..957da13bcf81 100644
+--- a/drivers/staging/hikey9xx/gpu/Kconfig
++++ b/drivers/staging/hikey9xx/gpu/Kconfig
+@@ -1,52 +1,22 @@
+-config DRM_HISI_KIRIN
+-	tristate "DRM Support for Hisilicon Kirin series SoCs Platform"
++config DRM_HISI_KIRIN9XX
++	tristate "DRM Support for Hisilicon Kirin9xx series SoCs Platform"
+ 	depends on DRM && OF && ARM64
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_CMA_HELPER
+ 	select DRM_KMS_CMA_HELPER
+-	select HISI_KIRIN_DW_DSI
+-	help
+-	  Choose this option if you have a hisilicon Kirin chipsets(hi6220).
+-	  If M is selected the module will be called kirin-drm.
+-
+-config DRM_KIRIN_960
+-	tristate "DRM Support for Hisilicon Kirin960 series SoCs Platform"
+-	depends on DRM && OF && ARM64
+-	select DRM_KMS_HELPER
+-	select DRM_GEM_CMA_HELPER
+-	select DRM_KMS_CMA_HELPER
+-	select HISI_KIRIN_DW_DSI
+-	help
+-	  Choose this option if you have a hisilicon Kirin chipsets(kirin960).
+-	  If M is selected the module will be called kirin-drm.
+-
+-config HISI_KIRIN_DW_DSI
+-	tristate "HiSilicon Kirin specific extensions for Synopsys DW MIPI DSI"
+-	depends on DRM_HISI_KIRIN || DRM_KIRIN_960
+ 	select DRM_MIPI_DSI
+-	select DRM_PANEL
+ 	help
+-	 This selects support for HiSilicon Kirin SoC specific extensions for
+-	 the Synopsys DesignWare DSI driver. If you want to enable MIPI DSI on
+-	 hi6220 based SoC, you should selet this option.
++	  Choose this option if you have a HiSilicon Kirin960 or Kirin970.
++	  If M is selected the module will be called kirin9xx-drm.
  
- void hisifb_dss_on(struct dss_hw_ctx *ctx)
+-config DRM_PANEL_HIKEY960_NTE300NTS
+-	tristate "Hikey960 NTE300NTS video mode panel"
+-	depends on OF
+-	depends on DRM_MIPI_DSI
+-	help
+-		Say Y here if you want to enable LCD panel driver for Hikey960 boadr.
+-		Current support panel: NTE300NTS(1920X1200)
+-
+-config HISI_FB_970
+-	tristate "DRM Support for Hisilicon Kirin970 series SoCs Platform"
+-	depends on DRM && OF && ARM64
++config DRM_HISI_KIRIN970
++	bool "Enable support for Hisilicon Kirin970"
+ 	depends on DRM_MIPI_DSI
++	depends on DRM_HISI_KIRIN9XX
+ 	help
+ 	  Choose this option if you have a hisilicon Kirin chipsets(kirin970).
+-	  If M is selected the module will be called kirin-drm.
+ 
+-config HDMI_ADV7511_AUDIO
+-	tristate "HDMI Support ADV7511 audio"
+-	help
+-	  Choose this option to support HDMI ADV7511 audio.
++config DRM_HISI_KIRIN9XX_DSI
++	tristate
++	depends on DRM_HISI_KIRIN9XX
++	default y
+diff --git a/drivers/staging/hikey9xx/gpu/Makefile b/drivers/staging/hikey9xx/gpu/Makefile
+index a5e008365a57..9df7894ccb42 100644
+--- a/drivers/staging/hikey9xx/gpu/Makefile
++++ b/drivers/staging/hikey9xx/gpu/Makefile
+@@ -1,15 +1,8 @@
+-EXTRA_CFLAGS += \
+-		-Iinclude/drm
+-kirin-drm-y := kirin_fbdev.o \
+-		kirin_fb.o \
+-		kirin_drm_drv.o \
+-		kirin_drm_dss.o \
+-		kirin_drm_dpe_utils.o \
+-		kirin_drm_overlay_utils.o \
+-		kirin_pwm.o \
+-		hdmi/adv7535.o \
++# SPDX-License-Identifier: GPL-2.0-only
++kirin9xx-drm-y := kirin9xx_drm_drv.o \
++		  kirin9xx_drm_dss.o \
++		  kirin9xx_drm_dpe_utils.o \
++		  kirin9xx_drm_overlay_utils.o
+ 
+-
+-obj-$(CONFIG_HDMI_ADV7511_AUDIO) += hdmi/adv7535_audio.o
+-obj-$(CONFIG_DRM_KIRIN_960) += kirin-drm.o
+-obj-$(CONFIG_HISI_KIRIN_DW_DSI) += dw_drm_dsi.o
++obj-$(CONFIG_DRM_HISI_KIRIN9XX) += kirin9xx-drm.o kirin9xx_pwm.o
++obj-$(CONFIG_DRM_HISI_KIRIN9XX_DSI) += kirin9xx_dw_drm_dsi.o
 -- 
 2.26.2
 
