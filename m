@@ -2,45 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E246224AFD8
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8563424AFA6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37EEC6E8F6;
-	Thu, 20 Aug 2020 07:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEBD6E8CA;
+	Thu, 20 Aug 2020 07:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 166E56E2F3;
- Wed, 19 Aug 2020 11:53:57 +0000 (UTC)
-IronPort-SDR: EAfyb8Y1bg3dtpCnrIxlcmJA6+06z9Krw7NQI1t5QWwkMx3RLQiDFCZ0iBzyCIRP3/Og7sauhN
- 0EyzMjDZ2Zow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="239922207"
-X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; d="scan'208";a="239922207"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2020 04:53:56 -0700
-IronPort-SDR: tH4X2Paq3XfvQA2RiM8Y1LC6aKCErJ17exgjAh7BFc8iQvzE35GvKOqV4ZBB1Rm+yTgBBsOIfY
- 433WjNqDmt2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; d="scan'208";a="334658309"
-Received: from black.fi.intel.com ([10.237.72.28])
- by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2020 04:53:54 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 9A95A1FD; Wed, 19 Aug 2020 14:53:53 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
-Subject: [PATCH v1] drm/i915/gt: convert tasklets to use new tasklet_setup()
- API
-Date: Wed, 19 Aug 2020 14:53:53 +0300
-Message-Id: <20200819115353.59592-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 887006E1F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:01:00 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id h2so369298plr.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 06:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qNJVZUa8vOnjh3Y4FbI7cu96rnOZczrpWszoc4OM35E=;
+ b=ZtDUAentzHDOfXLt1WNpX0PqLZgZi3vnfEc6anllVjv7Z89UoKoCCMUiljAdsTAGBL
+ DEVHOWuWzMZeIuJcHwUlptWZjkCaOp1ZUKAoSs/2jyyTPejnx1zCbjPUY7C9na+Ftk+x
+ wpw/pPjI4UYNDosNdy4j7LcDWUJhwNxLapyy4W7f1U00+fT6jVYw1uO8CMpHCStxGd8w
+ JLOisGYqnJmeY5ie8I+x4A4vKZtwoQ6PsaOc8UAPD7eTAFlJwORflpx8o8EPJZR8cuSG
+ 1j977OWh0YEI5r2DXie/ItwJ0iuosRobp25OObO0Ld6mXVix+wRg8r73enQ5lMOcXAoG
+ tjpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qNJVZUa8vOnjh3Y4FbI7cu96rnOZczrpWszoc4OM35E=;
+ b=gUxgwaIQTVFfyB+7cjkTsJwCxlkG5/iL4uFaUcmUH0Ds5Jk4Q2X+GYONETi16tgCxH
+ XkunUPwdzRSmgDOLa6EUbeePymORiHPmLNdkeo44qIVAZJlv/mH7343EsLSjKpqPRVGL
+ kQQsUHuMwwqomfEJb8AutYkaL7AN+Ra+AKkSTDtPa6ERP1MsDknj01o6nzWTV1LvXKTL
+ gklPKkbOJIKbeFJOzWqdUIV3rUvYTFzj6HYSVluoCw/9Z2RYFhAgzfH0CI5xCxCls9D2
+ rcMBFhhrbzz7BTzxL1DR7wM0ANZ+vuEt1+DSTYqupEzLpTD2e48dlhQUH8Gx5FAk66q1
+ N/KA==
+X-Gm-Message-State: AOAM530il4hMtI9dYRvyoMbEZvM1ljfmYzq8IT4mt7dBcwYbA4Hr3f72
+ FT401iC3eSGxZIJ7RWu16QMFWg==
+X-Google-Smtp-Source: ABdhPJwcWyLwqgVIDq5QVfeKWIJZ1zweeStVncOtMpfxCFFFEuEh0sSa6pW/Ah5NefbMm4I9GwEzLw==
+X-Received: by 2002:a17:90b:285:: with SMTP id
+ az5mr3983315pjb.118.1597842058708; 
+ Wed, 19 Aug 2020 06:00:58 -0700 (PDT)
+Received: from [192.168.1.182] ([66.219.217.173])
+ by smtp.gmail.com with ESMTPSA id d23sm20502027pgm.11.2020.08.19.06.00.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Aug 2020 06:00:58 -0700 (PDT)
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+To: James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Kees Cook <keescook@chromium.org>
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-2-allen.cryptic@gmail.com>
+ <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
+ <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
+Date: Wed, 19 Aug 2020 07:00:53 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <1597780833.3978.3.camel@HansenPartnership.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,72 +80,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: ulf.hansson@linaro.org, linux-atm-general@lists.sourceforge.net,
+ manohar.vanga@gmail.com, airlied@linux.ie, Allen Pais <allen.lkml@gmail.com>,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kys@microsoft.com,
+ anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+ linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+ kuba@kernel.org, mporter@kernel.crashing.org, jdike@addtoit.com,
+ oakad@yahoo.com, s.hauer@pengutronix.de, linux-input@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
+ linux-mmc@vger.kernel.org, sre@kernel.org, linux-spi@vger.kernel.org,
+ alex.bou9@gmail.com, Allen Pais <allen.cryptic@gmail.com>,
+ stefanr@s5r6.in-berlin.de, linux-ntb@googlegroups.com,
+ Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
+ davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for unconditionally passing the struct tasklet_struct
-pointer to all tasklet callbacks, switch to using the new tasklet_setup()
-and from_tasklet() to pass the tasklet pointer explicitly.
+On 8/18/20 1:00 PM, James Bottomley wrote:
+> On Mon, 2020-08-17 at 13:02 -0700, Jens Axboe wrote:
+>> On 8/17/20 12:48 PM, Kees Cook wrote:
+>>> On Mon, Aug 17, 2020 at 12:44:34PM -0700, Jens Axboe wrote:
+>>>> On 8/17/20 12:29 PM, Kees Cook wrote:
+>>>>> On Mon, Aug 17, 2020 at 06:56:47AM -0700, Jens Axboe wrote:
+>>>>>> On 8/17/20 2:15 AM, Allen Pais wrote:
+>>>>>>> From: Allen Pais <allen.lkml@gmail.com>
+>>>>>>>
+>>>>>>> In preparation for unconditionally passing the
+>>>>>>> struct tasklet_struct pointer to all tasklet
+>>>>>>> callbacks, switch to using the new tasklet_setup()
+>>>>>>> and from_tasklet() to pass the tasklet pointer explicitly.
+>>>>>>
+>>>>>> Who came up with the idea to add a macro 'from_tasklet' that
+>>>>>> is just container_of? container_of in the code would be
+>>>>>> _much_ more readable, and not leave anyone guessing wtf
+>>>>>> from_tasklet is doing.
+>>>>>>
+>>>>>> I'd fix that up now before everything else goes in...
+>>>>>
+>>>>> As I mentioned in the other thread, I think this makes things
+>>>>> much more readable. It's the same thing that the timer_struct
+>>>>> conversion did (added a container_of wrapper) to avoid the
+>>>>> ever-repeating use of typeof(), long lines, etc.
+>>>>
+>>>> But then it should use a generic name, instead of each sub-system 
+>>>> using some random name that makes people look up exactly what it
+>>>> does. I'm not huge fan of the container_of() redundancy, but
+>>>> adding private variants of this doesn't seem like the best way
+>>>> forward. Let's have a generic helper that does this, and use it
+>>>> everywhere.
+>>>
+>>> I'm open to suggestions, but as things stand, these kinds of
+>>> treewide
+>>
+>> On naming? Implementation is just as it stands, from_tasklet() is
+>> totally generic which is why I objected to it. from_member()? Not
+>> great with naming... But I can see this going further and then we'll
+>> suddenly have tons of these. It's not good for readability.
+> 
+> Since both threads seem to have petered out, let me suggest in
+> kernel.h:
+> 
+> #define cast_out(ptr, container, member) \
+> 	container_of(ptr, typeof(*container), member)
+> 
+> It does what you want, the argument order is the same as container_of
+> with the only difference being you name the containing structure
+> instead of having to specify its type.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_lrc.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+Not to incessantly bike shed on the naming, but I don't like cast_out,
+it's not very descriptive. And it has connotations of getting rid of
+something, which isn't really true.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 9eeaca957a7e..5854fd2f046c 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -3137,9 +3137,9 @@ static bool preempt_timeout(const struct intel_engine_cs *const engine)
-  * Check the unread Context Status Buffers and manage the submission of new
-  * contexts to the ELSP accordingly.
-  */
--static void execlists_submission_tasklet(unsigned long data)
-+static void execlists_submission_tasklet(struct tasklet_struct *t)
- {
--	struct intel_engine_cs * const engine = (struct intel_engine_cs *)data;
-+	struct intel_engine_cs * const engine = from_tasklet(engine, t, execlists.tasklet);
- 	bool timeout = preempt_timeout(engine);
- 
- 	process_csb(engine);
-@@ -5120,8 +5120,7 @@ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
- 	struct intel_uncore *uncore = engine->uncore;
- 	u32 base = engine->mmio_base;
- 
--	tasklet_init(&engine->execlists.tasklet,
--		     execlists_submission_tasklet, (unsigned long)engine);
-+	tasklet_setup(&engine->execlists.tasklet, execlists_submission_tasklet);
- 	timer_setup(&engine->execlists.timer, execlists_timeslice, 0);
- 	timer_setup(&engine->execlists.preempt, execlists_preempt, 0);
- 
-@@ -5516,9 +5515,9 @@ static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
- 	return mask;
- }
- 
--static void virtual_submission_tasklet(unsigned long data)
-+static void virtual_submission_tasklet(struct tasklet_struct *t)
- {
--	struct virtual_engine * const ve = (struct virtual_engine *)data;
-+	struct virtual_engine * const ve = from_tasklet(ve, t, base.execlists.tasklet);
- 	const int prio = READ_ONCE(ve->base.execlists.queue_priority_hint);
- 	intel_engine_mask_t mask;
- 	unsigned int n;
-@@ -5731,9 +5730,7 @@ intel_execlists_create_virtual(struct intel_engine_cs **siblings,
- 
- 	INIT_LIST_HEAD(virtual_queue(ve));
- 	ve->base.execlists.queue_priority_hint = INT_MIN;
--	tasklet_init(&ve->base.execlists.tasklet,
--		     virtual_submission_tasklet,
--		     (unsigned long)ve);
-+	tasklet_setup(&ve->base.execlists.tasklet, virtual_submission_tasklet);
- 
- 	intel_context_init(&ve->context, &ve->base);
- 
+FWIW, I like the from_ part of the original naming, as it has some clues
+as to what is being done here. Why not just from_container()? That
+should immediately tell people what it does without having to look up
+the implementation, even before this becomes a part of the accepted
+coding norm.
+
 -- 
-2.28.0
+Jens Axboe
 
 _______________________________________________
 dri-devel mailing list
