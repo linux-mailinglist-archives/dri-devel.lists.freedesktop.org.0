@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A97249A23
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 12:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73545249A6A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 12:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0714B6E20F;
-	Wed, 19 Aug 2020 10:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6A0A89295;
+	Wed, 19 Aug 2020 10:31:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A55D6E20F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:21:30 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id i6so17638883edy.5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 03:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h6AVtOUwARHRhdJTUOdj1J4qEdgphAeVlE0BK3Yw6sc=;
- b=eZKE64zdcmxvxoKNb1vnTkYbQMwOebf4/SLPWGsfRD8RTcQJwAD7JPbz2b6tLCrSRn
- eBeibWLs5d3XZlXMAoVXm9pRBm70o2M3B5cn9cOVd91E4y/O69nNC+dwfjcLlpaQDp0L
- 3VLpGDJOJHAX4OFXlPeyqWzLKGwSXB81Nc0NiRdWLj6f7pMV3GaE5CWL8R3wK2Yk1/Tn
- EuQr4SRxhp3zrrR7+KunAozbC5vM3/FwIjGW+RPE0WwSrtsGb4tK4+smrkO4F+deduJs
- bECHyDGqRzrwcRqS+aU5Y76AA1/tWWXS2yADL6a4BlcUR08gtSHbXIBERVmkikEMhQdO
- F+nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h6AVtOUwARHRhdJTUOdj1J4qEdgphAeVlE0BK3Yw6sc=;
- b=V7ASC3aStfL8icFNKK2AhkjaqZ0DZCDDywmFGk0n7DVvc06ylwe+A12wJ9iY23xG9L
- jPJAG800W8llmjjWRKWA3y5trk2mTjFDnnGGUcTJHzkp8emX4/y0XthYquX1Iv8JnP1u
- xFb+o8Psd8yy8jXNQ/l1cHK6UXKlZF3FG5t90PXD3+zCf1LegWFh0xDPT3bmTU2fkfOt
- 3caz46b1qJ7msthHL1fz+QeuY2Eh5WOxwDnTHuyBbUe5mN/BHSztrJGaad/R0o/9Cqe4
- +KwW31wvrGkTZVf6mcEcfFiMvxnMG2NclvH18Xnm2bfW+byX+WEiRcMjloQD4sFiG+Ro
- WaCg==
-X-Gm-Message-State: AOAM53249E5iljV4zEZ1+mdN45P3jO4amtqESZCR/gUi0schJ/A/fprM
- cp5w1xgwTjjCyu33f9CHA+q9/fHAwdMEWHdSevOSwg==
-X-Google-Smtp-Source: ABdhPJyN4o23uCI8u6SMKS3P8aQjCkQzEh1UJEp5kwFmUMHuSZ3fJle2o0YRChz73QIVReoVsx86IA3Tqp34YFqd1EI=
-X-Received: by 2002:a50:d655:: with SMTP id c21mr23314447edj.49.1597832489451; 
- Wed, 19 Aug 2020 03:21:29 -0700 (PDT)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 816A389295
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:31:28 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07JAVOPh020940;
+ Wed, 19 Aug 2020 05:31:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1597833084;
+ bh=1ileKBQlCD86SCsvKLgEXbnRapYDozHuzrHtk0yUBqs=;
+ h=From:To:CC:Subject:Date;
+ b=xKI/bKRI/zn7hfJ1dnHNE+KhU8CCnQmGT5w25Q/UUB/rQaJDvv5qZhsbkor8OkGPs
+ U723RbdCkteDBG/1AvgAQGbwp0QoWweBM66rt8GOgQKG89t4i1DV6C4Ei4TpTE1N5J
+ Oi/r8HTbYJ7GAr3YBsQmy6Ave1n4TTJXfg308DYU=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07JAVOxg011436
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 19 Aug 2020 05:31:24 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 19
+ Aug 2020 05:30:31 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 19 Aug 2020 05:30:31 -0500
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07JAUTTF089812;
+ Wed, 19 Aug 2020 05:30:30 -0500
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] drm/omap: fix incorrect lock state
+Date: Wed, 19 Aug 2020 13:30:21 +0300
+Message-ID: <20200819103021.440288-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1940005.XIBaf5lNV5@jeremy> <7086465.UhkgK7rEtT@jason>
- <32cb6f50-1fe1-1484-0512-04590882d35a@baylibre.com> <3158508.CFMi0AOM4G@jason>
-In-Reply-To: <3158508.CFMi0AOM4G@jason>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Wed, 19 Aug 2020 07:21:17 -0300
-Message-ID: <CAAEAJfBHBqT9Lv5zMaizJLnz=L5+Z3RvYoDf=Ex09_PDSUGe5g@mail.gmail.com>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the
- Ingenic JZ4780)
-To: Paul Boddie <paul@boddie.org.uk>, Paul Cercueil <paul@crapouillou.net>,
- hns@goldelico.com
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,105 +58,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+After commit 92cc68e35863c1c61c449efa2b2daef6e9926048 ("drm/vblank: Use
+spin_(un)lock_irq() in drm_crtc_vblank_on()") omapdrm locking is broken:
 
-First of all, I'd like to thank everyone for the great work
-on ingenic-drm. The driver is in very good shape
-and a pleasure to work with.
+WARNING: inconsistent lock state
+5.8.0-rc2-00483-g92cc68e35863 #13 Tainted: G        W
+--------------------------------
+inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+ea98222c (&dev->event_lock#2){?.+.}-{2:2}, at: drm_handle_vblank+0x4c/0x520 [drm]
+{HARDIRQ-ON-W} state was registered at:
+  trace_hardirqs_on+0x9c/0x1ec
+  _raw_spin_unlock_irq+0x20/0x58
+  omap_crtc_atomic_enable+0x54/0xa0 [omapdrm]
+  drm_atomic_helper_commit_modeset_enables+0x218/0x270 [drm_kms_helper]
+  omap_atomic_commit_tail+0x48/0xc4 [omapdrm]
+  commit_tail+0x9c/0x190 [drm_kms_helper]
+  drm_atomic_helper_commit+0x154/0x188 [drm_kms_helper]
+  drm_client_modeset_commit_atomic+0x228/0x268 [drm]
+  drm_client_modeset_commit_locked+0x60/0x1d0 [drm]
+  drm_client_modeset_commit+0x24/0x40 [drm]
+  drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa8 [drm_kms_helper]
+  drm_fb_helper_set_par+0x2c/0x5c [drm_kms_helper]
+  drm_fb_helper_hotplug_event.part.0+0xa0/0xbc [drm_kms_helper]
+  drm_kms_helper_hotplug_event+0x24/0x30 [drm_kms_helper]
+  output_poll_execute+0x1a8/0x1c0 [drm_kms_helper]
+  process_one_work+0x268/0x800
+  worker_thread+0x30/0x4e0
+  kthread+0x164/0x190
+  ret_from_fork+0x14/0x20
 
-Yesterday, I checked out branch "paulb-jz4780-ci20-hdmi-5.8-rc5",
-from git.goldelico.com/letux-kernel.git, rebased it on v5.9-rc1,
-and then run weston over HDMI (how often
-weston runs on mips, uh? :)
+The reason for this is that omapdrm calls drm_crtc_vblank_on() while
+holding event_lock taken with spin_lock_irq().
 
-The edid of my monitor is properly read
-and modetest reports all modes.
+It is not clear why drm_crtc_vblank_on() and drm_crtc_vblank_get() are
+called while holding event_lock. I don't see any problem with moving
+those calls outside the lock, which is what this patch does.
 
-I've only tested the primary plane, for some reason
-the overlay is not working as expected, but it must
-be probably some minor thing.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
+ drivers/gpu/drm/omapdrm/omap_crtc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-As for the bus format, I have just added a skip
-for CONNECTOR_HDMIA types in the encoder
-atomic check. And then MEDIA_BUS_FMT_RGB888_1X24
-is hardcoded if there are no bus formats negotiated.
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 6d40914675da..328a4a74f534 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -451,11 +451,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (omap_state->manually_updated)
+ 		return;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
+ 	drm_crtc_vblank_on(crtc);
++
+ 	ret = drm_crtc_vblank_get(crtc);
+ 	WARN_ON(ret != 0);
+ 
++	spin_lock_irq(&crtc->dev->event_lock);
+ 	omap_crtc_arm_event(crtc);
+ 	spin_unlock_irq(&crtc->dev->event_lock);
+ }
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
-Paul et al, if you guys can rebase your work on v5.9-rc1
-and Cc I will be happy to review and test the patches.
-
-Cheers & thanks again,
-Eze
-
-
-
-
-On Tue, 7 Jul 2020 at 04:27, Paul Boddie <paul@boddie.org.uk> wrote:
->
-> On Monday, 6 July 2020 14:12:24 CEST Neil Armstrong wrote:
-> >
-> > On 06/07/2020 01:57, Paul Boddie wrote:
-> > >
-> > > It also seems to be appropriate to set the input_bus_format on the
-> > > platform- specific HDMI driver; otherwise, I doubt that appropriate bus
-> > > encodings will be chosen in the Synopsys driver.
-> >
-> > It does but when not provided, it doesn't use it.
-> >
-> > It's handled in drm_atomic_bridge_chain_select_bus_fmts() :
-> >       if (conn->display_info.num_bus_formats &&
-> >                   conn->display_info.bus_formats)
-> >               out_bus_fmts[0] = conn->display_info.bus_formats[0];
-> >       else
-> >               out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
->
-> OK. I thought I'd seen this somewhere, but I had started to think that
-> input_bus_format would remain initialised (presumably to zero) and this would
-> then cause the Synopsys driver to not change the bus format to the actual
-> default.
->
-> [...]
->
-> > > Testing against 5.8-rc3 with the above changes seems to have moved the
-> > > needle slightly. Although I still get "Input not supported" from my
-> > > monitor, running modetest now gives a different error:
-> > >
-> > > modetest -D /dev/dri/card0 -M ingenic-drm -s 34@32:1280x1024-60.02
-> > >
-> > > ...now yields this:
-> > >
-> > > setting mode 1280x1024-60.02Hz@XR24 on connectors 34, crtc 32
-> > > failed to set gamma: Invalid argument
-> >
-> > This is because you don't provide the gamma setup ioctl, it's not a fatal
-> > error at all. It should be warning since it's optional.
-> >
-> > Did you check all modes ?
->
-> I have checked a few more. Currently, testing them is awkward because it
-> involves switching my monitor to DVI input, getting "Input Not Supported",
-> unplugging the cable, and then the hotplug event has most likely caused a bad
-> pointer dereference in ingenic_drm_crtc_atomic_flush and thus a kernel panic.
->
-> So, I'll try and fix this panic, which appears to be due to the DRM driver
-> accessing a null framebuffer pointer (presumably having been invalidated
-> elsewhere upon unplugging), and see if I can't get some more information about
-> the state of the peripherals.
->
-> Paul
->
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
