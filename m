@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BDF24A046
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 15:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E132B24A0AE
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 15:54:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764056E3DF;
-	Wed, 19 Aug 2020 13:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70ED06E260;
+	Wed, 19 Aug 2020 13:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770B86E3DF;
- Wed, 19 Aug 2020 13:44:22 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l2so21587673wrc.7;
- Wed, 19 Aug 2020 06:44:22 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8696E260
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:54:14 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id v9so25483927ljk.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 06:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lxF/trM9SgnathNJ4ODZkXBgjXiIKUash9TsOy9A8SA=;
- b=u5WY57dRKgnsGFyW5wDApka8d7yha40MMxmCf5a5EZQUGfIiwBusOgW0XfSrGmOMBA
- lSBk8krzrFHj9RxRvY99zBSHPsABj6K2y62EV9tfqOlqm8xWTmDhZQxOVAtkKFljNiHB
- uWOu/JWIXNc3jexdZnnXbXXHS4f9SIsKwIoQQ94NVDUXB7XInYNRHyYAT8sxFBwBiaNw
- AvgZ9aYIsA9uhkQOJbtjXAWuJWozSZpQt884kPZFjS/RsV9+6COx1Uf/gZ9o5aIs+juq
- ckldlydYBit6Vn9RN9evz83dC6/skzURNZLwCt30cpXhhvPxLQa7QF9b0vm9bDS8QaXI
- xybQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K6CFVcuD8YvJ4WW0BkAxGfuJWiQKnBCHhtjilPMSIak=;
+ b=V5yoCBlrrajs8IwfhykHOyOrgBWaGLijA+8Zs1YBSaUHBSX6wF5hxMsIb8MmB2BSyI
+ 5ga9XF8grO2j8OB96rLvA4Taz0yQJ6bVHRstkIbeO16IBzh4nDGMPVAtbApE1AvLfuA+
+ 8tueX84kuzhHrf6maS+TLxXnIK/Zi5/ZZpvO17PVA5qFOMh62mlcbX7WnCiRAQDlv9sD
+ qt1mpGTZBiRwWGnrtBDtSe+532o9X/hxbnceBv61fA1lrAa8rIBvTUSBS7h9IbaEZ5wI
+ k1wCL49p9mJ1zX9/wiMprzToEtFmrH8cEqEdJH2LFVOtnd8H3Mfk5fznE9vj8TWYBIer
+ UIyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lxF/trM9SgnathNJ4ODZkXBgjXiIKUash9TsOy9A8SA=;
- b=feXGT6IWgDxpQPHxKq7FoAE6LAaNf3i1vgRv3RYROZ1nnGBfdg8Dr0VqXjO2+JpNe5
- 5afQi7zPAdCnLVU2AMmuyJTUoQHtP6K0kq2nH/0COOkBE3B+9zO2E0cLLKpMMJMj1N+G
- +zkmdexyTMe2/KjZngyG2dCIk5WSvOoeBm0Kg9BEF3bi7BQ/qEJfoiKxA5Uz3IIy/rJT
- 8SYAK03af2UGnaPhUQuZqMh1avw/KtzRL0FTsK1EuXFysjeNkO6qll6AK5R4NcXqiVQr
- ZjjslJn7Oz2KEUvY03kgjn3HTfjGCO767H4e47m7msElatbAEpKFKDZqmJ0ZZ7xJZWeM
- CimQ==
-X-Gm-Message-State: AOAM531BG3h9VldqUJCMLWJAE1fsMNxrydQgJBGcncLR1vrGpZ7NSIjr
- XhYcS+CpSIiyZ9GYwN+J7PlrKA+PCvI=
-X-Google-Smtp-Source: ABdhPJzsyij0rqtTA2umVggmf50hkF0KOp7iJPDRlt4HyDoORFCssYxqjM5EDAxB9etjP8+72PitkA==
-X-Received: by 2002:a5d:4910:: with SMTP id x16mr24506320wrq.131.1597844660803; 
- Wed, 19 Aug 2020 06:44:20 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:2c06:21fe:1007:30ae])
- by smtp.gmail.com with ESMTPSA id f17sm5807713wru.13.2020.08.19.06.44.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 06:44:20 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: fix broken merge between drm-next and drm-misc-next
-Date: Wed, 19 Aug 2020 15:44:19 +0200
-Message-Id: <20200819134419.2054-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K6CFVcuD8YvJ4WW0BkAxGfuJWiQKnBCHhtjilPMSIak=;
+ b=lmqBEAYg7QEVnsDtPgXxJInRpKwzlfndWVt2oSZNrmkxIf6mZ8eGhkEH9uPrGBmvII
+ My6jlq6Ja31/QvOcFHs3W04Y4yoGW5gJ37+yatyJ9HTSWp6w3tZhXoMz8L2GuQPxJ+vt
+ vDKHAcnYXllYzWgBRamhItwfvp/3BilVYLh4MCRCOrhijg09IvP7Nbi92/MiCk/62fxE
+ GYPGti47F1yDtZUJ17A794Jk0ObnSnnvIgXS1vEeAryiy/oKsD1cAnCHjrzHBtdD5yE/
+ znraDU+huvmh0rZRurkLkxc83MFx/hMOiAH0ld1vUs8sAL1RaSVWBnSJ0HX2ZpxTmRC2
+ D/ew==
+X-Gm-Message-State: AOAM530FSh932E5Z8QVm2Al5iWU7cd1aUN1b6jSg9Rztvdb+/lud4wPB
+ SlUUCSrVRtYP5cT/5EJ3ziSjY8M8IKFcoch6KI4=
+X-Google-Smtp-Source: ABdhPJyeapD0GuAl6VKVOXxQrwCWCwmwh2XW/bvY1EHC+zyYd34lyV5Rg+vZZtLOCsbXjAvo7A0WzhXWVvWjo9Mieiw=
+X-Received: by 2002:a2e:b175:: with SMTP id a21mr11917600ljm.423.1597845252670; 
+ Wed, 19 Aug 2020 06:54:12 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200703125901.513476-1-linus.walleij@linaro.org>
+In-Reply-To: <20200703125901.513476-1-linus.walleij@linaro.org>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 19 Aug 2020 15:54:01 +0200
+Message-ID: <CAMeQTsZMQidsmbUWXFSjSeiV=Bftzj=vx1VvcjppxX=6mqjH6Q@mail.gmail.com>
+Subject: Re: [PATCH v3] drm: gma500: Convert to GPIO descriptors
+To: Linus Walleij <linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,39 +60,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtLW5leHQgcmV2ZXJ0ZWQgdGhlIGNoYW5nZXMgdG8gdHRtX3R0X2NyZWF0ZSgpIHRvIGRvIHRo
-ZQpOVUxMIGNoZWNrIGluc2lkZSB0aGUgZnVuY3Rpb24sIGJ1dCBkcm0tbWlzYy1uZXh0IGFkZHMg
-bmV3CnVzZXJzIG9mIHRoaXMgYXBwcm9hY2guCgpSZS1hcHBseSB0aGUgTlVMTCBjaGVjayBjaGFu
-Z2UgaW5zaWRlIHRoZSBmdW5jdGlvbiB0byBmaXggdGhpcy4KClNpZ25lZC1vZmYtYnk6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vdHRtL3R0bV9iby5jIHwgMiArLQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYyB8IDQg
-KysrLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS90dG0vdHRtX2JvLmMKaW5kZXggOTdhYzY2MmE0N2NiLi5lMzkzMWU1MTU5MDYgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0
-bS90dG1fYm8uYwpAQCAtMTE4MCw3ICsxMTgwLDcgQEAgaW50IHR0bV9ib192YWxpZGF0ZShzdHJ1
-Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAogCS8qCiAJICogV2UgbWlnaHQgbmVlZCB0byBhZGQg
-YSBUVE0uCiAJICovCi0JaWYgKGJvLT5tZW0ubWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSAmJiBi
-by0+dHRtID09IE5VTEwpIHsKKwlpZiAoYm8tPm1lbS5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVN
-KSB7CiAJCXJldCA9IHR0bV90dF9jcmVhdGUoYm8sIHRydWUpOwogCQlpZiAocmV0KQogCQkJcmV0
-dXJuIHJldDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCmluZGV4IDlhYTRmYmUzODZlNi4uMWNjZjFlZjA1MGQ2
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX3R0LmMKQEAgLTUwLDYgKzUwLDkgQEAgaW50IHR0bV90dF9jcmVhdGUo
-c3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgYm9vbCB6ZXJvX2FsbG9jKQogCiAJZG1hX3Jl
-c3ZfYXNzZXJ0X2hlbGQoYm8tPmJhc2UucmVzdik7CiAKKwlpZiAoYm8tPnR0bSkKKwkJcmV0dXJu
-IDA7CisKIAlpZiAoYmRldi0+bmVlZF9kbWEzMikKIAkJcGFnZV9mbGFncyB8PSBUVE1fUEFHRV9G
-TEFHX0RNQTMyOwogCkBAIC02Nyw3ICs3MCw2IEBAIGludCB0dG1fdHRfY3JlYXRlKHN0cnVjdCB0
-dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wgemVyb19hbGxvYykKIAkJcGFnZV9mbGFncyB8PSBU
-VE1fUEFHRV9GTEFHX1NHOwogCQlicmVhazsKIAlkZWZhdWx0OgotCQliby0+dHRtID0gTlVMTDsK
-IAkJcHJfZXJyKCJJbGxlZ2FsIGJ1ZmZlciBvYmplY3QgdHlwZVxuIik7CiAJCXJldHVybiAtRUlO
-VkFMOwogCX0KLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+On Fri, Jul 3, 2020 at 3:01 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> Finalize he conversion of GMA500 to use only GPIO descriptors.
+> The GPIO look-up-table is associated with the device directly
+> in the GMA500 Medfield chip driver since no explicit platform
+> type device (such as in x86/platform/intel-mid) exists: the
+> GMA500 probes directly from the PCI device. Apparently GPIOs
+> 128 and 34 are used on all of these so just go ahead and
+> register those for resetting the DSI pipes.
+>
+> Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v2->v3:
+> - Actually commit the last comment fix.
+
+Applied to drm-misc-next
+
+-Patrik
+
+> ---
+>  drivers/gpu/drm/gma500/mdfld_device.c     | 20 +++++++++
+>  drivers/gpu/drm/gma500/mdfld_dsi_dpi.c    |  2 +-
+>  drivers/gpu/drm/gma500/mdfld_dsi_output.c | 51 ++++++++++++-----------
+>  drivers/gpu/drm/gma500/mdfld_dsi_output.h |  2 +-
+>  drivers/gpu/drm/gma500/mdfld_output.h     |  2 +-
+>  drivers/gpu/drm/gma500/psb_intel_drv.h    |  1 -
+>  6 files changed, 49 insertions(+), 29 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/gma500/mdfld_device.c b/drivers/gpu/drm/gma500/mdfld_device.c
+> index b718efccdcf2..be9cf6b1e3b3 100644
+> --- a/drivers/gpu/drm/gma500/mdfld_device.c
+> +++ b/drivers/gpu/drm/gma500/mdfld_device.c
+> @@ -6,6 +6,7 @@
+>   **************************************************************************/
+>
+>  #include <linux/delay.h>
+> +#include <linux/gpio/machine.h>
+>
+>  #include <asm/intel_scu_ipc.h>
+>
+> @@ -505,12 +506,31 @@ static const struct psb_offset mdfld_regmap[3] = {
+>         },
+>  };
+>
+> +/*
+> + * The GPIO lines for resetting DSI pipe 0 and 2 are available in the
+> + * PCI device 0000:00:0c.0 on the Medfield.
+> + */
+> +static struct gpiod_lookup_table mdfld_dsi_pipe_gpio_table = {
+> +       .table  = {
+> +               GPIO_LOOKUP("0000:00:0c.0", 128, "dsi-pipe0-reset",
+> +                           GPIO_ACTIVE_HIGH),
+> +               GPIO_LOOKUP("0000:00:0c.0", 34, "dsi-pipe2-reset",
+> +                           GPIO_ACTIVE_HIGH),
+> +               { },
+> +       },
+> +};
+> +
+>  static int mdfld_chip_setup(struct drm_device *dev)
+>  {
+>         struct drm_psb_private *dev_priv = dev->dev_private;
+>         if (pci_enable_msi(dev->pdev))
+>                 dev_warn(dev->dev, "Enabling MSI failed!\n");
+>         dev_priv->regmap = mdfld_regmap;
+> +
+> +       /* Associate the GPIO lines with the DRM device */
+> +       mdfld_dsi_pipe_gpio_table.dev_id = dev_name(dev->dev);
+> +       gpiod_add_lookup_table(&mdfld_dsi_pipe_gpio_table);
+> +
+>         return mid_chip_setup(dev);
+>  }
+>
+> diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c b/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
+> index c976a9dd9240..ae1223f631a7 100644
+> --- a/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
+> +++ b/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
+> @@ -955,7 +955,7 @@ struct mdfld_dsi_encoder *mdfld_dsi_dpi_init(struct drm_device *dev,
+>
+>                 /* panel hard-reset */
+>                 if (p_funcs->reset) {
+> -                       ret = p_funcs->reset(pipe);
+> +                       ret = p_funcs->reset(dev, pipe);
+>                         if (ret) {
+>                                 DRM_ERROR("Panel %d hard-reset failed\n", pipe);
+>                                 return NULL;
+> diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_output.c b/drivers/gpu/drm/gma500/mdfld_dsi_output.c
+> index f350ac1ead18..6473290126f2 100644
+> --- a/drivers/gpu/drm/gma500/mdfld_dsi_output.c
+> +++ b/drivers/gpu/drm/gma500/mdfld_dsi_output.c
+> @@ -28,6 +28,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/moduleparam.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/gpio/consumer.h>
+>
+>  #include <asm/intel_scu_ipc.h>
+>
+> @@ -432,42 +433,42 @@ static int mdfld_dsi_get_default_config(struct drm_device *dev,
+>         return 0;
+>  }
+>
+> -int mdfld_dsi_panel_reset(int pipe)
+> +int mdfld_dsi_panel_reset(struct drm_device *ddev, int pipe)
+>  {
+> -       unsigned gpio;
+> -       int ret = 0;
+> -
+> +       struct device *dev = ddev->dev;
+> +       struct gpio_desc *gpiod;
+> +
+> +       /*
+> +        * Raise the GPIO reset line for the corresponding pipe to HIGH,
+> +        * this is probably because it is active low so this takes the
+> +        * respective pipe out of reset. (We have no code to put it back
+> +        * into reset in this driver.)
+> +        */
+>         switch (pipe) {
+>         case 0:
+> -               gpio = 128;
+> +               gpiod = gpiod_get(dev, "dsi-pipe0-reset", GPIOD_OUT_HIGH);
+> +               if (IS_ERR(gpiod))
+> +                       return PTR_ERR(gpiod);
+>                 break;
+>         case 2:
+> -               gpio = 34;
+> +               gpiod = gpiod_get(dev, "dsi-pipe2-reset", GPIOD_OUT_HIGH);
+> +               if (IS_ERR(gpiod))
+> +                       return PTR_ERR(gpiod);
+>                 break;
+>         default:
+> -               DRM_ERROR("Invalid output\n");
+> +               DRM_DEV_ERROR(dev, "Invalid output pipe\n");
+>                 return -EINVAL;
+>         }
+> +       gpiod_put(gpiod);
+>
+> -       ret = gpio_request(gpio, "gfx");
+> -       if (ret) {
+> -               DRM_ERROR("gpio_rqueset failed\n");
+> -               return ret;
+> -       }
+> -
+> -       ret = gpio_direction_output(gpio, 1);
+> -       if (ret) {
+> -               DRM_ERROR("gpio_direction_output failed\n");
+> -               goto gpio_error;
+> -       }
+> +       /* Flush posted writes on the device */
+> +       gpiod = gpiod_get(dev, "dsi-pipe0-reset", GPIOD_ASIS);
+> +       if (IS_ERR(gpiod))
+> +               return PTR_ERR(gpiod);
+> +       gpiod_get_value(gpiod);
+> +       gpiod_put(gpiod);
+>
+> -       gpio_get_value(128);
+> -
+> -gpio_error:
+> -       if (gpio_is_valid(gpio))
+> -               gpio_free(gpio);
+> -
+> -       return ret;
+> +       return 0;
+>  }
+>
+>  /*
+> diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_output.h b/drivers/gpu/drm/gma500/mdfld_dsi_output.h
+> index 0cccfe400a98..5c0db3c2903f 100644
+> --- a/drivers/gpu/drm/gma500/mdfld_dsi_output.h
+> +++ b/drivers/gpu/drm/gma500/mdfld_dsi_output.h
+> @@ -372,6 +372,6 @@ extern void mdfld_dsi_controller_init(struct mdfld_dsi_config *dsi_config,
+>
+>  extern int mdfld_dsi_get_power_mode(struct mdfld_dsi_config *dsi_config,
+>                                         u32 *mode, bool hs);
+> -extern int mdfld_dsi_panel_reset(int pipe);
+> +extern int mdfld_dsi_panel_reset(struct drm_device *dev, int pipe);
+>
+>  #endif /*__MDFLD_DSI_OUTPUT_H__*/
+> diff --git a/drivers/gpu/drm/gma500/mdfld_output.h b/drivers/gpu/drm/gma500/mdfld_output.h
+> index 17a944d70add..37a516cc56be 100644
+> --- a/drivers/gpu/drm/gma500/mdfld_output.h
+> +++ b/drivers/gpu/drm/gma500/mdfld_output.h
+> @@ -54,7 +54,7 @@ struct panel_funcs {
+>         const struct drm_encoder_helper_funcs *encoder_helper_funcs;
+>         struct drm_display_mode * (*get_config_mode)(struct drm_device *);
+>         int (*get_panel_info)(struct drm_device *, int, struct panel_info *);
+> -       int (*reset)(int pipe);
+> +       int (*reset)(struct drm_device *, int);
+>         void (*drv_ic_init)(struct mdfld_dsi_config *dsi_config, int pipe);
+>  };
+>
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
+> index fb601983cef0..9221d1f545b0 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
+> @@ -13,7 +13,6 @@
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+> -#include <linux/gpio.h>
+>  #include "gma_display.h"
+>
+>  /*
+> --
+> 2.25.4
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
