@@ -1,34 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEA82496F2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 09:17:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5B824980A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 10:14:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B03356E1A7;
-	Wed, 19 Aug 2020 07:17:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64FD06E171;
+	Wed, 19 Aug 2020 08:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897C56E1A7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 07:17:38 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 81A48B5C4;
- Wed, 19 Aug 2020 07:18:03 +0000 (UTC)
-Subject: Re: [PATCH] drm: ast: fix double __iomem sparse warning
-To: Randy Dunlap <rdunlap@infradead.org>, LKML
- <linux-kernel@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Dave Airlie <airlied@redhat.com>
-References: <a8185578-a69a-16b0-6fdf-f4e46bc4f61f@infradead.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <71030cba-99dd-5815-8fac-bfd5de6319f8@suse.de>
-Date: Wed, 19 Aug 2020 09:17:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 456296E171;
+ Wed, 19 Aug 2020 08:14:11 +0000 (UTC)
+IronPort-SDR: OCsiCs3a8MigoMMxc8FgRUmaxUxiz030CuuVZi6XFVcZAP1vbnT4TTD/z0guSC5S7BPpEri9HU
+ ST1ivOteYPlg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="156137948"
+X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; d="scan'208";a="156137948"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2020 01:14:10 -0700
+IronPort-SDR: a86V0QJ4SPPHZ9HPwqC46ACMEB/E+JJeqteyZXc1vvxn51mWE4ZmHY5Wta4hNaLWiqheIejCB7
+ /v6OGfM7K4dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; d="scan'208";a="400759819"
+Received: from fmsmsx601-2.cps.intel.com (HELO fmsmsx601.amr.corp.intel.com)
+ ([10.18.84.211])
+ by fmsmga001.fm.intel.com with ESMTP; 19 Aug 2020 01:14:10 -0700
+Received: from bgsmsx602.gar.corp.intel.com (10.109.78.81) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 19 Aug 2020 01:14:09 -0700
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ BGSMSX602.gar.corp.intel.com (10.109.78.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 19 Aug 2020 13:44:06 +0530
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
+ Wed, 19 Aug 2020 13:44:05 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Laxminarayan Bharadiya, Pankaj"
+ <pankaj.laxminarayan.bharadiya@intel.com>, "jani.nikula@linux.intel.com"
+ <jani.nikula@linux.intel.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "daniels@collabora.com" <daniels@collabora.com>, "Lattannavar, Sameer"
+ <sameer.lattannavar@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>
+Subject: RE: [Intel-gfx] [PATCH v5 1/5] drm: Introduce plane and CRTC scaling
+ filter properties
+Thread-Topic: [Intel-gfx] [PATCH v5 1/5] drm: Introduce plane and CRTC scaling
+ filter properties
+Thread-Index: AQHWaU9yvTSANYmdI0a6PD1rORUSn6k/LeBQ
+Date: Wed, 19 Aug 2020 08:14:05 +0000
+Message-ID: <386da03e93d94e2b9722aab9cdc8e3eb@intel.com>
+References: <20200803042953.7626-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200803042953.7626-2-pankaj.laxminarayan.bharadiya@intel.com>
+In-Reply-To: <20200803042953.7626-2-pankaj.laxminarayan.bharadiya@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.223.10.1]
 MIME-Version: 1.0
-In-Reply-To: <a8185578-a69a-16b0-6fdf-f4e46bc4f61f@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,124 +81,384 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0968986394=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0968986394==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="kaUcTtSqfBc2VszyW3byftADwfZhXKfvs"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---kaUcTtSqfBc2VszyW3byftADwfZhXKfvs
-Content-Type: multipart/mixed; boundary="YEh9LdxfkK7sXNDV0JJ2rhIbvY9VHj2fy";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>, LKML
- <linux-kernel@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Dave Airlie <airlied@redhat.com>
-Message-ID: <71030cba-99dd-5815-8fac-bfd5de6319f8@suse.de>
-Subject: Re: [PATCH] drm: ast: fix double __iomem sparse warning
-References: <a8185578-a69a-16b0-6fdf-f4e46bc4f61f@infradead.org>
-In-Reply-To: <a8185578-a69a-16b0-6fdf-f4e46bc4f61f@infradead.org>
 
---YEh9LdxfkK7sXNDV0JJ2rhIbvY9VHj2fy
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 18.08.20 um 22:28 schrieb Randy Dunlap:
-> From: Randy Dunlap <rdunlap@infradead.org>
->=20
-> sparse complains about having 2 "__iomem" attributes on the same line
-> where only one is needed since the first one applies to everything
-> up to the ending ';'.
-> However, to make it clear(er) that both of these pointers are
-> "__iomem", use separate lines for them.
->=20
-> ../drivers/gpu/drm/ast/ast_cursor.c:256:26: CK: warning: duplicate [nod=
-eref]
-> ../drivers/gpu/drm/ast/ast_cursor.c:256:26: CK: error: multiple address=
- space given: __iomem & __iomem
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
+> -----Original Message-----
+> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Pankaj
+> Bharadiya
+> Sent: Monday, August 3, 2020 10:00 AM
+> To: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-gfx@lists.freedesktop.org;
+> dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com;
+> daniels@collabora.com; Lattannavar, Sameer <sameer.lattannavar@intel.com>;
+> Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David
+> Airlie <airlied@linux.ie>
+> Subject: [Intel-gfx] [PATCH v5 1/5] drm: Introduce plane and CRTC scaling filter
+> properties
+> 
+> Introduce per-plane and per-CRTC scaling filter properties to allow userspace to
+> select the driver's default scaling filter or
+> Nearest-neighbor(NN) filter for upscaling operations on CRTC and plane.
+> 
+> Drivers can set up this property for a plane by calling
+> drm_plane_create_scaling_filter() and for a CRTC by calling
+> drm_crtc_create_scaling_filter().
+> 
+> NN filter works by filling in the missing color values in the upscaled image with
+> that of the coordinate-mapped nearest source pixel value.
+> 
+> NN filter for integer multiple scaling can be particularly useful for for pixel art
+> games that rely on sharp, blocky images to deliver their distinctive look.
+> 
+> changes since v3:
+> * Refactor code, add new function for common code (Ville) changes since v2:
+> * Create per-plane and per-CRTC scaling filter property (Ville) changes since v1:
+> * None
+> changes since RFC:
+> * Add separate properties for plane and CRTC (Ville)
+> 
+> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 > ---
->  drivers/gpu/drm/ast/ast_cursor.c |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_atomic_uapi.c   |  8 +++
+>  drivers/gpu/drm/drm_crtc.c          | 48 +++++++++++++++
+>  drivers/gpu/drm/drm_crtc_internal.h |  3 +
+>  drivers/gpu/drm/drm_plane.c         | 90 +++++++++++++++++++++++++++++
+>  include/drm/drm_crtc.h              | 16 +++++
+>  include/drm/drm_plane.h             | 21 +++++++
+>  6 files changed, 186 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
+> b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 25c269bc4681..ef82009035e6 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -469,6 +469,8 @@ static int drm_atomic_crtc_set_property(struct drm_crtc
+> *crtc,
+>  			return -EFAULT;
+> 
+>  		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+> +	} else if (property == crtc->scaling_filter_property) {
+> +		state->scaling_filter = val;
+>  	} else if (crtc->funcs->atomic_set_property) {
+>  		return crtc->funcs->atomic_set_property(crtc, state, property,
+> val);
+>  	} else {
+> @@ -503,6 +505,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+>  		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
+>  	else if (property == config->prop_out_fence_ptr)
+>  		*val = 0;
+> +	else if (property == crtc->scaling_filter_property)
+> +		*val = state->scaling_filter;
+>  	else if (crtc->funcs->atomic_get_property)
+>  		return crtc->funcs->atomic_get_property(crtc, state, property,
+> val);
+>  	else
+> @@ -585,6 +589,8 @@ static int drm_atomic_plane_set_property(struct
+> drm_plane *plane,
+>  					sizeof(struct drm_rect),
+>  					&replaced);
+>  		return ret;
+> +	} else if (property == plane->scaling_filter_property) {
+> +		state->scaling_filter = val;
+>  	} else if (plane->funcs->atomic_set_property) {
+>  		return plane->funcs->atomic_set_property(plane, state,
+>  				property, val);
+> @@ -643,6 +649,8 @@ drm_atomic_plane_get_property(struct drm_plane
+> *plane,
+>  	} else if (property == config->prop_fb_damage_clips) {
+>  		*val = (state->fb_damage_clips) ?
+>  			state->fb_damage_clips->base.id : 0;
+> +	} else if (property == plane->scaling_filter_property) {
+> +		*val = state->scaling_filter;
+>  	} else if (plane->funcs->atomic_get_property) {
+>  		return plane->funcs->atomic_get_property(plane, state,
+> property, val);
+>  	} else {
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c index
+> 283bcc4362ca..70f5cd9704ba 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -776,3 +776,51 @@ int drm_mode_crtc_set_obj_prop(struct
+> drm_mode_object *obj,
+> 
+>  	return ret;
+>  }
+> +
+> +/**
+> + * DOC: CRTC scaling filter property
+> + *
+> + * SCALING_FILTER:
+> + *
+> + *	Indicates scaling filter to be used for CRTC scaler
+> + *
+> + *	The value of this property can be one of the following:
+> + *	Default:
+> + *		Driver's default scaling filter
+> + *	Nearest Neighbor:
+> + *		Nearest Neighbor scaling filter
+> + *
+> + * Drivers can set up this property for a CRTC by calling
+> + * drm_crtc_create_scaling_filter_property
+> + */
+> +
+> +/**
+> + * drm_crtc_create_scaling_filter_property - create a new scaling
+> +filter
+> + * property
+> + *
+> + * @crtc: drm CRTC
+> + * @supported_filters: bitmask of supported scaling filters, must include
+> + *		       BIT(DRM_SCALING_FILTER_DEFAULT).
+> + *
+> + * This function lets driver to enable the scaling filter property on a
+> +given
+> + * CRTC.
+> + *
+> + * RETURNS:
+> + * Zero for success or -errno
+> + */
+> +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+> +					    unsigned int supported_filters) {
+> +	struct drm_property *prop =
+> +		drm_create_scaling_filter_prop(crtc->dev, supported_filters);
+> +
+> +	if (IS_ERR(prop))
+> +		return PTR_ERR(prop);
+> +
+> +	drm_object_attach_property(&crtc->base, prop,
+> +				   DRM_SCALING_FILTER_DEFAULT);
+> +	crtc->scaling_filter_property = prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h
+> b/drivers/gpu/drm/drm_crtc_internal.h
+> index da96b2f64d7e..54d4cf1233e9 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -72,6 +72,9 @@ int drm_crtc_force_disable(struct drm_crtc *crtc);
+> 
+>  struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc);
+> 
+> +struct drm_property *
+> +drm_create_scaling_filter_prop(struct drm_device *dev,
+> +			       unsigned int supported_filters);
+>  /* IOCTLs */
+>  int drm_mode_getcrtc(struct drm_device *dev,
+>  		     void *data, struct drm_file *file_priv); diff --git
+> a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c index
+> b7b90b3a2e38..de3888572684 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -1231,3 +1231,93 @@ int drm_mode_page_flip_ioctl(struct drm_device
+> *dev,
+> 
+>  	return ret;
+>  }
+> +
+> +struct drm_property *
+> +drm_create_scaling_filter_prop(struct drm_device *dev,
+> +			       unsigned int supported_filters) {
 
-Thanks, added to drm-misc-next
+This property is used generically by crtc and plane. Can we move this function outside the plane
+file to a more generic location. We could use drm_mode_config.c for instance.
 
-Best regards
-Thomas
+Other than this, it looks good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
->=20
-> --- lnx-59-rc1.orig/drivers/gpu/drm/ast/ast_cursor.c
-> +++ lnx-59-rc1/drivers/gpu/drm/ast/ast_cursor.c
-> @@ -253,7 +253,8 @@ void ast_cursor_show(struct ast_private
->  		     unsigned int offset_x, unsigned int offset_y)
->  {
->  	u8 x_offset, y_offset;
-> -	u8 __iomem *dst, __iomem *sig;
-> +	u8 __iomem *dst;
-> +	u8 __iomem *sig;
->  	u8 jreg;
-> =20
->  	dst =3D ast->cursor.vaddr[ast->cursor.next_index];
->=20
+> +	struct drm_property *prop;
+> +	static const struct drm_prop_enum_list props[] = {
+> +		{ DRM_SCALING_FILTER_DEFAULT, "Default" },
+> +		{ DRM_SCALING_FILTER_NEAREST_NEIGHBOR, "Nearest
+> Neighbor" },
+> +	};
+> +	unsigned int valid_mode_mask = BIT(DRM_SCALING_FILTER_DEFAULT) |
+> +
+> BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR);
+> +	int i;
+> +
+> +	if (WARN_ON((supported_filters & ~valid_mode_mask) ||
+> +		    ((supported_filters & BIT(DRM_SCALING_FILTER_DEFAULT)) ==
+> 0)))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	prop = drm_property_create(dev, DRM_MODE_PROP_ENUM,
+> +				   "SCALING_FILTER",
+> +				   hweight32(supported_filters));
+> +	if (!prop)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(props); i++) {
+> +		int ret;
+> +
+> +		if (!(BIT(props[i].type) & supported_filters))
+> +			continue;
+> +
+> +		ret = drm_property_add_enum(prop, props[i].type,
+> +					    props[i].name);
+> +
+> +		if (ret) {
+> +			drm_property_destroy(dev, prop);
+> +
+> +			return ERR_PTR(ret);
+> +		}
+> +	}
+> +
+> +	return prop;
+> +}
+> +
+> +/**
+> + * DOC: Plane scaling filter property
+> + *
+> + * SCALING_FILTER:
+> + *
+> + *	Indicates scaling filter to be used for plane scaler
+> + *
+> + *	The value of this property can be one of the following:
+> + *	Default:
+> + *		Driver's default scaling filter
+> + *	Nearest Neighbor:
+> + *		Nearest Neighbor scaling filter
+> + *
+> + * Drivers can set up this property for a plane by calling
+> + * drm_plane_create_scaling_filter_property
+> + */
+> +
+> +/**
+> + * drm_plane_create_scaling_filter_property - create a new scaling
+> +filter
+> + * property
+> + *
+> + * @plane: drm plane
+> + * @supported_filters: bitmask of supported scaling filters, must include
+> + *		       BIT(DRM_SCALING_FILTER_DEFAULT).
+> + *
+> + * This function lets driver to enable the scaling filter property on a
+> +given
+> + * plane.
+> + *
+> + * RETURNS:
+> + * Zero for success or -errno
+> + */
+> +int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+> +					     unsigned int supported_filters) {
+> +	struct drm_property *prop =
+> +		drm_create_scaling_filter_prop(plane->dev, supported_filters);
+> +
+> +	if (IS_ERR(prop))
+> +		return PTR_ERR(prop);
+> +
+> +	drm_object_attach_property(&plane->base, prop,
+> +				   DRM_SCALING_FILTER_DEFAULT);
+> +	plane->scaling_filter_property = prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h index
+> 59b51a09cae6..ba839e5e357d 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -324,6 +324,13 @@ struct drm_crtc_state {
+>  	 */
+>  	bool self_refresh_active;
+> 
+> +	/**
+> +	 * @scaling_filter:
+> +	 *
+> +	 * Scaling filter to be applied
+> +	 */
+> +	enum drm_scaling_filter scaling_filter;
+> +
+>  	/**
+>  	 * @event:
+>  	 *
+> @@ -1083,6 +1090,12 @@ struct drm_crtc {
+>  	/** @properties: property tracking for this CRTC */
+>  	struct drm_object_properties properties;
+> 
+> +	/**
+> +	 * @scaling_filter_property: property to apply a particular filter while
+> +	 * scaling.
+> +	 */
+> +	struct drm_property *scaling_filter_property;
+> +
+>  	/**
+>  	 * @state:
+>  	 *
+> @@ -1266,4 +1279,7 @@ static inline struct drm_crtc *drm_crtc_find(struct
+> drm_device *dev,  #define drm_for_each_crtc(crtc, dev) \
+>  	list_for_each_entry(crtc, &(dev)->mode_config.crtc_list, head)
+> 
+> +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+> +					    unsigned int supported_filters);
+> +
+>  #endif /* __DRM_CRTC_H__ */
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h index
+> 3f396d94afe4..1d82b264e5e4 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -35,6 +35,11 @@ struct drm_crtc;
+>  struct drm_printer;
+>  struct drm_modeset_acquire_ctx;
+> 
+> +enum drm_scaling_filter {
+> +	DRM_SCALING_FILTER_DEFAULT,
+> +	DRM_SCALING_FILTER_NEAREST_NEIGHBOR,
+> +};
+> +
+>  /**
+>   * struct drm_plane_state - mutable plane state
+>   *
+> @@ -214,6 +219,13 @@ struct drm_plane_state {
+>  	 */
+>  	bool visible;
+> 
+> +	/**
+> +	 * @scaling_filter:
+> +	 *
+> +	 * Scaling filter to be applied
+> +	 */
+> +	enum drm_scaling_filter scaling_filter;
+> +
+>  	/**
+>  	 * @commit: Tracks the pending commit to prevent use-after-free
+> conditions,
+>  	 * and for async plane updates.
+> @@ -724,6 +736,12 @@ struct drm_plane {
+>  	 * See drm_plane_create_color_properties().
+>  	 */
+>  	struct drm_property *color_range_property;
+> +
+> +	/**
+> +	 * @scaling_filter_property: property to apply a particular filter while
+> +	 * scaling.
+> +	 */
+> +	struct drm_property *scaling_filter_property;
+>  };
+> 
+>  #define obj_to_plane(x) container_of(x, struct drm_plane, base) @@ -862,4
+> +880,7 @@ drm_plane_get_damage_clips(const struct drm_plane_state *state)
+>  					state->fb_damage_clips->data : NULL);  }
+> 
+> +int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+> +					     unsigned int supported_filters);
+> +
+>  #endif
+> --
+> 2.23.0
+> 
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---YEh9LdxfkK7sXNDV0JJ2rhIbvY9VHj2fy--
-
---kaUcTtSqfBc2VszyW3byftADwfZhXKfvs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl880g0UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPxUQf/YdOLGIt6Sgea61/oWWBjlQ4oVDeV
-0hyIFeYRzvBn1H1vPdQiBRXu+V8psESdy7QEAV5KSfMHzlRHyHtpy1e/w5y0/Rck
-rvQQlPmmRAvypKQz2D1PijxF2AKrQ9Tpk3Zn4PTgAsO/vxX0exZTPq5+iYKYr38x
-AiBoSY4ldW8I2W3cqaHWgmpJf5VmVF5o2CaU9C0kuO64/vWxoS4ljRcl3iDTLpQ/
-F5mZBY81ETSVBEZbySNO1hkTWS99uD4yGoi7hZsQZKvkBYp8zTLJbBGqg+er/SBx
-0Tq4kRdNLGk/xtgeWnQNGDzSWIg2bXE/diDZI4aitmmRKAsC5usThdF1Fg==
-=5HZM
------END PGP SIGNATURE-----
-
---kaUcTtSqfBc2VszyW3byftADwfZhXKfvs--
-
---===============0968986394==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0968986394==--
