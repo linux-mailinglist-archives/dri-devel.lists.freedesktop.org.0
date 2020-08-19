@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED80424AFC2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD89E24AF9C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 096D26E8E4;
-	Thu, 20 Aug 2020 07:14:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC746E8B3;
+	Thu, 20 Aug 2020 07:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835B56E218
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:21:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 486256E213
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:22:52 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 13571DEE69;
- Wed, 19 Aug 2020 10:11:25 +0000 (UTC)
+ by zimbra.v3.sk (Postfix) with ESMTP id C0E06DFA74;
+ Wed, 19 Aug 2020 10:21:57 +0000 (UTC)
 Received: from shell.v3.sk ([127.0.0.1])
  by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id pcraDX_E9eNT; Wed, 19 Aug 2020 10:11:24 +0000 (UTC)
+ with ESMTP id RHCgBtIg0UIt; Wed, 19 Aug 2020 10:21:56 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 27933DFA72;
- Wed, 19 Aug 2020 10:11:24 +0000 (UTC)
+ by zimbra.v3.sk (Postfix) with ESMTP id 1FE04DEE69;
+ Wed, 19 Aug 2020 10:21:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
  by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 4-cUkoOugQ41; Wed, 19 Aug 2020 10:11:23 +0000 (UTC)
+ with ESMTP id W-4M_VkZglvD; Wed, 19 Aug 2020 10:21:55 +0000 (UTC)
 Received: from localhost (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id 6C0D5DFA71;
- Wed, 19 Aug 2020 10:11:23 +0000 (UTC)
+ by zimbra.v3.sk (Postfix) with ESMTPSA id B66A8DFA71;
+ Wed, 19 Aug 2020 10:21:55 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 2/2] drm/panel: simple: Add support for Innolux LS075AT011
-Date: Wed, 19 Aug 2020 12:12:06 +0200
-Message-Id: <20200819101206.633253-3-lkundrak@v3.sk>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v4 1/2] dt-bindings: display: himax,
+ hx8837: Add Himax HX8837 bindings
+Date: Wed, 19 Aug 2020 12:22:45 +0200
+Message-Id: <20200819102246.634039-2-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200819101206.633253-1-lkundrak@v3.sk>
-References: <20200819101206.633253-1-lkundrak@v3.sk>
+In-Reply-To: <20200819102246.634039-1-lkundrak@v3.sk>
+References: <[PATCH v4 0/2] drm/bridge: hx8837: add a Himax HX8837 display
+ controller driver> <20200819102246.634039-1-lkundrak@v3.sk>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,70 +52,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the Innolux LS075AT011 7.5" 1200x900 panel. There's
-no public data sheet for the panel -- the values have been taken from Open
-Firmware and the documentation for the display controller that drives
-the panel and tested on the OLPC laptop.
+Himax HX8837 is a secondary display controller used to drive the panel
+on OLPC platforms.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index cb6550d37e858..dfc69457ed2d4 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2121,6 +2121,30 @@ static const struct panel_desc innolux_g121x1_l03 = {
- 	},
- };
- 
-+static const struct display_timing innolux_ls075at011_timing = {
-+	.pixelclock = { 56000000, 57000000, 58000000 },
-+	.hactive = { 1200, 1200, 1200 },
-+	.hfront_porch = { 26, 26, 26 },
-+	.hback_porch = { 24, 24, 24 },
-+	.hsync_len = { 6, 6, 6 },
-+	.vactive = { 900, 900, 900 },
-+	.vfront_porch = { 4, 4, 4 },
-+	.vback_porch = { 5, 5, 5 },
-+	.vsync_len = { 3, 3, 3 },
-+	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
-+};
+---
+Changes since v3:
+- Moved to bindings/display/
+- Added the ports
+- Converted to YAML
+- Removed Pavel's Ack, because the changes are substantial
+
+Changes since v2:
+- s/betweend/between/
+
+Changes since v1:
+- s/load-gpio/load-gpios/
+- Use interrupt bindings instead of gpio for the IRQ
+
+ .../bindings/display/bridge/himax,hx8837.yaml | 96 +++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml b/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
+new file mode 100644
+index 0000000000000..f5b0a00f5089d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2018,2019,2020 Lubomir Rintel <lkundrak@v3.sk>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/himax,hx8837.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+static const struct panel_desc innolux_ls075at011 = {
-+	.timings = &innolux_ls075at011_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 152,
-+		.height = 115,
-+	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
++title: HX8837 Display Controller Device Tree Bindings
 +
- /*
-  * Datasheet specifies that at 60 Hz refresh rate:
-  * - total horizontal time: { 1506, 1592, 1716 }
-@@ -3907,6 +3931,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,g121x1-l03",
- 		.data = &innolux_g121x1_l03,
-+	}, {
-+		.compatible = "innolux,ls075at011",
-+		.data = &innolux_ls075at011,
- 	}, {
- 		.compatible = "innolux,n116bge",
- 		.data = &innolux_n116bge,
++maintainers:
++  - Lubomir Rintel <lkundrak@v3.sk>
++
++properties:
++  compatible:
++    const: himax,hx8837
++
++  reg:
++    const: 0xd
++
++  load-gpios:
++    maxItems: 1
++    description: GPIO specifier of DCON_LOAD pin (active high)
++
++  stat-gpios:
++    minItems: 2
++    description: GPIO specifier of DCON_STAT0 and DCON_STAT1 pins (active high)
++
++  interrupts:
++    maxItems: 1
++    description: Interrupt specifier of DCON_IRQ pin (edge falling)
++
++  ports:
++    type: object
++
++    properties:
++      port@0:
++        type: object
++        description: |
++          Video port for RGB input.
++
++      port@1:
++        type: object
++        description: |
++          Video port connected to the panel.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - load-gpios
++  - stat-gpios
++  - interrupts
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        
++        lcd-controller@d {
++            compatible = "himax,hx8837";
++            reg = <0x0d>;
++            stat-gpios = <&gpio 100 GPIO_ACTIVE_HIGH>,
++                         <&gpio 101 GPIO_ACTIVE_HIGH>;
++            load-gpios = <&gpio 142 GPIO_ACTIVE_HIGH>;
++            interrupts = <&gpio 124 IRQ_TYPE_EDGE_FALLING>;
++    
++            ports {
++                #address-cells = <0x01>;
++                #size-cells = <0x00>;
++    
++                port@0 {
++                    reg = <0x00>;
++                    dcon_rgb_in: endpoint {
++                        remote-endpoint = <&lcd0_rgb_out>;
++                    };
++                };
++    
++                port@1 {
++                    reg = <0x01>;
++                    dcon_gettl_out: endpoint {
++                        remote-endpoint = <&panel_dettl_in>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.26.2
 
