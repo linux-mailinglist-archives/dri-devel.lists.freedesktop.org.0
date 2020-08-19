@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D2A24A03D
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 15:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BDF24A046
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 15:44:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D96E6E3A2;
-	Wed, 19 Aug 2020 13:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764056E3DF;
+	Wed, 19 Aug 2020 13:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D2A6E2CC
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:41:21 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id d2so12090058lfj.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 06:41:21 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 770B86E3DF;
+ Wed, 19 Aug 2020 13:44:22 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id l2so21587673wrc.7;
+ Wed, 19 Aug 2020 06:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3uRot0J1Di9E+0e7vb+dEOT/StlUzO3fYMSg8aMNhC8=;
- b=cyXkGltYkaC0McaUgHwD/5OoYZHYrz1MPdgnHwimVl0oxwnZEOo3utozL+huPGOMnK
- fJlPFllGiLVBlhgztZ0pLPpqCK/EfPGn3tk9YTs7zoTwdUzDgGx8ia2bxbxU9c5el5Hg
- OuzIPd5cymAEH4QTUDRThsbB/qYzXRuptB2DXU1jA4UbP8aCfUH5CcYOC8+FzOlfAdtE
- Pr3N3yqcFoc23rjyPWsUncxefwaccKDSZ/GYgy+G5zTwoOerpp7bIX7B89EhCUtwYwSd
- Fho4czVHifLsI7yjvGbE0t/5hWexJp3XAUsa0vPi9+403ADvKUmAnAWzIVvrjRcJCU6x
- F40A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lxF/trM9SgnathNJ4ODZkXBgjXiIKUash9TsOy9A8SA=;
+ b=u5WY57dRKgnsGFyW5wDApka8d7yha40MMxmCf5a5EZQUGfIiwBusOgW0XfSrGmOMBA
+ lSBk8krzrFHj9RxRvY99zBSHPsABj6K2y62EV9tfqOlqm8xWTmDhZQxOVAtkKFljNiHB
+ uWOu/JWIXNc3jexdZnnXbXXHS4f9SIsKwIoQQ94NVDUXB7XInYNRHyYAT8sxFBwBiaNw
+ AvgZ9aYIsA9uhkQOJbtjXAWuJWozSZpQt884kPZFjS/RsV9+6COx1Uf/gZ9o5aIs+juq
+ ckldlydYBit6Vn9RN9evz83dC6/skzURNZLwCt30cpXhhvPxLQa7QF9b0vm9bDS8QaXI
+ xybQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3uRot0J1Di9E+0e7vb+dEOT/StlUzO3fYMSg8aMNhC8=;
- b=Jr5uX3w13BeFGysupruwHdO3eSzjHIHy+fKGMRW8taVM8e20sCcpVPV1HGdoX2nutJ
- h0UxvRaImCDiu/ROEnoTgYTr+hMhcUxZSANgz47lhaGlPYbk0roHl3k8o5OaMiDIHCAf
- KMDcuCeJ5on2o+YyoklpGphSNbdq0EaDjiAVNVI2FpQSn1VKCPqfbWgw4fJ3NUKBtgkQ
- syb0H47E+2frSO+iPiggMFX0J2orw+eNu5F1LoG75dlP1HkAgn6wEq04CAWsY5otNBRD
- hoX3goVNV1+pZ5pj3WK+a4jQ73FVxEjeZKXaVxqmdAp53rAGh6sk1tOtJ0S8+UutJLwa
- tplA==
-X-Gm-Message-State: AOAM530VuPgGW0l64FPRaQR4LyCS9SDKtWDjUnOj1FxKBhQWF/4uVkN7
- 2GMcgn1FDJnZJRgWPX+undGl6Vxy/q4naeDW37Q=
-X-Google-Smtp-Source: ABdhPJzVwh/eBPB/toCwEXC1n2x1b6nK7nRhjxc6nhA1rUb5IApOF8C7HR2OqQXVcWiQDBmwt/Wd3ey06LZXHWJ+En0=
-X-Received: by 2002:a19:ae06:: with SMTP id f6mr12088967lfc.42.1597844479512; 
- Wed, 19 Aug 2020 06:41:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lxF/trM9SgnathNJ4ODZkXBgjXiIKUash9TsOy9A8SA=;
+ b=feXGT6IWgDxpQPHxKq7FoAE6LAaNf3i1vgRv3RYROZ1nnGBfdg8Dr0VqXjO2+JpNe5
+ 5afQi7zPAdCnLVU2AMmuyJTUoQHtP6K0kq2nH/0COOkBE3B+9zO2E0cLLKpMMJMj1N+G
+ +zkmdexyTMe2/KjZngyG2dCIk5WSvOoeBm0Kg9BEF3bi7BQ/qEJfoiKxA5Uz3IIy/rJT
+ 8SYAK03af2UGnaPhUQuZqMh1avw/KtzRL0FTsK1EuXFysjeNkO6qll6AK5R4NcXqiVQr
+ ZjjslJn7Oz2KEUvY03kgjn3HTfjGCO767H4e47m7msElatbAEpKFKDZqmJ0ZZ7xJZWeM
+ CimQ==
+X-Gm-Message-State: AOAM531BG3h9VldqUJCMLWJAE1fsMNxrydQgJBGcncLR1vrGpZ7NSIjr
+ XhYcS+CpSIiyZ9GYwN+J7PlrKA+PCvI=
+X-Google-Smtp-Source: ABdhPJzsyij0rqtTA2umVggmf50hkF0KOp7iJPDRlt4HyDoORFCssYxqjM5EDAxB9etjP8+72PitkA==
+X-Received: by 2002:a5d:4910:: with SMTP id x16mr24506320wrq.131.1597844660803; 
+ Wed, 19 Aug 2020 06:44:20 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:2c06:21fe:1007:30ae])
+ by smtp.gmail.com with ESMTPSA id f17sm5807713wru.13.2020.08.19.06.44.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Aug 2020 06:44:20 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: fix broken merge between drm-next and drm-misc-next
+Date: Wed, 19 Aug 2020 15:44:19 +0200
+Message-Id: <20200819134419.2054-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200805205911.20927-1-trix@redhat.com>
-In-Reply-To: <20200805205911.20927-1-trix@redhat.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 19 Aug 2020 15:41:08 +0200
-Message-ID: <CAMeQTsbQP+hsVtPRJdehwS3yULP0Mif1T8e9G18mJp7dpH77Lg@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: fix error check
-To: trix@redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,69 +67,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, yakui.zhao@intel.com,
- Dave Airlie <airlied@redhat.com>, Alan Cox <alan@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: alexander.deucher@amd.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 5, 2020 at 10:59 PM <trix@redhat.com> wrote:
->
-> From: Tom Rix <trix@redhat.com>
->
-> Reviewing this block of code in cdv_intel_dp_init()
->
-> ret = cdv_intel_dp_aux_native_read(gma_encoder, DP_DPCD_REV, ...
->
-> cdv_intel_edp_panel_vdd_off(gma_encoder);
-> if (ret == 0) {
->         /* if this fails, presume the device is a ghost */
->         DRM_INFO("failed to retrieve link info, disabling eDP\n");
->         drm_encoder_cleanup(encoder);
->         cdv_intel_dp_destroy(connector);
->         goto err_priv;
-> } else {
->
-> The (ret == 0) is not strict enough.
-> cdv_intel_dp_aux_native_read() returns > 0 on success
-> otherwise it is failure.
->
-> So change to <=
-
-Thanks for the patch. Looks correct.
-
-Will apply to drm-misc-next
-
--Patrik
-
->
-> Fixes: d112a8163f83 ("gma500/cdv: Add eDP support")
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/gpu/drm/gma500/cdv_intel_dp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> index f41cbb753bb4..720a767118c9 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> @@ -2078,7 +2078,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
->                                                intel_dp->dpcd,
->                                                sizeof(intel_dp->dpcd));
->                 cdv_intel_edp_panel_vdd_off(gma_encoder);
-> -               if (ret == 0) {
-> +               if (ret <= 0) {
->                         /* if this fails, presume the device is a ghost */
->                         DRM_INFO("failed to retrieve link info, disabling eDP\n");
->                         drm_encoder_cleanup(encoder);
-> --
-> 2.18.1
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ZHJtLW5leHQgcmV2ZXJ0ZWQgdGhlIGNoYW5nZXMgdG8gdHRtX3R0X2NyZWF0ZSgpIHRvIGRvIHRo
+ZQpOVUxMIGNoZWNrIGluc2lkZSB0aGUgZnVuY3Rpb24sIGJ1dCBkcm0tbWlzYy1uZXh0IGFkZHMg
+bmV3CnVzZXJzIG9mIHRoaXMgYXBwcm9hY2guCgpSZS1hcHBseSB0aGUgTlVMTCBjaGVjayBjaGFu
+Z2UgaW5zaWRlIHRoZSBmdW5jdGlvbiB0byBmaXggdGhpcy4KClNpZ25lZC1vZmYtYnk6IENocmlz
+dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9iby5jIHwgMiArLQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYyB8IDQg
+KysrLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS90dG0vdHRtX2JvLmMKaW5kZXggOTdhYzY2MmE0N2NiLi5lMzkzMWU1MTU5MDYgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm8uYwpAQCAtMTE4MCw3ICsxMTgwLDcgQEAgaW50IHR0bV9ib192YWxpZGF0ZShzdHJ1
+Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAogCS8qCiAJICogV2UgbWlnaHQgbmVlZCB0byBhZGQg
+YSBUVE0uCiAJICovCi0JaWYgKGJvLT5tZW0ubWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSAmJiBi
+by0+dHRtID09IE5VTEwpIHsKKwlpZiAoYm8tPm1lbS5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVN
+KSB7CiAJCXJldCA9IHR0bV90dF9jcmVhdGUoYm8sIHRydWUpOwogCQlpZiAocmV0KQogCQkJcmV0
+dXJuIHJldDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgYi9kcml2
+ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCmluZGV4IDlhYTRmYmUzODZlNi4uMWNjZjFlZjA1MGQ2
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS90dG0vdHRtX3R0LmMKQEAgLTUwLDYgKzUwLDkgQEAgaW50IHR0bV90dF9jcmVhdGUo
+c3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgYm9vbCB6ZXJvX2FsbG9jKQogCiAJZG1hX3Jl
+c3ZfYXNzZXJ0X2hlbGQoYm8tPmJhc2UucmVzdik7CiAKKwlpZiAoYm8tPnR0bSkKKwkJcmV0dXJu
+IDA7CisKIAlpZiAoYmRldi0+bmVlZF9kbWEzMikKIAkJcGFnZV9mbGFncyB8PSBUVE1fUEFHRV9G
+TEFHX0RNQTMyOwogCkBAIC02Nyw3ICs3MCw2IEBAIGludCB0dG1fdHRfY3JlYXRlKHN0cnVjdCB0
+dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wgemVyb19hbGxvYykKIAkJcGFnZV9mbGFncyB8PSBU
+VE1fUEFHRV9GTEFHX1NHOwogCQlicmVhazsKIAlkZWZhdWx0OgotCQliby0+dHRtID0gTlVMTDsK
+IAkJcHJfZXJyKCJJbGxlZ2FsIGJ1ZmZlciBvYmplY3QgdHlwZVxuIik7CiAJCXJldHVybiAtRUlO
+VkFMOwogCX0KLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
