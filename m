@@ -1,78 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C82249867
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 10:45:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD272498B2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 10:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7651A89B22;
-	Wed, 19 Aug 2020 08:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046D06E207;
+	Wed, 19 Aug 2020 08:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C721089B22;
- Wed, 19 Aug 2020 08:45:43 +0000 (UTC)
-IronPort-SDR: j1956RPhGu9DAYaODOy5IbTnnmOYegi+v7x2+SNilg0rdEMN1tXJrEQ7DYjE0Zr/wIQxP+dr5+
- 5Z1Oel4rlJxg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="135140240"
-X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; d="scan'208";a="135140240"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2020 01:45:43 -0700
-IronPort-SDR: 0gPRntbZoT8AVRUAqd4L9A6T6Lky85lLCQsL3q5PHnJMutHgLX991Tu3YN06j2dgQEF9ByxHWQ
- fTqduX3CQD3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; d="scan'208";a="371178018"
-Received: from unknown (HELO fmsmsx604.amr.corp.intel.com) ([10.18.84.214])
- by orsmga001.jf.intel.com with ESMTP; 19 Aug 2020 01:45:42 -0700
-Received: from bgsmsx602.gar.corp.intel.com (10.109.78.81) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 19 Aug 2020 01:45:40 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX602.gar.corp.intel.com (10.109.78.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 19 Aug 2020 14:15:38 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Wed, 19 Aug 2020 14:15:38 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Laxminarayan Bharadiya, Pankaj"
- <pankaj.laxminarayan.bharadiya@intel.com>, "jani.nikula@linux.intel.com"
- <jani.nikula@linux.intel.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "daniels@collabora.com" <daniels@collabora.com>, "Lattannavar, Sameer"
- <sameer.lattannavar@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Chris Wilson <chris@chris-wilson.co.uk>, 
- "Deak, Imre" <imre.deak@intel.com>, "Lisovskiy, Stanislav"
- <stanislav.lisovskiy@intel.com>, "Souza, Jose" <jose.souza@intel.com>,
- "Navare, Manasi D" <manasi.d.navare@intel.com>, Wambui Karuga
- <wambui.karugax@gmail.com>, "Gupta, Anshuman" <anshuman.gupta@intel.com>,
- "Roper, Matthew D" <matthew.d.roper@intel.com>, "Pandiyan, Dhinakaran"
- <dhinakaran.pandiyan@intel.com>
-Subject: RE: [PATCH v5 5/5] drm/i915: Enable scaling filter for plane and CRTC
-Thread-Topic: [PATCH v5 5/5] drm/i915: Enable scaling filter for plane and CRTC
-Thread-Index: AQHWaU+PzBm1wLt6CUOLPIoQJ92zVak/Nb1g
-Date: Wed, 19 Aug 2020 08:45:38 +0000
-Message-ID: <be1b89f53b064318b9478a1bc30c3675@intel.com>
-References: <20200803042953.7626-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200803042953.7626-6-pankaj.laxminarayan.bharadiya@intel.com>
-In-Reply-To: <20200803042953.7626-6-pankaj.laxminarayan.bharadiya@intel.com>
-Accept-Language: en-US
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2068.outbound.protection.outlook.com [40.107.212.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BB86E207;
+ Wed, 19 Aug 2020 08:53:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m1ojHyA0f9UH/lQbu5SFWY1+Y7Nrv0gWKspUVOi33Ib894MHFqWXN1HNLOB3gsxK3NLPFlbZDwbhprIDRVQFzpUQquIz2Jdb6RgqLy7QDbvDOML3KzX1ZFrAVUaZPmb4ULrTsS4zV7P09xIeCXzQJWFVKLRTr7QSQYJClb/ieXrBuCw+uzDycE6QRiqFuZTjZETbiCmbiRh+Cu7QtvPImqw9Yq/RJ4TBqW+Z/twlPSBor4KGYxQMRrhghUPFdfEkXyS8PgfiKjAHU4f3og/3b0DyKcGej6QHpAjbibpDHQWsbEvHTLZ2pNdzNIyQfNdkQBNPaUKKoLqcA+tLiXemWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7yWUwJ2QSDzT31n1fgcr/KzMGfevNyFHrTSdWUcr8sY=;
+ b=dLnSpxLuoc+IfRIuL+XrM/Bn3Ep/57UXNFf7IkMkjbslwH0vwtiEEvv4A9PK9eCkdoQaEQHTBK38sNo0oHDdG41lqWpJsDJAx9OjVJeIzOYkxbiNnLuaI2DqkLoI8tNT3brehDifqet3NGVLoUP3e5MuP9BIdrqveIvLnHGVXuN3cz8fwXpBJLGoMpodsA3Ch/2Ope35hGPb4SiRJkezAClvQt6OL5PSO0VEniLMSsaV7vxJxx9nKhwvIJw10xGhvknUESGxDSMLMqcY/raHDJThIbsT3OOvrxfVm5P2+qBpmrH6iaiYnxE1kD3NAjnIXzcLk7rSUqLsBLFgIY7RsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7yWUwJ2QSDzT31n1fgcr/KzMGfevNyFHrTSdWUcr8sY=;
+ b=PXVzsnh8k7uw9g1FA+66jhXXGsGil2HchBke1HbXSimPUsfvgnsc+I/yZ8CWeUdMiRNJE0MI9w4KX7yyRWu0HoJY4+DVXc14Y9DisWjG6bW+59ncw5dG7dUNSGBksPLiyaHAOd4AVXjOufZmVgpaP/m89lWd/ZgZmIXtjmv0yVs=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2418.namprd12.prod.outlook.com (2603:10b6:207:4d::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16; Wed, 19 Aug
+ 2020 08:53:30 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3283.028; Wed, 19 Aug 2020
+ 08:53:30 +0000
+Subject: Re: [PATCH] drm/amd/display: remove unintended executable mode
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Dennis Li <Dennis.Li@amd.com>,
+ Jerry Zuo <Jerry.Zuo@amd.com>
+References: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <f0d3f57c-416c-6a6a-0e9e-d3dc308f2b52@amd.com>
+Date: Wed, 19 Aug 2020 10:53:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
+X-ClientProxiedBy: AM4PR0902CA0001.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::11) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM4PR0902CA0001.eurprd09.prod.outlook.com (2603:10a6:200:9b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24 via Frontend
+ Transport; Wed, 19 Aug 2020 08:53:27 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 74719b00-290b-426e-aa36-08d8441d57cd
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2418:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2418C4DFDB948C6A3A18EBB4835D0@BL0PR12MB2418.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: khdSjkSe6nCAUpg+n/Zg8Vg/a5Od56e2Rwf8N2WHjrUY63mQ+uxzU75ECFmZzSSYI7U8yJ16uDxgMBt+yL7KXGHQlQe8oxdjFzYRHxQSYSh4XQsCsm7ektrYE914DvVAMW+fyQwSuJX9QY9Z4FpAujMFdEHBLTgWpVaEFPFTLntaLUSoTsyLV6U+1n/YDvhMvMoW5sXxS+oSHEQxDckMYoRZI4TlRg8sKFPyn9M9HEiEHSzt5ui7o8XE0pzXL+XP/PM/txC7GZVu44c6azoCng0qFQXrx0UwN97JWiuTWl2UwWmAUMT4EA4toAYKaCpVkPJmUThRjBtaYGqGLdjmc9V/nvIfKKScuif57r/zFWyqXixxpYtNhsuPxx9Trbx8
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(366004)(396003)(376002)(346002)(2906002)(316002)(16526019)(52116002)(186003)(54906003)(8676002)(478600001)(36756003)(83380400001)(6666004)(8936002)(6486002)(86362001)(5660300002)(4326008)(110136005)(6636002)(31696002)(66476007)(66556008)(2616005)(31686004)(66946007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 5zBfEyDOE/L1lrsYamXrkS+zcq1ilu3wtt/T0D3ohnmdoJY9x7JGSy5jJom2TQOFEWR4D3tZOb1CjLcAlBrWDIVgltH2L41dJ8UpDtA03KixK5Gue8xZfKXVvkZ+xFIwFEYrYFpq/WTAMZeVWtF+vaN+wfhi5uREK3NgSKRKQrHM6vBSLOyUT7d95/xxP1R+ifTx/UPzSgQeMp67QIcTEARuwWj0eBNL4I2INBw4NcP2pisCZQMMkVcaPv5JdvbKzEHQXllP9iZ4nz4VmLiVp8PV8tsxsdh8kQUcNREw4q6T+RooI2Q0lhWavGdMQwAnElTQ73F//XC4f6WFjaQ6pmPMduFkBJLFFPKq2bn3rNbSK3bUc1Ewo2EezKTGfV2h6L6tS3WSwM8+MYaHIDA+pKR0ahcWO8gUCC2E/NQct9SoGcath6OFlTEF1wqUVD3qQPyEg2VgtUYChGHgsYItM8C/5+rpDQ5uDHp2o6t3P1D2upbTkM/YSYZmnKqHLXYoxzG5BmJiE49oReJTfqo+UAJDwyLyiuR/CDDghPOsfZBg6LJEfmrfMTozECGpNEDJt1P3yMi09zyrYbb4Y2cpLpqmZ4BmN7/dVXlGi1xlmMPBkuu7Hxy7K+/F5YZAdGa6JUn9Ajss3gqUclZftaw8ohhvvylaPcyT08uSowIMDZTDZgkD5FYuoN16c0acF62aUNwgiv8vMfNkJLLfXtFq7A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74719b00-290b-426e-aa36-08d8441d57cd
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2020 08:53:30.5543 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wOnTY4LDCcpcioFYkZQ/HwtndVGwm5RJmKtve10WmLcBBIYu7ThnekwbKZJXO3c/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2418
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,219 +100,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Guchun Chen <guchun.chen@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: Laxminarayan Bharadiya, Pankaj
-> <pankaj.laxminarayan.bharadiya@intel.com>
-> Sent: Monday, August 3, 2020 10:00 AM
-> To: jani.nikula@linux.intel.com; daniel@ffwll.ch; intel-gfx@lists.freedesktop.org;
-> dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com;
-> daniels@collabora.com; Lattannavar, Sameer <sameer.lattannavar@intel.com>;
-> Joonas Lahtinen <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo
-> <rodrigo.vivi@intel.com>; David Airlie <airlied@linux.ie>; Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com>; Chris Wilson <chris@chris-wilson.co.uk>;
-> Deak, Imre <imre.deak@intel.com>; Laxminarayan Bharadiya, Pankaj
-> <pankaj.laxminarayan.bharadiya@intel.com>; Lisovskiy, Stanislav
-> <stanislav.lisovskiy@intel.com>; Souza, Jose <jose.souza@intel.com>; Navare,
-> Manasi D <manasi.d.navare@intel.com>; Wambui Karuga
-> <wambui.karugax@gmail.com>; Gupta, Anshuman
-> <anshuman.gupta@intel.com>; Shankar, Uma <uma.shankar@intel.com>; Roper,
-> Matthew D <matthew.d.roper@intel.com>; Pandiyan, Dhinakaran
-> <dhinakaran.pandiyan@intel.com>
-> Subject: [PATCH v5 5/5] drm/i915: Enable scaling filter for plane and CRTC
-> 
-> GEN >= 10 hardware supports the programmable scaler filter.
-> 
-> Attach scaling filter property for CRTC and plane for GEN >= 10 hardwares and
-> program scaler filter based on the selected filter type.
-
-Looks good to me.
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>  
-
-> changes since v3:
-> * None
-> changes since v2:
-> * Use updated functions
-> * Add ps_ctrl var to contain the full PS_CTRL register value (Ville)
-> * Duplicate the scaling filter in crtc and plane hw state (Ville) changes since v1:
-> * None
-> Changes since RFC:
-> * Enable properties for GEN >= 10 platforms (Ville)
-> * Do not round off the crtc co-ordinate (Danial Stone, Ville)
-> * Add new functions to handle scaling filter setup (Ville)
-> * Remove coefficient set 0 hardcoding.
-> 
-> Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> ---
->  .../gpu/drm/i915/display/intel_atomic_plane.c  |  1 +
->  drivers/gpu/drm/i915/display/intel_display.c   | 18 ++++++++++++++++--
->  .../gpu/drm/i915/display/intel_display_types.h |  2 ++
->  drivers/gpu/drm/i915/display/intel_sprite.c    | 15 +++++++++++++--
->  4 files changed, 32 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> index 79032701873a..415d41b21915 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> @@ -262,6 +262,7 @@ void intel_plane_copy_uapi_to_hw_state(struct
-> intel_plane_state *plane_state,
->  	plane_state->hw.rotation = from_plane_state->uapi.rotation;
->  	plane_state->hw.color_encoding = from_plane_state-
-> >uapi.color_encoding;
->  	plane_state->hw.color_range = from_plane_state->uapi.color_range;
-> +	plane_state->hw.scaling_filter =
-> +from_plane_state->uapi.scaling_filter;
->  }
-> 
->  void intel_plane_set_invisible(struct intel_crtc_state *crtc_state, diff --git
-> a/drivers/gpu/drm/i915/display/intel_display.c
-> b/drivers/gpu/drm/i915/display/intel_display.c
-> index 388999404e05..507932099b8d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -6352,6 +6352,7 @@ static void skl_pfit_enable(const struct intel_crtc_state
-> *crtc_state)
->  	int hscale, vscale;
->  	unsigned long irqflags;
->  	int id;
-> +	u32 ps_ctrl;
-> 
->  	if (!crtc_state->pch_pfit.enabled)
->  		return;
-> @@ -6368,10 +6369,16 @@ static void skl_pfit_enable(const struct
-> intel_crtc_state *crtc_state)
-> 
->  	id = scaler_state->scaler_id;
-> 
-> +	ps_ctrl = skl_scaler_get_filter_select(crtc_state->hw.scaling_filter, 0);
-> +	ps_ctrl |=  PS_SCALER_EN | scaler_state->scalers[id].mode;
-> +
->  	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
-> 
-> -	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id), PS_SCALER_EN |
-> -			  PS_FILTER_MEDIUM | scaler_state->scalers[id].mode);
-> +	skl_scaler_setup_filter(dev_priv, pipe, id, 0,
-> +				crtc_state->hw.scaling_filter);
-> +
-> +	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, id), ps_ctrl);
-> +
->  	intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, id),
->  			  PS_Y_PHASE(0) | PS_UV_RGB_PHASE(uv_rgb_vphase));
->  	intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, id), @@ -13332,6
-> +13339,7 @@ intel_crtc_copy_uapi_to_hw_state(struct intel_crtc_state
-> *crtc_state)
->  	crtc_state->hw.active = crtc_state->uapi.active;
->  	crtc_state->hw.mode = crtc_state->uapi.mode;
->  	crtc_state->hw.adjusted_mode = crtc_state->uapi.adjusted_mode;
-> +	crtc_state->hw.scaling_filter = crtc_state->uapi.scaling_filter;
->  	intel_crtc_copy_uapi_to_hw_state_nomodeset(crtc_state);
->  }
-> 
-> @@ -13343,6 +13351,7 @@ static void intel_crtc_copy_hw_to_uapi_state(struct
-> intel_crtc_state *crtc_state
->  		    drm_atomic_set_mode_for_crtc(&crtc_state->uapi,
-> &crtc_state->hw.mode) < 0);
-> 
->  	crtc_state->uapi.adjusted_mode = crtc_state->hw.adjusted_mode;
-> +	crtc_state->uapi.scaling_filter = crtc_state->hw.scaling_filter;
-> 
->  	/* copy color blobs to uapi */
->  	drm_property_replace_blob(&crtc_state->uapi.degamma_lut,
-> @@ -16810,6 +16819,11 @@ static int intel_crtc_init(struct drm_i915_private
-> *dev_priv, enum pipe pipe)
->  		dev_priv->plane_to_crtc_mapping[i9xx_plane] = crtc;
->  	}
-> 
-> +	if (INTEL_GEN(dev_priv) >= 10)
-> +		drm_crtc_create_scaling_filter_property(&crtc->base,
-> +
-> 	BIT(DRM_SCALING_FILTER_DEFAULT) |
-> +
-> 	BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
-> +
->  	intel_color_init(crtc);
-> 
->  	intel_crtc_crc_init(crtc);
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index f581260e8dbf..670ab317134b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -518,6 +518,7 @@ struct intel_plane_state {
->  		unsigned int rotation;
->  		enum drm_color_encoding color_encoding;
->  		enum drm_color_range color_range;
-> +		enum drm_scaling_filter scaling_filter;
->  	} hw;
-> 
->  	struct i915_ggtt_view view;
-> @@ -808,6 +809,7 @@ struct intel_crtc_state {
->  		bool active, enable;
->  		struct drm_property_blob *degamma_lut, *gamma_lut, *ctm;
->  		struct drm_display_mode mode, adjusted_mode;
-> +		enum drm_scaling_filter scaling_filter;
->  	} hw;
-> 
->  	/**
-> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c
-> b/drivers/gpu/drm/i915/display/intel_sprite.c
-> index c26ca029fc0a..8f1a6b6061af 100644
-> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
-> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-> @@ -429,6 +429,7 @@ skl_program_scaler(struct intel_plane *plane,
->  	u16 y_hphase, uv_rgb_hphase;
->  	u16 y_vphase, uv_rgb_vphase;
->  	int hscale, vscale;
-> +	u32 ps_ctrl;
-> 
->  	hscale = drm_rect_calc_hscale(&plane_state->uapi.src,
->  				      &plane_state->uapi.dst,
-> @@ -455,8 +456,13 @@ skl_program_scaler(struct intel_plane *plane,
->  		uv_rgb_vphase = skl_scaler_calc_phase(1, vscale, false);
->  	}
-> 
-> -	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, scaler_id),
-> -			  PS_SCALER_EN | PS_PLANE_SEL(plane->id) | scaler-
-> >mode);
-> +	ps_ctrl = skl_scaler_get_filter_select(plane_state->hw.scaling_filter, 0);
-> +	ps_ctrl |= PS_SCALER_EN | PS_PLANE_SEL(plane->id) | scaler->mode;
-> +
-> +	skl_scaler_setup_filter(dev_priv, pipe, scaler_id, 0,
-> +				plane_state->hw.scaling_filter);
-> +
-> +	intel_de_write_fw(dev_priv, SKL_PS_CTRL(pipe, scaler_id), ps_ctrl);
->  	intel_de_write_fw(dev_priv, SKL_PS_VPHASE(pipe, scaler_id),
->  			  PS_Y_PHASE(y_vphase) |
-> PS_UV_RGB_PHASE(uv_rgb_vphase));
->  	intel_de_write_fw(dev_priv, SKL_PS_HPHASE(pipe, scaler_id), @@ -
-> 3161,6 +3167,11 @@ skl_universal_plane_create(struct drm_i915_private
-> *dev_priv,
->  	if (INTEL_GEN(dev_priv) >= 12)
->  		drm_plane_enable_fb_damage_clips(&plane->base);
-> 
-> +	if (INTEL_GEN(dev_priv) >= 10)
-> +		drm_plane_create_scaling_filter_property(&plane->base,
-> +
-> 	BIT(DRM_SCALING_FILTER_DEFAULT) |
-> +
-> 	BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
-> +
->  	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
-> 
->  	return plane;
-> --
-> 2.23.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTkuMDguMjAgdW0gMTA6MTggc2NocmllYiBMdWthcyBCdWx3YWhuOgo+IEJlc2lkZXMgdGhl
+IGludGVuZGVkIGNoYW5nZSwgY29tbWl0IDRjYzExNzhlMTY2YSAoImRybS9hbWRncHU6IHJlcGxh
+Y2UgRFJNCj4gcHJlZml4IHdpdGggUENJIGRldmljZSBpbmZvIGZvciBnZngvbW1odWIiKSBhbHNv
+IHNldCB0aGUgc291cmNlIGZpbGVzCj4gbW1odWJfdjFfMC5jIGFuZCBnZnhfdjlfNC5jIHRvIGJl
+IGV4ZWN1dGFibGUsIGkuZS4sIGNoYW5nZWQgZnJvbW9sZCBtb2RlCj4gNjQ0IHRvIG5ldyBtb2Rl
+IDc1NS4KPgo+IENvbW1pdCAyNDFiMmVjOTMxN2UgKCJkcm0vYW1kL2Rpc3BsYXk6IEFkZCBkY24z
+MCBIZWFkZXJzICh2MikiKSBhZGRlZCB0aGUKPiBmb3VyIGhlYWRlciBmaWxlcyB7ZHBjcyxkY259
+XzNfMF8wX3tvZmZzZXQsc2hfbWFza30uaCBhcyBleGVjdXRhYmxlLCBpLmUuLAo+IG1vZGUgNzU1
+Lgo+Cj4gU2V0IHRvIHRoZSB1c3VhbCBtb2RlcyBmb3Igc291cmNlIGFuZCBoZWFkZXJzIGZpbGVz
+IGFuZCBjbGVhbiB1cCB0aG9zZQo+IG1pc3Rha2VzLiBObyBmdW5jdGlvbmFsIGNoYW5nZS4KPgo+
+IFNpZ25lZC1vZmYtYnk6IEx1a2FzIEJ1bHdhaG4gPGx1a2FzLmJ1bHdhaG5AZ21haWwuY29tPgoK
+UmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
+Cj4gLS0tCj4gYXBwbGllcyBjbGVhbmx5IG9uIGN1cnJlbnQgbWFzdGVyIGFuZCBuZXh0LTIwMjAw
+ODE5Cj4KPiBBbGV4LCBDaHJpc3RpYW4sIHBsZWFzZSBwaWNrIHRoaXMgbWlub3Igbm9uLXVyZ2Vu
+dCBjbGVhbnVwIHBhdGNoLgoKQWxleCBpcyB1c3VhbGx5IHRoZSBvbmUgcGlja2luZyB0aG9zZSB1
+cC4gSWYgaGUgbWlzc2VzIHNvbWV0aGluZyBmZWVsIApmcmVlIHRvIHBpbmcgdXMgb25jZSBtb3Jl
+LgoKVGhhbmtzLApDaHJpc3RpYW4uCgo+Cj4gRGVubmlzLCBKZXJyeSwgcGxlYXNlIGFjay4KPgo+
+IERlbm5pcywgSmVycnksIHlvdSBtaWdodCB3YW50IHRvIGNoZWNrIHlvdXIgZGV2ZWxvcG1lbnQg
+ZW52aXJvbm1lbnQKPiBpbnRyb2R1Y2luZyB0aG9zZSBleGVjdXRhYmxlIG1vZGVzIG9uIGZpbGVz
+Lgo+Cj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjlfNC5jICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgMAo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbW1odWJfdjFf
+MC5jICAgICAgICAgICAgICAgICAgICAgICB8IDAKPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvaW5j
+bHVkZS9hc2ljX3JlZy9kY24vZGNuXzNfMF8wX29mZnNldC5oICAgfCAwCj4gICBkcml2ZXJzL2dw
+dS9kcm0vYW1kL2luY2x1ZGUvYXNpY19yZWcvZGNuL2Rjbl8zXzBfMF9zaF9tYXNrLmggIHwgMAo+
+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2FzaWNfcmVnL2Rjbi9kcGNzXzNfMF8wX29m
+ZnNldC5oICB8IDAKPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9hc2ljX3JlZy9kY24v
+ZHBjc18zXzBfMF9zaF9tYXNrLmggfCAwCj4gICA2IGZpbGVzIGNoYW5nZWQsIDAgaW5zZXJ0aW9u
+cygrKSwgMCBkZWxldGlvbnMoLSkKPiAgIG1vZGUgY2hhbmdlIDEwMDc1NSA9PiAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y5XzQuYwo+ICAgbW9kZSBjaGFuZ2UgMTAwNzU1
+ID0+IDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9tbWh1Yl92MV8wLmMKPiAgIG1v
+ZGUgY2hhbmdlIDEwMDc1NSA9PiAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2Fz
+aWNfcmVnL2Rjbi9kY25fM18wXzBfb2Zmc2V0LmgKPiAgIG1vZGUgY2hhbmdlIDEwMDc1NSA9PiAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2FzaWNfcmVnL2Rjbi9kY25fM18wXzBf
+c2hfbWFzay5oCj4gICBtb2RlIGNoYW5nZSAxMDA3NTUgPT4gMTAwNjQ0IGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvaW5jbHVkZS9hc2ljX3JlZy9kY24vZHBjc18zXzBfMF9vZmZzZXQuaAo+ICAgbW9kZSBj
+aGFuZ2UgMTAwNzU1ID0+IDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYW1kL2luY2x1ZGUvYXNpY19y
+ZWcvZGNuL2RwY3NfM18wXzBfc2hfbWFzay5oCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvZ2Z4X3Y5XzQuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dm
+eF92OV80LmMKPiBvbGQgbW9kZSAxMDA3NTUKPiBuZXcgbW9kZSAxMDA2NDQKPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbW1odWJfdjFfMC5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvbW1odWJfdjFfMC5jCj4gb2xkIG1vZGUgMTAwNzU1Cj4gbmV3IG1vZGUg
+MTAwNjQ0Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9hc2ljX3Jl
+Zy9kY24vZGNuXzNfMF8wX29mZnNldC5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2Fz
+aWNfcmVnL2Rjbi9kY25fM18wXzBfb2Zmc2V0LmgKPiBvbGQgbW9kZSAxMDA3NTUKPiBuZXcgbW9k
+ZSAxMDA2NDQKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2FzaWNf
+cmVnL2Rjbi9kY25fM18wXzBfc2hfbWFzay5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRl
+L2FzaWNfcmVnL2Rjbi9kY25fM18wXzBfc2hfbWFzay5oCj4gb2xkIG1vZGUgMTAwNzU1Cj4gbmV3
+IG1vZGUgMTAwNjQ0Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9h
+c2ljX3JlZy9kY24vZHBjc18zXzBfMF9vZmZzZXQuaCBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvaW5j
+bHVkZS9hc2ljX3JlZy9kY24vZHBjc18zXzBfMF9vZmZzZXQuaAo+IG9sZCBtb2RlIDEwMDc1NQo+
+IG5ldyBtb2RlIDEwMDY0NAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2luY2x1
+ZGUvYXNpY19yZWcvZGNuL2RwY3NfM18wXzBfc2hfbWFzay5oIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9pbmNsdWRlL2FzaWNfcmVnL2Rjbi9kcGNzXzNfMF8wX3NoX21hc2suaAo+IG9sZCBtb2RlIDEw
+MDc1NQo+IG5ldyBtb2RlIDEwMDY0NAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
