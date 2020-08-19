@@ -2,36 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDF424A7D0
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 22:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DED824A7E2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 22:46:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29FA89228;
-	Wed, 19 Aug 2020 20:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D967B6E81D;
+	Wed, 19 Aug 2020 20:46:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC7DA89228
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 20:39:59 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id D4190804B9;
- Wed, 19 Aug 2020 22:39:54 +0200 (CEST)
-Date: Wed, 19 Aug 2020 22:39:53 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v14 0/2] Add initial support for slimport anx7625
-Message-ID: <20200819203953.GA109541@ravnborg.org>
-References: <cover.1594283160.git.xji@analogixsemi.com>
- <20200810203546.GA421906@ravnborg.org>
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3796E81D
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 20:46:54 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id v15so12762355lfg.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qi99Xq7OFQtrS3HvWRrLPLcLhnBb4j7+vDIzg/ZS78U=;
+ b=YMy1Q/pcnLqeeA4tcagxpLCBlFHveuLAHO/mv7p7YaiDnH5i01ZbfCeL3FFDRbbdDb
+ u2/F+vcssHM25YD3/byL5svh/FM6YW1ad7IHD8A9H0ZE/swjCcbNZ3QCN6qhFrw9FjGB
+ 2kMCNQ/m7ygfUwNrNVnQ6sM8RsRNjvlPnSsA9p4RaUldiYDvXI0rM3Kj4vfm0qtSWaVk
+ PYQ8xmK4JwsJvbagsW4QiUNTkIlDizXPreLh4ep4JtsT24sARIsmkev0qxgI6OAUc7HJ
+ iVn6h5SJquF8Jf797Lfxz4bnBo5pHxD7N1G4fiXGOVFom2E+ahIPOKTIVZ7mK3q4hMPA
+ ga6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qi99Xq7OFQtrS3HvWRrLPLcLhnBb4j7+vDIzg/ZS78U=;
+ b=szOflBh2ZIvc1H029KGXR+GWUMRd4eqQDImDPxzTpTeA2Vgj5hT8xWLihsdLGsyEej
+ 32zucupCuGXGxOA8SGVa3Q6ryGdld//08dJ0MdRDNjqiKDwBVpMT2PhhdLxjIROGmQZO
+ wfjmTZzs8k+XejnAmhmCVp3zHrLhHnolxS6g87/yzJoIXI/WiWVjOHGtuInLWBNBwsWj
+ 6yqjn/O/VvPy3Q5exUnUwoCE9PQF8WpGBWZrABNCsyM3JtYbDaPgkpth6wlT0z4Lcq5i
+ C3awyR/cewEkkHrz7QrqIycOP8B9xsjOeUWvTYBKFrvOXkidhXpeaOfy2vWxSW/Kh6AY
+ 8ztw==
+X-Gm-Message-State: AOAM532NzPIkUsGOj8ghd3wfQFa3V5V2nsGPQg+JRIrVKCCHMqtIngzo
+ z/2LXskKzVc53etOcnWmStJObwEugmkW9OXiIRDjow==
+X-Google-Smtp-Source: ABdhPJxYsaEQNSGTuSsMUNmBMUPNhsmvD7Dua6a20QK/pxww6zjEfIY87vu/7DoXyEUieTD58VtbtuACfuT4CzMc5z0=
+X-Received: by 2002:ac2:4c05:: with SMTP id t5mr13104401lfq.89.1597870012976; 
+ Wed, 19 Aug 2020 13:46:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200810203546.GA421906@ravnborg.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=-3hZfeu0XQcix8hqga0A:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200812085850.2643820-1-linus.walleij@linaro.org>
+ <CAL_JsqLR3HEsbuNq7i+N3ETYVoMtUP90_Ev=tO8GJr+fF4QHWQ@mail.gmail.com>
+In-Reply-To: <CAL_JsqLR3HEsbuNq7i+N3ETYVoMtUP90_Ev=tO8GJr+fF4QHWQ@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 19 Aug 2020 22:46:41 +0200
+Message-ID: <CACRpkdYOym=0BOsTr=bh4Zax5euj9RcRzZ_keUL3Z1EN+UykWw@mail.gmail.com>
+Subject: Re: [PATCH 1/3 v2] dt-bindings: backlight: Add some common backlight
+ properties
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,128 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Lee Jones <lee.jones@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin Ji.
+On Wed, Aug 12, 2020 at 5:46 PM Rob Herring <robh@kernel.org> wrote:
+> On Wed, Aug 12, 2020 at 2:58 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > Let's use a common.yaml include for the backlight like we do with
+> > the LEDs. The LEDs are inherently incompatible so their bindings
+> > cannot be reused for backlight.
+> >
+> > Cc: devicetree@vger.kernel.org
+> > Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > ---
+> > ChangeLog v1->v2:
+> > - New patch as suggested by Sam.
+> > ---
+> >  .../bindings/leds/backlight/common.yaml       | 42 +++++++++++++++++++
+> >  1 file changed, 42 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/common.yaml
+>
+> I'd expect some refactoring here with existing backlight schemas
+> including the ones I just added for 5.9.
 
-On Mon, Aug 10, 2020 at 10:35:46PM +0200, Sam Ravnborg wrote:
-> Hi Xin Ji.
-> 
-> On Thu, Jul 09, 2020 at 04:31:09PM +0800, Xin Ji wrote:
-> > Hi all,
-> > 
-> > The following series add support for the Slimport ANX7625 transmitter, a
-> > ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
-> > 
-> > 
-> > This is the v14 version, any mistakes, please let me know, I will fix it in
-> > the next series.
-> > 
-> > Change history:
-> > v14: Fix comments from Sam and Nicolas
-> >  - Check flags at drm_bridge_attach
-> >  - Use panel_bridge instead of drm_panel
-> >  - Fix not correct return value
-> 
-> Sorry for ignoring this for so long time.
-> The patch applies but no longer builds.
-> 
-> I could fix it locally but wanted to know if you have a later version to
-> be applied?
+Yeah if it takes off I can certainly make a slew of refactorings,
+I would like to do that once this is applied.
 
-I took a short look at the driver today.
-I noticed following code:
-       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-                return -EINVAL;
+> > +  LED powered by a boost converter.
+> > +
+> > +properties:
+> > +  default-on:
+> > +    description:
+> > +      The initial state of the backlight can be set to be on with this
+> > +      property. This is a state applied by the operating system so that the
+> > +      backlight is always turned on at boot.
+>
+> Needs a type.
 
-So if the display driver do not supply the DRM_BRIDGE_ATTACH_NO_CONNECTOR
-then -EINVAL is returned.
+Dropping this property because the subsystem maintainer
+doubts this is needed.
 
-But then the anx7625_bridge_attach() continues and creates a connector.
-For a new bridge driver there should be no need for the backward
-compatibility - so no need to create the connector.
-Unless the display driver needs it - but then we should fix the display
-driver and not add backward compatibility code in the bridge driver.
+Fixed the rest!
 
-Which display driver do you expect this bridge driver to be used with?
-
-	Sam
-
-
-
-
-> 
-> 	Sam
-> 
-> 
-> > 
-> > v13: Fix comments from Launrent Pinchart and Rob Herring
-> >  - Picked up Rob's Reviewed-By
-> >  - Add .detect and .get_edid interface in bridge funcs.
-> > 
-> > v12: Fix comments from Hsin-Yi Wang
-> >  - Rebase the code on kernel 5.7, fix DRM interface not match issue.
-> > 
-> > v11: Fix comments from Rob Herring
-> >  - Update commit message.
-> >  - Remove unused label.
-> > 
-> > v10: Fix comments from Rob Herring, Daniel.
-> >  - Fix dt_binding_check warning.
-> >  - Update description.
-> > 
-> > v9: Fix comments from Sam, Nicolas, Daniel
-> >  - Remove extcon interface.
-> >  - Remove DPI support.
-> >  - Fix dt_binding_check complains.
-> >  - Code clean up and update description.
-> > 
-> > v8: Fix comments from Nicolas.
-> >  - Fix several coding format.
-> >  - Update description.
-> > 
-> > v7:
-> >  - Fix critical timing(eg:odd hfp/hbp) in "mode_fixup" interface,
-> >    enhance MIPI RX tolerance by setting register MIPI_DIGITAL_ADJ_1 to 0x3D.
-> > 
-> > 
-> > Xin Ji (2):
-> >   dt-bindings: drm/bridge: anx7625: MIPI to DP transmitter DT schema
-> >   drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP
-> > 
-> >  .../bindings/display/bridge/analogix,anx7625.yaml  |   95 +
-> >  drivers/gpu/drm/bridge/analogix/Kconfig            |    9 +
-> >  drivers/gpu/drm/bridge/analogix/Makefile           |    1 +
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c          | 1939 ++++++++++++++++++++
-> >  drivers/gpu/drm/bridge/analogix/anx7625.h          |  391 ++++
-> >  5 files changed, 2435 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> >  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
-> >  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
-> > 
-> > -- 
-> > 2.7.4
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
