@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71756249C28
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 13:46:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F538249C2F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 13:46:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B126E237;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D8806E233;
 	Wed, 19 Aug 2020 11:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12A326E248
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:46:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED156E241
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:46:23 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de
  [95.90.213.163])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B1AD122DBF;
+ by mail.kernel.org (Postfix) with ESMTPSA id 968D12177B;
  Wed, 19 Aug 2020 11:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1597837582;
- bh=ClOj9yCdunMaS320vDbGtPzjoJaPHr/Jec/oQrO5Wog=;
+ bh=KW/f3nmkG0TDh5RY8W50ZEBZaWXFRkp+lFkWS/eRvWo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MVV06K30OMwQxMR9UYLuS5tjtvikFOPCCbBz4lYgjKxawcw5P+FsTnnDYXWE1i8/+
- 6nzftgJ4wBkKmytQS2gjlp7HtmvtUtXbXGozU383UCoq/3B6jb6l7izdb9fJEBOriL
- 73tA7qkvRhsEKDdLU6xURH6vvyIUnDu64g/5SiLw=
+ b=kuIVRSyHRok0QM7+veTfMFmd/jFrFSUcPu2MOLfkljIf3I7u3UacTWRaqvIFT7ajy
+ Wtz1G0SuDnLktczN9FW80W0sNxzdxdP+ZYPzKajRgMiDm84aFG27oSGULVERmA9z9t
+ gzrd19kSxIH0+94rP6+Y0vGk9ujC6oBT9wF604Gc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
  (envelope-from <mchehab@kernel.org>)
- id 1k8MXs-00EubC-Gf; Wed, 19 Aug 2020 13:46:20 +0200
+ id 1k8MXs-00EubH-HU; Wed, 19 Aug 2020 13:46:20 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 29/49] staging: hikey9xx/gpu: add a possible implementation
- for atomic_disable
-Date: Wed, 19 Aug 2020 13:45:57 +0200
-Message-Id: <57af4d50a42f4547344ff0a67bcdc4370dbe6d24.1597833138.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 30/49] staging: hikey9xx/gpu: register connector
+Date: Wed, 19 Aug 2020 13:45:58 +0200
+Message-Id: <787b016a3c9d4c7081c520c98617b2f6673d4427.1597833138.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1597833138.git.mchehab+huawei@kernel.org>
 References: <cover.1597833138.git.mchehab+huawei@kernel.org>
@@ -53,42 +52,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devel@driverdev.osuosl.org, Liwei Cai <cailiwei@hisilicon.com>,
  Manivannan Sadhasivam <mani@kernel.org>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, Wanchun Zheng <zhengwanchun@hisilicon.com>,
- linuxarm@huawei.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel@vger.kernel.org, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Xiubin Zhang <zhangxiubin1@huawei.com>, mauro.chehab@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the method is empty. However, looking at the driver,
-it sounds it shouldn't be hard to implement it.
+call drm_connector_register() when initializing the connector.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-index e1f2557a6be1..26212c130b79 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-@@ -638,7 +638,14 @@ static void dss_plane_atomic_update(struct drm_plane *plane,
- static void dss_plane_atomic_disable(struct drm_plane *plane,
- 				     struct drm_plane_state *old_state)
- {
--	//struct dss_plane *aplane = to_dss_plane(plane);
-+	// FIXME: Maybe this?
-+#if 0
-+	struct dss_plane *aplane = to_dss_plane(plane);
-+	struct dss_crtc *acrtc = aplane->acrtc;
-+
-+	disable_ldi(acrtc);
-+	hisifb_mctl_sw_clr(acrtc);
-+#endif
- }
+diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c b/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c
+index 39ec39a6a69b..09d035038c1a 100644
+--- a/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c
++++ b/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c
+@@ -1786,6 +1786,8 @@ static int dsi_connector_init(struct drm_device *dev, struct dw_dsi *dsi)
+ 	if (ret)
+ 		return ret;
  
- static const struct drm_plane_helper_funcs dss_plane_helper_funcs = {
++	drm_connector_register(&dsi->connector);
++
+ 	DRM_INFO("connector init\n");
+ 	return 0;
+ }
 -- 
 2.26.2
 
