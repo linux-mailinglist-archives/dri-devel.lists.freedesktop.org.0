@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF1424A8DF
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 00:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F09924A92E
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 00:22:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F256E853;
-	Wed, 19 Aug 2020 22:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4693A6E861;
+	Wed, 19 Aug 2020 22:22:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E456E853
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 22:07:49 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id m71so25760pfd.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 15:07:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kf0ZzHRJMAbFMLLUKsjOglGhImKY7cyfAyt1lKaRTFE=;
- b=XdSoOU8bhGfMFDMNkNB0PbGSyC9b/j1tzuVKEsB9zu7tjC2Vu7SEGSFi1W1cIQakbE
- o9qXTs96ee/VmG7efkxn8wb4vmhSq0ewikBueR4YGGz4OVA6fjbIeZISd2TXUVABiNcj
- 2cRCBsILsz+/mHHhsf+pfXMZJsKWFTExc0Fuk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kf0ZzHRJMAbFMLLUKsjOglGhImKY7cyfAyt1lKaRTFE=;
- b=OZP6D42Oeyz8HxWGQ4wPHInyYbrTYLb08Q0yUsDETc9JXDfbCz7NYdIGe+7Nv0URDF
- DYmPfJV6SnAH0QyHBHKbTn/vwRu5XGBCaQ3qTWytYzoK7QWS7HE4qEFgA0zdfTCXvqdS
- avnA0BbQskGfPGFQTl9cajJCEcdnKC5yfU4AnQG+sjpK6CxD8G0CGdmGZeh754CciZtL
- UiwyRPD0lnCYmsWvQO6HlpkNZIMC0eoicJeH/h1DLPKfP3TvvbNlVHVnd84HKySQ36Zq
- 8sRQoTUBk1jvoNIXmmCekd9bIQneh7FUKJjLiwT1VJktSO6wTn0yQq2Glf1PSB90v320
- qAHA==
-X-Gm-Message-State: AOAM533m7aUafzXANWfFRpZ0eHDonVJayO8CSxgjtIgX9g/Hu/BhfZqE
- my1YqUyrRnnnAoZXV0JpytJ6qQ==
-X-Google-Smtp-Source: ABdhPJxLBSOW/rpsj19Cs2xhJm2vDqZ4jNnT0/9og9Y8mFmIcYvE0rLxvkfRoBix9hXJmZPD7SaZlw==
-X-Received: by 2002:a62:6d04:: with SMTP id i4mr10910877pfc.188.1597874869067; 
- Wed, 19 Aug 2020 15:07:49 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id q25sm182088pfn.181.2020.08.19.15.07.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 15:07:48 -0700 (PDT)
-Date: Wed, 19 Aug 2020 15:07:46 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: Re: [PATCH v3] vt: Reject zero-sized screen buffer size.
-Message-ID: <202008191452.0278B57D43@keescook>
-References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
- <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB8C6E861
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 22:22:12 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
+ after 5.9 merges
+Date: Wed, 19 Aug 2020 22:22:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ckane@colemankane.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208947-2300-Grh0GknLve@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
+References: <bug-208947-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jiri Slaby <jslaby@suse.com>,
- syzbot <syzbot+017265e8553724e514e8@syzkaller.appspotmail.com>,
- Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 12, 2020 at 08:10:12PM +0900, Tetsuo Handa wrote:
-> [...]
-> @@ -1125,6 +1134,11 @@ int vc_allocate(unsigned int currcons)	/* return 0 on success */
->  	if (!*vc->vc_uni_pagedir_loc)
->  		con_set_default_unimap(vc);
->  
-> +	err = -EINVAL;
-> +	if (vc->vc_cols > VC_MAXCOL || vc->vc_rows > VC_MAXROW ||
-> +	    vc->vc_screenbuf_size > KMALLOC_MAX_SIZE || !vc->vc_screenbuf_size)
-> +		goto err_free;
-> +	err = -ENOMEM;
->  	vc->vc_screenbuf = kzalloc(vc->vc_screenbuf_size, GFP_KERNEL);
->  	if (!vc->vc_screenbuf)
->  		goto err_free;
+https://bugzilla.kernel.org/show_bug.cgi?id=208947
 
-I realize this patch already landed, but I wanted to remind folks to
-use the check_*_overflow() helpers, which can make a lot of this kind
-of stuff easier to deal with.
+--- Comment #8 from Coleman Kane (ckane@colemankane.org) ---
+Update - below is the finding from git bisect:
 
-For example, in this case, I think visual_init() could likely be changed
-to return success/failure and do all the sanity checking:
+471c1dd9546df81d259664ac3e2ab0e99169f755 is the first bad commit
+commit 471c1dd9546df81d259664ac3e2ab0e99169f755
+Author: Reza Amini <Reza.Amini@amd.com>
+Date:   Wed Jul 15 11:33:23 2020 -0400
 
-	if (check_shl_overflow(vc->vc_cols, 1, &vc->vc_size_row) ||
-	    check_mul_overflow(vc->vc_rows, vc->vc_size_row, &vc->vc_screenbuf_size))
-		return -EINVAL;
+    drm/amd/display: Allow asic specific FSFT timing optimization
 
+    [Why]
+    Each asic can optimize best based on its capabilities
+
+    [How]
+    Optimizing timing for a new pixel clock
+
+    Signed-off-by: Reza Amini <Reza.Amini@amd.com>
+    Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
+    Acked-by: Eryk Brol <eryk.brol@amd.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c    | 18 +++++++--------
+ drivers/gpu/drm/amd/display/dc/dc_stream.h         |  4 ++--
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c | 27 ++++++++++++++++++++++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.h |  5 ++++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c  |  3 +++
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c  |  3 +++
+ drivers/gpu/drm/amd/display/dc/inc/hw_sequencer.h  |  5 ++++
+ .../drm/amd/display/modules/freesync/freesync.c    |  5 +++-
+ 8 files changed, 57 insertions(+), 13 deletions(-)
 
 -- 
-Kees Cook
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
