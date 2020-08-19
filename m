@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794FA249C26
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 13:46:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C2F249C3F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 13:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBD26E255;
-	Wed, 19 Aug 2020 11:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1406E217;
+	Wed, 19 Aug 2020 11:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68196E05A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:46:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 128756E14B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:46:23 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de
  [95.90.213.163])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BD41A208C7;
+ by mail.kernel.org (Postfix) with ESMTPSA id D01F420FC3;
  Wed, 19 Aug 2020 11:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1597837582;
- bh=RZ+zKvVvpuEOtTIumsb9tKixckXpYyef7ICrpik1Nh8=;
+ bh=PMSCx91UuI0iU1z8Xdy+dm9zH5wudcsA4IhUqHhDVd8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tJKtr6mTsBvps0bLzCa15Rsov6Iw4hjKpdGhGjWob4saroXpYb9bThQLxdnYaPMOA
- 7Dv9B0xFxsoLRCbd8OXRSnB64cvkR6scR89S6HUPhdo02p7kCBEKh3P+2Z1hzqlue9
- kZ6kCX3P01+xZ7J7UD6rpd2wsjP7/wgd1ebPV0BY=
+ b=Qwr09NsgIwD0CS3ttYbUNdcKRklSMzPwQaXlYBkjGlfFHBb4LGoKN3GdrqIhpGQ+K
+ SoxFpu46J646xTzPoIMb/xPw1l3FpepPNlEKkLiJ35bFJgRrLXVB1rZpOksRSyrZ6q
+ JJhGJ4BFRATqH4b1wRLBDfvEKBdTqVlWRN653XCc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
  (envelope-from <mchehab@kernel.org>)
- id 1k8MXr-00EuaA-I1; Wed, 19 Aug 2020 13:46:19 +0200
+ id 1k8MXr-00EuaF-JU; Wed, 19 Aug 2020 13:46:19 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 06/49] staging: hikey9xx/gpu: Solve SR Cannot Display Problems.
-Date: Wed, 19 Aug 2020 13:45:34 +0200
-Message-Id: <09bc00bdb109cb13106801602f52ad2d3c4d7fc8.1597833138.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 07/49] staging: hikey9xx/gpu: Solve HDMI compatibility Problem.
+Date: Wed, 19 Aug 2020 13:45:35 +0200
+Message-Id: <dd5ac54d6a1a2a792b3c49960c77a5cb1b447e7b.1597833138.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1597833138.git.mchehab+huawei@kernel.org>
 References: <cover.1597833138.git.mchehab+huawei@kernel.org>
@@ -50,16 +50,16 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, devel@driverdev.osuosl.org,
- Liwei Cai <cailiwei@hisilicon.com>, Manivannan Sadhasivam <mani@kernel.org>,
+ Liwei Cai <cailiwei@hisilicon.com>, Wanchun Zheng <zhengwanchun@hisilicon.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Chen Feng <puck.chen@hisilicon.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
+ Chen Feng <puck.chen@hisilicon.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ linuxarm@huawei.com, dri-devel <dri-devel@lists.freedesktop.org>,
  Xiubin Zhang <zhangxiubin1@huawei.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Liuyao An <anliuyao@huawei.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, mauro.chehab@huawei.com,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-kernel@vger.kernel.org,
- Bogdan Togorean <bogdan.togorean@analog.com>
+ Liuyao An <anliuyao@huawei.com>, Bogdan Togorean <bogdan.togorean@analog.com>,
+ mauro.chehab@huawei.com, Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -67,850 +67,662 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xiubin Zhang <zhangxiubin1@huawei.com>
 
-Add suspend and resume interface to solve SR Cannot Display Problems.
+Modfiy pix_clk and dsi lanes to improve HDMI compatibility for hikey970.
 
 Signed-off-by: Xiubin Zhang <zhangxiubin1@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/hikey9xx/gpu/dw_drm_dsi.c     |  32 +++
- drivers/staging/hikey9xx/gpu/hdmi/adv7535.c   |  14 +-
- .../staging/hikey9xx/gpu/kirin970_dpe_reg.h   |  46 ++--
- drivers/staging/hikey9xx/gpu/kirin_dpe_reg.h  |   6 +
- .../hikey9xx/gpu/kirin_drm_dpe_utils.c        | 204 +++++++++++++++++-
- .../hikey9xx/gpu/kirin_drm_dpe_utils.h        |   8 +
- drivers/staging/hikey9xx/gpu/kirin_drm_drv.c  |  32 +++
- drivers/staging/hikey9xx/gpu/kirin_drm_drv.h  |   2 +
- drivers/staging/hikey9xx/gpu/kirin_drm_dss.c  |  53 ++++-
- .../hikey9xx/gpu/kirin_drm_overlay_utils.c    |  61 ++++--
- drivers/staging/hikey9xx/gpu/kirin_fbdev.c    |   3 +-
- 11 files changed, 401 insertions(+), 60 deletions(-)
+ drivers/staging/hikey9xx/gpu/dw_drm_dsi.c     |  53 ++-----
+ drivers/staging/hikey9xx/gpu/hdmi/adv7535.c   |   9 +-
+ .../hikey9xx/gpu/kirin_drm_dpe_utils.c        | 133 ++----------------
+ .../hikey9xx/gpu/kirin_drm_dpe_utils.h        |   2 +-
+ drivers/staging/hikey9xx/gpu/kirin_drm_drv.c  |   7 -
+ drivers/staging/hikey9xx/gpu/kirin_drm_dss.c  |  17 +--
+ .../hikey9xx/gpu/kirin_drm_overlay_utils.c    |   3 -
+ drivers/staging/hikey9xx/gpu/kirin_fb_panel.h |   5 -
+ drivers/staging/hikey9xx/gpu/kirin_fbdev.c    |  10 +-
+ 9 files changed, 41 insertions(+), 198 deletions(-)
 
 diff --git a/drivers/staging/hikey9xx/gpu/dw_drm_dsi.c b/drivers/staging/hikey9xx/gpu/dw_drm_dsi.c
-index f1376ed01dce..e69f4a9bca58 100644
+index e69f4a9bca58..e87363ab7373 100644
 --- a/drivers/staging/hikey9xx/gpu/dw_drm_dsi.c
 +++ b/drivers/staging/hikey9xx/gpu/dw_drm_dsi.c
-@@ -2063,6 +2063,36 @@ static int dsi_remove(struct platform_device *pdev)
- 	return 0;
+@@ -312,6 +312,7 @@ void dsi_set_output_client(struct drm_device *dev)
  }
+ EXPORT_SYMBOL(dsi_set_output_client);
  
-+static int dsi_suspend(struct platform_device *pdev, pm_message_t state)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct dsi_data *ddata = dev_get_drvdata(dev);
-+	struct dw_dsi *dsi = &ddata->dsi;
++#if defined (CONFIG_HISI_FB_970)
+ static void get_dsi_dphy_ctrl(struct dw_dsi *dsi,
+ 							struct mipi_phy_params *phy_ctrl)
+ {
+@@ -357,10 +358,8 @@ static void get_dsi_dphy_ctrl(struct dw_dsi *dsi,
+ 	bpp = mipi_dsi_pixel_format_to_bpp(dsi->client[id].format);
+ 	if (bpp < 0)
+ 		return;
+-	if (mode->clock > 80000)
+-	    dsi->client[id].lanes = 4;
+-	else
+-	    dsi->client[id].lanes = 3;
 +
-+	DRM_INFO("+. pdev->name is %s, pm_message is %d \n", pdev->name, state.event);
-+
-+	dsi_encoder_disable(&dsi->encoder);
-+
-+	DRM_INFO("-. \n");
-+
-+	return 0;
-+}
-+
-+static int dsi_resume(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct dsi_data *ddata = dev_get_drvdata(dev);
-+	struct dw_dsi *dsi = &ddata->dsi;
-+
-+	DRM_INFO("+. pdev->name is %s \n", pdev->name);
-+
-+	dsi_encoder_enable(&dsi->encoder);
-+
-+	DRM_INFO("-. \n");
-+
-+	return 0;
-+}
-+
- static const struct of_device_id dsi_of_match[] = {
- 	{.compatible = "hisilicon,hi3660-dsi"},
- 	{.compatible = "hisilicon,kirin970-dsi"},
-@@ -2073,6 +2103,8 @@ MODULE_DEVICE_TABLE(of, dsi_of_match);
- static struct platform_driver dsi_driver = {
- 	.probe = dsi_probe,
- 	.remove = dsi_remove,
-+	.suspend = dsi_suspend,
-+	.resume = dsi_resume,
- 	.driver = {
- 		.name = "dw-dsi",
- 		.of_match_table = dsi_of_match,
++	dsi->client[id].lanes = 4;
+ 
+ 	if (dsi->client[id].phy_clock)
+ 		dphy_req_kHz = dsi->client[id].phy_clock;
+@@ -387,33 +386,7 @@ static void get_dsi_dphy_ctrl(struct dw_dsi *dsi,
+ 	m_n_int = lane_clock * vco_div * 1000000UL / DEFAULT_MIPI_CLK_RATE;
+ 	m_n_fract = ((lane_clock * vco_div * 1000000UL * 1000UL / DEFAULT_MIPI_CLK_RATE) % 1000) * 10 / 1000;
+ 
+-	if (m_n_int % 2 == 0) {
+-		if (m_n_fract * 6 >= 50) {
+-			n_pll = 2;
+-			m_pll = (m_n_int + 1) * n_pll;
+-		} else if (m_n_fract * 6 >= 30) {
+-			n_pll = 3;
+-			m_pll = m_n_int * n_pll + 2;
+-		} else {
+-			n_pll = 1;
+-			m_pll = m_n_int * n_pll;
+-		}
+-	} else {
+-		if (m_n_fract * 6 >= 50) {
+-			n_pll = 1;
+-			m_pll = (m_n_int + 1) * n_pll;
+-		} else if (m_n_fract * 6 >= 30) {
+-			n_pll = 1;
+-			m_pll = (m_n_int + 1) * n_pll;
+-		} else if (m_n_fract * 6 >= 10) {
+-			n_pll = 3;
+-			m_pll = m_n_int * n_pll + 1;
+-		} else {
+-			n_pll = 2;
+-			m_pll = m_n_int * n_pll;
+-		}
+-	}
+-	//n_pll = 2;
++	n_pll = 2;
+ 
+ 	m_pll = (u32)(lane_clock * vco_div * n_pll * 1000000UL / DEFAULT_MIPI_CLK_RATE);
+ 
+@@ -568,7 +541,7 @@ static void get_dsi_dphy_ctrl(struct dw_dsi *dsi,
+ 		phy_ctrl->data_lane_hs2lp_time,
+ 		phy_ctrl->phy_stop_wait_time);
+ }
+-
++#else
+ static void get_dsi_phy_ctrl(struct dw_dsi *dsi,
+ 							struct mipi_phy_params *phy_ctrl)
+ {
+@@ -887,7 +860,7 @@ static void get_dsi_phy_ctrl(struct dw_dsi *dsi,
+ 		phy_ctrl->data_t_hs_trial,
+ 		phy_ctrl->data_t_ta_go,
+ 		phy_ctrl->data_t_ta_get);
+-	DRM_INFO("clk_lane_lp2hs_time=%u\n"
++	DRM_DEBUG("clk_lane_lp2hs_time=%u\n"
+ 		"clk_lane_hs2lp_time=%u\n"
+ 		"data_lane_lp2hs_time=%u\n"
+ 		"data_lane_hs2lp_time=%u\n"
+@@ -898,6 +871,7 @@ static void get_dsi_phy_ctrl(struct dw_dsi *dsi,
+ 		phy_ctrl->data_lane_hs2lp_time,
+ 		phy_ctrl->phy_stop_wait_time);
+ }
++#endif
+ 
+ static void dw_dsi_set_mode(struct dw_dsi *dsi, enum dsi_work_mode mode)
+ {
+@@ -962,13 +936,11 @@ static void mipi_config_dphy_spec1v2_parameter(struct dw_dsi *dsi, char __iomem
+ 
+ 	lanes =  dsi->client[dsi->cur_client].lanes - 1;
+ 
+-#if defined (CONFIG_HISI_FB_970)
+-	for (i = 0; i <= lanes; i++) {
++	for (i = 0; i <= (lanes+1); i++) {
+ 		//Lane Transmission Property
+ 		addr = MIPIDSI_PHY_TST_LANE_TRANSMISSION_PROPERTY + (i << 5);
+ 		dsi_phy_tst_set(mipi_dsi_base, addr, 0x43);
+ 	}
+-#endif
+ 
+ 	//pre_delay of clock lane request setting
+ 	dsi_phy_tst_set(mipi_dsi_base, MIPIDSI_PHY_TST_CLK_PRE_DELAY, DSS_REDUCE(dsi->phy.clk_pre_delay));
+@@ -988,7 +960,7 @@ static void mipi_config_dphy_spec1v2_parameter(struct dw_dsi *dsi, char __iomem
+ 	//clock lane timing ctrl - t_hs_trial
+ 	dsi_phy_tst_set(mipi_dsi_base, MIPIDSI_PHY_TST_CLK_TRAIL, DSS_REDUCE(dsi->phy.clk_t_hs_trial));
+ 
+-	for (i = 0; i <= (lanes + 1); i++) {//lint !e850
++	for (i = 0; i <= (lanes + 1); i++) {
+ 		if (i == 2) {
+ 			i++;  //addr: lane0:0x60; lane1:0x80; lane2:0xC0; lane3:0xE0
+ 		}
+@@ -1039,7 +1011,6 @@ static void dsi_mipi_init(struct dw_dsi *dsi, char __iomem *mipi_dsi_base)
+ 	u32 hsa_time = 0;
+ 	u32 hbp_time = 0;
+ 	u64 pixel_clk = 0;
+-	u32 i = 0;
+ 	u32 id = 0;
+ 	unsigned long dw_jiffies = 0;
+ 	u32 tmp = 0;
+@@ -1161,7 +1132,7 @@ static void dsi_mipi_init(struct dw_dsi *dsi, char __iomem *mipi_dsi_base)
+ 	/* clock lane timing ctrl - t_hs_trial*/
+ 	dsi_phy_tst_set(mipi_dsi_base, 0x25, dsi->phy.clk_t_hs_trial);
+ 
+-	for (i = 0; i <= lanes; i++) {
++	for (int i = 0; i <= lanes; i++) {
+ 		/* data lane pre_delay*/
+ 		tmp = 0x30 + (i << 4);
+ 		dsi_phy_tst_set(mipi_dsi_base, tmp, DSS_REDUCE(dsi->phy.data_pre_delay));
+@@ -1391,8 +1362,9 @@ static int mipi_dsi_on_sub1(struct dw_dsi *dsi, char __iomem *mipi_dsi_base)
+ static int mipi_dsi_on_sub2(struct dw_dsi *dsi, char __iomem *mipi_dsi_base)
+ {
+ 	WARN_ON(!mipi_dsi_base);
+-	u64 pctrl_dphytx_stopcnt = 0;
++	u64 pctrl_dphytx_stopcnt;
+ 
++	pctrl_dphytx_stopcnt = 0;
+ 	/* switch to video mode */
+ 	set_reg(mipi_dsi_base + MIPIDSI_MODE_CFG_OFFSET, 0x0, 1, 0);
+ 
+@@ -1938,7 +1910,6 @@ static int dsi_parse_dt(struct platform_device *pdev, struct dw_dsi *dsi)
+ 		DRM_ERROR ("failed to get dsi base resource.\n");
+ 		return -ENXIO;
+ 	}
+-	DRM_INFO("dsi base =0x%x.\n", ctx->base);
+ 
+ 	ctx->peri_crg_base = of_iomap(np, 1);
+ 	if (!(ctx->peri_crg_base)) {
 diff --git a/drivers/staging/hikey9xx/gpu/hdmi/adv7535.c b/drivers/staging/hikey9xx/gpu/hdmi/adv7535.c
-index 818b4b65334c..3dd6059ea603 100644
+index 3dd6059ea603..0343b2cd4c45 100644
 --- a/drivers/staging/hikey9xx/gpu/hdmi/adv7535.c
 +++ b/drivers/staging/hikey9xx/gpu/hdmi/adv7535.c
-@@ -1231,12 +1231,10 @@ static int adv7533_init_regulators(struct adv7511 *adv75xx, struct device *dev)
- 	if (IS_ERR(adv75xx->v1p2)) {
- 		ret = PTR_ERR(adv75xx->v1p2);
- 		dev_err(dev, "failed to get v1p2 regulator %d\n", ret);
--		//return ret;
-+		return ret;
- 	}
+@@ -380,7 +380,6 @@ static void adv7511_set_link_config(struct adv7511 *adv7511,
  
- 	ret = regulator_set_voltage(adv75xx->vdd, 1800000, 1800000);
--	//ret = regulator_set_voltage(adv75xx->vdd, 1500000, 1500000);
--	//ret = regulator_set_voltage(adv75xx->vdd, 2000000, 2000000);
- 	if (ret) {
- 		dev_err(dev, "failed to set avdd voltage %d\n", ret);
- 		return ret;
-@@ -1244,11 +1242,11 @@ static int adv7533_init_regulators(struct adv7511 *adv75xx, struct device *dev)
+ static void adv7511_dsi_config_tgen(struct adv7511 *adv7511)
+ {
+-	struct mipi_dsi_device *dsi = adv7511->dsi;
+ 	struct drm_display_mode *mode = &adv7511->curr_mode;
+ 	u8 clock_div_by_lanes[] = { 6, 4, 3 }; /* 2, 3, 4 lanes */
+ 	unsigned int hsw, hfp, hbp, vsw, vfp, vbp;
+@@ -402,10 +401,6 @@ static void adv7511_dsi_config_tgen(struct adv7511 *adv7511)
+ 			clock_div_by_lanes[adv7511->num_dsi_lanes - 2] << 3);
+ #endif
  
+-	/* set pixel clock divider mode */
+-	/*regmap_write(adv7511->regmap_cec, 0x16,
+-			clock_div_by_lanes[dsi->lanes - 2] << 3);*/
+-
+ 	/* horizontal porch params */
+ 	regmap_write(adv7511->regmap_cec, 0x28, mode->htotal >> 4);
+ 	regmap_write(adv7511->regmap_cec, 0x29, (mode->htotal << 4) & 0xff);
+@@ -944,10 +939,14 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+ 		struct mipi_dsi_device *dsi = adv7511->dsi;
+ 		int lanes, ret;
  
- 	DRM_INFO(" adv75xx->vdd = %d \n", regulator_get_voltage(adv75xx->vdd));
--	//ret = regulator_set_voltage(adv75xx->v1p2, 1200000, 1200000);
-+	/*ret = regulator_set_voltage(adv75xx->v1p2, 1200000, 1200000);
- 	if (ret) {
- 		dev_err(dev, "failed to set v1p2 voltage %d\n", ret);
--		//return ret;
--	}
-+		return ret;
-+	}*/
++#if defined(CONFIG_HISI_FB_970)
++		lanes = 4;
++#else
+ 		if (adj_mode->clock > 80000)
+ 			lanes = 4;
+ 		else
+ 			lanes = 3;
++#endif
  
- 	/* keep the regulators always on */
- 	ret = regulator_enable(adv75xx->vdd);
-@@ -1257,11 +1255,11 @@ static int adv7533_init_regulators(struct adv7511 *adv75xx, struct device *dev)
- 		return ret;
- 	}
- 
--	//ret = regulator_enable(adv75xx->v1p2);
-+	/*ret = regulator_enable(adv75xx->v1p2);
- 	if (ret) {
- 		dev_err(dev, "failed to enable v1p2 %d\n", ret);
- 		//return ret;
--	}
-+	}*/
- 
- 	return 0;
- }
-diff --git a/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h b/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h
-index 6e7e5dc0a20a..867266073bc0 100644
---- a/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h
-@@ -108,32 +108,32 @@ enum dss_ovl_idx {
- #define DSS_WCH_MAX  (2)
- 
- typedef struct dss_img {
--	uint32_t format;
--	uint32_t width;
--	uint32_t height;
--	uint32_t bpp;		/* bytes per pixel */
--	uint32_t buf_size;
--	uint32_t stride;
--	uint32_t stride_plane1;
--	uint32_t stride_plane2;
-+	u32 format;
-+	u32 width;
-+	u32 height;
-+	u32 bpp;		/* bytes per pixel */
-+	u32 buf_size;
-+	u32 stride;
-+	u32 stride_plane1;
-+	u32 stride_plane2;
- 	uint64_t phy_addr;
- 	uint64_t vir_addr;
--	uint32_t offset_plane1;
--	uint32_t offset_plane2;
-+	u32 offset_plane1;
-+	u32 offset_plane2;
- 
- 	uint64_t afbc_header_addr;
- 	uint64_t afbc_payload_addr;
--	uint32_t afbc_header_stride;
--	uint32_t afbc_payload_stride;
--	uint32_t afbc_scramble_mode;
--	uint32_t mmbuf_base;
--	uint32_t mmbuf_size;
-+	u32 afbc_header_stride;
-+	u32 afbc_payload_stride;
-+	u32 afbc_scramble_mode;
-+	u32 mmbuf_base;
-+	u32 mmbuf_size;
- 
--	uint32_t mmu_enable;
--	uint32_t csc_mode;
--	uint32_t secure_mode;
-+	u32 mmu_enable;
-+	u32 csc_mode;
-+	u32 secure_mode;
- 	int32_t shared_fd;
--	uint32_t reserved0;
-+	u32 reserved0;
- } dss_img_t;
- 
- typedef struct drm_dss_layer {
-@@ -141,13 +141,13 @@ typedef struct drm_dss_layer {
- 	dss_rect_t src_rect;
- 	dss_rect_t src_rect_mask;
- 	dss_rect_t dst_rect;
--	uint32_t transform;
-+	u32 transform;
- 	int32_t blending;
--	uint32_t glb_alpha;
--	uint32_t color;		/* background color or dim color */
-+	u32 glb_alpha;
-+	u32 color;		/* background color or dim color */
- 	int32_t layer_idx;
- 	int32_t chn_idx;
--	uint32_t need_cap;
-+	u32 need_cap;
- 	int32_t acquire_fence;
- } drm_dss_layer_t;
- 
-diff --git a/drivers/staging/hikey9xx/gpu/kirin_dpe_reg.h b/drivers/staging/hikey9xx/gpu/kirin_dpe_reg.h
-index a5152708abb7..cdf2f1d22e5e 100644
---- a/drivers/staging/hikey9xx/gpu/kirin_dpe_reg.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin_dpe_reg.h
-@@ -193,6 +193,12 @@ typedef struct drm_dss_layer {
- #define DEFAULT_PCLK_PCTRL_RATE	(80000000UL)
- #define DSS_MAX_PXL0_CLK_288M (288000000UL)
- 
-+/*dss clk power off */
-+#define DEFAULT_DSS_CORE_CLK_RATE_POWER_OFF   	(277000000UL)
-+#define DEFAULT_DSS_PXL0_CLK_RATE_POWER_OFF    	(277000000UL)
-+#define DEFAULT_DSS_MMBUF_CLK_RATE_POWER_OFF 	(238000000UL)
-+#define DEFAULT_DSS_PXL1_CLK_RATE_POWER_OFF 	(238000000UL)
-+
- #define MMBUF_SIZE_MAX	(288 * 1024)
- #define HISI_DSS_CMDLIST_MAX	(16)
- #define HISI_DSS_CMDLIST_IDXS_MAX (0xFFFF)
+ 		if (lanes != dsi->lanes) {
+ 			mipi_dsi_detach(dsi);
 diff --git a/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.c b/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.c
-index 739b3bd82f02..470e08ed646b 100644
+index 470e08ed646b..d891ee17f48d 100644
 --- a/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.c
 +++ b/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.c
-@@ -315,6 +315,23 @@ void init_ldi(struct dss_crtc *acrtc)
- 	set_reg(ldi_base + LDI_CTRL, 0x0, 1, 0);
- }
+@@ -19,8 +19,6 @@ int g_debug_set_reg_val = 0;
  
-+void deinit_ldi(struct dss_crtc *acrtc)
-+{
-+	struct dss_hw_ctx *ctx;
-+	char __iomem *ldi_base;
-+
-+	ctx = acrtc->ctx;
-+	if (!ctx) {
-+		DRM_ERROR("ctx is NULL!\n");
-+		return ;
-+	}
-+
-+	ldi_base = ctx->base + DSS_LDI0_OFFSET;
-+
-+	/* ldi disable*/
-+	set_reg(ldi_base + LDI_CTRL, 0, 1, 0);
-+}
-+
- void init_dbuf(struct dss_crtc *acrtc)
- {
- 	struct dss_hw_ctx *ctx;
-@@ -480,7 +497,6 @@ void init_dpp(struct dss_crtc *acrtc)
- 	char __iomem *dpp_base;
- 	char __iomem *mctl_sys_base;
+ DEFINE_SEMAPHORE(hisi_fb_dss_regulator_sem);
  
--	DRM_INFO("+. \n");
- 	ctx = acrtc->ctx;
- 	if (!ctx) {
- 		DRM_ERROR("ctx is NULL!\n");
-@@ -524,8 +540,6 @@ void init_dpp(struct dss_crtc *acrtc)
- 	set_reg(mctl_base + MCTL_CTL_MUTEX, 0x0, 1, 0);
- 	#endif
- #endif
+-static int dss_regulator_refcount;
 -
--	DRM_INFO("-. \n");
+ extern u32 g_dss_module_ovl_base[DSS_MCTL_IDX_MAX][MODULE_OVL_MAX];
+ 
+ mipi_ifbc_division_t g_mipi_ifbc_division[MIPI_DPHY_NUM][IFBC_TYPE_MAX] = {
+@@ -119,28 +117,6 @@ uint32_t set_bits32(uint32_t old_val, uint32_t val, uint8_t bw, uint8_t bs)
+ 	return (tmp | ((val & mask) << bs));
  }
  
- void enable_ldi(struct dss_crtc *acrtc)
-@@ -681,6 +695,52 @@ int dpe_init(struct dss_crtc *acrtc)
- 	return 0;
+-struct dss_clk_rate *get_dss_clk_rate(struct dss_hw_ctx *ctx)
+-{
+-	struct dss_clk_rate *pdss_clk_rate = NULL;
+-	uint64_t default_dss_pri_clk_rate;
+-
+-	if (ctx == NULL) {
+-		DRM_ERROR("ctx is null.\n");
+-		return pdss_clk_rate;
+-	}
+-
+-	pdss_clk_rate = &(ctx->dss_clk);
+-	default_dss_pri_clk_rate = DEFAULT_DSS_CORE_CLK_RATE_L1;
+-
+-	pdss_clk_rate->dss_pri_clk_rate = default_dss_pri_clk_rate;
+-	pdss_clk_rate->dss_mmbuf_rate = DEFAULT_DSS_MMBUF_CLK_RATE_L1;
+-	pdss_clk_rate->dss_pclk_dss_rate = DEFAULT_PCLK_DSS_RATE;
+-	pdss_clk_rate->dss_pclk_pctrl_rate = DEFAULT_PCLK_PCTRL_RATE;
+-
+-
+-	return pdss_clk_rate;
+-}
+-
+ static int mipi_ifbc_get_rect(struct dss_rect *rect)
+ {
+ 	u32 ifbc_type;
+@@ -399,9 +375,11 @@ void init_dbuf(struct dss_crtc *acrtc)
+ 		"hsw=%d\n"
+ 		"hbp=%d\n"
+ 		"hfp=%d\n"
++		"htotal=%d\n"
+ 		"vfp = %d\n"
+ 		"vbp = %d\n"
+ 		"vsw = %d\n"
++		"vtotal=%d\n"
+ 		"mode->hdisplay=%d\n"
+ 		"mode->vdisplay=%d\n",
+ 		dfs_time,
+@@ -409,9 +387,11 @@ void init_dbuf(struct dss_crtc *acrtc)
+ 		hsw,
+ 		hbp,
+ 		hfp,
++		mode->htotal,
+ 		vfp,
+ 		vbp,
+ 		vsw,
++		mode->vtotal,
+ 		mode->hdisplay,
+ 		mode->vdisplay);
+ 
+@@ -758,72 +738,13 @@ void dss_inner_clk_pdp_enable(struct dss_hw_ctx *ctx)
+ 	outp32(dss_base + DSS_DPP_DITHER_OFFSET + DITHER_MEM_CTRL, 0x00000008);
  }
  
-+int dpe_deinit(struct dss_crtc *acrtc)
-+{
-+	deinit_ldi(acrtc);
-+
-+	return 0;
-+}
-+
-+void dpe_check_itf_status(struct dss_crtc *acrtc)
-+{
-+	struct dss_hw_ctx *ctx;
-+	char __iomem *mctl_sys_base = NULL;
-+	int tmp = 0;
-+	int delay_count = 0;
-+	bool is_timeout = true;
-+	int itf_idx = 0;
-+
-+	ctx = acrtc->ctx;
-+	if (!ctx) {
-+		DRM_ERROR("ctx is NULL!\n");
-+		return ;
-+	}
-+
-+	itf_idx = 0;
-+	mctl_sys_base =  ctx->base + DSS_MCTRL_SYS_OFFSET;
-+
-+	while (1) {
-+		tmp = inp32(mctl_sys_base + MCTL_MOD17_STATUS + itf_idx * 0x4);
-+		if (((tmp & 0x10) == 0x10) || delay_count > 100) {
-+			is_timeout = (delay_count > 100) ? true : false;
-+			delay_count = 0;
-+			break;
-+		} else {
-+			mdelay(1);
-+			++delay_count;
-+		}
-+	}
-+
-+	if (is_timeout) {
-+		DRM_DEBUG_DRIVER("mctl_itf%d not in idle status,ints=0x%x !\n", itf_idx, tmp);
-+	}
-+}
-+
-+void dss_inner_clk_pdp_disable(struct dss_hw_ctx *ctx)
-+{
-+}
-+
- void dss_inner_clk_pdp_enable(struct dss_hw_ctx *ctx)
+-static void dss_normal_set_reg(char __iomem *dss_base)
+-{
+-	if (NULL == dss_base) {
+-		DRM_ERROR("dss_base is null.\n");
+-		return;
+-	}
+-	//core/axi/mmbuf
+-	outp32(dss_base + DSS_CMDLIST_OFFSET + CMD_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_VG0_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);
+-	outp32(dss_base + DSS_RCH_VG0_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x00000008);
+-
+-	outp32(dss_base + DSS_RCH_VG0_ARSR_OFFSET + ARSR2P_LB_MEM_CTRL, 0x00000008);
+-
+-	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + VPP_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);
+-
+-	outp32(dss_base + DSS_RCH_VG1_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);
+-	outp32(dss_base + DSS_RCH_VG1_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);
+-
+-	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + HFBCD_MEM_CTRL, 0x88888888);
+-	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + HFBCD_MEM_CTRL_1, 0x00000888);
+-	outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + HFBCD_MEM_CTRL, 0x88888888);
+-	outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + HFBCD_MEM_CTRL_1, 0x00000888);
+-
+-	outp32(dss_base + DSS_RCH_VG2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-
+-	outp32(dss_base + DSS_RCH_G0_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);
+-	outp32(dss_base + DSS_RCH_G0_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x0000008);
+-	outp32(dss_base + DSS_RCH_G0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_G0_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);
+-
+-	outp32(dss_base + DSS_RCH_G1_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);
+-	outp32(dss_base + DSS_RCH_G1_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x0000008);
+-	outp32(dss_base + DSS_RCH_G1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_G1_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);
+-
+-	outp32(dss_base + DSS_RCH_D0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_D0_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);
+-	outp32(dss_base + DSS_RCH_D1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_D2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_RCH_D3_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-
+-	outp32(dss_base + DSS_WCH0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_WCH0_DMA_OFFSET + AFBCE_MEM_CTRL, 0x00000888);
+-	outp32(dss_base + DSS_WCH0_DMA_OFFSET + ROT_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_WCH1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
+-	outp32(dss_base + DSS_WCH1_DMA_OFFSET + AFBCE_MEM_CTRL, 0x88888888);
+-	outp32(dss_base + DSS_WCH1_DMA_OFFSET + AFBCE_MEM_CTRL_1, 0x00000088);
+-	outp32(dss_base + DSS_WCH1_DMA_OFFSET + ROT_MEM_CTRL, 0x00000008);
+-
+-	outp32(dss_base + DSS_WCH1_DMA_OFFSET + WCH_SCF_COEF_MEM_CTRL, 0x00000088);
+-	outp32(dss_base + DSS_WCH1_DMA_OFFSET + WCH_SCF_LB_MEM_CTRL, 0x00000088);
+-	outp32(dss_base + GLB_DSS_MEM_CTRL, 0x02605550);
+-
+-}
+-
+ void dss_inner_clk_common_enable(struct dss_hw_ctx *ctx)
  {
  	char __iomem *dss_base;
-@@ -938,6 +998,36 @@ int dpe_common_clk_enable(struct dss_hw_ctx *ctx)
- 	return 0;
- }
  
-+int dpe_common_clk_disable(struct dss_hw_ctx *ctx)
-+{
-+	struct clk *clk_tmp = NULL;
-+
-+	if (ctx == NULL) {
-+		DRM_ERROR("ctx is NULL point!\n");
-+		return -EINVAL;
-+	}
-+
-+	clk_tmp = ctx->dss_pclk_dss_clk;
-+	if (clk_tmp) {
-+		clk_disable(clk_tmp);
-+		clk_unprepare(clk_tmp);
-+	}
-+
-+	clk_tmp = ctx->dss_axi_clk;
-+	if (clk_tmp) {
-+		clk_disable(clk_tmp);
-+		clk_unprepare(clk_tmp);
-+	}
-+
-+	clk_tmp = ctx->dss_mmbuf_clk;
-+	if (clk_tmp) {
-+		clk_disable(clk_tmp);
-+		clk_unprepare(clk_tmp);
-+	}
-+
-+	return 0;
-+}
-+
- int dpe_inner_clk_enable(struct dss_hw_ctx *ctx)
- {
- 	int ret = 0;
-@@ -981,6 +1071,31 @@ int dpe_inner_clk_enable(struct dss_hw_ctx *ctx)
- 	return 0;
- }
- 
-+int dpe_inner_clk_disable(struct dss_hw_ctx *ctx)
-+{
-+	int ret = 0;
-+	struct clk *clk_tmp = NULL;
-+
-+	if (ctx == NULL) {
-+		DRM_ERROR("ctx is NULL point!\n");
-+		return -EINVAL;
-+	}
-+
-+	clk_tmp = ctx->dss_pxl0_clk;
-+	if (clk_tmp) {
-+		clk_disable(clk_tmp);
-+		clk_unprepare(clk_tmp);
-+	}
-+
-+	clk_tmp = ctx->dss_pri_clk;
-+	if (clk_tmp) {
-+		clk_disable(clk_tmp);
-+		clk_unprepare(clk_tmp);
-+	}
-+
-+	return 0;
-+}
-+
- int dpe_regulator_enable(struct dss_hw_ctx *ctx)
- {
- 	int ret = 0;
-@@ -1002,6 +1117,38 @@ int dpe_regulator_enable(struct dss_hw_ctx *ctx)
- 	return ret;
- }
- 
-+int dpe_regulator_disable(struct dss_hw_ctx *ctx)
-+{
-+	int ret = 0;
-+
-+	DRM_INFO("+. \n");
-+	if (NULL == ctx) {
-+		DRM_ERROR("NULL ptr.\n");
-+		return -EINVAL;
-+	}
-+
-+	#if defined (CONFIG_HISI_FB_970)
-+		dpe_set_clk_rate_on_pll0(ctx);
-+	#endif
-+
-+	ret = regulator_disable(ctx->dpe_regulator);
-+	if (ret != 0) {
-+		DRM_ERROR("dpe regulator_disable failed, error=%d!\n", ret);
-+		return -EINVAL;
-+	}
-+
-+	if (ctx->g_dss_version_tag != FB_ACCEL_KIRIN970) {
-+		ret = regulator_bulk_disable(1, ctx->mmbuf_regulator);
-+		if (ret != 0) {
-+			DRM_ERROR("mmbuf regulator_disable failed, error=%d!\n", ret);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	DRM_INFO("-. \n");
-+	return ret;
-+}
-+
- int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
- {
- 	struct dss_clk_rate *pdss_clk_rate = NULL;
-@@ -1009,20 +1156,19 @@ int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
- 	uint64_t dss_mmbuf_rate;
- 	int ret = 0;
- 
--	DRM_INFO("+. \n");
  	if (NULL == ctx) {
  		DRM_ERROR("NULL Pointer!\n");
+-		return -EINVAL;
++		return ;
+ 	}
+ 
+ 	dss_base = ctx->base;
+@@ -923,23 +844,6 @@ int dpe_irq_disable(struct dss_crtc *acrtc)
+ 	return 0;
+ }
+ 
+-void mds_regulator_enable(struct dss_hw_ctx *ctx)
+-{
+-	int ret = 0;
+-
+-	if (NULL == ctx) {
+-		DRM_ERROR("NULL ptr.\n");
+-		return -EINVAL;
+-	}
+-
+-	ret = regulator_bulk_enable(1, ctx->media_subsys_regulator);
+-	if (ret) {
+-		DRM_ERROR(" media subsys regulator_enable failed, error=%d!\n", ret);
+-	}
+-
+-	return ret;
+-}
+-
+ int dpe_common_clk_enable(struct dss_hw_ctx *ctx)
+ {
+ 	int ret = 0;
+@@ -1073,7 +977,6 @@ int dpe_inner_clk_enable(struct dss_hw_ctx *ctx)
+ 
+ int dpe_inner_clk_disable(struct dss_hw_ctx *ctx)
+ {
+-	int ret = 0;
+ 	struct clk *clk_tmp = NULL;
+ 
+ 	if (ctx == NULL) {
+@@ -1151,9 +1054,7 @@ int dpe_regulator_disable(struct dss_hw_ctx *ctx)
+ 
+ int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
+ {
+-	struct dss_clk_rate *pdss_clk_rate = NULL;
+-	uint64_t dss_pri_clk_rate;
+-	uint64_t dss_mmbuf_rate;
++	uint64_t clk_rate;
+ 	int ret = 0;
+ 
+ 	if (NULL == ctx) {
+@@ -1161,21 +1062,14 @@ int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
  		return -EINVAL;
  	}
  
-+#if 0
- 	pdss_clk_rate = get_dss_clk_rate(ctx);
- 	if (NULL == pdss_clk_rate) {
- 		DRM_ERROR("NULL Pointer!\n");
+-#if 0
+-	pdss_clk_rate = get_dss_clk_rate(ctx);
+-	if (NULL == pdss_clk_rate) {
+-		DRM_ERROR("NULL Pointer!\n");
+-		return -EINVAL;
+-	}
+-#endif
++	clk_rate = DEFAULT_DSS_CORE_CLK_RATE_L1;
+ 	ret = clk_set_rate(ctx->dss_pri_clk, DEFAULT_DSS_CORE_CLK_RATE_L1);
+ 	if (ret < 0) {
+-		DRM_ERROR("dss_pri_clk clk_set_rate(%llu) failed, error=%d!\n",
+-			dss_pri_clk_rate, ret);
++		DRM_ERROR("dss_pri_clk clk_set_rate failed, error=%d!\n", ret);
  		return -EINVAL;
  	}
--
--	dss_pri_clk_rate = pdss_clk_rate->dss_pri_clk_rate;
--	ret = clk_set_rate(ctx->dss_pri_clk, dss_pri_clk_rate);
-+#endif
-+	ret = clk_set_rate(ctx->dss_pri_clk, DEFAULT_DSS_CORE_CLK_RATE_L1);
- 	if (ret < 0) {
- 		DRM_ERROR("dss_pri_clk clk_set_rate(%llu) failed, error=%d!\n",
- 			dss_pri_clk_rate, ret);
-@@ -1045,8 +1191,7 @@ int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
+ 	DRM_INFO("dss_pri_clk:[%llu]->[%llu].\n",
+-		dss_pri_clk_rate, (uint64_t)clk_get_rate(ctx->dss_pri_clk));
++		clk_rate, (uint64_t)clk_get_rate(ctx->dss_pri_clk));
+ 
+ #if 0 /* it will be set on dss_ldi_set_mode func */
+ 	ret = clk_set_rate(ctx->dss_pxl0_clk, pinfo->pxl_clk_rate);
+@@ -1191,24 +1085,21 @@ int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
  			pinfo->pxl_clk_rate, (uint64_t)clk_get_rate(ctx->dss_pxl0_clk));
  #endif
  
--	dss_mmbuf_rate = pdss_clk_rate->dss_mmbuf_rate;
--	ret = clk_set_rate(ctx->dss_mmbuf_clk, dss_mmbuf_rate);
-+	ret = clk_set_rate(ctx->dss_mmbuf_clk, DEFAULT_DSS_MMBUF_CLK_RATE_L1);
++	clk_rate = DEFAULT_DSS_MMBUF_CLK_RATE_L1;
+ 	ret = clk_set_rate(ctx->dss_mmbuf_clk, DEFAULT_DSS_MMBUF_CLK_RATE_L1);
  	if (ret < 0) {
- 		DRM_ERROR("dss_mmbuf clk_set_rate(%llu) failed, error=%d!\n",
- 			dss_mmbuf_rate, ret);
-@@ -1058,3 +1203,44 @@ int dpe_set_clk_rate(struct dss_hw_ctx *ctx)
+-		DRM_ERROR("dss_mmbuf clk_set_rate(%llu) failed, error=%d!\n",
+-			dss_mmbuf_rate, ret);
++		DRM_ERROR("dss_mmbuf clk_set_rate failed, error=%d!\n", ret);
+ 		return -EINVAL;
+ 	}
+ 
+ 	DRM_INFO("dss_mmbuf_clk:[%llu]->[%llu].\n",
+-		dss_mmbuf_rate, (uint64_t)clk_get_rate(ctx->dss_mmbuf_clk));
++		clk_rate, (uint64_t)clk_get_rate(ctx->dss_mmbuf_clk));
  
  	return ret;
  }
-+
-+int dpe_set_clk_rate_on_pll0(struct dss_hw_ctx *ctx)
-+{
-+	struct dss_clk_rate *pdss_clk_rate = NULL;
-+	uint64_t dss_pri_clk_rate;
-+	uint64_t dss_mmbuf_rate;
-+	int ret;
-+	uint64_t clk_rate;
-+
-+	DRM_INFO("+. \n");
-+	if (NULL == ctx) {
-+		DRM_ERROR("NULL Pointer!\n");
-+		return -EINVAL;
-+	}
-+
-+	clk_rate = DEFAULT_DSS_MMBUF_CLK_RATE_POWER_OFF;
-+	ret = clk_set_rate(ctx->dss_mmbuf_clk, clk_rate);
-+	if (ret < 0) {
-+		DRM_ERROR("dss_mmbuf clk_set_rate(%llu) failed, error=%d!\n", clk_rate, ret);
-+		return -EINVAL;
-+	}
-+	DRM_INFO("dss_mmbuf_clk:[%llu]->[%llu].\n", clk_rate, (uint64_t)clk_get_rate(ctx->dss_mmbuf_clk));
-+
-+	clk_rate = DEFAULT_DSS_CORE_CLK_RATE_POWER_OFF;
-+	ret = clk_set_rate(ctx->dss_pri_clk, clk_rate);
-+	if (ret < 0) {
-+		DRM_ERROR("dss_pri_clk clk_set_rate(%llu) failed, error=%d!\n", clk_rate, ret);
-+		return -EINVAL;
-+	}
-+	DRM_INFO("dss_pri_clk:[%llu]->[%llu].\n", clk_rate, (uint64_t)clk_get_rate(ctx->dss_pri_clk));
-+
-+	clk_rate = DEFAULT_DSS_PXL0_CLK_RATE_POWER_OFF;
-+	ret = clk_set_rate(ctx->dss_pxl0_clk, clk_rate);
-+	if (ret < 0) {
-+		DRM_ERROR("dss_pxl0_clk clk_set_rate(%llu) failed, error=%d!\n", clk_rate, ret);
-+		return -EINVAL;
-+	}
-+	DRM_INFO("dss_pxl0_clk:[%llu]->[%llu].\n", clk_rate, (uint64_t)clk_get_rate(ctx->dss_pxl0_clk));
-+
-+	return ret;
-+}
+ 
+ int dpe_set_clk_rate_on_pll0(struct dss_hw_ctx *ctx)
+ {
+-	struct dss_clk_rate *pdss_clk_rate = NULL;
+-	uint64_t dss_pri_clk_rate;
+-	uint64_t dss_mmbuf_rate;
+ 	int ret;
+ 	uint64_t clk_rate;
+ 
 diff --git a/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.h b/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.h
-index 638890615656..d62ea734319b 100644
+index d62ea734319b..f27e01cb43f8 100644
 --- a/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.h
 +++ b/drivers/staging/hikey9xx/gpu/kirin_drm_dpe_utils.h
-@@ -38,19 +38,27 @@ void enable_ldi(struct dss_crtc *acrtc);
- void disable_ldi(struct dss_crtc *acrtc);
- 
- void dss_inner_clk_pdp_enable(struct dss_hw_ctx *ctx);
-+void dss_inner_clk_pdp_disable(struct dss_hw_ctx *ctx);
- void dss_inner_clk_common_enable(struct dss_hw_ctx *ctx);
-+void dss_inner_clk_common_disable(struct dss_hw_ctx *ctx);
- void dpe_interrupt_clear(struct dss_crtc *acrtc);
- void dpe_interrupt_unmask(struct dss_crtc *acrtc);
- void dpe_interrupt_mask(struct dss_crtc *acrtc);
- int dpe_common_clk_enable(struct dss_hw_ctx *ctx);
-+int dpe_common_clk_disable(struct dss_hw_ctx *ctx);
- int dpe_inner_clk_enable(struct dss_hw_ctx *ctx);
-+int dpe_inner_clk_disable(struct dss_hw_ctx *ctx);
- int dpe_regulator_enable(struct dss_hw_ctx *ctx);
-+int dpe_regulator_disable(struct dss_hw_ctx *ctx);
- int dpe_set_clk_rate(struct dss_hw_ctx *ctx);
- 
- int dpe_irq_enable(struct dss_crtc *acrtc);
- int dpe_irq_disable(struct dss_crtc *acrtc);
+@@ -57,7 +57,7 @@ int dpe_irq_disable(struct dss_crtc *acrtc);
  
  int dpe_init(struct dss_crtc *acrtc);
-+int dpe_deinit(struct dss_crtc *acrtc);
-+void dpe_check_itf_status(acrtc);
-+int dpe_set_clk_rate_on_pll0(struct dss_hw_ctx *ctx);
+ int dpe_deinit(struct dss_crtc *acrtc);
+-void dpe_check_itf_status(acrtc);
++void dpe_check_itf_status(struct dss_crtc *acrtc);
+ int dpe_set_clk_rate_on_pll0(struct dss_hw_ctx *ctx);
  
  void hisifb_dss_on(struct dss_hw_ctx *ctx);
- void hisi_dss_mctl_on(struct dss_hw_ctx *ctx);
 diff --git a/drivers/staging/hikey9xx/gpu/kirin_drm_drv.c b/drivers/staging/hikey9xx/gpu/kirin_drm_drv.c
-index 4ae411b29cf4..a92594553b80 100644
+index a92594553b80..958aafa1a09c 100644
 --- a/drivers/staging/hikey9xx/gpu/kirin_drm_drv.c
 +++ b/drivers/staging/hikey9xx/gpu/kirin_drm_drv.c
-@@ -372,6 +372,36 @@ static int kirin_drm_platform_remove(struct platform_device *pdev)
+@@ -374,8 +374,6 @@ static int kirin_drm_platform_remove(struct platform_device *pdev)
+ 
+ static int kirin_drm_platform_suspend(struct platform_device *pdev, pm_message_t state)
+ {
+-	struct device *dev = &pdev->dev;
+-
+ 	DRM_INFO("+. pdev->name is %s, m_message is %d \n", pdev->name, state.event);
+ 	if (!dc_ops) {
+ 		DRM_ERROR("dc_ops is NULL\n");
+@@ -383,22 +381,17 @@ static int kirin_drm_platform_suspend(struct platform_device *pdev, pm_message_t
+ 	}
+ 	dc_ops->suspend(pdev, state);
+ 
+-	DRM_INFO("-. \n");
  	return 0;
  }
  
-+static int kirin_drm_platform_suspend(struct platform_device *pdev, pm_message_t state)
-+{
-+	struct device *dev = &pdev->dev;
-+
-+	DRM_INFO("+. pdev->name is %s, m_message is %d \n", pdev->name, state.event);
-+	if (!dc_ops) {
-+		DRM_ERROR("dc_ops is NULL\n");
-+		return -EINVAL;
-+	}
-+	dc_ops->suspend(pdev, state);
-+
-+	DRM_INFO("-. \n");
-+	return 0;
-+}
-+
-+static int kirin_drm_platform_resume(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+
-+	DRM_INFO("+. pdev->name is %s \n", pdev->name);
-+	if (!dc_ops) {
-+		DRM_ERROR("dc_ops is NULL\n");
-+		return -EINVAL;
-+	}
-+	dc_ops->resume(pdev);
-+
-+	DRM_INFO("-. \n");
-+	return 0;
-+}
-+
- static const struct of_device_id kirin_drm_dt_ids[] = {
- 	{ .compatible = "hisilicon,hi3660-dpe",
- 	  .data = &dss_dc_ops,
-@@ -386,6 +416,8 @@ MODULE_DEVICE_TABLE(of, kirin_drm_dt_ids);
- static struct platform_driver kirin_drm_platform_driver = {
- 	.probe = kirin_drm_platform_probe,
- 	.remove = kirin_drm_platform_remove,
-+	.suspend = kirin_drm_platform_suspend,
-+	.resume = kirin_drm_platform_resume,
- 	.driver = {
- 		.name = "kirin-drm",
- 		.of_match_table = kirin_drm_dt_ids,
-diff --git a/drivers/staging/hikey9xx/gpu/kirin_drm_drv.h b/drivers/staging/hikey9xx/gpu/kirin_drm_drv.h
-index 3aee36a40749..697955a8e96c 100644
---- a/drivers/staging/hikey9xx/gpu/kirin_drm_drv.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin_drm_drv.h
-@@ -29,6 +29,8 @@
- struct kirin_dc_ops {
- 	int (*init)(struct drm_device *dev);
- 	void (*cleanup)(struct drm_device *dev);
-+	int (*suspend)(struct platform_device *pdev, pm_message_t state);
-+	int (*resume)(struct platform_device *pdev);
- };
+ static int kirin_drm_platform_resume(struct platform_device *pdev)
+ {
+-	struct device *dev = &pdev->dev;
+-
+-	DRM_INFO("+. pdev->name is %s \n", pdev->name);
+ 	if (!dc_ops) {
+ 		DRM_ERROR("dc_ops is NULL\n");
+ 		return -EINVAL;
+ 	}
+ 	dc_ops->resume(pdev);
  
- struct kirin_drm_private {
+-	DRM_INFO("-. \n");
+ 	return 0;
+ }
+ 
 diff --git a/drivers/staging/hikey9xx/gpu/kirin_drm_dss.c b/drivers/staging/hikey9xx/gpu/kirin_drm_dss.c
-index fe9d8f7166df..b5ac4d7ae829 100644
+index b5ac4d7ae829..b13efd9b9735 100644
 --- a/drivers/staging/hikey9xx/gpu/kirin_drm_dss.c
 +++ b/drivers/staging/hikey9xx/gpu/kirin_drm_dss.c
-@@ -43,7 +43,7 @@
- #include "kirin_dpe_reg.h"
+@@ -265,7 +265,7 @@ static void dss_ldi_set_mode(struct dss_crtc *acrtc)
+ 		if (mode->clock == 148500)
+ 			clk_Hz = 144000 * 1000UL;
+ 		else if (mode->clock == 83496)
+-			clk_Hz = 80000 * 1000UL;
++			clk_Hz = 84000 * 1000UL;
+ 		else if (mode->clock == 74440)
+ 			clk_Hz = 72000 * 1000UL;
+ 		else if (mode->clock == 74250)
+@@ -282,7 +282,7 @@ static void dss_ldi_set_mode(struct dss_crtc *acrtc)
+ 		 */
+ 		ret = clk_set_rate(ctx->dss_pxl0_clk, clk_Hz);
+ 		if (ret) {
+-			DRM_ERROR("failed to set pixel clk %dHz (%d)\n", clk_Hz, ret);
++			DRM_ERROR("failed to set pixel clk %llu Hz (%d)\n", clk_Hz, ret);
+ 		}
  #endif
+ 		adj_mode->clock = clk_Hz / 1000;
+@@ -304,20 +304,20 @@ static void dss_ldi_set_mode(struct dss_crtc *acrtc)
+ 		 */
+ 		ret = clk_set_rate(ctx->dss_pxl0_clk, clk_Hz);
+ 		if (ret) {
+-			DRM_ERROR("failed to set pixel clk %dHz (%d)\n", clk_Hz, ret);
++			DRM_ERROR("failed to set pixel clk %llu Hz (%d)\n", clk_Hz, ret);
+ 		}
+ 		adj_mode->clock = clk_get_rate(ctx->dss_pxl0_clk) / 1000;
+ 	}
  
--#define DSS_POWER_UP_ON_UEFI
-+//#define DSS_POWER_UP_ON_UEFI
+-	DRM_INFO("dss_pxl0_clk [%llu]->[%llu] \n", clk_Hz, clk_get_rate(ctx->dss_pxl0_clk));
++	DRM_INFO("dss_pxl0_clk [%llu]->[%lu] \n", clk_Hz, clk_get_rate(ctx->dss_pxl0_clk));
  
- #if defined (CONFIG_HISI_FB_970)
- #define DTS_COMP_DSS_NAME "hisilicon,kirin970-dpe"
-@@ -320,7 +320,6 @@ static int dss_power_up(struct dss_crtc *acrtc)
+ 	dpe_init(acrtc);
+ }
+ 
+ static int dss_power_up(struct dss_crtc *acrtc)
+ {
+-	int ret;
  	struct dss_hw_ctx *ctx = acrtc->ctx;
++	int ret = 0;
  
  #if defined (CONFIG_HISI_FB_970)
--	//mds_regulator_enable(ctx);
  	dpe_common_clk_enable(ctx);
- 	dpe_inner_clk_enable(ctx);
- 	#ifndef DSS_POWER_UP_ON_UEFI
-@@ -371,17 +370,29 @@ static int dss_power_up(struct dss_crtc *acrtc)
- 	return 0;
- }
+@@ -367,7 +367,8 @@ static int dss_power_up(struct dss_crtc *acrtc)
+ 	dpe_interrupt_unmask(acrtc);
  
--#if 0
- static void dss_power_down(struct dss_crtc *acrtc)
- {
- 	struct dss_hw_ctx *ctx = acrtc->ctx;
- 
- 	dpe_interrupt_mask(acrtc);
- 	dpe_irq_disable(acrtc);
-+	dpe_deinit(acrtc);
- 
-+	//FIXME:
-+	dpe_check_itf_status(acrtc);
-+	dss_inner_clk_pdp_disable(ctx);
+ 	ctx->power_on = true;
+-	return 0;
 +
-+	if (ctx->g_dss_version_tag & FB_ACCEL_KIRIN970 ) {
-+		dpe_inner_clk_disable(ctx);
-+		dpe_common_clk_disable(ctx);
-+		dpe_regulator_disable(ctx);
-+	} else {
-+		dpe_regulator_disable(ctx);
-+		dpe_inner_clk_disable(ctx);
-+		dpe_common_clk_disable(ctx);
-+	}
- 	ctx->power_on = false;
++	return ret;
  }
--#endif
  
- static int dss_enable_vblank(struct drm_device *dev, unsigned int pipe)
- {
-@@ -478,7 +489,7 @@ static void dss_crtc_disable(struct drm_crtc *crtc)
- 	if (!acrtc->enable)
- 		return;
+ static void dss_power_down(struct dss_crtc *acrtc)
+@@ -427,8 +428,6 @@ static irqreturn_t dss_irq_handler(int irq, void *data)
  
--	/*dss_power_down(acrtc);*/
-+	dss_power_down(acrtc);
- 	acrtc->enable = false;
- 	drm_crtc_vblank_off(crtc);
- }
-@@ -621,6 +632,7 @@ static int dss_plane_atomic_check(struct drm_plane *plane,
+ 	u32 isr_s1 = 0;
+ 	u32 isr_s2 = 0;
+-	u32 isr_s2_dpp = 0;
+-	u32 isr_s2_smmu = 0;
+ 	u32 mask = 0;
+ 
+ 	isr_s1 = inp32(dss_base + GLB_CPU_PDP_INTS);
+@@ -632,7 +631,6 @@ static int dss_plane_atomic_check(struct drm_plane *plane,
  static void dss_plane_atomic_update(struct drm_plane *plane,
  				    struct drm_plane_state *old_state)
  {
-+	struct drm_atomic_state *atomic_state;
+-	struct drm_atomic_state *atomic_state;
  	hisi_fb_pan_display(plane);
  }
  
-@@ -932,7 +944,36 @@ static void dss_drm_cleanup(struct drm_device *dev)
- 	drm_crtc_cleanup(crtc);
- }
+@@ -731,7 +729,6 @@ static int dss_dts_parse(struct platform_device *pdev, struct dss_hw_ctx *ctx)
+ 		DRM_ERROR ("failed to get dss base resource.\n");
+ 		return -ENXIO;
+ 	}
+-	DRM_INFO("dss base =0x%x.\n", ctx->base);
  
-+static int  dss_drm_suspend(struct platform_device *pdev, pm_message_t state)
-+{
-+	struct dss_data *dss = platform_get_drvdata(pdev);
-+	struct drm_crtc *crtc = &dss->acrtc.base;
-+
-+	DRM_INFO("+. platform_device name is %s \n", pdev->name);
-+	dss_crtc_disable(crtc);
-+
-+	DRM_INFO("-. \n");
-+
-+	return 0;
-+}
-+
-+static int  dss_drm_resume(struct platform_device *pdev)
-+{
-+	struct dss_data *dss = platform_get_drvdata(pdev);
-+	struct drm_crtc *crtc = &dss->acrtc.base;
-+
-+	DRM_INFO("+. platform_device name is %s \n", pdev->name);
-+
-+	dss_crtc_mode_set_nofb(crtc);
-+	dss_crtc_enable(crtc);
-+
-+	DRM_INFO("-. \n");
-+	return 0;
-+}
-+
- const struct kirin_dc_ops dss_dc_ops = {
- 	.init = dss_drm_init,
--	.cleanup = dss_drm_cleanup
-+	.cleanup = dss_drm_cleanup,
-+	.suspend = dss_drm_suspend,
-+	.resume = dss_drm_resume,
- };
+ 	ctx->peri_crg_base  = of_iomap(np, 1);
+ 	if (!(ctx->peri_crg_base)) {
 diff --git a/drivers/staging/hikey9xx/gpu/kirin_drm_overlay_utils.c b/drivers/staging/hikey9xx/gpu/kirin_drm_overlay_utils.c
-index 3023620342ed..5ec71ec53e23 100644
+index 5ec71ec53e23..b1081cac5c1c 100644
 --- a/drivers/staging/hikey9xx/gpu/kirin_drm_overlay_utils.c
 +++ b/drivers/staging/hikey9xx/gpu/kirin_drm_overlay_utils.c
-@@ -1202,7 +1202,6 @@ int hisi_dss_ovl_base_config(struct dss_hw_ctx *ctx, u32 xres, u32 yres)
- 		return -1;
- 	}
- 
--	DRM_INFO("+. \n");
- 	mctl_sys_base = ctx->base + DSS_MCTRL_SYS_OFFSET;
- 	mctl_base = ctx->base +
- 		g_dss_module_ovl_base[DSS_OVL0][MODULE_MCTL_BASE];
-@@ -1248,8 +1247,6 @@ int hisi_dss_ovl_base_config(struct dss_hw_ctx *ctx, u32 xres, u32 yres)
- 	set_reg(mctl_base + MCTL_CTL_MUTEX_OV, 1 << DSS_OVL0, 4, 0);
- 	set_reg(mctl_sys_base + MCTL_OV0_FLUSH_EN, 0xd, 4, 0);
- 
--	DRM_INFO("-. \n");
--
- 	return 0;
- }
- 
-@@ -1361,15 +1358,12 @@ void hisi_dss_smmu_on(struct dss_hw_ctx *ctx)
+@@ -1356,7 +1356,6 @@ void hisi_dss_smmu_on(struct dss_hw_ctx *ctx)
+ 	struct iommu_domain_data *domain_data = NULL;
+ 	uint32_t phy_pgd_base = 0;
  	uint64_t fama_phy_pgd_base;
- 	uint32_t fama_ptw_msb;
+-	uint32_t fama_ptw_msb;
  
--	DRM_INFO("+. \n");
  	if (!ctx) {
  		DRM_ERROR("ctx is NULL!\n");
- 		return;
- 	}
- 
--	DRM_INFO("ctx->base = 0x%x \n", ctx->base);
- 	smmu_base = ctx->base + DSS_SMMU_OFFSET;
--	DRM_INFO("smmu_base = 0x%x \n", smmu_base);
- 
- 	set_reg(smmu_base + SMMU_SCR, 0x0, 1, 0);  /*global bypass cancel*/
- 	set_reg(smmu_base + SMMU_SCR, 0x1, 8, 20); /*ptw_mid*/
-@@ -1398,8 +1392,6 @@ void hisi_dss_smmu_on(struct dss_hw_ctx *ctx)
- 	phy_pgd_base = (uint32_t)(domain_data->phy_pgd_base);
- 	DRM_DEBUG("fama_phy_pgd_base = %llu, phy_pgd_base =0x%x \n", fama_phy_pgd_base, phy_pgd_base);
- 	set_reg(smmu_base + SMMU_CB_TTBR0, phy_pgd_base, 32, 0);
--
--	DRM_INFO("-. \n");
- }
- 
- void hisifb_dss_on(struct dss_hw_ctx *ctx)
-@@ -1452,11 +1444,54 @@ void hisi_dss_unflow_handler(struct dss_hw_ctx *ctx, bool unmask)
- 	outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK, tmp);
- }
- 
--static int hisi_dss_wait_for_complete(struct dss_hw_ctx *ctx)
-+void hisifb_mctl_sw_clr(struct dss_crtc *acrtc)
-+{
-+	char __iomem *mctl_base = NULL;
-+	struct dss_hw_ctx *ctx = acrtc->ctx;
-+	int mctl_idx;
-+	int mctl_status;
-+	int delay_count = 0;
-+	bool is_timeout;
-+
-+	DRM_INFO("+.\n");
-+	if (!ctx) {
-+		DRM_ERROR("ctx is NULL!\n");
-+		return;
-+	}
-+
-+	mctl_base = ctx->base +
-+		g_dss_module_ovl_base[DSS_MCTL0][MODULE_MCTL_BASE];
-+
-+	if (mctl_base) {
-+		set_reg(mctl_base + MCTL_CTL_CLEAR, 0x1, 1, 0);
-+	}
-+
-+	while (1) {
-+		mctl_status = inp32(mctl_base + MCTL_CTL_STATUS);
-+		if (((mctl_status & 0x10) == 0) || (delay_count > 500)) {
-+			is_timeout = (delay_count > 100) ? true : false;
-+			delay_count = 0;
-+			break;
-+		} else {
-+			udelay(1);
-+			++delay_count;
-+		}
-+	}
-+
-+	if (is_timeout) {
-+		DRM_ERROR("mctl_status =0x%x !\n", mctl_status);
-+	}
-+
-+	enable_ldi(acrtc);
-+	DRM_INFO("-.\n");
-+}
-+
-+static int hisi_dss_wait_for_complete(struct dss_crtc *acrtc)
+@@ -1448,7 +1447,6 @@ void hisifb_mctl_sw_clr(struct dss_crtc *acrtc)
  {
- 	int ret = 0;
- 	u32 times = 0;
- 	u32 prev_vactive0_end = 0;
-+	struct dss_hw_ctx *ctx = acrtc->ctx;
+ 	char __iomem *mctl_base = NULL;
+ 	struct dss_hw_ctx *ctx = acrtc->ctx;
+-	int mctl_idx;
+ 	int mctl_status;
+ 	int delay_count = 0;
+ 	bool is_timeout;
+@@ -1546,7 +1544,6 @@ void hisi_fb_pan_display(struct drm_plane *plane)
+ 	u32 display_addr = 0;
+ 	u32 hal_fmt;
+ 	int chn_idx = DSS_RCHN_D2;
+-	char filename[256] = {0};
  
- 	prev_vactive0_end = ctx->vactive0_end_flag;
+ 	int crtc_x = state->crtc_x;
+ 	int crtc_y = state->crtc_y;
+diff --git a/drivers/staging/hikey9xx/gpu/kirin_fb_panel.h b/drivers/staging/hikey9xx/gpu/kirin_fb_panel.h
+index d5be79490b03..0f69af49a355 100644
+--- a/drivers/staging/hikey9xx/gpu/kirin_fb_panel.h
++++ b/drivers/staging/hikey9xx/gpu/kirin_fb_panel.h
+@@ -184,14 +184,9 @@ int vcc_cmds_tx(struct platform_device *pdev, struct vcc_desc *cmds, int cnt);
+ int pinctrl_cmds_tx(struct platform_device *pdev, struct pinctrl_cmd_desc *cmds, int cnt);
+ int gpio_cmds_tx(struct gpio_desc *cmds, int cnt);
+ extern struct spi_device *g_spi_dev;
+-int spi_cmds_tx(struct spi_device *spi, struct spi_cmd_desc *cmds, int cnt);
+ int hisi_pwm_set_backlight(struct backlight_device *bl, uint32_t bl_level);
  
-@@ -1473,6 +1508,8 @@ static int hisi_dss_wait_for_complete(struct dss_hw_ctx *ctx)
- 	}
+ int hisi_pwm_off(void);
+ int hisi_pwm_on(void);
  
- 	if (ret <= 0) {
-+		disable_ldi(acrtc);
-+		hisifb_mctl_sw_clr(acrtc);
- 		DRM_ERROR("wait_for vactive0_end_flag timeout! ret=%d.\n", ret);
- 
- 		ret = -ETIMEDOUT;
-@@ -1547,7 +1584,7 @@ void hisi_fb_pan_display(struct drm_plane *plane)
- 	rect.bottom = src_h - 1;
- 	hal_fmt = HISI_FB_PIXEL_FORMAT_BGRA_8888;//dss_get_format(fb->pixel_format);
- 
--	DRM_DEBUG("channel%d: src:(%d,%d, %dx%d) crtc:(%d,%d, %dx%d), rect(%d,%d,%d,%d),"
-+	DRM_DEBUG_DRIVER("channel%d: src:(%d,%d, %dx%d) crtc:(%d,%d, %dx%d), rect(%d,%d,%d,%d),"
- 		"fb:%dx%d, pixel_format=%d, stride=%d, paddr=0x%x, bpp=%d, bits_per_pixel=%d.\n",
- 		chn_idx, src_x, src_y, src_w, src_h,
- 		crtc_x, crtc_y, crtc_w, crtc_h,
-@@ -1577,7 +1614,7 @@ void hisi_fb_pan_display(struct drm_plane *plane)
- 	hisi_dss_unflow_handler(ctx, true);
- 
- 	enable_ldi(acrtc);
--	hisi_dss_wait_for_complete(ctx);
-+	hisi_dss_wait_for_complete(acrtc);
- }
- 
- void hisi_dss_online_play(struct kirin_fbdev *fbdev, struct drm_plane *plane, drm_dss_layer_t *layer)
-@@ -1646,5 +1683,5 @@ void hisi_dss_online_play(struct kirin_fbdev *fbdev, struct drm_plane *plane, dr
- 	hisi_dss_unflow_handler(ctx, true);
- 
- 	enable_ldi(acrtc);
--	hisi_dss_wait_for_complete(ctx);
-+	hisi_dss_wait_for_complete(acrtc);
- }
+-int hisi_lcd_backlight_on(struct drm_panel *p);
+-int hisi_lcd_backlight_off(struct drm_panel *p);
+-
+-
+ #endif /* KIRIN_FB_PANEL_H */
 diff --git a/drivers/staging/hikey9xx/gpu/kirin_fbdev.c b/drivers/staging/hikey9xx/gpu/kirin_fbdev.c
-index 496196997f6b..80e3dd713914 100644
+index 80e3dd713914..5d09cf3784a5 100644
 --- a/drivers/staging/hikey9xx/gpu/kirin_fbdev.c
 +++ b/drivers/staging/hikey9xx/gpu/kirin_fbdev.c
-@@ -194,8 +194,7 @@ static int kirin_fbdev_mmap(struct fb_info *info, struct vm_area_struct * vma)
+@@ -114,7 +114,7 @@ unsigned long kirin_alloc_fb_buffer(struct kirin_fbdev *fbdev, int size)
+ 	fbdev->ion_client = client;
+ 	fbdev->ion_handle = handle;
+ 
+-	DRM_INFO("fbdev->smem_start = 0x%x, fbdev->screen_base = 0x%x\n",
++	DRM_INFO("fbdev->smem_start = 0x%lu, fbdev->screen_base = 0x%p\n",
+ 		fbdev->smem_start, fbdev->screen_base);
+ 
+ 	return buf_addr;
+@@ -164,12 +164,12 @@ static int kirin_fbdev_mmap(struct fb_info *info, struct vm_area_struct * vma)
+ 	addr = vma->vm_start;
+ 	offset = vma->vm_pgoff * PAGE_SIZE;
+ 	size = vma->vm_end - vma->vm_start;
+-	DRM_INFO("addr = 0x%x, offset = %d, size = %d!\n", addr, offset, size);
++	DRM_INFO("addr = 0x%lu, offset = 0x%lu, size = %lu!\n", addr, offset, size);
+ 	if (size > info->fix.smem_len) {
+ 		DRM_ERROR("size=%lu is out of range(%u)!\n", size, info->fix.smem_len);
+ 		return -EFAULT;
+ 	}
+-	DRM_INFO("fbdev->smem_start = 0x%x, fbdev->screen_base = 0x%x\n",
++	DRM_INFO("fbdev->smem_start = 0x%lu, fbdev->screen_base = 0x%p\n",
+ 		fbdev->smem_start, fbdev->screen_base);
+ 
+ 	for_each_sg(table->sgl, sg, table->nents, i) {
+@@ -194,12 +194,12 @@ static int kirin_fbdev_mmap(struct fb_info *info, struct vm_area_struct * vma)
  
  		addr += len;
  		if (addr >= vma->vm_end) {
--			DRM_ERROR("addr = 0x%x!, vma->vm_end = 0x%x\n", addr, vma->vm_end);
--
-+			DRM_INFO("addr = 0x%x!, vma->vm_end = 0x%x\n", addr, vma->vm_end);
+-			DRM_INFO("addr = 0x%x!, vma->vm_end = 0x%x\n", addr, vma->vm_end);
++			DRM_INFO("addr = 0x%lu!, vma->vm_end = 0x%lu \n", addr, vma->vm_end);
  			return 0;
  		}
  	}
+ 
+-	DRM_INFO("kirin_fbdev_mmap addr = 0x%x!\n", addr);
++	DRM_INFO("kirin_fbdev_mmap addr = 0x%lu!\n", addr);
+ 
+ 	return 0;
+ }
 -- 
 2.26.2
 
