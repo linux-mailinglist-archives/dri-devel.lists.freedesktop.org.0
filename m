@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC7824AA11
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 01:56:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DC924AA16
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 01:56:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01EA76E882;
-	Wed, 19 Aug 2020 23:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5566E885;
+	Wed, 19 Aug 2020 23:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9316E882
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 23:56:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFEF6E882
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 23:56:40 +0000 (UTC)
 Received: from localhost (unknown [70.37.104.77])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BB9D621744;
- Wed, 19 Aug 2020 23:56:34 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 38189208E4;
+ Wed, 19 Aug 2020 23:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597881394;
- bh=clNqGInZpcU+sLDTIvIChzWr8ATSGgZvfk4+nx2hB2U=;
- h=Date:From:To:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:
- From;
- b=cRPLAgRBIZGi9peqzU372KKon83fIunlNQQHRbXFGjy5YIyMydT3kzDJCgXkRKSYQ
- jVRDUpCIhk/RRyyhY19NHYyvjqLg1JEjwfdeeOTnONtCBShF5WTpi/iKtQ8btc5fIu
- 08sS7p9x2nCBSoZsLGId8uw1E7FmuJTvfaSMKd4s=
-Date: Wed, 19 Aug 2020 23:56:34 +0000
+ s=default; t=1597881400;
+ bh=Ff3pPByYsjxQjLFzhs86VHkGguD+kfERdf1KDCRglXo=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:In-Reply-To:
+ References:From;
+ b=1TWCRoWvJt0FJh9j6cMjsvRIJhym0XuhTj7w7nNMR+81x8BUkyn9w6rSRHJekXIJM
+ uN8bWZelOYYpJbTwEldapiea7V+XM+KqQAhdols7qZ2e1TzJCjFiwvWhP1b1ue8Qnd
+ vRGfCpvTYppba78YkGcxPvrByKWNIn/Ssi6XaQ74=
+Date: Wed, 19 Aug 2020 23:56:39 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
-To: Oleksandr Andrushchenko <andr2000@gmail.com>
-To: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-To: xen-devel@lists.xenproject.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/5] drm/xen-front: Fix misused IS_ERR_OR_NULL checks
-In-Reply-To: <20200813062113.11030-3-andr2000@gmail.com>
-References: <20200813062113.11030-3-andr2000@gmail.com>
-Message-Id: <20200819235634.BB9D621744@mail.kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org
+Subject: Re: [PATCH v1 3/4] drm/ast: Add commit-tail function
+In-Reply-To: <20200805105428.2590-4-tzimmermann@suse.de>
+References: <20200805105428.2590-4-tzimmermann@suse.de>
+Message-Id: <20200819235640.38189208E4@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,7 +46,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sstabellini@kernel.org, stable@vger.kernel.org, dan.carpenter@oracle.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -59,19 +62,28 @@ Hi
 [This is an automated email]
 
 This commit has been processed because it contains a "Fixes:" tag
-fixing commit: c575b7eeb89f ("drm/xen-front: Add support for Xen PV display frontend").
+fixing commit: 4961eb60f145 ("drm/ast: Enable atomic modesetting").
 
-The bot has tested the following trees: v5.8.1, v5.7.15, v5.4.58, v4.19.139.
+The bot has tested the following trees: v5.8.1, v5.7.15.
 
-v5.8.1: Build OK!
-v5.7.15: Build OK!
-v5.4.58: Failed to apply! Possible dependencies:
-    4c1cb04e0e7a ("drm/xen: fix passing zero to 'PTR_ERR' warning")
-    93adc0c2cb72 ("drm/xen: Simplify fb_create")
+v5.8.1: Failed to apply! Possible dependencies:
+    05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
+    1728bf6402c3 ("drm/ast: Use managed mode-config init")
+    2ccebf561e4a ("drm/ast: Move cursor functions to ast_cursor.c")
+    6bb18c9be6d2 ("drm/ast: Init cursors before creating modesetting structures")
+    beb2355eecbf ("drm/ast: Pass struct ast_private instance to cursor init/fini functions")
+    e6949ff3ca85 ("drm/ast: Initialize mode setting in ast_mode_config_init()")
+    fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
 
-v4.19.139: Failed to apply! Possible dependencies:
-    4c1cb04e0e7a ("drm/xen: fix passing zero to 'PTR_ERR' warning")
-    93adc0c2cb72 ("drm/xen: Simplify fb_create")
+v5.7.15: Failed to apply! Possible dependencies:
+    05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
+    1728bf6402c3 ("drm/ast: Use managed mode-config init")
+    2ccebf561e4a ("drm/ast: Move cursor functions to ast_cursor.c")
+    3a53230e1c4b ("drm/ast: Make ast_primary_plane_helper_atomic_update static")
+    6bb18c9be6d2 ("drm/ast: Init cursors before creating modesetting structures")
+    beb2355eecbf ("drm/ast: Pass struct ast_private instance to cursor init/fini functions")
+    e6949ff3ca85 ("drm/ast: Initialize mode setting in ast_mode_config_init()")
+    fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
 
 
 NOTE: The patch will not be queued to stable trees until it is upstream.
