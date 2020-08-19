@@ -2,98 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC61249E85
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 14:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E66249F43
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 15:11:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0FC6E091;
-	Wed, 19 Aug 2020 12:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A771A6E090;
+	Wed, 19 Aug 2020 13:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C19E6E091;
- Wed, 19 Aug 2020 12:47:24 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id p24so26088695ejf.13;
- Wed, 19 Aug 2020 05:47:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ofiLBD11ztym2n8t2+uGH0YE04EZneU+jSMae7o1I5M=;
- b=SxVLT1IWx57JdiJr3jRgV/AbDj6NL2EhFpN8cH3qWy/+fORMDkvzLZl1jUtLT1zrpK
- ucw+vQI4VSrFJEI2OVWj/ke2BPAKYoPaou9lfdxgWvpT3Fe/sgEc22QakxeJtqY6ilM4
- sIUmSnb9al6rvCApEw5O419CwnJckMJRMwSUPP6a90WEb6b2hwanuA9asU1KHiEwqkfT
- lzu9156gTxDGo7sivPqRO+UPW3FtEnY4D8NVOTt4khfrFPijrXgxxssp+L5056lIXGzK
- xtjEte1Fty5k9eKO/3Nzd97ft5Jn/URjx/JS1B3KYjS+MHzUR/fqZ86hQKf7r2W+mUwy
- 80iw==
-X-Gm-Message-State: AOAM532p8/WWcDbjYFwhXYc4Hdp/Gimk9t/f88ae6rjiyEw4Ps+kClQK
- mpQJZvSMnxybHx7fzOHQZxE=
-X-Google-Smtp-Source: ABdhPJwjYFYo6GjkVx25OzW8lcJQOn4nqgvtFQ5Ps0Rw1zi+n1/06LXTg17kOGTvLfW6oLUq/AoLeg==
-X-Received: by 2002:a17:906:2717:: with SMTP id
- z23mr4108588ejc.19.1597841242948; 
- Wed, 19 Aug 2020 05:47:22 -0700 (PDT)
-Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
- by smtp.gmail.com with ESMTPSA id x10sm17384237eds.21.2020.08.19.05.47.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Aug 2020 05:47:22 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drm/virtio: Remove open-coded commit-tail function
-From: Jiri Slaby <jirislaby@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <20200709123339.547390-2-daniel.vetter@ffwll.ch>
- <5cb80369-75a5-fc83-4683-3a6fc2814104@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <5d6fe4a0-ed6f-c133-a25d-518147f2f5fe@kernel.org>
-Date: Wed, 19 Aug 2020 14:47:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22BD96E2D1;
+ Wed, 19 Aug 2020 13:11:36 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6BC432065F;
+ Wed, 19 Aug 2020 13:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597842695;
+ bh=vxq1i+5+rO8RGMcDRwl1Kl6llTi6GXYX5kfyPA4jblo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=skOvnyoi/s8DCceKzmupkt1jYOaWtFdAAqlQ/MFXOrVpqmMQl+hsMEEjs4HBhOLQu
+ 0c0ztyi4uXIKad6aYvYHUv3AbWF2jtioPUcwcQoAVMj74KG+/FMhByNjrec9UmAV0D
+ o/Yb0Ae9Hr3NDLzjtRMcTZ4PqnDnfMAucqQAMsmk=
+Date: Wed, 19 Aug 2020 15:11:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+Message-ID: <20200819131158.GA2591006@kroah.com>
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-2-allen.cryptic@gmail.com>
+ <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
+ <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
 MIME-Version: 1.0
-In-Reply-To: <5cb80369-75a5-fc83-4683-3a6fc2814104@kernel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,45 +54,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, David Airlie <airlied@linux.ie>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: ulf.hansson@linaro.org, jassisinghbrar@gmail.com, s.hauer@pengutronix.de,
+ manohar.vanga@gmail.com, airlied@linux.ie, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ linux1394-devel@lists.sourceforge.net, anton.ivanov@cambridgegreys.com,
+ devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ linux-atm-general@lists.sourceforge.net, 3chas3@gmail.com,
+ linux-input@vger.kernel.org, kuba@kernel.org, mporter@kernel.crashing.org,
+ jdike@addtoit.com, Kees Cook <keescook@chromium.org>, oakad@yahoo.com,
+ intel-gfx@lists.freedesktop.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
+ linux-mmc@vger.kernel.org, Allen Pais <allen.lkml@gmail.com>,
+ linux-spi@vger.kernel.org, alex.bou9@gmail.com,
+ Allen Pais <allen.cryptic@gmail.com>, stefanr@s5r6.in-berlin.de,
+ sre@kernel.org, linux-ntb@googlegroups.com,
+ Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
+ davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19. 08. 20, 14:43, Jiri Slaby wrote:
-> On 09. 07. 20, 14:33, Daniel Vetter wrote:
->> Exactly matches the one in the helpers.
+On Wed, Aug 19, 2020 at 07:00:53AM -0600, Jens Axboe wrote:
+> On 8/18/20 1:00 PM, James Bottomley wrote:
+> > On Mon, 2020-08-17 at 13:02 -0700, Jens Axboe wrote:
+> >> On 8/17/20 12:48 PM, Kees Cook wrote:
+> >>> On Mon, Aug 17, 2020 at 12:44:34PM -0700, Jens Axboe wrote:
+> >>>> On 8/17/20 12:29 PM, Kees Cook wrote:
+> >>>>> On Mon, Aug 17, 2020 at 06:56:47AM -0700, Jens Axboe wrote:
+> >>>>>> On 8/17/20 2:15 AM, Allen Pais wrote:
+> >>>>>>> From: Allen Pais <allen.lkml@gmail.com>
+> >>>>>>>
+> >>>>>>> In preparation for unconditionally passing the
+> >>>>>>> struct tasklet_struct pointer to all tasklet
+> >>>>>>> callbacks, switch to using the new tasklet_setup()
+> >>>>>>> and from_tasklet() to pass the tasklet pointer explicitly.
+> >>>>>>
+> >>>>>> Who came up with the idea to add a macro 'from_tasklet' that
+> >>>>>> is just container_of? container_of in the code would be
+> >>>>>> _much_ more readable, and not leave anyone guessing wtf
+> >>>>>> from_tasklet is doing.
+> >>>>>>
+> >>>>>> I'd fix that up now before everything else goes in...
+> >>>>>
+> >>>>> As I mentioned in the other thread, I think this makes things
+> >>>>> much more readable. It's the same thing that the timer_struct
+> >>>>> conversion did (added a container_of wrapper) to avoid the
+> >>>>> ever-repeating use of typeof(), long lines, etc.
+> >>>>
+> >>>> But then it should use a generic name, instead of each sub-system 
+> >>>> using some random name that makes people look up exactly what it
+> >>>> does. I'm not huge fan of the container_of() redundancy, but
+> >>>> adding private variants of this doesn't seem like the best way
+> >>>> forward. Let's have a generic helper that does this, and use it
+> >>>> everywhere.
+> >>>
+> >>> I'm open to suggestions, but as things stand, these kinds of
+> >>> treewide
+> >>
+> >> On naming? Implementation is just as it stands, from_tasklet() is
+> >> totally generic which is why I objected to it. from_member()? Not
+> >> great with naming... But I can see this going further and then we'll
+> >> suddenly have tons of these. It's not good for readability.
+> > 
+> > Since both threads seem to have petered out, let me suggest in
+> > kernel.h:
+> > 
+> > #define cast_out(ptr, container, member) \
+> > 	container_of(ptr, typeof(*container), member)
+> > 
+> > It does what you want, the argument order is the same as container_of
+> > with the only difference being you name the containing structure
+> > instead of having to specify its type.
 > 
-> It's not that exact. The order of modeset_enables and planes is
-> different. And this causes a regression -- no fb in qemu.
-> 
-> So if I run drm-tip, no fb.
-> If I revert 73f15a9, it works.
-> If I then switch the two calls in vgdev_atomic_commit_tail, it doesn't
-> work again.
-> 
-> So the order apparently matters.
+> Not to incessantly bike shed on the naming, but I don't like cast_out,
+> it's not very descriptive. And it has connotations of getting rid of
+> something, which isn't really true.
 
-And it was the intention, it seems:
+I agree, if we want to bike shed, I don't like this color either.
 
-commit e7cf0963f816fa44190caaf51aeffaa614c340c6
-Author: Gerd Hoffmann <kraxel@redhat.com>
-Date:   Tue May 31 08:50:47 2016 +0200
+> FWIW, I like the from_ part of the original naming, as it has some clues
+> as to what is being done here. Why not just from_container()? That
+> should immediately tell people what it does without having to look up
+> the implementation, even before this becomes a part of the accepted
+> coding norm.
 
-    virtio-gpu: add atomic_commit function
+Why are people hating on the well-known and used container_of()?
 
-    Do modesets first, then call drm_atomic_helper_commit_planes with
-    active_only = true.  That way the outputs doesn't get disabled
-    temporarly on atomic commits.
+If you really hate to type the type and want a new macro, what about
+'container_from()'?  (noun/verb is nicer to sort symbols by...)
 
+But really, why is this even needed?
 
 thanks,
--- 
-js
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
