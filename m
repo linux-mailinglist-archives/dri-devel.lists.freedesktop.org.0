@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DC924AA16
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 01:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060A124AA21
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 01:56:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5566E885;
-	Wed, 19 Aug 2020 23:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAA206E888;
+	Wed, 19 Aug 2020 23:56:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFEF6E882
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 23:56:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4B26E884
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 23:56:44 +0000 (UTC)
 Received: from localhost (unknown [70.37.104.77])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 38189208E4;
- Wed, 19 Aug 2020 23:56:40 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D9E2F20FC3;
+ Wed, 19 Aug 2020 23:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597881400;
- bh=Ff3pPByYsjxQjLFzhs86VHkGguD+kfERdf1KDCRglXo=;
+ s=default; t=1597881404;
+ bh=NFqkHQ7qxaIIbvZMqxzEDeEzaXOH6M8gQU88Y/OeO4I=;
  h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:In-Reply-To:
  References:From;
- b=1TWCRoWvJt0FJh9j6cMjsvRIJhym0XuhTj7w7nNMR+81x8BUkyn9w6rSRHJekXIJM
- uN8bWZelOYYpJbTwEldapiea7V+XM+KqQAhdols7qZ2e1TzJCjFiwvWhP1b1ue8Qnd
- vRGfCpvTYppba78YkGcxPvrByKWNIn/Ssi6XaQ74=
-Date: Wed, 19 Aug 2020 23:56:39 +0000
+ b=z5U4buUVe5Cco+5+Ia3ehAj48YB4fF8sC29cuHa+G5GxB4LVrD91Px8ljNIDDthk1
+ +2sUYDRzXBswvPy8hMnCZ42patT3S1MyH8J4sFwVBPPkbJnYBrMOH4zfdiOeTgr2/N
+ VA+SHD0cdBMQMY6ZIKxsMY5hymEBlu3VyG7Vcx0c=
+Date: Wed, 19 Aug 2020 23:56:43 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org
-Subject: Re: [PATCH v1 3/4] drm/ast: Add commit-tail function
-In-Reply-To: <20200805105428.2590-4-tzimmermann@suse.de>
-References: <20200805105428.2590-4-tzimmermann@suse.de>
-Message-Id: <20200819235640.38189208E4@mail.kernel.org>
+Subject: Re: [PATCH v1 2/4] drm/ast: Set display mode in atomic_begin()
+In-Reply-To: <20200805105428.2590-3-tzimmermann@suse.de>
+References: <20200805105428.2590-3-tzimmermann@suse.de>
+Message-Id: <20200819235643.D9E2F20FC3@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,21 +68,11 @@ The bot has tested the following trees: v5.8.1, v5.7.15.
 
 v5.8.1: Failed to apply! Possible dependencies:
     05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
-    1728bf6402c3 ("drm/ast: Use managed mode-config init")
-    2ccebf561e4a ("drm/ast: Move cursor functions to ast_cursor.c")
-    6bb18c9be6d2 ("drm/ast: Init cursors before creating modesetting structures")
-    beb2355eecbf ("drm/ast: Pass struct ast_private instance to cursor init/fini functions")
-    e6949ff3ca85 ("drm/ast: Initialize mode setting in ast_mode_config_init()")
     fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
 
 v5.7.15: Failed to apply! Possible dependencies:
     05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
-    1728bf6402c3 ("drm/ast: Use managed mode-config init")
-    2ccebf561e4a ("drm/ast: Move cursor functions to ast_cursor.c")
     3a53230e1c4b ("drm/ast: Make ast_primary_plane_helper_atomic_update static")
-    6bb18c9be6d2 ("drm/ast: Init cursors before creating modesetting structures")
-    beb2355eecbf ("drm/ast: Pass struct ast_private instance to cursor init/fini functions")
-    e6949ff3ca85 ("drm/ast: Initialize mode setting in ast_mode_config_init()")
     fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
 
 
