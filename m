@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016C524AFA7
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8FF24AFF4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAAF6E8CC;
-	Thu, 20 Aug 2020 07:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 441D46E905;
+	Thu, 20 Aug 2020 07:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAC46E5CC
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:59:05 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id ds1so1195521pjb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:59:05 -0700 (PDT)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC1D36E5C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:59:11 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id m8so12156028pfh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 11:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YOa3gLvydrZ+M8ZPM8t68nbD2HobP2Ca0rk36tt9kOs=;
- b=C/qtghbrD1UJlZHs7y6FJYluRDf7CVLYC6umtiDsiG0okaZ48xgOnCZVaDIDNIqm/b
- FW/eWMbuVSTGJEPCgzwngz09k3+JNnmeQ1e/J5WIdsdMK3bzSljXkTU30HJW1pAM/709
- JQeRjaK/A0CtwlHIXPKI4SThX1dJcWQqZd4KOfv8VXarjBl2fzLsY1YgeEVy3bCsqwgG
- fK4xtmeJXjK5V5h08cOj22kPjtmMfZgNCgO1ZzZJ86ug3h1sAQunascNG24dFQs2TIaO
- XIpVOvJ1QJzcMPICCMmjfCJ5g/BZkJmy5rQ2qkmCDZ23R3rPG7itSNv40EQheWT4zv0P
- I2PQ==
+ bh=EueH97o6VIVtEIiLMj1CkjU5GKTUR/PQiOa7YU1wTr0=;
+ b=NBcnrI+ILjh3jELjrGG+qDgvlGLTfpZWaAD8dfjOYKDeId+yC5B/nedpjjEDPs7MJt
+ ibC4avtU4xcpmoE5ULoOcJAmmYq4qNB7MUEmgYPubcHq2yGCcKTDG+yTvrs6xY1+duLn
+ MJoV/YDWfMQJJ8xM1MvvfzlICMUDpBWEKZyOkmSI0S6rGlGxJwU4BMhwzeeaBJLpAhWn
+ Y/q7sMI+06WGFnSR1Jku2olJy2n4ROcztnPEXC78DSlVZPg1TDbD1jchPUnoa6BdHZR+
+ S0WZ/lmNZ5AcpUf6QP4Im7SBijhLCA2/2VprKYFChPl+VrA5wp86Ko3I6BpmT9eL2O6M
+ kGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YOa3gLvydrZ+M8ZPM8t68nbD2HobP2Ca0rk36tt9kOs=;
- b=O5WKoD0m+7mrzkZR3LkEiLOik9h/snHFq3LYeTF+8Zw6ZmBL+xBcyGWgTPZVjnVLsA
- 9PMXHUbbF3zd0yxrc1/40LMswK3NLUfRtbvie/eehl+UCTGfG1kkrZ+lcXIyBLN1SK0R
- w/ZUSXL8q54z2MhOVhS/gdBCOH8b5HImR67jwtK8Y1StnWR3DetmT/2Lj6MSmnyoL/SO
- idV1qgFPE4Ty1/MCItDoVthLhAnO2ZFXIeHwQipE5xprckFA/DADNbjp8Bx1tUCNj3jZ
- gwTQRBIfpiWcAoYpJVWDDpWdfIMn/dcLLIkAuzAalnJjCjrl+lEhjDmRsxiXSTPRhydj
- wVSA==
-X-Gm-Message-State: AOAM5337J9W5/8NtvdFfX+foLYiipRQEoxW3CJ8n0gfYb+qbFioJm2dJ
- ZLnSSvz/NH4Ep6NRHidlrCU=
-X-Google-Smtp-Source: ABdhPJxER7aCHiNOQ/dUrb1nUfSCAIhoucl6lnSouMre2qYP5XjMMuE9m++iANKwAsbi1PazpLm+Zg==
-X-Received: by 2002:a17:90b:378d:: with SMTP id
- mz13mr5175546pjb.98.1597863544886; 
- Wed, 19 Aug 2020 11:59:04 -0700 (PDT)
+ bh=EueH97o6VIVtEIiLMj1CkjU5GKTUR/PQiOa7YU1wTr0=;
+ b=ehMuFwxi81uDGKiWzNFKXje6hwSmx9BGs9w7vXTh9v1UoXTp4ulTljqc+KUEre76Gp
+ gzflrz0Z1VdR2HMZTqGiwGrGuv9RqvmNdx01a+qSCqRz7rkMZs43csv1ZOrDR8OSw9P4
+ +47walbutkAZ1UGiDWOr2kas4StlCIcrblFSZmG07BoCKXdeSGXYZY6J3OXdoMSnlJ4H
+ /oI+Y5tWqUO0klxCC2HIQ1dLAwh7K5zovWM8khNVb3zW776ztiJMFeOkmTPa7nDV2dl0
+ k8raZUl+g92Zh3s+H6NldiWRSE+392zPQDC/TGyVo9Kg88U6Pnn3GzcphdW8NEWlQJ28
+ ZtHw==
+X-Gm-Message-State: AOAM530PMn4GEusIFIHDZs/YsBnDSzT/hafh18xN5fzjutD3mQmj2/Hk
+ mndSKILBtViqBWYfFGH6SNU=
+X-Google-Smtp-Source: ABdhPJzycF9YEJOQ5XOCi+2XKILR/b07UiFGPGDk2y6A/OtI9ObJBJksHh+9i+w9mHTz6yRi1btLzQ==
+X-Received: by 2002:a63:de4e:: with SMTP id y14mr18144996pgi.106.1597863551453; 
+ Wed, 19 Aug 2020 11:59:11 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.58.59
+ by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.59.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 11:59:04 -0700 (PDT)
+ Wed, 19 Aug 2020 11:59:11 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -54,9 +53,9 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH v3 01/12] fbdev: gxfb: use generic power management
-Date: Thu, 20 Aug 2020 00:26:43 +0530
-Message-Id: <20200819185654.151170-2-vaibhavgupta40@gmail.com>
+Subject: [PATCH v3 02/12] fbdev: lxfb: use generic power management
+Date: Thu, 20 Aug 2020 00:26:44 +0530
+Message-Id: <20200819185654.151170-3-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
 References: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
@@ -86,149 +85,150 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Switch to the new generic framework by updating function signatures and
 define a "struct dev_pm_ops" variable to bind PM callbacks. This way we can
-remove the legacy .suspend & .resume bindings from "gxfb_driver".
+remove the legacy .suspend & .resume bindings from "lxfb_driver".
 
-The gxfb_suspend() is designed to function only in the case of Suspend.
+The lxfb_suspend() is designed to function only in the case of Suspend.
 Thus, the code was kept inside "if (state.event == PM_EVENT_SUSPEND)"
 container. This is because, in the legacy framework, this callback was
 invoked even in the event of Freeze and Hibernate. Hence, added the load of
 unnecessary function-calls.
 
 The goal can be achieved by binding the callback with only
-"gxfb_pm_ops.suspend" in the new framework. This also avoids the step of
+"lxfb_pm_ops.suspend" in the new framework. This also avoids the step of
 checking "if (state.event == PM_EVENT_SUSPEND)" every time the callback is
 invoked.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/geode/gxfb.h       |  5 ----
- drivers/video/fbdev/geode/gxfb_core.c  | 36 ++++++++++++++------------
- drivers/video/fbdev/geode/suspend_gx.c |  4 ---
- 3 files changed, 20 insertions(+), 25 deletions(-)
+ drivers/video/fbdev/geode/lxfb.h      |  5 ----
+ drivers/video/fbdev/geode/lxfb_core.c | 37 +++++++++++++++------------
+ drivers/video/fbdev/geode/lxfb_ops.c  |  4 ---
+ 3 files changed, 20 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/video/fbdev/geode/gxfb.h b/drivers/video/fbdev/geode/gxfb.h
-index d2e9c5c8e294..792c111c21e4 100644
---- a/drivers/video/fbdev/geode/gxfb.h
-+++ b/drivers/video/fbdev/geode/gxfb.h
-@@ -21,7 +21,6 @@ struct gxfb_par {
- 	void __iomem *dc_regs;
- 	void __iomem *vid_regs;
+diff --git a/drivers/video/fbdev/geode/lxfb.h b/drivers/video/fbdev/geode/lxfb.h
+index ef24bf6d49dc..d37b32dbcd68 100644
+--- a/drivers/video/fbdev/geode/lxfb.h
++++ b/drivers/video/fbdev/geode/lxfb.h
+@@ -29,7 +29,6 @@ struct lxfb_par {
  	void __iomem *gp_regs;
+ 	void __iomem *dc_regs;
+ 	void __iomem *vp_regs;
 -#ifdef CONFIG_PM
  	int powered_down;
  
- 	/* register state, for power management functionality */
-@@ -36,7 +35,6 @@ struct gxfb_par {
- 	uint64_t fp[FP_REG_COUNT];
- 
- 	uint32_t pal[DC_PAL_COUNT];
+ 	/* register state, for power mgmt functionality */
+@@ -50,7 +49,6 @@ struct lxfb_par {
+ 	uint32_t hcoeff[DC_HFILT_COUNT * 2];
+ 	uint32_t vcoeff[DC_VFILT_COUNT];
+ 	uint32_t vp_coeff[VP_COEFF_SIZE / 4];
 -#endif
  };
  
- unsigned int gx_frame_buffer_size(void);
-@@ -49,11 +47,8 @@ void gx_set_dclk_frequency(struct fb_info *info);
- void gx_configure_display(struct fb_info *info);
- int gx_blank_display(struct fb_info *info, int blank_mode);
+ static inline unsigned int lx_get_pitch(unsigned int xres, int bpp)
+@@ -64,11 +62,8 @@ int lx_blank_display(struct fb_info *, int);
+ void lx_set_palette_reg(struct fb_info *, unsigned int, unsigned int,
+ 			unsigned int, unsigned int);
  
 -#ifdef CONFIG_PM
- int gx_powerdown(struct fb_info *info);
- int gx_powerup(struct fb_info *info);
+ int lx_powerdown(struct fb_info *info);
+ int lx_powerup(struct fb_info *info);
 -#endif
 -
  
- /* Graphics Processor registers (table 6-23 from the data book) */
+ /* Graphics Processor registers (table 6-29 from the data book) */
  enum gp_registers {
-diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
-index d38a148d4746..44089b331f91 100644
---- a/drivers/video/fbdev/geode/gxfb_core.c
-+++ b/drivers/video/fbdev/geode/gxfb_core.c
-@@ -322,17 +322,14 @@ static struct fb_info *gxfb_init_fbinfo(struct device *dev)
+diff --git a/drivers/video/fbdev/geode/lxfb_core.c b/drivers/video/fbdev/geode/lxfb_core.c
+index adc2d9c2395e..66c81262d18f 100644
+--- a/drivers/video/fbdev/geode/lxfb_core.c
++++ b/drivers/video/fbdev/geode/lxfb_core.c
+@@ -443,17 +443,14 @@ static struct fb_info *lxfb_init_fbinfo(struct device *dev)
  	return info;
  }
  
 -#ifdef CONFIG_PM
--static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused gxfb_suspend(struct device *dev)
+-static int lxfb_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused lxfb_suspend(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(pdev);
 +	struct fb_info *info = dev_get_drvdata(dev);
  
 -	if (state.event == PM_EVENT_SUSPEND) {
 -		console_lock();
--		gx_powerdown(info);
+-		lx_powerdown(info);
 -		fb_set_suspend(info, 1);
 -		console_unlock();
 -	}
 +	console_lock();
-+	gx_powerdown(info);
++	lx_powerdown(info);
 +	fb_set_suspend(info, 1);
 +	console_unlock();
  
  	/* there's no point in setting PCI states; we emulate PCI, so
  	 * we don't end up getting power savings anyways */
-@@ -340,9 +337,9 @@ static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
+@@ -461,9 +458,9 @@ static int lxfb_suspend(struct pci_dev *pdev, pm_message_t state)
  	return 0;
  }
  
--static int gxfb_resume(struct pci_dev *pdev)
-+static int __maybe_unused gxfb_resume(struct device *dev)
+-static int lxfb_resume(struct pci_dev *pdev)
++static int __maybe_unused lxfb_resume(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(pdev);
 +	struct fb_info *info = dev_get_drvdata(dev);
  	int ret;
  
  	console_lock();
-@@ -356,7 +353,6 @@ static int gxfb_resume(struct pci_dev *pdev)
+@@ -477,10 +474,6 @@ static int lxfb_resume(struct pci_dev *pdev)
  	console_unlock();
  	return 0;
  }
+-#else
+-#define lxfb_suspend NULL
+-#define lxfb_resume NULL
 -#endif
  
- static int gxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ static int lxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  {
-@@ -467,15 +463,23 @@ static const struct pci_device_id gxfb_id_table[] = {
+@@ -600,13 +593,23 @@ static struct pci_device_id lxfb_id_table[] = {
  
- MODULE_DEVICE_TABLE(pci, gxfb_id_table);
+ MODULE_DEVICE_TABLE(pci, lxfb_id_table);
  
-+static const struct dev_pm_ops gxfb_pm_ops = {
++static const struct dev_pm_ops lxfb_pm_ops = {
 +#ifdef CONFIG_PM_SLEEP
-+	.suspend	= gxfb_suspend,
-+	.resume		= gxfb_resume,
++	.suspend	= lxfb_suspend,
++	.resume		= lxfb_resume,
 +	.freeze		= NULL,
-+	.thaw		= gxfb_resume,
++	.thaw		= lxfb_resume,
 +	.poweroff	= NULL,
-+	.restore	= gxfb_resume,
++	.restore	= lxfb_resume,
 +#endif
 +};
 +
- static struct pci_driver gxfb_driver = {
- 	.name		= "gxfb",
- 	.id_table	= gxfb_id_table,
- 	.probe		= gxfb_probe,
- 	.remove		= gxfb_remove,
--#ifdef CONFIG_PM
--	.suspend	= gxfb_suspend,
--	.resume		= gxfb_resume,
--#endif
-+	.driver.pm	= &gxfb_pm_ops,
+ static struct pci_driver lxfb_driver = {
+ 	.name		= "lxfb",
+ 	.id_table	= lxfb_id_table,
+ 	.probe		= lxfb_probe,
+ 	.remove		= lxfb_remove,
+-	.suspend	= lxfb_suspend,
+-	.resume		= lxfb_resume,
++	.driver.pm	= &lxfb_pm_ops,
  };
  
  #ifndef MODULE
-diff --git a/drivers/video/fbdev/geode/suspend_gx.c b/drivers/video/fbdev/geode/suspend_gx.c
-index 1110a527c35c..8c49d4e98772 100644
---- a/drivers/video/fbdev/geode/suspend_gx.c
-+++ b/drivers/video/fbdev/geode/suspend_gx.c
-@@ -11,8 +11,6 @@
- 
- #include "gxfb.h"
+diff --git a/drivers/video/fbdev/geode/lxfb_ops.c b/drivers/video/fbdev/geode/lxfb_ops.c
+index 5be8bc62844c..b3a041fce570 100644
+--- a/drivers/video/fbdev/geode/lxfb_ops.c
++++ b/drivers/video/fbdev/geode/lxfb_ops.c
+@@ -580,8 +580,6 @@ int lx_blank_display(struct fb_info *info, int blank_mode)
+ 	return 0;
+ }
  
 -#ifdef CONFIG_PM
 -
- static void gx_save_regs(struct gxfb_par *par)
+ static void lx_save_regs(struct lxfb_par *par)
  {
- 	int i;
-@@ -259,5 +257,3 @@ int gx_powerup(struct fb_info *info)
- 	par->powered_down  = 0;
+ 	uint32_t filt;
+@@ -837,5 +835,3 @@ int lx_powerup(struct fb_info *info)
+ 	par->powered_down = 0;
  	return 0;
  }
 -
