@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C0924AFC8
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DA424AFB6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED5C6E8EA;
-	Thu, 20 Aug 2020 07:14:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75F856E8BE;
+	Thu, 20 Aug 2020 07:14:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4680F6E215
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597832581;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=iot4F9NIeNJEKxo3vS94S+e9faKTbXdWR+AZlk71Fbw=;
- b=Zdkuo6wGxeAnHq6Uz5r74SJSfCYOhN3TNDOm7Fgii3hb+yrsm5Nhk8ISRNqmaCzNz0
- 28y1DbVSVBzMULPV8aVVYFnDRBNtHqI+EjA4NNv3dYSNdgyGFTurkO7aFUT1uBBsLDB9
- U5q/8ncoyC5d9peNjXHKzCTCl84rW3/M7HT+6cQseP3ZF+o0s8n+210UdZUPsPHWXW8l
- dljtRzxy74o9beOxTTcyYXgSJL487r+1XLoh1Vm0YmyyR+EzuCSrU/CeC+FSxdwQuMMr
- XKjtrJ0E/QB2YbN+sbZDzY47pmvJ0rVQ7y1+1c5bFDOnS3Y96UkjNqEA0aEYkj8MGrDV
- PmGQ==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHvJzedV4gJwhNnAyjUduDV+ZkOHUlEM0OPMli3OTXFzhrrfu"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a01:598:d00a:a116:5430:18e8:3be9:8596]
- by smtp.strato.de (RZmta 46.10.7 AUTH)
- with ESMTPSA id Y04f7aw7JAMq0hZ
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 19 Aug 2020 12:22:52 +0200 (CEST)
-Subject: Re: [Virtual ppce500] virtio_gpu virtio0: swiotlb buffer is full
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <87h7tb4zwp.fsf@linux.ibm.com>
- <E1C071A5-19D1-4493-B04A-4507A70D7848@xenosoft.de>
- <bc1975fb-23df-09c2-540a-c13b39ad56c5@xenosoft.de>
- <51482c70-1007-1202-9ed1-2d174c1e923f@xenosoft.de>
- <9688335c-d7d0-9eaa-22c6-511e708e0d2a@linux.ibm.com>
- <9805f81d-651d-d1a3-fd05-fb224a8c2031@xenosoft.de>
- <3162da18-462c-72b4-f8f0-eef896c6b162@xenosoft.de>
- <3eee8130-6913-49d2-2160-abf0bf17c44e@xenosoft.de>
- <20200818081830.d2a2cva4hd2jzwba@sirius.home.kraxel.org>
- <0f2434a5-edcf-e7d1-f6ae-7c912dc8d859@xenosoft.de>
- <20200819043515.saq6ey33q7p2uccz@sirius.home.kraxel.org>
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Message-ID: <52a15836-4e95-089e-1683-416fdbb3fd19@xenosoft.de>
-Date: Wed, 19 Aug 2020 12:22:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B60F76E20C;
+ Wed, 19 Aug 2020 10:48:28 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id c4so18644246otf.12;
+ Wed, 19 Aug 2020 03:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JFCS1wWCaky01GdCrS5KhBNLCXiKvx8eu/9Q1CWY57o=;
+ b=SAlnLFGsaJJ2xUQvXdp6/REunLAQzaLpmNpCPkhdMyKVNOL4zXoJc+uTpvFb1PLXQe
+ nN8aQpwx9KlR0QpjA0U0Eq9qCAcvJ1BkG1Pmvfae+wF16AUCkU8W0GDQheD/o4B1VrUX
+ PelVL5WwDQloIppGpod8O4LcRauK/SLT0vBKv+BhPM4L1DU+6rZBrJ0Dt0oV8Ce4u200
+ wfYajuI8k/buRZ/KOQgJS9xFj6qU+vsS6Mi/Pic5cr7hyqCbNaPaM64dCQ32B92C7zpm
+ twdkgIcY8FJxVqqD5N4bDX/Yu8aavznJiTYE5JD98MkyaozlEe8FkOVjNVcv9NBfu1pV
+ 5Fgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JFCS1wWCaky01GdCrS5KhBNLCXiKvx8eu/9Q1CWY57o=;
+ b=GUMsyfQqIZ6zOBzFK7tEI90Z2kg6sB+ZnmtgXa6oec6MFTjKosl8PU5j+iPtgVEU+e
+ 1MhoGPWPV3io3UfKeX6yDOpSQ4xFdKW0UjfC9Q7pjx4O17V6b6MHFQQHZzz1Qd5UiHyR
+ vdpJTjQCHhj3h7/9lm6WC31v5CS3MiUmpsAnMlQXDfZTgIrQaC8hytl9xaxxJQPzPf/+
+ dtu2+YRGHjNINXPAy2BYObcnRSS7K1pQ95UEbemHAgrrxz0i9QBu5HCWrMPKV/88NYnk
+ PF9xyZZ9NKJ1RJNvqolCiGoBWbNBMUJ2vtwe7LM+GH4SB47Vqf9Sf0pRVobEXqIms4bM
+ 8lZA==
+X-Gm-Message-State: AOAM533mAPV+h6C45DpPsLukl0sF8EjRhz4s95kdtNAaSQt6vL7yAaqW
+ qZ6kmILNrZP9dUFZsW+z0vuKbGbzPEDv5De2Q3o=
+X-Google-Smtp-Source: ABdhPJwYTK+IRxToH0hqhLtJ7NIIqDs8lKmtEJkzNzElCKB5MQaF3rOwIOaAYWCB8rMlfnOVuvrNcqGFlbqr+yW4gKM=
+X-Received: by 2002:a9d:128c:: with SMTP id g12mr17527086otg.242.1597834108000; 
+ Wed, 19 Aug 2020 03:48:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200819043515.saq6ey33q7p2uccz@sirius.home.kraxel.org>
-Content-Language: de-DE
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-2-allen.cryptic@gmail.com>
+ <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
+ <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <202008181309.FD3940A2D5@keescook>
+In-Reply-To: <202008181309.FD3940A2D5@keescook>
+From: Allen <allen.lkml@gmail.com>
+Date: Wed, 19 Aug 2020 16:18:16 +0530
+Message-ID: <CAOMdWSLi-aUeKDN8Xn-X2uW_LmWsp2n=NL3dPGiUbQKm_MxcAg@mail.gmail.com>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+To: Kees Cook <keescook@chromium.org>
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,54 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- daniel.vetter@ffwll.ch, =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- "kvm-ppc@vger.kernel.org" <kvm-ppc@vger.kernel.org>,
- gurchetansingh@chromium.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
+ airlied@linux.ie, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ James Bottomley <James.Bottomley@hansenpartnership.com>, kys@microsoft.com,
+ anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+ linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+ Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
+ jdike@addtoit.com, oakad@yahoo.com, s.hauer@pengutronix.de,
+ linux-input@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
+ dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
+ linux-spi@vger.kernel.org, alex.bou9@gmail.com,
+ Allen Pais <allen.cryptic@gmail.com>, stefanr@s5r6.in-berlin.de,
+ linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
+ shawnguo@kernel.org, David Miller <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19 August 2020 at 06:35 am, Gerd Hoffmann wrote:
-> On Tue, Aug 18, 2020 at 04:41:38PM +0200, Christian Zigotzky wrote:
->> Hello Gerd,
->>
->> I compiled a new kernel with the latest DRM misc updates today. The patch is
->> included in these updates.
->>
->> This kernel works with the VirtIO-GPU in a virtual e5500 QEMU/KVM HV machine
->> on my X5000.
->>
->> Unfortunately I can only use the VirtIO-GPU (Monitor: Red Hat, Inc. 8") with
->> a resolution of 640x480. If I set a higher resolution then the guest
->> disables the monitor.
->> I can use higher resolutions with the stable kernel 5.8 and the VirtIO-GPU.
->>
->> Please check the latest DRM updates.
-> https://patchwork.freedesktop.org/patch/385980/
+> > > > > > > >
+> > > > > > > > In preparation for unconditionally passing the
+> > > > > > > > struct tasklet_struct pointer to all tasklet
+> > > > > > > > callbacks, switch to using the new tasklet_setup()
+> > > > > > > > and from_tasklet() to pass the tasklet pointer explicitly.
+> > > > > > >
+> > > > > > > Who came up with the idea to add a macro 'from_tasklet' that
+> > > > > > > is just container_of? container_of in the code would be
+> > > > > > > _much_ more readable, and not leave anyone guessing wtf
+> > > > > > > from_tasklet is doing.
+> > > > > > >
+> > > > > > > I'd fix that up now before everything else goes in...
+> > > > > >
+> > > > > > As I mentioned in the other thread, I think this makes things
+> > > > > > much more readable. It's the same thing that the timer_struct
+> > > > > > conversion did (added a container_of wrapper) to avoid the
+> > > > > > ever-repeating use of typeof(), long lines, etc.
+> > > > >
+> > > > > But then it should use a generic name, instead of each sub-system
+> > > > > using some random name that makes people look up exactly what it
+> > > > > does. I'm not huge fan of the container_of() redundancy, but
+> > > > > adding private variants of this doesn't seem like the best way
+> > > > > forward. Let's have a generic helper that does this, and use it
+> > > > > everywhere.
+> > > >
+> > > > I'm open to suggestions, but as things stand, these kinds of
+> > > > treewide
+> > >
+> > > On naming? Implementation is just as it stands, from_tasklet() is
+> > > totally generic which is why I objected to it. from_member()? Not
+> > > great with naming... But I can see this going further and then we'll
+> > > suddenly have tons of these. It's not good for readability.
+> >
+> > Since both threads seem to have petered out, let me suggest in
+> > kernel.h:
+> >
+> > #define cast_out(ptr, container, member) \
+> >       container_of(ptr, typeof(*container), member)
+> >
+> > It does what you want, the argument order is the same as container_of
+> > with the only difference being you name the containing structure
+> > instead of having to specify its type.
 >
-> (tests & reviews & acks are welcome)
+> I like this! Shall I send this to Linus to see if this can land in -rc2
+> for use going forward?
 >
-> HTH,
->    Gerd
->
-Hello Gerd,
 
-I compiled a new RC1 with our patches today. With these patches, the 
-VirtIO-GPU works without any problems. I can use higher resolutions again.
+Cool, I shall wait for it to be accepted and then spin out V2 with cast_out()
 
-Screenshot of the RC1-3 with the VirtIO-GPU in a virtual e5500 QEMU/KVM 
-HV machine on my X5000: 
-https://i.pinimg.com/originals/4f/b0/14/4fb01476edd7abe6be1e1203a8e7e152.png
-
-Thanks a lot for your help!
-
-Cheers,
-Christian
+-- 
+       - Allen
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
