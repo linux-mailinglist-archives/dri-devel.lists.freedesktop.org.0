@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDA924A9BC
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 00:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E190024AA0F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 01:56:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC4FC6E878;
-	Wed, 19 Aug 2020 22:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FA56E87F;
+	Wed, 19 Aug 2020 23:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41AA96E878
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 22:53:29 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
- after 5.9 merges
-Date: Wed, 19 Aug 2020 22:53:28 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ckane@colemankane.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208947-2300-1pK2QHKXpE@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
-References: <bug-208947-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 360506E87F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 23:56:33 +0000 (UTC)
+Received: from localhost (unknown [70.37.104.77])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E359021734;
+ Wed, 19 Aug 2020 23:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597881393;
+ bh=Ff3pPByYsjxQjLFzhs86VHkGguD+kfERdf1KDCRglXo=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:In-Reply-To:
+ References:From;
+ b=sitrSwRU8lzxNJcKOS1YXI1+IwJACDAZEwBSJX01Ffb0JQHBrAWJfipl5cmOb9ihq
+ fmuMxFlNZ4HirHR3kO7vaqEzjrPQKb1wNoVS9vmMm+TpfIlFVaL02XXpYkjoW+/RZL
+ UIKmOtCDYutnUGd+59RyNpW46jfPFn2HBPHGLlCM=
+Date: Wed, 19 Aug 2020 23:56:32 +0000
+From: Sasha Levin <sashal@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org
+Subject: Re: [PATCH v1 4/4] drm/ast: Disable planes while switching display
+ modes
+In-Reply-To: <20200805105428.2590-5-tzimmermann@suse.de>
+References: <20200805105428.2590-5-tzimmermann@suse.de>
+Message-Id: <20200819235632.E359021734@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,74 +47,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208947
+Hi
 
---- Comment #9 from Coleman Kane (ckane@colemankane.org) ---
-I'm going to venture a guess that if I were to reverse the following part of
-the change that it would likely "undo" the cause of the problem, but it doesn't
-really solve the problem.
+[This is an automated email]
 
-One question I'd have though:
-return (dc->hwss.optimize_timing_for_fsft &&
-              dc->hwss.optimize_timing_for_fsft(dc, &pStream->timing,
-max_input_rate_in_khz));
+This commit has been processed because it contains a "Fixes:" tag
+fixing commit: 4961eb60f145 ("drm/ast: Enable atomic modesetting").
 
-Looks like if dc->hwss.optimize_timing_for_fsft is NULL (function pointer
-nonexistent) then it would always return false, rather than using the old
-behavior. It looks like the structure should be populated with that function
-pointer, based upon changes in dcn20_init.c and dcn21_init.c, but it's probably
-worth verifying whether its ending up NULL at that point or not.
+The bot has tested the following trees: v5.8.1, v5.7.15.
 
-Aside from that, the only other "return false" I see is here in dcn20_hwseq.c:
-+       if (max_input_rate_in_100hz < timing->pix_clk_100hz)
-+               return false;
+v5.8.1: Failed to apply! Possible dependencies:
+    05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
+    1728bf6402c3 ("drm/ast: Use managed mode-config init")
+    2ccebf561e4a ("drm/ast: Move cursor functions to ast_cursor.c")
+    6bb18c9be6d2 ("drm/ast: Init cursors before creating modesetting structures")
+    beb2355eecbf ("drm/ast: Pass struct ast_private instance to cursor init/fini functions")
+    e6949ff3ca85 ("drm/ast: Initialize mode setting in ast_mode_config_init()")
+    fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
 
-I'll try to also get a read out of what values are being populated for these
-two values as well.
+v5.7.15: Failed to apply! Possible dependencies:
+    05f13f5b5996 ("drm/ast: Remove unused code paths for AST 1180")
+    1728bf6402c3 ("drm/ast: Use managed mode-config init")
+    2ccebf561e4a ("drm/ast: Move cursor functions to ast_cursor.c")
+    3a53230e1c4b ("drm/ast: Make ast_primary_plane_helper_atomic_update static")
+    6bb18c9be6d2 ("drm/ast: Init cursors before creating modesetting structures")
+    beb2355eecbf ("drm/ast: Pass struct ast_private instance to cursor init/fini functions")
+    e6949ff3ca85 ("drm/ast: Initialize mode setting in ast_mode_config_init()")
+    fa7dbd768884 ("drm/ast: Upcast from DRM device to ast structure via to_ast_private()")
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index 10d69ada88e3..0257a900fe2b 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -246,20 +246,18 @@ struct dc_stream_status *dc_stream_get_status(
 
- #ifndef TRIM_FSFT
- /**
-- * dc_optimize_timing() - dc to optimize timing
-+ * dc_optimize_timing_for_fsft() - dc to optimize timing
-  */
--bool dc_optimize_timing(
--       struct dc_crtc_timing *timing,
-+bool dc_optimize_timing_for_fsft(
-+       struct dc_stream_state *pStream,
-        unsigned int max_input_rate_in_khz)
- {
--       //optimization is expected to assing a value to these:
--       //timing->pix_clk_100hz
--       //timing->v_front_porch
--       //timing->v_total
--       //timing->fast_transport_output_rate_100hz;
--       timing->fast_transport_output_rate_100hz = timing->pix_clk_100hz;
-+       struct dc  *dc;
+NOTE: The patch will not be queued to stable trees until it is upstream.
 
--       return true;
-+       dc = pStream->ctx->dc;
-+
-+       return (dc->hwss.optimize_timing_for_fsft &&
-+               dc->hwss.optimize_timing_for_fsft(dc, &pStream->timing,
-max_input_rate_in_khz));
- }
- #endif
+How should we proceed with this patch?
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Thanks
+Sasha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
