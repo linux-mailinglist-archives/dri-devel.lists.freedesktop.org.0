@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34B524AFA4
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9978324AFAE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB686E8D9;
-	Thu, 20 Aug 2020 07:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5391F6E8BD;
+	Thu, 20 Aug 2020 07:14:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11DC56E077;
- Wed, 19 Aug 2020 08:18:20 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id o23so25281087ejr.1;
- Wed, 19 Aug 2020 01:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Dy+2OELhVDdm1DxklsrmDDS8Lu3aUtSBuyTN0DczS8k=;
- b=QN2LdlzXC/iWoVnvzjtShkG79VByoSWMJ0PGEvfCBxDt/cOl/FifqXc3Z4DxDI+jbO
- U0EX7DHcdDsmZeTj9BLD1GCuPT1hGS5ySxbAauEkzX0omK0Y7DixjnR3ygpB61Kl5Hu/
- nHr1pohz2HJda1AJ2cK2eofrpnPvxF+LJKzTcRz+dKyZpCsCNM/6sypYNpCInJzNCwgq
- MIxlUAKRGypbjbxTBHdOBNaJPSlD0AYXuXqWjxJoD84Ci8vJzTSlt9O5Cq85Ul1oOqpU
- tbLFZnKvcBmTfsPf0Cju7d5CgFX3pwkbtLsVzi7tfkhO25POEwMGsKACLh9R6939Az00
- iHLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Dy+2OELhVDdm1DxklsrmDDS8Lu3aUtSBuyTN0DczS8k=;
- b=Nx1UvJejUaZ2ZyksMgXI8lvj4NwVlZyjQqNBdGnYeaqtzkq/N56dfRljq+Py9rfL5G
- pNFQFbFmaLDxnTiOlhMZJa9F+C5MhOsw1TxTvvrAzwaxZ0OVeYlkqlls6Ji9YKb5w0Fj
- imW7dOXGJtwFzAUj9ASZtsUzqph5htTZa6Yz8TIldJyr7uw+TVAxaj5/o/j2jEeYJhkc
- W0vkbwF7gwjVVZ+kE1218dQLfuTB7IoTX1eG9rlS6zT1OdMFiCNqt1Zi3+8EyxL5DYMG
- 7OK8Ul8Isggd0q4a7vC2Hbyw4jh6c0qY5RHPfpjsle44WyoyYJaspNaQsrDTWqEt+Bgj
- chGw==
-X-Gm-Message-State: AOAM5323C38V87aghmHfdPR6xEZVUpvg1nv4yALP/FlmrXy4v+Xn9/dQ
- yB7bkehH5AP4qv53nhaxA90=
-X-Google-Smtp-Source: ABdhPJxbTmCq+bnKTWd+oh5WAn5yWBTYt4w7rCTNOjbtzeU/xdueaFs38zLAtFWMKtPdqRf3d+UzGg==
-X-Received: by 2002:a17:906:4f0f:: with SMTP id
- t15mr23482886eju.337.1597825098654; 
- Wed, 19 Aug 2020 01:18:18 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2d1b:6b00:888f:331b:5459:5921])
- by smtp.gmail.com with ESMTPSA id g27sm18312043edf.57.2020.08.19.01.18.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 01:18:17 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dennis Li <Dennis.Li@amd.com>, Jerry Zuo <Jerry.Zuo@amd.com>
-Subject: [PATCH] drm/amd/display: remove unintended executable mode
-Date: Wed, 19 Aug 2020 10:18:08 +0200
-Message-Id: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C6E66E1F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 08:22:49 +0000 (UTC)
+Received: from localhost.localdomain (unknown [210.32.144.184])
+ by mail-app2 (Coremail) with SMTP id by_KCgA3OZxE4TxfMwMBAg--.43217S4;
+ Wed, 19 Aug 2020 16:22:32 +0800 (CST)
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+To: dinghao.liu@zju.edu.cn,
+	kjlu@umn.edu
+Subject: [PATCH] drm/crc-debugfs: Fix memleak in crc_control_write
+Date: Wed, 19 Aug 2020 16:22:28 +0800
+Message-Id: <20200819082228.26847-1-dinghao.liu@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgA3OZxE4TxfMwMBAg--.43217S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jr4xJr13Gry5Kr1fury7trb_yoWfWFb_Ka
+ 1fXrZrXrZFk34qv347Ca13ZFWS9an8XF4rXr1SkaySka17tr17WrW2gry5Xw13XF4UGryD
+ CasrXasxZrn7CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb-AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
+ 67AK6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
+ CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+ 6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+ WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
+ 6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+ 0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUhdbbUUUUU=
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgcLBlZdtPihowAesT
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,70 +53,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guchun Chen <guchun.chen@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hersen Wu <hersenxs.wu@amd.com>,
- amd-gfx@lists.freedesktop.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Mahesh Kumar <mahesh1.kumar@intel.com>,
+ linux-kernel@vger.kernel.org, Leo Li <sunpeng.li@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Besides the intended change, commit 4cc1178e166a ("drm/amdgpu: replace DRM
-prefix with PCI device info for gfx/mmhub") also set the source files
-mmhub_v1_0.c and gfx_v9_4.c to be executable, i.e., changed fromold mode
-644 to new mode 755.
+When verify_crc_source() fails, source needs to be freed.
+However, current code is returning directly and ends up
+leaking memory.
 
-Commit 241b2ec9317e ("drm/amd/display: Add dcn30 Headers (v2)") added the
-four header files {dpcs,dcn}_3_0_0_{offset,sh_mask}.h as executable, i.e.,
-mode 755.
-
-Set to the usual modes for source and headers files and clean up those
-mistakes. No functional change.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Fixes: c0811a7d5befe ("drm/crc: Cleanup crtc_crc_open function")
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 ---
-applies cleanly on current master and next-20200819
+ drivers/gpu/drm/drm_debugfs_crc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Alex, Christian, please pick this minor non-urgent cleanup patch.
-
-Dennis, Jerry, please ack.
-
-Dennis, Jerry, you might want to check your development environment
-introducing those executable modes on files.
-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c                         | 0
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c                       | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h   | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h  | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h  | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h | 0
- 6 files changed, 0 insertions(+), 0 deletions(-)
- mode change 100755 => 100644 drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
- mode change 100755 => 100644 drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h
-old mode 100755
-new mode 100644
+diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugfs_crc.c
+index 5d67a41f7c3a..3dd70d813f69 100644
+--- a/drivers/gpu/drm/drm_debugfs_crc.c
++++ b/drivers/gpu/drm/drm_debugfs_crc.c
+@@ -144,8 +144,10 @@ static ssize_t crc_control_write(struct file *file, const char __user *ubuf,
+ 		source[len - 1] = '\0';
+ 
+ 	ret = crtc->funcs->verify_crc_source(crtc, source, &values_cnt);
+-	if (ret)
++	if (ret) {
++		kfree(source);
+ 		return ret;
++	}
+ 
+ 	spin_lock_irq(&crc->lock);
+ 
 -- 
 2.17.1
 
