@@ -1,42 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F075224A539
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 19:51:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A8224A5A1
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 20:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74D126E46F;
-	Wed, 19 Aug 2020 17:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 797A26E595;
+	Wed, 19 Aug 2020 18:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB9A96E46F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 17:51:46 +0000 (UTC)
-Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9AD7220758;
- Wed, 19 Aug 2020 17:51:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597859506;
- bh=J+IjkUW3t6+Z48T6sJ6E00JRYLjetsG85a5bs6k5OlU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZSwvVSWyiG9/khcwBoGOaVfY5XAVh206RjrXDPYAp0WwMUcluNAZVLukSAlAEbakq
- Z0W2Zs4wUGS4hONtqysZJnkVK9xhIi3W7f5MnjestiyLWkmEN7i8wwddg1if3vFs4T
- tJIt0XuVfyU+rXsUv7zjrp9bNS4T2CpybASzF+cU=
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Gustavo Padovan <gustavo@padovan.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74C016E595
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:06:38 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7CFDCB790;
+ Wed, 19 Aug 2020 18:07:03 +0000 (UTC)
+Subject: Re: [PATCH drm/hisilicon v2 0/4] Use drm_err instead of DRM_ERROR in
+ hibmc driver
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
  linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH 2/2] dma-buf: fence-chain: Document missing
- dma_fence_chain_init() parameter in kerneldoc
-Date: Wed, 19 Aug 2020 19:51:34 +0200
-Message-Id: <20200819175134.19261-2-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200819175134.19261-1-krzk@kernel.org>
-References: <20200819175134.19261-1-krzk@kernel.org>
+References: <1597829014-39942-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <50f37353-a4fb-9b93-c48f-897cb7c6914b@suse.de>
+Date: Wed, 19 Aug 2020 20:06:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <1597829014-39942-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,38 +42,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============1691388169=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix W=1 compile warnings (invalid kerneldoc):
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1691388169==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="FyvNYwAnxF6sW6L71jwt75L6wO4E6DEIv"
 
-    drivers/dma-buf/dma-fence-chain.c:233: warning: Function parameter or member 'seqno' not described in 'dma_fence_chain_init'
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FyvNYwAnxF6sW6L71jwt75L6wO4E6DEIv
+Content-Type: multipart/mixed; boundary="WN6idnxKUAyH6JFXQUM9ADxPzxqyh6B4d";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <50f37353-a4fb-9b93-c48f-897cb7c6914b@suse.de>
+Subject: Re: [PATCH drm/hisilicon v2 0/4] Use drm_err instead of DRM_ERROR in
+ hibmc driver
+References: <1597829014-39942-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1597829014-39942-1-git-send-email-tiantao6@hisilicon.com>
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/dma-buf/dma-fence-chain.c | 1 +
- 1 file changed, 1 insertion(+)
+--WN6idnxKUAyH6JFXQUM9ADxPzxqyh6B4d
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index 3d123502ff12..7d129e68ac70 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -222,6 +222,7 @@ EXPORT_SYMBOL(dma_fence_chain_ops);
-  * @chain: the chain node to initialize
-  * @prev: the previous fence
-  * @fence: the current fence
-+ * @seqno: the sequence number to use for the fence chain
-  *
-  * Initialize a new chain node and either start a new chain or add the node to
-  * the existing chain of the previous fence.
--- 
-2.17.1
+Hi
+
+Am 19.08.20 um 11:23 schrieb Tian Tao:
+> patch #1 is using the drm_err instead of DRM_ERROR in hibmc_ttm.c
+> patch #2 is using the drm_err instead of DRM_ERROR in hibmc_drm_vdac.c
+> patch #3 is using the drm_err and drm_dbg_atomic instead of DRM_ERROR
+> and DRM_DEBUG_ATOMIC in hibmc_drm_de.c
+> patch #4 is using the drm_err and drm_warn instead of DRM_ERROR and
+> DRM_WARN in hibmc_drm_drv.c
+>=20
+> Changes since v1:
+> -Fixed spelling errors in patch name.
+
+Just a few formal nits: it's common to also log the changes in the
+patches themselves. And as I already R-b'ed the patchset, the patches
+should contain the tag.
+
+So
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+for the whole series. If no one else has comments, it should be fine to
+merge the patches by the end of the week.
+
+Best regards
+Thomas
+
+>=20
+> Tian Tao (4):
+>   drm/hisilicon: Use drm_err instead of DRM_ERROR in hibmc_ttm
+>   drm/hisilicon: Use drm_err instead of DRM_ERROR in hibmc_drm_vdac
+>   drm/hisilicon: Use drm_err instead of DRM_ERROR in hibmc_drm_de
+>   drm/hisilicon: Use drm_err instead of DRM_ERROR in hibmc_drm_drv
+>=20
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 14 +++++++-------
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 24 ++++++++++++----=
+--------
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  4 ++--
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c      |  2 +-
+>  4 files changed, 22 insertions(+), 22 deletions(-)
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--WN6idnxKUAyH6JFXQUM9ADxPzxqyh6B4d--
+
+--FyvNYwAnxF6sW6L71jwt75L6wO4E6DEIv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl89aikUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPYzAgAqN/EtFtij0zI+bAxmXk0iA2Hv10E
+2GKTG7OgOOAlt7VvL09ZVqLnggFpcQy/p8UKQ3uKGiCiwyc9DHQEDTog0wbld8v8
+N/nZB7iKhlqDoTPaSy/sQi0aN/ZCp9q4/W84ncnKXU9WD9M/3CYaKf4LEmRsX6b9
+deLy/fVV/UIuvvUdAgSWysmPkT9pbtpB3L73nfBdKjBlv/QcgWGWFxDZ2Lv+547S
+xY1xAMvZWAPtxVOUPwfA4KYzo7HV81vJnrb04LmeDzUT3AE3C5BjyPlPNJI22qZm
+sCmnIJ260/5EBISqPER55V3sxARCD47xDpDIRwAT0ry1f4tuLYxHPaw3kA==
+=56wm
+-----END PGP SIGNATURE-----
+
+--FyvNYwAnxF6sW6L71jwt75L6wO4E6DEIv--
+
+--===============1691388169==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1691388169==--
