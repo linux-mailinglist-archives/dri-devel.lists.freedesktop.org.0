@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80AA524A806
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 22:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E233B24A807
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 22:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2B16E81E;
-	Wed, 19 Aug 2020 20:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF346E81F;
+	Wed, 19 Aug 2020 20:52:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A1B16E81E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 20:52:04 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id v12so26899492ljc.10
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:52:04 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4076E81F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 20:52:06 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id m22so26880424ljj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=klnwjmccKXa83diz/UPM1wfkPLBuKxflt6KGqDpoJIA=;
- b=iqx9MNXuK9IoffrzNcqTU41PFdUMB91XH71inx1n2Tiz4S5KKqLMmBMh2CkqU+HxTK
- 2NodYjaUeQBcdmgPNeWEwyUgePGIoo5qWkdmI7x0ITRwV6yUIEGHVWLHPYm62g1ZfgLe
- 06BETNmHkSkmN1fZ6q8o4fzGgUNIZJAy1/dXU64TqjyuQrZsTsYxx8ivEJzwYQ+IKi7W
- 1U/sU1KgFu84MyeJkOJN/3VzwhW2LKAKn5Pm/Gv/2HN9RkMAPa7KApzb6AN0I3yx760B
- D9YYJByO495l8YChELhS10ikO2fb6z5pFV1FbppTFHLDj6Cfqk5nW0CeZu7QqcwaClmK
- DveQ==
+ bh=Sf36Xrs5j4CrikMm+NIIGk8dd1z1QFVXmgGUGWxVzwM=;
+ b=l9YnSXe3Uvh2SVmsfNlAqbj3wm2mlTzFnpD9Ws0/bJx8mSrcubzBNaKcPOYx01gxIt
+ qQq0CWsVw5Ns9/0eWDvV/GgFqaHKh0h151WAStuuI108f0SXZQaqW4cAnAEXu1z9qxrP
+ CxFZDEaBLuny+QKQQLe0+aZp+ic53XynMBUIX13YX0f7gbNfjriqnFWxrwbkadYw3vqD
+ 2dGdJPvAikoMARCe2nQWOs0vDEoQOR+HvHsgZQBEFGcfGNByaYPzXjTe/ex9wnJaTg3u
+ v/HcsV/1IQ9zsem7hHF6QoK4o9Iheiysvivh8V0u9iFqx7yeOaWnPv8e4g5ClbupBv7T
+ uO+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=klnwjmccKXa83diz/UPM1wfkPLBuKxflt6KGqDpoJIA=;
- b=P9vL4rdLdNjSq56f0ju1v+O41OoCWOVcETGDu/WzCKxQolzDfjcJXVlFxc7hE/INqF
- rEpuFasc1iyUZm59TJ3W7ewBiWPlHwtXU/cT7cQIAN3HqyndOVD2HsmggmLjqzZ+uwnE
- Qs1mjhI+jbphYu+2uhHjqBGrrayrl64UjOL1EUXnZmeUmDbABMybhz3e4bJOQ2uh0iLP
- nrSxYnwIvgGW3oeXuM8cPHkbdk+g0m8tPheqP0Gfas9CN4iJ3COGMvpjygYyLRHGeeHZ
- YuHrrW/vEGj+MP/Y50CGsml9YaQ+plS+TwN0NVuL9jI1cn3s4+K+NM0Vb8/VJwDgSZs9
- /u7A==
-X-Gm-Message-State: AOAM533VvQBs+x/OPqs5rfTOr8G2Tf7q/P9EQBGIJpIOj7fgtuTI3Lij
- IXYJSTST6msTVo2kNS6FVWO7u0belKNryw==
-X-Google-Smtp-Source: ABdhPJzuqHZGPimvmmxbFVWte7D1lk3H6Rdx+S0uh8xMtn50T9AblBCDe5+0zwHi+dkUD38DwYY2ew==
-X-Received: by 2002:a2e:531c:: with SMTP id h28mr33256ljb.322.1597870322914;
- Wed, 19 Aug 2020 13:52:02 -0700 (PDT)
+ bh=Sf36Xrs5j4CrikMm+NIIGk8dd1z1QFVXmgGUGWxVzwM=;
+ b=nr+gOvAr7qjoLpKswD3jvIdRe5FCX65ypLAyrE+nx2XAZLSArbR8XWdtq6wqsnugKH
+ Pzfr11nmif6QymL3O4AuZS4wFbK9TIslh/pVR4s8nftRrIG/ePFM00kazCN/50zz8L37
+ knUaUY4gCaceD+HO56+dVueSZxvfqePPZfo+pqzpG5TYM7/GT8ePQ3crJ7HEtFerNz6p
+ UbEj50uUjJ56Esvzucd7VHcpImGz6e1P5Fh1rVSF/1IpoNbmQ6Akf+4HVDBjxOygkHy4
+ 3ehh6JhIUffkqmcai6qNk/fpNxY4t6pmc8cKsZxzMwkg97EKAKglHcZU/Mv4JR5iBIl+
+ UUXA==
+X-Gm-Message-State: AOAM533xIJzLkzbNGAQ9I1br8W0CZsTHYUWWIZZtDvldpWVsIhBYRSIl
+ SlkqQyP92++amHphp0UxwZgNpQ==
+X-Google-Smtp-Source: ABdhPJwRJadkkfHom8fuY2KagaEXclrxrsZYvh6LtLhtGEytgqhXhhSeBinHaB4vg2qBsAIfBMOcdg==
+X-Received: by 2002:a2e:5cc9:: with SMTP id q192mr27317ljb.452.1597870324859; 
+ Wed, 19 Aug 2020 13:52:04 -0700 (PDT)
 Received: from localhost.bredbandsbolaget
  (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id u10sm8188lfo.39.2020.08.19.13.52.01
+ by smtp.gmail.com with ESMTPSA id u10sm8188lfo.39.2020.08.19.13.52.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 13:52:02 -0700 (PDT)
+ Wed, 19 Aug 2020 13:52:04 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
 To: Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3 v3] dt-bindings: backlight: Add Kinetic KTD253 bindings
-Date: Wed, 19 Aug 2020 22:51:49 +0200
-Message-Id: <20200819205150.164403-2-linus.walleij@linaro.org>
+Subject: [PATCH 3/3 v3] backlight: Add Kinetic KTD253 backlight driver
+Date: Wed, 19 Aug 2020 22:51:50 +0200
+Message-Id: <20200819205150.164403-3-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200819205150.164403-1-linus.walleij@linaro.org>
 References: <20200819205150.164403-1-linus.walleij@linaro.org>
@@ -69,84 +69,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds device tree bindings for the Kinetic KTD253
-white LED backlight driver.
+The Kinetic KTD253 backlight driver is controlled with a
+single GPIO line, but still supports a range of brightness
+settings by sending fast pulses on the line.
 
-Cc: devicetree@vger.kernel.org
+This is based off the source code release for the Samsung
+GT-S7710 mobile phone.
+
 Cc: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 ChangeLog v2->v3:
-- Drop the pointless cargo-culted "default-on" property that
-  we were not using
-- Correct the brightness in the example to something legal (13)
+- Collect Daniel's review tag.
 ChangeLog v1->v2:
-- Create common.yaml for backlight as suggested by Sam and
-  use that.
-- Rename the GPIO line "enable-gpios"
+- Expose the 32 actual hardware levels of brightness directly
+  instead of using an interpolated "brightness" table.
+- Use the new backlight_get_brightness() helper.
+- Call backlight_update_status() in probe instead of calling
+  local functions to sync brightness.
+- Sort includes alphabetically.
+- Name the GPIO line "enable" and grab that in accordance
+  with the change to the DT bindings.
 ---
- .../leds/backlight/kinetic,ktd253.yaml        | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+ MAINTAINERS                                |   6 +
+ drivers/video/backlight/Kconfig            |   8 +
+ drivers/video/backlight/Makefile           |   1 +
+ drivers/video/backlight/ktd253-backlight.c | 198 +++++++++++++++++++++
+ 4 files changed, 213 insertions(+)
+ create mode 100644 drivers/video/backlight/ktd253-backlight.c
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index deaafb617361..ef6b4a279d25 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9722,6 +9722,12 @@ F:	Documentation/admin-guide/auxdisplay/ks0108.rst
+ F:	drivers/auxdisplay/ks0108.c
+ F:	include/linux/ks0108.h
+ 
++KTD253 BACKLIGHT DRIVER
++M:	Linus Walleij <linus.walleij@linaro.org>
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
++F:	drivers/video/backlight/ktd253-backlight.c
++
+ L3MDEV
+ M:	David Ahern <dsahern@kernel.org>
+ L:	netdev@vger.kernel.org
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 87f9fc238d28..d83c87b902c1 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -182,6 +182,14 @@ config BACKLIGHT_IPAQ_MICRO
+ 	  computers. Say yes if you have one of the h3100/h3600/h3700
+ 	  machines.
+ 
++config BACKLIGHT_KTD253
++	tristate "Backlight Driver for Kinetic KTD253"
++	depends on GPIOLIB || COMPILE_TEST
++	help
++	  Say y to enabled the backlight driver for the Kinetic KTD253
++	  which is a 1-wire GPIO-controlled backlight found in some mobile
++	  phones.
++
+ config BACKLIGHT_LM3533
+ 	tristate "Backlight Driver for LM3533"
+ 	depends on MFD_LM3533
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 13463b99f1f9..685f3f1ca4df 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -35,6 +35,7 @@ obj-$(CONFIG_BACKLIGHT_GPIO)		+= gpio_backlight.o
+ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
+ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
++obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
+ obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
+diff --git a/drivers/video/backlight/ktd253-backlight.c b/drivers/video/backlight/ktd253-backlight.c
 new file mode 100644
-index 000000000000..7a6ec1f8c0f3
+index 000000000000..e3fee3f1f582
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktd253.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/video/backlight/ktd253-backlight.c
+@@ -0,0 +1,198 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Backlight driver for the Kinetic KTD253
++ * Based on code and know-how from the Samsung GT-S7710
++ * Gareth Phillips <gareth.phillips@samsung.com>
++ */
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/fb.h>
++#include <linux/gpio/consumer.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/limits.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/property.h>
++#include <linux/slab.h>
 +
-+title: Kinetic Technologies KTD253 one-wire backlight
++/* Current ratio is n/32 from 1/32 to 32/32 */
++#define KTD253_MIN_RATIO 1
++#define KTD253_MAX_RATIO 32
++#define KTD253_DEFAULT_RATIO 13
 +
-+maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
++#define KTD253_T_LOW_NS (200 + 10) /* Additional 10ns as safety factor */
++#define KTD253_T_HIGH_NS (200 + 10) /* Additional 10ns as safety factor */
++#define KTD253_T_OFF_MS 3
 +
-+description: |
-+  The Kinetic Technologies KTD253 is a white LED backlight that is
-+  controlled by a single GPIO line. If you just turn on the backlight
-+  it goes to maximum backlight then you can set the level of backlight
-+  using pulses on the enable wire. This is sometimes referred to as
-+  "expresswire".
++struct ktd253_backlight {
++	struct device *dev;
++	struct backlight_device *bl;
++	struct gpio_desc *gpiod;
++	u16 ratio;
++};
 +
-+allOf:
-+  - $ref: common.yaml#
++static int ktd253_backlight_update_status(struct backlight_device *bl)
++{
++	struct ktd253_backlight *ktd253 = bl_get_data(bl);
++	int brightness = backlight_get_brightness(bl);
++	u16 target_ratio;
++	u16 current_ratio = ktd253->ratio;
++	unsigned long flags;
 +
-+properties:
-+  compatible:
-+    const: kinetic,ktd253
++	dev_dbg(ktd253->dev, "new brightness/ratio: %d/32\n", brightness);
 +
-+  enable-gpios:
-+    description: GPIO to use to enable/disable and dim the backlight.
-+    maxItems: 1
++	target_ratio = brightness;
 +
-+  default-brightness: true
-+  max-brightness: true
++	if (target_ratio == current_ratio)
++		/* This is already right */
++		return 0;
 +
-+required:
-+  - compatible
-+  - enable-gpios
++	if (target_ratio == 0) {
++		gpiod_set_value_cansleep(ktd253->gpiod, 0);
++		/*
++		 * We need to keep the GPIO low for at least this long
++		 * to actually switch the KTD253 off.
++		 */
++		msleep(KTD253_T_OFF_MS);
++		ktd253->ratio = 0;
++		return 0;
++	}
 +
-+additionalProperties: false
++	if (current_ratio == 0) {
++		gpiod_set_value_cansleep(ktd253->gpiod, 1);
++		ndelay(KTD253_T_HIGH_NS);
++		/* We always fall back to this when we power on */
++		current_ratio = KTD253_MAX_RATIO;
++	}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    backlight {
-+        compatible = "kinetic,ktd253";
-+        enable-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
-+        default-brightness = <13>;
-+    };
++	/*
++	 * WARNING:
++	 * The loop to set the correct current level is performed
++	 * with interrupts disabled as it is timing critical.
++	 * The maximum number of cycles of the loop is 32
++	 * so the time taken will be (T_LOW_NS + T_HIGH_NS + loop_time) * 32,
++	 */
++	local_irq_save(flags);
++	while (current_ratio != target_ratio) {
++		/*
++		 * These GPIO operations absolutely can NOT sleep so no
++		 * _cansleep suffixes, and no using GPIO expanders on
++		 * slow buses for this!
++		 */
++		gpiod_set_value(ktd253->gpiod, 0);
++		ndelay(KTD253_T_LOW_NS);
++		gpiod_set_value(ktd253->gpiod, 1);
++		ndelay(KTD253_T_HIGH_NS);
++		/* After 1/32 we loop back to 32/32 */
++		if (current_ratio == KTD253_MIN_RATIO)
++			current_ratio = KTD253_MAX_RATIO;
++		else
++			current_ratio--;
++	}
++	local_irq_restore(flags);
++	ktd253->ratio = current_ratio;
++
++	dev_dbg(ktd253->dev, "new ratio set to %d/32\n", target_ratio);
++
++	return 0;
++}
++
++static const struct backlight_ops ktd253_backlight_ops = {
++	.options	= BL_CORE_SUSPENDRESUME,
++	.update_status	= ktd253_backlight_update_status,
++};
++
++static int ktd253_backlight_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct backlight_device *bl;
++	struct ktd253_backlight *ktd253;
++	u32 max_brightness;
++	u32 brightness;
++	int ret;
++
++	ktd253 = devm_kzalloc(dev, sizeof(*ktd253), GFP_KERNEL);
++	if (!ktd253)
++		return -ENOMEM;
++	ktd253->dev = dev;
++
++	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
++	if (ret)
++		max_brightness = KTD253_MAX_RATIO;
++	if (max_brightness > KTD253_MAX_RATIO) {
++		/* Clamp brightness to hardware max */
++		dev_err(dev, "illegal max brightness specified\n");
++		max_brightness = KTD253_MAX_RATIO;
++	}
++
++	ret = device_property_read_u32(dev, "default-brightness", &brightness);
++	if (ret)
++		brightness = KTD253_DEFAULT_RATIO;
++	if (brightness > max_brightness) {
++		/* Clamp default brightness to max brightness */
++		dev_err(dev, "default brightness exceeds max brightness\n");
++		brightness = max_brightness;
++	}
++
++	if (brightness)
++		/* This will be the default ratio when the KTD253 is enabled */
++		ktd253->ratio = KTD253_MAX_RATIO;
++	else
++		ktd253->ratio = 0;
++
++	ktd253->gpiod = devm_gpiod_get(dev, "enable",
++				       brightness ? GPIOD_OUT_HIGH :
++				       GPIOD_OUT_LOW);
++	if (IS_ERR(ktd253->gpiod)) {
++		ret = PTR_ERR(ktd253->gpiod);
++		if (ret != -EPROBE_DEFER)
++			dev_err(dev, "gpio line missing or invalid.\n");
++		return ret;
++	}
++	gpiod_set_consumer_name(ktd253->gpiod, dev_name(dev));
++
++	bl = devm_backlight_device_register(dev, dev_name(dev), dev, ktd253,
++					    &ktd253_backlight_ops, NULL);
++	if (IS_ERR(bl)) {
++		dev_err(dev, "failed to register backlight\n");
++		return PTR_ERR(bl);
++	}
++	bl->props.max_brightness = max_brightness;
++	/* When we just enable the GPIO line we set max brightness */
++	if (brightness) {
++		bl->props.brightness = brightness;
++		bl->props.power = FB_BLANK_UNBLANK;
++	} else {
++		bl->props.brightness = 0;
++		bl->props.power = FB_BLANK_POWERDOWN;
++	}
++
++	ktd253->bl = bl;
++	platform_set_drvdata(pdev, bl);
++	backlight_update_status(bl);
++
++	return 0;
++}
++
++static const struct of_device_id ktd253_backlight_of_match[] = {
++	{ .compatible = "kinetic,ktd253" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, ktd253_backlight_of_match);
++
++static struct platform_driver ktd253_backlight_driver = {
++	.driver = {
++		.name = "ktd253-backlight",
++		.of_match_table = ktd253_backlight_of_match,
++	},
++	.probe		= ktd253_backlight_probe,
++};
++module_platform_driver(ktd253_backlight_driver);
++
++MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
++MODULE_DESCRIPTION("Kinetic KTD253 Backlight Driver");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:ktd253-backlight");
 -- 
 2.26.2
 
