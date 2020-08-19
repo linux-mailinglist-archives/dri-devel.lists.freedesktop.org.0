@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44F624AFDA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99DF24AFE2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840E46E8D5;
-	Thu, 20 Aug 2020 07:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDCD6E901;
+	Thu, 20 Aug 2020 07:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7BB6E560
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 19:38:57 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id p24so27660315ejf.13
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 12:38:57 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11EAE6E560
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 19:39:43 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id a14so19089402edx.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 12:39:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=YRPJpeT5dhxWJ12GIFcarr8oc1JgRi4yV8j1UvVpQQs=;
- b=Y/TMCp2AfpTBeZ1xLSiaWieg09HkNJpTltYziCwR0usYRnVKobknSYN9bZc2H9GOU3
- RlIzAqE9UhP0dz/dIgffplwsHnZ1x+3PLshll/AhehzZn2KTF23JO76enX5pTX5OJsup
- 8WmPltVJM2ZOJdjgexK8RyQ0dCeuBPqsGfwdgFRz+oF84/sKwsu+AC5jELgEtq0rgbQE
- PjJIav1YKoqMmyPrZWdFV3DEyAjPYgVOlnEnEkUMxzCHp3n575g0i3fAw1QUt6gfcOIp
- DcmV0sGoZMEdYhGzIEsBf1K6jqr4iBeu7ULnw1jnCMq4sCDnr/ug208FqJx8N6exgCI8
- bXhg==
+ bh=Yd7EYvVEuvXaQQnlQebjKHZTDtyygSQlPm6fYa8dX0c=;
+ b=NH7adRKAPFPqZPXCowY/ar3Ei1f5iH0HB+od9dTrfZ2Q2zUAIfVlraBF/Fxwux/zc7
+ Qesy8hn2qkE3lri4hKI8j3wtgYeFKwxVac52bl2h2WmvlLmA74QcWLk1orOx4vde9Tn2
+ 0IPJN7vNLSBr2JIbZ40KjUcC8mErBK/GR13YjOlhouPHETMFWv/cniY/UWH1St5nVFrw
+ YVFgyD0G4Kwdpdje0udHuHg043j6p3aVp+WSUnL9erAxPMF+C3LByIAooTqKVFX4UFuL
+ SiojRV6UrVcFkdC3LxawWpCpkiijD6Ej5VBcYpJjIgCt8UXcGZZzmTxm5KXQ3c95LNCU
+ 563Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=YRPJpeT5dhxWJ12GIFcarr8oc1JgRi4yV8j1UvVpQQs=;
- b=Wk8EYSXv8twXqDwxFY+1hhFFwr19vO8knpGpkGLHuWQFpCQtio7zXPkIBRCevbwCjh
- nE9Kc1Ih/SZHR1Fx2DUCZMjmm3SrbApxQKJ/XPPmfw0wRixaKnCypCZO2tJ5exC/9uwp
- zhpM0DMO+ED2jerlkbGPzbsyJJOt3o0svs5hQugb1ulElt7YipgcLrQBlQvAq5YKyp2h
- 91RwGJEMVmNPzelXtRDvdclts+CsRqVJP6a0flby30CiFH1+Zfcvh4xEAsc0JU3cwVua
- 6mS39FsLndgAqE1kCCe90imVyrEzkO+9oWnJtPN5br2+JKT+oZaGDfiqfOMOpVuHfHHT
- Q7wQ==
-X-Gm-Message-State: AOAM533U98s5kCWcXHUFKPEA9amUyWgDXonq7A2uwe2IcNorbA0bcQwa
- Hecqx9BcmdqhtYZ6kKQ141A=
-X-Google-Smtp-Source: ABdhPJwaiRRbcYN8dZl/U4YqQD41O2+zpth7YbXzWPNZCNAzTKai7VUycG9u+6QMlPAbQdRSaR7nAQ==
-X-Received: by 2002:a17:906:c187:: with SMTP id
- g7mr6051159ejz.108.1597865936360; 
- Wed, 19 Aug 2020 12:38:56 -0700 (PDT)
+ bh=Yd7EYvVEuvXaQQnlQebjKHZTDtyygSQlPm6fYa8dX0c=;
+ b=BoPRHSD1tgedJv78xuXZInV8RL1+IaaOSY5Wyg9ahw+6FAz5XJMR9MBW5DRL4COw2p
+ g6CZAE2k01nqupM7hIJYvJNlabB1AMFRlyBQApO2S9QkqJY8sX3U/GUBsWqsYL/kp1aQ
+ DwOMmFZETDf9caHDsT2Wz9XZ3GUZPIuUuIBYnWksr4yXUB8yu9Dq1Po1GWTchp7P2xSi
+ beBVlh0y+UB0TIB6klX/V5ivxbEPb4xbD7qQQRyCXpTOzhHBZHLOEJ+DuAFU9LiFw1cb
+ ajUyAa982ykk/gORFklhpHndgffLCJkntZlSjwccK78aAr3KGIc+5AcBl0PnPWZvcZri
+ qK+A==
+X-Gm-Message-State: AOAM531bjnI0t+IOKezYcSLiuncloXy27ovQRw1ycwMD2+S7aKrZ1uSk
+ A+QhriCoGOrdOFUQ+yfn9eA=
+X-Google-Smtp-Source: ABdhPJzRnOQW8YcxGuz4rNEnMK/i4+CphrpkfHFQ/9AogKnkfRQdSdNfeYjk6Gsj1pC+dzZxDPkFaw==
+X-Received: by 2002:a05:6402:1443:: with SMTP id
+ d3mr27266551edx.40.1597865981745; 
+ Wed, 19 Aug 2020 12:39:41 -0700 (PDT)
 Received: from tsnow (IGLD-83-130-68-114.inter.net.il. [83.130.68.114])
- by smtp.gmail.com with ESMTPSA id x16sm18064084edr.25.2020.08.19.12.38.51
+ by smtp.gmail.com with ESMTPSA id a19sm18231355edv.49.2020.08.19.12.39.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 12:38:55 -0700 (PDT)
-Date: Wed, 19 Aug 2020 22:38:47 +0300
+ Wed, 19 Aug 2020 12:39:41 -0700 (PDT)
+Date: Wed, 19 Aug 2020 22:39:34 +0300
 From: Tomer Samara <tomersamara98@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3 1/2] staging: android: Remove BUG_ON from ion_page_pool.c
-Message-ID: <2e6c71ad168f92170ef856922b9a0c8dd0f85e11.1597865771.git.tomersamara98@gmail.com>
+Subject: [PATCH v3 2/2] staging: android: Remove BUG from ion_system_heap.c
+Message-ID: <39222c3a041708c41ab3bc1be855ac83912ee07b.1597865771.git.tomersamara98@gmail.com>
 References: <cover.1597865771.git.tomersamara98@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -80,66 +80,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-BUG_ON() is removed at ion_page_pool.c and add error handleing to
-ion_page_pool_shrink
-
-Fixes the following issue:
-Avoid crashing the kernel - try using WARN_ON & recovery code ratherthan BUG() or BUG_ON().
+Remove BUG()  at ion_sytem_heap.c and error handling to:
+ - free_buffer_page
+ - alloc_buffer_page
+this fix the following checkpatch issue:
+Avoid crashing the kernel - try using WARN_ON &
+recovery code ratherthan BUG() or BUG_ON().
 
 Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
 ---
- drivers/staging/android/ion/ion_page_pool.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/staging/android/ion/ion_system_heap.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/android/ion/ion_page_pool.c b/drivers/staging/android/ion/ion_page_pool.c
-index 0198b886d906..ae2bc57bcbe8 100644
---- a/drivers/staging/android/ion/ion_page_pool.c
-+++ b/drivers/staging/android/ion/ion_page_pool.c
-@@ -46,11 +46,13 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
- 	struct page *page;
+diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
+index eac0632ab4e8..56d53268b82c 100644
+--- a/drivers/staging/android/ion/ion_system_heap.c
++++ b/drivers/staging/android/ion/ion_system_heap.c
+@@ -30,7 +30,7 @@ static int order_to_index(unsigned int order)
+ 	for (i = 0; i < NUM_ORDERS; i++)
+ 		if (order == orders[i])
+ 			return i;
+-	BUG();
++
+ 	return -1;
+ }
  
- 	if (high) {
--		BUG_ON(!pool->high_count);
-+		if (!pool->high_count)
-+			return NULL;
- 		page = list_first_entry(&pool->high_items, struct page, lru);
- 		pool->high_count--;
- 	} else {
--		BUG_ON(!pool->low_count);
-+		if (!pool->low_count)
-+			return NULL;
- 		page = list_first_entry(&pool->low_items, struct page, lru);
- 		pool->low_count--;
- 	}
-@@ -65,7 +67,8 @@ struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
+@@ -48,8 +48,13 @@ static struct page *alloc_buffer_page(struct ion_system_heap *heap,
+ 				      struct ion_buffer *buffer,
+ 				      unsigned long order)
  {
- 	struct page *page = NULL;
+-	struct ion_page_pool *pool = heap->pools[order_to_index(order)];
++	struct ion_page_pool *pool;
++	int index = order_to_index(order);
  
--	BUG_ON(!pool);
-+	if (!pool)
++	if (index < 0)
 +		return NULL;
++
++	pool = heap->pools[index];
+ 	return ion_page_pool_alloc(pool);
+ }
  
- 	mutex_lock(&pool->mutex);
- 	if (pool->high_count)
-@@ -82,7 +85,8 @@ struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
- 
- void ion_page_pool_free(struct ion_page_pool *pool, struct page *page)
+@@ -58,6 +63,7 @@ static void free_buffer_page(struct ion_system_heap *heap,
  {
--	BUG_ON(pool->order != compound_order(page));
-+	if (pool->order != compound_order(page))
+ 	struct ion_page_pool *pool;
+ 	unsigned int order = compound_order(page);
++	int index;
+ 
+ 	/* go to system */
+ 	if (buffer->private_flags & ION_PRIV_FLAG_SHRINKER_FREE) {
+@@ -65,8 +71,11 @@ static void free_buffer_page(struct ion_system_heap *heap,
+ 		return;
+ 	}
+ 
+-	pool = heap->pools[order_to_index(order)];
++	index = order_to_index(order);
++	if (index < 0)
 +		return;
  
- 	ion_page_pool_add(pool, page);
++	pool = heap->pools[index];
+ 	ion_page_pool_free(pool, page);
  }
-@@ -124,6 +128,8 @@ int ion_page_pool_shrink(struct ion_page_pool *pool, gfp_t gfp_mask,
- 			break;
- 		}
- 		mutex_unlock(&pool->mutex);
-+		if (!page)
-+			break;
- 		ion_page_pool_free_pages(pool, page);
- 		freed += (1 << pool->order);
- 	}
+ 
 -- 
 2.25.1
 
