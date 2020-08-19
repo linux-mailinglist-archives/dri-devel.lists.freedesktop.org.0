@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DED824A7E2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 22:46:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C92F124A804
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 22:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D967B6E81D;
-	Wed, 19 Aug 2020 20:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDCA26E81C;
+	Wed, 19 Aug 2020 20:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3796E81D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 20:46:54 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id v15so12762355lfg.6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:46:54 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B806E81C
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 20:52:01 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id i80so12758920lfi.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 13:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qi99Xq7OFQtrS3HvWRrLPLcLhnBb4j7+vDIzg/ZS78U=;
- b=YMy1Q/pcnLqeeA4tcagxpLCBlFHveuLAHO/mv7p7YaiDnH5i01ZbfCeL3FFDRbbdDb
- u2/F+vcssHM25YD3/byL5svh/FM6YW1ad7IHD8A9H0ZE/swjCcbNZ3QCN6qhFrw9FjGB
- 2kMCNQ/m7ygfUwNrNVnQ6sM8RsRNjvlPnSsA9p4RaUldiYDvXI0rM3Kj4vfm0qtSWaVk
- PYQ8xmK4JwsJvbagsW4QiUNTkIlDizXPreLh4ep4JtsT24sARIsmkev0qxgI6OAUc7HJ
- iVn6h5SJquF8Jf797Lfxz4bnBo5pHxD7N1G4fiXGOVFom2E+ahIPOKTIVZ7mK3q4hMPA
- ga6A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DrnAOfNeMY45Zc2VAynDzTk+Pika+bbdhzqu0uIz8TM=;
+ b=LXqQ/fx4gASCmZtcHjHDguMZZ92GvjofBVvXPDlt6vO7HSmPDQfvI/a/1vyZzNRgCX
+ jZ12bFn+2i3bNm8Vwhp2CRp3Kf4137UrglxaGOSBJrPBn4EoOKc5erpsRjErMoF/aOK0
+ 4mbTxt6DBylQ2k0lHNyEEDV/K9XjHFG7X27bDQoflaUbym7Zrb6zTkrPHbkyk+q/AWiw
+ NpxZzk75/qrynlhb8vXjuStzilomVCS4k1FHz1/ImOxhlq2jY/vkv8eDYBpoIr3wXeKp
+ BXY5Cd36msSs24beVkJdlDqGRkl+r2B5Tk2obFnE+Siy0Qmdz0M5aXogdXgPOhG3hOvX
+ Pi1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qi99Xq7OFQtrS3HvWRrLPLcLhnBb4j7+vDIzg/ZS78U=;
- b=szOflBh2ZIvc1H029KGXR+GWUMRd4eqQDImDPxzTpTeA2Vgj5hT8xWLihsdLGsyEej
- 32zucupCuGXGxOA8SGVa3Q6ryGdld//08dJ0MdRDNjqiKDwBVpMT2PhhdLxjIROGmQZO
- wfjmTZzs8k+XejnAmhmCVp3zHrLhHnolxS6g87/yzJoIXI/WiWVjOHGtuInLWBNBwsWj
- 6yqjn/O/VvPy3Q5exUnUwoCE9PQF8WpGBWZrABNCsyM3JtYbDaPgkpth6wlT0z4Lcq5i
- C3awyR/cewEkkHrz7QrqIycOP8B9xsjOeUWvTYBKFrvOXkidhXpeaOfy2vWxSW/Kh6AY
- 8ztw==
-X-Gm-Message-State: AOAM532NzPIkUsGOj8ghd3wfQFa3V5V2nsGPQg+JRIrVKCCHMqtIngzo
- z/2LXskKzVc53etOcnWmStJObwEugmkW9OXiIRDjow==
-X-Google-Smtp-Source: ABdhPJxYsaEQNSGTuSsMUNmBMUPNhsmvD7Dua6a20QK/pxww6zjEfIY87vu/7DoXyEUieTD58VtbtuACfuT4CzMc5z0=
-X-Received: by 2002:ac2:4c05:: with SMTP id t5mr13104401lfq.89.1597870012976; 
- Wed, 19 Aug 2020 13:46:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200812085850.2643820-1-linus.walleij@linaro.org>
- <CAL_JsqLR3HEsbuNq7i+N3ETYVoMtUP90_Ev=tO8GJr+fF4QHWQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqLR3HEsbuNq7i+N3ETYVoMtUP90_Ev=tO8GJr+fF4QHWQ@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DrnAOfNeMY45Zc2VAynDzTk+Pika+bbdhzqu0uIz8TM=;
+ b=DpObvJIEPusWn3tIEFbxtoagDx9TZ1Wih/HPF70case3yQlWmn/nkJyVco/bbh6hrH
+ rcMsiTTl6JehJ7eSpTwBDb9N5+ej/kPIKhYxWl+TvlrlmC0y/6tAnxMibsfb2PMx/WcD
+ s4aNONpQ62diS9GVrJG9F+Qyt+abjB9Y1Uu4Xio2gcVbhtkjGM6d478Ru4EqBhZ5RjKn
+ E2qYkEGZIkkj+pk+l9EBnco3oiQ6WxahtatAAL5L1lvAq5Z8rTI+m2tAWe55m8qGe0GG
+ QYDWZuZUqCZxlBTeDNrTGB8F5hxAgPjv7/wtXEaP8pI+j7IvUJ7LrTXp18fl2IJey77I
+ KrTg==
+X-Gm-Message-State: AOAM533OvaHfEVtOnGzhZfhCDEijghos1nlOdcbP9h1KeCVh6qDOafR8
+ ZQKSwjJM43Hytm09bBOsfRQhzw==
+X-Google-Smtp-Source: ABdhPJyz+ohEqmEM1RkxQtUpRLw6wTd+k/jtb3NLYO4vG+UVH3YylURSMNIz97RIaO7LeQ91qbxsZw==
+X-Received: by 2002:a19:3f57:: with SMTP id m84mr1052364lfa.128.1597870320184; 
+ Wed, 19 Aug 2020 13:52:00 -0700 (PDT)
+Received: from localhost.bredbandsbolaget
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id u10sm8188lfo.39.2020.08.19.13.51.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Aug 2020 13:51:59 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 19 Aug 2020 22:46:41 +0200
-Message-ID: <CACRpkdYOym=0BOsTr=bh4Zax5euj9RcRzZ_keUL3Z1EN+UykWw@mail.gmail.com>
-Subject: Re: [PATCH 1/3 v2] dt-bindings: backlight: Add some common backlight
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3 v3] dt-bindings: backlight: Add some common backlight
  properties
-To: Rob Herring <robh@kernel.org>
+Date: Wed, 19 Aug 2020 22:51:48 +0200
+Message-Id: <20200819205150.164403-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +68,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Lee Jones <lee.jones@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 12, 2020 at 5:46 PM Rob Herring <robh@kernel.org> wrote:
-> On Wed, Aug 12, 2020 at 2:58 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > Let's use a common.yaml include for the backlight like we do with
-> > the LEDs. The LEDs are inherently incompatible so their bindings
-> > cannot be reused for backlight.
-> >
-> > Cc: devicetree@vger.kernel.org
-> > Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> > ---
-> > ChangeLog v1->v2:
-> > - New patch as suggested by Sam.
-> > ---
-> >  .../bindings/leds/backlight/common.yaml       | 42 +++++++++++++++++++
-> >  1 file changed, 42 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/common.yaml
->
-> I'd expect some refactoring here with existing backlight schemas
-> including the ones I just added for 5.9.
+Let's use a common.yaml include for the backlight like we do with
+the LEDs. The LEDs are inherently incompatible so their bindings
+cannot be reused for backlight.
 
-Yeah if it takes off I can certainly make a slew of refactorings,
-I would like to do that once this is applied.
+Cc: devicetree@vger.kernel.org
+Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v2->v3:
+- Drop the | for the description
+- Drop the "default-on" property, we're not using it.
+- Drop the minimum 0 for unsigned u32:s
+ChangeLog v1->v2:
+- New patch as suggested by Sam.
+---
+ .../bindings/leds/backlight/common.yaml       | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/common.yaml
 
-> > +  LED powered by a boost converter.
-> > +
-> > +properties:
-> > +  default-on:
-> > +    description:
-> > +      The initial state of the backlight can be set to be on with this
-> > +      property. This is a state applied by the operating system so that the
-> > +      backlight is always turned on at boot.
->
-> Needs a type.
+diff --git a/Documentation/devicetree/bindings/leds/backlight/common.yaml b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+new file mode 100644
+index 000000000000..4e7e95e331a5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+@@ -0,0 +1,34 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/common.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Common backlight properties
++
++maintainers:
++  - Lee Jones <lee.jones@linaro.org>
++  - Daniel Thompson <daniel.thompson@linaro.org>
++  - Jingoo Han <jingoohan1@gmail.com>
++
++description:
++  Backlight devices provide backlight for different types of graphical
++  displays. They are typically but not necessarily implemented using a white
++  LED powered by a boost converter.
++
++properties:
++  default-brightness:
++    description:
++      The default brightness that should be applied to the LED by the operating
++      system on start-up. The brightness should not exceed the brightness the
++      LED can provide.
++    $ref: /schemas/types.yaml#definitions/uint32
++
++  max-brightness:
++    description:
++      Normally the maximum brightness is determined by the hardware and this
++      property is not required. This property is used to put a software limit
++      on the brightness apart from what the driver says, as it could happen
++      that a LED can be made so bright that it gets damaged or causes damage
++      due to restrictions in a specific system, such as mounting conditions.
++    $ref: /schemas/types.yaml#definitions/uint32
+-- 
+2.26.2
 
-Dropping this property because the subsystem maintainer
-doubts this is needed.
-
-Fixed the rest!
-
-Yours,
-Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
