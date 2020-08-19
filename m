@@ -2,75 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB46624A4E8
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 19:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EFE24A506
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 19:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6646E174;
-	Wed, 19 Aug 2020 17:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778746E0A5;
+	Wed, 19 Aug 2020 17:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E526E174
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 17:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597858146;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2KvgaCYohQhokdvpsCdvRkGWCDtbthJZmZ4XIsksp3I=;
- b=KWQTSqyCBx5c6mJxtYTMAmNfiiGKO5m5wDTKCh0YfRekVV3N/2OfPU2NeI6yP9SwYOEJxc
- GT/bMUHoEThAQ9+W7x7QF+E0GBeQaNHQXnAeB9b0TlkMCpkUfngmLNbVzNz14brFenNvUi
- nU1qtQS4fCvJCzlm1V4aQgUMhBnjSMI=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-sU4CYb_eOyiL9ZlCn5JSGw-1; Wed, 19 Aug 2020 13:29:00 -0400
-X-MC-Unique: sU4CYb_eOyiL9ZlCn5JSGw-1
-Received: by mail-qk1-f200.google.com with SMTP id 3so15920180qkv.13
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:29:00 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1247F6E083;
+ Wed, 19 Aug 2020 17:36:51 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id a5so22346127wrm.6;
+ Wed, 19 Aug 2020 10:36:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+bhGv6x9d7Md61hsuFNIkfPq3bcxtQviu/6k9haxoN4=;
+ b=Y4Yn43JUJRrnzNlVJ+qfW7bTGDlgp2KtAFgWc1ZC9OPN4PtPcF9CK1XSQ8U3PFJ1Tu
+ Bsm+r/sys5RMoWP28GmgJYpsd37KV1EcicLfj3QOLnX3TPMxtYJJVk1yCM3Y0w3kIfhY
+ EmQpu3G85KwwwpgqHDimPq1NhbMCE0REYYYcDYMlfiMBhnyGJSOPmgpqKDb6bTqvXRAm
+ VcjvxvQwfzAM+GBK2aL091eP/ab/HYq1kim9ftBGy5zXWJLGTve5gyYsJ6xOvtaphH+n
+ k6y63OsFV5RRYbksUcCsack5Rbaa1ukiRgAA0dZwr3rmhwOi/ViiIumPfhNQjS0qK2jj
+ mTXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=2KvgaCYohQhokdvpsCdvRkGWCDtbthJZmZ4XIsksp3I=;
- b=LITZFqk8/7cJPWHLg5G242mhJvsVJ3bQUdjrGT+PEwiGHxUh61GjhYvK9qtDlIy3mJ
- RfvEqlhqdeJHHcCUZb5sezs9tAHidtu/loa6ecD+sfVKbfgc59mo+wcc5q1cNsCklsYH
- moN4TaXViaR5ZRj9KWQQLkfJp9pfRFxRs0nHI0MVN62Afd6TArWHzp2wvoXAbSmwR+y4
- 4DK+n5a8sZHw1UXbwz1XyhPACCxkBvvZLu/BKVs5f+tx3scn4sEyWeVpXgyj+PcqgQrL
- k0TIZaHCeKlc8EzkMczlfDz8i9695m5I5eypNv8UdYcIpW6lNXik6LbN4rgKbCA4X6N7
- ySaQ==
-X-Gm-Message-State: AOAM531vNpqBvfR/R6bgVNVkUcXMQJ/binA09kdcwMZSz6pOhmWjAHjb
- 9nVFldBCbtpvHxr3CHfcZn5zDDgUiK+bRNKN4tuwY+FbqJjiHvZighnbxvu/2mA+7/gjwwfTxwj
- /uGJL2Hw4u0KUK9XK+Zdy/S3lJmUI
-X-Received: by 2002:aed:2f44:: with SMTP id l62mr22414146qtd.207.1597858140127; 
- Wed, 19 Aug 2020 10:29:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIqzNjwxOOu6zLyJjLqOnz+3XI2ZOYHaFSMcNnljH/NqEhnUQEvbxwdlKjcIiBIoyuwTy9hw==
-X-Received: by 2002:aed:2f44:: with SMTP id l62mr22414117qtd.207.1597858139794; 
- Wed, 19 Aug 2020 10:28:59 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id t8sm28688880qtc.50.2020.08.19.10.28.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 10:28:58 -0700 (PDT)
-Message-ID: <e949791af3a41321c10bec8b862914e3c9952f4f.camel@redhat.com>
-Subject: Re: [RFC 13/20] drm/i915/dp: Extract drm_dp_downstream_read_info()
-From: Lyude Paul <lyude@redhat.com>
-To: Sean Paul <sean@poorly.run>
-Date: Wed, 19 Aug 2020 13:28:57 -0400
-In-Reply-To: <20200819151547.GB46474@art_vandelay>
-References: <20200811200457.134743-1-lyude@redhat.com>
- <20200811200457.134743-14-lyude@redhat.com>
- <20200819151547.GB46474@art_vandelay>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+bhGv6x9d7Md61hsuFNIkfPq3bcxtQviu/6k9haxoN4=;
+ b=uHOIaKWFXi+4QAurxqhIC0lsBwVO4lUn+BKHlEdPtx2trNh69JtowJzMADb+R9/z5K
+ CXv6UZ81OXtszGWrVBUyTYrKM4CPTyW4c9xeE+FCPS4SAf+sbSIU95UrTX+Xej7fQQMB
+ lnzB0nQ1B7xSugLLEDFsp7AgzVAIJr74VZEnKCtfXG0Gd5vjuZPe4GQqkUoK4x2lZoCm
+ lvti47WxmAX7ODnWFxjb2zGEYK7e2KiIOeJTwfZroTeD9Tjk5GjBZjC/I28oSOa4qrOU
+ nq7wlQQ0C1RtMghYPq+b+fr6xzuBCMgy+lZ28UrlJKQaskcMMMAVHAfZ7P8psTrWdIdm
+ rcKA==
+X-Gm-Message-State: AOAM532Vg2FaoeYE909+WEm7bIgywcQLxUTfyucKpQq/EKqGIocOrVin
+ zTaWKAAlJTBtRc+eHQ2NRmQgyDJOaGkccqYsZ8A=
+X-Google-Smtp-Source: ABdhPJzglAj2zEcuSTfR/ApGNCwL58mvFBlYw3kwcRHOHl7jcRz0JgVZV5GKXtIiD8j0Ohle/G/9WooWDkBOpUVFHgw=
+X-Received: by 2002:a5d:4a8a:: with SMTP id o10mr4835046wrq.327.1597858609658; 
+ Wed, 19 Aug 2020 10:36:49 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+References: <20200817220238.603465-1-robdclark@gmail.com>
+ <20200817220238.603465-11-robdclark@gmail.com>
+ <CAD=FV=VzYSL-3q0oFPPSP7FiEdLeTEN6Zy=kp-73B=8LAavmVw@mail.gmail.com>
+In-Reply-To: <CAD=FV=VzYSL-3q0oFPPSP7FiEdLeTEN6Zy=kp-73B=8LAavmVw@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 19 Aug 2020 10:36:38 -0700
+Message-ID: <CAF6AEGt=tGe3WQfyF_NuvJVXRbMH1=fnNK63MLpz0zxjZ9cwgQ@mail.gmail.com>
+Subject: Re: [PATCH 10/20] dt-bindings: arm-smmu: Add compatible string for
+ Adreno GPU SMMU
+To: Doug Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,138 +63,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Rob Herring <robh+dt@kernel.org>, Sibi Sankar <sibis@codeaurora.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIwLTA4LTE5IGF0IDExOjE1IC0wNDAwLCBTZWFuIFBhdWwgd3JvdGU6Cj4gT24g
-VHVlLCBBdWcgMTEsIDIwMjAgYXQgMDQ6MDQ6NTBQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3cm90ZToK
-PiA+IFdlJ3JlIGdvaW5nIHRvIGJlIGRvaW5nIHRoZSBzYW1lIHByb2JpbmcgcHJvY2VzcyBpbiBu
-b3V2ZWF1IGZvcgo+ID4gZGV0ZXJtaW5pbmcgZG93bnN0cmVhbSBEUCBwb3J0IGNhcGFiaWxpdGll
-cywgc28gbGV0J3MgZGVkdXBsaWNhdGUgdGhlCj4gPiB3b3JrIGJ5IG1vdmluZyBpOTE1J3MgY29k
-ZSBmb3IgaGFuZGxpbmcgdGhpcyBpbnRvIGEgc2hhcmVkIGhlbHBlcjoKPiA+IGRybV9kcF9kb3du
-c3RyZWFtX3JlYWRfaW5mbygpLgo+ID4gCj4gPiBOb3RlIHRoYXQgd2hlbiB3ZSBkbyB0aGlzLCB3
-ZSBhbHNvIGRvIG1ha2Ugc29tZSBmdW5jdGlvbmFsIGNoYW5nZXMgd2hpbGUKPiA+IHdlJ3JlIGF0
-IGl0Ogo+ID4gKiBXZSBhbHdheXMgY2xlYXIgdGhlIGRvd25zdHJlYW0gcG9ydCBpbmZvIGJlZm9y
-ZSB0cnlpbmcgdG8gcmVhZCBpdCwKPiA+ICAganVzdCB0byBtYWtlIHRoaW5ncyBlYXNpZXIgZm9y
-IHRoZSBjYWxsZXIKPiA+ICogV2Ugc2tpcCByZWFkaW5nIGRvd25zdHJlYW0gcG9ydCBpbmZvIGlm
-IHRoZSBEUENEIGluZGljYXRlcyB0aGF0IHdlCj4gPiAgIGRvbid0IHN1cHBvcnQgZG93bnN0cmVh
-bSBwb3J0IGluZm8KPiA+ICogV2Ugb25seSByZWFkIGFzIG1hbnkgYnl0ZXMgYXMgbmVlZGVkIGZv
-ciB0aGUgcmVwb3J0ZWQgbnVtYmVyIG9mCj4gPiAgIGRvd25zdHJlYW0gcG9ydHMsIG5vIHNlbnNl
-IGluIHJlYWRpbmcgdGhlIHdob2xlIHRoaW5nIGV2ZXJ5IHRpbWUKPiA+IAo+ID4gU2lnbmVkLW9m
-Zi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+IC0tLQo+ID4gIGRyaXZlcnMv
-Z3B1L2RybS9kcm1fZHBfaGVscGVyLmMgICAgICAgICB8IDMyICsrKysrKysrKysrKysrKysrKysr
-KysrKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCAxNCAr
-Ky0tLS0tLS0tLQo+ID4gIGluY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCAgICAgICAgICAgICB8
-ICAzICsrKwo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRp
-b25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBl
-ci5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiA+IGluZGV4IDRjMjFj
-ZjY5ZGFkNWEuLjk3MDNiMzM1OTljM2IgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2RwX2hlbHBlci5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5j
-Cj4gPiBAQCAtNDIzLDYgKzQyMywzOCBAQCBib29sIGRybV9kcF9zZW5kX3JlYWxfZWRpZF9jaGVj
-a3N1bShzdHJ1Y3QgZHJtX2RwX2F1eAo+ID4gKmF1eCwKPiA+ICB9Cj4gPiAgRVhQT1JUX1NZTUJP
-TChkcm1fZHBfc2VuZF9yZWFsX2VkaWRfY2hlY2tzdW0pOwo+ID4gIAo+ID4gKy8qKgo+ID4gKyAq
-IGRybV9kcF9kb3duc3RyZWFtX3JlYWRfaW5mbygpIC0gcmVhZCBEUENEIGRvd25zdHJlYW0gcG9y
-dCBpbmZvIGlmCj4gPiBhdmFpbGFibGUKPiA+ICsgKiBAYXV4OiBEaXNwbGF5UG9ydCBBVVggY2hh
-bm5lbAo+ID4gKyAqIEBkcGNkOiBBIGNhY2hlZCBjb3B5IG9mIHRoZSBwb3J0J3MgRFBDRAo+ID4g
-KyAqIEBkb3duc3RyZWFtX3BvcnRzOiBidWZmZXIgdG8gc3RvcmUgdGhlIGRvd25zdHJlYW0gcG9y
-dCBpbmZvIGluCj4gPiArICoKPiA+ICsgKiBSZXR1cm5zOiAwIGlmIGVpdGhlciB0aGUgZG93bnN0
-cmVhbSBwb3J0IGluZm8gd2FzIHJlYWQgc3VjY2Vzc2Z1bGx5IG9yCj4gPiArICogdGhlcmUgd2Fz
-IG5vIGRvd25zdHJlYW0gaW5mbyB0byByZWFkLCBvciBhIG5lZ2F0aXZlIGVycm9yIGNvZGUKPiA+
-IG90aGVyd2lzZS4KPiA+ICsgKi8KPiA+ICtpbnQgZHJtX2RwX2Rvd25zdHJlYW1fcmVhZF9pbmZv
-KHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4gPiArCQkJCWNvbnN0IHU4IGRwY2RbRFBfUkVDRUlW
-RVJfQ0FQX1NJWkVdLAo+ID4gKwkJCQl1OCBkb3duc3RyZWFtX3BvcnRzW0RQX01BWF9ET1dOU1RS
-RUFNX1BPUlRTXSkKPiA+ICt7Cj4gPiArCWludCByZXQ7Cj4gPiArCXU4IGxlbjsKPiA+ICsKPiA+
-ICsJbWVtc2V0KGRvd25zdHJlYW1fcG9ydHMsIDAsIERQX01BWF9ET1dOU1RSRUFNX1BPUlRTKTsK
-PiA+ICsKPiA+ICsJLyogTm8gZG93bnN0cmVhbSBpbmZvIHRvIHJlYWQgKi8KPiA+ICsJaWYgKCFk
-cm1fZHBfaXNfYnJhbmNoKGRwY2QpIHx8Cj4gPiArCSAgICBkcGNkW0RQX0RQQ0RfUkVWXSA8IERQ
-X0RQQ0RfUkVWXzEwIHx8Cj4gPiArCSAgICAhKGRwY2RbRFBfRE9XTlNUUkVBTVBPUlRfUFJFU0VO
-VF0gJiBEUF9EV05fU1RSTV9QT1JUX1BSRVNFTlQpKQo+ID4gKwkJcmV0dXJuIDA7Cj4gPiArCj4g
-PiArCWxlbiA9IChkcGNkW0RQX0RPV05fU1RSRUFNX1BPUlRfQ09VTlRdICYgRFBfUE9SVF9DT1VO
-VF9NQVNLKSAqIDQ7Cj4gCj4gSSdtIGhhdmluZyBhIGhhcmQgdGltZSByYXRpb25hbGl6aW5nIERQ
-X01BWF9ET1dOU1RSRUFNX1BPUlRTIGJlaW5nIDE2LCBidXQKPiBvbmx5Cj4gaGF2aW5nIDQgcG9y
-dHMgd29ydGggb2YgZGF0YSBpbiB0aGUgRFBfRE9XTlNUUkVBTV9QT1JUXyogcmVnaXN0ZXJzLiBE
-byB5b3UKPiBrbm93Cj4gd2hhdCdzIHN1cHBvc2VkIHRvIGhhcHBlbiBpZiBkcGNkW0RQX0RPV05f
-U1RSRUFNX1BPUlRfQ09VTlRdIGlzID4gND8KCkkgdGhvdWdodCBJIGhhZCBhZGRyZXNzZWQgdGhp
-cyBiaXQgYnV0IEkgZ3Vlc3MgSSBtaXNzZWQgc29tZSBwYXJ0cyBoZXJlLgoKU287IHRoZXJlJ3Mg
-YWN0dWFsbHkgdHdvIGRpZmZlcmVudCBwb3NzaWJsZSBsZW5ndGhzIGZvciBob3cgbG9uZyBlYWNo
-IGRvd25zdHJlYW0KcG9ydCdzIGNhcGFiaWxpdGllcyBjYW4gYmU6IDEgYnl0ZSBsb25nIChpZiBE
-RVRBSUxFRF9DQVBfSU5GT19BVkFJTEFCTEUgaW4gdGhlCkRPV05fU1RSRUFNX1BPUlRfUFJFU0VO
-VCBpcyAwLCBlLmcuIDAwNWggYml0IDQpLCBhbmQgNCBieXRlcyBsb25nIGlmIHRoYXQgYml0IGlz
-CjEuIFdoYXQncyB1bmZvcnR1bmF0ZWx5IG5vdCBhcyBjbGVhciwgaXMgd2hldGhlciBvciBub3Qg
-MSBieXRlIGxvbmcgY2FwIGZpZWxkcwptZWFuICJlYWNoIHBvcnQgaGFzIGZvdXIgYnl0ZXMsIGJ1
-dCBvbmx5IG9uZSBieXRlIGlzIHVzZWQiIG9yICJlYWNoIHBvcnQgdHJ1bHkKb25seSBoYXMgb25l
-IGJ5dGUiLiBUaGUgRFAgc3BlYyBzYXlzOgoKICAgREZQWF9DQVAKICAgMSBieXRlL0RGUAogICBY
-ID0gREZQIG51bWJlci4gUG9ydF94IGNhcGFiaWxpdHkgaXMgc3RvcmVkIGF0IHRoZSBERlAgbnVt
-YmVy4oCZcyBhZGRyZXNzIHBsdXMKICAgODBoCgpXaGljaCBhdCBmaXJzdCBzZWVtcyB0byBpbXBs
-eSB0aGF0IGVhY2ggY2FwIGlzIGF0IDgwICsgWCwgZS5nLiBvbmx5IG9uZSBieXRlCmxvbmcuIEhv
-d2V2ZXIsIHRoZSBleHBsYW5hdGlvbiBmb3Igd2hlbiBERVRBSUxFRF9DQVBfSU5GT19BVkFJTEFC
-TEUgPT0gMSBzYXlzCmFsbW9zdCB0aGUgc2FtZSB0aGluZzoKCiAgIERGUFhfQ0FQCiAgIFggPSBE
-RlAgbnVtYmVyLiBQb3J0X3ggY2FwYWJpbGl0eSBpcyBzdG9yZWQgYXQgdGhlIERGUCBudW1iZXLi
-gJlzIGFkZHJlc3MgcGx1cwogICA4MGguCgpBbHRob3VnaCByaWdodCBhYm92ZSB0aGF0IHVubGlr
-ZSB0aGUgcHJldmlvdXMgc2VjdGlvbiwgdGhleSBtZW50aW9uIHRoYXQgREZQMApnb2VzIGZyb20g
-ODAtODMsIERGUDEgODQtODcsIGV0Yy4uLgoKTm90IGVudGlyZWx5IHN1cmUgd2hhdCB0byB0aGlu
-ayBoZXJlIHNpbmNlIEkgZG9uJ3QgcmVhbGx5IGhhdmUgYW55IGRldmljZXMgKG5vcgpkbyBJIHRo
-aW5rIEkndmUgZXZlciBzZWVuIGFueSkgdGhhdCBoYXZlIG1vcmUgdGhlbiBvbmUgREZQLiBBcyB3
-ZWxsLCBmb3IgdGhlCmNhc2Ugd2hlcmUgd2UgaGF2ZSBtdWx0aXBsZSBERlBzICh3aGljaCBhY2Nv
-cmRpbmcgdG8gdGhlIHNwZWMgYXBwZWFycyB0byBvbmx5IGJlCnNvbWV0aGluZyB3ZSBuZWVkIHRv
-IHdvcnJ5IGFib3V0IGZvciBTU1QpIHRoZXkncmUgbm90IHJlYWxseSBleHBsaWNpdCBvbiBob3cg
-dG8KY29tYmluZSB0aGUgZG93bnN0cmVhbSBjYXBhYmlsaXRpZXMgZnJvbSBlYWNoIERGUC4gTXkg
-Z3Vlc3MgaXMgbWF5YmUgeW91CmRldGVybWluZSB0aGUgbWF4IGRvd25zdHJlYW0gY2xvY2sgYW5k
-IGJwcCBmcm9tIHRoZSBsb3dlc3QgY2xvY2sgbGltaXRzCmFkdmVydGlzZWQgYWNyb3NzIGVhY2gg
-cG9ydD8KKGlmIHlvdSBoYXZlIGEgRFAgZGV2aWNlIHdpdGggbXVsdGlwbGUgREZQcyBhbmQgY2Fu
-IHRlc3QgdGhpcywgdGhhdCB3b3VsZCByb2NrCjopLCBidXQgSSBoYXZlIGEgZmVlbGluZyB5b3Ug
-cHJvYmFibHkgZG9uJ3QgaGF2ZSBvbmUgZWl0aGVyKQo+IAo+IFNlYW4KPiAKPiA+ICsJcmV0ID0g
-ZHJtX2RwX2RwY2RfcmVhZChhdXgsIERQX0RPV05TVFJFQU1fUE9SVF8wLCBkb3duc3RyZWFtX3Bv
-cnRzLAo+ID4gKwkJCSAgICAgICBsZW4pOwo+ID4gKwo+ID4gKwlyZXR1cm4gcmV0ID09IGxlbiA/
-IDAgOiAtRUlPOwo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV9kcF9kb3duc3RyZWFtX3Jl
-YWRfaW5mbyk7Cj4gPiArCj4gPiAgLyoqCj4gPiAgICogZHJtX2RwX2Rvd25zdHJlYW1fbWF4X2Ns
-b2NrKCkgLSBleHRyYWN0IGJyYW5jaCBkZXZpY2UgbWF4Cj4gPiAgICogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBwaXhlbCByYXRlIGZvciBsZWdhY3kgVkdBCj4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gPiBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ID4gaW5kZXggMWUyOWQzYTAxMjg1Ni4u
-OTg0ZTQ5MTk0Y2EzMSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZHAuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kcC5jCj4gPiBAQCAtNDY4NSwxOCArNDY4NSw4IEBAIGludGVsX2RwX2dldF9kcGNkKHN0cnVj
-dCBpbnRlbF9kcCAqaW50ZWxfZHApCj4gPiAgCQkJcmV0dXJuIGZhbHNlOwo+ID4gIAl9Cj4gPiAg
-Cj4gPiAtCWlmICghZHJtX2RwX2lzX2JyYW5jaChpbnRlbF9kcC0+ZHBjZCkpCj4gPiAtCQlyZXR1
-cm4gdHJ1ZTsgLyogbmF0aXZlIERQIHNpbmsgKi8KPiA+IC0KPiA+IC0JaWYgKGludGVsX2RwLT5k
-cGNkW0RQX0RQQ0RfUkVWXSA9PSAweDEwKQo+ID4gLQkJcmV0dXJuIHRydWU7IC8qIG5vIHBlci1w
-b3J0IGRvd25zdHJlYW0gaW5mbyAqLwo+ID4gLQo+ID4gLQlpZiAoZHJtX2RwX2RwY2RfcmVhZCgm
-aW50ZWxfZHAtPmF1eCwgRFBfRE9XTlNUUkVBTV9QT1JUXzAsCj4gPiAtCQkJICAgICBpbnRlbF9k
-cC0+ZG93bnN0cmVhbV9wb3J0cywKPiA+IC0JCQkgICAgIERQX01BWF9ET1dOU1RSRUFNX1BPUlRT
-KSA8IDApCj4gPiAtCQlyZXR1cm4gZmFsc2U7IC8qIGRvd25zdHJlYW0gcG9ydCBzdGF0dXMgZmV0
-Y2ggZmFpbGVkICovCj4gPiAtCj4gPiAtCXJldHVybiB0cnVlOwo+ID4gKwlyZXR1cm4gZHJtX2Rw
-X2Rvd25zdHJlYW1fcmVhZF9pbmZvKCZpbnRlbF9kcC0+YXV4LCBpbnRlbF9kcC0+ZHBjZCwKPiA+
-ICsJCQkJCSAgIGludGVsX2RwLT5kb3duc3RyZWFtX3BvcnRzKSA9PSAwOwo+ID4gIH0KPiA+ICAK
-PiA+ICBzdGF0aWMgYm9vbAo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxw
-ZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+ID4gaW5kZXggNWMyODE5OTI0ODYy
-Ni4uMTM0OWYxNjU2NGFjZSAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxw
-ZXIuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCj4gPiBAQCAtMTYxMyw2
-ICsxNjEzLDkgQEAgaW50IGRybV9kcF9kcGNkX3JlYWRfbGlua19zdGF0dXMoc3RydWN0IGRybV9k
-cF9hdXgKPiA+ICphdXgsCj4gPiAgYm9vbCBkcm1fZHBfc2VuZF9yZWFsX2VkaWRfY2hlY2tzdW0o
-c3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiA+ICAJCQkJICAgIHU4IHJlYWxfZWRpZF9jaGVja3N1
-bSk7Cj4gPiAgCj4gPiAraW50IGRybV9kcF9kb3duc3RyZWFtX3JlYWRfaW5mbyhzdHJ1Y3QgZHJt
-X2RwX2F1eCAqYXV4LAo+ID4gKwkJCQljb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpF
-XSwKPiA+ICsJCQkJdTggZG93bnN0cmVhbV9wb3J0c1tEUF9NQVhfRE9XTlNUUkVBTV9QT1JUU10p
-Owo+ID4gIGludCBkcm1fZHBfZG93bnN0cmVhbV9tYXhfY2xvY2soY29uc3QgdTggZHBjZFtEUF9S
-RUNFSVZFUl9DQVBfU0laRV0sCj4gPiAgCQkJCWNvbnN0IHU4IHBvcnRfY2FwWzRdKTsKPiA+ICBp
-bnQgZHJtX2RwX2Rvd25zdHJlYW1fbWF4X2JwYyhjb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NB
-UF9TSVpFXSwKPiA+IC0tIAo+ID4gMi4yNi4yCj4gPiAKPiA+IF9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4g
-PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAotLSAKU2luY2VyZWx5LAogICAg
-ICBMeXVkZSBQYXVsIChzaGUvaGVyKQogICAgICBTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQgSGF0
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Aug 19, 2020 at 10:03 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Mon, Aug 17, 2020 at 3:03 PM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > From: Jordan Crouse <jcrouse@codeaurora.org>
+> >
+> > Every Qcom Adreno GPU has an embedded SMMU for its own use. These
+> > devices depend on unique features such as split pagetables,
+> > different stall/halt requirements and other settings. Identify them
+> > with a compatible string so that they can be identified in the
+> > arm-smmu implementation specific code.
+> >
+> > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > index 503160a7b9a0..5ec5d0d691f6 100644
+> > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > @@ -40,6 +40,10 @@ properties:
+> >                - qcom,sm8150-smmu-500
+> >                - qcom,sm8250-smmu-500
+> >            - const: arm,mmu-500
+> > +      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
+> > +        items:
+> > +          - const: qcom,adreno-smmu
+> > +          - const: qcom,smmu-v2
+>
+> I know I'm kinda late to the game, but this seems weird to me,
+> especially given the later patches in the series like:
+>
+> https://lore.kernel.org/r/20200817220238.603465-19-robdclark@gmail.com
+>
+> Specifically in that patch you can see that this IOMMU already had a
+> compatible string and we're changing it and throwing away the
+> model-specific string?  I'm guessing that you're just trying to make
+> it easier for code to identify the adreno iommu, but it seems like a
+> better way would have been to just add the adreno compatible in the
+> middle, like:
+>
+>       - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
+>         items:
+>           - enum:
+>               - qcom,msm8996-smmu-v2
+>               - qcom,msm8998-smmu-v2
+>               - qcom,sc7180-smmu-v2
+>               - qcom,sdm845-smmu-v2
+>         - const: qcom,adreno-smmu
+>         - const: qcom,smmu-v2
+>
+> Then we still have the SoC-specific compatible string in case we need
+> it but we also have the generic one?  It also means that we're not
+> deleting the old compatible string...
+
+I did bring up the thing about removing the compat string in an
+earlier revision of the series.. but then we realized that
+qcom,sc7180-smmu-v2 was never actually used anywhere.
+
+But I guess we could:  compatible = "qcom,sc7180-smmu-v2",
+"qcom,adreno-smmu", "qcom,smmu-v2";
+
+BR,
+-R
+
+
+
+
+>
+> -Doug
+>
+>
+> >        - description: Marvell SoCs implementing "arm,mmu-500"
+> >          items:
+> >            - const: marvell,ap806-smmu-500
+> > --
+> > 2.26.2
+> >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
