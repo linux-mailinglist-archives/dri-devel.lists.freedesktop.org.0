@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73545249A6A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 12:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB446249A76
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 12:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A0A89295;
-	Wed, 19 Aug 2020 10:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC3F6E213;
+	Wed, 19 Aug 2020 10:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 816A389295
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:31:28 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07JAVOPh020940;
- Wed, 19 Aug 2020 05:31:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1597833084;
- bh=1ileKBQlCD86SCsvKLgEXbnRapYDozHuzrHtk0yUBqs=;
- h=From:To:CC:Subject:Date;
- b=xKI/bKRI/zn7hfJ1dnHNE+KhU8CCnQmGT5w25Q/UUB/rQaJDvv5qZhsbkor8OkGPs
- U723RbdCkteDBG/1AvgAQGbwp0QoWweBM66rt8GOgQKG89t4i1DV6C4Ei4TpTE1N5J
- Oi/r8HTbYJ7GAr3YBsQmy6Ave1n4TTJXfg308DYU=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07JAVOxg011436
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 19 Aug 2020 05:31:24 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 19
- Aug 2020 05:30:31 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 19 Aug 2020 05:30:31 -0500
-Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07JAUTTF089812;
- Wed, 19 Aug 2020 05:30:30 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] drm/omap: fix incorrect lock state
-Date: Wed, 19 Aug 2020 13:30:21 +0300
-Message-ID: <20200819103021.440288-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF48A6E213
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 10:36:34 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id r15so11073250wrp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 03:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=gqSQwu4Ak76ivz5DMvC1qM1RY6caUZn/vouX4UHQw3I=;
+ b=CjTCQsyG1PMArt9IepD1AZqckRAk1VWAupEx7JQzkjyj4JJtTiWuflR0Sq2kWOlrIf
+ AaWwWJUo9s790go1/kOWmsg3VfSuAnCqhaYqnGEB6NvqzaiMeVKL89+mPVfkyKYPRlBv
+ F3ln4glh1kKamDQItyNdbbUd7KHQSe8bFfn4AizOyXRJqpf+aUiB9OfBMIVowmmj2Dkh
+ 32sW2AQHtksXyyfuS9GtW7tEBbufEqgBBuEtIhHGMLcPJifWSr5hNYlXBV2WgAPKdYLb
+ OaXZiEsEgE4phiiHO9APtrdwmO5dgImWpr7tt84CkOXUGcvVgNU47iRONft3akrqJZK5
+ hGHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gqSQwu4Ak76ivz5DMvC1qM1RY6caUZn/vouX4UHQw3I=;
+ b=n+d1PLmJs3JlfQDp1JH+k358aVxnZKQMtJzwQdsXmn/pOT/G+HArQq8IrfO7aKE0l3
+ RjVfpcYnTmPhjlKSdjB16w2WdYKdWx46Dtbfx1vq6hJQd/jk1v+AMrXG6+/P1CuHS5UE
+ UNE31wjiqzlFBCObJzE2YWkaWXocTleGHumhrOE/7CqAej8BoWQY3G5PeoeX+LNnls7f
+ KNWlkWFc2VE/x9JrXpXssvuaxr2qHDsFI5H4bZAImOCDYj15TKiqFY19aP0pwHVqnJTK
+ 06cMATSnXNgYSFx9pKCh9tgAjuw2eLoySXOU6ZKo3Itn8/DEUlVnxjCPu0NmwniPWo3F
+ /laA==
+X-Gm-Message-State: AOAM533mPAQyk/kV7y+Dw9gCniYBOwOCoMteJumDCRm90KZoiMlKH+/k
+ YXVIqqd8sgoQJnxhkd6/6t/fjA==
+X-Google-Smtp-Source: ABdhPJzE34UTUHjY+WGW7nyIcaHkOe0CiQFL3LKWYRMXnifP8QvLNy0lyjk41fn9cLNJWf7pqvvz6Q==
+X-Received: by 2002:a5d:60cb:: with SMTP id x11mr23007048wrt.281.1597833393382; 
+ Wed, 19 Aug 2020 03:36:33 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id b203sm5105222wmc.22.2020.08.19.03.36.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Aug 2020 03:36:32 -0700 (PDT)
+Date: Wed, 19 Aug 2020 11:36:31 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Subject: Re: [PATCH] video: backlight: sky81452-backlight: Fix refcount
+ imbalance on error
+Message-ID: <20200819103631.bptd34ij3fid4ych@holly.lan>
+References: <20200819030456.7054-1-dinghao.liu@zju.edu.cn>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20200819030456.7054-1-dinghao.liu@zju.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,76 +68,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, kjlu@umn.edu,
+ Bryan Wu <cooloney@gmail.com>, Gyungoh Yoo <jack.yoo@skyworksinc.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit 92cc68e35863c1c61c449efa2b2daef6e9926048 ("drm/vblank: Use
-spin_(un)lock_irq() in drm_crtc_vblank_on()") omapdrm locking is broken:
+On Wed, Aug 19, 2020 at 11:04:56AM +0800, Dinghao Liu wrote:
+> When of_property_read_u32_array() returns an error code, a
+> pairing refcount decrement is needed to keep np's refcount
+> balanced.
+> 
+> Fixes: f705806c9f355 ("backlight: Add support Skyworks SKY81452 backlight driver")
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-WARNING: inconsistent lock state
-5.8.0-rc2-00483-g92cc68e35863 #13 Tainted: G        W
---------------------------------
-inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
-ea98222c (&dev->event_lock#2){?.+.}-{2:2}, at: drm_handle_vblank+0x4c/0x520 [drm]
-{HARDIRQ-ON-W} state was registered at:
-  trace_hardirqs_on+0x9c/0x1ec
-  _raw_spin_unlock_irq+0x20/0x58
-  omap_crtc_atomic_enable+0x54/0xa0 [omapdrm]
-  drm_atomic_helper_commit_modeset_enables+0x218/0x270 [drm_kms_helper]
-  omap_atomic_commit_tail+0x48/0xc4 [omapdrm]
-  commit_tail+0x9c/0x190 [drm_kms_helper]
-  drm_atomic_helper_commit+0x154/0x188 [drm_kms_helper]
-  drm_client_modeset_commit_atomic+0x228/0x268 [drm]
-  drm_client_modeset_commit_locked+0x60/0x1d0 [drm]
-  drm_client_modeset_commit+0x24/0x40 [drm]
-  drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa8 [drm_kms_helper]
-  drm_fb_helper_set_par+0x2c/0x5c [drm_kms_helper]
-  drm_fb_helper_hotplug_event.part.0+0xa0/0xbc [drm_kms_helper]
-  drm_kms_helper_hotplug_event+0x24/0x30 [drm_kms_helper]
-  output_poll_execute+0x1a8/0x1c0 [drm_kms_helper]
-  process_one_work+0x268/0x800
-  worker_thread+0x30/0x4e0
-  kthread+0x164/0x190
-  ret_from_fork+0x14/0x20
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-The reason for this is that omapdrm calls drm_crtc_vblank_on() while
-holding event_lock taken with spin_lock_irq().
 
-It is not clear why drm_crtc_vblank_on() and drm_crtc_vblank_get() are
-called while holding event_lock. I don't see any problem with moving
-those calls outside the lock, which is what this patch does.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/gpu/drm/omapdrm/omap_crtc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-index 6d40914675da..328a4a74f534 100644
---- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-@@ -451,11 +451,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
- 	if (omap_state->manually_updated)
- 		return;
- 
--	spin_lock_irq(&crtc->dev->event_lock);
- 	drm_crtc_vblank_on(crtc);
-+
- 	ret = drm_crtc_vblank_get(crtc);
- 	WARN_ON(ret != 0);
- 
-+	spin_lock_irq(&crtc->dev->event_lock);
- 	omap_crtc_arm_event(crtc);
- 	spin_unlock_irq(&crtc->dev->event_lock);
- }
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+> ---
+>  drivers/video/backlight/sky81452-backlight.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/video/backlight/sky81452-backlight.c b/drivers/video/backlight/sky81452-backlight.c
+> index 0ce181585008..8268ac43d54f 100644
+> --- a/drivers/video/backlight/sky81452-backlight.c
+> +++ b/drivers/video/backlight/sky81452-backlight.c
+> @@ -217,6 +217,7 @@ static struct sky81452_bl_platform_data *sky81452_bl_parse_dt(
+>  					num_entry);
+>  		if (ret < 0) {
+>  			dev_err(dev, "led-sources node is invalid.\n");
+> +			of_node_put(np);
+>  			return ERR_PTR(-EINVAL);
+>  		}
+>  
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
