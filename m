@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29F824A895
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 23:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5380424A8A2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Aug 2020 23:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578EB6E836;
-	Wed, 19 Aug 2020 21:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 809396E839;
+	Wed, 19 Aug 2020 21:39:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E09B6E83B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 21:37:05 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id a65so20264314otc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 14:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CS+1467DMyFTqT+L2iSQMSr95xvUjx22mgQhPk7Fd0U=;
- b=Ta+g1ZgTNyWRyOadjtYmnLrqkRKTp1Yqu3v85C1PlgWit/t/GfBuyJrf7KkLtWIp5c
- obzIbdbmc69nlF0yFwItQxDewv3hhDIcu4hovzlskeqJwIK5mpzk6z3aUtqJgZ+DSflY
- 89K5nsJMI1E2px6cL3lCPAuXNqy6alXpd5Y8B86lVTMT5axCkRcmg1r9PnfhQ5ysxkGw
- xuEboslpGgpoBK6kcsX6zimi7fbM/InmxLfMxBl2sylTbbrjYVKKzRv0miXc9y+CbO46
- JPua5bOPXgPoLuzKVJq2PfJRU09D5n/WRI+3dX0QohzqYTWhWbS5DQscx/5yGjUDXe5V
- X2jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CS+1467DMyFTqT+L2iSQMSr95xvUjx22mgQhPk7Fd0U=;
- b=Rn0Gi+CUwvSd9xxMdLl5xNDM1ax3xLglh888gV5RfNjdKjhvtjbcRZgRCvAS4YAbc8
- OMc+Xs/711r9+segAKADz9fk72Ed88Rs5NydlhU534P9MO0fcL5bklIllR3xYnc3OMRO
- SAUd7Aqm+B7YdHpyBLCAP+NEgFOu7+j3tFLj2CZzoZAoo+8rcWErVZp2HLLQFufip704
- 48ccJX2m069s972xlAuUmKlkVBf56DJYmwfkoWduyrO2xYUxURxNN5sfIkwjYX89Fwhr
- Cr98urVdE+XImrBIXppQoY/eIlpxITAnICeLIMGB+snHa5qDz+kqjymh/MwbuFmTI7Br
- 6zOA==
-X-Gm-Message-State: AOAM530aOHoCaPV6VRi3d/5iABkVHgCJb+0Z49dn/8sdGJSdy+8A4LlF
- nMnWl95Nmc1szltLFE55xyAOlF/dIA/72Qm132mnpg==
-X-Google-Smtp-Source: ABdhPJxpl82rAqK2FHLd0zX7VnPn8+94l8zujbb1JUnY5F6i+DaLJ+lsZzhjUgUndjPKQh1QUFVxfaVx/wGs30VKOyU=
-X-Received: by 2002:a05:6830:3196:: with SMTP id
- p22mr21167646ots.102.1597873024596; 
- Wed, 19 Aug 2020 14:37:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cover.1597833138.git.mchehab+huawei@kernel.org>
-From: John Stultz <john.stultz@linaro.org>
-Date: Wed, 19 Aug 2020 14:36:52 -0700
-Message-ID: <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [66.63.167.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B57256E837;
+ Wed, 19 Aug 2020 21:39:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 770738EE1F3;
+ Wed, 19 Aug 2020 14:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+ s=20151216; t=1597873176;
+ bh=P5Nf0m7rIb0VsmSGOAvsuubsuKdLazFJ3PWgYJpOQYo=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=QZWzNY/RNv5GTOLC344QkDqvWPLVlJoIZZa/1SvyuRWg2n4Pm6sT1giNF3hS4dmal
+ 2AgGeohtLxDuIx9MBYzKgKxS5vVGSeJVIhAssuqGCPXbCp5oJD0WlnV+VnG46ikJ5j
+ S3mk3MHG2hrcnsbyoMzE7CI3TS+/7QS3hnb2Remw=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id bHKZiEX-QbYl; Wed, 19 Aug 2020 14:39:36 -0700 (PDT)
+Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net
+ [73.35.198.56])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 07F3F8EE0E9;
+ Wed, 19 Aug 2020 14:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+ s=20151216; t=1597873176;
+ bh=P5Nf0m7rIb0VsmSGOAvsuubsuKdLazFJ3PWgYJpOQYo=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=QZWzNY/RNv5GTOLC344QkDqvWPLVlJoIZZa/1SvyuRWg2n4Pm6sT1giNF3hS4dmal
+ 2AgGeohtLxDuIx9MBYzKgKxS5vVGSeJVIhAssuqGCPXbCp5oJD0WlnV+VnG46ikJ5j
+ S3mk3MHG2hrcnsbyoMzE7CI3TS+/7QS3hnb2Remw=
+Message-ID: <1597873172.4030.2.camel@HansenPartnership.com>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Allen <allen.lkml@gmail.com>
+Date: Wed, 19 Aug 2020 14:39:32 -0700
+In-Reply-To: <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-2-allen.cryptic@gmail.com>
+ <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
+ <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
+ <1597849185.3875.7.camel@HansenPartnership.com>
+ <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +71,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, driverdevel <devel@driverdev.osuosl.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- linux-media <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- mauro.chehab@huawei.com, Rob Clark <robdclark@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
- Network Development <netdev@vger.kernel.org>,
- Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
+ airlied@linux.ie, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kys@microsoft.com, anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+ linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, 3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+ Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
+ jdike@addtoit.com, Kees Cook <keescook@chromium.org>, oakad@yahoo.com,
+ s.hauer@pengutronix.de, linux-input@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
+ dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
+ linux-spi@vger.kernel.org, alex.bou9@gmail.com,
+ Allen Pais <allen.cryptic@gmail.com>, stefanr@s5r6.in-berlin.de,
+ linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
+ shawnguo@kernel.org, David Miller <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> So, IMO, the best is to keep it on staging for a while, until those
-> remaining bugs gets solved.
->
-> I added this series, together with the regulator driver and
-> a few other patches (including a hack to fix a Kernel 5.8
-> regression at WiFi ) at:
->
->         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master
+On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
+> > [...]
+> > > > Since both threads seem to have petered out, let me suggest in
+> > > > kernel.h:
+> > > > 
+> > > > #define cast_out(ptr, container, member) \
+> > > >     container_of(ptr, typeof(*container), member)
+> > > > 
+> > > > It does what you want, the argument order is the same as
+> > > > container_of with the only difference being you name the
+> > > > containing structure instead of having to specify its type.
+> > > 
+> > > Not to incessantly bike shed on the naming, but I don't like
+> > > cast_out, it's not very descriptive. And it has connotations of
+> > > getting rid of something, which isn't really true.
+> > 
+> > Um, I thought it was exactly descriptive: you're casting to the
+> > outer container.  I thought about following the C++ dynamic casting
+> > style, so out_cast(), but that seemed a bit pejorative.  What about
+> > outer_cast()?
+> > 
+> > > FWIW, I like the from_ part of the original naming, as it has
+> > > some clues as to what is being done here. Why not just
+> > > from_container()? That should immediately tell people what it
+> > > does without having to look up the implementation, even before
+> > > this becomes a part of the accepted coding norm.
+> > 
+> > I'm not opposed to container_from() but it seems a little less
+> > descriptive than outer_cast() but I don't really care.  I always
+> > have to look up container_of() when I'm using it so this would just
+> > be another macro of that type ...
+> > 
+> 
+>  So far we have a few which have been suggested as replacement
+> for from_tasklet()
+> 
+> - out_cast() or outer_cast()
+> - from_member().
+> - container_from() or from_container()
+> 
+> from_container() sounds fine, would trimming it a bit work? like
+> from_cont().
 
-Sorry, one more small request: Could you create a branch that only has
-the DRM driver changes in it?
+I'm fine with container_from().  It's the same form as container_of()
+and I think we need urgent agreement to not stall everything else so
+the most innocuous name is likely to get the widest acceptance.
 
-The reason I ask, is that since the HiKey960 isn't affected by the
-majority of the problems you listed as motivation for going through
-staging. So if we can validate that your tree works fine on HiKey960,
-the series can be cleaned up and submitted properly upstream to enable
-that SoC, and the outstanding 970 issues can be worked out afterwards
-against mainline.
+James
 
-thanks
--john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
