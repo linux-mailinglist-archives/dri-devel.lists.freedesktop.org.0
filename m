@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFCD24AFEB
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3680B24B004
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C2B6E8E2;
-	Thu, 20 Aug 2020 07:16:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 403FE6E90D;
+	Thu, 20 Aug 2020 07:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5810889B48
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:49 +0000 (UTC)
-X-UUID: 2437b09b084e4afd8c5377f0baa8d2f3-20200820
+ by gabe.freedesktop.org (Postfix) with ESMTP id 473756E8A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:52 +0000 (UTC)
+X-UUID: b756f09a9c244157af3ff069810e9104-20200820
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=CYF0YG4gNVrjrfJ9U+B9+/FbeQsInObr+OBTOYnxpFo=; 
- b=RtagHxbu3Gic+6WrAk6V3rOljBI7dEe9qJ1zP7WeJX7aDywDcHhh3m9mB0JPY1oN7+VORRXF9xlAEHQL3TJ9n2zDKp1UV2gaWp739S8LXlCxxw2GCmQc0sYXEAsXKjX3NBo7mR4FseM29YR2+UaPNwIgREMb+YbZ6mu5WslCgGc=;
-X-UUID: 2437b09b084e4afd8c5377f0baa8d2f3-20200820
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ bh=81cl5lR8q9Xp2cMEda341JaElbb5a2VFUjfbX8XXRgM=; 
+ b=cxBhGK5O7qRZASx6HpHjPKVRm1kK7sxUoxnhMkLslim0cJK1Z2KUgGc6s3vNzz81WLqKsqqqLaipXrh4ygAyrWoFXyj1o2DSaJbamC+hmvk8yYims8+LU6WZNJcu7Iwih+JQe7vqoH5+wevJkp4/GAD+DRoPd1sakQO3WQ5/7I4=;
+X-UUID: b756f09a9c244157af3ff069810e9104-20200820
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 493149081; Thu, 20 Aug 2020 14:05:47 +0800
+ with ESMTP id 357292008; Thu, 20 Aug 2020 14:05:49 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 20 Aug 2020 14:05:46 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 Aug 2020 14:05:47 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 20 Aug 2020 14:05:45 +0800
+ Transport; Thu, 20 Aug 2020 14:05:46 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v1 14/21] drm/mediatek: add bypass shadow register function
- call for ddp component
-Date: Thu, 20 Aug 2020 14:04:11 +0800
-Message-ID: <1597903458-8055-15-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v1 15/21] drm/mediatek: add color bypass shadow register
+ function
+Date: Thu, 20 Aug 2020 14:04:12 +0800
+Message-ID: <1597903458-8055-16-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -63,54 +63,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-the shadow register for mt8192 ddp component is enable,
-we need disable it before enable ddp component
+add color bypass shadow register function
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 3 +++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 7 +++++++
- 2 files changed, 10 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_disp_color.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index fe46c4b..16e9b88 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -299,6 +299,9 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
- 		goto err_mutex_unprepare;
- 	}
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+index 31918fa..83b075a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+@@ -17,6 +17,8 @@
+ #define DISP_COLOR_CFG_MAIN			0x0400
+ #define DISP_COLOR_START_MT2701			0x0f00
+ #define DISP_COLOR_START_MT8173			0x0c00
++#define DISP_COLOR_SHADOW_CTRL			0x0cb0
++#define COLOR_BYPASS_SHADOW				BIT(0)
+ #define DISP_COLOR_START(comp)			((comp)->data->color_offset)
+ #define DISP_COLOR_WIDTH(comp)			(DISP_COLOR_START(comp) + 0x50)
+ #define DISP_COLOR_HEIGHT(comp)			(DISP_COLOR_START(comp) + 0x54)
+@@ -26,6 +28,7 @@
  
-+	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
-+		mtk_ddp_comp_bypass_shadow(mtk_crtc->ddp_comp[i]);
-+
- 	DRM_DEBUG_DRIVER("mediatek_ddp_ddp_path_setup\n");
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr - 1; i++) {
- 		mtk_mmsys_ddp_connect(mtk_crtc->mmsys_dev,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index ae11b46..1f25705 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -45,6 +45,7 @@ struct mtk_ddp_comp_funcs {
- 		       unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
- 	void (*start)(struct mtk_ddp_comp *comp);
- 	void (*stop)(struct mtk_ddp_comp *comp);
-+	void (*bypass_shadow)(struct mtk_ddp_comp *comp);
- 	void (*enable_vblank)(struct mtk_ddp_comp *comp, struct drm_crtc *crtc);
- 	void (*disable_vblank)(struct mtk_ddp_comp *comp);
- 	unsigned int (*supported_rotations)(struct mtk_ddp_comp *comp);
-@@ -169,6 +170,12 @@ static inline void mtk_ddp_ctm_set(struct mtk_ddp_comp *comp,
- 		comp->funcs->ctm_set(comp, state);
+ struct mtk_disp_color_data {
+ 	unsigned int color_offset;
++	bool has_shadow;
+ };
+ 
+ /**
+@@ -63,9 +66,21 @@ static void mtk_color_start(struct mtk_ddp_comp *comp)
+ 	writel(0x1, comp->regs + DISP_COLOR_START(color));
  }
  
-+static inline void mtk_ddp_comp_bypass_shadow(struct mtk_ddp_comp *comp)
++static void mtk_color_bypass_shadow(struct mtk_ddp_comp *comp)
 +{
-+	if (comp->funcs && comp->funcs->bypass_shadow)
-+		comp->funcs->bypass_shadow(comp);
++	struct mtk_disp_color *color = comp_to_color(comp);
++
++	if (color->data->has_shadow) {
++		mtk_ddp_write_mask(NULL, COLOR_BYPASS_SHADOW, comp,
++				   DISP_COLOR_SHADOW_CTRL,
++				   COLOR_BYPASS_SHADOW);
++	}
 +}
 +
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type);
- int mtk_ddp_comp_init(struct device *dev, struct device_node *comp_node,
+ static const struct mtk_ddp_comp_funcs mtk_disp_color_funcs = {
+ 	.config = mtk_color_config,
+ 	.start = mtk_color_start,
++	.bypass_shadow = mtk_color_bypass_shadow,
+ };
+ 
+ static int mtk_disp_color_bind(struct device *dev, struct device *master,
 -- 
 1.8.1.1.dirty
 _______________________________________________
