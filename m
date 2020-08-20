@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F8B24C172
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 17:09:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9343824C174
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 17:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94F06E966;
-	Thu, 20 Aug 2020 15:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 900FE6E958;
+	Thu, 20 Aug 2020 15:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 35D676E966
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 15:09:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60DD36E958
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 15:09:55 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D724B1516;
- Thu, 20 Aug 2020 08:09:50 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B02CC1529;
+ Thu, 20 Aug 2020 08:09:54 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 48CAB3F6CF;
- Thu, 20 Aug 2020 08:09:47 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 200693F6CF;
+ Thu, 20 Aug 2020 08:09:51 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: hch@lst.de,
 	joro@8bytes.org,
 	linux@armlinux.org.uk
-Subject: [PATCH 15/18] drm/nouveau/tegra: Clean up IOMMU workaround
-Date: Thu, 20 Aug 2020 16:08:34 +0100
-Message-Id: <21d8d42edb9f91e62f9c72875cf2210afacff18c.1597931876.git.robin.murphy@arm.com>
+Subject: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
+Date: Thu, 20 Aug 2020 16:08:35 +0100
+Message-Id: <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.28.0.dirty
 In-Reply-To: <cover.1597931875.git.robin.murphy@arm.com>
 References: <cover.1597931875.git.robin.murphy@arm.com>
@@ -63,27 +63,27 @@ longer need to work around the arch-private mapping.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/staging/media/tegra-vde/iommu.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-index d0d52c1d4aee..410ee1f83e0b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-@@ -23,10 +23,6 @@
- #ifdef CONFIG_NOUVEAU_PLATFORM_DRIVER
- #include "priv.h"
+diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
+index 6af863d92123..4f770189ed34 100644
+--- a/drivers/staging/media/tegra-vde/iommu.c
++++ b/drivers/staging/media/tegra-vde/iommu.c
+@@ -10,10 +10,6 @@
+ #include <linux/kernel.h>
+ #include <linux/platform_device.h>
  
 -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
 -#include <asm/dma-iommu.h>
 -#endif
 -
- static int
- nvkm_device_tegra_power_up(struct nvkm_device_tegra *tdev)
- {
-@@ -109,15 +105,6 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra *tdev)
- 	unsigned long pgsize_bitmap;
- 	int ret;
+ #include "vde.h"
+ 
+ int tegra_vde_iommu_map(struct tegra_vde *vde,
+@@ -70,14 +66,6 @@ int tegra_vde_iommu_init(struct tegra_vde *vde)
+ 	if (!vde->group)
+ 		return 0;
  
 -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
 -	if (dev->archdata.mapping) {
@@ -93,10 +93,9 @@ index d0d52c1d4aee..410ee1f83e0b 100644
 -		arm_iommu_release_mapping(mapping);
 -	}
 -#endif
--
- 	if (!tdev->func->iommu_bit)
- 		return;
- 
+ 	vde->domain = iommu_domain_alloc(&platform_bus_type);
+ 	if (!vde->domain) {
+ 		err = -ENOMEM;
 -- 
 2.28.0.dirty
 
