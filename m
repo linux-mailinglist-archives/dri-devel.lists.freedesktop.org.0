@@ -2,39 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBBB24C0DD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 16:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D958F24C13F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 17:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2FB16E542;
-	Thu, 20 Aug 2020 14:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3EA16E372;
+	Thu, 20 Aug 2020 15:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32CC6E542
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 14:48:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id B6D2820026;
- Thu, 20 Aug 2020 16:48:09 +0200 (CEST)
-Date: Thu, 20 Aug 2020 16:48:08 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200820144808.GA186324@ravnborg.org>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <20200819152120.GA106437@ravnborg.org>
- <20200819174027.70b39ee9@coco.lan>
- <20200819173558.GA3733@ravnborg.org>
- <20200820160649.54741194@coco.lan>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B70056E372
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 15:08:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA18331B;
+ Thu, 20 Aug 2020 08:08:53 -0700 (PDT)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1FDC83F6CF;
+ Thu, 20 Aug 2020 08:08:50 -0700 (PDT)
+From: Robin Murphy <robin.murphy@arm.com>
+To: hch@lst.de,
+	joro@8bytes.org,
+	linux@armlinux.org.uk
+Subject: [PATCH 00/18] Convert arch/arm to use iommu-dma
+Date: Thu, 20 Aug 2020 16:08:19 +0100
+Message-Id: <cover.1597931875.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200820160649.54741194@coco.lan>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=FQPn5FuWFEp6BKnZ598A:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,101 +40,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
- Rob Clark <robdclark@chromium.org>, linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
- Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, matthias.bgg@gmail.com, thierry.reding@gmail.com,
+ laurent.pinchart@ideasonboard.com, digetx@gmail.com, s-anna@ti.com,
+ will@kernel.org, m.szyprowski@samsung.com, linux-samsung-soc@vger.kernel.org,
+ magnus.damm@gmail.com, kyungmin.park@samsung.com, jonathanh@nvidia.com,
+ agross@kernel.org, yong.wu@mediatek.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
+ linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
+ linux-kernel@vger.kernel.org, t-kristo@ti.com,
+ iommu@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro.
+Hi all,
 
-On Thu, Aug 20, 2020 at 04:06:49PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 19 Aug 2020 19:35:58 +0200
-> Sam Ravnborg <sam@ravnborg.org> escreveu:
-> 
-> I'm already handling the other comments from your review (I'll send a
-> more complete comment about them after finishing),
-If you get back only on things you do not understand or do not agree on
-that would be fine. The rest should be visible in the changelog on the
-updated patch - no need to do extra work here.
+After 5 years or so of intending to get round to this, finally the
+time comes! The changes themselves actualy turn out to be relatively
+mechanical; the bigger concern appears to be how to get everything
+merged across about 5 diffferent trees given the dependencies.
 
-> but I have a doubt what you meant about this:
-> 
-> > +static int kirin_drm_bind(struct device *dev)
-> > > +{
-> > > +	struct drm_driver *driver = &kirin_drm_driver;
-> > > +	struct drm_device *drm_dev;
-> > > +	struct kirin_drm_private *priv;
-> > > +	int ret;
-> > > +
-> > > +	drm_dev = drm_dev_alloc(driver, dev);
-> > > +	if (!drm_dev)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	ret = kirin_drm_kms_init(drm_dev);
-> > > +	if (ret)
-> > > +		goto err_drm_dev_unref;
-> > > +
-> > > +	ret = drm_dev_register(drm_dev, 0);  
-> > There is better ways to do this. See drm_drv.c for the code example.
-> 
-> Not sure if I understood your comment here. The drm_drv.c example also calls 
-> drm_dev_register().
+I've lightly boot-tested things on Rockchip RK3288 and Exynos 4412
+(Odroid-U3), to the degree that their display drivers should be using
+IOMMU-backed buffers and don't explode (the Odroid doesn't manage to
+send a working HDMI signal to the one monitor I have that it actually
+detects, but that's a pre-existing condition...) Confirmation that the
+Mediatek, OMAP and Tegra changes work will be most welcome.
 
-This is indeed not obvious from my comments but what I wnated to say is
-that the driver should embed drm_device in some struct,
-maybe in "struct kirin_drm_private".
+Patches are based on 5.9-rc1, branch available here:
 
-This should also be part of the referenced example.
+  git://linux-arm.org/linux-rm arm/dma
 
-I hope this clarifies it.
 
-	Sam
+Robin.
 
-> 
-> The only difference is that it calls it inside driver_probe(), while
-> on this driver, it uses:
-> 
-> 	static const struct component_master_ops kirin_drm_ops = {
-> 		.bind = kirin_drm_bind,
-> 		.unbind = kirin_drm_unbind,
-> 	};
-> 
-> 	static int kirin_drm_platform_probe(struct platform_device *pdev)
-> 	{
-> ...
-> 		drm_of_component_match_add(dev, &match, compare_of, remote);
-> ...
-> 	return component_master_add_with_match(dev, &kirin_drm_ops, match);
-> }
-> 
-> Are you meaning that I should get rid of this component API and call
-> kirin_drm_bind() from kirin_drm_platform_probe()?
-> 
-> Thanks,
-> Mauro
+
+Robin Murphy (18):
+  ARM/dma-mapping: Drop .dma_supported for IOMMU ops
+  ARM/dma-mapping: Consolidate IOMMU ops callbacks
+  ARM/dma-mapping: Merge IOMMU ops
+  iommu/dma: Add temporary hacks for arch/arm
+  ARM/dma-mapping: Switch to iommu_dma_ops
+  ARM/dma-mapping: Support IOMMU default domains
+  iommu/arm-smmu: Remove arch/arm workaround
+  iommu/renesas: Remove arch/arm workaround
+  iommu/mediatek-v1: Add IOMMU_DOMAIN_DMA support
+  iommu/msm: Add IOMMU_DOMAIN_DMA support
+  iommu/omap: Add IOMMU_DOMAIN_DMA support
+  iommu/tegra-gart: Add IOMMU_DOMAIN_DMA support
+  iommu/tegra: Add IOMMU_DOMAIN_DMA support
+  drm/exynos: Consolidate IOMMU mapping code
+  drm/nouveau/tegra: Clean up IOMMU workaround
+  staging/media/tegra-vde: Clean up IOMMU workaround
+  media/omap3isp: Clean up IOMMU workaround
+  ARM/dma-mapping: Remove legacy dma-iommu API
+
+ arch/arm/Kconfig                              |   28 +-
+ arch/arm/common/dmabounce.c                   |    1 -
+ arch/arm/include/asm/device.h                 |    9 -
+ arch/arm/include/asm/dma-iommu.h              |   37 -
+ arch/arm/mm/dma-mapping.c                     | 1198 +----------------
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c |    5 +-
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |    5 +-
+ drivers/gpu/drm/exynos/exynos_drm_dma.c       |   61 +-
+ drivers/gpu/drm/exynos/exynos_drm_drv.h       |    6 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c      |    5 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      |    5 +-
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       |    5 +-
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c       |    5 +-
+ drivers/gpu/drm/exynos/exynos_drm_rotator.c   |    5 +-
+ drivers/gpu/drm/exynos/exynos_drm_scaler.c    |    6 +-
+ drivers/gpu/drm/exynos/exynos_mixer.c         |    7 +-
+ .../drm/nouveau/nvkm/engine/device/tegra.c    |   13 -
+ drivers/iommu/Kconfig                         |    8 -
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |   10 -
+ drivers/iommu/ipmmu-vmsa.c                    |   69 -
+ drivers/iommu/msm_iommu.c                     |    7 +-
+ drivers/iommu/mtk_iommu.h                     |    2 -
+ drivers/iommu/mtk_iommu_v1.c                  |  153 +--
+ drivers/iommu/omap-iommu.c                    |   22 +-
+ drivers/iommu/tegra-gart.c                    |   17 +-
+ drivers/iommu/tegra-smmu.c                    |   37 +-
+ drivers/media/platform/Kconfig                |    1 -
+ drivers/media/platform/omap3isp/isp.c         |   68 +-
+ drivers/media/platform/omap3isp/isp.h         |    3 -
+ drivers/staging/media/tegra-vde/iommu.c       |   12 -
+ 30 files changed, 150 insertions(+), 1660 deletions(-)
+ delete mode 100644 arch/arm/include/asm/dma-iommu.h
+
+-- 
+2.28.0.dirty
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
