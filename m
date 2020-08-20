@@ -1,61 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE5C24C473
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 19:25:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C1E24C478
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 19:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0736E99D;
-	Thu, 20 Aug 2020 17:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE636E99E;
+	Thu, 20 Aug 2020 17:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EDB16E99D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 17:25:13 +0000 (UTC)
-IronPort-SDR: vrpvg9EhjJJcLJP1Wpp5o8n1dgL7VSuwd3NjPu3aDUEtSVsUCzdR10whf/9REpS3fxU/L5rJeT
- rrXkzAAjSlLg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="156417716"
-X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; d="scan'208";a="156417716"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2020 10:24:56 -0700
-IronPort-SDR: 27LC/iSRRMVhOkn5zUEpPkWc7ZN5fdPaRClSf8Yr38ybk/fYuN23DK8u5ov2zj3wCwE4OjhB3Q
- dl0NedN9+oYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; d="scan'208";a="280049094"
-Received: from fmsmsx602-2.cps.intel.com (HELO fmsmsx602.amr.corp.intel.com)
- ([10.18.84.212])
- by fmsmga008.fm.intel.com with ESMTP; 20 Aug 2020 10:24:56 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 20 Aug 2020 10:24:55 -0700
-Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 20 Aug 2020 10:24:55 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.136]) by
- fmsmsx158.amr.corp.intel.com ([169.254.15.137]) with mapi id 14.03.0439.000;
- Thu, 20 Aug 2020 10:24:55 -0700
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "adam.miszczak@linux.intel.com" <adam.miszczak@linux.intel.com>
-Subject: Re: [PATCH libdrm] intel: sync i915_pciids.h with kernel
-Thread-Topic: [PATCH libdrm] intel: sync i915_pciids.h with kernel
-Thread-Index: AQHWds7/4oVhXLMxMUKlBIMeVZCb6qlBthUA
-Date: Thu, 20 Aug 2020 17:24:55 +0000
-Message-ID: <81f5cd962f8474c275fd7062b651e1ef28d40b66.camel@intel.com>
-References: <20200820084642.26562-1-adam.miszczak@linux.intel.com>
-In-Reply-To: <20200820084642.26562-1-adam.miszczak@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.240.12]
-Content-ID: <98A6D1FFC462AA4CA98B619E18FA5E45@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 70EF86E99E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 17:25:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1012B30E;
+ Thu, 20 Aug 2020 10:25:29 -0700 (PDT)
+Received: from [10.57.40.122] (unknown [10.57.40.122])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D2D63F66B;
+ Thu, 20 Aug 2020 10:25:21 -0700 (PDT)
+Subject: Re: [PATCH 17/18] media/omap3isp: Clean up IOMMU workaround
+To: Sakari Ailus <sakari.ailus@iki.fi>
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <11d8419744e4e744a9448180801b0c4683328afd.1597931876.git.robin.murphy@arm.com>
+ <20200820165339.GK7145@valkosipuli.retiisi.org.uk>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <be010209-4abc-ba48-4e31-185427776a13@arm.com>
+Date: Thu, 20 Aug 2020 18:25:19 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <20200820165339.GK7145@valkosipuli.retiisi.org.uk>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,36 +43,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, linux-tegra@vger.kernel.org,
+ thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com, digetx@gmail.com,
+ s-anna@ti.com, will@kernel.org, hch@lst.de, m.szyprowski@samsung.com,
+ linux-samsung-soc@vger.kernel.org, joro@8bytes.org, magnus.damm@gmail.com,
+ linux@armlinux.org.uk, jonathanh@nvidia.com, agross@kernel.org,
+ yong.wu@mediatek.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ t-kristo@ti.com, kyungmin.park@samsung.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDIwLTA4LTIwIGF0IDEwOjQ2ICswMjAwLCBBZGFtIE1pc3pjemFrIHdyb3RlOg0K
-PiBBZGQgREcxIGFuZCBjbGVhbi11cCBWTFYgUENJIElEcy4NCj4gDQo+IEFsaWduIHdpdGgga2Vy
-bmVsIGNvbW1pdHM6DQo+IGYyYmRlMjU0NmI4MSAoImRybS9pOTE1OiBSZW1vdmUgZHViaW91cyBW
-YWxsZXl2aWV3IFBDSSBJRHMiKQ0KPiBmZDM4Y2RiODExMDUgKCJkcm0vaTkxNS9kZzE6IEFkZCBE
-RzEgUENJIElEcyIpDQo+IA0KDQpSZXZpZXdlZC1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8
-am9zZS5zb3V6YUBpbnRlbC5jb20+DQoNCkJ1dCB0aGUgY3VycmVudCBwcm9jZXNzIGZvciBsaWJk
-cm0gcGF0Y2hlcyBpcyB0byBvcGVuIGEgbWVyZ2UgcmVxdWVzdCBpbiBGcmVlZGVza3RvcCBnaXRs
-YWIsIHdoZW4geW91IGRvIENDIG1lLg0KDQo+IFNpZ25lZC1vZmYtYnk6IEFkYW0gTWlzemN6YWsg
-PA0KPiBhZGFtLm1pc3pjemFrQGxpbnV4LmludGVsLmNvbQ0KPiA+DQo+IENjOiBKb3PDqSBSb2Jl
-cnRvIGRlIFNvdXphIDwNCj4gam9zZS5zb3V6YUBpbnRlbC5jb20NCj4gPg0KPiAtLS0NCj4gIGlu
-dGVsL2k5MTVfcGNpaWRzLmggfCA4ICsrKysrLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNl
-cnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2ludGVsL2k5MTVf
-cGNpaWRzLmggYi9pbnRlbC9pOTE1X3BjaWlkcy5oDQo+IGluZGV4IGQ2Y2IyODk5Li44ZTdhZTMw
-ZSAxMDA2NDQNCj4gLS0tIGEvaW50ZWwvaTkxNV9wY2lpZHMuaA0KPiArKysgYi9pbnRlbC9pOTE1
-X3BjaWlkcy5oDQo+IEBAIC0yNTgsOSArMjU4LDcgQEANCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4
-MGYzMCwgaW5mbyksIFwNCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4MGYzMSwgaW5mbyksIFwNCj4g
-IAlJTlRFTF9WR0FfREVWSUNFKDB4MGYzMiwgaW5mbyksIFwNCj4gLQlJTlRFTF9WR0FfREVWSUNF
-KDB4MGYzMywgaW5mbyksIFwNCj4gLQlJTlRFTF9WR0FfREVWSUNFKDB4MDE1NywgaW5mbyksIFwN
-Cj4gLQlJTlRFTF9WR0FfREVWSUNFKDB4MDE1NSwgaW5mbykNCj4gKwlJTlRFTF9WR0FfREVWSUNF
-KDB4MGYzMywgaW5mbykNCj4gIA0KPiAgI2RlZmluZSBJTlRFTF9CRFdfVUxUX0dUMV9JRFMoaW5m
-bykgXA0KPiAgCUlOVEVMX1ZHQV9ERVZJQ0UoMHgxNjA2LCBpbmZvKSwgLyogR1QxIFVMVCAqLyBc
-DQo+IEBAIC02MTgsNCArNjE2LDggQEANCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4NEM5MCwgaW5m
-byksIFwNCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4NEM5QSwgaW5mbykNCj4gIA0KPiArLyogREcx
-ICovDQo+ICsjZGVmaW5lIElOVEVMX0RHMV9JRFMoaW5mbykgXA0KPiArCUlOVEVMX1ZHQV9ERVZJ
-Q0UoMHg0OTA1LCBpbmZvKQ0KPiArDQo+ICAjZW5kaWYgLyogX0k5MTVfUENJSURTX0ggKi8NCj4g
-DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 2020-08-20 17:53, Sakari Ailus wrote:
+> Hi Robin,
+> 
+> On Thu, Aug 20, 2020 at 04:08:36PM +0100, Robin Murphy wrote:
+>> Now that arch/arm is wired up for default domains and iommu-dma, devices
+>> behind IOMMUs will get mappings set up automatically as appropriate, so
+>> there is no need for drivers to do so manually.
+>>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> 
+> Thanks for the patch.
+
+Many thanks for testing so quickly!
+
+> I haven't looked at the details but it seems that this causes the buffer
+> memory allocation to be physically contiguous, which causes a failure to
+> allocate video buffers of entirely normal size. I guess that was not
+> intentional?
+
+Hmm, it looks like the device ends up with the wrong DMA ops, which 
+implies something didn't go as expected with the earlier IOMMU setup and 
+default domain creation. Chances are that either I missed some subtlety 
+in the omap_iommu change, or I've fundamentally misjudged how the ISP 
+probing works and it never actually goes down the of_iommu_configure() 
+path in the first place. Do you get any messages from the IOMMU layer 
+earlier on during boot?
+
+Robin.
+
+> -----------------8<---------------------------
+> [  218.934448] WARNING: CPU: 0 PID: 1994 at mm/page_alloc.c:4859 __alloc_pages_nodemask+0x9c/0xb1c
+> [  218.943847] Modules linked in: omap3_isp videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common leds_as3645a smiapp v4l2_flash_led_class led_class_flash v4l2_fwnode smiapp_pll videodev leds_gpio mc led_class
+> [  218.964660] CPU: 0 PID: 1994 Comm: yavta Not tainted 5.9.0-rc1-dirty #1818
+> [  218.972442] Hardware name: Generic OMAP36xx (Flattened Device Tree)
+> [  218.978973] Backtrace:
+> [  218.981842] [<c010bf90>] (dump_backtrace) from [<c010c350>] (show_stack+0x20/0x24)
+> [  218.989715]  r7:00000000 r6:00000009 r5:c08f03bc r4:c08f2fef
+> [  218.995880] [<c010c330>] (show_stack) from [<c03d3328>] (dump_stack+0x28/0x30)
+> [  219.003631] [<c03d3300>] (dump_stack) from [<c012e324>] (__warn+0x100/0x118)
+> [  219.010955]  r5:c08f03bc r4:00000000
+> [  219.014953] [<c012e224>] (__warn) from [<c012e6f4>] (warn_slowpath_fmt+0x84/0xa8)
+> [  219.022949]  r9:c0232090 r8:c08f03bc r7:c0b08a88 r6:00000009 r5:000012fb r4:00000000
+> [  219.031036] [<c012e674>] (warn_slowpath_fmt) from [<c0232090>] (__alloc_pages_nodemask+0x9c/0xb1c)
+> [  219.040557]  r9:c0185c3c r8:00000000 r7:010ec000 r6:00000000 r5:0000000d r4:00000000
+> [  219.048858] [<c0231ff4>] (__alloc_pages_nodemask) from [<c01108f0>] (__dma_alloc_buffer.constprop.14+0x3c/0x90)
+> [  219.059570]  r10:00000cc0 r9:c0185c3c r8:00000000 r7:010ec000 r6:0000000d r5:c0b08a88
+> [  219.067901]  r4:00000cc0
+> [  219.070587] [<c01108b4>] (__dma_alloc_buffer.constprop.14) from [<c0110a6c>] (remap_allocator_alloc+0x34/0x7c)
+> [  219.081207]  r9:c0185c3c r8:00000247 r7:e6d7fb84 r6:010ec000 r5:c0b08a88 r4:00000001
+> [  219.089263] [<c0110a38>] (remap_allocator_alloc) from [<c010f4f4>] (__dma_alloc+0x124/0x21c)
+> [  219.098236]  r9:ed99fc10 r8:e69aa890 r7:00000000 r6:ffffffff r5:c0b08a88 r4:e6fdd680
+> [  219.106536] [<c010f3d0>] (__dma_alloc) from [<c010f69c>] (arm_dma_alloc+0x68/0x74)
+> [  219.114654]  r10:00000cc0 r9:c0185c3c r8:00000cc0 r7:e69aa890 r6:010ec000 r5:ed99fc10
+> [  219.122985]  r4:00000000
+> [  219.125671] [<c010f634>] (arm_dma_alloc) from [<c0185c3c>] (dma_alloc_attrs+0xe4/0x120)
+> [  219.134216]  r9:00000000 r8:e69aa890 r7:010ec000 r6:c0b08a88 r5:ed99fc10 r4:c010f634
+> [  219.142517] [<c0185b58>] (dma_alloc_attrs) from [<bf095c3c>] (vb2_dc_alloc+0xcc/0x108 [videobuf2_dma_contig])
+> [  219.153076]  r10:e6885ca8 r9:e6abfc48 r8:00000002 r7:00000000 r6:010ec000 r5:ed99fc10
+> [  219.161407]  r4:e69aa880
+> [  219.164184] [<bf095b70>] (vb2_dc_alloc [videobuf2_dma_contig]) from [<bf080fd0>] (__vb2_queue_alloc+0x258/0x4a4 [videobuf2_common])
+> [  219.176696]  r8:bf095b70 r7:010ec000 r6:00000000 r5:e6885ca8 r4:e6abfc00
+> [  219.183959] [<bf080d78>] (__vb2_queue_alloc [videobuf2_common]) from [<bf0833a0>] (vb2_core_reqbufs+0x408/0x498 [videobuf2_common])
+> [  219.196533]  r10:e6885ce8 r9:00000000 r8:e6d7fe24 r7:e6d7fcec r6:bf09ced4 r5:bf088580
+> [  219.204895]  r4:e6885ca8
+> [  219.207672] [<bf082f98>] (vb2_core_reqbufs [videobuf2_common]) from [<bf08e1cc>] (vb2_reqbufs+0x64/0x70 [videobuf2_v4l2])
+> [  219.219268]  r10:00000000 r9:bf032bc0 r8:c0145608 r7:bf0ad4a4 r6:e6885ca8 r5:00000000
+> [  219.227600]  r4:e6d7fe24
+> [  219.230499] [<bf08e168>] (vb2_reqbufs [videobuf2_v4l2]) from [<bf09d7b4>] (isp_video_reqbufs+0x40/0x54 [omap3_isp])
+> [  219.241607]  r7:bf0ad4a4 r6:e6d7fe24 r5:e6885c00 r4:e6cca928
+> [  219.247924] [<bf09d774>] (isp_video_reqbufs [omap3_isp]) from [<bf01de4c>] (v4l_reqbufs+0x4c/0x50 [videodev])
+> [  219.258514]  r7:bf0ad4a4 r6:e6885c00 r5:e6d7fe24 r4:e7efbec0
+> [  219.264984] [<bf01de00>] (v4l_reqbufs [videodev]) from [<bf01eeb4>] (__video_do_ioctl+0x2d8/0x414 [videodev])
+> [  219.275512]  r7:bf01de00 r6:00000000 r5:00000000 r4:e6cca2e0
+> [  219.281982] [<bf01ebdc>] (__video_do_ioctl [videodev]) from [<bf01fa1c>] (video_usercopy+0x144/0x508 [videodev])
+> [  219.292816]  r10:e7efbec0 r9:c0145608 r8:e6d7fe24 r7:00000000 r6:00000000 r5:bf01ebdc
+> [  219.300933]  r4:c0145608
+> [  219.304168] [<bf01f8d8>] (video_usercopy [videodev]) from [<bf01fdfc>] (video_ioctl2+0x1c/0x24 [videodev])
+> [  219.314453]  r10:e7fbfda0 r9:e7efbec0 r8:00000003 r7:00000000 r6:bee658f4 r5:c0145608
+> [  219.322784]  r4:e7efbec0
+> [  219.325775] [<bf01fde0>] (video_ioctl2 [videodev]) from [<bf01814c>] (v4l2_ioctl+0x50/0x64 [videodev])
+> [  219.335845] [<bf0180fc>] (v4l2_ioctl [videodev]) from [<c02654a0>] (vfs_ioctl+0x30/0x44)
+> [  219.344482]  r7:00000000 r6:e7efbec0 r5:bee658f4 r4:c0145608
+> [  219.350402] [<c0265470>] (vfs_ioctl) from [<c0265e9c>] (sys_ioctl+0xdc/0x7ec)
+> [  219.358062] [<c0265dc0>] (sys_ioctl) from [<c0100080>] (ret_fast_syscall+0x0/0x28)
+> [  219.366149] Exception stack(0xe6d7ffa8 to 0xe6d7fff0)
+> [  219.371673] ffa0:                   00000000 bee65c1a 00000003 c0145608 bee658f4 00000001
+> [  219.380157] ffc0: 00000000 bee65c1a 00000000 00000036 000009a0 00000000 0000ef30 010eb400
+> [  219.388885] ffe0: 0001716c bee65104 0000b588 b6e413ac
+> [  219.394409]  r10:00000036 r9:e6d7e000 r8:c0100244 r7:00000036 r6:00000000 r5:bee65c1a
+> [  219.402740]  r4:00000000
+> [  219.405426] irq event stamp: 5075
+> [  219.408905] hardirqs last  enabled at (5083): [<c01778b0>] console_unlock+0x4cc/0x524
+> [  219.417297] hardirqs last disabled at (5092): [<c01777ac>] console_unlock+0x3c8/0x524
+> [  219.425628] softirqs last  enabled at (4532): [<c01017d8>] __do_softirq+0x1f0/0x490
+> [  219.433837] softirqs last disabled at (4493): [<c0132c20>] irq_exit+0xe4/0x160
+> [  219.441558] ---[ end trace 8c56810633cf24db ]---
+> [  219.446502] omap3isp 480bc000.isp: dma_alloc_coherent of size 17743872 failed
+> -----------------8<---------------------------
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
