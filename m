@@ -1,59 +1,148 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F7724B1D3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 11:14:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E202724B1DB
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 11:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59206E04A;
-	Thu, 20 Aug 2020 09:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B40F6E91F;
+	Thu, 20 Aug 2020 09:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2715A6E91C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 09:14:25 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id a79so715331pfa.8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 02:14:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+dDRDonHJvato3rSg9EzeGb5bHUmhRkgiaRA89g5iRE=;
- b=aGho0TihztlVcEALtbGufzeFiAShov5uftycOlvLNPpkcGpNdWZYT33Pnog7KCSLuW
- vNDzkydjCfGTyTCD7mZdd7my/ngKd7SezM4jdEepImdhFEdeHZu5yGqhtkC/pZYgkGbO
- 01O2UoZR0A9xRT1J/AXYE+olOJpU08TIxhb8A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+dDRDonHJvato3rSg9EzeGb5bHUmhRkgiaRA89g5iRE=;
- b=c8j+PsUXPf9jaz9fVbiHTlmZ/FDkvcL1xvfps8iwJ1db8CD6E+w0xh1T+ylrZju0bz
- 9OkrrVaYfRxFqM7J34pV3PlZnAcwK9gI4rD9UGroS0+x+Ho5FvFSHzUE5HT6YhitGD6t
- 48RRHFb/D1RiR+oieKxSoqxWRxQBsLwyNCj05RRhJlbXP+esWQOBEOpvzdPHaotXlPpY
- ekKHUSIS642iqwo/Hxlt45P6R5k13W4v2JIc2gwrkfjODDD45LZcMlPkyEcqUqMGHUno
- WsrkRqbiBEGlIROBIsi4fhGd6zvWHVBoIO6DIo5jpMVVlCyD0s1xEUKL4eGlT07GfzJS
- nSOg==
-X-Gm-Message-State: AOAM532IltbgnjE4+n2D/CZywUmncpdd+SbkdwX2/KgQPwX2zyD6TZCi
- zCIRsUCiuYQ0G2zsebaLZEtP3w==
-X-Google-Smtp-Source: ABdhPJywcBmh6B4y9LTUDxLhg3ZqPWZTMIB/igrhz0htlivl62N0XB02hWgytplaluoU2tCo9+qCNw==
-X-Received: by 2002:a63:e70f:: with SMTP id b15mr1813230pgi.20.1597914864654; 
- Thu, 20 Aug 2020 02:14:24 -0700 (PDT)
-Received: from drinkcat2.tpe.corp.google.com
- ([2401:fa00:1:b:7220:84ff:fe09:41dc])
- by smtp.gmail.com with ESMTPSA id o15sm1954448pfu.167.2020.08.20.02.14.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Aug 2020 02:14:23 -0700 (PDT)
-From: Nicolas Boichat <drinkcat@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 2/3] kernel/trace: Add TRACING_ALLOW_PRINTK config option
-Date: Thu, 20 Aug 2020 17:14:11 +0800
-Message-Id: <20200820170951.v4.2.I4feb11d34ce7a0dd5ee2c3327fb5a1a9a646be30@changeid>
-X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
-In-Reply-To: <20200820170951.v4.1.Ia54fe801f246a0b0aee36fb1f3bfb0922a8842b0@changeid>
-References: <20200820170951.v4.1.Ia54fe801f246a0b0aee36fb1f3bfb0922a8842b0@changeid>
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr50080.outbound.protection.outlook.com [40.107.5.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB3606E91F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 09:14:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MIaNCLbbESJcPdW4g6MaX+0LafTvCaAoPkjRZd6VRm0=;
+ b=zOp3rJMqM7bQ9phda8Hc2x+uOsCj08XHBdL5+sk6kT7AbWqVDboakN/VnhthK2ohWQ8Hpood3qihDC+eVIrlSrE2cKeDdhgZIwhdWwEbtmWjhyCwpQOOUZm7MVqNY52k6xPT/W8i93jnBmLs9VGEoeJjDAKyaBg5bNbmzP1OdME=
+Received: from DB6PR0202CA0005.eurprd02.prod.outlook.com (2603:10a6:4:29::15)
+ by VI1PR08MB3024.eurprd08.prod.outlook.com (2603:10a6:803:45::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Thu, 20 Aug
+ 2020 09:14:44 +0000
+Received: from DB5EUR03FT040.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:4:29:cafe::93) by DB6PR0202CA0005.outlook.office365.com
+ (2603:10a6:4:29::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25 via Frontend
+ Transport; Thu, 20 Aug 2020 09:14:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT040.mail.protection.outlook.com (10.152.20.243) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.24 via Frontend Transport; Thu, 20 Aug 2020 09:14:42 +0000
+Received: ("Tessian outbound 195a290eb161:v64");
+ Thu, 20 Aug 2020 09:14:42 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 5588458ae9d41b09
+X-CR-MTA-TID: 64aa7808
+Received: from f209b903142b.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 3B7B3E3D-6D92-4BE1-9DC2-57D58A4A0C40.1; 
+ Thu, 20 Aug 2020 09:14:37 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id f209b903142b.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Thu, 20 Aug 2020 09:14:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GzGNX+Fri3flIyQFioGdLFX10S5CTtHQccDbpiK7x1qwu9Q2wVykA91Ul6pvWTVsH996XmBYBgOa0gmZNnNSLQjPocVn2ND3RbWZsPTXDip/YWS9xz9iMK8DvN1zk/g0TNFwHfJuFjWZBVydpzMwwt/B0HI60RXS4X85vaarA5YtQBQy4MD1WJey5o4cQSv8dtoZPJ6Kcq1CwQm9m7rcmDPxSzbrhtrizo9oF1z5h1odY3ftERb/Mjfh7BF9/PbqVIDPHqBsaDlC83wKOTZlyp3YvjgxSwTJEWzlgu93mCnDOiqz6iOvKVSfprpPUcCaugi/jTHeW/D43/sTP+L9bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MIaNCLbbESJcPdW4g6MaX+0LafTvCaAoPkjRZd6VRm0=;
+ b=Iy9H12d8eY5Nov/YSQ65gkrmhse/LboM5Qn6EyE76TITmdRpo/mKBDftiPZthwXzrC7OtVa3DcVrZXSSf9CanCOxUplvgS2/mWG+W6nDoWmqivG4N35p7BQSNo9fV8WLCU8QrL7DuhQQTttGPEdUtdyesa/7tcOp4i58NC9+T+QTLakkc1QgXR5ulyr8J8K3pNy5oVzfukXfG12N0TSIOjF+gYHXWYTdL/LqqoJNvZaLq+H66mQ0H5HpI44kR9wdtHuO4yKwz9j1Kl072VDDwaRYlheIOUMLOJ93+6Ew9tfshe5ULs4PdBXykg2Xy4pl2fFu945nfXIHNin+X88uiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MIaNCLbbESJcPdW4g6MaX+0LafTvCaAoPkjRZd6VRm0=;
+ b=zOp3rJMqM7bQ9phda8Hc2x+uOsCj08XHBdL5+sk6kT7AbWqVDboakN/VnhthK2ohWQ8Hpood3qihDC+eVIrlSrE2cKeDdhgZIwhdWwEbtmWjhyCwpQOOUZm7MVqNY52k6xPT/W8i93jnBmLs9VGEoeJjDAKyaBg5bNbmzP1OdME=
+Authentication-Results-Original: collabora.com; dkim=none (message not signed)
+ header.d=none; collabora.com;
+ dmarc=none action=none header.from=arm.com; 
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com (2603:10a6:7:36::11) by
+ HE1PR0801MB1995.eurprd08.prod.outlook.com (2603:10a6:3:52::21) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.24; Thu, 20 Aug 2020 09:14:33 +0000
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::14f5:cc22:9381:1d13]) by HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::14f5:cc22:9381:1d13%6]) with mapi id 15.20.3283.028; Thu, 20 Aug 2020
+ 09:14:33 +0000
+Date: Thu, 20 Aug 2020 10:14:31 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+Message-ID: <20200820091431.a5im4tgwigy2z3vj@DESKTOP-E1NTVVP.localdomain>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
+ <8fb2e5f7c2943df0d733fc604cafd547edd4b8ea.camel@collabora.com>
+Content-Disposition: inline
+In-Reply-To: <8fb2e5f7c2943df0d733fc604cafd547edd4b8ea.camel@collabora.com>
+User-Agent: NeoMutt/20180716-849-147d51-dirty
+X-ClientProxiedBy: LNXP265CA0081.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:76::21) To HE1PR08MB2890.eurprd08.prod.outlook.com
+ (2603:10a6:7:36::11)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from DESKTOP-E1NTVVP.localdomain (217.140.99.251) by
+ LNXP265CA0081.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:76::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.24 via Frontend Transport; Thu, 20 Aug 2020 09:14:31 +0000
+X-Originating-IP: [217.140.99.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 766fa4d0-2929-45ff-8a21-08d844e9795c
+X-MS-TrafficTypeDiagnostic: HE1PR0801MB1995:|VI1PR08MB3024:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB30245CB116FD28D6FEEA0233F05A0@VI1PR08MB3024.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: ut/Gickeqk0XIJtZWPAAWaVi5uv1OqWZii0Ga+jhlLmyLU45VJxr5SvFy1e0RZtok5N2Fit+zOARqnItwrmnljMebpdNDT2EIdTcyO+eNl6/XfdubRUeMJ9sL2UZxTHUkXHQ9muHrFPmFhaAZNsWpjljA1YnSsvFjmtXNB0H04EHihiztS//Iyjc3yl0+muP+OVE8ab7ZwjkZVYqcOuzCcFrpNLRAHOjwyRdyDm93hH5rXGqHLrIbIG36gAmyYfqcwfoHCugFuEsKgBLPUnTWZtFqOkxMsHZIMMcq/BBTUcEY/3Iv9TSd1kUfyFTQJ+1jsjPX+4lJ8TwrUM8KBRyHw==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:HE1PR08MB2890.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(136003)(396003)(39860400002)(366004)(86362001)(956004)(44832011)(2906002)(66946007)(66556008)(66476007)(5660300002)(7416002)(8676002)(8936002)(6916009)(186003)(54906003)(7696005)(16526019)(316002)(1076003)(478600001)(6506007)(55016002)(26005)(9686003)(52116002)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: kS4a6lRceiIs4GxUUwMjVl5dL6szDvrGXFUR/QE+enTUWaK+CuJpCs78AYJH7ix97UWVyq4ZhvEJYErFmV1N9H5QsqnAxsYAfz/P4XPsrGdCqkSGnGgp8i18Ow2ILrd+5DwXFADtPU4sV92oxaOKCkgT4C1cFoZJlqJvbYaSBqMfyOUP3drBF6cuWESy6FG56DtAWUi3JX9osP+3pe/63HzL+ofb7v6n1HwqQH2ek3HLrUx0sJsDkwxW+R+pUrYatpULMTDd45qvsWlKE5S9GDTH3Idy1HI49Mh6CVWkexno2qaXofqqJ9ebZIeGnrogbIOJVqFqo7dMEbMyxGzddgNXHpkSD8UCTO+Xm6oREnbDosVtJKFpgjsQfjPf9i+Mh9tCM/F/7z4uM+NcroO5Kj6owo3WeIQfzJLMn0Q2/2Tq4tyZopuQ7pdNLHAKHMgcu7AovT0kRkxfIJ+/skzbDxjzrO0G7FKRbalptxCcWFVlX6biQT+9+ZdrQnE97mnbrVN4Cg5jEkKbsJadftDzIYO9EKsETOtJdsc3t2vqFZVzj/3YLgAKivahVyugF3HgpTYHTZ9xUCJZfbtw86xlM58AnSxC+FcRfSk1XEPImy3YGGzOnuM0vnH0fXVUGFJt0v76EYMMjBjj9rYK+F9p3A==
+X-MS-Exchange-Transport-Forked: True
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1995
+Original-Authentication-Results: collabora.com; dkim=none (message not signed)
+ header.d=none; collabora.com;
+ dmarc=none action=none header.from=arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT040.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 06b41857-b7d0-4f10-a09e-08d844e9739a
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IeWHqI41IlMTTnkjiwiW3A3pPvMN9Ud+Pm75hvzj5/7IVXF1WZg/cQF+0pI3eyCJW4vDFAHQtTGNJBAdiw+xgtF9gC7UHwvirHkehIyjYEQ75TQTCqOVHG5oKdPF/eY6UnjgoOnZfknsseyLFFMr+KPWWbEjYgNzVH/AoGygnyllBZKExr3jdyVnNkdgAWk1dZ17CwGptmEVe6atoVPPschP/LUoyViEeDnU10UqFNj95Mj2EDP4sqyKRZxTzKWoYC7zWbgbh+Z0SUmwD1oPUA2+4LGXj1opM0daRo43w7diqszfKj2etHZbOYUKwqwbzhSGSXNxvQ0EOET0QEfClbFFdtBiu8RaCzzPZYZCbCntZa1XwO06TN16QS2jfP7UqMRHKJ91La+xQHcw35Zyhw==
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
+ SFS:(4636009)(136003)(39860400002)(376002)(346002)(396003)(46966005)(956004)(70206006)(1076003)(478600001)(4326008)(6862004)(8676002)(70586007)(8936002)(9686003)(7696005)(86362001)(6506007)(55016002)(316002)(54906003)(82310400002)(356005)(44832011)(81166007)(2906002)(186003)(82740400003)(5660300002)(26005)(16526019)(336012)(47076004);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2020 09:14:42.7031 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 766fa4d0-2929-45ff-8a21-08d844e9795c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT040.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,215 +155,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- David Howells <dhowells@redhat.com>, Will Deacon <will@kernel.org>,
- Christian Brauner <christian.brauner@ubuntu.com>,
- Sam Ravnborg <sam@ravnborg.org>, Tiezhu Yang <yangtiezhu@loongson.cn>,
- Nicolas Boichat <drinkcat@chromium.org>, Kars Mulder <kerneldev@karsmulder.nl>,
- Masahiro Yamada <masahiroy@kernel.org>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>, Yue Hu <huyue2@yulong.com>,
- Ingo Molnar <mingo@redhat.com>, Tomas Winkler <tomas.winkler@intel.com>,
- Chao Yu <chao@kernel.org>, Kees Cook <keescook@chromium.org>,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- Andrew Morton <akpm@linux-foundation.org>, Divya Indi <divya.indi@oracle.com>
+Cc: Robert Beckett <bob.beckett@collabora.com>, nd <nd@arm.com>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@st.com>, James Jones <jajones@nvidia.com>,
+ Liam Mark <lmark@codeaurora.org>, "Andrew F . Davis" <afd@ti.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Laura Abbott <labbott@kernel.org>, Daniel Stone <daniels@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-trace_printk is meant as a debugging tool, and should not be
-compiled into production code without specific debug Kconfig
-options enabled, or source code changes, as indicated by the
-warning that shows up on boot if any trace_printk is called:
- **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
- **                                                      **
- ** trace_printk() being used. Allocating extra memory.  **
- **                                                      **
- ** This means that this is a DEBUG kernel and it is     **
- ** unsafe for production use.                           **
+Hi,
 
-If this option is set to n, the kernel will generate a
-build-time error if trace_printk is used.
+On Thu, Aug 20, 2020 at 09:07:29AM +0100, Ezequiel Garcia wrote:
+> > For single-device allocations, would using the buffer allocation
+> > functionality of that device's native API be better in most
+> > cases? (Some other possibly relevant discussion at [1])
+> > 
+> 
+> That may be true for existing subsystems.
+> 
+> However, how about a new subsystem/API wanting to
+> leverage the heap API and avoid exposing yet another
+> allocator API?
+> 
+> And then, also, if we have an allocator API, perhaps
+> we could imagine a future where applications would only
+> need to worry about that, and not about each per-framework
+> allocator.
 
-Note that the code to handle trace_printk is still present,
-so this does not prevent people from compiling out-of-tree
-kernel modules with the option set to =y, or BPF programs.
+Yeah both are reasonable points. I was thinking in the context of the
+thread I linked where allocating lots of GEM handles for process-local
+use is preferable to importing loads of dma_buf fds, but in that case
+the userspace graphics driver is somewhat "special" rather than a
+generic application in the traditional sense.
 
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+I do think the best usage model for applications though is to use
+libraries which can hide the details, instead of going at the kernel
+APIs directly.
 
----
+> 
+> > I can see that this can save some boilerplate for devices that want
+> > to expose private chunks of memory, but might it also lead to 100
+> > aliases for the system's generic coherent memory pool?
+> > 
+> 
+> The idea (even if PoC) was to let drivers decide if they are special
+> enough to add themselves (via dev_dma_heap_add).
 
-Changes since v2/v3:
- - Rebase only, v3 didn't exist as I just split out the other
-   necessary patches.
- - Added patch 3/3 to fix atomisp_compat_css20.c
+OK, that makes sense. I think it's tricky to know how many "special"
+chunks of memory will already be hooked up to the DMA infrastructure
+and how many would need some extra/special work.
 
-Changes since v1:
- - Use static_assert instead of __static_assert (Jason Gunthorpe)
- - Fix issues that can be detected by this patch (running some
-   randconfig in a loop, kernel test robot, or manual inspection),
-   by:
-   - Making some debug config options that use trace_printk depend
-     on the new config option.
-   - Adding 3 patches before this one.
-
-There is a question from Alexei whether the warning is warranted,
-and it's possibly too strongly worded, but the fact is, we do
-not want trace_printk to be sprinkled in kernel code by default,
-unless a very specific Kconfig command is enabled (or preprocessor
-macro).
-
-There's at least 3 reasons that I can come up with:
- 1. trace_printk introduces some overhead.
- 2. If the kernel keeps adding always-enabled trace_printk, it will
-    be much harder for developers to make use of trace_printk for
-    debugging.
- 3. People may assume that trace_printk is for debugging only, and
-    may accidentally output sensitive data (theoritical at this
-    stage).
-
- drivers/gpu/drm/i915/Kconfig.debug |  4 ++--
- fs/f2fs/Kconfig                    |  1 +
- include/linux/kernel.h             | 17 ++++++++++++++++-
- kernel/trace/Kconfig               | 10 ++++++++++
- samples/Kconfig                    |  2 ++
- 5 files changed, 31 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
-index 1cb28c20807c59d..fa30f9bdc82311f 100644
---- a/drivers/gpu/drm/i915/Kconfig.debug
-+++ b/drivers/gpu/drm/i915/Kconfig.debug
-@@ -84,7 +84,7 @@ config DRM_I915_ERRLOG_GEM
- config DRM_I915_TRACE_GEM
- 	bool "Insert extra ftrace output from the GEM internals"
- 	depends on DRM_I915_DEBUG_GEM
--	select TRACING
-+	depends on TRACING_ALLOW_PRINTK
- 	default n
- 	help
- 	  Enable additional and verbose debugging output that will spam
-@@ -98,7 +98,7 @@ config DRM_I915_TRACE_GEM
- config DRM_I915_TRACE_GTT
- 	bool "Insert extra ftrace output from the GTT internals"
- 	depends on DRM_I915_DEBUG_GEM
--	select TRACING
-+	depends on TRACING_ALLOW_PRINTK
- 	default n
- 	help
- 	  Enable additional and verbose debugging output that will spam
-diff --git a/fs/f2fs/Kconfig b/fs/f2fs/Kconfig
-index d13c5c6a978769b..d161d96cc1b7418 100644
---- a/fs/f2fs/Kconfig
-+++ b/fs/f2fs/Kconfig
-@@ -80,6 +80,7 @@ config F2FS_IO_TRACE
- 	bool "F2FS IO tracer"
- 	depends on F2FS_FS
- 	depends on FUNCTION_TRACER
-+	depends on TRACING_ALLOW_PRINTK
- 	help
- 	  F2FS IO trace is based on a function trace, which gathers process
- 	  information and block IO patterns in the filesystem level.
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 500def620d8f493..7cf24fa16a479ed 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -720,10 +720,15 @@ do {									\
- #define trace_printk(fmt, ...)				\
- do {							\
- 	char _______STR[] = __stringify((__VA_ARGS__));	\
-+							\
-+	static_assert(					\
-+		IS_ENABLED(CONFIG_TRACING_ALLOW_PRINTK),\
-+		"trace_printk called, please enable CONFIG_TRACING_ALLOW_PRINTK."); \
-+							\
- 	if (sizeof(_______STR) > 3)			\
- 		do_trace_printk(fmt, ##__VA_ARGS__);	\
- 	else						\
--		trace_puts(fmt);			\
-+		do_trace_puts(fmt);			\
- } while (0)
- 
- #define do_trace_printk(fmt, args...)					\
-@@ -772,6 +777,13 @@ int __trace_printk(unsigned long ip, const char *fmt, ...);
-  */
- 
- #define trace_puts(str) ({						\
-+	static_assert(							\
-+		IS_ENABLED(CONFIG_TRACING_ALLOW_PRINTK),		\
-+		"trace_puts called, please enable CONFIG_TRACING_ALLOW_PRINTK."); \
-+	do_trace_puts(str);						\
-+})
-+
-+#define do_trace_puts(str) ({						\
- 	static const char *trace_printk_fmt __used			\
- 		__attribute__((section("__trace_printk_fmt"))) =	\
- 		__builtin_constant_p(str) ? str : NULL;			\
-@@ -793,6 +805,9 @@ extern void trace_dump_stack(int skip);
-  */
- #define ftrace_vprintk(fmt, vargs)					\
- do {									\
-+	static_assert(							\
-+		IS_ENABLED(CONFIG_TRACING_ALLOW_PRINTK),		\
-+		"ftrace_vprintk called, please enable CONFIG_TRACING_ALLOW_PRINTK."); \
- 	if (__builtin_constant_p(fmt)) {				\
- 		static const char *trace_printk_fmt __used		\
- 		  __attribute__((section("__trace_printk_fmt"))) =	\
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index a4020c0b4508c99..971b6035b197823 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -111,6 +111,15 @@ config GENERIC_TRACER
- 	bool
- 	select TRACING
- 
-+config TRACING_ALLOW_PRINTK
-+	bool "Allow trace_printk"
-+	default y if DEBUG_KERNEL
-+	depends on TRACING
-+	help
-+	  trace_printk is only meant as a debugging tool. If this option is
-+	  set to n, the kernel will generate a build-time error if trace_printk
-+	  is used.
-+
- #
- # Minimum requirements an architecture has to meet for us to
- # be able to offer generic tracing facilities:
-@@ -686,6 +695,7 @@ config TRACEPOINT_BENCHMARK
- config RING_BUFFER_BENCHMARK
- 	tristate "Ring buffer benchmark stress tester"
- 	depends on RING_BUFFER
-+	depends on TRACING_ALLOW_PRINTK
- 	help
- 	  This option creates a test to stress the ring buffer and benchmark it.
- 	  It creates its own ring buffer such that it will not interfere with
-diff --git a/samples/Kconfig b/samples/Kconfig
-index 0ed6e4d71d87b16..6b1ade57f00dd5d 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -19,6 +19,7 @@ config SAMPLE_TRACE_EVENTS
- config SAMPLE_TRACE_PRINTK
-         tristate "Build trace_printk module - tests various trace_printk formats"
- 	depends on EVENT_TRACING && m
-+	depends on TRACING_ALLOW_PRINTK
- 	help
- 	 This builds a module that calls trace_printk() and can be used to
- 	 test various trace_printk() calls from a module.
-@@ -26,6 +27,7 @@ config SAMPLE_TRACE_PRINTK
- config SAMPLE_FTRACE_DIRECT
- 	tristate "Build register_ftrace_direct() example"
- 	depends on DYNAMIC_FTRACE_WITH_DIRECT_CALLS && m
-+	depends on TRACING_ALLOW_PRINTK
- 	depends on X86_64 # has x86_64 inlined asm
- 	help
- 	  This builds an ftrace direct function example
--- 
-2.28.0.220.ged08abb693-goog
-
+Cheers,
+-Brian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
