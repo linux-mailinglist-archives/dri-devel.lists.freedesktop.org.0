@@ -2,46 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5C324AFAB
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB94724AFFB
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDB16E8DE;
-	Thu, 20 Aug 2020 07:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E35C6E913;
+	Thu, 20 Aug 2020 07:16:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1E66E8A4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 05:35:16 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id m12so587305iov.11
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 22:35:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=yD7MI1JGQtczkbJQBV7QYmOBcKMlevUe8LY67kKIiqI=;
- b=gqLOYI3GevBGepCXe7bvhPAKy3JCcPb0RvkmTO5R73Thb0kB78G25zpqI38kagwFHp
- +9rnLON79XGANI62uMCNxXPAVFwze9o/HmJVh7JecqvIYkBU2CC54yKTdbaPcRS5IFz7
- hlIAXjmmyTvEr/NSEbQWczrNaS4uU4l+kE31aB2ivCep36JBg8qmUUXJQMRMvXSSkDIO
- rrrvZmF5TsLG16aJhD6IwO6GgQ0S5LruzSf5HGwRoeGhSBQtN8Vkaq+wioweGkBHg517
- CTVte8GiIARFXaSJDIDzaqbJIDms8oifw/3+LgvTCJGSdHU7pLKBPqfLh2oJC/pW1qkX
- 12uA==
-X-Gm-Message-State: AOAM533JcaQdOdyCEqjTpjK7AK63bgWhIJNFM7sCc9QDOF0W1NjNhXYI
- ZHhhFgmxOnC8zqDBoUyJuGdFVkBQnDHe2l8aPV36/NB352aJ
-X-Google-Smtp-Source: ABdhPJzp2vXqVfB03OO5G2QrOVXEaldP2QyG/UjOVc4fKagkcLYqKaxfs21p25Aa8JixLOOebRHmONstJxAl4aqiygDvupgHLpY9
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 23C7D6E8A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:38 +0000 (UTC)
+X-UUID: c578b6ffd56c483897870cd1f398118c-20200820
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=eMCqHf5VNCtvq/O+QRSOEtg5Xwd+1FDGSGsrpAcq+Zw=; 
+ b=s+HZOyODiPZPySgERpgDUer2qNTepI6ICLm5Z1pTLUn6/+ykrk9iNJ9QOF8e17bWEjr006pIIZr/63sTEMcm2dNsINtuFzvQ13v1XJuG7bS8YeLMWOU5F+PWRUlna/n5qe0ctttUEe2pY1riFIFE0FgkxxZvJ8908xfrtO5578Q=;
+X-UUID: c578b6ffd56c483897870cd1f398118c-20200820
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1576741474; Thu, 20 Aug 2020 14:05:33 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 Aug 2020 14:05:31 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 20 Aug 2020 14:05:30 +0800
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
+ Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v1 00/21] add drm support for MT8192
+Date: Thu, 20 Aug 2020 14:03:57 +0800
+Message-ID: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-X-Received: by 2002:a92:9996:: with SMTP id t22mr1295081ilk.216.1597901715584; 
- Wed, 19 Aug 2020 22:35:15 -0700 (PDT)
-Date: Wed, 19 Aug 2020 22:35:15 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000024be1505ad487cbb@google.com>
-Subject: KASAN: global-out-of-bounds Read in fbcon_resize
-From: syzbot <syzbot+b38b1ef6edf0c74a8d97@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
- dri-devel@lists.freedesktop.org, george.kennedy@oracle.com, 
- gregkh@linuxfoundation.org, jirislaby@kernel.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, natechancellor@gmail.com, 
- syzkaller-bugs@googlegroups.com
+X-MTK: N
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,81 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Changes in v1:
+- add some more ddp component
+- add mt8192 mmsys support
+- add ovl mount on support
+- add 2 more clock into mutex device
+- fix ovl smi_id_en and fb null software bug
+- fix ddp compoent size config bug
+- add mt8192 drm support
+- add ddp bypass shadow register function
+- add 8192 dts description
 
-syzbot found the following issue on:
+Yongqiang Niu (21):
+  drm/mediatek: add component OVL_2L2
+  drm/mediatek: add component POSTMASK
+  drm/mediatek: add component RDMA4
+  mtk-mmsys: add mt8192 mmsys support
+  mtk-mmsys: add ovl mout on  support
+  drm/mediatek: add disp config and mm 26mhz clock into mutex device
+  drm/mediatek: enable OVL_LAYER_SMI_ID_EN for multi-layer usecase
+  drm/mediatek: check if fb is null
+  drm/mediatek: fix aal size config
+  drm/mediatek: fix dither size config
+  drm/mediatek: fix gamma size config
+  drm/mediatek: fix ccorr size config
+  drm/mediatek: add support for mediatek SOC MT8192
+  drm/mediatek: add bypass shadow register function call for ddp
+    component
+  drm/mediatek: add color bypass shadow register function
+  drm/mediatek: add ovl bypass shadow register function
+  drm/mediatek: add rdma bypass shadow register function
+  drm/mediatek: add dither bypass shadow register function
+  drm/mediatek: add aal bypass shadow register function
+  drm/mediatek: add ccorr bypass shadow register function
+  arm64: dts: mt8192: add display node
 
-HEAD commit:    8eb858df Add linux-next specific files for 20200819
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1158a00e900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cd187ef624ef7f02
-dashboard link: https://syzkaller.appspot.com/bug?extid=b38b1ef6edf0c74a8d97
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=146a5589900000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=165aa636900000
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi    | 126 +++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_color.c   |  22 ++++
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     |  41 ++++++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |  27 +++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |   3 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c      |  84 +++++++++++--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  80 +++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   8 ++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  48 ++++++++
+ drivers/soc/mediatek/mmsys/Makefile         |   1 +
+ drivers/soc/mediatek/mmsys/mt8192-mmsys.c   | 182 ++++++++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c            |   8 ++
+ include/linux/soc/mediatek/mtk-mmsys.h      |   6 +
+ 13 files changed, 623 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/soc/mediatek/mmsys/mt8192-mmsys.c
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b38b1ef6edf0c74a8d97@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: global-out-of-bounds in fbcon_resize+0x781/0x810 drivers/video/fbdev/core/fbcon.c:2206
-Read of size 4 at addr ffffffff8896d418 by task syz-executor732/6868
-
-CPU: 0 PID: 6868 Comm: syz-executor732 Not tainted 5.9.0-rc1-next-20200819-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x18f/0x20d lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0x5/0x497 mm/kasan/report.c:383
- __kasan_report mm/kasan/report.c:513 [inline]
- kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
- fbcon_resize+0x781/0x810 drivers/video/fbdev/core/fbcon.c:2206
- resize_screen drivers/tty/vt/vt.c:1175 [inline]
- vc_do_resize+0x535/0x1150 drivers/tty/vt/vt.c:1246
- vt_ioctl+0x11d2/0x2cc0 drivers/tty/vt/vt_ioctl.c:1025
- tty_ioctl+0x1019/0x15f0 drivers/tty/tty_io.c:2656
- vfs_ioctl fs/ioctl.c:48 [inline]
- __do_sys_ioctl fs/ioctl.c:753 [inline]
- __se_sys_ioctl fs/ioctl.c:739 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
- do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x440329
-Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 db 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007ffc8ff997d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 0000000000440329
-RDX: 0000000020000040 RSI: 0000000000005609 RDI: 0000000000000004
-RBP: 00000000006ca018 R08: 000000000000000d R09: 00000000004002c8
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401b90
-R13: 0000000000401c20 R14: 0000000000000000 R15: 0000000000000000
-
-The buggy address belongs to the variable:
- font_vga_8x16+0x58/0x60
-
-Memory state around the buggy address:
- ffffffff8896d300: 00 00 00 00 00 00 00 00 00 00 00 00 f9 f9 f9 f9
- ffffffff8896d380: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 f9 f9 f9
->ffffffff8896d400: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
-                            ^
- ffffffff8896d480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffffff8896d500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+-- 
+1.8.1.1.dirty
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
