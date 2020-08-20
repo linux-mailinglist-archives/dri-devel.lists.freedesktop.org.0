@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EFE24B233
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 11:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A58C24B446
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 12:02:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125916E92C;
-	Thu, 20 Aug 2020 09:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF2F6E095;
+	Thu, 20 Aug 2020 10:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6794E6E92D;
- Thu, 20 Aug 2020 09:25:35 +0000 (UTC)
-IronPort-SDR: BWmeXACircjc8vMl4zkSOdDHHr4RPvJlZbGhKYK/Xm/BlYOOepJlUMlSFr9zvwWOUe068MnZCq
- e2dzWr6IxwHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="156331747"
-X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; d="scan'208";a="156331747"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2020 02:25:34 -0700
-IronPort-SDR: d0JeQtZs4BGW2Gkjx4jD3dQQPVJPCV9U3qL1UWVCgPwU8rGJLT2JLI2rzEahMd22R/FLyhVoYR
- v6QKfXT2Ps7w==
-X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; d="scan'208";a="472579789"
-Received: from mkrishn3-mobl.gar.corp.intel.com (HELO localhost)
- ([10.252.32.35])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2020 02:25:30 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 20 Aug 2020 12:25:28 +0300
-Message-ID: <87a6yp7jp3.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 883206E095
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 10:02:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E5E323D;
+ Thu, 20 Aug 2020 12:02:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1597917743;
+ bh=UdZW/gWpeBR8Fp2uswR4BNeR1AZf83I2Xerix6/McmU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ItMFiAGpy+m799SAJlmxoBALpCUTcBMW2ZU7dxHv3+rwmOEr6obhEyMEeRR1DmtU5
+ w83NTD2V6detNxAnQkYHTyfm7GYG23NbpofX1u6znoMCAcfcbBJQgrORodryscgxWx
+ WciTsmZ7pXmG36Axz5Ekh/zrHURi1ohdX/kph6gI=
+Date: Thu, 20 Aug 2020 13:02:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200820100205.GA5962@pendragon.ideasonboard.com>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819153045.GA18469@pendragon.ideasonboard.com>
+ <CALAqxLUXnPRec3UYbMKge8yNKBagLOatOeRCagF=JEyPEfWeKA@mail.gmail.com>
+ <20200820090326.3f400a15@coco.lan>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200820090326.3f400a15@coco.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,114 +49,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
+ driverdevel <devel@driverdev.osuosl.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
+ Rob Clark <robdclark@chromium.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
+ Network Development <netdev@vger.kernel.org>,
+ Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Mauro,
 
-Hi Dave & Daniel -
+On Thu, Aug 20, 2020 at 09:03:26AM +0200, Mauro Carvalho Chehab wrote:
+> Em Wed, 19 Aug 2020 12:52:06 -0700 John Stultz escreveu:
+> > On Wed, Aug 19, 2020 at 8:31 AM Laurent Pinchart wrote:
+> > > On Wed, Aug 19, 2020 at 05:21:20PM +0200, Sam Ravnborg wrote:  
+> > > > On Wed, Aug 19, 2020 at 01:45:28PM +0200, Mauro Carvalho Chehab wrote:  
+> > > > > This patch series port the out-of-tree driver for Hikey 970 (which
+> > > > > should also support Hikey 960) from the official 96boards tree:
+> > > > >
+> > > > >    https://github.com/96boards-hikey/linux/tree/hikey970-v4.9
+> > > > >
+> > > > > Based on his history, this driver seems to be originally written
+> > > > > for Kernel 4.4, and was later ported to Kernel 4.9. The original
+> > > > > driver used to depend on ION (from Kernel 4.4) and had its own
+> > > > > implementation for FB dev API.
+> > > > >
+> > > > > As I need to preserve the original history (with has patches from
+> > > > > both HiSilicon and from Linaro),  I'm starting from the original
+> > > > > patch applied there. The remaining patches are incremental,
+> > > > > and port this driver to work with upstream Kernel.
+> > > > >  
+> > ...
+> > > > > - Due to legal reasons, I need to preserve the authorship of
+> > > > >   each one responsbile for each patch. So, I need to start from
+> > > > >   the original patch from Kernel 4.4;  
+> > ...
+> > > > I do acknowledge you need to preserve history and all -
+> > > > but this patchset is not easy to review.  
+> > >
+> > > Why do we need to preserve history ? Adding relevant Signed-off-by and
+> > > Co-developed-by should be enough, shouldn't it ? Having a public branch
+> > > that contains the history is useful if anyone is interested, but I don't
+> > > think it's required in mainline.  
+> > 
+> > Yea. I concur with Laurent here. I'm not sure what legal reasoning you
+> > have on this but preserving the "absolute" history here is actively
+> > detrimental for review and understanding of the patch set.
+> > 
+> > Preserving Authorship, Signed-off-by lines and adding Co-developed-by
+> > lines should be sufficient to provide both atribution credit and DCO
+> > history.
+> 
+> I'm not convinced that, from legal standpoint, folding things would
+> be enough. See, there are at least 3 legal systems involved here
+> among the different patch authors:
+> 
+> 	- civil law;
+> 	- common law;
+> 	- customary law + common law.
+> 
+> Merging stuff altogether from different law systems can be problematic,
+> and trying to discuss this with experienced IP property lawyers will
+> for sure take a lot of time and efforts. I also bet that different
+> lawyers will have different opinions, because laws are subject to 
+> interpretation. With that matter I'm not aware of any court rules 
+> with regards to folded patches. So, it sounds to me that folding 
+> patches is something that has yet to be proofed in courts around
+> the globe.
+> 
+> At least for US legal system, it sounds that the Country of
+> origin of a patch is relevant, as they have a concept of
+> "national technology" that can be subject to export regulations.
+> 
+> From my side, I really prefer to play safe and stay out of any such
+> legal discussions.
 
-This is a fairly ordinary looking set of i915 fixes for v5.9-rc2.
+Let's be serious for a moment. If you think there are legal issues in
+taking GPL-v2.0-only patches and squashing them while retaining
+authorship information through tags, the Linux kernel if *full* of that.
+You also routinely modify patches that you commit to the media subsystem
+to fix "small issues".
 
-Of course, the out of the ordinary is what's *not* here. This replaces
-the earlier pull request [1]. The dinq branch has since been split and
-rebased, with a new topic/drm-intel-gem-next. The fixes in this pull
-request come from dinq as usual. The topic branch is, alas, still in a
-bit of a flux, and contains some of the commits you rejected in [1], so
-I'm not including any of the fixes from there.
+The country of origin argument makes no sense either, the kernel code
+base if full of code coming from pretty much all country on the planet.
 
-I'm aware of the reported regression [2], and to me it looks like the
-reverts would be the right course of action. However, I don't want to
-postpone this pull request any longer. Hopefully we'll have it sorted by
-next week.
-
-
-[1] http://lore.kernel.org/r/20200730162652.GA90813@jlahtine-desk.ger.corp.intel.com
-[2] http://lore.kernel.org/r/20200817161132.GA4711@amd
-
-
-
-drm-intel-fixes-2020-08-20:
-drm/i915 fixes for v5.9-rc2:
-- GVT fixes
-- Fix device parameter usage for selftest mock i915 device
-- Fix LPSP capability debugfs NULL dereference
-- Fix buddy register pagemask table
-- Fix intel_atomic_check() non-negative return value
-- Fix selftests passing a random 0 into ilog2()
-- Fix TGL power well enable/disable ordering
-- Switch to PMU module refcounting
-
-BR,
-Jani.
-
-The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
-
-  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-08-20
-
-for you to fetch changes up to 4a4064ad79699ee41b74c12fa4f9f960a5bf9b2d:
-
-  drm/i915/tgl: Make sure TC-cold is blocked before enabling TC AUX power wells (2020-08-19 15:23:43 +0300)
-
-----------------------------------------------------------------
-drm/i915 fixes for v5.9-rc2:
-- GVT fixes
-- Fix device parameter usage for selftest mock i915 device
-- Fix LPSP capability debugfs NULL dereference
-- Fix buddy register pagemask table
-- Fix intel_atomic_check() non-negative return value
-- Fix selftests passing a random 0 into ilog2()
-- Fix TGL power well enable/disable ordering
-- Switch to PMU module refcounting
-
-----------------------------------------------------------------
-Chris Wilson (3):
-      drm/i915: Provide the perf pmu.module
-      drm/i915: Copy default modparams to mock i915_device
-      drm/i915/display: Check for an LPSP encoder before dereferencing
-
-Colin Xu (2):
-      drm/i915/gvt: Do not destroy ppgtt_mm during vGPU D3->D0.
-      drm/i915/gvt: Do not reset pv_notified when vGPU transit from D3->D0
-
-George Spelvin (1):
-      drm/i915/selftests: Avoid passing a random 0 into ilog2
-
-Imre Deak (1):
-      drm/i915/tgl: Make sure TC-cold is blocked before enabling TC AUX power wells
-
-Jani Nikula (1):
-      Merge tag 'gvt-next-fixes-2020-08-05' of https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Matt Roper (1):
-      drm/i915: Update bw_buddy pagemask table
-
-Tianjia Zhang (1):
-      drm/i915: Fix wrong return value in intel_atomic_check()
-
- drivers/gpu/drm/i915/display/intel_display.c       |  2 +-
- .../gpu/drm/i915/display/intel_display_debugfs.c   |  7 +++++--
- drivers/gpu/drm/i915/display/intel_display_power.c | 14 ++++++-------
- drivers/gpu/drm/i915/gvt/cfg_space.c               | 24 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gvt/gtt.c                     |  2 +-
- drivers/gpu/drm/i915/gvt/gtt.h                     |  2 ++
- drivers/gpu/drm/i915/gvt/gvt.h                     |  3 +++
- drivers/gpu/drm/i915/gvt/vgpu.c                    | 20 +++++++++++++++---
- drivers/gpu/drm/i915/i915_pmu.c                    |  7 ++-----
- drivers/gpu/drm/i915/selftests/i915_buddy.c        | 18 ++++++++--------
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |  3 +++
- 11 files changed, 75 insertions(+), 27 deletions(-)
+Keeping the patches separate make this hard to review. Please squash
+them.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
