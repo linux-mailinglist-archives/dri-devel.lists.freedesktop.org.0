@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7766224C57A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 20:31:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6917524C579
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 20:31:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDA6E6E9FC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27A6B6E9F1;
 	Thu, 20 Aug 2020 18:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88C176E9F8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 18:31:12 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3947A6E9F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 18:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597948271;
+ s=mimecast20190719; t=1597948269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TFvPMYoL7k805VBQUDZeQc6WkVSTQkZsmTwCeENrSys=;
- b=ZdsS9JMaEaCnA735KDtHrJoyl0yuYmELD8jEwoh+iF162qMAXbxNBstVhHAVo8ldT9kcpq
- PM5WcRTywg8JTIqkaWZc2kfSaJIMxXB5HWpeX/6GhDMS17ZFzi4NHpFGKiAwC23CVUzYsT
- 3+CH8QAjwNT4eC1sC7JklOe4ax9F9fI=
+ bh=fFL1iOBuGZvJCkaqlcirWKtkdgFP3ZklOioQkhlcPiM=;
+ b=ZzoLoahy8F6/IVsDgmBGAdAAt00qHkFIdfosixUjkw+ZxQgIXRrQx6BG0aV7vIfqEodAlt
+ K1oJRioS2p1AQ2rZOF+kQht2t6ezf4s6ixo3TA/+We8m1v1fR18uI86otTBkm0KvsvkuL7
+ QMw4/E/cgOKnrg1Sk5aFRhtMfNSLxoQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-sjHErYWJMb-OwmkXhsRWKQ-1; Thu, 20 Aug 2020 14:31:06 -0400
-X-MC-Unique: sjHErYWJMb-OwmkXhsRWKQ-1
+ us-mta-95-b9nuLIEdMi61S3Ajva3xEg-1; Thu, 20 Aug 2020 14:31:07 -0400
+X-MC-Unique: b9nuLIEdMi61S3Ajva3xEg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4B478030AD;
- Thu, 20 Aug 2020 18:31:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FF36186A57F;
+ Thu, 20 Aug 2020 18:31:05 +0000 (UTC)
 Received: from Whitewolf.redhat.com (ovpn-120-42.rdu2.redhat.com
  [10.10.120.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FEF25DA81;
- Thu, 20 Aug 2020 18:31:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 581445DA74;
+ Thu, 20 Aug 2020 18:31:04 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Subject: [RFC v2 13/20] drm/i915/dp: Extract drm_dp_downstream_read_info()
-Date: Thu, 20 Aug 2020 14:30:05 -0400
-Message-Id: <20200820183012.288794-14-lyude@redhat.com>
+Subject: [RFC v2 14/20] drm/nouveau/kms/nv50-: Use downstream DP clock limits
+ for mode validation
+Date: Thu, 20 Aug 2020 14:30:06 -0400
+Message-Id: <20200820183012.288794-15-lyude@redhat.com>
 In-Reply-To: <20200820183012.288794-1-lyude@redhat.com>
 References: <20200820183012.288794-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -59,143 +60,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're going to be doing the same probing process in nouveau for
-determining downstream DP port capabilities, so let's deduplicate the
-work by moving i915's code for handling this into a shared helper:
-drm_dp_downstream_read_info().
+This adds support for querying the maximum clock rate of a downstream
+port on a DisplayPort connection. Generally, downstream ports refer to
+active dongles which can have their own pixel clock limits.
 
-Note that when we do this, we also do make some functional changes while
-we're at it:
-* We always clear the downstream port info before trying to read it,
-  just to make things easier for the caller
-* We skip reading downstream port info if the DPCD indicates that we
-  don't support downstream port info
-* We only read as many bytes as needed for the reported number of
-  downstream ports, no sense in reading the whole thing every time
-
-v2:
-* Fixup logic for calculating the downstream port length to account for
-  the fact that downstream port caps can be either 1 byte or 4 bytes
-  long. We can actually skip fixing the max_clock/max_bpc helpers here
-  since they all check for DP_DETAILED_CAP_INFO_AVAILABLE anyway.
-* Fix ret code check for drm_dp_dpcd_read
+Note as well, we also start marking the connector as disconnected if we
+can't read the DPCD, since we wouldn't be able to do anything without
+DPCD access anyway.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c         | 46 +++++++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp.c | 14 ++------
- include/drm/drm_dp_helper.h             |  3 ++
- 3 files changed, 51 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c   |  3 +++
+ drivers/gpu/drm/nouveau/nouveau_dp.c      | 15 +++++++++++----
+ drivers/gpu/drm/nouveau/nouveau_encoder.h |  1 +
+ 3 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 4c21cf69dad5a..4f845995f1f66 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -423,6 +423,52 @@ bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
- }
- EXPORT_SYMBOL(drm_dp_send_real_edid_checksum);
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 0d6879c532bec..c33b026c1f43f 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -1257,7 +1257,10 @@ nv50_mstc_detect(struct drm_connector *connector,
  
-+static u8 drm_dp_downstream_port_count(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+{
-+	u8 port_count = dpcd[DP_DOWN_STREAM_PORT_COUNT] & DP_PORT_COUNT_MASK;
-+
-+	if (dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DETAILED_CAP_INFO_AVAILABLE && port_count > 4)
-+		port_count = 4;
-+
-+	return port_count;
-+}
-+
-+/**
-+ * drm_dp_downstream_read_info() - read DPCD downstream port info if available
-+ * @aux: DisplayPort AUX channel
-+ * @dpcd: A cached copy of the port's DPCD
-+ * @downstream_ports: buffer to store the downstream port info in
-+ *
-+ * Returns: 0 if either the downstream port info was read successfully or
-+ * there was no downstream info to read, or a negative error code otherwise.
-+ */
-+int drm_dp_downstream_read_info(struct drm_dp_aux *aux,
-+				const u8 dpcd[DP_RECEIVER_CAP_SIZE],
-+				u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS])
-+{
-+	int ret;
-+	u8 len;
-+
-+	memset(downstream_ports, 0, DP_MAX_DOWNSTREAM_PORTS);
-+
-+	/* No downstream info to read */
-+	if (!drm_dp_is_branch(dpcd) ||
-+	    dpcd[DP_DPCD_REV] < DP_DPCD_REV_10 ||
-+	    !(dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT))
-+		return 0;
-+
-+	len = drm_dp_downstream_port_count(dpcd);
-+	if (dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DETAILED_CAP_INFO_AVAILABLE)
-+		len *= 4;
-+
-+	ret = drm_dp_dpcd_read(aux, DP_DOWNSTREAM_PORT_0, downstream_ports, len);
-+	if (ret < 0)
-+		return ret;
-+
-+	return ret == len ? 0 : -EIO;
-+}
-+EXPORT_SYMBOL(drm_dp_downstream_read_info);
-+
- /**
-  * drm_dp_downstream_max_clock() - extract branch device max
-  *                                 pixel rate for legacy VGA
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 1e29d3a012856..984e49194ca31 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4685,18 +4685,8 @@ intel_dp_get_dpcd(struct intel_dp *intel_dp)
- 			return false;
+ 	ret = drm_dp_mst_detect_port(connector, ctx, mstc->port->mgr,
+ 				     mstc->port);
++	if (ret != connector_status_connected)
++		goto out;
+ 
++out:
+ 	pm_runtime_mark_last_busy(connector->dev->dev);
+ 	pm_runtime_put_autosuspend(connector->dev->dev);
+ 	return ret;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
+index 71d095409c90d..c200f197083f9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dp.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
+@@ -61,6 +61,11 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
+ 			mstm->can_mst = drm_dp_has_mst(aux, dpcd);
  	}
  
--	if (!drm_dp_is_branch(intel_dp->dpcd))
--		return true; /* native DP sink */
--
--	if (intel_dp->dpcd[DP_DPCD_REV] == 0x10)
--		return true; /* no per-port downstream info */
--
--	if (drm_dp_dpcd_read(&intel_dp->aux, DP_DOWNSTREAM_PORT_0,
--			     intel_dp->downstream_ports,
--			     DP_MAX_DOWNSTREAM_PORTS) < 0)
--		return false; /* downstream port status fetch failed */
--
--	return true;
-+	return drm_dp_downstream_read_info(&intel_dp->aux, intel_dp->dpcd,
-+					   intel_dp->downstream_ports) == 0;
++	ret = drm_dp_downstream_read_info(aux, dpcd,
++					  outp->dp.downstream_ports);
++	if (ret < 0)
++		return connector_status_disconnected;
++
+ 	return connector_status_connected;
  }
  
- static bool
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 5c28199248626..1349f16564ace 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1613,6 +1613,9 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
- bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
- 				    u8 real_edid_checksum);
+@@ -176,8 +181,6 @@ void nouveau_dp_irq(struct nouveau_drm *drm,
+ /* TODO:
+  * - Use the minimum possible BPC here, once we add support for the max bpc
+  *   property.
+- * - Validate the mode against downstream port caps (see
+- *   drm_dp_downstream_max_clock())
+  * - Validate against the DP caps advertised by the GPU (we don't check these
+  *   yet)
+  */
+@@ -188,15 +191,19 @@ nv50_dp_mode_valid(struct drm_connector *connector,
+ 		   unsigned *out_clock)
+ {
+ 	const unsigned min_clock = 25000;
+-	unsigned max_clock, clock;
++	unsigned max_clock, ds_clock, clock;
+ 	enum drm_mode_status ret;
  
-+int drm_dp_downstream_read_info(struct drm_dp_aux *aux,
-+				const u8 dpcd[DP_RECEIVER_CAP_SIZE],
-+				u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS]);
- int drm_dp_downstream_max_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- 				const u8 port_cap[4]);
- int drm_dp_downstream_max_bpc(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 	if (mode->flags & DRM_MODE_FLAG_INTERLACE && !outp->caps.dp_interlace)
+ 		return MODE_NO_INTERLACE;
+ 
+ 	max_clock = outp->dp.link_nr * outp->dp.link_bw;
+-	clock = mode->clock * (connector->display_info.bpc * 3) / 10;
++	ds_clock = drm_dp_downstream_max_clock(outp->dp.dpcd,
++					       outp->dp.downstream_ports);
++	if (ds_clock)
++		max_clock = min(max_clock, ds_clock);
+ 
++	clock = mode->clock * (connector->display_info.bpc * 3) / 10;
+ 	ret = nouveau_conn_mode_clock_valid(mode, min_clock, max_clock,
+ 					    &clock);
+ 	if (out_clock)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+index eef4643f5f982..c1924a4529a7b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
++++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+@@ -72,6 +72,7 @@ struct nouveau_encoder {
+ 			struct mutex hpd_irq_lock;
+ 
+ 			u8 dpcd[DP_RECEIVER_CAP_SIZE];
++			u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS];
+ 			struct drm_dp_desc desc;
+ 		} dp;
+ 	};
 -- 
 2.26.2
 
