@@ -1,34 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0EA24C17E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 17:10:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC02C24C1D9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 17:13:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1276A6E969;
-	Thu, 20 Aug 2020 15:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0101C6E95D;
+	Thu, 20 Aug 2020 15:13:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1B23C6E969
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 15:10:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51BFC1597;
- Thu, 20 Aug 2020 08:10:02 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B6D8F3F6CF;
- Thu, 20 Aug 2020 08:09:58 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: hch@lst.de,
-	joro@8bytes.org,
-	linux@armlinux.org.uk
-Subject: [PATCH 18/18] ARM/dma-mapping: Remove legacy dma-iommu API
-Date: Thu, 20 Aug 2020 16:08:37 +0100
-Message-Id: <ae8fc6c61f38d8ddc8e94041deda0fcc6333bae3.1597931876.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.28.0.dirty
-In-Reply-To: <cover.1597931875.git.robin.murphy@arm.com>
-References: <cover.1597931875.git.robin.murphy@arm.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F400C6E95D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 15:13:32 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de
+ [95.90.213.163])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F17F3204EA;
+ Thu, 20 Aug 2020 15:13:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597936412;
+ bh=/zCmwwU3sNcC0M45eP2ex87GldoS8TY7gBwIB4VYX1k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=O4GFm5ixVVaWyhs64lYh5h2H5C06AZWeb4JaJGGG5ZefL9OEBdKDduar/r8aXYNZv
+ gaeKj0O1fvqmxIlIbL11aPqsnRDDqFgSm3pzk8aIty8/L9QYDWAWbrKGhUyD6AdDnm
+ ciVVz9EXHGXzvMby02yPYXLJsmDwRsrYhh+Zr3rQ=
+Date: Thu, 20 Aug 2020 17:13:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200820171322.3b2e94fd@coco.lan>
+In-Reply-To: <20200820144808.GA186324@ravnborg.org>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819174027.70b39ee9@coco.lan>
+ <20200819173558.GA3733@ravnborg.org>
+ <20200820160649.54741194@coco.lan>
+ <20200820144808.GA186324@ravnborg.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,454 +51,327 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, matthias.bgg@gmail.com, thierry.reding@gmail.com,
- laurent.pinchart@ideasonboard.com, digetx@gmail.com, s-anna@ti.com,
- will@kernel.org, m.szyprowski@samsung.com, linux-samsung-soc@vger.kernel.org,
- magnus.damm@gmail.com, kyungmin.park@samsung.com, jonathanh@nvidia.com,
- agross@kernel.org, yong.wu@mediatek.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, t-kristo@ti.com,
- iommu@lists.linux-foundation.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
+ Rob Clark <robdclark@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
+ Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With no users left and generic iommu-dma now doing all the work,
-clean up the last traces of the arch-specific API, plus the temporary
-workarounds that you'd forgotten about because you were thinking about
-zebras instead.
+Em Thu, 20 Aug 2020 16:48:08 +0200
+Sam Ravnborg <sam@ravnborg.org> escreveu:
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- arch/arm/common/dmabounce.c      |   1 -
- arch/arm/include/asm/device.h    |   9 --
- arch/arm/include/asm/dma-iommu.h |  29 -----
- arch/arm/mm/dma-mapping.c        | 200 +------------------------------
- drivers/iommu/dma-iommu.c        |  38 ++----
- 5 files changed, 11 insertions(+), 266 deletions(-)
- delete mode 100644 arch/arm/include/asm/dma-iommu.h
+> Hi Mauro.
+> 
+> On Thu, Aug 20, 2020 at 04:06:49PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 19 Aug 2020 19:35:58 +0200
+> > Sam Ravnborg <sam@ravnborg.org> escreveu:
+> > 
+> > I'm already handling the other comments from your review (I'll send a
+> > more complete comment about them after finishing),  
+> If you get back only on things you do not understand or do not agree on
+> that would be fine. The rest should be visible in the changelog on the
+> updated patch - no need to do extra work here.
+> 
+> > but I have a doubt what you meant about this:
+> >   
+> > > +static int kirin_drm_bind(struct device *dev)  
+> > > > +{
+> > > > +	struct drm_driver *driver = &kirin_drm_driver;
+> > > > +	struct drm_device *drm_dev;
+> > > > +	struct kirin_drm_private *priv;
+> > > > +	int ret;
+> > > > +
+> > > > +	drm_dev = drm_dev_alloc(driver, dev);
+> > > > +	if (!drm_dev)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	ret = kirin_drm_kms_init(drm_dev);
+> > > > +	if (ret)
+> > > > +		goto err_drm_dev_unref;
+> > > > +
+> > > > +	ret = drm_dev_register(drm_dev, 0);    
+> > > There is better ways to do this. See drm_drv.c for the code example.  
+> > 
+> > Not sure if I understood your comment here. The drm_drv.c example also calls 
+> > drm_dev_register().  
+> 
+> This is indeed not obvious from my comments but what I wnated to say is
+> that the driver should embed drm_device in some struct,
+> maybe in "struct kirin_drm_private".
+> 
+> This should also be part of the referenced example.
+> 
+> I hope this clarifies it.
 
-diff --git a/arch/arm/common/dmabounce.c b/arch/arm/common/dmabounce.c
-index f4b719bde763..064349df7bbf 100644
---- a/arch/arm/common/dmabounce.c
-+++ b/arch/arm/common/dmabounce.c
-@@ -30,7 +30,6 @@
- #include <linux/scatterlist.h>
+Yeah. I was already doing those changes ;-) 
+
+Something like the enclosed patch, right?
+
+Btw, I'm not sure if the error handling part is ok, as I didn't check
+what the devm stuff does at the subsystem. 
+
+-
+
+On a separate question, I was unable to use the helper macros,
+as it sounds that there's no macro with this:
+
+	.dumb_create		= drm_gem_cma_dumb_create_internal,
+
+The existing DRM_GEM_CMA_VMAP_DRIVER_OPS uses, instead
+drm_gem_cma_dumb_create(). I'm not sure if this driver can use
+such function instead.
+
+Thanks,
+Mauro
+
+staging: hikey9xx/gpu: use drm_managed interface
+    
+Use a more modern design for the driver binding logic by
+using drm_managed and getting rid of drm->dev_private.
+    
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c
+index c7736f4d74b7..600c89605cc0 100644
+--- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c
++++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c
+@@ -29,12 +29,13 @@
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_managed.h>
  
- #include <asm/cacheflush.h>
--#include <asm/dma-iommu.h>
+ #include "kirin9xx_drm_drv.h"
  
- #undef STATS
+ static int kirin_drm_kms_cleanup(struct drm_device *dev)
+ {
+-	struct kirin_drm_private *priv = dev->dev_private;
++	struct kirin_drm_private *priv = to_drm_private(dev);
+ 	static struct kirin_dc_ops const *dc_ops;
  
-diff --git a/arch/arm/include/asm/device.h b/arch/arm/include/asm/device.h
-index be666f58bf7a..db33f389c94e 100644
---- a/arch/arm/include/asm/device.h
-+++ b/arch/arm/include/asm/device.h
-@@ -8,9 +8,6 @@
- struct dev_archdata {
- #ifdef CONFIG_DMABOUNCE
- 	struct dmabounce_device_info *dmabounce;
--#endif
--#ifdef CONFIG_ARM_DMA_USE_IOMMU
--	struct dma_iommu_mapping	*mapping;
- #endif
- 	unsigned int dma_coherent:1;
- 	unsigned int dma_ops_setup:1;
-@@ -24,10 +21,4 @@ struct pdev_archdata {
- #endif
+ 	if (priv->fbdev)
+@@ -45,15 +46,13 @@ static int kirin_drm_kms_cleanup(struct drm_device *dev)
+ 	drm_kms_helper_poll_fini(dev);
+ 	dc_ops->cleanup(dev);
+ 	drm_mode_config_cleanup(dev);
+-	devm_kfree(dev->dev, priv);
+-	dev->dev_private = NULL;
+ 
+ 	return 0;
+ }
+ 
+ static void kirin_fbdev_output_poll_changed(struct drm_device *dev)
+ {
+-	struct kirin_drm_private *priv = dev->dev_private;
++	struct kirin_drm_private *priv = to_drm_private(dev);
+ 
+ 	dsi_set_output_client(dev);
+ 
+@@ -69,18 +68,20 @@ static const struct drm_mode_config_funcs kirin_drm_mode_config_funcs = {
+ 
+ static int kirin_drm_kms_init(struct drm_device *dev)
+ {
+-	struct kirin_drm_private *priv = dev->dev_private;
++	struct kirin_drm_private *priv = to_drm_private(dev);
+ 	static struct kirin_dc_ops const *dc_ops;
+ 	int ret;
+ 
+-	priv = devm_kzalloc(dev->dev, sizeof(*priv), GFP_KERNEL);
++	priv = drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+ 	dev->dev_private = priv;
+ 	dev_set_drvdata(dev->dev, dev);
+ 
+-	drm_mode_config_init(dev);
++	ret = drmm_mode_config_init(dev);
++	if (ret)
++		return ret;
+ 
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+@@ -94,20 +95,20 @@ static int kirin_drm_kms_init(struct drm_device *dev)
+ 	dc_ops = of_device_get_match_data(dev->dev);
+ 	ret = dc_ops->init(dev);
+ 	if (ret)
+-		goto err_mode_config_cleanup;
++		return ret;
+ 
+ 	/* bind and init sub drivers */
+ 	ret = component_bind_all(dev->dev, dev);
+ 	if (ret) {
+ 		DRM_ERROR("failed to bind all component.\n");
+-		goto err_dc_cleanup;
++		return ret;
+ 	}
+ 
+ 	/* vblank init */
+ 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+ 	if (ret) {
+ 		DRM_ERROR("failed to initialize vblank.\n");
+-		goto err_unbind_all;
++		return ret;
+ 	}
+ 	/* with irq_enabled = true, we can use the vblank feature. */
+ 	dev->irq_enabled = true;
+@@ -119,28 +120,10 @@ static int kirin_drm_kms_init(struct drm_device *dev)
+ 	drm_kms_helper_poll_init(dev);
+ 
+ 	return 0;
+-
+-err_unbind_all:
+-	component_unbind_all(dev->dev, dev);
+-err_dc_cleanup:
+-	dc_ops->cleanup(dev);
+-err_mode_config_cleanup:
+-	drm_mode_config_cleanup(dev);
+-	devm_kfree(dev->dev, priv);
+-	dev->dev_private = NULL;
+-
+-	return ret;
+ }
+ 
+ DEFINE_DRM_GEM_CMA_FOPS(kirin_drm_fops);
+ 
+-static int kirin_gem_cma_dumb_create(struct drm_file *file,
+-				     struct drm_device *dev,
+-				     struct drm_mode_create_dumb *args)
+-{
+-	return drm_gem_cma_dumb_create_internal(file, dev, args);
+-}
+-
+ static int kirin_drm_connectors_register(struct drm_device *dev)
+ {
+ 	struct drm_connector_list_iter conn_iter;
+@@ -176,11 +159,11 @@ static int kirin_drm_connectors_register(struct drm_device *dev)
+ static struct drm_driver kirin_drm_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET |
+ 				  DRIVER_ATOMIC | DRIVER_RENDER,
+-	.fops				= &kirin_drm_fops,
++	.fops			= &kirin_drm_fops,
+ 
+ 	.gem_free_object	= drm_gem_cma_free_object,
+ 	.gem_vm_ops		= &drm_gem_cma_vm_ops,
+-	.dumb_create		= kirin_gem_cma_dumb_create,
++	.dumb_create		= drm_gem_cma_dumb_create_internal,
+ 
+ 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+@@ -207,42 +190,48 @@ static int compare_of(struct device *dev, void *data)
+ static int kirin_drm_bind(struct device *dev)
+ {
+ 	struct drm_driver *driver = &kirin_drm_driver;
+-	struct drm_device *drm_dev;
+ 	struct kirin_drm_private *priv;
++	struct drm_device *drm;
+ 	int ret;
+ 
+-	drm_dev = drm_dev_alloc(driver, dev);
+-	if (!drm_dev)
++	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
++	if (!priv)
+ 		return -ENOMEM;
+ 
+-	ret = kirin_drm_kms_init(drm_dev);
++	drm = &priv->drm;
++
++	ret = devm_drm_dev_init(dev, drm, driver);
++	if (ret) {
++		kfree(priv);
++		return ret;
++	}
++	drmm_add_final_kfree(drm, priv);
++
++	ret = kirin_drm_kms_init(drm);
+ 	if (ret)
+-		goto err_drm_dev_unref;
++		return ret;
+ 
+-	ret = drm_dev_register(drm_dev, 0);
++	ret = drm_dev_register(drm, 0);
+ 	if (ret)
+-		goto err_kms_cleanup;
++		return ret;
+ 
+-	drm_fbdev_generic_setup(drm_dev, 0);
+-	priv = drm_dev->dev_private;
++	drm_fbdev_generic_setup(drm, 0);
+ 
+ 	/* connectors should be registered after drm device register */
+-	ret = kirin_drm_connectors_register(drm_dev);
++	ret = kirin_drm_connectors_register(drm);
+ 	if (ret)
+ 		goto err_drm_dev_unregister;
+ 
+ 	DRM_INFO("Initialized %s %d.%d.%d %s on minor %d\n",
+ 		 driver->name, driver->major, driver->minor, driver->patchlevel,
+-		 driver->date, drm_dev->primary->index);
++		 driver->date, drm->primary->index);
+ 
+ 	return 0;
+ 
+ err_drm_dev_unregister:
+-	drm_dev_unregister(drm_dev);
+-err_kms_cleanup:
+-	kirin_drm_kms_cleanup(drm_dev);
+-err_drm_dev_unref:
+-	drm_dev_put(drm_dev);
++	drm_dev_unregister(drm);
++	kirin_drm_kms_cleanup(drm);
++	drm_dev_put(drm);
+ 
+ 	return ret;
+ }
+@@ -252,6 +241,7 @@ static void kirin_drm_unbind(struct device *dev)
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+ 
+ 	drm_dev_unregister(drm_dev);
++	drm_atomic_helper_shutdown(drm_dev);
+ 	kirin_drm_kms_cleanup(drm_dev);
+ 	drm_dev_put(drm_dev);
+ }
+diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h
+index 58f6fc7be347..09255d136c54 100644
+--- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h
++++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h
+@@ -31,6 +31,7 @@ struct kirin_dc_ops {
  };
  
--#ifdef CONFIG_ARM_DMA_USE_IOMMU
--#define to_dma_iommu_mapping(dev) ((dev)->archdata.mapping)
--#else
--#define to_dma_iommu_mapping(dev) NULL
--#endif
--
- #endif
-diff --git a/arch/arm/include/asm/dma-iommu.h b/arch/arm/include/asm/dma-iommu.h
-deleted file mode 100644
-index f39cfa509fe4..000000000000
---- a/arch/arm/include/asm/dma-iommu.h
-+++ /dev/null
-@@ -1,29 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef ASMARM_DMA_IOMMU_H
--#define ASMARM_DMA_IOMMU_H
--
--#ifdef __KERNEL__
--
--#include <linux/mm_types.h>
--#include <linux/scatterlist.h>
--#include <linux/dma-debug.h>
--#include <linux/kref.h>
--
--struct dma_iommu_mapping {
--	/* iommu specific data */
--	struct iommu_domain	*domain;
--
--	struct kref		kref;
--};
--
--struct dma_iommu_mapping *
--arm_iommu_create_mapping(struct bus_type *bus, dma_addr_t base, u64 size);
--
--void arm_iommu_release_mapping(struct dma_iommu_mapping *mapping);
--
--int arm_iommu_attach_device(struct device *dev,
--					struct dma_iommu_mapping *mapping);
--void arm_iommu_detach_device(struct device *dev);
--
--#endif /* __KERNEL__ */
--#endif
-diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index 2ef0afc17645..ff6c4962161a 100644
---- a/arch/arm/mm/dma-mapping.c
-+++ b/arch/arm/mm/dma-mapping.c
-@@ -33,7 +33,6 @@
- #include <asm/cacheflush.h>
- #include <asm/tlbflush.h>
- #include <asm/mach/arch.h>
--#include <asm/dma-iommu.h>
- #include <asm/mach/map.h>
- #include <asm/system_info.h>
- #include <asm/dma-contiguous.h>
-@@ -1073,201 +1072,6 @@ static const struct dma_map_ops *arm_get_dma_map_ops(bool coherent)
- 	return coherent ? &arm_coherent_dma_ops : &arm_dma_ops;
- }
+ struct kirin_drm_private {
++	struct drm_device drm;
+ 	struct drm_fb_helper *fbdev;
+ 	struct drm_crtc *crtc[MAX_CRTC];
+ };
+@@ -44,4 +45,6 @@ extern const struct kirin_dc_ops kirin960_dss_dc_ops;
+ extern const struct kirin_dc_ops kirin970_dss_dc_ops;
+ void dsi_set_output_client(struct drm_device *dev);
  
--#ifdef CONFIG_ARM_DMA_USE_IOMMU
--
--extern const struct dma_map_ops iommu_dma_ops;
--extern int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
--		u64 size, struct device *dev);
--/**
-- * arm_iommu_create_mapping
-- * @bus: pointer to the bus holding the client device (for IOMMU calls)
-- * @base: start address of the valid IO address space
-- * @size: maximum size of the valid IO address space
-- *
-- * Creates a mapping structure which holds information about used/unused
-- * IO address ranges, which is required to perform memory allocation and
-- * mapping with IOMMU aware functions.
-- *
-- * The client device need to be attached to the mapping with
-- * arm_iommu_attach_device function.
-- */
--struct dma_iommu_mapping *
--arm_iommu_create_mapping(struct bus_type *bus, dma_addr_t base, u64 size)
--{
--	struct dma_iommu_mapping *mapping;
--	int err = -ENOMEM;
--
--	mapping = kzalloc(sizeof(*mapping), GFP_KERNEL);
--	if (!mapping)
--		goto err;
--
--	mapping->domain = iommu_domain_alloc(bus);
--	if (!mapping->domain)
--		goto err2;
--
--	err = iommu_get_dma_cookie(mapping->domain);
--	if (err)
--		goto err3;
--
--	err = iommu_dma_init_domain(mapping->domain, base, size, NULL);
--	if (err)
--		goto err4;
--
--	kref_init(&mapping->kref);
--	return mapping;
--err4:
--	iommu_put_dma_cookie(mapping->domain);
--err3:
--	iommu_domain_free(mapping->domain);
--err2:
--	kfree(mapping);
--err:
--	return ERR_PTR(err);
--}
--EXPORT_SYMBOL_GPL(arm_iommu_create_mapping);
--
--static void release_iommu_mapping(struct kref *kref)
--{
--	struct dma_iommu_mapping *mapping =
--		container_of(kref, struct dma_iommu_mapping, kref);
--
--	iommu_put_dma_cookie(mapping->domain);
--	iommu_domain_free(mapping->domain);
--	kfree(mapping);
--}
--
--void arm_iommu_release_mapping(struct dma_iommu_mapping *mapping)
--{
--	if (mapping)
--		kref_put(&mapping->kref, release_iommu_mapping);
--}
--EXPORT_SYMBOL_GPL(arm_iommu_release_mapping);
--
--static int __arm_iommu_attach_device(struct device *dev,
--				     struct dma_iommu_mapping *mapping)
--{
--	int err;
--
--	err = iommu_attach_device(mapping->domain, dev);
--	if (err)
--		return err;
--
--	kref_get(&mapping->kref);
--	to_dma_iommu_mapping(dev) = mapping;
--
--	pr_debug("Attached IOMMU controller to %s device.\n", dev_name(dev));
--	return 0;
--}
--
--/**
-- * arm_iommu_attach_device
-- * @dev: valid struct device pointer
-- * @mapping: io address space mapping structure (returned from
-- *	arm_iommu_create_mapping)
-- *
-- * Attaches specified io address space mapping to the provided device.
-- * This replaces the dma operations (dma_map_ops pointer) with the
-- * IOMMU aware version.
-- *
-- * More than one client might be attached to the same io address space
-- * mapping.
-- */
--int arm_iommu_attach_device(struct device *dev,
--			    struct dma_iommu_mapping *mapping)
--{
--	int err;
--
--	err = __arm_iommu_attach_device(dev, mapping);
--	if (err)
--		return err;
--
--	set_dma_ops(dev, &iommu_dma_ops);
--	return 0;
--}
--EXPORT_SYMBOL_GPL(arm_iommu_attach_device);
--
--/**
-- * arm_iommu_detach_device
-- * @dev: valid struct device pointer
-- *
-- * Detaches the provided device from a previously attached map.
-- * This overwrites the dma_ops pointer with appropriate non-IOMMU ops.
-- */
--void arm_iommu_detach_device(struct device *dev)
--{
--	struct dma_iommu_mapping *mapping;
--
--	mapping = to_dma_iommu_mapping(dev);
--	if (!mapping) {
--		dev_warn(dev, "Not attached\n");
--		return;
--	}
--
--	iommu_detach_device(mapping->domain, dev);
--	kref_put(&mapping->kref, release_iommu_mapping);
--	to_dma_iommu_mapping(dev) = NULL;
--	set_dma_ops(dev, arm_get_dma_map_ops(dev->archdata.dma_coherent));
--
--	pr_debug("Detached IOMMU controller from %s device.\n", dev_name(dev));
--}
--EXPORT_SYMBOL_GPL(arm_iommu_detach_device);
--
--static bool arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
--				    const struct iommu_ops *iommu)
--{
--	struct dma_iommu_mapping *mapping;
--
--	if (!iommu)
--		return false;
--
--	/* If a default domain exists, just let iommu-dma work normally */
--	if (iommu_get_domain_for_dev(dev)) {
--		iommu_setup_dma_ops(dev, dma_base, size);
--		return true;
--	}
--
--	/* Otherwise, use the workaround until the IOMMU driver is updated */
--	mapping = arm_iommu_create_mapping(dev->bus, dma_base, size);
--	if (IS_ERR(mapping)) {
--		pr_warn("Failed to create %llu-byte IOMMU mapping for device %s\n",
--				size, dev_name(dev));
--		return false;
--	}
--
--	if (__arm_iommu_attach_device(dev, mapping)) {
--		pr_warn("Failed to attached device %s to IOMMU_mapping\n",
--				dev_name(dev));
--		arm_iommu_release_mapping(mapping);
--		return false;
--	}
--
--	set_dma_ops(dev, &iommu_dma_ops);
--	return true;
--}
--
--static void arm_teardown_iommu_dma_ops(struct device *dev)
--{
--	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
--
--	if (!mapping)
--		return;
--
--	arm_iommu_detach_device(dev);
--	arm_iommu_release_mapping(mapping);
--}
--
--#else
--
--static bool arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
--				    const struct iommu_ops *iommu)
--{
--	return false;
--}
--
--static void arm_teardown_iommu_dma_ops(struct device *dev) { }
--
--#endif	/* CONFIG_ARM_DMA_USE_IOMMU */
--
- void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 			const struct iommu_ops *iommu, bool coherent)
- {
-@@ -1286,7 +1090,8 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 
- 	set_dma_ops(dev, arm_get_dma_map_ops(coherent));
- 
--	arm_setup_iommu_dma_ops(dev, dma_base, size, iommu);
-+	if (iommu)
-+		iommu_setup_dma_ops(dev, dma_base, size);
- 
- #ifdef CONFIG_XEN
- 	if (xen_initial_domain())
-@@ -1300,7 +1105,6 @@ void arch_teardown_dma_ops(struct device *dev)
- 	if (!dev->archdata.dma_ops_setup)
- 		return;
- 
--	arm_teardown_iommu_dma_ops(dev);
- 	/* Let arch_setup_dma_ops() start again from scratch upon re-probe */
- 	set_dma_ops(dev, NULL);
- }
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index ab157d155bf7..4959f5df21bd 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -25,19 +25,6 @@
- #include <linux/vmalloc.h>
- #include <linux/crash_dump.h>
- 
--#ifdef CONFIG_ARM
--#include <asm/dma-iommu.h>
--#endif
--static struct iommu_domain *__iommu_get_dma_domain(struct device *dev)
--{
--#ifdef CONFIG_ARM
--	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
--	if (mapping)
--		return mapping->domain;
--#endif
--	return iommu_get_dma_domain(dev);
--}
--
- struct iommu_dma_msi_page {
- 	struct list_head	list;
- 	dma_addr_t		iova;
-@@ -311,11 +298,8 @@ static void iommu_dma_flush_iotlb_all(struct iova_domain *iovad)
-  * avoid rounding surprises. If necessary, we reserve the page at address 0
-  * to ensure it is an invalid IOVA. It is safe to reinitialise a domain, but
-  * any change which could make prior IOVAs invalid will fail.
-- *
-- * XXX: Not formally exported, but needs to be referenced
-- * from arch/arm/mm/dma-mapping.c temporarily
-  */
--int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
-+static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 		u64 size, struct device *dev)
- {
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-@@ -472,7 +456,7 @@ static void iommu_dma_free_iova(struct iommu_dma_cookie *cookie,
- static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
- 		size_t size)
- {
--	struct iommu_domain *domain = __iommu_get_dma_domain(dev);
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	size_t iova_off = iova_offset(iovad, dma_addr);
-@@ -494,7 +478,7 @@ static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
- static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
- 		size_t size, int prot, u64 dma_mask)
- {
--	struct iommu_domain *domain = __iommu_get_dma_domain(dev);
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	size_t iova_off = iova_offset(iovad, phys);
-@@ -598,7 +582,7 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
- static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
- 		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
- {
--	struct iommu_domain *domain = __iommu_get_dma_domain(dev);
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	bool coherent = dev_is_dma_coherent(dev);
-@@ -694,7 +678,7 @@ static void iommu_dma_sync_single_for_cpu(struct device *dev,
- 	if (dev_is_dma_coherent(dev))
- 		return;
- 
--	phys = iommu_iova_to_phys(__iommu_get_dma_domain(dev), dma_handle);
-+	phys = iommu_iova_to_phys(iommu_get_dma_domain(dev), dma_handle);
- 	arch_sync_dma_for_cpu(phys, size, dir);
- }
- 
-@@ -706,7 +690,7 @@ static void iommu_dma_sync_single_for_device(struct device *dev,
- 	if (dev_is_dma_coherent(dev))
- 		return;
- 
--	phys = iommu_iova_to_phys(__iommu_get_dma_domain(dev), dma_handle);
-+	phys = iommu_iova_to_phys(iommu_get_dma_domain(dev), dma_handle);
- 	arch_sync_dma_for_device(phys, size, dir);
- }
- 
-@@ -847,7 +831,7 @@ static void __invalidate_sg(struct scatterlist *sg, int nents)
- static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
--	struct iommu_domain *domain = __iommu_get_dma_domain(dev);
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	struct scatterlist *s, *prev = NULL;
-@@ -1128,16 +1112,12 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
- 
- static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
- {
--	struct iommu_domain *domain = __iommu_get_dma_domain(dev);
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 
- 	return (1UL << __ffs(domain->pgsize_bitmap)) - 1;
- }
- 
--/*
-- * XXX: Not formally exported, but needs to be referenced
-- * from arch/arm/mm/dma-mapping.c temporarily
-- */
--const struct dma_map_ops iommu_dma_ops = {
-+static const struct dma_map_ops iommu_dma_ops = {
- 	.alloc			= iommu_dma_alloc,
- 	.free			= iommu_dma_free,
- 	.mmap			= iommu_dma_mmap,
--- 
-2.28.0.dirty
-
++#define to_drm_private(d) container_of(d, struct kirin_drm_private, drm)
++
+ #endif /* __KIRIN_DRM_DRV_H__ */
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
