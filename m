@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F133224AFF3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9763924AFFD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 021536E908;
-	Thu, 20 Aug 2020 07:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28066E925;
+	Thu, 20 Aug 2020 07:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id D2E906E8A6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:39 +0000 (UTC)
-X-UUID: 7579fbe64d4448ad846b3f4afec627f4-20200820
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B8B786E8A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:43 +0000 (UTC)
+X-UUID: 9a2e663fcd78424280cfec847758fc54-20200820
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=lFMgkncXYg8bkldshCfDIPngk3zXG9Y53QOyLpXvSOU=; 
- b=c9Zm+P15w1SFwRylrc2EVhmOP+lYvcKIynNdHhrcKcjdfM8KT7jkCJuV8lTnxpZzjmQi5eMABQnAiDB45HL6qpszn9m3rm+FqpaV0Gncg5mmO2bGrm7Eo1HlOjqboXbGu1/MYDmUtXNmotmLKwnR15zo/XXyL5Yg0Ya8pewxAIA=;
-X-UUID: 7579fbe64d4448ad846b3f4afec627f4-20200820
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
+ bh=ZdEoowJE8yrsOxJwibOQFbZ5BGKEhdg3fQs9sloWNGY=; 
+ b=A4gQWpFpN4QRLQpfBS8o/tWhoontD1ZZP0gamEnDFdl274EhR5IryiGJpzBefK6St4KUNfuoc/+FBuC8YoIg1iUEBjMiBJnfpUngZtElqQCFu9GQoQNw16fiYPo4j44MeZH6BLz9xGnq4lCSE8L83qqrYaiuqPNFC9d0QbLO200=;
+X-UUID: 9a2e663fcd78424280cfec847758fc54-20200820
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 731242442; Thu, 20 Aug 2020 14:05:36 +0800
+ with ESMTP id 246718716; Thu, 20 Aug 2020 14:05:38 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 20 Aug 2020 14:05:35 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 Aug 2020 14:05:36 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 20 Aug 2020 14:05:34 +0800
+ Transport; Thu, 20 Aug 2020 14:05:35 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v1 04/21] mtk-mmsys: add mt8192 mmsys support
-Date: Thu, 20 Aug 2020 14:04:01 +0800
-Message-ID: <1597903458-8055-5-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v1 05/21] mtk-mmsys: add ovl mout on  support
+Date: Thu, 20 Aug 2020 14:04:02 +0800
+Message-ID: <1597903458-8055-6-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -62,189 +62,86 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add mt8192 mmsys support
+add ovl mout on support
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/soc/mediatek/mmsys/Makefile       |   1 +
- drivers/soc/mediatek/mmsys/mt8192-mmsys.c | 159 ++++++++++++++++++++++++++++++
- 2 files changed, 160 insertions(+)
- create mode 100644 drivers/soc/mediatek/mmsys/mt8192-mmsys.c
+ drivers/soc/mediatek/mmsys/mt8192-mmsys.c | 23 +++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c          |  8 ++++++++
+ include/linux/soc/mediatek/mtk-mmsys.h    |  3 +++
+ 3 files changed, 34 insertions(+)
 
-diff --git a/drivers/soc/mediatek/mmsys/Makefile b/drivers/soc/mediatek/mmsys/Makefile
-index 62cfedf..c4bb6be 100644
---- a/drivers/soc/mediatek/mmsys/Makefile
-+++ b/drivers/soc/mediatek/mmsys/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-y += mt2701-mmsys.o
- obj-y += mt8183-mmsys.o
-+obj-y += mt8192-mmsys.o
 diff --git a/drivers/soc/mediatek/mmsys/mt8192-mmsys.c b/drivers/soc/mediatek/mmsys/mt8192-mmsys.c
-new file mode 100644
-index 0000000..006d41d
---- /dev/null
+index 006d41d..06080ad 100644
+--- a/drivers/soc/mediatek/mmsys/mt8192-mmsys.c
 +++ b/drivers/soc/mediatek/mmsys/mt8192-mmsys.c
-@@ -0,0 +1,159 @@
-+// SPDX-License-Identifier: GPL-2.0
-+//
-+// Copyright (c) 2020 MediaTek Inc.
-+
-+#include <linux/device.h>
-+#include <linux/io.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/soc/mediatek/mtk-mmsys.h>
-+
-+#define MT8192_MMSYS_OVL_MOUT_EN		0xf04
-+#define DISP_OVL0_GO_BLEND				BIT(0)
-+#define DISP_OVL0_GO_BG					BIT(1)
-+#define DISP_OVL0_2L_GO_BLEND				BIT(2)
-+#define DISP_OVL0_2L_GO_BG				BIT(3)
-+#define MT8192_DISP_OVL0_2L_MOUT_EN		0xf18
-+#define MT8192_DISP_OVL0_MOUT_EN		0xf1c
-+#define OVL0_MOUT_EN_DISP_RDMA0				BIT(0)
-+#define MT8192_DISP_RDMA0_SEL_IN		0xf2c
-+#define MT8192_RDMA0_SEL_IN_OVL0_2L			0x3
-+#define MT8192_DISP_RDMA0_SOUT_SEL		0xf30
-+#define MT8192_RDMA0_SOUT_COLOR0			0x1
-+#define MT8192_DISP_CCORR0_SOUT_SEL		0xf34
-+#define MT8192_CCORR0_SOUT_AAL0				0x1
-+#define MT8192_DISP_AAL0_SEL_IN			0xf38
-+#define MT8192_AAL0_SEL_IN_CCORR0			0x1
-+#define MT8192_DISP_DITHER0_MOUT_EN		0xf3c
-+#define MT8192_DITHER0_MOUT_DSI0			BIT(0)
-+#define MT8192_DISP_DSI0_SEL_IN			0xf40
-+#define MT8192_DSI0_SEL_IN_DITHER0			0x1
-+#define MT8192_DISP_OVL2_2L_MOUT_EN		0xf4c
-+#define MT8192_OVL2_2L_MOUT_RDMA4			BIT(0)
-+
-+struct mmsys_path_sel {
-+	enum mtk_ddp_comp_id cur;
-+	enum mtk_ddp_comp_id next;
-+	u32 addr;
-+	u32 val;
-+};
-+
-+static struct mmsys_path_sel mmsys_mout_en[] = {
-+	{
-+		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-+		MT8192_DISP_OVL0_MOUT_EN, OVL0_MOUT_EN_DISP_RDMA0,
-+	},
-+	{
-+		DDP_COMPONENT_OVL_2L2, DDP_COMPONENT_RDMA4,
-+		MT8192_DISP_OVL2_2L_MOUT_EN, MT8192_OVL2_2L_MOUT_RDMA4,
-+	},
-+	{
-+		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
-+		MT8192_DISP_DITHER0_MOUT_EN, MT8192_DITHER0_MOUT_DSI0,
-+	},
-+};
-+
-+static struct mmsys_path_sel mmsys_sel_in[] = {
-+	{
-+		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-+		MT8192_DISP_RDMA0_SEL_IN, MT8192_RDMA0_SEL_IN_OVL0_2L,
-+	},
-+	{
-+		DDP_COMPONENT_CCORR, DDP_COMPONENT_AAL0,
-+		MT8192_DISP_AAL0_SEL_IN, MT8192_AAL0_SEL_IN_CCORR0,
-+	},
-+	{
-+		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
-+		MT8192_DISP_DSI0_SEL_IN, MT8192_DSI0_SEL_IN_DITHER0,
-+	},
-+};
-+
-+static struct mmsys_path_sel mmsys_sout_sel[] = {
-+	{
-+		DDP_COMPONENT_RDMA0, DDP_COMPONENT_COLOR0,
-+		MT8192_DISP_RDMA0_SOUT_SEL, MT8192_RDMA0_SOUT_COLOR0,
-+	},
-+	{
-+		DDP_COMPONENT_CCORR, DDP_COMPONENT_AAL0,
-+		MT8192_DISP_CCORR0_SOUT_SEL, MT8192_CCORR0_SOUT_AAL0,
-+	}
-+};
-+
-+static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
-+					  enum mtk_ddp_comp_id next,
-+					  unsigned int *addr)
+@@ -134,10 +134,33 @@ static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
+ 	}
+ }
+ 
++static int mtk_mmsys_ovl_mout_en(enum mtk_ddp_comp_id cur,
++				 enum mtk_ddp_comp_id next,
++				 unsigned int *addr)
 +{
-+	u32 i;
-+	struct mmsys_path_sel *path;
++	int value = -1;
 +
-+	for (i = 0; i < ARRAY_SIZE(mmsys_mout_en); i++) {
-+		path = &mmsys_mout_en[i];
-+		if (cur == path->cur && next == path->next) {
-+			*addr = path->addr;
-+			return path->val;
++	*addr = MT8192_MMSYS_OVL_MOUT_EN;
++
++	if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_OVL_2L0)
++		value = DISP_OVL0_GO_BG;
++	else if (cur == DDP_COMPONENT_OVL_2L0 && next == DDP_COMPONENT_OVL0)
++		value = DISP_OVL0_2L_GO_BG;
++	else if (cur == DDP_COMPONENT_OVL0)
++		value = DISP_OVL0_GO_BLEND;
++	else if (cur == DDP_COMPONENT_OVL_2L0)
++		value = DISP_OVL0_2L_GO_BLEND;
++	else
++		value = -1;
++
++	return value;
++}
++
+ static struct mtk_mmsys_conn_funcs mmsys_funcs = {
+ 	.mout_en = mtk_mmsys_ddp_mout_en,
+ 	.sel_in = mtk_mmsys_ddp_sel_in,
+ 	.sout_sel = mtk_mmsys_ddp_sout_sel,
++	.ovl_mout_en = mtk_mmsys_ovl_mout_en,
+ };
+ 
+ static int mmsys_probe(struct platform_device *pdev)
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index 828d59e..1362d01 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -76,6 +76,14 @@ void mtk_mmsys_ddp_connect(struct device *dev,
+ 		reg = readl_relaxed(config_regs + addr) | value;
+ 		writel_relaxed(reg, config_regs + addr);
+ 	}
++
++	if (priv_funcs->ovl_mout_en) {
++		value = priv_funcs->ovl_mout_en(cur, next, &addr);
++		if (value >= 0) {
++			reg = readl_relaxed(config_regs + addr) | value;
++			writel_relaxed(reg, config_regs + addr);
 +		}
 +	}
-+
-+	return 0;
-+}
-+
-+static unsigned int mtk_mmsys_ddp_sel_in(enum mtk_ddp_comp_id cur,
-+					 enum mtk_ddp_comp_id next,
-+					 unsigned int *addr)
-+{
-+	u32 i;
-+	struct mmsys_path_sel *path;
-+
-+	for (i = 0; i < ARRAY_SIZE(mmsys_sel_in); i++) {
-+		path = &mmsys_sel_in[i];
-+		if (cur == path->cur && next == path->next) {
-+			*addr = path->addr;
-+			return path->val;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
-+				   enum mtk_ddp_comp_id cur,
-+				   enum mtk_ddp_comp_id next)
-+{
-+	u32 i;
-+	u32 val = 0;
-+	u32 addr = 0;
-+	struct mmsys_path_sel *path;
-+
-+	for (i = 0; i < ARRAY_SIZE(mmsys_sout_sel); i++) {
-+		path = &mmsys_sout_sel[i];
-+		if (cur == path->cur && next == path->next) {
-+			addr = path->addr;
-+			writel_relaxed(path->val, config_regs + addr);
-+			return;
-+		}
-+	}
-+}
-+
-+static struct mtk_mmsys_conn_funcs mmsys_funcs = {
-+	.mout_en = mtk_mmsys_ddp_mout_en,
-+	.sel_in = mtk_mmsys_ddp_sel_in,
-+	.sout_sel = mtk_mmsys_ddp_sout_sel,
-+};
-+
-+static int mmsys_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+
-+	mtk_mmsys_register_conn_funcs(dev->parent, &mmsys_funcs);
-+
-+	return 0;
-+}
-+
-+static struct platform_driver mmsys_drv = {
-+	.probe = mmsys_probe,
-+	.driver = {
-+		.name = "mt8192-mmsys",
-+	},
-+};
-+
-+builtin_platform_driver(mmsys_drv);
+ }
+ EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
+ 
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 8ef3eaa..eefc7b1 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -55,6 +55,9 @@ struct mtk_mmsys_conn_funcs {
+ 	void (*sout_sel)(void __iomem *config_regs,
+ 			 enum mtk_ddp_comp_id cur,
+ 			 enum mtk_ddp_comp_id next);
++	int (*ovl_mout_en)(enum mtk_ddp_comp_id cur,
++			   enum mtk_ddp_comp_id next,
++			   unsigned int *addr);
+ };
+ 
+ void mtk_mmsys_register_conn_funcs(struct device *dev,
 -- 
 1.8.1.1.dirty
 _______________________________________________
