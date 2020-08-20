@@ -1,65 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E4924B05D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:49:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE6824B0B4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 10:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8A56E90B;
-	Thu, 20 Aug 2020 07:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B91BA6E91A;
+	Thu, 20 Aug 2020 08:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7596E90B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:49:23 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a5so1057251wrm.6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=XgD7oAraMYDOqNsfZffx0IqUVAmFZfcgzGRKvwI8mIc=;
- b=XlaONjDnEdsYg/6xqFFyWyTH0yWrgNaxkmvE+JWcDVZbLe+f/V7HKdjYROy7dyRpgD
- 0dP7O6uThUl2ocYIR33bisbTsV7PY13WDhwdzpoG+1juP2BKSoKiEUd4Vt3PTFRroRgA
- CKWIaTIqQLz/3rnEaEMJlfnH2LOTDEFgtejdx0YcZnIibXmUIW8mrTOAvdg1MlPqsu01
- n4D3DHqkiUh/PUQcvUhn/MDFi/qLIJr1VljuscrpP3WooR3pcPufopgFHfsC1aJqsMPG
- YS204VOVM7RsVE5k9miArRNcssfkXrf1ORtWY/QTAhKAThyjJpNspv/DCPSgCLSS8wMB
- aMUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=XgD7oAraMYDOqNsfZffx0IqUVAmFZfcgzGRKvwI8mIc=;
- b=ARANXqgl0U7MFqtV1IJgt2+mstHVGbdHp+PpxCcrqJAYKEfVNXWfqPmLvnMnGQ1Hel
- R/mqAWrrUYiQ/30/XlWKSpoqDCeilb1pDVwYcZDgvXLTBiyE+UCRSAQnllJztlyvis2x
- br9FI44OcDzfbfO5IiSZ7ZN8cuEPShcM685JFej0b9xDOvtyum53y7gaOR+L250raY5a
- 2CmQukHJUhRaMdugMDIuiDd652tFsFG3iH0BxvEEMGMAX4ByMT5Hl+4RE86R8FJOlbDt
- XX1hNKCzkgzAbPOyjK4goquPhBTSL3nOuxMAEv02OmYWA1brzqT0AnwGKVd13ks2KQys
- s7uA==
-X-Gm-Message-State: AOAM530zUoSd1k+tHgGkUpUz2Cbiy+a+Iv1ga2iP6U9igHQYWORbL4RS
- +EzXh+64VvCbDKTCPga7qh7Dww==
-X-Google-Smtp-Source: ABdhPJyboEGZAaF6RXm5GpaE/mKR6TYvk3Fye/goK+ikDC5z1N0gxsGJDDrfdepMKqxed6kq885b0w==
-X-Received: by 2002:a5d:60cb:: with SMTP id x11mr1737733wrt.281.1597909761789; 
- Thu, 20 Aug 2020 00:49:21 -0700 (PDT)
-Received: from dell ([95.149.164.62])
- by smtp.gmail.com with ESMTPSA id s2sm2438068wrr.55.2020.08.20.00.49.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Aug 2020 00:49:21 -0700 (PDT)
-Date: Thu, 20 Aug 2020 08:49:16 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: dinghao.liu@zju.edu.cn
-Subject: Re: Re: Re: [PATCH] video: backlight: sky81452-backlight: Fix
- reference count imbalance on error
-Message-ID: <20200820074916.GE3248864@dell>
-References: <321fb03d-2307-7f60-f437-cfb99184dfd6@web.de>
- <20200819165702.GC3248864@dell>
- <217e3c0c.b58c.17409fd7496.Coremail.dinghao.liu@zju.edu.cn>
- <20200820062301.GD3248864@dell>
- <3f9fbdb1.bc96.1740a9560d5.Coremail.dinghao.liu@zju.edu.cn>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE5A6E91A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 08:04:52 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de
+ [95.90.213.163])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 494C22080C;
+ Thu, 20 Aug 2020 08:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597910691;
+ bh=OWWu+MjMbXHrGQztQRN2ylfscy+5B8mChqzjsAWtscU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=h5b1/133ACDgHCMmw6/rHv5Gql/4zGLxnABbEKYeU9N378GO55Fy4cGxpFyfiCyTc
+ WwVI3HJOWwe4FuMDjQEAsUTVpHVI5X8qscPaThxTdaYlForCPtCHOG8P/p6r+Lu+8p
+ CMIQRH9B5IFg3ngYjdu3Dyp2r35gyzgNbeRNFh+w=
+Date: Thu, 20 Aug 2020 10:04:40 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200820100440.2d30dc02@coco.lan>
+In-Reply-To: <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3f9fbdb1.bc96.1740a9560d5.Coremail.dinghao.liu@zju.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +47,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Gyungoh Yoo <jack.yoo@skyworksinc.com>, Bryan Wu <cooloney@gmail.com>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Elfring <Markus.Elfring@web.de>,
- Jingoo Han <jingoohan1@gmail.com>, Kangjie Lu <kjlu@umn.edu>,
- Daniel Thompson <daniel.thompson@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, driverdevel <devel@driverdev.osuosl.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ linux-media <linux-media@vger.kernel.org>, "open
+ list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ mauro.chehab@huawei.com, Rob Clark <robdclark@chromium.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
+ Network Development <netdev@vger.kernel.org>,
+ Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMCBBdWcgMjAyMCwgZGluZ2hhby5saXVAemp1LmVkdS5jbiB3cm90ZToKCj4gPiBP
-biBUaHUsIDIwIEF1ZyAyMDIwLCBkaW5naGFvLmxpdUB6anUuZWR1LmNuIHdyb3RlOgo+ID4gCj4g
-PiA+ID4gT24gV2VkLCAxOSBBdWcgMjAyMCwgTWFya3VzIEVsZnJpbmcgd3JvdGU6Cj4gPiA+ID4g
-Cj4gPiA+ID4gPiA+IFdoZW4gb2ZfcHJvcGVydHlfcmVhZF91MzJfYXJyYXkoKSByZXR1cm5zIGFu
-IGVycm9yIGNvZGUsCj4gPiA+ID4gPiA+IGEgcGFpcmluZyByZWZjb3VudCBkZWNyZW1lbnQgaXMg
-bmVlZGVkIHRvIGtlZXAgbnAncyByZWZjb3VudCBiYWxhbmNlZC4KPiA+ID4gPiA+IAo+ID4gPiA+
-ID4gQ2FuIGFub3RoZXIgaW1wZXJhdGl2ZSB3b3JkaW5nIGJlIGhlbHBmdWwgZm9yIHRoZSBjaGFu
-Z2UgZGVzY3JpcHRpb24/Cj4gPiA+ID4gPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
-bGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvdHJlZS9Eb2N1bWVudGF0aW9uL3By
-b2Nlc3Mvc3VibWl0dGluZy1wYXRjaGVzLnJzdD9pZD0xODQ0NWJmNDA1Y2IzMzExMTdiYzk4NDI3
-YjFiYTZmMTI0MThhZDE3I24xNTEKPiA+ID4gPiA+IAo+ID4gPiA+ID4gV291bGQgYW4gb3RoZXIg
-Y29tbWl0IG1lc3NhZ2UgYmUgYSBiaXQgbmljZXI/Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IAo+ID4g
-PiA+ID4g4oCmCj4gPiA+ID4gPiA+ICsrKyBiL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3NreTgx
-NDUyLWJhY2tsaWdodC5jCj4gPiA+ID4gPiA+IEBAIC0yMTcsNiArMjE3LDcgQEAgc3RhdGljIHN0
-cnVjdCBza3k4MTQ1Ml9ibF9wbGF0Zm9ybV9kYXRhICpza3k4MTQ1Ml9ibF9wYXJzZV9kdCgKPiA+
-ID4gPiA+ID4gIAkJCQkJbnVtX2VudHJ5KTsKPiA+ID4gPiA+ID4gIAkJaWYgKHJldCA8IDApIHsK
-PiA+ID4gPiA+ID4gIAkJCWRldl9lcnIoZGV2LCAibGVkLXNvdXJjZXMgbm9kZSBpcyBpbnZhbGlk
-LlxuIik7Cj4gPiA+ID4gPiA+ICsJCQlvZl9ub2RlX3B1dChucCk7Cj4gPiA+ID4gPiA+ICAJCQly
-ZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsKPiA+ID4gPiA+ID4gIAkJfQo+ID4gPiA+ID4gCj4gPiA+
-ID4gPiBJIHByb3Bvc2UgdG8gYWRkIHRoZSBqdW1wIHRhcmdldCDigJxwdXRfbm9kZeKAnSBzbyB0
-aGF0IGEgYml0IG9mIGNvbW1vbiBleGNlcHRpb24KPiA+ID4gPiA+IGhhbmRsaW5nIGNvZGUgY2Fu
-IGJlIGJldHRlciByZXVzZWQgYXQgdGhlIGVuZCBvZiB0aGlzIGZ1bmN0aW9uIGltcGxlbWVudGF0
-aW9uLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBSZWdhcmRzLAo+ID4gPiA+ID4gTWFya3VzCj4gPiA+
-ID4gCj4gPiA+ID4gWW91IGNhbiBzYWZlbHkgaWdub3JlIGFueSByZXZpZXcgY29tbWVudHMgZnJv
-bSBNYXJrdXMhCj4gPiA+ID4gCj4gPiA+ID4gSG93ZXZlciwgdGhpcyBwYXRjaCBkb2Vzbid0IGFw
-cGVhciB0byBiZSBpbiBteSBpbmJveC4KPiA+ID4gPiAKPiA+ID4gPiBBbnkgaWRlYXMgYXMgdG8g
-d2h5Pwo+ID4gPiA+IAo+ID4gPiAKPiA+ID4gVGhhbmsgeW91IGZvciB5b3VyIGFkdmljZS4gTXkg
-b3V0Ym94IHNob3dzIHRoYXQgdGhpcyBwYXRjaAo+ID4gPiBoYXMgcmVhY2hlZCB5b3VyIGVtYWls
-IHNlcnZlciBzdWNjZXNzZnVsbHkuIE1heWJlIHRoaXMKPiA+ID4gZW5kZWQgdXAgaW4geW91ciBq
-dW5rIG1haWwgZmlsZT8KPiA+IAo+ID4gVGhpcyBoYXMgaGFwcGVuZWQgcmVjZW50bHksIHNvIEkg
-d2FzIHN1cmUgdG8gY2hlY2suCj4gPiAKPiA+IE5vdCB0aGVyZSBlaXRoZXIgdW5mb3J0dW5hdGVs
-eS4KPiA+IAo+ID4gV291bGQgeW91IGJlIGtpbmQgZW5vdWdoIHRvIGJvdW5jZS9yZXNlbmQgcGxl
-YXNlPwo+IAo+IFN1cmUuCgpMb29rcyBsaWtlIHlvdSBzZW50IGl0ICpvbmx5KiB0byBtZS4gIFBs
-ZWFzZSBrZWVwIGV2ZXJ5b25lIGVsc2UgaW4gQ2MKd2hlbiBkb2luZyB0aGF0LCBvciBJIGNhbid0
-IHJlc3BvbmQgdG8gZXZlcnlvbmUuCgpBbnl3YXksIGJlc2lkZXMgdGhlIHN1YmplY3QgbGluZSAo
-d2hpY2ggSSBjYW4gZml4IGVhc2lseSksIHRoZSBwYXRjaApsb29rcyBnb29kIHRvIG1lLCBidXQg
-RGFuaWVsIFQgbXVzdCByZXZpZXcuCgpSZXZpZXdlZC1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNA
-bGluYXJvLm9yZz4KCi0tCkxlZSBKb25lcyBb5p2O55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExl
-YWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdh
-cmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Em Wed, 19 Aug 2020 14:36:52 -0700
+John Stultz <john.stultz@linaro.org> escreveu:
+
+> On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> > So, IMO, the best is to keep it on staging for a while, until those
+> > remaining bugs gets solved.
+> >
+> > I added this series, together with the regulator driver and
+> > a few other patches (including a hack to fix a Kernel 5.8
+> > regression at WiFi ) at:
+> >
+> >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master  
+> 
+> Sorry, one more small request: Could you create a branch that only has
+> the DRM driver changes in it?
+> 
+> The reason I ask, is that since the HiKey960 isn't affected by the
+> majority of the problems you listed as motivation for going through
+> staging. So if we can validate that your tree works fine on HiKey960,
+> the series can be cleaned up and submitted properly upstream to enable
+> that SoC, and the outstanding 970 issues can be worked out afterwards
+> against mainline.
+
+Well, if support for HiKey 960 is OK, I guess what we can do is to not 
+push the patch with DT bindings for hikey970. We should probably fix
+the color swap thing at the driver first.
+
+From my side, provided that the history is preserved, I don't mind
+if this is merged:
+
+- via staging tree;
+- at dri-devel tree;
+- or having a the historic patchsets merged at /staging, with
+  a follow up patch moving it from staging/ into /gpu/drm/.
+
+Thanks,
+Mauro
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
