@@ -1,53 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9316424CE98
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E82F24CE89
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 113436EA9E;
-	Fri, 21 Aug 2020 07:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4746EA99;
+	Fri, 21 Aug 2020 07:11:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF0C26E030
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 08:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1597911596;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=uXOt2i166nL4Kswd8TwsyRIldcKcFrQUaFJvpehnW/I=;
- b=syf3S0soQSabgFjb76WjH4qNtq66YpeVDk5s4rKicv+hYJwLP70Axf0DGtF60UAt9V
- LjYLcZzyHUEwb0GWAuViw9v3DLIbuGXiDAlDEh6069U9cVWUB4A9L9kxRkFs5AOoCmAv
- vF092semPWyJG+wWzhh3UtZs4+tYjpsgbmkMQqIGyZiw/dChKofeBeaHj/pm8TSBVlBV
- ZX21JhhbGQJJKLkI/BTMJ+h9AuyRtnFo+gbu/pbM0nPaqsyOKVjkCt3GXMBNeQkNz7Md
- 6tJfOANm7n1jKfKUEdsSPvvmQLQv/C2X+NMa+e6/Z8hfJ0eDJHk2Z1Lp7bXV9I2xEH/m
- t0Iw==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmAuw43oTyE="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
- with ESMTPSA id n03b0dw7K8Jk7uj
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 20 Aug 2020 10:19:46 +0200 (CEST)
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
- JZ4780)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <CAAEAJfBxJLyS-EaE82c4Oq3-EFongDmAtYnPtfMLKLL3KAiFxA@mail.gmail.com>
-Date: Thu, 20 Aug 2020 10:19:45 +0200
-Message-Id: <DABBE9E8-E94F-4F13-BB33-5DD67CAD9DFA@goldelico.com>
-References: <1940005.XIBaf5lNV5@jeremy> <7086465.UhkgK7rEtT@jason>
- <32cb6f50-1fe1-1484-0512-04590882d35a@baylibre.com>
- <3158508.CFMi0AOM4G@jason>
- <CAAEAJfBHBqT9Lv5zMaizJLnz=L5+Z3RvYoDf=Ex09_PDSUGe5g@mail.gmail.com>
- <4362AD3D-B072-480E-B424-28A7C9F8061B@goldelico.com>
- <CAAEAJfBxJLyS-EaE82c4Oq3-EFongDmAtYnPtfMLKLL3KAiFxA@mail.gmail.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-X-Mailer: Apple Mail (2.3124)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5EE76E914
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 08:36:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: ezequiel) with ESMTPSA id 0004629A33B
+Message-ID: <621cd69bdd4af3e5bd5f2c96450c87651620381a.camel@collabora.com>
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+From: Ezequiel Garcia <ezequiel@collabora.com>
+To: John Stultz <john.stultz@linaro.org>
+Date: Thu, 20 Aug 2020 05:36:40 -0300
+In-Reply-To: <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
+Organization: Collabora
+User-Agent: Evolution 3.36.3-1 
+MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 21 Aug 2020 07:11:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,56 +39,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@st.com>, James Jones <jajones@nvidia.com>,
+ Liam Mark <lmark@codeaurora.org>, "Andrew F . Davis" <afd@ti.com>,
+ kernel@collabora.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ Laura Abbott <labbott@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezequiel,
+Hi John,
 
-> Am 20.08.2020 um 00:26 schrieb Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>:
+Thanks a ton for taking the time
+to go thru this.
+
+On Mon, 2020-08-17 at 21:13 -0700, John Stultz wrote:
+> On Sun, Aug 16, 2020 at 10:23 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+> > which will allocate memory suitable for the given device.
+> > 
+> > The implementation is mostly a port of the Contiguous Videobuf2
+> > memory allocator (see videobuf2/videobuf2-dma-contig.c)
+> > over to the DMA-BUF Heap interface.
+> > 
+> > The intention of this allocator is to provide applications
+> > with a more system-agnostic API: the only thing the application
+> > needs to know is which device to get the buffer for.
+> > 
+> > Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+> > is unknown to the application.
 > 
-> On Wed, 19 Aug 2020 at 15:50, H. Nikolaus Schaller <hns@goldelico.com> wrote:
->> 
->> Maybe, can you share your rebased tree to clearly identify the
->> subtle differences? Maybe I have broken something by the rebase.
->> 
+> My hesitancy here is that the main reason we have DMA BUF Heaps, and
+> ION before it, was to expose different types of memory allocations to
+> userspace. The main premise that often these buffers are shared with
+> multiple devices, which have differing constraints and it is userspace
+> that best understands the path a buffer will take through a series of
+> devices. So userspace is best positioned to determine what type of
+> memory should be allocated to satisfy the various devices constraints
+> (there were some design attempts to allow DMA BUFs to use multiple
+> attach with deferred alloc at map time to handle this constraint
+> solving in-kernel, but it was never adopted in practice).
 > 
-> Sure.
+> This however, requires some system specific policy - implemented in
+> the Android userspace by gralloc which maps "usage" types (device
+> pipeline flows) to heaps. I liken it to fstab, which helps map mount
+> points to partitions - it's not going to be the same on every system.
 > 
-> Please give this a try and let me know if it works for you.
+> What you seem to be proposing seems a bit contrary to this premise -
+> Userland doesn't know what type of memory it needs, but given a device
+> can somehow find the heap it should allocate for? This seems to assume
+> the buffer is only to be used with a single device?
 > 
-> I've cleaned and squashed your changes, hopefully
-> I've kept the correct authorship for all of them.
+
+Single-device usage wasn't the intention. I see now that this patch
+looks too naive and it's confusing. The idea is of course to get buffers
+that can be shared.
+
+I'm thinking you need to share your picture buffer with a decoder,
+a renderer, possibly something else. Each with its own set
+of constraints and limitations.	
+
+Of course, a buffer that works for device A may be unsuitable for
+device B and so this per-device heap is surely way too naive.
+
+As you rightly mention, the main intention of this RFC is to
+question exactly the current premise: "userspace knows".
+I fail to see how will (generic and system-agnostic) applications
+know which heap to use.
+
+Just for completion, let me throw a simple example: i.MX 8M
+and some Rockchip platforms share the same VPU block, except the
+latter have an IOMMU.
+
+So applications would need to query an iommu presence
+to get buffer from CMA or not.
+
+> There was at some point a discussion where folks (maybe it was
+> DanielV? I can't remember...) suggested having something like a sysfs
+> device node link from a device to a dma-buf heap chardev. This seems
+> like it would add a similar behavior as what you're proposing, however
+> without adding possibly a ton of new device specific heaps to the
+> /dev/dma_heap/ dir. However, we would potentially need any missing
+> heap types added first.
 > 
-> https://gitlab.collabora.com/linux/0day/-/commits/jz4780-drm-hdmi-v5.9-rc1
+> > I'm not really expecting this patch to be correct or even
+> > a good idea, but just submitting it to start a discussion on DMA-BUF
+> > heap discovery and negotiation.
+> > 
+> > Given Plumbers is just a couple weeks from now, I've submitted
+> > a BoF proposal to discuss this, as perhaps it would make
+> > sense to discuss this live?
 > 
-> This should be enough to get an fbcon, launch weston, etc.
-> However, there are few things that still don't look right.
-> Seems planes X,Y offset is not working, and also enabling
-> a second plane results in both planes going black for good.
-
-Yes, it works!!!
-
-There are some unexpected things related to CONFIG settings on my setup
-(maybe missing modules) but for the first time I can see the boot log on the panel.
-
+> I do think it's an interesting idea. I agree that having every driver
+> implement a dmabuf exporter is a bit silly, but I also think Brian's
+> point that maybe we need some drm helper functions that provide
+> similar functionality along with a more standardized device ioctl for
+> single device allocations might be better.
 > 
-> This needs some more investigation, but seems at least a good start.
 
-Yes it is!
+I'm unsure we should treat single device specially.
+ 
+Exposing device limitations and constraints properly,
+allowing some sort of negotation would hopefully solve
+single device and shared requirements.
 
-I can now git diff the code and the CONFIG.
+Thanks,
+Ezequiel
 
-So it seems we have indeed a breakthrough.
+> thanks
+> -john
 
-Thanks to all who did contribute (even behind the scenes in the DRM subsystem),
-Nikolaus
 
 _______________________________________________
 dri-devel mailing list
