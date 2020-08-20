@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E192624AA72
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 02:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7801624AA80
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 02:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D15A6E2A5;
-	Thu, 20 Aug 2020 00:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A86F06E880;
+	Thu, 20 Aug 2020 00:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C21B86E2A5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:01:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D786D6E880
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:02:11 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BB75F21744;
- Thu, 20 Aug 2020 00:01:34 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F0AF420FC3;
+ Thu, 20 Aug 2020 00:02:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597881695;
- bh=ASNGJWgtwtS9VpHWrz2J5lsF5hX9JWswGiuJzWsIJqw=;
+ s=default; t=1597881731;
+ bh=bN7dJrzpgTx4kNBALgXdM5o7wtL1Q+rEH6arvcnTpUo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rGY0YRBj04axn5wjoeYwEMyUEk+2XRLW2NOITe1zXUL9suJC9OMUGnyrHarivVbGl
- lCWdH3MyILrc8AwktdLt/2bNp2AQc48Z2SStfFrN0fbehOwTgbNtpO9WsPomaLcdxZ
- SjW2tMs5wKrhglGQIryo1WTVZts/zXVIGhqbCDLA=
+ b=fb0iD9+5vQ88441Enesn6jx3hkqldnAurZRC46S4zGiGZCOOVRF934+AGd0H/+Sqs
+ aaUDQLbxtjdGN+BdafxEwsFH/JV4RTZIS/o94H8vQoEY/yv8AhuN8xKS838kChj461
+ E13zaJnLQRI4wD7kKkPgWRQ4wy0b97jCVGJ000FA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 14/27] drm/ttm: fix offset in VMAs with a pg_offs
+Subject: [PATCH AUTOSEL 5.7 12/24] drm/ttm: fix offset in VMAs with a pg_offs
  in ttm_bo_vm_access
-Date: Wed, 19 Aug 2020 20:01:03 -0400
-Message-Id: <20200820000116.214821-14-sashal@kernel.org>
+Date: Wed, 19 Aug 2020 20:01:43 -0400
+Message-Id: <20200820000155.215089-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200820000116.214821-1-sashal@kernel.org>
-References: <20200820000116.214821-1-sashal@kernel.org>
+In-Reply-To: <20200820000155.215089-1-sashal@kernel.org>
+References: <20200820000155.215089-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,7 +72,7 @@ ODExNjkvClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0t
 CiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jIHwgNCArKystCiAxIGZpbGUgY2hhbmdl
 ZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
 cHUvZHJtL3R0bS90dG1fYm9fdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMK
-aW5kZXggZmEwM2ZhYjAyMDc2ZC4uMzM1MjZjNWRmMGU4YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+aW5kZXggNzIxMDBiODRjN2E5MC4uYjA4ZmRmYTQyOTFiMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
 cHUvZHJtL3R0bS90dG1fYm9fdm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192
 bS5jCkBAIC01MDUsOCArNTA1LDEwIEBAIHN0YXRpYyBpbnQgdHRtX2JvX3ZtX2FjY2Vzc19rbWFw
 KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCiBpbnQgdHRtX2JvX3ZtX2FjY2VzcyhzdHJ1
