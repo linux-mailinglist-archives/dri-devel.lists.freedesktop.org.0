@@ -1,30 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14E624CEAD
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:12:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E3C24CEA9
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A116EAB3;
-	Fri, 21 Aug 2020 07:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3177B6EAAE;
+	Fri, 21 Aug 2020 07:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32536E93E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 12:13:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56EC06E941
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 12:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1597925582; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1597925583; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=fVj37TIG+mvs7lftpVXU13Q2HOoYZx+9DhCxLihuqvk=;
- b=t5eSugjJtimK8UxX9PPKhP8StyA8sWuspF56PdTYS/PHVZyzzhQk+gvYt4UW6rMfm76mMy
- zwm971CP9BE+LS6Y8dgwSS0umu4TwFKt9Fj5h7owDW6/CPBSN78twzl+lVNX1u3szGDBvV
- OpAo74M0rVPa5CE/0WSMVumKxYQ+aZc=
+ in-reply-to:in-reply-to:references:references;
+ bh=cvfqokvJjJRDHqpcvn1CFRGBXyq8hxfGePqgX0+Z6F4=;
+ b=LtgwUm8buWv6hWZGys+DG4WS+MDEUISCg4IkvO42mHToB8Om6L8FH1GoNE7FiVHQz5OE64
+ 83BvSojIvNK8F6W7nWrV0e4fCRN/HZFgrQZWfwRf9yWYoIYbWISJLCTeesCeqTrhfrYUSB
+ KCj7cQB361s8B6qI4s6KzFYDvTo9tkc=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 0/2] NT39016 cleanup
-Date: Thu, 20 Aug 2020 14:12:54 +0200
-Message-Id: <20200820121256.32037-1-paul@crapouillou.net>
+Subject: [PATCH v2 1/2] drm/panel: novatek,nt39016: Reorder calls in probe
+Date: Thu, 20 Aug 2020 14:12:55 +0200
+Message-Id: <20200820121256.32037-2-paul@crapouillou.net>
+In-Reply-To: <20200820121256.32037-1-paul@crapouillou.net>
+References: <20200820121256.32037-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 21 Aug 2020 07:11:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,24 +49,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A few cleanups to the Novatek NT39016 panel driver:
+The drm_panel_of_backlight() function must be called after
+drm_panel_init(), according to the function's documentation; otherwise
+the backlight won't be properly initialized.
 
-- Reorder function calls in probe, so that drm_panel_of_backlight() is
-  called after drm_panel_init(), as requested by the function's
-  documentation;
-- Use the 'dev' field inside the drm_panel structure, instead of using a
-  separate field in the driver's private structure.
+v2: New patch
 
-Cheers,
--Paul
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Paul Cercueil (2):
-  drm/panel: novatek,nt39016: Reorder calls in probe
-  drm/panel: novatek,nt39016: Remove 'dev' field in priv struct
-
- drivers/gpu/drm/panel/panel-novatek-nt39016.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+index 39f7be679da5..daa583030246 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+@@ -285,6 +285,9 @@ static int nt39016_probe(struct spi_device *spi)
+ 		return PTR_ERR(panel->map);
+ 	}
+ 
++	drm_panel_init(&panel->drm_panel, dev, &nt39016_funcs,
++		       DRM_MODE_CONNECTOR_DPI);
++
+ 	err = drm_panel_of_backlight(&panel->drm_panel);
+ 	if (err) {
+ 		if (err != -EPROBE_DEFER)
+@@ -292,9 +295,6 @@ static int nt39016_probe(struct spi_device *spi)
+ 		return err;
+ 	}
+ 
+-	drm_panel_init(&panel->drm_panel, dev, &nt39016_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
+-
+ 	drm_panel_add(&panel->drm_panel);
+ 
+ 	return 0;
 -- 
 2.28.0
 
