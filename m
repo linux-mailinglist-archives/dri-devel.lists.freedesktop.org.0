@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D35924C824
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 01:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA1E24C879
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 01:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72BC36E040;
-	Thu, 20 Aug 2020 23:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9588F6E064;
+	Thu, 20 Aug 2020 23:22:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0B87F6E040
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 23:01:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6C6331B;
- Thu, 20 Aug 2020 16:01:44 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98AAB3F71F;
- Thu, 20 Aug 2020 16:01:39 -0700 (PDT)
-Subject: Re: [PATCH 17/18] media/omap3isp: Clean up IOMMU workaround
-To: Sakari Ailus <sakari.ailus@iki.fi>
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <11d8419744e4e744a9448180801b0c4683328afd.1597931876.git.robin.murphy@arm.com>
- <20200820165339.GK7145@valkosipuli.retiisi.org.uk>
- <be010209-4abc-ba48-4e31-185427776a13@arm.com>
- <20200820195536.GL7145@valkosipuli.retiisi.org.uk>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <5190a40e-ad24-d98e-3588-b95592ea2db3@arm.com>
-Date: Fri, 21 Aug 2020 00:01:38 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 526C56E064
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 23:22:42 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
+ after 5.9 merges
+Date: Thu, 20 Aug 2020 23:22:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ckane@colemankane.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208947-2300-u74BIZwvPL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
+References: <bug-208947-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200820195536.GL7145@valkosipuli.retiisi.org.uk>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +52,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, linux-tegra@vger.kernel.org,
- thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com, digetx@gmail.com,
- s-anna@ti.com, will@kernel.org, hch@lst.de, m.szyprowski@samsung.com,
- linux-samsung-soc@vger.kernel.org, joro@8bytes.org, magnus.damm@gmail.com,
- linux@armlinux.org.uk, jonathanh@nvidia.com, agross@kernel.org,
- yong.wu@mediatek.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- t-kristo@ti.com, kyungmin.park@samsung.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-08-20 20:55, Sakari Ailus wrote:
-> On Thu, Aug 20, 2020 at 06:25:19PM +0100, Robin Murphy wrote:
->> On 2020-08-20 17:53, Sakari Ailus wrote:
->>> Hi Robin,
->>>
->>> On Thu, Aug 20, 2020 at 04:08:36PM +0100, Robin Murphy wrote:
->>>> Now that arch/arm is wired up for default domains and iommu-dma, devices
->>>> behind IOMMUs will get mappings set up automatically as appropriate, so
->>>> there is no need for drivers to do so manually.
->>>>
->>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->>>
->>> Thanks for the patch.
->>
->> Many thanks for testing so quickly!
->>
->>> I haven't looked at the details but it seems that this causes the buffer
->>> memory allocation to be physically contiguous, which causes a failure to
->>> allocate video buffers of entirely normal size. I guess that was not
->>> intentional?
->>
->> Hmm, it looks like the device ends up with the wrong DMA ops, which implies
->> something didn't go as expected with the earlier IOMMU setup and default
->> domain creation. Chances are that either I missed some subtlety in the
->> omap_iommu change, or I've fundamentally misjudged how the ISP probing works
->> and it never actually goes down the of_iommu_configure() path in the first
->> place. Do you get any messages from the IOMMU layer earlier on during boot?
-> 
-> I do get these:
-> 
-> [    2.934936] iommu: Default domain type: Translated
-> [    2.940917] omap-iommu 480bd400.mmu: 480bd400.mmu registered
-> [    2.946899] platform 480bc000.isp: Adding to iommu group 0
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=208947
 
-So that much looks OK, if there are no obvious errors. Unfortunately 
-there's no easy way to tell exactly what of_iommu_configure() is doing 
-(beyond enabling a couple of vague debug messages). The first thing I'll 
-do tomorrow is double-check whether it's really working on my boards 
-here, or whether I was just getting lucky with CMA... (I assume you 
-don't have CMA enabled if you're ending up in remap_allocator_alloc())
+--- Comment #12 from Coleman Kane (ckane@colemankane.org) ---
+Ok I re-did the bisect and I think I found the actual commit that introduced
+the regression. I have confirmed this by generating a reverse-patch and then
+applying that to the latest staging-testing branch I had cloned at the
+beginning of the week, and I was able to use the newer kernel without the bug
+occurring.
 
-Robin.
+The bug appears to have been introduced by commit
+3fd20292c2352660155bbc11736dd014b2fc6e98:
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 5cb7b834e459..1a3dbed3becb 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -1133,6 +1133,45 @@ static inline enum link_training_result
+perform_link_training_int(
+        return status;
+ }
+
++static enum link_training_result check_link_loss_status(
++       struct dc_link *link,
++       const struct link_training_settings *link_training_setting)
++{
++       enum link_training_result status = LINK_TRAINING_SUCCESS;
++       unsigned int lane01_status_address = DP_LANE0_1_STATUS;
++       union lane_status lane_status;
++       uint8_t dpcd_buf[4] = {0};
++       uint32_t lane;
++
++       core_link_read_dpcd(
++               link,
++               lane01_status_address,
++               (uint8_t *)(dpcd_buf),
++               sizeof(dpcd_buf));
++
++       /*parse lane status*/
++       for (lane = 0; lane < link->cur_link_settings.lane_count; lane++) {
++               /*
++                * check lanes status
++                */
++               lane_status.raw = get_nibble_at_index(&dpcd_buf[0], lane);
++
++               if (!lane_status.bits.CHANNEL_EQ_DONE_0 ||
++                       !lane_status.bits.CR_DONE_0 ||
++                       !lane_status.bits.SYMBOL_LOCKED_0) {
++                       /* if one of the channel equalization, clock
++                        * recovery or symbol lock is dropped
++                        * consider it as (link has been
++                        * dropped) dp sink status has changed
++                        */
++                       status = LINK_TRAINING_LINK_LOSS;
++                       break;
++               }
++       }
++
++       return status;
++}
++
+ static void initialize_training_settings(
+         struct dc_link *link,
+        const struct dc_link_settings *link_setting,
+@@ -1372,6 +1411,9 @@ static void print_status_message(
+        case LINK_TRAINING_LQA_FAIL:
+                lt_result = "LQA failed";
+                break;
++       case LINK_TRAINING_LINK_LOSS:
++               lt_result = "Link loss";
++               break;
+        default:
+                break;
+        }
+@@ -1531,6 +1573,14 @@ enum link_training_result
+dc_link_dp_perform_link_training(
+                                status);
+        }
+
++       /* delay 5ms after Main Link output idle pattern and then check
++        * DPCD 0202h.
++        */
++       if (link->connector_signal != SIGNAL_TYPE_EDP && status ==
+LINK_TRAINING_SUCCESS) {
++               msleep(5);
++               status = check_link_loss_status(link, &lt_settings);
++       }
++
+        /* 6. print status message*/
+        print_status_message(link, &lt_settings, status);
+
+diff --git a/drivers/gpu/drm/amd/display/include/link_service_types.h
+b/drivers/gpu/drm/amd/display/include/link_service_types.h
+index 4869d4562e4d..550f46e9b95f 100644
+--- a/drivers/gpu/drm/amd/display/include/link_service_types.h
++++ b/drivers/gpu/drm/amd/display/include/link_service_types.h
+@@ -66,6 +66,8 @@ enum link_training_result {
+        /* other failure during EQ step */
+        LINK_TRAINING_EQ_FAIL_EQ,
+        LINK_TRAINING_LQA_FAIL,
++       /* one of the CR,EQ or symbol lock is dropped */
++       LINK_TRAINING_LINK_LOSS,
+ };
+
+ struct link_training_settings {
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
