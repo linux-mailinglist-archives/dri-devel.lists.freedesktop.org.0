@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEAF24AFE5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D283124AFE6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE746E8FD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEB26E8FB;
 	Thu, 20 Aug 2020 07:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 57AD76E8A8
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C4886E8AD
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:44 +0000 (UTC)
-X-UUID: 32decb3983594f699bc7b53c6eb7fa1a-20200820
+X-UUID: 1650d91ceda542c9a81706c9b7d8e378-20200820
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=M8qskVn5Swjp+eL1e43Nsf0pOF4txuFRZvPdDs+/jiA=; 
- b=uyz6aljE/IZlTQyWbkCzsx6yfVz3js2Nhh34gxRe68gPdiJ3IyLzuJ6GdpADlN2rYtBNI526pqFEeI5LCLwbg+kT2VDvZwRnXsB4ifP7gNX0m2lSrEWWsiXmECqM8CbEs3jt+Qp9ZgXT9ZAw6GuXsrddxLd5LkT9QVnseh4iCNo=;
-X-UUID: 32decb3983594f699bc7b53c6eb7fa1a-20200820
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ bh=o1GR/JP56KwhHadHVRRsgKjaM3oHmqygNovIP6VBnrY=; 
+ b=bU4ZnG4MyYk0jGJAI8vWuZVzIECAzI+a54bl8lKy9xPvLDLehN+OMWzWHJX3rFqygEu4FAh3dfq1wUY/V+dk0eluUOc0HwZGxgOcZ5aqXComjmR23YIxXfBAISKpMsAep3Thl0YXMI/ci3K0XRvubCCgwh4phI1VDBV935NQokc=;
+X-UUID: 1650d91ceda542c9a81706c9b7d8e378-20200820
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 857934898; Thu, 20 Aug 2020 14:05:41 +0800
+ with ESMTP id 1897108210; Thu, 20 Aug 2020 14:05:42 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 20 Aug 2020 14:05:39 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 Aug 2020 14:05:40 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 20 Aug 2020 14:05:38 +0800
+ Transport; Thu, 20 Aug 2020 14:05:39 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v1 08/21] drm/mediatek: check if fb is null
-Date: Thu, 20 Aug 2020 14:04:05 +0800
-Message-ID: <1597903458-8055-9-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v1 09/21] drm/mediatek: fix aal size config
+Date: Thu, 20 Aug 2020 14:04:06 +0800
+Message-ID: <1597903458-8055-10-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -62,27 +62,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's possible that state->base.fb is null. Add a check before access its
-format.
+fix aal size config
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 427fe7f..2506803 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -269,7 +269,7 @@ static void mtk_ovl_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
- 	}
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index c90d2ee..fe76387 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -31,8 +31,13 @@
+ #define DISP_REG_UFO_START			0x0000
  
- 	con = ovl_fmt_convert(ovl, fmt);
--	if (state->base.fb->format->has_alpha)
-+	if (state->base.fb && state->base.fb->format->has_alpha)
- 		con |= OVL_CON_AEN | OVL_CON_ALPHA;
+ #define DISP_AAL_EN				0x0000
++#define DISP_AAL_CFG				0x0020
++#define AAL_RELAY_MODE					BIT(0)
++#define AAL_ENGINE_EN					BIT(1)
+ #define DISP_AAL_SIZE				0x0030
  
- 	if (pending->rotation & DRM_MODE_REFLECT_Y) {
++#define DISP_AAL_OUTPUT_SIZE			0x04d8
++
+ #define DISP_CCORR_EN				0x0000
+ #define CCORR_EN				BIT(0)
+ #define DISP_CCORR_CFG				0x0020
+@@ -182,7 +187,11 @@ static void mtk_aal_config(struct mtk_ddp_comp *comp, unsigned int w,
+ 			   unsigned int h, unsigned int vrefresh,
+ 			   unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+ {
+-	mtk_ddp_write(cmdq_pkt, h << 16 | w, comp, DISP_AAL_SIZE);
++	mtk_ddp_write(cmdq_pkt, w << 16 | h, comp, DISP_AAL_SIZE);
++	mtk_ddp_write(cmdq_pkt, w << 16 | h, comp, DISP_AAL_OUTPUT_SIZE);
++
++	mtk_ddp_write_mask(NULL, AAL_RELAY_MODE, comp, DISP_AAL_CFG,
++			   AAL_RELAY_MODE | AAL_ENGINE_EN);
+ }
+ 
+ static void mtk_aal_start(struct mtk_ddp_comp *comp)
 -- 
 1.8.1.1.dirty
 _______________________________________________
