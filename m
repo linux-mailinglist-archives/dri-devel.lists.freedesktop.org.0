@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9763924AFFD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502DD24AFFA
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C28066E925;
-	Thu, 20 Aug 2020 07:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 212336E910;
+	Thu, 20 Aug 2020 07:16:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id B8B786E8A8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:43 +0000 (UTC)
-X-UUID: 9a2e663fcd78424280cfec847758fc54-20200820
+ by gabe.freedesktop.org (Postfix) with ESMTP id AF9316E8A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:05:42 +0000 (UTC)
+X-UUID: 538db9ae8369492ba90a149167f7d305-20200820
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=ZdEoowJE8yrsOxJwibOQFbZ5BGKEhdg3fQs9sloWNGY=; 
- b=A4gQWpFpN4QRLQpfBS8o/tWhoontD1ZZP0gamEnDFdl274EhR5IryiGJpzBefK6St4KUNfuoc/+FBuC8YoIg1iUEBjMiBJnfpUngZtElqQCFu9GQoQNw16fiYPo4j44MeZH6BLz9xGnq4lCSE8L83qqrYaiuqPNFC9d0QbLO200=;
-X-UUID: 9a2e663fcd78424280cfec847758fc54-20200820
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ bh=IcBVGjhMM93U59Zg6sn4+HR2/5ZarY0qGfZCNPtkXU4=; 
+ b=n16wVzQvIZ8xr/9/I/L1Of79g5XbgyiER0Ae05+2idOHX+Vq19z30JE3ObKC2J4dgZOk1qNsKqXnFqZcTOO+FQ/LPcp1LEGxfxFQfshX+ITyetXEpLQ9QVbwgShEZ6LTEO2fp5d5QUz3YuDVvGJEFtigYB6qCWXdMC8BwX/AUdw=;
+X-UUID: 538db9ae8369492ba90a149167f7d305-20200820
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 246718716; Thu, 20 Aug 2020 14:05:38 +0800
+ with ESMTP id 1468991654; Thu, 20 Aug 2020 14:05:39 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 20 Aug 2020 14:05:36 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 Aug 2020 14:05:37 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 20 Aug 2020 14:05:35 +0800
+ Transport; Thu, 20 Aug 2020 14:05:36 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v1 05/21] mtk-mmsys: add ovl mout on  support
-Date: Thu, 20 Aug 2020 14:04:02 +0800
-Message-ID: <1597903458-8055-6-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v1 06/21] drm/mediatek: add disp config and mm 26mhz clock
+ into mutex device
+Date: Thu, 20 Aug 2020 14:04:03 +0800
+Message-ID: <1597903458-8055-7-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -62,86 +63,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add ovl mout on support
+there are 2 more clock need enable for display.
+parser these clock when mutex device probe,
+enable and disable when mutex on/off
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/soc/mediatek/mmsys/mt8192-mmsys.c | 23 +++++++++++++++++++++++
- drivers/soc/mediatek/mtk-mmsys.c          |  8 ++++++++
- include/linux/soc/mediatek/mtk-mmsys.h    |  3 +++
- 3 files changed, 34 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 49 ++++++++++++++++++++++++++++------
+ 1 file changed, 41 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/soc/mediatek/mmsys/mt8192-mmsys.c b/drivers/soc/mediatek/mmsys/mt8192-mmsys.c
-index 006d41d..06080ad 100644
---- a/drivers/soc/mediatek/mmsys/mt8192-mmsys.c
-+++ b/drivers/soc/mediatek/mmsys/mt8192-mmsys.c
-@@ -134,10 +134,33 @@ static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
- 	}
- }
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+index 60788c1..de618a1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+@@ -118,7 +118,7 @@ struct mtk_ddp_data {
  
-+static int mtk_mmsys_ovl_mout_en(enum mtk_ddp_comp_id cur,
-+				 enum mtk_ddp_comp_id next,
-+				 unsigned int *addr)
-+{
-+	int value = -1;
+ struct mtk_ddp {
+ 	struct device			*dev;
+-	struct clk			*clk;
++	struct clk			*clk[3];
+ 	void __iomem			*regs;
+ 	struct mtk_disp_mutex		mutex[10];
+ 	const struct mtk_ddp_data	*data;
+@@ -257,14 +257,39 @@ int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
+ {
+ 	struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
+ 					   mutex[mutex->id]);
+-	return clk_prepare_enable(ddp->clk);
++	int ret;
++	int i;
 +
-+	*addr = MT8192_MMSYS_OVL_MOUT_EN;
-+
-+	if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_OVL_2L0)
-+		value = DISP_OVL0_GO_BG;
-+	else if (cur == DDP_COMPONENT_OVL_2L0 && next == DDP_COMPONENT_OVL0)
-+		value = DISP_OVL0_2L_GO_BG;
-+	else if (cur == DDP_COMPONENT_OVL0)
-+		value = DISP_OVL0_GO_BLEND;
-+	else if (cur == DDP_COMPONENT_OVL_2L0)
-+		value = DISP_OVL0_2L_GO_BLEND;
-+	else
-+		value = -1;
-+
-+	return value;
-+}
-+
- static struct mtk_mmsys_conn_funcs mmsys_funcs = {
- 	.mout_en = mtk_mmsys_ddp_mout_en,
- 	.sel_in = mtk_mmsys_ddp_sel_in,
- 	.sout_sel = mtk_mmsys_ddp_sout_sel,
-+	.ovl_mout_en = mtk_mmsys_ovl_mout_en,
- };
- 
- static int mmsys_probe(struct platform_device *pdev)
-diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-index 828d59e..1362d01 100644
---- a/drivers/soc/mediatek/mtk-mmsys.c
-+++ b/drivers/soc/mediatek/mtk-mmsys.c
-@@ -76,6 +76,14 @@ void mtk_mmsys_ddp_connect(struct device *dev,
- 		reg = readl_relaxed(config_regs + addr) | value;
- 		writel_relaxed(reg, config_regs + addr);
- 	}
-+
-+	if (priv_funcs->ovl_mout_en) {
-+		value = priv_funcs->ovl_mout_en(cur, next, &addr);
-+		if (value >= 0) {
-+			reg = readl_relaxed(config_regs + addr) | value;
-+			writel_relaxed(reg, config_regs + addr);
++	for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
++		if (IS_ERR(ddp->clk[i]))
++			continue;
++		ret = clk_prepare_enable(ddp->clk[i]);
++		if (ret) {
++			pr_err("failed to enable clock, err %d. i:%d\n",
++				ret, i);
++			goto err;
 +		}
 +	}
++
++	return 0;
++
++err:
++	while (--i >= 0)
++		clk_disable_unprepare(ddp->clk[i]);
++	return ret;
  }
- EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
  
-diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-index 8ef3eaa..eefc7b1 100644
---- a/include/linux/soc/mediatek/mtk-mmsys.h
-+++ b/include/linux/soc/mediatek/mtk-mmsys.h
-@@ -55,6 +55,9 @@ struct mtk_mmsys_conn_funcs {
- 	void (*sout_sel)(void __iomem *config_regs,
- 			 enum mtk_ddp_comp_id cur,
- 			 enum mtk_ddp_comp_id next);
-+	int (*ovl_mout_en)(enum mtk_ddp_comp_id cur,
-+			   enum mtk_ddp_comp_id next,
-+			   unsigned int *addr);
- };
+ void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
+ {
+ 	struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
+ 					   mutex[mutex->id]);
+-	clk_disable_unprepare(ddp->clk);
++	int i;
++
++	 for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
++		if (IS_ERR(ddp->clk[i]))
++			continue;
++		clk_disable_unprepare(ddp->clk[i]);
++	}
+ }
  
- void mtk_mmsys_register_conn_funcs(struct device *dev,
+ void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
+@@ -415,11 +440,19 @@ static int mtk_ddp_probe(struct platform_device *pdev)
+ 	ddp->data = of_device_get_match_data(dev);
+ 
+ 	if (!ddp->data->no_clk) {
+-		ddp->clk = devm_clk_get(dev, NULL);
+-		if (IS_ERR(ddp->clk)) {
+-			if (PTR_ERR(ddp->clk) != -EPROBE_DEFER)
+-				dev_err(dev, "Failed to get clock\n");
+-			return PTR_ERR(ddp->clk);
++		int ret;
++
++		for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
++			ddp->clk[i] = of_clk_get(dev->of_node, i);
++
++			if (IS_ERR(ddp->clk[i])) {
++				ret = PTR_ERR(ddp->clk[i]);
++				if (ret != EPROBE_DEFER)
++					dev_err(dev, "Failed to get clock %d\n",
++						ret);
++
++				return ret;
++			}
+ 		}
+ 	}
+ 
 -- 
 1.8.1.1.dirty
 _______________________________________________
