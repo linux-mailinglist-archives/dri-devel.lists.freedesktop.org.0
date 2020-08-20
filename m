@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7801624AA80
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 02:02:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC9B24AA85
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 02:02:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86F06E880;
-	Thu, 20 Aug 2020 00:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B531C6E887;
+	Thu, 20 Aug 2020 00:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D786D6E880
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:02:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 234E56E884
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:02:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F0AF420FC3;
- Thu, 20 Aug 2020 00:02:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3AFA1214F1;
+ Thu, 20 Aug 2020 00:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597881731;
- bh=bN7dJrzpgTx4kNBALgXdM5o7wtL1Q+rEH6arvcnTpUo=;
+ s=default; t=1597881765;
+ bh=2piNqjgMF8RHhqlBhK0HIYSunlesgNni0vdGlmvyMoU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fb0iD9+5vQ88441Enesn6jx3hkqldnAurZRC46S4zGiGZCOOVRF934+AGd0H/+Sqs
- aaUDQLbxtjdGN+BdafxEwsFH/JV4RTZIS/o94H8vQoEY/yv8AhuN8xKS838kChj461
- E13zaJnLQRI4wD7kKkPgWRQ4wy0b97jCVGJ000FA=
+ b=pCMfCHDDcWT6RkO93BxA8ayHdRLQ1SET16sEgqxkPNelW0yaVV5HaP1a46ooyKLWI
+ 812QD+YGp22Ny1vSk1shErHZT1/+s+wErtgtSQjmeS5e/KKN8VI4dTJV4cu2ZgcDNV
+ fDLLXqMykZnqGM0xpbLQzPtHZFxa7WSn0UMc6D9M=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 12/24] drm/ttm: fix offset in VMAs with a pg_offs
+Subject: [PATCH AUTOSEL 5.4 11/22] drm/ttm: fix offset in VMAs with a pg_offs
  in ttm_bo_vm_access
-Date: Wed, 19 Aug 2020 20:01:43 -0400
-Message-Id: <20200820000155.215089-12-sashal@kernel.org>
+Date: Wed, 19 Aug 2020 20:02:18 -0400
+Message-Id: <20200820000229.215333-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200820000155.215089-1-sashal@kernel.org>
-References: <20200820000155.215089-1-sashal@kernel.org>
+In-Reply-To: <20200820000229.215333-1-sashal@kernel.org>
+References: <20200820000229.215333-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,17 +72,18 @@ ODExNjkvClNpZ25lZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0t
 CiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jIHwgNCArKystCiAxIGZpbGUgY2hhbmdl
 ZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
 cHUvZHJtL3R0bS90dG1fYm9fdm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMK
-aW5kZXggNzIxMDBiODRjN2E5MC4uYjA4ZmRmYTQyOTFiMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+aW5kZXggNDZkYzNkZTdlODFiZi4uZjJiYWQxNGFjMDRhYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
 cHUvZHJtL3R0bS90dG1fYm9fdm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192
-bS5jCkBAIC01MDUsOCArNTA1LDEwIEBAIHN0YXRpYyBpbnQgdHRtX2JvX3ZtX2FjY2Vzc19rbWFw
-KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCiBpbnQgdHRtX2JvX3ZtX2FjY2VzcyhzdHJ1
-Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgdW5zaWduZWQgbG9uZyBhZGRyLAogCQkgICAgIHZvaWQg
-KmJ1ZiwgaW50IGxlbiwgaW50IHdyaXRlKQogewotCXVuc2lnbmVkIGxvbmcgb2Zmc2V0ID0gKGFk
-ZHIpIC0gdm1hLT52bV9zdGFydDsKIAlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0gdm1h
-LT52bV9wcml2YXRlX2RhdGE7CisJdW5zaWduZWQgbG9uZyBvZmZzZXQgPSAoYWRkcikgLSB2bWEt
-PnZtX3N0YXJ0ICsKKwkJKCh2bWEtPnZtX3Bnb2ZmIC0gZHJtX3ZtYV9ub2RlX3N0YXJ0KCZiby0+
-YmFzZS52bWFfbm9kZSkpCisJCSA8PCBQQUdFX1NISUZUKTsKIAlpbnQgcmV0OwogCiAJaWYgKGxl
-biA8IDEgfHwgKG9mZnNldCArIGxlbikgPj4gUEFHRV9TSElGVCA+IGJvLT5udW1fcGFnZXMpCi0t
-IAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+bS5jCkBAIC0zNTgsOCArMzU4LDEwIEBAIHN0YXRpYyBpbnQgdHRtX2JvX3ZtX2FjY2Vzc19rbWFw
+KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCiBzdGF0aWMgaW50IHR0bV9ib192bV9hY2Nl
+c3Moc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsIHVuc2lnbmVkIGxvbmcgYWRkciwKIAkJCSAg
+ICB2b2lkICpidWYsIGludCBsZW4sIGludCB3cml0ZSkKIHsKLQl1bnNpZ25lZCBsb25nIG9mZnNl
+dCA9IChhZGRyKSAtIHZtYS0+dm1fc3RhcnQ7CiAJc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
+byA9IHZtYS0+dm1fcHJpdmF0ZV9kYXRhOworCXVuc2lnbmVkIGxvbmcgb2Zmc2V0ID0gKGFkZHIp
+IC0gdm1hLT52bV9zdGFydCArCisJCSgodm1hLT52bV9wZ29mZiAtIGRybV92bWFfbm9kZV9zdGFy
+dCgmYm8tPmJhc2Uudm1hX25vZGUpKQorCQkgPDwgUEFHRV9TSElGVCk7CiAJaW50IHJldDsKIAog
+CWlmIChsZW4gPCAxIHx8IChvZmZzZXQgKyBsZW4pID4+IFBBR0VfU0hJRlQgPiBiby0+bnVtX3Bh
+Z2VzKQotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
