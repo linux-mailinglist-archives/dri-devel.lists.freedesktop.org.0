@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143FA24C643
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 21:28:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B401624C644
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 21:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C286E3D8;
-	Thu, 20 Aug 2020 19:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D19EA6EA2C;
+	Thu, 20 Aug 2020 19:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C344E6E3D8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 19:28:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB3A6EA2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 19:29:08 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208981] trace with B550I AORUS PRO AX and AMD Ryzen 5 PRO 4650G
-Date: Thu, 20 Aug 2020 19:28:01 +0000
+Date: Thu, 20 Aug 2020 19:29:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208981-2300-lcg3HyP5Rh@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-208981-2300-XlyHKSRsrO@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208981-2300@https.bugzilla.kernel.org/>
 References: <bug-208981-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,13 +58,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208981
 
---- Comment #2 from Florian La Roche (florian.laroche@gmail.com) ---
-New system, so no regression for me. I'll try to check some older kernels
-the next days and report back here.
+--- Comment #3 from Florian La Roche (florian.laroche@gmail.com) ---
+Created attachment 292039
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292039&action=edit
+dmesg output
 
-Thanks a lot,
-
-Florian La Roche
+Full dmesg output of the system.
 
 -- 
 You are receiving this mail because:
