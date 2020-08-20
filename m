@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DE924B00D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:21:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADF524B010
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45D4A6E8C3;
-	Thu, 20 Aug 2020 07:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 585736E8C7;
+	Thu, 20 Aug 2020 07:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE2BB6E8C3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:21:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 9BE3A2A6042;
- Thu, 20 Aug 2020 09:21:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id mT6Tvc2NwglX; Thu, 20 Aug 2020 09:21:11 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 0ADF22A6016;
- Thu, 20 Aug 2020 09:21:09 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1k8esn-002Aez-Ao; Thu, 20 Aug 2020 09:21:09 +0200
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F73D6E8C7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:21:21 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de
+ [95.90.213.163])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id AEDA72078B;
+ Thu, 20 Aug 2020 07:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597908081;
+ bh=Zq62Yi8puI9hJDCGZSsFugaJwyxuNLefoKRAmrJhm3A=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=J9k8h5M43Qx2spsmVYYJjRUU0UEst9opFNuXhI8qbEDJS4InjWBvL+/jFNAgQSE/e
+ KY6oWBl0i07qdAXgcOKjn1UZub5AH3qe6/A149bkNB6fDwyEXfOJe0U0ysWb+cxUSQ
+ 4HXpQmQNlVTYCpo2TZwichIkmrV93ZSkZYbrJiXk=
+Date: Thu, 20 Aug 2020 09:21:11 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
 Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-To: Sam Ravnborg <sam@ravnborg.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <20200819152120.GA106437@ravnborg.org> <20200819174027.70b39ee9@coco.lan>
- <20200819204800.GA110118@ravnborg.org>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <0ddfd309-46d8-b69b-d1c6-e22384b78070@daenzer.net>
-Date: Thu, 20 Aug 2020 09:21:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
+Message-ID: <20200820092111.2a5f348e@coco.lan>
 In-Reply-To: <20200819204800.GA110118@ravnborg.org>
-Content-Language: en-CA
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819174027.70b39ee9@coco.lan>
+ <20200819204800.GA110118@ravnborg.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,20 +72,49 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>,
  Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
  Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wOC0xOSAxMDo0OCBwLm0uLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4gSGkgTWF1cm8u
-Cj4gCj4gSXQgc2VlbXMgbXkgcmV2aWV3IGNvbW1lbnRzIGZhaWxlZCB0byByZWFjaCBkcmktZGV2
-ZWwgLSBsaWtlbHkgZHVlIHRvCj4gdGhlIHNpemUgb2YgdGhlIG1haWwuCgpSaWdodCwgc29tZSBl
-LW1haWxzIGluIHRoaXMgdGhyZWFkIHdlbnQgdGhyb3VnaCB0aGUgZHJpLWRldmVsIG1vZGVyYXRp
-b24KcXVldWUgZHVlIHRvIHRoZWlyIHNpemVzLiBUaGlzIG1haWwgb2YgeW91cnMgZGlkIGFzIHdl
-bGwsIGJlY2F1c2UgeW91CmRpZG4ndCB0cmltIHRoZSBxdW90ZWQgdGV4dCAoaGludCwgaGludCku
-CgoKLS0gCkVhcnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAgICAgICAg
-ICAgICBodHRwczovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAgICAg
-ICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Sam,
+
+Em Wed, 19 Aug 2020 22:48:00 +0200
+Sam Ravnborg <sam@ravnborg.org> escreveu:
+
+> Hi Mauro.
+> 
+> It seems my review comments failed to reach dri-devel - likely due to
+> the size of the mail.
+
+Probably. It reached here properly.
+
+> Link:
+> https://lore.kernel.org/linux-devicetree/20200819173558.GA3733@ravnborg.org/
+> 
+> I my review feedback I refer to checkpatch a few time.
+> For drivers/gpu/ we have some nice tooling support.
+> One thing our tooling does for us is running checkpatch every time
+> we apply a patch.
+> 
+>     checkpatch -q --emacs --strict --show-types
+> 
+> So we expect patches to be more or less checkpatch --strict clean.
+> 
+> "more or less" - as common sense also plays a role.
+> And sometimes checkpatch is just wrong.
+> 
+> Just in case you wondered why checkpatch --strict was requested.
+
+We also use checkpatch --strict for media as a reference,
+ignoring the things that would make things worse during review :-)
+
+I'll run checkpatch here and ensure that the coding style
+issues will be properly addressed.
+
+Thanks,
+Mauro
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
