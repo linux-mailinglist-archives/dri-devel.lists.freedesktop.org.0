@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF47624AFDE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BA824AFF8
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFCCA6E8EC;
-	Thu, 20 Aug 2020 07:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B91176E917;
+	Thu, 20 Aug 2020 07:16:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 473096E8A6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:06:05 +0000 (UTC)
-X-UUID: f5430831322b42dd9770035fcdee6c98-20200820
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=VClb/Kq3fd5kbThEcOCKcrw4DxbEnAvW+xXoghjqqSM=; 
- b=B7ELcvTHEyuTHJYfA1JwKPRc+3BROt/DeSx1M4jNbfdG6zIV3BIRt4+gQjQ7k+bqWq0LQ+Y3K+pAY3z5xjm7cfbtrJwnNkKfNbm6NQi5SOZegZ7ZPbgQqhul8Lvj+7z20Xt93y6in4NIufkRI/JNwT6wMh/McKW1DngvjfOxv9A=;
-X-UUID: f5430831322b42dd9770035fcdee6c98-20200820
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1279973583; Thu, 20 Aug 2020 14:06:01 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 20 Aug 2020 14:05:59 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 20 Aug 2020 14:05:58 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
- Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v1 21/21] arm64: dts: mt8192: add display node
-Date: Thu, 20 Aug 2020 14:04:18 +0800
-Message-ID: <1597903458-8055-22-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1597903458-8055-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3363C6E8B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 06:36:39 +0000 (UTC)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 20 Aug 2020 14:36:35
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.192.85.18]
+Date: Thu, 20 Aug 2020 14:36:35 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: dinghao.liu@zju.edu.cn
+To: "Lee Jones" <lee.jones@linaro.org>
+Subject: Re: Re: Re: [PATCH] video: backlight: sky81452-backlight: Fix
+ reference count imbalance on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.12 build 20200616(0f5d8152)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20200820062301.GD3248864@dell>
+References: <321fb03d-2307-7f60-f437-cfb99184dfd6@web.de>
+ <20200819165702.GC3248864@dell>
+ <217e3c0c.b58c.17409fd7496.Coremail.dinghao.liu@zju.edu.cn>
+ <20200820062301.GD3248864@dell>
 MIME-Version: 1.0
-X-MTK: N
+Message-ID: <3f9fbdb1.bc96.1740a9560d5.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgA3Ut7zGT5fQkbuAg--.44418W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoSBlZdtPnBhAAUsL
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbAvS07vEb7Iv0x
+ C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+ bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+ CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+ z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIAIbVA2z4x0Y4vEx4A2jsIE14v26r
+ xl6s0DMIAIbVA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lV2xY62AIxVAIcxkEcVAq
+ 07x20xvEncxIr21lV2xY6c02F40EFcxC0VAKzVAqx4xG6I80ewCS07vEYx0E2Ix0cI8IcV
+ AFwI0_Jr0_Jr4lV2xY6cIj6I8E87Iv67AKxVWUJVW8JwCS07vEOx8S6xCaFVCjc4AY6r1j
+ 6r4UMIAIbVACI402YVCY1x02628vn2kIc2xKxwCS07vE7I0Y64k_MIAIbVCY0x0Ix7I2Y4
+ AK64vIr41lV2xY6xAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCS07vE4x8a6x804xWlV2xY
+ 6xC20s026xCaFVCjc4AY6r1j6r4UMIAIbVC20s026c02F40E14v26r1j6r18MIAIbVC20s
+ 026x8GjcxK67AKxVWUGVWUWwCS07vEx4CE17CEb7AF67AKxVWUtVW8ZwCS07vEIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCS07vEIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIAIbV
+ CI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lV2xY6IIF0xvEx4A2jsIE14v26r1j6r4U
+ MIAIbVCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73U
 X-Mailman-Approved-At: Thu, 20 Aug 2020 07:14:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,169 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Gyungoh Yoo <jack.yoo@skyworksinc.com>, Bryan Wu <cooloney@gmail.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Elfring <Markus.Elfring@web.de>,
+ Jingoo Han <jingoohan1@gmail.com>, Kangjie Lu <kjlu@umn.edu>,
+ Daniel Thompson <daniel.thompson@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add display node
-
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8192.dtsi | 126 +++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index 931e1ca..d2a814d 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -17,6 +17,13 @@
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
-+        aliases {
-+		ovl0 = &ovl0;
-+		ovl_2l0 = &ovl_2l0;
-+		ovl_2l2 = &ovl_2l2;
-+		rdma0 = &rdma0;
-+		rdma4 = &rdma4;
-+	};
- 	clk26m: oscillator@0 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
-@@ -449,6 +456,125 @@
- 			#clock-cells = <1>;
- 		};
- 
-+                mutex: mutex@14001000 {
-+			compatible = "mediatek,mt8192-disp-mutex";
-+			reg = <0 0x14001000 0 0x1000>;
-+			interrupts = <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&mmsys CLK_MM_DISP_CONFIG>,
-+			         <&mmsys CLK_MM_26MHZ>,
-+			         <&mmsys CLK_MM_DISP_MUTEX0>;
-+		};
-+		ovl0: ovl@14005000 {
-+			compatible = "mediatek,mt8192-disp-ovl";
-+			reg = <0 0x14005000 0 0x1000>;
-+			interrupts = <GIC_SPI 254 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&mmsys CLK_MM_DISP_OVL0>;
-+			//iommus = <&iommu0 M4U_PORT_L0_OVL_RDMA0>,
-+			//	 <&iommu0 M4U_PORT_L0_OVL_RDMA0_HDR>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
-+		};
-+
-+		ovl_2l0: ovl@14006000 {
-+			compatible = "mediatek,mt8192-disp-ovl-2l";
-+			reg = <0 0x14006000 0 0x1000>;
-+			interrupts = <GIC_SPI 255 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-+			//iommus = <&iommu0 M4U_PORT_L1_OVL_2L_RDMA0>,
-+			//	 <&iommu0 M4U_PORT_L1_OVL_2L_RDMA0_HDR>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x6000 0x1000>;
-+		};
-+
-+		rdma0: rdma@14007000 {
-+			compatible = "mediatek,mt8192-disp-rdma";
-+			reg = <0 0x14007000 0 0x1000>;
-+			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
-+			//iommus = <&iommu0 M4U_PORT_L0_DISP_RDMA0>;
-+			mediatek,rdma_fifo_size = <5>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x7000 0x1000>;
-+		};
-+
-+		color0: color@14009000 {
-+			compatible = "mediatek,mt8192-disp-color",
-+				     "mediatek,mt8173-disp-color";
-+			reg = <0 0x14009000 0 0x1000>;
-+			interrupts = <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
-+		};
-+
-+		ccorr0: ccorr@1400a000 {
-+			compatible = "mediatek,mt8192-disp-ccorr";
-+			reg = <0 0x1400a000 0 0x1000>;
-+			interrupts = <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
-+		};
-+
-+		aal0: aal@1400b000 {
-+			compatible = "mediatek,mt8192-disp-aal";
-+			reg = <0 0x1400b000 0 0x1000>;
-+			interrupts = <GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_AAL0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
-+		};
-+
-+		gamma0: gamma@1400c000 {
-+			compatible = "mediatek,mt8192-disp-gamma";
-+			reg = <0 0x1400c000 0 0x1000>;
-+			interrupts = <GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
-+		};
-+
-+		postmask0: postmask@1400d000 {
-+			compatible = "mediatek,mt8192-disp-postmask";
-+			reg = <0 0x1400d000 0 0x1000>;
-+			interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_POSTMASK0>;
-+			//iommus = <&iommu0 M4U_PORT_L0_DISP_POSTMASK0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
-+		};
-+
-+		dither0: dither@1400e000 {
-+			compatible = "mediatek,mt8192-disp-dither";
-+			reg = <0 0x1400e000 0 0x1000>;
-+			interrupts = <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
-+		};
-+
-+		ovl_2l2: ovl@14014000 {
-+			compatible = "mediatek,mt8192-disp-ovl-2l";
-+			reg = <0 0x14014000 0 0x1000>;
-+			interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_OVL2_2L>;
-+			//iommus = <&iommu0 M4U_PORT_L1_OVL_2L_RDMA2>,
-+			//	 <&iommu0 M4U_PORT_L1_OVL_2L_RDMA2_HDR>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x4000 0x1000>;
-+		};
-+
-+		rdma4: rdma@14015000 {
-+			compatible = "mediatek,mt8192-disp-rdma";
-+			reg = <0 0x14015000 0 0x1000>;
-+			interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_RDMA4>;
-+			//iommus = <&iommu0 M4U_PORT_L1_DISP_RDMA4>;
-+			mediatek,rdma_fifo_size = <2>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x5000 0x1000>;
-+		};
-+
- 		imgsys: imgsys@15020000 {
- 			compatible = "mediatek,mt8192-imgsys", "syscon";
- 			reg = <0 0x15020000 0 0x1000>;
--- 
-1.8.1.1.dirty
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiBPbiBUaHUsIDIwIEF1ZyAyMDIwLCBkaW5naGFvLmxpdUB6anUuZWR1LmNuIHdyb3RlOgo+IAo+
+ID4gPiBPbiBXZWQsIDE5IEF1ZyAyMDIwLCBNYXJrdXMgRWxmcmluZyB3cm90ZToKPiA+ID4gCj4g
+PiA+ID4gPiBXaGVuIG9mX3Byb3BlcnR5X3JlYWRfdTMyX2FycmF5KCkgcmV0dXJucyBhbiBlcnJv
+ciBjb2RlLAo+ID4gPiA+ID4gYSBwYWlyaW5nIHJlZmNvdW50IGRlY3JlbWVudCBpcyBuZWVkZWQg
+dG8ga2VlcCBucCdzIHJlZmNvdW50IGJhbGFuY2VkLgo+ID4gPiA+IAo+ID4gPiA+IENhbiBhbm90
+aGVyIGltcGVyYXRpdmUgd29yZGluZyBiZSBoZWxwZnVsIGZvciB0aGUgY2hhbmdlIGRlc2NyaXB0
+aW9uPwo+ID4gPiA+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
+Z2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL0RvY3VtZW50YXRpb24vcHJvY2Vzcy9zdWJtaXR0
+aW5nLXBhdGNoZXMucnN0P2lkPTE4NDQ1YmY0MDVjYjMzMTExN2JjOTg0MjdiMWJhNmYxMjQxOGFk
+MTcjbjE1MQo+ID4gPiA+IAo+ID4gPiA+IFdvdWxkIGFuIG90aGVyIGNvbW1pdCBtZXNzYWdlIGJl
+IGEgYml0IG5pY2VyPwo+ID4gPiA+IAo+ID4gPiA+IAo+ID4gPiA+IOKApgo+ID4gPiA+ID4gKysr
+IGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvc2t5ODE0NTItYmFja2xpZ2h0LmMKPiA+ID4gPiA+
+IEBAIC0yMTcsNiArMjE3LDcgQEAgc3RhdGljIHN0cnVjdCBza3k4MTQ1Ml9ibF9wbGF0Zm9ybV9k
+YXRhICpza3k4MTQ1Ml9ibF9wYXJzZV9kdCgKPiA+ID4gPiA+ICAJCQkJCW51bV9lbnRyeSk7Cj4g
+PiA+ID4gPiAgCQlpZiAocmV0IDwgMCkgewo+ID4gPiA+ID4gIAkJCWRldl9lcnIoZGV2LCAibGVk
+LXNvdXJjZXMgbm9kZSBpcyBpbnZhbGlkLlxuIik7Cj4gPiA+ID4gPiArCQkJb2Zfbm9kZV9wdXQo
+bnApOwo+ID4gPiA+ID4gIAkJCXJldHVybiBFUlJfUFRSKC1FSU5WQUwpOwo+ID4gPiA+ID4gIAkJ
+fQo+ID4gPiA+IAo+ID4gPiA+IEkgcHJvcG9zZSB0byBhZGQgdGhlIGp1bXAgdGFyZ2V0IOKAnHB1
+dF9ub2Rl4oCdIHNvIHRoYXQgYSBiaXQgb2YgY29tbW9uIGV4Y2VwdGlvbgo+ID4gPiA+IGhhbmRs
+aW5nIGNvZGUgY2FuIGJlIGJldHRlciByZXVzZWQgYXQgdGhlIGVuZCBvZiB0aGlzIGZ1bmN0aW9u
+IGltcGxlbWVudGF0aW9uLgo+ID4gPiA+IAo+ID4gPiA+IFJlZ2FyZHMsCj4gPiA+ID4gTWFya3Vz
+Cj4gPiA+IAo+ID4gPiBZb3UgY2FuIHNhZmVseSBpZ25vcmUgYW55IHJldmlldyBjb21tZW50cyBm
+cm9tIE1hcmt1cyEKPiA+ID4gCj4gPiA+IEhvd2V2ZXIsIHRoaXMgcGF0Y2ggZG9lc24ndCBhcHBl
+YXIgdG8gYmUgaW4gbXkgaW5ib3guCj4gPiA+IAo+ID4gPiBBbnkgaWRlYXMgYXMgdG8gd2h5Pwo+
+ID4gPiAKPiA+IAo+ID4gVGhhbmsgeW91IGZvciB5b3VyIGFkdmljZS4gTXkgb3V0Ym94IHNob3dz
+IHRoYXQgdGhpcyBwYXRjaAo+ID4gaGFzIHJlYWNoZWQgeW91ciBlbWFpbCBzZXJ2ZXIgc3VjY2Vz
+c2Z1bGx5LiBNYXliZSB0aGlzCj4gPiBlbmRlZCB1cCBpbiB5b3VyIGp1bmsgbWFpbCBmaWxlPwo+
+IAo+IFRoaXMgaGFzIGhhcHBlbmVkIHJlY2VudGx5LCBzbyBJIHdhcyBzdXJlIHRvIGNoZWNrLgo+
+IAo+IE5vdCB0aGVyZSBlaXRoZXIgdW5mb3J0dW5hdGVseS4KPiAKPiBXb3VsZCB5b3UgYmUga2lu
+ZCBlbm91Z2ggdG8gYm91bmNlL3Jlc2VuZCBwbGVhc2U/Cj4gCgpTdXJlLgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
