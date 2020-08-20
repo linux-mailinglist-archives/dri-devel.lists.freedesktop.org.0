@@ -1,42 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7670124B054
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:48:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E4924B05D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 09:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F10D6E8ED;
-	Thu, 20 Aug 2020 07:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8A56E90B;
+	Thu, 20 Aug 2020 07:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9B96E8ED
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:48:12 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de
- [95.90.213.163])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DF7492076E;
- Thu, 20 Aug 2020 07:48:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597909691;
- bh=g2IqS522aDpDOMRGjJhoBBKmc9vDx5nkutC89s6uJR4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=q9mr5rBKWlaN6yOMGAvpVnslZyDPcwewIL7KGeA4ddSFK2LedtABk2YcfI/a2xWSo
- vj4XxLKWhcOWpuFnRThSQO8Cn4AnL6tc5Bg7GCM7GCId3AAXYo0vPaJOaK7wHu4CUU
- CDlaI3bQpIBtNGU4ubSBKKXxRpxl+QeouugEhmNw=
-Date: Thu, 20 Aug 2020 09:48:00 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200820094800.3ede7970@coco.lan>
-In-Reply-To: <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
- <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
- <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7596E90B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:49:23 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a5so1057251wrm.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=XgD7oAraMYDOqNsfZffx0IqUVAmFZfcgzGRKvwI8mIc=;
+ b=XlaONjDnEdsYg/6xqFFyWyTH0yWrgNaxkmvE+JWcDVZbLe+f/V7HKdjYROy7dyRpgD
+ 0dP7O6uThUl2ocYIR33bisbTsV7PY13WDhwdzpoG+1juP2BKSoKiEUd4Vt3PTFRroRgA
+ CKWIaTIqQLz/3rnEaEMJlfnH2LOTDEFgtejdx0YcZnIibXmUIW8mrTOAvdg1MlPqsu01
+ n4D3DHqkiUh/PUQcvUhn/MDFi/qLIJr1VljuscrpP3WooR3pcPufopgFHfsC1aJqsMPG
+ YS204VOVM7RsVE5k9miArRNcssfkXrf1ORtWY/QTAhKAThyjJpNspv/DCPSgCLSS8wMB
+ aMUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=XgD7oAraMYDOqNsfZffx0IqUVAmFZfcgzGRKvwI8mIc=;
+ b=ARANXqgl0U7MFqtV1IJgt2+mstHVGbdHp+PpxCcrqJAYKEfVNXWfqPmLvnMnGQ1Hel
+ R/mqAWrrUYiQ/30/XlWKSpoqDCeilb1pDVwYcZDgvXLTBiyE+UCRSAQnllJztlyvis2x
+ br9FI44OcDzfbfO5IiSZ7ZN8cuEPShcM685JFej0b9xDOvtyum53y7gaOR+L250raY5a
+ 2CmQukHJUhRaMdugMDIuiDd652tFsFG3iH0BxvEEMGMAX4ByMT5Hl+4RE86R8FJOlbDt
+ XX1hNKCzkgzAbPOyjK4goquPhBTSL3nOuxMAEv02OmYWA1brzqT0AnwGKVd13ks2KQys
+ s7uA==
+X-Gm-Message-State: AOAM530zUoSd1k+tHgGkUpUz2Cbiy+a+Iv1ga2iP6U9igHQYWORbL4RS
+ +EzXh+64VvCbDKTCPga7qh7Dww==
+X-Google-Smtp-Source: ABdhPJyboEGZAaF6RXm5GpaE/mKR6TYvk3Fye/goK+ikDC5z1N0gxsGJDDrfdepMKqxed6kq885b0w==
+X-Received: by 2002:a5d:60cb:: with SMTP id x11mr1737733wrt.281.1597909761789; 
+ Thu, 20 Aug 2020 00:49:21 -0700 (PDT)
+Received: from dell ([95.149.164.62])
+ by smtp.gmail.com with ESMTPSA id s2sm2438068wrr.55.2020.08.20.00.49.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Aug 2020 00:49:21 -0700 (PDT)
+Date: Thu, 20 Aug 2020 08:49:16 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: dinghao.liu@zju.edu.cn
+Subject: Re: Re: Re: [PATCH] video: backlight: sky81452-backlight: Fix
+ reference count imbalance on error
+Message-ID: <20200820074916.GE3248864@dell>
+References: <321fb03d-2307-7f60-f437-cfb99184dfd6@web.de>
+ <20200819165702.GC3248864@dell>
+ <217e3c0c.b58c.17409fd7496.Coremail.dinghao.liu@zju.edu.cn>
+ <20200820062301.GD3248864@dell>
+ <3f9fbdb1.bc96.1740a9560d5.Coremail.dinghao.liu@zju.edu.cn>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <3f9fbdb1.bc96.1740a9560d5.Coremail.dinghao.liu@zju.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,145 +72,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, driverdevel <devel@driverdev.osuosl.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>, Wei Xu <xuwei5@hisilicon.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- linux-media <linux-media@vger.kernel.org>, "open
- list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- mauro.chehab@huawei.com, Rob Clark <robdclark@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
- Network Development <netdev@vger.kernel.org>,
- Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Gyungoh Yoo <jack.yoo@skyworksinc.com>, Bryan Wu <cooloney@gmail.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Elfring <Markus.Elfring@web.de>,
+ Jingoo Han <jingoohan1@gmail.com>, Kangjie Lu <kjlu@umn.edu>,
+ Daniel Thompson <daniel.thompson@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Wed, 19 Aug 2020 20:28:44 -0700
-John Stultz <john.stultz@linaro.org> escreveu:
-
-> On Wed, Aug 19, 2020 at 7:01 PM John Stultz <john.stultz@linaro.org> wrote:
-> >
-> > On Wed, Aug 19, 2020 at 2:36 PM John Stultz <john.stultz@linaro.org> wrote:  
-> > >
-> > > On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
-> > > <mchehab+huawei@kernel.org> wrote:  
-> > > > So, IMO, the best is to keep it on staging for a while, until those
-> > > > remaining bugs gets solved.
-> > > >
-> > > > I added this series, together with the regulator driver and
-> > > > a few other patches (including a hack to fix a Kernel 5.8
-> > > > regression at WiFi ) at:
-> > > >
-> > > >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master  
-> > >
-> > > Sorry, one more small request: Could you create a branch that only has
-> > > the DRM driver changes in it?
-> > >
-> > > The reason I ask, is that since the HiKey960 isn't affected by the
-> > > majority of the problems you listed as motivation for going through
-> > > staging. So if we can validate that your tree works fine on HiKey960,
-> > > the series can be cleaned up and submitted properly upstream to enable
-> > > that SoC, and the outstanding 970 issues can be worked out afterwards
-> > > against mainline.  
-> >
-> > Just as a heads up, I tried testing your tree with my HiKey960, and
-> > after fixing the compat string inconsistency, the drivers seem to load
-> > properly. However the drm_hwcomposer seems to have some trouble with
-> > the driver:
-> > 01-01 00:12:41.456   345   345 E hwc-drm-display-compositor: Commit
-> > test failed for display 0, FIXME
-> > 01-01 00:12:41.456   345   345 E hwc-drm-two: Failed to apply the
-> > frame composition ret=-22
-> > 01-01 00:12:41.456   351   351 E HWComposer:
-> > presentAndGetReleaseFences: present failed for display 0: BadParameter
-> > (4)
-> >
-> > I'll dig in a bit further as to why, but wanted to give you a heads up.  
-> 
-> Ok, I've mostly gotten it sorted out:
->   - You're missing a few color formats.
->   - And I re-discovered a crash that was already fixed in my tree.
-> 
-> I'll send those patches in a few here.
-
-Thank you for the patches! I'll test them with Hikey 970 in order to
-be sure they're compatible also with such SoC.
-
-> 
-> That said even with the patches I've got on top of your series, I
-> still see a few issues:
-
-> 1) I'm seeing red-blue swap with your driver.  I need to dig a bit to
-> see what the difference is, I know gralloc has a config option for
-> this, and maybe the version of the driver I'm carrying has it wrong?
-
-There are some settings at adv7535 with regards to the colormap.
-The 4.9 fork of it has some different settings. Maybe it could
-be somehow related to it.
-
-I have here a Hikey 960, but didn't test it yet.
-
-> 2) Performance is noticeably worse. Whereas with my tree, I see close
-> to 60fps (that clk issue we mentioned earlier is why it's not exactly
-> 60) in most tests, but with yours it mostly hovers around 30some fps,
-> occasionally speeding up to 40 and then back down.
-
-That's weird, but it could be due to some settings related to CMA, IOMMU
-and/or AFBC.
-
-> Obviously with some work I suspect we'll be able to sort these out,
-> but I also do feel that the set you're starting with for upstreaming
-> is pretty old. The driver I'm carrying was heavily refactored around
-> 5.0 to share code with the existing kirin driver, in the hopes of
-> making usptreaming easier, and it seems a shame to throw that out and
-> focus your efforts on the older tree.
-> 
-> But to be fair, I've not had time to upstream the driver myself, and
-> it's obviously your choice on how you spend your time.  I am really
-> excited to see your efforts here, regardless of which driver you end
-> up pushing.
-
-On a quick look I've done, besides not having support for Hikey 970,
-the code on your tree seems to have less settings than the original
-one for Hikey 960. Yet, it should take some time to figure out what
-those extra settings are doing.
-
-Once I get this driver merged, and have USB support working fine[1],
-my plan is to compare the version from your tree, and compare
-with the one I have, in order to cleanup some stuff, check performance
-and do some other optimizations.
-
--
-
-[1] this is a little OOT here: USB has been a challenge. Depending
-on the build, I'm getting an NMI interrupt error when the USB3
-stack is loaded (usually at dwc3). The error is ESR_ELx_AET_UC.
-Unfortunately, it doesn't point to where this error is generated,
-making very hard to debug it.
-
-Thanks,
-Mauro
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAyMCBBdWcgMjAyMCwgZGluZ2hhby5saXVAemp1LmVkdS5jbiB3cm90ZToKCj4gPiBP
+biBUaHUsIDIwIEF1ZyAyMDIwLCBkaW5naGFvLmxpdUB6anUuZWR1LmNuIHdyb3RlOgo+ID4gCj4g
+PiA+ID4gT24gV2VkLCAxOSBBdWcgMjAyMCwgTWFya3VzIEVsZnJpbmcgd3JvdGU6Cj4gPiA+ID4g
+Cj4gPiA+ID4gPiA+IFdoZW4gb2ZfcHJvcGVydHlfcmVhZF91MzJfYXJyYXkoKSByZXR1cm5zIGFu
+IGVycm9yIGNvZGUsCj4gPiA+ID4gPiA+IGEgcGFpcmluZyByZWZjb3VudCBkZWNyZW1lbnQgaXMg
+bmVlZGVkIHRvIGtlZXAgbnAncyByZWZjb3VudCBiYWxhbmNlZC4KPiA+ID4gPiA+IAo+ID4gPiA+
+ID4gQ2FuIGFub3RoZXIgaW1wZXJhdGl2ZSB3b3JkaW5nIGJlIGhlbHBmdWwgZm9yIHRoZSBjaGFu
+Z2UgZGVzY3JpcHRpb24/Cj4gPiA+ID4gPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
+bGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvdHJlZS9Eb2N1bWVudGF0aW9uL3By
+b2Nlc3Mvc3VibWl0dGluZy1wYXRjaGVzLnJzdD9pZD0xODQ0NWJmNDA1Y2IzMzExMTdiYzk4NDI3
+YjFiYTZmMTI0MThhZDE3I24xNTEKPiA+ID4gPiA+IAo+ID4gPiA+ID4gV291bGQgYW4gb3RoZXIg
+Y29tbWl0IG1lc3NhZ2UgYmUgYSBiaXQgbmljZXI/Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IAo+ID4g
+PiA+ID4g4oCmCj4gPiA+ID4gPiA+ICsrKyBiL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3NreTgx
+NDUyLWJhY2tsaWdodC5jCj4gPiA+ID4gPiA+IEBAIC0yMTcsNiArMjE3LDcgQEAgc3RhdGljIHN0
+cnVjdCBza3k4MTQ1Ml9ibF9wbGF0Zm9ybV9kYXRhICpza3k4MTQ1Ml9ibF9wYXJzZV9kdCgKPiA+
+ID4gPiA+ID4gIAkJCQkJbnVtX2VudHJ5KTsKPiA+ID4gPiA+ID4gIAkJaWYgKHJldCA8IDApIHsK
+PiA+ID4gPiA+ID4gIAkJCWRldl9lcnIoZGV2LCAibGVkLXNvdXJjZXMgbm9kZSBpcyBpbnZhbGlk
+LlxuIik7Cj4gPiA+ID4gPiA+ICsJCQlvZl9ub2RlX3B1dChucCk7Cj4gPiA+ID4gPiA+ICAJCQly
+ZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsKPiA+ID4gPiA+ID4gIAkJfQo+ID4gPiA+ID4gCj4gPiA+
+ID4gPiBJIHByb3Bvc2UgdG8gYWRkIHRoZSBqdW1wIHRhcmdldCDigJxwdXRfbm9kZeKAnSBzbyB0
+aGF0IGEgYml0IG9mIGNvbW1vbiBleGNlcHRpb24KPiA+ID4gPiA+IGhhbmRsaW5nIGNvZGUgY2Fu
+IGJlIGJldHRlciByZXVzZWQgYXQgdGhlIGVuZCBvZiB0aGlzIGZ1bmN0aW9uIGltcGxlbWVudGF0
+aW9uLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBSZWdhcmRzLAo+ID4gPiA+ID4gTWFya3VzCj4gPiA+
+ID4gCj4gPiA+ID4gWW91IGNhbiBzYWZlbHkgaWdub3JlIGFueSByZXZpZXcgY29tbWVudHMgZnJv
+bSBNYXJrdXMhCj4gPiA+ID4gCj4gPiA+ID4gSG93ZXZlciwgdGhpcyBwYXRjaCBkb2Vzbid0IGFw
+cGVhciB0byBiZSBpbiBteSBpbmJveC4KPiA+ID4gPiAKPiA+ID4gPiBBbnkgaWRlYXMgYXMgdG8g
+d2h5Pwo+ID4gPiA+IAo+ID4gPiAKPiA+ID4gVGhhbmsgeW91IGZvciB5b3VyIGFkdmljZS4gTXkg
+b3V0Ym94IHNob3dzIHRoYXQgdGhpcyBwYXRjaAo+ID4gPiBoYXMgcmVhY2hlZCB5b3VyIGVtYWls
+IHNlcnZlciBzdWNjZXNzZnVsbHkuIE1heWJlIHRoaXMKPiA+ID4gZW5kZWQgdXAgaW4geW91ciBq
+dW5rIG1haWwgZmlsZT8KPiA+IAo+ID4gVGhpcyBoYXMgaGFwcGVuZWQgcmVjZW50bHksIHNvIEkg
+d2FzIHN1cmUgdG8gY2hlY2suCj4gPiAKPiA+IE5vdCB0aGVyZSBlaXRoZXIgdW5mb3J0dW5hdGVs
+eS4KPiA+IAo+ID4gV291bGQgeW91IGJlIGtpbmQgZW5vdWdoIHRvIGJvdW5jZS9yZXNlbmQgcGxl
+YXNlPwo+IAo+IFN1cmUuCgpMb29rcyBsaWtlIHlvdSBzZW50IGl0ICpvbmx5KiB0byBtZS4gIFBs
+ZWFzZSBrZWVwIGV2ZXJ5b25lIGVsc2UgaW4gQ2MKd2hlbiBkb2luZyB0aGF0LCBvciBJIGNhbid0
+IHJlc3BvbmQgdG8gZXZlcnlvbmUuCgpBbnl3YXksIGJlc2lkZXMgdGhlIHN1YmplY3QgbGluZSAo
+d2hpY2ggSSBjYW4gZml4IGVhc2lseSksIHRoZSBwYXRjaApsb29rcyBnb29kIHRvIG1lLCBidXQg
+RGFuaWVsIFQgbXVzdCByZXZpZXcuCgpSZXZpZXdlZC1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNA
+bGluYXJvLm9yZz4KCi0tCkxlZSBKb25lcyBb5p2O55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExl
+YWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdh
+cmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
