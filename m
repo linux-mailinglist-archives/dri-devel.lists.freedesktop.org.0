@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6DC24ACBF
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 03:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9610D24ACCE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 04:02:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60986E88B;
-	Thu, 20 Aug 2020 01:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4615D6E88C;
+	Thu, 20 Aug 2020 02:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FBA6E88B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 01:54:10 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id kq25so749176ejb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 18:54:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5AE46E88C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 02:01:59 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id a65so254983otc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Aug 2020 19:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M2856byAPxR8wC0hiTcV4Eu6Vwp5zHAzX+5RXykLdZ8=;
- b=lZ/K4yVK00w07TAWoz4NrJ7bh2SQj0QlEXGy+16Uvv+KVxUgjz3B3Iv7EDFWqB1Pdr
- DuqS0vl9GBWbYe7Tv0iQX9ujEvHAFPuKsnBXPYGFMmNAlAMmAGkWwywfwrjoKzj7KHaq
- 9x9L9GAliRR0hzTYRqnJnP0AEzhhN86hMJ/tfa5N1nZQYhNMWXesPPOB/n1sQBmB9iFO
- 1gldSVsbODRKjEwdNvNll8hWpTbiqQ6XVTWltCogzN6iGXyVjZR5g3DVI13dx5mRUp7V
- PQNTIep7dDdU8pcLAQzgJrYbrZcCxhZ6TJ0/WHGSPo2V8rXXnajEPWLIdfd2u3CPbZ4m
- C4iQ==
+ :cc; bh=a6AI5eeMLSnuHLbo6ZZjQDIfs8rhjaUq4nVIf2nIA4s=;
+ b=YnPCB7GyyenNNj4m6DTSkuaI05qpfHVG/QgzwK6ZW5cfzjXcjHWN5LAYlS6/sxdjkz
+ Q3B6OAL6VkfXwnio6GpcqFThGxYHL16LeanA7XHdVMfn26QoX0g+phi2xhTniJx/oG4b
+ By+2BEurn0lcdeK0Stus91++uccTrtAGABYgjAbl+ipAdepdfWEyi3uEFSsTuQd5UZBx
+ BRrztqVUVKEKekr/BYTkoCsnvAO2Pj7IHdqvtB+4JORdtJ9ivIHukRoFwzuDiHXHnEM+
+ GW1diuJzzXcDmzpqOY7Sm35sNw8MEKZLt3qU+FvbRqjP0SgosGrMRbrNiWiPtlstFAhc
+ xoVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=M2856byAPxR8wC0hiTcV4Eu6Vwp5zHAzX+5RXykLdZ8=;
- b=hqa+rIwpm5opGfwpFUNo1Nk0eOAUj87dZVeVamYHroZQ2DtTDO8VFDduJblFTZYnme
- 0kQenM8GcTNhVfQAbgXD0bjw7Xjhw0Oo7+Pz22ewhJg55yt3dhc7FZ2aBomDDKqu9g+d
- 2MNIPa5xKzVYQVGvuv6fPvwreJe+gKAQ1b6bk5FsqgKNLWlME92F/0Nlfo/aDBJg3gzD
- eFQ+XviVQUO+DUlbjE5DfAetav1xfuO1GXNa6moWrBm6BAn9OKqzPXOb5Lu2Ic6rxpys
- S0p8Qa6GNPnclVX48hlfmNT4rP47SjqmvWXHem5Q3OYtWDW38rEG55Y9JlHgL8omxsIv
- apUw==
-X-Gm-Message-State: AOAM531+AB5+/Dtb2UXQsUUHXiWgszINcCGXy3bKoSfW7UI+3+VTK4XH
- 8Pj6ncL0/PpGUvBsVcy5hfDMGrExsiVNzHYcZ007jQ==
-X-Google-Smtp-Source: ABdhPJzvu8YTM6DfS52cWqhkmKxDgLU8iC/mKftCXZJ19EZWyjZICrR61eKB8x5hnqIA1r8PziL6kB6a/+obAqDoPt8=
-X-Received: by 2002:a17:906:413:: with SMTP id
- d19mr1123427eja.523.1597888448722; 
- Wed, 19 Aug 2020 18:54:08 -0700 (PDT)
+ bh=a6AI5eeMLSnuHLbo6ZZjQDIfs8rhjaUq4nVIf2nIA4s=;
+ b=kF9Q72l8RBUlw6HjTty3Y/xLqcTDqekW7smL2TSVJIg/se0pl6Hjx6P66wsrFdAkAX
+ qPPgfh+ofInkwrZYMNA76Cs18yoyqb+SDgtnJHTZM4PsyWH8T+6bsqsgpqvnIIiZxNC3
+ UwJhq0rFDZj+GktyXiSgYtKQ3auv7cKz2+p5f8cCG3yIWD6+eJ5CFYocAMhg79JUHTyJ
+ oUWxXsTyrnKLF3ricQQ1RwRO/GN1bmws3Y1b9KZ4N6soCaGCqiLbP7425TewFLUvFvJD
+ 2Q+ZGyzQNsgdp8pc4yC0VXw121mIAAlBsuqlo/EJAyNqbOshBAR/8cKyFqEeiiBDoiLT
+ Dz9A==
+X-Gm-Message-State: AOAM531/dbdvy2Bji7cNjSghz0KrvVxpSH9ihs0LMCNum2qiuPMxwx65
+ 7ki0ue7itH5CvmWmbgg0iXAXUSW+JduISdmtMDq3cw==
+X-Google-Smtp-Source: ABdhPJy4t5xNUInvTbrdNktpIEEwJa9WXJ3VbyfLmNGHa9Tlogcfk1xfE/pD2NZhBS1V2JSKNp49dZbkVm49zRPUArk=
+X-Received: by 2002:a05:6830:237b:: with SMTP id
+ r27mr528934oth.352.1597888918873; 
+ Wed, 19 Aug 2020 19:01:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
- <c59111f9-7c94-8b9e-2b8c-4cb96b9aa848@redhat.com>
-In-Reply-To: <c59111f9-7c94-8b9e-2b8c-4cb96b9aa848@redhat.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 19 Aug 2020 18:53:57 -0700
-Message-ID: <CAPcyv4j8-5nWU5GPDBoFicwR84qM=hWRtd78DkcCg4PW-8i6Vg@mail.gmail.com>
-Subject: Re: [PATCH v4 00/23] device-dax: Support sub-dividing soft-reserved
- ranges
-To: David Hildenbrand <david@redhat.com>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+In-Reply-To: <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Wed, 19 Aug 2020 19:01:46 -0700
+Message-ID: <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,209 +62,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Paul Mackerras <paulus@ozlabs.org>, Linux MM <linux-mm@kvack.org>,
- Michael Ellerman <mpe@ellerman.id.au>, "H. Peter Anvin" <hpa@zytor.com>,
- Joao Martins <joao.m.martins@oracle.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- Linux ACPI <linux-acpi@vger.kernel.org>,
- linux-nvdimm <linux-nvdimm@lists.01.org>,
- Vishal Verma <vishal.l.verma@intel.com>, X86 ML <x86@kernel.org>,
- Mike Rapoport <rppt@linux.ibm.com>, Peter Zijlstra <peterz@infradead.org>,
- Jeff Moyer <jmoyer@redhat.com>, Jason Gunthorpe <jgg@mellanox.com>,
- Ben Skeggs <bskeggs@redhat.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Pavel Tatashin <pasha.tatashin@soleen.com>, Ira Weiny <ira.weiny@intel.com>,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jia He <justin.he@arm.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, driverdevel <devel@driverdev.osuosl.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>, Wei Xu <xuwei5@hisilicon.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ mauro.chehab@huawei.com, Rob Clark <robdclark@chromium.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Wei Yang <richardw.yang@linux.intel.com>, Brice Goglin <Brice.Goglin@inria.fr>,
- Andrew Morton <akpm@linux-foundation.org>
+ lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
+ Network Development <netdev@vger.kernel.org>,
+ Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 3, 2020 at 12:48 AM David Hildenbrand <david@redhat.com> wrote:
+On Wed, Aug 19, 2020 at 2:36 PM John Stultz <john.stultz@linaro.org> wrote:
 >
-> [...]
+> On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> > So, IMO, the best is to keep it on staging for a while, until those
+> > remaining bugs gets solved.
+> >
+> > I added this series, together with the regulator driver and
+> > a few other patches (including a hack to fix a Kernel 5.8
+> > regression at WiFi ) at:
+> >
+> >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master
 >
-> > Well, no v5.8-rc8 to line this up for v5.9, so next best is early
-> > integration into -mm before other collisions develop.
-> >
-> > Chatted with Justin offline and it currently appears that the missing
-> > numa information is the fault of the platform firmware to populate all
-> > the necessary NUMA data in the NFIT.
+> Sorry, one more small request: Could you create a branch that only has
+> the DRM driver changes in it?
 >
-> I'm planning on looking at some bits of this series this week, but some
-> questions upfront ...
->
-> >
-> > ---
-> > Cover:
-> >
-> > The device-dax facility allows an address range to be directly mapped
-> > through a chardev, or optionally hotplugged to the core kernel page
-> > allocator as System-RAM. It is the mechanism for converting persistent
-> > memory (pmem) to be used as another volatile memory pool i.e. the
-> > current Memory Tiering hot topic on linux-mm.
-> >
-> > In the case of pmem the nvdimm-namespace-label mechanism can sub-divide
-> > it, but that labeling mechanism is not available / applicable to
-> > soft-reserved ("EFI specific purpose") memory [3]. This series provides
-> > a sysfs-mechanism for the daxctl utility to enable provisioning of
-> > volatile-soft-reserved memory ranges.
-> >
-> > The motivations for this facility are:
-> >
-> > 1/ Allow performance differentiated memory ranges to be split between
-> >    kernel-managed and directly-accessed use cases.
-> >
-> > 2/ Allow physical memory to be provisioned along performance relevant
-> >    address boundaries. For example, divide a memory-side cache [4] along
-> >    cache-color boundaries.
-> >
-> > 3/ Parcel out soft-reserved memory to VMs using device-dax as a security
-> >    / permissions boundary [5]. Specifically I have seen people (ab)using
-> >    memmap=nn!ss (mark System-RAM as Persistent Memory) just to get the
-> >    device-dax interface on custom address ranges. A follow-on for the VM
-> >    use case is to teach device-dax to dynamically allocate 'struct page' at
-> >    runtime to reduce the duplication of 'struct page' space in both the
-> >    guest and the host kernel for the same physical pages.
->
->
-> I think I am missing some important pieces. Bear with me.
+> The reason I ask, is that since the HiKey960 isn't affected by the
+> majority of the problems you listed as motivation for going through
+> staging. So if we can validate that your tree works fine on HiKey960,
+> the series can be cleaned up and submitted properly upstream to enable
+> that SoC, and the outstanding 970 issues can be worked out afterwards
+> against mainline.
 
-No worries, also bear with me, I'm going to be offline intermittently
-until at least mid-September. Hopefully Joao and/or Vishal can jump in
-on this discussion.
+Just as a heads up, I tried testing your tree with my HiKey960, and
+after fixing the compat string inconsistency, the drivers seem to load
+properly. However the drm_hwcomposer seems to have some trouble with
+the driver:
+01-01 00:12:41.456   345   345 E hwc-drm-display-compositor: Commit
+test failed for display 0, FIXME
+01-01 00:12:41.456   345   345 E hwc-drm-two: Failed to apply the
+frame composition ret=-22
+01-01 00:12:41.456   351   351 E HWComposer:
+presentAndGetReleaseFences: present failed for display 0: BadParameter
+(4)
 
->
-> 1. On x86-64, e820 indicates "soft-reserved" memory. This memory is not
-> automatically used in the buddy during boot, but remains untouched
-> (similar to pmem). But as it involves ACPI as well, it could also be
-> used on arm64 (-e820), correct?
+I'll dig in a bit further as to why, but wanted to give you a heads up.
 
-Correct, arm64 also gets the EFI support for enumerating memory this
-way. However, I would clarify that whether soft-reserved is given to
-the buddy allocator by default or not is the kernel's policy choice,
-"buddy-by-default" is ok and is what will happen anyways with older
-kernels on platforms that enumerate a memory range this way.
-
-> 2. Soft-reserved memory is volatile RAM with differing performance
-> characteristics ("performance differentiated memory"). What would be
-> examples of such memory?
-
-Likely the most prominent one that drove the creation of the "EFI
-Specific Purpose" attribute bit is high-bandwidth memory. One concrete
-example of that was a platform called Knights Landing [1] that ended
-up shipping firmware that lied to the OS about the latency
-characteristics of the memory to try to reverse engineer OS behavior
-to not allocate from that memory range by default. With the EFI
-attribute firmware performance tables can tell the truth about the
-performance characteristics of the memory range *and* indicate that
-the OS not use it for general purpose allocations by default.
-
-[1]: https://software.intel.com/content/www/us/en/develop/blogs/an-intro-to-mcdram-high-bandwidth-memory-on-knights-landing.html
-
-> Like, memory that is faster than RAM (scratch
-> pad), or slower (pmem)? Or both? :)
-
-Both, but note that PMEM is already hard-reserved by default.
-Soft-reserved is about a memory range that, for example, an
-administrator may want to reserve 100% for a weather simulation where
-if even a small amount of memory was stolen for the page cache the
-application may not meet its performance targets. It could also be a
-memory range that is so slow that only applications with higher
-latency tolerances would be prepared to consume it.
-
-In other words the soft-reserved memory can be used to indicate memory
-that is either too precious, or too slow for general purpose OS
-allocations.
-
-> Is it a valid use case to use pmem
-> in a hypervisor to back this memory?
-
-Depends on the pmem. That performance capability is indicated by the
-ACPI HMAT, not the EFI soft-reserved designation.
-
-> 3. There seem to be use cases where "soft-reserved" memory is used via
-> DAX. What is an example use case? I assume it's *not* to treat it like
-> PMEM but instead e.g., use it as a fast buffer inside applications or
-> similar.
-
-Right, in that weather-simulation example that application could just
-mmap /dev/daxX.Y and never worry about contending for the "fast
-memory" resource on the platform. Alternatively if that resource needs
-to be shared and/or over-commited then kernel memory-management
-services are needed and that dax-device can be assigned to kmem.
-
-> 4. There seem to be use cases where some part of "soft-reserved" memory
-> is used via DAX, some other is given to the buddy. What is an example
-> use case? Is this really necessary or only some theoretical use case?
-
-It's as necessary as pmem namespace partitioning, or the inclusion of
-dax-kmem upstream in the first place. In that kmem case the motivation
-was that some users want a portion of pmem provisioned for storage and
-some for volatile usage. The motivation is similar here, platform
-firmware can only identify memory attributes on coarse boundaries,
-finer grained provisioning decisions are up to the administrator /
-platform-owner and the kernel is a just a facilitator of that policy.
-
->
-> 5. The "provisioned along performance relevant address boundaries." part
-> is unclear to me. Can you give an example of how this would look like
-> from user space? Like, split that memory in blocks of size X with
-> alignment Y and give them to separate applications?
-
-One example of platform address boundaries are the memory address
-ranges that alias in a direct-mapped memory-side-cache. In the
-direct-map-cache aliasing may repeat every N GBs where N is the ratio
-of far-to-near memory. ("Near memory" ==  cache "Far memory" ==
-backing memory). Also refer back to the background in the page
-allocator shuffling patches [2]. With this partitioning mechanism you
-could, for one example use case, assign different VMs to exclusive
-colors in the memory side cache.
-
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e900a918b098
-
-> 6. If you add such memory to the buddy, is there any way the system can
-> differentiate it from other memory? E.g., via fake/other NUMA nodes?
-
-Numa node numbers / are how performance differentiated memory ranges
-are enumerated. The expectation is that all distinct performance
-memory targets have unique ACPI proximity domains and Linux numa node
-numbers as a result.
-
-> Also, can you give examples of how kmem-added memory is represented in
-> /proc/iomem for a) pmem and b) soft-resered memory after this series
-> (skimming over the patches, I think there is a change for pmem, right?)?
-
-I don't expect a change. The only difference is the parent resource
-will be marked "Soft Reserved" instead of "Persistent Memory".
-
-> I am really wondering if it's the right approach to squeeze this into
-> our pmem/nvdimm infrastructure just because it's easy to do. E.g., man
-> "ndctl" - "ndctl - Manage "libnvdimm" subsystem devices (Non-volatile
-> Memory)" speaks explicitly about non-volatile memory.
-
-In fact it's not squeezed into PMEM infrastructure. dax-kmem and
-device-dax are independent of PMEM. PMEM is one source of potential
-device-dax instances, soft-reserved memory is another orthogonal
-source. This is why device-dax needs its own userspace policy directed
-partitioning mechanism because there is no PMEM to store the
-configuration for partitioned higph-bandwidth memory. The userspace
-tooling for this mechanism is targeted for a tool called daxctl that
-has no PMEM dependencies. Look to Joao's use case that is using this
-infrastructure independent of PMEM with manual soft-reservations
-specified on the kernel command-line.
+thanks
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
