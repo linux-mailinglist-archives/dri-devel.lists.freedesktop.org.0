@@ -1,30 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E82F24CE89
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A9124CE92
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4746EA99;
-	Fri, 21 Aug 2020 07:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F67C6EA9F;
+	Fri, 21 Aug 2020 07:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EE76E914
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 08:36:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 0004629A33B
-Message-ID: <621cd69bdd4af3e5bd5f2c96450c87651620381a.camel@collabora.com>
-Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: John Stultz <john.stultz@linaro.org>
-Date: Thu, 20 Aug 2020 05:36:40 -0300
-In-Reply-To: <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
- <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
-Organization: Collabora
-User-Agent: Evolution 3.36.3-1 
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A6E6E92B
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 09:36:26 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id 185so1331941ljj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 02:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iyIFHI/GagIm4is2IjKR4dFCd2u6tmF485sTbdWxVbM=;
+ b=MLkiiqpTIK0T8bIG8a7cw3MlTUto09mHqhVzUWPfnkk4OxAgoe4yk5RS+KzyPkc0rV
+ fSzxXaaHo2Ohq+lyWw4WVH93TRgv0UhPZUicHg09AtCULq+HW79090fk/I68wSIlGQG2
+ 2YPoUJB+09rDM1BounEJ/4DbnRsg71ly86n0zyynHqByO23KsJ1MgRQ/VchwqV4iuXtR
+ EPP+1nsst3H0kTK7jgtwccEi40dav3czNwj4Djj7S330dhKMPaA5ZW7WUY6bzUnGclve
+ uVQdReKKsIlH6FcLOEOc27TBBv89loXlhqZcWAYQOMFu+5mX+RGolF/sT/kU6WzuEh1Z
+ mtCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iyIFHI/GagIm4is2IjKR4dFCd2u6tmF485sTbdWxVbM=;
+ b=HVz/tis4JkLrLbgdaROd5CA8LCMDZXEphhebMXr/4IzwfwiBnoPPpwouTyb/z3v/cn
+ t0n8hxSEGJKv38FWfCqaZreGsM9QGA35bnwoIqCMclITZ8fXROPjto2lxTWgDTCvd/mP
+ h0Sbfev52TfI3weZGTOvpTH/WwOvIGM1bvm6h6uk1EoaF9TfFeH4uaKK7K20OME2+b3E
+ 6kga90WEetlROxA31wibb9d7XLC7+1KEcAUelhLkcSvwJWKz2aizUMT6z9EupSjQBWc5
+ WtVqfhHtzGZ85b5B/65d6lE9benYINcPM/N/FKtxFIzvsq2lqr6vbYoW2fV9uZ2QQjQo
+ h3Ew==
+X-Gm-Message-State: AOAM531O5POPiMnKnGNx9RXOlvK9L5l/Klyh3pmwtnkQTIkrMVMYZQNM
+ t9FpRhf49emNzFEQ48/m7zJWQg==
+X-Google-Smtp-Source: ABdhPJzkrJAsNCFVlqgWwzF85xdP8TGCbYUj+sMOPyxm2W8leLqPgVkA3ZiRvIiKvXe8klbPf8wjPA==
+X-Received: by 2002:a2e:71a:: with SMTP id 26mr1262048ljh.198.1597916184580;
+ Thu, 20 Aug 2020 02:36:24 -0700 (PDT)
+Received: from eriador.lan ([188.162.65.245])
+ by smtp.gmail.com with ESMTPSA id o1sm341811ljc.3.2020.08.20.02.36.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Aug 2020 02:36:23 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/a6xx: fix gmu start on newer firmware
+Date: Thu, 20 Aug 2020 12:36:22 +0300
+Message-Id: <20200820093622.3801751-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 21 Aug 2020 07:11:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -39,121 +66,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@st.com>, James Jones <jajones@nvidia.com>,
- Liam Mark <lmark@codeaurora.org>, "Andrew F . Davis" <afd@ti.com>,
- kernel@collabora.com, dri-devel <dri-devel@lists.freedesktop.org>,
- Laura Abbott <labbott@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media <linux-media@vger.kernel.org>
+Cc: Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
+New Qualcomm firmware has changed a way it reports back the 'started'
+event. Support new register values.
 
-Thanks a ton for taking the time
-to go thru this.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-On Mon, 2020-08-17 at 21:13 -0700, John Stultz wrote:
-> On Sun, Aug 16, 2020 at 10:23 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > This heap is basically a wrapper around DMA-API dma_alloc_attrs,
-> > which will allocate memory suitable for the given device.
-> > 
-> > The implementation is mostly a port of the Contiguous Videobuf2
-> > memory allocator (see videobuf2/videobuf2-dma-contig.c)
-> > over to the DMA-BUF Heap interface.
-> > 
-> > The intention of this allocator is to provide applications
-> > with a more system-agnostic API: the only thing the application
-> > needs to know is which device to get the buffer for.
-> > 
-> > Whether the buffer is backed by CMA, IOMMU or a DMA Pool
-> > is unknown to the application.
-> 
-> My hesitancy here is that the main reason we have DMA BUF Heaps, and
-> ION before it, was to expose different types of memory allocations to
-> userspace. The main premise that often these buffers are shared with
-> multiple devices, which have differing constraints and it is userspace
-> that best understands the path a buffer will take through a series of
-> devices. So userspace is best positioned to determine what type of
-> memory should be allocated to satisfy the various devices constraints
-> (there were some design attempts to allow DMA BUFs to use multiple
-> attach with deferred alloc at map time to handle this constraint
-> solving in-kernel, but it was never adopted in practice).
-> 
-> This however, requires some system specific policy - implemented in
-> the Android userspace by gralloc which maps "usage" types (device
-> pipeline flows) to heaps. I liken it to fstab, which helps map mount
-> points to partitions - it's not going to be the same on every system.
-> 
-> What you seem to be proposing seems a bit contrary to this premise -
-> Userland doesn't know what type of memory it needs, but given a device
-> can somehow find the heap it should allocate for? This seems to assume
-> the buffer is only to be used with a single device?
-> 
-
-Single-device usage wasn't the intention. I see now that this patch
-looks too naive and it's confusing. The idea is of course to get buffers
-that can be shared.
-
-I'm thinking you need to share your picture buffer with a decoder,
-a renderer, possibly something else. Each with its own set
-of constraints and limitations.	
-
-Of course, a buffer that works for device A may be unsuitable for
-device B and so this per-device heap is surely way too naive.
-
-As you rightly mention, the main intention of this RFC is to
-question exactly the current premise: "userspace knows".
-I fail to see how will (generic and system-agnostic) applications
-know which heap to use.
-
-Just for completion, let me throw a simple example: i.MX 8M
-and some Rockchip platforms share the same VPU block, except the
-latter have an IOMMU.
-
-So applications would need to query an iommu presence
-to get buffer from CMA or not.
-
-> There was at some point a discussion where folks (maybe it was
-> DanielV? I can't remember...) suggested having something like a sysfs
-> device node link from a device to a dma-buf heap chardev. This seems
-> like it would add a similar behavior as what you're proposing, however
-> without adding possibly a ton of new device specific heaps to the
-> /dev/dma_heap/ dir. However, we would potentially need any missing
-> heap types added first.
-> 
-> > I'm not really expecting this patch to be correct or even
-> > a good idea, but just submitting it to start a discussion on DMA-BUF
-> > heap discovery and negotiation.
-> > 
-> > Given Plumbers is just a couple weeks from now, I've submitted
-> > a BoF proposal to discuss this, as perhaps it would make
-> > sense to discuss this live?
-> 
-> I do think it's an interesting idea. I agree that having every driver
-> implement a dmabuf exporter is a bit silly, but I also think Brian's
-> point that maybe we need some drm helper functions that provide
-> similar functionality along with a more standardized device ioctl for
-> single device allocations might be better.
-> 
-
-I'm unsure we should treat single device specially.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index b67b38c8fadf..0df56292e227 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -204,6 +204,16 @@ static int a6xx_gmu_start(struct a6xx_gmu *gmu)
+ {
+ 	int ret;
+ 	u32 val;
++	u32 mask, reset_val;
++
++	val = gmu_read(gmu, REG_A6XX_GMU_CM3_DTCM_START + 0xff8);
++	if (val <= 0x20010004) {
++		mask = 0xffffffff;
++		reset_val = 0xbabeface;
++	} else {
++		mask = 0x1ff;
++		reset_val = 0x100;
++	}
  
-Exposing device limitations and constraints properly,
-allowing some sort of negotation would hopefully solve
-single device and shared requirements.
-
-Thanks,
-Ezequiel
-
-> thanks
-> -john
-
+ 	gmu_write(gmu, REG_A6XX_GMU_CM3_SYSRESET, 1);
+ 
+@@ -215,7 +225,7 @@ static int a6xx_gmu_start(struct a6xx_gmu *gmu)
+ 	gmu_write(gmu, REG_A6XX_GMU_CM3_SYSRESET, 0);
+ 
+ 	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_CM3_FW_INIT_RESULT, val,
+-		val == 0xbabeface, 100, 10000);
++		(val & mask) == reset_val, 100, 10000);
+ 
+ 	if (ret)
+ 		DRM_DEV_ERROR(gmu->dev, "GMU firmware initialization timed out\n");
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
