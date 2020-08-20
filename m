@@ -1,104 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C74D24CE8F
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2018924CE9A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F162A6EA9D;
-	Fri, 21 Aug 2020 07:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 017AA6EAA2;
+	Fri, 21 Aug 2020 07:11:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0039f301.pphosted.com (mx0a-0039f301.pphosted.com
- [148.163.133.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B257C6E8B8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:15:01 +0000 (UTC)
-Received: from pps.filterd (m0174676.ppops.net [127.0.0.1])
- by mx0a-0039f301.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07K7AXBW019171; Thu, 20 Aug 2020 07:14:59 GMT
-Received: from eur02-am5-obe.outbound.protection.outlook.com
- (mail-am5eur02lp2058.outbound.protection.outlook.com [104.47.4.58])
- by mx0a-0039f301.pphosted.com with ESMTP id 330x6wkcgk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Aug 2020 07:14:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l8S5V+pfAoEB7BcDkhs29a+T6Ha68Rc8psiteqWgoBeUxjoC6gV7PVrU48/vPwtPYxLT/meimWljQ5WHEkMIf/UwyULNfgEb2RFo2DM99TH9fr+rtb5DnQXvKa4a5Z6HanTmMWWEwjw/YNKi1P+9Q6aTkGmICsP4MklgAXI33NBn0nX117H32manTkRUl/RhP2FU3qbLchTIz5ElNy5pnk8sUD1m9tzRI2Crf8Ocb8YW77AWA4s8DzKKrqRuLdNacnqiXSkJfKjoSFMcxsAUd2lF+KZGPcgsF75SoU9hgBhB2uXd2K9593IGTkaJp74joB+UOKF5tF28DDWnyomc1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LpHvE5DvK8NF6m9Zs56gPUeGPlKyYX08iF8Xu7ozfAo=;
- b=SV6sjz5uo5H7/sPZMOHqgKzlGcQicSKIjU4BE+AULDSr8Va+IJ09qZXc38Y948L414DQgcQHF1M01HQeKFYngPctzoxYsZ+h8GAxyJ0vRMimhuYVln5InJQNgLTu/lE6uoKx2uwwCau2KQ2HrSlfbH5Fo8Pmm9tzKrEVnMPj5rBXkd2juZVH73IfqUE6fyOa/3fXcO6fSP8eADJYz3qi4y5h/AepQzPXxPlpMKzeX301S/B5dSm9GtP2HDTGVCt2ql0no+oHYRWePl7RVBXzboCZH8YsuAowor+dqAA9al5BiqSEAAi3ysW188RYkKdu1vKfD2VqPQYA4WTBS/mWaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epam.com; dmarc=pass action=none header.from=epam.com;
- dkim=pass header.d=epam.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epam.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LpHvE5DvK8NF6m9Zs56gPUeGPlKyYX08iF8Xu7ozfAo=;
- b=170PYMfum7wTcSj/x1aQcn35oOcbgxeDDDdn7DWR1KDNj9r3PG0MaQkmzqjMkBWUOteESfSdZ+GmJVKUFvyEedVu1XZObsTnbCm9Wp6zfiiWf87xE1dqdlu6s2sbqVNGvekAKBFxwb4sbmkRGnyPU3y3OtxmNrvSIQgHqJAxEYdeDQRrNxLO/QyFw7Wb0rs1JWRnLOA+R5W9xqa0GMzol4Zle0KfPIiMTCFNCqRlQh197RwazWqrJd2RYlNIu80AJu4GZCC0Ry5rkCwo4EGKv8+anyjPIyYr//1h2Pj6ipS5ox0pShGwZ5L3pFwVShBd/SxqoHwNAijWZ3lYvGun6A==
-Received: from AM0PR03MB6324.eurprd03.prod.outlook.com (2603:10a6:20b:153::17)
- by AM0PR03MB3587.eurprd03.prod.outlook.com (2603:10a6:208:44::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Thu, 20 Aug
- 2020 07:14:56 +0000
-Received: from AM0PR03MB6324.eurprd03.prod.outlook.com
- ([fe80::853d:1bd6:75a0:a7d7]) by AM0PR03MB6324.eurprd03.prod.outlook.com
- ([fe80::853d:1bd6:75a0:a7d7%8]) with mapi id 15.20.3305.025; Thu, 20 Aug 2020
- 07:14:56 +0000
-From: Oleksandr Andrushchenko <Oleksandr_Andrushchenko@epam.com>
-To: Sasha Levin <sashal@kernel.org>, Oleksandr Andrushchenko
- <andr2000@gmail.com>, "xen-devel@lists.xenproject.org"
- <xen-devel@lists.xenproject.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 2/5] drm/xen-front: Fix misused IS_ERR_OR_NULL checks
-Thread-Topic: [PATCH v2 2/5] drm/xen-front: Fix misused IS_ERR_OR_NULL checks
-Thread-Index: AQHWcTn3Q6X6TpC2sk2hUb4/U9tW36lAJkgAgAB6eYA=
-Date: Thu, 20 Aug 2020 07:14:56 +0000
-Message-ID: <61ab361a-6b3f-f9ba-2954-470e8854e230@epam.com>
-References: <20200813062113.11030-3-andr2000@gmail.com>
- <20200819235634.BB9D621744@mail.kernel.org>
-In-Reply-To: <20200819235634.BB9D621744@mail.kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=epam.com;
-x-originating-ip: [185.199.97.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2fda20eb-06ba-4eca-2b89-08d844d8be07
-x-ms-traffictypediagnostic: AM0PR03MB3587:
-x-microsoft-antispam-prvs: <AM0PR03MB35877B4438A3107A65FA8A0BE75A0@AM0PR03MB3587.eurprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2399;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gdrnq0NWh6lv1CfjvSsJXgyimf/Y+JLtSCFSOtZyNtWKt1gzONwrEfVU5vpTy5x2UxvyjHxxPSj+iboDz5yg1U1Z+V3WLpRbfziF7tOreVItiRwS/cc9gB8ngxUQ6OZKhJXQSQpp+7dvan7Lh5JblrzhGO8+4HZMboffcgxYhhD3vADwx0X9W4JDQLwgku1CLpVu/tTSu1o/f6N4f/aI4yxLPxTBjrNihVBR5qr8qM8dnSg6tSV/Mo9E4Hpzy/IRc5WDsfEUh/Ls7Byfu0APWlGasOXFAMxgfgbah6wFvCu1mrRloxFSEnQxSCh7K+GEX8u0JsG7yEV6J7OkAdx5JA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR03MB6324.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(396003)(39860400002)(366004)(136003)(6512007)(2616005)(83380400001)(6486002)(66476007)(53546011)(66446008)(91956017)(66556008)(6506007)(5660300002)(8936002)(2906002)(64756008)(71200400001)(8676002)(186003)(36756003)(26005)(66946007)(110136005)(4326008)(31686004)(478600001)(86362001)(54906003)(76116006)(316002)(31696002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: 3XZv2QO70jIY8n9QAna2lji+5TZwDSW6SZMnagvTvGyipSiVf9OgSFVwC4MB7gVUxIxmxgChc8w3UvWThqfsAm16tT/8MefYxS9FDM8fMhudUMM6F3RfpOvH5qumeSsDFCFsPlJsqgesjY0+jvn5YYpB9gnYdbwIW+/aNdLo5uxUT5OUALNRnro10VPzzCSUF11KcMUVVnkbTH+GX95CIMTtf6X+3uNxlNDvL7x0+S3uZPime7REa8lRYRC3GteheiBG/RKP6AL5GTyfrtat9nQvPwTC6K7tuadJxHTwDywh75YezvJO7zYp1GnJJkJmHVhEgFksSALgGI3JCKdSk4rFagSxq3ezVtevAhyZMYaf3yy68B/2CzBdp/zMmY83mms2/l0HZ89fH+13/7P9dnLxK2xwQxmxq7bsYCoZOfZY02D/P/JM9i2FT0SdyAWlV8yM5YaWfPKI6ZWcHnv96QYfuUJShecd+wQziULOo/tyXcPrPer7OuakueTa4dN0cMwe3KagZMz8G/Z4i3H0qovf3E4lrOvQKdw0goM7NikBEpLGkGr1K32+Jh4+vvrszSMNqKxWzqHkG2+pRhaNW8r/fjzJS1bU5U5TZ+2DpbN2sQ86K85+AooXvJ/cjY30WlYaQjJOzE6b1wEGr9H30Q==
-x-ms-exchange-transport-forked: True
-Content-ID: <723A624ACB3A9D41BFE71A76A53EE2B7@eurprd03.prod.outlook.com>
-MIME-Version: 1.0
-X-OriginatorOrg: epam.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR03MB6324.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fda20eb-06ba-4eca-2b89-08d844d8be07
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2020 07:14:56.3824 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b41b72d0-4e9f-4c26-8a69-f949f367c91d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rIBkeBJAqQJu92u7xoXi5CEs4hTKwOJXPksXpFVseBZRJDGBofZQ3VSUwUg2SCOMzpF8pE2KBcsNHU8XkqHzE2YiU5ZMiYmXZrn7ntkW82KEsvjFQvTMAeTOjAb/yFPz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB3587
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-19_13:2020-08-19,
- 2020-08-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1011
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008200063
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A75986E90C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 07:52:45 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id v11so1367368ybm.22
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 00:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:in-reply-to:message-id:mime-version:references:subject
+ :from:to:cc; bh=ZTZ7FeRGcuK/Hk+zj5oM9AwC2C+E4zSdizznNm3JGaw=;
+ b=qDhQwNj/i9PSLJjNFzjvh270vkvMWiwNw4Xn4zB5msBMj/zonYxNr4zdkzs+kHxEKQ
+ hsk4cTsctX3LU0jX3+aNU39vbHGAcgDW/7Kabwd7zA09xokQNLQT+l5OUTB18PY3jtc8
+ 3u1DD2f4zPraIZQBIOQgu9SC/UA+drjB87PyO+//YzeTsLTNXzTI13pixc0NmJ+t1Sig
+ PSJynH6yZ+VT6N3palt7khJAXHuQF+GvVTeSVEFGUaZaKJmXq+GuZh7x882Oye0ACLPL
+ isTCg2Gonbg6ZOLFRn+07HTT8f9TCbu/pBmgDuj3uzlMTq+fzWAWdRBL05rAShBbUOLe
+ hRhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=ZTZ7FeRGcuK/Hk+zj5oM9AwC2C+E4zSdizznNm3JGaw=;
+ b=HQWg8Lb5diVrME0XFly18ADIH66OnwKThT0Lm8+ZqjmOomTFsHq+E3cUP09LgouWlF
+ UltVzDrMEcKbdeE+1JM+ka5uBoB8s4HmgOT1nB6F7nmMJV0RpeGr+cqG8mgk9SnPddRn
+ sZGiwiLCVugJYMAa/+3gP7goIyaIvLoLO/Cko0I53zPbuWGPr5dhbH+Tf57zNcib8Wtp
+ gx2F1Q57rOWIaOZUMRnLdHd3QgyRu5vE6YE2tuzoxoISBQ2BOigTMtqY/WbsoDxSviUP
+ lrIeGT3+ZzpVztMQjcAsW+COomXWzNjkDzOE1qmDxlNG11o/2/qoANe37C1D+WnjbJjA
+ PfRg==
+X-Gm-Message-State: AOAM530YmZ//3+aSLhjV8DzOKi29zIxrPiyfIllbdzCCTZoz6YIJ5AvJ
+ FFOHCFZkLhjJwBFAHIPDjZqdnev4o+y6
+X-Google-Smtp-Source: ABdhPJzAM44YvcI2eY5BDvZXP1CL91XTwHSk/ficRLHKynUx1ZaTtPmmgHpQyfkf4ayDeiiwEw2CVKu0Zo+Z
+X-Received: from furquan.mtv.corp.google.com
+ ([2620:15c:202:1:7220:84ff:fe09:13a4])
+ (user=furquan job=sendgmr) by 2002:a5b:b45:: with SMTP id
+ b5mr3114667ybr.294.1597909964605; 
+ Thu, 20 Aug 2020 00:52:44 -0700 (PDT)
+Date: Thu, 20 Aug 2020 00:52:41 -0700
+In-Reply-To: <20200820052600.3069895-1-furquan@google.com>
+Message-Id: <20200820075241.3160534-1-furquan@google.com>
+Mime-Version: 1.0
+References: <20200820052600.3069895-1-furquan@google.com>
+X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
+Subject: [PATCH v2] drivers: gpu: amd: Initialize amdgpu_dm_backlight_caps
+ object to 0 in amdgpu_dm_update_backlight_caps
+From: Furquan Shaikh <furquan@google.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>
 X-Mailman-Approved-At: Fri, 21 Aug 2020 07:11:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -112,50 +67,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "sstabellini@kernel.org" <sstabellini@kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>
+Cc: Stylon Wang <stylon.wang@amd.com>, deepak.sharma@amd.com,
+ Furquan Shaikh <furquan@google.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Roman Li <roman.li@amd.com>,
+ amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ dri-devel@lists.freedesktop.org, adurbin@google.com,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In `amdgpu_dm_update_backlight_caps()`, there is a local
+`amdgpu_dm_backlight_caps` object that is filled in by
+`amdgpu_acpi_get_backlight_caps()`. However, this object is
+uninitialized before the call and hence the subsequent check for
+aux_support can fail since it is not initialized by
+`amdgpu_acpi_get_backlight_caps()` as well. This change initializes
+this local `amdgpu_dm_backlight_caps` object to 0.
 
-On 8/20/20 2:56 AM, Sasha Levin wrote:
-> Hi
->
-> [This is an automated email]
->
-> This commit has been processed because it contains a "Fixes:" tag
-> fixing commit: c575b7eeb89f ("drm/xen-front: Add support for Xen PV display frontend").
->
-> The bot has tested the following trees: v5.8.1, v5.7.15, v5.4.58, v4.19.139.
->
-> v5.8.1: Build OK!
-> v5.7.15: Build OK!
-> v5.4.58: Failed to apply! Possible dependencies:
->      4c1cb04e0e7a ("drm/xen: fix passing zero to 'PTR_ERR' warning")
->      93adc0c2cb72 ("drm/xen: Simplify fb_create")
->
-> v4.19.139: Failed to apply! Possible dependencies:
->      4c1cb04e0e7a ("drm/xen: fix passing zero to 'PTR_ERR' warning")
->      93adc0c2cb72 ("drm/xen: Simplify fb_create")
->
->
-> NOTE: The patch will not be queued to stable trees until it is upstream.
->
-> How should we proceed with this patch?
->
-This is because of commit 4c1cb04e0e7ac4ba1ef5457929ef9b5671d9eed3
+Signed-off-by: Furquan Shaikh <furquan@google.com>
+---
+v2: Switched to using memset for initialization of object.
 
-was not CCed to stable. So, if we want the patch to be applied to older stable
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-kernels we also need this patch as well.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index e4b33c67b634..da072998ce48 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2855,6 +2855,8 @@ static void amdgpu_dm_update_backlight_caps(struct amdgpu_display_manager *dm)
+ #if defined(CONFIG_ACPI)
+ 	struct amdgpu_dm_backlight_caps caps;
+ 
++	memset(&caps, 0, sizeof(caps));
++
+ 	if (dm->backlight_caps.caps_valid)
+ 		return;
+ 
+-- 
+2.28.0.297.g1956fa8f8d-goog
 
-Thank you,
-
-Oleksandr
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
