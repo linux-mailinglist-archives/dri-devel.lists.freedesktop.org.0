@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E17B24ADAA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 06:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98F024AE2D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 07:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5876E89B;
-	Thu, 20 Aug 2020 04:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABCD06E89F;
+	Thu, 20 Aug 2020 05:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 074F46E89B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 04:24:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E25846E89F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 05:01:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
- in mode_support_and_system_configuration
-Date: Thu, 20 Aug 2020 04:24:36 +0000
+Subject: [Bug 208947] amdgpu DisplayPort won't recognize all display modes
+ after 5.9 merges
+Date: Thu, 20 Aug 2020 05:01:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -26,17 +26,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: jpa@kernelbug.mail.kapsi.fi
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ckane@colemankane.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206987-2300-FnFfmfiaHH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
-References: <bug-206987-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-208947-2300-LRE948vVO9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208947-2300@https.bugzilla.kernel.org/>
+References: <bug-208947-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,15 +57,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206987
+https://bugzilla.kernel.org/show_bug.cgi?id=208947
 
---- Comment #38 from Petteri Aimonen (jpa@kernelbug.mail.kapsi.fi) ---
-@krakopo I must say I don't have any idea what could be happening on your
-machine. It could be explained if the kernel thread was being pre-empted, but
-pre-emption is disabled by kernel_fpu_begin().
-
-It may help to ask in bug 207979 also, it has some of the long time x86
-maintainers on CC.
+--- Comment #11 from Coleman Kane (ckane@colemankane.org) ---
+Ok scratch those last three messages - I must have mislabeled one of the bisect
+cycles, or some other screw up. I still narrowed my search space down, but it
+looks like the commit it finished on is still ahead of the one introducing the
+bug, so I'm going to attempt it again with different starting points.
 
 -- 
 You are receiving this mail because:
