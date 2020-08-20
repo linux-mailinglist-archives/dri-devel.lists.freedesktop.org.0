@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D63024C44F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 19:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE5C24C473
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Aug 2020 19:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09AD6E991;
-	Thu, 20 Aug 2020 17:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0736E99D;
+	Thu, 20 Aug 2020 17:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553656E991
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 17:15:25 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id g75so2294263wme.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 10:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4eX00c0ckm8hT0A0C/n4MyfX4EjjAaDz31mN/Lb//fY=;
- b=Z11Hdhb8fIf+RWDsfZYkftMhqk7M2OXy0n6MgA0ETp9jr3pQV8ulNcpRKj/wKp+Jcb
- TJydKyyk8agCFCKNNVnmf/LSzwt5bkfqxPoBrJfk9wIeWsj3ZxeZ0ypZrs1MtkVmxRRX
- x81JDHis0hoohcY0Q6Ywz9FkA4+uo/uBfiR3m6br16gLBDZ0jm2DrQuA5qDaLjy/F60S
- V1fg+5A7e4NKYugc3e5Xg2R7tNWQTDUK4LztV5U6/Rt21jkXnI9pXAOnIuQyz923d1dR
- HzHV5ev7gLhj5R1KTo733m06xj4N6pqkhAWVg59VKP5cboJK1OKaF5Gqsjv4rsSG1r1h
- /zsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4eX00c0ckm8hT0A0C/n4MyfX4EjjAaDz31mN/Lb//fY=;
- b=nB+pg4T9m/8IiXHydNfdTnxRsOw/WFqAqzJxFJm768jN8AyR5fC58g1rvNuNKdRSRX
- AUlGI3NixmIUwwOOzIiIipjgINPvpbU4hGfcPOWmIoHGucYBo3itLpoqTI4L/U9uON96
- OY1AIiWYQHomR8RfFXQs/T8TJH/h8SRY5inEZ6BNnKTfBWe4ytdhfc4+5xTCKMi6DpEE
- /0JKEymoJNdGRAz5cZznFWX2mhPIpbKiZ37OhjJqSuVh1Vdrmb+5kdgYnhTbBj3P+8i9
- MybejTp/3GuJIuOl4q1vilDQ4nvxztgEwpQXnpTpq8PmadCFsT+J1qPK3bp/QxR+Q7H1
- K9DQ==
-X-Gm-Message-State: AOAM532Oq5FBYRmZkWP8dAPBWX1x7olrAEg+V8fk008whG36sIDcQP0L
- ZrDNQswWtWJQHTP+KjIcqIJH8j6JuKWlH8XvKR5+s+lAq6gy/gOF
-X-Google-Smtp-Source: ABdhPJyyd8HHoirSU/WeVEZLJyRDkczRjPGF9/eWaPA4wGBOVGhOy7ejxlGod+q0XjTYTyGC7MJSrAGP/V2HLxQLL8g=
-X-Received: by 2002:a1c:4c17:: with SMTP id z23mr4638247wmf.49.1597943137022; 
- Thu, 20 Aug 2020 10:05:37 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EDB16E99D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 17:25:13 +0000 (UTC)
+IronPort-SDR: vrpvg9EhjJJcLJP1Wpp5o8n1dgL7VSuwd3NjPu3aDUEtSVsUCzdR10whf/9REpS3fxU/L5rJeT
+ rrXkzAAjSlLg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="156417716"
+X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; d="scan'208";a="156417716"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2020 10:24:56 -0700
+IronPort-SDR: 27LC/iSRRMVhOkn5zUEpPkWc7ZN5fdPaRClSf8Yr38ybk/fYuN23DK8u5ov2zj3wCwE4OjhB3Q
+ dl0NedN9+oYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; d="scan'208";a="280049094"
+Received: from fmsmsx602-2.cps.intel.com (HELO fmsmsx602.amr.corp.intel.com)
+ ([10.18.84.212])
+ by fmsmga008.fm.intel.com with ESMTP; 20 Aug 2020 10:24:56 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 20 Aug 2020 10:24:55 -0700
+Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 20 Aug 2020 10:24:55 -0700
+Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.136]) by
+ fmsmsx158.amr.corp.intel.com ([169.254.15.137]) with mapi id 14.03.0439.000;
+ Thu, 20 Aug 2020 10:24:55 -0700
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "adam.miszczak@linux.intel.com" <adam.miszczak@linux.intel.com>
+Subject: Re: [PATCH libdrm] intel: sync i915_pciids.h with kernel
+Thread-Topic: [PATCH libdrm] intel: sync i915_pciids.h with kernel
+Thread-Index: AQHWds7/4oVhXLMxMUKlBIMeVZCb6qlBthUA
+Date: Thu, 20 Aug 2020 17:24:55 +0000
+Message-ID: <81f5cd962f8474c275fd7062b651e1ef28d40b66.camel@intel.com>
+References: <20200820084642.26562-1-adam.miszczak@linux.intel.com>
+In-Reply-To: <20200820084642.26562-1-adam.miszczak@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.240.12]
+Content-ID: <98A6D1FFC462AA4CA98B619E18FA5E45@intel.com>
 MIME-Version: 1.0
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <93d7de3533cfd952aecd6198b9221d7a58c0e521.1597931876.git.robin.murphy@arm.com>
- <CAF6AEGuKa4P=gfus08CdfT2H5pG6a2PBumGb=Pw3qvD=NWueig@mail.gmail.com>
- <b5aa001f-6a1c-af0b-1526-c5b7a2e29ef7@arm.com>
-In-Reply-To: <b5aa001f-6a1c-af0b-1526-c5b7a2e29ef7@arm.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 20 Aug 2020 10:05:25 -0700
-Message-ID: <CAF6AEGs1JyZqNYyHC6DsjZa2wbHVhP-M=ZVJxHqYjeFQPZ3APA@mail.gmail.com>
-Subject: Re: [PATCH 10/18] iommu/msm: Add IOMMU_DOMAIN_DMA support
-To: Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,118 +68,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, digetx@gmail.com,
- Suman Anna <s-anna@ti.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- "moderated list:ARM/S5P EXYNOS AR..." <linux-samsung-soc@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Magnus Damm <magnus.damm@gmail.com>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Andy Gross <agross@kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Krishna Reddy <vdumpa@nvidia.com>,
- "moderated list:ARM/Mediatek SoC..." <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, t-kristo@ti.com,
- Kyungmin Park <kyungmin.park@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 20, 2020 at 9:58 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-08-20 16:55, Rob Clark wrote:
-> > Side note, I suspect we'll end up needing something like
-> > 0e764a01015dfebff8a8ffd297d74663772e248a .. if someone can dig a 32b
-> > device out of the closet and dust it off, the fix is easy enough.
-> > Just wanted to mention that here so anyone with a 32b device could
-> > find what is needed.
->
-> FWIW there shouldn't be any material change here - the generic default
-> domain is installed under the same circumstances as the Arm
-> dma_iommu_mapping was, so if any platform does have an issue, then it
-> should already have started 4 years with f78ebca8ff3d ("iommu/msm: Add
-> support for generic master bindings").
-
-ok, it has, I guess, been a while since playing with 32b things..
-someone on IRC had mentioned a problem that sounded like what
-0e764a01015dfebff8a8ffd297d74663772e248a solved, unless they disabled
-some ARCH_HAS_xyz thing (IIRC), which I guess is related..
-
-BR,
--R
-
-> Robin.
->
-> >
-> > BR,
-> > -R
-> >
-> > On Thu, Aug 20, 2020 at 8:09 AM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>
-> >> Now that arch/arm is wired up for default domains and iommu-dma,
-> >> implement the corresponding driver-side support for DMA domains.
-> >>
-> >> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> >> ---
-> >>   drivers/iommu/msm_iommu.c | 7 ++++++-
-> >>   1 file changed, 6 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-> >> index 3615cd6241c4..f34efcbb0b2b 100644
-> >> --- a/drivers/iommu/msm_iommu.c
-> >> +++ b/drivers/iommu/msm_iommu.c
-> >> @@ -8,6 +8,7 @@
-> >>   #include <linux/kernel.h>
-> >>   #include <linux/init.h>
-> >>   #include <linux/platform_device.h>
-> >> +#include <linux/dma-iommu.h>
-> >>   #include <linux/errno.h>
-> >>   #include <linux/io.h>
-> >>   #include <linux/io-pgtable.h>
-> >> @@ -314,13 +315,16 @@ static struct iommu_domain *msm_iommu_domain_alloc(unsigned type)
-> >>   {
-> >>          struct msm_priv *priv;
-> >>
-> >> -       if (type != IOMMU_DOMAIN_UNMANAGED)
-> >> +       if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
-> >>                  return NULL;
-> >>
-> >>          priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> >>          if (!priv)
-> >>                  goto fail_nomem;
-> >>
-> >> +       if (type == IOMMU_DOMAIN_DMA && iommu_get_dma_cookie(&priv->domain))
-> >> +               goto fail_nomem;
-> >> +
-> >>          INIT_LIST_HEAD(&priv->list_attached);
-> >>
-> >>          priv->domain.geometry.aperture_start = 0;
-> >> @@ -339,6 +343,7 @@ static void msm_iommu_domain_free(struct iommu_domain *domain)
-> >>          struct msm_priv *priv;
-> >>          unsigned long flags;
-> >>
-> >> +       iommu_put_dma_cookie(domain);
-> >>          spin_lock_irqsave(&msm_iommu_lock, flags);
-> >>          priv = to_msm_priv(domain);
-> >>          kfree(priv);
-> >> --
-> >> 2.28.0.dirty
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAyMDIwLTA4LTIwIGF0IDEwOjQ2ICswMjAwLCBBZGFtIE1pc3pjemFrIHdyb3RlOg0K
+PiBBZGQgREcxIGFuZCBjbGVhbi11cCBWTFYgUENJIElEcy4NCj4gDQo+IEFsaWduIHdpdGgga2Vy
+bmVsIGNvbW1pdHM6DQo+IGYyYmRlMjU0NmI4MSAoImRybS9pOTE1OiBSZW1vdmUgZHViaW91cyBW
+YWxsZXl2aWV3IFBDSSBJRHMiKQ0KPiBmZDM4Y2RiODExMDUgKCJkcm0vaTkxNS9kZzE6IEFkZCBE
+RzEgUENJIElEcyIpDQo+IA0KDQpSZXZpZXdlZC1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8
+am9zZS5zb3V6YUBpbnRlbC5jb20+DQoNCkJ1dCB0aGUgY3VycmVudCBwcm9jZXNzIGZvciBsaWJk
+cm0gcGF0Y2hlcyBpcyB0byBvcGVuIGEgbWVyZ2UgcmVxdWVzdCBpbiBGcmVlZGVza3RvcCBnaXRs
+YWIsIHdoZW4geW91IGRvIENDIG1lLg0KDQo+IFNpZ25lZC1vZmYtYnk6IEFkYW0gTWlzemN6YWsg
+PA0KPiBhZGFtLm1pc3pjemFrQGxpbnV4LmludGVsLmNvbQ0KPiA+DQo+IENjOiBKb3PDqSBSb2Jl
+cnRvIGRlIFNvdXphIDwNCj4gam9zZS5zb3V6YUBpbnRlbC5jb20NCj4gPg0KPiAtLS0NCj4gIGlu
+dGVsL2k5MTVfcGNpaWRzLmggfCA4ICsrKysrLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNl
+cnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2ludGVsL2k5MTVf
+cGNpaWRzLmggYi9pbnRlbC9pOTE1X3BjaWlkcy5oDQo+IGluZGV4IGQ2Y2IyODk5Li44ZTdhZTMw
+ZSAxMDA2NDQNCj4gLS0tIGEvaW50ZWwvaTkxNV9wY2lpZHMuaA0KPiArKysgYi9pbnRlbC9pOTE1
+X3BjaWlkcy5oDQo+IEBAIC0yNTgsOSArMjU4LDcgQEANCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4
+MGYzMCwgaW5mbyksIFwNCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4MGYzMSwgaW5mbyksIFwNCj4g
+IAlJTlRFTF9WR0FfREVWSUNFKDB4MGYzMiwgaW5mbyksIFwNCj4gLQlJTlRFTF9WR0FfREVWSUNF
+KDB4MGYzMywgaW5mbyksIFwNCj4gLQlJTlRFTF9WR0FfREVWSUNFKDB4MDE1NywgaW5mbyksIFwN
+Cj4gLQlJTlRFTF9WR0FfREVWSUNFKDB4MDE1NSwgaW5mbykNCj4gKwlJTlRFTF9WR0FfREVWSUNF
+KDB4MGYzMywgaW5mbykNCj4gIA0KPiAgI2RlZmluZSBJTlRFTF9CRFdfVUxUX0dUMV9JRFMoaW5m
+bykgXA0KPiAgCUlOVEVMX1ZHQV9ERVZJQ0UoMHgxNjA2LCBpbmZvKSwgLyogR1QxIFVMVCAqLyBc
+DQo+IEBAIC02MTgsNCArNjE2LDggQEANCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4NEM5MCwgaW5m
+byksIFwNCj4gIAlJTlRFTF9WR0FfREVWSUNFKDB4NEM5QSwgaW5mbykNCj4gIA0KPiArLyogREcx
+ICovDQo+ICsjZGVmaW5lIElOVEVMX0RHMV9JRFMoaW5mbykgXA0KPiArCUlOVEVMX1ZHQV9ERVZJ
+Q0UoMHg0OTA1LCBpbmZvKQ0KPiArDQo+ICAjZW5kaWYgLyogX0k5MTVfUENJSURTX0ggKi8NCj4g
+DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
