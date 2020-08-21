@@ -1,96 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691F124C94A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 02:42:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9590D24C9B2
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 03:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C166EA8C;
-	Fri, 21 Aug 2020 00:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A2F6E08E;
+	Fri, 21 Aug 2020 01:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760058.outbound.protection.outlook.com [40.107.76.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4866EA85;
- Fri, 21 Aug 2020 00:42:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mAVXYt7Nb4ysq3S3hjOdMoPQrfvIbWlzKly5iECDnkKDeEvImQY47kPujpBbv7QAmyYvz3/QlrHr4WJpknYw/ZBg3mNiKJMS6Ll4Qt9LcWSr1zPhP0+MrjyPyMGqgS+GACXq6T5ku4uPWjqj8qBZYvtqcnNzQQOF9X37TmkE3JlIRUfASzhFPKw2g49QQJ/55GOMlqY8QBhgGjHMeBTSg/4xO/bpPXNF13IHJUM/EZwVn3BVkXB6Yl+jH0oT/TUqeaqBvb9M81NvbRneBHUzpWXwhaTneBKCr0k5THjDPfKy3Wo8eL54euv7sqL6abG+Yf4bJFntW6X2CTHqgJFfKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bXnBqlMTikO1Mmzej4O3q0TMlNm43vNfrW7jdDJjwTM=;
- b=m7kQ15zsElSyBXReseWbRNih4YJIbaHMkMzVyh/A2IiMxGxdnDYGhCObDHbj2nRUHoepni91qdrrQZaIPnxjpqTyLCWt2Fb72b8etiO4cEaD4110aLK9HOU4IdM8AJbrZVoXBM1E6F5+cKFpS8i8SjieiArqC6OtzFc+VzfsOVIM79Fthcr3WjvcqXy/pTjpEPNklekkIe6iU8c+MyRe79kWxyjft5dWzsznOuADAAr6DBqkxuiknxqRKNv7lrMCV4wXXfGm8RI9tblXVpTTNSa/082c43CeO6WJwLYWEBjxpK5sFCVvHWmSYLWRFzJ9qz8jB3BYz/Dzt/uBQ2RPYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bXnBqlMTikO1Mmzej4O3q0TMlNm43vNfrW7jdDJjwTM=;
- b=IoswEnUECz4rGEPxuIESg4Zvfc330ttz2mcV4g93rT79+jUhgJLpVtc3NZAhz6IFjDWDgwTbFBekYAaZfH836wZ2ZsN1cK+mhkMWFIV7qgjXn/yWDutfBUXzPYV09i/5JanshobovTq/7ZlDd4ht7PbSxb5sUwS2HFZy4/8edlk=
-Received: from DM5PR12MB2533.namprd12.prod.outlook.com (2603:10b6:4:b0::10) by
- DM6PR12MB4298.namprd12.prod.outlook.com (2603:10b6:5:21e::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.26; Fri, 21 Aug 2020 00:42:01 +0000
-Received: from DM5PR12MB2533.namprd12.prod.outlook.com
- ([fe80::b184:d0e4:c548:df63]) by DM5PR12MB2533.namprd12.prod.outlook.com
- ([fe80::b184:d0e4:c548:df63%7]) with mapi id 15.20.3305.026; Fri, 21 Aug 2020
- 00:42:01 +0000
-From: "Li, Dennis" <Dennis.Li@amd.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Zuo, Jerry" <Jerry.Zuo@amd.com>
-Subject: RE: [PATCH] drm/amd/display: remove unintended executable mode
-Thread-Topic: [PATCH] drm/amd/display: remove unintended executable mode
-Thread-Index: AQHWdgFN5RxpUMiy2ki/zUpsHmcnuqlBub3A
-Date: Fri, 21 Aug 2020 00:42:01 +0000
-Message-ID: <DM5PR12MB25339FED33ECA4DABF7830B3ED5B0@DM5PR12MB2533.namprd12.prod.outlook.com>
-References: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-08-21T00:41:55Z; 
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal Use Only -
- Unrestricted;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=010041bf-f40c-43f4-bec0-fc466a7b714a;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=1
-msip_justification: I confirm the recipients are approved for sharing this
- content
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [58.247.170.242]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c0598ecd-29c2-4ba8-9883-08d8456b04aa
-x-ms-traffictypediagnostic: DM6PR12MB4298:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB429826441CC8CD515799B930ED5B0@DM6PR12MB4298.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3TEavBBa6SebdvOI7D2znb+0VohAEVlhwGdVDFykq/6QOoOEbZ1Yj4nLehudfbdBa3cNagVhZ4433q/FIJ+ElfXtWF8Qr7x6rz0SHkbe6t7dG5NOx8TfrT3CUGVqd5v3kU+4764NoPIdFFlI41NND75OPFncXsD/NfOe8Mnc/1PMzcV6nxWAxp+vh92sVQ+/COBaWD6MiRfXWbQ4eqnyeVLErVIC7Nn/ihUhSvaOkcxHV7Z3ra7ibaQuqr3hIWbNX/pFscHomhiknj/df3UnrQhBX7Cho/wI3+AZp6jOL7T28eftrctV9xYqouqGSXi3F7YNKJoqQDLZm+PK7wFnig==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2533.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(396003)(136003)(376002)(366004)(2906002)(33656002)(478600001)(8676002)(86362001)(4326008)(9686003)(6636002)(110136005)(55016002)(66476007)(8936002)(76116006)(66946007)(7696005)(71200400001)(54906003)(316002)(66446008)(66556008)(64756008)(83380400001)(52536014)(5660300002)(26005)(186003)(53546011)(6506007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: FIC7F8tUQblTXKwPVrT0MIrOFkY9z8oeNxZwwCZH0Tmhod7iYN/93RY5yDF3F0nu1Yd8Wl2sHCfT8aixJJdg9ea70FNXhrwJNqkPVg9JfIBRDfwNlD/Iu9MJ9tBPXAJE25ke8Pg1srbhxlfWHHYD6SEZPabvrFLCb6Nz8//hg7YDGQhkbYlb1934yH606D6spoRBB6RkY6xMxV47akVf2bbUsSKBvaatwx5dMGALpWrEnhY40BXP/QesgWa9LHMLSoa6C0DBgk9zv4hjcLmc0PKwUcqi3OV8Pzyquv65Sy7jp3CV/MwPPT6nzJUK2ItRKmy9ab1m5O28/b8ZXCm/JHXAr0eamIDz4cuhUXj63QicZRM56XdAHQIUlpBovOODDGPtLrw3Dejsy9vovJQTEFGtxYQG8+Ojpb9e00JUstBWK3gj0PoFRydNboOrThz0GAE1uc0y+2VxxMQcBQrGfq/l6lHblGfuJ/FrVF1VLUB8RhJR+2lBAx1UbdoMwGbtgx6CcmzKfZF5qIe8B4UjBbwJxoQSIXTwCJUevoS2bIT4OoRP+HdrkbIx8mdtneuofcWmrdpiIlpC3UnKYdq1cEjO7ZBGVvFP1jaHsuprpo4w0dh6x6Pu6t6yB+5pcv7cwbwaarxN8/JJrb7j82/lyA==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36C306E08E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 01:55:29 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id d11so289512ejt.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 18:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=tBM3q7pJW12rMVs5WoJdio4yMiy6OecKyj2ArnqpUdI=;
+ b=JbjBCB+oVBkLzCXFX0ovj5Ky3e0k3pLE7Pamo+KXVUN59aDz9NQBo588H8i0DAhBAx
+ 4qoHijvxS07t+3Bq4GeQacn126hi3F3dGeJXx7osXjOggLqMkZG+12UqmudRDiAcWLvU
+ yxS8F1VEjaAssRvXRjiqkXVzZyANcaVkYl4JxcGrwye0PaL9DmV8tDcz1mAYJ/ooy9iU
+ 9BgikwLk/wYMJejmTElmgESEiIhjYfJPJc+p1RdDSJSM/2qjXeQUDZgT2KQ43HD5oENS
+ SsaHfrotz7dpxdA8YRrMW98DTGuDp5KDqYFeCQlm8CEilHMElxf2RVxmrAQyN8rzqGui
+ GHEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=tBM3q7pJW12rMVs5WoJdio4yMiy6OecKyj2ArnqpUdI=;
+ b=YizV3Gu3B3pTzSx6JRCOt+t57QbUdMEbpA8U/t3AidF8WHYq4MIzFAH0VVjkeR0rkI
+ M8+Qso2dZmctId080dXRtUe2vxj3keFIfk93+GQ9nAkLCPxwMUxniCk64MJ2mcFuFP7S
+ 2Fj/kladw6kuGDKLrDoyKidv7s7EDZUsl5k8DYYu8qjT2CXUb/zpe0Pp+qiqVcnG+3p6
+ QJwtA6lXjKLFMpDaQjSBQjxsaV+aiem11RDK7uaD/KtQizQ8AhAnffZf8l+LkHU6si7i
+ UzeYMciYfhZI9knVhrn/mFjaZ/bRsJdKeN6sLvvnrRkeTJiG6JJHSWgSZFN/q/7DDOdN
+ u3Ew==
+X-Gm-Message-State: AOAM533aj+B1zJRI6n9olwvNv/juhAa6c6xKEhlf+IyGG8CJ6idB9yzD
+ krZO1cKhAwr0xymZOZIDD0Btp2HVTCEtMkhLmpo=
+X-Google-Smtp-Source: ABdhPJxcHu4BA5A29oHWSmXCSFJILf7bh5tG1VQndqIWcfD4BkqmPpCzgpE9Byu4v0BvTexYrzAT5LXeUmdGzZZ2f18=
+X-Received: by 2002:a17:906:9591:: with SMTP id
+ r17mr721865ejx.456.1597974927611; 
+ Thu, 20 Aug 2020 18:55:27 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2533.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0598ecd-29c2-4ba8-9883-08d8456b04aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2020 00:42:01.3902 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wLp5NiriZszzbTYW9MEW1ynq+5CYNuIf65tCGu7YDXaLeLMMhLIMnS79tCTA0PPZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4298
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 21 Aug 2020 11:55:16 +1000
+Message-ID: <CAPM=9tzpqLjG31xd0nPmGaYs7NXiWEQTtYaZ=vQZedyWU+yjfQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.9-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,77 +59,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chen, Guchun" <Guchun.Chen@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - Internal Distribution Only]
+Hi Linus,
 
-Hi, Lukas,
-      Thanks for your fix. This issue was caused by that I modified these files in windows system with Samba. I will take care in the future. 
+Regular fixes pull for rc2. Usual rc2 doesn't seem too busy, mainly
+i915 and amdgpu. I'd expect the usual uptick for rc3.
 
-Best Regards
-Dennis Li
------Original Message-----
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com> 
-Sent: Wednesday, August 19, 2020 4:18 PM
-To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Li, Dennis <Dennis.Li@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>
-Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Chen, Guchun <Guchun.Chen@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] drm/amd/display: remove unintended executable mode
+Dave.
 
-Besides the intended change, commit 4cc1178e166a ("drm/amdgpu: replace DRM prefix with PCI device info for gfx/mmhub") also set the source files mmhub_v1_0.c and gfx_v9_4.c to be executable, i.e., changed fromold mode
-644 to new mode 755.
+drm-fixes-2020-08-21:
+drm fixes for 5.9-rc2
 
-Commit 241b2ec9317e ("drm/amd/display: Add dcn30 Headers (v2)") added the four header files {dpcs,dcn}_3_0_0_{offset,sh_mask}.h as executable, i.e., mode 755.
+amdgpu:
+- Fix allocation size
+- SR-IOV fixes
+- Vega20 SMU feature state caching fix
+- Fix custom pptable handling
+- Arcturus golden settings update
+- Several display fixes
+- Fixes for Navy Flounder
+- Misc display fixes
+- RAS fix
 
-Set to the usual modes for source and headers files and clean up those mistakes. No functional change.
+amdkfd:
+- SDMA fix for renoir
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on current master and next-20200819
+i915:
+- Fix device parameter usage for selftest mock i915 device
+- Fix LPSP capability debugfs NULL dereference
+- Fix buddy register pagemask table
+- Fix intel_atomic_check() non-negative return value
+- Fix selftests passing a random 0 into ilog2()
+- Fix TGL power well enable/disable ordering
+- Switch to PMU module refcounting
+- GVT fixes
 
-Alex, Christian, please pick this minor non-urgent cleanup patch.
+virtio:
+- Add missing dma_fence_put() in virtio_gpu_execbuffer_ioctl().
+- Fix memory leak in virtio_gpu_cleanup_object().
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-Dennis, Jerry, please ack.
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
-Dennis, Jerry, you might want to check your development environment introducing those executable modes on files.
+are available in the Git repository at:
 
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c                         | 0
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c                       | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h   | 0
- drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h  | 0  drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h  | 0  drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h | 0
- 6 files changed, 0 insertions(+), 0 deletions(-)  mode change 100755 => 100644 drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
- mode change 100755 => 100644 drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h
- mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-08-21
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h
-old mode 100755
-new mode 100644
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h
-old mode 100755
-new mode 100644
---
-2.17.1
+for you to fetch changes up to 0790e63f58f22a68696667102be03efb92a4da5f:
+
+  Merge tag 'drm-intel-fixes-2020-08-20' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-08-21
+11:03:52 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.9-rc2
+
+amdgpu:
+- Fix allocation size
+- SR-IOV fixes
+- Vega20 SMU feature state caching fix
+- Fix custom pptable handling
+- Arcturus golden settings update
+- Several display fixes
+- Fixes for Navy Flounder
+- Misc display fixes
+- RAS fix
+
+amdkfd:
+- SDMA fix for renoir
+
+i915:
+- Fix device parameter usage for selftest mock i915 device
+- Fix LPSP capability debugfs NULL dereference
+- Fix buddy register pagemask table
+- Fix intel_atomic_check() non-negative return value
+- Fix selftests passing a random 0 into ilog2()
+- Fix TGL power well enable/disable ordering
+- Switch to PMU module refcounting
+- GVT fixes
+
+virtio:
+- Add missing dma_fence_put() in virtio_gpu_execbuffer_ioctl().
+- Fix memory leak in virtio_gpu_cleanup_object().
+
+----------------------------------------------------------------
+Anthony Koo (2):
+      drm/amd/display: Fix LFC multiplier changing erratically
+      drm/amd/display: Switch to immediate mode for updating infopackets
+
+Aric Cyr (1):
+      drm/amd/display: Fix incorrect backlight register offset for DCN
+
+Bhawanpreet Lakha (1):
+      drm/amdgpu: parse ta firmware for navy_flounder
+
+Chris Park (3):
+      drm/amd/display: Call DMUB for eDP power control
+      drm/amd/display: Assign correct left shift
+      drm/amd/display: Reset scrambling on Test Pattern
+
+Chris Wilson (3):
+      drm/i915: Provide the perf pmu.module
+      drm/i915: Copy default modparams to mock i915_device
+      drm/i915/display: Check for an LPSP encoder before dereferencing
+
+Christophe JAILLET (1):
+      drm: amdgpu: Use the correct size when allocating memory
+
+Colin Xu (2):
+      drm/i915/gvt: Do not destroy ppgtt_mm during vGPU D3->D0.
+      drm/i915/gvt: Do not reset pv_notified when vGPU transit from D3->D0
+
+Daniel Kolesa (1):
+      drm/amdgpu/display: use GFP_ATOMIC in dcn20_validate_bandwidth_internal
+
+Dave Airlie (4):
+      Merge tag 'drm-misc-fixes-2020-08-12' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'amd-drm-fixes-5.9-2020-08-12' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes
+      Merge tag 'amd-drm-fixes-5.9-2020-08-20' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2020-08-20' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Dmytro Laktyushkin (1):
+      drm/amd/display: fix dcn3 wide timing dsc validation
+
+Evan Quan (2):
+      drm/amd/powerplay: correct Vega20 cached smu feature state
+      drm/amd/powerplay: correct UVD/VCE PG state on custom pptable uploading
+
+George Spelvin (1):
+      drm/i915/selftests: Avoid passing a random 0 into ilog2
+
+Guchun Chen (1):
+      drm/amdgpu: fix NULL pointer access issue when unloading driver
+
+Huang Rui (1):
+      drm/amdkfd: fix the wrong sdma instance query for renoir
+
+Imre Deak (1):
+      drm/i915/tgl: Make sure TC-cold is blocked before enabling TC
+AUX power wells
+
+Jaehyun Chung (1):
+      drm/amd/display: Blank stream before destroying HDCP session
+
+Jani Nikula (1):
+      Merge tag 'gvt-next-fixes-2020-08-05' of
+https://github.com/intel/gvt-linux into drm-intel-fixes
+
+Jiansong Chen (2):
+      drm/amdgpu: disable gfxoff for navy_flounder
+      Revert "drm/amdgpu: disable gfxoff for navy_flounder"
+
+Kevin Wang (1):
+      drm/amdgpu: fix uninit-value in arcturus_log_thermal_throttling_event()
+
+Krunoslav Kovac (1):
+      drm/amd/display: fix pow() crashing when given base 0
+
+Liu ChengZhe (1):
+      drm/amdgpu: Skip some registers config for SRIOV
+
+Matt Roper (1):
+      drm/i915: Update bw_buddy pagemask table
+
+Paul Hsieh (1):
+      drm/amd/display: Fix DFPstate hang due to view port changed
+
+Qi Liu (1):
+      drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioctl()
+
+Stylon Wang (1):
+      drm/amd/display: Fix EDID parsing after resume from suspend
+
+Tianjia Zhang (1):
+      drm/i915: Fix wrong return value in intel_atomic_check()
+
+Xin He (1):
+      drm/virtio: fix memory leak in virtio_gpu_cleanup_object()
+
+shiwu.zhang (1):
+      drm/amdgpu: update gc golden register for arcturus
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c  | 31 ++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  1 +
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v2_1.c           | 19 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c            | 19 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |  3 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  1 +
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 16 +++++++-
+ .../gpu/drm/amd/display/dc/bios/command_table2.c   | 28 ++++++++++++++
+ .../gpu/drm/amd/display/dc/bios/command_table2.h   |  3 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  3 +-
+ drivers/gpu/drm/amd/display/dc/dc_bios_types.h     |  4 ++
+ .../gpu/drm/amd/display/dc/dce/dce_panel_cntl.h    |  2 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    | 24 ++++++++++++
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.c    | 16 ++++----
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.h    | 14 +++++++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  4 +-
+ .../drm/amd/display/dc/dcn20/dcn20_link_encoder.h  |  4 +-
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  2 +-
+ .../amd/display/dc/dcn30/dcn30_dio_link_encoder.h  |  5 ++-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |  1 +
+ .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |  4 ++
+ .../drm/amd/display/include/bios_parser_types.h    |  7 ++++
+ drivers/gpu/drm/amd/display/include/fixed31_32.h   |  3 ++
+ .../drm/amd/display/modules/freesync/freesync.c    | 36 ++++++++++++++----
+ drivers/gpu/drm/amd/powerplay/arcturus_ppt.c       |  9 +++--
+ drivers/gpu/drm/amd/powerplay/hwmgr/vega20_hwmgr.c | 44 ++++++++++------------
+ drivers/gpu/drm/i915/display/intel_display.c       |  2 +-
+ .../gpu/drm/i915/display/intel_display_debugfs.c   |  7 +++-
+ drivers/gpu/drm/i915/display/intel_display_power.c | 14 +++----
+ drivers/gpu/drm/i915/gvt/cfg_space.c               | 24 ++++++++++++
+ drivers/gpu/drm/i915/gvt/gtt.c                     |  2 +-
+ drivers/gpu/drm/i915/gvt/gtt.h                     |  2 +
+ drivers/gpu/drm/i915/gvt/gvt.h                     |  3 ++
+ drivers/gpu/drm/i915/gvt/vgpu.c                    | 20 ++++++++--
+ drivers/gpu/drm/i915/i915_pmu.c                    |  7 +---
+ drivers/gpu/drm/i915/selftests/i915_buddy.c        | 18 +++++----
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c   |  3 ++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  1 +
+ drivers/gpu/drm/virtio/virtgpu_object.c            |  1 +
+ 41 files changed, 317 insertions(+), 94 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
