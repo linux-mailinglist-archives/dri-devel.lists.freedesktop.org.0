@@ -1,37 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2398824C92E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 02:29:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 691F124C94A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 02:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27516EA82;
-	Fri, 21 Aug 2020 00:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C166EA8C;
+	Fri, 21 Aug 2020 00:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B67006EA82
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 00:29:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E07930E;
- Thu, 20 Aug 2020 17:29:01 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09B773F71F;
- Thu, 20 Aug 2020 17:28:52 -0700 (PDT)
-Subject: Re: [PATCH 12/18] iommu/tegra-gart: Add IOMMU_DOMAIN_DMA support
-To: Dmitry Osipenko <digetx@gmail.com>, hch@lst.de, joro@8bytes.org,
- linux@armlinux.org.uk
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <516b33118d489e56499ff8c64c019709b744110c.1597931876.git.robin.murphy@arm.com>
- <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
-Date: Fri, 21 Aug 2020 01:28:49 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760058.outbound.protection.outlook.com [40.107.76.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4866EA85;
+ Fri, 21 Aug 2020 00:42:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mAVXYt7Nb4ysq3S3hjOdMoPQrfvIbWlzKly5iECDnkKDeEvImQY47kPujpBbv7QAmyYvz3/QlrHr4WJpknYw/ZBg3mNiKJMS6Ll4Qt9LcWSr1zPhP0+MrjyPyMGqgS+GACXq6T5ku4uPWjqj8qBZYvtqcnNzQQOF9X37TmkE3JlIRUfASzhFPKw2g49QQJ/55GOMlqY8QBhgGjHMeBTSg/4xO/bpPXNF13IHJUM/EZwVn3BVkXB6Yl+jH0oT/TUqeaqBvb9M81NvbRneBHUzpWXwhaTneBKCr0k5THjDPfKy3Wo8eL54euv7sqL6abG+Yf4bJFntW6X2CTHqgJFfKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bXnBqlMTikO1Mmzej4O3q0TMlNm43vNfrW7jdDJjwTM=;
+ b=m7kQ15zsElSyBXReseWbRNih4YJIbaHMkMzVyh/A2IiMxGxdnDYGhCObDHbj2nRUHoepni91qdrrQZaIPnxjpqTyLCWt2Fb72b8etiO4cEaD4110aLK9HOU4IdM8AJbrZVoXBM1E6F5+cKFpS8i8SjieiArqC6OtzFc+VzfsOVIM79Fthcr3WjvcqXy/pTjpEPNklekkIe6iU8c+MyRe79kWxyjft5dWzsznOuADAAr6DBqkxuiknxqRKNv7lrMCV4wXXfGm8RI9tblXVpTTNSa/082c43CeO6WJwLYWEBjxpK5sFCVvHWmSYLWRFzJ9qz8jB3BYz/Dzt/uBQ2RPYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bXnBqlMTikO1Mmzej4O3q0TMlNm43vNfrW7jdDJjwTM=;
+ b=IoswEnUECz4rGEPxuIESg4Zvfc330ttz2mcV4g93rT79+jUhgJLpVtc3NZAhz6IFjDWDgwTbFBekYAaZfH836wZ2ZsN1cK+mhkMWFIV7qgjXn/yWDutfBUXzPYV09i/5JanshobovTq/7ZlDd4ht7PbSxb5sUwS2HFZy4/8edlk=
+Received: from DM5PR12MB2533.namprd12.prod.outlook.com (2603:10b6:4:b0::10) by
+ DM6PR12MB4298.namprd12.prod.outlook.com (2603:10b6:5:21e::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.26; Fri, 21 Aug 2020 00:42:01 +0000
+Received: from DM5PR12MB2533.namprd12.prod.outlook.com
+ ([fe80::b184:d0e4:c548:df63]) by DM5PR12MB2533.namprd12.prod.outlook.com
+ ([fe80::b184:d0e4:c548:df63%7]) with mapi id 15.20.3305.026; Fri, 21 Aug 2020
+ 00:42:01 +0000
+From: "Li, Dennis" <Dennis.Li@amd.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Zuo, Jerry" <Jerry.Zuo@amd.com>
+Subject: RE: [PATCH] drm/amd/display: remove unintended executable mode
+Thread-Topic: [PATCH] drm/amd/display: remove unintended executable mode
+Thread-Index: AQHWdgFN5RxpUMiy2ki/zUpsHmcnuqlBub3A
+Date: Fri, 21 Aug 2020 00:42:01 +0000
+Message-ID: <DM5PR12MB25339FED33ECA4DABF7830B3ED5B0@DM5PR12MB2533.namprd12.prod.outlook.com>
+References: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20200819081808.26796-1-lukas.bulwahn@gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-08-21T00:41:55Z; 
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal Use Only -
+ Unrestricted;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=010041bf-f40c-43f4-bec0-fc466a7b714a;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=1
+msip_justification: I confirm the recipients are approved for sharing this
+ content
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [58.247.170.242]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c0598ecd-29c2-4ba8-9883-08d8456b04aa
+x-ms-traffictypediagnostic: DM6PR12MB4298:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB429826441CC8CD515799B930ED5B0@DM6PR12MB4298.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3TEavBBa6SebdvOI7D2znb+0VohAEVlhwGdVDFykq/6QOoOEbZ1Yj4nLehudfbdBa3cNagVhZ4433q/FIJ+ElfXtWF8Qr7x6rz0SHkbe6t7dG5NOx8TfrT3CUGVqd5v3kU+4764NoPIdFFlI41NND75OPFncXsD/NfOe8Mnc/1PMzcV6nxWAxp+vh92sVQ+/COBaWD6MiRfXWbQ4eqnyeVLErVIC7Nn/ihUhSvaOkcxHV7Z3ra7ibaQuqr3hIWbNX/pFscHomhiknj/df3UnrQhBX7Cho/wI3+AZp6jOL7T28eftrctV9xYqouqGSXi3F7YNKJoqQDLZm+PK7wFnig==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2533.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(396003)(136003)(376002)(366004)(2906002)(33656002)(478600001)(8676002)(86362001)(4326008)(9686003)(6636002)(110136005)(55016002)(66476007)(8936002)(76116006)(66946007)(7696005)(71200400001)(54906003)(316002)(66446008)(66556008)(64756008)(83380400001)(52536014)(5660300002)(26005)(186003)(53546011)(6506007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: FIC7F8tUQblTXKwPVrT0MIrOFkY9z8oeNxZwwCZH0Tmhod7iYN/93RY5yDF3F0nu1Yd8Wl2sHCfT8aixJJdg9ea70FNXhrwJNqkPVg9JfIBRDfwNlD/Iu9MJ9tBPXAJE25ke8Pg1srbhxlfWHHYD6SEZPabvrFLCb6Nz8//hg7YDGQhkbYlb1934yH606D6spoRBB6RkY6xMxV47akVf2bbUsSKBvaatwx5dMGALpWrEnhY40BXP/QesgWa9LHMLSoa6C0DBgk9zv4hjcLmc0PKwUcqi3OV8Pzyquv65Sy7jp3CV/MwPPT6nzJUK2ItRKmy9ab1m5O28/b8ZXCm/JHXAr0eamIDz4cuhUXj63QicZRM56XdAHQIUlpBovOODDGPtLrw3Dejsy9vovJQTEFGtxYQG8+Ojpb9e00JUstBWK3gj0PoFRydNboOrThz0GAE1uc0y+2VxxMQcBQrGfq/l6lHblGfuJ/FrVF1VLUB8RhJR+2lBAx1UbdoMwGbtgx6CcmzKfZF5qIe8B4UjBbwJxoQSIXTwCJUevoS2bIT4OoRP+HdrkbIx8mdtneuofcWmrdpiIlpC3UnKYdq1cEjO7ZBGVvFP1jaHsuprpo4w0dh6x6Pu6t6yB+5pcv7cwbwaarxN8/JJrb7j82/lyA==
 MIME-Version: 1.0
-In-Reply-To: <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
-Content-Language: en-GB
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2533.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0598ecd-29c2-4ba8-9883-08d8456b04aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2020 00:42:01.3902 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wLp5NiriZszzbTYW9MEW1ynq+5CYNuIf65tCGu7YDXaLeLMMhLIMnS79tCTA0PPZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4298
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,69 +103,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, matthias.bgg@gmail.com, thierry.reding@gmail.com,
- laurent.pinchart@ideasonboard.com, s-anna@ti.com, will@kernel.org,
- m.szyprowski@samsung.com, linux-samsung-soc@vger.kernel.org,
- magnus.damm@gmail.com, kyungmin.park@samsung.com, jonathanh@nvidia.com,
- agross@kernel.org, yong.wu@mediatek.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, t-kristo@ti.com,
- iommu@lists.linux-foundation.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Chen, Guchun" <Guchun.Chen@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wOC0yMCAyMToxNiwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDIwLjA4LjIwMjAg
-MTg6MDgsIFJvYmluIE11cnBoeSDQv9C40YjQtdGCOgo+PiBOb3cgdGhhdCBhcmNoL2FybSBpcyB3
-aXJlZCB1cCBmb3IgZGVmYXVsdCBkb21haW5zIGFuZCBpb21tdS1kbWEsCj4+IGltcGxlbWVudCB0
-aGUgY29ycmVzcG9uZGluZyBkcml2ZXItc2lkZSBzdXBwb3J0IGZvciBETUEgZG9tYWlucy4KPj4K
-Pj4gU2lnbmVkLW9mZi1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KPj4g
-LS0tCj4+ICAgZHJpdmVycy9pb21tdS90ZWdyYS1nYXJ0LmMgfCAxNyArKysrKysrKysrKystLS0t
-LQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQo+
-Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS90ZWdyYS1nYXJ0LmMgYi9kcml2ZXJzL2lv
-bW11L3RlZ3JhLWdhcnQuYwo+PiBpbmRleCBmYWM3MjAyNzM4ODkuLmUwODEzODcwODBmNiAxMDA2
-NDQKPj4gLS0tIGEvZHJpdmVycy9pb21tdS90ZWdyYS1nYXJ0LmMKPj4gKysrIGIvZHJpdmVycy9p
-b21tdS90ZWdyYS1nYXJ0LmMKPj4gQEAgLTksNiArOSw3IEBACj4+ICAgCj4+ICAgI2RlZmluZSBk
-ZXZfZm10KGZtdCkJImdhcnQ6ICIgZm10Cj4+ICAgCj4+ICsjaW5jbHVkZSA8bGludXgvZG1hLWlv
-bW11Lmg+Cj4+ICAgI2luY2x1ZGUgPGxpbnV4L2lvLmg+Cj4+ICAgI2luY2x1ZGUgPGxpbnV4L2lv
-bW11Lmg+Cj4+ICAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZXBhcmFtLmg+Cj4+IEBAIC0xNDUsMTYg
-KzE0NiwyMiBAQCBzdGF0aWMgc3RydWN0IGlvbW11X2RvbWFpbiAqZ2FydF9pb21tdV9kb21haW5f
-YWxsb2ModW5zaWduZWQgdHlwZSkKPj4gICB7Cj4+ICAgCXN0cnVjdCBpb21tdV9kb21haW4gKmRv
-bWFpbjsKPiAKPiBIZWxsbywgUm9iaW4hCj4gCj4gVGVncmEyMCBHQVJUIGlzbid0IGEgcmVhbCBJ
-T01NVSwgYnV0IGEgc21hbGwgcmVsb2NhdGlvbiBhcGVydHVyZS4gV2UKPiB3b3VsZCBvbmx5IHdh
-bnQgdG8gdXNlIGl0IGZvciBhIHRlbXBvcmFsIG1hcHBpbmdzIChtYW5hZ2VkIGJ5IEdQVQo+IGRy
-aXZlcikgZm9yIHRoZSB0aW1lIHdoaWxlIEdQVSBoYXJkd2FyZSBpcyBidXN5IGFuZCB3b3JraW5n
-IHdpdGggYQo+IHNwYXJzZSBETUEgYnVmZmVycywgdGhlIGRyaXZlciB3aWxsIHRha2UgY2FyZSBv
-ZiB1bm1hcHBpbmcgdGhlIHNwYXJzZQo+IGJ1ZmZlcnMgb25jZSBHUFUgd29yayBpcyBmaW5pc2hl
-ZCBbMV0uIEluIGEgY2FzZSBvZiBjb250aWd1b3VzIERNQQo+IGJ1ZmZlcnMsIHdlIHdhbnQgdG8g
-YnlwYXNzIHRoZSBJT01NVSBhbmQgdXNlIGJ1ZmZlcidzIHBoeXMgYWRkcmVzcwo+IGJlY2F1c2Ug
-R0FSVCBhcGVydHVyZSBpcyBzbWFsbCBhbmQgYWxsIGJ1ZmZlcnMgc2ltcGx5IGNhbid0IGZpdCBp
-bnRvCj4gR0FSVCBmb3IgYSBjb21wbGV4IEdQVSBvcGVyYXRpb25zIHRoYXQgaW52b2x2ZSBtdWx0
-aXBsZSBidWZmZXJzIFsyXVszXS4KPiBUaGUgdXBzdHJlYW0gR1BVIGRyaXZlciBzdGlsbCBkb2Vz
-bid0IHN1cHBvcnQgR0FSVCwgYnV0IGV2ZW50dWFsbHkgaXQKPiBuZWVkcyB0byBiZSBjaGFuZ2Vk
-Lgo+IAo+IFsxXQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGludXgvYmxvYi9t
-YXN0ZXIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2dhcnQuYyNMNDg5Cj4gCj4gWzJdCj4gaHR0cHM6
-Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saW51eC9ibG9iL21hc3Rlci9kcml2ZXJzL2dwdS9k
-cm0vdGVncmEvZ2FydC5jI0w1NDIKPiAKPiBbM10KPiBodHRwczovL2dpdGh1Yi5jb20vZ3JhdGUt
-ZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS91YXBpL3BhdGNo
-aW5nLmMjTDkwCj4gCj4+IC0JaWYgKHR5cGUgIT0gSU9NTVVfRE9NQUlOX1VOTUFOQUdFRCkKPj4g
-KwlpZiAodHlwZSAhPSBJT01NVV9ET01BSU5fVU5NQU5BR0VEICYmIHR5cGUgIT0gSU9NTVVfRE9N
-QUlOX0RNQSkKPj4gICAJCXJldHVybiBOVUxMOwo+IAo+IFdpbGwgYSByZXR1cm5lZCBOVUxMIHRl
-bGwgdG8gSU9NTVUgY29yZSB0aGF0IGltcGxpY2l0IGRvbWFpbiBzaG91bGRuJ3QKPiBiZSB1c2Vk
-PyBJcyBpdCBwb3NzaWJsZSB0byBsZWF2ZSB0aGlzIGRyaXZlciBhcy1pcz8KClRoZSBhaW0gb2Yg
-dGhpcyBwYXRjaCB3YXMganVzdCB0byBtYWtlIHRoZSBjb252ZXJzaW9uIHdpdGhvdXQgZnVuY3Rp
-b25hbCAKY2hhbmdlcyB3aGVyZXZlciBwb3NzaWJsZSwgaS5lLiBtYWludGFpbiBhbiBlcXVpdmFs
-ZW50IHRvIHRoZSBleGlzdGluZyAKQVJNIGJlaGF2aW91ciBvZiBhbGxvY2F0aW5nIGl0cyBvd24g
-aW1wbGljaXQgZG9tYWlucyBmb3IgZXZlcnl0aGluZy4gSXQgCmRvZXNuJ3QgcmVwcmVzZW50IGFu
-eSBqdWRnZW1lbnQgb2Ygd2hldGhlciB0aGF0IHdhcyBldmVyIGFwcHJvcHJpYXRlIGZvciAKdGhp
-cyBkcml2ZXIgaW4gdGhlIGZpcnN0IHBsYWNlIDspCgpIb3BlZnVsbHkgbXkgb3RoZXIgcmVwbHkg
-YWxyZWFkeSBjb3ZlcmVkIHRoZSBkZWdyZWUgb2YgY29udHJvbCBkcml2ZXJzIApjYW4gaGF2ZSB3
-aXRoIHByb3BlciBkZWZhdWx0IGRvbWFpbnMsIGJ1dCBkbyBzaG91dCBpZiBhbnl0aGluZyB3YXNu
-J3QgY2xlYXIuCgpDaGVlcnMsClJvYmluLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+[AMD Official Use Only - Internal Distribution Only]
+
+Hi, Lukas,
+      Thanks for your fix. This issue was caused by that I modified these files in windows system with Samba. I will take care in the future. 
+
+Best Regards
+Dennis Li
+-----Original Message-----
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com> 
+Sent: Wednesday, August 19, 2020 4:18 PM
+To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Li, Dennis <Dennis.Li@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>
+Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Chen, Guchun <Guchun.Chen@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] drm/amd/display: remove unintended executable mode
+
+Besides the intended change, commit 4cc1178e166a ("drm/amdgpu: replace DRM prefix with PCI device info for gfx/mmhub") also set the source files mmhub_v1_0.c and gfx_v9_4.c to be executable, i.e., changed fromold mode
+644 to new mode 755.
+
+Commit 241b2ec9317e ("drm/amd/display: Add dcn30 Headers (v2)") added the four header files {dpcs,dcn}_3_0_0_{offset,sh_mask}.h as executable, i.e., mode 755.
+
+Set to the usual modes for source and headers files and clean up those mistakes. No functional change.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on current master and next-20200819
+
+Alex, Christian, please pick this minor non-urgent cleanup patch.
+
+Dennis, Jerry, please ack.
+
+Dennis, Jerry, you might want to check your development environment introducing those executable modes on files.
+
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c                         | 0
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c                       | 0
+ drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h   | 0
+ drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h  | 0  drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h  | 0  drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h | 0
+ 6 files changed, 0 insertions(+), 0 deletions(-)  mode change 100755 => 100644 drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
+ mode change 100755 => 100644 drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
+ mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h
+ mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
+ mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h
+ mode change 100755 => 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4.c
+old mode 100755
+new mode 100644
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
+old mode 100755
+new mode 100644
+diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_offset.h
+old mode 100755
+new mode 100644
+diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
+old mode 100755
+new mode 100644
+diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_offset.h
+old mode 100755
+new mode 100644
+diff --git a/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/dcn/dpcs_3_0_0_sh_mask.h
+old mode 100755
+new mode 100644
+--
+2.17.1
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
