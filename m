@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A064F24E687
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0F424E688
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4154F6E446;
-	Sat, 22 Aug 2020 09:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826926E461;
+	Sat, 22 Aug 2020 09:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E196E175
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 15:27:44 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r2so2313923wrs.8
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 08:27:44 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57D0A6E175
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 15:28:18 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t14so2237916wmi.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 08:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=A2ib5YeLmICUMl8rksAwSuoFVXHYJ4y/hwVWZYHuMbY=;
- b=q1l9IeVSjBMpvx9pappt54xWWzVHKZAIjcy2grhmETrscRqtkMd92gelvCAxF9/YxC
- df2utnw/GutYtLaWTyxshKq81bXGskLk4qcfcSscEKDCL886LGJEwbC1r96+vnepfNBv
- jkjHnEbfuoDp1u2zzg9/wRQMYc1+nwHjwzSo5R54G3vmWIpoag3D8Nw+ooApVOW1lPIL
- 2sySVBcDBsREymUfLDG/3d/biHjObMIHhwnvYhhvHCc+2n9XpU8cgcNkZzk/MNTvt1Kj
- Z68WE74zqAh5LRtvnrlfIyn4mnRWfq7JDcngcwi2y3FeCEqGNlMqQpe1/NrbzwXGCJjD
- 9J8Q==
+ bh=+y66MqggCakjVuRG4cFz30VjWieYM9CuDcuOFxkR0Z0=;
+ b=XrqNGUmj2d6Xu6Kb6GMB3M6jmXO1rzxI9r2vGH/mlHjReZ/EU9RkaCjmwICLzWY4Gn
+ TGX8IBv6+v8eYu5rSay0806nirzMq65EzeJd6NOkbwQbwSEiQFJy8wdhquSBc4YOfmUG
+ p5s1Bzs56kl0dmEPlRi1W31V8SFMxK3pzTUz2D6boIA6gDo8i1/ZZgcjkvirtaMc+lJ5
+ UDWeWSgwgYyOdUACy2ozcc/Iz83Ln4ITtmcCsk/xqOjAcwFXWIiCIgjVAxfygoZs1p0z
+ gKl3GsxfxpaqAYLtGx3HWCsRKVXuJHaNRjzlKM+z/lvf1aseKPg6eUs2uPFuZ5fcGSSB
+ 4/Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=A2ib5YeLmICUMl8rksAwSuoFVXHYJ4y/hwVWZYHuMbY=;
- b=nkALomKwQ3MjhJZiHah9Vmo2p3gtm5YuVcR8OQTaSIrHmokvjO+rOgnc0xVSqiK+We
- Y9UW2AaVC7nKpInJtqSFoQIvNAc1F2xtcM3ujw2AINREBRPvy9nmoiTzr0Ec5QOHig2W
- BEQs7m4E0uQ0cUfvIm2cMfP87c3JYrcYxXr0kBiKBmtZXy5KdRPxpwvpMUxWwHq+qZ6h
- 9g7mw6a+cZp1pxdVqxAKrgB4mfX29mTkK54l+QmzOWKtaID0O4+4Ti1w+dQyOzsY1SAt
- Ne3mgjtXfon0+9aQAVHFGCcTtjY/M0AJSGn7NNyCbUSIRMh75C1sxCl99tWcZzXALFRy
- m6wA==
-X-Gm-Message-State: AOAM531s64OushHvs8BsQ+CylL6Loolv4XlYXN1u9yv1Mi73zGGDbPg8
- SzwNqmxzIa+au/I3apBr5Zw=
-X-Google-Smtp-Source: ABdhPJwnHUuth1Lgg+jMpWeo2o0KMQOm5Qu+a71/U7ael4vzzcfepC1XxXX3R/e7IfVXP9rCUNyY7Q==
-X-Received: by 2002:a5d:4701:: with SMTP id y1mr3322387wrq.416.1598023663658; 
- Fri, 21 Aug 2020 08:27:43 -0700 (PDT)
+ bh=+y66MqggCakjVuRG4cFz30VjWieYM9CuDcuOFxkR0Z0=;
+ b=RLNRo8RNQvzAaxV53a/X452CxUYL4siWlTgTok80ArSh1mqjKWCRQjuPcS/EdqBGFy
+ ZKeXgV1g4b7j5dknqCV1gJhWnIZo+6zrdNngnDNM5xIncm6pZqMWY4XuwNC7zZynx5Uy
+ QMa+KXkZr7T1zdOMNMb1JdqjrdTJR3fsQqFxJVljjN8c9Q9TNQKsz7miPHq/Q9cLXz37
+ SCObN/DcqmxBW/a69Xh8KMdrAh7lT1hJNL/hsS9kLp11wFjoRnPUyEwLqHZH3epyQv/8
+ ztPPpQNS+8HGMh2mGFrxaGMX49ep5FEILSE4CGS/iunaklN+FxUF+h4cLBQc46U/mYf8
+ VEQQ==
+X-Gm-Message-State: AOAM533QR4kw4+GUshhEIUqWuBxqL3v3DTxHl6lA6/YPiV3wu08H1/H0
+ 2brBIXNsDS1CnSv79kluZIo=
+X-Google-Smtp-Source: ABdhPJzsj3Ldq5q3T34rHmzgtlQJTbTH7AApriawiIsBCRv3S499thDPeosIx/PU22cuIXSKmQim4Q==
+X-Received: by 2002:a7b:c011:: with SMTP id c17mr4278996wmb.63.1598023697023; 
+ Fri, 21 Aug 2020 08:28:17 -0700 (PDT)
 Received: from tsnow (IGLD-83-130-85-196.inter.net.il. [83.130.85.196])
- by smtp.gmail.com with ESMTPSA id i4sm4575674wrw.26.2020.08.21.08.27.39
+ by smtp.gmail.com with ESMTPSA id w132sm6418009wma.32.2020.08.21.08.28.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 08:27:43 -0700 (PDT)
-Date: Fri, 21 Aug 2020 18:27:37 +0300
+ Fri, 21 Aug 2020 08:28:16 -0700 (PDT)
+Date: Fri, 21 Aug 2020 18:28:10 +0300
 From: Tomer Samara <tomersamara98@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 1/2] staging: android: Remove BUG_ON from ion_page_pool.c
-Message-ID: <32ea3b6d840cb56ea927400e1875d9d4db38e926.1598023524.git.tomersamara98@gmail.com>
+Subject: [PATCH v4 2/2] staging: android: Remove BUG from ion_system_heap.c
+Message-ID: <a39407f84031eaeed5e65a7aab515a079edf5fcc.1598023524.git.tomersamara98@gmail.com>
 References: <cover.1598023523.git.tomersamara98@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -79,50 +79,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-BUG_ON() is removed at ion_page_pool.c
+Remove BUG() from ion_sytem_heap.c
 
-Fixes the following issue:
-Avoid crashing the kernel - try using WARN_ON & recovery code ratherthan BUG() or BUG_ON().
+this fix the following checkpatch issue:
+Avoid crashing the kernel - try using WARN_ON &
+recovery code ratherthan BUG() or BUG_ON().
 
 Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
 ---
- drivers/staging/android/ion/ion_page_pool.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/staging/android/ion/ion_system_heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/android/ion/ion_page_pool.c b/drivers/staging/android/ion/ion_page_pool.c
-index 0198b886d906..a3ed3bfd47ee 100644
---- a/drivers/staging/android/ion/ion_page_pool.c
-+++ b/drivers/staging/android/ion/ion_page_pool.c
-@@ -46,11 +46,9 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
- 	struct page *page;
- 
- 	if (high) {
--		BUG_ON(!pool->high_count);
- 		page = list_first_entry(&pool->high_items, struct page, lru);
- 		pool->high_count--;
- 	} else {
--		BUG_ON(!pool->low_count);
- 		page = list_first_entry(&pool->low_items, struct page, lru);
- 		pool->low_count--;
- 	}
-@@ -65,8 +63,6 @@ struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
- {
- 	struct page *page = NULL;
- 
--	BUG_ON(!pool);
--
- 	mutex_lock(&pool->mutex);
- 	if (pool->high_count)
- 		page = ion_page_pool_remove(pool, true);
-@@ -82,7 +78,7 @@ struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
- 
- void ion_page_pool_free(struct ion_page_pool *pool, struct page *page)
- {
--	BUG_ON(pool->order != compound_order(page));
-+	WARN_ON(pool->order != compound_order(page))
- 
- 	ion_page_pool_add(pool, page);
+diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
+index eac0632ab4e8..00d6154aec34 100644
+--- a/drivers/staging/android/ion/ion_system_heap.c
++++ b/drivers/staging/android/ion/ion_system_heap.c
+@@ -30,7 +30,7 @@ static int order_to_index(unsigned int order)
+ 	for (i = 0; i < NUM_ORDERS; i++)
+ 		if (order == orders[i])
+ 			return i;
+-	BUG();
++	/* This is impossible. */
+ 	return -1;
  }
+ 
 -- 
 2.25.1
 
