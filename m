@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0461F24E2FC
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 00:07:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5DE24E301
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 00:07:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D956EC1D;
-	Fri, 21 Aug 2020 22:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC246EC20;
+	Fri, 21 Aug 2020 22:07:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDA796EC1D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 22:07:49 +0000 (UTC)
+X-Greylist: delayed 1256 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Aug 2020 22:07:51 UTC
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8256EC1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 22:07:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598047668;
+ s=mimecast20190719; t=1598047670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XjtI18d1f2H/aKTyFHmileH6IrtXVHmAbfK2HkX3dk0=;
- b=Uy/SiJQITj/pyvkIfObllrS3fB4/X87vzIgDdfX5Fv4vxDw6Kg6yNBhOgM2pZ0VmxsQKRC
- eARQAW9/jRciEcAwEaPHyvw1tjeSKZtZ+ebh0k7gp52RzNCk41ajIBEj4sHCpIJDOLshtk
- VxCVXfeNOYzeWdCjKTzBpKagQ6kRkTk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-M0ib1N3-OFyVrC3Lc9E3bA-1; Fri, 21 Aug 2020 18:07:47 -0400
-X-MC-Unique: M0ib1N3-OFyVrC3Lc9E3bA-1
-Received: by mail-ej1-f71.google.com with SMTP id l7so1277064ejr.7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 15:07:46 -0700 (PDT)
+ bh=+Ghw+o5+dr+bNDRCy44b4u1duUjDbA9r6jkFwxNcpSY=;
+ b=dLGUENF+5kzEnPTkycAqQ2Q6Df/oVijRlzaHp22BKj+okGPKfxNiKX7EnjFo5jwW+JuHDe
+ x/uS+C8K0BC781FfH0Z2wKzOy2U0TQIwMEUaDHsKbx1OGLJbj1Ffkpwo4DV1iXftuWqgaQ
+ epMF1xWEwIrLyFyFyTF+xQ36TlFKbu8=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-zZdcZaIlOUmLHRGvXexFow-1; Fri, 21 Aug 2020 18:07:48 -0400
+X-MC-Unique: zZdcZaIlOUmLHRGvXexFow-1
+Received: by mail-ej1-f70.google.com with SMTP id lg2so1260379ejb.23
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 15:07:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:content-transfer-encoding:from:mime-version
  :subject:date:message-id:references:cc:in-reply-to:to;
- bh=6/wi0Nw+OScWqjXUa7deT7et3gd07Go77zu0NJl9auw=;
- b=ZWmcwdSitGks/LPoQTlmrAt3AvpTam0ozazFGQxWKBrHG7T0ij1V2vy1/ECO0u+4rG
- JV8c13bNdNUseD1/O28TNVV2+187JIgf3qz1xjxjGH+gnvH04SiwuxhMLJ+cFQe3q+YA
- PMynPBy0eRnMhNu0TBjJySnekXIL6vMqqFkIE0eUrex3D/VXK4ql7ZnA/d4vb3xUS+Bf
- hPDYaYLC1dXOw0/RPpJr000IpU3Q3fbevOsyMnBgGJ8vKquRXdKhO/DxXAOB+vzhEhtS
- lXRnN0/MB+UyTGGL9Yj47ptcj0TLWPN8O1LtGUK7kgPPk2JRZLsWUK+iKhkFzeyPhEz5
- klQw==
-X-Gm-Message-State: AOAM532ahvQdN4TVRzAV/IxM0fxsft4LJsrqn+1N1mSWqgaNEDUDzJ69
- TcK1XEP/drCDU4GFaeOqnvQ9RW7TP7Afbt3wE2WB+FJS00E9+x9eecm9ATucja7T+U0kLckt80a
- N98pEFZQHZdq8utJciUN6HuL9/5mR
-X-Received: by 2002:a17:906:6d91:: with SMTP id
- h17mr4593038ejt.531.1598047665748; 
- Fri, 21 Aug 2020 15:07:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2fGCDlUrSC0ozVrUImslz75nvdXz6gshUl15sF6TxX4V9+R9BHsd6i/JypP0Cf8+w6d3+oA==
-X-Received: by 2002:a17:906:6d91:: with SMTP id
- h17mr4593016ejt.531.1598047665540; 
- Fri, 21 Aug 2020 15:07:45 -0700 (PDT)
+ bh=DkSg3luBHRm0cvkVLNBpsnCZK9HVFB0m9kyx8QwK1QI=;
+ b=KPvt47rc3ZEGiu/ozjLIPuwpkdmCkac8MLtvWEHwGDi/5KrpYwOOYOgzY/Ypw3Cm+2
+ 9MJ4emM25tOXvGda6YWqR362hljIzWoZgt8XoA4SZ/CiCh06CLY82RSEfzEubF8g7OP+
+ dMYKUmxDTBdoF7FXLQfJ9zfnEcVl9/GMeqo4aFoqZNi1ach0ZfvBxX605kQuzDouzgzI
+ 6lmRbbcubpNDgN71vbnVDRCuYTQDiQLUeaKLbFVG/so86f9G/4idDF7z9bsgZ2PVhR4+
+ n0Z61NLG5BAwwDJlt68MC/SRP+YkeBMIe4Dnz89EZSNtfJgymGSB/Bz2GqfuNEEViB0r
+ gK5w==
+X-Gm-Message-State: AOAM533rwnF03q7EGY7F7Kokor+zTbbBp1cXnThiDV+qcuSNWhVMk3+B
+ nIt1tvcGiNdHIzpjbcAjdaro5RmbmeXQ7wgZbEG/Fid/zvaajT/ZYvht+fDUW8R7E73QBS/rWlE
+ EMHj0580dT8sLvqDU0NvOJA3USckR
+X-Received: by 2002:a17:906:2a04:: with SMTP id
+ j4mr5244881eje.440.1598047667320; 
+ Fri, 21 Aug 2020 15:07:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhvJaQ8AyV/ONfuc3qKwQ/zzerkQ6ZDcGPqYKrvzzg0K+cbZJ1cq8ZccJ0IrDrvfkZ/kgetQ==
+X-Received: by 2002:a17:906:2a04:: with SMTP id
+ j4mr5244849eje.440.1598047667115; 
+ Fri, 21 Aug 2020 15:07:47 -0700 (PDT)
 Received: from [192.168.3.122] (p5b0c6231.dip0.t-ipconnect.de. [91.12.98.49])
  by smtp.gmail.com with ESMTPSA id
- n10sm1810467edo.43.2020.08.21.15.07.44
+ zc8sm181245ejb.103.2020.08.21.15.07.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 15:07:45 -0700 (PDT)
+ Fri, 21 Aug 2020 15:07:46 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH v4 00/23] device-dax: Support sub-dividing soft-reserved
  ranges
-Date: Fri, 21 Aug 2020 23:42:49 +0200
-Message-Id: <1FB395E7-633D-4F3E-82F5-12E2FDAF33EC@redhat.com>
+Date: Fri, 21 Aug 2020 23:43:50 +0200
+Message-Id: <D0A25288-C72D-47C1-BD8F-C1C1A6BFA0BF@redhat.com>
 References: <646DDE9B-90C2-493A-958C-90EFA1CCA475@redhat.com>
 In-Reply-To: <646DDE9B-90C2-493A-958C-90EFA1CCA475@redhat.com>
 To: Dan Williams <dan.j.williams@intel.com>
@@ -167,7 +169,8 @@ ZW4gdW5kZXJzdGFuZCB3aGF0IOKAnnNvZnQtcmVzZXJ2ZWTigJwgaXMgYW5kIEkgY291bGQgYmV0
 IG1vc3QgcGVvcGxlIGhhdmUgbm8gY2x1ZSB3aGF0IHRoYXQgaXMgc3VwcG9zZWQgdG8gYmUuCj4g
 Cj4gSW4gY29udHJhc3Qg4oCecGVyc2lzdGVudCBtZW1vcnnigJwgb3Ig4oCec3BlY2lhbCBwdXJw
 b3NlIG1lbW9yeeKAnCBpbiAvcHJvYy9pb21lbSBpcyBzb21ldGhpbmcgbm9ybWFsIChMaW51eCB1
-c2luZykgaHVtYW4gYmVpbmdzIGNhbiB1bmRlcnN0YW5kLgoKcy9ub3JtYWwvbW9zdC8gb2YgY291
-cnNlIDopCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+c2luZykgaHVtYW4gYmVpbmdzIGNhbiB1bmRlcnN0YW5kLgoKT2J2aW91c2x5IHMvbm9ybWFsL21v
+c3QvCgpDaGVlcnMhCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
