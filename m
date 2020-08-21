@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4CF24DA18
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA4D24DA1C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:18:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9866EB53;
-	Fri, 21 Aug 2020 16:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039986EB30;
+	Fri, 21 Aug 2020 16:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDA36EB14;
- Fri, 21 Aug 2020 16:18:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1BC96EB30
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 16:18:36 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 288C022D07;
- Fri, 21 Aug 2020 16:18:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1BB9D22D2C;
+ Fri, 21 Aug 2020 16:18:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026708;
- bh=6deX/TmUbsvm1tTU+C7Pa7u01gKIJUvlmIN2OgFCEIg=;
+ s=default; t=1598026716;
+ bh=r+vHRWWu2w3ZF3UsA/CeFeXJT3lpFdYiC0k6NtPT8Wg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fKc5iHjnAWsquWRdvC+x/sCk3qIJJm3fe2PBKWhNMbQSVMhNUpGp055vNidDufvCD
- 1pbss9igmLHvT4Q+cNZH3NmKnSHERkKSDteJCEv3VqhhTRKbW0nNldOCAXQnpRnGTq
- Yko1mZ3mdnafFxn+oJpVM05NGqklaidT/88Gj24A=
+ b=HR9p9ooSV5OZf2RtYKOYYT2uQKPOqE3gYTvmZ5kOEdcnl+xfvSvhrcqzL3fU3nRbL
+ TKuU4IFgFbB+VGVgnGiNJsNAxB8rGpODJtkM/V+VylEjKgRgQC/YveM5nr7OHn56YN
+ QAH7OdOeJvOJsnqrVRAe+6RNUI09HOamOsKL0tNs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 17/38] drm/amdgpu/display: fix ref count leak
- when pm_runtime_get_sync fails
-Date: Fri, 21 Aug 2020 12:17:46 -0400
-Message-Id: <20200821161807.348600-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 22/38] omapfb: fix multiple reference count leaks
+ due to pm_runtime_get_sync
+Date: Fri, 21 Aug 2020 12:17:51 -0400
+Message-Id: <20200821161807.348600-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
 References: <20200821161807.348600-1-sashal@kernel.org>
@@ -50,81 +50,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ YueHaibing <yuehaibing@huawei.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kjlu@umn.edu,
+ dri-devel@lists.freedesktop.org, "Andrew F. Davis" <afd@ti.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, wu000273@umn.edu,
+ Aditya Pakki <pakki001@umn.edu>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-omap@vger.kernel.org, Enrico Weigelt <info@metux.net>,
+ Allison Randal <allison@lohutok.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+From: Aditya Pakki <pakki001@umn.edu>
 
-[ Upstream commit f79f94765f8c39db0b7dec1d335ab046aac03f20 ]
+[ Upstream commit 78c2ce9bde70be5be7e3615a2ae7024ed8173087 ]
 
-The call to pm_runtime_get_sync increments the counter even in case of
-failure, leading to incorrect ref count.
-In case of failure, decrement the ref count before returning.
+On calling pm_runtime_get_sync() the reference count of the device
+is incremented. In case of failure, decrement the
+reference count before returning the error.
 
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+Cc: kjlu@umn.edu
+Cc: wu000273@umn.edu
+Cc: Allison Randal <allison@lohutok.net>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Enrico Weigelt <info@metux.net>
+cc: "Andrew F. Davis" <afd@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Alexios Zavras <alexios.zavras@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: YueHaibing <yuehaibing@huawei.com>
+Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200614030528.128064-1-pakki001@umn.edu
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/omap2/omapfb/dss/dispc.c | 7 +++++--
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c   | 7 +++++--
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c   | 7 +++++--
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c | 5 +++--
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c | 5 +++--
+ drivers/video/fbdev/omap2/omapfb/dss/venc.c  | 7 +++++--
+ 6 files changed, 26 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index c770d73352a79..c15286858f0bf 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -718,8 +718,10 @@ amdgpu_connector_lvds_detect(struct drm_connector *connector, bool force)
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+index a06d9c25765c5..0bd582e845f31 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
+@@ -531,8 +531,11 @@ int dispc_runtime_get(void)
+ 	DSSDBG("dispc_runtime_get\n");
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+ 	r = pm_runtime_get_sync(&dispc.pdev->dev);
+-	WARN_ON(r < 0);
+-	return r < 0 ? r : 0;
++	if (WARN_ON(r < 0)) {
++		pm_runtime_put_sync(&dispc.pdev->dev);
++		return r;
++	}
++	return 0;
+ }
+ EXPORT_SYMBOL(dispc_runtime_get);
  
- 	if (encoder) {
-@@ -856,8 +858,10 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+index 8e1d60d48dbb0..50792d31533bf 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+@@ -1148,8 +1148,11 @@ static int dsi_runtime_get(struct platform_device *dsidev)
+ 	DSSDBG("dsi_runtime_get\n");
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+ 	r = pm_runtime_get_sync(&dsi->pdev->dev);
+-	WARN_ON(r < 0);
+-	return r < 0 ? r : 0;
++	if (WARN_ON(r < 0)) {
++		pm_runtime_put_sync(&dsi->pdev->dev);
++		return r;
++	}
++	return 0;
+ }
  
- 	encoder = amdgpu_connector_best_single_encoder(connector);
-@@ -979,8 +983,10 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
+ static void dsi_runtime_put(struct platform_device *dsidev)
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+index b6c6c24979dd6..faebf9a773ba5 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+@@ -779,8 +779,11 @@ int dss_runtime_get(void)
+ 	DSSDBG("dss_runtime_get\n");
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+ 	r = pm_runtime_get_sync(&dss.pdev->dev);
+-	WARN_ON(r < 0);
+-	return r < 0 ? r : 0;
++	if (WARN_ON(r < 0)) {
++		pm_runtime_put_sync(&dss.pdev->dev);
++		return r;
++	}
++	return 0;
+ }
  
- 	if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
-@@ -1329,8 +1335,10 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
+ void dss_runtime_put(void)
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
+index 28de56e21c74b..9fd9a02bb871d 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
+@@ -50,9 +50,10 @@ static int hdmi_runtime_get(void)
+ 	DSSDBG("hdmi_runtime_get\n");
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+ 	r = pm_runtime_get_sync(&hdmi.pdev->dev);
+-	WARN_ON(r < 0);
+-	if (r < 0)
++	if (WARN_ON(r < 0)) {
++		pm_runtime_put_sync(&hdmi.pdev->dev);
+ 		return r;
++	}
  
- 	if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
+ 	return 0;
+ }
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
+index 2e2fcc3d6d4f7..13f3a5ce55294 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
+@@ -54,9 +54,10 @@ static int hdmi_runtime_get(void)
+ 	DSSDBG("hdmi_runtime_get\n");
+ 
+ 	r = pm_runtime_get_sync(&hdmi.pdev->dev);
+-	WARN_ON(r < 0);
+-	if (r < 0)
++	if (WARN_ON(r < 0)) {
++		pm_runtime_put_sync(&hdmi.pdev->dev);
+ 		return r;
++	}
+ 
+ 	return 0;
+ }
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/venc.c b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
+index 392464da12e41..96714b4596d2d 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/venc.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
+@@ -402,8 +402,11 @@ static int venc_runtime_get(void)
+ 	DSSDBG("venc_runtime_get\n");
+ 
+ 	r = pm_runtime_get_sync(&venc.pdev->dev);
+-	WARN_ON(r < 0);
+-	return r < 0 ? r : 0;
++	if (WARN_ON(r < 0)) {
++		pm_runtime_put_sync(&venc.pdev->dev);
++		return r;
++	}
++	return 0;
+ }
+ 
+ static void venc_runtime_put(void)
 -- 
 2.25.1
 
