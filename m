@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65F824D9F3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E19224D9FA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 676096EB3F;
-	Fri, 21 Aug 2020 16:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2C26EB40;
+	Fri, 21 Aug 2020 16:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271B66EB14;
- Fri, 21 Aug 2020 16:17:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1A36EB3F;
+ Fri, 21 Aug 2020 16:17:28 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 434C122CAF;
- Fri, 21 Aug 2020 16:17:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 759CC22CB1;
+ Fri, 21 Aug 2020 16:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026647;
- bh=eVcPTzL9hbKoVXDtsQ64VvN+g9cHH5uG0hbLgDgR5vc=;
+ s=default; t=1598026648;
+ bh=QVygOxjF5CurxzjPkJ/kTBJPINoegtQdrxSKD/OSCcw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FdUKsA4Rofp17CjpZD2xC4rs3Ue0UQmHhcrX/zK16ScVTOv9hEh2pPsoR/UiY9/YI
- kyBpKX9XX2tx00wqQO90CnjgQOXtsbSp/XfwDgef9vpnc+PLrcqExY4DP2ssIHF56h
- 94nbEWYVXmW86eLelb02YSmkuNpZfccGdMMKmhqc=
+ b=om9i0C8LcM22d11scms8vmTsg5udEpmsjcqw5H6h9LYF0glXtRd8CNo/BIrcGqEay
+ 5RvOwyFZENXs7qllKm8hpyRL7Oi/xZAjuMt3KEzErLG4K21pZV1UFwtNvAarOQdlp4
+ zYVMb0AoiFYGrZYzY2OsQf8IUzJkbEfNKdKu6SFs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 18/48] drm/amdgpu: fix ref count leak in
- amdgpu_driver_open_kms
-Date: Fri, 21 Aug 2020 12:16:34 -0400
-Message-Id: <20200821161704.348164-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 19/48] drm/amd/display: fix ref count leak in
+ amdgpu_drm_ioctl
+Date: Fri, 21 Aug 2020 12:16:35 -0400
+Message-Id: <20200821161704.348164-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161704.348164-1-sashal@kernel.org>
 References: <20200821161704.348164-1-sashal@kernel.org>
@@ -60,9 +60,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Navid Emamdoost <navid.emamdoost@gmail.com>
 
-[ Upstream commit 9ba8923cbbe11564dd1bf9f3602add9a9cfbb5c6 ]
+[ Upstream commit 5509ac65f2fe5aa3c0003237ec629ca55024307c ]
 
-in amdgpu_driver_open_kms the call to pm_runtime_get_sync increments the
+in amdgpu_drm_ioctl the call to pm_runtime_get_sync increments the
 counter even in case of failure, leading to incorrect
 ref count. In case of failure, decrement the ref count before returning.
 
@@ -70,30 +70,27 @@ Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 2a7da26008a27..fcc5905a7535d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -976,7 +976,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 05d114a72ca1e..fa2c0f29ad4de 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -1286,11 +1286,12 @@ long amdgpu_drm_ioctl(struct file *filp,
+ 	dev = file_priv->minor->dev;
+ 	ret = pm_runtime_get_sync(dev->dev);
+ 	if (ret < 0)
+-		return ret;
++		goto out;
  
- 	r = pm_runtime_get_sync(dev->dev);
- 	if (r < 0)
--		return r;
-+		goto pm_put;
+ 	ret = drm_ioctl(filp, cmd, arg);
  
- 	fpriv = kzalloc(sizeof(*fpriv), GFP_KERNEL);
- 	if (unlikely(!fpriv)) {
-@@ -1027,6 +1027,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 
- out_suspend:
  	pm_runtime_mark_last_busy(dev->dev);
-+pm_put:
++out:
  	pm_runtime_put_autosuspend(dev->dev);
- 
- 	return r;
+ 	return ret;
+ }
 -- 
 2.25.1
 
