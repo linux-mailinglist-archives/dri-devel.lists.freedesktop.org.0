@@ -1,54 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD7224D4AA
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 14:07:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7114E24D5E3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4BA6E10E;
-	Fri, 21 Aug 2020 12:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB036E9AB;
+	Fri, 21 Aug 2020 13:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A43F6E10E
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 12:07:31 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07LC73JE030109;
- Fri, 21 Aug 2020 07:07:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1598011623;
- bh=Elz/9n2A7E9MeIn4e8Ei1rQfUn6BwgGav4oa/R3NlgY=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=oBK7zLkdjltsOOeJe+AYO98TES7rye9lU54yuwIZH8hY0Xs4Ga1AfGvYkcJXuBaUC
- nlICVFizJ5QEdy0mQhackZOQZjMJVArHnZwwVon3MX7gWDAAT4CBxbO6B4hzGztdxW
- s5mvAMhM/DQGZ9By8k8zX/hrUt53oy2w8/O3S5hY=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07LC72PV056631
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 21 Aug 2020 07:07:03 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 21
- Aug 2020 07:07:02 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 21 Aug 2020 07:07:02 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07LC6x4O110362;
- Fri, 21 Aug 2020 07:07:00 -0500
-Subject: Re: [PATCH] drm/omap: Fix runtime PM imbalance in dsi_runtime_get
-To: Dinghao Liu <dinghao.liu@zju.edu.cn>, <kjlu@umn.edu>
-References: <20200821074506.32359-1-dinghao.liu@zju.edu.cn>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <5123d7ae-f491-d2d2-788d-b5250ae9e31d@ti.com>
-Date: Fri, 21 Aug 2020 15:06:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB1686E9AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:15:24 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07LDCKZ7044099;
+ Fri, 21 Aug 2020 13:15:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=48t+JyaxUG+IiwX0HOyopf5UdpGg/IM7foZd1KSrLCc=;
+ b=XNkgb7RsDkvwpB4+y6cZIRRx1y+ShUsmuWUFDjAoTG+r8zo1FnIKquCAyRPHq251tMTK
+ +Gh63ZtewoUojaiLKo7Jmrf4vCk7BQRowhV3TdN/3rPP1K3tYufIb59cOjhOclSzLflO
+ 3x9ra3ckgTtvCFRJYFPfGdg1tubbye8gqrYi4OUtleA++Go36mVGAuU/9fsaj9DWPlgY
+ cYjosORm9WIdR8R6HvipPtrh5FGnODGrqbj6s1VWYyF7IkklVeoYHvSCukQ8IX2WGFUs
+ Hp3Pzh2xNSxfhh0MpD6RJlGM7R+tI5Y2xJZt1JjqtxJ5C0S5PCM7LZBHukS2xLnGImo5 jw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 32x74rnyxx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 21 Aug 2020 13:15:15 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07LD95Ow116592;
+ Fri, 21 Aug 2020 13:15:15 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 32xsn2jbak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 Aug 2020 13:15:15 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07LDFBMK029772;
+ Fri, 21 Aug 2020 13:15:12 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 21 Aug 2020 13:15:11 +0000
+Date: Fri, 21 Aug 2020 16:15:02 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Tomer Samara <tomersamara98@gmail.com>
+Subject: Re: [PATCH v3 1/2] staging: android: Remove BUG_ON from
+ ion_page_pool.c
+Message-ID: <20200821131502.GU1793@kadam>
+References: <cover.1597865771.git.tomersamara98@gmail.com>
+ <2e6c71ad168f92170ef856922b9a0c8dd0f85e11.1597865771.git.tomersamara98@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200821074506.32359-1-dinghao.liu@zju.edu.cn>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <2e6c71ad168f92170ef856922b9a0c8dd0f85e11.1597865771.git.tomersamara98@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9719
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ spamscore=0 bulkscore=0
+ mlxlogscore=999 phishscore=0 mlxscore=0 suspectscore=2 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008210121
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9719
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ mlxlogscore=999
+ priorityscore=1501 phishscore=0 spamscore=0 mlxscore=0 adultscore=0
+ suspectscore=2 lowpriorityscore=0 bulkscore=0 malwarescore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008210121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +80,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- zhengbin <zhengbin13@huawei.com>, Tony Lindgren <tony@atomide.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devel@driverdev.osuosl.org, Todd Kjos <tkjos@android.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Joel Fernandes <joel@joelfernandes.org>,
+ Riley Andrews <riandrews@android.com>, Martijn Coenen <maco@android.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Hridya Valsaraju <hridya@google.com>, Laura Abbott <labbott@redhat.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 21/08/2020 10:45, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter
-> even when it returns an error code. However, users of
-> dsi_runtime_get(), a direct wrapper of pm_runtime_get_sync(),
-> assume that PM usage counter will not change on error. Thus a
-> pairing decrement is needed on the error handling path to keep
-> the counter balanced.
+On Wed, Aug 19, 2020 at 10:38:47PM +0300, Tomer Samara wrote:
+> BUG_ON() is removed at ion_page_pool.c and add error handleing to
+> ion_page_pool_shrink
 > 
-> Fixes: 4fbafaf371be7 ("OMAP: DSS2: Use PM runtime & HWMOD support")
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> Fixes the following issue:
+> Avoid crashing the kernel - try using WARN_ON & recovery code ratherthan BUG() or BUG_ON().
+> 
+> Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
 > ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  drivers/staging/android/ion/ion_page_pool.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index eeccf40bae41..973bfa14a104 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -1112,8 +1112,11 @@ static int dsi_runtime_get(struct dsi_data *dsi)
->  	DSSDBG("dsi_runtime_get\n");
+> diff --git a/drivers/staging/android/ion/ion_page_pool.c b/drivers/staging/android/ion/ion_page_pool.c
+> index 0198b886d906..ae2bc57bcbe8 100644
+> --- a/drivers/staging/android/ion/ion_page_pool.c
+> +++ b/drivers/staging/android/ion/ion_page_pool.c
+> @@ -46,11 +46,13 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
+>  	struct page *page;
 >  
->  	r = pm_runtime_get_sync(dsi->dev);
-> -	WARN_ON(r < 0);
-> -	return r < 0 ? r : 0;
-> +	if (WARN_ON(r < 0)) {
-> +		pm_runtime_put_noidle(dsi->dev);
-> +		return r;
-> +	}
-> +	return 0;
+>  	if (high) {
+> -		BUG_ON(!pool->high_count);
+> +		if (!pool->high_count)
+> +			return NULL;
+
+I looked at the callers and it's trivial to verify that these conditions
+are impossible.  Just delete the BUG_ON() checks.
+
+>  		page = list_first_entry(&pool->high_items, struct page, lru);
+>  		pool->high_count--;
+>  	} else {
+> -		BUG_ON(!pool->low_count);
+> +		if (!pool->low_count)
+> +			return NULL;
+>  		page = list_first_entry(&pool->low_items, struct page, lru);
+>  		pool->low_count--;
+>  	}
+> @@ -65,7 +67,8 @@ struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
+>  {
+>  	struct page *page = NULL;
+>  
+> -	BUG_ON(!pool);
+> +	if (!pool)
+> +		return NULL;
+
+This one is slightly harder to verify...  But really I would prefer that
+we just deleted it as well.  If we had a NULL dereference here then that
+would give a pretty straight forward stack trace to debug.
+
+>  
+>  	mutex_lock(&pool->mutex);
+>  	if (pool->high_count)
+> @@ -82,7 +85,8 @@ struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
+>  
+>  void ion_page_pool_free(struct ion_page_pool *pool, struct page *page)
+>  {
+> -	BUG_ON(pool->order != compound_order(page));
+> +	if (pool->order != compound_order(page))
+> +		return;
+
+Is returning really the correct way to handle this bug?  I suggest,
+just change BUG_ON() to a WARN_ON().
+
+>  
+>  	ion_page_pool_add(pool, page);
 >  }
+> @@ -124,6 +128,8 @@ int ion_page_pool_shrink(struct ion_page_pool *pool, gfp_t gfp_mask,
+>  			break;
+>  		}
+>  		mutex_unlock(&pool->mutex);
+> +		if (!page)
+> +			break;
 
-Thanks! Good catch. I think this is broken in all the other modules in omapdrm too (e.g. dispc.c,
-venc.c, etc).
+This change is no longer required if we delete the changes earlier as
+I suggest.  This change illustrates how when we start handling
+impossible conditions then we just have to keep on imagining more and
+more impossible conditions.  When we start trying to write code for
+situations which we know are impossible that is an unending task.
 
-Would you like to update the patch to cover the whole omapdrm?
+>  		ion_page_pool_free_pages(pool, page);
+>  		freed += (1 << pool->order);
+>  	}
 
- Tomi
+regards,
+dan carpenter
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
