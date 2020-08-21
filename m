@@ -1,45 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF3A24E68D
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:02:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C98624E692
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747836E450;
-	Sat, 22 Aug 2020 09:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC066E489;
+	Sat, 22 Aug 2020 09:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 117116E97C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 16:57:17 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id e73so1595717iof.5
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 09:57:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=CvdOFPnjNHrLGNI41Gkr86CDj4Nhfk/ve6MOWKCdqI4=;
- b=JIwSGRvfUeDUlRhsL+E1wl6N99MRFb7RbWc+JASLMBr5jr5kz1QQbdUwkSG/XtayzE
- u0AmQSLjBRAB0JkANfXutd+jwS1VfgDldVRA2gt7r4eW+oENpYKHXyC6EWa2X4Rhh1Uv
- 1SulJeHSOt8Zar5NIxCyo8GSSn5qynS6Gyir9ug4KjwmaAURHaFBACoJshP9h1ionV+f
- V1DUpIHI147ePIO82hd18huW/ZVX4A0jvSP/2XukcjrET87mUARaw4QMw9tcsdaJsmhm
- 1G8dWXscGHAB7dP+MX7vpDt7ZTaB9xSCwLaOjeJPTsG/JzZu1OI2ileNXLoK1C2UDvNo
- AGzA==
-X-Gm-Message-State: AOAM532hDRy+PQ3nB5RH7IVsOCqydnswBz2pIPGqLNcAXQdTw38ATxDf
- 6OgxwZ5/lNbABcbGByqA7Sc84Bmm/I1DBQuprhvaPa2AOEH7
-X-Google-Smtp-Source: ABdhPJwnLF1JSEy/BMFUX+6YCPwWlT2I3/1MEUwTWHXay6Ld+7lOXwAvqjPm+aCGEqEPFfSv0pZNSEsbG7dgHORND7OVHFM/rb0+
+Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B946EC1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 22:11:37 +0000 (UTC)
+Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
+ by smtp.webfaction.com (Postfix) with ESMTPSA id BE63B60012F19;
+ Fri, 21 Aug 2020 22:11:18 +0000 (UTC)
+From: Paul Boddie <paul@boddie.org.uk>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
+ JZ4780)
+Date: Sat, 22 Aug 2020 00:11:26 +0200
+Message-ID: <6531669.OW97vx6Khr@jason>
+In-Reply-To: <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
+References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
+ <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d8c2:: with SMTP id l2mr3372145ilo.301.1598029036426; 
- Fri, 21 Aug 2020 09:57:16 -0700 (PDT)
-Date: Fri, 21 Aug 2020 09:57:16 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000eb21105ad66213f@google.com>
-Subject: KMSAN: uninit-value in cfb_imageblit
-From: syzbot <syzbot+50bc4646cbe1b0a9a08b@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
- glider@google.com, linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Sat, 22 Aug 2020 09:02:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,156 +39,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Friday, 21 August 2020 15:32:46 CEST Ezequiel Garcia wrote:
+> On Thu, 20 Aug 2020 at 19:49, Paul Boddie <paul@boddie.org.uk> wrote:
+> > 
+> > It still doesn't work for me. I still get "Input not supported" from my
+> > monitor. It is a DVI monitor connected via a HDMI adapter, but EDID
+> > probing
+> > works and, as I noted previously, the HDMI/LCDC can be made to work (and
+> > obviously did work in the 3.18 kernel).
+> 
+> This means the dw_hdmi encoder driver is still not good enough
+> to support your adapter. I haven't yet compared v3.18 vendor
+> with our version, but I'm afraid that the dw_hdmi stack has
+> probably changed quite a bit, so a comparison will be difficult.
 
-syzbot found the following issue on:
+I would have to look at this again to check, but although I may have referred 
+to the 3.18 HDMI driver (drivers/gpu/drm/jz4780/dwc_hdmi.c), I'm fairly sure I 
+used the more recent driver (drivers/gpu/drm/bridge/synopsys/dw_hdmi.c) as my 
+primary reference when making the hardware work with the L4 Runtime 
+Environment. But the actual functionality with regard to setting registers in 
+the HDMI peripheral is mostly identical between both forms of the driver.
 
-HEAD commit:    ce8056d1 wip: changed copy_from_user where instrumented
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=16e7dba1900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
-dashboard link: https://syzkaller.appspot.com/bug?extid=50bc4646cbe1b0a9a08b
-compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-userspace arch: i386
+(This makes sense because few people are likely to have access to the 
+proprietary documentation. In fact, few people are likely to have even tried 
+to deduce what is doing on. One of the register value tables suggests that one 
+of the values would really need to be different, if you consider the patterns 
+involved, which means that either the documentation mentions this special case 
+or that a mistake has been made that has not yet been exposed through real 
+world use.)
 
-Unfortunately, I don't have any reproducer for this issue yet.
+> The natural debug path for me would be to checkout v3.18,
+> connect your DVI monitor and make a dump of all the
+> dw_hdmi registers, then make the same dump for our
+> mainline kernel -- making sure we are comparing the same
+> mode.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+50bc4646cbe1b0a9a08b@syzkaller.appspotmail.com
+It is possible that something does not get initialised in the same way, and 
+Nikolaus and I have been working with register dumps, although I haven't been 
+generating them myself within Linux. So it is possible that I am missing some 
+misconfiguration in the driver that causes an incompatibility with my monitor.
 
-=====================================================
-BUG: KMSAN: uninit-value in fast_imageblit drivers/video/fbdev/core/cfbimgblt.c:256 [inline]
-BUG: KMSAN: uninit-value in cfb_imageblit+0x1c71/0x2a60 drivers/video/fbdev/core/cfbimgblt.c:300
-CPU: 1 PID: 32379 Comm: syz-executor.1 Not tainted 5.8.0-rc5-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x21c/0x280 lib/dump_stack.c:118
- kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:121
- __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
- fast_imageblit drivers/video/fbdev/core/cfbimgblt.c:256 [inline]
- cfb_imageblit+0x1c71/0x2a60 drivers/video/fbdev/core/cfbimgblt.c:300
- vga16fb_imageblit+0xda2/0x20c0 drivers/video/fbdev/vga16fb.c:1250
- soft_cursor+0x12bc/0x13f0 drivers/video/fbdev/core/softcursor.c:74
- bit_cursor+0x38c6/0x3a40 drivers/video/fbdev/core/bitblit.c:386
- fbcon_cursor+0x195e/0x1a60 drivers/video/fbdev/core/fbcon.c:1411
- hide_cursor+0xdd/0x560 drivers/tty/vt/vt.c:902
- do_con_write+0x33c/0x15460 drivers/tty/vt/vt.c:2617
- con_write+0x8e/0xe0 drivers/tty/vt/vt.c:3159
- process_output_block drivers/tty/n_tty.c:595 [inline]
- n_tty_write+0x167a/0x2230 drivers/tty/n_tty.c:2333
- do_tty_write drivers/tty/tty_io.c:962 [inline]
- tty_write+0x9fb/0x1610 drivers/tty/tty_io.c:1046
- vfs_write+0x6a3/0x17c0 fs/read_write.c:576
- ksys_write+0x275/0x500 fs/read_write.c:631
- __do_sys_write fs/read_write.c:643 [inline]
- __se_sys_write+0x92/0xb0 fs/read_write.c:640
- __ia32_sys_write+0x4a/0x70 fs/read_write.c:640
- do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
- __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
- do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
- do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-RIP: 0023:0xf7f88549
-Code: Bad RIP value.
-RSP: 002b:00000000f55820cc EFLAGS: 00000296 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000200000c0
-RDX: 0000000000000078 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+It should be noted that the initialisation is simpler with the DVI mode, 
+thankfully. The "AVI infoframe" stuff (going from memory) is completely 
+skipped, as are a range of other things, which made my reimplementation effort 
+somewhat quicker. I also didn't bother with the audio functionality, but then 
+I don't think DVI has any audio channels, either.
 
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
- __msan_chain_origin+0x50/0x90 mm/kmsan/kmsan_instr.c:165
- __fb_pad_aligned_buffer include/linux/fb.h:655 [inline]
- fb_pad_aligned_buffer+0x7c4/0x8e0 drivers/video/fbdev/core/fbmem.c:116
- soft_cursor+0x1224/0x13f0 drivers/video/fbdev/core/softcursor.c:72
- bit_cursor+0x38c6/0x3a40 drivers/video/fbdev/core/bitblit.c:386
- fbcon_cursor+0x195e/0x1a60 drivers/video/fbdev/core/fbcon.c:1411
- hide_cursor+0xdd/0x560 drivers/tty/vt/vt.c:902
- do_con_write+0x33c/0x15460 drivers/tty/vt/vt.c:2617
- con_write+0x8e/0xe0 drivers/tty/vt/vt.c:3159
- process_output_block drivers/tty/n_tty.c:595 [inline]
- n_tty_write+0x167a/0x2230 drivers/tty/n_tty.c:2333
- do_tty_write drivers/tty/tty_io.c:962 [inline]
- tty_write+0x9fb/0x1610 drivers/tty/tty_io.c:1046
- vfs_write+0x6a3/0x17c0 fs/read_write.c:576
- ksys_write+0x275/0x500 fs/read_write.c:631
- __do_sys_write fs/read_write.c:643 [inline]
- __se_sys_write+0x92/0xb0 fs/read_write.c:640
- __ia32_sys_write+0x4a/0x70 fs/read_write.c:640
- do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
- __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
- do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
- do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+One reason for implementing drivers for L4Re was to determine what is actually 
+needed to initialise the hardware correctly, doing so in an environment that 
+has been quicker to test than Linux has been (given some very old development 
+hardware I have been using until recently). Another reason is that I actually 
+want to get the CI20 hardware working with L4Re, which it was originally 
+supposed to do, but in fact that effort was never actually finished.
 
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
- kmsan_memcpy_memmove_metadata+0x272/0x2e0 mm/kmsan/kmsan.c:247
- kmsan_memcpy_metadata+0xb/0x10 mm/kmsan/kmsan.c:267
- __msan_memcpy+0x43/0x50 mm/kmsan/kmsan_instr.c:116
- soft_cursor+0x7d7/0x13f0 drivers/video/fbdev/core/softcursor.c:70
- bit_cursor+0x38c6/0x3a40 drivers/video/fbdev/core/bitblit.c:386
- fbcon_cursor+0x195e/0x1a60 drivers/video/fbdev/core/fbcon.c:1411
- hide_cursor+0xdd/0x560 drivers/tty/vt/vt.c:902
- do_con_write+0x33c/0x15460 drivers/tty/vt/vt.c:2617
- con_write+0x8e/0xe0 drivers/tty/vt/vt.c:3159
- process_output_block drivers/tty/n_tty.c:595 [inline]
- n_tty_write+0x167a/0x2230 drivers/tty/n_tty.c:2333
- do_tty_write drivers/tty/tty_io.c:962 [inline]
- tty_write+0x9fb/0x1610 drivers/tty/tty_io.c:1046
- vfs_write+0x6a3/0x17c0 fs/read_write.c:576
- ksys_write+0x275/0x500 fs/read_write.c:631
- __do_sys_write fs/read_write.c:643 [inline]
- __se_sys_write+0x92/0xb0 fs/read_write.c:640
- __ia32_sys_write+0x4a/0x70 fs/read_write.c:640
- do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
- __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
- do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
- do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+> > I downloaded it from here:
+> > 
+> > https://gitlab.collabora.com/linux/0day/-/tree/jz4780-drm-hdmi-v5.9-rc1
+> > 
+> > (I was going to clone the repository late last night, but it was taking a
+> > long time and I also didn't want to clone everything yet again.)
+> 
+> If you want to avoid cloning the same things over and over
+> you can use git-clone --reference. And if you want to checkout
+> just a single branch, git now has --single-branch.
+> 
+> For instance, (assuming a torvalds/ local repo):
+> 
+> git clone -b letux/jz4780-hdmi-v4 --single-branch
+> git://git.goldelico.com/letux-kernel.git --reference torvalds/ letux
 
-Uninit was created at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
- kmsan_internal_poison_shadow+0x66/0xd0 mm/kmsan/kmsan.c:127
- kmsan_slab_alloc+0x8a/0xe0 mm/kmsan/kmsan_hooks.c:80
- slab_alloc_node mm/slub.c:2839 [inline]
- slab_alloc mm/slub.c:2848 [inline]
- __kmalloc+0x312/0x410 mm/slub.c:3911
- kmalloc include/linux/slab.h:560 [inline]
- fbcon_set_font+0x5ad/0xfb0 drivers/video/fbdev/core/fbcon.c:2673
- con_font_set drivers/tty/vt/vt.c:4571 [inline]
- con_font_op+0x1e59/0x2290 drivers/tty/vt/vt.c:4636
- vt_ioctl+0x99e/0x67c0 drivers/tty/vt/vt_ioctl.c:917
- vt_compat_ioctl+0x59b/0x1040 drivers/tty/vt/vt_ioctl.c:1242
- tty_compat_ioctl+0x74b/0x1660 drivers/tty/tty_io.c:2847
- __do_compat_sys_ioctl fs/ioctl.c:847 [inline]
- __se_compat_sys_ioctl+0x55f/0x1100 fs/ioctl.c:798
- __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:798
- do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
- __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
- do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
- do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-=====================================================
+Thanks for the tip! I guess I will spare everyone my thoughts about git's 
+never-ending usability deficit.
+
+[...]
+
+> > It would be nice to reconcile the JZ4780 support with the evolving
+> > upstream support, accommodating the extended descriptors and the extra
+> > register usage.
+> I think that's already done in the patches I've cleaned up.
+> The only thing left to check is plane offset and overlay enablement.
+
+There are some things that are done in different places, like various 
+registers being set in particular "atomic" methods and not during probing. 
+Also, the upstream driver has specific plane descriptors whereas my own 
+modifications introduced dual descriptors in a slightly different way. Plus, 
+the upstream driver doesn't support extended descriptors, as far as I am 
+aware.
+
+So, unless Paul Cercueil is fine with what you have done, I don't think we are 
+close to integrating anything. Then again, I am not really a Linux kernel 
+developer, so perhaps I won't comment in depth about what the requirements 
+might be.
+
+> > P.S. I noticed a few problems with the 5.9-rc1 branches such as powering
+> > down not actually removing the power and, in my own branch, networking
+> > not working reliably (or maybe even at all), with the tedious progress
+> > indicator never terminating in the boot sequence. So, once again, it is
+> > another case of half a step forwards and about three steps back.
+> 
+> Life (and kernel) is like this: sometimes you need to take three steps
+> back to make a jump forward :-)
+
+Well, I wish I could be so optimistic. Objectively, the whole Linux kernel 
+development process is just so poor when we consider that we started out in 
+2014 or earlier with software that actually worked with the hardware, but 
+since it wasn't written quite to everybody's tastes and in line with the 
+fashions of the day, the whole exercise of reworking it was thrown straight 
+back at the developers. And since the developers were only being paid for as 
+long as their employers were interested, which turned out not to last 
+particularly long, we all ended up with yet another piece of equipment which 
+risks becoming obsolete unnecessarily.
+
+Of course I would probably benefit from upstreamed support for the CI20, 
+although I was actually fairly happy using the 3.18 kernel with a relatively 
+recent Debian version, and we might not yet be at the point where new Debian 
+releases don't work with such an old kernel. But for the most part I don't 
+really care personally about fixing up Linux support for such hardware because 
+my own interests lie elsewhere. I suppose the most I get out of it is looking 
+at how the hardware works and being in a stronger position to reimplement the 
+driver support for L4Re. Indeed, I got the RTC support working in L4Re in 
+order to troubleshoot the Linux drivers, although they still seem to be 
+pathologically unable to handle the "lost clock" condition that is hardly 
+unlikely on the CI20.
+
+Yet at the same time, I always manage to feel guilty asking for cooperation to 
+get improvements made to Linux, spending quite a bit of my own personal time 
+working with the underdocumented frameworks involved, building, deploying, 
+testing, and so on. And this is just my own way of offering help to others who 
+might not be in quite the same position, technically, to improve a situation 
+that might be far more important to them. Whatever little satisfaction I might 
+get from helping out tends to get completely overwhelmed by the amount of 
+effort, frustration and time involved.
+
+Anyway, sorry for the rant. I'm sure other people find their own activities of 
+this nature to be sufficiently fulfilling and enjoyable. Life does present us 
+all with setbacks, but I generally don't appreciate getting served up with 
+more of them just so that some people in the Valley or wherever can "have fun" 
+or whatever the mantra is these days.
+
+Paul
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
