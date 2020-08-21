@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C5024D999
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B2624D99B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:15:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBB06EB12;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9AA6EB19;
 	Fri, 21 Aug 2020 16:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC9396EB12;
- Fri, 21 Aug 2020 16:14:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2906EB12;
+ Fri, 21 Aug 2020 16:14:56 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E8EF9214F1;
- Fri, 21 Aug 2020 16:14:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 287922086A;
+ Fri, 21 Aug 2020 16:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026494;
- bh=W2rAa3hVKvGfCtUIdsWN4znjxtVhRCXRyUpQdLekit0=;
+ s=default; t=1598026495;
+ bh=GwiJXLRvB5e9CxSOmoT4bs9rK/an/E+PE8TN3zdX0ds=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ORrcPmUG8+/aAkJlpqSICxk/MpNksRoWnBHagVzzMbc1gKmihQuydlKo934/qBUv0
- dmO8ctu3os++dQ+hyVs9N20KAYr4eB09zXaWxpBzuysrjaTBrVhLTPRjVAskKzZPI3
- 5f8b3BRoVYnk67I5YnIU1k8cV8BL31On0390dZxw=
+ b=OC5ysrM+jdhtDH8I7TKfXYJ9JhCJo3d+ZYLSQmRojDYchPYBWMGCUCGHIAYn+r8jW
+ CAgzHhl0SJTnKD3Ib4YyRG/ovkf9ic6ScUq/HdmSMKIbFugWouyF90VZkoyzr+7OYR
+ VisLhkYVgnnNcJ4MtMqCp1rlZHh4lznLVMn4NJaI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 25/62] drm/amdgpu: fix ref count leak in
- amdgpu_display_crtc_set_config
-Date: Fri, 21 Aug 2020 12:13:46 -0400
-Message-Id: <20200821161423.347071-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 26/62] drm/amdgpu/display: fix ref count leak when
+ pm_runtime_get_sync fails
+Date: Fri, 21 Aug 2020 12:13:47 -0400
+Message-Id: <20200821161423.347071-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161423.347071-1-sashal@kernel.org>
 References: <20200821161423.347071-1-sashal@kernel.org>
@@ -60,49 +60,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Navid Emamdoost <navid.emamdoost@gmail.com>
 
-[ Upstream commit e008fa6fb41544b63973a529b704ef342f47cc65 ]
+[ Upstream commit f79f94765f8c39db0b7dec1d335ab046aac03f20 ]
 
-in amdgpu_display_crtc_set_config, the call to pm_runtime_get_sync
-increments the counter even in case of failure, leading to incorrect
-ref count. In case of failure, decrement the ref count before returning.
+The call to pm_runtime_get_sync increments the counter even in case of
+failure, leading to incorrect ref count.
+In case of failure, decrement the ref count before returning.
 
 Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index f7143d927b6d8..5e51f0acf744f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -282,7 +282,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index f355d9a752d29..a1aec205435de 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -716,8 +716,10 @@ amdgpu_connector_lvds_detect(struct drm_connector *connector, bool force)
  
- 	ret = pm_runtime_get_sync(dev->dev);
- 	if (ret < 0)
--		return ret;
-+		goto out;
- 
- 	ret = drm_crtc_helper_set_config(set, ctx);
- 
-@@ -297,7 +297,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
- 	   take the current one */
- 	if (active && !adev->have_disp_power_ref) {
- 		adev->have_disp_power_ref = true;
--		return ret;
-+		goto out;
- 	}
- 	/* if we have no active crtcs, then drop the power ref
- 	   we got before */
-@@ -306,6 +306,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
- 		adev->have_disp_power_ref = false;
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
  	}
  
-+out:
- 	/* drop the power reference we got coming in here */
- 	pm_runtime_put_autosuspend(dev->dev);
- 	return ret;
+ 	if (encoder) {
+@@ -854,8 +856,10 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
+ 	}
+ 
+ 	encoder = amdgpu_connector_best_single_encoder(connector);
+@@ -977,8 +981,10 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
+ 	}
+ 
+ 	if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
+@@ -1328,8 +1334,10 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
+ 	}
+ 
+ 	if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
 -- 
 2.25.1
 
