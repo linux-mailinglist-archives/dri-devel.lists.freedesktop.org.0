@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A20C24DA2F
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:19:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6FF24DA31
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:19:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA4A36EB4C;
-	Fri, 21 Aug 2020 16:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E89C46EB58;
+	Fri, 21 Aug 2020 16:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB5BD6EB11;
- Fri, 21 Aug 2020 16:19:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C86F6EB4D;
+ Fri, 21 Aug 2020 16:19:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F127D22DA9;
- Fri, 21 Aug 2020 16:19:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4AC8122DD3;
+ Fri, 21 Aug 2020 16:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026750;
- bh=HGL5Op0feGs6xIwMLfwoEoZrGaTgBEfpzudxmdqy9eo=;
+ s=default; t=1598026752;
+ bh=A+uSJSI2lbyDrwDMPuRGn2pevA9RnzTnmihHE5KY4r4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CTYKACuAYD/iaBNTEEUZCrr78C5EfUBOiO//TMRtzqi9MLok7+uBGCDoYjSbe6SFL
- aICdpnqA/R8UZtoJsMfxfo5JsQj/0X4yNuieBSw4HN4uHKcOAuppN0Io8vWTlDEOph
- S0SEeVFm7Uo5GbA705xva5jbMpQ11fDgftzt+XOc=
+ b=lQIStrXESZOtrkpuq4JwzONBDTxXSkrUwsQa67nXyBk8G4Db+ZoJL9xFs2mIG7xcc
+ OJ3msR2p5XpQTvDsomihK0vrfWt4fU1wdFUGV9dg1QuWT6K+p7edfU/X5KcAk2vKjF
+ yMFJAsNd5AAleyCVGK49JpUqWfnv8Pmabsf+xjBo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 10/30] drm/amdkfd: Fix reference count leaks.
-Date: Fri, 21 Aug 2020 12:18:37 -0400
-Message-Id: <20200821161857.348955-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 11/30] drm/radeon: fix multiple reference count
+ leak
+Date: Fri, 21 Aug 2020 12:18:38 -0400
+Message-Id: <20200821161857.348955-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161857.348955-1-sashal@kernel.org>
 References: <20200821161857.348955-1-sashal@kernel.org>
@@ -49,95 +50,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Qiushi Wu <wu000273@umn.edu>, Alex Deucher <alexander.deucher@amd.com>
+ Aditya Pakki <pakki001@umn.edu>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qiushi Wu <wu000273@umn.edu>
+From: Aditya Pakki <pakki001@umn.edu>
 
-[ Upstream commit 20eca0123a35305e38b344d571cf32768854168c ]
+[ Upstream commit 6f2e8acdb48ed166b65d47837c31b177460491ec ]
 
-kobject_init_and_add() takes reference even when it fails.
-If this function returns an error, kobject_put() must be called to
-properly clean up the memory associated with the object.
+On calling pm_runtime_get_sync() the reference count of the device
+is incremented. In case of failure, decrement the
+reference count before returning the error.
 
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 20 +++++++++++++++-----
+ drivers/gpu/drm/radeon/radeon_connectors.c | 20 +++++++++++++++-----
  1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index e0b78fd9804de..ab79c1030f005 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -821,8 +821,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index 48f752cf7a920..fc021b8e4077d 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -895,8 +895,10 @@ radeon_lvds_detect(struct drm_connector *connector, bool force)
  
- 	ret = kobject_init_and_add(dev->kobj_node, &node_type,
- 			sys_props.kobj_nodes, "%d", id);
--	if (ret < 0)
-+	if (ret < 0) {
-+		kobject_put(dev->kobj_node);
- 		return ret;
-+	}
- 
- 	dev->kobj_mem = kobject_create_and_add("mem_banks", dev->kobj_node);
- 	if (!dev->kobj_mem)
-@@ -865,8 +867,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 			return -ENOMEM;
- 		ret = kobject_init_and_add(mem->kobj, &mem_type,
- 				dev->kobj_mem, "%d", i);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(mem->kobj);
- 			return ret;
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
 +		}
+ 	}
  
- 		mem->attr.name = "properties";
- 		mem->attr.mode = KFD_SYSFS_FILE_MODE;
-@@ -884,8 +888,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 			return -ENOMEM;
- 		ret = kobject_init_and_add(cache->kobj, &cache_type,
- 				dev->kobj_cache, "%d", i);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(cache->kobj);
- 			return ret;
+ 	if (encoder) {
+@@ -1041,8 +1043,10 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
 +		}
+ 	}
  
- 		cache->attr.name = "properties";
- 		cache->attr.mode = KFD_SYSFS_FILE_MODE;
-@@ -903,8 +909,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 			return -ENOMEM;
- 		ret = kobject_init_and_add(iolink->kobj, &iolink_type,
- 				dev->kobj_iolink, "%d", i);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(iolink->kobj);
- 			return ret;
+ 	encoder = radeon_best_single_encoder(connector);
+@@ -1179,8 +1183,10 @@ radeon_tv_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
 +		}
+ 	}
  
- 		iolink->attr.name = "properties";
- 		iolink->attr.mode = KFD_SYSFS_FILE_MODE;
-@@ -956,8 +964,10 @@ static int kfd_topology_update_sysfs(void)
- 		ret = kobject_init_and_add(sys_props.kobj_topology,
- 				&sysprops_type,  &kfd_device->kobj,
- 				"topology");
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(sys_props.kobj_topology);
- 			return ret;
+ 	encoder = radeon_best_single_encoder(connector);
+@@ -1263,8 +1269,10 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
 +		}
+ 	}
  
- 		sys_props.kobj_nodes = kobject_create_and_add("nodes",
- 				sys_props.kobj_topology);
+ 	if (radeon_connector->detected_hpd_without_ddc) {
+@@ -1704,8 +1712,10 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
+ 	}
+ 
+ 	if (!force && radeon_check_hpd_status_unchanged(connector)) {
 -- 
 2.25.1
 
