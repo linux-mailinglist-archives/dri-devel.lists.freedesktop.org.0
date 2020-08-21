@@ -2,59 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320B224E691
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE61224E683
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:02:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9583B6E46D;
-	Sat, 22 Aug 2020 09:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0199F6E423;
+	Sat, 22 Aug 2020 09:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC856EABA
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 11:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1598008382;
- bh=3hICDB8bk52dFVQc3BFBE3kOtnHrBZBdOB6EMWbL2iU=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=hE19nQIKsQiQl/Bzl7LQ4OEg0BX321SpOmsxPONZ3+/OGmWIDrJtEzACdx/bwvqrn
- 1V3QJtWMg6r/CAXLpCapgK4tvJpc3QUE0t4adpbQOMjV93iFKYylD4IAyd9a79X7+H
- Sf9g/+pS6ckCNG4Z+JXdJhgG90PS4/ApiohlOoP0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [185.76.97.101] ([185.76.97.101]) by web-mail.gmx.net
- (3c-app-gmx-bs37.server.lan [172.19.170.89]) (via HTTP); Fri, 21 Aug 2020
- 13:13:02 +0200
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA15E6EABA
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 11:14:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id CF7E329B008
+Subject: Re: [PATCH 3/3] drm/bridge: ps8640: Rework power state handling
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200615205320.790334-1-enric.balletbo@collabora.com>
+ <20200615205320.790334-4-enric.balletbo@collabora.com>
+ <20200620214225.GD74146@ravnborg.org>
+ <0220cfe5-2ac9-2d8b-529d-bb1a61478395@collabora.com>
+ <20200624070738.GA1807736@ravnborg.org>
+ <20b2f097-d789-3f5a-cd7e-3701669f43cb@collabora.com>
+Message-ID: <5af757da-87ec-c0d1-374d-0a69401e09a3@collabora.com>
+Date: Fri, 21 Aug 2020 13:14:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Message-ID: <trinity-299eba1b-59af-4257-83e6-7387e9fcf865-1598008382125@3c-app-gmx-bs37>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: frank-w@public-files.de
-Subject: Aw: Re: [PATCH v5 3/7] drm/mediatek: disable tmds on mt2701
-Date: Fri, 21 Aug 2020 13:13:02 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <0E911554-482A-47C2-B2C6-136486C5ACB5@public-files.de>
-References: <20200819081752.4805-1-linux@fw-web.de>
- <20200819081752.4805-4-linux@fw-web.de>
- <f68cf4c2-6c79-fe46-b7b4-bcc49e0b6b69@gmail.com>
- <0E911554-482A-47C2-B2C6-136486C5ACB5@public-files.de>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:qQ4/QXcY7aHug4GJ2xC3UHeSxq5y48c2pvLvlG6DRO/NMKGYWoyQwtVQ37sT6Iw2tCo9j
- WCKmpdZA+cTKW69yQWXhnYpUZUmALV8zop6WyiuuqnOlgKYjp5SDOuFI4iXNCwt0xaMW577Qsf4d
- GPoF68X2Ms6m4c7uyd8zyf3lCvsTyHOwKsTRThS9n78XKRGZpOuXSHdczxiiomx7Cb1MK4H/5baj
- nrYfg8g1zE46ft9EsWJp9+YZy4LaebVzAcJAxu6PPD9DeHN3zUo3QGl95pZbpvqgABWDEm8OI5H6
- Pc=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YCk7Kw/svWM=:R2+qY8dmS+nNu0rNZbnzI5
- zHruvXFt1cp3+5drBm1BUX5H1Bn386hNGlWqkArpNzOQJOUffN0vC0HyeDbmd2r4MwsgB1Yy4
- /ucUHi9FUNCGk8qIEokq9vhX0sdKl6ILinIcwT+eZqr1vckoWitNw0WqS3XAnqHfSNf7oUmby
- xR7KXqgG50c5SjxSuBxybmExGF7grmzVIDeCySvALaE+Vcn5a3Pi6OkIpCyvu/Z1DBguvOHRV
- wAGhnUMGM31uiFSWEUdyhrIS7gh0cXM8U7e10y+1Ab5QvJ6fUPWveNxlGsFeXcB1V2xzIflkj
- ThtoiT6G8AEQYr3fLiYgC61i0POskwZyUtXfvpgCMlX7XxwejwnPiP0scWiCdfUgGXgd11jYb
- 7OUDvTQh5bElHROUdD99eQD5Ip98xnaDMqQC4nUcqsJO+Z8SrLAFUad6rhdqDhoFa9xSYbnpc
- CsClqD7bocnA8qYJ1+UUsV6qve52+8hecyizFEMdod3Zpab0J6QNLh/svJvy3yw1Zpz2QttDu
- 3+/jr9QRjPD/jlNify6PeqPMpbBVitnf2EJHyvzAZnbR8Jxgu/u2pGYDoy3Cq21Wye/lS+iIe
- 5ZNBjTZKhtgyT0dqjLTpD5jVLQ8UclEJHtK4rhef13kRuW2ziFiwzga0LK/LS7CdkAqJz3nbU
- qWHTQkQULFrybDoWZB5kL3N7zBhgbne3CizYJ7YHnjIV4J1NEiljG4kDa5/KH96QvdYo=
+In-Reply-To: <20b2f097-d789-3f5a-cd7e-3701669f43cb@collabora.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 22 Aug 2020 09:02:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,33 +44,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- chunhui dai <chunhui.dai@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Frank Wunderlich <linux@fw-web.de>, linux-arm-kernel@lists.infradead.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Gesendet: Mittwoch, 19. August 2020 um 21:04 Uhr
-> Von: "Frank Wunderlich" <frank-w@public-files.de>
-> Another way to fix it maybe not enabling it (use the flag in mtk_hdmi_phy_power_on) there instead of disabling after enabling it.
->
-> Maybe this is less hacky than current way (as ck hu pointed in v2).
+Dear drm_bridge maintainers,
 
-seems my last mail is not send right (did not got it from mailinglist and it's not mapped in patchwork).
+It's been a while since I send these patches, and I'd like to find a proper
+solution.
 
-i tried this approach, but this does not work, with checking the new flag in mtk_hdmi_phy_power_on and only enabling tmds if this flag is not set results in same behaviour like without the Patch (horizontally distorted image flickering on 1280x1024)
+On 25/6/20 11:21, Enric Balletbo i Serra wrote:
+> Hi Sam,
+> 
+> On 24/6/20 9:07, Sam Ravnborg wrote:
+>> Hi Enric.
+>>
+>> On Tue, Jun 23, 2020 at 05:16:43PM +0200, Enric Balletbo i Serra wrote:
+>>> Hi Sam,
+>>>
+>>> Many thanks for your feedback. See my answers below.
+>>>
+>>> On 20/6/20 23:42, Sam Ravnborg wrote:
+>>>> Hi Enric.
+>>>>
+>>>> On Mon, Jun 15, 2020 at 10:53:20PM +0200, Enric Balletbo i Serra wrote:
+>>>>> The get_edid() callback can be triggered anytime by an ioctl, i.e
+>>>>>
+>>>>>   drm_mode_getconnector (ioctl)
+>>>>>     -> drm_helper_probe_single_connector_modes
+>>>>>        -> drm_bridge_connector_get_modes
+>>>>>           -> ps8640_bridge_get_edid
+>>>>>
+>>>>> Actually if the bridge pre_enable() function was not called before
+>>>>> get_edid(), the driver will not be able to get the EDID properly and
+>>>>> display will not work until a second get_edid() call is issued and if
+>>>>> pre_enable() is called before.
+>>>> Is it correct to fix this in the driver?
+>>>> Why not just fail and tell user-sapce to try again later?
+>>>> (Dunno what error-code to use - there must be one).
+>>>>
+>>>
+>>> My undestanding, I might be wrong, is that userspace should don't know which
+>>> bits, regulators, etc, are needed to get the EDID with an ioctl. Is the kernel
+>>> that should make sure that all is set properly (the required regulators, etc)
+>>> when userspace wants to read the EDID.
+>>
+>> The idea I suggest is that the kernel side should just error
+>> out and let user-space retry later.
+> 
+> I see, I got it.
+> 
+>> So we avoid all the extra logic in the kernel because userspace wants
+>> info before the HW is ready.
+>> And userspace shall anyway deal with the ioctl that fails.
+>>
+> 
+> My doubt here is, at which point the kernel driver should leave the hardware in
+> a state that getting the EDID should work? After the bridge pre_enable() or
+> enable() calls? After has been proved? AFAIK the bridge pre_enable() and
+> enable() calls are only about enable the stream out and in most cases you can
+> get the EDID without having to call pre_enable() and enable() before.
+> 
 
-- hdmi_phy->conf->hdmi_phy_enable_tmds(hdmi_phy);
-+ if (!hdmi_phy->conf->pll_default_off)
-+ hdmi_phy->conf->hdmi_phy_enable_tmds(hdmi_phy);
+Let me reformulate the question for if it was not clear.
 
-seems like tmds needs to be initially enabled and can only disabled later
+What I did is be able to read the EDID every time userspace asks for it (so
+kernel enables all the required) and Sam is proposing to just fail if all is not
+setup. I can obviously do this but my question is, at which point I should leave
+all the logic enabled to be able to read the EDID (after probe?, after
+pre_enable, after enable?) It is not clear for me from the API.
 
-regards Frank
+Thanks,
+ Enric
+
+
+> Thanks,
+>  Enric
+> 
+> 
+>> 	Sam
+>>
+>>>
+>>>> Then we avoid complicating drivers fro somethign we really should
+>>>> fix in user-space.
+>>>>
+>>>>> The side effect of this, for example, is
+>>>>> that you see anything when `Frecon` starts, neither the splash screen,
+>>>> that you do not see ...
+>>>>
+>>>> (Otherwise I do not parse the above).
+>>>>
+>>>>> until the graphical session manager starts.
+>>>>>
+>>>>> To fix this we need to make sure that all we need is enabled before
+>>>>> reading the EDID. This means the following:
+>>>>>
+>>>>> 1. If get_edid() is called before having the device powered we need to
+>>>>>    power on the device. In such case, the driver will power off again the
+>>>>>    device.
+>>>>>
+>>>>> 2. If get_edid() is called after having the device powered, all should
+>>>>>    just work. We added a powered flag in order to avoid recurrent calls
+>>>>>    to ps8640_bridge_poweron() and unneeded delays.
+>>>>>
+>>>>> 3. This seems to be specific for this device, but we need to make sure
+>>>>>    the panel is powered on before do a power on cycle on this device.
+>>>>>    Otherwise the device fails to retrieve the EDID.
+>>>> Step 3. looks like an ugly hack too....
+>>>>
+>>>
+>>> It is, but I don't have enough hardware details to be able to answer why we need
+>>> to do this. What is well tested is that, if I don't power the panel before
+>>> powering on the bridge, it doesn't get a proper EDID. Seems that when the bridge
+>>> goes up, the firmware tries to read the EDID and caches somehow. Well not sure.
+>>>
+>>>>>
+>>>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>>>> ---
+>>>>>
+>>>>>  drivers/gpu/drm/bridge/parade-ps8640.c | 79 ++++++++++++++++++++++++--
+>>>>>  1 file changed, 73 insertions(+), 6 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>>> index 9f7b7a9c53c52..ca651480891df 100644
+>>>>> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>>> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>>> @@ -65,6 +65,7 @@ struct ps8640 {
+>>>>>  	struct regulator_bulk_data supplies[2];
+>>>>>  	struct gpio_desc *gpio_reset;
+>>>>>  	struct gpio_desc *gpio_powerdown;
+>>>>> +	bool powered;
+>>>>>  };
+>>>>>  
+>>>>>  static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+>>>>> @@ -91,13 +92,25 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+>>>>>  	return 0;
+>>>>>  }
+>>>>>  
+>>>>> -static void ps8640_pre_enable(struct drm_bridge *bridge)
+>>>>> +static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+>>>>>  {
+>>>>> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>>>>>  	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
+>>>>> +	struct drm_bridge *panel;
+>>>>>  	unsigned long timeout;
+>>>>>  	int ret, status;
+>>>>>  
+>>>>> +	if (ps_bridge->powered)
+>>>>> +		return;
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * That seems to be specific to this chip, and a weird behaviour, but
+>>>>> +	 * we need to call drm_panel_prepare before issuing a poweron cycle. If
+>>>>> +	 * we don't do this, the chip is not able to read properly the EDID.
+>>>>> +	 */
+>>>>> +	panel = ps_bridge->panel_bridge;
+>>>>> +	if (panel->funcs && panel->funcs->pre_enable)
+>>>>> +		panel->funcs->pre_enable(panel);
+>>>>> +
+>>>>>  	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
+>>>>>  				    ps_bridge->supplies);
+>>>>>  	if (ret < 0) {
+>>>>> @@ -164,6 +177,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>>>>>  		goto err_regulators_disable;
+>>>>>  	}
+>>>>>  
+>>>>> +	ps_bridge->powered = true;
+>>>>> +
+>>>>>  	return;
+>>>>>  
+>>>>>  err_regulators_disable:
+>>>>> @@ -171,12 +186,13 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>>>>>  			       ps_bridge->supplies);
+>>>>>  }
+>>>>>  
+>>>>> -static void ps8640_post_disable(struct drm_bridge *bridge)
+>>>>> +static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
+>>>>>  {
+>>>>> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>>>>> +	struct drm_bridge *panel;
+>>>>>  	int ret;
+>>>>>  
+>>>>> -	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+>>>>> +	if (!ps_bridge->powered)
+>>>>> +		return;
+>>>>>  
+>>>>>  	gpiod_set_value(ps_bridge->gpio_reset, 1);
+>>>>>  	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
+>>>>> @@ -184,6 +200,32 @@ static void ps8640_post_disable(struct drm_bridge *bridge)
+>>>>>  				     ps_bridge->supplies);
+>>>>>  	if (ret < 0)
+>>>>>  		DRM_ERROR("cannot disable regulators %d\n", ret);
+>>>>> +
+>>>>> +	panel = ps_bridge->panel_bridge;
+>>>>> +	if (panel->funcs && panel->funcs->post_disable)
+>>>>> +		panel->funcs->post_disable(panel);
+>>>>> +
+>>>>> +	ps_bridge->powered = false;
+>>>>> +}
+>>>>> +
+>>>>> +static void ps8640_pre_enable(struct drm_bridge *bridge)
+>>>>> +{
+>>>>> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>>>>> +	int ret;
+>>>>> +
+>>>>> +	ps8640_bridge_poweron(ps_bridge);
+>>>>> +
+>>>>> +	ret = ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+>>>>> +	if (ret < 0)
+>>>>> +		ps8640_bridge_poweroff(ps_bridge);
+>>>>> +}
+>>>>> +
+>>>>> +static void ps8640_post_disable(struct drm_bridge *bridge)
+>>>>> +{
+>>>>> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>>>>> +
+>>>>> +	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+>>>>> +	ps8640_bridge_poweroff(ps_bridge);
+>>>>>  }
+>>>>>  
+>>>>>  static int ps8640_bridge_attach(struct drm_bridge *bridge,
+>>>>> @@ -249,9 +291,34 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>>>>>  					   struct drm_connector *connector)
+>>>>>  {
+>>>>>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>>>>> +	bool poweroff = !ps_bridge->powered;
+>>>>> +	struct edid *edid;
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * When we end calling get_edid() triggered by an ioctl, i.e
+>>>>> +	 *
+>>>>> +	 *   drm_mode_getconnector (ioctl)
+>>>>> +	 *     -> drm_helper_probe_single_connector_modes
+>>>>> +	 *        -> drm_bridge_connector_get_modes
+>>>>> +	 *           -> ps8640_bridge_get_edid
+>>>>> +	 *
+>>>>> +	 * We need to make sure that what we need is enabled before reading
+>>>>> +	 * EDID, for this chip, we need to do a full poweron, otherwise it will
+>>>>> +	 * fail.
+>>>>> +	 */
+>>>>> +	ps8640_bridge_poweron(ps_bridge);
+>>>>>  
+>>>>> -	return drm_get_edid(connector,
+>>>>> +	edid = drm_get_edid(connector,
+>>>>>  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * If we call the get_edid() function without having enabled the chip
+>>>>> +	 * before, return the chip to its original power state.
+>>>>> +	 */
+>>>>> +	if (poweroff)
+>>>>> +		ps8640_bridge_poweroff(ps_bridge);
+>>>>> +
+>>>>> +	return edid;
+>>>>>  }
+>>>>>  
+>>>>>  static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>>>>> -- 
+>>>>> 2.27.0
+>>>>>
+>>>>> _______________________________________________
+>>>>> dri-devel mailing list
+>>>>> dri-devel@lists.freedesktop.org
+>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>> _______________________________________________
+>>> dri-devel mailing list
+>>> dri-devel@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
