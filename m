@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C22624D622
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B065724D632
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 774926E9A0;
-	Fri, 21 Aug 2020 13:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6016EB0E;
+	Fri, 21 Aug 2020 13:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A21E6E9A0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:32:59 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id i26so1427982edv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 06:32:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dVAJruVtlIIPLpuA3hbccuJr1vYSLyUwXIfdQpDJjsc=;
- b=aCOw+Z+AiJKdUel3SS6htw0ZWssV3iWDvWCa1spy5j6qITuXk/g0JqN8MnXHg7sJNK
- 8116yGHatl/JS7VztkywOGfjrMRQe3u2hggrU2EIIpG7LkuZFtG6QoGSzWE7BaXm0d8q
- lCqabD2k+JGHOZPhE3sW+4abRNq1M/XeVmyKZJN0eXaAt+FCiveGT+zUvbmdk0TacOgK
- gUDyXg8hNrpABaEIw11/cECkL9jdW/ZRPZD0X4ee6eWF09JfrBFXPWmBBrugXCucmAQd
- 3ADV88i+gh6bDfOVQIu2Oeb2j6yGta6LkRZbhI4X1Yqnp6KAzDYlMyfBnw8MvKoecZfY
- T8Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dVAJruVtlIIPLpuA3hbccuJr1vYSLyUwXIfdQpDJjsc=;
- b=Q/vs/rReyPOStXY08IaUnEopiw3uKtixxRvb6jNlBx39PTd7FTNXJ8J64wTGignMdM
- vH41mrb//FMoxRBffl3/tVIT3oH7r4p0XIlx1yTTGKTiB1Q+2MvxUl8iXlprUpyPuSZ9
- PpwQcH/QsWTCF99nSLGg3uATnhH7FnifeibBIwvsom1mdCFysd29Pg9ZXp4OIIAPAhes
- Qj6rVyutoPOOBjklTWiZqle0DKvQalk3PwB2H5WwDn2hDpxMcZJq5xX/c2SlqHW8jmMy
- 7eY5ZGMgAaGYXR4X4+k9iJkYP0kA6PjQGs03H7e8x02pGGB8WsxvCAHeqEbUdvlOG5D6
- AcJg==
-X-Gm-Message-State: AOAM533g4uXpjJO1I7FZm2w40tuk59+imxp3HgSJPM24jpuVK9vekLje
- TmbgH1+CxQ5vJCPTIQC63+fK9kbzbqO6dI6q/sTCVQ==
-X-Google-Smtp-Source: ABdhPJwVZCnvu3sdGEmOqT1+7uCoiKqOYJUUsILF1DXq9koCeq4Zib7iy1KeJbFDrACiBGBpr69v3ieicEgSogOOP+8=
-X-Received: by 2002:aa7:c251:: with SMTP id y17mr2891000edo.13.1598016777851; 
- Fri, 21 Aug 2020 06:32:57 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 077CE6E14D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:38:00 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5bf.dynamic.kabel-deutschland.de
+ [95.90.213.191])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8FAEF2075E;
+ Fri, 21 Aug 2020 13:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1598017079;
+ bh=Ll99DIK1T8Lkx3D20DknnJzu5dcs03ue33YMpeTIyUU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=QKWBRvNeIHjsvJmXUSYSgHLegxdwzMcHXG3CQqzPDoRqSjvqfitMTxyInPncgbksc
+ ewEiJwcez1JSi0ZzL0lO//cdc1CPnS2j38p1s53qqHd5jMu8h8BpHwH5ueESJ3Y407
+ MQszV343fhRhN9y+MYrw7+n6dUHclNFDknk/lK6o=
+Date: Fri, 21 Aug 2020 15:37:49 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200821153749.08afec86@coco.lan>
+In-Reply-To: <20200819173558.GA3733@ravnborg.org>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819174027.70b39ee9@coco.lan>
+ <20200819173558.GA3733@ravnborg.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <1940005.XIBaf5lNV5@jeremy>
- <CAAEAJfBxJLyS-EaE82c4Oq3-EFongDmAtYnPtfMLKLL3KAiFxA@mail.gmail.com>
- <DABBE9E8-E94F-4F13-BB33-5DD67CAD9DFA@goldelico.com>
- <1857880.I5TKlsx52r@jason>
-In-Reply-To: <1857880.I5TKlsx52r@jason>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Fri, 21 Aug 2020 10:32:46 -0300
-Message-ID: <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the
- Ingenic JZ4780)
-To: Paul Boddie <paul@boddie.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,113 +49,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
+ Rob Clark <robdclark@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
+ Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Aug 2020 at 19:49, Paul Boddie <paul@boddie.org.uk> wrote:
->
-> On Thursday, 20 August 2020 10:19:45 CEST H. Nikolaus Schaller wrote:
-> >
-> > Yes, it works!!!
->
-> It still doesn't work for me. I still get "Input not supported" from my
-> monitor. It is a DVI monitor connected via a HDMI adapter, but EDID probing
-> works and, as I noted previously, the HDMI/LCDC can be made to work (and
-> obviously did work in the 3.18 kernel).
->
+Hi Sam,
 
-This means the dw_hdmi encoder driver is still not good enough
-to support your adapter. I haven't yet compared v3.18 vendor
-with our version, but I'm afraid that the dw_hdmi stack has
-probably changed quite a bit, so a comparison will be difficult.
+Em Wed, 19 Aug 2020 19:35:58 +0200
+Sam Ravnborg <sam@ravnborg.org> escreveu:
 
-The natural debug path for me would be to checkout v3.18,
-connect your DVI monitor and make a dump of all the
-dw_hdmi registers, then make the same dump for our
-mainline kernel -- making sure we are comparing the same
-mode.
+> > +	ret = drm_bridge_attach(encoder, bridge, NULL, 0);  
+> The bridge should be attached with the falg that tell the bridge NOT to
+> create a connector.
+> 
+> The display driver shall created the connector.
+> 
+> Please see how other drivers do this (but most driver uses the old
+> pattern so so look for drm_bridge_attach() with the flag argument.
 
-> I used my usual recipe for kernel compilation:
->
-> ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make ci20_defconfig
-> ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make menuconfig
-> ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make -j8 uImage
-> ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make -j8 modules
-> ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make -j8 dtbs
-> sudo sh -c 'INSTALL_MOD_PATH=nn ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- \
->             make modules_install'
-> sudo sh -c 'INSTALL_PATH=nn/boot ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- \
->             make dtbs_install'
-> sudo cp arch/mips/boot/uImage nn/boot/
->
-> This was with a snapshot archive made from the following changeset:
->
-> b911b4883bfe4f7fa753ac2ff42b25fa6b3055e2
->
-> I downloaded it from here:
->
-> https://gitlab.collabora.com/linux/0day/-/tree/jz4780-drm-hdmi-v5.9-rc1
->
-> (I was going to clone the repository late last night, but it was taking a long
-> time and I also didn't want to clone everything yet again.)
->
+Not sure if I got what should be done here.
 
-If you want to avoid cloning the same things over and over
-you can use git-clone --reference. And if you want to checkout
-just a single branch, git now has --single-branch.
+From what I've seen at the DRM code, one of the differences between the 
+display engine for the first Hikey board (Kirin 620 based) and 960/970
+is with regards to bridges. The first Hikey device doesn't use any
+external bridges: both panel and HDMI support are provided by the SoC.
 
-For instance, (assuming a torvalds/ local repo):
+The Hikey 960 and 970 boards may either use an external bridge
+or not. They also have two output connectors:
 
-git clone -b letux/jz4780-hdmi-v4 --single-branch
-git://git.goldelico.com/letux-kernel.git --reference torvalds/ letux
+- The first one doesn't use an external bridge. It is used
+  only together with an external daughter display panel board. 
+  It sounds that one such panels is this one:
 
-> > There are some unexpected things related to CONFIG settings on my setup
-> > (maybe missing modules) but for the first time I can see the boot log on the
-> > panel.
-> > > This needs some more investigation, but seems at least a good start.
-> >
-> > Yes it is!
-> >
-> > I can now git diff the code and the CONFIG.
-> >
-> > So it seems we have indeed a breakthrough.
-> >
-> > Thanks to all who did contribute (even behind the scenes in the DRM
-> > subsystem), Nikolaus
->
-> Before trying this new branch, I did try and tidy up the branch I had been
-> working on. I didn't notice all the changes and the new ingenic-drm-drv.c
-> file, having assumed that not much would have changed in the DRM driver.
->
-> Nevertheless, my attempts at integrating the different branches can be found
-> in the paulb-jz4780-ci20-hdmi-5.9-rc1 branch, mentioned earlier.
->
-> It would be nice to reconcile the JZ4780 support with the evolving upstream
-> support, accommodating the extended descriptors and the extra register usage.
->
+	https://www.96boards.org/blog/linksprite-hikey-aosp/
 
-I think that's already done in the patches I've cleaned up.
-The only thing left to check is plane offset and overlay enablement.
+  I don't have any such board. The OOT driver came with one
+  panel display, I didn't port such driver. 
 
-> Paul
->
-> P.S. I noticed a few problems with the 5.9-rc1 branches such as powering down
-> not actually removing the power and, in my own branch, networking not working
-> reliably (or maybe even at all), with the tedious progress indicator never
-> terminating in the boot sequence. So, once again, it is another case of half a
-> step forwards and about three steps back.
->
+- The second one uses an external bridge (adv7535) which is connected
+  to the HDMI board's connector.
 
-Life (and kernel) is like this: sometimes you need to take three steps
-back to make a jump forward :-)
+As there's just one bridge, the driver uses this to find its
+OF data:
+
+	struct device_node *bridge_node;
+
+	bridge_node = of_graph_get_remote_port_parent(endpoint);
+	dsi->bridge = of_drm_find_bridge(bridge_node);
+
+Basically, it doesn't call drm_bridge_add(), and doesn't
+declare any struct drm_bridge_funcs fops, as there's just one
+bridge that it is always there.
+
+-
+
+That's said, when I ported the code from Kernel 4.9, I fixed
+some broken things at the hotplug logic, trying to use other
+drivers with external bridges as examples. Yet, as you noticed,
+I ended using some older bridge model.  
+
+The only other driver I found that doesn't use drm_bridge_add()
+and doesn't pass 0 as flags is this one:
+
+	drivers/gpu/drm/omapdrm/omap_drv.c
+
+Is it a good example?
+
+What I see different there there is that it calls drm_bridge_attach()
+with:
+
+	ret = drm_bridge_attach(pipe->encoder,
+				pipe->output->bridge, NULL,
+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+
+Is adding this enough? Or should I do something else?
+
+
+Thanks,
+Mauro
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
