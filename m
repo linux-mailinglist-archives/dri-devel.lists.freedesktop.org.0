@@ -1,78 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0BB24DECB
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 19:43:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5912324DEE4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 19:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB466EB81;
-	Fri, 21 Aug 2020 17:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D55E46EB80;
+	Fri, 21 Aug 2020 17:49:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 634666EB80
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 17:43:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 436FF6EB80
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 17:49:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598031829;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1598032167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ck1HzmegM7CDR1tYNecg1aO5vculeTIQw9+caxg5syU=;
- b=YEcCpYEnZjIomgC3bSepUCN5wxRAPnmaEzJd8s9uJOkPX6BNp184DgMpyhorr+LGJvP3Er
- 1tmLzgGj9cgOAqViZ+oakfTUXMG+do4yMRzLGhHXWuNtfdjdUF3Dq4q1GxOdktJR3jZE0d
- NQvGZ72kdAR66FidRxXvIyVzjOYKgkU=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-JvUYCqy6PZWszbmQy6i8fg-1; Fri, 21 Aug 2020 13:43:42 -0400
-X-MC-Unique: JvUYCqy6PZWszbmQy6i8fg-1
-Received: by mail-qk1-f200.google.com with SMTP id i2so1897379qki.19
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 10:43:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=Ck1HzmegM7CDR1tYNecg1aO5vculeTIQw9+caxg5syU=;
- b=FEOsjRkBtKl3wpWcrTZ0W9KgITKLHBq36WDs+3vOV4FwXJtoJoSJDJNbHN0JMF9pY6
- Nku0YLinope3OSyhqCFMQBkA7OV+OsaQP3w3qfY0GD+HuJgk6m1NvOYwRtHVXmKrnQiv
- zbreCFRCDLysFHhgEip3D/fLeZf5hijn5WcryRFMS/7ODI1uhZ5Rv2OYMCKfuFqqZLgB
- M7jAMU1zdsosX3NAW9qLp1vPREZfbyIw7GGXPTNnBL6stUy3TMekyQ2bfWM1DTr5V17n
- wf95wFBDb/ASiEoDkbJm8iGSsOWoxVZM11bTTCxH3pwMdUYu/AmE7QixA+pizHAlJgVx
- C/Ng==
-X-Gm-Message-State: AOAM533gTtIg7UB9/XAIsfpRtuzbuCEcMV6yiu77ZlMr4D3oZyzUztnt
- qfyxdtskTuagbWhgGaV0UtmzU1zu+EZ2D1pMkX5ZhD69ADcTpTLY3j3KEgFP+z+BPh45UYJ9Sea
- 41r3+IgGDML8PJWz9ya1Ja2wHS19H
-X-Received: by 2002:ad4:446a:: with SMTP id s10mr3439709qvt.2.1598031821814;
- Fri, 21 Aug 2020 10:43:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxH9Jn6UgjudBPLj7x1v5DjX0yu6K7hIJo8gzCYd2/h1H2hOWOzRN2KkFrZWF/+fngCMyrh/Q==
-X-Received: by 2002:ad4:446a:: with SMTP id s10mr3439672qvt.2.1598031821496;
- Fri, 21 Aug 2020 10:43:41 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id c9sm2202769qkm.44.2020.08.21.10.43.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:43:40 -0700 (PDT)
-Message-ID: <597b83ace909f97bfefbe15ffbb0370c2101ff0f.camel@redhat.com>
-Subject: Re: [RFC 13/20] drm/i915/dp: Extract drm_dp_downstream_read_info()
+ bh=TeRJHu0662VLXPvtU/jy83aL+Cwz4BNML2NzWX/irlQ=;
+ b=UD7pE6QRdIyEvR+okWcKI2S0TQVJLRf9pA2YKeZ5uWxzxrD+B6IB7zestPEl81IDsWQaBb
+ /b3ouiWsqMcR0jCopGF+M4CyYNJapEZ9kWjXIqB4lwqnSnbjD1FapQL8J/uV4NOvmGN0N4
+ P6mwYX/ua5gw2Srlnt99yazF7R3YmHE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-fbJr96iIOcqzHk06mAqa5Q-1; Fri, 21 Aug 2020 13:49:24 -0400
+X-MC-Unique: fbJr96iIOcqzHk06mAqa5Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 652941885D8F;
+ Fri, 21 Aug 2020 17:49:21 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-113-71.rdu2.redhat.com
+ [10.10.113.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F8C8756C0;
+ Fri, 21 Aug 2020 17:49:18 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
-To: imre.deak@intel.com
-Date: Fri, 21 Aug 2020 13:43:39 -0400
-In-Reply-To: <20200820223754.GA17451@ideak-desk.fi.intel.com>
-References: <20200811200457.134743-1-lyude@redhat.com>
- <20200811200457.134743-14-lyude@redhat.com>
- <20200819151547.GB46474@art_vandelay>
- <4d74a74aefcd8d0ea048b70252efda18820bc911.camel@redhat.com>
- <20200820223754.GA17451@ideak-desk.fi.intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [RFC v3] drm/nouveau/kms: Search for encoders' connectors properly
+Date: Fri, 21 Aug 2020 13:48:35 -0400
+Message-Id: <20200821174843.366083-1-lyude@redhat.com>
+In-Reply-To: <20200820183012.288794-7-lyude@redhat.com>
+References: <20200820183012.288794-7-lyude@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,179 +59,429 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>, Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Hariprasad Kelam <hariprasad.kelam@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ James Jones <jajones@nvidia.com>, YueHaibing <yuehaibing@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIwLTA4LTIxIGF0IDAxOjM3ICswMzAwLCBJbXJlIERlYWsgd3JvdGU6Cj4gT24g
-V2VkLCBBdWcgMTksIDIwMjAgYXQgMDU6MzQ6MTVQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3cm90ZToK
-PiA+IChhZGRpbmcgVmlsbGUgYW5kIEltcmUgdG8gdGhlIGNjIGhlcmUsIHRoZXkgbWlnaHQgYmUg
-aW50ZXJlc3RlZCB0byBrbm93Cj4gPiBhYm91dAo+ID4gdGhpcywgY29tbWVudHMgZG93biBiZWxv
-dykKPiA+IAo+ID4gT24gV2VkLCAyMDIwLTA4LTE5IGF0IDExOjE1IC0wNDAwLCBTZWFuIFBhdWwg
-d3JvdGU6Cj4gPiA+IE9uIFR1ZSwgQXVnIDExLCAyMDIwIGF0IDA0OjA0OjUwUE0gLTA0MDAsIEx5
-dWRlIFBhdWwgd3JvdGU6Cj4gPiA+ID4gV2UncmUgZ29pbmcgdG8gYmUgZG9pbmcgdGhlIHNhbWUg
-cHJvYmluZyBwcm9jZXNzIGluIG5vdXZlYXUgZm9yCj4gPiA+ID4gZGV0ZXJtaW5pbmcgZG93bnN0
-cmVhbSBEUCBwb3J0IGNhcGFiaWxpdGllcywgc28gbGV0J3MgZGVkdXBsaWNhdGUgdGhlCj4gPiA+
-ID4gd29yayBieSBtb3ZpbmcgaTkxNSdzIGNvZGUgZm9yIGhhbmRsaW5nIHRoaXMgaW50byBhIHNo
-YXJlZCBoZWxwZXI6Cj4gPiA+ID4gZHJtX2RwX2Rvd25zdHJlYW1fcmVhZF9pbmZvKCkuCj4gPiA+
-ID4gCj4gPiA+ID4gTm90ZSB0aGF0IHdoZW4gd2UgZG8gdGhpcywgd2UgYWxzbyBkbyBtYWtlIHNv
-bWUgZnVuY3Rpb25hbCBjaGFuZ2VzIHdoaWxlCj4gPiA+ID4gd2UncmUgYXQgaXQ6Cj4gPiA+ID4g
-KiBXZSBhbHdheXMgY2xlYXIgdGhlIGRvd25zdHJlYW0gcG9ydCBpbmZvIGJlZm9yZSB0cnlpbmcg
-dG8gcmVhZCBpdCwKPiA+ID4gPiAgIGp1c3QgdG8gbWFrZSB0aGluZ3MgZWFzaWVyIGZvciB0aGUg
-Y2FsbGVyCj4gPiA+ID4gKiBXZSBza2lwIHJlYWRpbmcgZG93bnN0cmVhbSBwb3J0IGluZm8gaWYg
-dGhlIERQQ0QgaW5kaWNhdGVzIHRoYXQgd2UKPiA+ID4gPiAgIGRvbid0IHN1cHBvcnQgZG93bnN0
-cmVhbSBwb3J0IGluZm8KPiA+ID4gPiAqIFdlIG9ubHkgcmVhZCBhcyBtYW55IGJ5dGVzIGFzIG5l
-ZWRlZCBmb3IgdGhlIHJlcG9ydGVkIG51bWJlciBvZgo+ID4gPiA+ICAgZG93bnN0cmVhbSBwb3J0
-cywgbm8gc2Vuc2UgaW4gcmVhZGluZyB0aGUgd2hvbGUgdGhpbmcgZXZlcnkgdGltZQo+ID4gPiA+
-IAo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4g
-PiA+ID4gLS0tCj4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMgICAgICAg
-ICB8IDMyICsrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIHwgMTQgKystLS0tLS0tLS0KPiA+ID4gPiAgaW5jbHVk
-ZS9kcm0vZHJtX2RwX2hlbHBlci5oICAgICAgICAgICAgIHwgIDMgKysrCj4gPiA+ID4gIDMgZmls
-ZXMgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gPiA+ID4gCj4g
-PiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiA+ID4g
-PiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiA+ID4gPiBpbmRleCA0YzIxY2Y2
-OWRhZDVhLi45NzAzYjMzNTk5YzNiIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZHBfaGVscGVyLmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hl
-bHBlci5jCj4gPiA+ID4gQEAgLTQyMyw2ICs0MjMsMzggQEAgYm9vbCBkcm1fZHBfc2VuZF9yZWFs
-X2VkaWRfY2hlY2tzdW0oc3RydWN0Cj4gPiA+ID4gZHJtX2RwX2F1eAo+ID4gPiA+ICphdXgsCj4g
-PiA+ID4gIH0KPiA+ID4gPiAgRVhQT1JUX1NZTUJPTChkcm1fZHBfc2VuZF9yZWFsX2VkaWRfY2hl
-Y2tzdW0pOwo+ID4gPiA+ICAKPiA+ID4gPiArLyoqCj4gPiA+ID4gKyAqIGRybV9kcF9kb3duc3Ry
-ZWFtX3JlYWRfaW5mbygpIC0gcmVhZCBEUENEIGRvd25zdHJlYW0gcG9ydCBpbmZvIGlmCj4gPiA+
-ID4gYXZhaWxhYmxlCj4gPiA+ID4gKyAqIEBhdXg6IERpc3BsYXlQb3J0IEFVWCBjaGFubmVsCj4g
-PiA+ID4gKyAqIEBkcGNkOiBBIGNhY2hlZCBjb3B5IG9mIHRoZSBwb3J0J3MgRFBDRAo+ID4gPiA+
-ICsgKiBAZG93bnN0cmVhbV9wb3J0czogYnVmZmVyIHRvIHN0b3JlIHRoZSBkb3duc3RyZWFtIHBv
-cnQgaW5mbyBpbgo+ID4gPiA+ICsgKgo+ID4gPiA+ICsgKiBSZXR1cm5zOiAwIGlmIGVpdGhlciB0
-aGUgZG93bnN0cmVhbSBwb3J0IGluZm8gd2FzIHJlYWQgc3VjY2Vzc2Z1bGx5Cj4gPiA+ID4gb3IK
-PiA+ID4gPiArICogdGhlcmUgd2FzIG5vIGRvd25zdHJlYW0gaW5mbyB0byByZWFkLCBvciBhIG5l
-Z2F0aXZlIGVycm9yIGNvZGUKPiA+ID4gPiBvdGhlcndpc2UuCj4gPiA+ID4gKyAqLwo+ID4gPiA+
-ICtpbnQgZHJtX2RwX2Rvd25zdHJlYW1fcmVhZF9pbmZvKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgs
-Cj4gPiA+ID4gKwkJCQljb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpFXSwKPiA+ID4g
-PiArCQkJCXU4Cj4gPiA+ID4gZG93bnN0cmVhbV9wb3J0c1tEUF9NQVhfRE9XTlNUUkVBTV9QT1JU
-U10pCj4gPiA+ID4gK3sKPiA+ID4gPiArCWludCByZXQ7Cj4gPiA+ID4gKwl1OCBsZW47Cj4gPiA+
-ID4gKwo+ID4gPiA+ICsJbWVtc2V0KGRvd25zdHJlYW1fcG9ydHMsIDAsIERQX01BWF9ET1dOU1RS
-RUFNX1BPUlRTKTsKPiA+ID4gPiArCj4gPiA+ID4gKwkvKiBObyBkb3duc3RyZWFtIGluZm8gdG8g
-cmVhZCAqLwo+ID4gPiA+ICsJaWYgKCFkcm1fZHBfaXNfYnJhbmNoKGRwY2QpIHx8Cj4gPiA+ID4g
-KwkgICAgZHBjZFtEUF9EUENEX1JFVl0gPCBEUF9EUENEX1JFVl8xMCB8fAo+ID4gPiA+ICsJICAg
-ICEoZHBjZFtEUF9ET1dOU1RSRUFNUE9SVF9QUkVTRU5UXSAmCj4gPiA+ID4gRFBfRFdOX1NUUk1f
-UE9SVF9QUkVTRU5UKSkKPiA+ID4gPiArCQlyZXR1cm4gMDsKPiA+ID4gPiArCj4gPiA+ID4gKwls
-ZW4gPSAoZHBjZFtEUF9ET1dOX1NUUkVBTV9QT1JUX0NPVU5UXSAmIERQX1BPUlRfQ09VTlRfTUFT
-SykgKgo+ID4gPiA+IDQ7Cj4gPiA+IAo+ID4gPiBJJ20gaGF2aW5nIGEgaGFyZCB0aW1lIHJhdGlv
-bmFsaXppbmcgRFBfTUFYX0RPV05TVFJFQU1fUE9SVFMgYmVpbmcgMTYsIGJ1dAo+ID4gPiBvbmx5
-Cj4gPiA+IGhhdmluZyA0IHBvcnRzIHdvcnRoIG9mIGRhdGEgaW4gdGhlIERQX0RPV05TVFJFQU1f
-UE9SVF8qIHJlZ2lzdGVycy4gRG8geW91Cj4gPiA+IGtub3cKPiA+ID4gd2hhdCdzIHN1cHBvc2Vk
-IHRvIGhhcHBlbiBpZiBkcGNkW0RQX0RPV05fU1RSRUFNX1BPUlRfQ09VTlRdIGlzID4gND8KPiA+
-ID4gCj4gPiBvayEhIFRha2luZyBhIGxlc3NvbiBmcm9tIG91ciBhdmFpbGFibGVfcGJuL2Z1bGxf
-cGJuIGNvbmZ1c2lvbiBpbiB0aGUgcGFzdCwKPiA+IEkKPiA+IHNxdWludGVkIHZlcnkgaGFyZCBh
-dCB0aGUgc3BlY2lmaWNhdGlvbiBhbmQgZXZlbnR1YWxseSBmb3VuZCBzb21ldGhpbmcgdGhhdAo+
-ID4gSQo+ID4gdGhpbmsgY2xlYXJzIHRoaXMgdXAuIFN1cnByaXNlIC0gd2UgZGVmaW5pdGVseSBo
-YWQgdGhpcyBpbXBsZW1lbnRlZAo+ID4gaW5jb3JyZWN0bHkKPiA+IGluIGk5MTUKPiAKPiBUbyBt
-ZSBpdCBsb29rcyBjb3JyZWN0LCBvbmx5IERGUDAncyBjYXAgaW5mbyBpcyB1c2VkLCBieSBhbHNv
-IGhhbmRsaW5nCj4gdGhlIERQX0RFVEFJTEVEX0NBUF9JTkZPX0FWQUlMQUJMRT0wLzEgY2FzZXMu
-CkVuZGVkIHVwIHJlYWxpemluZyB0aGlzIHJpZ2h0IGFmdGVyIEkgc2VudCB0aGlzIHZlcnNpb24g
-b2YgdGhlIFJGQyAtIHllYWgsIGl0CmRlZmluaXRlbHkgc2hvdWxkbid0IGJlIGNhdXNpbmcgYW55
-IHJlYWwgcHJvYmxlbXMgYXMgb2Ygbm93Cgo+IAo+IFRoZSB3b3JkaW5nIGlzIGEgYml0IHVuY2xl
-YXIsIGJ1dCBhcyBJIHVuZGVyc3RhbmQgdGhlIFN0YW5kYXJkIG9ubHkKPiBjYWxscyBmb3IgdGhl
-IGFib3ZlOgo+IAo+ICIiIgo+IEEgRFAgdXBzdHJlYW0gZGV2aWNlIHNoYWxsIHJlYWQgdGhlIGNh
-cGFiaWxpdHkgZnJvbSBEUENEIEFkZHJlc3NlcyAwMDA4MGgKPiB0aHJvdWdoIDAwMDgzaC4gQSBE
-UCBCcmFuY2ggZGV2aWNlIHdpdGggbXVsdGlwbGUgREZQcyBzaGFsbCByZXBvcnQgdGhlCj4gZGV0
-YWlsZWQKPiBjYXBhYmlsaXR5IGluZm9ybWF0aW9uIG9mIHRoZSBsb3dlc3QgREZQIG51bWJlciB0
-byB3aGljaCBhIGRvd25zdHJlYW0gZGV2aWNlCj4gaXMgY29ubmVjdGVkLCBjb25zaXN0ZW50IHdp
-dGggdGhlIERpc3BsYXlJRCBvciBsZWdhY3kgRURJRCBhY2Nlc3Mgcm91dGluZwo+IHBvbGljeQo+
-IG9mIGFuIFNTVC1vbmx5IERQIEJyYW5jaCBkZXZpY2UgYXMgZGVzY3JpYmVkIGluIFNlY3Rpb24g
-Mi4xLjQuMS4KPiAiIiIKClNvLUkgc2F3IHRoaXMgdG9vLCBidXQgbm90aWNlIHRoZSB1c2Ugb2Yg
-dGhlIGxhbmd1YWdlICJBIC9EUCBCcmFuY2gvIGRldmljZSB3aXRoCm11bHRpcGxlIERGUHMgc2hh
-bGwgcmVwb3J0IHRoZSBkZXRhaWxlZOKApiIuIFRoaXMgbWFrZXMgbWUgdGhpbmsgaXQncyBpbXBs
-eWluZwp0aGF0IHRoaXMgaXMgYSByZXF1aXJlbWVudCBmb3IgTVNUQnMgYW5kIG5vdCBTU1Qgc2lu
-a3MsIGp1c3QgYSBndWVzcy4KPiAKPiA+IEZyb20gc2VjdGlvbiA1LjMuMy4xOgo+ID4gCj4gPiAg
-ICBFaXRoZXIgb25lIG9yIGZvdXIgYnl0ZXMgYXJlIHVzZWQsIHBlciBERlAgdHlwZSBpbmRpY2F0
-aW9uLiBUaGVyZWZvcmUsIHVwCj4gPiB0bwo+ID4gICAgMTYgKHdpdGggMS1ieXRlIGRlc2NyaXB0
-b3IpIG9yIGZvdXIgKHdpdGggNC1ieXRlIGRlc2NyaXB0b3IpIERGUAo+ID4gY2FwYWJpbGl0aWVz
-Cj4gPiAgICBjYW4gYmUgc3RvcmVkLgo+ID4gCj4gPiBTbywgYSBjb3VwbGUgdGFrZWF3YXlzIGZy
-b20gdGhpczoKPiA+IAo+ID4gICogQSBEaXNwbGF5UG9ydCBjb25uZWN0b3IgY2FuIGhhdmUgKm11
-bHRpcGxlKiBkaWZmZXJlbnQgZG93bnN0cmVhbSBwb3J0Cj4gPiB0eXBlcywKPiA+ICAgIHdoaWNo
-IEkgdGhpbmsgYWN0dWFsbHkgbWFrZXMgc2Vuc2UgYXMgSSd2ZSBzZWVuIGFuIGFkYXB0ZXIgbGlr
-ZSB0aGlzCj4gPiBiZWZvcmUuCj4gPiAgKiBXZSBhY3R1YWxseSBhZGRlZCB0aGUgYWJpbGl0eSB0
-byBkZXRlcm1pbmUgdGhlIGRvd25zdHJlYW0gcG9ydCB0eXBlIGZvcgo+ID4gRFAKPiA+ICAgIGNv
-bm5lY3RvcnMgdXNpbmcgdGhlIHN1YmNvbm5lY3RvciBwcm9wLCBidXQgaXQgc2VlbXMgbGlrZSBp
-ZiB3ZSB3YW50IHRvCj4gPiBhaW0KPiA+ICAgIGZvciBjb21wbGV0ZW5lc3Mgd2UncmUgZ29pbmcg
-dG8gbmVlZCB0byBjb21lIHVwIHdpdGggYSBuZXcgcHJvcCB0aGF0IGNhbgo+ID4gICAgcmVwb3J0
-IG11bHRpcGxlIGRvd25zdHJlYW0gcG9ydCB0eXBlcyA6XC4KPiAKPiBUaGlzIG1ha2VzIHNlbnNl
-IHRvIG1lLgo+IAo+ID4gICogSXQncyBub3QgZXhwbGljaXRseSBtZW50aW9uZWQsIGJ1dCBJJ20g
-YXNzdW1pbmcgdGhlIGNvcnJlY3Qgd2F5IG9mCj4gPiBoYW5kbGluZwo+ID4gICAgbXVsdGlwbGUg
-ZG93bnN0cmVhbSBCUEMvcGl4ZWwgY2xvY2sgY2FwYWJpbGl0aWVzIGlzIHRvIGFzc3VtZSB0aGUg
-bWF4Cj4gPiAgICBCUEMvcGl4ZWwgY2xvY2sgaXMgZGVyaXZlZCBmcm9tIHRoZSBsb3dlc3QgbWF4
-IEJQQy9waXhlbCBjbG9jayB3ZSBmaW5kIG9uCj4gPiAgICAqY29ubmVjdGVkKiBkb3duc3RyZWFt
-IHBvcnRzIChhbnl0aGluZyBlbHNlIHdvdWxkbid0IHJlYWxseSBtYWtlIHNlbnNlLAo+ID4gaW1o
-bykKPiAKPiBUaGlzIHdvdWxkIGxpbWl0IHRoZSBjYXNlIHdoZXJlIHRoZSB1c2VyIG9ubHkgY2Fy
-ZXMgYWJvdXQgdGhlIG91dHB1dAo+IHdpdGggYSBoaWdoZXIgQlcgcmVxdWlyZW1lbnQgb24gYSBE
-RlAgZXZlbiBpZiBhbm90aGVyIERGUCB3aXRoIGEgbG93ZXIKPiBCVyBjYXAgaXMgYWxzbyBjb25u
-ZWN0ZWQuIE5vdCBzdXJlIGlmIGl0J3MgYSByZWFsIHdvcmxkIHVzZS1jYXNlIHRob3VnaC4KCmht
-LCB0cnVlLgo+IAo+ID4gU28gSSdtIGdvaW5nIHRvIHJld3JpdGUgdGhpcyBzbyB3ZSBoYW5kbGUg
-dGhpcyBwcm9wZXJseSBpbgo+ID4gZHJtX2RwX2Rvd25zdHJlYW1fcmVhZF9pbmZvKCkgYW5kIHJl
-bGF0ZWQgaGVscGVycy4gSSBkb24ndCBjdXJyZW50bHkgaGF2ZQo+ID4gdGhlCj4gPiB0aW1lIHRv
-IGRvIHRoaXMsIGJ1dCBpZiB0aGVyZSdzIGludGVyZXN0IHVwc3RyZWFtIGluIHByb3Blcmx5IHJl
-cG9ydGluZyB0aGUKPiA+IGRvd25zdHJlYW0gcG9ydCB0eXBlcyBvZiBEUCBwb3J0cyBpbiB1c2Vy
-c3BhY2Ugc29tZW9uZSBtaWdodCB3YW50IHRvCj4gPiBjb25zaWRlcgo+ID4gY29taW5nIHVwIHdp
-dGggYW5vdGhlciBwcm9wIHRoYXQgYWNjb3VudHMgZm9yIG11bHRpcGxlIGRpZmZlcmVudCBkb3du
-c3RyZWFtCj4gPiBwb3J0Cj4gPiB0eXBlcy4KPiA+IAo+ID4gPiBTZWFuCj4gPiA+IAo+ID4gPiA+
-ICsJcmV0ID0gZHJtX2RwX2RwY2RfcmVhZChhdXgsIERQX0RPV05TVFJFQU1fUE9SVF8wLAo+ID4g
-PiA+IGRvd25zdHJlYW1fcG9ydHMsCj4gPiA+ID4gKwkJCSAgICAgICBsZW4pOwo+ID4gPiA+ICsK
-PiA+ID4gPiArCXJldHVybiByZXQgPT0gbGVuID8gMCA6IC1FSU87Cj4gPiA+ID4gK30KPiA+ID4g
-PiArRVhQT1JUX1NZTUJPTChkcm1fZHBfZG93bnN0cmVhbV9yZWFkX2luZm8pOwo+ID4gPiA+ICsK
-PiA+ID4gPiAgLyoqCj4gPiA+ID4gICAqIGRybV9kcF9kb3duc3RyZWFtX21heF9jbG9jaygpIC0g
-ZXh0cmFjdCBicmFuY2ggZGV2aWNlIG1heAo+ID4gPiA+ICAgKiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHBpeGVsIHJhdGUgZm9yIGxlZ2FjeSBWR0EKPiA+ID4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gPiA+ID4gYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPiA+ID4gPiBpbmRleCAxZTI5ZDNh
-MDEyODU2Li45ODRlNDkxOTRjYTMxIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ID4gPiA+IEBAIC00Njg1LDE4ICs0Njg1LDggQEAgaW50
-ZWxfZHBfZ2V0X2RwY2Qoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKPiA+ID4gPiAgCQkJcmV0
-dXJuIGZhbHNlOwo+ID4gPiA+ICAJfQo+ID4gPiA+ICAKPiA+ID4gPiAtCWlmICghZHJtX2RwX2lz
-X2JyYW5jaChpbnRlbF9kcC0+ZHBjZCkpCj4gPiA+ID4gLQkJcmV0dXJuIHRydWU7IC8qIG5hdGl2
-ZSBEUCBzaW5rICovCj4gPiA+ID4gLQo+ID4gPiA+IC0JaWYgKGludGVsX2RwLT5kcGNkW0RQX0RQ
-Q0RfUkVWXSA9PSAweDEwKQo+ID4gPiA+IC0JCXJldHVybiB0cnVlOyAvKiBubyBwZXItcG9ydCBk
-b3duc3RyZWFtIGluZm8gKi8KPiA+ID4gPiAtCj4gPiA+ID4gLQlpZiAoZHJtX2RwX2RwY2RfcmVh
-ZCgmaW50ZWxfZHAtPmF1eCwgRFBfRE9XTlNUUkVBTV9QT1JUXzAsCj4gPiA+ID4gLQkJCSAgICAg
-aW50ZWxfZHAtPmRvd25zdHJlYW1fcG9ydHMsCj4gPiA+ID4gLQkJCSAgICAgRFBfTUFYX0RPV05T
-VFJFQU1fUE9SVFMpIDwgMCkKPiA+ID4gPiAtCQlyZXR1cm4gZmFsc2U7IC8qIGRvd25zdHJlYW0g
-cG9ydCBzdGF0dXMgZmV0Y2ggZmFpbGVkICovCj4gPiA+ID4gLQo+ID4gPiA+IC0JcmV0dXJuIHRy
-dWU7Cj4gPiA+ID4gKwlyZXR1cm4gZHJtX2RwX2Rvd25zdHJlYW1fcmVhZF9pbmZvKCZpbnRlbF9k
-cC0+YXV4LCBpbnRlbF9kcC0KPiA+ID4gPiA+ZHBjZCwKPiA+ID4gPiArCQkJCQkgICBpbnRlbF9k
-cC0+ZG93bnN0cmVhbV9wb3J0cykKPiA+ID4gPiA9PSAwOwo+ID4gPiA+ICB9Cj4gPiA+ID4gIAo+
-ID4gPiA+ICBzdGF0aWMgYm9vbAo+ID4gPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
-ZHBfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPiA+ID4gPiBpbmRleCA1
-YzI4MTk5MjQ4NjI2Li4xMzQ5ZjE2NTY0YWNlIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2luY2x1ZGUv
-ZHJtL2RybV9kcF9oZWxwZXIuaAo+ID4gPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxw
-ZXIuaAo+ID4gPiA+IEBAIC0xNjEzLDYgKzE2MTMsOSBAQCBpbnQgZHJtX2RwX2RwY2RfcmVhZF9s
-aW5rX3N0YXR1cyhzdHJ1Y3QgZHJtX2RwX2F1eAo+ID4gPiA+ICphdXgsCj4gPiA+ID4gIGJvb2wg
-ZHJtX2RwX3NlbmRfcmVhbF9lZGlkX2NoZWNrc3VtKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4g
-PiA+ID4gIAkJCQkgICAgdTggcmVhbF9lZGlkX2NoZWNrc3VtKTsKPiA+ID4gPiAgCj4gPiA+ID4g
-K2ludCBkcm1fZHBfZG93bnN0cmVhbV9yZWFkX2luZm8oc3RydWN0IGRybV9kcF9hdXggKmF1eCwK
-PiA+ID4gPiArCQkJCWNvbnN0IHU4IGRwY2RbRFBfUkVDRUlWRVJfQ0FQX1NJWkVdLAo+ID4gPiA+
-ICsJCQkJdTgKPiA+ID4gPiBkb3duc3RyZWFtX3BvcnRzW0RQX01BWF9ET1dOU1RSRUFNX1BPUlRT
-XSk7Cj4gPiA+ID4gIGludCBkcm1fZHBfZG93bnN0cmVhbV9tYXhfY2xvY2soY29uc3QgdTggZHBj
-ZFtEUF9SRUNFSVZFUl9DQVBfU0laRV0sCj4gPiA+ID4gIAkJCQljb25zdCB1OCBwb3J0X2NhcFs0
-XSk7Cj4gPiA+ID4gIGludCBkcm1fZHBfZG93bnN0cmVhbV9tYXhfYnBjKGNvbnN0IHU4IGRwY2Rb
-RFBfUkVDRUlWRVJfQ0FQX1NJWkVdLAo+ID4gPiA+IC0tIAo+ID4gPiA+IDIuMjYuMgo+ID4gPiA+
-IAo+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Cj4gPiA+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gPiA+IGRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKPiA+ID4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+ID4gLS0gCj4gPiBTaW5jZXJlbHksCj4gPiAgICAgICBM
-eXVkZSBQYXVsIChzaGUvaGVyKQo+ID4gICAgICAgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhh
-dAo+ID4gCi0tIApTaW5jZXJlbHksCiAgICAgIEx5dWRlIFBhdWwgKHNoZS9oZXIpCiAgICAgIFNv
-ZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+While the way we find the associated connector for an encoder is just
+fine for legacy modesetting, it's not correct for nv50+ since that uses
+atomic modesetting. For reference, see the drm_encoder kdocs.
+
+Fix this by removing nouveau_encoder_connector_get(), and replacing it
+with nv04_encoder_get_connector(), nv50_outp_get_old_connector(), and
+nv50_outp_get_new_connector().
+
+v2:
+* Don't line-wrap for_each_(old|new)_connector_in_state in
+  nv50_outp_get_(old|new)_connector() - sravn
+v3:
+* Fix potential uninitialized usage of nv_connector (needs to be
+  initialized to NULL at the start). Thanks kernel test robot!
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+---
+ drivers/gpu/drm/nouveau/dispnv04/dac.c      |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/dfp.c      |  7 +-
+ drivers/gpu/drm/nouveau/dispnv04/disp.c     | 18 +++++
+ drivers/gpu/drm/nouveau/dispnv04/disp.h     |  4 +
+ drivers/gpu/drm/nouveau/dispnv04/tvnv04.c   |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c   |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     | 87 +++++++++++++++++----
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 14 ----
+ drivers/gpu/drm/nouveau/nouveau_encoder.h   |  6 +-
+ 9 files changed, 104 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c b/drivers/gpu/drm/nouveau/dispnv04/dac.c
+index ffdd447d87068..22d10f3285597 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
+@@ -419,7 +419,7 @@ static void nv04_dac_commit(struct drm_encoder *encoder)
+ 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
+ 
+ 	NV_DEBUG(drm, "Output %s is running on CRTC %d using output %c\n",
+-		 nouveau_encoder_connector_get(nv_encoder)->base.name,
++		 nv04_encoder_get_connector(nv_encoder)->base.name,
+ 		 nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+index f9f4482c79b54..42687ea2a4ca3 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+@@ -184,7 +184,8 @@ static bool nv04_dfp_mode_fixup(struct drm_encoder *encoder,
+ 				struct drm_display_mode *adjusted_mode)
+ {
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+-	struct nouveau_connector *nv_connector = nouveau_encoder_connector_get(nv_encoder);
++	struct nouveau_connector *nv_connector =
++		nv04_encoder_get_connector(nv_encoder);
+ 
+ 	if (!nv_connector->native_mode ||
+ 	    nv_connector->scaling_mode == DRM_MODE_SCALE_NONE ||
+@@ -478,7 +479,7 @@ static void nv04_dfp_commit(struct drm_encoder *encoder)
+ 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
+ 
+ 	NV_DEBUG(drm, "Output %s is running on CRTC %d using output %c\n",
+-		 nouveau_encoder_connector_get(nv_encoder)->base.name,
++		 nv04_encoder_get_connector(nv_encoder)->base.name,
+ 		 nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
+ }
+ 
+@@ -591,7 +592,7 @@ static void nv04_dfp_restore(struct drm_encoder *encoder)
+ 
+ 	if (nv_encoder->dcb->type == DCB_OUTPUT_LVDS) {
+ 		struct nouveau_connector *connector =
+-			nouveau_encoder_connector_get(nv_encoder);
++			nv04_encoder_get_connector(nv_encoder);
+ 
+ 		if (connector && connector->native_mode)
+ 			call_lvds_script(dev, nv_encoder->dcb, head,
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+index 900ab69df7e8f..3f046b917c85c 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
+@@ -35,6 +35,24 @@
+ 
+ #include <nvif/if0004.h>
+ 
++struct nouveau_connector *
++nv04_encoder_get_connector(struct nouveau_encoder *encoder)
++{
++	struct drm_device *dev = to_drm_encoder(encoder)->dev;
++	struct drm_connector *connector;
++	struct drm_connector_list_iter conn_iter;
++	struct nouveau_connector *nv_connector = NULL;
++
++	drm_connector_list_iter_begin(dev, &conn_iter);
++	drm_for_each_connector_iter(connector, &conn_iter) {
++		if (connector->encoder == to_drm_encoder(encoder))
++			nv_connector = nouveau_connector(connector);
++	}
++	drm_connector_list_iter_end(&conn_iter);
++
++	return nv_connector;
++}
++
+ static void
+ nv04_display_fini(struct drm_device *dev, bool suspend)
+ {
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.h b/drivers/gpu/drm/nouveau/dispnv04/disp.h
+index 495d3284e8766..5ace5e906949a 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/disp.h
++++ b/drivers/gpu/drm/nouveau/dispnv04/disp.h
+@@ -6,6 +6,8 @@
+ 
+ #include "nouveau_display.h"
+ 
++struct nouveau_encoder;
++
+ enum nv04_fp_display_regs {
+ 	FP_DISPLAY_END,
+ 	FP_TOTAL,
+@@ -93,6 +95,8 @@ nv04_display(struct drm_device *dev)
+ 
+ /* nv04_display.c */
+ int nv04_display_create(struct drm_device *);
++struct nouveau_connector *
++nv04_encoder_get_connector(struct nouveau_encoder *nv_encoder);
+ 
+ /* nv04_crtc.c */
+ int nv04_crtc_create(struct drm_device *, int index);
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
+index b701a4d8fe760..3ba7b59580d59 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
+@@ -172,7 +172,7 @@ static void nv04_tv_commit(struct drm_encoder *encoder)
+ 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
+ 
+ 	NV_DEBUG(drm, "Output %s is running on CRTC %d using output %c\n",
+-		 nouveau_encoder_connector_get(nv_encoder)->base.name,
++		 nv04_encoder_get_connector(nv_encoder)->base.name,
+ 		 nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+index 3a9489ed6544f..be28e7bd74903 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+@@ -599,7 +599,7 @@ static void nv17_tv_commit(struct drm_encoder *encoder)
+ 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
+ 
+ 	NV_INFO(drm, "Output %s is running on CRTC %d using output %c\n",
+-		nouveau_encoder_connector_get(nv_encoder)->base.name,
++		nv04_encoder_get_connector(nv_encoder)->base.name,
+ 		nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index c4d138f0ca054..82325ac2dd5ab 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -411,6 +411,40 @@ nv50_outp_atomic_check(struct drm_encoder *encoder,
+ 	return 0;
+ }
+ 
++struct nouveau_connector *
++nv50_outp_get_new_connector(struct nouveau_encoder *outp,
++			    struct drm_atomic_state *state)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *connector_state;
++	struct drm_encoder *encoder = to_drm_encoder(outp);
++	int i;
++
++	for_each_new_connector_in_state(state, connector, connector_state, i) {
++		if (connector_state->best_encoder == encoder)
++			return nouveau_connector(connector);
++	}
++
++	return NULL;
++}
++
++struct nouveau_connector *
++nv50_outp_get_old_connector(struct nouveau_encoder *outp,
++			    struct drm_atomic_state *state)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *connector_state;
++	struct drm_encoder *encoder = to_drm_encoder(outp);
++	int i;
++
++	for_each_old_connector_in_state(state, connector, connector_state, i) {
++		if (connector_state->best_encoder == encoder)
++			return nouveau_connector(connector);
++	}
++
++	return NULL;
++}
++
+ /******************************************************************************
+  * DAC
+  *****************************************************************************/
+@@ -552,16 +586,30 @@ nv50_audio_component_get_eld(struct device *kdev, int port, int dev_id,
+ 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
+ 	struct drm_encoder *encoder;
+ 	struct nouveau_encoder *nv_encoder;
+-	struct nouveau_connector *nv_connector;
++	struct drm_connector *connector;
++	struct nouveau_connector *nv_connector = NULL;
+ 	struct nouveau_crtc *nv_crtc;
++	struct drm_connector_list_iter conn_iter;
+ 	int ret = 0;
+ 
+ 	*enabled = false;
++
+ 	drm_for_each_encoder(encoder, drm->dev) {
+ 		nv_encoder = nouveau_encoder(encoder);
+-		nv_connector = nouveau_encoder_connector_get(nv_encoder);
++
++		drm_connector_list_iter_begin(drm_dev, &conn_iter);
++		drm_for_each_connector_iter(connector, &conn_iter) {
++			if (connector->state->best_encoder == encoder) {
++				nv_connector = nouveau_connector(connector);
++				break;
++			}
++		}
++		drm_connector_list_iter_end(&conn_iter);
++		if (!nv_connector)
++			continue;
++
+ 		nv_crtc = nouveau_crtc(encoder->crtc);
+-		if (!nv_connector || !nv_crtc || nv_encoder->or != port ||
++		if (!nv_crtc || nv_encoder->or != port ||
+ 		    nv_crtc->index != dev_id)
+ 			continue;
+ 		*enabled = nv_encoder->audio;
+@@ -572,6 +620,7 @@ nv50_audio_component_get_eld(struct device *kdev, int port, int dev_id,
+ 		}
+ 		break;
+ 	}
++
+ 	return ret;
+ }
+ 
+@@ -665,7 +714,8 @@ nv50_audio_disable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc)
+ }
+ 
+ static void
+-nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
++nv50_audio_enable(struct drm_encoder *encoder, struct drm_atomic_state *state,
++		  struct drm_display_mode *mode)
+ {
+ 	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+@@ -686,7 +736,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
+ 				     (0x0100 << nv_crtc->index),
+ 	};
+ 
+-	nv_connector = nouveau_encoder_connector_get(nv_encoder);
++	nv_connector = nv50_outp_get_new_connector(nv_encoder, state);
+ 	if (!drm_detect_monitor_audio(nv_connector->edid))
+ 		return;
+ 
+@@ -723,7 +773,8 @@ nv50_hdmi_disable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc)
+ }
+ 
+ static void
+-nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
++nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_atomic_state *state,
++		 struct drm_display_mode *mode)
+ {
+ 	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+@@ -752,7 +803,7 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
+ 	int ret;
+ 	int size;
+ 
+-	nv_connector = nouveau_encoder_connector_get(nv_encoder);
++	nv_connector = nv50_outp_get_new_connector(nv_encoder, state);
+ 	if (!drm_detect_hdmi_monitor(nv_connector->edid))
+ 		return;
+ 
+@@ -798,7 +849,7 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
+ 		+ args.pwr.vendor_infoframe_length;
+ 	nvif_mthd(&disp->disp->object, 0, &args, size);
+ 
+-	nv50_audio_enable(encoder, mode);
++	nv50_audio_enable(encoder, state, mode);
+ 
+ 	/* If SCDC is supported by the downstream monitor, update
+ 	 * divider / scrambling settings to what we programmed above.
+@@ -1573,7 +1624,8 @@ nv50_sor_update(struct nouveau_encoder *nv_encoder, u8 head,
+ }
+ 
+ static void
+-nv50_sor_disable(struct drm_encoder *encoder)
++nv50_sor_disable(struct drm_encoder *encoder,
++		 struct drm_atomic_state *state)
+ {
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
+@@ -1601,7 +1653,8 @@ nv50_sor_disable(struct drm_encoder *encoder)
+ }
+ 
+ static void
+-nv50_sor_enable(struct drm_encoder *encoder)
++nv50_sor_enable(struct drm_encoder *encoder,
++		struct drm_atomic_state *state)
+ {
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(encoder->crtc);
+@@ -1625,7 +1678,7 @@ nv50_sor_enable(struct drm_encoder *encoder)
+ 	u8 proto = NV507D_SOR_SET_CONTROL_PROTOCOL_CUSTOM;
+ 	u8 depth = NV837D_SOR_SET_CONTROL_PIXEL_DEPTH_DEFAULT;
+ 
+-	nv_connector = nouveau_encoder_connector_get(nv_encoder);
++	nv_connector = nv50_outp_get_new_connector(nv_encoder, state);
+ 	nv_encoder->crtc = encoder->crtc;
+ 
+ 	if ((disp->disp->object.oclass == GT214_DISP ||
+@@ -1652,7 +1705,7 @@ nv50_sor_enable(struct drm_encoder *encoder)
+ 			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
+ 		}
+ 
+-		nv50_hdmi_enable(&nv_encoder->base.base, mode);
++		nv50_hdmi_enable(&nv_encoder->base.base, state, mode);
+ 		break;
+ 	case DCB_OUTPUT_LVDS:
+ 		proto = NV507D_SOR_SET_CONTROL_PROTOCOL_LVDS_CUSTOM;
+@@ -1693,7 +1746,7 @@ nv50_sor_enable(struct drm_encoder *encoder)
+ 		else
+ 			proto = NV887D_SOR_SET_CONTROL_PROTOCOL_DP_B;
+ 
+-		nv50_audio_enable(encoder, mode);
++		nv50_audio_enable(encoder, state, mode);
+ 		break;
+ 	default:
+ 		BUG();
+@@ -1706,8 +1759,8 @@ nv50_sor_enable(struct drm_encoder *encoder)
+ static const struct drm_encoder_helper_funcs
+ nv50_sor_help = {
+ 	.atomic_check = nv50_outp_atomic_check,
+-	.enable = nv50_sor_enable,
+-	.disable = nv50_sor_disable,
++	.atomic_enable = nv50_sor_enable,
++	.atomic_disable = nv50_sor_disable,
+ };
+ 
+ static void
+@@ -2066,7 +2119,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
+ 			  outp->clr.mask, outp->set.mask);
+ 
+ 		if (outp->clr.mask) {
+-			help->disable(encoder);
++			help->atomic_disable(encoder, state);
+ 			interlock[NV50_DISP_INTERLOCK_CORE] |= 1;
+ 			if (outp->flush_disable) {
+ 				nv50_disp_atomic_commit_wndw(state, interlock);
+@@ -2105,7 +2158,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
+ 			  outp->set.mask, outp->clr.mask);
+ 
+ 		if (outp->set.mask) {
+-			help->enable(encoder);
++			help->atomic_enable(encoder, state);
+ 			interlock[NV50_DISP_INTERLOCK_CORE] = 1;
+ 		}
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index e12957e6faa7c..1d5696c39792a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -391,20 +391,6 @@ find_encoder(struct drm_connector *connector, int type)
+ 	return NULL;
+ }
+ 
+-struct nouveau_connector *
+-nouveau_encoder_connector_get(struct nouveau_encoder *encoder)
+-{
+-	struct drm_device *dev = to_drm_encoder(encoder)->dev;
+-	struct drm_connector *drm_connector;
+-
+-	list_for_each_entry(drm_connector, &dev->mode_config.connector_list, head) {
+-		if (drm_connector->encoder == to_drm_encoder(encoder))
+-			return nouveau_connector(drm_connector);
+-	}
+-
+-	return NULL;
+-}
+-
+ static void
+ nouveau_connector_destroy(struct drm_connector *connector)
+ {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+index 6424cdcb4913f..b0e1dad2367d6 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
++++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+@@ -113,7 +113,11 @@ enum drm_mode_status nv50_dp_mode_valid(struct drm_connector *,
+ 					unsigned *clock);
+ 
+ struct nouveau_connector *
+-nouveau_encoder_connector_get(struct nouveau_encoder *encoder);
++nv50_outp_get_new_connector(struct nouveau_encoder *outp,
++			    struct drm_atomic_state *state);
++struct nouveau_connector *
++nv50_outp_get_old_connector(struct nouveau_encoder *outp,
++			    struct drm_atomic_state *state);
+ 
+ int nv50_mstm_detect(struct nv50_mstm *, u8 dpcd[8], int allow);
+ void nv50_mstm_remove(struct nv50_mstm *);
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
