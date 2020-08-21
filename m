@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298CD24DA0A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74D124DA09
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9736EB4A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDB16EB4B;
 	Fri, 21 Aug 2020 16:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0352B6EB46;
- Fri, 21 Aug 2020 16:17:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3FB6EB42;
+ Fri, 21 Aug 2020 16:17:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1B53C22B47;
- Fri, 21 Aug 2020 16:17:51 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4DDCB22BEB;
+ Fri, 21 Aug 2020 16:17:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026671;
- bh=Ztwn8cFBu9gxC3ghYV7VyOXlbElTI34F3EuT/pfVdB0=;
+ s=default; t=1598026673;
+ bh=+0u4/ZqP+DbfFDq4UK7cGGHy10AAvbfMHaypC6QioD0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lUYWJxnm41yACLxQSy+9hcKr8s6Um7j9LBGtsg3pT4VxJkHh6sRiAWIZbbq5v3Jko
- 3AvluxN1acyaaG4u++FWAa2G1xsRDqI1S8gALghcB0XVLzOhyAvHyM/IepWRrdy1BP
- 8XeCsYTAXVK+LcwxI4aqSBQDmHXips/H+XX5OA8s=
+ b=Kuw1ovvHCydcxusXScuSRA3LEzwn0KFC9U9l3ewkCQb6a/9kJby6r85S4QWdZq7Kr
+ fWxUT1DcKVIrTsF9Xh+VToXbp3LGCx1x22KWl4yocs/mCcgZ2t+jU9NSOIuQDRXoS9
+ USbEpbYfaauRJDoLa/8Nr3DR4nCl6saGUCAWhglw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 37/48] drm/nouveau: fix reference count leak in
- nv50_disp_atomic_commit
-Date: Fri, 21 Aug 2020 12:16:53 -0400
-Message-Id: <20200821161704.348164-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 38/48] drm/nouveau: Fix reference count leak in
+ nouveau_connector_detect
+Date: Fri, 21 Aug 2020 12:16:54 -0400
+Message-Id: <20200821161704.348164-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161704.348164-1-sashal@kernel.org>
 References: <20200821161704.348164-1-sashal@kernel.org>
@@ -60,9 +60,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aditya Pakki <pakki001@umn.edu>
 
-[ Upstream commit a2cdf39536b0d21fb06113f5e16692513d7bcb9c ]
+[ Upstream commit 990a1162986e8eff7ca18cc5a0e03b4304392ae2 ]
 
-nv50_disp_atomic_commit() calls calls pm_runtime_get_sync and in turn
+nouveau_connector_detect() calls pm_runtime_get_sync and in turn
 increments the reference count. In case of failure, decrement the
 ref count before returning the error.
 
@@ -70,25 +70,25 @@ Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index d735ea7e2d886..419a02260bfa7 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -2032,8 +2032,10 @@ nv50_disp_atomic_commit(struct drm_device *dev,
- 	int ret, i;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index eb31c5b6c8e93..0994aee7671ad 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -568,8 +568,10 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
+ 		pm_runtime_get_noresume(dev->dev);
+ 	} else {
+ 		ret = pm_runtime_get_sync(dev->dev);
+-		if (ret < 0 && ret != -EACCES)
++		if (ret < 0 && ret != -EACCES) {
++			pm_runtime_put_autosuspend(dev->dev);
+ 			return conn_status;
++		}
+ 	}
  
- 	ret = pm_runtime_get_sync(dev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put_autosuspend(dev->dev);
- 		return ret;
-+	}
- 
- 	ret = drm_atomic_helper_setup_commit(state, nonblock);
- 	if (ret)
+ 	nv_encoder = nouveau_connector_ddc_detect(connector);
 -- 
 2.25.1
 
