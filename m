@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4780C24D9AA
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29AD24D9B0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 265EE6EB23;
-	Fri, 21 Aug 2020 16:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADD456EB27;
+	Fri, 21 Aug 2020 16:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E386EB23;
- Fri, 21 Aug 2020 16:15:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD19A6EB24;
+ Fri, 21 Aug 2020 16:15:26 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 99519214F1;
- Fri, 21 Aug 2020 16:15:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D49E8208DB;
+ Fri, 21 Aug 2020 16:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026525;
- bh=uQrE+MlhzItmOhpMJ6I/GttJEkgsDMhrOz1QABjShHw=;
+ s=default; t=1598026526;
+ bh=Lt49ie9UkFpB/aSLxU0lJntBQr6mg8BqMEy6YewOZJ4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s+OyIvfnL05Ae+D8BMtShULWcnUHHYA/VEUn1HGfNIRTftiqDb7ttJgAaqhBSBenG
- WSQ3/1eY2dBgokwXwMfni8StorQZRJzCc+BBezT5cKDOUk2UjhOY9+Y6jIdlXRKKJG
- tS+ei8v6STKG47xcVTnTW9azfJqHYLyJUJEDhiZc=
+ b=NGXpxlhXTr126XgQkoHRsT7ywtHkP8K5JLVBgElNEcCDWmvUqjAYlhoFWE3vwbR4b
+ x6Ym/Hf8wNnRL2+JZ75WKSvJ+F0pA7UQiLtfU+d71f4ID9vbSmG4A5/NNZnWmdZT/U
+ Js5NEGQVxLC0bb6q8VcHObKS2NvXvjnjHAEltolg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 48/62] drm/nouveau/drm/noveau: fix reference count
- leak in nouveau_fbcon_open
-Date: Fri, 21 Aug 2020 12:14:09 -0400
-Message-Id: <20200821161423.347071-48-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 49/62] drm/nouveau: fix reference count leak in
+ nv50_disp_atomic_commit
+Date: Fri, 21 Aug 2020 12:14:10 -0400
+Message-Id: <20200821161423.347071-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161423.347071-1-sashal@kernel.org>
 References: <20200821161423.347071-1-sashal@kernel.org>
@@ -60,9 +60,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aditya Pakki <pakki001@umn.edu>
 
-[ Upstream commit bfad51c7633325b5d4b32444efe04329d53297b2 ]
+[ Upstream commit a2cdf39536b0d21fb06113f5e16692513d7bcb9c ]
 
-nouveau_fbcon_open() calls calls pm_runtime_get_sync() that
+nv50_disp_atomic_commit() calls calls pm_runtime_get_sync and in turn
 increments the reference count. In case of failure, decrement the
 ref count before returning the error.
 
@@ -70,25 +70,25 @@ Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fbcon.c | 4 +++-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index d5c23d1c20d88..44e515bbbb444 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -189,8 +189,10 @@ nouveau_fbcon_open(struct fb_info *info, int user)
- 	struct nouveau_fbdev *fbcon = info->par;
- 	struct nouveau_drm *drm = nouveau_drm(fbcon->helper.dev);
- 	int ret = pm_runtime_get_sync(drm->dev->dev);
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 800b7757252e3..d2c2d102e7329 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -2160,8 +2160,10 @@ nv50_disp_atomic_commit(struct drm_device *dev,
+ 	int ret, i;
+ 
+ 	ret = pm_runtime_get_sync(dev->dev);
 -	if (ret < 0 && ret != -EACCES)
 +	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put(drm->dev->dev);
++		pm_runtime_put_autosuspend(dev->dev);
  		return ret;
 +	}
- 	return 0;
- }
  
+ 	ret = drm_atomic_helper_setup_commit(state, nonblock);
+ 	if (ret)
 -- 
 2.25.1
 
