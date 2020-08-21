@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CD724DC3B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:58:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFC024DD56
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 19:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADAE6E996;
-	Fri, 21 Aug 2020 16:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F24AD6E34B;
+	Fri, 21 Aug 2020 17:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id D88EB6E996;
- Fri, 21 Aug 2020 16:58:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 4426F2A6042;
- Fri, 21 Aug 2020 18:58:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id xgD5c84TYvP4; Fri, 21 Aug 2020 18:57:59 +0200 (CEST)
-Received: from kaveri (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id A959B2A6016;
- Fri, 21 Aug 2020 18:57:59 +0200 (CEST)
-Received: from daenzer by kaveri with local (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1k9AMY-004dmr-T6; Fri, 21 Aug 2020 18:57:58 +0200
-From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
-To: Leo Li <sunpeng.li@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled whenever
- the CRTC is
-Date: Fri, 21 Aug 2020 18:57:58 +0200
-Message-Id: <20200821165758.1106210-1-michel@daenzer.net>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC906EB5A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 17:16:19 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.9-rc2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1598030179;
+ bh=cNoYfjKrtJSQm8jTogKaryiMVq/0p/K2zYAGKiXnugk=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=u6NMUj12rlNC/dENNgDFZa0GNKkuXi11Hfce0yrDmeBep0Hs5dwuYXK+Bi0iJuq1y
+ +5zllTWnqUqzMem86uRwswLbsC5OjR8tfZlViy1Baw1YE2VsynTDAphSteGxWX+t4G
+ xdyrq+TdprPX5iqNV8O1mTSuZEYJAuRY2QpwXSLk=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tzpqLjG31xd0nPmGaYs7NXiWEQTtYaZ=vQZedyWU+yjfQ@mail.gmail.com>
+References: <CAPM=9tzpqLjG31xd0nPmGaYs7NXiWEQTtYaZ=vQZedyWU+yjfQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tzpqLjG31xd0nPmGaYs7NXiWEQTtYaZ=vQZedyWU+yjfQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-08-21
+X-PR-Tracked-Commit-Id: 0790e63f58f22a68696667102be03efb92a4da5f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 43d387a4adc48e1fe68bf467cbfd67a11d65eb45
+Message-Id: <159803017933.29562.97618442697473059.pr-tracker-bot@kernel.org>
+Date: Fri, 21 Aug 2020 17:16:19 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,68 +46,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+CgpEb24ndCBjaGVjayBk
-cm1fY3J0Y19zdGF0ZTo6YWN0aXZlIGZvciB0aGlzIGVpdGhlciwgcGVyIGl0cwpkb2N1bWVudGF0
-aW9uIGluIGluY2x1ZGUvZHJtL2RybV9jcnRjLmg6CgogKiBIZW5jZSBkcml2ZXJzIG11c3Qgbm90
-IGNvbnN1bHQgQGFjdGl2ZSBpbiB0aGVpciB2YXJpb3VzCiAqICZkcm1fbW9kZV9jb25maWdfZnVu
-Y3MuYXRvbWljX2NoZWNrIGNhbGxiYWNrIHRvIHJlamVjdCBhbiBhdG9taWMKICogY29tbWl0LgoK
-VGhlIGF0b21pYyBoZWxwZXJzIGRpc2FibGUgdGhlIENSVEMgYXMgbmVlZGVkIGZvciBkaXNhYmxp
-bmcgdGhlIHByaW1hcnkKcGxhbmUuCgpUaGlzIHByZXZlbnRzIGF0IGxlYXN0IHRoZSBmb2xsb3dp
-bmcgcHJvYmxlbXMgaWYgdGhlIHByaW1hcnkgcGxhbmUgZ2V0cwpkaXNhYmxlZCAoZS5nLiBkdWUg
-dG8gZGVzdHJveWluZyB0aGUgRkIgYXNzaWduZWQgdG8gdGhlIHByaW1hcnkgcGxhbmUsCmFzIGhh
-cHBlbnMgZS5nLiB3aXRoIG11dHRlciBpbiBXYXlsYW5kIG1vZGUpOgoKKiBUb2dnbGluZyBDUlRD
-IGFjdGl2ZSB0byAxIGZhaWxlZCBpZiB0aGUgY3Vyc29yIHBsYW5lIHdhcyBlbmFibGVkCiAgKGUu
-Zy4gdmlhIGxlZ2FjeSBEUE1TIHByb3BlcnR5ICYgY3Vyc29yIGlvY3RsKS4KKiBFbmFibGluZyB0
-aGUgY3Vyc29yIHBsYW5lIGZhaWxlZCwgZS5nLiB2aWEgdGhlIGxlZ2FjeSBjdXJzb3IgaW9jdGwu
-CgpHaXRMYWI6IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9pc3N1ZXMv
-MTEwOApHaXRMYWI6IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9pc3N1
-ZXMvMTE2NQpHaXRMYWI6IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9p
-c3N1ZXMvMTM0NApTdWdnZXN0ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3
-bGwuY2g+ClNpZ25lZC1vZmYtYnk6IE1pY2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29t
-PgotLS0KCk5vdGUgdGhhdCB0aGlzIHdpbGwgY2F1c2Ugc29tZSBJR1QgdGVzdHMgdG8gZmFpbCB3
-aXRob3V0Cmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvODA5MDQvIC4K
-CiAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgfCAzMyArKysr
-KysrLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMjIgZGVs
-ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdw
-dV9kbS9hbWRncHVfZG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0v
-YW1kZ3B1X2RtLmMKaW5kZXggODk3ZDYwYWRlMWU0Li4zM2M1NzM5ZTIyMWIgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwpAQCAtNTI2
-MiwxOSArNTI2Miw2IEBAIHN0YXRpYyB2b2lkIGRtX2NydGNfaGVscGVyX2Rpc2FibGUoc3RydWN0
-IGRybV9jcnRjICpjcnRjKQogewogfQogCi1zdGF0aWMgYm9vbCBkb2VzX2NydGNfaGF2ZV9hY3Rp
-dmVfY3Vyc29yKHN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqbmV3X2NydGNfc3RhdGUpCi17Ci0Jc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiA9IG5ld19jcnRjX3N0YXRlLT5jcnRjLT5kZXY7Ci0Jc3RydWN0
-IGRybV9wbGFuZSAqcGxhbmU7Ci0KLQlkcm1fZm9yX2VhY2hfcGxhbmVfbWFzayhwbGFuZSwgZGV2
-LCBuZXdfY3J0Y19zdGF0ZS0+cGxhbmVfbWFzaykgewotCQlpZiAocGxhbmUtPnR5cGUgPT0gRFJN
-X1BMQU5FX1RZUEVfQ1VSU09SKQotCQkJcmV0dXJuIHRydWU7Ci0JfQotCi0JcmV0dXJuIGZhbHNl
-OwotfQotCiBzdGF0aWMgaW50IGNvdW50X2NydGNfYWN0aXZlX3BsYW5lcyhzdHJ1Y3QgZHJtX2Ny
-dGNfc3RhdGUgKm5ld19jcnRjX3N0YXRlKQogewogCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
-dGF0ZSA9IG5ld19jcnRjX3N0YXRlLT5zdGF0ZTsKQEAgLTUzMzgsMTkgKzUzMjUsMjEgQEAgc3Rh
-dGljIGludCBkbV9jcnRjX2hlbHBlcl9hdG9taWNfY2hlY2soc3RydWN0IGRybV9jcnRjICpjcnRj
-LAogCQlyZXR1cm4gcmV0OwogCX0KIAotCS8qIEluIHNvbWUgdXNlIGNhc2VzLCBsaWtlIHJlc2V0
-LCBubyBzdHJlYW0gaXMgYXR0YWNoZWQgKi8KLQlpZiAoIWRtX2NydGNfc3RhdGUtPnN0cmVhbSkK
-LQkJcmV0dXJuIDA7Ci0KIAkvKgotCSAqIFdlIHdhbnQgYXQgbGVhc3Qgb25lIGhhcmR3YXJlIHBs
-YW5lIGVuYWJsZWQgdG8gdXNlCi0JICogdGhlIHN0cmVhbSB3aXRoIGEgY3Vyc29yIGVuYWJsZWQu
-CisJICogV2UgcmVxdWlyZSB0aGUgcHJpbWFyeSBwbGFuZSB0byBiZSBlbmFibGVkIHdoZW5ldmVy
-IHRoZSBDUlRDIGlzLAorCSAqIG90aGVyd2lzZSB0aGUgbGVnYWN5IGN1cnNvciBpb2N0bCBoZWxw
-ZXIgbWF5IGVuZCB1cCB0cnlpbmcgdG8gZW5hYmxlCisJICogdGhlIGN1cnNvciBwbGFuZSB3aGls
-ZSB0aGUgcHJpbWFyeSBwbGFuZSBpcyBkaXNhYmxlZCwgd2hpY2ggaXMgbm90CisJICogc3VwcG9y
-dGVkIGJ5IHRoZSBoYXJkd2FyZS4gQW5kIHRoZXJlIGlzIGxlZ2FjeSB1c2Vyc3BhY2Ugd2hpY2gg
-c3RvcHMKKwkgKiB1c2luZyB0aGUgSFcgY3Vyc29yIGFsdG9nZXRoZXIgaW4gcmVzcG9uc2UgdG8g
-dGhlIHJlc3VsdGluZyBFSU5WQUwuCiAJICovCi0JaWYgKHN0YXRlLT5lbmFibGUgJiYgc3RhdGUt
-PmFjdGl2ZSAmJgotCSAgICBkb2VzX2NydGNfaGF2ZV9hY3RpdmVfY3Vyc29yKHN0YXRlKSAmJgot
-CSAgICBkbV9jcnRjX3N0YXRlLT5hY3RpdmVfcGxhbmVzID09IDApCisJaWYgKHN0YXRlLT5lbmFi
-bGUgJiYKKwkgICAgIShzdGF0ZS0+cGxhbmVfbWFzayAmIGRybV9wbGFuZV9tYXNrKGNydGMtPnBy
-aW1hcnkpKSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKKwkvKiBJbiBzb21lIHVzZSBjYXNlcywgbGlr
-ZSByZXNldCwgbm8gc3RyZWFtIGlzIGF0dGFjaGVkICovCisJaWYgKCFkbV9jcnRjX3N0YXRlLT5z
-dHJlYW0pCisJCXJldHVybiAwOworCiAJaWYgKGRjX3ZhbGlkYXRlX3N0cmVhbShkYywgZG1fY3J0
-Y19zdGF0ZS0+c3RyZWFtKSA9PSBEQ19PSykKIAkJcmV0dXJuIDA7CiAKLS0gCjIuMjguMAoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The pull request you sent on Fri, 21 Aug 2020 11:55:16 +1000:
+
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-08-21
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/43d387a4adc48e1fe68bf467cbfd67a11d65eb45
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
