@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA25424D420
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 13:38:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD7224D4AA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 14:07:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2066EABA;
-	Fri, 21 Aug 2020 11:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4BA6E10E;
+	Fri, 21 Aug 2020 12:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D52C6EABA
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 11:38:15 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 96E5E2001E;
- Fri, 21 Aug 2020 13:38:11 +0200 (CEST)
-Date: Fri, 21 Aug 2020 13:38:09 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH 3/3] drm/bridge: ps8640: Rework power state handling
-Message-ID: <20200821113809.GA283294@ravnborg.org>
-References: <20200615205320.790334-1-enric.balletbo@collabora.com>
- <20200615205320.790334-4-enric.balletbo@collabora.com>
- <20200620214225.GD74146@ravnborg.org>
- <0220cfe5-2ac9-2d8b-529d-bb1a61478395@collabora.com>
- <20200624070738.GA1807736@ravnborg.org>
- <20b2f097-d789-3f5a-cd7e-3701669f43cb@collabora.com>
- <5af757da-87ec-c0d1-374d-0a69401e09a3@collabora.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A43F6E10E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 12:07:31 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07LC73JE030109;
+ Fri, 21 Aug 2020 07:07:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1598011623;
+ bh=Elz/9n2A7E9MeIn4e8Ei1rQfUn6BwgGav4oa/R3NlgY=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=oBK7zLkdjltsOOeJe+AYO98TES7rye9lU54yuwIZH8hY0Xs4Ga1AfGvYkcJXuBaUC
+ nlICVFizJ5QEdy0mQhackZOQZjMJVArHnZwwVon3MX7gWDAAT4CBxbO6B4hzGztdxW
+ s5mvAMhM/DQGZ9By8k8zX/hrUt53oy2w8/O3S5hY=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07LC72PV056631
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 21 Aug 2020 07:07:03 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 21
+ Aug 2020 07:07:02 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 21 Aug 2020 07:07:02 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07LC6x4O110362;
+ Fri, 21 Aug 2020 07:07:00 -0500
+Subject: Re: [PATCH] drm/omap: Fix runtime PM imbalance in dsi_runtime_get
+To: Dinghao Liu <dinghao.liu@zju.edu.cn>, <kjlu@umn.edu>
+References: <20200821074506.32359-1-dinghao.liu@zju.edu.cn>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <5123d7ae-f491-d2d2-788d-b5250ae9e31d@ti.com>
+Date: Fri, 21 Aug 2020 15:06:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5af757da-87ec-c0d1-374d-0a69401e09a3@collabora.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=WqFqRLcIwFt0jbhFSLsA:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <20200821074506.32359-1-dinghao.liu@zju.edu.cn>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,37 +61,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
- matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ zhengbin <zhengbin13@huawei.com>, Tony Lindgren <tony@atomide.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric.
+Hi,
 
+On 21/08/2020 10:45, Dinghao Liu wrote:
+> pm_runtime_get_sync() increments the runtime PM usage counter
+> even when it returns an error code. However, users of
+> dsi_runtime_get(), a direct wrapper of pm_runtime_get_sync(),
+> assume that PM usage counter will not change on error. Thus a
+> pairing decrement is needed on the error handling path to keep
+> the counter balanced.
 > 
-> Let me reformulate the question for if it was not clear.
+> Fixes: 4fbafaf371be7 ("OMAP: DSS2: Use PM runtime & HWMOD support")
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> What I did is be able to read the EDID every time userspace asks for it (so
-> kernel enables all the required) and Sam is proposing to just fail if all is not
-> setup. I can obviously do this but my question is, at which point I should leave
-> all the logic enabled to be able to read the EDID (after probe?, after
-> pre_enable, after enable?) It is not clear for me from the API.
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index eeccf40bae41..973bfa14a104 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -1112,8 +1112,11 @@ static int dsi_runtime_get(struct dsi_data *dsi)
+>  	DSSDBG("dsi_runtime_get\n");
+>  
+>  	r = pm_runtime_get_sync(dsi->dev);
+> -	WARN_ON(r < 0);
+> -	return r < 0 ? r : 0;
+> +	if (WARN_ON(r < 0)) {
+> +		pm_runtime_put_noidle(dsi->dev);
+> +		return r;
+> +	}
+> +	return 0;
+>  }
 
-I am not clear if my suggestion is a good suggestion.
+Thanks! Good catch. I think this is broken in all the other modules in omapdrm too (e.g. dispc.c,
+venc.c, etc).
 
-I recall I saw something similar in another bridge driver.
+Would you like to update the patch to cover the whole omapdrm?
 
-If no-one else chimes in then go ahead with your original approach
-where there is less restriction when it is possible to read edid.
+ Tomi
 
-	Sam
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
