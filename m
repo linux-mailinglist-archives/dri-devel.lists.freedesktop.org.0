@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A2024D96E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:09:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E5724D983
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:14:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDAA6E27C;
-	Fri, 21 Aug 2020 16:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB76F6E2B2;
+	Fri, 21 Aug 2020 16:14:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0243.hostedemail.com
- [216.40.44.243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A90186E27C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 16:09:37 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id 80432100E7B42;
- Fri, 21 Aug 2020 16:09:33 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1536:1559:1593:1594:1711:1714:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3622:3868:3870:3871:4321:5007:6120:6742:6743:7901:10004:10400:10848:11232:11658:11914:12196:12297:12663:12740:12760:12895:13069:13311:13357:13439:14659:21080:21433:21627:30054:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: frogs77_130d49d2703a
-X-Filterd-Recvd-Size: 2436
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf08.hostedemail.com (Postfix) with ESMTPA;
- Fri, 21 Aug 2020 16:09:27 +0000 (UTC)
-Message-ID: <d9ea16e803e219894416894a5cbed0fac00d891e.camel@perches.com>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-From: Joe Perches <joe@perches.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>
-Date: Fri, 21 Aug 2020 09:09:25 -0700
-In-Reply-To: <20200819204800.GA110118@ravnborg.org>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <20200819152120.GA106437@ravnborg.org> <20200819174027.70b39ee9@coco.lan>
- <20200819204800.GA110118@ravnborg.org>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2326E2B2;
+ Fri, 21 Aug 2020 16:14:31 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 234642173E;
+ Fri, 21 Aug 2020 16:14:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1598026471;
+ bh=qRCS/QLC3FWuoJNnuz3TG5j7m7cgkYxFjClqQS7j5IU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ToCi5voofNHv6tf+aRSmMfVdH7yF+he1SUcLp0FKiI5ZAhE/XRnvEbEDS8iag+cSA
+ gxpfywx/VNZpgOh6xfou+cl0nqlLlfxur7G7Jle79RLu0NXOYSEmCucQK87iS9Fsgt
+ tEo2iyhxidaX8BrFPuOVYEzgGXIe/Q9mLFRpHeRE=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 05/62] drm/amdgpu: fix RAS memory leak in error
+ case
+Date: Fri, 21 Aug 2020 12:13:26 -0400
+Message-Id: <20200821161423.347071-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200821161423.347071-1-sashal@kernel.org>
+References: <20200821161423.347071-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,39 +50,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
- Rob Clark <robdclark@chromium.org>, linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
- Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
+ Tao Zhou <tao.zhou1@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-08-19 at 22:48 +0200, Sam Ravnborg wrote:
-> And sometimes checkpatch is just wrong.
+From: Guchun Chen <guchun.chen@amd.com>
 
-I'm interested in examples for when checkpatch is "just wrong".
+[ Upstream commit 5e91160ac0b5cfbbaeb62cbff8b069262095f744 ]
 
+RAS context memory needs to freed in failure case.
+
+Signed-off-by: Guchun Chen <guchun.chen@amd.com>
+Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index 50fe08bf2f727..20a7d75b2eb88 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -1914,9 +1914,8 @@ int amdgpu_ras_init(struct amdgpu_device *adev)
+ 	amdgpu_ras_check_supported(adev, &con->hw_supported,
+ 			&con->supported);
+ 	if (!con->hw_supported) {
+-		amdgpu_ras_set_context(adev, NULL);
+-		kfree(con);
+-		return 0;
++		r = 0;
++		goto err_out;
+ 	}
+ 
+ 	con->features = 0;
+@@ -1927,29 +1926,31 @@ int amdgpu_ras_init(struct amdgpu_device *adev)
+ 	if (adev->nbio.funcs->init_ras_controller_interrupt) {
+ 		r = adev->nbio.funcs->init_ras_controller_interrupt(adev);
+ 		if (r)
+-			return r;
++			goto err_out;
+ 	}
+ 
+ 	if (adev->nbio.funcs->init_ras_err_event_athub_interrupt) {
+ 		r = adev->nbio.funcs->init_ras_err_event_athub_interrupt(adev);
+ 		if (r)
+-			return r;
++			goto err_out;
+ 	}
+ 
+ 	amdgpu_ras_mask &= AMDGPU_RAS_BLOCK_MASK;
+ 
+-	if (amdgpu_ras_fs_init(adev))
+-		goto fs_out;
++	if (amdgpu_ras_fs_init(adev)) {
++		r = -EINVAL;
++		goto err_out;
++	}
+ 
+ 	dev_info(adev->dev, "RAS INFO: ras initialized successfully, "
+ 			"hardware ability[%x] ras_mask[%x]\n",
+ 			con->hw_supported, con->supported);
+ 	return 0;
+-fs_out:
++err_out:
+ 	amdgpu_ras_set_context(adev, NULL);
+ 	kfree(con);
+ 
+-	return -EINVAL;
++	return r;
+ }
+ 
+ /* helper function to handle common stuff in ip late init phase */
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
