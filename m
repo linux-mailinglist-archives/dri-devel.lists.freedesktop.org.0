@@ -1,100 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA3724D63A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:38:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3019424D643
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:41:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DAB6E14D;
-	Fri, 21 Aug 2020 13:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF0456E151;
+	Fri, 21 Aug 2020 13:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3D886E14D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:38:52 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200821133850euoutp014927ed03544f26b4470f12c765eb190c~tTB0VTaaA3035730357euoutp01a
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:38:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200821133850euoutp014927ed03544f26b4470f12c765eb190c~tTB0VTaaA3035730357euoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1598017130;
- bh=PKDp4H0K8uyocu7NrFxiqQ4LluS5nl44yexs6EOXu0w=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=ADQBlNiRT6H4+nd6odQYVYj5TWyHLgs0gZ2np3pADtOwQsvPb/5aqZgJwS1Ncvovr
- 1OOGsD8XoLofSZorTuxYdJDJLUb+fGv78e6Mrg1qaz8HFbino5iCxnvY788zPcewg0
- HJTMvWcX8HXvYlvFxvAPGptFjHkXdGKzTYbCOyAM=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200821133850eucas1p294fd936bcd85ec542b9338f3109cd763~tTBz_Sp0E2703427034eucas1p2l;
- Fri, 21 Aug 2020 13:38:50 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 47.7A.06456.A6ECF3F5; Fri, 21
- Aug 2020 14:38:50 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200821133849eucas1p1c5312c4053aac0878841b048755991b5~tTBzqvsBZ0285102851eucas1p1B;
- Fri, 21 Aug 2020 13:38:49 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200821133849eusmtrp17099eddedfe77d945724c5cd1d30d153~tTBzqHfDc0848908489eusmtrp1f;
- Fri, 21 Aug 2020 13:38:49 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-64-5f3fce6a8eea
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 5B.28.06314.96ECF3F5; Fri, 21
- Aug 2020 14:38:49 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200821133849eusmtip1dab3a1fdf015c62eedc9b014cb4f8d45~tTBzUQE5p1814218142eusmtip1O;
- Fri, 21 Aug 2020 13:38:49 +0000 (GMT)
-Subject: Re: [PATCH] video: fbdev: controlfb: Fix build for COMPILE_TEST=y
- && PPC_PMAC=n
-To: Michael Ellerman <mpe@ellerman.id.au>
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <cd4324bb-67f7-5ae0-af7b-42681d72d85f@samsung.com>
-Date: Fri, 21 Aug 2020 15:38:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF786E151
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:41:11 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 29F1D5C3C51;
+ Fri, 21 Aug 2020 15:41:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1598017269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LE2TFZ1+IweKi2vTZvvLk5Fk6G2KUt1tDlOSM8ejL5I=;
+ b=mn8bJG3LS59omc5t6yxfYTIT+YcoTGKpneHtDa5pyD7zYO891zZLYf//ab4rICxuI/4nfU
+ x1kL8cKVWk3LnbX4FIbovfXtIBww1CDUw13qOHWL6aQKgtTVBFuXNSASrkJ0rLnvJH57TH
+ vDRaj9sQxLLSt09PSG9GCDdKX/7LPzs=
 MIME-Version: 1.0
-In-Reply-To: <20200821104910.3363818-1-mpe@ellerman.id.au>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHKsWRmVeSWpSXmKPExsWy7djP87pZ5+zjDS4t57BY+PAus8WVr+/Z
- LE70fWC1uLxrDpvF/xtvWCy2NBxis1jxcyujA7vHopcNLB57vy1g8bjffZzJY+Wli+weS6Zd
- ZfP4vEkugC2KyyYlNSezLLVI3y6BK6Pr9SW2goPcFW9evGRpYNzH2cXIySEhYCIxafcWVhBb
- SGAFo8S651FdjFxA9hdGield+9ggnM+MErffdbPAdBy/vZURIrGcUeLj91PMEO1vGSU2N3iA
- 2MICURJLz15hA7FFBDQlru5exgrSwCywlFHiyeOFTCAJNgEriYntqxhBbF4BO4neZY1AcQ4O
- FgFViYZeVZCwqECExKcHh1khSgQlTs58AnYEJ1DrsmtXweYzC4hL3HoynwnClpdo3jqbGWSX
- hMA+dolrTZuZIK52kfg78yIzhC0s8er4FnYIW0bi9OQeFoiGdYwSfzteQHVvZ5RYPvkfG0SV
- tcSdc7/YQK5jBnpn/S59EFNCwFFi+zdeCJNP4sZbQYgb+CQmbZvODBHmlehoE4KYoSaxYdkG
- NpitXTtXMk9gVJqF5LNZSL6ZheSbWQhrFzCyrGIUTy0tzk1PLTbMSy3XK07MLS7NS9dLzs/d
- xAhMRaf/Hf+0g/HrpaRDjAIcjEo8vD8O2ccLsSaWFVfmHmKU4GBWEuF1Ons6Tog3JbGyKrUo
- P76oNCe1+BCjNAeLkjiv8aKXsUIC6YklqdmpqQWpRTBZJg5OqQbGRWzNhav5xL9GS2aVBOaI
- X3OK2Cs1wV69K/6o2qRFi5atDW5Nzv3oyMrhMsN727m0f3qxMwutvHqPXKt4vTd5O0POZIFb
- 7z2FytvYbr6TuqbR3VDxI23t86pjF7/tElywKmK1bbih0+tr62tsW1nPBoiqP93udEJFnydX
- su7H8a6ViZNX1i1RYinOSDTUYi4qTgQAAktlTUEDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrEIsWRmVeSWpSXmKPExsVy+t/xu7qZ5+zjDY5sNLRY+PAus8WVr+/Z
- LE70fWC1uLxrDpvF/xtvWCy2NBxis1jxcyujA7vHopcNLB57vy1g8bjffZzJY+Wli+weS6Zd
- ZfP4vEkugC1Kz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI
- 3y5BL6Pr9SW2goPcFW9evGRpYNzH2cXIySEhYCJx/PZWxi5GLg4hgaWMEps3HmbpYuQASshI
- HF9fBlEjLPHnWhcbRM1rRomvc7aygySEBaIkbkx9xghiiwhoSlzdvYwVpIgZZNDL2UfYITp6
- GSU+bOljA6liE7CSmNi+CqyDV8BOondZIxPINhYBVYmGXlWQsKhAhMThHbOgSgQlTs58wgJi
- cwK1Lrt2FWwMs4C6xJ95l5ghbHGJW0/mM0HY8hLNW2czT2AUmoWkfRaSlllIWmYhaVnAyLKK
- USS1tDg3PbfYUK84Mbe4NC9dLzk/dxMjMP62Hfu5eQfjpY3BhxgFOBiVeHh/HLKPF2JNLCuu
- zD3EKMHBrCTC63T2dJwQb0piZVVqUX58UWlOavEhRlOg3yYyS4km5wNTQ15JvKGpobmFpaG5
- sbmxmYWSOG+HwMEYIYH0xJLU7NTUgtQimD4mDk6pBkb/oFvq71tmTP5vdmG9Q77Iogjvi6t3
- ZYhr+6Xv2HKUn/l6nv1dQ74G9iUPV4hPaFv+9NGjnVZNCpVLjeuqUj48bYv/lWJcyqH0buvc
- PVJS6/b/c+L8328i3bbzt+NJoQ2mPfHuL2Tmer1/eMn+TfnU23J7s33zZOpmCLZc3SN47mSJ
- vuIJlSolluKMREMt5qLiRABNJS5i1QIAAA==
-X-CMS-MailID: 20200821133849eucas1p1c5312c4053aac0878841b048755991b5
-X-Msg-Generator: CA
-X-RootMTR: 20200821104924eucas1p1e4b848e88fe460b9b7063669714a36f3
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200821104924eucas1p1e4b848e88fe460b9b7063669714a36f3
-References: <CGME20200821104924eucas1p1e4b848e88fe460b9b7063669714a36f3@eucas1p1.samsung.com>
- <20200821104910.3363818-1-mpe@ellerman.id.au>
+Date: Fri, 21 Aug 2020 15:41:09 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, sboyd@kernel.org,
+ mturquette@baylibre.com
+Subject: Re: [PATCH] drm: fsl-dcu: enable PIXCLK on LS1021A
+In-Reply-To: <20200820105832.22331-1-matthias.schiffer@ew.tq-group.com>
+References: <20200820105832.22331-1-matthias.schiffer@ew.tq-group.com>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <0321e3b1a9def003322b71f2a5fdfe08@agner.ch>
+X-Sender: stefan@agner.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,39 +48,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, daniel.vetter@ffwll.ch,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linuxppc-dev@ozlabs.org, sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Alison Wang <alison.wang@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDgvMjEvMjAgMTI6NDkgUE0sIE1pY2hhZWwgRWxsZXJtYW4gd3JvdGU6Cj4gVGhlIGJ1aWxk
-IGlzIGN1cnJlbnRseSBicm9rZW4sIGlmIENPTVBJTEVfVEVTVD15IGFuZCBQUENfUE1BQz1uOgo+
-IAo+ICAgbGludXgvZHJpdmVycy92aWRlby9mYmRldi9jb250cm9sZmIuYzogSW4gZnVuY3Rpb24g
-4oCYY29udHJvbF9zZXRfaGFyZHdhcmXigJk6Cj4gICBsaW51eC9kcml2ZXJzL3ZpZGVvL2ZiZGV2
-L2NvbnRyb2xmYi5jOjI3NjoyOiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rp
-b24g4oCYYnRleHRfdXBkYXRlX2Rpc3BsYXnigJkKPiAgICAgMjc2IHwgIGJ0ZXh0X3VwZGF0ZV9k
-aXNwbGF5KHAtPmZyYW1lX2J1ZmZlcl9waHlzICsgQ1RSTEZCX09GRiwKPiAgICAgICAgIHwgIF5+
-fn5+fn5+fn5+fn5+fn5+fn5+Cj4gCj4gRml4IGl0IGJ5IGluY2x1ZGluZyBidGV4dC5oIHdoZW5l
-dmVyIENPTkZJR19CT09UWF9URVhUIGlzIGVuYWJsZWQuCj4gCj4gRml4ZXM6IGEwN2E2M2IwZTI0
-ZCAoInZpZGVvOiBmYmRldjogY29udHJvbGZiOiBhZGQgQ09NUElMRV9URVNUIHN1cHBvcnQiKQo+
-IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgRWxsZXJtYW4gPG1wZUBlbGxlcm1hbi5pZC5hdT4KCkFj
-a2VkLWJ5OiBCYXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3VuZy5j
-b20+CgpUaGFua3MgZm9yIGZpeGluZyB0aGlzLgoKPiAtLS0KPiAgZHJpdmVycy92aWRlby9mYmRl
-di9jb250cm9sZmIuYyB8IDIgKysKPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQo+
-IAo+IERvZXMgYW55b25lIG1pbmQgaWYgSSBhcHBseSB0aGlzIHZpYSB0aGUgcG93ZXJwYyB0cmVl
-IGZvciB2NS45Pwo+IAo+IEl0IHdvdWxkIGJlIG5pY2UgdG8gZ2V0IHRoZSBidWlsZCBjbGVhbi4K
-Ck5vIG9iamVjdGlvbnMgZnJvbSBteSBzaWRlLgoKQmVzdCByZWdhcmRzLAotLQpCYXJ0bG9taWVq
-IFpvbG5pZXJraWV3aWN6ClNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKU2Ftc3VuZyBFbGVj
-dHJvbmljcwoKPiBjaGVlcnMKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9j
-b250cm9sZmIuYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29udHJvbGZiLmMKPiBpbmRleCA5YzRm
-MWJlODU2ZWMuLjU0N2FiZWIzOWY4NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2
-L2NvbnRyb2xmYi5jCj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9jb250cm9sZmIuYwo+IEBA
-IC00OSw2ICs0OSw4IEBACj4gICNpbmNsdWRlIDxsaW51eC9jdWRhLmg+Cj4gICNpZmRlZiBDT05G
-SUdfUFBDX1BNQUMKPiAgI2luY2x1ZGUgPGFzbS9wcm9tLmg+Cj4gKyNlbmRpZgo+ICsjaWZkZWYg
-Q09ORklHX0JPT1RYX1RFWFQKPiAgI2luY2x1ZGUgPGFzbS9idGV4dC5oPgo+ICAjZW5kaWYKPiAg
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Matthias,
+
+On 2020-08-20 12:58, Matthias Schiffer wrote:
+> The PIXCLK needs to be enabled in SCFG before accessing the DCU on LS1021A,
+> or the access will hang.
+
+Hm, this seems a rather ad-hoc access to SCFG from the DCU. We do
+support a pixel clock in the device tree bindings of fsl-dcu, so ideally
+we should enable the pixel clock through the clock framework.
+
+On the other hand, I guess that would mean adding a clock driver to flip
+a single bit, which seems a bit excessive too.
+
+I'd like a second opinion on that. Adding clk framework maintainers.
+
+--
+Stefan
+
+> 
+> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> ---
+>  drivers/gpu/drm/fsl-dcu/Kconfig           |  1 +
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 25 +++++++++++++++++++++++
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h |  3 +++
+>  3 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
+> index d7dd8ba90e3a..9e5a35e7c00c 100644
+> --- a/drivers/gpu/drm/fsl-dcu/Kconfig
+> +++ b/drivers/gpu/drm/fsl-dcu/Kconfig
+> @@ -8,6 +8,7 @@ config DRM_FSL_DCU
+>  	select DRM_PANEL
+>  	select REGMAP_MMIO
+>  	select VIDEOMODE_HELPERS
+> +	select MFD_SYSCON if SOC_LS1021A
+>  	help
+>  	  Choose this option if you have an Freescale DCU chipset.
+>  	  If M is selected the module will be called fsl-dcu-drm.
+> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> index abbc1ddbf27f..8a7556655581 100644
+> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> @@ -51,6 +51,23 @@ static const struct regmap_config fsl_dcu_regmap_config = {
+>  	.volatile_reg = fsl_dcu_drm_is_volatile_reg,
+>  };
+>  
+> +static int fsl_dcu_scfg_config_ls1021a(struct device_node *np)
+> +{
+> +	struct regmap *scfg;
+> +
+> +	scfg = syscon_regmap_lookup_by_compatible("fsl,ls1021a-scfg");
+> +	if (IS_ERR(scfg))
+> +		return PTR_ERR(scfg);
+> +
+> +	/*
+> +	 * For simplicity, enable the PIXCLK unconditionally. It might
+> +	 * be possible to disable the clock in PM or on unload as a future
+> +	 * improvement.
+> +	 */
+> +	return regmap_update_bits(scfg, SCFG_PIXCLKCR, SCFG_PIXCLKCR_PXCEN,
+> +				  SCFG_PIXCLKCR_PXCEN);
+> +}
+> +
+>  static void fsl_dcu_irq_uninstall(struct drm_device *dev)
+>  {
+>  	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+> @@ -70,6 +87,14 @@ static int fsl_dcu_load(struct drm_device *dev,
+> unsigned long flags)
+>  		return ret;
+>  	}
+>  
+> +	if (of_device_is_compatible(fsl_dev->np, "fsl,ls1021a-dcu")) {
+> +		ret = fsl_dcu_scfg_config_ls1021a(fsl_dev->np);
+> +		if (ret < 0) {
+> +			dev_err(dev->dev, "failed to enable pixclk\n");
+> +			goto done;
+> +		}
+> +	}
+> +
+>  	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+>  	if (ret < 0) {
+>  		dev_err(dev->dev, "failed to initialize vblank\n");
+> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> index e2049a0e8a92..566396013c04 100644
+> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> @@ -160,6 +160,9 @@
+>  #define FSL_DCU_ARGB4444		12
+>  #define FSL_DCU_YUV422			14
+>  
+> +#define SCFG_PIXCLKCR			0x28
+> +#define SCFG_PIXCLKCR_PXCEN		BIT(31)
+> +
+>  #define VF610_LAYER_REG_NUM		9
+>  #define LS1021A_LAYER_REG_NUM		10
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
