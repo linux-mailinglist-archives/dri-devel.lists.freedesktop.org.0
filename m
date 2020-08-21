@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2C724D9BA
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:15:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 014DF24D9BE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:16:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E786EADB;
-	Fri, 21 Aug 2020 16:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C206EB09;
+	Fri, 21 Aug 2020 16:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955646EB08;
- Fri, 21 Aug 2020 16:15:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 794116EB09;
+ Fri, 21 Aug 2020 16:16:11 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9A61B2063A;
- Fri, 21 Aug 2020 16:15:51 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7C26020FC3;
+ Fri, 21 Aug 2020 16:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026552;
- bh=iAVDoijhRVMr+7fAJMTi0vz8YjdzK7xutKC2AZ3bmjE=;
+ s=default; t=1598026571;
+ bh=IOcCUthpOfBbZ9R4pJDe79Boejed5omUrVo4dNlZOVQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bspemOsENRqdLD1Ss7xiofHujMPqeD3myR6z04R2dBcmRrg464CjiWPBG0cfb7t6O
- DE36FumiwKYj8mCZk8wJbugUs0Uhr+bYaRCOTi37cqRZOY5/zBQcvhilqf7fFvAV+V
- Zs70W/DVZmm+GtNmsGJqXICjpmjWsqTHncQCus+s=
+ b=esQZI2r0oHgPyCmZG/qZQoYA5vlZZxJnJfNXR0Wyf+2i2/bG/EnLmP2Hf/dtUQ50+
+ mDVvNYYcD9tv0SY5bzgxsK1TBUe768CR+OsC9bbTnxz5ZqjpqbC1KaLR7xlCQsAmQu
+ wemTbLKBEWrOf8vpXm0OfXgJaoB+rMUeArnG8mx4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 05/61] drm/amdgpu: fix RAS memory leak in error
- case
-Date: Fri, 21 Aug 2020 12:14:49 -0400
-Message-Id: <20200821161545.347622-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 21/61] drm/amdkfd: Fix reference count leaks.
+Date: Fri, 21 Aug 2020 12:15:05 -0400
+Message-Id: <20200821161545.347622-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161545.347622-1-sashal@kernel.org>
 References: <20200821161545.347622-1-sashal@kernel.org>
@@ -50,82 +49,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Qiushi Wu <wu000273@umn.edu>, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
+From: Qiushi Wu <wu000273@umn.edu>
 
-[ Upstream commit 5e91160ac0b5cfbbaeb62cbff8b069262095f744 ]
+[ Upstream commit 20eca0123a35305e38b344d571cf32768854168c ]
 
-RAS context memory needs to freed in failure case.
+kobject_init_and_add() takes reference even when it fails.
+If this function returns an error, kobject_put() must be called to
+properly clean up the memory associated with the object.
 
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index cd18596b47d33..78b378867b97a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1843,9 +1843,8 @@ int amdgpu_ras_init(struct amdgpu_device *adev)
- 	amdgpu_ras_check_supported(adev, &con->hw_supported,
- 			&con->supported);
- 	if (!con->hw_supported) {
--		amdgpu_ras_set_context(adev, NULL);
--		kfree(con);
--		return 0;
-+		r = 0;
-+		goto err_out;
- 	}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+index aa0bfa78a6674..8ff12cda6690e 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+@@ -630,8 +630,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
  
- 	con->features = 0;
-@@ -1856,29 +1855,31 @@ int amdgpu_ras_init(struct amdgpu_device *adev)
- 	if (adev->nbio.funcs->init_ras_controller_interrupt) {
- 		r = adev->nbio.funcs->init_ras_controller_interrupt(adev);
- 		if (r)
--			return r;
-+			goto err_out;
- 	}
- 
- 	if (adev->nbio.funcs->init_ras_err_event_athub_interrupt) {
- 		r = adev->nbio.funcs->init_ras_err_event_athub_interrupt(adev);
- 		if (r)
--			return r;
-+			goto err_out;
- 	}
- 
- 	amdgpu_ras_mask &= AMDGPU_RAS_BLOCK_MASK;
- 
--	if (amdgpu_ras_fs_init(adev))
--		goto fs_out;
-+	if (amdgpu_ras_fs_init(adev)) {
-+		r = -EINVAL;
-+		goto err_out;
+ 	ret = kobject_init_and_add(dev->kobj_node, &node_type,
+ 			sys_props.kobj_nodes, "%d", id);
+-	if (ret < 0)
++	if (ret < 0) {
++		kobject_put(dev->kobj_node);
+ 		return ret;
 +	}
  
- 	DRM_INFO("RAS INFO: ras initialized successfully, "
- 			"hardware ability[%x] ras_mask[%x]\n",
- 			con->hw_supported, con->supported);
- 	return 0;
--fs_out:
-+err_out:
- 	amdgpu_ras_set_context(adev, NULL);
- 	kfree(con);
+ 	dev->kobj_mem = kobject_create_and_add("mem_banks", dev->kobj_node);
+ 	if (!dev->kobj_mem)
+@@ -678,8 +680,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
+ 			return -ENOMEM;
+ 		ret = kobject_init_and_add(mem->kobj, &mem_type,
+ 				dev->kobj_mem, "%d", i);
+-		if (ret < 0)
++		if (ret < 0) {
++			kobject_put(mem->kobj);
+ 			return ret;
++		}
  
--	return -EINVAL;
-+	return r;
- }
+ 		mem->attr.name = "properties";
+ 		mem->attr.mode = KFD_SYSFS_FILE_MODE;
+@@ -697,8 +701,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
+ 			return -ENOMEM;
+ 		ret = kobject_init_and_add(cache->kobj, &cache_type,
+ 				dev->kobj_cache, "%d", i);
+-		if (ret < 0)
++		if (ret < 0) {
++			kobject_put(cache->kobj);
+ 			return ret;
++		}
  
- /* helper function to handle common stuff in ip late init phase */
+ 		cache->attr.name = "properties";
+ 		cache->attr.mode = KFD_SYSFS_FILE_MODE;
+@@ -716,8 +722,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
+ 			return -ENOMEM;
+ 		ret = kobject_init_and_add(iolink->kobj, &iolink_type,
+ 				dev->kobj_iolink, "%d", i);
+-		if (ret < 0)
++		if (ret < 0) {
++			kobject_put(iolink->kobj);
+ 			return ret;
++		}
+ 
+ 		iolink->attr.name = "properties";
+ 		iolink->attr.mode = KFD_SYSFS_FILE_MODE;
+@@ -797,8 +805,10 @@ static int kfd_topology_update_sysfs(void)
+ 		ret = kobject_init_and_add(sys_props.kobj_topology,
+ 				&sysprops_type,  &kfd_device->kobj,
+ 				"topology");
+-		if (ret < 0)
++		if (ret < 0) {
++			kobject_put(sys_props.kobj_topology);
+ 			return ret;
++		}
+ 
+ 		sys_props.kobj_nodes = kobject_create_and_add("nodes",
+ 				sys_props.kobj_topology);
 -- 
 2.25.1
 
