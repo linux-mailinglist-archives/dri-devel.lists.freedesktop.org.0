@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5912324DEE4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 19:49:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F5124DF13
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 20:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D55E46EB80;
-	Fri, 21 Aug 2020 17:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6536E35D;
+	Fri, 21 Aug 2020 18:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 436FF6EB80
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 17:49:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598032167;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TeRJHu0662VLXPvtU/jy83aL+Cwz4BNML2NzWX/irlQ=;
- b=UD7pE6QRdIyEvR+okWcKI2S0TQVJLRf9pA2YKeZ5uWxzxrD+B6IB7zestPEl81IDsWQaBb
- /b3ouiWsqMcR0jCopGF+M4CyYNJapEZ9kWjXIqB4lwqnSnbjD1FapQL8J/uV4NOvmGN0N4
- P6mwYX/ua5gw2Srlnt99yazF7R3YmHE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-fbJr96iIOcqzHk06mAqa5Q-1; Fri, 21 Aug 2020 13:49:24 -0400
-X-MC-Unique: fbJr96iIOcqzHk06mAqa5Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 652941885D8F;
- Fri, 21 Aug 2020 17:49:21 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-113-71.rdu2.redhat.com
- [10.10.113.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F8C8756C0;
- Fri, 21 Aug 2020 17:49:18 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [RFC v3] drm/nouveau/kms: Search for encoders' connectors properly
-Date: Fri, 21 Aug 2020 13:48:35 -0400
-Message-Id: <20200821174843.366083-1-lyude@redhat.com>
-In-Reply-To: <20200820183012.288794-7-lyude@redhat.com>
-References: <20200820183012.288794-7-lyude@redhat.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A38D76E35D;
+ Fri, 21 Aug 2020 18:06:38 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y3so2755920wrl.4;
+ Fri, 21 Aug 2020 11:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=euVwnK7uMKXNLlvCq1nccwF2aYy3V7o9osY2tLs2TXg=;
+ b=KqaLEApNJTKSxfrmv6C6UdxMhZLk6jzuF6P1wlvCQdCHhmCgnLIW6TPox2Cndl5u8T
+ ARwg4gkUrlHiqhLoxJzNRf+p+85wZ//aeIVPEYS7og0yaIcrYHN27qZaRVBkzN+QUa91
+ u0LMk7taymwt+u/lAFMcS5QGcgD64GjsFvoTZSsR9V80zxVGCgjt3ENRYYtddH45OId6
+ DFOE+eNNh6BoyxSk+nvdTvaSKY1+JQLyRMs14OYGvjrngrfAeR9Vnm/cftCUkiR6kJbv
+ GjoS8BVhFmOeEaBxnOhA63xGHibn5DTfeDFzqkAp2bvmJUcKvsxON+KcyR8XrMQk6869
+ B5YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=euVwnK7uMKXNLlvCq1nccwF2aYy3V7o9osY2tLs2TXg=;
+ b=G5ffqE3kcaz1c519kVZ3s0m6wR7FhywoDwqjqs3DGYoTmdQ0Lu/XU9/BmsbJWZ1Yp9
+ f87Z1JCLiowersyEa7PyWiTy2knUMXiiUn5ZboKscBxY+w3zsqLHztFoXB0HNvGcT078
+ LY6kZ+P2jzla0wihAxBNUdi26gLWt96Ult9D4T0d0S/R/RWo05Ga+Mgv9VeU4skkldRK
+ OulBoLWK0bYohRWUW8Wj9KVTWkaW8LeouIAz+3oLvd2M+TND8QVSXJKAo9et80GPAZ5H
+ Xr6Fe//H9QhUgmgdxWzXdKR0oPfZGSlTy51eFpUpJxtg8jIf+oDMBM9Ylv7vactk3Tdo
+ CHGA==
+X-Gm-Message-State: AOAM533OksT9/YGLmFChPgA2erG2+zlLr60o+zLiP9oiDlCz6elv8/de
+ K6QU9L6EPIEYFF9Or4LMO1tJi+8YXuxNU8IA2Ih1cg8r
+X-Google-Smtp-Source: ABdhPJwcOXI7ABVcQZzyLsVNM/TBH9Rkf2jN2lvyPmLL8c4DcGV8RrCXrBWkHCVsDrm2bceLlmgOxA+sFrb1UwhGgaQ=
+X-Received: by 2002:a5d:494b:: with SMTP id r11mr3948354wrs.419.1598033197153; 
+ Fri, 21 Aug 2020 11:06:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20200819050042.7370-1-luben.tuikov@amd.com>
+ <20200819050042.7370-4-luben.tuikov@amd.com>
+In-Reply-To: <20200819050042.7370-4-luben.tuikov@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 21 Aug 2020 14:06:25 -0400
+Message-ID: <CADnq5_N2wit+7Tg7NHzyB6f3+fYgk4bHZ+ZaJV_ThHf7xhp+9w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/amdgpu: Embed drm_device into amdgpu_device (v2)
+To: Luben Tuikov <luben.tuikov@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,428 +61,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hariprasad Kelam <hariprasad.kelam@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- James Jones <jajones@nvidia.com>, YueHaibing <yuehaibing@huawei.com>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While the way we find the associated connector for an encoder is just
-fine for legacy modesetting, it's not correct for nv50+ since that uses
-atomic modesetting. For reference, see the drm_encoder kdocs.
+On Wed, Aug 19, 2020 at 1:01 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+>
+> a) Embed struct drm_device into struct amdgpu_device.
+> b) Modify the inline-f drm_to_adev() accordingly.
+> c) Modify the inline-f adev_to_drm() accordingly.
+> d) Eliminate the use of drm_device.dev_private,
+>    in amdgpu.
+> e) Switch from using drm_dev_alloc() to
+>    drm_dev_init().
+> f) Add a DRM driver release function, which frees
+>    the container amdgpu_device after all krefs on
+>    the contained drm_device have been released.
+>
+> v2: Split out adding adev_to_drm() into its own
+>     patch (previous commit), making this patch
+>     more succinct and clear. More detailed commit
+>     description.
+>
+> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
 
-Fix this by removing nouveau_encoder_connector_get(), and replacing it
-with nv04_encoder_get_connector(), nv50_outp_get_old_connector(), and
-nv50_outp_get_new_connector().
+Series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-v2:
-* Don't line-wrap for_each_(old|new)_connector_in_state in
-  nv50_outp_get_(old|new)_connector() - sravn
-v3:
-* Fix potential uninitialized usage of nv_connector (needs to be
-  initialized to NULL at the start). Thanks kernel test robot!
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv04/dac.c      |  2 +-
- drivers/gpu/drm/nouveau/dispnv04/dfp.c      |  7 +-
- drivers/gpu/drm/nouveau/dispnv04/disp.c     | 18 +++++
- drivers/gpu/drm/nouveau/dispnv04/disp.h     |  4 +
- drivers/gpu/drm/nouveau/dispnv04/tvnv04.c   |  2 +-
- drivers/gpu/drm/nouveau/dispnv04/tvnv17.c   |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c     | 87 +++++++++++++++++----
- drivers/gpu/drm/nouveau/nouveau_connector.c | 14 ----
- drivers/gpu/drm/nouveau/nouveau_encoder.h   |  6 +-
- 9 files changed, 104 insertions(+), 38 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c b/drivers/gpu/drm/nouveau/dispnv04/dac.c
-index ffdd447d87068..22d10f3285597 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
-@@ -419,7 +419,7 @@ static void nv04_dac_commit(struct drm_encoder *encoder)
- 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
- 
- 	NV_DEBUG(drm, "Output %s is running on CRTC %d using output %c\n",
--		 nouveau_encoder_connector_get(nv_encoder)->base.name,
-+		 nv04_encoder_get_connector(nv_encoder)->base.name,
- 		 nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
- }
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-index f9f4482c79b54..42687ea2a4ca3 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-@@ -184,7 +184,8 @@ static bool nv04_dfp_mode_fixup(struct drm_encoder *encoder,
- 				struct drm_display_mode *adjusted_mode)
- {
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
--	struct nouveau_connector *nv_connector = nouveau_encoder_connector_get(nv_encoder);
-+	struct nouveau_connector *nv_connector =
-+		nv04_encoder_get_connector(nv_encoder);
- 
- 	if (!nv_connector->native_mode ||
- 	    nv_connector->scaling_mode == DRM_MODE_SCALE_NONE ||
-@@ -478,7 +479,7 @@ static void nv04_dfp_commit(struct drm_encoder *encoder)
- 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
- 
- 	NV_DEBUG(drm, "Output %s is running on CRTC %d using output %c\n",
--		 nouveau_encoder_connector_get(nv_encoder)->base.name,
-+		 nv04_encoder_get_connector(nv_encoder)->base.name,
- 		 nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
- }
- 
-@@ -591,7 +592,7 @@ static void nv04_dfp_restore(struct drm_encoder *encoder)
- 
- 	if (nv_encoder->dcb->type == DCB_OUTPUT_LVDS) {
- 		struct nouveau_connector *connector =
--			nouveau_encoder_connector_get(nv_encoder);
-+			nv04_encoder_get_connector(nv_encoder);
- 
- 		if (connector && connector->native_mode)
- 			call_lvds_script(dev, nv_encoder->dcb, head,
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.c b/drivers/gpu/drm/nouveau/dispnv04/disp.c
-index 900ab69df7e8f..3f046b917c85c 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/disp.c
-@@ -35,6 +35,24 @@
- 
- #include <nvif/if0004.h>
- 
-+struct nouveau_connector *
-+nv04_encoder_get_connector(struct nouveau_encoder *encoder)
-+{
-+	struct drm_device *dev = to_drm_encoder(encoder)->dev;
-+	struct drm_connector *connector;
-+	struct drm_connector_list_iter conn_iter;
-+	struct nouveau_connector *nv_connector = NULL;
-+
-+	drm_connector_list_iter_begin(dev, &conn_iter);
-+	drm_for_each_connector_iter(connector, &conn_iter) {
-+		if (connector->encoder == to_drm_encoder(encoder))
-+			nv_connector = nouveau_connector(connector);
-+	}
-+	drm_connector_list_iter_end(&conn_iter);
-+
-+	return nv_connector;
-+}
-+
- static void
- nv04_display_fini(struct drm_device *dev, bool suspend)
- {
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.h b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-index 495d3284e8766..5ace5e906949a 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-@@ -6,6 +6,8 @@
- 
- #include "nouveau_display.h"
- 
-+struct nouveau_encoder;
-+
- enum nv04_fp_display_regs {
- 	FP_DISPLAY_END,
- 	FP_TOTAL,
-@@ -93,6 +95,8 @@ nv04_display(struct drm_device *dev)
- 
- /* nv04_display.c */
- int nv04_display_create(struct drm_device *);
-+struct nouveau_connector *
-+nv04_encoder_get_connector(struct nouveau_encoder *nv_encoder);
- 
- /* nv04_crtc.c */
- int nv04_crtc_create(struct drm_device *, int index);
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-index b701a4d8fe760..3ba7b59580d59 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-@@ -172,7 +172,7 @@ static void nv04_tv_commit(struct drm_encoder *encoder)
- 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
- 
- 	NV_DEBUG(drm, "Output %s is running on CRTC %d using output %c\n",
--		 nouveau_encoder_connector_get(nv_encoder)->base.name,
-+		 nv04_encoder_get_connector(nv_encoder)->base.name,
- 		 nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
- }
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-index 3a9489ed6544f..be28e7bd74903 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-@@ -599,7 +599,7 @@ static void nv17_tv_commit(struct drm_encoder *encoder)
- 	helper->dpms(encoder, DRM_MODE_DPMS_ON);
- 
- 	NV_INFO(drm, "Output %s is running on CRTC %d using output %c\n",
--		nouveau_encoder_connector_get(nv_encoder)->base.name,
-+		nv04_encoder_get_connector(nv_encoder)->base.name,
- 		nv_crtc->index, '@' + ffs(nv_encoder->dcb->or));
- }
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index c4d138f0ca054..82325ac2dd5ab 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -411,6 +411,40 @@ nv50_outp_atomic_check(struct drm_encoder *encoder,
- 	return 0;
- }
- 
-+struct nouveau_connector *
-+nv50_outp_get_new_connector(struct nouveau_encoder *outp,
-+			    struct drm_atomic_state *state)
-+{
-+	struct drm_connector *connector;
-+	struct drm_connector_state *connector_state;
-+	struct drm_encoder *encoder = to_drm_encoder(outp);
-+	int i;
-+
-+	for_each_new_connector_in_state(state, connector, connector_state, i) {
-+		if (connector_state->best_encoder == encoder)
-+			return nouveau_connector(connector);
-+	}
-+
-+	return NULL;
-+}
-+
-+struct nouveau_connector *
-+nv50_outp_get_old_connector(struct nouveau_encoder *outp,
-+			    struct drm_atomic_state *state)
-+{
-+	struct drm_connector *connector;
-+	struct drm_connector_state *connector_state;
-+	struct drm_encoder *encoder = to_drm_encoder(outp);
-+	int i;
-+
-+	for_each_old_connector_in_state(state, connector, connector_state, i) {
-+		if (connector_state->best_encoder == encoder)
-+			return nouveau_connector(connector);
-+	}
-+
-+	return NULL;
-+}
-+
- /******************************************************************************
-  * DAC
-  *****************************************************************************/
-@@ -552,16 +586,30 @@ nv50_audio_component_get_eld(struct device *kdev, int port, int dev_id,
- 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
- 	struct drm_encoder *encoder;
- 	struct nouveau_encoder *nv_encoder;
--	struct nouveau_connector *nv_connector;
-+	struct drm_connector *connector;
-+	struct nouveau_connector *nv_connector = NULL;
- 	struct nouveau_crtc *nv_crtc;
-+	struct drm_connector_list_iter conn_iter;
- 	int ret = 0;
- 
- 	*enabled = false;
-+
- 	drm_for_each_encoder(encoder, drm->dev) {
- 		nv_encoder = nouveau_encoder(encoder);
--		nv_connector = nouveau_encoder_connector_get(nv_encoder);
-+
-+		drm_connector_list_iter_begin(drm_dev, &conn_iter);
-+		drm_for_each_connector_iter(connector, &conn_iter) {
-+			if (connector->state->best_encoder == encoder) {
-+				nv_connector = nouveau_connector(connector);
-+				break;
-+			}
-+		}
-+		drm_connector_list_iter_end(&conn_iter);
-+		if (!nv_connector)
-+			continue;
-+
- 		nv_crtc = nouveau_crtc(encoder->crtc);
--		if (!nv_connector || !nv_crtc || nv_encoder->or != port ||
-+		if (!nv_crtc || nv_encoder->or != port ||
- 		    nv_crtc->index != dev_id)
- 			continue;
- 		*enabled = nv_encoder->audio;
-@@ -572,6 +620,7 @@ nv50_audio_component_get_eld(struct device *kdev, int port, int dev_id,
- 		}
- 		break;
- 	}
-+
- 	return ret;
- }
- 
-@@ -665,7 +714,8 @@ nv50_audio_disable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc)
- }
- 
- static void
--nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
-+nv50_audio_enable(struct drm_encoder *encoder, struct drm_atomic_state *state,
-+		  struct drm_display_mode *mode)
- {
- 	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
-@@ -686,7 +736,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
- 				     (0x0100 << nv_crtc->index),
- 	};
- 
--	nv_connector = nouveau_encoder_connector_get(nv_encoder);
-+	nv_connector = nv50_outp_get_new_connector(nv_encoder, state);
- 	if (!drm_detect_monitor_audio(nv_connector->edid))
- 		return;
- 
-@@ -723,7 +773,8 @@ nv50_hdmi_disable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc)
- }
- 
- static void
--nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
-+nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_atomic_state *state,
-+		 struct drm_display_mode *mode)
- {
- 	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
-@@ -752,7 +803,7 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
- 	int ret;
- 	int size;
- 
--	nv_connector = nouveau_encoder_connector_get(nv_encoder);
-+	nv_connector = nv50_outp_get_new_connector(nv_encoder, state);
- 	if (!drm_detect_hdmi_monitor(nv_connector->edid))
- 		return;
- 
-@@ -798,7 +849,7 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
- 		+ args.pwr.vendor_infoframe_length;
- 	nvif_mthd(&disp->disp->object, 0, &args, size);
- 
--	nv50_audio_enable(encoder, mode);
-+	nv50_audio_enable(encoder, state, mode);
- 
- 	/* If SCDC is supported by the downstream monitor, update
- 	 * divider / scrambling settings to what we programmed above.
-@@ -1573,7 +1624,8 @@ nv50_sor_update(struct nouveau_encoder *nv_encoder, u8 head,
- }
- 
- static void
--nv50_sor_disable(struct drm_encoder *encoder)
-+nv50_sor_disable(struct drm_encoder *encoder,
-+		 struct drm_atomic_state *state)
- {
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
- 	struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
-@@ -1601,7 +1653,8 @@ nv50_sor_disable(struct drm_encoder *encoder)
- }
- 
- static void
--nv50_sor_enable(struct drm_encoder *encoder)
-+nv50_sor_enable(struct drm_encoder *encoder,
-+		struct drm_atomic_state *state)
- {
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
- 	struct nouveau_crtc *nv_crtc = nouveau_crtc(encoder->crtc);
-@@ -1625,7 +1678,7 @@ nv50_sor_enable(struct drm_encoder *encoder)
- 	u8 proto = NV507D_SOR_SET_CONTROL_PROTOCOL_CUSTOM;
- 	u8 depth = NV837D_SOR_SET_CONTROL_PIXEL_DEPTH_DEFAULT;
- 
--	nv_connector = nouveau_encoder_connector_get(nv_encoder);
-+	nv_connector = nv50_outp_get_new_connector(nv_encoder, state);
- 	nv_encoder->crtc = encoder->crtc;
- 
- 	if ((disp->disp->object.oclass == GT214_DISP ||
-@@ -1652,7 +1705,7 @@ nv50_sor_enable(struct drm_encoder *encoder)
- 			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
- 		}
- 
--		nv50_hdmi_enable(&nv_encoder->base.base, mode);
-+		nv50_hdmi_enable(&nv_encoder->base.base, state, mode);
- 		break;
- 	case DCB_OUTPUT_LVDS:
- 		proto = NV507D_SOR_SET_CONTROL_PROTOCOL_LVDS_CUSTOM;
-@@ -1693,7 +1746,7 @@ nv50_sor_enable(struct drm_encoder *encoder)
- 		else
- 			proto = NV887D_SOR_SET_CONTROL_PROTOCOL_DP_B;
- 
--		nv50_audio_enable(encoder, mode);
-+		nv50_audio_enable(encoder, state, mode);
- 		break;
- 	default:
- 		BUG();
-@@ -1706,8 +1759,8 @@ nv50_sor_enable(struct drm_encoder *encoder)
- static const struct drm_encoder_helper_funcs
- nv50_sor_help = {
- 	.atomic_check = nv50_outp_atomic_check,
--	.enable = nv50_sor_enable,
--	.disable = nv50_sor_disable,
-+	.atomic_enable = nv50_sor_enable,
-+	.atomic_disable = nv50_sor_disable,
- };
- 
- static void
-@@ -2066,7 +2119,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
- 			  outp->clr.mask, outp->set.mask);
- 
- 		if (outp->clr.mask) {
--			help->disable(encoder);
-+			help->atomic_disable(encoder, state);
- 			interlock[NV50_DISP_INTERLOCK_CORE] |= 1;
- 			if (outp->flush_disable) {
- 				nv50_disp_atomic_commit_wndw(state, interlock);
-@@ -2105,7 +2158,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
- 			  outp->set.mask, outp->clr.mask);
- 
- 		if (outp->set.mask) {
--			help->enable(encoder);
-+			help->atomic_enable(encoder, state);
- 			interlock[NV50_DISP_INTERLOCK_CORE] = 1;
- 		}
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index e12957e6faa7c..1d5696c39792a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -391,20 +391,6 @@ find_encoder(struct drm_connector *connector, int type)
- 	return NULL;
- }
- 
--struct nouveau_connector *
--nouveau_encoder_connector_get(struct nouveau_encoder *encoder)
--{
--	struct drm_device *dev = to_drm_encoder(encoder)->dev;
--	struct drm_connector *drm_connector;
--
--	list_for_each_entry(drm_connector, &dev->mode_config.connector_list, head) {
--		if (drm_connector->encoder == to_drm_encoder(encoder))
--			return nouveau_connector(drm_connector);
--	}
--
--	return NULL;
--}
--
- static void
- nouveau_connector_destroy(struct drm_connector *connector)
- {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
-index 6424cdcb4913f..b0e1dad2367d6 100644
---- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
-@@ -113,7 +113,11 @@ enum drm_mode_status nv50_dp_mode_valid(struct drm_connector *,
- 					unsigned *clock);
- 
- struct nouveau_connector *
--nouveau_encoder_connector_get(struct nouveau_encoder *encoder);
-+nv50_outp_get_new_connector(struct nouveau_encoder *outp,
-+			    struct drm_atomic_state *state);
-+struct nouveau_connector *
-+nv50_outp_get_old_connector(struct nouveau_encoder *outp,
-+			    struct drm_atomic_state *state);
- 
- int nv50_mstm_detect(struct nv50_mstm *, u8 dpcd[8], int allow);
- void nv50_mstm_remove(struct nv50_mstm *);
--- 
-2.26.2
-
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 10 ++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 15 +++-----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 43 ++++++++++++++--------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 20 +++-------
+>  4 files changed, 43 insertions(+), 45 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 735480cc7dcf..107a6ec920f7 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -724,8 +724,8 @@ struct amd_powerplay {
+>  #define AMDGPU_MAX_DF_PERFMONS 4
+>  struct amdgpu_device {
+>         struct device                   *dev;
+> -       struct drm_device               *ddev;
+>         struct pci_dev                  *pdev;
+> +       struct drm_device               ddev;
+>
+>  #ifdef CONFIG_DRM_AMD_ACP
+>         struct amdgpu_acp               acp;
+> @@ -990,12 +990,12 @@ struct amdgpu_device {
+>
+>  static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
+>  {
+> -       return ddev->dev_private;
+> +       return container_of(ddev, struct amdgpu_device, ddev);
+>  }
+>
+>  static inline struct drm_device *adev_to_drm(struct amdgpu_device *adev)
+>  {
+> -       return adev->ddev;
+> +       return &adev->ddev;
+>  }
+>
+>  static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
+> @@ -1004,8 +1004,6 @@ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
+>  }
+>
+>  int amdgpu_device_init(struct amdgpu_device *adev,
+> -                      struct drm_device *ddev,
+> -                      struct pci_dev *pdev,
+>                        uint32_t flags);
+>  void amdgpu_device_fini(struct amdgpu_device *adev);
+>  int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
+> @@ -1195,7 +1193,7 @@ static inline void *amdgpu_atpx_get_dhandle(void) { return NULL; }
+>  extern const struct drm_ioctl_desc amdgpu_ioctls_kms[];
+>  extern const int amdgpu_max_kms_ioctl;
+>
+> -int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags);
+> +int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags);
+>  void amdgpu_driver_unload_kms(struct drm_device *dev);
+>  void amdgpu_driver_lastclose_kms(struct drm_device *dev);
+>  int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 07012d71eeea..6e529548e708 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -1216,7 +1216,8 @@ static int amdgpu_device_check_arguments(struct amdgpu_device *adev)
+>   * Callback for the switcheroo driver.  Suspends or resumes the
+>   * the asics before or after it is powered up using ACPI methods.
+>   */
+> -static void amdgpu_switcheroo_set_state(struct pci_dev *pdev, enum vga_switcheroo_state state)
+> +static void amdgpu_switcheroo_set_state(struct pci_dev *pdev,
+> +                                       enum vga_switcheroo_state state)
+>  {
+>         struct drm_device *dev = pci_get_drvdata(pdev);
+>         int r;
+> @@ -2977,8 +2978,6 @@ static const struct attribute *amdgpu_dev_attributes[] = {
+>   * amdgpu_device_init - initialize the driver
+>   *
+>   * @adev: amdgpu_device pointer
+> - * @ddev: drm dev pointer
+> - * @pdev: pci dev pointer
+>   * @flags: driver flags
+>   *
+>   * Initializes the driver info and hw (all asics).
+> @@ -2986,18 +2985,15 @@ static const struct attribute *amdgpu_dev_attributes[] = {
+>   * Called at driver startup.
+>   */
+>  int amdgpu_device_init(struct amdgpu_device *adev,
+> -                      struct drm_device *ddev,
+> -                      struct pci_dev *pdev,
+>                        uint32_t flags)
+>  {
+> +       struct drm_device *ddev = adev_to_drm(adev);
+> +       struct pci_dev *pdev = adev->pdev;
+>         int r, i;
+>         bool boco = false;
+>         u32 max_MBps;
+>
+>         adev->shutdown = false;
+> -       adev->dev = &pdev->dev;
+> -       adev->ddev = ddev;
+> -       adev->pdev = pdev;
+>         adev->flags = flags;
+>
+>         if (amdgpu_force_asic_type >= 0 && amdgpu_force_asic_type < CHIP_LAST)
+> @@ -3451,9 +3447,8 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
+>         struct drm_connector_list_iter iter;
+>         int r;
+>
+> -       if (dev == NULL || dev->dev_private == NULL) {
+> +       if (!dev)
+>                 return -ENODEV;
+> -       }
+>
+>         adev = drm_to_adev(dev);
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 38023c879db1..6866c515f00a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1082,7 +1082,7 @@ static struct drm_driver kms_driver;
+>  static int amdgpu_pci_probe(struct pci_dev *pdev,
+>                             const struct pci_device_id *ent)
+>  {
+> -       struct drm_device *dev;
+> +       struct drm_device *ddev;
+>         struct amdgpu_device *adev;
+>         unsigned long flags = ent->driver_data;
+>         int ret, retry = 0;
+> @@ -1138,36 +1138,42 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>         if (ret)
+>                 return ret;
+>
+> -       dev = drm_dev_alloc(&kms_driver, &pdev->dev);
+> -       if (IS_ERR(dev))
+> -               return PTR_ERR(dev);
+> +       adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+> +       if (!adev)
+> +               return -ENOMEM;
+> +
+> +       adev->dev  = &pdev->dev;
+> +       adev->pdev = pdev;
+> +       ddev = adev_to_drm(adev);
+> +       ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
+> +       if (ret)
+> +               goto err_free;
+>
+>         if (!supports_atomic)
+> -               dev->driver_features &= ~DRIVER_ATOMIC;
+> +               ddev->driver_features &= ~DRIVER_ATOMIC;
+>
+>         ret = pci_enable_device(pdev);
+>         if (ret)
+>                 goto err_free;
+>
+> -       dev->pdev = pdev;
+> +       ddev->pdev = pdev;
+> +       pci_set_drvdata(pdev, ddev);
+>
+> -       pci_set_drvdata(pdev, dev);
+> -
+> -       ret = amdgpu_driver_load_kms(dev, ent->driver_data);
+> +       ret = amdgpu_driver_load_kms(adev, ent->driver_data);
+>         if (ret)
+>                 goto err_pci;
+>
+>  retry_init:
+> -       ret = drm_dev_register(dev, ent->driver_data);
+> +       ret = drm_dev_register(ddev, ent->driver_data);
+>         if (ret == -EAGAIN && ++retry <= 3) {
+>                 DRM_INFO("retry init %d\n", retry);
+>                 /* Don't request EX mode too frequently which is attacking */
+>                 msleep(5000);
+>                 goto retry_init;
+> -       } else if (ret)
+> +       } else if (ret) {
+>                 goto err_pci;
+> +       }
+>
+> -       adev = drm_to_adev(dev);
+>         ret = amdgpu_debugfs_init(adev);
+>         if (ret)
+>                 DRM_ERROR("Creating debugfs files failed (%d).\n", ret);
+> @@ -1177,7 +1183,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>  err_pci:
+>         pci_disable_device(pdev);
+>  err_free:
+> -       drm_dev_put(dev);
+> +       drm_dev_put(ddev);
+>         return ret;
+>  }
+>
+> @@ -1197,6 +1203,14 @@ amdgpu_pci_remove(struct pci_dev *pdev)
+>         drm_dev_put(dev);
+>  }
+>
+> +static void amdgpu_driver_release(struct drm_device *ddev)
+> +{
+> +       struct amdgpu_device *adev = drm_to_adev(ddev);
+> +
+> +       drm_dev_fini(ddev);
+> +       kfree(adev);
+> +}
+> +
+>  static void
+>  amdgpu_pci_shutdown(struct pci_dev *pdev)
+>  {
+> @@ -1491,6 +1505,7 @@ static struct drm_driver kms_driver = {
+>         .open = amdgpu_driver_open_kms,
+>         .postclose = amdgpu_driver_postclose_kms,
+>         .lastclose = amdgpu_driver_lastclose_kms,
+> +       .release   = amdgpu_driver_release,
+>         .irq_handler = amdgpu_irq_handler,
+>         .ioctls = amdgpu_ioctls_kms,
+>         .gem_free_object_unlocked = amdgpu_gem_object_free,
+> @@ -1525,8 +1540,6 @@ static struct pci_driver amdgpu_kms_pci_driver = {
+>         .driver.pm = &amdgpu_pm_ops,
+>  };
+>
+> -
+> -
+>  static int __init amdgpu_init(void)
+>  {
+>         int r;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index 47cd3558f9c7..f2a4fdcd542d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -86,7 +86,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
+>         amdgpu_unregister_gpu_instance(adev);
+>
+>         if (adev->rmmio == NULL)
+> -               goto done_free;
+> +               return;
+>
+>         if (adev->runpm) {
+>                 pm_runtime_get_sync(dev->dev);
+> @@ -96,10 +96,6 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
+>         amdgpu_acpi_fini(adev);
+>
+>         amdgpu_device_fini(adev);
+> -
+> -done_free:
+> -       kfree(adev);
+> -       dev->dev_private = NULL;
+>  }
+>
+>  void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
+> @@ -130,22 +126,18 @@ void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_driver_load_kms - Main load function for KMS.
+>   *
+> - * @dev: drm dev pointer
+> + * @adev: pointer to struct amdgpu_device
+>   * @flags: device flags
+>   *
+>   * This is the main load function for KMS (all asics).
+>   * Returns 0 on success, error on failure.
+>   */
+> -int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
+> +int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags)
+>  {
+> -       struct amdgpu_device *adev;
+> +       struct drm_device *dev;
+>         int r, acpi_status;
+>
+> -       adev = kzalloc(sizeof(struct amdgpu_device), GFP_KERNEL);
+> -       if (adev == NULL) {
+> -               return -ENOMEM;
+> -       }
+> -       dev->dev_private = (void *)adev;
+> +       dev = adev_to_drm(adev);
+>
+>         if (amdgpu_has_atpx() &&
+>             (amdgpu_is_atpx_hybrid() ||
+> @@ -160,7 +152,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
+>          * properly initialize the GPU MC controller and permit
+>          * VRAM allocation
+>          */
+> -       r = amdgpu_device_init(adev, dev, dev->pdev, flags);
+> +       r = amdgpu_device_init(adev, flags);
+>         if (r) {
+>                 dev_err(&dev->pdev->dev, "Fatal error during GPU init\n");
+>                 goto out;
+> --
+> 2.28.0.215.g878e727637
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
