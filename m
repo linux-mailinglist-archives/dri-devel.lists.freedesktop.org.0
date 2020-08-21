@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413C224DA15
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2841624DA19
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AFE36EB51;
-	Fri, 21 Aug 2020 16:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 117126EB54;
+	Fri, 21 Aug 2020 16:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2C36EB4F;
- Fri, 21 Aug 2020 16:18:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A11EE6EB14;
+ Fri, 21 Aug 2020 16:18:26 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 85E9622CF8;
- Fri, 21 Aug 2020 16:18:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B7FA922D04;
+ Fri, 21 Aug 2020 16:18:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026705;
- bh=LX02lHq/65D91ykDc6OlibqFlwnpLmix249DejHjv68=;
+ s=default; t=1598026706;
+ bh=sbuRAFXxI/Ph6IhF4tUv38O3/dEMdBs5bq/X4iLKkPU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=biFZdgLKLNzACFisEc2RSB7bSJJNu0P4xi27G8Yzg/93Q1l6Anrml319/1Ujdd0sl
- dk7ojylMeDL1EiTRiBcpL0Ocw+butUkDY5g/J7ABZK3S2m1tu4ZtoKMiZMUU17ayRo
- DR+dX3TVxqbLFHEg2ahOhTavsy8KZMzTcmWTXIZo=
+ b=UUCBhKgwVy/9+qj3Qo47Fwuya5EbhfKWvWyOlRGqMO9ilgjfCJ16bTQyd+LqIwsNF
+ KJi1tpCP5H/wIKa565ZKGfAmRYJ+xT9X70ksE0IEnayj9A/usMH3jlkpS5no98isAY
+ SBGGrg7GY3RTmtxrCCigolxMOlIVjKjlPy2++nbY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 14/38] drm/amdgpu: fix ref count leak in
- amdgpu_driver_open_kms
-Date: Fri, 21 Aug 2020 12:17:43 -0400
-Message-Id: <20200821161807.348600-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 15/38] drm/amd/display: fix ref count leak in
+ amdgpu_drm_ioctl
+Date: Fri, 21 Aug 2020 12:17:44 -0400
+Message-Id: <20200821161807.348600-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
 References: <20200821161807.348600-1-sashal@kernel.org>
@@ -60,9 +60,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Navid Emamdoost <navid.emamdoost@gmail.com>
 
-[ Upstream commit 9ba8923cbbe11564dd1bf9f3602add9a9cfbb5c6 ]
+[ Upstream commit 5509ac65f2fe5aa3c0003237ec629ca55024307c ]
 
-in amdgpu_driver_open_kms the call to pm_runtime_get_sync increments the
+in amdgpu_drm_ioctl the call to pm_runtime_get_sync increments the
 counter even in case of failure, leading to incorrect
 ref count. In case of failure, decrement the ref count before returning.
 
@@ -70,30 +70,27 @@ Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index bb41936df0d97..2beaaf4bee687 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -835,7 +835,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 5e29f14f4b301..63b1e325b45c5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -1085,11 +1085,12 @@ long amdgpu_drm_ioctl(struct file *filp,
+ 	dev = file_priv->minor->dev;
+ 	ret = pm_runtime_get_sync(dev->dev);
+ 	if (ret < 0)
+-		return ret;
++		goto out;
  
- 	r = pm_runtime_get_sync(dev->dev);
- 	if (r < 0)
--		return r;
-+		goto pm_put;
+ 	ret = drm_ioctl(filp, cmd, arg);
  
- 	fpriv = kzalloc(sizeof(*fpriv), GFP_KERNEL);
- 	if (unlikely(!fpriv)) {
-@@ -883,6 +883,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 
- out_suspend:
  	pm_runtime_mark_last_busy(dev->dev);
-+pm_put:
++out:
  	pm_runtime_put_autosuspend(dev->dev);
- 
- 	return r;
+ 	return ret;
+ }
 -- 
 2.25.1
 
