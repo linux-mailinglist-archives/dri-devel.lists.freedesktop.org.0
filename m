@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6248624DA76
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:20:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CD724DC3B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 18:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0B96EB89;
-	Fri, 21 Aug 2020 16:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADAE6E996;
+	Fri, 21 Aug 2020 16:58:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B26AF6EB72;
- Fri, 21 Aug 2020 16:20:36 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CE03022B43;
- Fri, 21 Aug 2020 16:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026836;
- bh=zby1bdyNKvlbw/2B9KxrATkPOOQOOknxZ7Nnr25BQoc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Bnt/3PY9fgtfrcEp0VuygvKFQKf3ybaPP1aTxu4KEkw9UJzyykmI0X7NNkOZL6Zbj
- Ice57Wl/jWYxA7g0g+5B0rCutvAS/pW0qqrcsjZFkccTGGO6UmWOMqQFzGvNZWoQo3
- emmkNEPojD92CfK/4BSxcRfhij0GZC5TjTJJ3400=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 17/22] drm/nouveau: Fix reference count leak in
- nouveau_connector_detect
-Date: Fri, 21 Aug 2020 12:20:09 -0400
-Message-Id: <20200821162014.349506-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821162014.349506-1-sashal@kernel.org>
-References: <20200821162014.349506-1-sashal@kernel.org>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D88EB6E996;
+ Fri, 21 Aug 2020 16:58:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 4426F2A6042;
+ Fri, 21 Aug 2020 18:58:00 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id xgD5c84TYvP4; Fri, 21 Aug 2020 18:57:59 +0200 (CEST)
+Received: from kaveri (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id A959B2A6016;
+ Fri, 21 Aug 2020 18:57:59 +0200 (CEST)
+Received: from daenzer by kaveri with local (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1k9AMY-004dmr-T6; Fri, 21 Aug 2020 18:57:58 +0200
+From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
+To: Leo Li <sunpeng.li@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Subject: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled whenever
+ the CRTC is
+Date: Fri, 21 Aug 2020 18:57:58 +0200
+Message-Id: <20200821165758.1106210-1-michel@daenzer.net>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +47,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
- Aditya Pakki <pakki001@umn.edu>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aditya Pakki <pakki001@umn.edu>
-
-[ Upstream commit 990a1162986e8eff7ca18cc5a0e03b4304392ae2 ]
-
-nouveau_connector_detect() calls pm_runtime_get_sync and in turn
-increments the reference count. In case of failure, decrement the
-ref count before returning the error.
-
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/nouveau/nouveau_connector.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 1855b475cc0b2..42be04813b682 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -263,8 +263,10 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
- 		pm_runtime_get_noresume(dev->dev);
- 	} else {
- 		ret = pm_runtime_get_sync(dev->dev);
--		if (ret < 0 && ret != -EACCES)
-+		if (ret < 0 && ret != -EACCES) {
-+			pm_runtime_put_autosuspend(dev->dev);
- 			return conn_status;
-+		}
- 	}
- 
- 	nv_encoder = nouveau_connector_ddc_detect(connector);
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+CgpEb24ndCBjaGVjayBk
+cm1fY3J0Y19zdGF0ZTo6YWN0aXZlIGZvciB0aGlzIGVpdGhlciwgcGVyIGl0cwpkb2N1bWVudGF0
+aW9uIGluIGluY2x1ZGUvZHJtL2RybV9jcnRjLmg6CgogKiBIZW5jZSBkcml2ZXJzIG11c3Qgbm90
+IGNvbnN1bHQgQGFjdGl2ZSBpbiB0aGVpciB2YXJpb3VzCiAqICZkcm1fbW9kZV9jb25maWdfZnVu
+Y3MuYXRvbWljX2NoZWNrIGNhbGxiYWNrIHRvIHJlamVjdCBhbiBhdG9taWMKICogY29tbWl0LgoK
+VGhlIGF0b21pYyBoZWxwZXJzIGRpc2FibGUgdGhlIENSVEMgYXMgbmVlZGVkIGZvciBkaXNhYmxp
+bmcgdGhlIHByaW1hcnkKcGxhbmUuCgpUaGlzIHByZXZlbnRzIGF0IGxlYXN0IHRoZSBmb2xsb3dp
+bmcgcHJvYmxlbXMgaWYgdGhlIHByaW1hcnkgcGxhbmUgZ2V0cwpkaXNhYmxlZCAoZS5nLiBkdWUg
+dG8gZGVzdHJveWluZyB0aGUgRkIgYXNzaWduZWQgdG8gdGhlIHByaW1hcnkgcGxhbmUsCmFzIGhh
+cHBlbnMgZS5nLiB3aXRoIG11dHRlciBpbiBXYXlsYW5kIG1vZGUpOgoKKiBUb2dnbGluZyBDUlRD
+IGFjdGl2ZSB0byAxIGZhaWxlZCBpZiB0aGUgY3Vyc29yIHBsYW5lIHdhcyBlbmFibGVkCiAgKGUu
+Zy4gdmlhIGxlZ2FjeSBEUE1TIHByb3BlcnR5ICYgY3Vyc29yIGlvY3RsKS4KKiBFbmFibGluZyB0
+aGUgY3Vyc29yIHBsYW5lIGZhaWxlZCwgZS5nLiB2aWEgdGhlIGxlZ2FjeSBjdXJzb3IgaW9jdGwu
+CgpHaXRMYWI6IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9pc3N1ZXMv
+MTEwOApHaXRMYWI6IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9pc3N1
+ZXMvMTE2NQpHaXRMYWI6IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9p
+c3N1ZXMvMTM0NApTdWdnZXN0ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3
+bGwuY2g+ClNpZ25lZC1vZmYtYnk6IE1pY2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29t
+PgotLS0KCk5vdGUgdGhhdCB0aGlzIHdpbGwgY2F1c2Ugc29tZSBJR1QgdGVzdHMgdG8gZmFpbCB3
+aXRob3V0Cmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvODA5MDQvIC4K
+CiAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgfCAzMyArKysr
+KysrLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMjIgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdw
+dV9kbS9hbWRncHVfZG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0v
+YW1kZ3B1X2RtLmMKaW5kZXggODk3ZDYwYWRlMWU0Li4zM2M1NzM5ZTIyMWIgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwpAQCAtNTI2
+MiwxOSArNTI2Miw2IEBAIHN0YXRpYyB2b2lkIGRtX2NydGNfaGVscGVyX2Rpc2FibGUoc3RydWN0
+IGRybV9jcnRjICpjcnRjKQogewogfQogCi1zdGF0aWMgYm9vbCBkb2VzX2NydGNfaGF2ZV9hY3Rp
+dmVfY3Vyc29yKHN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqbmV3X2NydGNfc3RhdGUpCi17Ci0Jc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9IG5ld19jcnRjX3N0YXRlLT5jcnRjLT5kZXY7Ci0Jc3RydWN0
+IGRybV9wbGFuZSAqcGxhbmU7Ci0KLQlkcm1fZm9yX2VhY2hfcGxhbmVfbWFzayhwbGFuZSwgZGV2
+LCBuZXdfY3J0Y19zdGF0ZS0+cGxhbmVfbWFzaykgewotCQlpZiAocGxhbmUtPnR5cGUgPT0gRFJN
+X1BMQU5FX1RZUEVfQ1VSU09SKQotCQkJcmV0dXJuIHRydWU7Ci0JfQotCi0JcmV0dXJuIGZhbHNl
+OwotfQotCiBzdGF0aWMgaW50IGNvdW50X2NydGNfYWN0aXZlX3BsYW5lcyhzdHJ1Y3QgZHJtX2Ny
+dGNfc3RhdGUgKm5ld19jcnRjX3N0YXRlKQogewogCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
+dGF0ZSA9IG5ld19jcnRjX3N0YXRlLT5zdGF0ZTsKQEAgLTUzMzgsMTkgKzUzMjUsMjEgQEAgc3Rh
+dGljIGludCBkbV9jcnRjX2hlbHBlcl9hdG9taWNfY2hlY2soc3RydWN0IGRybV9jcnRjICpjcnRj
+LAogCQlyZXR1cm4gcmV0OwogCX0KIAotCS8qIEluIHNvbWUgdXNlIGNhc2VzLCBsaWtlIHJlc2V0
+LCBubyBzdHJlYW0gaXMgYXR0YWNoZWQgKi8KLQlpZiAoIWRtX2NydGNfc3RhdGUtPnN0cmVhbSkK
+LQkJcmV0dXJuIDA7Ci0KIAkvKgotCSAqIFdlIHdhbnQgYXQgbGVhc3Qgb25lIGhhcmR3YXJlIHBs
+YW5lIGVuYWJsZWQgdG8gdXNlCi0JICogdGhlIHN0cmVhbSB3aXRoIGEgY3Vyc29yIGVuYWJsZWQu
+CisJICogV2UgcmVxdWlyZSB0aGUgcHJpbWFyeSBwbGFuZSB0byBiZSBlbmFibGVkIHdoZW5ldmVy
+IHRoZSBDUlRDIGlzLAorCSAqIG90aGVyd2lzZSB0aGUgbGVnYWN5IGN1cnNvciBpb2N0bCBoZWxw
+ZXIgbWF5IGVuZCB1cCB0cnlpbmcgdG8gZW5hYmxlCisJICogdGhlIGN1cnNvciBwbGFuZSB3aGls
+ZSB0aGUgcHJpbWFyeSBwbGFuZSBpcyBkaXNhYmxlZCwgd2hpY2ggaXMgbm90CisJICogc3VwcG9y
+dGVkIGJ5IHRoZSBoYXJkd2FyZS4gQW5kIHRoZXJlIGlzIGxlZ2FjeSB1c2Vyc3BhY2Ugd2hpY2gg
+c3RvcHMKKwkgKiB1c2luZyB0aGUgSFcgY3Vyc29yIGFsdG9nZXRoZXIgaW4gcmVzcG9uc2UgdG8g
+dGhlIHJlc3VsdGluZyBFSU5WQUwuCiAJICovCi0JaWYgKHN0YXRlLT5lbmFibGUgJiYgc3RhdGUt
+PmFjdGl2ZSAmJgotCSAgICBkb2VzX2NydGNfaGF2ZV9hY3RpdmVfY3Vyc29yKHN0YXRlKSAmJgot
+CSAgICBkbV9jcnRjX3N0YXRlLT5hY3RpdmVfcGxhbmVzID09IDApCisJaWYgKHN0YXRlLT5lbmFi
+bGUgJiYKKwkgICAgIShzdGF0ZS0+cGxhbmVfbWFzayAmIGRybV9wbGFuZV9tYXNrKGNydGMtPnBy
+aW1hcnkpKSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKKwkvKiBJbiBzb21lIHVzZSBjYXNlcywgbGlr
+ZSByZXNldCwgbm8gc3RyZWFtIGlzIGF0dGFjaGVkICovCisJaWYgKCFkbV9jcnRjX3N0YXRlLT5z
+dHJlYW0pCisJCXJldHVybiAwOworCiAJaWYgKGRjX3ZhbGlkYXRlX3N0cmVhbShkYywgZG1fY3J0
+Y19zdGF0ZS0+c3RyZWFtKSA9PSBEQ19PSykKIAkJcmV0dXJuIDA7CiAKLS0gCjIuMjguMAoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
