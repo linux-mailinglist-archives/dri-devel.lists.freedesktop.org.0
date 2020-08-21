@@ -1,34 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA8624CEAA
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:12:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1619B24CE88
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 09:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 321376EAAF;
-	Fri, 21 Aug 2020 07:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1F5A6EA97;
+	Fri, 21 Aug 2020 07:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 109573 seconds by postgrey-1.36 at gabe;
- Thu, 20 Aug 2020 22:49:18 UTC
-Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C38B6E17B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 22:49:18 +0000 (UTC)
-Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp.webfaction.com (Postfix) with ESMTPSA id 8324F60059163;
- Thu, 20 Aug 2020 22:49:00 +0000 (UTC)
-From: Paul Boddie <paul@boddie.org.uk>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
- JZ4780)
-Date: Fri, 21 Aug 2020 00:49:07 +0200
-Message-ID: <1857880.I5TKlsx52r@jason>
-In-Reply-To: <DABBE9E8-E94F-4F13-BB33-5DD67CAD9DFA@goldelico.com>
-References: <1940005.XIBaf5lNV5@jeremy>
- <CAAEAJfBxJLyS-EaE82c4Oq3-EFongDmAtYnPtfMLKLL3KAiFxA@mail.gmail.com>
- <DABBE9E8-E94F-4F13-BB33-5DD67CAD9DFA@goldelico.com>
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 272736EA82
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 00:18:48 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id j13so47948pjd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Aug 2020 17:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=s+gefwGGLS4RZ9aAtxwt9F/Q7T9fxHVOG5Dd2Edw1yI=;
+ b=a925dQD7UAnI2WEHBuEp1k6vs46a15EXpwoO8/XlJ2KVU7wPk+MkHan4VwcKlaJ7UT
+ j5OgC4nnfa03FnISqr4Pz0w98qcVngy8HTRZ5tGwyTFBFsLslNIIE4JkLP0ozADvhQGx
+ NcGR0SsMTlfRtOjLWJyfTfIaXNw9PBCWPqYxI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=s+gefwGGLS4RZ9aAtxwt9F/Q7T9fxHVOG5Dd2Edw1yI=;
+ b=rl/ogog0VgBA/PfKpYZ/T7tQQufzH8Yr7HZMFfq3vcV5Y/cF4oHM7NX0DsAFMTI8Jy
+ Qlhv+IKtZvWQmj4vxCv6EJgqo5OC3H3EnW3NQ7S/6Kt/2o61WSn76v9DibbPRU25Jc7t
+ VK+4ZFtPqiashvxqerm1TYGIBfbOL1dxN1kAqquObE3U8nSonYlFnC5jAKNl3i9UWvM1
+ VdqT2WsBU3XcF/Zw0ji0XKAvOxNXC8r28vJbUgSgdQpoZblSQp0Z7WmZ30eD1nv3iyhZ
+ vpEPHbEeTNZMxslsSE8AwF1XixlO0aPwBYx1mvM71tvM+4EbvKtRW5aZyE2IUSTaAH9t
+ IZlw==
+X-Gm-Message-State: AOAM533AADC+NwPmJbHXQ2/0BhUuyDy+yIJO2XXc1W2HEE1duDeXKSGs
+ S6jZLuSPUVUKidpqRns1N5cAGA1BcjIhoQ==
+X-Google-Smtp-Source: ABdhPJycAJIRRlSrBG3gbwhGKoE6fAYeLdDcGy0d95wxs2vWn2H649ZQ/s3tg7y+5yjnbfnHBOKx8w==
+X-Received: by 2002:a17:90a:1749:: with SMTP id 9mr249662pjm.127.1597969127726; 
+ Thu, 20 Aug 2020 17:18:47 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+ by smtp.gmail.com with ESMTPSA id w14sm221421pfi.211.2020.08.20.17.18.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Aug 2020 17:18:47 -0700 (PDT)
 MIME-Version: 1.0
+In-Reply-To: <20200820103522.26242-2-rojay@codeaurora.org>
+References: <20200820103522.26242-1-rojay@codeaurora.org>
+ <20200820103522.26242-2-rojay@codeaurora.org>
+Subject: Re: [PATCH V2 1/2] i2c: i2c-qcom-geni: Store DMA mapping data in
+ geni_i2c_dev struct
+From: Stephen Boyd <swboyd@chromium.org>
+To: Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Date: Thu, 20 Aug 2020 17:18:45 -0700
+Message-ID: <159796912574.334488.10846610259602895929@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Fri, 21 Aug 2020 07:11:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,83 +67,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linaro-mm-sig@lists.linaro.org, saiprakash.ranjan@codeaurora.org,
+ rnayak@codeaurora.org, gregkh@linuxfoundation.org,
+ linux-arm-msm@vger.kernel.org, Roja Rani Yarubandi <rojay@codeaurora.org>,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, akashast@codeaurora.org, mka@chromium.org,
+ agross@kernel.org, msavaliy@qti.qualcomm.com, linux-media@vger.kernel.org,
+ skakit@codeaurora.org, linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 20 August 2020 10:19:45 CEST H. Nikolaus Schaller wrote:
+Quoting Roja Rani Yarubandi (2020-08-20 03:35:21)
+> Store DMA mapping data in geni_i2c_dev struct to enhance DMA mapping
+> data scope. For example during shutdown callback to unmap DMA mapping,
+> this stored DMA mapping data can be used to call geni_se_tx_dma_unprep
+> and geni_se_rx_dma_unprep functions.
 > 
-> Yes, it works!!!
+> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+> ---
 
-It still doesn't work for me. I still get "Input not supported" from my 
-monitor. It is a DVI monitor connected via a HDMI adapter, but EDID probing 
-works and, as I noted previously, the HDMI/LCDC can be made to work (and 
-obviously did work in the 3.18 kernel).
-
-I used my usual recipe for kernel compilation:
-
-ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make ci20_defconfig
-ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make menuconfig
-ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make -j8 uImage
-ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make -j8 modules
-ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- make -j8 dtbs
-sudo sh -c 'INSTALL_MOD_PATH=nn ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- \
-            make modules_install'
-sudo sh -c 'INSTALL_PATH=nn/boot ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- \
-            make dtbs_install'
-sudo cp arch/mips/boot/uImage nn/boot/
-
-This was with a snapshot archive made from the following changeset:
-
-b911b4883bfe4f7fa753ac2ff42b25fa6b3055e2
-
-I downloaded it from here:
-
-https://gitlab.collabora.com/linux/0day/-/tree/jz4780-drm-hdmi-v5.9-rc1
-
-(I was going to clone the repository late last night, but it was taking a long 
-time and I also didn't want to clone everything yet again.)
-
-> There are some unexpected things related to CONFIG settings on my setup
-> (maybe missing modules) but for the first time I can see the boot log on the
-> panel.
-> > This needs some more investigation, but seems at least a good start.
-> 
-> Yes it is!
-> 
-> I can now git diff the code and the CONFIG.
-> 
-> So it seems we have indeed a breakthrough.
-> 
-> Thanks to all who did contribute (even behind the scenes in the DRM
-> subsystem), Nikolaus
-
-Before trying this new branch, I did try and tidy up the branch I had been 
-working on. I didn't notice all the changes and the new ingenic-drm-drv.c 
-file, having assumed that not much would have changed in the DRM driver.
-
-Nevertheless, my attempts at integrating the different branches can be found 
-in the paulb-jz4780-ci20-hdmi-5.9-rc1 branch, mentioned earlier.
-
-It would be nice to reconcile the JZ4780 support with the evolving upstream 
-support, accommodating the extended descriptors and the extra register usage.
-
-Paul
-
-P.S. I noticed a few problems with the 5.9-rc1 branches such as powering down 
-not actually removing the power and, in my own branch, networking not working 
-reliably (or maybe even at all), with the tedious progress indicator never 
-terminating in the boot sequence. So, once again, it is another case of half a 
-step forwards and about three steps back.
-
-
+Can this be squashed with the next patch? I don't see how this stands on
+its own.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
