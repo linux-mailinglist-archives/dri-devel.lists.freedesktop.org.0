@@ -1,101 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFF824D699
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 578BD24D6BA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Aug 2020 15:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9416E140;
-	Fri, 21 Aug 2020 13:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF6856E144;
+	Fri, 21 Aug 2020 13:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1E26E140
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:52:04 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200821135202euoutp01e997bc0ca9a7eb935cf2f8a6d4e7307b~tTNWNHbV-0851508515euoutp01Q
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:52:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200821135202euoutp01e997bc0ca9a7eb935cf2f8a6d4e7307b~tTNWNHbV-0851508515euoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1598017922;
- bh=xSyw6j8uhqFc0rId8dLokmjX37Nhx2OesuMasUQmfDY=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=uweIq3LIubz94Hapmdt/GczZtE2EbZXtPCOadJuvWGR+gVO1hPxcU6K5KYqWwVyr5
- ZXG4raJ2BXA3HeUeTn10op3/NMmPIAp7fo3JAE5/g+1jW5inhPYmacAMRnhULeLMHg
- OMA/Qb6y5Ht5ypES5NTnc8JrVE0yeOEVBHxxIicE=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200821135202eucas1p149727e705b4925a47a08bdc8b9ca3a13~tTNWHo1P31675816758eucas1p1s;
- Fri, 21 Aug 2020 13:52:02 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 4D.74.06318.281DF3F5; Fri, 21
- Aug 2020 14:52:02 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200821135202eucas1p1dc2de0fb3e687899859e41787357e199~tTNV2G6as0667006670eucas1p1a;
- Fri, 21 Aug 2020 13:52:02 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200821135202eusmtrp2d3a7cde28c105c020cf66d27e5556562~tTNV1a6xY0859608596eusmtrp2I;
- Fri, 21 Aug 2020 13:52:02 +0000 (GMT)
-X-AuditID: cbfec7f5-371ff700000018ae-59-5f3fd182afa8
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id C6.D9.06314.281DF3F5; Fri, 21
- Aug 2020 14:52:02 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200821135202eusmtip167e50593caedc04e8f3336c6ec977351~tTNVdBehL2857328573eusmtip1d;
- Fri, 21 Aug 2020 13:52:02 +0000 (GMT)
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH v2 00/41] spi / fbdev / cpufreq / usb / mmc / hwmon /
- ARM: Prepare for multiplatform S3C
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Message-ID: <7caa287e-5e02-95d1-0397-5ae74e3138a1@samsung.com>
-Date: Fri, 21 Aug 2020 15:52:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A146E144
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Aug 2020 13:58:11 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5bf.dynamic.kabel-deutschland.de
+ [95.90.213.191])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F296F20720;
+ Fri, 21 Aug 2020 13:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1598018291;
+ bh=C1qkdYnVlB8TjKiXCca33hF85UABOti3fWfXcteU3Ms=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=l1mnDXsbmgumY6i+wDZnB57lfwyZ8aXmRiD8X0RBBfI6pkaSx/VseZ1258Flb4VTs
+ 5QniQC3mIhGQc+5ugAIPr1kH0D9POaIRX5xjuoWRStvj4Id5kW3Ba6Lg2Qadvq2YEP
+ s7nhPnOrM5wkZclwBuviOe/sYNWDeCxEPgGqa1lE=
+Date: Fri, 21 Aug 2020 15:58:01 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200821155801.0b820fc6@coco.lan>
+In-Reply-To: <20200819173558.GA3733@ravnborg.org>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819174027.70b39ee9@coco.lan>
+ <20200819173558.GA3733@ravnborg.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200820155913.GA21395@kozik-lap>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGKsWRmVeSWpSXmKPExsWy7djPc7pNF+3jDRZ/07b4O+kYu8WVr+/Z
- LM6f38BusenxNVaLE30fWC0u75rDZjHj/D4mi0NT9zI6cHhcvnaR2eP3r0mMHptWdbJ53O8+
- zuSxeUm9x+dNcgFsUVw2Kak5mWWpRfp2CVwZ7e/WMRbs4qz4eXo1awPjIfYuRk4OCQETiQ17
- XgHZXBxCAisYJS42z2eFcL4wSpzdtxQq85lRYtrmY3AtT86cZ4FILGeUmLXhPyOE85ZRou/r
- BkaQKjYBK4mJ7avAbGGBPImbjYvAbBEBTYnrf7+D7WAW+MQocWJpExNIglfATuL0/qesIDaL
- gKrE5MMHwNaJCkRIfHpwmBWiRlDi5MwnLCA2p4C+xLrOuWC9zALiEreezIey5SW2v53DDLJA
- QuAYu8TB3bNZIe52kZjc1wJlC0u8Or4F6h8Zif87QZpBGtYxSvzteAHVvZ1RYvnkf2wQVdYS
- d879ArI5gFZoSqzfpQ8RdpRo23aUESQsIcAnceOtIMQRfBKTtk1nhgjzSnS0CUFUq0lsWLaB
- DWZt186VzBMYlWYheW0WkndmIXlnFsLeBYwsqxjFU0uLc9NTi43zUsv1ihNzi0vz0vWS83M3
- MQJT0+l/x7/uYNz3J+kQowAHoxIP749D9vFCrIllxZW5hxglOJiVRHidzp6OE+JNSaysSi3K
- jy8qzUktPsQozcGiJM5rvOhlrJBAemJJanZqakFqEUyWiYNTqoFRN8zvu4b4wXf+BUsUWXtT
- LE+mpZ0+GazOMPeJ+6Pzf6OUOicw/Ga69zr2xo+NzN6v+w2Cfc0eGCVJXVJ5u1V2zkJBB5+a
- lVbP385u/M89a+OzyI/rg7fdnTXLVDJq+Tszl/Uv98XHP9Dw4/tVxeX+4rTo5G1qrXMuVc5J
- PleUElHh6Hxieme4EktxRqKhFnNRcSIAybJdhEkDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRmVeSWpSXmKPExsVy+t/xu7pNF+3jDX6ckrL4O+kYu8WVr+/Z
- LM6f38BusenxNVaLE30fWC0u75rDZjHj/D4mi0NT9zI6cHhcvnaR2eP3r0mMHptWdbJ53O8+
- zuSxeUm9x+dNcgFsUXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5
- mWWpRfp2CXoZ7e/WMRbs4qz4eXo1awPjIfYuRk4OCQETiSdnzrN0MXJxCAksZZRY9/E8axcj
- B1BCRuL4+jKIGmGJP9e62CBqXjNKdF85wQaSYBOwkpjYvooRxBYWyJOY1NnDBGKLCGhKXP/7
- nRWkgVngE6PEt7ZPjBDdaxgldjUfAuvgFbCTOL3/KSuIzSKgKjH58AGwk0QFIiQO75gFVSMo
- cXLmExYQm1NAX2Jd51ywDcwC6hJ/5l1ihrDFJW49mQ8Vl5fY/nYO8wRGoVlI2mchaZmFpGUW
- kpYFjCyrGEVSS4tz03OLDfWKE3OLS/PS9ZLzczcxAiNx27Gfm3cwXtoYfIhRgINRiYf3xyH7
- eCHWxLLiytxDjBIczEoivE5nT8cJ8aYkVlalFuXHF5XmpBYfYjQFem4is5Rocj4wSeSVxBua
- GppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCUamCs/Cn8a3JwpJPFu+ruFaps
- Av+qbI0v/DjyTP3tm0fs377NzZnco/9i9bOJd7a1Zt4Tal2/kEFv1tcaf7+I+GOqKeX6h9c+
- 0og50ya9qezmPJcH+luqVvOZCYu06Fu8P+moKh+wJsyZhamHQ/7S4gePrG5avDb2mt3l/4/f
- oMb72THmcrWdt5cpsRRnJBpqMRcVJwIAyy0cYNoCAAA=
-X-CMS-MailID: 20200821135202eucas1p1dc2de0fb3e687899859e41787357e199
-X-Msg-Generator: CA
-X-RootMTR: 20200820155923eucas1p2f73e16e6321e3592bd702ea657ff0709
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200820155923eucas1p2f73e16e6321e3592bd702ea657ff0709
-References: <20200806181932.2253-1-krzk@kernel.org>
- <CGME20200820155923eucas1p2f73e16e6321e3592bd702ea657ff0709@eucas1p2.samsung.com>
- <20200820155913.GA21395@kozik-lap>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,61 +49,360 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
+ Rob Clark <robdclark@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
+ Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Em Wed, 19 Aug 2020 19:35:58 +0200
+Sam Ravnborg <sam@ravnborg.org> escreveu:
 
-[ trimmed Cc: list ]
+> Also a few high level comments:
 
-On 8/20/20 5:59 PM, Krzysztof Kozlowski wrote:
-> On Thu, Aug 06, 2020 at 08:19:32PM +0200, Krzysztof Kozlowski wrote:
->> Hi All,
->>
->> Shortly
->> =======
->> This is a continuation of Arnd's work from 2019 [1].  The goal is to
->> cleanup, merge and finally make the Samsung S3C24xx and S3C64xx
->> architectures multiplatform.  The multiplatform did not happen yet
->> here... just cleaning up and merging into one mach-s3c.
->>
->> I intend to take it through Samsung SoC tree so all Acks are welcomed.
->>
->> Changes since v1
->> ================
->> 1. Rebased,
->> 2. Addressed comments (including mine),
->> 3. Few new patches.
->>
->> Please see individual changelogs (per patch).
->>
->> [1] https://patchwork.kernel.org/project/linux-samsung-soc/list/?series=185855&state=*
->>
+Hi Sam,
+
+Finally finished addressing the things you pointed, except by a few
+ones:
+	- bridge bindings;
+	- use drm_foo() instead of DRM_foo() when possible.
+
+A few answers to some of your comments.
+
+> There is too much unused code present - please delete.
+> I dod not think I spotted it all.
+
+I'll took a look and dropped most of it. I kept just some
+code there related to an optional IOMMU support. The code
+there is commented out because they depend on a driver that,
+after some upstream discussions, I'm opting to not sending
+it. Basically, there are better ways to support the integrated
+MMU for the GPU core.
+
+I'added some FIXME and commented out the code, as I intend
+to take another look on it in the future. Not top priority,
+as the driver works without it, but it could affect driver's
+performance.
+
+> Some style issues - ask checkpatch --strict for help identifying
+> these.
+
+Ok. There aren't much reported by checkpatch, as I did lots of
+checkpatch fixes already in this series. I ended keeping
+some CamelCase for macros:
+
+	CHECK:CAMELCASE: Avoid CamelCase: <SMMU_SMRx_P>
+	#143: FILE: drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h:143:
+	+#define SMMU_SMRx_P	(0x10000)
+
+and a few other things that, IMHO, making checkpatch happier
+would make things worse for humans ;-)
+
+> Needs to be adapted to new bridge handling - see comments.
+
+Ok.
+
+> Move panel stuff to drm_panel (or maybe I got confsed so this was just
+> bride stuff).
+
+There used to have a separate panel driver. The DRM driver has
+support for it, probably using some older binding model (although
+I converted some things that don't work on upstream Kernels anymore).
+
+The old panel driver is there at the history (patch 01/49), but
+a later patch drops it. The main thing is that Hikey 970 board
+doesn't come with any panel. Maybe are out there some daughter
+boards providing a panel display, but I was unable to find it.
+
+So, I ended dropping the panel driver, but keeping the main
+driver's code to handle it, as someone could find it useful.
+
+> Lots track a few times - so may have confused myself a few times.
 > 
-> Hi All,
+> Many small comments - but general impression is good.
 
-Hi Krzysztof,
+Good!
 
-> I applied second part of the set which finishes this step of S3C
-> cleanup. Thanks to Arnd for the work!
+> Happy hacking!
 
-Thank you (& Arnd) for working on this!
+Thanks!
 
-PS I've checked fbdev related changes now and they all look good to me.
+> 	Sam
+> 
+> 
+> > diff --git a/drivers/staging/hikey9xx/gpu/Kconfig b/drivers/staging/hikey9xx/gpu/Kconfig
+> > new file mode 100644
+> > index 000000000000..957da13bcf81
+> > --- /dev/null
+> > +++ b/drivers/staging/hikey9xx/gpu/Kconfig
+> > @@ -0,0 +1,22 @@
+> > +config DRM_HISI_KIRIN9XX
+> > +	tristate "DRM Support for Hisilicon Kirin9xx series SoCs Platform"
+> > +	depends on DRM && OF && ARM64
+> > +	select DRM_KMS_HELPER
+> > +	select DRM_GEM_CMA_HELPER
+> > +	select DRM_KMS_CMA_HELPER
+> > +	select DRM_MIPI_DSI
+> > +	help
+> > +	  Choose this option if you have a HiSilicon Kirin960 or Kirin970.
+> > +	  If M is selected the module will be called kirin9xx-drm.
+> > +
+> > +config DRM_HISI_KIRIN970
+> > +	bool "Enable support for Hisilicon Kirin970"
+> > +	depends on DRM_MIPI_DSI  
+> Implied by DRM_HISI_KIRIN9XX, so not needed.
+> > +	depends on DRM_HISI_KIRIN9XX
+> > +	help
+> > +	  Choose this option if you have a hisilicon Kirin chipsets(kirin970).
+> > +
+> > +config DRM_HISI_KIRIN9XX_DSI
+> > +	tristate
+> > +	depends on DRM_HISI_KIRIN9XX
+> > +	default y  
+> This is essential a copy of DRM_HISI_KIRIN9XX - so no need for this
+> extra Kconfig variable.
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+The above are left-overs. I'm dropping everything, keeping just
+DRM_HISI_KIRIN9XX. The driver now has support for both Kirin 960 and 970
+at the same time, without needing an extra Kconfig.
 
-> Best regards,
-> Krzysztof
+> > +	// D0  
+> Some people dislike the more readable c99 comments.
+> I do not recall if coding style allows them
+> Ask checkpatch --strict
+
+It used to be forbidden. Linus changed his mind about c99 comments
+some time ago. It is now allowed. More than that, using c99 comments is 
+now mandatory for SPDX on c files.
+
+In any case, changing to /* */ is as easy as running this script:
+
+	for i in drivers/staging/hikey9xx/gpu/*.[ch]; do perl -ne 'if (! m,// SPDX,) { s,//\s*(.*),/* \1 */,; }; print $_' -i $i; done
+
+As I also prefer not using c99 comments, I applied a cleanup patch.
+
+> Some of the enums I checked are not used.
+
+Yeah, based on the size of the header files, when compared with
+the size of the code, I suspect that lots of things there won't be
+used. Cleaning this could take some time and may end removing
+some bits that we could need in the future in order to address
+existing problems at the driver. 
+
+So, I opted preserving them, at least on this initial
+patchset. I intend to do a further cleanup when trying to
+merge this driver with the one for Kirin 620. On a side node,
+currently, I don't have a Kirin 620 board. So, I'm postponing
+such task until I get one such boards, as I'm not willing
+to take the risk of changing it without being able to test.
+
+> If their members are used then consider to use the enum
+> and not just an int.
+
+Yeah, it makes sense to use enum for type consistency.
+
+I would prefer to do such kind of cleanup later on, together
+with the attempt of having a single driver for all Kirin
+supported DRM, as this is something that I'll need to revisit
+when trying to merge the code.
+
+> > +	ctx->dss_pri_clk = devm_clk_get(dev, "clk_edc0");
+> > +	if (!ctx->dss_pri_clk) {
+> > +		DRM_ERROR("failed to parse dss_pri_clk\n");
+> > +	return -ENODEV;
+> > +	}
+...
+
+> I had expected some of these could fail with a PROBE_DEFER.
+> Consider to use the newly introduced dev_probe_err()
+
+Yeah, getting clock lines can fail. I was unable to find dev_probe_err(),
+at least on Kernel 5.9-rc1. I saw this comment:
+
+	https://lkml.org/lkml/2020/3/6/356
+
+It sounds it didn't reach upstream. Anyway, I add error handling for the
+the clk_get calls:
+
+	ctx->dss_pri_clk = devm_clk_get(dev, "clk_edc0");
+	ret = PTR_ERR_OR_ZERO(ctx->dss_pri_clk);
+	if (ret == -EPROBE_DEFER) {
+		return ret;
+	} else if (ret) {
+		DRM_ERROR("failed to parse dss_pri_clk: %d\n", ret);
+		return ret;
+	}
+
+This should be able to detect deferred probe, plus to warn
+about other errors.
+
+PS.: I'll be changing DRM_foo() to drm_foo() on a separate
+patchset, after finishing the remaining code changes.
+
+
+> > +static int  dss_drm_suspend(struct platform_device *pdev, pm_message_t state)
+> > +{
+> > +	struct dss_data *dss = platform_get_drvdata(pdev);
+> > +	struct drm_crtc *crtc = &dss->acrtc.base;
+> > +
+> > +	dss_crtc_disable(crtc, NULL);
+> > +
+> > +	return 0;
+> > +}  
+> There is a suspend (and resume) helper - can it be used?
+
+That's a very good question. Hard to answer right, as last time
+I checked, DPMS suspend/resume are currently broken. 
+
+I need to re-test it, but it has been hard to work on that part,
+because right now there's no USB driver (so, no keyboard/mouse).
+
+I was using x2x to send evdev events to the remote machine, but
+I did some changes at the test distro, and this stopped working.
+
+I need to find some other solution to send evdev events to Hikey970
+while I don't fix my USB driver port.
+
+So, for now, I prefer keeping those. I'll revisit this before
+moving the driver out of staging, as this is one of the current
+bugs.
+
+> > +
+> > +#define ROUND(x, y)		((x) / (y) + \
+> > +				((x) % (y) * 10 / (y) >= 5 ? 1 : 0))
+> > +#define ROUND1(x, y)	((x) / (y) + ((x) % (y)  ? 1 : 0))  
+> Use generic macros for this?
+
+> > +#define encoder_to_dsi(encoder) \
+> > +	container_of(encoder, struct dw_dsi, encoder)
+> > +#define host_to_dsi(host) \
+> > +	container_of(host, struct dw_dsi, host)
+> > +#define connector_to_dsi(connector) \
+> > +	container_of(connector, struct dw_dsi, connector)
+> > +#define DSS_REDUCE(x)	((x) > 0 ? ((x) - 1) : (x))  
+> Use generic macros for this?
+
+> > +struct dw_dsi_client {
+> > +	u32 lanes;
+> > +	u32 phy_clock; /* in kHz */
+> > +	enum mipi_dsi_pixel_format format;
+> > +	unsigned long mode_flags;
+> > +};
+> > +  
+> 
+> Can the panel stuff be moved out and utilise drm_panel?
+
+I saw the code at drm_panel. The real issue here is that I can't
+test anything related to panel support, as I lack any hardware
+for testing. So, there's a high chance I may end breaking
+something while trying to do that.
+
+> > +struct dw_dsi {
+> > +	struct drm_encoder encoder;
+> > +	struct drm_bridge *bridge;
+> > +	struct drm_panel *panel;
+> > +	struct mipi_dsi_host host;
+> > +	struct drm_connector connector; /* connector for panel */
+> > +	struct drm_display_mode cur_mode;
+> > +	struct dsi_hw_ctx *ctx;
+> > +	struct mipi_phy_params phy;
+> > +	struct mipi_panel_info mipi;
+> > +	struct ldi_panel_info ldi;
+> > +	u32 lanes;
+> > +	enum mipi_dsi_pixel_format format;
+> > +	unsigned long mode_flags;
+> > +	struct gpio_desc *gpio_mux;
+> > +	struct dw_dsi_client client[OUT_MAX];
+> > +	enum dsi_output_client cur_client, attached_client;
+> > +	bool enable;
+> > +};  
+> This smells like a bridge driver.
+> Bridge drivers shall use the bridge panel.
+> And new bridge drivers shall not create conectors, thats the role of the
+> display driver.
+
+Actually, this device is "hybrid" with regards to bridges.
+HDMI uses an external bridge (adv7535), while panel doesn't.
+
+In any case, I would prefer not touching anything related to
+the panel. As I mentioned on my other comment, currently
+I lack any panels that might work on Hikey 970. So, this is
+something I can't test.
+
+> > +
+> > +	/* Link drm_bridge to encoder */
+> > +	if (!bridge) {
+> > +		DRM_INFO("no dsi bridge to attach the encoder\n");
+> > +		return 0;
+> > +	}
+> > +
+> > +	crtc_mask = drm_of_find_possible_crtcs(drm_dev, dev->of_node);
+> > +	if (!crtc_mask) {
+> > +		DRM_ERROR("failed to find crtc mask\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	dev_info(dev, "Initializing CRTC encoder: %d\n",
+> > +		 crtc_mask);
+> > +
+> > +	encoder->possible_crtcs = crtc_mask;
+> > +	encoder->possible_clones = 0;
+> > +	ret = drm_encoder_init(drm_dev, encoder, &dw_encoder_funcs,
+> > +			       DRM_MODE_ENCODER_DSI, NULL);
+> > +	if (ret) {
+> > +		DRM_ERROR("failed to init dsi encoder\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	drm_encoder_helper_add(encoder, &dw_encoder_helper_funcs);
+> > +
+> > +	/* associate the bridge to dsi encoder */
+> > +	ret = drm_bridge_attach(encoder, bridge, NULL, 0);  
+> The bridge should be attached with the falg that tell the bridge NOT to
+> create a connector.
+> 
+> The display driver shall created the connector.
+> 
+> Please see how other drivers do this (but most driver uses the old
+> pattern so so look for drm_bridge_attach() with the flag argument.
+> I cannot see any user of this pwm and backlight stuff.
+> So the best would be to drop it all.
+> > +
+> > +int hisi_pwm_set_backlight(struct backlight_device *bl, uint32_t bl_level)
+> > +{
+
+Yeah, this was dropped in a patch on this series that it is after the DT
+changes.
+
+The PWM and backlight stuff is used by the display panel driver which
+came together with the DRM drivers. I dropped it, together with the
+parts of the driver which used to call them.
+
+
+Thanks,
+Mauro
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
