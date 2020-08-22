@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B24C24F2C9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 08:56:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8112D24F2D1
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 08:56:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E11626EC6C;
-	Mon, 24 Aug 2020 06:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4986EC7A;
+	Mon, 24 Aug 2020 06:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A05436E49B
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 16:33:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8D36E49D
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 16:33:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1598113985; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1598113986; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=OIRMU6Ka9KILmiWMpJ82zUDUAbNEms5l+b/pAns9p+U=;
- b=CIuiNhR4acJvQf8g1SBNCBqP+7oAcdtNnEiOIAF7hF+32te+Fa9PzaZNnULfFRTRrwZgJG
- D39CKS12nr9nLegsUNGNshEZ6Nii4fAcUM0xnYBlIC0hdL2bKFl3vtSQozJV9wO0F0V7ad
- J9hQjz2qZXqUzb6TJ1VxrBe/V72IqS4=
+ in-reply-to:in-reply-to:references:references;
+ bh=OpSFEylgpgBKh2P6uwfTBIT/WcJC6e5Uy+yuu1dkY14=;
+ b=ikS9LtxXMYk4VZ/d4VFVzK/DGbochn/rlwxY2WcP3BfuhmvW113EUnZ23LGqlDNwLIF8H7
+ kNwhaZ9PHllpr4B7eA8ZcuNLmOuxOElZW3TG90zmU/QdtKnzOSKGCozbJypCrD3i6pc1wC
+ 1RhWxZ1UoY2SKyVmyQTEF2CevnWTfJw=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -30,9 +31,12 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Noralf Tronnes <noralf@tronnes.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 0/6] DSI/DBI, panel drivers, & tinyDRM v2
-Date: Sat, 22 Aug 2020 18:32:44 +0200
-Message-Id: <20200822163250.63664-1-paul@crapouillou.net>
+Subject: [PATCH v2 1/6] dt-bindings: display: Document NewVision NV3052C DT
+ node
+Date: Sat, 22 Aug 2020 18:32:45 +0200
+Message-Id: <20200822163250.63664-2-paul@crapouillou.net>
+In-Reply-To: <20200822163250.63664-1-paul@crapouillou.net>
+References: <20200822163250.63664-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 24 Aug 2020 06:55:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,94 +58,128 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add documentation for the Device Tree node for LCD panels based on the
+NewVision NV3052C controller.
 
-Here's a V2 of my patchset that attempts to clean up the current
-situation with DSI/DBI panels drivers, and tinyDRM.
+v2: - Support backlight property
+    - Add *-supply properties for the 5 different power supplies.
+      Either they must all be present, or 'power-supply' must be
+      present.
+    - Reword description to avoid confusion about 'driver'
+    - Use 4-space indent in example
 
-For the record, here is a small sum-up of the current situation:
-
-- the current MIPI DBI code (drivers/gpu/drm/drm_mipi_dbi.c) is lagging
-  way behind the MIPI DSI code (drivers/gpu/drm/drm_mipi_dsi.c). While
-  the DSI code adds a proper bus support, with support for host drivers
-  and client devices, there is no such thing with the DBI code. As such,
-  it is currently impossible to write a standard DRM panel driver for a
-  DBI panel.
-
-- Even if the MIPI DBI code was updated with a proper bus, many panels
-  and MIPI controllers support both DSI and DBI, so it would be a pain
-  to support them without resolving to duplicating each driver.
-
-- The panel drivers written against the DBI code are all "tinyDRM"
-  drivers, which means that they will register a full yet simple DRM
-  driver, and cannot be used as regular DRM panels for a different DRM
-  driver.
-
-- These "tinyDRM" drivers all use SPI directly, even though the panels
-  they're driving can work on other interfaces (e.g. i8080 bus). Which
-  means that one driver written for e.g. a ILI9341 would not work if
-  the control interface is not SPI.
-
-- The "tinyDRM" common code is entangled with DBI and there is no clear
-  separation between the two. It could very well be moved to a single
-  "tinyDRM" driver that works with a DRM panel obtained from devicetree,
-  because the only requirement is that the panel supports a few given
-  DCS commands.
-
-Noteworthy changes since V1:
-
-* The DT binding document for the NV3052C panel has been updated with
-  the feedback I got from V1. It now supports multiple power supplies.
-
-* Instead of using macros to define bus types, we now have an enum
-  mipi_dcs_bus_type.
-
-* The WARN_ONE_ONCE() that were in place to check that the host and
-  client drivers provided the DCS bus bitmask is gone, we just default
-  to DSI instead.
-
-* DBI/SPI driver code was moved out of drivers/gpu/drm/bridge/.
-
-* The DBI/SPI driver is registered as a driver by each client if needed,
-  they just call module_mpi_dbi_spi_driver(). This addresses the issue
-  in V1 that compatible strings had to be added to two different places.
-
-* NV3052C and ILI9341 panel drivers were updated to remove custom
-  backlight handling, call drm_panel_{disable,unprepare} on module exit,
-  and various small fixes.
-
-For a more detailed changelog, see the header of each individual patch.
-
-Paul Cercueil (6):
-  dt-bindings: display: Document NewVision NV3052C DT node
-  drm: dsi: Let host and device specify supported bus
-  drm: Add SPI DBI host driver
-  drm/tiny: Add TinyDRM for DSI/DBI panels
-  drm/panel: Add panel driver for NewVision NV3052C based LCDs
-  drm/panel: Add Ilitek ILI9341 DBI panel driver
-
- .../display/panel/newvision,nv3052c.yaml      | 100 ++++
- drivers/gpu/drm/Kconfig                       |   8 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/drm_mipi_dbi_spi.c            | 247 +++++++++
- drivers/gpu/drm/drm_mipi_dsi.c                |   9 +
- drivers/gpu/drm/panel/Kconfig                 |  18 +
- drivers/gpu/drm/panel/Makefile                |   2 +
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c  | 318 +++++++++++
- .../gpu/drm/panel/panel-newvision-nv3052c.c   | 510 ++++++++++++++++++
- drivers/gpu/drm/tiny/Kconfig                  |   8 +
- drivers/gpu/drm/tiny/Makefile                 |   1 +
- drivers/gpu/drm/tiny/tiny-dsi.c               | 266 +++++++++
- include/drm/drm_mipi_dbi_spi.h                |  42 ++
- include/drm/drm_mipi_dsi.h                    |  44 ++
- 14 files changed, 1574 insertions(+)
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ .../display/panel/newvision,nv3052c.yaml      | 100 ++++++++++++++++++
+ 1 file changed, 100 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
- create mode 100644 drivers/gpu/drm/drm_mipi_dbi_spi.c
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
- create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
- create mode 100644 drivers/gpu/drm/tiny/tiny-dsi.c
- create mode 100644 include/drm/drm_mipi_dbi_spi.h
 
+diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
+new file mode 100644
+index 000000000000..0468ddeaff2d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
+@@ -0,0 +1,100 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/newvision,nv3052c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NewVision NV3052C TFT LCD panel driver with SPI control bus
++
++maintainers:
++  - Paul Cercueil <paul@crapouillou.net>
++
++description: |
++  This is a IC driver for TFT panels, accepting a variety of input
++  streams that get adapted and scaled to the panel.
++
++  The panel must obey the rules for a SPI slave device as specified in
++  spi/spi-controller.yaml
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - leadtek,ltk035c5444t-spi
++
++      - const: newvision,nv3052c
++
++  reg:
++    maxItems: 1
++
++  reset-gpios: true
++  power-supply: true
++  backlight: true
++  port: true
++
++  vci-supply:
++    description:
++      Power supply for analog circuits (VCI=2.5V to 6V)
++
++  vddam-supply:
++    description:
++      Power Supply for MIPI regulator circuits (VDDAM=1.75V to 6V)
++
++  iovcc-supply:
++    description: |
++      External Power Supply for IO pads and other logic circuits
++      (IOVCC=1.65 to 3.6V)
++
++  pprech-supply:
++    description:
++      Pre-charge power for source (can be connected to IOVCC or VCI)
++
++  vpp-supply:
++    description:
++      Input power for NV memory programming (8.0V ~ 8.5V, typical=8.25V)
++
++required:
++  - compatible
++  - reg
++
++oneOf:
++  - required:
++    - power-supply
++  - required:
++    - vci-supply
++    - vddam-supply
++    - iovcc-supply
++    - pprech-supply
++    - vpp-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "leadtek,ltk035c5444t-spi", "newvision,nv3052c";
++            reg = <0>;
++
++            spi-max-frequency = <15000000>;
++            spi-3wire;
++            reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
++            backlight = <&backlight>;
++            power-supply = <&vcc>;
++
++            port {
++                panel_input: endpoint {
++                    remote-endpoint = <&panel_output>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.28.0
 
