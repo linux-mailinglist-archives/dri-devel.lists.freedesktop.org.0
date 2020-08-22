@@ -1,44 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB4E24E876
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 18:04:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F9F24E928
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 19:52:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F4F6E13D;
-	Sat, 22 Aug 2020 16:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E14256E0F1;
+	Sat, 22 Aug 2020 17:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5586E13D
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 16:04:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A4D6E0F1;
+ Sat, 22 Aug 2020 17:52:01 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id v15so2523325pgh.6;
+ Sat, 22 Aug 2020 10:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6pe9e9T2twD5/s7EIOh11y2F9Qe9Loy+s9jYVy+9GcQ=;
+ b=Kae2hkjtqCH1AQ3t4ujJSspPFilOMnRYd30SkprY1/HQlAqanO9AnTcVRpuFx1naL3
+ jvJZFzPdgU8U5LkBJm/ThV/bfJgxViwpzT6V4SCi+j8C5XVTSAc4aj5KtUHQbkKrhAyz
+ Ty3YxQXHJDRyx9UsRAW8ZRO5EEo4brOuXoOfRuP+k+TokknisUrOix68px/R6BRJ85yX
+ epWv9DFDNYSA8dfjoIwwCnaxGoZRbOt/r7Cqk9+Yv7OGX/fFEg6P+EEt2o77qyKYxTUn
+ PzMA0P23jZeEatVaUuDbqHNoI9LAx97fH3I1x1Z3sMhBr38uDZJTEsNtJGWgGj1iSH08
+ bZvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6pe9e9T2twD5/s7EIOh11y2F9Qe9Loy+s9jYVy+9GcQ=;
+ b=C/wzC9c7B3EAWk31ac7AxDRKEIvMokm/RwpzP0WE8CUQyXo7ZQWz6SByhbsebfV2gL
+ HLGl6JEUR587GAZ6S/AK/nL4KX218I+ck8uRqkfMl0DN+Q3/Z2fbIOc3Fszr8bw5N7If
+ l7BWK/tBPKeEmuqnASTDQA8FrkctQxNIfY/uYiBP0q44AELidP4vCudA8phqd65b94XP
+ Yp23fK1vfH3JsSwe5RYhAfdmQIep1V/mszdzKRTSNea8/AdPY0xvEdXHt8CfaeffW1N/
+ BxqfKqzaEtWkfn5naYm58tMtKlufmjAAhj6O2ayCTdaZMdQA2lChimDHaocTT3Ktt7nd
+ HX5A==
+X-Gm-Message-State: AOAM5303kd7pb1S2lqv37DmZmETK13jlZwW/2PnpmuZvipY8yRvDsT4F
+ Kwm7uSbM3+PJYmIVfH1CONrcDjUg8M74Cg==
+X-Google-Smtp-Source: ABdhPJxTIF8SEg5kQ7iKSi30Rkzh/VQZDW09KS3xVrB6DSdOUljq+/rLGKP+iwW+mx/5pQhPJb/Byg==
+X-Received: by 2002:a65:49c9:: with SMTP id t9mr526692pgs.256.1598118720669;
+ Sat, 22 Aug 2020 10:52:00 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ f19sm5496232pgn.10.2020.08.22.10.51.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Aug 2020 10:51:59 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208997] New: WARNING: CPU: 3 PID: 1633 at
- drivers/gpu/drm/drm_modeset_lock.c
-Date: Sat, 22 Aug 2020 16:04:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: martin.tk@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-208997-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] drm/msm: drop cache sync hack
+Date: Sat, 22 Aug 2020 10:52:54 -0700
+Message-Id: <20200822175254.1105377-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,62 +65,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208997
+From: Rob Clark <robdclark@chromium.org>
 
-            Bug ID: 208997
-           Summary: WARNING: CPU: 3 PID: 1633 at
-                    drivers/gpu/drm/drm_modeset_lock.c
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.8.0
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: martin.tk@gmx.com
-        Regression: No
+Now that it isn't causing problems to use dma_map/unmap, we can drop the
+hack of using dma_sync in certain cases.
 
-Created attachment 292059
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292059&action=edit
-stack trace that's showing up in syslog
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-Since upgrading to 5.8.0 version I noticed a stack trace popping up in my
-syslog. Actually, I haven't noticed it up until today.
-
-I haven't noticed anything in my hardware behaviour. All seems to be working as
-it used to.
-
-The stack trace keeps appearing on up until 5.8.3.
-
-I'm running Slackware current. I compiled the kernel myself, took it straight
-from kernel.org.
-
-Hardware: 
-CPU: Phenom2 x4 965
-motherboard is included in the log: Gigabyte Technology Co., Ltd.
-GA-MA770T-UD3/GA-MA770T-UD3
-gpu: Radon  RX550 (using kernel provided module).
-
-Attached are a few examples of the stack trace. Going by the date, the first
-few are on 5.8.0, the last are on 5.8.3.
-
-Cheers.
-Martin
-
-ps. I'm not sure about the component.
-
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index b2f49152b4d4..3cb7aeb93fd3 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -52,26 +52,16 @@ static void sync_for_device(struct msm_gem_object *msm_obj)
+ {
+ 	struct device *dev = msm_obj->base.dev->dev;
+ 
+-	if (get_dma_ops(dev) && IS_ENABLED(CONFIG_ARM64)) {
+-		dma_sync_sg_for_device(dev, msm_obj->sgt->sgl,
+-			msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+-	} else {
+-		dma_map_sg(dev, msm_obj->sgt->sgl,
+-			msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+-	}
++	dma_map_sg(dev, msm_obj->sgt->sgl,
++		msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+ }
+ 
+ static void sync_for_cpu(struct msm_gem_object *msm_obj)
+ {
+ 	struct device *dev = msm_obj->base.dev->dev;
+ 
+-	if (get_dma_ops(dev) && IS_ENABLED(CONFIG_ARM64)) {
+-		dma_sync_sg_for_cpu(dev, msm_obj->sgt->sgl,
+-			msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+-	} else {
+-		dma_unmap_sg(dev, msm_obj->sgt->sgl,
+-			msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+-	}
++	dma_unmap_sg(dev, msm_obj->sgt->sgl,
++		msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+ }
+ 
+ /* allocate pages from VRAM carveout, used when no IOMMU: */
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
