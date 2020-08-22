@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3B24E6CD
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:59:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F55724E6F5
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 12:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF64B6E453;
-	Sat, 22 Aug 2020 09:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161FA6E073;
+	Sat, 22 Aug 2020 10:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 403D46E44A;
- Sat, 22 Aug 2020 09:59:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id A21602A6042;
- Sat, 22 Aug 2020 11:59:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id LofK0gntuQk3; Sat, 22 Aug 2020 11:59:27 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 299122A6016;
- Sat, 22 Aug 2020 11:59:27 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1k9QJ4-000AKQ-Nb; Sat, 22 Aug 2020 11:59:26 +0200
-Subject: Re: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled
- whenever the CRTC is
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>,
- Leo Li <sunpeng.li@amd.com>
-References: <20200821165758.1106210-1-michel@daenzer.net>
- <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
-Date: Sat, 22 Aug 2020 11:59:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 041BB6E073
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 10:49:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C84E329E;
+ Sat, 22 Aug 2020 12:49:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1598093351;
+ bh=6ZFChGwd762tCp/370F4TKuD3RwxOvJ1DZ6OuHN5zuE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=itHGOg+ZIvnoNWi+pGYY56X7MbWkLwzzVhseWqf3t6LdEpx0eM0qu9Jwnx1mYU0LA
+ inxtDv8xCDX5FDPhV299gaj36blqWuqmApICGtJHTi6PcK+Pcqg05ap06jxodZY3WJ
+ RWte8cGrZs4xZQcPxiSDaIOA9a2tzD2ic4DSQcLI=
+Date: Sat, 22 Aug 2020 13:48:52 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH] drm/omap: Fix runtime PM imbalance in dsi_runtime_get
+Message-ID: <20200822104852.GA5966@pendragon.ideasonboard.com>
+References: <20200821074506.32359-1-dinghao.liu@zju.edu.cn>
+ <5123d7ae-f491-d2d2-788d-b5250ae9e31d@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <5123d7ae-f491-d2d2-788d-b5250ae9e31d@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,64 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dinghao Liu <dinghao.liu@zju.edu.cn>, David Airlie <airlied@linux.ie>,
+ kjlu@umn.edu, Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ zhengbin <zhengbin13@huawei.com>, Tony Lindgren <tony@atomide.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wOC0yMSA4OjA3IHAubS4sIEthemxhdXNrYXMsIE5pY2hvbGFzIHdyb3RlOgo+IE9u
-IDIwMjAtMDgtMjEgMTI6NTcgcC5tLiwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4+IEZyb206IE1p
-Y2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29tPgo+Pgo+PiBEb24ndCBjaGVjayBkcm1f
-Y3J0Y19zdGF0ZTo6YWN0aXZlIGZvciB0aGlzIGVpdGhlciwgcGVyIGl0cwo+PiBkb2N1bWVudGF0
-aW9uIGluIGluY2x1ZGUvZHJtL2RybV9jcnRjLmg6Cj4+Cj4+IMKgICogSGVuY2UgZHJpdmVycyBt
-dXN0IG5vdCBjb25zdWx0IEBhY3RpdmUgaW4gdGhlaXIgdmFyaW91cwo+PiDCoCAqICZkcm1fbW9k
-ZV9jb25maWdfZnVuY3MuYXRvbWljX2NoZWNrIGNhbGxiYWNrIHRvIHJlamVjdCBhbiBhdG9taWMK
-Pj4gwqAgKiBjb21taXQuCj4+Cj4+IFRoZSBhdG9taWMgaGVscGVycyBkaXNhYmxlIHRoZSBDUlRD
-IGFzIG5lZWRlZCBmb3IgZGlzYWJsaW5nIHRoZSBwcmltYXJ5Cj4+IHBsYW5lLgo+Pgo+PiBUaGlz
-IHByZXZlbnRzIGF0IGxlYXN0IHRoZSBmb2xsb3dpbmcgcHJvYmxlbXMgaWYgdGhlIHByaW1hcnkg
-cGxhbmUgZ2V0cwo+PiBkaXNhYmxlZCAoZS5nLiBkdWUgdG8gZGVzdHJveWluZyB0aGUgRkIgYXNz
-aWduZWQgdG8gdGhlIHByaW1hcnkgcGxhbmUsCj4+IGFzIGhhcHBlbnMgZS5nLiB3aXRoIG11dHRl
-ciBpbiBXYXlsYW5kIG1vZGUpOgo+Pgo+PiAqIFRvZ2dsaW5nIENSVEMgYWN0aXZlIHRvIDEgZmFp
-bGVkIGlmIHRoZSBjdXJzb3IgcGxhbmUgd2FzIGVuYWJsZWQKPj4gwqDCoCAoZS5nLiB2aWEgbGVn
-YWN5IERQTVMgcHJvcGVydHkgJiBjdXJzb3IgaW9jdGwpLgo+PiAqIEVuYWJsaW5nIHRoZSBjdXJz
-b3IgcGxhbmUgZmFpbGVkLCBlLmcuIHZpYSB0aGUgbGVnYWN5IGN1cnNvciBpb2N0bC4KPiAKPiBX
-ZSBwcmV2aW91c2x5IGhhZCB0aGUgcmVxdWlyZW1lbnQgdGhhdCB0aGUgcHJpbWFyeSBwbGFuZSBt
-dXN0IGJlIGVuYWJsZWQKPiBidXQgc29tZSB1c2Vyc3BhY2UgZXhwZWN0cyB0aGF0IHRoZXkgY2Fu
-IGVuYWJsZSBqdXN0IHRoZSBvdmVybGF5IHBsYW5lCj4gd2l0aG91dCBhbnl0aGluZyBlbHNlLgo+
-IAo+IEkgdGhpbmsgdGhlIGNocm9tdWl1bW9zIGF0b21pY3Rlc3QgdmFsaWRhdGVzIHRoYXQgdGhp
-cyB3b3JrcyBhcyB3ZWxsOgo+IAo+IFNvIGlzIERSTSBnb2luZyBmb3J3YXJkIHRoZW4gd2l0aCB0
-aGUgZXhwZWN0YXRpb24gdGhhdCB0aGlzIGlzIHdyb25nCj4gYmVoYXZpb3IgZnJvbSB1c2Vyc3Bh
-Y2U/Cj4gCj4gV2UgcmVxdWlyZSBhdCBsZWFzdCBvbmUgcGxhbmUgdG8gYmUgZW5hYmxlZCB0byBk
-aXNwbGF5IGEgY3Vyc29yLCBidXQgaXQKPiBkb2Vzbid0IG5lY2Vzc2FyaWx5IG5lZWQgdG8gYmUg
-dGhlIHByaW1hcnkuCgpJdCdzIGEgInBpY2sgeW91ciBwb2lzb24iIHNpdHVhdGlvbjoKCjEpIEN1
-cnJlbnRseSB0aGUgY2hlY2tzIGFyZSBpbnZhbGlkIChhdG9taWNfY2hlY2sgbXVzdCBub3QgZGVj
-aWRlIGJhc2VkCm9uIGRybV9jcnRjX3N0YXRlOjphY3RpdmUpLCBhbmQgaXQncyBlYXN5IGZvciBs
-ZWdhY3kgS01TIHVzZXJzcGFjZSB0bwphY2NpZGVudGFsbHkgaGl0IGVycm9ycyB0cnlpbmcgdG8g
-ZW5hYmxlL21vdmUgdGhlIGN1cnNvciBvciBzd2l0Y2ggRFBNUwpvZmYg4oaSIG9uLgoKMikgQWNj
-dXJhdGVseSByZWplY3Rpbmcgb25seSBhdG9taWMgc3RhdGVzIHdoZXJlIHRoZSBjdXJzb3IgcGxh
-bmUgaXMKZW5hYmxlZCBidXQgYWxsIG90aGVyIHBsYW5lcyBhcmUgb2ZmIHdvdWxkIGJyZWFrIHRo
-ZSBLTVMgaGVscGVyIGNvZGUsCndoaWNoIGNhbiBvbmx5IGRlYWwgd2l0aCB0aGUgIkNSVEMgb24g
-JiBwcmltYXJ5IHBsYW5lIG9mZiBpcyBub3QKYWxsb3dlZCIgY2FzZSBzcGVjaWZpY2FsbHkuCgoz
-KSBUaGlzIHBhdGNoIGFkZHJlc3NlcyAxKSAmIDIpIGJ1dCBtYXkgYnJlYWsgZXhpc3RpbmcgYXRv
-bWljIHVzZXJzcGFjZQp3aGljaCB3YW50cyB0byBlbmFibGUgYW4gb3ZlcmxheSBwbGFuZSB3aGls
-ZSBkaXNhYmxpbmcgdGhlIHByaW1hcnkgcGxhbmUuCgoKSSBkbyB0aGluayBpbiBwcmluY2lwbGUg
-YXRvbWljIHVzZXJzcGFjZSBpcyBleHBlY3RlZCB0byBoYW5kbGUgY2FzZSAzKQphbmQgbGVhdmUg
-dGhlIHByaW1hcnkgcGxhbmUgZW5hYmxlZC4gSG93ZXZlciwgdGhpcyBpcyBub3QgaWRlYWwgZnJv
-bSBhbgplbmVyZ3kgY29uc3VtcHRpb24gUG9WLiBUaGVyZWZvcmUsIGhlcmUncyBhbm90aGVyIGlk
-ZWEgZm9yIGEgcG9zc2libGUKd2F5IG91dCBvZiB0aGlzIHF1YWdtaXJlOgoKYW1kZ3B1X2RtIGRv
-ZXMgbm90IHJlamVjdCBhbnkgYXRvbWljIHN0YXRlcyBiYXNlZCBvbiB3aGljaCBwbGFuZXMgYXJl
-CmVuYWJsZWQgaW4gaXQuIElmIHRoZSBjdXJzb3IgcGxhbmUgaXMgZW5hYmxlZCBidXQgYWxsIG90
-aGVyIHBsYW5lcyBhcmUKb2ZmLCBhbWRncHVfZG0gaW50ZXJuYWxseSBlaXRoZXI6CgphKSBFbmFi
-bGVzIGFuIG92ZXJsYXkgcGxhbmUgYW5kIG1ha2VzIGl0IGludmlzaWJsZSwgZS5nLiBieSBhc3Np
-Z25pbmcgYQptaW5pbXVtIHNpemUgRkIgd2l0aCBhbHBoYSA9IDAuCgpiKSBFbmFibGVzIHRoZSBw
-cmltYXJ5IHBsYW5lIGFuZCBhc3NpZ25zIGEgbWluaW11bSBzaXplIEZCIChzY2FsZWQgdXAgdG8K
-dGhlIHJlcXVpcmVkIHNpemUpIGNvbnRhaW5pbmcgYWxsIGJsYWNrLCBwb3NzaWJseSB1c2luZyBj
-b21wcmVzc2lvbi4KKFRyeWluZyB0byBtaW5pbWl6ZSB0aGUgbWVtb3J5IGJhbmR3aWR0aCkKCgpE
-b2VzIGVpdGhlciBvZiB0aGVzZSBzZWVtIGZlYXNpYmxlPyBJZiBib3RoIGRvLCB3aGljaCBvbmUg
-d291bGQgYmUKcHJlZmVyYWJsZT8KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAg
-ICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2Fy
-ZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9w
-ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Tomi,
+
+On Fri, Aug 21, 2020 at 03:06:59PM +0300, Tomi Valkeinen wrote:
+> On 21/08/2020 10:45, Dinghao Liu wrote:
+> > pm_runtime_get_sync() increments the runtime PM usage counter
+> > even when it returns an error code. However, users of
+> > dsi_runtime_get(), a direct wrapper of pm_runtime_get_sync(),
+> > assume that PM usage counter will not change on error. Thus a
+> > pairing decrement is needed on the error handling path to keep
+> > the counter balanced.
+> > 
+> > Fixes: 4fbafaf371be7 ("OMAP: DSS2: Use PM runtime & HWMOD support")
+> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> > ---
+> >  drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > index eeccf40bae41..973bfa14a104 100644
+> > --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > @@ -1112,8 +1112,11 @@ static int dsi_runtime_get(struct dsi_data *dsi)
+> >  	DSSDBG("dsi_runtime_get\n");
+> >  
+> >  	r = pm_runtime_get_sync(dsi->dev);
+> > -	WARN_ON(r < 0);
+> > -	return r < 0 ? r : 0;
+> > +	if (WARN_ON(r < 0)) {
+> > +		pm_runtime_put_noidle(dsi->dev);
+> > +		return r;
+> > +	}
+> > +	return 0;
+> >  }
+> 
+> Thanks! Good catch. I think this is broken in all the other modules in omapdrm too (e.g. dispc.c,
+> venc.c, etc).
+> 
+> Would you like to update the patch to cover the whole omapdrm?
+
+Just for yoru information, there has been quite a few similar patches
+submitted all across the kernel. I believe this is an issue of the
+pm_runtime_get_sync() API, which really shouldn't require a put() when
+it fails. For drivers that really don't expect pm_runtime_get_sync() to
+fail (no I2C access to a regulator for instance, only SoC-internal
+operations) I've instead decided to ignore the error completely. I don't
+think poluting the whole kernel code base with this kind of "fixes" is a
+good idea.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
