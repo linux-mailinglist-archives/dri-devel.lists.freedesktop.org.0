@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F7A24E6C4
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3B24E6CD
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Aug 2020 11:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B896E447;
-	Sat, 22 Aug 2020 09:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF64B6E453;
+	Sat, 22 Aug 2020 09:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC496E447;
- Sat, 22 Aug 2020 09:47:37 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 38C4680516;
- Sat, 22 Aug 2020 11:47:35 +0200 (CEST)
-Date: Sat, 22 Aug 2020 11:47:33 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "Ing. Josua Mayer" <josua.mayer@jm0.eu>
-Subject: Re: etnaviv crashes on dove cubox since 5.7.0 with external abort on
- non-linefetch (0x1808) at 0xf09c8000
-Message-ID: <20200822094733.GE430436@ravnborg.org>
-References: <a26c4ca5-483d-2244-976e-505e2ac28df0@jm0.eu>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 403D46E44A;
+ Sat, 22 Aug 2020 09:59:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id A21602A6042;
+ Sat, 22 Aug 2020 11:59:27 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id LofK0gntuQk3; Sat, 22 Aug 2020 11:59:27 +0200 (CEST)
+Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id 299122A6016;
+ Sat, 22 Aug 2020 11:59:27 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1k9QJ4-000AKQ-Nb; Sat, 22 Aug 2020 11:59:26 +0200
+Subject: Re: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled
+ whenever the CRTC is
+To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>,
+ Leo Li <sunpeng.li@amd.com>
+References: <20200821165758.1106210-1-michel@daenzer.net>
+ <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
+Date: Sat, 22 Aug 2020 11:59:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a26c4ca5-483d-2244-976e-505e2ac28df0@jm0.eu>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8
- a=c-y2BjIB62eLKLXEq0IA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+In-Reply-To: <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,60 +52,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Josua.
-
-On Fri, Aug 21, 2020 at 03:25:36PM +0200, Ing. Josua Mayer wrote:
-> Dear Maintainers, readers ...
-> 
-> While updating the solidrun cubox (dove) running debian from 5.6 to 5.7
-> I came across a new crash in etnaviv that did not occur before - and is
-> also present in 5.8.0:
-> 
-> [   33.042453] etnaviv etnaviv: bound f1840000.gpu (ops gpu_ops [etnaviv])
-> [   33.049195] etnaviv-gpu f1840000.gpu: model: GC600, revision: 19
-> [   33.055216] 8<--- cut here ---
-> [   33.058257] Unhandled fault: external abort on non-linefetch (0x1808)
-> at 0xf09c8000
-> [   33.065878] pgd = 3adc9ddb
-> [   33.068570] [f09c8000] *pgd=2e83f811, *pte=f1840653, *ppte=f1840453
-> [   33.074825] Internal error: : 1808 [#1] SMP ARM
-> ... full logfile attached
-> 
-> A lengthy git bisect revealed:
-> 815e45bbd4d3b00ddb2af017fbdab25110ed13a4 is the first bad commit
-> commit 815e45bbd4d3b00ddb2af017fbdab25110ed13a4
-> Author: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Date:   Mon Jan 6 16:16:47 2020 +0100
-> 
->     drm/etnaviv: determine product, customer and eco id
-> 
->     They will be used for extended HWDB support.
-> 
->     Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
->     Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> 
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 ++++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  6 +++---
->  2 files changed, 13 insertions(+), 4 deletions(-)
-> 
-> Since I understand neither the crash nor the patch that triggers it, I
-> am posting this here in front of more trained eyes ;)
-
-Good news it is already fixed, but patch is not upstream.
-Could you try this patch and report back, especilly if the patch does
-not help.
-
-https://lore.kernel.org/dri-devel/20200821181731.94852-1-christian.gmeiner@gmail.com/
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wOC0yMSA4OjA3IHAubS4sIEthemxhdXNrYXMsIE5pY2hvbGFzIHdyb3RlOgo+IE9u
+IDIwMjAtMDgtMjEgMTI6NTcgcC5tLiwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4+IEZyb206IE1p
+Y2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29tPgo+Pgo+PiBEb24ndCBjaGVjayBkcm1f
+Y3J0Y19zdGF0ZTo6YWN0aXZlIGZvciB0aGlzIGVpdGhlciwgcGVyIGl0cwo+PiBkb2N1bWVudGF0
+aW9uIGluIGluY2x1ZGUvZHJtL2RybV9jcnRjLmg6Cj4+Cj4+IMKgICogSGVuY2UgZHJpdmVycyBt
+dXN0IG5vdCBjb25zdWx0IEBhY3RpdmUgaW4gdGhlaXIgdmFyaW91cwo+PiDCoCAqICZkcm1fbW9k
+ZV9jb25maWdfZnVuY3MuYXRvbWljX2NoZWNrIGNhbGxiYWNrIHRvIHJlamVjdCBhbiBhdG9taWMK
+Pj4gwqAgKiBjb21taXQuCj4+Cj4+IFRoZSBhdG9taWMgaGVscGVycyBkaXNhYmxlIHRoZSBDUlRD
+IGFzIG5lZWRlZCBmb3IgZGlzYWJsaW5nIHRoZSBwcmltYXJ5Cj4+IHBsYW5lLgo+Pgo+PiBUaGlz
+IHByZXZlbnRzIGF0IGxlYXN0IHRoZSBmb2xsb3dpbmcgcHJvYmxlbXMgaWYgdGhlIHByaW1hcnkg
+cGxhbmUgZ2V0cwo+PiBkaXNhYmxlZCAoZS5nLiBkdWUgdG8gZGVzdHJveWluZyB0aGUgRkIgYXNz
+aWduZWQgdG8gdGhlIHByaW1hcnkgcGxhbmUsCj4+IGFzIGhhcHBlbnMgZS5nLiB3aXRoIG11dHRl
+ciBpbiBXYXlsYW5kIG1vZGUpOgo+Pgo+PiAqIFRvZ2dsaW5nIENSVEMgYWN0aXZlIHRvIDEgZmFp
+bGVkIGlmIHRoZSBjdXJzb3IgcGxhbmUgd2FzIGVuYWJsZWQKPj4gwqDCoCAoZS5nLiB2aWEgbGVn
+YWN5IERQTVMgcHJvcGVydHkgJiBjdXJzb3IgaW9jdGwpLgo+PiAqIEVuYWJsaW5nIHRoZSBjdXJz
+b3IgcGxhbmUgZmFpbGVkLCBlLmcuIHZpYSB0aGUgbGVnYWN5IGN1cnNvciBpb2N0bC4KPiAKPiBX
+ZSBwcmV2aW91c2x5IGhhZCB0aGUgcmVxdWlyZW1lbnQgdGhhdCB0aGUgcHJpbWFyeSBwbGFuZSBt
+dXN0IGJlIGVuYWJsZWQKPiBidXQgc29tZSB1c2Vyc3BhY2UgZXhwZWN0cyB0aGF0IHRoZXkgY2Fu
+IGVuYWJsZSBqdXN0IHRoZSBvdmVybGF5IHBsYW5lCj4gd2l0aG91dCBhbnl0aGluZyBlbHNlLgo+
+IAo+IEkgdGhpbmsgdGhlIGNocm9tdWl1bW9zIGF0b21pY3Rlc3QgdmFsaWRhdGVzIHRoYXQgdGhp
+cyB3b3JrcyBhcyB3ZWxsOgo+IAo+IFNvIGlzIERSTSBnb2luZyBmb3J3YXJkIHRoZW4gd2l0aCB0
+aGUgZXhwZWN0YXRpb24gdGhhdCB0aGlzIGlzIHdyb25nCj4gYmVoYXZpb3IgZnJvbSB1c2Vyc3Bh
+Y2U/Cj4gCj4gV2UgcmVxdWlyZSBhdCBsZWFzdCBvbmUgcGxhbmUgdG8gYmUgZW5hYmxlZCB0byBk
+aXNwbGF5IGEgY3Vyc29yLCBidXQgaXQKPiBkb2Vzbid0IG5lY2Vzc2FyaWx5IG5lZWQgdG8gYmUg
+dGhlIHByaW1hcnkuCgpJdCdzIGEgInBpY2sgeW91ciBwb2lzb24iIHNpdHVhdGlvbjoKCjEpIEN1
+cnJlbnRseSB0aGUgY2hlY2tzIGFyZSBpbnZhbGlkIChhdG9taWNfY2hlY2sgbXVzdCBub3QgZGVj
+aWRlIGJhc2VkCm9uIGRybV9jcnRjX3N0YXRlOjphY3RpdmUpLCBhbmQgaXQncyBlYXN5IGZvciBs
+ZWdhY3kgS01TIHVzZXJzcGFjZSB0bwphY2NpZGVudGFsbHkgaGl0IGVycm9ycyB0cnlpbmcgdG8g
+ZW5hYmxlL21vdmUgdGhlIGN1cnNvciBvciBzd2l0Y2ggRFBNUwpvZmYg4oaSIG9uLgoKMikgQWNj
+dXJhdGVseSByZWplY3Rpbmcgb25seSBhdG9taWMgc3RhdGVzIHdoZXJlIHRoZSBjdXJzb3IgcGxh
+bmUgaXMKZW5hYmxlZCBidXQgYWxsIG90aGVyIHBsYW5lcyBhcmUgb2ZmIHdvdWxkIGJyZWFrIHRo
+ZSBLTVMgaGVscGVyIGNvZGUsCndoaWNoIGNhbiBvbmx5IGRlYWwgd2l0aCB0aGUgIkNSVEMgb24g
+JiBwcmltYXJ5IHBsYW5lIG9mZiBpcyBub3QKYWxsb3dlZCIgY2FzZSBzcGVjaWZpY2FsbHkuCgoz
+KSBUaGlzIHBhdGNoIGFkZHJlc3NlcyAxKSAmIDIpIGJ1dCBtYXkgYnJlYWsgZXhpc3RpbmcgYXRv
+bWljIHVzZXJzcGFjZQp3aGljaCB3YW50cyB0byBlbmFibGUgYW4gb3ZlcmxheSBwbGFuZSB3aGls
+ZSBkaXNhYmxpbmcgdGhlIHByaW1hcnkgcGxhbmUuCgoKSSBkbyB0aGluayBpbiBwcmluY2lwbGUg
+YXRvbWljIHVzZXJzcGFjZSBpcyBleHBlY3RlZCB0byBoYW5kbGUgY2FzZSAzKQphbmQgbGVhdmUg
+dGhlIHByaW1hcnkgcGxhbmUgZW5hYmxlZC4gSG93ZXZlciwgdGhpcyBpcyBub3QgaWRlYWwgZnJv
+bSBhbgplbmVyZ3kgY29uc3VtcHRpb24gUG9WLiBUaGVyZWZvcmUsIGhlcmUncyBhbm90aGVyIGlk
+ZWEgZm9yIGEgcG9zc2libGUKd2F5IG91dCBvZiB0aGlzIHF1YWdtaXJlOgoKYW1kZ3B1X2RtIGRv
+ZXMgbm90IHJlamVjdCBhbnkgYXRvbWljIHN0YXRlcyBiYXNlZCBvbiB3aGljaCBwbGFuZXMgYXJl
+CmVuYWJsZWQgaW4gaXQuIElmIHRoZSBjdXJzb3IgcGxhbmUgaXMgZW5hYmxlZCBidXQgYWxsIG90
+aGVyIHBsYW5lcyBhcmUKb2ZmLCBhbWRncHVfZG0gaW50ZXJuYWxseSBlaXRoZXI6CgphKSBFbmFi
+bGVzIGFuIG92ZXJsYXkgcGxhbmUgYW5kIG1ha2VzIGl0IGludmlzaWJsZSwgZS5nLiBieSBhc3Np
+Z25pbmcgYQptaW5pbXVtIHNpemUgRkIgd2l0aCBhbHBoYSA9IDAuCgpiKSBFbmFibGVzIHRoZSBw
+cmltYXJ5IHBsYW5lIGFuZCBhc3NpZ25zIGEgbWluaW11bSBzaXplIEZCIChzY2FsZWQgdXAgdG8K
+dGhlIHJlcXVpcmVkIHNpemUpIGNvbnRhaW5pbmcgYWxsIGJsYWNrLCBwb3NzaWJseSB1c2luZyBj
+b21wcmVzc2lvbi4KKFRyeWluZyB0byBtaW5pbWl6ZSB0aGUgbWVtb3J5IGJhbmR3aWR0aCkKCgpE
+b2VzIGVpdGhlciBvZiB0aGVzZSBzZWVtIGZlYXNpYmxlPyBJZiBib3RoIGRvLCB3aGljaCBvbmUg
+d291bGQgYmUKcHJlZmVyYWJsZT8KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAg
+ICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2Fy
+ZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9w
+ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
