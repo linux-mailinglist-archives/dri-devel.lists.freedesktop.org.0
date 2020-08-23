@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A409C24ECD5
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 12:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20D224ECDD
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 12:46:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7E589E5A;
-	Sun, 23 Aug 2020 10:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D6C6E4C5;
+	Sun, 23 Aug 2020 10:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C4789E5A
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 10:46:24 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id v9so6452746ljk.6
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 03:46:24 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033C589E5A
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 10:46:26 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id w14so6447812ljj.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 03:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZMwPo9+hRO7oQL+93/x+I1LlDVHjud/UjckxUZ0BGv4=;
- b=Xae7aSPx0pl6ZRpM7cpzpmzC5ZtR3hgHEiGzAtqSyIWS1VYH7XuMp/nMpQqJnCiDrD
- BJjCXLlzXYm2NO4PEarNp5sCtemqFIX3z2s5DFQ16HM3sycON3vKBgNdzVJVVlwunuFR
- xZwTqdlkpyfKaY8gT4cUMXmNzcNNKD7qT7ExFDPpwi2HXyDrSq7gUmeBpba0Sj8fRTZS
- 8hZMkM2zq8iK8dGNIkJ/5c/+VptPh2ATtliZJ6Em8rUkQFhf3Oab61REEoUrpY0Li/xB
- n1QmY18edm/pDzNosGl0n3MJWxoGRw7FZdjKVv2mkZi4EeQrZ685+OWYG7DVDGeCTjIu
- VnFg==
+ bh=7l6jdZamlqEsFmZWjsOIxeaEnRE65B410R46FIxqF2Y=;
+ b=NgHujceRWQ7T502W1AGoMKPrxJeM7G6girgvVlbeV+j3Sw48PkyeztD30TGatNEnzH
+ RXh4XtKCx3Mvu5JeNREsvGW5q88XeG1KLo5g/aEyJX0/wD7oVgMOd0DGH/uhqiHMA39A
+ SA58BXG+lwmz3eShi+x9CsrarJsjw6qP/B/gVU1dndE9mhD9DJdvMjpq/RgNSbU7EqMx
+ atKR5j5wgVu3joTuCYQkwRA4T/YMiGk7G3EXM3KvbIuRanBR8X+BHCPqQrP64A5AfqLG
+ 9qwl2vU1M8BLf2x+SKUMrsCx+7Wl1SavV6CoS5P7sCcX/X340IJo55lfN0ROoxhTnQdS
+ cfTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZMwPo9+hRO7oQL+93/x+I1LlDVHjud/UjckxUZ0BGv4=;
- b=H1L+tJIa/DFygOCos7Yyqhu/rWZg128MATyLiHTrMiOITklrOmWUU0sFcdMXxazku/
- tw5fSLtgwLMR3nANvxq5PmslVamrkqrqhTURegci69Mz19Op7F3c7IFCMkRAv/GhMKom
- BUsyO8HvipX2UdTwvMjwtg6GR/GYtGDZebi6+HN8qnH4JDCCjhpWW59VnyimZIlbMKlp
- WIW2hCDRcRT/OkxAeVelc/s2n68TtMOTVNRyd8AL7YpDWLuqDPODxDV6DnraPUq1NHJE
- KpxdL6B3cXR6W5lYHucqTEE5E7HHU86612jDR/So8nZjSB8hyXWaQkfsxi91g3nn8ypk
- Ie4Q==
-X-Gm-Message-State: AOAM532y728+6b5/S9dvKEVDZEqt6CbLTWXR2bZaQP2O+D9OAl9Iz9IB
- oLtgW/myjPRSOkQqDXEkWkhDMM7/SE5T4A==
-X-Google-Smtp-Source: ABdhPJw1LKNEImPCVBOA82i4UqJGro+ciuWODHdT0OvtGuUxbP/oFooR+7QmF3xEnFcZKwASePDbiw==
-X-Received: by 2002:a2e:b6c3:: with SMTP id m3mr455738ljo.450.1598179582921;
- Sun, 23 Aug 2020 03:46:22 -0700 (PDT)
+ bh=7l6jdZamlqEsFmZWjsOIxeaEnRE65B410R46FIxqF2Y=;
+ b=ufxaH+zPtSDmstN82K4ZjJSlWdqnGO+Gb1EFwdi4oN8Y5zeRkuNO0cd6Oo9yagEDiI
+ V1J0Hgb4gzpohGd520OfkK2atxD9KtWbkk4l6wInbagT7VTNJsKHM9Lc3Ws76xR5ZWVj
+ nCxhJLqpY4JWuzBFq178MScMixyrfoWcbb2ssIJ38pQPoF8D02l0vpfehetPsC5r9+/8
+ UmAF5v8qnnslENDp6sXoqg09v5OTiZAlixrk9gnGIIY5ZcCXQaLkMrp3YjIlc81RIeHF
+ jPcU76nHtrCib+s8IlWCXdvtTPvCUbrF+8Znbz5Ryd/hfpturHZwTx7zWoWzBOOQzttT
+ xKgA==
+X-Gm-Message-State: AOAM530+cFU2+rFBEhFpcPAEK4mNHCHA1K78rImj9gDvCbIruUy9NyIM
+ MKdsv+zoldJZ4fSv/d9wokISRH5vSboavQ==
+X-Google-Smtp-Source: ABdhPJya6ritx1IFagTY3VZYCPCibTXPllnn2aEVUQ08oCMufSBAE+kemNZ/qhACJp/hJuVtbECZ8w==
+X-Received: by 2002:a2e:8197:: with SMTP id e23mr483132ljg.406.1598179584290; 
+ Sun, 23 Aug 2020 03:46:24 -0700 (PDT)
 Received: from saturn.localdomain ([2a00:fd00:805f:db00:2509:20d7:e461:9c16])
  by smtp.gmail.com with ESMTPSA id
- h13sm1516301lji.134.2020.08.23.03.46.21
+ h13sm1516301lji.134.2020.08.23.03.46.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Aug 2020 03:46:22 -0700 (PDT)
+ Sun, 23 Aug 2020 03:46:23 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v2 23/24] drm/omap: display: Backlight update
-Date: Sun, 23 Aug 2020 12:45:31 +0200
-Message-Id: <20200823104532.1024798-24-sam@ravnborg.org>
+Subject: [PATCH v2 24/24] drm/shmobile: Backlight update
+Date: Sun, 23 Aug 2020 12:45:32 +0200
+Message-Id: <20200823104532.1024798-25-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200823104532.1024798-1-sam@ravnborg.org>
 References: <20200823104532.1024798-1-sam@ravnborg.org>
@@ -69,105 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-renesas-soc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Introduce backlight_{enable/disable)
 - Use get/set methods for backlight_properties
-- Drop redundant get_brightness() implementation
-  The default implementation return the current brightness value
 - Use macro for backlight initialization
 
-v2:
-  - Drop backlight_update() call as it is redundant (Sebastian)
-
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Zheng Bin <zhengbin13@huawei.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 37 +++----------------
- 1 file changed, 6 insertions(+), 31 deletions(-)
+ .../gpu/drm/shmobile/shmob_drm_backlight.c    | 20 +++++++------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-index 3484b5d4a91c..39b3a7affbc8 100644
---- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-+++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-@@ -110,17 +110,10 @@ static void dsicm_bl_power(struct panel_drv_data *ddata, bool enable)
- 	else
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
+index f6628a5ee95f..634b49e50ded 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
+@@ -18,13 +18,8 @@ static int shmob_drm_backlight_update(struct backlight_device *bdev)
+ 	struct shmob_drm_connector *scon = bl_get_data(bdev);
+ 	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
+ 	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
+-	int brightness = bdev->props.brightness;
+ 
+-	if (bdev->props.power != FB_BLANK_UNBLANK ||
+-	    bdev->props.state & BL_CORE_SUSPENDED)
+-		brightness = 0;
+-
+-	return bdata->set_brightness(brightness);
++	return bdata->set_brightness(backlight_get_brightness(bdev));
+ }
+ 
+ static int shmob_drm_backlight_get_brightness(struct backlight_device *bdev)
+@@ -47,9 +42,10 @@ void shmob_drm_backlight_dpms(struct shmob_drm_connector *scon, int mode)
+ 	if (scon->backlight == NULL)
  		return;
  
--	if (enable) {
--		backlight->props.fb_blank = FB_BLANK_UNBLANK;
--		backlight->props.state = ~(BL_CORE_FBBLANK | BL_CORE_SUSPENDED);
--		backlight->props.power = FB_BLANK_UNBLANK;
--	} else {
--		backlight->props.fb_blank = FB_BLANK_NORMAL;
--		backlight->props.power = FB_BLANK_POWERDOWN;
--		backlight->props.state |= BL_CORE_FBBLANK | BL_CORE_SUSPENDED;
--	}
--
--	backlight_update_status(backlight);
-+	if (enable)
-+		backlight_enable(backlight);
+-	scon->backlight->props.power = mode == DRM_MODE_DPMS_ON
+-				     ? FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
+-	backlight_update_status(scon->backlight);
++	if (mode == DRM_MODE_DPMS_ON)
++		backlight_enable(scon->backlight);
 +	else
-+		backlight_disable(backlight);
++		backlight_disable(scon->backlight);
  }
  
- static void hw_guard_start(struct panel_drv_data *ddata, int guard_msec)
-@@ -363,13 +356,7 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
- 	struct panel_drv_data *ddata = dev_get_drvdata(&dev->dev);
- 	struct omap_dss_device *src = ddata->src;
- 	int r = 0;
--	int level;
--
--	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
--			dev->props.power == FB_BLANK_UNBLANK)
--		level = dev->props.brightness;
--	else
--		level = 0;
-+	int level = backlight_get_brightness(dev);
+ int shmob_drm_backlight_init(struct shmob_drm_connector *scon)
+@@ -59,21 +55,19 @@ int shmob_drm_backlight_init(struct shmob_drm_connector *scon)
+ 	struct drm_connector *connector = &scon->connector;
+ 	struct drm_device *dev = connector->dev;
+ 	struct backlight_device *backlight;
++	DECLARE_BACKLIGHT_INIT_RAW(props, bdata->max_brightness, bdata->max_brightness);
  
- 	dev_dbg(&ddata->pdev->dev, "update brightness to %d\n", level);
+ 	if (!bdata->max_brightness)
+ 		return 0;
  
-@@ -390,17 +377,7 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
- 	return r;
- }
+ 	backlight = backlight_device_register(bdata->name, dev->dev, scon,
+-					      &shmob_drm_backlight_ops, NULL);
++					      &shmob_drm_backlight_ops, &props);
+ 	if (IS_ERR(backlight)) {
+ 		dev_err(dev->dev, "unable to register backlight device: %ld\n",
+ 			PTR_ERR(backlight));
+ 		return PTR_ERR(backlight);
+ 	}
  
--static int dsicm_bl_get_intensity(struct backlight_device *dev)
--{
--	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
--			dev->props.power == FB_BLANK_UNBLANK)
--		return dev->props.brightness;
--
--	return 0;
--}
--
- static const struct backlight_ops dsicm_bl_ops = {
--	.get_brightness = dsicm_bl_get_intensity,
- 	.update_status  = dsicm_bl_update_status,
- };
+-	backlight->props.max_brightness = bdata->max_brightness;
+-	backlight->props.brightness = bdata->max_brightness;
+-	backlight->props.power = FB_BLANK_POWERDOWN;
+ 	backlight_update_status(backlight);
  
-@@ -1305,9 +1282,7 @@ static int dsicm_probe(struct platform_device *pdev)
- 	dsicm_hw_reset(ddata);
- 
- 	if (ddata->use_dsi_backlight) {
--		struct backlight_properties props = { 0 };
--		props.max_brightness = 255;
--		props.type = BACKLIGHT_RAW;
-+		DECLARE_BACKLIGHT_INIT_RAW(props, 0, 255);
- 
- 		bldev = devm_backlight_device_register(dev, dev_name(dev),
- 			dev, ddata, &dsicm_bl_ops, &props);
+ 	scon->backlight = backlight;
 -- 
 2.25.1
 
