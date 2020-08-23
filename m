@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C6724F2CF
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 08:56:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 165AB24F2D5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 08:56:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411F66EC70;
-	Mon, 24 Aug 2020 06:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2E76EC80;
+	Mon, 24 Aug 2020 06:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4523B6E519
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 19:44:04 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id l2so4941311wrc.7
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 12:44:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=+y66MqggCakjVuRG4cFz30VjWieYM9CuDcuOFxkR0Z0=;
- b=afpLZoVb9S8UX5sZ9/41+hXwLGbgiEtiHOm6f0p2P8Oh3Af7Yx/no4zrBKzKnt0F0f
- PPIT2K/9GZAWs+wbhuu+TJwBZ6LEfRYnHvZkTfv64n7pZrcffX0YS/x5cTaijqlkLzZP
- mKJR9PFZG+yGLfMKAMdJc1mackvLjGEjbz/zDBoz0qUeFGlQwPfhnSoiwq8//Z9UlFNn
- O/MvoekqmF7B2xPoXRW2cYPtM3YApr7keQHyrArRZHDI2VQmH060XReevrwNCxSlfr9i
- GY9+091wIX9sfA+wZSOhUMdgB7fs5OKUTLNqWZBlqnGeandc5Snv8rrJU3MZk9+ODRaa
- qQgw==
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6BAD6E150
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 06:58:27 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id q17so4349790ile.22
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Aug 2020 23:58:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+y66MqggCakjVuRG4cFz30VjWieYM9CuDcuOFxkR0Z0=;
- b=t6/3nd+GuNTyIK7Qjh7wXfAN903w/53tzCPe3X4pbBeeKl+YiyqRhF0y6opscMmKLI
- LbbFNyfiMjYe+G1YcNKq+bRG+wAA8unpcCYWDrW2/8udDPhyh1c7YhNTNpo5PSSkHxVP
- 4VlOpip5lIeaDZgfGFvVcBOeS55q2Z0B+LCrh0Euonb0kuAbM2di6Ta9xWDqZVCgSCQV
- 89PUCcQJp4oAIyYXwmAwDgsKRhQllXeLfYFuMfo9b9O6OK2/BDs7TNjjUQMEii+00jhk
- P+DB1qotm7AiCOy3ai+J2aYeBuzIRYdEmJSPBd28oL7v++nxsFoRAJhxml8rAFoT38iE
- zERg==
-X-Gm-Message-State: AOAM5313mv2VKZkAIS2FqaipK4oaD8AAs4XEJqlcCBnfi+3glnFBT/y+
- A2LtYlfRk6ARmT2n6T8DF9M=
-X-Google-Smtp-Source: ABdhPJwt5n+lLcPAY7wmuVOEPNfgK98a5ZJcSYZj6v5ca19sNHLgGR7JEhitIeLWdduX+y2ESbJtEg==
-X-Received: by 2002:a5d:5485:: with SMTP id h5mr3181435wrv.247.1598125442919; 
- Sat, 22 Aug 2020 12:44:02 -0700 (PDT)
-Received: from tsnow (IGLD-83-130-62-237.inter.net.il. [83.130.62.237])
- by smtp.gmail.com with ESMTPSA id k7sm3692908wrv.72.2020.08.22.12.43.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Aug 2020 12:44:02 -0700 (PDT)
-Date: Sat, 22 Aug 2020 22:43:50 +0300
-From: Tomer Samara <tomersamara98@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v5 2/2] staging: android: Remove BUG from ion_system_heap.c
-Message-ID: <f554a891fb433e830403091e21fe288924c5c74d.1598125227.git.tomersamara98@gmail.com>
-References: <cover.1598125227.git.tomersamara98@gmail.com>
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=t29zJAKnfaYjJznkotvF0/mjvpUWVuo15SYvwaAFriA=;
+ b=pkDwjkntRga7UB4eOcLQ+3K4BLcWQ4A7I5ykP5xfk8umRPN8cmcY5cuanZ9P3rW33D
+ +ZITBOunnRG/KO/6fe/HXXXn4h69eyzE9wtZacPsoc8Awr7Z66dWyWAvcwdTB9F1flYO
+ p1nm+9CZ+03sBY8+eYZaAVRD7l9EILNE4DuCuVsgOqe7CtglQvt0NdwvALflXSeCkfs+
+ +5l2cMHA0/pfo2tc2qj6JGNUyAd7YMR/d0r70OOx+tvGgcJnPo5Iqm/F4uxC37mrLH9r
+ TKqdjTdGNORBguw7BuTseLD+pU5TSnBmK5kFOTE3MSCfikgmDdIB+oJmCtRap+nRnev9
+ kYQg==
+X-Gm-Message-State: AOAM532V1CSRAFL4w0l2f6IyGv6I24j9mwBn23zdVK0N8N+65fY/xHUB
+ z2EkO/+CtlzgINvYSZnqTg6utOaxjhbuag8XHx6pIfMdUpAB
+X-Google-Smtp-Source: ABdhPJzM3XIWblKmjj6LEQdcEVKudVwYHB1PSiEz7rqBf7rm5ezLZplDxxwWa1TKyxOP6xRdqKmOk7yNkL+/+m/1m6zlgaNjS4rt
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1598125227.git.tomersamara98@gmail.com>
+X-Received: by 2002:a92:1f4f:: with SMTP id i76mr289111ile.226.1598165907014; 
+ Sat, 22 Aug 2020 23:58:27 -0700 (PDT)
+Date: Sat, 22 Aug 2020 23:58:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002e0c2505ad85ffcd@google.com>
+Subject: KMSAN: uninit-value in vga16fb_imageblit
+From: syzbot <syzbot+370e5ded96ace049ac26@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, glider@google.com, jani.nikula@intel.com, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Mon, 24 Aug 2020 06:55:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,45 +54,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Todd Kjos <tkjos@android.com>,
- Suren Baghdasaryan <surenb@google.com>, Riley Andrews <riandrews@android.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Hridya Valsaraju <hridya@google.com>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <labbott@redhat.com>,
- Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove BUG() from ion_sytem_heap.c
+Hello,
 
-this fix the following checkpatch issue:
-Avoid crashing the kernel - try using WARN_ON &
-recovery code ratherthan BUG() or BUG_ON().
+syzbot found the following issue on:
 
-Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
+HEAD commit:    ce8056d1 wip: changed copy_from_user where instrumented
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=14fb4061900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
+dashboard link: https://syzkaller.appspot.com/bug?extid=370e5ded96ace049ac26
+compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+370e5ded96ace049ac26@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: uninit-value in writeb arch/x86/include/asm/io.h:65 [inline]
+BUG: KMSAN: uninit-value in vga_imageblit_expand drivers/video/fbdev/vga16fb.c:1176 [inline]
+BUG: KMSAN: uninit-value in vga16fb_imageblit+0x125e/0x20c0 drivers/video/fbdev/vga16fb.c:1260
+CPU: 0 PID: 20360 Comm: syz-executor.5 Not tainted 5.8.0-rc5-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x21c/0x280 lib/dump_stack.c:118
+ kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:121
+ __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
+ writeb arch/x86/include/asm/io.h:65 [inline]
+ vga_imageblit_expand drivers/video/fbdev/vga16fb.c:1176 [inline]
+ vga16fb_imageblit+0x125e/0x20c0 drivers/video/fbdev/vga16fb.c:1260
+ soft_cursor+0x12bc/0x13f0 drivers/video/fbdev/core/softcursor.c:74
+ bit_cursor+0x38c6/0x3a40 drivers/video/fbdev/core/bitblit.c:386
+ fbcon_cursor+0x195e/0x1a60 drivers/video/fbdev/core/fbcon.c:1411
+ hide_cursor+0xdd/0x560 drivers/tty/vt/vt.c:902
+ redraw_screen+0x2b1/0x2980 drivers/tty/vt/vt.c:1006
+ vc_do_resize+0x36a8/0x38f0 drivers/tty/vt/vt.c:1314
+ vc_resize+0xc3/0xe0 drivers/tty/vt/vt.c:1334
+ vt_ioctl+0x6651/0x67c0 drivers/tty/vt/vt_ioctl.c:901
+ vt_compat_ioctl+0x59b/0x1040 drivers/tty/vt/vt_ioctl.c:1242
+ tty_compat_ioctl+0x74b/0x1660 drivers/tty/tty_io.c:2847
+ __do_compat_sys_ioctl fs/ioctl.c:847 [inline]
+ __se_compat_sys_ioctl+0x55f/0x1100 fs/ioctl.c:798
+ __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:798
+ do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
+ __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
+ do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
+ do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+RIP: 0023:0xf7f70549
+Code: Bad RIP value.
+RSP: 002b:00000000f556a0cc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000000560a
+RDX: 0000000020000240 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+
+Uninit was stored to memory at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
+ kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
+ __msan_chain_origin+0x50/0x90 mm/kmsan/kmsan_instr.c:165
+ __fb_pad_aligned_buffer include/linux/fb.h:655 [inline]
+ fb_pad_aligned_buffer+0x7c4/0x8e0 drivers/video/fbdev/core/fbmem.c:116
+ soft_cursor+0x1224/0x13f0 drivers/video/fbdev/core/softcursor.c:72
+ bit_cursor+0x38c6/0x3a40 drivers/video/fbdev/core/bitblit.c:386
+ fbcon_cursor+0x195e/0x1a60 drivers/video/fbdev/core/fbcon.c:1411
+ hide_cursor+0xdd/0x560 drivers/tty/vt/vt.c:902
+ redraw_screen+0x2b1/0x2980 drivers/tty/vt/vt.c:1006
+ vc_do_resize+0x36a8/0x38f0 drivers/tty/vt/vt.c:1314
+ vc_resize+0xc3/0xe0 drivers/tty/vt/vt.c:1334
+ vt_ioctl+0x6651/0x67c0 drivers/tty/vt/vt_ioctl.c:901
+ vt_compat_ioctl+0x59b/0x1040 drivers/tty/vt/vt_ioctl.c:1242
+ tty_compat_ioctl+0x74b/0x1660 drivers/tty/tty_io.c:2847
+ __do_compat_sys_ioctl fs/ioctl.c:847 [inline]
+ __se_compat_sys_ioctl+0x55f/0x1100 fs/ioctl.c:798
+ __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:798
+ do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
+ __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
+ do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
+ do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+
+Uninit was stored to memory at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
+ kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
+ kmsan_memcpy_memmove_metadata+0x272/0x2e0 mm/kmsan/kmsan.c:247
+ kmsan_memcpy_metadata+0xb/0x10 mm/kmsan/kmsan.c:267
+ __msan_memcpy+0x43/0x50 mm/kmsan/kmsan_instr.c:116
+ soft_cursor+0x7d7/0x13f0 drivers/video/fbdev/core/softcursor.c:70
+ bit_cursor+0x38c6/0x3a40 drivers/video/fbdev/core/bitblit.c:386
+ fbcon_cursor+0x195e/0x1a60 drivers/video/fbdev/core/fbcon.c:1411
+ hide_cursor+0xdd/0x560 drivers/tty/vt/vt.c:902
+ redraw_screen+0x2b1/0x2980 drivers/tty/vt/vt.c:1006
+ vc_do_resize+0x36a8/0x38f0 drivers/tty/vt/vt.c:1314
+ vc_resize+0xc3/0xe0 drivers/tty/vt/vt.c:1334
+ vt_ioctl+0x6651/0x67c0 drivers/tty/vt/vt_ioctl.c:901
+ vt_compat_ioctl+0x59b/0x1040 drivers/tty/vt/vt_ioctl.c:1242
+ tty_compat_ioctl+0x74b/0x1660 drivers/tty/tty_io.c:2847
+ __do_compat_sys_ioctl fs/ioctl.c:847 [inline]
+ __se_compat_sys_ioctl+0x55f/0x1100 fs/ioctl.c:798
+ __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:798
+ do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
+ __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
+ do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
+ do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+
+Uninit was created at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
+ kmsan_internal_poison_shadow+0x66/0xd0 mm/kmsan/kmsan.c:127
+ kmsan_slab_alloc+0x8a/0xe0 mm/kmsan/kmsan_hooks.c:80
+ slab_alloc_node mm/slub.c:2839 [inline]
+ slab_alloc mm/slub.c:2848 [inline]
+ __kmalloc+0x312/0x410 mm/slub.c:3911
+ kmalloc include/linux/slab.h:560 [inline]
+ fbcon_set_font+0x5ad/0xfb0 drivers/video/fbdev/core/fbcon.c:2673
+ con_font_set drivers/tty/vt/vt.c:4571 [inline]
+ con_font_op+0x1e59/0x2290 drivers/tty/vt/vt.c:4636
+ vt_ioctl+0x99e/0x67c0 drivers/tty/vt/vt_ioctl.c:917
+ vt_compat_ioctl+0x59b/0x1040 drivers/tty/vt/vt_ioctl.c:1242
+ tty_compat_ioctl+0x74b/0x1660 drivers/tty/tty_io.c:2847
+ __do_compat_sys_ioctl fs/ioctl.c:847 [inline]
+ __se_compat_sys_ioctl+0x55f/0x1100 fs/ioctl.c:798
+ __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:798
+ do_syscall_32_irqs_on arch/x86/entry/common.c:430 [inline]
+ __do_fast_syscall_32+0x2af/0x480 arch/x86/entry/common.c:477
+ do_fast_syscall_32+0x6b/0xd0 arch/x86/entry/common.c:505
+ do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:554
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+=====================================================
+
+
 ---
- drivers/staging/android/ion/ion_system_heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
-index eac0632ab4e8..00d6154aec34 100644
---- a/drivers/staging/android/ion/ion_system_heap.c
-+++ b/drivers/staging/android/ion/ion_system_heap.c
-@@ -30,7 +30,7 @@ static int order_to_index(unsigned int order)
- 	for (i = 0; i < NUM_ORDERS; i++)
- 		if (order == orders[i])
- 			return i;
--	BUG();
-+	/* This is impossible. */
- 	return -1;
- }
- 
--- 
-2.25.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
