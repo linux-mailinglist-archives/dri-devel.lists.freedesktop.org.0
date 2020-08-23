@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F4324ECCC
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 12:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AD524ECCF
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 12:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8696E4A6;
-	Sun, 23 Aug 2020 10:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCE46E4AE;
+	Sun, 23 Aug 2020 10:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
  [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7056E49D
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 10:46:02 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id 185so6438957ljj.7
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 03:46:02 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C726E4A2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 10:46:03 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id f26so6430792ljc.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 03:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RhXpyMpua1abC/EmcPtseWLc5JJ/Kr/jXHKsQ/EiTsw=;
- b=UwpEL07nr13d2+pvsclRiiXC9i3AJjBzMLmZEJiUH8BZqDXABtg8B0CSaguN5pPsUf
- GnnXsa2UUHPFJQFDS3VOgyAAv74VTifivzYMVfuwOOPDWUfrlYmbuiBInbPzuqTZ9eHp
- qBVoMKDUWnJqiPt2OMlYAmeVSE2PDjL89rqhnp6sN0+Gikz0E2GrhIxD3tPUtl6rR0aq
- 2YHi8XtZE48qGgT53BRoAhqoWoyhytGOsfkIHZZdUjsfcOu16rJia5HlZ07wvMZc2soA
- 0DF+tAagLIWJjz8y5YyFtF/RrV2jeDVupir6jgDymmc5DkcT3KvwSXCWx2vKfkdk+kX0
- U0mw==
+ bh=X6PZuuW9bKJjgLOX5yF9RqFRPjdIKYkILnp0Ap/l4i0=;
+ b=EPbfWmvFTM5RBovngysc+bkLtfGnDOVVDuwIQW2zhfXUDg1nvV4OdwipwZP383Y9BI
+ pUKOGiHhmAMpvzY4lRxIjvP+8S57ZLE9w/p36ar+pmX5RuXDcHWnfNc4ZAUhzp5CzJDl
+ brPviaKNLkaw9xgmny7S1lvCStuFV66RcMc+9MxvAZnSOfxrIAydomLKAi6yIvpy+k4A
+ Gu12fm7g6grWSvSAB1kLX1uxQDDEKNWjOibCKZZJREszcHRFPXOb0DJpMPlQGqQJ48tL
+ RF9rDR1P8E3zXYO8ftKaz/eIPMBov5jdvk9ZRBCsVqD0Xf3ceuhWSme0Djc1/nnDG/Q2
+ 4cnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RhXpyMpua1abC/EmcPtseWLc5JJ/Kr/jXHKsQ/EiTsw=;
- b=jK+a4Y/IGXDbP6EUE9JT/R3Be7QN5QGQ6x+qqASVkl2KQJjCs1QGYt4xEeOQioY9Qe
- e0z1JViDp9kU/NrI3mE6NzY8ed48/pDJwwyTaSqjPgpjRKX9Q0LkRXNiMAKgKD3vG7/d
- r2PxDQkdjDIf/URdMGbyedcdpz8r+vFyWWgC+GruSAr3/BxctyTttZsrYS860nRoq2+4
- UwWWBH289qHBH90lLUBBQfHlbMR3nA3qAM58rf/3O3qagjHt4EEu4d/HQoZv6868MOtM
- TNPeKx1T5BAnAuS9P8+E0e251yxzLfY4Y69ioOgPj1xdFHX4nDZBPGhHLntPsaftZRK4
- Z5YQ==
-X-Gm-Message-State: AOAM531+6RP8+/m6xCO2kB3893eZsMdK4i/YYRZLPg5xlwJ498R42odk
- J3HxCRIDe6e7BKo4VFAxNNSLOmzilGb1Pw==
-X-Google-Smtp-Source: ABdhPJx16AY5Em8toE9G9yE1IwdVxH5ePlmJ0/REnrakGFUE3NhfsppPcG5c6EWGuawJh+qylE95/w==
-X-Received: by 2002:a2e:9010:: with SMTP id h16mr462772ljg.316.1598179560931; 
- Sun, 23 Aug 2020 03:46:00 -0700 (PDT)
+ bh=X6PZuuW9bKJjgLOX5yF9RqFRPjdIKYkILnp0Ap/l4i0=;
+ b=RtlZq750nmcV3GDR1U1hlkvyVGKvPp9SbT7tEubyv5iWZYggvCcXO0HbOt+HE8gBxt
+ xaCz6gHtDXctETZqi3vVbf1UVp4lXGB0naOtTuOynWQ1g7s2uZMylnT0JzpHwPy9JOEa
+ jEe6BCloMKKlm9Zg3wmfVDhOig+MzHcyL9iniEewBLuoQzHCSOeAyhyWhvw8aHRu20PA
+ h7UMhzUIZ7b/h1O8MQMm0Em4IJgLyvSBCiu5KPMw5Xd1Z7hjbvyigVtPIpLU2dzeEEg6
+ +ajxjc/3i7f2CshVBSgSvmN3R+2giJv8oDk8xKSPf5JTIc52SieTevRhyIKpFrRWYs3w
+ qUhQ==
+X-Gm-Message-State: AOAM532uqO/rWgJI15B9Rg+41oSglbG87k4YXLwCQ9IaFwbm9qonePk1
+ GAZ/S0U+V/TW114GULBlIWjovU+4/CnhHA==
+X-Google-Smtp-Source: ABdhPJweQ5KQYSo2Gv07YcP6j+w0GnjvfierTLgHPyCrPWJkBrOeBsM//It9UyKMSn/zwtr+/iKc7g==
+X-Received: by 2002:a2e:b6cc:: with SMTP id m12mr398821ljo.256.1598179562184; 
+ Sun, 23 Aug 2020 03:46:02 -0700 (PDT)
 Received: from saturn.localdomain ([2a00:fd00:805f:db00:2509:20d7:e461:9c16])
  by smtp.gmail.com with ESMTPSA id
- h13sm1516301lji.134.2020.08.23.03.45.59
+ h13sm1516301lji.134.2020.08.23.03.46.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Aug 2020 03:46:00 -0700 (PDT)
+ Sun, 23 Aug 2020 03:46:01 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v2 07/24] drm/gma500: Backlight update
-Date: Sun, 23 Aug 2020 12:45:15 +0200
-Message-Id: <20200823104532.1024798-8-sam@ravnborg.org>
+Subject: [PATCH v2 08/24] drm/panel: asus-z00t-tm5p5-n35596: Backlight update
+Date: Sun, 23 Aug 2020 12:45:16 +0200
+Message-Id: <20200823104532.1024798-9-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200823104532.1024798-1-sam@ravnborg.org>
 References: <20200823104532.1024798-1-sam@ravnborg.org>
@@ -69,293 +69,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Konrad Dybcio <konradybcio@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The backlight support is updated to utilise newly added macros and
-functions thus simplifying the code.
-
-- Introduced backlight_set_brightness() that can be called with a
-  NULL backlight_device
-- backlight_update_status() can be called with a NULL backlight_device.
-  Benefit from this by removing helper that otherwise was iffed'ed out
-- Use DECLARE_BACKLIGHT_INIT_PLATFORM() when creating backlight devices
-- Replace direct access to backlight_properties with get/set methods
-
-No functional changes, but a nice reduction in complexity and code.
-
-v2:
-  - Use backlight_update_brightness() (Daniel)
-  -
+Update backlight to use macro for initialization and the
+backlight_get_brightness() operation to simply the update operation.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Konrad Dybcio <konradybcio@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/gma500/backlight.c       | 34 +++++-------------------
- drivers/gpu/drm/gma500/cdv_device.c      | 24 +++++++----------
- drivers/gpu/drm/gma500/mdfld_device.c    |  9 ++-----
- drivers/gpu/drm/gma500/oaktrail_device.c | 10 ++-----
- drivers/gpu/drm/gma500/opregion.c        |  2 +-
- drivers/gpu/drm/gma500/psb_device.c      | 10 ++-----
- drivers/gpu/drm/gma500/psb_drv.c         |  7 +----
- 7 files changed, 24 insertions(+), 72 deletions(-)
+ .../gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/backlight.c b/drivers/gpu/drm/gma500/backlight.c
-index 35600d070cb5..40b96d1277be 100644
---- a/drivers/gpu/drm/gma500/backlight.c
-+++ b/drivers/gpu/drm/gma500/backlight.c
-@@ -13,48 +13,27 @@
- #include "intel_bios.h"
- #include "power.h"
- 
--#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
--static void do_gma_backlight_set(struct drm_device *dev)
--{
--	struct drm_psb_private *dev_priv = dev->dev_private;
--	backlight_update_status(dev_priv->backlight_device);
--}
--#endif
--
- void gma_backlight_enable(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+index 39e0f0373f3c..ed742d374696 100644
+--- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
++++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+@@ -216,14 +216,9 @@ static const struct drm_panel_funcs tm5p5_nt35596_panel_funcs = {
+ static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
  {
--#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	dev_priv->backlight_enabled = true;
--	if (dev_priv->backlight_device) {
--		dev_priv->backlight_device->props.brightness = dev_priv->backlight_level;
--		do_gma_backlight_set(dev);
--	}
--#endif	
-+	backlight_update_brightness(dev_priv->backlight_device,
-+				    dev_priv->backlight_level);
- }
- 
- void gma_backlight_disable(struct drm_device *dev)
- {
--#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	dev_priv->backlight_enabled = false;
--	if (dev_priv->backlight_device) {
--		dev_priv->backlight_device->props.brightness = 0;
--		do_gma_backlight_set(dev);
--	}
--#endif	
-+	backlight_update_brightness(dev_priv->backlight_device, 0);
- }
- 
- void gma_backlight_set(struct drm_device *dev, int v)
- {
--#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	dev_priv->backlight_level = v;
--	if (dev_priv->backlight_device && dev_priv->backlight_enabled) {
--		dev_priv->backlight_device->props.brightness = v;
--		do_gma_backlight_set(dev);
--	}
--#endif	
-+	if (dev_priv->backlight_enabled)
-+		backlight_update_brightness(dev_priv->backlight_device, v);
- }
- 
- int gma_backlight_init(struct drm_device *dev)
-@@ -73,8 +52,7 @@ void gma_backlight_exit(struct drm_device *dev)
- #ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	if (dev_priv->backlight_device) {
--		dev_priv->backlight_device->props.brightness = 0;
--		backlight_update_status(dev_priv->backlight_device);
-+		backlight_update_brightness(dev_priv->backlight_device, 0);
- 		backlight_device_unregister(dev_priv->backlight_device);
- 	}
- #endif
-diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-index 4d216a0205f2..52ec1b427bf8 100644
---- a/drivers/gpu/drm/gma500/cdv_device.c
-+++ b/drivers/gpu/drm/gma500/cdv_device.c
-@@ -111,7 +111,7 @@ static int cdv_get_brightness(struct backlight_device *bd)
- static int cdv_set_brightness(struct backlight_device *bd)
- {
- 	struct drm_device *dev = bl_get_data(bd);
--	int level = bd->props.brightness;
-+	int level = backlight_get_brightness(bd);
- 	u32 blc_pwm_ctl;
- 
- 	/* Percentage 1-100% being valid */
-@@ -145,21 +145,17 @@ static const struct backlight_ops cdv_ops = {
- static int cdv_backlight_init(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
--	struct backlight_properties props;
-+	DECLARE_BACKLIGHT_INIT_PLATFORM(props, 0, 100);
-+	struct backlight_device *bl;
- 
--	memset(&props, 0, sizeof(struct backlight_properties));
--	props.max_brightness = 100;
--	props.type = BACKLIGHT_PLATFORM;
-+	bl = backlight_device_register("psb-bl",
-+				       NULL, (void *)dev, &cdv_ops, &props);
-+	if (IS_ERR(bl))
-+		return PTR_ERR(bl);
- 
--	cdv_backlight_device = backlight_device_register("psb-bl",
--					NULL, (void *)dev, &cdv_ops, &props);
--	if (IS_ERR(cdv_backlight_device))
--		return PTR_ERR(cdv_backlight_device);
--
--	cdv_backlight_device->props.brightness =
--			cdv_get_brightness(cdv_backlight_device);
--	backlight_update_status(cdv_backlight_device);
--	dev_priv->backlight_device = cdv_backlight_device;
-+	cdv_backlight_device = bl;
-+	backlight_update_brightness(bl, cdv_get_brightness(bl));
-+	dev_priv->backlight_device = bl;
- 	dev_priv->backlight_enabled = true;
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/gma500/mdfld_device.c b/drivers/gpu/drm/gma500/mdfld_device.c
-index b718efccdcf2..674e6e619d9a 100644
---- a/drivers/gpu/drm/gma500/mdfld_device.c
-+++ b/drivers/gpu/drm/gma500/mdfld_device.c
-@@ -42,7 +42,7 @@ int mdfld_set_brightness(struct backlight_device *bd)
- 	struct drm_device *dev =
- 		(struct drm_device *)bl_get_data(mdfld_backlight_device);
- 	struct drm_psb_private *dev_priv = dev->dev_private;
--	int level = bd->props.brightness;
-+	int level = backlight_get_brightness(bd);
- 
- 	DRM_DEBUG_DRIVER("backlight level set to %d\n", level);
- 
-@@ -113,12 +113,9 @@ static int device_backlight_init(struct drm_device *dev)
- 
- static int mdfld_backlight_init(struct drm_device *dev)
- {
--	struct backlight_properties props;
-+	DECLARE_BACKLIGHT_INIT_PLATFORM(props, BRIGHTNESS_MAX_LEVEL, BRIGHTNESS_MAX_LEVEL);
- 	int ret = 0;
- 
--	memset(&props, 0, sizeof(struct backlight_properties));
--	props.max_brightness = BRIGHTNESS_MAX_LEVEL;
--	props.type = BACKLIGHT_PLATFORM;
- 	mdfld_backlight_device = backlight_device_register("mdfld-bl",
- 				NULL, (void *)dev, &mdfld_ops, &props);
- 
-@@ -129,8 +126,6 @@ static int mdfld_backlight_init(struct drm_device *dev)
- 	if (ret)
- 		return ret;
- 
--	mdfld_backlight_device->props.brightness = BRIGHTNESS_MAX_LEVEL;
--	mdfld_backlight_device->props.max_brightness = BRIGHTNESS_MAX_LEVEL;
- 	backlight_update_status(mdfld_backlight_device);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/gma500/oaktrail_device.c b/drivers/gpu/drm/gma500/oaktrail_device.c
-index ade7e2416a66..52c0f1a35d3f 100644
---- a/drivers/gpu/drm/gma500/oaktrail_device.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_device.c
-@@ -55,7 +55,7 @@ static int oaktrail_set_brightness(struct backlight_device *bd)
- {
- 	struct drm_device *dev = bl_get_data(oaktrail_backlight_device);
- 	struct drm_psb_private *dev_priv = dev->dev_private;
--	int level = bd->props.brightness;
-+	int level = backlight_get_brightness(bd);
- 	u32 blc_pwm_ctl;
- 	u32 max_pwm_blc;
- 
-@@ -136,13 +136,9 @@ static const struct backlight_ops oaktrail_ops = {
- 
- static int oaktrail_backlight_init(struct drm_device *dev)
- {
-+	DECLARE_BACKLIGHT_INIT_PLATFORM(props, 100, 100);
- 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	struct mipi_dsi_device *dsi = bl_get_data(bl);
+-	u16 brightness = bl->props.brightness;
++	int brightness = backlight_get_brightness(bl);
  	int ret;
--	struct backlight_properties props;
+ 
+-	if (bl->props.power != FB_BLANK_UNBLANK ||
+-	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
+-	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+-		brightness = 0;
 -
--	memset(&props, 0, sizeof(struct backlight_properties));
--	props.max_brightness = 100;
--	props.type = BACKLIGHT_PLATFORM;
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
  
- 	oaktrail_backlight_device = backlight_device_register("oaktrail-bl",
- 				NULL, (void *)dev, &oaktrail_ops, &props);
-@@ -155,8 +151,6 @@ static int oaktrail_backlight_init(struct drm_device *dev)
- 		backlight_device_unregister(oaktrail_backlight_device);
- 		return ret;
- 	}
--	oaktrail_backlight_device->props.brightness = 100;
--	oaktrail_backlight_device->props.max_brightness = 100;
- 	backlight_update_status(oaktrail_backlight_device);
- 	dev_priv->backlight_device = oaktrail_backlight_device;
- 	return 0;
-diff --git a/drivers/gpu/drm/gma500/opregion.c b/drivers/gpu/drm/gma500/opregion.c
-index eab6d889bde9..68587cdf6206 100644
---- a/drivers/gpu/drm/gma500/opregion.c
-+++ b/drivers/gpu/drm/gma500/opregion.c
-@@ -163,7 +163,7 @@ static u32 asle_set_backlight(struct drm_device *dev, u32 bclp)
- 	if (bclp > 255)
- 		return ASLE_BACKLIGHT_FAILED;
- 
--	gma_backlight_set(dev, bclp * bd->props.max_brightness / 255);
-+	gma_backlight_set(dev, bclp * backlight_get_max_brightness(bd) / 255);
- 
- 	asle->cblv = (bclp * 0x64) / 0xff | ASLE_CBLV_VALID;
- 
-diff --git a/drivers/gpu/drm/gma500/psb_device.c b/drivers/gpu/drm/gma500/psb_device.c
-index ece994c4c21a..857681b860c4 100644
---- a/drivers/gpu/drm/gma500/psb_device.c
-+++ b/drivers/gpu/drm/gma500/psb_device.c
-@@ -92,7 +92,7 @@ static int psb_backlight_setup(struct drm_device *dev)
- static int psb_set_brightness(struct backlight_device *bd)
+ 	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
+@@ -238,7 +233,7 @@ static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
+ static int tm5p5_nt35596_bl_get_brightness(struct backlight_device *bl)
  {
- 	struct drm_device *dev = bl_get_data(psb_backlight_device);
--	int level = bd->props.brightness;
-+	int level = backlight_get_brightness(bd);
- 
- 	/* Percentage 1-100% being valid */
- 	if (level < 1)
-@@ -110,13 +110,9 @@ static const struct backlight_ops psb_ops = {
- 
- static int psb_backlight_init(struct drm_device *dev)
- {
-+	DECLARE_BACKLIGHT_INIT_PLATFORM(props, 100, 100);
- 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	struct mipi_dsi_device *dsi = bl_get_data(bl);
+-	u16 brightness = bl->props.brightness;
++	u16 brightness;
  	int ret;
--	struct backlight_properties props;
--
--	memset(&props, 0, sizeof(struct backlight_properties));
--	props.max_brightness = 100;
--	props.type = BACKLIGHT_PLATFORM;
  
- 	psb_backlight_device = backlight_device_register("psb-bl",
- 					NULL, (void *)dev, &psb_ops, &props);
-@@ -129,8 +125,6 @@ static int psb_backlight_init(struct drm_device *dev)
- 		psb_backlight_device = NULL;
- 		return ret;
- 	}
--	psb_backlight_device->props.brightness = 100;
--	psb_backlight_device->props.max_brightness = 100;
- 	backlight_update_status(psb_backlight_device);
- 	dev_priv->backlight_device = psb_backlight_device;
- 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 2411eb9827b8..f13d9861e571 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -398,12 +398,7 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 
- static inline void get_brightness(struct backlight_device *bd)
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+@@ -261,11 +256,7 @@ static struct backlight_device *
+ tm5p5_nt35596_create_backlight(struct mipi_dsi_device *dsi)
  {
--#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
--	if (bd) {
--		bd->props.brightness = bd->ops->get_brightness(bd);
--		backlight_update_status(bd);
--	}
--#endif
-+	backlight_update_brightness(bd, backlight_get_actual_brightness(bd));
- }
+ 	struct device *dev = &dsi->dev;
+-	const struct backlight_properties props = {
+-		.type = BACKLIGHT_RAW,
+-		.brightness = 255,
+-		.max_brightness = 255,
+-	};
++	DECLARE_BACKLIGHT_INIT_RAW(props, 255, 255);
  
- static long psb_unlocked_ioctl(struct file *filp, unsigned int cmd,
+ 	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
+ 					      &tm5p5_nt35596_bl_ops, &props);
 -- 
 2.25.1
 
