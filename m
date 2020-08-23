@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD65824ECCE
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 12:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BD324ECDC
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 12:46:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C576E4A5;
-	Sun, 23 Aug 2020 10:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC0B76E4C4;
+	Sun, 23 Aug 2020 10:46:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C08166E4A5
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 10:46:07 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id g6so6416390ljn.11
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 03:46:07 -0700 (PDT)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27AD76E4A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 10:46:09 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id c8so2975647lfh.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 03:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tDAh/5RDQvY0YOjmGtHlH46aL/7DLKEfKHORvRyd4Ag=;
- b=HEPrc0pt15KA6kt2YSMGzEvtvYbjkKxMqj5DDlZakgqnYqMThNgYqkZXhbeGf33Po4
- 2lP8gFt7aKtCsiCdhzds4UD/dGg7DhNwhO5+Hz/HxFdH080PX7J4zdmfCGkOl8cRKZJS
- EGtrNJAnLXOpx32mobQtJ8HUSvJHjj0tOeCaMa9PK9MJsNfa092fTxGrfpPmFfpvtm7p
- dEkK4Vf/boQwvzVafdLvfJl/SQEhzcH9P1mcwPw10mspSv8059flXx21l9vBVuWb/Fsz
- HRhBEh39q4+m0YrG+py+sf0yWSgthrrVGFYgW0WoZEHzMxLyxYohcBmZbtQVCnfNd4XH
- 4nQA==
+ bh=maHW2e0NnSMYHIlzXCYVNcTAjo21ZJ2pCny7UdG3764=;
+ b=qVR+DxwbTbdo7zSxkLnOKKJP3WVmMRtNXzpr2JK25TNbE8mfyyzQv+1qOXFWIDp9U7
+ cfGyMAjYd5seTu+DaRuJrd5Haay6LG7WzQyHnzfmS4olfRh9gAdZLy31mxWqjH7fjBr0
+ 2LFMafMCxUDdKu13KQSCnRFISOe29Vsye0CjDX0MeZyN9LSnjCz+qS7ZyfTE10SLh0At
+ fdMU3mejmx5GuE84d/pPUYr8SwFUlibvymk8uxEP5Se4q75BoXt0J3AA3tp7X88zdvZ0
+ mpBS8VmceHCcPj+9aJCd9C3gDK5X3qZPkHzuS4m66CIOIHJsnMbojj8uNhX3CYy7pqKv
+ k1fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tDAh/5RDQvY0YOjmGtHlH46aL/7DLKEfKHORvRyd4Ag=;
- b=ekUCezwWUqmGoy7hKFC2MslmnSfd8do9Q/Znfd5Mz8Y7Li44EeDMzoh8v0cUINNPZ/
- dQ5dMjpeywCoa/V/7cJX7ajMc/zccc6Y+RYCqKX3u0o77KRMZBn+k6oGsYQ1glIChrZs
- +ao950OomX+bGtwvh+w+j90CbnCV6e6M1+JLtjWk1yuQifiFq4fD1eIZ55RegEWVAixv
- bsa8Y8A+R0niFhFxtpO1qbQqw5W2G0dV90OfOAEoRnZITOzUVHug1C8liLb2yXED/m6s
- QrQ7r2xEVE6QOBhcG45Wnq21g2sK2TlE4oZ43ypdi6XXYKKD5lLf2ti5sNDML46o+ukI
- taZQ==
-X-Gm-Message-State: AOAM531WQeI/2etzlPTcOVcg4Ho1GMigjUI/ztQ5O8barlOYqXggThO6
- CZPsjc1CICMAznRwUN8CCrnP9FU96Asrzw==
-X-Google-Smtp-Source: ABdhPJynAxUa0jW7TJ6Y4fm/6p8ThdkY5OkypbB/UMfo+seXj3tYCSQDM+xrKZoBHIHO0dKTgx9o6Q==
-X-Received: by 2002:a2e:9a8e:: with SMTP id p14mr419337lji.300.1598179566029; 
- Sun, 23 Aug 2020 03:46:06 -0700 (PDT)
+ bh=maHW2e0NnSMYHIlzXCYVNcTAjo21ZJ2pCny7UdG3764=;
+ b=aIEf8xFhrVt/ff/ijmd61S7TSDCEzlyAkPNFsC5dqqVGAqEFXZSJYMxdXvxIIFU6I0
+ j4nVnB5a1+BPJG08T2Ciiww77FAJxrsjKlAmqCHOOdaMz79TykW7eOkytLj035qatXhF
+ vlUzMLBZm8k8h0J+7IfDZGkMhj4DbulTIvftRFuko3pndsmvXtC+FIYlCYAd5aaB2Oqo
+ 360cMOP1wIoV3+08WwHUHns4i9z7VkaHsEssn5eSe0iTOcDTi7UCDPg3xQs1juomFin6
+ eLY67COCYK8DkPT89yeeVQXEfPo6TuO32XFsiDBSij2VFqzQVNG6zXNuGY6NFEfuBg9h
+ 8WUw==
+X-Gm-Message-State: AOAM5325yuPSbrearIdrjOir+4JV06WD+bkikkaLraNyVEyVcvnlVG4k
+ hTDwuWCOCN76Q6TMqHTlXpxUBwbUHiev7Q==
+X-Google-Smtp-Source: ABdhPJySOxJ+7w28VYMGADIsFaVdl8XLmsvAVmzJ1O50Mp4wyyF+k3updmNtH/tVEiHBybHQbJ+kCg==
+X-Received: by 2002:a19:4f5d:: with SMTP id a29mr420642lfk.107.1598179567438; 
+ Sun, 23 Aug 2020 03:46:07 -0700 (PDT)
 Received: from saturn.localdomain ([2a00:fd00:805f:db00:2509:20d7:e461:9c16])
  by smtp.gmail.com with ESMTPSA id
- h13sm1516301lji.134.2020.08.23.03.46.04
+ h13sm1516301lji.134.2020.08.23.03.46.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Aug 2020 03:46:05 -0700 (PDT)
+ Sun, 23 Aug 2020 03:46:07 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v2 11/24] drm/panel: orisetech-otm8009a: Backlight update
-Date: Sun, 23 Aug 2020 12:45:19 +0200
-Message-Id: <20200823104532.1024798-12-sam@ravnborg.org>
+Subject: [PATCH v2 12/24] drm/panel: raydium-rm67191: Backlight update
+Date: Sun, 23 Aug 2020 12:45:20 +0200
+Message-Id: <20200823104532.1024798-13-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200823104532.1024798-1-sam@ravnborg.org>
 References: <20200823104532.1024798-1-sam@ravnborg.org>
@@ -69,9 +69,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Philippe CORNU <philippe.cornu@st.com>
+Cc: Robert Chiras <robert.chiras@nxp.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -79,81 +79,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 - Replace direct access to backlight_properties with
   backlight_get_brightness().
-- Use brightness and not power to determine if backlight is off
-- Use the devm_ variant for registering backlight device, and drop
-  all explicit unregistering of the backlight device.
+- Use macro for initialization
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Philippe CORNU <philippe.cornu@st.com>
+Cc: Robert Chiras <robert.chiras@nxp.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-index bb0c992171e8..e6534cca2a84 100644
---- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-+++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-@@ -388,6 +388,7 @@ static const struct drm_panel_funcs otm8009a_drm_funcs = {
- static int otm8009a_backlight_update_status(struct backlight_device *bd)
+diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+index 313637d53d28..5553db385dd5 100644
+--- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
++++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
+@@ -479,7 +479,7 @@ static int rad_bl_get_brightness(struct backlight_device *bl)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	bl->props.brightness = brightness;
++	backlight_set_brightness(bl, brightness);
+ 
+ 	return brightness & 0xff;
+ }
+@@ -495,7 +495,7 @@ static int rad_bl_update_status(struct backlight_device *bl)
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_brightness(dsi, bl->props.brightness);
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, backlight_get_brightness(bl));
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -539,10 +539,10 @@ static int rad_init_regulators(struct rad_panel *rad)
+ 
+ static int rad_panel_probe(struct mipi_dsi_device *dsi)
  {
- 	struct otm8009a *ctx = bl_get_data(bd);
-+	u8 brightness = backlight_get_brightness(bd);
- 	u8 data[2];
- 
- 	if (!ctx->prepared) {
-@@ -395,13 +396,13 @@ static int otm8009a_backlight_update_status(struct backlight_device *bd)
- 		return -ENXIO;
- 	}
- 
--	if (bd->props.power <= FB_BLANK_NORMAL) {
-+	if (brightness > 0) {
- 		/* Power on the backlight with the requested brightness
- 		 * Note We can not use mipi_dsi_dcs_set_display_brightness()
- 		 * as otm8009a driver support only 8-bit brightness (1 param).
- 		 */
- 		data[0] = MIPI_DCS_SET_DISPLAY_BRIGHTNESS;
--		data[1] = bd->props.brightness;
-+		data[1] = brightness;
- 		otm8009a_dcs_write_buf_hs(ctx, data, ARRAY_SIZE(data));
- 
- 		/* set Brightness Control & Backlight on */
-@@ -428,6 +429,7 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
++	DECLARE_BACKLIGHT_INIT_RAW(bl_props, 255, 255);
  	struct device *dev = &dsi->dev;
- 	struct otm8009a *ctx;
+ 	struct device_node *np = dev->of_node;
+ 	struct rad_panel *panel;
+-	struct backlight_properties bl_props;
  	int ret;
-+	DECLARE_BACKLIGHT_INIT_RAW(props, OTM8009A_BACKLIGHT_DEFAULT, OTM8009A_BACKLIGHT_MAX);
+ 	u32 video_mode;
  
- 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
-@@ -462,25 +464,19 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
- 	ctx->bl_dev = devm_backlight_device_register(dev, dev_name(dev),
- 						     dsi->host->dev, ctx,
- 						     &otm8009a_backlight_ops,
--						     NULL);
-+						     &props);
- 	if (IS_ERR(ctx->bl_dev)) {
- 		ret = PTR_ERR(ctx->bl_dev);
- 		dev_err(dev, "failed to register backlight: %d\n", ret);
- 		return ret;
- 	}
+@@ -588,11 +588,6 @@ static int rad_panel_probe(struct mipi_dsi_device *dsi)
+ 	if (IS_ERR(panel->reset))
+ 		return PTR_ERR(panel->reset);
  
--	ctx->bl_dev->props.max_brightness = OTM8009A_BACKLIGHT_MAX;
--	ctx->bl_dev->props.brightness = OTM8009A_BACKLIGHT_DEFAULT;
--	ctx->bl_dev->props.power = FB_BLANK_POWERDOWN;
--	ctx->bl_dev->props.type = BACKLIGHT_RAW;
+-	memset(&bl_props, 0, sizeof(bl_props));
+-	bl_props.type = BACKLIGHT_RAW;
+-	bl_props.brightness = 255;
+-	bl_props.max_brightness = 255;
 -
- 	drm_panel_add(&ctx->panel);
- 
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
- 		dev_err(dev, "mipi_dsi_attach failed. Is host ready?\n");
- 		drm_panel_remove(&ctx->panel);
--		backlight_device_unregister(ctx->bl_dev);
- 		return ret;
- 	}
- 
+ 	panel->backlight = devm_backlight_device_register(dev, dev_name(dev),
+ 							  dev, dsi, &rad_bl_ops,
+ 							  &bl_props);
 -- 
 2.25.1
 
