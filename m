@@ -2,37 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD79824EDD9
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 17:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114FB24EF5D
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Aug 2020 21:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0AC26E500;
-	Sun, 23 Aug 2020 15:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D686E55E;
+	Sun, 23 Aug 2020 19:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B41106E500
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 15:11:03 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id A05A880512;
- Sun, 23 Aug 2020 17:10:59 +0200 (CEST)
-Date: Sun, 23 Aug 2020 17:10:58 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Nadezda Lutovinova <lutovinova@ispras.ru>
-Subject: Re: [PATCH] drm/brige/megachips: Add checking if
- ge_b850v3_lvds_init() is working correctly
-Message-ID: <20200823151058.GB1047718@ravnborg.org>
-References: <20200819143756.30626-1-lutovinova@ispras.ru>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BE46E55E;
+ Sun, 23 Aug 2020 19:09:29 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g75so6266435wme.4;
+ Sun, 23 Aug 2020 12:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wQ+CnNuzNhRBq+zv3kVwnG0+uKFYAUvodng53ugnSig=;
+ b=nPSPj5TthHlE1mdhBzN6g1SzM+oRRF26ni2J2rkJQMZ6QzTYEhvGMmGWUD1MxBRV6Y
+ dlyNq6ZCRCLGJUUy8qulogWP7BzPRLleiAqk5VX536rSz7BXeiSrJclnAaQSiokBRJuX
+ NMRU1CemThazOyZdpzyMR2VtktIyR6fQNtDLQkzG2c1+d1gPY508Rnc10Eok1HiLhd/e
+ 8ENkMYsldu89AvtyVCn3xGeHVQdYZOng5BvO/mDpyRSR1AQri8PT0jyILfWD0fJ4DNm+
+ m4nyu5JdrLjFEGt6d7oL6qSE4uejuQ7hdRzO7lw74C0m4ySI+P98P0WfFwcRDZE1ZZMH
+ uShw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wQ+CnNuzNhRBq+zv3kVwnG0+uKFYAUvodng53ugnSig=;
+ b=Z/YMFiR9WAaE35dnvj3tmcuGpZ/xPYGMN12BdyEhZfcvoQgeiuZjMrvw/ljHO1DEhJ
+ l0vmdUwx1nCiuDOb/zXW/3N8QWyviJll7LGCRrhIAGUjw2c57a4uOMF+Se0uOX1sPnCs
+ LMKTdLFme8ZxxsCw76w+s+xQFEahJBZvDpQLkUeh5Yp1t86SWQzcK6HI2t7QFyascp8k
+ lfoQZEmdnumlHbA+xNd0I5D0uxHOehcWhsk5URKV20EtHau9ctzHDTDkP/fBB2IsCy3W
+ EUMFbogI9aZTOynevYUMPDKispQq5qjG+sxmdfIbNIQ+vR41dGxnT2DiHIsuaQaPjlT1
+ mbNQ==
+X-Gm-Message-State: AOAM533se5e+8XpCJtK41K55iMWNd4hXodqd6T0wrdA6baOejBpWCjKw
+ qcLD7z2v9C0HnpiLqeOW7r8=
+X-Google-Smtp-Source: ABdhPJyMY0WTUtxfY5wI/V78Ldqxp3MbuqiBh5rA0eDmJ7njyqdnN7HZh47DPCP/z7RSpVjuRPEeMw==
+X-Received: by 2002:a1c:544f:: with SMTP id p15mr2464254wmi.147.1598209768349; 
+ Sun, 23 Aug 2020 12:09:28 -0700 (PDT)
+Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
+ [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id z66sm19704128wme.16.2020.08.23.12.09.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Aug 2020 12:09:27 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/etnaviv: fix external abort seen on GC600 rev 0x19
+Date: Sun, 23 Aug 2020 21:09:22 +0200
+Message-Id: <20200823190924.6437-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200819143756.30626-1-lutovinova@ispras.ru>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=HH5vDtPzAAAA:8 a=xjQjg--fAAAA:8 a=e5mUnYsNAAAA:8
- a=hQuFlIxVr7xEOWb3pwQA:9 a=CjuIK1q_8ugA:10 a=QM_-zKB-Ew0MsOlNKMB5:22
- a=L4vkcYpMSA5nFlNZ2tk3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,79 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ldv-project@linuxtesting.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Peter Senna Tschudin <peter.senna@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Martin Donnelly <martin.donnelly@ge.com>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>, josua.mayer@jm0.eu
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nadezda
+It looks like that this GPU core triggers an abort when
+reading VIVS_HI_CHIP_PRODUCT_ID and/or VIVS_HI_CHIP_ECO_ID.
 
-On Wed, Aug 19, 2020 at 05:37:56PM +0300, Nadezda Lutovinova wrote:
-> If ge_b850v3_lvds_init() does not allocate memory for ge_b850v3_lvds_ptr,
-> then a null pointer dereference is accessed.
-> 
-> The patch adds checking of the return value of ge_b850v3_lvds_init().
-> 
-> Found by Linux Driver Verification project (linuxtesting.org).
-> 
-> Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
+I looked at different versions of Vivante's kernel driver and did
+not found anything about this issue or what feature flag can be
+used. So go the simplest route and do not read these two registers
+on the affected GPU core.
 
-Thanks, applied to drm-misc-next, so it will hit upstream during the
-next merge window.
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Reported-by: Josua Mayer <josua.mayer@jm0.eu>
+Fixes: 815e45bbd4d3 ("drm/etnaviv: determine product, customer and eco id")
+Cc: stable@vger.kernel.org
+---
+Changelog:
 
-	Sam
+V2:
+ - use correct register for conditional reads.
 
-> ---
->  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> index 6200f12..ab81748 100644
-> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> @@ -302,8 +302,12 @@ static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
->  				       const struct i2c_device_id *id)
->  {
->  	struct device *dev = &stdp4028_i2c->dev;
-> +	int ret;
-> +
-> +	ret = ge_b850v3_lvds_init(dev);
->  
-> -	ge_b850v3_lvds_init(dev);
-> +	if (ret)
-> +		return ret;
->  
->  	ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
->  	i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
-> @@ -361,8 +365,12 @@ static int stdp2690_ge_b850v3_fw_probe(struct i2c_client *stdp2690_i2c,
->  				       const struct i2c_device_id *id)
->  {
->  	struct device *dev = &stdp2690_i2c->dev;
-> +	int ret;
-> +
-> +	ret = ge_b850v3_lvds_init(dev);
->  
-> -	ge_b850v3_lvds_init(dev);
-> +	if (ret)
-> +		return ret;
->  
->  	ge_b850v3_lvds_ptr->stdp2690_i2c = stdp2690_i2c;
->  	i2c_set_clientdata(stdp2690_i2c, ge_b850v3_lvds_ptr);
-> -- 
-> 1.9.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index d5a4cd85a0f6..c6404b8d067f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -337,9 +337,16 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 
+ 		gpu->identity.model = gpu_read(gpu, VIVS_HI_CHIP_MODEL);
+ 		gpu->identity.revision = gpu_read(gpu, VIVS_HI_CHIP_REV);
+-		gpu->identity.product_id = gpu_read(gpu, VIVS_HI_CHIP_PRODUCT_ID);
+ 		gpu->identity.customer_id = gpu_read(gpu, VIVS_HI_CHIP_CUSTOMER_ID);
+-		gpu->identity.eco_id = gpu_read(gpu, VIVS_HI_CHIP_ECO_ID);
++
++		/*
++		 * Reading these two registers on GC600 rev 0x19 result in a
++		 * unhandled fault: external abort on non-linefetch
++		 */
++		if (!etnaviv_is_model_rev(gpu, GC600, 0x19)) {
++			gpu->identity.product_id = gpu_read(gpu, VIVS_HI_CHIP_PRODUCT_ID);
++			gpu->identity.eco_id = gpu_read(gpu, VIVS_HI_CHIP_ECO_ID);
++		}
+ 
+ 		/*
+ 		 * !!!! HACK ALERT !!!!
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
