@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3934124F039
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 00:19:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F8624F040
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 00:28:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959D96E0C6;
-	Sun, 23 Aug 2020 22:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBC186E139;
+	Sun, 23 Aug 2020 22:28:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 734706E0C6
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 22:19:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B41A279;
- Mon, 24 Aug 2020 00:19:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1598221153;
- bh=jR2719Bh8edQKpKcDCblp3fFLCmrLJ9k0mDA6xq9Vw8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gKBnNPjhYTM3EYnpFqaj4S7t7Iozy47maNCuMrXuefLLjxSVpvg+MK3FaBHwgg70z
- xBfv2iysL/2WhIQMppAipazp6O1frreJAOh7eKWIeJvl/4MaxHnLps8WqmJMuye1UU
- kOXvMQa/0uhJa6c9meNOFCite6cJOvlPCwkxRDUA=
-Date: Mon, 24 Aug 2020 01:18:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH v2] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
-Message-ID: <20200823221854.GG6002@pendragon.ideasonboard.com>
-References: <20200608025340.3050-1-cai@lca.pw>
- <20200608031442.GP22208@pendragon.ideasonboard.com>
- <20200608031622.GQ22208@pendragon.ideasonboard.com>
- <20200822012036.GA26224@lca.pw>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2CCD6E139
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 22:28:53 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209017] New: [amdgpu] Black screen when unlocking session
+Date: Sun, 23 Aug 2020 22:28:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: libcg@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-209017-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200822012036.GA26224@lca.pw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,75 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Qian,
+https://bugzilla.kernel.org/show_bug.cgi?id=209017
 
-On Fri, Aug 21, 2020 at 09:20:37PM -0400, Qian Cai wrote:
-> On Mon, Jun 08, 2020 at 06:16:22AM +0300, Laurent Pinchart wrote:
-> > Hi Qian,
-> > 
-> > I forgot to mention, I think the subject line should be
-> > 
-> > drm/rcar-du: Make DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU
-> > 
-> > Could you please let me know if you're OK with these two small changes ?
-> 
-> Laurent, this patch is still not in the latest linux-next. Can you take a look?
+            Bug ID: 209017
+           Summary: [amdgpu] Black screen when unlocking session
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.8.2
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: libcg@protonmail.com
+        Regression: No
 
-Sorry for the delay. It will be included in the pull request I send this
-week.
+Steps to reproduce:
+- Lock session with Super+L and wait for monitor to go to sleep
+- Type password
 
-> > On Mon, Jun 08, 2020 at 06:14:43AM +0300, Laurent Pinchart wrote:
-> > > On Sun, Jun 07, 2020 at 10:53:40PM -0400, Qian Cai wrote:
-> > > > There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
-> > > 
-> > > s/DRM=n/DRM_RCAR_DU=n/ here.
-> > > 
-> > > > the generated .config a bit ugly.
-> > > > 
-> > > >  # ARM devices
-> > > >  #
-> > > >  # end of ARM devices
-> > > > 
-> > > >  CONFIG_DRM_RCAR_WRITEBACK=y
-> > > > 
-> > > >  #
-> > > >  # Frame buffer Devices
-> > > > 
-> > > > Let DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU instead.
-> > > > 
-> > > > Signed-off-by: Qian Cai <cai@lca.pw>
-> > > 
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > No need to submit a v3 if you agree with the above change, I'll fix it
-> > > in my tree.
-> > > 
-> > > > ---
-> > > >  drivers/gpu/drm/rcar-du/Kconfig | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> > > > index 0919f1f159a4..3304b41f5611 100644
-> > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > > > @@ -48,3 +48,4 @@ config DRM_RCAR_VSP
-> > > >  config DRM_RCAR_WRITEBACK
-> > > >  	bool
-> > > >  	default y if ARM64
-> > > > +	depends on DRM_RCAR_DU
+Expected result:
+- Screen turns on, showing the unlocked session
+
+Observed result:
+- Screen turns on, but stays black. The monitor HUD shows no signal.
+
+Reverting to 5.8.1 fixes the issue. GPU is an R9 Fury.
 
 -- 
-Regards,
-
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
