@@ -2,65 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DAB24F2CB
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 08:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C6E24F2D4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 08:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB576EC75;
-	Mon, 24 Aug 2020 06:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8AB16EC83;
+	Mon, 24 Aug 2020 06:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7411F6E5AE
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 21:42:06 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id s9so3431331lfs.4
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Aug 2020 14:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wc4iGC6lUOkdFB1yl61K549g5r3SOsu5JHxiruFQCrg=;
- b=Bi3p+Cp3Oib9xYvfFtUZm0Uf4rS7f9RNyKsd3tWxxONpQQc3PTzptgnmmrY8S6kGoN
- MOvAz8xOUY9ngcOmmuv32FeGCODgI3+OG2C1ZfXRwC80bdmDQFHZhV0g8e/8gqYcSkMK
- VnOoZTXbShIC6Bch87KRpZNeDTivaN6dRe3bl07uV2weQcOSTlnP8PSnJSpTAz6UwHXh
- jfkfJtWP6VTM0IVwVX0tTJylC0DIYkRTaV1fnQyEsy7T5f3ySgDBw7pvJhI1XA7xov8H
- aaOCGtjqie8LdeYqkGUwj5n+Z1y9yL6cENlISNUIdyKKFk/8rZaF0QyYzMRltPEBVOw0
- WQqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wc4iGC6lUOkdFB1yl61K549g5r3SOsu5JHxiruFQCrg=;
- b=JMtgA2ieTCpACAwLJ1+17TfODySyQMPq8I8AqcQ1vrE6hPN6HU4Fd/jAUwIZeKovNt
- 8JmaXhWUEHwlN+DrJfzSEbV+/oUsJIZFKHGpi0k6Y7U2lfAkdUt6ofG7SvsDapZzXcrl
- yGx3tc2ylie0uwVaouuXQ+5hgTIWkpJh1kRJ2zegbnrYJqs+JZJ0zZSUP2Akpq+QHFNO
- EbHjFJ2rgjp4n/ObAVtXq2TMXKK5WaNUCkvkDGuiUTdKtv6z8PKu+gfl4Xbx71J/PmNV
- MJezGvoALD6pGEDLgEdJ1TPHQOVNMWO3J9ij6xswXt6IQ1YjQJtDewXqVOJ+Wa+QYJSj
- KbxA==
-X-Gm-Message-State: AOAM530gE0HA84bKpSVMqOQBoR8OsE/6MnxX67C4B6hqvcNPoDYfJEbq
- kzHEkDdlt6ShjEwgT9L+p2w=
-X-Google-Smtp-Source: ABdhPJzBkQVyR54HEK+tqk6nv9UaSdmG4fAbLjgLYrMh+ECOQvZhJQPh8Uzu3899cmc9YqmRioxiNg==
-X-Received: by 2002:a19:4ace:: with SMTP id x197mr1185909lfa.70.1598218924740; 
- Sun, 23 Aug 2020 14:42:04 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id w8sm1807687ljm.48.2020.08.23.14.42.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Aug 2020 14:42:03 -0700 (PDT)
-Subject: Re: [PATCH 12/18] iommu/tegra-gart: Add IOMMU_DOMAIN_DMA support
-To: Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
- linux@armlinux.org.uk
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <516b33118d489e56499ff8c64c019709b744110c.1597931876.git.robin.murphy@arm.com>
- <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
- <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ceccd3d1-2510-c289-c063-681ae005da85@gmail.com>
-Date: Mon, 24 Aug 2020 00:42:02 +0300
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 196AF89319;
+ Sun, 23 Aug 2020 22:35:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=xn4BC+pQmW9NzzzhMuyq2NbKnTZIdMXNDhTAAA/sNnc=; b=rgps0+RwIrR1qFQh33q+l1IacG
+ 8saSJirXqMnVDOqRufaLA0mftIBXJpJd2Vh/SpbubUz6wUeiEUaazPRp0+z+jBTB7gewDoXa17mio
+ sYMPVgxWOgVG6DVogpKvk8Z+kMdqgya49ZWwXpSJdqjB31pCR7InrCe3raYd8oNyD+EIcUZpASIoZ
+ 8rXwWrkgOMFuw+2tOmWzk4WGaPRSPlVjq+TlMWkLpOvPxg8AvS4EoX2iEDnfbTibzfNHFFuebAvev
+ iPhydiM3egRy8b6yuRi0OCHwmfoNJ7Ev1+Brlu6dBM+RJDKvVVAttqroCV73oys4ZgW/Kww0bYTyC
+ WVt/BO2A==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k9yaS-0006kJ-0f; Sun, 23 Aug 2020 22:35:42 +0000
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH -next] amdgpu: fix Documentation builds for pm/ file movement
+Message-ID: <88d43daf-f29b-0fbe-cf58-930e8caca0e7@infradead.org>
+Date: Sun, 23 Aug 2020 15:35:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Mon, 24 Aug 2020 06:55:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,44 +51,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, matthias.bgg@gmail.com, thierry.reding@gmail.com,
- laurent.pinchart@ideasonboard.com, s-anna@ti.com, will@kernel.org,
- m.szyprowski@samsung.com, linux-samsung-soc@vger.kernel.org,
- magnus.damm@gmail.com, kyungmin.park@samsung.com, jonathanh@nvidia.com,
- agross@kernel.org, yong.wu@mediatek.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, t-kristo@ti.com,
- iommu@lists.linux-foundation.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Evan Quan <evan.quan@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjEuMDguMjAyMCAwMzoyOCwgUm9iaW4gTXVycGh5INC/0LjRiNC10YI6Ci4uLgo+PiBXaWxsIGEg
-cmV0dXJuZWQgTlVMTCB0ZWxsIHRvIElPTU1VIGNvcmUgdGhhdCBpbXBsaWNpdCBkb21haW4gc2hv
-dWxkbid0Cj4+IGJlIHVzZWQ/IElzIGl0IHBvc3NpYmxlIHRvIGxlYXZlIHRoaXMgZHJpdmVyIGFz
-LWlzPwo+IAo+IFRoZSBhaW0gb2YgdGhpcyBwYXRjaCB3YXMganVzdCB0byBtYWtlIHRoZSBjb252
-ZXJzaW9uIHdpdGhvdXQgZnVuY3Rpb25hbAo+IGNoYW5nZXMgd2hlcmV2ZXIgcG9zc2libGUsIGku
-ZS4gbWFpbnRhaW4gYW4gZXF1aXZhbGVudCB0byB0aGUgZXhpc3RpbmcKPiBBUk0gYmVoYXZpb3Vy
-IG9mIGFsbG9jYXRpbmcgaXRzIG93biBpbXBsaWNpdCBkb21haW5zIGZvciBldmVyeXRoaW5nLiBJ
-dAo+IGRvZXNuJ3QgcmVwcmVzZW50IGFueSBqdWRnZW1lbnQgb2Ygd2hldGhlciB0aGF0IHdhcyBl
-dmVyIGFwcHJvcHJpYXRlIGZvcgo+IHRoaXMgZHJpdmVyIGluIHRoZSBmaXJzdCBwbGFjZSA7KQo+
-IAo+IEhvcGVmdWxseSBteSBvdGhlciByZXBseSBhbHJlYWR5IGNvdmVyZWQgdGhlIGRlZ3JlZSBv
-ZiBjb250cm9sIGRyaXZlcnMKPiBjYW4gaGF2ZSB3aXRoIHByb3BlciBkZWZhdWx0IGRvbWFpbnMs
-IGJ1dCBkbyBzaG91dCBpZiBhbnl0aGluZyB3YXNuJ3QKPiBjbGVhci4KClRoYW5rIHlvdSBmb3Ig
-dGhlIGRldGFpbGVkIGNvbW1lbnRzISBJIHdhc24ndCB3YXRjaGluZyBjbG9zZWx5IGFsbCB0aGUK
-cmVjZW50IGlvbW11LyBjaGFuZ2VzIGFuZCB5b3VycyBjbGFyaWZpY2F0aW9uIGlzIHZlcnkgaGVs
-cGZ1bCEKCk15IGN1cnJlbnQgdW5kZXJzdGFuZGluZyBpcyB0aGF0IHRoZSBHQVJUIGRyaXZlciB3
-aWxsIG5lZWQgdG8gc3VwcG9ydAp0aGUgSU9NTVVfRE9NQUlOX0lERU5USVRZIGFuZCBzZXQgZGVm
-X2RvbWFpbl90eXBlIHRvCklPTU1VX0RPTUFJTl9JREVOVElUWSBmb3IgYWxsIGRldmljZXMuCgpN
-ZWFud2hpbGUsIHRvZGF5J3MgdXBzdHJlYW0gZHJpdmVycyBkb24ndCB1c2UgR0FSVCwgaGVuY2Ug
-dGhpcyBwYXRjaApzaG91bGQgYmUgb2theS4gQWx0aG91Z2gsIGl0J3MgYSBiaXQgdW5saWtlbHkg
-dGhhdCB0aGUgSU9NTVVfRE9NQUlOX0RNQQp0eXBlIHdpbGwgZXZlciBiZSB1c2VmdWwgZm9yIHRo
-ZSBHQVJULCBhbmQgdGh1cywgSSdtIHN0aWxsIHRoaW5raW5nIHRoYXQKd2lsbCBiZSBhIGJpdCBu
-aWNlciB0byBrZWVwIEdBUlQgZHJpdmVyIGFzLWlzIGZvciBub3cuCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Randy Dunlap <rdunlap@infradead.org>
+
+Fix Documentation errors for amdgpu.rst due to file rename (moved
+to another subdirectory).
+
+Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function hwmon ../drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c' failed with return code 1
+
+Fixes: e098bc9612c2 ("drm/amd/pm: optimize the power related source code layout")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Evan Quan <evan.quan@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+---
+ Documentation/gpu/amdgpu.rst |   24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+--- linux-next-20200821.orig/Documentation/gpu/amdgpu.rst
++++ linux-next-20200821/Documentation/gpu/amdgpu.rst
+@@ -153,7 +153,7 @@ This section covers hwmon and power/ther
+ HWMON Interfaces
+ ----------------
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: hwmon
+ 
+ GPU sysfs Power State Interfaces
+@@ -164,52 +164,52 @@ GPU power controls are exposed via sysfs
+ power_dpm_state
+ ~~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: power_dpm_state
+ 
+ power_dpm_force_performance_level
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: power_dpm_force_performance_level
+ 
+ pp_table
+ ~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_table
+ 
+ pp_od_clk_voltage
+ ~~~~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_od_clk_voltage
+ 
+ pp_dpm_*
+ ~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
+ 
+ pp_power_profile_mode
+ ~~~~~~~~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_power_profile_mode
+ 
+ *_busy_percent
+ ~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: gpu_busy_percent
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: mem_busy_percent
+ 
+ gpu_metrics
+ ~~~~~~~~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: gpu_metrics
+ 
+ GPU Product Information
+@@ -239,7 +239,7 @@ serial_number
+ unique_id
+ ---------
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: unique_id
+ 
+ GPU Memory Usage Information
+@@ -289,7 +289,7 @@ PCIe Accounting Information
+ pcie_bw
+ -------
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pcie_bw
+ 
+ pcie_replay_count
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
