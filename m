@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116F32506A4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 19:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFD62506BF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 19:42:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5F56E2F2;
-	Mon, 24 Aug 2020 17:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A4F6E3F5;
+	Mon, 24 Aug 2020 17:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E084A6E2F2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 17:38:12 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id dp2so7687575ejc.4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 10:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zjUrc/fIl6zFEZsZkrBTqHUXU0VkYvcfFdf7hySFW0A=;
- b=05W3QLTSfaelLXAZaMqdMBJUgDnQYy8AINCIYD2NBZzo+PzDlrOMu/q9l+Wtg0mOda
- dX0hMtOE4IlF60uXxhhAY13gVfqLeqFKgjaon/oUwX+lwo8fBRpO7+zCmtDxgTvWeP8m
- YHykVgYUF5N1cKgn0lwH/rT1GJS1dj762IwQsuQg5GopFVzTnJrEuJQGQN7nNjCsMKA0
- KNPgtQWYVbFhaSdfwDXQpw57MoY+dsD9DGEW2iXu1ecjLcoeglTx6jRDbozKrPuY6xyq
- BtcPzsE0wtwF/nv9GBHJ8J+oGn99f1aw2KMaf79JpHEhkcHS9/kbReVQP/c5BBdXfdaJ
- EEMQ==
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C886E3F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 17:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598290970;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KPku6gi3dxvRkdI/qQKB9W9BzXhpWhnoZ4SMbqlznzE=;
+ b=bXg65SK1sTenbD5tg5QWqqZ+v3IlolYU2OjTOCsHBcMSpwF1p7rdGkwIKVjnKublSMgndJ
+ FC1q73beKoRX6wwjwiND58pJQlrdiQcN9LNMNHfutt2sD3cNSGHs3z8FWViRSqM38W2ofg
+ W/2Yj7H3sMvAQBJIrR89IwohqF8wZ3s=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-pEdeePQ5OpKFm43FgiKAVg-1; Mon, 24 Aug 2020 13:42:44 -0400
+X-MC-Unique: pEdeePQ5OpKFm43FgiKAVg-1
+Received: by mail-qk1-f197.google.com with SMTP id v16so6941579qka.18
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 10:42:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zjUrc/fIl6zFEZsZkrBTqHUXU0VkYvcfFdf7hySFW0A=;
- b=TsfT0xlHVCLIfG9235kcdE9ScQNJUjcIen04aaMNB27UoydRXN2hCW8dGa2NO3FyLy
- /v4SA9ld+DOCxoFgMt6/+gnwf+Ffw9y7L7Ad5990Slgb42YDCemPYj6qEfT22bwcSkjk
- cIZgwlBNWJg4ZlGwEvQzoRyScaJPpO+iMfhHMIH9QsQ7TYkbIfQkNVCI62iFRURJK4Z2
- EvZ5+0Cmdx8eWtOtXKRrwO/Jf0FRupupYTILrGdt811r4djBksiej95telCaTQZ3ZAcI
- yBBSX1ZKNX9o7xQMB4hZujnsuRP6XeTK2g31hSR3KqXNgpaSurkQ6PtYAk0jEG4piTgd
- Y17g==
-X-Gm-Message-State: AOAM531cW9phIgI5XKYOrkMAki2/sqVjl8ov0bSzniGAnV+Mc+SXW5mx
- bjfdIfS6q8HyerIR94pFUjVf6x030YzXNLdUWd8qhQ==
-X-Google-Smtp-Source: ABdhPJwvurA2KdJGjI38jaC4Vi+/rauUyfBqbfEQh/bZg1oovAHLFLiVC0THyMnU4/4pQmhbnroivhHLfRJRozMvHMA=
-X-Received: by 2002:a17:906:a209:: with SMTP id
- r9mr6903933ejy.413.1598290691441; 
- Mon, 24 Aug 2020 10:38:11 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=KPku6gi3dxvRkdI/qQKB9W9BzXhpWhnoZ4SMbqlznzE=;
+ b=i/1jUBXDAnoQW0Vm3S+MH4tfjhavKVgITn/hRNYjSDQ8ju799Ce5AMMFK1w/09fXMX
+ etLMQDktXJr8Xo+BcR5TB3FzTIjTxZvoioYD15LgOg8sFCNzcCIJJey5ieQdfoXpU5X5
+ iaiYZiBlJM/Ro4hpiiEGxbWGri5xdL08E3WOV4aE1veW/Kd2Igc8odMsHMvssrlApMuP
+ +Kic4Xyw64YNi3FZT8uUA252WvtV8kT3nRWRJBlXYiydp3Jimaqe6FlLI7tsHZIupJZI
+ +4zLBynb+QlVqPBFDQn3eUlj9T9eSUnNy00kwxzg10pCUSy0m41Wfh6gVSvqOGzyJ81X
+ pq/A==
+X-Gm-Message-State: AOAM5329xaUIYPdlVEPkJCWeIq89NWPYHz4N2fDVf8ipRr5Dv7MWdAg2
+ f3We+sDX+/MwxS+tOTzL8ScYcwRmoprETkHHeZVI7zQ2YUIVp0kT/nHHpT/OcvA7EIWmIhSyTGO
+ o+Uwmh/sRBffijNTTaKLdR9DUzhfX
+X-Received: by 2002:aed:27c8:: with SMTP id m8mr5875609qtg.302.1598290960280; 
+ Mon, 24 Aug 2020 10:42:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQKDdo8b9kvRwWyqdcP/7EWeSYoDxC/s9/kKoIVYfvr8IIOZZIKqfcbvdgATi94yqrwv0sCA==
+X-Received: by 2002:aed:27c8:: with SMTP id m8mr5875581qtg.302.1598290959896; 
+ Mon, 24 Aug 2020 10:42:39 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id y26sm11209366qto.75.2020.08.24.10.42.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Aug 2020 10:42:39 -0700 (PDT)
+Message-ID: <aafb77646e6f6efdc35789d3654dab14891c7f48.camel@redhat.com>
+Subject: Re: [PATCH] drm/dp_mst: Add ddc i2c device links for DP MST connectors
+From: Lyude Paul <lyude@redhat.com>
+To: imre.deak@intel.com, Sam McNally <sammc@chromium.org>, Wayne Lin
+ <Wayne.Lin@amd.com>
+Date: Mon, 24 Aug 2020 13:42:38 -0400
+In-Reply-To: <20200820180312.GC2423@ideak-desk.fi.intel.com>
+References: <20200729161510.1.Iaa9c3d7c4332cf8717653f3d3ae6f2b955aa3fc6@changeid>
+ <20200814145956.GA12962@ideak-desk.fi.intel.com>
+ <CAJqEsoCAR-3NNL+pD4QeUWioq-uLdEdZwNrPVkzjULM39KiayA@mail.gmail.com>
+ <20200820180312.GC2423@ideak-desk.fi.intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
- <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
- <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
- <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
- <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
-In-Reply-To: <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Mon, 24 Aug 2020 14:38:00 -0300
-Message-ID: <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the
- Ingenic JZ4780)
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +85,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: lyude@redhat.com
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyNCBBdWcgMjAyMCBhdCAxMzowNSwgSC4gTmlrb2xhdXMgU2NoYWxsZXIgPGhuc0Bn
-b2xkZWxpY28uY29tPiB3cm90ZToKPgo+IEhpIEV6ZXF1aWVsLAo+Cj4gPiBBbSAyNC4wOC4yMDIw
-IHVtIDE1OjQ2IHNjaHJpZWIgRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEB2YW5ndWFyZGlhc3Vy
-LmNvbS5hcj46Cj4gPgo+ID4gT24gRnJpLCAyMSBBdWcgMjAyMCBhdCAxOToyNCwgUGF1bCBDZXJj
-dWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+IHdyb3RlOgo+ID4+Cj4gPj4KPiA+Pgo+ID4+IExl
-IHNhbS4gMjIgYW/Du3QgMjAyMCDDoCAwOjExLCBQYXVsIEJvZGRpZSA8cGF1bEBib2RkaWUub3Jn
-LnVrPiBhCj4gPj4gw6ljcml0IDoKPiA+Pgo+ID4+IElmIHlvdSBzZW5kIGNsZWFuIHBhdGNoZXMs
-IHRoZXJlJ3Mgbm8gcmVhc29uIGZvciBtZSBub3QgdG8gbWVyZ2UgdGhlbS4KPiA+Pgo+ID4KPiA+
-IEknZCByZWFsbHkgbGlrZSB0byBzZWUgSERNSSBzdXBwb3J0IG9uIG15IENJMjAgYmVpbmcgbWVy
-Z2VkLiBUaGFuayB0bwo+ID4gcmVjZW50IGluZ2VuaWMtZHJtIHdvcmsgYW5kIHRoYW5rcyBmb3Ig
-UGF1bCBCb2RkaWUgYW5kIE5pa29sYXVzIHdvcmssCj4gPiB0aGUgcGF0Y2hlcyBhcmUgSU1PIHF1
-aXRlIGNsZWFuLgo+Cj4gSSBoYXZlIGRvbmUgc29tZSB0ZXN0aW5nIGFuZCBpdCBhcHBlYXJzIHRo
-YXQgaXQgb25seSB3b3JrcyBpZiBEUk0gaXMKPiBjb21waWxlZCBpbnRvIHRoZSBrZXJuZWwuIEF0
-IGxlYXN0IGluIG15IHNldHVwLiBJZiBEUk0gYW5kL29yIEhETUkgYXJlIG1hZGUKPiBtb2R1bGVz
-IHRoZXJlIGlzIG5vIHZpZGVvIG9yIGNvZGUgZG9lc24ndCBjb21waWxlIGNvbXBsZXRlbHkuCj4K
-PiBXZSBoYXZlIHRvIGFuYWx5c2UgdGhhdCBmdXJ0aGVyLgo+CgpBaCEgVGhhdCdzIHRydWUuCgpU
-aGUgZml4IGlzIGp1c3QgcmUtb3JnYW5pemluZyB0aGUgY29kZSBhIGJpdC4gSnVzdCBwdXNoZWQg
-YSBwb3NzaWJsZQpmaXggZm9yIHRoYXQgKGZvbGxvd2luZyB0aGUgSVBVIGhhbmRsaW5nIGJ5IFBh
-dWwgQ2VyY3VlaWwpLApwbGVhc2UgZmVlbCBmcmVlIHRvIHRlc3QgdGhpczoKCmh0dHBzOi8vZ2l0
-bGFiLmNvbGxhYm9yYS5jb20vbGludXgvMGRheS8tL2NvbW1pdHMvano0NzgwLWRybS1oZG1pLW1v
-ZHVsZS1maXgtdjUuOS1yYzIKCkZXSVcsIG15IHRlc3Qgc2V0dXAgdXNlcyBtYWlubGluZSB2YW5p
-bGxhIFUtQm9vdCB2MjAyMC4wNy4KVGhlIGtlcm5lbCBpcyBsb2FkZWQgdmlhIFRGVFAuIERlYmlh
-biBtaXBzZWwgaXMgbW91bnRlZCB2aWEgTkZTCih3aGljaCBtZWFucyBkbTkwMDAgd29ya3MpLiBJ
-J20gdGVzdGluZyB3aXRoIHdlc3RvbiBhbmQgbW9kZXRlc3QuCgpOb3RlIHRoYXQgZW5hYmxpbmcg
-RFJNX0lOR0VOSUNfSVBVIHdpbGwgbWFrZSB0aGUgZHJpdmVyCmZhaWwgdG8gbG9hZCwgYXMgdGhl
-IElQVSBpcyBub3Qgb3B0aW9uYWwgKGFuZCBub3QgcHJlc2VudCBvbiBjaTIwLmR0cykuCkEgbWlu
-b3IgdGhpbmcgdG8gZml4LgoKQ2hlZXJzLApFemVxdWllbAoKPiBBbmQgaXQgc2VlbXMgdG8gZGlm
-ZmVyIHNpZ25pZmljYW50bHkgZnJvbSB3aGF0IFBhdWwgaGFzIGRldmVsb3BlZCByZWNlbnRseQo+
-IHRvIG1ha2UgaXQgd29yay4gSXQgc2VlbXMgdG8gYmUgcXVpdGUgbHVja3kgdGhhdCB3ZSBoYXZl
-IGEgd29ya2luZyBzZXR1cCBub3cgOikKPgo+ID4gTmlrb2xhdXMsIFBhdWw6IERvIHlvdSBoYXZl
-IHBsYW5zIHRvIHN1Ym1pdCB0aGVzZT8KPgo+IFllcywgYXMgc29vbiBhcyB3ZSBhcmUgc3VyZSB0
-aGF0IGl0IHdvcmtzIChhbmQgd2hlbiBpdCBkb2Vzbid0KS4KPgo+IEJ1dCB0aGFua3MgdG8geW91
-ciB3b3JrIGl0IGlzIG5vdyBtdWNoIGVhc2llciB0byBpbXByb3ZlIHRoaW5ncywgc2luY2Ugd2UK
-PiBhcmUgbm8gbG9uZ2VyIGxvb2tpbmcgZm9yIGEgYnJlYWstdGhyb3VnaCBidXQganVzdCBoYXZl
-IHRvIGF2b2lkIHJlZ3Jlc3Npb25zLgo+Cj4gPiBJZiBub3QsIEknbGwgYmUgaGFwcHkgdG8gZ2V0
-IHRoZW0gb3V0IHRoZSBkb29yIGZvciByZXZpZXcuCj4KPiBMZXQgaXQgbWF0dXJlIGEgbGl0dGxl
-IGZpcnN0IGFuZCBoYXZlIGl0IHRlc3RlZCBvbiBtb3JlIHNldHVwcyBhbmQgcmViYXNlZAo+IHRv
-IG1haW5saW5lIHY1LjktcmMyIDopCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On Thu, 2020-08-20 at 21:03 +0300, Imre Deak wrote:
+> On Thu, Aug 20, 2020 at 12:27:03PM +1000, Sam McNally wrote:
+> > > > [...]
+> > > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > index 1ac874e4e7a1..73a2299c2faa 100644
+> > > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > > @@ -2161,11 +2161,23 @@ static void build_mst_prop_path(const struct
+> > > > drm_dp_mst_branch *mstb,
+> > > >  int drm_dp_mst_connector_late_register(struct drm_connector *connector,
+> > > >                                      struct drm_dp_mst_port *port)
+> > > >  {
+> > > > +     int ret;
+> > > >       DRM_DEBUG_KMS("registering %s remote bus for %s\n",
+> > > >                     port->aux.name, connector->kdev->kobj.name);
+> > > > 
+> > > >       port->aux.dev = connector->kdev;
+> > > > -     return drm_dp_aux_register_devnode(&port->aux);
+> > > > +     ret = drm_dp_aux_register_devnode(&port->aux);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     if (port->pdt != DP_PEER_DEVICE_NONE &&
+> > > > +         drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+> > > 
+> > > How can we get here when drm_dp_mst_is_end_device(port) is not true?
+> > > AFAICS that's only case where we should create a connector and an i2c
+> > > device. (IOW we don't create them for branch ports.)
+> > 
+> > I'm not sure what you mean. Wouldn't this condition be checked during
+> > the registration of any MST connector? This follows the pattern used
+> > in drm_dp_mst_port_add_connector() [0], which seems like it's invoked
+> > in the same cases as drm_dp_mst_connector_late_register(), modulo
+> > early outs for errors.
+> 
+> Re-reading the code, a DRM connector is created whenever the MST port is
+> an output port, so even in the case of an output branch port.
+> 
+> I'm still not sure why we can't register/unregister the I2C bus whenever
+> creating/removing the DRM connector. That's also the scope of the AUX
+> bus, which is what I2C depends on, and if a port doesn't support I2C
+> messaging then the corresponding AUX messages would be NAKed.
+
+FWIW - I'm totally fine with this, as long as it works :)
+> 
+> --Imre
+> 
+> > [0] 
+> > https://cgit.freedesktop.org/drm-tip/tree/drivers/gpu/drm/drm_dp_mst_topology.c?id=1939e049a8ec6cef03a098f7cc99cb0bbcff21c6#n2188
+> > 
+> > 
+> > 
+> > > > +             ret = sysfs_create_link(&port->connector->kdev->kobj,
+> > > > +                                     &port->aux.ddc.dev.kobj, "ddc");
+> > > > +             if (ret)
+> > > > +                     drm_dp_aux_unregister_devnode(&port->aux);
+> > > > +     }
+> > > > +     return ret;
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_dp_mst_connector_late_register);
+> > > > 
+> > > > @@ -5490,6 +5502,7 @@ static int drm_dp_mst_register_i2c_bus(struct
+> > > > drm_dp_mst_port *port)
+> > > >  {
+> > > >       struct drm_dp_aux *aux = &port->aux;
+> > > >       struct device *parent_dev = port->mgr->dev->dev;
+> > > > +     int ret;
+> > > > 
+> > > >       aux->ddc.algo = &drm_dp_mst_i2c_algo;
+> > > >       aux->ddc.algo_data = aux;
+> > > > @@ -5504,7 +5517,17 @@ static int drm_dp_mst_register_i2c_bus(struct
+> > > > drm_dp_mst_port *port)
+> > > >       strlcpy(aux->ddc.name, aux->name ? aux->name :
+> > > > dev_name(parent_dev),
+> > > >               sizeof(aux->ddc.name));
+> > > > 
+> > > > -     return i2c_add_adapter(&aux->ddc);
+> > > > +     ret = i2c_add_adapter(&aux->ddc);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     if (port->connector && port->connector->kdev) {
+> > > > +             ret = sysfs_create_link(&port->connector->kdev->kobj,
+> > > > +                                     &port->aux.ddc.dev.kobj, "ddc");
+> > > > +             if (ret)
+> > > > +                     i2c_del_adapter(&port->aux.ddc);
+> > > > +     }
+> > > > +     return ret;
+> > > >  }
+> > > > 
+> > > >  /**
+> > > > @@ -5513,6 +5536,8 @@ static int drm_dp_mst_register_i2c_bus(struct
+> > > > drm_dp_mst_port *port)
+> > > >   */
+> > > >  static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port)
+> > > >  {
+> > > > +     if (port->connector && port->connector->kdev)
+> > > > +             sysfs_remove_link(&port->connector->kdev->kobj, "ddc");
+> > > >       i2c_del_adapter(&port->aux.ddc);
+> > > >  }
+> > > > 
+> > > > --
+> > > > 2.28.0.rc0.142.g3c755180ce-goog
+> > > > 
+-- 
+Sincerely,
+      Lyude Paul (she/her)
+      Software Engineer at Red Hat
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
