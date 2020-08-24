@@ -2,40 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A6625130F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8502512FF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFB16E878;
-	Tue, 25 Aug 2020 07:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5BB6E873;
+	Tue, 25 Aug 2020 07:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B356E598
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 21:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1598303487; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nEDvPQGA28ui4gkChbVblrhftFg/zkWXqE9+iID1kIo=;
- b=iCjfVXPhWcXAJva525nkOFlCkK56Na49yEBbJ8xxpkA3OywJRvsLn2kC1txFweJzLP7hfl
- JbwTz4mo4AkoLplPLrkCikxWVvinyO1TXjWdwbOwb48d0nuxH+O3+vhN9E/cqfFxhpg6YV
- DhQ6kvKwk1S8LNSG/wNLbLu0JeuLylM=
-Date: Mon, 24 Aug 2020 23:11:16 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the
- Ingenic JZ4780)
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Message-Id: <SU6LFQ.ROILRVX1L3XN3@crapouillou.net>
-In-Reply-To: <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
-References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
- <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
- <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
- <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
- <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
- <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A38E6E598;
+ Mon, 24 Aug 2020 21:15:51 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id t14so216863wmi.3;
+ Mon, 24 Aug 2020 14:15:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LFw4WfZ8EhsNfys63tZhqlDitg+wRfgOs5oV//XPrUM=;
+ b=FQfOrITBr/YQmprdbDs9K0Z2Kq+p9iialWri9yWFnpOyReVYm0eyFFSpkA9dfanxkT
+ IRTWbqHsmXT0FApdWrAoXwRvynXtd8rU9PnFu+pA5DosfghqjjJh7DNvOQMdDSgds0nn
+ IEaM1xEuJ984gyfGYP+5f6UgTFNYZwk1pE0PqTO4bdsdvkN86oTTeRTXPwTP/8h4PdA7
+ T+pgYyrjH2SmkmEthb8p1oMkGmgL1ciUfEVPII0CaDvTpBznT+OaqZMBTxsFKxIDNgru
+ yghkD6ZRfTmeQTIKGkA5pDwbHaqO+afu1s/cvLzrnct4VkTCwR6lC1Kaj88tktIUkaBr
+ ccDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LFw4WfZ8EhsNfys63tZhqlDitg+wRfgOs5oV//XPrUM=;
+ b=HQF6+Y7U6JNfUpAqa+6iTOJMXLh0NNcAgjw5N4INvZ+WX6XiZv82baSA0EMtIqkTAq
+ f+xKDCVYjkzb1HwgJ9E2CLlHsaNQFC0kpjsa3pvU9t7iOSNdk17e3t0JUMfBLwDIxFKZ
+ czUBKuUrO2jeterdk21R4E4Y4MLQl41cGjYdI+VrNrwP0fg+Ajy+WqqtuNnfEGb8mwJD
+ KEwcB5HFyfOSJww4M1A/4VYXBrT0BEnpa+1r9SQ9L6rfQOd/IepfXndd/Vcb93sNP4dP
+ XXpOMAFzlKPAQdBKprwCd3jOVHeaWE71zaEsrn2gKTju1kpMH5qxKJ1iexdjkOrukZBP
+ lmJA==
+X-Gm-Message-State: AOAM5315KVNblmSOsH3kjoKbnmzswfOcbDzIhhjRxFncPq8146nferfa
+ wzZh0ynL/pv2qlyi4OdcNA4=
+X-Google-Smtp-Source: ABdhPJz0baJ8O+INbMWboBj35pDbefXGIzNS8GiFPjrN5PieYka8Z4czgAFx6rk+IT2Y7nTgcfBJNg==
+X-Received: by 2002:a1c:7915:: with SMTP id l21mr1146892wme.50.1598303750143; 
+ Mon, 24 Aug 2020 14:15:50 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
+ by smtp.gmail.com with ESMTPSA id c9sm1638261wmf.3.2020.08.24.14.15.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Aug 2020 14:15:49 -0700 (PDT)
+From: Alex Dewar <alex.dewar90@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Alex Dewar <alex.dewar90@gmail.com>, Li Heng <liheng40@huawei.com>,
+ Evan Quan <evan.quan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/pm: use kmemdup() rather than kmalloc+memcpy
+Date: Mon, 24 Aug 2020 22:15:25 +0100
+Message-Id: <20200824211530.592909-1-alex.dewar90@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 25 Aug 2020 07:21:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,134 +71,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, "H. Nikolaus Schaller" <hns@goldelico.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Issue identified with Coccinelle.
 
+Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
+---
+ .../drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c   | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Le lun. 24 ao=FBt 2020 =E0 14:38, Ezequiel Garcia =
-
-<ezequiel@vanguardiasur.com.ar> a =E9crit :
-> On Mon, 24 Aug 2020 at 13:05, H. Nikolaus Schaller =
-
-> <hns@goldelico.com> wrote:
->> =
-
->>  Hi Ezequiel,
->> =
-
->>  > Am 24.08.2020 um 15:46 schrieb Ezequiel Garcia =
-
->> <ezequiel@vanguardiasur.com.ar>:
->>  >
->>  > On Fri, 21 Aug 2020 at 19:24, Paul Cercueil =
-
->> <paul@crapouillou.net> wrote:
->>  >>
->>  >>
->>  >>
->>  >> Le sam. 22 ao=FBt 2020 =E0 0:11, Paul Boddie <paul@boddie.org.uk> a
->>  >> =E9crit :
->>  >>
->>  >> If you send clean patches, there's no reason for me not to merge =
-
->> them.
->>  >>
->>  >
->>  > I'd really like to see HDMI support on my CI20 being merged. =
-
->> Thank to
->>  > recent ingenic-drm work and thanks for Paul Boddie and Nikolaus =
-
->> work,
->>  > the patches are IMO quite clean.
->> =
-
->>  I have done some testing and it appears that it only works if DRM is
->>  compiled into the kernel. At least in my setup. If DRM and/or HDMI =
-
->> are made
->>  modules there is no video or code doesn't compile completely.
->> =
-
->>  We have to analyse that further.
->> =
-
-> =
-
-> Ah! That's true.
-> =
-
-> The fix is just re-organizing the code a bit. Just pushed a possible
-> fix for that (following the IPU handling by Paul Cercueil),
-> please feel free to test this:
-> =
-
-> https://gitlab.collabora.com/linux/0day/-/commits/jz4780-drm-hdmi-module-=
-fix-v5.9-rc2
-> =
-
-> FWIW, my test setup uses mainline vanilla U-Boot v2020.07.
-> The kernel is loaded via TFTP. Debian mipsel is mounted via NFS
-> (which means dm9000 works). I'm testing with weston and modetest.
-> =
-
-> Note that enabling DRM_INGENIC_IPU will make the driver
-> fail to load, as the IPU is not optional (and not present on =
-
-> ci20.dts).
-> A minor thing to fix.
-
-Actually that's a bug, the IPU should be optional. I'll come up with a =
-
-fix.
-
->>  And it seems to differ significantly from what Paul has developed =
-
->> recently
->>  to make it work. It seems to be quite lucky that we have a working =
-
->> setup now :)
->> =
-
->>  > Nikolaus, Paul: Do you have plans to submit these?
->> =
-
->>  Yes, as soon as we are sure that it works (and when it doesn't).
->> =
-
->>  But thanks to your work it is now much easier to improve things, =
-
->> since we
->>  are no longer looking for a break-through but just have to avoid =
-
->> regressions.
->> =
-
->>  > If not, I'll be happy to get them out the door for review.
->> =
-
->>  Let it mature a little first and have it tested on more setups and =
-
->> rebased
->>  to mainline v5.9-rc2 :)
->> =
-
-
-DRM drivers follow their own schedule, you should rebase to =
-
-drm-misc-next instead.
-
-Cheers,
--Paul
-
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
+index f56a3cbdfa3b..1f9082539457 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_processpptables.c
+@@ -890,14 +890,12 @@ static int init_powerplay_table_information(
+ 				power_saving_clock_count);
+ 	}
+ 
+-	pptable_information->smc_pptable = kmalloc(sizeof(PPTable_t), GFP_KERNEL);
++	pptable_information->smc_pptable = kmemdup(&(powerplay_table->smcPPTable),
++						   sizeof(PPTable_t),
++						   GFP_KERNEL);
+ 	if (pptable_information->smc_pptable == NULL)
+ 		return -ENOMEM;
+ 
+-	memcpy(pptable_information->smc_pptable,
+-			&(powerplay_table->smcPPTable),
+-			sizeof(PPTable_t));
+-
+ 
+ 	result = append_vbios_pptable(hwmgr, (pptable_information->smc_pptable));
+ 	if (result)
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
