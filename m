@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875F025093E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 21:29:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D9625098B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 21:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 167916E297;
-	Mon, 24 Aug 2020 19:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CF96E0BA;
+	Mon, 24 Aug 2020 19:43:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 771096E51D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:29:43 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id bs17so9138297edb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 12:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tkyjDeEozETacXNRr3uxxFjEe+DOSkNiETr7ujJ7mA4=;
- b=gbLjbs+kaoh4rZOxABupqrCM4Qcd3bYtkfeVC/nRU8Z2Wz1U+JbkAQkArH4gmcAbQg
- +me959Drpnd4CjLnwv1i7I+n39T70i1k9MgfXmM4TdqSH5CHPeQQ704WlNRzvMmsCNE3
- mHOMfsb2nqxSIfJ5iG/uxSzInfGvZgulDJl2jhM0ZTUq12X/DcNPeCcreRhIEGU5c473
- tplXuWIWR80tZi94jsXsW9LbmVH0mU1xGrXQJgLidd+oqlPUkRSlZgZ3kJ1zt0Zs4Z/h
- iVwiFqFsoqXrzRsD/80e0iJI+ElqXVWr+zeUX5i662Lr58YYWQFbC+XEQHqwTrZ52/i7
- S1hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tkyjDeEozETacXNRr3uxxFjEe+DOSkNiETr7ujJ7mA4=;
- b=FlXHn+htem1Izf54bbK6WCTlBg1NkAN7Vz5zifzl68Oz+2ciQaPgDrdPrILHBgYLAL
- hVCg2CxnPQ6xJFJVtdchDWYiNuDxhnBe+AoCOHJi0+8+9zd+z/OJGQOdH0sXL2aw3Gku
- 4hHF7DJQ2W/4dUgIUzBguJ2QlYAdsXXkRlRIRdeAB/mLg+ojDUlTcXtXeOHewCkBQrul
- qUCKxFC0wsp3CBrlSQhTGsCx8nt0cTGrkbcQ6C0hxhq1HQpn0AS09zLuA7D7mu5m6SyT
- QU8ONuQt5me4Ty2QOrBAJnrBleqlPaHtKRkuWBqEpMp5ToZrEm4NIVqB3zvMg4uKBbBF
- bQlQ==
-X-Gm-Message-State: AOAM532C9GxiZ3YJxVvpE307EUo52FBXCBNOaXYlumQs9Ej/COBzwiJK
- 0VIVU1q6C95d7Qy2ZOmsx+Xkkvo4ecuM8yJa9xo=
-X-Google-Smtp-Source: ABdhPJy8zXxqgoqnCG7czfw4GIuDC9/xFzn6G7zIEQJby4+MpOb+8f/28WY9QeyW1U8+CILxKbHrHp2ZOuZ7tua7MN0=
-X-Received: by 2002:aa7:c983:: with SMTP id c3mr6737425edt.383.1598297381878; 
- Mon, 24 Aug 2020 12:29:41 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1B46E0BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:42:59 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209019] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR*
+ Error in DP aux read transaction, not writing source specific data
+Date: Mon, 24 Aug 2020 19:42:58 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rtmasura+kernel@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209019-2300-512h6fjXlf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209019-2300@https.bugzilla.kernel.org/>
+References: <bug-209019-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <20200819152120.GA106437@ravnborg.org>
- <20200819153045.GA18469@pendragon.ideasonboard.com>
- <CALAqxLUXnPRec3UYbMKge8yNKBagLOatOeRCagF=JEyPEfWeKA@mail.gmail.com>
- <20200820090326.3f400a15@coco.lan>
- <20200820100205.GA5962@pendragon.ideasonboard.com>
-In-Reply-To: <20200820100205.GA5962@pendragon.ideasonboard.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 25 Aug 2020 05:29:29 +1000
-Message-ID: <CAPM=9twzsw7T=GD6Jc1EFenXq9ZhTgf_Nuo71uLfX2W33oa=6w@mail.gmail.com>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,132 +52,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
- driverdevel <devel@driverdev.osuosl.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- linux-media <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
- Rob Clark <robdclark@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
- Network Development <netdev@vger.kernel.org>,
- Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Aug 2020 at 20:02, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Mauro,
->
-> On Thu, Aug 20, 2020 at 09:03:26AM +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 19 Aug 2020 12:52:06 -0700 John Stultz escreveu:
-> > > On Wed, Aug 19, 2020 at 8:31 AM Laurent Pinchart wrote:
-> > > > On Wed, Aug 19, 2020 at 05:21:20PM +0200, Sam Ravnborg wrote:
-> > > > > On Wed, Aug 19, 2020 at 01:45:28PM +0200, Mauro Carvalho Chehab wrote:
-> > > > > > This patch series port the out-of-tree driver for Hikey 970 (which
-> > > > > > should also support Hikey 960) from the official 96boards tree:
-> > > > > >
-> > > > > >    https://github.com/96boards-hikey/linux/tree/hikey970-v4.9
-> > > > > >
-> > > > > > Based on his history, this driver seems to be originally written
-> > > > > > for Kernel 4.4, and was later ported to Kernel 4.9. The original
-> > > > > > driver used to depend on ION (from Kernel 4.4) and had its own
-> > > > > > implementation for FB dev API.
-> > > > > >
-> > > > > > As I need to preserve the original history (with has patches from
-> > > > > > both HiSilicon and from Linaro),  I'm starting from the original
-> > > > > > patch applied there. The remaining patches are incremental,
-> > > > > > and port this driver to work with upstream Kernel.
-> > > > > >
-> > > ...
-> > > > > > - Due to legal reasons, I need to preserve the authorship of
-> > > > > >   each one responsbile for each patch. So, I need to start from
-> > > > > >   the original patch from Kernel 4.4;
-> > > ...
-> > > > > I do acknowledge you need to preserve history and all -
-> > > > > but this patchset is not easy to review.
-> > > >
-> > > > Why do we need to preserve history ? Adding relevant Signed-off-by and
-> > > > Co-developed-by should be enough, shouldn't it ? Having a public branch
-> > > > that contains the history is useful if anyone is interested, but I don't
-> > > > think it's required in mainline.
-> > >
-> > > Yea. I concur with Laurent here. I'm not sure what legal reasoning you
-> > > have on this but preserving the "absolute" history here is actively
-> > > detrimental for review and understanding of the patch set.
-> > >
-> > > Preserving Authorship, Signed-off-by lines and adding Co-developed-by
-> > > lines should be sufficient to provide both atribution credit and DCO
-> > > history.
-> >
-> > I'm not convinced that, from legal standpoint, folding things would
-> > be enough. See, there are at least 3 legal systems involved here
-> > among the different patch authors:
-> >
-> >       - civil law;
-> >       - common law;
-> >       - customary law + common law.
-> >
-> > Merging stuff altogether from different law systems can be problematic,
-> > and trying to discuss this with experienced IP property lawyers will
-> > for sure take a lot of time and efforts. I also bet that different
-> > lawyers will have different opinions, because laws are subject to
-> > interpretation. With that matter I'm not aware of any court rules
-> > with regards to folded patches. So, it sounds to me that folding
-> > patches is something that has yet to be proofed in courts around
-> > the globe.
-> >
-> > At least for US legal system, it sounds that the Country of
-> > origin of a patch is relevant, as they have a concept of
-> > "national technology" that can be subject to export regulations.
-> >
-> > From my side, I really prefer to play safe and stay out of any such
-> > legal discussions.
->
-> Let's be serious for a moment. If you think there are legal issues in
-> taking GPL-v2.0-only patches and squashing them while retaining
-> authorship information through tags, the Linux kernel if *full* of that.
-> You also routinely modify patches that you commit to the media subsystem
-> to fix "small issues".
->
-> The country of origin argument makes no sense either, the kernel code
-> base if full of code coming from pretty much all country on the planet.
->
-> Keeping the patches separate make this hard to review. Please squash
-> them.
+https://bugzilla.kernel.org/show_bug.cgi?id=209019
 
-I'm inclined to agree with Laurent here.
+--- Comment #2 from rtmasura+kernel@hotmail.com ---
+Hmm I don't appear to have an up to date Xorg log, unless I'm misunderstanding
+where it should be:
 
-Patches submitted as GPL-v2 with DCO lines and author names/companies
-should be fine to be squashed and rearranged,
-as long as the DCO and Authorship is kept somewhere in the new patch
-that is applied.
+head /var/log/Xorg.0.log                                                        
+[1105825.601] (--) Log file renamed from "/var/log/Xorg.pid-1681661.log" to
+"/var/log/Xorg.0.log"
+[1105825.603] 
+X.Org X Server 1.20.8
+X Protocol Version 11, Revision 0
+[1105825.603] Build Operating System: Linux Arch Linux
+[1105825.603] Current Operating System: Linux abiggun 5.6.11-arch1-1 #1 SMP
+PREEMPT Wed, 06 May 2020 17:32:37 +0000 x86_64
+[1105825.603] Kernel command line: BOOT_IMAGE=/vmlinuz-linux
+root=UUID=ef7e3964-346a-44d8-b5e9-ee81e59833b9 rw
+cryptdevice=UUID=64e88839-e390-4431-bbe9-9f25b41860aa:cryptroot
+root=/dev/mapper/cryptroot usb-storage.quirks=0bc2:ab44:u
+usb-storage.quirks=0bc2:ab38:u usb-storage.quirks=0bc2:ab45:u amd_iommu=on
+iommu=pt apparmor=1 security=apparmor vfio-pci.ids=10de:1bb1,10de:10f0
+[1105825.603] Build Date: 05 May 2020  05:08:17AM
+[1105825.603]  
+[1105825.603] Current version of pixman: 0.40.0
 
-Review is more important here.
+tail /var/log/Xorg.0.log                                                        
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.133] (II) UnloadModule: "libinput"
+[1105827.134] (II) UnloadModule: "libinput"
+[1105827.188] (II) Server terminated successfully (0). Closing log file.
 
-Dave.
+
+I have no dmesg other than the one I provided, there were no other errors in
+dmesg. 
+
+
+So journal is probably the best bet. I can attach it all if you like:
+sudo journalctl -b -1 -p 3 
+-- Logs begin at Wed 2020-07-22 10:17:18 PDT, end at Mon 2020-08-24 12:40:41
+PDT. --
+Aug 23 11:56:00 abiggun systemd-modules-load[391]: Failed to find module
+'vboxdrv'
+Aug 23 11:56:00 abiggun systemd-modules-load[391]: Failed to find module
+'vboxnetflt'
+Aug 23 11:56:00 abiggun systemd-modules-load[391]: Failed to find module
+'vboxnetadp'
+Aug 23 11:56:00 abiggun systemd-modules-load[391]: Failed to find module
+'vboxpci'
+Aug 23 11:56:00 abiggun systemd-udevd[421]:
+/etc/udev/rules.d/40-libsane.rules:26: GOTO="libsane_rules_end" has no matching
+label, ignoring
+Aug 23 11:56:01 abiggun systemd-udevd[421]:
+/etc/udev/rules.d/S99-2000S1.rules:26: GOTO="libsane_rules_end" has no matching
+label, ignoring
+Aug 23 11:56:13 abiggun systemd[1367]: pam_systemd_home(systemd-user:account):
+Failed to query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 11:56:13 abiggun smbd[1229]: [2020/08/23 11:56:13.018977,  0]
+../../lib/util/become_daemon.c:135(daemon_ready)
+Aug 23 11:56:13 abiggun smbd[1229]:   daemon_ready: daemon 'smbd' finished
+starting up and ready to serve connections
+Aug 23 11:56:19 abiggun gdm-password][1994]: PAM unable to
+dlopen(/usr/lib/security/pam_gnome_keyring.so):
+/usr/lib/security/pam_gnome_keyring.so: cannot open shared object file: No such
+file or directory
+Aug 23 11:56:19 abiggun gdm-password][1994]: PAM adding faulty module:
+/usr/lib/security/pam_gnome_keyring.so
+Aug 23 11:56:22 abiggun gdm-password][1994]:
+pam_systemd_home(gdm-password:account): Failed to query user record: Unit
+dbus-org.freedesktop.home1.service not found.
+Aug 23 11:56:22 abiggun systemd[2024]: pam_systemd_home(systemd-user:account):
+Failed to query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 11:56:24 abiggun systemd-resolved[1181]: Failed to send hostname reply:
+Invalid argument
+Aug 23 19:13:45 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:13:52 abiggun xscreensaver[2469]:
+pam_systemd_home(xscreensaver:auth): Failed to query user record: Unit
+dbus-org.freedesktop.home1.service not found.
+Aug 23 19:13:53 abiggun kernel: ata3: softreset failed (1st FIS failed)
+Aug 23 19:13:53 abiggun kernel: ata4: softreset failed (device not ready)
+Aug 23 19:13:53 abiggun kernel: ata2: softreset failed (device not ready)
+Aug 23 19:13:53 abiggun kernel: ata1: softreset failed (device not ready)
+Aug 23 19:13:53 abiggun kernel: ata6: softreset failed (device not ready)
+Aug 23 19:13:53 abiggun kernel: ata5: softreset failed (device not ready)
+Aug 23 19:46:38 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:46:48 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:46:58 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:46:59 abiggun kernel: [drm:dm_restore_drm_connector_state [amdgpu]]
+*ERROR* Restoring old state failed with -12
+Aug 23 19:47:12 abiggun kernel: [drm:dm_restore_drm_connector_state [amdgpu]]
+*ERROR* Restoring old state failed with -12
+Aug 23 19:47:22 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:47:51 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:47:51 abiggun kernel: [drm:dc_link_detect_helper [amdgpu]] *ERROR* No
+EDID read.
+Aug 23 19:47:52 abiggun kernel: [drm:dm_restore_drm_connector_state [amdgpu]]
+*ERROR* Restoring old state failed with -12
+Aug 23 19:47:54 abiggun kernel: [drm:retrieve_link_cap [amdgpu]] *ERROR*
+retrieve_link_cap: Read dpcd data failed.
+Aug 23 19:48:15 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:48:25 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:48:28 abiggun kernel: [drm:dpcd_set_source_specific_data [amdgpu]]
+*ERROR* Error in DP aux read transaction, not writing source specific data
+Aug 23 19:48:28 abiggun kernel: [drm:dc_link_detect_helper [amdgpu]] *ERROR* No
+EDID read.
+Aug 23 19:48:29 abiggun kernel: [drm:dm_restore_drm_connector_state [amdgpu]]
+*ERROR* Restoring old state failed with -12
+Aug 23 19:48:32 abiggun kernel: [drm:dm_restore_drm_connector_state [amdgpu]]
+*ERROR* Restoring old state failed with -12
+Aug 23 21:04:05 abiggun sudo[37251]: pam_systemd_home(sudo:account): Failed to
+query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 22:29:22 abiggun sudo[48011]: pam_systemd_home(sudo:account): Failed to
+query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 22:29:30 abiggun sudo[48099]: pam_systemd_home(sudo:account): Failed to
+query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 22:29:34 abiggun sudo[48131]: pam_systemd_home(sudo:account): Failed to
+query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 22:29:44 abiggun sudo[48157]: pam_systemd_home(sudo:account): Failed to
+query user record: Unit dbus-org.freedesktop.home1.service not found.
+Aug 23 22:29:45 abiggun systemd-udevd[421]:
+/etc/udev/rules.d/40-libsane.rules:26: GOTO="libsane_rules_end" has no matching
+label, ignoring
+Aug 23 22:29:45 abiggun systemd-udevd[421]:
+/etc/udev/rules.d/S99-2000S1.rules:26: GOTO="libsane_rules_end" has no matching
+label, ignoring
+Aug 23 22:29:45 abiggun gdm[1234]: GLib: g_hash_table_foreach: assertion
+'version == hash_table->version' failed
+Aug 23 22:29:48 abiggun kernel: watchdog: watchdog0: watchdog did not stop!
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
