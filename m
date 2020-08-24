@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22BD250851
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 20:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A94250835
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 20:42:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF406E471;
-	Mon, 24 Aug 2020 18:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3470A6E3F0;
+	Mon, 24 Aug 2020 18:42:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108D46E526;
- Mon, 24 Aug 2020 18:43:16 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id q93so77398pjq.0;
- Mon, 24 Aug 2020 11:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AC5ImHpMp+jWX/ACOy7SaY7mRdOd/yQkd8IlsbOtJsk=;
- b=RH9L9oVy2h913LfHW6P+XO6u/MxMzMTUUsKJBGwDeDZ9Uoa57fZQ79YUlceINIegKm
- cJ7uxcs8YDHSJGwqtSFLLOWy2gX+azFPc1o1cC/2qICmgIWp7bV7WLvZbEkdUhduGh9i
- JMUtHVmr44iTsqMBUpv22v4RVQpvoDYnFFmbLWceeO1FOEML4ttF+kMzKQ/ob4Tzi6aV
- fBCFbZT254UHAzBt1wdSzepOSQDg49je32TL2yCKf3ypfg6T6r7XY85LlHW7auDAoxH0
- VL4vS0bYuIm+n0VP/BBp9plgvmYcYWOph1jUZEqfcTQDqOEXU/51yNd01ojYzNfbH8dS
- JHeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AC5ImHpMp+jWX/ACOy7SaY7mRdOd/yQkd8IlsbOtJsk=;
- b=M9LyeUjR4f7c6rNpQiMoynitBP/JbrUVLY6Xt2ggJvwns/4KTFdp+I/SDg5kTe54Yo
- 1fSzP8bH9Xeglhpqbu/O+CMx7MXLgFiLGzfdqmnVBnauqpHdhc/0EI3aKyCnBHVbN5Sf
- lIwHHb5KN195ZLNA+FNNwXQJpnuAHZjd6RqNpNikNZRjEbtgZO7vupW14MADG5KZ2NS9
- aLsgwgcbt2GP0uks4YDqeP19ty3f/57mkLo4hTmvVDPeuncVOZ4w7xT9qra5Fg4u9MJ1
- 6hw4Y7GRrS9hacOazVIDBp6zCN4XkEeDjUdVeGorZcIzSlGh1t0e/y3DKpDMxR5RFY3s
- sN4Q==
-X-Gm-Message-State: AOAM531UzG76KIzE7sJkNqk4vxYzNz2kkqSw3mQdiNjOnZi3MIdjWXev
- aOVEObMOANC+oqEhect5A01ONcm98qZ9ZvPj
-X-Google-Smtp-Source: ABdhPJx44Gr61vM4CtpKXIdAOMWPg+XX5qMK442F+uOYSHCSUwT2vUJvhYx/tuN9h9j1jJ6/5O8fSQ==
-X-Received: by 2002:a17:90b:4c03:: with SMTP id
- na3mr509206pjb.29.1598294593422; 
- Mon, 24 Aug 2020 11:43:13 -0700 (PDT)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id r186sm13557644pfr.162.2020.08.24.11.43.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 11:43:12 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	iommu@lists.linux-foundation.org
-Subject: [PATCH 20/20] drm/msm: show process names in gem_describe
-Date: Mon, 24 Aug 2020 11:37:54 -0700
-Message-Id: <20200824183825.1778810-21-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200824183825.1778810-1-robdclark@gmail.com>
-References: <20200824183825.1778810-1-robdclark@gmail.com>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007866E466
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 18:42:52 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f440a1e0002>; Mon, 24 Aug 2020 11:42:38 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Mon, 24 Aug 2020 11:42:52 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Mon, 24 Aug 2020 11:42:52 -0700
+Received: from [10.2.58.8] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Aug
+ 2020 18:42:52 +0000
+Subject: Re: [PATCH v2] tee: convert convert get_user_pages() -->
+ pin_user_pages()
+To: <jens.wiklander@linaro.org>
+References: <CAHUa44FrxidzSUOM_JchOTa5pF6P+j8uZJA5DpKfGLWaS6tCcw@mail.gmail.com>
+ <20200824183641.632126-1-jhubbard@nvidia.com>
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <d6d397a8-93dd-54be-7186-580733a1ae8d@nvidia.com>
+Date: Mon, 24 Aug 2020 11:42:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <20200824183641.632126-1-jhubbard@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1598294558; bh=klGkO69RyKV41kWO8RX/ZqxuPo1xSyXNnZlFSqLUpC0=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=dpQhgZn9rMKgRclkpFkX4O2GVTZdqhj5ePqwQZlzSUp1dsosdVJZLa4kPLRP2sPzU
+ Pw0b/lMHaPUUYRNnZPKOWo3nbGZFeAPPRb/OK78DbPlMyMGBrRL3NjJi/Q1J5GXUep
+ kMpl0WrwaJUcg2OvIUFu5M4f/xg92hzRHyZc3GZlzo2+XKc0Hj4MZjaDgmvocd/6P8
+ gNdX1yMcJiD0ucJnY3iIjlG9jbplBOX6XxfZEu+cAgrNfR6iNzWfKdRL0jnAYcIvMW
+ RLppo6O8+ft+A6g3PxUZs290J6BKnoV4sYxwMi83F6YwANTWqY5aZQgyGfIki7Ewa3
+ SRVlGPfHQFiZA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,164 +64,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Akhil P Oommen <akhilpo@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Vivek Gautam <vivek.gautam@codeaurora.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>, Will Deacon <will@kernel.org>,
- Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, Joerg Roedel <joro@8bytes.org>,
- Ben Dooks <ben.dooks@codethink.co.uk>, Sibi Sankar <sibis@codeaurora.org>,
- Brian Masney <masneyb@onstation.org>, Joerg Roedel <jroedel@suse.de>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tee-dev@lists.linaro.org, soc@kernel.org,
+ arm@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 8/24/20 11:36 AM, John Hubbard wrote:
+> This code was using get_user_pages*(), in a "Case 2" scenario
+> (DMA/RDMA), using the categorization from [1]. That means that it's
+> time to convert the get_user_pages*() + put_page() calls to
+> pin_user_pages*() + unpin_user_pages() calls.
+> 
+> There is some helpful background in [2]: basically, this is a small
+> part of fixing a long-standing disconnect between pinning pages, and
+> file systems' use of those pages.
+> 
+> [1] Documentation/core-api/pin_user_pages.rst
+> 
+> [2] "Explicit pinning of user-space pages":
+>      https://lwn.net/Articles/807108/
+> 
+> Cc: Jens Wiklander <jens.wiklander@linaro.org>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: tee-dev@lists.linaro.org
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+> 
+> OK, this should be indentical to v1 [1], but now rebased against
+> Linux 5.9-rc2.
+> 
 
-In $debugfs/gem we already show any vma(s) associated with an object.
-Also show process names if the vma's address space is a per-process
-address space.
+...ohhh, wait, I should have read the earlier message from Jens more
+carefully:
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
----
- drivers/gpu/drm/msm/msm_drv.c     |  2 +-
- drivers/gpu/drm/msm/msm_gem.c     | 25 +++++++++++++++++++++----
- drivers/gpu/drm/msm/msm_gem.h     |  5 +++++
- drivers/gpu/drm/msm/msm_gem_vma.c |  1 +
- drivers/gpu/drm/msm/msm_gpu.c     |  8 +++++---
- drivers/gpu/drm/msm/msm_gpu.h     |  2 +-
- 6 files changed, 34 insertions(+), 9 deletions(-)
+"The conflict isn't trivial, I guess we need to handle the different
+types of pages differently when releasing them."
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 7e963f707852..7143756b7e83 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -597,7 +597,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
- 	kref_init(&ctx->ref);
- 	msm_submitqueue_init(dev, ctx);
- 
--	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu);
-+	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu, current);
- 	file->driver_priv = ctx;
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 3cb7aeb93fd3..76a6c5271e57 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -842,11 +842,28 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m)
- 
- 		seq_puts(m, "      vmas:");
- 
--		list_for_each_entry(vma, &msm_obj->vmas, list)
--			seq_printf(m, " [%s: %08llx,%s,inuse=%d]",
--				vma->aspace != NULL ? vma->aspace->name : NULL,
--				vma->iova, vma->mapped ? "mapped" : "unmapped",
-+		list_for_each_entry(vma, &msm_obj->vmas, list) {
-+			const char *name, *comm;
-+			if (vma->aspace) {
-+				struct msm_gem_address_space *aspace = vma->aspace;
-+				struct task_struct *task =
-+					get_pid_task(aspace->pid, PIDTYPE_PID);
-+				if (task) {
-+					comm = kstrdup(task->comm, GFP_KERNEL);
-+				} else {
-+					comm = NULL;
-+				}
-+				name = aspace->name;
-+			} else {
-+				name = comm = NULL;
-+			}
-+			seq_printf(m, " [%s%s%s: aspace=%p, %08llx,%s,inuse=%d]",
-+				name, comm ? ":" : "", comm ? comm : "",
-+				vma->aspace, vma->iova,
-+				vma->mapped ? "mapped" : "unmapped",
- 				vma->inuse);
-+			kfree(comm);
-+		}
- 
- 		seq_puts(m, "\n");
- 	}
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 9c573c4269cb..7b1c7a5f8eef 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -24,6 +24,11 @@ struct msm_gem_address_space {
- 	spinlock_t lock; /* Protects drm_mm node allocation/removal */
- 	struct msm_mmu *mmu;
- 	struct kref kref;
-+
-+	/* For address spaces associated with a specific process, this
-+	 * will be non-NULL:
-+	 */
-+	struct pid *pid;
- };
- 
- struct msm_gem_vma {
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 29cc1305cf37..80a8a266d68f 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -17,6 +17,7 @@ msm_gem_address_space_destroy(struct kref *kref)
- 	drm_mm_takedown(&aspace->mm);
- 	if (aspace->mmu)
- 		aspace->mmu->funcs->destroy(aspace->mmu);
-+	put_pid(aspace->pid);
- 	kfree(aspace);
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 951850804d77..ac8961187a73 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -825,10 +825,9 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
- 
- /* Return a new address space for a msm_drm_private instance */
- struct msm_gem_address_space *
--msm_gpu_create_private_address_space(struct msm_gpu *gpu)
-+msm_gpu_create_private_address_space(struct msm_gpu *gpu, struct task_struct *task)
- {
- 	struct msm_gem_address_space *aspace = NULL;
--
- 	if (!gpu)
- 		return NULL;
- 
-@@ -836,8 +835,11 @@ msm_gpu_create_private_address_space(struct msm_gpu *gpu)
- 	 * If the target doesn't support private address spaces then return
- 	 * the global one
- 	 */
--	if (gpu->funcs->create_private_address_space)
-+	if (gpu->funcs->create_private_address_space) {
- 		aspace = gpu->funcs->create_private_address_space(gpu);
-+		if (!IS_ERR(aspace))
-+			aspace->pid = get_pid(task_pid(task));
-+	}
- 
- 	if (IS_ERR_OR_NULL(aspace))
- 		aspace = msm_gem_address_space_get(gpu->aspace);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 4052a18e18c2..59f26bd0fe42 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -298,7 +298,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 		const char *name, struct msm_gpu_config *config);
- 
- struct msm_gem_address_space *
--msm_gpu_create_private_address_space(struct msm_gpu *gpu);
-+msm_gpu_create_private_address_space(struct msm_gpu *gpu, struct task_struct *task);
- 
- void msm_gpu_cleanup(struct msm_gpu *gpu);
- 
+So it's not good to have a logically identical patch. argghhh. Let me see
+how hard it is to track these memory types separately and handle the release
+accordingly, just a sec.
+
+Sorry about the false move here.
+
+thanks,
 -- 
-2.26.2
+John Hubbard
+NVIDIA
 
+> As before, I've compile-tested it again with a cross compiler, but that's
+> the only testing I'm set up for with CONFIG_TEE.
+> 
+> [1] https://lore.kernel.org/r/20200519051850.2845561-1-jhubbard@nvidia.com
+> 
+> thanks,
+> John Hubbard
+> NVIDIA
+> 
+>   drivers/tee/tee_shm.c | 12 +++---------
+>   1 file changed, 3 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index 827ac3d0fea9..3c29e6c3ebe8 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -32,16 +32,13 @@ static void tee_shm_release(struct tee_shm *shm)
+>   
+>   		poolm->ops->free(poolm, shm);
+>   	} else if (shm->flags & TEE_SHM_REGISTER) {
+> -		size_t n;
+>   		int rc = teedev->desc->ops->shm_unregister(shm->ctx, shm);
+>   
+>   		if (rc)
+>   			dev_err(teedev->dev.parent,
+>   				"unregister shm %p failed: %d", shm, rc);
+>   
+> -		for (n = 0; n < shm->num_pages; n++)
+> -			put_page(shm->pages[n]);
+> -
+> +		unpin_user_pages(shm->pages, shm->num_pages);
+>   		kfree(shm->pages);
+>   	}
+>   
+> @@ -228,7 +225,7 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
+>   	}
+>   
+>   	if (flags & TEE_SHM_USER_MAPPED) {
+> -		rc = get_user_pages_fast(start, num_pages, FOLL_WRITE,
+> +		rc = pin_user_pages_fast(start, num_pages, FOLL_WRITE,
+>   					 shm->pages);
+>   	} else {
+>   		struct kvec *kiov;
+> @@ -292,16 +289,13 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
+>   	return shm;
+>   err:
+>   	if (shm) {
+> -		size_t n;
+> -
+>   		if (shm->id >= 0) {
+>   			mutex_lock(&teedev->mutex);
+>   			idr_remove(&teedev->idr, shm->id);
+>   			mutex_unlock(&teedev->mutex);
+>   		}
+>   		if (shm->pages) {
+> -			for (n = 0; n < shm->num_pages; n++)
+> -				put_page(shm->pages[n]);
+> +			unpin_user_pages(shm->pages, shm->num_pages);
+>   			kfree(shm->pages);
+>   		}
+>   	}
+> 
+
+v
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
