@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0D82502EA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 18:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D77672502F3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 18:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA5006E351;
-	Mon, 24 Aug 2020 16:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2C6F6E2E6;
+	Mon, 24 Aug 2020 16:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A856E3A8;
- Mon, 24 Aug 2020 16:37:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E5E6E2E6;
+ Mon, 24 Aug 2020 16:38:10 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 71F3E2310D;
- Mon, 24 Aug 2020 16:37:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8C2A022E00;
+ Mon, 24 Aug 2020 16:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598287062;
- bh=gwBS48L6tFPzDRUM7F1AmJTB1wbMcGF55aDYjN5mE/E=;
+ s=default; t=1598287090;
+ bh=s5WS0RpB5021Z5Smn7KqlHoo/qgBwAFA/bRBhOH6u00=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ILBUaqfEbdRgGaRDjhzuDgtBbyJyX34c1Bpg1xbmaVq6yPTvPSGp/z+TvW4m4B2TG
- aM/6xmA4tWtDpBI7F1ntHbSZu9WcO4XcLD3zouoOe17Dx0MKWIzrfvCt5ZcssCn8T0
- 3851e2qYluKHl6NnFmlX2edPUhYWpFe2EPA4gtQ0=
+ b=EQBWVGyCTgGRshcfLrOOd5jAZB1PbeU+nQX8xMF8ZHeyChfVANKZujlvNc8/4g9+f
+ wxo1uJDa958Lai+BIbQRsmssEloYVxLEVdLd83oZhf7kdVGk0egk3WKb8BaeEWQZsM
+ tUaIUjFz+TOL/BaJJc645xodLDecs1n9EQAyFMBc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 49/54] Revert "drm/amdgpu: disable gfxoff for
- navy_flounder"
-Date: Mon, 24 Aug 2020 12:36:28 -0400
-Message-Id: <20200824163634.606093-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 14/38] drm/amd/powerplay: correct Vega20 cached
+ smu feature state
+Date: Mon, 24 Aug 2020 12:37:26 -0400
+Message-Id: <20200824163751.606577-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200824163634.606093-1-sashal@kernel.org>
-References: <20200824163634.606093-1-sashal@kernel.org>
+In-Reply-To: <20200824163751.606577-1-sashal@kernel.org>
+References: <20200824163751.606577-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,46 +50,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Tao Zhou <tao.zhou1@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jiansong Chen <Jiansong.Chen@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Kenneth Feng <kenneth.feng@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Evan Quan <evan.quan@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jiansong Chen <Jiansong.Chen@amd.com>
+From: Evan Quan <evan.quan@amd.com>
 
-[ Upstream commit da2446b66b5e2c7f3ab63912c8d999810e35e8b3 ]
+[ Upstream commit 266d81d9eed30f4994d76a2b237c63ece062eefe ]
 
-This reverts commit 9c9b17a7d19a8e21db2e378784fff1128b46c9d3.
-Newly released sdma fw (51.52) provides a fix for the issue.
+Correct the cached smu feature state on pp_features sysfs
+setting.
 
-Signed-off-by: Jiansong Chen <Jiansong.Chen@amd.com>
-Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
-Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+Signed-off-by: Evan Quan <evan.quan@amd.com>
 Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 3 ---
- 1 file changed, 3 deletions(-)
+ .../drm/amd/powerplay/hwmgr/vega20_hwmgr.c    | 38 +++++++++----------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 8ee94f4b9b20f..ff94f756978d5 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -681,9 +681,6 @@ static void gfx_v10_0_check_gfxoff_flag(struct amdgpu_device *adev)
- 		if (!gfx_v10_0_navi10_gfxoff_should_enable(adev))
- 			adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
- 		break;
--	case CHIP_NAVY_FLOUNDER:
--		adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
--		break;
- 	default:
- 		break;
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_hwmgr.c
+index f5915308e643a..08b91c31532ba 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_hwmgr.c
+@@ -981,27 +981,15 @@ static int vega20_disable_all_smu_features(struct pp_hwmgr *hwmgr)
+ {
+ 	struct vega20_hwmgr *data =
+ 			(struct vega20_hwmgr *)(hwmgr->backend);
+-	uint64_t features_enabled;
+-	int i;
+-	bool enabled;
+-	int ret = 0;
++	int i, ret = 0;
+ 
+ 	PP_ASSERT_WITH_CODE((ret = smum_send_msg_to_smc(hwmgr,
+ 			PPSMC_MSG_DisableAllSmuFeatures)) == 0,
+ 			"[DisableAllSMUFeatures] Failed to disable all smu features!",
+ 			return ret);
+ 
+-	ret = vega20_get_enabled_smc_features(hwmgr, &features_enabled);
+-	PP_ASSERT_WITH_CODE(!ret,
+-			"[DisableAllSMUFeatures] Failed to get enabled smc features!",
+-			return ret);
+-
+-	for (i = 0; i < GNLD_FEATURES_MAX; i++) {
+-		enabled = (features_enabled & data->smu_features[i].smu_feature_bitmap) ?
+-			true : false;
+-		data->smu_features[i].enabled = enabled;
+-		data->smu_features[i].supported = enabled;
+-	}
++	for (i = 0; i < GNLD_FEATURES_MAX; i++)
++		data->smu_features[i].enabled = 0;
+ 
+ 	return 0;
+ }
+@@ -3211,10 +3199,11 @@ static int vega20_get_ppfeature_status(struct pp_hwmgr *hwmgr, char *buf)
+ 
+ static int vega20_set_ppfeature_status(struct pp_hwmgr *hwmgr, uint64_t new_ppfeature_masks)
+ {
+-	uint64_t features_enabled;
+-	uint64_t features_to_enable;
+-	uint64_t features_to_disable;
+-	int ret = 0;
++	struct vega20_hwmgr *data =
++			(struct vega20_hwmgr *)(hwmgr->backend);
++	uint64_t features_enabled, features_to_enable, features_to_disable;
++	int i, ret = 0;
++	bool enabled;
+ 
+ 	if (new_ppfeature_masks >= (1ULL << GNLD_FEATURES_MAX))
+ 		return -EINVAL;
+@@ -3243,6 +3232,17 @@ static int vega20_set_ppfeature_status(struct pp_hwmgr *hwmgr, uint64_t new_ppfe
+ 			return ret;
  	}
+ 
++	/* Update the cached feature enablement state */
++	ret = vega20_get_enabled_smc_features(hwmgr, &features_enabled);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < GNLD_FEATURES_MAX; i++) {
++		enabled = (features_enabled & data->smu_features[i].smu_feature_bitmap) ?
++			true : false;
++		data->smu_features[i].enabled = enabled;
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.25.1
 
