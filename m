@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B67924FEA6
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 15:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5079B24FF45
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 15:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC756E190;
-	Mon, 24 Aug 2020 13:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4544B89137;
+	Mon, 24 Aug 2020 13:46:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6970B6E190
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 13:18:19 +0000 (UTC)
-Received: from coco.lan (unknown [95.90.213.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 73B2D2078D;
- Mon, 24 Aug 2020 13:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598275099;
- bh=VtwP7fa1SFOExf15/AISSDUFrlWtXcU639kNBNqpEBc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gQdBz0IPPbd7bg2OhTv4x1YeMnQ1iAjF9tt4+1LDn3VePqtDAoVoOTh3topcIZveq
- o5/chvCoZVKxSK0JgVWd2npRIcIo+sH/rqU+9+srx6srZ3dMBHBrN4AVEoJM3XAh2x
- 0XOBp0b9GvbXZkkVGND+VEiDGNaKjxvz2+99KZek=
-Date: Mon, 24 Aug 2020 15:18:07 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200824151807.59ac3c48@coco.lan>
-In-Reply-To: <20200824084853.10560ed1@coco.lan>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
- <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
- <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
- <20200824084853.10560ed1@coco.lan>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB29488DA5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 13:46:15 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id v6so8648492iow.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 06:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=whTcHrAabEndGqBjVh9YOIWSSjYaKCGPqBjgiu7Ttuc=;
+ b=Ns8CFJpIjAaIWU5AD2eWiwVpGhHTXoYSkirMXZI5rvCrp5GSU8RPUf7+MGkC5jvGze
+ eV+L+U0G6O+JePg9f+mOVYI39rfzb8ydE9pR6e8hlMtsrJ6IlT9NLJEG9PwMF8Z92sXV
+ HJQjRh2bjoQhPBz2L9uNTX3yHEfM7+QsZIb3KGhNWfN6tvG8XtzJx5m88+nbZaYTlth5
+ csgjV+JYwmJV4Mc2/DqhHY5TiBQH+mQdo+IV4iZIpjskd9Fjam1Y8Ys8czA8eZnCUtsw
+ m2Z5+e+jqxlaeo90mjo2Nso+SgbqUdseJNWCxgeTluQdpuGOxPJLCbKoi2eaALUkXXMq
+ neKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=whTcHrAabEndGqBjVh9YOIWSSjYaKCGPqBjgiu7Ttuc=;
+ b=tf9RhWwNH37E5QWSzYAPKj1eC8Bg+7bqEeQMjLn/DePm8UxnUnHHEOdINJtflpm01B
+ g4ybtxidH9hwBw5iETIMIWHwzofUjOnqDp6LXdyad1s3GjL0Dp+QVA6zjzcoTqNfsbkL
+ MUIgyjKdLbwdhPEfKd87LYC8P7ULk722QrZ2goOmkgS2YpiYkkXrdyojkc2ObgFQl6C1
+ VMFxYRO6smBCkacCRVOBYYTfx8pbmXcczl6z+53QsVeA22rck6Nh581Wdpd+LhSb+KHJ
+ eoMKw5kFraJz++vjCeXLDI5gm/xvNfeveKdmAiOl/Z3+7DV2RY2kKWQo/cx85uR2yT8A
+ V6Zg==
+X-Gm-Message-State: AOAM5338lWIGnUW8MIkof20xqVj+QC31PIHHZj6jzDp3KU9iIfWaCYbL
+ aL0iSKzAAobKrbw9IpYZIYEmZxQXWQimFHiBLy7MUA==
+X-Google-Smtp-Source: ABdhPJxR/qqHSN7lVUgR5ipu31C0Y7N2A9bq7qgfMNYI6beDj38eXqo9FF79p7j636Xo6bYE16ABM+izPP8lFldsia4=
+X-Received: by 2002:a6b:8b58:: with SMTP id n85mr4960803iod.23.1598276774867; 
+ Mon, 24 Aug 2020 06:46:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
+ <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
+ <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
+In-Reply-To: <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Mon, 24 Aug 2020 10:46:03 -0300
+Message-ID: <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the
+ Ingenic JZ4780)
+To: Paul Cercueil <paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,764 +66,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
+ Jonas Karlman <jonas@kwiboo.se>, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, driverdevel <devel@driverdev.osuosl.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>, Wei Xu <xuwei5@hisilicon.com>,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- linux-media <linux-media@vger.kernel.org>, "open
- list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- mauro.chehab@huawei.com, Rob Clark <robdclark@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
- Network Development <netdev@vger.kernel.org>,
- Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Mon, 24 Aug 2020 08:49:30 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-
-> Hi John,
-> 
-> Em Wed, 19 Aug 2020 20:28:44 -0700
-> John Stultz <john.stultz@linaro.org> escreveu:
-> 
-> 
-> > That said even with the patches I've got on top of your series, I
-> > still see a few issues:
-> > 1) I'm seeing red-blue swap with your driver.  I need to dig a bit to
-> > see what the difference is, I know gralloc has a config option for
-> > this, and maybe the version of the driver I'm carrying has it wrong?  
-> 
-> Maybe it is due to this:
-> 
-> 	drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c:      hal_fmt = HISI_FB_PIXEL_FORMAT_BGRA_8888;/* dss_get_format(fb->pixel_format); */
-> 
-> It sounds to me that someone added a hack hardcoding BGRA_8888 over
-> there.
-> 
-> Btw, I removed the hack, with:
-> 
-> 
-> diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-> index a68db1a27bbf..ba64aae371e4 100644
-> --- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-> +++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-> @@ -857,7 +857,7 @@ void hisi_fb_pan_display(struct drm_plane *plane)
->         rect.right = src_w - 1;
->         rect.top = 0;
->         rect.bottom = src_h - 1;
-> -       hal_fmt = HISI_FB_PIXEL_FORMAT_BGRA_8888;/* dss_get_format(fb->pixel_format); */
-> +       hal_fmt = dss_get_format(fb->format->format);
->  
->         DRM_DEBUG_DRIVER("channel%d: src:(%d,%d, %dx%d) crtc:(%d,%d, %dx%d), rect(%d,%d,%d,%d),fb:%dx%d, pixel_format=%d, stride=%d, paddr=0x%x, bpp=%d.\n",
->                          chn_idx, src_x, src_y, src_w, src_h,
-> 
-> 
-> And now red and blue are swapped on my HDMI screen too.
-> 
-> I'll compare this part with your version, but I guess the bug is
-> on this logic.
-
-It sounds to me that the Hikey 960 version on your tree has some color 
-inversion hack, just for ARGB 32 bpp. See:
-
-	static const struct kirin_format dpe_formats[] = {
-		{ DRM_FORMAT_RGB565, DPE_RGB_565 },
-		{ DRM_FORMAT_BGR565, DPE_BGR_565 },
-		{ DRM_FORMAT_XRGB8888, DPE_RGBX_8888 },
-		{ DRM_FORMAT_XBGR8888, DPE_BGRX_8888 },
-		{ DRM_FORMAT_RGBA8888, DPE_RGBA_8888 },
-		{ DRM_FORMAT_BGRA8888, DPE_BGRA_8888 },
-		{ DRM_FORMAT_ARGB8888, DPE_BGRA_8888 },
-		{ DRM_FORMAT_ABGR8888, DPE_RGBA_8888 },
-	};
-
-The last two lines are weird, as they're reverting the byte order,
-If there's some endiannes issue (which the change from ARGB->ABGR 
-seems to imply), I would expect to have something similar for the 
-other formats as well.
-
-I did some tests here: both FB and X11 sets bpp to 24 bits.
-
-Trying to use "startx -- -depth 32" don't work:
-
-	"Default Screen Section" for depth/fbbpp 32/32
-	[   129.250] (EE) modeset(0): Given depth (32) is not supported by the driver
-
-Which sounds weird, as the driver announces 32 bit formats. 
-I suspect that this could be related to the valid modes hack at 
-the driver.
-
-Btw, there are some color shift also with --depth 16, but replacing
-BGR <=> RGB didn't work.
-
-Did you test the different bpp resolutions with the driver on your
-tree? The enclosed patch makes 24 bits bpp work here.
-
-Thanks,
-Mauro
-
--
-
-[PATCH] staging: kirin9xx/gpu: rework the colorspace mode setting logic
-
-There are some problems when setting the fourcc KMS:
-The original code hardcodes BGRA_8888. The real issue here seems
-to be that the byte order is different than the one for Kirin 620.
-
-Instead of addressing it, the origincla code just used a fixed
-mode. A port of the Hikey 960 DPE driver based on Kernel 5.0,
-found at:
-
-	https://git.linaro.org/people/john.stultz/android-dev.git/tree/drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c?h=dev/hikey960-mainline-WIP
-
-contains a hack that swaps the byte order for 32-bits
-ARGB/BRGR (see the last two lines):
-
-		{ DRM_FORMAT_RGB565, DPE_RGB_565 },
-		{ DRM_FORMAT_BGR565, DPE_BGR_565 },
-		{ DRM_FORMAT_XRGB8888, DPE_RGBX_8888 },
-		{ DRM_FORMAT_XBGR8888, DPE_BGRX_8888 },
-		{ DRM_FORMAT_RGBA8888, DPE_RGBA_8888 },
-		{ DRM_FORMAT_BGRA8888, DPE_BGRA_8888 },
-		{ DRM_FORMAT_ARGB8888, DPE_BGRA_8888 },
-		{ DRM_FORMAT_ABGR8888, DPE_RGBA_8888 },
-
-But the same change was not applied to other modesets.
-
-The Hikey 960 port was tested with AOSP, which seems to
-be using ABGR format. Here, the chosen fourcc was
-XBGR 32 bpp instead. I suspect that the original developer
-also found a similar issue and decided to hardcode the
-fourcc format.
-
-That's said, currently the drivers uses some code instead of
-tables in order to seek for the register settings. The version
-from John Stultz tre for Kirin 960 that does a better approach
-of using tables instead of code.
-
-I opted to use the same code as the basis for the new logic,
-as it makes easier to identify what the driver is actually doing.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_dpe.h b/drivers/staging/hikey9xx/gpu/kirin9xx_dpe.h
-index e05522f85df8..26add227c389 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_dpe.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_dpe.h
-@@ -144,6 +144,39 @@ enum dss_dma_format {
- 	DMA_PIXEL_FORMAT_AYUV_4444,
- };
- 
-+enum dpe_fb_format {
-+	DPE_RGB_565 = 0,
-+	DPE_RGBX_4444,
-+	DPE_RGBA_4444,
-+	DPE_RGBX_5551,
-+	DPE_RGBA_5551,
-+	DPE_RGBX_8888,
-+	DPE_RGBA_8888,
-+	DPE_BGR_565,
-+	DPE_BGRX_4444,
-+	DPE_BGRA_4444,
-+	DPE_BGRX_5551,
-+	DPE_BGRA_5551,
-+	DPE_BGRX_8888,
-+	DPE_BGRA_8888,
-+	DPE_YUV_422_I,
-+	/* YUV Semi-planar */
-+	DPE_YCbCr_422_SP,
-+	DPE_YCrCb_422_SP,
-+	DPE_YCbCr_420_SP,
-+	DPE_YCrCb_420_SP,
-+	/* YUV Planar */
-+	DPE_YCbCr_422_P,
-+	DPE_YCrCb_422_P,
-+	DPE_YCbCr_420_P,
-+	DPE_YCrCb_420_P,
-+	/* YUV Package */
-+	DPE_YUYV_422_Pkg,
-+	DPE_UYVY_422_Pkg,
-+	DPE_YVYU_422_Pkg,
-+	DPE_VYUY_422_Pkg,
-+};
-+
- enum dss_buf_format {
- 	DSS_BUF_LINEAR = 0,
- 	DSS_BUF_TILE,
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.h b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.h
-index 8034c5134b25..a3071388a86c 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.h
-@@ -22,46 +22,7 @@ enum dss_channel {
- 
- #define PRIMARY_CH	DSS_CH1 /* primary plane */
- 
--enum hisi_fb_pixel_format {
--	HISI_FB_PIXEL_FORMAT_RGB_565 = 0,
--	HISI_FB_PIXEL_FORMAT_RGBX_4444,
--	HISI_FB_PIXEL_FORMAT_RGBA_4444,
--	HISI_FB_PIXEL_FORMAT_RGBX_5551,
--	HISI_FB_PIXEL_FORMAT_RGBA_5551,
--	HISI_FB_PIXEL_FORMAT_RGBX_8888,
--	HISI_FB_PIXEL_FORMAT_RGBA_8888,
--
--	HISI_FB_PIXEL_FORMAT_BGR_565,
--	HISI_FB_PIXEL_FORMAT_BGRX_4444,
--	HISI_FB_PIXEL_FORMAT_BGRA_4444,
--	HISI_FB_PIXEL_FORMAT_BGRX_5551,
--	HISI_FB_PIXEL_FORMAT_BGRA_5551,
--	HISI_FB_PIXEL_FORMAT_BGRX_8888,
--	HISI_FB_PIXEL_FORMAT_BGRA_8888,
--
--	HISI_FB_PIXEL_FORMAT_YUV_422_I,
--
--	/* YUV Semi-planar */
--	HISI_FB_PIXEL_FORMAT_YCbCr_422_SP,	/* NV16 */
--	HISI_FB_PIXEL_FORMAT_YCrCb_422_SP,
--	HISI_FB_PIXEL_FORMAT_YCbCr_420_SP,
--	HISI_FB_PIXEL_FORMAT_YCrCb_420_SP,	/* NV21 */
--
--	/* YUV Planar */
--	HISI_FB_PIXEL_FORMAT_YCbCr_422_P,
--	HISI_FB_PIXEL_FORMAT_YCrCb_422_P,
--	HISI_FB_PIXEL_FORMAT_YCbCr_420_P,
--	HISI_FB_PIXEL_FORMAT_YCrCb_420_P,	/* HISI_FB_PIXEL_FORMAT_YV12 */
--
--	/* YUV Package */
--	HISI_FB_PIXEL_FORMAT_YUYV_422,
--	HISI_FB_PIXEL_FORMAT_UYVY_422,
--	HISI_FB_PIXEL_FORMAT_YVYU_422,
--	HISI_FB_PIXEL_FORMAT_VYUY_422,
--	HISI_FB_PIXEL_FORMAT_MAX,
--
--	HISI_FB_PIXEL_FORMAT_UNSUPPORT = 800
--};
-+#define HISI_FB_PIXEL_FORMAT_UNSUPPORT 800
- 
- struct dss_hw_ctx {
- 	struct drm_device *dev;
-@@ -155,12 +116,6 @@ struct dss_data {
- 	struct dss_hw_ctx ctx;
- };
- 
--/* ade-format info: */
--struct dss_format {
--	u32 pixel_format;
--	enum hisi_fb_pixel_format dss_format;
--};
--
- struct dss_img {
- 	u32 format;
- 	u32 width;
-@@ -266,8 +221,10 @@ int hisi_dss_mctl_mutex_lock(struct dss_hw_ctx *ctx);
- int hisi_dss_mctl_mutex_unlock(struct dss_hw_ctx *ctx);
- int hisi_dss_ovl_base_config(struct dss_hw_ctx *ctx, u32 xres, u32 yres);
- 
-+u32 hisi_dss_get_channel_formats(struct drm_device *dev, u8 ch, const u32 **formats);
-+
- void hisi_fb_pan_display(struct drm_plane *plane);
- 
--u32 dss_get_format(struct drm_device *dev, u32 pixel_format);
-+u32 dpe_get_format(struct dss_hw_ctx *ctx, u32 pixel_format);
- 
- #endif
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-index 9bc114a33885..93eb9bf8b305 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-@@ -38,58 +38,6 @@
- #include "kirin9xx_drm_dpe_utils.h"
- #include "kirin9xx_dpe.h"
- 
--static const struct dss_format dss_formats[] = {
--	/* 16bpp RGB: */
--	{ DRM_FORMAT_RGB565, HISI_FB_PIXEL_FORMAT_RGB_565 },
--	{ DRM_FORMAT_BGR565, HISI_FB_PIXEL_FORMAT_BGR_565 },
--	/* 32bpp [A]RGB: */
--	{ DRM_FORMAT_XRGB8888, HISI_FB_PIXEL_FORMAT_RGBX_8888 },
--	{ DRM_FORMAT_XBGR8888, HISI_FB_PIXEL_FORMAT_BGRX_8888 },
--	{ DRM_FORMAT_RGBA8888, HISI_FB_PIXEL_FORMAT_RGBA_8888 },
--	{ DRM_FORMAT_BGRA8888, HISI_FB_PIXEL_FORMAT_BGRA_8888 },
--	{ DRM_FORMAT_ARGB8888, HISI_FB_PIXEL_FORMAT_RGBA_8888 },
--	{ DRM_FORMAT_ABGR8888, HISI_FB_PIXEL_FORMAT_BGRA_8888 },
--};
--
--static const u32 channel_formats1[] = {
--	DRM_FORMAT_RGB565,
--	DRM_FORMAT_BGR565,
--	DRM_FORMAT_XRGB8888,
--	DRM_FORMAT_XBGR8888,
--	DRM_FORMAT_RGBA8888,
--	DRM_FORMAT_BGRA8888,
--	DRM_FORMAT_ARGB8888,
--	DRM_FORMAT_ABGR8888,
--};
--
--u32 dss_get_channel_formats(struct drm_device *dev, u8 ch, const u32 **formats)
--{
--	switch (ch) {
--	case DSS_CH1:
--		*formats = channel_formats1;
--		return ARRAY_SIZE(channel_formats1);
--	default:
--		drm_err(dev, "no formats for channel %d\n", ch);
--		*formats = NULL;
--		return 0;
--	}
--}
--
--/* convert from fourcc format to dss format */
--u32 dss_get_format(struct drm_device *dev, u32 pixel_format)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(dss_formats); i++)
--		if (dss_formats[i].pixel_format == pixel_format)
--			return dss_formats[i].dss_format;
--
--	/* not found */
--	drm_err(dev, "Not found pixel format!!fourcc_format= %d\n",
--		pixel_format);
--	return HISI_FB_PIXEL_FORMAT_UNSUPPORT;
--}
--
- /*****************************************************************************/
- 
- int hdmi_pxl_ppll7_init(struct dss_hw_ctx *ctx, u64 pixel_clock)
-@@ -616,6 +564,8 @@ static int dss_plane_atomic_check(struct drm_plane *plane,
- {
- 	struct drm_framebuffer *fb = state->fb;
- 	struct drm_crtc *crtc = state->crtc;
-+	struct dss_crtc *acrtc = to_dss_crtc(crtc);
-+	struct dss_hw_ctx *ctx = acrtc->ctx;
- 	struct drm_crtc_state *crtc_state;
- 	u32 src_x = state->src_x >> 16;
- 	u32 src_y = state->src_y >> 16;
-@@ -630,7 +580,7 @@ static int dss_plane_atomic_check(struct drm_plane *plane,
- 	if (!crtc || !fb)
- 		return 0;
- 
--	fmt = dss_get_format(plane->dev, fb->format->format);
-+	fmt = dpe_get_format(ctx, fb->format->format);
- 	if (fmt == HISI_FB_PIXEL_FORMAT_UNSUPPORT)
- 		return -EINVAL;
- 
-@@ -706,7 +656,7 @@ static int dss_plane_init(struct drm_device *dev, struct dss_plane *aplane,
- 	int ret = 0;
- 
- 	/* get properties */
--	fmts_cnt = dss_get_channel_formats(dev, aplane->ch, &fmts);
-+	fmts_cnt = hisi_dss_get_channel_formats(dev, aplane->ch, &fmts);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-index a68db1a27bbf..fb034337d689 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-@@ -22,168 +22,118 @@ static const int mid_array[DSS_CHN_MAX_DEFINE] = {
- 	0xb, 0xa, 0x9, 0x8, 0x7, 0x6, 0x5, 0x4, 0x2, 0x1, 0x3, 0x0
- };
- 
--static int hisi_pixel_format_hal2dma(int format)
-+struct dpe_format {
-+	u32 pixel_format;
-+	enum dpe_fb_format dpe_format;
-+};
-+
-+static const struct dpe_format dpe_formats[] = {
-+	{ DRM_FORMAT_RGB565, DPE_RGB_565 },
-+	{ DRM_FORMAT_BGR565, DPE_BGR_565 },
-+	{ DRM_FORMAT_XRGB8888, DPE_BGRX_8888 },
-+	{ DRM_FORMAT_XBGR8888, DPE_RGBX_8888 },
-+	{ DRM_FORMAT_RGBA8888, DPE_RGBA_8888 },
-+	{ DRM_FORMAT_BGRA8888, DPE_BGRA_8888 },
-+	{ DRM_FORMAT_ARGB8888, DPE_RGBA_8888 },
-+	{ DRM_FORMAT_ABGR8888, DPE_BGRA_8888 },
-+};
-+
-+static const u32 dpe_channel_formats[] = {
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_BGR565,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_RGBA8888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_ABGR8888,
-+};
-+
-+static u32 dpe_pixel_dma_format_map[] = {
-+	DMA_PIXEL_FORMAT_RGB_565,
-+	DMA_PIXEL_FORMAT_XRGB_4444,
-+	DMA_PIXEL_FORMAT_ARGB_4444,
-+	DMA_PIXEL_FORMAT_XRGB_5551,
-+	DMA_PIXEL_FORMAT_ARGB_5551,
-+	DMA_PIXEL_FORMAT_XRGB_8888,
-+	DMA_PIXEL_FORMAT_ARGB_8888,
-+	DMA_PIXEL_FORMAT_RGB_565,
-+	DMA_PIXEL_FORMAT_XRGB_4444,
-+	DMA_PIXEL_FORMAT_ARGB_4444,
-+	DMA_PIXEL_FORMAT_XRGB_5551,
-+	DMA_PIXEL_FORMAT_ARGB_5551,
-+	DMA_PIXEL_FORMAT_XRGB_8888,
-+	DMA_PIXEL_FORMAT_ARGB_8888,
-+	DMA_PIXEL_FORMAT_YUYV_422,
-+	DMA_PIXEL_FORMAT_YUV_422_SP_HP,
-+	DMA_PIXEL_FORMAT_YUV_422_SP_HP,
-+	DMA_PIXEL_FORMAT_YUV_420_SP_HP,
-+	DMA_PIXEL_FORMAT_YUV_420_SP_HP,
-+	DMA_PIXEL_FORMAT_YUV_422_P_HP,
-+	DMA_PIXEL_FORMAT_YUV_422_P_HP,
-+	DMA_PIXEL_FORMAT_YUV_420_P_HP,
-+	DMA_PIXEL_FORMAT_YUV_420_P_HP,
-+	DMA_PIXEL_FORMAT_YUYV_422,
-+	DMA_PIXEL_FORMAT_YUYV_422,
-+	DMA_PIXEL_FORMAT_YUYV_422,
-+	DMA_PIXEL_FORMAT_YUYV_422,
-+};
-+
-+static u32 dpe_pixel_dfc_format_map[] = {
-+	DFC_PIXEL_FORMAT_RGB_565,
-+	DFC_PIXEL_FORMAT_XBGR_4444,
-+	DFC_PIXEL_FORMAT_ABGR_4444,
-+	DFC_PIXEL_FORMAT_XBGR_5551,
-+	DFC_PIXEL_FORMAT_ABGR_5551,
-+	DFC_PIXEL_FORMAT_XBGR_8888,
-+	DFC_PIXEL_FORMAT_ABGR_8888,
-+	DFC_PIXEL_FORMAT_BGR_565,
-+	DFC_PIXEL_FORMAT_XRGB_4444,
-+	DFC_PIXEL_FORMAT_ARGB_4444,
-+	DFC_PIXEL_FORMAT_XRGB_5551,
-+	DFC_PIXEL_FORMAT_ARGB_5551,
-+	DFC_PIXEL_FORMAT_XRGB_8888,
-+	DFC_PIXEL_FORMAT_ARGB_8888,
-+	DFC_PIXEL_FORMAT_YUYV422,
-+	DFC_PIXEL_FORMAT_YUYV422,
-+	DFC_PIXEL_FORMAT_YVYU422,
-+	DFC_PIXEL_FORMAT_YUYV422,
-+	DFC_PIXEL_FORMAT_YVYU422,
-+	DFC_PIXEL_FORMAT_YUYV422,
-+	DFC_PIXEL_FORMAT_YVYU422,
-+	DFC_PIXEL_FORMAT_YUYV422,
-+	DFC_PIXEL_FORMAT_YVYU422,
-+	DFC_PIXEL_FORMAT_YUYV422,
-+	DFC_PIXEL_FORMAT_UYVY422,
-+	DFC_PIXEL_FORMAT_YVYU422,
-+	DFC_PIXEL_FORMAT_VYUY422,
-+};
-+
-+u32 dpe_get_format(struct dss_hw_ctx *ctx, u32 pixel_format)
- {
--	int ret = 0;
--
--	switch (format) {
--	case HISI_FB_PIXEL_FORMAT_RGB_565:
--	case HISI_FB_PIXEL_FORMAT_BGR_565:
--		ret = DMA_PIXEL_FORMAT_RGB_565;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBX_4444:
--	case HISI_FB_PIXEL_FORMAT_BGRX_4444:
--		ret = DMA_PIXEL_FORMAT_XRGB_4444;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBA_4444:
--	case HISI_FB_PIXEL_FORMAT_BGRA_4444:
--		ret = DMA_PIXEL_FORMAT_ARGB_4444;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBX_5551:
--	case HISI_FB_PIXEL_FORMAT_BGRX_5551:
--		ret = DMA_PIXEL_FORMAT_XRGB_5551;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBA_5551:
--	case HISI_FB_PIXEL_FORMAT_BGRA_5551:
--		ret = DMA_PIXEL_FORMAT_ARGB_5551;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_RGBX_8888:
--	case HISI_FB_PIXEL_FORMAT_BGRX_8888:
--		ret = DMA_PIXEL_FORMAT_XRGB_8888;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBA_8888:
--	case HISI_FB_PIXEL_FORMAT_BGRA_8888:
--		ret = DMA_PIXEL_FORMAT_ARGB_8888;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_YUV_422_I:
--	case HISI_FB_PIXEL_FORMAT_YUYV_422:
--	case HISI_FB_PIXEL_FORMAT_YVYU_422:
--	case HISI_FB_PIXEL_FORMAT_UYVY_422:
--	case HISI_FB_PIXEL_FORMAT_VYUY_422:
--		ret = DMA_PIXEL_FORMAT_YUYV_422;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_YCbCr_422_P:
--	case HISI_FB_PIXEL_FORMAT_YCrCb_422_P:
--		ret = DMA_PIXEL_FORMAT_YUV_422_P_HP;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YCbCr_420_P:
--	case HISI_FB_PIXEL_FORMAT_YCrCb_420_P:
--		ret = DMA_PIXEL_FORMAT_YUV_420_P_HP;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_YCbCr_422_SP:
--	case HISI_FB_PIXEL_FORMAT_YCrCb_422_SP:
--		ret = DMA_PIXEL_FORMAT_YUV_422_SP_HP;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YCbCr_420_SP:
--	case HISI_FB_PIXEL_FORMAT_YCrCb_420_SP:
--		ret = DMA_PIXEL_FORMAT_YUV_420_SP_HP;
--		break;
--
--	default:
--		DRM_ERROR("not support format(%d)!\n", format);
--		ret = -1;
--		break;
-+	int i;
-+	const struct dpe_format *fmt = dpe_formats;
-+	u32 size = ARRAY_SIZE(dpe_formats);
-+
-+
-+	for (i = 0; i < size; i++) {
-+		if (fmt[i].pixel_format == pixel_format) {
-+			drm_info(ctx->dev, "requested fourcc %x, dpe format %d",
-+				 pixel_format, fmt[i].dpe_format);
-+			return fmt[i].dpe_format;
-+		}
- 	}
- 
--	return ret;
-+	drm_err(ctx->dev, "Not found pixel format! fourcc = %x\n",
-+		pixel_format);
-+
-+	return HISI_FB_PIXEL_FORMAT_UNSUPPORT;
- }
- 
--static int hisi_pixel_format_hal2dfc(int format)
-+u32 hisi_dss_get_channel_formats(struct drm_device *dev, u8 ch, const u32 **formats)
- {
--	int ret = 0;
--
--	switch (format) {
--	case HISI_FB_PIXEL_FORMAT_RGB_565:
--		ret = DFC_PIXEL_FORMAT_RGB_565;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBX_4444:
--		ret = DFC_PIXEL_FORMAT_XBGR_4444;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBA_4444:
--		ret = DFC_PIXEL_FORMAT_ABGR_4444;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBX_5551:
--		ret = DFC_PIXEL_FORMAT_XBGR_5551;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBA_5551:
--		ret = DFC_PIXEL_FORMAT_ABGR_5551;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBX_8888:
--		ret = DFC_PIXEL_FORMAT_XBGR_8888;
--		break;
--	case HISI_FB_PIXEL_FORMAT_RGBA_8888:
--		ret = DFC_PIXEL_FORMAT_ABGR_8888;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_BGR_565:
--		ret = DFC_PIXEL_FORMAT_BGR_565;
--		break;
--	case HISI_FB_PIXEL_FORMAT_BGRX_4444:
--		ret = DFC_PIXEL_FORMAT_XRGB_4444;
--		break;
--	case HISI_FB_PIXEL_FORMAT_BGRA_4444:
--		ret = DFC_PIXEL_FORMAT_ARGB_4444;
--		break;
--	case HISI_FB_PIXEL_FORMAT_BGRX_5551:
--		ret = DFC_PIXEL_FORMAT_XRGB_5551;
--		break;
--	case HISI_FB_PIXEL_FORMAT_BGRA_5551:
--		ret = DFC_PIXEL_FORMAT_ARGB_5551;
--		break;
--	case HISI_FB_PIXEL_FORMAT_BGRX_8888:
--		ret = DFC_PIXEL_FORMAT_XRGB_8888;
--		break;
--	case HISI_FB_PIXEL_FORMAT_BGRA_8888:
--		ret = DFC_PIXEL_FORMAT_ARGB_8888;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_YUV_422_I:
--	case HISI_FB_PIXEL_FORMAT_YUYV_422:
--		ret = DFC_PIXEL_FORMAT_YUYV422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YVYU_422:
--		ret = DFC_PIXEL_FORMAT_YVYU422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_UYVY_422:
--		ret = DFC_PIXEL_FORMAT_UYVY422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_VYUY_422:
--		ret = DFC_PIXEL_FORMAT_VYUY422;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_YCbCr_422_SP:
--		ret = DFC_PIXEL_FORMAT_YUYV422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YCrCb_422_SP:
--		ret = DFC_PIXEL_FORMAT_YVYU422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YCbCr_420_SP:
--		ret = DFC_PIXEL_FORMAT_YUYV422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YCrCb_420_SP:
--		ret = DFC_PIXEL_FORMAT_YVYU422;
--		break;
--
--	case HISI_FB_PIXEL_FORMAT_YCbCr_422_P:
--	case HISI_FB_PIXEL_FORMAT_YCbCr_420_P:
--		ret = DFC_PIXEL_FORMAT_YUYV422;
--		break;
--	case HISI_FB_PIXEL_FORMAT_YCrCb_422_P:
--	case HISI_FB_PIXEL_FORMAT_YCrCb_420_P:
--		ret = DFC_PIXEL_FORMAT_YVYU422;
--		break;
--
--	default:
--		DRM_ERROR("not support format(%d)!\n", format);
--		ret = -1;
--		break;
--	}
--
--	return ret;
-+	*formats = dpe_channel_formats;
-+	return ARRAY_SIZE(dpe_channel_formats);
- }
- 
- static int hisi_dss_aif_ch_config(struct dss_hw_ctx *ctx, int chn_idx)
-@@ -347,8 +297,10 @@ static int hisi_dss_mctl_sys_config(struct dss_hw_ctx *ctx, int chn_idx)
- }
- 
- static int hisi_dss_rdma_config(struct dss_hw_ctx *ctx,
--				const struct dss_rect_ltrb *rect, u32 display_addr, u32 hal_format,
--	u32 bpp, int chn_idx, bool afbcd, bool mmu_enable)
-+				const struct dss_rect_ltrb *rect,
-+				u32 display_addr, u32 hal_format,
-+				u32 bpp, int chn_idx, bool afbcd,
-+				bool mmu_enable)
- {
- 	void __iomem *rdma_base;
- 
-@@ -358,7 +310,6 @@ static int hisi_dss_rdma_config(struct dss_hw_ctx *ctx,
- 	u32 rdma_oft_x1 = 0;
- 	u32 rdma_oft_y1 = 0;
- 	u32 rdma_stride = 0;
--	u32 rdma_bpp = 0;
- 	u32 rdma_format = 0;
- 	u32 stretch_size_vrt = 0;
- 
-@@ -371,18 +322,6 @@ static int hisi_dss_rdma_config(struct dss_hw_ctx *ctx,
- 	u32 afbcd_payload_addr = 0;
- 	u32 afbcd_payload_stride = 0;
- 
--	if (!ctx) {
--		DRM_ERROR("ctx is NULL!\n");
--		return -1;
--	}
--
--	if (bpp == 4)
--		rdma_bpp = 0x5;
--	else if (bpp == 2)
--		rdma_bpp = 0x0;
--	else
--		rdma_bpp = 0x0;
--
- 	rdma_base = ctx->base +
- 		ctx->g_dss_module_base[chn_idx][MODULE_DMA];
- 
-@@ -392,11 +331,7 @@ static int hisi_dss_rdma_config(struct dss_hw_ctx *ctx,
- 	rdma_oft_x1 = rect->right / aligned_pixel;
- 	rdma_oft_y1 = rect->bottom;
- 
--	rdma_format = hisi_pixel_format_hal2dma(hal_format);
--	if (rdma_format < 0) {
--		DRM_ERROR("layer format(%d) not support !\n", hal_format);
--		return -EINVAL;
--	}
-+	rdma_format = dpe_pixel_dma_format_map[hal_format];
- 
- 	if (afbcd) {
- 		mm_base_0 = 0;
-@@ -470,10 +405,9 @@ static int hisi_dss_rdma_config(struct dss_hw_ctx *ctx,
- 		set_reg(rdma_base + DMA_OFT_Y0, rdma_oft_y0, 16, 0);
- 		set_reg(rdma_base + DMA_OFT_X1, rdma_oft_x1, 12, 0);
- 		set_reg(rdma_base + DMA_OFT_Y1, rdma_oft_y1, 16, 0);
--		/* set_reg(rdma_base + DMA_CTRL, rdma_format, 5, 3); */
--		/* set_reg(rdma_base + DMA_CTRL, (mmu_enable ? 0x1 : 0x0), 1, 8); */
-+		set_reg(rdma_base + DMA_CTRL, rdma_format, 5, 3);
-+		set_reg(rdma_base + DMA_CTRL, (mmu_enable ? 0x1 : 0x0), 1, 8);
- 		set_reg(rdma_base + DMA_CTRL, 0x130, 32, 0);
--		/* set_reg(rdma_base + DMA_CTRL, (mmu_enable ? 0x1 : 0x0), 1, 8); */
- 		set_reg(rdma_base + DMA_STRETCH_SIZE_VRT, stretch_size_vrt, 32, 0);
- 		set_reg(rdma_base + DMA_DATA_ADDR0, display_addr, 32, 0);
- 		set_reg(rdma_base + DMA_STRIDE0, rdma_stride, 13, 0);
-@@ -495,11 +429,6 @@ static int hisi_dss_rdfc_config(struct dss_hw_ctx *ctx,
- 	u32 size_vrt = 0;
- 	u32 dfc_fmt = 0;
- 
--	if (!ctx) {
--		DRM_ERROR("ctx is NULL!\n");
--		return -1;
--	}
--
- 	rdfc_base = ctx->base +
- 		ctx->g_dss_module_base[chn_idx][MODULE_DFC];
- 
-@@ -507,15 +436,11 @@ static int hisi_dss_rdfc_config(struct dss_hw_ctx *ctx,
- 	size_hrz = rect->right - rect->left;
- 	size_vrt = rect->bottom - rect->top;
- 
--	dfc_fmt = hisi_pixel_format_hal2dfc(hal_format);
--	if (dfc_fmt < 0) {
--		DRM_ERROR("layer format (%d) not support !\n", hal_format);
--		return -EINVAL;
--	}
-+	dfc_fmt = dpe_pixel_dfc_format_map[hal_format];
- 
--	set_reg(rdfc_base + DFC_DISP_SIZE, (size_vrt | (size_hrz << 16)), 29, 0);
-+	set_reg(rdfc_base + DFC_DISP_SIZE, (size_vrt | (size_hrz << 16)),
-+		29, 0);
- 	set_reg(rdfc_base + DFC_PIX_IN_NUM, dfc_pix_in_num, 1, 0);
--	/* set_reg(rdfc_base + DFC_DISP_FMT, (bpp <= 2) ? 0x0 : 0x6, 5, 1); */
- 	set_reg(rdfc_base + DFC_DISP_FMT, dfc_fmt, 5, 1);
- 	set_reg(rdfc_base + DFC_CTL_CLIP_EN, 0x1, 1, 0);
- 	set_reg(rdfc_base + DFC_ICG_MODULE, 0x1, 1, 0);
-@@ -857,7 +782,7 @@ void hisi_fb_pan_display(struct drm_plane *plane)
- 	rect.right = src_w - 1;
- 	rect.top = 0;
- 	rect.bottom = src_h - 1;
--	hal_fmt = HISI_FB_PIXEL_FORMAT_BGRA_8888;/* dss_get_format(fb->pixel_format); */
-+	hal_fmt = dpe_get_format(ctx, fb->format->format);
- 
- 	DRM_DEBUG_DRIVER("channel%d: src:(%d,%d, %dx%d) crtc:(%d,%d, %dx%d), rect(%d,%d,%d,%d),fb:%dx%d, pixel_format=%d, stride=%d, paddr=0x%x, bpp=%d.\n",
- 			 chn_idx, src_x, src_y, src_w, src_h,
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAyMSBBdWcgMjAyMCBhdCAxOToyNCwgUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3Vp
+bGxvdS5uZXQ+IHdyb3RlOgo+Cj4KPgo+IExlIHNhbS4gMjIgYW/Du3QgMjAyMCDDoCAwOjExLCBQ
+YXVsIEJvZGRpZSA8cGF1bEBib2RkaWUub3JnLnVrPiBhCj4gw6ljcml0IDoKPiA+IE9uIEZyaWRh
+eSwgMjEgQXVndXN0IDIwMjAgMTU6MzI6NDYgQ0VTVCBFemVxdWllbCBHYXJjaWEgd3JvdGU6Cj4g
+Pj4gIE9uIFRodSwgMjAgQXVnIDIwMjAgYXQgMTk6NDksIFBhdWwgQm9kZGllIDxwYXVsQGJvZGRp
+ZS5vcmcudWs+Cj4gPj4gd3JvdGU6Cj4gPj4gID4KPiA+PiAgPiBJdCBzdGlsbCBkb2Vzbid0IHdv
+cmsgZm9yIG1lLiBJIHN0aWxsIGdldCAiSW5wdXQgbm90IHN1cHBvcnRlZCIKPiA+PiBmcm9tIG15
+Cj4gPj4gID4gbW9uaXRvci4gSXQgaXMgYSBEVkkgbW9uaXRvciBjb25uZWN0ZWQgdmlhIGEgSERN
+SSBhZGFwdGVyLCBidXQKPiA+PiBFRElECj4gPj4gID4gcHJvYmluZwo+ID4+ICA+IHdvcmtzIGFu
+ZCwgYXMgSSBub3RlZCBwcmV2aW91c2x5LCB0aGUgSERNSS9MQ0RDIGNhbiBiZSBtYWRlIHRvCj4g
+Pj4gd29yayAoYW5kCj4gPj4gID4gb2J2aW91c2x5IGRpZCB3b3JrIGluIHRoZSAzLjE4IGtlcm5l
+bCkuCj4gPj4KPiA+PiAgVGhpcyBtZWFucyB0aGUgZHdfaGRtaSBlbmNvZGVyIGRyaXZlciBpcyBz
+dGlsbCBub3QgZ29vZCBlbm91Z2gKPiA+PiAgdG8gc3VwcG9ydCB5b3VyIGFkYXB0ZXIuIEkgaGF2
+ZW4ndCB5ZXQgY29tcGFyZWQgdjMuMTggdmVuZG9yCj4gPj4gIHdpdGggb3VyIHZlcnNpb24sIGJ1
+dCBJJ20gYWZyYWlkIHRoYXQgdGhlIGR3X2hkbWkgc3RhY2sgaGFzCj4gPj4gIHByb2JhYmx5IGNo
+YW5nZWQgcXVpdGUgYSBiaXQsIHNvIGEgY29tcGFyaXNvbiB3aWxsIGJlIGRpZmZpY3VsdC4KPiA+
+Cj4gPiBJIHdvdWxkIGhhdmUgdG8gbG9vayBhdCB0aGlzIGFnYWluIHRvIGNoZWNrLCBidXQgYWx0
+aG91Z2ggSSBtYXkgaGF2ZQo+ID4gcmVmZXJyZWQKPiA+IHRvIHRoZSAzLjE4IEhETUkgZHJpdmVy
+IChkcml2ZXJzL2dwdS9kcm0vano0NzgwL2R3Y19oZG1pLmMpLCBJJ20KPiA+IGZhaXJseSBzdXJl
+IEkKPiA+IHVzZWQgdGhlIG1vcmUgcmVjZW50IGRyaXZlcgo+ID4gKGRyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2Uvc3lub3BzeXMvZHdfaGRtaS5jKSBhcyBteQo+ID4gcHJpbWFyeSByZWZlcmVuY2Ugd2hl
+biBtYWtpbmcgdGhlIGhhcmR3YXJlIHdvcmsgd2l0aCB0aGUgTDQgUnVudGltZQo+ID4gRW52aXJv
+bm1lbnQuIEJ1dCB0aGUgYWN0dWFsIGZ1bmN0aW9uYWxpdHkgd2l0aCByZWdhcmQgdG8gc2V0dGlu
+Zwo+ID4gcmVnaXN0ZXJzIGluCj4gPiB0aGUgSERNSSBwZXJpcGhlcmFsIGlzIG1vc3RseSBpZGVu
+dGljYWwgYmV0d2VlbiBib3RoIGZvcm1zIG9mIHRoZQo+ID4gZHJpdmVyLgo+ID4KPiA+IChUaGlz
+IG1ha2VzIHNlbnNlIGJlY2F1c2UgZmV3IHBlb3BsZSBhcmUgbGlrZWx5IHRvIGhhdmUgYWNjZXNz
+IHRvIHRoZQo+ID4gcHJvcHJpZXRhcnkgZG9jdW1lbnRhdGlvbi4gSW4gZmFjdCwgZmV3IHBlb3Bs
+ZSBhcmUgbGlrZWx5IHRvIGhhdmUKPiA+IGV2ZW4gdHJpZWQKPiA+IHRvIGRlZHVjZSB3aGF0IGlz
+IGRvaW5nIG9uLiBPbmUgb2YgdGhlIHJlZ2lzdGVyIHZhbHVlIHRhYmxlcyBzdWdnZXN0cwo+ID4g
+dGhhdCBvbmUKPiA+IG9mIHRoZSB2YWx1ZXMgd291bGQgcmVhbGx5IG5lZWQgdG8gYmUgZGlmZmVy
+ZW50LCBpZiB5b3UgY29uc2lkZXIgdGhlCj4gPiBwYXR0ZXJucwo+ID4gaW52b2x2ZWQsIHdoaWNo
+IG1lYW5zIHRoYXQgZWl0aGVyIHRoZSBkb2N1bWVudGF0aW9uIG1lbnRpb25zIHRoaXMKPiA+IHNw
+ZWNpYWwgY2FzZQo+ID4gb3IgdGhhdCBhIG1pc3Rha2UgaGFzIGJlZW4gbWFkZSB0aGF0IGhhcyBu
+b3QgeWV0IGJlZW4gZXhwb3NlZCB0aHJvdWdoCj4gPiByZWFsCj4gPiB3b3JsZCB1c2UuKQo+ID4K
+PiA+PiAgVGhlIG5hdHVyYWwgZGVidWcgcGF0aCBmb3IgbWUgd291bGQgYmUgdG8gY2hlY2tvdXQg
+djMuMTgsCj4gPj4gIGNvbm5lY3QgeW91ciBEVkkgbW9uaXRvciBhbmQgbWFrZSBhIGR1bXAgb2Yg
+YWxsIHRoZQo+ID4+ICBkd19oZG1pIHJlZ2lzdGVycywgdGhlbiBtYWtlIHRoZSBzYW1lIGR1bXAg
+Zm9yIG91cgo+ID4+ICBtYWlubGluZSBrZXJuZWwgLS0gbWFraW5nIHN1cmUgd2UgYXJlIGNvbXBh
+cmluZyB0aGUgc2FtZQo+ID4+ICBtb2RlLgo+ID4KPiA+IEl0IGlzIHBvc3NpYmxlIHRoYXQgc29t
+ZXRoaW5nIGRvZXMgbm90IGdldCBpbml0aWFsaXNlZCBpbiB0aGUgc2FtZQo+ID4gd2F5LCBhbmQK
+PiA+IE5pa29sYXVzIGFuZCBJIGhhdmUgYmVlbiB3b3JraW5nIHdpdGggcmVnaXN0ZXIgZHVtcHMs
+IGFsdGhvdWdoIEkKPiA+IGhhdmVuJ3QgYmVlbgo+ID4gZ2VuZXJhdGluZyB0aGVtIG15c2VsZiB3
+aXRoaW4gTGludXguIFNvIGl0IGlzIHBvc3NpYmxlIHRoYXQgSSBhbQo+ID4gbWlzc2luZyBzb21l
+Cj4gPiBtaXNjb25maWd1cmF0aW9uIGluIHRoZSBkcml2ZXIgdGhhdCBjYXVzZXMgYW4gaW5jb21w
+YXRpYmlsaXR5IHdpdGggbXkKPiA+IG1vbml0b3IuCj4gPgo+ID4gSXQgc2hvdWxkIGJlIG5vdGVk
+IHRoYXQgdGhlIGluaXRpYWxpc2F0aW9uIGlzIHNpbXBsZXIgd2l0aCB0aGUgRFZJCj4gPiBtb2Rl
+LAo+ID4gdGhhbmtmdWxseS4gVGhlICJBVkkgaW5mb2ZyYW1lIiBzdHVmZiAoZ29pbmcgZnJvbSBt
+ZW1vcnkpIGlzCj4gPiBjb21wbGV0ZWx5Cj4gPiBza2lwcGVkLCBhcyBhcmUgYSByYW5nZSBvZiBv
+dGhlciB0aGluZ3MsIHdoaWNoIG1hZGUgbXkKPiA+IHJlaW1wbGVtZW50YXRpb24gZWZmb3J0Cj4g
+PiBzb21ld2hhdCBxdWlja2VyLiBJIGFsc28gZGlkbid0IGJvdGhlciB3aXRoIHRoZSBhdWRpbyBm
+dW5jdGlvbmFsaXR5LAo+ID4gYnV0IHRoZW4KPiA+IEkgZG9uJ3QgdGhpbmsgRFZJIGhhcyBhbnkg
+YXVkaW8gY2hhbm5lbHMsIGVpdGhlci4KPiA+Cj4gPiBPbmUgcmVhc29uIGZvciBpbXBsZW1lbnRp
+bmcgZHJpdmVycyBmb3IgTDRSZSB3YXMgdG8gZGV0ZXJtaW5lIHdoYXQgaXMKPiA+IGFjdHVhbGx5
+Cj4gPiBuZWVkZWQgdG8gaW5pdGlhbGlzZSB0aGUgaGFyZHdhcmUgY29ycmVjdGx5LCBkb2luZyBz
+byBpbiBhbgo+ID4gZW52aXJvbm1lbnQgdGhhdAo+ID4gaGFzIGJlZW4gcXVpY2tlciB0byB0ZXN0
+IHRoYW4gTGludXggaGFzIGJlZW4gKGdpdmVuIHNvbWUgdmVyeSBvbGQKPiA+IGRldmVsb3BtZW50
+Cj4gPiBoYXJkd2FyZSBJIGhhdmUgYmVlbiB1c2luZyB1bnRpbCByZWNlbnRseSkuIEFub3RoZXIg
+cmVhc29uIGlzIHRoYXQgSQo+ID4gYWN0dWFsbHkKPiA+IHdhbnQgdG8gZ2V0IHRoZSBDSTIwIGhh
+cmR3YXJlIHdvcmtpbmcgd2l0aCBMNFJlLCB3aGljaCBpdCB3YXMKPiA+IG9yaWdpbmFsbHkKPiA+
+IHN1cHBvc2VkIHRvIGRvLCBidXQgaW4gZmFjdCB0aGF0IGVmZm9ydCB3YXMgbmV2ZXIgYWN0dWFs
+bHkgZmluaXNoZWQuCj4gPgo+ID4+ICA+IEkgZG93bmxvYWRlZCBpdCBmcm9tIGhlcmU6Cj4gPj4g
+ID4KPiA+PiAgPgo+ID4+IGh0dHBzOi8vZ2l0bGFiLmNvbGxhYm9yYS5jb20vbGludXgvMGRheS8t
+L3RyZWUvano0NzgwLWRybS1oZG1pLXY1LjktcmMxCj4gPj4gID4KPiA+PiAgPiAoSSB3YXMgZ29p
+bmcgdG8gY2xvbmUgdGhlIHJlcG9zaXRvcnkgbGF0ZSBsYXN0IG5pZ2h0LCBidXQgaXQgd2FzCj4g
+Pj4gdGFraW5nIGEKPiA+PiAgPiBsb25nIHRpbWUgYW5kIEkgYWxzbyBkaWRuJ3Qgd2FudCB0byBj
+bG9uZSBldmVyeXRoaW5nIHlldCBhZ2Fpbi4pCj4gPj4KPiA+PiAgSWYgeW91IHdhbnQgdG8gYXZv
+aWQgY2xvbmluZyB0aGUgc2FtZSB0aGluZ3Mgb3ZlciBhbmQgb3Zlcgo+ID4+ICB5b3UgY2FuIHVz
+ZSBnaXQtY2xvbmUgLS1yZWZlcmVuY2UuIEFuZCBpZiB5b3Ugd2FudCB0byBjaGVja291dAo+ID4+
+ICBqdXN0IGEgc2luZ2xlIGJyYW5jaCwgZ2l0IG5vdyBoYXMgLS1zaW5nbGUtYnJhbmNoLgo+ID4+
+Cj4gPj4gIEZvciBpbnN0YW5jZSwgKGFzc3VtaW5nIGEgdG9ydmFsZHMvIGxvY2FsIHJlcG8pOgo+
+ID4+Cj4gPj4gIGdpdCBjbG9uZSAtYiBsZXR1eC9qejQ3ODAtaGRtaS12NCAtLXNpbmdsZS1icmFu
+Y2gKPiA+PiAgZ2l0Oi8vZ2l0LmdvbGRlbGljby5jb20vbGV0dXgta2VybmVsLmdpdCAtLXJlZmVy
+ZW5jZSB0b3J2YWxkcy8gbGV0dXgKPiA+Cj4gPiBUaGFua3MgZm9yIHRoZSB0aXAhIEkgZ3Vlc3Mg
+SSB3aWxsIHNwYXJlIGV2ZXJ5b25lIG15IHRob3VnaHRzIGFib3V0Cj4gPiBnaXQncwo+ID4gbmV2
+ZXItZW5kaW5nIHVzYWJpbGl0eSBkZWZpY2l0Lgo+ID4KPiA+IFsuLi5dCj4gPgo+ID4+ICA+IEl0
+IHdvdWxkIGJlIG5pY2UgdG8gcmVjb25jaWxlIHRoZSBKWjQ3ODAgc3VwcG9ydCB3aXRoIHRoZSBl
+dm9sdmluZwo+ID4+ICA+IHVwc3RyZWFtIHN1cHBvcnQsIGFjY29tbW9kYXRpbmcgdGhlIGV4dGVu
+ZGVkIGRlc2NyaXB0b3JzIGFuZCB0aGUKPiA+PiBleHRyYQo+ID4+ICA+IHJlZ2lzdGVyIHVzYWdl
+Lgo+ID4+ICBJIHRoaW5rIHRoYXQncyBhbHJlYWR5IGRvbmUgaW4gdGhlIHBhdGNoZXMgSSd2ZSBj
+bGVhbmVkIHVwLgo+ID4+ICBUaGUgb25seSB0aGluZyBsZWZ0IHRvIGNoZWNrIGlzIHBsYW5lIG9m
+ZnNldCBhbmQgb3ZlcmxheSBlbmFibGVtZW50Lgo+ID4KPiA+IFRoZXJlIGFyZSBzb21lIHRoaW5n
+cyB0aGF0IGFyZSBkb25lIGluIGRpZmZlcmVudCBwbGFjZXMsIGxpa2UgdmFyaW91cwo+ID4gcmVn
+aXN0ZXJzIGJlaW5nIHNldCBpbiBwYXJ0aWN1bGFyICJhdG9taWMiIG1ldGhvZHMgYW5kIG5vdCBk
+dXJpbmcKPiA+IHByb2JpbmcuCj4gPiBBbHNvLCB0aGUgdXBzdHJlYW0gZHJpdmVyIGhhcyBzcGVj
+aWZpYyBwbGFuZSBkZXNjcmlwdG9ycyB3aGVyZWFzIG15Cj4gPiBvd24KPiA+IG1vZGlmaWNhdGlv
+bnMgaW50cm9kdWNlZCBkdWFsIGRlc2NyaXB0b3JzIGluIGEgc2xpZ2h0bHkgZGlmZmVyZW50Cj4g
+PiB3YXkuIFBsdXMsCj4gPiB0aGUgdXBzdHJlYW0gZHJpdmVyIGRvZXNuJ3Qgc3VwcG9ydCBleHRl
+bmRlZCBkZXNjcmlwdG9ycywgYXMgZmFyIGFzIEkKPiA+IGFtCj4gPiBhd2FyZS4KPiA+Cj4gPiBT
+bywgdW5sZXNzIFBhdWwgQ2VyY3VlaWwgaXMgZmluZSB3aXRoIHdoYXQgeW91IGhhdmUgZG9uZSwg
+SSBkb24ndAo+ID4gdGhpbmsgd2UgYXJlCj4gPiBjbG9zZSB0byBpbnRlZ3JhdGluZyBhbnl0aGlu
+Zy4gVGhlbiBhZ2FpbiwgSSBhbSBub3QgcmVhbGx5IGEgTGludXgKPiA+IGtlcm5lbAo+ID4gZGV2
+ZWxvcGVyLCBzbyBwZXJoYXBzIEkgd29uJ3QgY29tbWVudCBpbiBkZXB0aCBhYm91dCB3aGF0IHRo
+ZQo+ID4gcmVxdWlyZW1lbnRzCj4gPiBtaWdodCBiZS4KPgo+IElmIHlvdSBzZW5kIGNsZWFuIHBh
+dGNoZXMsIHRoZXJlJ3Mgbm8gcmVhc29uIGZvciBtZSBub3QgdG8gbWVyZ2UgdGhlbS4KPgoKSSdk
+IHJlYWxseSBsaWtlIHRvIHNlZSBIRE1JIHN1cHBvcnQgb24gbXkgQ0kyMCBiZWluZyBtZXJnZWQu
+IFRoYW5rIHRvCnJlY2VudCBpbmdlbmljLWRybSB3b3JrIGFuZCB0aGFua3MgZm9yIFBhdWwgQm9k
+ZGllIGFuZCBOaWtvbGF1cyB3b3JrLAp0aGUgcGF0Y2hlcyBhcmUgSU1PIHF1aXRlIGNsZWFuLgoK
+Tmlrb2xhdXMsIFBhdWw6IERvIHlvdSBoYXZlIHBsYW5zIHRvIHN1Ym1pdCB0aGVzZT8gSWYgbm90
+LCBJJ2xsIGJlCmhhcHB5IHRvIGdldCB0aGVtIG91dCB0aGUgZG9vciBmb3IgcmV2aWV3LgoKQ2hl
+ZXJzLApFemVxdWllbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
