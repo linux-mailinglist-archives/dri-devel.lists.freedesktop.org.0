@@ -1,51 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1E12512F6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:21:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C548251308
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77B5F6E86C;
-	Tue, 25 Aug 2020 07:21:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCC986E876;
+	Tue, 25 Aug 2020 07:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7510E8953E;
- Mon, 24 Aug 2020 19:09:03 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id f7so10106605wrw.1;
- Mon, 24 Aug 2020 12:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=1/OwrF6O4VfIPs9S1xxSmo2BOW+0i4nsagYJC2DaJR0=;
- b=cFWXMyWnhZK5nA5qU9KqQ9s7hjZ3hz6kAsmKD3x6qC1cRjhnC6qDyns9g2XG0PXpYZ
- NfxulGrAmAF5NwG45URsOSf4qZX6nlueL2C1RtJYvp3d3PL5+Pr8zcIl03id53/GOLzM
- ealXfC2ehlkCBMi0nJfjcIdc+A5swPmfwC8NswkVKAkc0ctu57maYtebzCDgwu3sqnIU
- PmsRD/aY8njmxdznomtKxkz6sIuaAJ5/WzfwVGW38Xle0LMESS0xBV66v/+fPitw0ezX
- Yk6tJ2C+MjbgfDJfOJT1PrdE7P3X8XhsTktsd5hEguM8V9BM+2DO2c1JnDC4VmzlwmIM
- CVEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=1/OwrF6O4VfIPs9S1xxSmo2BOW+0i4nsagYJC2DaJR0=;
- b=Lv1eTTER4arLmv5po1Q2NQi5L8E7EjtAITKSH3+PC/JaqCedpIiXw67dyeAES3Ap4H
- 1Athu5KovUaT9fhb6t3pHulXreBp18nw6/zETjdaXzN/lhZJusbzKH5ZUoVmPawxUq/w
- VQVBpbxrbrTDkcg5IRAwDVooXuT+ufFSCEw1lMmtk1djqcdsY0ruONxWmj8H/KV66tkW
- 2Novvu2yNIMPdEUC0aalhDeRx2uNE2pu8wKkKRCtz3g9sUE0q9pfotWYYSquDrdRQb99
- Uqth1zNagbRAHbwP0G6zS1IhTBJzM84XFFHB6Tt2yIPlteVGWLOs26vqUbqWWvw4I1ol
- d+Sg==
-X-Gm-Message-State: AOAM531K/TGdrmviv7QNBP9mFRUA+KshAdZDAtt32BxAofOHGXuByfgR
- Sn5Ocl0gC6px2rIn+Oo4lctvWBk4wD3UC25r5TdCpZtBL6udhA==
-X-Google-Smtp-Source: ABdhPJwLbaBmcJ0YU0Mm63DMRB1XUTp+nUhq0FoG7V+AI1bd+N1eoy8dCmFllCCCc33XNjvD+ws1FKPboGBlQG76Rsk=
-X-Received: by 2002:adf:e8cc:: with SMTP id k12mr7385575wrn.2.1598296142108;
- Mon, 24 Aug 2020 12:09:02 -0700 (PDT)
-MIME-Version: 1.0
-From: Alexander Kapshuk <alexander.kapshuk@gmail.com>
-Date: Mon, 24 Aug 2020 22:08:25 +0300
-Message-ID: <CAJ1xhMUpqtKMuGUZdComskTqd0oOKCfDuVQT3+c13u=NSJLkBw@mail.gmail.com>
-Subject: nouveau PUSHBUFFER_ERR on 5.9.0-rc2-next-20200824
-To: bskeggs@redhat.com, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
+Received: from rnd-relay.smtp.broadcom.com (rnd-relay.smtp.broadcom.com
+ [192.19.229.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 923736E544
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:30:43 +0000 (UTC)
+Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net
+ [10.75.242.48])
+ by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id 4B74930C577;
+ Mon, 24 Aug 2020 12:27:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com 4B74930C577
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+ s=dkimrelay; t=1598297271;
+ bh=JcYX1XXLwOLkiVicEwoW93a8ixGcataZ81gQc4k5YW0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QQSEnqtaAwW+cz46ceVrXdNFPi4GdGFEgKVXXdi09zDtM1+ILbqMduuxSNDkyyHzQ
+ MMUy5WHSnPQPj1xL4pG53i7ckx4FfS87nU0/jmBSwIMoz0kaId9m2Rdb12UWJSSW6j
+ QrWb0WpOOhZq6H9rAVKNC6iPGgcxsxoiZ+geDJFI=
+Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net
+ [10.28.16.211])
+ by mail-irv-17.broadcom.com (Postfix) with ESMTP id 6754614008D;
+ Mon, 24 Aug 2020 12:30:38 -0700 (PDT)
+From: Jim Quinlan <james.quinlan@broadcom.com>
+To: linux-pci@vger.kernel.org, Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+ bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
+Subject: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
+Date: Mon, 24 Aug 2020 15:30:13 -0400
+Message-Id: <20200824193036.6033-1-james.quinlan@broadcom.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Tue, 25 Aug 2020 07:21:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,73 +50,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Linux-Next <linux-next@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR REMOTEPROC SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:ACPI FOR ARM64 ACPI/arm64" <linux-acpi@vger.kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since upgrading to linux-next based on 5.9.0-rc1 and 5.9.0-rc2 I have
-had my mouse pointer disappear soon after logging in, and I have
-observed the system freezing temporarily when clicking on objects and
-when typing text.
-I have also found records of push buffer errors in dmesg output:
-[ 6625.450394] nouveau 0000:01:00.0: disp: ERROR 1 [PUSHBUFFER_ERR] 02
-[] chid 0 mthd 0000 data 00000400
 
-I tried setting CONFIG_NOUVEAU_DEBUG=5 (tracing) to try and collect
-further debug info, but nothing caught the eye.
+Patchset Summary:
+  Enhance a PCIe host controller driver.  Because of its unusual design
+  we are foced to change dev->dma_pfn_offset into a more general role
+  allowing multiple offsets.  See the 'v1' notes below for more info.
 
-The error message in question comes from nv50_disp_intr_error in
-drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c:613,645.
-And nv50_disp_intr_error is called from nv50_disp_intr in the
-following while block:
-drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c:647,658
-void
-nv50_disp_intr(struct nv50_disp *disp)
-{
-        struct nvkm_device *device = disp->base.engine.subdev.device;
-        u32 intr0 = nvkm_rd32(device, 0x610020);
-        u32 intr1 = nvkm_rd32(device, 0x610024);
+v11:
+  Commit: "device-mapping: Introduce DMA range map, supplanting ..."
+  -- Rebased to latest torvalds, Aug 20, 2020.
+  -- Minor change in of_dma_get_range() to satisfy the kernel's
+     robot tester.
+  -- Use of PFN_DOWN(), PFN_PHYS() instead of explicit shifts (Andy)
+  -- Eliminate extra return in dma_offset_from_xxx_addr() (Andy)
+  -- Change dma_set_offset_range() to correctly handle the case
+     of pre-existing DMA map and zero offset.
 
-        while (intr0 & 0x001f0000) {
-                u32 chid = __ffs(intr0 & 0x001f0000) - 16;
-                nv50_disp_intr_error(disp, chid);
-                intr0 &= ~(0x00010000 << chid);
-        }
-...
-}
+v10: 
+  Commit: "device-mapping: Introduce DMA range map, supplanting ..."
+  -- change title of commit; "bus core:" => "device-mapping:"
+  -- instead of allocating the DMA map with devm, use kcalloc
+     and call kfree() during device_release().  (RobH) Also,
+     for three cases that want to use the same DMA map, copy
+     the dma_range_map using a helper function.
+  -- added a missing 'return = 0;' to of_dma_get_range().  (Nicolas)
+  -- removed dma_range_overlaps(); instead return error if there
+     is an existing DMA map. (Christoph).
+  Commit: "PCI: brcmstb: Set additional internal memory DMA ..."
+  -- Changed constant 1 to 1ULL. (Nicolas)
+  Commit: "ata: ahci_brcm: Fix use of BCM7216 reset controller"
+     This commit has been removed from this patchset and will be
+     submitted on its own.
 
-Could this be in any way related to this series of commits?
-commit 0a96099691c8cd1ac0744ef30b6846869dc2b566
-Author: Ben Skeggs <bskeggs@redhat.com>
-Date:   Tue Jul 21 11:34:07 2020 +1000
+v9:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- A number of code improvements were implemented as suggested by
+     ChristophH.  Unfortunately, some of these changes reversed the
+     implemented suggestions of other reviewers; for example, the new
+     macros PFN_DMA_ADDR(), DMA_ADDR_PFN() have been pulled.
 
-    drm/nouveau/kms/nv50-: implement proper push buffer control logic
+v8:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- To satisfy a specific m68 compile configuration, I moved the 'struct
+     bus_dma_region; definition out of #ifdef CONFIG_HAS_DMA and also defined
+     three inline functions for !CONFIG_HAS_DMA (kernel test robot).
+  -- The sunXi drivers -- suc4i_csi, sun6i_csi, cedrus_hw -- set
+     a pfn_offset outside of_dma_configure() but the code offers no 
+     insight on the size of the translation window.  V7 had me using
+     SIZE_MAX as the size.  I have since contacted the sunXi maintainer and
+     he said that using a size of SZ_4G would cover sunXi configurations.
 
-    We had a, what was supposed to be temporary, hack in the KMS code where we'd
-    completely drain an EVO/NVD channel's push buffer when wrapping to the start
-    again, instead of treating it as a ring buffer.
+v7:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- remove second kcalloc/copy in device.c (AndyS)
+  -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
+  -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
+  -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
+  -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
+  Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
+  -- correct name of function in the commit msg (SergeiS)
+  
+v6:
+  Commit "device core: Introduce DMA range map":
+  -- of_dma_get_range() now takes a single argument and returns either
+     NULL, a valid map, or an ERR_PTR. (Robin)
+  -- offsets are no longer a PFN value but an actual address. (Robin)
+  -- the bus_dma_region struct stores the range size instead of
+     the cpu_end and pci_end values. (Robin)
+  -- devices that were setting a single offset with no boundaries
+     have been modified to have boundaries; in a few places
+     where this information was unavilable a /* FIXME: ... */
+     comment was added. (Robin)
+  -- dma_attach_offset_range() can be called when an offset
+     map already exists; if it's range is already present
+     nothing is done and success is returned. (Robin)
+  All commits:
+  -- Man name/style/corrections/etc changed (Bjorn)
+  -- rebase to Torvalds master
 
-    Let's fix that, finally.
+v5:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- in of/address.c: "map_size = 0" => "*map_size = 0"
+  -- use kcalloc instead of kzalloc (AndyS)
+  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
+  Commit "PCI: brcmstb: Set internal memory viewport sizes"
+  -- now gives error on missing dma-ranges property.
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
+  All Commits:
+  -- indentation style, use max chars 100 (AndyS)
+  -- rebased to torvalds master
 
-    Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+v4:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- of_dma_get_range() does not take a dev param but instead
+     takes two "out" params: map and map_size.  We do this so
+     that the code that parses dma-ranges is separate from
+     the code that modifies 'dev'.   (Nicolas)
+  -- the separate case of having a single pfn offset has
+     been removed and is now processed by going through the
+     map array. (Nicolas)
+  -- move attach_uniform_dma_pfn_offset() from of/address.c to
+     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
+  -- devm_kcalloc => devm_kzalloc (DanC)
+  -- add/fix assignment to dev->dma_pfn_offset_map for func
+     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
+  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
+  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
+  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
+  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- this commit was sqaushed with "device core: Introduce ..."
 
-Here are my GPU details:
-01:00.0 VGA compatible controller: NVIDIA Corporation GT216 [GeForce
-210] (rev a1)
-        Subsystem: Micro-Star International Co., Ltd. [MSI] Device 8a93
-        Kernel driver in use: nouveau
+v3:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  Commit "arm: dma-mapping: Invoke dma offset func if needed"
+  -- The above two commits have been squashed.  More importantly,
+     the code has been modified so that the functionality for
+     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
+     In fact, dma_pfn_offset is removed and supplanted by
+     dma_pfn_offset_map, which is a pointer to an array.  The
+     more common case of a uniform offset is now handled as
+     a map with a single entry, while cases requiring multiple
+     pfn offsets use a map with multiple entries.  Code paths
+     that used to do this:
 
-The last linux-next kernel I built where the problem reported does not
-manifest itself is 5.8.0-rc6-next-20200720.
+         dev->dma_pfn_offset = mydrivers_pfn_offset;
 
-I would appreciate being given any pointers on how to further debug this.
-Or is git bisect the only way to proceed with this?
+     have been changed to do this:
 
-Thanks.
+         attach_uniform_dma_pfn_offset(dev, pfn_offset);
+
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- Add if/then clause for required props: resets, reset-names (RobH)
+  -- Change compatible list from const to enum (RobH)
+  -- Change list of u32-tuples to u64 (RobH)
+
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+
+  Commit "device core: Add ability to handle multiple dma offsets"
+  -- align comment in device.h (AndyS).
+  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
+     dma_pfn_offset_region (AndyS).
+
+v2:
+Commit: "device core: Add ability to handle multiple dma offsets"
+  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
+  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
+  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
+  o dev->dma_pfn_map => dev->dma_pfn_offset_map
+  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
+  o In device.h: s/const void */const struct dma_pfn_offset_region */
+  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
+    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
+  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
+    dev->dma_pfn_offset_map is copied as well.
+  o Merged two of the DMA commits into one (Christoph).
+
+Commit "arm: dma-mapping: Invoke dma offset func if needed":
+  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
+
+Other commits' changes:
+  o Removed need for carrying of_id var in priv (Nicolas)
+  o Commit message rewordings (Bjorn)
+  o Commit log messages filled to 75 chars (Bjorn)
+  o devm_reset_control_get_shared())
+    => devm_reset_control_get_optional_shared (Philipp)
+  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
+
+v1:
+This patchset expands the usefulness of the Broadcom Settop Box PCIe
+controller by building upon the PCIe driver used currently by the
+Raspbery Pi.  Other forms of this patchset were submitted by me years
+ago and not accepted; the major sticking point was the code required
+for the DMA remapping needed for the PCIe driver to work [1].
+
+There have been many changes to the DMA and OF subsystems since that
+time, making a cleaner and less intrusive patchset possible.  This
+patchset implements a generalization of "dev->dma_pfn_offset", except
+that instead of a single scalar offset it provides for multiple
+offsets via a function which depends upon the "dma-ranges" property of
+the PCIe host controller.  This is required for proper functionality
+of the BrcmSTB PCIe controller and possibly some other devices.
+
+[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+
+Jim Quinlan (11):
+  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
+  dt-bindings: PCI: Add bindings for more Brcmstb chips
+  PCI: brcmstb: Add bcm7278 register info
+  PCI: brcmstb: Add suspend and resume pm_ops
+  PCI: brcmstb: Add bcm7278 PERST# support
+  PCI: brcmstb: Add control of rescal reset
+  device-mapping: Introduce DMA range map, supplanting dma_pfn_offset
+  PCI: brcmstb: Set additional internal memory DMA viewport sizes
+  PCI: brcmstb: Accommodate MSI for older chips
+  PCI: brcmstb: Set bus max burst size by chip type
+  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
+
+ .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
+ arch/arm/include/asm/dma-mapping.h            |  10 +-
+ arch/arm/mach-keystone/keystone.c             |  17 +-
+ arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
+ arch/x86/pci/sta2x11-fixup.c                  |   7 +-
+ drivers/acpi/arm64/iort.c                     |   5 +-
+ drivers/base/core.c                           |   2 +
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |   5 +-
+ drivers/iommu/io-pgtable-arm.c                |   2 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   5 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   4 +-
+ drivers/of/address.c                          |  72 ++-
+ drivers/of/device.c                           |  43 +-
+ drivers/of/of_private.h                       |  10 +-
+ drivers/of/unittest.c                         |  34 +-
+ drivers/pci/controller/Kconfig                |   3 +-
+ drivers/pci/controller/pcie-brcmstb.c         | 409 +++++++++++++++---
+ drivers/remoteproc/remoteproc_core.c          |   8 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   7 +-
+ drivers/usb/core/message.c                    |   9 +-
+ drivers/usb/core/usb.c                        |   7 +-
+ include/linux/device.h                        |   4 +-
+ include/linux/dma-direct.h                    |   8 +-
+ include/linux/dma-mapping.h                   |  36 ++
+ kernel/dma/coherent.c                         |  10 +-
+ kernel/dma/mapping.c                          |  66 +++
+ 26 files changed, 668 insertions(+), 180 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
