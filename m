@@ -1,41 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1402B24FC3E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 13:05:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B604424FC78
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 13:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E87F6E1E8;
-	Mon, 24 Aug 2020 11:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D50346E20A;
+	Mon, 24 Aug 2020 11:24:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 864106E1F3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 11:05:00 +0000 (UTC)
-Received: from [2001:67c:670:201:5054:ff:fe8d:eefb] (helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kAAHW-0000RH-8m; Mon, 24 Aug 2020 13:04:54 +0200
-Message-ID: <25afd4892c3d73c247293a99a666192d3d40df10.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: fix external abort seen on GC600 rev 0x19
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>, Christian
- Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 24 Aug 2020 13:04:13 +0200
-In-Reply-To: <20200823191956.GH1551@shell.armlinux.org.uk>
-References: <20200821181731.94852-1-christian.gmeiner@gmail.com>
- <4dbee9c7-8a59-9250-ab13-394cbab689a8@jm0.eu>
- <CAH9NwWdLnwb0BiR6qAHKFexFm2NJkpHv7Z7YAdQ7fJBVxjGH4w@mail.gmail.com>
- <20200823191956.GH1551@shell.armlinux.org.uk>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB4B6E20B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 11:24:27 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07OBJgk0172786;
+ Mon, 24 Aug 2020 11:24:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=J6R/swvCnK5txRBjST+3K6KEsXxD3IeucsUqBi1sJ3c=;
+ b=BkFus4155CmC0M5+7SsXANPoPn0ADzXBuQ119ROhasv6JWxm9gDpHfOwrVrdSk5hOH0g
+ 2qunoeEDvf0Bw1p2OQxIb/1M79hTpGUMxaxnnuP/2/q9EzZEwmzl0j14uZdjNxwenkdr
+ Wd+kvOUAe25fjQeBQtV1G5f2H1KfCYXIkF/lcGVHi/kWqAEuWZxUBBUnko0sfsKaYdnU
+ 0ZWimti6VLbo0LboIAgLPR4a3AoPAcPU3nHW0Bih8fGe+QNzVl7gkmsKcW7Uwhw3F1OQ
+ QpOdg9Sp9sae+H6uy7YiNvRw9Nqeudyuo/T9k3fyvMHVfwkW1Mu9tMvOi6B6qOwZxgCI zQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 333dbrkygj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 24 Aug 2020 11:24:18 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07OBK7WW152237;
+ Mon, 24 Aug 2020 11:22:18 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 333ru4gysk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Aug 2020 11:22:18 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07OBMGZe000343;
+ Mon, 24 Aug 2020 11:22:16 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 24 Aug 2020 04:22:15 -0700
+Date: Mon, 24 Aug 2020 14:22:06 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Tomer Samara <tomersamara98@gmail.com>
+Subject: Re: [PATCH v4 1/2] staging: android: Remove BUG_ON from
+ ion_page_pool.c
+Message-ID: <20200824112206.GH1793@kadam>
+References: <cover.1598023523.git.tomersamara98@gmail.com>
+ <32ea3b6d840cb56ea927400e1875d9d4db38e926.1598023524.git.tomersamara98@gmail.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <32ea3b6d840cb56ea927400e1875d9d4db38e926.1598023524.git.tomersamara98@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9722
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008240090
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9722
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008240090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,67 +80,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- "Ing. Josua Mayer" <josua.mayer@jm0.eu>
+Cc: devel@driverdev.osuosl.org, Todd Kjos <tkjos@android.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Joel Fernandes <joel@joelfernandes.org>,
+ Riley Andrews <riandrews@android.com>, Martijn Coenen <maco@android.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Hridya Valsaraju <hridya@google.com>, Laura Abbott <labbott@redhat.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Russell,
-
-Am Sonntag, den 23.08.2020, 20:19 +0100 schrieb Russell King - ARM Linux admin:
-> On Sun, Aug 23, 2020 at 09:10:25PM +0200, Christian Gmeiner wrote:
-> > Hi
-> > 
-> > > I have formally tested the patch with 5.7.10 - and it doesn't resolve
-> > > the issue - sadly :(
-> > > 
-> > > From my testing, the reads on
-> > > VIVS_HI_CHIP_PRODUCT_ID
-> > > VIVS_HI_CHIP_ECO_ID
-> > > need to be conditional - while
-> > > VIVS_HI_CHIP_CUSTOMER_ID
-> > > seems to be okay.
-> > > 
-> > 
-> > Uhh.. okay.. just send a V2 - thanks for testing :)
+On Fri, Aug 21, 2020 at 06:27:37PM +0300, Tomer Samara wrote:
+> BUG_ON() is removed at ion_page_pool.c
 > 
-> There is also something else going on with the GC600 - 5.4 worked fine,
-> 5.8 doesn't - my 2D Xorg driver gets stuck waiting on a BO after just
-> a couple of minutes.  Looking in debugfs, there's a whole load of BOs
-> that are listed as "active", yet the GPU is idle:
+> Fixes the following issue:
+> Avoid crashing the kernel - try using WARN_ON & recovery code ratherthan BUG() or BUG_ON().
 > 
->    00020000: A  0 ( 7) 00000000 00000000 8294400
->    00010000: I  0 ( 1) 00000000 00000000 4096
->    00010000: I  0 ( 1) 00000000 00000000 4096
->    00010000: I  0 ( 1) 00000000 00000000 327680
->    00010000: A  0 ( 7) 00000000 00000000 8388608
->    00010000: I  0 ( 1) 00000000 00000000 8388608
->    00010000: I  0 ( 1) 00000000 00000000 8388608
->    00010000: A  0 ( 7) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
->    00010000: A  0 ( 4) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
->    00010000: A  0 ( 3) 00000000 00000000 8388608
-> ....
->    00010000: A  0 ( 3) 00000000 00000000 8388608
-> Total 38 objects, 293842944 bytes
-> 
-> My guess is there's something up with the way a job completes that's
-> causing the BOs not to be marked inactive.  I haven't yet been able
-> to debug any further.
+> Signed-off-by: Tomer Samara <tomersamara98@gmail.com>
+> ---
 
-The patch I just sent out should fix this issue. The DRM scheduler is
-doing some funny business which breaks our job done signalling if the
-GPU timeout has been hit, even if our timeout handler is just extending
-the timeout as the GPU is still working normally.
+You should put a note here about what changed between v3 vs v4. Like so:
+---
+v4: Just remove the BUG_ON()s instead of adding new returns.
+v3: Hand the new return paths or whatever.
 
-Regards,
-Lucas
+Anyway, looks good.
+
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+regards,
+dan carpenter
 
 _______________________________________________
 dri-devel mailing list
