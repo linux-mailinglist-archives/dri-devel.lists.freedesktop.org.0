@@ -2,60 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B43824F343
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 09:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DA024F99B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 11:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEFCF6E1B7;
-	Mon, 24 Aug 2020 07:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 394B26E1BE;
+	Mon, 24 Aug 2020 09:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5C66E1B5;
- Mon, 24 Aug 2020 07:43:39 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id f26so8486106ljc.8;
- Mon, 24 Aug 2020 00:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=LwplKGrJx3eQBkv1HvhogR0iGUz1klnaWD2nLVc/pI4=;
- b=IDiUiAk9BpRYOruP/JHY1bGmA7UtWlohHPDqUBNgSvKOzJ5H5w0Sod/KKKGlyRh/+d
- BYzWjWxA8vtVC8pMu0NUbO8c59a29JeYqkMq2I73f1Q7AozEPB+suBAX8fVbpVxn5QxN
- lSVf/h0bZxEcz4yYfDw0pEwtzzqAI6NcVCZjM/7FoHvRQTMdDMfPJ/1DkQ8lX0soqVek
- AWqdmfJgtTB/gNNjUVzCLfD0d/wQSiz/BNJKuVzookp9f977ig5H4BFm7BAPr4t3UTMr
- +UaDpuWuzE12rtg3uFWLTIF16UVZ7SvMhCMRhvPsYpLE3IYEgpcLvrL8pxI7A0Ra5/2I
- K/DQ==
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49506E1BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 09:47:26 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b66so5275757wmb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 02:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pp3z6h1D9WsMBTnOwfGB/PDJkTy44cyztqfZIjKmAm8=;
+ b=eFuH4kVF1JYQjBjvnqyBBOo1phVc6xcnL6ZHpWjThPe78z8OjJP5I5zI7tQYg8iAid
+ RHjPsjvD/ipKjZF0owLfUsrDJxqLqHVoEL3pi4Qvx48T1JqRFiByrdKftUFWGIXr42ht
+ uPqm6JccmlIFJRI4opfhh9Oa/3x0Bcmu8PXvSKKh036wXwMcKWqKWA9I/grEAA7QamAx
+ HpyUtXPnyFHkV+u+Rs4jqKjN2NyN5LsLL4cas4cmBegZkKsS8c+Q95Rij9DqNKnzKhVB
+ Nj5Xuj1zzJSN/HCAY451BTx+YwPdTuykaarYMxpUNal5Q8uDbkrjfxYVyAeJjKsRy1iO
+ S5wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=LwplKGrJx3eQBkv1HvhogR0iGUz1klnaWD2nLVc/pI4=;
- b=mNxV8wwUKM8vpukNsR+boT5DxX2bovjxcq6s7WITGdMtEayMU5ixPazaxuL9yGuYA4
- fMiUBedPFk5gRJBT2QH0dYbSdU9HQQ37YiNqjVMWlmAjWGMfsKGp2KK2Y9hSk35jGw3B
- NQTd7+Y7IZcDurEr9IiyKXTfq6UMJ+kS5+2V9vmCgD4t0X9LrDRP3AB8e/ggwzYkjy0+
- FCUT73HPYenZbE+m7Nok6hXSPIgmhwDOO3yh4DuAjodR5e5uspFOXnJDzlKyCGWDPXO6
- ItzYeIiH4L6lTregzlXtDZIkmdskSs5BsqRUR/mzw4bH0zY0YhfO2kMJemZBnDdogH2h
- mGKw==
-X-Gm-Message-State: AOAM5314GMJrdQS0W4Bp3LGvFklpUnEqnLVmv3QQDLzt7AwJHDYSguf0
- gM+K9txUF/nlbG9/g7r+4oY=
-X-Google-Smtp-Source: ABdhPJzYqVPorqe6mnw5YmSW0FCNzpD4BgyJZEcDuMQFlGlIccSXEzHKIGzsCsFBBljbVNRGkH3C1Q==
-X-Received: by 2002:a2e:7210:: with SMTP id n16mr2154087ljc.262.1598255017700; 
- Mon, 24 Aug 2020 00:43:37 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h18sm39871lfk.86.2020.08.24.00.43.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 00:43:37 -0700 (PDT)
-Date: Mon, 24 Aug 2020 10:43:27 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-Subject: Re: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled
- whenever the CRTC is
-Message-ID: <20200824104327.559503f7@eldfell>
-In-Reply-To: <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
-References: <20200821165758.1106210-1-michel@daenzer.net>
- <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
- <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=pp3z6h1D9WsMBTnOwfGB/PDJkTy44cyztqfZIjKmAm8=;
+ b=PTeuSxx9AT6pEm65PyBbiwgEu9Wpt03InqpK5rzLgZnd/67zioj7MB95CXOF4YNBow
+ nwIflNbm8ukWMKIpT09mH9lmuNAzRIqWAzDtN9M9FLkXzQMZ4jRK1WxK9aN18y21YbHJ
+ Fxpmcg9D9rrnklHnVTqSbUwSnTWrUIagnD/cC8WsftIKtVBvPrp/hCfwcRSIdZa0vJwH
+ 7BokheFL55aewguAf6WrszNYMLCIyKhy5rMB2yrbNXFJQGWzm4dJHT/o/PQDvYqQXqhL
+ xLwlnlXyqhnzMpXXFXBI02nYFACDN1STQIElHW0FWFNZ3r6BAXpj36bsS4FlqQw0Nl9S
+ K+AQ==
+X-Gm-Message-State: AOAM5300gTrgbgdgE2oLIK9wBfYtuei8v2wVqFpjsM9xwp2oG8XcqoQ2
+ LrCWutWTCFPcTpuCLs8BQPsOBw==
+X-Google-Smtp-Source: ABdhPJxKznRV+opTvxcxJMeHGespujGb3mbCxvNcdL2xOo/SM1Gh50l6YfcMQoiYXRnWIhftQjKG2Q==
+X-Received: by 2002:a1c:988d:: with SMTP id a135mr4843469wme.8.1598262445236; 
+ Mon, 24 Aug 2020 02:47:25 -0700 (PDT)
+Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id p8sm23304491wrq.9.2020.08.24.02.47.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Aug 2020 02:47:24 -0700 (PDT)
+Subject: Re: [PATCH v9 00/11] Genericize DW MIPI DSI bridge and add i.MX 6
+ driver
+To: Ezequiel Garcia <ezequiel@collabora.com>,
+ Adrian Ratiu <adrian.ratiu@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+References: <20200609174959.955926-1-adrian.ratiu@collabora.com>
+ <c6f10db1-7f56-a156-36a1-125e764c8c1a@baylibre.com>
+ <87lfk3kaj4.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
+ <b318069fe873e456f18d07d11f5d165667c9b04a.camel@collabora.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <e0d0efec-09e0-6bf8-bab7-44accd14fa52@baylibre.com>
+Date: Mon, 24 Aug 2020 11:47:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <b318069fe873e456f18d07d11f5d165667c9b04a.camel@collabora.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,143 +130,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1976639461=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Philippe CORNU <philippe.cornu@st.com>, Yannick FERTRE <yannick.fertre@st.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, linux-imx@nxp.com, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1976639461==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/OCe4xJ9_5URsE0E98COHEyp"; protocol="application/pgp-signature"
-
---Sig_/OCe4xJ9_5URsE0E98COHEyp
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, 22 Aug 2020 11:59:26 +0200
-Michel D=C3=A4nzer <michel@daenzer.net> wrote:
-
-> On 2020-08-21 8:07 p.m., Kazlauskas, Nicholas wrote:
-> > On 2020-08-21 12:57 p.m., Michel D=C3=A4nzer wrote: =20
-> >> From: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-> >>
-> >> Don't check drm_crtc_state::active for this either, per its
-> >> documentation in include/drm/drm_crtc.h:
-> >>
-> >> =C2=A0 * Hence drivers must not consult @active in their various
-> >> =C2=A0 * &drm_mode_config_funcs.atomic_check callback to reject an ato=
-mic
-> >> =C2=A0 * commit.
-> >>
-> >> The atomic helpers disable the CRTC as needed for disabling the primary
-> >> plane.
-> >>
-> >> This prevents at least the following problems if the primary plane gets
-> >> disabled (e.g. due to destroying the FB assigned to the primary plane,
-> >> as happens e.g. with mutter in Wayland mode):
-> >>
-> >> * Toggling CRTC active to 1 failed if the cursor plane was enabled
-> >> =C2=A0=C2=A0 (e.g. via legacy DPMS property & cursor ioctl).
-> >> * Enabling the cursor plane failed, e.g. via the legacy cursor ioctl. =
-=20
-> >=20
-> > We previously had the requirement that the primary plane must be enabled
-> > but some userspace expects that they can enable just the overlay plane
-> > without anything else.
-> >=20
-> > I think the chromuiumos atomictest validates that this works as well:
-> >=20
-> > So is DRM going forward then with the expectation that this is wrong
-> > behavior from userspace?
-> >=20
-> > We require at least one plane to be enabled to display a cursor, but it
-> > doesn't necessarily need to be the primary. =20
->=20
-> It's a "pick your poison" situation:
->=20
-> 1) Currently the checks are invalid (atomic_check must not decide based
-> on drm_crtc_state::active), and it's easy for legacy KMS userspace to
-> accidentally hit errors trying to enable/move the cursor or switch DPMS
-> off =E2=86=92 on.
->=20
-> 2) Accurately rejecting only atomic states where the cursor plane is
-> enabled but all other planes are off would break the KMS helper code,
-> which can only deal with the "CRTC on & primary plane off is not
-> allowed" case specifically.
->=20
-> 3) This patch addresses 1) & 2) but may break existing atomic userspace
-> which wants to enable an overlay plane while disabling the primary plane.
->=20
->=20
-> I do think in principle atomic userspace is expected to handle case 3)
-> and leave the primary plane enabled.
-
 Hi,
 
-my opinion as a userspace developer is that enabling a CRTC without a
-primary plane has traditionally not worked, so userspace cannot *rely*
-on it ever working. I think legacy KMS API does not even allow to
-express that really, or has built-in assumptions that it doesn't work -
-you can call the legacy cursor ioctls, they don't fail, but also the
-CRTC remains off. Correct me if this is not true.
 
-Atomic userspace OTOH is required to test the strange (and all!) cases
-like this to see if they work or not, and carry on with a fallback if
-they don't. Userspace that wants to use a CRTC without a primary plane
-likely needs other CRTC properties as well, like background color.
+On 15/08/2020 15:05, Ezequiel Garcia wrote:
+> Hi Neil,
+> 
+> On Wed, 2020-07-01 at 09:35 +0300, Adrian Ratiu wrote:
+>> Hi Neil,
+>>
+>> On Mon, 29 Jun 2020, Neil Armstrong <narmstrong@baylibre.com> 
+>> wrote:
+>>> Hi Adrian, 
+>>>
+>>> On 09/06/2020 19:49, Adrian Ratiu wrote: 
+[...]
+>>
+> 
+> It's been a month so I think it's a good idea to go forward
+> applying IMX and STM patches (probably with the usual
+> rebase dance).
+> 
+> As for Rockchip...
+> 
+>> The binding API removal change which directly touches RK can also 
+>> be applied separately, but unfortunately I do not have access to a 
+>> RK board with a DSI display to test it (or the bridge regmap logic 
+>> on RK btw...), I just "eye-balled" the RK code based on the public 
+>> docs and it LGTM.
+>>
+> 
+> ... I'll be getting some DSI hardware to help with the pending
+> Rockchip issues, so we can tackle Rockchip as well. I'm quite sure
+> we'll loop Heiko as well if needed :-)
 
-I would guess that when two regressions conflict, the older userspace
-would win. Hence legacy KMS using Mutter should keep working, while
-atomic userspace is left with increased power consumption. Not using a
-hardware cursor (Mutter) is much more easily an end-user visible
-regression than slightly shorter battery life.
+Sure, Adrian, can you rebase on drm-misc-next so I can apply the IMX and STM patches ?
 
-Atomic test commits are allowed to fail at any time for any reason and
-something that previously worked can fail on the next frame or on the
-next kernel, as far as I understand.
-
-Sounds like the helpers you refer to are inadequate for your case.
-Can't you fix the helpers in the long run and land this patch as an
-immediate fix?
-
-
-Thanks,
-pq
-
---Sig_/OCe4xJ9_5URsE0E98COHEyp
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9Db58ACgkQI1/ltBGq
-qqf97g//c1DTrMrYA/OP85hXeTS9zYFVXFWv+d38iBxtAGbCuMmZ4Aewa08n7Frp
-ZxauVpTjF74HDma2XQ8IGDqQFRtveRbtVgxOXSU9bg9IKxPwJapVdeC69Z75ob/p
-qSIZhP/i40qmVL/N+lXhzmCOOIJSCkbb8W/mOTyzmLyPWhLboO4y1QsOlxCvcJoA
-kvmTB0QyT73H0LDSEtnAneL/eSp3qJ55sVDCBHXix8TCiEKaLCGjUP+tqIdjMn40
-3da+qlPYk901F48/L2SzciGKo+aGWwQfFW30ekg5vndDVLX5jxpAFt8mzbYQcqlA
-cxc1jkBwgD/7raEc6tT9L5wS2OJY3n0Ifw8w51Ee3QIJ2BZfrW8XHb1bw+ZCPBx3
-6rVw8WVDy1fz4owrZAAd4Sn8B97qzx/E9ISbsr8lHP6kNaCgpqkoE8bmo/E/yA94
-WKT0vhgekPNjTB/tWs46q6NcoL3SIV8xoyybJ8x6HS4R9TvXFDUdzWPOML387Fe0
-QvExP2UEwEliivCFiJZCBlGY6/ZLs+IsYiOJpWW6q1uTf2wCnbX6RroV795KUDhp
-Q0qGlbhoVkaOsgTM13Fw6XD3bcc8y+ZL7X2FwtSE8am8ZGtukOAo9/MjjbfTD5AE
-0e+7IX5d9EeT21B6afOCINjoEb0kJQbfFiheCNt65gIi9ENNcqo=
-=NCKp
------END PGP SIGNATURE-----
-
---Sig_/OCe4xJ9_5URsE0E98COHEyp--
-
---===============1976639461==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+> Cheers,
+> Ezequiel
+> 
+>>> Neil
+>>>
+>>>> Big thank you to everyone who has contributed to this up to now,
+>>>> Adrian
+>>>>
+>>>> Adrian Ratiu (11):
+>>>>   drm: bridge: dw_mipi_dsi: add initial regmap infrastructure
+>>>>   drm: bridge: dw_mipi_dsi: abstract register access using reg_fields
+>>>>   drm: bridge: dw_mipi_dsi: add dsi v1.01 support
+>>>>   drm: bridge: dw_mipi_dsi: remove bind/unbind API
+>>>>   dt-bindings: display: add i.MX6 MIPI DSI host controller doc
+>>>>   ARM: dts: imx6qdl: add missing mipi dsi properties
+>>>>   drm: imx: Add i.MX 6 MIPI DSI host platform driver
+>>>>   drm: stm: dw-mipi-dsi: let the bridge handle the HW version check
+>>>>   drm: bridge: dw-mipi-dsi: split low power cfg register into fields
+>>>>   drm: bridge: dw-mipi-dsi: fix bad register field offsets
+>>>>   Documentation: gpu: todo: Add dw-mipi-dsi consolidation plan
+>>>>
+>>>>  .../display/imx/fsl,mipi-dsi-imx6.yaml        | 112 +++
+>>>>  Documentation/gpu/todo.rst                    |  25 +
+>>>>  arch/arm/boot/dts/imx6qdl.dtsi                |   8 +
+>>>>  drivers/gpu/drm/bridge/synopsys/Kconfig       |   1 +
+>>>>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 713 ++++++++++++------
+>>>>  drivers/gpu/drm/imx/Kconfig                   |   8 +
+>>>>  drivers/gpu/drm/imx/Makefile                  |   1 +
+>>>>  drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c        | 399 ++++++++++
+>>>>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   7 +-
+>>>>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  16 +-
+>>>>  10 files changed, 1059 insertions(+), 231 deletions(-)
+>>>>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+>>>>  create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c
+>>>>
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1976639461==--
