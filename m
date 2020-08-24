@@ -1,42 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82D024F10A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 04:18:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F6D24F155
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 05:00:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 301646E197;
-	Mon, 24 Aug 2020 02:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3956E193;
+	Mon, 24 Aug 2020 03:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9CFD6E197
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 02:18:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26B72279;
- Mon, 24 Aug 2020 04:18:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1598235529;
- bh=RoKm8ixOBiN9I2lstV2sr8M8mjB5HkR5dbHfe1S+R6s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LSBTXbotaqk4zEATQtqy3tif3cy2aX0VWWOHz4zL6NpNtJd98yHd5wvzGsfROtNcO
- xWUb9l40Cx422WfaSjzi75UhfCiwWklums84WckO3yPJz34oyF9GqcBv7+7WHU8mXw
- VAhu3HBjGc3mgv2PFNofwHKtX10v8KdKByjginOg=
-Date: Mon, 24 Aug 2020 05:18:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v8 2/3] drm: bridge: Add support for Cadence MHDP DPI/DP
- bridge
-Message-ID: <20200824021830.GZ6002@pendragon.ideasonboard.com>
-References: <1596713672-8146-1-git-send-email-sjakhade@cadence.com>
- <1596713672-8146-3-git-send-email-sjakhade@cadence.com>
- <20200811023622.GC13513@pendragon.ideasonboard.com>
- <49c2a4c8-6d84-6164-d350-6a985fc9a3e9@ti.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5693D6E133;
+ Mon, 24 Aug 2020 03:00:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mEv5reILA8pxVZy3y3/cvKgbC18MGH1xDmwCq/y6qYYqQG45s1hBsfmoHwIIlAhmAbwVtItrIrS1cfmOj0+bFUXvJNIwUMeY/JnzEShOKOcSOSj63MiIcbyuhZnxi6s/PqlrNrQLU9w5I+76pHEn+uStu1l1kC4BSBy7n/XofFIR3T9kDo33DH6L7tgstFUcE4apHj474Fua6LFewwupskYL7GWjTZwa7JDRTo7pyMFcrzk/NpdmvM6y57PFTgxEZRQsmWB/ADjvqyUdnxDDeywKQbqZFrWWHKhfw/JFy5BGKOgmfPltmhM7Rjy/o306rs/2ocwgK+eBNoXqbkYobw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bp/n/rUELe40i3VwidhnXPqSVLx566S1P8511LvH1/U=;
+ b=iTMoi/NVNxUaQ1P9IYW9Ugub4mkMEonm0RAWimbINvIgi370DWCJm9jtbwglMCzHhkT+bpL+ypzu7X1Yzv8ijpERMeeKfRWcksqgSvj7gsHbd5dhbXjCHHq1fBGxGesCtR3otdqZ33N0yljQ1VAFV0Qv+QXJa5HHnnL8HQYTr1AFrAB/NuhGQMyrICS7xmS4pMckUhwGbeOS2SjbRXiA9+EnZZjWc7NNobPHFjNQDPLtkfV1k/UfG/sSQp6Li2G5mZlc6DIwgePs4qgGbTtOTa4hHaLOan4E9Z+zSK1LeDh+r+N5oet8rxDHKBg7Q3WWrKu31NjqZbofr04NYCVs5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bp/n/rUELe40i3VwidhnXPqSVLx566S1P8511LvH1/U=;
+ b=XPQfLFHhbJeAZqYvRT4zBPw0A/CvZ+X/yzNU1ThibWMcwo6vCp/QEDNJlyLG2fHoKYuq1Ax1JpKtu39xp4QTe8AxVcqHWqXhUqd94ta65rF0uAJgd2/EKpKLpffHqE8yIwbvGBlfywg2bEE+IQQwdoqWmLdXwn22SHESMO6y1VQ=
+Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
+ DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.25; Mon, 24 Aug 2020 02:59:58 +0000
+Received: from DM6PR12MB2619.namprd12.prod.outlook.com
+ ([fe80::bcb1:de80:f60c:8118]) by DM6PR12MB2619.namprd12.prod.outlook.com
+ ([fe80::bcb1:de80:f60c:8118%5]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
+ 02:59:58 +0000
+From: "Quan, Evan" <Evan.Quan@amd.com>
+To: Randy Dunlap <rdunlap@infradead.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>
+Subject: RE: [PATCH -next] amdgpu: fix Documentation builds for pm/ file
+ movement
+Thread-Topic: [PATCH -next] amdgpu: fix Documentation builds for pm/ file
+ movement
+Thread-Index: AQHWeZ2/gKc8SM9oYEuNNVO303NlTKlGkcVw
+Date: Mon, 24 Aug 2020 02:59:58 +0000
+Message-ID: <DM6PR12MB261924212A1791B949B43903E4560@DM6PR12MB2619.namprd12.prod.outlook.com>
+References: <88d43daf-f29b-0fbe-cf58-930e8caca0e7@infradead.org>
+In-Reply-To: <88d43daf-f29b-0fbe-cf58-930e8caca0e7@infradead.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=9849b35e-e708-485c-86c9-380acc7d4970;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
+ Use Only - Unrestricted;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-08-24T02:58:55Z;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [58.247.170.242]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: cfc1c739-094a-4a22-7732-08d847d9c977
+x-ms-traffictypediagnostic: DM5PR12MB2504:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB250412619511C1C58DDA2CB4E4560@DM5PR12MB2504.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1775;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AggqE5jCggN+HIPHA4hZZfvyEHbs43TXLu+ea91YmGQ7G0N9+x9j1eVvmxpkSKg3s8LuM7bCLq0QZf0YWa6N7YPtMcrALFLVnFaMNqsgpLaVCJIsqC+WQRqSXaqhB9m5ZDjExUp45xP4oYVsU5dXyWYLV3cyCjFYerePMga7Y25Dg72jKXB/BP73fKNJ6KvgbTTU4q7+Knx2VGNFvN3gxxJU7WpZTGk2nF44NbB6gzRLcjyAmBRR0UBfF3iU4T1XTH/lDp3fDxapnGauQz6SeN01mged3uC0QdI3AadcVMLlqKJLvvB3mlKR2XRGivSm
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(39860400002)(136003)(396003)(376002)(26005)(53546011)(6506007)(186003)(76116006)(71200400001)(66556008)(7696005)(64756008)(6636002)(66946007)(2906002)(5660300002)(55016002)(9686003)(66446008)(66476007)(52536014)(110136005)(83380400001)(8936002)(86362001)(4326008)(8676002)(316002)(33656002)(478600001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: IDHAwuuUBBRB4M2YJhfCwLg+N/x5ffj+7bNFxNnfn/W/x/sgySXsH6Htl4H5jtY9h6MZgnVMlk92WiO/a+t21bowPEIkZyNcBRNB+C/A+q1xt9AF1bw209mNObqWmSrBxAb0LrOl290x0otdoTnbGiGRvBEHHPmX3UOszxMvKibrGKai8id3U2D5CPH/YfEZaOxgXWfsQxJAXj8d/6tZd2W/PTPKPd0WbsIcE1rtaDywUGqxE7m7uh/2h5pnk0oeOimLyZK070PbVUjEafc9yLfXgqd9IvkaGngxfY2OtrzNqCTw4rZuWFb9MaiJgkm+tEBttdwZ8sobO2/dSDKx8LDVxNF2fFqcp7NIxi/l9kROdRPX1bDurbkFstlKQXLB1K4tqOPB4sWuNibpOv237ojtV9E5GWj9iePPpyHbUtdVliQu/0vXzdcP6pdhHINM2BpSXoo5crNCPd2FqP40EfJKMYi+eFb843hK8lbujDfFop7lcbdYgZgHJ/GTZSwLigQCx3OaaIn+VqMI3iMAEsoAzIXmUHvymBUNxRDnITEPNY+/91LwBXRy6oCG+bUzezVppeww6sIlFlCZY1bfvi1W1gldnbAGX94d3+jDuOdRJpNWhUZEC+33pWpNQw/YBeB9rmD7dweh1E5HdKm1yg==
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <49c2a4c8-6d84-6164-d350-6a985fc9a3e9@ti.com>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfc1c739-094a-4a22-7732-08d847d9c977
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2020 02:59:58.5280 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: O6k+0tTPACRWMlu3YsDEiOTVBY/KTo5yn3qoWO0RAmJGdCSjDxZ4BUADQpcGFlWK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2504
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +104,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, narmstrong@baylibre.com, airlied@linux.ie,
- jonas@kwiboo.se, nsekhar@ti.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
- jsarha@ti.com, Swapnil Jakhade <sjakhade@cadence.com>, mparab@cadence.com
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+[AMD Official Use Only - Internal Distribution Only]
 
-On Fri, Aug 14, 2020 at 12:29:35PM +0300, Tomi Valkeinen wrote:
-> On 11/08/2020 05:36, Laurent Pinchart wrote:
-> 
-> >> +static int cdns_mhdp_mailbox_write(struct cdns_mhdp_device *mhdp, u8 val)
-> >> +{
-> >> +	int ret, full;
-> >> +
-> >> +	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
-> >> +
-> >> +	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_FULL,
-> >> +				 full, !full, MAILBOX_RETRY_US,
-> >> +				 MAILBOX_TIMEOUT_US);
-> >> +	if (ret < 0)
-> >> +		return ret;
-> >> +
-> >> +	writel(val, mhdp->regs + CDNS_MAILBOX_TX_DATA);
-> >> +
-> >> +	return 0;
-> >> +}
-> > 
-> > As commented previously, I think there's room for optimization here. Two
-> > options that I think should be investigated are using the mailbox
-> > interrupts, and only polling for the first byte of the message
-> > (depending on whether the firmware implementation can guarantee that
-> > when the first byte is available, the rest of the message will be
-> > immediately available too). This can be done on top of this patch
-> > though.
-> 
-> I made some tests on this.
-> 
-> I cannot see mailbox_write ever looping, mailbox is never full. So in this case the
-> readx_poll_timeout() call is there just for safety to catch the cases where something has gone
-> totally wrong or perhaps once in a while the mbox can be full for a tiny moment. But we always do
-> need to check CDNS_MAILBOX_FULL before each write to CDNS_MAILBOX_TX_DATA, so we can as well use
-> readx_poll_timeout for that to catch the odd cases (afaics, there's no real overhead if the exit
-> condition is true immediately).
-> 
-> mailbox_read polls sometimes. Most often it does not poll, as the data is ready in the mbox, and in
-> these cases the situation is the same as for mailbox_write.
-> 
-> The cases where it does poll are related to things where the fw has to wait for something. The
-> longest poll waits seemed to be EDID read (16 ms wait) and adjusting LT (1.7 ms wait). And afaics,
-> when the first byte of the received message is there, the rest of the bytes will be available
-> without wait.
-> 
-> For mailbox_write and for most mailbox_reads I think using interrupts makes no sense, as the
-> overhead would be big.
-> 
-> For those few long read operations, interrupts would make sense. I guess a simple way to handle this
-> would be to add a new function, wait_for_mbox_data() or such, which would use the interrupts to wait
-> for mbox not empty. This function could be used in selected functions (edid, LT) after
-> cdns_mhdp_mailbox_send().
-> 
-> Although I think it's not that bad currently, MAILBOX_RETRY_US is 1ms, so it's quite lazy polling,
-> so perhaps this can be considered TODO optimization.
+Thanks for fixing this. The patch is reviewed-by: Evan Quan <evan.quan@amd.com>
 
-I'm fine with TODO optimization.
+BR
+Evan
+-----Original Message-----
+From: Randy Dunlap <rdunlap@infradead.org>
+Sent: Monday, August 24, 2020 6:36 AM
+To: dri-devel <dri-devel@lists.freedesktop.org>; LKML <linux-kernel@vger.kernel.org>; amd-gfx@lists.freedesktop.org; Deucher, Alexander <Alexander.Deucher@amd.com>
+Cc: Quan, Evan <Evan.Quan@amd.com>; Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH -next] amdgpu: fix Documentation builds for pm/ file movement
 
--- 
-Regards,
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Laurent Pinchart
+Fix Documentation errors for amdgpu.rst due to file rename (moved to another subdirectory).
+
+Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function hwmon ../drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c' failed with return code 1
+
+Fixes: e098bc9612c2 ("drm/amd/pm: optimize the power related source code layout")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Evan Quan <evan.quan@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+---
+ Documentation/gpu/amdgpu.rst |   24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+--- linux-next-20200821.orig/Documentation/gpu/amdgpu.rst
++++ linux-next-20200821/Documentation/gpu/amdgpu.rst
+@@ -153,7 +153,7 @@ This section covers hwmon and power/ther  HWMON Interfaces
+ ----------------
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: hwmon
+
+ GPU sysfs Power State Interfaces
+@@ -164,52 +164,52 @@ GPU power controls are exposed via sysfs  power_dpm_state  ~~~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: power_dpm_state
+
+ power_dpm_force_performance_level
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: power_dpm_force_performance_level
+
+ pp_table
+ ~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_table
+
+ pp_od_clk_voltage
+ ~~~~~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_od_clk_voltage
+
+ pp_dpm_*
+ ~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
+
+ pp_power_profile_mode
+ ~~~~~~~~~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_power_profile_mode
+
+ *_busy_percent
+ ~~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: gpu_busy_percent
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: mem_busy_percent
+
+ gpu_metrics
+ ~~~~~~~~~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: gpu_metrics
+
+ GPU Product Information
+@@ -239,7 +239,7 @@ serial_number
+ unique_id
+ ---------
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: unique_id
+
+ GPU Memory Usage Information
+@@ -289,7 +289,7 @@ PCIe Accounting Information  pcie_bw
+ -------
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pcie_bw
+
+ pcie_replay_count
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
