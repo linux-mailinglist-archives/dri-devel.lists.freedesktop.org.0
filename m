@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840862502B9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 18:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6077D2502BB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 18:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFADD6E32B;
-	Mon, 24 Aug 2020 16:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD806E332;
+	Mon, 24 Aug 2020 16:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8F36E30C;
- Mon, 24 Aug 2020 16:35:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717676E320;
+ Mon, 24 Aug 2020 16:35:31 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DA2D920578;
- Mon, 24 Aug 2020 16:35:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5979422CB1;
+ Mon, 24 Aug 2020 16:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598286929;
- bh=hEcf91JbzgPXRuztevJtJxtp78NU32tVPVA7ZRUoHnU=;
+ s=default; t=1598286931;
+ bh=JuLsNZjZqesuqcAnyc87ATn2vCVdmiJJkLFcGGjUi/0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JoObgjekUxgYr7qo4X5Y4CQMG+LjOX/YN18IBNONtW1HIWPqo5bbIpqVKEgP8RcVo
- DXawu7LgWLuVhE3qPp76yMQb7TM5viqzav+EZUDqtCSm9qgyrcATfibJj3uAswW1AZ
- /zznmE8fdDv9ZwX5MduB7M1zRAYYzpyYSSoYlil4=
+ b=kWuj57pGNwFtw/HJJ7mdFzUZ65rUx1OxADs+9wkqfJ1ykb2ZXGVqDtguCE5UEbym7
+ 370J+8fDweO50tSK9AYEU4tUgvalmH/8/+Vs28rYxeSWVdsbVieKG4P0byW8tgdg/Y
+ x2eRwel1GhnvKyKQV9+dJyoni9VwICSAsO1h5pjw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 19/63] drm/amd/display: Fix LFC multiplier
- changing erratically
-Date: Mon, 24 Aug 2020 12:34:19 -0400
-Message-Id: <20200824163504.605538-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 20/63] drm/amd/display: Switch to immediate mode
+ for updating infopackets
+Date: Mon, 24 Aug 2020 12:34:20 -0400
+Message-Id: <20200824163504.605538-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200824163504.605538-1-sashal@kernel.org>
 References: <20200824163504.605538-1-sashal@kernel.org>
@@ -50,9 +50,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Anthony Koo <Anthony.Koo@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Ashley Thomas <Ashley.Thomas2@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Anthony Koo <Anthony.Koo@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -60,86 +61,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Anthony Koo <Anthony.Koo@amd.com>
 
-[ Upstream commit e4ed4dbbc8383d42a197da8fe7ca6434b0f14def ]
+[ Upstream commit abba907c7a20032c2d504fd5afe3af7d440a09d0 ]
 
 [Why]
-1. There is a calculation that is using frame_time_in_us instead of
-last_render_time_in_us to calculate whether choosing an LFC multiplier
-would cause the inserted frame duration to be outside of range.
-
-2. We do not handle unsigned integer subtraction correctly and it underflows
-to a really large value, which causes some logic errors.
+Using FRAME_UPDATE will result in infopacket to be potentially updated
+one frame late.
+In commit stream scenarios for previously active stream, some stale
+infopacket data from previous config might be erroneously sent out on
+initial frame after stream is re-enabled.
 
 [How]
-1. Fix logic to calculate 'within range' using last_render_time_in_us
-2. Split out delta_from_mid_point_delta_in_us calculation to ensure
-we don't underflow and wrap around
+Switch to using IMMEDIATE_UPDATE mode
 
 Signed-off-by: Anthony Koo <Anthony.Koo@amd.com>
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
+Reviewed-by: Ashley Thomas <Ashley.Thomas2@amd.com>
 Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/modules/freesync/freesync.c   | 36 +++++++++++++++----
- 1 file changed, 29 insertions(+), 7 deletions(-)
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.c  | 16 ++++++++--------
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.h  | 14 ++++++++++++++
+ 2 files changed, 22 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index eb7421e83b865..23a7fa8447e24 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -324,22 +324,44 @@ static void apply_below_the_range(struct core_freesync *core_freesync,
- 
- 		/* Choose number of frames to insert based on how close it
- 		 * can get to the mid point of the variable range.
-+		 *  - Delta for CEIL: delta_from_mid_point_in_us_1
-+		 *  - Delta for FLOOR: delta_from_mid_point_in_us_2
- 		 */
--		if ((frame_time_in_us / mid_point_frames_ceil) > in_out_vrr->min_duration_in_us &&
--				(delta_from_mid_point_in_us_1 < delta_from_mid_point_in_us_2 ||
--						mid_point_frames_floor < 2)) {
-+		if ((last_render_time_in_us / mid_point_frames_ceil) < in_out_vrr->min_duration_in_us) {
-+			/* Check for out of range.
-+			 * If using CEIL produces a value that is out of range,
-+			 * then we are forced to use FLOOR.
-+			 */
-+			frames_to_insert = mid_point_frames_floor;
-+		} else if (mid_point_frames_floor < 2) {
-+			/* Check if FLOOR would result in non-LFC. In this case
-+			 * choose to use CEIL
-+			 */
-+			frames_to_insert = mid_point_frames_ceil;
-+		} else if (delta_from_mid_point_in_us_1 < delta_from_mid_point_in_us_2) {
-+			/* If choosing CEIL results in a frame duration that is
-+			 * closer to the mid point of the range.
-+			 * Choose CEIL
-+			 */
- 			frames_to_insert = mid_point_frames_ceil;
--			delta_from_mid_point_delta_in_us = delta_from_mid_point_in_us_2 -
--					delta_from_mid_point_in_us_1;
- 		} else {
-+			/* If choosing FLOOR results in a frame duration that is
-+			 * closer to the mid point of the range.
-+			 * Choose FLOOR
-+			 */
- 			frames_to_insert = mid_point_frames_floor;
--			delta_from_mid_point_delta_in_us = delta_from_mid_point_in_us_1 -
--					delta_from_mid_point_in_us_2;
- 		}
- 
- 		/* Prefer current frame multiplier when BTR is enabled unless it drifts
- 		 * too far from the midpoint
- 		 */
-+		if (delta_from_mid_point_in_us_1 < delta_from_mid_point_in_us_2) {
-+			delta_from_mid_point_delta_in_us = delta_from_mid_point_in_us_2 -
-+					delta_from_mid_point_in_us_1;
-+		} else {
-+			delta_from_mid_point_delta_in_us = delta_from_mid_point_in_us_1 -
-+					delta_from_mid_point_in_us_2;
-+		}
- 		if (in_out_vrr->btr.frames_to_insert != 0 &&
- 				delta_from_mid_point_delta_in_us < BTR_DRIFT_MARGIN) {
- 			if (((last_render_time_in_us / in_out_vrr->btr.frames_to_insert) <
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.c
+index 07b2f9399671d..842abb4c475bc 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.c
+@@ -121,35 +121,35 @@ void enc1_update_generic_info_packet(
+ 	switch (packet_index) {
+ 	case 0:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC0_FRAME_UPDATE, 1);
++				AFMT_GENERIC0_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 1:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC1_FRAME_UPDATE, 1);
++				AFMT_GENERIC1_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 2:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC2_FRAME_UPDATE, 1);
++				AFMT_GENERIC2_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 3:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC3_FRAME_UPDATE, 1);
++				AFMT_GENERIC3_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 4:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC4_FRAME_UPDATE, 1);
++				AFMT_GENERIC4_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 5:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC5_FRAME_UPDATE, 1);
++				AFMT_GENERIC5_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 6:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC6_FRAME_UPDATE, 1);
++				AFMT_GENERIC6_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	case 7:
+ 		REG_UPDATE(AFMT_VBI_PACKET_CONTROL1,
+-				AFMT_GENERIC7_FRAME_UPDATE, 1);
++				AFMT_GENERIC7_IMMEDIATE_UPDATE, 1);
+ 		break;
+ 	default:
+ 		break;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.h b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.h
+index f9b9e221c698b..7507000a99ac4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_stream_encoder.h
+@@ -273,7 +273,14 @@ struct dcn10_stream_enc_registers {
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC2_FRAME_UPDATE, mask_sh),\
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC3_FRAME_UPDATE, mask_sh),\
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC4_FRAME_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC0_IMMEDIATE_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC1_IMMEDIATE_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC2_IMMEDIATE_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC3_IMMEDIATE_UPDATE, mask_sh),\
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC4_IMMEDIATE_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC5_IMMEDIATE_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC6_IMMEDIATE_UPDATE, mask_sh),\
++	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC7_IMMEDIATE_UPDATE, mask_sh),\
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC5_FRAME_UPDATE, mask_sh),\
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC6_FRAME_UPDATE, mask_sh),\
+ 	SE_SF(DIG0_AFMT_VBI_PACKET_CONTROL1, AFMT_GENERIC7_FRAME_UPDATE, mask_sh),\
+@@ -337,7 +344,14 @@ struct dcn10_stream_enc_registers {
+ 	type AFMT_GENERIC2_FRAME_UPDATE;\
+ 	type AFMT_GENERIC3_FRAME_UPDATE;\
+ 	type AFMT_GENERIC4_FRAME_UPDATE;\
++	type AFMT_GENERIC0_IMMEDIATE_UPDATE;\
++	type AFMT_GENERIC1_IMMEDIATE_UPDATE;\
++	type AFMT_GENERIC2_IMMEDIATE_UPDATE;\
++	type AFMT_GENERIC3_IMMEDIATE_UPDATE;\
+ 	type AFMT_GENERIC4_IMMEDIATE_UPDATE;\
++	type AFMT_GENERIC5_IMMEDIATE_UPDATE;\
++	type AFMT_GENERIC6_IMMEDIATE_UPDATE;\
++	type AFMT_GENERIC7_IMMEDIATE_UPDATE;\
+ 	type AFMT_GENERIC5_FRAME_UPDATE;\
+ 	type AFMT_GENERIC6_FRAME_UPDATE;\
+ 	type AFMT_GENERIC7_FRAME_UPDATE;\
 -- 
 2.25.1
 
