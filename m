@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A732505F5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 19:25:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC64E2505FF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 19:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B4056E062;
-	Mon, 24 Aug 2020 17:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157316E082;
+	Mon, 24 Aug 2020 17:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A0E6E062
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 17:25:00 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id h4so9508144ioe.5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 10:25:00 -0700 (PDT)
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 175656E082
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 17:25:36 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id g14so9523375iom.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 10:25:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8lTTj/jmM6acdQm8/e8F2732+IJ43OBKaVG2UWzljck=;
- b=fBwIGto2xsmCYkx51HBGxiXBoJyPgLjBurFNLJT5is8hYoGZdXkfF3DPMmouISwcyH
- uQ9HWz+V6Cswy1Qx3kwOki69VP1IG+3hqHbWZzX1OfAKQvTm46jckRRnR40H4rUsFHH4
- zV8TG6od0IOUhbshhQ0yF+QE/+FYvIh/jtUNkw9dSKBsfXt+66wyGHJwANX59qbcDgUu
- jFDc++vXv+GP1sPQukhaLrGD0LA7hWgkVBnXulzv1ZXx5B+2uB8y7WOzS05E52qB1Hpe
- uw2OZG7Hu5LV2pXsqXnryMGLaFAHhWn9QmqCb2p10Hh6VRGT/rRQEi73X6Tw+/Rx0JEX
- ux5w==
-X-Gm-Message-State: AOAM532Hioo8VZmk0TniUmxufA0W9e/FVnf0Wh5bFC4nk35kOTlUhTMt
- lWYXGeKxNyEOQaAhdtW9Pw==
-X-Google-Smtp-Source: ABdhPJyTBX3p/wehrALXgNAMThV85kOSRDteKPInM12uyjqGIejIB3rM+0JIUP9uewe8zY9koeq3tQ==
-X-Received: by 2002:a02:cf36:: with SMTP id s22mr6745606jar.80.1598289899733; 
- Mon, 24 Aug 2020 10:24:59 -0700 (PDT)
+ bh=Gaqc4X/qnA9KMqMqQ+N6oiNBtdvQ2DqPg5KJfR7DzDc=;
+ b=R5B66ItjOFy5EM2jiH6WmvPISZAmWWDft8N/de88TqLClSL4zZ90eClvfyGnf0F87p
+ ix5Mpp+0niEkgKa/c/Uuj67NAMyXUASaCNRC4S2GnpZuqWPhO/eWAPj8s9WnjYBNxdbU
+ XsmrCtO4uWe3zYdC7qi5zrPB/4pR6I4AM5cQeyvYx8RYzn7XLIqQH+RS1iXnJUiIyaMz
+ 3wpWXhD4deSMul9NnVckraK+R6VEHlUPwhnod3e8RiwX/vs2o0wAGJzRUunafXUyMjbE
+ M2wutwHn8skybPqWgr3aUPLAyrTeTW81hWoPd7LwouUmeZvdVWcIdcm6/dDzI1CAHeuH
+ hr7w==
+X-Gm-Message-State: AOAM532vuEGgy7hwgdjZUux1W9I9LloOsoi0RpFCFWO9EuUxE6MiWkNr
+ Mu5B8Dn5wBATOaL1f8KdFQ==
+X-Google-Smtp-Source: ABdhPJxKE+vkfQKb2OUtjfAlwBWYpgRA8sqo+1D3INz1VaQdhd0fgEmdb42+lRmimyoFGsCBwJ8EwA==
+X-Received: by 2002:a05:6602:1583:: with SMTP id
+ e3mr3348821iow.173.1598289935478; 
+ Mon, 24 Aug 2020 10:25:35 -0700 (PDT)
 Received: from xps15 ([64.188.179.249])
- by smtp.gmail.com with ESMTPSA id c88sm7669699ilg.5.2020.08.24.10.24.57
+ by smtp.gmail.com with ESMTPSA id v28sm7691743ili.27.2020.08.24.10.25.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 10:24:59 -0700 (PDT)
-Received: (nullmailer pid 2928413 invoked by uid 1000);
- Mon, 24 Aug 2020 17:24:56 -0000
-Date: Mon, 24 Aug 2020 11:24:56 -0600
+ Mon, 24 Aug 2020 10:25:34 -0700 (PDT)
+Received: (nullmailer pid 2929363 invoked by uid 1000);
+ Mon, 24 Aug 2020 17:25:33 -0000
+Date: Mon, 24 Aug 2020 11:25:33 -0600
 From: Rob Herring <robh@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 1/3 v3] dt-bindings: backlight: Add some common backlight
- properties
-Message-ID: <20200824172456.GA2926958@bogus>
+Subject: Re: [PATCH 2/3 v3] dt-bindings: backlight: Add Kinetic KTD253 bindings
+Message-ID: <20200824172533.GA2928997@bogus>
 References: <20200819205150.164403-1-linus.walleij@linaro.org>
+ <20200819205150.164403-2-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200819205150.164403-1-linus.walleij@linaro.org>
+In-Reply-To: <20200819205150.164403-2-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +61,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 19, 2020 at 10:51:48PM +0200, Linus Walleij wrote:
-> Let's use a common.yaml include for the backlight like we do with
-> the LEDs. The LEDs are inherently incompatible so their bindings
-> cannot be reused for backlight.
+On Wed, 19 Aug 2020 22:51:49 +0200, Linus Walleij wrote:
+> This adds device tree bindings for the Kinetic KTD253
+> white LED backlight driver.
 > 
 > Cc: devicetree@vger.kernel.org
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
 > ChangeLog v2->v3:
-> - Drop the | for the description
-> - Drop the "default-on" property, we're not using it.
-> - Drop the minimum 0 for unsigned u32:s
+> - Drop the pointless cargo-culted "default-on" property that
+>   we were not using
+> - Correct the brightness in the example to something legal (13)
 > ChangeLog v1->v2:
-> - New patch as suggested by Sam.
+> - Create common.yaml for backlight as suggested by Sam and
+>   use that.
+> - Rename the GPIO line "enable-gpios"
 > ---
->  .../bindings/leds/backlight/common.yaml       | 34 +++++++++++++++++++
->  1 file changed, 34 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/common.yaml
+>  .../leds/backlight/kinetic,ktd253.yaml        | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
