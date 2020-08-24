@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACEF25076E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 20:25:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 885C8250775
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 20:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0590E6E436;
-	Mon, 24 Aug 2020 18:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700596E42F;
+	Mon, 24 Aug 2020 18:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB096E436;
- Mon, 24 Aug 2020 18:25:25 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id o4so5819533wrn.0;
- Mon, 24 Aug 2020 11:25:25 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDBC6E452;
+ Mon, 24 Aug 2020 18:25:41 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id r15so9820281wrp.13;
+ Mon, 24 Aug 2020 11:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YAIp8ZarRWu0DneCjynShSWStsctWj+flPeQS/fuk90=;
- b=ImIVgxc0O5olzfnTRLTN9/f5FqqUKOFbAjtbqVq5jBtfjjbeT+rd4I2gAXsX0v2qNs
- 7Wyf1fQU68zeCq+HvLJBNqXm52IjBh9zQ198pexe3sGUjQ6ATcRO9Gl4q2A0PgRsQpi8
- NoZStLpCl2firUTTtspxaDxeYN8Y/Vso+j+Cm9+6lP7pC+0RVxUvzDRkNqRTRXMsjGCh
- wRaoR488quQursJ9PBFHXVrFSCjYdrzUAAFcqjkAXLQbmtN9fzI89KwgOGc2SUAvTQ2T
- iui6QTm2wPq8LdYEO34ITEvweK6WEudZEAe152gjpoOodkiuB4BmM58f6v/UugonIuuo
- 57dg==
+ :cc; bh=Bq5hRh6dg9CMA08TsyveabYMk5mqrcCNLEtAUVdySnw=;
+ b=daV5NP6KOQoVdPhRTGodqQ1JzkNkgZDMhtCfKtrZere0DfYHigFpCO3yp7egRNWQ0H
+ /MtuQ1mXghrxISQDgOLetOnRz7TuPJz+sCIcUlnTrR1dG21Tb8F5Sl1zqzguMFMTuF3u
+ 7mG4P5obRsoI0OmXWg2XsMjrlxxbOSY8qSnP7vc+F7unlZa8DUJcQMZ+6AaOB/Ca1GTq
+ o8limkjqvpNJK0ga98DoiGCLFrsUsovgBPL2eiFyIqsmjZV+vGEHl3/c3giTnwJyivZc
+ 1kUug3HpHJBLiAW4H3Omvg0DjWkXnQDeOGf5ImqqvF7vTgH27KqTlvit8K4ZgH5bRedm
+ jl8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YAIp8ZarRWu0DneCjynShSWStsctWj+flPeQS/fuk90=;
- b=Tkm3d6biiPb/ip8Tn5fGVqoJY3lgCgEfz3o/bDR3SeoBetNPUIU4nk0i2dJtYjXHcq
- zFQ1C+z4eiDj3UsPNj8J5/1gspVsyOh1Ie/fErUxgsdsuVnLr7mrb7xRW3biB07N8wFu
- InyI7gvDgf36j34zYzJl/JTpt1fpv0R22npvHnT5/lCGzC0LG80Opk06/UHsMV40SUy2
- EGxFQOJc5VCrw1ooDo+AfYYZrS83NFd+AacL1wQS+grLCEcoxMMPJbH7G9s/CPTA9uei
- mVUyDMbFWvQ/GjQIK5yjLbkQBIvq3T1mdFwb5yDBU3JnT8875J9/Uad3leYOFrhgIQPM
- bjBA==
-X-Gm-Message-State: AOAM531L1mVzDV51BHkv3kBogB/q3uN0NxShqywSpbq0U8ZrdNGs+Qzn
- o4VZRpmTB4g6JLzR3Gxy7SETs/Th8rJ5iB7uARPXBzN4O/0=
-X-Google-Smtp-Source: ABdhPJzSKmSBY48GlofEmwpRYlP/Xg4nbwx0nfnoM1l2mMj5wUpD1EWeGKMwmT6iUWsh+bMCoVnfYFpnMPBQI1S/oxI=
-X-Received: by 2002:a5d:494b:: with SMTP id r11mr7304310wrs.419.1598293524074; 
- Mon, 24 Aug 2020 11:25:24 -0700 (PDT)
+ bh=Bq5hRh6dg9CMA08TsyveabYMk5mqrcCNLEtAUVdySnw=;
+ b=LKsHqPSeMYJkVxyUy58IrjbQ2j2ZQffcUf28q81Ep+ks3eZBtLA3k5MAEdPSQzeLfX
+ 20cxlq8rO7MxASdhULecRo9m9roQRMKfnbIJOe5M+dnM+a25tkoaZxMOxIDg14fWbRfs
+ Zn04I1yajZ9ADwtcEvQOLyMhddIYtKuq4DXW4J66VwOdXyCNNf3n+IiwZxjKkyzRscmn
+ 7aFH/Xx9x+Qn6pED1z6SKIQMOFs5QnZSr9pvWdxbo5ZcDnLBmFZAkNTY4H32kkIGhi4f
+ l/iZCYI2KkbuXQZXU8aawND217SKqE5XAlT9pMvZSIePJPHaOqZOG6nB78VpuNRCX+c1
+ wZqQ==
+X-Gm-Message-State: AOAM533qokV4bMMMQdgCJYh0+jVROR1FRXPJ+MBLYDIEaNDqMdse0EO8
+ BkhYaLrT5OhSODOQ3jjm0Gn0BAkk5wR+wdGJEPo=
+X-Google-Smtp-Source: ABdhPJyfe2oCjJZx3F1PpVwy8oM7f8wrIEpDwj0rmv3wnnbE2x01swwhENf8HW/Y5/48gXRk7Fq6pyaNCGKpuT2dGTw=
+X-Received: by 2002:adf:edca:: with SMTP id v10mr3893592wro.124.1598293540053; 
+ Mon, 24 Aug 2020 11:25:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200824163751.606577-1-sashal@kernel.org>
- <20200824163751.606577-34-sashal@kernel.org>
-In-Reply-To: <20200824163751.606577-34-sashal@kernel.org>
+ <20200824163751.606577-35-sashal@kernel.org>
+In-Reply-To: <20200824163751.606577-35-sashal@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Aug 2020 14:25:13 -0400
-Message-ID: <CADnq5_M6MvH2nB_C6j7NezKGPeCRbEFZ-9kXf-_j+d9OQV0h0A@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.4 34/38] drm/amdgpu: disable gfxoff for
- navy_flounder
+Date: Mon, 24 Aug 2020 14:25:29 -0400
+Message-ID: <CADnq5_OouGpkpOeW+6=vhLOba-jWDDw_TDuzcTzKtcJ1T0U=yw@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.4 35/38] Revert "drm/amdgpu: disable gfxoff for
+ navy_flounder"
 To: Sasha Levin <sashal@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,7 +66,8 @@ Cc: Tao Zhou <tao.zhou1@amd.com>, LKML <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  Jiansong Chen <Jiansong.Chen@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>,
+ Kenneth Feng <kenneth.feng@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -76,14 +77,15 @@ On Mon, Aug 24, 2020 at 12:38 PM Sasha Levin <sashal@kernel.org> wrote:
 >
 > From: Jiansong Chen <Jiansong.Chen@amd.com>
 >
-> [ Upstream commit 9c9b17a7d19a8e21db2e378784fff1128b46c9d3 ]
+> [ Upstream commit da2446b66b5e2c7f3ab63912c8d999810e35e8b3 ]
 >
-> gfxoff is temporarily disabled for navy_flounder,
-> since at present the feature has broken some basic
-> amdgpu test.
+> This reverts commit 9c9b17a7d19a8e21db2e378784fff1128b46c9d3.
+> Newly released sdma fw (51.52) provides a fix for the issue.
 >
 > Signed-off-by: Jiansong Chen <Jiansong.Chen@amd.com>
+> Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
 > Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
 > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
 
@@ -93,20 +95,20 @@ Please drop this.
 Alex
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 3 ---
+>  1 file changed, 3 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-> index 64d96eb0a2337..3a5b4efa7a5e6 100644
+> index 3a5b4efa7a5e6..64d96eb0a2337 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-> @@ -617,6 +617,9 @@ static void gfx_v10_0_check_gfxoff_flag(struct amdgpu_device *adev)
+> @@ -617,9 +617,6 @@ static void gfx_v10_0_check_gfxoff_flag(struct amdgpu_device *adev)
 >         case CHIP_NAVI10:
 >                 adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
 >                 break;
-> +       case CHIP_NAVY_FLOUNDER:
-> +               adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
-> +               break;
+> -       case CHIP_NAVY_FLOUNDER:
+> -               adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
+> -               break;
 >         default:
 >                 break;
 >         }
