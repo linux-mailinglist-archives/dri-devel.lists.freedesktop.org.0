@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187CE2512F9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E6B25130E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 118B16E86F;
-	Tue, 25 Aug 2020 07:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCEC6E882;
+	Tue, 25 Aug 2020 07:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18626E2EA
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 16:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1598285098;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=44G5k4PqReTpcTzOsjfyDkjHT7I4d52JZ0QyxF/Q4qw=;
- b=leKcpIbnIzCcRodjeJEyoD9f5/2okttImnmLn5k5f3yxKSXj4LZobvxvnVZI9vtnqR
- 9xSg/ylcXnR2k22AQL1FFnovKwYfaSU6K4oKR3YJKqMwGvcbnBYwgrqIzSPOu4X0UXOB
- 92lpXkQzISqkrclFVciWdXM07OR0VXxcc2fNOcgh4xu4btXCoE5aO3bLVlwHI5zvjWY4
- HiNZtSHFqKntopa5Rvl8SaJHKaoZlPUz/cB3Tb/19HGUDLHPaKeuXQolLh+ggfQY0T7I
- Phwe3zPTA5jR16hiEEI50KPIIVzlkcClQfMxr+/KKczbKV7MZy5Rs8emOrWJ4UPMfb6p
- MOFQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGH/PtwDOpsF8="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
- with ESMTPSA id n03b0dw7OG4nNnY
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 24 Aug 2020 18:04:49 +0200 (CEST)
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
- JZ4780)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
-Date: Mon, 24 Aug 2020 18:04:48 +0200
-Message-Id: <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
-References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
- <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
- <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
- <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Paul Boddie <paul@boddie.org.uk>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACD96E402
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 17:44:15 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a15so9658638wrh.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 10:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TXooCNGdhbuCs38z5vOfPrPzquVwWGwJseeAUQIr3dI=;
+ b=iTQCp4W4bnKDurMqnF9xz+FFQWCsZ7QeRAPt3KjIVEHR2InNqejYz6MyUzv93PW4aS
+ WyZwtA/F3UKwIaVU/KvdA3Nv9lp5LXXtirqDZpOniKaWsLeVW77XiGZEoE5d/0bYZkRC
+ FOyQX6o8HfXmo5r3GRobQe/q8ZGeNfZh6/gRc9gpX7z3daiXERyOK8VQm1Rz7csQFtpB
+ zZcUQK+RQI/FNAq+EELAMH9/0FmdCQpckS1vilSX1afoClvoQj7SFBCGvhJ/YykaKG/0
+ COheMc2pNwqdgg95ISwKlP8oF6sZLtIavbPS1iWIOlTS1Yqr3zijv+Cl1Tfv1BIRbm4n
+ r/9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TXooCNGdhbuCs38z5vOfPrPzquVwWGwJseeAUQIr3dI=;
+ b=GoFyTO8nXCZ6YtaJ8gv29CXyyOpqXX61zDdv18RY7xPD4Dmp1zR4jm2/clMsK5rQxq
+ yaU7y1JPGODf+KraRW72+wFztHRPgO8IlxMlgMuBOLj1IL2TrKsO+F5IuRo7AoalqXSo
+ iXc4nPTh8IhTutzWRTbLzygtJNVpNxhmqoxGj7YECo4KO6kfmxRybV466twsnmvohVnl
+ pF76FUnwf60sExPHZJ+W/Cfb2ZN/MDyH50Ioy5B6UVToTey0b94QtmUd4eMqGRwXSWaE
+ nqNWg6UiK2YUb5m5aFrhI9TsH67c8DEArOIeVN+DM7aly3Gj9+Sr80ChWweuh8ReJCGk
+ JVRw==
+X-Gm-Message-State: AOAM531XDqBWp7ksd34lFD/l2S1WE1x9tx3MW0fj8IU/1KXDA5JxkIkU
+ uQRaoh2uOmopCEPiF8oQg0o=
+X-Google-Smtp-Source: ABdhPJw7TMgowMg/jub8r23jyDF6m4NIDyBitGVovsMaVGfdJyBBpTjsvU/TA22pDCl+TmPubgjUgQ==
+X-Received: by 2002:adf:f086:: with SMTP id n6mr3470862wro.208.1598291054224; 
+ Mon, 24 Aug 2020 10:44:14 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
+ by smtp.gmail.com with ESMTPSA id a7sm446977wmj.24.2020.08.24.10.44.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Aug 2020 10:44:13 -0700 (PDT)
+From: Alex Dewar <alex.dewar90@gmail.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Alex Dewar <alex.dewar90@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] video: fbdev: replace spurious snprintf() with sprintf()
+Date: Mon, 24 Aug 2020 18:44:03 +0100
+Message-Id: <20200824174407.429817-1-alex.dewar90@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 25 Aug 2020 07:21:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,41 +71,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRXplcXVpZWwsCgo+IEFtIDI0LjA4LjIwMjAgdW0gMTU6NDYgc2NocmllYiBFemVxdWllbCBH
-YXJjaWEgPGV6ZXF1aWVsQHZhbmd1YXJkaWFzdXIuY29tLmFyPjoKPiAKPiBPbiBGcmksIDIxIEF1
-ZyAyMDIwIGF0IDE5OjI0LCBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4gd3Jv
-dGU6Cj4+IAo+PiAKPj4gCj4+IExlIHNhbS4gMjIgYW/Du3QgMjAyMCDDoCAwOjExLCBQYXVsIEJv
-ZGRpZSA8cGF1bEBib2RkaWUub3JnLnVrPiBhCj4+IMOpY3JpdCA6Cj4+IAo+PiBJZiB5b3Ugc2Vu
-ZCBjbGVhbiBwYXRjaGVzLCB0aGVyZSdzIG5vIHJlYXNvbiBmb3IgbWUgbm90IHRvIG1lcmdlIHRo
-ZW0uCj4+IAo+IAo+IEknZCByZWFsbHkgbGlrZSB0byBzZWUgSERNSSBzdXBwb3J0IG9uIG15IENJ
-MjAgYmVpbmcgbWVyZ2VkLiBUaGFuayB0bwo+IHJlY2VudCBpbmdlbmljLWRybSB3b3JrIGFuZCB0
-aGFua3MgZm9yIFBhdWwgQm9kZGllIGFuZCBOaWtvbGF1cyB3b3JrLAo+IHRoZSBwYXRjaGVzIGFy
-ZSBJTU8gcXVpdGUgY2xlYW4uCgpJIGhhdmUgZG9uZSBzb21lIHRlc3RpbmcgYW5kIGl0IGFwcGVh
-cnMgdGhhdCBpdCBvbmx5IHdvcmtzIGlmIERSTSBpcwpjb21waWxlZCBpbnRvIHRoZSBrZXJuZWwu
-IEF0IGxlYXN0IGluIG15IHNldHVwLiBJZiBEUk0gYW5kL29yIEhETUkgYXJlIG1hZGUKbW9kdWxl
-cyB0aGVyZSBpcyBubyB2aWRlbyBvciBjb2RlIGRvZXNuJ3QgY29tcGlsZSBjb21wbGV0ZWx5LgoK
-V2UgaGF2ZSB0byBhbmFseXNlIHRoYXQgZnVydGhlci4KCkFuZCBpdCBzZWVtcyB0byBkaWZmZXIg
-c2lnbmlmaWNhbnRseSBmcm9tIHdoYXQgUGF1bCBoYXMgZGV2ZWxvcGVkIHJlY2VudGx5CnRvIG1h
-a2UgaXQgd29yay4gSXQgc2VlbXMgdG8gYmUgcXVpdGUgbHVja3kgdGhhdCB3ZSBoYXZlIGEgd29y
-a2luZyBzZXR1cCBub3cgOikKCj4gTmlrb2xhdXMsIFBhdWw6IERvIHlvdSBoYXZlIHBsYW5zIHRv
-IHN1Ym1pdCB0aGVzZT8KClllcywgYXMgc29vbiBhcyB3ZSBhcmUgc3VyZSB0aGF0IGl0IHdvcmtz
-IChhbmQgd2hlbiBpdCBkb2Vzbid0KS4KCkJ1dCB0aGFua3MgdG8geW91ciB3b3JrIGl0IGlzIG5v
-dyBtdWNoIGVhc2llciB0byBpbXByb3ZlIHRoaW5ncywgc2luY2Ugd2UKYXJlIG5vIGxvbmdlciBs
-b29raW5nIGZvciBhIGJyZWFrLXRocm91Z2ggYnV0IGp1c3QgaGF2ZSB0byBhdm9pZCByZWdyZXNz
-aW9ucy4KCj4gSWYgbm90LCBJJ2xsIGJlIGhhcHB5IHRvIGdldCB0aGVtIG91dCB0aGUgZG9vciBm
-b3IgcmV2aWV3LgoKTGV0IGl0IG1hdHVyZSBhIGxpdHRsZSBmaXJzdCBhbmQgaGF2ZSBpdCB0ZXN0
-ZWQgb24gbW9yZSBzZXR1cHMgYW5kIHJlYmFzZWQKdG8gbWFpbmxpbmUgdjUuOS1yYzIgOikKCkJS
-IGFuZCB0aGFua3MsCk5pa29sYXVzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+par->vgapass is a u8, so if we are assuming that buf is at least
+PAGE_SIZE then the extra checking is pointless.
+
+Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
+---
+ drivers/video/fbdev/sstfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
+index afe6d1b7c3a0..c05cdabeb11c 100644
+--- a/drivers/video/fbdev/sstfb.c
++++ b/drivers/video/fbdev/sstfb.c
+@@ -733,7 +733,7 @@ static ssize_t show_vgapass(struct device *device, struct device_attribute *attr
+ {
+ 	struct fb_info *info = dev_get_drvdata(device);
+ 	struct sstfb_par *par = info->par;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", par->vgapass);
++	return sprintf(buf, "%d\n", par->vgapass);
+ }
+ 
+ static struct device_attribute device_attrs[] = {
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
