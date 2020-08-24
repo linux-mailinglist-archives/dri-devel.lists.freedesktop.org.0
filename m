@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64102502E7
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 18:37:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0D82502EA
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 18:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE826E3A6;
-	Mon, 24 Aug 2020 16:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA5006E351;
+	Mon, 24 Aug 2020 16:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F6C6E354;
- Mon, 24 Aug 2020 16:37:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88A856E3A8;
+ Mon, 24 Aug 2020 16:37:42 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 26B8D2310E;
- Mon, 24 Aug 2020 16:37:40 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 71F3E2310D;
+ Mon, 24 Aug 2020 16:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598287061;
- bh=Td21fzMvy0zTxw1H3Ikwhc/hSA5KxIOZs6Zlok9kupw=;
+ s=default; t=1598287062;
+ bh=gwBS48L6tFPzDRUM7F1AmJTB1wbMcGF55aDYjN5mE/E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pAQLqw1iToSdIxY/8T8LJbUoi3BLyexP/Q7b+yK7+WZgcfUDk7xY7gN2eZGRDK3kz
- PaYl13C5dp7Pv3zhKRmODxr/88YH23GnQBRlQbbe7r1bqkPlpfvzAVJDObp7pC2snj
- BExH0iqeFOYdSO4thy3bAVEAmZt+eX+4hEYCfzeE=
+ b=ILBUaqfEbdRgGaRDjhzuDgtBbyJyX34c1Bpg1xbmaVq6yPTvPSGp/z+TvW4m4B2TG
+ aM/6xmA4tWtDpBI7F1ntHbSZu9WcO4XcLD3zouoOe17Dx0MKWIzrfvCt5ZcssCn8T0
+ 3851e2qYluKHl6NnFmlX2edPUhYWpFe2EPA4gtQ0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 48/54] drm/amdkfd: fix the wrong sdma instance
- query for renoir
-Date: Mon, 24 Aug 2020 12:36:27 -0400
-Message-Id: <20200824163634.606093-48-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 49/54] Revert "drm/amdgpu: disable gfxoff for
+ navy_flounder"
+Date: Mon, 24 Aug 2020 12:36:28 -0400
+Message-Id: <20200824163634.606093-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200824163634.606093-1-sashal@kernel.org>
 References: <20200824163634.606093-1-sashal@kernel.org>
@@ -50,76 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Tao Zhou <tao.zhou1@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jiansong Chen <Jiansong.Chen@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Kenneth Feng <kenneth.feng@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Huang Rui <ray.huang@amd.com>
+From: Jiansong Chen <Jiansong.Chen@amd.com>
 
-[ Upstream commit 34174b89bfa495bed9cddcc504fb38feca90fab7 ]
+[ Upstream commit da2446b66b5e2c7f3ab63912c8d999810e35e8b3 ]
 
-Renoir only has one sdma instance, it will get failed once query the
-sdma1 registers. So use switch-case instead of static register array.
+This reverts commit 9c9b17a7d19a8e21db2e378784fff1128b46c9d3.
+Newly released sdma fw (51.52) provides a fix for the issue.
 
-Signed-off-by: Huang Rui <ray.huang@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Jiansong Chen <Jiansong.Chen@amd.com>
+Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
+Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c | 31 +++++++++++++------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-index df841c2ac5e74..cdcf3b8e914a7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-@@ -197,19 +197,32 @@ static uint32_t get_sdma_rlc_reg_offset(struct amdgpu_device *adev,
- 				unsigned int engine_id,
- 				unsigned int queue_id)
- {
--	uint32_t sdma_engine_reg_base[2] = {
--		SOC15_REG_OFFSET(SDMA0, 0,
--				 mmSDMA0_RLC0_RB_CNTL) - mmSDMA0_RLC0_RB_CNTL,
--		SOC15_REG_OFFSET(SDMA1, 0,
--				 mmSDMA1_RLC0_RB_CNTL) - mmSDMA1_RLC0_RB_CNTL
--	};
--	uint32_t retval = sdma_engine_reg_base[engine_id]
-+	uint32_t sdma_engine_reg_base = 0;
-+	uint32_t sdma_rlc_reg_offset;
-+
-+	switch (engine_id) {
-+	default:
-+		dev_warn(adev->dev,
-+			 "Invalid sdma engine id (%d), using engine id 0\n",
-+			 engine_id);
-+		fallthrough;
-+	case 0:
-+		sdma_engine_reg_base = SOC15_REG_OFFSET(SDMA0, 0,
-+				mmSDMA0_RLC0_RB_CNTL) - mmSDMA0_RLC0_RB_CNTL;
-+		break;
-+	case 1:
-+		sdma_engine_reg_base = SOC15_REG_OFFSET(SDMA1, 0,
-+				mmSDMA1_RLC0_RB_CNTL) - mmSDMA0_RLC0_RB_CNTL;
-+		break;
-+	}
-+
-+	sdma_rlc_reg_offset = sdma_engine_reg_base
- 		+ queue_id * (mmSDMA0_RLC1_RB_CNTL - mmSDMA0_RLC0_RB_CNTL);
- 
- 	pr_debug("RLC register offset for SDMA%d RLC%d: 0x%x\n", engine_id,
--			queue_id, retval);
-+		 queue_id, sdma_rlc_reg_offset);
- 
--	return retval;
-+	return sdma_rlc_reg_offset;
- }
- 
- static inline struct v9_mqd *get_mqd(void *mqd)
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index 8ee94f4b9b20f..ff94f756978d5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -681,9 +681,6 @@ static void gfx_v10_0_check_gfxoff_flag(struct amdgpu_device *adev)
+ 		if (!gfx_v10_0_navi10_gfxoff_should_enable(adev))
+ 			adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
+ 		break;
+-	case CHIP_NAVY_FLOUNDER:
+-		adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
+-		break;
+ 	default:
+ 		break;
+ 	}
 -- 
 2.25.1
 
