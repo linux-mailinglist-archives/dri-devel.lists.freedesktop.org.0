@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38D22507F5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 20:41:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F3E2507F9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 20:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 168CA6E438;
-	Mon, 24 Aug 2020 18:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB8F6E43A;
+	Mon, 24 Aug 2020 18:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B09EB6E3F0;
- Mon, 24 Aug 2020 18:41:45 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id i10so4997158pgk.1;
- Mon, 24 Aug 2020 11:41:45 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334436E43A;
+ Mon, 24 Aug 2020 18:41:58 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id o5so4995201pgb.2;
+ Mon, 24 Aug 2020 11:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fFdgtfwZrc/kVc+fLHaAXwOBlYLh1Scshg8PrDPV2cA=;
- b=JMBfFYqJssdNSpKeUnYwIYl16ci2D3KflwOOxfvM3CU9HPQiYllCH5sZjJPFSv7cRc
- 1fmivhMx1dEE/3e/XzIlSNWneWOqC/cCvVnVehH+9VJW3f5N31ucofST7kI3KW1XQgdB
- XiVWya9r4ICUQOX0+77Xay6fR0AFrkVucVF5OuTzI33dNbktUe5Hebd1IK78Ddv7K0IA
- r7LUfRXepbKvcNwNwlw/U1uBZVkJDUrROyPnBnj5pJvPHyQFrEl4PjqHT/hYiP/4sZTq
- cb39WH8a6lTBuxtGkHAJ5OuHyeEqK5qDSMvNljF0qeTrTb0JeWGON4CMxhGVL+tnWK7m
- EGsA==
+ bh=Vh+B4OHEn3CAh3E4JWZmp8fkzNNMb5LEBb6Hamyy8Tc=;
+ b=JUmO5RNkDzqb3ssc2377CipQcQnEwTUif8OMzJ8UJsCGRqUqiZ7bsPNRytHRETWgzA
+ z/BwDi92y+BLYtJV15XE9znsz21+H5xltJCyFgQKWKCx4S3InX2g+Wi83LXwUKyU/jec
+ OnhSg1FfXqBW5lwwN8VOFVoM6NSUQR5PvME5AuhuA7OftYymdJ2qlRkt7ptgbaR9Vf7v
+ xKexsuhO1vNxJmYrrQ5xvdU9IGII3U0WVydOLZHF/nyeMHmar5ZeQJ6RlhWPftLDUZcN
+ m8zTp6VhI/lR9lG4e669vVRaxVZEQa7cn6U1O41VGMi7sIA51s1uC7oC7PRUm5Xv82sy
+ 5zQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fFdgtfwZrc/kVc+fLHaAXwOBlYLh1Scshg8PrDPV2cA=;
- b=FKQmjVls3veSzcmE+O1m6Lmk6Bm/MQRRMjCyBEOjmOIC05/UNR9n6ABSHJ6TqfUgZy
- xfS5a3ApMunqIZLo1RKNORu0egjpv+GktUGZAvvBcZxGuPiG3UhKHoWN/KLI1FyBWeJT
- XnWRlmcrXPke5yiRAVjo6ETJY4xwfMy/cXsHkNBm3UcRq8fqpZiad7C6S1HMfq/SCJpc
- bG9hZVZ9ktIH5rkH/norfmHlUEVc9ytvxQqWSteO8GU6Gci2qLUxj29rlBFNiLpJZAvC
- gamMTf/elC0+FfTUiJ+4RbPTn5n+0gJ6mvkz3VCAeyVhR4wkUzSSc0wizg+rP7GcjQgK
- cAbg==
-X-Gm-Message-State: AOAM533ogQyxtfvT8L2hUWsgd1HtsBjk6qiiQAPcjCh1s66E22yZ1nb3
- RzR701jZZDxC2KYbRdhVbmF2a4Ld1bq3Nw==
-X-Google-Smtp-Source: ABdhPJzrk/w8HSHD4F2CriYbzO3IkcbXkvduywKAs1ONUCGEOtsuxUrphk9jrVQS3ajL5jYLaF+wQw==
-X-Received: by 2002:a63:f44d:: with SMTP id p13mr4124438pgk.363.1598294504582; 
- Mon, 24 Aug 2020 11:41:44 -0700 (PDT)
+ bh=Vh+B4OHEn3CAh3E4JWZmp8fkzNNMb5LEBb6Hamyy8Tc=;
+ b=iH3KONavn3stOKgAOEBeH0Rvtq5wU/f8dXy9T0MYpqJ7nfPazVLtM57VkmNPfgu5ji
+ FQ2PmW5WACWd+++601AVhttkua5hoR4kqrilcJk14NP3eyIuVl6zOIiJ8ODHnexevdZc
+ atHZWLTKvwLe/eTTOlYW+XlNpOdCLME3oZNAZeB0692ss9lwpajW0M/ZEfpjawWLr7oV
+ Ef85yFBabJCcMIlRULK+bStz0cSfwlTzBxgw/4kpHggoMmcsOP8LDrsE1c5aknxGF1hm
+ DHHk3z+EXPTqZjOkPrm3DVDWN58FECVS+SuYssVrTbtZJOnjx1snOWt70tgOLtMm234q
+ Jqwg==
+X-Gm-Message-State: AOAM5308dC2V8KNIOa+I283ycz5Trm59bbyA2HVSwNtJXyweSXCRGRc9
+ wVxmTv2DXtO4xWo+RUoX+0Nxs1T2kRfNtw==
+X-Google-Smtp-Source: ABdhPJw9/fDa2Sn4zgacdwxlaMCq/xKaWR5ndwkzMvOuKgpXpEP0Fd8T5IIeGdHrXE3OUHQFHgFobw==
+X-Received: by 2002:a63:1457:: with SMTP id 23mr4343869pgu.80.1598294513011;
+ Mon, 24 Aug 2020 11:41:53 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id b23sm11949461pfo.12.2020.08.24.11.41.43
+ by smtp.gmail.com with ESMTPSA id e127sm3923071pfe.152.2020.08.24.11.41.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 11:41:43 -0700 (PDT)
+ Mon, 24 Aug 2020 11:41:50 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	iommu@lists.linux-foundation.org
-Subject: [PATCH 01/20] drm/msm: remove dangling submitqueue references
-Date: Mon, 24 Aug 2020 11:37:35 -0700
-Message-Id: <20200824183825.1778810-2-robdclark@gmail.com>
+Subject: [PATCH 02/20] iommu/arm-smmu: Pass io-pgtable config to
+ implementation specific function
+Date: Mon, 24 Aug 2020 11:37:36 -0700
+Message-Id: <20200824183825.1778810-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200824183825.1778810-1-robdclark@gmail.com>
 References: <20200824183825.1778810-1-robdclark@gmail.com>
@@ -67,52 +68,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Akhil P Oommen <akhilpo@codeaurora.org>,
+Cc: Akhil P Oommen <akhilpo@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Vivek Gautam <vivek.gautam@codeaurora.org>,
  AngeloGioacchino Del Regno <kholk11@gmail.com>, Will Deacon <will@kernel.org>,
  Rob Clark <robdclark@chromium.org>,
  Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
  Jonathan Marek <jonathan@marek.ca>, Joerg Roedel <joro@8bytes.org>,
  Ben Dooks <ben.dooks@codethink.co.uk>, Sibi Sankar <sibis@codeaurora.org>,
- Brian Masney <masneyb@onstation.org>, Joerg Roedel <jroedel@suse.de>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+ Brian Masney <masneyb@onstation.org>, freedreno@lists.freedesktop.org,
+ Joerg Roedel <jroedel@suse.de>, Stephen Boyd <swboyd@chromium.org>,
+ Krishna Reddy <vdumpa@nvidia.com>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Jordan Crouse <jcrouse@codeaurora.org>
 
-Currently it doesn't matter, since we free the ctx immediately.  But
-when we start refcnt'ing the ctx, we don't want old dangling list
-entries to hang around.
+Construct the io-pgtable config before calling the implementation specific
+init_context function and pass it so the implementation specific function
+can get a chance to change it before the io-pgtable is created.
 
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/gpu/drm/msm/msm_submitqueue.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  3 ++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c      | 11 ++++++-----
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |  3 ++-
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index a1d94be7883a..90c9d84e6155 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -49,8 +49,10 @@ void msm_submitqueue_close(struct msm_file_private *ctx)
- 	 * No lock needed in close and there won't
- 	 * be any more user ioctls coming our way
- 	 */
--	list_for_each_entry_safe(entry, tmp, &ctx->submitqueues, node)
-+	list_for_each_entry_safe(entry, tmp, &ctx->submitqueues, node) {
-+		list_del(&entry->node);
- 		msm_submitqueue_put(entry);
-+	}
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
+index f4ff124a1967..a9861dcd0884 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
+@@ -68,7 +68,8 @@ static int cavium_cfg_probe(struct arm_smmu_device *smmu)
+ 	return 0;
  }
  
- int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+-static int cavium_init_context(struct arm_smmu_domain *smmu_domain)
++static int cavium_init_context(struct arm_smmu_domain *smmu_domain,
++		struct io_pgtable_cfg *pgtbl_cfg)
+ {
+ 	struct cavium_smmu *cs = container_of(smmu_domain->smmu,
+ 					      struct cavium_smmu, smmu);
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index 09c42af9f31e..37d8d49299b4 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -795,11 +795,6 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+ 		cfg->asid = cfg->cbndx;
+ 
+ 	smmu_domain->smmu = smmu;
+-	if (smmu->impl && smmu->impl->init_context) {
+-		ret = smmu->impl->init_context(smmu_domain);
+-		if (ret)
+-			goto out_unlock;
+-	}
+ 
+ 	pgtbl_cfg = (struct io_pgtable_cfg) {
+ 		.pgsize_bitmap	= smmu->pgsize_bitmap,
+@@ -810,6 +805,12 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+ 		.iommu_dev	= smmu->dev,
+ 	};
+ 
++	if (smmu->impl && smmu->impl->init_context) {
++		ret = smmu->impl->init_context(smmu_domain, &pgtbl_cfg);
++		if (ret)
++			goto out_clear_smmu;
++	}
++
+ 	if (smmu_domain->non_strict)
+ 		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
+ 
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index d890a4a968e8..83294516ac08 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -386,7 +386,8 @@ struct arm_smmu_impl {
+ 			    u64 val);
+ 	int (*cfg_probe)(struct arm_smmu_device *smmu);
+ 	int (*reset)(struct arm_smmu_device *smmu);
+-	int (*init_context)(struct arm_smmu_domain *smmu_domain);
++	int (*init_context)(struct arm_smmu_domain *smmu_domain,
++			struct io_pgtable_cfg *cfg);
+ 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
+ 			 int status);
+ 	int (*def_domain_type)(struct device *dev);
 -- 
 2.26.2
 
