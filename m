@@ -2,43 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B930624FFB0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 16:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6C5250035
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 16:55:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2F756E261;
-	Mon, 24 Aug 2020 14:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F836E045;
+	Mon, 24 Aug 2020 14:55:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E89D6E261
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 14:19:26 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id 0115A5C3C43;
- Mon, 24 Aug 2020 16:19:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1598278764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZJ4IdJs7vNZOHX+v4Asmyv1svNA8lWS2xHxhNIw5NQw=;
- b=klG4oPX8z1HBdwMgPDp2O8SGPWF8a47XixIANUD22HRjeOAsU7wv/v/Qcxu3LA4IgK9Dmo
- hIiYXrhQDT2hyK8J2tF45euT5alXOcQdQE7WwhHOKJgXs/LCcrJP7ZbQhOwQvYZrcCxlrJ
- eahw5B5opFddIJvJn/8qXWVpnHUmn9Q=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4976E045;
+ Mon, 24 Aug 2020 14:55:11 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id 83so8623910wme.4;
+ Mon, 24 Aug 2020 07:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nhgjcGDiszmemLXRD4pV8iiEXCU7SaZcnWn1+uyj7dA=;
+ b=u4nFtsVYYLdNR+pErZEZECWTnFSvE3O3DCzrqMuh8reuj9NQ/nCMZAkjiFnFFpRr/o
+ 7FvO+w2VmWyHOAxj5aNO+F34jF7R+zheD7iHJu+zUHnl6rYJdIqyDePWlgXUNmFr3UWs
+ xqNY3r9yO1as69MM2n9kWCCp1OCVoxZBnqiBShqcVYTkpTt2iakcOH2ennn0fyMU4tsc
+ Pvfx1qO4ZRMMKMdSWQRJ1Y4xyr7rLFmGO60h5j6UA7XA2X62enGHooY2rCHXPI413AFA
+ WtnSpK0waO1zvPf5swCYTTDL94erIKmbKTuEhGduVrrDXiKasgtqKUR+OC08HqX4mH6G
+ i43A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nhgjcGDiszmemLXRD4pV8iiEXCU7SaZcnWn1+uyj7dA=;
+ b=kbH1mXqCqBPEhRyUpBXzab8xKD7DK4jwVK9WKP1ZWLeHpoLlYZvXsNy1OgzJvpjXPp
+ u+IVR91wRtkwRIVNqTyaVa6iXmWOBV7Vll5l8QKLBoeHg0OJ+m53kyqCkUAjHaiqD3ew
+ ys+XKRhLyKrLuxYLwqMtxeRwmGs/wVeBnOEheHwBb90zY+zFyvlZee2HtaJz+y6r2azu
+ P5/AKGLx3KQQQ0k7yNXezMD9eredK/UqvX/5usFUOK7Pw5xfdQQt/+yWZEwzeUvFX+vp
+ kDOz98fT3jQ2+81MYzQ+NHVPgZivn/b+gsQwH8ZBiFQmYtLBtbamX2i9H3+UFMBYsEK/
+ 3Bew==
+X-Gm-Message-State: AOAM531Xqvc6clMJ+DwYUEH+/x5Pb4th6XuvWfTcqEBrDjh1z7HS6/ry
+ VnKb8IWaq3ZysvgD8k5J2xTi/5smQ7U/X92Cpcw=
+X-Google-Smtp-Source: ABdhPJy+o0pSEX67YJFDALr/uKsAz7GjoWM/46FnxnObEN6n0CVfQB0jnjTYCfcivpI2EUL4og7c2zcHY7f127ZJddQ=
+X-Received: by 2002:a1c:bc85:: with SMTP id m127mr5905233wmf.70.1598280909545; 
+ Mon, 24 Aug 2020 07:55:09 -0700 (PDT)
 MIME-Version: 1.0
-Date: Mon, 24 Aug 2020 16:19:23 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 2/8] dt-bindings: display: mxsfb: Add and fix compatible
- strings
-In-Reply-To: <20200823232603.GO6002@pendragon.ideasonboard.com>
-References: <20200813012910.13576-1-laurent.pinchart@ideasonboard.com>
- <20200813012910.13576-3-laurent.pinchart@ideasonboard.com>
- <c9e8e63c2ac1e1ecfd8e664e2605b81f@agner.ch>
- <20200823232603.GO6002@pendragon.ideasonboard.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <58ad6bef353ee25e5c548c0d950f7e46@agner.ch>
-X-Sender: stefan@agner.ch
+References: <1598084843-32270-1-git-send-email-tangyouling@loongson.cn>
+In-Reply-To: <1598084843-32270-1-git-send-email-tangyouling@loongson.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Aug 2020 10:54:58 -0400
+Message-ID: <CADnq5_MUkcTk1Mzh+22MRBoYEZnHDzhNkWNBD1XHZaPhYyXOHQ@mail.gmail.com>
+Subject: Re: [PATCH] gpu: amd: Remove duplicate semicolons at the end of line
+To: Youling Tang <tangyouling@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,111 +60,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Leo Li <sunpeng.li@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-08-24 01:26, Laurent Pinchart wrote:
-> Hi Stefan,
-> 
-> On Fri, Aug 21, 2020 at 04:53:56PM +0200, Stefan Agner wrote:
->> On 2020-08-13 03:29, Laurent Pinchart wrote:
->> > Additional compatible strings have been added in DT source for the
->> > i.MX6SL, i.MX6SLL, i.MX6UL and i.MX7D without updating the bindings.
->> > Most of the upstream DT sources use the fsl,imx28-lcdif compatible
->> > string, which mostly predates the realization that the LCDIF in the
->> > i.MX6 and newer SoCs have extra features compared to the i.MX28.
->>
->> Agreed, we should add fsl,imx6sx-lcdif for those devices.
->>
->> But shouldn't we also keep fsl,imx28-lcdif? From what I can tell, the
->> devices can be driven by a driver only supporting fsl,imx28-lcdif
->> semantics, right?
-> 
-> Isn't it kept by this patch ?
-> 
->> > Update the bindings to add the missing compatible strings, with the
->> > correct fallback values. This fails to validate some of the upstream DT
->> > sources. Instead of adding the incorrect compatible fallback to the
->> > binding, the sources should be updated separately.
->> >
->> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> > ---
->> >  .../devicetree/bindings/display/mxsfb.yaml     | 18 +++++++++++++-----
->> >  1 file changed, 13 insertions(+), 5 deletions(-)
->> >
->> > diff --git a/Documentation/devicetree/bindings/display/mxsfb.yaml
->> > b/Documentation/devicetree/bindings/display/mxsfb.yaml
->> > index 202381ec5bb7..ec6533b1d4a3 100644
->> > --- a/Documentation/devicetree/bindings/display/mxsfb.yaml
->> > +++ b/Documentation/devicetree/bindings/display/mxsfb.yaml
->> > @@ -15,11 +15,19 @@ description: |
->> >
->> >  properties:
->> >    compatible:
->> > -    enum:
->> > -      - fsl,imx23-lcdif
->> > -      - fsl,imx28-lcdif
->> > -      - fsl,imx6sx-lcdif
->> > -      - fsl,imx8mq-lcdif
->> > +    oneOf:
->> > +      - enum:
->> > +          - fsl,imx23-lcdif
->> > +          - fsl,imx28-lcdif
-> 
-> Here -----------------^
-> 
-> The binding now support any of "fsl,imx23-lcdif", "fsl,imx28-lcdif" or
-> "fsl,imx6sx-lcdif" alone, or "fsl,imx6sx-lcdif" with another
-> device-specific compatible string. The driver supports the three base
-> compatible strings, for V3, V4 and V6 of the IP core.
+On Sat, Aug 22, 2020 at 5:02 AM Youling Tang <tangyouling@loongson.cn> wrote:
+>
+> Remove duplicate semicolons at the end of line.
+>
+> Signed-off-by: Youling Tang <tangyouling@loongson.cn>
 
-The binding yes, but I mean the device descriptions in the device tree.
+Applied.  Thanks!
 
-Since the device can be driven by a older kernel which only knows about
-the fsl,imx28-lcdif compatible string, we could keep that compatible.
-From what I can tell, we can add both safely, e.g.
+Alex
 
-compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif"
-
-From how I read the description this now replaces "fsl,imx28-lcdif" with
-"fsl,imx6sx-lcdif" for the devices supporting the additional features,
-e.g.:
-
---- a/arch/arm/boot/dts/imx6sl.dtsi
-+++ b/arch/arm/boot/dts/imx6sl.dtsi
-@@ -769,7 +769,7 @@ epdc: epdc@20f4000 {
-             };
- 
-             lcdif: lcdif@20f8000 {
--                compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
-+                compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif";
-                 reg = <0x020f8000 0x4000>;
-                 interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
-                 clocks = <&clks IMX6SL_CLK_LCDIF_PIX>,
-
---
-Stefan
-
-> 
->> > +          - fsl,imx6sx-lcdif
->> > +      - items:
->> > +        - enum:
->> > +          - fsl,imx6sl-lcdif
->> > +          - fsl,imx6sll-lcdif
->> > +          - fsl,imx6ul-lcdif
->> > +          - fsl,imx7d-lcdif
->> > +          - fsl,imx8mq-lcdif
->> > +        - const: fsl,imx6sx-lcdif
->> >
->> >    reg:
->> >      maxItems: 1
+> ---
+>  drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c                 | 2 +-
+>  drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+> index e99bef6..8603a26 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+> @@ -1108,7 +1108,7 @@ static int vcn_v2_5_mmsch_start(struct amdgpu_device *adev,
+>  {
+>         uint32_t data = 0, loop = 0, size = 0;
+>         uint64_t addr = table->gpu_addr;
+> -       struct mmsch_v1_1_init_header *header = NULL;;
+> +       struct mmsch_v1_1_init_header *header = NULL;
+>
+>         header = (struct mmsch_v1_1_init_header *)table->cpu_addr;
+>         size = header->total_size;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+> index afdd4f0..b320931 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+> @@ -467,7 +467,7 @@ static void fetch_pipe_params(struct display_mode_lib *mode_lib)
+>                 mode_lib->vba.AudioSampleLayout[mode_lib->vba.NumberOfActivePlanes] =
+>                         1;
+>                 mode_lib->vba.DRAMClockChangeLatencyOverride = 0.0;
+> -               mode_lib->vba.DSCEnabled[mode_lib->vba.NumberOfActivePlanes] = dout->dsc_enable;;
+> +               mode_lib->vba.DSCEnabled[mode_lib->vba.NumberOfActivePlanes] = dout->dsc_enable;
+>                 mode_lib->vba.DSCEnable[mode_lib->vba.NumberOfActivePlanes] = dout->dsc_enable;
+>                 mode_lib->vba.NumberOfDSCSlices[mode_lib->vba.NumberOfActivePlanes] =
+>                                 dout->dsc_slices;
+> --
+> 2.1.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
