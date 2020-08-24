@@ -1,97 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F6D24F155
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 05:00:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 363B624F1B7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Aug 2020 06:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3956E193;
-	Mon, 24 Aug 2020 03:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6F16EC5D;
+	Mon, 24 Aug 2020 04:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5693D6E133;
- Mon, 24 Aug 2020 03:00:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mEv5reILA8pxVZy3y3/cvKgbC18MGH1xDmwCq/y6qYYqQG45s1hBsfmoHwIIlAhmAbwVtItrIrS1cfmOj0+bFUXvJNIwUMeY/JnzEShOKOcSOSj63MiIcbyuhZnxi6s/PqlrNrQLU9w5I+76pHEn+uStu1l1kC4BSBy7n/XofFIR3T9kDo33DH6L7tgstFUcE4apHj474Fua6LFewwupskYL7GWjTZwa7JDRTo7pyMFcrzk/NpdmvM6y57PFTgxEZRQsmWB/ADjvqyUdnxDDeywKQbqZFrWWHKhfw/JFy5BGKOgmfPltmhM7Rjy/o306rs/2ocwgK+eBNoXqbkYobw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bp/n/rUELe40i3VwidhnXPqSVLx566S1P8511LvH1/U=;
- b=iTMoi/NVNxUaQ1P9IYW9Ugub4mkMEonm0RAWimbINvIgi370DWCJm9jtbwglMCzHhkT+bpL+ypzu7X1Yzv8ijpERMeeKfRWcksqgSvj7gsHbd5dhbXjCHHq1fBGxGesCtR3otdqZ33N0yljQ1VAFV0Qv+QXJa5HHnnL8HQYTr1AFrAB/NuhGQMyrICS7xmS4pMckUhwGbeOS2SjbRXiA9+EnZZjWc7NNobPHFjNQDPLtkfV1k/UfG/sSQp6Li2G5mZlc6DIwgePs4qgGbTtOTa4hHaLOan4E9Z+zSK1LeDh+r+N5oet8rxDHKBg7Q3WWrKu31NjqZbofr04NYCVs5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bp/n/rUELe40i3VwidhnXPqSVLx566S1P8511LvH1/U=;
- b=XPQfLFHhbJeAZqYvRT4zBPw0A/CvZ+X/yzNU1ThibWMcwo6vCp/QEDNJlyLG2fHoKYuq1Ax1JpKtu39xp4QTe8AxVcqHWqXhUqd94ta65rF0uAJgd2/EKpKLpffHqE8yIwbvGBlfywg2bEE+IQQwdoqWmLdXwn22SHESMO6y1VQ=
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
- DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.25; Mon, 24 Aug 2020 02:59:58 +0000
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::bcb1:de80:f60c:8118]) by DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::bcb1:de80:f60c:8118%5]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
- 02:59:58 +0000
-From: "Quan, Evan" <Evan.Quan@amd.com>
-To: Randy Dunlap <rdunlap@infradead.org>, dri-devel
- <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>
-Subject: RE: [PATCH -next] amdgpu: fix Documentation builds for pm/ file
- movement
-Thread-Topic: [PATCH -next] amdgpu: fix Documentation builds for pm/ file
- movement
-Thread-Index: AQHWeZ2/gKc8SM9oYEuNNVO303NlTKlGkcVw
-Date: Mon, 24 Aug 2020 02:59:58 +0000
-Message-ID: <DM6PR12MB261924212A1791B949B43903E4560@DM6PR12MB2619.namprd12.prod.outlook.com>
-References: <88d43daf-f29b-0fbe-cf58-930e8caca0e7@infradead.org>
-In-Reply-To: <88d43daf-f29b-0fbe-cf58-930e8caca0e7@infradead.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=9849b35e-e708-485c-86c9-380acc7d4970;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Use Only - Unrestricted;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-08-24T02:58:55Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [58.247.170.242]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: cfc1c739-094a-4a22-7732-08d847d9c977
-x-ms-traffictypediagnostic: DM5PR12MB2504:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR12MB250412619511C1C58DDA2CB4E4560@DM5PR12MB2504.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1775;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AggqE5jCggN+HIPHA4hZZfvyEHbs43TXLu+ea91YmGQ7G0N9+x9j1eVvmxpkSKg3s8LuM7bCLq0QZf0YWa6N7YPtMcrALFLVnFaMNqsgpLaVCJIsqC+WQRqSXaqhB9m5ZDjExUp45xP4oYVsU5dXyWYLV3cyCjFYerePMga7Y25Dg72jKXB/BP73fKNJ6KvgbTTU4q7+Knx2VGNFvN3gxxJU7WpZTGk2nF44NbB6gzRLcjyAmBRR0UBfF3iU4T1XTH/lDp3fDxapnGauQz6SeN01mged3uC0QdI3AadcVMLlqKJLvvB3mlKR2XRGivSm
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39860400002)(136003)(396003)(376002)(26005)(53546011)(6506007)(186003)(76116006)(71200400001)(66556008)(7696005)(64756008)(6636002)(66946007)(2906002)(5660300002)(55016002)(9686003)(66446008)(66476007)(52536014)(110136005)(83380400001)(8936002)(86362001)(4326008)(8676002)(316002)(33656002)(478600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: IDHAwuuUBBRB4M2YJhfCwLg+N/x5ffj+7bNFxNnfn/W/x/sgySXsH6Htl4H5jtY9h6MZgnVMlk92WiO/a+t21bowPEIkZyNcBRNB+C/A+q1xt9AF1bw209mNObqWmSrBxAb0LrOl290x0otdoTnbGiGRvBEHHPmX3UOszxMvKibrGKai8id3U2D5CPH/YfEZaOxgXWfsQxJAXj8d/6tZd2W/PTPKPd0WbsIcE1rtaDywUGqxE7m7uh/2h5pnk0oeOimLyZK070PbVUjEafc9yLfXgqd9IvkaGngxfY2OtrzNqCTw4rZuWFb9MaiJgkm+tEBttdwZ8sobO2/dSDKx8LDVxNF2fFqcp7NIxi/l9kROdRPX1bDurbkFstlKQXLB1K4tqOPB4sWuNibpOv237ojtV9E5GWj9iePPpyHbUtdVliQu/0vXzdcP6pdhHINM2BpSXoo5crNCPd2FqP40EfJKMYi+eFb843hK8lbujDfFop7lcbdYgZgHJ/GTZSwLigQCx3OaaIn+VqMI3iMAEsoAzIXmUHvymBUNxRDnITEPNY+/91LwBXRy6oCG+bUzezVppeww6sIlFlCZY1bfvi1W1gldnbAGX94d3+jDuOdRJpNWhUZEC+33pWpNQw/YBeB9rmD7dweh1E5HdKm1yg==
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC14B6EC5D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 04:03:35 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209019] New: [drm:dpcd_set_source_specific_data [amdgpu]]
+ *ERROR* Error in DP aux read transaction, not writing source specific data
+Date: Mon, 24 Aug 2020 04:03:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rtmasura+kernel@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-209019-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfc1c739-094a-4a22-7732-08d847d9c977
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2020 02:59:58.5280 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: O6k+0tTPACRWMlu3YsDEiOTVBY/KTo5yn3qoWO0RAmJGdCSjDxZ4BUADQpcGFlWK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2504
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,128 +52,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - Internal Distribution Only]
+https://bugzilla.kernel.org/show_bug.cgi?id=209019
 
-Thanks for fixing this. The patch is reviewed-by: Evan Quan <evan.quan@amd.com>
+            Bug ID: 209019
+           Summary: [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR*
+                    Error in DP aux read transaction, not writing source
+                    specific data
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.8.1
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: rtmasura+kernel@hotmail.com
+        Regression: No
 
-BR
-Evan
------Original Message-----
-From: Randy Dunlap <rdunlap@infradead.org>
-Sent: Monday, August 24, 2020 6:36 AM
-To: dri-devel <dri-devel@lists.freedesktop.org>; LKML <linux-kernel@vger.kernel.org>; amd-gfx@lists.freedesktop.org; Deucher, Alexander <Alexander.Deucher@amd.com>
-Cc: Quan, Evan <Evan.Quan@amd.com>; Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH -next] amdgpu: fix Documentation builds for pm/ file movement
+In kernel 5.8.1 and kernel 5.8.2 I am having an issue with multiple displays.
+It's losing detection of one of my monitors and causing it to re-detect the
+monitors, and detects it, then loses it again, and re-detects, and so forth
+until it does eventually detect the monitor and the issue goes away for some
+time. It's random, I can't reproduce it at will. 
 
-From: Randy Dunlap <rdunlap@infradead.org>
+I have managed to trigger it:
+1. By maximizing a window on a monitor that is not the one it loses connection
+to.
 
-Fix Documentation errors for amdgpu.rst due to file rename (moved to another subdirectory).
+2. The screen graphical effect such as when xfce-screenshooter darkens the
+screen to  capture a region
 
-Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function hwmon ../drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c' failed with return code 1
 
-Fixes: e098bc9612c2 ("drm/amd/pm: optimize the power related source code layout")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Evan Quan <evan.quan@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
----
- Documentation/gpu/amdgpu.rst |   24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Let me know if there's anything else I can provide. I think Arch Linux is
+currently at 5.8.3, so I'll do an upgrade.
 
---- linux-next-20200821.orig/Documentation/gpu/amdgpu.rst
-+++ linux-next-20200821/Documentation/gpu/amdgpu.rst
-@@ -153,7 +153,7 @@ This section covers hwmon and power/ther  HWMON Interfaces
- ----------------
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: hwmon
 
- GPU sysfs Power State Interfaces
-@@ -164,52 +164,52 @@ GPU power controls are exposed via sysfs  power_dpm_state  ~~~~~~~~~~~~~~~
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: power_dpm_state
+uname -a:                                                                       
+Linux abiggun 5.8.2-arch1-1 #1 SMP PREEMPT Thu, 20 Aug 2020 20:45:00 +0000
+x86_64 GNU/Linux
 
- power_dpm_force_performance_level
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: power_dpm_force_performance_level
 
- pp_table
- ~~~~~~~~
+dmesg:
+[21159.093638] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21159.542494] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21169.281470] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21169.712677] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21179.389388] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21179.832841] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21180.189786] [drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring
+old state failed with -12
+[21193.108746] [drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring
+old state failed with -12
+[21203.108238] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21203.563296] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21231.665363] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21232.103796] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21232.201005] [drm:dc_link_detect_helper [amdgpu]] *ERROR* No EDID read.
+[21232.450766] [drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring
+old state failed with -12
+[21234.635424] [drm:retrieve_link_cap [amdgpu]] *ERROR* retrieve_link_cap: Read
+dpcd data failed.
+[21255.768880] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21256.214181] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21266.041592] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21266.514366] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21268.894874] [drm:dpcd_set_source_specific_data [amdgpu]] *ERROR* Error in DP
+aux read transaction, not writing source specific data
+[21269.334409] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21269.431262] [drm:dc_link_detect_helper [amdgpu]] *ERROR* No EDID read.
+[21269.679883] [drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring
+old state failed with -12
+[21272.604484] [drm] amdgpu_dm_irq_schedule_work FAILED src 1
+[21273.016019] [drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring
+old state failed with -12
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: pp_table
 
- pp_od_clk_voltage
- ~~~~~~~~~~~~~~~~~
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: pp_od_clk_voltage
+lscpu:
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   48 bits physical, 48 bits virtual
+CPU(s):                          6
+On-line CPU(s) list:             0-5
+Thread(s) per core:              1
+Core(s) per socket:              6
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       AuthenticAMD
+CPU family:                      16
+Model:                           10
+Model name:                      AMD Phenom(tm) II X6 1090T Processor
+Stepping:                        0
+CPU MHz:                         3297.796
+BogoMIPS:                        6423.85
+Virtualization:                  AMD-V
+L1d cache:                       384 KiB
+L1i cache:                       384 KiB
+L2 cache:                        3 MiB
+L3 cache:                        6 MiB
+NUMA node0 CPU(s):               0-5
+Vulnerability Itlb multihit:     Not affected
+Vulnerability L1tf:              Not affected
+Vulnerability Mds:               Not affected
+Vulnerability Meltdown:          Not affected
+Vulnerability Spec store bypass: Not affected
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and
+__user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Full AMD retpoline, STIBP
+disabled, RSB filling
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Not affected
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep
+mtrr pge mca cmov pat pse36 clflush mmx fxsr sse
+                                  sse2 ht syscall nx mmxext fxsr_opt pdpe1gb
+rdtscp lm 3dnowext 3dnow constant_tsc rep_good n
+                                 opl nonstop_tsc cpuid extd_apicid aperfmperf
+pni monitor cx16 popcnt lahf_lm cmp_legacy svm 
+                                 extapic cr8_legacy abm sse4a misalignsse
+3dnowprefetch osvw ibs skinit wdt cpb hw_pstate vmm
+                                 call npt lbrv svm_lock nrip_save pausefilter
 
- pp_dpm_*
- ~~~~~~~~
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
 
- pp_power_profile_mode
- ~~~~~~~~~~~~~~~~~~~~~
 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: pp_power_profile_mode
+lspci (note: the nvidia card is blacklisted and passed to KVM guests. Vega56 is
+the one connected to the monitors):
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890 Northbridge
+only single slot PCI-e GFX Hydra part (rev 02)
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD/ATI] RD890S/RD990 I/O Memory
+Management Unit (IOMMU)
+00:02.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GFX port 0)
+00:04.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GPP Port 0)
+00:07.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GPP Port 3)
+00:0b.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD990 PCI to
+PCI bridge (PCI Express GFX2 port 0)
+00:0d.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GPP2 Port 0)
+00:11.0 RAID bus controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 SATA Controller [RAID5 mode] (rev 40)
+00:12.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
+00:12.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB EHCI Controller
+00:13.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
+00:13.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB EHCI Controller
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 SMBus Controller
+(rev 42)
+00:14.2 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 Azalia
+(Intel HDA) (rev 40)
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD/ATI] SB7x0/SB8x0/SB9x0
+LPC host controller (rev 40)
+00:14.4 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 PCI to PCI
+Bridge (rev 40)
+00:14.5 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI2 Controller
+00:16.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
+00:16.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB EHCI Controller
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+HyperTransport Configuration
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+Address Map
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+DRAM Controller
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+Miscellaneous Control
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+Link Control
+02:00.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:04.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:05.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:06.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:08.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:09.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+04:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+04:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+06:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+06:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+07:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+07:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+09:00.0 VGA compatible controller: NVIDIA Corporation GP104GL [Quadro P4000]
+(rev a1)
+09:00.1 Audio device: NVIDIA Corporation GP104 High Definition Audio Controller
+(rev a1)
+0a:00.0 USB controller: NEC Corporation uPD720200 USB 3.0 Host Controller (rev
+03)
+0b:00.0 SATA controller: JMicron Technology Corp. JMB363 SATA/IDE Controller
+(rev 03)
+0b:00.1 IDE interface: JMicron Technology Corp. JMB363 SATA/IDE Controller (rev
+03)
+0c:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Vega 10 PCIe Bridge (rev
+c3)
+0d:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Vega 10 PCIe Bridge
+0e:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Vega
+10 XL/XT [Radeon RX Vega 56/64] (rev c3)
+0e:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Vega 10 HDMI Audio
+[Radeon Vega 56/64]
 
- *_busy_percent
- ~~~~~~~~~~~~~~
-
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: gpu_busy_percent
-
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: mem_busy_percent
-
- gpu_metrics
- ~~~~~~~~~~~~~~~~~~~~~
-
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: gpu_metrics
-
- GPU Product Information
-@@ -239,7 +239,7 @@ serial_number
- unique_id
- ---------
-
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: unique_id
-
- GPU Memory Usage Information
-@@ -289,7 +289,7 @@ PCIe Accounting Information  pcie_bw
- -------
-
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: pcie_bw
-
- pcie_replay_count
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
