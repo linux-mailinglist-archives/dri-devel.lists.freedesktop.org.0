@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3024425130D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:22:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA58251307
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 09:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6D316E883;
-	Tue, 25 Aug 2020 07:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 166DD6E877;
+	Tue, 25 Aug 2020 07:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs4.siol.net [185.57.226.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE136E218
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 15:04:52 +0000 (UTC)
+Received: from mail.siol.net (mailoutvs3.siol.net [185.57.226.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827C76E290
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 15:04:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 64E9E525762;
- Mon, 24 Aug 2020 17:04:50 +0200 (CEST)
+ by mail.siol.net (Postfix) with ESMTP id A36A452576B;
+ Mon, 24 Aug 2020 17:04:52 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
 Received: from mail.siol.net ([127.0.0.1])
  by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new,
  port 10032)
- with ESMTP id SoJTlRNGNgBS; Mon, 24 Aug 2020 17:04:50 +0200 (CEST)
+ with ESMTP id u8vV1oXnJ427; Mon, 24 Aug 2020 17:04:52 +0200 (CEST)
 Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 1DB8252576D;
- Mon, 24 Aug 2020 17:04:50 +0200 (CEST)
+ by mail.siol.net (Postfix) with ESMTPS id 643B8525768;
+ Mon, 24 Aug 2020 17:04:52 +0200 (CEST)
 Received: from localhost.localdomain (89-212-178-211.dynamic.t-2.net
  [89.212.178.211]) (Authenticated sender: 031275009)
- by mail.siol.net (Postfix) with ESMTPSA id 79D1452576C;
- Mon, 24 Aug 2020 17:04:47 +0200 (CEST)
+ by mail.siol.net (Postfix) with ESMTPSA id 21B4E52576E;
+ Mon, 24 Aug 2020 17:04:50 +0200 (CEST)
 From: Jernej Skrabec <jernej.skrabec@siol.net>
 To: mripard@kernel.org,
 	wens@csie.org,
 	robh+dt@kernel.org
-Subject: [PATCH 1/2] dt-bindings: gpu: mali-utgard: Add Allwinner R40
- compatible
-Date: Mon, 24 Aug 2020 17:04:33 +0200
-Message-Id: <20200824150434.951693-2-jernej.skrabec@siol.net>
+Subject: [PATCH 2/2] ARM: dts: sun8i: r40: Add Mali node
+Date: Mon, 24 Aug 2020 17:04:34 +0200
+Message-Id: <20200824150434.951693-3-jernej.skrabec@siol.net>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200824150434.951693-1-jernej.skrabec@siol.net>
 References: <20200824150434.951693-1-jernej.skrabec@siol.net>
@@ -60,34 +59,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allwinner R40 SoC contains Mali400, so add its specific compatible to
-bindings.
+R40 has Mali400 GP2 GPU. Add a node for it.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm/boot/dts/sun8i-r40.dtsi | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-index 6226d31ec4b7..d4d785790eaa 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-@@ -25,6 +25,7 @@ properties:
-               - allwinner,sun4i-a10-mali
-               - allwinner,sun7i-a20-mali
-               - allwinner,sun8i-h3-mali
-+              - allwinner,sun8i-r40-mali
-               - allwinner,sun50i-a64-mali
-               - rockchip,rk3036-mali
-               - rockchip,rk3066-mali
-@@ -129,6 +130,7 @@ allOf:
-             enum:
-               - allwinner,sun4i-a10-mali
-               - allwinner,sun7i-a20-mali
-+              - allwinner,sun8i-r40-mali
-               - allwinner,sun50i-a64-mali
-               - allwinner,sun50i-h5-mali
-               - amlogic,meson8-mali
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index b782041e0e04..b82031b19893 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -743,6 +743,28 @@ i2c4: i2c@1c2c000 {
+ 			#size-cells = <0>;
+ 		};
+ 
++		mali: gpu@1c40000 {
++			compatible = "allwinner,sun8i-r40-mali", "arm,mali-400";
++			reg = <0x01c40000 0x10000>;
++			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "gp",
++					  "gpmmu",
++					  "pp0",
++					  "ppmmu0",
++					  "pp1",
++					  "ppmmu1",
++					  "pmu";
++			clocks = <&ccu CLK_BUS_GPU>, <&ccu CLK_GPU>;
++			clock-names = "bus", "core";
++			resets = <&ccu RST_BUS_GPU>;
++		};
++
+ 		gmac: ethernet@1c50000 {
+ 			compatible = "allwinner,sun8i-r40-gmac";
+ 			syscon = <&ccu>;
 -- 
 2.28.0
 
