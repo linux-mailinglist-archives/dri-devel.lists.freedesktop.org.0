@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4337A251803
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 13:48:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E120251890
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 14:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD316E098;
-	Tue, 25 Aug 2020 11:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 729B96E913;
+	Tue, 25 Aug 2020 12:31:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2F16E098
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 11:48:08 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id d2so6252213lfj.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 04:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 245716E913
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 12:31:30 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id p17so6861288wrj.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 05:31:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yFuuy2ZDucKKeJ/aOHHfJBNxs6p6AUH2V+s9q4oBJ6k=;
- b=qCCWdvKcg6Td6nhTc9ARhsNDt/+BogFS29YuKYIevjtVfq94EQF4p/IyUmtEtdtqNB
- BxRrG9GzA29+e4vipOnU/J+MyF0YQV8EPnu5FcNuE1OaPKJ1HN0sEaToksMgCfZOf+Db
- 6AoNstMX4syVXWySWN+v3q0mRTfbVZ9aKIIVY2RPmAst39oJWsCiR1/YxQIj5C9+Cc9J
- LuYksNZwLCGA5Og28tW02aWh6AjWUz2BQjkrA5aUcK1KJRKJyj9iAjrmUgyIxHS1fWc4
- I539SgSSGAZVNOSu1aGlvpBbYMnQFWaVuNwFXKb3Z8V0h1TfvmMG8ORO7Zmz2PJ6efUx
- 7SHQ==
+ :cc; bh=+HLPhy+qXHIinU4+E7TS6jEdPNtNrgqFPzcA0O6t5kU=;
+ b=wEO9WqPQBcLwZUKcvqXvWeTQyatZBnoj8MNgvqBl3wXtPJizAT/oQ/SdGZfZ4EMq/E
+ eyFKyYTJISm+DV330UA3npw7Dk0YMydTsCuYN9jpA+MHjIs/adfjauEBoaNXRZ0HI9Le
+ JDdxy0U/s9OnS3u2btlKuWA8skzmnHXl+FdDvALKESloVFY3kHERMGM8vAtLPvLngs7q
+ pN4QuFCkbyvSu3wmqoe19Atprq/sp9hCBmKWOpw9qfETRsv0KPDoH2X3ZJsbn1hKBRKu
+ pSMBFzyQPBylG6jIRY2gLJ9lFIrCS6nd9xiUy1RuilZMNT57weEJFi5aBrdPQmLzGZTH
+ 70ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yFuuy2ZDucKKeJ/aOHHfJBNxs6p6AUH2V+s9q4oBJ6k=;
- b=sYLmBezIMkskbmf1MfjX/+GAVMHRTNXLSgWHm+H1/AAnQC3EMbaTHPvkkawwipxjZK
- MNMKmQT6G2RVVPgn/qBx7LurQYYbLkGwbIEMqDF1oeX38WTrPfU7nbpospb+q/1zSPEL
- zvtnm4TiQBsPHETKkQa4qAKbsdEc+jpu+2Oca1SancVhqt+WW2S/XnAGbwnekVoEZbHF
- josfp3a1YRDa1vHGil/lU4gTbF58Ie33fWjslj36LSm9D3/NTNOatX/MSDl9YpLObS/q
- dO3nZTG2pqeuC28OqsnSPLWRE7ESZmv1BW4psYZ3FZTbAPYFgUuET9w5or+w3VgfvAkv
- WB1Q==
-X-Gm-Message-State: AOAM532LZrPSq/cGuBt19fLlC3U8eF2ijvFveTID3ny5m+r/ZTcTIwdF
- E4qLhyPMOvmCUIy0veCfK+fouIdwQGlwl9iKUB0=
-X-Google-Smtp-Source: ABdhPJx+Ob/DxLLUN7sb7xIDlh2g8C85fI0xJOfJUmPsQFkuBnviB5TiFpyhXvjtw/qfR3Ny3ENZ+t3Ab+yIwpKmdPM=
-X-Received: by 2002:ac2:5e75:: with SMTP id a21mr148102lfr.206.1598356086190; 
- Tue, 25 Aug 2020 04:48:06 -0700 (PDT)
+ bh=+HLPhy+qXHIinU4+E7TS6jEdPNtNrgqFPzcA0O6t5kU=;
+ b=cUhkfDNRY66TA+A40XzK3lKRMhJhE09XzGjpku/fPNwKBw6pQDxT6ccqRfzvPNPh6m
+ 4QLXQDElg6XaO/LTd9z43fIGs4Fr3vvQUjHJBZjZfEd1Udju2py7JcFC/RQypOlvPiKE
+ r/O0PJ82IyRZZr0OjjN3NPMWhz4SQ4/5810MfUJwsu7BX7CQb51sNq7cAaqGMmRmuts2
+ 5rXuq8EP+63hWt7IWjaVCIVqrt0EiVQBfyD8I41Eu5yo5mfsf2DmAQ0z4EEC1cVulEm/
+ Azo0kI7k31Scd12oIhZOMIOip8HlKwmGC6+Xc/9v21d7zT3BACVewupjml147y9VNTbR
+ WFnA==
+X-Gm-Message-State: AOAM5324S5PfiioheSWaCNrayOjdux7eTdcQluOwGDAv55T0nGeaBQoX
+ K2frHppuNVf+Kx6uJt1fvYp2xGlhtxoQI5LbHaeoNDxDr4v5aA==
+X-Google-Smtp-Source: ABdhPJz1mB4Fdo1aDIpEuz/ea4FV6oUPMILZjNgY202nHhhVQ2y6zu7/a0D9cIzuEsl4KQKXulFb7/NPn2fB9IdTTE0=
+X-Received: by 2002:a5d:644b:: with SMTP id d11mr10206039wrw.373.1598358688698; 
+ Tue, 25 Aug 2020 05:31:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200819205336.fce24lioz34vbcd2@smtp.gmail.com>
- <20200825030404.htitgoy27nyhlezz@smtp.gmail.com>
-In-Reply-To: <20200825030404.htitgoy27nyhlezz@smtp.gmail.com>
-From: Melissa Wen <melissa.srw@gmail.com>
-Date: Tue, 25 Aug 2020 08:47:55 -0300
-Message-ID: <CAJeY4oEtxU1HyWW44J4TGwJpcVHK+gUAdsgpjJef+FKGUsrGcg@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: add alpha-premultiplied color blending
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819153045.GA18469@pendragon.ideasonboard.com>
+ <CALAqxLUXnPRec3UYbMKge8yNKBagLOatOeRCagF=JEyPEfWeKA@mail.gmail.com>
+ <20200820090326.3f400a15@coco.lan>
+ <20200820100205.GA5962@pendragon.ideasonboard.com>
+ <CAPM=9twzsw7T=GD6Jc1EFenXq9ZhTgf_Nuo71uLfX2W33oa=6w@mail.gmail.com>
+ <20200825133025.13f047f0@coco.lan>
+In-Reply-To: <20200825133025.13f047f0@coco.lan>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 25 Aug 2020 13:31:16 +0100
+Message-ID: <CAPj87rNkqp0hDEv63jhJsMzsQ0qMLucjWE4KVByCFoMRrnfUKA@mail.gmail.com>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,170 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, kernel-usp@googlegroups.com
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, driverdevel <devel@driverdev.osuosl.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
+ Rob Clark <robdclark@chromium.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
+ Network Development <netdev@vger.kernel.org>,
+ Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
+Hi Mauro,
 
-Thanks for the review!
-I just sent a v2 applying your suggestions.
+On Tue, 25 Aug 2020 at 12:30, Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> Sorry, but I can't agree that review is more important than to be able
+> to properly indicate copyrights in a valid way at the legal systems that
+> it would apply ;-)
 
-Best Regards,
+The way to properly indicate copyright coverage is to insert a
+copyright statement in the file. This has been the accepted way of
+communicating copyright notices since approximately the dawn of time.
+The value of the 'author' field within a chain of git commits does not
+have privileged legal value.
 
-Melissa Wen
+If what you were saying is true, it would be impossible for any
+project to copy code from any other project, unless they did git
+filter-branch and made sure to follow renames too. As others have
+noted, it would also be impossible for any patches to be developed
+collaboratively by different copyright holders, or for maintainers to
+apply changes.
 
-Melissa Wen
+This is accepted community practice and has passed signoffs from a
+million different lawyers and copyright holders. If you wish to break
+with this and do something different, the onus is on you to provide
+the community with _specific_ legal advice; if this is accepted, the
+development model would have to drastically change in the presence of
+single pieces of code developed by multiple distinct copyright
+holders.
 
-
-On Tue, Aug 25, 2020 at 12:04 AM Rodrigo Siqueira
-<rodrigosiqueiramelo@gmail.com> wrote:
->
-> Hi Melissa,
->
-> First of all, thanks a lot for your patch!
->
-> Follows my inline comments.
->
-> On 08/19, Melissa Wen wrote:
-> > The current VKMS blend function ignores alpha channel and just overwrites
-> > vaddr_src with vaddr_dst. This XRGB approach triggers a warning when
-> > running the kms_cursor_crc/cursor-alpha-transparent test case. In IGT
-> > tests, cairo_format_argb32 uses premultiplied alpha (according to
-> > documentation), so this patch considers premultiplied alpha colors to
-> > compose vaddr_src with vaddr_dst.
-> >
-> > This change removes the following cursor-alpha-transparent warning:
-> > Suspicious CRC: All values are 0.
-> >
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> >
-> > Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_composer.c | 43 +++++++++++++++++++++-------
-> >  1 file changed, 33 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > index 4f3b07a32b60..6aac962d3e2e 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > @@ -32,8 +32,6 @@ static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
-> >                       src_offset = composer->offset
-> >                                    + (i * composer->pitch)
-> >                                    + (j * composer->cpp);
-> > -                     /* XRGB format ignores Alpha channel */
-> > -                     bitmap_clear(vaddr_out + src_offset, 24, 8);
-> >                       crc = crc32_le(crc, vaddr_out + src_offset,
-> >                                      sizeof(u32));
-> >               }
-> > @@ -42,6 +40,32 @@ static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
-> >       return crc;
-> >  }
-> >
-> > +u8 blend_channel(u8 c_src, u8 c_dst, u8 a_src)
->
-> Use static here.
->
-> Also, replace c_src to src, c_dst to dst, and a_src to alpha.
->
-> > +{
-> > +     u32 pre_blend;
-> > +     u8 new_color;
-> > +
-> > +     /* Premultiplied alpha blending - IGT + cairo context */
->
-> You can drop the part that says "IGT + cairo context", this explanation
-> better suit the commit message.
->
-> > +     pre_blend = (c_src * 255 + c_dst * (255 - a_src));
-> > +
-> > +     /* Faster div by 255 */
-> > +     new_color = ((pre_blend + ((pre_blend + 257) >> 8)) >> 8);
-> > +
-> > +     return new_color;
-> > +}
-> > +
-> > +void alpha_blending(u8 *argb_src, u8 *argb_dst)
->
-> Use static.
->
-> Looks like that argb_src is a read-only variable, in this sense add
-> const.
->
-> > +{
-> > +     u8 a_src;
-> > +
-> > +     a_src = argb_src[3];
->
-> change a_src to alpha.
->
-> > +     argb_dst[0] = blend_channel(argb_src[0], argb_dst[0], a_src);
-> > +     argb_dst[1] = blend_channel(argb_src[1], argb_dst[1], a_src);
-> > +     argb_dst[2] = blend_channel(argb_src[2], argb_dst[2], a_src);
-> > +     /* Opaque primary */
-> > +     argb_dst[3] = 0xFF;
-> > +}
-> > +
-> >  /**
-> >   * blend - blend value at vaddr_src with value at vaddr_dst
-> >   * @vaddr_dst: destination address
-> > @@ -50,12 +74,9 @@ static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
-> >   * @src_composer: source framebuffer's metadata
-> >   *
-> >   * Blend value at vaddr_src with value at vaddr_dst.
-> > - * Currently, this function write value of vaddr_src on value
-> > - * at vaddr_dst using buffer's metadata to locate the new values
-> > - * from vaddr_src and their destination at vaddr_dst.
-> > - *
-> > - * TODO: Use the alpha value to blend vaddr_src with vaddr_dst
-> > - *    instead of overwriting it.
-> > + * Currently, this function considers premultiplied alpha for blending, as used
-> > + * by Cairo. It uses buffer's metadata to locate the new composite values at
-> > + * vaddr_dst.
-> >   */
-> >  static void blend(void *vaddr_dst, void *vaddr_src,
-> >                 struct vkms_composer *dest_composer,
-> > @@ -63,6 +84,7 @@ static void blend(void *vaddr_dst, void *vaddr_src,
-> >  {
-> >       int i, j, j_dst, i_dst;
-> >       int offset_src, offset_dst;
-> > +     u8 *p_dst, *p_src;
->
-> I suppose that p stands for "pixel", right? In this case how about use
-> pixel?
->
-> Best Regards
-> Rodrigo Siqueira
->
-> >
-> >       int x_src = src_composer->src.x1 >> 16;
-> >       int y_src = src_composer->src.y1 >> 16;
-> > @@ -84,8 +106,9 @@ static void blend(void *vaddr_dst, void *vaddr_src,
-> >                                    + (i * src_composer->pitch)
-> >                                    + (j * src_composer->cpp);
-> >
-> > -                     memcpy(vaddr_dst + offset_dst,
-> > -                            vaddr_src + offset_src, sizeof(u32));
-> > +                     p_src = (u8 *)(vaddr_src + offset_src);
-> > +                     p_dst = (u8 *)(vaddr_dst + offset_dst);
-> > +                     alpha_blending(p_src, p_dst);
-> >               }
-> >               i_dst++;
-> >       }
-> > --
-> > 2.28.0
-> >
->
-> --
-> Rodrigo Siqueira
-> https://siqueira.tech
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
