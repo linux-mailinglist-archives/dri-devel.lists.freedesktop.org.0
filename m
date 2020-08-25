@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290CB250FD9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 05:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9DE2510F1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 06:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 205C56E80B;
-	Tue, 25 Aug 2020 03:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0ED6E84D;
+	Tue, 25 Aug 2020 04:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF7126E80B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 03:15:08 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id s16so8067497qtn.7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 20:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SvW0vlaUXlhWFbm4GXWlUoLrbQbUVmWGmeetFSuThhE=;
- b=lBdDG+jr+clUeV0eZJNh0HDFKzUBl3kRTE4wstKazWuV5tSm0WZL5CH4NcESSYmzwC
- sP4WG8N++5UqDSc3i3VIMNJ0jvo8sUZYtbg6/s2Hh/U63UpgMYGr2OgHf5cwuWZvOr76
- tmOZwzIAeSNJVqYyxCy0FQ1+N/2UUUOWWnInumaZmoOyep+CVW6y5F0dUJ+0+amyzmSh
- s+PTEw1UPrFB36N8Kx/VnENvAlsIhownfXWtitpvHR2u91jdmB+afg4z4yi1l7dceg4g
- X9ZWX+J6qgvDHUDyoWq/TUyWcZyD/OfUDexLvjw804QiXxRYV2LJyzlUVkp53xobKQCb
- VUkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SvW0vlaUXlhWFbm4GXWlUoLrbQbUVmWGmeetFSuThhE=;
- b=WhM5GmKwaCTgcokTVAaBtKaA1ymMKxLooSnDmeta2prOGT06+JkP0L9ETx8wke87M0
- bU3Haz+Lvkn5A1qbQe1kZGcvsygGUDKOw0k/JVTPHJeqXz9ojTeNRvYnqjct5COwvcSx
- hFflMo/BdBDM73UcLK1A6Uhg6bA/wg4DQ69Zkxb1vwaVh07mRLSt5rvsROnTY4eO4Nu8
- qfmFbZ1moLTUmpTKubSyxuz7OOG71dJlcLLJ93hac0EVUtacMLcTCYsSc286ls1uEykE
- ISTcRNINF3FwzJYQHFS5qIfjgzdp7RfaLL+FxEVkyUBS71HdRf3zskwdXdiv6XW0htCB
- 4yPg==
-X-Gm-Message-State: AOAM533vUgh3f7HD1Y+upbGF+pHUCug78HKJQ8PbTcRfKmgGmUDfFfuQ
- zdODIvFlxAxh9Ym1+3tJfls=
-X-Google-Smtp-Source: ABdhPJxNJ48MdYSl7r2xKefnshL60K4Lxd4UGz3J+2l5UciwcxMPHBZ0Y1xQjLCZd+sM07lOCMSRhA==
-X-Received: by 2002:aed:3ead:: with SMTP id n42mr7978240qtf.5.1598325307956;
- Mon, 24 Aug 2020 20:15:07 -0700 (PDT)
-Received: from smtp.gmail.com ([2607:fea8:56e0:6d60::2db6])
- by smtp.gmail.com with ESMTPSA id d26sm13283713qtc.51.2020.08.24.20.15.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 20:15:07 -0700 (PDT)
-Date: Mon, 24 Aug 2020 23:15:01 -0400
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Sidong Yang <realwakka@gmail.com>
-Subject: Re: [PATCH] drm/vkms: Use alpha value to blend values.
-Message-ID: <20200825031501.y3knhdwph5a6knld@smtp.gmail.com>
-References: <20200818160215.19550-1-realwakka@gmail.com>
+Received: from smtprelay.hostedemail.com (smtprelay0009.hostedemail.com
+ [216.40.44.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1B46E84D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 04:56:45 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id B846B180A9F54;
+ Tue, 25 Aug 2020 04:56:42 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:541:857:966:967:973:988:989:1260:1311:1314:1345:1437:1515:1535:1544:1711:1730:1747:1777:1792:1801:2196:2199:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3354:3865:3867:3868:3870:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4384:4385:4395:4605:5007:6119:6261:6737:6742:7875:9025:10004:10848:11026:11473:11658:11914:12043:12048:12050:12297:12438:12555:12679:12895:12986:13161:13229:13894:14096:14181:14394:14721:21080:21433:21451:21627:21740:21773:30054:30056,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: chalk60_631385f27059
+X-Filterd-Recvd-Size: 5825
+Received: from joe-laptop.perches.com (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf08.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 25 Aug 2020 04:56:38 +0000 (UTC)
+From: Joe Perches <joe@perches.com>
+To: Jiri Kosina <trivial@kernel.org>, oprofile-list@lists.sf.net,
+ linux-ide@vger.kernel.org, drbd-dev@lists.linbit.com,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-bcache@vger.kernel.org, netdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Subject: [PATCH 00/29] treewide: Convert comma separated statements
+Date: Mon, 24 Aug 2020 21:55:57 -0700
+Message-Id: <cover.1598331148.git.joe@perches.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <20200818160215.19550-1-realwakka@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,129 +56,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel-usp@googlegroups.com
-Content-Type: multipart/mixed; boundary="===============0278016717=="
+Cc: devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, linux-alpha@vger.kernel.org,
+ sparclinux@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are many comma separated statements in the kernel.
+See:https://lore.kernel.org/lkml/alpine.DEB.2.22.394.2008201856110.2524@hadrien/
 
---===============0278016717==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hw63tmig6dcz7gis"
-Content-Disposition: inline
+Convert the comma separated statements that are in if/do/while blocks
+to use braces and semicolons.
 
+Many comma separated statements still exist but those are changes for
+another day.
 
---hw63tmig6dcz7gis
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Joe Perches (29):
+  coding-style.rst: Avoid comma statements
+  alpha: Avoid comma separated statements
+  ia64: Avoid comma separated statements
+  sparc: Avoid comma separated statements
+  ata: Avoid comma separated statements
+  drbd: Avoid comma separated statements
+  lp: Avoid comma separated statements
+  dma-buf: Avoid comma separated statements
+  drm/gma500: Avoid comma separated statements
+  drm/i915: Avoid comma separated statements
+  hwmon: (scmi-hwmon): Avoid comma separated statements
+  Input: MT - Avoid comma separated statements
+  bcache: Avoid comma separated statements
+  media: Avoid comma separated statements
+  mtd: Avoid comma separated statements
+  8390: Avoid comma separated statements
+  fs_enet: Avoid comma separated statements
+  wan: sbni: Avoid comma separated statements
+  s390/tty3270: Avoid comma separated statements
+  scai/arm: Avoid comma separated statements
+  media: atomisp: Avoid comma separated statements
+  video: fbdev: Avoid comma separated statements
+  fuse: Avoid comma separated statements
+  reiserfs: Avoid comma separated statements
+  lib/zlib: Avoid comma separated statements
+  lib: zstd: Avoid comma separated statements
+  ipv6: fib6: Avoid comma separated statements
+  sunrpc: Avoid comma separated statements
+  tools: Avoid comma separated statements
 
-Hi Sidong,
+ Documentation/process/coding-style.rst        |  17 +
+ arch/alpha/kernel/pci_iommu.c                 |   8 +-
+ arch/alpha/oprofile/op_model_ev4.c            |  22 +-
+ arch/alpha/oprofile/op_model_ev5.c            |   8 +-
+ arch/ia64/kernel/smpboot.c                    |   7 +-
+ arch/sparc/kernel/smp_64.c                    |   7 +-
+ drivers/ata/pata_icside.c                     |  21 +-
+ drivers/block/drbd/drbd_receiver.c            |   6 +-
+ drivers/char/lp.c                             |   6 +-
+ drivers/dma-buf/st-dma-fence.c                |   7 +-
+ drivers/gpu/drm/gma500/mdfld_intel_display.c  |  44 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |   8 +-
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   6 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   6 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |   6 +-
+ drivers/hwmon/scmi-hwmon.c                    |   6 +-
+ drivers/input/input-mt.c                      |  11 +-
+ drivers/md/bcache/bset.c                      |  12 +-
+ drivers/md/bcache/sysfs.c                     |   6 +-
+ drivers/media/i2c/msp3400-kthreads.c          |  12 +-
+ drivers/media/pci/bt8xx/bttv-cards.c          |   6 +-
+ drivers/media/pci/saa7134/saa7134-video.c     |   7 +-
+ drivers/mtd/devices/lart.c                    |  10 +-
+ drivers/net/ethernet/8390/axnet_cs.c          |  19 +-
+ drivers/net/ethernet/8390/lib8390.c           |  14 +-
+ drivers/net/ethernet/8390/pcnet_cs.c          |   6 +-
+ .../ethernet/freescale/fs_enet/fs_enet-main.c |  11 +-
+ drivers/net/wan/sbni.c                        | 101 +++---
+ drivers/s390/char/tty3270.c                   |   6 +-
+ drivers/scsi/arm/cumana_2.c                   |  19 +-
+ drivers/scsi/arm/eesox.c                      |   9 +-
+ drivers/scsi/arm/powertec.c                   |   9 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |   6 +-
+ drivers/video/fbdev/tgafb.c                   |  12 +-
+ fs/fuse/dir.c                                 |  24 +-
+ fs/reiserfs/fix_node.c                        |  36 ++-
+ lib/zlib_deflate/deftree.c                    |  49 ++-
+ lib/zstd/compress.c                           | 120 ++++---
+ lib/zstd/fse_compress.c                       |  24 +-
+ lib/zstd/huf_compress.c                       |   6 +-
+ net/ipv6/ip6_fib.c                            |  12 +-
+ net/sunrpc/sysctl.c                           |   6 +-
+ tools/lib/subcmd/help.c                       |  10 +-
+ tools/power/cpupower/utils/cpufreq-set.c      |  14 +-
+ tools/testing/selftests/vm/gup_benchmark.c    |  18 +-
+ tools/testing/selftests/vm/userfaultfd.c      | 296 +++++++++++-------
+ 46 files changed, 694 insertions(+), 382 deletions(-)
 
-Thanks a lot for your patch and effort to improve VKMS.
-
-On 08/18, Sidong Yang wrote:
-> I wrote this patch for TODO list in vkms documentation.
->=20
-> Use alpha value to blend source value and destination value Instead of
-> just overwrite with source value.
->=20
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
->=20
-> Signed-off-by: Sidong Yang <realwakka@gmail.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index 4f3b07a32b60..e3230e2a99af 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -77,6 +77,9 @@ static void blend(void *vaddr_dst, void *vaddr_src,
-> =20
->  	for (i =3D y_src, i_dst =3D y_dst; i < y_limit; ++i) {
->  		for (j =3D x_src, j_dst =3D x_dst; j < x_limit; ++j) {
-> +			u8 *src, *dst;
-> +			u32 alpha, inv_alpha;
-> +
->  			offset_dst =3D dest_composer->offset
->  				     + (i_dst * dest_composer->pitch)
->  				     + (j_dst++ * dest_composer->cpp);
-> @@ -84,8 +87,15 @@ static void blend(void *vaddr_dst, void *vaddr_src,
->  				     + (i * src_composer->pitch)
->  				     + (j * src_composer->cpp);
-> =20
-> -			memcpy(vaddr_dst + offset_dst,
-> -			       vaddr_src + offset_src, sizeof(u32));
-> +			src =3D vaddr_src + offset_src;
-> +			dst =3D vaddr_dst + offset_dst;
-> +			alpha =3D src[3] + 1;
-> +			inv_alpha =3D 256 - src[3];
-> +			dst[0] =3D (alpha * src[0] + inv_alpha * dst[0]) >> 8;
-> +			dst[1] =3D (alpha * src[1] + inv_alpha * dst[1]) >> 8;
-> +			dst[2] =3D (alpha * src[2] + inv_alpha * dst[2]) >> 8;
-
-Did you test your change with IGT? Maybe I missed something but looks
-like that you're applying the alpha value but the value that we get is
-already pre-multiplied.
-
-Btw, It looks like that you and Melissa are working in the same feature,
-maybe you two could try to sync for avoiding overlapping.
-
-Finally, do you have plans to send your fix for
-vkms_get_vblank_timestamp() function? That patch was really good and
-removes a lot of warning generated during the IGT test.
-
-Best Regards
-
-> +			dst[3] =3D 0xff;
-> +
->  		}
->  		i_dst++;
->  	}
-> --=20
-> 2.17.1
->=20
-
---=20
-Rodrigo Siqueira
-https://siqueira.tech
-
---hw63tmig6dcz7gis
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl9EgjAACgkQWJzP/com
-vP+QwRAAn9k/9RskirKfJGva/5Qzhykbkj2nANsnwZo+hY6t2TNNuj4jx/INI0XA
-l8eswurDyaB8yN/IUKs8HQ4LZEnrz4bKnYP8vpsJBxjPu6r+hTJ1vCEchISwaPHO
-gQENSqrjAjgwkfVwHBJ4ltt3mwuvxJ01xgR+pztsIQ+H7U15TnZVhv7wVmt3jbhx
-Rdgy9DM6mT5XVDcOJpriHlMQVCdfumRgbnQZxCSvyp++Bkb/HnvvV0YZnWpA1e0z
-azxOW5jDeiQkg3VTJMO7tgnbXF6nX/Gucfuc1eN9yuiYJrWEyzjEjYGucbCvsbRV
-U0l3XF3/lFGFLQOKe6MV+/TXVQ6rVmSAkNtSRdum8qHh8ukzHbIqdSFhdU6ThNlm
-rexe62XyN1+f09f+kb/7FLxt5ov/7zdEjd2Vx9HQ8PLGhnWXJTxEvEaw12YQk5HB
-Z5yvsD0V8nbUFCuCShvgDdQqSAAURMmoBxo0T8WYPnKIgfN100vL4WFu5Ru+MCFt
-bbLzX+z+CyHg0oND2jg2umTDf0F6Cr2tOlxCTb7N+oqo15rsC1wpB9HqySai/oi5
-3sADXinocJuSnwO08TvSpDtsQzLMvSm19V4hx33UCcheBH3Fk9nbtFmc70q/EY7f
-avYZXPn+CZKPFpGv7dgqsoYe5f2sTmKQUdzC/DsQb26OHQ7zilQ=
-=qLnU
------END PGP SIGNATURE-----
-
---hw63tmig6dcz7gis--
-
---===============0278016717==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.26.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0278016717==--
