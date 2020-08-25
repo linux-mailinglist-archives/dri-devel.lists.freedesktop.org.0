@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF427250F0E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 04:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3CB250F10
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 04:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA31B6E7FE;
-	Tue, 25 Aug 2020 02:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4046E802;
+	Tue, 25 Aug 2020 02:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB3546E7F1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 02:31:58 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id i2so4806022qtb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:31:58 -0700 (PDT)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95B006E7F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 02:31:59 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id k20so4472969qtq.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uyaJ/4wPgeTokW25lNh+HoQXlbWu4TVCiFbX0XTVmIc=;
- b=oqEIjJ8mhmnROX/s/ZQ8KcY4WMfYQXKM8S+FMYiPOLv4aSYasxWJ63WAsrc7HXYD22
- zH292Bw0r3zPVUYEP2L2MaY9GwmpcXnPMteLe2GPpe2aSBpkaZswOi+D3ku2ysalRGSN
- vEqwumOTLuXRWHD6FHTC6RXqZS04wEpZfQflHRwrb3jq2OT8xSlKsODoMHwTEP65CR/y
- OLuq8h93XDJL/+vBKcKPrq6KUf+FNL5lsSDXDv1tRrqOdXVaTcljOz9nI1dXd7guCpsp
- /fgg/F+BxaLZswUKwoR8Kul3/es9KwCLwAIk0Oog+lLo90n+BwkK9/ZXjv+NMjE3O5Ot
- EZcg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KcHo4i74kj3qxvqHgzH/WtshfHI04sb5YBeB8ltiN6M=;
+ b=bXlerMt0OP/DxGB9ODmOPs/BsBN8mhHhuUSoRdd1d4HTrPx3FLeAjDd4EJPq80T3In
+ 149kAVcKf3Z/q6AIoBqrU/iv61bAPEr9TUolDZ9MjOTJd3cymANVF4WbDCPD91VOjgOd
+ ofHJs8Z1WmXm7y9M9lhEn9EJ1o1FKbdr7s9PdxHFebejeQU7rmKa624+3tXWNla4H3H6
+ JwZiMAye7nLbWR9ttYmo7qmSUZmRv0fWVqWXp84+D7csnhRooX8P0wuRaaPYOeKq3E4o
+ Q7Jp8ArrHyKR/Yr/bHVgy4bsmchRF6nrfBP1R725xMMSrkMIq8u8WT1+RIabtTwTPLjA
+ k8Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uyaJ/4wPgeTokW25lNh+HoQXlbWu4TVCiFbX0XTVmIc=;
- b=LTOxc2kdmAbISMBEDKxwltKYPCFrfdvf/SSdePbDvwLDCwfLYBfyN4Rw3RYnwmGsDI
- pQxEjDnKfbJmLRBoLxl39MsYBgDv8FSfce5KLL91l8aFlpUFyx0t837foNmGYOMkS2WL
- vFu90min+r+hTUTCcQRlQcG/ZNX0XR3LRih8XS9nE9EvzvQscpLEKxZW3aYDJvZmwjS0
- +D+1JPy1Abwg7Ux/BWuuFu7Vq22oC1WKOVVBGoHR6SUXE886VLAxiwnKoEJbhxDMpdE/
- vbExPR67rV8Zepp76fbIIsk7ikUniWu+knJr2A22gcVHnswCW2tRCiIBB7zOH0+p+89N
- zNcg==
-X-Gm-Message-State: AOAM532WKj7nDLbYnETOF87BXMHLNfQI84Ai1BFCYm7G/CmLJRuMXNJA
- P/GqLut/dGgg45kj+X1nG3A=
-X-Google-Smtp-Source: ABdhPJyDJLKURHKOSKzQLquxgUG4q1/h2802N8eWgjpa/ztBYYCG0o5hp7R4i31DiWqtomBZW7629g==
-X-Received: by 2002:ac8:42ca:: with SMTP id g10mr7849427qtm.219.1598322717679; 
- Mon, 24 Aug 2020 19:31:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KcHo4i74kj3qxvqHgzH/WtshfHI04sb5YBeB8ltiN6M=;
+ b=mFlfVuiF5go9QAHUwejBvObMTWnCjRj+ZUCWOfFbkGkw7wTU509AcVMBUwun5axtuX
+ PzwJ10mIktAla98LsLVu0UFE6dOJ7gC8t00eb4CUnqINEidtbjU6gIdjVXkyysC5pDRc
+ uJkPZhwFeQaM7RSQvWsPacAguxkdNqZ+VQfKpOYny3chYdZ2PHweGNsVbuCHPf9JKsJv
+ Qn5GXKKcD+zblZl1AtCI+/CsMQBzGn0QLMaKv+6L5C5+uOH+474ptGW0Leu9isM0Ux8B
+ C4QGkFg6ix5ESb0MMB1RQhSuA/4jfBWhQTnoc1faV3FoVSNPZwheYNxDEgqoQIm5PIC5
+ fVKw==
+X-Gm-Message-State: AOAM533uWifmkTK06cNlJ6SGAtVZmBY4BBCabXCO2UcZr85Or9IezHd5
+ vIg2H3T5w+yu0hu+Oy84vrs=
+X-Google-Smtp-Source: ABdhPJzVOgmVALB2L78x2p4uLPmykpU+KtBYc2ZqCABjDekUH2FfuaHspH5bqev5/RfMoQZqvzYbCg==
+X-Received: by 2002:ac8:4748:: with SMTP id k8mr7535293qtp.114.1598322718750; 
+ Mon, 24 Aug 2020 19:31:58 -0700 (PDT)
 Received: from atma2.hitronhub.home ([2607:fea8:56e0:6d60::2db6])
- by smtp.gmail.com with ESMTPSA id x137sm11095372qkb.47.2020.08.24.19.31.56
+ by smtp.gmail.com with ESMTPSA id x137sm11095372qkb.47.2020.08.24.19.31.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 19:31:57 -0700 (PDT)
+ Mon, 24 Aug 2020 19:31:58 -0700 (PDT)
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 0/3] drm/vkms: Introduces writeback support
-Date: Mon, 24 Aug 2020 22:31:39 -0400
-Message-Id: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
+Subject: [PATCH v5 1/3] drm/vkms: Decouple crc operations from composer
+Date: Mon, 24 Aug 2020 22:31:40 -0400
+Message-Id: <20200825023142.2561220-2-rodrigosiqueiramelo@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
+References: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,47 +75,113 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the V5 version of a series that introduces the writeback support
-to VKMS. The first two patches of this series are a pre-work for the
-latest patch that adds the writeback connector, this patchset can be seen
-in two parts: 
+In the vkms_composer.c, some of the functions related to CRC and compose
+have interdependence between each other. This patch reworks some
+functions inside vkms_composer to make crc and composer computation
+decoupled.
 
-* A pre-work that aims to make vkms composer operations a little bit more
-  generic; these patches try to centralize the vkms framebuffer operations.
-* The final patch enables the support for writeback in vkms.
+This patch is preparation work for making vkms able to support new
+features.
 
-In the previous review, Emil suggested multiple changes in the series. I
-tried to apply most of the recommendations except for some suggestions
-which I was not able to incorporate due to compilation issues, or other
-suggestions that may complicate this series review. I left some changes
-for future patches for keeping this patchset simple with the hope of
-landing this feature soon in order to support VKMS user's requirements.
-Emil, let me know if you want me to change any other thing.
+Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 49 ++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 20 deletions(-)
 
-It is important to highlight that from the previous series to the
-current version of this patchset we had some changes in the VKMS that
-made it unstable.  In particular, our previous writeback series stopped
-working properly due to changes in our commit tail.  Thanks to Melissa
-working in the instability issue and her latest fixes to VKMS, I finally
-could update writeback and make it work again. The main update in the
-latest patch is the use of vkms_set_composer when the writeback work
-starts (enable composer) and after the writeback end (disable composer).
-
-Best Regard
-
-Rodrigo Siqueira (3):
-  drm/vkms: Decouple crc operations from composer
-  drm/vkms: Compute CRC without change input data
-  drm/vkms: Add support for writeback
-
- drivers/gpu/drm/vkms/Makefile         |   9 +-
- drivers/gpu/drm/vkms/vkms_composer.c  | 102 +++++++++++-------
- drivers/gpu/drm/vkms/vkms_drv.h       |  11 +-
- drivers/gpu/drm/vkms/vkms_output.c    |   4 +
- drivers/gpu/drm/vkms/vkms_writeback.c | 143 ++++++++++++++++++++++++++
- 5 files changed, 231 insertions(+), 38 deletions(-)
- create mode 100644 drivers/gpu/drm/vkms/vkms_writeback.c
-
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 4f3b07a32b60..4d8bc04bb6ee 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -108,35 +108,31 @@ static void compose_cursor(struct vkms_composer *cursor_composer,
+ 	      primary_composer, cursor_composer);
+ }
+ 
+-static uint32_t _vkms_get_crc(struct vkms_composer *primary_composer,
+-			      struct vkms_composer *cursor_composer)
++static int compose_planes(void **vaddr_out,
++			  struct vkms_composer *primary_composer,
++			  struct vkms_composer *cursor_composer)
+ {
+ 	struct drm_framebuffer *fb = &primary_composer->fb;
+ 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
+ 	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(gem_obj);
+-	void *vaddr_out = kzalloc(vkms_obj->gem.size, GFP_KERNEL);
+-	u32 crc = 0;
+ 
+-	if (!vaddr_out) {
+-		DRM_ERROR("Failed to allocate memory for output frame.");
+-		return 0;
++	if (!*vaddr_out) {
++		*vaddr_out = kzalloc(vkms_obj->gem.size, GFP_KERNEL);
++		if (!*vaddr_out) {
++			DRM_ERROR("Cannot allocate memory for output frame.");
++			return -ENOMEM;
++		}
+ 	}
+ 
+-	if (WARN_ON(!vkms_obj->vaddr)) {
+-		kfree(vaddr_out);
+-		return crc;
+-	}
++	if (WARN_ON(!vkms_obj->vaddr))
++		return -EINVAL;
+ 
+-	memcpy(vaddr_out, vkms_obj->vaddr, vkms_obj->gem.size);
++	memcpy(*vaddr_out, vkms_obj->vaddr, vkms_obj->gem.size);
+ 
+ 	if (cursor_composer)
+-		compose_cursor(cursor_composer, primary_composer, vaddr_out);
++		compose_cursor(cursor_composer, primary_composer, *vaddr_out);
+ 
+-	crc = compute_crc(vaddr_out, primary_composer);
+-
+-	kfree(vaddr_out);
+-
+-	return crc;
++	return 0;
+ }
+ 
+ /**
+@@ -157,9 +153,11 @@ void vkms_composer_worker(struct work_struct *work)
+ 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+ 	struct vkms_composer *primary_composer = NULL;
+ 	struct vkms_composer *cursor_composer = NULL;
++	void *vaddr_out = NULL;
+ 	u32 crc32 = 0;
+ 	u64 frame_start, frame_end;
+ 	bool crc_pending;
++	int ret;
+ 
+ 	spin_lock_irq(&out->composer_lock);
+ 	frame_start = crtc_state->frame_start;
+@@ -183,14 +181,25 @@ void vkms_composer_worker(struct work_struct *work)
+ 	if (crtc_state->num_active_planes == 2)
+ 		cursor_composer = crtc_state->active_planes[1]->composer;
+ 
+-	if (primary_composer)
+-		crc32 = _vkms_get_crc(primary_composer, cursor_composer);
++	if (!primary_composer)
++		return;
++
++	ret = compose_planes(&vaddr_out, primary_composer, cursor_composer);
++	if (ret) {
++		if (ret == -EINVAL)
++			kfree(vaddr_out);
++		return;
++	}
++
++	crc32 = compute_crc(vaddr_out, primary_composer);
+ 
+ 	/*
+ 	 * The worker can fall behind the vblank hrtimer, make sure we catch up.
+ 	 */
+ 	while (frame_start <= frame_end)
+ 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
++
++	kfree(vaddr_out);
+ }
+ 
+ static const char * const pipe_crc_sources[] = {"auto"};
 -- 
 2.28.0
 
