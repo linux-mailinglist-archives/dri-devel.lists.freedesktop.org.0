@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1263251CF9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 18:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCBD251D7E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 18:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271B86E398;
-	Tue, 25 Aug 2020 16:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED7716E593;
+	Tue, 25 Aug 2020 16:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11EC46E398
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 16:12:25 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id x64so5793066lff.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 09:12:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=saPvfIvD3UMiUrJX+hEXlu7O1j8z2YbvbI+DUjiVJNM=;
- b=GkjmavjP3rFLPUh7ERkUiQ3MTbnPISTkkG3/G7ZjJ8OjE9Q516ySPQp2Y0XkyG1X+0
- rx/VYdPcmEOFf34RzKu6+ktfpd2LNq5Ar47qlRJ2Hf7/V5Elg5KgIEA45o+UyVieXt8d
- EctseRv55mfXHOecsBUyNGmnleWN00GvchD8HYxMAjLiJi3w1rLt4q/SuuTPgw3y+6Py
- GrHL9C8EQNJCP8Rq31pzab2+Mr6+5o1V7nh9NidGp03LP3eAJRb8UH6VkfJiCzOmvdIl
- zUlCYnl+LtFKGpYCEvjwQ0TsmyUiO1isxYmA1pSZzXRPmTgL7frBL5rH/UtEZKs9MTSK
- qZKw==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEBD58915A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 16:52:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598374333;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GH3XQPFWbt0lqGRNQZepy/lyen7L04oI1NtwwdbRf3c=;
+ b=NrXlumnecMEHxwDwn5rsp9Ui8UGR+Qz/VL2uyOKCAPTxCpKnAktJCLNa1uYWTACXU3Cjfj
+ FBIDQwDatcXhkFtRYfHFf/YAQH9fL3gDrD1OXX5mvuj9YPG63R1ZZVap1pwtBkTESFYwh9
+ YeE1CgnRV9XeAAEUX90m4d1rvGbqRIc=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-uar_jzEwNeevId2SN16oEg-1; Tue, 25 Aug 2020 12:52:08 -0400
+X-MC-Unique: uar_jzEwNeevId2SN16oEg-1
+Received: by mail-qk1-f198.google.com with SMTP id j7so9445674qki.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 09:52:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=saPvfIvD3UMiUrJX+hEXlu7O1j8z2YbvbI+DUjiVJNM=;
- b=IYmHA97r2XqOpBlg5SpBsHSvxyTJkmPItVfsaJ6zK97Sh7fKONaKlFg6pchwJgVmpV
- cKM1FN3hOPna0sqn0xmK7hkBmfKtEnjM1DfQaG2zrpCduWSKUBcPqOH3IgpZ9k/xOskS
- p60kNJnonurkUHadj8XTNdRRc7G4PuthILch2psdrFPGQOtNKSBMu4q2zmhf1raAUFe1
- V8PYCikb9a0OwzLVmI5ohWsFa5nxVgu1+Nca2zf+PR4GzXg0plgJG/B4r5uX3G+ksfqZ
- sOkJoASw0LH5BBo3sPjasAeFAMa/8Xau9akz0sI8xBdNGjCauqipbrSXiTbW1SWdhjvj
- 48kg==
-X-Gm-Message-State: AOAM532yBd9uQSZjQ5xTcJwsjZ3+DFDeAwQpC2TQ8hfOwsAsb0pJa//m
- hNcb6TmIWEbk1pJX1GgPA65j6BQYCNCZPNxr+7AqDRGUcJbl7w==
-X-Google-Smtp-Source: ABdhPJz5w0/dYWgaBX6h0ZClaS4JS+bVVK48jlQu9ByUSF25DFxdqr6XgPUeX/DuCxXZ34qdoElfHCF5QE5xKW7WQSQ=
-X-Received: by 2002:a19:86c3:: with SMTP id i186mr5373441lfd.59.1598371943463; 
- Tue, 25 Aug 2020 09:12:23 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=GH3XQPFWbt0lqGRNQZepy/lyen7L04oI1NtwwdbRf3c=;
+ b=d1W42+f0bTzO1F7X0c0Z6Edxc7H7gnOCqpqsTUf4x5ncO78RwvfYgSfEEVWrd0le5I
+ 5o0ZQtbmXmW0qAhpVx0xMgPixRnHSuAVgQ5kEoPOgS4lEy9bvlna02g3sKu6glEDtfHe
+ 2vXshoTzWWiRzFqzWAQA+AzeO6D5qoKFNEoQFghGbjCCxDf+ccZg+m27BAzHCGcV352I
+ gIKcIeZ/NIVpfi+iKDnVzkfPWeda8hgUOdBTfi2yRfKfcxFOlKXoCpxvdvLdAZZqaUJB
+ BRJ9rEXJgVaCwl59sX//zM/q3vYrpfLtASUqN5EXvv/AyIyNCQN8ENxQxcCsw2kXHf0U
+ LRYg==
+X-Gm-Message-State: AOAM531KMVKo3pavm9FyVakAykRjjr8sQxKR7Ucc6La4T6Euf0d8gI4o
+ 6k3GgAM2T8GtVY1YL8OwlavOQc9GqQLKy4YoTcdfL4Hgp8nvIY7nmVuEgco5F+ZSkuZI5P50aX8
+ 9zIxioeHH9dSe8VaiQuqeN4dXj0M0
+X-Received: by 2002:ac8:1773:: with SMTP id u48mr9877464qtk.259.1598374327294; 
+ Tue, 25 Aug 2020 09:52:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPR44U8niNebYvUrKITYg+kbJjP80i+hSedazIwkyueDHLFtKe3ByC0Rxwfw2DlIYaJ18R6g==
+X-Received: by 2002:ac8:1773:: with SMTP id u48mr9877443qtk.259.1598374326949; 
+ Tue, 25 Aug 2020 09:52:06 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id k3sm12047360qkb.95.2020.08.25.09.52.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Aug 2020 09:52:06 -0700 (PDT)
+Message-ID: <76392bff28359a88fbdf0857f011e0ed9f666dc4.camel@redhat.com>
+Subject: Re: [Nouveau] [PATCH 1/2] drm/nouveau/kms/nv50-: Program notifier
+ offset before requesting disp caps
+From: Lyude Paul <lyude@redhat.com>
+To: Ben Skeggs <skeggsb@gmail.com>
+Date: Tue, 25 Aug 2020 12:52:05 -0400
+In-Reply-To: <CACAvsv6hymdcGkEcigL3fWACZ_1POpB+aefq9d9ChnYv_dHnVg@mail.gmail.com>
+References: <20200824183253.826343-1-lyude@redhat.com>
+ <20200824183253.826343-2-lyude@redhat.com>
+ <CACAvsv6hymdcGkEcigL3fWACZ_1POpB+aefq9d9ChnYv_dHnVg@mail.gmail.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-References: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
- <20200825023142.2561220-2-rodrigosiqueiramelo@gmail.com>
-In-Reply-To: <20200825023142.2561220-2-rodrigosiqueiramelo@gmail.com>
-From: Melissa Wen <melissa.srw@gmail.com>
-Date: Tue, 25 Aug 2020 13:12:12 -0300
-Message-ID: <CAJeY4oFtusegHafy8oSYE2Z3T8YCYE6TdMiOHr9gnxV8B=9V8w@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] drm/vkms: Decouple crc operations from composer
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,131 +84,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, Liviu Dudau <liviu.dudau@arm.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Reply-To: lyude@redhat.com
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
+ ML nouveau <nouveau@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, "open list:DRM DRIVER FOR NVIDIA
+ GEFORCE/QUADRO GPUS" <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 24, 2020 at 11:31 PM Rodrigo Siqueira
-<rodrigosiqueiramelo@gmail.com> wrote:
->
-> In the vkms_composer.c, some of the functions related to CRC and compose
-> have interdependence between each other. This patch reworks some
-> functions inside vkms_composer to make crc and composer computation
-> decoupled.
->
-> This patch is preparation work for making vkms able to support new
-> features.
->
-> Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 49 ++++++++++++++++------------
->  1 file changed, 29 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 4f3b07a32b60..4d8bc04bb6ee 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -108,35 +108,31 @@ static void compose_cursor(struct vkms_composer *cursor_composer,
->               primary_composer, cursor_composer);
->  }
->
-> -static uint32_t _vkms_get_crc(struct vkms_composer *primary_composer,
-> -                             struct vkms_composer *cursor_composer)
-> +static int compose_planes(void **vaddr_out,
-> +                         struct vkms_composer *primary_composer,
-> +                         struct vkms_composer *cursor_composer)
->  {
->         struct drm_framebuffer *fb = &primary_composer->fb;
->         struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
->         struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(gem_obj);
-> -       void *vaddr_out = kzalloc(vkms_obj->gem.size, GFP_KERNEL);
-> -       u32 crc = 0;
->
-> -       if (!vaddr_out) {
-> -               DRM_ERROR("Failed to allocate memory for output frame.");
-> -               return 0;
-> +       if (!*vaddr_out) {
-> +               *vaddr_out = kzalloc(vkms_obj->gem.size, GFP_KERNEL);
-> +               if (!*vaddr_out) {
-> +                       DRM_ERROR("Cannot allocate memory for output frame.");
-> +                       return -ENOMEM;
-> +               }
->         }
->
-> -       if (WARN_ON(!vkms_obj->vaddr)) {
-> -               kfree(vaddr_out);
-> -               return crc;
-> -       }
-> +       if (WARN_ON(!vkms_obj->vaddr))
-> +               return -EINVAL;
->
-> -       memcpy(vaddr_out, vkms_obj->vaddr, vkms_obj->gem.size);
-> +       memcpy(*vaddr_out, vkms_obj->vaddr, vkms_obj->gem.size);
->
->         if (cursor_composer)
-> -               compose_cursor(cursor_composer, primary_composer, vaddr_out);
-> +               compose_cursor(cursor_composer, primary_composer, *vaddr_out);
->
-> -       crc = compute_crc(vaddr_out, primary_composer);
-> -
-> -       kfree(vaddr_out);
-> -
-> -       return crc;
-> +       return 0;
->  }
->
->  /**
-> @@ -157,9 +153,11 @@ void vkms_composer_worker(struct work_struct *work)
->         struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->         struct vkms_composer *primary_composer = NULL;
->         struct vkms_composer *cursor_composer = NULL;
-> +       void *vaddr_out = NULL;
->         u32 crc32 = 0;
->         u64 frame_start, frame_end;
->         bool crc_pending;
-> +       int ret;
->
->         spin_lock_irq(&out->composer_lock);
->         frame_start = crtc_state->frame_start;
-> @@ -183,14 +181,25 @@ void vkms_composer_worker(struct work_struct *work)
->         if (crtc_state->num_active_planes == 2)
->                 cursor_composer = crtc_state->active_planes[1]->composer;
->
-> -       if (primary_composer)
-> -               crc32 = _vkms_get_crc(primary_composer, cursor_composer);
-> +       if (!primary_composer)
-> +               return;
-> +
-> +       ret = compose_planes(&vaddr_out, primary_composer, cursor_composer);
-> +       if (ret) {
-> +               if (ret == -EINVAL)
-> +                       kfree(vaddr_out);
-> +               return;
-> +       }
-> +
-> +       crc32 = compute_crc(vaddr_out, primary_composer);
->
->         /*
->          * The worker can fall behind the vblank hrtimer, make sure we catch up.
->          */
->         while (frame_start <= frame_end)
->                 drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
-> +
-> +       kfree(vaddr_out);
->  }
->
->  static const char * const pipe_crc_sources[] = {"auto"};
-> --
-> 2.28.0
->
+On Tue, 2020-08-25 at 08:28 +1000, Ben Skeggs wrote:
+> On Tue, 25 Aug 2020 at 04:33, Lyude Paul <lyude@redhat.com> wrote:
+> > Not entirely sure why this never came up when I originally tested this
+> > (maybe some BIOSes already have this setup?) but the ->caps_init vfunc
+> > appears to cause the display engine to throw an exception on driver
+> > init, at least on my ThinkPad P72:
+> > 
+> > nouveau 0000:01:00.0: disp: chid 0 mthd 008c data 00000000 0000508c 0000102b
+> > 
+> > This is magic nvidia speak for "You need to have the DMA notifier offset
+> > programmed before you can call NV507D_GET_CAPABILITIES." So, let's fix
+> > this by doing that, and also perform an update afterwards to prevent
+> > racing with the GPU when reading capabilities.
+> > 
+> > Changes since v1:
+> > * Don't just program the DMA notifier offset, make sure to actually
+> >   perform an update
+> I'm not sure there's a need to send an Update() method here, I believe
+> GetCapabilities() is an action method on its own right?
+> 
 
-Tested-by: Melissa Wen <melissa.srw@gmail.com>
+I'm not entirely sure about this part tbh. I do know that we need to call
+GetCapabilities() _after_ the DMA notifier offset is programmed. But, my
+assumption was that if GetCapabilities() requires a DMA notifier offset to store
+its results in, we'd probably want to fire an update or something to make sure
+that we're not reading before it finishes writing capabilities?
+
+> Ben.
+> 
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP
+> > interlacing support")
+> > Cc: <stable@vger.kernel.org> # v5.8+
+> > ---
+> >  drivers/gpu/drm/nouveau/dispnv50/core507d.c | 25 ++++++++++++++++-----
+> >  1 file changed, 19 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > index e341f572c2696..5e86feec3b720 100644
+> > --- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > +++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > @@ -65,13 +65,26 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
+> >  int
+> >  core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
+> >  {
+> > -       u32 *push = evo_wait(&disp->core->chan, 2);
+> > +       struct nv50_core *core = disp->core;
+> > +       u32 interlock[NV50_DISP_INTERLOCK__SIZE] = {0};
+> > +       u32 *push;
+> > 
+> > -       if (push) {
+> > -               evo_mthd(push, 0x008c, 1);
+> > -               evo_data(push, 0x0);
+> > -               evo_kick(push, &disp->core->chan);
+> > -       }
+> > +       core->func->ntfy_init(disp->sync, NV50_DISP_CORE_NTFY);
+> > +
+> > +       push = evo_wait(&core->chan, 4);
+> > +       if (!push)
+> > +               return 0;
+> > +
+> > +       evo_mthd(push, 0x0084, 1);
+> > +       evo_data(push, 0x80000000 | NV50_DISP_CORE_NTFY);
+> > +       evo_mthd(push, 0x008c, 1);
+> > +       evo_data(push, 0x0);
+> > +       evo_kick(push, &core->chan);
+> > +
+> > +       core->func->update(core, interlock, false);
+> > +       if (core->func->ntfy_wait_done(disp->sync, NV50_DISP_CORE_NTFY,
+> > +                                      core->chan.base.device))
+> > +               NV_ERROR(drm, "core notifier timeout\n");
+> > 
+> >         return 0;
+> >  }
+> > --
+> > 2.26.2
+> > 
+> > _______________________________________________
+> > Nouveau mailing list
+> > Nouveau@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/nouveau
+-- 
+Sincerely,
+      Lyude Paul (she/her)
+      Software Engineer at Red Hat
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
