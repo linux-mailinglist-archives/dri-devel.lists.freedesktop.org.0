@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172F72510F7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 06:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D087E2510F8
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 06:57:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52DD76E84E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE156E850;
 	Tue, 25 Aug 2020 04:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0014.hostedemail.com
- [216.40.44.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD4B6E84E
+Received: from smtprelay.hostedemail.com (smtprelay0184.hostedemail.com
+ [216.40.44.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0358C6E84E
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 04:56:58 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay07.hostedemail.com (Postfix) with ESMTP id 4185D181D330D;
- Tue, 25 Aug 2020 04:56:56 +0000 (UTC)
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id F1CBB18224D86;
+ Tue, 25 Aug 2020 04:56:57 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
 X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:541:800:960:973:988:989:1260:1311:1314:1345:1359:1515:1534:1539:1568:1711:1714:1730:1747:1777:1792:2393:2559:2562:3138:3139:3140:3141:3142:3868:4321:5007:6261:10004:10848:11026:11658:11914:12043:12297:12438:12555:12895:12986:13069:13311:13357:13894:14096:14181:14384:14394:14721:21080:21627:30054,
+ RULES_HIT:41:355:379:541:800:960:973:988:989:1260:1311:1314:1345:1359:1515:1534:1541:1711:1730:1747:1777:1792:2393:2559:2562:3138:3139:3140:3141:3142:3354:3868:4321:5007:6261:10004:10848:11026:11473:11657:11658:11914:12043:12296:12297:12555:12895:12986:13069:13311:13357:13894:14096:14181:14384:14394:14721:21080:21627:30054,
  0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
  DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
  LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: queen35_181117e27059
-X-Filterd-Recvd-Size: 1682
+X-HE-Tag: plate89_1a11d3a27059
+X-Filterd-Recvd-Size: 2830
 Received: from joe-laptop.perches.com (unknown [47.151.133.149])
  (Authenticated sender: joe@perches.com)
  by omf08.hostedemail.com (Postfix) with ESMTPA;
- Tue, 25 Aug 2020 04:56:54 +0000 (UTC)
+ Tue, 25 Aug 2020 04:56:56 +0000 (UTC)
 From: Joe Perches <joe@perches.com>
-To: Jiri Kosina <trivial@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 08/29] dma-buf: Avoid comma separated statements
-Date: Mon, 24 Aug 2020 21:56:05 -0700
-Message-Id: <990bf6f33ccaf73ad56eb4bea8bd2c0db5e90a31.1598331148.git.joe@perches.com>
+To: Jiri Kosina <trivial@kernel.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 09/29] drm/gma500: Avoid comma separated statements
+Date: Mon, 24 Aug 2020 21:56:06 -0700
+Message-Id: <e96626cd1301ff44e5101e0e5913d8439b425c9f.1598331148.git.joe@perches.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <cover.1598331148.git.joe@perches.com>
 References: <cover.1598331148.git.joe@perches.com>
@@ -51,8 +51,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -62,27 +62,75 @@ Use semicolons and braces.
 
 Signed-off-by: Joe Perches <joe@perches.com>
 ---
- drivers/dma-buf/st-dma-fence.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/mdfld_intel_display.c | 44 +++++++++++++-------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-index e593064341c8..c8a12d7ad71a 100644
---- a/drivers/dma-buf/st-dma-fence.c
-+++ b/drivers/dma-buf/st-dma-fence.c
-@@ -471,8 +471,11 @@ static int thread_signal_callback(void *arg)
- 			dma_fence_signal(f1);
+diff --git a/drivers/gpu/drm/gma500/mdfld_intel_display.c b/drivers/gpu/drm/gma500/mdfld_intel_display.c
+index aae2d358364c..bfa330df9443 100644
+--- a/drivers/gpu/drm/gma500/mdfld_intel_display.c
++++ b/drivers/gpu/drm/gma500/mdfld_intel_display.c
+@@ -824,33 +824,45 @@ static int mdfld_crtc_mode_set(struct drm_crtc *crtc,
+ 		if ((ksel == KSEL_CRYSTAL_19) || (ksel == KSEL_BYPASS_19)) {
+ 			refclk = 19200;
  
- 		smp_store_mb(cb.seen, false);
--		if (!f2 || dma_fence_add_callback(f2, &cb.cb, simple_callback))
--			miss++, cb.seen = true;
-+		if (!f2 ||
-+		    dma_fence_add_callback(f2, &cb.cb, simple_callback)) {
-+			miss++;
-+			cb.seen = true;
-+		}
+-			if (is_mipi || is_mipi2)
+-				clk_n = 1, clk_p2 = 8;
+-			else if (is_hdmi)
+-				clk_n = 1, clk_p2 = 10;
++			if (is_mipi || is_mipi2) {
++				clk_n = 1;
++				clk_p2 = 8;
++			} else if (is_hdmi) {
++				clk_n = 1;
++				clk_p2 = 10;
++			}
+ 		} else if (ksel == KSEL_BYPASS_25) {
+ 			refclk = 25000;
  
- 		if (!t->before)
- 			dma_fence_signal(f1);
+-			if (is_mipi || is_mipi2)
+-				clk_n = 1, clk_p2 = 8;
+-			else if (is_hdmi)
+-				clk_n = 1, clk_p2 = 10;
++			if (is_mipi || is_mipi2) {
++				clk_n = 1;
++				clk_p2 = 8;
++			} else if (is_hdmi) {
++				clk_n = 1;
++				clk_p2 = 10;
++			}
+ 		} else if ((ksel == KSEL_BYPASS_83_100) &&
+ 					dev_priv->core_freq == 166) {
+ 			refclk = 83000;
+ 
+-			if (is_mipi || is_mipi2)
+-				clk_n = 4, clk_p2 = 8;
+-			else if (is_hdmi)
+-				clk_n = 4, clk_p2 = 10;
++			if (is_mipi || is_mipi2) {
++				clk_n = 4;
++				clk_p2 = 8;
++			} else if (is_hdmi) {
++				clk_n = 4;
++				clk_p2 = 10;
++			}
+ 		} else if ((ksel == KSEL_BYPASS_83_100) &&
+ 					(dev_priv->core_freq == 100 ||
+ 					dev_priv->core_freq == 200)) {
+ 			refclk = 100000;
+-			if (is_mipi || is_mipi2)
+-				clk_n = 4, clk_p2 = 8;
+-			else if (is_hdmi)
+-				clk_n = 4, clk_p2 = 10;
++			if (is_mipi || is_mipi2) {
++				clk_n = 4;
++				clk_p2 = 8;
++			} else if (is_hdmi) {
++				clk_n = 4;
++				clk_p2 = 10;
++			}
+ 		}
+ 
+ 		if (is_mipi)
 -- 
 2.26.0
 
