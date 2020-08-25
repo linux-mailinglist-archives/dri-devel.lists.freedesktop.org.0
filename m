@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AF9250F15
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 04:32:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD3B250F11
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 04:32:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BFAD6E817;
-	Tue, 25 Aug 2020 02:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93CE6E804;
+	Tue, 25 Aug 2020 02:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7BBA6E804
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 02:32:00 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id y65so1589495qtd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:32:00 -0700 (PDT)
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 332CB6E7F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 02:32:03 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id k18so7997356qtm.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Aug 2020 19:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UVrepQbKS5smnSSp+87jEgzSFfpHNiyewdFx9duqOuI=;
- b=nRvBhDEI2BV+7EkphcVZVX66VEDD/PwjhzFsTQK4NxX+EE6wLIEL664mNEQMeaUFKx
- OS1dJafMgXYxr8be451Uq1L8f1iq5lfV0il3Y1wQ7YUQhAQrqMvtH3kLIOe3J4znjE1s
- tPTo5RNXQtnvydNifkvx3L+nuKPNf/EPeNIbFLdXf+mXFzZp3AHcQDcuE9QpUXDAiJx2
- gd+Tmk4/NX3ImimYlJHQTLJcsf+SRjrFMrPOlNI6PcVZngoHv4W8XVRBTlAWJmReIpxC
- phUE1ngDlu0uCM/dUBIe4y7xLRpluQ74HrtCWtFilFkALDIZjw+M4wCFqAYnzqS1GKL7
- Ip1w==
+ bh=QOLsO/hnUA/LXpNmtoh/FCzJgvBB5RVzQBuVn0F6EAA=;
+ b=GnlNnUrB3sMP4jxWWpQpqDub903wvoeJbSB0z5dfsWOV/fjCLC7LRzWhQq3T/xNEZQ
+ 0oyjQocFVl2FkNKrWHDuNGrufhqD6JVg1rMCSn0oya2l3dlfs+yBFLNhnW7Vx5vQVzj3
+ KcacmqcEc3DvJ84CpHnOYRlOivWzmpOombsqJL6FvutA+60zfsZJydSqSrWzB3HTo50W
+ 856l/n+RRMHzAy3IG7/fFaK8nKh8KIMs/BMD81gvDVopZ7wsoIJ9w4pyNz9rAfS0SHhD
+ XztITviLzkqma1krM95XebPrvjyrVDrt1bH7FQbIGIX+r78u3qw3LaT4j7jhu8CrutwV
+ /BAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UVrepQbKS5smnSSp+87jEgzSFfpHNiyewdFx9duqOuI=;
- b=dPBEpL03vYMP1Qq0gy+UpZS0uTiihezqnqtDeB0aLc6hT1M89PPwWwBfH4VdUPKSbh
- GcWT9b89++7T7m1D74NmHd3TCd1kvFnwAOcBSfPEEdQDPt76ehplimb6NyoTOh9Y50CG
- qthEhRXGfXiG8A51kaexhdjxJBpgdpVxyXGs5GW1GRPMBWVeIdDwtnhzb2SjdbRvgY/6
- tVURcvO/mcm1lzKyVfGOUWzFL8Z1tEnliDVQPBV9wSHk9efdEXfGYZSwRr6GDBF8WD9A
- Cf9Ra4tTJ/4hf+wT4nXf/1jGYkNBVuCAQGWOjXzjkT0IzRcScM8GDB3SjsBTTIUoT8E5
- G6ig==
-X-Gm-Message-State: AOAM531e0L8+qo5aUYFL+yX/PNVeUEZk6XpESoMermnMipdMh3yiEf7F
- okuT5jnFW0ZQMfAwjPwpxqo=
-X-Google-Smtp-Source: ABdhPJyXGRbgzqM5yxyFWq1Z08wxyCE0jq38h47EW23TfJl30UMuiznhKk/MLSOCvZ8ETpHpO78l4w==
-X-Received: by 2002:ac8:4652:: with SMTP id f18mr7395756qto.142.1598322719808; 
- Mon, 24 Aug 2020 19:31:59 -0700 (PDT)
+ bh=QOLsO/hnUA/LXpNmtoh/FCzJgvBB5RVzQBuVn0F6EAA=;
+ b=Ppr37QvxrYbQz4YUFaTd274sGZTn7ful/cn8fI26BRwJpJWEZv7nwtr1Sb2cFmWAEG
+ +nhuAmwQBY3ULCfRyVP5Z/CNVwh5e9dRWvMHxbVO4fxjCT5WmHgeI9dCPFL9mMlVt9Q4
+ gEFhkrzQ9dTOXzqHwwSnWCaw2n5Vkw+/oj7mk8qZKcwFD0MCZkZkmraJQU+697zIGjb6
+ q/BRulHXKKoDehqD0oE2x/JaJnsijvZF0VZG5hnQtqSphA3hBdSBVE75n7tBM4uL9e13
+ GihcLi5HvrlMo2AI4N2GIBzUObC11abdUxpaYK2cFB9LGjHKSVVeWkeKPK1qG/SkuO3E
+ 9gKg==
+X-Gm-Message-State: AOAM5327WYTrYqkvpvi2yvX9GzcDPGKHRrzR1sfj48HfITMir1F3pfdA
+ onQeDTX/DV39yfCwo+dWR2k=
+X-Google-Smtp-Source: ABdhPJyvGty6paSSOX3Q5MrEImvZC95pdW0pTY4moROBRByKUhesYuLqBN0xMlmfMPPic2NnseeStw==
+X-Received: by 2002:ac8:33a1:: with SMTP id c30mr3978255qtb.156.1598322720872; 
+ Mon, 24 Aug 2020 19:32:00 -0700 (PDT)
 Received: from atma2.hitronhub.home ([2607:fea8:56e0:6d60::2db6])
- by smtp.gmail.com with ESMTPSA id x137sm11095372qkb.47.2020.08.24.19.31.58
+ by smtp.gmail.com with ESMTPSA id x137sm11095372qkb.47.2020.08.24.19.31.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 19:31:59 -0700 (PDT)
+ Mon, 24 Aug 2020 19:32:00 -0700 (PDT)
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 2/3] drm/vkms: Compute CRC without change input data
-Date: Mon, 24 Aug 2020 22:31:41 -0400
-Message-Id: <20200825023142.2561220-3-rodrigosiqueiramelo@gmail.com>
+Subject: [PATCH v5 3/3] drm/vkms: Add support for writeback
+Date: Mon, 24 Aug 2020 22:31:42 -0400
+Message-Id: <20200825023142.2561220-4-rodrigosiqueiramelo@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
 References: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
@@ -75,86 +75,339 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The compute_crc() function is responsible for calculating the
-framebuffer CRC value; due to the XRGB format, this function has to
-ignore the alpha channel during the CRC computation. Therefore,
-compute_crc() set zero to the alpha channel directly in the input
-framebuffer, which is not a problem since this function receives a copy
-of the original buffer. However, if we want to use this function in a
-context without a buffer copy, it will change the initial value. This
-patch makes compute_crc() calculate the CRC value without modifying the
-input framebuffer.
+This patch implements the necessary functions to add writeback support
+for vkms. This feature is useful for testing compositors if you don't
+have hardware with writeback support.
 
-Change in V4 (Emil):
-- Move bitmap_clear operation and comments to get_pixel function
+Change in V4 (Emil and Melissa):
+- Move signal completion above drm_crtc_add_crc_entry()
+- Make writeback always available
+- Use appropriate namespace
+- Drop fb check in vkms_wb_atomic_commit
+- Make vkms_set_composer visible for writeback code
+- Enable composer operation on prepare_job and disable it on cleanup_job
+
+Change in V3 (Daniel):
+- If writeback is enabled, compose everything into the writeback buffer
+instead of CRC private buffer
+- Guarantees that the CRC will match exactly what we have in the
+writeback buffer.
+
+Change in V2:
+- Rework signal completion (Brian)
+- Integrates writeback with active_planes (Daniel)
+- Compose cursor (Daniel)
 
 Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 38 ++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/vkms/Makefile         |   9 +-
+ drivers/gpu/drm/vkms/vkms_composer.c  |  21 +++-
+ drivers/gpu/drm/vkms/vkms_drv.h       |  11 +-
+ drivers/gpu/drm/vkms/vkms_output.c    |   4 +
+ drivers/gpu/drm/vkms/vkms_writeback.c | 143 ++++++++++++++++++++++++++
+ 5 files changed, 181 insertions(+), 7 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_writeback.c
 
+diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+index 0b767d7efa24..333d3cead0e3 100644
+--- a/drivers/gpu/drm/vkms/Makefile
++++ b/drivers/gpu/drm/vkms/Makefile
+@@ -1,4 +1,11 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-vkms-y := vkms_drv.o vkms_plane.o vkms_output.o vkms_crtc.o vkms_gem.o vkms_composer.o
++vkms-y := \
++	vkms_drv.o \
++	vkms_plane.o \
++	vkms_output.o \
++	vkms_crtc.o \
++	vkms_gem.o \
++	vkms_composer.o \
++	vkms_writeback.o
+ 
+ obj-$(CONFIG_DRM_VKMS) += vkms.o
 diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 4d8bc04bb6ee..387b0690a64a 100644
+index 387b0690a64a..656085c4ebf3 100644
 --- a/drivers/gpu/drm/vkms/vkms_composer.c
 +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -9,33 +9,43 @@
+@@ -163,16 +163,17 @@ void vkms_composer_worker(struct work_struct *work)
+ 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+ 	struct vkms_composer *primary_composer = NULL;
+ 	struct vkms_composer *cursor_composer = NULL;
++	bool crc_pending, wb_pending;
+ 	void *vaddr_out = NULL;
+ 	u32 crc32 = 0;
+ 	u64 frame_start, frame_end;
+-	bool crc_pending;
+ 	int ret;
  
- #include "vkms_drv.h"
+ 	spin_lock_irq(&out->composer_lock);
+ 	frame_start = crtc_state->frame_start;
+ 	frame_end = crtc_state->frame_end;
+ 	crc_pending = crtc_state->crc_pending;
++	wb_pending = crtc_state->wb_pending;
+ 	crtc_state->frame_start = 0;
+ 	crtc_state->frame_end = 0;
+ 	crtc_state->crc_pending = false;
+@@ -194,22 +195,32 @@ void vkms_composer_worker(struct work_struct *work)
+ 	if (!primary_composer)
+ 		return;
  
-+static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
-+				 const struct vkms_composer *composer)
-+{
-+	u32 pixel;
-+	int src_offset = composer->offset + (y * composer->pitch)
-+				      + (x * composer->cpp);
++	if (wb_pending)
++		vaddr_out = crtc_state->active_writeback;
 +
-+	pixel = *(u32 *)&buffer[src_offset];
-+	/* XRGB format ignores Alpha channel */
-+	bitmap_clear((void *)&pixel, 0, 8);
-+
-+	return pixel;
-+}
-+
- /**
-  * compute_crc - Compute CRC value on output frame
-  *
-- * @vaddr_out: address to final framebuffer
-+ * @vaddr: address to final framebuffer
-  * @composer: framebuffer's metadata
-  *
-  * returns CRC value computed using crc32 on the visible portion of
-  * the final framebuffer at vaddr_out
-  */
--static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
-+static uint32_t compute_crc(const u8 *vaddr,
-+			    const struct vkms_composer *composer)
- {
--	int i, j, src_offset;
-+	int x, y;
-+	u32 crc = 0, pixel = 0;
- 	int x_src = composer->src.x1 >> 16;
- 	int y_src = composer->src.y1 >> 16;
- 	int h_src = drm_rect_height(&composer->src) >> 16;
- 	int w_src = drm_rect_width(&composer->src) >> 16;
--	u32 crc = 0;
--
--	for (i = y_src; i < y_src + h_src; ++i) {
--		for (j = x_src; j < x_src + w_src; ++j) {
--			src_offset = composer->offset
--				     + (i * composer->pitch)
--				     + (j * composer->cpp);
--			/* XRGB format ignores Alpha channel */
--			bitmap_clear(vaddr_out + src_offset, 24, 8);
--			crc = crc32_le(crc, vaddr_out + src_offset,
--				       sizeof(u32));
-+
-+	for (y = y_src; y < y_src + h_src; ++y) {
-+		for (x = x_src; x < x_src + w_src; ++x) {
-+			pixel = get_pixel_from_buffer(x, y, vaddr, composer);
-+			crc = crc32_le(crc, (void *)&pixel, sizeof(u32));
- 		}
+ 	ret = compose_planes(&vaddr_out, primary_composer, cursor_composer);
+ 	if (ret) {
+-		if (ret == -EINVAL)
++		if (ret == -EINVAL && !wb_pending)
+ 			kfree(vaddr_out);
+ 		return;
  	}
  
+ 	crc32 = compute_crc(vaddr_out, primary_composer);
+ 
++	if (wb_pending) {
++		drm_writeback_signal_completion(&out->wb_connector, 0);
++		spin_lock_irq(&out->composer_lock);
++		crtc_state->wb_pending = false;
++		spin_unlock_irq(&out->composer_lock);
++	} else {
++		kfree(vaddr_out);
++	}
++
+ 	/*
+ 	 * The worker can fall behind the vblank hrtimer, make sure we catch up.
+ 	 */
+ 	while (frame_start <= frame_end)
+ 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
+-
+-	kfree(vaddr_out);
+ }
+ 
+ static const char * const pipe_crc_sources[] = {"auto"};
+@@ -252,7 +263,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
+ 	return 0;
+ }
+ 
+-static void vkms_set_composer(struct vkms_output *out, bool enabled)
++void vkms_set_composer(struct vkms_output *out, bool enabled)
+ {
+ 	bool old_enabled;
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index f4036bb0b9a8..641d8bc52a3a 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -8,6 +8,7 @@
+ #include <drm/drm.h>
+ #include <drm/drm_gem.h>
+ #include <drm/drm_encoder.h>
++#include <drm/drm_writeback.h>
+ 
+ #define XRES_MIN    20
+ #define YRES_MIN    20
+@@ -19,6 +20,7 @@
+ #define YRES_MAX  8192
+ 
+ extern bool enable_cursor;
++extern bool enable_writeback;
+ 
+ struct vkms_composer {
+ 	struct drm_framebuffer fb;
+@@ -52,9 +54,11 @@ struct vkms_crtc_state {
+ 	int num_active_planes;
+ 	/* stack of active planes for crc computation, should be in z order */
+ 	struct vkms_plane_state **active_planes;
++	void *active_writeback;
+ 
+-	/* below three are protected by vkms_output.composer_lock */
++	/* below four are protected by vkms_output.composer_lock */
+ 	bool crc_pending;
++	bool wb_pending;
+ 	u64 frame_start;
+ 	u64 frame_end;
+ };
+@@ -63,6 +67,7 @@ struct vkms_output {
+ 	struct drm_crtc crtc;
+ 	struct drm_encoder encoder;
+ 	struct drm_connector connector;
++	struct drm_writeback_connector wb_connector;
+ 	struct hrtimer vblank_hrtimer;
+ 	ktime_t period_ns;
+ 	struct drm_pending_vblank_event *event;
+@@ -143,5 +148,9 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+ 
+ /* Composer Support */
+ void vkms_composer_worker(struct work_struct *work);
++void vkms_set_composer(struct vkms_output *out, bool enabled);
++
++/* Writeback */
++int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+ 
+ #endif /* _VKMS_DRV_H_ */
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 85afb77e97f0..4a1848b0318f 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -80,6 +80,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 		goto err_attach;
+ 	}
+ 
++	ret = vkms_enable_writeback_connector(vkmsdev);
++	if (ret)
++		DRM_ERROR("Failed to init writeback connector\n");
++
+ 	drm_mode_config_reset(dev);
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+new file mode 100644
+index 000000000000..ddcd5ad0d7aa
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include "vkms_drv.h"
++#include <drm/drm_fourcc.h>
++#include <drm/drm_writeback.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++
++static const u32 vkms_wb_formats[] = {
++	DRM_FORMAT_XRGB8888,
++};
++
++static const struct drm_connector_funcs vkms_wb_connector_funcs = {
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.reset = drm_atomic_helper_connector_reset,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
++					struct drm_crtc_state *crtc_state,
++					struct drm_connector_state *conn_state)
++{
++	struct drm_framebuffer *fb;
++	const struct drm_display_mode *mode = &crtc_state->mode;
++
++	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
++		return 0;
++
++	fb = conn_state->writeback_job->fb;
++	if (fb->width != mode->hdisplay || fb->height != mode->vdisplay) {
++		DRM_DEBUG_KMS("Invalid framebuffer size %ux%u\n",
++			      fb->width, fb->height);
++		return -EINVAL;
++	}
++
++	if (fb->format->format != vkms_wb_formats[0]) {
++		struct drm_format_name_buf format_name;
++
++		DRM_DEBUG_KMS("Invalid pixel format %s\n",
++			      drm_get_format_name(fb->format->format,
++						  &format_name));
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static const struct drm_encoder_helper_funcs vkms_wb_encoder_helper_funcs = {
++	.atomic_check = vkms_wb_encoder_atomic_check,
++};
++
++static int vkms_wb_connector_get_modes(struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++
++	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
++				    dev->mode_config.max_height);
++}
++
++static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
++			       struct drm_writeback_job *job)
++{
++	struct vkms_gem_object *vkms_obj;
++	struct drm_gem_object *gem_obj;
++	int ret;
++
++	if (!job->fb)
++		return 0;
++
++	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
++	ret = vkms_gem_vmap(gem_obj);
++	if (ret) {
++		DRM_ERROR("vmap failed: %d\n", ret);
++		return ret;
++	}
++
++	vkms_obj = drm_gem_to_vkms_gem(gem_obj);
++	job->priv = vkms_obj->vaddr;
++
++	return 0;
++}
++
++static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
++				struct drm_writeback_job *job)
++{
++	struct drm_gem_object *gem_obj;
++	struct vkms_device *vkmsdev;
++
++	if (!job->fb)
++		return;
++
++	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
++	vkms_gem_vunmap(gem_obj);
++
++	vkmsdev = drm_device_to_vkms_device(gem_obj->dev);
++	vkms_set_composer(&vkmsdev->output, false);
++}
++
++static void vkms_wb_atomic_commit(struct drm_connector *conn,
++				  struct drm_connector_state *state)
++{
++	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
++	struct vkms_output *output = &vkmsdev->output;
++	struct drm_writeback_connector *wb_conn = &output->wb_connector;
++	struct drm_connector_state *conn_state = wb_conn->base.state;
++	struct vkms_crtc_state *crtc_state = output->composer_state;
++
++	if (!conn_state)
++		return;
++
++	vkms_set_composer(&vkmsdev->output, true);
++
++	spin_lock_irq(&output->composer_lock);
++	crtc_state->active_writeback = conn_state->writeback_job->priv;
++	crtc_state->wb_pending = true;
++	spin_unlock_irq(&output->composer_lock);
++	drm_writeback_queue_job(wb_conn, state);
++}
++
++static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
++	.get_modes = vkms_wb_connector_get_modes,
++	.prepare_writeback_job = vkms_wb_prepare_job,
++	.cleanup_writeback_job = vkms_wb_cleanup_job,
++	.atomic_commit = vkms_wb_atomic_commit,
++};
++
++int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
++{
++	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
++
++	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
++	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
++
++	return drm_writeback_connector_init(&vkmsdev->drm, wb,
++					    &vkms_wb_connector_funcs,
++					    &vkms_wb_encoder_helper_funcs,
++					    vkms_wb_formats,
++					    ARRAY_SIZE(vkms_wb_formats));
++}
++
 -- 
 2.28.0
 
