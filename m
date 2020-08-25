@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E202528D3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4942528CC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C74EE6EA36;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F37A6EA31;
 	Wed, 26 Aug 2020 08:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71D1B6E892
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 09:02:20 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id u24so10972481oic.7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 02:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ecZcPI7/Sf2QaHnt5CgELAxXcrAGGkNqcsMqK1lVfB4=;
- b=xHKPdF2fYixOmSv2xi/QN72gXFaQ62tcmQeB1kihvvEW7ovkTOv3AxUEXQFIM/kk34
- uaNMWV6BbQQvT6tp1eU8hYpjYUAxYWbxh01HVE06HK3fvSee7t85yr3WF7sXkoADaX8s
- Bj2Lt0BhWUAf6ofcwjRW+vyB2/cPsu3Mv9C3pYe4n5tpU+mUZ/jn2SgxGWzyE9ntwcT9
- v4wxmTKXS9cRIYI9jSRzvGtGefk7QxXy9kBgvFI/i7Sd6RGYfnzHeZ2RR4xnJpz6zYnT
- JEww+u6lHVdVIX2rX5bU28FzA4DL/fCXh9ZyMCwb+dFg8Z+8dB6WPCicc2SE5cqH3h2Y
- GE0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ecZcPI7/Sf2QaHnt5CgELAxXcrAGGkNqcsMqK1lVfB4=;
- b=GjaMsTX7+6S5vpy6fEFDKRiS0L+CS65EWKyVBXj2uz2c5gniEJBMmdc75ETmR0YZ1A
- hXoTPqNk0RQN924Yz3zAfRv5pckKmkYAVfRK4m/6SAJZtSY//ho6NNyegjDNxr88VnuA
- QIyRjKixZAoHp8pv8TARXB/7UWy0wo6EMA4azz0rHAi9NB0JXMU67Zqc3u9SEiKHXDe1
- p3k5NaZYED6Y0puOJYqAjHjWrzTQPaA1njJY+r0Z0nUHeUF3+qHqCjAdXRMOzK/QglZR
- fjbtHtUwdjWONnEaOyuHB+iUaTUpK/KfFj5qkHoXZf2Ua+ckQ/9/iDpu41E3Qg54USCx
- oibQ==
-X-Gm-Message-State: AOAM5337rlM5zFGx0d2eCFs9GFjDpx88hiEVCSmRZv0kEEAaZhHmLqU6
- y7gZkq4LSqdnWJXjG2nUTstLR9JV80Bj9oGVKd8XaA==
-X-Google-Smtp-Source: ABdhPJwwiFD4pBHewOtnzV/X5MtjNH663zCRpk0ncltSp+zcIRGso9TBIJYwFINA0I6H+hJQg4l8D4OJycQ/WqLqmYs=
-X-Received: by 2002:aca:d8c5:: with SMTP id p188mr422064oig.47.1598346139780; 
- Tue, 25 Aug 2020 02:02:19 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609296E896
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 09:54:07 +0000 (UTC)
+IronPort-SDR: 73RtAwARe3uh2UplF6BpddoE9bwnH9TTLWuAvUI1GatMNEnyGxIgX5/rWM2HhUBRPqm2lALufv
+ geuie1SYDHJg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="155336629"
+X-IronPort-AV: E=Sophos;i="5.76,352,1592895600"; d="scan'208";a="155336629"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2020 02:54:06 -0700
+IronPort-SDR: fXpejcZSxOQzAYQmsZusBmHI4H12+oJKHHrXIpgIPlgnPNsjR6YUhbnDxGUVZmoVHxv6yRdqze
+ zyT2d6eDyJew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,352,1592895600"; d="scan'208";a="328813544"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga008.jf.intel.com with ESMTP; 25 Aug 2020 02:53:54 -0700
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1kAVVq-00BIMP-3K; Tue, 25 Aug 2020 12:45:06 +0300
+Date: Tue, 25 Aug 2020 12:45:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jim Quinlan <james.quinlan@broadcom.com>
+Subject: Re: [PATCH v11 07/11] device-mapping: Introduce DMA range map,
+ supplanting dma_pfn_offset
+Message-ID: <20200825094506.GR1891694@smile.fi.intel.com>
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+ <20200824193036.6033-8-james.quinlan@broadcom.com>
 MIME-Version: 1.0
-References: <CAHUa44FrxidzSUOM_JchOTa5pF6P+j8uZJA5DpKfGLWaS6tCcw@mail.gmail.com>
- <20200824211125.1867329-1-jhubbard@nvidia.com> <20200825083204.GA2068961@jade>
- <1f111bb4-6e93-93d5-66ff-b9d4d456140f@nvidia.com>
-In-Reply-To: <1f111bb4-6e93-93d5-66ff-b9d4d456140f@nvidia.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 25 Aug 2020 11:02:08 +0200
-Message-ID: <CAHUa44FnAmK-Qm+AQ8SqqHPZSRrmp4oOichp5yO212b3y_LAJg@mail.gmail.com>
-Subject: Re: [PATCH v3] tee: convert convert get_user_pages() -->
- pin_user_pages()
-To: John Hubbard <jhubbard@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <20200824193036.6033-8-james.quinlan@broadcom.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Wed, 26 Aug 2020 08:04:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,44 +55,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>,
- SoC Team <soc@kernel.org>, arm-soc <arm@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
+Cc: Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-pci@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
+ Ingo Molnar <mingo@redhat.com>, bcm-kernel-feedback-list@broadcom.com,
+ Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 25, 2020 at 10:54 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 8/25/20 1:32 AM, Jens Wiklander wrote:
-> > On Mon, Aug 24, 2020 at 02:11:25PM -0700, John Hubbard wrote:
-> ...
-> >> OK, one more try, this time actually handling the _USER_MAPPED vs.
-> >> _KERNEL_MAPPED pages!
-> >>
-> >> thanks,
-> >> John Hubbard
-> >> NVIDIA
-> >
-> > Looks good and it works too! :-) I've tested it on my Hikey board with
-> > the OP-TEE test suite.
-> > I'm picking this up.
-> >
->
-> Great! I see that I have, once again, somehow doubled up on the subject line:
-> "tee: convert convert ...". This particular typo just seems to stick to me. :)
->
-> If you get a chance to fix that up by changing it to just a single "convert"
-> I'd appreciate it.
+On Mon, Aug 24, 2020 at 03:30:20PM -0400, Jim Quinlan wrote:
+> The new field 'dma_range_map' in struct device is used to facilitate the
+> use of single or multiple offsets between mapping regions of cpu addrs and
+> dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
+> capable of holding a single uniform offset and had no region bounds
+> checking.
+> 
+> The function of_dma_get_range() has been modified so that it takes a single
+> argument -- the device node -- and returns a map, NULL, or an error code.
+> The map is an array that holds the information regarding the DMA regions.
+> Each range entry contains the address offset, the cpu_start address, the
+> dma_start address, and the size of the region.
+> 
+> of_dma_configure() is the typical manner to set range offsets but there are
+> a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
+> driver code.  These cases now invoke the function
+> dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
 
-Sure, no problem.
+...
 
-Cheers,
-Jens
+> +	/*
+> +	 * Record all info in the generic DMA ranges array for struct device.
+> +	 */
+> +	*map = r;
+> +	for_each_of_range(&parser, &range) {
+> +		pr_debug("dma_addr(%llx) cpu_addr(%llx) size(%llx)\n",
+> +			 range.bus_addr, range.cpu_addr, range.size);
+> +		r->cpu_start = range.cpu_addr;
+> +		r->dma_start = range.bus_addr;
+> +		r->size = range.size;
+
+> +		r->offset = (u64)range.cpu_addr - (u64)range.bus_addr;
+
+What's the point in explicit castings to the same type?
+
+> +		r++;
+> +	}
+
+...
+
+> +		phys_addr_t	paddr;
+> +		dma_addr_t	dma_addr;
+> +		struct device	dev_bogus;
+
+>  		unittest(paddr == expect_paddr,
+> -			 "of_dma_get_range wrong phys addr (%llx) on node %pOF", paddr, np);
+> +			 "of_dma_get_range: wrong phys addr %llx (expecting %llx) on node %pOF\n",
+> +			 (u64)paddr, expect_paddr, np);
+
+%llx -> %pap
+
+>  		unittest(dma_addr == expect_dma_addr,
+> -			 "of_dma_get_range wrong DMA addr (%llx) on node %pOF", dma_addr, np);
+> +			 "of_dma_get_range: wrong DMA addr %llx (expecting %llx) on node %pOF\n",
+> +			 (u64)dma_addr, expect_dma_addr, np);
+
+%llx -> %pad
+
+...
+
+> +	if (mem->use_dev_dma_pfn_offset) {
+> +		u64 base_addr = PFN_PHYS((u64)mem->pfn_base);
+
+Do we need explicit casting here?
+
+> +
+> +		return base_addr - dma_offset_from_phys_addr(dev, base_addr);
+> +	}
+
+...
+
+> +int dma_set_offset_range(struct device *dev, phys_addr_t cpu_start,
+> +			 dma_addr_t dma_start, u64 size)
+> +{
+> +	struct bus_dma_region *map;
+> +	u64 offset = (u64)cpu_start - (u64)dma_start;
+> +
+> +	if (dev->dma_range_map) {
+> +		dev_err(dev, "attempt to add DMA range to existing map\n");
+> +		return -EINVAL;
+> +	}
+
+Wouldn't be better to do an assignment of offset here?
+
+> +	if (!offset)
+> +		return 0;
+> +
+> +	map = kcalloc(2, sizeof(*map), GFP_KERNEL);
+> +	if (!map)
+> +		return -ENOMEM;
+> +	map[0].cpu_start = cpu_start;
+> +	map[0].dma_start = dma_start;
+> +	map[0].offset = offset;
+> +	map[0].size = size;
+> +	dev->dma_range_map = map;
+> +
+> +	return 0;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
