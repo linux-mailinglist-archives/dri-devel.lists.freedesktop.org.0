@@ -1,52 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50780252143
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 21:52:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5742521E2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 22:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0341E6E9B8;
-	Tue, 25 Aug 2020 19:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B4996E5C0;
+	Tue, 25 Aug 2020 20:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B71876E9B8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 19:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598385107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0voShhwhtzYr2KtRr3u+pQ89aQmDPNWLEdGZaEsKjCQ=;
- b=LX12CmdpaMF2FkEiJ37hvq3fjJKGNMwV3tZ/oH5BJKK54ASNuu8fcPJpeH3wGnek1eLZ7y
- ptTkSSGvNM/lm3Uaroe3eH/V0AcKePtNB9HjQlOrKzXPPuqiWR3WH2sbpHE2aJgsr84Kj7
- 3y/zqkpw4fUhRdTHpHO72YCFiDlyDac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-lc_8cC68MTm4hOMmE-6Rwg-1; Tue, 25 Aug 2020 15:51:44 -0400
-X-MC-Unique: lc_8cC68MTm4hOMmE-6Rwg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91CD36E5C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 20:22:03 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DB6851AE;
- Tue, 25 Aug 2020 19:51:42 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-120-227.rdu2.redhat.com
- [10.10.120.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E17B15D9D3;
- Tue, 25 Aug 2020 19:51:41 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [RFC v4 20/20] drm/nouveau/kms: Start using drm_dp_read_dpcd_caps()
-Date: Tue, 25 Aug 2020 15:50:27 -0400
-Message-Id: <20200825195027.74681-21-lyude@redhat.com>
-In-Reply-To: <20200825195027.74681-1-lyude@redhat.com>
-References: <20200825195027.74681-1-lyude@redhat.com>
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 199B620024;
+ Tue, 25 Aug 2020 22:21:54 +0200 (CEST)
+Date: Tue, 25 Aug 2020 22:21:53 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200825202153.GA237836@ravnborg.org>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819174027.70b39ee9@coco.lan>
+ <20200819173558.GA3733@ravnborg.org>
+ <20200821155801.0b820fc6@coco.lan>
+ <20200821155505.GA300361@ravnborg.org>
+ <20200824180225.1a515b6a@coco.lan>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Disposition: inline
+In-Reply-To: <20200824180225.1a515b6a@coco.lan>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=jmfwfdV-BNFhccFjUE8A:9
+ a=CjuIK1q_8ugA:10 a=pBTelFdiagIA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,52 +51,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Liwei Cai <cailiwei@hisilicon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Alexei Starovoitov <ast@kernel.org>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
+ Rob Clark <robdclark@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liuyao An <anliuyao@huawei.com>, netdev@vger.kernel.org,
+ Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we've extracted i915's code for reading both the normal DPCD
-caps and extended DPCD caps into a shared helper, let's start using this
-in nouveau to enable us to start checking extended DPCD caps for free.
+Hi Mauro.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_dp.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Laurent and I discussed this driver a little on irc.
+Some highlights:
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index 89afc97ee2591..271a0a863a0e1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -55,15 +55,13 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 	int ret;
- 	u8 *dpcd = outp->dp.dpcd;
- 
--	ret = drm_dp_dpcd_read(aux, DP_DPCD_REV, dpcd, DP_RECEIVER_CAP_SIZE);
--	if (ret == DP_RECEIVER_CAP_SIZE && dpcd[DP_DPCD_REV]) {
--		ret = drm_dp_read_desc(aux, &outp->dp.desc,
--				       drm_dp_is_branch(dpcd));
--		if (ret < 0)
--			goto out;
--	} else {
-+	ret = drm_dp_read_dpcd_caps(aux, dpcd);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = drm_dp_read_desc(aux, &outp->dp.desc, drm_dp_is_branch(dpcd));
-+	if (ret < 0)
- 		goto out;
--	}
- 
- 	if (nouveau_mst) {
- 		mstm = outp->dp.mstm;
--- 
-2.26.2
+This parts could use register names:
++       writel(0x2, noc_dss_base + 0xc);
++       writel(0x2, noc_dss_base + 0x8c);
++       writel(0x2, noc_dss_base + 0x10c);
++       writel(0x2, noc_dss_base + 0x18c);
 
+The two nodes in the DT for DPE and DSI uses overlapping range for reg
+entries. It looks like a syscon node or some iommu thing is needed to do
+this properly.
+
+The chain will lok like this:
+
+DPE -> DSI -> video mux -> {adv7533, panel}
+
+But drm_bridge has not yet support for such non-linear setup.
+The recommendation is to focus on the HDMI prat. Then we can later
+come up with support for a video mux.
+
+The video mux should have a dedicated node with one input node and two
+output nodes. Which is also where the gpio should be.
+
+The DSI node references two DPHY instances - should it be PHY driver(s)?
+
+Does the DSI part contain one or two instances. Clocks looks duplicated.
+
+Does the DPE and DSI share a lot of register blocks - or does it just
+look like this from a first point of view?
+
+You can read though the logs here:
+https://people.freedesktop.org/~cbrill/dri-log/index.php
+
+Could you please try to get back on some of the points above so we can
+help you move forward in the right direction.
+
+Thanks,
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
