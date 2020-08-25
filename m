@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B3F2528E7
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:06:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E202528D3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2D889D7D;
-	Wed, 26 Aug 2020 08:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C74EE6EA36;
+	Wed, 26 Aug 2020 08:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
- Tue, 25 Aug 2020 13:42:03 UTC
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3E16E42A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 13:42:03 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id BDD43C41;
- Tue, 25 Aug 2020 09:35:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 25 Aug 2020 09:35:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=VVtlW4HhdtLjXxeuomS0ncEugVO
- xoM1/RkR8Lb06Uu8=; b=RoWNw4NKNj/bo2BclZ6HWv24uk7sVQAtdsimNHyLzZe
- 0yZEQQxcS18OjLkqSKhhKV1Jv78o0UHGOgDADSdlpkStNmcVqTGGxA3EqVwqa8gV
- 2Hl243tGBGlZRIebV7Y5v8oITRdx/jzZqVm0hmyxzzq2RjP4GL26GODGrTpR2jmk
- whHndsPso4pNAbbPnQ+N1Aceiqmaopy5S91vqU+n/XS8oILQBCRns4KrFTz8DQOw
- 5rKXGPBSdqODUaYy8fcgPMDZkcoHXgQ0+UuG3j60GykO1LdcgyFmuo/hVAqDdTwL
- IZLqx3kj2O5psWEP0je5YQ9+Xcw2vk2V8URGy1GG9lg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=VVtlW4
- HhdtLjXxeuomS0ncEugVOxoM1/RkR8Lb06Uu8=; b=kSElpLqyWDgFaTEm16ppG3
- p10cDp/f3+RuHxdQhL5eJwBB5DlcaqzQa0rEPhH3d8wOTvgwlH/nuXVVtpWSxCK6
- I+kPVTW2wcFx5cZSoWZgCL/FQVS+8UrabvbFL25/HxhcEuwhc+Zy0MIsx0SXo6Ip
- qvlpz0V4In0BD9qcpAksfTOQFAT4itOgk8qzDE6Tik9yBLXDBZ3/Y/mNkP+NnjIM
- pNRIp403w5B635yfl5F6GK2G9odzQQwDxP0lp92+kLbQXMTU0Wj9Wcai6kr8grBT
- LmrmE0zSxQ/RU86zSqLef+uKutezy7m0ly2xbpmtcCGXAVn8qZZaAcVrDfTaRddQ
- ==
-X-ME-Sender: <xms:uxNFXwC1BbrdST-ojgpYHi7mU6j962QR4yysdYsYC0wJrGvAabRjpw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvtddgieelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepjeenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:uxNFXygtAnnreRsIA2TwVkzT1GLfgqHC150PBWfF1RWfppnZqs-4Ow>
- <xmx:uxNFXzmCv8JxbUoItmpMNdcy3zU1DlPSiLDsW4u3GiUrmx5O-eZidA>
- <xmx:uxNFX2wU-blq4aLQ60tO5oCFuYlLvBtx_cDr8cCx1nu3TSZDsP6OSg>
- <xmx:vBNFX2RRcSbsIhEQkNtGzh4o-LPJ1ESPmpimLf2eWPvSdTUhL2g9afrcvMU>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6F4ED30600B1;
- Tue, 25 Aug 2020 09:35:55 -0400 (EDT)
-Date: Tue, 25 Aug 2020 10:39:02 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH 0/2] ARM: dts: sun8i: r40: Enable mali400 GPU
-Message-ID: <20200825083902.5o54lltoglbs3cui@gilmour.lan>
-References: <20200824150434.951693-1-jernej.skrabec@siol.net>
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D1B6E892
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 09:02:20 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id u24so10972481oic.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 02:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ecZcPI7/Sf2QaHnt5CgELAxXcrAGGkNqcsMqK1lVfB4=;
+ b=xHKPdF2fYixOmSv2xi/QN72gXFaQ62tcmQeB1kihvvEW7ovkTOv3AxUEXQFIM/kk34
+ uaNMWV6BbQQvT6tp1eU8hYpjYUAxYWbxh01HVE06HK3fvSee7t85yr3WF7sXkoADaX8s
+ Bj2Lt0BhWUAf6ofcwjRW+vyB2/cPsu3Mv9C3pYe4n5tpU+mUZ/jn2SgxGWzyE9ntwcT9
+ v4wxmTKXS9cRIYI9jSRzvGtGefk7QxXy9kBgvFI/i7Sd6RGYfnzHeZ2RR4xnJpz6zYnT
+ JEww+u6lHVdVIX2rX5bU28FzA4DL/fCXh9ZyMCwb+dFg8Z+8dB6WPCicc2SE5cqH3h2Y
+ GE0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ecZcPI7/Sf2QaHnt5CgELAxXcrAGGkNqcsMqK1lVfB4=;
+ b=GjaMsTX7+6S5vpy6fEFDKRiS0L+CS65EWKyVBXj2uz2c5gniEJBMmdc75ETmR0YZ1A
+ hXoTPqNk0RQN924Yz3zAfRv5pckKmkYAVfRK4m/6SAJZtSY//ho6NNyegjDNxr88VnuA
+ QIyRjKixZAoHp8pv8TARXB/7UWy0wo6EMA4azz0rHAi9NB0JXMU67Zqc3u9SEiKHXDe1
+ p3k5NaZYED6Y0puOJYqAjHjWrzTQPaA1njJY+r0Z0nUHeUF3+qHqCjAdXRMOzK/QglZR
+ fjbtHtUwdjWONnEaOyuHB+iUaTUpK/KfFj5qkHoXZf2Ua+ckQ/9/iDpu41E3Qg54USCx
+ oibQ==
+X-Gm-Message-State: AOAM5337rlM5zFGx0d2eCFs9GFjDpx88hiEVCSmRZv0kEEAaZhHmLqU6
+ y7gZkq4LSqdnWJXjG2nUTstLR9JV80Bj9oGVKd8XaA==
+X-Google-Smtp-Source: ABdhPJwwiFD4pBHewOtnzV/X5MtjNH663zCRpk0ncltSp+zcIRGso9TBIJYwFINA0I6H+hJQg4l8D4OJycQ/WqLqmYs=
+X-Received: by 2002:aca:d8c5:: with SMTP id p188mr422064oig.47.1598346139780; 
+ Tue, 25 Aug 2020 02:02:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200824150434.951693-1-jernej.skrabec@siol.net>
+References: <CAHUa44FrxidzSUOM_JchOTa5pF6P+j8uZJA5DpKfGLWaS6tCcw@mail.gmail.com>
+ <20200824211125.1867329-1-jhubbard@nvidia.com> <20200825083204.GA2068961@jade>
+ <1f111bb4-6e93-93d5-66ff-b9d4d456140f@nvidia.com>
+In-Reply-To: <1f111bb4-6e93-93d5-66ff-b9d4d456140f@nvidia.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 25 Aug 2020 11:02:08 +0200
+Message-ID: <CAHUa44FnAmK-Qm+AQ8SqqHPZSRrmp4oOichp5yO212b3y_LAJg@mail.gmail.com>
+Subject: Re: [PATCH v3] tee: convert convert get_user_pages() -->
+ pin_user_pages()
+To: John Hubbard <jhubbard@nvidia.com>
 X-Mailman-Approved-At: Wed, 26 Aug 2020 08:04:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,58 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0309673338=="
+Cc: linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>,
+ SoC Team <soc@kernel.org>, arm-soc <arm@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Aug 25, 2020 at 10:54 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>
+> On 8/25/20 1:32 AM, Jens Wiklander wrote:
+> > On Mon, Aug 24, 2020 at 02:11:25PM -0700, John Hubbard wrote:
+> ...
+> >> OK, one more try, this time actually handling the _USER_MAPPED vs.
+> >> _KERNEL_MAPPED pages!
+> >>
+> >> thanks,
+> >> John Hubbard
+> >> NVIDIA
+> >
+> > Looks good and it works too! :-) I've tested it on my Hikey board with
+> > the OP-TEE test suite.
+> > I'm picking this up.
+> >
+>
+> Great! I see that I have, once again, somehow doubled up on the subject line:
+> "tee: convert convert ...". This particular typo just seems to stick to me. :)
+>
+> If you get a chance to fix that up by changing it to just a single "convert"
+> I'd appreciate it.
 
---===============0309673338==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gemdfh7kx36fvawn"
-Content-Disposition: inline
+Sure, no problem.
 
-
---gemdfh7kx36fvawn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 24, 2020 at 05:04:32PM +0200, Jernej Skrabec wrote:
-> Following two patches enable Mali400 GPU on Allwinner R40 SoC. At this
-> point I didn't add table for frequency switching because it would
-> require far more testing and defaults work stable and reasonably well.
->=20
-> Please take a look.
-
-Applied both, thanks
-
-Maxime
-
---gemdfh7kx36fvawn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0TOJgAKCRDj7w1vZxhR
-xWEGAQDMARVYvs1kmIOcDlaG6HVY60QAfYio6XLChV8tPlnk8QD+NUSD51f0RiGV
-2CCxdlX746Cq5lcsYWglELWDAYtnEQ0=
-=OzYK
------END PGP SIGNATURE-----
-
---gemdfh7kx36fvawn--
-
---===============0309673338==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Cheers,
+Jens
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0309673338==--
