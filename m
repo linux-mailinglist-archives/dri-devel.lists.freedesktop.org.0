@@ -2,46 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403C2251B78
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 16:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC41251C7A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 17:43:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 019516E42B;
-	Tue, 25 Aug 2020 14:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF946E358;
+	Tue, 25 Aug 2020 15:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2CFBC6E42B;
- Tue, 25 Aug 2020 14:55:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 230AD2A6042;
- Tue, 25 Aug 2020 16:55:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id kODSs_kEuStS; Tue, 25 Aug 2020 16:55:29 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 7C3372A6016;
- Tue, 25 Aug 2020 16:55:29 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1kAaMC-000Yv0-Tj; Tue, 25 Aug 2020 16:55:28 +0200
-Subject: Re: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled
- whenever the CRTC is
-To: Pekka Paalanen <ppaalanen@gmail.com>,
- "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-References: <20200821165758.1106210-1-michel@daenzer.net>
- <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
- <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
- <20200824104327.559503f7@eldfell>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <b8bc3e37-d9b3-2aeb-8580-f265f1b8c830@daenzer.net>
-Date: Tue, 25 Aug 2020 16:55:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8466E358
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 15:42:58 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id x5so2920080wmi.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 08:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QYGt1AUketUmIhWzMlfw1o2JhMefg6zcZtSy8rTzBOg=;
+ b=YRVt4fLIXfvscIz3QIX4MM7DnnoBzT0NcifEaa2iPJClNPPpF+CVrbBohVMxN2Pmrd
+ XYLgSL+bEdIAOhTouHyXvfvL5CuWW688nP4fsZdeCpn8oSE4NcbKV7T9x8KD153KsPkZ
+ v9qiUgIEvlDnjrphU7Pu9jG2hKHK//UkEmHM7ioTFSX6GDGz4bQFVvpmcLxX69Rlt1o9
+ ljOHuwlBeBLGX7c8YISWWDJQKC2k0uq/zUynjXg3tyTBZO8zkLtzj/MOVedQxPGChS2H
+ ENzCvvWuUe4qCdHxV/47E+yGmM/l1kheFdGZK84sbe+GjZQb70o9CnEIbTsNA57nCYin
+ Jzbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QYGt1AUketUmIhWzMlfw1o2JhMefg6zcZtSy8rTzBOg=;
+ b=VaDMCoOJNA5Opf/ggwwLpnHF+m7jU0p1Pg+c2jtD6pjzFfjyXl8lBURZa4CmxoH8Kv
+ 4NHvXJRteOu6H12jSlRe/3Hnk0Yt7AaITFHc43fDQwdaDxRgKiXDqdOelXs/HnIOJLN3
+ h4hg692zZk6GrQW15DzkOaYSyzsUJUCP3bszpF9ypy1wpwra3W75+TeZOTqC3ED7ltiz
+ zc2O8XXArxJSNlNBVx1klJnQ38IlQcCQ20OJ2bNpGZcoxwBk0ewfKvpFJiLiQDJvtyvC
+ j7nn953okFBt/XAPcKB2TTcbSJ2FpaTloubFdJumaI9/1fMrf4FYkLGi8nII0stcI7o/
+ 9JrA==
+X-Gm-Message-State: AOAM532DruUEjdI9BOQAgpDKQrR0ev4pJHZFogCoiiN1K6N+sQLHgcEF
+ zo2LoM9HA9P3onfMdfp5uYc=
+X-Google-Smtp-Source: ABdhPJxXy2WztAij2FRgTlBTeCqHlFv5HC8lLbDRNpuWlpL0dUu0DzF7K3ZkMlgKyWk5gqVi2fD6dA==
+X-Received: by 2002:a7b:c095:: with SMTP id r21mr2835661wmh.152.1598370176924; 
+ Tue, 25 Aug 2020 08:42:56 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id a85sm7203453wmd.26.2020.08.25.08.42.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Aug 2020 08:42:56 -0700 (PDT)
+Date: Tue, 25 Aug 2020 12:42:46 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Subject: Re: [PATCH v5 2/3] drm/vkms: Compute CRC without change input data
+Message-ID: <20200825153653.k22gbd72rdxu5qtk@smtp.gmail.com>
+References: <20200825023142.2561220-1-rodrigosiqueiramelo@gmail.com>
+ <20200825023142.2561220-3-rodrigosiqueiramelo@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200824104327.559503f7@eldfell>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <20200825023142.2561220-3-rodrigosiqueiramelo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,88 +67,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: daniels@collabora.com, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEExCgpPbiAyMDIwLTA4
-LTI0IDk6NDMgYS5tLiwgUGVra2EgUGFhbGFuZW4gd3JvdGU6Cj4gT24gU2F0LCAyMiBBdWcgMjAy
-MCAxMTo1OToyNiArMDIwMCBNaWNoZWwgRMOkbnplcgo+IDxtaWNoZWxAZGFlbnplci5uZXQ+IHdy
-b3RlOgo+PiBPbiAyMDIwLTA4LTIxIDg6MDcgcC5tLiwgS2F6bGF1c2thcywgTmljaG9sYXMgd3Jv
-dGU6Cj4+PiBPbiAyMDIwLTA4LTIxIDEyOjU3IHAubS4sIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+
-Pj4+IEZyb206IE1pY2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29tPgo+Pj4+Cj4+Pj4g
-RG9uJ3QgY2hlY2sgZHJtX2NydGNfc3RhdGU6OmFjdGl2ZSBmb3IgdGhpcyBlaXRoZXIsIHBlciBp
-dHMKPj4+PiBkb2N1bWVudGF0aW9uIGluIGluY2x1ZGUvZHJtL2RybV9jcnRjLmg6Cj4+Pj4KPj4+
-PiAqIEhlbmNlIGRyaXZlcnMgbXVzdCBub3QgY29uc3VsdCBAYWN0aXZlIGluIHRoZWlyIHZhcmlv
-dXMgKgo+Pj4+ICZkcm1fbW9kZV9jb25maWdfZnVuY3MuYXRvbWljX2NoZWNrIGNhbGxiYWNrIHRv
-IHJlamVjdCBhbgo+Pj4+IGF0b21pYyAqIGNvbW1pdC4KPj4+Pgo+Pj4+IFRoZSBhdG9taWMgaGVs
-cGVycyBkaXNhYmxlIHRoZSBDUlRDIGFzIG5lZWRlZCBmb3IgZGlzYWJsaW5nCj4+Pj4gdGhlIHBy
-aW1hcnkgcGxhbmUuCj4+Pj4KPj4+PiBUaGlzIHByZXZlbnRzIGF0IGxlYXN0IHRoZSBmb2xsb3dp
-bmcgcHJvYmxlbXMgaWYgdGhlIHByaW1hcnkKPj4+PiBwbGFuZSBnZXRzIGRpc2FibGVkIChlLmcu
-IGR1ZSB0byBkZXN0cm95aW5nIHRoZSBGQiBhc3NpZ25lZAo+Pj4+IHRvIHRoZSBwcmltYXJ5IHBs
-YW5lLCBhcyBoYXBwZW5zIGUuZy4gd2l0aCBtdXR0ZXIgaW4gV2F5bGFuZAo+Pj4+IG1vZGUpOgo+
-Pj4+Cj4+Pj4gKiBUb2dnbGluZyBDUlRDIGFjdGl2ZSB0byAxIGZhaWxlZCBpZiB0aGUgY3Vyc29y
-IHBsYW5lIHdhcwo+Pj4+IGVuYWJsZWQgKGUuZy4gdmlhIGxlZ2FjeSBEUE1TIHByb3BlcnR5ICYg
-Y3Vyc29yIGlvY3RsKS4gKgo+Pj4+IEVuYWJsaW5nIHRoZSBjdXJzb3IgcGxhbmUgZmFpbGVkLCBl
-LmcuIHZpYSB0aGUgbGVnYWN5IGN1cnNvcgo+Pj4+IGlvY3RsLgo+Pj4KPj4+IFdlIHByZXZpb3Vz
-bHkgaGFkIHRoZSByZXF1aXJlbWVudCB0aGF0IHRoZSBwcmltYXJ5IHBsYW5lIG11c3QKPj4+IGJl
-IGVuYWJsZWQgYnV0IHNvbWUgdXNlcnNwYWNlIGV4cGVjdHMgdGhhdCB0aGV5IGNhbiBlbmFibGUK
-Pj4+IGp1c3QgdGhlIG92ZXJsYXkgcGxhbmUgd2l0aG91dCBhbnl0aGluZyBlbHNlLgo+Pj4KPj4+
-IEkgdGhpbmsgdGhlIGNocm9tdWl1bW9zIGF0b21pY3Rlc3QgdmFsaWRhdGVzIHRoYXQgdGhpcyB3
-b3Jrcwo+Pj4gYXMgd2VsbDoKPj4+Cj4+PiBTbyBpcyBEUk0gZ29pbmcgZm9yd2FyZCB0aGVuIHdp
-dGggdGhlIGV4cGVjdGF0aW9uIHRoYXQgdGhpcyBpcwo+Pj4gd3JvbmcgYmVoYXZpb3IgZnJvbSB1
-c2Vyc3BhY2U/Cj4+Pgo+Pj4gV2UgcmVxdWlyZSBhdCBsZWFzdCBvbmUgcGxhbmUgdG8gYmUgZW5h
-YmxlZCB0byBkaXNwbGF5IGEKPj4+IGN1cnNvciwgYnV0IGl0IGRvZXNuJ3QgbmVjZXNzYXJpbHkg
-bmVlZCB0byBiZSB0aGUgcHJpbWFyeS4KPj4KPj4gSXQncyBhICJwaWNrIHlvdXIgcG9pc29uIiBz
-aXR1YXRpb246Cj4+Cj4+IDEpIEN1cnJlbnRseSB0aGUgY2hlY2tzIGFyZSBpbnZhbGlkIChhdG9t
-aWNfY2hlY2sgbXVzdCBub3QKPj4gZGVjaWRlIGJhc2VkIG9uIGRybV9jcnRjX3N0YXRlOjphY3Rp
-dmUpLCBhbmQgaXQncyBlYXN5IGZvciBsZWdhY3kKPj4gS01TIHVzZXJzcGFjZSB0byBhY2NpZGVu
-dGFsbHkgaGl0IGVycm9ycyB0cnlpbmcgdG8gZW5hYmxlL21vdmUKPj4gdGhlIGN1cnNvciBvciBz
-d2l0Y2ggRFBNUyBvZmYg4oaSIG9uLgo+Pgo+PiAyKSBBY2N1cmF0ZWx5IHJlamVjdGluZyBvbmx5
-IGF0b21pYyBzdGF0ZXMgd2hlcmUgdGhlIGN1cnNvcgo+PiBwbGFuZSBpcyBlbmFibGVkIGJ1dCBh
-bGwgb3RoZXIgcGxhbmVzIGFyZSBvZmYgd291bGQgYnJlYWsgdGhlCj4+IEtNUyBoZWxwZXIgY29k
-ZSwgd2hpY2ggY2FuIG9ubHkgZGVhbCB3aXRoIHRoZSAiQ1JUQyBvbiAmIHByaW1hcnkKPj4gcGxh
-bmUgb2ZmIGlzIG5vdCBhbGxvd2VkIiBjYXNlIHNwZWNpZmljYWxseS4KPj4KPj4gMykgVGhpcyBw
-YXRjaCBhZGRyZXNzZXMgMSkgJiAyKSBidXQgbWF5IGJyZWFrIGV4aXN0aW5nIGF0b21pYwo+PiB1
-c2Vyc3BhY2Ugd2hpY2ggd2FudHMgdG8gZW5hYmxlIGFuIG92ZXJsYXkgcGxhbmUgd2hpbGUgZGlz
-YWJsaW5nCj4+IHRoZSBwcmltYXJ5IHBsYW5lLgo+Pgo+Pgo+PiBJIGRvIHRoaW5rIGluIHByaW5j
-aXBsZSBhdG9taWMgdXNlcnNwYWNlIGlzIGV4cGVjdGVkIHRvIGhhbmRsZQo+PiBjYXNlIDMpIGFu
-ZCBsZWF2ZSB0aGUgcHJpbWFyeSBwbGFuZSBlbmFibGVkLgo+Cj4gSGksCj4KPiBteSBvcGluaW9u
-IGFzIGEgdXNlcnNwYWNlIGRldmVsb3BlciBpcyB0aGF0IGVuYWJsaW5nIGEgQ1JUQwo+IHdpdGhv
-dXQgYSBwcmltYXJ5IHBsYW5lIGhhcyB0cmFkaXRpb25hbGx5IG5vdCB3b3JrZWQsIHNvIHVzZXJz
-cGFjZQo+IGNhbm5vdCAqcmVseSogb24gaXQgZXZlciB3b3JraW5nLiBJIHRoaW5rIGxlZ2FjeSBL
-TVMgQVBJIGRvZXMgbm90Cj4gZXZlbiBhbGxvdyB0byBleHByZXNzIHRoYXQgcmVhbGx5LCBvciBo
-YXMgYnVpbHQtaW4gYXNzdW1wdGlvbnMgdGhhdAo+IGl0IGRvZXNuJ3Qgd29yayAtIHlvdSBjYW4g
-Y2FsbCB0aGUgbGVnYWN5IGN1cnNvciBpb2N0bHMsIHRoZXkKPiBkb24ndCBmYWlsLCBidXQgYWxz
-byB0aGUgQ1JUQyByZW1haW5zIG9mZi4gQ29ycmVjdCBtZSBpZiB0aGlzIGlzCj4gbm90IHRydWUu
-Cj4KPiBBdG9taWMgdXNlcnNwYWNlIE9UT0ggaXMgcmVxdWlyZWQgdG8gdGVzdCB0aGUgc3RyYW5n
-ZSAoYW5kIGFsbCEpCj4gY2FzZXMgbGlrZSB0aGlzIHRvIHNlZSBpZiB0aGV5IHdvcmsgb3Igbm90
-LCBhbmQgY2Fycnkgb24gd2l0aCBhCj4gZmFsbGJhY2sgaWYgdGhleSBkb24ndC4gVXNlcnNwYWNl
-IHRoYXQgd2FudHMgdG8gdXNlIGEgQ1JUQyB3aXRob3V0Cj4gYSBwcmltYXJ5IHBsYW5lIGxpa2Vs
-eSBuZWVkcyBvdGhlciBDUlRDIHByb3BlcnRpZXMgYXMgd2VsbCwgbGlrZQo+IGJhY2tncm91bmQg
-Y29sb3IuCj4KPiBJIHdvdWxkIGd1ZXNzIHRoYXQgd2hlbiB0d28gcmVncmVzc2lvbnMgY29uZmxp
-Y3QsIHRoZSBvbGRlcgo+IHVzZXJzcGFjZSB3b3VsZCB3aW4uIEhlbmNlIGxlZ2FjeSBLTVMgdXNp
-bmcgTXV0dGVyIHNob3VsZCBrZWVwCj4gd29ya2luZywgd2hpbGUgYXRvbWljIHVzZXJzcGFjZSBp
-cyBsZWZ0IHdpdGggaW5jcmVhc2VkIHBvd2VyCj4gY29uc3VtcHRpb24uIE5vdCB1c2luZyBhIGhh
-cmR3YXJlIGN1cnNvciAoTXV0dGVyKSBpcyBtdWNoIG1vcmUKPiBlYXNpbHkgYW4gZW5kLXVzZXIg
-dmlzaWJsZSByZWdyZXNzaW9uIHRoYW4gc2xpZ2h0bHkgc2hvcnRlcgo+IGJhdHRlcnkgbGlmZS4K
-Pgo+IEF0b21pYyB0ZXN0IGNvbW1pdHMgYXJlIGFsbG93ZWQgdG8gZmFpbCBhdCBhbnkgdGltZSBm
-b3IgYW55IHJlYXNvbgo+IGFuZCBzb21ldGhpbmcgdGhhdCBwcmV2aW91c2x5IHdvcmtlZCBjYW4g
-ZmFpbCBvbiB0aGUgbmV4dCBmcmFtZSBvcgo+IG9uIHRoZSBuZXh0IGtlcm5lbCwgYXMgZmFyIGFz
-IEkgdW5kZXJzdGFuZC4KCkFsbCBvZiB0aGlzIGJhc2ljYWxseSBtYXRjaGVzIG15IHVuZGVyc3Rh
-bmRpbmcuCgoKPiBTb3VuZHMgbGlrZSB0aGUgaGVscGVycyB5b3UgcmVmZXIgdG8gYXJlIGluYWRl
-cXVhdGUgZm9yIHlvdXIgY2FzZS4KPiBDYW4ndCB5b3UgZml4IHRoZSBoZWxwZXJzIGluIHRoZSBs
-b25nIHJ1biBhbmQgbGFuZCB0aGlzIHBhdGNoIGFzIGFuCj4gaW1tZWRpYXRlIGZpeD8KCkknZCBy
-YXRoZXIgbGVhdmUgd29ya2luZyBvbiB0aG9zZSBoZWxwZXJzIHRvIEtNUyBkZXZlbG9wZXJzLiA6
-KQoKCi0gLS0gCkVhcnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAgICAg
-ICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAg
-ICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCi0tLS0tQkVHSU4gUEdQ
-IFNJR05BVFVSRS0tLS0tCgppRjBFQVJFQ0FCMFdJUVN3bjY4MXZwRkZJWmdKVVJSYWdhK09hdHV5
-QUFVQ1gwVW1YQUFLQ1JCYWdhK09hdHV5CkFJZU5BSm9DOVVnT3JGK3FCcTA4dU95amFWN1ZmcCtQ
-Z0FDZlNwM25YQjN1bjNMVVpReHJ2YXhNQU9OK2VJcz0KPVBiZDIKLS0tLS1FTkQgUEdQIFNJR05B
-VFVSRS0tLS0tCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 08/24, Rodrigo Siqueira wrote:
+> The compute_crc() function is responsible for calculating the
+> framebuffer CRC value; due to the XRGB format, this function has to
+> ignore the alpha channel during the CRC computation. Therefore,
+> compute_crc() set zero to the alpha channel directly in the input
+> framebuffer, which is not a problem since this function receives a copy
+> of the original buffer. However, if we want to use this function in a
+> context without a buffer copy, it will change the initial value. This
+> patch makes compute_crc() calculate the CRC value without modifying the
+> input framebuffer.
+> 
+> Change in V4 (Emil):
+> - Move bitmap_clear operation and comments to get_pixel function
+> 
+> Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c | 38 ++++++++++++++++++----------
+>  1 file changed, 24 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 4d8bc04bb6ee..387b0690a64a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -9,33 +9,43 @@
+>  
+>  #include "vkms_drv.h"
+>  
+> +static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
+> +				 const struct vkms_composer *composer)
+> +{
+> +	u32 pixel;
+> +	int src_offset = composer->offset + (y * composer->pitch)
+> +				      + (x * composer->cpp);
+> +
+> +	pixel = *(u32 *)&buffer[src_offset];
+> +	/* XRGB format ignores Alpha channel */
+> +	bitmap_clear((void *)&pixel, 0, 8);
+
+I noticed a small problem in this bitmap_clear as I recently sent a
+patch changing it.  The starting point for zeroing the alpha is not 0,
+but 24. As in the removed line below:
+-		bitmap_clear(vaddr_out + src_offset, 24, 8);
+
+It affects the kms_cursor_crc/cursor-alpha-transparent subtest.
+
+> +
+> +	return pixel;
+> +}
+> +
+>  /**
+>   * compute_crc - Compute CRC value on output frame
+>   *
+> - * @vaddr_out: address to final framebuffer
+> + * @vaddr: address to final framebuffer
+>   * @composer: framebuffer's metadata
+>   *
+>   * returns CRC value computed using crc32 on the visible portion of
+>   * the final framebuffer at vaddr_out
+>   */
+> -static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
+> +static uint32_t compute_crc(const u8 *vaddr,
+> +			    const struct vkms_composer *composer)
+>  {
+> -	int i, j, src_offset;
+> +	int x, y;
+> +	u32 crc = 0, pixel = 0;
+>  	int x_src = composer->src.x1 >> 16;
+>  	int y_src = composer->src.y1 >> 16;
+>  	int h_src = drm_rect_height(&composer->src) >> 16;
+>  	int w_src = drm_rect_width(&composer->src) >> 16;
+> -	u32 crc = 0;
+> -
+> -	for (i = y_src; i < y_src + h_src; ++i) {
+> -		for (j = x_src; j < x_src + w_src; ++j) {
+> -			src_offset = composer->offset
+> -				     + (i * composer->pitch)
+> -				     + (j * composer->cpp);
+> -			/* XRGB format ignores Alpha channel */
+> -			bitmap_clear(vaddr_out + src_offset, 24, 8);
+> -			crc = crc32_le(crc, vaddr_out + src_offset,
+> -				       sizeof(u32));
+> +
+> +	for (y = y_src; y < y_src + h_src; ++y) {
+> +		for (x = x_src; x < x_src + w_src; ++x) {
+> +			pixel = get_pixel_from_buffer(x, y, vaddr, composer);
+> +			crc = crc32_le(crc, (void *)&pixel, sizeof(u32));
+>  		}
+>  	}
+>  
+> -- 
+> 2.28.0
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
