@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4047252329
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 23:53:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 231C1252331
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 23:54:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D58956E0A1;
-	Tue, 25 Aug 2020 21:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A92E6E9CA;
+	Tue, 25 Aug 2020 21:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5D466E0A1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 21:53:20 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id q14so90851ilm.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 14:53:20 -0700 (PDT)
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 695146E9CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 21:54:44 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id i10so91629iow.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 14:54:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7S4jNrtiVeItNvIwFbgTvmiqNgQ9tXiglEZ3XO2eiQM=;
- b=Mnr2s2H62vqtyVtBZ6xJGP2WJiJU18+oD90UmSSpJ9S6tDhxE21/u+/kRCnhFf+tU0
- 6gVW//aIE6Pw83bSUtB9b/8s8LRqT1amYQYcv1vsEAVaAR21oLih7IQ21SjxWQEOdHkB
- ZpDPKjxKQPLdnRbecf3m67Om3Ha3T6MbPS4uZo+oXgfIgLu5TKUZo8IEGm0Omfm/uKCs
- 1Q99UpWMf4fUk3wUPU30ceiKG9E4+973MfIRkYVgNzUq5b6bvf2TYP0F/n9PzfPSkIUk
- MVcF1p/goTwsDX8ETPBET2/E+SVCr8IRMH7r9hvKqVVlkiK7bj0fQgqxtCc7EkpJt6uW
- ThTw==
-X-Gm-Message-State: AOAM5330ROyAlAkZ1mcy8AiHwEyXu6o6v1K/tdnCdgrukh1zyppdeIPi
- Cisy+SKY0uPqGs/eadHMwg==
-X-Google-Smtp-Source: ABdhPJwd6+sslgtyqmzuBjzuHXAz/dWhzSBO0h7xbItMhxxl6rpQd2N1rXAI/oFBnitw9IqV28R9gA==
-X-Received: by 2002:a92:5f06:: with SMTP id t6mr10331000ilb.212.1598392400065; 
- Tue, 25 Aug 2020 14:53:20 -0700 (PDT)
+ bh=AXgpF78WVo5FFCMhxBNh+NmqVg1TDWWj6afz5WYYhbs=;
+ b=aAvkDAe3E1JaX8+x6RI3bIQS5FM9IiclY8zW/ohfukH4YUzU7bwzxkqc6OT5PTBw7q
+ vYbs7iHclGG+6k2t096n0X9IwHcagNDCLDPTufSCFiee8Exn9kKfp30NNTUwV9/uCKt/
+ sijm7upwLZPJO155Ht1Xwr8EtImi33UrlElrPpXvWxkfNTjSK4Z+FdjqodSnY2WWHX4w
+ +fJQY69TEY8STNgb0LLUUNn9vtOF6zjMmrAkFyHF08As1gEkdrw8vFI276HGe0Dn77LH
+ zlcRZKIrlOEflS5Gkh4is0K4+gFOjNzkMfVR/kx9jtGLcvdNK4AnT7Dc1mBt/YuIEdkv
+ Uwsg==
+X-Gm-Message-State: AOAM532VUEmKyp7QvHffnvsYbnXhyqWRnm0QmqPPWs5s7882MdcW5Hea
+ gdPPQbsqEzs/V+1ap+Lvh/yIuG1WTdlZ
+X-Google-Smtp-Source: ABdhPJypF+PZ2Q26P3uIyId/gUF6uvU9h3TD4NtAGvuNXl1cQsqt9aXVrnWkBeV3wxxrorZptjlGsQ==
+X-Received: by 2002:a5d:871a:: with SMTP id u26mr10104129iom.92.1598392483867; 
+ Tue, 25 Aug 2020 14:54:43 -0700 (PDT)
 Received: from xps15 ([64.188.179.249])
- by smtp.gmail.com with ESMTPSA id p124sm47082iof.19.2020.08.25.14.53.19
+ by smtp.gmail.com with ESMTPSA id k7sm46346iow.21.2020.08.25.14.54.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:53:19 -0700 (PDT)
-Received: (nullmailer pid 1403867 invoked by uid 1000);
- Tue, 25 Aug 2020 21:53:18 -0000
-Date: Tue, 25 Aug 2020 15:53:18 -0600
+ Tue, 25 Aug 2020 14:54:43 -0700 (PDT)
+Received: (nullmailer pid 1406034 invoked by uid 1000);
+ Tue, 25 Aug 2020 21:54:38 -0000
+Date: Tue, 25 Aug 2020 15:54:38 -0600
 From: Rob Herring <robh@kernel.org>
 To: Lubomir Rintel <lkundrak@v3.sk>
-Subject: Re: [PATCH 1/2] dt-bindings: display: simple: add Innolux LS075AT011
-Message-ID: <20200825215318.GA1403815@bogus>
-References: <20200819101206.633253-1-lkundrak@v3.sk>
- <20200819101206.633253-2-lkundrak@v3.sk>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: himax, hx8837: Add Himax
+ HX8837 bindings
+Message-ID: <20200825215438.GA1405975@bogus>
+References: <20200819102246.634039-1-lkundrak@v3.sk>
+ <20200819102246.634039-2-lkundrak@v3.sk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200819101206.633253-2-lkundrak@v3.sk>
+In-Reply-To: <20200819102246.634039-2-lkundrak@v3.sk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,26 +60,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Aug 2020 12:12:05 +0200, Lubomir Rintel wrote:
-> Add the Innolux LS075AT011 7.5" (1200x900) color/reflective LCD panel to
-> the panel-simple compatible list. This panel is used in the OLPC laptops.
+On Wed, 19 Aug 2020 12:22:45 +0200, Lubomir Rintel wrote:
+> Himax HX8837 is a secondary display controller used to drive the panel
+> on OLPC platforms.
 > 
 > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> 
 > ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
+> Changes since v3:
+> - Moved to bindings/display/
+> - Added the ports
+> - Converted to YAML
+> - Removed Pavel's Ack, because the changes are substantial
+> 
+> Changes since v2:
+> - s/betweend/between/
+> 
+> Changes since v1:
+> - s/load-gpio/load-gpios/
+> - Use interrupt bindings instead of gpio for the IRQ
+> 
+>  .../bindings/display/bridge/himax,hx8837.yaml | 96 +++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
