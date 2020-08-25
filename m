@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFFE25211B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 21:51:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B348252120
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 21:51:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92CD76E998;
-	Tue, 25 Aug 2020 19:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D456D6E99A;
+	Tue, 25 Aug 2020 19:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 163456E99A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 19:51:19 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36F646E997
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 19:51:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598385079;
+ s=mimecast20190719; t=1598385080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9gTAM7TDlgZMdWHt2r6XU0KzwhLUE1MvpqOoSpb17cM=;
- b=fQmZ/23USaUz++oFdBfCHfiIBgy94NDWH8o1OghN9TvynIpv4kAc3EAVYRl2BHx6EhKkJb
- NcH1643hL+VkPuSv0Kk6NbE+G0Ogc3lJVjs8qlhfElIkRemrkQ7W+0oYDnQOyIujNccHGG
- Cfw2+gaFUPEbmoMFxyAEfbJnXscCxNI=
+ bh=DjOACk7+sj9DOgLuw8r03ZTGhj9N7xxOv/mPD0g7leg=;
+ b=K3beaExiuGSF/iG+EH7m4sIXN1r9UHNiHSEzVMMc8tAy21Dwo3N1H0OeAZHejB4S4DU6cq
+ G1BtCWri/FkQYjsjC5RMktIG8JP3QkJfBP/cZLHIwyGniVqy7lonfOU7WCS+euWJfYP2ax
+ YFbmMbQRc50iHgElnKSJoSOReU/LBrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-OLY4AcPcP1W_beuMdy0gmw-1; Tue, 25 Aug 2020 15:51:17 -0400
-X-MC-Unique: OLY4AcPcP1W_beuMdy0gmw-1
+ us-mta-152-QU7l26KmMSyEh_jOWaA2_A-1; Tue, 25 Aug 2020 15:51:18 -0400
+X-MC-Unique: QU7l26KmMSyEh_jOWaA2_A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19CEF18551A2;
- Tue, 25 Aug 2020 19:51:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 260BA80EF8C;
+ Tue, 25 Aug 2020 19:51:17 +0000 (UTC)
 Received: from Whitewolf.redhat.com (ovpn-120-227.rdu2.redhat.com
  [10.10.120.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EAC25D9D3;
- Tue, 25 Aug 2020 19:51:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 694DC5D9D3;
+ Tue, 25 Aug 2020 19:51:16 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Subject: [RFC v4 10/20] drm/nouveau/kms: Use new drm_dp_has_mst() helper for
- checking MST caps
-Date: Tue, 25 Aug 2020 15:50:17 -0400
-Message-Id: <20200825195027.74681-11-lyude@redhat.com>
+Subject: [RFC v4 11/20] drm/nouveau/kms: Move drm_dp_cec_unset_edid() into
+ nouveau_connector_detect()
+Date: Tue, 25 Aug 2020 15:50:18 -0400
+Message-Id: <20200825195027.74681-12-lyude@redhat.com>
 In-Reply-To: <20200825195027.74681-1-lyude@redhat.com>
 References: <20200825195027.74681-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -67,47 +67,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+For whatever reason we currently unset the EDID for DP CEC support when
+responding to the connector being unplugged, instead of just doing it in
+nouveau_connector_detect() where we set the CEC EDID. This isn't really
+needed and could even potentially cause us to forget to unset the EDID
+if the connector is removed without a corresponding hpd event, so let's
+fix that.
+
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_dp.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index 032afc73e2a33..201c0b4335563 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -44,7 +44,6 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 	struct nv50_mstm *mstm = NULL;
- 	int ret;
- 	u8 *dpcd = outp->dp.dpcd;
--	u8 tmp;
- 
- 	ret = drm_dp_dpcd_read(aux, DP_DPCD_REV, dpcd, DP_RECEIVER_CAP_SIZE);
- 	if (ret == DP_RECEIVER_CAP_SIZE && dpcd[DP_DPCD_REV]) {
-@@ -56,19 +55,10 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 		return connector_status_disconnected;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index b90591114faaf..4a29f691c08e4 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -633,10 +633,11 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
+ 			conn_status = connector_status_connected;
+ 			goto out;
+ 		}
+-
  	}
  
--	if (nouveau_mst)
-+	if (nouveau_mst) {
- 		mstm = outp->dp.mstm;
--
--	if (mstm) {
--		if (dpcd[DP_DPCD_REV] >= DP_DPCD_REV_12) {
--			ret = drm_dp_dpcd_readb(aux, DP_MSTM_CAP, &tmp);
--			if (ret < 0)
--				return connector_status_disconnected;
--
--			mstm->can_mst = !!(tmp & DP_MST_CAP);
--		} else {
--			mstm->can_mst = false;
--		}
-+		if (mstm)
-+			mstm->can_mst = drm_dp_has_mst(aux, dpcd);
+  out:
++	if (!nv_connector->edid)
++		drm_dp_cec_unset_edid(&nv_connector->aux);
+ 
+ 	pm_runtime_mark_last_busy(dev->dev);
+ 	pm_runtime_put_autosuspend(dev->dev);
+@@ -1174,8 +1175,6 @@ nouveau_connector_hotplug(struct nvif_notify *notify)
+ 		return NVIF_NOTIFY_DROP;
  	}
  
- 	return connector_status_connected;
+-	if (!plugged)
+-		drm_dp_cec_unset_edid(&nv_connector->aux);
+ 	NV_DEBUG(drm, "%splugged %s\n", plugged ? "" : "un", name);
+ 
+ 	drm_helper_hpd_irq_event(connector->dev);
 -- 
 2.26.2
 
