@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0D825161C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 12:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52566251621
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 12:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 474846E8A8;
-	Tue, 25 Aug 2020 10:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 012DD6E8A0;
+	Tue, 25 Aug 2020 10:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E46C6E8A8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 10:02:06 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC056E8B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 10:02:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598349725;
+ s=mimecast20190719; t=1598349730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XJ6djvN/utODsQgti29+TmZoVj9falr0Vn0c1iHbgJc=;
- b=Rwx036R2rKJ5zORYhpD+PoU4QbeIJPaN7s3a1RrcJQIm5kPlTY1q9m3pT/Q9bNYrGM3VKB
- OtLglEJrY71zk2myFLY8N2tT3XVMHJcKQePnU+cdYtJQegeRX3hQWEyuDsu0eF91DCjKuT
- roW2RSNgpfsFcKEa2C60fDDXSFhc3Zg=
+ bh=pl9KVfD+7YlWJlLk8Ot+a3gHE/6VBv99WiVsPiXEvhY=;
+ b=GIQKQ3TLRBYp9H/L5vVz7yPFwM0u9tZ9RJA7USyMTeLL0OmUQW28aAbAUAkHQCYidFYIgU
+ 1+80yzsOr5SxJ9jtT+oiQrriKuP8+1j+VMxjfHXzHqP5OsDKMVpR+1IDM5VwLcUeeoCSw2
+ GEh4nVSP6K4gIDN4+2ZQ/DHcPbFsa34=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-S_pyRK4QMGmT-XrTaH4C-A-1; Tue, 25 Aug 2020 06:02:01 -0400
-X-MC-Unique: S_pyRK4QMGmT-XrTaH4C-A-1
+ us-mta-345-eV0e5_5PPgaflE7LNxcLCw-1; Tue, 25 Aug 2020 06:02:06 -0400
+X-MC-Unique: eV0e5_5PPgaflE7LNxcLCw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67518AE40D;
- Tue, 25 Aug 2020 10:01:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90D2B81F03A;
+ Tue, 25 Aug 2020 10:02:04 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-114-132.ams2.redhat.com
  [10.36.114.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E847C80926;
- Tue, 25 Aug 2020 10:01:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF00B80954;
+ Tue, 25 Aug 2020 10:01:58 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -45,10 +45,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v7 11/16] pwm: crc: Implement apply() method to support the
- new atomic PWM API
-Date: Tue, 25 Aug 2020 12:01:01 +0200
-Message-Id: <20200825100106.61941-12-hdegoede@redhat.com>
+Subject: [PATCH v7 12/16] pwm: crc: Implement get_state() method
+Date: Tue, 25 Aug 2020 12:01:02 +0200
+Message-Id: <20200825100106.61941-13-hdegoede@redhat.com>
 In-Reply-To: <20200825100106.61941-1-hdegoede@redhat.com>
 References: <20200825100106.61941-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -70,149 +69,48 @@ Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
  Hans de Goede <hdegoede@redhat.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the enable, disable and config pwm_ops with an apply op,
-to support the new atomic PWM API.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v6:
-- Rebase on 5.9-rc1
-- Use do_div when calculating level because pwm_state.period and .duty_cycle are now u64
-
-Changes in v3:
-- Keep crc_pwm_calc_clk_div() helper to avoid needless churn
----
- drivers/pwm/pwm-crc.c | 89 ++++++++++++++++++++++++++-----------------
- 1 file changed, 54 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
-index b72008c9b072..27dc30882424 100644
---- a/drivers/pwm/pwm-crc.c
-+++ b/drivers/pwm/pwm-crc.c
-@@ -51,59 +51,78 @@ static int crc_pwm_calc_clk_div(int period_ns)
- 	return clk_div;
- }
- 
--static int crc_pwm_enable(struct pwm_chip *c, struct pwm_device *pwm)
-+static int crc_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			 const struct pwm_state *state)
- {
--	struct crystalcove_pwm *crc_pwm = to_crc_pwm(c);
--	int div = crc_pwm_calc_clk_div(pwm_get_period(pwm));
-+	struct crystalcove_pwm *crc_pwm = to_crc_pwm(chip);
-+	struct device *dev = crc_pwm->chip.dev;
-+	int err;
- 
--	regmap_write(crc_pwm->regmap, PWM0_CLK_DIV, div | PWM_OUTPUT_ENABLE);
--	regmap_write(crc_pwm->regmap, BACKLIGHT_EN, 1);
-+	if (state->period > PWM_MAX_PERIOD_NS) {
-+		dev_err(dev, "un-supported period_ns\n");
-+		return -EINVAL;
-+	}
- 
--	return 0;
--}
-+	if (state->polarity != PWM_POLARITY_NORMAL)
-+		return -EOPNOTSUPP;
- 
--static void crc_pwm_disable(struct pwm_chip *c, struct pwm_device *pwm)
--{
--	struct crystalcove_pwm *crc_pwm = to_crc_pwm(c);
--	int div = crc_pwm_calc_clk_div(pwm_get_period(pwm));
-+	if (pwm_is_enabled(pwm) && !state->enabled) {
-+		err = regmap_write(crc_pwm->regmap, BACKLIGHT_EN, 0);
-+		if (err) {
-+			dev_err(dev, "Error writing BACKLIGHT_EN %d\n", err);
-+			return err;
-+		}
-+	}
- 
--	regmap_write(crc_pwm->regmap, BACKLIGHT_EN, 0);
--	regmap_write(crc_pwm->regmap, PWM0_CLK_DIV, div);
--}
-+	if (pwm_get_duty_cycle(pwm) != state->duty_cycle ||
-+	    pwm_get_period(pwm) != state->period) {
-+		u64 level = state->duty_cycle * PWM_MAX_LEVEL;
- 
--static int crc_pwm_config(struct pwm_chip *c, struct pwm_device *pwm,
--			  int duty_ns, int period_ns)
--{
--	struct crystalcove_pwm *crc_pwm = to_crc_pwm(c);
--	struct device *dev = crc_pwm->chip.dev;
--	int level;
-+		do_div(level, state->period);
- 
--	if (period_ns > PWM_MAX_PERIOD_NS) {
--		dev_err(dev, "un-supported period_ns\n");
--		return -EINVAL;
-+		err = regmap_write(crc_pwm->regmap, PWM0_DUTY_CYCLE, level);
-+		if (err) {
-+			dev_err(dev, "Error writing PWM0_DUTY_CYCLE %d\n", err);
-+			return err;
-+		}
- 	}
- 
--	if (pwm_get_period(pwm) != period_ns) {
--		int clk_div = crc_pwm_calc_clk_div(period_ns);
--
-+	if (pwm_is_enabled(pwm) && state->enabled &&
-+	    pwm_get_period(pwm) != state->period) {
- 		/* changing the clk divisor, clear PWM_OUTPUT_ENABLE first */
--		regmap_write(crc_pwm->regmap, PWM0_CLK_DIV, 0);
-+		err = regmap_write(crc_pwm->regmap, PWM0_CLK_DIV, 0);
-+		if (err) {
-+			dev_err(dev, "Error writing PWM0_CLK_DIV %d\n", err);
-+			return err;
-+		}
-+	}
- 
--		regmap_write(crc_pwm->regmap, PWM0_CLK_DIV,
--					clk_div | PWM_OUTPUT_ENABLE);
-+	if (pwm_get_period(pwm) != state->period ||
-+	    pwm_is_enabled(pwm) != state->enabled) {
-+		int clk_div = crc_pwm_calc_clk_div(state->period);
-+		int pwm_output_enable = state->enabled ? PWM_OUTPUT_ENABLE : 0;
-+
-+		err = regmap_write(crc_pwm->regmap, PWM0_CLK_DIV,
-+				   clk_div | pwm_output_enable);
-+		if (err) {
-+			dev_err(dev, "Error writing PWM0_CLK_DIV %d\n", err);
-+			return err;
-+		}
- 	}
- 
--	/* change the pwm duty cycle */
--	level = duty_ns * PWM_MAX_LEVEL / period_ns;
--	regmap_write(crc_pwm->regmap, PWM0_DUTY_CYCLE, level);
-+	if (!pwm_is_enabled(pwm) && state->enabled) {
-+		err = regmap_write(crc_pwm->regmap, BACKLIGHT_EN, 1);
-+		if (err) {
-+			dev_err(dev, "Error writing BACKLIGHT_EN %d\n", err);
-+			return err;
-+		}
-+	}
- 
- 	return 0;
- }
- 
- static const struct pwm_ops crc_pwm_ops = {
--	.config = crc_pwm_config,
--	.enable = crc_pwm_enable,
--	.disable = crc_pwm_disable,
-+	.apply = crc_pwm_apply,
- };
- 
- static int crystalcove_pwm_probe(struct platform_device *pdev)
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SW1wbGVtZW50IHRoZSBwd21fb3BzLmdldF9zdGF0ZSgpIG1ldGhvZCB0byBjb21wbGV0ZSB0aGUg
+c3VwcG9ydCBmb3IgdGhlCm5ldyBhdG9taWMgUFdNIEFQSS4KClJldmlld2VkLWJ5OiBBbmR5IFNo
+ZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4KU2lnbmVkLW9mZi1i
+eTogSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0tCkNoYW5nZXMgaW4gdjY6
+Ci0gUmViYXNlIG9uIDUuOS1yYzEKLSBVc2UgRElWX1JPVU5EX1VQX1VMTCBiZWNhdXNlIHB3bV9z
+dGF0ZS5wZXJpb2QgYW5kIC5kdXR5X2N5Y2xlIGFyZSBub3cgdTY0CgpDaGFuZ2VzIGluIHY1Ogot
+IEZpeCBhbiBpbmRlbnRhdGlvbiBpc3N1ZQoKQ2hhbmdlcyBpbiB2NDoKLSBVc2UgRElWX1JPVU5E
+X1VQIHdoZW4gY2FsY3VsYXRpbmcgdGhlIHBlcmlvZCBhbmQgZHV0eV9jeWNsZSBmcm9tIHRoZQog
+IGNvbnRyb2xsZXIncyByZWdpc3RlciB2YWx1ZXMKCkNoYW5nZXMgaW4gdjM6Ci0gQWRkIEFuZHkn
+cyBSZXZpZXdlZC1ieSB0YWcKLSBSZW1vdmUgZXh0cmEgd2hpdGVzcGFjZSB0byBhbGlnbiBzb21l
+IGNvZGUgYWZ0ZXIgYXNzaWdubWVudHMgKHJlcXVlc3RlZCBieQogIFV3ZSBLbGVpbmUtS8O2bmln
+KQotLS0KIGRyaXZlcnMvcHdtL3B3bS1jcmMuYyB8IDMxICsrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9wd20vcHdtLWNyYy5jIGIvZHJpdmVycy9wd20vcHdtLWNyYy5jCmluZGV4IDI3ZGMz
+MDg4MjQyNC4uZWNmZGZhYzBjMmQ5IDEwMDY0NAotLS0gYS9kcml2ZXJzL3B3bS9wd20tY3JjLmMK
+KysrIGIvZHJpdmVycy9wd20vcHdtLWNyYy5jCkBAIC0xMjEsOCArMTIxLDM5IEBAIHN0YXRpYyBp
+bnQgY3JjX3B3bV9hcHBseShzdHJ1Y3QgcHdtX2NoaXAgKmNoaXAsIHN0cnVjdCBwd21fZGV2aWNl
+ICpwd20sCiAJcmV0dXJuIDA7CiB9CiAKK3N0YXRpYyB2b2lkIGNyY19wd21fZ2V0X3N0YXRlKHN0
+cnVjdCBwd21fY2hpcCAqY2hpcCwgc3RydWN0IHB3bV9kZXZpY2UgKnB3bSwKKwkJCSAgICAgIHN0
+cnVjdCBwd21fc3RhdGUgKnN0YXRlKQoreworCXN0cnVjdCBjcnlzdGFsY292ZV9wd20gKmNyY19w
+d20gPSB0b19jcmNfcHdtKGNoaXApOworCXN0cnVjdCBkZXZpY2UgKmRldiA9IGNyY19wd20tPmNo
+aXAuZGV2OworCXVuc2lnbmVkIGludCBjbGtfZGl2LCBjbGtfZGl2X3JlZywgZHV0eV9jeWNsZV9y
+ZWc7CisJaW50IGVycm9yOworCisJZXJyb3IgPSByZWdtYXBfcmVhZChjcmNfcHdtLT5yZWdtYXAs
+IFBXTTBfQ0xLX0RJViwgJmNsa19kaXZfcmVnKTsKKwlpZiAoZXJyb3IpIHsKKwkJZGV2X2Vycihk
+ZXYsICJFcnJvciByZWFkaW5nIFBXTTBfQ0xLX0RJViAlZFxuIiwgZXJyb3IpOworCQlyZXR1cm47
+CisJfQorCisJZXJyb3IgPSByZWdtYXBfcmVhZChjcmNfcHdtLT5yZWdtYXAsIFBXTTBfRFVUWV9D
+WUNMRSwgJmR1dHlfY3ljbGVfcmVnKTsKKwlpZiAoZXJyb3IpIHsKKwkJZGV2X2VycihkZXYsICJF
+cnJvciByZWFkaW5nIFBXTTBfRFVUWV9DWUNMRSAlZFxuIiwgZXJyb3IpOworCQlyZXR1cm47CisJ
+fQorCisJY2xrX2RpdiA9IChjbGtfZGl2X3JlZyAmIH5QV01fT1VUUFVUX0VOQUJMRSkgKyAxOwor
+CisJc3RhdGUtPnBlcmlvZCA9CisJCURJVl9ST1VORF9VUChjbGtfZGl2ICogTlNFQ19QRVJfVVNF
+QyAqIDI1NiwgUFdNX0JBU0VfQ0xLX01IWik7CisJc3RhdGUtPmR1dHlfY3ljbGUgPQorCQlESVZf
+Uk9VTkRfVVBfVUxMKGR1dHlfY3ljbGVfcmVnICogc3RhdGUtPnBlcmlvZCwgUFdNX01BWF9MRVZF
+TCk7CisJc3RhdGUtPnBvbGFyaXR5ID0gUFdNX1BPTEFSSVRZX05PUk1BTDsKKwlzdGF0ZS0+ZW5h
+YmxlZCA9ICEhKGNsa19kaXZfcmVnICYgUFdNX09VVFBVVF9FTkFCTEUpOworfQorCiBzdGF0aWMg
+Y29uc3Qgc3RydWN0IHB3bV9vcHMgY3JjX3B3bV9vcHMgPSB7CiAJLmFwcGx5ID0gY3JjX3B3bV9h
+cHBseSwKKwkuZ2V0X3N0YXRlID0gY3JjX3B3bV9nZXRfc3RhdGUsCiB9OwogCiBzdGF0aWMgaW50
+IGNyeXN0YWxjb3ZlX3B3bV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQotLSAK
+Mi4yOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
