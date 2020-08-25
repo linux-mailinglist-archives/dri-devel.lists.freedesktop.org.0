@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC608251AF6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 16:37:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AEC251B10
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 16:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB8D66E42A;
-	Tue, 25 Aug 2020 14:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1A06E04B;
+	Tue, 25 Aug 2020 14:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D006E37F;
- Tue, 25 Aug 2020 14:37:28 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id 2so1797049wrj.10;
- Tue, 25 Aug 2020 07:37:28 -0700 (PDT)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A0E6E04B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 14:43:03 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id m34so6959869pgl.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 07:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1wejVjdJjFDp//zuNq4iw9VnnSrXMrBCWrU+B996tjg=;
- b=CqhZ6mVu9piKx5tIee8eVB8qt8z0qMqPF1v8MkxUl379kS2e6mFjdaoArhVrA8O2qx
- KqzfrmiQxbJSHSgwI9I0zRQe59A7IJHdIKk5s7hxMTX/BqNCuhZQuCW5K6IoY1Xe69Fw
- FK0nZeMyNIPLgPRxT9QnKpGmTM0MfqUjv5ehPMjD6rwcrKMUDy3n3JfM+freNTnLXLQF
- vAgwYb/j0y9V7ELIaDyhMaDHGwuqb4zmRaTgqyjLf7X5iUzC5OEG5xvdOKXdDmQyd/1X
- 5r0BqVfJqdtQwxNTJ8jHjE+V67HK+PqsR5AQB1C+7jF+Jpf7Q6fgRTMUqV0nwUF0zIAG
- zU4Q==
+ h=from:to:cc:subject:date:message-id;
+ bh=QbtdkMQ2OQK8ma+2g5/vN4Ht1Ck+Q+wWJoRTIeRkMdI=;
+ b=YHjNDM1AlN+oZrQkZvw00RplLB7+Wy/qmjndtc60SzaHIG1/qt6VUHpyBmOv7pXSVz
+ ihuUoNZxgsTMBdx/zsiLr3hq/24i5ZjE0x//qVmbhFFnI23QPcAZjS+SL0bwRfDjn9dr
+ uGt81xBEqZYgR/5TMMI4pgjcEsu19YRwVA0yNoKBh4g992wvAGv6HfyAgLAbSyDmhgkS
+ GuRZc+BjP7lzXdIwpYkYK8x48e7CSKXYsSLHno9yOjzQND2+l8lvLFUlYK3OiEb7V7Me
+ yb8l+FjeyVeXR4I3lwqWZczvqYcC07/OCegqsY5p/P8OLrlxXS8PWbLCzwVKZP/A1rvv
+ YvlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1wejVjdJjFDp//zuNq4iw9VnnSrXMrBCWrU+B996tjg=;
- b=KxIpJWfs319An8R7jPkKtgdGQVGnpyE0Sh3P016i++vSuAvQmPAzirupxZsDa4xUx6
- /JqcF5FKwC5tojj9CWCMcVL7S469ptbd/e3CTsh7pLBEYWQUT2D8uHKk+fT+6qnWyH5d
- L9UIyLredRLGDbkgz0B9tSNW38RWkb2uSjlhEAhPRcD1Jyve/JLOjOeH6UXuIXKibBTi
- r4RtnDvYR8sH+nyOsKeVTjQ1K61doEDlPVCIiUvChpWToeiENx49Kkvalflmvd7xZFg9
- K66TcfERHuMlzdT+Zw01pLBktXkbxE1qwhvgp39V4gcaN58XRyW9p+msnPVsg6VmDy3g
- CsVw==
-X-Gm-Message-State: AOAM530I8DGfqAEy2zCJx+J6suFlsjobA6DUaeKVBeuOxJ68oUh/HX4K
- 822iqphNGqtJcEiSO4nMARW9GDiIp5tZ32iMZj6EjNd/0X2vsLKS
-X-Google-Smtp-Source: ABdhPJy3AYFnvsgq2dH5qSiQ9b/trX2St2yH83z9ADAyiui5u4OcDWeupKkNoGSChUu6CIX5AZVQdhj9aD63JrHRbP8=
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr11044637wrn.83.1598366246593; 
- Tue, 25 Aug 2020 07:37:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200822175254.1105377-1-robdclark@gmail.com>
- <20200825065224.GB30014@infradead.org>
-In-Reply-To: <20200825065224.GB30014@infradead.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 25 Aug 2020 07:38:13 -0700
-Message-ID: <CAF6AEGtK8b9UkbNMJ8VQMv-909fqKk+3LEXsgtuJ_BW0gVK-CA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: drop cache sync hack
-To: Christoph Hellwig <hch@infradead.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=QbtdkMQ2OQK8ma+2g5/vN4Ht1Ck+Q+wWJoRTIeRkMdI=;
+ b=V0gaCcvSv8lfefm5LJpoEVPHtrZeR6JUFAB9VM0rMgIlJ9l043WMnW5A6s+8J2XINP
+ QNXBW0u9vgCBD8f8fxEOrVxs3laZ3znvEGlRYPV+1neFVVVLoyLHW53Quc57yJ/LZ/K6
+ HrHCHwsgUTosSwrM9h3Qa63EF3fdbjx4LQ309dNJb6lqTF+rlR5zLzXiQAPgnSww+XF4
+ HKduGdwN369UPwoZNA/m9q1XSsCXwcaYzhKG06zYfLaCD/x3i+sDSQisX4RsDusVmTcl
+ 87B3k6IQmcm4y+NOOViIGGTAm1pqiMTWwDsrwdMd16cUr3IKzc2xE7d2YMjz+5IifJl+
+ yLAQ==
+X-Gm-Message-State: AOAM5325fjxJ+F/AjU2bfSV0q8JtrGw5y2e9YXWASNrik5wLGc1CxwCs
+ cQAsLPcugt3o7t8erZWRsZo=
+X-Google-Smtp-Source: ABdhPJwmFySP9vkbH3EZ1nzMfACkyEkiDEGzdcqk37zRMfzRs+srjVE3+pFgnFFRPpMX1rzaiWMYQw==
+X-Received: by 2002:a63:f44b:: with SMTP id p11mr6831402pgk.324.1598366581203; 
+ Tue, 25 Aug 2020 07:43:01 -0700 (PDT)
+Received: from realwakka.navercorp.com ([61.83.141.80])
+ by smtp.gmail.com with ESMTPSA id f13sm15087959pfd.215.2020.08.25.07.42.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Aug 2020 07:43:00 -0700 (PDT)
+From: Sidong Yang <realwakka@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Subject: [PATCH] drm/vkms: fix warning in vkms_get_vblank_timestamp
+Date: Tue, 25 Aug 2020 14:42:48 +0000
+Message-Id: <20200825144248.1751-1-realwakka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,36 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ Sidong Yang <realwakka@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 24, 2020 at 11:52 PM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Sat, Aug 22, 2020 at 10:52:54AM -0700, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Now that it isn't causing problems to use dma_map/unmap, we can drop the
-> > hack of using dma_sync in certain cases.
->
-> Great to see!  What did solve the problems?
+From: Sidong Yang <realwakka@gmail.com>, Haneen Mohammed <hamohammed.sa@gmail.com>
 
-should be 0e764a01015dfebff8a8ffd297d74663772e248a ("iommu/arm-smmu:
-Allow client devices to select direct mapping")
+When vkms_get_vblank_timestamp() is called very first time without
+enabling vblank before, vblank time has just intial value and it makes
+warning message. this patch prevents warning message by setting vblank
+time to current time.
 
-I still need to confirm whether qcom_iommu needs a similar thing, but
-I think it is ok as the iommu phandle link is down one level on the
-'mdp' device, rather than attached to the toplevel drm device.
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
 
-BR,
--R
+Signed-off-by: Sidong Yang <realwakka@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_crtc.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index ac85e17428f8..09c012d54d58 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -86,6 +86,11 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 	struct vkms_output *output = &vkmsdev->output;
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 
++	if (!READ_ONCE(vblank->enabled)) {
++		*vblank_time = ktime_get();
++		return true;
++	}
++
+ 	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
+ 
+ 	if (WARN_ON(*vblank_time == vblank->time))
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
