@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EC52517CA
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 13:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BDB2517FF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Aug 2020 13:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A5F6E8EB;
-	Tue, 25 Aug 2020 11:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5DF26E094;
+	Tue, 25 Aug 2020 11:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2FFD6E8EB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 11:38:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9193E29E;
- Tue, 25 Aug 2020 13:38:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1598355529;
- bh=oP1EjEnIIX7C41Y3YV+hfiXso0su8fK+nrUt1wKEF9Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V8LDzF9P8hldB1tNCUwNJ/7EKxSr62Gp1cWVZMi/+ekcPHd96IW+rWoq5QdRJlTqH
- dQ0DWxLi6Lzl6uAqGyxMgjAeEx/ru0IdXvNGSXFnSHtZYbvQMxELXOraGf4t8piTKA
- ZndhWp0G8aMHKXNn/qTcdYqI4v37quU1a+7p0eyo=
-Date: Tue, 25 Aug 2020 14:38:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200825113815.GA6767@pendragon.ideasonboard.com>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <20200819152120.GA106437@ravnborg.org>
- <20200819153045.GA18469@pendragon.ideasonboard.com>
- <CALAqxLUXnPRec3UYbMKge8yNKBagLOatOeRCagF=JEyPEfWeKA@mail.gmail.com>
- <20200820090326.3f400a15@coco.lan>
- <20200820100205.GA5962@pendragon.ideasonboard.com>
- <CAPM=9twzsw7T=GD6Jc1EFenXq9ZhTgf_Nuo71uLfX2W33oa=6w@mail.gmail.com>
- <20200825133025.13f047f0@coco.lan>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6846E094
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 11:45:41 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id 2so1223455wrj.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 04:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=Z4KyrBawh5I2x6NeIqjVgo7gnUcWLY3kFNO+RloeAYg=;
+ b=IGFoEHgaIPsX9CXu6OXIGlc65XiYPBOtJgKPZAGkiYf3hxvLYZzjcEj+u1mw/CCR/Z
+ aciCwtxxalXtYu9J/3oxzEQDNVJPNFt9o+JzrtROJKU+HsxcbOxxezLQxkhVxnwLlhW7
+ j+pdNg2eEpchO0gy09C+cS28y8WO/Jh2rJ1QfvftJF4/+kJPuTTO0KKel2fQJZOlo2md
+ mt+Sxk2+sWmqN7dDdXYW4tibOUl5WLhRV1W4agi64A0sLDGzM8nMOGem+qgI7wIQpj0u
+ BD4YB1DgLwUdrz+TCRuYuHW5zREnZuhxOEvZgV0PqxaRpcAsn2JZZ5pxMwnAFVZQq8cS
+ eY4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=Z4KyrBawh5I2x6NeIqjVgo7gnUcWLY3kFNO+RloeAYg=;
+ b=BlPdi95FQouSRAaVghDRO7ejGdXdY/BCXAKElLbE7lTGXx4qOjZ/v/ConBhAOOqBwf
+ CioPItd9PkNKC3dIqQO8PhpsEllwvE+79RwmUdvZpVF3tdagpZ2Wb4Pnj2p9WEE6vZKP
+ 99v35IiauRN3GOY2bOo76i0UWDfq1n8U8TGmKmzfcmk2QDA+YjCqi2euhId4cR8/d5z/
+ 65qO+KOVBfX0YmAh5n6wAdQK5cWRA9JYfYkIKgt1daWu6H6YVn10sULfyMdhdeTKtEQg
+ zouOpMGhmEGRuZuopO6sieXsBXeBiEvRNY2ajl4bmVPsUJkg4jUoljg+wGc3xg9L83+Z
+ kzvw==
+X-Gm-Message-State: AOAM533CHT59nPv4ATK/zW4F7X7XA49BN6t36d7dJNg0Jo2YvW5lh/Ml
+ Oya0690S42GyZPU7blmBX68=
+X-Google-Smtp-Source: ABdhPJwA1geacmCXwy6uAKsMZ9o5Ac2JW6XM1SyfJ+UddpZGIjN2tx5d+0qDGoLY6mIhYBRhe/487A==
+X-Received: by 2002:adf:e411:: with SMTP id g17mr10985118wrm.77.1598355940308; 
+ Tue, 25 Aug 2020 04:45:40 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id 126sm5729268wme.42.2020.08.25.04.45.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Aug 2020 04:45:39 -0700 (PDT)
+Date: Tue, 25 Aug 2020 08:45:32 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH v2] drm/vkms: add alpha-premultiplied color blending
+Message-ID: <20200825114532.abzdooluny2ekzvm@smtp.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200825133025.13f047f0@coco.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,166 +66,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Wanchun Zheng <zhengwanchun@hisilicon.com>, linuxarm@huawei.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
- driverdevel <devel@driverdev.osuosl.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Xiubin Zhang <zhangxiubin1@huawei.com>, Wei Xu <xuwei5@hisilicon.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>, Jakub Kicinski <kuba@kernel.org>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- linux-media <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Liwei Cai <cailiwei@hisilicon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alexei Starovoitov <ast@kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, mauro.chehab@huawei.com,
- Rob Clark <robdclark@chromium.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>, Liuyao An <anliuyao@huawei.com>,
- Network Development <netdev@vger.kernel.org>,
- Rongrong Zou <zourongrong@gmail.com>, BPF Mailing List <bpf@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: kernel-usp@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro,
+The VKMS blend function was ignoring the alpha channel and just
+overwriting vaddr_src with vaddr_dst. This XRGB approach triggers a
+warning when running the kms_cursor_crc/cursor-alpha-transparent test
+case. In IGT, cairo_format_argb32 uses premultiplied alpha (according to
+documentation). Also current DRM assumption is that alpha is
+premultiplied. Therefore, this patch considers premultiplied alpha
+blending eq to compose vaddr_src with vaddr_dst.
 
-On Tue, Aug 25, 2020 at 01:30:25PM +0200, Mauro Carvalho Chehab wrote:
-> Em Tue, 25 Aug 2020 05:29:29 +1000
-> Dave Airlie <airlied@gmail.com> escreveu:
-> 
-> > On Thu, 20 Aug 2020 at 20:02, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hi Mauro,
-> > >
-> > > On Thu, Aug 20, 2020 at 09:03:26AM +0200, Mauro Carvalho Chehab wrote:  
-> > > > Em Wed, 19 Aug 2020 12:52:06 -0700 John Stultz escreveu:  
-> > > > > On Wed, Aug 19, 2020 at 8:31 AM Laurent Pinchart wrote:  
-> > > > > > On Wed, Aug 19, 2020 at 05:21:20PM +0200, Sam Ravnborg wrote:  
-> > > > > > > On Wed, Aug 19, 2020 at 01:45:28PM +0200, Mauro Carvalho Chehab wrote:  
-> > > > > > > > This patch series port the out-of-tree driver for Hikey 970 (which
-> > > > > > > > should also support Hikey 960) from the official 96boards tree:
-> > > > > > > >
-> > > > > > > >    https://github.com/96boards-hikey/linux/tree/hikey970-v4.9
-> > > > > > > >
-> > > > > > > > Based on his history, this driver seems to be originally written
-> > > > > > > > for Kernel 4.4, and was later ported to Kernel 4.9. The original
-> > > > > > > > driver used to depend on ION (from Kernel 4.4) and had its own
-> > > > > > > > implementation for FB dev API.
-> > > > > > > >
-> > > > > > > > As I need to preserve the original history (with has patches from
-> > > > > > > > both HiSilicon and from Linaro),  I'm starting from the original
-> > > > > > > > patch applied there. The remaining patches are incremental,
-> > > > > > > > and port this driver to work with upstream Kernel.
-> > > > > > > >  
-> > > > > ...  
-> > > > > > > > - Due to legal reasons, I need to preserve the authorship of
-> > > > > > > >   each one responsbile for each patch. So, I need to start from
-> > > > > > > >   the original patch from Kernel 4.4;  
-> > > > > ...  
-> > > > > > > I do acknowledge you need to preserve history and all -
-> > > > > > > but this patchset is not easy to review.  
-> > > > > >
-> > > > > > Why do we need to preserve history ? Adding relevant Signed-off-by and
-> > > > > > Co-developed-by should be enough, shouldn't it ? Having a public branch
-> > > > > > that contains the history is useful if anyone is interested, but I don't
-> > > > > > think it's required in mainline.  
-> > > > >
-> > > > > Yea. I concur with Laurent here. I'm not sure what legal reasoning you
-> > > > > have on this but preserving the "absolute" history here is actively
-> > > > > detrimental for review and understanding of the patch set.
-> > > > >
-> > > > > Preserving Authorship, Signed-off-by lines and adding Co-developed-by
-> > > > > lines should be sufficient to provide both atribution credit and DCO
-> > > > > history.  
-> > > >
-> > > > I'm not convinced that, from legal standpoint, folding things would
-> > > > be enough. See, there are at least 3 legal systems involved here
-> > > > among the different patch authors:
-> > > >
-> > > >       - civil law;
-> > > >       - common law;
-> > > >       - customary law + common law.
-> > > >
-> > > > Merging stuff altogether from different law systems can be problematic,
-> > > > and trying to discuss this with experienced IP property lawyers will
-> > > > for sure take a lot of time and efforts. I also bet that different
-> > > > lawyers will have different opinions, because laws are subject to
-> > > > interpretation. With that matter I'm not aware of any court rules
-> > > > with regards to folded patches. So, it sounds to me that folding
-> > > > patches is something that has yet to be proofed in courts around
-> > > > the globe.
-> > > >
-> > > > At least for US legal system, it sounds that the Country of
-> > > > origin of a patch is relevant, as they have a concept of
-> > > > "national technology" that can be subject to export regulations.
-> > > >
-> > > > From my side, I really prefer to play safe and stay out of any such
-> > > > legal discussions.  
-> > >
-> > > Let's be serious for a moment. If you think there are legal issues in
-> > > taking GPL-v2.0-only patches and squashing them while retaining
-> > > authorship information through tags, the Linux kernel if *full* of that.
-> > > You also routinely modify patches that you commit to the media subsystem
-> > > to fix "small issues".
-> > >
-> > > The country of origin argument makes no sense either, the kernel code
-> > > base if full of code coming from pretty much all country on the planet.
-> > >
-> > > Keeping the patches separate make this hard to review. Please squash
-> > > them.  
-> > 
-> > I'm inclined to agree with Laurent here.
-> > 
-> > Patches submitted as GPL-v2 with DCO lines and author names/companies
-> > should be fine to be squashed and rearranged,
-> > as long as the DCO and Authorship is kept somewhere in the new patch
-> > that is applied.
-> > 
-> > Review is more important here.
-> 
-> Sorry, but I can't agree that review is more important than to be able
-> to properly indicate copyrights in a valid way at the legal systems that
-> it would apply ;-)
-> 
-> In any case, there's an easy way to make the code easy to review:
-> I can write the patches against staging (where it is OK to submit
-> preserving the history) and then add a final patch moving it out
-> of staging.
-> 
-> You can then just review the last patch, as it will contain the
-> entire code on it.
-> 
-> Another alternative, as I'm already doing with Sam, is for me to
-> submit the folded code as a reply to 00/xx. You can then just 
-> review the final code, without concerning about how the code reached
-> there.
-> 
-> From review point of the view, this will be the same as reviewing
-> a folded patch, but, from legal standpoint, the entire copyright
-> chain will be preserved.
+This change removes the following cursor-alpha-transparent warning:
+"Suspicious CRC: All values are 0."
 
-Let's stop with the legal FUD please. Squashing patches is done
-routinely in the kernel. If you have evidence this causes legal issues,
-please bring it up with the TAB or the LF to make this practice stop.
-Otherwise, please squash this series.
+--
 
+v2:
+- static for local functions
+- const for the read-only variable argb_src
+- replaces variable names
+- drops unnecessary comment
+
+--
+
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+
+Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 55 ++++++++++++++++++++--------
+ 1 file changed, 39 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 4f3b07a32b60..eaecc5a6c5db 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -32,8 +32,6 @@ static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
+ 			src_offset = composer->offset
+ 				     + (i * composer->pitch)
+ 				     + (j * composer->cpp);
+-			/* XRGB format ignores Alpha channel */
+-			bitmap_clear(vaddr_out + src_offset, 24, 8);
+ 			crc = crc32_le(crc, vaddr_out + src_offset,
+ 				       sizeof(u32));
+ 		}
+@@ -42,27 +40,51 @@ static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
+ 	return crc;
+ }
+ 
++static u8 blend_channel(u8 src, u8 dst, u8 alpha)
++{
++	u32 pre_blend;
++	u8 new_color;
++
++	pre_blend = (src * 255 + dst * (255 - alpha));
++
++	/* Faster div by 255 */
++	new_color = ((pre_blend + ((pre_blend + 257) >> 8)) >> 8);
++
++	return new_color;
++}
++
++static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
++{
++	u8 alpha;
++
++	alpha = argb_src[3];
++	argb_dst[0] = blend_channel(argb_src[0], argb_dst[0], alpha);
++	argb_dst[1] = blend_channel(argb_src[1], argb_dst[1], alpha);
++	argb_dst[2] = blend_channel(argb_src[2], argb_dst[2], alpha);
++	/* Opaque primary */
++	argb_dst[3] = 0xFF;
++}
++
+ /**
+  * blend - blend value at vaddr_src with value at vaddr_dst
+  * @vaddr_dst: destination address
+  * @vaddr_src: source address
+- * @dest_composer: destination framebuffer's metadata
++ * @dst_composer: destination framebuffer's metadata
+  * @src_composer: source framebuffer's metadata
+  *
+- * Blend value at vaddr_src with value at vaddr_dst.
+- * Currently, this function write value of vaddr_src on value
+- * at vaddr_dst using buffer's metadata to locate the new values
+- * from vaddr_src and their destination at vaddr_dst.
+- *
+- * TODO: Use the alpha value to blend vaddr_src with vaddr_dst
+- *	 instead of overwriting it.
++ * Blend the vaddr_src value with the vaddr_dst value using the pre-multiplied
++ * alpha blending equation, since DRM currently assumes that the pixel color
++ * values have already been pre-multiplied with the alpha channel values. See
++ * more drm_plane_create_blend_mode_property(). This function uses buffer's
++ * metadata to locate the new composite values at vaddr_dst.
+  */
+ static void blend(void *vaddr_dst, void *vaddr_src,
+-		  struct vkms_composer *dest_composer,
++		  struct vkms_composer *dst_composer,
+ 		  struct vkms_composer *src_composer)
+ {
+ 	int i, j, j_dst, i_dst;
+ 	int offset_src, offset_dst;
++	u8 *pixel_dst, *pixel_src;
+ 
+ 	int x_src = src_composer->src.x1 >> 16;
+ 	int y_src = src_composer->src.y1 >> 16;
+@@ -77,15 +99,16 @@ static void blend(void *vaddr_dst, void *vaddr_src,
+ 
+ 	for (i = y_src, i_dst = y_dst; i < y_limit; ++i) {
+ 		for (j = x_src, j_dst = x_dst; j < x_limit; ++j) {
+-			offset_dst = dest_composer->offset
+-				     + (i_dst * dest_composer->pitch)
+-				     + (j_dst++ * dest_composer->cpp);
++			offset_dst = dst_composer->offset
++				     + (i_dst * dst_composer->pitch)
++				     + (j_dst++ * dst_composer->cpp);
+ 			offset_src = src_composer->offset
+ 				     + (i * src_composer->pitch)
+ 				     + (j * src_composer->cpp);
+ 
+-			memcpy(vaddr_dst + offset_dst,
+-			       vaddr_src + offset_src, sizeof(u32));
++			pixel_src = (u8 *)(vaddr_src + offset_src);
++			pixel_dst = (u8 *)(vaddr_dst + offset_dst);
++			alpha_blending(pixel_src, pixel_dst);
+ 		}
+ 		i_dst++;
+ 	}
 -- 
-Regards,
+2.28.0
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
