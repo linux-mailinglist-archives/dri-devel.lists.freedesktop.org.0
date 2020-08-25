@@ -2,72 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03BC2528CE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C380A2528E8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:06:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F546EA32;
-	Wed, 26 Aug 2020 08:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A24AC6EA40;
+	Wed, 26 Aug 2020 08:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECB26E296
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 15:06:13 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 275BE2CD;
- Tue, 25 Aug 2020 11:06:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 25 Aug 2020 11:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=3I3j5EOU60U1Ry7H1RtmtTOIRsx
- 0SMf4gLT/+JVsv3s=; b=qIpyzpWqvt49gOQjIw0P0YCE2o/ZjNok7k0l03cLlv+
- ZNuULsmpjgGUIgHy7RDdPRQ6tB30SnDfI67RXYZWdKMv5Bm8MggcpzKmHXkAv/Rh
- deoC3EWpwQGa991tom1omCJZuh1oMAUqOg3hIfGHEOXWNhDjfyngbihaqb9SKl/h
- a3qlD4IbkfRjq6zenklH3d43+CwRAEKcUDYe9h2lNBrKjiYf9vlatkMtz/98M0kp
- R06d/Arif3zzDdMXJbUn/zhOmTaXBQhwpmSqfUBFwpLoQQlSx3kY9RsxX54QOABL
- 38OA7qovlZ/SQshAtEfv3qAZiTrvYF4Qzwb9vmb7U6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3I3j5E
- OU60U1Ry7H1RtmtTOIRsx0SMf4gLT/+JVsv3s=; b=qzOmkcJu5rhTpkZVcdNhea
- bN4ZfR5/9NMiAQfypTNM3a/2wYBmsuFeh+hAvANlrlhodAp6AJb+vBuJscM6LoaM
- 8bRICOzMMOBrxLps3y8Lusrq8vCNl/ZnnXxghVld9K3kxIdb4b26454xnQpSW+Yv
- pACmmzRT/K7nrc0zemOoPQ7LgGW33mryry5kf15hPBFqnq7Wc1cUYx9/jcTYQA2I
- 1ipQFOOTQ9WKZGM2sZ9LQ1UNMfBYb+iotUo/Is4vaKR1nbqMo0E0nikRdIF/uALW
- 81DctUrFdzz7tZKnztYKE8FRuqt5ZaoxRVuvdNemrpn/TMF6qaHZEAk4HFC2ZUQw
- ==
-X-ME-Sender: <xms:4ChFX0bSx9W0Znia52kwIwRyTGKvg5JNkn1Xqchou6x4CYpRS5VtTA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvtddgkeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:4ChFX_aHfWHINNwK6U-Fw35J35K8kmyiTo9Wr4mD8L0WZ2fWb7yElw>
- <xmx:4ChFX-8_wuzxIem1Ch830fXwF5JwhpY4fWY2sXBzEJ9tu22ZQ5ASNQ>
- <xmx:4ChFX-peXcuf1lTBpFTmkcOTpsnuQD8wkeVGkybIPEzAlyzlFimteA>
- <xmx:4ihFX7L70Inwhrj51vikWUZKeo623Hway8xr1A2iFuJ78Phb5-nCDgr7Pn4>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4B3AE3280067;
- Tue, 25 Aug 2020 11:06:08 -0400 (EDT)
-Date: Tue, 25 Aug 2020 17:06:06 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH v4 29/78] drm/vc4: crtc: Add a delay after disabling the
- PixelValve output
-Message-ID: <20200825150606.utlynhzo664bwksy@gilmour.lan>
-References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <a1f22aadc60a2f32022831a6348c8bbd6e1954c3.1594230107.git-series.maxime@cerno.tech>
- <CAPY8ntBLWrfagZ5-kQz+5Mkw4_KaaTP63_L3D4owJAfA5kFpzw@mail.gmail.com>
- <20200729144251.us6a2pgkjjmm53ov@gilmour.lan>
- <ff6eca99-d98e-5b50-8b74-bba82928dda2@i2se.com>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B989B6E358
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 15:37:36 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id r15so13131258wrp.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 08:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QiWW06IWe+VHrM4kR/F2lfc40IYQlHNu4dO/e0F06jo=;
+ b=KvGAEAd0OvyVMeh2NKOfrKkXjBDpUD9XSlK35v/laWG9LWTCv0zAtvEF/u9wI7i6Yc
+ 1l4Hd/9Pv2MZ4ub7JnqRhmtPFlFg8/ApuIQ3s6HNiJlEN+F8gnXQ6nb1RfhTKwqzM1Uu
+ fEGEr4KUFMVRnTUJqd4n6xw/SydHgMl/IeFaU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QiWW06IWe+VHrM4kR/F2lfc40IYQlHNu4dO/e0F06jo=;
+ b=B5Qr2LDJCZck1LWmOmomN2BkNA7wFkAi9X992cr9xz7dM3OZpfwt+Rpeg6Xh64Sh7c
+ b7Ut952vgrVt1NFc7/RAiBx87G4SRX7Mnhi/K52+mo3F+2QFZL5vzur5Fl5CpT5cQbZ+
+ JQ4JNhLjSDwPgSIrZdoKnugSJHJ/kK+QghSgf72UxrlQbK5B8+cjPIVHt7WlRs5qy3GP
+ PbOJcXthFHYqdNV34LelMeKsUpkGqjYAdcbTGFDvPzVMXgAnPQW1PS2mg4VJhmnm0cIk
+ z2f/KIgwEdXHZVowFTi6M1ISUiEpmJGx7qZRWymEFPOBD9uSBBRJf6Ca2r4Pw3NsDmtF
+ oWkg==
+X-Gm-Message-State: AOAM531u4NhtUzhPLo708Tna0bfdyYoR8u0eaJXwvuyqYEmLQeToLNOy
+ FyI+lKO2L3ez5FsrLji3dkEt6Uz0pLEJRi2j8+SaBg==
+X-Google-Smtp-Source: ABdhPJzkA/FEnRbvsbderhdII4r81LGYlNH/sKgYxDlux/BAP67c6Z42PfH4SooQdTRw5rz6G6M1mL/iLjbQ9lymr+k=
+X-Received: by 2002:adf:bb54:: with SMTP id x20mr10426414wrg.413.1598369855067; 
+ Tue, 25 Aug 2020 08:37:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ff6eca99-d98e-5b50-8b74-bba82928dda2@i2se.com>
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+ <20200824193036.6033-8-james.quinlan@broadcom.com>
+ <20200825094506.GR1891694@smile.fi.intel.com>
+In-Reply-To: <20200825094506.GR1891694@smile.fi.intel.com>
+From: Jim Quinlan <james.quinlan@broadcom.com>
+Date: Tue, 25 Aug 2020 11:37:23 -0400
+Message-ID: <CA+-6iNzV5_M0g8tQEmscb_nq4s5PcS69tb9e2m8Pm1O1ifpuow@mail.gmail.com>
+Subject: Re: [PATCH v11 07/11] device-mapping: Introduce DMA range map,
+ supplanting dma_pfn_offset
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 X-Mailman-Approved-At: Wed, 26 Aug 2020 08:04:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,99 +61,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1236043714=="
+Cc: Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
+ Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1236043714==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gbp4s6jsz2sfula3"
-Content-Disposition: inline
+Hi Andy,
 
 
---gbp4s6jsz2sfula3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Stefan,
-
-On Wed, Jul 29, 2020 at 05:50:31PM +0200, Stefan Wahren wrote:
-> Am 29.07.20 um 16:42 schrieb Maxime Ripard:
-> > Hi,
+On Tue, Aug 25, 2020 at 5:54 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Aug 24, 2020 at 03:30:20PM -0400, Jim Quinlan wrote:
+> > The new field 'dma_range_map' in struct device is used to facilitate the
+> > use of single or multiple offsets between mapping regions of cpu addrs and
+> > dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
+> > capable of holding a single uniform offset and had no region bounds
+> > checking.
 > >
-> > On Wed, Jul 29, 2020 at 03:09:21PM +0100, Dave Stevenson wrote:
-> >> On Wed, 8 Jul 2020 at 18:43, Maxime Ripard <maxime@cerno.tech> wrote:
-> >>> In order to avoid pixels getting stuck in the (unflushable) FIFO betw=
-een
-> >>> the HVS and the PV, we need to add some delay after disabling the PV =
-output
-> >>> and before disabling the HDMI controller. 20ms seems to be good enoug=
-h so
-> >>> let's use that.
-> >>>
-> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>> ---
-> >>>  drivers/gpu/drm/vc4/vc4_crtc.c | 2 ++
-> >>>  1 file changed, 2 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4=
-_crtc.c
-> >>> index d0b326e1df0a..7b178d67187f 100644
-> >>> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> >>> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> >>> @@ -403,6 +403,8 @@ static void vc4_crtc_atomic_disable(struct drm_cr=
-tc *crtc,
-> >>>         ret =3D wait_for(!(CRTC_READ(PV_V_CONTROL) & PV_VCONTROL_VIDE=
-N), 1);
-> >>>         WARN_ONCE(ret, "Timeout waiting for !PV_VCONTROL_VIDEN\n");
-> >>>
-> >>> +       mdelay(20);
-> >> mdelay for 20ms seems a touch unfriendly as it's a busy wait. Can we
-> >> not msleep instead?
-> > Since the timing was fairly critical, sleeping didn't seem like a good
-> > solution since there's definitely some chance you overshoot and end up
-> > with a higher time than the one you targeted.
->=20
-> usleep_range(min, max) isn't a solution?
+> > The function of_dma_get_range() has been modified so that it takes a single
+> > argument -- the device node -- and returns a map, NULL, or an error code.
+> > The map is an array that holds the information regarding the DMA regions.
+> > Each range entry contains the address offset, the cpu_start address, the
+> > dma_start address, and the size of the region.
+> >
+> > of_dma_configure() is the typical manner to set range offsets but there are
+> > a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
+> > driver code.  These cases now invoke the function
+> > dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
+>
+> ...
+>
+> > +     /*
+> > +      * Record all info in the generic DMA ranges array for struct device.
+> > +      */
+> > +     *map = r;
+> > +     for_each_of_range(&parser, &range) {
+> > +             pr_debug("dma_addr(%llx) cpu_addr(%llx) size(%llx)\n",
+> > +                      range.bus_addr, range.cpu_addr, range.size);
+> > +             r->cpu_start = range.cpu_addr;
+> > +             r->dma_start = range.bus_addr;
+> > +             r->size = range.size;
+>
+> > +             r->offset = (u64)range.cpu_addr - (u64)range.bus_addr;
+>
+> What's the point in explicit castings to the same type?
+No point.  If I have to send out another version I will fix this.
 
-My understanding of usleep_range was that you can still overshoot, even
-though it's backed by an HR timer so the resolution is not a jiffy. Are
-we certain that we're going to be in that range?
+>
+> > +             r++;
+> > +     }
+>
+> ...
+>
+> > +             phys_addr_t     paddr;
+> > +             dma_addr_t      dma_addr;
+> > +             struct device   dev_bogus;
+>
+> >               unittest(paddr == expect_paddr,
+> > -                      "of_dma_get_range wrong phys addr (%llx) on node %pOF", paddr, np);
+> > +                      "of_dma_get_range: wrong phys addr %llx (expecting %llx) on node %pOF\n",
+> > +                      (u64)paddr, expect_paddr, np);
+>
+> %llx -> %pap
+This was intentional -- I'm aware of %pap and %pad.  The problem is
+that %pa[pd]  print out a zero-filled 16 character number regardless
+of what the number is.  For example, 1 is "0x0000000000000001",
+whereas using %llx yields "1".
 
-Maxime
+>
+> >               unittest(dma_addr == expect_dma_addr,
+> > -                      "of_dma_get_range wrong DMA addr (%llx) on node %pOF", dma_addr, np);
+> > +                      "of_dma_get_range: wrong DMA addr %llx (expecting %llx) on node %pOF\n",
+> > +                      (u64)dma_addr, expect_dma_addr, np);
+>
+> %llx -> %pad
+>
+> ...
+>
+> > +     if (mem->use_dev_dma_pfn_offset) {
+> > +             u64 base_addr = PFN_PHYS((u64)mem->pfn_base);
+>
+> Do we need explicit casting here?
+I don't think it is needed.  However, the "(u64)" is useless though
+since the macro recasts it to a phys_addr_t.
 
---gbp4s6jsz2sfula3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0Uo3gAKCRDj7w1vZxhR
-xTjQAQCZiLqHqiPNSDq7T1euBsIbQ+XTGhdLmdnBZbUIO+1VPwEA1z/O7HFK3t4N
-IhM8AxotumyFnRcchBjauHOWLcdL+Qo=
-=am4A
------END PGP SIGNATURE-----
-
---gbp4s6jsz2sfula3--
-
---===============1236043714==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+If there is another version of this submission I will change this.
+>
+> > +
+> > +             return base_addr - dma_offset_from_phys_addr(dev, base_addr);
+> > +     }
+>
+> ...
+>
+> > +int dma_set_offset_range(struct device *dev, phys_addr_t cpu_start,
+> > +                      dma_addr_t dma_start, u64 size)
+> > +{
+> > +     struct bus_dma_region *map;
+> > +     u64 offset = (u64)cpu_start - (u64)dma_start;
+> > +
+> > +     if (dev->dma_range_map) {
+> > +             dev_err(dev, "attempt to add DMA range to existing map\n");
+> > +             return -EINVAL;
+> > +     }
+>
+> Wouldn't be better to do an assignment of offset here?
+IIRC this was what Christoph requested.  It has actually gone back and
+forth over the versions of this submission.
+>
+> > +     if (!offset)
+> > +             return 0;
+> > +
+> > +     map = kcalloc(2, sizeof(*map), GFP_KERNEL);
+> > +     if (!map)
+> > +             return -ENOMEM;
+> > +     map[0].cpu_start = cpu_start;
+> > +     map[0].dma_start = dma_start;
+> > +     map[0].offset = offset;
+> > +     map[0].size = size;
+> > +     dev->dma_range_map = map;
+> > +
+> > +     return 0;
+> > +}
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+Thanks again,
+Jim
+>
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1236043714==--
