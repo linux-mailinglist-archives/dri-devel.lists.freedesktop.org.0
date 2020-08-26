@@ -1,45 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB4C25254D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:51:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D18CD25267F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 07:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BF16E9EF;
-	Wed, 26 Aug 2020 01:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 311846E9F6;
+	Wed, 26 Aug 2020 05:14:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4CBD6E9EF
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:51:51 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-WPD6IiwQP5CVD_5yKG8aHg-1; Tue, 25 Aug 2020 21:45:32 -0400
-X-MC-Unique: WPD6IiwQP5CVD_5yKG8aHg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AD711074640;
- Wed, 26 Aug 2020 01:45:31 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
- [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D304960FC2;
- Wed, 26 Aug 2020 01:45:29 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 23/23] drm/ttm: change ordering of args to map/unmap helpers.
-Date: Wed, 26 Aug 2020 11:44:28 +1000
-Message-Id: <20200826014428.828392-24-airlied@gmail.com>
-In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8E936E9F6
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 05:14:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B5853AC48;
+ Wed, 26 Aug 2020 05:15:21 +0000 (UTC)
+Subject: Re: [PATCH 11/23] drm/gem_vram/ttm: move to driver backend destroy
+ function.
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20200826014428.828392-1-airlied@gmail.com>
+ <20200826014428.828392-12-airlied@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <afaacd27-fdca-de0e-6227-3c26b87404c0@suse.de>
+Date: Wed, 26 Aug 2020 07:14:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: gmail.com
+In-Reply-To: <20200826014428.828392-12-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,146 +40,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com, sroland@vmware.com, bskeggs@redhat.com,
- christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: christian.koenig@amd.com, sroland@vmware.com, kraxel@redhat.com,
+ bskeggs@redhat.com
+Content-Type: multipart/mixed; boundary="===============1573215091=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1573215091==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="78yoFVXFpDP8fpEj6grmohxH0ecXwMzfW"
 
-These tooks the same args in a different order to the dma
-ones, just make things look nicer.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--78yoFVXFpDP8fpEj6grmohxH0ecXwMzfW
+Content-Type: multipart/mixed; boundary="hQFIlqBggDu14PqfOm1llKmhegveW8RXe";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: kraxel@redhat.com, sroland@vmware.com, bskeggs@redhat.com,
+ christian.koenig@amd.com
+Message-ID: <afaacd27-fdca-de0e-6227-3c26b87404c0@suse.de>
+Subject: Re: [PATCH 11/23] drm/gem_vram/ttm: move to driver backend destroy
+ function.
+References: <20200826014428.828392-1-airlied@gmail.com>
+ <20200826014428.828392-12-airlied@gmail.com>
+In-Reply-To: <20200826014428.828392-12-airlied@gmail.com>
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ++--
- drivers/gpu/drm/nouveau/nouveau_bo.c    | 4 ++--
- drivers/gpu/drm/radeon/radeon_ttm.c     | 4 ++--
- drivers/gpu/drm/ttm/ttm_page_alloc.c    | 8 +++++---
- include/drm/ttm/ttm_page_alloc.h        | 8 +++++---
- 5 files changed, 16 insertions(+), 12 deletions(-)
+--hQFIlqBggDu14PqfOm1llKmhegveW8RXe
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 9eb243ff2ba6..c03093828112 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1339,7 +1339,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_bo_device *bdev,
- 
- 	/* fall back to generic helper to populate the page array
- 	 * and map them to the device */
--	return ttm_populate_and_map_pages(adev->dev, &gtt->ttm, ctx);
-+	return ttm_populate_and_map_pages(&gtt->ttm, adev->dev, ctx);
- }
- 
- /**
-@@ -1382,7 +1382,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
- #endif
- 
- 	/* fall back to generic helper to unmap and unpopulate array */
--	ttm_unmap_and_unpopulate_pages(adev->dev, &gtt->ttm);
-+	ttm_unmap_and_unpopulate_pages(&gtt->ttm, adev->dev);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 644f15412dce..9988c7572e77 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1294,7 +1294,7 @@ nouveau_ttm_tt_populate(struct ttm_bo_device *bdev,
- 		return ttm_dma_populate((void *)ttm, dev, ctx);
- 	}
- #endif
--	return ttm_populate_and_map_pages(dev, ttm_dma, ctx);
-+	return ttm_populate_and_map_pages(ttm_dma, dev, ctx);
- }
- 
- static void
-@@ -1326,7 +1326,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_bo_device *bdev,
- 	}
- #endif
- 
--	ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
-+	ttm_unmap_and_unpopulate_pages(ttm_dma, dev);
- }
- 
- static void
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index c9f7fc112a84..8e3f3da08bff 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -644,7 +644,7 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 	}
- #endif
- 
--	return ttm_populate_and_map_pages(rdev->dev, &gtt->ttm, ctx);
-+	return ttm_populate_and_map_pages(&gtt->ttm, rdev->dev, ctx);
- }
- 
- static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
-@@ -676,7 +676,7 @@ static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
- 	}
- #endif
- 
--	ttm_unmap_and_unpopulate_pages(rdev->dev, &gtt->ttm);
-+	ttm_unmap_and_unpopulate_pages(&gtt->ttm, rdev->dev);
- }
- 
- int radeon_ttm_tt_set_userptr(struct radeon_device *rdev,
-diff --git a/drivers/gpu/drm/ttm/ttm_page_alloc.c b/drivers/gpu/drm/ttm/ttm_page_alloc.c
-index 028ba94d7824..726ea4893a20 100644
---- a/drivers/gpu/drm/ttm/ttm_page_alloc.c
-+++ b/drivers/gpu/drm/ttm/ttm_page_alloc.c
-@@ -1094,8 +1094,9 @@ void ttm_pool_unpopulate(struct ttm_tt *ttm)
- }
- EXPORT_SYMBOL(ttm_pool_unpopulate);
- 
--int ttm_populate_and_map_pages(struct device *dev, struct ttm_dma_tt *tt,
--					struct ttm_operation_ctx *ctx)
-+int ttm_populate_and_map_pages(struct ttm_dma_tt *tt,
-+			       struct device *dev,
-+			       struct ttm_operation_ctx *ctx)
- {
- 	unsigned i, j;
- 	int r;
-@@ -1137,7 +1138,8 @@ int ttm_populate_and_map_pages(struct device *dev, struct ttm_dma_tt *tt,
- }
- EXPORT_SYMBOL(ttm_populate_and_map_pages);
- 
--void ttm_unmap_and_unpopulate_pages(struct device *dev, struct ttm_dma_tt *tt)
-+void ttm_unmap_and_unpopulate_pages(struct ttm_dma_tt *tt,
-+				    struct device *dev)
- {
- 	unsigned i, j;
- 
-diff --git a/include/drm/ttm/ttm_page_alloc.h b/include/drm/ttm/ttm_page_alloc.h
-index a6b6ef5f9bf4..b786ce75920b 100644
---- a/include/drm/ttm/ttm_page_alloc.h
-+++ b/include/drm/ttm/ttm_page_alloc.h
-@@ -61,13 +61,15 @@ void ttm_pool_unpopulate(struct ttm_tt *ttm);
- /**
-  * Populates and DMA maps pages to fullfil a ttm_dma_populate() request
-  */
--int ttm_populate_and_map_pages(struct device *dev, struct ttm_dma_tt *tt,
--				struct ttm_operation_ctx *ctx);
-+int ttm_populate_and_map_pages(struct ttm_dma_tt *tt,
-+			       struct device *dev,
-+			       struct ttm_operation_ctx *ctx);
- 
- /**
-  * Unpopulates and DMA unmaps pages as part of a
-  * ttm_dma_unpopulate() request */
--void ttm_unmap_and_unpopulate_pages(struct device *dev, struct ttm_dma_tt *tt);
-+void ttm_unmap_and_unpopulate_pages(struct ttm_dma_tt *tt,
-+				    struct device *dev);
- 
- /**
-  * Output the state of pools to debugfs file
--- 
-2.27.0
+Hi
+
+Am 26.08.20 um 03:44 schrieb Dave Airlie:
+> From: Dave Airlie <airlied@redhat.com>
+>=20
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
+m_gem_vram_helper.c
+> index 788557bc5c01..93586a310971 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -973,10 +973,6 @@ static void backend_func_destroy(struct ttm_bo_dev=
+ice *bdev, struct ttm_tt *tt)
+>  	kfree(tt);
+>  }
+> =20
+> -static struct ttm_backend_func backend_func =3D {
+> -	.destroy =3D backend_func_destroy
+> -};
+> -
+>  /*
+>   * TTM BO device
+>   */
+> @@ -991,8 +987,6 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struc=
+t ttm_buffer_object *bo,
+>  	if (!tt)
+>  		return NULL;
+> =20
+> -	tt->func =3D &backend_func;
+> -
+>  	ret =3D ttm_tt_init(tt, bo, page_flags);
+>  	if (ret < 0)
+>  		goto err_ttm_tt_init;
+> @@ -1055,6 +1049,7 @@ static int bo_driver_io_mem_reserve(struct ttm_bo=
+_device *bdev,
+> =20
+>  static struct ttm_bo_driver bo_driver =3D {
+>  	.ttm_tt_create =3D bo_driver_ttm_tt_create,
+> +	.ttm_tt_destroy =3D backend_func_destroy,
+
+Please rename backend_func_destroy to bo_driver_ttm_tt_destroy. With
+this change
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Best regards
+Thomas
+
+>  	.eviction_valuable =3D ttm_bo_eviction_valuable,
+>  	.evict_flags =3D bo_driver_evict_flags,
+>  	.move_notify =3D bo_driver_move_notify,
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--hQFIlqBggDu14PqfOm1llKmhegveW8RXe--
+
+--78yoFVXFpDP8fpEj6grmohxH0ecXwMzfW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9F78kUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMcUQf/cfv8ZL9JZiUF6jh1aWCack7KFbVW
+cmtEYQKJgql3DPTDkKdJIppgqd2VEYqcFzDRH7sRQXyrJokXwTf5HtvyeKycSl7g
+jngAlR5zMtKWdRSHFvS0t0v7Uv1oLsbU+n+EEq53AtFwg2gWcjWdXaCJOO1Hv6JQ
+OUh2wpPsoPZ+Q8sditWuyTCEJlB1hcUdzLPVkEYJnDPlrkwB+FVxaEj3o7NKeIz+
+xWhcF3go/kXUFCdMWEj7DgbYBVbnBn+pbQTG/4ZVnyEaFr9kArKkEQVg8TJJECpS
+uhVjYQPEHyHIes7yPHSkU6mmSD/zXpfiQmoK50bpbVqjO3UIfBKgotT7iA==
+=Gxlm
+-----END PGP SIGNATURE-----
+
+--78yoFVXFpDP8fpEj6grmohxH0ecXwMzfW--
+
+--===============1573215091==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1573215091==--
