@@ -1,48 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0013F25299A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:58:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D4C252AEA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 11:58:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A5A6E0FB;
-	Wed, 26 Aug 2020 08:58:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A16B36EA43;
+	Wed, 26 Aug 2020 09:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8ADD26E0FB;
- Wed, 26 Aug 2020 08:58:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 8D51F2A6042;
- Wed, 26 Aug 2020 10:58:18 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id QngoY1U8AYpi; Wed, 26 Aug 2020 10:58:18 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id B947A2A6016;
- Wed, 26 Aug 2020 10:58:17 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1kArG4-000fey-GD; Wed, 26 Aug 2020 10:58:16 +0200
-Subject: Re: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled
- whenever the CRTC is
-To: Pekka Paalanen <ppaalanen@gmail.com>,
- "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-References: <20200821165758.1106210-1-michel@daenzer.net>
- <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
- <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
- <15b4eb58-a51b-b2fd-f51d-1576d50914cc@amd.com>
- <20200826112423.6a8637a2@eldfell>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <38f0e82c-737a-99f1-8ed5-ea29fa46b95a@daenzer.net>
-Date: Wed, 26 Aug 2020 10:58:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636436EA43;
+ Wed, 26 Aug 2020 09:58:37 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9rmML110211;
+ Wed, 26 Aug 2020 09:58:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=99lx5iUfIkT1H9yGqvvBxJOhPDkHKQlkIHLEmQ8PDXw=;
+ b=pHUo6T87aN4HkyoolW4yELYhdaG6ZvSavIkxfBgUOj0Org1O9z1r+ZQOuET12WJ7H5Pc
+ xnVCQfyl6qFGmQNX19oW+/bFETNvgM6pF7csHfuvBHB3cwqfsUd0O1/rGIc/5OQTnnFB
+ MEojeNBzUtEmGEuqP0gM6P7/G+Nn01P+JHgzxPDBnzH/evLKYOeuFaI9EUmCauKOO4Dv
+ zZppw57NrWnHoxtj9wH99M6dzm4GlspA3OSB7TYDhwfTGMPmrp1Qrwutr2AFfwHTZX4W
+ mmUMO7IJxJ3uJAsWGpM1c6assMY729yLXVkHlFuUfSzlq1xzAsoVwPIWis3T8JNJMC4u Ng== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 333dbryf24-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 26 Aug 2020 09:58:06 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9odrR139540;
+ Wed, 26 Aug 2020 09:56:05 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 333rtywr8n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Aug 2020 09:56:05 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07Q9tlAJ026067;
+ Wed, 26 Aug 2020 09:55:47 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 26 Aug 2020 02:55:46 -0700
+Date: Wed, 26 Aug 2020 12:55:28 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Allen Pais <allen.cryptic@gmail.com>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+Message-ID: <20200826095528.GX1793@kadam>
+References: <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
+ <1597849185.3875.7.camel@HansenPartnership.com>
+ <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
+ <1597873172.4030.2.camel@HansenPartnership.com>
+ <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200826112423.6a8637a2@eldfell>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008260078
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ clxscore=1011
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008260079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,105 +87,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-atm-general@lists.sourceforge.net, s.hauer@pengutronix.de,
+ manohar.vanga@gmail.com, airlied@linux.ie, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Allen <allen.lkml@gmail.com>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ linux1394-devel@lists.sourceforge.net, anton.ivanov@cambridgegreys.com,
+ devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, 3chas3@gmail.com, linux-input@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
+ intel-gfx@lists.freedesktop.org, Kees Cook <keescook@chromium.org>,
+ oakad@yahoo.com, linux-kernel@vger.kernel.org, jdike@addtoit.com,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
+ dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
+ linux-spi@vger.kernel.org, alex.bou9@gmail.com, stefanr@s5r6.in-berlin.de,
+ linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
+ shawnguo@kernel.org, David Miller <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEExCgpPbiAyMDIwLTA4
-LTI2IDEwOjI0IGEubS4sIFBla2thIFBhYWxhbmVuIHdyb3RlOgo+IE9uIFR1ZSwgMjUgQXVnIDIw
-MjAgMTI6NTg6MTkgLTA0MDAgIkthemxhdXNrYXMsIE5pY2hvbGFzIgo+IDxuaWNob2xhcy5rYXps
-YXVza2FzQGFtZC5jb20+IHdyb3RlOgo+Cj4+IE9uIDIwMjAtMDgtMjIgNTo1OSBhLm0uLCBNaWNo
-ZWwgRMOkbnplciB3cm90ZToKPj4+IE9uIDIwMjAtMDgtMjEgODowNyBwLm0uLCBLYXpsYXVza2Fz
-LCBOaWNob2xhcyB3cm90ZToKPj4+PiBPbiAyMDIwLTA4LTIxIDEyOjU3IHAubS4sIE1pY2hlbCBE
-w6RuemVyIHdyb3RlOgo+Pj4+PiBGcm9tOiBNaWNoZWwgRMOkbnplciA8bWRhZW56ZXJAcmVkaGF0
-LmNvbT4KPj4+Pj4KPj4+Pj4gRG9uJ3QgY2hlY2sgZHJtX2NydGNfc3RhdGU6OmFjdGl2ZSBmb3Ig
-dGhpcyBlaXRoZXIsIHBlcgo+Pj4+PiBpdHMgZG9jdW1lbnRhdGlvbiBpbiBpbmNsdWRlL2RybS9k
-cm1fY3J0Yy5oOgo+Pj4+Pgo+Pj4+PiAqIEhlbmNlIGRyaXZlcnMgbXVzdCBub3QgY29uc3VsdCBA
-YWN0aXZlIGluIHRoZWlyIHZhcmlvdXMgKgo+Pj4+PiAmZHJtX21vZGVfY29uZmlnX2Z1bmNzLmF0
-b21pY19jaGVjayBjYWxsYmFjayB0byByZWplY3QgYW4KPj4+Pj4gYXRvbWljICogY29tbWl0Lgo+
-Pj4+Pgo+Pj4+PiBUaGUgYXRvbWljIGhlbHBlcnMgZGlzYWJsZSB0aGUgQ1JUQyBhcyBuZWVkZWQg
-Zm9yIGRpc2FibGluZwo+Pj4+PiB0aGUgcHJpbWFyeSBwbGFuZS4KPj4+Pj4KPj4+Pj4gVGhpcyBw
-cmV2ZW50cyBhdCBsZWFzdCB0aGUgZm9sbG93aW5nIHByb2JsZW1zIGlmIHRoZQo+Pj4+PiBwcmlt
-YXJ5IHBsYW5lIGdldHMgZGlzYWJsZWQgKGUuZy4gZHVlIHRvIGRlc3Ryb3lpbmcgdGhlIEZCCj4+
-Pj4+IGFzc2lnbmVkIHRvIHRoZSBwcmltYXJ5IHBsYW5lLCBhcyBoYXBwZW5zIGUuZy4gd2l0aCBt
-dXR0ZXIKPj4+Pj4gaW4gV2F5bGFuZCBtb2RlKToKPj4+Pj4KPj4+Pj4gKiBUb2dnbGluZyBDUlRD
-IGFjdGl2ZSB0byAxIGZhaWxlZCBpZiB0aGUgY3Vyc29yIHBsYW5lIHdhcwo+Pj4+PiBlbmFibGVk
-IChlLmcuIHZpYSBsZWdhY3kgRFBNUyBwcm9wZXJ0eSAmIGN1cnNvciBpb2N0bCkuICoKPj4+Pj4g
-RW5hYmxpbmcgdGhlIGN1cnNvciBwbGFuZSBmYWlsZWQsIGUuZy4gdmlhIHRoZSBsZWdhY3kKPj4+
-Pj4gY3Vyc29yIGlvY3RsLgo+Pj4+Cj4+Pj4gV2UgcHJldmlvdXNseSBoYWQgdGhlIHJlcXVpcmVt
-ZW50IHRoYXQgdGhlIHByaW1hcnkgcGxhbmUgbXVzdAo+Pj4+IGJlIGVuYWJsZWQgYnV0IHNvbWUg
-dXNlcnNwYWNlIGV4cGVjdHMgdGhhdCB0aGV5IGNhbiBlbmFibGUKPj4+PiBqdXN0IHRoZSBvdmVy
-bGF5IHBsYW5lIHdpdGhvdXQgYW55dGhpbmcgZWxzZS4KPj4+Pgo+Pj4+IEkgdGhpbmsgdGhlIGNo
-cm9tdWl1bW9zIGF0b21pY3Rlc3QgdmFsaWRhdGVzIHRoYXQgdGhpcyB3b3Jrcwo+Pj4+IGFzIHdl
-bGw6Cj4+Pj4KPj4+PiBTbyBpcyBEUk0gZ29pbmcgZm9yd2FyZCB0aGVuIHdpdGggdGhlIGV4cGVj
-dGF0aW9uIHRoYXQgdGhpcwo+Pj4+IGlzIHdyb25nIGJlaGF2aW9yIGZyb20gdXNlcnNwYWNlPwo+
-Pj4+Cj4+Pj4gV2UgcmVxdWlyZSBhdCBsZWFzdCBvbmUgcGxhbmUgdG8gYmUgZW5hYmxlZCB0byBk
-aXNwbGF5IGEKPj4+PiBjdXJzb3IsIGJ1dCBpdCBkb2Vzbid0IG5lY2Vzc2FyaWx5IG5lZWQgdG8g
-YmUgdGhlIHByaW1hcnkuCj4+Pgo+Pj4gSXQncyBhICJwaWNrIHlvdXIgcG9pc29uIiBzaXR1YXRp
-b246Cj4+Pgo+Pj4gMSkgQ3VycmVudGx5IHRoZSBjaGVja3MgYXJlIGludmFsaWQgKGF0b21pY19j
-aGVjayBtdXN0IG5vdAo+Pj4gZGVjaWRlIGJhc2VkIG9uIGRybV9jcnRjX3N0YXRlOjphY3RpdmUp
-LCBhbmQgaXQncyBlYXN5IGZvcgo+Pj4gbGVnYWN5IEtNUyB1c2Vyc3BhY2UgdG8gYWNjaWRlbnRh
-bGx5IGhpdCBlcnJvcnMgdHJ5aW5nIHRvCj4+PiBlbmFibGUvbW92ZSB0aGUgY3Vyc29yIG9yIHN3
-aXRjaCBEUE1TIG9mZiDihpIgb24uCj4+Pgo+Pj4gMikgQWNjdXJhdGVseSByZWplY3Rpbmcgb25s
-eSBhdG9taWMgc3RhdGVzIHdoZXJlIHRoZSBjdXJzb3IKPj4+IHBsYW5lIGlzIGVuYWJsZWQgYnV0
-IGFsbCBvdGhlciBwbGFuZXMgYXJlIG9mZiB3b3VsZCBicmVhayB0aGUKPj4+IEtNUyBoZWxwZXIg
-Y29kZSwgd2hpY2ggY2FuIG9ubHkgZGVhbCB3aXRoIHRoZSAiQ1JUQyBvbiAmCj4+PiBwcmltYXJ5
-IHBsYW5lIG9mZiBpcyBub3QgYWxsb3dlZCIgY2FzZSBzcGVjaWZpY2FsbHkuCj4+Pgo+Pj4gMykg
-VGhpcyBwYXRjaCBhZGRyZXNzZXMgMSkgJiAyKSBidXQgbWF5IGJyZWFrIGV4aXN0aW5nIGF0b21p
-Ywo+Pj4gdXNlcnNwYWNlIHdoaWNoIHdhbnRzIHRvIGVuYWJsZSBhbiBvdmVybGF5IHBsYW5lIHdo
-aWxlCj4+PiBkaXNhYmxpbmcgdGhlIHByaW1hcnkgcGxhbmUuCj4+Pgo+Pj4KPj4+IEkgZG8gdGhp
-bmsgaW4gcHJpbmNpcGxlIGF0b21pYyB1c2Vyc3BhY2UgaXMgZXhwZWN0ZWQgdG8gaGFuZGxlCj4+
-PiBjYXNlIDMpIGFuZCBsZWF2ZSB0aGUgcHJpbWFyeSBwbGFuZSBlbmFibGVkLiBIb3dldmVyLCB0
-aGlzIGlzCj4+PiBub3QgaWRlYWwgZnJvbSBhbiBlbmVyZ3kgY29uc3VtcHRpb24gUG9WLiBUaGVy
-ZWZvcmUsIGhlcmUncwo+Pj4gYW5vdGhlciBpZGVhIGZvciBhIHBvc3NpYmxlIHdheSBvdXQgb2Yg
-dGhpcyBxdWFnbWlyZToKPj4+Cj4+PiBhbWRncHVfZG0gZG9lcyBub3QgcmVqZWN0IGFueSBhdG9t
-aWMgc3RhdGVzIGJhc2VkIG9uIHdoaWNoCj4+PiBwbGFuZXMgYXJlIGVuYWJsZWQgaW4gaXQuIElm
-IHRoZSBjdXJzb3IgcGxhbmUgaXMgZW5hYmxlZCBidXQKPj4+IGFsbCBvdGhlciBwbGFuZXMgYXJl
-IG9mZiwgYW1kZ3B1X2RtIGludGVybmFsbHkgZWl0aGVyOgo+Pj4KPj4+IGEpIEVuYWJsZXMgYW4g
-b3ZlcmxheSBwbGFuZSBhbmQgbWFrZXMgaXQgaW52aXNpYmxlLCBlLmcuIGJ5Cj4+PiBhc3NpZ25p
-bmcgYSBtaW5pbXVtIHNpemUgRkIgd2l0aCBhbHBoYSA9IDAuCj4+Pgo+Pj4gYikgRW5hYmxlcyB0
-aGUgcHJpbWFyeSBwbGFuZSBhbmQgYXNzaWducyBhIG1pbmltdW0gc2l6ZSBGQgo+Pj4gKHNjYWxl
-ZCB1cCB0byB0aGUgcmVxdWlyZWQgc2l6ZSkgY29udGFpbmluZyBhbGwgYmxhY2ssIHBvc3NpYmx5
-Cj4+PiB1c2luZyBjb21wcmVzc2lvbi4gKFRyeWluZyB0byBtaW5pbWl6ZSB0aGUgbWVtb3J5IGJh
-bmR3aWR0aCkKPj4+Cj4+Pgo+Pj4gRG9lcyBlaXRoZXIgb2YgdGhlc2Ugc2VlbSBmZWFzaWJsZT8g
-SWYgYm90aCBkbywgd2hpY2ggb25lIHdvdWxkCj4+PiBiZSBwcmVmZXJhYmxlPwo+Pgo+PiBJdCdz
-IHJlYWxseSB0aGUgc2FtZSBzb2x1dGlvbiBzaW5jZSBEQ04gZG9lc24ndCBtYWtlIGEKPj4gZGlz
-dGluY3Rpb24gYmV0d2VlbiBwcmltYXJ5IG9yIG92ZXJsYXkgcGxhbmVzIGluIGhhcmR3YXJlLiBE
-Q0UKPj4gZG9lc24ndCBoYXZlIG92ZXJsYXkgcGxhbmVzIGVuYWJsZWQgc28gdGhpcyBpcyBub3Qg
-cmVsZXZhbnQKPj4gdGhlcmUuCj4+Cj4+IFRoZSBvbGQgYmVoYXZpb3IgKHByZSA1LjE/KSB3YXMg
-dG8gc2lsZW50bHkgYWNjZXB0IHRoZSBjb21taXQKPj4gZXZlbiB0aG91Z2ggdGhlIHNjcmVlbiB3
-b3VsZCBiZSBjb21wbGV0ZWx5IGJsYWNrIGluc3RlYWQgb2YKPj4gb3V0cmlnaHQgcmVqZWN0aW5n
-IHRoZSBjb21taXQuCj4+Cj4+IEkgYWxtb3N0IHdvbmRlciBpZiB0aGF0IG1ha2VzIG1vcmUgc2Vu
-c2UgaW4gdGhlIHNob3J0IHRlcm0gaGVyZQo+PiBzaW5jZSB0aGUgb25seSAidXNlcnNwYWNlIiBh
-ZmZlY3RlZCBoZXJlIGlzIElHVC4gV2UnbGwgZmFpbCB0aGUKPj4gQ1JDIGNoZWNrcywgYnV0IG5v
-IHVzZXJzcGFjZSBhY3R1YWxseSB0cmllcyB0byBhY3RpdmVseSB1c2UgYQo+PiBjdXJzb3Igd2l0
-aCBubyBwcmltYXJ5IHBsYW5lIGVuYWJsZWQgZnJvbSBteSB1bmRlcnN0YW5kaW5nLgo+Cj4gSGks
-Cj4KPiBJIGJlbGlldmUgdGhhdCB0aGVyZSBleGlzdHMgdXNlcnNwYWNlIHRoYXQgd2lsbCAqYWNj
-aWRlbnRhbGx5Kgo+IGF0dGVtcHQgdG8gdXBkYXRlIHRoZSBjdXJzb3IgcGxhbmUgd2hpbGUgcHJp
-bWFyeSBwbGFuZSBvciB3aG9sZQo+IENSVEMgaXMgb2ZmLiBTb21lIHZlcnNpb25zIG9mIE11dHRl
-ciBtaWdodCBkbyB0aGF0IG9uIHJhY3kKPiBjb25kaXRpb25zLCBJIHN1c3BlY3QuIFRoZXNlIGFy
-ZSBsZWdhY3kgS01TIHVzZXJzLCBub3QgYXRvbWljIEtNUy4KPgo+IEhvd2V2ZXIsIEkgZG8gbm90
-IGJlbGlldmUgdGhlcmUgZXhpc3RzIGFueSB1c2Vyc3BhY2UgdGhhdCB3b3VsZAo+IGFjdHVhbGx5
-IGV4cGVjdCB0aGUgZGlzcGxheSB0byBzaG93IHRoZSBjdXJzb3IgcGxhbmUgYWxvbmUgd2l0aG91
-dAo+IGEgcHJpbWFyeSBwbGFuZS4gVGhlcmVmb3JlIEknZCBiZSBvayB3aXRoIGxlZ2FjeSBjdXJz
-b3IgaW9jdGxzCj4gc2lsZW50bHkgc3VjY2VlZGluZy4gQXRvbWljIGNvbW1pdHMgbm90LiBTbyB0
-aGUgZGlmZmVyZW5jZSBoYXMgdG8KPiBiZSBpbiB0aGUgdHJhbnNsYXRpb24gZnJvbSBsZWdhY3kg
-VUFQSSB0byBrZXJuZWwgaW50ZXJuYWwgYXRvbWljCj4gaW50ZXJmYWNlLgoKVGhpcyB3b3VsZCBi
-ZSBteSBjYXNlIDIpIGFib3ZlLCBzbyBzdGlsbCByZXF1aXJlcyBmaWd1cmluZyBvdXQgaG93IHRo
-ZQphdG9taWMgS01TIGhlbHBlcnMgc2hvdWxkIGRlYWwgd2l0aCBjb3JuZXIgY2FzZXMgc3VjaCBh
-czoKCiogQ1JUQyBvbiwgcHJpbWFyeSBwbGFuZSBvZmYsIG92ZXJsYXkgJiBjdXJzb3IgcGxhbmVz
-IG9uCiogUm1GQiBvZiBGQiBhc3NpZ25lZCB0byBvdmVybGF5IHBsYW5lIOKGkiBuZWVkIHRvIGRp
-c2FibGUgb3ZlcmxheQpwbGFuZSwgYnV0IGRyaXZlciByZWplY3RzIHRoYXQgKGJlY2F1c2UgaXQg
-d291bGQgbGVhdmUgb25seSB0aGUgY3Vyc29yCnBsYW5lIG9uKQoKCi0gLS0gCkVhcnRobGluZyBN
-aWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICBodHRwczovL3JlZGhh
-dC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAgICAgICAgICB8ICAgICAgICAgICAg
-IE1lc2EgYW5kIFggZGV2ZWxvcGVyCi0tLS0tQkVHSU4gUEdQIFNJR05BVFVSRS0tLS0tCgppRjBF
-QVJFQ0FCMFdJUVN3bjY4MXZwRkZJWmdKVVJSYWdhK09hdHV5QUFVQ1gwWWtJd0FLQ1JCYWdhK09h
-dHV5CkFNV3JBSjlJRE1JajJlR1hFUllEWmZ3cmFPQ0hlYndFOVFDZlIvbk9hb0xHZklPaWk2cjFI
-NEpMbjlzcmFGST0KPUQvTFgKLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Aug 26, 2020 at 07:21:35AM +0530, Allen Pais wrote:
+> On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
+> >
+> > On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
+> > > > [...]
+> > > > > > Since both threads seem to have petered out, let me suggest in
+> > > > > > kernel.h:
+> > > > > >
+> > > > > > #define cast_out(ptr, container, member) \
+> > > > > >     container_of(ptr, typeof(*container), member)
+> > > > > >
+> > > > > > It does what you want, the argument order is the same as
+> > > > > > container_of with the only difference being you name the
+> > > > > > containing structure instead of having to specify its type.
+> > > > >
+> > > > > Not to incessantly bike shed on the naming, but I don't like
+> > > > > cast_out, it's not very descriptive. And it has connotations of
+> > > > > getting rid of something, which isn't really true.
+> > > >
+> > > > Um, I thought it was exactly descriptive: you're casting to the
+> > > > outer container.  I thought about following the C++ dynamic casting
+> > > > style, so out_cast(), but that seemed a bit pejorative.  What about
+> > > > outer_cast()?
+> > > >
+> > > > > FWIW, I like the from_ part of the original naming, as it has
+> > > > > some clues as to what is being done here. Why not just
+> > > > > from_container()? That should immediately tell people what it
+> > > > > does without having to look up the implementation, even before
+> > > > > this becomes a part of the accepted coding norm.
+> > > >
+> > > > I'm not opposed to container_from() but it seems a little less
+> > > > descriptive than outer_cast() but I don't really care.  I always
+> > > > have to look up container_of() when I'm using it so this would just
+> > > > be another macro of that type ...
+> > > >
+> > >
+> > >  So far we have a few which have been suggested as replacement
+> > > for from_tasklet()
+> > >
+> > > - out_cast() or outer_cast()
+> > > - from_member().
+> > > - container_from() or from_container()
+> > >
+> > > from_container() sounds fine, would trimming it a bit work? like
+> > > from_cont().
+> >
+> > I'm fine with container_from().  It's the same form as container_of()
+> > and I think we need urgent agreement to not stall everything else so
+> > the most innocuous name is likely to get the widest acceptance.
+> 
+> Kees,
+> 
+>   Will you be  sending the newly proposed API to Linus? I have V2
+> which uses container_from()
+> ready to be sent out.
+
+I liked that James swapped the first two arguments so that it matches
+container_of().  Plus it's nice that when you have:
+
+	struct whatever *foo = container_from(ptr, foo, member);
+
+Then it means that "ptr == &foo->member".
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
