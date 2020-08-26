@@ -2,34 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E55253E53
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247DA253E5E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB9846EB4C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8863E6EB4B;
 	Thu, 27 Aug 2020 06:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A083C6EA2B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 07:57:51 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 2CADD5E39EA4EE5C72C4;
- Wed, 26 Aug 2020 15:57:44 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 26 Aug 2020 15:57:37 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/hisilicon: Removed the dependency on the mmu
-Date: Wed, 26 Aug 2020 15:55:28 +0800
-Message-ID: <1598428528-49046-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C23736EA05
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 08:15:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id C2951292457
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] drm/bridge: ps8640: Make sure all needed is powered to
+ get the EDID
+Date: Wed, 26 Aug 2020 10:15:21 +0200
+Message-Id: <20200826081526.674866-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 27 Aug 2020 06:57:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,36 +35,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hibmc can only be used in ARM64 architectures, and mmu defaults to y
-in arch/arm64/Kconfig, so there is no need to add a dependency on mmu
-in hibmc's kconfig.
+The first patch was initially part of the series [1] but for some reason
+was not picked when the series were merged, so I included in this series
+because it is needed to make the others to work properly.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/hisilicon/hibmc/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The same happened for the second patch, was part of series [1] but not
+merged.
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Kconfig b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-index dfc5aef..43943e9 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_HISI_HIBMC
- 	tristate "DRM Support for Hisilicon Hibmc"
--	depends on DRM && PCI && MMU && ARM64
-+	depends on DRM && PCI && ARM64
- 	select DRM_KMS_HELPER
- 	select DRM_VRAM_HELPER
- 	select DRM_TTM
+The third patch and next are part of the original series and are to rework
+the power handling to get the EDID. Basically, we need to make sure all the
+needed is powered to be able to get the EDID. Before, we saw that getting
+the EDID failed as explained in the third patch.
+
+[1] https://lkml.org/lkml/2020/6/15/1208
+
+Changes in v2:
+- Included the patch `drm/bridge_connector: Set default status connected for eDP connectors`
+- Included the patch `drm/bridge: ps8640: Get the EDID from eDP control`
+- Use drm_bridge_chain_pre_enable/post_disable() helpers (Sam Ravnborg)
+
+Enric Balletbo i Serra (5):
+  drm/bridge_connector: Set default status connected for eDP connectors
+  drm/bridge: ps8640: Get the EDID from eDP control
+  drm/bridge: ps8640: Return an error for incorrect attach flags
+  drm/bridge: ps8640: Print an error if VDO control fails
+  drm/bridge: ps8640: Rework power state handling
+
+ drivers/gpu/drm/bridge/parade-ps8640.c | 89 ++++++++++++++++++++++----
+ drivers/gpu/drm/drm_bridge_connector.c |  1 +
+ 2 files changed, 79 insertions(+), 11 deletions(-)
+
 -- 
-2.7.4
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
