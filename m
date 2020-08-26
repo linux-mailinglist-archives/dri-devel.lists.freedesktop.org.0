@@ -2,42 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EE5253E58
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C7C253E71
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE806EB56;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD9E76EB5E;
 	Thu, 27 Aug 2020 06:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C2D6E1A2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 16:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=b4MA5TpSwk2Pnubg8wuSz4Ft23kjXnr6s/x3xGVfM+o=; b=Jbc2/quwfgWiTnjRfTG/KEzz2Y
- J4zprwW81y8Q/7NQYGOfaeyzmBlRKJT08kxTZUwZ8rYxi981RqXykckkHuGQ1rIp1KYT4oeF/vImS
- +swAZiv3EdCES26pTEVVU9p1lkH2twWmLxU7mMYN88lFVrfFscuqKtSiCtg2rQ6Fg4IDq0IXZeR0e
- rDpr37I2BFCjdBwO2FCyHScxkqH+h+crnu4zeNsVOh5M9PqEVBDoWRlYa2/oTyOtbFIWGgaEogDlI
- XmUOv3KKEnbBm8C09HuBKDWP3OByNTJLHezjX3SsfH+r2OgSyMxZ7vHII5PHtoKwqKslTjP3RRudS
- 0/UAW5BQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kAyaR-0008Au-ME; Wed, 26 Aug 2020 16:47:47 +0000
-To: LKML <linux-kernel@vger.kernel.org>,
- "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie
- <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] drm: virtio: fix kconfig dependency warning
-Message-ID: <d3643dcf-87f4-ff45-fb90-9945458438f9@infradead.org>
-Date: Wed, 26 Aug 2020 09:47:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C188289DDD
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 17:00:48 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id e11so2371738ils.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 10:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=26QxbXjs0m3B0fkeAQyxS9wdKxVZQIc+uM+Gzg+WrxE=;
+ b=lebqEwzMhnmkswoxV6vONuwriIJ3JbLyvJdUMvGSkvk4rWMzuvlc611vQT6UXue4kb
+ wuvGPZeBJwakM8I+RxywGmWpCfcM1xTEyQ69vOl82tWVJTod2B3ns3KNvKkqCrpgFY0l
+ eiy0e08N3NHS0uzIhvheHSOD5J5U4Y3SrC/Xd+VWhXW4VYZ7Nx+YHN8ue885Go737b5S
+ J9/7dQKzUKx6X5CmRhetUxkGMx2GuQpeLCzw3P9S7xWkqAUoLbFRkmIegcs6bMSm+bcq
+ DmgxmVlJbAyb9mGkZXT9lfX/0VEwS2S8sIPEldJiY43Zcb0JeubJsLM8DZoGErATcX8M
+ aK+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=26QxbXjs0m3B0fkeAQyxS9wdKxVZQIc+uM+Gzg+WrxE=;
+ b=n24kH3OFdtQRJBRNfFExracqiH0oPZx031cIK4xUdm8XJgW0T3syBW9gCLwcv86+j6
+ VnBKS95uQisAxw8c1QtL4uAWQ48XTxiLP77x23BRq2GFn+Ivt72eZxLelpiy9n94OMHx
+ ldZx6Lpt+MlleeAOXL2s1A/GhT3GvgYW8IqtxZiXTpx+MaulTsOYe09H0Va3pn25nNWs
+ i0d2OcOrlRKEJclU60TS9cxk9Vwv4ETAoeIOGH90Mfu7fpLaW64liDyfrbMhbss0RnXS
+ Bf1h1XH9FHwvhukHG2UPB2PELzP1Znq0vv9KL928OpOUQS2q/z8YWnBS5XFaNdJ+3RPr
+ KxRw==
+X-Gm-Message-State: AOAM531aAPNrTL9pER1IhXt7p7NEnVM79MKyWc+Mk+vIBKilk4fsHqIJ
+ jHq6capWq2QFZq7OaEMqBIYrSElQA5PZaQ==
+X-Google-Smtp-Source: ABdhPJzXNx08f0nZ6xcJw6hnAsHg+EfmelTxJ3ljsr5xDxklbhFCTqfDudRRdcHUuI/h2miSh0PL+w==
+X-Received: by 2002:a92:c74e:: with SMTP id y14mr14195110ilp.251.1598461248027; 
+ Wed, 26 Aug 2020 10:00:48 -0700 (PDT)
+Received: from frodo.hsd1.co.comcast.net ([2601:284:8203:5970::c4c])
+ by smtp.googlemail.com with ESMTPSA id p78sm1479606iod.0.2020.08.26.10.00.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Aug 2020 10:00:47 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ jbaron@akamai.com
+Subject: [PATCH 0/4] dyndbg: POC use dynamic_debug_exec_queries in DRM
+Date: Wed, 26 Aug 2020 11:00:37 -0600
+Message-Id: <20200826170041.2497546-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 27 Aug 2020 06:57:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,42 +66,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jim Cromie <jim.cromie@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+This patchset tests/demonstrates using dynamic_debug_exec_queries() to
+alter 2 drivers' pr_debugs without a user directly using >control.
 
-Fix kconfig dependency warning by using a different Kconfig symbol.
+For drm.core, I copied drm.debug module parameter model, adding
+drm.debug2 as a POC user interface to control 2 pr_debug additions to
+drm_printk:drm_dbg,dev_dbg, allowing both category and >control to
+work in parallel.  This patch makes no attempt to integrate drm's
+category mechanism with the "format=^class" callsite selection; thats
+the "theory", but it needs testing.
 
-WARNING: unmet direct dependencies detected for VIRTIO_DMA_SHARED_BUFFER
-  Depends on [n]: VIRTIO_MENU [=n] && DMA_SHARED_BUFFER [=y]
-  Selected by [y]:
-  - DRM_VIRTIO_GPU [=y] && HAS_IOMEM [=y] && DRM [=y] && VIRTIO [=y] && MMU [=y]
+For i915/gvt, I repeated the pattern.  I focussed on gvt only, because
+it had the most compelling use of format strings as pr_debug classes;
+~120 pr_debugs in 9 classes.  These are mapped onto bits of the param.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: virtualization@lists.linux-foundation.org
----
-Found in linux-next but applies to mainline.
+bash-5.0# echo 0x0 > /sys/module/i915/parameters/debug_dyn 
+[ 3137.044185] set_dyndbg: result:0x0 from 0x0
+[ 3137.044185] 
+[ 3137.047370] dyndbg: query 0: "format='^gvt: cmd: ' -p"
+[ 3137.050302] dyndbg: entry, buf:'format='^gvt: cmd: ' -p'
+[ 3137.053331] dyndbg: start-of-word:0 'format='^gvt: cmd: ' -p'
 
- drivers/gpu/drm/virtio/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These patches were the test/use case for-59 fixes:
+https://lore.kernel.org/lkml/20200825173339.2082585-1-jim.cromie@gmail.com/
 
---- linux-next-20200826.orig/drivers/gpu/drm/virtio/Kconfig
-+++ linux-next-20200826/drivers/gpu/drm/virtio/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_VIRTIO_GPU
- 	tristate "Virtio GPU driver"
--	depends on DRM && VIRTIO && MMU
-+	depends on DRM && VIRTIO_MENU && MMU
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_SHMEM_HELPER
- 	select VIRTIO_DMA_SHARED_BUFFER
+
+Jim Cromie (4):
+  drm-printk: POC caller of dynamic-debug-exec-queries
+  drm-printk: call pr_debug() from drm_dev_dbg, __drm_dbg
+  i915: add -DDYNAMIC_DEBUG_MODULE to i915/gvt/Makefile
+  i915: POC use dynamic_debug_exec_queries to control pr_debugs in gvt
+
+ drivers/gpu/drm/drm_print.c        | 54 ++++++++++++++++++---
+ drivers/gpu/drm/i915/gvt/Makefile  |  5 +-
+ drivers/gpu/drm/i915/i915_params.c | 76 ++++++++++++++++++++++++++++++
+ 3 files changed, 127 insertions(+), 8 deletions(-)
+
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
