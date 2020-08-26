@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A0E252517
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D83252529
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:46:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DFC6E9D6;
-	Wed, 26 Aug 2020 01:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B21C36E9E0;
+	Wed, 26 Aug 2020 01:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B997A6E9D6
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:44:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDEA6E9E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:46:03 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-oE_urRzCMhSslwS0zvqmoA-1; Tue, 25 Aug 2020 21:44:40 -0400
-X-MC-Unique: oE_urRzCMhSslwS0zvqmoA-1
+ us-mta-508-hAbZXCZhN0--uJG5fvzQEw-1; Tue, 25 Aug 2020 21:44:42 -0400
+X-MC-Unique: hAbZXCZhN0--uJG5fvzQEw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54505801ADD;
- Wed, 26 Aug 2020 01:44:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D2491005E5B;
+ Wed, 26 Aug 2020 01:44:41 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
  [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DACFB60C13;
- Wed, 26 Aug 2020 01:44:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B382760C13;
+ Wed, 26 Aug 2020 01:44:39 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/23] drm/amdgpu/ttm: remove unused parameter to move blit
-Date: Wed, 26 Aug 2020 11:44:06 +1000
-Message-Id: <20200826014428.828392-2-airlied@gmail.com>
+Subject: [PATCH 02/23] drm/radeon/ttm: don't store driver copy of device
+ pointer.
+Date: Wed, 26 Aug 2020 11:44:07 +1000
+Message-Id: <20200826014428.828392-3-airlied@gmail.com>
 In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
 References: <20200826014428.828392-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,51 +62,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
+This can be gotten back from bdev.
+
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 8 ++++----
+ drivers/gpu/drm/radeon/radeon_ttm.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index d7f668dbc9e0..00b2c0359735 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -455,7 +455,7 @@ int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
-  * help move buffers to and from VRAM.
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index f6311f404db8..0923a8601112 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -412,7 +412,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
   */
- static int amdgpu_move_blit(struct ttm_buffer_object *bo,
--			    bool evict, bool no_wait_gpu,
-+			    bool evict,
- 			    struct ttm_resource *new_mem,
- 			    struct ttm_resource *old_mem)
+ struct radeon_ttm_tt {
+ 	struct ttm_dma_tt		ttm;
+-	struct radeon_device		*rdev;
+ 	u64				offset;
+ 
+ 	uint64_t			userptr;
+@@ -515,6 +514,7 @@ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
+ 				   struct ttm_resource *bo_mem)
  {
-@@ -553,7 +553,7 @@ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
+ 	struct radeon_ttm_tt *gtt = (void*)ttm;
++	struct radeon_device *rdev = radeon_get_rdev(ttm->bdev);
+ 	uint32_t flags = RADEON_GART_PAGE_VALID | RADEON_GART_PAGE_READ |
+ 		RADEON_GART_PAGE_WRITE;
+ 	int r;
+@@ -531,7 +531,7 @@ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
  	}
+ 	if (ttm->caching_state == tt_cached)
+ 		flags |= RADEON_GART_PAGE_SNOOP;
+-	r = radeon_gart_bind(gtt->rdev, gtt->offset, ttm->num_pages,
++	r = radeon_gart_bind(rdev, gtt->offset, ttm->num_pages,
+ 			     ttm->pages, gtt->ttm.dma_address, flags);
+ 	if (r) {
+ 		DRM_ERROR("failed to bind %lu pages at 0x%08X\n",
+@@ -544,8 +544,9 @@ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
+ static void radeon_ttm_backend_unbind(struct ttm_tt *ttm)
+ {
+ 	struct radeon_ttm_tt *gtt = (void *)ttm;
++	struct radeon_device *rdev = radeon_get_rdev(ttm->bdev);
  
- 	/* blit VRAM to GTT */
--	r = amdgpu_move_blit(bo, evict, ctx->no_wait_gpu, &tmp_mem, old_mem);
-+	r = amdgpu_move_blit(bo, evict, &tmp_mem, old_mem);
- 	if (unlikely(r)) {
- 		goto out_cleanup;
- 	}
-@@ -603,7 +603,7 @@ static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
- 	}
+-	radeon_gart_unbind(gtt->rdev, gtt->offset, ttm->num_pages);
++	radeon_gart_unbind(rdev, gtt->offset, ttm->num_pages);
  
- 	/* copy to VRAM */
--	r = amdgpu_move_blit(bo, evict, ctx->no_wait_gpu, new_mem, old_mem);
-+	r = amdgpu_move_blit(bo, evict, new_mem, old_mem);
- 	if (unlikely(r)) {
- 		goto out_cleanup;
+ 	if (gtt->userptr)
+ 		radeon_ttm_tt_unpin_userptr(ttm);
+@@ -584,7 +585,6 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
+ 		return NULL;
  	}
-@@ -692,7 +692,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
- 		   new_mem->mem_type == TTM_PL_VRAM) {
- 		r = amdgpu_move_ram_vram(bo, evict, ctx, new_mem);
- 	} else {
--		r = amdgpu_move_blit(bo, evict, ctx->no_wait_gpu,
-+		r = amdgpu_move_blit(bo, evict,
- 				     new_mem, old_mem);
- 	}
- 
+ 	gtt->ttm.ttm.func = &radeon_backend_func;
+-	gtt->rdev = rdev;
+ 	if (ttm_dma_tt_init(&gtt->ttm, bo, page_flags)) {
+ 		kfree(gtt);
+ 		return NULL;
 -- 
 2.27.0
 
