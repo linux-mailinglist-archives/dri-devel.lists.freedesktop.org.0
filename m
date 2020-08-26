@@ -2,97 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48901252747
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 08:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD41252745
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 08:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 627506E9FD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B746E9FA;
 	Wed, 26 Aug 2020 06:36:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8F06E9FA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB4736E9FA
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:36:31 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200826063629euoutp0133d0b334eb59846b70fea1c7621e9cd3~uvffXLIUa2034920349euoutp01t
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
+ 20200826063630euoutp01ead0bd3b1773658f0c61f1e47d8d5de5~uvfgBo_Wa2036420364euoutp01o
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:36:30 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200826063629euoutp0133d0b334eb59846b70fea1c7621e9cd3~uvffXLIUa2034920349euoutp01t
+ 20200826063630euoutp01ead0bd3b1773658f0c61f1e47d8d5de5~uvfgBo_Wa2036420364euoutp01o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1598423789;
- bh=kbdu9i1ky3V53J/j8HYin75jAIlE4fk1hTbkVYKJ63U=;
+ s=mail20170921; t=1598423790;
+ bh=6nzs+//cqnv2gdRh2O3oHyA1orygL5sUpA1hIU76qP4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kzNIA5OkQo5oUwZTZpmHG6WvQmHuQyZs0/BpA0Semlhr5Sdnsv9jumXpuiP10o8au
- nxquo2nDs+l2viFXhr2LLS/1LhbDeOJ+p+tQ4FLsbCNJwfN74kcqg50NEKKu3AxwlP
- HY1NM/X/yqrOc+pIeYmJcbWCTMcArUcVZqtFzY6M=
+ b=p12AyAg6QfZBkshz2a4UF8U/+p+ls+IpPh+kG1agUPw3SVV4NHdFpFXDHBiDh0VvU
+ jc7NRBUZa7nF4kL/WJyYaleobadRT6snWYwuX8jYbK5fe8l+UcqOT9g/sRt/rflC2P
+ rg26SAGO34gGos9Z+mj8stOklgiu6eGrnEBgdPss=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200826063629eucas1p17af18485cd101f2dbde76a07e3777e70~uvffKiKSZ1612416124eucas1p19;
- Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 26.DD.05997.DE2064F5; Wed, 26
- Aug 2020 07:36:29 +0100 (BST)
+ 20200826063630eucas1p15db3537c013f0a3a42dbef31cb90c2a9~uvffvsXqY2388623886eucas1p1C;
+ Wed, 26 Aug 2020 06:36:30 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 67.DD.05997.EE2064F5; Wed, 26
+ Aug 2020 07:36:30 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200826063629eucas1p1a3c9c93e281b4c432a6d9940e734e3c4~uvferOOJK1612416124eucas1p18;
+ 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4~uvffXj8Jx2518025180eucas1p1f;
  Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200826063629eusmtrp2b4efaa81707a94d9995acc3a8a6bc40b~uvfeqaKXz0466204662eusmtrp2e;
+ 20200826063629eusmtrp2b08e209f1a34f92878bb1ebb1bf81fc2~uvffWwVpJ0466204662eusmtrp2g;
  Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
-X-AuditID: cbfec7f4-65dff7000000176d-61-5f4602ed2f4f
+X-AuditID: cbfec7f4-677ff7000000176d-64-5f4602ee98b9
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id D4.F0.06314.DE2064F5; Wed, 26
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id C9.73.06017.DE2064F5; Wed, 26
  Aug 2020 07:36:29 +0100 (BST)
 Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200826063545eusmtip2c8c042b88f2793200ec3eeb737bb4947~uve2bH14Z0302303023eusmtip23;
- Wed, 26 Aug 2020 06:35:45 +0000 (GMT)
+ 20200826063629eusmtip224caf2afa6c7d96d3a0fb140cf493623~uvfeqzoDj0091500915eusmtip2X;
+ Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
 From: Marek Szyprowski <m.szyprowski@samsung.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 31/32] media: pci: fix common ALSA DMA-mapping related codes
-Date: Wed, 26 Aug 2020 08:33:15 +0200
-Message-Id: <20200826063316.23486-32-m.szyprowski@samsung.com>
+Subject: [PATCH v9 32/32] videobuf2: use sgtable-based scatterlist wrappers
+Date: Wed, 26 Aug 2020 08:33:16 +0200
+Message-Id: <20200826063316.23486-33-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826063316.23486-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSfSxVYRzuPeeec4+Py3EpbxjrtrTaIqntLGVp1PmnLVurVaRbzpDr6x5X
- UZs70rg+umpFZtxhlO8urnw0H4ubyc0waVh0rYaMRlTsynHQf8/v+Xif3357CVTciDkQYZGx
- jDxSKpPg5gJd9x/DkTnkXNDRZ8kHqUxDD0K9zq3BqHVdNkoN/ZrHqVcVXQilafOiloYmEUpr
- HMaoweZ8nMqobcCoqnfjQqpUu4ZQHQtT2BkRXVlQCei3yxoBrS1Pw+nG5QmM/pKuR+i6kkR6
- 1GRE6acjZYBu+azE6az6ckAvap0vWlwzPxXMyMLiGLm7903z0G85TVj0jz33GmZNqBJM26qA
- GQHJ41CpH8JVwJwQky8BXF6tEvDDEoClq/lbyiKA+t8v8O3IQOs6wgtlAFa31YGdSGqGDuFc
- OOkBVXOqzYQdmQLg+0xLzoSSRgRqaoY3BVvSH84PfAQcFpAHoCGlXqgCBCEiveHDoli+zQVW
- 1LajHDbboPXpjzdXgmS3EK5MtWO8yRcWlCRtrWcLZ/TcOxx2gutNhQgfSAZw0lAl5IcMAAeT
- cgHv8oJjhr8414ySh2BNsztP+8D2pUKUoyFpBUfmbDga3YBPdDlbtAimPhLzbleYp6/eqe3o
- H0B5TMO+ohaUP1A2gI2j34Vq4JL3v0wDQDmwZxRsRAjDHotk7rqx0ghWERnidjsqQgs2vlOv
- Sb/0BjSv3eoEJAEkliIN7hckxqRxbHxEJ4AEKrETne3rvSEWBUvjExh5VJBcIWPYTuBICCT2
- Is+i6UAxGSKNZcIZJpqRb6sIYeagBBXrar8sSzb8euK8Z1V2jIVHoOz0/qxLivgLeZQ6wzr3
- qk/2A7fWtMQTX2cTY8YznXblBhiTouj7GhA6O9ai6+gvWThZbCNbvjwx47zS3VE5u7vTb6+s
- zGra9Xm9MHCk2PHnJ2W6T5R/m0k95dsVcN434YO/bljVbbLucU67su+ORMCGSj0Oo3JW+g8n
- lyXDSgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsVy+t/xe7pvmdziDbZt5LToPXeSyWLjjPWs
- Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZtGzYSurxdojd9ktlm36w2Rx
- 8MMTVgdejzXz1jB67P22gMVj06pONo/t3x6wetzvPs7ksXlJvcftf4+ZPSbfWM7osftmA5tH
- 35ZVjB6fN8kFcEfp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSW
- pRbp2yXoZTybvpO14I1YxdbX/5gbGF8KdzFyckgImEhc2vOfqYuRi0NIYCmjxI1TF5ghEjIS
- J6c1sELYwhJ/rnWxgdhCAp8YJdZ+8QGx2QQMJbregsS5OEQEOhklpnV/ZAdxmAVeM0m07loD
- 1iEs4C+xeu5dJhCbRUBV4lzrFqAiDg5eATuJlkUlEAvkJVZvOAC2mBMofLy7H2qZrcTptTOY
- JzDyLWBkWMUoklpanJueW2yoV5yYW1yal66XnJ+7iREYKduO/dy8g/HSxuBDjAIcjEo8vAvY
- XOOFWBPLiitzDzFKcDArifA6nT0dJ8SbklhZlVqUH19UmpNafIjRFOimicxSosn5wCjOK4k3
- NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAyCuRkxr7+nLGsulVa0Wd
- eV8GF1oqWc297hDKNGfCf8M456OBWSqNB6KWyehcli/IYzkpUPq3XeDaxN+sD1TSuotrr8bM
- 4fjM9e7yisCmkKXZHFfLD+6bHHd7ezGv4my7WU9+9il1Oa1sjL/9cppaLlenuvfe0CmbRbh7
- 7DKUNX/YLr/+fW+lEktxRqKhFnNRcSIAu19n2aoCAAA=
-X-CMS-MailID: 20200826063629eucas1p1a3c9c93e281b4c432a6d9940e734e3c4
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VSe1BMURyec19722nNtTTOeFsymEkiOmRCg7lGjf5iGCtLVx7b1uxtezBD
+ ajTaXoRhqlFMkpSttZLehbYmrUol49FjMxXKo7VTMa3dbvjvO9/3/c73/c4cGpeayLn0CVU4
+ p1YplDJKTJTUj790G8F2Bq65UzsDJZsaMVR8Q0ciW8llHLX//Eqhe/efYyi72hs1x34RIUt7
+ L4b05k4SvSrLpFBS0SMSFT57L0K5+t8Yujo8LkK13/pJNHphktrKsAU3CwCbEdNKsJXWbILV
+ 5ydQ7GNrD8l2Jxox9mHOOfbtpBlnr3TdBWz5mxiKNU8MUWyKIR+wo/qFAZID4s1BnPJEBKd2
+ 9zksPj7wvQaE/dwT1VrVIIoBeb5a4ERDxhNesX7HtEBMS5k8ANsqDZhDkDIWAJsfRwnCKIC6
+ LCPxd6I7UScShLsADqQWTh/sE+UtCcDhohgPqB3WUg48m7kAYEOys8OEMx04TGrLJx3CLGY3
+ zDD/wh2YYFyhbXJ0KlvC+MCxD32kELcI3i+qmfI42XljYiol8EMiaNPKBbwdVqQbcAHPgp+M
+ BpGA50Pbk6yp5SATB2CvSagKmSQAX8XeAILLG74zTdhvpe31VkJdmbtAb4M/PtYTDhoyM2DX
+ 8EwHjdthWsl1XKAl8GK8VHAvh+nGB/9ia1vapuuwsPN8AiU86WUAJ8xnL4FF6f+zsgHIB3M4
+ DR8SzPFrVVzkal4RwmtUwauPhobogf2XNU0aLaWg7PeROsDQQOYsyaZ2BEpJRQQfHVIHII3L
+ Zkt8m5sOSSVBiujTnDo0UK1RcnwdmEcTsjmSdbeH5FImWBHOneK4ME79V8Vop7kxIPOzy0bv
+ Uq+9HTVPhxbs42755bh2Lqt4FNdV0bhYXq/ZErTZ1qNO6x6L8wvv92LPSFqr3lgH+TzP3GM+
+ JxuAy4s01LB0sKA/4D29b0XX6z6N1X2/Mr4xa9e1Df468w7nhZ7rq01H4jd5cKmRqW7+KZat
+ S2xilZw4uP35SHnxKipTRvDHFR6rcDWv+AOsEwvIYQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRmVeSWpSXmKPExsVy+t/xe7pvmdziDY5MMLboPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2ONv0ht3iy5WHTBabHl9jtbi8aw6bRc+GrawWa4/cZbdY
+ tukPk8WUtz/ZLQ5+eMJq8bn1H5uDgMeaeWsYPWY3XGTx2PttAYvHplWdbB7bvz1g9bjffZzJ
+ Y/OSeo/b/x4ze0y+sZzRY/fNBjaPx79esnn0bVnF6PF5k1wAb5SeTVF+aUmqQkZ+cYmtUrSh
+ hZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexvOPBxgLvvpXXNx3gr2BcYVTFyMn
+ h4SAicT97vXsXYxcHEICSxkl2p+dYoFIyEicnNbACmELS/y51sUGUfSJUWJi8yJGkASbgKFE
+ 11uIhIhAJ6PEtO6PYKOYBe4zS/xvmM4GUiUs4C0x+/FvZhCbRUBV4v+/z0wgNq+AncSPe4+g
+ VshLrN5wAKyGEyh+vLsfrFdIwFbi9NoZzBMY+RYwMqxiFEktLc5Nzy020itOzC0uzUvXS87P
+ 3cQIjK9tx35u2cHY9S74EKMAB6MSD+8CNtd4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW
+ 5ccXleakFh9iNAU6aiKzlGhyPjD280riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YW
+ pBbB9DFxcEo1MAa9S+Toruabsmf67vM3OrOSyw9svrhMTCgmf/vvtysWGLzk7Vul3pD7cNm0
+ gvW3lWVDVQ8b1Yub+b34qn+j0D55e7JPEMNufuVry755/7xj9kY75gLL/uBqxpaJTpsu83wt
+ VLgww9PzwZy7s6v3uQk9MDnQIfR+ddWHJtPkLq/Us7aK6TrN/5VYijMSDbWYi4oTAVbGXErF
+ AgAA
+X-CMS-MailID: 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4
 X-Msg-Generator: CA
-X-RootMTR: 20200826063629eucas1p1a3c9c93e281b4c432a6d9940e734e3c4
+X-RootMTR: 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200826063629eucas1p1a3c9c93e281b4c432a6d9940e734e3c4
+X-CMS-RootMailID: 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4
 References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063629eucas1p1a3c9c93e281b4c432a6d9940e734e3c4@eucas1p1.samsung.com>
+ <CGME20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,8 +106,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+Cc: Pawel Osciak <pawel@osciak.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  David Airlie <airlied@linux.ie>, linux-media@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
  linux-arm-kernel@lists.infradead.org,
@@ -117,73 +120,260 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
-numer of the created entries in the DMA address space. However the
-subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
-called with the original number of entries passed to dma_map_sg. The
-sg_table->nents in turn holds the result of the dma_map_sg call as stated
-in include/linux/scatterlist.h. Adapt the code to obey those rules.
+Use recently introduced common wrappers operating directly on the struct
+sg_table objects and scatterlist page iterators to make the code a bit
+more compact, robust, easier to follow and copy/paste safe.
+
+No functional change, because the code already properly did all the
+scaterlist related calls.
 
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- drivers/media/pci/cx23885/cx23885-alsa.c | 2 +-
- drivers/media/pci/cx25821/cx25821-alsa.c | 2 +-
- drivers/media/pci/cx88/cx88-alsa.c       | 2 +-
- drivers/media/pci/saa7134/saa7134-alsa.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
+ .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
+ .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
+ 3 files changed, 31 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-alsa.c b/drivers/media/pci/cx23885/cx23885-alsa.c
-index df44ed7393a0..3f366e4e4685 100644
---- a/drivers/media/pci/cx23885/cx23885-alsa.c
-+++ b/drivers/media/pci/cx23885/cx23885-alsa.c
-@@ -129,7 +129,7 @@ static int cx23885_alsa_dma_unmap(struct cx23885_audio_dev *dev)
- 	if (!buf->sglen)
- 		return 0;
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index ec3446cc45b8..1b242d844dde 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+ 	unsigned int i;
+ 	unsigned long size = 0;
  
--	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen, PCI_DMA_FROMDEVICE);
-+	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages, PCI_DMA_FROMDEVICE);
- 	buf->sglen = 0;
- 	return 0;
+-	for_each_sg(sgt->sgl, s, sgt->nents, i) {
++	for_each_sgtable_dma_sg(sgt, s, i) {
+ 		if (sg_dma_address(s) != expected)
+ 			break;
+-		expected = sg_dma_address(s) + sg_dma_len(s);
++		expected += sg_dma_len(s);
+ 		size += sg_dma_len(s);
+ 	}
+ 	return size;
+@@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
+ 	if (!sgt)
+ 		return;
+ 
+-	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+-			       buf->dma_dir);
++	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
  }
-diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
-index 301616426d8a..c40304d33776 100644
---- a/drivers/media/pci/cx25821/cx25821-alsa.c
-+++ b/drivers/media/pci/cx25821/cx25821-alsa.c
-@@ -193,7 +193,7 @@ static int cx25821_alsa_dma_unmap(struct cx25821_audio_dev *dev)
- 	if (!buf->sglen)
- 		return 0;
  
--	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen, PCI_DMA_FROMDEVICE);
-+	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages, PCI_DMA_FROMDEVICE);
- 	buf->sglen = 0;
- 	return 0;
+ static void vb2_dc_finish(void *buf_priv)
+@@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
+ 	if (!sgt)
+ 		return;
+ 
+-	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
++	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
  }
-diff --git a/drivers/media/pci/cx88/cx88-alsa.c b/drivers/media/pci/cx88/cx88-alsa.c
-index 7d7aceecc985..3c6fe6ceb0b7 100644
---- a/drivers/media/pci/cx88/cx88-alsa.c
-+++ b/drivers/media/pci/cx88/cx88-alsa.c
-@@ -332,7 +332,7 @@ static int cx88_alsa_dma_unmap(struct cx88_audio_dev *dev)
- 	if (!buf->sglen)
- 		return 0;
  
--	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen,
-+	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages,
- 		     PCI_DMA_FROMDEVICE);
- 	buf->sglen = 0;
- 	return 0;
-diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
-index 544ca57eee75..398c47ff473d 100644
---- a/drivers/media/pci/saa7134/saa7134-alsa.c
-+++ b/drivers/media/pci/saa7134/saa7134-alsa.c
-@@ -313,7 +313,7 @@ static int saa7134_alsa_dma_unmap(struct saa7134_dev *dev)
- 	if (!dma->sglen)
- 		return 0;
+ /*********************************************/
+@@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
+ 		 * memory locations do not require any explicit cache
+ 		 * maintenance prior or after being used by the device.
+ 		 */
+-		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
++		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
++				  DMA_ATTR_SKIP_CPU_SYNC);
+ 	sg_free_table(sgt);
+ 	kfree(attach);
+ 	db_attach->priv = NULL;
+@@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
  
--	dma_unmap_sg(&dev->pci->dev, dma->sglist, dma->sglen, PCI_DMA_FROMDEVICE);
-+	dma_unmap_sg(&dev->pci->dev, dma->sglist, dma->nr_pages, PCI_DMA_FROMDEVICE);
- 	dma->sglen = 0;
- 	return 0;
+ 	/* release any previous cache */
+ 	if (attach->dma_dir != DMA_NONE) {
+-		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
++		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
++				  DMA_ATTR_SKIP_CPU_SYNC);
+ 		attach->dma_dir = DMA_NONE;
+ 	}
+ 
+@@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+ 	 * mapping to the client with new direction, no cache sync
+ 	 * required see comment in vb2_dc_dmabuf_ops_detach()
+ 	 */
+-	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+-	if (!sgt->nents) {
++	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
++			    DMA_ATTR_SKIP_CPU_SYNC)) {
+ 		pr_err("failed to map scatterlist\n");
+ 		mutex_unlock(lock);
+ 		return ERR_PTR(-EIO);
+@@ -455,8 +453,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
+ 		 * No need to sync to CPU, it's already synced to the CPU
+ 		 * since the finish() memop will have been called before this.
+ 		 */
+-		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+-				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
++		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
++				  DMA_ATTR_SKIP_CPU_SYNC);
+ 		pages = frame_vector_pages(buf->vec);
+ 		/* sgt should exist only if vector contains pages... */
+ 		BUG_ON(IS_ERR(pages));
+@@ -553,9 +551,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
+ 	 * No need to sync to the device, this will happen later when the
+ 	 * prepare() memop is called.
+ 	 */
+-	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+-				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+-	if (sgt->nents <= 0) {
++	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
++			    DMA_ATTR_SKIP_CPU_SYNC)) {
+ 		pr_err("failed to map scatterlist\n");
+ 		ret = -EIO;
+ 		goto fail_sgt_init;
+@@ -577,8 +574,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
+ 	return buf;
+ 
+ fail_map_sg:
+-	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+-			   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
++	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+ 
+ fail_sgt_init:
+ 	sg_free_table(sgt);
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+index 0a40e00f0d7e..0dd3b19025e0 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+@@ -148,9 +148,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
+ 	 * No need to sync to the device, this will happen later when the
+ 	 * prepare() memop is called.
+ 	 */
+-	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+-				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+-	if (!sgt->nents)
++	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
++			    DMA_ATTR_SKIP_CPU_SYNC))
+ 		goto fail_map;
+ 
+ 	buf->handler.refcount = &buf->refcount;
+@@ -186,8 +185,8 @@ static void vb2_dma_sg_put(void *buf_priv)
+ 	if (refcount_dec_and_test(&buf->refcount)) {
+ 		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
+ 			buf->num_pages);
+-		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+-				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
++		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
++				  DMA_ATTR_SKIP_CPU_SYNC);
+ 		if (buf->vaddr)
+ 			vm_unmap_ram(buf->vaddr, buf->num_pages);
+ 		sg_free_table(buf->dma_sgt);
+@@ -204,8 +203,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
+ 	struct vb2_dma_sg_buf *buf = buf_priv;
+ 	struct sg_table *sgt = buf->dma_sgt;
+ 
+-	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+-			       buf->dma_dir);
++	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
  }
+ 
+ static void vb2_dma_sg_finish(void *buf_priv)
+@@ -213,7 +211,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
+ 	struct vb2_dma_sg_buf *buf = buf_priv;
+ 	struct sg_table *sgt = buf->dma_sgt;
+ 
+-	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
++	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+ }
+ 
+ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+@@ -256,9 +254,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+ 	 * No need to sync to the device, this will happen later when the
+ 	 * prepare() memop is called.
+ 	 */
+-	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+-				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+-	if (!sgt->nents)
++	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
++			    DMA_ATTR_SKIP_CPU_SYNC))
+ 		goto userptr_fail_map;
+ 
+ 	return buf;
+@@ -284,8 +281,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
+ 
+ 	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
+ 	       __func__, buf->num_pages);
+-	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
+-			   DMA_ATTR_SKIP_CPU_SYNC);
++	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+ 	if (buf->vaddr)
+ 		vm_unmap_ram(buf->vaddr, buf->num_pages);
+ 	sg_free_table(buf->dma_sgt);
+@@ -408,8 +404,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
+ 
+ 	/* release the scatterlist cache */
+ 	if (attach->dma_dir != DMA_NONE)
+-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-			attach->dma_dir);
++		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+ 	sg_free_table(sgt);
+ 	kfree(attach);
+ 	db_attach->priv = NULL;
+@@ -434,15 +429,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
+ 
+ 	/* release any previous cache */
+ 	if (attach->dma_dir != DMA_NONE) {
+-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-			attach->dma_dir);
++		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+ 		attach->dma_dir = DMA_NONE;
+ 	}
+ 
+ 	/* mapping to the client with new direction */
+-	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-				dma_dir);
+-	if (!sgt->nents) {
++	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+ 		pr_err("failed to map scatterlist\n");
+ 		mutex_unlock(lock);
+ 		return ERR_PTR(-EIO);
+diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+index c66fda4a65e4..bf5ac63a5742 100644
+--- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
++++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+@@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
+ 		kfree(attach);
+ 		return ret;
+ 	}
+-	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
++	for_each_sgtable_sg(sgt, sg, i) {
+ 		struct page *page = vmalloc_to_page(vaddr);
+ 
+ 		if (!page) {
+@@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
+ 
+ 	/* release the scatterlist cache */
+ 	if (attach->dma_dir != DMA_NONE)
+-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-			attach->dma_dir);
++		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+ 	sg_free_table(sgt);
+ 	kfree(attach);
+ 	db_attach->priv = NULL;
+@@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
+ 
+ 	/* release any previous cache */
+ 	if (attach->dma_dir != DMA_NONE) {
+-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-			attach->dma_dir);
++		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+ 		attach->dma_dir = DMA_NONE;
+ 	}
+ 
+ 	/* mapping to the client with new direction */
+-	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+-				dma_dir);
+-	if (!sgt->nents) {
++	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+ 		pr_err("failed to map scatterlist\n");
+ 		mutex_unlock(lock);
+ 		return ERR_PTR(-EIO);
 -- 
 2.17.1
 
