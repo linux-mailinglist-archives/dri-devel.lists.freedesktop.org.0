@@ -1,59 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3ED2528D6
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C630A2528DD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D016EA47;
-	Wed, 26 Aug 2020 08:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B616EA37;
+	Wed, 26 Aug 2020 08:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964FE6E9CB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 21:57:43 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id k18so178363qtm.10
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Aug 2020 14:57:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OWRVhAyQrMMbNCybKNpaTOkjxzgRbbU/WkM3Dt9pX54=;
- b=fcTL7q1gFc3oZ0ZWW6ITOvGLzyP26ghrzc9ma1/q3Derm5NBJOZwguT0X4p6uheACV
- uVVIQzNvB8KGcKFTpJo5tKZxLc9thz96kuXIo29pjk1ZNZkKNl8b8OfOHJLtaPiNbaUY
- 7CwCpaIoA0O0CwL1VzmdXnKZkYd4ZWLbRYzhHWtimbk6krXb9E7L67tPAZJ6qtyR+9S+
- BfQFfmygj1UK6xTAM9En3S4vNuGyIq4S4Fcj1wFuh9bg7Vdv0yV7SVLXjWyeB4IjLzJ3
- 8mOwUBdLrzcuoMvfNvOV9W3M1KnLAw7XMREVAjiwctxj0JRLrt4P42VToIqM9nSEUquW
- Pvcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OWRVhAyQrMMbNCybKNpaTOkjxzgRbbU/WkM3Dt9pX54=;
- b=ccsdyppLg8lYeovsv2GfvcBA8MryZHhFlU+C9WApi4hotnMGMwCN84Kb3LFP3UnuoI
- 1dVIB66lpEXxLY1s6s7Z3Qla3JZw4s5s+Md+kGWW/Ctcgb+F0wFsZvqIC4faBBxrmCu2
- luteZd7/kDSS/4RGExICa2snG37g+DDBWZMkm78qE2DotwcMnzBNJafKyE2MltZqS1ke
- gNBBe/NZA2K8EHcAMX1lPpT6pi4X9wX87X/M6UZJOow97o8Wnj2Fnpu/YXw+bIwLeeWR
- +aoUqjE43EK2ug3jWHIS+bMex3Pox7QzYWiH4KdBOX3C7tQojiVo0zEyf2BUhJtR55YW
- TSQg==
-X-Gm-Message-State: AOAM533DIfD2mPTciIlF0M28c7gNe6loaUv4dU08OMiqcrI2L4/RjulS
- t5uMHeLmkiiM2TGceYc/Dr6W51QgHyCCcg==
-X-Google-Smtp-Source: ABdhPJwkJ91ZZA7Cq3/WkBuZ3vsYC6CZvy1AW1h0c+XAfq+Qj5c/LtYCXS036Taqiw9hcTxMPh+/Ew==
-X-Received: by 2002:aed:3824:: with SMTP id j33mr3131055qte.374.1598392662216; 
- Tue, 25 Aug 2020 14:57:42 -0700 (PDT)
-Received: from localhost.localdomain ([189.7.69.189])
- by smtp.gmail.com with ESMTPSA id w28sm128308qkw.87.2020.08.25.14.57.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:57:41 -0700 (PDT)
-From: Diego Viola <diego.viola@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: fix unblank
-Date: Tue, 25 Aug 2020 18:56:46 -0300
-Message-Id: <20200825215646.66853-1-diego.viola@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200818072511.6745-1-kraxel@redhat.com>
-References: <20200818072511.6745-1-kraxel@redhat.com>
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C03356E9D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:04:25 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 591FAC58BF69EA375866;
+ Wed, 26 Aug 2020 09:04:21 +0800 (CST)
+Received: from [127.0.0.1] (10.174.179.103) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0;
+ Wed, 26 Aug 2020 09:04:07 +0800
+Subject: Re: [PATCH] drm/sun4i: add missing put_device() call in
+ sun8i_r40_tcon_tv_set_mux()
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20200825114403.1392369-1-yukuai3@huawei.com>
+ <20200825133851.scnipngfpm6jyje5@gilmour.lan>
+From: "yukuai (C)" <yukuai3@huawei.com>
+Message-ID: <3eec5382-0aed-ee9a-1ac4-5a56bdeeef09@huawei.com>
+Date: Wed, 26 Aug 2020 09:04:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200825133851.scnipngfpm6jyje5@gilmour.lan>
+X-Originating-IP: [10.174.179.103]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 26 Aug 2020 08:04:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,85 +45,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 1882851@bugs.launchpad.net, Diego Viola <diego.viola@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: jernej.skrabec@siol.net, yi.zhang@huawei.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+On 2020/08/25 21:38, Maxime Ripard wrote:
+> Hi,
+> 
+> On Tue, Aug 25, 2020 at 07:44:03PM +0800, Yu Kuai wrote:
+>> If sun8i_r40_tcon_tv_set_mux() succeed, at_dma_xlate() doesn't have a
+>> corresponding put_device(). Thus add put_device() to fix the exception
+>> handling for this function implementation.
+>>
+>> Fixes: 0305189afb32 ("drm/sun4i: tcon: Add support for R40 TCON")
+>> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+> 
+> That doesn't sound right, we're not using at_dma_xlate at all in that
+> driver?
+> 
 
-When going through a disable/enable cycle without changing the
-framebuffer the optimization added by commit 3954ff10e06e ("drm/virtio:
-skip set_scanout if framebuffer didn't change") causes the screen stay
-blank.  Add a bool to force an update to fix that.
+Hi!
 
-v2: use drm_atomic_crtc_needs_modeset() (Daniel).
+sry about that, should be sun8i_r40_tcon_tv_set_mux(), same as the
+title said.
 
-Cc: 1882851@bugs.launchpad.net
-Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn't change")
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Jiri Slaby <jirislaby@kernel.org>
-Tested-by: Diego Viola <diego.viola@gmail.com>
----
- drivers/gpu/drm/virtio/virtgpu_display.c | 11 +++++++++++
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  1 +
- drivers/gpu/drm/virtio/virtgpu_plane.c   |  4 +++-
- 3 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index af55b334be2f..35b5c80f5d85 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -123,6 +123,17 @@ static int virtio_gpu_crtc_atomic_check(struct drm_crtc *crtc,
- static void virtio_gpu_crtc_atomic_flush(struct drm_crtc *crtc,
- 					 struct drm_crtc_state *old_state)
- {
-+	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
-+
-+	/*
-+	 * virtio-gpu can't do modeset and plane update operations
-+	 * independant from each other.  So the actual modeset happens
-+	 * in the plane update callback, and here we just check
-+	 * whenever we must force the modeset.
-+	 */
-+	if (drm_atomic_crtc_needs_modeset(crtc->state)) {
-+		output->needs_modeset = true;
-+	}
- }
- 
- static const struct drm_crtc_helper_funcs virtio_gpu_crtc_helper_funcs = {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 9ff9f4ac0522..4ab1b0ba2925 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -138,6 +138,7 @@ struct virtio_gpu_output {
- 	int cur_x;
- 	int cur_y;
- 	bool enabled;
-+	bool needs_modeset;
- };
- #define drm_crtc_to_virtio_gpu_output(x) \
- 	container_of(x, struct virtio_gpu_output, crtc)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 52d24179bcec..65757409d9ed 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -163,7 +163,9 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 	    plane->state->src_w != old_state->src_w ||
- 	    plane->state->src_h != old_state->src_h ||
- 	    plane->state->src_x != old_state->src_x ||
--	    plane->state->src_y != old_state->src_y) {
-+	    plane->state->src_y != old_state->src_y ||
-+	    output->needs_modeset) {
-+		output->needs_modeset = false;
- 		DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
- 			  bo->hw_res_handle,
- 			  plane->state->crtc_w, plane->state->crtc_h,
--- 
-2.28.0
+Best regards,
+Yu Kuai
 
 _______________________________________________
 dri-devel mailing list
