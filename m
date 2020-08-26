@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E229225251A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:44:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB5A25251D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29F86E9DB;
-	Wed, 26 Aug 2020 01:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB2B76E9DE;
+	Wed, 26 Aug 2020 01:45:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4D46E9DC
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:44:54 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A41C06E9DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:44:58 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-craaof6aPjCaBSV0GFMtmA-1; Tue, 25 Aug 2020 21:44:51 -0400
-X-MC-Unique: craaof6aPjCaBSV0GFMtmA-1
+ us-mta-483-vC_e7qjaNiq76TTssw_wjw-1; Tue, 25 Aug 2020 21:44:53 -0400
+X-MC-Unique: vC_e7qjaNiq76TTssw_wjw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A9D61074640;
- Wed, 26 Aug 2020 01:44:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 626071074642;
+ Wed, 26 Aug 2020 01:44:52 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
  [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DACE60C13;
- Wed, 26 Aug 2020 01:44:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E974D60FC2;
+ Wed, 26 Aug 2020 01:44:50 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/23] drm/radeon/ttm: move to driver binding/destroy
+Subject: [PATCH 08/23] drm/nouveau/ttm: use driver bind/unbind/destroy
  functions.
-Date: Wed, 26 Aug 2020 11:44:12 +1000
-Message-Id: <20200826014428.828392-8-airlied@gmail.com>
+Date: Wed, 26 Aug 2020 11:44:13 +1000
+Message-Id: <20200826014428.828392-9-airlied@gmail.com>
 In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
 References: <20200826014428.828392-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,307 +60,196 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-Do agp decision in the driver, instead of special binding funcs
-
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/radeon/radeon.h        |  7 +-
- drivers/gpu/drm/radeon/radeon_cs.c     |  2 +-
- drivers/gpu/drm/radeon/radeon_gem.c    |  6 +-
- drivers/gpu/drm/radeon/radeon_object.c |  2 +-
- drivers/gpu/drm/radeon/radeon_prime.c  |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c    | 92 ++++++++++++++++++++------
- drivers/gpu/drm/radeon/radeon_vm.c     |  2 +-
- 7 files changed, 81 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c    | 45 +++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_sgdma.c | 54 ++++++-------------------
+ drivers/gpu/drm/nouveau/nouveau_ttm.h   |  3 ++
+ 3 files changed, 60 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index cc4f58d16589..df6f0b49836b 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -2815,10 +2815,11 @@ extern void radeon_legacy_set_clock_gating(struct radeon_device *rdev, int enabl
- extern void radeon_atom_set_clock_gating(struct radeon_device *rdev, int enable);
- extern void radeon_ttm_placement_from_domain(struct radeon_bo *rbo, u32 domain);
- extern bool radeon_ttm_bo_is_radeon_bo(struct ttm_buffer_object *bo);
--extern int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
-+extern int radeon_ttm_tt_set_userptr(struct radeon_device *rdev,
-+				     struct ttm_tt *ttm, uint64_t addr,
- 				     uint32_t flags);
--extern bool radeon_ttm_tt_has_userptr(struct ttm_tt *ttm);
--extern bool radeon_ttm_tt_is_readonly(struct ttm_tt *ttm);
-+extern bool radeon_ttm_tt_has_userptr(struct radeon_device *rdev, struct ttm_tt *ttm);
-+extern bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev, struct ttm_tt *ttm);
- extern void radeon_vram_location(struct radeon_device *rdev, struct radeon_mc *mc, u64 base);
- extern void radeon_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
- extern int radeon_resume_kms(struct drm_device *dev, bool resume, bool fbcon);
-diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-index 33ae1b883268..21ce2f9502c0 100644
---- a/drivers/gpu/drm/radeon/radeon_cs.c
-+++ b/drivers/gpu/drm/radeon/radeon_cs.c
-@@ -160,7 +160,7 @@ static int radeon_cs_parser_relocs(struct radeon_cs_parser *p)
- 			p->relocs[i].allowed_domains = domain;
- 		}
- 
--		if (radeon_ttm_tt_has_userptr(p->relocs[i].robj->tbo.ttm)) {
-+		if (radeon_ttm_tt_has_userptr(p->rdev, p->relocs[i].robj->tbo.ttm)) {
- 			uint32_t domain = p->relocs[i].preferred_domains;
- 			if (!(domain & RADEON_GEM_DOMAIN_GTT)) {
- 				DRM_ERROR("Only RADEON_GEM_DOMAIN_GTT is "
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 7f5dfe04789e..e5c4271e64ed 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -331,7 +331,7 @@ int radeon_gem_userptr_ioctl(struct drm_device *dev, void *data,
- 		goto handle_lockup;
- 
- 	bo = gem_to_radeon_bo(gobj);
--	r = radeon_ttm_tt_set_userptr(bo->tbo.ttm, args->addr, args->flags);
-+	r = radeon_ttm_tt_set_userptr(rdev, bo->tbo.ttm, args->addr, args->flags);
- 	if (r)
- 		goto release_object;
- 
-@@ -420,7 +420,7 @@ int radeon_mode_dumb_mmap(struct drm_file *filp,
- 		return -ENOENT;
- 	}
- 	robj = gem_to_radeon_bo(gobj);
--	if (radeon_ttm_tt_has_userptr(robj->tbo.ttm)) {
-+	if (radeon_ttm_tt_has_userptr(robj->rdev, robj->tbo.ttm)) {
- 		drm_gem_object_put(gobj);
- 		return -EPERM;
- 	}
-@@ -721,7 +721,7 @@ int radeon_gem_op_ioctl(struct drm_device *dev, void *data,
- 	robj = gem_to_radeon_bo(gobj);
- 
- 	r = -EPERM;
--	if (radeon_ttm_tt_has_userptr(robj->tbo.ttm))
-+	if (radeon_ttm_tt_has_userptr(robj->rdev, robj->tbo.ttm))
- 		goto out;
- 
- 	r = radeon_bo_reserve(robj, false);
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index bb7582afd803..3fcd15d21ddc 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -331,7 +331,7 @@ int radeon_bo_pin_restricted(struct radeon_bo *bo, u32 domain, u64 max_offset,
- 	struct ttm_operation_ctx ctx = { false, false };
- 	int r, i;
- 
--	if (radeon_ttm_tt_has_userptr(bo->tbo.ttm))
-+	if (radeon_ttm_tt_has_userptr(bo->rdev, bo->tbo.ttm))
- 		return -EPERM;
- 
- 	if (bo->pin_count) {
-diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
-index b906e8fbd5f3..d6d9c8b46ab4 100644
---- a/drivers/gpu/drm/radeon/radeon_prime.c
-+++ b/drivers/gpu/drm/radeon/radeon_prime.c
-@@ -121,7 +121,7 @@ struct dma_buf *radeon_gem_prime_export(struct drm_gem_object *gobj,
- 					int flags)
- {
- 	struct radeon_bo *bo = gem_to_radeon_bo(gobj);
--	if (radeon_ttm_tt_has_userptr(bo->tbo.ttm))
-+	if (radeon_ttm_tt_has_userptr(bo->rdev, bo->tbo.ttm))
- 		return ERR_PTR(-EPERM);
- 	return drm_gem_prime_export(gobj, flags);
- }
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 1d3e8bb69f8e..af5479ea154c 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -141,8 +141,9 @@ static void radeon_evict_flags(struct ttm_buffer_object *bo,
- static int radeon_verify_access(struct ttm_buffer_object *bo, struct file *filp)
- {
- 	struct radeon_bo *rbo = container_of(bo, struct radeon_bo, tbo);
-+	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
- 
--	if (radeon_ttm_tt_has_userptr(bo->ttm))
-+	if (radeon_ttm_tt_has_userptr(rdev, bo->ttm))
- 		return -EPERM;
- 	return drm_vma_node_verify_access(&rbo->tbo.base.vma_node,
- 					  filp->private_data);
-@@ -561,12 +562,6 @@ static void radeon_ttm_backend_destroy(struct ttm_bo_device *bdev, struct ttm_tt
- 	kfree(gtt);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 9e6425a0cb3f..f16401feb965 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -668,6 +668,34 @@ nouveau_ttm_tt_create(struct ttm_buffer_object *bo, uint32_t page_flags)
+ 	return nouveau_sgdma_create_ttm(bo, page_flags);
  }
  
--static struct ttm_backend_func radeon_backend_func = {
--	.bind = &radeon_ttm_backend_bind,
--	.unbind = &radeon_ttm_backend_unbind,
--	.destroy = &radeon_ttm_backend_destroy,
--};
--
- static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
- 					   uint32_t page_flags)
- {
-@@ -585,7 +580,6 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
- 	if (gtt == NULL) {
- 		return NULL;
- 	}
--	gtt->ttm.ttm.func = &radeon_backend_func;
- 	if (ttm_dma_tt_init(&gtt->ttm, bo, page_flags)) {
- 		kfree(gtt);
- 		return NULL;
-@@ -593,9 +587,16 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
- 	return &gtt->ttm.ttm;
- }
- 
--static struct radeon_ttm_tt *radeon_ttm_tt_to_gtt(struct ttm_tt *ttm)
-+static struct radeon_ttm_tt *radeon_ttm_tt_to_gtt(struct radeon_device *rdev,
-+						  struct ttm_tt *ttm)
- {
--	if (!ttm || ttm->func != &radeon_backend_func)
-+#if IS_ENABLED(CONFIG_AGP)
-+	if (rdev->flags & RADEON_IS_AGP) {
-+		return NULL;
-+	}
-+#endif
-+
-+	if (!ttm)
- 		return NULL;
- 	return (struct radeon_ttm_tt *)ttm;
- }
-@@ -604,8 +605,8 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 				  struct ttm_tt *ttm,
- 				  struct ttm_operation_ctx *ctx)
- {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
--	struct radeon_device *rdev;
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (gtt && gtt->userptr) {
-@@ -625,7 +626,6 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 		return 0;
- 	}
- 
--	rdev = radeon_get_rdev(bdev);
- #if IS_ENABLED(CONFIG_AGP)
- 	if (rdev->flags & RADEON_IS_AGP) {
- 		return ttm_agp_tt_populate(bdev, ttm, ctx);
-@@ -643,8 +643,8 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 
- static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
- {
--	struct radeon_device *rdev;
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (gtt && gtt->userptr) {
-@@ -656,7 +656,6 @@ static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
- 	if (slave)
- 		return;
- 
--	rdev = radeon_get_rdev(bdev);
- #if IS_ENABLED(CONFIG_AGP)
- 	if (rdev->flags & RADEON_IS_AGP) {
- 		ttm_agp_tt_unpopulate(bdev, ttm);
-@@ -674,10 +673,11 @@ static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
- 	ttm_unmap_and_unpopulate_pages(rdev->dev, &gtt->ttm);
- }
- 
--int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
-+int radeon_ttm_tt_set_userptr(struct radeon_device *rdev,
-+			      struct ttm_tt *ttm, uint64_t addr,
- 			      uint32_t flags)
- {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 
- 	if (gtt == NULL)
- 		return -EINVAL;
-@@ -688,9 +688,53 @@ int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
- 	return 0;
- }
- 
--bool radeon_ttm_tt_has_userptr(struct ttm_tt *ttm)
-+static int radeon_ttm_tt_bind(struct ttm_bo_device *bdev,
-+			      struct ttm_tt *ttm,
-+			      struct ttm_resource *bo_mem)
++static int
++nouveau_ttm_tt_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm,
++		    struct ttm_resource *reg)
 +{
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+
 +#if IS_ENABLED(CONFIG_AGP)
-+	if (rdev->flags & RADEON_IS_AGP) {
-+		return ttm_agp_bind(bdev, ttm, bo_mem);
++	struct nouveau_drm *drm = nouveau_bdev(bdev);
++
++	if (drm->agp.bridge) {
++		return ttm_agp_bind(bdev, ttm, reg);
 +	}
 +#endif
-+
-+	return radeon_ttm_backend_bind(bdev, ttm, bo_mem);
++	return nouveau_sgdma_bind(bdev, ttm, reg);
 +}
 +
-+static void radeon_ttm_tt_unbind(struct ttm_bo_device *bdev,
-+				 struct ttm_tt *ttm)
++static void
++nouveau_ttm_tt_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
 +{
 +#if IS_ENABLED(CONFIG_AGP)
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
++	struct nouveau_drm *drm = nouveau_bdev(bdev);
 +
-+	if (rdev->flags & RADEON_IS_AGP) {
++	if (drm->agp.bridge) {
 +		ttm_agp_unbind(bdev, ttm);
 +		return;
 +	}
 +#endif
-+	radeon_ttm_backend_unbind(bdev, ttm);
++	nouveau_sgdma_unbind(bdev, ttm);
 +}
 +
-+static void radeon_ttm_tt_destroy(struct ttm_bo_device *bdev,
-+				  struct ttm_tt *ttm)
+ static void
+ nouveau_bo_evict_flags(struct ttm_buffer_object *bo, struct ttm_placement *pl)
+ {
+@@ -1296,6 +1324,20 @@ nouveau_ttm_tt_unpopulate(struct ttm_bo_device *bdev,
+ 	ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
+ }
+ 
++static void
++nouveau_ttm_tt_destroy(struct ttm_bo_device *bdev,
++		       struct ttm_tt *ttm)
 +{
 +#if IS_ENABLED(CONFIG_AGP)
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+
-+	if (rdev->flags & RADEON_IS_AGP) {
++	struct nouveau_drm *drm = nouveau_bdev(bdev);
++	if (drm->agp.bridge) {
 +		ttm_agp_destroy(bdev, ttm);
 +		return;
 +	}
 +#endif
-+	radeon_ttm_backend_destroy(bdev, ttm);
++	nouveau_sgdma_destroy(bdev, ttm);
 +}
 +
-+bool radeon_ttm_tt_has_userptr(struct radeon_device *rdev,
-+			       struct ttm_tt *ttm)
+ void
+ nouveau_bo_fence(struct nouveau_bo *nvbo, struct nouveau_fence *fence, bool exclusive)
  {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
+@@ -1311,6 +1353,9 @@ struct ttm_bo_driver nouveau_bo_driver = {
+ 	.ttm_tt_create = &nouveau_ttm_tt_create,
+ 	.ttm_tt_populate = &nouveau_ttm_tt_populate,
+ 	.ttm_tt_unpopulate = &nouveau_ttm_tt_unpopulate,
++	.ttm_tt_bind = &nouveau_ttm_tt_bind,
++	.ttm_tt_unbind = &nouveau_ttm_tt_unbind,
++	.ttm_tt_destroy = &nouveau_ttm_tt_destroy,
+ 	.eviction_valuable = ttm_bo_eviction_valuable,
+ 	.evict_flags = nouveau_bo_evict_flags,
+ 	.move_notify = nouveau_bo_move_ntfy,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sgdma.c b/drivers/gpu/drm/nouveau/nouveau_sgdma.c
+index 6000c650b105..05e542254e1f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sgdma.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sgdma.c
+@@ -14,7 +14,7 @@ struct nouveau_sgdma_be {
+ 	struct nouveau_mem *mem;
+ };
  
- 	if (gtt == NULL)
- 		return false;
-@@ -698,9 +742,10 @@ bool radeon_ttm_tt_has_userptr(struct ttm_tt *ttm)
- 	return !!gtt->userptr;
+-static void
++void
+ nouveau_sgdma_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+ {
+ 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+@@ -25,10 +25,11 @@ nouveau_sgdma_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+ 	}
  }
  
--bool radeon_ttm_tt_is_readonly(struct ttm_tt *ttm)
-+bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
-+			       struct ttm_tt *ttm)
+-static int
+-nv04_sgdma_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *reg)
++int
++nouveau_sgdma_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *reg)
  {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
+ 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
++	struct nouveau_drm *drm = nouveau_bdev(bdev);
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+ 	int ret;
  
- 	if (gtt == NULL)
- 		return false;
-@@ -712,6 +757,9 @@ static struct ttm_bo_driver radeon_bo_driver = {
- 	.ttm_tt_create = &radeon_ttm_tt_create,
- 	.ttm_tt_populate = &radeon_ttm_tt_populate,
- 	.ttm_tt_unpopulate = &radeon_ttm_tt_unpopulate,
-+	.ttm_tt_bind = &radeon_ttm_tt_bind,
-+	.ttm_tt_unbind = &radeon_ttm_tt_unbind,
-+	.ttm_tt_destroy = &radeon_ttm_tt_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = &radeon_evict_flags,
- 	.move = &radeon_bo_move,
-diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-index 71e2c3785ab9..ebad27c91a0d 100644
---- a/drivers/gpu/drm/radeon/radeon_vm.c
-+++ b/drivers/gpu/drm/radeon/radeon_vm.c
-@@ -942,7 +942,7 @@ int radeon_vm_bo_update(struct radeon_device *rdev,
- 	bo_va->flags &= ~RADEON_VM_PAGE_VALID;
- 	bo_va->flags &= ~RADEON_VM_PAGE_SYSTEM;
- 	bo_va->flags &= ~RADEON_VM_PAGE_SNOOPED;
--	if (bo_va->bo && radeon_ttm_tt_is_readonly(bo_va->bo->tbo.ttm))
-+	if (bo_va->bo && radeon_ttm_tt_is_readonly(rdev, bo_va->bo->tbo.ttm))
- 		bo_va->flags &= ~RADEON_VM_PAGE_WRITEABLE;
+@@ -36,65 +37,34 @@ nv04_sgdma_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resou
+ 	if (ret)
+ 		return ret;
  
- 	if (mem) {
+-	ret = nouveau_mem_map(mem, &mem->cli->vmm.vmm, &mem->vma[0]);
+-	if (ret) {
+-		nouveau_mem_fini(mem);
+-		return ret;
++	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA) {
++		ret = nouveau_mem_map(mem, &mem->cli->vmm.vmm, &mem->vma[0]);
++		if (ret) {
++			nouveau_mem_fini(mem);
++			return ret;
++		}
+ 	}
+ 
+ 	nvbe->mem = mem;
+ 	return 0;
+ }
+ 
+-static void
+-nv04_sgdma_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
++void
++nouveau_sgdma_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+ {
+ 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+ 	nouveau_mem_fini(nvbe->mem);
+ }
+ 
+-static struct ttm_backend_func nv04_sgdma_backend = {
+-	.bind			= nv04_sgdma_bind,
+-	.unbind			= nv04_sgdma_unbind,
+-	.destroy		= nouveau_sgdma_destroy
+-};
+-
+-static int
+-nv50_sgdma_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *reg)
+-{
+-	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+-	struct nouveau_mem *mem = nouveau_mem(reg);
+-	int ret;
+-
+-	ret = nouveau_mem_host(reg, &nvbe->ttm);
+-	if (ret)
+-		return ret;
+-
+-	nvbe->mem = mem;
+-	return 0;
+-}
+-
+-static struct ttm_backend_func nv50_sgdma_backend = {
+-	.bind			= nv50_sgdma_bind,
+-	.unbind			= nv04_sgdma_unbind,
+-	.destroy		= nouveau_sgdma_destroy
+-};
+-
+ struct ttm_tt *
+ nouveau_sgdma_create_ttm(struct ttm_buffer_object *bo, uint32_t page_flags)
+ {
+-	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+ 	struct nouveau_sgdma_be *nvbe;
+ 
+ 	nvbe = kzalloc(sizeof(*nvbe), GFP_KERNEL);
+ 	if (!nvbe)
+ 		return NULL;
+ 
+-	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA)
+-		nvbe->ttm.ttm.func = &nv04_sgdma_backend;
+-	else
+-		nvbe->ttm.ttm.func = &nv50_sgdma_backend;
+-
+ 	if (ttm_dma_tt_init(&nvbe->ttm, bo, page_flags)) {
+ 		kfree(nvbe);
+ 		return NULL;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.h b/drivers/gpu/drm/nouveau/nouveau_ttm.h
+index eaf25461cd91..69552049bb96 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.h
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.h
+@@ -22,4 +22,7 @@ int  nouveau_ttm_mmap(struct file *, struct vm_area_struct *);
+ int  nouveau_ttm_global_init(struct nouveau_drm *);
+ void nouveau_ttm_global_release(struct nouveau_drm *);
+ 
++int nouveau_sgdma_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *reg);
++void nouveau_sgdma_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm);
++void nouveau_sgdma_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm);
+ #endif
 -- 
 2.27.0
 
