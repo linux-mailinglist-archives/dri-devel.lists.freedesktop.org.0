@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C3B252521
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B42252522
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 595B76E9E3;
-	Wed, 26 Aug 2020 01:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F646E9E4;
+	Wed, 26 Aug 2020 01:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BADBA6E9E3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:45:18 +0000 (UTC)
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799A06E9E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:45:24 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-UqexzEKnMTmg3Z7c8VVsVg-1; Tue, 25 Aug 2020 21:45:13 -0400
-X-MC-Unique: UqexzEKnMTmg3Z7c8VVsVg-1
+ us-mta-392-vZr9oH4WM_yDr5GG1dzjfQ-1; Tue, 25 Aug 2020 21:45:17 -0400
+X-MC-Unique: vZr9oH4WM_yDr5GG1dzjfQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E2F4189E606;
- Wed, 26 Aug 2020 01:45:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C3428030B5;
+ Wed, 26 Aug 2020 01:45:16 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
  [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD7B060C13;
- Wed, 26 Aug 2020 01:45:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D4B160C13;
+ Wed, 26 Aug 2020 01:45:12 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/23] drm/ttm/agp: remove bdev from agp helpers
-Date: Wed, 26 Aug 2020 11:44:19 +1000
-Message-Id: <20200826014428.828392-15-airlied@gmail.com>
+Subject: [PATCH 15/23] drm/ttm: drop the tt backend function paths.
+Date: Wed, 26 Aug 2020 11:44:20 +1000
+Message-Id: <20200826014428.828392-16-airlied@gmail.com>
 In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
 References: <20200826014428.828392-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,139 +61,114 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-Since the agp bind/unbind/destroy are now getting called from drivers
-rather than via the func table, drop the bdev parameter.
+These are now driver side.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c  |  6 +++---
- drivers/gpu/drm/radeon/radeon_ttm.c   |  6 +++---
- drivers/gpu/drm/ttm/ttm_agp_backend.c | 11 ++++-------
- include/drm/ttm/ttm_tt.h              |  9 +++------
- 4 files changed, 13 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/ttm/ttm_tt.c | 15 +++-----------
+ include/drm/ttm/ttm_tt.h     | 39 ------------------------------------
+ 2 files changed, 3 insertions(+), 51 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 08499e1a56c2..0a8c092e0f2e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -676,7 +676,7 @@ nouveau_ttm_tt_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm,
- 	struct nouveau_drm *drm = nouveau_bdev(bdev);
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 73c97dcfa512..67aa7fe39432 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -222,10 +222,7 @@ void ttm_tt_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+ 		fput(ttm->swap_storage);
  
- 	if (drm->agp.bridge) {
--		return ttm_agp_bind(bdev, ttm, reg);
-+		return ttm_agp_bind(ttm, reg);
- 	}
- #endif
- 	return nouveau_sgdma_bind(bdev, ttm, reg);
-@@ -689,7 +689,7 @@ nouveau_ttm_tt_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
- 	struct nouveau_drm *drm = nouveau_bdev(bdev);
- 
- 	if (drm->agp.bridge) {
--		ttm_agp_unbind(bdev, ttm);
-+		ttm_agp_unbind(ttm);
- 		return;
- 	}
- #endif
-@@ -1331,7 +1331,7 @@ nouveau_ttm_tt_destroy(struct ttm_bo_device *bdev,
- #if IS_ENABLED(CONFIG_AGP)
- 	struct nouveau_drm *drm = nouveau_bdev(bdev);
- 	if (drm->agp.bridge) {
--		ttm_agp_destroy(bdev, ttm);
-+		ttm_agp_destroy(ttm);
- 		return;
- 	}
- #endif
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index eacfc591bf79..6b7af313389d 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -696,7 +696,7 @@ static int radeon_ttm_tt_bind(struct ttm_bo_device *bdev,
- 
- #if IS_ENABLED(CONFIG_AGP)
- 	if (rdev->flags & RADEON_IS_AGP) {
--		return ttm_agp_bind(bdev, ttm, bo_mem);
-+		return ttm_agp_bind(ttm, bo_mem);
- 	}
- #endif
- 
-@@ -710,7 +710,7 @@ static void radeon_ttm_tt_unbind(struct ttm_bo_device *bdev,
- 	struct radeon_device *rdev = radeon_get_rdev(bdev);
- 
- 	if (rdev->flags & RADEON_IS_AGP) {
--		ttm_agp_unbind(bdev, ttm);
-+		ttm_agp_unbind(ttm);
- 		return;
- 	}
- #endif
-@@ -724,7 +724,7 @@ static void radeon_ttm_tt_destroy(struct ttm_bo_device *bdev,
- 	struct radeon_device *rdev = radeon_get_rdev(bdev);
- 
- 	if (rdev->flags & RADEON_IS_AGP) {
--		ttm_agp_destroy(bdev, ttm);
-+		ttm_agp_destroy(ttm);
- 		return;
- 	}
- #endif
-diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-index 3d0a5e9f4c5f..7b36fdaab766 100644
---- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-+++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-@@ -48,8 +48,7 @@ struct ttm_agp_backend {
- 	struct agp_bridge_data *bridge;
- };
- 
--int ttm_agp_bind(struct ttm_bo_device *bdev,
--		 struct ttm_tt *ttm, struct ttm_resource *bo_mem)
-+int ttm_agp_bind(struct ttm_tt *ttm, struct ttm_resource *bo_mem)
- {
- 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
- 	struct page *dummy_read_page = ttm_bo_glob.dummy_read_page;
-@@ -84,8 +83,7 @@ int ttm_agp_bind(struct ttm_bo_device *bdev,
+ 	ttm->swap_storage = NULL;
+-	if (bdev->driver->ttm_tt_destroy)
+-		bdev->driver->ttm_tt_destroy(bdev, ttm);
+-	else
+-		ttm->func->destroy(bdev, ttm);
++	bdev->driver->ttm_tt_destroy(bdev, ttm);
  }
- EXPORT_SYMBOL(ttm_agp_bind);
  
--void ttm_agp_unbind(struct ttm_bo_device *bdev,
--		    struct ttm_tt *ttm)
-+void ttm_agp_unbind(struct ttm_tt *ttm)
+ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+@@ -313,10 +310,7 @@ EXPORT_SYMBOL(ttm_dma_tt_fini);
+ void ttm_tt_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
  {
- 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
- 
-@@ -100,13 +98,12 @@ void ttm_agp_unbind(struct ttm_bo_device *bdev,
+ 	if (ttm->state == tt_bound) {
+-		if (bdev->driver->ttm_tt_unbind)
+-			bdev->driver->ttm_tt_unbind(bdev, ttm);
+-		else
+-			ttm->func->unbind(bdev, ttm);
++		bdev->driver->ttm_tt_unbind(bdev, ttm);
+ 		ttm->state = tt_unbound;
+ 	}
  }
- EXPORT_SYMBOL(ttm_agp_unbind);
+@@ -337,10 +331,7 @@ int ttm_tt_bind(struct ttm_bo_device *bdev,
+ 	if (ret)
+ 		return ret;
  
--void ttm_agp_destroy(struct ttm_bo_device *bdev,
--		     struct ttm_tt *ttm)
-+void ttm_agp_destroy(struct ttm_tt *ttm)
- {
- 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
+-	if (bdev->driver->ttm_tt_bind)
+-		ret = bdev->driver->ttm_tt_bind(bdev, ttm, bo_mem);
+-	else
+-		ret = ttm->func->bind(bdev, ttm, bo_mem);
++	ret = bdev->driver->ttm_tt_bind(bdev, ttm, bo_mem);
+ 	if (unlikely(ret != 0))
+ 		return ret;
  
- 	if (agp_be->mem)
--		ttm_agp_unbind(bdev, ttm);
-+		ttm_agp_unbind(ttm);
- 	ttm_tt_fini(ttm);
- 	kfree(agp_be);
- }
 diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 591d4927d501..bdc8aadf3246 100644
+index bdc8aadf3246..146544ba1c10 100644
 --- a/include/drm/ttm/ttm_tt.h
 +++ b/include/drm/ttm/ttm_tt.h
-@@ -264,12 +264,9 @@ void ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *ttm);
- struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
- 				 struct agp_bridge_data *bridge,
- 				 uint32_t page_flags);
--int ttm_agp_bind(struct ttm_bo_device *bdev,
--		 struct ttm_tt *ttm, struct ttm_resource *bo_mem);
--void ttm_agp_unbind(struct ttm_bo_device *bdev,
--		    struct ttm_tt *ttm);
--void ttm_agp_destroy(struct ttm_bo_device *bdev,
--		     struct ttm_tt *ttm);
-+int ttm_agp_bind(struct ttm_tt *ttm, struct ttm_resource *bo_mem);
-+void ttm_agp_unbind(struct ttm_tt *ttm);
-+void ttm_agp_destroy(struct ttm_tt *ttm);
- #endif
+@@ -48,47 +48,9 @@ enum ttm_caching_state {
+ 	tt_cached
+ };
  
- #endif
+-struct ttm_backend_func {
+-	/**
+-	 * struct ttm_backend_func member bind
+-	 *
+-	 * @ttm: Pointer to a struct ttm_tt.
+-	 * @bo_mem: Pointer to a struct ttm_resource describing the
+-	 * memory type and location for binding.
+-	 *
+-	 * Bind the backend pages into the aperture in the location
+-	 * indicated by @bo_mem. This function should be able to handle
+-	 * differences between aperture and system page sizes.
+-	 */
+-	int (*bind) (struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *bo_mem);
+-
+-	/**
+-	 * struct ttm_backend_func member unbind
+-	 *
+-	 * @ttm: Pointer to a struct ttm_tt.
+-	 *
+-	 * Unbind previously bound backend pages. This function should be
+-	 * able to handle differences between aperture and system page sizes.
+-	 */
+-	void (*unbind) (struct ttm_bo_device *bdev, struct ttm_tt *ttm);
+-
+-	/**
+-	 * struct ttm_backend_func member destroy
+-	 *
+-	 * @ttm: Pointer to a struct ttm_tt.
+-	 *
+-	 * Destroy the backend. This will be call back from ttm_tt_destroy so
+-	 * don't call ttm_tt_destroy from the callback or infinite loop.
+-	 */
+-	void (*destroy) (struct ttm_bo_device *bdev, struct ttm_tt *ttm);
+-};
+-
+ /**
+  * struct ttm_tt
+  *
+- * @func: Pointer to a struct ttm_backend_func that describes
+- * the backend methods.
+- * pointer.
+  * @pages: Array of pages backing the data.
+  * @num_pages: Number of pages in the page array.
+  * @bdev: Pointer to the current struct ttm_bo_device.
+@@ -102,7 +64,6 @@ struct ttm_backend_func {
+  * memory.
+  */
+ struct ttm_tt {
+-	struct ttm_backend_func *func;
+ 	struct page **pages;
+ 	uint32_t page_flags;
+ 	unsigned long num_pages;
 -- 
 2.27.0
 
