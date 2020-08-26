@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69E925251E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C71B25251F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BABBD6E9E1;
-	Wed, 26 Aug 2020 01:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FABE6E9DF;
+	Wed, 26 Aug 2020 01:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454936E9DF
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:45:07 +0000 (UTC)
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF666E9E2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:45:08 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-F7ig1hwVNgSsam3Q5skAeA-1; Tue, 25 Aug 2020 21:45:01 -0400
-X-MC-Unique: F7ig1hwVNgSsam3Q5skAeA-1
+ us-mta-418-LPmok6dBMKCDqDM55wndpA-1; Tue, 25 Aug 2020 21:45:03 -0400
+X-MC-Unique: LPmok6dBMKCDqDM55wndpA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA59A8030B1;
- Wed, 26 Aug 2020 01:45:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1A8A189E605;
+ Wed, 26 Aug 2020 01:45:02 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
  [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 171D660FC2;
- Wed, 26 Aug 2020 01:44:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 243ED61100;
+ Wed, 26 Aug 2020 01:45:00 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/23] drm/gem_vram/ttm: move to driver backend destroy
- function.
-Date: Wed, 26 Aug 2020 11:44:16 +1000
-Message-Id: <20200826014428.828392-12-airlied@gmail.com>
+Subject: [PATCH 12/23] drm/ttm/agp: drop back end bindings from agp
+Date: Wed, 26 Aug 2020 11:44:17 +1000
+Message-Id: <20200826014428.828392-13-airlied@gmail.com>
 In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
 References: <20200826014428.828392-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,43 +59,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
+These aren't used anymore.
+
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/ttm/ttm_agp_backend.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 788557bc5c01..93586a310971 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -973,10 +973,6 @@ static void backend_func_destroy(struct ttm_bo_device *bdev, struct ttm_tt *tt)
- 	kfree(tt);
+diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+index fbf98cd1a3e5..8072fb7c5bc8 100644
+--- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
++++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+@@ -112,12 +112,6 @@ void ttm_agp_destroy(struct ttm_bo_device *bdev,
  }
+ EXPORT_SYMBOL(ttm_agp_destroy);
  
--static struct ttm_backend_func backend_func = {
--	.destroy = backend_func_destroy
+-static struct ttm_backend_func ttm_agp_func = {
+-	.bind = ttm_agp_bind,
+-	.unbind = ttm_agp_unbind,
+-	.destroy = ttm_agp_destroy,
 -};
 -
- /*
-  * TTM BO device
-  */
-@@ -991,8 +987,6 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
- 	if (!tt)
- 		return NULL;
+ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
+ 				 struct agp_bridge_data *bridge,
+ 				 uint32_t page_flags)
+@@ -130,7 +124,6 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
  
--	tt->func = &backend_func;
--
- 	ret = ttm_tt_init(tt, bo, page_flags);
- 	if (ret < 0)
- 		goto err_ttm_tt_init;
-@@ -1055,6 +1049,7 @@ static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
+ 	agp_be->mem = NULL;
+ 	agp_be->bridge = bridge;
+-	agp_be->ttm.func = &ttm_agp_func;
  
- static struct ttm_bo_driver bo_driver = {
- 	.ttm_tt_create = bo_driver_ttm_tt_create,
-+	.ttm_tt_destroy = backend_func_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = bo_driver_evict_flags,
- 	.move_notify = bo_driver_move_notify,
+ 	if (ttm_tt_init(&agp_be->ttm, bo, page_flags)) {
+ 		kfree(agp_be);
 -- 
 2.27.0
 
