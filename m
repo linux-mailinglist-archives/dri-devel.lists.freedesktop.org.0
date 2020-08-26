@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9612535ED
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 19:20:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C4B253627
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 19:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6436E5A5;
-	Wed, 26 Aug 2020 17:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C45B789F5F;
+	Wed, 26 Aug 2020 17:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226806E5A5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 17:20:11 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 8A7FF80640;
- Wed, 26 Aug 2020 19:20:05 +0200 (CEST)
-Date: Wed, 26 Aug 2020 19:20:03 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH v2 0/5] drm/bridge: ps8640: Make sure all needed is
- powered to get the EDID
-Message-ID: <20200826172003.GC346855@ravnborg.org>
-References: <20200826081526.674866-1-enric.balletbo@collabora.com>
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC9389F0A
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 17:47:48 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id d11so4002316ejt.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 10:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DZhvz/VcmtyOV5FpCQGhe3jSJp/wS6UPaYcPASL+W/w=;
+ b=HEdiitSKEBxMSHU8oTLa3sOT98ZqvBgSHQoEa8wKCD7Bep9IfA3SmowbtjCNMgkw9i
+ jku1yi1AxvYbxckP53qA3tB5mi0Xeepx/+gdavzei1K18KH4XJJ7ql/2GL6DWC7FoP0J
+ DFVlciGxbX1urrNma8ZDr07/YRWt/Uy8XWkxyo6yHLhilLIZNM9TZ2slZHDFGktyk3/Q
+ 9E9A0VZvOP44jHPNyTpdKN92CKWEsGHxifxkxymJ/Nlu23ojN81Emuo0TqlFKCCQ0/bZ
+ QVpX4GgvoQA463xPcCxrkOn6bIi3vIyOL5CtkIXlfdLEfYTsyzwlhbzOju+HDjTrlITC
+ zxLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DZhvz/VcmtyOV5FpCQGhe3jSJp/wS6UPaYcPASL+W/w=;
+ b=jpefnc99tH/DBcdIXwLBhbrxwkIxSR0Qrd7m1z4VKW/2sonp9htvxwxgeXNB63SO+4
+ 7649oO9GoKFfud9JPuCmhu0vd2vRlNeJ7s+Jo/QZBof65suEWXO+hKeB9dIiKibrF0v8
+ a+A3ZCiaQ3gVWNgXVS6acOmiDYIKI/s1XhaCe6T+7Ka/XZlcLZ311fTQ+3dv1x3AdveO
+ byRU7ws4Gw/INni/jgXkkO5iBislPomZu/9iRCUdcRcW1Ar5CqHgTdTVBlnwCU+6vjww
+ Cbs5VynBBv1ZRYnxadZ8cMSI7DJ+D6kQU5hN7ZcAovSjP/pjIFlBoIjDLVjnc2TBbfBN
+ kVRA==
+X-Gm-Message-State: AOAM5311Q3lxOMS6upLpnFfImYZ56q11TbVgtiiEJV9Nb6ENkk5JXnog
+ 0g3kK1D6QaHZFfAP2w9skGfaIpRW8JVHsoBHaZG46w==
+X-Google-Smtp-Source: ABdhPJzus1ddDpcAB3sDL3goLET4zr36SFUC2Lm7kSX43cr3KBZpmMROLLbNpz+1kIMWiaUywpNuyma7UHpBq/QSea8=
+X-Received: by 2002:a17:906:c10c:: with SMTP id
+ do12mr13194774ejc.92.1598464066662; 
+ Wed, 26 Aug 2020 10:47:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200826081526.674866-1-enric.balletbo@collabora.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8 a=mRsQ17UTts98cKi72SYA:9
- a=CjuIK1q_8ugA:10 a=W4TVW4IDbPiebHqcZpNg:22
+References: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com>
+In-Reply-To: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Wed, 26 Aug 2020 14:47:35 -0300
+Message-ID: <CAAEAJfA0w+xs95vnOiFnnMPpzh-0qJDey95bXdbv27O98cpWHA@mail.gmail.com>
+Subject: Re: [v2] dma-buf: heaps: bugfix for selftest failure
+To: Leon He <hexiaolong2008@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,59 +62,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, laurent.pinchart@ideasonboard.com,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>
+Cc: Leon He <leon.he@unisoc.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric
+Hi Leon, Shuah,
 
-On Wed, Aug 26, 2020 at 10:15:21AM +0200, Enric Balletbo i Serra wrote:
-> The first patch was initially part of the series [1] but for some reason
-> was not picked when the series were merged, so I included in this series
-> because it is needed to make the others to work properly.
-> 
-> The same happened for the second patch, was part of series [1] but not
-> merged.
-> 
-> The third patch and next are part of the original series and are to rework
-> the power handling to get the EDID. Basically, we need to make sure all the
-> needed is powered to be able to get the EDID. Before, we saw that getting
-> the EDID failed as explained in the third patch.
-> 
-> [1] https://lkml.org/lkml/2020/6/15/1208
-> 
-> Changes in v2:
-> - Included the patch `drm/bridge_connector: Set default status connected for eDP connectors`
-> - Included the patch `drm/bridge: ps8640: Get the EDID from eDP control`
-> - Use drm_bridge_chain_pre_enable/post_disable() helpers (Sam Ravnborg)
-> 
-> Enric Balletbo i Serra (5):
->   drm/bridge_connector: Set default status connected for eDP connectors
->   drm/bridge: ps8640: Get the EDID from eDP control
->   drm/bridge: ps8640: Return an error for incorrect attach flags
->   drm/bridge: ps8640: Print an error if VDO control fails
-The first 4 patches are applied to drm-misc-next.
+Thanks for the fix. I had this issue pending to fix,
+but have been lazy about it, I appreciate you are taking care of it!
 
->   drm/bridge: ps8640: Rework power state handling
-Let give this a copuple of days on the mailing list to see what we
-conclude.
+On Sat, 7 Mar 2020 at 11:03, Leon He <hexiaolong2008@gmail.com> wrote:
+>
+> From: Leon He <leon.he@unisoc.com>
+>
+> There are two errors in the dmabuf-heap selftest:
+> 1. The 'char name[5]' was not initialized to zero, which will cause
+>    strcmp(name, "vgem") failed in check_vgem().
+> 2. The return value of test_alloc_errors() should be reversed, other-
+>    wise the while loop in main() will be broken.
+>
+> Signed-off-by: Leon He <leon.he@unisoc.com>
+> ---
+>  tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+> index cd5e1f6..836b185 100644
+> --- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+> +++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+> @@ -22,7 +22,7 @@
+>  static int check_vgem(int fd)
+>  {
+>         drm_version_t version = { 0 };
+> -       char name[5];
+> +       char name[5] = { 0 };
+>         int ret;
+>
 
-	Sam
-> 
->  drivers/gpu/drm/bridge/parade-ps8640.c | 89 ++++++++++++++++++++++----
->  drivers/gpu/drm/drm_bridge_connector.c |  1 +
->  2 files changed, 79 insertions(+), 11 deletions(-)
-> 
-> -- 
-> 2.28.0
+As Shuah already mentioned, I think we want to use strncmp
+to be on the safe side.
+
+>         version.name_len = 4;
+> @@ -357,7 +357,7 @@ static int test_alloc_errors(char *heap_name)
+>         if (heap_fd >= 0)
+>                 close(heap_fd);
+>
+> -       return ret;
+> +       return !ret;
+
+I agree with Shuah, this change makes no sense, just drop it.
+
+I think the fact this test was broken and nobody noticed
+uncovers the fact that the test isn't being run.
+
+Any reason why this test isn't a regular TARGET?
+Or any idea how we can make sure this is run by CIs
+and any other testing system?
+
+Thanks!
+Ezequiel
+
+>  }
+>
+>  int main(void)
+> --
+> 2.7.4
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
