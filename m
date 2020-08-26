@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EDB252547
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:51:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C678425251B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37346E9ED;
-	Wed, 26 Aug 2020 01:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 034816E9DC;
+	Wed, 26 Aug 2020 01:44:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
  [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917406E9ED
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:51:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEE7A6E9DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:44:54 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-ZdstCv7lNEqXCeMehOg_Gg-1; Tue, 25 Aug 2020 21:44:47 -0400
-X-MC-Unique: ZdstCv7lNEqXCeMehOg_Gg-1
+ us-mta-170-femGtr6bNXeqiMGK86V3JA-1; Tue, 25 Aug 2020 21:44:49 -0400
+X-MC-Unique: femGtr6bNXeqiMGK86V3JA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCB861005E5B;
- Wed, 26 Aug 2020 01:44:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2B0D801AEA;
+ Wed, 26 Aug 2020 01:44:48 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
  [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7012D60C13;
- Wed, 26 Aug 2020 01:44:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 474DD60C13;
+ Wed, 26 Aug 2020 01:44:47 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/23] drm/qxl: move bind/unbind/destroy to the driver
- function table.
-Date: Wed, 26 Aug 2020 11:44:10 +1000
-Message-Id: <20200826014428.828392-6-airlied@gmail.com>
+Subject: [PATCH 06/23] drm/ttm/agp: export bind/unbind/destroy for drivers to
+ use.
+Date: Wed, 26 Aug 2020 11:44:11 +1000
+Message-Id: <20200826014428.828392-7-airlied@gmail.com>
 In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
 References: <20200826014428.828392-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -64,44 +64,76 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/qxl/qxl_ttm.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/ttm/ttm_agp_backend.c | 15 +++++++++------
+ include/drm/ttm/ttm_tt.h              |  6 ++++++
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index c3530c6e46bd..4970c3450e88 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -134,12 +134,6 @@ static void qxl_ttm_backend_destroy(struct ttm_bo_device *bdev,
- 	kfree(gtt);
- }
+diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+index 934a69491547..fbf98cd1a3e5 100644
+--- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
++++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+@@ -48,8 +48,8 @@ struct ttm_agp_backend {
+ 	struct agp_bridge_data *bridge;
+ };
  
--static struct ttm_backend_func qxl_backend_func = {
--	.bind = &qxl_ttm_backend_bind,
--	.unbind = &qxl_ttm_backend_unbind,
--	.destroy = &qxl_ttm_backend_destroy,
--};
--
- static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
- 					uint32_t page_flags)
+-static int ttm_agp_bind(struct ttm_bo_device *bdev,
+-			struct ttm_tt *ttm, struct ttm_resource *bo_mem)
++int ttm_agp_bind(struct ttm_bo_device *bdev,
++		 struct ttm_tt *ttm, struct ttm_resource *bo_mem)
  {
-@@ -150,7 +144,6 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
- 	gtt = kzalloc(sizeof(struct qxl_ttm_tt), GFP_KERNEL);
- 	if (gtt == NULL)
- 		return NULL;
--	gtt->ttm.func = &qxl_backend_func;
- 	gtt->qdev = qdev;
- 	if (ttm_tt_init(&gtt->ttm, bo, page_flags)) {
- 		kfree(gtt);
-@@ -195,6 +188,9 @@ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
+ 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
+ 	struct page *dummy_read_page = ttm_bo_glob.dummy_read_page;
+@@ -82,9 +82,10 @@ static int ttm_agp_bind(struct ttm_bo_device *bdev,
  
- static struct ttm_bo_driver qxl_bo_driver = {
- 	.ttm_tt_create = &qxl_ttm_tt_create,
-+	.ttm_tt_bind = &qxl_ttm_backend_bind,
-+	.ttm_tt_destroy = &qxl_ttm_backend_destroy,
-+	.ttm_tt_unbind = &qxl_ttm_backend_unbind,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = &qxl_evict_flags,
- 	.move = &qxl_bo_move,
+ 	return ret;
+ }
++EXPORT_SYMBOL(ttm_agp_bind);
+ 
+-static void ttm_agp_unbind(struct ttm_bo_device *bdev,
+-			   struct ttm_tt *ttm)
++void ttm_agp_unbind(struct ttm_bo_device *bdev,
++		    struct ttm_tt *ttm)
+ {
+ 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
+ 
+@@ -97,9 +98,10 @@ static void ttm_agp_unbind(struct ttm_bo_device *bdev,
+ 		agp_be->mem = NULL;
+ 	}
+ }
++EXPORT_SYMBOL(ttm_agp_unbind);
+ 
+-static void ttm_agp_destroy(struct ttm_bo_device *bdev,
+-			    struct ttm_tt *ttm)
++void ttm_agp_destroy(struct ttm_bo_device *bdev,
++		     struct ttm_tt *ttm)
+ {
+ 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
+ 
+@@ -108,6 +110,7 @@ static void ttm_agp_destroy(struct ttm_bo_device *bdev,
+ 	ttm_tt_fini(ttm);
+ 	kfree(agp_be);
+ }
++EXPORT_SYMBOL(ttm_agp_destroy);
+ 
+ static struct ttm_backend_func ttm_agp_func = {
+ 	.bind = ttm_agp_bind,
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index 6bda88f8da46..5a34f1640865 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -266,6 +266,12 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
+ 				 uint32_t page_flags);
+ int ttm_agp_tt_populate(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_operation_ctx *ctx);
+ void ttm_agp_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *ttm);
++int ttm_agp_bind(struct ttm_bo_device *bdev,
++		 struct ttm_tt *ttm, struct ttm_resource *bo_mem);
++void ttm_agp_unbind(struct ttm_bo_device *bdev,
++		    struct ttm_tt *ttm);
++void ttm_agp_destroy(struct ttm_bo_device *bdev,
++		     struct ttm_tt *ttm);
+ #endif
+ 
+ #endif
 -- 
 2.27.0
 
