@@ -1,98 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2318252735
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 08:36:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2A6252737
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 08:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4568B6EA17;
-	Wed, 26 Aug 2020 06:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE4DE6EA1C;
+	Wed, 26 Aug 2020 06:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D926E9FB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B43F56E9FB
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:35:41 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200826063539euoutp0122aefcad38b85c8664455ff89f45bf65~uvewpfsM02034920349euoutp01I
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:35:39 +0000 (GMT)
+ 20200826063540euoutp01a626f405d765c2862f44e915970392a4~uvexSbHrT2036420364euoutp01H
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:35:40 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200826063539euoutp0122aefcad38b85c8664455ff89f45bf65~uvewpfsM02034920349euoutp01I
+ 20200826063540euoutp01a626f405d765c2862f44e915970392a4~uvexSbHrT2036420364euoutp01H
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1598423739;
- bh=8SvVp249TnvdrtsN3cK9UiYXaHvxLMtfidsvZb7ATx0=;
+ s=mail20170921; t=1598423740;
+ bh=fkZVc8mxrViKGq1m+SA4AMzfXtvDxoZigCi16n/nZN0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GMfzMNaD8tCyRezUqsl9ZZew+2XaHCp9rj1C3SO2NeQ4Kk+NMhVsrpxYXsV/xog/O
- BONpuFE9DkCIzkA0eJdlBblfzKsOgNcoJmmTtDbjFz4OPF1bu/uscmU0AUFwXJxQNB
- vxc5RNVvr57qOlFlHAvQN9yI0Hm1xAK6oiij6kCM=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200826063539eucas1p163681e3b94d83d94f1030ebe516e2260~uvewVtVP01942019420eucas1p1x;
- Wed, 26 Aug 2020 06:35:39 +0000 (GMT)
+ b=qRhovLhOxhAVGQLNt4TnUVgXkuUjgmJhcFeRVevxr6obRzE9QUouBbm/x0NQRNsxt
+ 3yKHRlIm7fgS6wtydp+deCionHj8SMFxnZfBoVWEsEC1Qn1PFeWyiGBz0rZ2P7x+dW
+ OR9GPDVUDdyPp7M0zkdgiROhm3XJ4bviQaTqFqe0=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200826063540eucas1p2c358f2e50627bbbc18d9796acfcdc51c~uvexApwGR0398303983eucas1p2W;
+ Wed, 26 Aug 2020 06:35:40 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 03.5D.06318.BB2064F5; Wed, 26
- Aug 2020 07:35:39 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id C4.BD.05997.CB2064F5; Wed, 26
+ Aug 2020 07:35:40 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200826063539eucas1p2ed946c6214cdb8574ab288350db22f1a~uvewBaXKt0401804018eucas1p2j;
+ 20200826063539eucas1p2cb72ff20abae82c3e027833f958fd7a1~uvewoaD2e0398803988eucas1p2y;
  Wed, 26 Aug 2020 06:35:39 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200826063539eusmtrp1dc9bf141cf03c4673abfd423c5e6a255~uvewAxgWX1091110911eusmtrp1f;
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200826063539eusmtrp2b1cd87ced431127ab25c1ac7b6caf444~uvewn0XjF0466204662eusmtrp2X;
  Wed, 26 Aug 2020 06:35:39 +0000 (GMT)
-X-AuditID: cbfec7f5-38bff700000018ae-ea-5f4602bb3e32
+X-AuditID: cbfec7f4-677ff7000000176d-dc-5f4602bc4c92
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 1A.D0.06314.AB2064F5; Wed, 26
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 97.53.06017.BB2064F5; Wed, 26
  Aug 2020 07:35:39 +0100 (BST)
 Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200826063538eusmtip25cde68f15a1e08c51df46c690f5e6122~uveveVu_j0474104741eusmtip2W;
- Wed, 26 Aug 2020 06:35:38 +0000 (GMT)
+ 20200826063539eusmtip214ade432c4e70739a2f2694a482e2769~uvev__IqW0302003020eusmtip2r;
+ Wed, 26 Aug 2020 06:35:39 +0000 (GMT)
 From: Marek Szyprowski <m.szyprowski@samsung.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 19/32] drm: v3d: fix common struct sg_table related issues
-Date: Wed, 26 Aug 2020 08:33:03 +0200
-Message-Id: <20200826063316.23486-20-m.szyprowski@samsung.com>
+Subject: [PATCH v9 20/32] drm: virtio: fix common struct sg_table related
+ issues
+Date: Wed, 26 Aug 2020 08:33:04 +0200
+Message-Id: <20200826063316.23486-21-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826063316.23486-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSe0hTURzHO7t3d9e1xW1TPGgoDCyy0syii5o9MLtFoERQCGYzLz5yKpta
- +keaWvisdEGiKVME31PnI1PzsWzLVuarMEzTrMBKTZ3Ld3m9Wv99ft/f93u+h8PBEVE11woP
- Douk5WHSUAnGRxt0i28PNHM8/Q7m1kAyo7uLQ9ZkV3HJPw2ZCDkwP42R7bf7AVla/oJDqtpc
- SePAGIfUjL/nkv1NjzGysnOYR3b8+sI9IaASpnUYVZFfAahnJhVKPTGNcqlPaXoOVVsURw2t
- jSOUcrAYUM0f4jHqXl0ZoOY0Nt7bffhuAXRocDQtd3S/yg+a6fjJjSg0v5n3TgXiwRSRCsxw
- SByGuVkpSCrg4yKiBMClhRLADkYA5xdmUHaYA3CmRs/bijR1McwsigE0qqc2FhuRWR3JMEY4
- wdTJVIxhc+IOgC8zBEwAIZ5yYGFKy3oHjosJL2gc9WU8KGEHe/KWUUYWEu5wslbCdtnC8up2
- hGGzdVmfdh9jjoGElge/qUtR1uQBn+t0m5cTw+/6uk3eBQ3KdJQNJAI41l3JY4d0APsTsgHr
- coUfu5cwphkh9sKqJkdWPgkfavp4jAyJHXBwcicjI+uY1fAIYWUhTL4rYt27YY5e/a+2o6cP
- YZmCjROVm2+VCWB3wW/uA2Cb879MBUAZsKSjFLJAWuEcRt9wUEhliqiwQIdr4TINWP9HhjX9
- fCNoXfHXAgIHEoFQhZ32E3Gl0YoYmRZAHJGYC0+9MVwRCQOkMbG0PNxPHhVKK7TAGkcllkLn
- wglfEREojaSv03QELd/acnAzq3ig5H+OGxlZcb9k0Xs8RBUnr3cLb59YPa/8unx0/7ZXvefW
- KpP2HPJU1QmSRI12gyaH+eSikU5qSOaSt2RZbTgS/IO+JdGbLnj7nBWblhds1BbI5frXA64C
- e/VgYqvgojKkLd+6JdpYkOx/RrzqEetV4VCv2+fS4a2dhcfyhhe9JKgiSOpkj8gV0r/WTreF
- QwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMIsWRmVeSWpSXmKPExsVy+t/xe7q7mdziDZ49ZLToPXeSyWLjjPWs
- Fv+3TWS2uPL1PZvFgcbLjBYrVx9lsliw39riy5WHTBabHl9jtbi8aw6bxdojd9ktDn54wurA
- 49H0/hibx5p5axg99n5bwOKx/dsDVo/73ceZPDYvqfe4/e8xs8fkG8sZPXbfbGDz6NuyitHj
- 8ya5AO4oPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsE
- vYyPB9+wFiwSqZh7dQFjA+M7gS5GTg4JAROJXSePs3cxcnEICSxllGg42M8KkZCRODmtAcoW
- lvhzrYsNougTo8Tz47+ZQRJsAoYSXW8hEiICnYwS07o/go1iFtjPJHH5yCl2kCphAV+Jn5ff
- MoHYLAKqEhfm/mbpYuTg4BWwk3i7WQlig7zE6g0HwIZyAoWPd/ezgdhCArYSp9fOYJ7AyLeA
- kWEVo0hqaXFuem6xoV5xYm5xaV66XnJ+7iZGYIRsO/Zz8w7GSxuDDzEKcDAq8fAuYHONF2JN
- LCuuzD3EKMHBrCTC63T2dJwQb0piZVVqUX58UWlOavEhRlOgmyYyS4km5wOjN68k3tDU0NzC
- 0tDc2NzYzEJJnLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA6PZTM0m9zAFQav59o82v7/GUlUz
- 0fbV/ktdO7zlo9oZ5rsWtAln/uT8MIHhaMoeryeS0za7N3nfvbd9XqBjnfd5ziBBdpupq+Lf
- ifvcjdr2NKfh3m07YZ7cNRLf15zZldP8w7y05RtrVuvO7A/WuiI6K7O3vtl2wPfk3rmRlcaa
- qjXCC7+H2yixFGckGmoxFxUnAgCW0JQipgIAAA==
-X-CMS-MailID: 20200826063539eucas1p2ed946c6214cdb8574ab288350db22f1a
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGKsWRmVeSWpSXmKPExsWy7djP87p7mNziDdafZ7XoPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2eHbrJLPFlysPmSw2Pb7GanF51xw2i7VH7rJbHPzwhNVi
+ +dl5bA68HmvmrWH02PttAYvH9m8PWD3udx9n8ti8pN7j9r/HzB6Tbyxn9Nh9s4HN4/2+q2we
+ fVtWMXp83iQXwB3FZZOSmpNZllqkb5fAlXF36nSmgmfqFY8OmjYwXlDoYuTkkBAwkfi98ilL
+ FyMXh5DACkaJX5/XMUI4XxglLm19A+V8ZpSYvPQtO0zL6a7LrBCJ5YwSGz8dZ4Fr+fj3G1gV
+ m4ChRNfbLjYQW0SglVHiRC8PSBGzwAsmiba/mxlBEsICQRJ3V/4As1kEVCVu9u8Hsjk4eAXs
+ JA51JkFsk5dYveEAM4jNCRQ+3t3PBjJHQuAYu8Sv4wuYIIpcJK7d2cIGYQtLvDq+BepUGYn/
+ O+czQTQ0M0o8PLeWHcLpYZS43DSDEaLKWuLOuV9sIJuZBTQl1u/Shwg7SjRe72ICCUsI8Enc
+ eCsIEmYGMidtm84MEeaV6GgTgqhWk5h1fB3c2oMXLjFD2B4SG5veM0ECaCIwtOZtZJ/AKD8L
+ YdkCRsZVjOKppcW56anFRnmp5XrFibnFpXnpesn5uZsYganp9L/jX3Yw7vqTdIhRgINRiYd3
+ AZtrvBBrYllxZe4hRgkOZiURXqezp+OEeFMSK6tSi/Lji0pzUosPMUpzsCiJ8xovehkrJJCe
+ WJKanZpakFoEk2Xi4JRqYKxuq+h02cvpNXd+mpnKvB23lV68eWkvcvTqxncHjghKf9RMqw55
+ qXUkac4jw9u9vXo5P2a06Kt9vf9/1WZbxo7fUbcTZz993tQU03QsOWeJaeJCBp9v5ZmNPtX5
+ zy87VH7a5xjqJRkkw6RyQVFn82r/eXv1vmU+5Di2z0Am70p4nYNGr5dGhRJLcUaioRZzUXEi
+ ALGmim9JAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRmVeSWpSXmKPExsVy+t/xe7q7mdziDbYu1LDoPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2eHbrJLPFlysPmSw2Pb7GanF51xw2i7VH7rJbHPzwhNVi
+ +dl5bA68HmvmrWH02PttAYvH9m8PWD3udx9n8ti8pN7j9r/HzB6Tbyxn9Nh9s4HN4/2+q2we
+ fVtWMXp83iQXwB2lZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZ
+ llqkb5egl3F36nSmgmfqFY8OmjYwXlDoYuTkkBAwkTjddZm1i5GLQ0hgKaPEyu7ZLBAJGYmT
+ 0xpYIWxhiT/XuthAbCGBT4wSc9+pgdhsAoYSXW9B4lwcIgKdjBLTuj+ygzjMAh+YJP79/QeU
+ 4eAQFgiQ+HUlC6SBRUBV4mb/fkaQMK+AncShziSI+fISqzccYAaxOYHCx7v7oXbZSpxeO4N5
+ AiPfAkaGVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIFRsu3Yzy07GLveBR9iFOBgVOLhXcDm
+ Gi/EmlhWXJl7iFGCg1lJhNfp7Ok4Id6UxMqq1KL8+KLSnNTiQ4ymQDdNZJYSTc4HRnBeSbyh
+ qaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQbGWXxv1p+uaXTR/8ge3Bjv
+ 8KI7X/LAG27pmUsEZy3+uvDnlO0/TKewPG9XnJYRHHpD16Nx9WOOGTYb9gRYvH5aLMbxuflr
+ fkynrMfEqtNt25Z+n5gfbjV3/YoJc6u8C9k7DRg8OMITey33qyy6MHvG6tjk+N21i2TXOh2r
+ z59wTNltavAUVaZqJZbijERDLeai4kQAo99vS6gCAAA=
+X-CMS-MailID: 20200826063539eucas1p2cb72ff20abae82c3e027833f958fd7a1
 X-Msg-Generator: CA
-X-RootMTR: 20200826063539eucas1p2ed946c6214cdb8574ab288350db22f1a
+X-RootMTR: 20200826063539eucas1p2cb72ff20abae82c3e027833f958fd7a1
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200826063539eucas1p2ed946c6214cdb8574ab288350db22f1a
+X-CMS-RootMailID: 20200826063539eucas1p2cb72ff20abae82c3e027833f958fd7a1
 References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063539eucas1p2ed946c6214cdb8574ab288350db22f1a@eucas1p2.samsung.com>
+ <CGME20200826063539eucas1p2cb72ff20abae82c3e027833f958fd7a1@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,7 +107,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ David Airlie <airlied@linux.ie>, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
  Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
  Marek Szyprowski <m.szyprowski@samsung.com>
 MIME-Version: 1.0
@@ -139,40 +141,112 @@ nents and orig_nents entries, making the code robust, easier to follow
 and copy/paste safe.
 
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Eric Anholt <eric@anholt.net>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/v3d/v3d_mmu.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 36 ++++++++++++++-----------
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 12 ++++-----
+ 2 files changed, 26 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
-index 3b81ea28c0bb..5a453532901f 100644
---- a/drivers/gpu/drm/v3d/v3d_mmu.c
-+++ b/drivers/gpu/drm/v3d/v3d_mmu.c
-@@ -90,18 +90,17 @@ void v3d_mmu_insert_ptes(struct v3d_bo *bo)
- 	struct v3d_dev *v3d = to_v3d_dev(shmem_obj->base.dev);
- 	u32 page = bo->node.start;
- 	u32 page_prot = V3D_PTE_WRITEABLE | V3D_PTE_VALID;
--	unsigned int count;
--	struct scatterlist *sgl;
-+	struct sg_dma_page_iter dma_iter;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index e83651b7747d..a0559d3ed362 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -72,9 +72,8 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
  
--	for_each_sg(shmem_obj->sgt->sgl, sgl, shmem_obj->sgt->nents, count) {
--		u32 page_address = sg_dma_address(sgl) >> V3D_MMU_PAGE_SHIFT;
-+	for_each_sgtable_dma_page(shmem_obj->sgt, &dma_iter, 0) {
-+		dma_addr_t dma_addr = sg_page_iter_dma_address(&dma_iter);
-+		u32 page_address = dma_addr >> V3D_MMU_PAGE_SHIFT;
- 		u32 pte = page_prot | page_address;
- 		u32 i;
+ 		if (shmem->pages) {
+ 			if (shmem->mapped) {
+-				dma_unmap_sg(vgdev->vdev->dev.parent,
+-					     shmem->pages->sgl, shmem->mapped,
+-					     DMA_TO_DEVICE);
++				dma_unmap_sgtable(vgdev->vdev->dev.parent,
++					     shmem->pages, DMA_TO_DEVICE, 0);
+ 				shmem->mapped = 0;
+ 			}
  
--		BUG_ON(page_address + (sg_dma_len(sgl) >> V3D_MMU_PAGE_SHIFT) >=
-+		BUG_ON(page_address + (PAGE_SIZE >> V3D_MMU_PAGE_SHIFT) >=
- 		       BIT(24));
--
--		for (i = 0; i < sg_dma_len(sgl) >> V3D_MMU_PAGE_SHIFT; i++)
-+		for (i = 0; i < PAGE_SIZE >> V3D_MMU_PAGE_SHIFT; i++)
- 			v3d->pt[page++] = pte + i;
+@@ -158,13 +157,13 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
  	}
  
+ 	if (use_dma_api) {
+-		shmem->mapped = dma_map_sg(vgdev->vdev->dev.parent,
+-					   shmem->pages->sgl,
+-					   shmem->pages->nents,
+-					   DMA_TO_DEVICE);
+-		*nents = shmem->mapped;
++		ret = dma_map_sgtable(vgdev->vdev->dev.parent,
++				      shmem->pages, DMA_TO_DEVICE, 0);
++		if (ret)
++			return ret;
++		*nents = shmem->mapped = shmem->pages->nents;
+ 	} else {
+-		*nents = shmem->pages->nents;
++		*nents = shmem->pages->orig_nents;
+ 	}
+ 
+ 	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
+@@ -174,13 +173,20 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 		return -ENOMEM;
+ 	}
+ 
+-	for_each_sg(shmem->pages->sgl, sg, *nents, si) {
+-		(*ents)[si].addr = cpu_to_le64(use_dma_api
+-					       ? sg_dma_address(sg)
+-					       : sg_phys(sg));
+-		(*ents)[si].length = cpu_to_le32(sg->length);
+-		(*ents)[si].padding = 0;
++	if (use_dma_api) {
++		for_each_sgtable_dma_sg(shmem->pages, sg, si) {
++			(*ents)[si].addr = cpu_to_le64(sg_dma_address(sg));
++			(*ents)[si].length = cpu_to_le32(sg_dma_len(sg));
++			(*ents)[si].padding = 0;
++		}
++	} else {
++		for_each_sgtable_sg(shmem->pages, sg, si) {
++			(*ents)[si].addr = cpu_to_le64(sg_phys(sg));
++			(*ents)[si].length = cpu_to_le32(sg->length);
++			(*ents)[si].padding = 0;
++		}
+ 	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 53af60d484a4..7947b1047bd0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -302,7 +302,7 @@ static struct sg_table *vmalloc_to_sgt(char *data, uint32_t size, int *sg_ents)
+ 		return NULL;
+ 	}
+ 
+-	for_each_sg(sgt->sgl, sg, *sg_ents, i) {
++	for_each_sgtable_sg(sgt, sg, i) {
+ 		pg = vmalloc_to_page(data);
+ 		if (!pg) {
+ 			sg_free_table(sgt);
+@@ -603,9 +603,8 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+ 	if (use_dma_api)
+-		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+-				       shmem->pages->sgl, shmem->pages->nents,
+-				       DMA_TO_DEVICE);
++		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
++					    shmem->pages, DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+@@ -1019,9 +1018,8 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+ 	if (use_dma_api)
+-		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+-				       shmem->pages->sgl, shmem->pages->nents,
+-				       DMA_TO_DEVICE);
++		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
++					    shmem->pages, DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
 -- 
 2.17.1
 
