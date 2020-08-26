@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63CC2536E5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 20:26:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D2C2536E8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 20:26:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21FA6EAB8;
-	Wed, 26 Aug 2020 18:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1B646EAB5;
+	Wed, 26 Aug 2020 18:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7486EAB9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 18:25:53 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 868916EAB8
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 18:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598466352;
+ s=mimecast20190719; t=1598466355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qBboEPvvnSYxaLTbL81NiiaMU9KhxKXVv6hDuFdKMFk=;
- b=NbY9wznExugTwTu0BReL+g/fgBlPoxNmpKGo4PYrjWV8wQ8S9CwDT1OX0ZZVi4CjoK6Koy
- wNJVdTBepiEH8XVuFKjIEyH8pZzzVbuz0fRi6BuxUP1eCN3I6rSAvBuII8RwtSNTwJ66K5
- HSsXR2XDDVImpiL1YUYuH3NJ0Q8sgYg=
+ bh=ZJ5kpt/WAEIymxMLjU7/mIu1Y5rO6SXEfMby99xIlTM=;
+ b=ZtliMg4qAst50+UyCQ5LHLg17aCG8GZtJU8e4paYkna1R77FxWWUlHpOQ04UHGJ5Yu/Qdy
+ 8v7YQMNP6DCJHJla6yqEb9BsgXPNWK3unjgdiSN+1hCC17zn4T1KFT4JzVOgz4iAPHhc7J
+ CGHOM1wKgi/nSNS4aYjAf5tw5ye+eKk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-eOu9PhEnMySOjWa5yPs8wQ-1; Wed, 26 Aug 2020 14:25:48 -0400
-X-MC-Unique: eOu9PhEnMySOjWa5yPs8wQ-1
+ us-mta-65-03i35tn7N4WZM9wlukLHow-1; Wed, 26 Aug 2020 14:25:53 -0400
+X-MC-Unique: 03i35tn7N4WZM9wlukLHow-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FC20873115;
- Wed, 26 Aug 2020 18:25:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D30F7189E618;
+ Wed, 26 Aug 2020 18:25:50 +0000 (UTC)
 Received: from Whitewolf.redhat.com (ovpn-119-77.rdu2.redhat.com
  [10.10.119.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C844E1002382;
- Wed, 26 Aug 2020 18:25:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E159B100238E;
+ Wed, 26 Aug 2020 18:25:48 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Subject: [PATCH v5 12/20] drm/nouveau/kms: Only use hpd_work for reprobing in
- HPD paths
-Date: Wed, 26 Aug 2020 14:24:48 -0400
-Message-Id: <20200826182456.322681-13-lyude@redhat.com>
+Subject: [PATCH v5 13/20] drm/i915/dp: Extract drm_dp_read_downstream_info()
+Date: Wed, 26 Aug 2020 14:24:49 -0400
+Message-Id: <20200826182456.322681-14-lyude@redhat.com>
 In-Reply-To: <20200826182456.322681-1-lyude@redhat.com>
 References: <20200826182456.322681-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -60,300 +59,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Sean Paul <sean@poorly.run>, Wambui Karuga <wambui.karugax@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently we perform both short IRQ handling for DP, and connector
-reprobing in the HPD IRQ handler. However since we need to grab
-connection_mutex in order to reprobe a connector, in theory we could
-accidentally block ourselves from handling any short IRQs until after a
-modeset completes if a connector hotplug happens to occur in parallel
-with a modeset.
+We're going to be doing the same probing process in nouveau for
+determining downstream DP port capabilities, so let's deduplicate the
+work by moving i915's code for handling this into a shared helper:
+drm_dp_read_downstream_info().
 
-I haven't seen this actually happen yet, but since we're cleaning up
-nouveau's hotplug handling code anyway and we already have a hpd worker,
-we can simply fix this by only relying on the HPD worker to actually
-reprobe connectors when we receive a HPD IRQ. We also add a mask to
-nouveau_drm to keep track of which connectors are waiting to be reprobed
-in response to an HPD IRQ.
+Note that when we do this, we also do make some functional changes while
+we're at it:
+* We always clear the downstream port info before trying to read it,
+  just to make things easier for the caller
+* We skip reading downstream port info if the DPCD indicates that we
+  don't support downstream port info
+* We only read as many bytes as needed for the reported number of
+  downstream ports, no sense in reading the whole thing every time
+
+v2:
+* Fixup logic for calculating the downstream port length to account for
+  the fact that downstream port caps can be either 1 byte or 4 bytes
+  long. We can actually skip fixing the max_clock/max_bpc helpers here
+  since they all check for DP_DETAILED_CAP_INFO_AVAILABLE anyway.
+* Fix ret code check for drm_dp_dpcd_read
+v5:
+* Change name from drm_dp_downstream_read_info() to
+  drm_dp_read_downstream_info()
+* Also, add "See Also" sections for the various downstream info
+  functions (drm_dp_read_downstream_info(), drm_dp_downstream_max_clock(),
+  drm_dp_downstream_max_bpc())
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+squash! drm/i915/dp: Extract drm_dp_read_downstream_info()
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_connector.c | 42 +++++--------
- drivers/gpu/drm/nouveau/nouveau_connector.h |  1 +
- drivers/gpu/drm/nouveau/nouveau_display.c   | 70 ++++++++++++++++++---
- drivers/gpu/drm/nouveau/nouveau_display.h   |  1 +
- drivers/gpu/drm/nouveau/nouveau_dp.c        |  2 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c       |  4 +-
- drivers/gpu/drm/nouveau/nouveau_drv.h       |  2 +
- 7 files changed, 86 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/drm_dp_helper.c         | 62 ++++++++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.c | 14 +-----
+ include/drm/drm_dp_helper.h             |  3 ++
+ 3 files changed, 65 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 4a29f691c08e4..637e91594fbe8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -1138,6 +1138,20 @@ nouveau_connector_funcs_lvds = {
- 	.early_unregister = nouveau_connector_early_unregister,
- };
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 4c21cf69dad5a..f3643894ad951 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -423,6 +423,56 @@ bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
+ }
+ EXPORT_SYMBOL(drm_dp_send_real_edid_checksum);
  
-+void
-+nouveau_connector_hpd(struct drm_connector *connector)
++static u8 drm_dp_downstream_port_count(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
 +{
-+	struct nouveau_drm *drm = nouveau_drm(connector->dev);
-+	u32 mask = drm_connector_mask(connector);
++	u8 port_count = dpcd[DP_DOWN_STREAM_PORT_COUNT] & DP_PORT_COUNT_MASK;
 +
-+	mutex_lock(&drm->hpd_lock);
-+	if (!(drm->hpd_pending & mask)) {
-+		drm->hpd_pending |= mask;
-+		schedule_work(&drm->hpd_work);
-+	}
-+	mutex_unlock(&drm->hpd_lock);
++	if (dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DETAILED_CAP_INFO_AVAILABLE && port_count > 4)
++		port_count = 4;
++
++	return port_count;
 +}
 +
- static int
- nouveau_connector_hotplug(struct nvif_notify *notify)
- {
-@@ -1147,8 +1161,6 @@ nouveau_connector_hotplug(struct nvif_notify *notify)
- 	struct drm_device *dev = connector->dev;
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	const struct nvif_notify_conn_rep_v0 *rep = notify->data;
--	const char *name = connector->name;
--	int ret;
- 	bool plugged = (rep->mask != NVIF_NOTIFY_CONN_V0_UNPLUG);
- 
- 	if (rep->mask & NVIF_NOTIFY_CONN_V0_IRQ) {
-@@ -1156,31 +1168,9 @@ nouveau_connector_hotplug(struct nvif_notify *notify)
- 		return NVIF_NOTIFY_KEEP;
- 	}
- 
--	ret = pm_runtime_get(drm->dev->dev);
--	if (ret == 0) {
--		/* We can't block here if there's a pending PM request
--		 * running, as we'll deadlock nouveau_display_fini() when it
--		 * calls nvif_put() on our nvif_notify struct. So, simply
--		 * defer the hotplug event until the device finishes resuming
--		 */
--		NV_DEBUG(drm, "Deferring HPD on %s until runtime resume\n",
--			 name);
--		schedule_work(&drm->hpd_work);
--
--		pm_runtime_put_noidle(drm->dev->dev);
--		return NVIF_NOTIFY_KEEP;
--	} else if (ret != 1 && ret != -EACCES) {
--		NV_WARN(drm, "HPD on %s dropped due to RPM failure: %d\n",
--			name, ret);
--		return NVIF_NOTIFY_DROP;
--	}
--
--	NV_DEBUG(drm, "%splugged %s\n", plugged ? "" : "un", name);
--
--	drm_helper_hpd_irq_event(connector->dev);
-+	NV_DEBUG(drm, "%splugged %s\n", plugged ? "" : "un", connector->name);
-+	nouveau_connector_hpd(connector);
- 
--	pm_runtime_mark_last_busy(drm->dev->dev);
--	pm_runtime_put_autosuspend(drm->dev->dev);
- 	return NVIF_NOTIFY_KEEP;
- }
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
-index d6de5cb8e2238..d0b859c4a80ea 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
-@@ -187,6 +187,7 @@ nouveau_crtc_connector_get(struct nouveau_crtc *nv_crtc)
- 
- struct drm_connector *
- nouveau_connector_create(struct drm_device *, const struct dcb_output *);
-+void nouveau_connector_hpd(struct drm_connector *connector);
- 
- extern int nouveau_tv_disable;
- extern int nouveau_ignorelid;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 13016769a194b..bceb48a2dfca6 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -457,16 +457,70 @@ static struct nouveau_drm_prop_enum_list dither_depth[] = {
- 	}                                                                      \
- } while(0)
- 
-+void
-+nouveau_display_hpd_resume(struct drm_device *dev)
++/**
++ * drm_dp_read_downstream_info() - read DPCD downstream port info if available
++ * @aux: DisplayPort AUX channel
++ * @dpcd: A cached copy of the port's DPCD
++ * @downstream_ports: buffer to store the downstream port info in
++ *
++ * See also:
++ * drm_dp_downstream_max_clock()
++ * drm_dp_downstream_max_bpc()
++ *
++ * Returns: 0 if either the downstream port info was read successfully or
++ * there was no downstream info to read, or a negative error code otherwise.
++ */
++int drm_dp_read_downstream_info(struct drm_dp_aux *aux,
++				const u8 dpcd[DP_RECEIVER_CAP_SIZE],
++				u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS])
 +{
-+	struct nouveau_drm *drm = nouveau_drm(dev);
++	int ret;
++	u8 len;
 +
-+	mutex_lock(&drm->hpd_lock);
-+	drm->hpd_pending = ~0;
-+	mutex_unlock(&drm->hpd_lock);
++	memset(downstream_ports, 0, DP_MAX_DOWNSTREAM_PORTS);
 +
-+	schedule_work(&drm->hpd_work);
++	/* No downstream info to read */
++	if (!drm_dp_is_branch(dpcd) ||
++	    dpcd[DP_DPCD_REV] < DP_DPCD_REV_10 ||
++	    !(dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT))
++		return 0;
++
++	len = drm_dp_downstream_port_count(dpcd);
++	if (dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DETAILED_CAP_INFO_AVAILABLE)
++		len *= 4;
++
++	ret = drm_dp_dpcd_read(aux, DP_DOWNSTREAM_PORT_0, downstream_ports, len);
++	if (ret < 0)
++		return ret;
++
++	return ret == len ? 0 : -EIO;
 +}
++EXPORT_SYMBOL(drm_dp_read_downstream_info);
 +
- static void
- nouveau_display_hpd_work(struct work_struct *work)
- {
- 	struct nouveau_drm *drm = container_of(work, typeof(*drm), hpd_work);
-+	struct drm_device *dev = drm->dev;
-+	struct drm_connector *connector;
-+	struct drm_connector_list_iter conn_iter;
-+	u32 pending;
-+	bool changed = false;
-+
-+	pm_runtime_get_sync(dev->dev);
- 
--	pm_runtime_get_sync(drm->dev->dev);
-+	mutex_lock(&drm->hpd_lock);
-+	pending = drm->hpd_pending;
-+	drm->hpd_pending = 0;
-+	mutex_unlock(&drm->hpd_lock);
- 
--	drm_helper_hpd_irq_event(drm->dev);
-+	/* Nothing to do, exit early without updating the last busy counter */
-+	if (!pending)
-+		goto noop;
-+
-+	mutex_lock(&dev->mode_config.mutex);
-+	drm_connector_list_iter_begin(dev, &conn_iter);
-+
-+	nouveau_for_each_non_mst_connector_iter(connector, &conn_iter) {
-+		enum drm_connector_status old_status = connector->status;
-+		u64 old_epoch_counter = connector->epoch_counter;
-+
-+		if (!(pending & drm_connector_mask(connector)))
-+			continue;
-+
-+		connector->status = drm_helper_probe_detect(connector, NULL,
-+							    false);
-+		if (old_epoch_counter == connector->epoch_counter)
-+			continue;
-+
-+		changed = true;
-+		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] status updated from %s to %s (epoch counter %llu->%llu)\n",
-+			    connector->base.id, connector->name,
-+			    drm_get_connector_status_name(old_status),
-+			    drm_get_connector_status_name(connector->status),
-+			    old_epoch_counter, connector->epoch_counter);
-+	}
-+
-+	drm_connector_list_iter_end(&conn_iter);
-+	mutex_unlock(&dev->mode_config.mutex);
-+
-+	if (changed)
-+		drm_kms_helper_hotplug_event(dev);
- 
- 	pm_runtime_mark_last_busy(drm->dev->dev);
-+noop:
- 	pm_runtime_put_sync(drm->dev->dev);
- }
- 
-@@ -490,12 +544,11 @@ nouveau_display_acpi_ntfy(struct notifier_block *nb, unsigned long val,
- 				 */
- 				pm_runtime_put_autosuspend(drm->dev->dev);
- 			} else if (ret == 0) {
--				/* This may be the only indication we receive
--				 * of a connector hotplug on a runtime
--				 * suspended GPU, schedule hpd_work to check.
-+				/* We've started resuming the GPU already, so
-+				 * it will handle scheduling a full reprobe
-+				 * itself
- 				 */
- 				NV_DEBUG(drm, "ACPI requested connector reprobe\n");
--				schedule_work(&drm->hpd_work);
- 				pm_runtime_put_noidle(drm->dev->dev);
- 			} else {
- 				NV_WARN(drm, "Dropped ACPI reprobe event due to RPM error: %d\n",
-@@ -686,6 +739,7 @@ nouveau_display_create(struct drm_device *dev)
+ /**
+  * drm_dp_downstream_max_clock() - extract branch device max
+  *                                 pixel rate for legacy VGA
+@@ -431,7 +481,11 @@ EXPORT_SYMBOL(drm_dp_send_real_edid_checksum);
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
+  *
+- * Returns max clock in kHz on success or 0 if max clock not defined
++ * See also:
++ * drm_dp_read_downstream_info()
++ * drm_dp_downstream_max_bpc()
++ *
++ * Returns: Max clock in kHz on success or 0 if max clock not defined
+  */
+ int drm_dp_downstream_max_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 				const u8 port_cap[4])
+@@ -462,7 +516,11 @@ EXPORT_SYMBOL(drm_dp_downstream_max_clock);
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
+  *
+- * Returns max bpc on success or 0 if max bpc not defined
++ * See also:
++ * drm_dp_read_downstream_info()
++ * drm_dp_downstream_max_clock()
++ *
++ * Returns: Max bpc on success or 0 if max bpc not defined
+  */
+ int drm_dp_downstream_max_bpc(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 			      const u8 port_cap[4])
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 4c7314b7a84e4..9c4b806af8c79 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -4685,18 +4685,8 @@ intel_dp_get_dpcd(struct intel_dp *intel_dp)
+ 			return false;
  	}
  
- 	INIT_WORK(&drm->hpd_work, nouveau_display_hpd_work);
-+	mutex_init(&drm->hpd_lock);
- #ifdef CONFIG_ACPI
- 	drm->acpi_nb.notifier_call = nouveau_display_acpi_ntfy;
- 	register_acpi_notifier(&drm->acpi_nb);
-@@ -705,9 +759,10 @@ void
- nouveau_display_destroy(struct drm_device *dev)
- {
- 	struct nouveau_display *disp = nouveau_display(dev);
-+	struct nouveau_drm *drm = nouveau_drm(dev);
- 
- #ifdef CONFIG_ACPI
--	unregister_acpi_notifier(&nouveau_drm(dev)->acpi_nb);
-+	unregister_acpi_notifier(&drm->acpi_nb);
- #endif
- 
- 	drm_kms_helper_poll_fini(dev);
-@@ -719,6 +774,7 @@ nouveau_display_destroy(struct drm_device *dev)
- 	nvif_disp_dtor(&disp->disp);
- 
- 	nouveau_drm(dev)->display = NULL;
-+	mutex_destroy(&drm->hpd_lock);
- 	kfree(disp);
+-	if (!drm_dp_is_branch(intel_dp->dpcd))
+-		return true; /* native DP sink */
+-
+-	if (intel_dp->dpcd[DP_DPCD_REV] == 0x10)
+-		return true; /* no per-port downstream info */
+-
+-	if (drm_dp_dpcd_read(&intel_dp->aux, DP_DOWNSTREAM_PORT_0,
+-			     intel_dp->downstream_ports,
+-			     DP_MAX_DOWNSTREAM_PORTS) < 0)
+-		return false; /* downstream port status fetch failed */
+-
+-	return true;
++	return drm_dp_read_downstream_info(&intel_dp->aux, intel_dp->dpcd,
++					   intel_dp->downstream_ports) == 0;
  }
  
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
-index 76ba93e01aff4..616c434270594 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.h
-@@ -45,6 +45,7 @@ nouveau_display(struct drm_device *dev)
- int  nouveau_display_create(struct drm_device *dev);
- void nouveau_display_destroy(struct drm_device *dev);
- int  nouveau_display_init(struct drm_device *dev, bool resume, bool runtime);
-+void nouveau_display_hpd_resume(struct drm_device *dev);
- void nouveau_display_fini(struct drm_device *dev, bool suspend, bool runtime);
- int  nouveau_display_suspend(struct drm_device *dev, bool runtime);
- void nouveau_display_resume(struct drm_device *dev, bool runtime);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index a5934064a75ea..005750aeb6d4f 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -165,7 +165,7 @@ void nouveau_dp_irq(struct nouveau_drm *drm,
+ static bool
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 5c28199248626..b8716b200666f 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1613,6 +1613,9 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
+ bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
+ 				    u8 real_edid_checksum);
  
- 	if (mstm && mstm->is_mst) {
- 		if (!nv50_mstm_service(drm, nv_connector, mstm))
--			schedule_work(&drm->hpd_work);
-+			nouveau_connector_hpd(connector);
- 	} else {
- 		drm_dp_cec_irq(&nv_connector->aux);
- 	}
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 22d246acc5e52..42fc5c813a9bb 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -953,7 +953,7 @@ nouveau_pmops_resume(struct device *dev)
- 	ret = nouveau_do_resume(drm_dev, false);
- 
- 	/* Monitors may have been connected / disconnected during suspend */
--	schedule_work(&nouveau_drm(drm_dev)->hpd_work);
-+	nouveau_display_hpd_resume(drm_dev);
- 
- 	return ret;
- }
-@@ -1036,7 +1036,7 @@ nouveau_pmops_runtime_resume(struct device *dev)
- 	drm_dev->switch_power_state = DRM_SWITCH_POWER_ON;
- 
- 	/* Monitors may have been connected / disconnected during suspend */
--	schedule_work(&nouveau_drm(drm_dev)->hpd_work);
-+	nouveau_display_hpd_resume(drm_dev);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index f63ac72aa556f..73ebf5fba2fcd 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -198,6 +198,8 @@ struct nouveau_drm {
- 	struct nvbios vbios;
- 	struct nouveau_display *display;
- 	struct work_struct hpd_work;
-+	struct mutex hpd_lock;
-+	u32 hpd_pending;
- 	struct work_struct fbcon_work;
- 	int fbcon_new_state;
- #ifdef CONFIG_ACPI
++int drm_dp_read_downstream_info(struct drm_dp_aux *aux,
++				const u8 dpcd[DP_RECEIVER_CAP_SIZE],
++				u8 downstream_ports[DP_MAX_DOWNSTREAM_PORTS]);
+ int drm_dp_downstream_max_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 				const u8 port_cap[4]);
+ int drm_dp_downstream_max_bpc(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
 -- 
 2.26.2
 
