@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B42252522
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3C2252523
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 03:45:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F646E9E4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94A476E9E5;
 	Wed, 26 Aug 2020 01:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799A06E9E4
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4A996E9E5
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:45:24 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-vZr9oH4WM_yDr5GG1dzjfQ-1; Tue, 25 Aug 2020 21:45:17 -0400
-X-MC-Unique: vZr9oH4WM_yDr5GG1dzjfQ-1
+ us-mta-164-QfcrR2vqOdCVAcsrlWu_vA-1; Tue, 25 Aug 2020 21:45:19 -0400
+X-MC-Unique: QfcrR2vqOdCVAcsrlWu_vA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C3428030B5;
- Wed, 26 Aug 2020 01:45:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73E33801ADD;
+ Wed, 26 Aug 2020 01:45:18 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-53.bne.redhat.com
  [10.64.54.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D4B160C13;
- Wed, 26 Aug 2020 01:45:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0714A60C13;
+ Wed, 26 Aug 2020 01:45:16 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 15/23] drm/ttm: drop the tt backend function paths.
-Date: Wed, 26 Aug 2020 11:44:20 +1000
-Message-Id: <20200826014428.828392-16-airlied@gmail.com>
+Subject: [PATCH 16/23] drm/ttm: move sg pointer into ttm_dma_tt
+Date: Wed, 26 Aug 2020 11:44:21 +1000
+Message-Id: <20200826014428.828392-17-airlied@gmail.com>
 In-Reply-To: <20200826014428.828392-1-airlied@gmail.com>
 References: <20200826014428.828392-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,114 +59,306 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-These are now driver side.
+This is only used by drivers that have a dma tt backing store.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_tt.c | 15 +++-----------
- include/drm/ttm/ttm_tt.h     | 39 ------------------------------------
- 2 files changed, 3 insertions(+), 51 deletions(-)
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 32 +++++++++----------
+ drivers/gpu/drm/nouveau/nouveau_bo.c          |  4 +--
+ drivers/gpu/drm/nouveau/nouveau_mem.c         |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           | 26 +++++++--------
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  4 ++-
+ include/drm/ttm/ttm_tt.h                      |  2 +-
+ 7 files changed, 38 insertions(+), 35 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index aa2b328c6202..b2faa02c0263 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -1231,8 +1231,9 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
+ 		goto err_bo_create;
+ 	}
+ 	if (bo_type == ttm_bo_type_sg) {
++		struct ttm_dma_tt *dma_ttm = (struct ttm_dma_tt *)bo->tbo.ttm;
+ 		bo->tbo.sg = sg;
+-		bo->tbo.ttm->sg = sg;
++		dma_ttm->sg = sg;
+ 	}
+ 	bo->kfd_bo = *mem;
+ 	(*mem)->bo = bo;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index f07e7121bcc5..adac24625191 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -985,25 +985,25 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_bo_device *bdev,
+ 		DMA_BIDIRECTIONAL : DMA_TO_DEVICE;
+ 
+ 	/* Allocate an SG array and squash pages into it */
+-	r = sg_alloc_table_from_pages(ttm->sg, ttm->pages, ttm->num_pages, 0,
++	r = sg_alloc_table_from_pages(gtt->ttm.sg, ttm->pages, ttm->num_pages, 0,
+ 				      ttm->num_pages << PAGE_SHIFT,
+ 				      GFP_KERNEL);
+ 	if (r)
+ 		goto release_sg;
+ 
+ 	/* Map SG to device */
+-	r = dma_map_sgtable(adev->dev, ttm->sg, direction, 0);
++	r = dma_map_sgtable(adev->dev, gtt->ttm.sg, direction, 0);
+ 	if (r)
+ 		goto release_sg;
+ 
+ 	/* convert SG to linear array of pages and dma addresses */
+-	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
++	drm_prime_sg_to_page_addr_arrays(gtt->ttm.sg, ttm->pages,
+ 					 gtt->ttm.dma_address, ttm->num_pages);
+ 
+ 	return 0;
+ 
+ release_sg:
+-	kfree(ttm->sg);
++	kfree(gtt->ttm.sg);
+ 	return r;
+ }
+ 
+@@ -1021,12 +1021,12 @@ static void amdgpu_ttm_tt_unpin_userptr(struct ttm_bo_device *bdev,
+ 		DMA_BIDIRECTIONAL : DMA_TO_DEVICE;
+ 
+ 	/* double check that we don't free the table twice */
+-	if (!ttm->sg->sgl)
++	if (!gtt->ttm.sg->sgl)
+ 		return;
+ 
+ 	/* unmap the pages mapped to the device */
+-	dma_unmap_sgtable(adev->dev, ttm->sg, direction, 0);
+-	sg_free_table(ttm->sg);
++	dma_unmap_sgtable(adev->dev, gtt->ttm.sg, direction, 0);
++	sg_free_table(gtt->ttm.sg);
+ 
+ #if IS_ENABLED(CONFIG_DRM_AMDGPU_USERPTR)
+ 	if (gtt->range) {
+@@ -1296,8 +1296,8 @@ static int amdgpu_ttm_tt_populate(struct ttm_bo_device *bdev,
+ 
+ 	/* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
+ 	if (gtt && gtt->userptr) {
+-		ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+-		if (!ttm->sg)
++		gtt->ttm.sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
++		if (!gtt->ttm.sg)
+ 			return -ENOMEM;
+ 
+ 		ttm->page_flags |= TTM_PAGE_FLAG_SG;
+@@ -1306,7 +1306,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_bo_device *bdev,
+ 	}
+ 
+ 	if (ttm->page_flags & TTM_PAGE_FLAG_SG) {
+-		if (!ttm->sg) {
++		if (!gtt->ttm.sg) {
+ 			struct dma_buf_attachment *attach;
+ 			struct sg_table *sgt;
+ 
+@@ -1315,10 +1315,10 @@ static int amdgpu_ttm_tt_populate(struct ttm_bo_device *bdev,
+ 			if (IS_ERR(sgt))
+ 				return PTR_ERR(sgt);
+ 
+-			ttm->sg = sgt;
++			gtt->ttm.sg = sgt;
+ 		}
+ 
+-		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
++		drm_prime_sg_to_page_addr_arrays(gtt->ttm.sg, ttm->pages,
+ 						 gtt->ttm.dma_address,
+ 						 ttm->num_pages);
+ 		ttm->state = tt_unbound;
+@@ -1349,17 +1349,17 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
+ 
+ 	if (gtt && gtt->userptr) {
+ 		amdgpu_ttm_tt_set_user_pages(ttm, NULL);
+-		kfree(ttm->sg);
++		kfree(gtt->ttm.sg);
+ 		ttm->page_flags &= ~TTM_PAGE_FLAG_SG;
+ 		return;
+ 	}
+ 
+-	if (ttm->sg && gtt->gobj->import_attach) {
++	if (gtt->ttm.sg && gtt->gobj->import_attach) {
+ 		struct dma_buf_attachment *attach;
+ 
+ 		attach = gtt->gobj->import_attach;
+-		dma_buf_unmap_attachment(attach, ttm->sg, DMA_BIDIRECTIONAL);
+-		ttm->sg = NULL;
++		dma_buf_unmap_attachment(attach, gtt->ttm.sg, DMA_BIDIRECTIONAL);
++		gtt->ttm.sg = NULL;
+ 		return;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 0a8c092e0f2e..478e498da965 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1267,9 +1267,9 @@ nouveau_ttm_tt_populate(struct ttm_bo_device *bdev,
+ 	if (ttm->state != tt_unpopulated)
+ 		return 0;
+ 
+-	if (slave && ttm->sg) {
++	if (slave && ttm_dma->sg) {
+ 		/* make userspace faulting work */
+-		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
++		drm_prime_sg_to_page_addr_arrays(ttm_dma->sg, ttm->pages,
+ 						 ttm_dma->dma_address, ttm->num_pages);
+ 		ttm->state = tt_unbound;
+ 		return 0;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.c b/drivers/gpu/drm/nouveau/nouveau_mem.c
+index 269d8707acc3..b98eed6039b1 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.c
+@@ -116,7 +116,7 @@ nouveau_mem_host(struct ttm_resource *reg, struct ttm_dma_tt *tt)
+ 		mem->comp = 0;
+ 	}
+ 
+-	if (tt->ttm.sg) args.sgl = tt->ttm.sg->sgl;
++	if (tt->sg) args.sgl = tt->sg->sgl;
+ 	else            args.dma = tt->dma_address;
+ 
+ 	mutex_lock(&drm->master.lock);
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 6b7af313389d..f5cbe5d13d33 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -459,23 +459,23 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_device *bdev, struct ttm_tt *
+ 
+ 	} while (pinned < ttm->num_pages);
+ 
+-	r = sg_alloc_table_from_pages(ttm->sg, ttm->pages, ttm->num_pages, 0,
++	r = sg_alloc_table_from_pages(gtt->ttm.sg, ttm->pages, ttm->num_pages, 0,
+ 				      ttm->num_pages << PAGE_SHIFT,
+ 				      GFP_KERNEL);
+ 	if (r)
+ 		goto release_sg;
+ 
+-	r = dma_map_sgtable(rdev->dev, ttm->sg, direction, 0);
++	r = dma_map_sgtable(rdev->dev, gtt->ttm.sg, direction, 0);
+ 	if (r)
+ 		goto release_sg;
+ 
+-	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
++	drm_prime_sg_to_page_addr_arrays(gtt->ttm.sg, ttm->pages,
+ 					 gtt->ttm.dma_address, ttm->num_pages);
+ 
+ 	return 0;
+ 
+ release_sg:
+-	kfree(ttm->sg);
++	kfree(gtt->ttm.sg);
+ 
+ release_pages:
+ 	release_pages(ttm->pages, pinned);
+@@ -493,13 +493,13 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_bo_device *bdev, struct ttm_t
+ 		DMA_BIDIRECTIONAL : DMA_TO_DEVICE;
+ 
+ 	/* double check that we don't free the table twice */
+-	if (!ttm->sg->sgl)
++	if (!gtt->ttm.sg->sgl)
+ 		return;
+ 
+ 	/* free the sg table and pages again */
+-	dma_unmap_sgtable(rdev->dev, ttm->sg, direction, 0);
++	dma_unmap_sgtable(rdev->dev, gtt->ttm.sg, direction, 0);
+ 
+-	for_each_sgtable_page(ttm->sg, &sg_iter, 0) {
++	for_each_sgtable_page(gtt->ttm.sg, &sg_iter, 0) {
+ 		struct page *page = sg_page_iter_page(&sg_iter);
+ 		if (!(gtt->userflags & RADEON_GEM_USERPTR_READONLY))
+ 			set_page_dirty(page);
+@@ -508,7 +508,7 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_bo_device *bdev, struct ttm_t
+ 		put_page(page);
+ 	}
+ 
+-	sg_free_table(ttm->sg);
++	sg_free_table(gtt->ttm.sg);
+ }
+ 
+ static int radeon_ttm_backend_bind(struct ttm_bo_device *bdev,
+@@ -610,8 +610,8 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (gtt && gtt->userptr) {
+-		ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+-		if (!ttm->sg)
++		gtt->ttm.sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
++		if (!gtt->ttm.sg)
+ 			return -ENOMEM;
+ 
+ 		ttm->page_flags |= TTM_PAGE_FLAG_SG;
+@@ -619,8 +619,8 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
+ 		return 0;
+ 	}
+ 
+-	if (slave && ttm->sg) {
+-		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
++	if (slave && gtt->ttm.sg) {
++		drm_prime_sg_to_page_addr_arrays(gtt->ttm.sg, ttm->pages,
+ 						 gtt->ttm.dma_address, ttm->num_pages);
+ 		ttm->state = tt_unbound;
+ 		return 0;
+@@ -648,7 +648,7 @@ static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (gtt && gtt->userptr) {
+-		kfree(ttm->sg);
++		kfree(gtt->ttm.sg);
+ 		ttm->page_flags &= ~TTM_PAGE_FLAG_SG;
+ 		return;
+ 	}
 diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 73c97dcfa512..67aa7fe39432 100644
+index 67aa7fe39432..1b9960085d11 100644
 --- a/drivers/gpu/drm/ttm/ttm_tt.c
 +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -222,10 +222,7 @@ void ttm_tt_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
- 		fput(ttm->swap_storage);
- 
+@@ -234,7 +234,6 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+ 	ttm->page_flags = page_flags;
+ 	ttm->state = tt_unpopulated;
  	ttm->swap_storage = NULL;
--	if (bdev->driver->ttm_tt_destroy)
--		bdev->driver->ttm_tt_destroy(bdev, ttm);
--	else
--		ttm->func->destroy(bdev, ttm);
-+	bdev->driver->ttm_tt_destroy(bdev, ttm);
+-	ttm->sg = bo->sg;
  }
  
- static void ttm_tt_init_fields(struct ttm_tt *ttm,
-@@ -313,10 +310,7 @@ EXPORT_SYMBOL(ttm_dma_tt_fini);
- void ttm_tt_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
- {
- 	if (ttm->state == tt_bound) {
--		if (bdev->driver->ttm_tt_unbind)
--			bdev->driver->ttm_tt_unbind(bdev, ttm);
--		else
--			ttm->func->unbind(bdev, ttm);
-+		bdev->driver->ttm_tt_unbind(bdev, ttm);
- 		ttm->state = tt_unbound;
- 	}
- }
-@@ -337,10 +331,7 @@ int ttm_tt_bind(struct ttm_bo_device *bdev,
- 	if (ret)
- 		return ret;
+ int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+@@ -263,6 +262,7 @@ int ttm_dma_tt_init(struct ttm_dma_tt *ttm_dma, struct ttm_buffer_object *bo,
+ 	struct ttm_tt *ttm = &ttm_dma->ttm;
  
--	if (bdev->driver->ttm_tt_bind)
--		ret = bdev->driver->ttm_tt_bind(bdev, ttm, bo_mem);
--	else
--		ret = ttm->func->bind(bdev, ttm, bo_mem);
-+	ret = bdev->driver->ttm_tt_bind(bdev, ttm, bo_mem);
- 	if (unlikely(ret != 0))
- 		return ret;
+ 	ttm_tt_init_fields(ttm, bo, page_flags);
++	ttm_dma->sg = bo->sg;
  
+ 	INIT_LIST_HEAD(&ttm_dma->pages_list);
+ 	if (ttm_dma_tt_alloc_page_directory(ttm_dma)) {
+@@ -282,6 +282,8 @@ int ttm_sg_tt_init(struct ttm_dma_tt *ttm_dma, struct ttm_buffer_object *bo,
+ 	ttm_tt_init_fields(ttm, bo, page_flags);
+ 
+ 	INIT_LIST_HEAD(&ttm_dma->pages_list);
++	ttm_dma->sg = bo->sg;
++
+ 	if (page_flags & TTM_PAGE_FLAG_SG)
+ 		ret = ttm_sg_tt_alloc_page_directory(ttm_dma);
+ 	else
 diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index bdc8aadf3246..146544ba1c10 100644
+index 146544ba1c10..534d0ef24072 100644
 --- a/include/drm/ttm/ttm_tt.h
 +++ b/include/drm/ttm/ttm_tt.h
-@@ -48,47 +48,9 @@ enum ttm_caching_state {
- 	tt_cached
- };
- 
--struct ttm_backend_func {
--	/**
--	 * struct ttm_backend_func member bind
--	 *
--	 * @ttm: Pointer to a struct ttm_tt.
--	 * @bo_mem: Pointer to a struct ttm_resource describing the
--	 * memory type and location for binding.
--	 *
--	 * Bind the backend pages into the aperture in the location
--	 * indicated by @bo_mem. This function should be able to handle
--	 * differences between aperture and system page sizes.
--	 */
--	int (*bind) (struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *bo_mem);
--
--	/**
--	 * struct ttm_backend_func member unbind
--	 *
--	 * @ttm: Pointer to a struct ttm_tt.
--	 *
--	 * Unbind previously bound backend pages. This function should be
--	 * able to handle differences between aperture and system page sizes.
--	 */
--	void (*unbind) (struct ttm_bo_device *bdev, struct ttm_tt *ttm);
--
--	/**
--	 * struct ttm_backend_func member destroy
--	 *
--	 * @ttm: Pointer to a struct ttm_tt.
--	 *
--	 * Destroy the backend. This will be call back from ttm_tt_destroy so
--	 * don't call ttm_tt_destroy from the callback or infinite loop.
--	 */
--	void (*destroy) (struct ttm_bo_device *bdev, struct ttm_tt *ttm);
--};
--
- /**
-  * struct ttm_tt
-  *
-- * @func: Pointer to a struct ttm_backend_func that describes
-- * the backend methods.
-- * pointer.
-  * @pages: Array of pages backing the data.
-  * @num_pages: Number of pages in the page array.
-  * @bdev: Pointer to the current struct ttm_bo_device.
-@@ -102,7 +64,6 @@ struct ttm_backend_func {
-  * memory.
-  */
- struct ttm_tt {
--	struct ttm_backend_func *func;
+@@ -67,7 +67,6 @@ struct ttm_tt {
  	struct page **pages;
  	uint32_t page_flags;
  	unsigned long num_pages;
+-	struct sg_table *sg; /* for SG objects via dma-buf */
+ 	struct file *swap_storage;
+ 	enum ttm_caching_state caching_state;
+ 	enum {
+@@ -90,6 +89,7 @@ struct ttm_tt {
+  */
+ struct ttm_dma_tt {
+ 	struct ttm_tt ttm;
++	struct sg_table *sg; /* for SG objects via dma-buf */
+ 	dma_addr_t *dma_address;
+ 	struct list_head pages_list;
+ };
 -- 
 2.27.0
 
