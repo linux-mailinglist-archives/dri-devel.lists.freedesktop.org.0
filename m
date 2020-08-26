@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859942524AA
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 02:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA9B2524D7
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 02:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 760886E9D1;
-	Wed, 26 Aug 2020 00:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127D16E055;
+	Wed, 26 Aug 2020 00:55:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6357B6E9CE;
- Wed, 26 Aug 2020 00:18:58 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AFC06E055;
+ Wed, 26 Aug 2020 00:55:50 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4BbmgM1tBkz9sTS;
- Wed, 26 Aug 2020 10:18:55 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4BbnTw0RvFz9sTK;
+ Wed, 26 Aug 2020 10:55:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1598401136;
- bh=tJVsIHj3u8pdSw38FTMaRa/EF/oKBc71jDbiOCWeoJk=;
+ s=201702; t=1598403348;
+ bh=hoxKBsKE63D/fgihlpKl/FhX6INVTwC8nzDYLZcAU1Y=;
  h=Date:From:To:Cc:Subject:From;
- b=NS2gmW2BL/p44MaUi2rdYGMc8fdMUvSP99HWSejz+Ckq2/c0d1Jbmwbm1y4BNV/ST
- sYOBsvro7GFWS/rXeuoXWx5WBq3abQg6XouW3vJfypa9FnJumV5ViDxdAMrGMnUo0A
- s8C4PGrBuJz/hxAWz4qgZsK/HjKbW8yO9ac6+MyInlwNRvfntr0536Gclb/v5CLlc9
- wrlfKEwfgmpb+wZFoyRVL7mi4oJMdSvNfmcNwnMwVELfXZIYIkojp8l06Z63P93UkY
- sYD44wt7Vx5Xnv4hzitv4OodYH2gV78X0geltDzAx/+nbf9KA5syQPDcazpbfwYo7h
- fvgXKCkSuw4zw==
-Date: Wed, 26 Aug 2020 10:18:53 +1000
+ b=bpsFMPJ60MQtLACGbpOyZQnUtvSXtarJc1iumaQkKoENqgipOYxREylVeY6K+lCbN
+ 8bsaQ9ObuYAg511+ZVaVp+fsvejqUzNEXUvbfmK8iFXIh385ZKymYdzcq2IjiQkURG
+ mv/LIEmqcvTL11ciwwJwY5DWOCRvqXlQVA1eSb8tprUOQYhApvm22W9ad5Shg9DKgu
+ SqDa3RYgRVeVZGxWBxvHPwo/KrsYtDBEk52eOcAYhXBVvrFv3yOYRCchK/efMD6M9D
+ 2d+Nujeg0+iqwzMFCArfDYH0VKoSRyc39FZWZgveJNW1WaX+BvhFpRiMhZJrtbZ1zg
+ Jcrsd9bdIsyAw==
+Date: Wed, 26 Aug 2020 10:55:47 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: linux-next: manual merge of the drm-misc tree with the amdgpu tree
-Message-ID: <20200826101853.59136e16@canb.auug.org.au>
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20200826105547.4f6ea26d@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,191 +47,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <luben.tuikov@amd.com>,
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sidong Yang <realwakka@gmail.com>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1122377244=="
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0401787652=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1122377244==
-Content-Type: multipart/signed; boundary="Sig_/UgIurNh8g2YWcQcqwF_dMY+";
+--===============0401787652==
+Content-Type: multipart/signed; boundary="Sig_/=t6fPzJwTXhrx0VBf9IFJv2";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/UgIurNh8g2YWcQcqwF_dMY+
+--Sig_/=t6fPzJwTXhrx0VBf9IFJv2
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the drm-misc tree got conflicts in:
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+drivers/gpu/drm/qxl/qxl_display.c: In function 'qxl_display_read_client_mon=
+itors_config':
+include/drm/drm_modeset_lock.h:167:7: error: implicit declaration of functi=
+on 'drm_drv_uses_atomic_modeset' [-Werror=3Dimplicit-function-declaration]
+  167 |  if (!drm_drv_uses_atomic_modeset(dev))    \
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c:187:2: note: in expansion of macro 'DRM_M=
+ODESET_LOCK_ALL_BEGIN'
+  187 |  DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, DRM_MODESET_ACQUIRE_INTERRUPT=
+IBLE, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c:189:35: error: macro "DRM_MODESET_LOCK_AL=
+L_END" requires 3 arguments, but only 2 given
+  189 |  DRM_MODESET_LOCK_ALL_END(ctx, ret);
+      |                                   ^
+In file included from include/drm/drm_crtc.h:36,
+                 from include/drm/drm_atomic.h:31,
+                 from drivers/gpu/drm/qxl/qxl_display.c:29:
+include/drm/drm_modeset_lock.h:194: note: macro "DRM_MODESET_LOCK_ALL_END" =
+defined here
+  194 | #define DRM_MODESET_LOCK_ALL_END(dev, ctx, ret)    \
+      |=20
+drivers/gpu/drm/qxl/qxl_display.c:189:2: error: 'DRM_MODESET_LOCK_ALL_END' =
+undeclared (first use in this function)
+  189 |  DRM_MODESET_LOCK_ALL_END(ctx, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c:189:2: note: each undeclared identifier i=
+s reported only once for each function it appears in
+drivers/gpu/drm/qxl/qxl_display.c:187:2: error: label 'modeset_lock_fail' u=
+sed but not defined
+  187 |  DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, DRM_MODESET_ACQUIRE_INTERRUPT=
+IBLE, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/drm/drm_crtc.h:36,
+                 from include/drm/drm_atomic.h:31,
+                 from drivers/gpu/drm/qxl/qxl_display.c:29:
+include/drm/drm_modeset_lock.h:170:1: warning: label 'modeset_lock_retry' d=
+efined but not used [-Wunused-label]
+  170 | modeset_lock_retry:       \
+      | ^~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c:187:2: note: in expansion of macro 'DRM_M=
+ODESET_LOCK_ALL_BEGIN'
+  187 |  DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, DRM_MODESET_ACQUIRE_INTERRUPT=
+IBLE, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c: In function 'qxl_framebuffer_surface_dir=
+ty':
+drivers/gpu/drm/qxl/qxl_display.c:434:35: error: macro "DRM_MODESET_LOCK_AL=
+L_END" requires 3 arguments, but only 2 given
+  434 |  DRM_MODESET_LOCK_ALL_END(ctx, ret);
+      |                                   ^
+In file included from include/drm/drm_crtc.h:36,
+                 from include/drm/drm_atomic.h:31,
+                 from drivers/gpu/drm/qxl/qxl_display.c:29:
+include/drm/drm_modeset_lock.h:194: note: macro "DRM_MODESET_LOCK_ALL_END" =
+defined here
+  194 | #define DRM_MODESET_LOCK_ALL_END(dev, ctx, ret)    \
+      |=20
+drivers/gpu/drm/qxl/qxl_display.c:434:2: error: 'DRM_MODESET_LOCK_ALL_END' =
+undeclared (first use in this function)
+  434 |  DRM_MODESET_LOCK_ALL_END(ctx, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c:411:2: error: label 'modeset_lock_fail' u=
+sed but not defined
+  411 |  DRM_MODESET_LOCK_ALL_BEGIN(fb->dev, ctx, DRM_MODESET_ACQUIRE_INTER=
+RUPTIBLE, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/drm/drm_crtc.h:36,
+                 from include/drm/drm_atomic.h:31,
+                 from drivers/gpu/drm/qxl/qxl_display.c:29:
+include/drm/drm_modeset_lock.h:170:1: warning: label 'modeset_lock_retry' d=
+efined but not used [-Wunused-label]
+  170 | modeset_lock_retry:       \
+      | ^~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/qxl/qxl_display.c:411:2: note: in expansion of macro 'DRM_M=
+ODESET_LOCK_ALL_BEGIN'
+  411 |  DRM_MODESET_LOCK_ALL_BEGIN(fb->dev, ctx, DRM_MODESET_ACQUIRE_INTER=
+RUPTIBLE, ret);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-between commits:
+Caused by commit
 
-  cacbbe7c0065 ("drm/amdgpu: move stolen memory from gmc to mman")
-  72de33f8f7ba ("drm/amdgpu: move IP discovery data to mman")
-  87ded5caeec3 ("drm/amdgpu: move vram usage by vbios to mman (v2)")
-  1348969ab68c ("drm/amdgpu: drm_device to amdgpu_device by inline-f (v2)")
+  bbaac1354cc9 ("drm/qxl: Replace deprecated function in qxl_display")
 
-from the amdgpu tree and commits:
+interacting with commit
 
-  6c28aed6e5b7 ("drm/amdgfx/ttm: use wrapper to get ttm memory managers")
-  9de59bc20149 ("drm/ttm: rename ttm_mem_type_manager -> ttm_resource_manag=
-er.")
-  4f297b9c82e1 ("drm/amdgpu/ttm: move vram/gtt mgr allocations to mman.")
+  77ef38574beb ("drm/modeset-lock: Take the modeset BKL for legacy drivers")
 
-from the drm-misc tree.
+from the drm-misc-fixes tree.
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+drivers/gpu/drm/qxl/qxl_display.c manages to include
+drm/drm_modeset_lock.h by some indirect route, but fails to have
+drm/drm_drv.h similarly included.  In fact, drm/drm_modeset_lock.h should
+have included drm/drm_drv.h since it uses things declared there, and
+drivers/gpu/drm/qxl/qxl_display.c should include drm/drm_modeset_lock.h
+similarly.
+
+I have added the following hack patch for today.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 26 Aug 2020 10:40:18 +1000
+Subject: [PATCH] fix interaction with drm-misc-fix commit
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/qxl/qxl_display.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_di=
+splay.c
+index fa79688013b7..6063f3a15329 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -26,6 +26,7 @@
+ #include <linux/crc32.h>
+ #include <linux/delay.h>
+=20
++#include <drm/drm_drv.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+@@ -186,7 +187,7 @@ void qxl_display_read_client_monitors_config(struct qxl=
+_device *qdev)
+=20
+ 	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE, r=
+et);
+ 	qxl_update_offset_props(qdev);
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 	if (!drm_helper_hpd_irq_event(dev)) {
+ 		/* notify that the monitor configuration changed, to
+ 		   adjust at the arbitrary resolution */
+@@ -431,7 +432,7 @@ static int qxl_framebuffer_surface_dirty(struct drm_fra=
+mebuffer *fb,
+ 			  clips, num_clips, inc, 0);
+=20
+ out_lock_end:
+-	DRM_MODESET_LOCK_ALL_END(ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(fb->dev, ctx, ret);
+=20
+ 	return 0;
+ }
+--=20
+2.28.0
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index e1b66898cb76,697bc2c6fdb2..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@@ -47,10 -46,10 +46,10 @@@ static ssize_t amdgpu_mem_info_gtt_tota
-  		struct device_attribute *attr, char *buf)
-  {
-  	struct drm_device *ddev =3D dev_get_drvdata(dev);
- -	struct amdgpu_device *adev =3D ddev->dev_private;
- +	struct amdgpu_device *adev =3D drm_to_adev(ddev);
--=20
-+ 	struct ttm_resource_manager *man =3D ttm_manager_type(&adev->mman.bdev, =
-TTM_PL_TT);
-  	return snprintf(buf, PAGE_SIZE, "%llu\n",
-- 			(adev->mman.bdev.man[TTM_PL_TT].size) * PAGE_SIZE);
-+ 			man->size * PAGE_SIZE);
-  }
- =20
-  /**
-@@@ -65,10 -64,10 +64,10 @@@ static ssize_t amdgpu_mem_info_gtt_used
-  		struct device_attribute *attr, char *buf)
-  {
-  	struct drm_device *ddev =3D dev_get_drvdata(dev);
- -	struct amdgpu_device *adev =3D ddev->dev_private;
- +	struct amdgpu_device *adev =3D drm_to_adev(ddev);
--=20
-+ 	struct ttm_resource_manager *man =3D ttm_manager_type(&adev->mman.bdev, =
-TTM_PL_TT);
-  	return snprintf(buf, PAGE_SIZE, "%llu\n",
-- 			amdgpu_gtt_mgr_usage(&adev->mman.bdev.man[TTM_PL_TT]));
-+ 			amdgpu_gtt_mgr_usage(man));
-  }
- =20
-  static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 63e541409549,fc5f7ac53d0a..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@@ -2316,8 -2251,8 +2261,8 @@@ static int amdgpu_mm_dump_table(struct=20
-  	struct drm_info_node *node =3D (struct drm_info_node *)m->private;
-  	unsigned ttm_pl =3D (uintptr_t)node->info_ent->data;
-  	struct drm_device *dev =3D node->minor->dev;
- -	struct amdgpu_device *adev =3D dev->dev_private;
- +	struct amdgpu_device *adev =3D drm_to_adev(dev);
-- 	struct ttm_mem_type_manager *man =3D &adev->mman.bdev.man[ttm_pl];
-+ 	struct ttm_resource_manager *man =3D ttm_manager_type(&adev->mman.bdev, =
-ttm_pl);
-  	struct drm_printer p =3D drm_seq_file_printer(m);
- =20
-  	man->func->debug(man, &p);
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index de37ceff0e56,7ba2be37e6ba..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@@ -60,22 -75,8 +75,24 @@@ struct amdgpu_mman=20
-  	/* Scheduler entity for buffer moves */
-  	struct drm_sched_entity			entity;
- =20
- +	uint64_t		stolen_vga_size;
- +	struct amdgpu_bo	*stolen_vga_memory;
- +	uint64_t		stolen_extended_size;
- +	struct amdgpu_bo	*stolen_extended_memory;
- +	bool			keep_stolen_vga_memory;
- +
- +	/* discovery */
- +	uint8_t				*discovery_bin;
- +	uint32_t			discovery_tmr_size;
- +	struct amdgpu_bo		*discovery_memory;
- +
- +	/* firmware VRAM reservation */
- +	u64		fw_vram_usage_start_offset;
- +	u64		fw_vram_usage_size;
- +	struct amdgpu_bo	*fw_vram_usage_reserved_bo;
- +	void		*fw_vram_usage_va;
-+ 	struct amdgpu_vram_mgr vram_mgr;
-+ 	struct amdgpu_gtt_mgr gtt_mgr;
-  };
- =20
-  struct amdgpu_copy_mem {
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 91098a385ed6,7574be6cd7a0..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@@ -81,10 -84,10 +84,10 @@@ static ssize_t amdgpu_mem_info_vram_use
-  		struct device_attribute *attr, char *buf)
-  {
-  	struct drm_device *ddev =3D dev_get_drvdata(dev);
- -	struct amdgpu_device *adev =3D ddev->dev_private;
- +	struct amdgpu_device *adev =3D drm_to_adev(ddev);
--=20
-+ 	struct ttm_resource_manager *man =3D ttm_manager_type(&adev->mman.bdev, =
-TTM_PL_VRAM);
-  	return snprintf(buf, PAGE_SIZE, "%llu\n",
-- 		amdgpu_vram_mgr_usage(&adev->mman.bdev.man[TTM_PL_VRAM]));
-+ 			amdgpu_vram_mgr_usage(man));
-  }
- =20
-  /**
-@@@ -99,10 -102,10 +102,10 @@@ static ssize_t amdgpu_mem_info_vis_vram
-  		struct device_attribute *attr, char *buf)
-  {
-  	struct drm_device *ddev =3D dev_get_drvdata(dev);
- -	struct amdgpu_device *adev =3D ddev->dev_private;
- +	struct amdgpu_device *adev =3D drm_to_adev(ddev);
--=20
-+ 	struct ttm_resource_manager *man =3D ttm_manager_type(&adev->mman.bdev, =
-TTM_PL_VRAM);
-  	return snprintf(buf, PAGE_SIZE, "%llu\n",
-- 		amdgpu_vram_mgr_vis_usage(&adev->mman.bdev.man[TTM_PL_VRAM]));
-+ 			amdgpu_vram_mgr_vis_usage(man));
-  }
- =20
-  static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
-
---Sig_/UgIurNh8g2YWcQcqwF_dMY+
+--Sig_/=t6fPzJwTXhrx0VBf9IFJv2
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9Fqm0ACgkQAVBC80lX
-0GzUQwf/Ryy6DRYQzcDaTBzLLF2sfGXEGGWy7NrSMCHOVy0MbA32RtAfrcwzy7Zb
-gWpgLIAg/UJrARMkHTMvoIhqGMlIshXDoLttkkQzshNqm7AcsC0VoFRk2dc7HYc8
-16kmqge/+aspqdW3y9zPkkCk2LxsUYEm2o2X8ro208Dv/B7hGD5OAqb9Z5ZSSw8n
-bKiJRO/Rq5RdwhwEqO4gxpAJSSBRL+SaV4ACFkcPz8lm43mbTrSfWVWplXV4NPG1
-/r65ejUJpl2Xy2NL+eyPD106zXZT7dFZ1B+M9xljWP9eJfW72J5tIJDMtzv9BsVd
-FV1SkntXeZfaTlD2S9eVTE8PIaPwtw==
-=RcOa
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9FsxMACgkQAVBC80lX
+0GwUiAf/VXvo+XA2ZBKhDrKTbyDJzIg5LziJNHZxevxS8R3ZifhABsFNxhzTaEEx
+H/VO6kLeXk0hrXryvT/5vZVfWEYvxU967IDJUMa+XmY8GuXzzUJurF1h7wN9UJOq
+B2DHvAQsyG/JLFvZDTWd6ZTv+cGcetSBcCLhlb7ShfDzyOWU8mePuTREXo7htzrC
+X+gFiDijD/vf5X5L+rCXSK3bzT+jzP7h2BvGLiqVwm1avOWDHjmUyAfWIcrgbdbl
+Mh8KDWB7xDiZgUkMu/Z7OTvAhp9j+kFHd+/jZIrw3qieAGrnrK7QSAS85BSATMwq
+YvWGtyH5uF0rPvrG2A1+As/qiN3KlQ==
+=K0X/
 -----END PGP SIGNATURE-----
 
---Sig_/UgIurNh8g2YWcQcqwF_dMY+--
+--Sig_/=t6fPzJwTXhrx0VBf9IFJv2--
 
---===============1122377244==
+--===============0401787652==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -243,4 +246,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1122377244==--
+--===============0401787652==--
