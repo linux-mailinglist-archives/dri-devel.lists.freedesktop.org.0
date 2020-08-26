@@ -1,42 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F98D2528D9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B34402528E0
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C829F6EA44;
-	Wed, 26 Aug 2020 08:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D6A894DD;
+	Wed, 26 Aug 2020 08:05:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A3E6E9EC
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 01:49:44 +0000 (UTC)
-Received: from fsav304.sakura.ne.jp (fsav304.sakura.ne.jp [153.120.85.135])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 07Q1nf6B096524;
- Wed, 26 Aug 2020 10:49:41 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav304.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav304.sakura.ne.jp);
- Wed, 26 Aug 2020 10:49:41 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav304.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 07Q1nfgZ096519
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Wed, 26 Aug 2020 10:49:41 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: [PATCH v2] video: fbdev: fix OOB read in vga_8planes_imageblit()
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <20200825102116.6703-1-penguin-kernel@I-love.SAKURA.ne.jp>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <11ad8786-e407-3289-8bd9-2745c4834718@i-love.sakura.ne.jp>
-Date: Wed, 26 Aug 2020 10:49:39 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 242E06E9EE;
+ Wed, 26 Aug 2020 01:51:48 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a5so163729wrm.6;
+ Tue, 25 Aug 2020 18:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6lKBXswTrzhA0xBsr6HB8AlB5+bACM8/QHtln5EsmDM=;
+ b=rkPU8zA6FnvPI7YRdwlrF32Z+jufZRPGDhsVbublBxI+2WdfyrQZ4OMYugj2LjMgRs
+ tcBC2iVxYnWeg8Zk6YWzQfE0csZvqLsQKSxRKrpJnxvpSdJ9HVsaxBuVVCZ33a7Fy89F
+ YzL00nv71TEx1KwJewv+LaAx654GeLawZ3dB08BJtkewTW0RxdimmA59/2c32/oJxdK5
+ dSKP0GfmMvAUQJfWlO1JkSN5McliJO+sig5zbM32H0/Kuj9D+O0+2QWE9ikcOBAgMoCE
+ knF+3yVSHzD+dH7rwDtBk3Dij3c2i2NaVRbX/WHThEgypBISYgNE6EdHQjalStrd+n7R
+ ERAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6lKBXswTrzhA0xBsr6HB8AlB5+bACM8/QHtln5EsmDM=;
+ b=Jir5oU4JYAc/XwzFornCF+JetY+nb0W9W/2VK191K3ybnniVSatqirM8g3123gXWU7
+ gbDq1VhNYDde/t6awFAGHqnXD+0OJzCuy7ScZJltJgAhFppedpQoz3QRe6WUNvdcdotT
+ RrLX53clzORfON5s0osb5i17uumyV87qyHKJ/I826erHD4mbnx08XB4kGSqmF3Hoj4Qh
+ hAdeCwj45X2ARPmBmx+wfTbBLTSZ57uk6UjOLb94ADnQH4VRkVE9bccuz2b7MB2cemij
+ cefWQVL3N4bUgDFduU82yvb2Ul0JiXxYmPj++glmd2EZNxNB70dZsbruAT96LVgRXv2D
+ W17g==
+X-Gm-Message-State: AOAM531h1I51DHsvyKU3cRxxTFTeEouXdDYdtOICUXnc7L/neGNsCmTz
+ WJxKNqMpDWc1UStY+6JCj6PGiUCzefDMLvIEKtE=
+X-Google-Smtp-Source: ABdhPJyeqlKj5YPc50Em7rO4ODLMTr2DC/m+jfMJDMOpF+XoOI2kKLAaJQ+LNrc4dhPoiuNEDU0+R/Ls8lv1xf0wUss=
+X-Received: by 2002:adf:db43:: with SMTP id f3mr14164955wrj.219.1598406706678; 
+ Tue, 25 Aug 2020 18:51:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200825102116.6703-1-penguin-kernel@I-love.SAKURA.ne.jp>
-Content-Language: en-US
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-2-allen.cryptic@gmail.com>
+ <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
+ <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
+ <1597849185.3875.7.camel@HansenPartnership.com>
+ <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
+ <1597873172.4030.2.camel@HansenPartnership.com>
+In-Reply-To: <1597873172.4030.2.camel@HansenPartnership.com>
+From: Allen Pais <allen.cryptic@gmail.com>
+Date: Wed, 26 Aug 2020 07:21:35 +0530
+Message-ID: <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
 X-Mailman-Approved-At: Wed, 26 Aug 2020 08:04:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,40 +72,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
+ airlied@linux.ie, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sre@kernel.org, kys@microsoft.com,
+ anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+ linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+ jassisinghbrar@gmail.com, linux-spi@vger.kernel.org, 3chas3@gmail.com,
+ intel-gfx@lists.freedesktop.org, Jakub Kicinski <kuba@kernel.org>,
+ mporter@kernel.crashing.org, jdike@addtoit.com,
+ Kees Cook <keescook@chromium.org>, oakad@yahoo.com, s.hauer@pengutronix.de,
+ linux-input@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, broonie@kernel.org,
+ openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
+ dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org,
+ Allen <allen.lkml@gmail.com>, linux-kernel@vger.kernel.org,
+ alex.bou9@gmail.com, stefanr@s5r6.in-berlin.de, linux-ntb@googlegroups.com,
+ Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
+ David Miller <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot is reporting OOB read at vga_8planes_imageblit() [1], for
-"cdat[y] >> 4" can become a negative value due to "const char *cdat".
+On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+>
+> On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
+> > > [...]
+> > > > > Since both threads seem to have petered out, let me suggest in
+> > > > > kernel.h:
+> > > > >
+> > > > > #define cast_out(ptr, container, member) \
+> > > > >     container_of(ptr, typeof(*container), member)
+> > > > >
+> > > > > It does what you want, the argument order is the same as
+> > > > > container_of with the only difference being you name the
+> > > > > containing structure instead of having to specify its type.
+> > > >
+> > > > Not to incessantly bike shed on the naming, but I don't like
+> > > > cast_out, it's not very descriptive. And it has connotations of
+> > > > getting rid of something, which isn't really true.
+> > >
+> > > Um, I thought it was exactly descriptive: you're casting to the
+> > > outer container.  I thought about following the C++ dynamic casting
+> > > style, so out_cast(), but that seemed a bit pejorative.  What about
+> > > outer_cast()?
+> > >
+> > > > FWIW, I like the from_ part of the original naming, as it has
+> > > > some clues as to what is being done here. Why not just
+> > > > from_container()? That should immediately tell people what it
+> > > > does without having to look up the implementation, even before
+> > > > this becomes a part of the accepted coding norm.
+> > >
+> > > I'm not opposed to container_from() but it seems a little less
+> > > descriptive than outer_cast() but I don't really care.  I always
+> > > have to look up container_of() when I'm using it so this would just
+> > > be another macro of that type ...
+> > >
+> >
+> >  So far we have a few which have been suggested as replacement
+> > for from_tasklet()
+> >
+> > - out_cast() or outer_cast()
+> > - from_member().
+> > - container_from() or from_container()
+> >
+> > from_container() sounds fine, would trimming it a bit work? like
+> > from_cont().
+>
+> I'm fine with container_from().  It's the same form as container_of()
+> and I think we need urgent agreement to not stall everything else so
+> the most innocuous name is likely to get the widest acceptance.
 
-[1] https://syzkaller.appspot.com/bug?id=0d7a0da1557dcd1989e00cb3692b26d4173b4132
+Kees,
 
-Reported-by: syzbot <syzbot+69fbd3e01470f169c8c4@syzkaller.appspotmail.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
- drivers/video/fbdev/vga16fb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Will you be  sending the newly proposed API to Linus? I have V2
+which uses container_from()
+ready to be sent out.
 
-diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-index a20eeb8308ff..578d3541e3d6 100644
---- a/drivers/video/fbdev/vga16fb.c
-+++ b/drivers/video/fbdev/vga16fb.c
-@@ -1121,7 +1121,7 @@ static void vga_8planes_imageblit(struct fb_info *info, const struct fb_image *i
-         char oldop = setop(0);
-         char oldsr = setsr(0);
-         char oldmask = selectmask();
--        const char *cdat = image->data;
-+	const unsigned char *cdat = image->data;
- 	u32 dx = image->dx;
-         char __iomem *where;
-         int y;
--- 
-2.18.4
-
-
+Thanks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
