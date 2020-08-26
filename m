@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A053A253026
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 15:44:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0470525302A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 15:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7E46EA8A;
-	Wed, 26 Aug 2020 13:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C356EA98;
+	Wed, 26 Aug 2020 13:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A52F6EA8A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 13:44:34 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07QDiS74055496;
- Wed, 26 Aug 2020 08:44:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1598449468;
- bh=0LQPnwdzE2PjOiONJMnL8nMxcoaCzhUCC81gEzqSu3g=;
- h=From:To:CC:Subject:Date;
- b=aAxHrR/z4qvwiBRh96z/mG9m2W4O4AMxWsAGilR6xxJiC9j6vbHkiS6tlQRQvb7dB
- rNXDTrMbN5REuaF3lNqrj0pxTkbRQWMwZEjiUvI9VP927pftOSus8wib/XVOYLahKf
- pyyEGgCpSgg6AgCxVV0dZovIXoS/eu1k4CZKi5ug=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07QDiSBW061537;
- Wed, 26 Aug 2020 08:44:28 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 26
- Aug 2020 08:44:28 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 26 Aug 2020 08:44:28 -0500
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07QDiQ7V128302;
- Wed, 26 Aug 2020 08:44:26 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Jyri Sarha <jsarha@ti.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] drm/tidss: Add prepare_fb to the plane helper funcs
-Date: Wed, 26 Aug 2020 16:44:09 +0300
-Message-ID: <20200826134409.473554-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF086EA97;
+ Wed, 26 Aug 2020 13:45:24 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a5so1859859wrm.6;
+ Wed, 26 Aug 2020 06:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=++y7/K31LPJngXEb//+paNGMvF79bvnqTxG0ZZl/pyQ=;
+ b=HGuzgciRBqpk93tftVYp8/pBWAnJfTd05f9qK3uR5cedrE8qBeZeUKfSEBopDI/bkD
+ jJKkw1KbGfmLS6eMSwn8soRusFl+v6czYv98W0Ac6ECtjnskM06BuG+216I+UXiXtNU5
+ T0zajnuQOPLN6rub/ottCNDWzAHNI4ij/mLWAmprx2S+85WDSuQgaRraBPNdJR2bVtEF
+ hriV2QK/gcK0aANLnSoi+J5WDdySEFXC/kyGGq1W3uEoHnRp4dp+rVORfMByABi/ldwN
+ 07rEoKOqiZ0HAnlveDS/DYiI6ukKAKfPzEHlwPMTz9zwVfhTzl4fgK5KczRbvpzpJH2l
+ cFFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=++y7/K31LPJngXEb//+paNGMvF79bvnqTxG0ZZl/pyQ=;
+ b=JII61rX3+qAszpNovkOZi7IHH2Q/wwSO0ETnfUj/sK8zSZ2KlxzwpvlubbAsyC2RRS
+ nGWtT0X1ZjLYoX50E9/j5Pm/4npR1t+2AlrrNlG73pc6Bom51VfVB2r0bck3XGYahOQv
+ 94flW/hkgunxRpRxqxF/qPPD9D7nSX6LPcs1za7GlPg71UR/3sVY+I9FjHTDxEm2QRjS
+ h6llRfOZnyu+J4T770KyY7SbqCPYG5k4zpQsxJax7uZfAANRN5TZYv3SwbT/xbzRDID/
+ BTMJ7wtJulHUEZBbPE5GnCXJgGpuxy3NFJRIy9EXoZ5fjtyiIx7n7OyeOPe8TZbBfXt8
+ Jtfg==
+X-Gm-Message-State: AOAM533CO5e/ojJBWwywU+il6dh6d+K4OPsuqnQ2J7q7s7Z54aBEqMG/
+ lucUn/XPfhbsw8+/2oyYPdC4ALmaclSSSwnqPAI=
+X-Google-Smtp-Source: ABdhPJyWLZf68RNxOWOSnhdQdEdsARIS1o2p7/AZSaEeiSmSPPJ3xUskhAhaxBnxVSxkyAMdrF4A8Zw/JIKcxfqlQNw=
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr15374902wrt.362.1598449522813; 
+ Wed, 26 Aug 2020 06:45:22 -0700 (PDT)
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200826132501.11564-1-dinghao.liu@zju.edu.cn>
+In-Reply-To: <20200826132501.11564-1-dinghao.liu@zju.edu.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 26 Aug 2020 09:45:11 -0400
+Message-ID: <CADnq5_NxEGXboksEV61XpixU+Vwj8q9A=cTvz_-BeapwN59+Mw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix memleak in amdgpu_dm_mode_config_init
+To: Dinghao Liu <dinghao.liu@zju.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,48 +60,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Gowtham Tammana <g-tammana@ti.com>
+Cc: Stylon Wang <stylon.wang@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Kangjie Lu <kjlu@umn.edu>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Roman Li <roman.li@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gowtham Tammana <g-tammana@ti.com>
+Applied.  Thanks!
 
-drm_gem_fb_prepare_fb() extracts fence and attaches to plane state.
-The fence info is needed if implicit fencing is used. Add this as
-prepare_fb function pointer to plane helper funcs.
+Alex
 
-Signed-off-by: Gowtham Tammana <g-tammana@ti.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/gpu/drm/tidss/tidss_plane.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 43e72d0b2d84..35067ae674ea 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- 
- #include "tidss_crtc.h"
- #include "tidss_dispc.h"
-@@ -150,6 +151,7 @@ static void drm_plane_destroy(struct drm_plane *plane)
- }
- 
- static const struct drm_plane_helper_funcs tidss_plane_helper_funcs = {
-+	.prepare_fb = drm_gem_fb_prepare_fb,
- 	.atomic_check = tidss_plane_atomic_check,
- 	.atomic_update = tidss_plane_atomic_update,
- 	.atomic_disable = tidss_plane_atomic_disable,
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+On Wed, Aug 26, 2020 at 9:37 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
+>
+> When amdgpu_display_modeset_create_props() fails, state and
+> state->context should be freed to prevent memleak. It's the
+> same when amdgpu_dm_audio_init() fails.
+>
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index df9338257ae0..2476e40c67ef 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -2834,12 +2834,18 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
+>                                     &dm_atomic_state_funcs);
+>
+>         r = amdgpu_display_modeset_create_props(adev);
+> -       if (r)
+> +       if (r) {
+> +               dc_release_state(state->context);
+> +               kfree(state);
+>                 return r;
+> +       }
+>
+>         r = amdgpu_dm_audio_init(adev);
+> -       if (r)
+> +       if (r) {
+> +               dc_release_state(state->context);
+> +               kfree(state);
+>                 return r;
+> +       }
+>
+>         return 0;
+>  }
+> --
+> 2.17.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
