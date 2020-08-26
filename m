@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC70253E4E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4330E253E59
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B476EB34;
-	Thu, 27 Aug 2020 06:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B57B66EB38;
+	Thu, 27 Aug 2020 06:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
  [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 161F96E226
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 17:00:51 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id z17so2859945ioi.6
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 10:00:51 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 037176E226
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 17:00:54 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id g13so2846334ioo.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 10:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TT/nPbomDmh8NQShHOC8FZBWwCU19NUKn3EZB0b0q/I=;
- b=Fce5lMZPmSr/R6QTYB7eE6nL3eFrkLLX7rJdVbaoCg7NYYWUOFtn4jZPNhguFFE0Ww
- h0t8AECaIll/C9E6AEcxUoJ5le0j7fFyRKNONqAaRXBJnN0KLBLAQ6tGEt4vlttY7Irt
- 8ykSWtiAR+VTO+UpMmiH+94GgFSa8xkKNW414kXDcTWCcgUp7wHg+/0FAlbiTnFGQZRd
- yWEHyK34HqJ8LhWzwexYM1kssLa7LBk/nCIcve+q3U4MBqz1RGTdHqBlk9an4wtlFMBy
- jpM0KSbhTeS7lR3i9cIExK0K18jOaaBOZs9YPIGbC5Upj3gY2ddewNA8VEyQ0cNBtdjx
- InCQ==
+ bh=1oMOfwKEWmeEjN59H8V2mAsUSePsbdq0+d1rTYV7cF4=;
+ b=KJPDjh/CsHrR6htvj8qR1P2z1AP7kbrQj+KgZDUBR0k0fiXnMtd4xcisqf+NCVtUJa
+ 5WvbWO8VmZBIH5lnToxyIG2ucMnzMZaFPYUULUWnFEMUeFkfSEgSZej8eirrQCNRc8fA
+ 5iB4aR78TvM4rU5PyJBkp+d9UnBfkjWT+WR01pGGzlAYKUciTKI9Hah3ONMJSuz/892u
+ JfFr26tO4jzqG9wLaxUVSjKCXqNdGqHcvjBisRNa6qhjpu7g6ZRE9s0fodG6rRP4Gy4o
+ 5duMgFwrJLBZtNEOHuCyrNO8QQbRiOoFqGixd9T9wB9TP9a8PcSlNLIn/uaWgpAnSunE
+ a9ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TT/nPbomDmh8NQShHOC8FZBWwCU19NUKn3EZB0b0q/I=;
- b=Yw7VbFJDHV9G5h5p3fsJKw3MeHwkjL60wUmGuAr2JVFOjedAsm9lDU7uCOmX0lo4w/
- F2cXvnDN1wFgZyKyoWCwLHXOQgKslS7nvR965RxLJ8uZYLVxyHcYisSZJnfYIhh1RD/I
- 7uWL16X+BlPqbK6aftScth7aCxoG088dFODki1buPBt9E8IYHwvXfm5mRxeZ2dHp5xf6
- yVyv7LFKWJTJTuVYZQ1+fJK7smHrOmjQJnVBc8P9r0eOLYbIJ+As9MZMpTYYm+9c+ET9
- +TPdoS2aCdF+g1bupQ+KISdcl0fEx6/beHcSLWrFEcPETF1esOOlBIhTnpWveI/tUKsT
- yzpg==
-X-Gm-Message-State: AOAM532AO5xOEHJ8quE0NBZViMg80LoQsbPqOHd9/UpzcsZZTVz+Trqq
- IamfDtofOVE2BIJamOkLTVU=
-X-Google-Smtp-Source: ABdhPJxy5A5rKdHB0JGFzyPbJaQvXJ1YHzMRzjOYm2I0ca1HWwoG3rk1JxilvNBEZOnEKffrPVxEDw==
-X-Received: by 2002:a6b:7411:: with SMTP id s17mr10699072iog.192.1598461250478; 
- Wed, 26 Aug 2020 10:00:50 -0700 (PDT)
+ bh=1oMOfwKEWmeEjN59H8V2mAsUSePsbdq0+d1rTYV7cF4=;
+ b=LgJrpF6kJZGaOiBAk3nN2xwFITksFyHgoFvTK9RMxH+0C10kEJxVSbgWRWcS6Efyhq
+ 1aBCQpeF8WSnH33txNUjpsWYcpP4gx63eyK6r28BhPngIMUV6YHvrUAu5zQa5uu2XrYx
+ IzCRheXRHqSoyjJKaXUgMtxAChpDQ6U+T/1yt87N8iw8jvlX3iedg3BvleKC1lrsbprF
+ UQLJUQcodOfqZarYHiQn1XP8DTWqMPzAYn7MRWSCqzV4B85FY+KNTTxKxHQLUDEskply
+ 5wWTvct8N/B2v/NIXGzFd+so4a8g5hbUah8oNj0mGDXw3q7k6rCIbCc3i12Evw60P/Dh
+ Pr9g==
+X-Gm-Message-State: AOAM5319kJ8GN28aWS4Da+/Y5WagU8MdUQKD+s3uln6UN+qUsl4XPLj2
+ l1YVMojij4o/PLmNVZeNOrM=
+X-Google-Smtp-Source: ABdhPJzx+6JA1HW/akyHMxAsm/O6krv6/v8LwlcppdbYy47niZhoGtCRaXULzeNoN8h2OHZ9wmxWMA==
+X-Received: by 2002:a02:c919:: with SMTP id t25mr16243562jao.38.1598461253305; 
+ Wed, 26 Aug 2020 10:00:53 -0700 (PDT)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8203:5970::c4c])
- by smtp.googlemail.com with ESMTPSA id p78sm1479606iod.0.2020.08.26.10.00.48
+ by smtp.googlemail.com with ESMTPSA id p78sm1479606iod.0.2020.08.26.10.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 10:00:49 -0700 (PDT)
+ Wed, 26 Aug 2020 10:00:52 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  jbaron@akamai.com
-Subject: [PATCH 1/4] drm-printk: POC caller of dynamic-debug-exec-queries
-Date: Wed, 26 Aug 2020 11:00:38 -0600
-Message-Id: <20200826170041.2497546-2-jim.cromie@gmail.com>
+Subject: [PATCH 2/4] drm-printk: call pr_debug() from drm_dev_dbg, __drm_dbg
+Date: Wed, 26 Aug 2020 11:00:39 -0600
+Message-Id: <20200826170041.2497546-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200826170041.2497546-1-jim.cromie@gmail.com>
 References: <20200826170041.2497546-1-jim.cromie@gmail.com>
@@ -75,82 +75,113 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export of dynamic-debug-exec-queries exists for users like drm.
+Put the pr_debug() after the vaf setup work, so as to use it.  And
+move the if-category-disabled-return after both, so the pr_debug()
+runs unconditionally.
 
-This commit is a 1st user-test; it adds a 2nd knob, __drm_debug2,
-similar in function to __drm_debug.  module_param_cb wires it to a
-callback which maps the input value to one of: "module=drm* +/-p".
+This lets both debug-printers execute independently, according to
+their respective controls, allowing later comparison to each other.
 
-The include is needed to see the exported function prototype.
+ #> echo module=drm +pmftl > /proc/dynamic_debug/control
+yields logging like:
 
-Notes:
+ [1772] drm:drm_dev_dbg:305: i915 0000:00:02.0: [drm:intel_atomic_get_global_obj_state [i915]]
+   Cat:16 Added new global object 000000006fa51dd6 state 00000000bbddcf9d to 000000005f6e1bc3
+ [1772] drm:drm_dev_dbg:305: i915 0000:00:02.0: [drm:intel_atomic_get_global_obj_state [i915]]
+   Cat:16 Added new global object 000000002a5e020a state 000000002b3685ed to 000000005f6e1bc3
+ [198] drm:drm_dev_dbg:305: i915 0000:00:02.0: [drm:drm_update_vblank_count [drm]]
+   Cat:32 updating vblank count on crtc 0: current=260920, diff=0, hw=192024 hw_last=192024
+ [1772] drm:__drm_dbg:331: [drm:drm_atomic_nonblocking_commit [drm]] Cat:16 committing 000000005f6e1bc3 nonblocking
+ [1772] drm:__drm_dbg:331: [drm:drm_mode_object_put.part.0 [drm]] Cat:1 OBJ ID: 113 (4)
+ [1772] drm:__drm_dbg:331: [drm:drm_ioctl [drm]] Cat:1 comm="gnome-shell" pid=1772, dev=0xe200, auth=1, I915_GEM_CREATE
+ [1772] drm:__drm_dbg:331: [drm:drm_ioctl [drm]] Cat:1 comm="gnome-shell" pid=1772, dev=0xe200, auth=1, I915_GEM_SET_DOMAIN
+ [1772] drm:__drm_dbg:331: [drm:drm_ioctl [drm]] Cat:1 comm="gnome-shell" pid=1772, dev=0xe200, auth=1, I915_GEM_SET_TILING
+ [1772] drm:__drm_dbg:331: [drm:drm_ioctl [drm]] Cat:1 comm="gnome-shell" pid=1772, dev=0xe200, auth=1, I915_GEM_MMAP_OFFSET
 
-The define DEBUG at top of drm-printk enables all pr_debug()s,
-independent of CONFIG_DYNAMIC_DEBUG_CORE.
-
-drm-printk is an independent print control system using __drm_debug
-bits.  The plan is to find the low-level macros in which to insert a
-pr_debug call, their eventual callsites will have distinct METADATA,
-so will be itemized in control, and individually selectable.
+Clearly, the mflt flags arent very helpful here, and callsite control
+is all or nothing (since theres only 2 callsites handling all the
+categories).  We are 1 below the function layer of interest, but
+theres room for optimism.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/gpu/drm/drm_print.c | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 111b932cf2a9..52abaf2ae053 100644
+index 52abaf2ae053..fa2bcf4ec475 100644
 --- a/drivers/gpu/drm/drm_print.c
 +++ b/drivers/gpu/drm/drm_print.c
 @@ -27,6 +27,7 @@
  
  #include <stdarg.h>
  
-+#include <linux/dynamic_debug.h>
++#define DYNAMIC_DEBUG_MODULE
+ #include <linux/dynamic_debug.h>
  #include <linux/io.h>
  #include <linux/moduleparam.h>
- #include <linux/seq_file.h>
-@@ -54,6 +55,40 @@ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug cat
- "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
- module_param_named(debug, __drm_debug, int, 0600);
+@@ -61,17 +62,17 @@ EXPORT_SYMBOL(__drm_debug2);
  
-+/* POC for callback -> ddebug_exec_queries */
-+unsigned int __drm_debug2;
-+EXPORT_SYMBOL(__drm_debug2);
-+
-+static int param_set_dyndbg(const char *val, const struct kernel_param *kp)
-+{
-+	int chgct, result;
-+
-+	result = kstrtouint(val, 0, (unsigned int *)kp->arg);
-+	pr_warn("set_dyndbg: result:%d from %s\n", result, val);
-+
-+	if (result)
-+		chgct = dynamic_debug_exec_queries("module=drm* +p", NULL);
-+	else
-+		chgct = dynamic_debug_exec_queries("module=drm* -p", NULL);
-+
-+	pr_warn("change ct:%d\n", chgct);
-+	return 0;
-+}
-+static int param_get_dyndbg(char *buffer, const struct kernel_param *kp)
-+{
-+	return scnprintf(buffer, PAGE_SIZE, "%u\n",
-+			 *((unsigned int *)kp->arg));
-+}
-+static const struct kernel_param_ops param_ops_dyndbg = {
-+	.set = param_set_dyndbg,
-+	.get = param_get_dyndbg,
-+};
-+
-+MODULE_PARM_DESC(debug_dyn, "Enable debug output, where each bit enables a debug category.\n"
-+		 "\t\tthese wont work yet\n");
-+module_param_cb(debug_dyn, &param_ops_dyndbg, &__drm_debug2, 0644);
-+
-+
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
+ static int param_set_dyndbg(const char *val, const struct kernel_param *kp)
  {
- 	struct drm_print_iterator *iterator = p->arg;
+-	int chgct, result;
++	int chgct, rc, result;
+ 
+-	result = kstrtouint(val, 0, (unsigned int *)kp->arg);
+-	pr_warn("set_dyndbg: result:%d from %s\n", result, val);
++	rc = kstrtouint(val, 0, &result);
++	pr_debug("set_dyndbg: rc:%d got:%d from %s\n", rc, result, val);
+ 
+ 	if (result)
+ 		chgct = dynamic_debug_exec_queries("module=drm* +p", NULL);
+ 	else
+ 		chgct = dynamic_debug_exec_queries("module=drm* -p", NULL);
+ 
+-	pr_warn("change ct:%d\n", chgct);
++	pr_debug("change ct:%d\n", chgct);
+ 	return 0;
+ }
+ static int param_get_dyndbg(char *buffer, const struct kernel_param *kp)
+@@ -297,13 +298,16 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	struct va_format vaf;
+ 	va_list args;
+ 
+-	if (!drm_debug_enabled(category))
+-		return;
+-
+ 	va_start(args, format);
+ 	vaf.fmt = format;
+ 	vaf.va = &args;
+ 
++	dev_dbg(dev, "[" DRM_NAME ":%ps] Cat:%d %pV",
++		__builtin_return_address(0), category, &vaf);
++
++	if (!drm_debug_enabled(category))
++		return;
++
+ 	if (dev)
+ 		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+ 			   __builtin_return_address(0), &vaf);
+@@ -320,13 +324,16 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
+ 	struct va_format vaf;
+ 	va_list args;
+ 
+-	if (!drm_debug_enabled(category))
+-		return;
+-
+ 	va_start(args, format);
+ 	vaf.fmt = format;
+ 	vaf.va = &args;
+ 
++	pr_debug("[" DRM_NAME ":%ps] Cat:%d %pV",
++		 __builtin_return_address(0), category, &vaf);
++
++	if (!drm_debug_enabled(category))
++		return;
++
+ 	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+ 	       __builtin_return_address(0), &vaf);
+ 
 -- 
 2.26.2
 
