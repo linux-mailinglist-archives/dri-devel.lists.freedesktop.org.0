@@ -2,89 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C082528E2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC766252927
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Aug 2020 10:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA49389A5E;
-	Wed, 26 Aug 2020 08:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18FAC6E103;
+	Wed, 26 Aug 2020 08:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS2-obe.outbound.protection.outlook.com
- (mail-eopbgr1410109.outbound.protection.outlook.com [40.107.141.109])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE1F6EA21
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 06:59:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z5gyUhC3pC3pnKmMQsonjLbwxw6x8Eob5j8+wjk7z/nqeKD/Qv1Dwznmbq/v1T2zQ/PH0ZUem8BOR4e+jUST5Szx+7PmAxEIEM0RxUv9OyqJbp1sb6w8O+d2aDgzO24578RTE7LkhVQt/wCyGJzmdI3jeGVdbNe3Tjd4zWDjgvDRIgEpkgsPVKqrM4umIfbyG5HmtJDEOx4vuxsp6DWPuodTHIOijopQVtKNDr/Dqzqbakqx8UNEpJIkBh/rkKWrW5QMqsi+/hONmUTjKVTD1AbX7MitSXQBAX9mPwxFLqz2otQo7rNggEZGtUjkHa4nCE6IRG8K0RB8M0M9kiQ6Sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LvkAmPcijhIlxIlmaTUVh/j2xltJNDNyDiMLhSSt6zM=;
- b=UJeINnWt7E7IhKnEkagayT90evNyICgdaY5aeSygXW6gDF7RxWzf78v+eBsseyDxzJZrjf3d3UvFpoT9xzR5AH3KdXt7wGyIuvmygvEm+l2LfrTOeAYLhItmDTnbVfdetPt//Qk2hCCYK8WCFG1QgCzqi9NzM2AeESGoITSE8PTKAZ95q2tfyG83WPsO/CqKiuruziqyprvVLRoc4J/jGTXnjTbfbgx98M0Hou9sHDCVKKrRaMTXuH8K/t8fnvrSwpQlGJnx/9Y0+H2IRM1oUgwEKRLFJ/jYXvhQbtznfEeonTmlNLyFpeFo6VP34UqQ7METEX+Dwu1xNr/+0Ydi7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LvkAmPcijhIlxIlmaTUVh/j2xltJNDNyDiMLhSSt6zM=;
- b=qyh/NyGgz9fDBkhwmZvLsmJuvG5fyBKM+P1FaDh7x9AnxhS4jpONgQ6EAaJjbOVYHcqSb+vl2M8ED+GKE8pVihvSsKx53zHXIgj3q/NdCvydQxUQltSNMIfXdJ3ZrxdMDqjhHiNeQeCdrL0YzagGQEkxp8fC6AdlcGuJb741oIE=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TYXPR01MB1774.jpnprd01.prod.outlook.com
- (2603:1096:403:e::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Wed, 26 Aug
- 2020 06:58:51 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::c141:37ba:af8c:b2ee]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::c141:37ba:af8c:b2ee%7]) with mapi id 15.20.3305.026; Wed, 26 Aug 2020
- 06:58:51 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec: Document
- vcc-supply property
-Thread-Topic: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec:
- Document vcc-supply property
-Thread-Index: AQHWbyoRJ5YsTeOuoUOFPAjubrX+m6lH96UAgACHhvA=
-Date: Wed, 26 Aug 2020 06:58:50 +0000
-Message-ID: <TYBPR01MB5309756E7E19EF34562FAB5E86540@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <20200810152219.6254-1-biju.das.jz@bp.renesas.com>
- <20200810152219.6254-2-biju.das.jz@bp.renesas.com>
- <20200824230458.GA3489164@bogus>
-In-Reply-To: <20200824230458.GA3489164@bogus>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
-x-originating-ip: [109.154.85.152]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 43cd9966-65ff-42c8-b2c3-08d8498d7d13
-x-ms-traffictypediagnostic: TYXPR01MB1774:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYXPR01MB1774D8040FFE05705D98D4CD86540@TYXPR01MB1774.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZZJvEMqMpOZn1MwbsUgVb7vXmo+5J7NxozBypCR7eTgCzBTgSiDFw0+F5f/A9Af2QU2rWJth3lmOozbQ0xn6UblZgSZHSectKWjO8ZiBW8GrbU8sKnpg0VUXZlfB3HbY1ra64vKEl94T/+wkOBEvZN4v4iWJE0kZNKdgtTjH0AlKzik6pk5MhIkOzxv0Ou2+YkPqpFG5hc7tO7KLVPRocL2T/JUgy7aTYqnq4TNlTn6CxaHG3KCyO8sYliwdsTHO+jRcMvtSFMueoDvLWgQeO3bQRLEzlnaMpigjlNpyQkY3cIr0Cf6YcLWOAdccLYlmcJJXrsAIp78gesmOm0m0pdynUbIusD3XbiU/BSvm3ORD/7R7DJDEjmoeaq4DrKBuT3+QSMA6HPNRAAPR1TxkQQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYBPR01MB5309.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(6506007)(86362001)(4326008)(66556008)(26005)(66946007)(66446008)(64756008)(5660300002)(2906002)(66476007)(76116006)(71200400001)(8936002)(55016002)(316002)(7696005)(33656002)(7416002)(9686003)(54906003)(8676002)(110136005)(186003)(52536014)(478600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: aIBq/B9gm3ErzsmQL5zCWVKUDfCIqT4S/1BGeHCtT2o/dVsZTyxMt49eJw27bWizkSxZi8XpCZJkN/bDXPPIpQnQEWp35j0tOfKZ5ZxXiXE7ypnI5qMBlyDd0XOkWXZIQ1zMuAzK1q7otXWF1/iJJDnX+BhNowyxDT+7QnDuZ+PfrllQcE+yRfWYDO95GldrhmBWMY6oM2euNUxLDSuGRS/U4KFOuFH8rg4oyISJvno/Dm8mFFDiC9KXQ3k6MewtrINnZF8pImnQkLitZjb+ssUolzRmpOzsaupfzPIFe6s4g93snFgsn44i9uawwFfZ6oF4+e8azVfycppO+qCCSqtJj1HdnuGKy6dtj2pAhkQnGuQJ4Hk6IPnnQ+WwcApQ7VwQm6Ro0PpNoKtEZXKtHw+fOq74NwkSxh4RMb22kPHdDceP96le8D2pem5AAeT1VAPR9Bdh3HJijHh83qqU32ZIMD3xPjCvb+cZhEOSc9NFn8A61RucBKhwdhFx1P1YuuWwSMn3rh6WAp5kSRg0BdLFFKhv9gija0353ZSzEqiCpzWNunsQ2I2CJTZ7Cab6Q8nNp6yunkL+Pgqbeaeolw1wwXB5TxvsS2PrJVVQhIjXw7X8NoTdEP08TOOXaNcq2Ks9yc5AjfowDnNDpIqq2A==
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C1F6E103;
+ Wed, 26 Aug 2020 08:24:37 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id v12so494342lfo.13;
+ Wed, 26 Aug 2020 01:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=3Ipj/II5VYl9n/n1H5gkxgubI6iQKx/PZUESvR4EHeo=;
+ b=tP5Q+AuytDC4hyZW/DV8n8gFPqVq9qo4k8NpN63MWucwusCKjFjciwL4mHwr3N/f/b
+ xYm/oQOB+7rkjJt5leFbJTPbsbZzcKQC10OzFoIqFk5kwtfom/D4tnEdqXago2GecNAY
+ uv66WrJ0oRqGqzkSuYbmMHwJ8u778UQ6cdCRLkS5ZmTXY7EcEc6pykbm3zSiJ5KZWUqU
+ yb4fBNhncZWH8SuxhgN2AZAbOMWZ6/km82d5RpB3RTU8WNGbLdURCPuArZ4uhWnicvWX
+ L/XijxV57CADUnCN02OkBitdxKUxEUEiZVeW3IopRG3roS5FkE3WXT0xQVg/RkmFMoVz
+ XTaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=3Ipj/II5VYl9n/n1H5gkxgubI6iQKx/PZUESvR4EHeo=;
+ b=lS9Gf/VyhzFi2HvgGwhwrApVC+t/FGN8xGImLXaR0QVKJPfhjCNPgT5dbobLG7GrKz
+ rlMnMee7odg3kfloYSRn8SR0Jt5YkBmRJCn6FfCQ4EJGtd3cVGMytyOg4Bnrj7CLuJHy
+ BNNF26CAdj8QTEqgNVqBOEcRLubta3Pr6kkpGhv+aaJVdYGY2sheEgxDQEVxRkzejlXD
+ zNfKPPll1CQarIYVrT0eaHWWP2RhhpvVDdEvoSZStC1TDiKIxqJaB3MBQVmca/dqCCoO
+ RA4Dy29W6UVCNnoEpGazrP3wSYDuXM0MKSr4DTuPVc3ymMWfhDZE07yLNKb50BpR3TYK
+ uJrw==
+X-Gm-Message-State: AOAM533eoHbJn/trK1YSAse2O56mWw/Hjv8dBDiZeiAF9oi/jUl98na3
+ SOEfjb+xElW/SyyreH++C3M=
+X-Google-Smtp-Source: ABdhPJyAQ4VkWnOAPEG5PLgarqePcKFXVE3H6wvYktaF7HFAiMM69PPW+UGKmWj0ZrV//9ixqNoBiQ==
+X-Received: by 2002:a05:6512:3610:: with SMTP id
+ f16mr6743780lfs.8.1598430276088; 
+ Wed, 26 Aug 2020 01:24:36 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id l3sm337969lji.115.2020.08.26.01.24.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Aug 2020 01:24:35 -0700 (PDT)
+Date: Wed, 26 Aug 2020 11:24:23 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Subject: Re: [PATCH] drm/amdgpu/dc: Require primary plane to be enabled
+ whenever the CRTC is
+Message-ID: <20200826112423.6a8637a2@eldfell>
+In-Reply-To: <15b4eb58-a51b-b2fd-f51d-1576d50914cc@amd.com>
+References: <20200821165758.1106210-1-michel@daenzer.net>
+ <58dc5ed0-307e-74c9-1a8b-1e998be04900@amd.com>
+ <91391bb3-a855-1a29-2d2e-a31856c99946@daenzer.net>
+ <15b4eb58-a51b-b2fd-f51d-1576d50914cc@amd.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43cd9966-65ff-42c8-b2c3-08d8498d7d13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2020 06:58:50.9349 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QEoeP67DWHxSc9b5d2ncIrgloUseQV/14VwhDcyv/B8esZoszVmuq8gp+2QgC1caF4SAqTleagwRb5tEqwJtMw1mhRSLI1I31rOtus5+G+w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1774
-X-Mailman-Approved-At: Wed, 26 Aug 2020 08:04:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,73 +70,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0883660942=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+--===============0883660942==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/IhHeS0+PZZ/b_0Qj=e1ITzG"; protocol="application/pgp-signature"
 
-Thanks for the feedback.
+--Sig_/IhHeS0+PZZ/b_0Qj=e1ITzG
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> Subject: Re: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec:
-> Document vcc-supply property
->
-> On Mon, Aug 10, 2020 at 04:22:17PM +0100, Biju Das wrote:
-> > Document optional vcc-supply property that may be used as VCC source.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > New patch Ref: Ref:https://patchwork.kernel.org/patch/11705819/
-> > ---
-> >  .../devicetree/bindings/display/bridge/lvds-codec.yaml         | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > index 68951d56ebba..3248be31eceb 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/lvds-
-> codec.yaml
-> > @@ -79,6 +79,9 @@ properties:
-> >        The GPIO used to control the power down line of this device.
-> >      maxItems: 1
-> >
-> > +  vcc-supply:
-> > +    maxItems: 1
->
-> Probably should be 'power-supply' to align with the 'simple' panels.
-> That's also to signify there's only 1 supply. Using 'vcc' would encourage
-> adding 'vdd-supply', 'vddio-supply', etc. A second supply I'll NAK because at
-> that point it's not a simple bridge with no configuration (it's arguably already
-> there).
+On Tue, 25 Aug 2020 12:58:19 -0400
+"Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com> wrote:
 
-Yes, I am ok with 'power-supply', since LVDS CODEC driver is  generic and also to align with terminology used in generic 'simple' panels.
+> On 2020-08-22 5:59 a.m., Michel D=C3=A4nzer wrote:
+> > On 2020-08-21 8:07 p.m., Kazlauskas, Nicholas wrote: =20
+> >> On 2020-08-21 12:57 p.m., Michel D=C3=A4nzer wrote: =20
+> >>> From: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+> >>>
+> >>> Don't check drm_crtc_state::active for this either, per its
+> >>> documentation in include/drm/drm_crtc.h:
+> >>>
+> >>>  =C2=A0 * Hence drivers must not consult @active in their various
+> >>>  =C2=A0 * &drm_mode_config_funcs.atomic_check callback to reject an a=
+tomic
+> >>>  =C2=A0 * commit.
+> >>>
+> >>> The atomic helpers disable the CRTC as needed for disabling the prima=
+ry
+> >>> plane.
+> >>>
+> >>> This prevents at least the following problems if the primary plane ge=
+ts
+> >>> disabled (e.g. due to destroying the FB assigned to the primary plane,
+> >>> as happens e.g. with mutter in Wayland mode):
+> >>>
+> >>> * Toggling CRTC active to 1 failed if the cursor plane was enabled
+> >>>  =C2=A0=C2=A0 (e.g. via legacy DPMS property & cursor ioctl).
+> >>> * Enabling the cursor plane failed, e.g. via the legacy cursor ioctl.=
+ =20
+> >>
+> >> We previously had the requirement that the primary plane must be enabl=
+ed
+> >> but some userspace expects that they can enable just the overlay plane
+> >> without anything else.
+> >>
+> >> I think the chromuiumos atomictest validates that this works as well:
+> >>
+> >> So is DRM going forward then with the expectation that this is wrong
+> >> behavior from userspace?
+> >>
+> >> We require at least one plane to be enabled to display a cursor, but it
+> >> doesn't necessarily need to be the primary. =20
+> >=20
+> > It's a "pick your poison" situation:
+> >=20
+> > 1) Currently the checks are invalid (atomic_check must not decide based
+> > on drm_crtc_state::active), and it's easy for legacy KMS userspace to
+> > accidentally hit errors trying to enable/move the cursor or switch DPMS
+> > off =E2=86=92 on.
+> >=20
+> > 2) Accurately rejecting only atomic states where the cursor plane is
+> > enabled but all other planes are off would break the KMS helper code,
+> > which can only deal with the "CRTC on & primary plane off is not
+> > allowed" case specifically.
+> >=20
+> > 3) This patch addresses 1) & 2) but may break existing atomic userspace
+> > which wants to enable an overlay plane while disabling the primary plan=
+e.
+> >=20
+> >=20
+> > I do think in principle atomic userspace is expected to handle case 3)
+> > and leave the primary plane enabled. However, this is not ideal from an
+> > energy consumption PoV. Therefore, here's another idea for a possible
+> > way out of this quagmire:
+> >=20
+> > amdgpu_dm does not reject any atomic states based on which planes are
+> > enabled in it. If the cursor plane is enabled but all other planes are
+> > off, amdgpu_dm internally either:
+> >=20
+> > a) Enables an overlay plane and makes it invisible, e.g. by assigning a
+> > minimum size FB with alpha =3D 0.
+> >=20
+> > b) Enables the primary plane and assigns a minimum size FB (scaled up to
+> > the required size) containing all black, possibly using compression.
+> > (Trying to minimize the memory bandwidth)
+> >=20
+> >=20
+> > Does either of these seem feasible? If both do, which one would be
+> > preferable?
+> >=20
+> >  =20
+>=20
+> It's really the same solution since DCN doesn't make a distinction=20
+> between primary or overlay planes in hardware. DCE doesn't have overlay=20
+> planes enabled so this is not relevant there.
+>=20
+> The old behavior (pre 5.1?) was to silently accept the commit even=20
+> though the screen would be completely black instead of outright=20
+> rejecting the commit.
+>=20
+> I almost wonder if that makes more sense in the short term here since=20
+> the only "userspace" affected here is IGT. We'll fail the CRC checks,=20
+> but no userspace actually tries to actively use a cursor with no primary=
+=20
+> plane enabled from my understanding.
 
-In our case this Receiver converts LVDS signals to RGB signals and fed this signal to simple panel.
-On the receiver part, We need to supply  power to TTL output,  PLL and LVDS input. It all derived from the single power source.
+Hi,
 
-Laurent, Please share you opinion on this.
+I believe that there exists userspace that will *accidentally* attempt
+to update the cursor plane while primary plane or whole CRTC is off.
+Some versions of Mutter might do that on racy conditions, I suspect.
+These are legacy KMS users, not atomic KMS.
 
-Cheers,
-Biju
+However, I do not believe there exists any userspace that would
+actually expect the display to show the cursor plane alone without a
+primary plane. Therefore I'd be ok with legacy cursor ioctls silently
+succeeding. Atomic commits not. So the difference has to be in the
+translation from legacy UAPI to kernel internal atomic interface.
+
+> In the long term I think we can work on getting cursor actually on the=20
+> screen in this case, though I can't say I really like having to reserve=20
+> some small buffer (eg. 16x16) for allowing lightup on this corner case.
+
+Why would you bother implementing that?
+
+Is there really an IGT test that unconditionally demands cursor plane
+to be usable without any other planes?
 
 
+Thanks,
+pq
 
+--Sig_/IhHeS0+PZZ/b_0Qj=e1ITzG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, 40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldorf, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WEEE reg. no.: DE 14978647
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9GHDcACgkQI1/ltBGq
+qqc2RQ//Vklg+9Jw32uLDkbWZT484poN+2/opcHURbpEiCSBlOHXRfrW683Kh81V
+rLoXEurm7Lwy3pmNI4hwtTh/pdWSeyxggds35CKfpuuf99CNRwix8xNC3I7gOxYy
+LYRP4LA0EwlzDxnuOurhjSu2W22fzzQ+NbAn9ntbNe06vwCjUJOeNq9ffXwp8EWy
+ApvXbPobBBcH+krl6VcRWeaCD+Wi3SuEGhGSECdo3M17sV4jgBpyShdoci+CBlxO
+78m0tEGmHE+wh6FflXV+NOyemNB8fAHsBAqisx8tDUF5rYhUKCppB2CqRYZPjPex
+rLCtUfMqPHLY8c4HcjnVKtnHpgZt++NGuOqJiDE91aoE5GJpDF1YAtlqMvwQ8k7l
+DJFyPdhBhHBx9A8F+GujK4ypMeQuJU+uH+sD9UNp9G5EP1ZQ6CvlpAcVsK0VpJd3
+VkQ0IwkpEftahTY2Yl2b3rXvmR9srnEnLbeLzCFAFbR1z2QeHIAQ3Xf1ynrFa9bV
+bAJuRBBKM+uFa3iun405tBOLsUeMIUayTaoRY07YJMBFBd9NqXEK/azf8sRvlryb
+Os3qsTPAnjhWiB9QGtbIYD2wfcDP6IN1EK2iEn1r+H+b/aLxv4YRFBJeQjqsPpUy
+hYqXMdXPlDP+Czr+43PhO7paraPKbCo7okTfJNlyf4Zlifnbn3U=
+=2LVE
+-----END PGP SIGNATURE-----
+
+--Sig_/IhHeS0+PZZ/b_0Qj=e1ITzG--
+
+--===============0883660942==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0883660942==--
