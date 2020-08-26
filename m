@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D48253E60
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97B1253E5B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1846EB51;
-	Thu, 27 Aug 2020 06:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1CE66EB33;
+	Thu, 27 Aug 2020 06:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECAC6EA05
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 08:15:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985436EA3B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 08:15:39 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 87C7329945B
+ (Authenticated sender: eballetbo) with ESMTPSA id 95E3929943E
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] drm/bridge: ps8640: Return an error for incorrect
- attach flags
-Date: Wed, 26 Aug 2020 10:15:24 +0200
-Message-Id: <20200826081526.674866-4-enric.balletbo@collabora.com>
+Subject: [PATCH v2 4/5] drm/bridge: ps8640: Print an error if VDO control fails
+Date: Wed, 26 Aug 2020 10:15:25 +0200
+Message-Id: <20200826081526.674866-5-enric.balletbo@collabora.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200826081526.674866-1-enric.balletbo@collabora.com>
 References: <20200826081526.674866-1-enric.balletbo@collabora.com>
@@ -49,10 +48,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bridge drivers that implement the new model only shall return an error
-from their attach() handler when the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
-is not set. So make sure we return an error because only the new
-drm_bridge model is supported.
+Print an error message inside ps8640_bridge_vdo_control() function when
+it fails so we can simplify a bit the callers, they will only need to
+check the error code.
 
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
@@ -60,24 +58,49 @@ Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
 Changes in v2: None
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 13755d278db6..ce3e8b2da8c9 100644
+index ce3e8b2da8c9..9f7b7a9c53c5 100644
 --- a/drivers/gpu/drm/bridge/parade-ps8640.c
 +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -200,6 +200,10 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
- 						   .channel = 0,
- 						   .node = NULL,
- 						 };
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
-+
- 	/* port@0 is ps8640 dsi input port */
- 	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
- 	if (!in_ep)
+@@ -82,8 +82,11 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+ 	ret = i2c_smbus_write_i2c_block_data(client, PAGE3_SET_ADD,
+ 					     sizeof(vdo_ctrl_buf),
+ 					     vdo_ctrl_buf);
+-	if (ret < 0)
++	if (ret < 0) {
++		DRM_ERROR("failed to %sable VDO: %d\n",
++			  ctrl == ENABLE ? "en" : "dis", ret);
+ 		return ret;
++	}
+ 
+ 	return 0;
+ }
+@@ -150,10 +153,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+ 	}
+ 
+ 	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
+-	if (ret) {
+-		DRM_ERROR("failed to enable VDO: %d\n", ret);
++	if (ret)
+ 		goto err_regulators_disable;
+-	}
+ 
+ 	/* Switch access edp panel's edid through i2c */
+ 	ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
+@@ -175,9 +176,7 @@ static void ps8640_post_disable(struct drm_bridge *bridge)
+ 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+ 	int ret;
+ 
+-	ret = ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+-	if (ret < 0)
+-		DRM_ERROR("failed to disable VDO: %d\n", ret);
++	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+ 
+ 	gpiod_set_value(ps_bridge->gpio_reset, 1);
+ 	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
 -- 
 2.28.0
 
