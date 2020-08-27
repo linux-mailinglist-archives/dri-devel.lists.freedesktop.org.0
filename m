@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D684254AD7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 18:39:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED263254BE7
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 19:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66146E328;
-	Thu, 27 Aug 2020 16:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2416E406;
+	Thu, 27 Aug 2020 17:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B481D6E328;
- Thu, 27 Aug 2020 16:38:56 +0000 (UTC)
-IronPort-SDR: uoEXA5t3ZlkhK9+lIobECdBVuaeEuKaTXqGbANi3BmWWArTkmOX+av+q5XXbMTUJOjPhtDypet
- mVzHTA5c7Hjg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="174571295"
-X-IronPort-AV: E=Sophos;i="5.76,360,1592895600"; d="scan'208";a="174571295"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2020 09:38:56 -0700
-IronPort-SDR: vts0Vlpjg+ajGomCStZRxxeP3u7ckxpaGtCW836r9BjS0dxN3YSHQJb6EVXC1Jv5a6OncUNQuA
- C40x1lJ5VhcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,360,1592895600"; d="scan'208";a="299917319"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 27 Aug 2020 09:38:52 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 27 Aug 2020 19:38:51 +0300
-Date: Thu, 27 Aug 2020 19:38:51 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/vlv_dsi_pll: fix spelling mistake
- "Cant" -> "Can't"
-Message-ID: <20200827163851.GU6112@intel.com>
-References: <20200810095952.60968-1-colin.king@canonical.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9BC6E406
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 17:17:33 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 29A452087C;
+ Thu, 27 Aug 2020 17:17:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1598548652;
+ bh=PltBLwlOgKxxGKPfhP0kyIlXe7QOuvH340zu37AK8pU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qQxS8ZMZsnBv7N611D2Tho2iEQbWLST2pzCypEmgeZ4yEWmdmyTFXZpme3ML7zC/u
+ +RNWjiZbFgVSthur1Fyuze+ggvQMEI/K0cncNdNotb0NFxNM3Tk+uU1mjftss79ar6
+ 7C3vglXoXWoOtYTmN94LSLymGwYwxgH7qzotbOlo=
+Date: Thu, 27 Aug 2020 19:17:45 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Amit Pundir <amit.pundir@linaro.org>
+Subject: Re: [PATCH] staging: ion: remove from the tree
+Message-ID: <20200827171745.GA701089@kroah.com>
+References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
+ <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
+ <20200827160506.GC684514@kroah.com>
+ <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200810095952.60968-1-colin.king@canonical.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,60 +49,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
+ linaro-mm-sig@lists.linaro.org, Shuah Khan <shuah@kernel.org>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Suren Baghdasaryan <surenb@google.com>, Christoph Hellwig <hch@infradead.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <laura@labbott.name>,
+ Android Kernel Team <kernel-team@android.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 10, 2020 at 10:59:52AM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Thu, Aug 27, 2020 at 10:31:41PM +0530, Amit Pundir wrote:
+> On Thu, 27 Aug 2020 at 21:34, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Aug 27, 2020 at 09:31:27AM -0400, Laura Abbott wrote:
+> > > On 8/27/20 8:36 AM, Greg Kroah-Hartman wrote:
+> > > > The ION android code has long been marked to be removed, now that we
+> > > > dma-buf support merged into the real part of the kernel.
+> > > >
+> > > > It was thought that we could wait to remove the ion kernel at a lat=
+er
+> > > > time, but as the out-of-tree Android fork of the ion code has diver=
+ged
+> > > > quite a bit, and any Android device using the ion interface uses th=
+at
+> > > > forked version and not this in-tree version, the in-tree copy of the
+> > > > code is abandonded and not used by anyone.
+> > > >
+> > > > Combine this abandoned codebase with the need to make changes to it=
+ in
+> > > > order to keep the kernel building properly, which then causes merge
+> > > > issues when merging those changes into the out-of-tree Android code=
+, and
+> > > > you end up with two different groups of people (the in-kernel-tree
+> > > > developers, and the Android kernel developers) who are both annoyed=
+ at
+> > > > the current situation.  Because of this problem, just drop the in-k=
+ernel
+> > > > copy of the ion code now, as it's not used, and is only causing pro=
+blems
+> > > > for everyone involved.
+> > > >
+> > > > Cc: "Arve Hj=F8nnev=E5g" <arve@android.com>
+> > > > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > > > Cc: Christian Brauner <christian@brauner.io>
+> > > > Cc: Christoph Hellwig <hch@infradead.org>
+> > > > Cc: Hridya Valsaraju <hridya@google.com>
+> > > > Cc: Joel Fernandes <joel@joelfernandes.org>
+> > > > Cc: John Stultz <john.stultz@linaro.org>
+> > > > Cc: Laura Abbott <laura@labbott.name>
+> > > > Cc: Martijn Coenen <maco@android.com>
+> > > > Cc: Shuah Khan <shuah@kernel.org>
+> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > > Cc: Suren Baghdasaryan <surenb@google.com>
+> > > > Cc: Todd Kjos <tkjos@android.com>
+> > > > Cc: devel@driverdev.osuosl.org
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Cc: linaro-mm-sig@lists.linaro.org
+> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > >
+> > > We discussed this at the Android MC on Monday and the plan was to
+> > > remove it after the next LTS release.
+> >
+> > I know it was discussed, my point is that it is actually causing
+> > problems now (with developers who want to change the internal kernel api
+> > hitting issues, and newbies trying to clean up code in ways that isn't
+> > exactly optimal wasting maintainer cycles), and that anyone who uses
+> > this code, is not actually using this version of the code.  Everyone who
+> > relies on ion right now, is using the version that is in the Android
+> > common kernel tree, which has diverged from this in-kernel way quite a
+> > bit now for the reason that we didn't want to take any of those new
+> > features in the in-kernel version.
+> >
+> > So this is a problem that we have caused by just wanting to wait, no one
+> > is using this code, combined with it causing problems for the upstream
+> > developers.
+> >
+> > There is nothing "magic" about the last kernel of the year that requires
+> > this code to sit here until then.  At that point in time, all users
+> > will, again, be using the forked Android kernel version, and if we
+> > delete this now here, that fork can remain just fine, with the added
+> > benifit of it reducing developer workloads here in-kernel.
+> >
+> > So why wait?
 > =
 
-> There is a spelling mistake in a drm_err message. Fix it.
-
-Thanks. Applied to dinq.
-
+> Hi,
 > =
 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/i915/display/vlv_dsi_pll.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
+> I don't know what is the right thing to do here. I just want to
+> highlight that AOSP's audio (codec2) HAL depends on the ION system
+> heap and it will break AOSP for people who boot mainline on their
+> devices, even for just testing purpose like we do in Linaro. Right now
+> we need only 1 (Android specific out-of-tree) patch to boot AOSP with
+> mainline and Sumit is already trying to upstream that vma naming
+> patch. Removal of in-kernel ION, will just add more to that delta.
 
-> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c b/drivers/gpu/drm=
-/i915/display/vlv_dsi_pll.c
-> index d0a514301575..4070b00c3690 100644
-> --- a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
-> +++ b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
-> @@ -483,7 +483,7 @@ int bxt_dsi_pll_compute(struct intel_encoder *encoder,
->  =
+As AOSP will continue to rely on ION after December of this year, all
+you are doing is postponing the inevitable a few more months.
 
->  	if (dsi_ratio < dsi_ratio_min || dsi_ratio > dsi_ratio_max) {
->  		drm_err(&dev_priv->drm,
-> -			"Cant get a suitable ratio from DSI PLL ratios\n");
-> +			"Can't get a suitable ratio from DSI PLL ratios\n");
->  		return -ECHRNG;
->  	} else
->  		drm_dbg_kms(&dev_priv->drm, "DSI PLL calculation is Done!!\n");
-> -- =
+Push back on the Android team to fix up the code to not use ION, they
+know this needs to happen.
 
-> 2.27.0
-> =
+thanks,
 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
