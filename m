@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE988255538
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1215E255540
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C7F6E459;
-	Fri, 28 Aug 2020 07:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9C876EB63;
+	Fri, 28 Aug 2020 07:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD9A89623
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 07:05:52 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id y2so5235871ljc.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 00:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=brG5EoXG8FKt7Fq1ykdF4ABCLTAm7xSy7pDQ9zIqBmM=;
- b=D+Qfdi8ojtdlFaIaWaofdcOW2dSpHJq/jTsM6dpwBevrFASrN1edAw8teUWVNerpgu
- 63ga9PzLJ1u8xo9GANebl8qwYj4EgB2Lt5+c2FZtDG0o0O+j7oIfdc233tEfNoJKuFe7
- DUxpMDtEWgsp8LTUtik3F1caZRHo486JrXlztWvaxpavYrnD9ARqY6DH44IQECiMjSIF
- cpTJQhP3AoFpI2jsFeq3dPzY4jmtYVXO8Sn8JUBkHLcyef3/N2jsvX1pnc2YLoznUsCF
- HDRVd99ElVGCkW/Ai5VbnxNG4jsJBtsJfFUa7vCIIoL+cOkFeVgwwtrqBHrnRCjQFsrY
- elFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=brG5EoXG8FKt7Fq1ykdF4ABCLTAm7xSy7pDQ9zIqBmM=;
- b=LNizJrTYxpeeNVw+W+nTyMMGo/RyuiGTjK909XWO7Z8T2OEeEnPRvi2qqrRvsNiXMb
- s1eRHYxfb1NcQxneWznazAdNzGPBgxSynePH2xCPBQaTT8qK+j5Ouc+xALhlUT015bJ8
- UrIDvB7CnfM2/seedvA15CJiVFNLUf4keRCQKcTQX8Gs2IDrQR+Pd6OldlNyJZIIBPDs
- IcVINdVzgmgB0faVtVxYVtN6ejVUXsYYxwwYrmnNcHP0UJIobdHdPb++3AKQlkUIwPhO
- nyVnhO7f7jiAT4taHI0JPsNcMWtmWQB6DdDOoAmccl49T77H8VGGglL9UnIej1HmIPba
- CwZA==
-X-Gm-Message-State: AOAM5318TGgrpb1I0G3OOpJzHpcCKSrOSvRy7SWT1WAA6Dl1bvhRC036
- 5+hXMIX+VOD4sdsP2sc1ov4=
-X-Google-Smtp-Source: ABdhPJydX9Y9oDAFN3zznJgsiPNaCKcyWdKxS8pHyPJWykfpSUQ7Hoqsd5NtTOYp9/AGdUkscMfEjA==
-X-Received: by 2002:a05:651c:106a:: with SMTP id
- y10mr9032794ljm.296.1598511951247; 
- Thu, 27 Aug 2020 00:05:51 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id i131sm294684lfd.27.2020.08.27.00.05.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Aug 2020 00:05:50 -0700 (PDT)
-Subject: Re: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
-To: Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
- linux@armlinux.org.uk
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
- <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
- <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
- <62a72187-442b-2103-46c3-39d3cd999f54@gmail.com>
- <affe2cfb-19e8-8e55-acd0-7170e274ab34@arm.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f1923a53-e799-e63c-fd22-4a6cca3b8212@gmail.com>
-Date: Thu, 27 Aug 2020 10:05:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <affe2cfb-19e8-8e55-acd0-7170e274ab34@arm.com>
-Content-Language: en-US
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B5D6EB11
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 07:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1598512926;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=k04sNjlLbRN8+3LmeZhW22K/v1fwHDbhj0K1In8eV3E=;
+ b=nIWdU6+pA/5OwPdsm74ArGN2BUYXhgoCndc1Kieb1+VLHK5BBHrt+8W9ar2G2gRaFg
+ QohWsMawIp2QqyQUafR7RqPb5rPuYfGLWMAmbhgrrPsdoQvI1dnBUJLj5JdzGYwmm5Et
+ upe+Dm9J4ZfrK/7QJhwkw3VgQij2DvvUzdmz220X3ux/+TXnRr6BiTQ5XYnx8qdSdaAN
+ 9/rh0YScASyhWswQHRTvTOkBImgJW8q8o8XXwbDwyp5IoJ72XTSEz+jUtTFYORP+otir
+ 3UuQscJ03O7f+aX3x2LRNv5q8SKJq5bJlBq5EZuOEYWunsufYAr4gd1a/4YBS+l26KTo
+ Ikbg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlaVXAcF7g=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
+ with ESMTPSA id n03b0dw7R7LsaKA
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 27 Aug 2020 09:21:54 +0200 (CEST)
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
+ JZ4780)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
+Date: Thu, 27 Aug 2020 09:21:54 +0200
+Message-Id: <2093A5E6-28CC-42C6-8CF9-3E78942254F4@goldelico.com>
+References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
+ <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
+ <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
+ <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
+ <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
+ <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Fri, 28 Aug 2020 07:29:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,81 +61,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, matthias.bgg@gmail.com, thierry.reding@gmail.com,
- laurent.pinchart@ideasonboard.com, s-anna@ti.com, will@kernel.org,
- m.szyprowski@samsung.com, linux-samsung-soc@vger.kernel.org,
- magnus.damm@gmail.com, kyungmin.park@samsung.com, jonathanh@nvidia.com,
- agross@kernel.org, yong.wu@mediatek.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, vdumpa@nvidia.com,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, t-kristo@ti.com,
- iommu@lists.linux-foundation.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjQuMDguMjAyMCAxNzowMSwgUm9iaW4gTXVycGh5INC/0LjRiNC10YI6Ci4uLgo+PiBSb2Jpbiwg
-dGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgdGhlIGNsYXJpZmljYXRpb25zIQo+Pgo+PiBJbiBhY2Nv
-cmRhbmNlIHRvIHlvdXJzIGNvbW1lbnRzLCB0aGlzIHBhdGNoIGNhbid0IGJlIGFwcGxpZWQgdW50
-aWwgVGVncmEKPj4gU01NVSB3aWxsIHN1cHBvcnQgSU9NTVVfRE9NQUlOX0lERU5USVRZIGFuZCBp
-bXBsZW1lbnQgZGVmX2RvbWFpbl90eXBlKCkKPj4gY2FsbGJhY2sgdGhhdCByZXR1cm5zIElPTU1V
-X0RPTUFJTl9JREVOVElUWSBmb3IgdGhlIFZERSBkZXZpY2UuCj4+Cj4+IE90aGVyd2lzZSB5b3Un
-cmUgYnJlYWtpbmcgdGhlIFZERSBkcml2ZXIgYmVjYXVzZQo+PiBkbWFfYnVmX21hcF9hdHRhY2ht
-ZW50KCkgWzFdIHJldHVybnMgdGhlIElPTU1VIFNHVCBvZiB0aGUgaW1wbGljaXQKPj4gZG9tYWlu
-IHdoaWNoIGlzIHRoZW4gbWFwcGVkIGludG8gdGhlIFZERSdzIGV4cGxpY2l0IGRvbWFpbiBbMl0s
-IGFuZCB0aGlzCj4+IGlzIGEgbm9uc2Vuc2UuCj4gCj4gSXQncyB0cnVlIHRoYXQgaW9tbXVfZG1h
-X29wcyB3aWxsIGRvIHNvbWUgd29yayBpbiB0aGUgdW5hdHRhY2hlZCBkZWZhdWx0Cj4gZG9tYWlu
-LCBidXQgbm9uLWNvaGVyZW50IGNhY2hlIG1haW50ZW5hbmNlIHdpbGwgc3RpbGwgYmUgcGVyZm9y
-bWVkCj4gY29ycmVjdGx5IG9uIHRoZSB1bmRlcmx5aW5nIG1lbW9yeSwgd2hpY2ggaXMgcmVhbGx5
-IGFsbCB0aGF0IHlvdSBjYXJlCj4gYWJvdXQgZm9yIHRoaXMgY2FzZS4gQXMgZm9yIHRlZ3JhX3Zk
-ZV9pb21tdV9tYXAoKSwgdGhhdCBzZWVtcyB0byBkbyB0aGUKPiByaWdodCB0aGluZyBpbiBvbmx5
-IHJlZmVyZW5jaW5nIHRoZSBwaHlzaWNhbCBzaWRlIG9mIHRoZSBzY2F0dGVybGlzdAo+ICh2aWEg
-aW9tbXVfbWFwX3NnKCkpIGFuZCBpZ25vcmluZyB0aGUgRE1BIHNpZGUsIHNvIHRoaW5ncyBvdWdo
-dCB0byB3b3JrCj4gb3V0IE9LIGV2ZW4gaWYgaXQgaXMgYSBsaXR0bGUgbm9uLW9idmlvdXMuCgpJ
-J2xsIG5lZWQgdG8gZG91YmxlLWNoZWNrIHRoaXMsIGl0J3MgaW5kZWVkIG5vdCBjbGVhciB0byBt
-ZSByaWdodCBub3cuCgpJIHNlZSB0aGF0IGlmIFRlZ3JhIERSTSBkcml2ZXIgdXNlcyBpbXBsaWNp
-dCBJT01NVSBkb21haW4sIHRoZW4gd2hlbiBWREUKZHJpdmVyIGltcG9ydHMgRE1BLWJ1ZiBmcm9t
-IFRlcmdhIERSTSBhbmQgdGhlIGltcG9ydGVkIGJ1ZmZlciB3aWxsIGJlCmF1dG8tbWFwcGVkIHRv
-IHRoZSBpbXBsaWNpdCBWREUgSU9WQSBbMV0uCgpbMV0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5j
-b20vbGludXgvdjUuOS1yYzIvc291cmNlL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uYyNMNTc0
-Cgo+PiBIZW5jZSwgZWl0aGVyIFZERSBkcml2ZXIgc2hvdWxkIGJ5cGFzcyBpb21tdV9kbWFfb3Bz
-IGZyb20gdGhlIHN0YXJ0IG9yCj4+IGl0IG5lZWRzIGEgd2F5IHRvIGtpY2sgb3V0IHRoZSBvcHMs
-IGxpa2UgaXQgZG9lcyB0aGlzIHVzaW5nIEFSTSdzCj4+IGFybV9pb21tdV9kZXRhY2hfZGV2aWNl
-KCkuCj4+Cj4+Cj4+IFRoZSBzYW1lIGFwcGxpZXMgdG8gdGhlIFRlZ3JhIEdQVSBkZXZpY2VzLCBv
-dGhlcndpc2UgeW91J3JlIGJyZWFraW5nCj4+IHRoZW0gYXMgd2VsbCBiZWNhdXNlIFRlZ3JhIERS
-TSBpcyBzZW5zaWJsZSB0byBpbXBsaWNpdCB2cyBleHBsaWNpdAo+PiBkb21haW4uCj4gCj4gTm90
-ZSB0aGF0IFRlZ3JhIERSTSB3aWxsIG9ubHkgYmUgYXMgYnJva2VuIGFzIGl0cyBjdXJyZW50IHN0
-YXRlIG9uCj4gYXJtNjQsIGFuZCBJIHdhcyB1bmRlciB0aGUgaW1wcmVzc2lvbiB0aGF0IHRoYXQg
-d2FzIE9LIG5vdyAtIGF0IGxlYXN0IEkKPiBkb24ndCByZWNhbGwgc2VlaW5nIGFueSBjb21wbGFp
-bnRzIHNpbmNlIDQzYzViZjExYTYxMC4gQWx0aG91Z2ggdGhhdAo+IGNvbW1pdCBhbmQgdGhlIG9u
-ZSBiZWZvcmUgaXQgYXJlIHJlc29sdmluZyB0aGUgc2NhbGFiaWxpdHkgaXNzdWUgdGhhdAo+IHRo
-ZXkgZGVzY3JpYmUsIGl0IHdhcyB2ZXJ5IG11Y2ggaW4gbXkgbWluZCBhdCB0aGUgdGltZSB0aGF0
-IHRoZXkgYWxzbwo+IGhhdmUgdGhlIGhhcHB5IHNpZGUtZWZmZWN0IGRlc2NyaWJlZCBhYm92ZSAt
-IHRoZSBkZWZhdWx0IGRvbWFpbiBpc24ndAo+ICpjb21wbGV0ZWx5KiBvdXQgb2YgdGhlIHdheSwg
-YnV0IGl0J3MgZmFyIGVub3VnaCB0aGF0IHNlbnNpYmxlIGNhc2VzCj4gc2hvdWxkIGJlIGFibGUg
-dG8gd29yayBhcyBleHBlY3RlZC4KClRoZSBUZWdyYSBEUk0gaGFzIGEgdmVyeSBzcGVjaWFsIHF1
-aXJrIGZvciBBUk0zMiB0aGF0IHdhcyBhZGRlZCBpbiB0aGlzCmNvbW1pdCBbMl0gYW5kIGRyaXZl
-ciByZWxpZXMgb24gY2hlY2tpbmcgb2Ygd2hldGhlciBleHBsaWNpdCBvciBpbXBsaWNpdApJT01N
-VSBpcyB1c2VkIGluIG9yZGVyIHRvIGFjdGl2YXRlIHRoZSBxdWlyay4KClsyXQpodHRwczovL2dp
-dC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0
-L2NvbW1pdC8/aWQ9MjczZGE1YTA0Njk2NWNjZjBlYzc5ZWI2M2YyZDUxNzM0NjdlMjBmYQoKT25j
-ZSB0aGUgaW1wbGljaXQgSU9NTVUgaXMgdXNlZCBmb3IgdGhlIERSTSBkcml2ZXIsIHRoZSBxdWly
-ayBubyBsb25nZXIKd29ya3MgKGlmIEknbSBub3QgbWlzc2luZyBzb21ldGhpbmcpLiBUaGlzIHBy
-b2JsZW0gbmVlZHMgdG8gYmUgcmVzb2x2ZWQKYmVmb3JlIGltcGxpY2l0IElPTU1VIGNvdWxkIGJl
-IHVzZWQgYnkgdGhlIFRlZ3JhIERSTSBvbiBBUk0zMi4KCj4+IEJUVywgSSB0cmllZCB0byBhcHBs
-eSB0aGlzIHNlcmllcyBhbmQgVDMwIGRvZXNuJ3QgYm9vdCBhbnltb3JlLiBJIGRvbid0Cj4+IGhh
-dmUgbW9yZSBpbmZvIGZvciBub3cuCj4gCj4gWWVhaCwgSSdtIHN0aWxsIHRyeWluZyB0byBnZXQg
-dG8gdGhlIGJvdHRvbSBvZiB3aGV0aGVyIGl0J3MgYWN0dWFsbHkKPiB3b3JraW5nIGFzIGludGVu
-ZGVkIGF0IGFsbCwgZXZlbiBvbiBteSBSSzMyODguIFNvIGZhciBteSBkZWJ1Z2dpbmcKPiBpbnN0
-cnVtZW50YXRpb24gaGFzIGJlZW4gY29uZnVzaW5nbHkgaW5jb25jbHVzaXZlIDovCgpTdXJlbHkg
-aXQgd2lsbCB0YWtlIHNvbWUgdGltZSB0byByZXNvbHZlIGFsbCB0aGUgcHJvYmxlbXMgYW5kIGl0
-J3MgZ3JlYXQKdGhhdCB5b3UncmUgcHVzaGluZyB0aGlzIHdvcmshCgpJJ2xsIHRyeSB0byBoZWxw
-IHdpdGggZml4aW5nIHRoZSBBUk0zMiBUZWdyYSBzaWRlIG9mIHRoZSBwcm9ibGVtcy4gSQphZGRl
-ZCB0aGlzIHRvIG15ICJUT0RPIiBsaXN0IGFuZCBzaG91bGQgYmUgYWJsZSB0byB0YWtlIGEgY2xv
-c2VyIGxvb2sKZHVyaW5nIG9mIHRoaXMvbmV4dCB3ZWVrcyEKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Ezequiel,
+
+> Am 24.08.2020 um 19:38 schrieb Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>:
+> 
+> On Mon, 24 Aug 2020 at 13:05, H. Nikolaus Schaller <hns@goldelico.com> wrote:
+>> 
+>> Hi Ezequiel,
+> 
+> The fix is just re-organizing the code a bit. Just pushed a possible
+> fix for that (following the IPU handling by Paul Cercueil),
+> please feel free to test this:
+> 
+> https://gitlab.collabora.com/linux/0day/-/commits/jz4780-drm-hdmi-module-fix-v5.9-rc2
+
+Works well (after doing a minor fix to the CI20 defconfig)!
+
+> 
+> FWIW, my test setup uses mainline vanilla U-Boot v2020.07.
+> The kernel is loaded via TFTP. Debian mipsel is mounted via NFS
+> (which means dm9000 works). I'm testing with weston and modetest.
+> 
+> Note that enabling DRM_INGENIC_IPU will make the driver
+> fail to load, as the IPU is not optional (and not present on ci20.dts).
+> A minor thing to fix.
+> 
+> Cheers,
+> Ezequiel
+> 
+>> And it seems to differ significantly from what Paul has developed recently
+>> to make it work. It seems to be quite lucky that we have a working setup now :)
+>> 
+>>> Nikolaus, Paul: Do you have plans to submit these?
+>> 
+>> Yes, as soon as we are sure that it works (and when it doesn't).
+>> 
+>> But thanks to your work it is now much easier to improve things, since we
+>> are no longer looking for a break-through but just have to avoid regressions.
+>> 
+>>> If not, I'll be happy to get them out the door for review.
+>> 
+>> Let it mature a little first and have it tested on more setups and rebased
+>> to mainline v5.9-rc2 :)
+
+
+> Am 24.08.2020 um 23:11 schrieb Paul Cercueil <paul@crapouillou.net>:
+> 
+> DRM drivers follow their own schedule, you should rebase to drm-misc-next instead.
+> 
+
+With the comment from Paul, I think it is best if you push them for review.
+
+My patch set based on v5.9-rc2 is here (including one EFUSE patch which I have
+included only for making my Ethernet interface work for testing):
+
+https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/jz4780-hdmi-v5
+
+Please take it, do the required squashes and rebasing and post them for discussion to the
+appropriate lists.
+
+BR and thanks for this great break through,
+Nikolaus
+
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
