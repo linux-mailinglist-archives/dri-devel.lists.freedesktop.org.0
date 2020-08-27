@@ -2,54 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4333C253C81
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 06:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8637D253CC7
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 06:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F6C6E15E;
-	Thu, 27 Aug 2020 04:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61C656E17B;
+	Thu, 27 Aug 2020 04:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E556E15E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 04:18:22 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id p37so2421294pgl.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 21:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=+iBH8fkMhRsMfB6f+WMq2adtAVLulFdYcEcXSAwlW/s=;
- b=vR83mH1w9C84iID7BIoTAEfRswCCNSuxpRQCHYO7yBlMZXdf0H5b9E4DcEfsM6FueW
- iBF/tLQuYnNdcCE0jx9ucexvCNthlAeoCw2Iimm63XXblNWBVQp05UNDkx6BdtNnsh8q
- ckAD5W7kxXJM2bGq8Pxq37MNcoqhC+pvfYvirKe7tNqGuNY5AbxTs0TX66r1+LUP/pzr
- ANEcrDpDsrelcyReE5A0PYbzsrunMLMq3HUdMX1EJ/pOI/RbhD0Z4zHmQZ2DKdEIZa+E
- idlqzxC3VINwKe6FeMHebIHre3MCCZkBboTx/10HPgK35tuhGeWnysPrZKCpvwdkaMqG
- LuuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=+iBH8fkMhRsMfB6f+WMq2adtAVLulFdYcEcXSAwlW/s=;
- b=feTfjO4YNLWnLF0nV37QR4oZFa7DfwBU9t5nY+kTVAyUuFfxzSvEZMBG4Zj/hdohxc
- tNmAd+rBk4xEkdTCLkcPXmYzWfaBfffVKoVeDwCm+We/94XRBHlvNd1VLuAwQ1TbXnIr
- RUZkRLGfFu6D0lBVxIMsSEfXsreCGS/EwNp6IVgBY9M+KaVzQ+OQS99R6nr/35sLPNE6
- tUDl/h1I9wFBuPM3IchpLpO69sOqlPNrSwWY1NXO4Yax3q3ad1ijFyGiNiGnWoHbgtxL
- jjA5JW8CItAliDtEdkEYCGVozar7IdCZunM2d76/NLDK3qurNgggjcqfdrM6R2ugJze6
- 5qhw==
-X-Gm-Message-State: AOAM53047Ca1CDfD2womaDHOlT7yKisyvP1PhDroJFD3k2Cu5Ky3PtRR
- CYAf1m76QyYsSEWDHQIS4LU=
-X-Google-Smtp-Source: ABdhPJwNMlLuNfl5KTwciY4p3OPdmEyHNcsuZBPUxvLvZzQNxKxk9VwNTcgFqZHYApx8dx3M4cA8aw==
-X-Received: by 2002:aa7:838d:: with SMTP id u13mr14785423pfm.158.1598501901656; 
- Wed, 26 Aug 2020 21:18:21 -0700 (PDT)
-Received: from realwakka.navercorp.com ([61.83.141.80])
- by smtp.gmail.com with ESMTPSA id y126sm812010pfy.138.2020.08.26.21.18.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 21:18:21 -0700 (PDT)
-From: Sidong Yang <realwakka@gmail.com>
-To: daniel@ffwll.ch, Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>
-Subject: [PATCH v2] drm/vkms: avoid warning in vkms_get_vblank_timestamp
-Date: Thu, 27 Aug 2020 04:18:00 +0000
-Message-Id: <20200827041800.10229-1-realwakka@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49CA66E17B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 04:35:23 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20200827043520epoutp02881b5d56c82d4568468d25767c2bd657~vBe-XwmY11014510145epoutp02J
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 04:35:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20200827043520epoutp02881b5d56c82d4568468d25767c2bd657~vBe-XwmY11014510145epoutp02J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1598502920;
+ bh=wynkeJ2gZV5eNhHFGgSioBpWQoDnsmVxk8KLfHGKQ6A=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=jCa/eH20KD1XAhu0AFe30qCbuhhLrA7pyq4i5P20d5XF4bvqscpfxRU8W8HniRSOK
+ 0NXMY/eFsKAFOZZoTDzqUSqcLOiPuCjKmVs6APQmDqFwIOj738fAjRYkuwckagJnaf
+ Uwel7EG5PROnxW04HJBZN5AIdMJoZEI0CFZ6liUg=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20200827043519epcas1p392729327227b17aa7956bcab5699c7bf~vBe_ptMYh3020030200epcas1p3C;
+ Thu, 27 Aug 2020 04:35:19 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.154]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4BcVJj0MhtzMqYkn; Thu, 27 Aug
+ 2020 04:35:17 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ F8.41.19033.408374F5; Thu, 27 Aug 2020 13:35:16 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20200827043516epcas1p4d8e42aa0019711fc3e52079c7548cde0~vBe7ubg4N1941719417epcas1p4p;
+ Thu, 27 Aug 2020 04:35:16 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200827043516epsmtrp2b45aace3bcbd5974e55f1fe0d55475a0~vBe7teMmA2463524635epsmtrp2E;
+ Thu, 27 Aug 2020 04:35:16 +0000 (GMT)
+X-AuditID: b6c32a36-159ff70000004a59-7a-5f4738047e9a
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 1C.90.08382.408374F5; Thu, 27 Aug 2020 13:35:16 +0900 (KST)
+Received: from [10.113.111.64] (unknown [10.113.111.64]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200827043516epsmtip1b4add86ac8dacc6ccdf3ed8efd33ca8b~vBe7R5eSV1882518825epsmtip1y;
+ Thu, 27 Aug 2020 04:35:16 +0000 (GMT)
+Subject: Re: [PATCH 3/3] drm/vc4: hdmi: Add pixel bvb clock control
+To: Stefan Wahren <stefan.wahren@i2se.com>, nsaenzjulienne@suse.de,
+ eric@anholt.net, maxime@cerno.tech
+From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Message-ID: <80749dcd-d4b2-68a1-f3ca-c19a120f6f7b@samsung.com>
+Date: Thu, 27 Aug 2020 13:35:02 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <61c199bf-852f-82d3-089a-a0a435343acf@i2se.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTZxTG8/be3rZuNZeC8Mq2rt4oBjegpRQvExACwk2QhM2ZBd3sGrhp
+ CaUtbVmcLK4YIcAQLaQ6ixSSiVWMw1FEIaJY+RDZYAZkjMH4EhdlUCbhIzDZWi7L+O93Tp7z
+ nvOcN4eLCJYwf26GxkjrNQo1gW1BGx8GioNQMlEuvlqzj7xxph0lZyq/Q8mqth422b/gwsjW
+ vD5AuuzFGNnUfwMl6ycH2ORfJb+zyb7mSxhp/u0mh/x2eQ2QTx4fIButdoz8fmgaI/Nb2jjk
+ 2sAP7oKrgxg5YRkFMd7UKVcHRrkG8zmUdfQnjBru6cWoJusIh7o1JKPqa4swavSbThbluPw1
+ ld++glKlDbWAcnTnUvP1whT+kcxIFa1Ip/UiWpOmTc/QKKOIpEPyOLksXCwJkkSQewmRRpFF
+ RxHxB1OCEjLUbpuE6AuFOsedSlEYDERIdKRem2OkRSqtwRhF0Lp0tS5CF2xQZBlyNMrgNG3W
+ BxKxOFTmFn6eqaprWMV0j4THHQPn2CYwBosBjwvxMFhXuMTysAC/A+Bke1Qx2OLmVwCWXLjP
+ ZoJFALsmVrBiwF2vaLiSwORbAJxrWsOYYAbA6lc2xPOUNx4HLcsP2B72wVWwZ6WF4xEheAcC
+ z1curIswPAgulPyy3puPR8M8xxjwdEDxXfDuWLQnvQ1PhU1TLziMxAt2XXyGepiHR0Ln82Hg
+ YQR/F96euYQw7AeHnlWxPL0gXsGDeX+fZjE+46HdOcdh2Bu+7GzYYH84P9uCMWyA/Rdfokyx
+ CcCz5ooNkRTerylneYZD8EBY1xzCpHfAptXKjSG2wtmFEjazIT4sLBAwkgD43NTKZvht+PiM
+ fWMcCrrKH3LOgR3WTdasm+xYN9mx/t+4GqC1wJfWGbKUtEGiC9382fVg/QL2hN8BZTNzwU7A
+ 4gIngFyE8OF7PYmTC/jpii9P0HqtXJ+jpg1OIHPv2oz4b0vTuk9IY5RLZKFSqZQMk4TLJBLC
+ jz8+JJILcKXCSGfStI7W/1fH4vL8TawK+/7EfuOV3k5ht7C4IOnjZE6EbeXEvXtvpM++09Pz
+ olt5Mrb06FGbvjH6o9qET3yTQ5eH/9n+ein3vb3blWVR6sTLq09tbyKBOlZa/SPL+dhby6Oq
+ kbFjd3mWgJKq8p27F9/iwp+P5+ZIOR8eNHfNdlv2u3adCpHFnv0qYl+FSdxtl+42V0c7HUXj
+ 12xT8WpBQNLtP+zZrwtbPpv1sXk3kjPHCnae9i2ajjWlgilHzI+HS1Mb5WapczBDX7MkDFts
+ Ez3omGju+LQ315Kt+dOafeFIXvLWpflr45AQ+rUmaL2e3kzsK+id9NZ3GZNifr3+fsx0mW04
+ oJaXOUIdPnlgQk6gBpVCsgfRGxT/AoGOmrmKBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ra0hTYRiA+XYuO65Wx2n0ZaYwM6lQs+sXhBiSngprkRAaZcsOaulcO9kd
+ MsMuc+WlrLm8VVoxs2xbc8uu81JmGtZyZpp2l9ZaZtIVqbkC/z287/Pw/ngpTPQU96FSZNtY
+ hUyaKiYFuLFe7BeMo+iEWYMtEFUfbcSRo+Qcjsoa2ghkHXKS6M7+JwA5LyhJZLZW40j3uoNA
+ A6oXBHpyvZhE+c9r+Ej9fRig9gdLkFFzgUSXu+wkyr7ZwEfDHVf/Bhc7SfSqsBdEeDFZziaS
+ cXZm8xlNbyvJdLc9IhmzpofPXOuax+i0R0imN+cej9FX7GOyG3/izDGDFjD6lj3MoM5PIowX
+ LNrEpqZsZxWh4RsEyVcMv0j5fb+d+o48IhP0QSWgKEjPhYbzUUogoER0HYDDz/IwJfD4O/eF
+ 2lwD4Xa8YH0953bsAJoKXgGX40VHwsLvdwkXe9PJsDi/FHNJGN2EwVbdR8JdfAOwOt82YpF0
+ MBxS2XguFtLhcL++D7gu4HQgvNEX7sIJdBw0mxa6DU/YXPQGd7EHvQha3nWP3MXo+bBU/xJz
+ sz+sdRT/44mw600ZLw+INKNyzahEMyrRjErKAa4Fk1g5l5aUxoXJw2TsjhBOmsZlyJJCEtPT
+ dGDk8zOmm0Ct9nOIBfAoYAGQwsTeQs/2yASRcJN0125WkZ6gyEhlOQuYTOHiicLOrWfWi+gk
+ 6TZ2C8vKWcX/LY/y8MnkhZQTjr1FsiCHrmTmmiUWrw9DlTXKg6qB/Bz1YsNWQWzJin6dpyRB
+ 0OBTY9suy7H9FshVqytPSF7fjnmfQZR6P4+8GWyuivx1llk7cEAtuSJxsIFTaxd3D26Mzsqy
+ zy41H0tcWTicq4qxz25dEdTTHBNqivgUQLatGuubU+4hO1xQ98OqwKIKQ22TTXH2j7HpPYkn
+ C05J/NWX1p2W32r8Oj1oM95//P2cKv7qqG9Pp8WXma2XKwLjw+/ndjvr7i0/M+/l+Kka44IG
+ b8MN3/ihKSI6tMq/v6moZZnxd9mCayL7uJ0zk6KxCCU3Zv3X2C/NDze0x1kzU/IeH8paanyr
+ DgoQ41yyNGwGpuCkfwBtV1uTaAMAAA==
+X-CMS-MailID: 20200827043516epcas1p4d8e42aa0019711fc3e52079c7548cde0
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200821071122epcas1p3d00dda4665f94192ac5e9ee829d0557d
+References: <20200821071045.24501-1-hoegeun.kwon@samsung.com>
+ <CGME20200821071122epcas1p3d00dda4665f94192ac5e9ee829d0557d@epcas1p3.samsung.com>
+ <20200821071045.24501-4-hoegeun.kwon@samsung.com>
+ <61c199bf-852f-82d3-089a-a0a435343acf@i2se.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +121,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Sidong Yang <realwakka@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: devicetree@vger.kernel.org, tim.gover@raspberrypi.com,
+ dave.stevenson@raspberrypi.com, sboyd@kernel.org, mturquette@baylibre.com,
+ kdasu.kdev@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, robh+dt@kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch avoid the warning in vkms_get_vblank_timestamp when vblanks aren't
-enabled. When running igt test kms_cursor_crc just after vkms module, the
-warning raised like below. Initial value of vblank time is zero and
-hrtimer.node.expires is also zero if vblank aren't enabled before. vkms module
-isn't real hardware but just virtual hardware module. so vkms can't generate a
-resonable timestamp when hrtimer is off. it's best to grab the current time.
+Hi Stefan,
 
-[106444.464503] [IGT] kms_cursor_crc: starting subtest pipe-A-cursor-size-change
-[106444.471475] WARNING: CPU: 0 PID: 10109 at
-/home/realwakka/git/linux/drivers/gpu/drm/vkms//vkms_crtc.c:91
-vkms_get_vblank_timestamp+0x42/0x50 [vkms]
-[106444.471511] CPU: 0 PID: 10109 Comm: kms_cursor_crc Tainted: G        W  OE
-5.9.0-rc1+ #6
-[106444.471514] RIP: 0010:vkms_get_vblank_timestamp+0x42/0x50 [vkms]
-[106444.471528] Call Trace:
-[106444.471551]  drm_get_last_vbltimestamp+0xb9/0xd0 [drm]
-[106444.471566]  drm_reset_vblank_timestamp+0x63/0xe0 [drm]
-[106444.471579]  drm_crtc_vblank_on+0x85/0x150 [drm]
-[106444.471582]  vkms_crtc_atomic_enable+0xe/0x10 [vkms]
-[106444.471592]  drm_atomic_helper_commit_modeset_enables+0x1db/0x230
-[drm_kms_helper]
-[106444.471594]  vkms_atomic_commit_tail+0x38/0xc0 [vkms]
-[106444.471601]  commit_tail+0x97/0x130 [drm_kms_helper]
-[106444.471608]  drm_atomic_helper_commit+0x117/0x140 [drm_kms_helper]
-[106444.471622]  drm_atomic_commit+0x4a/0x50 [drm]
-[106444.471629]  drm_atomic_helper_set_config+0x63/0xb0 [drm_kms_helper]
-[106444.471642]  drm_mode_setcrtc+0x1d9/0x7b0 [drm]
-[106444.471654]  ? drm_mode_getcrtc+0x1a0/0x1a0 [drm]
-[106444.471666]  drm_ioctl_kernel+0xb6/0x100 [drm]
-[106444.471677]  drm_ioctl+0x3ad/0x470 [drm]
-[106444.471688]  ? drm_mode_getcrtc+0x1a0/0x1a0 [drm]
-[106444.471692]  ? tomoyo_file_ioctl+0x19/0x20
-[106444.471694]  __x64_sys_ioctl+0x96/0xd0
-[106444.471697]  do_syscall_64+0x37/0x80
-[106444.471699]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Thank you for your review.
 
-Signed-off-by: Sidong Yang <realwakka@gmail.com>
 
----
+On 8/26/20 7:04 PM, Stefan Wahren wrote:
+> Hi Hoeguen,
+>
+> Am 21.08.20 um 09:10 schrieb Hoegeun Kwon:
+>> There is a problem that the output does not work at a resolution
+>> exceeding FHD. To solve this, we need to adjust the bvb clock at a
+>> resolution exceeding FHD.
+> this patch introduces a mandatory clock, please update
+> brcm,bcm2835-hdmi.yaml first.
+>
+> Is this clock physically available on BCM283x or only on BCM2711?
 
-v2:
- - modify commit message to make it a bit easier to understand. 
+As far as I know, BCM2711 raspberry pi 4 supports 4k,
 
----
- drivers/gpu/drm/vkms/vkms_crtc.c | 5 +++++
- 1 file changed, 5 insertions(+)
+don't supported on pi 3 and pi 3+.
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index ac85e17428f8..09c012d54d58 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -86,6 +86,11 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- 	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 
-+	if (!READ_ONCE(vblank->enabled)) {
-+		*vblank_time = ktime_get();
-+		return true;
-+	}
-+
- 	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
- 
- 	if (WARN_ON(*vblank_time == vblank->time))
--- 
-2.17.1
+Since 4k is not supported in versions prior to Raspberry Pi 4,
 
+I don't think we need to modify the bvb clock.
+
+
+So I think it is better to update 'brcm,bcm2711-hdmi.yaml'
+
+instead of 'brcm,bcm2835-hdmi.yaml'.
+
+Please comment, what do you think?
+
+>
+> I'm a little bit afraid, this change could break with older firmware
+> versions on BCM283x.
+
+Tested it several times with libdrm modetest.
+
+I expect there will be no problem.
+
+
+Best regards,
+
+Hoegeun
+
+>
+> Best regards
+> Stefan
+>
+>> Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+>> ---
+>>   drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++++++++++
+>>   drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
+>>   2 files changed, 26 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> index 95ec5eedea39..eb3192d1fd86 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> @@ -80,6 +80,7 @@
+>>   # define VC4_HD_M_ENABLE			BIT(0)
+>>   
+>>   #define CEC_CLOCK_FREQ 40000
+>> +#define VC4_HSM_MID_CLOCK 149985000
+>>   
+>>   static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+>>   {
+>> @@ -380,6 +381,7 @@ static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder)
+>>   	HDMI_WRITE(HDMI_VID_CTL,
+>>   		   HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_ENABLE);
+>>   
+>> +	clk_disable_unprepare(vc4_hdmi->pixel_bvb_clock);
+>>   	clk_disable_unprepare(vc4_hdmi->hsm_clock);
+>>   	clk_disable_unprepare(vc4_hdmi->pixel_clock);
+>>   
+>> @@ -638,6 +640,23 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
+>>   		return;
+>>   	}
+>>   
+>> +	ret = clk_set_rate(vc4_hdmi->pixel_bvb_clock,
+>> +			(hsm_rate > VC4_HSM_MID_CLOCK ? 150000000 : 75000000));
+>> +	if (ret) {
+>> +		DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
+>> +		clk_disable_unprepare(vc4_hdmi->hsm_clock);
+>> +		clk_disable_unprepare(vc4_hdmi->pixel_clock);
+>> +		return;
+>> +	}
+>> +
+>> +	ret = clk_prepare_enable(vc4_hdmi->pixel_bvb_clock);
+>> +	if (ret) {
+>> +		DRM_ERROR("Failed to turn on pixel bvb clock: %d\n", ret);
+>> +		clk_disable_unprepare(vc4_hdmi->hsm_clock);
+>> +		clk_disable_unprepare(vc4_hdmi->pixel_clock);
+>> +		return;
+>> +	}
+>> +
+>>   	if (vc4_hdmi->variant->reset)
+>>   		vc4_hdmi->variant->reset(vc4_hdmi);
+>>   
+>> @@ -1593,6 +1612,12 @@ static int vc5_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
+>>   		return PTR_ERR(vc4_hdmi->audio_clock);
+>>   	}
+>>   
+>> +	vc4_hdmi->pixel_bvb_clock = devm_clk_get(dev, "bvb");
+>> +	if (IS_ERR(vc4_hdmi->pixel_bvb_clock)) {
+>> +		DRM_ERROR("Failed to get pixel bvb clock\n");
+>> +		return PTR_ERR(vc4_hdmi->pixel_bvb_clock);
+>> +	}
+>> +
+>>   	vc4_hdmi->reset = devm_reset_control_get(dev, NULL);
+>>   	if (IS_ERR(vc4_hdmi->reset)) {
+>>   		DRM_ERROR("Failed to get HDMI reset line\n");
+>> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+>> index 0806c6d9f24e..63c6f8bddf1d 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+>> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+>> @@ -147,6 +147,7 @@ struct vc4_hdmi {
+>>   	struct clk *pixel_clock;
+>>   	struct clk *hsm_clock;
+>>   	struct clk *audio_clock;
+>> +	struct clk *pixel_bvb_clock;
+>>   
+>>   	struct reset_control *reset;
+>>   
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
