@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED263254BE7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 19:17:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14577254CC8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 20:18:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC2416E406;
-	Thu, 27 Aug 2020 17:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8318989E06;
+	Thu, 27 Aug 2020 18:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9BC6E406
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 17:17:33 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 29A452087C;
- Thu, 27 Aug 2020 17:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598548652;
- bh=PltBLwlOgKxxGKPfhP0kyIlXe7QOuvH340zu37AK8pU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qQxS8ZMZsnBv7N611D2Tho2iEQbWLST2pzCypEmgeZ4yEWmdmyTFXZpme3ML7zC/u
- +RNWjiZbFgVSthur1Fyuze+ggvQMEI/K0cncNdNotb0NFxNM3Tk+uU1mjftss79ar6
- 7C3vglXoXWoOtYTmN94LSLymGwYwxgH7qzotbOlo=
-Date: Thu, 27 Aug 2020 19:17:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Amit Pundir <amit.pundir@linaro.org>
-Subject: Re: [PATCH] staging: ion: remove from the tree
-Message-ID: <20200827171745.GA701089@kroah.com>
-References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
- <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
- <20200827160506.GC684514@kroah.com>
- <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 364DF89E06
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 18:18:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35068101E;
+ Thu, 27 Aug 2020 11:18:17 -0700 (PDT)
+Received: from [10.57.40.122] (unknown [10.57.40.122])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C62533F68F;
+ Thu, 27 Aug 2020 11:18:13 -0700 (PDT)
+Subject: Re: [PATCH 13/18] iommu/tegra: Add IOMMU_DOMAIN_DMA support
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <cd11bc7851dbe46db6d14821a942678047331913.1597931876.git.robin.murphy@arm.com>
+ <20200827154502.GA1660457@ulmo>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <f6697e60-286c-f7c7-39d1-fe0784cc3e6d@arm.com>
+Date: Thu, 27 Aug 2020 19:18:12 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
+In-Reply-To: <20200827154502.GA1660457@ulmo>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,119 +43,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
- linaro-mm-sig@lists.linaro.org, Shuah Khan <shuah@kernel.org>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Suren Baghdasaryan <surenb@google.com>, Christoph Hellwig <hch@infradead.org>,
- Hridya Valsaraju <hridya@google.com>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <laura@labbott.name>,
- Android Kernel Team <kernel-team@android.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Christian Brauner <christian@brauner.io>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ digetx@gmail.com, will@kernel.org, hch@lst.de,
+ linux-samsung-soc@vger.kernel.org, magnus.damm@gmail.com,
+ linux@armlinux.org.uk, iommu@lists.linux-foundation.org, jonathanh@nvidia.com,
+ agross@kernel.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
+ linux-kernel@vger.kernel.org, t-kristo@ti.com, kyungmin.park@samsung.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 27, 2020 at 10:31:41PM +0530, Amit Pundir wrote:
-> On Thu, 27 Aug 2020 at 21:34, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Aug 27, 2020 at 09:31:27AM -0400, Laura Abbott wrote:
-> > > On 8/27/20 8:36 AM, Greg Kroah-Hartman wrote:
-> > > > The ION android code has long been marked to be removed, now that we
-> > > > dma-buf support merged into the real part of the kernel.
-> > > >
-> > > > It was thought that we could wait to remove the ion kernel at a lat=
-er
-> > > > time, but as the out-of-tree Android fork of the ion code has diver=
-ged
-> > > > quite a bit, and any Android device using the ion interface uses th=
-at
-> > > > forked version and not this in-tree version, the in-tree copy of the
-> > > > code is abandonded and not used by anyone.
-> > > >
-> > > > Combine this abandoned codebase with the need to make changes to it=
- in
-> > > > order to keep the kernel building properly, which then causes merge
-> > > > issues when merging those changes into the out-of-tree Android code=
-, and
-> > > > you end up with two different groups of people (the in-kernel-tree
-> > > > developers, and the Android kernel developers) who are both annoyed=
- at
-> > > > the current situation.  Because of this problem, just drop the in-k=
-ernel
-> > > > copy of the ion code now, as it's not used, and is only causing pro=
-blems
-> > > > for everyone involved.
-> > > >
-> > > > Cc: "Arve Hj=F8nnev=E5g" <arve@android.com>
-> > > > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > > > Cc: Christian Brauner <christian@brauner.io>
-> > > > Cc: Christoph Hellwig <hch@infradead.org>
-> > > > Cc: Hridya Valsaraju <hridya@google.com>
-> > > > Cc: Joel Fernandes <joel@joelfernandes.org>
-> > > > Cc: John Stultz <john.stultz@linaro.org>
-> > > > Cc: Laura Abbott <laura@labbott.name>
-> > > > Cc: Martijn Coenen <maco@android.com>
-> > > > Cc: Shuah Khan <shuah@kernel.org>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: Suren Baghdasaryan <surenb@google.com>
-> > > > Cc: Todd Kjos <tkjos@android.com>
-> > > > Cc: devel@driverdev.osuosl.org
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Cc: linaro-mm-sig@lists.linaro.org
-> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > >
-> > > We discussed this at the Android MC on Monday and the plan was to
-> > > remove it after the next LTS release.
-> >
-> > I know it was discussed, my point is that it is actually causing
-> > problems now (with developers who want to change the internal kernel api
-> > hitting issues, and newbies trying to clean up code in ways that isn't
-> > exactly optimal wasting maintainer cycles), and that anyone who uses
-> > this code, is not actually using this version of the code.  Everyone who
-> > relies on ion right now, is using the version that is in the Android
-> > common kernel tree, which has diverged from this in-kernel way quite a
-> > bit now for the reason that we didn't want to take any of those new
-> > features in the in-kernel version.
-> >
-> > So this is a problem that we have caused by just wanting to wait, no one
-> > is using this code, combined with it causing problems for the upstream
-> > developers.
-> >
-> > There is nothing "magic" about the last kernel of the year that requires
-> > this code to sit here until then.  At that point in time, all users
-> > will, again, be using the forked Android kernel version, and if we
-> > delete this now here, that fork can remain just fine, with the added
-> > benifit of it reducing developer workloads here in-kernel.
-> >
-> > So why wait?
-> =
+On 2020-08-27 16:45, Thierry Reding wrote:
+> On Thu, Aug 20, 2020 at 04:08:32PM +0100, Robin Murphy wrote:
+>> Now that arch/arm is wired up for default domains and iommu-dma,
+>> implement the corresponding driver-side support for DMA domains.
+>>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>   drivers/iommu/tegra-smmu.c | 37 +++++++++++++++++++++----------------
+>>   1 file changed, 21 insertions(+), 16 deletions(-)
+> 
+> We can't do that yet because it will currently still break for use-cases
+> such as display where we don't properly set up identity mappings during
+> boot. The result is that the dma-iommu code will enable translations
+> before the driver gets a chance to set up any mappings and if the
+> display controller was left on by the bootloader, scanning out a splash
+> screen, this causes faults between the point where dma-iommu is being
+> set up for the display controller and where the display controller
+> starts mapping its own buffers (rather than the ones mapped by the
+> bootloader).
 
-> Hi,
-> =
+Rest assured that I understand the situation all too well ;) As with 
+tegra-gart, the unspoken point here is that since tegra-smmu implements 
+of_xlate(), then arm_setup_iommu_dma_ops() must already be causing the 
+exact same problem, no? This patch only seeks to move any existing 
+behaviour over to the common backend, regardless of whether it was ever 
+really appropriate in the first place.
 
-> I don't know what is the right thing to do here. I just want to
-> highlight that AOSP's audio (codec2) HAL depends on the ION system
-> heap and it will break AOSP for people who boot mainline on their
-> devices, even for just testing purpose like we do in Linaro. Right now
-> we need only 1 (Android specific out-of-tree) patch to boot AOSP with
-> mainline and Sumit is already trying to upstream that vma naming
-> patch. Removal of in-kernel ION, will just add more to that delta.
+> That said, I do have a series that I've been carrying around for longer
+> than I've wanted that does exactly this for Tegra SMMU and I'd prefer if
+> you could drop this particular change from your series so that I can
+> keep working on resolving the identity mapping issues first.
 
-As AOSP will continue to rely on ION after December of this year, all
-you are doing is postponing the inevitable a few more months.
+That would mean you'd see a functional change from the final patch, 
+wherein nothing would ever be able to get translation unless drivers do 
+their own explicit IOMMU API management. If you definitely want that 
+change then OK, but it would still be nice to do it "properly" with 
+IOMMU_DOMAIN_IDENTITY support, rather than just forcibly failing default 
+domain allocation. I'm having a go at reworking the tegra-gart patch in 
+that direction, so I can certainly try it for tegra-smmu as well.
 
-Push back on the Android team to fix up the code to not use ION, they
-know this needs to happen.
-
-thanks,
-
-greg k-h
+Robin.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
