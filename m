@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F24A255545
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:30:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F754255536
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29176EB7D;
-	Fri, 28 Aug 2020 07:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F355F6E2DC;
+	Fri, 28 Aug 2020 07:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5DF96E405
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 17:16:58 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id e5so5123743qth.5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 10:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=/sinItkw0fMiz5k7wOtwmeJNSHN2dJzPeRRCsjiQAtw=;
- b=ShdT1Amb8cFBk7QoerCq9MBv460dUKx9sasPl2jpNbpvbgSAPVWV1LNx4tNYqtQl9s
- a8HdJGAP5RIyyGO7e0efjwna6tgvCBDt7cWACvicGcPSuDwwtI31DAPAR1z+iz0qFt+v
- 0/SjLFZFPIMFXTXQj50g4wJaPpgsQqv825O8k=
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E2D6E138
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 17:22:28 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id 144so6614803qkl.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 10:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LzdfP6LA5gT4sxc5D/mTAUgxcIMZMneFMWeK08iY3Ys=;
+ b=PPb8oqOjktS1lCmnAdruSvzS2kQ/SMeP0HBKVD4EJiI2lPbNPByF9GJrRBoVYQRNVN
+ VkWayom1EmERgLQxShnDryiScCBV/sUvFLkf8TQLMLPVqDYpRBE7ciW/0MYzY0q3Hz5D
+ piNQtISPZP6CAMxt1TRJ45z+4x9+nyh2A5ykoKuIlqKEuipdg7e/0H050k8HhF97/8oT
+ 6V4t/SShTVdusMAd/XuA5sdpWDbOgu+o6b6TdslYyoHZxsvCKFrdWEk/z/aRIVqN6R9i
+ YUNJ89qwkGlR7IUfxDLHYqUP0pd+F8qX5f5hSvUMJj6gEJDlFeAk+aCTUOCyxT+xBCM9
+ XQxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/sinItkw0fMiz5k7wOtwmeJNSHN2dJzPeRRCsjiQAtw=;
- b=kLOpkAGyzzKzyfdY/KdnhxTfIxaCojHnAM4mMQ52Fck7CmsYDvFghoBZm2dMh5cSbX
- SXvKB11KunAKfBH2pT51jCskzrMYDlvXPyv5LiBAD4w17PGJnoWjNVNbNN+6x9G1W6vd
- yr4YhHePF1cdRUSz+GU2C89/nSY4p5BrnXEy6I216DQWGYDDqc5tIlAveNyF9Wb4WUrF
- uiaTB1OlYI+mm9k6f8puAsw056bFLUGoelHKwEUOmWsD+cvpJbl98uW1L2G7jlqRoXpI
- +WXQJPg9wbv4OqCu13klkzn+/Z6KVrcIrwmO2oMnVnAHEpbuPly1WkXcKTIS7bwO2tZJ
- jp7w==
-X-Gm-Message-State: AOAM533bSFw9dDIgApQFsclTABwxMQCKCnLsHixZW7TRIusb3MsB0gu9
- f35px8FtMHdX+omKSf3G9XSG5g==
-X-Google-Smtp-Source: ABdhPJxuoVfZ2k+iph3eNvKD2GUzguirA7HTRHhpEpY4GfJL7dVTt29kDuTvD8xTRmBEMbzNMNsKkQ==
-X-Received: by 2002:ac8:4e49:: with SMTP id e9mr18870259qtw.91.1598548617909; 
- Thu, 27 Aug 2020 10:16:57 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:cad3:ffff:feb3:bd59])
- by smtp.gmail.com with ESMTPSA id k48sm2441720qtk.44.2020.08.27.10.16.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 10:16:57 -0700 (PDT)
-Date: Thu, 27 Aug 2020 13:16:56 -0400
-From: Joel Fernandes <joel@joelfernandes.org>
-To: Amit Pundir <amit.pundir@linaro.org>
-Subject: Re: [PATCH] staging: ion: remove from the tree
-Message-ID: <20200827171656.GA3090278@google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LzdfP6LA5gT4sxc5D/mTAUgxcIMZMneFMWeK08iY3Ys=;
+ b=t9y/SOiNIRWX+fzf2a5mRGfzEOoAbJWkzDYWt7RBNO18VsShD6d6555rI5LfNRstYJ
+ f5UBCbcLikM1QjxqyELqkhhZVGR5Ljq3oIX2WGjfE/tSqCfSz93zNDd+OvAVpCe3Gp9A
+ ggB/PxlRxsDsbc2Eup7BiScoDTJcP3XfgoNc1K/IJ34zpVkP1OH1K2Ja2lcFvTQZQugx
+ JxQWvlAgt3/xibocYa21dq7gp1crwfEn2tQJc91Ow4CaeSEmiaUTUYpRRltJiUWdDsp1
+ y0IWO3i6fZ6V/2MKFcKQW9eWHGg7QmMf2kW4GQ43p7w9lBS1xuPXGJHEE2D2hCoCG0h/
+ FrFA==
+X-Gm-Message-State: AOAM532GbbZ1PWDEJGRCGvgh/I4LXSwrmNztGpQH2Dc22AlZ+0vEL1jf
+ 2Kko+BLaZRgYXk9X01x8DN/xEmqMVrgzP5qOyG4lmA==
+X-Google-Smtp-Source: ABdhPJwEuYsl6kdz4x5MV1MDd279JzsSlE4TSOAu1/qArH5gHUfvqgzJDC+kYF093anMkIXlN+uDJsUKKYahYaBVsjA=
+X-Received: by 2002:a37:74d:: with SMTP id 74mr19814431qkh.147.1598548947537; 
+ Thu, 27 Aug 2020 10:22:27 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
  <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
  <20200827160506.GC684514@kroah.com>
  <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
+ <20200827171745.GA701089@kroah.com>
+In-Reply-To: <20200827171745.GA701089@kroah.com>
+From: Hridya Valsaraju <hridya@google.com>
+Date: Thu, 27 Aug 2020 10:21:51 -0700
+Message-ID: <CA+wgaPO-WqMcvsEHZ926eKfvcCwfgDwT+Cg4A-JvEpA5xTwDNA@mail.gmail.com>
+Subject: Re: [PATCH] staging: ion: remove from the tree
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-Mailman-Approved-At: Fri, 28 Aug 2020 07:29:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,124 +66,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
- Christoph Hellwig <hch@infradead.org>,
- Android Kernel Team <kernel-team@android.com>, Todd Kjos <tkjos@android.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
+ Shuah Khan <shuah@kernel.org>, Todd Kjos <tkjos@android.com>,
  Martijn Coenen <maco@android.com>, lkml <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Hridya Valsaraju <hridya@google.com>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Suren Baghdasaryan <surenb@google.com>, Laura Abbott <laura@labbott.name>,
- Shuah Khan <shuah@kernel.org>, Christian Brauner <christian@brauner.io>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Suren Baghdasaryan <surenb@google.com>, Christoph Hellwig <hch@infradead.org>,
+ linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <laura@labbott.name>,
+ Android Kernel Team <kernel-team@android.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christian Brauner <christian@brauner.io>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 27, 2020 at 10:31:41PM +0530, Amit Pundir wrote:
-> On Thu, 27 Aug 2020 at 21:34, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Aug 27, 2020 at 09:31:27AM -0400, Laura Abbott wrote:
-> > > On 8/27/20 8:36 AM, Greg Kroah-Hartman wrote:
-> > > > The ION android code has long been marked to be removed, now that we
-> > > > dma-buf support merged into the real part of the kernel.
-> > > >
-> > > > It was thought that we could wait to remove the ion kernel at a lat=
-er
-> > > > time, but as the out-of-tree Android fork of the ion code has diver=
-ged
-> > > > quite a bit, and any Android device using the ion interface uses th=
-at
-> > > > forked version and not this in-tree version, the in-tree copy of the
-> > > > code is abandonded and not used by anyone.
-> > > >
-> > > > Combine this abandoned codebase with the need to make changes to it=
- in
-> > > > order to keep the kernel building properly, which then causes merge
-> > > > issues when merging those changes into the out-of-tree Android code=
-, and
-> > > > you end up with two different groups of people (the in-kernel-tree
-> > > > developers, and the Android kernel developers) who are both annoyed=
- at
-> > > > the current situation.  Because of this problem, just drop the in-k=
-ernel
-> > > > copy of the ion code now, as it's not used, and is only causing pro=
-blems
-> > > > for everyone involved.
-> > > >
-> > > > Cc: "Arve Hj=F8nnev=E5g" <arve@android.com>
-> > > > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > > > Cc: Christian Brauner <christian@brauner.io>
-> > > > Cc: Christoph Hellwig <hch@infradead.org>
-> > > > Cc: Hridya Valsaraju <hridya@google.com>
-> > > > Cc: Joel Fernandes <joel@joelfernandes.org>
-> > > > Cc: John Stultz <john.stultz@linaro.org>
-> > > > Cc: Laura Abbott <laura@labbott.name>
-> > > > Cc: Martijn Coenen <maco@android.com>
-> > > > Cc: Shuah Khan <shuah@kernel.org>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: Suren Baghdasaryan <surenb@google.com>
-> > > > Cc: Todd Kjos <tkjos@android.com>
-> > > > Cc: devel@driverdev.osuosl.org
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Cc: linaro-mm-sig@lists.linaro.org
-> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > >
-> > > We discussed this at the Android MC on Monday and the plan was to
-> > > remove it after the next LTS release.
-> >
-> > I know it was discussed, my point is that it is actually causing
-> > problems now (with developers who want to change the internal kernel api
-> > hitting issues, and newbies trying to clean up code in ways that isn't
-> > exactly optimal wasting maintainer cycles), and that anyone who uses
-> > this code, is not actually using this version of the code.  Everyone who
-> > relies on ion right now, is using the version that is in the Android
-> > common kernel tree, which has diverged from this in-kernel way quite a
-> > bit now for the reason that we didn't want to take any of those new
-> > features in the in-kernel version.
-> >
-> > So this is a problem that we have caused by just wanting to wait, no one
-> > is using this code, combined with it causing problems for the upstream
-> > developers.
-> >
-> > There is nothing "magic" about the last kernel of the year that requires
-> > this code to sit here until then.  At that point in time, all users
-> > will, again, be using the forked Android kernel version, and if we
-> > delete this now here, that fork can remain just fine, with the added
-> > benifit of it reducing developer workloads here in-kernel.
-> >
-> > So why wait?
-> =
-
-> Hi,
-> =
-
-> I don't know what is the right thing to do here. I just want to
-> highlight that AOSP's audio (codec2) HAL depends on the ION system
-> heap and it will break AOSP for people who boot mainline on their
-> devices, even for just testing purpose like we do in Linaro. Right now
-> we need only 1 (Android specific out-of-tree) patch to boot AOSP with
-> mainline and Sumit is already trying to upstream that vma naming
-> patch. Removal of in-kernel ION, will just add more to that delta.
-
-So that means you now have to carry 2 patches instead of 1, right? That's n=
-ot
-that bad :-D.
-
-BTW, why doesn't your mainline testing use dmabuf already?
-
-AFAIK, upstream has inertia catching up to products etc, so sooner its
-removed the better if it is mostly dead (Before it turns into ashmem which
-nobody can remove). My 2c.
-
-thanks,
-
- - Joel
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBBdWcgMjcsIDIwMjAgYXQgMTA6MTcgQU0gR3JlZyBLcm9haC1IYXJ0bWFuCjxncmVn
+a2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4KPiBPbiBUaHUsIEF1ZyAyNywgMjAyMCBh
+dCAxMDozMTo0MVBNICswNTMwLCBBbWl0IFB1bmRpciB3cm90ZToKPiA+IE9uIFRodSwgMjcgQXVn
+IDIwMjAgYXQgMjE6MzQsIEdyZWcgS3JvYWgtSGFydG1hbgo+ID4gPGdyZWdraEBsaW51eGZvdW5k
+YXRpb24ub3JnPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gVGh1LCBBdWcgMjcsIDIwMjAgYXQgMDk6
+MzE6MjdBTSAtMDQwMCwgTGF1cmEgQWJib3R0IHdyb3RlOgo+ID4gPiA+IE9uIDgvMjcvMjAgODoz
+NiBBTSwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOgo+ID4gPiA+ID4gVGhlIElPTiBhbmRyb2lk
+IGNvZGUgaGFzIGxvbmcgYmVlbiBtYXJrZWQgdG8gYmUgcmVtb3ZlZCwgbm93IHRoYXQgd2UKPiA+
+ID4gPiA+IGRtYS1idWYgc3VwcG9ydCBtZXJnZWQgaW50byB0aGUgcmVhbCBwYXJ0IG9mIHRoZSBr
+ZXJuZWwuCj4gPiA+ID4gPgo+ID4gPiA+ID4gSXQgd2FzIHRob3VnaHQgdGhhdCB3ZSBjb3VsZCB3
+YWl0IHRvIHJlbW92ZSB0aGUgaW9uIGtlcm5lbCBhdCBhIGxhdGVyCj4gPiA+ID4gPiB0aW1lLCBi
+dXQgYXMgdGhlIG91dC1vZi10cmVlIEFuZHJvaWQgZm9yayBvZiB0aGUgaW9uIGNvZGUgaGFzIGRp
+dmVyZ2VkCj4gPiA+ID4gPiBxdWl0ZSBhIGJpdCwgYW5kIGFueSBBbmRyb2lkIGRldmljZSB1c2lu
+ZyB0aGUgaW9uIGludGVyZmFjZSB1c2VzIHRoYXQKPiA+ID4gPiA+IGZvcmtlZCB2ZXJzaW9uIGFu
+ZCBub3QgdGhpcyBpbi10cmVlIHZlcnNpb24sIHRoZSBpbi10cmVlIGNvcHkgb2YgdGhlCj4gPiA+
+ID4gPiBjb2RlIGlzIGFiYW5kb25kZWQgYW5kIG5vdCB1c2VkIGJ5IGFueW9uZS4KPiA+ID4gPiA+
+Cj4gPiA+ID4gPiBDb21iaW5lIHRoaXMgYWJhbmRvbmVkIGNvZGViYXNlIHdpdGggdGhlIG5lZWQg
+dG8gbWFrZSBjaGFuZ2VzIHRvIGl0IGluCj4gPiA+ID4gPiBvcmRlciB0byBrZWVwIHRoZSBrZXJu
+ZWwgYnVpbGRpbmcgcHJvcGVybHksIHdoaWNoIHRoZW4gY2F1c2VzIG1lcmdlCj4gPiA+ID4gPiBp
+c3N1ZXMgd2hlbiBtZXJnaW5nIHRob3NlIGNoYW5nZXMgaW50byB0aGUgb3V0LW9mLXRyZWUgQW5k
+cm9pZCBjb2RlLCBhbmQKPiA+ID4gPiA+IHlvdSBlbmQgdXAgd2l0aCB0d28gZGlmZmVyZW50IGdy
+b3VwcyBvZiBwZW9wbGUgKHRoZSBpbi1rZXJuZWwtdHJlZQo+ID4gPiA+ID4gZGV2ZWxvcGVycywg
+YW5kIHRoZSBBbmRyb2lkIGtlcm5lbCBkZXZlbG9wZXJzKSB3aG8gYXJlIGJvdGggYW5ub3llZCBh
+dAo+ID4gPiA+ID4gdGhlIGN1cnJlbnQgc2l0dWF0aW9uLiAgQmVjYXVzZSBvZiB0aGlzIHByb2Js
+ZW0sIGp1c3QgZHJvcCB0aGUgaW4ta2VybmVsCj4gPiA+ID4gPiBjb3B5IG9mIHRoZSBpb24gY29k
+ZSBub3csIGFzIGl0J3Mgbm90IHVzZWQsIGFuZCBpcyBvbmx5IGNhdXNpbmcgcHJvYmxlbXMKPiA+
+ID4gPiA+IGZvciBldmVyeW9uZSBpbnZvbHZlZC4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBDYzogIkFy
+dmUgSGrDuG5uZXbDpWciIDxhcnZlQGFuZHJvaWQuY29tPgo+ID4gPiA+ID4gQ2M6ICJDaHJpc3Rp
+YW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ID4gPiA+ID4gQ2M6IENocmlz
+dGlhbiBCcmF1bmVyIDxjaHJpc3RpYW5AYnJhdW5lci5pbz4KPiA+ID4gPiA+IENjOiBDaHJpc3Rv
+cGggSGVsbHdpZyA8aGNoQGluZnJhZGVhZC5vcmc+Cj4gPiA+ID4gPiBDYzogSHJpZHlhIFZhbHNh
+cmFqdSA8aHJpZHlhQGdvb2dsZS5jb20+Cj4gPiA+ID4gPiBDYzogSm9lbCBGZXJuYW5kZXMgPGpv
+ZWxAam9lbGZlcm5hbmRlcy5vcmc+Cj4gPiA+ID4gPiBDYzogSm9obiBTdHVsdHogPGpvaG4uc3R1
+bHR6QGxpbmFyby5vcmc+Cj4gPiA+ID4gPiBDYzogTGF1cmEgQWJib3R0IDxsYXVyYUBsYWJib3R0
+Lm5hbWU+Cj4gPiA+ID4gPiBDYzogTWFydGlqbiBDb2VuZW4gPG1hY29AYW5kcm9pZC5jb20+Cj4g
+PiA+ID4gPiBDYzogU2h1YWggS2hhbiA8c2h1YWhAa2VybmVsLm9yZz4KPiA+ID4gPiA+IENjOiBT
+dW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgo+ID4gPiA+ID4gQ2M6IFN1cmVu
+IEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+Cj4gPiA+ID4gPiBDYzogVG9kZCBLam9z
+IDx0a2pvc0BhbmRyb2lkLmNvbT4KPiA+ID4gPiA+IENjOiBkZXZlbEBkcml2ZXJkZXYub3N1b3Ns
+Lm9yZwo+ID4gPiA+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4g
+PiA+IENjOiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKPiA+ID4gPiA+IFNpZ25lZC1v
+ZmYtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4g
+PiA+ID4KPiA+ID4gPiBXZSBkaXNjdXNzZWQgdGhpcyBhdCB0aGUgQW5kcm9pZCBNQyBvbiBNb25k
+YXkgYW5kIHRoZSBwbGFuIHdhcyB0bwo+ID4gPiA+IHJlbW92ZSBpdCBhZnRlciB0aGUgbmV4dCBM
+VFMgcmVsZWFzZS4KPiA+ID4KPiA+ID4gSSBrbm93IGl0IHdhcyBkaXNjdXNzZWQsIG15IHBvaW50
+IGlzIHRoYXQgaXQgaXMgYWN0dWFsbHkgY2F1c2luZwo+ID4gPiBwcm9ibGVtcyBub3cgKHdpdGgg
+ZGV2ZWxvcGVycyB3aG8gd2FudCB0byBjaGFuZ2UgdGhlIGludGVybmFsIGtlcm5lbCBhcGkKPiA+
+ID4gaGl0dGluZyBpc3N1ZXMsIGFuZCBuZXdiaWVzIHRyeWluZyB0byBjbGVhbiB1cCBjb2RlIGlu
+IHdheXMgdGhhdCBpc24ndAo+ID4gPiBleGFjdGx5IG9wdGltYWwgd2FzdGluZyBtYWludGFpbmVy
+IGN5Y2xlcyksIGFuZCB0aGF0IGFueW9uZSB3aG8gdXNlcwo+ID4gPiB0aGlzIGNvZGUsIGlzIG5v
+dCBhY3R1YWxseSB1c2luZyB0aGlzIHZlcnNpb24gb2YgdGhlIGNvZGUuICBFdmVyeW9uZSB3aG8K
+PiA+ID4gcmVsaWVzIG9uIGlvbiByaWdodCBub3csIGlzIHVzaW5nIHRoZSB2ZXJzaW9uIHRoYXQg
+aXMgaW4gdGhlIEFuZHJvaWQKPiA+ID4gY29tbW9uIGtlcm5lbCB0cmVlLCB3aGljaCBoYXMgZGl2
+ZXJnZWQgZnJvbSB0aGlzIGluLWtlcm5lbCB3YXkgcXVpdGUgYQo+ID4gPiBiaXQgbm93IGZvciB0
+aGUgcmVhc29uIHRoYXQgd2UgZGlkbid0IHdhbnQgdG8gdGFrZSBhbnkgb2YgdGhvc2UgbmV3Cj4g
+PiA+IGZlYXR1cmVzIGluIHRoZSBpbi1rZXJuZWwgdmVyc2lvbi4KPiA+ID4KPiA+ID4gU28gdGhp
+cyBpcyBhIHByb2JsZW0gdGhhdCB3ZSBoYXZlIGNhdXNlZCBieSBqdXN0IHdhbnRpbmcgdG8gd2Fp
+dCwgbm8gb25lCj4gPiA+IGlzIHVzaW5nIHRoaXMgY29kZSwgY29tYmluZWQgd2l0aCBpdCBjYXVz
+aW5nIHByb2JsZW1zIGZvciB0aGUgdXBzdHJlYW0KPiA+ID4gZGV2ZWxvcGVycy4KPiA+ID4KPiA+
+ID4gVGhlcmUgaXMgbm90aGluZyAibWFnaWMiIGFib3V0IHRoZSBsYXN0IGtlcm5lbCBvZiB0aGUg
+eWVhciB0aGF0IHJlcXVpcmVzCj4gPiA+IHRoaXMgY29kZSB0byBzaXQgaGVyZSB1bnRpbCB0aGVu
+LiAgQXQgdGhhdCBwb2ludCBpbiB0aW1lLCBhbGwgdXNlcnMKPiA+ID4gd2lsbCwgYWdhaW4sIGJl
+IHVzaW5nIHRoZSBmb3JrZWQgQW5kcm9pZCBrZXJuZWwgdmVyc2lvbiwgYW5kIGlmIHdlCj4gPiA+
+IGRlbGV0ZSB0aGlzIG5vdyBoZXJlLCB0aGF0IGZvcmsgY2FuIHJlbWFpbiBqdXN0IGZpbmUsIHdp
+dGggdGhlIGFkZGVkCj4gPiA+IGJlbmlmaXQgb2YgaXQgcmVkdWNpbmcgZGV2ZWxvcGVyIHdvcmts
+b2FkcyBoZXJlIGluLWtlcm5lbC4KPiA+ID4KPiA+ID4gU28gd2h5IHdhaXQ/Cj4gPgo+ID4gSGks
+Cj4gPgo+ID4gSSBkb24ndCBrbm93IHdoYXQgaXMgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvIGhlcmUu
+IEkganVzdCB3YW50IHRvCj4gPiBoaWdobGlnaHQgdGhhdCBBT1NQJ3MgYXVkaW8gKGNvZGVjMikg
+SEFMIGRlcGVuZHMgb24gdGhlIElPTiBzeXN0ZW0KPiA+IGhlYXAgYW5kIGl0IHdpbGwgYnJlYWsg
+QU9TUCBmb3IgcGVvcGxlIHdobyBib290IG1haW5saW5lIG9uIHRoZWlyCj4gPiBkZXZpY2VzLCBl
+dmVuIGZvciBqdXN0IHRlc3RpbmcgcHVycG9zZSBsaWtlIHdlIGRvIGluIExpbmFyby4gUmlnaHQg
+bm93Cj4gPiB3ZSBuZWVkIG9ubHkgMSAoQW5kcm9pZCBzcGVjaWZpYyBvdXQtb2YtdHJlZSkgcGF0
+Y2ggdG8gYm9vdCBBT1NQIHdpdGgKPiA+IG1haW5saW5lIGFuZCBTdW1pdCBpcyBhbHJlYWR5IHRy
+eWluZyB0byB1cHN0cmVhbSB0aGF0IHZtYSBuYW1pbmcKPiA+IHBhdGNoLiBSZW1vdmFsIG9mIGlu
+LWtlcm5lbCBJT04sIHdpbGwganVzdCBhZGQgbW9yZSB0byB0aGF0IGRlbHRhLgo+Cj4gQXMgQU9T
+UCB3aWxsIGNvbnRpbnVlIHRvIHJlbHkgb24gSU9OIGFmdGVyIERlY2VtYmVyIG9mIHRoaXMgeWVh
+ciwgYWxsCj4geW91IGFyZSBkb2luZyBpcyBwb3N0cG9uaW5nIHRoZSBpbmV2aXRhYmxlIGEgZmV3
+IG1vcmUgbW9udGhzLgo+Cj4gUHVzaCBiYWNrIG9uIHRoZSBBbmRyb2lkIHRlYW0gdG8gZml4IHVw
+IHRoZSBjb2RlIHRvIG5vdCB1c2UgSU9OLCB0aGV5Cj4ga25vdyB0aGlzIG5lZWRzIHRvIGhhcHBl
+bi4KPgoKSGkgYWxsLAoKV2UgYXJlIGN1cnJlbnRseSB3b3JraW5nIHdpdGggdGhlIGNvZGVjMiB0
+ZWFtIHRvIHRyYW5zaXRpb24gY29kZWMyIHRvCnVzZSBsaWJkbWFidWZoZWFwIGluc3RlYWQgb2Yg
+bGliaW9uLiBJdCB3aWxsIGRlZmluaXRlbHkgaGFwcGVuIGR1cmluZwp0aGUgQW5kcm9pZCBTIHRp
+bWVmcmFtZS4KClRoYW5rcywKSHJpZHlhCgo+IHRoYW5rcywKPgo+IGdyZWcgay1oCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
