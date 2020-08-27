@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A04C253E6E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0E0253E6F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 08:58:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E7076EB5B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE456EB55;
 	Thu, 27 Aug 2020 06:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0846EB1E;
- Thu, 27 Aug 2020 01:37:59 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id z22so3313620oid.1;
- Wed, 26 Aug 2020 18:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Rsb5LLd+wEYl5+11BE05ItDTZCXQhjeMW019xM5KW9w=;
- b=I80xaBRJ50n8a6fI5zGd+zDFXBJzdkM/CYwdFxWUUjYU3c+2p64n4BZ92Q57vwyNvT
- WA9AXEE5mkmSWs9RicapGSPmYl7SBg2jYYPKSa/nI/+15pdR7K1Y4Cu0DHfnjPwN8yXR
- icr8tNGeIcQL3s2nHPbJyB6yfauHJDS+gWazTyaRFZfsu6K/xYzwtyDy670Ye8cnRtyg
- TR/hJM9qLFyVWX5fPwsxGxi/JNo/PLB2M5jflTu50Xv+DnpTnsNDIefohCCH/iR6ipaV
- nyjrEne62FM9W1doljqrO4mZtREkO1PUraYtOXDLLpGubpcLL1+FWyQrEJDylKkUrU3D
- wKgA==
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4F66E227
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 05:05:02 +0000 (UTC)
+Received: from mail-pg1-f199.google.com ([209.85.215.199])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1kBA5s-0007kv-Ol
+ for dri-devel@lists.freedesktop.org; Thu, 27 Aug 2020 05:05:01 +0000
+Received: by mail-pg1-f199.google.com with SMTP id h3so3158302pgc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Aug 2020 22:05:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Rsb5LLd+wEYl5+11BE05ItDTZCXQhjeMW019xM5KW9w=;
- b=KlvsA7Shlx1OyAv0jhD8jEmcnXf2VNgMsTFddEcoW+9h/yHpxGUqFczuXH4wIU0evy
- MdqtACQe+IMz/0uzWMLXnQPbjkjCkjMJYCTxeXQZpvmcYe0+YqZDT86/MnPWFjQKQg0r
- px/iwNglayttpiqAs7bej19sKBy/NIV7UqkspakZP5bQN4I0Z4P+QcmpqBvuxJp6IzjY
- M7GOlHlfNXKNgpT6R5hpSKYrP6pifngK6beVypiJEFhkbftoP8Ca0TLRYynrOfM34Wnk
- +NXDEK2Id1Mn2kAKsMZgwzPxiYYtCzu+gbSc9N8YlSCfOhqe4W+lx4mAgNL9Uf+e6/Kq
- vWsw==
-X-Gm-Message-State: AOAM533ZH3+/hfjQ1kl8Gz+UK5rYCAmDdp1RfQgIL/dK+cGAf9gbcLw4
- DT8WHwVKPeURAxexTSeO0DxpGtCt7ctdBQTJwUU=
-X-Google-Smtp-Source: ABdhPJwhCHTUyQeL6NO7VZ9TErlPHSPJaUSJlRG8on4DJcl3XVowSsSaDNvfXk39W2OiRUOfnXZzLQickeYXItlZbbE=
-X-Received: by 2002:aca:ec95:: with SMTP id k143mr5299041oih.76.1598492278869; 
- Wed, 26 Aug 2020 18:37:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
- <202008171246.80287CDCA@keescook>
- <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
- <1597780833.3978.3.camel@HansenPartnership.com>
- <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
- <1597849185.3875.7.camel@HansenPartnership.com>
- <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
- <1597873172.4030.2.camel@HansenPartnership.com>
- <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
- <20200826095528.GX1793@kadam> <202008260811.1CE425B5C2@keescook>
-In-Reply-To: <202008260811.1CE425B5C2@keescook>
-From: Allen <allen.lkml@gmail.com>
-Date: Thu, 27 Aug 2020 07:07:47 +0530
-Message-ID: <CAOMdWSLyacdeoqnZBuLu6z1B6cY-WbtUJQm6+8=WHyE49tVaEg@mail.gmail.com>
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-To: Kees Cook <keescook@chromium.org>
-X-Mailman-Approved-At: Thu, 27 Aug 2020 06:57:37 +0000
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=YdElzvEEzIZMoY70IuBjuGvXpacb2hD+V+ygH2R0Kww=;
+ b=Yn7G1ye4WX5oEnMpQa0y6koci481gl6ajVA2vA7nwO1AoJQE6bBB09WAhu+qSins0x
+ ETZVE3W83rS8D825eN73yU2xro0t34VadFTZITqHzv9NFQEao2ich7jaA/M989itxx2F
+ IakGX5qnuAvddrEKEap6GY/64T3E5FSDSTlI9R0ihiYarcwQ4w7NJ0/4G0sZEpaep7G/
+ wROFMAMt3+k37HMNFs+srUBmd4CD8dsbtlNMsHDuV5Y8ZlcZcoxozAj3A/+Do9h129rS
+ ed3SNhTrpw1P0moRwQ2x/TkgROWwP8LtJHO/TuXSc9k/w54TW7wdVdFBXPEVdctgMn6R
+ qQtw==
+X-Gm-Message-State: AOAM531iWZ0BXUaliDakk453Js3PW4pnR4j6ynmP86QDQeWjNyW00mOr
+ Jcj9hDtI/OP9JBptmcHzFWM3hpx+7iQXIvio1oKpwA/W9/6TWq4sF9Vp/a8nccl4lob5fMcT958
+ n3NVEMqe9LXqFt56XCJ24cPLLdhJ8JziNwFEDoF5i+JFIKQ==
+X-Received: by 2002:a17:902:6901:: with SMTP id
+ j1mr13760849plk.324.1598504699131; 
+ Wed, 26 Aug 2020 22:04:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+UGqUliAa1+G+gZIQl310W3J/Ylr5FD4q1saGLt0R+NEWvYJ1bqF+bGNBf4XTpqrtBbJ9xg==
+X-Received: by 2002:a17:902:6901:: with SMTP id
+ j1mr13760821plk.324.1598504698624; 
+ Wed, 26 Aug 2020 22:04:58 -0700 (PDT)
+Received: from [10.101.46.234] (61-220-137-37.HINET-IP.hinet.net.
+ [61.220.137.37])
+ by smtp.gmail.com with ESMTPSA id e18sm706862pgr.53.2020.08.26.22.04.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Aug 2020 22:04:57 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH] drm/i915/lspcon: Limits to 8 bpc for RGB/YCbCr444
+From: Kai Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <20200826162458.GP6112@intel.com>
+Date: Thu, 27 Aug 2020 13:04:54 +0800
+Message-Id: <6D40F1E0-AFF6-4D38-BB9B-C52B43F83266@canonical.com>
+References: <20200826052143.17607-1-kai.heng.feng@canonical.com>
+ <20200826162458.GP6112@intel.com>
+To: =?utf-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Mailman-Approved-At: Thu, 27 Aug 2020 06:57:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,113 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- linux-atm-general@lists.sourceforge.net, s.hauer@pengutronix.de,
- manohar.vanga@gmail.com, airlied@linux.ie, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- linux1394-devel@lists.sourceforge.net, anton.ivanov@cambridgegreys.com,
- devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
- maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
- jassisinghbrar@gmail.com, 3chas3@gmail.com, linux-input@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
- jdike@addtoit.com, Dan Carpenter <dan.carpenter@oracle.com>, oakad@yahoo.com,
- intel-gfx@lists.freedesktop.org, linux-um@lists.infradead.org,
- linux-block@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- linux-parisc@vger.kernel.org, netdev@vger.kernel.org, martyn@welchs.me.uk,
- dmitry.torokhov@gmail.com, linux-mmc@vger.kernel.org, sre@kernel.org,
- linux-spi@vger.kernel.org, alex.bou9@gmail.com,
- Allen Pais <allen.cryptic@gmail.com>, stefanr@s5r6.in-berlin.de,
- linux-ntb@googlegroups.com, Romain Perier <romain.perier@gmail.com>,
- shawnguo@kernel.org, David Miller <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 26, 2020 at 8:43 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Wed, Aug 26, 2020 at 12:55:28PM +0300, Dan Carpenter wrote:
-> > On Wed, Aug 26, 2020 at 07:21:35AM +0530, Allen Pais wrote:
-> > > On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
-> > > <James.Bottomley@hansenpartnership.com> wrote:
-> > > >
-> > > > On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
-> > > > > > [...]
-> > > > > > > > Since both threads seem to have petered out, let me suggest in
-> > > > > > > > kernel.h:
-> > > > > > > >
-> > > > > > > > #define cast_out(ptr, container, member) \
-> > > > > > > >     container_of(ptr, typeof(*container), member)
-> > > > > > > >
-> > > > > > > > It does what you want, the argument order is the same as
-> > > > > > > > container_of with the only difference being you name the
-> > > > > > > > containing structure instead of having to specify its type.
-> > > > > > >
-> > > > > > > Not to incessantly bike shed on the naming, but I don't like
-> > > > > > > cast_out, it's not very descriptive. And it has connotations of
-> > > > > > > getting rid of something, which isn't really true.
-> > > > > >
-> > > > > > Um, I thought it was exactly descriptive: you're casting to the
-> > > > > > outer container.  I thought about following the C++ dynamic casting
-> > > > > > style, so out_cast(), but that seemed a bit pejorative.  What about
-> > > > > > outer_cast()?
-> > > > > >
-> > > > > > > FWIW, I like the from_ part of the original naming, as it has
-> > > > > > > some clues as to what is being done here. Why not just
-> > > > > > > from_container()? That should immediately tell people what it
-> > > > > > > does without having to look up the implementation, even before
-> > > > > > > this becomes a part of the accepted coding norm.
-> > > > > >
-> > > > > > I'm not opposed to container_from() but it seems a little less
-> > > > > > descriptive than outer_cast() but I don't really care.  I always
-> > > > > > have to look up container_of() when I'm using it so this would just
-> > > > > > be another macro of that type ...
-> > > > > >
-> > > > >
-> > > > >  So far we have a few which have been suggested as replacement
-> > > > > for from_tasklet()
-> > > > >
-> > > > > - out_cast() or outer_cast()
-> > > > > - from_member().
-> > > > > - container_from() or from_container()
-> > > > >
-> > > > > from_container() sounds fine, would trimming it a bit work? like
-> > > > > from_cont().
-> > > >
-> > > > I'm fine with container_from().  It's the same form as container_of()
-> > > > and I think we need urgent agreement to not stall everything else so
-> > > > the most innocuous name is likely to get the widest acceptance.
-> > >
-> > > Kees,
-> > >
-> > >   Will you be  sending the newly proposed API to Linus? I have V2
-> > > which uses container_from()
-> > > ready to be sent out.
-> >
-> > I liked that James swapped the first two arguments so that it matches
-> > container_of().  Plus it's nice that when you have:
-> >
-> >       struct whatever *foo = container_from(ptr, foo, member);
-> >
-> > Then it means that "ptr == &foo->member".
->
-> I'm a bit stalled right now -- the merge window was keeping me busy, and
-> this week is the Linux Plumbers Conference. This is on my list, but I
-> haven't gotten back around to it. If you want, feel free to send the
-> container_from() patch; you might be able to unblock this faster than me
-> right now. :)
->
-
-Sure, Thanks.
-
-
-
--- 
-       - Allen
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgVmlsbGUsCgo+IE9uIEF1ZyAyNywgMjAyMCwgYXQgMTI6MjQgQU0sIFZpbGxlIFN5cmrDpGzD
+pCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+IAo+IE9uIFdlZCwgQXVn
+IDI2LCAyMDIwIGF0IDAxOjIxOjE1UE0gKzA4MDAsIEthaS1IZW5nIEZlbmcgd3JvdGU6Cj4+IExT
+UENPTiBvbmx5IHN1cHBvcnRzIDggYnBjIGZvciBSR0IvWUNiQ3I0NDQuCj4+IAo+PiBTZXQgdGhl
+IGNvcnJlY3QgYnBwIG90aGVyd2lzZSBpdCByZW5kZXJzIGJsYW5rIHNjcmVlbi4KPiAKPiBIbW0u
+IERvZXMgCj4gZ2l0Oi8vZ2l0aHViLmNvbS92c3lyamFsYS9saW51eC5naXQgZHBfZG93bnN0cmVh
+bV9wb3J0c181Cj4gd29yaz8KPiAKPiBBY3R1YWxseSBiZXR0ZXIgbWFrZSB0aGF0IGRwX2Rvd25z
+dHJlYW1fcG9ydHNfNV5eXl5eXl5eXl5eIGFrYS4KPiA1NGQ4NDZjZTYyYTIgKCJkcm0vaTkxNTog
+RG8gWUNiQ3IgNDQ0LT40MjAgY29udmVyc2lvbiB2aWEgRFAgcHJvdG9jb2wKPiBjb252ZXJ0ZXJz
+IikgdG8gYXZvaWQgdGhlIGV4cGVyaW1lbnRzIGFuZCBoYWNrcyBJIGhhdmUgc2l0dGluZyBvbiB0
+b3AuCgpDYW4geW91IHBsZWFzZSByZWJhc2UgaXQgdG8gbWFpbmxpbmUgbWFzdGVyIG9yIGRybS10
+aXA/CgpJIGFtIGdldHRpbmcgZXJyb3JzIG9uIHRoZSBicmFuY2g6CgogIERFU0NFTkQgIG9ianRv
+b2wKICBDQUxMICAgIHNjcmlwdHMvYXRvbWljL2NoZWNrLWF0b21pY3Muc2gKICBDQUxMICAgIHNj
+cmlwdHMvY2hlY2tzeXNjYWxscy5zaAogIENISyAgICAgaW5jbHVkZS9nZW5lcmF0ZWQvY29tcGls
+ZS5oCiAgQnVpbGRpbmcgbW9kdWxlcywgc3RhZ2UgMi4KICBNT0RQT1NUIDE2NiBtb2R1bGVzCiAg
+TEQgICAgICBhcmNoL3g4Ni9ib290L2NvbXByZXNzZWQvdm1saW51eApsZDogYXJjaC94ODYvYm9v
+dC9jb21wcmVzc2VkL3BndGFibGVfNjQubzooLmJzcysweDApOiBtdWx0aXBsZSBkZWZpbml0aW9u
+IG9mIGBfX2ZvcmNlX29yZGVyJzsgYXJjaC94ODYvYm9vdC9jb21wcmVzc2VkL2thc2xyXzY0Lm86
+KC5ic3MrMHgwKTogZmlyc3QgZGVmaW5lZCBoZXJlCmxkOiBhcmNoL3g4Ni9ib290L2NvbXByZXNz
+ZWQvaGVhZF82NC5vOiB3YXJuaW5nOiByZWxvY2F0aW9uIGluIHJlYWQtb25seSBzZWN0aW9uIGAu
+aGVhZC50ZXh0JwpsZDogd2FybmluZzogY3JlYXRpbmcgRFRfVEVYVFJFTCBpbiBhIFBJRQptYWtl
+WzJdOiAqKiogW2FyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC9NYWtlZmlsZToxMTk6IGFyY2gveDg2
+L2Jvb3QvY29tcHJlc3NlZC92bWxpbnV4XSBFcnJvciAxCm1ha2VbMV06ICoqKiBbYXJjaC94ODYv
+Ym9vdC9NYWtlZmlsZToxMTM6IGFyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC92bWxpbnV4XSBFcnJv
+ciAyCm1ha2U6ICoqKiBbYXJjaC94ODYvTWFrZWZpbGU6Mjg0OiBiekltYWdlXSBFcnJvciAyCm1h
+a2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCgpLYWktSGVuZwoKPiAKPj4g
+Cj4+IENsb3NlczogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pbnRlbC8tL2lz
+c3Vlcy8yMTk1Cj4+IFNpZ25lZC1vZmYtYnk6IEthaS1IZW5nIEZlbmcgPGthaS5oZW5nLmZlbmdA
+Y2Fub25pY2FsLmNvbT4KPj4gLS0tCj4+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfbHNwY29uLmMgfCAzICsrLQo+PiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAx
+IGRlbGV0aW9uKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9sc3Bjb24uYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+bHNwY29uLmMKPj4gaW5kZXggYjc4MWJmNDY5NjQ0Li5jN2E0NGZjYWFkZTggMTAwNjQ0Cj4+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfbHNwY29uLmMKPj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9sc3Bjb24uYwo+PiBAQCAtMTk2LDcg
+KzE5Niw4IEBAIHZvaWQgbHNwY29uX3ljYmNyNDIwX2NvbmZpZyhzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+ciAqY29ubmVjdG9yLAo+PiAJCWNydGNfc3RhdGUtPnBvcnRfY2xvY2sgLz0gMjsKPj4gCQljcnRj
+X3N0YXRlLT5vdXRwdXRfZm9ybWF0ID0gSU5URUxfT1VUUFVUX0ZPUk1BVF9ZQ0JDUjQ0NDsKPj4g
+CQljcnRjX3N0YXRlLT5sc3Bjb25fZG93bnNhbXBsaW5nID0gdHJ1ZTsKPj4gLQl9Cj4+ICsJfSBl
+bHNlCj4+ICsJCWNydGNfc3RhdGUtPnBpcGVfYnBwID0gMjQ7Cj4+IH0KPj4gCj4+IHN0YXRpYyBi
+b29sIGxzcGNvbl9wcm9iZShzdHJ1Y3QgaW50ZWxfbHNwY29uICpsc3Bjb24pCj4+IC0tIAo+PiAy
+LjE3LjEKPiAKPiAtLSAKPiBWaWxsZSBTeXJqw6Rsw6QKPiBJbnRlbAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
