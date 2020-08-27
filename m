@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76911255533
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B948255552
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:30:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D02526EB4D;
-	Fri, 28 Aug 2020 07:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 768326E2E1;
+	Fri, 28 Aug 2020 07:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 718A86E15B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 06:08:24 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id g6so57448pjl.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 23:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xHZeI2yfFEkpCkFHmLsd7DtKmS2VipSIn1WAzrLDQFE=;
- b=O/ulWoothsxdPQ97xUPAUF8mGcsHgg0SyY1cIBhktJYelPiAMSEkxkz/j33wP2C+Lq
- vbXrtKofh2FKpOGyRQmm9D9Cts2zfKI9qst0d9eDfHoZ3ARRHSvM47r89aGu9oRT4QRx
- 64B9170HVrKF8kOJiV8NrDLdPSDI+gRjG8N/bKQf1V4TBIvWLY4xg0MnamDt8rVICGLN
- +rVhKfjcmjNJLx5WZl1n4E3tCbSCFY8qbEsEdPo5WpqxCs65T6GdDqBj3pNNyznWONvZ
- OQxut+bgVRDcKCXc3uvfKhbN4aNZbQMFIJwee77qFz0Pv6LUakfOtGZrFOlIPhb0T4XB
- zK5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xHZeI2yfFEkpCkFHmLsd7DtKmS2VipSIn1WAzrLDQFE=;
- b=jH9oGDi0KRFRz0YujqEf/tmD0juSECqqD0WrT/4GpfyXbQ2DJ3N1jMFx96/BnNO4ll
- MPM08FMIc3vMQMfW7qxMpGqDBU/V4oA6DGjhvuD1yzZimkg+JnzaSd4ZpP5iJXs6gFrK
- lBNdZ/CJ71NAO4KMTW69a0ZQ36uDIaPjez9FHRmwfCb6cXAVP3ItuTWUhi+yeShgB6HZ
- w3SV59OnuvmN8OqrLcRbnH71uTJ/yfdV32IHQC83LFgNn/0wO8x5S21X9viWtPMIEtRx
- O4hg/JpXQqYVgbNC0nNClMuooFZDnMt6hgegnEOqWtSb0c88CcvsodilmPcVsArhXkhb
- Nc2g==
-X-Gm-Message-State: AOAM531Jt+Wsx52/dgY6OKHH6wbZDJO37xqZEv7BiYWfYG6IEO3rJrPY
- Cfaugi2Ug3iGE3GbHB/M8ynUK7GVLY2YTg==
-X-Google-Smtp-Source: ABdhPJzUn/yAsux1BzGUFFYk5nk+3HRDii55+GgvRQzXYUbbXQKWlcl/DTr9MzJvuF556xdk7KaYkg==
-X-Received: by 2002:a17:90a:1e65:: with SMTP id
- w92mr262778pjw.187.1598594903805; 
- Thu, 27 Aug 2020 23:08:23 -0700 (PDT)
-Received: from localhost ([122.167.135.199])
- by smtp.gmail.com with ESMTPSA id e65sm96904pjk.45.2020.08.27.23.08.22
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Aug 2020 23:08:23 -0700 (PDT)
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: rnayak@codeaurora.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Subject: [PATCH V2 3/8] drm/msm: Unconditionally call
- dev_pm_opp_of_remove_table()
-Date: Fri, 28 Aug 2020 11:37:48 +0530
-Message-Id: <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <cover.1598594714.git.viresh.kumar@linaro.org>
-References: <cover.1598594714.git.viresh.kumar@linaro.org>
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE45A6E0D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 16:04:11 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 2D7923ED;
+ Thu, 27 Aug 2020 12:04:11 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 27 Aug 2020 12:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=NHHayL7FzJFGabahc+D7A957Txj
+ kN/nGjt3D9NEa0/g=; b=SBY4XDAqDjPYKgXBljIEFIOcSPzlxcFP+d4pPqeBCXB
+ +8cmZjzt+vpyy3ITS3OB4IN4eet/QFBecsCl6bt/plSaMQ9mPVCZ71eI5TCQ0/gD
+ 3HTT6ViZy6g1dObpovY2Q13v24WTAxVKIfhh8ZfZuw0x+BUnJ60P3ZPSb6vKinLE
+ Y5qTBpuJrlx7xKNA5CcZaxS6AeYBAmDxS7CIC5D1zHbCEQNjB6g8hxyo5JhmxSit
+ N/+CHDhUXKzwKmvJpwD0DZWIy0RIQDy2PbWpM05WBXkaeqMl2JduWaDD/3bpL2zs
+ rpEWlXdYq6+fTKcjK8RMTVVFs6/gcZPR3P+qL/RtfVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=NHHayL
+ 7FzJFGabahc+D7A957TxjkN/nGjt3D9NEa0/g=; b=G414WUo1gr5FX28LLSQuLu
+ 1Uc4SPnmsT4C1Y2M3nQCv3rAssJIPOMTp7wmVmy8EItXjB09ogTP7aR16SLKSVGq
+ caMCkVWrm3y5xkkibgDbP89fniMNBi6wsLHsMCzj3v7IjTjUnidgMAtWWoXWJDSA
+ zCU1AqL0/nQxHz0D30CLsrGsgJJ8xEWf/lQ5WVTG+5zezQWvYNSBS+kOvqR/EWfh
+ EbopwbyaPpkIK24sXE/JKxXK1N+sAn8KqXzc9yWRo+VCbt4bRG78U1YXxq3x8dVB
+ yck190gVYe02Xk8l+l1mnjhNyfeSdsaQ24vL+PGDx30GxDBXzxsGVL8SVVoXcovw
+ ==
+X-ME-Sender: <xms:edlHXx-CK8_8qoXGw5mCs8neYAHZYwccBPqJNzeAvoXDhCpDl1hIuw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgedgledvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
+ ertddtvdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvgestggv
+ rhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeelkeeghefhuddtleejgfeljeffhe
+ ffgfeijefhgfeufefhtdevteegheeiheegudenucfkphepledtrdekledrieekrdejieen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+ hmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:edlHX1td-GpIjayJjKtDD1LT72vvEQEqkHSrjt3gjdnQ06Dje3_hhA>
+ <xmx:edlHX_DZ46ConwDEL4G3YA0Q_0EJPV5MbnybY_LvebyFHJMDZ_wWSA>
+ <xmx:edlHX1fX9IQbDOS129nBhOLJljERf_314ruaNyTrDe6rTpixKlch2g>
+ <xmx:etlHXwVFuPnkLbsl1HtpE9Nvus6HWmSJ6Y9pST0sXo_v8KuOSy-FrQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 57F323280059;
+ Thu, 27 Aug 2020 12:04:09 -0400 (EDT)
+Date: Thu, 27 Aug 2020 18:04:07 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH] drm/sun4i: lvds: Invert the LVDS polarity
+Message-ID: <20200827160407.6nebzt6cpkvhidw5@gilmour.lan>
+References: <20200704133803.37330-1-maxime@cerno.tech>
+ <CAGb2v65aFX4jEdrJY==GGQxvB0qzKmNNEi0a1m_3H7uYF5F1uA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAGb2v65aFX4jEdrJY==GGQxvB0qzKmNNEi0a1m_3H7uYF5F1uA@mail.gmail.com>
 X-Mailman-Approved-At: Fri, 28 Aug 2020 07:29:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,126 +77,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, Rafael Wysocki <rjw@rjwysocki.net>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ondrej Jirman <megous@megous.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1863574416=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
-find the OPP table with error -ENODEV (i.e. OPP table not present for
-the device). And we can call dev_pm_opp_of_remove_table()
-unconditionally here.
 
-While at it, also create a label to put clkname.
+--===============1863574416==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="f5cov34zgyz2r63h"
+Content-Disposition: inline
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
----
-V2:
-- Compare with -ENODEV only for failures.
-- Create new label to put clkname.
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 14 +++++---------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  1 -
- drivers/gpu/drm/msm/dsi/dsi_host.c      |  8 ++------
- 3 files changed, 7 insertions(+), 16 deletions(-)
+--f5cov34zgyz2r63h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index c0a4d4e16d82..c8287191951f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1010,12 +1010,9 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
- 		return PTR_ERR(dpu_kms->opp_table);
- 	/* OPP table is optional */
- 	ret = dev_pm_opp_of_add_table(dev);
--	if (!ret) {
--		dpu_kms->has_opp_table = true;
--	} else if (ret != -ENODEV) {
-+	if (ret && ret != -ENODEV) {
- 		dev_err(dev, "invalid OPP table in device tree\n");
--		dev_pm_opp_put_clkname(dpu_kms->opp_table);
--		return ret;
-+		goto put_clkname;
- 	}
- 
- 	mp = &dpu_kms->mp;
-@@ -1037,8 +1034,8 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
- 	priv->kms = &dpu_kms->base;
- 	return ret;
- err:
--	if (dpu_kms->has_opp_table)
--		dev_pm_opp_of_remove_table(dev);
-+	dev_pm_opp_of_remove_table(dev);
-+put_clkname:
- 	dev_pm_opp_put_clkname(dpu_kms->opp_table);
- 	return ret;
- }
-@@ -1056,8 +1053,7 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
- 	if (dpu_kms->rpm_enabled)
- 		pm_runtime_disable(&pdev->dev);
- 
--	if (dpu_kms->has_opp_table)
--		dev_pm_opp_of_remove_table(dev);
-+	dev_pm_opp_of_remove_table(dev);
- 	dev_pm_opp_put_clkname(dpu_kms->opp_table);
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index e140cd633071..8295979a7165 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -129,7 +129,6 @@ struct dpu_kms {
- 	bool rpm_enabled;
- 
- 	struct opp_table *opp_table;
--	bool has_opp_table;
- 
- 	struct dss_module_power mp;
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index b17ac6c27554..4335fe33250c 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -113,7 +113,6 @@ struct msm_dsi_host {
- 	struct clk *byte_intf_clk;
- 
- 	struct opp_table *opp_table;
--	bool has_opp_table;
- 
- 	u32 byte_clk_rate;
- 	u32 pixel_clk_rate;
-@@ -1891,9 +1890,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
- 		return PTR_ERR(msm_host->opp_table);
- 	/* OPP table is optional */
- 	ret = dev_pm_opp_of_add_table(&pdev->dev);
--	if (!ret) {
--		msm_host->has_opp_table = true;
--	} else if (ret != -ENODEV) {
-+	if (ret && ret != -ENODEV) {
- 		dev_err(&pdev->dev, "invalid OPP table in device tree\n");
- 		dev_pm_opp_put_clkname(msm_host->opp_table);
- 		return ret;
-@@ -1934,8 +1931,7 @@ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
- 	mutex_destroy(&msm_host->cmd_mutex);
- 	mutex_destroy(&msm_host->dev_mutex);
- 
--	if (msm_host->has_opp_table)
--		dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
-+	dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
- 	dev_pm_opp_put_clkname(msm_host->opp_table);
- 	pm_runtime_disable(&msm_host->pdev->dev);
- }
--- 
-2.25.0.rc1.19.g042ed3e048af
+On Wed, Aug 26, 2020 at 01:13:33AM +0800, Chen-Yu Tsai wrote:
+> On Sat, Jul 4, 2020 at 9:38 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The LVDS controller can invert the polarity / lanes of the LVDS output.
+> > The default polarity causes some issues on some panels.
+> >
+> > However, U-Boot has always used the opposite polarity without any repor=
+ted
+> > issue, and the only currently supported LVDS panel in-tree (the TBS A71=
+1)
+> > seems to be able to work with both settings.
+> >
+> > Let's just use the same polarity than U-Boot to be more consistent and
+> > hopefully support all the panels.
+> >
+> > Cc: Ondrej Jirman <megous@megous.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+
+Applied, thanks!
+Maxime
+
+--f5cov34zgyz2r63h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0fZdwAKCRDj7w1vZxhR
+xaLTAP9NDWLQ9AOAmqw2AUgin+RzSy1r3tSeSewBr/HgsUrZ5AD/eso1ZgrDtQKb
+IrkCQ8X8Ax/4Gd37xy0xK2LC54z2CgU=
+=6aVF
+-----END PGP SIGNATURE-----
+
+--f5cov34zgyz2r63h--
+
+--===============1863574416==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1863574416==--
