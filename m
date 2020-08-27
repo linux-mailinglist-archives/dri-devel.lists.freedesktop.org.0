@@ -1,53 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1215E255540
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:30:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB22A255528
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9C876EB63;
-	Fri, 28 Aug 2020 07:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81456E14E;
+	Fri, 28 Aug 2020 07:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18B5D6EB11
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 07:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1598512926;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=k04sNjlLbRN8+3LmeZhW22K/v1fwHDbhj0K1In8eV3E=;
- b=nIWdU6+pA/5OwPdsm74ArGN2BUYXhgoCndc1Kieb1+VLHK5BBHrt+8W9ar2G2gRaFg
- QohWsMawIp2QqyQUafR7RqPb5rPuYfGLWMAmbhgrrPsdoQvI1dnBUJLj5JdzGYwmm5Et
- upe+Dm9J4ZfrK/7QJhwkw3VgQij2DvvUzdmz220X3ux/+TXnRr6BiTQ5XYnx8qdSdaAN
- 9/rh0YScASyhWswQHRTvTOkBImgJW8q8o8XXwbDwyp5IoJ72XTSEz+jUtTFYORP+otir
- 3UuQscJ03O7f+aX3x2LRNv5q8SKJq5bJlBq5EZuOEYWunsufYAr4gd1a/4YBS+l26KTo
- Ikbg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlaVXAcF7g=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
- with ESMTPSA id n03b0dw7R7LsaKA
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 27 Aug 2020 09:21:54 +0200 (CEST)
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
- JZ4780)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
-Date: Thu, 27 Aug 2020 09:21:54 +0200
-Message-Id: <2093A5E6-28CC-42C6-8CF9-3E78942254F4@goldelico.com>
-References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
- <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
- <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
- <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
- <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
- <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-X-Mailer: Apple Mail (2.3124)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B7B6E427
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 07:47:01 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1034)
+ id 4BcZYn4Gh6z9sTj; Thu, 27 Aug 2020 17:46:53 +1000 (AEST)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@ozlabs.org
+In-Reply-To: <20200821104910.3363818-1-mpe@ellerman.id.au>
+References: <20200821104910.3363818-1-mpe@ellerman.id.au>
+Subject: Re: [PATCH] video: fbdev: controlfb: Fix build for COMPILE_TEST=y &&
+ PPC_PMAC=n
+Message-Id: <159851436069.52163.17558243673000868151.b4-ty@ellerman.id.au>
+Date: Thu, 27 Aug 2020 17:46:53 +1000 (AEST)
 X-Mailman-Approved-At: Fri, 28 Aug 2020 07:29:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,82 +35,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sam@ravnborg.org
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============1879185940=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezequiel,
+--===============1879185940==
+Content-Type: text/plain
 
-> Am 24.08.2020 um 19:38 schrieb Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>:
+On Fri, 21 Aug 2020 20:49:10 +1000, Michael Ellerman wrote:
+> The build is currently broken, if COMPILE_TEST=y and PPC_PMAC=n:
 > 
-> On Mon, 24 Aug 2020 at 13:05, H. Nikolaus Schaller <hns@goldelico.com> wrote:
->> 
->> Hi Ezequiel,
+>   linux/drivers/video/fbdev/controlfb.c: In function ‘control_set_hardware’:
+>   linux/drivers/video/fbdev/controlfb.c:276:2: error: implicit declaration of function ‘btext_update_display’
+>     276 |  btext_update_display(p->frame_buffer_phys + CTRLFB_OFF,
+>         |  ^~~~~~~~~~~~~~~~~~~~
 > 
-> The fix is just re-organizing the code a bit. Just pushed a possible
-> fix for that (following the IPU handling by Paul Cercueil),
-> please feel free to test this:
-> 
-> https://gitlab.collabora.com/linux/0day/-/commits/jz4780-drm-hdmi-module-fix-v5.9-rc2
+> [...]
 
-Works well (after doing a minor fix to the CI20 defconfig)!
+Applied to powerpc/fixes.
 
-> 
-> FWIW, my test setup uses mainline vanilla U-Boot v2020.07.
-> The kernel is loaded via TFTP. Debian mipsel is mounted via NFS
-> (which means dm9000 works). I'm testing with weston and modetest.
-> 
-> Note that enabling DRM_INGENIC_IPU will make the driver
-> fail to load, as the IPU is not optional (and not present on ci20.dts).
-> A minor thing to fix.
-> 
-> Cheers,
-> Ezequiel
-> 
->> And it seems to differ significantly from what Paul has developed recently
->> to make it work. It seems to be quite lucky that we have a working setup now :)
->> 
->>> Nikolaus, Paul: Do you have plans to submit these?
->> 
->> Yes, as soon as we are sure that it works (and when it doesn't).
->> 
->> But thanks to your work it is now much easier to improve things, since we
->> are no longer looking for a break-through but just have to avoid regressions.
->> 
->>> If not, I'll be happy to get them out the door for review.
->> 
->> Let it mature a little first and have it tested on more setups and rebased
->> to mainline v5.9-rc2 :)
+[1/1] video: fbdev: controlfb: Fix build for COMPILE_TEST=y && PPC_PMAC=n
+      https://git.kernel.org/powerpc/c/4d618b9f3fcab84e9ec28c180de46fb2c929d096
 
+cheers
 
-> Am 24.08.2020 um 23:11 schrieb Paul Cercueil <paul@crapouillou.net>:
-> 
-> DRM drivers follow their own schedule, you should rebase to drm-misc-next instead.
-> 
-
-With the comment from Paul, I think it is best if you push them for review.
-
-My patch set based on v5.9-rc2 is here (including one EFUSE patch which I have
-included only for making my Ethernet interface work for testing):
-
-https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/jz4780-hdmi-v5
-
-Please take it, do the required squashes and rebasing and post them for discussion to the
-appropriate lists.
-
-BR and thanks for this great break through,
-Nikolaus
-
-
-
+--===============1879185940==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1879185940==--
