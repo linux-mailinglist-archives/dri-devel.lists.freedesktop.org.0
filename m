@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74BD254D2D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 20:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90003254D4B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Aug 2020 20:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18EA16E2C8;
-	Thu, 27 Aug 2020 18:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE186E0F1;
+	Thu, 27 Aug 2020 18:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18BB6E137
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 18:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598553462;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=GIOyNKn4lpZbuj6L4tBDqNoHcELuwP+YTy/cWEhcVsA=;
- b=IOriGMUYT+Rzk6245FvwBD5s7m3uRl12iWz+ZyKeypjSC0zPkSKhbO3Ky4BGAWOmSXtmf6
- f0nMUrbdZ93YyTVB/reQU4dTb77+fQuMMELMlDi8wcoyTY1ODDbFjAKF+sppDjhQRpl9jq
- Wvgwn2PCYzEAfys6pF2im7GmTWHJY8k=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-WnrNXSlnPC2waRDdbm56cg-1; Thu, 27 Aug 2020 14:37:38 -0400
-X-MC-Unique: WnrNXSlnPC2waRDdbm56cg-1
-Received: by mail-qk1-f199.google.com with SMTP id e63so5620207qkd.14
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 11:37:38 -0700 (PDT)
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC5BB6E0F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 18:54:24 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id j19so1471143oor.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Aug 2020 11:54:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BWqUveoeKZMIhm3GjalPyEQmnfCWpI1alLQjjqHt+NU=;
+ b=SCcrh3qeuy5Pqm6KFI/xAj5Y/ENojt7/jYbC4IkRyQsWuyYTXztzy3Y/JwrtY3NGfK
+ VJA5M/PFjjZNQZgCL4ipJNIe/29Icg2ojlK0A2jBoN2fPMa3Ljmy6wP/gwYIhQzI5LFf
+ x0xQLnuGiXjWg1XJngPFxg+N/oncHwtwyx/QJ1d2o4CCgIWvNNh2YmvscoicgdTapmkx
+ Avigv/QQopdYQ8XfX6SK5xvTrgHlbrIT1J7hzhJtXLWN6NpzInoHSkk2n5mDMmDHnKXh
+ nYZv6OIfmGztUzuVBFq6FpcWumyGQO5lvbRrUQpmA06r767ZOPzu2PJXJZFndd22/MmJ
+ 50mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=GIOyNKn4lpZbuj6L4tBDqNoHcELuwP+YTy/cWEhcVsA=;
- b=ABe5mrDaQXGlxR4lZrEQyul15pOaKqNBQIlr8kaQYHImuXZEcQvDINhOiRRLCKJ0jW
- uzT/GnNOqBiwkOlaS7W4/SbpcLJJ0TWegtFaTePjwiJ1mPEN1o29wCrjYRINK1rHgGid
- 1L2EHKEjehPGQkyquuFk2Abx7KXMaaAZY8tVLqUwSm3ULiHLyc8FnEjtel5NLbFVcOm+
- pbHvVwHX7m0lbCFiAXE4K63NYDHZKfGHIysCH8B5UqE3x76naCCLFoT1BC+LWoChl81m
- RcYa8Cb/6JW2BUbmxuErZ0+gl3C2zuMRMUJSxuZo5vRA0eArgZBxtSdMTfQZeyBXiIXj
- rPCA==
-X-Gm-Message-State: AOAM531IAdwcwAeD3Pbp2s/lM1EuL25iLOddWpgo8HF1IGybkvvqH14p
- E0O6q+lQqHDxNrNx98i7SksGynsctah6B5RfdNC9bFgh974kSWb8te9T1Z2P4tcY+cJYOPb/GRG
- Y47ox53lCowEYly7ttycoH3/aHtx4
-X-Received: by 2002:ac8:45c7:: with SMTP id e7mr20255260qto.187.1598553457827; 
- Thu, 27 Aug 2020 11:37:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzXdvN0a05gbC1rP9FvdO3i+S9AkoKl/LGZWrmmNmYELI9HeqKh23RzqUkEBrEfpUvhGucamw==
-X-Received: by 2002:ac8:45c7:: with SMTP id e7mr20255172qto.187.1598553456580; 
- Thu, 27 Aug 2020 11:37:36 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id x28sm2362305qki.55.2020.08.27.11.37.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 11:37:35 -0700 (PDT)
-From: trix@redhat.com
-To: bskeggs@redhat.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/nouveau: remove redundant check
-Date: Thu, 27 Aug 2020 11:37:23 -0700
-Message-Id: <20200827183723.7767-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BWqUveoeKZMIhm3GjalPyEQmnfCWpI1alLQjjqHt+NU=;
+ b=X5wOZryaRO+u56PhkL6OQc7bUWz+rClOzVKNNQ67+5Y0/gEOa8NMWzUZvI1I5yA+cl
+ +qjenyJfCq6Du4iY3YgRKPCnvLjzHmVWsw4mnD1DmhG2ERgi46ct8PUjuqBa9lNzmzrJ
+ AzAJA6xrksoWUkTy23t6R5mC4dOs3ybsS1lBM4ygDqPspXcUzs6UzOCNwQc4dradlKLP
+ WBugH988eLKHdDoPQ6MzSYNuqgF/BxuypGlZCo74muCyj3RTNP522mIwE4XGg9lGliGh
+ jDsdclGEViFd7/azeLwwxt2V7re5bDd5LfRqqYm3aOSOmBEAvQMrQWiXAziPCqGeZnwz
+ QZkQ==
+X-Gm-Message-State: AOAM531eYbqtzEe8T/21LDtcrbUXiGekteSND1r2xI9os1ukDvGcIeoX
+ EigkXIUWlj0LgLZynec9iuKYnHc2DOlq4G5pRtGnXA==
+X-Google-Smtp-Source: ABdhPJy8T8ttMmxpmzdBmMLZEkAuTLQvD2G2liKWH2H+Jb7ky01tXVyV7oYkkXZ8NroZL6tIlOl+3FM2CROEfwK+7xM=
+X-Received: by 2002:a4a:aa42:: with SMTP id y2mr9682938oom.88.1598554463803;
+ Thu, 27 Aug 2020 11:54:23 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
+ <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
+ <20200827160506.GC684514@kroah.com>
+ <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
+ <20200827171745.GA701089@kroah.com>
+In-Reply-To: <20200827171745.GA701089@kroah.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Thu, 27 Aug 2020 11:54:12 -0700
+Message-ID: <CALAqxLVOEBaLtkbL-OENYSK0dUc_PBo-oC=BOBFQbPh-bkWTgQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: ion: remove from the tree
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,67 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
-MIME-Version: 1.0
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
+ Shuah Khan <shuah@kernel.org>, Todd Kjos <tkjos@android.com>,
+ Martijn Coenen <maco@android.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Suren Baghdasaryan <surenb@google.com>, Christoph Hellwig <hch@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Hridya Valsaraju <hridya@google.com>,
+ Laura Abbott <laura@labbott.name>,
+ Android Kernel Team <kernel-team@android.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+On Thu, Aug 27, 2020 at 10:17 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Thu, Aug 27, 2020 at 10:31:41PM +0530, Amit Pundir wrote:
+> > I don't know what is the right thing to do here. I just want to
+> > highlight that AOSP's audio (codec2) HAL depends on the ION system
+> > heap and it will break AOSP for people who boot mainline on their
+> > devices, even for just testing purpose like we do in Linaro. Right now
+> > we need only 1 (Android specific out-of-tree) patch to boot AOSP with
+> > mainline and Sumit is already trying to upstream that vma naming
+> > patch. Removal of in-kernel ION, will just add more to that delta.
+>
+> As AOSP will continue to rely on ION after December of this year, all
+> you are doing is postponing the inevitable a few more months.
+>
+> Push back on the Android team to fix up the code to not use ION, they
+> know this needs to happen.
 
-clang static analysis flags this problem
+The point though, is your main premise that no one is using this isn't true.
 
-hw.c:271:12: warning: The left operand of '>=' is a
-  garbage value
-    if (pv.M1 >= pll_lim.vco1.min_m ...
-        ~~~~~ ^
+I'm actively working with Hridya and folks on the codec2 HAL side to
+transition this on the userland side:
+  https://android-review.googlesource.com/c/platform/frameworks/av/+/1368918/3
 
-This is mostly not a problem because an early check in
-nouveau_hw_fix_bad_vpll()
+I'd like AOSP to not use ION after September (though being external I
+can't promise anything), much less continuing after December.
 
-    	if (nvbios_pll_parse(bios, pll, &pll_lim))
-		return;
-	nouveau_hw_get_pllvals(dev, pll, &pv);
+I want this migration to happen as much as anyone.  But I'd prefer to
+keep ION in staging until after the LTS is announced. Having both
+around helps development for the transition, which helps us have a
+reliable solution, which helps vendors to migrate and be able to do
+comparative performance testing.
 
-shadows a similar check in nouveau_hw_get_pllvals()
+I do appreciate that keeping it isn't free, but I also don't feel the
+chaos-monkey approach here is really motivational in the way you
+intend.
 
-	ret = nvbios_pll_parse(bios, plltype, &pll_lim);
-	if (ret || !(reg1 = pll_lim.reg))
-		return -ENOENT;
-
-Since the first check is redundant, remove it and
-check the status of nouveau_hw_get_pllvals().
-
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv04/hw.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/hw.c b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-index b674d68ef28a..b96c5628c33b 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/hw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-@@ -259,14 +259,12 @@ nouveau_hw_fix_bad_vpll(struct drm_device *dev, int head)
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nvif_device *device = &drm->client.device;
- 	struct nvkm_clk *clk = nvxx_clk(device);
--	struct nvkm_bios *bios = nvxx_bios(device);
- 	struct nvbios_pll pll_lim;
- 	struct nvkm_pll_vals pv;
- 	enum nvbios_pll_type pll = head ? PLL_VPLL1 : PLL_VPLL0;
- 
--	if (nvbios_pll_parse(bios, pll, &pll_lim))
-+	if (nouveau_hw_get_pllvals(dev, pll, &pv))
- 		return;
--	nouveau_hw_get_pllvals(dev, pll, &pv);
- 
- 	if (pv.M1 >= pll_lim.vco1.min_m && pv.M1 <= pll_lim.vco1.max_m &&
- 	    pv.N1 >= pll_lim.vco1.min_n && pv.N1 <= pll_lim.vco1.max_n &&
--- 
-2.18.1
-
+thanks
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
