@@ -2,57 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEF025664E
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF96256653
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89CDD6EBFF;
-	Sat, 29 Aug 2020 09:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207816EC06;
+	Sat, 29 Aug 2020 09:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58A496E49D
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 11:47:32 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1598615255; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=UyfPYUcMV9tytg1lsOazXlR2oJ0XqslTZInHmF+wz2o=;
- b=ogkiry6pJPSJWBn52pfWhOQ0d/Sl83RIpEaazGqqK6DthuioQxEPWQ43F8ECv52x+IxEdo7m
- 0kRdOvHCE1n0/R+woFCew2v/4SORWcyrEQ1Ppgb+McdQB0nfzQof070jo6N704/bRhO6A7YW
- NmGdY+oqurnK/bVJBRG4ka2sjI0=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f48ee8091574590bfa61803 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 28 Aug 2020 11:46:08
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id C9E10C43391; Fri, 28 Aug 2020 11:46:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED autolearn=ham
- autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: rojay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 47EAAC43387;
- Fri, 28 Aug 2020 11:46:08 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD2986E49D
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 11:55:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id BA7AF29AD4C
+Received: by earth.universe (Postfix, from userid 1000)
+ id 887973C0C82; Fri, 28 Aug 2020 13:55:23 +0200 (CEST)
+Date: Fri, 28 Aug 2020 13:55:23 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 23/24] drm/omap: display: Backlight update
+Message-ID: <20200828115523.alivl63yuz4yf7ti@earth.universe>
+References: <20200823104532.1024798-1-sam@ravnborg.org>
+ <20200823104532.1024798-24-sam@ravnborg.org>
 MIME-Version: 1.0
-Date: Fri, 28 Aug 2020 17:16:08 +0530
-From: rojay@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH V2 2/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-In-Reply-To: <159796935923.334488.7479152222902825306@swboyd.mtv.corp.google.com>
-References: <20200820103522.26242-1-rojay@codeaurora.org>
- <20200820103522.26242-3-rojay@codeaurora.org>
- <159796935923.334488.7479152222902825306@swboyd.mtv.corp.google.com>
-Message-ID: <a5060091729429366465b205592aad2d@codeaurora.org>
-X-Sender: rojay@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <20200823104532.1024798-24-sam@ravnborg.org>
 X-Mailman-Approved-At: Sat, 29 Aug 2020 09:21:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,129 +39,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: akashast@codeaurora.org, saiprakash.ranjan@codeaurora.org,
- rnayak@codeaurora.org, gregkh@linuxfoundation.org,
- linux-arm-msm@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, wsa@kernel.org,
- linaro-mm-sig@lists.linaro.org, mka@chromium.org, agross@kernel.org,
- msavaliy@qti.qualcomm.com, linux-media@vger.kernel.org, skakit@codeaurora.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
+ Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Lee Jones <lee.jones@linaro.org>
+Content-Type: multipart/mixed; boundary="===============1180301713=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-08-21 05:52, Stephen Boyd wrote:
-> Quoting Roja Rani Yarubandi (2020-08-20 03:35:22)
->> If the hardware is still accessing memory after SMMU translation
->> is disabled (as part of smmu shutdown callback), then the
->> IOVAs (I/O virtual address) which it was using will go on the bus
->> as the physical addresses which will result in unknown crashes
->> like NoC/interconnect errors.
->> 
->> So, implement shutdown callback to i2c driver to unmap DMA mappings
->> during system "reboot" or "shutdown".
->> 
->> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
->> ---
-> 
-> I'd still put a Fixes tag because it's fixing the driver when someone
-> runs shutdown.
-> 
 
-Okay, will add fixes tag.
+--===============1180301713==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7tzyuhyvoqwrqw4i"
+Content-Disposition: inline
 
->> Changes in V2:
->>  - As per Stephen's comments added seperate function for stop 
->> transfer,
->>    fixed minor nitpicks.
->> 
->>  drivers/i2c/busses/i2c-qcom-geni.c | 43 
->> ++++++++++++++++++++++++++++++
->>  include/linux/qcom-geni-se.h       |  5 ++++
->>  2 files changed, 48 insertions(+)
->> 
->> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c 
->> b/drivers/i2c/busses/i2c-qcom-geni.c
->> index 1fda5c7c2cfc..d07f2f33bb75 100644
->> --- a/drivers/i2c/busses/i2c-qcom-geni.c
->> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
->> @@ -486,6 +486,28 @@ static int geni_i2c_xfer(struct i2c_adapter 
->> *adap,
->>         return ret;
->>  }
->> 
->> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
->> +{
->> +       u32 val;
->> +       struct geni_se *se = &gi2c->se;
->> +
->> +       val = readl_relaxed(gi2c->se.base + SE_DMA_DEBUG_REG0);
->> +       if (val & DMA_TX_ACTIVE) {
->> +               geni_i2c_abort_xfer(gi2c);
->> +               gi2c->cur_wr = 0;
->> +               if (gi2c->err)
->> +                       geni_i2c_tx_fsm_rst(gi2c);
->> +               geni_se_tx_dma_unprep(se, gi2c->tx_dma, 
->> gi2c->xfer_len);
->> +       }
->> +       if (val & DMA_RX_ACTIVE) {
->> +               geni_i2c_abort_xfer(gi2c);
->> +               gi2c->cur_rd = 0;
->> +               if (gi2c->err)
->> +                       geni_i2c_rx_fsm_rst(gi2c);
->> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, 
->> gi2c->xfer_len);
->> +       }
->> +}
->> +
->>  static u32 geni_i2c_func(struct i2c_adapter *adap)
->>  {
->>         return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & 
->> ~I2C_FUNC_SMBUS_QUICK);
->> @@ -617,6 +639,26 @@ static int geni_i2c_remove(struct platform_device 
->> *pdev)
->>         return 0;
->>  }
->> 
->> +static void geni_i2c_shutdown(struct platform_device *pdev)
->> +{
->> +       int ret;
->> +       u32 dma;
->> +       struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
->> +       struct geni_se *se = &gi2c->se;
->> +
->> +       ret = pm_runtime_get_sync(gi2c->se.dev);
->> +       if (ret < 0) {
->> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", 
->> ret);
->> +               return;
->> +       }
->> +
->> +       dma = readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
->> +       if (dma)
->> +               geni_i2c_stop_xfer(gi2c);
-> 
-> Any reason the if (dma) check isn't inside geni_i2c_stop_xfer()?
-> Checking for dma and then bailing out early should work and keep the
-> logic in one function. Then the pm_runtime_sync() call could go in 
-> there
-> too and if (!dma) goto out. This assumes that we're going to call
-> geni_i2c_stop_xfer() from somewhere else, like if a transfer times out
-> or something?
-> 
 
-Okay, will do the changes.
+--7tzyuhyvoqwrqw4i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +
->> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
->> +}
->> +
->>  static int __maybe_unused geni_i2c_runtime_suspend(struct device 
->> *dev)
->>  {
->>         int ret;
+
+Hi,
+
+On Sun, Aug 23, 2020 at 12:45:31PM +0200, Sam Ravnborg wrote:
+> - Introduce backlight_{enable/disable)
+> - Use get/set methods for backlight_properties
+> - Drop redundant get_brightness() implementation
+>   The default implementation return the current brightness value
+> - Use macro for backlight initialization
+>=20
+> v2:
+>   - Drop backlight_update() call as it is redundant (Sebastian)
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Zheng Bin <zhengbin13@huawei.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 37 +++----------------
+>  1 file changed, 6 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gp=
+u/drm/omapdrm/displays/panel-dsi-cm.c
+> index 3484b5d4a91c..39b3a7affbc8 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -110,17 +110,10 @@ static void dsicm_bl_power(struct panel_drv_data *d=
+data, bool enable)
+>  	else
+>  		return;
+> =20
+> -	if (enable) {
+> -		backlight->props.fb_blank =3D FB_BLANK_UNBLANK;
+> -		backlight->props.state =3D ~(BL_CORE_FBBLANK | BL_CORE_SUSPENDED);
+> -		backlight->props.power =3D FB_BLANK_UNBLANK;
+> -	} else {
+> -		backlight->props.fb_blank =3D FB_BLANK_NORMAL;
+> -		backlight->props.power =3D FB_BLANK_POWERDOWN;
+> -		backlight->props.state |=3D BL_CORE_FBBLANK | BL_CORE_SUSPENDED;
+> -	}
+> -
+> -	backlight_update_status(backlight);
+> +	if (enable)
+> +		backlight_enable(backlight);
+> +	else
+> +		backlight_disable(backlight);
+>  }
+> =20
+>  static void hw_guard_start(struct panel_drv_data *ddata, int guard_msec)
+> @@ -363,13 +356,7 @@ static int dsicm_bl_update_status(struct backlight_d=
+evice *dev)
+>  	struct panel_drv_data *ddata =3D dev_get_drvdata(&dev->dev);
+>  	struct omap_dss_device *src =3D ddata->src;
+>  	int r =3D 0;
+> -	int level;
+> -
+> -	if (dev->props.fb_blank =3D=3D FB_BLANK_UNBLANK &&
+> -			dev->props.power =3D=3D FB_BLANK_UNBLANK)
+> -		level =3D dev->props.brightness;
+> -	else
+> -		level =3D 0;
+> +	int level =3D backlight_get_brightness(dev);
+> =20
+>  	dev_dbg(&ddata->pdev->dev, "update brightness to %d\n", level);
+> =20
+> @@ -390,17 +377,7 @@ static int dsicm_bl_update_status(struct backlight_d=
+evice *dev)
+>  	return r;
+>  }
+> =20
+> -static int dsicm_bl_get_intensity(struct backlight_device *dev)
+> -{
+> -	if (dev->props.fb_blank =3D=3D FB_BLANK_UNBLANK &&
+> -			dev->props.power =3D=3D FB_BLANK_UNBLANK)
+> -		return dev->props.brightness;
+> -
+> -	return 0;
+> -}
+> -
+>  static const struct backlight_ops dsicm_bl_ops =3D {
+> -	.get_brightness =3D dsicm_bl_get_intensity,
+>  	.update_status  =3D dsicm_bl_update_status,
+>  };
+> =20
+> @@ -1305,9 +1282,7 @@ static int dsicm_probe(struct platform_device *pdev)
+>  	dsicm_hw_reset(ddata);
+> =20
+>  	if (ddata->use_dsi_backlight) {
+> -		struct backlight_properties props =3D { 0 };
+> -		props.max_brightness =3D 255;
+> -		props.type =3D BACKLIGHT_RAW;
+> +		DECLARE_BACKLIGHT_INIT_RAW(props, 0, 255);
+> =20
+>  		bldev =3D devm_backlight_device_register(dev, dev_name(dev),
+>  			dev, ddata, &dsicm_bl_ops, &props);
+> --=20
+> 2.25.1
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--7tzyuhyvoqwrqw4i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl9I8KAACgkQ2O7X88g7
++pqFXg//d7cWqUsULHTJK6DDHKOQU1nscEvnVvLTFEpoUPDYkQ+LoGutos6C/ljP
+6gbI45h8XtAX8tFUg4slpO79MKATQTij6o0+QSLGfi7kb1j5J+AuwR7PoqQa5tb4
+Xu1VyDdeJVgh65Y27g0Rt4r9IF9+j3a1yY0hhEgHBDrPJk/folW3iqGc08bQhVT0
+mIbZ/DSSbA/jQtMo1xPu00HULljg8l9QBGd3g7dwMzOFJyfUGZiE/NKIZwIklUAo
+e4KhqL7TV4+Ebs8038haDaK4BDOwQEq5lsQY1WYpyJs/MNrc9v3U1oxYqn2ScgKk
+/gT8CowMkuOLsDAqB52yXaKhjZgohAUGO4SHP2Rhii0+IWydXffteNkWqgDZdlNf
+ALjYRBVQOIlyITI/lYTvQ0fVZpiR2p2BP8ZavjEt1F7swaP//60Ri/DyIZaZNE2o
+kwjA4Hc2XhbMtPseccUL3jK5CKoUGlShgJwloPGnTGNNUXq0MxW2gj4CzaI0ly0F
+JHM87mrYcXEdZ4vpXyAdDpcLgGsQPczQvCVXQdP3IkW1nWgGrTSPbSm0Q6h/BU/S
+FwvVt+oxBdyM8bjKZ+ODsJrzAcB5YfUuyHQ8CdLDNn7727eF5QdHwmMSHpp0i0rc
+LJkX2iPOhyWFcHfCysIOoyvwWlkNEK9rjkf6lxHdUIK0E95k0/s=
+=BKNY
+-----END PGP SIGNATURE-----
+
+--7tzyuhyvoqwrqw4i--
+
+--===============1180301713==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1180301713==--
