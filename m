@@ -1,60 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199F4256643
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:21:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65619256641
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09BBE6E1A7;
-	Sat, 29 Aug 2020 09:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 959C56E1A3;
+	Sat, 29 Aug 2020 09:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A6006E48C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 12:16:48 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id i10so986536iow.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 05:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NwqTh91+ICIu5X0KSUWIkFsurn3pcQhxwL3HOW3tCSE=;
- b=XXA18EFsvtJiywdHttlyfwZxFSrj+DGNLRcqrBel3BSUI5KqBhvujvperRs/lAlz71
- erSdhCnPqdQdl/JPhpT6QUD0KoeZussNEFqqb/yazU0qCMFu6VEQIPbJYL5UFnTrFsNY
- Yizo5zUBP6bVODKz9d3XK+tdUwStnPOfuNWbPJkFemWMS8J1mkBwDn4S7TNwd1T42QKG
- lobxQjN3im+nVBhUK1QIQhBwwwyd0W88qYlcFu6PKFcXw/v3mRtepMGZffE3eEYTO1hl
- IH9ANHsdrbSn/ZvMsME6tE3GL4kAYC/UGyWat43oMFPeyKaHn7UNEdgDLcH+4kCG71F4
- 0heg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NwqTh91+ICIu5X0KSUWIkFsurn3pcQhxwL3HOW3tCSE=;
- b=Jl+AmTmRw97T1KIOoTWLc/43TSnpzCGxS20PP00r3LNJtCNkWJ3/AsMbadrJpN+KPH
- SUEbn7yGfV4GW2r8LO+LCpk2hF5NmMpxWpJIca+qu1g+zS8j9SRoTcZBMMGvaxEeMbPM
- Hd+g7cjL3dwjnaCkwEE2PTAxOHVEWOJzcmubvI2SOkE+E0rOO+cgPob/Gxst+WxvZSsU
- cl+sRltkzfE3QcLaleXgHWgfKjqJhGWR4tnicWEDUh8DAhjXj1vC23c0Lj2lGJj2fLp9
- B4DsJZ1IoiI5V4qHi87EpTmGp1A3RohbmfpsA7En01YLMKOMIwxWUPNqOjaYJ4NMNmtV
- YZRw==
-X-Gm-Message-State: AOAM533mfqmL3mopBBivEhfrLZThbaemq9l6qfx1ddNaQA/ePhBVDjFX
- ceJrj7TfiC2wnJO0c6E2uwWcdcrOizyTpJyfqQU=
-X-Google-Smtp-Source: ABdhPJw6CrvkrJNDrTdRaxvtfUOkseBaKpv90pRJqI6TSsGonrIVheXNQifQ2rFcQB7Ubmfdzcq1n38wrKsLpYjh6NM=
-X-Received: by 2002:a5d:9701:: with SMTP id h1mr1077882iol.36.1598617007799;
- Fri, 28 Aug 2020 05:16:47 -0700 (PDT)
-MIME-Version: 1.0
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5DBC6E48C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 12:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1598617280; bh=NDdup/+089plEBW+jyGfrQ2zgz1ZcQugtWmPbMt6ZPo=;
+ h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+ b=hDWe7jeFkV5vZk+D3NVJ2l0MuQLpT6+3NXep2bKmu5LzLvFm4wrkm00rtLKpOVcwM
+ JjoQHXAHEAuFoHAkLhYzOBm46wCQ+OgDR/huBtM/0vJr2SBEYVF7Jh7QNLcEsNdhwq
+ 7hX35JFivKXGlzClTOVnd14xWupxbo31HuQhPAh4=
+Date: Fri, 28 Aug 2020 14:21:19 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Subject: Re: [PATCH v2 13/14] [DO NOT MERGE] arm64: dts: allwinner: h6: Add
+ GPU OPP table
+Message-ID: <20200828122119.eadup4aiohnqldam@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+ =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-sunxi <linux-sunxi@googlegroups.com>
 References: <20200704102535.189647-1-peron.clem@gmail.com>
  <20200704102535.189647-14-peron.clem@gmail.com>
  <20200704121301.jfd3m3jnlghmddg4@gilmour.lan>
  <CAJiuCceMS__bNVO54E2OYnqnaOAL9pGkxRo4XAABiyqagaEtmw@mail.gmail.com>
  <CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+47htg2bA@mail.gmail.com>
  <20200824131133.hp3resve6c3r3xqq@gilmour.lan>
-In-Reply-To: <20200824131133.hp3resve6c3r3xqq@gilmour.lan>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Fri, 28 Aug 2020 14:16:36 +0200
-Message-ID: <CAJiuCce=Oh-vtR8u-RvAvtAb2ZqSfK6jY+cQ6wBBh7maN30Wfg@mail.gmail.com>
-Subject: Re: [PATCH v2 13/14] [DO NOT MERGE] arm64: dts: allwinner: h6: Add
- GPU OPP table
-To: Maxime Ripard <maxime@cerno.tech>
+ <CAJiuCce=Oh-vtR8u-RvAvtAb2ZqSfK6jY+cQ6wBBh7maN30Wfg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAJiuCce=Oh-vtR8u-RvAvtAb2ZqSfK6jY+cQ6wBBh7maN30Wfg@mail.gmail.com>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 X-Mailman-Approved-At: Sat, 29 Aug 2020 09:21:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,110 +60,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Ondrej Jirman <megous@megous.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, linux-sunxi <linux-sunxi@googlegroups.com>,
+Cc: Nishanth Menon <nm@ti.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
  linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Steven Price <steven.price@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF4aW1lLAoKT24gVHVlLCAyNSBBdWcgMjAyMCBhdCAxNTozNSwgTWF4aW1lIFJpcGFyZCA8
-bWF4aW1lQGNlcm5vLnRlY2g+IHdyb3RlOgo+Cj4gSGkgQ2xlbWVudCwKPgo+IE9uIE1vbiwgQXVn
-IDAzLCAyMDIwIGF0IDA5OjU0OjA1QU0gKzAyMDAsIENsw6ltZW50IFDDqXJvbiB3cm90ZToKPiA+
-IEhpIE1heGltZSBhbmQgQWxsLAo+ID4KPiA+IE9uIFNhdCwgNCBKdWwgMjAyMCBhdCAxNjo1Niwg
-Q2zDqW1lbnQgUMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPiA+Cj4gPiA+
-IEhpIE1heGltZSwKPiA+ID4KPiA+ID4gT24gU2F0LCA0IEp1bCAyMDIwIGF0IDE0OjEzLCBNYXhp
-bWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4gd3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBIaSwK
-PiA+ID4gPgo+ID4gPiA+IE9uIFNhdCwgSnVsIDA0LCAyMDIwIGF0IDEyOjI1OjM0UE0gKzAyMDAs
-IENsw6ltZW50IFDDqXJvbiB3cm90ZToKPiA+ID4gPiA+IEFkZCBhbiBPcGVyYXRpbmcgUGVyZm9y
-bWFuY2UgUG9pbnRzIHRhYmxlIGZvciB0aGUgR1BVIHRvCj4gPiA+ID4gPiBlbmFibGUgRHluYW1p
-YyBWb2x0YWdlICYgRnJlcXVlbmN5IFNjYWxpbmcgb24gdGhlIEg2Lgo+ID4gPiA+ID4KPiA+ID4g
-PiA+IFRoZSB2b2x0YWdlIHJhbmdlIGlzIHNldCB3aXRoIG1pbml2YWwgdm9sdGFnZSBzZXQgdG8g
-dGhlIHRhcmdldAo+ID4gPiA+ID4gYW5kIHRoZSBtYXhpbWFsIHZvbHRhZ2Ugc2V0IHRvIDEuMlYu
-IFRoaXMgYWxsb3cgRFZGUyBmcmFtZXdvcmsgdG8KPiA+ID4gPiA+IHdvcmsgcHJvcGVybHkgb24g
-Ym9hcmQgd2l0aCBmaXhlZCByZWd1bGF0b3IuCj4gPiA+ID4gPgo+ID4gPiA+ID4gU2lnbmVkLW9m
-Zi1ieTogQ2zDqW1lbnQgUMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KPiA+ID4gPgo+ID4g
-PiA+IFRoYXQgcGF0Y2ggc2VlbXMgcmVhc29uYWJsZSwgd2h5IHNob3VsZG4ndCB3ZSBtZXJnZSBp
-dD8KPiA+ID4KPiA+ID4gSSBkaWRuJ3QgdGVzdCBpdCBhIGxvdCBhbmQgbGFzdCB0aW1lIEkgZGlk
-LCBzb21lIGZyZXF1ZW5jaWVzIGxvb2tlZCB1bnN0YWJsZS4KPiA+ID4gaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvcGF0Y2h3b3JrL2NvdmVyLzEyMzk3MzkvCj4gPiA+Cj4gPiA+IFRoaXMgc2VyaWVz
-IGFkZHMgcmVndWxhdG9yIHN1cHBvcnQgdG8gUGFuZnJvc3QgZGV2ZnJlcSwgSSB3aWxsIHNlbmQg
-YQo+ID4gPiBuZXcgb25lIGlmIERWRlMgb24gdGhlIEg2IEdQVSBpcyBzdGFibGUuCj4gPiA+Cj4g
-PiA+IEkgZ290IHRoaXMgcnVubmluZyBnbG1hcmsyIGxhc3QgdGltZQo+ID4gPiAjIGdsbWFyazIt
-ZXMyLWRybQo+ID4gPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09Cj4gPiA+ICAgICBnbG1hcmsyIDIwMTcuMDcKPiA+ID4gPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+ID4gPiAgICAgT3Bl
-bkdMIEluZm9ybWF0aW9uCj4gPiA+ICAgICBHTF9WRU5ET1I6ICAgICBQYW5mcm9zdAo+ID4gPiAg
-ICAgR0xfUkVOREVSRVI6ICAgTWFsaSBUNzIwIChQYW5mcm9zdCkKPiA+ID4gICAgIEdMX1ZFUlNJ
-T046ICAgIE9wZW5HTCBFUyAyLjAgTWVzYSAyMC4wLjUKPiA+ID4gPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+ID4gPgo+ID4gPiBbICAgOTMu
-NTUwMDYzXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogR1BVIEZhdWx0IDB4MDAwMDAwODggKFVOS05P
-V04pIGF0Cj4gPiA+IDB4MDAwMDAwMDA4MDExNzEwMAo+ID4gPiBbICAgOTQuMDQ1NDAxXSBwYW5m
-cm9zdCAxODAwMDAwLmdwdTogZ3B1IHNjaGVkIHRpbWVvdXQsIGpzPTAsCj4gPiA+IGNvbmZpZz0w
-eDM3MDAsIHN0YXR1cz0weDgsIGhlYWQ9MHgyMWQ2YzAwLCB0YWlsPTB4MjFkNmMwMCwKPiA+ID4g
-c2NoZWRfam9iPTAwMDAwMDAwZTNjMjEzMmYKPiA+ID4KPiA+ID4gWyAgMzI4Ljg3MTA3MF0gcGFu
-ZnJvc3QgMTgwMDAwMC5ncHU6IFVuaGFuZGxlZCBQYWdlIGZhdWx0IGluIEFTMCBhdCBWQQo+ID4g
-PiAweDAwMDAwMDAwMDAwMDAwMDAKPiA+ID4gWyAgMzI4Ljg3MTA3MF0gUmVhc29uOiBUT0RPCj4g
-PiA+IFsgIDMyOC44NzEwNzBdIHJhdyBmYXVsdCBzdGF0dXM6IDB4QUEwMDAzQzIKPiA+ID4gWyAg
-MzI4Ljg3MTA3MF0gZGVjb2RlZCBmYXVsdCBzdGF0dXM6IFNMQVZFIEZBVUxUCj4gPiA+IFsgIDMy
-OC44NzEwNzBdIGV4Y2VwdGlvbiB0eXBlIDB4QzI6IFRSQU5TTEFUSU9OX0ZBVUxUX0xFVkVMMgo+
-ID4gPiBbICAzMjguODcxMDcwXSBhY2Nlc3MgdHlwZSAweDM6IFdSSVRFCj4gPiA+IFsgIDMyOC44
-NzEwNzBdIHNvdXJjZSBpZCAweEFBMDAKPiA+ID4gWyAgMzI5LjM3MzMyN10gcGFuZnJvc3QgMTgw
-MDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0xLAo+ID4gPiBjb25maWc9MHgzNzAwLCBz
-dGF0dXM9MHg4LCBoZWFkPTB4YTFhNDkwMCwgdGFpbD0weGExYTQ5MDAsCj4gPiA+IHNjaGVkX2pv
-Yj0wMDAwMDAwMDdhYzMxMDk3Cj4gPiA+IFsgIDMyOS4zODY1MjddIHBhbmZyb3N0IDE4MDAwMDAu
-Z3B1OiBqcyBmYXVsdCwganM9MCwKPiA+ID4gc3RhdHVzPURBVEFfSU5WQUxJRF9GQVVMVCwgaGVh
-ZD0weGExYTRjMDAsIHRhaWw9MHhhMWE0YzAwCj4gPiA+IFsgIDMyOS4zOTYyOTNdIHBhbmZyb3N0
-IDE4MDAwMDAuZ3B1OiBncHUgc2NoZWQgdGltZW91dCwganM9MCwKPiA+ID4gY29uZmlnPTB4Mzcw
-MCwgc3RhdHVzPTB4NTgsIGhlYWQ9MHhhMWE0YzAwLCB0YWlsPTB4YTFhNGMwMCwKPiA+ID4gc2No
-ZWRfam9iPTAwMDAwMDAwMDRjOTAzODEKPiA+ID4gWyAgMzI5LjQxMTUyMV0gcGFuZnJvc3QgMTgw
-MDAwMC5ncHU6IFVuaGFuZGxlZCBQYWdlIGZhdWx0IGluIEFTMCBhdCBWQQo+ID4gPiAweDAwMDAw
-MDAwMDAwMDAwMDAKPiA+ID4gWyAgMzI5LjQxMTUyMV0gUmVhc29uOiBUT0RPCj4gPiA+IFsgIDMy
-OS40MTE1MjFdIHJhdyBmYXVsdCBzdGF0dXM6IDB4QUEwMDAzQzIKPiA+ID4gWyAgMzI5LjQxMTUy
-MV0gZGVjb2RlZCBmYXVsdCBzdGF0dXM6IFNMQVZFIEZBVUxUCj4gPiA+IFsgIDMyOS40MTE1MjFd
-IGV4Y2VwdGlvbiB0eXBlIDB4QzI6IFRSQU5TTEFUSU9OX0ZBVUxUX0xFVkVMMgo+ID4gPiBbICAz
-MjkuNDExNTIxXSBhY2Nlc3MgdHlwZSAweDM6IFdSSVRFCj4gPiA+IFsgIDMyOS40MTE1MjFdIHNv
-dXJjZSBpZCAweEFBMDAKPiA+Cj4gPiBKdXN0IHRvIGtlZXAgYSB0cmFjayBvZiB0aGlzIGlzc3Vl
-Lgo+ID4KPiA+IFBpb3RyIE9uaXN6Y3p1ayBnaXZlIG1vcmUgdGVzdCBhbmQgc2VlbXMgdG8gYmUg
-c29mdHdhcmUgcmVsYXRlZDoKPiA+IGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2RyaS1k
-ZXZlbC9tc2cyNjQyNzkuaHRtbAo+ID4KPiA+IE9uZHJlaiBnYXZlIGEgZ3JlYXQgZXhwbGFuYXRp
-b24gYWJvdXQgYSBwb3NzaWJsZSBvcmlnaW4gb2YgdGhpcyBpc3N1ZToKPiA+IGh0dHBzOi8vZnJl
-ZW5vZGUuaXJjbG9nLndoaXRlcXVhcmsub3JnL2xpbnV4LXN1bnhpLzIwMjAtMDctMTEKPiA+Cj4g
-PiAyMDoxMiA8bWVnaT4gbG9va3MgbGlrZSBncHUgcGxsIG9uIEg2IGlzIE5LTVAgY2xvY2ssIGFu
-ZCB0aG9zZSBhcmUKPiA+IGltcGxlbWVudGVkIGluIHN1Y2ggYSB3YXkgaW4gbWFpbmxpbmUgdGhh
-dCB0aGV5IGFyZSBwcm9uZSB0bwo+ID4gb3ZlcnNob290aW5nIHRoZSBmcmVxdWVuY3kgZHVyaW5n
-IG91dHB1dCBkaXZpZGVyIHJlZHVjdGlvbgo+ID4gMjA6MTMgPG1lZ2k+IHNvIGRpc2FibGluZyBQ
-IGRpdmlkZXIgbWF5IGhlbHAKPiA+IDIwOjEzIDxtZWdpPiBvciBmaXhpbmcgdGhlIGRpdmlkZXJz
-Cj4gPiAyMDoxNCA8bWVnaT4gYW5kIGp1c3QgYWxsb3dpbmcgTiB0byBjaGFuZ2UKPiA+IDIwOjIy
-IDxtZWdpPiBobW0sIEkgaGF2ZW4ndCBsb29rZWQgYXQgdGhpcyBmb3IgcXVpdGUgc29tZSB0aW1l
-LCBidXQgSDYKPiA+IEJTUCB3YXkgb2Ygc2V0dGluZyBQTEwgZmFjdG9ycyBhY3R1YWxseSBtYWtl
-cyB0aGUgbW9zdCBzZW5zZSBvdXQgb2YKPiA+IGV2ZXJ5dGhpbmcgSSd2ZSBzZWVuL3Rlc3RlZCBz
-byBmYXIKPiA+IDIwOjIzIDxtZWdpPiBpdCB3YWl0cyBmb3IgbG9jayBub3QgYWZ0ZXIgc2V0dGlu
-ZyBOSyBmYWN0b3JzLCBidXQgYWZ0ZXIKPiA+IHJlZHVjaW5nIHRoZSBNIGZhY3RvciAocHJlLWRp
-dmlkZXIpCj4gPiAyMDoyNCA8bWVnaT4gSSBtaWdodCBhcyB3ZWxsIHJlLXJ1biBteSBDUFUgUExM
-IHRlc3RlciB3aXRoIHRoaXMKPiA+IGFsZ29yaXRobSwgdG8gc2VlIGlmIGl0IGZpeGVzIHRoZSBs
-b2NrdXBzCj4gPiAyMDoyNiA8bWVnaT4gaXQgbWFrZXMgc2Vuc2UgdG8gd2FpdCBmb3IgUExMIHRv
-IHN0YWJpbGl6ZSAiYWZ0ZXIiCj4gPiBjaGFuZ2luZyBhbGwgdGhlIGZhY3RvcnMgdGhhdCBhY3R1
-YWxseSBhZmZlY3QgdGhlIFZDTywgYW5kIG5vdCBqdXN0Cj4gPiBzb21lIG9mIHRoZW0KPiA+IDIw
-OjI3IDxtZWdpPiB3YXJwbWVfOiBeCj4gPiAyMDoyOCA8bWVnaT4gaXQgbWF5IGJlIHRoZSBzYW1l
-IHRoaW5nIHRoYXQgcGxhZ3VlcyB0aGUgQ1BVIFBMTCByYXRlCj4gPiBjaGFuZ2VzIGF0IHJ1bnRp
-bWUKPgo+IEkgZ3Vlc3MgaXQncyBvbmUgb2YgdGhlIGJ1Z3Mgd2UgbmV2ZXIgaGVhcmQgb2YuLi4K
-Pgo+IEl0IHdvdWxkIGJlIGEgZ29vZCBpZGVhIHRvIHRlc3QgaXQgb24gYW5vdGhlciBwbGF0Zm9y
-bSAobGlrZSBSb2NrY2hpcD8pCj4gdG8gcnVsZSBvdXQgYW55IGRyaXZlciBpc3N1ZT8KPgo+IFdo
-YXQgZG8geW91IHRoaW5rPwoKSSBjYW4ndCBleGNsdWRlIGEgYnVnIGluIHRoZSBkcml2ZXIsIGJ1
-dCBpZiBpdCB3YXMgdGhlIGNhc2UgTEUKY29tbXVuaXR5IG9yIFBhbmZyb3N0IG1haW50YWluZXIg
-d291bGQgaGF2ZSBoZWFyZCBvZiB0aGF0LgoKTWVnaSdzIGV4cGxhbmF0aW9ucyBtYXRjaCB3aGF0
-IEkgb2JzZXJ2ZWQuCk5LTVAgZHJpdmVycyBzZWVtIHRoZSBwZXJmZWN0IGd1aWx0eSBoZXJlIG9y
-IG1heWJlIGl0J3MgYSBjb21iaW5hdGlvbiBvZiBib3RoLi4uCgpKZXJuZWogc2VudCBtZSB0aGlz
-IHBhdGNoIHRvIHRlc3Q6Cmh0dHBzOi8vZ2l0aHViLmNvbS9jbGVtZW50cGVyb24vbGludXgvY29t
-bWl0LzU2YmRlMzU5YmVhZjhlODI3Y2U1M2VkZTFmZTRhMGFkMjMzY2I3OWIKQnV0IGl0IGRpZG4n
-dCBmaXggdGhlIGlzc3VlLCBJZiBzb21lb25lIHdhbnQgdG8gaGF2ZSBhIGxvb2sgYXQgaXQgOikK
-ClJlZ2FyZHMsCkNsZW1lbnQKCj4KPiBNYXhpbWUKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Aug 28, 2020 at 02:16:36PM +0200, Cl=E9ment P=E9ron wrote:
+> Hi Maxime,
+> =
+
+> On Tue, 25 Aug 2020 at 15:35, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Hi Clement,
+> >
+> > On Mon, Aug 03, 2020 at 09:54:05AM +0200, Cl=E9ment P=E9ron wrote:
+> > > Hi Maxime and All,
+> > >
+> > > On Sat, 4 Jul 2020 at 16:56, Cl=E9ment P=E9ron <peron.clem@gmail.com>=
+ wrote:
+> > > >
+> > > > Hi Maxime,
+> > > >
+> > > > On Sat, 4 Jul 2020 at 14:13, Maxime Ripard <maxime@cerno.tech> wrot=
+e:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Sat, Jul 04, 2020 at 12:25:34PM +0200, Cl=E9ment P=E9ron wrote:
+> > > > > > Add an Operating Performance Points table for the GPU to
+> > > > > > enable Dynamic Voltage & Frequency Scaling on the H6.
+> > > > > >
+> > > > > > The voltage range is set with minival voltage set to the target
+> > > > > > and the maximal voltage set to 1.2V. This allow DVFS framework =
+to
+> > > > > > work properly on board with fixed regulator.
+> > > > > >
+> > > > > > Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
+> > > > >
+> > > > > That patch seems reasonable, why shouldn't we merge it?
+> > > >
+> > > > I didn't test it a lot and last time I did, some frequencies looked=
+ unstable.
+> > > > https://lore.kernel.org/patchwork/cover/1239739/
+> > > >
+> > > > This series adds regulator support to Panfrost devfreq, I will send=
+ a
+> > > > new one if DVFS on the H6 GPU is stable.
+> > > >
+> > > > I got this running glmark2 last time
+> > > > # glmark2-es2-drm
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >     glmark2 2017.07
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >     OpenGL Information
+> > > >     GL_VENDOR:     Panfrost
+> > > >     GL_RENDERER:   Mali T720 (Panfrost)
+> > > >     GL_VERSION:    OpenGL ES 2.0 Mesa 20.0.5
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >
+> > > > [   93.550063] panfrost 1800000.gpu: GPU Fault 0x00000088 (UNKNOWN)=
+ at
+> > > > 0x0000000080117100
+> > > > [   94.045401] panfrost 1800000.gpu: gpu sched timeout, js=3D0,
+> > > > config=3D0x3700, status=3D0x8, head=3D0x21d6c00, tail=3D0x21d6c00,
+> > > > sched_job=3D00000000e3c2132f
+> > > >
+> > > > [  328.871070] panfrost 1800000.gpu: Unhandled Page fault in AS0 at=
+ VA
+> > > > 0x0000000000000000
+> > > > [  328.871070] Reason: TODO
+> > > > [  328.871070] raw fault status: 0xAA0003C2
+> > > > [  328.871070] decoded fault status: SLAVE FAULT
+> > > > [  328.871070] exception type 0xC2: TRANSLATION_FAULT_LEVEL2
+> > > > [  328.871070] access type 0x3: WRITE
+> > > > [  328.871070] source id 0xAA00
+> > > > [  329.373327] panfrost 1800000.gpu: gpu sched timeout, js=3D1,
+> > > > config=3D0x3700, status=3D0x8, head=3D0xa1a4900, tail=3D0xa1a4900,
+> > > > sched_job=3D000000007ac31097
+> > > > [  329.386527] panfrost 1800000.gpu: js fault, js=3D0,
+> > > > status=3DDATA_INVALID_FAULT, head=3D0xa1a4c00, tail=3D0xa1a4c00
+> > > > [  329.396293] panfrost 1800000.gpu: gpu sched timeout, js=3D0,
+> > > > config=3D0x3700, status=3D0x58, head=3D0xa1a4c00, tail=3D0xa1a4c00,
+> > > > sched_job=3D0000000004c90381
+> > > > [  329.411521] panfrost 1800000.gpu: Unhandled Page fault in AS0 at=
+ VA
+> > > > 0x0000000000000000
+> > > > [  329.411521] Reason: TODO
+> > > > [  329.411521] raw fault status: 0xAA0003C2
+> > > > [  329.411521] decoded fault status: SLAVE FAULT
+> > > > [  329.411521] exception type 0xC2: TRANSLATION_FAULT_LEVEL2
+> > > > [  329.411521] access type 0x3: WRITE
+> > > > [  329.411521] source id 0xAA00
+> > >
+> > > Just to keep a track of this issue.
+> > >
+> > > Piotr Oniszczuk give more test and seems to be software related:
+> > > https://www.spinics.net/lists/dri-devel/msg264279.html
+> > >
+> > > Ondrej gave a great explanation about a possible origin of this issue:
+> > > https://freenode.irclog.whitequark.org/linux-sunxi/2020-07-11
+> > >
+> > > 20:12 <megi> looks like gpu pll on H6 is NKMP clock, and those are
+> > > implemented in such a way in mainline that they are prone to
+> > > overshooting the frequency during output divider reduction
+> > > 20:13 <megi> so disabling P divider may help
+> > > 20:13 <megi> or fixing the dividers
+> > > 20:14 <megi> and just allowing N to change
+> > > 20:22 <megi> hmm, I haven't looked at this for quite some time, but H6
+> > > BSP way of setting PLL factors actually makes the most sense out of
+> > > everything I've seen/tested so far
+> > > 20:23 <megi> it waits for lock not after setting NK factors, but after
+> > > reducing the M factor (pre-divider)
+> > > 20:24 <megi> I might as well re-run my CPU PLL tester with this
+> > > algorithm, to see if it fixes the lockups
+> > > 20:26 <megi> it makes sense to wait for PLL to stabilize "after"
+> > > changing all the factors that actually affect the VCO, and not just
+> > > some of them
+> > > 20:27 <megi> warpme_: ^
+> > > 20:28 <megi> it may be the same thing that plagues the CPU PLL rate
+> > > changes at runtime
+> >
+> > I guess it's one of the bugs we never heard of...
+> >
+> > It would be a good idea to test it on another platform (like Rockchip?)
+> > to rule out any driver issue?
+> >
+> > What do you think?
+> =
+
+> I can't exclude a bug in the driver, but if it was the case LE
+> community or Panfrost maintainer would have heard of that.
+> =
+
+> Megi's explanations match what I observed.
+> NKMP drivers seem the perfect guilty here or maybe it's a combination of =
+both...
+> =
+
+> Jernej sent me this patch to test:
+> https://github.com/clementperon/linux/commit/56bde359beaf8e827ce53ede1fe4=
+a0ad233cb79b
+> But it didn't fix the issue, If someone want to have a look at it :)
+
+Not sure how that patch is supposed to work, but it seems to apply
+all factors at once to me.
+
+regards,
+	o.
+
+> Regards,
+> Clement
+> =
+
+> >
+> > Maxime
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
