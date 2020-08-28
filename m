@@ -1,76 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81E225665E
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:22:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2CA256652
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:21:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD8E6EC14;
-	Sat, 29 Aug 2020 09:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E279C6EC00;
+	Sat, 29 Aug 2020 09:21:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54E4F89AAD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 08:30:28 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id k10so277126lfm.5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 01:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LflMgJmibSpFeOHc4WL2YJ+POCyG0pEvbGVH5SBOv0E=;
- b=sdCwCAI9GltezF0rEB2fLfVxKx/8qRdfoKbbiRoFKxvVCYIkR3/N1t+zeTEEbig46m
- +Kyj/BDTYw6OGVtSPlqNjGOO+fv9AYhJPWBogZ4zZlmC2yxHp+dH2Ko7FVvt1wfQtAEJ
- C3EGMetrjmTC/sV3gobl9IyF5UkoeKSYqq3m2hVHVbaEPYOGuzFFd5jgWMxslMdgQGer
- 9+UFDbyhkm+yhdM7yCy9ywuHycOSmJv+CRYhHhUfXf/FoN7mgRZ9eqL8dvW5VmgrW/Oe
- mvL9YOYm9HUrthueMnVNdX9U8x9oc0gEqLz7mTAFACitArMxyd1dGhLSQEfC89ew0Qql
- tX3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LflMgJmibSpFeOHc4WL2YJ+POCyG0pEvbGVH5SBOv0E=;
- b=a/AsGrcTAksaKHATkc6hiY3kHDkTyEHOHaPhQ8B6XymWs+s6xtBTM6GxXUGSDtve5N
- 4YfDzGMUcCWQ9CUUvAv37GNtFonh53rfpbEL7UldauLtdZee9FXEPHHtuO8i7Ilvme5B
- juwhHgPsJCqeEgizosOCZToP2qS82L0y+N7Y3W7nLRfBgJNrwfytUkgoQTbDusJyEhAF
- zh3lFITyhdqYRwLUeOD1KoXeqLRJJTAWbCNU+gwqR6AUCZHYezpXbDQmcTv7sesThGaj
- QiVHYCFoh4VbqxHp6RtRvG57taHVZIqM+j5QjdVuY4K+tiflmwGHLpyLf126wRA/OyY/
- waag==
-X-Gm-Message-State: AOAM533QvJ9MI8XsD+kaNUpVeU9VMNvZaaPRX6vjQ00C91MNOA/+tR+H
- Pl7mEVn4KZ4QKf/QrcqXOAo=
-X-Google-Smtp-Source: ABdhPJzLnvqVFe/sNW/j+lmpEBM4x5/CZ5x6tV+zcsDznlhemeqh60v+eDDBRVDdroYZaI53iNUCkA==
-X-Received: by 2002:a19:24c2:: with SMTP id k185mr276673lfk.120.1598603426636; 
- Fri, 28 Aug 2020 01:30:26 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id h6sm130676lfc.84.2020.08.28.01.30.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Aug 2020 01:30:25 -0700 (PDT)
-Subject: Re: [PATCH v5 13/36] PM / devfreq: tegra30: Use MC timings for
- building OPP table
-To: Chanwoo Choi <cw00.choi@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-References: <20200814000621.8415-1-digetx@gmail.com>
- <CGME20200814000944epcas1p3dfd0104c5fa640695dfcd4949f6b1818@epcas1p3.samsung.com>
- <20200814000621.8415-14-digetx@gmail.com>
- <1b0d75fe-79af-70eb-8450-999a3bc72bac@samsung.com>
- <1de8aa41-8001-cf46-026c-b00f8df0b9a3@gmail.com>
- <2a255211-5426-d78f-d266-cdb958f4c658@samsung.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a11d60af-3a67-6a76-57ae-7cb9bad13bed@gmail.com>
-Date: Fri, 28 Aug 2020 11:30:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 003196E2B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 09:11:28 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 8AB89789;
+ Fri, 28 Aug 2020 05:11:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 28 Aug 2020 05:11:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=Z
+ 6mEu5ovUCsGUuf/wYMTCQN4y6rAXdKDOAyJ2Ja6nCA=; b=qN37PLkgvkVR5Aazx
+ VO6BnCy6DwdAV9DCbIZf14J7EMDsPTYcytEmv27Q19g3xOaErEcN8uFbDs/RK+2r
+ qvYHiC8ux0XdNPZEvNL2DSUXkQaRhpUgRLsVdt6V/rYwMASN0dJ2Pp8DeUqZgKnM
+ Jbxtp2cKAYQsZWyV0ok59dj5yMepW4jXKcqOYAtdomFYcOWZC4DCVyw3RBdj1ot5
+ MVpJ7WYZwLU8liQEakA9C4keoaImk068u7RSJwVZadNsOES7aPlfbRYCI4oWSynA
+ KnTZGKmJ1QmexpzClITgozZEM7c/Co9GQ5xWxUGtlT14hJRUPRe8De9lUCQIKO81
+ Fx0HQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=Z6mEu5ovUCsGUuf/wYMTCQN4y6rAXdKDOAyJ2Ja6n
+ CA=; b=J/GreiDhRaZndA7DEBOqOBikLTiFnuLazmjM6HRBkH3DkY6QbCiHTxKXA
+ AT7CFyaTUft0UvLJz8h9MQO21oTI+fax4rUA4NHW/zUTyp3TaKvhZr4I4lDeiWsS
+ 1iYNk7N4HGxcIdw1ifu4rfV6mbtt+vw0hjSF4bhKZuLjsgnqbVUeZjcu8/zJenqf
+ EGZ5dW/GElYwtg6CcuJEMLARnYM2EFBU6Vr3/b83Ib2JVAyD4klarhMsRt8SuWiI
+ DQeHiRaO4CO65d5YvEfT6aNonVw9LHcy7CmDRWkeR2BBvV/zm/zDP4MlT3zVpQzM
+ zZI74TPd9+2TnOcv6cKXbwpM1IwvQ==
+X-ME-Sender: <xms:OspIX0ocSBm2DjNrFPFC4W7EeyJNIMQwWeiDjArXG5Umr_lD8Jl3rg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvjedgtdehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpefhieehiefftddtgfekuefgleelgedtudefvddtkedvheejhfethfekjedv
+ fffhheenucffohhmrghinhephigrmhhlrdihohhupdihrghmlhdrmhihpdgsohhothhlih
+ hnrdgtohhmnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:OspIX6qjTBWCbMKI489sP7e1md-tHIHIS9C2HkG5wnfEg70zir99BA>
+ <xmx:OspIX5PDxDCqlUilueVJdVYs9CHCjUU0UeKMXgftzRW4mJhR9HiIFg>
+ <xmx:OspIX77D5JWzJkxHsy_fyvUcDVrGQ_xjsI4FTSiFr-oAxNizaJqqEg>
+ <xmx:PMpIXyTmitD0WCYlzYmkQqr7Z6mJ3U_0CDE3jCHafbFtXctad7afN8uEIYo>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 10FC33280064;
+ Fri, 28 Aug 2020 05:11:21 -0400 (EDT)
+Date: Fri, 28 Aug 2020 11:11:19 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: [PATCH 3/3] drm/vc4: hdmi: Add pixel bvb clock control
+Message-ID: <20200828091119.2kykcxixw247kfno@gilmour.lan>
+References: <20200821071045.24501-1-hoegeun.kwon@samsung.com>
+ <CGME20200821071122epcas1p3d00dda4665f94192ac5e9ee829d0557d@epcas1p3.samsung.com>
+ <20200821071045.24501-4-hoegeun.kwon@samsung.com>
+ <61c199bf-852f-82d3-089a-a0a435343acf@i2se.com>
+ <80749dcd-d4b2-68a1-f3ca-c19a120f6f7b@samsung.com>
+ <84c423e8-25a6-8f23-cc80-7a17ce03fd1d@i2se.com>
 MIME-Version: 1.0
-In-Reply-To: <2a255211-5426-d78f-d266-cdb958f4c658@samsung.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <84c423e8-25a6-8f23-cc80-7a17ce03fd1d@i2se.com>
 X-Mailman-Approved-At: Sat, 29 Aug 2020 09:21:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,30 +84,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ tim.gover@raspberrypi.com, dave.stevenson@raspberrypi.com, sboyd@kernel.org,
+ mturquette@baylibre.com, kdasu.kdev@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, robh+dt@kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ phil@raspberrypi.com, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ nsaenzjulienne@suse.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjguMDguMjAyMCAwNDo0NywgQ2hhbndvbyBDaG9pINC/0LjRiNC10YI6Cj4gSGksCi4uLgo+PiBI
-ZW5jZSB0aGUgTlVMTC1jaGVja2luZyBpcyB1bm5lY2Vzc2FyeS4KPj4KPj4gV2hlbiBJIGZpcnN0
-IGVuY291bnRlcmVkIHRoZSBvZl9kZXZpY2VfZ2V0X21hdGNoX2RhdGEoKSwgSSB3YXMgYWxzbwo+
-PiB0aGlua2luZyB0aGF0IGFkZGluZyB0aGUgTlVMTC1jaGVja3MgaXMgYSBnb29kIGlkZWEsIGJ1
-dCBsYXRlciBvbgo+PiBzb21lYm9keSBwb2ludGVkIG91dCB0byBtZSAobWF5YmUgVGhpZXJyeSkg
-dGhhdCBpdCdzIHVubmVjZXNzYXJ5IHRvIGRvLgo+IAo+IE9LLiBUaGFua3MuCj4gCj4+Cj4+Pj4g
-Kwo+Pj4+ICsJbWMgPSB0ZWdyYV9nZXRfbWVtb3J5X2NvbnRyb2xsZXIoc29jX2RhdGEtPm1jX2Nv
-bXBhdGlibGUpOwo+Pj4+ICsJaWYgKElTX0VSUihtYykpCj4+Pj4gKwkJcmV0dXJuIFBUUl9FUlIo
-bWMpOwo+Pj4KPj4+IFlvdSBiZXR0ZXIgdG8gYWRkIGVycm9yIGxvZy4KPj4KPj4gSW4gcHJhY3Rp
-Y2Ugd2Ugc2hvdWxkIGdldCBvbmx5IC1FUFJPQkVfREVGRVIgaGVyZSBldmVyLiBJJ2xsIGNvbnNp
-ZGVyCj4+IGFkZGluZyB0aGUgbWVzc2FnZSBpbiB0aGUgbmV4dCByZXZpc2lvbiwgYXQgbGVhc3Qg
-anVzdCBmb3IgY29uc2lzdGVuY3kuCj4gCj4gSW4gb3JkZXIgdG8gaGFuZGxlIC1FUFJPQkVfREVG
-RVIsIHJlY29tbWVuZCB0aGUgdXNpbmcgb2YgZGV2X2Vycl9wcm9iZSgpLgoKSGVsbG8sIENoYW53
-b28hCgpUaGFuayB5b3UgZm9yIHRoZSBzdWdnZXN0aW9uISBJIHdhc24ndCBhd2FyZSBhYm91dCB0
-aGUgZGV2X2Vycl9wcm9iZSgpCnVudGlsIHJlY2VudGx5IGFuZCB3aWxsIHVzZSB0aGlzIG5ldyBo
-ZWxwZXIgaW4gdGhlIHY2IQoKVGhhbmtzIQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+Hi Stefan,
+
+On Thu, Aug 27, 2020 at 11:49:34AM +0200, Stefan Wahren wrote:
+> Am 27.08.20 um 06:35 schrieb Hoegeun Kwon:
+> > Hi Stefan,
+> >
+> > Thank you for your review.
+> >
+> >
+> > On 8/26/20 7:04 PM, Stefan Wahren wrote:
+> >> Hi Hoeguen,
+> >>
+> >> Am 21.08.20 um 09:10 schrieb Hoegeun Kwon:
+> >>> There is a problem that the output does not work at a resolution
+> >>> exceeding FHD. To solve this, we need to adjust the bvb clock at a
+> >>> resolution exceeding FHD.
+> >> this patch introduces a mandatory clock, please update
+> >> brcm,bcm2835-hdmi.yaml first.
+> >>
+> >> Is this clock physically available on BCM283x or only on BCM2711?
+> > As far as I know, BCM2711 raspberry pi 4 supports 4k,
+> >
+> > don't supported on pi 3 and pi 3+.
+> >
+> > Since 4k is not supported in versions prior to Raspberry Pi 4,
+> >
+> > I don't think we need to modify the bvb clock.
+> >
+> >
+> > So I think it is better to update 'brcm,bcm2711-hdmi.yaml'
+> >
+> > instead of 'brcm,bcm2835-hdmi.yaml'.
+> 
+> You are correct please update only brcm,bcm2711-hdmi.yaml.
+> 
+> My concern was that the function vc4_hdmi_encoder_pre_crtc_configure()
+> is called on a non-bcm2711 platform or on a Raspberry Pi 4 with an older
+> DTB. So making the BVB clock optional might be better?
+
+It won't cause any issue on a non-RPi4 platform since the clock pointer
+will be NULL and clk_set_rate can deal with NULL pointers just fine:
+https://elixir.bootlin.com/linux/latest/source/drivers/clk/clk.c#L2221
+
+For the older DTBs, it shouldn't be an issue either. We haven't merged
+the binding yet, so we don't have an upstream DTB using it
+
+Maxime
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
