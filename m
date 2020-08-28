@@ -1,36 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D3625557E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 09:43:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1F42555EE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 10:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDF76E323;
-	Fri, 28 Aug 2020 07:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32C46EB76;
+	Fri, 28 Aug 2020 08:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 028826E323
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 07:43:03 +0000 (UTC)
-Received: from localhost.localdomain (unknown [122.171.38.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B4B6EB76
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 08:05:15 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7EBA620776;
- Fri, 28 Aug 2020 07:42:58 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D511E2098B;
+ Fri, 28 Aug 2020 08:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598600583;
- bh=hwP7Z1Qw6TB+HuWMynMqgGLHide/4Ajq/hNm8rqV4M8=;
- h=From:To:Cc:Subject:Date:From;
- b=OlhVIskDIZNItaSs02q3XH8z3VGMmLh/fO8UGAfQdFl19Mx+30v3O2wvJOlp7Jbke
- MSvZCRLWiTlIA+YT1VRrGbNK81UNEF1rf/RsYJbnpS5nQlwC+ojb1JUzSp5V3nk17P
- vMkqbXiRtTVjFwZ6ofvhObQ/ha92Sq8TL7c89GiI=
-From: Vinod Koul <vkoul@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] drm/bridge: Fix the dsi remote end-points
-Date: Fri, 28 Aug 2020 13:12:50 +0530
-Message-Id: <20200828074251.3788165-1-vkoul@kernel.org>
-X-Mailer: git-send-email 2.26.2
+ s=default; t=1598601915;
+ bh=vMJRZMz2Pa5rB3iLaOPsspQW2sADe0DrKt54oiW5pUI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c9rdK0xQA5nY/JkJ1bHSkXeUVMBdLLLADhXIk2SZaMlOVoZbY5UpfCP4avwBIH4nY
+ hnLfwqc/dQBU08288LRom/l+e2DtNDNfqPkOVFF2kEL7kwBKiAU1yrUwkSSM4vswhS
+ nuwdhbSf1poDOQn+W3m7zKRAMSze9tYqn5BBNz60=
+Date: Fri, 28 Aug 2020 10:05:27 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH] staging: ion: remove from the tree
+Message-ID: <20200828080527.GA1005274@kroah.com>
+References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
+ <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
+ <20200827160506.GC684514@kroah.com>
+ <CAMi1Hd1Ch1RWvOTnON3tsrucaKThTuGQnwNFo94GqUjufVmnOg@mail.gmail.com>
+ <20200827171745.GA701089@kroah.com>
+ <CALAqxLVOEBaLtkbL-OENYSK0dUc_PBo-oC=BOBFQbPh-bkWTgQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CALAqxLVOEBaLtkbL-OENYSK0dUc_PBo-oC=BOBFQbPh-bkWTgQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,53 +51,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ "open list:ANDROID DRIVERS" <devel@driverdev.osuosl.org>,
+ Shuah Khan <shuah@kernel.org>, Todd Kjos <tkjos@android.com>,
+ Martijn Coenen <maco@android.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Suren Baghdasaryan <surenb@google.com>, Christoph Hellwig <hch@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Hridya Valsaraju <hridya@google.com>,
+ Laura Abbott <laura@labbott.name>,
+ Android Kernel Team <kernel-team@android.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Christian Brauner <christian@brauner.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSI end-points are supposed to be at node 0 and node 1 as per binding.
-So fix this and use node 0 and node 1 for dsi.
+On Thu, Aug 27, 2020 at 11:54:12AM -0700, John Stultz wrote:
+> On Thu, Aug 27, 2020 at 10:17 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Thu, Aug 27, 2020 at 10:31:41PM +0530, Amit Pundir wrote:
+> > > I don't know what is the right thing to do here. I just want to
+> > > highlight that AOSP's audio (codec2) HAL depends on the ION system
+> > > heap and it will break AOSP for people who boot mainline on their
+> > > devices, even for just testing purpose like we do in Linaro. Right now
+> > > we need only 1 (Android specific out-of-tree) patch to boot AOSP with
+> > > mainline and Sumit is already trying to upstream that vma naming
+> > > patch. Removal of in-kernel ION, will just add more to that delta.
+> >
+> > As AOSP will continue to rely on ION after December of this year, all
+> > you are doing is postponing the inevitable a few more months.
+> >
+> > Push back on the Android team to fix up the code to not use ION, they
+> > know this needs to happen.
+> 
+> The point though, is your main premise that no one is using this isn't true.
 
-Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/bridge/lontium-lt9611.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+They are using the version of ion in the Android kernel tree, yes, as it
+has new features that many people are relying on.
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 1009fc4ed4ed..d734d9402c35 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -960,13 +960,13 @@ static const struct drm_bridge_funcs lt9611_bridge_funcs = {
- static int lt9611_parse_dt(struct device *dev,
- 			   struct lt9611 *lt9611)
- {
--	lt9611->dsi0_node = of_graph_get_remote_node(dev->of_node, 1, -1);
-+	lt9611->dsi0_node = of_graph_get_remote_node(dev->of_node, 0, -1);
- 	if (!lt9611->dsi0_node) {
- 		dev_err(lt9611->dev, "failed to get remote node for primary dsi\n");
- 		return -ENODEV;
- 	}
- 
--	lt9611->dsi1_node = of_graph_get_remote_node(dev->of_node, 2, -1);
-+	lt9611->dsi1_node = of_graph_get_remote_node(dev->of_node, 1, -1);
- 
- 	lt9611->ac_mode = of_property_read_bool(dev->of_node, "lt,ac-mode");
- 
--- 
-2.26.2
+The version that is currently in the kernel tree is crippled, and maybe
+works for some use cases, but not the majority, right?
 
+> I'm actively working with Hridya and folks on the codec2 HAL side to
+> transition this on the userland side:
+>   https://android-review.googlesource.com/c/platform/frameworks/av/+/1368918/3
+> 
+> I'd like AOSP to not use ION after September (though being external I
+> can't promise anything), much less continuing after December.
+
+The android team has said they will be dropping ION use for the "next"
+Android release, which is sometime next year from what I recall.
+December is probably not going to happen :)
+
+> I want this migration to happen as much as anyone.  But I'd prefer to
+> keep ION in staging until after the LTS is announced. Having both
+> around helps development for the transition, which helps us have a
+> reliable solution, which helps vendors to migrate and be able to do
+> comparative performance testing.
+
+I don't understand what having this in the "next" kernel helps us with
+here.  And I would really really prefer to NOT have an outdated version
+of this code in a kernel tree that I am going to have to support for the
+next X number of years, when no one is using that version of the driver.
+
+What is this LTS fixation to keep this code around for?  Who does it
+help?
+
+> I do appreciate that keeping it isn't free, but I also don't feel the
+> chaos-monkey approach here is really motivational in the way you
+> intend.
+
+I don't see it helping anyone to leave this around, except to cause
+merge issues for me, and development issues for other developers.
+
+Anyone who really wants this code, can easily revert the deletion and
+move on and grab the AOSP copy of the code.  That's what they did when
+we deleted other Android features that are still relied on.
+
+Given that the "isn't free" is causing _me_ real pain, and not the
+actual users of this code, I am leaning toward wanting to move that
+pain/cost to those users, for obvious reasons.
+
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
