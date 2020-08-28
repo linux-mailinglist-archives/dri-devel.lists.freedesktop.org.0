@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389162557A3
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 11:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1292557E1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 11:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1CA96E32F;
-	Fri, 28 Aug 2020 09:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44BC6E462;
+	Fri, 28 Aug 2020 09:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 407396E32F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 09:29:08 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id b18so638935wrs.7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 02:29:08 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 090366E462
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 09:40:41 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id w25so559407ljo.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 02:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=4xTbc6V9CmKW0Xfag25GTFqmyB1j/7yz22pA4imxIiw=;
- b=EhIxwGsEYrapIc1v+zaLKLGIYcC14GvP6v+Z6CbxQZEMa/D/jJzWG5jBVvI11WHLPo
- 3nbqhUnLrekuaF+/5TmAc6ZtRnfsKh4Jr+fvwq/Jp+FH0oZBjMmsrJd4w2nE63zwXClW
- hMjUznVbCdsTmian9+uE5iwihyJv1HGcojCE+qijrQsxB+r7l5/2PPW1B6r4CpwiDoEN
- YUZcSvX7jukQFfuZtUH+Q+6u2Mk+KqxuSYWB6+x1KtjzB6Uz8ueSeTYY5MfPlQlxvzUR
- IDghGWFM91DUAtGWnxd+zn0anWrhpiwEDPlMD9q1z6XTm41DemxHQGzQiO3Ls2fj+TeU
- MT3A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZUip6H2+jjLmhsYJSfGTRg7Ifd0FUyC3bIqJ6snuBqc=;
+ b=ZK+v2bmQLBjTkyTKleZ4cfX+TpXVVDGN80D4Cqhya1JdXh0uk4uzMDHh2YlIQSpubL
+ Z10w4VCoiKA/QgWuuZ5KY2SSF/NdAfsZ8Z7nPX9LBb/JyULoZ5s1U1uF9CiBp4+Wkz87
+ UVyBls0s8KH5oRJgVt7FdhME4Vx55DOD4UbsTASNmspQx/J3yK4b0UHT8fabcBfERM7O
+ 66e2Tt7LkEfbLu/tG5Z8CwjGrynpQGPYK1M6cFDHBJI9/2UsJ6JIxk2cLkqBUoKGZpo3
+ HRM3wL3Z+XZD/kWUuGbHjv9zynSMwTgAPsurI1JevBX9DJAIZHRJewlsm5WQYkde7sIN
+ Jojg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=4xTbc6V9CmKW0Xfag25GTFqmyB1j/7yz22pA4imxIiw=;
- b=jgPTe+1H8tJKUFBIcxZnAHMPqHeZO6SCFh2Czq2FWaUPoACl2/im4AZMGaxVBoQ+li
- 1BEmLIo7yMR2Ut64fD4DN/OP37tNFbINw/zWZ02g8tPx/HA/Ng72YIQnuT5dW+IFYsIp
- 80tgyXv4QuYdxHnhyKiiHyohqtdLUayLS7fkveyYZjOEFhRarCPwQhGrK9Sol5cH9hH4
- enmExenEBdHDi4YV2+SicZs34Ha1THa8W1DDXQ4V/KkMx2U3H5fUh0wLBuyMyZHg5ldd
- mQNiuk7PxovO2aj22aTDOr28Hy7myjLkAoj0/Iatt98vyY40cGOKelKqVnWTeNLbMdhs
- VtHA==
-X-Gm-Message-State: AOAM533lRfuLA8764PxlMCSTAv9mH5/ZesFFzR7zvl9vCqpBfzUjYoet
- GgGAjgtIDtjHl1eFZueSoZfaoA==
-X-Google-Smtp-Source: ABdhPJwKFt/IiE8F76uSnjKmApF3H699HkDMx4kQ2ZsuOSzw96rNCHbjHHh1HSyEmO6pjlBVe4DCjg==
-X-Received: by 2002:a05:6000:4f:: with SMTP id
- k15mr642732wrx.316.1598606946784; 
- Fri, 28 Aug 2020 02:29:06 -0700 (PDT)
-Received: from dell ([91.110.221.141])
- by smtp.gmail.com with ESMTPSA id j7sm1254885wmj.38.2020.08.28.02.29.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:29:06 -0700 (PDT)
-Date: Fri, 28 Aug 2020 10:29:04 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH] video: backlight: sky81452-backlight: Fix reference
- count imbalance on error
-Message-ID: <20200828092904.GD1826686@dell>
-References: <321fb03d-2307-7f60-f437-cfb99184dfd6@web.de>
- <20200819165702.GC3248864@dell>
- <217e3c0c.b58c.17409fd7496.Coremail.dinghao.liu@zju.edu.cn>
- <20200820062301.GD3248864@dell>
- <3f9fbdb1.bc96.1740a9560d5.Coremail.dinghao.liu@zju.edu.cn>
- <20200820074916.GE3248864@dell>
- <20200820113817.742yvjvdy7a642ew@holly.lan>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZUip6H2+jjLmhsYJSfGTRg7Ifd0FUyC3bIqJ6snuBqc=;
+ b=g97rK+cx8pLylE5kQP9LTc0zitKj5ri4SG52HAB3xmEa47I4jzTA6LCP+3F+gIVeTx
+ SPFCJL0w7GIzqqWvdQ4StlqEdUISRpZkqWyePrV6Hos/VnUpxFb3Vugy52LgFJCxn73k
+ Xwc7JQWSEBLIP5wsgNvi+iTxzlOGX9PNfbr7yiaav2DdrcV4oiVGoNk2hchS5PCUCG0w
+ eL/zNu1rzH5MiReSkACzcivDxQ69i4nw12SFOjXp+GRivVRuqI69RGnGECU6u6IOh9SE
+ xLSQbpr9utk+t8+D/OlNj2LfxxKRK+qTMAwT12LJTVsX63fqj8Dxq5b0Xq46eZTcbJja
+ wcqg==
+X-Gm-Message-State: AOAM530Oi03CCVlonyKZQ4EOFd5VsdogxAfOyFXedztX2kJG4HPR94ot
+ h+IhUyR8VQchyHu4LT7h1dChbRg1nypndNO0+CNe5w==
+X-Google-Smtp-Source: ABdhPJyobFr8wlwoGMVpjT4BBlaiB53c0xbtwloUtEybXVxTnB6o94g4sI9w40AbLQ+tg744duwQYVnD0klCkIcxAA4=
+X-Received: by 2002:a2e:9dd0:: with SMTP id x16mr472930ljj.144.1598607638931; 
+ Fri, 28 Aug 2020 02:40:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200820113817.742yvjvdy7a642ew@holly.lan>
+References: <20200823104532.1024798-1-sam@ravnborg.org>
+In-Reply-To: <20200823104532.1024798-1-sam@ravnborg.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 28 Aug 2020 11:40:28 +0200
+Message-ID: <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/24] backlight: add init macros and accessors
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +60,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Gyungoh Yoo <jack.yoo@skyworksinc.com>, Bryan Wu <cooloney@gmail.com>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Elfring <Markus.Elfring@web.de>,
- dinghao.liu@zju.edu.cn, Jingoo Han <jingoohan1@gmail.com>,
- Kangjie Lu <kjlu@umn.edu>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Konrad Dybcio <konradybcio@gmail.com>, amd-gfx@lists.freedesktop.org,
+ Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Robert Chiras <robert.chiras@nxp.com>, Vinay Simha BN <simhavcs@gmail.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ =?UTF-8?Q?Pawe=C5=82_Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Hans de Goede <hdegoede@redhat.com>,
+ Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jingoo Han <jingoohan1@gmail.com>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMCBBdWcgMjAyMCwgRGFuaWVsIFRob21wc29uIHdyb3RlOgoKPiBPbiBUaHUsIEF1
-ZyAyMCwgMjAyMCBhdCAwODo0OToxNkFNICswMTAwLCBMZWUgSm9uZXMgd3JvdGU6Cj4gPiBPbiBU
-aHUsIDIwIEF1ZyAyMDIwLCBkaW5naGFvLmxpdUB6anUuZWR1LmNuIHdyb3RlOgo+ID4gCj4gPiA+
-ID4gT24gVGh1LCAyMCBBdWcgMjAyMCwgZGluZ2hhby5saXVAemp1LmVkdS5jbiB3cm90ZToKPiA+
-ID4gPiAKPiA+ID4gPiA+ID4gT24gV2VkLCAxOSBBdWcgMjAyMCwgTWFya3VzIEVsZnJpbmcgd3Jv
-dGU6Cj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+ID4gV2hlbiBvZl9wcm9wZXJ0eV9yZWFkX3Uz
-Ml9hcnJheSgpIHJldHVybnMgYW4gZXJyb3IgY29kZSwKPiA+ID4gPiA+ID4gPiA+IGEgcGFpcmlu
-ZyByZWZjb3VudCBkZWNyZW1lbnQgaXMgbmVlZGVkIHRvIGtlZXAgbnAncyByZWZjb3VudCBiYWxh
-bmNlZC4KPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiBDYW4gYW5vdGhlciBpbXBlcmF0aXZl
-IHdvcmRpbmcgYmUgaGVscGZ1bCBmb3IgdGhlIGNoYW5nZSBkZXNjcmlwdGlvbj8KPiA+ID4gPiA+
-ID4gPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2
-YWxkcy9saW51eC5naXQvdHJlZS9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0dGluZy1wYXRj
-aGVzLnJzdD9pZD0xODQ0NWJmNDA1Y2IzMzExMTdiYzk4NDI3YjFiYTZmMTI0MThhZDE3I24xNTEK
-PiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiBXb3VsZCBhbiBvdGhlciBjb21taXQgbWVzc2Fn
-ZSBiZSBhIGJpdCBuaWNlcj8KPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+
-ID4gPiDigKYKPiA+ID4gPiA+ID4gPiA+ICsrKyBiL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3Nr
-eTgxNDUyLWJhY2tsaWdodC5jCj4gPiA+ID4gPiA+ID4gPiBAQCAtMjE3LDYgKzIxNyw3IEBAIHN0
-YXRpYyBzdHJ1Y3Qgc2t5ODE0NTJfYmxfcGxhdGZvcm1fZGF0YSAqc2t5ODE0NTJfYmxfcGFyc2Vf
-ZHQoCj4gPiA+ID4gPiA+ID4gPiAgCQkJCQludW1fZW50cnkpOwo+ID4gPiA+ID4gPiA+ID4gIAkJ
-aWYgKHJldCA8IDApIHsKPiA+ID4gPiA+ID4gPiA+ICAJCQlkZXZfZXJyKGRldiwgImxlZC1zb3Vy
-Y2VzIG5vZGUgaXMgaW52YWxpZC5cbiIpOwo+ID4gPiA+ID4gPiA+ID4gKwkJCW9mX25vZGVfcHV0
-KG5wKTsKPiA+ID4gPiA+ID4gPiA+ICAJCQlyZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsKPiA+ID4g
-PiA+ID4gPiA+ICAJCX0KPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiBJIHByb3Bvc2UgdG8g
-YWRkIHRoZSBqdW1wIHRhcmdldCDigJxwdXRfbm9kZeKAnSBzbyB0aGF0IGEgYml0IG9mIGNvbW1v
-biBleGNlcHRpb24KPiA+ID4gPiA+ID4gPiBoYW5kbGluZyBjb2RlIGNhbiBiZSBiZXR0ZXIgcmV1
-c2VkIGF0IHRoZSBlbmQgb2YgdGhpcyBmdW5jdGlvbiBpbXBsZW1lbnRhdGlvbi4KPiA+ID4gPiA+
-ID4gPiAKPiA+ID4gPiA+ID4gPiBSZWdhcmRzLAo+ID4gPiA+ID4gPiA+IE1hcmt1cwo+ID4gPiA+
-ID4gPiAKPiA+ID4gPiA+ID4gWW91IGNhbiBzYWZlbHkgaWdub3JlIGFueSByZXZpZXcgY29tbWVu
-dHMgZnJvbSBNYXJrdXMhCj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiBIb3dldmVyLCB0aGlzIHBh
-dGNoIGRvZXNuJ3QgYXBwZWFyIHRvIGJlIGluIG15IGluYm94Lgo+ID4gPiA+ID4gPiAKPiA+ID4g
-PiA+ID4gQW55IGlkZWFzIGFzIHRvIHdoeT8KPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiAKPiA+ID4g
-PiA+IFRoYW5rIHlvdSBmb3IgeW91ciBhZHZpY2UuIE15IG91dGJveCBzaG93cyB0aGF0IHRoaXMg
-cGF0Y2gKPiA+ID4gPiA+IGhhcyByZWFjaGVkIHlvdXIgZW1haWwgc2VydmVyIHN1Y2Nlc3NmdWxs
-eS4gTWF5YmUgdGhpcwo+ID4gPiA+ID4gZW5kZWQgdXAgaW4geW91ciBqdW5rIG1haWwgZmlsZT8K
-PiA+ID4gPiAKPiA+ID4gPiBUaGlzIGhhcyBoYXBwZW5lZCByZWNlbnRseSwgc28gSSB3YXMgc3Vy
-ZSB0byBjaGVjay4KPiA+ID4gPiAKPiA+ID4gPiBOb3QgdGhlcmUgZWl0aGVyIHVuZm9ydHVuYXRl
-bHkuCj4gPiA+ID4gCj4gPiA+ID4gV291bGQgeW91IGJlIGtpbmQgZW5vdWdoIHRvIGJvdW5jZS9y
-ZXNlbmQgcGxlYXNlPwo+ID4gPiAKPiA+ID4gU3VyZS4KPiA+IAo+ID4gTG9va3MgbGlrZSB5b3Ug
-c2VudCBpdCAqb25seSogdG8gbWUuICBQbGVhc2Uga2VlcCBldmVyeW9uZSBlbHNlIGluIENjCj4g
-PiB3aGVuIGRvaW5nIHRoYXQsIG9yIEkgY2FuJ3QgcmVzcG9uZCB0byBldmVyeW9uZS4KPiA+IAo+
-ID4gQW55d2F5LCBiZXNpZGVzIHRoZSBzdWJqZWN0IGxpbmUgKHdoaWNoIEkgY2FuIGZpeCBlYXNp
-bHkpLCB0aGUgcGF0Y2gKPiA+IGxvb2tzIGdvb2QgdG8gbWUsIGJ1dCBEYW5pZWwgVCBtdXN0IHJl
-dmlldy4KPiAKPiBJJ3ZlIGFscmVhZHkgb2ZmZXJlZCBhIFJldmlld2VkLWJ5IGZvciB0aGlzIHBh
-dGNoLiBQZXJoYXBzIGl0IGxhbmRlZCBpbgo+IHRoZSBzYW1lIHBsYWNlIGFzIHRoZSBvcmlnaW5h
-bCBwYXRjaC4uLgoKUGF0Y2ggYXBwbGllZCwgdGhhbmtzLgoKLS0gCkxlZSBKb25lcyBb5p2O55C8
-5pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJvLm9y
-ZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86IEZh
-Y2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On Sun, Aug 23, 2020 at 12:45 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+
+> The first patch trims backlight_update_status() so it can be called with a NULL
+> backlight_device. Then the caller do not need to add this check just to avoid
+> a NULL reference.
+>
+> The backlight drivers uses several different patterns when registering
+> a backlight:
+>
+> - Register backlight and assign properties later
+> - Define a local backlight_properties variable and use memset
+> - Define a const backlight_properties and assign relevant properties
+>
+> On top of this there was differences in what members was assigned.
+>
+> To align how backlight drivers are initialized introduce following helper macros:
+> - DECLARE_BACKLIGHT_INIT_FIRMWARE()
+> - DECLARE_BACKLIGHT_INIT_PLATFORM()
+> - DECLARE_BACKLIGHT_INIT_RAW()
+>
+> The macros are introduced in patch 2.
+>
+> The backlight drivers used direct access to backlight_properties.
+> Encapsulate these in get/set access operations resulting in following benefits:
+> - The access methods can be called with a NULL pointer so logic around the
+>   access can be made simpler.
+> - The update_brightness and enable_brightness simplifies the users
+> - The code is in most cases more readable with the access operations.
+> - When everyone uses the access methods refactoring in the backlight core is simpler.
+>
+> The get/set operations are introduced in patch 3.
+>
+> The gpio backlight driver received a small overhaul in a set of three patches.
+> The result is a smaller and more readable driver.
+>
+> The remaining patches updates all backlight users in drivers/gpu/drm/*
+> With this patch set all of drivers/gpu/drm/:
+> - All backlight references to FB_BLANK* are gone from drm/*
+> - All direct references to backlight properties are gone
+> - All panel drivers uses the devm_ variant for registering backlight
+>   Daniel Vetter had some concerns with this for future updates,
+>   but we are aligned now and can update if refoctoring demands it
+> - All panel drivers uses the backlight support in drm_panel
+>
+> Individual patches are only sent to the people listed in the patch + a few more.
+> Please check https://lore.kernel.org/dri-devel/ for the full series.
+>
+> v2:
+>   - Documented BACKLIGHT_PROPS as it may be used by drivers
+>   - Dropped backlight_set_power_{on,off}, they were a mistake (Daniel)
+>   - Added backlight_update_brightness() and use it (Daniel)
+>   - Added backlight_enable_brightness() and use it
+>   - Moved remaining drm_panel driver to use backlight support in drm_panel
+>   - gpio backlight driver overhaul
+>
+> The patches are made on top of the for-backlight-next branch at
+> https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git
+> The branch needs v5.8-rc1 backported to build as dev_err_probe()
+> is used.
+>
+> The first 6 patches are candidates for the backlight tree.
+> If they are applied then this should preferably be to an immutable
+> branch we can merge to drm-misc-next where the drm patches shall go.
+>
+> The drm patches has known conflics and shall *not* be applied to the
+> backlight tree, they are included in this patchset to show how the
+> new functions are used.
+>
+> Diffstat for the drm bits alone looks nice:
+>  25 files changed, 243 insertions(+), 460 deletions(-)
+>
+> Feedback welcome!
+
+Thank you for trying to make backlight easier for developers.
+I am a big supporter of this type of simplifications and
+generalizations, it is what makes DRM great.
+
+The series:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
