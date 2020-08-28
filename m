@@ -2,185 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD49255A79
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 14:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD92255A78
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Aug 2020 14:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700606E4B0;
-	Fri, 28 Aug 2020 12:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0BD6E4A1;
+	Fri, 28 Aug 2020 12:46:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057246E4B0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 12:46:11 +0000 (UTC)
-Received: from [192.168.1.173] ([37.4.249.205]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MoeU5-1kvup81vWT-00p6ej; Fri, 28 Aug 2020 14:45:55 +0200
-Subject: Re: [PATCH 3/3] drm/vc4: hdmi: Add pixel bvb clock control
-To: Hoegeun Kwon <hoegeun.kwon@samsung.com>, nsaenzjulienne@suse.de,
- eric@anholt.net, maxime@cerno.tech
-References: <20200821071045.24501-1-hoegeun.kwon@samsung.com>
- <CGME20200821071122epcas1p3d00dda4665f94192ac5e9ee829d0557d@epcas1p3.samsung.com>
- <20200821071045.24501-4-hoegeun.kwon@samsung.com>
- <61c199bf-852f-82d3-089a-a0a435343acf@i2se.com>
- <80749dcd-d4b2-68a1-f3ca-c19a120f6f7b@samsung.com>
- <84c423e8-25a6-8f23-cc80-7a17ce03fd1d@i2se.com>
- <a19de8d5-2b01-cb62-38a2-b0732068025c@samsung.com>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <a3231281-3bd0-e7c9-1bb0-f05848621e82@i2se.com>
-Date: Fri, 28 Aug 2020 14:45:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <a19de8d5-2b01-cb62-38a2-b0732068025c@samsung.com>
-Content-Language: en-US
-X-Provags-ID: V03:K1:PrjyiOo3P4fB/IGoHPW4aFzli9uLVekYTdpe605c+U037CpkBub
- Lc0HRO6MAkC0D/2Mvh0+xIiEKXZQTdWeg1gGkaSlKqkPp/2HiN0Tg7O42/kqrgg2VgATF2r
- Ji1RTbwqisXoHqFXOu/b1Y7tqQ2xYmBJdwLyytVirzOxwRrHTuaVN/RziOzJNH0B3mMfHeW
- PQAh+dvMRFomf9DvHmQWg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iAupwID3GYc=:Yo0jZCzyPyio3MP8R5Rje8
- I4MYGKdvctbIlTP4ThdUlsz1GluECZzZntvmLnuxFsARVcoVFYykyKYruPOthBDLs7Sxg4MEB
- upn6kGdlAmeckLeBeETBC2JaLThgAhmJfLLPdoazcvdl2JMBjG3mNARGmdhgFNvFt1BPjuef4
- j1bDEK5C19UQcpKHGidac2oy9qOvsG8KaERB9BokboEsZMH6mcBaxHOeTdoe8739RvDiYROr3
- WWdGjXUGnqdgpedKplsKloorYc72uDoMRyJdZv76SDbWwOqEGfBG7ncBusd8Vpt/755wW+SxA
- N7//M11dgbwCwwIXJnqVLZKVFUHdLC95c3lvHPQF0+iPkG91zArSZsf1fRctsuVUqvUx5nSwM
- M8DQYWmBFNBfYrt3t3nRQ4Lj0qYqVwAbEp6815NYK3Yd4yhTmzRkEZfebOn6Xvol4ldg+XrhA
- EfY8CzeATjRXEV5HurJ1yWlnWEcBEuRz34ntKS+LUzIFqjjYkFDdWNoQ86zWfeUvJZSUBjzZG
- UfLWNdEmTMUEHUDqToZNBKsH12I7MdzsTIDm0YP7aKkl7mtDBZTjuyBODQPo69KgzC7Mi0cr0
- JxEtPBvwILVEhAtBaMZj2m48bp7Nux+hEnWAcliBi2LNnEhaBbft91tLVtxj7kamoUFY1aELp
- WOXUD3YT4H3pNH0++tasW2rVNysKCVtwrc8OZTGNEXt4THQZ59BMYYu7XbpqkCS009QF6R2A/
- 3yvbbsRVoWle+BhWE33bKDKf5NtDBVL+CFWHNmYUs8kpR0rowH4QLusMbWg3gaUlLeSd36NII
- 47V3APZoimL9B/LvchhXg+nIEluqA8VfXwLd98aaYky7ZQPs2ODO+CWKy+vVFNOqhiDuGVf
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C63546E4A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 12:46:05 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id p15so410477pli.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 05:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=LV/s2CXjmyhaK0LBWgRhhTyeIospCDq6TJzHGpvnT6g=;
+ b=LWFJgGfDyKBtY5lmHYWRLbRndAjD016GbhtAM2jdvCP4MpD96uhACFDW2/tC1qgetI
+ pjEg1cuwysDRp1hauaUd0PV+OvjYYdFqtA/0rCnWwvh2HsY8NkP4Nk2wXw3UqQjqdHi0
+ rzfFtqxxfhcIQdKSfxc+Njr+rdFD/efrWPaCsZBYp5mtG2dQsfgCimHs0K9nVIMuZrbc
+ kvzpgq8orLyx1gVegYmLbXhBrxpP2vCpcVsnfN9nW7dFUnEPezCW4QCyOMPjr15I6iJ+
+ CZyhml0+ucHExmV+BVrpipGTkMX7psbPiH/Z4+oSE9Xu7RsJ4NtiAvcZBcCmOBjtMmjA
+ XrTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=LV/s2CXjmyhaK0LBWgRhhTyeIospCDq6TJzHGpvnT6g=;
+ b=Xqe2MfURqHoR5xVm9H9OeXvrhxGK9JjkkmZjhhBEV72OHbufvMm+ix3BIBsKJ/4ca4
+ 9XVaU4P1hF06Bb4QB5nTyev1gAJT4deOVyCNykL+j7PuCIJ4dugv3qUFDvXIKBZqliTf
+ SczzLZwiADo2Tup+OhPjTvvUHCDahA1Yvgu8ydjJH/rJFWsaRmZsJmN2VU/Yo3LL97R8
+ UKuMCqrYlvU+HcrMXFRCdLCHg9Eyzw5ol8pktnvP7ogtsIeUaoeQuS6ZdaHsF3vWPkZi
+ BBKstkUId6wKhsDB7k0GfqEII0FUnynxF2HxHfOEHIso+rzaor8wYSu8LkSn/1WXE4+j
+ M2sQ==
+X-Gm-Message-State: AOAM531jxW73Xw67dqdCYNlJUX3/fBOnAjn3giM/4/mhjyJgUlQS7WV1
+ 2U8MMy5tj9DDy52AE7D5m+M=
+X-Google-Smtp-Source: ABdhPJxp/41vncbzOQ0/ckQNO2o3dIOncvs0wTo348fYMlDIw0uCdLBHSseAdneK28/TWPC3VOwyDA==
+X-Received: by 2002:a17:90a:de89:: with SMTP id
+ n9mr1090213pjv.50.1598618765344; 
+ Fri, 28 Aug 2020 05:46:05 -0700 (PDT)
+Received: from realwakka.navercorp.com ([61.83.141.80])
+ by smtp.gmail.com with ESMTPSA id 79sm1665930pfw.97.2020.08.28.05.46.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Aug 2020 05:46:04 -0700 (PDT)
+From: Sidong Yang <realwakka@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>
+Subject: [PATCH v3] drm/vkms: avoid warning in vkms_get_vblank_timestamp
+Date: Fri, 28 Aug 2020 12:45:53 +0000
+Message-Id: <20200828124553.2178-1-realwakka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,59 +64,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tim.gover@raspberrypi.com,
- dave.stevenson@raspberrypi.com, sboyd@kernel.org, mturquette@baylibre.com,
- kdasu.kdev@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, robh+dt@kernel.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Sidong Yang <realwakka@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpBbSAyOC4wOC4yMCB1bSAwODozMCBzY2hyaWViIEhvZWdldW4gS3dvbjoKPiBPbiA4LzI3
-LzIwIDY6NDkgUE0sIFN0ZWZhbiBXYWhyZW4gd3JvdGU6Cj4+IEFtIDI3LjA4LjIwIHVtIDA2OjM1
-IHNjaHJpZWIgSG9lZ2V1biBLd29uOgo+Pj4gSGkgU3RlZmFuLAo+Pj4KPj4+IFRoYW5rIHlvdSBm
-b3IgeW91ciByZXZpZXcuCj4+Pgo+Pj4KPj4+IE9uIDgvMjYvMjAgNzowNCBQTSwgU3RlZmFuIFdh
-aHJlbiB3cm90ZToKPj4+PiBIaSBIb2VndWVuLAo+Pj4+Cj4+Pj4gQW0gMjEuMDguMjAgdW0gMDk6
-MTAgc2NocmllYiBIb2VnZXVuIEt3b246Cj4+Pj4+IFRoZXJlIGlzIGEgcHJvYmxlbSB0aGF0IHRo
-ZSBvdXRwdXQgZG9lcyBub3Qgd29yayBhdCBhIHJlc29sdXRpb24KPj4+Pj4gZXhjZWVkaW5nIEZI
-RC4gVG8gc29sdmUgdGhpcywgd2UgbmVlZCB0byBhZGp1c3QgdGhlIGJ2YiBjbG9jayBhdCBhCj4+
-Pj4+IHJlc29sdXRpb24gZXhjZWVkaW5nIEZIRC4KPj4+PiB0aGlzIHBhdGNoIGludHJvZHVjZXMg
-YSBtYW5kYXRvcnkgY2xvY2ssIHBsZWFzZSB1cGRhdGUKPj4+PiBicmNtLGJjbTI4MzUtaGRtaS55
-YW1sIGZpcnN0Lgo+Pj4+Cj4+Pj4gSXMgdGhpcyBjbG9jayBwaHlzaWNhbGx5IGF2YWlsYWJsZSBv
-biBCQ00yODN4IG9yIG9ubHkgb24gQkNNMjcxMT8KPj4+IEFzIGZhciBhcyBJIGtub3csIEJDTTI3
-MTEgcmFzcGJlcnJ5IHBpIDQgc3VwcG9ydHMgNGssCj4+Pgo+Pj4gZG9uJ3Qgc3VwcG9ydGVkIG9u
-IHBpIDMgYW5kIHBpIDMrLgo+Pj4KPj4+IFNpbmNlIDRrIGlzIG5vdCBzdXBwb3J0ZWQgaW4gdmVy
-c2lvbnMgcHJpb3IgdG8gUmFzcGJlcnJ5IFBpIDQsCj4+Pgo+Pj4gSSBkb24ndCB0aGluayB3ZSBu
-ZWVkIHRvIG1vZGlmeSB0aGUgYnZiIGNsb2NrLgo+Pj4KPj4+Cj4+PiBTbyBJIHRoaW5rIGl0IGlz
-IGJldHRlciB0byB1cGRhdGUgJ2JyY20sYmNtMjcxMS1oZG1pLnlhbWwnCj4+Pgo+Pj4gaW5zdGVh
-ZCBvZiAnYnJjbSxiY20yODM1LWhkbWkueWFtbCcuCj4+IFlvdSBhcmUgY29ycmVjdCBwbGVhc2Ug
-dXBkYXRlIG9ubHkgYnJjbSxiY20yNzExLWhkbWkueWFtbC4KPj4KPj4gTXkgY29uY2VybiB3YXMg
-dGhhdCB0aGUgZnVuY3Rpb24gdmM0X2hkbWlfZW5jb2Rlcl9wcmVfY3J0Y19jb25maWd1cmUoKQo+
-PiBpcyBjYWxsZWQgb24gYSBub24tYmNtMjcxMSBwbGF0Zm9ybSBvciBvbiBhIFJhc3BiZXJyeSBQ
-aSA0IHdpdGggYW4gb2xkZXIKPj4gRFRCLiBTbyBtYWtpbmcgdGhlIEJWQiBjbG9jayBvcHRpb25h
-bCBtaWdodCBiZSBiZXR0ZXI/Cj4gWW91IGFyZSByaWdodCwgaWYgdXNlIG9sZCBkdGIsIHdlIGhh
-dmUgYSBwcm9ibGVtIHdpdGggdGhlIGhkbWkgZHJpdmVyLgo+Cj4gU28gaG93IGFib3V0IG1vZGlm
-eWluZyBpdCBsaWtlIHRoaXM/Cj4KPiBAQCAtMTYxNCw4ICsxNjE0LDggQEAgc3RhdGljIGludCB2
-YzVfaGRtaV9pbml0X3Jlc291cmNlcyhzdHJ1Y3QgdmM0X2hkbWkgCj4gKnZjNF9oZG1pKQo+Cj4g
-IMKgwqDCoMKgwqDCoMKgIHZjNF9oZG1pLT5waXhlbF9idmJfY2xvY2sgPSBkZXZtX2Nsa19nZXQo
-ZGV2LCAiYnZiIik7Cj4gIMKgwqDCoMKgwqDCoMKgIGlmIChJU19FUlIodmM0X2hkbWktPnBpeGVs
-X2J2Yl9jbG9jaykpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBEUk1fRVJST1Io
-IkZhaWxlZCB0byBnZXQgcGl4ZWwgYnZiIGNsb2NrXG4iKTsKPiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCByZXR1cm4gUFRSX0VSUih2YzRfaGRtaS0+cGl4ZWxfYnZiX2Nsb2NrKTsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBEUk1fV0FSTigiRmFpbGVkIHRvIGdldCBwaXhl
-bCBidmIgY2xvY2tcbiIpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHZjNF9oZG1p
-LT5waXhlbF9idmJfY2xvY2sgPSBOVUxMOwo+ICDCoMKgwqDCoMKgwqDCoCB9CgppIHRoaW5rIHRo
-ZSBiZXR0ZXIgc29sdXRpb24gd291bGQgYmUgZGV2bV9jbGtfZ2V0X29wdGlvbmFsKCksIHdoaWNo
-CnJldHVybiBOVUxMIGluIGNhc2UgdGhlIGNsb2NrIGRvZXNuJ3QgZXhpc3QuCgpCZXN0IHJlZ2Fy
-ZHMKCj4KPiAgwqDCoMKgwqDCoMKgwqAgdmM0X2hkbWktPnJlc2V0ID0gZGV2bV9yZXNldF9jb250
-cm9sX2dldChkZXYsIE5VTEwpOwo+Cj4gSWYgd2UgbW9kaWZ5IGxpa2UgdGhpcywgaWYgdGhlcmUg
-aXMgbm8gYnZiIGNsb2NrIGluIGR0YiwgdGhlbiAKPiBwaXhlbF9idmJfY2xvY2sgd2lsbCBiZSBu
-dWxsCj4KPiBhbmQgaXQgd2lsbCBub3QgYWZmZWN0IHRoZSBjbGsgY29udHJvbCBmdW5jdGlvbiBi
-ZWxvdy4KPgo+ICDCoCAtIGNsa19zZXRfcmF0ZSgpCj4gIMKgIC0gY2xrX3ByZXBhcmVfZW5hYmxl
-KCkKPiAgwqAgLSBjbGtfZGlzYWJsZV91bnByZXBhcmUoKQo+Cj4KPiBCZXN0IHJlZ2FyZHMKPgo+
-IEhvZWdldW4KPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This patch avoid the warning in vkms_get_vblank_timestamp when vblanks aren't
+enabled. When running igt test kms_cursor_crc just after vkms module, the
+warning raised like below. Initial value of vblank time is zero and
+hrtimer.node.expires is also zero if vblank aren't enabled before. vkms module
+isn't real hardware but just virtual hardware module. so vkms can't generate a
+resonable timestamp when hrtimer is off. it's best to grab the current time.
+
+[106444.464503] [IGT] kms_cursor_crc: starting subtest pipe-A-cursor-size-change
+[106444.471475] WARNING: CPU: 0 PID: 10109 at
+/home/realwakka/git/linux/drivers/gpu/drm/vkms//vkms_crtc.c:91
+vkms_get_vblank_timestamp+0x42/0x50 [vkms]
+[106444.471511] CPU: 0 PID: 10109 Comm: kms_cursor_crc Tainted: G        W  OE
+5.9.0-rc1+ #6
+[106444.471514] RIP: 0010:vkms_get_vblank_timestamp+0x42/0x50 [vkms]
+[106444.471528] Call Trace:
+[106444.471551]  drm_get_last_vbltimestamp+0xb9/0xd0 [drm]
+[106444.471566]  drm_reset_vblank_timestamp+0x63/0xe0 [drm]
+[106444.471579]  drm_crtc_vblank_on+0x85/0x150 [drm]
+[106444.471582]  vkms_crtc_atomic_enable+0xe/0x10 [vkms]
+[106444.471592]  drm_atomic_helper_commit_modeset_enables+0x1db/0x230
+[drm_kms_helper]
+[106444.471594]  vkms_atomic_commit_tail+0x38/0xc0 [vkms]
+[106444.471601]  commit_tail+0x97/0x130 [drm_kms_helper]
+[106444.471608]  drm_atomic_helper_commit+0x117/0x140 [drm_kms_helper]
+[106444.471622]  drm_atomic_commit+0x4a/0x50 [drm]
+[106444.471629]  drm_atomic_helper_set_config+0x63/0xb0 [drm_kms_helper]
+[106444.471642]  drm_mode_setcrtc+0x1d9/0x7b0 [drm]
+[106444.471654]  ? drm_mode_getcrtc+0x1a0/0x1a0 [drm]
+[106444.471666]  drm_ioctl_kernel+0xb6/0x100 [drm]
+[106444.471677]  drm_ioctl+0x3ad/0x470 [drm]
+[106444.471688]  ? drm_mode_getcrtc+0x1a0/0x1a0 [drm]
+[106444.471692]  ? tomoyo_file_ioctl+0x19/0x20
+[106444.471694]  __x64_sys_ioctl+0x96/0xd0
+[106444.471697]  do_syscall_64+0x37/0x80
+[106444.471699]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+
+Signed-off-by: Sidong Yang <realwakka@gmail.com>
+
+---
+
+v3:
+ - add cc.
+
+v2:
+ - modify commit message to make it a bit easier to understand.
+
+---
+ drivers/gpu/drm/vkms/vkms_crtc.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index ac85e17428f8..09c012d54d58 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -86,6 +86,11 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 	struct vkms_output *output = &vkmsdev->output;
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 
++	if (!READ_ONCE(vblank->enabled)) {
++		*vblank_time = ktime_get();
++		return true;
++	}
++
+ 	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
+ 
+ 	if (WARN_ON(*vblank_time == vblank->time))
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
