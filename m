@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E2F25695C
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 19:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B27825695D
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 19:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE9B6E20B;
-	Sat, 29 Aug 2020 17:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFFE89D63;
+	Sat, 29 Aug 2020 17:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67F176E20B
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 17:25:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8FFA89C86
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 17:25:49 +0000 (UTC)
 Received: from localhost.localdomain (unknown [194.230.155.216])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 069A320714;
- Sat, 29 Aug 2020 17:25:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B75252074A;
+ Sat, 29 Aug 2020 17:25:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598721945;
- bh=jlnlsBMlKXrkOdFQa9f0gqcbNKcSuLQh0Ah9oW8TIcg=;
+ s=default; t=1598721949;
+ bh=nRhkqYcTGAk69BeB3yEs3mP59lvOEI+VgG69O0TBHeo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IY9GkRDpdokU8Qw4KBE/GAtPw4sE/H/PPR3ZQMN3aPBpNxpQgBrUT/DuSIT1eLQZM
- p5NKkaNGW0sm7BiFSpqsl3TKJ3KqE8H+Xn1NVmJzwXO5qVnTNhS5Va1qj1iQA7e4pW
- E3QJGS4vKyIfYS2Jme3pp7wLDSxDwE60kBaSWEVg=
+ b=SNEO2opzvqmgxsWGfLRLM80Zk2/ifz5ocHMwSdfHOTK0kW+dNh5fL7GajsQI9PoJ+
+ ZOhNTsGiDS8OqkmehvUuZsLPGYslV/++iDwt6fM1TeSTTzzRVRcZI8SwQvypYM+YM9
+ OGU3t23CIp8fWeT+eqM0ca8hynmdyhuMGHdRQfY8=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -32,10 +32,10 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Hoegeun Kwon <hoegeun.kwon@samsung.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: [RFT 2/4] ARM: dts: exynos: Move fixed clocks under root node in
+Subject: [RFT 3/4] ARM: dts: exynos: Move CMU assigned ISP clocks to buses in
  Exynos3250
-Date: Sat, 29 Aug 2020 19:25:30 +0200
-Message-Id: <20200829172532.29358-2-krzk@kernel.org>
+Date: Sat, 29 Aug 2020 19:25:31 +0200
+Message-Id: <20200829172532.29358-3-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200829172532.29358-1-krzk@kernel.org>
 References: <20200829172532.29358-1-krzk@kernel.org>
@@ -60,72 +60,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fixed clocks are kept under dedicated node fixed-rate-clocks, thus a
-fake "reg" was added.  This is not correct with dtschema as fixed-clock
-binding does not have a "reg" property:
+Commit 52005dece527 ("ARM: dts: Add assigned clock parents to CMU node
+for exynos3250") added assigned clocks under Clock Management Unit to
+fix hangs when accessing ISP registers.
 
-  arch/arm/boot/dts/exynos3250-artik5-eval.dt.yaml: clock@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+This is not the place for it as CMU does not have a required "clocks"
+property:
+
+  arch/arm/boot/dts/exynos3250-artik5-eval.dt.yaml: clock-controller@10030000: 'clocks' is a dependency of 'assigned-clocks'
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+
 ---
- arch/arm/boot/dts/exynos3250.dtsi | 42 +++++++++++++------------------
- 1 file changed, 17 insertions(+), 25 deletions(-)
+
+Not tested and I wonder whether actually correct. For example, what will
+happen if devfreq (exynos-bus) is not built in?
+
+Could someone verify it?
+---
+ arch/arm/boot/dts/exynos3250.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
-index d3fb45a56527..c67c70e46794 100644
+index c67c70e46794..6d467022d929 100644
 --- a/arch/arm/boot/dts/exynos3250.dtsi
 +++ b/arch/arm/boot/dts/exynos3250.dtsi
-@@ -97,33 +97,25 @@
+@@ -214,10 +214,6 @@
+ 			compatible = "samsung,exynos3250-cmu";
+ 			reg = <0x10030000 0x20000>;
+ 			#clock-cells = <1>;
+-			assigned-clocks = <&cmu CLK_MOUT_ACLK_400_MCUISP_SUB>,
+-					  <&cmu CLK_MOUT_ACLK_266_SUB>;
+-			assigned-clock-parents = <&cmu CLK_FIN_PLL>,
+-						 <&cmu CLK_FIN_PLL>;
  		};
- 	};
  
--	fixed-rate-clocks {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		xusbxti: clock@0 {
--			compatible = "fixed-clock";
--			reg = <0>;
--			clock-frequency = <0>;
--			#clock-cells = <0>;
--			clock-output-names = "xusbxti";
--		};
-+	xusbxti: clock-0 {
-+		compatible = "fixed-clock";
-+		clock-frequency = <0>;
-+		#clock-cells = <0>;
-+		clock-output-names = "xusbxti";
-+	};
- 
--		xxti: clock@1 {
--			compatible = "fixed-clock";
--			reg = <1>;
--			clock-frequency = <0>;
--			#clock-cells = <0>;
--			clock-output-names = "xxti";
--		};
-+	xxti: clock-1 {
-+		compatible = "fixed-clock";
-+		clock-frequency = <0>;
-+		#clock-cells = <0>;
-+		clock-output-names = "xxti";
-+	};
- 
--		xtcxo: clock@2 {
--			compatible = "fixed-clock";
--			reg = <2>;
--			clock-frequency = <0>;
--			#clock-cells = <0>;
--			clock-output-names = "xtcxo";
--		};
-+	xtcxo: clock-2 {
-+		compatible = "fixed-clock";
-+		clock-frequency = <0>;
-+		#clock-cells = <0>;
-+		clock-output-names = "xtcxo";
- 	};
- 
- 	pmu {
+ 		cmu_dmc: clock-controller@105c0000 {
+@@ -835,6 +831,8 @@
+ 			compatible = "samsung,exynos-bus";
+ 			clocks = <&cmu CLK_DIV_ACLK_400_MCUISP>;
+ 			clock-names = "bus";
++			assigned-clocks = <&cmu CLK_MOUT_ACLK_400_MCUISP_SUB>;
++			assigned-clock-parents = <&cmu CLK_FIN_PLL>;
+ 			operating-points-v2 = <&bus_mcuisp_opp_table>;
+ 			status = "disabled";
+ 		};
+@@ -843,6 +841,8 @@
+ 			compatible = "samsung,exynos-bus";
+ 			clocks = <&cmu CLK_DIV_ACLK_266>;
+ 			clock-names = "bus";
++			assigned-clocks =  <&cmu CLK_MOUT_ACLK_266_SUB>;
++			assigned-clock-parents = <&cmu CLK_FIN_PLL>;
+ 			operating-points-v2 = <&bus_isp_opp_table>;
+ 			status = "disabled";
+ 		};
 -- 
 2.17.1
 
