@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7491B2563E7
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 03:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F7F256522
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 08:44:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14E826E16D;
-	Sat, 29 Aug 2020 01:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 867806E19A;
+	Sat, 29 Aug 2020 06:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FEE66E169;
- Sat, 29 Aug 2020 01:11:27 +0000 (UTC)
-IronPort-SDR: AqBQGoTMTnGG0qgjniQ/u/OlOpcaJ7B+lAHUA3ZfNbBNAXRLzv9ElcUVZaJ+NanPyr7n4KNqzG
- 5O/KcTkgqLZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9727"; a="156030319"
-X-IronPort-AV: E=Sophos;i="5.76,365,1592895600"; d="scan'208";a="156030319"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2020 18:11:26 -0700
-IronPort-SDR: 8XKr402pDMeWK7gEmQD5xxksZ4Ahvm4WNu5HdK4b4iIc2+2Ue8RLNHxZTUaChm8mBFjg67LmMY
- PwhzpuBP9gVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,365,1592895600"; d="scan'208";a="282549523"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga008.fm.intel.com with ESMTP; 28 Aug 2020 18:11:26 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 28 Aug 2020 18:10:52 -0700
-Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Fri, 28 Aug 2020 18:10:52 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.136]) by
- FMSMSX151.amr.corp.intel.com ([169.254.7.84]) with mapi id 14.03.0439.000;
- Fri, 28 Aug 2020 18:10:52 -0700
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "airlied@linux.ie" <airlied@linux.ie>, "Vivi, Rodrigo"
- <rodrigo.vivi@intel.com>, "Roper, Matthew D" <matthew.d.roper@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "Srivatsa, Anusha" <anusha.srivatsa@intel.com>, "Laxminarayan Bharadiya,
- Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>, "trix@redhat.com"
- <trix@redhat.com>, "wambui.karugax@gmail.com" <wambui.karugax@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "jani.nikula@linux.intel.com"
- <jani.nikula@linux.intel.com>, "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH] drm/i915/display: fix uninitialized variable
-Thread-Topic: [PATCH] drm/i915/display: fix uninitialized variable
-Thread-Index: AQHWezZyFQ6O6CxC8EepYMeUJRKygKlOwiWA
-Date: Sat, 29 Aug 2020 01:10:51 +0000
-Message-ID: <3a93ddc0727676afc8878ca11d0afbebe8e5e4ab.camel@intel.com>
-References: <20200825232057.31601-1-trix@redhat.com>
-In-Reply-To: <20200825232057.31601-1-trix@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.240.12]
-Content-ID: <EA13B763D4D41D4BB2E7EE3CFF27B0EC@intel.com>
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+ [209.85.167.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0316E19A
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 06:44:09 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id c8so815728lfh.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 23:44:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X76JMzhQdfjLKl2wMk/NvZFWieBI7eVxqXcIZgcoIVk=;
+ b=dsF+ee3pPVEds94TRsFaVY34fdJTGG5xJ61wk+4p6Y0EqG+E2r0OmeZMchj2/q+W/l
+ mH93lVj3rue5NGAuMCdEBKKzJdUUvuTPPpKbBgsO8q0tUOjaYXUfsq6nkO/pD7OIzFkm
+ 0odRbHAeuxjKyDY5KKu2gXE7bFTcBCU2hXbLfS1+Ye3Dc7RFrnM2I/HevfQMtgKiFuBe
+ yygUhIby5mrJH6VPo4aUBiq4mRhjBfW91b1w19pv29SFfoVkuwjsGuYOVzRE0LqBZBb0
+ OetOCsGTs4+7aB85mj4yRXUDubpvOmSsUheC/z7we/2KX+XcUP4AEOnHrla7D1B3Eqqf
+ S+QA==
+X-Gm-Message-State: AOAM532XE1TSX+dX+aD13STe0/EORxq+neRC4IOdAkG/P6SGJoDZSV+Z
+ S+KDCNgpZD9A5G5R3Kc8m3lJdEo5SAmLWQ==
+X-Google-Smtp-Source: ABdhPJwL833WvroMdPGvzBdCqISZXOjf7tcdZ7uoSC7kQo45FQpjFA5IFn85/OgTissmLybdktq/jg==
+X-Received: by 2002:a19:3:: with SMTP id 3mr993239lfa.121.1598683447640;
+ Fri, 28 Aug 2020 23:44:07 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
+ [209.85.208.177])
+ by smtp.gmail.com with ESMTPSA id n24sm392878lfe.38.2020.08.28.23.44.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Aug 2020 23:44:06 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id h19so1195245ljg.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Aug 2020 23:44:06 -0700 (PDT)
+X-Received: by 2002:a2e:9047:: with SMTP id n7mr1021857ljg.125.1598683445896; 
+ Fri, 28 Aug 2020 23:44:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.7029eefe5c5350920f91d4cd4cbc061466752f3c.1596101672.git-series.maxime@cerno.tech>
+ <1df5a7bcafa091e008edb439ee9de4262ae4d5d1.1596101672.git-series.maxime@cerno.tech>
+In-Reply-To: <1df5a7bcafa091e008edb439ee9de4262ae4d5d1.1596101672.git-series.maxime@cerno.tech>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 29 Aug 2020 14:43:53 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64dsqavVYL4UvjWw=DzpbE-Egwso1Ma8xH3qYgS2Te9zg@mail.gmail.com>
+Message-ID: <CAGb2v64dsqavVYL4UvjWw=DzpbE-Egwso1Ma8xH3qYgS2Te9zg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] drm/sun4i: tcon: Refactor the LVDS and panel
+ probing
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,69 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just merged the first patch that fixed this issue, thanks anyways.
+On Thu, Jul 30, 2020 at 5:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The current code to parse the DT, deal with the older device trees, and
+> register either the RGB or LVDS output has so far grown organically into
+> the bind function and has become quite hard to extend properly.
+>
+> Let's move it into a single function that grabs all the resources it needs
+> and registers the proper panel output.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-2034c2129bc4a91d471815d4dc7a2a69eaa5338d - drm/i915/display: Ensure that ret is always initialized in icl_combo_phy_verify_state
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
-
-On Tue, 2020-08-25 at 16:20 -0700, trix@redhat.com wrote:
-> From: Tom Rix <
-> trix@redhat.com
-> >
-> 
-> clang static analysis flags this error
-> 
-> intel_combo_phy.c:268:7: warning: The left expression of the
->   compound assignment is an uninitialized value.
->   The computed value will also be garbage
->                 ret &= check_phy_reg(...
->                 ~~~ ^
-> 
-> ret has no initial values, in icl_combo_phy_verify_state() ret is
-> set by the next statment and then updated by similar &= logic.
-> 
-> Because the check_phy_req() are only register reads, reorder the
-> statements.
-> 
-> Fixes: 239bef676d8e ("drm/i915/display: Implement new combo phy initialization step")
-> Signed-off-by: Tom Rix <
-> trix@redhat.com
-> >
 > ---
->  drivers/gpu/drm/i915/display/intel_combo_phy.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_combo_phy.c b/drivers/gpu/drm/i915/display/intel_combo_phy.c
-> index 6968de4f3477..7622ef66c987 100644
-> --- a/drivers/gpu/drm/i915/display/intel_combo_phy.c
-> +++ b/drivers/gpu/drm/i915/display/intel_combo_phy.c
-> @@ -264,6 +264,8 @@ static bool icl_combo_phy_verify_state(struct drm_i915_private *dev_priv,
->  	if (!icl_combo_phy_enabled(dev_priv, phy))
->  		return false;
->  
-> +	ret = cnl_verify_procmon_ref_values(dev_priv, phy);
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 139 +++++++++++++++---------------
+>  1 file changed, 70 insertions(+), 69 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> index 2a5a9903c4c6..d03ad75f9900 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> @@ -875,6 +875,75 @@ static int sun4i_tcon_init_regmap(struct device *dev,
+>         return 0;
+>  }
+>
+> +static int sun4i_tcon_register_panel(struct drm_device *drm,
+> +                                    struct sun4i_tcon *tcon)
+> +{
+> +       struct device_node *companion;
+> +       struct device_node *remote;
+> +       struct device *dev = tcon->dev;
+> +       bool has_lvds_alt;
+> +       bool has_lvds_rst;
+> +       int ret;
 > +
->  	if (INTEL_GEN(dev_priv) >= 12) {
->  		ret &= check_phy_reg(dev_priv, phy, ICL_PORT_TX_DW8_LN0(phy),
->  				     ICL_PORT_TX_DW8_ODCC_CLK_SEL |
-> @@ -276,8 +278,6 @@ static bool icl_combo_phy_verify_state(struct drm_i915_private *dev_priv,
->  				     DCC_MODE_SELECT_CONTINUOSLY);
->  	}
->  
-> -	ret = cnl_verify_procmon_ref_values(dev_priv, phy);
-> -
->  	if (phy_is_master(dev_priv, phy)) {
->  		ret &= check_phy_reg(dev_priv, phy, ICL_PORT_COMP_DW8(phy),
->  				     IREFGEN, IREFGEN);
-> 
+> +       /*
+> +        * If we have an LVDS panel connected to the TCON, we should
+> +        * just probe the LVDS connector. Otherwise, let's just register
+> +        * an RGB panel.
+> +        */
+> +       remote = of_graph_get_remote_node(dev->of_node, 1, 0);
+> +       if (!tcon->quirks->supports_lvds ||
+> +           !of_device_is_compatible(remote, "panel-lvds"))
+> +               return sun4i_rgb_init(drm, tcon);
+
+Slightly related: IIRC there are a few LVDS panels supported in panel-simple
+so they don't use the panel-lvds compatible. Any idea how to deal with those?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
