@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D7B256814
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 16:25:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FC0256816
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 16:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E41806E190;
-	Sat, 29 Aug 2020 14:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1149C6E1E5;
+	Sat, 29 Aug 2020 14:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A0B6E190
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 14:25:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21DD86E1E5
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 14:25:33 +0000 (UTC)
 Received: from localhost.localdomain (unknown [194.230.155.216])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2B56520CC7;
- Sat, 29 Aug 2020 14:25:22 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6019020791;
+ Sat, 29 Aug 2020 14:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598711127;
- bh=YSbg7h0ayxjgdw2GfgjcOo+KBfEvxXNZdlQ7lo+NGaI=;
+ s=default; t=1598711133;
+ bh=R+YptOt/CSt+P2Wj8C74CaZMIMAj5J5igqnpYW+07eY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H/iSmhB41HnMRqEmJuAab+DnQg2/mMdh08DrD9dyzzsng8ajygUtoNK8lCnTXJJ9g
- cLd3Lk3Tfj5nHnX3cHKjFbrOImlQcnYnj3E5xFOeaV2msHbL0KnrmsXdnkCwroEqBK
- Ati+ucwx75Lb6+3+FDAdcqz4vG3fZ8iG0lTz2oiw=
+ b=JtNk4txujpBviSezAH5cbRaeNwlCH0zcAGxuhCwLxzLq/jFv9OdHiLHEFxd5amY0s
+ bHtGKCzqBHiT58+c2PQjUpW8NcBfjdFvzJri3BXr7xoSFhb04qZFOxuDK2R2hnDNPd
+ UdVK7pqBsoeK25H3FGG4uxQ7GvJTYdCdpr4hg5NM=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Kukjin Kim <kgene@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
@@ -36,10 +36,10 @@ To: Kukjin Kim <kgene@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  alsa-devel@alsa-project.org
-Subject: [PATCH 03/10] dt-bindings: timer: exynos4210-mct: Use
- unevaluatedProperties
-Date: Sat, 29 Aug 2020 16:24:54 +0200
-Message-Id: <20200829142501.31478-3-krzk@kernel.org>
+Subject: [PATCH 04/10] dt-bindings: mfd: syscon: Document Samsung Exynos
+ compatibles
+Date: Sat, 29 Aug 2020 16:24:55 +0200
+Message-Id: <20200829142501.31478-4-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200829142501.31478-1-krzk@kernel.org>
 References: <20200829142501.31478-1-krzk@kernel.org>
@@ -65,30 +65,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Additional properties actually might appear (e.g. clocks) so use
-unevaluatedProperties to fix dtbs_check warnings like:
-
-  arch/arm64/boot/dts/exynos/exynos5433-tm2.dt.yaml: timer@101c0000:
-    'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+Samsung Exynos SoCs use syscon for system registers so document its
+compatibles.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- .../devicetree/bindings/timer/samsung,exynos4210-mct.yaml       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/mfd/syscon.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/timer/samsung,exynos4210-mct.yaml b/Documentation/devicetree/bindings/timer/samsung,exynos4210-mct.yaml
-index 37bd01a62c52..f46373fca95a 100644
---- a/Documentation/devicetree/bindings/timer/samsung,exynos4210-mct.yaml
-+++ b/Documentation/devicetree/bindings/timer/samsung,exynos4210-mct.yaml
-@@ -52,7 +52,7 @@ required:
-   - interrupts
-   - reg
+diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+index 049ec2ffc7f9..0f21943dea28 100644
+--- a/Documentation/devicetree/bindings/mfd/syscon.yaml
++++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+@@ -40,6 +40,10 @@ properties:
+               - allwinner,sun50i-a64-system-controller
+               - microchip,sparx5-cpu-syscon
+               - mstar,msc313-pmsleep
++              - samsung,exynos3-sysreg
++              - samsung,exynos4-sysreg
++              - samsung,exynos5-sysreg
++              - samsung,exynos5433-sysreg
  
--additionalProperties: false
-+unevaluatedProperties: false
+           - const: syscon
  
- examples:
-   - |
 -- 
 2.17.1
 
