@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178B7256969
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 19:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CB52569FD
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 22:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFBF6E20D;
-	Sat, 29 Aug 2020 17:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13F66E083;
+	Sat, 29 Aug 2020 20:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 758E46E20D
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 17:28:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55ADF6E083
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 20:15:27 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209071] Nouveau dual monitor setup: After unlock xscreensaver,
  VGA-1 remains black
-Date: Sat, 29 Aug 2020 17:28:40 +0000
+Date: Sat, 29 Aug 2020 20:15:25 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: imirkin@alum.mit.edu
+X-Bugzilla-Who: megia.oscar@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-209071-2300-YkupEwE3Wg@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209071-2300-5utiRPtyTA@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209071-2300@https.bugzilla.kernel.org/>
 References: <bug-209071-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -52,30 +52,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209071
-
-Ilia Mirkin (imirkin@alum.mit.edu) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |imirkin@alum.mit.edu
-
---- Comment #1 from Ilia Mirkin (imirkin@alum.mit.edu) ---
-It appears that the error you pasted is some sort of hang which has nothing to
-do with nouveau. What indication do you have that nouveau is involved in any
-way with this issue?
-
-What was the previous kernel version that worked fine?
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDkwNzEKCi0tLSBD
+b21tZW50ICMyIGZyb20gT3NjYXIgTWVnw61hIChtZWdpYS5vc2NhckBnbWFpbC5jb20pIC0tLQpJ
+J20gbm90IGFuIGV4cGVydCwgc28gSSB0aG91Z2h0IHRoYXQgdGhlIGVycm9yIGJ5IHRoZSB0aW1l
+IGNvdWxkIGJlIGEgaXNzdWUgaW4KdmlkZW8gZHJpdmVyLgoKVGhlIGxhc3Qga2VybmVsIHdhcyA1
+LjguMS5hcmNoMS0xLiBJdCB3YXMgdXBncmFkZWQgbGFzdCBzdW5kYXkuCgpJIGxlZnQgbXlwYyAy
+IGhvdXJzIHVuYXR0ZW5kZWQgYW5kIHdoZW4gSSB0eXBlZCB0aGUgcGFzc3dvcmQgaW4gdGhlIG1v
+bml0b3IKdGhhdCBiZWZvcmUgcmVtYWluZWQgYmxhY2sgKEkgY2FuIHNlZSB0aGUgcGFzc3dvcmQg
+aW5wdXQgd2luZG93KSwgbm93IGhhcyB0aGUKc2FtZSBpc3N1ZS4KCkkgc2VhcmNoZWQgb24gam91
+cm5hbGN0bCBhbmQgSSBkaWRuJ3Qgc2VlIHRoZSBzYW1lIGVycm9yLiBJZiBmYWN0IEkgZG9uJ3Qg
+c2VlCmFueWhpbmcgaW1wb3J0YW50LgoKSSB0cmllZCBleGVjdXRpbmc6Cgp4cmFuZHIgLS1hdXRv
+IC0tb3V0cHV0IFZHQS0xIC0tbW9kZSAxMjgweDEwMjQgLS1yaWdodC1vZiBEVkktRC0xCgphbmQg
+dGhlIGRlc2t0b3Agc3dhcCBtb25pdG9ycywgYnV0IHRoZSBtb25pdG9yIGJsYWNrIHN0aWxsIHJl
+bWFpbnMgYmxhY2suCgpJdCBjb3VsZCBiZSBhIGhhcmR3YXJlIGVycm9yLiBIb3cgY2FuIEkga25v
+dyBpZiBpcyBhIGhhcmR3YXJlIGVycm9yPwoKUmVnYXJkcwpPc2NhcgoKLS0gCllvdSBhcmUgcmVj
+ZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBv
+ZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
