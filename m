@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04320256A43
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 23:06:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA9F256A47
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 23:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2646E6E0A6;
-	Sat, 29 Aug 2020 21:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8E56E0B9;
+	Sat, 29 Aug 2020 21:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2625C6E0A6
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 21:06:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2BAB6E0B9
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 21:07:30 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 8C45F80487;
- Sat, 29 Aug 2020 23:06:53 +0200 (CEST)
-Date: Sat, 29 Aug 2020 23:06:52 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B205680487;
+ Sat, 29 Aug 2020 23:07:28 +0200 (CEST)
+Date: Sat, 29 Aug 2020 23:07:27 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: display: samsung,amoled-mipi-dsi: Do
- not require enable-gpios on samsung,s6e63j0x03
-Message-ID: <20200829210652.GD796939@ravnborg.org>
-References: <20200829172532.29358-1-krzk@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 1/2] drm/ingenic: Fix leak of device_node pointer
+Message-ID: <20200829210727.GE796939@ravnborg.org>
+References: <20200827114404.36748-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200829172532.29358-1-krzk@kernel.org>
+In-Reply-To: <20200827114404.36748-1-paul@crapouillou.net>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
- a=sbQQ0qVRGQwO19CD9CoA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
+ a=7_PQ8Af-TSOvrYyXnPkA:9 a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
  a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,68 +44,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sylwester Nawrocki <snawrocki@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Kukjin Kim <kgene@kernel.org>, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 29, 2020 at 07:25:29PM +0200, Krzysztof Kozlowski wrote:
-> The samsung,s6e63j0x03 does not have enable GPIO, so do not require it.
-> This fixes dtbs_check warning:
+On Thu, Aug 27, 2020 at 01:44:03PM +0200, Paul Cercueil wrote:
+> of_graph_get_remote_node() requires of_node_put() to be called on the
+> device_node pointer when it's no more in use.
 > 
->   arch/arm/boot/dts/exynos3250-rinato.dt.yaml: panel@0: 'enable-gpios' is a required property
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-I expect this patch is picked up with the dts fixes.
-
-	Sam
-
+> Fixes: fc1acf317b01 ("drm/ingenic: Add support for the IPU")
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  .../display/panel/samsung,amoled-mipi-dsi.yaml       | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml
-> index 96bdde9298e0..ccc482570d6a 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,amoled-mipi-dsi.yaml
-> @@ -12,6 +12,17 @@ maintainers:
->  allOf:
->    - $ref: panel-common.yaml#
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index ada990a7f911..c1bcb93aed2d 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -978,6 +978,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
+>  	}
 >  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - samsung,s6e3ha2
-> +              - samsung,s6e3hf2
-> +    then:
-> +      required:
-> +        - enable-gpios
-> +
->  properties:
->    compatible:
->      enum:
-> @@ -39,7 +50,6 @@ required:
->    - vdd3-supply
->    - vci-supply
->    - reset-gpios
-> -  - enable-gpios
+>  	drm_of_component_match_add(dev, &match, compare_of, np);
+> +	of_node_put(np);
 >  
->  additionalProperties: false
->  
+>  	return component_master_add_with_match(dev, &ingenic_master_ops, match);
+>  }
 > -- 
-> 2.17.1
+> 2.28.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
