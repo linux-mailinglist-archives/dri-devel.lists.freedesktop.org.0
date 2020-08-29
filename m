@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8D325665C
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:22:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 847F4256807
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 16:07:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE5A46EC13;
-	Sat, 29 Aug 2020 09:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A796E05A;
+	Sat, 29 Aug 2020 14:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E936E17F
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 02:08:17 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.125])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 4B918481954;
- Sat, 29 Aug 2020 10:08:14 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] gpu/ipu-v3:reduce protected code area in ipu idmac get/put
-Date: Fri, 28 Aug 2020 19:08:07 -0700
-Message-Id: <20200829020807.6568-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZTBkfQx1OSx9CTEhOVkpOQkNNTU1DQk9PSE1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MzY6Fio5Gj8qEipDGQkXEixJ
- GglPFBdVSlVKTkJDTU1NQ0JPQ0hDVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU5ZV1kIAVlBSU5CSzcG
-X-HM-Tid: 0a7437f8ec2f93bakuws4b918481954
-X-Mailman-Approved-At: Sat, 29 Aug 2020 09:21:18 +0000
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605876E05A
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 14:07:13 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id o13so1848572pgf.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 07:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=G4Co+LDYHQDXFnU8L4kBtVkB8qH4ZjDz0L0to2gfrKY=;
+ b=VLkSOoR/YR8forWhO67URYv2p62bdEUJPYPqIFIdrHshtLyU3x/JWxTnz1xV4x4Eoe
+ tbxEFIrPu+Phv9bL3xrw6grMczHzX1voAIt+iylXLjxEpG/egTgZmD+ehF6OmvdfhPvP
+ quqbzPRt3Kzp3fwQWnPmKEJcda0P2TxoGmpykz6+/MPuYbzp+Du6YJv6P/onoDXyBN/0
+ pwO8QzuQr8l59g4G2vfIQk5F2HybQTbQlwNmyfi8+rXxwpamCKTASm5NFiDJGoL75TOO
+ i706fmWgETbTrH9DxVApbbrC53jSQdxmF+FT9P0rvwMtzTpznq9NFhrDayPujwwh2ymn
+ K3ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=G4Co+LDYHQDXFnU8L4kBtVkB8qH4ZjDz0L0to2gfrKY=;
+ b=TdbMYkagXzo2DOKcw143AdF2a/eJea3zPUvVAYNK+MMkptEmj7RzQqZkMjdb3/fT9l
+ zDITYfIplAuj3wfdO086uYD2p9BSbfXxPmmoMFrOOTR2+iBFn474KzkNDkq0tNPsMQRk
+ UH3wcPbNqRZgf4aKEWCGeEWjH380ol0oV8NOie5RseOZORuEc73iSuTjFjQdW9kfTF1w
+ YblkZYiMyhA590lnkQlHgEs4ShOacgXjHoSEg90j3bfyMU4N+2c43k7C/ikL9p3tXCfB
+ tB9PQ9FDsUlOR8aI4mHKjw/uUgha63B+hswYAlZSIw8bi0FI0aaOAos4R5NkShxZebPL
+ JH2w==
+X-Gm-Message-State: AOAM532RhCqDwrWgFUObMYSjwAISis5XFO1WEqP2mYVH6CjZgSJEIfiE
+ O4/MYEj2zqqBlD0S7Ed5g7Q=
+X-Google-Smtp-Source: ABdhPJxyqOLquHmdfef3I8zWlT2JV8o6Q8Plfy8AEupDK8yZuT+bcCMdqitS7x/r+KeBRepRufcVtQ==
+X-Received: by 2002:a63:9d0f:: with SMTP id i15mr2581489pgd.413.1598710032881; 
+ Sat, 29 Aug 2020 07:07:12 -0700 (PDT)
+Received: from localhost.localdomain ([61.83.141.80])
+ by smtp.gmail.com with ESMTPSA id h193sm2691889pgc.42.2020.08.29.07.07.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Aug 2020 07:07:12 -0700 (PDT)
+From: Sidong Yang <realwakka@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Subject: [PATCH] drm/vkms: add support for gamma_set interface
+Date: Sat, 29 Aug 2020 14:06:47 +0000
+Message-Id: <20200829140647.7626-1-realwakka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,80 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ Sidong Yang <realwakka@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change will speed-up a bit these ipu_idmac_get &
-ipu_idmac_put processing and there is no need to protect
-kzalloc & kfree.
+Currently vkms module doesn't support gamma function for userspace. so igt
+subtests in kms_plane(pixel-format-pipe-A-plan) failed for calling
+drmModeCrtcSetGamma(). This patch set gamma_set interface in vkms_crtc_funcs for
+support gamma function. With initializing crtc, added calls for setting gamma
+size. it pass the test after this patch.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+Cc: Daniel Vetter<daniel@ffwll.ch>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+
+Signed-off-by: Sidong Yang <realwakka@gmail.com>
 ---
- drivers/gpu/ipu-v3/ipu-common.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vkms/vkms_crtc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
-index b3dae9ec1a38..8b3a57864c2e 100644
---- a/drivers/gpu/ipu-v3/ipu-common.c
-+++ b/drivers/gpu/ipu-v3/ipu-common.c
-@@ -267,29 +267,30 @@ EXPORT_SYMBOL_GPL(ipu_rot_mode_to_degrees);
- struct ipuv3_channel *ipu_idmac_get(struct ipu_soc *ipu, unsigned num)
- {
- 	struct ipuv3_channel *channel;
-+	struct ipuv3_channel *entry;
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index ac85e17428f8..643435fb2ee6 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -160,6 +160,7 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
+ 	.get_crc_sources	= vkms_get_crc_sources,
+ 	.set_crc_source		= vkms_set_crc_source,
+ 	.verify_crc_source	= vkms_verify_crc_source,
++	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+ };
  
- 	dev_dbg(ipu->dev, "%s %d\n", __func__, num);
- 
- 	if (num > 63)
- 		return ERR_PTR(-ENODEV);
- 
-+	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
-+	if (!channel)
-+		return ERR_PTR(-ENOMEM);
-+
-+	channel->num = num;
-+	channel->ipu = ipu;
-+
- 	mutex_lock(&ipu->channel_lock);
- 
--	list_for_each_entry(channel, &ipu->channels, list) {
--		if (channel->num == num) {
-+	list_for_each_entry(entry, &ipu->channels, list) {
-+		if (entry->num == num) {
-+			kfree(channel);
- 			channel = ERR_PTR(-EBUSY);
- 			goto out;
- 		}
+ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+@@ -275,6 +276,13 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+ 		return ret;
  	}
  
--	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
--	if (!channel) {
--		channel = ERR_PTR(-ENOMEM);
--		goto out;
--	}
--
--	channel->num = num;
--	channel->ipu = ipu;
- 	list_add(&channel->list, &ipu->channels);
- 
- out:
-@@ -308,9 +309,10 @@ void ipu_idmac_put(struct ipuv3_channel *channel)
- 	mutex_lock(&ipu->channel_lock);
- 
- 	list_del(&channel->list);
--	kfree(channel);
- 
- 	mutex_unlock(&ipu->channel_lock);
++	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
++	if (ret) {
++		DRM_ERROR("Failed to set gamma size\n");
++		return ret;
++	}
++	drm_crtc_enable_color_mgmt(crtc, 0, false, 256);
 +
-+	kfree(channel);
- }
- EXPORT_SYMBOL_GPL(ipu_idmac_put);
+ 	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
  
+ 	spin_lock_init(&vkms_out->lock);
 -- 
-2.28.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
