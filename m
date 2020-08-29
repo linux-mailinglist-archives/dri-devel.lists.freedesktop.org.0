@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050C0256669
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D9A25664F
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Aug 2020 11:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5EA6EC0E;
-	Sat, 29 Aug 2020 09:23:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E57A6EC05;
+	Sat, 29 Aug 2020 09:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 472 seconds by postgrey-1.36 at gabe;
+ Sat, 29 Aug 2020 01:35:47 UTC
 Received: from proxy.jaftan.com.au (ppp114-244.static.internode.on.net
  [150.101.114.244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A444D6E17F
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 01:36:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6656D880C6
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Aug 2020 01:35:47 +0000 (UTC)
 Received: by proxy.jaftan.com.au (Postfix, from userid 999)
- id D051D2009DB04; Sat, 29 Aug 2020 11:27:49 +1000 (AEST)
+ id 9E2032009D841; Sat, 29 Aug 2020 11:35:45 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=jaftan.com.au;
- s=proxy; t=1598664469;
- bh=HFYIDqb32WlZIQLCrQTMotEepIpL3VWZrshCID9Fatw=;
- h=From:To:Cc:Subject:Date;
- b=rkiAxFQ7S0bjdpqdJ+PBAl1x55nw/q+1BI0fBicbIw79YDdWdO+USJ+zKK7HR/bSt
- 78LS6EF9GTEFTvf6s6RUE0CrXi7yI9YrdEmtL5H8Ik81TLGpQ0MFGRs6xeBWX/eG+y
- 87EtpmB5eYWltrUAEnYbcYT6KAOZ74EWmtlv1nCw=
+ s=proxy; t=1598664945;
+ bh=1Am6LZMuFYh1tlaReS2iDQ2nSAulWyhwhTYgk40eGsg=;
+ h=Subject:References:To:From:Cc:Date:In-Reply-To;
+ b=T1q3/+lmoLeW0L+D6PVP+6Oh4AePwSb4J4qAbcyclCc9UBni4U1tIY4mSXOhhwinS
+ PWIFPFbo1jH6zWuxTa2ipqdhWlzJwvZqvr9yBrYoN3NHcPR+ShScYHR1ft8jHo427f
+ BudUcLVv5qIZHjEEQKU6vOhJuX38xs4GBNxUSfpE=
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on phat.jaftan.com.au
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.5 tests=ALL_TRUSTED autolearn=ham
- autolearn_force=no version=3.4.4
+X-Spam-Status: No, score=-1.0 required=3.5 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.4
 Received: from [192.168.1.252] (unknown [192.168.1.252])
- by proxy.jaftan.com.au (Postfix) with ESMTP id 52F0D2009DB04;
- Sat, 29 Aug 2020 11:27:46 +1000 (AEST)
+ by proxy.jaftan.com.au (Postfix) with ESMTP id 4DBFD2009DB09;
+ Sat, 29 Aug 2020 11:35:44 +1000 (AEST)
+Subject: Fwd: Call traces triggered by starting X on 5.8.x kernels - Radeon
+ RX580
+References: <b8c5d0ef-5511-2473-ee46-93c74112d135@jaftan.com.au>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
 From: Adam <adam@jaftan.com.au>
-To: "maarten.lankhorst@linux.intel.com mripard@kernel.org tzimmermann@suse.de
- airlied@linux.ie daniel"@ffwll.ch
-Subject: Call traces triggered by starting X on 5.8.x kernels - Radeon RX580
-Message-ID: <b8c5d0ef-5511-2473-ee46-93c74112d135@jaftan.com.au>
-Date: Sat, 29 Aug 2020 11:27:46 +1000
+X-Forwarded-Message-Id: <b8c5d0ef-5511-2473-ee46-93c74112d135@jaftan.com.au>
+Message-ID: <6c21c5c3-cb9f-7f20-96c5-35e48ad808da@jaftan.com.au>
+Date: Sat, 29 Aug 2020 11:35:44 +1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="------------DA5E7F8E750FFE35DFFE0ADC"
+In-Reply-To: <b8c5d0ef-5511-2473-ee46-93c74112d135@jaftan.com.au>
+Content-Type: multipart/mixed; boundary="------------94CAF0437702F04C6E1EFF39"
 Content-Language: en-GB
 X-Mailman-Approved-At: Sat, 29 Aug 2020 09:21:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,9 +64,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a multi-part message in MIME format.
---------------DA5E7F8E750FFE35DFFE0ADC
+--------------94CAF0437702F04C6E1EFF39
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+
 
 Hi All,
 
@@ -324,7 +331,8 @@ with both 1.20.8 and 1.20.9
 
 
 
---------------DA5E7F8E750FFE35DFFE0ADC
+
+--------------94CAF0437702F04C6E1EFF39
 Content-Type: application/x-compressed-tar;
  name="kern5.8-drm-call-trace-info.tgz"
 Content-Transfer-Encoding: base64
@@ -1822,7 +1830,7 @@ Y3pnZhr68s7MmHvyzhoj7so7MyPuyTuzELS+vTMLEnr0zppj79I7sxhjPXlnzUd3V96ZBcd7
 mS3uls5ZkjBuGp8t7uYT+Omls4xj5+L29nq58+rV9+jHZTSfDsFxiqfx8tvt4nqIeS6zSKxX
 08XkFR1Sb0hfJaC2V6CGF7dXl3IhbBrfRrPL5f/+zz9///z98/fP3z9/T+XvP6fEMNEACAcA
 
---------------DA5E7F8E750FFE35DFFE0ADC
+--------------94CAF0437702F04C6E1EFF39
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1833,4 +1841,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---------------DA5E7F8E750FFE35DFFE0ADC--
+--------------94CAF0437702F04C6E1EFF39--
