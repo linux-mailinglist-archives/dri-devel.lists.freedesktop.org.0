@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B68256CF4
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 10:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95169256D75
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 13:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F4E89F5B;
-	Sun, 30 Aug 2020 08:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 376DE6E255;
+	Sun, 30 Aug 2020 11:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E9489F5B
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 08:51:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1FF6E255
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 11:30:09 +0000 (UTC)
 Received: from localhost.localdomain (unknown [194.230.155.216])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 84A5D2076D;
- Sun, 30 Aug 2020 08:51:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7686520BED;
+ Sun, 30 Aug 2020 11:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598777488;
- bh=cJJKKn0KWYEeosBcpJwjk0KxB7eK2kfIzMkL82RSWMQ=;
+ s=default; t=1598787008;
+ bh=CBW3xSf21q4dAmNmmQKGXwuMoBGBt5jvhTlTLQsPdy4=;
  h=From:To:Cc:Subject:Date:From;
- b=VQuoEWdiIIlqFvN/BuV2IrV52KJnkbm8fiKdnll7PJIOJEed4Wt6T9vweO+lJUcLv
- VNVdxrs2c/7LPebUN965slduXMMQ1Yjgiega16cIsnQSpMfC7a14r6gy/Pnjb4Quiz
- MTEacy6neMXjoXfZTbjaTvHYdqyEjB5bOBzHrZGk=
+ b=ovQRKGHUKWDlfzVl/w2XG4NetqGBPXL/MPSh10UgshPsm50nn93M4evkEOwm/NspS
+ /9YcwghMiDqGYaM+QyqhP2di9veJFR1wp16yVK6DEHvWqlGoPXNbLP8w7SDLNwABvr
+ ryXxHchzhC/s0HQQPWb0xATk83368giWc9J4Sgc0=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: gpu: arm,mali-utgard: Correct Maxime's email
-Date: Sun, 30 Aug 2020 10:51:22 +0200
-Message-Id: <20200830085122.20826-1-krzk@kernel.org>
+ Rob Herring <robh+dt@kernel.org>, Inki Dae <inki.dae@samsung.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: gpu: samsung-rotator: Use unevaluatedProperties
+Date: Sun, 30 Aug 2020 13:30:02 +0200
+Message-Id: <20200830113002.7080-1-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,28 +52,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the address of Maxime Ripard as one in @free-electrons.com does
-not work.
+Additional properties or nodes actually might appear (e.g. power
+domains) so use unevaluatedProperties to fix dtbs_check warnings like:
 
-Cc: Maxime Ripard <mripard@kernel.org>
+  arch/arm/boot/dts/exynos4210-i9100.dt.yaml: rotator@12810000:
+    'iommus', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 2 +-
+ Documentation/devicetree/bindings/gpu/samsung-rotator.yaml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-index 021690391bea..869ef648644e 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-@@ -8,7 +8,7 @@ title: ARM Mali Utgard GPU
+diff --git a/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml b/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml
+index 665c6e3b31d3..c897c687bdab 100644
+--- a/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml
++++ b/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml
+@@ -36,7 +36,7 @@ required:
+   - clocks
+   - clock-names
  
- maintainers:
-   - Rob Herring <robh@kernel.org>
--  - Maxime Ripard <maxime.ripard@free-electrons.com>
-+  - Maxime Ripard <mripard@kernel.org>
-   - Heiko Stuebner <heiko@sntech.de>
+-additionalProperties: false
++unevaluatedProperties: false
  
- properties:
+ examples:
+   - |
 -- 
 2.17.1
 
