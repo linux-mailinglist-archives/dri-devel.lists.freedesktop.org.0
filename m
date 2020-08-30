@@ -2,58 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197C3257640
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609DE257634
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:12:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C484689D89;
-	Mon, 31 Aug 2020 09:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E424789C28;
+	Mon, 31 Aug 2020 09:12:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92775899E8
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 21:18:06 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id v12so4440870ljc.10
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 14:18:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jiTIAaOvTcC09Rh4hOm98fvpcoLfNJ6VwISeHIermxU=;
- b=dT+D8vnV5/QzPKHiw6JhuWu5OSBIX4DLxnaw/T5DX05HnmcrgLb+jX8oQubdeVvTEp
- tI0HmpYQwddTfQRC6Ah+ud63bjLYFhVxXDYcRmzXE2zkmSe6WHKj4Q5GiAFBcfwfpKBm
- DJCU1st5oF4zZK0eWFR+b3mTMCobdeawD6T9qHLhagCfpGzr7tPanxbXkR17Tb0K0fuB
- 1nXjn3xsEM1X5zFsa6KSKBWOuQP2wUJpZiJnM0h9GWbDhp5Kip1BGcEipS510pb9J7eM
- 8Fi2XJC+5l3HiEDwVwpXFKAcENcrOVw1cq4F1PFwPP2FbD7tUSpIyqXiSYMDGN9jrKHu
- 21hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jiTIAaOvTcC09Rh4hOm98fvpcoLfNJ6VwISeHIermxU=;
- b=jhopRrbKVU0UqCzhGOmv3hmlAepToGN66e5PZ96m6xRkctuV5GWM/sKsghoxGnMaX8
- w/K6A1J5CeUpqOR7mI7S9ydSKvpjDCBSNflFR5qmzAuBDUdBOwaDc36ar//IHIFbStPY
- MYGUgxURA4k3i71eeRYMcFNUijlT6Smi/bhE/pJHvebS054/ESktLtkCJ860ZkycHhtF
- ArgthFLNlycuOe5yN7FIDnRVQOpitBjK5dyteuzQ5quUCVbA8H0gOCCHSKsgmwQUvab4
- qCS92s/9sqLR4uJqY5yoCsmqLkrLEpknLLYhuV0b863FiGJ/QYysM4ju8VqpLgVDh0MK
- rzjA==
-X-Gm-Message-State: AOAM531rLyQws1rT1bnhU4FyqxFJEbaXMx7ofuEXYPv/NjYnWZh+UOxi
- /xLCAKrQX+nNn+aaA708GnQ6L+Mwwwp/Jw==
-X-Google-Smtp-Source: ABdhPJw0+B2rnE9+5WaS9MRpDfvC8pRvDb6ixwRob4AV7JgunEpgK/MucpOqxcn96aSlnza5+VKABQ==
-X-Received: by 2002:a2e:2f16:: with SMTP id v22mr3785894ljv.39.1598822284777; 
- Sun, 30 Aug 2020 14:18:04 -0700 (PDT)
-Received: from localhost.localdomain (h-82-196-111-59.NA.cust.bahnhof.se.
- [82.196.111.59])
- by smtp.gmail.com with ESMTPSA id r11sm1153464lji.104.2020.08.30.14.18.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Aug 2020 14:18:04 -0700 (PDT)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/gma500: Constify static structs
-Date: Sun, 30 Aug 2020 23:17:41 +0200
-Message-Id: <20200830211741.17326-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.28.0
+Received: from crapouillou.net (crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 889B889AC6
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 22:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1598828157; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ed/EF0gPQmZhJFSMnr0/oT1EzF7WA3QTt0WC2jzwuE=;
+ b=d1g8VLkvpKLDDxYfkUArJw9BAE9k2usXcMWxipgKQPolROWfUNZkjWBPRsWnVsrVkmt8Q8
+ g/s9Fjivv/XHOIb/BeFS4yTSilcrfnbjX3WU7QOd5YHpzoThGptK80uJHoIE7UJuJc670Y
+ WapRJk40NAJtnNwSD8j6WkEm8KyYHgE=
+Date: Mon, 31 Aug 2020 00:55:46 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 1/2] drm/ingenic: Fix leak of device_node pointer
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <YOFWFQ.M1IUN63RB1ZA1@crapouillou.net>
+In-Reply-To: <20200829210727.GE796939@ravnborg.org>
+References: <20200827114404.36748-1-paul@crapouillou.net>
+ <20200829210727.GE796939@ravnborg.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 31 Aug 2020 09:12:28 +0000
+X-Mailman-Approved-At: Mon, 31 Aug 2020 09:12:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +44,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only usage of these is to assign their address to the fbops field in
-the fb_info struct, which is a const pointer. Make them const to allow
-the compiler to put them in read-only memory.
+Hi Sam,
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/gpu/drm/gma500/framebuffer.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Le sam. 29 ao=FBt 2020 =E0 23:07, Sam Ravnborg <sam@ravnborg.org> a =
 
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index da02d7e8a8f5..54d9876b5305 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -164,7 +164,7 @@ static int psbfb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 	return 0;
- }
- 
--static struct fb_ops psbfb_ops = {
-+static const struct fb_ops psbfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_setcolreg = psbfb_setcolreg,
-@@ -175,7 +175,7 @@ static struct fb_ops psbfb_ops = {
- 	.fb_sync = psbfb_sync,
- };
- 
--static struct fb_ops psbfb_roll_ops = {
-+static const struct fb_ops psbfb_roll_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_setcolreg = psbfb_setcolreg,
-@@ -186,7 +186,7 @@ static struct fb_ops psbfb_roll_ops = {
- 	.fb_mmap = psbfb_mmap,
- };
- 
--static struct fb_ops psbfb_unaccel_ops = {
-+static const struct fb_ops psbfb_unaccel_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_setcolreg = psbfb_setcolreg,
--- 
-2.28.0
+=E9crit :
+> On Thu, Aug 27, 2020 at 01:44:03PM +0200, Paul Cercueil wrote:
+>>  of_graph_get_remote_node() requires of_node_put() to be called on =
+
+>> the
+>>  device_node pointer when it's no more in use.
+>> =
+
+>>  Fixes: fc1acf317b01 ("drm/ingenic: Add support for the IPU")
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+Thanks. Both patches pushed to drm-misc-fixes.
+
+Cheers,
+-Paul
+
+>>  ---
+>>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>> =
+
+>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
+
+>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  index ada990a7f911..c1bcb93aed2d 100644
+>>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  @@ -978,6 +978,7 @@ static int ingenic_drm_probe(struct =
+
+>> platform_device *pdev)
+>>   	}
+>> =
+
+>>   	drm_of_component_match_add(dev, &match, compare_of, np);
+>>  +	of_node_put(np);
+>> =
+
+>>   	return component_master_add_with_match(dev, &ingenic_master_ops, =
+
+>> match);
+>>   }
+>>  --
+>>  2.28.0
+
 
 _______________________________________________
 dri-devel mailing list
