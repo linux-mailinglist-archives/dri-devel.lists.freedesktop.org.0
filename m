@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC5B256DE0
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 14:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4F6256E0D
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 15:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 038086E33C;
-	Sun, 30 Aug 2020 12:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90E4189D46;
+	Sun, 30 Aug 2020 13:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB986E33C
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 12:58:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598792336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SbhNPGZV282TeLHWXKEb2sWXfyYtHG5yCs5qSe3JTB8=;
- b=CrdYsc4ytBxWNowZspweLW4YRAc13nW4DiD2w86B2/ehA2XJx/6lQG/h3/xS4biyuULSnH
- OM6EPTpFQSYNmvruE3f1KG51rF1EaXrymCpCjwR9xz9W5O1FsIlKTjLZLfOZTgbUSowpgB
- 8+20864Ptv8qwxnm8k9yZNVej6txCDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-IOdW7_AwMFyz62SXq2vzhg-1; Sun, 30 Aug 2020 08:58:54 -0400
-X-MC-Unique: IOdW7_AwMFyz62SXq2vzhg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EFB51005E5A;
- Sun, 30 Aug 2020 12:58:51 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1150171C6;
- Sun, 30 Aug 2020 12:58:47 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v8 17/17] drm/i915: panel: Use atomic PWM API for devs with an
- external PWM controller
-Date: Sun, 30 Aug 2020 14:57:53 +0200
-Message-Id: <20200830125753.230420-18-hdegoede@redhat.com>
-In-Reply-To: <20200830125753.230420-1-hdegoede@redhat.com>
-References: <20200830125753.230420-1-hdegoede@redhat.com>
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD50F89D46
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 13:16:15 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id g72so3348209qke.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 06:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=R+xrprhnSqcxoI/jTYsOtmdDih6WbDe5B/EhNR1YTcw=;
+ b=m2g57aw5V5KZ/1sRXktYzDuPyokfSSd1mOn6wjNlHxbXwSjdXvGIbN1Hl/z3GIfn1P
+ 98TKjKnpDuZwlBeGNveb+wR0k/X1+QEsmWSGlZglEaRdXspSbbPe5sgHQJHPDEHTNgkI
+ 4brML/tStrfBU8C0T6WaD4q1trhVrOSKUrFXAxN0FfVXlWlA0S+F+Oh3iAbg78tX3W+X
+ HoXInnaFwHtdG10YaaBe/WExE+m8VDbEC7gPCvdryXfNvA2WEkrZf3BjHLKOWwIzcwG2
+ 622xIEq3QFEyD0ZaYIjfPgDZ35YEgR5255yX4yeH0oMhuiIVsrmHVJOhDZiqnTX6Kh5b
+ ChvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=R+xrprhnSqcxoI/jTYsOtmdDih6WbDe5B/EhNR1YTcw=;
+ b=MDhvCk/G4068QPPup3zN3kt0VrcZm8mtfe2aTc3mZLHH7zpervLjhtuHypvbcQWiMs
+ xHEHonlgbyX4CRobMLIvI6g8ZDI2aYWpsz1sLmbfyUjXuc4hW+WJJ5diuieqaMN4vqeE
+ Ib6yaMDegufNvf3wMnb2gmIJsZbPLs/k6uMZBuEKd7+RR0sznwNP607n6Ngl9RWTY4tv
+ PhI8mVc4+Iv/zUuwwww2cwzDR3IAKsF245Ftmbq0eSsCrS66tyn0OeoU9qQ2APYzF9aF
+ mXAWzfb/BDZEoY0qEArIpjTufJlAvk9jjTjXK66zOUPNQnTKEZn1RR3x7aU2CY3rPPU7
+ fhyQ==
+X-Gm-Message-State: AOAM530aAd7fhQBCoIu4S4QS6hm8K8RMu1k+9amD+WwlL2gsFfZ+t3nb
+ HoMi22aBElHf6c/DuU79yCw=
+X-Google-Smtp-Source: ABdhPJzxq6wdo72tOuuhZFg7y8HmoeH0aRohP4iH+EIX2gwl/BB5tVeMHNzqxAHbtAz8wlKSLveb2g==
+X-Received: by 2002:a37:409:: with SMTP id 9mr6667382qke.374.1598793374788;
+ Sun, 30 Aug 2020 06:16:14 -0700 (PDT)
+Received: from smtp.gmail.com ([2607:fea8:56e0:6d60::2db6])
+ by smtp.gmail.com with ESMTPSA id a203sm5871749qkg.30.2020.08.30.06.16.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Aug 2020 06:16:13 -0700 (PDT)
+Date: Sun, 30 Aug 2020 09:16:05 -0400
+From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+Subject: Re: [PATCH v2] drm/vkms: add alpha-premultiplied color blending
+Message-ID: <20200830131605.bkleteqg4anaadk3@smtp.gmail.com>
+References: <20200825114532.abzdooluny2ekzvm@smtp.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200825114532.abzdooluny2ekzvm@smtp.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,203 +65,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
- Jani Nikula <jani.nikula@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel-usp@googlegroups.com
+Content-Type: multipart/mixed; boundary="===============0622823536=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the PWM drivers which we use have been converted to the atomic
-PWM API, we can move the i915 panel code over to using the atomic PWM API.
 
-The removes a long standing FIXME and this removes a flicker where
-the backlight brightness would jump to 100% when i915 loads even if
-using the fastset path.
+--===============0622823536==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="73x4qapiqn2sxoen"
+Content-Disposition: inline
 
-Note that this commit also simplifies pwm_disable_backlight(), by dropping
-the intel_panel_actually_set_backlight(..., 0) call. This call sets the
-PWM to 0% duty-cycle. I believe that this call was only present as a
-workaround for a bug in the pwm-crc.c driver where it failed to clear the
-PWM_OUTPUT_ENABLE bit. This is fixed by an earlier patch in this series.
 
-After the dropping of this workaround, the usleep call, which seems
-unnecessary to begin with, has no useful effect anymore, so drop that too.
+--73x4qapiqn2sxoen
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Fix a u64 divide leading to undefined reference to `__udivdi3' errors on 32 bit
-  platforms by casting the divisor to an unsigned long
+Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 
-Changes in v6:
-- Drop the pwm_get_period() check in pwm_setup(), it is now longer needed
-  now that we use pwm_get_relative_duty_cycle()
+On 08/25, Melissa Wen wrote:
+> The VKMS blend function was ignoring the alpha channel and just
+> overwriting vaddr_src with vaddr_dst. This XRGB approach triggers a
+> warning when running the kms_cursor_crc/cursor-alpha-transparent test
+> case. In IGT, cairo_format_argb32 uses premultiplied alpha (according to
+> documentation). Also current DRM assumption is that alpha is
+> premultiplied. Therefore, this patch considers premultiplied alpha
+> blending eq to compose vaddr_src with vaddr_dst.
+>=20
+> This change removes the following cursor-alpha-transparent warning:
+> "Suspicious CRC: All values are 0."
+>=20
+> --
+>=20
+> v2:
+> - static for local functions
+> - const for the read-only variable argb_src
+> - replaces variable names
+> - drops unnecessary comment
+>=20
+> --
+>=20
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+>=20
+> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c | 55 ++++++++++++++++++++--------
+>  1 file changed, 39 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index 4f3b07a32b60..eaecc5a6c5db 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -32,8 +32,6 @@ static uint32_t compute_crc(void *vaddr_out, struct vkm=
+s_composer *composer)
+>  			src_offset =3D composer->offset
+>  				     + (i * composer->pitch)
+>  				     + (j * composer->cpp);
+> -			/* XRGB format ignores Alpha channel */
+> -			bitmap_clear(vaddr_out + src_offset, 24, 8);
+>  			crc =3D crc32_le(crc, vaddr_out + src_offset,
+>  				       sizeof(u32));
+>  		}
+> @@ -42,27 +40,51 @@ static uint32_t compute_crc(void *vaddr_out, struct v=
+kms_composer *composer)
+>  	return crc;
+>  }
+> =20
+> +static u8 blend_channel(u8 src, u8 dst, u8 alpha)
+> +{
+> +	u32 pre_blend;
+> +	u8 new_color;
+> +
+> +	pre_blend =3D (src * 255 + dst * (255 - alpha));
+> +
+> +	/* Faster div by 255 */
+> +	new_color =3D ((pre_blend + ((pre_blend + 257) >> 8)) >> 8);
+> +
+> +	return new_color;
+> +}
+> +
+> +static void alpha_blending(const u8 *argb_src, u8 *argb_dst)
+> +{
+> +	u8 alpha;
+> +
+> +	alpha =3D argb_src[3];
+> +	argb_dst[0] =3D blend_channel(argb_src[0], argb_dst[0], alpha);
+> +	argb_dst[1] =3D blend_channel(argb_src[1], argb_dst[1], alpha);
+> +	argb_dst[2] =3D blend_channel(argb_src[2], argb_dst[2], alpha);
+> +	/* Opaque primary */
+> +	argb_dst[3] =3D 0xFF;
+> +}
+> +
+>  /**
+>   * blend - blend value at vaddr_src with value at vaddr_dst
+>   * @vaddr_dst: destination address
+>   * @vaddr_src: source address
+> - * @dest_composer: destination framebuffer's metadata
+> + * @dst_composer: destination framebuffer's metadata
+>   * @src_composer: source framebuffer's metadata
+>   *
+> - * Blend value at vaddr_src with value at vaddr_dst.
+> - * Currently, this function write value of vaddr_src on value
+> - * at vaddr_dst using buffer's metadata to locate the new values
+> - * from vaddr_src and their destination at vaddr_dst.
+> - *
+> - * TODO: Use the alpha value to blend vaddr_src with vaddr_dst
+> - *	 instead of overwriting it.
+> + * Blend the vaddr_src value with the vaddr_dst value using the pre-mult=
+iplied
+> + * alpha blending equation, since DRM currently assumes that the pixel c=
+olor
+> + * values have already been pre-multiplied with the alpha channel values=
+=2E See
+> + * more drm_plane_create_blend_mode_property(). This function uses buffe=
+r's
+> + * metadata to locate the new composite values at vaddr_dst.
+>   */
+>  static void blend(void *vaddr_dst, void *vaddr_src,
+> -		  struct vkms_composer *dest_composer,
+> +		  struct vkms_composer *dst_composer,
+>  		  struct vkms_composer *src_composer)
+>  {
+>  	int i, j, j_dst, i_dst;
+>  	int offset_src, offset_dst;
+> +	u8 *pixel_dst, *pixel_src;
+> =20
+>  	int x_src =3D src_composer->src.x1 >> 16;
+>  	int y_src =3D src_composer->src.y1 >> 16;
+> @@ -77,15 +99,16 @@ static void blend(void *vaddr_dst, void *vaddr_src,
+> =20
+>  	for (i =3D y_src, i_dst =3D y_dst; i < y_limit; ++i) {
+>  		for (j =3D x_src, j_dst =3D x_dst; j < x_limit; ++j) {
+> -			offset_dst =3D dest_composer->offset
+> -				     + (i_dst * dest_composer->pitch)
+> -				     + (j_dst++ * dest_composer->cpp);
+> +			offset_dst =3D dst_composer->offset
+> +				     + (i_dst * dst_composer->pitch)
+> +				     + (j_dst++ * dst_composer->cpp);
+>  			offset_src =3D src_composer->offset
+>  				     + (i * src_composer->pitch)
+>  				     + (j * src_composer->cpp);
+> =20
+> -			memcpy(vaddr_dst + offset_dst,
+> -			       vaddr_src + offset_src, sizeof(u32));
+> +			pixel_src =3D (u8 *)(vaddr_src + offset_src);
+> +			pixel_dst =3D (u8 *)(vaddr_dst + offset_dst);
+> +			alpha_blending(pixel_src, pixel_dst);
+>  		}
+>  		i_dst++;
+>  	}
+> --=20
+> 2.28.0
+>=20
 
-Changes in v4:
-- Add a note to the commit message about the dropping of the
-  intel_panel_actually_set_backlight() and usleep() calls from
-  pwm_disable_backlight()
-- Use the pwm_set/get_relative_duty_cycle() helpers instead of using DIY code
-  for this
----
- .../drm/i915/display/intel_display_types.h    |  3 +-
- drivers/gpu/drm/i915/display/intel_panel.c    | 70 ++++++++-----------
- 2 files changed, 33 insertions(+), 40 deletions(-)
+--=20
+Rodrigo Siqueira
+https://siqueira.tech
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 7171e7c8d928..e3ebe7c313ba 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -28,6 +28,7 @@
- 
- #include <linux/async.h>
- #include <linux/i2c.h>
-+#include <linux/pwm.h>
- #include <linux/sched/clock.h>
- 
- #include <drm/drm_atomic.h>
-@@ -223,7 +224,7 @@ struct intel_panel {
- 		bool util_pin_active_low;	/* bxt+ */
- 		u8 controller;		/* bxt+ only */
- 		struct pwm_device *pwm;
--		int pwm_period_ns;
-+		struct pwm_state pwm_state;
- 
- 		/* DPCD backlight */
- 		u8 pwmgen_bit_count;
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index 2b27f9b07403..2eb1a3a93df1 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -592,10 +592,10 @@ static u32 bxt_get_backlight(struct intel_connector *connector)
- static u32 pwm_get_backlight(struct intel_connector *connector)
- {
- 	struct intel_panel *panel = &connector->panel;
--	int duty_ns;
-+	struct pwm_state state;
- 
--	duty_ns = pwm_get_duty_cycle(panel->backlight.pwm);
--	return DIV_ROUND_UP(duty_ns * 100, panel->backlight.pwm_period_ns);
-+	pwm_get_state(panel->backlight.pwm, &state);
-+	return pwm_get_relative_duty_cycle(&state, 100);
- }
- 
- static void lpt_set_backlight(const struct drm_connector_state *conn_state, u32 level)
-@@ -669,10 +669,9 @@ static void bxt_set_backlight(const struct drm_connector_state *conn_state, u32
- static void pwm_set_backlight(const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_panel *panel = &to_intel_connector(conn_state->connector)->panel;
--	int duty_ns = DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 100);
- 
--	pwm_config(panel->backlight.pwm, duty_ns,
--		   panel->backlight.pwm_period_ns);
-+	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
-+	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- static void
-@@ -841,10 +840,8 @@ static void pwm_disable_backlight(const struct drm_connector_state *old_conn_sta
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
- 
--	/* Disable the backlight */
--	intel_panel_actually_set_backlight(old_conn_state, 0);
--	usleep_range(2000, 3000);
--	pwm_disable(panel->backlight.pwm);
-+	panel->backlight.pwm_state.enabled = false;
-+	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- void intel_panel_disable_backlight(const struct drm_connector_state *old_conn_state)
-@@ -1176,9 +1173,12 @@ static void pwm_enable_backlight(const struct intel_crtc_state *crtc_state,
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
-+	int level = panel->backlight.level;
- 
--	pwm_enable(panel->backlight.pwm);
--	intel_panel_actually_set_backlight(conn_state, panel->backlight.level);
-+	level = intel_panel_compute_brightness(connector, level);
-+	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
-+	panel->backlight.pwm_state.enabled = true;
-+	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- static void __intel_panel_enable_backlight(const struct intel_crtc_state *crtc_state,
-@@ -1897,8 +1897,7 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_panel *panel = &connector->panel;
- 	const char *desc;
--	u32 level, ns;
--	int retval;
-+	u32 level;
- 
- 	/* Get the right PWM chip for DSI backlight according to VBT */
- 	if (dev_priv->vbt.dsi.config->pwm_blc == PPS_BLC_PMIC) {
-@@ -1916,35 +1915,28 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 		return -ENODEV;
- 	}
- 
--	panel->backlight.pwm_period_ns = NSEC_PER_SEC /
--					 get_vbt_pwm_freq(dev_priv);
--
--	/*
--	 * FIXME: pwm_apply_args() should be removed when switching to
--	 * the atomic PWM API.
--	 */
--	pwm_apply_args(panel->backlight.pwm);
--
- 	panel->backlight.max = 100; /* 100% */
- 	panel->backlight.min = get_backlight_min_vbt(connector);
--	level = intel_panel_compute_brightness(connector, 100);
--	ns = DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 100);
- 
--	retval = pwm_config(panel->backlight.pwm, ns,
--			    panel->backlight.pwm_period_ns);
--	if (retval < 0) {
--		drm_err(&dev_priv->drm, "Failed to configure the pwm chip\n");
--		pwm_put(panel->backlight.pwm);
--		panel->backlight.pwm = NULL;
--		return retval;
--	}
-+	if (pwm_is_enabled(panel->backlight.pwm)) {
-+		/* PWM is already enabled, use existing settings */
-+		pwm_get_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- 
--	level = DIV_ROUND_UP_ULL(pwm_get_duty_cycle(panel->backlight.pwm) * 100,
--				 panel->backlight.pwm_period_ns);
--	level = intel_panel_compute_brightness(connector, level);
--	panel->backlight.level = clamp(level, panel->backlight.min,
--				       panel->backlight.max);
--	panel->backlight.enabled = panel->backlight.level != 0;
-+		level = pwm_get_relative_duty_cycle(&panel->backlight.pwm_state,
-+						    100);
-+		level = intel_panel_compute_brightness(connector, level);
-+		panel->backlight.level = clamp(level, panel->backlight.min,
-+					       panel->backlight.max);
-+		panel->backlight.enabled = true;
-+
-+		drm_dbg_kms(&dev_priv->drm, "PWM already enabled at freq %ld, VBT freq %d, level %d\n",
-+			    NSEC_PER_SEC / (unsigned long)panel->backlight.pwm_state.period,
-+			    get_vbt_pwm_freq(dev_priv), level);
-+	} else {
-+		/* Set period from VBT frequency, leave other settings at 0. */
-+		panel->backlight.pwm_state.period =
-+			NSEC_PER_SEC / get_vbt_pwm_freq(dev_priv);
-+	}
- 
- 	drm_info(&dev_priv->drm, "Using %s PWM for LCD backlight control\n",
- 		 desc);
--- 
-2.28.0
+--73x4qapiqn2sxoen
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl9LpoAACgkQWJzP/com
+vP+WfA//Z4CWATy5xMPEIanqu2+DYeYQfVcUE+6QSLeRw8vS8DM+RxuKQwNkR9uY
+KDyfrF2dAAWth4Dv0CrohM3WMLmqAqLFxs0CnEMeXaNbjCs7DV5lNtyZQoC2w013
+I6fZcte81pyGErlWMWAgZvPHanWtsCSXH+XukFQOnOXi6X2vhEeRrJ2UO530CEba
+gnvlczpeLqa2WJ10VsUOJnqRuS00YWHHCeWxAoYdaSVvgAagwKahR6Ky1+rthi8F
+XdEDAjVrhnbEsQbrMqz/Go+k0ueO+LsTwyJAJV4GJMHkB72Vv5o/cSyZsW67ZJ0H
+G0UFvDoelqXyMDRUfannk+lFEpNrGWgOvxI3+6QcnUE7EYzW3MQ4q/XYdOqWXwpj
+j8SlXyU4YuGzeGGW+rzD4Djh4fjPIgcGd9TqYvAQY2flLXqMnUeewQZctvcb2+AC
+NwvDJcVRYCcL8s+tmtHIt8DqlqHMmUA4zKj0HVqG5XeoErR/6lHtuN9gUzvfGetO
+EkDB7mgslmkCLAGR5qpxFw5yDG+UJeREBT44dxwhXJtRbWneFJdZLWpMHyrpZOfG
+Nd9LND5vMGmwLbn0fFLFIhaMeGnlzdef8EgIVYIE4f+woPwdWIkcwXpUln2ZzJmL
+mAft6TFQLjKMOfn9zGzN9hWyOTWYQFiqdNaWA2BPzpJSpzNdu+M=
+=WY7g
+-----END PGP SIGNATURE-----
+
+--73x4qapiqn2sxoen--
+
+--===============0622823536==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0622823536==--
