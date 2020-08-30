@@ -2,22 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE8A256C85
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 09:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC5C256C87
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 09:20:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2065089E41;
-	Sun, 30 Aug 2020 07:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAAB6E23F;
+	Sun, 30 Aug 2020 07:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92D9189E41
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 07:17:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEA76E23F
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 07:20:13 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207137] AMDGPU incorrectly reports vddgfx voltage for R9 390
-Date: Sun, 30 Aug 2020 07:17:55 +0000
+Subject: [Bug 208839] AMDGPU: DPM is not enabled after hibernate and resume
+ for CIK/Hawaii GPUs (e.g R9 390)
+Date: Sun, 30 Aug 2020 07:20:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,7 +26,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: sandy.8925@gmail.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: CODE_FIX
@@ -33,9 +34,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-207137-2300-aSvB7M6djt@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207137-2300@https.bugzilla.kernel.org/>
-References: <bug-207137-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-208839-2300-NGR62v6Wo3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208839-2300@https.bugzilla.kernel.org/>
+References: <bug-208839-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207137
+https://bugzilla.kernel.org/show_bug.cgi?id=208839
 
 sandy.8925@gmail.com changed:
 
@@ -65,9 +66,8 @@ sandy.8925@gmail.com changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |CODE_FIX
 
---- Comment #4 from sandy.8925@gmail.com ---
-Fixed with
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=drm-next&id=3425740adf97b2258966ee3f0d871fd5cc314028
+--- Comment #8 from sandy.8925@gmail.com ---
+Resolving, since the patch was merged.
 
 -- 
 You are receiving this mail because:
