@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D89256E93
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 16:20:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB96D256F70
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 19:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3A86E46E;
-	Sun, 30 Aug 2020 14:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74B4989FA7;
+	Sun, 30 Aug 2020 17:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5627C6E46E
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 14:20:38 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id o64so3940982qkb.10
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 07:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6QYIvPqoXZFuHiNwMm7lBlgWmugcg3gCoZ50uTYyET8=;
- b=Bp+/EYtegsSH1MenBovVKZeov/HX1ij001weOVLQMqJ7GIDES6xgzU1Emt6PSNm9mv
- CgJY2PAftUs8dbiiMoCggDsc5ThbrGZanhGO6jsFy4fSjHk8z/diTEAEUoL+7jNOhsTl
- iUlDnsAnT8bVBUcm/PvdlwxF9UE47uqGkDd+1kYjQz1J0ejEs1y9Uxmjy1vj+gJaOyt2
- f/76FWwtT83fKS/4JVNDBtca9UROZfxfNhPvE6v0mH+iSJLxs68k4xL4nhNCt+qTEZt7
- HnwQnbCVIyUb3mmyvFIMLX6RM0jp/zHz8MUaGD/dWBYt0HKWJzArmTH7gpAc54Ngw7z+
- RPJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6QYIvPqoXZFuHiNwMm7lBlgWmugcg3gCoZ50uTYyET8=;
- b=UQA2gEXBO9lHVeMQGqYDl/V+x5l59aL4qNIhKzAH6I43ikdQ/U47XP+CY7u0iMNzU4
- meKAGzTdKp3mvUo8Rzvs3jPghm0Ofh5DKrXajPInnrk744hY28O5+kNc6iulZBzFGJl0
- SEx8ceQg/VXs5xm5kBTRQ6Gtsa/vOrjgTRkBleCTPoul7Hui2nygqA34/pYMZboBF/hj
- /gIlAArQeHVGZPTR7VRrOL5j636TNbEBtU9ZuDhSqyJq72Xfaw18e9eso0X1NbMPQtcJ
- tj2tlK2OrVMFmPFBB+FuTycnEzM29C3XCq/F6LHACrCRE8fPwKWDEPrl7/ZqAmpP3w5S
- 0UHw==
-X-Gm-Message-State: AOAM531qCosjtVdGIaeizcQygeDf7ix8em82ESwkzqx41YeDk+R/KT+H
- 4ijEUpDS67H0/AzERuSMFyE=
-X-Google-Smtp-Source: ABdhPJx1liXFw967+2pO8WLjlMoFiUcOJvZoiVlSWCCdmjK7fKDJjRJI+zzoXxvqC2uxIeU7UO75Lg==
-X-Received: by 2002:a37:9c16:: with SMTP id f22mr6976278qke.331.1598797237339; 
- Sun, 30 Aug 2020 07:20:37 -0700 (PDT)
-Received: from atma2.hitronhub.home ([2607:fea8:56e0:6d60::2db6])
- by smtp.gmail.com with ESMTPSA id o72sm5884861qka.113.2020.08.30.07.20.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Aug 2020 07:20:37 -0700 (PDT)
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 3/3] drm/vkms: Add support for writeback
-Date: Sun, 30 Aug 2020 10:20:00 -0400
-Message-Id: <20200830142000.146706-4-rodrigosiqueiramelo@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200830142000.146706-1-rodrigosiqueiramelo@gmail.com>
-References: <20200830142000.146706-1-rodrigosiqueiramelo@gmail.com>
+X-Greylist: delayed 1143 seconds by postgrey-1.36 at gabe;
+ Sun, 30 Aug 2020 17:00:04 UTC
+Received: from SHSQR01.unisoc.com (unknown [222.66.158.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD13989FA7
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 17:00:03 +0000 (UTC)
+Received: from SHSQR01.spreadtrum.com (localhost [127.0.0.2] (may be forged))
+ by SHSQR01.unisoc.com with ESMTP id 07UGf1h7024839
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 00:41:01 +0800 (CST)
+ (envelope-from Leon.He@unisoc.com)
+Received: from ig2.spreadtrum.com (shmbx02.spreadtrum.com [10.0.1.204])
+ by SHSQR01.spreadtrum.com with ESMTPS id 07UGalxD024044
+ (version=TLSv1 cipher=AES256-SHA bits=256 verify=NO);
+ Mon, 31 Aug 2020 00:36:47 +0800 (CST)
+ (envelope-from Leon.He@unisoc.com)
+Received: from SHMBX04.spreadtrum.com (10.0.1.214) by SHMBX02.spreadtrum.com
+ (10.0.1.204) with Microsoft SMTP Server (TLS) id 15.0.847.32; Mon, 31 Aug
+ 2020 00:36:43 +0800
+Received: from SHMBX04.spreadtrum.com ([fe80::8532:ef18:9217:26f5]) by
+ shmbx04.spreadtrum.com ([fe80::8532:ef18:9217:26f5%13]) with mapi id
+ 15.00.0847.030; Mon, 31 Aug 2020 00:36:43 +0800
+From: =?gb2312?B?us7QocH6IChMZW9uIEhlKQ==?= <Leon.He@unisoc.com>
+To: Paul Cercueil <paul@crapouillou.net>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Noralf Tronnes <noralf@tronnes.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIIHYyIDYvNl0gZHJtL3BhbmVsOiBBZGQgSWxpdGVrIElM?=
+ =?gb2312?Q?I9341_DBI_panel_driver?=
+Thread-Topic: [PATCH v2 6/6] drm/panel: Add Ilitek ILI9341 DBI panel driver
+Thread-Index: AQHWeePNyyv5zmRbwEG1Gp1RC5T8uKlQ281x
+Date: Sun, 30 Aug 2020 16:36:42 +0000
+Message-ID: <edf38d68214247f486db3cc1f81ec404@shmbx04.spreadtrum.com>
+References: <20200822163250.63664-1-paul@crapouillou.net>,
+ <20200822163250.63664-7-paul@crapouillou.net>
+In-Reply-To: <20200822163250.63664-7-paul@crapouillou.net>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.1.253]
 MIME-Version: 1.0
+X-MAIL: SHSQR01.spreadtrum.com 07UGalxD024044
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,352 +68,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, Liviu Dudau <liviu.dudau@arm.com>,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>, melissa.srw@gmail.com,
- Emil Velikov <emil.l.velikov@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "od@zcrc.me" <od@zcrc.me>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch implements the necessary functions to add writeback support
-for vkms. This feature is useful for testing compositors if you don't
-have hardware with writeback support.
-
-Change in V4 (Emil and Melissa):
-- Move signal completion above drm_crtc_add_crc_entry()
-- Make writeback always available
-- Use appropriate namespace
-- Drop fb check in vkms_wb_atomic_commit
-- Make vkms_set_composer visible for writeback code
-- Enable composer operation on prepare_job and disable it on cleanup_job
-- Drop extra space at the end of the file
-- Rebase
-
-Change in V3 (Daniel):
-- If writeback is enabled, compose everything into the writeback buffer
-instead of CRC private buffer
-- Guarantees that the CRC will match exactly what we have in the
-writeback buffer.
-
-Change in V2:
-- Rework signal completion (Brian)
-- Integrates writeback with active_planes (Daniel)
-- Compose cursor (Daniel)
-
-Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
----
- drivers/gpu/drm/vkms/Makefile         |   9 +-
- drivers/gpu/drm/vkms/vkms_composer.c  |  21 +++-
- drivers/gpu/drm/vkms/vkms_drv.h       |  11 +-
- drivers/gpu/drm/vkms/vkms_output.c    |   4 +
- drivers/gpu/drm/vkms/vkms_writeback.c | 142 ++++++++++++++++++++++++++
- 5 files changed, 180 insertions(+), 7 deletions(-)
- create mode 100644 drivers/gpu/drm/vkms/vkms_writeback.c
-
-diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-index 0b767d7efa24..333d3cead0e3 100644
---- a/drivers/gpu/drm/vkms/Makefile
-+++ b/drivers/gpu/drm/vkms/Makefile
-@@ -1,4 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0-only
--vkms-y := vkms_drv.o vkms_plane.o vkms_output.o vkms_crtc.o vkms_gem.o vkms_composer.o
-+vkms-y := \
-+	vkms_drv.o \
-+	vkms_plane.o \
-+	vkms_output.o \
-+	vkms_crtc.o \
-+	vkms_gem.o \
-+	vkms_composer.o \
-+	vkms_writeback.o
- 
- obj-$(CONFIG_DRM_VKMS) += vkms.o
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index c5b32fe5870f..33c031f27c2c 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -186,16 +186,17 @@ void vkms_composer_worker(struct work_struct *work)
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
- 	struct vkms_composer *primary_composer = NULL;
- 	struct vkms_composer *cursor_composer = NULL;
-+	bool crc_pending, wb_pending;
- 	void *vaddr_out = NULL;
- 	u32 crc32 = 0;
- 	u64 frame_start, frame_end;
--	bool crc_pending;
- 	int ret;
- 
- 	spin_lock_irq(&out->composer_lock);
- 	frame_start = crtc_state->frame_start;
- 	frame_end = crtc_state->frame_end;
- 	crc_pending = crtc_state->crc_pending;
-+	wb_pending = crtc_state->wb_pending;
- 	crtc_state->frame_start = 0;
- 	crtc_state->frame_end = 0;
- 	crtc_state->crc_pending = false;
-@@ -217,22 +218,32 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (!primary_composer)
- 		return;
- 
-+	if (wb_pending)
-+		vaddr_out = crtc_state->active_writeback;
-+
- 	ret = compose_planes(&vaddr_out, primary_composer, cursor_composer);
- 	if (ret) {
--		if (ret == -EINVAL)
-+		if (ret == -EINVAL && !wb_pending)
- 			kfree(vaddr_out);
- 		return;
- 	}
- 
- 	crc32 = compute_crc(vaddr_out, primary_composer);
- 
-+	if (wb_pending) {
-+		drm_writeback_signal_completion(&out->wb_connector, 0);
-+		spin_lock_irq(&out->composer_lock);
-+		crtc_state->wb_pending = false;
-+		spin_unlock_irq(&out->composer_lock);
-+	} else {
-+		kfree(vaddr_out);
-+	}
-+
- 	/*
- 	 * The worker can fall behind the vblank hrtimer, make sure we catch up.
- 	 */
- 	while (frame_start <= frame_end)
- 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
--
--	kfree(vaddr_out);
- }
- 
- static const char * const pipe_crc_sources[] = {"auto"};
-@@ -275,7 +286,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
- 	return 0;
- }
- 
--static void vkms_set_composer(struct vkms_output *out, bool enabled)
-+void vkms_set_composer(struct vkms_output *out, bool enabled)
- {
- 	bool old_enabled;
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index f4036bb0b9a8..641d8bc52a3a 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -8,6 +8,7 @@
- #include <drm/drm.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_encoder.h>
-+#include <drm/drm_writeback.h>
- 
- #define XRES_MIN    20
- #define YRES_MIN    20
-@@ -19,6 +20,7 @@
- #define YRES_MAX  8192
- 
- extern bool enable_cursor;
-+extern bool enable_writeback;
- 
- struct vkms_composer {
- 	struct drm_framebuffer fb;
-@@ -52,9 +54,11 @@ struct vkms_crtc_state {
- 	int num_active_planes;
- 	/* stack of active planes for crc computation, should be in z order */
- 	struct vkms_plane_state **active_planes;
-+	void *active_writeback;
- 
--	/* below three are protected by vkms_output.composer_lock */
-+	/* below four are protected by vkms_output.composer_lock */
- 	bool crc_pending;
-+	bool wb_pending;
- 	u64 frame_start;
- 	u64 frame_end;
- };
-@@ -63,6 +67,7 @@ struct vkms_output {
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
- 	struct drm_connector connector;
-+	struct drm_writeback_connector wb_connector;
- 	struct hrtimer vblank_hrtimer;
- 	ktime_t period_ns;
- 	struct drm_pending_vblank_event *event;
-@@ -143,5 +148,9 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
- 
- /* Composer Support */
- void vkms_composer_worker(struct work_struct *work);
-+void vkms_set_composer(struct vkms_output *out, bool enabled);
-+
-+/* Writeback */
-+int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
- 
- #endif /* _VKMS_DRV_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 85afb77e97f0..4a1848b0318f 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -80,6 +80,10 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 		goto err_attach;
- 	}
- 
-+	ret = vkms_enable_writeback_connector(vkmsdev);
-+	if (ret)
-+		DRM_ERROR("Failed to init writeback connector\n");
-+
- 	drm_mode_config_reset(dev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-new file mode 100644
-index 000000000000..094fa4aa061d
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -0,0 +1,142 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+#include "vkms_drv.h"
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_writeback.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+
-+static const u32 vkms_wb_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+};
-+
-+static const struct drm_connector_funcs vkms_wb_connector_funcs = {
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state)
-+{
-+	struct drm_framebuffer *fb;
-+	const struct drm_display_mode *mode = &crtc_state->mode;
-+
-+	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
-+		return 0;
-+
-+	fb = conn_state->writeback_job->fb;
-+	if (fb->width != mode->hdisplay || fb->height != mode->vdisplay) {
-+		DRM_DEBUG_KMS("Invalid framebuffer size %ux%u\n",
-+			      fb->width, fb->height);
-+		return -EINVAL;
-+	}
-+
-+	if (fb->format->format != vkms_wb_formats[0]) {
-+		struct drm_format_name_buf format_name;
-+
-+		DRM_DEBUG_KMS("Invalid pixel format %s\n",
-+			      drm_get_format_name(fb->format->format,
-+						  &format_name));
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_helper_funcs vkms_wb_encoder_helper_funcs = {
-+	.atomic_check = vkms_wb_encoder_atomic_check,
-+};
-+
-+static int vkms_wb_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct drm_device *dev = connector->dev;
-+
-+	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
-+				    dev->mode_config.max_height);
-+}
-+
-+static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
-+			       struct drm_writeback_job *job)
-+{
-+	struct vkms_gem_object *vkms_obj;
-+	struct drm_gem_object *gem_obj;
-+	int ret;
-+
-+	if (!job->fb)
-+		return 0;
-+
-+	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
-+	ret = vkms_gem_vmap(gem_obj);
-+	if (ret) {
-+		DRM_ERROR("vmap failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	vkms_obj = drm_gem_to_vkms_gem(gem_obj);
-+	job->priv = vkms_obj->vaddr;
-+
-+	return 0;
-+}
-+
-+static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
-+				struct drm_writeback_job *job)
-+{
-+	struct drm_gem_object *gem_obj;
-+	struct vkms_device *vkmsdev;
-+
-+	if (!job->fb)
-+		return;
-+
-+	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
-+	vkms_gem_vunmap(gem_obj);
-+
-+	vkmsdev = drm_device_to_vkms_device(gem_obj->dev);
-+	vkms_set_composer(&vkmsdev->output, false);
-+}
-+
-+static void vkms_wb_atomic_commit(struct drm_connector *conn,
-+				  struct drm_connector_state *state)
-+{
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
-+	struct vkms_output *output = &vkmsdev->output;
-+	struct drm_writeback_connector *wb_conn = &output->wb_connector;
-+	struct drm_connector_state *conn_state = wb_conn->base.state;
-+	struct vkms_crtc_state *crtc_state = output->composer_state;
-+
-+	if (!conn_state)
-+		return;
-+
-+	vkms_set_composer(&vkmsdev->output, true);
-+
-+	spin_lock_irq(&output->composer_lock);
-+	crtc_state->active_writeback = conn_state->writeback_job->priv;
-+	crtc_state->wb_pending = true;
-+	spin_unlock_irq(&output->composer_lock);
-+	drm_writeback_queue_job(wb_conn, state);
-+}
-+
-+static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
-+	.get_modes = vkms_wb_connector_get_modes,
-+	.prepare_writeback_job = vkms_wb_prepare_job,
-+	.cleanup_writeback_job = vkms_wb_cleanup_job,
-+	.atomic_commit = vkms_wb_atomic_commit,
-+};
-+
-+int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
-+{
-+	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
-+
-+	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
-+	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
-+
-+	return drm_writeback_connector_init(&vkmsdev->drm, wb,
-+					    &vkms_wb_connector_funcs,
-+					    &vkms_wb_encoder_helper_funcs,
-+					    vkms_wb_formats,
-+					    ARRAY_SIZE(vkms_wb_formats));
-+}
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiArc3RydWN0IGlsaTkzNDEgew0KPiArICAgICAgIHN0cnVjdCBkcm1fcGFuZWwgcGFuZWw7DQo+
+ICsgICAgICAgc3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpOw0KPiArICAgICAgIGNvbnN0IHN0
+cnVjdCBpbGk5MzQxX3BkYXRhICpwZGF0YTsNCj4gKw0KPiArICAgICAgIHN0cnVjdCBncGlvX2Rl
+c2MgICAgICAgICpyZXNldF9ncGlvZDsNCj4gKyAgICAgICB1MzIgcm90YXRpb247DQo+ICt9Ow0K
+PiArDQoNCkhpIFBhdWwsIHlvdSBwdXQgdGhlIG1pcGlfZHNpX2RldmljZSBpbnNpZGUgdGhlIHN0
+cnVjdC4gSSB0aGluayBpdCBtYXliZSBub3QNCmEgZ29vZCBpZGVhLiBUaGF0IG1lYW5zIHRoZSBw
+YW5lbCBoYXMgYSBNSVBJLURTSSBpbnRlcmZhY2UgYnV0IGl0IGRvZXNuJ3QNCmhhdmUgYWN0dWFs
+bHkuDQoNCj4gK3N0YXRpYyBpbnQgaWxpOTM0MV9wcm9iZShzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNl
+ICpkc2kpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJmRzaS0+ZGV2Ow0K
+PiArICAgICAgIHN0cnVjdCBpbGk5MzQxICpwcml2Ow0KPiArICAgICAgIGludCByZXQ7DQo+ICsN
+Cj4gKyAgICAgICAvKiBTZWUgY29tbWVudCBmb3IgbWlwaV9kYmlfc3BpX2luaXQoKSAqLw0KPiAr
+ICAgICAgIGlmICghZGV2LT5jb2hlcmVudF9kbWFfbWFzaykgew0KPiArICAgICAgICAgICAgICAg
+cmV0ID0gZG1hX2NvZXJjZV9tYXNrX2FuZF9jb2hlcmVudChkZXYsIERNQV9CSVRfTUFTSygzMikp
+Ow0KPiArICAgICAgICAgICAgICAgaWYgKHJldCkgew0KPiArICAgICAgICAgICAgICAgICAgICAg
+ICBkZXZfd2FybihkZXYsICJGYWlsZWQgdG8gc2V0IGRtYSBtYXNrICVkXG4iLCByZXQpOw0KPiAr
+ICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiArICAgICAgICAgICAgICAgfQ0K
+PiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIHByaXYgPSBkZXZtX2t6YWxsb2MoZGV2LCBzaXpl
+b2YoKnByaXYpLCBHRlBfS0VSTkVMKTsNCj4gKyAgICAgICBpZiAoIXByaXYpDQo+ICsgICAgICAg
+ICAgICAgICByZXR1cm4gLUVOT01FTTsNCj4gKw0KPiArICAgICAgIG1pcGlfZHNpX3NldF9kcnZk
+YXRhKGRzaSwgcHJpdik7DQo+ICsgICAgICAgcHJpdi0+ZHNpID0gZHNpOw0KPiArDQo+ICsgICAg
+ICAgZGV2aWNlX3Byb3BlcnR5X3JlYWRfdTMyKGRldiwgInJvdGF0aW9uIiwgJnByaXYtPnJvdGF0
+aW9uKTsNCj4gKw0KPiArICAgICAgIHByaXYtPnBkYXRhID0gZGV2aWNlX2dldF9tYXRjaF9kYXRh
+KGRldik7DQo+ICsgICAgICAgaWYgKCFwcml2LT5wZGF0YSkNCj4gKyAgICAgICAgICAgICAgIHJl
+dHVybiAtRUlOVkFMOw0KPiArDQo+ICsgICAgICAgZHJtX3BhbmVsX2luaXQoJnByaXYtPnBhbmVs
+LCBkZXYsICZpbGk5MzQxX2Z1bmNzLA0KPiArICAgICAgICAgICAgICAgICAgICAgIERSTV9NT0RF
+X0NPTk5FQ1RPUl9EUEkpOw0KPiArDQo+ICsgICAgICAgcHJpdi0+cmVzZXRfZ3Bpb2QgPSBkZXZt
+X2dwaW9kX2dldChkZXYsICJyZXNldCIsIEdQSU9EX09VVF9ISUdIKTsNCj4gKyAgICAgICBpZiAo
+SVNfRVJSKHByaXYtPnJlc2V0X2dwaW9kKSkgew0KPiArICAgICAgICAgICAgICAgZGV2X2Vycihk
+ZXYsICJDb3VsZG4ndCBnZXQgb3VyIHJlc2V0IEdQSU9cbiIpOw0KPiArICAgICAgICAgICAgICAg
+cmV0dXJuIFBUUl9FUlIocHJpdi0+cmVzZXRfZ3Bpb2QpOw0KPiArICAgICAgIH0NCj4gKw0KPiAr
+ICAgICAgIHJldCA9IGRybV9wYW5lbF9vZl9iYWNrbGlnaHQoJnByaXYtPnBhbmVsKTsNCj4gKyAg
+ICAgICBpZiAocmV0IDwgMCkgew0KPiArICAgICAgICAgICAgICAgaWYgKHJldCAhPSAtRVBST0JF
+X0RFRkVSKQ0KPiArICAgICAgICAgICAgICAgICAgICAgICBkZXZfZXJyKGRldiwgIkZhaWxlZCB0
+byBnZXQgYmFja2xpZ2h0IGhhbmRsZVxuIik7DQo+ICsgICAgICAgICAgICAgICByZXR1cm4gcmV0
+Ow0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIGRybV9wYW5lbF9hZGQoJnByaXYtPnBhbmVs
+KTsNCj4gKw0KPiArICAgICAgIGRzaS0+YnVzX3R5cGUgPSBwcml2LT5wZGF0YS0+YnVzX3R5cGU7
+DQo+ICsgICAgICAgZHNpLT5sYW5lcyA9IHByaXYtPnBkYXRhLT5sYW5lczsNCj4gKyAgICAgICBk
+c2ktPmZvcm1hdCA9IE1JUElfRFNJX0ZNVF9SR0I1NjU7DQo+ICsNCj4gKyAgICAgICByZXQgPSBt
+aXBpX2RzaV9hdHRhY2goZHNpKTsNCj4gKyAgICAgICBpZiAocmV0KSB7DQo+ICsgICAgICAgICAg
+ICAgICBkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBhdHRhY2ggRFNJIHBhbmVsXG4iKTsNCj4gKyAg
+ICAgICAgICAgICAgIGdvdG8gZXJyX3BhbmVsX3JlbW92ZTsNCj4gKyAgICAgICB9DQo+ICsNCj4g
+KyAgICAgICByZXQgPSBtaXBpX2RzaV9tYXliZV9yZWdpc3Rlcl90aW55X2RyaXZlcihkc2kpOw0K
+PiArICAgICAgIGlmIChyZXQpIHsNCj4gKyAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFp
+bGVkIHRvIGluaXQgVGlueURSTSBkcml2ZXJcbiIpOw0KPiArICAgICAgICAgICAgICAgZ290byBl
+cnJfbWlwaV9kc2lfZGV0YWNoOw0KPiArICAgICAgIH0NCj4gKw0KPiArICAgICAgIHJldHVybiAw
+Ow0KPiArDQo+ICtlcnJfbWlwaV9kc2lfZGV0YWNoOg0KPiArICAgICAgIG1pcGlfZHNpX2RldGFj
+aChkc2kpOw0KPiArZXJyX3BhbmVsX3JlbW92ZToNCj4gKyAgICAgICBkcm1fcGFuZWxfcmVtb3Zl
+KCZwcml2LT5wYW5lbCk7DQo+ICsgICAgICAgcmV0dXJuIHJldDsNCj4gK30NCj4gKw0KPiArc3Rh
+dGljIGludCBpbGk5MzQxX3JlbW92ZShzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNlICpkc2kpDQo+ICt7
+DQo+ICsgICAgICAgc3RydWN0IGlsaTkzNDEgKnByaXYgPSBtaXBpX2RzaV9nZXRfZHJ2ZGF0YShk
+c2kpOw0KPiArDQo+ICsgICAgICAgbWlwaV9kc2lfZGV0YWNoKGRzaSk7DQo+ICsgICAgICAgZHJt
+X3BhbmVsX3JlbW92ZSgmcHJpdi0+cGFuZWwpOw0KPiArDQo+ICsgICAgICAgZHJtX3BhbmVsX2Rp
+c2FibGUoJnByaXYtPnBhbmVsKTsNCj4gKyAgICAgICBkcm1fcGFuZWxfdW5wcmVwYXJlKCZwcml2
+LT5wYW5lbCk7DQo+ICsNCj4gKyAgICAgICByZXR1cm4gMDsNCj4gK30NCj4gKw0KPiArc3RhdGlj
+IGNvbnN0IHN0cnVjdCBpbGk5MzQxX3BkYXRhIHl4MjQwcXYyOV9wZGF0YSA9IHsNCj4gKyAgICAg
+ICAubW9kZSA9IHsgRFJNX1NJTVBMRV9NT0RFKDI0MCwgMzIwLCAzNywgNDkpIH0sDQo+ICsgICAg
+ICAgLndpZHRoX21tID0gMCwgLy8gVE9ETw0KPiArICAgICAgIC5oZWlnaHRfbW0gPSAwLCAvLyBU
+T0RPDQo+ICsgICAgICAgLmJ1c190eXBlID0gTUlQSV9EQ1NfQlVTX1RZUEVfREJJX1NQSV9DMywN
+Cj4gKyAgICAgICAubGFuZXMgPSAxLA0KPiArfTsNCj4gKw0KPiArc3RhdGljIGNvbnN0IHN0cnVj
+dCBvZl9kZXZpY2VfaWQgaWxpOTM0MV9vZl9tYXRjaFtdID0gew0KPiArICAgICAgIHsgLmNvbXBh
+dGlibGUgPSAiYWRhZnJ1aXQseXgyNDBxdjI5IiwgLmRhdGEgPSAmeXgyNDBxdjI5X3BkYXRhIH0s
+DQo+ICsgICAgICAgeyB9DQo+ICt9Ow0KPiArTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgaWxpOTM0
+MV9vZl9tYXRjaCk7DQo+ICsNCj4gK3N0YXRpYyBzdHJ1Y3QgbWlwaV9kc2lfZHJpdmVyIGlsaTkz
+NDFfZHNpX2RyaXZlciA9IHsNCj4gKyAgICAgICAucHJvYmUgICAgICAgICAgPSBpbGk5MzQxX3By
+b2JlLA0KPiArICAgICAgIC5yZW1vdmUgICAgICAgICA9IGlsaTkzNDFfcmVtb3ZlLA0KPiArICAg
+ICAgIC5kcml2ZXIgPSB7DQo+ICsgICAgICAgICAgICAgICAubmFtZSAgICAgICAgICAgPSAiaWxp
+OTM0MS1kc2kiLA0KPiArICAgICAgICAgICAgICAgLm9mX21hdGNoX3RhYmxlID0gaWxpOTM0MV9v
+Zl9tYXRjaCwNCj4gKyAgICAgICB9LA0KPiArfTsNCj4gK21vZHVsZV9taXBpX2RzaV9kcml2ZXIo
+aWxpOTM0MV9kc2lfZHJpdmVyKTsNCg0KQWdhaW4sIHlvdSB0cmVhdCB0aGlzIGRyaXZlciBhcyBh
+IG1pcGkgZHNpIGRyaXZlciBidXQgZm9yIGEgTUlQSS1EQkkgKEk4MDgwL1NQSSkNCnBhbmVsIGRl
+dmljZS4gVGhhdCB3aWxsIG1ha2UgZGV2ZWxvcGVycyBjb25mdXNlZC4NCg0KSXMgaXQgcG9zc2li
+bGUgdG8ganVzdCBhZGQgYSBtaXBpX2RiaV9kcml2ZXIgZm9yIEk4MDgwL1NQSSBpbnRlcmZhY2Ug
+cGFuZWw/DQpUaGFua3MhDQoNCg0KQmVzdCByZWdhcmRzDQoNCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fDQogVGhpcyBlbWFpbCAoaW5jbHVkaW5nIGl0cyBhdHRhY2htZW50cykgaXMg
+aW50ZW5kZWQgb25seSBmb3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgdG8gd2hpY2ggaXQgaXMgYWRk
+cmVzc2VkIGFuZCBtYXkgY29udGFpbiBpbmZvcm1hdGlvbiB0aGF0IGlzIHByaXZpbGVnZWQsIGNv
+bmZpZGVudGlhbCBvciBvdGhlcndpc2UgcHJvdGVjdGVkIGZyb20gZGlzY2xvc3VyZS4gVW5hdXRo
+b3JpemVkIHVzZSwgZGlzc2VtaW5hdGlvbiwgZGlzdHJpYnV0aW9uIG9yIGNvcHlpbmcgb2YgdGhp
+cyBlbWFpbCBvciB0aGUgaW5mb3JtYXRpb24gaGVyZWluIG9yIHRha2luZyBhbnkgYWN0aW9uIGlu
+IHJlbGlhbmNlIG9uIHRoZSBjb250ZW50cyBvZiB0aGlzIGVtYWlsIG9yIHRoZSBpbmZvcm1hdGlv
+biBoZXJlaW4sIGJ5IGFueW9uZSBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIG9y
+IGFuIGVtcGxveWVlIG9yIGFnZW50IHJlc3BvbnNpYmxlIGZvciBkZWxpdmVyaW5nIHRoZSBtZXNz
+YWdlIHRvIHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuIElm
+IHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIHBsZWFzZSBkbyBub3QgcmVhZCwg
+Y29weSwgdXNlIG9yIGRpc2Nsb3NlIGFueSBwYXJ0IG9mIHRoaXMgZS1tYWlsIHRvIG90aGVycy4g
+UGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGltbWVkaWF0ZWx5IGFuZCBwZXJtYW5lbnRseSBkZWxl
+dGUgdGhpcyBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBpZiB5b3UgcmVjZWl2ZWQgaXQgaW4g
+ZXJyb3IuIEludGVybmV0IGNvbW11bmljYXRpb25zIGNhbm5vdCBiZSBndWFyYW50ZWVkIHRvIGJl
+IHRpbWVseSwgc2VjdXJlLCBlcnJvci1mcmVlIG9yIHZpcnVzLWZyZWUuIFRoZSBzZW5kZXIgZG9l
+cyBub3QgYWNjZXB0IGxpYWJpbGl0eSBmb3IgYW55IGVycm9ycyBvciBvbWlzc2lvbnMuDQqxvtPK
+vP68sMbkuL28/r7f09Cxo8Pc0NTWyqOsyty3qMLJsaO7pLK7tcPQucK2o6y99reiy824+LG+08q8
+/sv51rjM2LaoytW8/sjLoaPRz737t8e+rcrayKjKudPDoaLQ+7SroaK3orK8u/K4tNbGsb7Tyrz+
+u/LG5MTayN2ho8j0t8e4w8zYtqjK1bz+yMujrMfrzvDUxLbBoaK4tNbGoaIgyrnTw7vyxfvCtrG+
+08q8/rXEyM66zsTayN2ho8j0zvPK1bG+08q8/qOsx+u008+1zbPW0NPAvsPQ1Mm+s/2xvtPKvP68
+sMv509C4vbz+o6yyotLUu9i4tNPKvP61xLe9yr28tL/MuObWqreivP7Iy6Gjzt63qLGj1qS7pcGq
+zfjNqNDFvLDKsaGisLLIq6Gizt7O87vyt8C2vqGjt6K8/sjLttTIzrrOtO3Cqb75sruz0LWj1PDI
+zqGjDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
