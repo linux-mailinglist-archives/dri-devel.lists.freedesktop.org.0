@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90638256FFC
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 21:12:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA2B25707C
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 22:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 318A589E5A;
-	Sun, 30 Aug 2020 19:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F064689CDD;
+	Sun, 30 Aug 2020 20:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (unknown
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E09A589E5A
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 19:11:56 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A0CE258;
- Sun, 30 Aug 2020 21:11:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1598814713;
- bh=fel0reShl8gyxHac+/RDk7fZq+macGvIPWGmYF2KvpI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nNDmHo8Njma2Cg5b6MZJDWkkayMD+7XR2NTBLh8vbW6FREhHNg44gWKvRWkwOCDx8
- vwCNZg7U9sTxsRIbAbb/q21RWvS+0oJFMADArVTp2dd8EGL4b29Y8W6pXN7oXrvR5V
- BHPfAl6SAy/bnHwTZkkDjW1sDO4mfG5IlaWufAyY=
-Date: Sun, 30 Aug 2020 22:11:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Cercueil <paul@crapouillou.net>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E10E89CDD
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 20:28:30 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 48BCF804BA;
+ Sun, 30 Aug 2020 22:28:24 +0200 (CEST)
+Date: Sun, 30 Aug 2020 22:28:22 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Subject: Re: =?utf-8?B?562U5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= v2 6/6]
  drm/panel: Add Ilitek ILI9341 DBI panel driver
-Message-ID: <20200830191133.GB6043@pendragon.ideasonboard.com>
+Message-ID: <20200830202822.GA950472@ravnborg.org>
 References: <20200822163250.63664-1-paul@crapouillou.net>
  <20200822163250.63664-7-paul@crapouillou.net>
  <edf38d68214247f486db3cc1f81ec404@shmbx04.spreadtrum.com>
  <COYVFQ.2IA7KFB6BF4C3@crapouillou.net>
+ <20200830191133.GB6043@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <COYVFQ.2IA7KFB6BF4C3@crapouillou.net>
+In-Reply-To: <20200830191133.GB6043@pendragon.ideasonboard.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=5KLPUuaC_9wA:10 a=ZRaz1EvN7pzWBUx8I4YA:9
+ a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,100 +52,41 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  =?utf-8?B?5L2V5bCP6b6Z?= <Leon.He@unisoc.com>, od@zcrc.me,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Paul Cercueil <paul@crapouillou.net>,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGF1bCwKCk9uIFN1biwgQXVnIDMwLCAyMDIwIGF0IDA2OjQ4OjEyUE0gKzAyMDAsIFBhdWwg
-Q2VyY3VlaWwgd3JvdGU6Cj4gTGUgZGltLiAzMCBhb8O7dCAyMDIwIMOgIDE2OjM2LCDkvZXlsI/p
-vpkgKExlb24gSGUpIGEgw6ljcml0IDoKPiA+PiAgK3N0cnVjdCBpbGk5MzQxIHsKPiA+PiAgKyAg
-ICAgICBzdHJ1Y3QgZHJtX3BhbmVsIHBhbmVsOwo+ID4+ICArICAgICAgIHN0cnVjdCBtaXBpX2Rz
-aV9kZXZpY2UgKmRzaTsKPiA+PiAgKyAgICAgICBjb25zdCBzdHJ1Y3QgaWxpOTM0MV9wZGF0YSAq
-cGRhdGE7Cj4gPj4gICsKPiA+PiAgKyAgICAgICBzdHJ1Y3QgZ3Bpb19kZXNjICAgICAgICAqcmVz
-ZXRfZ3Bpb2Q7Cj4gPj4gICsgICAgICAgdTMyIHJvdGF0aW9uOwo+ID4+ICArfTsKPiA+PiAgKwo+
-ID4gCj4gPiBIaSBQYXVsLCB5b3UgcHV0IHRoZSBtaXBpX2RzaV9kZXZpY2UgaW5zaWRlIHRoZSBz
-dHJ1Y3QuIEkgdGhpbmsgaXQgCj4gPiBtYXliZSBub3QKPiA+IGEgZ29vZCBpZGVhLiBUaGF0IG1l
-YW5zIHRoZSBwYW5lbCBoYXMgYSBNSVBJLURTSSBpbnRlcmZhY2UgYnV0IGl0IAo+ID4gZG9lc24n
-dAo+ID4gaGF2ZSBhY3R1YWxseS4KPiA+IAo+ID4+ICArc3RhdGljIGludCBpbGk5MzQxX3Byb2Jl
-KHN0cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRzaSkKPiA+PiAgK3sKPiA+PiAgKyAgICAgICBzdHJ1
-Y3QgZGV2aWNlICpkZXYgPSAmZHNpLT5kZXY7Cj4gPj4gICsgICAgICAgc3RydWN0IGlsaTkzNDEg
-KnByaXY7Cj4gPj4gICsgICAgICAgaW50IHJldDsKPiA+PiAgKwo+ID4+ICArICAgICAgIC8qIFNl
-ZSBjb21tZW50IGZvciBtaXBpX2RiaV9zcGlfaW5pdCgpICovCj4gPj4gICsgICAgICAgaWYgKCFk
-ZXYtPmNvaGVyZW50X2RtYV9tYXNrKSB7Cj4gPj4gICsgICAgICAgICAgICAgICByZXQgPSBkbWFf
-Y29lcmNlX21hc2tfYW5kX2NvaGVyZW50KGRldiwgCj4gPj4gRE1BX0JJVF9NQVNLKDMyKSk7Cj4g
-Pj4gICsgICAgICAgICAgICAgICBpZiAocmV0KSB7Cj4gPj4gICsgICAgICAgICAgICAgICAgICAg
-ICAgIGRldl93YXJuKGRldiwgIkZhaWxlZCB0byBzZXQgZG1hIG1hc2sgCj4gPj4gJWRcbiIsIHJl
-dCk7Cj4gPj4gICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPj4gICsgICAg
-ICAgICAgICAgICB9Cj4gPj4gICsgICAgICAgfQo+ID4+ICArCj4gPj4gICsgICAgICAgcHJpdiA9
-IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqcHJpdiksIEdGUF9LRVJORUwpOwo+ID4+ICArICAg
-ICAgIGlmICghcHJpdikKPiA+PiAgKyAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+ID4+
-ICArCj4gPj4gICsgICAgICAgbWlwaV9kc2lfc2V0X2RydmRhdGEoZHNpLCBwcml2KTsKPiA+PiAg
-KyAgICAgICBwcml2LT5kc2kgPSBkc2k7Cj4gPj4gICsKPiA+PiAgKyAgICAgICBkZXZpY2VfcHJv
-cGVydHlfcmVhZF91MzIoZGV2LCAicm90YXRpb24iLCAmcHJpdi0+cm90YXRpb24pOwo+ID4+ICAr
-Cj4gPj4gICsgICAgICAgcHJpdi0+cGRhdGEgPSBkZXZpY2VfZ2V0X21hdGNoX2RhdGEoZGV2KTsK
-PiA+PiAgKyAgICAgICBpZiAoIXByaXYtPnBkYXRhKQo+ID4+ICArICAgICAgICAgICAgICAgcmV0
-dXJuIC1FSU5WQUw7Cj4gPj4gICsKPiA+PiAgKyAgICAgICBkcm1fcGFuZWxfaW5pdCgmcHJpdi0+
-cGFuZWwsIGRldiwgJmlsaTkzNDFfZnVuY3MsCj4gPj4gICsgICAgICAgICAgICAgICAgICAgICAg
-RFJNX01PREVfQ09OTkVDVE9SX0RQSSk7Cj4gPj4gICsKPiA+PiAgKyAgICAgICBwcml2LT5yZXNl
-dF9ncGlvZCA9IGRldm1fZ3Bpb2RfZ2V0KGRldiwgInJlc2V0IiwgCj4gPj4gR1BJT0RfT1VUX0hJ
-R0gpOwo+ID4+ICArICAgICAgIGlmIChJU19FUlIocHJpdi0+cmVzZXRfZ3Bpb2QpKSB7Cj4gPj4g
-ICsgICAgICAgICAgICAgICBkZXZfZXJyKGRldiwgIkNvdWxkbid0IGdldCBvdXIgcmVzZXQgR1BJ
-T1xuIik7Cj4gPj4gICsgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihwcml2LT5yZXNldF9n
-cGlvZCk7Cj4gPj4gICsgICAgICAgfQo+ID4+ICArCj4gPj4gICsgICAgICAgcmV0ID0gZHJtX3Bh
-bmVsX29mX2JhY2tsaWdodCgmcHJpdi0+cGFuZWwpOwo+ID4+ICArICAgICAgIGlmIChyZXQgPCAw
-KSB7Cj4gPj4gICsgICAgICAgICAgICAgICBpZiAocmV0ICE9IC1FUFJPQkVfREVGRVIpCj4gPj4g
-ICsgICAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCBiYWNr
-bGlnaHQgCj4gPj4gaGFuZGxlXG4iKTsKPiA+PiAgKyAgICAgICAgICAgICAgIHJldHVybiByZXQ7
-Cj4gPj4gICsgICAgICAgfQo+ID4+ICArCj4gPj4gICsgICAgICAgZHJtX3BhbmVsX2FkZCgmcHJp
-di0+cGFuZWwpOwo+ID4+ICArCj4gPj4gICsgICAgICAgZHNpLT5idXNfdHlwZSA9IHByaXYtPnBk
-YXRhLT5idXNfdHlwZTsKPiA+PiAgKyAgICAgICBkc2ktPmxhbmVzID0gcHJpdi0+cGRhdGEtPmxh
-bmVzOwo+ID4+ICArICAgICAgIGRzaS0+Zm9ybWF0ID0gTUlQSV9EU0lfRk1UX1JHQjU2NTsKPiA+
-PiAgKwo+ID4+ICArICAgICAgIHJldCA9IG1pcGlfZHNpX2F0dGFjaChkc2kpOwo+ID4+ICArICAg
-ICAgIGlmIChyZXQpIHsKPiA+PiAgKyAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVk
-IHRvIGF0dGFjaCBEU0kgcGFuZWxcbiIpOwo+ID4+ICArICAgICAgICAgICAgICAgZ290byBlcnJf
-cGFuZWxfcmVtb3ZlOwo+ID4+ICArICAgICAgIH0KPiA+PiAgKwo+ID4+ICArICAgICAgIHJldCA9
-IG1pcGlfZHNpX21heWJlX3JlZ2lzdGVyX3RpbnlfZHJpdmVyKGRzaSk7Cj4gPj4gICsgICAgICAg
-aWYgKHJldCkgewo+ID4+ICArICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWlsZWQgdG8g
-aW5pdCBUaW55RFJNIGRyaXZlclxuIik7Cj4gPj4gICsgICAgICAgICAgICAgICBnb3RvIGVycl9t
-aXBpX2RzaV9kZXRhY2g7Cj4gPj4gICsgICAgICAgfQo+ID4+ICArCj4gPj4gICsgICAgICAgcmV0
-dXJuIDA7Cj4gPj4gICsKPiA+PiAgK2Vycl9taXBpX2RzaV9kZXRhY2g6Cj4gPj4gICsgICAgICAg
-bWlwaV9kc2lfZGV0YWNoKGRzaSk7Cj4gPj4gICtlcnJfcGFuZWxfcmVtb3ZlOgo+ID4+ICArICAg
-ICAgIGRybV9wYW5lbF9yZW1vdmUoJnByaXYtPnBhbmVsKTsKPiA+PiAgKyAgICAgICByZXR1cm4g
-cmV0Owo+ID4+ICArfQo+ID4+ICArCj4gPj4gICtzdGF0aWMgaW50IGlsaTkzNDFfcmVtb3ZlKHN0
-cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRzaSkKPiA+PiAgK3sKPiA+PiAgKyAgICAgICBzdHJ1Y3Qg
-aWxpOTM0MSAqcHJpdiA9IG1pcGlfZHNpX2dldF9kcnZkYXRhKGRzaSk7Cj4gPj4gICsKPiA+PiAg
-KyAgICAgICBtaXBpX2RzaV9kZXRhY2goZHNpKTsKPiA+PiAgKyAgICAgICBkcm1fcGFuZWxfcmVt
-b3ZlKCZwcml2LT5wYW5lbCk7Cj4gPj4gICsKPiA+PiAgKyAgICAgICBkcm1fcGFuZWxfZGlzYWJs
-ZSgmcHJpdi0+cGFuZWwpOwo+ID4+ICArICAgICAgIGRybV9wYW5lbF91bnByZXBhcmUoJnByaXYt
-PnBhbmVsKTsKPiA+PiAgKwo+ID4+ICArICAgICAgIHJldHVybiAwOwo+ID4+ICArfQo+ID4+ICAr
-Cj4gPj4gICtzdGF0aWMgY29uc3Qgc3RydWN0IGlsaTkzNDFfcGRhdGEgeXgyNDBxdjI5X3BkYXRh
-ID0gewo+ID4+ICArICAgICAgIC5tb2RlID0geyBEUk1fU0lNUExFX01PREUoMjQwLCAzMjAsIDM3
-LCA0OSkgfSwKPiA+PiAgKyAgICAgICAud2lkdGhfbW0gPSAwLCAvLyBUT0RPCj4gPj4gICsgICAg
-ICAgLmhlaWdodF9tbSA9IDAsIC8vIFRPRE8KPiA+PiAgKyAgICAgICAuYnVzX3R5cGUgPSBNSVBJ
-X0RDU19CVVNfVFlQRV9EQklfU1BJX0MzLAo+ID4+ICArICAgICAgIC5sYW5lcyA9IDEsCj4gPj4g
-ICt9Owo+ID4+ICArCj4gPj4gICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBpbGk5
-MzQxX29mX21hdGNoW10gPSB7Cj4gPj4gICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJhZGFmcnVp
-dCx5eDI0MHF2MjkiLCAuZGF0YSA9IAo+ID4+ICZ5eDI0MHF2MjlfcGRhdGEgfSwKPiA+PiAgKyAg
-ICAgICB7IH0KPiA+PiAgK307Cj4gPj4gICtNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBpbGk5MzQx
-X29mX21hdGNoKTsKPiA+PiAgKwo+ID4+ICArc3RhdGljIHN0cnVjdCBtaXBpX2RzaV9kcml2ZXIg
-aWxpOTM0MV9kc2lfZHJpdmVyID0gewo+ID4+ICArICAgICAgIC5wcm9iZSAgICAgICAgICA9IGls
-aTkzNDFfcHJvYmUsCj4gPj4gICsgICAgICAgLnJlbW92ZSAgICAgICAgID0gaWxpOTM0MV9yZW1v
-dmUsCj4gPj4gICsgICAgICAgLmRyaXZlciA9IHsKPiA+PiAgKyAgICAgICAgICAgICAgIC5uYW1l
-ICAgICAgICAgICA9ICJpbGk5MzQxLWRzaSIsCj4gPj4gICsgICAgICAgICAgICAgICAub2ZfbWF0
-Y2hfdGFibGUgPSBpbGk5MzQxX29mX21hdGNoLAo+ID4+ICArICAgICAgIH0sCj4gPj4gICt9Owo+
-ID4+ICArbW9kdWxlX21pcGlfZHNpX2RyaXZlcihpbGk5MzQxX2RzaV9kcml2ZXIpOwo+ID4gCj4g
-PiBBZ2FpbiwgeW91IHRyZWF0IHRoaXMgZHJpdmVyIGFzIGEgbWlwaSBkc2kgZHJpdmVyIGJ1dCBm
-b3IgYSBNSVBJLURCSSAKPiA+IChJODA4MC9TUEkpCj4gPiBwYW5lbCBkZXZpY2UuIFRoYXQgd2ls
-bCBtYWtlIGRldmVsb3BlcnMgY29uZnVzZWQuCj4gPiAKPiA+IElzIGl0IHBvc3NpYmxlIHRvIGp1
-c3QgYWRkIGEgbWlwaV9kYmlfZHJpdmVyIGZvciBJODA4MC9TUEkgaW50ZXJmYWNlIAo+ID4gcGFu
-ZWw/Cj4gPiBUaGFua3MhCj4gCj4gUGxlYXNlIHJlYWQgdGhlIGNvdmVyIGxldHRlciwgaXQgZXhw
-bGFpbnMgd2h5IGl0J3MgZG9uZSB0aGlzIHdheS4gVGhlIAo+IHdob2xlIHBvaW50IG9mIHRoaXMg
-cGF0Y2hzZXQgaXMgdG8gbWVyZ2UgRFNJIGFuZCBEQkkgZnJhbWV3b3JrcyBpbiBhIAo+IHdheSB0
-aGF0IGNhbiBiZSBtYWludGFpbmVkLgoKSSB0aGluayB0aGlzIHByb3ZlcyB0aGUgcG9pbnQgdGhh
-dCB0aGUgcHJvcG9zZWQgbmFtaW5nIGlzIGNvbmZ1c2luZy4gQXQKbGVhc3QgYSByZW5hbWUgd291
-bGQgYmUgcmVxdWlyZWQuCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Laurent.
+
+> > 
+> > Please read the cover letter, it explains why it's done this way. The 
+> > whole point of this patchset is to merge DSI and DBI frameworks in a 
+> > way that can be maintained.
+> 
+> I think this proves the point that the proposed naming is confusing. At
+> least a rename would be required.
+
+Do you have any inputs on the amount of rename we are looking into.
+Is this a simple s/struct mipi_dsi_device/struct mipi_dxi_device/
+or something more?
+
+We should script the rename as it will tocuh a lot of files,
+and without a script we would chase this. But once it is scripted
+it would be trivial to perform.
+
+I did not look at this enough, but I had an idea that we
+would have do to a s/dsi/dxi/ in a lot of places.
+
+(dxi is my best proposal at the moment for something covering both dsi
+and dbi).
+
+PS. I am travelling for a few days, so do not expect quick responses.
+
+	Sam
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
