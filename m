@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87408256DD5
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 14:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C198256DD6
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Aug 2020 14:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A47D36E2F2;
-	Sun, 30 Aug 2020 12:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6066E312;
+	Sun, 30 Aug 2020 12:58:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2093E6E2E6
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116726E2EA
  for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 12:58:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598792307;
+ s=mimecast20190719; t=1598792308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sL+jByNDV2GBlQ72/Hf5linnOG6oA5dOJnHUKFCOLME=;
- b=ap2MlKiXE5YYrU1JgSPS8sEHbKdTDta1vuq5uk+yq2kOlB80+k6IUD7RN7kvmKeSlyFATx
- nYjIrlqry0bdii8K5XL72QLt2M6vOi0Rl+g/TFuHiZAclF/KUh7dbnRGgKwk/scOI91fhC
- f4SLLyHS6TzIn3DiuL2WjOHx2UuckTc=
+ bh=cYWhKTISh/u3aMewN0hIMxxIUF++N0gpcMl9YN4NWk8=;
+ b=JAXJAUwG6d9FmY237M/k4lBqgdcIQISBE6CAr/DjEYvuSt1u4RhVZT7vFCEqUuw7FNnkFL
+ EVq4Ld68tGSFzv+68Aav1ATD07H8nXocqkKPQ4pz6QbXO01MANFvP7xf1g5UMBHCAnbRKH
+ tnEcQaegQKlSTwI+NrBqYlYM6kzn4o8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-Bk9voESCM1OtViAZKhZ31w-1; Sun, 30 Aug 2020 08:58:23 -0400
-X-MC-Unique: Bk9voESCM1OtViAZKhZ31w-1
+ us-mta-451-FIJRd5iBPn6lR5YznDhDSg-1; Sun, 30 Aug 2020 08:58:25 -0400
+X-MC-Unique: FIJRd5iBPn6lR5YznDhDSg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDE5E1005E5E;
- Sun, 30 Aug 2020 12:58:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B27691005E60;
+ Sun, 30 Aug 2020 12:58:23 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA04171C6;
- Sun, 30 Aug 2020 12:58:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21FF2171C6;
+ Sun, 30 Aug 2020 12:58:20 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -44,9 +44,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v8 07/17] pwm: lpss: Always update state and set update bit
-Date: Sun, 30 Aug 2020 14:57:43 +0200
-Message-Id: <20200830125753.230420-8-hdegoede@redhat.com>
+Subject: [PATCH v8 08/17] pwm: crc: Fix period / duty_cycle times being off by
+ a factor of 256
+Date: Sun, 30 Aug 2020 14:57:44 +0200
+Message-Id: <20200830125753.230420-9-hdegoede@redhat.com>
 In-Reply-To: <20200830125753.230420-1-hdegoede@redhat.com>
 References: <20200830125753.230420-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -73,105 +74,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit removes a check where we would skip writing the ctrl register
-and then setting the update bit in case the ctrl register already contains
-the correct values.
+While looking into adding atomic-pwm support to the pwm-crc driver I
+noticed something odd, there is a PWM_BASE_CLK define of 6 MHz and
+there is a clock-divider which divides this with a value between 1-128,
+and there are 256 duty-cycle steps.
 
-In a perfect world skipping the update should be fine in these cases, but
-on Cherry Trail devices the AML code in the GFX0 devices' PS0 and PS3
-methods messes with the PWM controller.
+The pwm-crc code before this commit assumed that a clock-divider
+setting of 1 means that the PWM output is running at 6 MHZ, if that
+is true, where do these 256 duty-cycle steps come from?
 
-The "ACPI / LPSS: Resume Cherry Trail PWM controller in no-irq phase" patch
-earlier in this series stops the GFX0._PS0 method from messing with the PWM
-controller and on the DSDT-s inspected sofar the _PS3 method only reads
-from the PWM controller (and turns it off before we get a change to do so):
+This would require an internal frequency of 256 * 6 MHz = 1.5 GHz, that
+seems unlikely for a PMIC which is using a silicon process optimized for
+power-switching transistors. It is way more likely that there is an 8
+bit counter for the duty cycle which acts as an extra fixed divider
+wrt the PWM output frequency.
 
-    {
-        PWMB = PWMC /* \_SB_.PCI0.GFX0.PWMC */
-        PSAT |= 0x03
-        Local0 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
-    }
+The main user of the pwm-crc driver is the i915 GPU driver which uses it
+for backlight control. Lets compare the PWM register values set by the
+video-BIOS (the GOP), assuming the extra fixed divider is present versus
+the PWM frequency specified in the Video-BIOS-Tables:
 
-The PWM controller getting turning off before we do this ourselves is
-a bit annoying but not really an issue.
+Device:		PWM Hz set by BIOS	PWM Hz specified in VBT
+Asus T100TA 	200			200
+Asus T100HA 	200			200
+Lenovo Miix 2 8	23437			20000
+Toshiba WT8-A	23437			20000
 
-The problem this patch fixes comes from a new variant of the GFX0._PS3 code
-messing with the PWM controller found on the Acer One 10 S1003 (1):
+So as we can see if we assume the extra division by 256 then the register
+values set by the GOP are an exact match for the VBT values, where as
+otherwise the values would be of by a factor of 256.
 
-    {
-        PWMB = PWMC /* \_SB_.PCI0.GFX0.PWMC */
-        PWMT = PWMC /* \_SB_.PCI0.GFX0.PWMC */
-        PWMT &= 0xFF0000FF
-        PWMT |= 0xC0000000
-        PWMC = PWMT /* \_SB_.PCI0.GFX0.PWMT */
-        PWMT = PWMC /* \_SB_.PCI0.GFX0.PWMC */
-        Sleep (0x64)
-        PWMB &= 0x3FFFFFFF
-        PWMC = PWMB /* \_SB_.PCI0.GFX0.PWMB */
-        PSAT |= 0x03
-        Local0 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
-    }
+This commit fixes the period / duty_cycle calculations to take the
+extra division by 256 into account.
 
-This "beautiful" piece of code clears the base-unit part of the ctrl-reg,
-which effectively disables the controller, and it sets the update flag
-to apply this change. Then after this it restores the original ctrl-reg
-value, so we do not see it has mucked with the controller.
-
-*But* it does not set the update flag when restoring the original value.
-So the check to see if we can skip writing the ctrl register succeeds
-but since the update flag was not set, the old base-unit value of 0 is
-still in use and the PWM controller is effectively disabled.
-
-IOW this PWM controller poking means that we cannot trust the base-unit /
-on-time-div value we read back from the PWM controller since it may not
-have been applied/committed. Thus we must always update the ctrl-register
-and set the update bit.
-
-1) And once I knew what to look for also in a bunch of other devices
-including the popular Lenovo Ideapad Miix 310 and 320 models and
-various Medion models.
-
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v8:
-- New patch in v8 of this patch-set
+Changes in v3:
+- Use NSEC_PER_USEC instead of adding a new (non-sensical) NSEC_PER_MHZ define
 ---
- drivers/pwm/pwm-lpss.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/pwm/pwm-crc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
-index 9a7400c6fb6e..20f6b6d6f874 100644
---- a/drivers/pwm/pwm-lpss.c
-+++ b/drivers/pwm/pwm-lpss.c
-@@ -85,7 +85,7 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *lpwm, struct pwm_device *pwm,
- 	unsigned long long on_time_div;
- 	unsigned long c = lpwm->info->clk_rate, base_unit_range;
- 	unsigned long long base_unit, freq = NSEC_PER_SEC;
--	u32 orig_ctrl, ctrl;
-+	u32 ctrl;
+diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
+index 272eeb071147..c056eb9b858c 100644
+--- a/drivers/pwm/pwm-crc.c
++++ b/drivers/pwm/pwm-crc.c
+@@ -21,8 +21,8 @@
  
- 	do_div(freq, period_ns);
+ #define PWM_MAX_LEVEL		0xFF
  
-@@ -104,16 +104,14 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *lpwm, struct pwm_device *pwm,
- 	do_div(on_time_div, period_ns);
- 	on_time_div = 255ULL - on_time_div;
+-#define PWM_BASE_CLK		6000000  /* 6 MHz */
+-#define PWM_MAX_PERIOD_NS	21333    /* 46.875KHz */
++#define PWM_BASE_CLK_MHZ	6	/* 6 MHz */
++#define PWM_MAX_PERIOD_NS	5461333	/* 183 Hz */
  
--	orig_ctrl = ctrl = pwm_lpss_read(pwm);
-+	ctrl = pwm_lpss_read(pwm);
- 	ctrl &= ~PWM_ON_TIME_DIV_MASK;
- 	ctrl &= ~((base_unit_range - 1) << PWM_BASE_UNIT_SHIFT);
- 	ctrl |= (u32) base_unit << PWM_BASE_UNIT_SHIFT;
- 	ctrl |= on_time_div;
+ /**
+  * struct crystalcove_pwm - Crystal Cove PWM controller
+@@ -72,7 +72,7 @@ static int crc_pwm_config(struct pwm_chip *c, struct pwm_device *pwm,
  
--	if (orig_ctrl != ctrl) {
--		pwm_lpss_write(pwm, ctrl);
--		pwm_lpss_write(pwm, ctrl | PWM_SW_UPDATE);
--	}
-+	pwm_lpss_write(pwm, ctrl);
-+	pwm_lpss_write(pwm, ctrl | PWM_SW_UPDATE);
- }
+ 		/* changing the clk divisor, need to disable fisrt */
+ 		crc_pwm_disable(c, pwm);
+-		clk_div = PWM_BASE_CLK * period_ns / NSEC_PER_SEC;
++		clk_div = PWM_BASE_CLK_MHZ * period_ns / (256 * NSEC_PER_USEC);
  
- static inline void pwm_lpss_cond_enable(struct pwm_device *pwm, bool cond)
+ 		regmap_write(crc_pwm->regmap, PWM0_CLK_DIV,
+ 					clk_div | PWM_OUTPUT_ENABLE);
 -- 
 2.28.0
 
