@@ -2,66 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5FD25788B
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 13:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9BC25788C
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 13:39:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 936886E119;
-	Mon, 31 Aug 2020 11:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 565A76E11B;
+	Mon, 31 Aug 2020 11:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E41306E119
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 11:39:15 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07VBYuln067752;
- Mon, 31 Aug 2020 11:39:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=3qWGGsIM17FPRW20+RuS/el1UajKdz626ywpt0DVbyk=;
- b=sPU4kpO2jk0psUplooi95qyw/osB2uaL0cn02KrDMeyotTEss0jT/WupmJcB+y6NyERu
- 52P58Pvla/K3gRfFfTYOptl3EIqB9qcLcL3xZ5PwVrsfWRl2xeSdj2FYBhuMVMBWt+oR
- s51CMwpqlbN8MWP4Jci5HWRVfiVmPJhpJEQ+3Lhk6E+EjLfuKd+EiP2/SiGKQONxUhwk
- /sx4ds7Q3xMtxDRokcPFp0H4e5f7l5gNh5XuM0A9i7d8snjK2TAMwXuTVmvUWdRYGVdn
- Sqyxp4DI/zjajQgiHtl8NM0O+aSJwdwk2NdLSHc5ZvyLDmuFN7GoyNczkYZqnRkRs60V uw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 337eeqnsnq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 31 Aug 2020 11:39:13 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07VBZ9xA146390;
- Mon, 31 Aug 2020 11:39:13 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 3380kkh6gr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Aug 2020 11:39:13 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07VBdCYw006335;
- Mon, 31 Aug 2020 11:39:12 GMT
-Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 31 Aug 2020 04:39:12 -0700
-Date: Mon, 31 Aug 2020 14:39:07 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: linus.walleij@linaro.org
-Subject: [bug report] drm/mcde: Add new driver for ST-Ericsson MCDE
-Message-ID: <20200831113907.GA514373@mwanda>
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEF16E11B
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 11:39:23 +0000 (UTC)
+Date: Mon, 31 Aug 2020 11:39:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1598873960;
+ bh=jR//Y3Z0pAZURnrw2Jxzg9pdJ+m1iQvesaUWWeCTY4M=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=UekIRHPTa/7jem9cbDC/HwBO8KucEskeXTb8yABX7QRhpmLiBllgeR+x+Lq7qOf5j
+ R3Bc3S8aYch9rVGo83pGsmkNsjAOMJ+ouhp3wIFsbSWcEZJYc2t86TiJ07Mn/j33hh
+ SLYuzIA7RFb+A93gtgrsro+5j/cAQQlmA4Dm74N9FH8LKdBATinc3mzeZyGfoko1ez
+ 7+CmpeuErep4xDhYxia/KzwvkihDpR6czC+SRLz4qkmPSZREQkPEdrTWhfU0kQXZal
+ +H1Qku2xN4EG32ZnM1A/vKTPIM4LKKeLN+Eq8jwTbqZ8wp4du01d09Y1IYVuVN63jo
+ QZD4z5LerLmNA==
+To: Sidong Yang <realwakka@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/vkms: add support for gamma_set interface
+Message-ID: <UeJwFKvmNgKdZY_icN0-nrFly9R1vbzaMZ-TiyxIIPBcdl278uZsK6YdTTdRl6rFukBAmN-eyCFpnfsIB-El9QpyYiutdcpgJg64n4tsRRc=@emersion.fr>
+In-Reply-To: <20200829140647.7626-1-realwakka@gmail.com>
+References: <20200829140647.7626-1-realwakka@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- mlxscore=0 suspectscore=3 malwarescore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008310066
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- priorityscore=1501
- lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
- phishscore=0 impostorscore=0 mlxlogscore=967 bulkscore=0 suspectscore=3
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008310066
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +47,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Linus Walleij,
+On Saturday, August 29, 2020 4:06 PM, Sidong Yang <realwakka@gmail.com> wrote:
 
-The patch 5fc537bfd000: "drm/mcde: Add new driver for ST-Ericsson
-MCDE" from May 24, 2019, leads to the following static checker
-warning:
+> Currently vkms module doesn't support gamma function for userspace. so igt
+> subtests in kms_plane(pixel-format-pipe-A-plan) failed for calling
+> drmModeCrtcSetGamma().
 
-	drivers/gpu/drm/mcde/mcde_display.c:570 mcde_configure_channel()
-	error: uninitialized symbol 'val'.
+It doesn't seem like this IGT test's goal is to exercise support for
+gamma LUTs. Does the test just tries to reset the gamma LUT to linear?
+If so, I think the IGT test should be fixed to ignore "I don't support
+gamma" errors.
 
-drivers/gpu/drm/mcde/mcde_display.c
-   552          case MCDE_VIDEO_TE_FLOW:
-   553                  val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
-   554                          << MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-   555                  val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_TE0
-   556                          << MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-   557                  break;
-   558          case MCDE_VIDEO_FORMATTER_FLOW:
-   559                  val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
-   560                          << MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-   561                  val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_FORMATTER
-   562                          << MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-   563                  break;
-   564          default:
-   565                  dev_err(mcde->dev, "unknown flow mode %d\n",
-   566                          mcde->flow_mode);
+> This patch set gamma_set interface in vkms_crtc_funcs for
+> support gamma function. With initializing crtc, added calls for setting gamma
+> size. it pass the test after this patch.
+>
+> Cc: Daniel Vetter<daniel@ffwll.ch>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+>
+> Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_crtc.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index ac85e17428f8..643435fb2ee6 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -160,6 +160,7 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
+>  	.get_crc_sources	= vkms_get_crc_sources,
+>  	.set_crc_source		= vkms_set_crc_source,
+>  	.verify_crc_source	= vkms_verify_crc_source,
+> +	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
 
-"val" not initialized on this path.
+Why does VKMS need to use a legacy helper?
 
-   567                  break;
-   568          }
-   569  
-   570          writel(val, mcde->regs + sync);
-   571  
-   572          /* Set up pixels per line and lines per frame */
+It seems like this patch just advertises support for gamma LUTs, but
+ignores any value set by user-space. If VKMS advertises support for
+gamma LUTs, it needs to take the LUT into account when blending planes.
 
-regards,
-dan carpenter
+>  };
+>
+>  static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+> @@ -275,6 +276,13 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+>  		return ret;
+>  	}
+>
+> +	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
+> +	if (ret) {
+> +		DRM_ERROR("Failed to set gamma size\n");
+> +		return ret;
+> +	}
+> +	drm_crtc_enable_color_mgmt(crtc, 0, false, 256);
+> +
+>  	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+>
+>  	spin_lock_init(&vkms_out->lock);
+> --
+> 2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
