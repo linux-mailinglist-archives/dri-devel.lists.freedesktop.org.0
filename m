@@ -1,105 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D0F25793E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 14:31:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1E3257948
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 14:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6AFE8984F;
-	Mon, 31 Aug 2020 12:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD1866E1D8;
+	Mon, 31 Aug 2020 12:32:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5A88984F
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 12:30:58 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200831123056euoutp0277a757d83a6ad6c7fa34645d821a9a06~wWjYmgA6l2329123291euoutp02v
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 12:30:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200831123056euoutp0277a757d83a6ad6c7fa34645d821a9a06~wWjYmgA6l2329123291euoutp02v
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98726E1D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 12:32:00 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200831123159euoutp010bf0cbd0affae1824223c16311e9abdf~wWkTCLYrs3166431664euoutp01S
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 12:31:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200831123159euoutp010bf0cbd0affae1824223c16311e9abdf~wWkTCLYrs3166431664euoutp01S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1598877056;
- bh=aAdNm/dzVaND4IVjQoOGhc1gHHOhMrELO0GWHWLYSRw=;
+ s=mail20170921; t=1598877119;
+ bh=uTRRNvTCRsQum+vrvSwUmL4fLx/+QDRq/CTNIkAppF8=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=YRWrwRgVptW1I2wULNLtJ/GQQ8lqLvb1HVvYZxXXTX9E7uJSzXrDNJKc/1IPAxPh9
- rh5GyZutXUlgpadt0ea71octNj4Z2OI08pTYJFpCA4afar+Lgigl/AGF1KLecFJ3/b
- o6IgTqasvjFqQ05l6b0g/gDFykGUjK7DrrHkDskU=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200831123055eucas1p266684932dbf9db192710f35b46fd643d~wWjX-AKXc1299512995eucas1p2s;
- Mon, 31 Aug 2020 12:30:55 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id B1.DE.05997.F7DEC4F5; Mon, 31
- Aug 2020 13:30:55 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ b=SutxiM8MWaTJYwAJwnGbPbbrzmat/rW0wOvG98nbjGbhiMGUYas7OKqLUD+2AcEQI
+ 7QGPz9auThmRrqY6GMlEwDRCxiV/cL7jOwrm9oc9xrse0mEHHz7cbeFVcgN1ePO8/6
+ NLK2+5y0PUB6skKN3/7WKizRfMTL4/G0SWqlnT98=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200831123158eucas1p182b1a6090c46e82a3d5211292199075c~wWkSo4JUr1359713597eucas1p1v;
+ Mon, 31 Aug 2020 12:31:58 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 6F.68.06318.EBDEC4F5; Mon, 31
+ Aug 2020 13:31:58 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200831123054eucas1p14913acf89e94842b48d8e005b5e01d7e~wWjXT2kzy1358313583eucas1p1i;
- Mon, 31 Aug 2020 12:30:54 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200831123054eusmtrp161f6cfc6de50ed8de4d8c5ad763ba97d~wWjXS9rJy0520905209eusmtrp1d;
- Mon, 31 Aug 2020 12:30:54 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-c3-5f4ced7f7ef1
+ 20200831123158eucas1p1a4758578b65a050d7a95d36e30a10a31~wWkSQ4qkO1363213632eucas1p1a;
+ Mon, 31 Aug 2020 12:31:58 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200831123158eusmtrp29bc4404ad8f9b635e9a0a38e9fb56b4a~wWkSP42Wv0298402984eusmtrp2e;
+ Mon, 31 Aug 2020 12:31:58 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-cf-5f4cedbec92a
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id CF.5E.06314.E7DEC4F5; Mon, 31
- Aug 2020 13:30:54 +0100 (BST)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 1C.D1.06017.EBDEC4F5; Mon, 31
+ Aug 2020 13:31:58 +0100 (BST)
 Received: from [106.210.123.115] (unknown [106.210.123.115]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200831123053eusmtip266f3538f6634be0eee709dcabfb9b647~wWjVj4NFe0780707807eusmtip2X;
- Mon, 31 Aug 2020 12:30:53 +0000 (GMT)
-Subject: Re: [PATCH 04/10] dt-bindings: mfd: syscon: Document Samsung Exynos
- compatibles
-To: Krzysztof Kozlowski <krzk@kernel.org>
+ 20200831123156eusmtip2e4ce93287e03769e5e4870fc1ff0f665~wWkQjAHsV0981309813eusmtip2t;
+ Mon, 31 Aug 2020 12:31:56 +0000 (GMT)
+Subject: Re: [PATCH 06/10] dt-bindings: sound: samsung-i2s: Use
+ unevaluatedProperties
+To: Krzysztof Kozlowski <krzk@kernel.org>, Kukjin Kim <kgene@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Lee Jones <lee.jones@linaro.org>, Sangbeom Kim
+ <sbkim73@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas
+ Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ alsa-devel@alsa-project.org
 From: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-ID: <8b0a42a3-e014-c2ed-7403-021f9a476fc8@samsung.com>
-Date: Mon, 31 Aug 2020 14:30:52 +0200
+Message-ID: <89e01241-c1f7-1d87-3cf3-30a6f2e26990@samsung.com>
+Date: Mon, 31 Aug 2020 14:31:55 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200829142501.31478-4-krzk@kernel.org>
+In-Reply-To: <20200829142501.31478-6-krzk@kernel.org>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa1BMYRjHvee2p3KaY2l6JtdZucQoub4zjHH7cMQHfDLNVDYdLWprdiuX
- D4oG0VWYsqKGsDYqW0Ikk7bVxK4uqkkXscPExKhtXSq0ezL69nv+z/O8z/8/87KkPJXxYfep
- 40SNWhmlYNypirqfliWJ/dvClt42+eJ0Sz2BWxprCHw3t4TGF3ptDG6zf6TxlcGZ+E/FWRLn
- 11po3DL0lcHZPVkUznz/mcRWa6kM9wyZEHa0pBDY+L6Vxs2VeQzOtT4h8J3aLhk+UVUrw416
- O4HLjBfI9V5C6eBxRqhyFFDCQ12XTDAaTjNCZ+tjRvhisciE+463tNCTaiaEssJEIaPcgIRB
- 46ztHsHuayPEqH0JoiZg3W53VVPhcyp2lD3UnDdAJ6F02RnkxgK/Al4k1yMny3k9gtN1m84g
- 9zG2IzBnfqalYhCBtfMY+W8jLSeNkDZuIhgoWiwNfUNQXFztakzlgyGjv5l28jTeD9pGv7te
- Ivl3NOgv2Rhng+EDId2UMXabZTl+HVy+oXLKFD8Pvlb0uSx58aFwz/za9SbHT4H6izbKyW78
- SnC8yXdFIHlv6LDlExLPhvv9eeNGn7MwUg0Sb4ayH1ZC4qnwyVw+Hn8GNJxLo5zegE9GkPbo
- jUwqshD0mAuQNLUGOi2/GKdRcixNSWWAJG+AwnPJpFMG3hPa+6dIHjwhuyJnXOYg5aRcmvaF
- YUPOuAUfSLX9obKQQjchmW5CGt2ENLr/dwsQZUDeYrw2OlLULlOLB/21ymhtvDrSf09MtBGN
- fdGG32b7A1Q5El6DeBYpJnM/TFvD5LQyQXs4ugYBSyqmcRtfNoTKuQjl4SOiJiZMEx8lamvQ
- dJZSeHPLr/aFyPlIZZx4QBRjRc2/LsG6+SShLbPm3FH3vjqlSo8gd1WLXrnTkUfxjqa+gq41
- Jj/CK3vZqbZhLnFk0fxczy8dKyM+6Nsd5TE7447Gpjy9FWQIHh5YeKRu9dyH4aGJVHv4eblf
- iGqph/C4yrhXv2eIm9R9PKjbTiVcb9ufN6/o2WhjUFLYtYD42gU5Hvqdcf6OzFWTFZRWpQxc
- RGq0yr94lNVNngMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHKsWRmVeSWpSXmKPExsVy+t/xe7p1b33iDbrvmFr0njvJZHHl4iEm
- i40z1rNaTH34hM3i+pfnrBbzPsta/N82kdli/pFzrBZXvr5ns5h0fwKLRf/j18wW589vYLe4
- //Uoo8W3Kx1MFpseX2O1uLxrDpvFjPP7mCzWHrnLbtG69wi7xcUVX5gsNm+ayuwg6rHhcxOb
- x95vC1g8ds66y+6xaVUnm8eda3vYPN6dO8fusf3bA1aP+93HmTw2L6n36NuyitHj8ya5AO4o
- PZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYxLS06w
- FPzlqLg85xNrA2MvexcjJ4eEgIlEz/Qepi5GLg4hgaWMEl/XzwZKcAAlpCTmtyhB1AhL/LnW
- xQZR855R4sH8/YwgCWGBKIm+t5dZQWwRAU2J63+/g9nMAo9YJT7NqoJo2Mwo8XjZT7BtbAKG
- Er1H+xhBFvAK2EnMXZYBEmYRUJV4v+0l2ExRgTiJx73/mUFsXgFBiZMzn7CA2JwCphLfbs9n
- h5ivLvFn3iVmCFtc4taT+UwQtrzE9rdzmCcwCs1C0j4LScssJC2zkLQsYGRZxSiSWlqcm55b
- bKhXnJhbXJqXrpecn7uJEZg2th37uXkH46WNwYcYBTgYlXh4fxz1jhdiTSwrrsw9xCjBwawk
- wut09nScEG9KYmVValF+fFFpTmrxIUZToOcmMkuJJucDU1peSbyhqaG5haWhubG5sZmFkjhv
- h8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQbGdvej/55ybXj8s2mR123OyEKxS0H/v6eedpQ04F/V
- IWwT6vbQ9m/BW+7uhvbbdttOHD25yTHN3pZ1QmTvweuqj201ut56Ss48etmwTH3S7rhlZsec
- LD5tm1Gfbr3tTq+k8+7f727OXH/mQuDPwszmw/a/jrp4vXFsujv1uZTTDp8vAkLZp7zalViK
- MxINtZiLihMBD3yhmDEDAAA=
-X-CMS-MailID: 20200831123054eucas1p14913acf89e94842b48d8e005b5e01d7e
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SfUzMcRze9/d+cfy60GcX4caMeS2278a8zfjNsfkrZlMOv6WpK3cVwry/
+ VF5OJK64oqX1snLVRZRJOVbutNKhznnJS1lauqLEcf2Y/nue5/N5vp/n2b4cqbjAKLkIbayo
+ 02oiVYwPZXnYb59V1bkmbO7x5Cn4tO0xgZsaqgl881IRjVPftDHY4f5I46s9E7DHco7Ephob
+ jZt6uxic4jJQ+Oy7zyS224tZ7OqtRbiv6SSBze+aadxYkcHgS/YqAhfWOFl8rLKGxQ25bgKf
+ eN9O4hJzKrl0nFDcc5gRKvsyKeG20ckK5rxERmhtvssIX2w2Vijve00LrmQrIZRkHxDOlOYh
+ occcuG7ERp9F28TIiHhRN2fxZp/tn0oddEwfudtpeEUdRGYyCck44OdD6rEuIgn5cAo+F8GX
+ bgeSiBtB2dkrlER6EDgsP5l/lpwLp0hpcANBRfKZv5ZuBM6qgT+E4/z49VDZHuLVx/AtFLiT
+ ilkvIfkWBN8/d7Hepxh+Hpyu9bplnJxfDDWHzg2doPip8KDbTXjxWD4UyqzPCGnHFx5fbqO8
+ WMYvgLI7WbQXk7w/vGwzERKeCOWdGUPxgK/n4IMji5Jyr4B6axqSsB90WEtZCY8Hz20TIRmO
+ IDh1p4WViAGBy5r517EQWm0DjLcbyU+Hooo5krwMLv7MHpKBHwXPO32lEKMgxZJGSrIcTh5X
+ SNtT4EdeGiFhJSS3eSgDUhmHVTMOq2McVsf4/24movKQvxinjwoX9cFacddsvSZKH6cNn701
+ OsqM/vzVul/W3luoanBLNeI5pBop/16rDlPQmnj9nqhqBBypGiNf/qQuVCHfptmTIOqiw3Rx
+ kaK+GgVwlMpfHnytfZOCD9fEijtEMUbU/ZsSnEx5EKn3pu893D93UpJOHfDWHEI3EEfO75yp
+ PF/wVJuzP04Fl/dlmfof3SsJVKbm7I7NCCJr167Oj0hUhYxs9byabCgxpajzU1bc35D/4OuS
+ o6uul6mnWW4lJMjqAqcWrAwtDFg/eu3gwKDfC89oU0X0otzyxnRnbuOJjgD7I4MrcVLQN4WK
+ 0m/XzJtB6vSa3zX4MKWnAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+93X7qzBbWr+GmRxsQdGy23afppJ1B9drKAUCnpsDb2o6Jzt
+ btKDyrLIzPkIBRviLCxLiGqaWqbQ0kpExQeGmppopYRabq0sybZW4H8fzvl+zuHAoXFpJSmj
+ U9JNvDFdl8ZSfkT779cjW5qn92nDGrPFyNLZhqG+bgeGHpc+JFHJ2ASF3ro+kajcuQYt1hXh
+ yNbSSaK+b7MUujFaSKCC8c846up6JEKj31oBcvflYMg+3k+i3mdlFCrtasbQg5ZhEbrS1CJC
+ 3fdcGLr6YQpHNfYSfOcq7pHzEsU1uSsI7ql1WMTZq69R3Lv+5xQ309kp4urd70lu9PprjKup
+ vMDl11YDzmkPPrD8iDzaaDCb+HXJBsG0gz2qQEq5IhLJleGRcoVKfTxKGcFujYlO5NNSMnnj
+ 1pgT8uTJ2rdkhhs/NVw4QmQBO54LxDRkwuHd4jwP+9FS5g6AM02LZC6gPQ0ZtF1mfRl/uNCf
+ S/kyswA+cRbj3ow/cxg2TR3y1gOYIQJODnz8OxRnhgHssMl8Qg2A2XkDlLdBMQpoac0HXpYw
+ MbDlYtHfOsGshy+/ujAvBzIaOG5ZxH2ZlbDt5gThZTETAZ803iJ9CzbChfKef8uC4OCEDfPx
+ Wlg/XYYXAql1iW5doliXKNYlSgUgqkEAbxb0SXpBKRd0esGcniRPMOjtwPMhda/maxtA7ky8
+ AzA0YFdIfrTu1UpJXaZwWu8AkMbZAMmujnaNVJKoO32GNxq0RnMaLzhAhOe4IlwWmGDw/Fu6
+ SauIUKhRpEKtUqu2ITZIksO8OCZlknQmPpXnM3jjfw+jxbIsELJ5ddymOFXbnrG5779iHLRz
+ Gs4NzteELNtjC4tHXCL/414x7M+8qG1rSAnOGJs0H5wonSuw3I5a3NjzRqMy39BU/8z+2K4G
+ G9B+ufLo7qrAVQlVJ8eeVw2ci3WlatJCY13s+WZ3QeXZNxX6L5YEuF2c1XuqmB+Kvx9SUvjp
+ EEsIyTpFKG4UdH8AKQCl/jcDAAA=
+X-CMS-MailID: 20200831123158eucas1p1a4758578b65a050d7a95d36e30a10a31
 X-Msg-Generator: CA
-X-RootMTR: 20200829142536eucas1p12c539f1cd45195adef96f8b752778fcf
+X-RootMTR: 20200829142546eucas1p22f1bdaedfe821f41b4cc0c6d6b323b35
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200829142536eucas1p12c539f1cd45195adef96f8b752778fcf
+X-CMS-RootMailID: 20200829142546eucas1p22f1bdaedfe821f41b4cc0c6d6b323b35
 References: <20200829142501.31478-1-krzk@kernel.org>
- <CGME20200829142536eucas1p12c539f1cd45195adef96f8b752778fcf@eucas1p1.samsung.com>
- <20200829142501.31478-4-krzk@kernel.org>
+ <CGME20200829142546eucas1p22f1bdaedfe821f41b4cc0c6d6b323b35@eucas1p2.samsung.com>
+ <20200829142501.31478-6-krzk@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,16 +120,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-samsung-soc@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
+Cc: Sylwester Nawrocki <snawrocki@kernel.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Mark Brown <broonie@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- linux-kernel@vger.kernel.org, Sangbeom Kim <sbkim73@samsung.com>,
- Kukjin Kim <kgene@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Gleixner <tglx@linutronix.de>, Lee Jones <lee.jones@linaro.org>,
- linux-arm-kernel@lists.infradead.org,
  Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -129,35 +130,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29.08.2020 16:24, Krzysztof Kozlowski wrote:
-> Samsung Exynos SoCs use syscon for system registers so document its
-> compatibles.
+> Additional properties actually might appear (e.g. power-domains) so use
+> unevaluatedProperties to fix dtbs_check warnings like:
+> 
+>   arch/arm64/boot/dts/exynos/exynos5433-tm2.dt.yaml: i2s@11440000:
+>     Additional properties are not allowed ('power-domains', '#address-cells', 'interrupts', '#size-cells' were unexpected)
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  Documentation/devicetree/bindings/mfd/syscon.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-> index 049ec2ffc7f9..0f21943dea28 100644
-> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-> @@ -40,6 +40,10 @@ properties:
->                - allwinner,sun50i-a64-system-controller
->                - microchip,sparx5-cpu-syscon
->                - mstar,msc313-pmsleep
-> +              - samsung,exynos3-sysreg
-> +              - samsung,exynos4-sysreg
-> +              - samsung,exynos5-sysreg
-> +              - samsung,exynos5433-sysreg
 
 Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
-
-Do you also have a patch updating Documentation/devicetree/
-bindings/arm/samsung/sysreg.yaml with new compatibles?
-
--- 
-Regards,
-Sylwester
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
