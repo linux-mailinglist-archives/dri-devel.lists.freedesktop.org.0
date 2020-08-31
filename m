@@ -1,54 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0973A257643
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:13:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B891825763E
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00CEF89EA6;
-	Mon, 31 Aug 2020 09:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B7E989C56;
+	Mon, 31 Aug 2020 09:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4F489FC3;
- Mon, 31 Aug 2020 05:33:58 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id q9so4178831wmj.2;
- Sun, 30 Aug 2020 22:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZDEON+YiSW0YCSec5Nu5L0EktnuUvNjTc14NjRB7JKE=;
- b=LPN3jT/PTqKlR2lZSgNunOp1H6kJ1/4T1MhBuqtbUeNvDSvF40OX3bDD8E3k7FqntV
- zG2B4hBde0AW65QsIHGewoTGXbr/B6uJh6iDUNCFgVpuVFOztKcS9soSx6N9iOI7lim+
- kGeQrcpaYNzAtqc5oc2EOJ/itQ//L/sEBmhWR6KMO0C1P4etBYE0zdcSrytoeJSKg5r5
- BQqOxbA26wSnVJokGLEqNVaH43jCx3tx1YCDN8NB3PffyeAkjDT8yMlTwdp/TNiUhEJb
- iK/jutqDxQnnsbbno3A5ByYPPinpzVNfB2q1qrvK4JNNM6QnprM6rcD2bM9sIyVULPga
- VPzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZDEON+YiSW0YCSec5Nu5L0EktnuUvNjTc14NjRB7JKE=;
- b=rmllKAZlFzmmoiZoquAsvMKt92T7d5cYNFe1yVSbqY+PdbV7MZUbse9Zu2XEQhBy/m
- DpTCWP8VBpoHY10jLPbGo/+Up3hO4PDhw6tCP96+c+GdUb5hRUJnAsk2ILr58wKaIgq5
- g5UfEVrdo+3DWH/CkCbHBeg6smsa5xvpj+ntd9C0yYtCVcM76tp+oNFMItmZt+W9U0Qy
- YwWnQ9lsFuWV+GU4atm+I8KPamu9bCiLOOkbiNF7qNaXYdVAUwrIy4MbYlZuK8LhNgYm
- Ujwy6dPB233g8rMD4gudD+bzxEsEHRbtEMRYh5krBJY+Qur62ij7ZYK0CXCJtkXmx727
- omRA==
-X-Gm-Message-State: AOAM531bfeF0rySALXOX9+W9pTLZwanSp4mfCEaH6+8XSVagnPCg2tM1
- yRJEljHhTBWCm0vFofZabrzzDPfNFusGRJ7xP/Q=
-X-Google-Smtp-Source: ABdhPJyJjEzdp5HeU3Ef2tiRuhk4m/xlRlX3jpGxweA9NEFIkrZlBPpBBfH8HNOxR/70yJAH5exQiNVdwbcoaeL6DUU=
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr88385wmb.170.1598852037062;
- Sun, 30 Aug 2020 22:33:57 -0700 (PDT)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D131789AC6
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 07:40:47 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6E4FA5C01AB;
+ Mon, 31 Aug 2020 03:40:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 31 Aug 2020 03:40:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=IhGb3DeuuYHu5Na6nUBIcRvk2Xi
+ EHRuVQRQsWSf8LSs=; b=guEhH34JK1YWBukKPEDBve4BhY6Cdjs7GSrwDd7bf53
+ TWDVRj5n5NE2FtHwQMdbfDp1r5BRNQRzvlyikAUkp8CNaLdJ5u+kKTMhSe7Sjihq
+ /+KxaboI9k7Pcn+5w/I/Ud6R972q5/i5PmW/U1SNwaCDfY/pISuHfiuj5+3TY22J
+ 6Nb4KczXF/Ny8awPSrjw1R+uDm265UJg0tQd26Za+jmSF8YWqFSYRfBTkOvXSYHt
+ DGfJFicTgN6uUUDLw3mHnoV4HzWnsHZQ40LztVQ+XA2c1E6puD13DpOOE68jsndq
+ oZYG8JUSQoZh/hhzLla9I+ThoFYBdiS2cdhW8hL7TgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IhGb3D
+ euuYHu5Na6nUBIcRvk2XiEHRuVQRQsWSf8LSs=; b=jRv9hY5RDrNFs80Tmo1+iE
+ WDerJU2Jh6nREyJ+KDG1/9Z69bF7bVbhAhufOJWwL70eEbOj6DFGLFShvV3QrN/p
+ Dj+EOCsDfEqR+fP1ntZVaBfx+pAwGTvStapVYQklmZgTSN1JS0jP1eKmaDvkZ74Y
+ 5fIfU41Rr482FYYSKDS9lIBWehe7By6txyzOVFjF8r7M4rHXSCUiYBFvgvhoGkKg
+ cm7iCttD5rCoiX/OKK/E7rE9le/9XfCS0AagPD/TFosKtojfAW7U16nGaKb5MigU
+ jkwdBBUopf9bYRCMCuIIIEZWesup6igBJ7A1Xh6IktTkZKanEKL40iugXc2m5U8Q
+ ==
+X-ME-Sender: <xms:e6lMX8W1PHlzxpg9rGyfEXTjXa7txhDxCgcMu6n2ZYlvVv8d8C4rBA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudefgedguddvgecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:e6lMXwl_utngBevTFE3wvwg0_Op8ZJrHSESmLzR_ksxP3sYTIzpfsA>
+ <xmx:e6lMXwaFNiRx3euzTEhn_va6rSlq-DLr22A35W_Zk2LGMAiuC-tlFg>
+ <xmx:e6lMX7VzJYEtzIVJgT5x5ohHv5wAv3Lq1XTf2_XqH6bcX2SNvfEumA>
+ <xmx:fKlMX3DF1nu_i8zvhVVblhjXetqwaMIwAJl13POfFAn5paDxcGi6iw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 118403280064;
+ Mon, 31 Aug 2020 03:40:42 -0400 (EDT)
+Date: Mon, 31 Aug 2020 09:40:41 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] dt-bindings: gpu: arm, mali-utgard: Correct Maxime's email
+Message-ID: <20200831074041.wn25id7u3kci7l4i@gilmour.lan>
+References: <20200830085122.20826-1-krzk@kernel.org>
 MIME-Version: 1.0
-References: <CAJ1xhMUpqtKMuGUZdComskTqd0oOKCfDuVQT3+c13u=NSJLkBw@mail.gmail.com>
- <CACAvsv6zUi=3mZTg11Y_6CVYkpCSO0RY-5+GiBZz+2EXCDmD-g@mail.gmail.com>
-In-Reply-To: <CACAvsv6zUi=3mZTg11Y_6CVYkpCSO0RY-5+GiBZz+2EXCDmD-g@mail.gmail.com>
-From: Alexander Kapshuk <alexander.kapshuk@gmail.com>
-Date: Mon, 31 Aug 2020 08:33:20 +0300
-Message-ID: <CAJ1xhMVOZAM=VwtNdYmjWY9NjVOpr0JJXi0Civ5Pgb9f4og49w@mail.gmail.com>
-Subject: Re: nouveau PUSHBUFFER_ERR on 5.9.0-rc2-next-20200824
-To: Ben Skeggs <skeggsb@gmail.com>
+In-Reply-To: <20200830085122.20826-1-krzk@kernel.org>
 X-Mailman-Approved-At: Mon, 31 Aug 2020 09:12:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,98 +76,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Next <linux-next@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1374465565=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 31, 2020 at 7:30 AM Ben Skeggs <skeggsb@gmail.com> wrote:
->
-> On Tue, 25 Aug 2020 at 17:21, Alexander Kapshuk
-> <alexander.kapshuk@gmail.com> wrote:
-> >
-> > Since upgrading to linux-next based on 5.9.0-rc1 and 5.9.0-rc2 I have
-> > had my mouse pointer disappear soon after logging in, and I have
-> > observed the system freezing temporarily when clicking on objects and
-> > when typing text.
-> > I have also found records of push buffer errors in dmesg output:
-> > [ 6625.450394] nouveau 0000:01:00.0: disp: ERROR 1 [PUSHBUFFER_ERR] 02
-> > [] chid 0 mthd 0000 data 00000400
-> Hey,
->
-> Yeah, I'm aware of this.  Lyude and I have both seen it, but it's been
-> very painful to track down to what's actually causing it so far.  It
-> likely is the commit you mentioned that's at fault, and I'm still
-> working to find a proper solution before I revert it.
->
-> Ben.
->
-> >
-> > I tried setting CONFIG_NOUVEAU_DEBUG=5 (tracing) to try and collect
-> > further debug info, but nothing caught the eye.
-> >
-> > The error message in question comes from nv50_disp_intr_error in
-> > drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c:613,645.
-> > And nv50_disp_intr_error is called from nv50_disp_intr in the
-> > following while block:
-> > drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c:647,658
-> > void
-> > nv50_disp_intr(struct nv50_disp *disp)
-> > {
-> >         struct nvkm_device *device = disp->base.engine.subdev.device;
-> >         u32 intr0 = nvkm_rd32(device, 0x610020);
-> >         u32 intr1 = nvkm_rd32(device, 0x610024);
-> >
-> >         while (intr0 & 0x001f0000) {
-> >                 u32 chid = __ffs(intr0 & 0x001f0000) - 16;
-> >                 nv50_disp_intr_error(disp, chid);
-> >                 intr0 &= ~(0x00010000 << chid);
-> >         }
-> > ...
-> > }
-> >
-> > Could this be in any way related to this series of commits?
-> > commit 0a96099691c8cd1ac0744ef30b6846869dc2b566
-> > Author: Ben Skeggs <bskeggs@redhat.com>
-> > Date:   Tue Jul 21 11:34:07 2020 +1000
-> >
-> >     drm/nouveau/kms/nv50-: implement proper push buffer control logic
-> >
-> >     We had a, what was supposed to be temporary, hack in the KMS code where we'd
-> >     completely drain an EVO/NVD channel's push buffer when wrapping to the start
-> >     again, instead of treating it as a ring buffer.
-> >
-> >     Let's fix that, finally.
-> >
-> >     Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
-> >
-> > Here are my GPU details:
-> > 01:00.0 VGA compatible controller: NVIDIA Corporation GT216 [GeForce
-> > 210] (rev a1)
-> >         Subsystem: Micro-Star International Co., Ltd. [MSI] Device 8a93
-> >         Kernel driver in use: nouveau
-> >
-> > The last linux-next kernel I built where the problem reported does not
-> > manifest itself is 5.8.0-rc6-next-20200720.
-> >
-> > I would appreciate being given any pointers on how to further debug this.
-> > Or is git bisect the only way to proceed with this?
-> >
-> > Thanks.
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Thanks a lot for getting back to me about this.
-Please let me know if there's anything else I can do to help track this down.
+--===============1374465565==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jncvpyk7tscua4j6"
+Content-Disposition: inline
 
-Alexander.
+
+--jncvpyk7tscua4j6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Aug 30, 2020 at 10:51:22AM +0200, Krzysztof Kozlowski wrote:
+> Update the address of Maxime Ripard as one in @free-electrons.com does
+> not work.
+>=20
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Thanks!
+Maxime
+
+--jncvpyk7tscua4j6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0ypdAAKCRDj7w1vZxhR
+xdV4AQCUFFfso3akR5K79GMeFdFb1myFiHtYWRErzQjYWMa9dAD9G8K5A5llzHoH
+DBAwcresf2RMY5DtX2ao+WhFPjCJPwI=
+=zrs4
+-----END PGP SIGNATURE-----
+
+--jncvpyk7tscua4j6--
+
+--===============1374465565==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1374465565==--
