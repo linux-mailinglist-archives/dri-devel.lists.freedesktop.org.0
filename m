@@ -2,39 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8062582F2
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 22:44:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32935258430
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 00:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D978F6E526;
-	Mon, 31 Aug 2020 20:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252036E53C;
+	Mon, 31 Aug 2020 22:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A70536E526
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 20:44:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DBFBC277;
- Mon, 31 Aug 2020 22:43:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1598906639;
- bh=GWc1kc2ZYMRzT4RklTX/9TamGTAXwPTp8ETTg6O8suA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OhB1coHrSP/iW/x30PtlAPrlM5c0tj8EdwS5afCTsmXePE0nLEQ8cuBmfnewcJRPq
- NCn8Cw+vH8QuW0vmE+cH29aC5aT51ly/JqlYzr6YuXx9J95YZZrfMY+NYaVaLyN5v2
- BA9iZ9lLrt1VPlIMprAdpgVyQn8kTNOfltTG7fW4=
-Date: Mon, 31 Aug 2020 23:43:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 3/4] drm/sun4i: tcon: Support the LVDS Dual-Link on
- the A20
-Message-ID: <20200831204337.GW16155@pendragon.ideasonboard.com>
-References: <cover.7029eefe5c5350920f91d4cd4cbc061466752f3c.1596101672.git-series.maxime@cerno.tech>
- <100f5fe3391366e9bbc76ebec1edbf8c0aeb715a.1596101672.git-series.maxime@cerno.tech>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <100f5fe3391366e9bbc76ebec1edbf8c0aeb715a.1596101672.git-series.maxime@cerno.tech>
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663C66E53C
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 22:47:47 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id d26so10826888yba.20
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 15:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=KBtyw/RYmlSgJJ/27vILnBFPPzBvH0RegA0nLlpxjlc=;
+ b=nnEChR4K+kZlMdchOSixR5K21N3MsHT5xPfBEgSVkZXGongrjChO3I7h8kr/CGDMBC
+ sGviFdx1h3/Tr5iMkCZbp/FBMn1qlItT2Kfioxj2eAz2JyXOXzYNjtXhkqVPBeIiSHHF
+ rGg2TxIvihlgbskgiRErmigMMuqleULXJZdhBpAcIGkbSPbX5XtRqgRReiuKUg4eu5IB
+ vGc/fk2HD+HqM9XuzviczaRE2FK/7JCCabaHAE/Gg2xnsbqlrOCA3iAQFf7mKd6iL3qt
+ iQ2BBgoUcXHyj1f9dzW2uPSS/qm34k389mPb6NUdEUg9sJaz4oTAfIrkIs3LTieXuLxL
+ B5Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=KBtyw/RYmlSgJJ/27vILnBFPPzBvH0RegA0nLlpxjlc=;
+ b=H+YtbIz1tWZMhvaIvEwTWW0VAOCGq/KIXeOZyikuVr9iJr7y5Pe11hrpXH5JQudHy1
+ QHS68GdbayMqCdWId1zx3cmbZ3bZVa5yH8vnrmzaWk6KLkAFXYxx+eIzM5o3Rplz7n+0
+ h9EBt2B2HDkRpjumAaxTwE99pCCJ+GobPxOFjFfcebPuAHvq5Nkjozr1ZbB0+FuHSk3z
+ VrP343pjDkU1wmsZn06CsIwEt/OzqFVhuZbpl/tcffpjXwHWsITbDePx0q8IFNt/bQ0T
+ yNYffQ3FjaSlx/yrB29eYT3S7OjB16nX8FXfcORWx05NmnVCb6Ug8JuvI1EArIRec0wo
+ JnAQ==
+X-Gm-Message-State: AOAM533d4Tc6NbZWixcXPaaWOkLsKkXRRZmcf76b2ilgxLfkYhTTD+Lf
+ 9M/buj+JaDnZ3aachGj745cjSVYha6ARuA==
+X-Google-Smtp-Source: ABdhPJyvEDGNzHiqwlI3HHsIGPS4iLco1NHQNc0Bx5jyBoa+GGnjWSSsU0rXGmvaNYJAt0/xbcOItFPNatE32A==
+X-Received: from doughorn0.sfo.corp.google.com
+ ([2620:15c:8:15:5265:f3ff:fe2c:51b7])
+ (user=doughorn job=sendgmr) by 2002:a25:e06:: with SMTP id
+ 6mr5614705ybo.80.1598914066435; Mon, 31 Aug 2020 15:47:46 -0700 (PDT)
+Date: Mon, 31 Aug 2020 15:47:42 -0700
+Message-Id: <20200831224742.1342039-1-doughorn@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+Subject: [PATCH] Fix use after free in get_capset_info callback.
+From: Doug Horn <doughorn@google.com>
+To: airlied@linux.ie, kraxel@redhat.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org, 
+ linux-kernel@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,139 +63,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel-team@android.com, Doug Horn <doughorn@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+If a response to virtio_gpu_cmd_get_capset_info takes longer than
+five seconds to return, the callback will access freed kernel memory
+in vg->capsets.
 
-Thank you for the patch.
+Signed-off-by: Doug Horn <doughorn@google.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_kms.c |  2 ++
+ drivers/gpu/drm/virtio/virtgpu_vq.c  | 10 +++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-On Thu, Jul 30, 2020 at 11:35:03AM +0200, Maxime Ripard wrote:
-> The A20 can use its second TCON as the secondary LVDS link in a dual-link
-> setup, with the TCON0 being the main link. Extend a bit the parsing code to
-> leverage the DRM dual-link code, register only the LVDS output on the
-> primary TCON, and add the needed bits to setup the TCON properly.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++++++++++++++++-
->  drivers/gpu/drm/sun4i/sun4i_tcon.h |  4 +++-
->  2 files changed, 40 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index d03ad75f9900..ed2abf6eb18b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -487,6 +487,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
->  	else
->  		reg |= SUN4I_TCON0_LVDS_IF_DATA_POL_NORMAL;
->  
-> +	if (tcon->lvds_dual_link)
-> +		reg |= SUN4I_TCON0_LVDS_IF_DUAL_LINK;
-> +
->  	if (sun4i_tcon_get_pixel_depth(encoder) == 24)
->  		reg |= SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS;
->  	else
-> @@ -896,6 +899,16 @@ static int sun4i_tcon_register_panel(struct drm_device *drm,
->  		return sun4i_rgb_init(drm, tcon);
->  
->  	/*
-> +	 * Only the TCON0 will be relevant for the LVDS output, so if
-> +	 * our ID is something else, let's prevent our TCON from
-> +	 * registering its own LVDS output
-> +	 */
-> +	if (tcon->id) {
-> +		dev_info(dev, "Secondary TCON, disabling panel output");
-
-This may worry the user unnecessarily. I'd make it a debug message, or
-drop it completely, and like reword it a bit as pointed out by Chen-Yu.
-
-> +		return 0;
-> +	}
-> +
-> +	/*
->  	 * This can only be made optional since we've had DT
->  	 * nodes without the LVDS reset properties.
->  	 *
-> @@ -941,6 +954,28 @@ static int sun4i_tcon_register_panel(struct drm_device *drm,
->  		return -ENODEV;
->  	}
->  
-> +	/*
-> +	 * If we don't have a second TCON, we will never be able to do
-> +	 * dual-link LVDS, so we don't have much more to do.
-> +	 */
-> +	companion = of_parse_phandle(dev->of_node, "allwinner,lvds-companion", 0);
-
-Should there be a patch to add this property to the DT bindings ?
-
-> +	if (!companion)
-> +		return 0;
-> +
-> +	/*
-> +	 * Let's do a sanity check on the dual-link setup to make sure
-> +	 * everything is properly described.
-> +	 */
-> +	ret = drm_of_lvds_get_dual_link_pixel_order(dev->of_node, 1, 0,
-> +						    companion, 1, 0);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Invalid Dual-Link Configuration.\n");
-> +		return ret;
-> +	}
-> +
-> +	dev_info(dev, "Primary TCON, enabling LVDS Dual-Link");
-> +	tcon->lvds_dual_link = true;
-> +
->  	return sun4i_lvds_init(drm, tcon);
->  }
->  
-> @@ -1500,6 +1535,7 @@ static const struct sun4i_tcon_quirks sun7i_a20_tcon0_quirks = {
->  };
->  
->  static const struct sun4i_tcon_quirks sun7i_a20_quirks = {
-> +	.supports_lvds		= true,
-
-Should this be split to a separate patch, or at least mentioned in the
-commit message ?
-
->  	.has_channel_0		= true,
->  	.has_channel_1		= true,
->  	.dclk_min_div		= 4,
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> index cfbf4e6c1679..51c4e09cdd13 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> @@ -98,6 +98,7 @@
->  
->  #define SUN4I_TCON0_LVDS_IF_REG			0x84
->  #define SUN4I_TCON0_LVDS_IF_EN				BIT(31)
-> +#define SUN4I_TCON0_LVDS_IF_DUAL_LINK			BIT(30)
->  #define SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK		BIT(26)
->  #define SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS		(1 << 26)
->  #define SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS		(0 << 26)
-> @@ -274,6 +275,9 @@ struct sun4i_tcon {
->  	/* Associated crtc */
->  	struct sun4i_crtc		*crtc;
->  
-> +	/* Is the LVDS link a dual-channel link? */
-> +	bool				lvds_dual_link;
-> +
->  	int				id;
->  
->  	/* TCON list management */
-
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 75d0dc2f6d28..5ba389e0a02f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -80,8 +80,10 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
+ 					 vgdev->capsets[i].id > 0, 5 * HZ);
+ 		if (ret == 0) {
+ 			DRM_ERROR("timed out waiting for cap set %d\n", i);
++			spin_lock(&vgdev->display_info_lock);
+ 			kfree(vgdev->capsets);
+ 			vgdev->capsets = NULL;
++			spin_unlock(&vgdev->display_info_lock);
+ 			return;
+ 		}
+ 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index c93c2db35aaf..7436705ba5a2 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -684,9 +684,13 @@ static void virtio_gpu_cmd_get_capset_info_cb(struct virtio_gpu_device *vgdev,
+ 	int i = le32_to_cpu(cmd->capset_index);
+ 
+ 	spin_lock(&vgdev->display_info_lock);
+-	vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
+-	vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
+-	vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
++	if (vgdev->capsets) {
++		vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
++		vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
++		vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
++	} else {
++		DRM_ERROR("invalid capset memory.");
++	}
+ 	spin_unlock(&vgdev->display_info_lock);
+ 	wake_up(&vgdev->resp_wq);
+ }
 -- 
-Regards,
+2.28.0.402.g5ffc5be6b7-goog
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
