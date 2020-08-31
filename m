@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D9725712E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 02:21:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F782572D0
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 06:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA1AE89A75;
-	Mon, 31 Aug 2020 00:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B229189CB5;
+	Mon, 31 Aug 2020 04:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95FF89A75
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 00:21:12 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id c8so235939edv.5
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Aug 2020 17:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
+ [IPv6:2607:f8b0:4864:20::b41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3F389CB5;
+ Mon, 31 Aug 2020 04:26:31 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id y134so3284752yby.2;
+ Sun, 30 Aug 2020 21:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p6HdyqHVivfNhnk9ly+FjwTjY3Zt8AbJh2F7cbnVyVc=;
- b=LMOdDWoQGNE2uyzaedKQQWP2tHcoCrFluG08SN5bbkrv10x8OTCVH+m25Ptvi4rDM+
- a22uk70z55teG3MocVShxLP2fDFBcLpD6OB/C3LFooGcTfuG0DJ575RdjTRQTxCibXnE
- tXBfyBH/8HqCUrkWA/aQIeu1B3PMrIIACItjwVolp9EOiwGMQALQCV48lSQikT+L9jjm
- 82T8jH37489THJS1X6JYDBgucIOKQiTtHlyU+npJL0Enx3ZNpYE0CFfX3g6WI4ReJEdj
- 3ovR4cR2/t2x0OSr5kTFLCH5cgbpnRAw0DF7EVTEiL2bK3RjZVppaX36v91XHhnQ6lWP
- HIeQ==
+ :cc; bh=PX06aBk627NQ1JeMegFd6B64tEFsLtmyNkqRlailfm0=;
+ b=IC5nDs49gJJNp2v81GvqILFp/15eYtDl2QXUOSAriKrk+Im/ZtF0wapcjFhYD1Aee2
+ jvbpHrmUBKZXPH50RHisaYAu6eL3nQMi8tqIbaQ0/GVrplidaSlxi0XkF9MZl9ZISJUy
+ 4R6NeoUFpvYWgz/AVuuJruEx6FpoghNJLz+43yhjUyTFi+RgQA0FMEjf7VmO0Gn4rpOp
+ K/qD0gy4DvulktUJNfw234A3UgA/n0f5FM+/q+PywIVycMRHERMlSkWhhpulpNbrvxve
+ NZ2SJEQXzdPfvLg/ZZLsNRwFLSf7nvcbLvCRacQlOO83T58wRYi8uvtv/ICk4aX+fulv
+ i55g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p6HdyqHVivfNhnk9ly+FjwTjY3Zt8AbJh2F7cbnVyVc=;
- b=dKD9YXueHhNqAE87N1XyxQCRBe0CPYlrHkqDEDngf7TWokI4KfTF/1Px4yRQaI/gxt
- i9Y7cyY/RXOmqRLArG+JVe8RtZQ/b4AOFXBM6mU8KLBUKuaFUYNL+29Q5NCpApOBk9JA
- tbDKMWZzQ/AheuCpGYAfPZ0rBjaQ4SyHeAcpytMlChWuuX7tyE7PAB4bg0Lwmxs8K0v9
- r/aK6pcMouceHDLLQJnqat5feJMOfAajwEtSOleQIOZ8dBm2S9RxaymWE78Id+5hsUiz
- f2vUzP2rxd0tDXBUvhAhR2Yczcq7FFrB/EBR9UyzOYdvrHMrDgeWeeN3uFN0fhueV/31
- Cj8A==
-X-Gm-Message-State: AOAM533Rt6mas3lM08vNQ+efRbjAgFlT1Tc4cUtk/fRyVmmar5/NM0+K
- zmSxz/3Xz0RuhtBsMlz24mCTVbI5TwNojnFxd1MaK6YbR9Q=
-X-Google-Smtp-Source: ABdhPJxBx79VPUZ+zhpNJRIiCaZl+CvY32kO0H0ZQycTNjI9576Bq2IhyrK530mkgPAXNSOU4P/Y6sQuNAkz0jVYgXg=
-X-Received: by 2002:a05:6402:2c3:: with SMTP id
- b3mr4309729edx.213.1598833271172; 
- Sun, 30 Aug 2020 17:21:11 -0700 (PDT)
+ bh=PX06aBk627NQ1JeMegFd6B64tEFsLtmyNkqRlailfm0=;
+ b=HLuGSlEEGxoizUrTMjsZDU5ABZkisSP4vcEG7/2WEjGCK6bfqnNrcy0buWd8BLl/S1
+ 4kY1BcGjP275vPtxr+s66xZseGWcb+jZkZ5be346EQFvrg4fFeYS0D1bIWuY0Jht8pAD
+ wWUR1Jz13UW7xcCqWvCcD/UK0R1mHAFFnmy2RrQxK5DnFye1pS7fldRW7lrYbVKj5iuM
+ 0MIgl24zg3qIG6l9tivZqaMxDEq5FGd/iSvPAWfIx+h89NiaJTheGr4LoE2nPQCicTTg
+ Qdpr2p9eQd/tmK+CmsyE3L6aFCtXs/kQDhHn+sajcAYymWsERGA3XCQM24b4hv+ZjwtM
+ RdcQ==
+X-Gm-Message-State: AOAM53095fGGWaJJTcqLdBccmEImdcE/94unbuKY6vKaell8cAtupIHd
+ mVozZvANyO7FRyPcksx0zKgyTtCnfSx3SXhSLNk=
+X-Google-Smtp-Source: ABdhPJy+0rEbq+GkNgtCw3GXB22ZHNHLhDwqJ7psgye+ciyrN8LcA9ntQoXdSFcOYdxLiOIsyTwz2cd2MlTJH1iqhGY=
+X-Received: by 2002:a25:c4c5:: with SMTP id
+ u188mr16615125ybf.162.1598847990436; 
+ Sun, 30 Aug 2020 21:26:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827114404.36748-1-paul@crapouillou.net>
- <20200827114404.36748-2-paul@crapouillou.net>
-In-Reply-To: <20200827114404.36748-2-paul@crapouillou.net>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Sun, 30 Aug 2020 21:21:00 -0300
-Message-ID: <CAAEAJfD9q-iB9iCgCBWdA0_77=T1zsk9DFh-qvVtLHWqEnOWbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/ingenic: Fix driver not probing when IPU port
- is missing
-To: Paul Cercueil <paul@crapouillou.net>
+References: <20200824183253.826343-1-lyude@redhat.com>
+ <20200824183253.826343-2-lyude@redhat.com>
+ <CACAvsv6hymdcGkEcigL3fWACZ_1POpB+aefq9d9ChnYv_dHnVg@mail.gmail.com>
+ <76392bff28359a88fbdf0857f011e0ed9f666dc4.camel@redhat.com>
+In-Reply-To: <76392bff28359a88fbdf0857f011e0ed9f666dc4.camel@redhat.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Mon, 31 Aug 2020 14:26:19 +1000
+Message-ID: <CACAvsv6GKeX=u4Jn0VVJk1qgnPcnPCW6exukqjvfrfmm2mwSUg@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 1/2] drm/nouveau/kms/nv50-: Program notifier
+ offset before requesting disp caps
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,94 +65,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
+ ML nouveau <nouveau@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Wed, 26 Aug 2020 at 02:52, Lyude Paul <lyude@redhat.com> wrote:
+>
+> On Tue, 2020-08-25 at 08:28 +1000, Ben Skeggs wrote:
+> > On Tue, 25 Aug 2020 at 04:33, Lyude Paul <lyude@redhat.com> wrote:
+> > > Not entirely sure why this never came up when I originally tested this
+> > > (maybe some BIOSes already have this setup?) but the ->caps_init vfunc
+> > > appears to cause the display engine to throw an exception on driver
+> > > init, at least on my ThinkPad P72:
+> > >
+> > > nouveau 0000:01:00.0: disp: chid 0 mthd 008c data 00000000 0000508c 0000102b
+> > >
+> > > This is magic nvidia speak for "You need to have the DMA notifier offset
+> > > programmed before you can call NV507D_GET_CAPABILITIES." So, let's fix
+> > > this by doing that, and also perform an update afterwards to prevent
+> > > racing with the GPU when reading capabilities.
+> > >
+> > > Changes since v1:
+> > > * Don't just program the DMA notifier offset, make sure to actually
+> > >   perform an update
+> > I'm not sure there's a need to send an Update() method here, I believe
+> > GetCapabilities() is an action method on its own right?
+> >
+>
+> I'm not entirely sure about this part tbh. I do know that we need to call
+> GetCapabilities() _after_ the DMA notifier offset is programmed. But, my
+> assumption was that if GetCapabilities() requires a DMA notifier offset to store
+> its results in, we'd probably want to fire an update or something to make sure
+> that we're not reading before it finishes writing capabilities?
+We definitely want to *wait* on GetCapabilities() finishing, I believe
+it should also update the notifier the same (or similar) way Update()
+does.  But I don't think we want to send an Update() here, it'll
+actually trigger a modeset (which, on earlier HW, will tear down the
+boot mode.  Not sure about current HW, it might preserve state), and
+we may not want that to happen there.
 
-On Thu, 27 Aug 2020 at 09:04, Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Even if support for the IPU was compiled in, we may run on a device
-> (e.g. the Qi LB60) where the IPU is not available, or simply with an old
-> devicetree without the IPU node. In that case the ingenic-drm refused to
-> probe.
->
-> Fix the driver so that it will probe even if the IPU node is not present
-> in devicetree (but then IPU support is disabled of course).
->
-> v2: Take a different approach
->
-> Fixes: fc1acf317b01 ("drm/ingenic: Add support for the IPU")
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index c1bcb93aed2d..b7074161ccf0 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -673,7 +673,7 @@ static void ingenic_drm_unbind_all(void *d)
->         component_unbind_all(priv->dev, &priv->drm);
->  }
->
-> -static int ingenic_drm_bind(struct device *dev)
-> +static int ingenic_drm_bind(struct device *dev, bool has_components)
->  {
->         struct platform_device *pdev = to_platform_device(dev);
->         const struct jz_soc_info *soc_info;
-> @@ -808,7 +808,7 @@ static int ingenic_drm_bind(struct device *dev)
->                         return ret;
->                 }
->
-> -               if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU)) {
-> +               if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && has_components) {
->                         ret = component_bind_all(dev, drm);
->                         if (ret) {
->                                 if (ret != -EPROBE_DEFER)
-> @@ -939,6 +939,11 @@ static int ingenic_drm_bind(struct device *dev)
->         return ret;
->  }
->
-> +static int ingenic_drm_bind_with_components(struct device *dev)
-> +{
-> +       return ingenic_drm_bind(dev, true);
-> +}
-> +
->  static int compare_of(struct device *dev, void *data)
->  {
->         return dev->of_node == data;
-> @@ -957,7 +962,7 @@ static void ingenic_drm_unbind(struct device *dev)
->  }
->
->  static const struct component_master_ops ingenic_master_ops = {
-> -       .bind = ingenic_drm_bind,
-> +       .bind = ingenic_drm_bind_with_components,
->         .unbind = ingenic_drm_unbind,
->  };
->
-> @@ -968,14 +973,12 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->         struct device_node *np;
->
->         if (!IS_ENABLED(CONFIG_DRM_INGENIC_IPU))
-> -               return ingenic_drm_bind(dev);
-> +               return ingenic_drm_bind(dev, false);
->
->         /* IPU is at port address 8 */
->         np = of_graph_get_remote_node(dev->of_node, 8, 0);
+Ben.
 
-How about we get rid of this (seems a bit odd to rely on port address) ?
-Rockchip-drm driver has a nice approach, and I think we might need
-something like that going forward, to support dw-hdmi.
-
-Thanks,
-Ezequiel
+>
+> > Ben.
+> >
+> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > > Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP
+> > > interlacing support")
+> > > Cc: <stable@vger.kernel.org> # v5.8+
+> > > ---
+> > >  drivers/gpu/drm/nouveau/dispnv50/core507d.c | 25 ++++++++++++++++-----
+> > >  1 file changed, 19 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > > b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > > index e341f572c2696..5e86feec3b720 100644
+> > > --- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
+> > > @@ -65,13 +65,26 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
+> > >  int
+> > >  core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
+> > >  {
+> > > -       u32 *push = evo_wait(&disp->core->chan, 2);
+> > > +       struct nv50_core *core = disp->core;
+> > > +       u32 interlock[NV50_DISP_INTERLOCK__SIZE] = {0};
+> > > +       u32 *push;
+> > >
+> > > -       if (push) {
+> > > -               evo_mthd(push, 0x008c, 1);
+> > > -               evo_data(push, 0x0);
+> > > -               evo_kick(push, &disp->core->chan);
+> > > -       }
+> > > +       core->func->ntfy_init(disp->sync, NV50_DISP_CORE_NTFY);
+> > > +
+> > > +       push = evo_wait(&core->chan, 4);
+> > > +       if (!push)
+> > > +               return 0;
+> > > +
+> > > +       evo_mthd(push, 0x0084, 1);
+> > > +       evo_data(push, 0x80000000 | NV50_DISP_CORE_NTFY);
+> > > +       evo_mthd(push, 0x008c, 1);
+> > > +       evo_data(push, 0x0);
+> > > +       evo_kick(push, &core->chan);
+> > > +
+> > > +       core->func->update(core, interlock, false);
+> > > +       if (core->func->ntfy_wait_done(disp->sync, NV50_DISP_CORE_NTFY,
+> > > +                                      core->chan.base.device))
+> > > +               NV_ERROR(drm, "core notifier timeout\n");
+> > >
+> > >         return 0;
+> > >  }
+> > > --
+> > > 2.26.2
+> > >
+> > > _______________________________________________
+> > > Nouveau mailing list
+> > > Nouveau@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/nouveau
+> --
+> Sincerely,
+>       Lyude Paul (she/her)
+>       Software Engineer at Red Hat
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
