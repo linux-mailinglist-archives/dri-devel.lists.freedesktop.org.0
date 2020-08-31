@@ -1,56 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32935258430
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 00:47:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7B125847A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 01:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 252036E53C;
-	Mon, 31 Aug 2020 22:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2BF6E42C;
+	Mon, 31 Aug 2020 23:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 663C66E53C
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 22:47:47 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id d26so10826888yba.20
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 15:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:to:cc;
- bh=KBtyw/RYmlSgJJ/27vILnBFPPzBvH0RegA0nLlpxjlc=;
- b=nnEChR4K+kZlMdchOSixR5K21N3MsHT5xPfBEgSVkZXGongrjChO3I7h8kr/CGDMBC
- sGviFdx1h3/Tr5iMkCZbp/FBMn1qlItT2Kfioxj2eAz2JyXOXzYNjtXhkqVPBeIiSHHF
- rGg2TxIvihlgbskgiRErmigMMuqleULXJZdhBpAcIGkbSPbX5XtRqgRReiuKUg4eu5IB
- vGc/fk2HD+HqM9XuzviczaRE2FK/7JCCabaHAE/Gg2xnsbqlrOCA3iAQFf7mKd6iL3qt
- iQ2BBgoUcXHyj1f9dzW2uPSS/qm34k389mPb6NUdEUg9sJaz4oTAfIrkIs3LTieXuLxL
- B5Jw==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD37D6E42C
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 23:39:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598917143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=n5R+f1PNBorU/jsUkdeV70NC+z+cmxf6ppfqklZypiw=;
+ b=NsdSmR7jOIU1rhA1znpVX1CrqsoXrzME8noR+K/Bf1H3wCBKIp+afFTpEBl+4elFhOWTYU
+ S99qStaNCXRg5WtCGmjb2NCK17gB+5roD9U1DGBtTdUzoJW5qXz+Cn3j+yXzyKf0MUI2SZ
+ sk9uC2REIommd5Prrci8klQOsz/lBI8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-b1b1NgfiNDyM_340-ogYng-1; Mon, 31 Aug 2020 19:39:00 -0400
+X-MC-Unique: b1b1NgfiNDyM_340-ogYng-1
+Received: by mail-qk1-f197.google.com with SMTP id u23so4781634qku.17
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 16:39:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :to:cc;
- bh=KBtyw/RYmlSgJJ/27vILnBFPPzBvH0RegA0nLlpxjlc=;
- b=H+YtbIz1tWZMhvaIvEwTWW0VAOCGq/KIXeOZyikuVr9iJr7y5Pe11hrpXH5JQudHy1
- QHS68GdbayMqCdWId1zx3cmbZ3bZVa5yH8vnrmzaWk6KLkAFXYxx+eIzM5o3Rplz7n+0
- h9EBt2B2HDkRpjumAaxTwE99pCCJ+GobPxOFjFfcebPuAHvq5Nkjozr1ZbB0+FuHSk3z
- VrP343pjDkU1wmsZn06CsIwEt/OzqFVhuZbpl/tcffpjXwHWsITbDePx0q8IFNt/bQ0T
- yNYffQ3FjaSlx/yrB29eYT3S7OjB16nX8FXfcORWx05NmnVCb6Ug8JuvI1EArIRec0wo
- JnAQ==
-X-Gm-Message-State: AOAM533d4Tc6NbZWixcXPaaWOkLsKkXRRZmcf76b2ilgxLfkYhTTD+Lf
- 9M/buj+JaDnZ3aachGj745cjSVYha6ARuA==
-X-Google-Smtp-Source: ABdhPJyvEDGNzHiqwlI3HHsIGPS4iLco1NHQNc0Bx5jyBoa+GGnjWSSsU0rXGmvaNYJAt0/xbcOItFPNatE32A==
-X-Received: from doughorn0.sfo.corp.google.com
- ([2620:15c:8:15:5265:f3ff:fe2c:51b7])
- (user=doughorn job=sendgmr) by 2002:a25:e06:: with SMTP id
- 6mr5614705ybo.80.1598914066435; Mon, 31 Aug 2020 15:47:46 -0700 (PDT)
-Date: Mon, 31 Aug 2020 15:47:42 -0700
-Message-Id: <20200831224742.1342039-1-doughorn@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
-Subject: [PATCH] Fix use after free in get_capset_info callback.
-From: Doug Horn <doughorn@google.com>
-To: airlied@linux.ie, kraxel@redhat.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org, 
- linux-kernel@vger.kernel.org
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=n5R+f1PNBorU/jsUkdeV70NC+z+cmxf6ppfqklZypiw=;
+ b=TW1+sI/jcTHvS0dDm6MCvzWFmhAjp97+TZ8xxydWqMtrH0fo7GMe3b7lezgt5fBnKq
+ vKCU7QXu/xzGxz6GJ3pA1msyvGC8B7Lzo7YjLRkyIDN5bRibCjnUdz+lnUdIeSN/XFQv
+ 80iRCZjMGxLoRi1+DSfkGb6lqxpBi9yEMNZDnY7yv98MP8KZ+8xuqifcPzd+skS1NqdG
+ omGGXYHt1196ZPA55Hi03HUhfmxcf6EmLqRYEEQU4tMU1n37HJiBVTLEvPcguxDNv/3u
+ B91X7mvWUpNXmmvfi0ZkjJnjKaqzg+SXmVln7xS/iyqXZ8+6XcrOPajMN+P4zCFtI2cs
+ YXyQ==
+X-Gm-Message-State: AOAM532Cr6juHUo8svIf1XHHlW1ZeWIEo2rPAEc0E5cVrhFqQpkoByL9
+ TO/QHhnRD6Nk2+Q0Aud8deignENR5MDQBMoW2WrW/Omxn3mk2OveV9fD62JD02H2IU+1hM+oGPP
+ cflltut+ULctaf3Yq1Y5EgjOvM0Af
+X-Received: by 2002:a37:5703:: with SMTP id l3mr3335472qkb.125.1598917140398; 
+ Mon, 31 Aug 2020 16:39:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyh2vGecgFDzmMhCpTudfXK9+M8MKeOUjCbJMZN6KO19xGuqD62k3eaBxVpoVpy94NLr3TYtg==
+X-Received: by 2002:a37:5703:: with SMTP id l3mr3335457qkb.125.1598917140142; 
+ Mon, 31 Aug 2020 16:39:00 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id v18sm7271596qtq.15.2020.08.31.16.38.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Aug 2020 16:38:59 -0700 (PDT)
+Message-ID: <11e59ebdea7ee4f46803a21fe9b21443d2b9c401.camel@redhat.com>
+Subject: [PULL] topic/nouveau-i915-dp-helpers-and-cleanup
+From: Lyude Paul <lyude@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 31 Aug 2020 19:38:57 -0400
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +76,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-team@android.com, Doug Horn <doughorn@google.com>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a response to virtio_gpu_cmd_get_capset_info takes longer than
-five seconds to return, the callback will access freed kernel memory
-in vg->capsets.
+topic/nouveau-i915-dp-helpers-and-cleanup-2020-08-31-1:
+UAPI Changes:
 
-Signed-off-by: Doug Horn <doughorn@google.com>
----
- drivers/gpu/drm/virtio/virtgpu_kms.c |  2 ++
- drivers/gpu/drm/virtio/virtgpu_vq.c  | 10 +++++++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
+None
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 75d0dc2f6d28..5ba389e0a02f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -80,8 +80,10 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 					 vgdev->capsets[i].id > 0, 5 * HZ);
- 		if (ret == 0) {
- 			DRM_ERROR("timed out waiting for cap set %d\n", i);
-+			spin_lock(&vgdev->display_info_lock);
- 			kfree(vgdev->capsets);
- 			vgdev->capsets = NULL;
-+			spin_unlock(&vgdev->display_info_lock);
- 			return;
- 		}
- 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index c93c2db35aaf..7436705ba5a2 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -684,9 +684,13 @@ static void virtio_gpu_cmd_get_capset_info_cb(struct virtio_gpu_device *vgdev,
- 	int i = le32_to_cpu(cmd->capset_index);
- 
- 	spin_lock(&vgdev->display_info_lock);
--	vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
--	vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
--	vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
-+	if (vgdev->capsets) {
-+		vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
-+		vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
-+		vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
-+	} else {
-+		DRM_ERROR("invalid capset memory.");
-+	}
- 	spin_unlock(&vgdev->display_info_lock);
- 	wake_up(&vgdev->resp_wq);
- }
--- 
-2.28.0.402.g5ffc5be6b7-goog
+Cross-subsystem Changes:
+
+* Moves a bunch of miscellaneous DP code from the i915 driver into a set
+  of shared DRM DP helpers
+
+Core Changes:
+
+* New DRM DP helpers (see above)
+
+Driver Changes:
+
+* Implements usage of the aforementioned DP helpers in the nouveau
+  driver, along with some other various HPD related cleanup for nouveau
+The following changes since commit bfacb84993eb173c0ab53ca4dd6180f76f4dc176:
+
+  drm: virtio: fix kconfig dependency warning (2020-08-31 08:55:02 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/topic/nouveau-i915-dp-helpers-and-cleanup-2020-08-31-1
+
+for you to fetch changes up to 79416e97dda0118b137302575a70a14259a27d7d:
+
+  drm/nouveau/kms: Start using drm_dp_read_dpcd_caps() (2020-08-31 19:10:09 -0400)
+
+----------------------------------------------------------------
+UAPI Changes:
+
+None
+
+Cross-subsystem Changes:
+
+* Moves a bunch of miscellaneous DP code from the i915 driver into a set
+  of shared DRM DP helpers
+
+Core Changes:
+
+* New DRM DP helpers (see above)
+
+Driver Changes:
+
+* Implements usage of the aforementioned DP helpers in the nouveau
+  driver, along with some other various HPD related cleanup for nouveau
+
+----------------------------------------------------------------
+Lyude Paul (20):
+      drm/nouveau/kms: Fix some indenting in nouveau_dp_detect()
+      drm/nouveau/kms/nv50-: Remove open-coded drm_dp_read_desc()
+      drm/nouveau/kms/nv50-: Just use drm_dp_dpcd_read() in nouveau_dp.c
+      drm/nouveau/kms/nv50-: Use macros for DP registers in nouveau_dp.c
+      drm/nouveau/kms: Don't clear DP_MST_CTRL DPCD in nv50_mstm_new()
+      drm/nouveau/kms: Search for encoders' connectors properly
+      drm/nouveau/kms/nv50-: Use drm_dp_dpcd_(readb|writeb)() in nv50_sor_disable()
+      drm/nouveau/kms/nv50-: Refactor and cleanup DP HPD handling
+      drm/i915/dp: Extract drm_dp_read_mst_cap()
+      drm/nouveau/kms: Use new drm_dp_read_mst_cap() helper for checking MST caps
+      drm/nouveau/kms: Move drm_dp_cec_unset_edid() into nouveau_connector_detect()
+      drm/nouveau/kms: Only use hpd_work for reprobing in HPD paths
+      drm/i915/dp: Extract drm_dp_read_downstream_info()
+      drm/nouveau/kms/nv50-: Use downstream DP clock limits for mode validation
+      drm/i915/dp: Extract drm_dp_read_sink_count_cap()
+      drm/i915/dp: Extract drm_dp_read_sink_count()
+      drm/nouveau/kms/nv50-: Add support for DP_SINK_COUNT
+      drm/nouveau/kms: Don't change EDID when it hasn't actually changed
+      drm/i915/dp: Extract drm_dp_read_dpcd_caps()
+      drm/nouveau/kms: Start using drm_dp_read_dpcd_caps()
+
+ drivers/gpu/drm/drm_dp_helper.c             | 187 ++++++++++++++++-
+ drivers/gpu/drm/drm_dp_mst_topology.c       |  22 ++
+ drivers/gpu/drm/i915/display/intel_dp.c     | 124 +++--------
+ drivers/gpu/drm/i915/display/intel_dp.h     |   1 -
+ drivers/gpu/drm/i915/display/intel_lspcon.c |   2 +-
+ drivers/gpu/drm/nouveau/dispnv04/dac.c      |   2 +-
+ drivers/gpu/drm/nouveau/dispnv04/dfp.c      |   7 +-
+ drivers/gpu/drm/nouveau/dispnv04/disp.c     |  24 ++-
+ drivers/gpu/drm/nouveau/dispnv04/disp.h     |   4 +
+ drivers/gpu/drm/nouveau/dispnv04/tvnv04.c   |   2 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c   |   2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     | 305 ++++++++++++++++------------
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 132 +++++-------
+ drivers/gpu/drm/nouveau/nouveau_connector.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_display.c   |  72 ++++++-
+ drivers/gpu/drm/nouveau/nouveau_display.h   |   3 +-
+ drivers/gpu/drm/nouveau/nouveau_dp.c        | 210 +++++++++++++++----
+ drivers/gpu/drm/nouveau/nouveau_drm.c       |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_drv.h       |   2 +
+ drivers/gpu/drm/nouveau/nouveau_encoder.h   |  48 ++++-
+ include/drm/drm_dp_helper.h                 |  15 +-
+ include/drm/drm_dp_mst_helper.h             |   3 +-
+ 22 files changed, 779 insertions(+), 393 deletions(-)
 
 _______________________________________________
 dri-devel mailing list
