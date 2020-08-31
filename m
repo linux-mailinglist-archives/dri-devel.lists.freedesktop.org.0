@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E05257C66
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E4E257C68
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:30:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8B56E2D6;
-	Mon, 31 Aug 2020 15:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBBB36E2E9;
+	Mon, 31 Aug 2020 15:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6352E6E2D6;
- Mon, 31 Aug 2020 15:30:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A916E2CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 15:30:16 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4F760214DB;
- Mon, 31 Aug 2020 15:30:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 093642145D;
+ Mon, 31 Aug 2020 15:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598887806;
- bh=E0S5fTo0mX+8r5130quZXaxIlSmWMKiZqSWg4n8H/MU=;
+ s=default; t=1598887816;
+ bh=u0Pq7CiGC8BmSqyai7/cksIuozO4tsq0yXx+8eRn6Wk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SBdQvUHfyHBTyHOaW2nFffb4wFfwYa71b+Y8/Jq3gSLZ4B5OXmcTW0nEar37ry+6Z
- E/jUKETzywemRvIW/SY78HU4fWd2kE0hadAeBtBFYs/dPCFaPDqVTZWZgpxUP8lXhc
- rpFKkaBJklgI/fKfLEURQRurdMtszdP2+JXJjCOY=
+ b=WQpZIVpTV8fDcex/Lbz7RzjU1/OoBIn9jwDQA/t8WFhorzN5GmRmHuSRp82M9StMp
+ DaX37WRM3HsMD0qLip9tHSTTCS+up2WdD30dbK5t8KC6dW0tXFFHfPw5p9UfPEVN2i
+ JJKZfcnOedLxxhAcKuVsbZgo5Adnc6+ccvNzrUYI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 21/42] drm/msm/a6xx: fix gmu start on newer
- firmware
-Date: Mon, 31 Aug 2020 11:29:13 -0400
-Message-Id: <20200831152934.1023912-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 28/42] drm/omap: fix incorrect lock state
+Date: Mon, 31 Aug 2020 11:29:20 -0400
+Message-Id: <20200831152934.1023912-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831152934.1023912-1-sashal@kernel.org>
 References: <20200831152934.1023912-1-sashal@kernel.org>
@@ -50,59 +49,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-[ Upstream commit f5749d6181fa7df5ae741788e5d96f593d3a60b6 ]
+[ Upstream commit 7fd5b25499bcec157dd4de9a713425efcf4571cd ]
 
-New Qualcomm firmware has changed a way it reports back the 'started'
-event. Support new register values.
+After commit 92cc68e35863c1c61c449efa2b2daef6e9926048 ("drm/vblank: Use
+spin_(un)lock_irq() in drm_crtc_vblank_on()") omapdrm locking is broken:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+WARNING: inconsistent lock state
+5.8.0-rc2-00483-g92cc68e35863 #13 Tainted: G        W
+--------------------------------
+inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+ea98222c (&dev->event_lock#2){?.+.}-{2:2}, at: drm_handle_vblank+0x4c/0x520 [drm]
+{HARDIRQ-ON-W} state was registered at:
+  trace_hardirqs_on+0x9c/0x1ec
+  _raw_spin_unlock_irq+0x20/0x58
+  omap_crtc_atomic_enable+0x54/0xa0 [omapdrm]
+  drm_atomic_helper_commit_modeset_enables+0x218/0x270 [drm_kms_helper]
+  omap_atomic_commit_tail+0x48/0xc4 [omapdrm]
+  commit_tail+0x9c/0x190 [drm_kms_helper]
+  drm_atomic_helper_commit+0x154/0x188 [drm_kms_helper]
+  drm_client_modeset_commit_atomic+0x228/0x268 [drm]
+  drm_client_modeset_commit_locked+0x60/0x1d0 [drm]
+  drm_client_modeset_commit+0x24/0x40 [drm]
+  drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa8 [drm_kms_helper]
+  drm_fb_helper_set_par+0x2c/0x5c [drm_kms_helper]
+  drm_fb_helper_hotplug_event.part.0+0xa0/0xbc [drm_kms_helper]
+  drm_kms_helper_hotplug_event+0x24/0x30 [drm_kms_helper]
+  output_poll_execute+0x1a8/0x1c0 [drm_kms_helper]
+  process_one_work+0x268/0x800
+  worker_thread+0x30/0x4e0
+  kthread+0x164/0x190
+  ret_from_fork+0x14/0x20
+
+The reason for this is that omapdrm calls drm_crtc_vblank_on() while
+holding event_lock taken with spin_lock_irq().
+
+It is not clear why drm_crtc_vblank_on() and drm_crtc_vblank_get() are
+called while holding event_lock. I don't see any problem with moving
+those calls outside the lock, which is what this patch does.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200819103021.440288-1-tomi.valkeinen@ti.com
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/omap_crtc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 1d330204c465c..2dd1cf1ffbe25 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -207,6 +207,16 @@ static int a6xx_gmu_start(struct a6xx_gmu *gmu)
- {
- 	int ret;
- 	u32 val;
-+	u32 mask, reset_val;
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index fce7e944a280b..dbf91b3fd6f08 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -451,11 +451,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (omap_state->manually_updated)
+ 		return;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
+ 	drm_crtc_vblank_on(crtc);
 +
-+	val = gmu_read(gmu, REG_A6XX_GMU_CM3_DTCM_START + 0xff8);
-+	if (val <= 0x20010004) {
-+		mask = 0xffffffff;
-+		reset_val = 0xbabeface;
-+	} else {
-+		mask = 0x1ff;
-+		reset_val = 0x100;
-+	}
+ 	ret = drm_crtc_vblank_get(crtc);
+ 	WARN_ON(ret != 0);
  
- 	gmu_write(gmu, REG_A6XX_GMU_CM3_SYSRESET, 1);
- 
-@@ -218,7 +228,7 @@ static int a6xx_gmu_start(struct a6xx_gmu *gmu)
- 	gmu_write(gmu, REG_A6XX_GMU_CM3_SYSRESET, 0);
- 
- 	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_CM3_FW_INIT_RESULT, val,
--		val == 0xbabeface, 100, 10000);
-+		(val & mask) == reset_val, 100, 10000);
- 
- 	if (ret)
- 		DRM_DEV_ERROR(gmu->dev, "GMU firmware initialization timed out\n");
++	spin_lock_irq(&crtc->dev->event_lock);
+ 	omap_crtc_arm_event(crtc);
+ 	spin_unlock_irq(&crtc->dev->event_lock);
+ }
 -- 
 2.25.1
 
