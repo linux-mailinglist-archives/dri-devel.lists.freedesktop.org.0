@@ -1,47 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C6B258228
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 21:53:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A681258230
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 22:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C536E431;
-	Mon, 31 Aug 2020 19:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 096836E369;
+	Mon, 31 Aug 2020 20:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F176E431
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 19:53:21 +0000 (UTC)
-IronPort-SDR: eJeOdyBRTk5xdZ4U2Jhh0+QpbmtS4WY2b+UFJhy3ztnDSFFCZhggimeifQlBpVNGRxHxK8LjId
- 0hrYJ06CYDiQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="156306921"
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; d="scan'208";a="156306921"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 889E56E369
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 20:03:05 +0000 (UTC)
+IronPort-SDR: R9Alr7kPQp5GuX7ydWNhaWZTEzDfjgMj/hBlz1NQpODVnOg18p2MwwaaefEsU2ChOLslTZCsi5
+ Px9+RXsUTb+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="156308788"
+X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; d="scan'208";a="156308788"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2020 12:53:20 -0700
-IronPort-SDR: sfefiNLyiGq5iVg1AwuLny5G5TU/O5qwtlHtgIYCUy4LdeO0dLcBoN1AVzGkDQHFSH3+wA+XN8
- N3efer9xVYiw==
+ 31 Aug 2020 13:03:04 -0700
+IronPort-SDR: 7ZH7YGA0ZsTzg/cMkFTLA0UDYlg9SOmGFawtzQgA4xvZEADZv/kbFgOef6QTZNFtGZTsG+q9LU
+ ENh/bBpRBP3g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; d="scan'208";a="340770469"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 31 Aug 2020 12:53:16 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 31 Aug 2020 22:53:16 +0300
-Date: Mon, 31 Aug 2020 22:53:16 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: crj <algea.cao@rock-chips.com>
-Subject: Re: [PATCH] drm: Parse Colorimetry data block from EDID
-Message-ID: <20200831195316.GC6112@intel.com>
-References: <20200826142328.131144-1-algea.cao@rock-chips.com>
- <20200827105701.GS6112@intel.com>
- <4cadf318-cfc3-92d6-6219-170166db94ce@rock-chips.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4cadf318-cfc3-92d6-6219-170166db94ce@rock-chips.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; d="scan'208";a="325054063"
+Received: from sgovind3-mobl.amr.corp.intel.com (HELO
+ achrisan-DESK2.amr.corp.intel.com) ([10.255.86.92])
+ by fmsmga004.fm.intel.com with ESMTP; 31 Aug 2020 13:03:04 -0700
+From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
+ bob.j.paauwe@intel.com, edmund.j.dea@intel.com
+Subject: [PATCH v7 0/4] Add support for KeemBay DRM driver
+Date: Mon, 31 Aug 2020 13:02:48 -0700
+Message-Id: <1598904172-30865-1-git-send-email-anitha.chrisanthus@intel.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,108 +47,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- tzimmermann@suse.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: daniel.vetter@intel.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBdWcgMjgsIDIwMjAgYXQgMDk6MDc6MTNBTSArMDgwMCwgY3JqIHdyb3RlOgo+IEhp
-IFZpbGxlIFN5cmrDpGzDpCwKPiAKPiDlnKggMjAyMC84LzI3IDE4OjU3LCBWaWxsZSBTeXJqw6Rs
-w6Qg5YaZ6YGTOgo+ID4gT24gV2VkLCBBdWcgMjYsIDIwMjAgYXQgMTA6MjM6MjhQTSArMDgwMCwg
-QWxnZWEgQ2FvIHdyb3RlOgo+ID4+IENFQSA4NjEuMyBzcGVjIGFkZHMgY29sb3JpbWV0cnkgZGF0
-YSBibG9jayBmb3IgSERNSS4KPiA+PiBQYXJzaW5nIHRoZSBibG9jayB0byBnZXQgdGhlIGNvbG9y
-aW1ldHJ5IGRhdGEgZnJvbQo+ID4+IHBhbmVsLgo+ID4gQW5kIHdoYXQgZXhhY3RseSBkbyB5b3Ug
-d2FudCB0byBkbyB3aXRoIHRoYXQgZGF0YT8KPiAKPiAKPiBXZSBjYW4gZ2V0IGNvbG9yaW1ldHJ5
-IGRhdGEgYmxvY2sgZnJvbSBlZGlkIHRoZW4gc3VwcG9ydAo+IAo+IEhETUkgY29sb3JpbWV0cnkg
-c3VjaCBhcyBCVDIwMjAuCgpCdXQgd2hhdCBkbyB5b3Ugd2FudCB0byBkbyB3aXRoIGl0PyBUaGUg
-cGF0Y2ggZG9lcyBub3RoaW5nCmZ1bmN0aW9uYWwuCgo+IAo+ID4+IFNpZ25lZC1vZmYtYnk6IEFs
-Z2VhIENhbyA8YWxnZWEuY2FvQHJvY2stY2hpcHMuY29tPgo+ID4+IC0tLQo+ID4+Cj4gPj4gICBk
-cml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgfCA0NSArKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrCj4gPj4gICBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggfCAgMyArKysK
-PiA+PiAgIGluY2x1ZGUvZHJtL2RybV9lZGlkLmggICAgICB8IDE0ICsrKysrKysrKysrKwo+ID4+
-ICAgMyBmaWxlcyBjaGFuZ2VkLCA2MiBpbnNlcnRpb25zKCspCj4gPj4KPiA+PiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQu
-Ywo+ID4+IGluZGV4IDMxNDk2YjZjZmM1Ni4uNjdlNjA3YzA0NDkyIDEwMDY0NAo+ID4+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9lZGlkLmMKPiA+PiBAQCAtMzIyMyw2ICszMjIzLDcgQEAgYWRkX2RldGFpbGVkX21vZGVzKHN0
-cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIHN0cnVjdCBlZGlkICplZGlkLAo+ID4+ICAg
-I2RlZmluZSBWSURFT19CTE9DSyAgICAgMHgwMgo+ID4+ICAgI2RlZmluZSBWRU5ET1JfQkxPQ0sg
-ICAgMHgwMwo+ID4+ICAgI2RlZmluZSBTUEVBS0VSX0JMT0NLCTB4MDQKPiA+PiArI2RlZmluZSBD
-T0xPUklNRVRSWV9EQVRBX0JMT0NLCQkweDUKPiA+PiAgICNkZWZpbmUgSERSX1NUQVRJQ19NRVRB
-REFUQV9CTE9DSwkweDYKPiA+PiAgICNkZWZpbmUgVVNFX0VYVEVOREVEX1RBRyAweDA3Cj4gPj4g
-ICAjZGVmaW5lIEVYVF9WSURFT19DQVBBQklMSVRZX0JMT0NLIDB4MDAKPiA+PiBAQCAtNDMwOSw2
-ICs0MzEwLDQ4IEBAIHN0YXRpYyB2b2lkIGZpeHVwX2RldGFpbGVkX2NlYV9tb2RlX2Nsb2NrKHN0
-cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlKQo+ID4+ICAgCW1vZGUtPmNsb2NrID0gY2xvY2s7
-Cj4gPj4gICB9Cj4gPj4gICAKPiA+PiArc3RhdGljIGJvb2wgY2VhX2RiX2lzX2hkbWlfY29sb3Jp
-bWV0cnlfZGF0YV9ibG9jayhjb25zdCB1OCAqZGIpCj4gPj4gK3sKPiA+PiArCWlmIChjZWFfZGJf
-dGFnKGRiKSAhPSBVU0VfRVhURU5ERURfVEFHKQo+ID4+ICsJCXJldHVybiBmYWxzZTsKPiA+PiAr
-Cj4gPj4gKwlpZiAoZGJbMV0gIT0gQ09MT1JJTUVUUllfREFUQV9CTE9DSykKPiA+PiArCQlyZXR1
-cm4gZmFsc2U7Cj4gPj4gKwo+ID4+ICsJaWYgKGNlYV9kYl9wYXlsb2FkX2xlbihkYikgPCAyKQo+
-ID4+ICsJCXJldHVybiBmYWxzZTsKPiA+PiArCj4gPj4gKwlyZXR1cm4gdHJ1ZTsKPiA+PiArfQo+
-ID4+ICsKPiA+PiArc3RhdGljIHZvaWQKPiA+PiArZHJtX3BhcnNlX2NvbG9yaW1ldHJ5X2RhdGFf
-YmxvY2soc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgY29uc3QgdTggKmRiKQo+ID4+
-ICt7Cj4gPj4gKwlzdHJ1Y3QgZHJtX2hkbWlfaW5mbyAqaW5mbyA9ICZjb25uZWN0b3ItPmRpc3Bs
-YXlfaW5mby5oZG1pOwo+ID4+ICsKPiA+PiArCWlmIChkYlsyXSAmIERSTV9FRElEX0NMUk1FVFJZ
-X3h2WUNDXzYwMSkKPiA+PiArCQlpbmZvLT5jb2xvcmltZXRyeSB8PSBEUk1fRURJRF9DTFJNRVRS
-WV94dllDQ182MDE7Cj4gPj4gKwlpZiAoZGJbMl0gJiBEUk1fRURJRF9DTFJNRVRSWV94dllDQ183
-MDkpCj4gPj4gKwkJaW5mby0+Y29sb3JpbWV0cnkgfD0gRFJNX0VESURfQ0xSTUVUUllfeHZZQ0Nf
-NzA5Owo+ID4+ICsJaWYgKGRiWzJdICYgRFJNX0VESURfQ0xSTUVUUllfc1lDQ182MDEpCj4gPj4g
-KwkJaW5mby0+Y29sb3JpbWV0cnkgfD0gRFJNX0VESURfQ0xSTUVUUllfc1lDQ182MDE7Cj4gPj4g
-KwlpZiAoZGJbMl0gJiBEUk1fRURJRF9DTFJNRVRSWV9BREJZQ0NfNjAxKQo+ID4+ICsJCWluZm8t
-PmNvbG9yaW1ldHJ5IHw9IERSTV9FRElEX0NMUk1FVFJZX0FEQllDQ182MDE7Cj4gPj4gKwlpZiAo
-ZGJbMl0gJiBEUk1fRURJRF9DTFJNRVRSWV9BREJfUkdCKQo+ID4+ICsJCWluZm8tPmNvbG9yaW1l
-dHJ5IHw9IERSTV9FRElEX0NMUk1FVFJZX0FEQl9SR0I7Cj4gPj4gKwlpZiAoZGJbMl0gJiBEUk1f
-RURJRF9DTFJNRVRSWV9CVDIwMjBfQ1lDQykKPiA+PiArCQlpbmZvLT5jb2xvcmltZXRyeSB8PSBE
-Uk1fRURJRF9DTFJNRVRSWV9CVDIwMjBfQ1lDQzsKPiA+PiArCWlmIChkYlsyXSAmIERSTV9FRElE
-X0NMUk1FVFJZX0JUMjAyMF9ZQ0MpCj4gPj4gKwkJaW5mby0+Y29sb3JpbWV0cnkgfD0gRFJNX0VE
-SURfQ0xSTUVUUllfQlQyMDIwX1lDQzsKPiA+PiArCWlmIChkYlsyXSAmIERSTV9FRElEX0NMUk1F
-VFJZX0JUMjAyMF9SR0IpCj4gPj4gKwkJaW5mby0+Y29sb3JpbWV0cnkgfD0gRFJNX0VESURfQ0xS
-TUVUUllfQlQyMDIwX1JHQjsKPiA+PiArCS8qIEJ5dGUgNCBCaXQgNzogRENJLVAzICovCj4gPj4g
-KwlpZiAoZGJbM10gJiBCSVQoNykpCj4gPj4gKwkJaW5mby0+Y29sb3JpbWV0cnkgfD0gRFJNX0VE
-SURfQ0xSTUVUUllfRENJX1AzOwo+ID4+ICsKPiA+PiArCURSTV9ERUJVR19LTVMoIlN1cHBvcnRl
-ZCBDb2xvcmltZXRyeSAweCV4XG4iLCBpbmZvLT5jb2xvcmltZXRyeSk7Cj4gPj4gK30KPiA+PiAr
-Cj4gPj4gICBzdGF0aWMgYm9vbCBjZWFfZGJfaXNfaGRtaV9oZHJfbWV0YWRhdGFfYmxvY2soY29u
-c3QgdTggKmRiKQo+ID4+ICAgewo+ID4+ICAgCWlmIChjZWFfZGJfdGFnKGRiKSAhPSBVU0VfRVhU
-RU5ERURfVEFHKQo+ID4+IEBAIC00OTk0LDYgKzUwMzcsOCBAQCBzdGF0aWMgdm9pZCBkcm1fcGFy
-c2VfY2VhX2V4dChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ID4+ICAgCQkJZHJt
-X3BhcnNlX3ZjZGIoY29ubmVjdG9yLCBkYik7Cj4gPj4gICAJCWlmIChjZWFfZGJfaXNfaGRtaV9o
-ZHJfbWV0YWRhdGFfYmxvY2soZGIpKQo+ID4+ICAgCQkJZHJtX3BhcnNlX2hkcl9tZXRhZGF0YV9i
-bG9jayhjb25uZWN0b3IsIGRiKTsKPiA+PiArCQlpZiAoY2VhX2RiX2lzX2hkbWlfY29sb3JpbWV0
-cnlfZGF0YV9ibG9jayhkYikpCj4gPj4gKwkJCWRybV9wYXJzZV9jb2xvcmltZXRyeV9kYXRhX2Js
-b2NrKGNvbm5lY3RvciwgZGIpOwo+ID4+ICAgCX0KPiA+PiAgIH0KPiA+PiAgIAo+ID4+IGRpZmYg
-LS1naXQgYS9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggYi9pbmNsdWRlL2RybS9kcm1fY29u
-bmVjdG9yLmgKPiA+PiBpbmRleCBhZjE0NTYwOGI1ZWQuLmQ1OTljM2I5ZTg4MSAxMDA2NDQKPiA+
-PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiA+PiArKysgYi9pbmNsdWRlL2Ry
-bS9kcm1fY29ubmVjdG9yLmgKPiA+PiBAQCAtMjA3LDYgKzIwNyw5IEBAIHN0cnVjdCBkcm1faGRt
-aV9pbmZvIHsKPiA+PiAgIAo+ID4+ICAgCS8qKiBAeTQyMF9kY19tb2RlczogYml0bWFwIG9mIGRl
-ZXAgY29sb3Igc3VwcG9ydCBpbmRleCAqLwo+ID4+ICAgCXU4IHk0MjBfZGNfbW9kZXM7Cj4gPj4g
-Kwo+ID4+ICsJLyogQGNvbG9yaW1ldHJ5OiBiaXRtYXAgb2Ygc3VwcG9ydGVkIGNvbG9yaW1ldHJ5
-IG1vZGVzICovCj4gPj4gKwl1MTYgY29sb3JpbWV0cnk7Cj4gPj4gICB9Owo+ID4+ICAgCj4gPj4g
-ICAvKioKPiA+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaCBiL2luY2x1ZGUv
-ZHJtL2RybV9lZGlkLmgKPiA+PiBpbmRleCBjZmE0ZjVhZjQ5YWYuLjk4ZmE3OGMyZjgyZCAxMDA2
-NDQKPiA+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZWRpZC5oCj4gPj4gKysrIGIvaW5jbHVkZS9k
-cm0vZHJtX2VkaWQuaAo+ID4+IEBAIC0yMjksNiArMjI5LDIwIEBAIHN0cnVjdCBkZXRhaWxlZF90
-aW1pbmcgewo+ID4+ICAgCQkJCSAgICBEUk1fRURJRF9ZQ0JDUjQyMF9EQ18zNiB8IFwKPiA+PiAg
-IAkJCQkgICAgRFJNX0VESURfWUNCQ1I0MjBfRENfMzApCj4gPj4gICAKPiA+PiArLyoKPiA+PiAr
-ICogU3VwcG9ydGVkIENvbG9yaW1ldHJ5IGZyb20gY29sb3JpbWV0cnkgZGF0YSBibG9jawo+ID4+
-ICsgKiBhcyBwZXIgQ0VBIDg2MS1HIHNwZWMKPiA+PiArICovCj4gPj4gKyNkZWZpbmUgRFJNX0VE
-SURfQ0xSTUVUUllfeHZZQ0NfNjAxICAgKDEgPDwgMCkKPiA+PiArI2RlZmluZSBEUk1fRURJRF9D
-TFJNRVRSWV94dllDQ183MDkgICAoMSA8PCAxKQo+ID4+ICsjZGVmaW5lIERSTV9FRElEX0NMUk1F
-VFJZX3NZQ0NfNjAxICAgICgxIDw8IDIpCj4gPj4gKyNkZWZpbmUgRFJNX0VESURfQ0xSTUVUUllf
-QURCWUNDXzYwMSAgKDEgPDwgMykKPiA+PiArI2RlZmluZSBEUk1fRURJRF9DTFJNRVRSWV9BREJf
-UkdCICAgICAoMSA8PCA0KQo+ID4+ICsjZGVmaW5lIERSTV9FRElEX0NMUk1FVFJZX0JUMjAyMF9D
-WUNDICgxIDw8IDUpCj4gPj4gKyNkZWZpbmUgRFJNX0VESURfQ0xSTUVUUllfQlQyMDIwX1lDQyAg
-KDEgPDwgNikKPiA+PiArI2RlZmluZSBEUk1fRURJRF9DTFJNRVRSWV9CVDIwMjBfUkdCICAoMSA8
-PCA3KQo+ID4+ICsjZGVmaW5lIERSTV9FRElEX0NMUk1FVFJZX0RDSV9QMyAgICAgICgxIDw8IDE1
-KQo+ID4+ICsKPiA+PiAgIC8qIEVMRCBIZWFkZXIgQmxvY2sgKi8KPiA+PiAgICNkZWZpbmUgRFJN
-X0VMRF9IRUFERVJfQkxPQ0tfU0laRQk0Cj4gPj4gICAKPiA+PiAtLSAKPiA+PiAyLjI1LjEKPiA+
-Pgo+ID4+Cj4gPj4KPiA+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+ID4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+PiBkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCj4gPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwKPiAKCi0tIApWaWxsZSBTeXJqw6Rsw6QKSW50ZWwKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is a new DRM driver for Intel's KeemBay SOC.
+The SoC couples an ARM Cortex A53 CPU with an Intel
+Movidius VPU.
+
+This driver is tested with the KMB EVM board which is the refernce baord
+for Keem Bay SOC. The SOC's display pipeline is as follows
+
++--------------+    +---------+    +-----------------------+
+|LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
++--------------+    +---------+    +-----------------------+
+
+LCD controller and Mipi DSI transmitter are part of the SOC and
+mipi to HDMI converter is ADV7535 for KMB EVM board.
+
+The DRM driver is a basic KMS atomic modesetting display driver and
+has no 2D or 3D graphics.It calls into the ADV bridge driver at
+the connector level.
+
+Only 1080p resolution and single plane is supported at this time.
+The usecase is for debugging video and camera outputs.
+
+Device tree patches are under review here
+https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
+
+Changes since v1:
+- Removed redundant license text, updated license
+- Rearranged include blocks
+- renamed global vars and removed extern in c
+- Used upclassing for dev_private
+- Used drm_dev_init in drm device create
+- minor cleanups
+
+Changes since v2:
+- squashed all commits to a single commit
+- logging changed to drm_info, drm_dbg etc.
+- used devm_drm_dev_alloc()
+- removed commented out sections and general cleanup
+
+Changes since v3:
+- renamed dev_p to kmb
+- moved clocks under kmb_clock, consolidated clk initializations
+- use drmm functions
+- use DRM_GEM_CMA_DRIVER_OPS_VMAP
+- more cleanups
+
+Changes since v4:
+- corrected spellings
+
+Changes since v5:
+- corrected checkpatch warnings/checks
+   -Please ignore checkpatch checks on Camelcase - this is how it is
+   named in the databook
+   - Please ignore checkpatch warnings on misspelled for hsa, dout,
+   widthn etc. - they are spelled as in the databook
+   - Please ignore checkpatch checks on macro arguments reuse -
+   its confirmed ok
+
+Changes since v6:
+- review changes Sam Ravnborg and Thomas Zimmerman
+	split patch into 4 parts, part1 register definitions, part2 display
+	driver files, part3 mipi dsi, part4 build files (Sam)
+	removed kmb_crtc.h kmb_crtc_cleanup (Thomas)
+	renamed mode_set, kmb_load, inlined unload (Thomas)
+	moved remaining logging to drm_*(Thomas)
+	re-orged driver initialization (Thomas)
+	moved plane_status to drm_private (Sam)
+	removed unnecessary logs and defines and ifdef codes (Sam)
+	split dphy_init_sequence smaller (Sam)
+	removed redundant checks in kmb_dsi (Sam)
+	changed kmb_dsi_init to drm_bridge_connector_init and
+	drm_connector_attach_encoder to bridge's connector (Sam)
+	call helper_check in plane_atomic_check (Sam)
+	renamed set to get for bpp and format functions(Sam)
+	use drm helper functions for reset, duplicate/destroy state instead
+	of kmb functions (Sam)
+	removed kmb_priv from kmb_plane and removed kmb_plane_state (Sam)
+
+Anitha Chrisanthus (4):
+  drm/kmb: Keem Bay driver register definition
+  drm/kmb: Add support for KeemBay Display
+  drm/kmb: Mipi DSI part of the display driver
+  drm/kmb: Build files for KeemBay Display driver
+
+ drivers/gpu/drm/Kconfig         |    2 +
+ drivers/gpu/drm/Makefile        |    1 +
+ drivers/gpu/drm/kmb/Kconfig     |   13 +
+ drivers/gpu/drm/kmb/Makefile    |    2 +
+ drivers/gpu/drm/kmb/kmb_crtc.c  |  224 ++++++
+ drivers/gpu/drm/kmb/kmb_drv.c   |  676 +++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_drv.h   |  170 +++++
+ drivers/gpu/drm/kmb/kmb_dsi.c   | 1523 +++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_dsi.h   |  350 +++++++++
+ drivers/gpu/drm/kmb/kmb_plane.c |  480 ++++++++++++
+ drivers/gpu/drm/kmb/kmb_plane.h |  110 +++
+ drivers/gpu/drm/kmb/kmb_regs.h  |  748 +++++++++++++++++++
+ 12 files changed, 4299 insertions(+)
+ create mode 100644 drivers/gpu/drm/kmb/Kconfig
+ create mode 100644 drivers/gpu/drm/kmb/Makefile
+ create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_regs.h
+
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
