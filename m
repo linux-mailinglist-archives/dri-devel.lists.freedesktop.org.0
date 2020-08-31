@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F782572D0
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 06:26:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07842572DB
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 06:31:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B229189CB5;
-	Mon, 31 Aug 2020 04:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B03789CCE;
+	Mon, 31 Aug 2020 04:30:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3F389CB5;
- Mon, 31 Aug 2020 04:26:31 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id y134so3284752yby.2;
- Sun, 30 Aug 2020 21:26:31 -0700 (PDT)
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
+ [IPv6:2607:f8b0:4864:20::b44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D594189CB9;
+ Mon, 31 Aug 2020 04:30:53 +0000 (UTC)
+Received: by mail-yb1-xb44.google.com with SMTP id i10so3260631ybt.11;
+ Sun, 30 Aug 2020 21:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PX06aBk627NQ1JeMegFd6B64tEFsLtmyNkqRlailfm0=;
- b=IC5nDs49gJJNp2v81GvqILFp/15eYtDl2QXUOSAriKrk+Im/ZtF0wapcjFhYD1Aee2
- jvbpHrmUBKZXPH50RHisaYAu6eL3nQMi8tqIbaQ0/GVrplidaSlxi0XkF9MZl9ZISJUy
- 4R6NeoUFpvYWgz/AVuuJruEx6FpoghNJLz+43yhjUyTFi+RgQA0FMEjf7VmO0Gn4rpOp
- K/qD0gy4DvulktUJNfw234A3UgA/n0f5FM+/q+PywIVycMRHERMlSkWhhpulpNbrvxve
- NZ2SJEQXzdPfvLg/ZZLsNRwFLSf7nvcbLvCRacQlOO83T58wRYi8uvtv/ICk4aX+fulv
- i55g==
+ :cc; bh=3EHX4IFDP9HkXUW+b+ZNzN+U/N5NbUIOOxj43RJQFP8=;
+ b=sFgwc5cHHE9FxursU6WRqYcmits9x/HyhItAsmn2E1mo5JX2JKbQ4kWAoVvXqJgHvX
+ CEr0Pums8JT3qlyKoAgYpS3yK+ibCQGxWNVbQZgisAMuZdXm9u/InCEZgPYhZMLGZydH
+ yd42w67EH6hWqQosjvmCFftCCPPp/at/gd3UhDMhUZJGFRT/JnHsiWGwocA66GWahivh
+ pb+Myve0noIccwNerGhDQD/cIEcMlIqPzyLeXsKabrkChvK3nT3re1P10cmNy0cj5lsL
+ mGaUjNxaOWScrpJXKjjr3m/W3J9uBUiBJRQe0HNBj0stSxKDZKyPYe+RqER4Imlt+dU7
+ iKdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PX06aBk627NQ1JeMegFd6B64tEFsLtmyNkqRlailfm0=;
- b=HLuGSlEEGxoizUrTMjsZDU5ABZkisSP4vcEG7/2WEjGCK6bfqnNrcy0buWd8BLl/S1
- 4kY1BcGjP275vPtxr+s66xZseGWcb+jZkZ5be346EQFvrg4fFeYS0D1bIWuY0Jht8pAD
- wWUR1Jz13UW7xcCqWvCcD/UK0R1mHAFFnmy2RrQxK5DnFye1pS7fldRW7lrYbVKj5iuM
- 0MIgl24zg3qIG6l9tivZqaMxDEq5FGd/iSvPAWfIx+h89NiaJTheGr4LoE2nPQCicTTg
- Qdpr2p9eQd/tmK+CmsyE3L6aFCtXs/kQDhHn+sajcAYymWsERGA3XCQM24b4hv+ZjwtM
- RdcQ==
-X-Gm-Message-State: AOAM53095fGGWaJJTcqLdBccmEImdcE/94unbuKY6vKaell8cAtupIHd
- mVozZvANyO7FRyPcksx0zKgyTtCnfSx3SXhSLNk=
-X-Google-Smtp-Source: ABdhPJy+0rEbq+GkNgtCw3GXB22ZHNHLhDwqJ7psgye+ciyrN8LcA9ntQoXdSFcOYdxLiOIsyTwz2cd2MlTJH1iqhGY=
-X-Received: by 2002:a25:c4c5:: with SMTP id
- u188mr16615125ybf.162.1598847990436; 
- Sun, 30 Aug 2020 21:26:30 -0700 (PDT)
+ bh=3EHX4IFDP9HkXUW+b+ZNzN+U/N5NbUIOOxj43RJQFP8=;
+ b=tf6H4N99F6JK5dw3srZ3+VdcYTERM+K4qY2Gh3oiHkPAC68+DWLj+c5S6QJz8DdFr9
+ Q5Ksvh9GiXZSw5Scjih5jnztFwEe8QEfwa2nl38Fm3MQweVYuRkZSXJG/7GyH2TqGndf
+ TiTXbmaS7gr5fqJVqhXEarBfFbjTYOAC2bDJpZ361smYMP/rsUd4znODTR5db4mCcwpR
+ 98Ohq3OOa3iP1Wc3ecufMwUKuCFRtmdkzaK+4gUsk6ax6K6P6n89QkgXt9g7Xf6B7nBn
+ 5yvXu1EBhli7d/T8Bno0GuQiE7MNEliV7kBJ/yA5KW1VWmWILQbfNNTjEFT3jEjJUo7U
+ /H2g==
+X-Gm-Message-State: AOAM533wnX+pKvOs/KzvQpibfm68ir9tGwevgXsDUvZznKdSHFvU4/GY
+ +GisXgUWszeP9c16bBeowVfrvWmDyprEklJrB7s=
+X-Google-Smtp-Source: ABdhPJygqDhnYzGy1ODmzpjWOWvVU0KHozgD8foEW/pFKDAAJ/I2ilsDU+17Efoxy6pCnydvcuH5XqRX2oBauPkkZ+s=
+X-Received: by 2002:a25:3803:: with SMTP id f3mr16938941yba.470.1598848253030; 
+ Sun, 30 Aug 2020 21:30:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200824183253.826343-1-lyude@redhat.com>
- <20200824183253.826343-2-lyude@redhat.com>
- <CACAvsv6hymdcGkEcigL3fWACZ_1POpB+aefq9d9ChnYv_dHnVg@mail.gmail.com>
- <76392bff28359a88fbdf0857f011e0ed9f666dc4.camel@redhat.com>
-In-Reply-To: <76392bff28359a88fbdf0857f011e0ed9f666dc4.camel@redhat.com>
+References: <CAJ1xhMUpqtKMuGUZdComskTqd0oOKCfDuVQT3+c13u=NSJLkBw@mail.gmail.com>
+In-Reply-To: <CAJ1xhMUpqtKMuGUZdComskTqd0oOKCfDuVQT3+c13u=NSJLkBw@mail.gmail.com>
 From: Ben Skeggs <skeggsb@gmail.com>
-Date: Mon, 31 Aug 2020 14:26:19 +1000
-Message-ID: <CACAvsv6GKeX=u4Jn0VVJk1qgnPcnPCW6exukqjvfrfmm2mwSUg@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH 1/2] drm/nouveau/kms/nv50-: Program notifier
- offset before requesting disp caps
-To: Lyude Paul <lyude@redhat.com>
+Date: Mon, 31 Aug 2020 14:30:42 +1000
+Message-ID: <CACAvsv6zUi=3mZTg11Y_6CVYkpCSO0RY-5+GiBZz+2EXCDmD-g@mail.gmail.com>
+Subject: Re: nouveau PUSHBUFFER_ERR on 5.9.0-rc2-next-20200824
+To: Alexander Kapshuk <alexander.kapshuk@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,115 +60,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
- ML nouveau <nouveau@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- stable@vger.kernel.org
+Cc: Dave Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Next <linux-next@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Aug 2020 at 02:52, Lyude Paul <lyude@redhat.com> wrote:
+On Tue, 25 Aug 2020 at 17:21, Alexander Kapshuk
+<alexander.kapshuk@gmail.com> wrote:
 >
-> On Tue, 2020-08-25 at 08:28 +1000, Ben Skeggs wrote:
-> > On Tue, 25 Aug 2020 at 04:33, Lyude Paul <lyude@redhat.com> wrote:
-> > > Not entirely sure why this never came up when I originally tested this
-> > > (maybe some BIOSes already have this setup?) but the ->caps_init vfunc
-> > > appears to cause the display engine to throw an exception on driver
-> > > init, at least on my ThinkPad P72:
-> > >
-> > > nouveau 0000:01:00.0: disp: chid 0 mthd 008c data 00000000 0000508c 0000102b
-> > >
-> > > This is magic nvidia speak for "You need to have the DMA notifier offset
-> > > programmed before you can call NV507D_GET_CAPABILITIES." So, let's fix
-> > > this by doing that, and also perform an update afterwards to prevent
-> > > racing with the GPU when reading capabilities.
-> > >
-> > > Changes since v1:
-> > > * Don't just program the DMA notifier offset, make sure to actually
-> > >   perform an update
-> > I'm not sure there's a need to send an Update() method here, I believe
-> > GetCapabilities() is an action method on its own right?
-> >
->
-> I'm not entirely sure about this part tbh. I do know that we need to call
-> GetCapabilities() _after_ the DMA notifier offset is programmed. But, my
-> assumption was that if GetCapabilities() requires a DMA notifier offset to store
-> its results in, we'd probably want to fire an update or something to make sure
-> that we're not reading before it finishes writing capabilities?
-We definitely want to *wait* on GetCapabilities() finishing, I believe
-it should also update the notifier the same (or similar) way Update()
-does.  But I don't think we want to send an Update() here, it'll
-actually trigger a modeset (which, on earlier HW, will tear down the
-boot mode.  Not sure about current HW, it might preserve state), and
-we may not want that to happen there.
+> Since upgrading to linux-next based on 5.9.0-rc1 and 5.9.0-rc2 I have
+> had my mouse pointer disappear soon after logging in, and I have
+> observed the system freezing temporarily when clicking on objects and
+> when typing text.
+> I have also found records of push buffer errors in dmesg output:
+> [ 6625.450394] nouveau 0000:01:00.0: disp: ERROR 1 [PUSHBUFFER_ERR] 02
+> [] chid 0 mthd 0000 data 00000400
+Hey,
+
+Yeah, I'm aware of this.  Lyude and I have both seen it, but it's been
+very painful to track down to what's actually causing it so far.  It
+likely is the commit you mentioned that's at fault, and I'm still
+working to find a proper solution before I revert it.
 
 Ben.
 
 >
-> > Ben.
-> >
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP
-> > > interlacing support")
-> > > Cc: <stable@vger.kernel.org> # v5.8+
-> > > ---
-> > >  drivers/gpu/drm/nouveau/dispnv50/core507d.c | 25 ++++++++++++++++-----
-> > >  1 file changed, 19 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-> > > b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-> > > index e341f572c2696..5e86feec3b720 100644
-> > > --- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-> > > @@ -65,13 +65,26 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
-> > >  int
-> > >  core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
-> > >  {
-> > > -       u32 *push = evo_wait(&disp->core->chan, 2);
-> > > +       struct nv50_core *core = disp->core;
-> > > +       u32 interlock[NV50_DISP_INTERLOCK__SIZE] = {0};
-> > > +       u32 *push;
-> > >
-> > > -       if (push) {
-> > > -               evo_mthd(push, 0x008c, 1);
-> > > -               evo_data(push, 0x0);
-> > > -               evo_kick(push, &disp->core->chan);
-> > > -       }
-> > > +       core->func->ntfy_init(disp->sync, NV50_DISP_CORE_NTFY);
-> > > +
-> > > +       push = evo_wait(&core->chan, 4);
-> > > +       if (!push)
-> > > +               return 0;
-> > > +
-> > > +       evo_mthd(push, 0x0084, 1);
-> > > +       evo_data(push, 0x80000000 | NV50_DISP_CORE_NTFY);
-> > > +       evo_mthd(push, 0x008c, 1);
-> > > +       evo_data(push, 0x0);
-> > > +       evo_kick(push, &core->chan);
-> > > +
-> > > +       core->func->update(core, interlock, false);
-> > > +       if (core->func->ntfy_wait_done(disp->sync, NV50_DISP_CORE_NTFY,
-> > > +                                      core->chan.base.device))
-> > > +               NV_ERROR(drm, "core notifier timeout\n");
-> > >
-> > >         return 0;
-> > >  }
-> > > --
-> > > 2.26.2
-> > >
-> > > _______________________________________________
-> > > Nouveau mailing list
-> > > Nouveau@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/nouveau
-> --
-> Sincerely,
->       Lyude Paul (she/her)
->       Software Engineer at Red Hat
+> I tried setting CONFIG_NOUVEAU_DEBUG=5 (tracing) to try and collect
+> further debug info, but nothing caught the eye.
 >
+> The error message in question comes from nv50_disp_intr_error in
+> drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c:613,645.
+> And nv50_disp_intr_error is called from nv50_disp_intr in the
+> following while block:
+> drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c:647,658
+> void
+> nv50_disp_intr(struct nv50_disp *disp)
+> {
+>         struct nvkm_device *device = disp->base.engine.subdev.device;
+>         u32 intr0 = nvkm_rd32(device, 0x610020);
+>         u32 intr1 = nvkm_rd32(device, 0x610024);
+>
+>         while (intr0 & 0x001f0000) {
+>                 u32 chid = __ffs(intr0 & 0x001f0000) - 16;
+>                 nv50_disp_intr_error(disp, chid);
+>                 intr0 &= ~(0x00010000 << chid);
+>         }
+> ...
+> }
+>
+> Could this be in any way related to this series of commits?
+> commit 0a96099691c8cd1ac0744ef30b6846869dc2b566
+> Author: Ben Skeggs <bskeggs@redhat.com>
+> Date:   Tue Jul 21 11:34:07 2020 +1000
+>
+>     drm/nouveau/kms/nv50-: implement proper push buffer control logic
+>
+>     We had a, what was supposed to be temporary, hack in the KMS code where we'd
+>     completely drain an EVO/NVD channel's push buffer when wrapping to the start
+>     again, instead of treating it as a ring buffer.
+>
+>     Let's fix that, finally.
+>
+>     Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+>
+> Here are my GPU details:
+> 01:00.0 VGA compatible controller: NVIDIA Corporation GT216 [GeForce
+> 210] (rev a1)
+>         Subsystem: Micro-Star International Co., Ltd. [MSI] Device 8a93
+>         Kernel driver in use: nouveau
+>
+> The last linux-next kernel I built where the problem reported does not
+> manifest itself is 5.8.0-rc6-next-20200720.
+>
+> I would appreciate being given any pointers on how to further debug this.
+> Or is git bisect the only way to proceed with this?
+>
+> Thanks.
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
