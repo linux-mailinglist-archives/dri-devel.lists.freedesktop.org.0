@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392C0257C52
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:29:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04613257C59
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:29:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D20D289E50;
-	Mon, 31 Aug 2020 15:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00C146E14C;
+	Mon, 31 Aug 2020 15:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7610F89DC7;
- Mon, 31 Aug 2020 15:29:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B0489E50;
+ Mon, 31 Aug 2020 15:29:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 383BA20936;
- Mon, 31 Aug 2020 15:29:42 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C99142083E;
+ Mon, 31 Aug 2020 15:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598887783;
- bh=VJ0G36w4AwGdWcGN89VVM6vkew7+G4ceTdRs1y5VBhs=;
+ s=default; t=1598887785;
+ bh=SRqgg3klPwBNdAHE2XPrbrhQ1Oghy5wWaGBIxVOjjxo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rTCYaOD+E4TXIVTHBLu3t6ghmtVmEeDFVu50klulLG0fmuUDdJeMpI58nLps2uphO
- x2VwfoaSmunnDvKDcfhCg1QDd47ykD9l/R0yc0fB8Jn/T1GyMRlgHpi70Zmrz/BJg6
- PiFtARASpyRr4tWffLj3gRqEIketWh+ia6voXvd4=
+ b=drGTpZTRufPB+NpGfm7UhzPU46xIvgAJ1cEaI0VymGd2DPKl6qfU2GkeUhbEWnLD7
+ es7/9mQkxBaxv/Cf1paO4jABabYwzVc/gfTr9BrtjjGH2YrR5EvJtuLWh6EFhOi7Z2
+ l3FktYCJ1SMInPHCmBHeZrDtgECFcOo40EW4fZBU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 05/42] drm/msm/dpu: Fix scale params in plane
- validation
-Date: Mon, 31 Aug 2020 11:28:57 -0400
-Message-Id: <20200831152934.1023912-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 06/42] drm/msm/dpu: fix unitialized variable error
+Date: Mon, 31 Aug 2020 11:28:58 -0400
+Message-Id: <20200831152934.1023912-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831152934.1023912-1-sashal@kernel.org>
 References: <20200831152934.1023912-1-sashal@kernel.org>
@@ -51,52 +50,42 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Kalyan Thota <kalyan_t@codeaurora.org>, freedreno@lists.freedesktop.org
+ kernel test robot <lkp@intel.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kalyan Thota <kalyan_t@codeaurora.org>
+From: Rob Clark <robdclark@chromium.org>
 
-[ Upstream commit 4c978caf08aa155bdeadd9e2d4b026d4ce97ebd0 ]
+[ Upstream commit 35c719da95c0d28560bff7bafeaf07ebb212665e ]
 
-Plane validation uses an API drm_calc_scale which will
-return src/dst value as a scale ratio.
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:817 dpu_crtc_enable() error: uninitialized symbol 'request_bandwidth'.
 
-when viewing the range on a scale the values should fall in as
-
-Upscale ratio < Unity scale < Downscale ratio for src/dst formula
-
-Fix the min and max scale ratios to suit the API accordingly.
-
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-Tested-by: Kristian H. Kristensen <hoegsberg@google.com>
-Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Sean Paul <seanpaul@chromium.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 3b9c33e694bf4..994d23bad3870 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -866,9 +866,9 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		crtc_state = drm_atomic_get_new_crtc_state(state->state,
- 							   state->crtc);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 969d95aa873c4..1026e1e5bec10 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -827,7 +827,7 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+ {
+ 	struct dpu_crtc *dpu_crtc;
+ 	struct drm_encoder *encoder;
+-	bool request_bandwidth;
++	bool request_bandwidth = false;
  
--	min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxdwnscale);
-+	min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxupscale);
- 	ret = drm_atomic_helper_check_plane_state(state, crtc_state, min_scale,
--					  pdpu->pipe_sblk->maxupscale << 16,
-+					  pdpu->pipe_sblk->maxdwnscale << 16,
- 					  true, true);
- 	if (ret) {
- 		DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
+ 	if (!crtc) {
+ 		DPU_ERROR("invalid crtc\n");
 -- 
 2.25.1
 
