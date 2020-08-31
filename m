@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BFE257C84
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:31:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F34BA257C86
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:31:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0987D6E384;
-	Mon, 31 Aug 2020 15:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F6C6E38A;
+	Mon, 31 Aug 2020 15:31:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9689D6E39C
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 15:31:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0A326E38A;
+ Mon, 31 Aug 2020 15:31:08 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 73EF3214D8;
- Mon, 31 Aug 2020 15:31:01 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 957C9207EA;
+ Mon, 31 Aug 2020 15:31:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598887862;
- bh=C3CcciRVixUYp6L5MEomGa9r80COzfaklmvDwSBzuPo=;
+ s=default; t=1598887868;
+ bh=5cTymgNOd6yMe07rM04lmyuuYPSuueVZ4FEQI/Htjg8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XzqdW5JQ9PNuP5KNC+ATpn8ZAhUROfhRAu5UeclTIgV5OJmPb1c09eBqG4dB088A1
- PnpceeAQ18LrRmAhfmY5RyxsxIbgyyy3n2rAfBob1LjXYBqeBazbL5pRm1pSN8yeeC
- Z5fMTMK268t1hrwJNIlep32YyZZZZ0vzYJbdArCY=
+ b=smdiVUxvy2D2OsQb1dejShNpoqJ56v6XUj16HrEt+0RIcS2P3wq5xmYEXLefp3DOO
+ uI7KUcRwGBpGlYdHQgmkIRNn8Jt1MsQ5J5N7rhwNilg6yLEUzaNIIx+1G2EB4t8ump
+ goc0xwhQdN+ZtTyJg2LyaG5Ns4qKwmn2oeXt0e94=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 14/23] drm/omap: fix incorrect lock state
-Date: Mon, 31 Aug 2020 11:30:30 -0400
-Message-Id: <20200831153039.1024302-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 18/23] drm/amd/display: Reject overlay plane
+ configurations in multi-display scenarios
+Date: Mon, 31 Aug 2020 11:30:34 -0400
+Message-Id: <20200831153039.1024302-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831153039.1024302-1-sashal@kernel.org>
 References: <20200831153039.1024302-1-sashal@kernel.org>
@@ -49,81 +50,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Hersen Wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit 7fd5b25499bcec157dd4de9a713425efcf4571cd ]
+[ Upstream commit 168f09cdadbd547c2b202246ef9a8183da725f13 ]
 
-After commit 92cc68e35863c1c61c449efa2b2daef6e9926048 ("drm/vblank: Use
-spin_(un)lock_irq() in drm_crtc_vblank_on()") omapdrm locking is broken:
+[Why]
+These aren't stable on some platform configurations when driving
+multiple displays, especially on higher resolution.
 
-WARNING: inconsistent lock state
-5.8.0-rc2-00483-g92cc68e35863 #13 Tainted: G        W
---------------------------------
-inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
-ea98222c (&dev->event_lock#2){?.+.}-{2:2}, at: drm_handle_vblank+0x4c/0x520 [drm]
-{HARDIRQ-ON-W} state was registered at:
-  trace_hardirqs_on+0x9c/0x1ec
-  _raw_spin_unlock_irq+0x20/0x58
-  omap_crtc_atomic_enable+0x54/0xa0 [omapdrm]
-  drm_atomic_helper_commit_modeset_enables+0x218/0x270 [drm_kms_helper]
-  omap_atomic_commit_tail+0x48/0xc4 [omapdrm]
-  commit_tail+0x9c/0x190 [drm_kms_helper]
-  drm_atomic_helper_commit+0x154/0x188 [drm_kms_helper]
-  drm_client_modeset_commit_atomic+0x228/0x268 [drm]
-  drm_client_modeset_commit_locked+0x60/0x1d0 [drm]
-  drm_client_modeset_commit+0x24/0x40 [drm]
-  drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa8 [drm_kms_helper]
-  drm_fb_helper_set_par+0x2c/0x5c [drm_kms_helper]
-  drm_fb_helper_hotplug_event.part.0+0xa0/0xbc [drm_kms_helper]
-  drm_kms_helper_hotplug_event+0x24/0x30 [drm_kms_helper]
-  output_poll_execute+0x1a8/0x1c0 [drm_kms_helper]
-  process_one_work+0x268/0x800
-  worker_thread+0x30/0x4e0
-  kthread+0x164/0x190
-  ret_from_fork+0x14/0x20
+In particular the delay in asserting p-state and validating from
+x86 outweights any power or performance benefit from the hardware
+composition.
 
-The reason for this is that omapdrm calls drm_crtc_vblank_on() while
-holding event_lock taken with spin_lock_irq().
+Under some configurations this will manifest itself as extreme stutter
+or unresponsiveness especially when combined with cursor movement.
 
-It is not clear why drm_crtc_vblank_on() and drm_crtc_vblank_get() are
-called while holding event_lock. I don't see any problem with moving
-those calls outside the lock, which is what this patch does.
+[How]
+Disable these for now. Exposing overlays to userspace doesn't guarantee
+that they'll be able to use them in any and all configurations and it's
+part of the DRM contract to have userspace gracefully handle validation
+failures when they occur.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200819103021.440288-1-tomi.valkeinen@ti.com
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Valdiation occurs as part of DC and this in particular affects RV, so
+disable this in dcn10_global_validation.
+
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/omapdrm/omap_crtc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-index 3c5ddbf30e974..f5e18802e7bc6 100644
---- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-@@ -451,11 +451,12 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
- 	if (omap_state->manually_updated)
- 		return;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+index 1599bb9711111..e860ae05feda1 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+@@ -1151,6 +1151,7 @@ static enum dc_status dcn10_validate_global(struct dc *dc, struct dc_state *cont
+ 	bool video_large = false;
+ 	bool desktop_large = false;
+ 	bool dcc_disabled = false;
++	bool mpo_enabled = false;
  
--	spin_lock_irq(&crtc->dev->event_lock);
- 	drm_crtc_vblank_on(crtc);
+ 	for (i = 0; i < context->stream_count; i++) {
+ 		if (context->stream_status[i].plane_count == 0)
+@@ -1159,6 +1160,9 @@ static enum dc_status dcn10_validate_global(struct dc *dc, struct dc_state *cont
+ 		if (context->stream_status[i].plane_count > 2)
+ 			return DC_FAIL_UNSUPPORTED_1;
+ 
++		if (context->stream_status[i].plane_count > 1)
++			mpo_enabled = true;
 +
- 	ret = drm_crtc_vblank_get(crtc);
- 	WARN_ON(ret != 0);
+ 		for (j = 0; j < context->stream_status[i].plane_count; j++) {
+ 			struct dc_plane_state *plane =
+ 				context->stream_status[i].plane_states[j];
+@@ -1182,6 +1186,10 @@ static enum dc_status dcn10_validate_global(struct dc *dc, struct dc_state *cont
+ 		}
+ 	}
  
-+	spin_lock_irq(&crtc->dev->event_lock);
- 	omap_crtc_arm_event(crtc);
- 	spin_unlock_irq(&crtc->dev->event_lock);
- }
++	/* Disable MPO in multi-display configurations. */
++	if (context->stream_count > 1 && mpo_enabled)
++		return DC_FAIL_UNSUPPORTED_1;
++
+ 	/*
+ 	 * Workaround: On DCN10 there is UMC issue that causes underflow when
+ 	 * playing 4k video on 4k desktop with video downscaled and single channel
 -- 
 2.25.1
 
