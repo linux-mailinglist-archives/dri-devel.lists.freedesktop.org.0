@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632F62576B2
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:40:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A272576BA
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F7089229;
-	Mon, 31 Aug 2020 09:39:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A487989E63;
+	Mon, 31 Aug 2020 09:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 905C589F99
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 09:39:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29ECD89E63
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 09:42:06 +0000 (UTC)
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V9P1TF057527;
- Mon, 31 Aug 2020 09:39:52 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V9Pj4R058111;
+ Mon, 31 Aug 2020 09:42:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=date : from : to : cc
  : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=Hzvo7CYXGE/6zZxtuhK7l+IonC6+d2Jj/qf1hzatpxI=;
- b=wsskEIPehgHqj9mqHzFuYEo6kphlgFE5grALul4NCIb4ApOOeygsgJ9iTym5CKCChEe0
- FI/+GbsEm3RISvQYz+ElWTjHTzdpfiNxXPcslw4/wLcaFWqBWIFuiGvU4CCGbYbmEjtc
- SXe1zbqlGzBWQSAwNaqMncUBuJ9gmWuTBBGy7GpyW/wc4KmPIjvEaQMrWluojx5j9j6E
- PcbZWNxazHegFyx91hCAJr7QPDIcCyjL373A+wbeJCxDNAUrjhvlFw2OxIAzWyIyFYH+
- bCOzBvrNSfN7chZ55YAbqjjT7JdHzvRwC1VJU94XqeKFHbYn+57CF1k1S+R4XVzNWsV+ 3A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 337eeqnc54-1
+ s=corp-2020-01-29; bh=qnFtrVVcI/4cYePi3+q/WcmlKx11uTlweWrPC5S9O38=;
+ b=HOHnYa8HVVcYuKQ4R4Bpe0fooqy4ejWqJIpthDYNOcNYOatoGJkdTnqK2qYlQegXTUgO
+ 43/VaEwn6Bkan+T1XKVYDmNCvWosnno7F9mtn6qxvjKsIOgGDQF+VykTVHNO3d6pE7g3
+ nsh7rfUpWM7wC1Po1qoZ3gnKkz9j5KKgZ/x9GAEZJmrEpL2tL8juRfpSQHz+lpGbkwMt
+ HyLOBRkwBKR3a9W4KgY3gmddFF/VdZmw3kXcaWEX8vOZ21Ma91wlaGNMWj6XBrY4FqPS
+ 55MyLPmLPWYeXq98TFVpZ+oaqJ/lBjFRf5b7MnZbd1a8j8HlE/lM3TiSOJiaEgtexfzG 5Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 337eeqncek-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 31 Aug 2020 09:39:52 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V9N8lM192070;
- Mon, 31 Aug 2020 09:37:51 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 3380kkdej8-1
+ Mon, 31 Aug 2020 09:42:03 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V9MXtv070097;
+ Mon, 31 Aug 2020 09:40:02 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 3380wysn4j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Aug 2020 09:37:51 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07V9bm2G026863;
- Mon, 31 Aug 2020 09:37:48 GMT
+ Mon, 31 Aug 2020 09:40:02 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07V9e1Qa022543;
+ Mon, 31 Aug 2020 09:40:01 GMT
 Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 31 Aug 2020 02:37:46 -0700
-Date: Mon, 31 Aug 2020 12:37:38 +0300
+ with ESMTP ; Mon, 31 Aug 2020 02:39:59 -0700
+Date: Mon, 31 Aug 2020 12:39:53 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: kbuild@lists.01.org, Philipp Zabel <p.zabel@pengutronix.de>,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/4] drm/plane: add drmm_universal_plane_alloc()
-Message-ID: <20200831093738.GA8299@kadam>
+Subject: Re: [PATCH 4/4] drm/crtc: add drmm_crtc_alloc_with_planes()
+Message-ID: <20200831093953.GB8299@kadam>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="PEIAKu/WMn1b1Hv9"
+Content-Type: multipart/mixed; boundary="FkmkrVfFsRoUs1wW"
 Content-Disposition: inline
-In-Reply-To: <20200826123506.19560-3-p.zabel@pengutronix.de>
+In-Reply-To: <20200826123506.19560-4-p.zabel@pengutronix.de>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- mlxscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2008310053
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
  priorityscore=1501
  lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
  phishscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
@@ -84,11 +84,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---PEIAKu/WMn1b1Hv9
+--FkmkrVfFsRoUs1wW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Philipp,
+
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Philipp-Zabel/drm-add-drmm_encoder_alloc/20200826-203629
 base:   git://anongit.freedesktop.org/drm-intel for-linux-next
@@ -99,109 +101,94 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/drm_plane.c:302 drm_universal_plane_init() error: uninitialized symbol 'ap'.
-drivers/gpu/drm/drm_plane.c:345 __drmm_universal_plane_alloc() error: uninitialized symbol 'ap'.
+smatch warnings:
+drivers/gpu/drm/drm_crtc.c:343 drm_crtc_init_with_planes() error: uninitialized symbol 'ap'.
+drivers/gpu/drm/drm_crtc.c:383 __drmm_crtc_alloc_with_planes() error: uninitialized symbol 'ap'.
 
-Old smatch warnings:
-drivers/gpu/drm/drm_plane.c:117 create_in_format_blob() error: potential null dereference 'blob'.  (drm_property_create_blob returns null)
-
-# https://github.com/0day-ci/linux/commit/d809a51da3d2939a84ecf6b4ada8f5be6c3ecb35
+# https://github.com/0day-ci/linux/commit/236b7bc44ae0fdecc8e80c5aba0655ca14fdfb23
 git remote add linux-review https://github.com/0day-ci/linux
 git fetch --no-tags linux-review Philipp-Zabel/drm-add-drmm_encoder_alloc/20200826-203629
-git checkout d809a51da3d2939a84ecf6b4ada8f5be6c3ecb35
-vim +/ap +302 drivers/gpu/drm/drm_plane.c
+git checkout 236b7bc44ae0fdecc8e80c5aba0655ca14fdfb23
+vim +/ap +343 drivers/gpu/drm/drm_crtc.c
 
-d809a51da3d293 Philipp Zabel 2020-08-26  287  int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
-d809a51da3d293 Philipp Zabel 2020-08-26  288  			     uint32_t possible_crtcs,
-d809a51da3d293 Philipp Zabel 2020-08-26  289  			     const struct drm_plane_funcs *funcs,
-d809a51da3d293 Philipp Zabel 2020-08-26  290  			     const uint32_t *formats, unsigned int format_count,
-d809a51da3d293 Philipp Zabel 2020-08-26  291  			     const uint64_t *format_modifiers,
-d809a51da3d293 Philipp Zabel 2020-08-26  292  			     enum drm_plane_type type,
-d809a51da3d293 Philipp Zabel 2020-08-26  293  			     const char *name, ...)
-d809a51da3d293 Philipp Zabel 2020-08-26  294  {
-d809a51da3d293 Philipp Zabel 2020-08-26  295  	va_list ap;
-                                                ^^^^^^^^^^
-d809a51da3d293 Philipp Zabel 2020-08-26  296  	int ret;
-d809a51da3d293 Philipp Zabel 2020-08-26  297  
-d809a51da3d293 Philipp Zabel 2020-08-26  298  	if (name)
-d809a51da3d293 Philipp Zabel 2020-08-26  299  		va_start(ap, name);
-                                                                 ^^
+236b7bc44ae0fd Philipp Zabel 2020-08-26  331  int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  332  			      struct drm_plane *primary,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  333  			      struct drm_plane *cursor,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  334  			      const struct drm_crtc_funcs *funcs,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  335  			      const char *name, ...)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  336  {
+236b7bc44ae0fd Philipp Zabel 2020-08-26  337  	va_list ap;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  338  	int ret;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  339  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  340  	if (name)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  341  		va_start(ap, name);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  342  	ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
+236b7bc44ae0fd Philipp Zabel 2020-08-26 @343  					name, ap);
+                                                                                      ^^
 
-d809a51da3d293 Philipp Zabel 2020-08-26  300  	ret = __drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
-d809a51da3d293 Philipp Zabel 2020-08-26  301  					 formats, format_count, format_modifiers,
-d809a51da3d293 Philipp Zabel 2020-08-26 @302  					 type, name, ap);
-                                                                                             ^^
-This isn't always initialized.  Presumably it's not a problem but
-runtime tools like KASan (syzbot) will detect the load and complain as
-well so it's probably better to silence it.
-
-d809a51da3d293 Philipp Zabel 2020-08-26  303  	if (name)
-d809a51da3d293 Philipp Zabel 2020-08-26  304  		va_end(ap);
-d809a51da3d293 Philipp Zabel 2020-08-26  305  	return ret;
-d809a51da3d293 Philipp Zabel 2020-08-26  306  }
-43968d7b806d7a Daniel Vetter 2016-09-21  307  EXPORT_SYMBOL(drm_universal_plane_init);
-43968d7b806d7a Daniel Vetter 2016-09-21  308  
-d809a51da3d293 Philipp Zabel 2020-08-26  309  static void drmm_universal_plane_alloc_release(struct drm_device *dev, void *ptr)
-d809a51da3d293 Philipp Zabel 2020-08-26  310  {
-d809a51da3d293 Philipp Zabel 2020-08-26  311  	struct drm_plane *plane = ptr;
-d809a51da3d293 Philipp Zabel 2020-08-26  312  
-d809a51da3d293 Philipp Zabel 2020-08-26  313  	if (WARN_ON(!plane->dev))
-d809a51da3d293 Philipp Zabel 2020-08-26  314  		return;
-d809a51da3d293 Philipp Zabel 2020-08-26  315  
-d809a51da3d293 Philipp Zabel 2020-08-26  316  	drm_plane_cleanup(plane);
-d809a51da3d293 Philipp Zabel 2020-08-26  317  }
-d809a51da3d293 Philipp Zabel 2020-08-26  318  
-d809a51da3d293 Philipp Zabel 2020-08-26  319  void *__drmm_universal_plane_alloc(struct drm_device *dev, size_t size,
-d809a51da3d293 Philipp Zabel 2020-08-26  320  				   size_t offset, uint32_t possible_crtcs,
-d809a51da3d293 Philipp Zabel 2020-08-26  321  				   const struct drm_plane_funcs *funcs,
-d809a51da3d293 Philipp Zabel 2020-08-26  322  				   const uint32_t *formats, unsigned int format_count,
-d809a51da3d293 Philipp Zabel 2020-08-26  323  				   const uint64_t *format_modifiers,
-d809a51da3d293 Philipp Zabel 2020-08-26  324  				   enum drm_plane_type type,
-d809a51da3d293 Philipp Zabel 2020-08-26  325  				   const char *name, ...)
-d809a51da3d293 Philipp Zabel 2020-08-26  326  {
-d809a51da3d293 Philipp Zabel 2020-08-26  327  	void *container;
-d809a51da3d293 Philipp Zabel 2020-08-26  328  	struct drm_plane *plane;
-d809a51da3d293 Philipp Zabel 2020-08-26  329  	va_list ap;
-d809a51da3d293 Philipp Zabel 2020-08-26  330  	int ret;
-d809a51da3d293 Philipp Zabel 2020-08-26  331  
-d809a51da3d293 Philipp Zabel 2020-08-26  332  	if (!funcs || funcs->destroy)
-d809a51da3d293 Philipp Zabel 2020-08-26  333  		return ERR_PTR(-EINVAL);
-d809a51da3d293 Philipp Zabel 2020-08-26  334  
-d809a51da3d293 Philipp Zabel 2020-08-26  335  	container = drmm_kzalloc(dev, size, GFP_KERNEL);
-d809a51da3d293 Philipp Zabel 2020-08-26  336  	if (!container)
-d809a51da3d293 Philipp Zabel 2020-08-26  337  		return ERR_PTR(-ENOMEM);
-d809a51da3d293 Philipp Zabel 2020-08-26  338  
-d809a51da3d293 Philipp Zabel 2020-08-26  339  	plane = container + offset;
-d809a51da3d293 Philipp Zabel 2020-08-26  340  
-d809a51da3d293 Philipp Zabel 2020-08-26  341  	if (name)
-d809a51da3d293 Philipp Zabel 2020-08-26  342  		va_start(ap, name);
-d809a51da3d293 Philipp Zabel 2020-08-26  343  	ret = __drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
-d809a51da3d293 Philipp Zabel 2020-08-26  344  					 formats, format_count, format_modifiers,
-d809a51da3d293 Philipp Zabel 2020-08-26 @345  					 type, name, ap);
-d809a51da3d293 Philipp Zabel 2020-08-26  346  	if (name)
-d809a51da3d293 Philipp Zabel 2020-08-26  347  		va_end(ap);
-d809a51da3d293 Philipp Zabel 2020-08-26  348  	if (ret)
-d809a51da3d293 Philipp Zabel 2020-08-26  349  		return ERR_PTR(ret);
-d809a51da3d293 Philipp Zabel 2020-08-26  350  
-d809a51da3d293 Philipp Zabel 2020-08-26  351  	ret = drmm_add_action_or_reset(dev, drmm_universal_plane_alloc_release,
-d809a51da3d293 Philipp Zabel 2020-08-26  352  				       plane);
-d809a51da3d293 Philipp Zabel 2020-08-26  353  	if (ret)
-d809a51da3d293 Philipp Zabel 2020-08-26  354  		return ERR_PTR(ret);
-d809a51da3d293 Philipp Zabel 2020-08-26  355  
-d809a51da3d293 Philipp Zabel 2020-08-26  356  	return container;
-d809a51da3d293 Philipp Zabel 2020-08-26  357  }
+236b7bc44ae0fd Philipp Zabel 2020-08-26  344  	if (name)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  345  		va_end(ap);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  346  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  347  	return ret;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  348  }
+e13161af80c185 Matt Roper    2014-04-01  349  EXPORT_SYMBOL(drm_crtc_init_with_planes);
+f453ba0460742a Dave Airlie   2008-11-07  350  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  351  static void drmm_crtc_alloc_with_planes_cleanup(struct drm_device *dev,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  352  						void *ptr)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  353  {
+236b7bc44ae0fd Philipp Zabel 2020-08-26  354  	struct drm_crtc *crtc = ptr;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  355  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  356  	drm_crtc_cleanup(crtc);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  357  }
+236b7bc44ae0fd Philipp Zabel 2020-08-26  358  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  359  void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  360  				    size_t size, size_t offset,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  361  				    struct drm_plane *primary,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  362  				    struct drm_plane *cursor,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  363  				    const struct drm_crtc_funcs *funcs,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  364  				    const char *name, ...)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  365  {
+236b7bc44ae0fd Philipp Zabel 2020-08-26  366  	void *container;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  367  	struct drm_crtc *crtc;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  368  	va_list ap;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  369  	int ret;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  370  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  371  	if (!funcs || funcs->destroy)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  372  		return ERR_PTR(-EINVAL);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  373  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  374  	container = drmm_kzalloc(dev, size, GFP_KERNEL);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  375  	if (!container)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  376  		return ERR_PTR(-ENOMEM);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  377  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  378  	crtc = container + offset;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  379  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  380  	if (name)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  381  		va_start(ap, name);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  382  	ret = __drm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
+236b7bc44ae0fd Philipp Zabel 2020-08-26 @383  					  name, ap);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  384  	if (name)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  385  		va_end(ap);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  386  	if (ret)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  387  		return ERR_PTR(ret);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  388  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  389  	ret = drmm_add_action_or_reset(dev, drmm_crtc_alloc_with_planes_cleanup,
+236b7bc44ae0fd Philipp Zabel 2020-08-26  390  				       crtc);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  391  	if (ret)
+236b7bc44ae0fd Philipp Zabel 2020-08-26  392  		return ERR_PTR(ret);
+236b7bc44ae0fd Philipp Zabel 2020-08-26  393  
+236b7bc44ae0fd Philipp Zabel 2020-08-26  394  	return container;
+236b7bc44ae0fd Philipp Zabel 2020-08-26  395  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---PEIAKu/WMn1b1Hv9
+--FkmkrVfFsRoUs1wW
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICP6wRl8AAy5jb25maWcAlDzJctw4svf+igr3pftgjxZb4Y4XOoAkyEIXSdAAWIsuiGqp
+H4sICITKRl8AAy5jb25maWcAlDzJctw4svf+igr3pftgjxZb4Y4XOoAkyEIXSdAAWIsuiGqp
 5FaMFr+SNGP//WQCXAAQ1Hh86FYhE1sidyT46y+/Lsjry9PD/uXuen9//2Px9fB4OO5fDjeL
 27v7w/8tMr6ouVrQjKkPgFzePb5+/8f3zxf64uPi04fPH04Wq8Px8XC/SJ8eb+++vkLfu6fH
 X379JeV1zgqdpnpNhWS81opu1eW7r9fX7/9Y/JYd/rrbPy7++HD+4eT96aff7V/vnG5M6iJN
@@ -955,7 +942,7 @@ mjB0wORamndeQ84e6AsjQ6jTNVSkKxrJXDn21qFtN1nLtvU9TB3Z1e7lCOoAqLX+01+7w/Zu
 R4XRqnYdx06MghcXX9tqC1pybseOdxqkGpvQy2JyvnBl3MkD7meX7fnLNVutkIwKLjFgEYAb
 QagiO3Z5zp160ujEWHmS6hrgf0TPu1OPgQIA
 
---PEIAKu/WMn1b1Hv9
+--FkmkrVfFsRoUs1wW
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -966,4 +953,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---PEIAKu/WMn1b1Hv9--
+--FkmkrVfFsRoUs1wW--
