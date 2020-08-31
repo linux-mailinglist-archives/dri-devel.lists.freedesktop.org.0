@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED9C257800
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 13:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF94D257803
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 13:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5C086E0E4;
-	Mon, 31 Aug 2020 11:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0C846E0D3;
+	Mon, 31 Aug 2020 11:14:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADF46E0E2;
- Mon, 31 Aug 2020 11:14:01 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id n13so5015269edo.10;
- Mon, 31 Aug 2020 04:14:01 -0700 (PDT)
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83AB16E0D1;
+ Mon, 31 Aug 2020 11:14:28 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id h4so6386451ejj.0;
+ Mon, 31 Aug 2020 04:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=FExIKAHJpPJFM3Hd44tazabRIhwd+0VFgHYZYcprPmE=;
- b=EKtSjKtzv24vUhMxF+gt7LwUCEObaU3gPowz0n9Rvrs8wdxgAIP+QWufXKZujYYBhU
- Uo3CawjQpfdgFZBlGzpSwcubxyiiNXXVDUdNI9pGzCRScHb+9Bx0Wi6AFSI38OW/MVsW
- mb5I7dO6ZerK1fHSeLbbvhUX8Mk7s4nXY26gGXR0ddg0f/1pkKMVDJ7n6HCmfyccD01O
- TznDM/nTvjkVwovGVCCZqGsAi99CkHPtrA75S8+H4pbgxqW7Agw7EvCJ4jPhT3AO0jZR
- VaBi0zdqGpEtCxJsbI8Y7bMV9TAgfmtiuqHV0OqjC1iMDTIKHeR6L+M0OzsqDwofuF2e
- eWAQ==
+ bh=X01LvFXFueRcI2ZlU9XeqbPTzDVMYa+4OS/23RAvwKo=;
+ b=FEi57b8RlVkzPZvNuNN7nPhUzXSlgnXhuytyGSPKiFSMVEc9kpojXWHL7SL+APG5vP
+ B0FZmBkP38k2jWlalIGtXGjMhVM+e+Q7Bx/C6RA2DKb1Ki6WVLULMIVWOKCHBWK21OAb
+ 1DZyyc25lSAHHfRcLYTHcE3t9AE2W4x3mv7kf5Lin/qpgSxvC6XieHEKuSV7/2GVhx0J
+ aImwsdzkb5kCEfXWUFGQJ1avl0u/1Tty0+9gJ+vQOMUAuLoMa3LXpRV2AN55BnjRHRKa
+ 5p2bf1qK09WSl9RGi8DeVSGNM4TZc15yTaHh/pNugf5yU1LPbED6W56FSNF3FCVkxHU0
+ wEmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=FExIKAHJpPJFM3Hd44tazabRIhwd+0VFgHYZYcprPmE=;
- b=gkLvFn4GWFFFRQew8DhrY5oKUVM6z4AyapiNFpx5qk/BEMfKzWiYUlS5hOfPat760x
- pKen6GOQa/QBQyUC1xX0F8JhXK0/Sh5TajCRYnK/I4yB8PqvOiuSBQBee7Wa08sz9iWd
- REejxn6hEicDPXVI/+KfTF5apBAa3udcWkzY2gE4mxBKDo04U+91sv/6qNuon3AfL1ru
- KKxRXZdQZTpIvUuuGksCqd1JWIrQAJcfuwwZZyLccKYszQie0kIAi1HBXT8y3Z4KeLrH
- JnQKBiQgCJYDsW7xrlTAJKtFp9JV986SE/n7ZE65RidYmolbs3RivTkYmMpLcW5fh8f7
- apmA==
-X-Gm-Message-State: AOAM5303VQkmx+eDmKRMKTbpKXPzhM1CXJt3sy3hpR5figRk01/YXM7j
- cRap7ysqYXE+wukABWL6NHg=
-X-Google-Smtp-Source: ABdhPJzSou1EakYOIg96I8GnoircE3Vn7kSNmn6F1/7zwYOg6k41dpCvAPKfpjEEd/aEdMlY9skw5w==
-X-Received: by 2002:aa7:d146:: with SMTP id r6mr720807edo.335.1598872440245;
- Mon, 31 Aug 2020 04:14:00 -0700 (PDT)
+ bh=X01LvFXFueRcI2ZlU9XeqbPTzDVMYa+4OS/23RAvwKo=;
+ b=O5b9xvpbMFcDlb+xv9R6EjB9ils0eZk27IDVhkqN/hmoMI9v91/EprK+dRfkMb3x10
+ qtawmHsnzzDvy0WznoilDIZVCyJ5jlURNDsEk+/ZpyxMoHUeM4DCzUH50E4fwhGsQFGp
+ p6faNRDfpfWc4BdIpa03MICDm3iBj9kBRuw+ESO/Z05ncPiulqV8p6iN4IDcUrewPm5l
+ DYivEfCwl7z/BJB9xZ1mXnG6gQ0WcVcwcCvZj0Q2XGptz1LDlf+S6ECc7FTxWJtzk7o8
+ jb9oiRw4n2EjtJILMoMP/WtSwgZEl05d9ePGr3Bklik/ufICX0+bUhCa+lqm/LCUbCjM
+ nPWg==
+X-Gm-Message-State: AOAM532UJU/k46xl8C+u53tgbqKrQ4cnz8zzruRmxRNX+gV7kqQXYQNP
+ yMKYMhvg8lEOsgJitS+1IjU=
+X-Google-Smtp-Source: ABdhPJwianpUVafwqpi+1jPvnzk6IyxvTYuhXEJ+rOOom5+IAAvmkMeA6Nv+4Vx0aPY/4m56CcsZ3Q==
+X-Received: by 2002:a17:906:f897:: with SMTP id
+ lg23mr651887ejb.124.1598872467235; 
+ Mon, 31 Aug 2020 04:14:27 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id o7sm7165100edq.53.2020.08.31.04.13.58
+ by smtp.gmail.com with ESMTPSA id m24sm7788005eje.80.2020.08.31.04.14.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 04:13:59 -0700 (PDT)
-Date: Mon, 31 Aug 2020 13:13:58 +0200
+ Mon, 31 Aug 2020 04:14:26 -0700 (PDT)
+Date: Mon, 31 Aug 2020 13:14:25 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>
 Subject: Re: [PATCH v8 08/17] pwm: crc: Fix period / duty_cycle times being
  off by a factor of 256
-Message-ID: <20200831111358.GF1688464@ulmo>
+Message-ID: <20200831111425.GG1688464@ulmo>
 References: <20200830125753.230420-1-hdegoede@redhat.com>
  <20200830125753.230420-9-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -74,18 +75,18 @@ Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0686068576=="
+Content-Type: multipart/mixed; boundary="===============1064975283=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0686068576==
+--===============1064975283==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="/QKKmeG/X/bPShih"
+	protocol="application/pgp-signature"; boundary="/Zw+/jwnNHcBRYYu"
 Content-Disposition: inline
 
 
---/QKKmeG/X/bPShih
+--/Zw+/jwnNHcBRYYu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -134,31 +135,31 @@ efine
 >  drivers/pwm/pwm-crc.c | 6 +++---
 >  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Acked-by: Thierry Reding <thierry.reding@gmail.com>
 
---/QKKmeG/X/bPShih
+--/Zw+/jwnNHcBRYYu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9M23UACgkQ3SOs138+
-s6FFYg/+Mtzc1XwV7Zl1w99FCSgZyIrsahQ4SvPhVAXHLByxVW0Sgfi/z9K/bDcB
-Fjw3E5MB0XL4UD9DWtdCKefCLe/5kIlbsS/LK7BPplf1GNfctSYQ72L5soS7HKrn
-vBjHnIr5ohFn/EGf3RWeLczkUoFVhfbMYFgor/H1FjXo5OeHQ3Fkr2AVPsnyIYXZ
-Iuc7iGLT8lI57IoxRlJ7ZKu0IXImzrN7YU4a+pfZ77fBAu3B9D9jom+L+U0E+E6q
-Y+ZBnaRVz13j6OSRMtfu13/kATzx1HgJZfjmMiimldrXbucWCovYXK2GWz8RJp5J
-YrXCFi8WdHdxB/JxDSYsswynJtRiSmGTjQmvxy6GYXZe8IvSB3VkpaTkQS5bzA65
-QAYAclX3dnxT46eQ+yiNH4WEWlgL5gxsLeOMCvFWa5Lismv4q2gvxjBTF0RapKaD
-oncskpQfC4HlP1vQieYkUrYQUfAq+Gq2a6OU5qk0HES6N504YLAhS35xqHvWvT+9
-QT50ulvZJVyUzZN9HgmMphXKi0jTeJ5dAZjdf8RbzIXD8hBlFJbObnPl6Xk2VRh2
-kJSwxDm74OT4sD2IydJQQCBnOtf6MZ/HjfLa5M6UP34DyWKg5LTlUbBDjp5+cJcs
-jrZ53SdqyD8MbZ/0meG1wcRvneBbIEKkPtAkowDRt2wkQHEO6nc=
-=4Oyz
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9M25EACgkQ3SOs138+
+s6GH8xAAjMo/M+ShCe5lfOAZJTXx9VgYTRYj/q1jrMtkTKQI89rLA2vj+RXkHMY3
+Q/vbefQxtubkKj0G85UhahEhAJ4WI03Wg18LxBA4EgkyyYtrWY0BpSa/0HnCOpTL
++1nBBty7TShZZYWDjhS2eRmRuM8kLPVfSG998SJ80Yk5fNpg7lWsih26uVftL2jC
+eOCDl8GxAN6bRn3f2sly5fKH+uhIjHYg5B18pVZ1MdkwpIY7BtYLNWQsd1VXvb+I
+SO0REjIpB8UVzQZ11Ea3sUrZhNMu/x2P6J93VuGxCfkMZMM3BpwDeLAfyM/sW0Ko
+Kc0YiedvxaD10jvTKXbVhZCL3N9sV0eh3zNPOOL/Vxw0OOTafwbyoDrpxQVGJp3A
+LUOsz+5GeuSM/JyEMHAGq/JYxdPyLDX/ZgWEJzUvWwhCJFQ+4K4c10Ri1qITTVSQ
++gn6Rn3pf/SjlrZJ6loA8K/Yi4ndfmrfl/KeJ81TeTOYZVBrma6W6NFFQpUwI+PD
+SDXskyBVU5T8v+rd2AzN5nM1ubFH4p3y5dqzdzX1uz5MC9aRTwFV17g44Q3FY8HL
+qfPoPgeSoA0o7jxf63aTVYgqXcnSJ8Bg9fZ/POn/s/GXAcB+bV0apJYFWwQ/Tgg9
+bZ67o0uSIfAKKR0sNxPHU/Hd/kzQ7W+4zCkxbx377zuSi7wf5yc=
+=JLKH
 -----END PGP SIGNATURE-----
 
---/QKKmeG/X/bPShih--
+--/Zw+/jwnNHcBRYYu--
 
---===============0686068576==
+--===============1064975283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -169,4 +170,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0686068576==--
+--===============1064975283==--
