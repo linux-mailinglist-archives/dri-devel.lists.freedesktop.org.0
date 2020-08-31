@@ -2,137 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52634257642
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAC325762C
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:12:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 457E889E15;
-	Mon, 31 Aug 2020 09:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C09DC89C17;
+	Mon, 31 Aug 2020 09:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
- [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBFF89CE2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 08:24:04 +0000 (UTC)
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
- by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07V8AS0b024321; Mon, 31 Aug 2020 01:23:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=proofpoint;
- bh=GPGeAANQaCpwgent/Iab8glO30A5qLloXj7Rt2yOPcQ=;
- b=duFfV+BJnP5R7uw+G3RBrc979DEIt2Kb/yp6KoDc2CqB2PTDTURhY2ZQhATVFJAWsjPn
- UqPrD7gyVQ/T6+pHvLvoqT/5Q5DkRwvnUIUNOXws6rTRWlhES4eWq2/XSILfZgVMnWDl
- nCWrxgrDGLD7UmsaYdASTBDFaxqaiuPQAYRPq+6ca02o8aIezkP4UD/00yYbF82vN4pZ
- kZ5SKRvrAEhp87GBGg8MqhP38qRrWOlmDbr2qXB1JH/GxBE5ObC0masqkP47+OYlmxfI
- 2FkL7k4RD5zfxP+ULDY/U7wG0ONPkQMI6+d3L8m6qsc6t4BRuSBsBFCMnLwliwNtrucd QA== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
- by mx0b-0014ca01.pphosted.com with ESMTP id 337jkw6839-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Aug 2020 01:23:53 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BmfSmNmnKOBmahlh0hW/y1WfcJ1XJuw6RwEjE69u3K1cXkKJhZ+buUt7xZZ7/7xL/QF4dI4lb+LA5tdHTCPvX4L12kh+qs154B8I3G4Uai/pASoKevUHEvGzvFycg8p3kGdR6BIequDvQXs0DhIyU1Z4RkoQmxm91jpUjlI6Uw6srt6HlxRwQzXcEZQ3taVGg6uKitDo1J/XsAQryMSPFCctGlN6cdiHS8v3CpJ7w5KJqPX8Wv17U7ChcP9W7XDDD5MlUAUC4klrAGLmP1++uD9eixvnRkXW20h5AWlPP5eEQsyAwDiaThJCcUcWWSdzKnGKCEp4q195372Tayzdcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GPGeAANQaCpwgent/Iab8glO30A5qLloXj7Rt2yOPcQ=;
- b=HAnMcF6W0K0UMvLMWy8os5XWJFVSTjxv1ORfuMwQ2V7/hRSdqDywmTI7dHbroSQW9z+s4gvsnw1DW8mPmRHpYLXqU4gAksg0Ij2bwYUFsf86HO+bf1+delwxqDmBQ6hJeJqewb1uopiOI6eihF35gMXdkriUoOqgForRdSJZV2LXxdUSOajXwTtf7wPaszT4/1KcJzCYaucUkqKAoPb7lDxuDat6rh+3y06VEqNKU9oCIbJEdQhIYW8WS8+W2/8t88YUJ6p98ZOiPam67HlPYTWKsfS0y//McMJGjIuMl+jv1XtWddnqtYkJ8lS5U/ArFot0xAUQTXbM7yIfV3ANOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 199.43.4.23) smtp.rcpttodomain=baylibre.com smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GPGeAANQaCpwgent/Iab8glO30A5qLloXj7Rt2yOPcQ=;
- b=iHefTAYi9Z79DarjdAmRd1EQO5DpdVU0zmBERVuRgAxTVnPVPA/YhTkk8LtsAY2f5gaHzYlgnCZm+yEM6AfMgJUeNzFEINXnOzLf7+zJ7kEVlLSLT0V4I+3aNIRBgqFBGtEBUlE/8HIKuE5wBMZtsdi6J496TG2kM4kevmGcCEM=
-Received: from BN4PR12CA0002.namprd12.prod.outlook.com (2603:10b6:403:2::12)
- by CY1PR07MB2571.namprd07.prod.outlook.com (2a01:111:e400:c60e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.23; Mon, 31 Aug
- 2020 08:23:51 +0000
-Received: from BN8NAM12FT041.eop-nam12.prod.protection.outlook.com
- (2603:10b6:403:2:cafe::db) by BN4PR12CA0002.outlook.office365.com
- (2603:10b6:403:2::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
- Transport; Mon, 31 Aug 2020 08:23:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 199.43.4.23)
- smtp.mailfrom=cadence.com; baylibre.com; dkim=none (message not signed)
- header.d=none;baylibre.com; dmarc=pass action=none header.from=cadence.com;
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 199.43.4.23 as permitted sender) receiver=protection.outlook.com;
- client-ip=199.43.4.23; helo=rmmaillnx1.cadence.com;
-Received: from rmmaillnx1.cadence.com (199.43.4.23) by
- BN8NAM12FT041.mail.protection.outlook.com (10.13.182.172) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3348.7 via Frontend Transport; Mon, 31 Aug 2020 08:23:50 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
- 07V8NeKU010126
- (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
- Mon, 31 Aug 2020 04:23:48 -0400
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Mon, 31 Aug 2020 10:23:40 +0200
-Received: from vleu-orange.cadence.com (10.160.88.83) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Mon, 31 Aug 2020 10:23:40 +0200
-Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 07V8NeTe010300;
- Mon, 31 Aug 2020 10:23:40 +0200
-Received: (from sjakhade@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 07V8NeYg010299;
- Mon, 31 Aug 2020 10:23:40 +0200
-From: Swapnil Jakhade <sjakhade@cadence.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <Laurent.pinchart@ideasonboard.com>,
- <robh+dt@kernel.org>, <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v9 3/3] drm: bridge: cdns-mhdp8546: Add TI J721E wrapper
-Date: Mon, 31 Aug 2020 10:23:35 +0200
-Message-ID: <1598862215-10222-4-git-send-email-sjakhade@cadence.com>
-X-Mailer: git-send-email 2.4.5
-In-Reply-To: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
-References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
+X-Greylist: delayed 1439 seconds by postgrey-1.36 at gabe;
+ Mon, 31 Aug 2020 09:12:22 UTC
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E0589C17
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 09:12:22 +0000 (UTC)
+Received: from p5b127f90.dip0.t-ipconnect.de ([91.18.127.144]
+ helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1kCfU4-0008NI-Jm; Mon, 31 Aug 2020 10:48:12 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-kernel@vger.kernel.org, Samuel Dionne-Riel <samuel@dionne-riel.com>,
+ Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>,
+ Yannick =?ISO-8859-1?Q?Fertr=E9?= <yannick.fertre@st.com>
+Subject: Re: innolux p097pfg dpms off/on fails (on gru-scarlet) with
+ dw-mipi-dsi
+Date: Mon, 31 Aug 2020 10:48:11 +0200
+Message-ID: <1980739.exF16SanBl@phil>
+In-Reply-To: <20200830204756.1f9dba11@DUFFMAN>
+References: <20200830204756.1f9dba11@DUFFMAN>
 MIME-Version: 1.0
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1aa151f7-f30e-4ccb-f8d2-08d84d873065
-X-MS-TrafficTypeDiagnostic: CY1PR07MB2571:
-X-Microsoft-Antispam-PRVS: <CY1PR07MB2571E757488F66704E7CB52EC5510@CY1PR07MB2571.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lUYqUZgi7JhMfnEoVmT/E0U1vqJDaWvB8ZNoQnywSQjwBjiJI1ZPcUwQafX5bqLibaeBkkkHWnCRsCpy1tzDY3KLyAPUndNBYRcamwStd3PSXy0FiW5vn3jF0qCtiWXEkf1AKK7qML0/d2jjQF2Hq2PuWe/0qMs7s7lARpfBVLN9EPWtvKU7+C9pqibFWVfZFZ5XdmveuEZ6MA4vs6MivgbrbpXO5O9rVH7oK/8FZ8hcxb3aQjBtS2FObYTwvCUBQ+edr2/IyTYJMJo6pAgIVdBZ7ocrXcke7Iu/y1wC/vt2AJdAmcMpa3ygDpPJwL91hYZMNCHH444D13yE1M+gL2Iri2+VoEiV0A8AEV9SBlXlSnWMZ7xfkLbylLp2Lisy4CC1GWvPrjhyq/Hcp5nrZlgqPObgoFaZLxSMQhvOtWAScFB7yHYCfFENKaupnvJA4RadA8g+uEjJzpwPWU1SU9KjwXjGznO2+KD1uZ9lJPW+LesvoAm9I3gTlwAqwAL5DZQK9i9QzsfSKQQI31PSYacuVML5YUC4r8FRDeppwhpPdZJUJsxh8z8m/gS/Hv/X
-X-Forefront-Antispam-Report: CIP:199.43.4.23; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:rmmaillnx1.cadence.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(36092001)(46966005)(2616005)(426003)(5660300002)(82740400003)(356005)(4326008)(82310400002)(47076004)(110136005)(966005)(83380400001)(81166007)(54906003)(42186006)(316002)(2906002)(6666004)(186003)(336012)(86362001)(36756003)(478600001)(26005)(8676002)(8936002)(7416002)(70586007)(70206006)(921003)(2101003)(83996005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2020 08:23:50.0518 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1aa151f7-f30e-4ccb-f8d2-08d84d873065
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[199.43.4.23];
- Helo=[rmmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT041.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR07MB2571
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-31_01:2020-08-28,
- 2020-08-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0 spamscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 malwarescore=0 adultscore=0
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0
- suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2008310050
-X-Mailman-Approved-At: Mon, 31 Aug 2020 09:12:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,212 +42,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, yamonkar@cadence.com, praneeth@ti.com, nsekhar@ti.com,
- jsarha@ti.com, tomi.valkeinen@ti.com, sjakhade@cadence.com, nikhil.nd@ti.com
+Cc: linux-rockchip@lists.infradead.org, Lin Huang <hl@rock-chips.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add J721E wrapper for mhdp, which sets up the clock and data muxes.
+Hi Samuel,
 
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
-Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/bridge/cadence/Kconfig        | 13 ++++
- drivers/gpu/drm/bridge/cadence/Makefile       |  1 +
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 10 +++
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  1 +
- .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  | 78 +++++++++++++++++++
- .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  | 19 +++++
- 6 files changed, 122 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+Am Montag, 31. August 2020, 02:47:56 CEST schrieb Samuel Dionne-Riel:
+> I have an Asus Chromebook Tablet CT100PA, which I will refer to as
+> "dumo" from this point on, which is a specific variant of gru-scarlet.
+> As far as I am aware, all gru-scarlet are the same, except for the
+> display, and in turn the different scarlets with the innolux panel
+> are the same.
+> 
+> I do not have the hardware to verify the kingdisplay variant's
+> behaviour, though I don't really expect it to fail the same way, but it
+> is still a possibility that there is a root cause that could cause a
+> similar failure.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
-index f49d77eb7814..511d67b16d14 100644
---- a/drivers/gpu/drm/bridge/cadence/Kconfig
-+++ b/drivers/gpu/drm/bridge/cadence/Kconfig
-@@ -9,3 +9,16 @@ config DRM_CDNS_MHDP8546
- 	  bridge and is meant to be directly embedded in a SoC.
- 	  It takes a DPI stream as input and outputs it encoded
- 	  in DP format.
-+
-+if DRM_CDNS_MHDP8546
-+
-+config DRM_CDNS_MHDP8546_J721E
-+	depends on ARCH_K3_J721E_SOC || COMPILE_TEST
-+	bool "J721E Cadence DPI/DP wrapper support"
-+	default y
-+	help
-+	  Support J721E Cadence DPI/DP wrapper. This is a wrapper
-+	  which adds support for J721E related platform ops. It
-+	  initializes the J721E Display Port and sets up the
-+	  clock and data muxes.
-+endif
-diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
-index 676739cdf5e6..8f647991b374 100644
---- a/drivers/gpu/drm/bridge/cadence/Makefile
-+++ b/drivers/gpu/drm/bridge/cadence/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_DRM_CDNS_MHDP8546) += cdns-mhdp8546.o
- cdns-mhdp8546-y := cdns-mhdp8546-core.o
-+cdns-mhdp8546-$(CONFIG_DRM_CDNS_MHDP8546_J721E) += cdns-mhdp8546-j721e.o
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 14be6f370d6e..5dc83b2e3603 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -50,6 +50,8 @@
- 
- #include "cdns-mhdp8546-core.h"
- 
-+#include "cdns-mhdp8546-j721e.h"
-+
- static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
- {
- 	int ret, empty;
-@@ -2522,6 +2524,14 @@ static int cdns_mhdp_remove(struct platform_device *pdev)
- 
- static const struct of_device_id mhdp_ids[] = {
- 	{ .compatible = "cdns,mhdp8546", },
-+#ifdef CONFIG_DRM_CDNS_MHDP8546_J721E
-+	{ .compatible = "ti,j721e-mhdp8546",
-+	  .data = &(const struct cdns_mhdp_platform_info) {
-+		  .timings = &mhdp_ti_j721e_bridge_timings,
-+		  .ops = &mhdp_ti_j721e_ops,
-+	  },
-+	},
-+#endif
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, mhdp_ids);
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-index 14ba7431fab8..d2183f3f3263 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-@@ -344,6 +344,7 @@ struct cdns_mhdp_platform_info {
- 
- struct cdns_mhdp_device {
- 	void __iomem *regs;
-+	void __iomem *j721e_regs;
- 
- 	struct device *dev;
- 	struct clk *clk;
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
-new file mode 100644
-index 000000000000..dfe1b59514f7
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TI j721e Cadence MHDP8546 DP wrapper
-+ *
-+ * Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
-+ * Author: Jyri Sarha <jsarha@ti.com>
-+ */
-+
-+#include <linux/io.h>
-+#include <linux/platform_device.h>
-+
-+#include "cdns-mhdp8546-j721e.h"
-+
-+#define	REVISION			0x00
-+#define	DPTX_IPCFG			0x04
-+#define	ECC_MEM_CFG			0x08
-+#define	DPTX_DSC_CFG			0x0c
-+#define	DPTX_SRC_CFG			0x10
-+#define	DPTX_VIF_SECURE_MODE_CFG	0x14
-+#define	DPTX_VIF_CONN_STATUS		0x18
-+#define	PHY_CLK_STATUS			0x1c
-+
-+#define DPTX_SRC_AIF_EN			BIT(16)
-+#define DPTX_SRC_VIF_3_IN30B		BIT(11)
-+#define DPTX_SRC_VIF_2_IN30B		BIT(10)
-+#define DPTX_SRC_VIF_1_IN30B		BIT(9)
-+#define DPTX_SRC_VIF_0_IN30B		BIT(8)
-+#define DPTX_SRC_VIF_3_SEL_DPI5		BIT(7)
-+#define DPTX_SRC_VIF_3_SEL_DPI3		0
-+#define DPTX_SRC_VIF_2_SEL_DPI4		BIT(6)
-+#define DPTX_SRC_VIF_2_SEL_DPI2		0
-+#define DPTX_SRC_VIF_1_SEL_DPI3		BIT(5)
-+#define DPTX_SRC_VIF_1_SEL_DPI1		0
-+#define DPTX_SRC_VIF_0_SEL_DPI2		BIT(4)
-+#define DPTX_SRC_VIF_0_SEL_DPI0		0
-+#define DPTX_SRC_VIF_3_EN		BIT(3)
-+#define DPTX_SRC_VIF_2_EN		BIT(2)
-+#define DPTX_SRC_VIF_1_EN		BIT(1)
-+#define DPTX_SRC_VIF_0_EN		BIT(0)
-+
-+/* TODO turn DPTX_IPCFG fw_mem_clk_en at pm_runtime_suspend. */
-+
-+static int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
-+{
-+	struct platform_device *pdev = to_platform_device(mhdp->dev);
-+
-+	mhdp->j721e_regs = devm_platform_ioremap_resource(pdev, 1);
-+	return PTR_ERR_OR_ZERO(mhdp->j721e_regs);
-+}
-+
-+static void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp)
-+{
-+	/*
-+	 * Enable VIF_0 and select DPI2 as its input. DSS0 DPI0 is connected
-+	 * to eDP DPI2. This is the only supported SST configuration on
-+	 * J721E.
-+	 */
-+	writel(DPTX_SRC_VIF_0_EN | DPTX_SRC_VIF_0_SEL_DPI2,
-+	       mhdp->j721e_regs + DPTX_SRC_CFG);
-+}
-+
-+static void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp)
-+{
-+	/* Put everything to defaults  */
-+	writel(0, mhdp->j721e_regs + DPTX_DSC_CFG);
-+}
-+
-+const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
-+	.init = cdns_mhdp_j721e_init,
-+	.enable = cdns_mhdp_j721e_enable,
-+	.disable = cdns_mhdp_j721e_disable,
-+};
-+
-+const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings = {
-+	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-+			   DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
-+			   DRM_BUS_FLAG_DE_HIGH,
-+};
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
-new file mode 100644
-index 000000000000..97d20d115a24
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * TI j721e Cadence MHDP8546 DP wrapper
-+ *
-+ * Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
-+ * Author: Jyri Sarha <jsarha@ti.com>
-+ */
-+
-+#ifndef CDNS_MHDP8546_J721E_H
-+#define CDNS_MHDP8546_J721E_H
-+
-+#include "cdns-mhdp8546-core.h"
-+
-+struct mhdp_platform_ops;
-+
-+extern const struct mhdp_platform_ops mhdp_ti_j721e_ops;
-+extern const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings;
-+
-+#endif /* !CDNS_MHDP8546_J721E_H */
--- 
-2.26.1
+as I said in that chat yesterday, this really looks like an issue
+with how the dw-mipi-dsi handles powering on and off via the "hack"
+in mode_set, which doesn't get called again in non-atomic contexts.
+
+------- Reproducing the text from the paste from yesterday --------
+    DRM component enablement is complex and runs in 3 stages:
+    - mode_set goes outwards from crtc -> bridges -> panel
+    - pre_enable goes inwards panel -> bridges -> crtc
+    - enables again goes outwards crtc -> bridges -> panel
+    
+    The pre_enable callback for panels is meant to do its powerup which
+    includes sending its init-sequence - see struct drm_panel
+    documentation. But this in turn generally requires the dsi controller
+    to be up and running.
+    
+    With pre_enable only running inwards the dsi-controller pre_enable
+    only runs _after_ the panel's pre_enable, making panels unable to
+    receive their init sequences.
+    
+    dw_mipi_dsi solved this "creatively" by putting the relevant commands
+    into the mode_set (including clocks and phy setup) and in all-atomic
+    environments this seems to work "ok", as mode_set gets call on every
+    unblank of the display.
+    
+    But this solution stops working once applications use non-atomic
+    modesetting, like X11 with the patch applied to v5.4 to block it from
+    using atomic modesetting or an old qt (v5.9) in this case.
+    
+    Here only the pre_enable and enable callbacks gets called without
+    invoking mode_set before, resulting in display output breaking after
+    the first time the display gets disabled (like blanked due inactivity).
+    
+    For the short term fix this by simply not disabling the dw-dsi parts.
+---------------------------------------------------------------------------
+
+And while I wanted to tackle that problem at some point, so far
+I haven't found the time to do so. I've added Yannick and Angelo
+who also worked on the driver, maybe they have more ideas.
+
+Heiko
+
+
+> The display will apparently suspend (right wording?) fine with DPMS,
+> but will not resume (wording?) fine. This has been an issue since the
+> introduction of the driver and the introduction of the device (scarlet)
+> to the kernel, and is still on 5.9-rc2.
+> 
+> Doing the following:
+> 
+>   $ xset dpms force off # standby, or suspend
+>   $ xset dpms force on
+> 
+> Pretty much instantly the following messages are logged:
+> 
+> [   53.731851] dw-mipi-dsi-rockchip ff960000.mipi: failed to write command FIFO
+> [   53.739815] panel-innolux-p079zca ff960000.mipi.0: failed to write command 0
+> 
+> Then 120 seconds later, this pair of WARN:
+> 
+> [  173.754168] ------------[ cut here ]------------
+> [  173.759343] pclk_mipi_dsi1 already disabled
+> [  173.764076] WARNING: CPU: 2 PID: 5182 at drivers/clk/clk.c:952 clk_core_disable+0x2c/0x94
+> [  173.773216] Modules linked in:
+> [  173.776639] CPU: 2 PID: 5182 Comm: X Not tainted 5.9.0-rc2 #1-mobile-nixos
+> [  173.784323] Hardware name: Google Scarlet (DT)
+> [  173.789292] pstate: 40000085 (nZcv daIf -PAN -UAO BTYPE=--)
+> [  173.795522] pc : clk_core_disable+0x2c/0x94
+> [  173.800199] lr : clk_core_disable+0x2c/0x94
+> [  173.804871] sp : ffff800011d3ba20
+> [  173.808573] x29: ffff800011d3ba20 x28: 0000000000000028
+> [  173.814514] x27: ffff0000c32bdf00 x26: 0000000000000038
+> [  173.820455] x25: ffff800010d2e2eb x24: ffff0000edece000
+> [  173.826395] x23: ffff0000f0bea680 x22: 0000000000000001
+> [  173.832326] x21: ffff0000ef82e0e0 x20: ffff0000f0986500
+> [  173.838266] x19: ffff0000f0986500 x18: 0000000000000000
+> [  173.844198] x17: 0000000000000000 x16: 0000000000000000
+> [  173.850137] x15: 000000000000000a x14: 00000000000b962f
+> [  173.856077] x13: ffff800091d3b76f x12: 0000000000000006
+> [  173.862008] x11: ffffffffffffffff x10: 0000000000000030
+> [  173.867939] x9 : ffff800011d3b77d x8 : 0000000000000000
+> [  173.873869] x7 : 0000000000000008 x6 : ffff80001118811e
+> [  173.879809] x5 : ffff0000f5589e48 x4 : 0000000000000000
+> [  173.885741] x3 : 0000000000000027 x2 : 0000000000000027
+> [  173.891680] x1 : ffff0000e5c3ee40 x0 : 000000000000001f
+> [  173.897612] Call trace:
+> [  173.900349]  clk_core_disable+0x2c/0x94
+> [  173.904637]  clk_core_disable_lock+0x20/0x34
+> [  173.909413]  clk_disable+0x1c/0x28
+> [  173.913220]  dw_mipi_dsi_bridge_post_disable+0x80/0x120
+> [  173.919065]  drm_atomic_bridge_chain_post_disable+0x74/0x98
+> [  173.925297]  drm_atomic_helper_commit_modeset_disables+0x3d8/0x3dc
+> [  173.932208]  drm_atomic_helper_commit_tail_rpm+0x20/0xa0
+> [  173.938138]  commit_tail+0x74/0xf8
+> [  173.941941]  drm_atomic_helper_commit+0x104/0x108
+> [  173.947203]  drm_atomic_commit+0x48/0x54
+> [  173.951590]  drm_atomic_connector_commit_dpms+0xa0/0x100
+> [  173.957531]  drm_mode_obj_set_property_ioctl+0xd4/0x2c8
+> [  173.963378]  drm_connector_property_set_ioctl+0x20/0x28
+> [  173.969220]  drm_ioctl_kernel+0xa0/0xdc
+> [  173.973507]  drm_ioctl+0x2c4/0x2ec
+> [  173.977312]  vfs_ioctl+0x24/0x40
+> [  173.980921]  __arm64_sys_ioctl+0x74/0xa4
+> [  173.985299]  el0_svc_common.constprop.0+0xe0/0x160
+> [  173.990655]  do_el0_svc+0x44/0x70
+> [  173.994362]  el0_sync_handler+0xc8/0x184
+> [  173.998747]  el0_sync+0x140/0x180
+> [  174.002450] ---[ end trace 6c6d0de3ca79ec7d ]---
+> [  174.007763] ------------[ cut here ]------------
+> [  174.012925] pclk_mipi_dsi0 already disabled
+> [  174.017633] WARNING: CPU: 5 PID: 5182 at drivers/clk/clk.c:952 clk_core_disable+0x2c/0x94
+> [  174.026770] Modules linked in:
+> [  174.030184] CPU: 5 PID: 5182 Comm: X Tainted: G        W         5.9.0-rc2 #1-mobile-nixos
+> [  174.039419] Hardware name: Google Scarlet (DT)
+> [  174.044382] pstate: 40000085 (nZcv daIf -PAN -UAO BTYPE=--)
+> [  174.050608] pc : clk_core_disable+0x2c/0x94
+> [  174.055278] lr : clk_core_disable+0x2c/0x94
+> [  174.059948] sp : ffff800011d3ba20
+> [  174.063646] x29: ffff800011d3ba20 x28: 0000000000000028
+> [  174.069582] x27: ffff0000c32bdf00 x26: 0000000000000038
+> [  174.075517] x25: ffff800010d2e2eb x24: ffff0000edece000
+> [  174.081451] x23: ffff0000f0bea680 x22: 0000000000000001
+> [  174.087385] x21: ffff0000ef82e0e0 x20: ffff0000f0986400
+> [  174.093319] x19: ffff0000f0986400 x18: 0000000000000000
+> [  174.099254] x17: 0000000000000000 x16: 0000000000000000
+> [  174.105187] x15: 000000000000000a x14: 000000000000327d
+> [  174.111121] x13: ffff800091d3b76f x12: 0000000000000006
+> [  174.117055] x11: ffffffffffffffff x10: 0000000000000030
+> [  174.122989] x9 : ffff800011d3b77d x8 : 0000000000000000
+> [  174.128923] x7 : 0000000000000008 x6 : ffff80001118811e
+> [  174.134856] x5 : ffff0000f55cbe48 x4 : 0000000000000000
+> [  174.140789] x3 : 0000000000000027 x2 : 0000000000000027
+> [  174.146723] x1 : ffff0000e5c3ee40 x0 : 000000000000001f
+> [  174.152657] Call trace:
+> [  174.155388]  clk_core_disable+0x2c/0x94
+> [  174.159670]  clk_core_disable_lock+0x20/0x34
+> [  174.164439]  clk_disable+0x1c/0x28
+> [  174.168239]  dw_mipi_dsi_bridge_post_disable+0xc4/0x120
+> [  174.174077]  drm_atomic_bridge_chain_post_disable+0x74/0x98
+> [  174.180303]  drm_atomic_helper_commit_modeset_disables+0x3d8/0x3dc
+> [  174.187208]  drm_atomic_helper_commit_tail_rpm+0x20/0xa0
+> [  174.193140]  commit_tail+0x74/0xf8
+> [  174.196938]  drm_atomic_helper_commit+0x104/0x108
+> [  174.202191]  drm_atomic_commit+0x48/0x54
+> [  174.206571]  drm_atomic_connector_commit_dpms+0xa0/0x100
+> [  174.212505]  drm_mode_obj_set_property_ioctl+0xd4/0x2c8
+> [  174.218343]  drm_connector_property_set_ioctl+0x20/0x28
+> [  174.224179]  drm_ioctl_kernel+0xa0/0xdc
+> [  174.228461]  drm_ioctl+0x2c4/0x2ec
+> [  174.232258]  vfs_ioctl+0x24/0x40
+> [  174.235860]  __arm64_sys_ioctl+0x74/0xa4
+> [  174.240240]  el0_svc_common.constprop.0+0xe0/0x160
+> [  174.245592]  do_el0_svc+0x44/0x70
+> [  174.249294]  el0_sync_handler+0xc8/0x184
+> [  174.253672]  el0_sync+0x140/0x180
+> [  174.257372] ---[ end trace 6c6d0de3ca79ec7e ]---
+> 
+> 
+> Any further interaction with trying to "resume" or "suspend" the
+> display ends up with similar messages that I'd characterize as
+> the clock states being "confused".
+> 
+>  * Enabling unprepared pclk_mipi_dsi[01]
+>  * pclk_mipi_dsi[01] already disabled
+> 
+> Note that before being stuck in a confused state, using the /sys/ nodes
+> as follow seem to not cause issues:
+> 
+>   $ echo 1 | sudo tee /sys/class/graphics/fb0/blank
+>   $ echo 0 | sudo tee /sys/class/graphics/fb0/blank
+> 
+> Though once set in a confused state, it fails to recover with anything
+> I throw at it.
+> 
+> Not sure that it matters, but during all the operations the backlight
+> operates as expected, it seems only the MIPI subsystem is not working
+> as expected.
+> 
+> For context, here's some bits of knowledge from an IRC conversation on
+> the #chromium-os channel on Freenode.
+> 
+> > <mmind00> samueldr amstan: the issue is probably with how
+> > the dsi bridge handles powerons ... which in turn is a hack around
+> > how DRM handles display bringup
+> >
+> > <mmind00> samueldr amstan: bigger explanation from an
+> > internal commit I carry around: http://paste.debian.net/1161814/
+> >
+> > <mmind00> at least that is the dsi issue I ran into with
+> > our product using the dw-dsi ... even if dw-dsi is still pre-bridge,
+> > the issue might be similar - see non-atomic access not always calling
+> > mode_set
+> 
+> If there's any more information that can be helpful for figuring out
+> the issue, I'm open to trying them.
+> 
+> Additionally, I'm okay with being given tips or resources about how to
+> fix the problem. This is out of my realm of expertise, and I'm
+> definitely confused by the new terminology and lack of background
+> knowledge.
+> 
+> Thanks,
+> 
+> 
+
+
+
 
 _______________________________________________
 dri-devel mailing list
