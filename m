@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F992577FD
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 13:13:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED9C257800
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 13:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74CC26E096;
-	Mon, 31 Aug 2020 11:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5C086E0E4;
+	Mon, 31 Aug 2020 11:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C534A6E096;
- Mon, 31 Aug 2020 11:13:37 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id a26so7985435ejc.2;
- Mon, 31 Aug 2020 04:13:37 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADF46E0E2;
+ Mon, 31 Aug 2020 11:14:01 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id n13so5015269edo.10;
+ Mon, 31 Aug 2020 04:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=uiq1cUbeSmf2nROOprhl6mdhCamogzxlqoFdXIf/qZc=;
- b=RHtLyhrBolt+TqeMaC05hisXL+7NqI+w+tPDmltM/9ec6jphOiFza+z7K0gIL6yaE3
- 0TveumY7Dam8sD+gksH0BTTvluilSvEsvFcdrGEyJ0MCYIWeb2/D4eDHILXHeBSQeb0E
- Mx5Cme7LUSDXCwmNFXq3mExTd3LYHLVjc5joIz1oJz0DyaPosdVj+Ibg/mQna0Mj9q0j
- FYNK/G8X/XlcLssTORZlw9ii31FZ8fzcKx/XtKDsY4c4/1HOLJum4LbOYVa8EOXIAy0M
- lqqv99GcvoDCNw2cQDEfLvuKEs0r7EWZ40iu89PrSRZywO/4YfaF9yCz7JG//icpcbnA
- csYw==
+ bh=FExIKAHJpPJFM3Hd44tazabRIhwd+0VFgHYZYcprPmE=;
+ b=EKtSjKtzv24vUhMxF+gt7LwUCEObaU3gPowz0n9Rvrs8wdxgAIP+QWufXKZujYYBhU
+ Uo3CawjQpfdgFZBlGzpSwcubxyiiNXXVDUdNI9pGzCRScHb+9Bx0Wi6AFSI38OW/MVsW
+ mb5I7dO6ZerK1fHSeLbbvhUX8Mk7s4nXY26gGXR0ddg0f/1pkKMVDJ7n6HCmfyccD01O
+ TznDM/nTvjkVwovGVCCZqGsAi99CkHPtrA75S8+H4pbgxqW7Agw7EvCJ4jPhT3AO0jZR
+ VaBi0zdqGpEtCxJsbI8Y7bMV9TAgfmtiuqHV0OqjC1iMDTIKHeR6L+M0OzsqDwofuF2e
+ eWAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=uiq1cUbeSmf2nROOprhl6mdhCamogzxlqoFdXIf/qZc=;
- b=V8/yyBXVimG/FuaFK/hbI8aFpndqKpa+dAT2mr2qfbqTU9Fky7lWadzIrpemicTE+x
- X7HVG0PP8RefQpLXNeYvs30qjfJ2y6QtQ5A21Cp3bbmesl6BDi2O41JP7HALH2zq+0EP
- kNU1DTVsFSo7NLB3VvBUxNHskVVG3+OLZBZxWCyjcNeFyX/rByHmmh2nDITIXGRDR60g
- cm7e1jk0k852oPdH+tv+HUvXaG8NQDblWiGqyokvMq5XczpnKEBUP3TUlI/cO7GMVpq1
- Sj3rRd5Ub8nDXE8PPygPOLWhk4nrc3NYi/14NxcAq7lrHAAa3+Y4vzM7xoqNe7mOMXqM
- 7PKw==
-X-Gm-Message-State: AOAM533eymbV0glZVTutHo1rcgihy0AG7djCJDpiw3E7KVWvZu3tIN5U
- PfiUP/4Sz+QaJClifOyRAhDGU5HawJ72LA==
-X-Google-Smtp-Source: ABdhPJyAruYaY1SfCiv4fAG8Io2yH/p+frp4A4m4mXAV4OCTvuDbkVMW0zkXM9YEDu4/QZMqfL8glA==
-X-Received: by 2002:a17:906:3993:: with SMTP id
- h19mr663058eje.111.1598872416458; 
- Mon, 31 Aug 2020 04:13:36 -0700 (PDT)
+ bh=FExIKAHJpPJFM3Hd44tazabRIhwd+0VFgHYZYcprPmE=;
+ b=gkLvFn4GWFFFRQew8DhrY5oKUVM6z4AyapiNFpx5qk/BEMfKzWiYUlS5hOfPat760x
+ pKen6GOQa/QBQyUC1xX0F8JhXK0/Sh5TajCRYnK/I4yB8PqvOiuSBQBee7Wa08sz9iWd
+ REejxn6hEicDPXVI/+KfTF5apBAa3udcWkzY2gE4mxBKDo04U+91sv/6qNuon3AfL1ru
+ KKxRXZdQZTpIvUuuGksCqd1JWIrQAJcfuwwZZyLccKYszQie0kIAi1HBXT8y3Z4KeLrH
+ JnQKBiQgCJYDsW7xrlTAJKtFp9JV986SE/n7ZE65RidYmolbs3RivTkYmMpLcW5fh8f7
+ apmA==
+X-Gm-Message-State: AOAM5303VQkmx+eDmKRMKTbpKXPzhM1CXJt3sy3hpR5figRk01/YXM7j
+ cRap7ysqYXE+wukABWL6NHg=
+X-Google-Smtp-Source: ABdhPJzSou1EakYOIg96I8GnoircE3Vn7kSNmn6F1/7zwYOg6k41dpCvAPKfpjEEd/aEdMlY9skw5w==
+X-Received: by 2002:aa7:d146:: with SMTP id r6mr720807edo.335.1598872440245;
+ Mon, 31 Aug 2020 04:14:00 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id q13sm1747540edr.27.2020.08.31.04.13.35
+ by smtp.gmail.com with ESMTPSA id o7sm7165100edq.53.2020.08.31.04.13.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 04:13:35 -0700 (PDT)
-Date: Mon, 31 Aug 2020 13:13:34 +0200
+ Mon, 31 Aug 2020 04:13:59 -0700 (PDT)
+Date: Mon, 31 Aug 2020 13:13:58 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v8 07/17] pwm: lpss: Always update state and set update bit
-Message-ID: <20200831111334.GE1688464@ulmo>
+Subject: Re: [PATCH v8 08/17] pwm: crc: Fix period / duty_cycle times being
+ off by a factor of 256
+Message-ID: <20200831111358.GF1688464@ulmo>
 References: <20200830125753.230420-1-hdegoede@redhat.com>
- <20200830125753.230420-8-hdegoede@redhat.com>
+ <20200830125753.230420-9-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200830125753.230420-8-hdegoede@redhat.com>
+In-Reply-To: <20200830125753.230420-9-hdegoede@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,108 +74,91 @@ Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0398778679=="
+Content-Type: multipart/mixed; boundary="===============0686068576=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0398778679==
+--===============0686068576==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="84ND8YJRMFlzkrP4"
+	protocol="application/pgp-signature"; boundary="/QKKmeG/X/bPShih"
 Content-Disposition: inline
 
 
---84ND8YJRMFlzkrP4
+--/QKKmeG/X/bPShih
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 30, 2020 at 02:57:43PM +0200, Hans de Goede wrote:
-> This commit removes a check where we would skip writing the ctrl register
-> and then setting the update bit in case the ctrl register already contains
-> the correct values.
+On Sun, Aug 30, 2020 at 02:57:44PM +0200, Hans de Goede wrote:
+> While looking into adding atomic-pwm support to the pwm-crc driver I
+> noticed something odd, there is a PWM_BASE_CLK define of 6 MHz and
+> there is a clock-divider which divides this with a value between 1-128,
+> and there are 256 duty-cycle steps.
 >=20
-> In a perfect world skipping the update should be fine in these cases, but
-> on Cherry Trail devices the AML code in the GFX0 devices' PS0 and PS3
-> methods messes with the PWM controller.
+> The pwm-crc code before this commit assumed that a clock-divider
+> setting of 1 means that the PWM output is running at 6 MHZ, if that
+> is true, where do these 256 duty-cycle steps come from?
 >=20
-> The "ACPI / LPSS: Resume Cherry Trail PWM controller in no-irq phase" pat=
-ch
-> earlier in this series stops the GFX0._PS0 method from messing with the P=
-WM
-> controller and on the DSDT-s inspected sofar the _PS3 method only reads
-> from the PWM controller (and turns it off before we get a change to do so=
-):
+> This would require an internal frequency of 256 * 6 MHz =3D 1.5 GHz, that
+> seems unlikely for a PMIC which is using a silicon process optimized for
+> power-switching transistors. It is way more likely that there is an 8
+> bit counter for the duty cycle which acts as an extra fixed divider
+> wrt the PWM output frequency.
 >=20
->     {
->         PWMB =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
->         PSAT |=3D 0x03
->         Local0 =3D PSAT /* \_SB_.PCI0.GFX0.PSAT */
->     }
+> The main user of the pwm-crc driver is the i915 GPU driver which uses it
+> for backlight control. Lets compare the PWM register values set by the
+> video-BIOS (the GOP), assuming the extra fixed divider is present versus
+> the PWM frequency specified in the Video-BIOS-Tables:
 >=20
-> The PWM controller getting turning off before we do this ourselves is
-> a bit annoying but not really an issue.
+> Device:		PWM Hz set by BIOS	PWM Hz specified in VBT
+> Asus T100TA 	200			200
+> Asus T100HA 	200			200
+> Lenovo Miix 2 8	23437			20000
+> Toshiba WT8-A	23437			20000
 >=20
-> The problem this patch fixes comes from a new variant of the GFX0._PS3 co=
-de
-> messing with the PWM controller found on the Acer One 10 S1003 (1):
+> So as we can see if we assume the extra division by 256 then the register
+> values set by the GOP are an exact match for the VBT values, where as
+> otherwise the values would be of by a factor of 256.
 >=20
->     {
->         PWMB =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
->         PWMT =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
->         PWMT &=3D 0xFF0000FF
->         PWMT |=3D 0xC0000000
->         PWMC =3D PWMT /* \_SB_.PCI0.GFX0.PWMT */
->         PWMT =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
->         Sleep (0x64)
->         PWMB &=3D 0x3FFFFFFF
->         PWMC =3D PWMB /* \_SB_.PCI0.GFX0.PWMB */
->         PSAT |=3D 0x03
->         Local0 =3D PSAT /* \_SB_.PCI0.GFX0.PSAT */
->     }
+> This commit fixes the period / duty_cycle calculations to take the
+> extra division by 256 into account.
 >=20
-> This "beautiful" piece of code clears the base-unit part of the ctrl-reg,
-> which effectively disables the controller, and it sets the update flag
-> to apply this change. Then after this it restores the original ctrl-reg
-> value, so we do not see it has mucked with the controller.
->=20
-> *But* it does not set the update flag when restoring the original value.
-> So the check to see if we can skip writing the ctrl register succeeds
-> but since the update flag was not set, the old base-unit value of 0 is
-> still in use and the PWM controller is effectively disabled.
->=20
-> IOW this PWM controller poking means that we cannot trust the base-unit /
-> on-time-div value we read back from the PWM controller since it may not
-> have been applied/committed. Thus we must always update the ctrl-register
-> and set the update bit.
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v3:
+> - Use NSEC_PER_USEC instead of adding a new (non-sensical) NSEC_PER_MHZ d=
+efine
+> ---
+>  drivers/pwm/pwm-crc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Doesn't this now make patch 6/17 obsolete?
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Thierry
-
---84ND8YJRMFlzkrP4
+--/QKKmeG/X/bPShih
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9M214ACgkQ3SOs138+
-s6HyQA//Zwteh6ZasvMpgdOFoCOqkNNdUxkzeajsfMOU4r10Pct+JMdgrO00IMHU
-kA/i5QzOtv4OC6h2t9U3OgDtgmY0CogC2nPDaoXv8KJu2zLja14rC5q1W7UDc3pX
-aoBmVcpV+YdKBUvVVRBDNpPsUK4UkXNgECs2k3RUfr5lFLeNtklzoItLh/cgYD10
-bt9+p5NnXGxwFWL1uSQef1dcGq/4MM6p7V+fS/xX+rMNoCEQMWfGhCJTX8N4172v
-h7G5rdAGLzhRPthHpA/yRiWjM/+lLNmjKzlu1O0Iso9K2CYxzE5MDFkuinaTUMiY
-kS6h53tjittvDFDdDPuXWHDFqO0oBjVSGjnl+OjZyAeWBPND0fr86e2xtPcJIDA4
-DGoiuo0egkl0aaAZCZR1+h6k0Wt0ZPzfj1vUrShq13wbqG8ecdPcR3nlMaOCISXp
-pr/NjfRvgtefjMES3FnKWFHZJBJFMMC/t+/ZNqOfbqVputSpd5KplEepoQuRjaSA
-6BkGixZ2jQckDfOX1ic8q7BxuExoPOMpOZj/XDP7z1jnaYlZyEVB/5dA1daf7Wwj
-05YImBmCuutqfQY8Qe5B31KYSmynXkaU2CQIQyjlc9qW+L0AFvY9jXQhLEiLpX9v
-Ty0yRAYBGU/6X6MKLBw+ZoMG2eWxz3BoOrOXEuua1JBBj9sXBx0=
-=qh5h
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9M23UACgkQ3SOs138+
+s6FFYg/+Mtzc1XwV7Zl1w99FCSgZyIrsahQ4SvPhVAXHLByxVW0Sgfi/z9K/bDcB
+Fjw3E5MB0XL4UD9DWtdCKefCLe/5kIlbsS/LK7BPplf1GNfctSYQ72L5soS7HKrn
+vBjHnIr5ohFn/EGf3RWeLczkUoFVhfbMYFgor/H1FjXo5OeHQ3Fkr2AVPsnyIYXZ
+Iuc7iGLT8lI57IoxRlJ7ZKu0IXImzrN7YU4a+pfZ77fBAu3B9D9jom+L+U0E+E6q
+Y+ZBnaRVz13j6OSRMtfu13/kATzx1HgJZfjmMiimldrXbucWCovYXK2GWz8RJp5J
+YrXCFi8WdHdxB/JxDSYsswynJtRiSmGTjQmvxy6GYXZe8IvSB3VkpaTkQS5bzA65
+QAYAclX3dnxT46eQ+yiNH4WEWlgL5gxsLeOMCvFWa5Lismv4q2gvxjBTF0RapKaD
+oncskpQfC4HlP1vQieYkUrYQUfAq+Gq2a6OU5qk0HES6N504YLAhS35xqHvWvT+9
+QT50ulvZJVyUzZN9HgmMphXKi0jTeJ5dAZjdf8RbzIXD8hBlFJbObnPl6Xk2VRh2
+kJSwxDm74OT4sD2IydJQQCBnOtf6MZ/HjfLa5M6UP34DyWKg5LTlUbBDjp5+cJcs
+jrZ53SdqyD8MbZ/0meG1wcRvneBbIEKkPtAkowDRt2wkQHEO6nc=
+=4Oyz
 -----END PGP SIGNATURE-----
 
---84ND8YJRMFlzkrP4--
+--/QKKmeG/X/bPShih--
 
---===============0398778679==
+--===============0686068576==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -186,4 +169,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0398778679==--
+--===============0686068576==--
