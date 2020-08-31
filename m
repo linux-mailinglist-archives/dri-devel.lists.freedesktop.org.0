@@ -1,40 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1864C258299
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 22:29:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 264B92582A3
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 22:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA386E3C6;
-	Mon, 31 Aug 2020 20:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20EAB6E362;
+	Mon, 31 Aug 2020 20:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC4D6E3C6
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 20:29:15 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCC56277;
- Mon, 31 Aug 2020 22:29:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1598905754;
- bh=EvAXkE8Z/z99LNoYcJZMHh8N4EBCtxHEmLCwlv3ZdPU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vuqz20FCM3JnbW1dHZdUHIOCgW2F5FUv3eRGMBGBVtVHDuTE1j5fwzH0wH02igV/r
- Hg/npGuCsSWMb3NItcY3WvRZcGWow3GHJgAnC/TjoPUdi0u6yv7RNhBGz90+VJzsAz
- YjT/RuKCdjbH2IgqwbGXJtIlaCu2D29Nv3leFi08=
-Date: Mon, 31 Aug 2020 23:28:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 1/4] drm/of: Change the prototype of
- drm_of_lvds_get_dual_link_pixel_order
-Message-ID: <20200831202852.GU16155@pendragon.ideasonboard.com>
-References: <cover.7029eefe5c5350920f91d4cd4cbc061466752f3c.1596101672.git-series.maxime@cerno.tech>
- <6169dd15782627c8415583881fa94ba39c4f5221.1596101672.git-series.maxime@cerno.tech>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6C06E362
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 20:33:33 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id e17so725131wme.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 13:33:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SAYTQk6BbkYrOeXqh44ptjwEooc25XgGBFDRsDqh1n0=;
+ b=nbMUlEhDG8PYIhPXQspzu/AAVJHu4O45MTgG1Am85lYbi+GJGuomcqS1naE9Gbg64f
+ Z8Z1gC1ubijkmk47sVzotdhPf1srau229FoklESLU4/kNmTCcWMrd4SMkH0+rv5sTo5i
+ vv9iQs/DcyQ/z6lim/eYhZkdJkXAyadRI3GJGOAWsMEthXZeJWhPhfa+2mwQBEjmxTnq
+ ExgANqJ76ccN7McDHWZTG7+vJVHuKx1yuUlt8To7P0zG7y/B5KCZ75H0W4qQfgj/waYC
+ NmPfSTHodyopscliUIgpOjtt9eLJX0jg7EXhAtFHQb0hylzhJ/zM/I5vEYyIhT3xT8mA
+ bH3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SAYTQk6BbkYrOeXqh44ptjwEooc25XgGBFDRsDqh1n0=;
+ b=ZdF2XaO0isc+xWcFMPIRROHvp9rAZjegb11t28SOohGOrmr1QFDS8B5F7ICFSm+vqn
+ Tvkfx7kDfKdMoK0Q8cbRAjXGMUoNpXzVsX5kgL33jCdAgbqbH1o3qeLeYUCgYI2iH61j
+ zSFMViWNia9BjqGmtKWwf6AmRC5KNmxtZId8ERH5aKwtZo9DMYNCC0T+9DKYUMjmk6fP
+ 2M5U6rHL39iuKePKx1oI1FOBGjclSeuYJdI2fApuOISaCd5sW2vbx2MoiryZ/IZo18qf
+ Fl9NnuVKUvCPi96bkecWumwzezhZvttpd0F3UoFLRtvXp94M/FJ2rHsODboK864u9EVV
+ 0luA==
+X-Gm-Message-State: AOAM530v63bC2nv/7MVZwCMypgAofaD94HiPqueYJUY47Yach1RG2vSx
+ 3Bv5yeMsaXZ4a19xR0AAc3ShfCUj/YIEZ4mJJZA=
+X-Google-Smtp-Source: ABdhPJyxQc/Ty7Nc4zLnanLZDobqg6ed32f7B6utZ4QoP5xytn7bFFfbIS6qq0dilkILgGF6HkFqqpQhDz5t++Rghs4=
+X-Received: by 2002:a7b:c941:: with SMTP id i1mr926022wml.73.1598906012260;
+ Mon, 31 Aug 2020 13:33:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6169dd15782627c8415583881fa94ba39c4f5221.1596101672.git-series.maxime@cerno.tech>
+References: <61af3cb4-9bfc-0e61-de9c-4bb15afdd652@gmail.com>
+In-Reply-To: <61af3cb4-9bfc-0e61-de9c-4bb15afdd652@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 31 Aug 2020 16:33:21 -0400
+Message-ID: <CADnq5_NOUxxTkBLfmZhaDSvOGy51F+HYQKvcHuC+e4U7W6eLNg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/radeon: Add sclk frequency as hwmon sensor
+To: Sandeep Raghuraman <sandy.8925@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,242 +60,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Sun, Aug 30, 2020 at 3:25 AM Sandeep Raghuraman <sandy.8925@gmail.com> wrote:
+>
+> This patch series adds support for reporting sclk and vddc values for Radeon GPUs, where supported.
 
-Thank you for the patch.
+This commit message should be specific to this particular patch rather
+than the series.  You could probably expose mclk as well.
 
-On Thu, Jul 30, 2020 at 11:35:01AM +0200, Maxime Ripard wrote:
-> The drm_of_lvds_get_dual_link_pixel_order() function took so far the
-> device_node of the two ports used together to make up a dual-link LVDS
-> output.
-> 
-> This assumes that a binding would use an entire port for the LVDS output.
-> However, some bindings have used endpoints instead and thus we need to
-> operate at the endpoint level. Change slightly the arguments to allow that.
+Alex
 
-Is this still needed ? Unless I'm mistaken, the Allwinner platform now
-uses two TCON instances for the two links, so there are two ports.
 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
 > ---
->  drivers/gpu/drm/drm_of.c            | 98 +++++++++++++++---------------
->  drivers/gpu/drm/rcar-du/rcar_lvds.c |  8 +--
->  include/drm/drm_of.h                | 16 +++--
->  3 files changed, 63 insertions(+), 59 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index b50b44e76279..2dcb49b0401b 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -291,50 +291,34 @@ static int drm_of_lvds_get_port_pixels_type(struct device_node *port_node)
->  	       (odd_pixels ? DRM_OF_LVDS_ODD : 0);
->  }
->  
-> -static int drm_of_lvds_get_remote_pixels_type(
-> -			const struct device_node *port_node)
-> +static int drm_of_lvds_get_remote_pixels_type(const struct device_node *endpoint)
->  {
-> -	struct device_node *endpoint = NULL;
-> -	int pixels_type = -EPIPE;
-> +	struct device_node *remote_port;
-> +	int pixels_type;
->  
-> -	for_each_child_of_node(port_node, endpoint) {
-> -		struct device_node *remote_port;
-> -		int current_pt;
-> -
-> -		if (!of_node_name_eq(endpoint, "endpoint"))
-> -			continue;
-> -
-> -		remote_port = of_graph_get_remote_port(endpoint);
-> -		if (!remote_port) {
-> -			of_node_put(remote_port);
-> -			return -EPIPE;
-> -		}
-> -
-> -		current_pt = drm_of_lvds_get_port_pixels_type(remote_port);
-> +	remote_port = of_graph_get_remote_port(endpoint);
-> +	if (!remote_port) {
->  		of_node_put(remote_port);
-> -		if (pixels_type < 0)
-> -			pixels_type = current_pt;
-> -
-> -		/*
-> -		 * Sanity check, ensure that all remote endpoints have the same
-> -		 * pixel type. We may lift this restriction later if we need to
-> -		 * support multiple sinks with different dual-link
-> -		 * configurations by passing the endpoints explicitly to
-> -		 * drm_of_lvds_get_dual_link_pixel_order().
-> -		 */
-> -		if (!current_pt || pixels_type != current_pt) {
-> -			of_node_put(remote_port);
-> -			return -EINVAL;
-> -		}
-> +		return -EPIPE;
->  	}
->  
-> +	pixels_type = drm_of_lvds_get_port_pixels_type(remote_port);
-> +	of_node_put(remote_port);
+>  drivers/gpu/drm/radeon/radeon_pm.c | 29 ++++++++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+> index 8c5d6fda0d75..05c4196a8212 100644
+> --- a/drivers/gpu/drm/radeon/radeon_pm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
+> @@ -712,6 +712,31 @@ static SENSOR_DEVICE_ATTR(pwm1_enable, S_IRUGO | S_IWUSR, radeon_hwmon_get_pwm1_
+>  static SENSOR_DEVICE_ATTR(pwm1_min, S_IRUGO, radeon_hwmon_get_pwm1_min, NULL, 0);
+>  static SENSOR_DEVICE_ATTR(pwm1_max, S_IRUGO, radeon_hwmon_get_pwm1_max, NULL, 0);
+>
+> +static ssize_t radeon_hwmon_show_sclk(struct device *dev,
+> +                                     struct device_attribute *attr, char *buf)
+> +{
+> +       struct radeon_device *rdev = dev_get_drvdata(dev);
+> +       struct drm_device *ddev = rdev->ddev;
+> +       u32 sclk = 0;
 > +
-> +	if (pixels_type < 0)
-> +		pixels_type = -EPIPE;
+> +       /* Can't get clock frequency when the card is off */
+> +       if ((rdev->flags & RADEON_IS_PX) &&
+> +           (ddev->switch_power_state != DRM_SWITCH_POWER_ON))
+> +               return -EINVAL;
 > +
->  	return pixels_type;
->  }
->  
->  /**
->   * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel order
-> - * @port1: First DT port node of the Dual-link LVDS source
-> - * @port2: Second DT port node of the Dual-link LVDS source
-> + * @dev1: First DT device node of the Dual-Link LVDS source
-> + * @port1_id: ID of the first DT port node of the Dual-Link LVDS source
-> + * @endpoint1_id: ID of the first DT port node of the Dual-Link LVDS source
-> + * @dev2: First DT device node of the Dual-Link LVDS source
-> + * @port2_id: ID of the first DT port node of the Dual-Link LVDS source
-> + * @endpoint2_id: ID of the first DT port node of the Dual-Link LVDS source
->   *
->   * An LVDS dual-link connection is made of two links, with even pixels
->   * transitting on one link, and odd pixels on the other link. This function
-> @@ -348,32 +332,48 @@ static int drm_of_lvds_get_remote_pixels_type(
->   *
->   * If either port is not connected, this function returns -EPIPE.
->   *
-> - * @port1 and @port2 are typically DT sibling nodes, but may have different
-> - * parents when, for instance, two separate LVDS encoders carry the even and odd
-> - * pixels.
-> + * @port1_id and @port2_id are typically DT sibling nodes, but may have
-> + * different parents when, for instance, two separate LVDS encoders carry the
-> + * even and odd pixels.
-> + *
-> + * If @port1_id, @port2_id, @endpoint1_id or @endpoint2_id are set to -1, their
-> + * value is going to be ignored.
->   *
->   * Return:
-> - * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries even pixels and @port2
-> - *   carries odd pixels
-> - * * DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - @port1 carries odd pixels and @port2
-> - *   carries even pixels
-> - * * -EINVAL - @port1 and @port2 are not connected to a dual-link LVDS sink, or
-> - *   the sink configuration is invalid
-> - * * -EPIPE - when @port1 or @port2 are not connected
-> + * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @endpoint1_id carries even pixels and
-> + *   @endpoint2_id carries odd pixels
-> + * * DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - @endpoint1_id carries odd pixels and
-> + *   @endpoint2_id carries even pixels
-> + * * -EINVAL - @endpoint1_id and @endpoint2_id are not connected to a dual-link
-> + *   LVDS sink, or the sink configuration is invalid
-> + * * -EPIPE - when @endpoint1_id or @endpoint2_id are not connected
->   */
-> -int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
-> -					  const struct device_node *port2)
-> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
-> +					  int port1_id,
-> +					  int endpoint1_id,
-> +					  const struct device_node *dev2,
-> +					  int port2_id,
-> +					  int endpoint2_id)
->  {
-> +	struct device_node *endpoint1, *endpoint2;
->  	int remote_p1_pt, remote_p2_pt;
->  
-> -	if (!port1 || !port2)
-> +	if (!dev1 || !dev2)
-> +		return -EINVAL;
+> +       if (rdev->asic->dpm.get_current_sclk)
+> +               sclk = radeon_dpm_get_current_sclk(rdev);
 > +
-> +	endpoint1 = of_graph_get_endpoint_by_regs(dev1, port1_id, endpoint1_id);
-> +	if (!endpoint1)
-> +		return -EINVAL;
+> +       /* Value returned by dpm is in 10 KHz units, need to convert it into Hz
+> +          for hwmon */
+> +       sclk *= 10000;
 > +
-> +	endpoint2 = of_graph_get_endpoint_by_regs(dev2, port2_id, endpoint2_id);
-> +	if (!endpoint2)
->  		return -EINVAL;
->  
-> -	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(port1);
-> +	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(endpoint1);
->  	if (remote_p1_pt < 0)
->  		return remote_p1_pt;
->  
-> -	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(port2);
-> +	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(endpoint2);
->  	if (remote_p2_pt < 0)
->  		return remote_p2_pt;
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index ab0d49618cf9..02d8c4ce820e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -715,7 +715,6 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
->  {
->  	const struct of_device_id *match;
->  	struct device_node *companion;
-> -	struct device_node *port0, *port1;
->  	struct rcar_lvds *companion_lvds;
->  	struct device *dev = lvds->dev;
->  	int dual_link;
-> @@ -743,11 +742,8 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
->  	 * connected to, if they are marked as expecting even pixels and
->  	 * odd pixels than we need to enable vertical stripe output.
->  	 */
-> -	port0 = of_graph_get_port_by_id(dev->of_node, 1);
-> -	port1 = of_graph_get_port_by_id(companion, 1);
-> -	dual_link = drm_of_lvds_get_dual_link_pixel_order(port0, port1);
-> -	of_node_put(port0);
-> -	of_node_put(port1);
-> +	dual_link = drm_of_lvds_get_dual_link_pixel_order(dev->of_node, 1, -1,
-> +							  companion, 1, -1);
->  
->  	switch (dual_link) {
->  	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
-> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-> index b9b093add92e..7bb1f6603beb 100644
-> --- a/include/drm/drm_of.h
-> +++ b/include/drm/drm_of.h
-> @@ -47,8 +47,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->  				int port, int endpoint,
->  				struct drm_panel **panel,
->  				struct drm_bridge **bridge);
-> -int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
-> -					  const struct device_node *port2);
-> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
-> +					  int port1_id,
-> +					  int endpoint1_id,
-> +					  const struct device_node *dev2,
-> +					  int port2_id,
-> +					  int endpoint2_id);
->  #else
->  static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
->  					  struct device_node *port)
-> @@ -93,8 +97,12 @@ static inline int drm_of_find_panel_or_bridge(const struct device_node *np,
->  }
->  
->  static inline int
-> -drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
-> -				      const struct device_node *port2)
-> +drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
-> +				      int port1_id,
-> +				      int endpoint1_id,
-> +				      const struct device_node *dev2,
-> +				      int port2_id,
-> +				      int endpoint2_id)
->  {
->  	return -EINVAL;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
+> +       return snprintf(buf, PAGE_SIZE, "%u\n", sclk);
+> +}
+> +
+> +static SENSOR_DEVICE_ATTR(freq1_input, S_IRUGO, radeon_hwmon_show_sclk, NULL,
+> +                         0);
+> +
+>
+>  static struct attribute *hwmon_attributes[] = {
+>         &sensor_dev_attr_temp1_input.dev_attr.attr,
+> @@ -721,6 +746,7 @@ static struct attribute *hwmon_attributes[] = {
+>         &sensor_dev_attr_pwm1_enable.dev_attr.attr,
+>         &sensor_dev_attr_pwm1_min.dev_attr.attr,
+>         &sensor_dev_attr_pwm1_max.dev_attr.attr,
+> +       &sensor_dev_attr_freq1_input.dev_attr.attr,
+>         NULL
+>  };
+>
+> @@ -738,7 +764,8 @@ static umode_t hwmon_attributes_visible(struct kobject *kobj,
+>              attr == &sensor_dev_attr_pwm1.dev_attr.attr ||
+>              attr == &sensor_dev_attr_pwm1_enable.dev_attr.attr ||
+>              attr == &sensor_dev_attr_pwm1_max.dev_attr.attr ||
+> -            attr == &sensor_dev_attr_pwm1_min.dev_attr.attr))
+> +            attr == &sensor_dev_attr_pwm1_min.dev_attr.attr ||
+> +            attr == &sensor_dev_attr_freq1_input.dev_attr.attr))
+>                 return 0;
+>
+>         /* Skip fan attributes if fan is not present */
+> --
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
