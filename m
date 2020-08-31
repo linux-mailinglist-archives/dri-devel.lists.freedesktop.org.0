@@ -1,118 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB72C25824C
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 22:10:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADC7258257
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 22:17:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F2989449;
-	Mon, 31 Aug 2020 20:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 548A06E4C7;
+	Mon, 31 Aug 2020 20:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA38893A8;
- Mon, 31 Aug 2020 20:10:51 +0000 (UTC)
-IronPort-SDR: XOSIYKm6eyn88EpooyK2v2eHB9Mxzo6/HoxJUYNBjTPqXzknADKRApsqfdx00yrgzHPY0Xvg48
- GUSPLOebFUpQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="221281853"
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; d="scan'208";a="221281853"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2020 13:10:49 -0700
-IronPort-SDR: xBp13awyPeYmzYaX/ogTafdsIMAREmREOxIj9VdOox4y4WQ164Frp2YXir4rM6+FHOu72wXSCT
- Go57oNt1NJ9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; d="scan'208";a="501966620"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga005.fm.intel.com with ESMTP; 31 Aug 2020 13:10:49 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 31 Aug 2020 13:10:06 -0700
-Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 31 Aug 2020 13:10:06 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- FMSMSX151.amr.corp.intel.com (10.18.125.4) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 31 Aug 2020 13:10:05 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.102)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Mon, 31 Aug 2020 13:10:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DAkNT4e7HVPIB+9ZAgCRal4Q7OURZltqQ6bFVzwyeHwADMsAG2hLcV2qqQqiO1ibQCa8eQ2m3EVI4H1c1I85/2tC6MHjLSrkutcqXprEUQhWGXNQxrl2JM/lt6oq/UpkaYk7IKUABVwWtQmCSjEqvtYeJmEdkkeHAzmPZXJKm/htcJRJ36CgC6LBzrxlSe5I4WaRFsSTyjYbeZZTQUdu2JUzerNO490kcox5gJP07/znf3q3WWew/S651Pa+aHriRA5Bn9SAn5Ns5KHSxDDdk/o9pSKrt8E1VVjlc8gZH/kRPEFo5xp5bmGGVm7mk7CD02ZGZy6dxTAKHbLplN2o7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w3GfsCaqiHZyh5CHT+MMOUJDddJYGQtiNpyllGqjMVo=;
- b=JUCHd5oTodBULR5ucl1gtJcsdMbPwtqFB26xYeLjQ7NPm+WSi6FtmIypnsW8nPBXElerkhdv6FiWI3fv+IRIdimjZTe0YriHd96bei+BkcHp/7ueoLX4nvoJd27ANc+o6x2OHqtyK+MfmHoKGY7g/M1omw/yJmk7+eAHkJ5wCfBt/HH6ObWWOhcM0MXG6fkTJ9obOo+t/WHrt3AP7a682cSHDGTno2oYe8PY0Hn25v2kjWgNDgNORo/LdHaPwC+PrsOb1GLhQRwwW0S+jK3SE39dEQu5fSNev6Bs/9+LG54+RvN0tmngIC+hHMXuNO5y0XkKte6DTNREqtzT4PeppQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w3GfsCaqiHZyh5CHT+MMOUJDddJYGQtiNpyllGqjMVo=;
- b=D8opiQbpD1QN9dYSDU5eAzSdVrMovXH3kTZLAOf82BsQE1WaiYMRDp0r5aZD0uTQwYCZiWH/JS5912MHGuVYi0tAgU3yCdKaytDzO1Uxeeoc5Ze+o9Y5/FTdLU/wtOEqWqvErtmN/MbwDTNG2YduhwIQq/Ln1sIM7oVa0IaTCDU=
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by BY5PR11MB3974.namprd11.prod.outlook.com (2603:10b6:a03:183::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Mon, 31 Aug
- 2020 20:10:02 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::1d4e:2269:63d7:f2d6]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::1d4e:2269:63d7:f2d6%6]) with mapi id 15.20.3326.025; Mon, 31 Aug 2020
- 20:10:02 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: RE: [PATCH v6] drm/kmb: Add support for KeemBay Display
-Thread-Topic: [PATCH v6] drm/kmb: Add support for KeemBay Display
-Thread-Index: AQHWb2DV6DDX0y3uB0GJRQb6kPNEUqlBfRIAgAZQaNA=
-Date: Mon, 31 Aug 2020 20:10:02 +0000
-Message-ID: <BY5PR11MB4182C36038EA51C401200CFB8C510@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <1597096418-28937-1-git-send-email-anitha.chrisanthus@intel.com>
- <1597096418-28937-2-git-send-email-anitha.chrisanthus@intel.com>
- <20200820201014.GA205582@ravnborg.org>
-In-Reply-To: <20200820201014.GA205582@ravnborg.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: ravnborg.org; dkim=none (message not signed)
- header.d=none;ravnborg.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.151.242.136]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fc5ce2c0-1b84-450c-bab7-08d84de9d885
-x-ms-traffictypediagnostic: BY5PR11MB3974:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR11MB3974B579D0B857E2E058EA4A8C510@BY5PR11MB3974.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: T3d/WcobdjZePHCrdpu55LJnFIilhhb32VXwOjY7E1r1HkLml+/sj3A6wamR0jSQLy9kUdVXew8G5Njx/rJzEoDnd8//PzgdxdFVa+mn96Wx7UXOrBMmWvE4nRQ2JK2N/0/iqgmcvgrfcPgTc3ULzctt7k+l7YoioLT6AwAtDt26p5qWcwDZe46ovPGX6WO2+1kN9vNoYTOOir7UGiQkKLKEdhb7TJ5daAGgCnPQ2Wc4vKAClrqXkKmNkf39APBD7GwZ+yg/1A6EtLkOox1MtqkwEQKgdDf11F9jF9DfZjtwLycnyqkUAZxXxp+JnBwlB9AdFfDLV905QHVe3xxRHA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(346002)(396003)(376002)(39860400002)(54906003)(71200400001)(186003)(316002)(83380400001)(86362001)(2906002)(53546011)(6506007)(4326008)(8936002)(26005)(9686003)(7696005)(8676002)(52536014)(33656002)(30864003)(55016002)(478600001)(5660300002)(66446008)(66946007)(66556008)(6916009)(64756008)(76116006)(66476007)(579004)(559001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: UtFww2CWQT78UsEETvrmbL6WCqISFVz//Kv1UfEW4kIrmppIOizs6nBNdhusX3RwF/yq+HNwgP0qJn4BrDfRq4e6FUb0e+2grBZewWB4riNWmQB5lhE7oLe+lWxcCV2cVuEgsr2bG+6YeJCwT3TdbRpgGF6QtCOD3cbn/AAvdBtEdbCkZ3KKxPb6Pp7x3i7hpBKs1lmgbdkonC6GvDQcd3f9NXQR31u1uMWVQ7x9jzeihUw0RnP1TzWIVksq+sAk9+PVJKAAP93TKMlTm7Kcr5qyBWzBMA8UDYSGfWUfuR5NKVAqVDnBkv/dumqpHwumgBGKi4KYvX9Vqy/CAqLN7MCFsm/wD16aqlythgh1/6o0bEGO5zopN5Mo9s97QJGr7EXFNuvHL8bKj3WRXoO73iACIrCJZYnW+DbQow59fr41sJKSSFZWSJZLaPUfkOqsBmTjm6/mJ0Wu4mJGQbNGQkbPmPJ9V+RVdH5LOt70pr2CF3QwysT/+I8oVh24U1S0bJcXiAw1PkFMPcNApIlHebJKS1DIcf00g6frgVK92XJj2YrSoSIY9TvKr9Wfme4tH2fnPPSk/1EbiXG/jKe266MGpqKyh2MIhCMjEHR3Dbwv48X++o/tPZOdKWQGtNdX/6t+tq21OUJmXThe/NgVpA==
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591FB6E4C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 20:17:49 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74DD9277;
+ Mon, 31 Aug 2020 22:17:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1598905066;
+ bh=R2NR0f2wedWSJ1n75jG8e2dzrk79zS2n/9Ufmhr6H+c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Hw+AQEPoRk5YNGsTSVgngQBIy1xGyrTXAGYEyDqNQPg8r166B28vkg6UYH0Ytt6Om
+ 7tq9Spt3Eqtn4h1TUJ+iz6bUorXlmF8942TCkNVXX7zUMQNd7yK8jbVRDwnrKkyhmK
+ V/WNWepicHh2Dxvf6g07SlKR4OiVz+fdEDbJh4jI=
+Date: Mon, 31 Aug 2020 23:17:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Swapnil Jakhade <sjakhade@cadence.com>
+Subject: Re: [PATCH v9 2/3] drm: bridge: Add support for Cadence MHDP8546
+ DPI/DP bridge
+Message-ID: <20200831201725.GT16155@pendragon.ideasonboard.com>
+References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
+ <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc5ce2c0-1b84-450c-bab7-08d84de9d885
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2020 20:10:02.6477 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NRAmmqTZ2f7bi+jCm/UttFOWQF7q06lfPL3HPYP29uc9Rt4Wc49yIobXQ4fjRZTaDxW0VPDs0sQamn/dLm5trJrRjFylr5zywMfMMZp4V8E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3974
-X-OriginatorOrg: intel.com
+Content-Disposition: inline
+In-Reply-To: <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,2437 +47,3100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Vetter, Daniel" <daniel.vetter@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Dea,
- Edmund J" <edmund.j.dea@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
+ yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie, tomi.valkeinen@ti.com,
+ narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
+ jsarha@ti.com, nikhil.nd@ti.com, mparab@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-Thanks a lot for the review. I will address your comments in v7. 
-For those that are not addressed, please see my reply inline.
+Hi Swapnil,
 
+Thank you for the patch.
+
+On Mon, Aug 31, 2020 at 10:23:34AM +0200, Swapnil Jakhade wrote:
+> Add a new DRM bridge driver for Cadence MHDP8546 DPTX IP used in TI J721E
+> SoC. MHDP DPTX IP is the component that complies with VESA DisplayPort (DP)
+> and embedded Display Port (eDP) standards. It integrates uCPU running the
+> embedded Firmware (FW) interfaced over APB interface.
+> 
+> Basically, it takes a DPI stream as input and outputs it encoded in DP
+> format. Currently, it supports only SST mode.
+> 
+> Co-developed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Co-developed-by: Jyri Sarha <jsarha@ti.com>
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> Signed-off-by: Quentin Schulz <quentin.schulz@free-electrons.com>
+> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
+> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
+> ---
+>  drivers/gpu/drm/bridge/Kconfig                |    2 +
+>  drivers/gpu/drm/bridge/Makefile               |    1 +
+>  drivers/gpu/drm/bridge/cadence/Kconfig        |   11 +
+>  drivers/gpu/drm/bridge/cadence/Makefile       |    3 +
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 2548 +++++++++++++++++
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  402 +++
+>  6 files changed, 2967 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/cadence/Kconfig
+>  create mode 100644 drivers/gpu/drm/bridge/cadence/Makefile
+>  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> 
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 3e11af4e9f63..ef91646441b1 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -241,6 +241,8 @@ source "drivers/gpu/drm/bridge/analogix/Kconfig"
+>  
+>  source "drivers/gpu/drm/bridge/adv7511/Kconfig"
+>  
+> +source "drivers/gpu/drm/bridge/cadence/Kconfig"
+> +
+>  source "drivers/gpu/drm/bridge/synopsys/Kconfig"
+>  
+>  endmenu
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index c589a6a7cbe1..2b3aff104e46 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -25,4 +25,5 @@ obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
+>  obj-$(CONFIG_DRM_NWL_MIPI_DSI) += nwl-dsi.o
+>  
+>  obj-y += analogix/
+> +obj-y += cadence/
+>  obj-y += synopsys/
+> diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
+> new file mode 100644
+> index 000000000000..f49d77eb7814
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config DRM_CDNS_MHDP8546
+> +	tristate "Cadence DPI/DP bridge"
+> +	select DRM_KMS_HELPER
+> +	select DRM_PANEL_BRIDGE
+> +	depends on OF
+> +	help
+> +	  Support Cadence DPI to DP bridge. This is an internal
+> +	  bridge and is meant to be directly embedded in a SoC.
+> +	  It takes a DPI stream as input and outputs it encoded
+> +	  in DP format.
+> diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
+> new file mode 100644
+> index 000000000000..676739cdf5e6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cadence/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_DRM_CDNS_MHDP8546) += cdns-mhdp8546.o
+> +cdns-mhdp8546-y := cdns-mhdp8546-core.o
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> new file mode 100644
+> index 000000000000..14be6f370d6e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -0,0 +1,2548 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Cadence MHDP8546 DP bridge driver.
+> + *
+> + * Copyright (C) 2020 Cadence Design Systems, Inc.
+> + *
+> + * Authors: Quentin Schulz <quentin.schulz@free-electrons.com>
+> + *          Swapnil Jakhade <sjakhade@cadence.com>
+> + *          Yuti Amonkar <yamonkar@cadence.com>
+> + *          Tomi Valkeinen <tomi.valkeinen@ti.com>
+> + *          Jyri Sarha <jsarha@ti.com>
+> + *
+> + * TODO:
+> + *     - Implement optimized mailbox communication using mailbox interrupts
+> + *     - Add support for power management
+> + *     - Add support for features like audio, MST and fast link training
+> + *     - Implement request_fw_cancel to handle HW_STATE
+> + *     - Fix asynchronous loading of firmware implementation
+> + *     - Add DRM helper function for cdns_mhdp_lower_link_rate
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/firmware.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/irq.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/phy/phy.h>
+> +#include <linux/phy/phy-dp.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/wait.h>
+> +
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_dp_helper.h>
+> +#include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +#include <asm/unaligned.h>
+> +
+> +#include "cdns-mhdp8546-core.h"
+> +
+> +static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
+> +{
+> +	int ret, empty;
+> +
+> +	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
+> +
+> +	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_EMPTY,
+> +				 empty, !empty, MAILBOX_RETRY_US,
+> +				 MAILBOX_TIMEOUT_US);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return readl(mhdp->regs + CDNS_MAILBOX_RX_DATA) & 0xff;
+> +}
+> +
+> +static int cdns_mhdp_mailbox_write(struct cdns_mhdp_device *mhdp, u8 val)
+> +{
+> +	int ret, full;
+> +
+> +	WARN_ON(!mutex_is_locked(&mhdp->mbox_mutex));
+> +
+> +	ret = readx_poll_timeout(readl, mhdp->regs + CDNS_MAILBOX_FULL,
+> +				 full, !full, MAILBOX_RETRY_US,
+> +				 MAILBOX_TIMEOUT_US);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	writel(val, mhdp->regs + CDNS_MAILBOX_TX_DATA);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_mhdp_mailbox_recv_header(struct cdns_mhdp_device *mhdp,
+> +					 u8 module_id, u8 opcode,
+> +					 u16 req_size)
+> +{
+> +	u32 mbox_size, i;
+> +	u8 header[4];
+> +	int ret;
+> +
+> +	/* read the header of the message */
+> +	for (i = 0; i < sizeof(header); i++) {
+> +		ret = cdns_mhdp_mailbox_read(mhdp);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		header[i] = ret;
+> +	}
+> +
+> +	mbox_size = get_unaligned_be16(header + 2);
+> +
+> +	if (opcode != header[0] || module_id != header[1] ||
+> +	    req_size != mbox_size) {
+> +		/*
+> +		 * If the message in mailbox is not what we want, we need to
+> +		 * clear the mailbox by reading its contents.
+> +		 */
+> +		for (i = 0; i < mbox_size; i++)
+> +			if (cdns_mhdp_mailbox_read(mhdp) < 0)
+> +				break;
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_mhdp_mailbox_recv_data(struct cdns_mhdp_device *mhdp,
+> +				       u8 *buff, u16 buff_size)
+> +{
+> +	u32 i;
+> +	int ret;
+> +
+> +	for (i = 0; i < buff_size; i++) {
+> +		ret = cdns_mhdp_mailbox_read(mhdp);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		buff[i] = ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_mhdp_mailbox_send(struct cdns_mhdp_device *mhdp, u8 module_id,
+> +				  u8 opcode, u16 size, u8 *message)
+> +{
+> +	u8 header[4];
+> +	int ret, i;
+> +
+> +	header[0] = opcode;
+> +	header[1] = module_id;
+> +	put_unaligned_be16(size, header + 2);
+> +
+> +	for (i = 0; i < sizeof(header); i++) {
+> +		ret = cdns_mhdp_mailbox_write(mhdp, header[i]);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	for (i = 0; i < size; i++) {
+> +		ret = cdns_mhdp_mailbox_write(mhdp, message[i]);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static
+> +int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr, u32 *value)
+> +{
+> +	u8 msg[4], resp[8];
+> +	int ret;
+> +
+> +	put_unaligned_be32(addr, msg);
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_GENERAL,
+> +				     GENERAL_REGISTER_READ,
+> +				     sizeof(msg), msg);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_GENERAL,
+> +					    GENERAL_REGISTER_READ,
+> +					    sizeof(resp));
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, resp, sizeof(resp));
+> +	if (ret)
+> +		goto out;
+> +
+> +	/* Returned address value should be the same as requested */
+> +	if (memcmp(msg, resp, sizeof(msg))) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	*value = get_unaligned_be32(resp + 4);
+> +
+> +out:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "Failed to read register\n");
+> +		*value = 0;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u16 addr, u32 val)
+> +{
+> +	u8 msg[6];
+> +	int ret;
+> +
+> +	put_unaligned_be16(addr, msg);
+> +	put_unaligned_be32(val, msg + 2);
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_WRITE_REGISTER, sizeof(msg), msg);
+> +
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_reg_write_bit(struct cdns_mhdp_device *mhdp, u16 addr,
+> +			    u8 start_bit, u8 bits_no, u32 val)
+> +{
+> +	u8 field[8];
+> +	int ret;
+> +
+> +	put_unaligned_be16(addr, field);
+> +	field[2] = start_bit;
+> +	field[3] = bits_no;
+> +	put_unaligned_be32(val, field + 4);
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_WRITE_FIELD, sizeof(field), field);
+> +
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_dpcd_read(struct cdns_mhdp_device *mhdp,
+> +			u32 addr, u8 *data, u16 len)
+> +{
+> +	u8 msg[5], reg[5];
+> +	int ret;
+> +
+> +	put_unaligned_be16(len, msg);
+> +	put_unaligned_be24(addr, msg + 2);
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_READ_DPCD, sizeof(msg), msg);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_DP_TX,
+> +					    DPTX_READ_DPCD,
+> +					    sizeof(reg) + len);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, reg, sizeof(reg));
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, data, len);
+> +
+> +out:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_dpcd_write(struct cdns_mhdp_device *mhdp, u32 addr, u8 value)
+> +{
+> +	u8 msg[6], reg[5];
+> +	int ret;
+> +
+> +	put_unaligned_be16(1, msg);
+> +	put_unaligned_be24(addr, msg + 2);
+> +	msg[5] = value;
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_WRITE_DPCD, sizeof(msg), msg);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_DP_TX,
+> +					    DPTX_WRITE_DPCD, sizeof(reg));
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, reg, sizeof(reg));
+> +	if (ret)
+> +		goto out;
+> +
+> +	if (addr != get_unaligned_be24(reg + 2))
+> +		ret = -EINVAL;
+> +
+> +out:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	if (ret)
+> +		dev_err(mhdp->dev, "dpcd write failed: %d\n", ret);
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_set_firmware_active(struct cdns_mhdp_device *mhdp, bool enable)
+> +{
+> +	u8 msg[5];
+> +	int ret, i;
+> +
+> +	msg[0] = GENERAL_MAIN_CONTROL;
+> +	msg[1] = MB_MODULE_ID_GENERAL;
+> +	msg[2] = 0;
+> +	msg[3] = 1;
+> +	msg[4] = enable ? FW_ACTIVE : FW_STANDBY;
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	for (i = 0; i < sizeof(msg); i++) {
+> +		ret = cdns_mhdp_mailbox_write(mhdp, msg[i]);
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+> +	/* read the firmware state */
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, msg, sizeof(msg));
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = 0;
+> +
+> +out:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	if (ret < 0)
+> +		dev_err(mhdp->dev, "set firmware active failed\n");
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_get_hpd_status(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u8 status;
+> +	int ret;
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_HPD_STATE, 0, NULL);
+> +	if (ret)
+> +		goto err_get_hpd;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_DP_TX,
+> +					    DPTX_HPD_STATE,
+> +					    sizeof(status));
+> +	if (ret)
+> +		goto err_get_hpd;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, &status, sizeof(status));
+> +	if (ret)
+> +		goto err_get_hpd;
+> +
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	dev_dbg(mhdp->dev, "%s: HPD %splugged\n", __func__,
+> +		status ? "" : "un");
+> +
+> +	return status;
+> +
+> +err_get_hpd:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_get_edid_block(void *data, u8 *edid,
+> +			     unsigned int block, size_t length)
+> +{
+> +	struct cdns_mhdp_device *mhdp = data;
+> +	u8 msg[2], reg[2], i;
+> +	int ret;
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	for (i = 0; i < 4; i++) {
+> +		msg[0] = block / 2;
+> +		msg[1] = block % 2;
+> +
+> +		ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +					     DPTX_GET_EDID, sizeof(msg), msg);
+> +		if (ret)
+> +			continue;
+> +
+> +		ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_DP_TX,
+> +						    DPTX_GET_EDID,
+> +						    sizeof(reg) + length);
+> +		if (ret)
+> +			continue;
+> +
+> +		ret = cdns_mhdp_mailbox_recv_data(mhdp, reg, sizeof(reg));
+> +		if (ret)
+> +			continue;
+> +
+> +		ret = cdns_mhdp_mailbox_recv_data(mhdp, edid, length);
+> +		if (ret)
+> +			continue;
+> +
+> +		if (reg[0] == length && reg[1] == block / 2)
+> +			break;
+> +	}
+> +
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	if (ret)
+> +		dev_err(mhdp->dev, "get block[%d] edid failed: %d\n",
+> +			block, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static
+> +int cdns_mhdp_read_hpd_event(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u8 event = 0;
+> +	int ret;
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_READ_EVENT, 0, NULL);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_DP_TX,
+> +					    DPTX_READ_EVENT, sizeof(event));
+> +	if (ret < 0)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, &event, sizeof(event));
+> +out:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dev_dbg(mhdp->dev, "%s: %s%s%s%s\n", __func__,
+> +		(event & DPTX_READ_EVENT_HPD_TO_HIGH) ? "TO_HIGH " : "",
+> +		(event & DPTX_READ_EVENT_HPD_TO_LOW) ? "TO_LOW " : "",
+> +		(event & DPTX_READ_EVENT_HPD_PULSE) ? "PULSE " : "",
+> +		(event & DPTX_READ_EVENT_HPD_STATE) ? "HPD_STATE " : "");
+> +
+> +	return event;
+> +}
+> +
+> +static
+> +int cdns_mhdp_adjust_lt(struct cdns_mhdp_device *mhdp, unsigned int nlanes,
+> +			unsigned int udelay, const u8 *lanes_data,
+> +			u8 link_status[DP_LINK_STATUS_SIZE])
+> +{
+> +	u8 payload[7];
+> +	u8 hdr[5]; /* For DPCD read response header */
+> +	u32 addr;
+> +	int ret;
+> +
+> +	if (nlanes != 4 && nlanes != 2 && nlanes != 1) {
+> +		dev_err(mhdp->dev, "invalid number of lanes: %u\n", nlanes);
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	payload[0] = nlanes;
+> +	put_unaligned_be16(udelay, payload + 1);
+> +	memcpy(payload + 3, lanes_data, nlanes);
+> +
+> +	mutex_lock(&mhdp->mbox_mutex);
+> +
+> +	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
+> +				     DPTX_ADJUST_LT,
+> +				     sizeof(payload), payload);
+> +	if (ret)
+> +		goto out;
+> +
+> +	/* Yes, read the DPCD read command response */
+> +	ret = cdns_mhdp_mailbox_recv_header(mhdp, MB_MODULE_ID_DP_TX,
+> +					    DPTX_READ_DPCD,
+> +					    sizeof(hdr) + DP_LINK_STATUS_SIZE);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, hdr, sizeof(hdr));
+> +	if (ret)
+> +		goto out;
+> +
+> +	addr = get_unaligned_be24(hdr + 2);
+> +	if (addr != DP_LANE0_1_STATUS)
+> +		goto out;
+> +
+> +	ret = cdns_mhdp_mailbox_recv_data(mhdp, link_status,
+> +					  DP_LINK_STATUS_SIZE);
+> +
+> +out:
+> +	mutex_unlock(&mhdp->mbox_mutex);
+> +
+> +	if (ret)
+> +		dev_err(mhdp->dev, "Failed to adjust Link Training.\n");
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * cdns_mhdp_link_power_up() - power up a DisplayPort link
+> + * @aux: DisplayPort AUX channel
+> + * @link: pointer to a structure containing the link configuration
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +static
+> +int cdns_mhdp_link_power_up(struct drm_dp_aux *aux, struct cdns_mhdp_link *link)
+> +{
+> +	u8 value;
+> +	int err;
+> +
+> +	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+> +	if (link->revision < 0x11)
+> +		return 0;
+> +
+> +	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	value &= ~DP_SET_POWER_MASK;
+> +	value |= DP_SET_POWER_D0;
+> +
+> +	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	/*
+> +	 * According to the DP 1.1 specification, a "Sink Device must exit the
+> +	 * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
+> +	 * Control Field" (register 0x600).
+> +	 */
+> +	usleep_range(1000, 2000);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * cdns_mhdp_link_power_down() - power down a DisplayPort link
+> + * @aux: DisplayPort AUX channel
+> + * @link: pointer to a structure containing the link configuration
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +static
+> +int cdns_mhdp_link_power_down(struct drm_dp_aux *aux,
+> +			      struct cdns_mhdp_link *link)
+> +{
+> +	u8 value;
+> +	int err;
+> +
+> +	/* DP_SET_POWER register is only available on DPCD v1.1 and later */
+> +	if (link->revision < 0x11)
+> +		return 0;
+> +
+> +	err = drm_dp_dpcd_readb(aux, DP_SET_POWER, &value);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	value &= ~DP_SET_POWER_MASK;
+> +	value |= DP_SET_POWER_D3;
+> +
+> +	err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * cdns_mhdp_link_configure() - configure a DisplayPort link
+> + * @aux: DisplayPort AUX channel
+> + * @link: pointer to a structure containing the link configuration
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +static
+> +int cdns_mhdp_link_configure(struct drm_dp_aux *aux,
+> +			     struct cdns_mhdp_link *link)
+> +{
+> +	u8 values[2];
+> +	int err;
+> +
+> +	values[0] = drm_dp_link_rate_to_bw_code(link->rate);
+> +	values[1] = link->num_lanes;
+> +
+> +	if (link->capabilities & DP_LINK_CAP_ENHANCED_FRAMING)
+> +		values[1] |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
+> +
+> +	err = drm_dp_dpcd_write(aux, DP_LINK_BW_SET, values, sizeof(values));
+> +	if (err < 0)
+> +		return err;
+> +
+> +	return 0;
+> +}
+> +
+> +static unsigned int cdns_mhdp_max_link_rate(struct cdns_mhdp_device *mhdp)
+> +{
+> +	return min(mhdp->host.link_rate, mhdp->sink.link_rate);
+> +}
+> +
+> +static u8 cdns_mhdp_max_num_lanes(struct cdns_mhdp_device *mhdp)
+> +{
+> +	return min(mhdp->sink.lanes_cnt, mhdp->host.lanes_cnt);
+> +}
+> +
+> +static u8 cdns_mhdp_eq_training_pattern_supported(struct cdns_mhdp_device *mhdp)
+> +{
+> +	return fls(mhdp->host.pattern_supp & mhdp->sink.pattern_supp);
+> +}
+> +
+> +static bool cdns_mhdp_get_ssc_supported(struct cdns_mhdp_device *mhdp)
+> +{
+> +	/* Check if SSC is supported by both sides */
+> +	return mhdp->host.ssc && mhdp->sink.ssc;
+> +}
+> +
+> +static enum drm_connector_status cdns_mhdp_detect(struct cdns_mhdp_device *mhdp)
+> +{
+> +	dev_dbg(mhdp->dev, "%s: %d\n", __func__, mhdp->plugged);
+> +
+> +	if (mhdp->plugged)
+> +		return connector_status_connected;
+> +	else
+> +		return connector_status_disconnected;
+> +}
+> +
+> +static int cdns_mhdp_check_fw_version(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u32 major_num, minor_num, revision;
+> +	u32 fw_ver, lib_ver;
+> +
+> +	fw_ver = (readl(mhdp->regs + CDNS_VER_H) << 8)
+> +	       | readl(mhdp->regs + CDNS_VER_L);
+> +
+> +	lib_ver = (readl(mhdp->regs + CDNS_LIB_H_ADDR) << 8)
+> +		| readl(mhdp->regs + CDNS_LIB_L_ADDR);
+> +
+> +	if (lib_ver < 33984) {
+> +		/*
+> +		 * Older FW versions with major number 1, used to store FW
+> +		 * version information by storing repository revision number
+> +		 * in registers. This is for identifying these FW versions.
+> +		 */
+> +		major_num = 1;
+> +		minor_num = 2;
+> +		if (fw_ver == 26098) {
+> +			revision = 15;
+> +		} else if (lib_ver == 0 && fw_ver == 0) {
+> +			revision = 17;
+> +		} else {
+> +			dev_err(mhdp->dev, "Unsupported FW version: fw_ver = %u, lib_ver = %u\n",
+> +				fw_ver, lib_ver);
+> +			return -ENODEV;
+> +		}
+> +	} else {
+> +		/* To identify newer FW versions with major number 2 onwards. */
+> +		major_num = fw_ver / 10000;
+> +		minor_num = (fw_ver / 100) % 100;
+> +		revision = (fw_ver % 10000) % 100;
+> +	}
+> +
+> +	dev_dbg(mhdp->dev, "FW version: v%u.%u.%u\n", major_num, minor_num,
+> +		revision);
+> +	return 0;
+> +}
+> +
+> +static int cdns_mhdp_fw_activate(const struct firmware *fw,
+> +				 struct cdns_mhdp_device *mhdp)
+> +{
+> +	unsigned int reg;
+> +	int ret;
+> +
+> +	/* Release uCPU reset and stall it. */
+> +	writel(CDNS_CPU_STALL, mhdp->regs + CDNS_APB_CTRL);
+> +
+> +	memcpy_toio(mhdp->regs + CDNS_MHDP_IMEM, fw->data, fw->size);
+> +
+> +	/* Leave debug mode, release stall */
+> +	writel(0, mhdp->regs + CDNS_APB_CTRL);
+> +
+> +	/*
+> +	 * Wait for the KEEP_ALIVE "message" on the first 8 bits.
+> +	 * Updated each sched "tick" (~2ms)
+> +	 */
+> +	ret = readl_poll_timeout(mhdp->regs + CDNS_KEEP_ALIVE, reg,
+> +				 reg & CDNS_KEEP_ALIVE_MASK, 500,
+> +				 CDNS_KEEP_ALIVE_TIMEOUT);
+> +	if (ret) {
+> +		dev_err(mhdp->dev,
+> +			"device didn't give any life sign: reg %d\n", reg);
+> +		return ret;
+> +	}
+> +
+> +	ret = cdns_mhdp_check_fw_version(mhdp);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Init events to 0 as it's not cleared by FW at boot but on read */
+> +	readl(mhdp->regs + CDNS_SW_EVENT0);
+> +	readl(mhdp->regs + CDNS_SW_EVENT1);
+> +	readl(mhdp->regs + CDNS_SW_EVENT2);
+> +	readl(mhdp->regs + CDNS_SW_EVENT3);
+> +
+> +	/* Activate uCPU */
+> +	ret = cdns_mhdp_set_firmware_active(mhdp, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	spin_lock(&mhdp->start_lock);
+> +
+> +	mhdp->hw_state = MHDP_HW_READY;
+> +
+> +	/*
+> +	 * Here we must keep the lock while enabling the interrupts
+> +	 * since it would otherwise be possible that interrupt enable
+> +	 * code is executed after the bridge is detached. The similar
+> +	 * situation is not possible in attach()/detach() callbacks
+> +	 * since the hw_state changes from MHDP_HW_READY to
+> +	 * MHDP_HW_STOPPED happens only due to driver removal when
+> +	 * bridge should already be detached.
+> +	 */
+> +	if (mhdp->bridge_attached)
+> +		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> +		       mhdp->regs + CDNS_APB_INT_MASK);
+> +
+> +	spin_unlock(&mhdp->start_lock);
+> +
+> +	wake_up(&mhdp->fw_load_wq);
+> +	dev_dbg(mhdp->dev, "DP FW activated\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static void cdns_mhdp_fw_cb(const struct firmware *fw, void *context)
+> +{
+> +	struct cdns_mhdp_device *mhdp = context;
+> +	bool bridge_attached;
+> +	int ret;
+> +
+> +	dev_dbg(mhdp->dev, "firmware callback\n");
+> +
+> +	if (!fw || !fw->data) {
+> +		dev_err(mhdp->dev, "%s: No firmware.\n", __func__);
+> +		return;
+> +	}
+> +
+> +	ret = cdns_mhdp_fw_activate(fw, mhdp);
+> +
+> +	release_firmware(fw);
+> +
+> +	if (ret)
+> +		return;
+> +
+> +	/*
+> +	 *  XXX how to make sure the bridge is still attached when
+> +	 *      calling drm_kms_helper_hotplug_event() after releasing
+> +	 *      the lock? We should not hold the spin lock when
+> +	 *      calling drm_kms_helper_hotplug_event() since it may
+> +	 *      cause a dead lock. FB-dev console calls detect from the
+> +	 *      same thread just down the call stack started here.
+> +	 */
+> +	spin_lock(&mhdp->start_lock);
+> +	bridge_attached = mhdp->bridge_attached;
+> +	spin_unlock(&mhdp->start_lock);
+> +	if (bridge_attached) {
+> +		if (mhdp->connector.dev)
+> +			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+> +		else
+> +			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+> +	}
+> +}
+> +
+> +static int cdns_mhdp_load_firmware(struct cdns_mhdp_device *mhdp)
+> +{
+> +	int ret;
+> +
+> +	ret = request_firmware_nowait(THIS_MODULE, true, FW_NAME, mhdp->dev,
+> +				      GFP_KERNEL, mhdp, cdns_mhdp_fw_cb);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "failed to load firmware (%s), ret: %d\n",
+> +			FW_NAME, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
+> +				  struct drm_dp_aux_msg *msg)
+> +{
+> +	struct cdns_mhdp_device *mhdp = dev_get_drvdata(aux->dev);
+> +	int ret;
+> +
+> +	if (msg->request != DP_AUX_NATIVE_WRITE &&
+> +	    msg->request != DP_AUX_NATIVE_READ)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (msg->request == DP_AUX_NATIVE_WRITE) {
+> +		const u8 *buf = msg->buffer;
+> +		unsigned int i;
+> +
+> +		for (i = 0; i < msg->size; ++i) {
+> +			ret = cdns_mhdp_dpcd_write(mhdp,
+> +						   msg->address + i, buf[i]);
+> +			if (!ret)
+> +				continue;
+> +
+> +			dev_err(mhdp->dev,
+> +				"Failed to write DPCD addr %u\n",
+> +				msg->address + i);
+> +
+> +			return ret;
+> +		}
+> +	} else {
+> +		ret = cdns_mhdp_dpcd_read(mhdp, msg->address,
+> +					  msg->buffer, msg->size);
+> +		if (ret) {
+> +			dev_err(mhdp->dev,
+> +				"Failed to read DPCD addr %u\n",
+> +				msg->address);
+> +
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return msg->size;
+> +}
+> +
+> +static int cdns_mhdp_link_training_init(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u32 reg32;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +
+> +	drm_dp_dpcd_writeb(&mhdp->aux, DP_TRAINING_PATTERN_SET,
+> +			   DP_TRAINING_PATTERN_DISABLE);
+> +
+> +	/* Reset PHY configuration */
+> +	reg32 = CDNS_PHY_COMMON_CONFIG | CDNS_PHY_TRAINING_TYPE(1);
+> +	if (!mhdp->host.scrambler)
+> +		reg32 |= CDNS_PHY_SCRAMBLER_BYPASS;
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_PHY_CONFIG, reg32);
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_ENHNCD,
+> +			    mhdp->sink.enhanced & mhdp->host.enhanced);
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_LANE_EN,
+> +			    CDNS_DP_LANE_EN_LANES(mhdp->link.num_lanes));
+> +
+> +	cdns_mhdp_link_configure(&mhdp->aux, &mhdp->link);
+> +	phy_cfg.dp.link_rate = mhdp->link.rate / 100;
+> +	phy_cfg.dp.lanes = mhdp->link.num_lanes;
+> +
+> +	memset(phy_cfg.dp.voltage, 0, sizeof(phy_cfg.dp.voltage));
+> +	memset(phy_cfg.dp.pre, 0, sizeof(phy_cfg.dp.pre));
+> +
+> +	phy_cfg.dp.ssc = cdns_mhdp_get_ssc_supported(mhdp);
+> +	phy_cfg.dp.set_lanes = true;
+> +	phy_cfg.dp.set_rate = true;
+> +	phy_cfg.dp.set_voltages = true;
+> +	ret = phy_configure(mhdp->phy,  &phy_cfg);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "%s: phy_configure() failed: %d\n",
+> +			__func__, ret);
+> +		return ret;
+> +	}
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_PHY_CONFIG,
+> +			    CDNS_PHY_COMMON_CONFIG |
+> +			    CDNS_PHY_TRAINING_EN |
+> +			    CDNS_PHY_TRAINING_TYPE(1) |
+> +			    CDNS_PHY_SCRAMBLER_BYPASS);
+> +
+> +	drm_dp_dpcd_writeb(&mhdp->aux, DP_TRAINING_PATTERN_SET,
+> +			   DP_TRAINING_PATTERN_1 | DP_LINK_SCRAMBLING_DISABLE);
+> +
+> +	return 0;
+> +}
+> +
+> +static void cdns_mhdp_get_adjust_train(struct cdns_mhdp_device *mhdp,
+> +				       u8 link_status[DP_LINK_STATUS_SIZE],
+> +				       u8 lanes_data[CDNS_DP_MAX_NUM_LANES],
+> +				       union phy_configure_opts *phy_cfg)
+> +{
+> +	unsigned int i;
+> +	u8 adjust, max_pre_emph, max_volt_swing;
+> +	u8 set_volt, set_pre;
+> +
+> +	max_pre_emph = CDNS_PRE_EMPHASIS(mhdp->host.pre_emphasis)
+> +			   << DP_TRAIN_PRE_EMPHASIS_SHIFT;
+> +	max_volt_swing = CDNS_VOLT_SWING(mhdp->host.volt_swing);
+> +
+> +	for (i = 0; i < mhdp->link.num_lanes; i++) {
+> +		/* Check if Voltage swing and pre-emphasis are within limits */
+> +		adjust = drm_dp_get_adjust_request_voltage(link_status, i);
+> +		set_volt = min(adjust, max_volt_swing);
+> +
+> +		adjust = drm_dp_get_adjust_request_pre_emphasis(link_status, i);
+> +		set_pre = min(adjust, max_pre_emph)
+> +			  >> DP_TRAIN_PRE_EMPHASIS_SHIFT;
+> +
+> +		/*
+> +		 * Voltage swing level and pre-emphasis level combination is
+> +		 * not allowed: leaving pre-emphasis as-is, and adjusting
+> +		 * voltage swing.
+> +		 */
+> +		if (set_volt + set_pre > 3)
+> +			set_volt = 3 - set_pre;
+> +
+> +		phy_cfg->dp.voltage[i] = set_volt;
+> +		lanes_data[i] = set_volt;
+> +
+> +		if (set_volt == max_volt_swing)
+> +			lanes_data[i] |= DP_TRAIN_MAX_SWING_REACHED;
+> +
+> +		phy_cfg->dp.pre[i] = set_pre;
+> +		lanes_data[i] |= (set_pre << DP_TRAIN_PRE_EMPHASIS_SHIFT);
+> +
+> +		if (set_pre == (max_pre_emph >> DP_TRAIN_PRE_EMPHASIS_SHIFT))
+> +			lanes_data[i] |= DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
+> +	}
+> +}
+> +
+> +static
+> +void cdns_mhdp_set_adjust_request_voltage(u8 link_status[DP_LINK_STATUS_SIZE],
+> +					  unsigned int lane, u8 volt)
+> +{
+> +	unsigned int s = ((lane & 1) ?
+> +			  DP_ADJUST_VOLTAGE_SWING_LANE1_SHIFT :
+> +			  DP_ADJUST_VOLTAGE_SWING_LANE0_SHIFT);
+> +	unsigned int idx = DP_ADJUST_REQUEST_LANE0_1 - DP_LANE0_1_STATUS + (lane >> 1);
+> +
+> +	link_status[idx] &= ~(DP_ADJUST_VOLTAGE_SWING_LANE0_MASK << s);
+> +	link_status[idx] |= volt << s;
+> +}
+> +
+> +static
+> +void cdns_mhdp_set_adjust_request_pre_emphasis(u8 link_status[DP_LINK_STATUS_SIZE],
+> +					       unsigned int lane, u8 pre_emphasis)
+> +{
+> +	unsigned int s = ((lane & 1) ?
+> +			  DP_ADJUST_PRE_EMPHASIS_LANE1_SHIFT :
+> +			  DP_ADJUST_PRE_EMPHASIS_LANE0_SHIFT);
+> +	unsigned int idx = DP_ADJUST_REQUEST_LANE0_1 - DP_LANE0_1_STATUS + (lane >> 1);
+> +
+> +	link_status[idx] &= ~(DP_ADJUST_PRE_EMPHASIS_LANE0_MASK << s);
+> +	link_status[idx] |= pre_emphasis << s;
+> +}
+> +
+> +static void cdns_mhdp_adjust_requested_eq(struct cdns_mhdp_device *mhdp,
+> +					  u8 link_status[DP_LINK_STATUS_SIZE])
+> +{
+> +	u8 max_pre = CDNS_PRE_EMPHASIS(mhdp->host.pre_emphasis);
+> +	u8 max_volt = CDNS_VOLT_SWING(mhdp->host.volt_swing);
+> +	unsigned int i;
+> +	u8 volt, pre;
+> +
+> +	for (i = 0; i < mhdp->link.num_lanes; i++) {
+> +		volt = drm_dp_get_adjust_request_voltage(link_status, i);
+> +		pre = drm_dp_get_adjust_request_pre_emphasis(link_status, i);
+> +		if (volt + pre > 3)
+> +			cdns_mhdp_set_adjust_request_voltage(link_status, i,
+> +							     3 - pre);
+> +		if (mhdp->host.volt_swing & CDNS_FORCE_VOLT_SWING)
+> +			cdns_mhdp_set_adjust_request_voltage(link_status, i,
+> +							     max_volt);
+> +		if (mhdp->host.pre_emphasis & CDNS_FORCE_PRE_EMPHASIS)
+> +			cdns_mhdp_set_adjust_request_pre_emphasis(link_status,
+> +								  i, max_pre);
+> +	}
+> +}
+> +
+> +static void cdns_mhdp_print_lt_status(const char *prefix,
+> +				      struct cdns_mhdp_device *mhdp,
+> +				      union phy_configure_opts *phy_cfg)
+> +{
+> +	char vs[8] = "0/0/0/0";
+> +	char pe[8] = "0/0/0/0";
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < mhdp->link.num_lanes; i++) {
+> +		vs[i * 2] = '0' + phy_cfg->dp.voltage[i];
+> +		pe[i * 2] = '0' + phy_cfg->dp.pre[i];
+> +	}
+> +
+> +	vs[i * 2 - 1] = '\0';
+> +	pe[i * 2 - 1] = '\0';
+> +
+> +	dev_dbg(mhdp->dev, "%s, %u lanes, %u Mbps, vs %s, pe %s\n",
+> +		prefix,
+> +		mhdp->link.num_lanes, mhdp->link.rate / 100,
+> +		vs, pe);
+> +}
+> +
+> +static bool cdns_mhdp_link_training_channel_eq(struct cdns_mhdp_device *mhdp,
+> +					       u8 eq_tps,
+> +					       unsigned int training_interval)
+> +{
+> +	u8 lanes_data[CDNS_DP_MAX_NUM_LANES], fail_counter_short = 0;
+> +	u8 link_status[DP_LINK_STATUS_SIZE];
+> +	u32 reg32;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +	bool r;
+> +
+> +	dev_dbg(mhdp->dev, "Starting EQ phase\n");
+> +
+> +	/* Enable link training TPS[eq_tps] in PHY */
+> +	reg32 = CDNS_PHY_COMMON_CONFIG | CDNS_PHY_TRAINING_EN |
+> +		CDNS_PHY_TRAINING_TYPE(eq_tps);
+> +	if (eq_tps != 4)
+> +		reg32 |= CDNS_PHY_SCRAMBLER_BYPASS;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_PHY_CONFIG, reg32);
+> +
+> +	drm_dp_dpcd_writeb(&mhdp->aux, DP_TRAINING_PATTERN_SET,
+> +			   (eq_tps != 4) ? eq_tps | DP_LINK_SCRAMBLING_DISABLE :
+> +			   CDNS_DP_TRAINING_PATTERN_4);
+> +
+> +	drm_dp_dpcd_read_link_status(&mhdp->aux, link_status);
+> +
+> +	do {
+> +		cdns_mhdp_get_adjust_train(mhdp, link_status, lanes_data,
+> +					   &phy_cfg);
+> +		phy_cfg.dp.lanes = mhdp->link.num_lanes;
+> +		phy_cfg.dp.ssc = cdns_mhdp_get_ssc_supported(mhdp);
+> +		phy_cfg.dp.set_lanes = false;
+> +		phy_cfg.dp.set_rate = false;
+> +		phy_cfg.dp.set_voltages = true;
+> +		ret = phy_configure(mhdp->phy,  &phy_cfg);
+> +		if (ret) {
+> +			dev_err(mhdp->dev, "%s: phy_configure() failed: %d\n",
+> +				__func__, ret);
+> +			goto err;
+> +		}
+> +
+> +		cdns_mhdp_adjust_lt(mhdp, mhdp->link.num_lanes,
+> +				    training_interval, lanes_data, link_status);
+> +
+> +		r = drm_dp_clock_recovery_ok(link_status, mhdp->link.num_lanes);
+> +		if (!r)
+> +			goto err;
+> +
+> +		if (drm_dp_channel_eq_ok(link_status, mhdp->link.num_lanes)) {
+> +			cdns_mhdp_print_lt_status("EQ phase ok", mhdp,
+> +						  &phy_cfg);
+> +			return true;
+> +		}
+> +
+> +		fail_counter_short++;
+> +
+> +		cdns_mhdp_adjust_requested_eq(mhdp, link_status);
+> +	} while (fail_counter_short < 5);
+> +
+> +err:
+> +	cdns_mhdp_print_lt_status("EQ phase failed", mhdp, &phy_cfg);
+> +
+> +	return false;
+> +}
+> +
+> +static void cdns_mhdp_adjust_requested_cr(struct cdns_mhdp_device *mhdp,
+> +					  u8 link_status[DP_LINK_STATUS_SIZE],
+> +					  u8 *req_volt, u8 *req_pre)
+> +{
+> +	const u8 max_volt = CDNS_VOLT_SWING(mhdp->host.volt_swing);
+> +	const u8 max_pre = CDNS_PRE_EMPHASIS(mhdp->host.pre_emphasis);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < mhdp->link.num_lanes; i++) {
+> +		u8 val;
+> +
+> +		val = mhdp->host.volt_swing & CDNS_FORCE_VOLT_SWING ?
+> +		      max_volt : req_volt[i];
+> +		cdns_mhdp_set_adjust_request_voltage(link_status, i, val);
+> +
+> +		val = mhdp->host.pre_emphasis & CDNS_FORCE_PRE_EMPHASIS ?
+> +		      max_pre : req_pre[i];
+> +		cdns_mhdp_set_adjust_request_pre_emphasis(link_status, i, val);
+> +	}
+> +}
+> +
+> +static
+> +void cdns_mhdp_validate_cr(struct cdns_mhdp_device *mhdp, bool *cr_done,
+> +			   bool *same_before_adjust, bool *max_swing_reached,
+> +			   u8 before_cr[CDNS_DP_MAX_NUM_LANES],
+> +			   u8 after_cr[DP_LINK_STATUS_SIZE], u8 *req_volt,
+> +			   u8 *req_pre)
+> +{
+> +	const u8 max_volt = CDNS_VOLT_SWING(mhdp->host.volt_swing);
+> +	const u8 max_pre = CDNS_PRE_EMPHASIS(mhdp->host.pre_emphasis);
+> +	bool same_pre, same_volt;
+> +	unsigned int i;
+> +	u8 adjust;
+> +
+> +	*same_before_adjust = false;
+> +	*max_swing_reached = false;
+> +	*cr_done = drm_dp_clock_recovery_ok(after_cr, mhdp->link.num_lanes);
+> +
+> +	for (i = 0; i < mhdp->link.num_lanes; i++) {
+> +		adjust = drm_dp_get_adjust_request_voltage(after_cr, i);
+> +		req_volt[i] = min(adjust, max_volt);
+> +
+> +		adjust = drm_dp_get_adjust_request_pre_emphasis(after_cr, i) >>
+> +		      DP_TRAIN_PRE_EMPHASIS_SHIFT;
+> +		req_pre[i] = min(adjust, max_pre);
+> +
+> +		same_pre = (before_cr[i] & DP_TRAIN_PRE_EMPHASIS_MASK) ==
+> +			   req_pre[i] << DP_TRAIN_PRE_EMPHASIS_SHIFT;
+> +		same_volt = (before_cr[i] & DP_TRAIN_VOLTAGE_SWING_MASK) ==
+> +			    req_volt[i];
+> +		if (same_pre && same_volt)
+> +			*same_before_adjust = true;
+> +
+> +		/* 3.1.5.2 in DP Standard v1.4. Table 3-1 */
+> +		if (!*cr_done && req_volt[i] + req_pre[i] >= 3) {
+> +			*max_swing_reached = true;
+> +			return;
+> +		}
+> +	}
+> +}
+> +
+> +static bool cdns_mhdp_link_training_cr(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u8 lanes_data[CDNS_DP_MAX_NUM_LANES],
+> +	fail_counter_short = 0, fail_counter_cr_long = 0;
+> +	u8 link_status[DP_LINK_STATUS_SIZE];
+> +	bool cr_done;
+> +	union phy_configure_opts phy_cfg;
+> +	int ret;
+> +
+> +	dev_dbg(mhdp->dev, "Starting CR phase\n");
+> +
+> +	ret = cdns_mhdp_link_training_init(mhdp);
+> +	if (ret)
+> +		goto err;
+> +
+> +	drm_dp_dpcd_read_link_status(&mhdp->aux, link_status);
+> +
+> +	do {
+> +		u8 requested_adjust_volt_swing[CDNS_DP_MAX_NUM_LANES] = {};
+> +		u8 requested_adjust_pre_emphasis[CDNS_DP_MAX_NUM_LANES] = {};
+> +		bool same_before_adjust, max_swing_reached;
+> +
+> +		cdns_mhdp_get_adjust_train(mhdp, link_status, lanes_data,
+> +					   &phy_cfg);
+> +		phy_cfg.dp.lanes = mhdp->link.num_lanes;
+> +		phy_cfg.dp.ssc = cdns_mhdp_get_ssc_supported(mhdp);
+> +		phy_cfg.dp.set_lanes = false;
+> +		phy_cfg.dp.set_rate = false;
+> +		phy_cfg.dp.set_voltages = true;
+> +		ret = phy_configure(mhdp->phy,  &phy_cfg);
+> +		if (ret) {
+> +			dev_err(mhdp->dev, "%s: phy_configure() failed: %d\n",
+> +				__func__, ret);
+> +			goto err;
+> +		}
+> +
+> +		cdns_mhdp_adjust_lt(mhdp, mhdp->link.num_lanes, 100,
+> +				    lanes_data, link_status);
+> +
+> +		cdns_mhdp_validate_cr(mhdp, &cr_done, &same_before_adjust,
+> +				      &max_swing_reached, lanes_data,
+> +				      link_status,
+> +				      requested_adjust_volt_swing,
+> +				      requested_adjust_pre_emphasis);
+> +
+> +		if (max_swing_reached) {
+> +			dev_err(mhdp->dev, "CR: max swing reached\n");
+> +			goto err;
+> +		}
+> +
+> +		if (cr_done) {
+> +			cdns_mhdp_print_lt_status("CR phase ok", mhdp,
+> +						  &phy_cfg);
+> +			return true;
+> +		}
+> +
+> +		/* Not all CR_DONE bits set */
+> +		fail_counter_cr_long++;
+> +
+> +		if (same_before_adjust) {
+> +			fail_counter_short++;
+> +			continue;
+> +		}
+> +
+> +		fail_counter_short = 0;
+> +		/*
+> +		 * Voltage swing/pre-emphasis adjust requested
+> +		 * during CR phase
+> +		 */
+> +		cdns_mhdp_adjust_requested_cr(mhdp, link_status,
+> +					      requested_adjust_volt_swing,
+> +					      requested_adjust_pre_emphasis);
+> +	} while (fail_counter_short < 5 && fail_counter_cr_long < 10);
+> +
+> +err:
+> +	cdns_mhdp_print_lt_status("CR phase failed", mhdp, &phy_cfg);
+> +
+> +	return false;
+> +}
+> +
+> +static void cdns_mhdp_lower_link_rate(struct cdns_mhdp_link *link)
+> +{
+> +	switch (drm_dp_link_rate_to_bw_code(link->rate)) {
+> +	case DP_LINK_BW_2_7:
+> +		link->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_1_62);
+> +		break;
+> +	case DP_LINK_BW_5_4:
+> +		link->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_2_7);
+> +		break;
+> +	case DP_LINK_BW_8_1:
+> +		link->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
+> +		break;
+> +	}
+> +}
+> +
+> +static int cdns_mhdp_link_training(struct cdns_mhdp_device *mhdp,
+> +				   unsigned int training_interval)
+> +{
+> +	u32 reg32;
+> +	const u8 eq_tps = cdns_mhdp_eq_training_pattern_supported(mhdp);
+> +	int ret;
+> +
+> +	while (1) {
+> +		if (!cdns_mhdp_link_training_cr(mhdp)) {
+> +			if (drm_dp_link_rate_to_bw_code(mhdp->link.rate) !=
+> +			    DP_LINK_BW_1_62) {
+> +				dev_dbg(mhdp->dev,
+> +					"Reducing link rate during CR phase\n");
+> +				cdns_mhdp_lower_link_rate(&mhdp->link);
+> +
+> +				continue;
+> +			} else if (mhdp->link.num_lanes > 1) {
+> +				dev_dbg(mhdp->dev,
+> +					"Reducing lanes number during CR phase\n");
+> +				mhdp->link.num_lanes >>= 1;
+> +				mhdp->link.rate = cdns_mhdp_max_link_rate(mhdp);
+> +
+> +				continue;
+> +			}
+> +
+> +			dev_err(mhdp->dev,
+> +				"Link training failed during CR phase\n");
+> +			goto err;
+> +		}
+> +
+> +		if (cdns_mhdp_link_training_channel_eq(mhdp, eq_tps,
+> +						       training_interval))
+> +			break;
+> +
+> +		if (mhdp->link.num_lanes > 1) {
+> +			dev_dbg(mhdp->dev,
+> +				"Reducing lanes number during EQ phase\n");
+> +			mhdp->link.num_lanes >>= 1;
+> +
+> +			continue;
+> +		} else if (drm_dp_link_rate_to_bw_code(mhdp->link.rate) !=
+> +			   DP_LINK_BW_1_62) {
+> +			dev_dbg(mhdp->dev,
+> +				"Reducing link rate during EQ phase\n");
+> +			cdns_mhdp_lower_link_rate(&mhdp->link);
+> +			mhdp->link.num_lanes = cdns_mhdp_max_num_lanes(mhdp);
+> +
+> +			continue;
+> +		}
+> +
+> +		dev_err(mhdp->dev, "Link training failed during EQ phase\n");
+> +		goto err;
+> +	}
+> +
+> +	dev_dbg(mhdp->dev, "Link training ok. Lanes: %u, Rate %u Mbps\n",
+> +		mhdp->link.num_lanes, mhdp->link.rate / 100);
+> +
+> +	drm_dp_dpcd_writeb(&mhdp->aux, DP_TRAINING_PATTERN_SET,
+> +			   mhdp->host.scrambler ? 0 :
+> +			   DP_LINK_SCRAMBLING_DISABLE);
+> +
+> +	ret = cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &reg32);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev,
+> +			"Failed to read CDNS_DP_FRAMER_GLOBAL_CONFIG %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +	reg32 &= ~GENMASK(1, 0);
+> +	reg32 |= CDNS_DP_NUM_LANES(mhdp->link.num_lanes);
+> +	reg32 |= CDNS_DP_WR_FAILING_EDGE_VSYNC;
+> +	reg32 |= CDNS_DP_FRAMER_EN;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, reg32);
+> +
+> +	/* Reset PHY config */
+> +	reg32 = CDNS_PHY_COMMON_CONFIG | CDNS_PHY_TRAINING_TYPE(1);
+> +	if (!mhdp->host.scrambler)
+> +		reg32 |= CDNS_PHY_SCRAMBLER_BYPASS;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_PHY_CONFIG, reg32);
+> +
+> +	return 0;
+> +err:
+> +	/* Reset PHY config */
+> +	reg32 = CDNS_PHY_COMMON_CONFIG | CDNS_PHY_TRAINING_TYPE(1);
+> +	if (!mhdp->host.scrambler)
+> +		reg32 |= CDNS_PHY_SCRAMBLER_BYPASS;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_PHY_CONFIG, reg32);
+> +
+> +	drm_dp_dpcd_writeb(&mhdp->aux, DP_TRAINING_PATTERN_SET,
+> +			   DP_TRAINING_PATTERN_DISABLE);
+> +
+> +	return -EIO;
+> +}
+> +
+> +static u32 cdns_mhdp_get_training_interval_us(struct cdns_mhdp_device *mhdp,
+> +					      u32 interval)
+> +{
+> +	if (interval == 0)
+> +		return 400;
+> +	if (interval < 5)
+> +		return 4000 << (interval - 1);
+> +	dev_err(mhdp->dev,
+> +		"wrong training interval returned by DPCD: %d\n", interval);
+> +	return 0;
+> +}
+> +
+> +static void cdns_mhdp_fill_host_caps(struct cdns_mhdp_device *mhdp)
+> +{
+> +	unsigned int link_rate;
+> +	struct phy_attrs attrs;
+> +
+> +	/* Get source capabilities based on PHY attributes */
+> +	phy_get_attrs(mhdp->phy, &attrs);
+> +
+> +	mhdp->host.lanes_cnt = attrs.bus_width;
+> +	if (!mhdp->host.lanes_cnt)
+> +		mhdp->host.lanes_cnt = 4;
+> +
+> +	link_rate = attrs.max_link_rate;
+> +	if (!link_rate)
+> +		link_rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_8_1);
+> +	else
+> +		/* PHY uses Mb/s, DRM uses tens of kb/s. */
+> +		link_rate *= 100;
+> +
+> +	mhdp->host.link_rate = link_rate;
+> +	mhdp->host.volt_swing = CDNS_VOLT_SWING(3);
+> +	mhdp->host.pre_emphasis = CDNS_PRE_EMPHASIS(3);
+> +	mhdp->host.pattern_supp = CDNS_SUPPORT_TPS(1) |
+> +				  CDNS_SUPPORT_TPS(2) | CDNS_SUPPORT_TPS(3) |
+> +				  CDNS_SUPPORT_TPS(4);
+> +	mhdp->host.lane_mapping = CDNS_LANE_MAPPING_NORMAL;
+> +	mhdp->host.fast_link = false;
+> +	mhdp->host.enhanced = true;
+> +	mhdp->host.scrambler = true;
+> +	mhdp->host.ssc = false;
+> +}
+> +
+> +static void cdns_mhdp_fill_sink_caps(struct cdns_mhdp_device *mhdp,
+> +				     u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> +{
+> +	mhdp->sink.link_rate = mhdp->link.rate;
+> +	mhdp->sink.lanes_cnt = mhdp->link.num_lanes;
+> +	mhdp->sink.enhanced = !!(mhdp->link.capabilities &
+> +				 DP_LINK_CAP_ENHANCED_FRAMING);
+> +
+> +	/* Set SSC support */
+> +	mhdp->sink.ssc = !!(dpcd[DP_MAX_DOWNSPREAD] &
+> +				  DP_MAX_DOWNSPREAD_0_5);
+> +
+> +	/* Set TPS support */
+> +	mhdp->sink.pattern_supp = CDNS_SUPPORT_TPS(1) | CDNS_SUPPORT_TPS(2);
+> +	if (drm_dp_tps3_supported(dpcd))
+> +		mhdp->sink.pattern_supp |= CDNS_SUPPORT_TPS(3);
+> +	if (drm_dp_tps4_supported(dpcd))
+> +		mhdp->sink.pattern_supp |= CDNS_SUPPORT_TPS(4);
+> +
+> +	/* Set fast link support */
+> +	mhdp->sink.fast_link = !!(dpcd[DP_MAX_DOWNSPREAD] &
+> +				  DP_NO_AUX_HANDSHAKE_LINK_TRAINING);
+> +}
+> +
+> +static int cdns_mhdp_link_up(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u32 resp, interval, interval_us;
+> +	u8 dpcd[DP_RECEIVER_CAP_SIZE], amp[2];
+> +	u8 ext_cap_chk = 0;
+> +	unsigned int addr;
+> +	int err;
+> +
+> +	WARN_ON(!mutex_is_locked(&mhdp->link_mutex));
+> +
+> +	drm_dp_dpcd_readb(&mhdp->aux, DP_TRAINING_AUX_RD_INTERVAL,
+> +			  &ext_cap_chk);
+> +
+> +	if (ext_cap_chk & DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT)
+> +		addr = DP_DP13_DPCD_REV;
+> +	else
+> +		addr = DP_DPCD_REV;
+> +
+> +	err = drm_dp_dpcd_read(&mhdp->aux, addr, dpcd, DP_RECEIVER_CAP_SIZE);
+> +	if (err < 0) {
+> +		dev_err(mhdp->dev, "Failed to read receiver capabilities\n");
+> +		return err;
+> +	}
+> +
+> +	mhdp->link.revision = dpcd[0];
+> +	mhdp->link.rate = drm_dp_bw_code_to_link_rate(dpcd[1]);
+> +	mhdp->link.num_lanes = dpcd[2] & DP_MAX_LANE_COUNT_MASK;
+> +
+> +	if (dpcd[2] & DP_ENHANCED_FRAME_CAP)
+> +		mhdp->link.capabilities |= DP_LINK_CAP_ENHANCED_FRAMING;
+> +
+> +	dev_dbg(mhdp->dev, "Set sink device power state via DPCD\n");
+> +	cdns_mhdp_link_power_up(&mhdp->aux, &mhdp->link);
+> +
+> +	cdns_mhdp_fill_sink_caps(mhdp, dpcd);
+> +
+> +	mhdp->link.rate = cdns_mhdp_max_link_rate(mhdp);
+> +	mhdp->link.num_lanes = cdns_mhdp_max_num_lanes(mhdp);
+> +
+> +	/* Disable framer for link training */
+> +	err = cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+> +	if (err < 0) {
+> +		dev_err(mhdp->dev,
+> +			"Failed to read CDNS_DP_FRAMER_GLOBAL_CONFIG %d\n",
+> +			err);
+> +		return err;
+> +	}
+> +
+> +	resp &= ~CDNS_DP_FRAMER_EN;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, resp);
+> +
+> +	/* Spread AMP if required, enable 8b/10b coding */
+> +	amp[0] = cdns_mhdp_get_ssc_supported(mhdp) ? DP_SPREAD_AMP_0_5 : 0;
+> +	amp[1] = DP_SET_ANSI_8B10B;
+> +	drm_dp_dpcd_write(&mhdp->aux, DP_DOWNSPREAD_CTRL, amp, 2);
+> +
+> +	if (mhdp->host.fast_link & mhdp->sink.fast_link) {
+> +		dev_err(mhdp->dev, "fastlink not supported\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	interval = dpcd[DP_TRAINING_AUX_RD_INTERVAL] & DP_TRAINING_AUX_RD_MASK;
+> +	interval_us = cdns_mhdp_get_training_interval_us(mhdp, interval);
+> +	if (!interval_us ||
+> +	    cdns_mhdp_link_training(mhdp, interval_us)) {
+> +		dev_err(mhdp->dev, "Link training failed. Exiting.\n");
+> +		return -EIO;
+> +	}
+> +
+> +	mhdp->link_up = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static void cdns_mhdp_link_down(struct cdns_mhdp_device *mhdp)
+> +{
+> +	WARN_ON(!mutex_is_locked(&mhdp->link_mutex));
+> +
+> +	if (mhdp->plugged)
+> +		cdns_mhdp_link_power_down(&mhdp->aux, &mhdp->link);
+> +
+> +	mhdp->link_up = false;
+> +}
+> +
+> +static struct edid *cdns_mhdp_get_edid(struct cdns_mhdp_device *mhdp,
+> +				       struct drm_connector *connector)
+> +{
+> +	if (!mhdp->plugged)
+> +		return NULL;
+> +
+> +	return drm_do_get_edid(connector, cdns_mhdp_get_edid_block, mhdp);
+> +}
+> +
+> +static int cdns_mhdp_get_modes(struct drm_connector *connector)
+> +{
+> +	struct cdns_mhdp_device *mhdp = connector_to_mhdp(connector);
+> +	struct edid *edid;
+> +	int num_modes;
+> +
+> +	if (!mhdp->plugged)
+> +		return 0;
+> +
+> +	edid = cdns_mhdp_get_edid(mhdp, connector);
+> +	if (!edid) {
+> +		dev_err(mhdp->dev, "Failed to read EDID\n");
+> +		return 0;
+> +	}
+> +
+> +	drm_connector_update_edid_property(connector, edid);
+> +	num_modes = drm_add_edid_modes(connector, edid);
+> +	kfree(edid);
+> +
+> +	/*
+> +	 * HACK: Warn about unsupported display formats until we deal
+> +	 *       with them correctly.
+> +	 */
+> +	if (connector->display_info.color_formats &&
+> +	    !(connector->display_info.color_formats &
+> +	      mhdp->display_fmt.color_format))
+> +		dev_warn(mhdp->dev,
+> +			 "%s: No supported color_format found (0x%08x)\n",
+> +			__func__, connector->display_info.color_formats);
+> +
+> +	if (connector->display_info.bpc &&
+> +	    connector->display_info.bpc < mhdp->display_fmt.bpc)
+> +		dev_warn(mhdp->dev, "%s: Display bpc only %d < %d\n",
+> +			 __func__, connector->display_info.bpc,
+> +			 mhdp->display_fmt.bpc);
+> +
+> +	return num_modes;
+> +}
+> +
+> +static int cdns_mhdp_connector_detect(struct drm_connector *conn,
+> +				      struct drm_modeset_acquire_ctx *ctx,
+> +				      bool force)
+> +{
+> +	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
+> +
+> +	return cdns_mhdp_detect(mhdp);
+> +}
+> +
+> +static u32 cdns_mhdp_get_bpp(struct cdns_mhdp_display_fmt *fmt)
+> +{
+> +	u32 bpp;
+> +
+> +	if (fmt->y_only)
+> +		return fmt->bpc;
+> +
+> +	switch (fmt->color_format) {
+> +	case DRM_COLOR_FORMAT_RGB444:
+> +	case DRM_COLOR_FORMAT_YCRCB444:
+> +		bpp = fmt->bpc * 3;
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCRCB422:
+> +		bpp = fmt->bpc * 2;
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCRCB420:
+> +		bpp = fmt->bpc * 3 / 2;
+> +		break;
+> +	default:
+> +		bpp = fmt->bpc * 3;
+> +		WARN_ON(1);
+> +	}
+> +	return bpp;
+> +}
+> +
+> +static
+> +bool cdns_mhdp_bandwidth_ok(struct cdns_mhdp_device *mhdp,
+> +			    const struct drm_display_mode *mode,
+> +			    unsigned int lanes, unsigned int rate)
+> +{
+> +	u32 max_bw, req_bw, bpp;
+> +
+
+I would add a comment here, as the handling of units is not trivial.
+
+	/*
+	 * mode->clock is expressed in kHz. Multiplying by bpp and dividing by
+	 * we get the number of kB/s. DisplayPort applies a 8b-10b encoding, the
+	 * value thus equals the bandwidth in 10kb/s units, which matches the
+	 * units of the rate parameter.
+	 */
+
+> +	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
+> +	req_bw = mode->clock * bpp / 8;
+> +	max_bw = lanes * rate;
+> +	if (req_bw > max_bw) {
+> +		dev_dbg(mhdp->dev,
+> +			"Unsupported Mode: %s, Req BW: %u, Available Max BW:%u\n",
+> +			mode->name, req_bw, max_bw);
+> +
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +static
+> +enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
+> +					  struct drm_display_mode *mode)
+> +{
+> +	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
+> +
+> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
+> +				    mhdp->link.rate))
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static const struct drm_connector_helper_funcs cdns_mhdp_conn_helper_funcs = {
+> +	.detect_ctx = cdns_mhdp_connector_detect,
+> +	.get_modes = cdns_mhdp_get_modes,
+> +	.mode_valid = cdns_mhdp_mode_valid,
+> +};
+> +
+> +static const struct drm_connector_funcs cdns_mhdp_conn_funcs = {
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.destroy = drm_connector_cleanup,
+> +};
+> +
+> +static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
+> +{
+> +	u32 bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
+> +	struct drm_connector *conn = &mhdp->connector;
+> +	struct drm_bridge *bridge = &mhdp->bridge;
+> +	int ret;
+> +
+> +	if (!bridge->encoder) {
+> +		dev_err(mhdp->dev, "Parent encoder object not found");
+> +		return -ENODEV;
+> +	}
+> +
+> +	conn->polled = DRM_CONNECTOR_POLL_HPD;
+> +
+> +	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
+> +				 DRM_MODE_CONNECTOR_DisplayPort);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "Failed to initialize connector with drm\n");
+> +		return ret;
+> +	}
+> +
+> +	drm_connector_helper_add(conn, &cdns_mhdp_conn_helper_funcs);
+> +
+> +	ret = drm_display_info_set_bus_formats(&conn->display_info,
+> +					       &bus_format, 1);
+> +	if (ret)
+> +		return ret;
+> +
+
+v8 has
+
+	conn->display_info.bus_flags = DRM_BUS_FLAG_DE_HIGH;
+
+This wasn't correct, but should be dropped completely, as (if my
+understanding is correct) the IP core requires an active high DE input.
+You should set this in the bridge input flags, in
+drm_bridge.timings->input_bus_flags.
+
+> +	ret = drm_connector_attach_encoder(conn, bridge->encoder);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "Failed to attach connector to encoder\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_mhdp_attach(struct drm_bridge *bridge,
+> +			    enum drm_bridge_attach_flags flags)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +	bool hw_ready;
+> +	int ret;
+> +
+> +	dev_dbg(mhdp->dev, "%s\n", __func__);
+> +
+> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+> +		ret = cdns_mhdp_connector_init(mhdp);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	spin_lock(&mhdp->start_lock);
+> +
+> +	mhdp->bridge_attached = true;
+> +	hw_ready = mhdp->hw_state == MHDP_HW_READY;
+> +
+> +	spin_unlock(&mhdp->start_lock);
+> +
+> +	/* Enable SW event interrupts */
+> +	if (hw_ready)
+> +		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> +		       mhdp->regs + CDNS_APB_INT_MASK);
+> +
+> +	return 0;
+> +}
+> +
+> +static void cdns_mhdp_configure_video(struct cdns_mhdp_device *mhdp,
+> +				      const struct drm_display_mode *mode)
+> +{
+> +	unsigned int dp_framer_sp = 0, msa_horizontal_1,
+> +		msa_vertical_1, bnd_hsync2vsync, hsync2vsync_pol_ctrl,
+> +		misc0 = 0, misc1 = 0, pxl_repr,
+> +		front_porch, back_porch, msa_h0, msa_v0, hsync, vsync,
+> +		dp_vertical_1;
+> +	u32 bpp, bpc, pxlfmt;
+> +	u32 framer;
+> +	u8 stream_id = mhdp->stream_id;
+> +	int ret;
+> +
+> +	pxlfmt = mhdp->display_fmt.color_format;
+> +	bpc = mhdp->display_fmt.bpc;
+> +
+> +	/*
+> +	 * If YCBCR supported and stream not SD, use ITU709
+> +	 * Need to handle ITU version with YCBCR420 when supported
+> +	 */
+> +	if ((pxlfmt == DRM_COLOR_FORMAT_YCRCB444 ||
+> +	     pxlfmt == DRM_COLOR_FORMAT_YCRCB422) && mode->crtc_vdisplay >= 720)
+> +		misc0 = DP_YCBCR_COEFFICIENTS_ITU709;
+> +
+> +	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
+> +
+> +	switch (pxlfmt) {
+> +	case DRM_COLOR_FORMAT_RGB444:
+> +		pxl_repr = CDNS_DP_FRAMER_RGB << CDNS_DP_FRAMER_PXL_FORMAT;
+> +		misc0 |= DP_COLOR_FORMAT_RGB;
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCRCB444:
+> +		pxl_repr = CDNS_DP_FRAMER_YCBCR444 << CDNS_DP_FRAMER_PXL_FORMAT;
+> +		misc0 |= DP_COLOR_FORMAT_YCbCr444 | DP_TEST_DYNAMIC_RANGE_CEA;
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCRCB422:
+> +		pxl_repr = CDNS_DP_FRAMER_YCBCR422 << CDNS_DP_FRAMER_PXL_FORMAT;
+> +		misc0 |= DP_COLOR_FORMAT_YCbCr422 | DP_TEST_DYNAMIC_RANGE_CEA;
+> +		break;
+> +	case DRM_COLOR_FORMAT_YCRCB420:
+> +		pxl_repr = CDNS_DP_FRAMER_YCBCR420 << CDNS_DP_FRAMER_PXL_FORMAT;
+> +		break;
+> +	default:
+> +		pxl_repr = CDNS_DP_FRAMER_Y_ONLY << CDNS_DP_FRAMER_PXL_FORMAT;
+> +	}
+> +
+> +	switch (bpc) {
+> +	case 6:
+> +		misc0 |= DP_TEST_BIT_DEPTH_6;
+> +		pxl_repr |= CDNS_DP_FRAMER_6_BPC;
+> +		break;
+> +	case 8:
+> +		misc0 |= DP_TEST_BIT_DEPTH_8;
+> +		pxl_repr |= CDNS_DP_FRAMER_8_BPC;
+> +		break;
+> +	case 10:
+> +		misc0 |= DP_TEST_BIT_DEPTH_10;
+> +		pxl_repr |= CDNS_DP_FRAMER_10_BPC;
+> +		break;
+> +	case 12:
+> +		misc0 |= DP_TEST_BIT_DEPTH_12;
+> +		pxl_repr |= CDNS_DP_FRAMER_12_BPC;
+> +		break;
+> +	case 16:
+> +		misc0 |= DP_TEST_BIT_DEPTH_16;
+> +		pxl_repr |= CDNS_DP_FRAMER_16_BPC;
+> +		break;
+> +	}
+> +
+> +	bnd_hsync2vsync = CDNS_IP_BYPASS_V_INTERFACE;
+> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+> +		bnd_hsync2vsync |= CDNS_IP_DET_INTERLACE_FORMAT;
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_BND_HSYNC2VSYNC(stream_id),
+> +			    bnd_hsync2vsync);
+> +
+> +	hsync2vsync_pol_ctrl = 0;
+> +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+> +		hsync2vsync_pol_ctrl |= CDNS_H2V_HSYNC_POL_ACTIVE_LOW;
+> +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> +		hsync2vsync_pol_ctrl |= CDNS_H2V_VSYNC_POL_ACTIVE_LOW;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_HSYNC2VSYNC_POL_CTRL(stream_id),
+> +			    hsync2vsync_pol_ctrl);
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_PXL_REPR(stream_id), pxl_repr);
+> +
+> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+> +		dp_framer_sp |= CDNS_DP_FRAMER_INTERLACE;
+> +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+> +		dp_framer_sp |= CDNS_DP_FRAMER_HSYNC_POL_LOW;
+> +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> +		dp_framer_sp |= CDNS_DP_FRAMER_VSYNC_POL_LOW;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_SP(stream_id), dp_framer_sp);
+> +
+> +	front_porch = mode->crtc_hsync_start - mode->crtc_hdisplay;
+> +	back_porch = mode->crtc_htotal - mode->crtc_hsync_end;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRONT_BACK_PORCH(stream_id),
+> +			    CDNS_DP_FRONT_PORCH(front_porch) |
+> +			    CDNS_DP_BACK_PORCH(back_porch));
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_BYTE_COUNT(stream_id),
+> +			    mode->crtc_hdisplay * bpp / 8);
+> +
+> +	msa_h0 = mode->crtc_htotal - mode->crtc_hsync_start;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_MSA_HORIZONTAL_0(stream_id),
+> +			    CDNS_DP_MSAH0_H_TOTAL(mode->crtc_htotal) |
+> +			    CDNS_DP_MSAH0_HSYNC_START(msa_h0));
+> +
+> +	hsync = mode->crtc_hsync_end - mode->crtc_hsync_start;
+> +	msa_horizontal_1 = CDNS_DP_MSAH1_HSYNC_WIDTH(hsync) |
+> +			   CDNS_DP_MSAH1_HDISP_WIDTH(mode->crtc_hdisplay);
+> +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+> +		msa_horizontal_1 |= CDNS_DP_MSAH1_HSYNC_POL_LOW;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_MSA_HORIZONTAL_1(stream_id),
+> +			    msa_horizontal_1);
+> +
+> +	msa_v0 = mode->crtc_vtotal - mode->crtc_vsync_start;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_MSA_VERTICAL_0(stream_id),
+> +			    CDNS_DP_MSAV0_V_TOTAL(mode->crtc_vtotal) |
+> +			    CDNS_DP_MSAV0_VSYNC_START(msa_v0));
+> +
+> +	vsync = mode->crtc_vsync_end - mode->crtc_vsync_start;
+> +	msa_vertical_1 = CDNS_DP_MSAV1_VSYNC_WIDTH(vsync) |
+> +			 CDNS_DP_MSAV1_VDISP_WIDTH(mode->crtc_vdisplay);
+> +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> +		msa_vertical_1 |= CDNS_DP_MSAV1_VSYNC_POL_LOW;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_MSA_VERTICAL_1(stream_id),
+> +			    msa_vertical_1);
+> +
+> +	if ((mode->flags & DRM_MODE_FLAG_INTERLACE) &&
+> +	    mode->crtc_vtotal % 2 == 0)
+> +		misc1 = DP_TEST_INTERLACED;
+> +	if (mhdp->display_fmt.y_only)
+> +		misc1 |= CDNS_DP_TEST_COLOR_FORMAT_RAW_Y_ONLY;
+> +	/* Use VSC SDP for Y420 */
+> +	if (pxlfmt == DRM_COLOR_FORMAT_YCRCB420)
+> +		misc1 = CDNS_DP_TEST_VSC_SDP;
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_MSA_MISC(stream_id),
+> +			    misc0 | (misc1 << 8));
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_HORIZONTAL(stream_id),
+> +			    CDNS_DP_H_HSYNC_WIDTH(hsync) |
+> +			    CDNS_DP_H_H_TOTAL(mode->crtc_hdisplay));
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_VERTICAL_0(stream_id),
+> +			    CDNS_DP_V0_VHEIGHT(mode->crtc_vdisplay) |
+> +			    CDNS_DP_V0_VSTART(msa_v0));
+> +
+> +	dp_vertical_1 = CDNS_DP_V1_VTOTAL(mode->crtc_vtotal);
+> +	if ((mode->flags & DRM_MODE_FLAG_INTERLACE) &&
+> +	    mode->crtc_vtotal % 2 == 0)
+> +		dp_vertical_1 |= CDNS_DP_V1_VTOTAL_EVEN;
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_VERTICAL_1(stream_id), dp_vertical_1);
+> +
+> +	cdns_mhdp_reg_write_bit(mhdp, CDNS_DP_VB_ID(stream_id), 2, 1,
+> +				(mode->flags & DRM_MODE_FLAG_INTERLACE) ?
+> +				CDNS_DP_VB_ID_INTERLACED : 0);
+> +
+> +	ret = cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &framer);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev,
+> +			"Failed to read CDNS_DP_FRAMER_GLOBAL_CONFIG %d\n",
+> +			ret);
+> +		return;
+> +	}
+> +	framer |= CDNS_DP_FRAMER_EN;
+> +	framer &= ~CDNS_DP_NO_VIDEO_MODE;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, framer);
+> +}
+> +
+> +static void cdns_mhdp_sst_enable(struct cdns_mhdp_device *mhdp,
+> +				 const struct drm_display_mode *mode,
+> +				 struct drm_bridge_state *bridge_state)
+> +{
+> +	struct cdns_mhdp_bridge_state *state = to_cdns_mhdp_bridge_state(bridge_state);
+> +	u32 line_thresh = state->line_thresh;
+> +	u32 tu_size = state->tu_size;
+> +	u32 vs = state->vs;
+> +
+> +	mhdp->stream_id = 0;
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_TU,
+> +			    CDNS_DP_FRAMER_TU_VS(vs) |
+> +			    CDNS_DP_FRAMER_TU_SIZE(tu_size) |
+> +			    CDNS_DP_FRAMER_TU_CNT_RST_EN);
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_LINE_THRESH(0),
+> +			    line_thresh & GENMASK(5, 0));
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_STREAM_CONFIG_2(0),
+> +			    CDNS_DP_SC2_TU_VS_DIFF((tu_size - vs > 3) ?
+> +						   0 : tu_size - vs));
+> +
+> +	cdns_mhdp_configure_video(mhdp, mode);
+> +}
+> +
+> +static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+> +				    struct drm_bridge_state *bridge_state)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +	struct drm_atomic_state *state = bridge_state->base.state;
+> +	struct cdns_mhdp_bridge_state *mhdp_state;
+> +	struct drm_crtc_state *crtc_state;
+> +	struct drm_connector *connector;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_bridge_state *new_state;
+> +	const struct drm_display_mode *mode;
+> +	u32 resp;
+> +	int ret;
+> +
+> +	dev_dbg(mhdp->dev, "bridge enable\n");
+> +
+> +	mutex_lock(&mhdp->link_mutex);
+> +
+> +	if (mhdp->plugged && !mhdp->link_up) {
+> +		ret = cdns_mhdp_link_up(mhdp);
+> +		if (ret < 0)
+> +			goto out;
+> +	}
+> +
+> +	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->enable)
+> +		mhdp->info->ops->enable(mhdp);
+> +
+> +	/* Enable VIF clock for stream 0 */
+> +	ret = cdns_mhdp_reg_read(mhdp, CDNS_DPTX_CAR, &resp);
+> +	if (ret < 0) {
+> +		dev_err(mhdp->dev, "Failed to read CDNS_DPTX_CAR %d\n", ret);
+> +		goto out;
+> +	}
+> +
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+> +			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
+> +
+> +	connector = drm_atomic_get_new_connector_for_encoder(state,
+> +							     bridge->encoder);
+> +	if (WARN_ON(!connector))
+> +		goto out;
+> +
+> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
+> +	if (WARN_ON(!conn_state))
+> +		goto out;
+> +
+> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+> +	if (WARN_ON(!crtc_state))
+> +		goto out;
+> +
+> +	mode = &crtc_state->adjusted_mode;
+> +
+> +	new_state = drm_atomic_get_new_bridge_state(state, bridge);
+> +	if (WARN_ON(!new_state))
+> +		goto out;
+> +
+> +	cdns_mhdp_sst_enable(mhdp, mode, new_state);
+> +
+> +	mhdp_state = to_cdns_mhdp_bridge_state(new_state);
+> +
+> +	mhdp_state->current_mode = drm_mode_duplicate(bridge->dev, mode);
+> +	drm_mode_set_name(mhdp_state->current_mode);
+> +
+> +	dev_dbg(mhdp->dev, "%s: Enabling mode %s\n", __func__, mode->name);
+> +
+> +	mhdp->bridge_enabled = true;
+> +
+> +out:
+> +	mutex_unlock(&mhdp->link_mutex);
+> +	if (ret < 0)
+> +		schedule_work(&mhdp->modeset_retry_work);
+> +}
+> +
+> +static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *bridge_state)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +	u32 resp;
+> +
+> +	dev_dbg(mhdp->dev, "%s\n", __func__);
+> +
+> +	mutex_lock(&mhdp->link_mutex);
+> +
+> +	mhdp->bridge_enabled = false;
+> +	cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+> +	resp &= ~CDNS_DP_FRAMER_EN;
+> +	resp |= CDNS_DP_NO_VIDEO_MODE;
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, resp);
+> +
+> +	cdns_mhdp_link_down(mhdp);
+> +
+> +	/* Disable VIF clock for stream 0 */
+> +	cdns_mhdp_reg_read(mhdp, CDNS_DPTX_CAR, &resp);
+> +	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+> +			    resp & ~(CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN));
+> +
+> +	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->disable)
+> +		mhdp->info->ops->disable(mhdp);
+> +
+> +	mutex_unlock(&mhdp->link_mutex);
+> +}
+> +
+> +static void cdns_mhdp_detach(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +
+> +	dev_dbg(mhdp->dev, "%s\n", __func__);
+> +
+> +	spin_lock(&mhdp->start_lock);
+> +
+> +	mhdp->bridge_attached = false;
+> +
+> +	spin_unlock(&mhdp->start_lock);
+> +
+> +	writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
+> +}
+> +
+> +static struct drm_bridge_state *
+> +cdns_mhdp_bridge_atomic_duplicate_state(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_mhdp_bridge_state *state;
+> +
+> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> +	if (!state)
+> +		return NULL;
+> +
+> +	__drm_atomic_helper_bridge_duplicate_state(bridge, &state->base);
+> +
+> +	return &state->base;
+> +}
+> +
+> +static void
+> +cdns_mhdp_bridge_atomic_destroy_state(struct drm_bridge *bridge,
+> +				      struct drm_bridge_state *state)
+> +{
+> +	struct cdns_mhdp_bridge_state *cdns_mhdp_state;
+> +
+> +	cdns_mhdp_state = to_cdns_mhdp_bridge_state(state);
+> +
+> +	if (cdns_mhdp_state->current_mode) {
+> +		drm_mode_destroy(bridge->dev, cdns_mhdp_state->current_mode);
+> +		cdns_mhdp_state->current_mode = NULL;
+> +	}
+> +
+> +	kfree(cdns_mhdp_state);
+> +}
+> +
+> +static struct drm_bridge_state *
+> +cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_mhdp_bridge_state *cdns_mhdp_state;
+> +
+> +	cdns_mhdp_state = kzalloc(sizeof(*cdns_mhdp_state), GFP_KERNEL);
+> +	if (!cdns_mhdp_state)
+> +		return NULL;
+> +
+> +	 __drm_atomic_helper_bridge_reset(bridge, &cdns_mhdp_state->base);
+> +
+> +	return &cdns_mhdp_state->base;
+> +}
+> +
+> +static int cdns_mhdp_validate_mode_params(struct cdns_mhdp_device *mhdp,
+> +					  const struct drm_display_mode *mode,
+> +					  struct drm_bridge_state *bridge_state)
+> +{
+> +	u32 tu_size = 30, line_thresh1, line_thresh2, line_thresh = 0;
+> +	u32 rate, vs, vs_f, required_bandwidth, available_bandwidth;
+> +	struct cdns_mhdp_bridge_state *state;
+> +	int pxlclock;
+> +	u32 bpp;
+> +
+> +	state = to_cdns_mhdp_bridge_state(bridge_state);
+> +
+> +	pxlclock = mode->crtc_clock;
+> +
+> +	/* Get rate in MSymbols per second per lane */
+> +	rate = mhdp->link.rate / 1000;
+> +
+> +	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
+> +
+> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
+> +				    mhdp->link.rate)) {
+> +		dev_err(mhdp->dev, "%s: Not enough BW for %s (%u lanes at %u Mbps)\n",
+> +			__func__, mode->name, mhdp->link.num_lanes,
+> +			mhdp->link.rate / 100);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* find optimal tu_size */
+> +	required_bandwidth = pxlclock * bpp / 8;
+> +	available_bandwidth = mhdp->link.num_lanes * rate;
+> +	do {
+> +		tu_size += 2;
+> +
+> +		vs_f = tu_size * required_bandwidth / available_bandwidth;
+> +		vs = vs_f / 1000;
+> +		vs_f = vs_f % 1000;
+> +		/* Downspreading is unused currently */
+> +	} while ((vs == 1 || ((vs_f > 850 || vs_f < 100) && vs_f != 0) ||
+> +		 tu_size - vs < 2) && tu_size < 64);
+> +
+> +	if (vs > 64) {
+> +		dev_err(mhdp->dev,
+> +			"%s: No space for framing %s (%u lanes at %u Mbps)\n",
+> +			__func__, mode->name, mhdp->link.num_lanes,
+> +			mhdp->link.rate / 100);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (vs == tu_size)
+> +		vs = tu_size - 1;
+> +
+> +	line_thresh1 = ((vs + 1) << 5) * 8 / bpp;
+> +	line_thresh2 = (pxlclock << 5) / 1000 / rate * (vs + 1) - (1 << 5);
+> +	line_thresh = line_thresh1 - line_thresh2 / mhdp->link.num_lanes;
+> +	line_thresh = (line_thresh >> 5) + 2;
+> +
+> +	state->vs = vs;
+> +	state->tu_size = tu_size;
+> +	state->line_thresh = line_thresh;
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+> +				  struct drm_bridge_state *bridge_state,
+> +				  struct drm_crtc_state *crtc_state,
+> +				  struct drm_connector_state *conn_state)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> +	int ret;
+> +
+> +	mutex_lock(&mhdp->link_mutex);
+> +
+> +	if (!mhdp->plugged) {
+> +		mhdp->link.rate = mhdp->host.link_rate;
+> +		mhdp->link.num_lanes = mhdp->host.lanes_cnt;
+> +	}
+
+atomic_check isn't supposed to modify the state of the device. Could
+this be done in cdns_mhdp_update_link_status() instead ?
+
+> +
+> +	ret = cdns_mhdp_validate_mode_params(mhdp, mode, bridge_state);
+> +
+> +	mutex_unlock(&mhdp->link_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static enum drm_connector_status cdns_mhdp_bridge_detect(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +
+> +	return cdns_mhdp_detect(mhdp);
+> +}
+> +
+> +static struct edid *cdns_mhdp_bridge_get_edid(struct drm_bridge *bridge,
+> +					      struct drm_connector *connector)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +
+> +	return cdns_mhdp_get_edid(mhdp, connector);
+> +}
+> +
+> +static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +
+> +	/* Enable SW event interrupts */
+> +	if (mhdp->bridge_attached)
+> +		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> +		       mhdp->regs + CDNS_APB_INT_MASK);
+> +}
+> +
+> +static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +
+> +	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
+> +}
+> +
+> +static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+> +	.atomic_enable = cdns_mhdp_atomic_enable,
+> +	.atomic_disable = cdns_mhdp_atomic_disable,
+> +	.atomic_check = cdns_mhdp_atomic_check,
+> +	.attach = cdns_mhdp_attach,
+> +	.detach = cdns_mhdp_detach,
+> +	.atomic_duplicate_state = cdns_mhdp_bridge_atomic_duplicate_state,
+> +	.atomic_destroy_state = cdns_mhdp_bridge_atomic_destroy_state,
+> +	.atomic_reset = cdns_mhdp_bridge_atomic_reset,
+> +	.detect = cdns_mhdp_bridge_detect,
+> +	.get_edid = cdns_mhdp_bridge_get_edid,
+> +	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
+> +	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
+> +};
+> +
+> +static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
+> +{
+> +	int hpd_event, hpd_status;
+> +
+> +	*hpd_pulse = false;
+> +
+> +	hpd_event = cdns_mhdp_read_hpd_event(mhdp);
+> +
+> +	/* Getting event bits failed, bail out */
+> +	if (hpd_event < 0) {
+> +		dev_warn(mhdp->dev, "%s: read event failed: %d\n",
+> +			 __func__, hpd_event);
+> +		return false;
+> +	}
+> +
+> +	hpd_status = cdns_mhdp_get_hpd_status(mhdp);
+> +	if (hpd_status < 0) {
+> +		dev_warn(mhdp->dev, "%s: get hpd status failed: %d\n",
+> +			 __func__, hpd_status);
+> +		return false;
+> +	}
+> +
+> +	if (hpd_event & DPTX_READ_EVENT_HPD_PULSE)
+> +		*hpd_pulse = true;
+> +
+> +	return !!hpd_status;
+> +}
+> +
+> +static int cdns_mhdp_update_link_status(struct cdns_mhdp_device *mhdp)
+> +{
+> +	bool hpd_pulse;
+> +	int ret = 0;
+> +	struct drm_bridge_state *state;
+> +	struct cdns_mhdp_bridge_state *cdns_bridge_state;
+> +	struct drm_display_mode *current_mode;
+> +	bool old_plugged = mhdp->plugged;
+> +	u8 status[DP_LINK_STATUS_SIZE];
+> +
+> +	mhdp->plugged = cdns_mhdp_detect_hpd(mhdp, &hpd_pulse);
+
+Should this line be protected by the mutex too ? mhdp->plugged is
+checked with the mutex held elsewhere.
+
+> +
+> +	mutex_lock(&mhdp->link_mutex);
+> +
+> +	if (!mhdp->plugged) {
+> +		cdns_mhdp_link_down(mhdp);
+> +		goto out;
+> +	}
+> +
+> +	/*
+> +	 * If we get a HPD pulse event and we were and still are connected,
+> +	 * check the link status. If link status is ok, there's nothing to do
+> +	 * as we don't handle DP interrupts. If link status is bad, continue
+> +	 * with full link setup.
+> +	 */
+> +	if (hpd_pulse && old_plugged == mhdp->plugged) {
+> +		ret = drm_dp_dpcd_read_link_status(&mhdp->aux, status);
+> +
+> +		/*
+> +		 * If everything looks fine, just return, as we don't handle
+> +		 * DP IRQs.
+> +		 */
+> +		if (ret > 0 &&
+> +		    drm_dp_channel_eq_ok(status, mhdp->link.num_lanes) &&
+> +		    drm_dp_clock_recovery_ok(status, mhdp->link.num_lanes))
+> +			goto out;
+> +
+> +		/* If link is bad, mark link as down so that we do a new LT */
+> +		mhdp->link_up = false;
+> +	}
+> +
+> +	if (!mhdp->link_up) {
+> +		ret = cdns_mhdp_link_up(mhdp);
+> +		if (ret < 0)
+> +			goto out;
+> +	}
+> +
+> +	if (mhdp->bridge_enabled) {
+> +		state = drm_priv_to_bridge_state(mhdp->bridge.base.state);
+> +		if (!state) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		cdns_bridge_state = to_cdns_mhdp_bridge_state(state);
+> +		if (!cdns_bridge_state) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		current_mode = cdns_bridge_state->current_mode;
+> +		if (!current_mode) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		ret = cdns_mhdp_validate_mode_params(mhdp, current_mode, state);
+> +		if (ret < 0)
+> +			goto out;
+> +
+> +		dev_dbg(mhdp->dev, "%s: Enabling mode %s\n", __func__,
+> +			current_mode->name);
+> +
+> +		cdns_mhdp_sst_enable(mhdp, current_mode, state);
+> +	}
+> +out:
+> +	mutex_unlock(&mhdp->link_mutex);
+> +	return ret;
+> +}
+> +
+> +static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
+> +{
+> +	struct cdns_mhdp_device *mhdp;
+> +	struct drm_connector *conn;
+> +
+> +	mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
+> +
+> +	conn = &mhdp->connector;
+> +
+> +	/* Grab the locks before changing connector property */
+> +	mutex_lock(&conn->dev->mode_config.mutex);
+> +
+> +	/*
+> +	 * Set connector link status to BAD and send a Uevent to notify
+> +	 * userspace to do a modeset.
+> +	 */
+> +	drm_connector_set_link_status_property(conn,
+> +					       DRM_MODE_LINK_STATUS_BAD);
+
+This holds on a single line.
+
+With the small issues addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	mutex_unlock(&conn->dev->mode_config.mutex);
+> +
+> +	/* Send Hotplug uevent so userspace can reprobe */
+> +	drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+> +}
+> +
+> +static irqreturn_t cdns_mhdp_irq_handler(int irq, void *data)
+> +{
+> +	struct cdns_mhdp_device *mhdp = data;
+> +	u32 apb_stat, sw_ev0;
+> +	bool bridge_attached;
+> +	int ret;
+> +
+> +	apb_stat = readl(mhdp->regs + CDNS_APB_INT_STATUS);
+> +	if (!(apb_stat & CDNS_APB_INT_MASK_SW_EVENT_INT))
+> +		return IRQ_NONE;
+> +
+> +	sw_ev0 = readl(mhdp->regs + CDNS_SW_EVENT0);
+> +
+> +	/*
+> +	 *  Calling drm_kms_helper_hotplug_event() when not attached
+> +	 *  to drm device causes an oops because the drm_bridge->dev
+> +	 *  is NULL. See cdns_mhdp_fw_cb() comments for details about the
+> +	 *  problems related drm_kms_helper_hotplug_event() call.
+> +	 */
+> +	spin_lock(&mhdp->start_lock);
+> +	bridge_attached = mhdp->bridge_attached;
+> +	spin_unlock(&mhdp->start_lock);
+> +
+> +	if (bridge_attached && (sw_ev0 & CDNS_DPTX_HPD)) {
+> +		ret = cdns_mhdp_update_link_status(mhdp);
+> +		if (mhdp->connector.dev) {
+> +			if (ret < 0)
+> +				schedule_work(&mhdp->modeset_retry_work);
+> +			else
+> +				drm_kms_helper_hotplug_event(mhdp->bridge.dev);
+> +		} else {
+> +			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+> +		}
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int cdns_mhdp_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct cdns_mhdp_device *mhdp;
+> +	struct clk *clk;
+> +	int ret;
+> +	unsigned long rate;
+> +	int irq;
+> +
+> +	mhdp = devm_kzalloc(dev, sizeof(*mhdp), GFP_KERNEL);
+> +	if (!mhdp)
+> +		return -ENOMEM;
+> +
+> +	clk = devm_clk_get(dev, NULL);
+> +	if (IS_ERR(clk)) {
+> +		dev_err(dev, "couldn't get clk: %ld\n", PTR_ERR(clk));
+> +		return PTR_ERR(clk);
+> +	}
+> +
+> +	mhdp->clk = clk;
+> +	mhdp->dev = dev;
+> +	mutex_init(&mhdp->mbox_mutex);
+> +	mutex_init(&mhdp->link_mutex);
+> +	spin_lock_init(&mhdp->start_lock);
+> +
+> +	drm_dp_aux_init(&mhdp->aux);
+> +	mhdp->aux.dev = dev;
+> +	mhdp->aux.transfer = cdns_mhdp_transfer;
+> +
+> +	mhdp->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(mhdp->regs)) {
+> +		dev_err(dev, "Failed to get memory resource\n");
+> +		return PTR_ERR(mhdp->regs);
+> +	}
+> +
+> +	mhdp->phy = devm_of_phy_get_by_index(dev, pdev->dev.of_node, 0);
+> +	if (IS_ERR(mhdp->phy)) {
+> +		dev_err(dev, "no PHY configured\n");
+> +		return PTR_ERR(mhdp->phy);
+> +	}
+> +
+> +	platform_set_drvdata(pdev, mhdp);
+> +
+> +	mhdp->info = of_device_get_match_data(dev);
+> +
+> +	clk_prepare_enable(clk);
+> +
+> +	pm_runtime_enable(dev);
+> +	ret = pm_runtime_get_sync(dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "pm_runtime_get_sync failed\n");
+> +		pm_runtime_disable(dev);
+> +		goto clk_disable;
+> +	}
+> +
+> +	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->init) {
+> +		ret = mhdp->info->ops->init(mhdp);
+> +		if (ret != 0) {
+> +			dev_err(dev, "MHDP platform initialization failed: %d\n",
+> +				ret);
+> +			goto runtime_put;
+> +		}
+> +	}
+> +
+> +	rate = clk_get_rate(clk);
+> +	writel(rate % 1000000, mhdp->regs + CDNS_SW_CLK_L);
+> +	writel(rate / 1000000, mhdp->regs + CDNS_SW_CLK_H);
+> +
+> +	dev_dbg(dev, "func clk rate %lu Hz\n", rate);
+> +
+> +	writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
+> +
+> +	irq = platform_get_irq(pdev, 0);
+> +	ret = devm_request_threaded_irq(mhdp->dev, irq, NULL,
+> +					cdns_mhdp_irq_handler, IRQF_ONESHOT,
+> +					"mhdp8546", mhdp);
+> +	if (ret) {
+> +		dev_err(dev, "cannot install IRQ %d\n", irq);
+> +		ret = -EIO;
+> +		goto plat_fini;
+> +	}
+> +
+> +	cdns_mhdp_fill_host_caps(mhdp);
+> +
+> +	/* Initialize link rate and num of lanes to host values */
+> +	mhdp->link.rate = mhdp->host.link_rate;
+> +	mhdp->link.num_lanes = mhdp->host.lanes_cnt;
+> +
+> +	/* The only currently supported format */
+> +	mhdp->display_fmt.y_only = false;
+> +	mhdp->display_fmt.color_format = DRM_COLOR_FORMAT_RGB444;
+> +	mhdp->display_fmt.bpc = 8;
+> +
+> +	mhdp->bridge.of_node = pdev->dev.of_node;
+> +	mhdp->bridge.funcs = &cdns_mhdp_bridge_funcs;
+> +	mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
+> +			   DRM_BRIDGE_OP_HPD;
+> +	mhdp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+> +	if (mhdp->info)
+> +		mhdp->bridge.timings = mhdp->info->timings;
+> +
+> +	ret = phy_init(mhdp->phy);
+> +	if (ret) {
+> +		dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
+> +		goto plat_fini;
+> +	}
+> +
+> +	/* Initialize the work for modeset in case of link train failure */
+> +	INIT_WORK(&mhdp->modeset_retry_work, cdns_mhdp_modeset_retry_fn);
+> +
+> +	init_waitqueue_head(&mhdp->fw_load_wq);
+> +
+> +	ret = cdns_mhdp_load_firmware(mhdp);
+> +	if (ret)
+> +		goto phy_exit;
+> +
+> +	drm_bridge_add(&mhdp->bridge);
+> +
+> +	return 0;
+> +
+> +phy_exit:
+> +	phy_exit(mhdp->phy);
+> +plat_fini:
+> +	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->exit)
+> +		mhdp->info->ops->exit(mhdp);
+> +runtime_put:
+> +	pm_runtime_put_sync(dev);
+> +	pm_runtime_disable(dev);
+> +clk_disable:
+> +	clk_disable_unprepare(mhdp->clk);
+> +
+> +	return ret;
+> +}
+> +
+> +static int cdns_mhdp_remove(struct platform_device *pdev)
+> +{
+> +	struct cdns_mhdp_device *mhdp = dev_get_drvdata(&pdev->dev);
+> +	unsigned long timeout = msecs_to_jiffies(100);
+> +	bool stop_fw = false;
+> +	int ret;
+> +
+> +	drm_bridge_remove(&mhdp->bridge);
+> +
+> +	ret = wait_event_timeout(mhdp->fw_load_wq,
+> +				 mhdp->hw_state == MHDP_HW_READY,
+> +				 timeout);
+> +	if (ret == 0)
+> +		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+> +			__func__);
+> +	else
+> +		stop_fw = true;
+> +
+> +	spin_lock(&mhdp->start_lock);
+> +	mhdp->hw_state = MHDP_HW_STOPPED;
+> +	spin_unlock(&mhdp->start_lock);
+> +
+> +	if (stop_fw)
+> +		ret = cdns_mhdp_set_firmware_active(mhdp, false);
+> +
+> +	phy_exit(mhdp->phy);
+> +
+> +	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->exit)
+> +		mhdp->info->ops->exit(mhdp);
+> +
+> +	pm_runtime_put_sync(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	cancel_work_sync(&mhdp->modeset_retry_work);
+> +	flush_scheduled_work();
+> +
+> +	clk_disable_unprepare(mhdp->clk);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct of_device_id mhdp_ids[] = {
+> +	{ .compatible = "cdns,mhdp8546", },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, mhdp_ids);
+> +
+> +static struct platform_driver mhdp_driver = {
+> +	.driver	= {
+> +		.name		= "cdns-mhdp8546",
+> +		.of_match_table	= of_match_ptr(mhdp_ids),
+> +	},
+> +	.probe	= cdns_mhdp_probe,
+> +	.remove	= cdns_mhdp_remove,
+> +};
+> +module_platform_driver(mhdp_driver);
+> +
+> +MODULE_FIRMWARE(FW_NAME);
+> +
+> +MODULE_AUTHOR("Quentin Schulz <quentin.schulz@free-electrons.com>");
+> +MODULE_AUTHOR("Swapnil Jakhade <sjakhade@cadence.com>");
+> +MODULE_AUTHOR("Yuti Amonkar <yamonkar@cadence.com>");
+> +MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
+> +MODULE_AUTHOR("Jyri Sarha <jsarha@ti.com>");
+> +MODULE_DESCRIPTION("Cadence MHDP8546 DP bridge driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:cdns-mhdp8546");
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> new file mode 100644
+> index 000000000000..14ba7431fab8
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> @@ -0,0 +1,402 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Cadence MHDP8546 DP bridge driver.
+> + *
+> + * Copyright (C) 2020 Cadence Design Systems, Inc.
+> + *
+> + * Author: Quentin Schulz <quentin.schulz@free-electrons.com>
+> + *         Swapnil Jakhade <sjakhade@cadence.com>
+> + */
+> +
+> +#ifndef CDNS_MHDP8546_CORE_H
+> +#define CDNS_MHDP8546_CORE_H
+> +
+> +#include <linux/bits.h>
+> +#include <linux/mutex.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_dp_helper.h>
+> +
+> +struct clk;
+> +struct device;
+> +struct phy;
+> +
+> +/* Register offsets */
+> +#define CDNS_APB_CTRL				0x00000
+> +#define CDNS_CPU_STALL				BIT(3)
+> +
+> +#define CDNS_MAILBOX_FULL			0x00008
+> +#define CDNS_MAILBOX_EMPTY			0x0000c
+> +#define CDNS_MAILBOX_TX_DATA			0x00010
+> +#define CDNS_MAILBOX_RX_DATA			0x00014
+> +#define CDNS_KEEP_ALIVE				0x00018
+> +#define CDNS_KEEP_ALIVE_MASK			GENMASK(7, 0)
+> +
+> +#define CDNS_VER_L				0x0001C
+> +#define CDNS_VER_H				0x00020
+> +#define CDNS_LIB_L_ADDR				0x00024
+> +#define CDNS_LIB_H_ADDR				0x00028
+> +
+> +#define CDNS_MB_INT_MASK			0x00034
+> +#define CDNS_MB_INT_STATUS			0x00038
+> +
+> +#define CDNS_SW_CLK_L				0x0003c
+> +#define CDNS_SW_CLK_H				0x00040
+> +
+> +#define CDNS_SW_EVENT0				0x00044
+> +#define CDNS_DPTX_HPD				BIT(0)
+> +
+> +#define CDNS_SW_EVENT1				0x00048
+> +#define CDNS_SW_EVENT2				0x0004c
+> +#define CDNS_SW_EVENT3				0x00050
+> +
+> +#define CDNS_APB_INT_MASK			0x0006C
+> +#define CDNS_APB_INT_MASK_MAILBOX_INT		BIT(0)
+> +#define CDNS_APB_INT_MASK_SW_EVENT_INT		BIT(1)
+> +
+> +#define CDNS_APB_INT_STATUS			0x00070
+> +
+> +#define CDNS_DPTX_CAR				0x00904
+> +#define CDNS_VIF_CLK_EN				BIT(0)
+> +#define CDNS_VIF_CLK_RSTN			BIT(1)
+> +
+> +#define CDNS_SOURCE_VIDEO_IF(s)			(0x00b00 + ((s) * 0x20))
+> +#define CDNS_BND_HSYNC2VSYNC(s)			(CDNS_SOURCE_VIDEO_IF(s) + \
+> +						 0x00)
+> +#define CDNS_IP_DTCT_WIN			GENMASK(11, 0)
+> +#define CDNS_IP_DET_INTERLACE_FORMAT		BIT(12)
+> +#define CDNS_IP_BYPASS_V_INTERFACE		BIT(13)
+> +
+> +#define CDNS_HSYNC2VSYNC_POL_CTRL(s)		(CDNS_SOURCE_VIDEO_IF(s) + \
+> +						 0x10)
+> +#define CDNS_H2V_HSYNC_POL_ACTIVE_LOW		BIT(1)
+> +#define CDNS_H2V_VSYNC_POL_ACTIVE_LOW		BIT(2)
+> +
+> +#define CDNS_DPTX_PHY_CONFIG			0x02000
+> +#define CDNS_PHY_TRAINING_EN			BIT(0)
+> +#define CDNS_PHY_TRAINING_TYPE(x)		(((x) & GENMASK(3, 0)) << 1)
+> +#define CDNS_PHY_SCRAMBLER_BYPASS		BIT(5)
+> +#define CDNS_PHY_ENCODER_BYPASS			BIT(6)
+> +#define CDNS_PHY_SKEW_BYPASS			BIT(7)
+> +#define CDNS_PHY_TRAINING_AUTO			BIT(8)
+> +#define CDNS_PHY_LANE0_SKEW(x)			(((x) & GENMASK(2, 0)) << 9)
+> +#define CDNS_PHY_LANE1_SKEW(x)			(((x) & GENMASK(2, 0)) << 12)
+> +#define CDNS_PHY_LANE2_SKEW(x)			(((x) & GENMASK(2, 0)) << 15)
+> +#define CDNS_PHY_LANE3_SKEW(x)			(((x) & GENMASK(2, 0)) << 18)
+> +#define CDNS_PHY_COMMON_CONFIG			(CDNS_PHY_LANE1_SKEW(1) | \
+> +						CDNS_PHY_LANE2_SKEW(2) |  \
+> +						CDNS_PHY_LANE3_SKEW(3))
+> +#define CDNS_PHY_10BIT_EN			BIT(21)
+> +
+> +#define CDNS_DP_FRAMER_GLOBAL_CONFIG		0x02200
+> +#define CDNS_DP_NUM_LANES(x)			((x) - 1)
+> +#define CDNS_DP_MST_EN				BIT(2)
+> +#define CDNS_DP_FRAMER_EN			BIT(3)
+> +#define CDNS_DP_RATE_GOVERNOR_EN		BIT(4)
+> +#define CDNS_DP_NO_VIDEO_MODE			BIT(5)
+> +#define CDNS_DP_DISABLE_PHY_RST			BIT(6)
+> +#define CDNS_DP_WR_FAILING_EDGE_VSYNC		BIT(7)
+> +
+> +#define CDNS_DP_FRAMER_TU			0x02208
+> +#define CDNS_DP_FRAMER_TU_SIZE(x)		(((x) & GENMASK(6, 0)) << 8)
+> +#define CDNS_DP_FRAMER_TU_VS(x)			((x) & GENMASK(5, 0))
+> +#define CDNS_DP_FRAMER_TU_CNT_RST_EN		BIT(15)
+> +
+> +#define CDNS_DP_MTPH_CONTROL			0x02264
+> +#define CDNS_DP_MTPH_ECF_EN			BIT(0)
+> +#define CDNS_DP_MTPH_ACT_EN			BIT(1)
+> +#define CDNS_DP_MTPH_LVP_EN			BIT(2)
+> +
+> +#define CDNS_DP_MTPH_STATUS			0x0226C
+> +#define CDNS_DP_MTPH_ACT_STATUS			BIT(0)
+> +
+> +#define CDNS_DP_LANE_EN				0x02300
+> +#define CDNS_DP_LANE_EN_LANES(x)		GENMASK((x) - 1, 0)
+> +
+> +#define CDNS_DP_ENHNCD				0x02304
+> +
+> +#define CDNS_DPTX_STREAM(s)			(0x03000 + (s) * 0x80)
+> +#define CDNS_DP_MSA_HORIZONTAL_0(s)		(CDNS_DPTX_STREAM(s) + 0x00)
+> +#define CDNS_DP_MSAH0_H_TOTAL(x)		(x)
+> +#define CDNS_DP_MSAH0_HSYNC_START(x)		((x) << 16)
+> +
+> +#define CDNS_DP_MSA_HORIZONTAL_1(s)		(CDNS_DPTX_STREAM(s) + 0x04)
+> +#define CDNS_DP_MSAH1_HSYNC_WIDTH(x)		(x)
+> +#define CDNS_DP_MSAH1_HSYNC_POL_LOW		BIT(15)
+> +#define CDNS_DP_MSAH1_HDISP_WIDTH(x)		((x) << 16)
+> +
+> +#define CDNS_DP_MSA_VERTICAL_0(s)		(CDNS_DPTX_STREAM(s) + 0x08)
+> +#define CDNS_DP_MSAV0_V_TOTAL(x)		(x)
+> +#define CDNS_DP_MSAV0_VSYNC_START(x)		((x) << 16)
+> +
+> +#define CDNS_DP_MSA_VERTICAL_1(s)		(CDNS_DPTX_STREAM(s) + 0x0c)
+> +#define CDNS_DP_MSAV1_VSYNC_WIDTH(x)		(x)
+> +#define CDNS_DP_MSAV1_VSYNC_POL_LOW		BIT(15)
+> +#define CDNS_DP_MSAV1_VDISP_WIDTH(x)		((x) << 16)
+> +
+> +#define CDNS_DP_MSA_MISC(s)			(CDNS_DPTX_STREAM(s) + 0x10)
+> +#define CDNS_DP_STREAM_CONFIG(s)		(CDNS_DPTX_STREAM(s) + 0x14)
+> +#define CDNS_DP_STREAM_CONFIG_2(s)		(CDNS_DPTX_STREAM(s) + 0x2c)
+> +#define CDNS_DP_SC2_TU_VS_DIFF(x)		((x) << 8)
+> +
+> +#define CDNS_DP_HORIZONTAL(s)			(CDNS_DPTX_STREAM(s) + 0x30)
+> +#define CDNS_DP_H_HSYNC_WIDTH(x)		(x)
+> +#define CDNS_DP_H_H_TOTAL(x)			((x) << 16)
+> +
+> +#define CDNS_DP_VERTICAL_0(s)			(CDNS_DPTX_STREAM(s) + 0x34)
+> +#define CDNS_DP_V0_VHEIGHT(x)			(x)
+> +#define CDNS_DP_V0_VSTART(x)			((x) << 16)
+> +
+> +#define CDNS_DP_VERTICAL_1(s)			(CDNS_DPTX_STREAM(s) + 0x38)
+> +#define CDNS_DP_V1_VTOTAL(x)			(x)
+> +#define CDNS_DP_V1_VTOTAL_EVEN			BIT(16)
+> +
+> +#define CDNS_DP_MST_SLOT_ALLOCATE(s)		(CDNS_DPTX_STREAM(s) + 0x44)
+> +#define CDNS_DP_S_ALLOC_START_SLOT(x)		(x)
+> +#define CDNS_DP_S_ALLOC_END_SLOT(x)		((x) << 8)
+> +
+> +#define CDNS_DP_RATE_GOVERNING(s)		(CDNS_DPTX_STREAM(s) + 0x48)
+> +#define CDNS_DP_RG_TARG_AV_SLOTS_Y(x)		(x)
+> +#define CDNS_DP_RG_TARG_AV_SLOTS_X(x)		((x) << 4)
+> +#define CDNS_DP_RG_ENABLE			BIT(10)
+> +
+> +#define CDNS_DP_FRAMER_PXL_REPR(s)		(CDNS_DPTX_STREAM(s) + 0x4c)
+> +#define CDNS_DP_FRAMER_6_BPC			BIT(0)
+> +#define CDNS_DP_FRAMER_8_BPC			BIT(1)
+> +#define CDNS_DP_FRAMER_10_BPC			BIT(2)
+> +#define CDNS_DP_FRAMER_12_BPC			BIT(3)
+> +#define CDNS_DP_FRAMER_16_BPC			BIT(4)
+> +#define CDNS_DP_FRAMER_PXL_FORMAT		0x8
+> +#define CDNS_DP_FRAMER_RGB			BIT(0)
+> +#define CDNS_DP_FRAMER_YCBCR444			BIT(1)
+> +#define CDNS_DP_FRAMER_YCBCR422			BIT(2)
+> +#define CDNS_DP_FRAMER_YCBCR420			BIT(3)
+> +#define CDNS_DP_FRAMER_Y_ONLY			BIT(4)
+> +
+> +#define CDNS_DP_FRAMER_SP(s)			(CDNS_DPTX_STREAM(s) + 0x50)
+> +#define CDNS_DP_FRAMER_VSYNC_POL_LOW		BIT(0)
+> +#define CDNS_DP_FRAMER_HSYNC_POL_LOW		BIT(1)
+> +#define CDNS_DP_FRAMER_INTERLACE		BIT(2)
+> +
+> +#define CDNS_DP_LINE_THRESH(s)			(CDNS_DPTX_STREAM(s) + 0x64)
+> +#define CDNS_DP_ACTIVE_LINE_THRESH(x)		(x)
+> +
+> +#define CDNS_DP_VB_ID(s)			(CDNS_DPTX_STREAM(s) + 0x68)
+> +#define CDNS_DP_VB_ID_INTERLACED		BIT(2)
+> +#define CDNS_DP_VB_ID_COMPRESSED		BIT(6)
+> +
+> +#define CDNS_DP_FRONT_BACK_PORCH(s)		(CDNS_DPTX_STREAM(s) + 0x78)
+> +#define CDNS_DP_BACK_PORCH(x)			(x)
+> +#define CDNS_DP_FRONT_PORCH(x)			((x) << 16)
+> +
+> +#define CDNS_DP_BYTE_COUNT(s)			(CDNS_DPTX_STREAM(s) + 0x7c)
+> +#define CDNS_DP_BYTE_COUNT_BYTES_IN_CHUNK_SHIFT	16
+> +
+> +/* mailbox */
+> +#define MAILBOX_RETRY_US			1000
+> +#define MAILBOX_TIMEOUT_US			2000000
+> +
+> +#define MB_OPCODE_ID				0
+> +#define MB_MODULE_ID				1
+> +#define MB_SIZE_MSB_ID				2
+> +#define MB_SIZE_LSB_ID				3
+> +#define MB_DATA_ID				4
+> +
+> +#define MB_MODULE_ID_DP_TX			0x01
+> +#define MB_MODULE_ID_HDCP_TX			0x07
+> +#define MB_MODULE_ID_HDCP_RX			0x08
+> +#define MB_MODULE_ID_HDCP_GENERAL		0x09
+> +#define MB_MODULE_ID_GENERAL			0x0a
+> +
+> +/* firmware and opcodes */
+> +#define FW_NAME					"cadence/mhdp8546.bin"
+> +#define CDNS_MHDP_IMEM				0x10000
+> +
+> +#define GENERAL_MAIN_CONTROL			0x01
+> +#define GENERAL_TEST_ECHO			0x02
+> +#define GENERAL_BUS_SETTINGS			0x03
+> +#define GENERAL_TEST_ACCESS			0x04
+> +#define GENERAL_REGISTER_READ			0x07
+> +
+> +#define DPTX_SET_POWER_MNG			0x00
+> +#define DPTX_GET_EDID				0x02
+> +#define DPTX_READ_DPCD				0x03
+> +#define DPTX_WRITE_DPCD				0x04
+> +#define DPTX_ENABLE_EVENT			0x05
+> +#define DPTX_WRITE_REGISTER			0x06
+> +#define DPTX_READ_REGISTER			0x07
+> +#define DPTX_WRITE_FIELD			0x08
+> +#define DPTX_READ_EVENT				0x0a
+> +#define DPTX_GET_LAST_AUX_STAUS			0x0e
+> +#define DPTX_HPD_STATE				0x11
+> +#define DPTX_ADJUST_LT				0x12
+> +
+> +#define FW_STANDBY				0
+> +#define FW_ACTIVE				1
+> +
+> +/* HPD */
+> +#define DPTX_READ_EVENT_HPD_TO_HIGH             BIT(0)
+> +#define DPTX_READ_EVENT_HPD_TO_LOW              BIT(1)
+> +#define DPTX_READ_EVENT_HPD_PULSE               BIT(2)
+> +#define DPTX_READ_EVENT_HPD_STATE               BIT(3)
+> +
+> +/* general */
+> +#define CDNS_DP_TRAINING_PATTERN_4		0x7
+> +
+> +#define CDNS_KEEP_ALIVE_TIMEOUT			2000
+> +
+> +#define CDNS_VOLT_SWING(x)			((x) & GENMASK(1, 0))
+> +#define CDNS_FORCE_VOLT_SWING			BIT(2)
+> +
+> +#define CDNS_PRE_EMPHASIS(x)			((x) & GENMASK(1, 0))
+> +#define CDNS_FORCE_PRE_EMPHASIS			BIT(2)
+> +
+> +#define CDNS_SUPPORT_TPS(x)			BIT((x) - 1)
+> +
+> +#define CDNS_FAST_LINK_TRAINING			BIT(0)
+> +
+> +#define CDNS_LANE_MAPPING_TYPE_C_LANE_0(x)	((x) & GENMASK(1, 0))
+> +#define CDNS_LANE_MAPPING_TYPE_C_LANE_1(x)	((x) & GENMASK(3, 2))
+> +#define CDNS_LANE_MAPPING_TYPE_C_LANE_2(x)	((x) & GENMASK(5, 4))
+> +#define CDNS_LANE_MAPPING_TYPE_C_LANE_3(x)	((x) & GENMASK(7, 6))
+> +#define CDNS_LANE_MAPPING_NORMAL		0xe4
+> +#define CDNS_LANE_MAPPING_FLIPPED		0x1b
+> +
+> +#define CDNS_DP_MAX_NUM_LANES			4
+> +#define CDNS_DP_TEST_VSC_SDP			BIT(6) /* 1.3+ */
+> +#define CDNS_DP_TEST_COLOR_FORMAT_RAW_Y_ONLY	BIT(7)
+> +
+> +#define CDNS_MHDP_MAX_STREAMS			4
+> +
+> +#define DP_LINK_CAP_ENHANCED_FRAMING		BIT(0)
+> +
+> +struct cdns_mhdp_link {
+> +	unsigned char revision;
+> +	unsigned int rate;
+> +	unsigned int num_lanes;
+> +	unsigned long capabilities;
+> +};
+> +
+> +struct cdns_mhdp_host {
+> +	unsigned int link_rate;
+> +	u8 lanes_cnt;
+> +	u8 volt_swing;
+> +	u8 pre_emphasis;
+> +	u8 pattern_supp;
+> +	u8 lane_mapping;
+> +	bool fast_link;
+> +	bool enhanced;
+> +	bool scrambler;
+> +	bool ssc;
+> +};
+> +
+> +struct cdns_mhdp_sink {
+> +	unsigned int link_rate;
+> +	u8 lanes_cnt;
+> +	u8 pattern_supp;
+> +	bool fast_link;
+> +	bool enhanced;
+> +	bool ssc;
+> +};
+> +
+> +struct cdns_mhdp_display_fmt {
+> +	u32 color_format;
+> +	u32 bpc;
+> +	bool y_only;
+> +};
+> +
+> +/*
+> + * These enums present MHDP hw initialization state
+> + * Legal state transitions are:
+> + * MHDP_HW_READY <-> MHDP_HW_STOPPED
+> + */
+> +enum mhdp_hw_state {
+> +	MHDP_HW_READY = 1,	/* HW ready, FW active */
+> +	MHDP_HW_STOPPED		/* Driver removal FW to be stopped */
+> +};
+> +
+> +struct cdns_mhdp_device;
+> +
+> +struct mhdp_platform_ops {
+> +	int (*init)(struct cdns_mhdp_device *mhdp);
+> +	void (*exit)(struct cdns_mhdp_device *mhdp);
+> +	void (*enable)(struct cdns_mhdp_device *mhdp);
+> +	void (*disable)(struct cdns_mhdp_device *mhdp);
+> +};
+> +
+> +struct cdns_mhdp_bridge_state {
+> +	struct drm_bridge_state base;
+> +	u32 tu_size;
+> +	u32 vs;
+> +	u32 line_thresh;
+> +	struct drm_display_mode *current_mode;
+> +};
+> +
+> +struct cdns_mhdp_platform_info {
+> +	const struct drm_bridge_timings *timings;
+> +	const struct mhdp_platform_ops *ops;
+> +};
+> +
+> +#define to_cdns_mhdp_bridge_state(s) \
+> +		container_of(s, struct cdns_mhdp_bridge_state, base)
+> +
+> +struct cdns_mhdp_device {
+> +	void __iomem *regs;
+> +
+> +	struct device *dev;
+> +	struct clk *clk;
+> +	struct phy *phy;
+> +
+> +	const struct cdns_mhdp_platform_info *info;
+> +
+> +	/* This is to protect mailbox communications with the firmware */
+> +	struct mutex mbox_mutex;
+> +
+> +	/*
+> +	 * "link_mutex" protects the access to all the link parameters
+> +	 * including the link training process. Link training will be
+> +	 * invoked both from threaded interrupt handler and from atomic
+> +	 * callbacks when link_up is not set. So this mutex protects
+> +	 * flags such as link_up, bridge_enabled, link.num_lanes,
+> +	 * link.rate etc.
+> +	 */
+> +	struct mutex link_mutex;
+> +
+> +	struct drm_connector connector;
+> +	struct drm_bridge bridge;
+> +
+> +	struct cdns_mhdp_link link;
+> +	struct drm_dp_aux aux;
+> +
+> +	struct cdns_mhdp_host host;
+> +	struct cdns_mhdp_sink sink;
+> +	struct cdns_mhdp_display_fmt display_fmt;
+> +	u8 stream_id;
+> +
+> +	bool link_up;
+> +	bool plugged;
+> +
+> +	/*
+> +	 * "start_lock" protects the access to bridge_attached and
+> +	 * hw_state data members that control the delayed firmware
+> +	 * loading and attaching the bridge. They are accessed from
+> +	 * both the DRM core and cdns_mhdp_fw_cb(). In most cases just
+> +	 * protecting the data members is enough, but the irq mask
+> +	 * setting needs to be protected when enabling the FW.
+> +	 */
+> +	spinlock_t start_lock;
+> +	bool bridge_attached;
+> +	bool bridge_enabled;
+> +	enum mhdp_hw_state hw_state;
+> +	wait_queue_head_t fw_load_wq;
+> +
+> +	/* Work struct to schedule a uevent on link train failure */
+> +	struct work_struct modeset_retry_work;
+> +};
+> +
+> +#define connector_to_mhdp(x) container_of(x, struct cdns_mhdp_device, connector)
+> +#define bridge_to_mhdp(x) container_of(x, struct cdns_mhdp_device, bridge)
+> +
+> +#endif
+
+-- 
 Regards,
-Anitha
 
-> -----Original Message-----
-> From: Sam Ravnborg <sam@ravnborg.org>
-> Sent: Thursday, August 20, 2020 1:10 PM
-> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
-> Cc: dri-devel@lists.freedesktop.org; Paauwe, Bob J
-> <bob.j.paauwe@intel.com>; Dea, Edmund J <edmund.j.dea@intel.com>;
-> Vetter, Daniel <daniel.vetter@intel.com>; intel-gfx@lists.freedesktop.org
-> Subject: Re: [PATCH v6] drm/kmb: Add support for KeemBay Display
-> 
-> Hi Anitha.
-> 
-> Feedback on kmb_dsi.
-> 
-> The main feedback can be found after the kmb_dsi_init function.
-> The highligt of the feedback is that, in my opinion, the
-> best would be to use the drm_bridge abstraction for the kmb_dsi.
-> Maybe because I am biased - and this is just overhead.
-> But it just looks simpler to me.
- Mipi dsi is very time sensitive and any delay can cause problems.
- As soon as it's initialized it expects LCD controller to be up and running
- especially the LCD_TIMING_GEN_TRIG, a slight delay and lots of issues.
- It is tightly coupled in the hardware with LCD and let's keep it that
- way in the software too.
- 
-> There are several chunks of code surrounded by #ifdef.
-> It would be good if they could all be handled so no more #ifdef are
-> required.
-> 
-> There is also a lot of debug prints. Maybe this can be trimmed now that
-> the driver works?
-> 
-> There is a lot of variables that should all be included in a struct
-> kmb_dsi that should be allocated in the probe function (if this becomes
-> a bridge driver).
-> 
-> I hope this does not scare you away! If I am right about the ocnversion
-> to a drm_bridge, then I hope it is semi trivial to do.
-> All the hard HW init stuff is done.
-> 
-> 	Sam
-> 
-> > diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c
-> b/drivers/gpu/drm/kmb/kmb_dsi.c
-> > new file mode 100644
-> > index 0000000..21745ae
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-> > @@ -0,0 +1,1828 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2019-2020 Intel Corporation
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/spinlock.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_bridge.h>
-> > +#include <drm/drm_connector.h>
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_crtc_helper.h>
-> > +#include <drm/drm_edid.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_print.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +
-> > +#include "kmb_drv.h"
-> > +#include "kmb_dsi.h"
-> > +#include "kmb_regs.h"
-> > +
-> > +static int hw_initialized;
-> > +/* #define MIPI_TX_TEST_PATTERN_GENERATION */
-> > +/* #define DPHY_GET_FSM */
-> > +/* #define DPHY_READ_TESTCODE */
-> > +
-> > +static struct mipi_dsi_host *dsi_host;
-> > +static struct mipi_dsi_device *dsi_device;
-> > +
-> > +/* Default setting is 1080p, 4 lanes */
-> > +#define IMG_HEIGHT_LINES  1080
-> > +#define IMG_WIDTH_PX      1920
-> > +#define MIPI_TX_ACTIVE_LANES 4
-> > +
-> > +struct mipi_tx_frame_section_cfg mipi_tx_frame0_sect_cfg = {
-> > +	.width_pixels = IMG_WIDTH_PX,
-> > +	.height_lines = IMG_HEIGHT_LINES,
-> > +	.data_type = DSI_LP_DT_PPS_RGB888_24B,
-> > +	.data_mode = MIPI_DATA_MODE1,
-> > +	.dma_packed = 0
-> > +};
-> > +
-> > +struct mipi_tx_frame_cfg mipitx_frame0_cfg = {
-> > +	.sections[0] = &mipi_tx_frame0_sect_cfg,
-> > +	.sections[1] = NULL,
-> > +	.sections[2] = NULL,
-> > +	.sections[3] = NULL,
-> > +	.vsync_width = 5,
-> > +	.v_backporch = 36,
-> > +	.v_frontporch = 4,
-> > +	.hsync_width = 44,
-> > +	.h_backporch = 148,
-> > +	.h_frontporch = 88
-> > +};
-> > +
-> > +struct mipi_tx_dsi_cfg mipitx_dsi_cfg = {
-> > +	.hfp_blank_en = 0,
-> > +	.eotp_en = 0,
-> > +	.lpm_last_vfp_line = 0,
-> > +	.lpm_first_vsa_line = 0,
-> > +	.sync_pulse_eventn = DSI_VIDEO_MODE_NO_BURST_EVENT,
-> > +	.hfp_blanking = SEND_BLANK_PACKET,
-> > +	.hbp_blanking = SEND_BLANK_PACKET,
-> > +	.hsa_blanking = SEND_BLANK_PACKET,
-> > +	.v_blanking = SEND_BLANK_PACKET,
-> > +};
-> > +
-> > +struct mipi_ctrl_cfg mipi_tx_init_cfg = {
-> > +	.index = MIPI_CTRL6,
-> > +	.type = MIPI_DSI,
-> > +	.dir = MIPI_TX,
-> > +	.active_lanes = MIPI_TX_ACTIVE_LANES,
-> > +	.lane_rate_mbps = MIPI_TX_LANE_DATA_RATE_MBPS,
-> > +	.ref_clk_khz = MIPI_TX_REF_CLK_KHZ,
-> > +	.cfg_clk_khz = MIPI_TX_CFG_CLK_KHZ,
-> > +	.data_if = MIPI_IF_PARALLEL,
-> > +	.tx_ctrl_cfg = {
-> > +			.frames[0] = &mipitx_frame0_cfg,
-> > +			.frames[1] = NULL,
-> > +			.frames[2] = NULL,
-> > +			.frames[3] = NULL,
-> > +			.tx_dsi_cfg = &mipitx_dsi_cfg,
-> > +			.line_sync_pkt_en = 0,
-> > +			.line_counter_active = 0,
-> > +			.frame_counter_active = 0,
-> > +			.tx_always_use_hact = 1,
-> > +			.tx_hact_wait_stop = 1,
-> > +			}
-> > +};
-> > +
-> > +struct  mipi_hs_freq_range_cfg {
-> > +	u16 default_bit_rate_mbps;
-> > +	u8 hsfreqrange_code;
-> > +};
-> > +
-> > +struct vco_params {
-> > +	u32 freq;
-> > +	u32 range;
-> > +	u32 divider;
-> > +};
-> > +
-> > +static struct vco_params vco_table[] = {
-> > +	{52, 0x3f, 8},
-> > +	{80, 0x39, 8},
-> > +	{105, 0x2f, 4},
-> > +	{160, 0x29, 4},
-> > +	{210, 0x1f, 2},
-> > +	{320, 0x19, 2},
-> > +	{420, 0x0f, 1},
-> > +	{630, 0x09, 1},
-> > +	{1100, 0x03, 1},
-> > +	{0xffff, 0x01, 1},
-> > +};
-> > +
-> > +static struct mipi_hs_freq_range_cfg
-> > +mipi_hs_freq_range[MIPI_DPHY_DEFAULT_BIT_RATES] = {
-> > +	{.default_bit_rate_mbps = 80, .hsfreqrange_code = 0x00},
-> > +	{.default_bit_rate_mbps = 90, .hsfreqrange_code = 0x10},
-> > +	{.default_bit_rate_mbps = 100, .hsfreqrange_code = 0x20},
-> > +	{.default_bit_rate_mbps = 110, .hsfreqrange_code = 0x30},
-> > +	{.default_bit_rate_mbps = 120, .hsfreqrange_code = 0x01},
-> > +	{.default_bit_rate_mbps = 130, .hsfreqrange_code = 0x11},
-> > +	{.default_bit_rate_mbps = 140, .hsfreqrange_code = 0x21},
-> > +	{.default_bit_rate_mbps = 150, .hsfreqrange_code = 0x31},
-> > +	{.default_bit_rate_mbps = 160, .hsfreqrange_code = 0x02},
-> > +	{.default_bit_rate_mbps = 170, .hsfreqrange_code = 0x12},
-> > +	{.default_bit_rate_mbps = 180, .hsfreqrange_code = 0x22},
-> > +	{.default_bit_rate_mbps = 190, .hsfreqrange_code = 0x32},
-> > +	{.default_bit_rate_mbps = 205, .hsfreqrange_code = 0x03},
-> > +	{.default_bit_rate_mbps = 220, .hsfreqrange_code = 0x13},
-> > +	{.default_bit_rate_mbps = 235, .hsfreqrange_code = 0x23},
-> > +	{.default_bit_rate_mbps = 250, .hsfreqrange_code = 0x33},
-> > +	{.default_bit_rate_mbps = 275, .hsfreqrange_code = 0x04},
-> > +	{.default_bit_rate_mbps = 300, .hsfreqrange_code = 0x14},
-> > +	{.default_bit_rate_mbps = 325, .hsfreqrange_code = 0x25},
-> > +	{.default_bit_rate_mbps = 350, .hsfreqrange_code = 0x35},
-> > +	{.default_bit_rate_mbps = 400, .hsfreqrange_code = 0x05},
-> > +	{.default_bit_rate_mbps = 450, .hsfreqrange_code = 0x16},
-> > +	{.default_bit_rate_mbps = 500, .hsfreqrange_code = 0x26},
-> > +	{.default_bit_rate_mbps = 550, .hsfreqrange_code = 0x37},
-> > +	{.default_bit_rate_mbps = 600, .hsfreqrange_code = 0x07},
-> > +	{.default_bit_rate_mbps = 650, .hsfreqrange_code = 0x18},
-> > +	{.default_bit_rate_mbps = 700, .hsfreqrange_code = 0x28},
-> > +	{.default_bit_rate_mbps = 750, .hsfreqrange_code = 0x39},
-> > +	{.default_bit_rate_mbps = 800, .hsfreqrange_code = 0x09},
-> > +	{.default_bit_rate_mbps = 850, .hsfreqrange_code = 0x19},
-> > +	{.default_bit_rate_mbps = 900, .hsfreqrange_code = 0x29},
-> > +	{.default_bit_rate_mbps = 1000, .hsfreqrange_code = 0x0A},
-> > +	{.default_bit_rate_mbps = 1050, .hsfreqrange_code = 0x1A},
-> > +	{.default_bit_rate_mbps = 1100, .hsfreqrange_code = 0x2A},
-> > +	{.default_bit_rate_mbps = 1150, .hsfreqrange_code = 0x3B},
-> > +	{.default_bit_rate_mbps = 1200, .hsfreqrange_code = 0x0B},
-> > +	{.default_bit_rate_mbps = 1250, .hsfreqrange_code = 0x1B},
-> > +	{.default_bit_rate_mbps = 1300, .hsfreqrange_code = 0x2B},
-> > +	{.default_bit_rate_mbps = 1350, .hsfreqrange_code = 0x3C},
-> > +	{.default_bit_rate_mbps = 1400, .hsfreqrange_code = 0x0C},
-> > +	{.default_bit_rate_mbps = 1450, .hsfreqrange_code = 0x1C},
-> > +	{.default_bit_rate_mbps = 1500, .hsfreqrange_code = 0x2C},
-> > +	{.default_bit_rate_mbps = 1550, .hsfreqrange_code = 0x3D},
-> > +	{.default_bit_rate_mbps = 1600, .hsfreqrange_code = 0x0D},
-> > +	{.default_bit_rate_mbps = 1650, .hsfreqrange_code = 0x1D},
-> > +	{.default_bit_rate_mbps = 1700, .hsfreqrange_code = 0x2E},
-> > +	{.default_bit_rate_mbps = 1750, .hsfreqrange_code = 0x3E},
-> > +	{.default_bit_rate_mbps = 1800, .hsfreqrange_code = 0x0E},
-> > +	{.default_bit_rate_mbps = 1850, .hsfreqrange_code = 0x1E},
-> > +	{.default_bit_rate_mbps = 1900, .hsfreqrange_code = 0x2F},
-> > +	{.default_bit_rate_mbps = 1950, .hsfreqrange_code = 0x3F},
-> > +	{.default_bit_rate_mbps = 2000, .hsfreqrange_code = 0x0F},
-> > +	{.default_bit_rate_mbps = 2050, .hsfreqrange_code = 0x40},
-> > +	{.default_bit_rate_mbps = 2100, .hsfreqrange_code = 0x41},
-> > +	{.default_bit_rate_mbps = 2150, .hsfreqrange_code = 0x42},
-> > +	{.default_bit_rate_mbps = 2200, .hsfreqrange_code = 0x43},
-> > +	{.default_bit_rate_mbps = 2250, .hsfreqrange_code = 0x44},
-> > +	{.default_bit_rate_mbps = 2300, .hsfreqrange_code = 0x45},
-> > +	{.default_bit_rate_mbps = 2350, .hsfreqrange_code = 0x46},
-> > +	{.default_bit_rate_mbps = 2400, .hsfreqrange_code = 0x47},
-> > +	{.default_bit_rate_mbps = 2450, .hsfreqrange_code = 0x48},
-> > +	{.default_bit_rate_mbps = 2500, .hsfreqrange_code = 0x49}
-> > +};
-> > +
-> > +union mipi_irq_cfg int_cfg = {
-> > +	.irq_cfg.frame_done = 1,
-> > +	.irq_cfg.ctrl_error = 1,
-> > +};
-> > +
-> > +static enum drm_mode_status
-> > +kmb_dsi_mode_valid(struct drm_connector *connector,
-> > +		   struct drm_display_mode *mode)
-> There is a third argument in latest drm code.
- drm_connector_mode_valid() calls connector->mode_valid() with 2 arguments.
-
-> > +{
-> > +	struct drm_device *dev = connector->dev;
-> > +	struct drm_mode_config *mode_config = &dev->mode_config;
-> > +
-> > +	if (mode->hdisplay < mode_config->min_width ||
-> > +	    mode->hdisplay > mode_config->max_width)
-> > +		return MODE_BAD_HVALUE;
-> > +
-> > +	if (mode->vdisplay < mode_config->min_height ||
-> > +	    mode->vdisplay > mode_config->max_height)
-> > +		return MODE_BAD_VVALUE;
-> > +
-> > +	return MODE_OK;
-> > +}
-> > +
-> > +static int kmb_dsi_get_modes(struct drm_connector *connector)
-> > +{
-> > +	int num_modes = 0;
-> > +
-> > +	num_modes = drm_add_modes_noedid(connector,
-> > +					 connector->dev-
-> >mode_config.max_width,
-> > +			 connector->dev->mode_config.max_height);
-> > +
-> > +	DRM_INFO("width=%d height=%d\n",
-> > +		 connector->dev->mode_config.max_width,
-> > +		 connector->dev->mode_config.max_height);
-> > +	DRM_INFO("num modes=%d\n", num_modes);
-> > +
-> > +	return num_modes;
-> > +}
-> > +
-> > +void kmb_dsi_host_unregister(void)
-> > +{
-> > +	mipi_dsi_host_unregister(dsi_host);
-> > +	kfree(dsi_host);
-> > +}
-> > +
-> > +static void kmb_dsi_connector_destroy(struct drm_connector
-> *connector)
-> > +{
-> > +	struct kmb_connector *kmb_connector =
-> to_kmb_connector(connector);
-> > +
-> > +	drm_connector_cleanup(connector);
-> > +	kfree(kmb_connector);
-> > +}
-> > +
-> > +static void kmb_dsi_encoder_destroy(struct drm_encoder *encoder)
-> > +{
-> > +	struct kmb_dsi *kmb_dsi = to_kmb_dsi(encoder);
-> > +
-> > +	if (!kmb_dsi)
-> > +		return;
-> > +
-> > +	kfree(kmb_dsi->dsi_host);
-> > +
-> > +	drm_encoder_cleanup(encoder);
-> > +
-> > +	kmb_dsi_connector_destroy(&kmb_dsi->attached_connector-
-> >base);
-> > +
-> > +	kfree(kmb_dsi);
-> > +	if (!dsi_device)
-> > +		kfree(dsi_device);
-> > +}
-> > +
-> > +static const struct drm_encoder_funcs kmb_dsi_funcs = {
-> > +	.destroy = kmb_dsi_encoder_destroy,
-> > +};
-> > +
-> > +static const struct
-> > +drm_connector_helper_funcs kmb_dsi_connector_helper_funcs = {
-> > +	.get_modes = kmb_dsi_get_modes,
-> > +	.mode_valid = kmb_dsi_mode_valid,
-> > +};
-> > +
-> > +static const struct drm_connector_funcs kmb_dsi_connector_funcs = {
-> > +	.destroy = kmb_dsi_connector_destroy,
-> > +	.fill_modes = drm_helper_probe_single_connector_modes,
-> > +	.reset = drm_atomic_helper_connector_reset,
-> > +	.atomic_destroy_state =
-> drm_atomic_helper_connector_destroy_state,
-> > +	.atomic_duplicate_state =
-> drm_atomic_helper_connector_duplicate_state,
-> > +};
-> > +
-> > +static ssize_t kmb_dsi_host_transfer(struct mipi_dsi_host *host,
-> > +				     const struct mipi_dsi_msg *msg)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static int kmb_dsi_host_attach(struct mipi_dsi_host *host,
-> > +			       struct mipi_dsi_device *dev)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static int kmb_dsi_host_detach(struct mipi_dsi_host *host,
-> > +			       struct mipi_dsi_device *dev)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct mipi_dsi_host_ops kmb_dsi_host_ops = {
-> > +	.attach = kmb_dsi_host_attach,
-> > +	.detach = kmb_dsi_host_detach,
-> > +	.transfer = kmb_dsi_host_transfer,
-> > +};
-> > +
-> > +static struct kmb_dsi_host *kmb_dsi_host_init(struct drm_device
-> *drm,
-> > +					      struct kmb_dsi *kmb_dsi)
-> > +{
-> > +	struct kmb_dsi_host *host;
-> > +
-> > +	host = kzalloc(sizeof(*host), GFP_KERNEL);
-> > +	if (!host)
-> > +		return NULL;
-> > +
-> > +	host->base = dsi_host;
-> > +	host->base->ops = &kmb_dsi_host_ops;
-> > +	host->kmb_dsi = kmb_dsi;
-> > +
-> > +	host->base->dev = drm->dev;
-> > +
-> > +	dsi_device->host = host->base;
-> > +	host->device = dsi_device;
-> > +	return host;
-> > +}
-> > +
-> > +struct drm_bridge *kmb_dsi_host_bridge_init(struct device *dev)
-> > +{
-> If this becomes a bridge driver, then part of this belongs in the probe
-> function.
-> 
-> > +	struct drm_bridge *bridge = NULL;
-> > +	struct device_node *encoder_node;
-> > +
-> > +	/* Create and register MIPI DSI host */
-> > +	if (!dsi_host) {
-> > +		dsi_host = kzalloc(sizeof(*dsi_host), GFP_KERNEL);
-> > +		if (!dsi_host)
-> > +			return ERR_PTR(-ENOMEM);
-> > +
-> > +		dsi_host->ops = &kmb_dsi_host_ops;
-> > +
-> > +		if (!dsi_device) {
-> > +			dsi_device = kzalloc(sizeof(*dsi_device),
-> GFP_KERNEL);
-> > +			if (!dsi_device) {
-> > +				kfree(dsi_host);
-> > +				return ERR_PTR(-ENOMEM);
-> > +			}
-> > +		}
-> > +
-> > +		dsi_host->dev = dev;
-> > +		mipi_dsi_host_register(dsi_host);
-> > +	}
-> > +	/* Find ADV7535 node and initialize it */
-> > +	encoder_node = of_parse_phandle(dev->of_node, "encoder-slave",
-> 0);
-> > +
-> > +	if (!encoder_node) {
-> > +		DRM_ERROR("Failed to get bridge info from DT\n");
-> > +		return ERR_PTR(-EINVAL);
-> > +	}
-> > +
-> > +	/* Locate drm bridge from the hdmi encoder DT node */
-> > +	bridge = of_drm_find_bridge(encoder_node);
-> > +	of_node_put(encoder_node);
-> > +	if (!bridge) {
-> > +		DRM_INFO("Wait for external bridge driver DT\n");
-> > +		return ERR_PTR(-EPROBE_DEFER);
-> > +	}
-> > +	return bridge;
-> > +}
-> > +
-> > +u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
-> > +			     struct mipi_data_type_params *params)
-> static
-> 
-> > +{
-> > +	struct mipi_data_type_params data_type_param;
-> > +
-> > +	switch (data_type) {
-> > +	case DSI_LP_DT_PPS_YCBCR420_12B:
-> > +		data_type_param.size_constraint_pixels = 2;
-> > +		data_type_param.size_constraint_bytes = 3;
-> > +		switch (data_mode) {
-> > +			/* Case 0 not supported according to MDK */
-> > +		case 1:
-> > +		case 2:
-> > +		case 3:
-> > +			data_type_param.pixels_per_pclk = 2;
-> > +			data_type_param.bits_per_pclk = 24;
-> > +			break;
-> > +		default:
-> > +			DRM_ERROR("DSI: Invalid data_mode %d\n",
-> data_mode);
-> > +			return -EINVAL;
-> > +		};
-> > +		break;
-> > +	case DSI_LP_DT_PPS_YCBCR422_16B:
-> > +		data_type_param.size_constraint_pixels = 2;
-> > +		data_type_param.size_constraint_bytes = 4;
-> > +		switch (data_mode) {
-> > +			/* Case 0 and 1 not supported according
-> > +			 * to MDK
-> > +			 */
-> > +		case 2:
-> > +			data_type_param.pixels_per_pclk = 1;
-> > +			data_type_param.bits_per_pclk = 16;
-> > +			break;
-> > +		case 3:
-> > +			data_type_param.pixels_per_pclk = 2;
-> > +			data_type_param.bits_per_pclk = 32;
-> > +			break;
-> > +		default:
-> > +			DRM_ERROR("DSI: Invalid data_mode %d\n",
-> data_mode);
-> > +			return -EINVAL;
-> > +		};
-> > +		break;
-> > +	case DSI_LP_DT_LPPS_YCBCR422_20B:
-> > +	case DSI_LP_DT_PPS_YCBCR422_24B:
-> > +		data_type_param.size_constraint_pixels = 2;
-> > +		data_type_param.size_constraint_bytes = 6;
-> > +		switch (data_mode) {
-> > +			/* Case 0 not supported according to MDK */
-> > +		case 1:
-> > +		case 2:
-> > +		case 3:
-> > +			data_type_param.pixels_per_pclk = 1;
-> > +			data_type_param.bits_per_pclk = 24;
-> > +			break;
-> > +		default:
-> > +			DRM_ERROR("DSI: Invalid data_mode %d\n",
-> data_mode);
-> > +			return -EINVAL;
-> > +		};
-> > +		break;
-> > +	case DSI_LP_DT_PPS_RGB565_16B:
-> > +		data_type_param.size_constraint_pixels = 1;
-> > +		data_type_param.size_constraint_bytes = 2;
-> > +		switch (data_mode) {
-> > +		case 0:
-> > +		case 1:
-> > +			data_type_param.pixels_per_pclk = 1;
-> > +			data_type_param.bits_per_pclk = 16;
-> > +			break;
-> > +		case 2:
-> > +		case 3:
-> > +			data_type_param.pixels_per_pclk = 2;
-> > +			data_type_param.bits_per_pclk = 32;
-> > +			break;
-> > +		default:
-> > +			DRM_ERROR("DSI: Invalid data_mode %d\n",
-> data_mode);
-> > +			return -EINVAL;
-> > +		};
-> > +		break;
-> > +	case DSI_LP_DT_PPS_RGB666_18B:
-> > +		data_type_param.size_constraint_pixels = 4;
-> > +		data_type_param.size_constraint_bytes = 9;
-> > +		data_type_param.bits_per_pclk = 18;
-> > +		data_type_param.pixels_per_pclk = 1;
-> > +		break;
-> > +	case DSI_LP_DT_LPPS_RGB666_18B:
-> > +	case DSI_LP_DT_PPS_RGB888_24B:
-> > +		data_type_param.size_constraint_pixels = 1;
-> > +		data_type_param.size_constraint_bytes = 3;
-> > +		data_type_param.bits_per_pclk = 24;
-> > +		data_type_param.pixels_per_pclk = 1;
-> > +		break;
-> > +	case DSI_LP_DT_PPS_RGB101010_30B:
-> > +		data_type_param.size_constraint_pixels = 4;
-> > +		data_type_param.size_constraint_bytes = 15;
-> > +		data_type_param.bits_per_pclk = 30;
-> > +		data_type_param.pixels_per_pclk = 1;
-> > +		break;
-> > +	default:
-> > +		DRM_ERROR("DSI: Invalid data_type %d\n", data_type);
-> > +		return -EINVAL;
-> > +	};
-> > +
-> > +	*params = data_type_param;
-> > +	return 0;
-> > +}
-> > +
-> > +static u32 compute_wc(u32 width_px, u8 size_constr_p, u8
-> size_constr_b)
-> > +{
-> > +	/* Calculate the word count for each long packet */
-> > +	return (((width_px / size_constr_p) * size_constr_b) & 0xffff);
-> > +}
-> > +
-> > +static u32 compute_unpacked_bytes(u32 wc, u8 bits_per_pclk)
-> > +{
-> > +	/* Number of PCLK cycles needed to transfer a line
-> > +	 * with each PCLK cycle, 4 Bytes are sent through the PPL module
-> > +	 */
-> > +	return ((wc * 8) / bits_per_pclk) * 4;
-> > +}
-> > +
-> > +static u32 mipi_tx_fg_section_cfg_regs(struct kmb_drm_private *kmb,
-> > +				       u8 frame_id, u8 section,
-> > +				       u32 height_lines, u32 unpacked_bytes,
-> > +				       struct mipi_tx_frame_sect_phcfg
-> *ph_cfg)
-> > +{
-> > +	u32 cfg = 0;
-> > +	u32 ctrl_no = MIPI_CTRL6;
-> > +	u32 reg_adr;
-> > +
-> > +	/* Frame section packet header */
-> > +	/* Word count bits [15:0] */
-> > +	cfg = (ph_cfg->wc & MIPI_TX_SECT_WC_MASK) << 0;
-> > +
-> > +	/* Data type (bits [21:16]) */
-> > +	cfg |= ((ph_cfg->data_type & MIPI_TX_SECT_DT_MASK)
-> > +		<< MIPI_TX_SECT_DT_SHIFT);
-> > +
-> > +	/* Virtual channel (bits [23:22]) */
-> > +	cfg |= ((ph_cfg->vchannel & MIPI_TX_SECT_VC_MASK)
-> > +		<< MIPI_TX_SECT_VC_SHIFT);
-> > +
-> > +	/* Data mode (bits [24:25]) */
-> > +	cfg |= ((ph_cfg->data_mode & MIPI_TX_SECT_DM_MASK)
-> > +		<< MIPI_TX_SECT_DM_SHIFT);
-> > +	if (ph_cfg->dma_packed)
-> > +		cfg |= MIPI_TX_SECT_DMA_PACKED;
-> > +
-> > +	drm_dbg(&kmb->drm,
-> > +		"ctrl=%d frame_id=%d section=%d cfg=%x packed=%d\n",
-> > +		  ctrl_no, frame_id, section, cfg, ph_cfg->dma_packed);
-> > +	kmb_write_mipi(kmb,
-> > +		       (MIPI_TXm_HS_FGn_SECTo_PH(ctrl_no, frame_id,
-> section)),
-> > +		       cfg);
-> > +
-> > +	/* Unpacked bytes */
-> > +
-> > +	/* There are 4 frame generators and each fg has 4 sections
-> > +	 * There are 2 registers for unpacked bytes (# bytes each
-> > +	 * section occupies in memory)
-> > +	 * REG_UNPACKED_BYTES0: [15:0]-BYTES0, [31:16]-BYTES1
-> > +	 * REG_UNPACKED_BYTES1: [15:0]-BYTES2, [31:16]-BYTES3
-> > +	 */
-> > +	reg_adr =
-> > +	    MIPI_TXm_HS_FGn_SECT_UNPACKED_BYTES0(ctrl_no,
-> > +						 frame_id) + (section / 2) * 4;
-> > +	kmb_write_bits_mipi(kmb, reg_adr, (section % 2) * 16, 16,
-> > +			    unpacked_bytes);
-> > +	drm_dbg(&kmb->drm,
-> > +		"unpacked_bytes = %d, wordcount = %d\n",
-> unpacked_bytes,
-> > +		  ph_cfg->wc);
-> > +
-> > +	/* Line config */
-> > +	reg_adr = MIPI_TXm_HS_FGn_SECTo_LINE_CFG(ctrl_no, frame_id,
-> section);
-> > +	kmb_write_mipi(kmb, reg_adr, height_lines);
-> > +	return 0;
-> > +}
-> > +
-> > +static u32 mipi_tx_fg_section_cfg(struct kmb_drm_private *kmb,
-> > +				  u8 frame_id, u8 section,
-> > +				  struct mipi_tx_frame_section_cfg
-> *frame_scfg,
-> > +				  u32 *bits_per_pclk, u32 *wc)
-> > +{
-> > +	u32 ret = 0;
-> > +	u32 unpacked_bytes;
-> > +	struct mipi_data_type_params data_type_parameters;
-> > +	struct mipi_tx_frame_sect_phcfg ph_cfg;
-> > +
-> > +	ret = mipi_get_datatype_params(frame_scfg->data_type,
-> > +				       frame_scfg->data_mode,
-> > +				       &data_type_parameters);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Packet width has to be a multiple of the minimum packet width
-> > +	 * (in pixels) set for each data type
-> > +	 */
-> > +	if (frame_scfg->width_pixels %
-> > +	    data_type_parameters.size_constraint_pixels != 0)
-> > +		return -EINVAL;
-> > +
-> > +	*wc = compute_wc(frame_scfg->width_pixels,
-> > +			 data_type_parameters.size_constraint_pixels,
-> > +			 data_type_parameters.size_constraint_bytes);
-> > +	unpacked_bytes = compute_unpacked_bytes(*wc,
-> > +
-> 	data_type_parameters.bits_per_pclk);
-> > +	ph_cfg.wc = *wc;
-> > +	ph_cfg.data_mode = frame_scfg->data_mode;
-> > +	ph_cfg.data_type = frame_scfg->data_type;
-> > +	ph_cfg.dma_packed = frame_scfg->dma_packed;
-> > +	ph_cfg.vchannel = frame_id;
-> > +
-> > +	mipi_tx_fg_section_cfg_regs(kmb, frame_id, section,
-> > +				    frame_scfg->height_lines,
-> > +				    unpacked_bytes, &ph_cfg);
-> > +
-> > +	/* Caller needs bits_per_clk for additional caluclations */
-> > +	*bits_per_pclk = data_type_parameters.bits_per_pclk;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void mipi_tx_fg_cfg_regs(struct kmb_drm_private *kmb, u8
-> frame_gen,
-> > +				struct mipi_tx_frame_timing_cfg *fg_cfg)
-> > +{
-> > +	u32 sysclk;
-> > +	u32 ppl_llp_ratio;
-> > +	u32 ctrl_no = MIPI_CTRL6, reg_adr, val, offset;
-> > +
-> > +	/* 500 Mhz system clock minus 50 to account for the difference in
-> > +	 * MIPI clock speed in RTL tests
-> > +	 */
-> > +	sysclk = kmb->sys_clk_mhz - 50;
-> > +
-> > +	/* PPL-Pixel Packing Layer, LLP-Low Level Protocol
-> > +	 * Frame genartor timing parameters are clocked on the system
-> clock,
-> > +	 * whereas as the equivalent parameters in the LLP blocks are
-> clocked
-> > +	 * on LLP Tx clock from the D-PHY - BYTE clock
-> > +	 */
-> > +
-> > +	/* Multiply by 1000 to maintain precision */
-> > +	ppl_llp_ratio = ((fg_cfg->bpp / 8) * sysclk * 1000) /
-> > +	    ((fg_cfg->lane_rate_mbps / 8) * fg_cfg->active_lanes);
-> > +
-> > +	drm_dbg(&kmb->drm, "ppl_llp_ratio=%d\n", ppl_llp_ratio);
-> > +	drm_dbg(&kmb->drm, "bpp=%d sysclk=%d lane-rate=%d active-
-> lanes=%d\n",
-> > +		fg_cfg->bpp, sysclk, fg_cfg->lane_rate_mbps,
-> > +		 fg_cfg->active_lanes);
-> > +
-> > +	/* Frame generator number of lines */
-> > +	reg_adr = MIPI_TXm_HS_FGn_NUM_LINES(ctrl_no, frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr, fg_cfg->v_active);
-> > +
-> > +	/* vsync width
-> > +	 * There are 2 registers for vsync width (VSA in lines for
-> > +	 * channels 0-3)
-> > +	 * REG_VSYNC_WIDTH0: [15:0]-VSA for channel0, [31:16]-VSA for
-> channel1
-> > +	 * REG_VSYNC_WIDTH1: [15:0]-VSA for channel2, [31:16]-VSA for
-> channel3
-> > +	 */
-> > +	offset = (frame_gen % 2) * 16;
-> > +	reg_adr = MIPI_TXm_HS_VSYNC_WIDTHn(ctrl_no, frame_gen / 2);
-> > +	kmb_write_bits_mipi(kmb, reg_adr, offset, 16, fg_cfg-
-> >vsync_width);
-> > +
-> > +	/* vertical backporch (vbp) */
-> > +	reg_adr = MIPI_TXm_HS_V_BACKPORCHESn(ctrl_no, frame_gen /
-> 2);
-> > +	kmb_write_bits_mipi(kmb, reg_adr, offset, 16, fg_cfg-
-> >v_backporch);
-> > +
-> > +	/* vertical frontporch (vfp) */
-> > +	reg_adr = MIPI_TXm_HS_V_FRONTPORCHESn(ctrl_no, frame_gen /
-> 2);
-> > +	kmb_write_bits_mipi(kmb, reg_adr, offset, 16, fg_cfg-
-> >v_frontporch);
-> > +
-> > +	/* vertical active (vactive) */
-> > +	reg_adr = MIPI_TXm_HS_V_ACTIVEn(ctrl_no, frame_gen / 2);
-> > +	kmb_write_bits_mipi(kmb, reg_adr, offset, 16, fg_cfg->v_active);
-> > +
-> > +	/* hsync width */
-> > +	reg_adr = MIPI_TXm_HS_HSYNC_WIDTHn(ctrl_no, frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr,
-> > +		       (fg_cfg->hsync_width * ppl_llp_ratio) / 1000);
-> > +
-> > +	/* horizontal backporch (hbp) */
-> > +	reg_adr = MIPI_TXm_HS_H_BACKPORCHn(ctrl_no, frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr,
-> > +		       (fg_cfg->h_backporch * ppl_llp_ratio) / 1000);
-> > +
-> > +	/* horizontal frontporch (hfp) */
-> > +	reg_adr = MIPI_TXm_HS_H_FRONTPORCHn(ctrl_no, frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr,
-> > +		       (fg_cfg->h_frontporch * ppl_llp_ratio) / 1000);
-> > +
-> > +	/* horizontal active (ha) */
-> > +	reg_adr = MIPI_TXm_HS_H_ACTIVEn(ctrl_no, frame_gen);
-> > +
-> > +	/* convert h_active which is wc in bytes to cycles */
-> > +	val = (fg_cfg->h_active * sysclk * 1000) /
-> > +	    ((fg_cfg->lane_rate_mbps / 8) * fg_cfg->active_lanes);
-> > +	val /= 1000;
-> > +	kmb_write_mipi(kmb, reg_adr, val);
-> > +
-> > +	/* llp hsync width */
-> > +	reg_adr = MIPI_TXm_HS_LLP_HSYNC_WIDTHn(ctrl_no, frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr, fg_cfg->hsync_width * (fg_cfg->bpp
-> / 8));
-> > +
-> > +	/* llp h backporch */
-> > +	reg_adr = MIPI_TXm_HS_LLP_H_BACKPORCHn(ctrl_no, frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr, fg_cfg->h_backporch * (fg_cfg->bpp
-> / 8));
-> > +
-> > +	/* llp h frontporch */
-> > +	reg_adr = MIPI_TXm_HS_LLP_H_FRONTPORCHn(ctrl_no,
-> frame_gen);
-> > +	kmb_write_mipi(kmb, reg_adr,
-> > +		       fg_cfg->h_frontporch * (fg_cfg->bpp / 8));
-> > +}
-> > +
-> > +static void mipi_tx_fg_cfg(struct kmb_drm_private *kmb, u8
-> frame_gen,
-> > +			   u8 active_lanes, u32 bpp, u32 wc,
-> > +			   u32 lane_rate_mbps, struct mipi_tx_frame_cfg
-> *fg_cfg)
-> > +{
-> > +	u32 i, fg_num_lines = 0;
-> > +	struct mipi_tx_frame_timing_cfg fg_t_cfg;
-> > +
-> > +	/* Calculate the total frame generator number of
-> > +	 * lines based on it's active sections
-> > +	 */
-> > +	for (i = 0; i < MIPI_TX_FRAME_GEN_SECTIONS; i++) {
-> > +		if (fg_cfg->sections[i])
-> > +			fg_num_lines += fg_cfg->sections[i]->height_lines;
-> > +	}
-> > +
-> > +	fg_t_cfg.bpp = bpp;
-> > +	fg_t_cfg.lane_rate_mbps = lane_rate_mbps;
-> > +	fg_t_cfg.hsync_width = fg_cfg->hsync_width;
-> > +	fg_t_cfg.h_backporch = fg_cfg->h_backporch;
-> > +	fg_t_cfg.h_frontporch = fg_cfg->h_frontporch;
-> > +	fg_t_cfg.h_active = wc;
-> > +	fg_t_cfg.vsync_width = fg_cfg->vsync_width;
-> > +	fg_t_cfg.v_backporch = fg_cfg->v_backporch;
-> > +	fg_t_cfg.v_frontporch = fg_cfg->v_frontporch;
-> > +	fg_t_cfg.v_active = fg_num_lines;
-> > +	fg_t_cfg.active_lanes = active_lanes;
-> > +
-> > +	/* Apply frame generator timing setting */
-> > +	mipi_tx_fg_cfg_regs(kmb, frame_gen, &fg_t_cfg);
-> > +}
-> > +
-> > +static void mipi_tx_multichannel_fifo_cfg(struct kmb_drm_private
-> *kmb,
-> > +					  u8 active_lanes, u8 vchannel_id)
-> > +{
-> > +	u32 fifo_size, fifo_rthreshold;
-> > +	u32 ctrl_no = MIPI_CTRL6;
-> > +
-> > +	/* Clear all mc fifo channel sizes and thresholds */
-> > +	kmb_write_mipi(kmb, MIPI_TX_HS_MC_FIFO_CTRL_EN, 0);
-> > +	kmb_write_mipi(kmb, MIPI_TX_HS_MC_FIFO_CHAN_ALLOC0, 0);
-> > +	kmb_write_mipi(kmb, MIPI_TX_HS_MC_FIFO_CHAN_ALLOC1, 0);
-> > +	kmb_write_mipi(kmb, MIPI_TX_HS_MC_FIFO_RTHRESHOLD0, 0);
-> > +	kmb_write_mipi(kmb, MIPI_TX_HS_MC_FIFO_RTHRESHOLD1, 0);
-> > +
-> > +	fifo_size = ((active_lanes > MIPI_D_LANES_PER_DPHY) ?
-> > +		     MIPI_CTRL_4LANE_MAX_MC_FIFO_LOC :
-> > +		     MIPI_CTRL_2LANE_MAX_MC_FIFO_LOC) - 1;
-> > +
-> > +	/* MC fifo size for virtual channels 0-3
-> > +	 * REG_MC_FIFO_CHAN_ALLOC0: [8:0]-channel0, [24:16]-channel1
-> > +	 * REG_MC_FIFO_CHAN_ALLOC1: [8:0]-2, [24:16]-channel3
-> > +	 */
-> > +	SET_MC_FIFO_CHAN_ALLOC(kmb, ctrl_no, vchannel_id, fifo_size);
-> > +
-> > +	/* Set threshold to half the fifo size, actual size=size*16 */
-> > +	fifo_rthreshold = ((fifo_size) * 8) & BIT_MASK_16;
-> > +	SET_MC_FIFO_RTHRESHOLD(kmb, ctrl_no, vchannel_id,
-> fifo_rthreshold);
-> > +
-> > +	/* Enable the MC FIFO channel corresponding to the Virtual Channel
-> */
-> > +	kmb_set_bit_mipi(kmb,
-> MIPI_TXm_HS_MC_FIFO_CTRL_EN(ctrl_no),
-> > +			 vchannel_id);
-> > +}
-> > +
-> > +static void mipi_tx_ctrl_cfg(struct kmb_drm_private *kmb, u8 fg_id,
-> > +			     struct mipi_ctrl_cfg *ctrl_cfg)
-> > +{
-> > +	u32 sync_cfg = 0, ctrl = 0, fg_en;
-> > +	u32 ctrl_no = MIPI_CTRL6;
-> > +
-> > +	/* MIPI_TX_HS_SYNC_CFG */
-> > +	if (ctrl_cfg->tx_ctrl_cfg.line_sync_pkt_en)
-> > +		sync_cfg |= LINE_SYNC_PKT_ENABLE;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.frame_counter_active)
-> > +		sync_cfg |= FRAME_COUNTER_ACTIVE;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.line_counter_active)
-> > +		sync_cfg |= LINE_COUNTER_ACTIVE;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->v_blanking)
-> > +		sync_cfg |= DSI_V_BLANKING;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hsa_blanking)
-> > +		sync_cfg |= DSI_HSA_BLANKING;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hbp_blanking)
-> > +		sync_cfg |= DSI_HBP_BLANKING;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hfp_blanking)
-> > +		sync_cfg |= DSI_HFP_BLANKING;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->sync_pulse_eventn)
-> > +		sync_cfg |= DSI_SYNC_PULSE_EVENTN;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->lpm_first_vsa_line)
-> > +		sync_cfg |= DSI_LPM_FIRST_VSA_LINE;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->lpm_last_vfp_line)
-> > +		sync_cfg |= DSI_LPM_LAST_VFP_LINE;
-> > +
-> > +	/* Enable frame generator */
-> > +	fg_en = 1 << fg_id;
-> > +	sync_cfg |= FRAME_GEN_EN(fg_en);
-> > +
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_always_use_hact)
-> > +		sync_cfg |= ALWAYS_USE_HACT(fg_en);
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_hact_wait_stop)
-> > +		sync_cfg |= HACT_WAIT_STOP(fg_en);
-> > +
-> > +	drm_dbg(&kmb->drm, "sync_cfg=%d fg_en=%d\n", sync_cfg,
-> fg_en);
-> > +
-> > +	/* MIPI_TX_HS_CTRL */
-> > +
-> > +	/* type:DSI, source:LCD */
-> > +	ctrl = HS_CTRL_EN | TX_SOURCE;
-> > +	ctrl |= LCD_VC(fg_id);
-> > +	ctrl |= ACTIVE_LANES(ctrl_cfg->active_lanes - 1);
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->eotp_en)
-> > +		ctrl |= DSI_EOTP_EN;
-> > +	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hfp_blank_en)
-> > +		ctrl |= DSI_CMD_HFP_EN;
-> > +
-> > +	/*67 ns stop time */
-> > +	ctrl |= HSEXIT_CNT(0x43);
-> > +
-> > +	kmb_write_mipi(kmb, MIPI_TXm_HS_SYNC_CFG(ctrl_no),
-> sync_cfg);
-> > +	kmb_write_mipi(kmb, MIPI_TXm_HS_CTRL(ctrl_no), ctrl);
-> > +}
-> > +
-> > +#ifdef MIPI_TX_TEST_PATTERN_GENERATION
-> > +static void mipi_tx_hs_tp_gen(struct kmb_drm_private *kmb, int vc,
-> > +			      int tp_sel, u32 stripe_width, u32 color0,
-> > +			      u32 color1, u32 ctrl_no)
-> > +{
-> > +	int val = 0;
-> > +
-> > +	/* Select test pattern mode on the virtual channel */
-> > +	val = TP_SEL_VCm(vc, tp_sel);
-> > +
-> > +	/* Configure test pattern colors */
-> > +	kmb_write_mipi(kmb, MIPI_TXm_HS_TEST_PAT_COLOR0(ctrl_no),
-> color0);
-> > +	kmb_write_mipi(kmb, MIPI_TXm_HS_TEST_PAT_COLOR1(ctrl_no),
-> color1);
-> > +
-> > +	/* Enable test pattern generation on the virtual channel */
-> > +	val |= TP_EN_VCm(vc);
-> > +	kmb_write_mipi(kmb, MIPI_TXm_HS_TEST_PAT_CTRL(ctrl_no),
-> val);
-> > +}
-> > +#endif
-> > +
-> > +static u32 mipi_tx_init_cntrl(struct kmb_drm_private *kmb,
-> > +			      struct mipi_ctrl_cfg *ctrl_cfg)
-> > +{
-> > +	u32 ret = 0;
-> > +	u8 active_vchannels = 0;
-> > +	u8 frame_id, sect;
-> > +	u32 bits_per_pclk = 0;
-> > +	u32 word_count = 0;
-> > +	struct mipi_tx_frame_cfg *frame;
-> > +
-> > +	/* This is the order to initialize MIPI TX:
-> > +	 * 1. set frame section parameters
-> > +	 * 2. set frame specific parameters
-> > +	 * 3. connect lcd to mipi
-> > +	 * 4. multi channel fifo cfg
-> > +	 * 5. set mipitxcctrlcfg
-> > +	 */
-> > +
-> > +	for (frame_id = 0; frame_id < 4; frame_id++) {
-> > +		frame = ctrl_cfg->tx_ctrl_cfg.frames[frame_id];
-> > +
-> > +		/* Find valid frame, assume only one valid frame */
-> > +		if (!frame)
-> > +			continue;
-> > +
-> > +		/* Frame Section configuration */
-> > +		/* TODO - assume there is only one valid section in a frame,
-> > +		 * so bits_per_pclk and word_count are only set once
-> > +		 */
-> > +		for (sect = 0; sect < MIPI_CTRL_VIRTUAL_CHANNELS;
-> sect++) {
-> > +			if (!frame->sections[sect])
-> > +				continue;
-> > +
-> > +			ret = mipi_tx_fg_section_cfg(kmb, frame_id, sect,
-> > +						     frame->sections[sect],
-> > +						     &bits_per_pclk,
-> > +						     &word_count);
-> > +			if (ret)
-> > +				return ret;
-> > +		}
-> > +
-> > +		/* Set frame specific parameters */
-> > +		mipi_tx_fg_cfg(kmb, frame_id, ctrl_cfg->active_lanes,
-> > +			       bits_per_pclk, word_count,
-> > +			       ctrl_cfg->lane_rate_mbps, frame);
-> > +
-> > +		active_vchannels++;
-> > +
-> > +		/* Stop iterating as only one virtual channel
-> > +		 * shall be used for LCD connection
-> > +		 */
-> > +		break;
-> > +	}
-> > +
-> > +	if (active_vchannels == 0)
-> > +		return -EINVAL;
-> > +	/* Multi-Channel FIFO Configuration */
-> > +	mipi_tx_multichannel_fifo_cfg(kmb, ctrl_cfg->active_lanes,
-> frame_id);
-> > +
-> > +	/* Frame Generator Enable */
-> > +	mipi_tx_ctrl_cfg(kmb, frame_id, ctrl_cfg);
-> > +
-> > +#ifdef MIPI_TX_TEST_PATTERN_GENERATION
-> > +	mipi_tx_hs_tp_gen(kmb, 0, MIPI_TX_HS_TP_V_STRIPES,
-> > +			  0x8, 0xff, 0xff00, MIPI_CTRL6);
-> > +#endif
-> > +
-> > +	drm_dbg(&kmb->drm, "IRQ_STATUS = 0x%x\n",
-> > +		GET_MIPI_TX_HS_IRQ_STATUS(kmb, MIPI_CTRL6));
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +#ifdef DPHY_READ_TESTCODE
-> > +int dphy_read_testcode(struct kmb_drm_private *kmb, int dphy_sel,
-> > +		       int test_code)
-> > +{
-> > +	u32 reg_wr_data;
-> > +	u32 reg_rd_data;
-> > +	int data;
-> > +
-> > +	reg_wr_data = dphy_sel;
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	data = 0;
-> > +	reg_wr_data = 0;
-> > +	reg_rd_data = 0;
-> > +
-> > +	if (((dphy_sel >> 0 & 0x1) == 1) | ((dphy_sel >> 4 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 8 & 0x1) == 1))
-> > +		reg_wr_data |= data << 0;
-> > +	if (((dphy_sel >> 1 & 0x1) == 1) | ((dphy_sel >> 5 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 9 & 0x1) == 1))
-> > +		reg_wr_data |= data << 8;
-> > +	if (((dphy_sel >> 2 & 0x1) == 1) | ((dphy_sel >> 6 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 10 & 0x1) == 1))
-> > +		reg_wr_data |= data << 16;
-> > +	if (((dphy_sel >> 3 & 0x1) == 1) | ((dphy_sel >> 7 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 11 & 0x1) == 1))
-> > +		reg_wr_data |= data << 24;
-> > +
-> > +	if ((dphy_sel >> 0 & 0xf) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN0_3, reg_wr_data);
-> > +	if ((dphy_sel >> 4 & 0xf) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN4_7, reg_wr_data);
-> > +	if ((dphy_sel >> 8 & 0x3) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN8_9, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	reg_wr_data = (dphy_sel | dphy_sel << 12);
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	reg_wr_data = dphy_sel << 12;
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	data = test_code >> 8 & 0xf;
-> > +	reg_wr_data = 0;
-> > +
-> > +	if (((dphy_sel >> 0 & 0x1) == 1) | ((dphy_sel >> 4 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 8 & 0x1) == 1))
-> > +		reg_wr_data |= data << 0;
-> > +	if (((dphy_sel >> 1 & 0x1) == 1) | ((dphy_sel >> 5 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 9 & 0x1) == 1))
-> > +		reg_wr_data |= data << 8;
-> > +	if (((dphy_sel >> 2 & 0x1) == 1) | ((dphy_sel >> 6 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 10 & 0x1) == 1))
-> > +		reg_wr_data |= data << 16;
-> > +	if (((dphy_sel >> 3 & 0x1) == 1) | ((dphy_sel >> 7 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 11 & 0x1) == 1))
-> > +		reg_wr_data |= data << 24;
-> > +
-> > +	if ((dphy_sel >> 0 & 0xf) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN0_3, reg_wr_data);
-> > +	if ((dphy_sel >> 4 & 0xf) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN4_7, reg_wr_data);
-> > +	if ((dphy_sel >> 8 & 0x3) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN8_9, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	reg_wr_data = dphy_sel;
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	data = test_code & 0xff;
-> > +	reg_wr_data = 0;
-> > +
-> > +	if (((dphy_sel >> 0 & 0x1) == 1) | ((dphy_sel >> 4 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 8 & 0x1) == 1))
-> > +		reg_wr_data |= data << 0;
-> > +	if (((dphy_sel >> 1 & 0x1) == 1) | ((dphy_sel >> 5 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 9 & 0x1) == 1))
-> > +		reg_wr_data |= data << 8;
-> > +	if (((dphy_sel >> 2 & 0x1) == 1) | ((dphy_sel >> 6 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 10 & 0x1) == 1))
-> > +		reg_wr_data |= data << 16;
-> > +	if (((dphy_sel >> 3 & 0x1) == 1) | ((dphy_sel >> 7 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 11 & 0x1) == 1))
-> > +		reg_wr_data |= data << 24;
-> > +
-> > +	if ((dphy_sel >> 0 & 0xf) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN0_3, reg_wr_data);
-> > +	if ((dphy_sel >> 4 & 0xf) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN4_7, reg_wr_data);
-> > +	if ((dphy_sel >> 8 & 0x3) > 0)
-> > +		kmb_write_mipi(kmb, DPHY_TEST_DIN8_9, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	reg_wr_data = (dphy_sel | dphy_sel << 12);
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	reg_wr_data = dphy_sel << 12;
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	reg_wr_data = 0;
-> > +	kmb_write_mipi(kmb, DPHY_TEST_CTRL1, reg_wr_data);
-> > +
-> > +	if ((dphy_sel >> 0 & 0xf) > 0)
-> > +		reg_rd_data = kmb_read_mipi(kmb,
-> DPHY_TEST_DOUBT0_3);
-> > +	if ((dphy_sel >> 4 & 0xf) > 0)
-> > +		reg_rd_data = kmb_read_mipi(kmb,
-> DPHY_TEST_DOUBT4_7);
-> > +	if ((dphy_sel >> 8 & 0x3) > 0)
-> > +		reg_rd_data = kmb_read_mipi(kmb,
-> DPHY_TEST_DOUBT8_9);
-> > +
-> > +	if (((dphy_sel >> 0 & 0x1) == 1) | ((dphy_sel >> 4 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 8 & 0x1) == 1))
-> > +		data = reg_rd_data >> 0;
-> > +	if (((dphy_sel >> 1 & 0x1) == 1) | ((dphy_sel >> 5 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 9 & 0x1) == 1))
-> > +		data = reg_rd_data >> 8;
-> > +	if (((dphy_sel >> 2 & 0x1) == 1) | ((dphy_sel >> 6 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 10 & 0x1) == 1))
-> > +		data = reg_rd_data >> 16;
-> > +	if (((dphy_sel >> 3 & 0x1) == 1) | ((dphy_sel >> 7 & 0x1) == 1) |
-> > +	    ((dphy_sel >> 11 & 0x1) == 1))
-> > +		data = reg_rd_data >> 24;
-> > +
-> > +	return data;
-> > +}
-> > +#endif
-> > +
-> > +static void test_mode_send(struct kmb_drm_private *kmb, u32
-> dphy_no,
-> > +			   u32 test_code, u32 test_data)
-> > +{
-> > +	if (test_code != TEST_CODE_FSM_CONTROL)
-> > +		drm_dbg(&kmb->drm,
-> > +			"test_code = %02x, test_data = %08x\n", test_code,
-> > +			 test_data);
-> > +	/* Steps to send test code:
-> > +	 * - set testclk HIGH
-> > +	 * - set testdin with test code
-> > +	 * - set testen HIGH
-> > +	 * - set testclk LOW
-> > +	 * - set testen LOW
-> > +	 */
-> > +
-> > +	/* Set testclk high */
-> > +	SET_DPHY_TEST_CTRL1_CLK(kmb, dphy_no);
-> > +
-> > +	/* Set testdin */
-> > +	SET_TEST_DIN0_3(kmb, dphy_no, test_code);
-> > +
-> > +	/* Set testen high */
-> > +	SET_DPHY_TEST_CTRL1_EN(kmb, dphy_no);
-> > +
-> > +	/* Set testclk low */
-> > +	CLR_DPHY_TEST_CTRL1_CLK(kmb, dphy_no);
-> > +
-> > +	/* Set testen low */
-> > +	CLR_DPHY_TEST_CTRL1_EN(kmb, dphy_no);
-> > +
-> > +	if (test_code) {
-> > +		/*  Steps to send test data:
-> > +		 * - set testen LOW
-> > +		 * - set testclk LOW
-> > +		 * - set testdin with data
-> > +		 * - set testclk HIGH
-> > +		 */
-> > +
-> > +		/* Set testen low */
-> > +		CLR_DPHY_TEST_CTRL1_EN(kmb, dphy_no);
-> > +
-> > +		/* Set testclk low */
-> > +		CLR_DPHY_TEST_CTRL1_CLK(kmb, dphy_no);
-> > +
-> > +		/* Set data in testdin */
-> > +		kmb_write_mipi(kmb,
-> > +			       DPHY_TEST_DIN0_3 + ((dphy_no / 0x4) * 0x4),
-> > +			       test_data << ((dphy_no % 4) * 8));
-> > +
-> > +		/* Set testclk high */
-> > +		SET_DPHY_TEST_CTRL1_CLK(kmb, dphy_no);
-> > +	}
-> > +}
-> > +
-> > +static inline void
-> > +	set_test_mode_src_osc_freq_target_low_bits(struct
-> kmb_drm_private *kmb,
-> > +						   u32 dphy_no,
-> > +						   u32 freq)
-> > +{
-> > +	/* Typical rise/fall time=166, refer Table 1207 databook,
-> > +	 * sr_osc_freq_target[7:0]
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_SLEW_RATE_DDL_CYCLES,
-> > +		       (freq & 0x7f));
-> > +}
-> > +
-> > +static inline void
-> > +	set_test_mode_src_osc_freq_target_hi_bits(struct
-> kmb_drm_private *kmb,
-> > +						  u32 dphy_no,
-> > +						  u32 freq)
-> > +{
-> > +	u32 data;
-> > +
-> > +	/* Flag this as high nibble */
-> > +	data = ((freq >> 6) & 0x1f) | (1 << 7);
-> > +
-> > +	/* Typical rise/fall time=166, refer Table 1207 databook,
-> > +	 * sr_osc_freq_target[11:7]
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_SLEW_RATE_DDL_CYCLES, data);
-> > +}
-> > +
-> > +static void mipi_tx_get_vco_params(struct vco_params *vco)
-> > +{
-> > +	int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(vco_table); i++) {
-> > +		if (vco->freq < vco_table[i].freq) {
-> > +			*vco = vco_table[i];
-> > +			return;
-> > +		}
-> > +	}
-> > +
-> > +	WARN_ONCE(1, "Invalid vco freq = %u for PLL setup\n", vco->freq);
-> > +}
-> > +
-> > +static void mipi_tx_pll_setup(struct kmb_drm_private *kmb, u32
-> dphy_no,
-> > +			      u32 ref_clk_mhz, u32 target_freq_mhz)
-> > +{
-> > +	u32 best_n = 0, best_m = 0;
-> > +	u32 n = 0, m = 0, div = 0, delta, freq = 0, t_freq;
-> > +	u32 best_freq_delta = 3000;
-> > +
-> > +	/* pll_ref_clk: - valid range: 2~64 MHz; Typically 24 MHz
-> > +	 * Fvco: - valid range: 320~1250 MHz (Gen3 D-PHY)
-> > +	 * Fout: - valid range: 40~1250 MHz (Gen3 D-PHY)
-> > +	 * n: - valid range [0 15]
-> > +	 * N: - N = n + 1
-> > +	 *      -valid range: [1 16]
-> > +	 *      -conditions: - (pll_ref_clk / N) >= 2 MHz
-> > +	 *              -(pll_ref_clk / N) <= 8 MHz
-> > +	 * m: valid range [62 623]
-> > +	 * M: - M = m + 2
-> > +	 *      -valid range [64 625]
-> > +	 *      -Fvco = (M/N) * pll_ref_clk
-> > +	 */
-> > +	struct vco_params vco_p = {
-> > +		.range = 0,
-> > +		.divider = 1,
-> > +	};
-> > +
-> > +	vco_p.freq = target_freq_mhz;
-> > +	mipi_tx_get_vco_params(&vco_p);
-> > +
-> > +	/* Search pll n parameter */
-> > +	for (n = PLL_N_MIN; n <= PLL_N_MAX; n++) {
-> > +		/* Calculate the pll input frequency division ratio
-> > +		 * multiply by 1000 for precision -
-> > +		 * no floating point, add n for rounding
-> > +		 */
-> > +		div = ((ref_clk_mhz * 1000) + n) / (n + 1);
-> > +
-> > +		/* Found a valid n parameter */
-> > +		if ((div < 2000 || div > 8000))
-> > +			continue;
-> > +
-> > +		/* Search pll m parameter */
-> > +		for (m = PLL_M_MIN; m <= PLL_M_MAX; m++) {
-> > +			/* Calculate the Fvco(DPHY PLL output frequency)
-> > +			 * using the current n,m params
-> > +			 */
-> > +			freq = div * (m + 2);
-> > +			freq /= 1000;
-> > +
-> > +			/* Trim the potential pll freq to max supported */
-> > +			if (freq > PLL_FVCO_MAX)
-> > +				continue;
-> > +
-> > +			delta = abs(freq - target_freq_mhz);
-> > +
-> > +			/* Select the best (closest to target pll freq)
-> > +			 * n,m parameters so far
-> > +			 */
-> > +			if (delta < best_freq_delta) {
-> > +				best_n = n;
-> > +				best_m = m;
-> > +				best_freq_delta = delta;
-> > +			}
-> > +		}
-> > +	}
-> > +
-> > +	/* Program vco_cntrl parameter
-> > +	 * PLL_VCO_Control[5:0] = pll_vco_cntrl_ovr,
-> > +	 * PLL_VCO_Control[6]   = pll_vco_cntrl_ovr_en
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_PLL_VCO_CTRL,
-> (vco_p.range
-> > +								| (1 << 6)));
-> > +
-> > +	/* Program m, n pll parameters */
-> > +	drm_dbg(&kmb->drm, "m = %d n = %d\n", best_m, best_n);
-> > +
-> > +	/* PLL_Input_Divider_Ratio[3:0] = pll_n_ovr */
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_PLL_INPUT_DIVIDER,
-> > +		       (best_n & 0x0f));
-> > +
-> > +	/* m - low nibble PLL_Loop_Divider_Ratio[4:0]
-> > +	 * pll_m_ovr[4:0]
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_PLL_FEEDBACK_DIVIDER,
-> > +		       (best_m & 0x1f));
-> > +
-> > +	/* m - high nibble PLL_Loop_Divider_Ratio[4:0]
-> > +	 * pll_m_ovr[9:5]
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_PLL_FEEDBACK_DIVIDER,
-> > +		       ((best_m >> 5) & 0x1f) |
-> PLL_FEEDBACK_DIVIDER_HIGH);
-> > +
-> > +	/* Enable overwrite of n,m parameters :pll_n_ovr_en,
-> pll_m_ovr_en */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_PLL_OUTPUT_CLK_SEL,
-> > +		       (PLL_N_OVR_EN | PLL_M_OVR_EN));
-> > +
-> > +	/* Program Charge-Pump parameters */
-> > +
-> > +	/* pll_prop_cntrl-fixed values for prop_cntrl from DPHY doc */
-> > +	t_freq = target_freq_mhz * vco_p.divider;
-> > +	test_mode_send(kmb, dphy_no,
-> > +
-> TEST_CODE_PLL_PROPORTIONAL_CHARGE_PUMP_CTRL,
-> > +		       ((t_freq > 1150) ? 0x0C : 0x0B));
-> > +
-> > +	/* pll_int_cntrl-fixed value for int_cntrl from DPHY doc */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_PLL_INTEGRAL_CHARGE_PUMP_CTRL,
-> > +		       0x00);
-> > +
-> > +	/* pll_gmp_cntrl-fixed value for gmp_cntrl from DPHY doci */
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_PLL_GMP_CTRL,
-> 0x10);
-> > +
-> > +	/* pll_cpbias_cntrl-fixed value for cpbias_cntrl from DPHY doc */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_PLL_CHARGE_PUMP_BIAS, 0x10);
-> > +
-> > +	/* pll_th1 -Lock Detector Phase error threshold,
-> > +	 * document gives fixed value
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no,
-> TEST_CODE_PLL_PHASE_ERR_CTRL, 0x02);
-> > +
-> > +	/* PLL Lock Configuration */
-> > +
-> > +	/* pll_th2 - Lock Filter length, document gives fixed value */
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_PLL_LOCK_FILTER,
-> 0x60);
-> > +
-> > +	/* pll_th3- PLL Unlocking filter, document gives fixed value */
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_PLL_UNLOCK_FILTER,
-> 0x03);
-> > +
-> > +	/* pll_lock_sel-PLL Lock Detector Selection,
-> > +	 * document gives fixed value
-> > +	 */
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_PLL_LOCK_DETECTOR,
-> 0x02);
-> > +}
-> > +
-> > +#ifdef DPHY_GET_FSM
-> > +static void dphy_get_fsm(struct kmb_drm_private *kmb, u32 dphy_no)
-> > +{
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_FSM_CONTROL,
-> 0x80);
-> > +
-> > +	drm_dbg(&kmb->drm, "dphy %d fsm_state = 0%x\n", dphy_no,
-> > +		kmb_read_mipi(kmb, DPHY_TEST_DOUBT4_7));
-> > +}
-> > +#endif
-> > +
-> > +static void dphy_init_sequence(struct kmb_drm_private *kmb,
-> > +			       struct mipi_ctrl_cfg *cfg, u32 dphy_no,
-> > +			       int active_lanes, enum dphy_mode mode)
-> > +{
-> 
-> This function is too long.
-> Try to:
-> - drop irrelevant debug prints
-> - make a few helpers - maybe the long if () else if () else could cll
->   functions.
-> 
-> > +	u32 test_code = 0, test_data = 0, val;
-> > +	int i = 0;
-> > +
-> > +	drm_info(&kmb->drm,
-> > +		 "dphy=%d mode=%d active_lanes=%d\n", dphy_no, mode,
-> > +		 active_lanes);
-> > +	drm_dbg(&kmb->drm, "MIPI_DPHY_STAT0_4_7 = 0x%x)\n",
-> > +		kmb_read_mipi(kmb, MIPI_DPHY_STAT4_7));
-> > +
-> > +	/* Set D-PHY in shutdown mode */
-> > +	/* Assert RSTZ signal */
-> > +	CLR_DPHY_INIT_CTRL0(kmb, dphy_no, RESETZ);
-> > +
-> > +	/* Assert SHUTDOWNZ signal */
-> > +	CLR_DPHY_INIT_CTRL0(kmb, dphy_no, SHUTDOWNZ);
-> > +	val = kmb_read_mipi(kmb, DPHY_INIT_CTRL0);
-> > +
-> > +	drm_dbg(&kmb->drm, "DPHY_INIT_CTRL0 = 0x%x\n", val);
-> > +
-> > +	/* Init D-PHY_n
-> > +	 * Pulse testclear signal to make sure the d-phy configuration
-> > +	 * starts from a clean base
-> > +	 */
-> > +	CLR_DPHY_TEST_CTRL0(kmb, dphy_no);
-> > +	ndelay(15);
-> > +	SET_DPHY_TEST_CTRL0(kmb, dphy_no);
-> > +	ndelay(15);
-> > +	CLR_DPHY_TEST_CTRL0(kmb, dphy_no);
-> > +	ndelay(15);
-> > +
-> > +	drm_dbg(&kmb->drm, "DPHY_TEST_CTRL0=0x%x\n",
-> > +		kmb_read_mipi(kmb, DPHY_TEST_CTRL0));
-> > +
-> > +	/* Set mastermacro bit - Master or slave mode */
-> > +	test_code = TEST_CODE_MULTIPLE_PHY_CTRL;
-> > +
-> > +	/* DPHY has its own clock lane enabled (master) */
-> > +	if (mode == MIPI_DPHY_MASTER)
-> > +		test_data = 0x01;
-> > +	else
-> > +		test_data = 0x00;
-> > +
-> > +	/* Send the test code and data */
-> > +	test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +	/* Set the lane data rate */
-> > +	for (i = 0; i < MIPI_DPHY_DEFAULT_BIT_RATES; i++) {
-> > +		if (mipi_hs_freq_range[i].default_bit_rate_mbps <
-> > +		    cfg->lane_rate_mbps)
-> > +			continue;
-> > +
-> > +		/* Send the test code and data */
-> > +		/* bit[6:0] = hsfreqrange_ovr bit[7] = hsfreqrange_ovr_en
-> */
-> > +		test_code = TEST_CODE_HS_FREQ_RANGE_CFG;
-> > +		test_data = (mipi_hs_freq_range[i].hsfreqrange_code &
-> 0x7f) |
-> > +		    (1 << 7);
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +		break;
-> > +	}
-> > +
-> > +	/* High-Speed Tx Slew Rate Calibration
-> > +	 * BitRate: > 1.5 Gbps && <= 2.5 Gbps: slew rate control OFF
-> > +	 */
-> > +	if (cfg->lane_rate_mbps > 1500) {
-> > +		/* Bypass slew rate calibration algorithm
-> > +		 * bits[1:0} srcal_en_ovr_en, srcal_en_ovr
-> > +		 */
-> > +		test_code = TEST_CODE_SLEW_RATE_OVERRIDE_CTRL;
-> > +		test_data = 0x02;
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Disable slew rate calibration */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_LOOP_CTRL;
-> > +		test_data = 0x00;
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +	} else if (cfg->lane_rate_mbps > 1000) {
-> > +		/* BitRate: > 1 Gbps && <= 1.5 Gbps: - slew rate control ON
-> > +		 * typical rise/fall times: 166 ps
-> > +		 */
-> > +
-> > +		/* Do not bypass slew rate calibration algorithm
-> > +		 * bits[1:0}=srcal_en_ovr_en, srcal_en_ovr, bit[6]=sr_range
-> > +		 */
-> > +		test_code = TEST_CODE_SLEW_RATE_OVERRIDE_CTRL;
-> > +		test_data = (0x03 | (1 << 6));
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Enable slew rate calibration */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_LOOP_CTRL;
-> > +		test_data = 0x01;
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Set sr_osc_freq_target[6:0] low nibble
-> > +		 * typical rise/fall time=166, refer Table 1207 databook
-> > +		 */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_CYCLES;
-> > +		test_data = (0x72f & 0x7f);
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Set sr_osc_freq_target[11:7] high nibble
-> > +		 * Typical rise/fall time=166, refer Table 1207 databook
-> > +		 */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_CYCLES;
-> > +		test_data = ((0x72f >> 6) & 0x1f) | (1 << 7);
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +	} else {
-> > +		/* lane_rate_mbps <= 1000 Mbps
-> > +		 * BitRate:  <= 1 Gbps:
-> > +		 * - slew rate control ON
-> > +		 * - typical rise/fall times: 225 ps
-> > +		 */
-> > +
-> > +		/* Do not bypass slew rate calibration algorithm */
-> > +		test_code = TEST_CODE_SLEW_RATE_OVERRIDE_CTRL;
-> > +		test_data = (0x03 | (1 << 6));
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Enable slew rate calibration */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_LOOP_CTRL;
-> > +		test_data = 0x01;
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Typical rise/fall time=255, refer Table 1207 databook */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_CYCLES;
-> > +		test_data = (0x523 & 0x7f);
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* Set sr_osc_freq_target[11:7] high nibble */
-> > +		test_code = TEST_CODE_SLEW_RATE_DDL_CYCLES;
-> > +		test_data = ((0x523 >> 6) & 0x1f) | (1 << 7);
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +	}
-> > +
-> > +	/* Set cfgclkfreqrange */
-> > +	val = (((cfg->cfg_clk_khz / 1000) - 17) * 4) & 0x3f;
-> > +	SET_DPHY_FREQ_CTRL0_3(kmb, dphy_no, val);
-> > +
-> > +	drm_dbg(&kmb->drm, "DPHY_FREQ = 0x%x\n",
-> > +		kmb_read_mipi(kmb, DPHY_FREQ_CTRL0_3 + 4));
-> > +	drm_dbg(&kmb->drm, "MIPI_DPHY_STAT0_4_7 = 0x%x)\n",
-> > +		kmb_read_mipi(kmb, MIPI_DPHY_STAT4_7));
-> > +
-> > +	/* Enable config clk for the corresponding d-phy */
-> > +	kmb_set_bit_mipi(kmb, DPHY_CFG_CLK_EN, dphy_no);
-> > +
-> > +	drm_dbg(&kmb->drm, "DPHY_CFG_CLK_EN = 0x%x\n",
-> > +		kmb_read_mipi(kmb, DPHY_CFG_CLK_EN));
-> > +
-> > +	/* PLL setup */
-> > +	if (mode == MIPI_DPHY_MASTER) {
-> > +		/* Set PLL regulator in bypass */
-> > +		test_code = TEST_CODE_PLL_ANALOG_PROG;
-> > +		test_data = 0x01;
-> > +		test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +		/* PLL Parameters Setup */
-> > +		mipi_tx_pll_setup(kmb, dphy_no, cfg->ref_clk_khz / 1000,
-> > +				  cfg->lane_rate_mbps / 2);
-> > +
-> > +		/* Set clksel */
-> > +		kmb_write_bits_mipi(kmb, DPHY_INIT_CTRL1,
-> > +				    PLL_CLKSEL_0, 2, 0x01);
-> > +
-> > +		/* Set pll_shadow_control */
-> > +		kmb_set_bit_mipi(kmb, DPHY_INIT_CTRL1,
-> PLL_SHADOW_CTRL);
-> > +
-> > +		drm_dbg(&kmb->drm, "DPHY_INIT_CTRL1 = 0x%x\n",
-> > +			kmb_read_mipi(kmb, DPHY_INIT_CTRL1));
-> > +	}
-> > +
-> > +	drm_dbg(&kmb->drm, "MIPI_DPHY_STAT0_4_7 = 0x%x)\n",
-> > +		kmb_read_mipi(kmb, MIPI_DPHY_STAT4_7));
-> > +
-> > +//#define MIPI_TX_FORCE_VOD
-> > +#ifdef MIPI_TX_FORCE_VOD
-> > +#define MIPI_TX_VOD_LVL	450
-> > +#define TEST_CODE_BANDGAP 0x24
-> > +	/* Set bandgap/VOD level */
-> > +	switch (MIPI_TX_VOD_LVL) {
-> > +	case 200:
-> > +		test_data = 0x00;
-> > +		break;
-> > +	case 300:
-> > +		test_data = 0x20;
-> > +		break;
-> > +	case 350:
-> > +		test_data = 0x40;
-> > +		break;
-> > +	case 450:
-> > +		test_data = 0x60;
-> > +		break;
-> > +	case 400:
-> > +	default:
-> > +		test_data = 0x70;
-> > +		break;
-> > +	}
-> > +	test_mode_send(kmb, dphy_no, TEST_CODE_BANDGAP, test_data);
-> > +#endif
-> > +
-> > +	/* Send NORMAL OPERATION test code */
-> > +	test_code = 0x0;
-> > +	test_data = 0x0;
-> > +	test_mode_send(kmb, dphy_no, test_code, test_data);
-> > +
-> > +	/* Configure BASEDIR for data lanes
-> > +	 * NOTE: basedir only applies to LANE_0 of each D-PHY.
-> > +	 * The other lanes keep their direction based on the D-PHY type,
-> > +	 * either Rx or Tx.
-> > +	 * bits[5:0]  - BaseDir: 1 = Rx
-> > +	 * bits[9:6] - BaseDir: 0 = Tx
-> > +	 */
-> > +	drm_dbg(&kmb->drm, "MIPI_DPHY_STAT0_4_7 = 0x%x)\n",
-> > +		kmb_read_mipi(kmb, MIPI_DPHY_STAT4_7));
-> > +
-> > +	kmb_write_bits_mipi(kmb, DPHY_INIT_CTRL2, 0, 9, 0x03f);
-> > +	ndelay(15);
-> > +
-> > +	/* Enable CLOCK LANE
-> > +	 * Clock lane should be enabled regardless of the direction
-> > +	 * set for the D-PHY (Rx/Tx)
-> > +	 */
-> > +	kmb_set_bit_mipi(kmb, DPHY_INIT_CTRL2, 12 + dphy_no);
-> > +
-> > +	drm_dbg(&kmb->drm, "DPHY_INIT_CTRL2 = 0x%x\n",
-> > +		kmb_read_mipi(kmb, DPHY_INIT_CTRL2));
-> > +
-> > +	/* Enable DATA LANES */
-> > +	kmb_write_bits_mipi(kmb, DPHY_ENABLE, dphy_no * 2, 2,
-> > +			    ((1 << active_lanes) - 1));
-> > +
-> > +	drm_dbg(&kmb->drm,
-> > +		"DPHY_ENABLE = 0x%x\n", kmb_read_mipi(kmb,
-> DPHY_ENABLE));
-> > +	ndelay(15);
-> > +
-> > +	/* Take D-PHY out of shutdown mode */
-> > +	/* Deassert SHUTDOWNZ signal */
-> > +	drm_dbg(&kmb->drm, "MIPI_DPHY_STAT0_4_7 = 0x%x)\n",
-> > +		kmb_read_mipi(kmb, MIPI_DPHY_STAT4_7));
-> > +	SET_DPHY_INIT_CTRL0(kmb, dphy_no, SHUTDOWNZ);
-> > +	ndelay(15);
-> > +
-> > +	/* Deassert RSTZ signal */
-> > +	SET_DPHY_INIT_CTRL0(kmb, dphy_no, RESETZ);
-> > +	drm_dbg(&kmb->drm, "DPHY_INIT_CTRL0 = 0x%x\n",
-> > +		kmb_read_mipi(kmb, DPHY_INIT_CTRL0));
-> > +}
-> > +
-> > +static void dphy_wait_fsm(struct kmb_drm_private *kmb, u32
-> dphy_no,
-> > +			  enum dphy_tx_fsm fsm_state)
-> > +{
-> > +	enum dphy_tx_fsm val = DPHY_TX_POWERDWN;
-> > +	int i = 0;
-> > +	int status = 1;
-> > +
-> > +	do {
-> > +		test_mode_send(kmb, dphy_no,
-> TEST_CODE_FSM_CONTROL, 0x80);
-> > +
-> > +		val = GET_TEST_DOUT4_7(kmb, dphy_no);
-> > +		i++;
-> > +		if (i > TIMEOUT) {
-> > +			status = 0;
-> > +			break;
-> > +		}
-> > +	} while (val != fsm_state);
-> > +
-> > +	drm_dbg(&kmb->drm, "%s: dphy %d val = %x\n", __func__,
-> dphy_no, val);
-> > +	drm_info(&kmb->drm, "********** DPHY %d WAIT_FSM %s
-> **********\n",
-> > +		 dphy_no, status ? "SUCCESS" : "FAILED");
-> > +}
-> > +
-> > +static void wait_init_done(struct kmb_drm_private *kmb, u32
-> dphy_no,
-> > +			   u32 active_lanes)
-> > +{
-> > +	u32 stopstatedata = 0;
-> > +	u32 data_lanes = (1 << active_lanes) - 1;
-> > +	int i = 0, val;
-> > +	int status = 1;
-> > +
-> > +	drm_dbg(&kmb->drm, "dphy=%d active_lanes=%d
-> data_lanes=%d\n", dphy_no,
-> > +		active_lanes, data_lanes);
-> > +
-> > +	do {
-> > +		val = kmb_read_mipi(kmb, MIPI_DPHY_STAT4_7);
-> > +		stopstatedata = GET_STOPSTATE_DATA(kmb, dphy_no) &
-> data_lanes;
-> > +
-> > +		/* TODO-need to add a time out and return failure */
-> > +		i++;
-> > +
-> > +		if (i > TIMEOUT) {
-> > +			status = 0;
-> > +
-> > +			drm_info(&kmb->drm,
-> > +				 "! WAIT_INIT_DONE: TIMING
-> OUT!(err_stat=%d)",
-> > +				 kmb_read_mipi(kmb,
-> MIPI_DPHY_ERR_STAT6_7));
-> > +			drm_dbg(&kmb->drm,
-> > +				"MIPI_DPHY_STAT0_4_7 = 0x%x)\n", val);
-> > +			drm_dbg(&kmb->drm,
-> > +				"stopdata = 0x%x data_lanes=0x%x\n",
-> > +				 stopstatedata, data_lanes);
-> > +
-> > +			break;
-> > +		}
-> > +
-> > +		if (i < 3) {
-> > +			drm_dbg(&kmb->drm,
-> > +				"stopdata = 0x%x data_lanes=0x%x\n",
-> > +				 stopstatedata, data_lanes);
-> > +			drm_dbg(&kmb->drm,
-> > +				"MIPI_DPHY_STAT0_4_7 = 0x%x)\n", val);
-> > +		}
-> > +	} while (stopstatedata != data_lanes);
-> > +
-> > +	drm_info(&kmb->drm, "********** DPHY %d INIT - %s
-> **********\n",
-> > +		 dphy_no, status ? "SUCCESS" : "FAILED");
-> > +}
-> > +
-> > +static void wait_pll_lock(struct kmb_drm_private *kmb, u32 dphy_no)
-> > +{
-> > +	int i = 0;
-> > +	int status = 1;
-> > +
-> > +	do {
-> > +		/* TODO-need to add a time out and return failure */
-> > +		i++;
-> > +		if (i > TIMEOUT) {
-> > +			status = 0;
-> > +
-> > +			drm_info(&kmb->drm, "%s: timing out", __func__);
-> > +			drm_dbg(&kmb->drm,
-> > +				"%s : PLL_LOCK = 0x%x ", __func__,
-> > +				kmb_read_mipi(kmb, DPHY_PLL_LOCK));
-> > +
-> > +			break;
-> > +		}
-> > +
-> > +		if ((i % 100) == 0)
-> > +			drm_dbg(&kmb->drm,
-> > +				"%s : PLL_LOCK = 0x%x\n", __func__,
-> > +				kmb_read_mipi(kmb, DPHY_PLL_LOCK));
-> > +	} while (!GET_PLL_LOCK(kmb, dphy_no));
-> > +
-> > +	drm_info(&kmb->drm, "***** PLL Locked for DPHY %d - %s
-> *****\n",
-> > +		 dphy_no, status ? "SUCCESS" : "FAILED");
-> > +}
-> > +
-> > +static u32 mipi_tx_init_dphy(struct kmb_drm_private *kmb,
-> > +			     struct mipi_ctrl_cfg *cfg)
-> > +{
-> > +	u32 dphy_no = MIPI_DPHY6;
-> > +
-> > +	drm_info(&kmb->drm,
-> > +		 "active_lanes=%d lane_rate=%d\n", cfg->active_lanes,
-> > +		MIPI_TX_LANE_DATA_RATE_MBPS);
-> > +
-> > +	/* Multiple D-PHYs needed */
-> > +	if (cfg->active_lanes > MIPI_DPHY_D_LANES) {
-> > +		/*
-> > +		 *Initialization for Tx aggregation mode is done according to
-> > +		 *a. start init PHY1
-> > +		 *b. poll for PHY1 FSM state LOCK
-> > +		 *   b1. reg addr 0x03[3:0] - state_main[3:0] == 5 (LOCK)
-> > +		 *c. poll for PHY1 calibrations done :
-> > +		 *   c1. termination calibration lower section: addr 0x22[5]
-> > +		 *   - rescal_done
-> > +		 *   c2. slewrate calibration (if data rate < = 1500 Mbps):
-> > +		 *     addr 0xA7[3:2] - srcal_done, sr_finished
-> > +		 *d. start init PHY0
-> > +		 *e. poll for PHY0 stopstate
-> > +		 *f. poll for PHY1 stopstate
-> > +		 */
-> > +		/* PHY #N+1 ('slave') */
-> > +
-> > +		dphy_init_sequence(kmb, cfg, dphy_no + 1,
-> > +				   (cfg->active_lanes - MIPI_DPHY_D_LANES),
-> > +				   MIPI_DPHY_SLAVE);
-> > +		dphy_wait_fsm(kmb, dphy_no + 1, DPHY_TX_LOCK);
-> > +
-> > +		/* PHY #N master */
-> > +		dphy_init_sequence(kmb, cfg, dphy_no,
-> MIPI_DPHY_D_LANES,
-> > +				   MIPI_DPHY_MASTER);
-> > +
-> > +		/* Wait for DPHY init to complete */
-> > +		wait_init_done(kmb, dphy_no, MIPI_DPHY_D_LANES);
-> > +		wait_init_done(kmb, dphy_no + 1,
-> > +			       cfg->active_lanes - MIPI_DPHY_D_LANES);
-> > +		wait_pll_lock(kmb, dphy_no);
-> > +		wait_pll_lock(kmb, dphy_no + 1);
-> > +		dphy_wait_fsm(kmb, dphy_no, DPHY_TX_IDLE);
-> > +	} else {		/* Single DPHY */
-> > +		dphy_init_sequence(kmb, cfg, dphy_no, cfg->active_lanes,
-> > +				   MIPI_DPHY_MASTER);
-> > +		dphy_wait_fsm(kmb, dphy_no, DPHY_TX_IDLE);
-> > +		wait_init_done(kmb, dphy_no, cfg->active_lanes);
-> > +		wait_pll_lock(kmb, dphy_no);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void connect_lcd_to_mipi(struct kmb_drm_private *kmb)
-> static
-> 
-> > +{
-> > +	/* DISABLE MIPI->CIF CONNECTION */
-> > +	kmb_write_msscam(kmb, MSS_MIPI_CIF_CFG, 0);
-> > +
-> > +	/* ENABLE LCD->MIPI CONNECTION */
-> > +	kmb_write_msscam(kmb, MSS_LCD_MIPI_CFG, 1);
-> > +
-> > +	/* DISABLE LCD->CIF LOOPBACK */
-> > +	kmb_write_msscam(kmb, MSS_LOOPBACK_CFG, 0);
-> > +}
-> > +
-> > +int kmb_dsi_hw_init(struct drm_device *dev, struct drm_display_mode
-> *mode)
-> > +{
-> > +	struct kmb_drm_private *kmb = to_kmb(dev);
-> > +	u64 data_rate;
-> > +
-> > +	mipi_tx_init_cfg.active_lanes = MIPI_TX_ACTIVE_LANES;
-> > +
-> > +	if (mode) {
-> I cannot see this function being called without a mode.
-> 
-> > +		mipi_tx_frame0_sect_cfg.width_pixels = mode-
-> >crtc_hdisplay;
-> > +		mipi_tx_frame0_sect_cfg.height_lines = mode-
-> >crtc_vdisplay;
-> > +		mipitx_frame0_cfg.vsync_width =
-> > +		    mode->crtc_vsync_end - mode->crtc_vsync_start;
-> > +		mipitx_frame0_cfg.v_backporch =
-> > +		    mode->crtc_vtotal - mode->crtc_vsync_end;
-> > +		mipitx_frame0_cfg.v_frontporch =
-> > +		    mode->crtc_vsync_start - mode->crtc_vdisplay;
-> > +		mipitx_frame0_cfg.hsync_width =
-> > +		    mode->crtc_hsync_end - mode->crtc_hsync_start;
-> > +		mipitx_frame0_cfg.h_backporch =
-> > +		    mode->crtc_htotal - mode->crtc_hsync_end;
-> > +		mipitx_frame0_cfg.h_frontporch =
-> > +		    mode->crtc_hsync_start - mode->crtc_hdisplay;
-> > +
-> > +		/* Lane rate = (vtotal*htotal*fps*bpp)/4 / 1000000
-> > +		 * to convert to Mbps
-> > +		 */
-> > +		data_rate = ((((u32)mode->crtc_vtotal *
-> > +				(u32)mode->crtc_htotal) *
-> > +				(u32)(drm_mode_vrefresh(mode)) *
-> > +			      MIPI_TX_BPP) / mipi_tx_init_cfg.active_lanes) /
-> > +		    1000000;
-> > +
-> > +		drm_info(&kmb->drm, "htotal=%d vtotal=%d
-> refresh=%d\n",
-> > +			 mode->crtc_htotal, mode->crtc_vtotal,
-> > +			 drm_mode_vrefresh(mode));
-> > +		drm_info(&kmb->drm, "data_rate=%u active_lanes=%d\n",
-> > +			 (u32)data_rate, mipi_tx_init_cfg.active_lanes);
-> > +
-> > +		/* When late rate < 800, modeset fails with 4 lanes,
-> > +		 * so switch to 2 lanes
-> > +		 */
-> > +		if (data_rate < 800) {
-> > +			mipi_tx_init_cfg.active_lanes = 2;
-> > +			mipi_tx_init_cfg.lane_rate_mbps = data_rate * 2;
-> > +		} else {
-> > +			mipi_tx_init_cfg.lane_rate_mbps = data_rate;
-> > +		}
-> > +		drm_info(&kmb->drm,
-> > +			 "lane rate=%d\n",
-> mipi_tx_init_cfg.lane_rate_mbps);
-> > +		drm_dbg(&kmb->drm,
-> > +			"vfp= %d vbp= %d vsyc_len=%d hfp=%d hbp=%d
-> hsync_len=%d lane-rate=%d",
-> > +		     mipitx_frame0_cfg.v_frontporch,
-> > +		     mipitx_frame0_cfg.v_backporch,
-> > +		     mipitx_frame0_cfg.vsync_width,
-> > +		     mipitx_frame0_cfg.h_frontporch,
-> > +		     mipitx_frame0_cfg.h_backporch,
-> > +		     mipitx_frame0_cfg.hsync_width,
-> > +		     mipi_tx_init_cfg.lane_rate_mbps);
-> > +	}
-> > +
-> > +	if (hw_initialized)
-> > +		return 0;
-> > +
-> > +	kmb_write_mipi(kmb, DPHY_ENABLE, 0);
-> > +	kmb_write_mipi(kmb, DPHY_INIT_CTRL0, 0);
-> > +	kmb_write_mipi(kmb, DPHY_INIT_CTRL1, 0);
-> > +	kmb_write_mipi(kmb, DPHY_INIT_CTRL2, 0);
-> > +
-> > +	/* Initialize mipi controller */
-> > +	mipi_tx_init_cntrl(kmb, &mipi_tx_init_cfg);
-> > +
-> > +	/* Dphy initialization */
-> > +	mipi_tx_init_dphy(kmb, &mipi_tx_init_cfg);
-> > +	drm_dbg(&kmb->drm, "IRQ_STATUS = 0x%x\n",
-> > +		GET_MIPI_TX_HS_IRQ_STATUS(kmb, MIPI_CTRL6));
-> > +
-> > +	connect_lcd_to_mipi(kmb);
-> > +
-> > +#ifdef MIPI_TX_TEST_PATTERN_GENERATION
-> > +	mipi_tx_hs_tp_gen(kmb, 0, MIPI_TX_HS_TP_V_STRIPES,
-> > +			  0x15, 0xff, 0xff00, MIPI_CTRL6);
-> > +
-> > +	drm_dbg(&kmb->drm, "IRQ_STATUS = 0x%x\n",
-> > +		GET_MIPI_TX_HS_IRQ_STATUS(kmb, MIPI_CTRL6));
-> > +#endif //MIPI_TX_TEST_PATTERN_GENERATION
-> > +
-> > +	hw_initialized = true;
-> > +
-> > +	drm_dbg(&kmb->drm, "MIPI_TXm_HS_CTRL = 0x%x\n",
-> > +		kmb_read_mipi(kmb, MIPI_TXm_HS_CTRL(6)));
-> > +	drm_dbg(&kmb->drm, "MIPI LOOP BACK = %x\n",
-> > +		kmb_read_mipi(kmb, MIPI_CTRL_DIG_LOOPBACK));
-> > +	drm_info(&kmb->drm, "mipi hw_initialized = %d\n",
-> hw_initialized);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
-> > +{
-> > +	struct kmb_dsi *kmb_dsi;
-> > +	struct drm_encoder *encoder;
-> > +	struct kmb_connector *kmb_connector;
-> > +	struct drm_connector *connector;
-> > +	struct kmb_dsi_host *host;
-> > +	int ret = 0;
-> > +
-> > +	kmb_dsi = kzalloc(sizeof(*kmb_dsi), GFP_KERNEL);
-> > +	if (!kmb_dsi) {
-> > +		DRM_ERROR("failed to allocate kmb_dsi\n");
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	kmb_connector = kzalloc(sizeof(*kmb_connector), GFP_KERNEL);
-> > +	if (!kmb_connector) {
-> > +		kfree(kmb_dsi);
-> > +		DRM_ERROR("failed to allocate kmb_connector\n");
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	kmb_dsi->attached_connector = kmb_connector;
-> > +
-> > +	host = kmb_dsi_host_init(dev, kmb_dsi);
-> > +	if (!host) {
-> > +		DRM_ERROR("Failed to allocate host\n");
-> > +		kfree(kmb_dsi);
-> > +		kfree(kmb_connector);
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	kmb_dsi->dsi_host = host;
-> > +	connector = &kmb_connector->base;
-> > +	encoder = &kmb_dsi->base;
-> > +	encoder->possible_crtcs = 1;
-> > +	encoder->possible_clones = 0;
-> > +
-> > +	drm_encoder_init(dev, encoder, &kmb_dsi_funcs,
-> DRM_MODE_ENCODER_DSI,
-> > +			 "MIPI-DSI");
-> Use drm_simple_encoder(). See other drivers how to do it.
-I see that drm_simple_encoder() is used when the driver is either a bridge driver or component driver. Since this is not either, we can keep the drm_encoder_init() as in icl_dsi.c
-> 
-> 
-> > +
-> > +	drm_connector_init(dev, connector, &kmb_dsi_connector_funcs,
-> > +			   DRM_MODE_CONNECTOR_DSI);
-> > +
-> > +	drm_connector_helper_add(connector,
-> &kmb_dsi_connector_helper_funcs);
-> > +
-> > +	drm_info(dev, "connector = %s encoder = %s\n", connector->name,
-> > +		 encoder->name);
-> > +
-> > +	ret = drm_connector_attach_encoder(connector, encoder);
-> > +	drm_info(dev, "connector->encoder = 0x%p ret = %d\n",
-> > +		 connector->encoder,
-> > +		 ret);
-> > +
-> > +	/* Link drm_bridge to encoder */
-> > +	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-> 
-> This sequence is not optimal and not right.
-> The new way, which new drivers shall use, is to let the bridge drivers
-> provide
-> relevant operations and then the display driver uses
-> drm_bridge_connector_init()
-> to create the connector.
-> 
-> See for example mtk_dsi_encoder_init()
-> 
-> The current design uses a thight coupling between the display driver and
-> the kmb_dsi. I may be biased but to me it seems easier to make kmb_dsi
-> a real bridge driver so we have a chain of bridges like this:
-> 
-> --------------------+   +----------------+   +----------------+
->                     |   |                |   |                |
->  kmb display driver +---+ kmb_dsi bridge +---+ adv7535 bridge +== HDMI
->                     |   |                |   |                |
-> --------------------+   +----------------+   +----------------+
-> 
-As per our discussions through private emails, we will keep the current design for mipi dsi.
-
-> adv7535 then provides get_edit, detect, and hot-plug detect operations
-> to be used by the connector.
-> 
-> 
-> 
-> 
-> > +	if (ret) {
-> > +		DRM_ERROR("failed to attach bridge to MIPI\n");
-> > +		drm_encoder_cleanup(encoder);
-> > +		return ret;
-> > +	}
-> > +	drm_info(dev, "Bridge attached : SUCCESS\n");
-> > +	return 0;
-> > +}
-> > diff --git a/drivers/gpu/drm/kmb/kmb_dsi.h
-> b/drivers/gpu/drm/kmb/kmb_dsi.h
-> > new file mode 100644
-> > index 0000000..c980823
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/kmb/kmb_dsi.h
-> > @@ -0,0 +1,370 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only
-> > + *
-> > + * Copyright (c) 2019-2020 Intel Corporation
-> > + */
-> > +
-> > +#ifndef __KMB_DSI_H__
-> > +#define __KMB_DSI_H__
-> > +
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_modes.h>
-> > +#include "kmb_drv.h"
-> > +
-> > +/* MIPI TX CFG*/
-> > +#define MIPI_TX_LANE_DATA_RATE_MBPS 891
-> > +#define MIPI_TX_REF_CLK_KHZ         24000
-> > +#define MIPI_TX_CFG_CLK_KHZ         24000
-> > +#define MIPI_TX_BPP		    24
-> > +
-> > +/* DPHY Tx test codes*/
-> > +#define TEST_CODE_FSM_CONTROL				0x03
-> > +#define TEST_CODE_MULTIPLE_PHY_CTRL			0x0C
-> > +#define TEST_CODE_PLL_PROPORTIONAL_CHARGE_PUMP_CTRL	0x0E
-> > +#define TEST_CODE_PLL_INTEGRAL_CHARGE_PUMP_CTRL		0x0F
-> > +#define TEST_CODE_PLL_VCO_CTRL				0x12
-> > +#define TEST_CODE_PLL_GMP_CTRL				0x13
-> > +#define TEST_CODE_PLL_PHASE_ERR_CTRL			0x14
-> > +#define TEST_CODE_PLL_LOCK_FILTER			0x15
-> > +#define TEST_CODE_PLL_UNLOCK_FILTER			0x16
-> > +#define TEST_CODE_PLL_INPUT_DIVIDER			0x17
-> > +#define TEST_CODE_PLL_FEEDBACK_DIVIDER			0x18
-> > +#define   PLL_FEEDBACK_DIVIDER_HIGH			BIT(7)
-> > +#define TEST_CODE_PLL_OUTPUT_CLK_SEL			0x19
-> > +#define   PLL_N_OVR_EN					BIT(4)
-> > +#define   PLL_M_OVR_EN					BIT(5)
-> > +#define TEST_CODE_VOD_LEVEL				0x24
-> > +#define TEST_CODE_PLL_CHARGE_PUMP_BIAS			0x1C
-> > +#define TEST_CODE_PLL_LOCK_DETECTOR			0x1D
-> > +#define TEST_CODE_HS_FREQ_RANGE_CFG			0x44
-> > +#define TEST_CODE_PLL_ANALOG_PROG			0x1F
-> > +#define TEST_CODE_SLEW_RATE_OVERRIDE_CTRL		0xA0
-> > +#define TEST_CODE_SLEW_RATE_DDL_LOOP_CTRL		0xA3
-> > +#define TEST_CODE_SLEW_RATE_DDL_CYCLES			0xA4
-> > +
-> > +/* DPHY params */
-> > +#define PLL_N_MIN	0
-> > +#define PLL_N_MAX	15
-> > +#define PLL_M_MIN	62
-> > +#define PLL_M_MAX	623
-> > +#define PLL_FVCO_MAX	1250
-> > +
-> > +#define TIMEOUT		600
-> > +
-> > +#define MIPI_TX_FRAME_GEN				4
-> > +#define MIPI_TX_FRAME_GEN_SECTIONS			4
-> > +#define MIPI_CTRL_VIRTUAL_CHANNELS			4
-> > +#define MIPI_D_LANES_PER_DPHY				2
-> > +#define MIPI_CTRL_2LANE_MAX_MC_FIFO_LOC			255
-> > +#define MIPI_CTRL_4LANE_MAX_MC_FIFO_LOC			511
-> > +/* 2 Data Lanes per D-PHY */
-> > +#define MIPI_DPHY_D_LANES				2
-> > +#define MIPI_DPHY_DEFAULT_BIT_RATES			63
-> > +
-> > +#define to_kmb_connector(x) container_of(x, struct kmb_connector,
-> base)
-> > +#define to_kmb_host(x) container_of(x, struct kmb_dsi_host, base)
-> > +#define to_kmb_dsi(x) container_of(x, struct kmb_dsi, base)
-> > +
-> > +struct kmb_connector;
-> > +struct kmb_dsi_host;
-> > +
-> > +struct kmb_dsi {
-> > +	struct drm_encoder base;
-> > +	struct kmb_connector *attached_connector;
-> > +	struct kmb_dsi_host *dsi_host;
-> > +	struct drm_bridge *bridge;
-> > +};
-> > +
-> > +struct kmb_dsi_host {
-> > +	struct mipi_dsi_host *base;
-> > +	struct kmb_dsi *kmb_dsi;
-> > +	struct mipi_dsi_device *device;
-> > +};
-> > +
-> > +struct kmb_connector {
-> > +	struct drm_connector base;
-> > +	struct drm_encoder *encoder;
-> > +	struct drm_display_mode *fixed_mode;
-> > +};
-> > +
-> > +/* DPHY Tx test codes */
-> > +
-> > +enum mipi_ctrl_num {
-> > +	MIPI_CTRL0 = 0,
-> > +	MIPI_CTRL1,
-> > +	MIPI_CTRL2,
-> > +	MIPI_CTRL3,
-> > +	MIPI_CTRL4,
-> > +	MIPI_CTRL5,
-> > +	MIPI_CTRL6,
-> > +	MIPI_CTRL7,
-> > +	MIPI_CTRL8,
-> > +	MIPI_CTRL9,
-> > +	MIPI_CTRL_NA
-> > +};
-> Not used?
-It is used
-> > +
-> > +enum mipi_dphy_num {
-> > +	MIPI_DPHY0 = 0,
-> > +	MIPI_DPHY1,
-> > +	MIPI_DPHY2,
-> > +	MIPI_DPHY3,
-> > +	MIPI_DPHY4,
-> > +	MIPI_DPHY5,
-> > +	MIPI_DPHY6,
-> > +	MIPI_DPHY7,
-> > +	MIPI_DPHY8,
-> > +	MIPI_DPHY9,
-> > +	MIPI_DPHY_NA
-> > +};
-> Not used?
-It is used
-> > +
-> > +enum mipi_dir {
-> > +	MIPI_RX,
-> > +	MIPI_TX
-> > +};
-> > +
-> > +enum mipi_ctrl_type {
-> > +	MIPI_DSI,
-> > +	MIPI_CSI
-> > +};
-> > +
-> > +enum mipi_data_if {
-> > +	MIPI_IF_DMA,
-> > +	MIPI_IF_PARALLEL
-> > +};
-> > +
-> > +enum mipi_data_mode {
-> > +	MIPI_DATA_MODE0,
-> > +	MIPI_DATA_MODE1,
-> > +	MIPI_DATA_MODE2,
-> > +	MIPI_DATA_MODE3
-> > +};
-> > +
-> > +enum mipi_dsi_video_mode {
-> > +	DSI_VIDEO_MODE_NO_BURST_PULSE,
-> > +	DSI_VIDEO_MODE_NO_BURST_EVENT,
-> > +	DSI_VIDEO_MODE_BURST
-> > +};
-> > +
-> > +enum mipi_dsi_blanking_mode {
-> > +	TRANSITION_TO_LOW_POWER,
-> > +	SEND_BLANK_PACKET
-> > +};
-> > +
-> > +enum mipi_dsi_eotp {
-> > +	DSI_EOTP_DISABLED,
-> > +	DSI_EOTP_ENABLES
-> > +};
-> > +
-> > +enum mipi_dsi_data_type {
-> > +	DSI_SP_DT_RESERVED_00 = 0x00,
-> > +	DSI_SP_DT_VSYNC_START = 0x01,
-> > +	DSI_SP_DT_COLOR_MODE_OFF = 0x02,
-> > +	DSI_SP_DT_GENERIC_SHORT_WR = 0x03,
-> > +	DSI_SP_DT_GENERIC_RD = 0x04,
-> > +	DSI_SP_DT_DCS_SHORT_WR = 0x05,
-> > +	DSI_SP_DT_DCS_RD = 0x06,
-> > +	DSI_SP_DT_EOTP = 0x08,
-> > +	DSI_LP_DT_NULL = 0x09,
-> > +	DSI_LP_DT_RESERVED_0A = 0x0a,
-> > +	DSI_LP_DT_RESERVED_0B = 0x0b,
-> > +	DSI_LP_DT_LPPS_YCBCR422_20B = 0x0c,
-> > +	DSI_LP_DT_PPS_RGB101010_30B = 0x0d,
-> > +	DSI_LP_DT_PPS_RGB565_16B = 0x0e,
-> > +	DSI_LP_DT_RESERVED_0F = 0x0f,
-> > +
-> > +	DSI_SP_DT_RESERVED_10 = 0x10,
-> > +	DSI_SP_DT_VSYNC_END = 0x11,
-> > +	DSI_SP_DT_COLOR_MODE_ON = 0x12,
-> > +	DSI_SP_DT_GENERIC_SHORT_WR_1PAR = 0x13,
-> > +	DSI_SP_DT_GENERIC_RD_1PAR = 0x14,
-> > +	DSI_SP_DT_DCS_SHORT_WR_1PAR = 0x15,
-> > +	DSI_SP_DT_RESERVED_16 = 0x16,
-> > +	DSI_SP_DT_RESERVED_17 = 0x17,
-> > +	DSI_SP_DT_RESERVED_18 = 0x18,
-> > +	DSI_LP_DT_BLANK = 0x19,
-> > +	DSI_LP_DT_RESERVED_1A = 0x1a,
-> > +	DSI_LP_DT_RESERVED_1B = 0x1b,
-> > +	DSI_LP_DT_PPS_YCBCR422_24B = 0x1c,
-> > +	DSI_LP_DT_PPS_RGB121212_36B = 0x1d,
-> > +	DSI_LP_DT_PPS_RGB666_18B = 0x1e,
-> > +	DSI_LP_DT_RESERVED_1F = 0x1f,
-> > +
-> > +	DSI_SP_DT_RESERVED_20 = 0x20,
-> > +	DSI_SP_DT_HSYNC_START = 0x21,
-> > +	DSI_SP_DT_SHUT_DOWN_PERIPH_CMD = 0x22,
-> > +	DSI_SP_DT_GENERIC_SHORT_WR_2PAR = 0x23,
-> > +	DSI_SP_DT_GENERIC_RD_2PAR = 0x24,
-> > +	DSI_SP_DT_RESERVED_25 = 0x25,
-> > +	DSI_SP_DT_RESERVED_26 = 0x26,
-> > +	DSI_SP_DT_RESERVED_27 = 0x27,
-> > +	DSI_SP_DT_RESERVED_28 = 0x28,
-> > +	DSI_LP_DT_GENERIC_LONG_WR = 0x29,
-> > +	DSI_LP_DT_RESERVED_2A = 0x2a,
-> > +	DSI_LP_DT_RESERVED_2B = 0x2b,
-> > +	DSI_LP_DT_PPS_YCBCR422_16B = 0x2c,
-> > +	DSI_LP_DT_RESERVED_2D = 0x2d,
-> > +	DSI_LP_DT_LPPS_RGB666_18B = 0x2e,
-> > +	DSI_LP_DT_RESERVED_2F = 0x2f,
-> > +
-> > +	DSI_SP_DT_RESERVED_30 = 0x30,
-> > +	DSI_SP_DT_HSYNC_END = 0x31,
-> > +	DSI_SP_DT_TURN_ON_PERIPH_CMD = 0x32,
-> > +	DSI_SP_DT_RESERVED_33 = 0x33,
-> > +	DSI_SP_DT_RESERVED_34 = 0x34,
-> > +	DSI_SP_DT_RESERVED_35 = 0x35,
-> > +	DSI_SP_DT_RESERVED_36 = 0x36,
-> > +	DSI_SP_DT_SET_MAX_RETURN_PKT_SIZE = 0x37,
-> > +	DSI_SP_DT_RESERVED_38 = 0x38,
-> > +	DSI_LP_DT_DSC_LONG_WR = 0x39,
-> > +	DSI_LP_DT_RESERVED_3A = 0x3a,
-> > +	DSI_LP_DT_RESERVED_3B = 0x3b,
-> > +	DSI_LP_DT_RESERVED_3C = 0x3c,
-> > +	DSI_LP_DT_PPS_YCBCR420_12B = 0x3d,
-> > +	DSI_LP_DT_PPS_RGB888_24B = 0x3e,
-> > +	DSI_LP_DT_RESERVED_3F = 0x3f
-> > +};
-> > +
-> > +enum mipi_tx_hs_tp_sel {
-> > +	MIPI_TX_HS_TP_WHOLE_FRAME_COLOR0 = 0,
-> > +	MIPI_TX_HS_TP_WHOLE_FRAME_COLOR1,
-> > +	MIPI_TX_HS_TP_V_STRIPES,
-> > +	MIPI_TX_HS_TP_H_STRIPES,
-> > +};
-> > +
-> > +enum dphy_mode {
-> > +	MIPI_DPHY_SLAVE = 0,
-> > +	MIPI_DPHY_MASTER
-> > +};
-> > +
-> > +enum dphy_tx_fsm {
-> > +	DPHY_TX_POWERDWN = 0,
-> > +	DPHY_TX_BGPON,
-> > +	DPHY_TX_TERMCAL,
-> > +	DPHY_TX_TERMCALUP,
-> > +	DPHY_TX_OFFSETCAL,
-> > +	DPHY_TX_LOCK,
-> > +	DPHY_TX_SRCAL,
-> > +	DPHY_TX_IDLE,
-> > +	DPHY_TX_ULP,
-> > +	DPHY_TX_LANESTART,
-> > +	DPHY_TX_CLKALIGN,
-> > +	DPHY_TX_DDLTUNNING,
-> > +	DPHY_TX_ULP_FORCE_PLL,
-> > +	DPHY_TX_LOCK_LOSS
-> > +};
-> > +
-> > +struct mipi_data_type_params {
-> > +	u8 size_constraint_pixels;
-> > +	u8 size_constraint_bytes;
-> > +	u8 pixels_per_pclk;
-> > +	u8 bits_per_pclk;
-> > +};
-> > +
-> > +struct mipi_tx_dsi_cfg {
-> > +	u8 hfp_blank_en;	/*horizontal front porch blanking enable */
-> > +	u8 eotp_en;	/*End of transmission packet enable */
-> > +	/*last vertical front porch blanking mode */
-> > +	u8 lpm_last_vfp_line;
-> > +	/*first vertical sync active blanking mode */
-> > +	u8 lpm_first_vsa_line;
-> > +	u8 sync_pulse_eventn;	/*sync type */
-> > +	u8 hfp_blanking;	/*horizontal front porch blanking mode */
-> > +	u8 hbp_blanking;	/*horizontal back porch blanking mode */
-> > +	u8 hsa_blanking;	/*horizontal sync active blanking mode */
-> > +	u8 v_blanking;	/*vertical timing blanking mode */
-> > +};
-> > +
-> > +struct mipi_tx_frame_section_cfg {
-> > +	u32 dma_v_stride;
-> > +	u16 dma_v_scale_cfg;
-> > +	u16 width_pixels;
-> > +	u16 height_lines;
-> > +	u8 dma_packed;
-> > +	u8 bpp;
-> > +	u8 bpp_unpacked;
-> > +	u8 dma_h_stride;
-> > +	u8 data_type;
-> > +	u8 data_mode;
-> > +	u8 dma_flip_rotate_sel;
-> > +};
-> > +
-> > +struct mipi_tx_frame_timing_cfg {
-> > +	u32 bpp;
-> > +	u32 lane_rate_mbps;
-> > +	u32 hsync_width;
-> > +	u32 h_backporch;
-> > +	u32 h_frontporch;
-> > +	u32 h_active;
-> > +	u16 vsync_width;
-> > +	u16 v_backporch;
-> > +	u16 v_frontporch;
-> > +	u16 v_active;
-> > +	u8 active_lanes;
-> > +};
-> > +
-> > +struct mipi_tx_frame_sect_phcfg {
-> > +	u32 wc;
-> > +	enum mipi_data_mode data_mode;
-> > +	enum mipi_dsi_data_type data_type;
-> > +	u8 vchannel;
-> > +	u8 dma_packed;
-> > +};
-> > +
-> > +struct mipi_tx_frame_cfg {
-> > +	struct mipi_tx_frame_section_cfg
-> *sections[MIPI_TX_FRAME_GEN_SECTIONS];
-> > +	u32 hsync_width;	/*in pixels */
-> > +	u32 h_backporch;	/*in pixels */
-> > +	u32 h_frontporch;	/*in pixels */
-> > +	u16 vsync_width;	/*in lines */
-> > +	u16 v_backporch;	/*in lines */
-> > +	u16 v_frontporch;	/*in lines */
-> > +};
-> > +
-> > +struct mipi_tx_ctrl_cfg {
-> > +	struct mipi_tx_frame_cfg *frames[MIPI_TX_FRAME_GEN];
-> > +	struct mipi_tx_dsi_cfg *tx_dsi_cfg;
-> > +	u8 line_sync_pkt_en;
-> > +	u8 line_counter_active;
-> > +	u8 frame_counter_active;
-> > +	u8 tx_hsclkkidle_cnt;
-> > +	u8 tx_hsexit_cnt;
-> > +	u8 tx_crc_en;
-> > +	u8 tx_hact_wait_stop;
-> > +	u8 tx_always_use_hact;
-> > +	u8 tx_wait_trig;
-> > +	u8 tx_wait_all_sect;
-> > +};
-> > +
-> > +/*configuration structure for MIPI control */
-> > +struct mipi_ctrl_cfg {
-> > +	/* controller index : CTRL6 for connecting to LCD */
-> > +	u8 index;
-> > +	u8 type;		/* controller type : MIPI_DSI */
-> Some of the fields looks like they are only assigned but never used?
-> 
-> 
-> > +	u8 dir;		/* controller direction : MIPI_TX */
-> > +	u8 active_lanes;	/* # active lanes per controller 2/4 */
-> > +	u32 lane_rate_mbps;	/*MBPS */
-> > +	u32 ref_clk_khz;
-> > +	u32 cfg_clk_khz;
-> > +	u32 data_if;	/*MIPI_IF_DMA or MIPI_IF_PARALLEL */
-> > +	struct mipi_tx_ctrl_cfg tx_ctrl_cfg;
-> > +};
-> > +
-> > +/* Structure for storing user specified interrupts that are enabled */
-> > +union mipi_irq_cfg {
-> > +	u8 value;
-> > +	struct {
-> > +		u8 line_compare:1;
-> > +		u8 dma_event:1;
-> > +		u8 frame_done:1;
-> > +		u8 ctrl_error:1;
-> > +		u8 dphy_error:1;
-> Most fields are not used??
-> > +	} irq_cfg;
-> > +};
-> > +
-> > +struct drm_bridge *kmb_dsi_host_bridge_init(struct device *dev);
-> > +int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge);
-> > +void kmb_plane_destroy(struct drm_plane *plane);
-> Does not belong in this file
-> 
-> > +void mipi_tx_handle_irqs(struct kmb_drm_private *dev_p);
-> Does not exist - delete
-> 
-> > +void kmb_dsi_host_unregister(void);
-> > +int kmb_dsi_hw_init(struct drm_device *dev, struct drm_display_mode
-> *mode);
-> > +#endif /* __KMB_DSI_H__ */
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
