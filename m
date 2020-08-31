@@ -2,30 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F066C25892C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC66258923
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3768F6E5B6;
-	Tue,  1 Sep 2020 07:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9E36E5D1;
+	Tue,  1 Sep 2020 07:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B817489B9F
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 09:45:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id A5267291F0E
-Subject: Re: [PATCH v3 1/1] drm/bridge: ps8640: Rework power state handling
-To: Bilal Wasim <bwasim.lkml@gmail.com>
-References: <20200827085911.944899-1-enric.balletbo@collabora.com>
- <20200827085911.944899-2-enric.balletbo@collabora.com>
- <20200831143223.1a775ba6@a-VirtualBox>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <c9e19863-6d6c-17d8-c837-f67989ce80eb@collabora.com>
-Date: Mon, 31 Aug 2020 11:45:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1409C89FC5
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 10:37:11 +0000 (UTC)
+Received: from fsav103.sakura.ne.jp (fsav103.sakura.ne.jp [27.133.134.230])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 07VAb8mb000380;
+ Mon, 31 Aug 2020 19:37:08 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav103.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav103.sakura.ne.jp);
+ Mon, 31 Aug 2020 19:37:08 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav103.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 07VAb2OO099982
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Mon, 31 Aug 2020 19:37:08 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: [PATCH v2 (resend)] video: fbdev: fix OOB read in
+ vga_8planes_imageblit()
+References: <11ad8786-e407-3289-8bd9-2745c4834718@i-love.sakura.ne.jp>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+X-Forwarded-Message-Id: <11ad8786-e407-3289-8bd9-2745c4834718@i-love.sakura.ne.jp>
+Message-ID: <90b55ec3-d5b0-3307-9f7c-7ff5c5fd6ad3@i-love.sakura.ne.jp>
+Date: Mon, 31 Aug 2020 19:37:00 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200831143223.1a775ba6@a-VirtualBox>
+In-Reply-To: <11ad8786-e407-3289-8bd9-2745c4834718@i-love.sakura.ne.jp>
 Content-Language: en-US
 X-Mailman-Approved-At: Tue, 01 Sep 2020 07:31:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,244 +52,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>, sam@ravnborg.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bilal,
+syzbot is reporting OOB read at vga_8planes_imageblit() [1], for
+"cdat[y] >> 4" can become a negative value due to "const char *cdat".
 
-On 31/8/20 11:32, Bilal Wasim wrote:
-> 
-> Hi Enric,
-> 
-> On Thu, 27 Aug 2020 10:59:11 +0200
-> Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
-> 
->> The get_edid() callback can be triggered anytime by an ioctl, i.e
->>
->>   drm_mode_getconnector (ioctl)
->>     -> drm_helper_probe_single_connector_modes
->>        -> drm_bridge_connector_get_modes
->>           -> ps8640_bridge_get_edid  
->>
->> Actually if the bridge pre_enable() function was not called before
->> get_edid(), the driver will not be able to get the EDID properly and
->> display will not work until a second get_edid() call is issued and if
->> pre_enable() is called before. The side effect of this, for example,
->> is that you see anything when `Frecon` starts, neither the splash
->> screen, until the graphical session manager starts.
->>
->> To fix this we need to make sure that all we need is enabled before
->> reading the EDID. This means the following:
->>
->> 1. If get_edid() is called before having the device powered we need to
->>    power on the device. In such case, the driver will power off again
->> the device.
->>
->> 2. If get_edid() is called after having the device powered, all should
->>    just work. We added a powered flag in order to avoid recurrent
->> calls to ps8640_bridge_poweron() and unneeded delays.
->>
->> 3. This seems to be specific for this device, but we need to make sure
->>    the panel is powered on before do a power on cycle on this device.
->>    Otherwise the device fails to retrieve the EDID.
->>
->> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->> ---
->>
->> Changes in v3:
->> - Make poweron/poweroff and pre_enable/post_disable reverse one to
->> each other (Sam Ravnborg)
->>
->> Changes in v2:
->> - Use drm_bridge_chain_pre_enable/post_disable() helpers (Sam
->> Ravnborg)
->>
->>  drivers/gpu/drm/bridge/parade-ps8640.c | 68
->> ++++++++++++++++++++++---- 1 file changed, 58 insertions(+), 10
->> deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c
->> b/drivers/gpu/drm/bridge/parade-ps8640.c index
->> 9f7b7a9c53c5..7bd0affa057a 100644 ---
->> a/drivers/gpu/drm/bridge/parade-ps8640.c +++
->> b/drivers/gpu/drm/bridge/parade-ps8640.c @@ -65,6 +65,7 @@ struct
->> ps8640 { struct regulator_bulk_data supplies[2];
->>  	struct gpio_desc *gpio_reset;
->>  	struct gpio_desc *gpio_powerdown;
->> +	bool powered;
->>  };
->>  
->>  static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
->> @@ -91,13 +92,15 @@ static int ps8640_bridge_vdo_control(struct
->> ps8640 *ps_bridge, return 0;
->>  }
->>  
->> -static void ps8640_pre_enable(struct drm_bridge *bridge)
->> +static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
->>  {
->> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->>  	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
->>  	unsigned long timeout;
->>  	int ret, status;
->>  
->> +	if (ps_bridge->powered)
->> +		return;
->> +
->>  	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
->>  				    ps_bridge->supplies);
->>  	if (ret < 0) {
->> @@ -152,10 +155,6 @@ static void ps8640_pre_enable(struct drm_bridge
->> *bridge) goto err_regulators_disable;
->>  	}
->>  
->> -	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
->> -	if (ret)
->> -		goto err_regulators_disable;
->> -
->>  	/* Switch access edp panel's edid through i2c */
->>  	ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
->>  					I2C_BYPASS_EN);
->> @@ -164,6 +163,8 @@ static void ps8640_pre_enable(struct drm_bridge
->> *bridge) goto err_regulators_disable;
->>  	}
->>  
->> +	ps_bridge->powered = true;
->> +
->>  	return;
->>  
->>  err_regulators_disable:
->> @@ -171,12 +172,12 @@ static void ps8640_pre_enable(struct drm_bridge
->> *bridge) ps_bridge->supplies);
->>  }
->>  
->> -static void ps8640_post_disable(struct drm_bridge *bridge)
->> +static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
->>  {
->> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->>  	int ret;
->>  
->> -	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
->> +	if (!ps_bridge->powered)
->> +		return;
->>  
->>  	gpiod_set_value(ps_bridge->gpio_reset, 1);
->>  	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
->> @@ -184,6 +185,28 @@ static void ps8640_post_disable(struct
->> drm_bridge *bridge) ps_bridge->supplies);
->>  	if (ret < 0)
->>  		DRM_ERROR("cannot disable regulators %d\n", ret);
->> +
->> +	ps_bridge->powered = false;
->> +}
->> +
->> +static void ps8640_pre_enable(struct drm_bridge *bridge)
->> +{
->> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->> +	int ret;
->> +
->> +	ps8640_bridge_poweron(ps_bridge);
->> +
->> +	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
->> +	if (ret < 0)
->> +		ps8640_bridge_poweroff(ps_bridge);
->> +}
->> +
->> +static void ps8640_post_disable(struct drm_bridge *bridge)
->> +{
->> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->> +
->> +	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
->> +	ps8640_bridge_poweroff(ps_bridge);
->>  }
->>  
->>  static int ps8640_bridge_attach(struct drm_bridge *bridge,
->> @@ -249,9 +272,34 @@ static struct edid
->> *ps8640_bridge_get_edid(struct drm_bridge *bridge, struct
->> drm_connector *connector) {
->>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->> +	bool poweroff = !ps_bridge->powered;
->> +	struct edid *edid;
->> +
->> +	/*
->> +	 * When we end calling get_edid() triggered by an ioctl, i.e
->> +	 *
->> +	 *   drm_mode_getconnector (ioctl)
->> +	 *     -> drm_helper_probe_single_connector_modes
->> +	 *        -> drm_bridge_connector_get_modes
->> +	 *           -> ps8640_bridge_get_edid
->> +	 *
->> +	 * We need to make sure that what we need is enabled before
->> reading
->> +	 * EDID, for this chip, we need to do a full poweron,
->> otherwise it will
->> +	 * fail.
->> +	 */
->> +	drm_bridge_chain_pre_enable(bridge);
-> 
-> Are we sure that pre_enable is always good enough to get the EDID? I
-> know that we only have support for ps8640 on the MT8173 SoC which works
-> only with pre_enable, but I think a more scalable solution would be to
-> call drm_bridge_chain_pre_enable / drm_bridge_chain_enable here, and
-> drm_bridge_chain_post_disable / drm_bridge_chain_disable when disabling
-> the chain. If this is not a concern and we are sure that pre_enable
-> will always work (especially on newer boards), then please ignore my
-> comment. 
-> 
+[1] https://syzkaller.appspot.com/bug?id=0d7a0da1557dcd1989e00cb3692b26d4173b4132
 
-Not a drm_bridge API expert, and sometimes I am confused about it, but, from
-what I know, I'm pretty sure that we _don't_ want to call drm_bridge_chain_enable().
+Reported-by: syzbot <syzbot+69fbd3e01470f169c8c4@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ drivers/video/fbdev/vga16fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The call drm_bridge_chain_pre_enable() will end with calling
-drm_panel_prepare(), which, as per documentation:
+diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+index a20eeb8308ff..578d3541e3d6 100644
+--- a/drivers/video/fbdev/vga16fb.c
++++ b/drivers/video/fbdev/vga16fb.c
+@@ -1121,7 +1121,7 @@ static void vga_8planes_imageblit(struct fb_info *info, const struct fb_image *i
+         char oldop = setop(0);
+         char oldsr = setsr(0);
+         char oldmask = selectmask();
+-        const char *cdat = image->data;
++	const unsigned char *cdat = image->data;
+ 	u32 dx = image->dx;
+         char __iomem *where;
+         int y;
+-- 
+2.18.4
 
- * Calling this function will enable power and deassert any reset signals to
- * the panel. After this has completed it is possible to communicate with any
- * integrated circuitry via a command bus.
 
-Calling drm_bridge_chain_enable() too will end calling drm_panel_enable(), and,
-as per documentation:
-
- * Calling this function will cause the panel display drivers to be turned on
- * and the backlight to be enabled. Content will be visible on screen after
- * this call completes
-
-Which can trigger a screen flickering and enable more things that what we want.
-Reading the EDID should be possible just after a call of drm_bridge_prepare().
-Enable the panel should not be required.
-
-Cheers,
- Enric
-
-> Other than this, everything looks fine.
-> 
->>  
->> -	return drm_get_edid(connector,
->> +	edid = drm_get_edid(connector,
->>  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
->> +
->> +	/*
->> +	 * If we call the get_edid() function without having enabled
->> the chip
->> +	 * before, return the chip to its original power state.
->> +	 */
->> +	if (poweroff)
->> +		drm_bridge_chain_post_disable(bridge);
->> +
->> +	return edid;
->>  }
->>  
->>  static const struct drm_bridge_funcs ps8640_bridge_funcs = {
-> 
-> -Bilal
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
