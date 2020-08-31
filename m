@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B24257C7A
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:30:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 415D9257C7B
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 17:30:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF69C6E388;
-	Mon, 31 Aug 2020 15:30:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 460E26E392;
+	Mon, 31 Aug 2020 15:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D216E37C;
- Mon, 31 Aug 2020 15:30:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C415A6E388;
+ Mon, 31 Aug 2020 15:30:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 030DB206F0;
- Mon, 31 Aug 2020 15:30:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A815C20FC3;
+ Mon, 31 Aug 2020 15:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598887834;
- bh=r5cRSKBQIhNHoIQhIfZua12ERWVZevFIYQnYN1GlsEs=;
+ s=default; t=1598887845;
+ bh=ijrS9uIpRTrtNJTAMLV8xe4MQCKKTbmb4xcnDYux+Kg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HphBn4hErUKQFq02FjwnJjW2Eg0WOJ3NhHcZS3EVKv/brHqAuKWo46FPtArk1BXmI
- pXVWpxqnokQfeD6SkVL7VDdDPDNnvDpWhxwEaIOHJdRTBOiy+k/fTtZJH8fFyD2qvg
- IAru+w4Bk5l5IDqbnVY5YIoAmNEskl72B9cIRdUU=
+ b=uIxZ2erkqhi9rY5fyzP9oiUVhNilSgEjeW7MTfY2ln3MXfIvecmeOid+23EoOhBZZ
+ SmqSf1NUYponITpWRXWs8i6DtUS++3/ms97xvw8RhKjPc57+1X2xoJOKL4Yapjw9RY
+ Y9NGOHyOkqQnRmKDgaXAUEfxeBVheOJIVKVL+6P0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 40/42] drm/amd/display: Fix memleak in
- amdgpu_dm_mode_config_init
-Date: Mon, 31 Aug 2020 11:29:32 -0400
-Message-Id: <20200831152934.1023912-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 03/23] drm/msm/dpu: Fix scale params in plane
+ validation
+Date: Mon, 31 Aug 2020 11:30:19 -0400
+Message-Id: <20200831153039.1024302-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200831152934.1023912-1-sashal@kernel.org>
-References: <20200831152934.1023912-1-sashal@kernel.org>
+In-Reply-To: <20200831153039.1024302-1-sashal@kernel.org>
+References: <20200831153039.1024302-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,54 +50,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+From: Kalyan Thota <kalyan_t@codeaurora.org>
 
-[ Upstream commit b67a468a4ccef593cd8df6a02ba3d167b77f0c81 ]
+[ Upstream commit 4c978caf08aa155bdeadd9e2d4b026d4ce97ebd0 ]
 
-When amdgpu_display_modeset_create_props() fails, state and
-state->context should be freed to prevent memleak. It's the
-same when amdgpu_dm_audio_init() fails.
+Plane validation uses an API drm_calc_scale which will
+return src/dst value as a scale ratio.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+when viewing the range on a scale the values should fall in as
+
+Upscale ratio < Unity scale < Downscale ratio for src/dst formula
+
+Fix the min and max scale ratios to suit the API accordingly.
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+Tested-by: Kristian H. Kristensen <hoegsberg@google.com>
+Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 0682fd363cb50..580c17c95a1d8 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2822,12 +2822,18 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
- 				    &dm_atomic_state_funcs);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 58d5acbcfc5c2..b984bafd27e25 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -853,9 +853,9 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		crtc_state = drm_atomic_get_new_crtc_state(state->state,
+ 							   state->crtc);
  
- 	r = amdgpu_display_modeset_create_props(adev);
--	if (r)
-+	if (r) {
-+		dc_release_state(state->context);
-+		kfree(state);
- 		return r;
-+	}
- 
- 	r = amdgpu_dm_audio_init(adev);
--	if (r)
-+	if (r) {
-+		dc_release_state(state->context);
-+		kfree(state);
- 		return r;
-+	}
- 
- 	return 0;
- }
+-	min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxdwnscale);
++	min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxupscale);
+ 	ret = drm_atomic_helper_check_plane_state(state, crtc_state, min_scale,
+-					  pdpu->pipe_sblk->maxupscale << 16,
++					  pdpu->pipe_sblk->maxdwnscale << 16,
+ 					  true, true);
+ 	if (ret) {
+ 		DPU_ERROR_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
 -- 
 2.25.1
 
