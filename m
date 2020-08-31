@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDAF257A6E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 15:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDEB257A99
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 15:39:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 714D989FEC;
-	Mon, 31 Aug 2020 13:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2566089AC3;
+	Mon, 31 Aug 2020 13:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D329F6E10A;
- Mon, 31 Aug 2020 13:31:34 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id l17so4040711edq.12;
- Mon, 31 Aug 2020 06:31:34 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7093898B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 13:39:08 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id e33so619214pgm.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 06:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=aPqzHsM5MKsZpXEj+wl1ipe3o/zyPGbG+W4tvZQDabg=;
- b=VB2nX2Fkx5H+tT3R7ir0Ee5/3bfVK1+AdyrctM3WkZ9DGroXdeNfTn5zXfs0/iRfF8
- M1AdgQq8zfe8cFy+idyfWN2IznZa2/ehdUvDlu0gm4yiSa++ymoTyo/2Vq123Sa1TOD4
- Veb0LzJ67Yz16V3SXIeuvSTFqOgdW7NaksHPagXdUJAZ4584wI324BlfGNO6tGhjXeNS
- baPYCBy+Cghnm5h96VChaKCY5Nk3SumpfdU2dtVjygAhPi5zvBmUxBOkJdMjDooPz917
- M9IOXLLGTRBP9074lJmoEYSHVsKvv1u4ZcYtg19VsD7QJ4AmHRFmE/ZidPIoxgQ1Hlxp
- aR2g==
+ bh=kBIx7FcbMM1t3uG1zvrmHZlG3XrQ9BDEQ6YDhG9R5jo=;
+ b=ulyPKe7hsfCv7vGuf4GZjBv3JdbiSnDFtZRhoE1JCXhD51IM3GnUEUOviZnSGujp0U
+ cetpSeeRNMzLcfWAXN7q/Zq918qpPuXWnaDTfoVC+UFnNPjGj9+aO4CxlYM/rylStv3v
+ OEaLWBoXFuxqAcz5qorfbTj5a9z8eFiKaDvZLxLn1EX3hzpWC1LPtbKI3OjvcHrKsD6j
+ eGNrKgi46Y+Hs/6HYCCiytsahM60uHkan05SbLnNLq/rh4ByFGrmGQsN48l1TStaYiLh
+ zZ3HRYnvio+EHyaRVOOLXIv0MBquM67C9kKCzUFSMkloRT7o/eymsZwMNSubz8SmKuW+
+ YwNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=aPqzHsM5MKsZpXEj+wl1ipe3o/zyPGbG+W4tvZQDabg=;
- b=d6SPxcO/tl9scqf9YyMb0wnsvSfWRLaq+nkVzcikJy6Eak5QtcsItOI8SrFOGmAGoZ
- Rsjdh2VDrVvVATWMa2sV58NqxBdaRlcKeHq0+spd48GtiaAD8tc/q7m0tPwP3yNd5xxz
- o0TWDJSpj+wUBhzz1ikQ/DHhHgv5lPV1CxVvwpPGkYAZkfbu8c14W9UN0zMQmpwAAUop
- c/E3ZCTJBqf5+GZB3xEub3KPGU5IPDfvJm0zh1NKdp+/V8ov9iwOVuS77ujsnl+vn4wX
- DELC417YrvHyJsGDOO1a3l2ll6YDiU6apxjuR4FgAwz5OVuBAVm4iobg14OZnBRGUara
- R9rg==
-X-Gm-Message-State: AOAM532HZMd0CE3j4R3hUgrnqS/sNqIp1JMB84cKShZ8L0XKMCXFKLux
- 9Ao8OHZPSawCBFn9delSLRc=
-X-Google-Smtp-Source: ABdhPJwlL1RLvYdrkuhWTvnYwa2FN8xl7HMLKZbajad908u3apivBTfKuRrihh2hDD2cykCK/TpV2Q==
-X-Received: by 2002:a50:c909:: with SMTP id o9mr1288875edh.148.1598880693434; 
- Mon, 31 Aug 2020 06:31:33 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id k1sm2099888eji.20.2020.08.31.06.31.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 06:31:32 -0700 (PDT)
-Date: Mon, 31 Aug 2020 15:31:30 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v8 07/17] pwm: lpss: Always update state and set update bit
-Message-ID: <20200831133130.GJ1689119@ulmo>
-References: <20200830125753.230420-1-hdegoede@redhat.com>
- <20200830125753.230420-8-hdegoede@redhat.com>
- <20200831111334.GE1688464@ulmo>
- <ac7375d0-f59b-cc9e-576a-91969d0d7cfb@redhat.com>
+ bh=kBIx7FcbMM1t3uG1zvrmHZlG3XrQ9BDEQ6YDhG9R5jo=;
+ b=kmQR10HmsFk07ZNJJlHW/T6safIJjiWrBtdft8rZ46Gzuzt1Ah87gq6KyHmiMEAUoT
+ vMySl33jZRR8GDlV0WhttVCJ2ZZc0kd5Lsv9RimIRhvTSZ+6Tsrc9zsL8WOBhtqDb5vf
+ LI6ULvbAQbcrAUMHZ1tFjaKPnc3Gg5YVb3ey5ISd8LVGs5Z/E7M7YpoqT5leaB8TBTEU
+ OfFRDpG72KB4G9ZJXFe3VtNX9xfxdoh/djGd1w8uDBW9gQXhAdpbXmm6TIBcgCckd3ao
+ zv2bUk3xAnSJRzq61FX3fWXHCgF5m16LVfxFMZGwLavS+0Uf+KcaKftKJOu3jOhbuVwO
+ FFWA==
+X-Gm-Message-State: AOAM531echMpqA/vLZX0twhZh2qIrOp95SLizRJgnpo0v7nmJhyVik+K
+ c4oqwKeMFw9Xt7NuiBX8utY=
+X-Google-Smtp-Source: ABdhPJzIAQxzBjxsLTwl35Dy79erM0keXcL3kWzXwYd+S4wNrrBm+BEMLAtjX8K7mWRL5Jt98yApww==
+X-Received: by 2002:a63:c551:: with SMTP id g17mr1219918pgd.399.1598881148355; 
+ Mon, 31 Aug 2020 06:39:08 -0700 (PDT)
+Received: from realwakka ([61.83.141.80])
+ by smtp.gmail.com with ESMTPSA id w3sm8307421pff.56.2020.08.31.06.39.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 31 Aug 2020 06:39:07 -0700 (PDT)
+Date: Mon, 31 Aug 2020 13:38:58 +0000
+From: Sidong Yang <realwakka@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/vkms: add support for gamma_set interface
+Message-ID: <20200831133858.GA9280@realwakka>
+References: <20200829140647.7626-1-realwakka@gmail.com>
+ <UeJwFKvmNgKdZY_icN0-nrFly9R1vbzaMZ-TiyxIIPBcdl278uZsK6YdTTdRl6rFukBAmN-eyCFpnfsIB-El9QpyYiutdcpgJg64n4tsRRc=@emersion.fr>
 MIME-Version: 1.0
-In-Reply-To: <ac7375d0-f59b-cc9e-576a-91969d0d7cfb@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+Content-Disposition: inline
+In-Reply-To: <UeJwFKvmNgKdZY_icN0-nrFly9R1vbzaMZ-TiyxIIPBcdl278uZsK6YdTTdRl6rFukBAmN-eyCFpnfsIB-El9QpyYiutdcpgJg64n4tsRRc=@emersion.fr>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,180 +68,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1343427933=="
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Aug 31, 2020 at 11:39:10AM +0000, Simon Ser wrote:
+> On Saturday, August 29, 2020 4:06 PM, Sidong Yang <realwakka@gmail.com> wrote:
+> 
+> > Currently vkms module doesn't support gamma function for userspace. so igt
+> > subtests in kms_plane(pixel-format-pipe-A-plan) failed for calling
+> > drmModeCrtcSetGamma().
+> 
 
---===============1343427933==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qD3brAgIG4LbUq6d"
-Content-Disposition: inline
+Hi, Simon.
+Thanks for review.
 
+> It doesn't seem like this IGT test's goal is to exercise support for
+> gamma LUTs. Does the test just tries to reset the gamma LUT to linear?
+> If so, I think the IGT test should be fixed to ignore "I don't support
+> gamma" errors.
 
---qD3brAgIG4LbUq6d
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It seems like that IGT test pixel-format is to make gamma lut like below.
 
-On Mon, Aug 31, 2020 at 01:26:46PM +0200, Hans de Goede wrote:
-> Hi,
->=20
-> On 8/31/20 1:13 PM, Thierry Reding wrote:
-> > On Sun, Aug 30, 2020 at 02:57:43PM +0200, Hans de Goede wrote:
-> > > This commit removes a check where we would skip writing the ctrl regi=
-ster
-> > > and then setting the update bit in case the ctrl register already con=
-tains
-> > > the correct values.
-> > >=20
-> > > In a perfect world skipping the update should be fine in these cases,=
- but
-> > > on Cherry Trail devices the AML code in the GFX0 devices' PS0 and PS3
-> > > methods messes with the PWM controller.
-> > >=20
-> > > The "ACPI / LPSS: Resume Cherry Trail PWM controller in no-irq phase"=
- patch
-> > > earlier in this series stops the GFX0._PS0 method from messing with t=
-he PWM
-> > > controller and on the DSDT-s inspected sofar the _PS3 method only rea=
-ds
-> > > from the PWM controller (and turns it off before we get a change to d=
-o so):
-> > >=20
-> > >      {
-> > >          PWMB =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
-> > >          PSAT |=3D 0x03
-> > >          Local0 =3D PSAT /* \_SB_.PCI0.GFX0.PSAT */
-> > >      }
-> > >=20
-> > > The PWM controller getting turning off before we do this ourselves is
-> > > a bit annoying but not really an issue.
-> > >=20
-> > > The problem this patch fixes comes from a new variant of the GFX0._PS=
-3 code
-> > > messing with the PWM controller found on the Acer One 10 S1003 (1):
-> > >=20
-> > >      {
-> > >          PWMB =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
-> > >          PWMT =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
-> > >          PWMT &=3D 0xFF0000FF
-> > >          PWMT |=3D 0xC0000000
-> > >          PWMC =3D PWMT /* \_SB_.PCI0.GFX0.PWMT */
-> > >          PWMT =3D PWMC /* \_SB_.PCI0.GFX0.PWMC */
-> > >          Sleep (0x64)
-> > >          PWMB &=3D 0x3FFFFFFF
-> > >          PWMC =3D PWMB /* \_SB_.PCI0.GFX0.PWMB */
-> > >          PSAT |=3D 0x03
-> > >          Local0 =3D PSAT /* \_SB_.PCI0.GFX0.PSAT */
-> > >      }
-> > >=20
-> > > This "beautiful" piece of code clears the base-unit part of the ctrl-=
-reg,
-> > > which effectively disables the controller, and it sets the update flag
-> > > to apply this change. Then after this it restores the original ctrl-r=
-eg
-> > > value, so we do not see it has mucked with the controller.
-> > >=20
-> > > *But* it does not set the update flag when restoring the original val=
-ue.
-> > > So the check to see if we can skip writing the ctrl register succeeds
-> > > but since the update flag was not set, the old base-unit value of 0 is
-> > > still in use and the PWM controller is effectively disabled.
-> > >=20
-> > > IOW this PWM controller poking means that we cannot trust the base-un=
-it /
-> > > on-time-div value we read back from the PWM controller since it may n=
-ot
-> > > have been applied/committed. Thus we must always update the ctrl-regi=
-ster
-> > > and set the update bit.
-> >=20
-> > Doesn't this now make patch 6/17 obsolete?
->=20
-> No, there is no guarantee we will get any changes soon after resume,
-> so we must restore the state properly on resume, before 5.17
-> we were just blindly restoring the old ctrl reg state, but
-> if either the freq-div or the duty-cycle changes, we should
-> also set the update bit in that case to apply the new freq-div/
-> duty-cycle.
+for (i = 0; i < lut_size; i++)
+	lut[i] = (i * 0xffff / (lut_size - 1)) & mask;
 
-Hm... I didn't realize the driver was already saving/restoring context
-before this. And from a quick look through the subsystem it looks like
-I've done a pretty poor job of enforcing the "no context save/restore
-=66rom PWM drivers" rule. There are some cases that have had this support
-since before we realized that this is problematic, but I think at least
-pwm-img is newer than that and should never have had that code either.
+And set this table to drm driver. and test begins. It's the test about pixel 
+format. I think you're right. It's not about gamma lut.
+> 
+> > This patch set gamma_set interface in vkms_crtc_funcs for
+> > support gamma function. With initializing crtc, added calls for setting gamma
+> > size. it pass the test after this patch.
+> >
+> > Cc: Daniel Vetter<daniel@ffwll.ch>
+> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> >
+> > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_crtc.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > index ac85e17428f8..643435fb2ee6 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > @@ -160,6 +160,7 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
+> >  	.get_crc_sources	= vkms_get_crc_sources,
+> >  	.set_crc_source		= vkms_set_crc_source,
+> >  	.verify_crc_source	= vkms_verify_crc_source,
+> > +	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+> 
+> Why does VKMS need to use a legacy helper?
 
-> This actually also helps with that case since patch 6/17 uses
-> pwm_lpss_prepare and this makes pwm_lpss_prepare set the
-> update but unconditionally.
->=20
-> Also on resume we most do the set the enable bit vs set
-> the update bit in the right order, depending on the
-> generation of the SoC in which the PWM controller is
-> embedded. 6/17 fixes all this by resume, by treating
-> resume as a special case of apply() taking all the
-> steps apply does.
+drm_crtc_enable_color_mgmt() enables properties about gamma/degamma lut. And 
+legacy helper just saves lut data from userspace to drm property blob. It seems 
+that it's convenient way to implement .gamma_set.
 
-As I mentioned earlier this works only under the assumption that the
-suspend/resume order is correct. And that's possibly true for LPSS. It
-won't work in the general case, though, because a backlight could end up
-suspending/resuming completely out of sync with the rest of the display
-pipeline and that's not something that we want.
+> It seems like this patch just advertises support for gamma LUTs, but
+> ignores any value set by user-space. If VKMS advertises support for
+> gamma LUTs, it needs to take the LUT into account when blending planes.
 
-I would expect that on i915 you also do have a controlled call sequence
-that LPSS is part of, so I would expect that some consumer would
-eventually call pwm_apply_state() and then any new settings would get
-applied. Yes, that may perhaps be not immediately at the point where the
-LPSS resumes, but it should be exactly at the point where the consumer
-wants to enable it and therefore the only point where you can expect it
-to make sense to enable the PWM.
+Yes, This patch doesn't use gamma lut passed by user. lut should be used for 
+calculating pixel value. For vkms, Maybe lut will be used in making crc value?
+If so, I'll try to write next patch for it.
 
-Anyway, if this really turns out to be the only way to make this work I
-can't object to it. But if you do rely on this, perhaps just make a
-mental note that this can lead to sequencing problems that you may
-potentially run into at some point.
+Thanks,
+-Sidong
 
-Thierry
-
---qD3brAgIG4LbUq6d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9M+7AACgkQ3SOs138+
-s6HLbg/6AyaDGIE21Hd2kKR7CDTpT5efxrkOKlOS4Yg4EM+qelfF8m1qy7QxRw9o
-9Fn3ka65YyfUJh0Mj6Ehei1LGrPjb2g4NPHj5ZB7u2AfUR4GFkFlRA+BgYxFiSZD
-lDll4js7IYQz0TW7dQRs4Gcc8aM9YsFQcEJxw8FBWx4J6BtYYHtlY3qQqavg6yJB
-hpoCp6UF+7YnGat98RznOeKv9yPXaPMlaiq79uNuRWx54h6qisKhFhHCIR6DUzRC
-rbrugmGcpgo4pTSJAI8I6lGpFmh9SpgkCpGD48qGUttZEBRo+BmczVHPl7NfGxBk
-/IWY/FhBF9DLJJrnrPVNs49lU9NpCdGaH3jzy7cSASzedaohuGGGylMh42nN3hdN
-y1+uQD5AnxWKcXVPCC/7z+YtLC+N3beyJ+5yiWPY8j3HEdgeqP8TpGTZRZN8rMn9
-catqW83SLzGk0FftHSQ3z6rR4v0qHU4kZEMF8I8n4ECdw4PWmMwNpysgFPnoiQ8T
-POWvSKp8Htc7x3gOS0THiqdLpFl3EFXXqzLTbu6LKe8W+uDFcvF15xUDfX+sdbhy
-YxG2fjPThhWDteTlVBACY/3/G3VX/QzTVPJMHhu/nP52H8y5PNtdlO75ZqVxJZJR
-GC4FCJMrW0/dUTMbEPk6I9jKaxXW3qYig5xdQBn3hZmzE0kSdBw=
-=/Vi0
------END PGP SIGNATURE-----
-
---qD3brAgIG4LbUq6d--
-
---===============1343427933==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 
+> >  };
+> >
+> >  static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+> > @@ -275,6 +276,13 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+> >  		return ret;
+> >  	}
+> >
+> > +	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
+> > +	if (ret) {
+> > +		DRM_ERROR("Failed to set gamma size\n");
+> > +		return ret;
+> > +	}
+> > +	drm_crtc_enable_color_mgmt(crtc, 0, false, 256);
+> > +
+> >  	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+> >
+> >  	spin_lock_init(&vkms_out->lock);
+> > --
+> > 2.17.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1343427933==--
