@@ -2,43 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68741257638
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F64825763A
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Aug 2020 11:12:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A13D89DC1;
-	Mon, 31 Aug 2020 09:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B9F789D7D;
+	Mon, 31 Aug 2020 09:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A93A89E15
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 03:04:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 32901292A45
-Message-ID: <16e60d66b036bce7019023a48aa278c9044d87c5.camel@collabora.com>
-Subject: DMA-BUF Heaps BoF notes (Re: [RFC] Experimental DMA-BUF Device Heaps)
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>, Brian
- Starkey <brian.starkey@arm.com>, Robert Beckett
- <bob.beckett@collabora.com>, "nd@arm.com" <nd@arm.com>, Tomasz Figa
- <tfiga@chromium.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@st.com>, Liam Mark
- <lmark@codeaurora.org>, "Andrew F . Davis" <afd@ti.com>,
- "kernel@collabora.com" <kernel@collabora.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Laura
- Abbott <labbott@kernel.org>, Daniel Stone <daniels@collabora.com>, Nicolas
- Dufresne <nicolas.dufresne@collabora.com>,  "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, John
- Reitan <John.Reitan@arm.com>
-Date: Mon, 31 Aug 2020 00:04:10 -0300
-In-Reply-To: <RYac-UwqFncGmZCWk713lK86adAOfMQbeT6CF15dhr1H3o-P-_tXJcwNYxM5LYqddtYe7Y7VEmbSrDe5ixtIqtHmxMkH1FfulkO4VppXGKA=@emersion.fr>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
- <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
- <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
- <746a0bb75bd8388a30b53a5ddc56fb24aea308a8.camel@collabora.com>
- <RYac-UwqFncGmZCWk713lK86adAOfMQbeT6CF15dhr1H3o-P-_tXJcwNYxM5LYqddtYe7Y7VEmbSrDe5ixtIqtHmxMkH1FfulkO4VppXGKA=@emersion.fr>
-Organization: Collabora
-User-Agent: Evolution 3.36.3-1 
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4757789E0D
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 04:17:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=l7zHHSgVYZKrffQxrdTFyOTG+QENbp5RKlVsgMYUtWU=; b=ayc5ubh3K4AA3qftWiN44cL37f
+ OyZpAzP5TAzZrmsKdY56NEgKl5l91VuBgcyc73c4bmOyiP+nTxAiov7XbL71CbwH/eYjAfAZQDdd6
+ EhftUKKJ0NxjX4GBv6pglPUGCubtQsl0GVzhSkimEoaRyU07aFkjr4A94fweSQY4QFOFBKWyyOdva
+ L5qvlUiFQWetB7K8Fl6Y3f/odtBzptW/8btie+qhZlSfFZlEpDlKtZza1es8DmgJUu9NiK4v8Q52F
+ ARyCFaCGJiiDBq9jtQFI/RYqpMFuTarRaZFDin4FXrYjSUmZ/8UMVOMtQAMetYS2KGjaaCAMc434k
+ eorrJ4mw==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+ (helo=smtpauth.infradead.org)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kCbFe-00063Z-0T; Mon, 31 Aug 2020 04:17:06 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] dma-buf: fix kernel-doc warning in <linux/dma-buf.h>
+Date: Sun, 30 Aug 2020 21:16:55 -0700
+Message-Id: <20200831041655.29796-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 31 Aug 2020 09:12:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,102 +47,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Gustavo Padovan <gustavo@padovan.org>, Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear all,
-
-Here are the notes we took during the BoF.
-
-I believe the meeting was super interesting.
-
-Although it felt a bit short for the topic,
-we left with a few interesting ideas.
-
-Thanks everyone!
-Ezequiel
-
----
-LPC 2020 BoF: Negotiating DMA-BUF Heaps
-
-Attendees:
-* Brian Starkey
-* Daniel Stone
-* Ezequiel Garcia
-* James Jones
-* John Reitan
-* Laura Abbott
-* Laurent Pinchart
-* Sumit Semwal
-* Robert Beckett
-
-# Replacing subsystem memory allocators with dma-buf heaps
-
-* Laurent: we should not have subsystem implement their own allocator.
-  Using heaps could be a good idea.
-
-* Laura: Wary to add too much support to heaps,
-  from the ION experience.
-
-* Laurent: V4L2: most drivers use videobuf2,
-  which is a fairly complex piece of code.
-  Three constraints, sg, contig, and vmalloc:
-  these are fairly generic and not video-specific, why can't these just use heaps?
-
-* Brian: In-kernel API will most likely just care of dma-buf
-  not necessarily FDs. This was discussed recently, see "Role of DMA Heaps
-  vs GEM in allocation",https://www.spinics.net/lists/dri-devel/msg268103.html
-
-* Do we expect to get a non-file descriptor identifier for a dma-buf? No.
-
-* Laurent proposes a two steps API (similar to existing GEM API),
-  where we have one interface to allocate a buffer, with an identifier
-  local to a process, and then another interface to wrap the buffer
-  on a dma-buf (fd).
-
-* If devices are not meant to be shared, then we might want to avoid
-  the DMA-BUF design entirely. As Sumit mentioned, the fundamental
-  idea behind DMA-BUF is that they are expected to be shared.
-  OTOH, it was mentioned that sometimes we don't know if a buffer
-  will be shared or not, so that's why the ability to wrap a buffer
-over dma-buf is useful.
-
-* New subsytems would possibly want to avoid implementing
-  its own allocator interface. But unfortunately, we don't want
-  to produce a fd per buffer, so that will mean a new subsystem
-  will eventually require its own API (GEM-like).
-  If a subsystem doesn't need many buffers, and the FD semantic is fine,
-  then it would be acceptable to avoid a subsystem-specific API.
-
-* It would be interesting to experiment replacing videobuf2-dma-contig
-  with just dma-buf heap usage, and see what kind of code save we'd save.
-
-* John Stultz has ideas around providing in-kernel accessors
-  for the heaps - the idea is for drivers to not have to implement
-  full exporter functionality for an already existing dma-buf heap type.
-
-* Drawback to this idea of reusing dma-buf heaps to allocate buffers,
-  is that it means marking every buffer that gets exported as shareable.
-
-* The benefits in having a centralized implementation would be in unifying
-  the semantics, reusable concepts that can be used to build future APIs around,
-  rather than trying to created unified APIs around disparate kernel allocation
-  APIs at only the userspace level.
-
-* Robert: Is there an in-kernel user for the in-kernel dma-buf request?
-  A possible answer would be for scratch buffers. The idea would be
-  to avoid getting details wrong. However, doing this would allow every
-  buffer to be exportable. Also, it sounds like this means
-  re-implementing DMA-API?
-
-* DMA-BUF are designed to be shared, not necessarily an allocator.
-
-* Want something to expose device-local memory to rest of kernel.
-Could be a dma-buf heap?
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4IGtlcm5lbC1kb2Mgd2FybmluZyBpbiA8bGludXgvZG1hLWJ1Zi5oPjoKCi4uL2luY2x1ZGUv
+bGludXgvZG1hLWJ1Zi5oOjMzMDogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJl
+ciAnbmFtZV9sb2NrJyBub3QgZGVzY3JpYmVkIGluICdkbWFfYnVmJwoKU2lnbmVkLW9mZi1ieTog
+UmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5vcmc+CkNjOiBTdW1pdCBTZW13YWwgPHN1
+bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzogR3VzdGF2byBQYWRvdmFuIDxndXN0YXZvQHBhZG92
+YW4ub3JnPgpDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpD
+YzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCi0tLQogaW5jbHVkZS9saW51eC9kbWEtYnVmLmggfCAgICAzICsrLQogMSBmaWxl
+IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKLS0tIGxueC01OS1yYzMu
+b3JpZy9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaAorKysgbG54LTU5LXJjMy9pbmNsdWRlL2xpbnV4
+L2RtYS1idWYuaApAQCAtMjgzLDYgKzI4Myw3IEBAIHN0cnVjdCBkbWFfYnVmX29wcyB7CiAgKiBA
+ZXhwX25hbWU6IG5hbWUgb2YgdGhlIGV4cG9ydGVyOyB1c2VmdWwgZm9yIGRlYnVnZ2luZy4KICAq
+IEBuYW1lOiB1c2Vyc3BhY2UtcHJvdmlkZWQgbmFtZTsgdXNlZnVsIGZvciBhY2NvdW50aW5nIGFu
+ZCBkZWJ1Z2dpbmcsCiAgKiAgICAgICAgcHJvdGVjdGVkIGJ5IEByZXN2LgorICogQG5hbWVfbG9j
+azogc3BpbmxvY2sgdG8gcHJvdGVjdCBuYW1lIGFjY2VzcwogICogQG93bmVyOiBwb2ludGVyIHRv
+IGV4cG9ydGVyIG1vZHVsZTsgdXNlZCBmb3IgcmVmY291bnRpbmcgd2hlbiBleHBvcnRlciBpcyBh
+CiAgKiAgICAgICAgIGtlcm5lbCBtb2R1bGUuCiAgKiBAbGlzdF9ub2RlOiBub2RlIGZvciBkbWFf
+YnVmIGFjY291bnRpbmcgYW5kIGRlYnVnZ2luZy4KQEAgLTMxMSw3ICszMTIsNyBAQCBzdHJ1Y3Qg
+ZG1hX2J1ZiB7CiAJdm9pZCAqdm1hcF9wdHI7CiAJY29uc3QgY2hhciAqZXhwX25hbWU7CiAJY29u
+c3QgY2hhciAqbmFtZTsKLQlzcGlubG9ja190IG5hbWVfbG9jazsgLyogc3BpbmxvY2sgdG8gcHJv
+dGVjdCBuYW1lIGFjY2VzcyAqLworCXNwaW5sb2NrX3QgbmFtZV9sb2NrOwogCXN0cnVjdCBtb2R1
+bGUgKm93bmVyOwogCXN0cnVjdCBsaXN0X2hlYWQgbGlzdF9ub2RlOwogCXZvaWQgKnByaXY7Cl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
