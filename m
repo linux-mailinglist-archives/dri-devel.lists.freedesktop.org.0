@@ -2,46 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18C8258D81
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 13:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D94258DB0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 13:53:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 956B96E417;
-	Tue,  1 Sep 2020 11:40:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A3B6E079;
+	Tue,  1 Sep 2020 11:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 967F16E417;
- Tue,  1 Sep 2020 11:40:29 +0000 (UTC)
-IronPort-SDR: 0AbBjlfcGinvXjer+0gGuIXn2xdK/bdw7TMgS/ICleF42mEdjMPQxPVoLJ1ZgaIZfxZRQ5QlAK
- EGxPUoum7hlg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="154659377"
-X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; d="scan'208";a="154659377"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2020 04:40:29 -0700
-IronPort-SDR: vKEnqNc+5iErOuUrwaCJdahmrxY7jrdgGOyL5W/Ldrv35db0pwdOYvo6NV3bTeXV7TkCKPI58+
- pkTkzUZ8OHuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; d="scan'208";a="281945319"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 01 Sep 2020 04:40:25 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 01 Sep 2020 14:40:24 +0300
-Date: Tue, 1 Sep 2020 14:40:24 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Karthik B S <karthik.b.s@intel.com>
-Subject: Re: [PATCH v6 1/7] drm/i915: Add enable/disable flip done and flip
- done handler
-Message-ID: <20200901114024.GK6112@intel.com>
-References: <20200807093551.10673-1-karthik.b.s@intel.com>
- <20200807093551.10673-2-karthik.b.s@intel.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609556E079
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 11:53:23 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id o5so1164165wrn.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 04:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4pbrbINpclANPHPoXjRh4jkprr4L6ijONzwCi7r/ZQc=;
+ b=McsPMjmV6BnvyoPaMXhuniT/gN16/5NFBk7BieKnMO48d3+MYqxM9iQImMFJ0SIMmK
+ BN6lOeoFupHtJAryOtxPTigOgTdEPVc47Ne75eSO4SQsO+Gqnw/DMNcB5sm4z2vcJ838
+ 7iELuEXikwyK+h1SVdPiw8YAoRONobCj7I1nY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4pbrbINpclANPHPoXjRh4jkprr4L6ijONzwCi7r/ZQc=;
+ b=JPrSF4eTkgCPQveTwZlA9cXCyZqjziNmXiogY5Sk2P3aQ5Eprcpe/07XJvguyXMnLq
+ gBfLITx8FNvAV8UD1vITOnbiw30JT02YDQv41AxPreWoqlV/4EJxxdrKrM/WQEByAGDB
+ seGBTyX91WqF70lM9bQTHtWIHK0GiqnMtUFjCGpKi85UCeIClYYUN5CNQe+ELLSmIB8e
+ M/egOPBoOcmAEopvxHj/tj9qMAGbdE5IBsAKvVXFnkUkDfa4HwGarvhnwuXgll4TKuGq
+ i7JfNTw1ZBxYcKy6Fj3n3tIoTqztMzF7nJy1JNzxayDhiACzt8yBslQy0Z2+3a4/ddwY
+ WFHA==
+X-Gm-Message-State: AOAM5322Z+cNyo+TVVM1+Bo01ydGKYgUEDQRDI67Uyi2PbqoxqGRwlj5
+ BGVxET566ZBMpUm6AXm9X4bzwg==
+X-Google-Smtp-Source: ABdhPJz3sRNPz1HWeASRij9LcOVIZpmbXeoLWLZjhn1F5fwK1oZg9iMbb0+3Ek1RYJJrwG0WJ+9ENg==
+X-Received: by 2002:a5d:608a:: with SMTP id w10mr1452184wrt.48.1598961201991; 
+ Tue, 01 Sep 2020 04:53:21 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 32sm2293213wrh.18.2020.09.01.04.53.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 04:53:21 -0700 (PDT)
+Date: Tue, 1 Sep 2020 13:53:19 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 02/23] drm/radeon/ttm: don't store driver copy of device
+ pointer.
+Message-ID: <20200901115319.GB2352366@phenom.ffwll.local>
+References: <20200826014428.828392-1-airlied@gmail.com>
+ <20200826014428.828392-3-airlied@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200807093551.10673-2-karthik.b.s@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200826014428.828392-3-airlied@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,246 +66,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: christian.koenig@amd.com, sroland@vmware.com, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 07, 2020 at 03:05:45PM +0530, Karthik B S wrote:
-> Add enable/disable flip done functions and the flip done handler
-> function which handles the flip done interrupt.
-> =
-
-> Enable the flip done interrupt in IER.
-> =
-
-> Enable flip done function is called before writing the
-> surface address register as the write to this register triggers
-> the flip done interrupt
-> =
-
-> Flip done handler is used to send the page flip event as soon as the
-> surface address is written as per the requirement of async flips.
-> The interrupt is disabled after the event is sent.
-> =
-
-> v2: -Change function name from icl_* to skl_* (Paulo)
->     -Move flip handler to this patch (Paulo)
->     -Remove vblank_put() (Paulo)
->     -Enable flip done interrupt for gen9+ only (Paulo)
->     -Enable flip done interrupt in power_well_post_enable hook (Paulo)
->     -Removed the event check in flip done handler to handle async
->      flips without pageflip events.
-> =
-
-> v3: -Move skl_disable_flip_done out of interrupt handler (Paulo)
->     -Make the pending vblank event NULL in the beginning of
->      flip_done_handler to remove sporadic WARN_ON that is seen.
-> =
-
-> v4: -Calculate timestamps using flip done time stamp and current
->      timestamp for async flips (Ville)
-> =
-
-> v5: -Fix the sparse warning by making the function 'g4x_get_flip_counter'
->      static.(Reported-by: kernel test robot <lkp@intel.com>)
->     -Fix the typo in commit message.
-> =
-
-> v6: -Revert back to old time stamping code.
->     -Remove the break while calling skl_enable_flip_done. (Paulo)
-> =
-
-> Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-> Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
+On Wed, Aug 26, 2020 at 11:44:07AM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This can be gotten back from bdev.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_display.c |  8 +++
->  drivers/gpu/drm/i915/i915_irq.c              | 52 ++++++++++++++++++++
->  drivers/gpu/drm/i915/i915_irq.h              |  2 +
->  3 files changed, 62 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index 522c772a2111..1ac2e6f27597 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -15562,6 +15562,11 @@ static void intel_atomic_commit_tail(struct inte=
-l_atomic_state *state)
->  =
-
->  	intel_dbuf_pre_plane_update(state);
->  =
-
-> +	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +		if (new_crtc_state->uapi.async_flip)
-> +			skl_enable_flip_done(&crtc->base);
-> +	}
-> +
->  	/* Now enable the clocks, plane, pipe, and connectors that we set up. */
->  	dev_priv->display.commit_modeset_enables(state);
->  =
-
-> @@ -15583,6 +15588,9 @@ static void intel_atomic_commit_tail(struct intel=
-_atomic_state *state)
->  	drm_atomic_helper_wait_for_flip_done(dev, &state->base);
->  =
-
->  	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +		if (new_crtc_state->uapi.async_flip)
-> +			skl_disable_flip_done(&crtc->base);
-> +
->  		if (new_crtc_state->hw.active &&
->  		    !needs_modeset(new_crtc_state) &&
->  		    !new_crtc_state->preload_luts &&
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_=
-irq.c
-> index f113fe44572b..6cc129b031d3 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -1296,6 +1296,23 @@ display_pipe_crc_irq_handler(struct drm_i915_priva=
-te *dev_priv,
->  			     u32 crc4) {}
->  #endif
->  =
-
-> +static void flip_done_handler(struct drm_i915_private *dev_priv,
-> +			      unsigned int pipe)
-> +{
-> +	struct intel_crtc *crtc =3D intel_get_crtc_for_pipe(dev_priv, pipe);
-> +	struct drm_crtc_state *crtc_state =3D crtc->base.state;
-> +	struct drm_pending_vblank_event *e =3D crtc_state->event;
-> +	struct drm_device *dev =3D &dev_priv->drm;
-> +	unsigned long irqflags;
-> +
-> +	spin_lock_irqsave(&dev->event_lock, irqflags);
-> +
-> +	crtc_state->event =3D NULL;
-> +
-> +	drm_crtc_send_vblank_event(&crtc->base, e);
-
-The timestamp is going to be wrong here. We should perhaps just sample
-the current time+frame counter here.
-
-> +
-> +	spin_unlock_irqrestore(&dev->event_lock, irqflags);
-> +}
->  =
-
->  static void hsw_pipe_crc_irq_handler(struct drm_i915_private *dev_priv,
->  				     enum pipe pipe)
-> @@ -2390,6 +2407,9 @@ gen8_de_irq_handler(struct drm_i915_private *dev_pr=
-iv, u32 master_ctl)
->  		if (iir & GEN8_PIPE_VBLANK)
->  			intel_handle_vblank(dev_priv, pipe);
->  =
-
-> +		if (iir & GEN9_PIPE_PLANE1_FLIP_DONE)
-> +			flip_done_handler(dev_priv, pipe);
-> +
->  		if (iir & GEN8_PIPE_CDCLK_CRC_DONE)
->  			hsw_pipe_crc_irq_handler(dev_priv, pipe);
->  =
-
-> @@ -2711,6 +2731,19 @@ int bdw_enable_vblank(struct drm_crtc *crtc)
->  	return 0;
->  }
->  =
-
-> +void skl_enable_flip_done(struct drm_crtc *crtc)
-> +{
-> +	struct drm_i915_private *dev_priv =3D to_i915(crtc->dev);
-> +	enum pipe pipe =3D to_intel_crtc(crtc)->pipe;
-> +	unsigned long irqflags;
-> +
-> +	spin_lock_irqsave(&dev_priv->irq_lock, irqflags);
-> +
-> +	bdw_enable_pipe_irq(dev_priv, pipe, GEN9_PIPE_PLANE1_FLIP_DONE);
-> +
-> +	spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
-> +}
-> +
->  /* Called from drm generic code, passed 'crtc' which
->   * we use as a pipe index
+>  drivers/gpu/drm/radeon/radeon_ttm.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index f6311f404db8..0923a8601112 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -412,7 +412,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
 >   */
-> @@ -2771,6 +2804,19 @@ void bdw_disable_vblank(struct drm_crtc *crtc)
->  	spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
->  }
->  =
+>  struct radeon_ttm_tt {
+>  	struct ttm_dma_tt		ttm;
+> -	struct radeon_device		*rdev;
 
-> +void skl_disable_flip_done(struct drm_crtc *crtc)
-> +{
-> +	struct drm_i915_private *dev_priv =3D to_i915(crtc->dev);
-> +	enum pipe pipe =3D to_intel_crtc(crtc)->pipe;
-> +	unsigned long irqflags;
-> +
-> +	spin_lock_irqsave(&dev_priv->irq_lock, irqflags);
-> +
-> +	bdw_disable_pipe_irq(dev_priv, pipe, GEN9_PIPE_PLANE1_FLIP_DONE);
-> +
-> +	spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
-> +}
-> +
->  static void ibx_irq_reset(struct drm_i915_private *dev_priv)
+At least for amdgpu the drm_device embedding stuff landed, so I think we
+can drop a lot more of these all over because upcasting from a struct
+drm_device * to tha adev is just a container_of.
+
+Entirely separate bikeshed cleanup, but I think it'd help to make ttm feel
+a bit more like a helper for gpu drivers than it's entirely separate world
+:-)
+
+Cheers, Daniel
+
+>  	u64				offset;
+>  
+>  	uint64_t			userptr;
+> @@ -515,6 +514,7 @@ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
+>  				   struct ttm_resource *bo_mem)
 >  {
->  	struct intel_uncore *uncore =3D &dev_priv->uncore;
-> @@ -2981,6 +3027,9 @@ void gen8_irq_power_well_post_enable(struct drm_i91=
-5_private *dev_priv,
->  	u32 extra_ier =3D GEN8_PIPE_VBLANK | GEN8_PIPE_FIFO_UNDERRUN;
->  	enum pipe pipe;
->  =
+>  	struct radeon_ttm_tt *gtt = (void*)ttm;
+> +	struct radeon_device *rdev = radeon_get_rdev(ttm->bdev);
+>  	uint32_t flags = RADEON_GART_PAGE_VALID | RADEON_GART_PAGE_READ |
+>  		RADEON_GART_PAGE_WRITE;
+>  	int r;
+> @@ -531,7 +531,7 @@ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
+>  	}
+>  	if (ttm->caching_state == tt_cached)
+>  		flags |= RADEON_GART_PAGE_SNOOP;
+> -	r = radeon_gart_bind(gtt->rdev, gtt->offset, ttm->num_pages,
+> +	r = radeon_gart_bind(rdev, gtt->offset, ttm->num_pages,
+>  			     ttm->pages, gtt->ttm.dma_address, flags);
+>  	if (r) {
+>  		DRM_ERROR("failed to bind %lu pages at 0x%08X\n",
+> @@ -544,8 +544,9 @@ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
+>  static void radeon_ttm_backend_unbind(struct ttm_tt *ttm)
+>  {
+>  	struct radeon_ttm_tt *gtt = (void *)ttm;
+> +	struct radeon_device *rdev = radeon_get_rdev(ttm->bdev);
+>  
+> -	radeon_gart_unbind(gtt->rdev, gtt->offset, ttm->num_pages);
+> +	radeon_gart_unbind(rdev, gtt->offset, ttm->num_pages);
+>  
+>  	if (gtt->userptr)
+>  		radeon_ttm_tt_unpin_userptr(ttm);
+> @@ -584,7 +585,6 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
+>  		return NULL;
+>  	}
+>  	gtt->ttm.ttm.func = &radeon_backend_func;
+> -	gtt->rdev = rdev;
+>  	if (ttm_dma_tt_init(&gtt->ttm, bo, page_flags)) {
+>  		kfree(gtt);
+>  		return NULL;
+> -- 
+> 2.27.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-> +	if (INTEL_GEN(dev_priv) >=3D 9)
-> +		extra_ier |=3D GEN9_PIPE_PLANE1_FLIP_DONE;
-> +
->  	spin_lock_irq(&dev_priv->irq_lock);
->  =
-
->  	if (!intel_irqs_enabled(dev_priv)) {
-> @@ -3459,6 +3508,9 @@ static void gen8_de_irq_postinstall(struct drm_i915=
-_private *dev_priv)
->  	de_pipe_enables =3D de_pipe_masked | GEN8_PIPE_VBLANK |
->  					   GEN8_PIPE_FIFO_UNDERRUN;
->  =
-
-> +	if (INTEL_GEN(dev_priv) >=3D 9)
-> +		de_pipe_enables |=3D GEN9_PIPE_PLANE1_FLIP_DONE;
-> +
->  	de_port_enables =3D de_port_masked;
->  	if (IS_GEN9_LP(dev_priv))
->  		de_port_enables |=3D BXT_DE_PORT_HOTPLUG_MASK;
-> diff --git a/drivers/gpu/drm/i915/i915_irq.h b/drivers/gpu/drm/i915/i915_=
-irq.h
-> index 25f25cd95818..2f10c8135116 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.h
-> +++ b/drivers/gpu/drm/i915/i915_irq.h
-> @@ -112,11 +112,13 @@ int i915gm_enable_vblank(struct drm_crtc *crtc);
->  int i965_enable_vblank(struct drm_crtc *crtc);
->  int ilk_enable_vblank(struct drm_crtc *crtc);
->  int bdw_enable_vblank(struct drm_crtc *crtc);
-> +void skl_enable_flip_done(struct drm_crtc *crtc);
->  void i8xx_disable_vblank(struct drm_crtc *crtc);
->  void i915gm_disable_vblank(struct drm_crtc *crtc);
->  void i965_disable_vblank(struct drm_crtc *crtc);
->  void ilk_disable_vblank(struct drm_crtc *crtc);
->  void bdw_disable_vblank(struct drm_crtc *crtc);
-> +void skl_disable_flip_done(struct drm_crtc *crtc);
->  =
-
->  void gen2_irq_reset(struct intel_uncore *uncore);
->  void gen3_irq_reset(struct intel_uncore *uncore, i915_reg_t imr,
-> -- =
-
-> 2.22.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
