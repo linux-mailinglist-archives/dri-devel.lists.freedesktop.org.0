@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647C025A200
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 01:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E26825A207
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 01:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD8BE6E0D9;
-	Tue,  1 Sep 2020 23:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ADFD6E0F7;
+	Tue,  1 Sep 2020 23:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB7CC6E0D9
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 23:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599003805;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y3AIg4jOzdjWWkFTIo9yUEYHiAP4XtJXx3PrYBTV/r8=;
- b=OS9WxEFDH0fVpxbVgraS58bX1b4qzmIO+JNxDjnChYK8ErLN67or1JmgfJzYBwPuEOL3vd
- bOsge2qJVNrGqisxDSr7dTqVs19Ntu4Q5bh8P+IbY2fHKZg6js7Dr+psF0vOVg54q7KtuJ
- ayboxhxgqqFLLewitvYKxG3jff4BmkY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-91AhM17qMu6CCS1g56xpzg-1; Tue, 01 Sep 2020 19:43:21 -0400
-X-MC-Unique: 91AhM17qMu6CCS1g56xpzg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0AB010066FF;
- Tue,  1 Sep 2020 23:43:19 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-119-108.rdu2.redhat.com
- [10.10.119.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3BBD5D9CC;
- Tue,  1 Sep 2020 23:43:17 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH v4] drm/nouveau/kms/nv50-: Program notifier offset before
- requesting disp caps
-Date: Tue,  1 Sep 2020 19:42:26 -0400
-Message-Id: <20200901234240.197917-1-lyude@redhat.com>
-In-Reply-To: <20200901233842.196818-1-lyude@redhat.com>
-References: <20200901233842.196818-1-lyude@redhat.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6135E6E0F2;
+ Tue,  1 Sep 2020 23:47:40 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c15so3272941wrs.11;
+ Tue, 01 Sep 2020 16:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3jRTuoyd0aXcHbT1FCJs9RFpBaj1SWDBNdxNAjLow6A=;
+ b=n6smDPuHIimNu776vQSUaS1qsggoBq5uOTSwHLd5/IFbSMz5ED44hhXce9aEMpeJru
+ ManD+gIWuESONyAVptU2MIj71LebpM14JXLMctKVe3L7glTMP7lE6BlnTos3LRqxZFJz
+ SkQdY/SFu1A8/Bg2V80/DqvuAzb5I9Yv314kmaQWCQSdgMIJtsL4NnqeHmXR69SPWsWu
+ p1YgYYiUZkPpVuwVgPsRk6EUe0dyUoHKEFpZN84ZR/hvpPcIKVDLW9lokYaoulBwmIe8
+ NfOxsHq5MfAHB2qdlxxb9AEdjh7/kQscnsIEboSN5Nc575xjVgRk3CqpnChZQkrIUX9m
+ yAQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3jRTuoyd0aXcHbT1FCJs9RFpBaj1SWDBNdxNAjLow6A=;
+ b=sw/9SQHWDxtFCQyLyTIa8B1HNpVh9h01TsZfflh3wzlWNWTQSCPYeBIrdDKwnzaTBm
+ j4PGP615yDGLA93CHa0JdsuruVS71wrKpdhgoum6AQKlMieefGteDl97AH25VUeefYQW
+ kTOq2gJHk5UTrLLXYYMjpaPXi15ECurBrllJdK0UWbG1z9M8wLuU9gleCJcgsR+CR8W9
+ yugYgxDh0Sx6QQ977+zPl/WSKsdfwhPwmWS2KpHcNQB5kJ9OOKn2QQeQgfKkFIsrdOIi
+ HPFq5cAJo+f79snDrm+4q3XwoErH6wuXoFFqZfOeGYneZ+orIJoPVCS9NJM8V31U7sGe
+ c5Wg==
+X-Gm-Message-State: AOAM531taK2VkxwDM7f1GTFLgEPGPD0ImtXGbCFNjW4vNXV32brfRL9O
+ EJFr36jptnrH1IxKrPTTBIpaIzNfGPbGLL89mHY=
+X-Google-Smtp-Source: ABdhPJyxKRxrKYP38mwrpz7T/Q77cJAyI6CywuVy5qABpdgIdnJCw1QbCXjLLTX9MPIVNAtteXyldSgHtVE6jFLWLVA=
+X-Received: by 2002:a5d:4bc6:: with SMTP id l6mr4572138wrt.132.1599004058403; 
+ Tue, 01 Sep 2020 16:47:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20200826063316.23486-1-m.szyprowski@samsung.com>
+ <CGME20200826063535eucas1p10cef37d8364216cf57c97e96d3959dd2@eucas1p1.samsung.com>
+ <20200826063316.23486-13-m.szyprowski@samsung.com>
+ <fe224152-b621-d96e-b432-bf837d320210@arm.com>
+In-Reply-To: <fe224152-b621-d96e-b432-bf837d320210@arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 1 Sep 2020 16:48:25 -0700
+Message-ID: <CAF6AEGscE4tdzugs75gFD+D43Un1DcKf8_=CwiPG2uHrytzwcQ@mail.gmail.com>
+Subject: Re: [PATCH v9 12/32] drm: msm: fix common struct sg_table related
+ issues
+To: Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,244 +64,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Nirmoy Das <nirmoy.aiemd@gmail.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, Christoph Hellwig <hch@lst.de>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not entirely sure why this never came up when I originally tested this
-(maybe some BIOSes already have this setup?) but the ->caps_init vfunc
-appears to cause the display engine to throw an exception on driver
-init, at least on my ThinkPad P72:
+On Tue, Sep 1, 2020 at 12:14 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 2020-08-26 07:32, Marek Szyprowski wrote:
+> > The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+> > returns the number of the created entries in the DMA address space.
+> > However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+> > dma_unmap_sg must be called with the original number of the entries
+> > passed to the dma_map_sg().
+> >
+> > struct sg_table is a common structure used for describing a non-contiguous
+> > memory buffer, used commonly in the DRM and graphics subsystems. It
+> > consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+> > as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+> > and DMA mapped pages (nents entry).
+> >
+> > It turned out that it was a common mistake to misuse nents and orig_nents
+> > entries, calling DMA-mapping functions with a wrong number of entries or
+> > ignoring the number of mapped entries returned by the dma_map_sg()
+> > function.
+> >
+> > To avoid such issues, lets use a common dma-mapping wrappers operating
+> > directly on the struct sg_table objects and use scatterlist page
+> > iterators where possible. This, almost always, hides references to the
+> > nents and orig_nents entries, making the code robust, easier to follow
+> > and copy/paste safe.
+> >
+> > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > Acked-by: Rob Clark <robdclark@gmail.com>
+> > ---
+> >   drivers/gpu/drm/msm/msm_gem.c    | 13 +++++--------
+> >   drivers/gpu/drm/msm/msm_gpummu.c | 14 ++++++--------
+> >   drivers/gpu/drm/msm/msm_iommu.c  |  2 +-
+> >   3 files changed, 12 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> > index b2f49152b4d4..8c7ae812b813 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem.c
+> > +++ b/drivers/gpu/drm/msm/msm_gem.c
+> > @@ -53,11 +53,10 @@ static void sync_for_device(struct msm_gem_object *msm_obj)
+> >       struct device *dev = msm_obj->base.dev->dev;
+> >
+> >       if (get_dma_ops(dev) && IS_ENABLED(CONFIG_ARM64)) {
+> > -             dma_sync_sg_for_device(dev, msm_obj->sgt->sgl,
+> > -                     msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+> > +             dma_sync_sgtable_for_device(dev, msm_obj->sgt,
+> > +                                         DMA_BIDIRECTIONAL);
+> >       } else {
+> > -             dma_map_sg(dev, msm_obj->sgt->sgl,
+> > -                     msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+> > +             dma_map_sgtable(dev, msm_obj->sgt, DMA_BIDIRECTIONAL, 0);
+> >       }
+> >   }
+> >
+> > @@ -66,11 +65,9 @@ static void sync_for_cpu(struct msm_gem_object *msm_obj)
+> >       struct device *dev = msm_obj->base.dev->dev;
+> >
+> >       if (get_dma_ops(dev) && IS_ENABLED(CONFIG_ARM64)) {
+> > -             dma_sync_sg_for_cpu(dev, msm_obj->sgt->sgl,
+> > -                     msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+> > +             dma_sync_sgtable_for_cpu(dev, msm_obj->sgt, DMA_BIDIRECTIONAL);
+> >       } else {
+> > -             dma_unmap_sg(dev, msm_obj->sgt->sgl,
+> > -                     msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
+> > +             dma_unmap_sgtable(dev, msm_obj->sgt, DMA_BIDIRECTIONAL, 0);
+> >       }
+> >   }
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
+> > index 310a31b05faa..319f06c28235 100644
+> > --- a/drivers/gpu/drm/msm/msm_gpummu.c
+> > +++ b/drivers/gpu/drm/msm/msm_gpummu.c
+> > @@ -30,21 +30,19 @@ static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
+> >   {
+> >       struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
+> >       unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
+> > -     struct scatterlist *sg;
+> > +     struct sg_dma_page_iter dma_iter;
+> >       unsigned prot_bits = 0;
+> > -     unsigned i, j;
+> >
+> >       if (prot & IOMMU_WRITE)
+> >               prot_bits |= 1;
+> >       if (prot & IOMMU_READ)
+> >               prot_bits |= 2;
+> >
+> > -     for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+> > -             dma_addr_t addr = sg->dma_address;
+> > -             for (j = 0; j < sg->length / GPUMMU_PAGE_SIZE; j++, idx++) {
+> > -                     gpummu->table[idx] = addr | prot_bits;
+> > -                     addr += GPUMMU_PAGE_SIZE;
+> > -             }
+> > +     for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
+> > +             dma_addr_t addr = sg_page_iter_dma_address(&dma_iter);
+> > +
+> > +             BUILD_BUG_ON(GPUMMU_PAGE_SIZE != PAGE_SIZE);
+> > +             gpummu->table[idx++] = addr | prot_bits;
+>
+> Given that the BUILD_BUG_ON might prevent valid arm64 configs from
+> building, how about a simple tweak like:
+>
+>                 for (i = 0; i < PAGE_SIZE; i += GPUMMU_PAGE_SIZE)
+>                         gpummu->table[idx++] = i + addr | prot_bits;
+> ?
+>
+> Or alternatively perhaps some more aggressive #ifdefs or makefile tweaks
+> to prevent the GPUMMU code building for arm64 at all if it's only
+> relevant to 32-bit platforms (which I believe might be the case).
 
-nouveau 0000:01:00.0: disp: chid 0 mthd 008c data 00000000 0000508c 0000102b
+yes, the gpummu path is only used on older armv7 snapdragon and imx5
+platforms.. I suppose maybe the easy thing would be to add a stub for
+msm_gpummu_new() and msm_gpummu_params() and then only build it on
+arm64?
 
-This is magic nvidia speak for "You need to have the DMA notifier offset
-programmed before you can call NV507D_GET_CAPABILITIES." So, let's fix
-this by doing that, and also perform an update afterwards to prevent
-racing with the GPU when reading capabilities.
+BR,
+-R
 
-v2:
-* Don't just program the DMA notifier offset, make sure to actually
-  perform an update
-v3:
-* Don't call UPDATE()
-* Actually read the correct notifier fields, as apparently the
-  CAPABILITIES_DONE field lives in a different location than the main
-  NV_DISP_CORE_NOTIFIER_1 field. As well, 907d+ use a different
-  CAPABILITIES_DONE field then pre-907d cards.
-v4:
-* Don't forget to check the return value of core507d_read_caps()
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP interlacing support")
-Cc: <stable@vger.kernel.org> # v5.8+
----
- drivers/gpu/drm/nouveau/dispnv50/core.h       |  2 +
- drivers/gpu/drm/nouveau/dispnv50/core507d.c   | 37 ++++++++++++++++++-
- drivers/gpu/drm/nouveau/dispnv50/core907d.c   | 36 +++++++++++++++++-
- drivers/gpu/drm/nouveau/dispnv50/core917d.c   |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.h       |  2 +
- .../drm/nouveau/include/nvhw/class/cl507d.h   |  5 ++-
- .../drm/nouveau/include/nvhw/class/cl907d.h   |  4 ++
- 7 files changed, 83 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core.h b/drivers/gpu/drm/nouveau/dispnv50/core.h
-index 498622c0c670d..b789139e5fff6 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core.h
-@@ -44,6 +44,7 @@ int core507d_new_(const struct nv50_core_func *, struct nouveau_drm *, s32,
- 		  struct nv50_core **);
- int core507d_init(struct nv50_core *);
- void core507d_ntfy_init(struct nouveau_bo *, u32);
-+int core507d_read_caps(struct nv50_disp *disp, u32 offset);
- int core507d_caps_init(struct nouveau_drm *, struct nv50_disp *);
- int core507d_ntfy_wait_done(struct nouveau_bo *, u32, struct nvif_device *);
- int core507d_update(struct nv50_core *, u32 *, bool);
-@@ -55,6 +56,7 @@ extern const struct nv50_outp_func pior507d;
- int core827d_new(struct nouveau_drm *, s32, struct nv50_core **);
- 
- int core907d_new(struct nouveau_drm *, s32, struct nv50_core **);
-+int core907d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp);
- extern const struct nv50_outp_func dac907d;
- extern const struct nv50_outp_func sor907d;
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-index ad1f09a143aa4..d0f2b80a32103 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-@@ -75,18 +75,51 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
- }
- 
- int
--core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
-+core507d_read_caps(struct nv50_disp *disp, u32 offset)
- {
- 	struct nvif_push *push = disp->core->chan.push;
- 	int ret;
- 
--	if ((ret = PUSH_WAIT(push, 2)))
-+	ret = PUSH_WAIT(push, 4);
-+	if (ret)
- 		return ret;
- 
-+	PUSH_MTHD(push, NV507D, SET_NOTIFIER_CONTROL,
-+		  NVDEF(NV507D, SET_NOTIFIER_CONTROL, MODE, WRITE) |
-+		  NVVAL(NV507D, SET_NOTIFIER_CONTROL, OFFSET, offset >> 2) |
-+		  NVDEF(NV507D, SET_NOTIFIER_CONTROL, NOTIFY, ENABLE));
- 	PUSH_MTHD(push, NV507D, GET_CAPABILITIES, 0x00000000);
-+
- 	return PUSH_KICK(push);
- }
- 
-+int
-+core507d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
-+{
-+	struct nv50_core *core = disp->core;
-+	struct nouveau_bo *bo = disp->sync;
-+	s64 time;
-+	int ret;
-+
-+	NVBO_WR32(bo, NV50_DISP_CAPS_NTFY1, NV_DISP_CORE_NOTIFIER_1, CAPABILITIES_1,
-+				      NVDEF(NV_DISP_CORE_NOTIFIER_1, CAPABILITIES_1, DONE, FALSE));
-+
-+	ret = core507d_read_caps(disp, NV50_DISP_CAPS_NTFY1);
-+	if (ret < 0)
-+		return ret;
-+
-+	time = nvif_msec(core->chan.base.device, 2000ULL,
-+			 if (NVBO_TD32(bo, NV50_DISP_CAPS_NTFY1,
-+				       NV_DISP_CORE_NOTIFIER_1, CAPABILITIES_1, DONE, ==, TRUE))
-+				 break;
-+			 usleep_range(1, 2);
-+			 );
-+	if (time < 0)
-+		NV_ERROR(drm, "core caps notifier timeout\n");
-+
-+	return 0;
-+}
-+
- int
- core507d_init(struct nv50_core *core)
- {
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core907d.c b/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-index b17c03529c784..45505a18aca17 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-@@ -22,11 +22,45 @@
- #include "core.h"
- #include "head.h"
- 
-+#include <nvif/push507c.h>
-+#include <nvif/timer.h>
-+
-+#include <nvhw/class/cl907d.h>
-+
-+#include "nouveau_bo.h"
-+
-+int
-+core907d_caps_init(struct nouveau_drm *drm, struct nv50_disp *disp)
-+{
-+	struct nv50_core *core = disp->core;
-+	struct nouveau_bo *bo = disp->sync;
-+	s64 time;
-+	int ret;
-+
-+	NVBO_WR32(bo, NV50_DISP_CAPS_NTFY4, NV907D_CORE_NOTIFIER_3, CAPABILITIES_4,
-+				      NVDEF(NV907D_CORE_NOTIFIER_3, CAPABILITIES_4, DONE, FALSE));
-+
-+	ret = core507d_read_caps(disp, NV50_DISP_CAPS_NTFY4);
-+	if (ret < 0)
-+		return ret;
-+
-+	time = nvif_msec(core->chan.base.device, 2000ULL,
-+			 if (NVBO_TD32(bo, NV50_DISP_CAPS_NTFY4,
-+				       NV907D_CORE_NOTIFIER_3, CAPABILITIES_4, DONE, ==, TRUE))
-+				 break;
-+			 usleep_range(1, 2);
-+			 );
-+	if (time < 0)
-+		NV_ERROR(drm, "core caps notifier timeout\n");
-+
-+	return 0;
-+}
-+
- static const struct nv50_core_func
- core907d = {
- 	.init = core507d_init,
- 	.ntfy_init = core507d_ntfy_init,
--	.caps_init = core507d_caps_init,
-+	.caps_init = core907d_caps_init,
- 	.ntfy_wait_done = core507d_ntfy_wait_done,
- 	.update = core507d_update,
- 	.head = &head907d,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core917d.c b/drivers/gpu/drm/nouveau/dispnv50/core917d.c
-index 66846f3720805..1cd3a2a35dfb7 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core917d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core917d.c
-@@ -26,7 +26,7 @@ static const struct nv50_core_func
- core917d = {
- 	.init = core507d_init,
- 	.ntfy_init = core507d_ntfy_init,
--	.caps_init = core507d_caps_init,
-+	.caps_init = core907d_caps_init,
- 	.ntfy_wait_done = core507d_ntfy_wait_done,
- 	.update = core507d_update,
- 	.head = &head917d,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index 92bddc0836171..a59051bd070d7 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -16,6 +16,8 @@ struct nv50_disp {
- 
- #define NV50_DISP_SYNC(c, o)                                ((c) * 0x040 + (o))
- #define NV50_DISP_CORE_NTFY                       NV50_DISP_SYNC(0      , 0x00)
-+#define NV50_DISP_CAPS_NTFY1                      NV50_DISP_SYNC(0      , 0x01)
-+#define NV50_DISP_CAPS_NTFY4                      NV50_DISP_SYNC(0      , 0x04)
- #define NV50_DISP_WNDW_SEM0(c)                    NV50_DISP_SYNC(1 + (c), 0x00)
- #define NV50_DISP_WNDW_SEM1(c)                    NV50_DISP_SYNC(1 + (c), 0x10)
- #define NV50_DISP_WNDW_NTFY(c)                    NV50_DISP_SYNC(1 + (c), 0x20)
-diff --git a/drivers/gpu/drm/nouveau/include/nvhw/class/cl507d.h b/drivers/gpu/drm/nouveau/include/nvhw/class/cl507d.h
-index 2e444bac701dd..6a463f308b64f 100644
---- a/drivers/gpu/drm/nouveau/include/nvhw/class/cl507d.h
-+++ b/drivers/gpu/drm/nouveau/include/nvhw/class/cl507d.h
-@@ -32,7 +32,10 @@
- #define NV_DISP_CORE_NOTIFIER_1_COMPLETION_0_DONE_TRUE                               0x00000001
- #define NV_DISP_CORE_NOTIFIER_1_COMPLETION_0_R0                                      15:1
- #define NV_DISP_CORE_NOTIFIER_1_COMPLETION_0_TIMESTAMP                               29:16
--
-+#define NV_DISP_CORE_NOTIFIER_1_CAPABILITIES_1                                       0x00000001
-+#define NV_DISP_CORE_NOTIFIER_1_CAPABILITIES_1_DONE                                  0:0
-+#define NV_DISP_CORE_NOTIFIER_1_CAPABILITIES_1_DONE_FALSE                            0x00000000
-+#define NV_DISP_CORE_NOTIFIER_1_CAPABILITIES_1_DONE_TRUE                             0x00000001
- 
- // class methods
- #define NV507D_UPDATE                                                           (0x00000080)
-diff --git a/drivers/gpu/drm/nouveau/include/nvhw/class/cl907d.h b/drivers/gpu/drm/nouveau/include/nvhw/class/cl907d.h
-index 34bc3eafac7d1..79aff6ff31385 100644
---- a/drivers/gpu/drm/nouveau/include/nvhw/class/cl907d.h
-+++ b/drivers/gpu/drm/nouveau/include/nvhw/class/cl907d.h
-@@ -24,6 +24,10 @@
- #ifndef _cl907d_h_
- #define _cl907d_h_
- 
-+#define NV907D_CORE_NOTIFIER_3_CAPABILITIES_4                                       0x00000004
-+#define NV907D_CORE_NOTIFIER_3_CAPABILITIES_4_DONE                                  0:0
-+#define NV907D_CORE_NOTIFIER_3_CAPABILITIES_4_DONE_FALSE                            0x00000000
-+#define NV907D_CORE_NOTIFIER_3_CAPABILITIES_4_DONE_TRUE                             0x00000001
- #define NV907D_CORE_NOTIFIER_3_CAPABILITIES_CAP_SOR0_20                             0x00000014
- #define NV907D_CORE_NOTIFIER_3_CAPABILITIES_CAP_SOR0_20_SINGLE_LVDS18               0:0
- #define NV907D_CORE_NOTIFIER_3_CAPABILITIES_CAP_SOR0_20_SINGLE_LVDS18_FALSE         0x00000000
--- 
-2.26.2
-
+> Robin.
+>
+> >       }
+> >
+> >       /* we can improve by deferring flush for multiple map() */
+> > diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+> > index 3a381a9674c9..6c31e65834c6 100644
+> > --- a/drivers/gpu/drm/msm/msm_iommu.c
+> > +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> > @@ -36,7 +36,7 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
+> >       struct msm_iommu *iommu = to_msm_iommu(mmu);
+> >       size_t ret;
+> >
+> > -     ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
+> > +     ret = iommu_map_sgtable(iommu->domain, iova, sgt, prot);
+> >       WARN_ON(!ret);
+> >
+> >       return (ret == len) ? 0 : -EINVAL;
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
