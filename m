@@ -1,39 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF0F259F43
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 21:34:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB63E259F51
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 21:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4EC6E8E4;
-	Tue,  1 Sep 2020 19:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF256E8EB;
+	Tue,  1 Sep 2020 19:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D0D996E8E4
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 19:34:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63F041FB;
- Tue,  1 Sep 2020 12:34:32 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D91FB3F71F;
- Tue,  1 Sep 2020 12:34:29 -0700 (PDT)
-Subject: Re: [PATCH v9 16/32] drm: rockchip: use common helper for a
- scatterlist contiguity check
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7410F6E8EB;
+ Tue,  1 Sep 2020 19:38:59 +0000 (UTC)
+IronPort-SDR: ELOtmKxymOSpvZQ+uKgbOkVgdQTCUmlx7cjiGelr/JsDu5tTqY/pKzGwd12FINfYE+ZV2fOcZ5
+ n3kO2J9GeUpA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="156520061"
+X-IronPort-AV: E=Sophos;i="5.76,380,1592895600"; d="scan'208";a="156520061"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2020 12:38:58 -0700
+IronPort-SDR: 61Amtlaes050RxB0qQH7XOzsM3bz8pU+DMPJXc2mdFfd5F2AgqumdZmYXriBmSvC/d2wlrasXC
+ L7mwHzZZwUmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,380,1592895600"; d="scan'208";a="404882026"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga001.fm.intel.com with ESMTP; 01 Sep 2020 12:38:58 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 1 Sep 2020 12:38:58 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 1 Sep 2020 12:38:57 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
+ Tue, 1 Sep 2020 12:38:57 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [Intel-gfx] [PATCH v9 08/32] drm: i915: fix common struct
+ sg_table related issues
+Thread-Topic: [Intel-gfx] [PATCH v9 08/32] drm: i915: fix common struct
+ sg_table related issues
+Thread-Index: AQHWe3Ml/rRJPBw9lEWMq6REwJ0ovqlUN/gw
+Date: Tue, 1 Sep 2020 19:38:57 +0000
+Message-ID: <259df561c4bb4ef484799e3776dbb402@intel.com>
 References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063537eucas1p1462d4761c8eb6d762fe5ea0fbd3b6e3b@eucas1p1.samsung.com>
- <20200826063316.23486-17-m.szyprowski@samsung.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <263143f0-8b39-6daa-1d26-54ef32b54c27@arm.com>
-Date: Tue, 1 Sep 2020 20:34:28 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <CGME20200826063532eucas1p2a9e0215f483104d45af0560d5dbfa8e0@eucas1p2.samsung.com>
+ <20200826063316.23486-9-m.szyprowski@samsung.com>
+In-Reply-To: <20200826063316.23486-9-m.szyprowski@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.22.254.132]
 MIME-Version: 1.0
-In-Reply-To: <20200826063316.23486-17-m.szyprowski@samsung.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,62 +77,142 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org
+ David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-08-26 07:33, Marek Szyprowski wrote:
-> Use common helper for checking the contiguity of the imported dma-buf.
+>-----Original Message-----
+>From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of
+>Marek Szyprowski
+>Sent: Wednesday, August 26, 2020 2:33 AM
+>To: dri-devel@lists.freedesktop.org; iommu@lists.linux-foundation.org;
+>linaro-mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org
+>Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>; David Airlie
+><airlied@linux.ie>; intel-gfx@lists.freedesktop.org; Robin Murphy
+><robin.murphy@arm.com>; Christoph Hellwig <hch@lst.de>; linux-arm-
+>kernel@lists.infradead.org; Marek Szyprowski
+><m.szyprowski@samsung.com>
+>Subject: [Intel-gfx] [PATCH v9 08/32] drm: i915: fix common struct sg_table
+>related issues
+>
+>The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg()
+>function
+>returns the number of the created entries in the DMA address space.
+>However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+>dma_unmap_sg must be called with the original number of the entries
+>passed to the dma_map_sg().
+>
+>struct sg_table is a common structure used for describing a non-contiguous
+>memory buffer, used commonly in the DRM and graphics subsystems. It
+>consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+>as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+>and DMA mapped pages (nents entry).
+>
+>It turned out that it was a common mistake to misuse nents and orig_nents
+>entries, calling DMA-mapping functions with a wrong number of entries or
+>ignoring the number of mapped entries returned by the dma_map_sg()
+>function.
+>
+>This driver creatively uses sg_table->orig_nents to store the size of the
+>allocated scatterlist and ignores the number of the entries returned by
+>dma_map_sg function. The sg_table->orig_nents is (mis)used to properly
+>free the (over)allocated scatterlist.
+>
+>This patch only introduces the common DMA-mapping wrappers operating
+>directly on the struct sg_table objects to the dmabuf related functions,
+>so the other drivers, which might share buffers with i915 could rely on
+>the properly set nents and orig_nents values.
+>
+>Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>---
+> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c       | 11 +++--------
+> drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c |  7 +++----
+> 2 files changed, 6 insertions(+), 12 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>index 2679380159fc..8a988592715b 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>@@ -48,12 +48,9 @@ static struct sg_table *i915_gem_map_dma_buf(struct
+>dma_buf_attachment *attachme
+> 		src = sg_next(src);
+> 	}
+>
+>-	if (!dma_map_sg_attrs(attachment->dev,
+>-			      st->sgl, st->nents, dir,
+>-			      DMA_ATTR_SKIP_CPU_SYNC)) {
+>-		ret = -ENOMEM;
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+You have dropped this error value.
 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 19 +------------------
->   1 file changed, 1 insertion(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> index b9275ba7c5a5..2970e534e2bb 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> @@ -460,23 +460,6 @@ struct sg_table *rockchip_gem_prime_get_sg_table(struct drm_gem_object *obj)
->   	return sgt;
->   }
->   
-> -static unsigned long rockchip_sg_get_contiguous_size(struct sg_table *sgt,
-> -						     int count)
-> -{
-> -	struct scatterlist *s;
-> -	dma_addr_t expected = sg_dma_address(sgt->sgl);
-> -	unsigned int i;
-> -	unsigned long size = 0;
-> -
-> -	for_each_sg(sgt->sgl, s, count, i) {
-> -		if (sg_dma_address(s) != expected)
-> -			break;
-> -		expected = sg_dma_address(s) + sg_dma_len(s);
-> -		size += sg_dma_len(s);
-> -	}
-> -	return size;
-> -}
-> -
->   static int
->   rockchip_gem_iommu_map_sg(struct drm_device *drm,
->   			  struct dma_buf_attachment *attach,
-> @@ -498,7 +481,7 @@ rockchip_gem_dma_map_sg(struct drm_device *drm,
->   	if (!count)
->   		return -EINVAL;
->   
-> -	if (rockchip_sg_get_contiguous_size(sg, count) < attach->dmabuf->size) {
-> +	if (drm_prime_get_contiguous_size(sg) < attach->dmabuf->size) {
->   		DRM_ERROR("failed to map sg_table to contiguous linear address.\n");
->   		dma_unmap_sg(drm->dev, sg->sgl, sg->nents,
->   			     DMA_BIDIRECTIONAL);
-> 
+Do you now if this is a benign loss?
+
+M
+
+>+	ret = dma_map_sgtable(attachment->dev, st, dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>+	if (ret)
+> 		goto err_free_sg;
+>-	}
+>
+> 	return st;
+>
+>@@ -73,9 +70,7 @@ static void i915_gem_unmap_dma_buf(struct
+>dma_buf_attachment *attachment,
+> {
+> 	struct drm_i915_gem_object *obj = dma_buf_to_obj(attachment-
+>>dmabuf);
+>
+>-	dma_unmap_sg_attrs(attachment->dev,
+>-			   sg->sgl, sg->nents, dir,
+>-			   DMA_ATTR_SKIP_CPU_SYNC);
+>+	dma_unmap_sgtable(attachment->dev, sg, dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+> 	sg_free_table(sg);
+> 	kfree(sg);
+>
+>diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+>b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+>index debaf7b18ab5..be30b27e2926 100644
+>--- a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+>+++ b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+>@@ -28,10 +28,9 @@ static struct sg_table *mock_map_dma_buf(struct
+>dma_buf_attachment *attachment,
+> 		sg = sg_next(sg);
+> 	}
+>
+>-	if (!dma_map_sg(attachment->dev, st->sgl, st->nents, dir)) {
+>-		err = -ENOMEM;
+>+	err = dma_map_sgtable(attachment->dev, st, dir, 0);
+>+	if (err)
+> 		goto err_st;
+>-	}
+>
+> 	return st;
+>
+>@@ -46,7 +45,7 @@ static void mock_unmap_dma_buf(struct
+>dma_buf_attachment *attachment,
+> 			       struct sg_table *st,
+> 			       enum dma_data_direction dir)
+> {
+>-	dma_unmap_sg(attachment->dev, st->sgl, st->nents, dir);
+>+	dma_unmap_sgtable(attachment->dev, st, dir, 0);
+> 	sg_free_table(st);
+> 	kfree(st);
+> }
+>--
+>2.17.1
+>
+>_______________________________________________
+>Intel-gfx mailing list
+>Intel-gfx@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
