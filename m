@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F932599FF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:46:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C91259A00
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B089D6E897;
-	Tue,  1 Sep 2020 16:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A1C6E899;
+	Tue,  1 Sep 2020 16:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE97F6E88E;
- Tue,  1 Sep 2020 16:46:20 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id s10so364516plp.1;
- Tue, 01 Sep 2020 09:46:20 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A210F6E899
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 16:46:25 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id k13so799362plk.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 09:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7KAgNczSpcXSENE7I7HLjPQLwLd/js6kuYT9gLzGMrc=;
- b=MeCm/VYIOe9iYCLfeugzAyL6okJVgG4svLLFNAlw6jwgFSHyxPJTfOhTGLcz+3lmt8
- 4Nqb/t7ulGZyBaw+FLZqWnrRTKBHvyy8wk23mtc6mtN1c8ky08w+sHTi6lVuP3a6fRMa
- z6AU4iKXMyPFlrW+d0VSVrr0seFt//Be6gxXDKFsj9k7weplTuaHXFwZvzNqYacw4zb1
- MZoK6jiacE9P6k33ODJiryhUWGzVv8aO5rd2g9ZTMVvwrNpOnaIIPLlHwcAo2RlyKhpw
- d+n7xR/mD2Z78MSBOTKNGKlfBllUivdl7eWaHPAFceBf1i0d+ImM8e50nQfOJw6qsL7c
- 0JaQ==
+ bh=Tk5zPp0nu93VQrlRpBetxr1lff5xE8i/LH2EjPSUXEI=;
+ b=jfADtGc2ZPCjhynKOdCJEaVZwckWuNnvv0bA+wk9rmOjtBW3xWIDyC6ePwcx4A24/i
+ 6vn81mR2qNa14TEuW0kfe6glsktawQ1wOLEdACNI/tLpDGFwh8en3sZP3gJeIno6a7eD
+ qo1y7fY8cSKmdS6eK9Tx9pEZ8LYZC9hNnmqMblP6vQt1ZGGTmAY6qFVHOUDQMcUU/YRh
+ X+51rpiAjLJN8TJZhjJGGWh1gSTKuI8vvMP8H0bWvCzGUfPZdLvlZz+aiNDVyKTkBYTX
+ 9lm/yEsLeSlOO+JoGVjnYwbwZutIZjR0i2wrCnjW/xo/Ipu7ChHwMkU8FaYvLbHqQYsI
+ k0LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7KAgNczSpcXSENE7I7HLjPQLwLd/js6kuYT9gLzGMrc=;
- b=LqROk8llvxirnqEM6I0anmFSZS6oYMF+nKZZ0boamfaMLdrshJEr8NLV1/LbdRNGui
- qrICQQeXFKbMSdfvtWD9Hk4d0fP4jNvaGhach654Plcqfbz1eKvdkmxR1eR5cUMwLcXQ
- vCGpi3xEPvAFIYlv1SObmA9YaoZHewMw1BLcD+0yBs/E7DNiaCtDuYGk9ul9ZB48ECQ0
- 219bJk/0FG76Hr4Tu2b/7w4gcpZ2iP3WHV+xoxJmy/7dCSvYLjFgcyAP4IBseQkZXpLS
- 58WRXIPn8kyieLKOzsO8PQWJFrZZBX2LeIYWCRcAyQgtA0A6/EoBlgYS9QVKrC/A7tJQ
- 1Y6w==
-X-Gm-Message-State: AOAM532z3GB2O0Nsa+zEcPL1x2RS7Uu7j3eaNpwahNM0mPKeos5TjhjG
- zeSE1A/PaeR1tE0j0+WXS6hRhjn353sEVQ==
-X-Google-Smtp-Source: ABdhPJwjrPAmB1IlUhm3/lAYNFCsGsLfWotZDUGXrh1rk+DjB79F8gK6EHU9pv/Qpy7KR0JW5A12Mg==
-X-Received: by 2002:a17:902:8307:: with SMTP id
- bd7mr2134655plb.159.1598978779659; 
- Tue, 01 Sep 2020 09:46:19 -0700 (PDT)
+ bh=Tk5zPp0nu93VQrlRpBetxr1lff5xE8i/LH2EjPSUXEI=;
+ b=a8kuBKVKDv2X9VwkkvqJYcUsC6GQdcQwYb8KPedfWrPQ71sDdc3wQLvBymsckL0bZ1
+ 3o99kz+rnluCIVtSD9vo6eGVzQ48fnGykeuTOICbLC7xPLj90XNNowFZ5ENiTisOameH
+ Mn1fGLT/HxYY0y1Q51Xc0EZ29fhn1bBFjGikgvqLp3NMCKCpRO3bwb5LaB8/lda1Y8W9
+ qPdoCb7zsjL8fJS0rkV6Y7OdqSvs/2B8dHWSs4IxyTJoOXoqtIzmLdoGckAKWGJZyspn
+ ngmeNt/Hw/5+G31atIijBkPXG5ltk45Bk+F8uqrneNTEMc7xf/vGOxWlF/pR2RkmidW2
+ NixQ==
+X-Gm-Message-State: AOAM533EuYaYPK7FFZmj3qQQUI9Ykt36ArthZjQXnrGtwZfBzjDNdaAM
+ TwBvBP9+jlBEDs3hugpSY94i1C1O/Wjmug==
+X-Google-Smtp-Source: ABdhPJyTygZSGFX5eIM6/dkAIywFF35ZHmq9xGT/4duvrNw2xgG3rUQmmclMh4zKcn0Nwpq4ubuUiw==
+X-Received: by 2002:a17:90a:dac5:: with SMTP id g5mr2325737pjx.5.1598978784522; 
+ Tue, 01 Sep 2020 09:46:24 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id p20sm1967660pjz.49.2020.09.01.09.46.17
+ by smtp.gmail.com with ESMTPSA id u123sm2401020pfb.209.2020.09.01.09.46.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 09:46:18 -0700 (PDT)
+ Tue, 01 Sep 2020 09:46:23 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v16 01/20] drm/msm: Remove dangling submitqueue references
-Date: Tue,  1 Sep 2020 09:46:18 -0700
-Message-Id: <20200901164707.2645413-2-robdclark@gmail.com>
+Subject: [PATCH v16 02/20] drm/msm: Add private interface for adreno-smmu
+Date: Tue,  1 Sep 2020 09:46:19 -0700
+Message-Id: <20200901164707.2645413-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901164707.2645413-1-robdclark@gmail.com>
 References: <20200901164707.2645413-1-robdclark@gmail.com>
@@ -69,13 +68,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
- Stephen Boyd <swboyd@chromium.org>, Sibi Sankar <sibis@codeaurora.org>,
- Vivek Gautam <vivek.gautam@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -83,33 +80,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Currently it doesn't matter, since we free the ctx immediately.  But
-when we start refcnt'ing the ctx, we don't want old dangling list
-entries to hang around.
+This interface will be used for drm/msm to coordinate with the
+qcom_adreno_smmu_impl to enable/disable TTBR0 translation.
+
+Once TTBR0 translation is enabled, the GPU's CP (Command Processor)
+will directly switch TTBR0 pgtables (and do the necessary TLB inv)
+synchronized to the GPU's operation.  But help from the SMMU driver
+is needed to initially bootstrap TTBR0 translation, which cannot be
+done from the GPU.
+
+Since this is a very special case, a private interface is used to
+avoid adding highly driver specific things to the public iommu
+interface.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_submitqueue.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/linux/adreno-smmu-priv.h | 36 ++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 include/linux/adreno-smmu-priv.h
 
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index a1d94be7883a..90c9d84e6155 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -49,8 +49,10 @@ void msm_submitqueue_close(struct msm_file_private *ctx)
- 	 * No lock needed in close and there won't
- 	 * be any more user ioctls coming our way
- 	 */
--	list_for_each_entry_safe(entry, tmp, &ctx->submitqueues, node)
-+	list_for_each_entry_safe(entry, tmp, &ctx->submitqueues, node) {
-+		list_del(&entry->node);
- 		msm_submitqueue_put(entry);
-+	}
- }
- 
- int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+diff --git a/include/linux/adreno-smmu-priv.h b/include/linux/adreno-smmu-priv.h
+new file mode 100644
+index 000000000000..a889f28afb42
+--- /dev/null
++++ b/include/linux/adreno-smmu-priv.h
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2020 Google, Inc
++ */
++
++#ifndef __ADRENO_SMMU_PRIV_H
++#define __ADRENO_SMMU_PRIV_H
++
++#include <linux/io-pgtable.h>
++
++/**
++ * struct adreno_smmu_priv - private interface between adreno-smmu and GPU
++ *
++ * @cookie:        An opque token provided by adreno-smmu and passed
++ *                 back into the callbacks
++ * @get_ttbr1_cfg: Get the TTBR1 config for the GPUs context-bank
++ * @set_ttbr0_cfg: Set the TTBR0 config for the GPUs context bank.  A
++ *                 NULL config disables TTBR0 translation, otherwise
++ *                 TTBR0 translation is enabled with the specified cfg
++ *
++ * The GPU driver (drm/msm) and adreno-smmu work together for controlling
++ * the GPU's SMMU instance.  This is by necessity, as the GPU is directly
++ * updating the SMMU for context switches, while on the other hand we do
++ * not want to duplicate all of the initial setup logic from arm-smmu.
++ *
++ * This private interface is used for the two drivers to coordinate.  The
++ * cookie and callback functions are populated when the GPU driver attaches
++ * it's domain.
++ */
++struct adreno_smmu_priv {
++    const void *cookie;
++    const struct io_pgtable_cfg *(*get_ttbr1_cfg)(const void *cookie);
++    int (*set_ttbr0_cfg)(const void *cookie, const struct io_pgtable_cfg *cfg);
++};
++
++#endif /* __ADRENO_SMMU_PRIV_H */
+\ No newline at end of file
 -- 
 2.26.2
 
