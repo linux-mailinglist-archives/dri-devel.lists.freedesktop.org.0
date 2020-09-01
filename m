@@ -1,69 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52E9258F0A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 15:27:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0E5258F1C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 15:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5496E07D;
-	Tue,  1 Sep 2020 13:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1316A6E0EF;
+	Tue,  1 Sep 2020 13:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1366E07D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 13:26:59 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id t10so688376wrv.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 06:26:59 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44C76E0EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 13:32:03 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id c19so983335wmd.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 06:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=CNABcpASJeKoKft4PG4FvpewpijHWWDk2sidoyW6heM=;
- b=j4QVHRpw4GzJKBjxvLbpZVenJ40TC8oXokiCIJpYyNS4gt1CZacOxXPxYVUPI+837r
- HxCvNyadvqQ/QRyp4sYjxy+1jcMfW4tL2nJ+mBuDTSyF6V4hm8dMGWErFM7WuWKliuos
- Ii4MIPD+rHfy/HsCl6NgbsWz/2pfoUUa4x8WY=
+ :in-reply-to; bh=bx9oQ2NagEe6NO8GIGkDSi51bJAcX461SHWuEDdlU9s=;
+ b=aODv4vSb/PtYX2etcdsUG9b4DkQ7ggsrTqv4odqPbmVeKSOtc8x4orvCVl5pTPdofn
+ GzpU8kzSxnyrFLBsV4wDhaUkZVId84QvpqgasHh9RvVJ0U1Mk7G/7qsTfZCy2OJUeYaY
+ v84qOYWsNzUtbkktxEDEnj+npfSVvCVZvemEU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :content-transfer-encoding:in-reply-to;
- bh=CNABcpASJeKoKft4PG4FvpewpijHWWDk2sidoyW6heM=;
- b=BlmShavgC4vQV+Pw4NNmYOogeqFcvn01pW+XHBV8XnltZSJ9VRViEB2/1leRuaQoIg
- vtcCpLbChvll9NK15VY77CKPlXAPGt5Euy56yVGTtJkgfFm5j8azQx1aU6vnc6HHqQeC
- lyioBm8OQX62wSJnJlefreUwbcougUaiXwAJ0ZhGOsyHrNbuYlCRqQOxALPy10tM654R
- om2gRXrPoSf6J9NBb2H8GPHWB/Jnv/ssvXDq9p8wAH2/mqVsHDvCUjKshYnFgWjjsIn9
- oJYOI07p8YZvjLNKc1R6TGW92uadMrWlFJxpG598+AaeFw4u5Trt2mKjLZ0zgwS9/SIA
- Icnw==
-X-Gm-Message-State: AOAM5319imaLvGR5dPMIMwGumMBgs5mhgjriv0s9yHJiKL68XTekw2qE
- HjghWo/ZGZXkgtE5OAauK+BRXg==
-X-Google-Smtp-Source: ABdhPJz/tROheQMCb+pApG2Lu/+Is30f61BJWt+eoItPVyJcy/+r2iL4m5NBLt+OOKw+9cBOY3dI/A==
-X-Received: by 2002:a5d:56cd:: with SMTP id m13mr1852446wrw.261.1598966818495; 
- Tue, 01 Sep 2020 06:26:58 -0700 (PDT)
+ bh=bx9oQ2NagEe6NO8GIGkDSi51bJAcX461SHWuEDdlU9s=;
+ b=Nxux36Q66V4YB/zM7CGrLNnc+H/PaE36qZiF/M7TVmkdsYWNyaxNDdaldof9erLxF2
+ RCePR5b8IHAreod6CW/JdAcZSp9T2BEJnVhFHUuMJQt0ZMS4UGrZiPku9bFNEQjhDn7k
+ tf7ghtRX7XFaPTY/WLNkTNmSu4ET6mv0ElnLiV6JnWYuYTVPnAK+PJVp1gMsKzVVgZsZ
+ rrXLlLMh1ge2E3uZ6+fSXvkhXtWO80d5mWnbRUk+MkyWxLNmxyIxXVgLYIzyH1BUEl42
+ zsKQC6hyEipWh9Ph0SUSpSsrYOnqyiyvN2Dgu6JgpxWCTXTUQSCZ7AJ4d71Q+KW5MfC7
+ Cd8w==
+X-Gm-Message-State: AOAM533/9Zt8dJq8dahn4r+PGgS+1BKmo/H+ssD9MiUx5oKwjiZzBRyQ
+ LAf0G57BPRry+KbzqPd1sfjkMA==
+X-Google-Smtp-Source: ABdhPJxMIpyA4+ivRVmjL76n4SwUIJPpyNp2oXzgh60A0zsTrXOGV9cAYNKuDeIxPZ/25Yor8JDoOQ==
+X-Received: by 2002:a1c:2b43:: with SMTP id r64mr1778101wmr.105.1598967122596; 
+ Tue, 01 Sep 2020 06:32:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w15sm2402549wro.46.2020.09.01.06.26.57
+ by smtp.gmail.com with ESMTPSA id s124sm2056569wme.29.2020.09.01.06.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 06:26:57 -0700 (PDT)
-Date: Tue, 1 Sep 2020 15:26:56 +0200
+ Tue, 01 Sep 2020 06:32:01 -0700 (PDT)
+Date: Tue, 1 Sep 2020 15:32:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/vkms: add support for gamma_set interface
-Message-ID: <20200901132656.GD2352366@phenom.ffwll.local>
-Mail-Followup-To: Simon Ser <contact@emersion.fr>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>,
- Sidong Yang <realwakka@gmail.com>
-References: <20200829140647.7626-1-realwakka@gmail.com>
- <UeJwFKvmNgKdZY_icN0-nrFly9R1vbzaMZ-TiyxIIPBcdl278uZsK6YdTTdRl6rFukBAmN-eyCFpnfsIB-El9QpyYiutdcpgJg64n4tsRRc=@emersion.fr>
- <20200831133858.GA9280@realwakka> <20200831134852.GY6112@intel.com>
- <C7EgdPUBX9nRTKx9kkGIZijd0yGMOLEtXOwa2jvk-rKtprmNZKSDP-Jos7mYU88DOQYiXJBnz0_D2FAQ1x7jCwLcR-cmZtzCc5cLsJqyDCk=@emersion.fr>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-buf: fix kernel-doc warning in dma-fence.c
+Message-ID: <20200901133200.GE2352366@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Gustavo Padovan <gustavo@padovan.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20200831041713.12571-1-rdunlap@infradead.org>
+ <81dc0a34-90f6-401a-f846-924fdff4aaff@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <C7EgdPUBX9nRTKx9kkGIZijd0yGMOLEtXOwa2jvk-rKtprmNZKSDP-Jos7mYU88DOQYiXJBnz0_D2FAQ1x7jCwLcR-cmZtzCc5cLsJqyDCk=@emersion.fr>
+In-Reply-To: <81dc0a34-90f6-401a-f846-924fdff4aaff@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,59 +71,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, Sidong Yang <realwakka@gmail.com>
+Cc: Gustavo Padovan <gustavo@padovan.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 01, 2020 at 08:57:37AM +0000, Simon Ser wrote:
-> On Monday, August 31, 2020 3:48 PM, Ville Syrj=E4l=E4 <ville.syrjala@linu=
-x.intel.com> wrote:
+On Mon, Aug 31, 2020 at 12:02:03PM +0200, Christian K=F6nig wrote:
+> Am 31.08.20 um 06:17 schrieb Randy Dunlap:
+> > Add @cookie to dma_fence_end_signalling() to prevent kernel-doc
+> > warning in drivers/dma-buf/dma-fence.c:
+> > =
+
+> > ../drivers/dma-buf/dma-fence.c:291: warning: Function parameter or memb=
+er 'cookie' not described in 'dma_fence_end_signalling'
+> > =
+
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Gustavo Padovan <gustavo@padovan.org>
+> > Cc: Christian K=F6nig <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
 > =
 
-> > > > It doesn't seem like this IGT test's goal is to exercise support for
-> > > > gamma LUTs. Does the test just tries to reset the gamma LUT to line=
-ar?
-> > > > If so, I think the IGT test should be fixed to ignore "I don't supp=
-ort
-> > > > gamma" errors.
-> > >
-> > > It seems like that IGT test pixel-format is to make gamma lut like be=
-low.
-> > > for (i =3D 0; i < lut_size; i++)
-> > > lut[i] =3D (i * 0xffff / (lut_size - 1)) & mask;
-> > > And set this table to drm driver. and test begins. It's the test abou=
-t pixel
-> > > format. I think you're right. It's not about gamma lut.
-> >
-> > The point of the gamma LUT stuff in the pixel format test is to throw
-> > away a bunch of the lsbs so that the test passes when the result is
-> > "close enough" to the 8bpc RGB reference image. Without it we would
-> > never get a crc match when testing non-8bpc or YCbCr formats.
+> Acked-by: Christian K=F6nig <christian.koenig@amd.com>
+
+Will you merge these two to drm-misc-fixes or should someone else?
+
+Always a bit confusing when maintainers reply with acks/r-b but not what
+they'll do with the patch :-)
+
+Cheers, Daniel
+
 > =
 
-> OK, that makes sense. Would it be sensible to:
-> =
+> > ---
+> >   drivers/dma-buf/dma-fence.c |    1 +
+> >   1 file changed, 1 insertion(+)
+> > =
 
-> - Don't set gamma if the pixel format being tested is 8bpc
-
-Hm not sure what 8bpc format you mean here, because we have C8 (needs
-gamma table or doesn't work) and the 8b greyscale one with the R8 one. If
-you ask for legacy 8bpc you get C8.
-
-
-> - Make the test skip if the pixel format is >8bpc and gamma isn't
->   supported
-
-Yeah the test should skip if gamma isn't there.
--Daniel
-
+> > --- lnx-59-rc3.orig/drivers/dma-buf/dma-fence.c
+> > +++ lnx-59-rc3/drivers/dma-buf/dma-fence.c
+> > @@ -283,6 +283,7 @@ EXPORT_SYMBOL(dma_fence_begin_signalling
+> >   /**
+> >    * dma_fence_end_signalling - end a critical DMA fence signalling sec=
+tion
+> > + * @cookie: opaque cookie from dma_fence_begin_signalling()
+> >    *
+> >    * Closes a critical section annotation opened by dma_fence_begin_sig=
+nalling().
+> >    */
 > =
 
 > _______________________________________________
