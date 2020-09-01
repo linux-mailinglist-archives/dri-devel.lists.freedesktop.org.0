@@ -1,56 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4A5258986
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6880B25898A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 965D36E81F;
-	Tue,  1 Sep 2020 07:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 865186E830;
+	Tue,  1 Sep 2020 07:46:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76526E81F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 07:46:18 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0817k83L056118;
- Tue, 1 Sep 2020 02:46:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1598946368;
- bh=IArKfXZjgWen9X3q7V/DQYJ14EV6u7IF2HjW9A6oRts=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=S3yYZOhgjNY+2Pafmm6vxaksZY3A6sXjztPLPMIHZ2lpaGx/hCS/oQEdZ74sq0E0L
- auF29YHwaaLT7+VLZe+VwoWhf5/OP6jY6wVzu12JzzKaeMD6qNErJj8RsPtVGMffVz
- CqVIiGTV/MXvKG/oGWxSnyxjB8d8JN+U7Zvp5AdI=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0817k8vJ130624;
- Tue, 1 Sep 2020 02:46:08 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Sep
- 2020 02:46:07 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 1 Sep 2020 02:46:07 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0817k3oJ118971;
- Tue, 1 Sep 2020 02:46:04 -0500
-Subject: Re: [PATCH v9 2/3] drm: bridge: Add support for Cadence MHDP8546
- DPI/DP bridge
-To: Swapnil Jakhade <sjakhade@cadence.com>,
- <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>
-References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
- <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <71452de7-80e7-0144-4802-e3370c00854b@ti.com>
-Date: Tue, 1 Sep 2020 10:46:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830206E830
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 07:46:42 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z4so360781wrr.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 00:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PwQyVWZl+pjxYNMWlO8oMdi7CeKbQA1YxnOGda70p8o=;
+ b=NZBA6I4vsaC4evG0xqeywNYAPVsFAA8nLITRO9maS80cuyhhhQ7vEPrnEHsZt1J9Q9
+ Sd9EfZ+RaTWDZQEXDd7QTz3tqQm+F9rWLI5Cux5hj/YF6jUiBb/NI8hUfSbKl94N60hA
+ R8NaFaIff/RdhvsRy7bQ3QRUO7UPcKehcQ0hk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=PwQyVWZl+pjxYNMWlO8oMdi7CeKbQA1YxnOGda70p8o=;
+ b=sds8zxG886PexehKU2CdUgceOmssREH96meZolMo0e353RTB5aKRGvSfmjnCUa4RWc
+ 6Yl6kYi98316NM+q2Z2cOzXN2FFn/jhJXcSg8E0MBzZVcITbuqPFnwvvW1wW2yp9od2L
+ VnIJO5jS+wUgVxfyXjWtYrbRpGKrEgXqNZbNmFR+ip4jPIZgtCmYVOPhBNpujD52i72d
+ h+zp657xjNS4kxw033Tja+c8lJZH0eMAioTHb1a5jEMKOFaZSoTWx6pPt4MDcp/cvnS9
+ 8hPSpMD5OF1uL9j98BsIwTEB5nLamGBKLdWMdwO4y/0FuhOb7qFbnvtBrCPF/R13os5h
+ FVRQ==
+X-Gm-Message-State: AOAM530efw0aArEN3ccNMbfsq/EFJ/PB15EaZKDybJQioidA/y2TAXHr
+ ETpEJlX10E1Jd6kaKvLdk9jkDQ==
+X-Google-Smtp-Source: ABdhPJwXcZYKUmnn0gz7E6TMaWDu4PAiWtFSM5sFr11pDA242xsELwRqTqSLHqCs1QGWqYCF5oDXRw==
+X-Received: by 2002:a5d:56c1:: with SMTP id m1mr405147wrw.87.1598946401270;
+ Tue, 01 Sep 2020 00:46:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u126sm817933wmu.9.2020.09.01.00.46.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 00:46:40 -0700 (PDT)
+Date: Tue, 1 Sep 2020 09:46:38 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/crc-debugfs: Fix memleak in crc_control_write
+Message-ID: <20200901074638.GV2352366@phenom.ffwll.local>
+Mail-Followup-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Leo Li <sunpeng.li@amd.com>,
+ Mahesh Kumar <mahesh1.kumar@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200819082228.26847-1-dinghao.liu@zju.edu.cn>
+ <20200819115515.GC6049@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20200819115515.GC6049@pendragon.ideasonboard.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,154 +75,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
- jsarha@ti.com, a.hajda@samsung.com, robh+dt@kernel.org, nikhil.nd@ti.com,
- mparab@cadence.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ kjlu@umn.edu, Mahesh Kumar <mahesh1.kumar@intel.com>,
+ linux-kernel@vger.kernel.org, Leo Li <sunpeng.li@amd.com>,
+ dri-devel@lists.freedesktop.org, Dinghao Liu <dinghao.liu@zju.edu.cn>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Swapnil,
+On Wed, Aug 19, 2020 at 02:55:15PM +0300, Laurent Pinchart wrote:
+> Hi Dinghao,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Aug 19, 2020 at 04:22:28PM +0800, Dinghao Liu wrote:
+> > When verify_crc_source() fails, source needs to be freed.
+> > However, current code is returning directly and ends up
+> > leaking memory.
+> > 
+> > Fixes: c0811a7d5befe ("drm/crc: Cleanup crtc_crc_open function")
+> 
+> I think the issue was introduced in d5cc15a0c66e ("drm: crc: Introduce
+> verify_crc_source callback"). Apart from that,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-On 31/08/2020 11:23, Swapnil Jakhade wrote:
+Pushed to drm-misc-next.
+-Daniel
 
-> +static int cdns_mhdp_validate_mode_params(struct cdns_mhdp_device *mhdp,
-> +					  const struct drm_display_mode *mode,
-> +					  struct drm_bridge_state *bridge_state)
-> +{
-> +	u32 tu_size = 30, line_thresh1, line_thresh2, line_thresh = 0;
-> +	u32 rate, vs, vs_f, required_bandwidth, available_bandwidth;
-> +	struct cdns_mhdp_bridge_state *state;
-> +	int pxlclock;
-> +	u32 bpp;
-> +
-> +	state = to_cdns_mhdp_bridge_state(bridge_state);
-> +
-> +	pxlclock = mode->crtc_clock;
-> +
-> +	/* Get rate in MSymbols per second per lane */
-> +	rate = mhdp->link.rate / 1000;
-> +
-> +	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
-
-None of the above are used when calling cdns_mhdp_bandwidth_ok(). For clarity, I'd move the above
-lines a bit closer to where they are needed, as currently it makes me think the above values are
-used when checking the bandwidth.
-
-> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-> +				    mhdp->link.rate)) {
-> +		dev_err(mhdp->dev, "%s: Not enough BW for %s (%u lanes at %u Mbps)\n",
-> +			__func__, mode->name, mhdp->link.num_lanes,
-> +			mhdp->link.rate / 100);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* find optimal tu_size */
-> +	required_bandwidth = pxlclock * bpp / 8;
-> +	available_bandwidth = mhdp->link.num_lanes * rate;
-> +	do {
-> +		tu_size += 2;
-> +
-> +		vs_f = tu_size * required_bandwidth / available_bandwidth;
-> +		vs = vs_f / 1000;
-> +		vs_f = vs_f % 1000;
-> +		/* Downspreading is unused currently */
-> +	} while ((vs == 1 || ((vs_f > 850 || vs_f < 100) && vs_f != 0) ||
-> +		 tu_size - vs < 2) && tu_size < 64);
-> +
-> +	if (vs > 64) {
-> +		dev_err(mhdp->dev,
-> +			"%s: No space for framing %s (%u lanes at %u Mbps)\n",
-> +			__func__, mode->name, mhdp->link.num_lanes,
-> +			mhdp->link.rate / 100);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (vs == tu_size)
-> +		vs = tu_size - 1;
-> +
-> +	line_thresh1 = ((vs + 1) << 5) * 8 / bpp;
-> +	line_thresh2 = (pxlclock << 5) / 1000 / rate * (vs + 1) - (1 << 5);
-> +	line_thresh = line_thresh1 - line_thresh2 / mhdp->link.num_lanes;
-> +	line_thresh = (line_thresh >> 5) + 2;
-> +
-> +	state->vs = vs;
-> +	state->tu_size = tu_size;
-> +	state->line_thresh = line_thresh;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
-> +				  struct drm_bridge_state *bridge_state,
-> +				  struct drm_crtc_state *crtc_state,
-> +				  struct drm_connector_state *conn_state)
-> +{
-> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-> +	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-> +	int ret;
-> +
-> +	mutex_lock(&mhdp->link_mutex);
-> +
-> +	if (!mhdp->plugged) {
-> +		mhdp->link.rate = mhdp->host.link_rate;
-> +		mhdp->link.num_lanes = mhdp->host.lanes_cnt;
-> +	}
-> +
-> +	ret = cdns_mhdp_validate_mode_params(mhdp, mode, bridge_state);
-> +
-> +	mutex_unlock(&mhdp->link_mutex);
-> +
-> +	return ret;
-> +}
-
-Laurent mentioned that atomic_check should not change state. Note that
-cdns_mhdp_validate_mode_params also changes state, as it calculates tu_size, vs and line_thresh.
-
-There seems to be issues with mode changes, but I think the first step would be to clarify the
-related code a bit. cdns_mhdp_validate_mode_params() is misnamed, I think it should be renamed to
-calculate_tu or something like that.
-
-cdns_mhdp_bandwidth_ok() should take display_fmt or bpp as a parameter, as currently it digs that up
-from the current state.
-
-Probably cdns_mhdp_validate_mode_params() would be better if it doesn't write the result to the
-state, but returns the values. That way it could also be used to verify if suitable settings can be
-found, without changing the state.
-
-The are two issues I see with some testing, which are probably related.
-
-The first one is that if I run kmstest with a new mode, I see tu-size & co being calculated. But the
-calculation happens before link training, which doesn't make sense. So I think what's done here is
-that atomic_check causes tu-size calculations, then atomic_enable does link training and enables the
-video.
-
-The second happens when my monitor fails with the first CR after power-on, and the driver drops
-number-of-lanes to 2. It goes like this:
-
-The driver is loaded. Based on EDID, fbdev is created with 1920x1200. Link training is done, which
-has the CR issue, and because of that the actual mode that we get is 1280x960. I get a proper
-picture here, so far so good.
-
-Then if I run kmstest, it only allows 1280x960 as the link doesn't support higher modes (that's ok).
-It the does link training and gets a 4 lane link, and enables 1280x960. But the picture is not ok.
-
-If I then exit kmstest, it goes back to fbdev, but now that picture is broken also.
-
-Running kmstest again gives me 1920x1200 (as the link has been 4 lane now), and the picture is fine.
-
-I think the above suggests that the driver is not properly updating all the registers based on the
-new mode and link. I tried adding cdns_mhdp_validate_mode_params() call to
-cdns_mhdp_atomic_enable(), so that tu-size etc will be calculated, but that did not fix the problem.
-
- Tomi
+> 
+> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> > ---
+> >  drivers/gpu/drm/drm_debugfs_crc.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugfs_crc.c
+> > index 5d67a41f7c3a..3dd70d813f69 100644
+> > --- a/drivers/gpu/drm/drm_debugfs_crc.c
+> > +++ b/drivers/gpu/drm/drm_debugfs_crc.c
+> > @@ -144,8 +144,10 @@ static ssize_t crc_control_write(struct file *file, const char __user *ubuf,
+> >  		source[len - 1] = '\0';
+> >  
+> >  	ret = crtc->funcs->verify_crc_source(crtc, source, &values_cnt);
+> > -	if (ret)
+> > +	if (ret) {
+> > +		kfree(source);
+> >  		return ret;
+> > +	}
+> >  
+> >  	spin_lock_irq(&crc->lock);
+> >  
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
