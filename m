@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95787259A37
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44870259A39
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA1216E8AE;
-	Tue,  1 Sep 2020 16:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48FC16E8B1;
+	Tue,  1 Sep 2020 16:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B216E8AD
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 16:47:39 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id w7so1124203pfi.4
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 09:47:39 -0700 (PDT)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 622316E8B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 16:47:41 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id mw10so889154pjb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 09:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RI73hAm8taFHglKyL+fRjHiZ9E+te2SePrFdWbpImkA=;
- b=iK/gWhvX43nTVceqadIhYvSqK91IRCJCr5an4KZFK1DTvINxVcTZMuQyegyN/355Bw
- JZQ7Y2NxnEyNgHakr4ZD9u87n6KRWb0TKstSl2SZ3PzPV7YLJVSPcDu6euUaGOQkNRud
- h/4COkh5TdixQZkT8bM/oxcl04nzVQ3WdlDCo9PGw+fVjnSiUbbujl8LFIUnDWnDJ2Xd
- Kxrsomm8Prr7eCxcP7aZHzasUFTLyJ4ODxcdLAuEMq9dv/FyYghppWV3sNUAyRmMhpzB
- UUeqqU/WJ87+Ydrrx0WdNSh8807h1sbE0add+3495kD6sIYWodJy28OaQcodE2eH8PRw
- XMCA==
+ bh=VJrx+AWRDEEJgr3DuJf5FGtuFm676MmhtRSCNhrUo5I=;
+ b=d2/URyDwjchuggwTyHw8d/OgnYrxNo2olK6OBqsGffjs9tubNZacMeAts3N4QEfxw8
+ 5Q6mP/Io1kZ6ShbzKsdMp66CaPux8VHjQyV2cKCN9Xa0KLS+9ZSDrVarpGKC172y1hw6
+ AfTeVgZ0r3PwraILILQvgL8q68+6/C3O3c2itMcUplLuX4Uw8as90AeNj4yxr2mng2/D
+ U9PHtA6MttoyqkO7LLkNGz6fP5ePa4dmCRHpzecQ94K0BOVx9z2rfL9ZetZaMKGMMvxC
+ zICl0CqJ2zk04r8CDOMEUTsvAtNeEM+44tgYS4vy503g6QOoJCmAH7g2srag0k4AM47h
+ dE9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RI73hAm8taFHglKyL+fRjHiZ9E+te2SePrFdWbpImkA=;
- b=YdSZyGkU5RTDrdTL0Ou7+VIJoD3i4JLCyL8BZUpw+O1l4QkbprdhiTDGoYAqRC+FVw
- PxAEFTL1W26s5UgQncRAg/R58YdO+igjhS40fhQSUitO16HUz5CQmQGLletsI/jja6pC
- K1nkGfrVezRyArlkqT0flqZa90xbEMY5wHV69jlNLLZ5wqDS4Xu9i6Txuc9LUqgfGG9W
- OkeHzWP1Wtvu1xZMCtVHCexgEvnkmOJ87VaND8Bj2W0V/J9hMb2P7fGxDgxNtR1ct11v
- u+JsJqQWpunCRFbWLzNi14uM3GxSC17ro3fbHB9CEIpiKNjd8IDa7zfow+oPvAv0awJr
- dY3A==
-X-Gm-Message-State: AOAM5325838Gssh7CyLGes8HsIVpJzOQ+BnqP9OJSSxxkI5TrSZv4qXP
- oxcEoaf5ERxRYx2KzQHv4XfrJaEbHaA0TMXG
-X-Google-Smtp-Source: ABdhPJxqESFlReg5RGOlUO1KFXl0W8xH0asJAzoRAGy9j2bDD2ncGLx0thhLxLusFeJPcxyqh3MDbA==
-X-Received: by 2002:a63:6d4c:: with SMTP id i73mr2312150pgc.63.1598978857690; 
- Tue, 01 Sep 2020 09:47:37 -0700 (PDT)
+ bh=VJrx+AWRDEEJgr3DuJf5FGtuFm676MmhtRSCNhrUo5I=;
+ b=Vburehgd2n5oKRJokzLibjPLaUdQTgycaScYOKGNEmWecHPAS5dOJuqe94HPGJEWHv
+ W2gIR3b5Z1Tjnlp6ZRiOJLRAsVBFzQCu3oPmur8Y/6FpHG6MI77ZByhngYy10JomGYQW
+ buRGQ8Mc54/Q/akj6ys1EMjc/xrCJQiEPkF9J+lEMBD3u1/ILm6wMG1gNbysrjBIPZuf
+ lZV25MvgtA+JCqOWskDKQR/jGiQrr7AoOi74oCfu9EhrSySbfz87LIE5bgSwZyZPhw4j
+ hWdIalSzZzA5T0N1o142aehd2goMdvCZ8TfW1N+r91T1sMKlf/G+6DFLUMvGd8xNOCh+
+ xvGA==
+X-Gm-Message-State: AOAM530xmQV3ElhRjGBt6emYtV5E+Phky4vbjxen97D4RcoXFW/cVRjG
+ 8diasozZ+xCqCAEo8sKtQkSYWxh82eDI88ku
+X-Google-Smtp-Source: ABdhPJxfV0FiOo9Kg84TzFlg6WinbO0JkLmr3QdQ0ZPhheez1khfYC5+K4MYQGR60MpSKWKBwCPGmQ==
+X-Received: by 2002:a17:90a:718c:: with SMTP id
+ i12mr2397826pjk.101.1598978860386; 
+ Tue, 01 Sep 2020 09:47:40 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id i1sm2497656pfo.212.2020.09.01.09.47.36
+ by smtp.gmail.com with ESMTPSA id k4sm2755950pfp.189.2020.09.01.09.47.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 09:47:36 -0700 (PDT)
+ Tue, 01 Sep 2020 09:47:39 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v16 18/20] dt-bindings: arm-smmu: Add compatible string for
- Adreno GPU SMMU
-Date: Tue,  1 Sep 2020 09:46:35 -0700
-Message-Id: <20200901164707.2645413-19-robdclark@gmail.com>
+Subject: [PATCH v16 19/20] arm: dts: qcom: sm845: Set the compatible string
+ for the GPU SMMU
+Date: Tue,  1 Sep 2020 09:46:36 -0700
+Message-Id: <20200901164707.2645413-20-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901164707.2645413-1-robdclark@gmail.com>
 References: <20200901164707.2645413-1-robdclark@gmail.com>
@@ -72,11 +73,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Rob Clark <robdclark@chromium.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
  Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+ Bjorn Andersson <bjorn.andersson@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -84,47 +84,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jordan Crouse <jcrouse@codeaurora.org>
 
-Every Qcom Adreno GPU has an embedded SMMU for its own use. These
-devices depend on unique features such as split pagetables,
-different stall/halt requirements and other settings. Identify them
-with a compatible string so that they can be identified in the
-arm-smmu implementation specific code.
+Set the qcom,adreno-smmu compatible string for the GPU SMMU to enable
+split pagetables and per-instance pagetables for drm/msm.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 9 +++++++++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi       | 2 +-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index 503160a7b9a0..3b63f2ae24db 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -28,8 +28,6 @@ properties:
-           - enum:
-               - qcom,msm8996-smmu-v2
-               - qcom,msm8998-smmu-v2
--              - qcom,sc7180-smmu-v2
--              - qcom,sdm845-smmu-v2
-           - const: qcom,smmu-v2
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+index 64fc1bfd66fa..39f23cdcbd02 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+@@ -633,6 +633,15 @@ &mdss_mdp {
+ 	status = "okay";
+ };
  
-       - description: Qcom SoCs implementing "arm,mmu-500"
-@@ -40,6 +38,13 @@ properties:
-               - qcom,sm8150-smmu-500
-               - qcom,sm8250-smmu-500
-           - const: arm,mmu-500
-+      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
-+        items:
-+          - enum:
-+              - qcom,sc7180-smmu-v2
-+              - qcom,sdm845-smmu-v2
-+          - const: qcom,adreno-smmu
-+          - const: qcom,smmu-v2
-       - description: Marvell SoCs implementing "arm,mmu-500"
-         items:
-           - const: marvell,ap806-smmu-500
++/*
++ * Cheza fw does not properly program the GPU aperture to allow the
++ * GPU to update the SMMU pagetables for context switches.  Work
++ * around this by dropping the "qcom,adreno-smmu" compat string.
++ */
++&adreno_smmu {
++	compatible = "qcom,sdm845-smmu-v2", "qcom,smmu-v2";
++};
++
+ &mss_pil {
+ 	iommus = <&apps_smmu 0x781 0x0>,
+ 		 <&apps_smmu 0x724 0x3>;
+diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+index 2884577dcb77..76a8a34640ae 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+@@ -4058,7 +4058,7 @@ opp-257000000 {
+ 		};
+ 
+ 		adreno_smmu: iommu@5040000 {
+-			compatible = "qcom,sdm845-smmu-v2", "qcom,smmu-v2";
++			compatible = "qcom,sdm845-smmu-v2", "qcom,adreno-smmu", "qcom,smmu-v2";
+ 			reg = <0 0x5040000 0 0x10000>;
+ 			#iommu-cells = <1>;
+ 			#global-interrupts = <2>;
 -- 
 2.26.2
 
