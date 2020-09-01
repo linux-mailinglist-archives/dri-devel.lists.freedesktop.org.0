@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ACD258939
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2403325893F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982246E81D;
-	Tue,  1 Sep 2020 07:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9268E6E43C;
+	Tue,  1 Sep 2020 07:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A416E5B6
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 07:32:06 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1598945528; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=Zfqd1NY57glLHp+F+Na2YYDd6T8pT12Sz/2at7PsBCY=;
- b=ofgDo/dljeBB4NEguJX1gQklccArLzZZucBGSQYuELfuSkCf8DYIM50ahRRDMaifycaOK74Q
- TmlXujjY3jWCeBKoNfd6AwGwNrHPyqup+YhGf/kgCqyog8ciJOPBF0qFgBuwjlGfA0TjTOj+
- uNkg+QDIAtgXgRa4oEjesfs/6PE=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5f4df8eb7f21d51b30ec68af (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 01 Sep 2020 07:31:55
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 62BCDC433A1; Tue,  1 Sep 2020 07:31:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.1 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
- SPF_NONE, URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.16] (unknown [61.1.231.241])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: rnayak)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 808A5C433C6;
- Tue,  1 Sep 2020 07:31:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 808A5C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH V2 3/8] drm/msm: Unconditionally call
- dev_pm_opp_of_remove_table()
-To: Viresh Kumar <viresh.kumar@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-References: <cover.1598594714.git.viresh.kumar@linaro.org>
- <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
-From: Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <bc64e031-c42f-9ed2-c597-18a790a4d3bb@codeaurora.org>
-Date: Tue, 1 Sep 2020 13:01:47 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB576E835
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 07:32:26 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id z1so321231wrt.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 00:32:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=hoFHmxYaK3Jmvqv9SaWMEHdBNDDbXERCryf38BfzDpI=;
+ b=MBlR5C/qu0uiwK4gxspdgoNQMjbUF3cJcYA/xr7NwPJUeqH1GV/YCyoqRLa1o1W729
+ iiE2rcPm5xEaXympnptR8/WUhZjeR+qqIgHrst67G9nh6ATTWegCJYh61/R+I9mRcGY/
+ 3yIDHK5XxQuit+9LOUK//hwMbCioC7MPF10nI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hoFHmxYaK3Jmvqv9SaWMEHdBNDDbXERCryf38BfzDpI=;
+ b=DzGg8rAqMhhLtKlQ5gNjS/kXs3gWynr0psv1vBAhjLzuVwFWc/D7WDbPYcp8LIMIKW
+ kq0qvZXx/MT9XD6OEY1ktIS8UCsTzGoZ+5TYXqYTSoK+l6qLbvvxnDMeKY2sxUyrF3um
+ jJy8PMltjfzVxyYhhqfPqfFSFzwAK16/gPLECwhHvGtaBSZGElgAIUodt30cwRLa5d+/
+ DTHvtbx9h+BH3AKuD+gSjNF+4hfTXFz0MqZC0YaYBs2IqU+bagJP34CZy6po1tHICum5
+ cSTgdUtJcgHl7HX43J3XB1LvvKe5U3XVJ6gHOk46gM+7tB5U5fgOz7/+mnsYqxyAddVG
+ 5cpA==
+X-Gm-Message-State: AOAM533vLUtLcxmkm1X23YrJR9NYAvlijlJgxdEBX+8PSEfEqWPa2if1
+ DYA/vIDBxjwZTb/UuhiiOx7Nmg==
+X-Google-Smtp-Source: ABdhPJxq6ZcbjEb9yp0P7UHs3o3UCYJvpSi4MV1QL6Lzpg2c4SAv5VHaZDanzqTMOEGw5tkp0nuh5A==
+X-Received: by 2002:adf:de08:: with SMTP id b8mr387809wrm.4.1598945545008;
+ Tue, 01 Sep 2020 00:32:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c4sm810340wrp.85.2020.09.01.00.32.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 00:32:24 -0700 (PDT)
+Date: Tue, 1 Sep 2020 09:32:22 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+Message-ID: <20200901073222.GR2352366@phenom.ffwll.local>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200816172246.69146-1-ezequiel@collabora.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,140 +64,431 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Rafael Wysocki <rjw@rjwysocki.net>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Robert Beckett <bob.beckett@collabora.com>, kernel@collabora.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@st.com>, James Jones <jajones@nvidia.com>,
+ dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
+ "Andrew F . Davis" <afd@ti.com>, Liam Mark <lmark@codeaurora.org>,
+ Laura Abbott <labbott@kernel.org>, Daniel Stone <daniels@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 8/28/2020 11:37 AM, Viresh Kumar wrote:
-> dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
-> find the OPP table with error -ENODEV (i.e. OPP table not present for
-> the device). And we can call dev_pm_opp_of_remove_table()
-> unconditionally here.
-
-Its a little tricky to call things unconditionally for this driver, more below.
-
+On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
+> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+> which will allocate memory suitable for the given device.
 > 
-> While at it, also create a label to put clkname.
+> The implementation is mostly a port of the Contiguous Videobuf2
+> memory allocator (see videobuf2/videobuf2-dma-contig.c)
+> over to the DMA-BUF Heap interface.
 > 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> The intention of this allocator is to provide applications
+> with a more system-agnostic API: the only thing the application
+> needs to know is which device to get the buffer for.
 > 
+> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+> is unknown to the application.
+> 
+> I'm not really expecting this patch to be correct or even
+> a good idea, but just submitting it to start a discussion on DMA-BUF
+> heap discovery and negotiation.
+> 
+> Given Plumbers is just a couple weeks from now, I've submitted
+> a BoF proposal to discuss this, as perhaps it would make
+> sense to discuss this live?
+> 
+> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+
+I think on the uapi/constraint solving side there's been already tons of
+discussions while I enjoyed vacations, so different concern from me
+entirely on the implementation side:
+
+In the past the only thing we had in upstream was subsystem/driver
+specific allocators, and dma-buf for sharing. With dma-buf heaps we kinda
+get a central allocator, which duplicates large chunks of of all these
+allocators. And since it's a central allocator by design, the reason for
+having per-subsystem allocators is kinda gone.
+
+I think there's two approaches here:
+- we convert e.g. drm allocator helpers to internally use the right heap
+  implementation. That would also give us some fairly direct way to expose
+  these constraints in sysfs so a userspace allocator knows which dma-buf
+  heap to pick for shared stuff.
+
+- we require that any heap is just a different uapi for an existing driver
+  allocator, e.g. by having a dma-buf wrapper for all gem drivers.
+
+Otherwise I think what we end up with is a pile of dma-buf heaps for
+android's blob gpu driver world, and not used anywhere else. Not something
+even remotely interesting for upstream :-)
+
+tldr; I'd like to see how dma-buf heaps closely integrate with all the
+existing buffer management code we have. Both kernel (and throuhg some
+allocator library effort) in userspace.
+
+Cheers, Daniel
+
 > ---
-> V2:
-> - Compare with -ENODEV only for failures.
-> - Create new label to put clkname.
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 14 +++++---------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  1 -
->   drivers/gpu/drm/msm/dsi/dsi_host.c      |  8 ++------
->   3 files changed, 7 insertions(+), 16 deletions(-)
+>  drivers/dma-buf/heaps/Kconfig       |   9 +
+>  drivers/dma-buf/heaps/Makefile      |   1 +
+>  drivers/dma-buf/heaps/device_heap.c | 268 ++++++++++++++++++++++++++++
+>  include/linux/device.h              |   5 +
+>  include/linux/dma-heap.h            |   6 +
+>  5 files changed, 289 insertions(+)
+>  create mode 100644 drivers/dma-buf/heaps/device_heap.c
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index c0a4d4e16d82..c8287191951f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1010,12 +1010,9 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->   		return PTR_ERR(dpu_kms->opp_table);
->   	/* OPP table is optional */
->   	ret = dev_pm_opp_of_add_table(dev);
-> -	if (!ret) {
-> -		dpu_kms->has_opp_table = true;
-> -	} else if (ret != -ENODEV) {
-> +	if (ret && ret != -ENODEV) {
->   		dev_err(dev, "invalid OPP table in device tree\n");
-> -		dev_pm_opp_put_clkname(dpu_kms->opp_table);
-> -		return ret;
-> +		goto put_clkname;
-
-So FWIU, dpu_unbind() gets called even when dpu_bind() fails for some reason.
-I tried to address that earlier [1] which I realized did not land. But with these changes
-it will be even more broken unless we identify if we failed dpu_bind() before
-adding the OPP table, while adding it, or all went well with opps and handle things
-accordingly in dpu_unbind.
-
-[1] https://lore.kernel.org/patchwork/patch/1275632/
-
->   	}
->   
->   	mp = &dpu_kms->mp;
-> @@ -1037,8 +1034,8 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->   	priv->kms = &dpu_kms->base;
->   	return ret;
->   err:
-> -	if (dpu_kms->has_opp_table)
-> -		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_of_remove_table(dev);
-> +put_clkname:
->   	dev_pm_opp_put_clkname(dpu_kms->opp_table);
->   	return ret;
->   }
-> @@ -1056,8 +1053,7 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
->   	if (dpu_kms->rpm_enabled)
->   		pm_runtime_disable(&pdev->dev);
->   
-> -	if (dpu_kms->has_opp_table)
-> -		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_of_remove_table(dev);
->   	dev_pm_opp_put_clkname(dpu_kms->opp_table);
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index e140cd633071..8295979a7165 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -129,7 +129,6 @@ struct dpu_kms {
->   	bool rpm_enabled;
->   
->   	struct opp_table *opp_table;
-> -	bool has_opp_table;
->   
->   	struct dss_module_power mp;
->   
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index b17ac6c27554..4335fe33250c 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -113,7 +113,6 @@ struct msm_dsi_host {
->   	struct clk *byte_intf_clk;
->   
->   	struct opp_table *opp_table;
-> -	bool has_opp_table;
->   
->   	u32 byte_clk_rate;
->   	u32 pixel_clk_rate;
-> @@ -1891,9 +1890,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->   		return PTR_ERR(msm_host->opp_table);
->   	/* OPP table is optional */
->   	ret = dev_pm_opp_of_add_table(&pdev->dev);
-> -	if (!ret) {
-> -		msm_host->has_opp_table = true;
-> -	} else if (ret != -ENODEV) {
-> +	if (ret && ret != -ENODEV) {
->   		dev_err(&pdev->dev, "invalid OPP table in device tree\n");
->   		dev_pm_opp_put_clkname(msm_host->opp_table);
->   		return ret;
-> @@ -1934,8 +1931,7 @@ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
->   	mutex_destroy(&msm_host->cmd_mutex);
->   	mutex_destroy(&msm_host->dev_mutex);
->   
-> -	if (msm_host->has_opp_table)
-> -		dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
-> +	dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
->   	dev_pm_opp_put_clkname(msm_host->opp_table);
->   	pm_runtime_disable(&msm_host->pdev->dev);
->   }
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> index a5eef06c4226..2bb3604184bd 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
+>  	  Choose this option to enable dma-buf CMA heap. This heap is backed
+>  	  by the Contiguous Memory Allocator (CMA). If your system has these
+>  	  regions, you should say Y here.
+> +
+> +config DMABUF_HEAPS_DEVICES
+> +	bool "DMA-BUF Device DMA Heap (Experimental)"
+> +	depends on DMABUF_HEAPS
+> +	help
+> +	  Choose this option to enable dma-buf per-device heap. This heap is backed
+> +	  by the DMA-API and it's an Experimental feature, meant mostly for testing
+> +	  and experimentation.
+> +	  Just say N here.
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+> index 6e54cdec3da0..c691d85b3044 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -2,3 +2,4 @@
+>  obj-y					+= heap-helpers.o
+>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+> +obj-$(CONFIG_DMABUF_HEAPS_DEVICES)	+= device_heap.o
+> diff --git a/drivers/dma-buf/heaps/device_heap.c b/drivers/dma-buf/heaps/device_heap.c
+> new file mode 100644
+> index 000000000000..1803dc622dd8
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/device_heap.c
+> @@ -0,0 +1,268 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DMABUF Device DMA heap exporter
+> + *
+> + * Copyright (C) 2020, Collabora Ltd.
+> + *
+> + * Based on:
+> + *   videobuf2-dma-contig.c - DMA contig memory allocator for videobuf2
+> + *   Copyright (C) 2010 Samsung Electronics
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/scatterlist.h>
+> +#include <linux/slab.h>
+> +#include <linux/module.h>
+> +
+> +struct dev_dmabuf_attachment {
+> +	struct sg_table sgt;
+> +	enum dma_data_direction dma_dir;
+> +};
+> +
+> +struct dev_dmabuf {
+> +	struct dma_heap *heap;
+> +	struct dma_buf *dmabuf;
+> +	struct device *dev;
+> +	size_t size;
+> +	void *vaddr;
+> +	dma_addr_t dma_addr;
+> +	unsigned long attrs;
+> +
+> +	struct sg_table sgt;
+> +};
+> +
+> +static struct sg_table *dev_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
+> +					   enum dma_data_direction dma_dir)
+> +{
+> +	struct dev_dmabuf_attachment *attach = db_attach->priv;
+> +	/* stealing dmabuf mutex to serialize map/unmap operations */
+> +	struct mutex *lock = &db_attach->dmabuf->lock;
+> +	struct sg_table *sgt;
+> +
+> +	mutex_lock(lock);
+> +
+> +	sgt = &attach->sgt;
+> +	/* return previously mapped sg table */
+> +	if (attach->dma_dir == dma_dir) {
+> +		mutex_unlock(lock);
+> +		return sgt;
+> +	}
+> +
+> +	/* release any previous cache */
+> +	if (attach->dma_dir != DMA_NONE) {
+> +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +		attach->dma_dir = DMA_NONE;
+> +	}
+> +
+> +	/*
+> +	 * mapping to the client with new direction, no cache sync
+> +	 * required see comment in .dmabuf_ops_detach()
+> +	 */
+> +	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> +				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +	if (!sgt->nents) {
+> +		dev_err(db_attach->dev, "failed to map scatterlist\n");
+> +		mutex_unlock(lock);
+> +		return ERR_PTR(-EIO);
+> +	}
+> +
+> +	attach->dma_dir = dma_dir;
+> +
+> +	mutex_unlock(lock);
+> +
+> +	return sgt;
+> +}
+> +
+> +static void dev_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
+> +				 struct sg_table *sgt,
+> +				 enum dma_data_direction dma_dir)
+> +{
+> +	/* nothing to be done here */
+> +}
+> +
+> +static int dev_dmabuf_ops_attach(struct dma_buf *dmabuf,
+> +				 struct dma_buf_attachment *dbuf_attach)
+> +{
+> +	struct dev_dmabuf_attachment *attach;
+> +	unsigned int i;
+> +	struct scatterlist *rd, *wr;
+> +	struct sg_table *sgt;
+> +	struct dev_dmabuf *buf = dmabuf->priv;
+> +	int ret;
+> +
+> +	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
+> +	if (!attach)
+> +		return -ENOMEM;
+> +	sgt = &attach->sgt;
+> +
+> +	/*
+> +	 * Copy the buf->sgt scatter list to the attachment, as we can't
+> +	 * map the same scatter list to multiple attachments at the same time.
+> +	 */
+> +	ret = sg_alloc_table(sgt, buf->sgt.orig_nents, GFP_KERNEL);
+> +	if (ret) {
+> +		kfree(attach);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	rd = buf->sgt.sgl;
+> +	wr = sgt->sgl;
+> +	for (i = 0; i < sgt->orig_nents; ++i) {
+> +		sg_set_page(wr, sg_page(rd), rd->length, rd->offset);
+> +		rd = sg_next(rd);
+> +		wr = sg_next(wr);
+> +	}
+> +
+> +	attach->dma_dir = DMA_NONE;
+> +	dbuf_attach->priv = attach;
+> +
+> +	return 0;
+> +}
+> +
+> +static void dev_dmabuf_ops_detach(struct dma_buf *dmabuf,
+> +				  struct dma_buf_attachment *db_attach)
+> +{
+> +	struct dev_dmabuf_attachment *attach = db_attach->priv;
+> +	struct sg_table *sgt;
+> +
+> +	if (!attach)
+> +		return;
+> +	sgt = &attach->sgt;
+> +
+> +	/* release the scatterlist cache */
+> +	if (attach->dma_dir != DMA_NONE)
+> +		/*
+> +		 * Cache sync can be skipped here, as the memory is
+> +		 * allocated from device coherent memory, which means the
+> +		 * memory locations do not require any explicit cache
+> +		 * maintenance prior or after being used by the device.
+> +		 *
+> +		 * XXX: This needs a revisit.
+> +		 */
+> +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +	sg_free_table(sgt);
+> +	kfree(attach);
+> +	db_attach->priv = NULL;
+> +}
+> +
+> +
+> +static void *dev_dmabuf_ops_vmap(struct dma_buf *dmabuf)
+> +{
+> +	struct dev_dmabuf *buf = dmabuf->priv;
+> +
+> +	return buf->vaddr;
+> +}
+> +
+> +static void dev_dmabuf_ops_release(struct dma_buf *dmabuf)
+> +{
+> +	struct dev_dmabuf *buf = dmabuf->priv;
+> +
+> +	sg_free_table(&buf->sgt);
+> +	dma_free_attrs(buf->dev, buf->size, buf->vaddr,
+> +		       buf->dma_addr, buf->attrs);
+> +	put_device(buf->dev);
+> +	kfree(buf);
+> +}
+> +
+> +static int dev_dmabuf_ops_mmap(struct dma_buf *dmabuf,
+> +			       struct vm_area_struct *vma)
+> +{
+> +	struct dev_dmabuf *buf = dmabuf->priv;
+> +	int ret;
+> +
+> +	ret = dma_mmap_attrs(buf->dev, vma, buf->vaddr,
+> +			     buf->dma_addr, buf->size,
+> +			     buf->attrs);
+> +	if (ret) {
+> +		dev_err(buf->dev, "remapping memory failed, error: %d\n", ret);
+> +		return ret;
+> +	}
+> +	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dma_buf_ops dev_dmabuf_ops = {
+> +	.attach = dev_dmabuf_ops_attach,
+> +	.detach = dev_dmabuf_ops_detach,
+> +	.map_dma_buf = dev_dmabuf_ops_map,
+> +	.unmap_dma_buf = dev_dmabuf_ops_unmap,
+> +	.vmap = dev_dmabuf_ops_vmap,
+> +	.mmap = dev_dmabuf_ops_mmap,
+> +	.release = dev_dmabuf_ops_release,
+> +};
+> +
+> +static int dev_heap_allocate(struct dma_heap *heap,
+> +			unsigned long size,
+> +			unsigned long fd_flags,
+> +			unsigned long heap_flags)
+> +{
+> +	struct device *dev = dma_heap_get_drvdata(heap);
+> +	struct dev_dmabuf *buf;
+> +	struct dma_buf_export_info exp_info = {};
+> +	unsigned long attrs = 0;
+> +	int ret = -ENOMEM;
+> +
+> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	buf->vaddr = dma_alloc_attrs(dev, size, &buf->dma_addr,
+> +				     GFP_KERNEL, attrs);
+> +	/* Prevent the device from being released while the buffer is used */
+> +	buf->dev = get_device(dev);
+> +	buf->heap = heap;
+> +	buf->size = size;
+> +	buf->attrs = attrs;
+> +
+> +	/* XXX: This call is documented as unsafe. See dma_get_sgtable_attrs(). */
+> +	ret = dma_get_sgtable_attrs(buf->dev, &buf->sgt,
+> +				    buf->vaddr, buf->dma_addr,
+> +				    buf->size, buf->attrs);
+> +	if (ret < 0) {
+> +		dev_err(buf->dev, "failed to get scatterlist from DMA API\n");
+> +		return ret;
+> +	}
+> +
+> +	exp_info.exp_name = dev_name(dev);
+> +	exp_info.owner = THIS_MODULE;
+> +	exp_info.ops = &dev_dmabuf_ops;
+> +	exp_info.size = size;
+> +	exp_info.flags = fd_flags;
+> +	exp_info.priv = buf;
+> +
+> +	buf->dmabuf = dma_buf_export(&exp_info);
+> +	if (IS_ERR(buf->dmabuf)) {
+> +		dev_err(buf->dev, "failed to export dmabuf\n");
+> +		return PTR_ERR(buf->dmabuf);
+> +	}
+> +
+> +	ret = dma_buf_fd(buf->dmabuf, fd_flags);
+> +	if (ret < 0) {
+> +		dev_err(buf->dev, "failed to get dmabuf fd: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct dma_heap_ops dev_heap_ops = {
+> +	.allocate = dev_heap_allocate,
+> +};
+> +
+> +void dev_dma_heap_add(struct device *dev)
+> +{
+> +	struct dma_heap_export_info exp_info;
+> +
+> +	exp_info.name = dev_name(dev);
+> +	exp_info.ops = &dev_heap_ops;
+> +	exp_info.priv = dev;
+> +
+> +	dev->heap = dma_heap_add(&exp_info);
+> +}
+> +EXPORT_SYMBOL(dev_dma_heap_add);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index ca18da4768e3..1fae95d55ea1 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -45,6 +45,7 @@ struct iommu_ops;
+>  struct iommu_group;
+>  struct dev_pin_info;
+>  struct dev_iommu;
+> +struct dma_heap;
+>  
+>  /**
+>   * struct subsys_interface - interfaces to device functions
+> @@ -597,6 +598,10 @@ struct device {
+>  	struct iommu_group	*iommu_group;
+>  	struct dev_iommu	*iommu;
+>  
+> +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
+> +	struct dma_heap		*heap;
+> +#endif
+> +
+>  	bool			offline_disabled:1;
+>  	bool			offline:1;
+>  	bool			of_node_reused:1;
+> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> index 454e354d1ffb..dcf7cca2f487 100644
+> --- a/include/linux/dma-heap.h
+> +++ b/include/linux/dma-heap.h
+> @@ -56,4 +56,10 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
+>   */
+>  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+>  
+> +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
+> +void dev_dma_heap_add(struct device *dev);
+> +#else
+> +static inline void dev_dma_heap_add(struct device *dev) {}
+> +#endif
+> +
+>  #endif /* _DMA_HEAPS_H */
+> -- 
+> 2.27.0
 > 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
