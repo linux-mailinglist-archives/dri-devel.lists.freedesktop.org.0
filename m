@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4F2258C8A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 12:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1B7258CA0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 12:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1580F6E84A;
-	Tue,  1 Sep 2020 10:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1903889F69;
+	Tue,  1 Sep 2020 10:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B016E84A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 10:15:38 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id c19so631850wmd.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 03:15:38 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3194C89F69
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 10:20:11 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a9so612925wmm.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 03:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3GIpy2hsxgFsBlpT+dsHbTbTluNWsmd1rZYjI09Uxc8=;
+ b=XFND8mCwVNeeDtS+fg/HptRv9VEH756A1a+vj+5/P2wZZxyQEM2/bjCp/FcbmjsIPk
+ r64cPgQLvDI8oXcy561SiPfA8aV7kY+UBcCu0AQ8GiBSuWvXWuc3bEsCZpZl1y0NbLne
+ 1C+QAYiqTPu98hOOlMgeWNFespOaXxl3tzfzg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=pLH5AgoXpGhrsa52Snk5FTxJg17QsSXpFgLhDFft8A8=;
- b=PMBDWRUakdzD/jr80kyIq+4cV4eItksbqtzmUVtT9bBy1KJgBPXj12wNX3nuC6Ahew
- LOcXOIzjHsZlLprIfs6HNEoE0n3CGzyINJNPq4lofZ2mTqUQF/eK53ulKHrMJbWfgLOK
- cXUknc6CfPgJl81+C49+m3lzKG/EGiKqUYQtJ7ihoykCERFsYrSAqk6s29tMoqrA/aT0
- MvXWt62XX1MYlAuAJekkzKVTBVfUE3y5rCQPXc+Mb0wn80MMh8H9Im5C9A4u0HM5jY6w
- aNhgEsTxla+bgjkya0YCY24QHahKX719meWsRpKB+tOkEgM3F5+fkBVzhz5JIFsKonnV
- i2KQ==
-X-Gm-Message-State: AOAM53205Z/bWCH9lTh1XioEWRb7Nd9niXc2pJkX9DA3g299HJyzgsck
- W6dY9LdwsQaOdhu1wQnOMlo=
-X-Google-Smtp-Source: ABdhPJwg2dcdM6+5RfvAb5uRSTytSw6wmKRiuo8vRcUAavtF9U7ySqhFZpn0KffXgkNU3dhursmPFw==
-X-Received: by 2002:a7b:c084:: with SMTP id r4mr1030648wmh.23.1598955337291;
- Tue, 01 Sep 2020 03:15:37 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.106])
- by smtp.googlemail.com with ESMTPSA id e18sm1792617wra.36.2020.09.01.03.15.35
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 01 Sep 2020 03:15:36 -0700 (PDT)
-Date: Tue, 1 Sep 2020 12:15:34 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Kukjin Kim <kgene@kernel.org>, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org
-Subject: Re: [RFT 2/4] ARM: dts: exynos: Move fixed clocks under root node in
- Exynos3250
-Message-ID: <20200901101534.GE23793@kozik-lap>
-References: <20200829172532.29358-1-krzk@kernel.org>
- <20200829172532.29358-2-krzk@kernel.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=3GIpy2hsxgFsBlpT+dsHbTbTluNWsmd1rZYjI09Uxc8=;
+ b=BiOI1FVi6wWMCTTAdk6ljOn4167AZLPLuwDrgFYZBaLXSq/BCVcdaf69ZvRdnDhFQd
+ VhXVHWUheZnmFQy6+9iYPmCME/bTRuKSBI9x1cE7tknrV9Z4lwawLbNQ/5venoqH/06N
+ htQWw/7txxmeSmkBuVMY2oKFSwKv+m1Qu6hSS3NU4u6fXXYkcsuAwFQ1dwmJThS6NUPh
+ vDxwAiZ8TnM04OEntLeHtSPmXreyacdeVUJ5tLYwmmFRpgRPi2NdYXEpeV567JFdjODw
+ lU1qzWaGnGbo7V3gU5zTqn7ugaFMO/H8tmn3jcAGfHjD7j3j+PyYw2TviUpPushe/beg
+ cl2w==
+X-Gm-Message-State: AOAM531xB8ExFis9yd+ba8yWvqkwZJ/y7YVGOWbWOiYIA3hAfckMybEB
+ 4AE8MfM053sYn9Dux1VFT8zy8Q==
+X-Google-Smtp-Source: ABdhPJy0gJSV+RL3QsNU+fR8THpAo9rjW3MvBEvOVXFmBzuJReNfV54lLhSlHCW2A7mUll0ZBu5M0g==
+X-Received: by 2002:a1c:f207:: with SMTP id s7mr1096430wmc.22.1598955609706;
+ Tue, 01 Sep 2020 03:20:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m3sm800807wmb.26.2020.09.01.03.20.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 03:20:08 -0700 (PDT)
+Date: Tue, 1 Sep 2020 12:20:06 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 1/2] drm/virtio: fix unblank
+Message-ID: <20200901102006.GZ2352366@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel@lists.freedesktop.org, 1882851@bugs.launchpad.net,
+ David Airlie <airlied@linux.ie>, Chia-I Wu <olvaffe@gmail.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20200818072511.6745-1-kraxel@redhat.com>
+ <20200818072511.6745-2-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200829172532.29358-2-krzk@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200818072511.6745-2-kraxel@redhat.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,31 +71,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sylwester Nawrocki <snawrocki@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ 1882851@bugs.launchpad.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 29, 2020 at 07:25:30PM +0200, Krzysztof Kozlowski wrote:
-> The fixed clocks are kept under dedicated node fixed-rate-clocks, thus a
-> fake "reg" was added.  This is not correct with dtschema as fixed-clock
-> binding does not have a "reg" property:
+On Tue, Aug 18, 2020 at 09:25:10AM +0200, Gerd Hoffmann wrote:
+> When going through a disable/enable cycle without changing the
+> framebuffer the optimization added by commit 3954ff10e06e ("drm/virtio:
+> skip set_scanout if framebuffer didn't change") causes the screen stay
+> blank.  Add a bool to force an update to fix that.
 > 
->   arch/arm/boot/dts/exynos3250-artik5-eval.dt.yaml: clock@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+> v2: use drm_atomic_crtc_needs_modeset() (Daniel).
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: 1882851@bugs.launchpad.net
+> Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn't change")
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  arch/arm/boot/dts/exynos3250.dtsi | 42 +++++++++++++------------------
->  1 file changed, 17 insertions(+), 25 deletions(-)
+>  drivers/gpu/drm/virtio/virtgpu_drv.h     |  1 +
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 11 +++++++++++
+>  drivers/gpu/drm/virtio/virtgpu_plane.c   |  4 +++-
+>  3 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 9ff9f4ac0522..4ab1b0ba2925 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -138,6 +138,7 @@ struct virtio_gpu_output {
+>  	int cur_x;
+>  	int cur_y;
+>  	bool enabled;
+> +	bool needs_modeset;
 
-Applied.
+Maybe for a follow-up in -next: The clean atomic way of doing this is to
+put this into a virtio_crtc_state, compute it in atomic_check, and then
+fish it out (through old_state->state lookup, somewhat contrived I know)
+in the commit side. Putting random atomic commit state tracking stuff into
+non-state structures without appropriate amounts of locks is kinda iffy
+and means more work for reviewers pondering whether it all works
+correctly.
 
-Best regards,
-Krzysztof
+Cheers, Daniel
 
+
+>  };
+>  #define drm_crtc_to_virtio_gpu_output(x) \
+>  	container_of(x, struct virtio_gpu_output, crtc)
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+> index 2c2742b8d657..6c26b41f4e0d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> @@ -123,6 +123,17 @@ static int virtio_gpu_crtc_atomic_check(struct drm_crtc *crtc,
+>  static void virtio_gpu_crtc_atomic_flush(struct drm_crtc *crtc,
+>  					 struct drm_crtc_state *old_state)
+>  {
+> +	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
+> +
+> +	/*
+> +	 * virtio-gpu can't do modeset and plane update operations
+> +	 * independant from each other.  So the actual modeset happens
+> +	 * in the plane update callback, and here we just check
+> +	 * whenever we must force the modeset.
+> +	 */
+> +	if (drm_atomic_crtc_needs_modeset(crtc->state)) {
+> +		output->needs_modeset = true;
+> +	}
+>  }
+>  
+>  static const struct drm_crtc_helper_funcs virtio_gpu_crtc_helper_funcs = {
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> index 52d24179bcec..65757409d9ed 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+> @@ -163,7 +163,9 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+>  	    plane->state->src_w != old_state->src_w ||
+>  	    plane->state->src_h != old_state->src_h ||
+>  	    plane->state->src_x != old_state->src_x ||
+> -	    plane->state->src_y != old_state->src_y) {
+> +	    plane->state->src_y != old_state->src_y ||
+> +	    output->needs_modeset) {
+> +		output->needs_modeset = false;
+>  		DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
+>  			  bo->hw_res_handle,
+>  			  plane->state->crtc_w, plane->state->crtc_h,
+> -- 
+> 2.18.4
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
