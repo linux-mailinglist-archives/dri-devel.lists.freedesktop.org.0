@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E918C258981
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:44:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4A5258986
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 09:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3F36E81E;
-	Tue,  1 Sep 2020 07:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965D36E81F;
+	Tue,  1 Sep 2020 07:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F44E6E81E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 07:44:34 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id e11so360283wme.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 00:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=vJXOiNPInTnV43yDjf0Yi2LM76W5p/LybHdJ0wWlulE=;
- b=kVa/81Bw0CKT3+qMUTEsfmSWzu0/3IFTFIsLvj1oxheFdl4gSdyHZ897Ijacpt14q5
- VbyGwp2DL8UIlCM5Z/46BfqzIYDped9vkqVjhL6rcAMPWvhvj2q+ZIzHdgzcEG3+O0ZI
- pfwOHEvtWoHJhCCI7Td9slE9MSnjSY5FbK+S8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vJXOiNPInTnV43yDjf0Yi2LM76W5p/LybHdJ0wWlulE=;
- b=O+90CWckhEXiMnt7S4fR2TLC6JDG8ZK598lWjSVH94DN6F12R+WhC9xFemjSC0p6Ww
- UD9cM8ijYZNt426SWFVEcWEKTj3kimxP8SzKGeARPROaiBjKqBB+S0S1IPhSl1kxQgP+
- 7t/e8hS7T85dWJrvdaMe4+F2//QeRyag5t0sGFxItHIicO/QNmNhj8SXxizD6U2rK4+2
- 1vAI6V/q+fknEvdCov+A7srzeX335IjI+7CJ4g9bFgyx0t6EQx7C7JSdBsqx4xfAEvdE
- f2Xv28sRZsNppzbShec0xQsBasiR62c2a4G4vHfa6s8Fvk+VAMhYKp5DvHW+NFRqXO+f
- GaQA==
-X-Gm-Message-State: AOAM533r+AwLBZqyVzjqn5w8eUfYD63TrrKmH2/thF8wlAZOLKNYcnVg
- mmzcjuqtAnSJ5t7mWoTFQJotCypb8+a4Blpf
-X-Google-Smtp-Source: ABdhPJxw1WA9BE/gyGm+ZbDWWtK6pQy79ffSjVsaOdguGrkHPm4sfGMOE4ljs2t3JR/wONmWqINVcA==
-X-Received: by 2002:a7b:c1c6:: with SMTP id a6mr441926wmj.97.1598946272861;
- Tue, 01 Sep 2020 00:44:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t1sm561500wmi.16.2020.09.01.00.44.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 00:44:32 -0700 (PDT)
-Date: Tue, 1 Sep 2020 09:44:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH 3/3] drm/amdgpu: Embed drm_device into amdgpu_device (v2)
-Message-ID: <20200901074430.GU2352366@phenom.ffwll.local>
-References: <20200819050042.7370-1-luben.tuikov@amd.com>
- <20200819050042.7370-4-luben.tuikov@amd.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E76526E81F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 07:46:18 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0817k83L056118;
+ Tue, 1 Sep 2020 02:46:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1598946368;
+ bh=IArKfXZjgWen9X3q7V/DQYJ14EV6u7IF2HjW9A6oRts=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=S3yYZOhgjNY+2Pafmm6vxaksZY3A6sXjztPLPMIHZ2lpaGx/hCS/oQEdZ74sq0E0L
+ auF29YHwaaLT7+VLZe+VwoWhf5/OP6jY6wVzu12JzzKaeMD6qNErJj8RsPtVGMffVz
+ CqVIiGTV/MXvKG/oGWxSnyxjB8d8JN+U7Zvp5AdI=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0817k8vJ130624;
+ Tue, 1 Sep 2020 02:46:08 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Sep
+ 2020 02:46:07 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 1 Sep 2020 02:46:07 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0817k3oJ118971;
+ Tue, 1 Sep 2020 02:46:04 -0500
+Subject: Re: [PATCH v9 2/3] drm: bridge: Add support for Cadence MHDP8546
+ DPI/DP bridge
+To: Swapnil Jakhade <sjakhade@cadence.com>,
+ <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>
+References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
+ <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <71452de7-80e7-0144-4802-e3370c00854b@ti.com>
+Date: Tue, 1 Sep 2020 10:46:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200819050042.7370-4-luben.tuikov@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,332 +63,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
+ yamonkar@cadence.com, jonas@kwiboo.se, airlied@linux.ie,
+ narmstrong@baylibre.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
+ jsarha@ti.com, a.hajda@samsung.com, robh+dt@kernel.org, nikhil.nd@ti.com,
+ mparab@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 19, 2020 at 01:00:42AM -0400, Luben Tuikov wrote:
-> a) Embed struct drm_device into struct amdgpu_device.
-> b) Modify the inline-f drm_to_adev() accordingly.
-> c) Modify the inline-f adev_to_drm() accordingly.
-> d) Eliminate the use of drm_device.dev_private,
->    in amdgpu.
-> e) Switch from using drm_dev_alloc() to
->    drm_dev_init().
-> f) Add a DRM driver release function, which frees
->    the container amdgpu_device after all krefs on
->    the contained drm_device have been released.
-> 
-> v2: Split out adding adev_to_drm() into its own
->     patch (previous commit), making this patch
->     more succinct and clear. More detailed commit
->     description.
-> 
-> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 10 ++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 15 +++-----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 43 ++++++++++++++--------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 20 +++-------
->  4 files changed, 43 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 735480cc7dcf..107a6ec920f7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -724,8 +724,8 @@ struct amd_powerplay {
->  #define AMDGPU_MAX_DF_PERFMONS 4
->  struct amdgpu_device {
->  	struct device			*dev;
-> -	struct drm_device		*ddev;
->  	struct pci_dev			*pdev;
-> +	struct drm_device		ddev;
->  
->  #ifdef CONFIG_DRM_AMD_ACP
->  	struct amdgpu_acp		acp;
-> @@ -990,12 +990,12 @@ struct amdgpu_device {
->  
->  static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
->  {
-> -	return ddev->dev_private;
-> +	return container_of(ddev, struct amdgpu_device, ddev);
->  }
->  
->  static inline struct drm_device *adev_to_drm(struct amdgpu_device *adev)
->  {
-> -	return adev->ddev;
-> +	return &adev->ddev;
->  }
->  
->  static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
-> @@ -1004,8 +1004,6 @@ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
->  }
->  
->  int amdgpu_device_init(struct amdgpu_device *adev,
-> -		       struct drm_device *ddev,
-> -		       struct pci_dev *pdev,
->  		       uint32_t flags);
->  void amdgpu_device_fini(struct amdgpu_device *adev);
->  int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
-> @@ -1195,7 +1193,7 @@ static inline void *amdgpu_atpx_get_dhandle(void) { return NULL; }
->  extern const struct drm_ioctl_desc amdgpu_ioctls_kms[];
->  extern const int amdgpu_max_kms_ioctl;
->  
-> -int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags);
-> +int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags);
->  void amdgpu_driver_unload_kms(struct drm_device *dev);
->  void amdgpu_driver_lastclose_kms(struct drm_device *dev);
->  int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 07012d71eeea..6e529548e708 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -1216,7 +1216,8 @@ static int amdgpu_device_check_arguments(struct amdgpu_device *adev)
->   * Callback for the switcheroo driver.  Suspends or resumes the
->   * the asics before or after it is powered up using ACPI methods.
->   */
-> -static void amdgpu_switcheroo_set_state(struct pci_dev *pdev, enum vga_switcheroo_state state)
-> +static void amdgpu_switcheroo_set_state(struct pci_dev *pdev,
-> +					enum vga_switcheroo_state state)
->  {
->  	struct drm_device *dev = pci_get_drvdata(pdev);
->  	int r;
-> @@ -2977,8 +2978,6 @@ static const struct attribute *amdgpu_dev_attributes[] = {
->   * amdgpu_device_init - initialize the driver
->   *
->   * @adev: amdgpu_device pointer
-> - * @ddev: drm dev pointer
-> - * @pdev: pci dev pointer
->   * @flags: driver flags
->   *
->   * Initializes the driver info and hw (all asics).
-> @@ -2986,18 +2985,15 @@ static const struct attribute *amdgpu_dev_attributes[] = {
->   * Called at driver startup.
->   */
->  int amdgpu_device_init(struct amdgpu_device *adev,
-> -		       struct drm_device *ddev,
-> -		       struct pci_dev *pdev,
->  		       uint32_t flags)
->  {
-> +	struct drm_device *ddev = adev_to_drm(adev);
-> +	struct pci_dev *pdev = adev->pdev;
->  	int r, i;
->  	bool boco = false;
->  	u32 max_MBps;
->  
->  	adev->shutdown = false;
-> -	adev->dev = &pdev->dev;
-> -	adev->ddev = ddev;
-> -	adev->pdev = pdev;
->  	adev->flags = flags;
->  
->  	if (amdgpu_force_asic_type >= 0 && amdgpu_force_asic_type < CHIP_LAST)
-> @@ -3451,9 +3447,8 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
->  	struct drm_connector_list_iter iter;
->  	int r;
->  
-> -	if (dev == NULL || dev->dev_private == NULL) {
-> +	if (!dev)
->  		return -ENODEV;
+Hi Swapnil,
 
-Random comment, but is this really still needed?
+On 31/08/2020 11:23, Swapnil Jakhade wrote:
 
-This pattern goes back to dri1 shadow attach trickery where everything was
-horrible and we could end up with a device but not a device and trying to
-suspend it.
-
-With a proper kms pci device you shouldn't ever end up in this situation
-where the drm_device doesn't exist or isn't completely set up, but we're
-trying to suspend. Maybe wrap in a WARN_ON at least?
--Daniel
-
-> -	}
->  
->  	adev = drm_to_adev(dev);
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 38023c879db1..6866c515f00a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -1082,7 +1082,7 @@ static struct drm_driver kms_driver;
->  static int amdgpu_pci_probe(struct pci_dev *pdev,
->  			    const struct pci_device_id *ent)
->  {
-> -	struct drm_device *dev;
-> +	struct drm_device *ddev;
->  	struct amdgpu_device *adev;
->  	unsigned long flags = ent->driver_data;
->  	int ret, retry = 0;
-> @@ -1138,36 +1138,42 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->  	if (ret)
->  		return ret;
->  
-> -	dev = drm_dev_alloc(&kms_driver, &pdev->dev);
-> -	if (IS_ERR(dev))
-> -		return PTR_ERR(dev);
-> +	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-> +	if (!adev)
-> +		return -ENOMEM;
-> +
-> +	adev->dev  = &pdev->dev;
-> +	adev->pdev = pdev;
-> +	ddev = adev_to_drm(adev);
-> +	ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
-> +	if (ret)
-> +		goto err_free;
->  
->  	if (!supports_atomic)
-> -		dev->driver_features &= ~DRIVER_ATOMIC;
-> +		ddev->driver_features &= ~DRIVER_ATOMIC;
->  
->  	ret = pci_enable_device(pdev);
->  	if (ret)
->  		goto err_free;
->  
-> -	dev->pdev = pdev;
-> +	ddev->pdev = pdev;
-> +	pci_set_drvdata(pdev, ddev);
->  
-> -	pci_set_drvdata(pdev, dev);
-> -
-> -	ret = amdgpu_driver_load_kms(dev, ent->driver_data);
-> +	ret = amdgpu_driver_load_kms(adev, ent->driver_data);
->  	if (ret)
->  		goto err_pci;
->  
->  retry_init:
-> -	ret = drm_dev_register(dev, ent->driver_data);
-> +	ret = drm_dev_register(ddev, ent->driver_data);
->  	if (ret == -EAGAIN && ++retry <= 3) {
->  		DRM_INFO("retry init %d\n", retry);
->  		/* Don't request EX mode too frequently which is attacking */
->  		msleep(5000);
->  		goto retry_init;
-> -	} else if (ret)
-> +	} else if (ret) {
->  		goto err_pci;
-> +	}
->  
-> -	adev = drm_to_adev(dev);
->  	ret = amdgpu_debugfs_init(adev);
->  	if (ret)
->  		DRM_ERROR("Creating debugfs files failed (%d).\n", ret);
-> @@ -1177,7 +1183,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->  err_pci:
->  	pci_disable_device(pdev);
->  err_free:
-> -	drm_dev_put(dev);
-> +	drm_dev_put(ddev);
->  	return ret;
->  }
->  
-> @@ -1197,6 +1203,14 @@ amdgpu_pci_remove(struct pci_dev *pdev)
->  	drm_dev_put(dev);
->  }
->  
-> +static void amdgpu_driver_release(struct drm_device *ddev)
+> +static int cdns_mhdp_validate_mode_params(struct cdns_mhdp_device *mhdp,
+> +					  const struct drm_display_mode *mode,
+> +					  struct drm_bridge_state *bridge_state)
 > +{
-> +	struct amdgpu_device *adev = drm_to_adev(ddev);
+> +	u32 tu_size = 30, line_thresh1, line_thresh2, line_thresh = 0;
+> +	u32 rate, vs, vs_f, required_bandwidth, available_bandwidth;
+> +	struct cdns_mhdp_bridge_state *state;
+> +	int pxlclock;
+> +	u32 bpp;
 > +
-> +	drm_dev_fini(ddev);
-> +	kfree(adev);
+> +	state = to_cdns_mhdp_bridge_state(bridge_state);
+> +
+> +	pxlclock = mode->crtc_clock;
+> +
+> +	/* Get rate in MSymbols per second per lane */
+> +	rate = mhdp->link.rate / 1000;
+> +
+> +	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
+
+None of the above are used when calling cdns_mhdp_bandwidth_ok(). For clarity, I'd move the above
+lines a bit closer to where they are needed, as currently it makes me think the above values are
+used when checking the bandwidth.
+
+> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
+> +				    mhdp->link.rate)) {
+> +		dev_err(mhdp->dev, "%s: Not enough BW for %s (%u lanes at %u Mbps)\n",
+> +			__func__, mode->name, mhdp->link.num_lanes,
+> +			mhdp->link.rate / 100);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* find optimal tu_size */
+> +	required_bandwidth = pxlclock * bpp / 8;
+> +	available_bandwidth = mhdp->link.num_lanes * rate;
+> +	do {
+> +		tu_size += 2;
+> +
+> +		vs_f = tu_size * required_bandwidth / available_bandwidth;
+> +		vs = vs_f / 1000;
+> +		vs_f = vs_f % 1000;
+> +		/* Downspreading is unused currently */
+> +	} while ((vs == 1 || ((vs_f > 850 || vs_f < 100) && vs_f != 0) ||
+> +		 tu_size - vs < 2) && tu_size < 64);
+> +
+> +	if (vs > 64) {
+> +		dev_err(mhdp->dev,
+> +			"%s: No space for framing %s (%u lanes at %u Mbps)\n",
+> +			__func__, mode->name, mhdp->link.num_lanes,
+> +			mhdp->link.rate / 100);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (vs == tu_size)
+> +		vs = tu_size - 1;
+> +
+> +	line_thresh1 = ((vs + 1) << 5) * 8 / bpp;
+> +	line_thresh2 = (pxlclock << 5) / 1000 / rate * (vs + 1) - (1 << 5);
+> +	line_thresh = line_thresh1 - line_thresh2 / mhdp->link.num_lanes;
+> +	line_thresh = (line_thresh >> 5) + 2;
+> +
+> +	state->vs = vs;
+> +	state->tu_size = tu_size;
+> +	state->line_thresh = line_thresh;
+> +
+> +	return 0;
 > +}
 > +
->  static void
->  amdgpu_pci_shutdown(struct pci_dev *pdev)
->  {
-> @@ -1491,6 +1505,7 @@ static struct drm_driver kms_driver = {
->  	.open = amdgpu_driver_open_kms,
->  	.postclose = amdgpu_driver_postclose_kms,
->  	.lastclose = amdgpu_driver_lastclose_kms,
-> +	.release   = amdgpu_driver_release,
->  	.irq_handler = amdgpu_irq_handler,
->  	.ioctls = amdgpu_ioctls_kms,
->  	.gem_free_object_unlocked = amdgpu_gem_object_free,
-> @@ -1525,8 +1540,6 @@ static struct pci_driver amdgpu_kms_pci_driver = {
->  	.driver.pm = &amdgpu_pm_ops,
->  };
->  
-> -
-> -
->  static int __init amdgpu_init(void)
->  {
->  	int r;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> index 47cd3558f9c7..f2a4fdcd542d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@ -86,7 +86,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
->  	amdgpu_unregister_gpu_instance(adev);
->  
->  	if (adev->rmmio == NULL)
-> -		goto done_free;
-> +		return;
->  
->  	if (adev->runpm) {
->  		pm_runtime_get_sync(dev->dev);
-> @@ -96,10 +96,6 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
->  	amdgpu_acpi_fini(adev);
->  
->  	amdgpu_device_fini(adev);
-> -
-> -done_free:
-> -	kfree(adev);
-> -	dev->dev_private = NULL;
->  }
->  
->  void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
-> @@ -130,22 +126,18 @@ void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
->  /**
->   * amdgpu_driver_load_kms - Main load function for KMS.
->   *
-> - * @dev: drm dev pointer
-> + * @adev: pointer to struct amdgpu_device
->   * @flags: device flags
->   *
->   * This is the main load function for KMS (all asics).
->   * Returns 0 on success, error on failure.
->   */
-> -int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
-> +int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags)
->  {
-> -	struct amdgpu_device *adev;
-> +	struct drm_device *dev;
->  	int r, acpi_status;
->  
-> -	adev = kzalloc(sizeof(struct amdgpu_device), GFP_KERNEL);
-> -	if (adev == NULL) {
-> -		return -ENOMEM;
-> -	}
-> -	dev->dev_private = (void *)adev;
-> +	dev = adev_to_drm(adev);
->  
->  	if (amdgpu_has_atpx() &&
->  	    (amdgpu_is_atpx_hybrid() ||
-> @@ -160,7 +152,7 @@ int amdgpu_driver_load_kms(struct drm_device *dev, unsigned long flags)
->  	 * properly initialize the GPU MC controller and permit
->  	 * VRAM allocation
->  	 */
-> -	r = amdgpu_device_init(adev, dev, dev->pdev, flags);
-> +	r = amdgpu_device_init(adev, flags);
->  	if (r) {
->  		dev_err(&dev->pdev->dev, "Fatal error during GPU init\n");
->  		goto out;
-> -- 
-> 2.28.0.215.g878e727637
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> +static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+> +				  struct drm_bridge_state *bridge_state,
+> +				  struct drm_crtc_state *crtc_state,
+> +				  struct drm_connector_state *conn_state)
+> +{
+> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> +	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> +	int ret;
+> +
+> +	mutex_lock(&mhdp->link_mutex);
+> +
+> +	if (!mhdp->plugged) {
+> +		mhdp->link.rate = mhdp->host.link_rate;
+> +		mhdp->link.num_lanes = mhdp->host.lanes_cnt;
+> +	}
+> +
+> +	ret = cdns_mhdp_validate_mode_params(mhdp, mode, bridge_state);
+> +
+> +	mutex_unlock(&mhdp->link_mutex);
+> +
+> +	return ret;
+> +}
+
+Laurent mentioned that atomic_check should not change state. Note that
+cdns_mhdp_validate_mode_params also changes state, as it calculates tu_size, vs and line_thresh.
+
+There seems to be issues with mode changes, but I think the first step would be to clarify the
+related code a bit. cdns_mhdp_validate_mode_params() is misnamed, I think it should be renamed to
+calculate_tu or something like that.
+
+cdns_mhdp_bandwidth_ok() should take display_fmt or bpp as a parameter, as currently it digs that up
+from the current state.
+
+Probably cdns_mhdp_validate_mode_params() would be better if it doesn't write the result to the
+state, but returns the values. That way it could also be used to verify if suitable settings can be
+found, without changing the state.
+
+The are two issues I see with some testing, which are probably related.
+
+The first one is that if I run kmstest with a new mode, I see tu-size & co being calculated. But the
+calculation happens before link training, which doesn't make sense. So I think what's done here is
+that atomic_check causes tu-size calculations, then atomic_enable does link training and enables the
+video.
+
+The second happens when my monitor fails with the first CR after power-on, and the driver drops
+number-of-lanes to 2. It goes like this:
+
+The driver is loaded. Based on EDID, fbdev is created with 1920x1200. Link training is done, which
+has the CR issue, and because of that the actual mode that we get is 1280x960. I get a proper
+picture here, so far so good.
+
+Then if I run kmstest, it only allows 1280x960 as the link doesn't support higher modes (that's ok).
+It the does link training and gets a 4 lane link, and enables 1280x960. But the picture is not ok.
+
+If I then exit kmstest, it goes back to fbdev, but now that picture is broken also.
+
+Running kmstest again gives me 1920x1200 (as the link has been 4 lane now), and the picture is fine.
+
+I think the above suggests that the driver is not properly updating all the registers based on the
+new mode and link. I tried adding cdns_mhdp_validate_mode_params() call to
+cdns_mhdp_atomic_enable(), so that tu-size etc will be calculated, but that did not fix the problem.
+
+ Tomi
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
