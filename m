@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADA725992D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E2C25992A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7753A6E88F;
-	Tue,  1 Sep 2020 16:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8626E88A;
+	Tue,  1 Sep 2020 16:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198266E82B;
- Tue,  1 Sep 2020 08:20:47 +0000 (UTC)
-IronPort-SDR: 8nnsxidtZ5fIZ8nM4vophadf0GTozSY2gmTF3cV5Jwa01blmPVrhrPGp8Q80s0TNz9MEkAj2oz
- tTjO1qLIMT+Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="175172821"
-X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="175172821"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2020 01:20:46 -0700
-IronPort-SDR: MXAxPr2Vzy4qUUKQkiKfJmIYTjihMCgLy8aJui9KHCAcoHAhgh7fPaXmYo8eNojhgSgPzLcQC4
- dd++6Ek6LzEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="330990479"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga008.jf.intel.com with ESMTP; 01 Sep 2020 01:20:42 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1kD1MQ-00DFCK-08; Tue, 01 Sep 2020 11:09:46 +0300
-Date: Tue, 1 Sep 2020 11:09:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v8 06/17] pwm: lpss: Use pwm_lpss_restore() when
- restoring state on resume
-Message-ID: <20200901080945.GM1891694@smile.fi.intel.com>
-References: <20200830125753.230420-1-hdegoede@redhat.com>
- <20200830125753.230420-7-hdegoede@redhat.com>
- <20200831111006.GD1688464@ulmo>
- <d63a89d2-84e5-ca05-aa96-a06291503c5f@redhat.com>
- <20200831131533.GI1689119@ulmo>
- <84887293-11b3-82c9-1e62-bac39861e39e@redhat.com>
+Received: from esa6.hc3370-68.iphmx.com (esa6.hc3370-68.iphmx.com
+ [216.71.155.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDBF6E427
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 08:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1598949224;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=QzGqPaRCnZVxjqPpl6AF6iSX77/n0WkY1Cja56OEeNs=;
+ b=Dca6lZ7e3ndoI8r6/qryN+E4h1kTIsgvEFK7IBkFa3P47phJ6r10vKr0
+ +z6LizmjeHbvQKJBMmGYi6qW+OG55AK9qnmYp25A7Y8XacbtHeueYZCpN
+ J9VNE/xlOsBreZ4Z5kuJO9XktJ6+MrQBHFvq4Wpt7wp+LL64hTW3naVXh A=;
+Authentication-Results: esa6.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: P0Ki/2b6mGa7pA1kqv/yHJEYGZ0xQ5RKAnnYciHHQu9+ozbehl7aTLhqS7TsmIqN1+lFdBA2a9
+ YM8aY9TgwPAc3ZTssNFiElD1kH3pZNZrmb9idWz2MNankSE+bm4Wh4gAgP/HZ0wtix/XOEQxz2
+ fahYv9vYNdm2yXqMi4Lx8AYZKjX0g3Wz6gC3nv5LsslNCzlzeU2Yxw6gdSPgs+07all1BEuJWf
+ xBsiJhhiZ56EmPvlzqDlvphkbjyBG8gF8aXF6k+tJiRMgpJUdust+wSQCx3dbmJ4nY0YdY+Au0
+ 418=
+X-SBRS: 2.7
+X-MesageID: 26017058
+X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.76,378,1592884800"; d="scan'208";a="26017058"
+From: Roger Pau Monne <roger.pau@citrix.com>
+To: <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 3/3] xen: add helpers to allocate unpopulated memory
+Date: Tue, 1 Sep 2020 10:33:26 +0200
+Message-ID: <20200901083326.21264-4-roger.pau@citrix.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200901083326.21264-1-roger.pau@citrix.com>
+References: <20200901083326.21264-1-roger.pau@citrix.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <84887293-11b3-82c9-1e62-bac39861e39e@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Mailman-Approved-At: Tue, 01 Sep 2020 16:37:23 +0000
+X-Mailman-Approved-At: Tue, 01 Sep 2020 16:37:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,251 +56,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Yan
+ Yankovskyi <yyankovskyi@gmail.com>, David Hildenbrand <david@redhat.com>,
+ dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, xen-devel@lists.xenproject.org,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Roger Pau Monne <roger.pau@citrix.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 31, 2020 at 07:57:30PM +0200, Hans de Goede wrote:
-> On 8/31/20 3:15 PM, Thierry Reding wrote:
-> > On Mon, Aug 31, 2020 at 01:46:28PM +0200, Hans de Goede wrote:
-> > > On 8/31/20 1:10 PM, Thierry Reding wrote:
-> > > > On Sun, Aug 30, 2020 at 02:57:42PM +0200, Hans de Goede wrote:
-> > > > > Before this commit a suspend + resume of the LPSS PWM controller
-> > > > > would result in the controller being reset to its defaults of
-> > > > > output-freq = clock/256, duty-cycle=100%, until someone changes
-> > > > > to the output-freq and/or duty-cycle are made.
-> > > > > 
-> > > > > This problem has been masked so far because the main consumer
-> > > > > (the i915 driver) was always making duty-cycle changes on resume.
-> > > > > With the conversion of the i915 driver to the atomic PWM API the
-> > > > > driver now only disables/enables the PWM on suspend/resume leaving
-> > > > > the output-freq and duty as is, triggering this problem.
-> > > > 
-> > > > Doesn't this imply that there's another bug at play here? At the PWM API
-> > > > level you're applying a state and it's up to the driver to ensure that
-> > > > the hardware state after ->apply() is what the software has requested.
-> > > > 
-> > > > If you only switch the enable state and that doesn't cause period and
-> > > > duty cycle to be updated it means that your driver isn't writing those
-> > > > registers when it should be.
-> > > 
-> > > Right, the driver was not committing those as it should *on resume*,
-> > > that and it skips setting the update bit on the subsequent enable,
-> > > which is an optimization which gets removed in 7/17.
-> > > 
-> > > Before switching the i915 driver over to atomic, when the LPSS-PWM
-> > > was used for the backlight we got the following order on suspend/resume
-> > > 
-> > > 1. Set duty-cycle to 0%
-> > > 2. Set enabled to 0
-> > > 3. Save ctrl reg
-> > > 4. Power-off PWM controller, it now looses all its state
-> > > 5. Power-on PWM ctrl
-> > > 6. Restore ctrl reg (as a single reg write)
-> > > 7. Set enabled to 1, at this point one would expect the
-> > > duty/freq from the restored ctrl-reg to apply, but:
-> > > a) The resume code never sets the update bit (which this commit fixes); and
-> > > b) On applying the pwm_state with enabled=1 the code applying the
-> > > state does this (before setting the enabled bit in the ctrl reg):
-> > > 
-> > > 	if (orig_ctrl != ctrl) {
-> > > 		pwm_lpss_write(pwm, ctrl);
-> > > 		pwm_lpss_write(pwm, ctrl | PWM_SW_UPDATE);
-> > > 	}
-> > > and since the restore of the ctrl reg set the old duty/freq the
-> > > writes are skipped, so the update bit never gets set.
-> > > 
-> > > 8. Set duty-cycle to the pre-suspend value (which is not 0)
-> > > this does cause a change in the ctrl-reg, so now the update flag
-> > > does get set.
-> > > 
-> > > Note that 1-2 and 7-8 are both done by the non atomic i915 code,
-> > > when moving the i915 code to atomic I decided that having these
-> > > 2 separate steps here is non-sense, so the new i915 code just
-> > > toggles the enable bit. So in essence the new atomic PWM
-> > > i915 code drops step 1 and 8.
-> > > 
-> > > Dropping steps 8 means that the update bit never gets set and we
-> > > end up with the PWM running at its power-on-reset duty cycle.
-> > > 
-> > > You are correct in your remark to patch 7/17 that since that removes
-> > > the if (orig_ctrl != ctrl) for the writes that now step 7 will be
-> > > sufficient to get the PWM to work again. But that only takes the i915
-> > > usage into account.
-> > > 
-> > > What if the PWM is used through the sysfs userspace API?
-> > > Then only steps 3-6 will happen on suspend-resume and without
-> > > fixing step 6 to properly restore the PWM controller in its
-> > > pre-resume state (this patch) it will once again be running at
-> > > its power-on-reset defaults instead of the values from the
-> > > restored control register.
-> > 
-> > Actually PWM's sysfs code has suspend/resume callbacks that basically
-> > make sysfs just a regular consumer of PWMs. So they do end up doing a
-> > pwm_apply_state() on the PWM as well on suspend and restore the state
-> > from before suspend on resume.
-> > 
-> > This was done very specifically because the suspend/resume order can be
-> > unexpected under some circumstances, so for PWM we really want for the
-> > consumer to always have ultimate control over when precisely the PWM is
-> > restored on resume.
-> > 
-> > The reason why we did this was because people observed weird glitches on
-> > suspend/resume with different severity. In some cases a backlight would
-> > be resumed before the display controller had had a chance to start
-> > sending frames, causing on-screen corruption in some cases (such as
-> > smart displays) and in other cases a PWM-controller regulator would be
-> > resumed too late or too early, which I think was causing some issue with
-> > the CPUs not working properly on resume.
-> > 
-> > So I'd prefer not to have any PWM driver save and restore its own
-> > context on suspend/resume, because that's inevitably going to cause
-> > unexpected behaviour at some point. If it's absolutely necessary we can
-> > of course still do that, but I think in that case we need to at least
-> > add a comment in the code about why context save/restore is needed in
-> > this particular case and make it clear that this is not something that
-> > other drivers should copy because they most likely won't be needing it.
-> > 
-> > Given the above it also doesn't sound to me like there's a real problem,
-> > or at least that the bug is somewhere else. A consumer should always be
-> > responsible for applying the pre-suspend state upon resume and it sounds
-> > like that would be true after patch 7. Since sysfs is just a regular
-> > consumer, the same should apply for sysfs-controlled PWMs as well.
-> 
-> Ok, I was not aware that for PWM the consumer is supposed to always
-> be the one to restore the state. If that is the rule then we should probably
-> just drop the save/restore suspend/resume code from pwm-lpss.
-> 
-> It seems that I'm actually responsible for adding that suspend/resume
-> code in the first place, see commit 1d375b58c12f ("pwm: lpss: platform:
-> Save/restore the ctrl register over a suspend/resume") although the
-> ctrl-register was already being saved/restored before that commit
-> but then by the acpi/acpi_lpss.c code.
-> 
-> One worry after dropping the suspend/resume save/restore code is what
-> happens if the controller was enabled at the moment the system suspends
-> and the consumers first post resume apply() call has pwm_state.enabled
-> set too.
-> 
-> Currently pwm_lpss_apply() looks like this:
-> 
->         if (state->enabled) {
->                 if (!pwm_is_enabled(pwm)) {
->                         pm_runtime_get_sync(chip->dev);
->                         ret = pwm_lpss_prepare_enable(lpwm, pwm, state, true);
->                         if (ret)
->                                 pm_runtime_put(chip->dev);
->                 } else {
->                         ret = pwm_lpss_prepare_enable(lpwm, pwm, state, false);
->                 }
->         } else if (pwm_is_enabled(pwm)) {
-> 
-> Where the true / false parameter to pwm_lpss_prepare_enable()
-> decides if pwm_lpss_prepare_enable() sets the enable bit in the controllers
-> ctrl register, or if it skips that.
-> 
-> If we then come from a full system suspend (controller loses state,
-> comes up with enable bit cleared) we will still enter the:
-> 
->                         ret = pwm_lpss_prepare_enable(lpwm, pwm, state, false);
-> 
-> Path since the !pwm_is_enabled(pwm) check checks the pwm_state struct,
-> not the actual hw-enabled bit and then we do not (re)set the enabled after
-> resume as we should when apply() is called with pwm_state.enabled set.
-> 
-> Fixing this is easy though, we still need to check for the disabled ->
-> enabled transition for runtime pm refcounting, but we can also tell
-> pwm_lpss_prepare_enable() to set the enable bit in the other path, this
-> will be a no-op in case it is already set.
-> 
-> So then the new apply() code would become:
-> 
->         if (state->enabled) {
->                 if (!pwm_is_enabled(pwm)) {
->                         pm_runtime_get_sync(chip->dev);
->                         ret = pwm_lpss_prepare_enable(lpwm, pwm, state, true);
->                         if (ret)
->                                 pm_runtime_put(chip->dev);
->                 } else {
->                         ret = pwm_lpss_prepare_enable(lpwm, pwm, state, true);
->                 }
->         } else if (pwm_is_enabled(pwm)) {
-> 
-> (and we can even optimize out the enable parameter to pwm_lpss_prepare_enable
-> then and always make it set the enable bit).
-> 
-> Together with patch 07/16 will make apply() always work independent of
-> the state the controller was in before it got called. Which in light of
-> all the subtle issues we have seen surrounding this is likely a good thing.
-> 
-> And with the fix to make apply() fully independent of the previous state
-> of the controller, I'm all for dropping the suspend/resume state
-> save/restore code.  Doing that makes things more KISS so I like it :)
-> 
-> > > So at step 6, if the PWM was enabled before, we must set the update
-> > > bit, and then wait for it to clear again so the controller is
-> > > ready for subsequent updates. The waiting for it to clear again
-> > > needs to happen before or after setting the enable bit depending
-> > > on the hw generation, which leads to this patch.
-> > 
-> > But all of that should be happening as part of the call to
-> > pwm_apply_state(), right? That path should be taken for all consumers on
-> > resume, including sysfs.
-> 
-> Ack.
-> 
-> <snip>
-> 
-> > > See above, apply() was trying to be smart but the restore of ctrl
-> > > on resume without setting the update bit was tricking it. That
-> > > being too smart for its own good is removed in 7/16 as you
-> > > rightfully point out. But this patch is still necessary for the
-> > > PWM controller to be in the expected state between resume and the
-> > > first apply() after resume (which may be quite a long time in
-> > > the future when using e.g. the sysfs API).
-> > 
-> > Like I said, the sysfs code should be resuming any exported PWMs on
-> > resume just like any other consumer.
-> > 
-> > Obviously it's always up to the consumer to call pwm_apply_state() at
-> > the right time. If that's "too late" for some reason, then that's a bug
-> > in the consumer driver. But as I explained above there are a number of
-> > cases where restoring context in the PWM driver itself doesn't work
-> > because it can cause sequencing issues.
-> 
-> Ack, I was not aware that PWM consumers are responsible for restoring
-> their own state on resume. If that is the case then:
-> 
-> TL;DR:
-> 
-> 1. We (I) should make apply() work independent of the current
-> hardware state, instead of having it make various assumptions
-> about that state as it now does.
-> 
-> 2. We (I) should drop the suspend/resume save/restore state
-> handlers from pwm-lpss completely.
-> 
-> So I believe that I should prepare yet another version of this
-> patch-set replacing 06/17 and 07/17 with 2 patches doing these
-> 2 things.
-> 
-> Thierry, Andy, does that sound good to you ?
-
-Good to me, thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VG8gYmUgdXNlZCBpbiBvcmRlciB0byBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4gVGhpcyBpcyBi
+YXNlZCBvbiB0aGUKWk9ORV9ERVZJQ0UgZmFjaWxpdHkgd2hpY2ggaXMgdXNlZCBieSBwZXJzaXN0
+ZW50IG1lbW9yeSBkZXZpY2VzIGluCm9yZGVyIHRvIGNyZWF0ZSBzdHJ1Y3QgcGFnZXMgYW5kIGtl
+cm5lbCB2aXJ0dWFsIG1hcHBpbmdzIGZvciB0aGUgSU9NRU0KYXJlYXMgb2Ygc3VjaCBkZXZpY2Vz
+LiBOb3RlIHRoYXQgb24ga2VybmVscyB3aXRob3V0IHN1cHBvcnQgZm9yClpPTkVfREVWSUNFIFhl
+biB3aWxsIGZhbGxiYWNrIHRvIHVzZSBiYWxsb29uZWQgcGFnZXMgaW4gb3JkZXIgdG8KY3JlYXRl
+IGZvcmVpZ24gbWFwcGluZ3MuCgpUaGUgbmV3bHkgYWRkZWQgaGVscGVycyB1c2UgdGhlIHNhbWUg
+cGFyYW1ldGVycyBhcyB0aGUgZXhpc3RpbmcKe2FsbG9jL2ZyZWV9X3hlbmJhbGxvb25lZF9wYWdl
+cyBmdW5jdGlvbnMsIHdoaWNoIGFsbG93cyBmb3IgaW4tcGxhY2UKcmVwbGFjZW1lbnQgb2YgdGhl
+IGNhbGxlcnMuIE9uY2UgYSBtZW1vcnkgcmVnaW9uIGhhcyBiZWVuIGFkZGVkIHRvIGJlCnVzZWQg
+YXMgc2NyYXRjaCBtYXBwaW5nIHNwYWNlIGl0IHdpbGwgbm8gbG9uZ2VyIGJlIHJlbGVhc2VkLCBh
+bmQgcGFnZXMKcmV0dXJuZWQgYXJlIGtlcHQgaW4gYSBsaW5rZWQgbGlzdC4gVGhpcyBhbGxvd3Mg
+dG8gaGF2ZSBhIGJ1ZmZlciBvZgpwYWdlcyBhbmQgcHJldmVudHMgcmVzb3J0aW5nIHRvIGZyZXF1
+ZW50IGFkZGl0aW9ucyBhbmQgcmVtb3ZhbHMgb2YKcmVnaW9ucy4KCklmIGVuYWJsZWQgKGJlY2F1
+c2UgWk9ORV9ERVZJQ0UgaXMgc3VwcG9ydGVkKSB0aGUgdXNhZ2Ugb2YgdGhlIG5ldwpmdW5jdGlv
+bmFsaXR5IHVudGFuZ2xlcyBYZW4gYmFsbG9vbiBhbmQgUkFNIGhvdHBsdWcgZnJvbSB0aGUgdXNh
+Z2Ugb2YKdW5wb3B1bGF0ZWQgcGh5c2ljYWwgbWVtb3J5IHJhbmdlcyB0byBtYXAgZm9yZWlnbiBw
+YWdlcywgd2hpY2ggaXMgdGhlCmNvcnJlY3QgdGhpbmcgdG8gZG8gaW4gb3JkZXIgdG8gYXZvaWQg
+bWFwcGluZ3Mgb2YgZm9yZWlnbiBwYWdlcyBkZXBlbmQKb24gbWVtb3J5IGhvdHBsdWcuCgpOb3Rl
+IHRoZSBkcml2ZXIgaXMgY3VycmVudGx5IG5vdCBlbmFibGVkIG9uIEFybSBwbGF0Zm9ybXMgYmVj
+YXVzZSBpdAp3b3VsZCBpbnRlcmZlcmUgd2l0aCB0aGUgaWRlbnRpdHkgbWFwcGluZyByZXF1aXJl
+ZCBvbiBzb21lIHBsYXRmb3Jtcy4KClNpZ25lZC1vZmYtYnk6IFJvZ2VyIFBhdSBNb25uw6kgPHJv
+Z2VyLnBhdUBjaXRyaXguY29tPgotLS0KQ2M6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtvIDxvbGVr
+c2FuZHJfYW5kcnVzaGNoZW5rb0BlcGFtLmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBs
+aW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IEJvcmlzIE9z
+dHJvdnNreSA8Ym9yaXMub3N0cm92c2t5QG9yYWNsZS5jb20+CkNjOiBKdWVyZ2VuIEdyb3NzIDxq
+Z3Jvc3NAc3VzZS5jb20+CkNjOiBTdGVmYW5vIFN0YWJlbGxpbmkgPHNzdGFiZWxsaW5pQGtlcm5l
+bC5vcmc+CkNjOiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+CkNjOiBS
+b2dlciBQYXUgTW9ubmUgPHJvZ2VyLnBhdUBjaXRyaXguY29tPgpDYzogV2VpIExpdSA8d2xAeGVu
+Lm9yZz4KQ2M6IFlhbiBZYW5rb3Zza3lpIDx5eWFua292c2t5aUBnbWFpbC5jb20+CkNjOiBkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiB4ZW4tZGV2ZWxAbGlzdHMueGVucHJvamVj
+dC5vcmcKQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwpDYzogRGF2aWQgSGlsZGVuYnJhbmQgPGRhdmlk
+QHJlZGhhdC5jb20+CkNjOiBNaWNoYWwgSG9ja28gPG1ob2Nrb0BrZXJuZWwub3JnPgpDYzogRGFu
+IFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Ci0tLQpDaGFuZ2VzIHNpbmNlIHY0
+OgogLSBJbnRyb2R1Y2UgYSBkZXNjcmlwdGlvbiBmb3IgdGhlIG9wdGlvbi4KIC0gRm9yY2Ugc2Vs
+ZWN0aW9uIG9mIFpPTkVfREVWSUNFIG9uIFg4NiBhbmQgc2VsZWN0CiAgIFhFTl9VTlBPUFVMQVRF
+RF9BTExPQyBpZiBydW5uaW5nIG9uIGRvbTAgbW9kZSBvciBoYXZpbmcgYW55CiAgIGJhY2tlbmRz
+LgoKQ2hhbmdlcyBzaW5jZSB2MzoKIC0gSW50cm9kdWNlIGEgS2NvbmZpZyBvcHRpb24gdGhhdCBn
+YXRlcyB0aGUgYWRkaXRpb24gb2YgdGhlCiAgIHVucG9wdWxhdGVkIGFsbG9jIGRyaXZlci4gVGhp
+cyBhbGxvd3MgdG8gZWFzaWx5IGRpc2FibGUgaXQgb24gQXJtCiAgIHBsYXRmb3Jtcy4KIC0gRHJv
+cHBlZCBKdWVyZ2VuIFJCIGR1ZSB0byB0aGUgYWRkaXRpb24gb2YgdGhlIEtjb25maWcgb3B0aW9u
+LgogLSBTd2l0Y2hlZCBmcm9tIE1FTU9SWV9ERVZJQ0VfREVWREFYIHRvIE1FTU9SWV9ERVZJQ0Vf
+R0VORVJJQy4KCkNoYW5nZXMgc2luY2UgdjI6CiAtIERyb3AgQlVJTERfQlVHX09OIHJlZ2FyZGlu
+ZyBQVk1NVSBwYWdlIHNpemVzLgogLSBVc2UgYSBTUERYIGxpY2Vuc2UgaWRlbnRpZmllci4KIC0g
+Q2FsbCBmaWxsIHdpdGggb25seSB0aGUgbWluaW11bSByZXF1aXJlZCBudW1iZXIgb2YgcGFnZXMu
+CiAtIEluY2x1ZGUgeGVuLmggaGVhZGVyIGluIHhlbl9kcm1fZnJvbnRfZ2VtLmMuCiAtIFVzZSBs
+ZXNzIGdlbmVyaWMgZnVuY3Rpb24gbmFtZXMuCiAtIEV4aXQgZWFybHkgZnJvbSB0aGUgaW5pdCBm
+dW5jdGlvbiBpZiBub3QgYSBQViBndWVzdC4KIC0gRG9uJ3QgdXNlIGFsbCBjYXBzIGZvciByZWdp
+b24gbmFtZS4KLS0tCiBkcml2ZXJzL2dwdS9kcm0veGVuL3hlbl9kcm1fZnJvbnRfZ2VtLmMgfCAg
+IDkgKy0KIGRyaXZlcnMveGVuL0tjb25maWcgICAgICAgICAgICAgICAgICAgICB8ICAxMSArKwog
+ZHJpdmVycy94ZW4vTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMv
+eGVuL2JhbGxvb24uYyAgICAgICAgICAgICAgICAgICB8ICAgNCArLQogZHJpdmVycy94ZW4vZ3Jh
+bnQtdGFibGUuYyAgICAgICAgICAgICAgIHwgICA0ICstCiBkcml2ZXJzL3hlbi9wcml2Y21kLmMg
+ICAgICAgICAgICAgICAgICAgfCAgIDQgKy0KIGRyaXZlcnMveGVuL3VucG9wdWxhdGVkLWFsbG9j
+LmMgICAgICAgICB8IDE4NSArKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMveGVuL3hl
+bmJ1cy94ZW5idXNfY2xpZW50LmMgICAgICB8ICAgNiArLQogZHJpdmVycy94ZW4veGxhdGVfbW11
+LmMgICAgICAgICAgICAgICAgIHwgICA0ICstCiBpbmNsdWRlL3hlbi94ZW4uaCAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgIDkgKysKIDEwIGZpbGVzIGNoYW5nZWQsIDIyMiBpbnNlcnRpb25zKCsp
+LCAxNSBkZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3hlbi91bnBvcHVs
+YXRlZC1hbGxvYy5jCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zy
+b250X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dlbS5jCmluZGV4
+IDM5ZmY5NWI3NTM1Ny4uNTM0ZGFmMzdjOTdlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+eGVuL3hlbl9kcm1fZnJvbnRfZ2VtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJt
+X2Zyb250X2dlbS5jCkBAIC0xOCw2ICsxOCw3IEBACiAjaW5jbHVkZSA8ZHJtL2RybV9wcm9iZV9o
+ZWxwZXIuaD4KIAogI2luY2x1ZGUgPHhlbi9iYWxsb29uLmg+CisjaW5jbHVkZSA8eGVuL3hlbi5o
+PgogCiAjaW5jbHVkZSAieGVuX2RybV9mcm9udC5oIgogI2luY2x1ZGUgInhlbl9kcm1fZnJvbnRf
+Z2VtLmgiCkBAIC05OSw4ICsxMDAsOCBAQCBzdGF0aWMgc3RydWN0IHhlbl9nZW1fb2JqZWN0ICpn
+ZW1fY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHNpemVfdCBzaXplKQogCQkgKiBhbGxv
+Y2F0ZSBiYWxsb29uZWQgcGFnZXMgd2hpY2ggd2lsbCBiZSB1c2VkIHRvIG1hcAogCQkgKiBncmFu
+dCByZWZlcmVuY2VzIHByb3ZpZGVkIGJ5IHRoZSBiYWNrZW5kCiAJCSAqLwotCQlyZXQgPSBhbGxv
+Y194ZW5iYWxsb29uZWRfcGFnZXMoeGVuX29iai0+bnVtX3BhZ2VzLAotCQkJCQkgICAgICAgeGVu
+X29iai0+cGFnZXMpOworCQlyZXQgPSB4ZW5fYWxsb2NfdW5wb3B1bGF0ZWRfcGFnZXMoeGVuX29i
+ai0+bnVtX3BhZ2VzLAorCQkJCQkgICAgICAgICAgeGVuX29iai0+cGFnZXMpOwogCQlpZiAocmV0
+IDwgMCkgewogCQkJRFJNX0VSUk9SKCJDYW5ub3QgYWxsb2NhdGUgJXp1IGJhbGxvb25lZCBwYWdl
+czogJWRcbiIsCiAJCQkJICB4ZW5fb2JqLT5udW1fcGFnZXMsIHJldCk7CkBAIC0xNTIsOCArMTUz
+LDggQEAgdm9pZCB4ZW5fZHJtX2Zyb250X2dlbV9mcmVlX29iamVjdF91bmxvY2tlZChzdHJ1Y3Qg
+ZHJtX2dlbV9vYmplY3QgKmdlbV9vYmopCiAJfSBlbHNlIHsKIAkJaWYgKHhlbl9vYmotPnBhZ2Vz
+KSB7CiAJCQlpZiAoeGVuX29iai0+YmVfYWxsb2MpIHsKLQkJCQlmcmVlX3hlbmJhbGxvb25lZF9w
+YWdlcyh4ZW5fb2JqLT5udW1fcGFnZXMsCi0JCQkJCQkJeGVuX29iai0+cGFnZXMpOworCQkJCXhl
+bl9mcmVlX3VucG9wdWxhdGVkX3BhZ2VzKHhlbl9vYmotPm51bV9wYWdlcywKKwkJCQkJCQkgICB4
+ZW5fb2JqLT5wYWdlcyk7CiAJCQkJZ2VtX2ZyZWVfcGFnZXNfYXJyYXkoeGVuX29iaik7CiAJCQl9
+IGVsc2UgewogCQkJCWRybV9nZW1fcHV0X3BhZ2VzKCZ4ZW5fb2JqLT5iYXNlLApkaWZmIC0tZ2l0
+IGEvZHJpdmVycy94ZW4vS2NvbmZpZyBiL2RyaXZlcnMveGVuL0tjb25maWcKaW5kZXggZWE2YzFl
+N2UzZTQyLi5lMzhjMzM1NThkMGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMveGVuL0tjb25maWcKKysr
+IGIvZHJpdmVycy94ZW4vS2NvbmZpZwpAQCAtMzI1LDQgKzMyNSwxNSBAQCBjb25maWcgWEVOX0hB
+VkVfVlBNVQogY29uZmlnIFhFTl9GUk9OVF9QR0RJUl9TSEJVRgogCXRyaXN0YXRlCiAKK2NvbmZp
+ZyBYRU5fVU5QT1BVTEFURURfQUxMT0MKKwlib29sICJVc2UgdW5wb3B1bGF0ZWQgbWVtb3J5IHJh
+bmdlcyBmb3IgZ3Vlc3QgbWFwcGluZ3MiCisJZGVwZW5kcyBvbiBYODYKKwlzZWxlY3QgWk9ORV9E
+RVZJQ0UKKwlkZWZhdWx0IFhFTl9CQUNLRU5EIHx8IFhFTl9HTlRERVYgfHwgWEVOX0RPTTAKKwlo
+ZWxwCisJICBVc2UgdW5wb3B1bGF0ZWQgbWVtb3J5IHJhbmdlcyBpbiBvcmRlciB0byBjcmVhdGUg
+bWFwcGluZ3MgZm9yIGd1ZXN0CisJICBtZW1vcnkgcmVnaW9ucywgaW5jbHVkaW5nIGdyYW50IG1h
+cHMgYW5kIGZvcmVpZ24gcGFnZXMuIFRoaXMgYXZvaWRzCisJICBoYXZpbmcgdG8gYmFsbG9vbiBv
+dXQgUkFNIHJlZ2lvbnMgaW4gb3JkZXIgdG8gb2J0YWluIHBoeXNpY2FsIG1lbW9yeQorCSAgc3Bh
+Y2UgdG8gY3JlYXRlIHN1Y2ggbWFwcGluZ3MuCisKIGVuZG1lbnUKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMveGVuL01ha2VmaWxlIGIvZHJpdmVycy94ZW4vTWFrZWZpbGUKaW5kZXggYzI1YzlhNjk5YjQ4
+Li5iYWJkY2E4MDg4NjEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMveGVuL01ha2VmaWxlCisrKyBiL2Ry
+aXZlcnMveGVuL01ha2VmaWxlCkBAIC00MSwzICs0MSw0IEBAIHhlbi1nbnRkZXYtJChDT05GSUdf
+WEVOX0dOVERFVl9ETUFCVUYpCSs9IGdudGRldi1kbWFidWYubwogeGVuLWdudGFsbG9jLXkJCQkJ
+Oj0gZ250YWxsb2MubwogeGVuLXByaXZjbWQteQkJCQk6PSBwcml2Y21kLm8gcHJpdmNtZC1idWYu
+bwogb2JqLSQoQ09ORklHX1hFTl9GUk9OVF9QR0RJUl9TSEJVRikJKz0geGVuLWZyb250LXBnZGly
+LXNoYnVmLm8KK29iai0kKENPTkZJR19YRU5fVU5QT1BVTEFURURfQUxMT0MpCSs9IHVucG9wdWxh
+dGVkLWFsbG9jLm8KZGlmZiAtLWdpdCBhL2RyaXZlcnMveGVuL2JhbGxvb24uYyBiL2RyaXZlcnMv
+eGVuL2JhbGxvb24uYwppbmRleCAzN2ZmY2NkYThiYjguLjUxNDI3Yzc1MmIzNyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy94ZW4vYmFsbG9vbi5jCisrKyBiL2RyaXZlcnMveGVuL2JhbGxvb24uYwpAQCAt
+NjUzLDcgKzY1Myw3IEBAIHZvaWQgZnJlZV94ZW5iYWxsb29uZWRfcGFnZXMoaW50IG5yX3BhZ2Vz
+LCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzKQogfQogRVhQT1JUX1NZTUJPTChmcmVlX3hlbmJhbGxvb25l
+ZF9wYWdlcyk7CiAKLSNpZmRlZiBDT05GSUdfWEVOX1BWCisjaWYgZGVmaW5lZChDT05GSUdfWEVO
+X1BWKSAmJiAhZGVmaW5lZChDT05GSUdfWEVOX1VOUE9QVUxBVEVEX0FMTE9DKQogc3RhdGljIHZv
+aWQgX19pbml0IGJhbGxvb25fYWRkX3JlZ2lvbih1bnNpZ25lZCBsb25nIHN0YXJ0X3BmbiwKIAkJ
+CQkgICAgICB1bnNpZ25lZCBsb25nIHBhZ2VzKQogewpAQCAtNzA3LDcgKzcwNyw3IEBAIHN0YXRp
+YyBpbnQgX19pbml0IGJhbGxvb25faW5pdCh2b2lkKQogCXJlZ2lzdGVyX3N5c2N0bF90YWJsZSh4
+ZW5fcm9vdCk7CiAjZW5kaWYKIAotI2lmZGVmIENPTkZJR19YRU5fUFYKKyNpZiBkZWZpbmVkKENP
+TkZJR19YRU5fUFYpICYmICFkZWZpbmVkKENPTkZJR19YRU5fVU5QT1BVTEFURURfQUxMT0MpCiAJ
+ewogCQlpbnQgaTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy94ZW4vZ3JhbnQtdGFibGUuYyBiL2Ry
+aXZlcnMveGVuL2dyYW50LXRhYmxlLmMKaW5kZXggOGQwNmJmMWNjMzQ3Li41MjNkY2RmMzljYzkg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMveGVuL2dyYW50LXRhYmxlLmMKKysrIGIvZHJpdmVycy94ZW4v
+Z3JhbnQtdGFibGUuYwpAQCAtODAxLDcgKzgwMSw3IEBAIGludCBnbnR0YWJfYWxsb2NfcGFnZXMo
+aW50IG5yX3BhZ2VzLCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzKQogewogCWludCByZXQ7CiAKLQlyZXQg
+PSBhbGxvY194ZW5iYWxsb29uZWRfcGFnZXMobnJfcGFnZXMsIHBhZ2VzKTsKKwlyZXQgPSB4ZW5f
+YWxsb2NfdW5wb3B1bGF0ZWRfcGFnZXMobnJfcGFnZXMsIHBhZ2VzKTsKIAlpZiAocmV0IDwgMCkK
+IAkJcmV0dXJuIHJldDsKIApAQCAtODM2LDcgKzgzNiw3IEBAIEVYUE9SVF9TWU1CT0xfR1BMKGdu
+dHRhYl9wYWdlc19jbGVhcl9wcml2YXRlKTsKIHZvaWQgZ250dGFiX2ZyZWVfcGFnZXMoaW50IG5y
+X3BhZ2VzLCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzKQogewogCWdudHRhYl9wYWdlc19jbGVhcl9wcml2
+YXRlKG5yX3BhZ2VzLCBwYWdlcyk7Ci0JZnJlZV94ZW5iYWxsb29uZWRfcGFnZXMobnJfcGFnZXMs
+IHBhZ2VzKTsKKwl4ZW5fZnJlZV91bnBvcHVsYXRlZF9wYWdlcyhucl9wYWdlcywgcGFnZXMpOwog
+fQogRVhQT1JUX1NZTUJPTF9HUEwoZ250dGFiX2ZyZWVfcGFnZXMpOwogCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL3hlbi9wcml2Y21kLmMgYi9kcml2ZXJzL3hlbi9wcml2Y21kLmMKaW5kZXggNjNhYmU2
+YzM2NDJiLi5iMGM3M2M1OGY5ODcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMveGVuL3ByaXZjbWQuYwor
+KysgYi9kcml2ZXJzL3hlbi9wcml2Y21kLmMKQEAgLTQyNCw3ICs0MjQsNyBAQCBzdGF0aWMgaW50
+IGFsbG9jX2VtcHR5X3BhZ2VzKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBpbnQgbnVtcGdz
+KQogCWlmIChwYWdlcyA9PSBOVUxMKQogCQlyZXR1cm4gLUVOT01FTTsKIAotCXJjID0gYWxsb2Nf
+eGVuYmFsbG9vbmVkX3BhZ2VzKG51bXBncywgcGFnZXMpOworCXJjID0geGVuX2FsbG9jX3VucG9w
+dWxhdGVkX3BhZ2VzKG51bXBncywgcGFnZXMpOwogCWlmIChyYyAhPSAwKSB7CiAJCXByX3dhcm4o
+IiVzIENvdWxkIG5vdCBhbGxvYyAlZCBwZm5zIHJjOiVkXG4iLCBfX2Z1bmNfXywKIAkJCW51bXBn
+cywgcmMpOwpAQCAtODk1LDcgKzg5NSw3IEBAIHN0YXRpYyB2b2lkIHByaXZjbWRfY2xvc2Uoc3Ry
+dWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCiAKIAlyYyA9IHhlbl91bm1hcF9kb21haW5fZ2ZuX3Jh
+bmdlKHZtYSwgbnVtZ2ZucywgcGFnZXMpOwogCWlmIChyYyA9PSAwKQotCQlmcmVlX3hlbmJhbGxv
+b25lZF9wYWdlcyhudW1wZ3MsIHBhZ2VzKTsKKwkJeGVuX2ZyZWVfdW5wb3B1bGF0ZWRfcGFnZXMo
+bnVtcGdzLCBwYWdlcyk7CiAJZWxzZQogCQlwcl9jcml0KCJ1bmFibGUgdG8gdW5tYXAgTUZOIHJh
+bmdlOiBsZWFraW5nICVkIHBhZ2VzLiByYz0lZFxuIiwKIAkJCW51bXBncywgcmMpOwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy94ZW4vdW5wb3B1bGF0ZWQtYWxsb2MuYyBiL2RyaXZlcnMveGVuL3VucG9w
+dWxhdGVkLWFsbG9jLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi4x
+YjVkMTU3YzY5NzcKLS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL3hlbi91bnBvcHVsYXRlZC1h
+bGxvYy5jCkBAIC0wLDAgKzEsMTg1IEBACisvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BM
+LTIuMAorI2luY2x1ZGUgPGxpbnV4L2Vycm5vLmg+CisjaW5jbHVkZSA8bGludXgvZ2ZwLmg+Cisj
+aW5jbHVkZSA8bGludXgva2VybmVsLmg+CisjaW5jbHVkZSA8bGludXgvbW0uaD4KKyNpbmNsdWRl
+IDxsaW51eC9tZW1yZW1hcC5oPgorI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KKworI2luY2x1ZGUg
+PGFzbS9wYWdlLmg+CisKKyNpbmNsdWRlIDx4ZW4vcGFnZS5oPgorI2luY2x1ZGUgPHhlbi94ZW4u
+aD4KKworc3RhdGljIERFRklORV9NVVRFWChsaXN0X2xvY2spOworc3RhdGljIExJU1RfSEVBRChw
+YWdlX2xpc3QpOworc3RhdGljIHVuc2lnbmVkIGludCBsaXN0X2NvdW50OworCitzdGF0aWMgaW50
+IGZpbGxfbGlzdCh1bnNpZ25lZCBpbnQgbnJfcGFnZXMpCit7CisJc3RydWN0IGRldl9wYWdlbWFw
+ICpwZ21hcDsKKwl2b2lkICp2YWRkcjsKKwl1bnNpZ25lZCBpbnQgaSwgYWxsb2NfcGFnZXMgPSBy
+b3VuZF91cChucl9wYWdlcywgUEFHRVNfUEVSX1NFQ1RJT04pOworCWludCBuaWQsIHJldDsKKwor
+CXBnbWFwID0ga3phbGxvYyhzaXplb2YoKnBnbWFwKSwgR0ZQX0tFUk5FTCk7CisJaWYgKCFwZ21h
+cCkKKwkJcmV0dXJuIC1FTk9NRU07CisKKwlwZ21hcC0+dHlwZSA9IE1FTU9SWV9ERVZJQ0VfR0VO
+RVJJQzsKKwlwZ21hcC0+cmVzLm5hbWUgPSAiWGVuIHNjcmF0Y2giOworCXBnbWFwLT5yZXMuZmxh
+Z3MgPSBJT1JFU09VUkNFX01FTSB8IElPUkVTT1VSQ0VfQlVTWTsKKworCXJldCA9IGFsbG9jYXRl
+X3Jlc291cmNlKCZpb21lbV9yZXNvdXJjZSwgJnBnbWFwLT5yZXMsCisJCQkJYWxsb2NfcGFnZXMg
+KiBQQUdFX1NJWkUsIDAsIC0xLAorCQkJCVBBR0VTX1BFUl9TRUNUSU9OICogUEFHRV9TSVpFLCBO
+VUxMLCBOVUxMKTsKKwlpZiAocmV0IDwgMCkgeworCQlwcl9lcnIoIkNhbm5vdCBhbGxvY2F0ZSBu
+ZXcgSU9NRU0gcmVzb3VyY2VcbiIpOworCQlrZnJlZShwZ21hcCk7CisJCXJldHVybiByZXQ7CisJ
+fQorCisJbmlkID0gbWVtb3J5X2FkZF9waHlzYWRkcl90b19uaWQocGdtYXAtPnJlcy5zdGFydCk7
+CisKKyNpZmRlZiBDT05GSUdfWEVOX0hBVkVfUFZNTVUKKyAgICAgICAgLyoKKyAgICAgICAgICog
+bWVtcmVtYXAgd2lsbCBidWlsZCBwYWdlIHRhYmxlcyBmb3IgdGhlIG5ldyBtZW1vcnkgc28KKyAg
+ICAgICAgICogdGhlIHAybSBtdXN0IGNvbnRhaW4gaW52YWxpZCBlbnRyaWVzIHNvIHRoZSBjb3Jy
+ZWN0CisgICAgICAgICAqIG5vbi1wcmVzZW50IFBURXMgd2lsbCBiZSB3cml0dGVuLgorICAgICAg
+ICAgKgorICAgICAgICAgKiBJZiBhIGZhaWx1cmUgb2NjdXJzLCB0aGUgb3JpZ2luYWwgKGlkZW50
+aXR5KSBwMm0gZW50cmllcworICAgICAgICAgKiBhcmUgbm90IHJlc3RvcmVkIHNpbmNlIHRoaXMg
+cmVnaW9uIGlzIG5vdyBrbm93biBub3QgdG8KKyAgICAgICAgICogY29uZmxpY3Qgd2l0aCBhbnkg
+ZGV2aWNlcy4KKyAgICAgICAgICovCisJaWYgKCF4ZW5fZmVhdHVyZShYRU5GRUFUX2F1dG9fdHJh
+bnNsYXRlZF9waHlzbWFwKSkgeworCQl4ZW5fcGZuX3QgcGZuID0gUEZOX0RPV04ocGdtYXAtPnJl
+cy5zdGFydCk7CisKKwkJZm9yIChpID0gMDsgaSA8IGFsbG9jX3BhZ2VzOyBpKyspIHsKKwkJCWlm
+ICghc2V0X3BoeXNfdG9fbWFjaGluZShwZm4gKyBpLCBJTlZBTElEX1AyTV9FTlRSWSkpIHsKKwkJ
+CQlwcl93YXJuKCJzZXRfcGh5c190b19tYWNoaW5lKCkgZmFpbGVkLCBubyBtZW1vcnkgYWRkZWRc
+biIpOworCQkJCXJlbGVhc2VfcmVzb3VyY2UoJnBnbWFwLT5yZXMpOworCQkJCWtmcmVlKHBnbWFw
+KTsKKwkJCQlyZXR1cm4gLUVOT01FTTsKKwkJCX0KKyAgICAgICAgICAgICAgICB9CisJfQorI2Vu
+ZGlmCisKKwl2YWRkciA9IG1lbXJlbWFwX3BhZ2VzKHBnbWFwLCBuaWQpOworCWlmIChJU19FUlIo
+dmFkZHIpKSB7CisJCXByX2VycigiQ2Fubm90IHJlbWFwIG1lbW9yeSByYW5nZVxuIik7CisJCXJl
+bGVhc2VfcmVzb3VyY2UoJnBnbWFwLT5yZXMpOworCQlrZnJlZShwZ21hcCk7CisJCXJldHVybiBQ
+VFJfRVJSKHZhZGRyKTsKKwl9CisKKwlmb3IgKGkgPSAwOyBpIDwgYWxsb2NfcGFnZXM7IGkrKykg
+eworCQlzdHJ1Y3QgcGFnZSAqcGcgPSB2aXJ0X3RvX3BhZ2UodmFkZHIgKyBQQUdFX1NJWkUgKiBp
+KTsKKworCQlCVUdfT04oIXZpcnRfYWRkcl92YWxpZCh2YWRkciArIFBBR0VfU0laRSAqIGkpKTsK
+KwkJbGlzdF9hZGQoJnBnLT5scnUsICZwYWdlX2xpc3QpOworCQlsaXN0X2NvdW50Kys7CisJfQor
+CisJcmV0dXJuIDA7Cit9CisKKy8qKgorICogeGVuX2FsbG9jX3VucG9wdWxhdGVkX3BhZ2VzIC0g
+YWxsb2MgdW5wb3B1bGF0ZWQgcGFnZXMKKyAqIEBucl9wYWdlczogTnVtYmVyIG9mIHBhZ2VzCisg
+KiBAcGFnZXM6IHBhZ2VzIHJldHVybmVkCisgKiBAcmV0dXJuIDAgb24gc3VjY2VzcywgZXJyb3Ig
+b3RoZXJ3aXNlCisgKi8KK2ludCB4ZW5fYWxsb2NfdW5wb3B1bGF0ZWRfcGFnZXModW5zaWduZWQg
+aW50IG5yX3BhZ2VzLCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzKQoreworCXVuc2lnbmVkIGludCBpOwor
+CWludCByZXQgPSAwOworCisJbXV0ZXhfbG9jaygmbGlzdF9sb2NrKTsKKwlpZiAobGlzdF9jb3Vu
+dCA8IG5yX3BhZ2VzKSB7CisJCXJldCA9IGZpbGxfbGlzdChucl9wYWdlcyAtIGxpc3RfY291bnQp
+OworCQlpZiAocmV0KQorCQkJZ290byBvdXQ7CisJfQorCisJZm9yIChpID0gMDsgaSA8IG5yX3Bh
+Z2VzOyBpKyspIHsKKwkJc3RydWN0IHBhZ2UgKnBnID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxs
+KCZwYWdlX2xpc3QsCisJCQkJCQkJICAgc3RydWN0IHBhZ2UsCisJCQkJCQkJICAgbHJ1KTsKKwor
+CQlCVUdfT04oIXBnKTsKKwkJbGlzdF9kZWwoJnBnLT5scnUpOworCQlsaXN0X2NvdW50LS07CisJ
+CXBhZ2VzW2ldID0gcGc7CisKKyNpZmRlZiBDT05GSUdfWEVOX0hBVkVfUFZNTVUKKwkJaWYgKCF4
+ZW5fZmVhdHVyZShYRU5GRUFUX2F1dG9fdHJhbnNsYXRlZF9waHlzbWFwKSkgeworCQkJcmV0ID0g
+eGVuX2FsbG9jX3AybV9lbnRyeShwYWdlX3RvX3BmbihwZykpOworCQkJaWYgKHJldCA8IDApIHsK
+KwkJCQl1bnNpZ25lZCBpbnQgajsKKworCQkJCWZvciAoaiA9IDA7IGogPD0gaTsgaisrKSB7CisJ
+CQkJCWxpc3RfYWRkKCZwYWdlc1tqXS0+bHJ1LCAmcGFnZV9saXN0KTsKKwkJCQkJbGlzdF9jb3Vu
+dCsrOworCQkJCX0KKwkJCQlnb3RvIG91dDsKKwkJCX0KKwkJfQorI2VuZGlmCisJfQorCitvdXQ6
+CisJbXV0ZXhfdW5sb2NrKCZsaXN0X2xvY2spOworCXJldHVybiByZXQ7Cit9CitFWFBPUlRfU1lN
+Qk9MKHhlbl9hbGxvY191bnBvcHVsYXRlZF9wYWdlcyk7CisKKy8qKgorICogeGVuX2ZyZWVfdW5w
+b3B1bGF0ZWRfcGFnZXMgLSByZXR1cm4gdW5wb3B1bGF0ZWQgcGFnZXMKKyAqIEBucl9wYWdlczog
+TnVtYmVyIG9mIHBhZ2VzCisgKiBAcGFnZXM6IHBhZ2VzIHRvIHJldHVybgorICovCit2b2lkIHhl
+bl9mcmVlX3VucG9wdWxhdGVkX3BhZ2VzKHVuc2lnbmVkIGludCBucl9wYWdlcywgc3RydWN0IHBh
+Z2UgKipwYWdlcykKK3sKKwl1bnNpZ25lZCBpbnQgaTsKKworCW11dGV4X2xvY2soJmxpc3RfbG9j
+ayk7CisJZm9yIChpID0gMDsgaSA8IG5yX3BhZ2VzOyBpKyspIHsKKwkJbGlzdF9hZGQoJnBhZ2Vz
+W2ldLT5scnUsICZwYWdlX2xpc3QpOworCQlsaXN0X2NvdW50Kys7CisJfQorCW11dGV4X3VubG9j
+aygmbGlzdF9sb2NrKTsKK30KK0VYUE9SVF9TWU1CT0woeGVuX2ZyZWVfdW5wb3B1bGF0ZWRfcGFn
+ZXMpOworCisjaWZkZWYgQ09ORklHX1hFTl9QVgorc3RhdGljIGludCBfX2luaXQgaW5pdCh2b2lk
+KQoreworCXVuc2lnbmVkIGludCBpOworCisJaWYgKCF4ZW5fZG9tYWluKCkpCisJCXJldHVybiAt
+RU5PREVWOworCisJaWYgKCF4ZW5fcHZfZG9tYWluKCkpCisJCXJldHVybiAwOworCisJLyoKKwkg
+KiBJbml0aWFsaXplIHdpdGggcGFnZXMgZnJvbSB0aGUgZXh0cmEgbWVtb3J5IHJlZ2lvbnMgKHNl
+ZQorCSAqIGFyY2gveDg2L3hlbi9zZXR1cC5jKS4KKwkgKi8KKwlmb3IgKGkgPSAwOyBpIDwgWEVO
+X0VYVFJBX01FTV9NQVhfUkVHSU9OUzsgaSsrKSB7CisJCXVuc2lnbmVkIGludCBqOworCisJCWZv
+ciAoaiA9IDA7IGogPCB4ZW5fZXh0cmFfbWVtW2ldLm5fcGZuczsgaisrKSB7CisJCQlzdHJ1Y3Qg
+cGFnZSAqcGcgPQorCQkJCXBmbl90b19wYWdlKHhlbl9leHRyYV9tZW1baV0uc3RhcnRfcGZuICsg
+aik7CisKKwkJCWxpc3RfYWRkKCZwZy0+bHJ1LCAmcGFnZV9saXN0KTsKKwkJCWxpc3RfY291bnQr
+KzsKKwkJfQorCX0KKworCXJldHVybiAwOworfQorc3Vic3lzX2luaXRjYWxsKGluaXQpOworI2Vu
+ZGlmCmRpZmYgLS1naXQgYS9kcml2ZXJzL3hlbi94ZW5idXMveGVuYnVzX2NsaWVudC5jIGIvZHJp
+dmVycy94ZW4veGVuYnVzL3hlbmJ1c19jbGllbnQuYwppbmRleCA5MDdiY2JiOTNhZmIuLjI2OTAz
+MThhZDUwZiAxMDA2NDQKLS0tIGEvZHJpdmVycy94ZW4veGVuYnVzL3hlbmJ1c19jbGllbnQuYwor
+KysgYi9kcml2ZXJzL3hlbi94ZW5idXMveGVuYnVzX2NsaWVudC5jCkBAIC02MjEsNyArNjIxLDcg
+QEAgc3RhdGljIGludCB4ZW5idXNfbWFwX3JpbmdfaHZtKHN0cnVjdCB4ZW5idXNfZGV2aWNlICpk
+ZXYsCiAJYm9vbCBsZWFrZWQgPSBmYWxzZTsKIAl1bnNpZ25lZCBpbnQgbnJfcGFnZXMgPSBYRU5C
+VVNfUEFHRVMobnJfZ3JlZnMpOwogCi0JZXJyID0gYWxsb2NfeGVuYmFsbG9vbmVkX3BhZ2VzKG5y
+X3BhZ2VzLCBub2RlLT5odm0ucGFnZXMpOworCWVyciA9IHhlbl9hbGxvY191bnBvcHVsYXRlZF9w
+YWdlcyhucl9wYWdlcywgbm9kZS0+aHZtLnBhZ2VzKTsKIAlpZiAoZXJyKQogCQlnb3RvIG91dF9l
+cnI7CiAKQEAgLTY2Miw3ICs2NjIsNyBAQCBzdGF0aWMgaW50IHhlbmJ1c19tYXBfcmluZ19odm0o
+c3RydWN0IHhlbmJ1c19kZXZpY2UgKmRldiwKIAkJCSBhZGRyLCBucl9wYWdlcyk7CiAgb3V0X2Zy
+ZWVfYmFsbG9vbmVkX3BhZ2VzOgogCWlmICghbGVha2VkKQotCQlmcmVlX3hlbmJhbGxvb25lZF9w
+YWdlcyhucl9wYWdlcywgbm9kZS0+aHZtLnBhZ2VzKTsKKwkJeGVuX2ZyZWVfdW5wb3B1bGF0ZWRf
+cGFnZXMobnJfcGFnZXMsIG5vZGUtPmh2bS5wYWdlcyk7CiAgb3V0X2VycjoKIAlyZXR1cm4gZXJy
+OwogfQpAQCAtODU4LDcgKzg1OCw3IEBAIHN0YXRpYyBpbnQgeGVuYnVzX3VubWFwX3JpbmdfaHZt
+KHN0cnVjdCB4ZW5idXNfZGV2aWNlICpkZXYsIHZvaWQgKnZhZGRyKQogCQkJICAgICAgIGluZm8u
+YWRkcnMpOwogCWlmICghcnYpIHsKIAkJdnVubWFwKHZhZGRyKTsKLQkJZnJlZV94ZW5iYWxsb29u
+ZWRfcGFnZXMobnJfcGFnZXMsIG5vZGUtPmh2bS5wYWdlcyk7CisJCXhlbl9mcmVlX3VucG9wdWxh
+dGVkX3BhZ2VzKG5yX3BhZ2VzLCBub2RlLT5odm0ucGFnZXMpOwogCX0KIAllbHNlCiAJCVdBUk4o
+MSwgIkxlYWtpbmcgJXAsIHNpemUgJXUgcGFnZShzKVxuIiwgdmFkZHIsIG5yX3BhZ2VzKTsKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMveGVuL3hsYXRlX21tdS5jIGIvZHJpdmVycy94ZW4veGxhdGVfbW11
+LmMKaW5kZXggN2IxMDc3ZjBhYmNiLi4zNDc0MmM2ZTE4OWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+eGVuL3hsYXRlX21tdS5jCisrKyBiL2RyaXZlcnMveGVuL3hsYXRlX21tdS5jCkBAIC0yMzIsNyAr
+MjMyLDcgQEAgaW50IF9faW5pdCB4ZW5feGxhdGVfbWFwX2JhbGxvb25lZF9wYWdlcyh4ZW5fcGZu
+X3QgKipnZm5zLCB2b2lkICoqdmlydCwKIAkJa2ZyZWUocGFnZXMpOwogCQlyZXR1cm4gLUVOT01F
+TTsKIAl9Ci0JcmMgPSBhbGxvY194ZW5iYWxsb29uZWRfcGFnZXMobnJfcGFnZXMsIHBhZ2VzKTsK
+KwlyYyA9IHhlbl9hbGxvY191bnBvcHVsYXRlZF9wYWdlcyhucl9wYWdlcywgcGFnZXMpOwogCWlm
+IChyYykgewogCQlwcl93YXJuKCIlcyBDb3VsZG4ndCBiYWxsb29uIGFsbG9jICVsZCBwYWdlcyBy
+YzolZFxuIiwgX19mdW5jX18sCiAJCQlucl9wYWdlcywgcmMpOwpAQCAtMjQ5LDcgKzI0OSw3IEBA
+IGludCBfX2luaXQgeGVuX3hsYXRlX21hcF9iYWxsb29uZWRfcGFnZXMoeGVuX3Bmbl90ICoqZ2Zu
+cywgdm9pZCAqKnZpcnQsCiAJaWYgKCF2YWRkcikgewogCQlwcl93YXJuKCIlcyBDb3VsZG4ndCBt
+YXAgJWxkIHBhZ2VzIHJjOiVkXG4iLCBfX2Z1bmNfXywKIAkJCW5yX3BhZ2VzLCByYyk7Ci0JCWZy
+ZWVfeGVuYmFsbG9vbmVkX3BhZ2VzKG5yX3BhZ2VzLCBwYWdlcyk7CisJCXhlbl9mcmVlX3VucG9w
+dWxhdGVkX3BhZ2VzKG5yX3BhZ2VzLCBwYWdlcyk7CiAJCWtmcmVlKHBhZ2VzKTsKIAkJa2ZyZWUo
+cGZucyk7CiAJCXJldHVybiAtRU5PTUVNOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS94ZW4veGVuLmgg
+Yi9pbmNsdWRlL3hlbi94ZW4uaAppbmRleCAxOWE3MmY1OTFlMmIuLjQzZWZiYTA0NWFjYyAxMDA2
+NDQKLS0tIGEvaW5jbHVkZS94ZW4veGVuLmgKKysrIGIvaW5jbHVkZS94ZW4veGVuLmgKQEAgLTUy
+LDQgKzUyLDEzIEBAIGJvb2wgeGVuX2Jpb3ZlY19waHlzX21lcmdlYWJsZShjb25zdCBzdHJ1Y3Qg
+YmlvX3ZlYyAqdmVjMSwKIGV4dGVybiB1NjQgeGVuX3NhdmVkX21heF9tZW1fc2l6ZTsKICNlbmRp
+ZgogCisjaWZkZWYgQ09ORklHX1hFTl9VTlBPUFVMQVRFRF9BTExPQworaW50IHhlbl9hbGxvY191
+bnBvcHVsYXRlZF9wYWdlcyh1bnNpZ25lZCBpbnQgbnJfcGFnZXMsIHN0cnVjdCBwYWdlICoqcGFn
+ZXMpOwordm9pZCB4ZW5fZnJlZV91bnBvcHVsYXRlZF9wYWdlcyh1bnNpZ25lZCBpbnQgbnJfcGFn
+ZXMsIHN0cnVjdCBwYWdlICoqcGFnZXMpOworI2Vsc2UKKyNkZWZpbmUgeGVuX2FsbG9jX3VucG9w
+dWxhdGVkX3BhZ2VzIGFsbG9jX3hlbmJhbGxvb25lZF9wYWdlcworI2RlZmluZSB4ZW5fZnJlZV91
+bnBvcHVsYXRlZF9wYWdlcyBmcmVlX3hlbmJhbGxvb25lZF9wYWdlcworI2luY2x1ZGUgPHhlbi9i
+YWxsb29uLmg+CisjZW5kaWYKKwogI2VuZGlmCS8qIF9YRU5fWEVOX0ggKi8KLS0gCjIuMjguMAoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
