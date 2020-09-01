@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC9A258801
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 08:22:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F3B258803
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 08:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE516E048;
-	Tue,  1 Sep 2020 06:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CB616E049;
+	Tue,  1 Sep 2020 06:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39DE46E048
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 06:22:31 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id y6so26589plk.10
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 23:22:31 -0700 (PDT)
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396596E049
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 06:22:37 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id np15so190781pjb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Aug 2020 23:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vhLdqliPfynJAiD7/3YXz7Gp09SJzpU1HbkYzOvkmgQ=;
- b=HOlq1yYIeUL+dWUZOuj6ufRG2WgU1lgJm3H3P0ucojnvC8gEnJ2XHuODPRAZteFRw+
- 4JHYhlocD0X4WXdWcOogIK4k78R5FediQh89mujqO3BJO5tfVSDLMliisMSacD+9j1Md
- Rw+laVnBl6qev64cCE4eZXb4cD8PKw/gg5CpI=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lRIHcVNxVGPyHgfpqDwa33OIPQovgsuZYgCyV3RsN4U=;
+ b=bbjai8uAfQTONaD7KIS+VvI0y9gAklINsoRx4g7eLrbLP5Af077ZQYThvPgH1KaxaN
+ lSiUGHPyy1Ixzsi835Q19YIiFeVyTpA3jXFhHIKdctbYgjH8x7OLJGCTPjg7aYrhaRhu
+ /yEHG7bSgsx5cpODbWFnyTcusm++jPyWGxmKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vhLdqliPfynJAiD7/3YXz7Gp09SJzpU1HbkYzOvkmgQ=;
- b=c5QA1kSNTHYaUCPA+HAUOjY6cOB6hqaGrm1xQj9NghQLsgBPFxOIq5OJ9CMRnh7UrI
- Mg+U0obQxsyondrAfrttMnA6gbR5v6ND9zbOIOVA8UE3sNEcejxtCIXU4WBgLGdzxzj8
- CTPDKqKzQDtaf88215GkYPCmTFljeCQyv3wNJRXO7/x+RtDlIF1Xddjj3WZJ/o80t10V
- hIn4TvztMPwBXJwVEGMHcqEZTqOnn0Ye/PjnBhTzgb7ipovaLc0Vn670wweBoHLKsfxq
- RjehrYqKciDU0XKhWHXZaZEwHEtA2KqN0I7coQ9PH6wfMxTW0DS8wNbk+KnD5hJIiu6t
- stHg==
-X-Gm-Message-State: AOAM530dGx7R92hMPaO36KH5P6TgZXEwziXQzf/IsEu2Ah/+L90ETWcY
- 73puIUZoPKXeX0TM9ufvV9Xoqw==
-X-Google-Smtp-Source: ABdhPJzd76J+XsuHIgb7R5FqGvKf1M7ffquE/FEbXOhkojG1KVbRpLbYvVVZPLksvnly9EPZJTH7EA==
-X-Received: by 2002:a17:902:b7cc:: with SMTP id
- v12mr77694plz.105.1598941350792; 
- Mon, 31 Aug 2020 23:22:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lRIHcVNxVGPyHgfpqDwa33OIPQovgsuZYgCyV3RsN4U=;
+ b=cywDFgwdOMmK5d4gRoqtP5i2lnGAjmcVSd/gJ8H6NSMqyIyHxh97+YOFwMrnNcUh6m
+ jkO6sMLdJ9hl9siwB0fqy+H92bX+NWddksIn1ckhJE0USsCA6ykI6dBknL8t0DmmjKxw
+ bi5U3m3vWz445Ddjxx5mx9ulW04cRjukpPG4vjIL+EVBhnuA738xZmeP4rQlIGLEKvQe
+ Sr0qWKv66+uDuBfm7xwsCmNEkzRaW7u/FQDy6L75AY7hssKXedCoWfAsqQwKeJA90lzW
+ e6dkKj038g7YBS5bba2EvEOFdggG4Eo64Q3ok7rRzIBxoW4eYQn68U8HrNOmHya7fss7
+ wukA==
+X-Gm-Message-State: AOAM532bI8sckAiAQ9bRhclgCl7mtKQyZFu2b+/zJCKg1/VfQsmtT2KD
+ oqqCLk0avumVuK7Uf3eZLAUI1w==
+X-Google-Smtp-Source: ABdhPJzcdZL4p0b4GPPuCv+/lxRBzo2wGELTyfZ/HfU5w9m3LhPY2jVp17FziATH/kJ+fkOyP2la1Q==
+X-Received: by 2002:a17:90b:282:: with SMTP id az2mr144138pjb.66.1598941356873; 
+ Mon, 31 Aug 2020 23:22:36 -0700 (PDT)
 Received: from localhost ([2401:fa00:9:15:7220:84ff:fe09:cabc])
- by smtp.gmail.com with ESMTPSA id w82sm271119pfc.183.2020.08.31.23.22.27
+ by smtp.gmail.com with ESMTPSA id n1sm372069pfu.2.2020.08.31.23.22.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Aug 2020 23:22:30 -0700 (PDT)
+ Mon, 31 Aug 2020 23:22:36 -0700 (PDT)
 From: Sam McNally <sammc@chromium.org>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/5] dp/dp_mst: Add support for sink event notify messages
-Date: Tue,  1 Sep 2020 16:22:15 +1000
-Message-Id: <20200901162133.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
+Subject: [PATCH 2/5] drm_dp_mst_topology: use correct AUX channel
+Date: Tue,  1 Sep 2020 16:22:16 +1000
+Message-Id: <20200901162133.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
 X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+In-Reply-To: <20200901162133.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
+References: <20200901162133.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,125 +71,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sink event notify messages are used for MST CEC IRQs. Add parsing
-support for sink event notify messages in preparation for handling MST
-CEC IRQs.
+From: Hans Verkuil <hans.verkuil@cisco.com>
 
+For adapters behind an MST hub use the correct AUX channel.
+
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+[sammc@chromium.org: rebased, removing redundant changes]
 Signed-off-by: Sam McNally <sammc@chromium.org>
 ---
 
- drivers/gpu/drm/drm_dp_mst_topology.c | 37 ++++++++++++++++++++++++++-
- include/drm/drm_dp_mst_helper.h       | 14 ++++++++++
- 2 files changed, 50 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 36 +++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 17dbed0a9800..15b6cc39a754 100644
+index 15b6cc39a754..0d753201adbd 100644
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1027,6 +1027,30 @@ static bool drm_dp_sideband_parse_resource_status_notify(struct drm_dp_sideband_
- 	return false;
+@@ -2255,6 +2255,9 @@ drm_dp_mst_topology_unlink_port(struct drm_dp_mst_topology_mgr *mgr,
+ 	drm_dp_mst_topology_put_port(port);
  }
  
-+static bool drm_dp_sideband_parse_sink_event_notify(
-+	struct drm_dp_sideband_msg_rx *raw,
-+	struct drm_dp_sideband_msg_req_body *msg)
++static ssize_t
++drm_dp_mst_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg);
++
+ static struct drm_dp_mst_port *
+ drm_dp_mst_add_port(struct drm_device *dev,
+ 		    struct drm_dp_mst_topology_mgr *mgr,
+@@ -2271,9 +2274,13 @@ drm_dp_mst_add_port(struct drm_device *dev,
+ 	port->port_num = port_number;
+ 	port->mgr = mgr;
+ 	port->aux.name = "DPMST";
++	mutex_init(&port->aux.hw_mutex);
++	mutex_init(&port->aux.cec.lock);
+ 	port->aux.dev = dev->dev;
+ 	port->aux.is_remote = true;
+ 
++	port->aux.transfer = drm_dp_mst_aux_transfer;
++
+ 	/* initialize the MST downstream port's AUX crc work queue */
+ 	drm_dp_remote_aux_init(&port->aux);
+ 
+@@ -3503,6 +3510,35 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+ 	return 0;
+ }
+ 
++static ssize_t
++drm_dp_mst_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
 +{
-+	int idx = 1;
++	struct drm_dp_mst_port *port =
++		container_of(aux, struct drm_dp_mst_port, aux);
++	int ret;
 +
-+	msg->u.sink_event.port_number = (raw->msg[idx] & 0xf0) >> 4;
-+	idx++;
-+	if (idx > raw->curlen)
-+		goto fail_len;
++	switch (msg->request & ~DP_AUX_I2C_MOT) {
++	case DP_AUX_NATIVE_WRITE:
++	case DP_AUX_I2C_WRITE:
++	case DP_AUX_I2C_WRITE_STATUS_UPDATE:
++		ret = drm_dp_send_dpcd_write(port->mgr, port, msg->address,
++					     msg->size, msg->buffer);
++		break;
 +
-+	memcpy(msg->u.sink_event.guid, &raw->msg[idx], 16);
-+	idx += 16;
-+	if (idx > raw->curlen)
-+		goto fail_len;
++	case DP_AUX_NATIVE_READ:
++	case DP_AUX_I2C_READ:
++		ret = drm_dp_send_dpcd_read(port->mgr, port, msg->address,
++					    msg->size, msg->buffer);
++		break;
 +
-+	msg->u.sink_event.event_id = (raw->msg[idx] << 8) | (raw->msg[idx + 1]);
-+	idx++;
-+	return true;
-+fail_len:
-+	DRM_DEBUG_KMS("sink event notify parse length fail %d %d\n", idx, raw->curlen);
-+	return false;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	return ret;
 +}
 +
- static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
- 				      struct drm_dp_sideband_msg_req_body *msg)
+ static int drm_dp_get_vc_payload_bw(u8 dp_link_bw, u8  dp_link_count)
  {
-@@ -1038,6 +1062,8 @@ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
- 		return drm_dp_sideband_parse_connection_status_notify(raw, msg);
- 	case DP_RESOURCE_STATUS_NOTIFY:
- 		return drm_dp_sideband_parse_resource_status_notify(raw, msg);
-+	case DP_SINK_EVENT_NOTIFY:
-+		return drm_dp_sideband_parse_sink_event_notify(raw, msg);
- 	default:
- 		DRM_ERROR("Got unknown request 0x%02x (%s)\n", msg->req_type,
- 			  drm_dp_mst_req_type_str(msg->req_type));
-@@ -3875,6 +3901,8 @@ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
- 			guid = msg->u.conn_stat.guid;
- 		else if (msg->req_type == DP_RESOURCE_STATUS_NOTIFY)
- 			guid = msg->u.resource_stat.guid;
-+		else if (msg->req_type == DP_SINK_EVENT_NOTIFY)
-+			guid = msg->u.sink_event.guid;
- 
- 		if (guid)
- 			mstb = drm_dp_get_mst_branch_device_by_guid(mgr, guid);
-@@ -3948,7 +3976,8 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 	drm_dp_sideband_parse_req(&mgr->up_req_recv, &up_req->msg);
- 
- 	if (up_req->msg.req_type != DP_CONNECTION_STATUS_NOTIFY &&
--	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY) {
-+	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY &&
-+	    up_req->msg.req_type != DP_SINK_EVENT_NOTIFY) {
- 		DRM_DEBUG_KMS("Received unknown up req type, ignoring: %x\n",
- 			      up_req->msg.req_type);
- 		kfree(up_req);
-@@ -3976,6 +4005,12 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 		DRM_DEBUG_KMS("Got RSN: pn: %d avail_pbn %d\n",
- 			      res_stat->port_number,
- 			      res_stat->available_pbn);
-+	} else if (up_req->msg.req_type == DP_SINK_EVENT_NOTIFY) {
-+		const struct drm_dp_sink_event_notify *sink_event =
-+			&up_req->msg.u.sink_event;
-+
-+		DRM_DEBUG_KMS("Got SEN: pn: %d event_id %d\n",
-+			      sink_event->port_number, sink_event->event_id);
- 	}
- 
- 	up_req->hdr = mgr->up_req_recv.initial_hdr;
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index 6ae5860d8644..c7c79e0ced18 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -402,6 +402,19 @@ struct drm_dp_resource_status_notify {
- 	u16 available_pbn;
- };
- 
-+#define DP_SINK_EVENT_PANEL_REPLAY_ACTIVE_FRAME_CRC_ERROR	BIT(0)
-+#define DP_SINK_EVENT_PANEL_REPLAY_RFB_STORAGE_ERROR		BIT(1)
-+#define DP_SINK_EVENT_DSC_RC_BUFFER_UNDER_RUN			BIT(2)
-+#define DP_SINK_EVENT_DSC_RC_BUFFER_OVERFLOW			BIT(3)
-+#define DP_SINK_EVENT_DSC_CHUNK_LENGTH_ERROR			BIT(4)
-+#define DP_SINK_EVENT_CEC_IRQ_EVENT				BIT(5)
-+
-+struct drm_dp_sink_event_notify {
-+	u8 port_number;
-+	u8 guid[16];
-+	u16 event_id;
-+};
-+
- struct drm_dp_query_payload_ack_reply {
- 	u8 port_number;
- 	u16 allocated_pbn;
-@@ -413,6 +426,7 @@ struct drm_dp_sideband_msg_req_body {
- 		struct drm_dp_connection_status_notify conn_stat;
- 		struct drm_dp_port_number_req port_num;
- 		struct drm_dp_resource_status_notify resource_stat;
-+		struct drm_dp_sink_event_notify sink_event;
- 
- 		struct drm_dp_query_payload query_payload;
- 		struct drm_dp_allocate_payload allocate_payload;
+ 	if (dp_link_bw == 0 || dp_link_count == 0)
 -- 
 2.28.0.402.g5ffc5be6b7-goog
 
