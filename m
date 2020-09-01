@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4C725A1F9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 01:39:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 647C025A200
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 01:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC086E0BC;
-	Tue,  1 Sep 2020 23:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD8BE6E0D9;
+	Tue,  1 Sep 2020 23:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532266E0BC
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 23:39:12 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB7CC6E0D9
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 23:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599003551;
+ s=mimecast20190719; t=1599003805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/iIgftDPZ6SF8umaBejPdd+v6H04Rm7NRcY7/1QkewU=;
- b=SwHCtrf65Ll2sxI0qddzHtrum7UuBZ+BRziOqvEjkUdouX3YSSS4PQGOyKuMi/i0Nf6bQc
- Mp5VHXJKJVAjS/kc2zBnEu2HvhHBKHEBsMtzPUrrJINwfaj1yjcXW5nZp6lcN6cldbR8uu
- m6of/D6AqzjosbUm4MX2El+Jw6Hj/vA=
+ bh=y3AIg4jOzdjWWkFTIo9yUEYHiAP4XtJXx3PrYBTV/r8=;
+ b=OS9WxEFDH0fVpxbVgraS58bX1b4qzmIO+JNxDjnChYK8ErLN67or1JmgfJzYBwPuEOL3vd
+ bOsge2qJVNrGqisxDSr7dTqVs19Ntu4Q5bh8P+IbY2fHKZg6js7Dr+psF0vOVg54q7KtuJ
+ ayboxhxgqqFLLewitvYKxG3jff4BmkY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-p3seJ9kXNYCK5akRClhjmg-1; Tue, 01 Sep 2020 19:39:08 -0400
-X-MC-Unique: p3seJ9kXNYCK5akRClhjmg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-101-91AhM17qMu6CCS1g56xpzg-1; Tue, 01 Sep 2020 19:43:21 -0400
+X-MC-Unique: 91AhM17qMu6CCS1g56xpzg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 798D910082E8;
- Tue,  1 Sep 2020 23:39:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0AB010066FF;
+ Tue,  1 Sep 2020 23:43:19 +0000 (UTC)
 Received: from Whitewolf.redhat.com (ovpn-119-108.rdu2.redhat.com
  [10.10.119.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B4E96198E;
- Tue,  1 Sep 2020 23:39:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3BBD5D9CC;
+ Tue,  1 Sep 2020 23:43:17 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: nouveau@lists.freedesktop.org
-Subject: [PATCH v3] drm/nouveau/kms/nv50-: Program notifier offset before
+Subject: [PATCH v4] drm/nouveau/kms/nv50-: Program notifier offset before
  requesting disp caps
-Date: Tue,  1 Sep 2020 19:38:27 -0400
-Message-Id: <20200901233842.196818-1-lyude@redhat.com>
-In-Reply-To: <20200824183253.826343-2-lyude@redhat.com>
-References: <20200824183253.826343-2-lyude@redhat.com>
+Date: Tue,  1 Sep 2020 19:42:26 -0400
+Message-Id: <20200901234240.197917-1-lyude@redhat.com>
+In-Reply-To: <20200901233842.196818-1-lyude@redhat.com>
+References: <20200901233842.196818-1-lyude@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,19 +92,21 @@ v3:
   CAPABILITIES_DONE field lives in a different location than the main
   NV_DISP_CORE_NOTIFIER_1 field. As well, 907d+ use a different
   CAPABILITIES_DONE field then pre-907d cards.
+v4:
+* Don't forget to check the return value of core507d_read_caps()
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Fixes: 4a2cb4181b07 ("drm/nouveau/kms/nv50-: Probe SOR and PIOR caps for DP interlacing support")
 Cc: <stable@vger.kernel.org> # v5.8+
 ---
- drivers/gpu/drm/nouveau/dispnv50/core.h       |  2 ++
- drivers/gpu/drm/nouveau/dispnv50/core507d.c   | 34 +++++++++++++++++--
- drivers/gpu/drm/nouveau/dispnv50/core907d.c   | 33 +++++++++++++++++-
+ drivers/gpu/drm/nouveau/dispnv50/core.h       |  2 +
+ drivers/gpu/drm/nouveau/dispnv50/core507d.c   | 37 ++++++++++++++++++-
+ drivers/gpu/drm/nouveau/dispnv50/core907d.c   | 36 +++++++++++++++++-
  drivers/gpu/drm/nouveau/dispnv50/core917d.c   |  2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.h       |  2 ++
+ drivers/gpu/drm/nouveau/dispnv50/disp.h       |  2 +
  .../drm/nouveau/include/nvhw/class/cl507d.h   |  5 ++-
- .../drm/nouveau/include/nvhw/class/cl907d.h   |  4 +++
- 7 files changed, 77 insertions(+), 5 deletions(-)
+ .../drm/nouveau/include/nvhw/class/cl907d.h   |  4 ++
+ 7 files changed, 83 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/dispnv50/core.h b/drivers/gpu/drm/nouveau/dispnv50/core.h
 index 498622c0c670d..b789139e5fff6 100644
@@ -127,10 +129,10 @@ index 498622c0c670d..b789139e5fff6 100644
  extern const struct nv50_outp_func sor907d;
  
 diff --git a/drivers/gpu/drm/nouveau/dispnv50/core507d.c b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-index ad1f09a143aa4..3ec4c3a238c41 100644
+index ad1f09a143aa4..d0f2b80a32103 100644
 --- a/drivers/gpu/drm/nouveau/dispnv50/core507d.c
 +++ b/drivers/gpu/drm/nouveau/dispnv50/core507d.c
-@@ -75,18 +75,48 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
+@@ -75,18 +75,51 @@ core507d_ntfy_init(struct nouveau_bo *bo, u32 offset)
  }
  
  int
@@ -160,11 +162,14 @@ index ad1f09a143aa4..3ec4c3a238c41 100644
 +	struct nv50_core *core = disp->core;
 +	struct nouveau_bo *bo = disp->sync;
 +	s64 time;
++	int ret;
 +
 +	NVBO_WR32(bo, NV50_DISP_CAPS_NTFY1, NV_DISP_CORE_NOTIFIER_1, CAPABILITIES_1,
 +				      NVDEF(NV_DISP_CORE_NOTIFIER_1, CAPABILITIES_1, DONE, FALSE));
 +
-+	core507d_read_caps(disp, NV50_DISP_CAPS_NTFY1);
++	ret = core507d_read_caps(disp, NV50_DISP_CAPS_NTFY1);
++	if (ret < 0)
++		return ret;
 +
 +	time = nvif_msec(core->chan.base.device, 2000ULL,
 +			 if (NVBO_TD32(bo, NV50_DISP_CAPS_NTFY1,
@@ -182,10 +187,10 @@ index ad1f09a143aa4..3ec4c3a238c41 100644
  core507d_init(struct nv50_core *core)
  {
 diff --git a/drivers/gpu/drm/nouveau/dispnv50/core907d.c b/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-index b17c03529c784..8a2005adb0e2f 100644
+index b17c03529c784..45505a18aca17 100644
 --- a/drivers/gpu/drm/nouveau/dispnv50/core907d.c
 +++ b/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-@@ -22,11 +22,42 @@
+@@ -22,11 +22,45 @@
  #include "core.h"
  #include "head.h"
  
@@ -202,11 +207,14 @@ index b17c03529c784..8a2005adb0e2f 100644
 +	struct nv50_core *core = disp->core;
 +	struct nouveau_bo *bo = disp->sync;
 +	s64 time;
++	int ret;
 +
 +	NVBO_WR32(bo, NV50_DISP_CAPS_NTFY4, NV907D_CORE_NOTIFIER_3, CAPABILITIES_4,
 +				      NVDEF(NV907D_CORE_NOTIFIER_3, CAPABILITIES_4, DONE, FALSE));
 +
-+	core507d_read_caps(disp, NV50_DISP_CAPS_NTFY4);
++	ret = core507d_read_caps(disp, NV50_DISP_CAPS_NTFY4);
++	if (ret < 0)
++		return ret;
 +
 +	time = nvif_msec(core->chan.base.device, 2000ULL,
 +			 if (NVBO_TD32(bo, NV50_DISP_CAPS_NTFY4,
