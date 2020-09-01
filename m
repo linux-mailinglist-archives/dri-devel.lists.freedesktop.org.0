@@ -1,55 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC3A259DB2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 19:55:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8F0259DCA
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 20:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EAAE6E8B9;
-	Tue,  1 Sep 2020 17:55:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58CCB6E893;
+	Tue,  1 Sep 2020 18:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 467006E8B8
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 17:55:23 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id b12so158995lfp.9
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 10:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wpCxI6GYcNIiqmjQ7hXxtMp6pAbD0ztpg7wc0lZGGUQ=;
- b=Zj8Wm1/Q/DjIi87D+ASPbHCEihP/cpwmqWxk7XzaVAH07gP9LtmjHGBeKhOi4WMToD
- SvTZ+E9Xlw5/f5arfhdVe3Hj79EMKjDN+5p7SxqMUw+zIp84n8GjmYN35Eb8YV3aSYVh
- /SQZlDA0sU50qWB2VL9gelpnzTEVJwlVtLYNjJgXx54zAhRjpgN+/iwRnnU9ANDON4LT
- DCj1QMgLzq0/k3gm13ezIbcJdX8ueh70qOYxcQO3U8O4DFezLLLgg6HrV1d/c/R0mcGt
- kcqP5nIpSc/hJ7sufQcoFFjEH03AFhqIoviU8bODEO3yBjOKndep9wMgQv2v+Es1MO+k
- 775w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wpCxI6GYcNIiqmjQ7hXxtMp6pAbD0ztpg7wc0lZGGUQ=;
- b=Q5rOU5T2BPJL60A1lHb851/TnWyAAqL9DBOd2d+HO9OfPvVlvk4VeNOYciQNz9JbAh
- vdYFSWVAq1dLo/Hh5mSFb5Dn8mwMK8i3o2BAhQDXRaWIdqeil78xNnGEpl3Tzs6SDhEM
- bXq7W5qzf4Vqn+0ndVjHPzwK3eKrfU96BpX3/QPov5DXKm/fjmYaUfoHKUMwXASKs8Y+
- uaAnzXuUTMIsrCCqbcgnIAseCLzX8P1w7fkVV9gm4noN5rdpLINIihCsYQHEXe+yC+PX
- JJbl4/woBr4f1BRJO2DrDRoSDi4ImT9uxoKNfgod8JENDCrHqjpCPlAYmRaAU/IlI/VF
- oA1g==
-X-Gm-Message-State: AOAM530bm7V+zICi14+GIRy+j5OTrOzoCt9F65yoPErAW5u45TgOZPUb
- IWWdvpl02/GmquEyX0U28UxY6GItUdUiyQGPSsKZ1jtIdKc=
-X-Google-Smtp-Source: ABdhPJz7ZgZ8/FojiJ7tnC4p40kUVMlIUPbkXtJg6DVEmtbZFIYs/u2BbdhjNo4QV/yHNbla7jkq3DmuyAn507fSqEg=
-X-Received: by 2002:a19:d95:: with SMTP id 143mr1154590lfn.4.1598982921426;
- Tue, 01 Sep 2020 10:55:21 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2CA6E893;
+ Tue,  1 Sep 2020 18:02:04 +0000 (UTC)
+IronPort-SDR: Cgz0p/P+RmoFo+NohPAE7GFuheWnJ5bdnBtHUS2k/uZj4fKtY7vUqiMbCkeYkVjuwRX8L6RDFb
+ AxS0k3j9UPcg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="144974479"
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; d="scan'208";a="144974479"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2020 11:02:02 -0700
+IronPort-SDR: rd1H57EaVjxrNmd8W7un0kEeyr0+w5UWt4yGUNSBinQxAjogP0ujYjBRJVLDz8gTHetWvdDYQs
+ tUSqa+lOTSPw==
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; d="scan'208";a="477294921"
+Received: from kgeneral-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.251.95.121])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2020 11:02:00 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: lyude@redhat.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/dp: start using more of the extended receiver caps
+In-Reply-To: <c4b9aa428ccfa90cb29845f622eba8923eeb2e38.camel@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200901123226.4177-1-jani.nikula@intel.com>
+ <c4b9aa428ccfa90cb29845f622eba8923eeb2e38.camel@redhat.com>
+Date: Tue, 01 Sep 2020 21:01:57 +0300
+Message-ID: <87d0354bqi.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200809215104.1830206-1-linus.walleij@linaro.org>
- <20200818171020.GA2290142@ravnborg.org>
- <CACRpkdaRVpGC536iSZ9ZYcOMukd9VyAkcTwmuahQJEA3tNwuqA@mail.gmail.com>
-In-Reply-To: <CACRpkdaRVpGC536iSZ9ZYcOMukd9VyAkcTwmuahQJEA3tNwuqA@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 1 Sep 2020 19:55:10 +0200
-Message-ID: <CACRpkdaOOk_btvgk=8sJSDMUwyDDB=4pYNQG1iTHztnMUQXw7A@mail.gmail.com>
-Subject: Re: [PATCH 0/4] drm/panel: s6e63m0: Add DSI transport
-To: Sam Ravnborg <sam@ravnborg.org>, Paul Cercueil <paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,55 +51,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Stephan Gerhold <stephan@gerhold.net>,
- =?UTF-8?Q?Pawe=C5=82_Chmiel?= <pawel.mikolaj.chmiel@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 27, 2020 at 11:04 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Aug 18, 2020 at 7:10 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+On Tue, 01 Sep 2020, Lyude Paul <lyude@redhat.com> wrote:
+> On Tue, 2020-09-01 at 15:32 +0300, Jani Nikula wrote:
+>> In the future, we'll be needing more of the extended receiver capability
+>> field starting at DPCD address 0x2200. (Specifically, we'll need main
+>> link channel coding cap for DP 2.0.) Start using it now to not miss out
+>> later on.
+>> 
+>> Cc: Lyude Paul <lyude@redhat.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> 
+>> ---
+>> 
+>> I guess this can be merged after the topic branch to drm-misc-next or
+>> so, but I'd prefer to have this fairly early on to catch any potential
+>> issues.
+>> ---
+>>  drivers/gpu/drm/drm_dp_helper.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+>> index 1e7c638873c8..3a3c238452df 100644
+>> --- a/drivers/gpu/drm/drm_dp_helper.c
+>> +++ b/drivers/gpu/drm/drm_dp_helper.c
+>> @@ -436,7 +436,7 @@ static u8 drm_dp_downstream_port_count(const u8
+>> dpcd[DP_RECEIVER_CAP_SIZE])
+>>  static int drm_dp_read_extended_dpcd_caps(struct drm_dp_aux *aux,
+>>  					  u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>>  {
+>> -	u8 dpcd_ext[6];
+>> +	u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
 >
-> > How does this patchset relate to the patchset posted by Paul?
-> > https://lore.kernel.org/dri-devel/20200727164613.19744-1-paul@crapouillou.net/
->
-> Not much. S6E63M0 uses "spi" as it is right now and is not using
-> the existing DBI code.
->
-> So it would require it to start using the DBI core to begin with.
-> If it can. Which is kind of an orthogonal task.
->
-> What would be the defining character for it to
-> be "DBI"? I do see that the driver sends MIPI standard commands
-> over SPI. I suspect this is another standard without public specs...
->
-> > Seems that two different approcahes are used for the same type of
-> > problem.
->
-> This approach is based on the approach from IIO, se e.g.:
-> drivers/iio/accel/bmc150-accel-core.c
-> drivers/iio/accel/bmc150-accel.h
-> drivers/iio/accel/bmc150-accel-i2c.c
-> drivers/iio/accel/bmc150-accel-spi.c
->
-> > Is it possible to find a common solution?
->
-> I'm happy to rework it any direction. If the other patch set is going to
-> take time to finalize (as in: will not merge it the coming week, need to
-> hack and stuff) then I'd prefer to apply this so I know my display works
-> in v5.10. I can certainly rework it into Paul's framework when that
-> arrives.
+> Not 100% sure this is right? It's not clear at first glance of the 2.0 spec, but
+> my assumption would be that on < DP2.0 devices that everything but those first 6
+> bytes are zeroed out in the extended DPRX field. Since we memcpy() dpcd_ext
+> using sizeof(dpcd_ext), we'd potentially end up zeroing out all of the DPCD caps
+> that comes after those 6 bytes.
 
-Is it OK to merge this as-is? I'm fishing for an ACK here...
+Re-reading stuff... AFAICT everything in 0x2200..0x220F should be
+valid. They should match what's in 0x0000..0x000F except for 0x0000,
+0x0001, and 0x0005, for backwards compatibility.
 
-I will certainly adapt to the DBI framework when/if it arrives,
-and I think my track record makes that claim believeable.
+Apparently there are no such backwards compatibility concerns with the
+other receiver cap fields then.
 
-Yours,
-Linus Walleij
+But it gives me an uneasy feeling that many places in the spec refer to
+0x2200+ even though they should per spec be the same in 0x0000+.
+
+I guess we can try without the change, and fix later if we hit issues.
+
+
+BR,
+Jani.
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
