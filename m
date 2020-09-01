@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB5B259A26
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:47:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2793259A28
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A37C6E89B;
-	Tue,  1 Sep 2020 16:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7ACF6E89F;
+	Tue,  1 Sep 2020 16:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D22CE6E89F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 16:47:07 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id y6so810700plk.10
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 09:47:07 -0700 (PDT)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70C726E89F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 16:47:12 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id o16so909847pjr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 09:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2FYkuDdKfZnq0C2m032hzkvhRzd15B2Kmt9oLbZcU5c=;
- b=o0HjAU+eO0eVEW69ynSmkWf0X28KnBPwmaRZJNBxYK2FEwYPSfbXtrDRKMWcPYxJ8x
- z9/ceSjNKIk+9TMYg4tdnV5uE80khfkGQpxt4TXLf7+jywEoZKkbdUcDn98xWEAq5oZx
- xHbRFRzuM4ttZOAx4WwnL7+brWiaLq8WTd0SmFO8/ey2Hp2fyi2cGgmyp6lOtFxkb13c
- qNic/o+FL5IF9rYTAjBb62NQ11vRZTzoMYBMNYmAgK6lq8j81VGgj+yaO7RWZwmL99QZ
- ws5tpHaiuawCLWD0uk5Garqc1CcmVxEcO4rrvh0/ubax51wtSEdZVWk/oNufULl4ATbt
- qjFg==
+ bh=e9NL/zqQnmkXSTv+zE5CjT9WgTIhkDu67eIbOBI/UcM=;
+ b=Fc9Tcszai4/bLCcetlVEqYPAQ1RbvGCHa9RLG2Ilfq2hnHpUlH+Lr12DMYNrZdmIvd
+ J1gYJyFz3ZiOX/nGK3nQjczz2tSYqUxBCxDgHFvewsnmXEHL6YOWDr9VUQUCbibQwnBk
+ M2fdYx4wzwvAtVk13Zqj6hCdsFIiwdWeSQqGbgziZxiUH0VphzSLWp5ZUvWWJx2MOn2h
+ gL54vp6ySx99JC7MH/gq8RjevHdiaiSvvXOrCHWy1sXa2yjK+ruue6B+w7cWMPWFR1Kr
+ KJThp6mg237V6t+C9r4SBa1hX1xsy3I8Iy0oDK9sQUzCB9sS59nACFzmNK8ZkkNkBuT8
+ rW/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2FYkuDdKfZnq0C2m032hzkvhRzd15B2Kmt9oLbZcU5c=;
- b=nLbYpHkXJ3BLQbtWK1Dq1WZgnK+3guDuG0Iv5MMcxx42zbUA8Z8ssVgatNgTg68krD
- +MBJAdzpckt958ow3m01VXd8GMygc5zaHP0nXo0Uu6sPd9z2MKtfW308aD5lo43efRB5
- nPChmSPKcWJKrE4c1ZDpJXn/XBlxAE6GSeaHbK/AtVYZuyq3NgLVN6H4rgNfSn0P8X4q
- 4hGGpGQ+fcODWozgjfn2pgHKcDRjt2Yu5cFJJ1YaIVO5Cq3YiIy1z6Gw8klJYpgxvlRt
- Ytr7i7Rv0Kep8XeDmAqoMjEPBfNod5LogV1xA8B7b/r66a4/iXMXj+HgEQ4NMX8UUoVY
- 8pMg==
-X-Gm-Message-State: AOAM533xyagwaY/11uCVSdJl33A/sE1xEKS44K5ghgeySNkTz5HQpb6c
- CtrFf/hSs6zymABFicU+DCHluaNbY6pRi78d
-X-Google-Smtp-Source: ABdhPJyZrrMMvdwtDYnjzNN0ZavE7E4JxesijLNi3COZopUMe83ivyVwsBJpkaFA/L4BrcggzGwCYQ==
-X-Received: by 2002:a17:90b:384d:: with SMTP id
- nl13mr2412923pjb.227.1598978826758; 
- Tue, 01 Sep 2020 09:47:06 -0700 (PDT)
+ bh=e9NL/zqQnmkXSTv+zE5CjT9WgTIhkDu67eIbOBI/UcM=;
+ b=YRpADyfNbvIL6G97oP4LdIwnqvhj/h7+CFtgSeQATqIBLrFXT0pTL6aNvnvZNxNuUh
+ KZbjGI/rYpsDFwgrIKfK2Zs6xoz6G2a8SQHwMBm6cVXO2XSwr4SmbiErfpGsjQNtcYEc
+ Vm9B7qSVKnyIa6TY5IP8IWAMGeBPsEUeMc2sGU2Ls/BYrqF+h4MjbP2oUnr68quay+o+
+ T4wPCginxamjXMfsYFsoVbhXE0JKNHL6c7W7rvjTxkH1IgTxHaH7RmuvdtPDtfI8CiSO
+ dfzLw1URx6jO1pdTRCQ6oXsKlS/z9iA/sH++rQxCGROuRpS22yPQQXB+if0bKFLTh57m
+ yYtA==
+X-Gm-Message-State: AOAM532hIx4b9WUZahZA6b0GeBq2Lv/uvsRKiEuT+SCWKxPiLzjDkJDS
+ a2c2PeUxMhdgqnvVvkt/yI928ii1mNm0Kw==
+X-Google-Smtp-Source: ABdhPJz0lqmiiFmT7Ipagca1YExexKrcu3kTt6dMEXbM6hlOjXoTtuz3jq+P6Mh0ozaDUeXYEjzlPQ==
+X-Received: by 2002:a17:902:a60f:: with SMTP id
+ u15mr2120473plq.239.1598978831367; 
+ Tue, 01 Sep 2020 09:47:11 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id bx18sm2062725pjb.6.2020.09.01.09.47.05
+ by smtp.gmail.com with ESMTPSA id b64sm2430699pfa.200.2020.09.01.09.47.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 09:47:05 -0700 (PDT)
+ Tue, 01 Sep 2020 09:47:10 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v16 12/20] iommu/arm-smmu: Pass io-pgtable config to
- implementation specific function
-Date: Tue,  1 Sep 2020 09:46:29 -0700
-Message-Id: <20200901164707.2645413-13-robdclark@gmail.com>
+Subject: [PATCH v16 13/20] iommu/arm-smmu: Add support for split pagetables
+Date: Tue,  1 Sep 2020 09:46:30 -0700
+Message-Id: <20200901164707.2645413-14-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901164707.2645413-1-robdclark@gmail.com>
 References: <20200901164707.2645413-1-robdclark@gmail.com>
@@ -70,14 +69,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Thierry Reding <treding@nvidia.com>,
  open list <linux-kernel@vger.kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Joerg Roedel <joro@8bytes.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
- Stephen Boyd <swboyd@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krishna Reddy <vdumpa@nvidia.com>, Sibi Sankar <sibis@codeaurora.org>,
- Vivek Gautam <vivek.gautam@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Hanna Hawa <hannah@marvell.com>,
+ Stephen Boyd <swboyd@chromium.org>, Krishna Reddy <vdumpa@nvidia.com>,
+ Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
  "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -86,76 +84,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jordan Crouse <jcrouse@codeaurora.org>
 
-Construct the io-pgtable config before calling the implementation specific
-init_context function and pass it so the implementation specific function
-can get a chance to change it before the io-pgtable is created.
+Enable TTBR1 for a context bank if IO_PGTABLE_QUIRK_ARM_TTBR1 is selected
+by the io-pgtable configuration.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  3 ++-
- drivers/iommu/arm/arm-smmu/arm-smmu.c      | 11 ++++++-----
- drivers/iommu/arm/arm-smmu/arm-smmu.h      |  3 ++-
- 3 files changed, 10 insertions(+), 7 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 19 +++++++++++++++----
+ drivers/iommu/arm/arm-smmu/arm-smmu.h | 25 +++++++++++++++++++------
+ 2 files changed, 34 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index f4ff124a1967..a9861dcd0884 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -68,7 +68,8 @@ static int cavium_cfg_probe(struct arm_smmu_device *smmu)
- 	return 0;
- }
- 
--static int cavium_init_context(struct arm_smmu_domain *smmu_domain)
-+static int cavium_init_context(struct arm_smmu_domain *smmu_domain,
-+		struct io_pgtable_cfg *pgtbl_cfg)
- {
- 	struct cavium_smmu *cs = container_of(smmu_domain->smmu,
- 					      struct cavium_smmu, smmu);
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index 09c42af9f31e..37d8d49299b4 100644
+index 37d8d49299b4..8e884e58f208 100644
 --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
 +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -795,11 +795,6 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		cfg->asid = cfg->cbndx;
+@@ -552,11 +552,15 @@ static void arm_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
+ 			cb->ttbr[0] = pgtbl_cfg->arm_v7s_cfg.ttbr;
+ 			cb->ttbr[1] = 0;
+ 		} else {
+-			cb->ttbr[0] = pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
+-			cb->ttbr[0] |= FIELD_PREP(ARM_SMMU_TTBRn_ASID,
+-						  cfg->asid);
++			cb->ttbr[0] = FIELD_PREP(ARM_SMMU_TTBRn_ASID,
++						 cfg->asid);
+ 			cb->ttbr[1] = FIELD_PREP(ARM_SMMU_TTBRn_ASID,
+ 						 cfg->asid);
++
++			if (pgtbl_cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
++				cb->ttbr[1] |= pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
++			else
++				cb->ttbr[0] |= pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
+ 		}
+ 	} else {
+ 		cb->ttbr[0] = pgtbl_cfg->arm_lpae_s2_cfg.vttbr;
+@@ -822,7 +826,14 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
  
- 	smmu_domain->smmu = smmu;
--	if (smmu->impl && smmu->impl->init_context) {
--		ret = smmu->impl->init_context(smmu_domain);
--		if (ret)
--			goto out_unlock;
--	}
- 
- 	pgtbl_cfg = (struct io_pgtable_cfg) {
- 		.pgsize_bitmap	= smmu->pgsize_bitmap,
-@@ -810,6 +805,12 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		.iommu_dev	= smmu->dev,
- 	};
- 
-+	if (smmu->impl && smmu->impl->init_context) {
-+		ret = smmu->impl->init_context(smmu_domain, &pgtbl_cfg);
-+		if (ret)
-+			goto out_clear_smmu;
+ 	/* Update the domain's page sizes to reflect the page table format */
+ 	domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
+-	domain->geometry.aperture_end = (1UL << ias) - 1;
++
++	if (pgtbl_cfg.quirks & IO_PGTABLE_QUIRK_ARM_TTBR1) {
++		domain->geometry.aperture_start = ~0UL << ias;
++		domain->geometry.aperture_end = ~0UL;
++	} else {
++		domain->geometry.aperture_end = (1UL << ias) - 1;
 +	}
 +
- 	if (smmu_domain->non_strict)
- 		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
+ 	domain->geometry.force_aperture = true;
  
+ 	/* Initialise the context bank with our page table cfg */
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index d890a4a968e8..83294516ac08 100644
+index 83294516ac08..f3e456893f28 100644
 --- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
 +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -386,7 +386,8 @@ struct arm_smmu_impl {
- 			    u64 val);
- 	int (*cfg_probe)(struct arm_smmu_device *smmu);
- 	int (*reset)(struct arm_smmu_device *smmu);
--	int (*init_context)(struct arm_smmu_domain *smmu_domain);
-+	int (*init_context)(struct arm_smmu_domain *smmu_domain,
-+			struct io_pgtable_cfg *cfg);
- 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
- 			 int status);
- 	int (*def_domain_type)(struct device *dev);
+@@ -169,10 +169,12 @@ enum arm_smmu_cbar_type {
+ #define ARM_SMMU_CB_TCR			0x30
+ #define ARM_SMMU_TCR_EAE		BIT(31)
+ #define ARM_SMMU_TCR_EPD1		BIT(23)
++#define ARM_SMMU_TCR_A1			BIT(22)
+ #define ARM_SMMU_TCR_TG0		GENMASK(15, 14)
+ #define ARM_SMMU_TCR_SH0		GENMASK(13, 12)
+ #define ARM_SMMU_TCR_ORGN0		GENMASK(11, 10)
+ #define ARM_SMMU_TCR_IRGN0		GENMASK(9, 8)
++#define ARM_SMMU_TCR_EPD0		BIT(7)
+ #define ARM_SMMU_TCR_T0SZ		GENMASK(5, 0)
+ 
+ #define ARM_SMMU_VTCR_RES1		BIT(31)
+@@ -350,12 +352,23 @@ struct arm_smmu_domain {
+ 
+ static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
+ {
+-	return ARM_SMMU_TCR_EPD1 |
+-	       FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
+-	       FIELD_PREP(ARM_SMMU_TCR_SH0, cfg->arm_lpae_s1_cfg.tcr.sh) |
+-	       FIELD_PREP(ARM_SMMU_TCR_ORGN0, cfg->arm_lpae_s1_cfg.tcr.orgn) |
+-	       FIELD_PREP(ARM_SMMU_TCR_IRGN0, cfg->arm_lpae_s1_cfg.tcr.irgn) |
+-	       FIELD_PREP(ARM_SMMU_TCR_T0SZ, cfg->arm_lpae_s1_cfg.tcr.tsz);
++	u32 tcr = FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
++		FIELD_PREP(ARM_SMMU_TCR_SH0, cfg->arm_lpae_s1_cfg.tcr.sh) |
++		FIELD_PREP(ARM_SMMU_TCR_ORGN0, cfg->arm_lpae_s1_cfg.tcr.orgn) |
++		FIELD_PREP(ARM_SMMU_TCR_IRGN0, cfg->arm_lpae_s1_cfg.tcr.irgn) |
++		FIELD_PREP(ARM_SMMU_TCR_T0SZ, cfg->arm_lpae_s1_cfg.tcr.tsz);
++
++       /*
++	* When TTBR1 is selected shift the TCR fields by 16 bits and disable
++	* translation in TTBR0
++	*/
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1) {
++		tcr = (tcr << 16) & ~ARM_SMMU_TCR_A1;
++		tcr |= ARM_SMMU_TCR_EPD0;
++	} else
++		tcr |= ARM_SMMU_TCR_EPD1;
++
++	return tcr;
+ }
+ 
+ static inline u32 arm_smmu_lpae_tcr2(struct io_pgtable_cfg *cfg)
 -- 
 2.26.2
 
