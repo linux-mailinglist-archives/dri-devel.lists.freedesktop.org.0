@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9111C25A613
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 09:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C070E25A615
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 09:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFAC6E90B;
-	Wed,  2 Sep 2020 07:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B6A6E8FF;
+	Wed,  2 Sep 2020 07:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1034E6E08E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 21:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1598995769; bh=UVR0IHel+T0FWD7dA6eVPkZHb0vUQx1w3OEGve81MbY=;
- h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
- b=Qs6nD3IdWHH9RKN0XHSGx20Q9atSLEZgl3gxccoBuJDBaNfP+9OmD+Yja29dOvb8p
- OucJvB6eT8G3diKV0BFoIPH6n+dMzsBTjD0fQ46ucRrOHOzaABJGdzgBOw75fqLLYr
- cKo52rRA2qAZSz4r4iJTy+8uXb92ftIguYYzD/GU=
-Date: Tue, 1 Sep 2020 23:29:29 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
+Received: from mail.siol.net (mailoutvs31.siol.net [185.57.226.222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46C396E0AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 21:38:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id 61DF15250EA;
+ Tue,  1 Sep 2020 23:38:51 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id A0KlTTDtdlkf; Tue,  1 Sep 2020 23:38:50 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id CFF115254A8;
+ Tue,  1 Sep 2020 23:38:50 +0200 (CEST)
+Received: from kista.localnet (cpe1-5-97.cable.triera.net [213.161.5.97])
+ (Authenticated sender: jernej.skrabec@siol.net)
+ by mail.siol.net (Postfix) with ESMTPA id 52C115250EA;
+ Tue,  1 Sep 2020 23:38:50 +0200 (CEST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To: =?utf-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
+ Roman Stratiienko <r.stratiienko@gmail.com>, jernej.skrabec@siol.net,
+ jernej.skrabec@gmail.com, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] RFC: sun4i/drm: Swap back U and V channels for
  DRM_FORMAT_YVU4xx
-Message-ID: <20200901212929.xty2pvn3w4d5tkg4@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
- Roman Stratiienko <r.stratiienko@gmail.com>,
- jernej.skrabec@siol.net, jernej.skrabec@gmail.com,
- linux-sunxi@googlegroups.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Tue, 01 Sep 2020 23:38:47 +0200
+Message-ID: <45687795.xFvdjMZpri@kista>
+In-Reply-To: <20200901212929.xty2pvn3w4d5tkg4@core.my.home>
 References: <20200901203047.1110851-1-r.stratiienko@gmail.com>
+ <20200901212929.xty2pvn3w4d5tkg4@core.my.home>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200901203047.1110851-1-r.stratiienko@gmail.com>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
 X-Mailman-Approved-At: Wed, 02 Sep 2020 07:07:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,189 +54,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
- jernej.skrabec@gmail.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 01, 2020 at 11:30:47PM +0300, Roman Stratiienko wrote:
-> Fixes: e1ef9006663b ("drm/sun4i: Wire in DE2 YUV support")
-> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> 
-> ---
-> CC: megous@megous.com
-> CC: jernej.skrabec@gmail.com
-> CC: linux-sunxi@googlegroups.com
-> CC: dri-devel@lists.freedesktop.org
-> CC: linux-arm-kernel@lists.infradead.org
-> CC: linux-kernel@vger.kernel.org
-> 
-> Hi, this patch fixes wrong colors during video playback for me.
-> Implemented ugly for now, please review/suggest how to improve.
-
-Why do you think the issue is at DRM level? Have you tried displaying a known
-color image via a vi layer, and was it wrong?
-
-I used DRM with YUV data in the past, and didn't notice any weird colors,
-so I'm a bit skeptical.
-
-regards,
-	o.
-
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c    |  8 +++++++-
->  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  2 +-
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  2 +-
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 28 +++++++++++++++++++-------
->  4 files changed, 30 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> index dce40c430100..bbbeef44899a 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -31,6 +31,7 @@
->  struct de2_fmt_info {
->  	u32	drm_fmt;
->  	u32	de2_fmt;
-> +	bool	swap_uv;
->  };
->  
->  static bool hw_preconfigured;
-> @@ -219,14 +220,17 @@ static const struct de2_fmt_info de2_formats[] = {
->  	{
->  		.drm_fmt = DRM_FORMAT_YVU422,
->  		.de2_fmt = SUN8I_MIXER_FBFMT_YUV422,
-> +		.swap_uv = true,
->  	},
->  	{
->  		.drm_fmt = DRM_FORMAT_YVU420,
->  		.de2_fmt = SUN8I_MIXER_FBFMT_YUV420,
-> +		.swap_uv = true,
->  	},
->  	{
->  		.drm_fmt = DRM_FORMAT_YVU411,
->  		.de2_fmt = SUN8I_MIXER_FBFMT_YUV411,
-> +		.swap_uv = true,
->  	},
->  	{
->  		.drm_fmt = DRM_FORMAT_P010,
-> @@ -238,13 +242,15 @@ static const struct de2_fmt_info de2_formats[] = {
->  	},
->  };
->  
-> -int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
-> +int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format, bool *swap_uv)
->  {
->  	unsigned int i;
->  
->  	for (i = 0; i < ARRAY_SIZE(de2_formats); ++i)
->  		if (de2_formats[i].drm_fmt == format) {
->  			*hw_format = de2_formats[i].de2_fmt;
-> +			if (swap_uv)
-> +				*swap_uv = de2_formats[i].swap_uv;
->  			return 0;
->  		}
->  
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> index 79a74bca1ea3..6358ffd251f9 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> @@ -207,5 +207,5 @@ sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
->  		return DE2_CH_BASE + channel * DE2_CH_SIZE;
->  }
->  
-> -int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format);
-> +int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format, bool *swap_uv);
->  #endif /* _SUN8I_MIXER_H_ */
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> index a7f21f08ec89..57bbd9f1071c 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -215,7 +215,7 @@ static int sun8i_ui_layer_update_formats(struct sun8i_mixer *mixer, int channel,
->  	ch_base = sun8i_channel_base(mixer, channel);
->  
->  	fmt = state->fb->format;
-> -	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
-> +	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt, NULL);
->  	if (ret || fmt->is_yuv) {
->  		DRM_DEBUG_DRIVER("Invalid format\n");
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> index 3553e38ec642..4da51155c4d5 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> @@ -313,7 +313,7 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
->  	ch_base = sun8i_channel_base(mixer, channel);
->  
->  	fmt = state->fb->format;
-> -	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
-> +	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt, NULL);
->  	if (ret) {
->  		DRM_DEBUG_DRIVER("Invalid format\n");
->  		return ret;
-> @@ -368,8 +368,17 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
->  	struct drm_gem_cma_object *gem;
->  	u32 dx, dy, src_x, src_y;
->  	dma_addr_t paddr;
-> +	bool swap_uv;
->  	u32 ch_base;
-> -	int i;
-> +	u32 hw_fmt;
-> +	int ret;
-> +	int i, j;
-> +
-> +	ret = sun8i_mixer_drm_format_to_hw(plane->state->fb->format->format, &hw_fmt, &swap_uv);
-> +	if (ret) {
-> +		DRM_DEBUG_DRIVER("Invalid format\n");
-> +		return ret;
-> +	}
->  
->  	ch_base = sun8i_channel_base(mixer, channel);
->  
-> @@ -377,7 +386,12 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
->  	src_x = (state->src.x1 >> 16) & ~(format->hsub - 1);
->  	src_y = (state->src.y1 >> 16) & ~(format->vsub - 1);
->  
-> -	for (i = 0; i < format->num_planes; i++) {
-> +	for (j = 0; j < format->num_planes; j++) {
-> +		i = j;
-> +		if (swap_uv && i > 0 && format->num_planes == 3) {
-> +			i = j == 1 ? 2 : 1;
-> +		}
-> +
->  		/* Get the physical address of the buffer in memory */
->  		gem = drm_fb_cma_get_gem_obj(fb, i);
->  
-> @@ -400,18 +414,18 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
->  
->  		/* Set the line width */
->  		DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
-> -				 i + 1, fb->pitches[i]);
-> +				 j + 1, fb->pitches[i]);
->  		regmap_write(mixer->engine.regs,
->  			     SUN8I_MIXER_CHAN_VI_LAYER_PITCH(ch_base,
-> -							     overlay, i),
-> +							     overlay, j),
->  			     fb->pitches[i]);
->  
->  		DRM_DEBUG_DRIVER("Setting %d. buffer address to %pad\n",
-> -				 i + 1, &paddr);
-> +				 j + 1, &paddr);
->  
->  		regmap_write(mixer->engine.regs,
->  			     SUN8I_MIXER_CHAN_VI_LAYER_TOP_LADDR(ch_base,
-> -								 overlay, i),
-> +								 overlay, j),
->  			     lower_32_bits(paddr));
->  	}
->  
-> -- 
-> 2.25.1
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RG5lIHRvcmVrLCAwMS4gc2VwdGVtYmVyIDIwMjAgb2IgMjM6Mjk6MjkgQ0VTVCBqZSBPbmTFmWVq
+IEppcm1hbiBuYXBpc2FsKGEpOgo+IE9uIFR1ZSwgU2VwIDAxLCAyMDIwIGF0IDExOjMwOjQ3UE0g
+KzAzMDAsIFJvbWFuIFN0cmF0aWllbmtvIHdyb3RlOgo+ID4gRml4ZXM6IGUxZWY5MDA2NjYzYiAo
+ImRybS9zdW40aTogV2lyZSBpbiBERTIgWVVWIHN1cHBvcnQiKQo+ID4gU2lnbmVkLW9mZi1ieTog
+Um9tYW4gU3RyYXRpaWVua28gPHIuc3RyYXRpaWVua29AZ21haWwuY29tPgo+ID4gCj4gPiAtLS0K
+PiA+IENDOiBtZWdvdXNAbWVnb3VzLmNvbQo+ID4gQ0M6IGplcm5lai5za3JhYmVjQGdtYWlsLmNv
+bQo+ID4gQ0M6IGxpbnV4LXN1bnhpQGdvb2dsZWdyb3Vwcy5jb20KPiA+IENDOiBkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBDQzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZy
+YWRlYWQub3JnCj4gPiBDQzogbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+ID4gCj4gPiBI
+aSwgdGhpcyBwYXRjaCBmaXhlcyB3cm9uZyBjb2xvcnMgZHVyaW5nIHZpZGVvIHBsYXliYWNrIGZv
+ciBtZS4KPiA+IEltcGxlbWVudGVkIHVnbHkgZm9yIG5vdywgcGxlYXNlIHJldmlldy9zdWdnZXN0
+IGhvdyB0byBpbXByb3ZlLgo+IAo+IFdoeSBkbyB5b3UgdGhpbmsgdGhlIGlzc3VlIGlzIGF0IERS
+TSBsZXZlbD8gSGF2ZSB5b3UgdHJpZWQgZGlzcGxheWluZyBhIGtub3duCj4gY29sb3IgaW1hZ2Ug
+dmlhIGEgdmkgbGF5ZXIsIGFuZCB3YXMgaXQgd3Jvbmc/Cj4gCj4gSSB1c2VkIERSTSB3aXRoIFlV
+ViBkYXRhIGluIHRoZSBwYXN0LCBhbmQgZGlkbid0IG5vdGljZSBhbnkgd2VpcmQgY29sb3JzLAo+
+IHNvIEknbSBhIGJpdCBza2VwdGljYWwuCgpUaGVyZSBpcyBhIGJ1ZywgSSBqdXN0IHRlc3RlZCBp
+dCwgYnV0IHNvbHV0aW9uIGlzIG11Y2ggbW9yZSBzaW1wbGVyOgoKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3N1bjRpL3N1bjhpX3ZpX2xheWVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1
+bjhpX3ZpX2xheWVyLmMKQEAgLTIxMSw3ICsyMTEsNyBAQCBzdGF0aWMgaW50IHN1bjhpX3ZpX2xh
+eWVyX3VwZGF0ZV9jb29yZChzdHJ1Y3Qgc3VuOGlfbWl4ZXIgKm1peGVyLCBpbnQgY2hhbm5lbCwK
+ICAgICAgICByZXR1cm4gMDsKIH0KIAotc3RhdGljIGJvb2wgc3VuOGlfdmlfbGF5ZXJfZ2V0X2Nz
+Y19tb2RlKGNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKmZvcm1hdCkKK3N0YXRpYyB1MzIg
+c3VuOGlfdmlfbGF5ZXJfZ2V0X2NzY19tb2RlKGNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8g
+KmZvcm1hdCkKIHsKICAgICAgICBpZiAoIWZvcm1hdC0+aXNfeXV2KQogICAgICAgICAgICAgICAg
+cmV0dXJuIFNVTjhJX0NTQ19NT0RFX09GRjsKCgpJIG1hZGUgYSBtaXN0YWtlIHdoZW4gSSB3YXMg
+cmV3b3JraW5nIChzaW1wbGlmeWluZykgZm9ybWF0IGhhbmRsaW5nLiBJJ2xsIHNlbmQgYSBmaXgg
+c29vbi4KClRoYW5rcyBmb3IgcmVwb3J0IQoKQmVzdCByZWdhcmRzLApKZXJuZWoKCj4gCj4gcmVn
+YXJkcywKPiAJby4KPiAKPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9t
+aXhlci5jICAgIHwgIDggKysrKysrKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlf
+bWl4ZXIuaCAgICB8ICAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xh
+eWVyLmMgfCAgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5j
+IHwgMjggKysrKysrKysrKysrKysrKysrKy0tLS0tLS0KPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDMw
+IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkv
+c3VuOGlfbWl4ZXIuYwo+ID4gaW5kZXggZGNlNDBjNDMwMTAwLi5iYmJlZWY0NDg5OWEgMTAwNjQ0
+Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfbWl4ZXIuYwo+ID4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmMKPiA+IEBAIC0zMSw2ICszMSw3IEBA
+Cj4gPiAgc3RydWN0IGRlMl9mbXRfaW5mbyB7Cj4gPiAgCXUzMglkcm1fZm10Owo+ID4gIAl1MzIJ
+ZGUyX2ZtdDsKPiA+ICsJYm9vbAlzd2FwX3V2Owo+ID4gIH07Cj4gPiAgCj4gPiAgc3RhdGljIGJv
+b2wgaHdfcHJlY29uZmlndXJlZDsKPiA+IEBAIC0yMTksMTQgKzIyMCwxNyBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IGRlMl9mbXRfaW5mbyBkZTJfZm9ybWF0c1tdID0gewo+ID4gIAl7Cj4gPiAgCQku
+ZHJtX2ZtdCA9IERSTV9GT1JNQVRfWVZVNDIyLAo+ID4gIAkJLmRlMl9mbXQgPSBTVU44SV9NSVhF
+Ul9GQkZNVF9ZVVY0MjIsCj4gPiArCQkuc3dhcF91diA9IHRydWUsCj4gPiAgCX0sCj4gPiAgCXsK
+PiA+ICAJCS5kcm1fZm10ID0gRFJNX0ZPUk1BVF9ZVlU0MjAsCj4gPiAgCQkuZGUyX2ZtdCA9IFNV
+TjhJX01JWEVSX0ZCRk1UX1lVVjQyMCwKPiA+ICsJCS5zd2FwX3V2ID0gdHJ1ZSwKPiA+ICAJfSwK
+PiA+ICAJewo+ID4gIAkJLmRybV9mbXQgPSBEUk1fRk9STUFUX1lWVTQxMSwKPiA+ICAJCS5kZTJf
+Zm10ID0gU1VOOElfTUlYRVJfRkJGTVRfWVVWNDExLAo+ID4gKwkJLnN3YXBfdXYgPSB0cnVlLAo+
+ID4gIAl9LAo+ID4gIAl7Cj4gPiAgCQkuZHJtX2ZtdCA9IERSTV9GT1JNQVRfUDAxMCwKPiA+IEBA
+IC0yMzgsMTMgKzI0MiwxNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRlMl9mbXRfaW5mbyBkZTJf
+Zm9ybWF0c1tdID0gewo+ID4gIAl9LAo+ID4gIH07Cj4gPiAgCj4gPiAtaW50IHN1bjhpX21peGVy
+X2RybV9mb3JtYXRfdG9faHcodTMyIGZvcm1hdCwgdTMyICpod19mb3JtYXQpCj4gPiAraW50IHN1
+bjhpX21peGVyX2RybV9mb3JtYXRfdG9faHcodTMyIGZvcm1hdCwgdTMyICpod19mb3JtYXQsIGJv
+b2wgKnN3YXBfdXYpCj4gPiAgewo+ID4gIAl1bnNpZ25lZCBpbnQgaTsKPiA+ICAKPiA+ICAJZm9y
+IChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZGUyX2Zvcm1hdHMpOyArK2kpCj4gPiAgCQlpZiAoZGUy
+X2Zvcm1hdHNbaV0uZHJtX2ZtdCA9PSBmb3JtYXQpIHsKPiA+ICAJCQkqaHdfZm9ybWF0ID0gZGUy
+X2Zvcm1hdHNbaV0uZGUyX2ZtdDsKPiA+ICsJCQlpZiAoc3dhcF91dikKPiA+ICsJCQkJKnN3YXBf
+dXYgPSBkZTJfZm9ybWF0c1tpXS5zd2FwX3V2Owo+ID4gIAkJCXJldHVybiAwOwo+ID4gIAkJfQo+
+ID4gIAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9taXhlci5o
+IGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmgKPiA+IGluZGV4IDc5YTc0YmNh
+MWVhMy4uNjM1OGZmZDI1MWY5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRp
+L3N1bjhpX21peGVyLmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9taXhl
+ci5oCj4gPiBAQCAtMjA3LDUgKzIwNyw1IEBAIHN1bjhpX2NoYW5uZWxfYmFzZShzdHJ1Y3Qgc3Vu
+OGlfbWl4ZXIgKm1peGVyLCBpbnQgY2hhbm5lbCkKPiA+ICAJCXJldHVybiBERTJfQ0hfQkFTRSAr
+IGNoYW5uZWwgKiBERTJfQ0hfU0laRTsKPiA+ICB9Cj4gPiAgCj4gPiAtaW50IHN1bjhpX21peGVy
+X2RybV9mb3JtYXRfdG9faHcodTMyIGZvcm1hdCwgdTMyICpod19mb3JtYXQpOwo+ID4gK2ludCBz
+dW44aV9taXhlcl9kcm1fZm9ybWF0X3RvX2h3KHUzMiBmb3JtYXQsIHUzMiAqaHdfZm9ybWF0LCBi
+b29sICpzd2FwX3V2KTsKPiA+ICAjZW5kaWYgLyogX1NVTjhJX01JWEVSX0hfICovCj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xheWVyLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vc3VuNGkvc3VuOGlfdWlfbGF5ZXIuYwo+ID4gaW5kZXggYTdmMjFmMDhlYzg5Li41
+N2JiZDlmMTA3MWMgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlf
+dWlfbGF5ZXIuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xheWVy
+LmMKPiA+IEBAIC0yMTUsNyArMjE1LDcgQEAgc3RhdGljIGludCBzdW44aV91aV9sYXllcl91cGRh
+dGVfZm9ybWF0cyhzdHJ1Y3Qgc3VuOGlfbWl4ZXIgKm1peGVyLCBpbnQgY2hhbm5lbCwKPiA+ICAJ
+Y2hfYmFzZSA9IHN1bjhpX2NoYW5uZWxfYmFzZShtaXhlciwgY2hhbm5lbCk7Cj4gPiAgCj4gPiAg
+CWZtdCA9IHN0YXRlLT5mYi0+Zm9ybWF0Owo+ID4gLQlyZXQgPSBzdW44aV9taXhlcl9kcm1fZm9y
+bWF0X3RvX2h3KGZtdC0+Zm9ybWF0LCAmaHdfZm10KTsKPiA+ICsJcmV0ID0gc3VuOGlfbWl4ZXJf
+ZHJtX2Zvcm1hdF90b19odyhmbXQtPmZvcm1hdCwgJmh3X2ZtdCwgTlVMTCk7Cj4gPiAgCWlmIChy
+ZXQgfHwgZm10LT5pc195dXYpIHsKPiA+ICAJCURSTV9ERUJVR19EUklWRVIoIkludmFsaWQgZm9y
+bWF0XG4iKTsKPiA+ICAJCXJldHVybiAtRUlOVkFMOwo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5jIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1
+bjhpX3ZpX2xheWVyLmMKPiA+IGluZGV4IDM1NTNlMzhlYzY0Mi4uNGRhNTExNTVjNGQ1IDEwMDY0
+NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3ZpX2xheWVyLmMKPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5jCj4gPiBAQCAtMzEzLDcg
+KzMxMyw3IEBAIHN0YXRpYyBpbnQgc3VuOGlfdmlfbGF5ZXJfdXBkYXRlX2Zvcm1hdHMoc3RydWN0
+IHN1bjhpX21peGVyICptaXhlciwgaW50IGNoYW5uZWwsCj4gPiAgCWNoX2Jhc2UgPSBzdW44aV9j
+aGFubmVsX2Jhc2UobWl4ZXIsIGNoYW5uZWwpOwo+ID4gIAo+ID4gIAlmbXQgPSBzdGF0ZS0+ZmIt
+PmZvcm1hdDsKPiA+IC0JcmV0ID0gc3VuOGlfbWl4ZXJfZHJtX2Zvcm1hdF90b19odyhmbXQtPmZv
+cm1hdCwgJmh3X2ZtdCk7Cj4gPiArCXJldCA9IHN1bjhpX21peGVyX2RybV9mb3JtYXRfdG9faHco
+Zm10LT5mb3JtYXQsICZod19mbXQsIE5VTEwpOwo+ID4gIAlpZiAocmV0KSB7Cj4gPiAgCQlEUk1f
+REVCVUdfRFJJVkVSKCJJbnZhbGlkIGZvcm1hdFxuIik7Cj4gPiAgCQlyZXR1cm4gcmV0Owo+ID4g
+QEAgLTM2OCw4ICszNjgsMTcgQEAgc3RhdGljIGludCBzdW44aV92aV9sYXllcl91cGRhdGVfYnVm
+ZmVyKHN0cnVjdCBzdW44aV9taXhlciAqbWl4ZXIsIGludCBjaGFubmVsLAo+ID4gIAlzdHJ1Y3Qg
+ZHJtX2dlbV9jbWFfb2JqZWN0ICpnZW07Cj4gPiAgCXUzMiBkeCwgZHksIHNyY194LCBzcmNfeTsK
+PiA+ICAJZG1hX2FkZHJfdCBwYWRkcjsKPiA+ICsJYm9vbCBzd2FwX3V2Owo+ID4gIAl1MzIgY2hf
+YmFzZTsKPiA+IC0JaW50IGk7Cj4gPiArCXUzMiBod19mbXQ7Cj4gPiArCWludCByZXQ7Cj4gPiAr
+CWludCBpLCBqOwo+ID4gKwo+ID4gKwlyZXQgPSBzdW44aV9taXhlcl9kcm1fZm9ybWF0X3RvX2h3
+KHBsYW5lLT5zdGF0ZS0+ZmItPmZvcm1hdC0+Zm9ybWF0LCAmaHdfZm10LCAmc3dhcF91dik7Cj4g
+PiArCWlmIChyZXQpIHsKPiA+ICsJCURSTV9ERUJVR19EUklWRVIoIkludmFsaWQgZm9ybWF0XG4i
+KTsKPiA+ICsJCXJldHVybiByZXQ7Cj4gPiArCX0KPiA+ICAKPiA+ICAJY2hfYmFzZSA9IHN1bjhp
+X2NoYW5uZWxfYmFzZShtaXhlciwgY2hhbm5lbCk7Cj4gPiAgCj4gPiBAQCAtMzc3LDcgKzM4Niwx
+MiBAQCBzdGF0aWMgaW50IHN1bjhpX3ZpX2xheWVyX3VwZGF0ZV9idWZmZXIoc3RydWN0IHN1bjhp
+X21peGVyICptaXhlciwgaW50IGNoYW5uZWwsCj4gPiAgCXNyY194ID0gKHN0YXRlLT5zcmMueDEg
+Pj4gMTYpICYgfihmb3JtYXQtPmhzdWIgLSAxKTsKPiA+ICAJc3JjX3kgPSAoc3RhdGUtPnNyYy55
+MSA+PiAxNikgJiB+KGZvcm1hdC0+dnN1YiAtIDEpOwo+ID4gIAo+ID4gLQlmb3IgKGkgPSAwOyBp
+IDwgZm9ybWF0LT5udW1fcGxhbmVzOyBpKyspIHsKPiA+ICsJZm9yIChqID0gMDsgaiA8IGZvcm1h
+dC0+bnVtX3BsYW5lczsgaisrKSB7Cj4gPiArCQlpID0gajsKPiA+ICsJCWlmIChzd2FwX3V2ICYm
+IGkgPiAwICYmIGZvcm1hdC0+bnVtX3BsYW5lcyA9PSAzKSB7Cj4gPiArCQkJaSA9IGogPT0gMSA/
+IDIgOiAxOwo+ID4gKwkJfQo+ID4gKwo+ID4gIAkJLyogR2V0IHRoZSBwaHlzaWNhbCBhZGRyZXNz
+IG9mIHRoZSBidWZmZXIgaW4gbWVtb3J5ICovCj4gPiAgCQlnZW0gPSBkcm1fZmJfY21hX2dldF9n
+ZW1fb2JqKGZiLCBpKTsKPiA+ICAKPiA+IEBAIC00MDAsMTggKzQxNCwxOCBAQCBzdGF0aWMgaW50
+IHN1bjhpX3ZpX2xheWVyX3VwZGF0ZV9idWZmZXIoc3RydWN0IHN1bjhpX21peGVyICptaXhlciwg
+aW50IGNoYW5uZWwsCj4gPiAgCj4gPiAgCQkvKiBTZXQgdGhlIGxpbmUgd2lkdGggKi8KPiA+ICAJ
+CURSTV9ERUJVR19EUklWRVIoIkxheWVyICVkLiBsaW5lIHdpZHRoOiAlZCBieXRlc1xuIiwKPiA+
+IC0JCQkJIGkgKyAxLCBmYi0+cGl0Y2hlc1tpXSk7Cj4gPiArCQkJCSBqICsgMSwgZmItPnBpdGNo
+ZXNbaV0pOwo+ID4gIAkJcmVnbWFwX3dyaXRlKG1peGVyLT5lbmdpbmUucmVncywKPiA+ICAJCQkg
+ICAgIFNVTjhJX01JWEVSX0NIQU5fVklfTEFZRVJfUElUQ0goY2hfYmFzZSwKPiA+IC0JCQkJCQkJ
+ICAgICBvdmVybGF5LCBpKSwKPiA+ICsJCQkJCQkJICAgICBvdmVybGF5LCBqKSwKPiA+ICAJCQkg
+ICAgIGZiLT5waXRjaGVzW2ldKTsKPiA+ICAKPiA+ICAJCURSTV9ERUJVR19EUklWRVIoIlNldHRp
+bmcgJWQuIGJ1ZmZlciBhZGRyZXNzIHRvICVwYWRcbiIsCj4gPiAtCQkJCSBpICsgMSwgJnBhZGRy
+KTsKPiA+ICsJCQkJIGogKyAxLCAmcGFkZHIpOwo+ID4gIAo+ID4gIAkJcmVnbWFwX3dyaXRlKG1p
+eGVyLT5lbmdpbmUucmVncywKPiA+ICAJCQkgICAgIFNVTjhJX01JWEVSX0NIQU5fVklfTEFZRVJf
+VE9QX0xBRERSKGNoX2Jhc2UsCj4gPiAtCQkJCQkJCQkgb3ZlcmxheSwgaSksCj4gPiArCQkJCQkJ
+CQkgb3ZlcmxheSwgaiksCj4gPiAgCQkJICAgICBsb3dlcl8zMl9iaXRzKHBhZGRyKSk7Cj4gPiAg
+CX0KPiA+ICAKPiA+IC0tIAo+ID4gMi4yNS4xCj4gPiAKPiAKCgoKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
