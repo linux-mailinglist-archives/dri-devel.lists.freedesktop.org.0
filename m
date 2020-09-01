@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEED258D5A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 13:23:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79000258D6B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 13:27:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9839B6E851;
-	Tue,  1 Sep 2020 11:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3646E857;
+	Tue,  1 Sep 2020 11:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFEDF6E851;
- Tue,  1 Sep 2020 11:23:52 +0000 (UTC)
-IronPort-SDR: sh0LLEPQdcPEeL2uWcJYbQ7dtISE7C6czbDMwf3P939yIrqd7BJgW7k8zSS5omM8eJGLP8rRYx
- +ppCm1J5KcWQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="221374455"
-X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="221374455"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C586E853;
+ Tue,  1 Sep 2020 11:27:23 +0000 (UTC)
+IronPort-SDR: KJ4dVih2iUSFbaQlDXr855zJ/fRQThOWZCBmFwF9XZGL2npBSnMgsKDNZ7+zWmBmlr3NwOuO9W
+ VXdFEeYrR+Rw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="154658337"
+X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="154658337"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2020 04:23:51 -0700
-IronPort-SDR: 9jMaMimnULPxsbY+BVrJE3ofFWTQbfT/f4sPaguGSl8NQAjuId29yOljEqNIVBv0zcRCU4OiBy
- MGyCkaJQoE5Q==
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2020 04:27:22 -0700
+IronPort-SDR: 9C9HRrq92EbJ7ZvAxMs9fmu5rpdJdyTSoKLaFEe3eYogq1PuJnMljb2lbnTB8Ullxonmgi5leE
+ FWmznr5V5XaQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="340993898"
+X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="314697230"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 01 Sep 2020 04:23:47 -0700
+ by orsmga002.jf.intel.com with SMTP; 01 Sep 2020 04:27:18 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 01 Sep 2020 14:23:46 +0300
-Date: Tue, 1 Sep 2020 14:23:46 +0300
+ Tue, 01 Sep 2020 14:27:17 +0300
+Date: Tue, 1 Sep 2020 14:27:17 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Karthik B S <karthik.b.s@intel.com>
-Subject: Re: [PATCH v6 4/7] drm/i915: Do not call drm_crtc_arm_vblank_event
- in async flips
-Message-ID: <20200901112346.GI6112@intel.com>
+Subject: Re: [PATCH v6 5/7] drm/i915: Add dedicated plane hook for async flip
+ case
+Message-ID: <20200901112717.GJ6112@intel.com>
 References: <20200807093551.10673-1-karthik.b.s@intel.com>
- <20200807093551.10673-5-karthik.b.s@intel.com>
+ <20200807093551.10673-6-karthik.b.s@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200807093551.10673-5-karthik.b.s@intel.com>
+In-Reply-To: <20200807093551.10673-6-karthik.b.s@intel.com>
 X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,82 +63,75 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 07, 2020 at 03:05:48PM +0530, Karthik B S wrote:
-> Since the flip done event will be sent in the flip_done_handler,
-> no need to add the event to the list and delay it for later.
-> =
-
-> v2: -Moved the async check above vblank_get as it
->      was causing issues for PSR.
-> =
-
-> v3: -No need to wait for vblank to pass, as this wait was causing a
->      16ms delay once every few flips.
-> =
-
-> v4: -Rebased.
-> =
-
-> v5: -Rebased.
-> =
-
-> v6: -Rebased.
+On Fri, Aug 07, 2020 at 03:05:49PM +0530, Karthik B S wrote:
+> This hook is added to avoid writing other plane registers in case of
+> async flips, so that we do not write the double buffered registers
+> during async surface address update.
 > =
 
 > Signed-off-by: Karthik B S <karthik.b.s@intel.com>
 > Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_sprite.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/display/intel_sprite.c | 25 +++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > =
 
 > diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/dr=
 m/i915/display/intel_sprite.c
-> index c26ca029fc0a..2b2d96c59d7f 100644
+> index 2b2d96c59d7f..1c03546a4d2a 100644
 > --- a/drivers/gpu/drm/i915/display/intel_sprite.c
 > +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-> @@ -93,6 +93,9 @@ void intel_pipe_update_start(const struct intel_crtc_st=
-ate *new_crtc_state)
->  	DEFINE_WAIT(wait);
->  	u32 psr_status;
+> @@ -609,6 +609,24 @@ icl_program_input_csc(struct intel_plane *plane,
+>  			  PLANE_INPUT_CSC_POSTOFF(pipe, plane_id, 2), 0x0);
+>  }
 >  =
 
-> +	if (new_crtc_state->uapi.async_flip)
-> +		goto irq_disable;
+> +static void
+> +skl_program_async_surface_address(struct drm_i915_private *dev_priv,
+> +				  const struct intel_plane_state *plane_state,
+> +				  enum pipe pipe, enum plane_id plane_id,
+> +				  u32 surf_addr)
+> +{
+> +	unsigned long irqflags;
+> +	u32 plane_ctl =3D plane_state->ctl;
 
-We shouldn't really need the irq disable at all if we don't do the
-vblank evade. And if we only write ctl+surf then atomicity is already
-guaranteed by the hw.
+Need the bits from skl_plane_ctl_crtc() too.
 
 > +
->  	vblank_start =3D adjusted_mode->crtc_vblank_start;
->  	if (adjusted_mode->flags & DRM_MODE_FLAG_INTERLACE)
->  		vblank_start =3D DIV_ROUND_UP(vblank_start, 2);
-> @@ -206,7 +209,7 @@ void intel_pipe_update_end(struct intel_crtc_state *n=
-ew_crtc_state)
->  	 * Would be slightly nice to just grab the vblank count and arm the
->  	 * event outside of the critical section - the spinlock might spin for a
->  	 * while ... */
-> -	if (new_crtc_state->uapi.event) {
-> +	if (new_crtc_state->uapi.event && !new_crtc_state->uapi.async_flip) {
->  		drm_WARN_ON(&dev_priv->drm,
->  			    drm_crtc_vblank_get(&crtc->base) !=3D 0);
+> +	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
+> +
+> +	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
+> +	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id),
+> +			  intel_plane_ggtt_offset(plane_state) + surf_addr);
+> +
+> +	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+> +}
+> +
+>  static void
+>  skl_program_plane(struct intel_plane *plane,
+>  		  const struct intel_crtc_state *crtc_state,
+> @@ -637,6 +655,13 @@ skl_program_plane(struct intel_plane *plane,
+>  	u32 keymsk, keymax;
+>  	u32 plane_ctl =3D plane_state->ctl;
 >  =
 
-> @@ -220,6 +223,9 @@ void intel_pipe_update_end(struct intel_crtc_state *n=
-ew_crtc_state)
->  =
-
->  	local_irq_enable();
->  =
-
-> +	if (new_crtc_state->uapi.async_flip)
+> +	/* During Async flip, no other updates are allowed */
+> +	if (crtc_state->uapi.async_flip) {
+> +		skl_program_async_surface_address(dev_priv, plane_state,
+> +						  pipe, plane_id, surf_addr);
 > +		return;
+> +	}
+
+I'd suggest adding a vfunc for this. Should be able to call it from
+intel_update_plane(). That way we don't need to patch it into each
+and every .update_plane() implementation.
+
+
 > +
->  	if (intel_vgpu_active(dev_priv))
->  		return;
+>  	plane_ctl |=3D skl_plane_ctl_crtc(crtc_state);
 >  =
 
+>  	if (INTEL_GEN(dev_priv) >=3D 10 || IS_GEMINILAKE(dev_priv))
 > -- =
 
 > 2.22.0
