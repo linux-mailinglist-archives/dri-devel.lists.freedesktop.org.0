@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A541259926
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70D7259928
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 18:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA4236E888;
-	Tue,  1 Sep 2020 16:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4ADB6E88B;
+	Tue,  1 Sep 2020 16:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa4.hc3370-68.iphmx.com (esa4.hc3370-68.iphmx.com
- [216.71.155.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0C5B6E2B2
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 14:45:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1598971549;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JdnTGG+FGAeYr/CaqX7nq47kV+5WzzeAxfnDtVerGyo=;
- b=SLYjGoK4HrL2DpYCS1/LA5fdNb6dd2b0HWdODbI8HSC7FhijV+TQKZ97
- LifBAsjQ7fJGXaZoEthWj6XaT/w42H+GOl68pg3oSvTYdXp4+Mh5q9I82
- BxrHH5BIsODzkymIMNgHAQzOmo3ZIe4ALpMvdlTLKnJf/MgwwKdMCSdmX Q=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: Fx1CBO5kj/E1oAMz1SNj/x+W2f0hG4uH49vCOwacHjqiEVjH7W+Z6ZuJZjjum/02jE8xubVska
- 3sIRr0yzCkV4UFYdAcAEcQc4GhV+gB8w1o75XW1D5ExaZvi5cN6ZLmCer9O+ksnWJQiP2Sgj10
- qB4qwe6YKfcng8UZr3n0SOQ5PpIFcJuHhd74YlTayszxMAsS0OrjOzM8z+nks1IfNFppYINasU
- Ro6lhbOIuB5NwPtFeaSBPdzODMC3WqFYJrILMML41cyYE6RwfKjxRUW9A0yz27uqJzHVG1uKB9
- Dt4=
-X-SBRS: 2.7
-X-MesageID: 26701517
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.76,379,1592884800"; d="scan'208";a="26701517"
-Date: Tue, 1 Sep 2020 16:45:39 +0200
-From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 3/3] xen: add helpers to allocate unpopulated memory
-Message-ID: <20200901144539.GI753@Air-de-Roger>
-References: <20200901083326.21264-1-roger.pau@citrix.com>
- <20200901083326.21264-4-roger.pau@citrix.com>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0756E85E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 15:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=tss5M/CgWtNHrn8kN3neH2rNWYnxcMFrfLkwrH1qZaA=; b=yraft6TribLHwkrXJ7oKDtJRbK
+ cOoSth/ZTysdAmjuNC9rchtYeF0z+4F1RM8ZSndjz2v5LMkusAM9mIEOSPtOBEwb0PrM+xXx7Ea7l
+ /ikF7LoG7gYahgDVNW4fpo5YAAYo7+GSKX3Kj5LrIdLfBohdGxGfIZnJ7e4SMWbdBgoLHEIW8Tgf+
+ njRXFLID+gofXGqnwhgAGdxbeaCAz+DaJh+I7tc9ACsUsCsauw+lX1T/rK1szN+XezzxnPVRwgJmj
+ cElkLQkrY4Cp0YxyEUGpaWUKkF76V0isaghz3YuqDIfij7YJSYYX6sQuqof0yxOOvFOlXTjYKms7X
+ VU1axofA==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kD7rf-0005MS-Oa; Tue, 01 Sep 2020 15:06:28 +0000
+Subject: Re: [PATCH] dma-buf: fix kernel-doc warning in dma-fence.c
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, Gustavo Padovan <gustavo@padovan.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20200831041713.12571-1-rdunlap@infradead.org>
+ <81dc0a34-90f6-401a-f846-924fdff4aaff@amd.com>
+ <20200901133200.GE2352366@phenom.ffwll.local>
+ <d057988a-7ba4-7e3b-1c36-e40e9a5a8d9a@amd.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <e15d8d9b-3988-191d-f9c0-6e5c3efe7485@infradead.org>
+Date: Tue, 1 Sep 2020 08:06:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200901083326.21264-4-roger.pau@citrix.com>
-X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
- FTLPEX02CL06.citrite.net (10.13.108.179)
-X-Mailman-Approved-At: Tue, 01 Sep 2020 16:37:24 +0000
+In-Reply-To: <d057988a-7ba4-7e3b-1c36-e40e9a5a8d9a@amd.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 01 Sep 2020 16:37:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,117 +55,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, Stefano
- Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
- David Hildenbrand <david@redhat.com>, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 01, 2020 at 10:33:26AM +0200, Roger Pau Monne wrote:
-> +static int fill_list(unsigned int nr_pages)
-> +{
-> +	struct dev_pagemap *pgmap;
-> +	void *vaddr;
-> +	unsigned int i, alloc_pages = round_up(nr_pages, PAGES_PER_SECTION);
-> +	int nid, ret;
-> +
-> +	pgmap = kzalloc(sizeof(*pgmap), GFP_KERNEL);
-> +	if (!pgmap)
-> +		return -ENOMEM;
-> +
-> +	pgmap->type = MEMORY_DEVICE_GENERIC;
-> +	pgmap->res.name = "Xen scratch";
-> +	pgmap->res.flags = IORESOURCE_MEM | IORESOURCE_BUSY;
-> +
-> +	ret = allocate_resource(&iomem_resource, &pgmap->res,
-> +				alloc_pages * PAGE_SIZE, 0, -1,
-> +				PAGES_PER_SECTION * PAGE_SIZE, NULL, NULL);
-> +	if (ret < 0) {
-> +		pr_err("Cannot allocate new IOMEM resource\n");
-> +		kfree(pgmap);
-> +		return ret;
-> +	}
-> +
-> +	nid = memory_add_physaddr_to_nid(pgmap->res.start);
-
-I think this is not needed ...
-
-> +
-> +#ifdef CONFIG_XEN_HAVE_PVMMU
-> +        /*
-> +         * memremap will build page tables for the new memory so
-> +         * the p2m must contain invalid entries so the correct
-> +         * non-present PTEs will be written.
-> +         *
-> +         * If a failure occurs, the original (identity) p2m entries
-> +         * are not restored since this region is now known not to
-> +         * conflict with any devices.
-> +         */
-> +	if (!xen_feature(XENFEAT_auto_translated_physmap)) {
-> +		xen_pfn_t pfn = PFN_DOWN(pgmap->res.start);
-> +
-> +		for (i = 0; i < alloc_pages; i++) {
-> +			if (!set_phys_to_machine(pfn + i, INVALID_P2M_ENTRY)) {
-> +				pr_warn("set_phys_to_machine() failed, no memory added\n");
-> +				release_resource(&pgmap->res);
-> +				kfree(pgmap);
-> +				return -ENOMEM;
-> +			}
-> +                }
-> +	}
-> +#endif
-> +
-> +	vaddr = memremap_pages(pgmap, nid);
-
-... and NUMA_NO_NODE should be used here instead, as this memory is just
-fictitious space to map foreign memory, and shouldn't be related to
-any NUMA node.
-
-The following chunk should be folded in, or I can resend.
-
-Thanks, Roger.
----8<---
-diff --git a/drivers/xen/unpopulated-alloc.c b/drivers/xen/unpopulated-alloc.c
-index 1b5d157c6977..3b98dc921426 100644
---- a/drivers/xen/unpopulated-alloc.c
-+++ b/drivers/xen/unpopulated-alloc.c
-@@ -20,7 +20,7 @@ static int fill_list(unsigned int nr_pages)
- 	struct dev_pagemap *pgmap;
- 	void *vaddr;
- 	unsigned int i, alloc_pages = round_up(nr_pages, PAGES_PER_SECTION);
--	int nid, ret;
-+	int ret;
- 
- 	pgmap = kzalloc(sizeof(*pgmap), GFP_KERNEL);
- 	if (!pgmap)
-@@ -39,8 +39,6 @@ static int fill_list(unsigned int nr_pages)
- 		return ret;
- 	}
- 
--	nid = memory_add_physaddr_to_nid(pgmap->res.start);
--
- #ifdef CONFIG_XEN_HAVE_PVMMU
-         /*
-          * memremap will build page tables for the new memory so
-@@ -65,7 +63,7 @@ static int fill_list(unsigned int nr_pages)
- 	}
- #endif
- 
--	vaddr = memremap_pages(pgmap, nid);
-+	vaddr = memremap_pages(pgmap, NUMA_NO_NODE);
- 	if (IS_ERR(vaddr)) {
- 		pr_err("Cannot remap memory range\n");
- 		release_resource(&pgmap->res);
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gOS8xLzIwIDY6MzcgQU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gQW0gMDEuMDkuMjAg
+dW0gMTU6MzIgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+PiBPbiBNb24sIEF1ZyAzMSwgMjAyMCBh
+dCAxMjowMjowM1BNICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+Pj4gQW0gMzEuMDgu
+MjAgdW0gMDY6MTcgc2NocmllYiBSYW5keSBEdW5sYXA6Cj4+Pj4gQWRkIEBjb29raWUgdG8gZG1h
+X2ZlbmNlX2VuZF9zaWduYWxsaW5nKCkgdG8gcHJldmVudCBrZXJuZWwtZG9jCj4+Pj4gd2Fybmlu
+ZyBpbiBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmM6Cj4+Pj4KPj4+PiAuLi9kcml2ZXJzL2Rt
+YS1idWYvZG1hLWZlbmNlLmM6MjkxOiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVt
+YmVyICdjb29raWUnIG5vdCBkZXNjcmliZWQgaW4gJ2RtYV9mZW5jZV9lbmRfc2lnbmFsbGluZycK
+Pj4+Pgo+Pj4+IFNpZ25lZC1vZmYtYnk6IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQu
+b3JnPgo+Pj4+IENjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgo+Pj4+
+IENjOiBHdXN0YXZvIFBhZG92YW4gPGd1c3Rhdm9AcGFkb3Zhbi5vcmc+Cj4+Pj4gQ2M6IENocmlz
+dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPj4+PiBDYzogbGludXgtbWVk
+aWFAdmdlci5rZXJuZWwub3JnCj4+Pj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKPj4+IEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5j
+b20+Cj4+IFdpbGwgeW91IG1lcmdlIHRoZXNlIHR3byB0byBkcm0tbWlzYy1maXhlcyBvciBzaG91
+bGQgc29tZW9uZSBlbHNlPwo+IAo+IEkgd2FzIHdvbmRlcmluZyB0aGUgc2FtZSB0aGluZyBhbmQg
+anVzdCB3YWl0aW5nIGZvciBSYW5keSB0byByZXBseSB3aXRoIHBsZWFzZSBwaWNrIHRoZW0gdXAg
+b3IgSSdtIGdvaW5nIHRvIHB1c2ggdGhlbSBiZWNhdXNlIEkgaGF2ZSBjb21taXQgYWNjZXNzLgoK
+SSBkaWRuJ3QgcmVhbGl6ZSB0aGF0IHdhcyBuZWVkZWQsIGJ1dCBhbnl3YXksIENocmlzdGlhbiwg
+cGxlYXNlIGFwcGx5IHRoZXNlIDIKZG1hLWJ1ZiBrZXJuZWwtZG9jIHBhdGNoZXMuCgp0aGFua3Mu
+Cgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+IAo+Pgo+PiBBbHdheXMgYSBiaXQgY29uZnVzaW5n
+IHdoZW4gbWFpbnRhaW5lcnMgcmVwbHkgd2l0aCBhY2tzL3ItYiBidXQgbm90IHdoYXQKPj4gdGhl
+eSdsbCBkbyB3aXRoIHRoZSBwYXRjaCA6LSkKCkFncmVlZC4KCj4+IENoZWVycywgRGFuaWVsCj4+
+Cj4+Pj4gLS0tCj4+Pj4gwqDCoCBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMgfMKgwqDCoCAx
+ICsKPj4+PiDCoMKgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+Pj4+Cj4+Pj4gLS0t
+IGxueC01OS1yYzMub3JpZy9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPj4+PiArKysgbG54
+LTU5LXJjMy9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPj4+PiBAQCAtMjgzLDYgKzI4Myw3
+IEBAIEVYUE9SVF9TWU1CT0woZG1hX2ZlbmNlX2JlZ2luX3NpZ25hbGxpbmcKPj4+PiDCoMKgIC8q
+Kgo+Pj4+IMKgwqDCoCAqIGRtYV9mZW5jZV9lbmRfc2lnbmFsbGluZyAtIGVuZCBhIGNyaXRpY2Fs
+IERNQSBmZW5jZSBzaWduYWxsaW5nIHNlY3Rpb24KPj4+PiArICogQGNvb2tpZTogb3BhcXVlIGNv
+b2tpZSBmcm9tIGRtYV9mZW5jZV9iZWdpbl9zaWduYWxsaW5nKCkKPj4+PiDCoMKgwqAgKgo+Pj4+
+IMKgwqDCoCAqIENsb3NlcyBhIGNyaXRpY2FsIHNlY3Rpb24gYW5ub3RhdGlvbiBvcGVuZWQgYnkg
+ZG1hX2ZlbmNlX2JlZ2luX3NpZ25hbGxpbmcoKS4KPj4+PiDCoMKgwqAgKi8KPj4+IF9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+PiBkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0Cj4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCgoKLS0gCn5SYW5k
+eQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
