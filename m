@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2884258C77
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 12:12:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7EE9258C7F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 12:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730EC6E83E;
-	Tue,  1 Sep 2020 10:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C06A6E848;
+	Tue,  1 Sep 2020 10:13:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
  [209.85.221.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92EAE6E846
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 10:12:51 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id x14so842348wrl.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 03:12:51 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F165B6E848
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 10:13:27 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id e16so873646wrm.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 03:13:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=giRtIzkTWnj/UGp/V4sDByGnQWeXY4LNtuNjTm7i638=;
- b=kh5J4td9pFH3W3ylYwSuwFx8lQ75R1x38CWT4Et6S+CJVHOYb2BAA8CBCL4CebtPPk
- fAq+ABg+ILPopTkXOkaGbdN461hmQ9E3bBjL2M4Sa7KkwQyPiTQUImi7pv2f6Gk4M2bh
- 0MCRDAcv6/wlQSSzbUOWbobruFxPDWhAfn5MQs9dgx6NpLNgL/Xu22yFlF1sC7v/xwNs
- UwUa2pzCT5fAVg8Plue4T1lXASKF/Aa9mnq+f7nksO2GPlAn7m+n25pEIAx9yTy0sycs
- 2C3zOldnJe/6DwmU1eqxlhApZlCc0jR1oi9pSfAonOgoka7m2f7C/AEgaWbcrvZddIhG
- xoAg==
-X-Gm-Message-State: AOAM531nzbJ+Vz07QWY4oGEjkKKsLEApvoRtp6yBDfE179+dZXUwd4hc
- SCD8dyRpCJ328j4REDgTTV4=
-X-Google-Smtp-Source: ABdhPJwK8OxvCf+LETTT3Ik4h2RI46o1x9bZbn8w3PgBgHR26b8+DSaVMTksnsrFbuik4iajwXifkA==
-X-Received: by 2002:adf:9ed1:: with SMTP id b17mr1049306wrf.227.1598955170218; 
- Tue, 01 Sep 2020 03:12:50 -0700 (PDT)
+ bh=60OSzGQnLdO/drci+KqV2aNKAQlqAAKks8TSNwdM2FY=;
+ b=NYBcVCLc7m5v4IcyJXn7iQ22rlEKYHYsm2M/+TiskiCFKAnml1ukNcUBlClYHw0JhT
+ ebVFHscyxVS+XiDmNU7Lo1F14ts7JzKsuW8qEXHcE0seH0XA56zHBHhZJOhfaI99RHd4
+ 0jr5wpy2bJRslGnVDEenJCEl2kchGggGCX88fwD7/mzMhXGV1ID3jI4tcpJ0nxXPdj57
+ dJsDp6nnGuK5aXO7y196s62d9Kme4DFyEjo85U/o6OFBuZyNbg1sy1gNMFDBWodUKL3P
+ BxnjRwo8ff6sd3jnb8J5KmMq0Xdi4A0Eh6B1uy6Z7VeywjDSV82X38J8v9LzlOotCNJT
+ VCtQ==
+X-Gm-Message-State: AOAM533gWJ7ob2uhzwykFbIEQLr38vOtVWpHLg0YAE45+QUWEviaaDmj
+ tK5Q5s0QiqPsGD/7AYEByVA=
+X-Google-Smtp-Source: ABdhPJxMqwy/axvlMjQ/xJnNPGIvM2iHQeNPPj3R8YD2jG1F8eJm1SltrAiVX5VChjwgA+YtEBCEew==
+X-Received: by 2002:a05:6000:7:: with SMTP id h7mr1171095wrx.16.1598955206626; 
+ Tue, 01 Sep 2020 03:13:26 -0700 (PDT)
 Received: from kozik-lap ([194.230.155.106])
- by smtp.googlemail.com with ESMTPSA id h5sm2534234wrc.45.2020.09.01.03.12.47
+ by smtp.googlemail.com with ESMTPSA id c6sm1490149wrr.15.2020.09.01.03.13.24
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 01 Sep 2020 03:12:49 -0700 (PDT)
-Date: Tue, 1 Sep 2020 12:12:46 +0200
+ Tue, 01 Sep 2020 03:13:26 -0700 (PDT)
+Date: Tue, 1 Sep 2020 12:13:22 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -47,14 +47,13 @@ To: Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  alsa-devel@alsa-project.org
-Subject: Re: [PATCH 07/10] arm64: dts: exynos: Replace deprecated "gpios"
- i2c-gpio property in Exynos5433
-Message-ID: <20200901101246.GC23793@kozik-lap>
+Subject: Re: [PATCH 08/10] arm64: dts: exynos: Add compatibles to sysreg nodes
+Message-ID: <20200901101322.GD23793@kozik-lap>
 References: <20200829142501.31478-1-krzk@kernel.org>
- <20200829142501.31478-7-krzk@kernel.org>
+ <20200829142501.31478-8-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200829142501.31478-7-krzk@kernel.org>
+In-Reply-To: <20200829142501.31478-8-krzk@kernel.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,16 +76,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 29, 2020 at 04:24:58PM +0200, Krzysztof Kozlowski wrote:
-> "gpios" property is deprecated.  Update the Exynos5433 DTS to fix
-> dtbs_checks warnings like:
+On Sat, Aug 29, 2020 at 04:24:59PM +0200, Krzysztof Kozlowski wrote:
+> System register nodes, implementing syscon binding, should use
+> appropriate compatible.  This fixes dtbs_check warnings:
 > 
->   arch/arm64/boot/dts/exynos/exynos5433-tm2.dt.yaml: i2c-gpio-0: 'sda-gpios' is a required property
->   arch/arm64/boot/dts/exynos/exynos5433-tm2.dt.yaml: i2c-gpio-0: 'scl-gpios' is a required property
+>   arch/arm64/boot/dts/exynos/exynos5433-tm2.dt.yaml: syscon@13b80000:
+>     compatible: ['syscon'] is not valid under any of the given schemas
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > ---
->  arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi | 4 ++--
+>  arch/arm64/boot/dts/exynos/exynos5433.dtsi | 6 +++---
 
 Applied.
 
