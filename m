@@ -2,38 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F053F259D8C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 19:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA538259D94
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 19:48:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 327CC6E3D2;
-	Tue,  1 Sep 2020 17:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF316E406;
+	Tue,  1 Sep 2020 17:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 14AFD6E3D2
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 17:46:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 679CC1FB;
- Tue,  1 Sep 2020 10:46:44 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A5AC3F71F;
- Tue,  1 Sep 2020 10:46:37 -0700 (PDT)
-Subject: Re: [PATCH v9 03/32] drm: core: fix common struct sg_table related
- issues
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063529eucas1p19d797cf74bf653bf68b0a0e860806dbf@eucas1p1.samsung.com>
- <20200826063316.23486-4-m.szyprowski@samsung.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <a96aefea-936a-e54d-1604-93902443b360@arm.com>
-Date: Tue, 1 Sep 2020 18:46:33 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 544DB6E406
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 17:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598982492;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vGNRpPWqH+97UPJQstv4XnEsZCSb/7CGwSY8dC7Jq+o=;
+ b=G8EAwK/awZNU8BXCiBvphHvO0L0n+1hNmRsIRbajQ6JlzIiVJFd9mfCRz4RJF8DGkHnfaP
+ hEo7Yn2vAa1r25/s5MEQfqmqv5/jqnAuJ7ceFXVFbzkdCvfHxMO9eTB3KIFZY7eLnVypHO
+ c2petA6C1BpAEpZFHm49oa7hl3rvJMg=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-MPtqfA0XOou2U4CieZUknQ-1; Tue, 01 Sep 2020 13:48:11 -0400
+X-MC-Unique: MPtqfA0XOou2U4CieZUknQ-1
+Received: by mail-qv1-f69.google.com with SMTP id k17so1546533qvj.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 10:48:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=vGNRpPWqH+97UPJQstv4XnEsZCSb/7CGwSY8dC7Jq+o=;
+ b=njzoPicgJVojWRUg0BChYGnbjMJadmWdIcF/xxbHfDZ4+DYWAUAGHN8dB2O5IHBfxc
+ eI+jye+eRCV9g5Kxt9DXHRsdyIi1faj0y+6q902eoaIXc11weX6vet1wcO06XfHUNqWj
+ GAq+vmBvAUshUkpP2QcS7ip6NObJXUQvV5qppLmSaYbgF3tWyDZ8MGTWNkQzYDRM1l4I
+ PmJ1d+vWk4p1d5mKNGk63Be6d/NQjFELhnVEjusz8KN2t3gyFQv52TRasFhLCNsC0ZXm
+ PhfIP5/lnFOwuayQFigtyCMA7dvxkf4uePWHvk4tyM1rjMYZhF+Zn3DoSOrDNa4RzYMd
+ hWEw==
+X-Gm-Message-State: AOAM530qJk9rqI3mZN1xijNyHba6q7dBjGRP7nOy1NQflu9OcXte7lfe
+ TApn9T5Vg4pev8IINeUOzPrhFswknMxbjKpHLuAWct/MR/2gyscnePWgF4BEDZvd8JXaQF4JqOX
+ Le4rUwVRe7Plyb2eu0hYhZ+6+4J7B
+X-Received: by 2002:a37:9402:: with SMTP id w2mr3171653qkd.329.1598982490656; 
+ Tue, 01 Sep 2020 10:48:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxV/D4/yGDUFR3FQPsu5d08hUanmHWuDmqWQ2Dgw6q6gG09h+MCOK79eURTqNNfYHItmCfD3w==
+X-Received: by 2002:a37:9402:: with SMTP id w2mr3171564qkd.329.1598982489462; 
+ Tue, 01 Sep 2020 10:48:09 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id i2sm2440792qkd.111.2020.09.01.10.48.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 10:48:08 -0700 (PDT)
+Message-ID: <c4b9aa428ccfa90cb29845f622eba8923eeb2e38.camel@redhat.com>
+Subject: Re: [PATCH] drm/dp: start using more of the extended receiver caps
+From: Lyude Paul <lyude@redhat.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Tue, 01 Sep 2020 13:48:08 -0400
+In-Reply-To: <20200901123226.4177-1-jani.nikula@intel.com>
+References: <20200901123226.4177-1-jani.nikula@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-In-Reply-To: <20200826063316.23486-4-m.szyprowski@samsung.com>
-Content-Language: en-GB
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,153 +82,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org
+Reply-To: lyude@redhat.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-08-26 07:32, Marek Szyprowski wrote:
-> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-> returns the number of the created entries in the DMA address space.
-> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-> dma_unmap_sg must be called with the original number of the entries
-> passed to the dma_map_sg().
+On Tue, 2020-09-01 at 15:32 +0300, Jani Nikula wrote:
+> In the future, we'll be needing more of the extended receiver capability
+> field starting at DPCD address 0x2200. (Specifically, we'll need main
+> link channel coding cap for DP 2.0.) Start using it now to not miss out
+> later on.
 > 
-> struct sg_table is a common structure used for describing a non-contiguous
-> memory buffer, used commonly in the DRM and graphics subsystems. It
-> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-> and DMA mapped pages (nents entry).
+> Cc: Lyude Paul <lyude@redhat.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > 
-> It turned out that it was a common mistake to misuse nents and orig_nents
-> entries, calling DMA-mapping functions with a wrong number of entries or
-> ignoring the number of mapped entries returned by the dma_map_sg()
-> function.
-> 
-> To avoid such issues, lets use a common dma-mapping wrappers operating
-> directly on the struct sg_table objects and use scatterlist page
-> iterators where possible. This, almost always, hides references to the
-> nents and orig_nents entries, making the code robust, easier to follow
-> and copy/paste safe.
-> 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 > ---
->   drivers/gpu/drm/drm_cache.c            |  2 +-
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 14 +++++++++-----
->   drivers/gpu/drm/drm_prime.c            | 11 ++++++-----
->   3 files changed, 16 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> index 03e01b000f7a..0fe3c496002a 100644
-> --- a/drivers/gpu/drm/drm_cache.c
-> +++ b/drivers/gpu/drm/drm_cache.c
-> @@ -127,7 +127,7 @@ drm_clflush_sg(struct sg_table *st)
->   		struct sg_page_iter sg_iter;
->   
->   		mb(); /*CLFLUSH is ordered only by using memory barriers*/
-> -		for_each_sg_page(st->sgl, &sg_iter, st->nents, 0)
-> +		for_each_sgtable_page(st, &sg_iter, 0)
->   			drm_clflush_page(sg_page_iter_page(&sg_iter));
->   		mb(); /*Make sure that all cache line entry is flushed*/
->   
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 4b7cfbac4daa..47d8211221f2 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -126,8 +126,8 @@ void drm_gem_shmem_free_object(struct drm_gem_object *obj)
->   		drm_prime_gem_destroy(obj, shmem->sgt);
->   	} else {
->   		if (shmem->sgt) {
-> -			dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> -				     shmem->sgt->nents, DMA_BIDIRECTIONAL);
-> +			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-> +					  DMA_BIDIRECTIONAL, 0);
->   			sg_free_table(shmem->sgt);
->   			kfree(shmem->sgt);
->   		}
-> @@ -424,8 +424,7 @@ void drm_gem_shmem_purge_locked(struct drm_gem_object *obj)
->   
->   	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
->   
-> -	dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> -		     shmem->sgt->nents, DMA_BIDIRECTIONAL);
-> +	dma_unmap_sgtable(obj->dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
->   	sg_free_table(shmem->sgt);
->   	kfree(shmem->sgt);
->   	shmem->sgt = NULL;
-> @@ -697,12 +696,17 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj)
->   		goto err_put_pages;
->   	}
->   	/* Map the pages for use by the h/w. */
-> -	dma_map_sg(obj->dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-> +	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
-> +	if (ret)
-> +		goto err_free_sgt;
->   
->   	shmem->sgt = sgt;
->   
->   	return sgt;
->   
-> +err_free_sgt:
-> +	sg_free_table(sgt);
-> +	kfree(sgt);
-
-Should this be a separate patch to add the missing error handling to the 
-existing code first?
-
-Otherwise the rest of the mechanical conversion looks straightforward 
-enough, and I'm not the separation-of-concerns police (for this 
-subsystem, at least), so either way,
-
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-
->   err_put_pages:
->   	drm_gem_shmem_put_pages(shmem);
->   	return ERR_PTR(ret);
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 5d181bf60a44..c45b0cc6e31d 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -617,6 +617,7 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
->   {
->   	struct drm_gem_object *obj = attach->dmabuf->priv;
->   	struct sg_table *sgt;
-> +	int ret;
->   
->   	if (WARN_ON(dir == DMA_NONE))
->   		return ERR_PTR(-EINVAL);
-> @@ -626,11 +627,12 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
->   	else
->   		sgt = obj->dev->driver->gem_prime_get_sg_table(obj);
->   
-> -	if (!dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
-> -			      DMA_ATTR_SKIP_CPU_SYNC)) {
-> +	ret = dma_map_sgtable(attach->dev, sgt, dir,
-> +			      DMA_ATTR_SKIP_CPU_SYNC);
-> +	if (ret) {
->   		sg_free_table(sgt);
->   		kfree(sgt);
-> -		sgt = ERR_PTR(-ENOMEM);
-> +		sgt = ERR_PTR(ret);
->   	}
->   
->   	return sgt;
-> @@ -652,8 +654,7 @@ void drm_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
->   	if (!sgt)
->   		return;
->   
-> -	dma_unmap_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
-> -			   DMA_ATTR_SKIP_CPU_SYNC);
-> +	dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
->   	sg_free_table(sgt);
->   	kfree(sgt);
->   }
+> I guess this can be merged after the topic branch to drm-misc-next or
+> so, but I'd prefer to have this fairly early on to catch any potential
+> issues.
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 1e7c638873c8..3a3c238452df 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -436,7 +436,7 @@ static u8 drm_dp_downstream_port_count(const u8
+> dpcd[DP_RECEIVER_CAP_SIZE])
+>  static int drm_dp_read_extended_dpcd_caps(struct drm_dp_aux *aux,
+>  					  u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  {
+> -	u8 dpcd_ext[6];
+> +	u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
+
+Not 100% sure this is right? It's not clear at first glance of the 2.0 spec, but
+my assumption would be that on < DP2.0 devices that everything but those first 6
+bytes are zeroed out in the extended DPRX field. Since we memcpy() dpcd_ext
+using sizeof(dpcd_ext), we'd potentially end up zeroing out all of the DPCD caps
+that comes after those 6 bytes.
+
+>  	int ret;
+>  
+>  	/*
+-- 
+Sincerely,
+      Lyude Paul (she/her)
+      Software Engineer at Red Hat
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
