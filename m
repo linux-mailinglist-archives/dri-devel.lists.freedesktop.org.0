@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5946259FBD
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 22:15:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC52259FC1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 22:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC4EF6E908;
-	Tue,  1 Sep 2020 20:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54EA46E909;
+	Tue,  1 Sep 2020 20:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 51A1D6E90C
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 20:15:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B3EB06E909
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 20:16:07 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E2BE1063;
- Tue,  1 Sep 2020 13:15:14 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 62C201063;
+ Tue,  1 Sep 2020 13:16:07 -0700 (PDT)
 Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F1043F66F;
- Tue,  1 Sep 2020 13:15:11 -0700 (PDT)
-Subject: Re: [PATCH v9 29/32] rapidio: fix common struct sg_table related
- issues
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EBC083F66F;
+ Tue,  1 Sep 2020 13:16:04 -0700 (PDT)
+Subject: Re: [PATCH v9 30/32] samples: vfio-mdev/mbochs: fix common struct
+ sg_table related issues
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
 References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063545eucas1p22eb2c7a643a299f3e1696b4c5bae0694@eucas1p2.samsung.com>
- <20200826063316.23486-30-m.szyprowski@samsung.com>
+ <CGME20200826063546eucas1p268558dcd08ac9b43843f9f5e23da227d@eucas1p2.samsung.com>
+ <20200826063316.23486-31-m.szyprowski@samsung.com>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <5beb988a-099b-1247-b3d5-257de44b9ab5@arm.com>
-Date: Tue, 1 Sep 2020 21:15:10 +0100
+Message-ID: <2cd26a4d-ca66-2ee8-145c-b928474fefe9@arm.com>
+Date: Tue, 1 Sep 2020 21:16:03 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200826063316.23486-30-m.szyprowski@samsung.com>
+In-Reply-To: <20200826063316.23486-31-m.szyprowski@samsung.com>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,10 +46,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Alexandre Bounine <alex.bou9@gmail.com>,
- Matt Porter <mporter@kernel.crashing.org>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: kvm@vger.kernel.org, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -78,55 +77,37 @@ On 2020-08-26 07:33, Marek Szyprowski wrote:
 > iterators where possible. This, almost always, hides references to the
 > nents and orig_nents entries, making the code robust, easier to follow
 > and copy/paste safe.
+> 
+> While touching this code, also add missing call to dma_unmap_sgtable.
 
 Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
 > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > ---
->   drivers/rapidio/devices/rio_mport_cdev.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
+>   samples/vfio-mdev/mbochs.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/rapidio/devices/rio_mport_cdev.c b/drivers/rapidio/devices/rio_mport_cdev.c
-> index a30342942e26..89eb3d212652 100644
-> --- a/drivers/rapidio/devices/rio_mport_cdev.c
-> +++ b/drivers/rapidio/devices/rio_mport_cdev.c
-> @@ -573,8 +573,7 @@ static void dma_req_free(struct kref *ref)
->   			refcount);
->   	struct mport_cdev_priv *priv = req->priv;
+> diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+> index 3cc5e5921682..e03068917273 100644
+> --- a/samples/vfio-mdev/mbochs.c
+> +++ b/samples/vfio-mdev/mbochs.c
+> @@ -846,7 +846,7 @@ static struct sg_table *mbochs_map_dmabuf(struct dma_buf_attachment *at,
+>   	if (sg_alloc_table_from_pages(sg, dmabuf->pages, dmabuf->pagecount,
+>   				      0, dmabuf->mode.size, GFP_KERNEL) < 0)
+>   		goto err2;
+> -	if (!dma_map_sg(at->dev, sg->sgl, sg->nents, direction))
+> +	if (dma_map_sgtable(at->dev, sg, direction, 0))
+>   		goto err3;
 >   
-> -	dma_unmap_sg(req->dmach->device->dev,
-> -		     req->sgt.sgl, req->sgt.nents, req->dir);
-> +	dma_unmap_sgtable(req->dmach->device->dev, &req->sgt, req->dir, 0);
->   	sg_free_table(&req->sgt);
->   	if (req->page_list) {
->   		unpin_user_pages(req->page_list, req->nr_pages);
-> @@ -814,7 +813,6 @@ rio_dma_transfer(struct file *filp, u32 transfer_mode,
->   	struct mport_dev *md = priv->md;
->   	struct dma_chan *chan;
->   	int ret;
-> -	int nents;
+>   	return sg;
+> @@ -868,6 +868,7 @@ static void mbochs_unmap_dmabuf(struct dma_buf_attachment *at,
 >   
->   	if (xfer->length == 0)
->   		return -EINVAL;
-> @@ -930,15 +928,14 @@ rio_dma_transfer(struct file *filp, u32 transfer_mode,
->   				xfer->offset, xfer->length);
->   	}
+>   	dev_dbg(dev, "%s: %d\n", __func__, dmabuf->id);
 >   
-> -	nents = dma_map_sg(chan->device->dev,
-> -			   req->sgt.sgl, req->sgt.nents, dir);
-> -	if (nents == 0) {
-> +	ret = dma_map_sgtable(chan->device->dev, &req->sgt, dir, 0);
-> +	if (ret) {
->   		rmcd_error("Failed to map SG list");
->   		ret = -EFAULT;
->   		goto err_pg;
->   	}
->   
-> -	ret = do_dma_request(req, xfer, sync, nents);
-> +	ret = do_dma_request(req, xfer, sync, req->sgt.nents);
->   
->   	if (ret >= 0) {
->   		if (sync == RIO_TRANSFER_ASYNC)
+> +	dma_unmap_sgtable(at->dev, sg, direction, 0);
+>   	sg_free_table(sg);
+>   	kfree(sg);
+>   }
 > 
 _______________________________________________
 dri-devel mailing list
