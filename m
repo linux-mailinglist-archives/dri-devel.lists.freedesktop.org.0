@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203E3258CF0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 12:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFAE258D16
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Sep 2020 12:58:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D79F6E296;
-	Tue,  1 Sep 2020 10:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA846E051;
+	Tue,  1 Sep 2020 10:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 034316E296
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Sep 2020 10:42:37 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id a17so954326wrn.6
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 03:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=emvGbDPc9MYA09VtobrZyk9zbs2ZsXKS0mYa31RjV3A=;
- b=RCBDNL4v3xdU/te/yIGZgSfB3H3Yz6fjDCguYFEqhd8yy6BgJfFtN9/Eu2cN7yk9Tn
- 4EZMcQBd0lIG2EtZigZkKvLuhIsYi+EDjqEE5TL5T0bkoeJ14zkKJPYY3RO4r+b/onkm
- 5f3+JkJcNgpBm2PRFaEsIHSQUSpPkZmxISho8Tw6+mdjeozQVxDs6JoVqw6/8YIwYI3E
- gGfbh4kFtrJZGbZK4GKFTOQa2ZOb2T7Ukh8TB8Id8fR2UTrK9HtduHoz/2UWaJb/p/KZ
- uRGYpW3LiDDLNLUlitgghiFDXZRUmS/Q3jCr+qqwP6+Zzn926E3Fyt+2w6Mf6x4N0qbn
- 3dZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=emvGbDPc9MYA09VtobrZyk9zbs2ZsXKS0mYa31RjV3A=;
- b=J+Ye9/7IWWXfSiub3fkCbYKI8As22WK17x8z2J0gmwH+Gpxe8XxdZoCJvgBUsVKKbI
- T3qBXFrxc6/6Kbi1A4lZDRwTY2BuYEkmk9sbUDmQd/Bzdiswy9hMTG/tW52V+uCqqoA3
- jxr24dealS92ED3WBWG2Xw78wETbHVwUioQ97GlbWt/EyIwWMiN82bql+cdE18EeSkGM
- f2YuCToU+YVFh9Hj349WVEZqDFTWNUe3NRoV2FuYZKxaKHdEiSASZGMMlK+OKG3hCzzl
- 7ar3bJL2LJjOtyBwM8zjEgpHcLqaucg70GLnNMml+hQ0Dz48jkC77Cg64CJTsGfh9IfY
- 2gSw==
-X-Gm-Message-State: AOAM531r/6FxhTYWAa463u/tuuAd5ppuNFuuSKK4WRx5pWVgrlUui6Hd
- JKtCjqRt/tgg1ZEI2Ns99Euhb3xwb+MkaSSsXUKNqg==
-X-Google-Smtp-Source: ABdhPJxvGG+ixX1KCbbPY9bzKq30lFdXklFXuPIu3173u2dPcSKrnb3Eey5HINzhM26PGez/tW5MYgILsMSo18Quleo=
-X-Received: by 2002:adf:8306:: with SMTP id 6mr1191757wrd.256.1598956956581;
- Tue, 01 Sep 2020 03:42:36 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B796E051;
+ Tue,  1 Sep 2020 10:58:04 +0000 (UTC)
+IronPort-SDR: UqjhCLs6g0+49ovG4kn6QlU+EwPzTr15D031o/h89lLrq9BDjR467gADYSxJguW961zTPZ41Dp
+ GwO7WFNmSBeQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="175189564"
+X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="175189564"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2020 03:58:03 -0700
+IronPort-SDR: BSLTlhhFI96dTHhNrKzB+6lA0UJqRfp11ZgeYUHGGWL5q2NoUeJyiQV5rZVsUTRTYqLaITgJc6
+ ydTg+UUdzvbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,378,1592895600"; d="scan'208";a="301404290"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 01 Sep 2020 03:58:00 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 01 Sep 2020 13:58:00 +0300
+Date: Tue, 1 Sep 2020 13:58:00 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH v3 16/16] drm: Replace mode->export_head with a boolean
+Message-ID: <20200901105800.GE6112@intel.com>
+References: <20200428171940.19552-1-ville.syrjala@linux.intel.com>
+ <20200428171940.19552-17-ville.syrjala@linux.intel.com>
+ <CACvgo50i8sqhDAyWawcaPUSd=GkKLFWJ_DVSHeq8UvJBh3OwRQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200814140527.GD556087@ulmo>
- <CACO55tsr9hTd6mkaKfnnEWUz-7X=Sx7EY5sr1BVz-O2ftr98ww@mail.gmail.com>
- <20200814153449.GH556087@ulmo>
- <CACO55tt69SbBKLkmTVtoq2BLRJGbO5fmUH4dFWX_qC7nii3jSQ@mail.gmail.com>
- <20200814160631.GI556087@ulmo>
- <CACO55tvzoCBNvvnrzn9fSQZwB-hXPPApFMkbJ+ZGWDHgkgkJTw@mail.gmail.com>
- <20200814162210.GA611027@ulmo>
- <CAPj87rMXXTNntwYk=58tVRRkjvYJb-+a=bnzJZjWJv21v_+7KQ@mail.gmail.com>
- <CAKMK7uFsTP-tN49SKJhm9w49EF3Ars0c1bF4=iUrEtKHCLzCTg@mail.gmail.com>
- <20200818143751.GB814860@ulmo> <20200901071347.GP2352366@phenom.ffwll.local>
-In-Reply-To: <20200901071347.GP2352366@phenom.ffwll.local>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 1 Sep 2020 11:42:25 +0100
-Message-ID: <CAPj87rNohgqO3cc9P8VP0TmYDo1cCx4jWyJLP4m9APwmEr9Ocg@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.8-rc1
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <CACvgo50i8sqhDAyWawcaPUSd=GkKLFWJ_DVSHeq8UvJBh3OwRQ@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +54,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, James Jones <jajones@nvidia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Apr 30, 2020 at 02:50:52PM +0100, Emil Velikov wrote:
+> Hi Ville
+> =
 
-On Tue, 1 Sep 2020 at 08:13, Daniel Vetter <daniel@ffwll.ch> wrote:
-> I think right thing to do is *shrug*, please use modifiers. They're meant
-> to solve these kind of problems for real, adding more hacks to paper over
-> userspace not using modifiers doesn't seem like a good idea.
->
-> Wrt dri3, since we do client-side allocations and don't have modifiers, we
-> have to pessimistically assume we'll get scanned out. Modifiers and
-> relevant protocol is fixing this again, but for tegra where we essentially
-> can't get this right that leaves us in a very tough spot.
+> I don't fully grok the i915 changes to provide meaningful review.
+> There are couple of small comments below, but regardless of those
 
-DRI3 has had modifiers for a couple/few years now ...
+Sorry, forgot to reply to this in a timely manner.
 
-Cheers,
-Daniel
+> =
+
+> Patches 01-11 and 14-16 are:
+> Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+> =
+
+> On Tue, 28 Apr 2020 at 18:20, Ville Syrjala
+> <ville.syrjala@linux.intel.com> wrote:
+> =
+
+> > The downside is that drm_mode_expose_to_userspace() gets to
+> > iterate a few more modes. It already was O(n^2), now it's
+> > a slightly worse O(n^2).
+> >
+> Personally I'd drop the O() sentence, or change it to
+> It already was O(n^2), now it's slightly worse O((n+y)^2).
+
+Dropped.
+
+> =
+
+> > Another alternative would be a temp bitmask so we wouldn't have
+> > to have anything in the mode struct itself. The main issue is
+> > how large of a bitmask do we need? I guess we could allocate
+> > it dynamically but that means an extra kcalloc() and an extra
+> > loop through the modes to count them first (or grow the bitmask
+> > with krealloc() as needed).
+> >
+> If the walk is even remotely close to being an issue, we could
+> consider the bitmask.
+> I don't think that's the case yet.
+> =
+
+> =
+
+> Hmm the original code never discards any entries from export_head.
+> I wonder if there's some corner case where we could end with an "old"
+> mode showing in the list?
+
+No. export_list starts out empty so only the modes we explicitly add
+to the list can be reached. Thus any dangling pointers in some other
+mode's export_head are of no concern.
+
+Pushed the last few patches to drm-misc-next. Thanks for the reviews
+everyone.
+
+> =
+
+> For example:
+> - creates a user mode via drmModeCreatePropertyBlob()
+> - calls drmModeGetConnector() and sees their mode
+> - optional (?) does a modeset to and away from said mode
+> - removes their blob drmModeDestroyPropertyBlob()
+> - calls drmModeGetConnector() and still sees their removed mode.
+> =
+
+> If this is a bug (?) that we care about, we might want to add an igt
+> test for it.
+> Conversely, if this is a behaviour we want to keep this patch needs some =
+work.
+> =
+
+> HTH
+> =
+
+> Emil
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
