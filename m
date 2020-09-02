@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DC525A9FE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:06:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8777025AA11
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:11:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04446E457;
-	Wed,  2 Sep 2020 11:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5DB6E301;
+	Wed,  2 Sep 2020 11:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A2ED6E457
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:06:32 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id c15so4744749wrs.11
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:06:32 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70CB86E301
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:11:38 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id t10so3946780wrv.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=twCG0p2wcM15uhFFhccs3FoLycIAVHdvzhdgouUISjE=;
- b=QjMjMMIP3AuV0DYTBlqgh8WTTL3IZkCOfKHsC0TtSMXTGeb8yc0kHuGd38RaV8rxER
- h4+gZDDw2KRrPAKT2Hmj+jap/iA6w+D7oPcBISu4NFgNmyNGpiyazXDBZr/1rLvf2YvE
- rJyoLCW6hz7K+Q85sFE8z/v7/EhUeQZJS871djquj0y3/kXx2pd08SmQa82muEvGS6cY
- g9wH//D/v680S5Nw/Kma9VIneLohEmanmFAibUESRZuvVkFNC6QatOeAlct3S/WtlsBY
- qqCcu1z3aeT1Us/eDPaaoEIM89PmSe+i63/EZ9eubg4/UOUorAQzb91jwdfkj3bU88jT
- NCCA==
+ bh=keVZMCICgeU2XikucdaT5d7AeU13SWerTWFxli6hKbo=;
+ b=ZiogOXR70AZ1m97hk21ZptAp2nSRq17mLLZbjNyzbtYvSmxmRJ+AeETmfSkcx+ReTH
+ VnwXceAEQT3uVVQWoj3nTielax2uIzA4L8lggAiG4Xolcdc/3DWKSyC4dZYXDyUbFtXr
+ DIqBEvZ6wn3bmCrqJFp0nWEBOi4mMLMyoOH+unBvfozVVe9nO2ocYxlgIFVGtkRJMDaV
+ fpyhsF865lhmWRI1V8o17bf+Tfh79B3MnUEPKiKwEj9JCrPdoK4xrI5B00qeSENXwO0i
+ mNlvbxRsLy5L3Dui7Enh5nLH0JcEH0u0CXPf2wdpeJVyxj8X+b0bMKhhhxrrVO4zW1MN
+ xwCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=twCG0p2wcM15uhFFhccs3FoLycIAVHdvzhdgouUISjE=;
- b=NYq9rzummVe2bXv1HgvZIfmiBM6COfZEe0+kb3aTCpM2wiCZzJkUCUpan+tX6f91oP
- Ouz2+Qk+g7eHP/viElxC3wIaTGdsIXcKkTywfFvT5/DNYGBkfndSkgddRGOfcDA1Ox9E
- eOXMd3Et11zseZWiHmu6LyJAGQ1BIGBNJjacBrLcmU1DM4O1uml9qh+PdQcZM4v6tDyW
- k+DilTmbmfiYkX5YLClWvrzATN26NRK9nFfP0AP4h4MPGBNcZlNog89mOE8xi2J1uVEr
- F3tw2MfxfhrNB10F/XyY4FggaHnNgjgurZsXAfS1Off1g7qI+BdPXT6+NrIUB3TJju9d
- muqw==
-X-Gm-Message-State: AOAM5330Cxhd5Txr7kuKoe2QLkXdys2KM+5s+Te/Y2gTm07Xm8XUQESl
- XUMV72se2hQWRicTs0+RjfAcOw==
-X-Google-Smtp-Source: ABdhPJyDLhEkGLP0nkSt39qJ0i2C3tbY9x1xvi9Lc2JnHnngBcYOSgjATJ5lGcYb/GvxwYMF5p/PyQ==
-X-Received: by 2002:adf:c108:: with SMTP id r8mr6834034wre.350.1599044790992; 
- Wed, 02 Sep 2020 04:06:30 -0700 (PDT)
+ bh=keVZMCICgeU2XikucdaT5d7AeU13SWerTWFxli6hKbo=;
+ b=d9OprtHHk7o/8yqSyX7E3YnXrXlwsys6HvOJezc1OJTsN6D8WIiKBcQWZJYmC+ZU8I
+ 87Pjx9uce/0baNI6AjLNrijKAtu+iBpWqNsqIJb90LjkCdAvUyoqGfnUqMF/VG06Wkbi
+ 22b0vXjnXOVG1y9rr5iTo2mWrudGJOZXsijQS4ofhgHqnDa+zJjWcMSuTTxP9qTd326W
+ YZ0OTiv3yfhnIhX01eu39mw90+qYewiMMMXyKyhqc5x42q/IJpF3dCUyff43iy5+cB+1
+ zGc6QLooYuhazSWuZTzR3S6G5OnU4K0Dbt4LwAtHtjPs2l6cnxIem7qmS7RiNF1qM+x4
+ nSWg==
+X-Gm-Message-State: AOAM530I4/kOw0voWqKgdbdbyASmms6U+AVLEPsOvjnUniZcd8oi2D3Y
+ zPqPIPHSW8KwuqdiFPPCJbKS2g==
+X-Google-Smtp-Source: ABdhPJzwZTeCGGMhybZrW8VCoySCzbLQVt8E/fc9TzqEfMu7v+CTUuX9V3sWBgqZqGM6Qu/j5Mfojg==
+X-Received: by 2002:a5d:6b84:: with SMTP id n4mr7160730wrx.55.1599045097114;
+ Wed, 02 Sep 2020 04:11:37 -0700 (PDT)
 Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
  [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id f6sm6876125wro.5.2020.09.02.04.06.29
+ by smtp.gmail.com with ESMTPSA id 33sm7288473wri.16.2020.09.02.04.11.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 04:06:30 -0700 (PDT)
-Date: Wed, 2 Sep 2020 12:06:28 +0100
+ Wed, 02 Sep 2020 04:11:36 -0700 (PDT)
+Date: Wed, 2 Sep 2020 12:11:34 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 02/24] backlight: Add DECLARE_* macro for device
- registration
-Message-ID: <20200902110628.5npko5kuuaec2ldd@holly.lan>
+Subject: Re: [PATCH v2 04/24] backlight: gpio: Introduce
+ backlight_{enable,disable}
+Message-ID: <20200902111134.jx5hbv7wphvzbcoe@holly.lan>
 References: <20200823104532.1024798-1-sam@ravnborg.org>
- <20200823104532.1024798-3-sam@ravnborg.org>
+ <20200823104532.1024798-5-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200823104532.1024798-3-sam@ravnborg.org>
+In-Reply-To: <20200823104532.1024798-5-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,125 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Lee Jones <lee.jones@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 23, 2020 at 12:45:10PM +0200, Sam Ravnborg wrote:
-> Device registration almost always uses a struct backlight_properties
-> variable to pass config info. Make it simpler and less error prone
-> by the introduction of a number of macros.
+On Sun, Aug 23, 2020 at 12:45:12PM +0200, Sam Ravnborg wrote:
+> Use backlight_{enable,disable} in the probe function to
+> avoid hardcoding power handling in the driver.
 > 
-> There is one macro for each type of backlight {firmware, platform, raw}.
-> All members in struct backlight_properties are initialized.
+> Move platform_set_drvdata() up as the enable/disable call
+> will trigger a callback to the driver.
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Lee Jones <lee.jones@linaro.org>
 > Cc: Daniel Thompson <daniel.thompson@linaro.org>
 > Cc: Jingoo Han <jingoohan1@gmail.com>
+
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
 > ---
->  include/linux/backlight.h | 63 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
+>  drivers/video/backlight/gpio_backlight.c | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
 > 
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index 190963ffb7fc..93a47a6cf681 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -272,6 +272,69 @@ struct backlight_properties {
->  	enum backlight_scale scale;
->  };
+> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
+> index 6f78d928f054..dc9354dc5e6a 100644
+> --- a/drivers/video/backlight/gpio_backlight.c
+> +++ b/drivers/video/backlight/gpio_backlight.c
+> @@ -53,6 +53,7 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+>  	struct backlight_device *bl;
+>  	struct gpio_backlight *gbl;
+>  	int ret, init_brightness, def_value;
+> +	bool enable = false;
 >  
-> +/**
-> + * BACKLIGHT_PROPS - init backlight_properties with default values
-> + *
-> + * This macro is used to initialize backlight_properties with default
-> + * values. It is intended to be used when registering a backlight device
-> + * and the properties needs to be adjusted at run-time, for example
-> + * when the max_brightness is configurable.
-> + *
-> + * .. code-block:: c
-
-sphinx markup in kernel-doc comments is pretty rare at the moment (and
-presumably it does odd things to direct man page generation). Has it
-been discussed and approved of by doc maintainers or is it just creeping
-organically?
-
-
-> + *
-> + *	struct backlight_properties props = {
-> + *		BACKLIGHT_PROPS(0, 255, BACKLIGHT_RAW)
-> + *	};
-> + *	...
-> + *	props.max_brightness = new_max;
-> + *	err = devm_backlight_device_register(,,,, props);
-> + *
-> + */
-> +#define BACKLIGHT_PROPS(_brightness, _max_brightness, _type)	\
-> +	.brightness = _brightness,				\
-> +	.max_brightness = _max_brightness,			\
-> +	.power = FB_BLANK_POWERDOWN,				\
-> +	.type = _type,						\
-> +	.fb_blank = 0,						\
-> +	.state = 0,						\
-> +	.scale = BACKLIGHT_SCALE_UNKNOWN,
-
-Hmnnn... not sure I like seeing this buried.
-
-BACKLIGHT_SCALE_UNKNOWN is not a sane default... it is pure legacy
-so it would be good to force drivers to declare this explicitly
-(since it would require new drivers to think about the correct value).
-
-It then also becomes a good git grep target to help identify drivers
-whose scale hasn't been reviewed and recorded yet...
-
-
-Daniel.
-
-
+>  	gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
+>  	if (gbl == NULL)
+> @@ -82,16 +83,22 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+>  		return PTR_ERR(bl);
+>  	}
+>  
+> -	/* Set the initial power state */
+> -	if (!of_node || !of_node->phandle)
+> +	platform_set_drvdata(pdev, bl);
 > +
-> +/**
-> + * DECLARE_BACKLIGHT_INIT_RAW - backlight_properties to init a raw
-> + *                              backlight device
-> + *
-> + * This macro is used to initialize backlight_properties that is used when
-> + * registering a raw backlight device.
-> + */
-> +#define DECLARE_BACKLIGHT_INIT_RAW(name, _brightness, _max_brightness)		\
-> +	const struct backlight_properties name = {				\
-> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_RAW)	\
+> +	/* Set the initial state */
+> +	if (!of_node || !of_node->phandle) {
+>  		/* Not booted with device tree or no phandle link to the node */
+> -		bl->props.power = def_value ? FB_BLANK_UNBLANK
+> -					    : FB_BLANK_POWERDOWN;
+> -	else if (gpiod_get_direction(gbl->gpiod) == 0 &&
+> -		 gpiod_get_value_cansleep(gbl->gpiod) == 0)
+> -		bl->props.power = FB_BLANK_POWERDOWN;
+> +		if (def_value)
+> +			enable = true;
+> +	} else if (!(gpiod_get_direction(gbl->gpiod) == 0 &&
+> +		   gpiod_get_value_cansleep(gbl->gpiod) == 0)) {
+> +		enable = true;
 > +	}
 > +
-> +/**
-> + * DECLARE_BACKLIGHT_INIT_PLATFORM - backlight_properties to init a platform
-> + *                                   backlight device
-> + *
-> + * This macro is used to initialize backlight_properties that is used when
-> + * registering a platform backlight device.
-> + */
-> +#define DECLARE_BACKLIGHT_INIT_PLATFORM(name, _brightness, _max_brightness)		\
-> +	const struct backlight_properties name = {					\
-> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_PLATFORM)	\
-> +	}
-> +
-> +/**
-> + * DECLARE_BACKLIGHT_INIT_FIRMWARE - backlight_properties to init a firmware
-> + *                                   backlight device
-> + *
-> + * This macro is used to initialize backlight_properties that is used when
-> + * registering a firmware backlight device.
-> + */
-> +#define DECLARE_BACKLIGHT_INIT_FIRMWARE(name, _brightness, _max_brightness)		\
-> +	const struct backlight_properties name = {					\
-> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_FIRMWARE)	\
-> +	}
-> +
->  /**
->   * struct backlight_device - backlight device data
->   *
+> +	if (enable)
+> +		backlight_enable(bl);
+>  	else
+> -		bl->props.power = FB_BLANK_UNBLANK;
+> +		backlight_disable(bl);
+>  
+>  	bl->props.brightness = 1;
+>  
+> @@ -102,7 +109,6 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	platform_set_drvdata(pdev, bl);
+>  	return 0;
+>  }
+>  
 > -- 
 > 2.25.1
 > 
