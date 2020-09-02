@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1D325BDCC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 10:50:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5804425BDCB
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 10:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E34A6E5A2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF9C6E581;
 	Thu,  3 Sep 2020 08:50:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26AE56E4F8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 17:59:56 +0000 (UTC)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BA66E03E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 19:04:57 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id B8318E79;
- Wed,  2 Sep 2020 13:59:55 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 4E724FCA;
+ Wed,  2 Sep 2020 15:04:54 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 02 Sep 2020 13:59:56 -0400
+ by compute4.internal (MEProxy); Wed, 02 Sep 2020 15:04:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=x
- U/XjSIfk+mtw7xME/AR1cpDo57ZqRYe/6NoAfYzO+c=; b=i03AgT4ivAfJ/jHS3
- GMUbbu/yP1GleoS4P/wqklP2VoMsZcfaJmMdf1j5b9s1sH0k+iU8KjVZFOFIOSvn
- hyo2Updc1Xl94j+4VgzOmC24jpHrHgZNcV53hQNCPrc/M2143wsbwwUR49cMyaq2
- KoniiwbL9xDdITzqznx8d7MGRaCjPdD/FqhhaCCsGYJ4zZav46mdrjk/+L7iQ/7M
- I3ZHeKoYB/XVgn9KortRulwY6Gi8KRM8BojaDBB6nmFfs0jOnhRZYJGmXvMG3/ov
- QiU/vtFs8NNRLMNcWa+Uvku9+xyUNvHI4weiMj8L0HzP7xjjCKiHmcxSLzpaE41a
- 8X+SA==
+ :content-type:in-reply-to; s=fm3; bh=UIxnX4c3cvkVCih8WXAhZh++fhZ
+ H2lstxce/AgcyQoQ=; b=AJKZvdUd2hz7jzsHrNCLB8F9hPKLifeW8Ovg5/yFd2t
+ XpN21E5ZqYufX6n8KZ0kv5KMMyz4hSmAGFtAglJUp7rK9mG18PAnhTpJniG9Q+w7
+ yS+fMtG09pybMflubjIvk0ttfxOZ25TMtdhQGuD9NKA47eutv9AV/2d1F8VTTQer
+ VFmjOF5OlugqlHyElkJrA4LYXZiEI10zQp0mh8HVPeQurKwv/avQaYCuC1ohMR3z
+ 9LE0+W3KJFALG3IcOPkJSyZR0vf9cx7nbipyIqyVGvvFssXsEguRlsDl7/1XN91H
+ RN0P1wtMijIjMaDhPefcFUAEU1A0ikQlkbPFXmYqThw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=xU/XjSIfk+mtw7xME/AR1cpDo57ZqRYe/6NoAfYzO
- +c=; b=QuIkt6sZfykgPlDBvKbjxdL4TgQ4PM9x4J5c0aSk901p0JIwlf3n93LvW
- rRH197HTjiOmGgJABeKObWgfhgxZqpF+Bu02DkTuRWWQndCTZ/fRBJmCB46n1O53
- UaQpJLjZn1h4d1fOP5CsjoEJcSgm0kjSIJZwaFNvYfYSAn6CwUbydSB+GcxVIDg2
- yIhMnAM82KO7T/7U8kn29wBG+hsFGQnojN2DKJSs5MbR29PPO9Nd3hCHlp7TfeSE
- jWUf5QqeUzzFv7/qE/70rX2OPbsmCJHuS6vy3KBqRZ8/bikeAAJU/9dTZ0jEHPpe
- JsCxi3GGN5Z4ROeEL3e8VB/8dqWHA==
-X-ME-Sender: <xms:mt1PX0gllKYCfl7bTCHswNA5pr1hOwjE8sMgvBY1D1fDJ9LySIbyXQ>
- <xme:mt1PX9Cr6Bz5o-WOsvOdpQtLlgZ9geQ6rrkLwV2iNA2jWNLRuYXrQMuB_9mN89zpK
- zGHjXHLuB8-FNS6bOo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudefledguddvtdcutefuodetggdotefrod
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=UIxnX4
+ c3cvkVCih8WXAhZh++fhZH2lstxce/AgcyQoQ=; b=nYV+dqD/xqacR59c0aEIVX
+ w21OygFMPvsHZ+wSSwyjfBirfUiycS2DkJ3spPXp5nYrtBXJqdPwiE7TEjHcCQil
+ EbImxL8Zv4F5VsTRuzveasbzzp+AxTMeVyGTjb/d2waBjUJXvKXaSRoo2iI8YvG0
+ sR+4cuAgLW8oJ96cd40QcDWPpF6M5iHKKheE0R9kjKJszZDkSeAK9hhlOsuV0sXw
+ tLa3lHvY/sJzXYwXQhxRPgE+dxc2x65xMzkucVMhKC8TTw8HAugm06UIFxGrfu4s
+ BfCSTVi5Ud96BxPKZdko4QS1gM5r80I3g/lQWmd0WOICHUMmOXf1HXNfijDdXxTQ
+ ==
+X-ME-Sender: <xms:0-xPX81_2pmSYCwjPMBPQbp6-bpPubcFntWpzHUK2Eu0vyb0HIVSdw>
+ <xme:0-xPX3G0zK_pHMTCBs19YydbT96GjrjRkoW3bCtimhgfVLkBQsROJRAzqGaRB4f1Z
+ O1K8OVA1d1Mmj6v3Io>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudefledgudeffecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepveehueehkeekffdtudevveehteffhfdugefhveekgeekheeigffgvdek
- heehieehnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:mt1PX8FfjhS6w8XkwJQfmtbB3Xy0no_riPN_ExgEigUJG65yLGJEuQ>
- <xmx:mt1PX1SXdZOzQwqdCayhTgUiGPNz6NGw2W5TyPUdAaH2VQ_Mdr-9JQ>
- <xmx:mt1PXxyrugSqTDuhAvYXSr2WvY2urqYg58JUFfbjiKajr5CoLNFibA>
- <xmx:m91PXwzKFPVztg6niNWMxwydz_8vLjpvNCQ15sNm8jw8Z-DlR6MtVg>
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:0-xPX06y0hG23LP7_LMq8pEjF4P4SARltqMy1mQ52XqicUfHZXK96A>
+ <xmx:0-xPX11rsyv1zoMPKj5RWPjcA0KoCItSlmWAGmyF1FPUsHr2bap5CA>
+ <xmx:0-xPX_EI2qk5p6WephGhjAyuB5gZF5IaTDhUKpP9Upks5H_HnqhuTw>
+ <xmx:1exPX5EZ_sCdMNtmrFMDAa6dpLeRkCn7YBKIE3Xn5FYbHnue5VLc7POaFVA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7A6EC3280059;
- Wed,  2 Sep 2020 13:59:54 -0400 (EDT)
-Date: Wed, 2 Sep 2020 19:59:52 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 329EF328005E;
+ Wed,  2 Sep 2020 15:04:51 -0400 (EDT)
+Date: Wed, 2 Sep 2020 21:04:49 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v4 13/78] drm/vc4: kms: Convert to for_each_new_crtc_state
-Message-ID: <20200902175952.gf6siofkw7vgjkj3@gilmour.lan>
-References: <CAPY8ntBpGsak=s8tOmmDA-2kE5mp6+TrqyK3930Ypm7Q9gcUJw@mail.gmail.com>
+To: sboyd@kernel.org, mturquette@baylibre.com
+Subject: Re: [PATCH v2 1/4] clk: bcm: rpi: Add register to control pixel bvb
+ clk
+Message-ID: <20200902190449.qoao72lc4hdgv6m2@gilmour.lan>
+References: <20200901040759.29992-1-hoegeun.kwon@samsung.com>
+ <CGME20200901040851epcas1p28f443c0e819bea756ebf9296491b32da@epcas1p2.samsung.com>
+ <20200901040759.29992-2-hoegeun.kwon@samsung.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBpGsak=s8tOmmDA-2kE5mp6+TrqyK3930Ypm7Q9gcUJw@mail.gmail.com>
+In-Reply-To: <20200901040759.29992-2-hoegeun.kwon@samsung.com>
 X-Mailman-Approved-At: Thu, 03 Sep 2020 08:50:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,75 +81,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: stefan.wahren@i2se.com, devicetree@vger.kernel.org,
+ tim.gover@raspberrypi.com, dave.stevenson@raspberrypi.com,
+ phil@raspberrypi.com, kdasu.kdev@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, robh+dt@kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, nsaenzjulienne@suse.de,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============2048499160=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
 
-On Wed, Jul 29, 2020 at 04:02:06PM +0100, Dave Stevenson wrote:
-> Hi Maxime
-> 
-> On Wed, 8 Jul 2020 at 18:42, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > The vc4 atomic commit loop has an handrolled loop that is basically
-> > identical to for_each_new_crtc_state, let's convert it to that helper.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_kms.c |  9 ++++-----
-> >  1 file changed, 4 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> > index 210cc2408087..717673b18132 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> > @@ -152,14 +152,13 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
-> >         struct drm_device *dev = state->dev;
-> >         struct vc4_dev *vc4 = to_vc4_dev(dev);
-> >         struct vc4_hvs *hvs = vc4->hvs;
-> > -       struct vc4_crtc *vc4_crtc;
-> > +       struct drm_crtc_state *new_crtc_state;
-> > +       struct drm_crtc *crtc;
-> >         int i;
-> >
-> > -       for (i = 0; i < dev->mode_config.num_crtc; i++) {
-> > -               if (!state->crtcs[i].ptr || !state->crtcs[i].commit)
-> > -                       continue;
-> > +       for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > +               struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-> 
-> for_each_new_crtc_in_state doesn't check !state->crtcs[i].commit as
-> the hand rolled loop did. Sorry, this is my lack of knowledge, but
-> does that actually make any real difference?
-> 
-> I see nothing wrong in calling vc4_hvs_mask_underrun multiple times
-> anyway, so it's most likely going to be harmless anyway, but wanted to
-> query it.
+--===============2048499160==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="r53kpuqz3egnnm7b"
+Content-Disposition: inline
 
-Sorry for not getting back to this earlier.
 
-I don't really know :)
+--r53kpuqz3egnnm7b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It looks like the commit pointer is always going to be !NULL in our case:
-https://elixir.bootlin.com/linux/latest/source/include/drm/drm_crtc.h#L385
+Hi Stephen, Mike,
 
-The only case where it seems to be checked is when using
-for_each_old_crtc_in_state, and when the commit pointer is being
-accessed, and we're in neither of those cases.
+On Tue, Sep 01, 2020 at 01:07:56PM +0900, Hoegeun Kwon wrote:
+> To use QHD or higher, we need to modify the pixel_bvb_clk value. So
+> add register to control this clock.
+>=20
+> Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 
-Since I don't really know though, I guess we can remain on the safe side
-and keep it for now.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
+Can you merge this patch through the clk tree?
+
+The rest will go through drm
+
+Thanks!
 Maxime
+
+--r53kpuqz3egnnm7b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0/s0QAKCRDj7w1vZxhR
+xSj5AQCqraZ624rX3+422hwzvHAjXebcXXo/k5QtfouULAH9uAEA2hUPPx3QnSzt
+d+sIaCmCMaBIBO9JCuo1qwf1JJ6mAQA=
+=K0vZ
+-----END PGP SIGNATURE-----
+
+--r53kpuqz3egnnm7b--
+
+--===============2048499160==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2048499160==--
