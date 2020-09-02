@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8938025A9D6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DC525A9FE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:06:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7FCB6E463;
-	Wed,  2 Sep 2020 11:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F04446E457;
+	Wed,  2 Sep 2020 11:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 230706E463
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:02:50 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id y17so2564783lfa.8
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:02:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=TQ7QpY2AynaKC/NzAGom0uQVe973/8igtmH4MHMVo5A=;
- b=iNOmQaB/4Bu6P82TL1NxHnzuDO9y/jyFL1LRM9X8T9sESN1zfEURuG6dbt1ejlotCG
- 1tgIjU7i8D9lM0KxzlLeAZTY2+icspOytDmXBCf3X5f2dPeHwbeQ5TGciAVFeM4wBnFb
- Pgurbup20Mcgr0QDdTGmuoZB8RroWkxy1M9XjiB8Hs5qdD7aFtJXUclGwOZtcrQq0wQq
- VqKV/4N+S2DRI9B4rTuV4LBo/p//hQPUJ0T2Tqq5ogVhX14Yo+OawX3BRFfRuqrt6ZuS
- 7NlH5u/oC6+yQaZUVB7m9/ZWUk7qZIp1ov54fJzCl/MIEs1YwaP0IGmfkYit8rd0qBTI
- 9qMA==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A2ED6E457
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:06:32 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id c15so4744749wrs.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=twCG0p2wcM15uhFFhccs3FoLycIAVHdvzhdgouUISjE=;
+ b=QjMjMMIP3AuV0DYTBlqgh8WTTL3IZkCOfKHsC0TtSMXTGeb8yc0kHuGd38RaV8rxER
+ h4+gZDDw2KRrPAKT2Hmj+jap/iA6w+D7oPcBISu4NFgNmyNGpiyazXDBZr/1rLvf2YvE
+ rJyoLCW6hz7K+Q85sFE8z/v7/EhUeQZJS871djquj0y3/kXx2pd08SmQa82muEvGS6cY
+ g9wH//D/v680S5Nw/Kma9VIneLohEmanmFAibUESRZuvVkFNC6QatOeAlct3S/WtlsBY
+ qqCcu1z3aeT1Us/eDPaaoEIM89PmSe+i63/EZ9eubg4/UOUorAQzb91jwdfkj3bU88jT
+ NCCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=TQ7QpY2AynaKC/NzAGom0uQVe973/8igtmH4MHMVo5A=;
- b=n4gOURl/+MbqJOf8ycF9vouksdVUwtaEz4IRU1ifeOtgAQGCcQVBxxbYgG0CyDM1sK
- VJZkVdHemIcC2W8o5Cc3Zdw7JYu6B1BCcyoK4JteIWO3c5HTogvXJjvOvtUzw1v6R4Nt
- cCXaM26eKq0hOcdcrQWFk8voxDZncUZBKs0Eq9vsmIR5+Km2t43GGVyaMeDqVAuIti+H
- Br1DDiamLwIu5ntf4nAO8pNjlYVSB1Jk/wsRTnPNAUkoJzFmBJzkDKRTAq95C/jlsGoM
- ifFv66nV166r1c/AK7DHJKt+NfAap5TAx13+Q41LkuRsf4EzxdAJUqHoZ5Jhl7Cp2U6i
- HIRA==
-X-Gm-Message-State: AOAM530HzcPi/z2GT76+0Wx8ZvIts3oEmQUS9ULnU/R4DECuVWp3PqRN
- A8VZeorAz+Af6M2pC4vs370=
-X-Google-Smtp-Source: ABdhPJy6pjsH28Q6p8giD4p0ByMxWCFTr2s7n3xgHxcVrmVoQsS2cUtFn3H0oBaKvw0eEPZA6ejMRg==
-X-Received: by 2002:a19:6b18:: with SMTP id d24mr3135166lfa.40.1599044568453; 
- Wed, 02 Sep 2020 04:02:48 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h11sm899532ljc.60.2020.09.02.04.02.47
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=twCG0p2wcM15uhFFhccs3FoLycIAVHdvzhdgouUISjE=;
+ b=NYq9rzummVe2bXv1HgvZIfmiBM6COfZEe0+kb3aTCpM2wiCZzJkUCUpan+tX6f91oP
+ Ouz2+Qk+g7eHP/viElxC3wIaTGdsIXcKkTywfFvT5/DNYGBkfndSkgddRGOfcDA1Ox9E
+ eOXMd3Et11zseZWiHmu6LyJAGQ1BIGBNJjacBrLcmU1DM4O1uml9qh+PdQcZM4v6tDyW
+ k+DilTmbmfiYkX5YLClWvrzATN26NRK9nFfP0AP4h4MPGBNcZlNog89mOE8xi2J1uVEr
+ F3tw2MfxfhrNB10F/XyY4FggaHnNgjgurZsXAfS1Off1g7qI+BdPXT6+NrIUB3TJju9d
+ muqw==
+X-Gm-Message-State: AOAM5330Cxhd5Txr7kuKoe2QLkXdys2KM+5s+Te/Y2gTm07Xm8XUQESl
+ XUMV72se2hQWRicTs0+RjfAcOw==
+X-Google-Smtp-Source: ABdhPJyDLhEkGLP0nkSt39qJ0i2C3tbY9x1xvi9Lc2JnHnngBcYOSgjATJ5lGcYb/GvxwYMF5p/PyQ==
+X-Received: by 2002:adf:c108:: with SMTP id r8mr6834034wre.350.1599044790992; 
+ Wed, 02 Sep 2020 04:06:30 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id f6sm6876125wro.5.2020.09.02.04.06.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 04:02:48 -0700 (PDT)
-Date: Wed, 2 Sep 2020 14:02:38 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/doc: Document that modifiers are always required
- for fb
-Message-ID: <20200902140238.51089b99@eldfell>
-In-Reply-To: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
-References: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ Wed, 02 Sep 2020 04:06:30 -0700 (PDT)
+Date: Wed, 2 Sep 2020 12:06:28 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 02/24] backlight: Add DECLARE_* macro for device
+ registration
+Message-ID: <20200902110628.5npko5kuuaec2ldd@holly.lan>
+References: <20200823104532.1024798-1-sam@ravnborg.org>
+ <20200823104532.1024798-3-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200823104532.1024798-3-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,127 +69,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Marek =?UTF-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Juston Li <juston.li@intel.com>, Daniel Stone <daniels@collabora.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1846989561=="
+Cc: Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1846989561==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/9NRslKyTrGp=LVqo+NZK8AG"; protocol="application/pgp-signature"
-
---Sig_/9NRslKyTrGp=LVqo+NZK8AG
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Wed,  2 Sep 2020 12:24:40 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-
-> Even for legacy userspace, since otherwise GETFB2 is broken and if you
-> switch between modifier-less and modifier-aware compositors, smooth
-> transitions break.
->=20
-> Also it's just best practice to make sure modifiers are invariant for
-> a given drm_fb, and that a modifier-aware kms drivers only has one
-> place to store them, ignoring any old implicit bo flags or whatever
-> else might float around.
->=20
-> Motivated by some irc discussion with Bas about amdgpu modifier
-> support.
->=20
-> Fixes: 455e00f1412f ("drm: Add getfb2 ioctl")
-> Cc: Daniel Stone <daniels@collabora.com>
-> Cc: Juston Li <juston.li@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Cc: Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com>
-> Cc: "Wentland, Harry" <harry.wentland@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On Sun, Aug 23, 2020 at 12:45:10PM +0200, Sam Ravnborg wrote:
+> Device registration almost always uses a struct backlight_properties
+> variable to pass config info. Make it simpler and less error prone
+> by the introduction of a number of macros.
+> 
+> There is one macro for each type of backlight {firmware, platform, raw}.
+> All members in struct backlight_properties are initialized.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
 > ---
->  include/drm/drm_mode_config.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index a18f73eb3cf6..5ffbb4ed5b35 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -58,6 +58,12 @@ struct drm_mode_config_funcs {
->  	 * actual modifier used if the request doesn't have it specified,
->  	 * ie. when (@mode_cmd->flags & DRM_MODE_FB_MODIFIERS) =3D=3D 0.
->  	 *
-> +	 * IMPORTANT: These implied modifiers for legacy userspace must be
-> +	 * stored in struct &drm_framebuffer, including all relevant metadata
-> +	 * like &drm_framebuffer.pitches and &drm_framebuffer.offsets if the
-> +	 * modifier enables additional planes beyond the fourcc pixel format
-> +	 * code. This is required by the GETFB2 ioctl.
-> +	 *
->  	 * If the parameters are deemed valid and the backing storage objects in
->  	 * the underlying memory manager all exist, then the driver allocates
->  	 * a new &drm_framebuffer structure, subclassed to contain
-> @@ -915,6 +921,13 @@ struct drm_mode_config {
->  	 * @allow_fb_modifiers:
->  	 *
->  	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
-> +	 *
-> +	 * IMPORTANT:
-> +	 *
-> +	 * If this is set the driver must fill out the full implicit modifier
-> +	 * information in their &drm_mode_config_funcs.fb_create hook for legacy
-> +	 * userspace which does not set modifiers. Otherwise the GETFB2 ioctl is
-> +	 * broken for modifier aware userspace.
->  	 */
->  	bool allow_fb_modifiers;
-> =20
+>  include/linux/backlight.h | 63 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+> 
+> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+> index 190963ffb7fc..93a47a6cf681 100644
+> --- a/include/linux/backlight.h
+> +++ b/include/linux/backlight.h
+> @@ -272,6 +272,69 @@ struct backlight_properties {
+>  	enum backlight_scale scale;
+>  };
+>  
+> +/**
+> + * BACKLIGHT_PROPS - init backlight_properties with default values
+> + *
+> + * This macro is used to initialize backlight_properties with default
+> + * values. It is intended to be used when registering a backlight device
+> + * and the properties needs to be adjusted at run-time, for example
+> + * when the max_brightness is configurable.
+> + *
+> + * .. code-block:: c
 
-Hi,
-
-are there any drivers that would infer this information at
-modeset/pageflip/atomic ioctl time instead of AddFB/AddFB2 time?
-
-Userspace may be creating the FB once per buffer and keep re-using
-that over several render/display cycles. If a driver was changing the
-"effective modifiers" dynamically, userspace could break.
+sphinx markup in kernel-doc comments is pretty rare at the moment (and
+presumably it does odd things to direct man page generation). Has it
+been discussed and approved of by doc maintainers or is it just creeping
+organically?
 
 
-Thanks,
-pq
+> + *
+> + *	struct backlight_properties props = {
+> + *		BACKLIGHT_PROPS(0, 255, BACKLIGHT_RAW)
+> + *	};
+> + *	...
+> + *	props.max_brightness = new_max;
+> + *	err = devm_backlight_device_register(,,,, props);
+> + *
+> + */
+> +#define BACKLIGHT_PROPS(_brightness, _max_brightness, _type)	\
+> +	.brightness = _brightness,				\
+> +	.max_brightness = _max_brightness,			\
+> +	.power = FB_BLANK_POWERDOWN,				\
+> +	.type = _type,						\
+> +	.fb_blank = 0,						\
+> +	.state = 0,						\
+> +	.scale = BACKLIGHT_SCALE_UNKNOWN,
 
---Sig_/9NRslKyTrGp=LVqo+NZK8AG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Hmnnn... not sure I like seeing this buried.
 
------BEGIN PGP SIGNATURE-----
+BACKLIGHT_SCALE_UNKNOWN is not a sane default... it is pure legacy
+so it would be good to force drivers to declare this explicitly
+(since it would require new drivers to think about the correct value).
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9Pe84ACgkQI1/ltBGq
-qqfmTRAAp9EH7OaW9+j42DcTNejrKKE3UvXa1XIEi9IWw7qqO29JyRb4caHdcrms
-qdWpYB+kG5mzApUBapMkyEnzh0PzUbIHzY4z9RDE16jYkG33ZKd/rWp5q87A0z5b
-75/Ily7UmGMnr+o+pc0dUmEXc32luh2/VRX05rXKtRM5VD6qMANwVezU8dqp+ttf
-zROViIgqXG6OVwpQwFN3ddbT9rysXbbHCe0B0GrydjwhNwxp5WfKaL+GL49DP1j+
-9ZMZOapjXaK9N6r2itZpvwp78AC9EPdFuc/WwcO6ZIC2CTXruywEKW5Q9En0e5O7
-uUVzYtHJpaRXR0uPGkHTz/0ENd9PJ6BIuLYr+4vUK41A8ebI+9e8mKMdpw5KS1EV
-DN9RjWqNmYG0xJR2JWvHlNhzndUuKX+43VTl/b0j6EpX06ZHns6qUlTGdf5+Jr0p
-xFiO/rVCpoUl7Rqdw1183vWO/v5r1PKa0+eDZK5G8UCmUaw1Qklj52CetjKRXS7r
-4adZnDaAWXGwG+MXA1DeHeii1NitMdGr4IimAJf5KqWy/sKip5RY8fLiqu3wBzhs
-FS1zG4ae9IZSvQg8y53jzOqQTzUUt4HAlzrU3TGpLCWJTnQFNm1ujvlOHBPA2Etr
-430lvsKmG9i56Kg1vNgGjgHNivcPho8VTUtvvMI0VDKz+ja8Dfo=
-=ypGd
------END PGP SIGNATURE-----
+It then also becomes a good git grep target to help identify drivers
+whose scale hasn't been reviewed and recorded yet...
 
---Sig_/9NRslKyTrGp=LVqo+NZK8AG--
 
---===============1846989561==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Daniel.
 
+
+> +
+> +/**
+> + * DECLARE_BACKLIGHT_INIT_RAW - backlight_properties to init a raw
+> + *                              backlight device
+> + *
+> + * This macro is used to initialize backlight_properties that is used when
+> + * registering a raw backlight device.
+> + */
+> +#define DECLARE_BACKLIGHT_INIT_RAW(name, _brightness, _max_brightness)		\
+> +	const struct backlight_properties name = {				\
+> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_RAW)	\
+> +	}
+> +
+> +/**
+> + * DECLARE_BACKLIGHT_INIT_PLATFORM - backlight_properties to init a platform
+> + *                                   backlight device
+> + *
+> + * This macro is used to initialize backlight_properties that is used when
+> + * registering a platform backlight device.
+> + */
+> +#define DECLARE_BACKLIGHT_INIT_PLATFORM(name, _brightness, _max_brightness)		\
+> +	const struct backlight_properties name = {					\
+> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_PLATFORM)	\
+> +	}
+> +
+> +/**
+> + * DECLARE_BACKLIGHT_INIT_FIRMWARE - backlight_properties to init a firmware
+> + *                                   backlight device
+> + *
+> + * This macro is used to initialize backlight_properties that is used when
+> + * registering a firmware backlight device.
+> + */
+> +#define DECLARE_BACKLIGHT_INIT_FIRMWARE(name, _brightness, _max_brightness)		\
+> +	const struct backlight_properties name = {					\
+> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_FIRMWARE)	\
+> +	}
+> +
+>  /**
+>   * struct backlight_device - backlight device data
+>   *
+> -- 
+> 2.25.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1846989561==--
