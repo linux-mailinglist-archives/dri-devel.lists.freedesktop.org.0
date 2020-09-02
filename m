@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917F825AA46
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:29:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9CB25AA4A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80CE56E462;
-	Wed,  2 Sep 2020 11:29:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22C646E4A2;
+	Wed,  2 Sep 2020 11:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EACB6E462
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:29:42 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c18so4829343wrm.9
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:29:42 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279AC6E4A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:30:09 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id a9so4151152wmm.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=DRdg4lDZzKfGv+sVCvvFW5qNZj4PdeMoeoXDHIqu9+Q=;
- b=Vtbq+LTVNo68gOj/uCEqTpS7m6mQ9vEi+Oonu3JkUaFWQ9sFxuUY0oNita+QhdKEL5
- NvqxqZIinPMbg28rNDfln5qP8DEyHOMTcITWgIfdwsGCfQl12VXtVGIHHEcizLslisaQ
- kAmuha4b0PUsQLgh31JP+Jnqa0nF0Iw4lmkTOedjHsVg4C+nkSm8W6+Z3ylNnJLu9usG
- 6TjuI1igFN2Zh6fOnYMB5wzeMsSjgQPi5aU7QkdKniNN6FSZPHZinrU/L8UYGhSHetxb
- D/umW6TzVj87kCeCWqe8v5K4pxpm103n/fGF+VL+7Cr4r2PTH0VePzXEv77KJvSFMZd9
- NBzA==
+ bh=j09RJWiCRpBEwLUPbRB6rHSJMiEfEblSnxzgrdzGMKU=;
+ b=yC83MHJJq/M1upE5wDy3tfP3E3zVOK6J+5QZMFbXn81w6/Kz6HdbGFQxWaZOJRwCln
+ 7aosHV9icwgyCEZC94i036m0yyAlTmykxAgurFf5OlRuNTnqH8VLARO3QVZWQ4wXdxaO
+ 3vxbG9WmRy/FTpj11dZmqOZ6cLIV1QxFucGR0g6PXYW/l0Yr4NcaZ08KQrvfhfnZ58Y7
+ SDTUgu8HBnM2eKZdOn8O6vWTOl4csh3tShXwhtyGXd4Kwxbyy6a7uT58o42VbDNfgr12
+ Lg5Kp8lH/8XdqnzJ+TbzMnq6YjmLOAByRtQ92Uu0UeVBFlKhY/9AsFN1Uw34ap8csxE+
+ KhwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DRdg4lDZzKfGv+sVCvvFW5qNZj4PdeMoeoXDHIqu9+Q=;
- b=mFpbk0zix9yHq4BeW4CKN8CkRBhNdj6FhqgwIcPrs/YaBnUPnU5veKWX56E395cTHG
- RC9Jog0uGnwEqmLWHJiDWW5KPuO/ie7YY2cg805pnzMgZWpmvtcazEeOh0dsAFAip/X1
- fINJ/lrfYO9Kez1bDhAUYiyv+3AGDmKa4PjopHPuQr5L7tDZZyPaWnscIc+QWrp6yaNT
- G32/WHmRU5CXwLVIxHdXRT7NUikEBLlIHoAqaVm24jmjvEre9uASxOeQyBQKfTVt1Sf3
- ucTprxB+t//Jb1qdMS7ewhGGCOoQHO0dFvlX2Xd23FwGTx2aeWymxrJG9NvJm75iLmWc
- O/DQ==
-X-Gm-Message-State: AOAM5308aEbVl/RZ6TcKqkjPu5LaQXUO+ylaQC7iHqJ1IWcxo4fzARDq
- JOraD2x0oS/x91WiGGrRt9f6mQ==
-X-Google-Smtp-Source: ABdhPJxpR43l7DicQVi3TBCBkSijmT/uTZDoOFSaDV0lH6CI8svVBIKpdjWvqT0V1L0zUsnU9WARIw==
-X-Received: by 2002:a5d:6404:: with SMTP id z4mr4585153wru.423.1599046180907; 
- Wed, 02 Sep 2020 04:29:40 -0700 (PDT)
+ bh=j09RJWiCRpBEwLUPbRB6rHSJMiEfEblSnxzgrdzGMKU=;
+ b=j4QvO/b5sTsbhAIUt6CABF950BlRGL5hN1apF2nlvPMnYCNz1dx84zj1Jc3T5fpKWA
+ NwLDSegu0CD78D6D0j8Cf1kzlNXAbMpAEKmwB3a1jwbXStCtxCulLf2VQl9BXz9E41dj
+ Y9iZyGxaCsVL5jA1i2Ww68/87SM3sfg1s4HpgQ5Z/DknBFtnEeLgQHCtdOxoDmWIJMVA
+ TFepAa++Tkqt/1MNVPhqfcBid81KO5oA0J5aiCIR+B7rsiiggcVy7v8CSPiposRE9xLd
+ 6kMlczaV1jLGzwM30XnSKGBiIqtnCD//6CU06x6UurWD8iblJaPYqIeKTKJSUu3ORKUU
+ hDnQ==
+X-Gm-Message-State: AOAM532GIpi/salerBEJLmcB8bUoDlkvvSi7hzqJFmds3Km2f3cyUl/C
+ 5ZMtAQWwg7C8Ld5lZtMRYJF4Hg==
+X-Google-Smtp-Source: ABdhPJx2JSb18TPAGQv4g/PObUXlyZKvmzXWHU/9YR9+bZ1bbYHxRYJ3kzFc3wx3ZMClP0Raw88NwQ==
+X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr240529wml.10.1599046207790;
+ Wed, 02 Sep 2020 04:30:07 -0700 (PDT)
 Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
  [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id g143sm5858835wme.0.2020.09.02.04.29.39
+ by smtp.gmail.com with ESMTPSA id i26sm1613346wmb.17.2020.09.02.04.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 04:29:40 -0700 (PDT)
-Date: Wed, 2 Sep 2020 12:29:37 +0100
+ Wed, 02 Sep 2020 04:30:07 -0700 (PDT)
+Date: Wed, 2 Sep 2020 12:30:05 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 0/24] backlight: add init macros and accessors
-Message-ID: <20200902112937.u6spv5rgjqcaiaex@holly.lan>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 03/24] backlight: Add get/set operations for
+ brightness properties
+Message-ID: <20200902113005.qmcnbmwut37fulqw@holly.lan>
 References: <20200823104532.1024798-1-sam@ravnborg.org>
- <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
+ <20200823104532.1024798-4-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
+In-Reply-To: <20200823104532.1024798-4-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,125 +69,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Lee Jones <lee.jones@linaro.org>,
- Konrad Dybcio <konradybcio@gmail.com>, amd-gfx@lists.freedesktop.org,
- Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Robert Chiras <robert.chiras@nxp.com>, Vinay Simha BN <simhavcs@gmail.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Hans de Goede <hdegoede@redhat.com>,
- Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jingoo Han <jingoohan1@gmail.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Wambui Karuga <wambui.karugax@gmail.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 28, 2020 at 11:40:28AM +0200, Linus Walleij wrote:
-> On Sun, Aug 23, 2020 at 12:45 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+On Sun, Aug 23, 2020 at 12:45:11PM +0200, Sam Ravnborg wrote:
+> Add get and set operations to incapsualte access to backlight brightness.
 > 
-> > The first patch trims backlight_update_status() so it can be called with a NULL
-> > backlight_device. Then the caller do not need to add this check just to avoid
-> > a NULL reference.
-> >
-> > The backlight drivers uses several different patterns when registering
-> > a backlight:
-> >
-> > - Register backlight and assign properties later
-> > - Define a local backlight_properties variable and use memset
-> > - Define a const backlight_properties and assign relevant properties
-> >
-> > On top of this there was differences in what members was assigned.
-> >
-> > To align how backlight drivers are initialized introduce following helper macros:
-> > - DECLARE_BACKLIGHT_INIT_FIRMWARE()
-> > - DECLARE_BACKLIGHT_INIT_PLATFORM()
-> > - DECLARE_BACKLIGHT_INIT_RAW()
-> >
-> > The macros are introduced in patch 2.
-> >
-> > The backlight drivers used direct access to backlight_properties.
-> > Encapsulate these in get/set access operations resulting in following benefits:
-> > - The access methods can be called with a NULL pointer so logic around the
-> >   access can be made simpler.
-> > - The update_brightness and enable_brightness simplifies the users
-> > - The code is in most cases more readable with the access operations.
-> > - When everyone uses the access methods refactoring in the backlight core is simpler.
-> >
-> > The get/set operations are introduced in patch 3.
-> >
-> > The gpio backlight driver received a small overhaul in a set of three patches.
-> > The result is a smaller and more readable driver.
-> >
-> > The remaining patches updates all backlight users in drivers/gpu/drm/*
-> > With this patch set all of drivers/gpu/drm/:
-> > - All backlight references to FB_BLANK* are gone from drm/*
-> > - All direct references to backlight properties are gone
-> > - All panel drivers uses the devm_ variant for registering backlight
-> >   Daniel Vetter had some concerns with this for future updates,
-> >   but we are aligned now and can update if refoctoring demands it
-> > - All panel drivers uses the backlight support in drm_panel
-> >
-> > Individual patches are only sent to the people listed in the patch + a few more.
-> > Please check https://lore.kernel.org/dri-devel/ for the full series.
-> >
-> > v2:
-> >   - Documented BACKLIGHT_PROPS as it may be used by drivers
-> >   - Dropped backlight_set_power_{on,off}, they were a mistake (Daniel)
-> >   - Added backlight_update_brightness() and use it (Daniel)
-> >   - Added backlight_enable_brightness() and use it
-> >   - Moved remaining drm_panel driver to use backlight support in drm_panel
-> >   - gpio backlight driver overhaul
-> >
-> > The patches are made on top of the for-backlight-next branch at
-> > https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git
-> > The branch needs v5.8-rc1 backported to build as dev_err_probe()
-> > is used.
-> >
-> > The first 6 patches are candidates for the backlight tree.
-> > If they are applied then this should preferably be to an immutable
-> > branch we can merge to drm-misc-next where the drm patches shall go.
-> >
-> > The drm patches has known conflics and shall *not* be applied to the
-> > backlight tree, they are included in this patchset to show how the
-> > new functions are used.
-> >
-> > Diffstat for the drm bits alone looks nice:
-> >  25 files changed, 243 insertions(+), 460 deletions(-)
-> >
-> > Feedback welcome!
+> One easy win is that the get/set operations can be used when backlight
+> is not included in the configuration, resulting in simpler code with
+> less ifdef's and thus more readable code.
 > 
-> Thank you for trying to make backlight easier for developers.
-> I am a big supporter of this type of simplifications and
-> generalizations, it is what makes DRM great.
+> The backlight_enable_brightness() update the brightness and enable
+> the backlight.
+> 
+> The backlight_update_brightness() force the brightness update and
+> typical usage is to set brightness after registering a backlight device.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
 
-+1!
-
-I've reviewed and sent out patch by patch replies for the backlight
-patches.
-
-I've eyeballed the drm patches but not reviewed at same depth
-and FWIW for all the patches whose subject *doesn't* start with
-backlight then:
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-Daniel.
+> ---
+>  include/linux/backlight.h | 74 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+> 
+> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+> index 93a47a6cf681..e390444bed13 100644
+> --- a/include/linux/backlight.h
+> +++ b/include/linux/backlight.h
+> @@ -492,6 +492,80 @@ static inline int backlight_get_brightness(const struct backlight_device *bd)
+>  		return bd->props.brightness;
+>  }
+>  
+> +/**
+> + * backlight_get_actual_brightness - Returns the actual brightness
+> + *
+> + * On failure a negative error code is returned.
+> + */
+> +static inline int backlight_get_actual_brightness(struct backlight_device *bd)
+> +{
+> +	if (bd && bd->ops && bd->ops->get_brightness)
+> +		return bd->ops->get_brightness(bd);
+> +	else
+> +		return -EINVAL;
+> +}
+> +
+> +/**
+> + * backlight_get_max_brightness - Returns maximum brightness
+> + *
+> + * This helper operation is preferred over direct access to
+> + * &backlight_properties.max_brightness
+> + *
+> + * Returns 0 if backlight_device is NULL
+> + */
+> +
+> +static inline int backlight_get_max_brightness(const struct backlight_device *bd)
+> +{
+> +	if (bd)
+> +		return bd->props.max_brightness;
+> +	else
+> +		return 0;
+> +}
+> +
+> +/**
+> + * backlight_set_brightness - Set the brightness to the specified value
+> + *
+> + * This helper operation is preferred over direct assignment to
+> + * &backlight_properties.brightness.
+> + *
+> + * If backlight_device is NULL then silently exit.
+> + */
+> +static inline void backlight_set_brightness(struct backlight_device *bd, int brightness)
+> +{
+> +	if (bd)
+> +		bd->props.brightness = brightness;
+> +}
+> +
+> +/**
+> + * backlight_update_brightness - Update the brightness to the specified value
+> + *
+> + * Update brightness and force an update.
+> + *
+> + * If backlight_device is NULL then silently exit.
+> + */
+> +static inline void backlight_update_brightness(struct backlight_device *bd, int brightness)
+> +{
+> +	if (bd) {
+> +		bd->props.brightness = brightness;
+> +		backlight_update_status(bd);
+> +	}
+> +}
+> +
+> +/**
+> + * backlight_enable_brightness - Enable backligt using specified brightness
+> + *
+> + * Enable brightness using the specified brightness.
+> + *
+> + * If backlight_device is NULL then silently exit.
+> + */
+> +static inline void backlight_enable_brightness(struct backlight_device *bd, int brightness)
+> +{
+> +	if (bd) {
+> +		bd->props.brightness = brightness;
+> +		backlight_enable(bd);
+> +	}
+> +}
+> +
+>  struct backlight_device *
+>  backlight_device_register(const char *name, struct device *dev, void *devdata,
+>  			  const struct backlight_ops *ops,
+> -- 
+> 2.25.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
