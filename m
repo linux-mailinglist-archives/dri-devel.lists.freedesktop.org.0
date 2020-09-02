@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F73825B59B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB23725B59D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDB36E504;
-	Wed,  2 Sep 2020 21:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC5006E50D;
+	Wed,  2 Sep 2020 21:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1D0B6E503
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:08:52 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id u13so345691pgh.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:08:52 -0700 (PDT)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE0076E50B
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:08:53 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id v15so328396pgh.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uC/H1b3+KhcQGjglZw/M5arenYChmgb2HD8dYcjPkos=;
- b=csoQrJzEAFsMKwdTrct3P6TSDc0IPOarNG7pgZdP3pdBWivVxEvvcSgUHwZ+lNFKWF
- TfHPkw09LRDQGMSce7d+Es15FEAj7Ck3On2KGJQAuazmUfWVw+OXzaUtyvFsLSMArRXT
- 9m6i2ro+Vcp6Gi3eHcYme9agwyF0NVe4EOt/s=
+ bh=Uz4gbsIOVcrSj38X4khXE2ZpHDrEniQCIX3T8li7Kzk=;
+ b=lPCdN5Dg4JVsIrUK4dWGbfd/7TMkNKjkED9x1r0aAug6zj47nogB2brReg7mmoxPec
+ VC7mnPVQfCbG8v7ReB7Vve89T30AwB428Z57JqEXSFffLPsFkR80nGHpAE57usdY2Vnn
+ ctViI1s0tUNPhY+eeJDrmnt0fWgz0ac92X71o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uC/H1b3+KhcQGjglZw/M5arenYChmgb2HD8dYcjPkos=;
- b=tTYDoI78PyvYEbOp2vFM9RmBaArtrMSCIJq2ggiFHwofeozyb076Bx1legWCuV3CQe
- hfWU+7NqpJC68y7pi7xr+RMC+0dg8UrzLDYpNnwxFo2bN3lReMalbQmC06+z5dMInXjm
- wJNrPdmeplZetysFySHTPbGMv29hloRSGRnrSWL2UDGYcwTMIXrVzzns0UzVyj0e+C/J
- UtSR69btf8K6KKKmMdmHR7MjJsi/x4PeH65Gu1JdjDUUCNzASSILqoLrH0/Y7HYpW3Bc
- u5sAIOKp7DEQQ6f6k1yQi4iPeg9lG1k6O7Qg9iIPUJSUpIyNtLCInktD3hxKb1Esf9y0
- hM7g==
-X-Gm-Message-State: AOAM530XtvEG/3kl/HttzGb3ghTNoRQ3/mYB2UZKrxrQoX3BIfCZYFWQ
- G+N5fQIDOeteSLHeGQzQw1FpbN3BG3tCoA==
-X-Google-Smtp-Source: ABdhPJxbVSiWNJ40LGxSTmm/YTx5vJjftekLAaSXA3Mw/hCkFVBV6u2fS/eulIWCJ5lDiFjP/u4/oQ==
-X-Received: by 2002:a63:541e:: with SMTP id i30mr3417033pgb.47.1599080931997; 
- Wed, 02 Sep 2020 14:08:51 -0700 (PDT)
+ bh=Uz4gbsIOVcrSj38X4khXE2ZpHDrEniQCIX3T8li7Kzk=;
+ b=meMes7gVI8eTAc6opgxsbc7P/YfJbbac4sv6hMZPADMWmF57pa2REF7MNSY1AjEq3q
+ OAgUaYF79wWFzpbyI1v28Ohpm02N7xwF2NceKXEEDMurSEy4hK7nhHHRNyxLcizyRprR
+ Y++X82N9wL8sexkbtL9EfEQ5G2mmGzej74HKJHHe3o2xfhHqF3iF9gzitilRltlGwKUX
+ ZrklVmhyl2pzkFDmvPk22+x/NvgETwfTQns2C0jq3aKDtAZLuzOZT38cGorHoXGjJo+A
+ FrPi+kD678xQ61KznLiEa0Hosbb6G23vXEzCMlSki3y9bMfBTKaLKFrcF8CS0IU200Bx
+ dNnQ==
+X-Gm-Message-State: AOAM531qL3sKfklVgi4LhWlEtOuH20S/xM+EwoWlGn+VdgaV8+VVQGEi
+ ZgyP5aN9y5RxTetPAuQwI0ojrPfm7JXZ6w==
+X-Google-Smtp-Source: ABdhPJzxe0Y470MJyR1VcNWFkn+iRnPThV/NXDMqF0YNfET77viYt+5lsZ4/8zxDOzckSJd7DdYOaw==
+X-Received: by 2002:a63:8448:: with SMTP id k69mr3231261pgd.285.1599080933284; 
+ Wed, 02 Sep 2020 14:08:53 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.08.50
+ by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.08.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 14:08:51 -0700 (PDT)
+ Wed, 02 Sep 2020 14:08:52 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
-Subject: [PATCH v2 01/23] Fix use after free in get_capset_info callback.
-Date: Wed,  2 Sep 2020 14:08:25 -0700
-Message-Id: <20200902210847.2689-2-gurchetansingh@chromium.org>
+Subject: [PATCH v2 02/23] drm/virtio: fix uninitialized variable
+Date: Wed,  2 Sep 2020 14:08:26 -0700
+Message-Id: <20200902210847.2689-3-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200902210847.2689-1-gurchetansingh@chromium.org>
 References: <20200902210847.2689-1-gurchetansingh@chromium.org>
@@ -72,54 +72,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Doug Horn <doughorn@google.com>
+smatch reported this with the blob series:
 
-If a response to virtio_gpu_cmd_get_capset_info takes longer than
-five seconds to return, the callback will access freed kernel memory
-in vg->capsets.
+drivers/gpu/drm/virtio/virtgpu_kms.c:227 virtio_gpu_init()
+error: uninitialized symbol 'ret'.
 
-Signed-off-by: Doug Horn <doughorn@google.com>
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_kms.c |  2 ++
- drivers/gpu/drm/virtio/virtgpu_vq.c  | 10 +++++++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 75d0dc2f6d285..5ba389e0a02fb 100644
+index 5ba389e0a02fb..06af537b0091d 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -80,8 +80,10 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 					 vgdev->capsets[i].id > 0, 5 * HZ);
- 		if (ret == 0) {
- 			DRM_ERROR("timed out waiting for cap set %d\n", i);
-+			spin_lock(&vgdev->display_info_lock);
- 			kfree(vgdev->capsets);
- 			vgdev->capsets = NULL;
-+			spin_unlock(&vgdev->display_info_lock);
- 			return;
- 		}
- 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index c93c2db35aaf3..7436705ba5a22 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -684,9 +684,13 @@ static void virtio_gpu_cmd_get_capset_info_cb(struct virtio_gpu_device *vgdev,
- 	int i = le32_to_cpu(cmd->capset_index);
+@@ -105,7 +105,7 @@ int virtio_gpu_init(struct drm_device *dev)
+ 	/* this will expand later */
+ 	struct virtqueue *vqs[2];
+ 	u32 num_scanouts, num_capsets;
+-	int ret;
++	int ret = 0;
  
- 	spin_lock(&vgdev->display_info_lock);
--	vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
--	vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
--	vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
-+	if (vgdev->capsets) {
-+		vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
-+		vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
-+		vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
-+	} else {
-+		DRM_ERROR("invalid capset memory.");
-+	}
- 	spin_unlock(&vgdev->display_info_lock);
- 	wake_up(&vgdev->resp_wq);
- }
+ 	if (!virtio_has_feature(dev_to_virtio(dev->dev), VIRTIO_F_VERSION_1))
+ 		return -ENODEV;
 -- 
 2.26.2
 
