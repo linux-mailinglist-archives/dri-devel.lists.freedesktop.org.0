@@ -2,114 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A8525AA29
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:24:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917F825AA46
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 163B96E45C;
-	Wed,  2 Sep 2020 11:23:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80CE56E462;
+	Wed,  2 Sep 2020 11:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 260EE6E45C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:23:55 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200902112354euoutp016d96ee3fa8ebb61ebd3abde945b00518~w87bQfBFQ0581605816euoutp016
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:23:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200902112354euoutp016d96ee3fa8ebb61ebd3abde945b00518~w87bQfBFQ0581605816euoutp016
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599045834;
- bh=OtSO6kCDRYzARjt52u8mNHXpNRyAs7EY5ZDWyY0I4u4=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=NkLqzdPKs6UYEvaWHE1TwMxARf8Y/8XaIF7mRlJHKy0wCLc+qTAjrJ8mslFjq7eT6
- i4118r9JnMzQxqcIYrD8+SayCGCnSmdWC/e8feSLAijWxL+O6rrPTq18/eNvwN257p
- nxHkgl8whKTIweqMlhdQ70i2Xy2tRpkQWtC+pWbQ=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200902112353eucas1p2782d672dc8e626e6fe9f4e658edf778e~w87aZ8amE2679626796eucas1p2r;
- Wed,  2 Sep 2020 11:23:53 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id A3.FD.05997.9C08F4F5; Wed,  2
- Sep 2020 12:23:53 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200902112352eucas1p1a409c435036274b5f6466ceff2b437cc~w87aHLjPq2822728227eucas1p1o;
- Wed,  2 Sep 2020 11:23:52 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200902112352eusmtrp1d22680c373f1eacedd592cc5d879c179~w87aGMMr_2475724757eusmtrp1L;
- Wed,  2 Sep 2020 11:23:52 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-38-5f4f80c980f5
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 87.9B.06017.8C08F4F5; Wed,  2
- Sep 2020 12:23:52 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200902112351eusmtip1e4fc0a16aed08cc448ebe5f4f51da2dd~w87YzDC-Q1814318143eusmtip1D;
- Wed,  2 Sep 2020 11:23:51 +0000 (GMT)
-Subject: Re: [RFT 09/10] arm64: dts: exynos: Correct port of USB-C connector
- node on Exynos5433 TM2
-To: Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Kukjin Kim <kgene@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Lee Jones <lee.jones@linaro.org>, Sangbeom Kim
- <sbkim73@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Daniel
- Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, alsa-devel@alsa-project.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <021495a9-7a00-eb91-ddfa-885cc2fb5462@samsung.com>
-Date: Wed, 2 Sep 2020 13:23:50 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EACB6E462
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:29:42 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c18so4829343wrm.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DRdg4lDZzKfGv+sVCvvFW5qNZj4PdeMoeoXDHIqu9+Q=;
+ b=Vtbq+LTVNo68gOj/uCEqTpS7m6mQ9vEi+Oonu3JkUaFWQ9sFxuUY0oNita+QhdKEL5
+ NvqxqZIinPMbg28rNDfln5qP8DEyHOMTcITWgIfdwsGCfQl12VXtVGIHHEcizLslisaQ
+ kAmuha4b0PUsQLgh31JP+Jnqa0nF0Iw4lmkTOedjHsVg4C+nkSm8W6+Z3ylNnJLu9usG
+ 6TjuI1igFN2Zh6fOnYMB5wzeMsSjgQPi5aU7QkdKniNN6FSZPHZinrU/L8UYGhSHetxb
+ D/umW6TzVj87kCeCWqe8v5K4pxpm103n/fGF+VL+7Cr4r2PTH0VePzXEv77KJvSFMZd9
+ NBzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DRdg4lDZzKfGv+sVCvvFW5qNZj4PdeMoeoXDHIqu9+Q=;
+ b=mFpbk0zix9yHq4BeW4CKN8CkRBhNdj6FhqgwIcPrs/YaBnUPnU5veKWX56E395cTHG
+ RC9Jog0uGnwEqmLWHJiDWW5KPuO/ie7YY2cg805pnzMgZWpmvtcazEeOh0dsAFAip/X1
+ fINJ/lrfYO9Kez1bDhAUYiyv+3AGDmKa4PjopHPuQr5L7tDZZyPaWnscIc+QWrp6yaNT
+ G32/WHmRU5CXwLVIxHdXRT7NUikEBLlIHoAqaVm24jmjvEre9uASxOeQyBQKfTVt1Sf3
+ ucTprxB+t//Jb1qdMS7ewhGGCOoQHO0dFvlX2Xd23FwGTx2aeWymxrJG9NvJm75iLmWc
+ O/DQ==
+X-Gm-Message-State: AOAM5308aEbVl/RZ6TcKqkjPu5LaQXUO+ylaQC7iHqJ1IWcxo4fzARDq
+ JOraD2x0oS/x91WiGGrRt9f6mQ==
+X-Google-Smtp-Source: ABdhPJxpR43l7DicQVi3TBCBkSijmT/uTZDoOFSaDV0lH6CI8svVBIKpdjWvqT0V1L0zUsnU9WARIw==
+X-Received: by 2002:a5d:6404:: with SMTP id z4mr4585153wru.423.1599046180907; 
+ Wed, 02 Sep 2020 04:29:40 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id g143sm5858835wme.0.2020.09.02.04.29.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Sep 2020 04:29:40 -0700 (PDT)
+Date: Wed, 2 Sep 2020 12:29:37 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 0/24] backlight: add init macros and accessors
+Message-ID: <20200902112937.u6spv5rgjqcaiaex@holly.lan>
+References: <20200823104532.1024798-1-sam@ravnborg.org>
+ <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <4eb7d0d9-29e2-9162-4521-10e4422f9c71@samsung.com>
-Content-Language: en-GB
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH89znvoFWLhXtCRszdn7RREFnsmfZ0jlflrsvaoIfyIzWqlck
- QjG9wsDMgHUKQ0EcYcMiiuBGqbFiKyBETEAUK9LOCWw4OlDUBQXf+qLi27hezPj2O+f/P8/5
- n+ThsbaEjeVTzDski9mUqmcj6YbLL3zzPbmrjAkFvwmk0OuhSPf1NoqcKTvNkNJbd1jyZ/Bf
- hhwNxJG3DYcwOdbuZUh36BFLDg49wMTnq+PIQOgSIuHufIq4hnoZcqP5CEvKfBcocqrdz5G9
- Le0cuTiSx5Dr9iBF8u4OY+J2leIlM8W6gJUVW8KVtNhk83Oiy/EjK/b3nmfFh14vJzaGBxlx
- YH8HJbpP5IhFZx1IDLg+Wj3l28gvNkupKZmSJd6wIXLrcKgcb6+IyXpe/wTlImdUAYrgQVgM
- vuMHmQIUyWsFOwLb0ze0WgQR/PHs7oQSQFBdPIzej4T9hawq1CAIVZVSavEIgbuk+p1ruiCB
- vaAWK0KM0MjAq9YgUgosFCLYE36KFRcrzIXX7j5WYY1gAE/5CKcwLcyBQI2TUniGsB4uX71N
- q55o8By+M848HyF8CfdbzEobC7OgcfQIVlkH1mDtu9wgXOPhpTPAqrmXw9vBm5zK0+F+x9kJ
- /hA6Sw7QKufAgP0HrA7nI6iva8Kq8Dn0e8dYZTEeD326OV5tfwWvgy85pQ3CNPhrNFrNMA1+
- avgFq20N5O/Tqu7ZMNBVP/GgDn79PcQWI71t0mG2SdfYJl1j+39vJaIdSCdlyGnJkrzILH23
- QDalyRnm5AWb0tNcaPyrdr7pCJ5Dza82tiGBR/qpmjLjSqOWMWXK2WltCHisj9Es7epcr9Vs
- NmXvlCzpRktGqiS3oQ94Wq/TfFI1vE4rJJt2SNskabtkea9SfERsLirvW6b7u9ewwiA6a6IS
- Xzz2z39cleTZtWaLNV67/59t5MD3RalTDXFLm2/8nD2j9esebmSZPf1kj9ylvWIrr7KeS1ou
- tybsdvOxWb7aphX+vqLRtVTZkm+Koztmfxy3uGewIs+V5Zy3J2fEWhGNu6IOaRodn42dX22s
- TdxU6bhX/6melreaFs7DFtn0Hwm3d2qmAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHee7dvbtaw9vUfFJTGRIUON182aOohR/q0gcT+lBoOS9609Bt
- sTujlw+KFtp8SQPBptMgyxfwpc20sgXqytSaRWYUDRWNTFOL+ZJlmUuDffud8z8/DgcOhYvv
- Er7UWbWO06rZHAnpLhj+M2APeZ5/TBnmWESozDaIodHXfRi6V91OoKrJaRK9W/pMoDrHXrTR
- VYmjequNQKPLiyS6PjWHo5GRDiEaX34K0MpoMYZMU2MEevOolkTVI08w1Gq1C9FVi1WI+r8W
- Eeh10xKGij59wZHZVIUf2s10OApIxrJyS8A8NNiFjKnlGsl8HHtMMgs2m5DpXpkgmPGSAYwx
- N+Qx5Z0tgHGYApJ2JEtjtZpcHReUpeF1cZIUGZJLZdFIKo+IlsrCFadj5JGS0PjYDC7n7HlO
- GxqfJs36slyDnzN6Xfhx/zvIB20eeuBGQToCrtjLSD1wp8T0HQDbbw/hW4EP7Kmf32ZPuD6m
- 3x6aB7Bp4obAGXjSHGzSN+POwIvuIeC38leEs8DpMgCnPluEW8oMgPdbp0inQtL74W/z+38s
- ouPhYM1XoZMFdDB0NLZhTvamU+GL0pntmV1w8Ob05jqKcqMPwlmL2tnG6ShYZ57EtzgQds/X
- brMPLFhqJiqA2OBiG1wUg4ticFFuAUEL8OJyeVWmipdLeVbF56ozpekalQls/kjXs7XOB0C/
- cLwP0BSQ7BRVKxOVYoI9z19U9QFI4RIvUcLL4VSxKIO9eInTapTa3ByO7wORm7dV4r7e6ZrN
- j1PrlLJImQJFyxThivAoJPERFdO9p8R0JqvjsjnuHKf972GUm28+iLV4RAr62QJrmnbNP652
- qbE775c9sOtKcJJw460HF+JdPgADUhOOrrr7nWkOKmkpPbmmaMiOjir88LOEW09ZnDvxHqtf
- ZZP8jMY7Hb3ZMttDyFE9jtLLQw+g/5sZgbu8uDLM2vg2JynNfCAx/8geq/lwIdzXKamYNcY0
- Ji9LBHwWKzuAa3n2L7MKsL45AwAA
-X-CMS-MailID: 20200902112352eucas1p1a409c435036274b5f6466ceff2b437cc
-X-Msg-Generator: CA
-X-RootMTR: 20200829142602eucas1p1ce457a8fddc6b1fba4bf8c08992fa0b3
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200829142602eucas1p1ce457a8fddc6b1fba4bf8c08992fa0b3
-References: <20200829142501.31478-1-krzk@kernel.org>
- <CGME20200829142602eucas1p1ce457a8fddc6b1fba4bf8c08992fa0b3@eucas1p1.samsung.com>
- <20200829142501.31478-9-krzk@kernel.org>
- <4eb7d0d9-29e2-9162-4521-10e4422f9c71@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,100 +68,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sylwester Nawrocki <snawrocki@kernel.org>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Lee Jones <lee.jones@linaro.org>,
+ Konrad Dybcio <konradybcio@gmail.com>, amd-gfx@lists.freedesktop.org,
+ Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Robert Chiras <robert.chiras@nxp.com>, Vinay Simha BN <simhavcs@gmail.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Hans de Goede <hdegoede@redhat.com>,
+ Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jingoo Han <jingoohan1@gmail.com>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 28, 2020 at 11:40:28AM +0200, Linus Walleij wrote:
+> On Sun, Aug 23, 2020 at 12:45 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> 
+> > The first patch trims backlight_update_status() so it can be called with a NULL
+> > backlight_device. Then the caller do not need to add this check just to avoid
+> > a NULL reference.
+> >
+> > The backlight drivers uses several different patterns when registering
+> > a backlight:
+> >
+> > - Register backlight and assign properties later
+> > - Define a local backlight_properties variable and use memset
+> > - Define a const backlight_properties and assign relevant properties
+> >
+> > On top of this there was differences in what members was assigned.
+> >
+> > To align how backlight drivers are initialized introduce following helper macros:
+> > - DECLARE_BACKLIGHT_INIT_FIRMWARE()
+> > - DECLARE_BACKLIGHT_INIT_PLATFORM()
+> > - DECLARE_BACKLIGHT_INIT_RAW()
+> >
+> > The macros are introduced in patch 2.
+> >
+> > The backlight drivers used direct access to backlight_properties.
+> > Encapsulate these in get/set access operations resulting in following benefits:
+> > - The access methods can be called with a NULL pointer so logic around the
+> >   access can be made simpler.
+> > - The update_brightness and enable_brightness simplifies the users
+> > - The code is in most cases more readable with the access operations.
+> > - When everyone uses the access methods refactoring in the backlight core is simpler.
+> >
+> > The get/set operations are introduced in patch 3.
+> >
+> > The gpio backlight driver received a small overhaul in a set of three patches.
+> > The result is a smaller and more readable driver.
+> >
+> > The remaining patches updates all backlight users in drivers/gpu/drm/*
+> > With this patch set all of drivers/gpu/drm/:
+> > - All backlight references to FB_BLANK* are gone from drm/*
+> > - All direct references to backlight properties are gone
+> > - All panel drivers uses the devm_ variant for registering backlight
+> >   Daniel Vetter had some concerns with this for future updates,
+> >   but we are aligned now and can update if refoctoring demands it
+> > - All panel drivers uses the backlight support in drm_panel
+> >
+> > Individual patches are only sent to the people listed in the patch + a few more.
+> > Please check https://lore.kernel.org/dri-devel/ for the full series.
+> >
+> > v2:
+> >   - Documented BACKLIGHT_PROPS as it may be used by drivers
+> >   - Dropped backlight_set_power_{on,off}, they were a mistake (Daniel)
+> >   - Added backlight_update_brightness() and use it (Daniel)
+> >   - Added backlight_enable_brightness() and use it
+> >   - Moved remaining drm_panel driver to use backlight support in drm_panel
+> >   - gpio backlight driver overhaul
+> >
+> > The patches are made on top of the for-backlight-next branch at
+> > https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git
+> > The branch needs v5.8-rc1 backported to build as dev_err_probe()
+> > is used.
+> >
+> > The first 6 patches are candidates for the backlight tree.
+> > If they are applied then this should preferably be to an immutable
+> > branch we can merge to drm-misc-next where the drm patches shall go.
+> >
+> > The drm patches has known conflics and shall *not* be applied to the
+> > backlight tree, they are included in this patchset to show how the
+> > new functions are used.
+> >
+> > Diffstat for the drm bits alone looks nice:
+> >  25 files changed, 243 insertions(+), 460 deletions(-)
+> >
+> > Feedback welcome!
+> 
+> Thank you for trying to make backlight easier for developers.
+> I am a big supporter of this type of simplifications and
+> generalizations, it is what makes DRM great.
 
-On 31.08.2020 14:50, Marek Szyprowski wrote:
-> Hi Krzysztof,
->
-> On 29.08.2020 16:25, Krzysztof Kozlowski wrote:
->> The USB-C connector bindings require port@0.  Such port was already
->> described in DTS but outside of the connector itself.  Put it into
->> proper place to fix dtbs_check warnings like:
->>
->>     arch/arm64/boot/dts/exynos/exynos5433-tm2.dt.yaml: musb_connector: ports: 'port@0' is a required property
->>
->> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> I'm not sure if topic should be about USB-C, I will call it simply USB
-> connector node. TM2(e) uses Samsung's 11-pin micro USB 2.0 connector,
-> which has nothing in common with USB Type-C.
->
-> Anyway, this patch breaks DWC3 (tested in Device mode) driver operation,
-> so something has to be somehow adjusted or fixed. Added CC Andrzej
-> Hajda, who actually worked on this.
->
->> ---
->>
->> Not tested on HQ. Please kindly review and test.
->>
->> Best regards,
->> Krzysztof
->> ---
->>    .../boot/dts/exynos/exynos5433-tm2-common.dtsi    | 15 +++++++--------
->>    1 file changed, 7 insertions(+), 8 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
->> index 6246cce2a15e..bab6c1addd5f 100644
->> --- a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
->> +++ b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
->> @@ -871,6 +871,13 @@
->>    					#address-cells = <1>;
->>    					#size-cells = <0>;
->>    
->> +					port@0 {
->> +						reg = <0>;
->> +						muic_to_usb: endpoint {
->> +							remote-endpoint = <&usb_to_muic>;
->> +						};
->> +					};
->> +
++1!
+
+I've reviewed and sent out patch by patch replies for the backlight
+patches.
+
+I've eyeballed the drm patches but not reviewed at same depth
+and FWIW for all the patches whose subject *doesn't* start with
+backlight then:
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-According to not-yet-yaml documentation of dt-bindings (patch 05/10):
-> -Required nodes:
-> -- any data bus to the connector should be modeled using the OF graph bindings
-> -  specified in bindings/graph.txt, unless the bus is between parent node and
-> -  the connector.
-
-This is 'unless' case - muic is parent of the connector, so the port 0 is not necessary.
-
-
->>    					port@3 {
->>    						reg = <3>;
->>    						musb_con_to_mhl: endpoint {
->> @@ -879,14 +886,6 @@
->>    					};
->>    				};
->>    			};
->> -
->> -			ports {
->> -				port {
->> -					muic_to_usb: endpoint {
->> -						remote-endpoint = <&usb_to_muic>;
->> -					};
->> -				};
-
-
-And this port belongs to MUIC - it describes connection between USB-HOST 
-and MUIC, it has nothing to do with the connector, and is necessary.
-
-
-Regards
-
-Andrzej
-
-
->> -			};
->>    		};
->>    
->>    		regulators {
-> Best regards
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
