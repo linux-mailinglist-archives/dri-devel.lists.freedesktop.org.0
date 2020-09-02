@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6991725A617
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 09:08:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7BE25A619
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 09:08:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102A26E90C;
-	Wed,  2 Sep 2020 07:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2BFB6E902;
+	Wed,  2 Sep 2020 07:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1726E0AD
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 00:39:16 +0000 (UTC)
-Received: from mail-pl1-f199.google.com ([209.85.214.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63066E0DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 05:24:14 +0000 (UTC)
+Received: from mail-pf1-f198.google.com ([209.85.210.198])
  by youngberry.canonical.com with esmtps
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>) id 1kDGnz-0002Gb-2q
- for dri-devel@lists.freedesktop.org; Wed, 02 Sep 2020 00:39:15 +0000
-Received: by mail-pl1-f199.google.com with SMTP id 95so1481100pla.14
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 17:39:15 -0700 (PDT)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1kDLE4-0005ia-UK
+ for dri-devel@lists.freedesktop.org; Wed, 02 Sep 2020 05:22:29 +0000
+Received: by mail-pf1-f198.google.com with SMTP id x125so2049232pfc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Sep 2020 22:22:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=HapSh6J4ipleysnVKYsirTF50PzRq3WDVc1GsW3eoRw=;
- b=PvKt4MITqAe+x6YFvC1rngCxJsZ3ZAwBXUwW6JGSj546yJI4CRXAnrUuS30VEVVSok
- TF6Oftv5kPA+MZnSHE1+fphZ29tBN0DFF65ssl5NEeE/yU8RcGuOI0Nnv627NA8LiJjH
- vbnETZ+Rsc84f39mezUi6kUrwcRMjWxpP5DOZ9u5BHVn2xZbvHZvKbCtNz+1/FeyfG3h
- CM7AH5TQMYIyu9yOD2mFGcAfyyvfNL1b1JiRArdWDqfkAQpM26ikeKFPROrgSp6BYTKH
- Dy82VvlxpfGGHy9hGY7uivO9CBUP5/iLlWcnLmRZ6J7wUwFcBXAJztdGidDQQyjDbWWD
- +hTw==
-X-Gm-Message-State: AOAM531uH7UIYRxP2SeUvzi5bUwWI+vu8s/559Z5BunvRqagmFKP4K0X
- otR4UbdVMsQy0LsWsLKD8/QD4n7pVEePiUCL8P5+4pcxtbOJXv3s8udRKO5b3qnbY4ifwxOoPtv
- 5ZUx0KkbKBzEZscbT4v9SrZlQx+E55kz+mZCN4o3snFiVsQ==
-X-Received: by 2002:a62:7c09:: with SMTP id x9mr760352pfc.229.1599007153388;
- Tue, 01 Sep 2020 17:39:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwm3QapIMxS3NYIcgVW1Am2hXnQMWOVnVHjfdLckz4kXMEDFeOvPUT3ZkAuRXJdaw8qsl4Zgg==
-X-Received: by 2002:a62:7c09:: with SMTP id x9mr760316pfc.229.1599007153014;
- Tue, 01 Sep 2020 17:39:13 -0700 (PDT)
+ bh=wMqbe9fjKIQ0LZl5FhPinVHwgKbnNs2WDnA3NP2bLUs=;
+ b=cVVQvfmLpBHNtXM5PyiXGdt/rZrbtIpmZ8lGMMgTm5oa66OYjTEuNttgkY+ei5UVwK
+ 6t1hHxbsL9l8PIzBt90Ah483hYxyDeQqieGebsJRK0zfQZHF0+yJePAH8MSPQSqJP2kY
+ RLcgHuYfJ/1ewE6iEYNeuko9S23cHlHdO+inAohsM10C49e6Oinfgg1CdgK6gEvNshkE
+ vPonp9VjhZ2JqYw4aY26zC4wAWV9b2Q8nkLu8uxDy2tx4tqLrXVJ45E6nM9bKmRbOcn2
+ AE7dDstcTg4w9fsUDYJjOl54ZVt4UlkSiMmXuSA9kHz/gUETZb1g/eOJ8K8OS3SMP9sL
+ RipA==
+X-Gm-Message-State: AOAM530wwsfoIamCqNTrqVIJI9kcgRdyjLno6eK3biuyKj0vSdGxTImB
+ BH4pUSI+6XE09kJ5Wguak50XeGTsIBfyEXJ9ftCiALpnZX4rvR4V5FA6dki8XrVoBv2FA2L6Dz9
+ w0Vy/BX1GGDj1H0obfXDixCbY+rla8Gr07Ym3eo4WH8TvpQ==
+X-Received: by 2002:a17:90a:af82:: with SMTP id
+ w2mr722047pjq.185.1599024146761; 
+ Tue, 01 Sep 2020 22:22:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwViL3221ms+ijBjNKHR4OA2XAP9LtY9zANzX6D+Esz/RzAKY2p2wPTcMpDjCcWoSdimi1SAg==
+X-Received: by 2002:a17:90a:af82:: with SMTP id
+ w2mr722004pjq.185.1599024146154; 
+ Tue, 01 Sep 2020 22:22:26 -0700 (PDT)
 Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net.
  [220.133.187.190])
- by smtp.gmail.com with ESMTPSA id u5sm3152827pfm.149.2020.09.01.17.39.11
+ by smtp.gmail.com with ESMTPSA id t11sm3826352pfe.165.2020.09.01.22.22.23
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Sep 2020 17:39:12 -0700 (PDT)
+ Tue, 01 Sep 2020 22:22:25 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [PATCH] drm/radeon: Reset ASIC if suspend is not managed by
- platform firmware
+Subject: Re: [PATCH] drm/i915/lspcon: Limits to 8 bpc for RGB/YCbCr444
 From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <CADnq5_PMLoL0Zkw8uB+noPJ0buO5aUavDrFGBhBp_GEz8+xBDA@mail.gmail.com>
-Date: Wed, 2 Sep 2020 08:39:09 +0800
-Message-Id: <D7166B38-F8AE-4603-9C7E-11620E1E8B60@canonical.com>
-References: <20200901063227.6057-1-kai.heng.feng@canonical.com>
- <CADnq5_MXs-=BpMrYVudhHPjTpgs1XUE=GEujpp5AeYy5vWS=YA@mail.gmail.com>
- <3269C99F-2349-4004-8B5F-31A2297A5043@canonical.com>
- <CADnq5_PMLoL0Zkw8uB+noPJ0buO5aUavDrFGBhBp_GEz8+xBDA@mail.gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
+In-Reply-To: <20200831194820.GB6112@intel.com>
+Date: Wed, 2 Sep 2020 13:22:22 +0800
+Message-Id: <F51DEE39-6D93-41A2-9EA4-C7FE94F04E72@canonical.com>
+References: <20200826052143.17607-1-kai.heng.feng@canonical.com>
+ <20200826162458.GP6112@intel.com>
+ <6D40F1E0-AFF6-4D38-BB9B-C52B43F83266@canonical.com>
+ <20200831194820.GB6112@intel.com>
+To: =?utf-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.1)
 X-Mailman-Approved-At: Wed, 02 Sep 2020 07:07:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,105 +71,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> On Sep 2, 2020, at 00:30, Alex Deucher <alexdeucher@gmail.com> wrote:
-> 
-> On Tue, Sep 1, 2020 at 12:21 PM Kai-Heng Feng
-> <kai.heng.feng@canonical.com> wrote:
->> 
->> 
->> 
->>> On Sep 1, 2020, at 22:19, Alex Deucher <alexdeucher@gmail.com> wrote:
->>> 
->>> On Tue, Sep 1, 2020 at 3:32 AM Kai-Heng Feng
->>> <kai.heng.feng@canonical.com> wrote:
->>>> 
->>>> Suspend with s2idle or by the following steps cause screen frozen:
->>>> # echo devices > /sys/power/pm_test
->>>> # echo freeze > /sys/power/mem
->>>> 
->>>> [  289.625461] [drm:uvd_v1_0_ib_test [radeon]] *ERROR* radeon: fence wait timed out.
->>>> [  289.625494] [drm:radeon_ib_ring_tests [radeon]] *ERROR* radeon: failed testing IB on ring 5 (-110).
->>>> 
->>>> The issue doesn't happen on traditional S3, probably because firmware or
->>>> hardware provides extra power management.
->>>> 
->>>> Inspired by Daniel Drake's patch [1] on amdgpu, using a similar approach
->>>> can fix the issue.
->>> 
->>> It doesn't actually fix the issue.  The device is never powered down
->>> so you are using more power than you would if you did not suspend in
->>> the first place.  The reset just works around the fact that the device
->>> is never powered down.
->> 
->> So how do we properly suspend/resume the device without help from platform firmware?
-> 
-> I guess you don't?
-
-Unfortunate but I guess we need to accept reality and use the default suspend method.
-
-Kai-Heng
-
-> 
-> Alex
-> 
-> 
->> 
->> Kai-Heng
->> 
->>> 
->>> Alex
->>> 
->>>> 
->>>> [1] https://patchwork.freedesktop.org/patch/335839/
->>>> 
->>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
->>>> ---
->>>> drivers/gpu/drm/radeon/radeon_device.c | 3 +++
->>>> 1 file changed, 3 insertions(+)
->>>> 
->>>> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
->>>> index 266e3cbbd09b..df823b9ad79f 100644
->>>> --- a/drivers/gpu/drm/radeon/radeon_device.c
->>>> +++ b/drivers/gpu/drm/radeon/radeon_device.c
->>>> @@ -33,6 +33,7 @@
->>>> #include <linux/slab.h>
->>>> #include <linux/vga_switcheroo.h>
->>>> #include <linux/vgaarb.h>
->>>> +#include <linux/suspend.h>
->>>> 
->>>> #include <drm/drm_cache.h>
->>>> #include <drm/drm_crtc_helper.h>
->>>> @@ -1643,6 +1644,8 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
->>>>               rdev->asic->asic_reset(rdev, true);
->>>>               pci_restore_state(dev->pdev);
->>>>       } else if (suspend) {
->>>> +               if (pm_suspend_no_platform())
->>>> +                       rdev->asic->asic_reset(rdev, true);
->>>>               /* Shut down the device */
->>>>               pci_disable_device(dev->pdev);
->>>>               pci_set_power_state(dev->pdev, PCI_D3hot);
->>>> --
->>>> 2.17.1
->>>> 
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Cgo+IE9uIFNlcCAxLCAyMDIwLCBhdCAwMzo0OCwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJq
+YWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4gCj4gT24gVGh1LCBBdWcgMjcsIDIwMjAgYXQg
+MDE6MDQ6NTRQTSArMDgwMCwgS2FpIEhlbmcgRmVuZyB3cm90ZToKPj4gSGkgVmlsbGUsCj4+IAo+
+Pj4gT24gQXVnIDI3LCAyMDIwLCBhdCAxMjoyNCBBTSwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5z
+eXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4+PiAKPj4+IE9uIFdlZCwgQXVnIDI2LCAy
+MDIwIGF0IDAxOjIxOjE1UE0gKzA4MDAsIEthaS1IZW5nIEZlbmcgd3JvdGU6Cj4+Pj4gTFNQQ09O
+IG9ubHkgc3VwcG9ydHMgOCBicGMgZm9yIFJHQi9ZQ2JDcjQ0NC4KPj4+PiAKPj4+PiBTZXQgdGhl
+IGNvcnJlY3QgYnBwIG90aGVyd2lzZSBpdCByZW5kZXJzIGJsYW5rIHNjcmVlbi4KPj4+IAo+Pj4g
+SG1tLiBEb2VzIAo+Pj4gZ2l0Oi8vZ2l0aHViLmNvbS92c3lyamFsYS9saW51eC5naXQgZHBfZG93
+bnN0cmVhbV9wb3J0c181Cj4+PiB3b3JrPwo+Pj4gCj4+PiBBY3R1YWxseSBiZXR0ZXIgbWFrZSB0
+aGF0IGRwX2Rvd25zdHJlYW1fcG9ydHNfNV5eXl5eXl5eXl5eIGFrYS4KPj4+IDU0ZDg0NmNlNjJh
+MiAoImRybS9pOTE1OiBEbyBZQ2JDciA0NDQtPjQyMCBjb252ZXJzaW9uIHZpYSBEUCBwcm90b2Nv
+bAo+Pj4gY29udmVydGVycyIpIHRvIGF2b2lkIHRoZSBleHBlcmltZW50cyBhbmQgaGFja3MgSSBo
+YXZlIHNpdHRpbmcgb24gdG9wLgo+PiAKPj4gQ2FuIHlvdSBwbGVhc2UgcmViYXNlIGl0IHRvIG1h
+aW5saW5lIG1hc3RlciBvciBkcm0tdGlwPwo+IAo+IGdpdDovL2dpdGh1Yi5jb20vdnN5cmphbGEv
+bGludXguZ2l0IGRwX2Rvd25zdHJlYW1fcG9ydHNfNgoKWWVzIHRoaXMgc29sdmVzIHRoZSBpc3N1
+ZS4gVGhhbmtzIGEgbG90IQoKQW55IHRpbWVsaW5lIHRoaXMgd2lsbCBnZXQgbWVyZ2VkPwoKS2Fp
+LUhlbmcgCgo+IAo+IEkgdGhyZXcgb3V0IHRoZSBoYWNrcy9leHBlcmltZW50YWwgc3R1ZmYuCj4g
+Cj4+IAo+PiBJIGFtIGdldHRpbmcgZXJyb3JzIG9uIHRoZSBicmFuY2g6Cj4+IAo+PiAgREVTQ0VO
+RCAgb2JqdG9vbAo+PiAgQ0FMTCAgICBzY3JpcHRzL2F0b21pYy9jaGVjay1hdG9taWNzLnNoCj4+
+ICBDQUxMICAgIHNjcmlwdHMvY2hlY2tzeXNjYWxscy5zaAo+PiAgQ0hLICAgICBpbmNsdWRlL2dl
+bmVyYXRlZC9jb21waWxlLmgKPj4gIEJ1aWxkaW5nIG1vZHVsZXMsIHN0YWdlIDIuCj4+ICBNT0RQ
+T1NUIDE2NiBtb2R1bGVzCj4+ICBMRCAgICAgIGFyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC92bWxp
+bnV4Cj4+IGxkOiBhcmNoL3g4Ni9ib290L2NvbXByZXNzZWQvcGd0YWJsZV82NC5vOiguYnNzKzB4
+MCk6IG11bHRpcGxlIGRlZmluaXRpb24gb2YgYF9fZm9yY2Vfb3JkZXInOyBhcmNoL3g4Ni9ib290
+L2NvbXByZXNzZWQva2FzbHJfNjQubzooLmJzcysweDApOiBmaXJzdCBkZWZpbmVkIGhlcmUKPj4g
+bGQ6IGFyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC9oZWFkXzY0Lm86IHdhcm5pbmc6IHJlbG9jYXRp
+b24gaW4gcmVhZC1vbmx5IHNlY3Rpb24gYC5oZWFkLnRleHQnCj4+IGxkOiB3YXJuaW5nOiBjcmVh
+dGluZyBEVF9URVhUUkVMIGluIGEgUElFCj4+IG1ha2VbMl06ICoqKiBbYXJjaC94ODYvYm9vdC9j
+b21wcmVzc2VkL01ha2VmaWxlOjExOTogYXJjaC94ODYvYm9vdC9jb21wcmVzc2VkL3ZtbGludXhd
+IEVycm9yIDEKPj4gbWFrZVsxXTogKioqIFthcmNoL3g4Ni9ib290L01ha2VmaWxlOjExMzogYXJj
+aC94ODYvYm9vdC9jb21wcmVzc2VkL3ZtbGludXhdIEVycm9yIDIKPj4gbWFrZTogKioqIFthcmNo
+L3g4Ni9NYWtlZmlsZToyODQ6IGJ6SW1hZ2VdIEVycm9yIDIKPj4gbWFrZTogKioqIFdhaXRpbmcg
+Zm9yIHVuZmluaXNoZWQgam9icy4uLi4KPj4gCj4+IEthaS1IZW5nCj4+IAo+Pj4gCj4+Pj4gCj4+
+Pj4gQ2xvc2VzOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZHJtL2ludGVsLy0vaXNz
+dWVzLzIxOTUKPj4+PiBTaWduZWQtb2ZmLWJ5OiBLYWktSGVuZyBGZW5nIDxrYWkuaGVuZy5mZW5n
+QGNhbm9uaWNhbC5jb20+Cj4+Pj4gLS0tCj4+Pj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9sc3Bjb24uYyB8IDMgKystCj4+Pj4gMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
+cygrKSwgMSBkZWxldGlvbigtKQo+Pj4+IAo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2xzcGNvbi5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9sc3Bjb24uYwo+Pj4+IGluZGV4IGI3ODFiZjQ2OTY0NC4uYzdhNDRmY2FhZGU4
+IDEwMDY0NAo+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfbHNw
+Y29uLmMKPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2xzcGNv
+bi5jCj4+Pj4gQEAgLTE5Niw3ICsxOTYsOCBAQCB2b2lkIGxzcGNvbl95Y2JjcjQyMF9jb25maWco
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPj4+PiAJCWNydGNfc3RhdGUtPnBvcnRf
+Y2xvY2sgLz0gMjsKPj4+PiAJCWNydGNfc3RhdGUtPm91dHB1dF9mb3JtYXQgPSBJTlRFTF9PVVRQ
+VVRfRk9STUFUX1lDQkNSNDQ0Owo+Pj4+IAkJY3J0Y19zdGF0ZS0+bHNwY29uX2Rvd25zYW1wbGlu
+ZyA9IHRydWU7Cj4+Pj4gLQl9Cj4+Pj4gKwl9IGVsc2UKPj4+PiArCQljcnRjX3N0YXRlLT5waXBl
+X2JwcCA9IDI0Owo+Pj4+IH0KPj4+PiAKPj4+PiBzdGF0aWMgYm9vbCBsc3Bjb25fcHJvYmUoc3Ry
+dWN0IGludGVsX2xzcGNvbiAqbHNwY29uKQo+Pj4+IC0tIAo+Pj4+IDIuMTcuMQo+Pj4gCj4+PiAt
+LSAKPj4+IFZpbGxlIFN5cmrDpGzDpAo+Pj4gSW50ZWwKPiAKPiAtLSAKPiBWaWxsZSBTeXJqw6Rs
+w6QKPiBJbnRlbAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
