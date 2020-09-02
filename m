@@ -1,55 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25E625AD16
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 16:29:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CDF25AD54
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 16:38:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD75D6E91C;
-	Wed,  2 Sep 2020 14:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DDD26E4BB;
+	Wed,  2 Sep 2020 14:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDA9A6E91C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 14:29:56 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id t7so4443223otp.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
+ [IPv6:2607:f8b0:4864:20::942])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD2F6E4BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 14:38:00 +0000 (UTC)
+Received: by mail-ua1-x942.google.com with SMTP id k18so1637112uao.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:38:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NVVASDf36U7PqiB4Y2Q8w0U+uet8qgjC1yDHLD7Nymk=;
- b=WB4CyfGtI1ds2AqEDe7hmi5eu/pjphJmVnxrJTFzGSzsWHnu17xiWX2V0ZWX35SUyv
- tkisiqRvJgD9hld5KCEEtImMo1j5d8gxNaexznjKUqvYGv3WzJ2mVh6ngSqLKrsU35zn
- RXgZeuao1qIzdonHQzo5uGOCGW2/bKLitR710=
+ :cc; bh=TadnzZ2GBx4yX2HwMOimGbeZb2PcWtu+wm80cNcN0fQ=;
+ b=Gi2e6zQsylDEwMGGD9uEtv0/zSfm3ttGeUD8jtFwieUhWNz0g3Vc3c3/fWdq3Jxcl+
+ wc5w1QXNLwWb/D+NAQUk301/Aa9k7cL/XXJBR3Zfjxg9R0zUvZFColuIyLnXOKEftlar
+ w/s11uKYBxNLykoVFCzrHIFXavzYRCaiEFZt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NVVASDf36U7PqiB4Y2Q8w0U+uet8qgjC1yDHLD7Nymk=;
- b=EakDTHR697AuPXCWh78o6zH1dX2n7ZR9yjR6cjEPJEIMYwIqEb9cM9n/f0wuV7azFm
- nqHic4haW3vPjocC5hrHpVOJUVg7GKiAotfofIB3Q1BOYH8nM6E692Lp7Oipc5JpmKO1
- V+zI/tisMlJ9JMrYCXlW8qkba9PAzN7IR6Dc7q0ckv1ZSbmzuekQ+2Rj0OFdrZRelde/
- xNXQQofReaRr+TUtPTOc0AeXdEnv3lFK5Nj6hO+qklxG44KKYKbB/r5HpjsU4Yf/k2/V
- xAZTHzv9UsZwbMzRV8vIyC9I08TiVQipry/RkV4QWpnp57cvhgFKkB0DZfO0UkAOF1iT
- bY3Q==
-X-Gm-Message-State: AOAM533fRmWVu8340C5mr72ZWIBpAxbJeNWNsZK8Oddz98JNZKscoZUv
- DcC/LuxBWMk26AU9+CphSTjrrQFGSw3rhPIEWlsvlQ==
-X-Google-Smtp-Source: ABdhPJxLFujdyaiSE87nTAobMiyRM0PW4hc1aXu95vql/N9V2IjccGax33FDZ6tcT9kcPFg9U+dv0W4g6o4BXaRjdSs=
-X-Received: by 2002:a9d:eaa:: with SMTP id 39mr5682763otj.188.1599056996198;
- Wed, 02 Sep 2020 07:29:56 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=TadnzZ2GBx4yX2HwMOimGbeZb2PcWtu+wm80cNcN0fQ=;
+ b=DYRBg8bwW99nSe4EOvzGeagq9tpq/U8rQ73p0FP1epyf6bbrOHzeYnY67DMUKeKqWQ
+ 4VrZbb11G3p629UlFriIT2yaFmLB+Zts5T6Xe3AAA6AXFhpuZChT58nCm17OuxrT5LMA
+ MVVtU1lvtnSy9NMbOohW/dCOhCnokU5c8EwybTsrOW+vyhLf1xhL1hqUKZf4LDyHm72B
+ DFky2govHXj/1pjMFSQPrnnVjz7r4b/1scfcI5PAgOjrkSdDjZryM+/V7DkJaXOOYERq
+ LYOTjOFXJL0Wmz1jnY9Q8chbjNO8Y4cso0w1YG/0i2j4trQ3PxgkjBADaBOEXqD1Wo1m
+ Yatg==
+X-Gm-Message-State: AOAM530EPWPEq64Qrh7g0lgJiipgJya0ZYSbEoKEiOoMtre2G/8HVBaA
+ OTgKc95vg4LvoSao5zuBsKZackdrzewPbQ==
+X-Google-Smtp-Source: ABdhPJwPZ/xnTs39QD5g1ah6MTAOON8PYfhKTXA4XwbA70ntuX9N3onUI/a/RCXfJlY8qPbn0HGjrA==
+X-Received: by 2002:ab0:6053:: with SMTP id o19mr5089637ual.77.1599057479439; 
+ Wed, 02 Sep 2020 07:37:59 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
+ [209.85.222.52])
+ by smtp.gmail.com with ESMTPSA id o17sm677156vsq.20.2020.09.02.07.37.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Sep 2020 07:37:58 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id l1so1639079uai.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:37:58 -0700 (PDT)
+X-Received: by 2002:ab0:37d3:: with SMTP id e19mr5065664uav.64.1599057477726; 
+ Wed, 02 Sep 2020 07:37:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
- <t3hHLqZ0yNm5FdxpyJovgjEVzs-OD7qD5nYrYXug8UhkBykhekB0_hOqPltEvFH3daJ3HYtY_3FInv3U5xIHprg1FS7b2SP8fCf48r7DvVg=@emersion.fr>
- <CAKMK7uFztTjjvQvM-toeZv3hps+NMJFXV7s=Dzs5PwG3J+7wjw@mail.gmail.com>
- <ap5W_r98yx5DpM1jFkrof6yWGWPtxbyObFp3iIP1-hm-SD_-Jij72KZK2VhVV2p-34EqdVE6T1JeW4zAgjnNsxv_CtULfvg2ASY3xECXMuY=@emersion.fr>
-In-Reply-To: <ap5W_r98yx5DpM1jFkrof6yWGWPtxbyObFp3iIP1-hm-SD_-Jij72KZK2VhVV2p-34EqdVE6T1JeW4zAgjnNsxv_CtULfvg2ASY3xECXMuY=@emersion.fr>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 2 Sep 2020 16:29:45 +0200
-Message-ID: <CAKMK7uGs2vQNf1+=4spQV4aCncOPE4+E7g95xqZ7kcD8pp5bTg@mail.gmail.com>
-Subject: Re: [PATCH] drm/doc: Document that modifiers are always required for
- fb
-To: Simon Ser <contact@emersion.fr>
+References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
+ <20200710011935.GA7056@gentoo.org>
+ <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
+ <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
+ <dc786abb-4bc2-2416-7ee5-de408aceb8f1@kali.org>
+ <e0702671-3bed-9e3d-c7f4-d050c617eb65@kali.org>
+ <bc795659-7dd6-c667-1c93-4331510ecfbc@kali.org>
+ <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
+ <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
+ <CAD=FV=WB_4xLe9UZX3eVemybQ1neXJVZgzrDCW-xUxbAM6hCTA@mail.gmail.com>
+ <8e306b6d-246d-aa7f-cb24-923e13afcd04@kali.org>
+ <CAD=FV=XeBLRc4v5K3vj=m9PGMuW8GVUq110ApX6xS2QaiJd=pw@mail.gmail.com>
+In-Reply-To: <CAD=FV=XeBLRc4v5K3vj=m9PGMuW8GVUq110ApX6xS2QaiJd=pw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 2 Sep 2020 07:37:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W60u2Ck6NP_k8+V1oWY7FRXs4G3e49Lp+h7Zii14nVQA@mail.gmail.com>
+Message-ID: <CAD=FV=W60u2Ck6NP_k8+V1oWY7FRXs4G3e49Lp+h7Zii14nVQA@mail.gmail.com>
+Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
+To: Steev Klimaszewski <steev@kali.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +79,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Juston Li <juston.li@intel.com>, Daniel Stone <daniels@collabora.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Steev Klimaszewski <steev@gentoo.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMiwgMjAyMCBhdCAyOjQ5IFBNIFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lv
-bi5mcj4gd3JvdGU6Cj4KPiBPbiBXZWRuZXNkYXksIFNlcHRlbWJlciAyLCAyMDIwIDI6NDQgUE0s
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+Cj4gPiA+IEkg
-c3VwcG9zZSBzb21ldGhpbmcgc2ltaWxhciBoYXBwZW5zIGluIHVzZXItc3BhY2U6IGdibV9ib19j
-cmVhdGUKPiA+ID4gd2l0aG91dCBtb2RpZmllcnMgbmVlZHMgdG8gcHJvcGVybHkgc2V0IHRoZSBp
-bXBsaWNpdCBtb2RpZmllciwgaWUuCj4gPiA+IGdibV9ib19nZXRfbW9kaWZpZXIgbmVlZHMgdG8g
-cmV0dXJuIHRoZSBlZmZlY3RpdmUgbW9kaWZpZXIuIElzIHRoaXMKPiA+ID4gc29tZXRoaW5nIGFs
-cmVhZHkgZG9jdW1lbnRlZD8KPiA+Cj4gPiBJIGRvbid0IHRoaW5rIHRoYXQgaGFwcGVucywgYnV0
-IGl0IGhhcyBjb21lIHVwIGluIGRpc2N1c3Npb25zLiBJdCdzCj4gPiBraW5kYSBkaWZmZXJlbnQg
-c2NlbmFyaW8gdGhvdWdoOiBnZXRmYjIgaXMgZm9yIGNyb3NzLWNvbXBvc2l0b3Igc3R1ZmYsCj4g
-PiBlbmFibGluZyBzbW9vdGggdHJhbnNpdGlvbnMgYXQgYm9vdC11cCBhbmQgd2hlbiBzd2l0Y2hp
-bmcuIFNvIHlvdSBoYXZlCj4gPiBhIGxlZ2l0IHJlYXNvbiBmb3IgbWl4aW5nIG1vZGlmaWVyLWF3
-YXJlIHVzZXJzcGFjZSB3aXRoCj4gPiBub24tbW9kaWZpZXItYXdhcmUgdXNlcnNwYWNlLiBBbmQg
-dGhlIG1vZGlmaWVyLWF3YXJlIHVzZXJzcGFjZSB3b3VsZAo+ID4gbGlrZSB0aGF0IGV2ZXJ5dGhp
-bmcgd29ya3Mgd2l0aCBtb2RpZmllcnMgY29uc2lzdGVudGx5LCBpbmNsdWRpbmcKPiA+IGdldGZi
-Mi4gQnV0IGdibSBpcyBqdXN0IHdpdGhpbiBhIHNpbmdsZSBwcm9jZXNzLCBhbmQgdGhhdCBzaG91
-bGQKPiA+IGVpdGhlciBydW4gYWxsIHdpdGggbW9kaWZpZXJzLCBvciBub3QgYXQgYWxsLCBzaW5j
-ZSB0aGVzZSB3b3JsZHMganVzdAo+ID4gZG9udCBtaXggd2VsbC4gSGVuY2UgSSdtIG5vdCBzZWVp
-bmcgbXVjaCB1c2UgZm9yIHRoYXQsIC1tb2Rlc2V0dGluZwo+ID4gYmVpbmcgYSBjb25mdXNlZCBt
-ZXNzIG5vbndpdGhzdGFuZGluZyA6LSkKPgo+IFdlbGzigKYgVGhlcmUncyBhbHNvIHRoZSBjYXNl
-IHdoZXJlIHNvbWUgbGVnYWN5IFdheWxhbmQgY2xpZW50IHRhbGtzIHRvIGEKPiBtb2RpZmllci1h
-d2FyZSBjb21wb3NpdG9yLiBnYm1fYm9faW1wb3J0IHdvdWxkIGJlIGNhbGxlZCB3aXRob3V0IGEK
-PiBtb2RpZmllciwgYnV0IHRoZSBjb21wb3NpdG9yIGV4cGVjdHMgZ2JtX2JvX2dldF9tb2RpZmll
-ciB0byB3b3JrLgo+Cj4gQWxzbywgd2xyb290cyB3aWxsIGNhbGwgZ2JtX2JvX2NyZWF0ZSB3aXRo
-b3V0IGEgbW9kaWZpZXIgdG8gb25seSBsZXQKPiB0aGUgZHJpdmVyIHBpY2sgInNhZmUiIG1vZGlm
-aWVycyBpbiBjYXNlIHBhc3NpbmcgdGhlIGZ1bGwgbGlzdCBvZgo+IG1vZGlmaWVycyByZXN1bHRz
-IGluIGEgYmxhY2sgc2NyZWVuLiBMYXRlciBvbiB3bHJvb3RzIHdpbGwgY2FsbAo+IGdibV9ib19n
-ZXRfbW9kaWZpZXIgdG8gZmlndXJlIG91dCB3aGF0IG1vZGlmaWVyIHRoZSBkcml2ZXIgcGlja2Vk
-LgoKZ2JtX2JvX2ltcG9ydCBpcyBhIGRpZmZlcmVudCB0aGluZyBmcm9tIGdibV9ib19jcmVhdGUu
-IEZvcm1lciBJIGFncmVlCnNob3VsZCBmaWd1cmUgb3V0IHRoZSByaWdodCBtb2RpZmllcnMgKGFu
-ZCBJIHRoaW5rIGl0IGRvZXMgdGhhdCwgYXQKbGVhc3Qgb24gaW50ZWwgbWVzYSkuIEZvciBnYm1f
-Ym9fY3JlYXRlIEknbSBub3Qgc3VyZSB3ZSBzaG91bGQvbmVlZCB0bwpyZXF1aXJlIHRoYXQuCi1E
-YW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Hi,
+
+On Tue, Jul 14, 2020 at 8:31 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> > Hopefully BOE gets back to you soon, and there's no rush, I'm just an
+> > end user who is extremely appreciative of all the work everyone on the
+> > list and the kernel in general put in to make my machines usable.
+>
+> Just FYI that I got confirmation that the panel is truly 6 bpp but it
+> will do FRC dithering if given an 8 bpp input.  That means that you
+> should be getting just as good picture quality (and possibly more
+> tunable) by using the dithering in the display pipeline and leaving
+> the panel as 6bpp.  Thus I'm going to assume that's the route we'll go
+> down.  If ever we find someone that wants to use this panel on a
+> display controller that can't do its own dithering then I guess we'll
+> have to figure out what to do then...
+>
+> In terms of the more optimal pixel clock for saving power, my proposal
+> is still being analyzed and I'll report back when I hear more.  I'm
+> seeing if BOE can confirm that my proposal will work both for my panel
+> (the -n62 variant) and the one you have (the -n61 variant).
+
+To close the loop here: we finally got back an official word that we
+shouldn't use my proposed timings that would have allowed us to move
+down to a 1.62 GHz pixel clock.  Though they work most of the time,
+there are apparently some corner cases where they cause problems /
+flickering.  :(  While you could certainly use the timings on your own
+system if they happen to work for you, I don't think it'd be a good
+idea to switch the default over to them or anything.  I'm told that
+hardware makers will take this type of thing into consideration for
+future hardware.
+
+-Doug
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
