@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CDF25AD54
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 16:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630D625AD96
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 16:45:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DDD26E4BB;
-	Wed,  2 Sep 2020 14:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3706E4B5;
+	Wed,  2 Sep 2020 14:45:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
- [IPv6:2607:f8b0:4864:20::942])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD2F6E4BB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 14:38:00 +0000 (UTC)
-Received: by mail-ua1-x942.google.com with SMTP id k18so1637112uao.11
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:38:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC916E4B5;
+ Wed,  2 Sep 2020 14:45:36 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id o21so4858411wmc.0;
+ Wed, 02 Sep 2020 07:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TadnzZ2GBx4yX2HwMOimGbeZb2PcWtu+wm80cNcN0fQ=;
- b=Gi2e6zQsylDEwMGGD9uEtv0/zSfm3ttGeUD8jtFwieUhWNz0g3Vc3c3/fWdq3Jxcl+
- wc5w1QXNLwWb/D+NAQUk301/Aa9k7cL/XXJBR3Zfjxg9R0zUvZFColuIyLnXOKEftlar
- w/s11uKYBxNLykoVFCzrHIFXavzYRCaiEFZt0=
+ :cc; bh=/dvle3j9y6O7Ujf2ahiU0ShW9hGye771vvDoEz/F4PY=;
+ b=JwH0hkrutiCbJKZ/aZB4ztxSuEKXc/RHIh5DLGmAPyF8Znq4pnnDq6HnIVd3Ok4oTh
+ YU2/xlVVNV+y/dpU4t0M0hxJtAIdfjRJ2IINlhhuD1mr5UTpxPRjXG5ER1+86kCAJBE2
+ XnsmOi2L7b56QYT0cx7Vq1BWNH5nuurqO18jQkMXr2EtF9547IJz2WqLUAUZCKANG13Z
+ 9AyqoCsWAVtYDOyx/jG9NRJDYNT7Sn8Ae/0jUYoDShmWtEGzFn4tQVq70ajo4xNzKXhq
+ s2jQOWKwLgTjC2TFqY9ubnOwFj6UdOFNVNs199snMCdpWB+NGQRSIXh36wk4CvwioGWz
+ RRFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TadnzZ2GBx4yX2HwMOimGbeZb2PcWtu+wm80cNcN0fQ=;
- b=DYRBg8bwW99nSe4EOvzGeagq9tpq/U8rQ73p0FP1epyf6bbrOHzeYnY67DMUKeKqWQ
- 4VrZbb11G3p629UlFriIT2yaFmLB+Zts5T6Xe3AAA6AXFhpuZChT58nCm17OuxrT5LMA
- MVVtU1lvtnSy9NMbOohW/dCOhCnokU5c8EwybTsrOW+vyhLf1xhL1hqUKZf4LDyHm72B
- DFky2govHXj/1pjMFSQPrnnVjz7r4b/1scfcI5PAgOjrkSdDjZryM+/V7DkJaXOOYERq
- LYOTjOFXJL0Wmz1jnY9Q8chbjNO8Y4cso0w1YG/0i2j4trQ3PxgkjBADaBOEXqD1Wo1m
- Yatg==
-X-Gm-Message-State: AOAM530EPWPEq64Qrh7g0lgJiipgJya0ZYSbEoKEiOoMtre2G/8HVBaA
- OTgKc95vg4LvoSao5zuBsKZackdrzewPbQ==
-X-Google-Smtp-Source: ABdhPJwPZ/xnTs39QD5g1ah6MTAOON8PYfhKTXA4XwbA70ntuX9N3onUI/a/RCXfJlY8qPbn0HGjrA==
-X-Received: by 2002:ab0:6053:: with SMTP id o19mr5089637ual.77.1599057479439; 
- Wed, 02 Sep 2020 07:37:59 -0700 (PDT)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
- [209.85.222.52])
- by smtp.gmail.com with ESMTPSA id o17sm677156vsq.20.2020.09.02.07.37.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Sep 2020 07:37:58 -0700 (PDT)
-Received: by mail-ua1-f52.google.com with SMTP id l1so1639079uai.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:37:58 -0700 (PDT)
-X-Received: by 2002:ab0:37d3:: with SMTP id e19mr5065664uav.64.1599057477726; 
- Wed, 02 Sep 2020 07:37:57 -0700 (PDT)
+ bh=/dvle3j9y6O7Ujf2ahiU0ShW9hGye771vvDoEz/F4PY=;
+ b=TpbDRcgpfDaj1IJV1hXNfvfH5pkLKHshscwyckck7+1bxcraO1AWNMdc1LjsVEap0X
+ 8dji84uHyEo5ICQ/13DUCHxOa4fDIQA+jk/6fJ1X4Ot7itMJA/Fmf84oIas0SpMWBGFS
+ YoZep+3488eKVuquERJwLSTSP5QZ7+mNuZvDYnpZEl18kobqfCi8vzUG/r3JEZvKTJKk
+ IxdABSsh9gkUiK20uKaD5p8V0duC/AnwrT0DkjH1kGiK3qQrrtpU3veFd9MYBpH9TSpB
+ n8ZwUEZe4iuP0iyWgI937z0Xq0lljuFkqbEsmCoDvk2/sXm8POrvD+95qe5TbobqHu2O
+ 7Ixg==
+X-Gm-Message-State: AOAM533qC9GElWQ0t94XHFx4q0adncdVnEzkYy+UPoFWBIIqS4oPhoda
+ UZ5Qly/V/zpB7yU/fhNcu0wakf2cqa6D9Vu1bLY6jrgvdtU=
+X-Google-Smtp-Source: ABdhPJxFnw2lIf6slElWW65nhFlI//yhOScWTQotPkmugwDQjQbmeTokKjX3zGLgqH+Z8ODw4ZvDqCRkh4/oranUikw=
+X-Received: by 2002:a1c:2dcb:: with SMTP id t194mr998824wmt.94.1599057934946; 
+ Wed, 02 Sep 2020 07:45:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
- <20200710011935.GA7056@gentoo.org>
- <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
- <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
- <dc786abb-4bc2-2416-7ee5-de408aceb8f1@kali.org>
- <e0702671-3bed-9e3d-c7f4-d050c617eb65@kali.org>
- <bc795659-7dd6-c667-1c93-4331510ecfbc@kali.org>
- <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
- <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
- <CAD=FV=WB_4xLe9UZX3eVemybQ1neXJVZgzrDCW-xUxbAM6hCTA@mail.gmail.com>
- <8e306b6d-246d-aa7f-cb24-923e13afcd04@kali.org>
- <CAD=FV=XeBLRc4v5K3vj=m9PGMuW8GVUq110ApX6xS2QaiJd=pw@mail.gmail.com>
-In-Reply-To: <CAD=FV=XeBLRc4v5K3vj=m9PGMuW8GVUq110ApX6xS2QaiJd=pw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 2 Sep 2020 07:37:46 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W60u2Ck6NP_k8+V1oWY7FRXs4G3e49Lp+h7Zii14nVQA@mail.gmail.com>
-Message-ID: <CAD=FV=W60u2Ck6NP_k8+V1oWY7FRXs4G3e49Lp+h7Zii14nVQA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
-To: Steev Klimaszewski <steev@kali.org>
+References: <20200901154200.2451899-1-robdclark@gmail.com>
+ <CAAObsKD2uXmRD7Qw+kWzKcz5o96adczdaTGkPA_1fR=UZcR=cA@mail.gmail.com>
+In-Reply-To: <CAAObsKD2uXmRD7Qw+kWzKcz5o96adczdaTGkPA_1fR=UZcR=cA@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 2 Sep 2020 07:45:23 -0700
+Message-ID: <CAF6AEGtTkbK-W_4bjJ9mmFuzu4NbSHztM0+yaOWaeT8U-_RWRw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm/msm: More GPU tracepoints
+To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,55 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Steev Klimaszewski <steev@gentoo.org>
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The cat is somewhat out of the bag already.. so I took the approach of
+making the more useful of the traces for visualization (freq_change
+trace) identical to the i915 one in units and format, so userspace
+just has to add another event name to a list, and not have to add more
+parsing code.
 
-On Tue, Jul 14, 2020 at 8:31 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> > Hopefully BOE gets back to you soon, and there's no rush, I'm just an
-> > end user who is extremely appreciative of all the work everyone on the
-> > list and the kernel in general put in to make my machines usable.
->
-> Just FYI that I got confirmation that the panel is truly 6 bpp but it
-> will do FRC dithering if given an 8 bpp input.  That means that you
-> should be getting just as good picture quality (and possibly more
-> tunable) by using the dithering in the display pipeline and leaving
-> the panel as 6bpp.  Thus I'm going to assume that's the route we'll go
-> down.  If ever we find someone that wants to use this panel on a
-> display controller that can't do its own dithering then I guess we'll
-> have to figure out what to do then...
->
-> In terms of the more optimal pixel clock for saving power, my proposal
-> is still being analyzed and I'll report back when I hear more.  I'm
-> seeing if BOE can confirm that my proposal will work both for my panel
-> (the -n62 variant) and the one you have (the -n61 variant).
+But the bigger problem is that it doesn't seem possible to #include
+multiple foo_trace.h's in a single C file, so I'm not seeing how it is
+possible to have both generic and driver specific traces.
 
-To close the loop here: we finally got back an official word that we
-shouldn't use my proposed timings that would have allowed us to move
-down to a 1.62 GHz pixel clock.  Though they work most of the time,
-there are apparently some corner cases where they cause problems /
-flickering.  :(  While you could certainly use the timings on your own
-system if they happen to work for you, I don't think it'd be a good
-idea to switch the default over to them or anything.  I'm told that
-hardware makers will take this type of thing into consideration for
-future hardware.
+BR,
+-R
 
--Doug
+On Tue, Sep 1, 2020 at 11:52 PM Tomeu Vizoso <tomeu.vizoso@collabora.com> wrote:
+>
+> Hi Rob,
+>
+> Do you think we could make all these generic? Visualization tools will need to do some processing so these can be neatly presented and it could be far more convenient if people wouldn't need to add code for each GPU driver.
+>
+> Maybe we could put all these tracepoints in DRM core as they seem useful to all drivers?
+>
+> Thanks,
+>
+> Tomeu
+>
+> On Tue, 1 Sep 2020 at 17:41, Rob Clark <robdclark@gmail.com> wrote:
+>>
+>> From: Rob Clark <robdclark@chromium.org>
+>>
+>> Various extra tracepoints that I've been collecting.
+>>
+>> Rob Clark (3):
+>>   drm/msm/gpu: Add GPU freq_change traces
+>>   drm/msm: Convert shrinker msgs to tracepoints
+>>   drm/msm/gpu: Add suspend/resume tracepoints
+>>
+>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c  |  3 +
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c  |  4 ++
+>>  drivers/gpu/drm/msm/msm_gem_shrinker.c |  5 +-
+>>  drivers/gpu/drm/msm/msm_gpu.c          |  4 ++
+>>  drivers/gpu/drm/msm/msm_gpu_trace.h    | 83 ++++++++++++++++++++++++++
+>>  5 files changed, 97 insertions(+), 2 deletions(-)
+>>
+>> --
+>> 2.26.2
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
