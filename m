@@ -1,58 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223AD25B5B1
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 689C425B646
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 00:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3FAB6E95C;
-	Wed,  2 Sep 2020 21:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793208977A;
+	Wed,  2 Sep 2020 22:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9AA6E95C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:09:26 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id t9so375166pfq.8
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pSYRvBEUpeVWIM5z1fZ1aNrzZ78I+EgwIeC01nGrKmY=;
- b=MKvgy3vUFElQhpIcupIbc2BQaiFMP8c80ktmAVQ9gjE2FMqinagx+qX8GBqDRoA/vz
- RNOigevpxyc9Ahm2pp2JVzUXsMai8IqvvnLxoI+8uv5lntWDbS8565LOameeI4JST2t6
- oMFlHViooAQKS8cX0m+xMXkYP38zcf9RrxI9I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pSYRvBEUpeVWIM5z1fZ1aNrzZ78I+EgwIeC01nGrKmY=;
- b=YqbjQ0x6tWOyZfx9q7c67p+fkcEbVCgGwQP0IiUcZEdaVUaXcozgtdgyQyDldpzFp/
- x92ylZuTL5+VRsnm0mb7XxHDQZ20xvnGZVXwFZOELmo1O/gbKM8QUvbTDbhi3ujATdDW
- vjK8SCapR5/OlQfs96GeDXkUkiJr0kaVt18NtI5/TKeD+DKvLPJ/Jotmk20547FvdTWb
- ETpkr1+TmEAfE5/Db54jDP/GSKic1QOY/hXGsgRnpiAMrU57Bg+Lnny93NJkuMutq6V8
- ZAaNa6VCNZx8aQF3osgU7RJDMeXl8J9ZcGSV2WFCX8hDW3pT/UAlbH7k42/estBmrQbR
- eV1g==
-X-Gm-Message-State: AOAM531QKtVeLg3C1UG2p8BW01QZ3eK8D5lxYj5ahI885+81Nkl3jThb
- u919G3m5aVuWIzymZ3pi+u6tYl0mPNv5Ew==
-X-Google-Smtp-Source: ABdhPJwkznx6La0tjkLwbCTOuvUX4iur1rktGeeo3VUWu3P6OFVAFnizGE5aqSRAHSAeVk+iPX8fVQ==
-X-Received: by 2002:aa7:990a:: with SMTP id z10mr302006pff.1.1599080965537;
- Wed, 02 Sep 2020 14:09:25 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.09.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 14:09:24 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F7C8977A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 22:06:03 +0000 (UTC)
+Received: from DESKTOP-GFFITBK.localdomain (218-161-90-76.HINET-IP.hinet.net
+ [218.161.90.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7633C20767;
+ Wed,  2 Sep 2020 22:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599084363;
+ bh=o4jmNbgqxIlHHhWKN1PTp11DdjWkhb+PE+ngof2jF9s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=KethZPFV/wkeAlEl57HkIS9LLug2iKpcHDa2/uRm7L01q52opeDOK/5UHX+f7oUtb
+ oDS1ZP52R4NVUe5qQWh2XK7f31uoqaTxbE0pfecQgVmG2Xu6T0HtozIdmXRIpMRgRD
+ sgr/dTLvYfLy88HPOsuKjOE3CbZsb26PbGdVaINY=
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: dri-devel@lists.freedesktop.org,
-	virtio-dev@lists.oasis-open.org
-Subject: [PATCH v2 23/23] drm/virtio: advertise features to userspace
-Date: Wed,  2 Sep 2020 14:08:47 -0700
-Message-Id: <20200902210847.2689-24-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200902210847.2689-1-gurchetansingh@chromium.org>
-References: <20200902210847.2689-1-gurchetansingh@chromium.org>
-MIME-Version: 1.0
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] drm/mediatek: Use CPU when fail to get cmdq event
+Date: Thu,  3 Sep 2020 06:05:42 +0800
+Message-Id: <20200902220542.60-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,50 +44,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastien.boeuf@intel.com, kraxel@redhat.com, vgoyal@redhat.com,
- mst@redhat.com
+Cc: David Airlie <airlied@linux.ie>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-New api changes are now available to userspace. Also, the
-comparison to true is redundant, so remove it.
+Even though cmdq client is created successfully, without the cmdq event,
+cmdq could not work correctly, so use CPU when fail to get cmdq event.
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Fixes: 60fa8c13ab1a ("drm/mediatek: Move gce event property to mutex device node")
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 442cbca59c8a5..e4c0c1f34d5c9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -211,11 +211,20 @@ static int virtio_gpu_getparam_ioctl(struct drm_device *dev, void *data,
- 
- 	switch (param->param) {
- 	case VIRTGPU_PARAM_3D_FEATURES:
--		value = vgdev->has_virgl_3d == true ? 1 : 0;
-+		value = vgdev->has_virgl_3d ? 1 : 0;
- 		break;
- 	case VIRTGPU_PARAM_CAPSET_QUERY_FIX:
- 		value = 1;
- 		break;
-+	case VIRTGPU_PARAM_RESOURCE_BLOB:
-+		value = vgdev->has_resource_blob ? 1 : 0;
-+		break;
-+	case VIRTGPU_PARAM_HOST_VISIBLE:
-+		value = vgdev->has_host_visible ? 1 : 0;
-+		break;
-+	case VIRTGPU_PARAM_CROSS_DEVICE:
-+		value = vgdev->has_resource_assign_uuid ? 1 : 0;
-+		break;
- 	default:
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 3fc5511330b9..4d29568be3f5 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -831,13 +831,19 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+ 			drm_crtc_index(&mtk_crtc->base));
+ 		mtk_crtc->cmdq_client = NULL;
  	}
+-	ret = of_property_read_u32_index(priv->mutex_node,
+-					 "mediatek,gce-events",
+-					 drm_crtc_index(&mtk_crtc->base),
+-					 &mtk_crtc->cmdq_event);
+-	if (ret)
+-		dev_dbg(dev, "mtk_crtc %d failed to get mediatek,gce-events property\n",
+-			drm_crtc_index(&mtk_crtc->base));
++
++	if (mtk_crtc->cmdq_client) {
++		ret = of_property_read_u32_index(priv->mutex_node,
++						 "mediatek,gce-events",
++						 drm_crtc_index(&mtk_crtc->base),
++						 &mtk_crtc->cmdq_event);
++		if (ret) {
++			dev_dbg(dev, "mtk_crtc %d failed to get mediatek,gce-events property\n",
++				drm_crtc_index(&mtk_crtc->base));
++			cmdq_mbox_destroy(mtk_crtc->cmdq_client);
++			mtk_crtc->cmdq_client = NULL;
++		}
++	}
+ #endif
+ 	return 0;
+ }
 -- 
-2.26.2
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
