@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F15225A611
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 09:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B51C25A607
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 09:06:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 659746E14A;
-	Wed,  2 Sep 2020 07:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9272B6E148;
+	Wed,  2 Sep 2020 07:06:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B756E14A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 07:06:45 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1599030409; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=6Cz9IZCRGGiEi7abWV/jZoTNF8HL+CeKuusk0aLrQAA=;
- b=e8LgwM0oCjeyburk1JhYvG0pizkyBhbNg0Uc+tbLJ/KJF3XPhU3JhjDGu8xE9V/ITsRYxI0O
- aTnBYyWSgtxnln0uwVtrlXQ97/aF1brDh4yXbid/CuS6EZ7punZMpW284qmko3jTiDShtYZ6
- Q7snlDLZ+/Duk9rYrYqe28CguPw=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5f4f443b9bdf68cc0345b6ad (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Sep 2020 07:05:31
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 3C068C43395; Wed,  2 Sep 2020 07:05:31 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7CD84C433C6;
- Wed,  2 Sep 2020 07:05:30 +0000 (UTC)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 547B36E148
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 07:06:24 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id z4so4017871wrr.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 00:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rkTZMijcCdb7R73WMjcJwoDJpyuFmRLLt3VFQ2uy0/s=;
+ b=IuX1MYMnztiVazuKzEvkfC0dS7YOl4VWd8wFdJkeTn/GHsz+RFE1358vX++F/3KrVi
+ X+iWQPHUoOrwp9EkDYp++RA1blvOTpe8yF0ohKZAw8GVQ8VQs2+vsAMO/vsrIh6BoSGT
+ 7OZsqHExHmcBlGO0IJXD2OJeeC7A4Bz+DBlNo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rkTZMijcCdb7R73WMjcJwoDJpyuFmRLLt3VFQ2uy0/s=;
+ b=k8lu8P3gLCebMotM3Dxkuc0HOUyIc0XR0SW9KD/zgcmGyM+tyYFEXhUGTQHdBfEEgy
+ TDjU23wvJJZY5JNgkexAkMLIQ1bephFJiqdg9FCl8Vf7IXI8yeuglipqOQL8v6Eq2LpN
+ R5yCdOxrAVQON5kjd1KWQcZH5iyDbZUipC47RsO7/I54dWVjOJxFCWA/JHiwgiZLPgS+
+ gIABJDFUVxMl3lmoT8iI7rgvF3guNLMUmTMye+GjPGrOswgc9F/Bh7osP54fWMoyo9+6
+ +SZcCHJTZPUo7eckJ9kEXW0uTtSKlcJCSFEkfBC8VkAyDIDfZx0t1yy7SwY4p+N8xHej
+ wOrQ==
+X-Gm-Message-State: AOAM53344WZyAtFGNlRAgH62T6rjSMtVx+K8wZMcZCGzt8WezEmWtMfd
+ 4Fc6jd+7w7nwzRN1OGQ57yDSeYHEQJ9Eufuw
+X-Google-Smtp-Source: ABdhPJxaJ+IxJWuFy7oZ7TtuBUbU3Xfuq17mLFKU8s1P/KSgqx0wMD4/sSPdW7nl/FGrJUFgeuyroA==
+X-Received: by 2002:a5d:4247:: with SMTP id s7mr5520665wrr.167.1599030382996; 
+ Wed, 02 Sep 2020 00:06:22 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j7sm5744762wrw.35.2020.09.02.00.06.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Sep 2020 00:06:22 -0700 (PDT)
+Date: Wed, 2 Sep 2020 09:06:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v2 1/4] drm: add drmm_encoder_alloc()
+Message-ID: <20200902070620.GI2352366@phenom.ffwll.local>
+References: <20200827160545.1146-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
-Date: Wed, 02 Sep 2020 12:35:30 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 1/2] drm/msm: Avoid div-by-zero in dpu_crtc_atomic_check()
-In-Reply-To: <20200901215942.2559119-2-swboyd@chromium.org>
-References: <20200901215942.2559119-1-swboyd@chromium.org>
- <20200901215942.2559119-2-swboyd@chromium.org>
-Message-ID: <b8ee3f88265f9aa510eef566f68532a0@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Approved-At: Wed, 02 Sep 2020 07:07:59 +0000
+Content-Disposition: inline
+In-Reply-To: <20200827160545.1146-1-p.zabel@pengutronix.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,63 +64,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Sean Paul <sean@poorly.run>, linux-arm-msm-owner@vger.kernel.org
+Cc: kernel@pengutronix.de, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-09-02 03:29, Stephen Boyd wrote:
-> The cstate->num_mixers member is only set to a non-zero value once
-> dpu_encoder_virt_mode_set() is called, but the atomic check function 
-> can
-> be called by userspace before that. Let's avoid the div-by-zero here 
-> and
-> inside _dpu_crtc_setup_lm_bounds() by skipping this part of the atomic
-> check if dpu_encoder_virt_mode_set() hasn't been called yet. This fixes
-> an UBSAN warning:
+On Thu, Aug 27, 2020 at 06:05:42PM +0200, Philipp Zabel wrote:
+> Add an alternative to drm_encoder_init() that allocates and initializes
+> an encoder and registers drm_encoder_cleanup() with
+> drmm_add_action_or_reset().
 > 
->  UBSAN: Undefined behaviour in 
-> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:860:31
->  division by zero
->  CPU: 7 PID: 409 Comm: frecon Tainted: G S                5.4.31 #128
->  Hardware name: Google Trogdor (rev0) (DT)
->  Call trace:
->   dump_backtrace+0x0/0x14c
->   show_stack+0x20/0x2c
->   dump_stack+0xa0/0xd8
->   __ubsan_handle_divrem_overflow+0xec/0x110
->   dpu_crtc_atomic_check+0x97c/0x9d4
->   drm_atomic_helper_check_planes+0x160/0x1c8
->   drm_atomic_helper_check+0x54/0xbc
->   drm_atomic_check_only+0x6a8/0x880
->   drm_atomic_commit+0x20/0x5c
->   drm_atomic_helper_set_config+0x98/0xa0
->   drm_mode_setcrtc+0x308/0x5dc
->   drm_ioctl_kernel+0x9c/0x114
->   drm_ioctl+0x2ac/0x4b0
->   drm_compat_ioctl+0xe8/0x13c
->   __arm64_compat_sys_ioctl+0x184/0x324
->   el0_svc_common+0xa4/0x154
->   el0_svc_compat_handler+0x
-> 
-> Cc: Abhinav Kumar <abhinavk@codeaurora.org>
-> Cc: Jeykumar Sankaran <jsanka@codeaurora.org>
-> Cc: Jordan Crouse <jcrouse@codeaurora.org>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 > ---
+> Changes since v1:
+>  - add __printf annotation to __drm_encoder_init()
 
-Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+I think these are the ones we want, but much easier to judge if the series
+comes with an example conversion and corresponding cleanup of driver
+load/unload code. With that we'd see whether anything silly is left
+sticking behind, or whether we have some cleanup inversion issues that
+break it all.
+
+Cheers, Daniel
+
+> ---
+>  drivers/gpu/drm/drm_encoder.c | 105 ++++++++++++++++++++++++++--------
+>  include/drm/drm_encoder.h     |  30 ++++++++++
+>  2 files changed, 112 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+> index e555281f43d4..de8c59087721 100644
+> --- a/drivers/gpu/drm/drm_encoder.c
+> +++ b/drivers/gpu/drm/drm_encoder.c
+> @@ -26,6 +26,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_managed.h>
+>  
+>  #include "drm_crtc_internal.h"
+>  
+> @@ -91,25 +92,11 @@ void drm_encoder_unregister_all(struct drm_device *dev)
+>  	}
+>  }
+>  
+> -/**
+> - * drm_encoder_init - Init a preallocated encoder
+> - * @dev: drm device
+> - * @encoder: the encoder to init
+> - * @funcs: callbacks for this encoder
+> - * @encoder_type: user visible type of the encoder
+> - * @name: printf style format string for the encoder name, or NULL for default name
+> - *
+> - * Initialises a preallocated encoder. Encoder should be subclassed as part of
+> - * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
+> - * called from the driver's &drm_encoder_funcs.destroy hook.
+> - *
+> - * Returns:
+> - * Zero on success, error code on failure.
+> - */
+> -int drm_encoder_init(struct drm_device *dev,
+> -		     struct drm_encoder *encoder,
+> -		     const struct drm_encoder_funcs *funcs,
+> -		     int encoder_type, const char *name, ...)
+> +__printf(5, 0)
+> +static int __drm_encoder_init(struct drm_device *dev,
+> +			      struct drm_encoder *encoder,
+> +			      const struct drm_encoder_funcs *funcs,
+> +			      int encoder_type, const char *name, va_list ap)
+>  {
+>  	int ret;
+>  
+> @@ -125,11 +112,7 @@ int drm_encoder_init(struct drm_device *dev,
+>  	encoder->encoder_type = encoder_type;
+>  	encoder->funcs = funcs;
+>  	if (name) {
+> -		va_list ap;
+> -
+> -		va_start(ap, name);
+>  		encoder->name = kvasprintf(GFP_KERNEL, name, ap);
+> -		va_end(ap);
+>  	} else {
+>  		encoder->name = kasprintf(GFP_KERNEL, "%s-%d",
+>  					  drm_encoder_enum_list[encoder_type].name,
+> @@ -150,6 +133,38 @@ int drm_encoder_init(struct drm_device *dev,
+>  
+>  	return ret;
+>  }
+> +
+> +/**
+> + * drm_encoder_init - Init a preallocated encoder
+> + * @dev: drm device
+> + * @encoder: the encoder to init
+> + * @funcs: callbacks for this encoder
+> + * @encoder_type: user visible type of the encoder
+> + * @name: printf style format string for the encoder name, or NULL for default name
+> + *
+> + * Initializes a preallocated encoder. Encoder should be subclassed as part of
+> + * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
+> + * called from the driver's &drm_encoder_funcs.destroy hook.
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drm_encoder_init(struct drm_device *dev,
+> +		     struct drm_encoder *encoder,
+> +		     const struct drm_encoder_funcs *funcs,
+> +		     int encoder_type, const char *name, ...)
+> +{
+> +	va_list ap;
+> +	int ret;
+> +
+> +	if (name)
+> +		va_start(ap, name);
+> +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
+> +	if (name)
+> +		va_end(ap);
+> +
+> +	return ret;
+> +}
+>  EXPORT_SYMBOL(drm_encoder_init);
+>  
+>  /**
+> @@ -181,6 +196,50 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
+>  }
+>  EXPORT_SYMBOL(drm_encoder_cleanup);
+>  
+> +static void drmm_encoder_alloc_release(struct drm_device *dev, void *ptr)
+> +{
+> +	struct drm_encoder *encoder = ptr;
+> +
+> +	if (WARN_ON(!encoder->dev))
+> +		return;
+> +
+> +	drm_encoder_cleanup(encoder);
+> +}
+> +
+> +void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
+> +			   const struct drm_encoder_funcs *funcs,
+> +			   int encoder_type, const char *name, ...)
+> +{
+> +	void *container;
+> +	struct drm_encoder *encoder;
+> +	va_list ap;
+> +	int ret;
+> +
+> +	if (WARN_ON(!funcs || funcs->destroy))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	container = drmm_kzalloc(dev, size, GFP_KERNEL);
+> +	if (!container)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	encoder = container + offset;
+> +
+> +	if (name)
+> +		va_start(ap, name);
+> +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
+> +	if (name)
+> +		va_end(ap);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	ret = drmm_add_action_or_reset(dev, drmm_encoder_alloc_release, encoder);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return container;
+> +}
+> +EXPORT_SYMBOL(__drmm_encoder_alloc);
+> +
+>  static struct drm_crtc *drm_encoder_get_crtc(struct drm_encoder *encoder)
+>  {
+>  	struct drm_connector *connector;
+> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+> index a60f5f1555ac..4ecad1260ff7 100644
+> --- a/include/drm/drm_encoder.h
+> +++ b/include/drm/drm_encoder.h
+> @@ -195,6 +195,36 @@ int drm_encoder_init(struct drm_device *dev,
+>  		     const struct drm_encoder_funcs *funcs,
+>  		     int encoder_type, const char *name, ...);
+>  
+> +__printf(6, 7)
+> +void *__drmm_encoder_alloc(struct drm_device *dev,
+> +			   size_t size, size_t offset,
+> +			   const struct drm_encoder_funcs *funcs,
+> +			   int encoder_type,
+> +			   const char *name, ...);
+> +
+> +/**
+> + * drmm_encoder_alloc - Allocate and initialize an encoder
+> + * @dev: drm device
+> + * @type: the type of the struct which contains struct &drm_encoder
+> + * @member: the name of the &drm_encoder within @type.
+> + * @funcs: callbacks for this encoder
+> + * @encoder_type: user visible type of the encoder
+> + * @name: printf style format string for the encoder name, or NULL for default name
+> + *
+> + * Allocates and initializes an encoder. Encoder should be subclassed as part of
+> + * driver encoder objects. Cleanup is automatically handled through registering
+> + * drm_encoder_cleanup() with drmm_add_action().
+> + *
+> + * The @drm_encoder_funcs.destroy hook must be NULL.
+> + *
+> + * Returns:
+> + * Pointer to new encoder, or ERR_PTR on failure.
+> + */
+> +#define drmm_encoder_alloc(dev, type, member, funcs, encoder_type, name, ...) \
+> +	((type *)__drmm_encoder_alloc(dev, sizeof(type), \
+> +				      offsetof(type, member), funcs, \
+> +				      encoder_type, name, ##__VA_ARGS__))
+> +
+>  /**
+>   * drm_encoder_index - find the index of a registered encoder
+>   * @encoder: encoder to find index for
+> -- 
+> 2.20.1
+> 
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
