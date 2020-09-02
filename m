@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8670E25AD14
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 16:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25E625AD16
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 16:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 515E86E917;
-	Wed,  2 Sep 2020 14:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD75D6E91C;
+	Wed,  2 Sep 2020 14:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AADB6E917
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 14:29:34 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id x2so5154909ilm.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDA9A6E91C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 14:29:56 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id t7so4443223otp.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 07:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=/fXgQHiXukX+ClzrRX80pTyjguROYRV1kg49BzpegFw=;
- b=HlwgYaeefKMrvI0/QsxwEcUEiX2F9gPNjBaEOegxYDK76O5fBGUw1OIyDG8hJqFNr6
- 5EKqMP2OiMvMNc383In8g0enlv8O0x0atZ+mU6hgWN9V8kCfW2YbOicLyJGisSMtmY4S
- zBN/+R4CuRl9vWK6aC2Y5rAgWDZ2sqHAkZAQa9eqnbQ13OwazoMHe9KF1faD+K+YUkVm
- PfTFHSj3YvncTIVvKTiVL9NRq5meYTN5OHeb4BqPItfKRgbrPrNxP7vNwes6zWy2zaj3
- FfewhF93J8QV/0MqRBc9yivnhsJvSUoHCkx39yJ5hcfkTEn3DOjaDyJSd1nZ0tPCEFTn
- pnvg==
+ bh=NVVASDf36U7PqiB4Y2Q8w0U+uet8qgjC1yDHLD7Nymk=;
+ b=WB4CyfGtI1ds2AqEDe7hmi5eu/pjphJmVnxrJTFzGSzsWHnu17xiWX2V0ZWX35SUyv
+ tkisiqRvJgD9hld5KCEEtImMo1j5d8gxNaexznjKUqvYGv3WzJ2mVh6ngSqLKrsU35zn
+ RXgZeuao1qIzdonHQzo5uGOCGW2/bKLitR710=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=/fXgQHiXukX+ClzrRX80pTyjguROYRV1kg49BzpegFw=;
- b=EyWYbHa19k3UFF1qElwsd+jn6hS4yG9KzijPHE7Kd5cW6MBYFPDw+PhL3DGJkbNv+w
- rQtX5Isw5+l2bJg0DSt0yxzR3O2df56jT9tpwrSVYGy7SkA/xBRFySpeQLf1Kk5p+Mvn
- C4BiU1fAP05fMJmYbdVJMSGdtNN0NWPVQrVde/uMfoTxenLRdglkPirP5f0OANb9hXxz
- t5BMJhpMRMDvrTQR8lvxJEx3o40KS2zA4nVxyZMRQkA4u6flCz+AhkDvYQUFsSs694z+
- dvj1Y5E9tSKSYtoBjHp9nrmR40yjGQSCbv+NpTz+pjHnjfa+f8EqTgdzHCUAqFpMwxRU
- TKbQ==
-X-Gm-Message-State: AOAM531QvExnXqP4HB2ZVAXzTBBFwxH0e2H3KO/N2aGL2CGDB/AE02Tz
- 82XlllMkXIXjEgrwbiEQckeDSCyfqXe3m2JnO85y4g==
-X-Google-Smtp-Source: ABdhPJzNBQ87jwvPh8YvMJC21LLeVcwEF8+dzWFQNgYkmh+c2dw/e3dEOhCKiejRx4mV/L96uVP3C+Z3LcRnAf0pMow=
-X-Received: by 2002:a92:de48:: with SMTP id e8mr3864114ilr.41.1599056973808;
- Wed, 02 Sep 2020 07:29:33 -0700 (PDT)
+ bh=NVVASDf36U7PqiB4Y2Q8w0U+uet8qgjC1yDHLD7Nymk=;
+ b=EakDTHR697AuPXCWh78o6zH1dX2n7ZR9yjR6cjEPJEIMYwIqEb9cM9n/f0wuV7azFm
+ nqHic4haW3vPjocC5hrHpVOJUVg7GKiAotfofIB3Q1BOYH8nM6E692Lp7Oipc5JpmKO1
+ V+zI/tisMlJ9JMrYCXlW8qkba9PAzN7IR6Dc7q0ckv1ZSbmzuekQ+2Rj0OFdrZRelde/
+ xNXQQofReaRr+TUtPTOc0AeXdEnv3lFK5Nj6hO+qklxG44KKYKbB/r5HpjsU4Yf/k2/V
+ xAZTHzv9UsZwbMzRV8vIyC9I08TiVQipry/RkV4QWpnp57cvhgFKkB0DZfO0UkAOF1iT
+ bY3Q==
+X-Gm-Message-State: AOAM533fRmWVu8340C5mr72ZWIBpAxbJeNWNsZK8Oddz98JNZKscoZUv
+ DcC/LuxBWMk26AU9+CphSTjrrQFGSw3rhPIEWlsvlQ==
+X-Google-Smtp-Source: ABdhPJxLFujdyaiSE87nTAobMiyRM0PW4hc1aXu95vql/N9V2IjccGax33FDZ6tcT9kcPFg9U+dv0W4g6o4BXaRjdSs=
+X-Received: by 2002:a9d:eaa:: with SMTP id 39mr5682763otj.188.1599056996198;
+ Wed, 02 Sep 2020 07:29:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
  <t3hHLqZ0yNm5FdxpyJovgjEVzs-OD7qD5nYrYXug8UhkBykhekB0_hOqPltEvFH3daJ3HYtY_3FInv3U5xIHprg1FS7b2SP8fCf48r7DvVg=@emersion.fr>
  <CAKMK7uFztTjjvQvM-toeZv3hps+NMJFXV7s=Dzs5PwG3J+7wjw@mail.gmail.com>
  <ap5W_r98yx5DpM1jFkrof6yWGWPtxbyObFp3iIP1-hm-SD_-Jij72KZK2VhVV2p-34EqdVE6T1JeW4zAgjnNsxv_CtULfvg2ASY3xECXMuY=@emersion.fr>
 In-Reply-To: <ap5W_r98yx5DpM1jFkrof6yWGWPtxbyObFp3iIP1-hm-SD_-Jij72KZK2VhVV2p-34EqdVE6T1JeW4zAgjnNsxv_CtULfvg2ASY3xECXMuY=@emersion.fr>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Wed, 2 Sep 2020 16:29:26 +0200
-Message-ID: <CAP+8YyGRghDdO+hswLyN=KKe+JYDbXcWztpq0yf5qTW0A0CKHA@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 2 Sep 2020 16:29:45 +0200
+Message-ID: <CAKMK7uGs2vQNf1+=4spQV4aCncOPE4+E7g95xqZ7kcD8pp5bTg@mail.gmail.com>
 Subject: Re: [PATCH] drm/doc: Document that modifiers are always required for
  fb
 To: Simon Ser <contact@emersion.fr>
@@ -66,11 +62,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Juston Li <juston.li@intel.com>
+ Juston Li <juston.li@intel.com>, Daniel Stone <daniels@collabora.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -104,14 +99,12 @@ b3V0IGEgbW9kaWZpZXIgdG8gb25seSBsZXQKPiB0aGUgZHJpdmVyIHBpY2sgInNhZmUiIG1vZGlm
 aWVycyBpbiBjYXNlIHBhc3NpbmcgdGhlIGZ1bGwgbGlzdCBvZgo+IG1vZGlmaWVycyByZXN1bHRz
 IGluIGEgYmxhY2sgc2NyZWVuLiBMYXRlciBvbiB3bHJvb3RzIHdpbGwgY2FsbAo+IGdibV9ib19n
 ZXRfbW9kaWZpZXIgdG8gZmlndXJlIG91dCB3aGF0IG1vZGlmaWVyIHRoZSBkcml2ZXIgcGlja2Vk
-LgoKSSBkb24ndCB0aGluayB3ZSBjYW4gZG8gdGhhdCBnZW5lcmFsbHksIGFzIHByZS1tb2RpZmll
-ciBjbGllbnRzIGFyZQp0eXBpY2FsbHkgYWxzbyBub3QgY2FwYWJsZSBvZiBoYW5kbGluZyBtZW1v
-cnkgcGxhbmVzID4gZm9ybWF0IHBsYW5lcywKd2hpY2ggd2lsbCBoYXBwZW4gd2l0aCBjb21wcmVz
-c2lvbiAoYnV0IHVzZWQgb3V0IG9mIGJhbmQgY29tbXVuaWNhdGlvbgpmb3IgdGhlIHNlY29uZCBw
-bGFuZSBvbiBBTUQgaW4gdGhlIG5vbi1tb2RpZmllciBjYXNlKS4KPiBfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+LgoKZ2JtX2JvX2ltcG9ydCBpcyBhIGRpZmZlcmVudCB0aGluZyBmcm9tIGdibV9ib19jcmVhdGUu
+IEZvcm1lciBJIGFncmVlCnNob3VsZCBmaWd1cmUgb3V0IHRoZSByaWdodCBtb2RpZmllcnMgKGFu
+ZCBJIHRoaW5rIGl0IGRvZXMgdGhhdCwgYXQKbGVhc3Qgb24gaW50ZWwgbWVzYSkuIEZvciBnYm1f
+Ym9fY3JlYXRlIEknbSBub3Qgc3VyZSB3ZSBzaG91bGQvbmVlZCB0bwpyZXF1aXJlIHRoYXQuCi1E
+YW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
+aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
