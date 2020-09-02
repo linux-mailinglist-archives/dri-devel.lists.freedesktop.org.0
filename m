@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0441D25B59C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F136625B59E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E28466E50B;
-	Wed,  2 Sep 2020 21:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6982F6E513;
+	Wed,  2 Sep 2020 21:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2543A6E50B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:08:55 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id g29so341199pgl.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:08:55 -0700 (PDT)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68A9C6E50D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:08:56 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id 67so309448pgd.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ymA7CMBqzTf2AtulE3uzd14cV8H6af0RTgPo13nA5sE=;
- b=R1rGxgDGip3Ho5RPcmSCaAAYjB8/w+3T5TiHXgKpPUhPKuITQgua3bIFVtKOc3S2lR
- PTx3F0JMej4qg+YncPOWAOvMfUEv+itX1+j7B4anbkk+IQDiFsPO98TA1+loBLs97HSG
- otSx9Jae7Gq6I5DQok22aMp+VUB4f5vJig4Ko=
+ bh=pNt+U2jOzpBpg8KKNIHmyI8kxxx3SNHyuTrRy//l9Gs=;
+ b=c0ZCdMfWuyDnotpXqmEnmAPETI0nWsvOa4I/Hbg8lNXpCKkJns7p08Zdab5rsjOtkq
+ ohNZXGTa8z8yEf93WuoMMfkn5dY/uw6xFaGU1tbUczebJ3RQzaagMIHqO6JOIPrXrKJ4
+ iN0MF9LloTElVi3lsUkn03AXkqcHinuZi0WGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ymA7CMBqzTf2AtulE3uzd14cV8H6af0RTgPo13nA5sE=;
- b=K2H7EAom7Xc09Rfb/37t5xBa6MwpOQo6G1ZhH4ufFoDD7trBbi8vTL1XtZ/Fq37U6f
- mqlryWyWP4nI5TSbkVNGT/7/Tvd4K6tU33mHvqyIrh9oL1XX33W5O2mabSs57GHEKxxH
- b59oeqlGa8bCwQmBiVdSWjzXFLQBLkzUVaCVNrd3q7Sv0nbQXytQ5WGfR5hl/IKP63nj
- ENPYwf2dhJhaEHy3DhZTHAozBxxw5AqkuY3AxRvSYPm0gpVKQm9yKYoHIOPkXgdq8rg6
- fwlFNcYYwqe3WOpeJhzBFukZcw4BGagR/mgrKihra0nSewPipdDXmVZTnN4g+Z/RzTgv
- HE7w==
-X-Gm-Message-State: AOAM532FEqCNIV+M+e56Sib/FBrJoAVDDCYBXzi3kuPFsF4I53JBGsmT
- mkcR8r2EviW55JaMrf+vtZgkHgbTm/9yHQ==
-X-Google-Smtp-Source: ABdhPJzL3May1A6+IcfJGbmLgiXhOvrvrS5vkcLee4iNcdcp4FxZES3BVqnvqG0uKbZrlcqTa2Q3Aw==
-X-Received: by 2002:a62:1984:: with SMTP id 126mr303263pfz.17.1599080934473;
- Wed, 02 Sep 2020 14:08:54 -0700 (PDT)
+ bh=pNt+U2jOzpBpg8KKNIHmyI8kxxx3SNHyuTrRy//l9Gs=;
+ b=Rse+fb+vhYC+i0CxsjZUd/LlNW6PNeSsuldbvGUwuFt4slGcP1g2bppoEsKcWKp2NW
+ RTf4EUso0U4iJCGeWWywUe3PcG5IdFeLTDzKhqbp2Dqk1AibSVT98Yp/2hOxodkqfPcX
+ auEjPQooFyY2ixQgkNFlFXASEfjC3GynqWbVbQdXijjz8jwCjjr3YewZH39Aj0vVJH7s
+ KBjxMGA7/ROg80XHUQru13tlhbudleFQC1r7+wVYgQ9D+afsd1GFO2wOzXKZQnvOHWbW
+ VhuuTnx3LLnlTeJ+9WKS7TKz6XhUVvHXbDmu44fHhoobcZqMbjLGhqF+FQIxJ8rNou9X
+ knGQ==
+X-Gm-Message-State: AOAM5300HznEbHEUjM8trqIRQxHMxPMwp0N4atmyWuV6Qlq47Eiad6cF
+ tIdqg5XtpXW8Cq5iB3wtnJyJzsuRUcmxLA==
+X-Google-Smtp-Source: ABdhPJwNZwEchvciaun934YlOqodjHQ/Mfk+rGM4moH6JEsKKUOUWNaOnRTxQN2GMJi2icn6/BXw0Q==
+X-Received: by 2002:a17:902:b289:: with SMTP id
+ u9mr307878plr.226.1599080935759; 
+ Wed, 02 Sep 2020 14:08:55 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.08.53
+ by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.08.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 14:08:53 -0700 (PDT)
+ Wed, 02 Sep 2020 14:08:55 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
-Subject: [PATCH v2 03/23] drm/virtio: report uuid in debugfs
-Date: Wed,  2 Sep 2020 14:08:27 -0700
-Message-Id: <20200902210847.2689-4-gurchetansingh@chromium.org>
+Subject: [PATCH v2 04/23] virtio: Add get_shm_region method
+Date: Wed,  2 Sep 2020 14:08:28 -0700
+Message-Id: <20200902210847.2689-5-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200902210847.2689-1-gurchetansingh@chromium.org>
 References: <20200902210847.2689-1-gurchetansingh@chromium.org>
@@ -72,25 +73,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In keeping with other features, report this in the debugfs.
+From: Sebastien Boeuf <sebastien.boeuf@intel.com>
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Virtio defines 'shared memory regions' that provide a continuously
+shared region between the host and guest.
+
+Provide a method to find a particular region on a device.
+
+Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Cc: kvm@vger.kernel.org
+Cc: virtualization@lists.linux-foundation.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_debugfs.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/virtio_config.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-index 3221520f61f0c..d5b0c543bd6d7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-@@ -48,6 +48,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
- 	virtio_add_bool(m, "virgl", vgdev->has_virgl_3d);
- 	virtio_add_bool(m, "edid", vgdev->has_edid);
- 	virtio_add_bool(m, "indirect", vgdev->has_indirect);
-+	virtio_add_bool(m, "resource uuid", vgdev->has_resource_assign_uuid);
- 	virtio_add_int(m, "cap sets", vgdev->num_capsets);
- 	virtio_add_int(m, "scanouts", vgdev->num_scanouts);
+diff --git a/include/linux/virtio_config.h b/include/linux/virtio_config.h
+index 8fe857e27ef32..4b8e38c5c4d8c 100644
+--- a/include/linux/virtio_config.h
++++ b/include/linux/virtio_config.h
+@@ -11,6 +11,11 @@
+ 
+ struct irq_affinity;
+ 
++struct virtio_shm_region {
++	u64 addr;
++	u64 len;
++};
++
+ /**
+  * virtio_config_ops - operations for configuring a virtio device
+  * Note: Do not assume that a transport implements all of the operations
+@@ -66,6 +71,7 @@ struct irq_affinity;
+  *      the caller can then copy.
+  * @set_vq_affinity: set the affinity for a virtqueue (optional).
+  * @get_vq_affinity: get the affinity for a virtqueue (optional).
++ * @get_shm_region: get a shared memory region based on the index.
+  */
+ typedef void vq_callback_t(struct virtqueue *);
+ struct virtio_config_ops {
+@@ -89,6 +95,8 @@ struct virtio_config_ops {
+ 			       const struct cpumask *cpu_mask);
+ 	const struct cpumask *(*get_vq_affinity)(struct virtio_device *vdev,
+ 			int index);
++	bool (*get_shm_region)(struct virtio_device *vdev,
++			       struct virtio_shm_region *region, u8 id);
+ };
+ 
+ /* If driver didn't advertise the feature, it will never appear. */
+@@ -251,6 +259,15 @@ int virtqueue_set_affinity(struct virtqueue *vq, const struct cpumask *cpu_mask)
  	return 0;
+ }
+ 
++static inline
++bool virtio_get_shm_region(struct virtio_device *vdev,
++			   struct virtio_shm_region *region, u8 id)
++{
++	if (!vdev->config->get_shm_region)
++		return false;
++	return vdev->config->get_shm_region(vdev, region, id);
++}
++
+ static inline bool virtio_is_little_endian(struct virtio_device *vdev)
+ {
+ 	return virtio_has_feature(vdev, VIRTIO_F_VERSION_1) ||
 -- 
 2.26.2
 
