@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C6025AF2E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 17:35:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA4D25B025
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 17:52:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCE4897D7;
-	Wed,  2 Sep 2020 15:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F41C6E938;
+	Wed,  2 Sep 2020 15:51:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB6C892FE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 15:35:52 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id a15so4620944ejf.11
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 08:35:52 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBF5F6E938
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 15:51:58 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id q9so4902102wmj.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 08:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0Pa2v9R6HR7b/pDUYXflnHBdnCYt3kzuoYpeXOCOC/0=;
+ b=eZ98yo2h+IpDJLHCAVg8pf4bQQgrrIR3kqyEA32yLbuOIAxFXAHlNiG3QbWcP7ywsy
+ WSAnNq1k9mjIEbTfbSEc4xWQSBsdFRiXAEXK8SVGRrbziQLqcuKbHACDywoe2UpM71N0
+ TeqesAsn88r+ap2tQ3UZYEa7OdLOGaxhjDnVkUEWM8JS1GbEvbCXvyjflRaazc22R4qT
+ FBhiXiEcz65Os4fadPmo7VRE7TE09DiA53DYdT8Q8ERCgloBxR8zyDW7DOIErenD2r8J
+ e1KUxOtSZ8cC70htTe8s1GoBV/H+R/JRPJYgd0vH5Aq62d8L+mRQ1rwfTL2mHoiaaQA9
+ //Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=GCEsTdInS4YkDl/rs9szjQgucjoUvpkSLEs7mz1t++4=;
- b=Uw8E8dLuOfrXEWlE3IWf26TKai9CgFgKPPRjsZHXK2iJWVF5Oon4xzlIpUPjMX4NFL
- NdHjYj8nEfaq/QpAFLAnfb6gPam/xeIKmW2nG6co/raUUfioG57chIXdToDB0rKsEI1m
- 0Vxk9ddfw5wT+ZRCm9stjgRNpnom0o4ze+7puWNiEjXF5KND3OyZ/XlcQwV4RNJbL+e6
- sUeoml7qSaHniYIFLVVWkTPzDDgrDdIr2BVZKKJVPPjLezCPmYwjChS4j48Bsku6PA4Y
- EFHBL0w2VBIXc8OUN4+eH//wwsAQ5NpI97oiRYTmx7Rfj2dBE+Wdv8R4oTYckAjMMAip
- NHMQ==
-X-Gm-Message-State: AOAM533hFa0UlDPIsxivzGIXue+f5gaUPquZjxklz0RApCepZC/R+e5f
- l93zG47av6UTzdd2T6CVNtc=
-X-Google-Smtp-Source: ABdhPJzw7TROsNYzuEprNdGNAqhujN6cK49CW6dMCBTEBU/ojNemUw092ImCl/ElfWwyB7tC0pTXIA==
-X-Received: by 2002:a17:906:e24f:: with SMTP id
- gq15mr557382ejb.395.1599060951087; 
- Wed, 02 Sep 2020 08:35:51 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.106])
- by smtp.googlemail.com with ESMTPSA id lg22sm4841727ejb.48.2020.09.02.08.35.48
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 02 Sep 2020 08:35:50 -0700 (PDT)
-Date: Wed, 2 Sep 2020 17:35:47 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Kukjin Kim <kgene@kernel.org>, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] ARM: dts: exynos: Remove snps,dwc2 compatible in
- Exynos3250
-Message-ID: <20200902153547.GA21503@kozik-lap>
-References: <20200829172532.29358-1-krzk@kernel.org>
- <20200829172532.29358-4-krzk@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0Pa2v9R6HR7b/pDUYXflnHBdnCYt3kzuoYpeXOCOC/0=;
+ b=HLU4myM0dyPeWWE5HLko86BrrJsw+3V/1Uxi+El6Q4tDq8URw0uoeDNRJBiQYFHBq3
+ XfGDeO5sC6Ij+L0IzhuPw3bAI76S3ibVD5Fxz292sreRUod15cs8BTyHofUBSulUiZnW
+ L18B7uBkLcdc6zUOrDYE0l8C/m/aXb0sFL6lIGqsirMkbZzUq9aLDKQLmrcMuSdOc1bt
+ 4rjaFww9UBmrjY7p08YWKBGmgJQIhkHydnHA20ZVMu67WSRh9k7GpKzhnAq64MGgmHlM
+ q7v20ekT/ih+rZLa7RCQ6LYkW0quoZ7PQTew/MoZSwb5nflPiBL4Xk6oMjP9uurftDo9
+ QG6Q==
+X-Gm-Message-State: AOAM533PnMzn3liYp0rJ7NJ8cZG16+i7fBMh6/UU7nlWzxBQYeTGP0iL
+ BF0pDoeK5ZZEyw6HoZ3nJ3vuJiW3sVmfDrkdAJS8CQ==
+X-Google-Smtp-Source: ABdhPJxklWTXMbj7XCA3kgOdPIvgEd3TL5aPW8f4PM0qZ3BrOBbmA9oFX/7bFJ8UP75W3LTR457EfJLG8lWVB1pU0ts=
+X-Received: by 2002:a05:600c:20b:: with SMTP id
+ 11mr1324349wmi.147.1599061917500; 
+ Wed, 02 Sep 2020 08:51:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200829172532.29358-4-krzk@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200902010645.26943-1-luben.tuikov@amd.com>
+ <BDD53312-3A34-4761-A7C3-6FDFE66A6C1F@amd.com>
+ <e6916b3b-60cd-e223-4f87-478aab3b2468@amd.com>
+ <62D0EAA9-E3AD-4FA7-AC24-9F5F9C594EB2@amd.com>
+ <0f336bb9-5d78-30ed-d217-c5905d1dc08a@amd.com>
+ <CAPj87rMRemGSZGoPV-BYrAZCK26aB-rFsKL6hVPRsha_850SXQ@mail.gmail.com>
+ <20a86ddb-df88-225d-a33d-7feec82a46c2@amd.com>
+In-Reply-To: <20a86ddb-df88-225d-a33d-7feec82a46c2@amd.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 2 Sep 2020 16:51:46 +0100
+Message-ID: <CAPj87rMKNZfP1=kfsHPbRaJtHMAEKY+87p6uTAt=Hh76FwZVcw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Use implicit kref infra
+To: Luben Tuikov <luben.tuikov@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,30 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sylwester Nawrocki <snawrocki@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 29, 2020 at 07:25:32PM +0200, Krzysztof Kozlowski wrote:
-> The binding for DesignWare HS OTG USB 2.0 in Samsung SoCs take only one
-> compatible.  This fixes dtbs_check warnings like:
-> 
->   arch/arm/boot/dts/exynos3250-artik5-eval.dt.yaml: hsotg@12480000:
->     compatible: ['samsung,s3c6400-hsotg', 'snps,dwc2'] is not valid under any of the given schemas (Possible causes of the failure):
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  arch/arm/boot/dts/exynos3250.dtsi | 2 +-
+Hi Luben,
 
-Applied.
+On Wed, 2 Sep 2020 at 16:16, Luben Tuikov <luben.tuikov@amd.com> wrote:
+> Not sure how I can do this when someone doesn't want to read up on
+> the kref infrastructure. Can you help?
+>
+> When someone starts off with "My understanding of ..." (as in the OP) you know you're
+> in trouble and in for a rough times.
+>
+> Such is the nature of world-wide open-to-everyone mailing lists where
+> anyone can put forth an argument, regardless of their level of understanding.
+> The more obfuscated an argument, the more uncertainty.
+>
+> If one knows the kref infrastructure, it just clicks, no explanation
+> necessary.
 
-Best regards,
-Krzysztof
+Evidently there are more points of view than yours. Evidently your
+method of persuasion is also not working, because this thread is now
+getting quite long and not converging on your point of view (which you
+are holding to be absolutely objectively correct).
 
+I think you need to re-evaluate the way in which you speak to people,
+considering that it costs nothing to be polite and considerate, and
+also takes effort to be rude and dismissive.
+
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
