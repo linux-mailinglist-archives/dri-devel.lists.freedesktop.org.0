@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45C925B5AD
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B823B25B5AE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 23:09:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60B76E95A;
-	Wed,  2 Sep 2020 21:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D88B6E95B;
+	Wed,  2 Sep 2020 21:09:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0146E95A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:09:20 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id l191so333847pgd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:09:20 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2FD86E95B
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 21:09:21 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id w186so323307pgb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 14:09:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zIuwn+y+zW+phql/ZV2Gpurn27Z6uVmBN03BClfM+pQ=;
- b=S+OoXnL+TRizqJ8pJ+JwMU7gGI1EMHspDOulnU4EXAj1Yzdp+//ILXCMmph1kjnhvs
- K8axMtdWG94OkIc3BkRvpj1Lqeow3+UlmeNvxQFgUMnS18Ub1u6vH+4p551XvRPfM+Si
- g/9jz3AgyM65AEbTsi8oZb4ZpNtqIJ7FaLgLU=
+ bh=9ioIxThknC1gZGqnEC9i1IB4yZ/CBigPc9G8CEWzO1M=;
+ b=AdhEIBdV0qGTZio87I0/A3wdqt7ym4HNzT9tTu/Y3nAnyq8Pg3dO4r5pgJcfyGKIlF
+ TV3fLD6jVOhebj/oH2+Er2Se7aAvimrcuda/U8Nvr1puwDxyZmj26MkS1HXhhX8kmprK
+ QvDuPm3pXoKFrVv/3KpTFbQeTN4tDsFk+VK/s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zIuwn+y+zW+phql/ZV2Gpurn27Z6uVmBN03BClfM+pQ=;
- b=ZZwglqgjNUuJ0ucY1dwLDUBQEos5oshra0ofHGTAGIGMYWZJuMyDfSP010w+Osm980
- 5lxmL9ewRnvKP9Ttz+vg/HQ+IzikXlhpqAeYsy2U5g8g6gwIrXzwM8KkY7CQL2C59Dq1
- hkxZsbmOy6HGwvr/P60vT3+uYT/sXAKu6fHZmcwhmvrnz+8p7jIxZddacnGyuxWgI1OW
- RZGADJ/5unvp3OZzckUm05y4LD2cyjNfIxUOXGBEIjciiSvJP8fgWJE/cXJBA+R0vOWk
- X7/xuRp8NMFaOAKJ6FOmbuSoCMZP1Zm/ciOrUCiNdtwPdlJA7bdnS4mpsRjFtK9PlrAg
- cGYw==
-X-Gm-Message-State: AOAM532PvpbMmGh3Ssuo8zyUtKZYimqGT7FHeB7Rsacaan70qBvlR6Xs
- YxGNUy3ezZ7c2/4b0wS0aKdffb/no/zGCw==
-X-Google-Smtp-Source: ABdhPJzzv5j8Mdu5oV0AIbfrR3MY+wCvCflwpi0rdVviSsafMC0D9hv8Fs0//PglKtQ0+JpIC70bpQ==
-X-Received: by 2002:a63:470b:: with SMTP id u11mr3407014pga.46.1599080959460; 
- Wed, 02 Sep 2020 14:09:19 -0700 (PDT)
+ bh=9ioIxThknC1gZGqnEC9i1IB4yZ/CBigPc9G8CEWzO1M=;
+ b=aw58zX+B6xUx5ysrLt9RdGwaY3B1DH2e6SPC6G+gCj8ANLEnDGgbc4jQQtgrpWgZ8L
+ 1GC+4fNipX2fBOIeFcIHGXYBxauOeH6tpMGnlFMY3qM2wnWwkjQAtBLHBTqYk5jif7pE
+ vg8yvRC9p1F7wsOZMCV+65hK9BL2oKK0y0sf5y+Rd4UTEwaK0h6okwxlFGPzK21J3y2H
+ 16hNnYLh7WIS0jWM1InzdyKvtWS6Z/4MJ9fRaCXdBhJOxiJBaYuAu+UCx5lqBKg5gKdA
+ IuLldFy4N916cHsXhVRk2QWzfdgJHrX9g8FdSEQ4XqdWh0XnoGArfvhFCQlcuuQ0V/Va
+ eLKA==
+X-Gm-Message-State: AOAM531tyVcnx43P9TsGi0H1RcHklzsV1zdAkBdKE8+Sm/saw9JhG08r
+ AvVWESbhyprNnUULA3GJPlXhnnbp/JAMaQ==
+X-Google-Smtp-Source: ABdhPJwKHqX/D66u+xgKfq0FBAMDopip7ChURBAUEx69Q3ZQ2DwiBt9F4VAwEzFLKzHHOtWYLo1KmQ==
+X-Received: by 2002:a63:4181:: with SMTP id o123mr3193073pga.387.1599080960860; 
+ Wed, 02 Sep 2020 14:09:20 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.09.16
+ by smtp.gmail.com with ESMTPSA id m12sm301145pjd.35.2020.09.02.14.09.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 14:09:18 -0700 (PDT)
+ Wed, 02 Sep 2020 14:09:20 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
-Subject: [PATCH v2 19/23] drm/virtio: implement blob resources: refactor UUID
- code somewhat
-Date: Wed,  2 Sep 2020 14:08:43 -0700
-Message-Id: <20200902210847.2689-20-gurchetansingh@chromium.org>
+Subject: [PATCH v2 20/23] drm/virtio: implement blob resources: fix stride
+ discrepancy
+Date: Wed,  2 Sep 2020 14:08:44 -0700
+Message-Id: <20200902210847.2689-21-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200902210847.2689-1-gurchetansingh@chromium.org>
 References: <20200902210847.2689-1-gurchetansingh@chromium.org>
@@ -73,94 +73,192 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For upcoming blob resources, userspace can specify that the
-resource will be used for cross-device sharing. This is mainly
-for exportable blobs that will only shared with the virtgpu
-display but not across devices.
+The old transfer ioctls may work on blob resources, and the guest
+may have a image view on the blob resources such that the stride is
+not equal to width * bytes_per_pixel.
+
+For host-only blobs, we can repurpose the transfer ioctls to synchronize
+caches as well.
+
+Also, with seamless Wayland integration between guest/host looking
+increasingly attractive, it also makes sense to keep track of
+one value for stride.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
- drivers/gpu/drm/virtio/virtgpu_prime.c | 42 ++++++++++++++++++--------
- 2 files changed, 31 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  4 +++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 35 +++++++++++++++++++++++---
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 14 +++++++++--
+ 3 files changed, 47 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 0ea1b3e48c5b5..689297e1fff87 100644
+index 689297e1fff87..6162865c162df 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -432,6 +432,8 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
- int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
- 			       uint32_t *resid);
- /* virtgpu_prime.c */
-+int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo);
- struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
- 					 int flags);
- struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index 3552db128ba3d..1ef1e2f226333 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -59,6 +59,24 @@ const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
- 	.get_uuid = virtgpu_virtio_get_uuid,
- };
- 
-+int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo)
-+{
-+	int ret;
-+	struct virtio_gpu_object_array *objs;
-+
-+	objs = virtio_gpu_array_alloc(1);
-+	if (!objs)
-+		return -ENOMEM;
-+
-+	virtio_gpu_array_add_obj(objs, &bo->base.base);
-+	ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
- 					 int flags)
- {
-@@ -66,22 +84,20 @@ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
- 	struct drm_device *dev = obj->dev;
+@@ -351,12 +351,16 @@ void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
+ void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
+ 					  uint32_t ctx_id,
+ 					  uint64_t offset, uint32_t level,
++					  uint32_t stride,
++					  uint32_t layer_stride,
+ 					  struct drm_virtgpu_3d_box *box,
+ 					  struct virtio_gpu_object_array *objs,
+ 					  struct virtio_gpu_fence *fence);
+ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 					uint32_t ctx_id,
+ 					uint64_t offset, uint32_t level,
++					uint32_t stride,
++					uint32_t layer_stride,
+ 					struct drm_virtgpu_3d_box *box,
+ 					struct virtio_gpu_object_array *objs,
+ 					struct virtio_gpu_fence *fence);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index 7a2430e34e003..0075995a9f5b8 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -311,6 +311,7 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
  	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
--	struct virtio_gpu_object_array *objs;
- 	int ret = 0;
-+	bool blob = bo->host3d_blob || bo->guest_blob;
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+ 	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+ 	struct drm_virtgpu_3d_transfer_from_host *args = data;
++	struct virtio_gpu_object *bo;
+ 	struct virtio_gpu_object_array *objs;
+ 	struct virtio_gpu_fence *fence;
+ 	int ret;
+@@ -324,6 +325,17 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
+ 	if (objs == NULL)
+ 		return -ENOENT;
  
--	if (vgdev->has_resource_assign_uuid) {
--		objs = virtio_gpu_array_alloc(1);
--		if (!objs)
--			return ERR_PTR(-ENOMEM);
--		virtio_gpu_array_add_obj(objs, &bo->base.base);
--
--		ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
--		if (ret)
--			return ERR_PTR(ret);
--		virtio_gpu_notify(vgdev);
--	} else {
--		bo->uuid_state = STATE_ERR;
-+	if (!blob) {
-+		if (vgdev->has_resource_assign_uuid) {
-+			ret = virtio_gpu_resource_assign_uuid(vgdev, bo);
-+			if (ret)
-+				return ERR_PTR(ret);
++	bo = gem_to_virtio_gpu_obj(objs->objs[0]);
++	if (bo->guest_blob && !bo->host3d_blob) {
++		ret = -EINVAL;
++		goto err_put_free;
++	}
 +
-+			virtio_gpu_notify(vgdev);
-+		} else {
-+			bo->uuid_state = STATE_ERR;
-+		}
++	if (!bo->host3d_blob && (args->stride || args->layer_stride)) {
++		ret = -EINVAL;
++		goto err_put_free;
++	}
++
+ 	ret = virtio_gpu_array_lock_resv(objs);
+ 	if (ret != 0)
+ 		goto err_put_free;
+@@ -333,9 +345,10 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
+ 		ret = -ENOMEM;
+ 		goto err_unlock;
  	}
++
+ 	virtio_gpu_cmd_transfer_from_host_3d
+-		(vgdev, vfpriv->ctx_id, offset, args->level,
+-		 &args->box, objs, fence);
++		(vgdev, vfpriv->ctx_id, offset, args->level, args->stride,
++		 args->layer_stride, &args->box, objs, fence);
+ 	dma_fence_put(&fence->f);
+ 	virtio_gpu_notify(vgdev);
+ 	return 0;
+@@ -353,6 +366,7 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+ 	struct drm_virtgpu_3d_transfer_to_host *args = data;
++	struct virtio_gpu_object *bo;
+ 	struct virtio_gpu_object_array *objs;
+ 	struct virtio_gpu_fence *fence;
+ 	int ret;
+@@ -362,6 +376,12 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 	if (objs == NULL)
+ 		return -ENOENT;
  
- 	exp_info.ops = &virtgpu_dmabuf_ops.ops;
++	bo = gem_to_virtio_gpu_obj(objs->objs[0]);
++	if (bo->guest_blob && !bo->host3d_blob) {
++		ret = -EINVAL;
++		goto err_put_free;
++	}
++
+ 	if (!vgdev->has_virgl_3d) {
+ 		virtio_gpu_cmd_transfer_to_host_2d
+ 			(vgdev, offset,
+@@ -369,6 +389,12 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 			 objs, NULL);
+ 	} else {
+ 		virtio_gpu_create_context(dev, file);
++
++		if (!bo->host3d_blob && (args->stride || args->layer_stride)) {
++			ret = -EINVAL;
++			goto err_put_free;
++		}
++
+ 		ret = virtio_gpu_array_lock_resv(objs);
+ 		if (ret != 0)
+ 			goto err_put_free;
+@@ -380,8 +406,9 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 
+ 		virtio_gpu_cmd_transfer_to_host_3d
+ 			(vgdev,
+-			 vfpriv ? vfpriv->ctx_id : 0, offset,
+-			 args->level, &args->box, objs, fence);
++			 vfpriv ? vfpriv->ctx_id : 0, offset, args->level,
++			 args->stride, args->layer_stride, &args->box, objs,
++			 fence);
+ 		dma_fence_put(&fence->f);
+ 	}
+ 	virtio_gpu_notify(vgdev);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index b77d405e56b28..363e30e19db4c 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -1012,6 +1012,8 @@ virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
+ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 					uint32_t ctx_id,
+ 					uint64_t offset, uint32_t level,
++					uint32_t stride,
++					uint32_t layer_stride,
+ 					struct drm_virtgpu_3d_box *box,
+ 					struct virtio_gpu_object_array *objs,
+ 					struct virtio_gpu_fence *fence)
+@@ -1020,12 +1022,14 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_transfer_host_3d *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+ 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
+-	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+-	if (use_dma_api)
++	if (virtio_gpu_is_shmem(bo) && use_dma_api) {
++		struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
++
+ 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+ 				       shmem->pages->sgl, shmem->pages->nents,
+ 				       DMA_TO_DEVICE);
++	}
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+ 	memset(cmd_p, 0, sizeof(*cmd_p));
+@@ -1038,6 +1042,8 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	convert_to_hw_box(&cmd_p->box, box);
+ 	cmd_p->offset = cpu_to_le64(offset);
+ 	cmd_p->level = cpu_to_le32(level);
++	cmd_p->stride = cpu_to_le32(stride);
++	cmd_p->layer_stride = cpu_to_le32(layer_stride);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
+ }
+@@ -1045,6 +1051,8 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
+ 					  uint32_t ctx_id,
+ 					  uint64_t offset, uint32_t level,
++					  uint32_t stride,
++					  uint32_t layer_stride,
+ 					  struct drm_virtgpu_3d_box *box,
+ 					  struct virtio_gpu_object_array *objs,
+ 					  struct virtio_gpu_fence *fence)
+@@ -1064,6 +1072,8 @@ void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
+ 	convert_to_hw_box(&cmd_p->box, box);
+ 	cmd_p->offset = cpu_to_le64(offset);
+ 	cmd_p->level = cpu_to_le32(level);
++	cmd_p->stride = cpu_to_le32(stride);
++	cmd_p->layer_stride = cpu_to_le32(layer_stride);
+ 
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
+ }
 -- 
 2.26.2
 
