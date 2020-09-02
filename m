@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8777025AA11
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C3625AA1A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Sep 2020 13:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5DB6E301;
-	Wed,  2 Sep 2020 11:11:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA88899D5;
+	Wed,  2 Sep 2020 11:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70CB86E301
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:11:38 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id t10so3946780wrv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:11:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=keVZMCICgeU2XikucdaT5d7AeU13SWerTWFxli6hKbo=;
- b=ZiogOXR70AZ1m97hk21ZptAp2nSRq17mLLZbjNyzbtYvSmxmRJ+AeETmfSkcx+ReTH
- VnwXceAEQT3uVVQWoj3nTielax2uIzA4L8lggAiG4Xolcdc/3DWKSyC4dZYXDyUbFtXr
- DIqBEvZ6wn3bmCrqJFp0nWEBOi4mMLMyoOH+unBvfozVVe9nO2ocYxlgIFVGtkRJMDaV
- fpyhsF865lhmWRI1V8o17bf+Tfh79B3MnUEPKiKwEj9JCrPdoK4xrI5B00qeSENXwO0i
- mNlvbxRsLy5L3Dui7Enh5nLH0JcEH0u0CXPf2wdpeJVyxj8X+b0bMKhhhxrrVO4zW1MN
- xwCQ==
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB93D898C2
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Sep 2020 11:16:00 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id u28so1056351ooe.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Sep 2020 04:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nKlqpAB0uWyhjo4BYKFEVL4mIiJmskSBPYBrLXTsn9c=;
+ b=JpCZEgW9LsRHOHTdcA+LsompQbB1N7shyhBmMMDLrXr7HOw0n1oVSTSu9xiZvzGTaS
+ znfluUhZ63t8bGy7GaWV3GCK8K18W/Blxzwj2uqI8X3eK3T4//gmJrsQlUixPgiGWYqE
+ myExrMKktqOQUCAmmUDLD/nFpL7OqwXg7gnj0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=keVZMCICgeU2XikucdaT5d7AeU13SWerTWFxli6hKbo=;
- b=d9OprtHHk7o/8yqSyX7E3YnXrXlwsys6HvOJezc1OJTsN6D8WIiKBcQWZJYmC+ZU8I
- 87Pjx9uce/0baNI6AjLNrijKAtu+iBpWqNsqIJb90LjkCdAvUyoqGfnUqMF/VG06Wkbi
- 22b0vXjnXOVG1y9rr5iTo2mWrudGJOZXsijQS4ofhgHqnDa+zJjWcMSuTTxP9qTd326W
- YZ0OTiv3yfhnIhX01eu39mw90+qYewiMMMXyKyhqc5x42q/IJpF3dCUyff43iy5+cB+1
- zGc6QLooYuhazSWuZTzR3S6G5OnU4K0Dbt4LwAtHtjPs2l6cnxIem7qmS7RiNF1qM+x4
- nSWg==
-X-Gm-Message-State: AOAM530I4/kOw0voWqKgdbdbyASmms6U+AVLEPsOvjnUniZcd8oi2D3Y
- zPqPIPHSW8KwuqdiFPPCJbKS2g==
-X-Google-Smtp-Source: ABdhPJzwZTeCGGMhybZrW8VCoySCzbLQVt8E/fc9TzqEfMu7v+CTUuX9V3sWBgqZqGM6Qu/j5Mfojg==
-X-Received: by 2002:a5d:6b84:: with SMTP id n4mr7160730wrx.55.1599045097114;
- Wed, 02 Sep 2020 04:11:37 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id 33sm7288473wri.16.2020.09.02.04.11.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 04:11:36 -0700 (PDT)
-Date: Wed, 2 Sep 2020 12:11:34 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 04/24] backlight: gpio: Introduce
- backlight_{enable,disable}
-Message-ID: <20200902111134.jx5hbv7wphvzbcoe@holly.lan>
-References: <20200823104532.1024798-1-sam@ravnborg.org>
- <20200823104532.1024798-5-sam@ravnborg.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nKlqpAB0uWyhjo4BYKFEVL4mIiJmskSBPYBrLXTsn9c=;
+ b=oN8EFjEyrL/C8yIBO2AyFTdw+1fgyDsLrzdWmi4dnmYhRFGsl9TNxfD8AnxBtclTiA
+ 3OLK9R6iXtevESnJg4c90GhCNfLPDCOC40ZHwoaEO93VxwGfDNUJhYPm3PQAJ34iZnL0
+ EePPu9TIEwn23TNUGut70h0V6kLX8OZ2y26+p27GlgH2h1vvH0KcCsecEsWaXlvF5MS9
+ GMLCblrPY6BfYvV5dtqlJsoL6pCYRTRUjkjwiPWPecLY3gYxPWe2sgg84wnwA7b3DFL5
+ teVykxqtKQdV1etqQKxs2AkbRK+7qyDWA8j6zIPVzsv2DnTM5PEejxMyKM0MRYU38cUS
+ x38w==
+X-Gm-Message-State: AOAM530sPl38hsZXKFXaTfyC7RfdqXWnYTNj/56fUcLYXPOjoJpRbDgT
+ AloxGg+so6aR1pcZlemgNEIhaOVNkvrhrXnOGXl2fw==
+X-Google-Smtp-Source: ABdhPJzIWaUI5jwO4Lp3ekQMNFCh2NeQiWjyrkLWKbUUA1GrZVb2b6mx2z/oMW61dXySoe7ceE7eoLxYqsnJRoFoXhk=
+X-Received: by 2002:a4a:e98e:: with SMTP id s14mr4934717ood.28.1599045360222; 
+ Wed, 02 Sep 2020 04:16:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200823104532.1024798-5-sam@ravnborg.org>
+References: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
+ <20200902140238.51089b99@eldfell>
+In-Reply-To: <20200902140238.51089b99@eldfell>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 2 Sep 2020 13:15:49 +0200
+Message-ID: <CAKMK7uHyX3_P_yK8=r9+XmeQcP3HcyMGNJNiJWAdHsRCQdCC+w@mail.gmail.com>
+Subject: Re: [PATCH] drm/doc: Document that modifiers are always required for
+ fb
+To: Pekka Paalanen <ppaalanen@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,87 +60,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ Juston Li <juston.li@intel.com>, Daniel Stone <daniels@collabora.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 23, 2020 at 12:45:12PM +0200, Sam Ravnborg wrote:
-> Use backlight_{enable,disable} in the probe function to
-> avoid hardcoding power handling in the driver.
-> 
-> Move platform_set_drvdata() up as the enable/disable call
-> will trigger a callback to the driver.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-> ---
->  drivers/video/backlight/gpio_backlight.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-> index 6f78d928f054..dc9354dc5e6a 100644
-> --- a/drivers/video/backlight/gpio_backlight.c
-> +++ b/drivers/video/backlight/gpio_backlight.c
-> @@ -53,6 +53,7 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->  	struct backlight_device *bl;
->  	struct gpio_backlight *gbl;
->  	int ret, init_brightness, def_value;
-> +	bool enable = false;
->  
->  	gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
->  	if (gbl == NULL)
-> @@ -82,16 +83,22 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->  		return PTR_ERR(bl);
->  	}
->  
-> -	/* Set the initial power state */
-> -	if (!of_node || !of_node->phandle)
-> +	platform_set_drvdata(pdev, bl);
-> +
-> +	/* Set the initial state */
-> +	if (!of_node || !of_node->phandle) {
->  		/* Not booted with device tree or no phandle link to the node */
-> -		bl->props.power = def_value ? FB_BLANK_UNBLANK
-> -					    : FB_BLANK_POWERDOWN;
-> -	else if (gpiod_get_direction(gbl->gpiod) == 0 &&
-> -		 gpiod_get_value_cansleep(gbl->gpiod) == 0)
-> -		bl->props.power = FB_BLANK_POWERDOWN;
-> +		if (def_value)
-> +			enable = true;
-> +	} else if (!(gpiod_get_direction(gbl->gpiod) == 0 &&
-> +		   gpiod_get_value_cansleep(gbl->gpiod) == 0)) {
-> +		enable = true;
-> +	}
-> +
-> +	if (enable)
-> +		backlight_enable(bl);
->  	else
-> -		bl->props.power = FB_BLANK_UNBLANK;
-> +		backlight_disable(bl);
->  
->  	bl->props.brightness = 1;
->  
-> @@ -102,7 +109,6 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	platform_set_drvdata(pdev, bl);
->  	return 0;
->  }
->  
-> -- 
-> 2.25.1
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBTZXAgMiwgMjAyMCBhdCAxOjAyIFBNIFBla2thIFBhYWxhbmVuIDxwcGFhbGFuZW5A
+Z21haWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgIDIgU2VwIDIwMjAgMTI6MjQ6NDAgKzAyMDAK
+PiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+ID4gRXZl
+biBmb3IgbGVnYWN5IHVzZXJzcGFjZSwgc2luY2Ugb3RoZXJ3aXNlIEdFVEZCMiBpcyBicm9rZW4g
+YW5kIGlmIHlvdQo+ID4gc3dpdGNoIGJldHdlZW4gbW9kaWZpZXItbGVzcyBhbmQgbW9kaWZpZXIt
+YXdhcmUgY29tcG9zaXRvcnMsIHNtb290aAo+ID4gdHJhbnNpdGlvbnMgYnJlYWsuCj4gPgo+ID4g
+QWxzbyBpdCdzIGp1c3QgYmVzdCBwcmFjdGljZSB0byBtYWtlIHN1cmUgbW9kaWZpZXJzIGFyZSBp
+bnZhcmlhbnQgZm9yCj4gPiBhIGdpdmVuIGRybV9mYiwgYW5kIHRoYXQgYSBtb2RpZmllci1hd2Fy
+ZSBrbXMgZHJpdmVycyBvbmx5IGhhcyBvbmUKPiA+IHBsYWNlIHRvIHN0b3JlIHRoZW0sIGlnbm9y
+aW5nIGFueSBvbGQgaW1wbGljaXQgYm8gZmxhZ3Mgb3Igd2hhdGV2ZXIKPiA+IGVsc2UgbWlnaHQg
+ZmxvYXQgYXJvdW5kLgo+ID4KPiA+IE1vdGl2YXRlZCBieSBzb21lIGlyYyBkaXNjdXNzaW9uIHdp
+dGggQmFzIGFib3V0IGFtZGdwdSBtb2RpZmllcgo+ID4gc3VwcG9ydC4KPiA+Cj4gPiBGaXhlczog
+NDU1ZTAwZjE0MTJmICgiZHJtOiBBZGQgZ2V0ZmIyIGlvY3RsIikKPiA+IENjOiBEYW5pZWwgU3Rv
+bmUgPGRhbmllbHNAY29sbGFib3JhLmNvbT4KPiA+IENjOiBKdXN0b24gTGkgPGp1c3Rvbi5saUBp
+bnRlbC5jb20+Cj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4K
+PiA+IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+
+ID4gQ2M6IEJhcyBOaWV1d2VuaHVpemVuIDxiYXNAYmFzbmlldXdlbmh1aXplbi5ubD4KPiA+IENj
+OiBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21haWwuY29tPgo+ID4gQ2M6ICJXZW50bGFuZCwgSGFy
+cnkiIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPiAtLS0KPiA+ICBpbmNsdWRlL2RybS9k
+cm1fbW9kZV9jb25maWcuaCB8IDEzICsrKysrKysrKysrKysKPiA+ICAxIGZpbGUgY2hhbmdlZCwg
+MTMgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fbW9k
+ZV9jb25maWcuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oCj4gPiBpbmRleCBhMThm
+NzNlYjNjZjYuLjVmZmJiNGVkNWIzNSAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9t
+b2RlX2NvbmZpZy5oCj4gPiArKysgYi9pbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaAo+ID4g
+QEAgLTU4LDYgKzU4LDEyIEBAIHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3Mgewo+ID4gICAg
+ICAgICogYWN0dWFsIG1vZGlmaWVyIHVzZWQgaWYgdGhlIHJlcXVlc3QgZG9lc24ndCBoYXZlIGl0
+IHNwZWNpZmllZCwKPiA+ICAgICAgICAqIGllLiB3aGVuIChAbW9kZV9jbWQtPmZsYWdzICYgRFJN
+X01PREVfRkJfTU9ESUZJRVJTKSA9PSAwLgo+ID4gICAgICAgICoKPiA+ICsgICAgICAqIElNUE9S
+VEFOVDogVGhlc2UgaW1wbGllZCBtb2RpZmllcnMgZm9yIGxlZ2FjeSB1c2Vyc3BhY2UgbXVzdCBi
+ZQo+ID4gKyAgICAgICogc3RvcmVkIGluIHN0cnVjdCAmZHJtX2ZyYW1lYnVmZmVyLCBpbmNsdWRp
+bmcgYWxsIHJlbGV2YW50IG1ldGFkYXRhCj4gPiArICAgICAgKiBsaWtlICZkcm1fZnJhbWVidWZm
+ZXIucGl0Y2hlcyBhbmQgJmRybV9mcmFtZWJ1ZmZlci5vZmZzZXRzIGlmIHRoZQo+ID4gKyAgICAg
+ICogbW9kaWZpZXIgZW5hYmxlcyBhZGRpdGlvbmFsIHBsYW5lcyBiZXlvbmQgdGhlIGZvdXJjYyBw
+aXhlbCBmb3JtYXQKPiA+ICsgICAgICAqIGNvZGUuIFRoaXMgaXMgcmVxdWlyZWQgYnkgdGhlIEdF
+VEZCMiBpb2N0bC4KPiA+ICsgICAgICAqCj4gPiAgICAgICAgKiBJZiB0aGUgcGFyYW1ldGVycyBh
+cmUgZGVlbWVkIHZhbGlkIGFuZCB0aGUgYmFja2luZyBzdG9yYWdlIG9iamVjdHMgaW4KPiA+ICAg
+ICAgICAqIHRoZSB1bmRlcmx5aW5nIG1lbW9yeSBtYW5hZ2VyIGFsbCBleGlzdCwgdGhlbiB0aGUg
+ZHJpdmVyIGFsbG9jYXRlcwo+ID4gICAgICAgICogYSBuZXcgJmRybV9mcmFtZWJ1ZmZlciBzdHJ1
+Y3R1cmUsIHN1YmNsYXNzZWQgdG8gY29udGFpbgo+ID4gQEAgLTkxNSw2ICs5MjEsMTMgQEAgc3Ry
+dWN0IGRybV9tb2RlX2NvbmZpZyB7Cj4gPiAgICAgICAgKiBAYWxsb3dfZmJfbW9kaWZpZXJzOgo+
+ID4gICAgICAgICoKPiA+ICAgICAgICAqIFdoZXRoZXIgdGhlIGRyaXZlciBzdXBwb3J0cyBmYiBt
+b2RpZmllcnMgaW4gdGhlIEFEREZCMi4xIGlvY3RsIGNhbGwuCj4gPiArICAgICAgKgo+ID4gKyAg
+ICAgICogSU1QT1JUQU5UOgo+ID4gKyAgICAgICoKPiA+ICsgICAgICAqIElmIHRoaXMgaXMgc2V0
+IHRoZSBkcml2ZXIgbXVzdCBmaWxsIG91dCB0aGUgZnVsbCBpbXBsaWNpdCBtb2RpZmllcgo+ID4g
+KyAgICAgICogaW5mb3JtYXRpb24gaW4gdGhlaXIgJmRybV9tb2RlX2NvbmZpZ19mdW5jcy5mYl9j
+cmVhdGUgaG9vayBmb3IgbGVnYWN5Cj4gPiArICAgICAgKiB1c2Vyc3BhY2Ugd2hpY2ggZG9lcyBu
+b3Qgc2V0IG1vZGlmaWVycy4gT3RoZXJ3aXNlIHRoZSBHRVRGQjIgaW9jdGwgaXMKPiA+ICsgICAg
+ICAqIGJyb2tlbiBmb3IgbW9kaWZpZXIgYXdhcmUgdXNlcnNwYWNlLgo+ID4gICAgICAgICovCj4g
+PiAgICAgICBib29sIGFsbG93X2ZiX21vZGlmaWVyczsKPiA+Cj4KPiBIaSwKPgo+IGFyZSB0aGVy
+ZSBhbnkgZHJpdmVycyB0aGF0IHdvdWxkIGluZmVyIHRoaXMgaW5mb3JtYXRpb24gYXQKPiBtb2Rl
+c2V0L3BhZ2VmbGlwL2F0b21pYyBpb2N0bCB0aW1lIGluc3RlYWQgb2YgQWRkRkIvQWRkRkIyIHRp
+bWU/CgpDdXJyZW50bHkgbm8sIHRoZSBvbmx5IGRyaXZlciB0aGF0IGluZmVycyBhbnl0aGluZyBm
+b3IgbGVnYWN5IGlzIGk5MTUuClByb3Bvc2VkIGFtZGdwdSBtb2RpZmllciBwYXRjaGVzIGRvbid0
+IHdvcmsgbGlrZSB0aGF0LCBidXQgSSB0aGluayBCYXMKaXMgd29ya2luZyBvbiBhZGRpbmcgdGhl
+IG1vZGlmaWVyIGluZmVyZW5jZSBhdCBhZGRmYiB0aW1lIGZvciBsZWdhY3kKdXNlcnNwYWNlLgoK
+PiBVc2Vyc3BhY2UgbWF5IGJlIGNyZWF0aW5nIHRoZSBGQiBvbmNlIHBlciBidWZmZXIgYW5kIGtl
+ZXAgcmUtdXNpbmcKPiB0aGF0IG92ZXIgc2V2ZXJhbCByZW5kZXIvZGlzcGxheSBjeWNsZXMuIElm
+IGEgZHJpdmVyIHdhcyBjaGFuZ2luZyB0aGUKPiAiZWZmZWN0aXZlIG1vZGlmaWVycyIgZHluYW1p
+Y2FsbHksIHVzZXJzcGFjZSBjb3VsZCBicmVhay4KClllYWggdGhpcyBpcyB3aHkgSSB3YW50IHRv
+IGxvY2sgdGhpcyBhbGwgZG93biwgc2luY2UgZWZmZWN0aXZlCm1vZGlmaWVycyB0aGF0IGNoYW5n
+ZSBmb3IgYSBkcm1fZmIgb2JqZWN0IHdoaWNoIGlzIHN1cHBvc2VkIHRvIGhhdmUKYWxsIGludmFy
+aWFudCBtZXRhZGF0YSBqdXN0IGlzbid0IGdyZWF0IHVhcGkuCi1EYW5pZWwKCj4KPgo+IFRoYW5r
+cywKPiBwcQoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29y
+cG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
