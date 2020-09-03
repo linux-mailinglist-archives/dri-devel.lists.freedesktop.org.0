@@ -2,78 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C52725BFED
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 13:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569A125C019
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 13:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 610A76E1BE;
-	Thu,  3 Sep 2020 11:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5AC6E9A7;
+	Thu,  3 Sep 2020 11:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C02F6E1C0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 11:12:39 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC106E9A7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 11:23:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599131558;
+ s=mimecast20190719; t=1599132228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=efREBgpIuAxc+bnBJ5R3S/pFsZS/Ey21En4F0jCEO9A=;
- b=amK9U2EPOmKWszV5JlhjqcikvtYYztT+vE283iaLSpxyVsCWdq/CTOwmlot/RUXOnPkpPX
- kEpLO+5dBaoKiTzN9xgKFVdfu30xDvN/Dp9zHZxR5oYvApcWH4mD8+aiw3NuvRUBjoixQJ
- mwGw8/IDCeg4ZzHZU6nk45OICzGr+yM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-X0fj6irdOoGfbN5_YFBfsg-1; Thu, 03 Sep 2020 07:12:34 -0400
-X-MC-Unique: X0fj6irdOoGfbN5_YFBfsg-1
-Received: by mail-ej1-f69.google.com with SMTP id ml20so1040860ejb.23
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 04:12:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=efREBgpIuAxc+bnBJ5R3S/pFsZS/Ey21En4F0jCEO9A=;
- b=esYGQTjGW6Vn95VhA8/lDSw8qjyFEehPktUMFtJ6eGccxT9ueREvlAqtmcaEWvpXZX
- iw2BnXUfasebZtavrw2rXFaWZqh1NJxzWnJS4BlwZp5UnB0/AUL8/dF1qsMQxpfGpEe7
- wBlTQTGJHJpB8/nE8GKDe4WC/ML7Xx1FXKnqtcoV5d59cp4+iZKroiIpJcJbOyBJRXMa
- 6CEpuUIEujNG1qVQeVoRGpawAZlEJfW5go/dCAC5WVNJSBZiYkW2SHd00C/6wPwLrU29
- je0kOSUD9S/dY2JeY5ww+6LtgClGU7WsHD1HJFeW8+fzkeZIOH8GtWMdcD2mKV43stCl
- Bnug==
-X-Gm-Message-State: AOAM531k+gJy8PLNWRPqIBslPvIgWrwYmAQKfVTrs++nnq5F0fcmWIkX
- 494kqDuf4ETJkyXqAqXy55neW6YF016QIJy0vSQy2FnmKG3x64x64pUss/Pin4gwjU63jwthtj9
- +NfgGo/68JmFb0wiJGoGHr8I26k10
-X-Received: by 2002:a17:906:c7da:: with SMTP id
- dc26mr1490817ejb.491.1599131553522; 
- Thu, 03 Sep 2020 04:12:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwz45IHe95vEABByf1/DSG38NFHvqU3XHec96U37Ufe0eGhD/vOjFiqWQ2lkLsAJDGyIGIi4Q==
-X-Received: by 2002:a17:906:c7da:: with SMTP id
- dc26mr1490775ejb.491.1599131553140; 
- Thu, 03 Sep 2020 04:12:33 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id r16sm2909233ejb.110.2020.09.03.04.12.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 04:12:32 -0700 (PDT)
-Subject: Re: [PATCH v9 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on
- existing hardware state
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20200903105114.9969-1-hdegoede@redhat.com>
- <20200903105114.9969-7-hdegoede@redhat.com> <20200903105909.GA3756465@ulmo>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=f9531/S5hjfYNJ4DKbRABJsPBCK3YC+tnLn6QLf6Uew=;
+ b=BCw4tLe94VusPJFGdHePtMhh1/cZI4pAJfq85kbMU5lwyNeQqLbQNHd5rvOCSEjzxwcZsy
+ mCQJ+KlkxU3/OZK1eVtLVi1EkCG9No8OjQeWTyayHAtwdg9Jmm/ciMY++1rIRTT0n/6di9
+ 5GR2q8XG1svgsOLdRPXUTOYsn7YNxrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-3_erkd7tMTaMtG1VOa_j3w-1; Thu, 03 Sep 2020 07:23:44 -0400
+X-MC-Unique: 3_erkd7tMTaMtG1VOa_j3w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DE5B10ABDB1;
+ Thu,  3 Sep 2020 11:23:42 +0000 (UTC)
+Received: from x1.localdomain (ovpn-113-3.ams2.redhat.com [10.36.113.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4F0F5C1C2;
+ Thu,  3 Sep 2020 11:23:38 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <e342aee0-c7a6-62db-e4b7-9d72554fd55c@redhat.com>
-Date: Thu, 3 Sep 2020 13:12:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
+Subject: [PATCH v10 00/17] acpi/pwm/i915: Convert pwm-crc and i915 driver's
+ PWM code to use the atomic PWM API
+Date: Thu,  3 Sep 2020 13:23:20 +0200
+Message-Id: <20200903112337.4113-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200903105909.GA3756465@ulmo>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,86 +61,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi All,
 
-On 9/3/20 12:59 PM, Thierry Reding wrote:
-> On Thu, Sep 03, 2020 at 12:51:03PM +0200, Hans de Goede wrote:
->> Before this commit pwm_lpss_apply() was making 2 assuming
->> 2 pre-conditions were met by the existing hardware state:
-> 
-> I think that "making 2" is too much.
+Here is hopefully the last version of this series, as everything seems
+to be ready for merging this now.
 
-You're right at first the sentence had something about making
-2 assumptions, then I added pre-conditions in there for it
-to better describe the problem...
+The only difference from v9 is correcting some mistakes in the commit-msg of:
+[PATCH v10 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on hardware state
 
->> 1. That the base-unit and on-time-div read back from the
->> control register are those actually in use, so that it
->> can skip setting the update bit if the read-back value
->> matches the desired values.
->>
->> 2. That the controller is enabled when the cached
->> pwm_state.enabled says that the controller is enabled.
->>
->> As the long history of fixes for subtle (often suspend/resume)
->> lpss-pwm issues shows, this assumptions are not necessary
->> always true.
->>
->> 1. Specifically is not true on some (*) Cherry Trail devices
->> with a nasty GFX0._PS3 method which: a. saves the ctrl reg value.
->> b. sets the base-unit to 0 and writes the update bit to apply/commit
->> c. restores the original ctrl value without setting the update bit,
->> so that the 0 base-unit value is still in use.
->>
->> 2. Assumption 2. currently is true, but only because of the code which
->> saves/restores the state on suspend/resume. By convention restoring the
->> PWM state should be done by the PWM consumer and the presence of this
->> code in the pmw-lpss driver is a bug. Therefor the save/restore code will
->> be dropped in the next patch in this series, after which this assumption
->> also is no longer true.
->>
->> This commit changes the pwm_lpss_apply() to make any assumptions about the
-> 
-> Did you mean to say "... to _not_ make any assumptions ..."?
+I plan is to push the entire series to drm-intel-next-queued
+(because of interdependencies) once the series has passed CI.
 
-Yes, oops. That is a small but important difference.
+This series has been tested (and re-tested after adding various bug-fixes)
+extensively. It has been tested on the following devices:
 
-I'll do a v10 with your 2 Acked-by's added and both commit msg issues fixed.
-
-Hopefully that will be the last version.
-
->> state the hardware is in. Instead it makes pwm_lpss_apply() always fully
->> program the PWM controller, making it much less fragile.
->>
->> *) Seen on the Acer One 10 S1003, Lenovo Ideapad Miix 310 and 320 models
->> and various Medion models.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/pwm/pwm-lpss.c | 21 +++++++++------------
->>   1 file changed, 9 insertions(+), 12 deletions(-)
-> 
-> Other than the two small nits, this looks much more idiomatic and true
-> to the atomic API, so:
-> 
-> Acked-by: Thierry Reding <thierry.reding@gmail.com>
-
-Thank you.
+-Asus T100TA  BYT + CRC-PMIC PWM
+-Toshiba WT8-A  BYT + CRC-PMIC PWM
+-Thundersoft TS178  BYT + CRC-PMIC PWM, inverse PWM
+-Asus T100HA  CHT + CRC-PMIC PWM
+-Terra Pad 1061  BYT + LPSS PWM
+-Trekstor Twin 10.1  BYT + LPSS PWM
+-Asus T101HA  CHT + LPSS PWM
+-GPD Pocket  CHT + LPSS PWM
+-Acer One S1003  CHT + LPSS PWM
 
 Regards,
 
 Hans
+
+
+Changelog:
+
+Changes in v10:
+- Fixup the commit msg of:
+  [PATCH v10 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on hardware state
+
+Changes in v9:
+- Replace:
+  [PATCH v8 06/17] pwm: lpss: Use pwm_lpss_restore() when restoring state on resume
+  [PATCH v8 07/17] pwm: lpss: Always update state and set update bit
+  with:
+  [PATCH v9 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on hardware state
+  [PATCH v9 07/17] pwm: lpss: Remove suspend/resume handlers
+
+Changes in v8:
+- Add a new patch dealing with the ACPI/DSDT GFX0._PS3 code poking the PWM controller
+  in unexpected ways on some Cherry Trail devices
+
+Changes in v7:
+- Fix a u64 divide leading to undefined reference to `__udivdi3' errors on 32 bit
+  platforms by casting the divisor to an unsigned long
+
+Changes in v6:
+- Rebase on v5.9-rc1
+- Adjust pwm-crc patches for pwm_state.period and .duty_cycle now being u64
+
+Changes in v5:
+- Dropped the "pwm: lpss: Correct get_state result for base_unit == 0"
+  patch. The base_unit == 0 condition should never happen and sofar it is
+  unclear what the proper behavior / correct values to store in the
+  pwm_state should be when this does happen.  Since this patch was added as
+  an extra pwm-lpss fix in v4 of this patch-set and otherwise is orthogonal
+  to the of this patch-set just drop it (again).
+- "[PATCH 04/16] pwm: lpss: Add range limit check for the base_unit register value"
+  - Use clamp_val(... instead of clam_t(unsigned long long, ...
+- "[PATCH 05/16] pwm: lpss: Add pwm_lpss_prepare_enable() helper"
+  - This is a new patch in v5 of this patchset
+- [PATCH 06/16] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume
+  - Use the new pwm_lpss_prepare_enable() helper
+
+Changes in v4:
+- "[PATCH v4 06/16] pwm: lpss: Correct get_state result for base_unit == 0"
+  - This is a new patch in v4 of this patchset
+- "[PATCH v4 12/16] pwm: crc: Implement get_state() method"
+  - Use DIV_ROUND_UP when calculating the period and duty_cycle values
+- "[PATCH v4 16/16] drm/i915: panel: Use atomic PWM API for devs with an external PWM controller"
+  - Add a note to the commit message about the changes in pwm_disable_backlight()
+  - Use the pwm_set/get_relative_duty_cycle() helpers
+
+Changes in v3:
+- "[PATCH v3 04/15] pwm: lpss: Add range limit check for the base_unit register value"
+  - Use base_unit_range - 1 as maximum value for the clamp()
+- "[PATCH v3 05/15] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume"
+  - This replaces the "pwm: lpss: Set SW_UPDATE bit when enabling the PWM"
+    patch from previous versions of this patch-set, which really was a hack
+    working around the resume issue which this patch fixes properly.
+- PATCH v3 6 - 11 pwm-crc changes:
+  - Various small changes resulting from the reviews by Andy and Uwe,
+    including some refactoring of the patches to reduce the amount of churn
+    in the patch-set
+
+Changes in v2:
+- Fix coverletter subject
+- Drop accidentally included debugging patch
+- "[PATCH v3 02/15] ACPI / LPSS: Save Cherry Trail PWM ctx registers only once (
+  - Move #define LPSS_SAVE_CTX_ONCE define to group it with LPSS_SAVE_CTX
 
 _______________________________________________
 dri-devel mailing list
