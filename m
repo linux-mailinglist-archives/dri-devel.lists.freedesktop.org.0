@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A3125D22D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDD425D22F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C142B6EB14;
-	Fri,  4 Sep 2020 07:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5E76EB17;
+	Fri,  4 Sep 2020 07:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEBD06E5A0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 292C56E5A2
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:30 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 82DCCC8A;
- Thu,  3 Sep 2020 04:03:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:28 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 01D019AD;
+ Thu,  3 Sep 2020 04:03:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=R7gde/JmokMBO
- gfgWZpXaMXBU7tMPOuvSM4JJSMjk5s=; b=e9xFqgaag0gE4xZ0sr15PhueYinnF
- 9qob3x43AUA9pUnDELCC0bXsQlTeIevTeDQ2tJOdV3d2IQE7VdTByoiLfQhqjIlA
- vdV/e3DWjTiWw7qGdccRNkg4IQOcifA7rBuwNMypypnUp8z9gj+Qrl0dPBFr8RJl
- sCuQ59idHWpKg5fO7Qo1/BOa6O550zmPoxD6BKxc0S4JQXpAdAgkAIFZ9PEEnmGp
- H5IF6Uqp51tug/6SsKnwJ1mC2umCLhm3KrbZbKZvs+LSt2I071a+7IJICr8OMNS0
- wgQpvKbLCbO//fSkQQWomUp3RP8puN2XzwV9OIqQTFwlTnlAGf7ghcDEA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=pOGzLVEuzsJo4
+ BRxTYkWGEocNeDkEQ3wi9L6w6WK6HE=; b=f7tEqGq1Hq5wSt2YwMdI+T388vyLq
+ z24TM5xAT21g6us4fUx96nLQkY9RntIwzTrE6/Yc+lAy7Km3B+9H6usdep8kGSG2
+ 0y7BCMZLbUzd8yBuBobcCRH+kmEyUlSazcDHCKr39tfN+W2KBpIRL3tzE0IVL4yF
+ ow7qjhdSNo3BxSFVvudxrQcit297Ef/8arbF+4GoZepAX8mMYkBrumrECAG80pVc
+ tTCp+VYbhCoWMrVUTNtktQisSgGw+c2hsqEEGP51NK3G8nuHRxjCX4kx5x0wXjp0
+ tCb6Fh/xyQUDX5zbRX5bvZiWvoBwnP98eYnoLva7BS8eIvlYV7jBYQsDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=R7gde/JmokMBOgfgWZpXaMXBU7tMPOuvSM4JJSMjk5s=; b=LH8IJN6w
- OpOjXtkOAVpr4imWz3ZMAvOXKKiG7tZObi4J4icxZzg1GdNFj9sGZamt6jqZq04U
- hbAKxNVrgdgy9KTps5z62dVjwHGjYTgpnWb+nGRD/lNPNKncyB8mcCCieo6oF/G8
- OP3ocNX/eem359xQhCUY11K6CegOzvJ4KIjykqDT86G0lKsqwLk4QOw4vzaOGW1o
- jn1OOXtthDnU0R/nbf12HmLbFlbIQBK9e3ViVgeqkB9w/KdyUIHfIczJr896vaRU
- dY5dqjqXlJ6RaggWGwd3H5BQARj5awYut/6FM0MUtXIQFPk9ET0o5LWQWfPukdIT
- qhUaLheCYottWQ==
-X-ME-Sender: <xms:T6NQX18NWETovjBvqNI4arQRRsV1TNtY_IpqafVeXCn3YCDeNk0z9g>
- <xme:T6NQX5snCzOBzNVuvdXIKEYLkEgxRtd8LKVPVCV2-Tppg-BIGo83HZkQleThcAhFR
- 2-4jxgsUhJ_wePefhI>
+ fm3; bh=pOGzLVEuzsJo4BRxTYkWGEocNeDkEQ3wi9L6w6WK6HE=; b=Qf6+Pq2Y
+ ipCAmNEKv1OlgrXwHNj/9Zg1Zbz6fsNvN8cGQ1cZzM/BDkpgR5g/aUZ1ffBTprBL
+ H+WXTDOb0h6IO8KufQaVykhb/+YJNb6i0ZiG2qiFtwWHX77sikficBfw9F75NoY6
+ godw94WQY/qJSYWDLDCaimEMijyhJo9U27XZyQuTtf8rKTcFC6V9i445FGFqr9Rd
+ oR3YlfFsKpvt5/uSfT75yF2xS/7zLNPVDLhKxwsNDyhQijY8cJBUHknjuGUFI55H
+ W0CmC9dAkTE71vRi8Al8W1vhFTuYpFDrGNkQMoYIic1D5sWiEEWZelw9r2XOHaFs
+ ZHTTbmi5mxLGSw==
+X-ME-Sender: <xms:UKNQXzRHJ1iey9kHIlUV86-Fb1n_U2Rc75bBLRIbU5TVuU159Uupnw>
+ <xme:UKNQX0wlmNa-rsqyqYB6wfYOczp7kxygF9Qb1S9SHMKv05Tk-w0iLUmvmR_c_ppzE
+ mG1WOQ3iwrPQ9waAwI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -49,21 +49,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetgg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
  heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeeivd
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:T6NQXzB3maWgqL6D01aKxniMipI8ATtrUs1e5derygDF_gb1zttWmg>
- <xmx:T6NQX5dLkCjo91H2F6zjljtUL4-95b7rEAJqPWaC73Rh30SUqkRXGw>
- <xmx:T6NQX6Od0cY_-sqAWjGwtmlDSVgjY6JyId1F9ufAEoNjPcFwBBzH2w>
- <xmx:T6NQX7nfmSN3XNDFUw3ydAtlOqeL4GYVNmbm7JujO9bYJ3nTRHm3AASkKfo>
+X-ME-Proxy: <xmx:UKNQX42BulGOMH7Ii5yGwqplYhW_T4uGX8l8_2glT2n3ZJOW0ta74w>
+ <xmx:UKNQXzBDrVXy2tfSyXWfxRekJDz1lT0m_f3zg5FHIU3cFsk25B9CoA>
+ <xmx:UKNQX8h_pvF7hY-Yq6qCmsdjhQFdCDffF6a3ZwpLOdR7Q8xJ6_do3A>
+ <xmx:UKNQX7rZbO2RLScze96ctq92w6Dbv8XdqC0rWBHpnorSbNI2RYV4VNua5-o>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B12CB328005A;
- Thu,  3 Sep 2020 04:03:26 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 32B1E306005B;
+ Thu,  3 Sep 2020 04:03:28 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 66/80] drm/vc4: hdmi: Reset audio infoframe on
- encoder_enable if previously streaming
-Date: Thu,  3 Sep 2020 10:01:38 +0200
-Message-Id: <cd579ccc2c9b9d2fce0ebaf32f847cedb0e4a7a2.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 67/80] drm/vc4: hdmi: Set the b-frame marker to the match
+ ALSA's default.
+Date: Thu,  3 Sep 2020 10:01:39 +0200
+Message-Id: <d0b126deb228baf1244c91e02ac0a8f7c9c60dc5.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -95,10 +95,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-If the encoder is disabled and re-enabled (eg mode change) all infoframes
-are reset, whilst the audio subsystem know nothing about this change.
-The driver therefore needs to reinstate the audio infoframe for
-itself.
+ALSA's iec958 plugin by default sets the block start preamble
+to 8, whilst this driver was programming the hardware to expect
+0xF.
+Amend the hardware config to match ALSA.
 
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
 Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
@@ -106,69 +106,26 @@ Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.h |  2 ++
- 2 files changed, 14 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 53c3b5ae1179..43e59466b1d8 100644
+index 43e59466b1d8..d8137b838326 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -308,8 +308,16 @@ static void vc4_hdmi_set_audio_infoframe(struct drm_encoder *encoder)
+@@ -754,10 +754,11 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
  
- static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
- {
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+
- 	vc4_hdmi_set_avi_infoframe(encoder);
- 	vc4_hdmi_set_spd_infoframe(encoder);
-+	/*
-+	 * If audio was streaming, then we need to reenabled the audio
-+	 * infoframe here during encoder_enable.
-+	 */
-+	if (vc4_hdmi->audio.streaming)
-+		vc4_hdmi_set_audio_infoframe(encoder);
- }
+ 	vc4_hdmi_audio_set_mai_clock(vc4_hdmi);
  
- static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
-@@ -694,6 +702,7 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
- 	struct device *dev = &vc4_hdmi->pdev->dev;
- 	int ret;
++	/* The B frame identifier should match the value used by alsa-lib (8) */
+ 	audio_packet_config =
+ 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_SAMPLE_FLAT |
+ 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_INACTIVE_CHANNELS |
+-		VC4_SET_FIELD(0xf, VC4_HDMI_AUDIO_PACKET_B_FRAME_IDENTIFIER);
++		VC4_SET_FIELD(0x8, VC4_HDMI_AUDIO_PACKET_B_FRAME_IDENTIFIER);
  
-+	vc4_hdmi->audio.streaming = false;
- 	ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO);
- 	if (ret)
- 		dev_err(dev, "Failed to stop audio infoframe: %d\n", ret);
-@@ -797,6 +806,7 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		vc4_hdmi_set_audio_infoframe(encoder);
-+		vc4_hdmi->audio.streaming = true;
- 
- 		if (vc4_hdmi->variant->phy_rng_enable)
- 			vc4_hdmi->variant->phy_rng_enable(vc4_hdmi);
-@@ -815,6 +825,8 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
- 		if (vc4_hdmi->variant->phy_rng_disable)
- 			vc4_hdmi->variant->phy_rng_disable(vc4_hdmi);
- 
-+		vc4_hdmi->audio.streaming = false;
-+
- 		break;
- 	default:
- 		break;
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 342f6e0227a2..77d47d1707ce 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -85,6 +85,8 @@ struct vc4_hdmi_audio {
- 	int channels;
- 	struct snd_dmaengine_dai_dma_data dma_data;
- 	struct snd_pcm_substream *substream;
-+
-+	bool streaming;
- };
- 
- /* General HDMI hardware state. */
+ 	channel_mask = GENMASK(vc4_hdmi->audio.channels - 1, 0);
+ 	audio_packet_config |= VC4_SET_FIELD(channel_mask,
 -- 
 git-series 0.9.1
 _______________________________________________
