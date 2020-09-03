@@ -1,89 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CED825B87B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 03:57:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B51C25B8D5
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 04:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D92576E123;
-	Thu,  3 Sep 2020 01:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E45036E13A;
+	Thu,  3 Sep 2020 02:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760088.outbound.protection.outlook.com [40.107.76.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CACA56E123;
- Thu,  3 Sep 2020 01:57:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fyUUpxlaZcOYSUQ1nYLj6N0qulsee5UUycDed/0s0M0v28KSL6aa4v694cuK3+B3N0xd+bnmqQFEwFp/T50CNzE8AFNr7Lp7HBjz9FYnfh8KweYsSHd6TMJeByLkV9+6Zr+CqN0POyq+SQisHo91xf7DDTcDH6/UV1Ex4f3sjNvi8lbeTd6KipsNigfbnSKJiz21nwnDzePlYnuMUUHjaBumEIjZHUGllyGbSwSVy52sMaF9sgSRQ/eb40TRmBJ2hT70gLWUS9XEh/cT14LB0c3o1xNzqkNm+BUQY1G8s4BLqLDefit5USBdylYiHARvGrhddG9RE6EbQ6Y+Do1tVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvaYzbaBE9vwNRkJKU6SlHUC+nthThR9CxLGadvogFk=;
- b=n0R6iTvWO46Ari46nS5ZO0WUclMpsz6ivRJgNaxEfHez4RSnDNd6Lm0snQKyJbUBsF+GgNRiejx2BCnB2SSaJ+od6jhxDu0p0CtxCgo4RgJ7/qHDXvP0R5+p2T1LYsFfrytlBpCxU4YKaBx2XQw9M05Uv0ldJsqZW0S+dI3HJO0DRXpJFH5DwPR8tWIfoXFKbQr2C4nauE8P+dqxIsNAvC3N/YopYhjaI/QymC3hg1oICMSGbgTmngKp/UT8rvFzukrDCYwXPEnJ/qXUmv9AFR28ZY6mUc/HWzlo9nNf0ohLpz0bUEtehlasPWQ1peWQ2YqAIfBQnMP4l4WkCHKzZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvaYzbaBE9vwNRkJKU6SlHUC+nthThR9CxLGadvogFk=;
- b=C64EfHL8nQmDCUBisPV9yQzO2JBtuC330YH6OL5137sLiXURP+RJcXA4Hv9L9KA8LO48ffIG0nxdBSSGMoSm2np6Z7JnA5Nxd9p/bToMot7SVyMzFP73oj+WWsJb+MF+deiLdgHQvMfvO2htTzb54g4SBvAtLgfQIvRIXIzIfu8=
-Received: from SN1PR12MB2558.namprd12.prod.outlook.com (2603:10b6:802:2b::18)
- by SN1PR12MB2528.namprd12.prod.outlook.com (2603:10b6:802:28::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.25; Thu, 3 Sep
- 2020 01:57:49 +0000
-Received: from SN1PR12MB2558.namprd12.prod.outlook.com
- ([fe80::c8c0:9bc9:57ed:cb03]) by SN1PR12MB2558.namprd12.prod.outlook.com
- ([fe80::c8c0:9bc9:57ed:cb03%3]) with mapi id 15.20.3326.025; Thu, 3 Sep 2020
- 01:57:49 +0000
-From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-To: "Tuikov, Luben" <Luben.Tuikov@amd.com>
-Subject: Re: [PATCH 0/3] Use implicit kref infra
-Thread-Topic: [PATCH 0/3] Use implicit kref infra
-Thread-Index: AQHWgMVm4VmjNCzrokOopbrU1yOKNqlVGRKA//+cnQCAAA/YAIAAqdsAgAC6UgA=
-Date: Thu, 3 Sep 2020 01:57:49 +0000
-Message-ID: <62D3D253-582A-491E-A3D6-C0CE25524DC9@amd.com>
-References: <20200902010645.26943-1-luben.tuikov@amd.com>
- <BDD53312-3A34-4761-A7C3-6FDFE66A6C1F@amd.com>
- <e6916b3b-60cd-e223-4f87-478aab3b2468@amd.com>
- <62D0EAA9-E3AD-4FA7-AC24-9F5F9C594EB2@amd.com>
- <0f336bb9-5d78-30ed-d217-c5905d1dc08a@amd.com>
-In-Reply-To: <0f336bb9-5d78-30ed-d217-c5905d1dc08a@amd.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [183.192.234.8]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 780f352f-cbfc-4f38-d298-08d84facc2b0
-x-ms-traffictypediagnostic: SN1PR12MB2528:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN1PR12MB25284045B1E374EFB7303435872C0@SN1PR12MB2528.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: WsnuNLlZVDLXVOGiMUFUaCKp+JBRVmo4kERCQazJbyPcgtmWczmhUM1egfYYW70R6vskvriiVRGAe56e3q0OdVXVjClACkUekIu7kTSaAj8E47jl9w4iYkCPGQDDhsqpmsvOkUXKiY24OBu58CuYE3Oo5JYJlVoXtyGxVKfhiIC5VuH0ctvGeHAjinGiq5aWAqJLbQIarojoPQif/VH/1QPdolxBfewqQcRWE24fhYZcHrRvox1c7hAWMC7UifnNoluvoXYjyZLM7IftcGFI6kabhMtcO1QDBYFLdSK++h7q+9FvJL1Wq7z/HhCDLtigAh/gXyZsC0V/s6gZdmpixQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2558.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39850400004)(136003)(376002)(346002)(66946007)(6512007)(71200400001)(83380400001)(66476007)(64756008)(186003)(33656002)(26005)(66556008)(66446008)(2906002)(6486002)(54906003)(37006003)(8936002)(4326008)(6636002)(316002)(30864003)(6862004)(5660300002)(53546011)(76116006)(8676002)(36756003)(86362001)(2616005)(91956017)(478600001)(6506007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: OpAU42nkN1E5kL9mkNddFBQB9GWuMQdvnwd7TzE0GlnnKSw0o18PoS1ZLWUCTTvoZWQNp6jaXBBNawte7IxgMi7l5Ka5s2PO29ALba8buOfw2E2PhrQZF+7LAisYEzBIVODzNOnavx7APYFwaiLFNUSp8zh+RGsUPBFSXgWNBGqIjJ1Mlfbp/prvsW9C5Wy8wh0T9xHhx1q5TXnfZ0r5QJVb6mTzqQA/2/scdEYqoPgsZBc/gtY0xlmYyCnpdP3umE+iYHBiDNooYz+Aclydc1THzb+Vz4Hezhid9J2w4i77/FnKCM8BrxCIjZxNU0UYVg9FYjaH6od8ifviLKicxvw3W8GaNrEBx3iROLL88447OGUksEIm0+HpEDI7oqwF1SltYx4BPrzgEWKEK8COmrlVEBuX6M+2JF1LeEBV47qkcx0+gdOpYsVjJxO4HbQiKmO95JbncHZZKcPK7D7wxfumdYxlQw+2HYnlChWJ+6+WuQJjQH6bucHZjKgluXu9tcisXqi9+8OSu03MOsonUhrZX/6xIJlVd98pI2B64Y7ju8OQqmMDKGJNnM6LjX07G4ZpqrZaUuq3PJTEBnUDSvQKHBFZjzjI+v1VP8EKUjexYgKtMYuuZ280BnZlQGlRLmUIywAjuRt2Z/i9l1WBLQ==
-Content-ID: <C1C7F16F3CAB32469C9E68E936E4E672@namprd12.prod.outlook.com>
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C228A6E09C;
+ Thu,  3 Sep 2020 02:43:19 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id g29so887877pgl.2;
+ Wed, 02 Sep 2020 19:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/uzFZds36rw0JeEsWuEjPbkSwSL2t87mwsmXA8l/SvE=;
+ b=UStrrACjnYfrZEA7cEeZK/lTIJWz/NKQn3xEQ3VRAK/iedWkY4zw5ZqgXbQKV9tZQa
+ 7mF8QoRypny5xVXxcdm/a/nc0123HFW/5jytJtkn5zuSlXqv3m/h6db8Yy+rozhcRGGL
+ DqzksqilS71GS4KvF6lvJzi5WNbqOSPoQqnHU64th9S2/15g3ZJPHi/2r1QTweusLmZf
+ sqm0Gt2Ha4hAYRLRU6VwZv86AO/5VWFeLKiylWAY+PiQlG1I79eXMVWHYAz6j0g/PS2B
+ JoBlHokqquBszX2C6xC4G4CSq43OAEAAc07ZO6LLRdaFp0YtF15ts+LJDGLbomFYODsb
+ 2zbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/uzFZds36rw0JeEsWuEjPbkSwSL2t87mwsmXA8l/SvE=;
+ b=DsCLWSuqQvm6uwTzErQZ6HkmwOpVoNJa/ZBcwMxa+/oZsQtOhtsuImOFrb4XrYxxD3
+ CjFl6BfpNn7MkfAibBW3Ff/oVVB+ltuuTLrrCZGvm+frfJ5Yro8n0hE9jbrjTJnhb4MI
+ LpTLaiOjqkAeedal2ijSyqyjGHWgTr1m7UoP+l6CCMPYG+B38uphH/o/RKjE7+V2SV3I
+ K92faK2nUN2RG6sdrTk2LIVDTcIYTIqJFbEbzfonzV0xD/+ttrqn0S53xxwJIEZ5S8an
+ UDENpwEHRh46L2AQF4K+72T+fRYBm3gmIFjckMACN7lqtv7uaq4tCiRs588+eSRXyIls
+ oLXQ==
+X-Gm-Message-State: AOAM530/slwEuD1os7D8FihMZSTy+UuCZg1424Q8/vye++FnbirZqJk9
+ VGydmdLhipKb3DMN9aYyMc9wc3y7oSRUpXr8wMg=
+X-Google-Smtp-Source: ABdhPJx9gn/Cy90t2OlVXFwD4WQuF/Mo/GDT/oqmWI2S5gNOyBaQhmKVr7Zihj+lf0TRcYmHWos5H5lBVaM0Yc3Rau4=
+X-Received: by 2002:a17:902:7489:b029:d0:4c09:be with SMTP id
+ h9-20020a1709027489b02900d04c0900bemr1444512pll.0.1599100999220; Wed, 02 Sep
+ 2020 19:43:19 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2558.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 780f352f-cbfc-4f38-d298-08d84facc2b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2020 01:57:49.0143 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pUvYPYpyEPepk53dcU6Hgu+Zv8+KjuhY2IpAHSIL2EKfcME1WBEbsqM4R7/ZWoV3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2528
+References: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
+ <20200804213119.25091-9-bas@basnieuwenhuizen.nl>
+ <CAAxE2A7SmOvYQggfcN0A=DUMMNSeYqiKo6iLJs2ai76RupQYKQ@mail.gmail.com>
+ <CAP+8YyE82tgHMq7o0HdcfS6Vryfg=BwFxbtTRXqK6Wtp3Q3XJA@mail.gmail.com>
+In-Reply-To: <CAP+8YyE82tgHMq7o0HdcfS6Vryfg=BwFxbtTRXqK6Wtp3Q3XJA@mail.gmail.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Wed, 2 Sep 2020 22:42:42 -0400
+Message-ID: <CAAxE2A4E_jhq9_q5q6u0ok38=Dmft7HqLFuqHws-TrMVTp2J2Q@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/amd/display: Expose modifiers.
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,226 +64,1078 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0124836693=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gMjAyMOW5tDnmnIgy5pelIDIyOjUw77yMVHVpa292LCBMdWJlbiA8THViZW4uVHVpa292
-QGFtZC5jb20+IOWGmemBk++8mg0KPiANCj4gT24gMjAyMC0wOS0wMiAwMDo0MywgUGFuLCBYaW5o
-dWkgd3JvdGU6DQo+PiANCj4+IA0KPj4+IDIwMjDlubQ55pyIMuaXpSAxMTo0Nu+8jFR1aWtvdiwg
-THViZW4gPEx1YmVuLlR1aWtvdkBhbWQuY29tPiDlhpnpgZPvvJoNCj4+PiANCj4+PiBPbiAyMDIw
-LTA5LTAxIDIxOjQyLCBQYW4sIFhpbmh1aSB3cm90ZToNCj4+Pj4gSWYgeW91IHRha2UgYSBsb29r
-IGF0IHRoZSBiZWxvdyBmdW5jdGlvbiwgeW91IHNob3VsZCBub3QgdXNlIGRyaXZlcidzIHJlbGVh
-c2UgdG8gZnJlZSBhZGV2LiBBcyBkZXYgaXMgZW1iZWRkZWQgaW4gYWRldi4NCj4+PiANCj4+PiBE
-byB5b3UgbWVhbiAibG9vayBhdCB0aGUgZnVuY3Rpb24gYmVsb3ciLCB1c2luZyAiYmVsb3ciIGFz
-IGFuIGFkdmVyYj8NCj4+PiAiYmVsb3ciIGlzIG5vdCBhbiBhZGplY3RpdmUuDQo+Pj4gDQo+Pj4g
-SSBrbm93IGRldiBpcyBlbWJlZGRlZCBpbiBhZGV2LS1JIGRpZCB0aGF0IHBhdGNoc2V0Lg0KPj4+
-IA0KPj4+PiANCj4+Pj4gODA5IHN0YXRpYyB2b2lkIGRybV9kZXZfcmVsZWFzZShzdHJ1Y3Qga3Jl
-ZiAqcmVmKQ0KPj4+PiA4MTAgew0KPj4+PiA4MTEgICAgICAgICBzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2ID0gY29udGFpbmVyX29mKHJlZiwgc3RydWN0IGRybV9kZXZpY2UsIHJlZik7DQo+Pj4+IDgx
-MiAgICAgICAgDQo+Pj4+IDgxMyAgICAgICAgIGlmIChkZXYtPmRyaXZlci0+cmVsZWFzZSkNCj4+
-Pj4gODE0ICAgICAgICAgICAgICAgICBkZXYtPmRyaXZlci0+cmVsZWFzZShkZXYpOw0KPj4+PiA4
-MTUgDQo+Pj4+IDgxNiAgICAgICAgIGRybV9tYW5hZ2VkX3JlbGVhc2UoZGV2KTsNCj4+Pj4gODE3
-IA0KPj4+PiA4MTggICAgICAgICBrZnJlZShkZXYtPm1hbmFnZWQuZmluYWxfa2ZyZWUpOw0KPj4+
-PiA4MTkgfQ0KPj4+IA0KPj4+IFRoYXQncyBzaW1wbGUtLXRoaXMgY29tZXMgZnJvbSBjaGFuZ2Ug
-YzY2MDNjNzQwZTBlMw0KPj4+IGFuZCBpdCBzaG91bGQgYmUgcmV2ZXJ0ZWQuIFNpbXBsZSBhcyB0
-aGF0Lg0KPj4+IA0KPj4+IFRoZSB2ZXJzaW9uIGJlZm9yZSB0aGlzIGNoYW5nZSB3YXMgYWJzb2x1
-dGVseSBjb3JyZWN0Og0KPj4+IA0KPj4+IHN0YXRpYyB2b2lkIGRybV9kZXZfcmVsZWFzZShzdHJ1
-Y3Qga3JlZiAqcmVmKQ0KPj4+IHsNCj4+PiAJaWYgKGRldi0+ZHJpdmVyLT5yZWxlYXNlKQ0KPj4+
-IAkJZGV2LT5kcml2ZXItPnJlbGVhc2UoZGV2KTsNCj4+PiAJZWxzZQ0KPj4+IAkJZHJtX2Rldl9m
-aW5pKGRldik7DQo+Pj4gfQ0KPj4+IA0KPj4+IE1lYW5pbmcsICJ0aGUga3JlZiBpcyBub3cgMCIt
-LT4gaWYgdGhlIGRyaXZlcg0KPj4+IGhhcyBhIHJlbGVhc2UsIGNhbGwgaXQsIGVsc2UgdXNlIG91
-ciBvd24uDQo+Pj4gQnV0IG5vdGUgdGhhdCBub3RoaW5nIGNhbiBiZSBhc3N1bWVkIGFmdGVyIHRo
-aXMgcG9pbnQsDQo+Pj4gYWJvdXQgdGhlIGV4aXN0ZW5jZSBvZiAiZGV2Ii4NCj4+PiANCj4+PiBJ
-dCBpcyBleGFjdGx5IGJlY2F1c2Ugc3RydWN0IGRybV9kZXZpY2UgaXMgc3RhdGljYWxseQ0KPj4+
-IGVtYmVkZGVkIGludG8gYSBjb250YWluZXIsIHN0cnVjdCBhbWRncHVfZGV2aWNlLA0KPj4+IHRo
-YXQgdGhpcyBjaGFuZ2UgYWJvdmUgc2hvdWxkIGJlIHJldmVydGVkLg0KPj4+IA0KPj4+IFRoaXMg
-aXMgdmVyeSBzaW1pbGFyIHRvIGhvdyBmb3BzIGhhcyBvcGVuL3JlbGVhc2UNCj4+PiBidXQgbm8g
-Y2xvc2UuIFRoYXQgaXMsIHRoZSAicmVsZWFzZSIgaXMgY2FsbGVkDQo+Pj4gb25seSB3aGVuIHRo
-ZSBsYXN0IGtyZWYgaXMgcmVsZWFzZWQsIGkuZS4gd2hlbg0KPj4+IGtyZWYgZ29lcyBmcm9tIG5v
-bi16ZXJvIHRvIHplcm8uDQo+Pj4gDQo+Pj4gVGhpcyB1c2VzIHRoZSBrcmVmIGluZnJhc3RydWN0
-dXJlIHdoaWNoIGhhcyBiZWVuDQo+Pj4gYXJvdW5kIGZvciBhYm91dCAyMCB5ZWFycyBpbiB0aGUg
-TGludXgga2VybmVsLg0KPj4+IA0KPj4+IEkgc3VnZ2VzdCByZWFkaW5nIHRoZSBjb21tZW50cw0K
-Pj4+IGluIGRybV9kZXYuYyBtb3N0bHksICJET0M6IGRyaXZlciBpbnN0YW5jZSBvdmVydmlldyIN
-Cj4+PiBzdGFydGluZyBhdCBsaW5lIDI0MCBvbndhcmRzLiBUaGlzIGlzIHJpZ2h0IGFib3ZlDQo+
-Pj4gZHJtX3B1dF9kZXYoKS4gVGhlcmUgaXMgYWN0dWFsbHkgYW4gZXhhbXBsZSBvZiBhIGRyaXZl
-cg0KPj4+IGluIHRoZSBjb21tZW50LiBBbHNvIHRoZSBjb21tZW50IHRvIGRybV9kZXZfaW5pdCgp
-Lg0KPj4+IA0KPj4+IE5vdywgdGFrZSBhIGxvb2sgYXQgdGhpczoNCj4+PiANCj4+PiAvKioNCj4+
-PiAqIGRybV9kZXZfcHV0IC0gRHJvcCByZWZlcmVuY2Ugb2YgYSBEUk0gZGV2aWNlDQo+Pj4gKiBA
-ZGV2OiBkZXZpY2UgdG8gZHJvcCByZWZlcmVuY2Ugb2Ygb3IgTlVMTA0KPj4+ICoNCj4+PiAqIFRo
-aXMgZGVjcmVhc2VzIHRoZSByZWYtY291bnQgb2YgQGRldiBieSBvbmUuIFRoZSBkZXZpY2UgaXMg
-ZGVzdHJveWVkIGlmIHRoZQ0KPj4+ICogcmVmLWNvdW50IGRyb3BzIHRvIHplcm8uDQo+Pj4gKi8N
-Cj4+PiB2b2lkIGRybV9kZXZfcHV0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pj4gew0KPj4+
-ICAgICAgIGlmIChkZXYpDQo+Pj4gICAgICAgICAgICAgICBrcmVmX3B1dCgmZGV2LT5yZWYsIGRy
-bV9kZXZfcmVsZWFzZSk7DQo+Pj4gfQ0KPj4+IEVYUE9SVF9TWU1CT0woZHJtX2Rldl9wdXQpOw0K
-Pj4+IA0KPj4+IFR3byB0aGluZ3M6DQo+Pj4gDQo+Pj4gMS4gSXQgaXMgdXMsIHdobyBremFsbG9j
-IHRoZSBhbWRncHUgZGV2aWNlLCB3aGljaCBjb250YWlucw0KPj4+IHRoZSBkcm1fZGV2aWNlICh5
-b3UnbGwgc2VlIHRoaXMgZGlzY3Vzc2VkIGluIHRoZSByZWFkaW5nDQo+Pj4gbWF0ZXJpYWwgSSBw
-b2ludGVkIHRvIGFib3ZlKS4gV2UgZG8gdGhpcyBiZWNhdXNlIHdlJ3JlDQo+Pj4gcHJvYmluZyB0
-aGUgUENJIGRldmljZSB3aGV0aGVyIHdlJ2xsIHdvcmsgaXQgaXQgb3Igbm90Lg0KPj4+IA0KPj4g
-DQo+PiB0aGF0IGlzIHRydWUuDQo+IA0KPiBPZiBjb3Vyc2UgaXQncyB0cnVlLS1nb29kIG1vcm5p
-bmchDQo+IA0KPj4gTXkgdW5kZXJzdGFuZGluZyBvZiB0aGUgZHJtIGNvcmUgY29kZSBpcyBsaWtl
-IHNvbWV0aGluZyBiZWxvdy4NCj4gDQo+IExldCBtZSBzdG9wIHlvdSByaWdodCB0aGVyZS0tanVz
-dCByZWFkIHRoZSBkb2N1bWVudGF0aW9uIEkgcG9pbnRlZA0KPiB0byB5b3UgYXQuDQo+IA0KPj4g
-c3RydWN0IEIgeyANCj4+IAlzdHJjdXQgQSANCj4+IH0NCj4+IHdlIGluaXRpYWxpemUgQSBmaXJz
-dGx5IGFuZCBpbml0aWFsaXplIEIgaW4gdGhlIGVuZC4gQnV0IGRlc3Ryb3kgQiBmaXJzdGx5IGFu
-ZCBkZXN0b3J5IEEgaW4gdGhlIGVuZC4NCj4gDQo+IE5vIQ0KPiBCLCB3aGljaCBpcyB0aGUgYW1k
-Z3B1X2RldmljZSBzdHJ1Y3QgImV4aXN0cyIgYmVmb3JlIEEsIHdoaWNoIGlzIHRoZSBEUk0gc3Ry
-dWN0Lg0KPiBUaGlzIGlzIHdoeSBEUk0gcmVjb21tZW5kcyB0byBfZW1iZWRfIGl0IGludG8gdGhl
-IGRyaXZlcidzIG93biBkZXZpY2Ugc3RydWN0LA0KPiBhcyB0aGUgZG9jdW1lbnRhdGlvbiBJIHBv
-aW50ZWQgeW91IHRvIGF0Lg0KPiANCkkgdGhpbmsgeW91IGFyZSBtaXNsZWFkaW5nIG1lIGhlcmUu
-ICBBIHBjaSBkZXYgYXMgeW91IHNhaWQgYmVsb3cgY2FuIGFjdCBhcyBtYW55IHJvbGVzLCBhIGRy
-bSBkZXYsIGEgdHR5IGRldiwgZXRjLg0Kc2F5LCBzdHJ1Y3QgQnsNCnN0cnVjdCBBOw0Kc3RydWN0
-IFRUWTsNCnN0cnVjdCBwcmludGVyOw0KLi4uDQp9DQpidXQgVFRZIG9yIG90aGVyIG1lbWJlcnMg
-aGFzIG5vdGhpbmcgdG8gZG8gd2l0aCBvdXIgZGlzY3Vzc2lvbi4NCg0KQiBvZiBjb3Vyc2UgZXhp
-c3RzIGJlZm9yZSBBLiBidXQgdGhlIGNvZGUgbG9naWMgaXMgbm90IHRoYXQuIGNvZGUgYmVsb3cg
-aXMgcmVhbGx5IHJhcmUgaW4gZHJtIHdvcmxkLg0KY3JlYXRlX0IoKQ0Kew0KCWluaXQgQiBtZW1i
-ZXJzDQoJcmV0dXJuIGNyZWF0ZV9BKCkNCn0NClNvIHVzdWFsbHkgQiBoYXZlIG1vcmUgd29yayB0
-byBkbyBhZnRlciBpdCBpbml0aWFsaXplIEEuDQp0aGVuIGNvZGUgc2hvdWxkIGxpa2UgYmVsb3cN
-CmNyZWF0ZV9CKCkNCnsNCglpbml0IEIgYmFzZSBtZW1iZXJzDQoJY3JlYXRlX0EoKQ0KCWluaXQg
-QiBleHRlbmRlZCBtZW1iZXJzDQp9DQoNCg0KRm9yIHJlbGVhc2UgcGFydC4NCnJlbGVhc2UgQiBl
-eHRlbmRlZCBtZW1iZXINCnJlbGVhc2UgQQ0KcmVsZWFzZSBCIGJhc2UgbWVtYmVyDQoNCmEgZ29v
-ZCBkZXNpZ24gc2hvdWxkIG5vdCBoYXZlIHRoZSBzby1jYWxsZWQgZXh0ZW5kZWQgYW5kIGJhc2Ug
-bWVtYmVycyBleGlzdGluZyBpbiB0aGUgcmVsZWFzZSBwcm9jZXNzLg0KTm93IGhhdmUgYSBsb29r
-IGF0IHRoZSBkcm0gY29yZSBjb2RlLg0KaXQgZXhwZWN0cyBkcml2ZXIgdG8gZG8gcmVsZWFzZSBw
-cm9jZXNzIGxpa2UgYmVsb3cuDQpyZWxlYXNlIEINCmNsZWFudXAgd29yayBvZiBBDQoNCmFzIGxv
-bmcgYXMgdGhlIGNsZWFudXAgd29yayBvZiBBIGV4aXN0cywgd2UgY2FuIG5vdCBkbyBhIHB1cmUg
-cmVsZWFzZSBvZiBCLg0KDQpTbyBpZiB5b3Ugd2FudCB0byBmb2xsb3cgdGhlIHJ1bHMgb2Yga3Jl
-ZiwgeW91IGhhdmUgdG8gcmV3b3JrIHRoZSBkcm0gY29yZSBjb2RlIGZpcnN0LiBvbmx5IGFmdGVy
-IHRoYXQsIHdlIGNhbiBkbyBhIHB1cmUgcmVsZWFzZSBvZiBCLg0KDQpXaGF0IEkgYW0gY29uZnVz
-ZWQgaXMgdGhhdCwga2ZlciBzaXRzIGluIGRybSBkZXYuIHdoeSBhZGV2IG11c3QgYmUgZGVzdHJv
-eWVkIHRvbyB3aGVuIGRybSBkZXYgaXMgZ29pbmcgdG8gYmUgZGVzdHJveWVkLg0KYWRldiBpcyBu
-b3QgZXF1YWwgdG8gZHJtIGRldi4NCkkgdGhpbmsgc3RydWN0IGJlbG93IGlzIG1vcmUgZml0IGZv
-ciB0aGUgbG9naWMuDQpzdHJ1Y3QgYWRldiB7DQoJc3RydWN0IGRybSAqIGRkZXZfcCA9ICZhZGV2
-LmRkZXYNCglzdHJ1Y3QgdHlwZSAqb2Rldl9wICA9ICZhZGV2Lm9kZXYNCglzdHJ1Y3QgZHJtIGRk
-ZXYNCglzdHJ1Y3QgdHlwZSBvZGV2DQp9DQoNCj4gInVuZG9uZSIgZmlyc3QsIHNpbmNlIHRoZSBE
-Uk0gbGF5ZXIgbWF5IGZpbmlzaCB3aXRoIGEgZGV2aWNlLCBidXQNCj4gdGhlIGRldmljZSBtYXkg
-c3RpbGwgZXhpc3RzIHdpdGggdGhlIGRyaXZlciBhbmQgYXMgd2VsbCBhcyB3aXRoIFBDSS4NCj4g
-VGhpcyBpcyB2ZXJ5IFZFUlkgY29tbW9uLCB3aXRoIGtlcm5lbHMsIGRldmljZXMsIGRldmljZSBh
-YnN0cmFjdGlvbnMsDQo+IGRldmljZSBsYXllcnM6IERSTSBkZXYgPC0tIGFtZGdwdSBkZXYgPC0t
-IFBDSSBkZXYuDQo+IA0KPj4gQnV0IHllcywgcHJhY3RpY2UgaXMgbW9yZSBjb21wbGV4LiANCj4+
-IGlmIEIgaGFzIG5vdGhpbmcgdG8gYmUgZGVzdHJveWVkLiB3ZSBjYW4gZGVzdG9yeSBBIGRpcmVj
-dGx5LCBvdGhlcndpc2UgZGVzdHJveSBCIGZpcnN0bHkuDQo+IA0KPiBJJ20gc29ycnksIHRoYXQg
-ZG9lc24ndCBtYWtlIHNlbnNlLiBUaGVyZSBpcyBubyBzdWNoIHRoaW5nIGFzICJkZXN0cm95IGRp
-cmVjdGx5Ig0KPiBhbmQgIm90aGVyd2lzZSItLXRoaXMgaXMgYWJzb2x1dGVseSBub3QgaG93IHRo
-aXMgd29ya3MuDQo+IA0KPiBBIGdvb2QgYXJjaGl0ZWN0dXJlIGRvZXNuJ3QgaGF2ZSBpZi10aGVu
-LWVsc2UtLWl0J3MganVzdCBhIHB1cmUgc2luZ2xlLWJyYW5jaCBwYXRoLg0KDQp3ZWxsLCB0aGVy
-ZSBpcyBjb2RlIGJlbG93IGV2ZXJ5d2hlcmUuDQppZiAoZm9wcy0+cmVsZWFzZSkNCglmb3BzLT5y
-ZWxlYXNlDQplbHNlDQoJZGVmYXVsdF9yZWxlYXNlDQoNCj4+IA0KPj4gaW4gdGhpcyBjYXNlLCB3
-ZSBjYW4gZG8gc29tZXRoaW5nIGJlbG93IGluIG91ciByZWxlYXNlKCkNCj4+IC8vc29tZSBjbGVh
-bnVwIHdvcmsgb2YgQg0KPj4gZHJtX2Rldl9maW5pKGRldik7Ly9kZXN0cm95IEENCj4+IGtmcmVl
-KGFkZXYpDQo+PiANCj4+PiAyLiBVc2luZyB0aGUga3JlZiBpbmZyYXN0cnVjdHVyZSwgd2hlbiB0
-aGUgcmVmIGdvZXMgdG8gMCwNCj4+PiBkcm1fZGV2X3JlbGVhc2UgaXMgY2FsbGVkLiBBbmQgaGVy
-ZSdzIHRoZSBLRVk6DQo+Pj4gQmVjYXVzZSBXRSBhbGxvY2F0ZWQgdGhlIGNvbnRhaW5lciwgd2Ug
-c2hvdWxkIGZyZWUgaXQtLWFmdGVyIHRoZSByZWxlYXNlDQo+Pj4gbWV0aG9kIGlzIGNhbGxlZCwg
-RFJNIGNhbm5vdCBhc3N1bWUgYW55dGhpbmcgYWJvdXQgdGhlIGRybQ0KPj4+IGRldmljZSBvciB0
-aGUgY29udGFpbmVyLiBUaGUgInJlbGVhc2UiIG1ldGhvZCBpcyBmaW5hbC4NCj4+PiANCj4+PiBX
-ZSBhbGxvY2F0ZSwgd2UgZnJlZS4gQW5kIHdlIGZyZWUgb25seSB3aGVuIHRoZSByZWYgZ29lcyB0
-byAwLg0KPj4+IA0KPj4+IERSTSBjYW4sIGluIGR1ZSB0aW1lLCAiZnJlZSIgaXRzZWxmIG9mIHRo
-ZSBEUk0gZGV2aWNlIGFuZCBzdG9wDQo+Pj4gaGF2aW5nIGtub3dsZWRnZSBvZiBpdC0tdGhhdCdz
-IGZpbmUsIGJ1dCBhcyBsb25nIGFzIHRoZSByZWYNCj4+PiBpcyBub3QgMCwgdGhlIGFtZGdwdSBk
-ZXZpY2UgYW5kIHRodXMgdGhlIGNvbnRhaW5lZCBEUk0gZGV2aWNlLA0KPj4+IGNhbm5vdCBiZSBm
-cmVlZC4NCj4+PiANCj4+Pj4gDQo+Pj4+IFlvdSBoYXZlIHRvIG1ha2UgYW5vdGhlciBjaGFuZ2Ug
-c29tZXRoaW5nIGxpa2UNCj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+Pj4+IGluZGV4IDEzMDY4ZmRmNDMzMS4u
-MmFhYmQyYjRjNjNiIDEwMDY0NA0KPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5j
-DQo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMNCj4+Pj4gQEAgLTgxNSw3ICs4
-MTUsOCBAQCBzdGF0aWMgdm9pZCBkcm1fZGV2X3JlbGVhc2Uoc3RydWN0IGtyZWYgKnJlZikNCj4+
-Pj4gDQo+Pj4+ICAgICAgIGRybV9tYW5hZ2VkX3JlbGVhc2UoZGV2KTsNCj4+Pj4gDQo+Pj4+IC0g
-ICAgICAga2ZyZWUoZGV2LT5tYW5hZ2VkLmZpbmFsX2tmcmVlKTsNCj4+Pj4gKyAgICAgICBpZiAo
-ZGV2LT5kcml2ZXItPmZpbmFsX3JlbGVhc2UpDQo+Pj4+ICsgICAgICAgICAgICAgICBkZXYtPmRy
-aXZlci0+ZmluYWxfcmVsZWFzZShkZXYpOw0KPj4+PiB9DQo+Pj4gDQo+Pj4gTm8uIFdoYXQncyB0
-aGlzPw0KPj4+IFRoZXJlIGlzIG5vIHN1Y2ggdGhpbmcgYXMgImZpbmFsIiByZWxlYXNlLCBub3Ig
-aXMgdGhlcmUgYSAicGFydGlhbCIgcmVsZWFzZS4NCj4+PiBXaGVuIHRoZSBrcmVmIGdvZXMgdG8g
-MCwgdGhlIGRldmljZSBkaXNhcHBlYXJzLiBTaW1wbGUuDQo+Pj4gSWYgc29tZW9uZSBpcyB1c2lu
-ZyBpdCwgdGhleSBzaG91bGQga3JlZi1nZXQgaXQsIGFuZCB3aGVuIHRoZXkncmUNCj4+PiBkb25l
-IHdpdGggaXQsIHRoZXkgc2hvdWxkIGtyZWYtcHV0IGl0Lg0KPj4gDQo+PiBJIGp1c3QgdGFrZSBh
-biBleGFtcGxlIGhlcmUuIGFkZCBhbm90aGVyIHJlbGVhc2UgaW4gdGhlIGVuZC4gdGhlbiBubyBv
-bmUgY291bGQgdG91Y2ggdXMuIElPVywgZmluYWxfcmVsZWFzZS4NCj4gDQo+IE5vLCB0aGF0J3Mg
-aG9ycmlibGUuDQo+IA0KPj4gDQo+PiANCj4+IEEgZGVzdHJveSBCIGJ5IGEgY2FsbGJhY2ssIHRo
-ZW4gQSBkZXN0cm95IGl0c2VsZi4gSXQgYXNzdW1lcyBCIGp1c3QgZnJlZSBpdHMgb3duIHJlc291
-cmNlLg0KPj4gYnV0IHRoYXQgbWFrZXMgdHJvdWJsZSBpZiBzb21lIHJlc291cmNlIG9mIEEgaXMg
-YWxsb2NhdGVkIGJ5IEIuDQo+PiBCZWNhdXNlIEIgbXVzdCB0YWtlIGNhcmUgb2YgdGhlc2UgY29t
-bW9uIHJlc291cmNlIHNoYXJlZCBiZXR3ZWVuIEEgYW5kIEIuDQo+IA0KPiBObywgdGhhdCdzIGhv
-cnJpYmxlLg0KPiANCj4+IA0KPj4geWVzLCB0aGF0IGxvZ2ljYWwgaXMgbW9yZSBjb21wbGV4LiBT
-byBJIHRoaW5rIHdlIGNhbiByZXZlcnQgZHJtX2Rldl9yZWxlYXNlIHRvIGl0cyBwcmV2aW91cyB2
-ZXJzaW9uLg0KPiANCj4gZHJtX2Rldl9yZWxlYXNlKCkgaW4gaXRzIG9yaWdpbmFsIGZvcm0sIHdh
-cyBwdXJlOg0KPiANCj4gc3RhdGljIHZvaWQgZHJtX2Rldl9yZWxlYXNlKHN0cnVjdCBrcmVmICpy
-ZWYpDQo+IHsNCj4gCWlmIChkZXYtPmRyaXZlci0+cmVsZWFzZSkNCj4gCQlkZXYtPmRyaXZlci0+
-cmVsZWFzZShkZXYpOw0KPiAJZWxzZQ0KPiAJCWRybV9kZXZfZmluaShkZXYpOw0KPiB9DQo+IA0K
-Pj4gDQo+Pj4gDQo+Pj4gVGhlIHdob2xlIHBvaW50IGlzIHRoYXQgdGhpcyBpcyBkb25lIGltcGxp
-Y2l0bHksIHZpYSB0aGUga3JlZiBpbmZyYXN0cnVjdHVyZS4NCj4+PiBkcm1fZGV2X2luaXQoKSB3
-aGljaCB3ZSBjYWxsIGluIG91ciBQQ0kgcHJvYmUgZnVuY3Rpb24sIHNldHMgdGhlIGtyZWYgdG8g
-MS0tYWxsDQo+Pj4gYXMgcGVyIHRoZSBkb2N1bWVudGF0aW9uIEkgcG9pbnRlZCB5b3UgdG8gYWJv
-dmUuDQo+PiANCj4+IEkgYW0gbm90IHRha2luZyBhYm91dCBrcmVmLiB3aGF0IHdlIGFyZSBkaXNj
-dXNzaW5nIGlzIGFsbCBhYm91dCB0aGUgcmVsZWFzZSBzZXF1ZW5jZS4NCj4gDQo+IFlvdSBuZWVk
-IHRvIHVuZGVyc3RhbmQgaG93IHRoZSBrcmVmIGluZnJhc3RydWN0dXJlIHdvcmtzIGluIHRoZSBr
-ZXJuZWwuIEkndmUgc2FpZA0KPiBpdCBhIG1pbGxpb24gdGltZXM6IGl0J3MgaW1wbGljaXQuIFRo
-ZSAicmVsZWFzZSBzZXF1ZW5jZSIgYXMgeW91IGxpa2UgdG8gY2FsbCBpdCwNCj4gaXMgaW1wbGlj
-aXQgaW4gdGhlIGtyZWYgaW5mcmFzdHJ1Y3R1cmUuDQo+IA0KPj4gDQo+PiANCj4+PiANCj4+PiBB
-bm90aGVyIHBvaW50IGlzIHRoYXQgd2UgY2FuIGRvIHNvbWUgb3RoZXIgc3R1ZmYgaW4gdGhlIHJl
-bGVhc2UNCj4+PiBmdW5jdGlvbiwgbm90aWZ5IHNvbWVvbmUsIHdyaXRlIHNvbWUgcmVnaXN0ZXJz
-LCBmcmVlIG1lbW9yeSB3ZSB1c2UNCj4+PiBmb3IgdGhhdCBQQ0kgZGV2aWNlLCBldGMuDQo+Pj4g
-DQo+Pj4gSWYgdGhlICJtYW5hZ2VkIHJlc291cmNlcyIgaW5mcmFzdHJ1Y3R1cmUgd2FudHMgdG8g
-c3RheSwgaXQgc2hvdWxkIGhvb2sNCj4+PiBpdHNlbGYgaW50byBkcm1fZGV2X2ZpbmkoKSBhbmQg
-aW50byBkcm1fZGV2X2luaXQoKSBvciBkcm1fZGV2X3JlZ2lzdGVyKCkuDQo+Pj4gSXQgc2hvdWxk
-bid0IGhhdmUgdG8gYmUgc28gb3V0LW9mLXBsYWNlIGxpa2UgaW4gcGF0Y2ggMi8zIG9mIHRoaXMg
-c2VyaWVzLA0KPj4+IHdoZXJlIHRoZSBkcm1tX2FkZF9maW5hbF9rZnJlZSgpIGlzIHNtYWNrLWRh
-YiBpbiB0aGUgbWlkZGxlIG9mIG91ciBQQ0kNCj4+PiBkaXNjb3ZlcnkgZnVuY3Rpb24sIHN1cnJv
-dW5kZWQgb24gdG9wIGFuZCBib3R0b20gYnkgZHJtX2Rldl9pbml0KCkNCj4+PiBhbmQgZHJtX2Rl
-dl9yZWdpc3RlcigpLiBUaGUgIm1hbmFnZWQgcmVzb3VyY2VzIiBpbmZyYSBzaG91bGQgYmUgbm9u
-LWludmFzaXZlDQo+Pj4gYW5kIGRyaXZlcnMgc2hvdWxkbid0IGhhdmUgdG8gY2hhbmdlIHRvIHVz
-ZSBpdC0taXQgc2hvdWxkIGJlIGludmlzaWJsZSB0byB0aGVtLg0KPj4+IFRoZW4gb3VyIGtyZWYg
-d291bGQganVzdCB3b3JrLg0KPj4+IA0KPj4geWVwLCB0aGF0IG1ha2Ugc2Vuc2UuIEJ1dCB5b3Ug
-bmVlZCBtb3JlIGNoYW5nZXMgdG8gZml4IHRoaXMgaXNzdWUuIHRoaXMgcGF0Y2hzZXQgaXMgaW5z
-dWZmaWNpZW50Lg0KPiANCj4gT3IgTEVTUy4gTGVzcyBjaGFuZ2VzLiBMZXNzIGlzIGJldHRlci4g
-QmFzaWNhbGx5IHJldmVydCBhbmQgcmVkbyBhbGwgdGhpcyAibWFuYWdlZCByZXNvdXJjZXMiLg0K
-PiANCj4gUmVnYXJkcywNCj4gTHViZW4NCj4gDQo+PiANCj4+IA0KPj4+PiANCj4+Pj4gQW5kIGlu
-IHRoZSBmaW5hbF9yZWxlYXNlIGNhbGxiYWNrIHdlIGZyZWUgdGhlIGRldi4gQnV0IHRoYXQgaXMg
-YSBsaXR0bGUgY29tcGxleCBub3cuIHNvIEkgcHJlZmVyIHN0aWxsIHVzaW5nIGZpbmFsX2tmcmVl
-Lg0KPj4+PiBPZiBjb3Vyc2Ugd2UgY2FuIGRvIHNvbWUgY2xlYW51cCB3b3JrIGluIHRoZSBkcml2
-ZXIncyByZWxlYXNlIGNhbGxiYWNrLiBCVVQgbm8ga2ZyZWUuDQo+Pj4gDQo+Pj4gTm8hIE5vIGZp
-bmFsX2tmcmVlLiBJdCdzIGEgaGFjay4NCj4+PiANCj4+PiBSZWFkIHRoZSBkb2N1bWVudGF0aW9u
-IGluIGRybV9kcnYuYyBJIG5vdGVkIGFib3ZlLS1pdCBsYXlzIG91dCBob3cgdGhpcyBoYXBwZW5z
-LiBSZWFkaW5nIGlzIHJlcXVpcmVkLg0KPj4+IA0KPj4+IFJlZ2FyZHMsDQo+Pj4gTHViZW4NCj4+
-PiANCj4+PiANCj4+Pj4gDQo+Pj4+IO+7vy0tLS0t5Y6f5aeL6YKu5Lu2LS0tLS0NCj4+Pj4g5Y+R
-5Lu25Lq6OiAiVHVpa292LCBMdWJlbiIgPEx1YmVuLlR1aWtvdkBhbWQuY29tPg0KPj4+PiDml6Xm
-nJ86IDIwMjDlubQ55pyIMuaXpSDmmJ/mnJ/kuIkgMDk6MDcNCj4+Pj4g5pS25Lu25Lq6OiAiYW1k
-LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmciIDxhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zz4sICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiA8ZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZz4NCj4+Pj4g5oqE6YCBOiAiRGV1Y2hlciwgQWxleGFuZGVyIiA8QWxleGFu
-ZGVyLkRldWNoZXJAYW1kLmNvbT4sIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4sICJQ
-YW4sIFhpbmh1aSIgPFhpbmh1aS5QYW5AYW1kLmNvbT4sICJUdWlrb3YsIEx1YmVuIiA8THViZW4u
-VHVpa292QGFtZC5jb20+DQo+Pj4+IOS4u+mimDogW1BBVENIIDAvM10gVXNlIGltcGxpY2l0IGty
-ZWYgaW5mcmENCj4+Pj4gDQo+Pj4+ICAgVXNlIHRoZSBpbXBsaWNpdCBrcmVmIGluZnJhc3RydWN0
-dXJlIHRvIGZyZWUgdGhlIGNvbnRhaW5lcg0KPj4+PiAgIHN0cnVjdCBhbWRncHVfZGV2aWNlLCBj
-b250YWluZXIgb2Ygc3RydWN0IGRybV9kZXZpY2UuDQo+Pj4+IA0KPj4+PiAgIEZpcnN0LCBpbiBk
-cm1fZGV2X3JlZ2lzdGVyKCksIGRvIG5vdCBpbmRpc2NyaW1pbmF0ZWx5IHdhcm4NCj4+Pj4gICB3
-aGVuIGEgRFJNIGRyaXZlciBoYXNuJ3Qgb3B0ZWQgZm9yIG1hbmFnZWQuZmluYWxfa2ZyZWUsDQo+
-Pj4+ICAgYnV0IGluc3RlYWQgY2hlY2sgaWYgdGhlIGRyaXZlciBoYXMgcHJvdmlkZWQgaXRzIG93
-bg0KPj4+PiAgICJyZWxlYXNlIiBmdW5jdGlvbiBjYWxsYmFjayBpbiB0aGUgRFJNIGRyaXZlciBz
-dHJ1Y3R1cmUuDQo+Pj4+ICAgSWYgdGhhdCBpcyB0aGUgY2FzZSwgbm8gd2FybmluZy4NCj4+Pj4g
-DQo+Pj4+ICAgUmVtb3ZlIGRybW1fYWRkX2ZpbmFsX2tmcmVlKCkuIFdlIHRha2UgY2FyZSBvZiB0
-aGF0LCBpbiB0aGUNCj4+Pj4gICBrcmVmICJyZWxlYXNlIiBjYWxsYmFjayB3aGVuIGFsbCByZWZz
-IGFyZSBkb3duIHRvIDAsIHZpYQ0KPj4+PiAgIGRybV9kZXZfcHV0KCksIGkuZS4gdGhlIGZyZWUg
-aXMgaW1wbGljaXQuDQo+Pj4+IA0KPj4+PiAgIFJlbW92ZSBzdXBlcmZsdW91cyBOVUxMIGNoZWNr
-LCBzaW5jZSB0aGUgRFJNIGRldmljZSB0byBiZQ0KPj4+PiAgIHN1c3BlbmRlZCBhbHdheXMgZXhp
-c3RzLCBzbyBsb25nIGFzIHRoZSB1bmRlcmx5aW5nIFBDSSBhbmQNCj4+Pj4gICBEUk0gZGV2aWNl
-cyBleGlzdC4NCj4+Pj4gDQo+Pj4+ICAgTHViZW4gVHVpa292ICgzKToNCj4+Pj4gICAgIGRybTog
-Tm8gd2FybiBmb3IgZHJpdmVycyB3aG8gcHJvdmlkZSByZWxlYXNlDQo+Pj4+ICAgICBkcm0vYW1k
-Z3B1OiBSZW1vdmUgZHJtbSBmaW5hbCBmcmVlDQo+Pj4+ICAgICBkcm0vYW1kZ3B1OiBSZW1vdmUg
-c3VwZXJmbHVvdXMgTlVMTCBjaGVjaw0KPj4+PiANCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jIHwgMyAtLS0NCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jICAgIHwgMiAtLQ0KPj4+PiAgICBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgfCAzICsrLQ0KPj4+PiAgICAzIGZpbGVzIGNo
-YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4+Pj4gDQo+Pj4+ICAgLS0g
-DQo+Pj4+ICAgMi4yOC4wLjM5NC5nZTE5NzEzNjM4OQ0KPj4+PiANCj4+Pj4gDQo+Pj4+IA0KPj4+
-IA0KPj4gDQo+IA0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+--===============0124836693==
+Content-Type: multipart/alternative; boundary="00000000000004c38c05ae5fb733"
+
+--00000000000004c38c05ae5fb733
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+OK. Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+
+Marek
+
+On Wed, Sep 2, 2020 at 6:31 AM Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+wrote:
+
+> On Fri, Aug 7, 2020 at 9:43 PM Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> w=
+rote:
+> >
+> > On Tue, Aug 4, 2020 at 5:32 PM Bas Nieuwenhuizen <
+> bas@basnieuwenhuizen.nl> wrote:
+> >>
+> >> This expose modifier support on GFX9+.
+> >>
+> >> Only modifiers that can be rendered on the current GPU are
+> >> added. This is to reduce the number of modifiers exposed.
+> >>
+> >> The HW could expose more, but the best mechanism to decide
+> >> what to expose without an explosion in modifiers is still
+> >> to be decided, and in the meantime this should not regress
+> >> things from pre-modifiers and does not risk regressions as
+> >> we make up our mind in the future.
+> >>
+> >> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> >> ---
+> >>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 343 +++++++++++++++++=
+-
+> >>  1 file changed, 342 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> index c38257081868..6594cbe625f9 100644
+> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >> @@ -3891,6 +3891,340 @@ fill_gfx9_tiling_info_from_modifier(const
+> struct amdgpu_device *adev,
+> >>         }
+> >>  }
+> >>
+> >> +enum dm_micro_swizzle {
+> >> +       MICRO_SWIZZLE_Z =3D 0,
+> >> +       MICRO_SWIZZLE_S =3D 1,
+> >> +       MICRO_SWIZZLE_D =3D 2,
+> >> +       MICRO_SWIZZLE_R =3D 3
+> >> +};
+> >> +
+> >> +static bool dm_plane_format_mod_supported(struct drm_plane *plane,
+> >> +                                         uint32_t format,
+> >> +                                         uint64_t modifier)
+> >> +{
+> >> +       struct amdgpu_device *adev =3D plane->dev->dev_private;
+> >> +       const struct drm_format_info *info =3D drm_format_info(format)=
+;
+> >> +
+> >> +       enum dm_micro_swizzle microtile =3D
+> modifier_gfx9_swizzle_mode(modifier) & 3;
+> >> +
+> >> +       if (!info)
+> >> +               return false;
+> >> +
+> >> +       /*
+> >> +        * We always have to allow this modifier, because core DRM sti=
+ll
+> >> +        * checks LINEAR support if userspace does not provide modifer=
+s.
+> >> +        */
+> >> +       if (modifier =3D=3D DRM_FORMAT_MOD_LINEAR)
+> >> +               return true;
+> >> +
+> >> +       /*
+> >> +        * The arbitrary tiling support for multiplane formats has not
+> been hooked
+> >> +        * up.
+> >> +        */
+> >> +       if (info->num_planes > 1)
+> >> +               return false;
+> >> +
+> >> +       /*
+> >> +        * For D swizzle the canonical modifier depends on the bpp, so
+> check
+> >> +        * it here.
+> >> +        */
+> >> +       if (AMD_FMT_MOD_GET(TILE_VERSION, modifier) =3D=3D
+> AMD_FMT_MOD_TILE_VER_GFX9 &&
+> >> +           adev->family >=3D AMDGPU_FAMILY_NV) {
+> >> +               if (microtile =3D=3D MICRO_SWIZZLE_D && info->cpp[0] =
+=3D=3D 4)
+> >> +                       return false;
+> >> +       }
+> >> +
+> >> +       if (adev->family >=3D AMDGPU_FAMILY_RV && microtile =3D=3D
+> MICRO_SWIZZLE_D &&
+> >> +           info->cpp[0] < 8)
+> >> +               return false;
+> >> +
+> >> +       if (modifier_has_dcc(modifier)) {
+> >> +               /* Per radeonsi comments 16/64 bpp are more
+> complicated. */
+> >> +               if (info->cpp[0] !=3D 4)
+> >> +                       return false;
+> >> +       }
+> >> +
+> >> +       return true;
+> >> +}
+> >> +
+> >> +static void
+> >> +add_modifier(uint64_t **mods, uint64_t *size, uint64_t *cap, uint64_t
+> mod)
+> >> +{
+> >> +       if (!*mods)
+> >> +               return;
+> >> +
+> >> +       if (*cap - *size < 1) {
+> >> +               uint64_t new_cap =3D *cap * 2;
+> >> +               uint64_t *new_mods =3D kmalloc(new_cap *
+> sizeof(uint64_t), GFP_KERNEL);
+> >> +
+> >> +               if (!new_mods) {
+> >> +                       kfree(*mods);
+> >> +                       *mods =3D NULL;
+> >> +                       return;
+> >> +               }
+> >> +
+> >> +               memcpy(new_mods, *mods, sizeof(uint64_t) * *size);
+> >> +               kfree(*mods);
+> >> +               *mods =3D new_mods;
+> >> +               *cap =3D new_cap;
+> >> +       }
+> >> +
+> >> +       (*mods)[*size] =3D mod;
+> >> +       *size +=3D 1;
+> >> +}
+> >> +
+> >> +static void
+> >> +add_gfx9_modifiers(const struct amdgpu_device *adev,
+> >> +                 uint64_t **mods, uint64_t *size, uint64_t *capacity)
+> >> +{
+> >> +       int pipes =3D
+> ilog2(adev->gfx.config.gb_addr_config_fields.num_pipes);
+> >> +       int pipe_xor_bits =3D min(8, pipes +
+> >> +
+>  ilog2(adev->gfx.config.gb_addr_config_fields.num_se));
+> >> +       int bank_xor_bits =3D min(8 - pipe_xor_bits,
+> >> +
+>  ilog2(adev->gfx.config.gb_addr_config_fields.num_banks));
+> >> +       int rb =3D ilog2(adev->gfx.config.gb_addr_config_fields.num_se=
+) +
+> >> +
+> ilog2(adev->gfx.config.gb_addr_config_fields.num_rb_per_se);
+> >> +
+> >> +
+> >> +       if (adev->family =3D=3D AMDGPU_FAMILY_RV) {
+> >> +               /*
+> >> +                * No _D DCC swizzles yet because we only allow 32bpp,
+> which
+> >> +                * doesn't support _D on DCN
+> >> +                */
+> >> +
+> >> +               /*
+> >> +                * Always enable constant encoding, because the only
+> unit that
+> >> +                * didn't support it was CB. But on texture/display we
+> can
+> >> +                * always interpret it.
+> >> +                */
+> >> +               add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                           AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S_X) |
+> >> +                           AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9) |
+> >> +                           AMD_FMT_MOD_SET(PIPE_XOR_BITS,
+> pipe_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(BANK_XOR_BITS,
+> bank_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_64B) |
+> >> +                           AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1));
+> >
+> >
+> > I don't think Raven1 can do DCC constant encoding in DCN and GL2.
+> >
+> >> +
+> >> +               add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                           AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S_X) |
+> >> +                           AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9) |
+> >> +                           AMD_FMT_MOD_SET(PIPE_XOR_BITS,
+> pipe_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(BANK_XOR_BITS,
+> bank_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_64B) |
+> >> +                           AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 0));
+> >> +
+> >> +               add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                           AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S_X) |
+> >> +                           AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9) |
+> >> +                           AMD_FMT_MOD_SET(PIPE_XOR_BITS,
+> pipe_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(BANK_XOR_BITS,
+> bank_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_RETILE, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_64B) |
+> >> +                           AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |
+> >> +                           AMD_FMT_MOD_SET(RB, rb) |
+> >> +                           AMD_FMT_MOD_SET(PIPE, pipes));
+> >> +
+> >> +               add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                           AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S_X) |
+> >> +                           AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9) |
+> >> +                           AMD_FMT_MOD_SET(PIPE_XOR_BITS,
+> pipe_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(BANK_XOR_BITS,
+> bank_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_RETILE, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                           AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_64B) |
+> >> +                           AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 0) |
+> >> +                           AMD_FMT_MOD_SET(RB, rb) |
+> >> +                           AMD_FMT_MOD_SET(PIPE, pipes));
+> >> +       }
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_D_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_bits));
+> >
+> >
+> > Addrlib says that D swizzle modes are unsupported for 32bpp in DCN1.
+> They are only supported in DCE12. The swizzle modes between the two have =
+no
+> intersection.
+>
+> Right, but we don't have the format here. These get further filtered
+> by dm_plane_format_mod_supported, which does:
+>
+>         if (adev->family >=3D AMDGPU_FAMILY_RV && microtile =3D=3D
+> MICRO_SWIZZLE_D &&
+>             info->cpp[0] < 8)
+>                 return false;
+>
+> (cpp is in bytes)
+>
+> >
+> >>
+> >> +
+> >> +       if (adev->family =3D=3D AMDGPU_FAMILY_RV) {
+> >> +               add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                           AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S_X) |
+> >> +                           AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9) |
+> >> +                           AMD_FMT_MOD_SET(PIPE_XOR_BITS,
+> pipe_xor_bits) |
+> >> +                           AMD_FMT_MOD_SET(BANK_XOR_BITS,
+> bank_xor_bits));
+> >> +       }
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D)=
+ |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9));
+> >> +
+> >> +       if (adev->family =3D=3D AMDGPU_FAMILY_RV) {
+> >> +               add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                           AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S) |
+> >> +                           AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9));
+> >> +       }
+> >> +}
+> >> +
+> >> +static void
+> >> +add_gfx10_1_modifiers(const struct amdgpu_device *adev,
+> >> +                    uint64_t **mods, uint64_t *size, uint64_t
+> *capacity)
+> >> +{
+> >> +       int pipe_xor_bits =3D
+> ilog2(adev->gfx.config.gb_addr_config_fields.num_pipes);
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_R_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_64B));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_R_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_RETILE, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_64B));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_R_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_D_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits));
+> >
+> >
+> > D swizzle modes are unsupported according to Addrlib.
+>
+> Seems to be supported for DCN2:
+>
+>
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/amd/addrlib/sr=
+c/gfx10/gfx10addrlib.cpp#L1942
+>
+> which seems to be both gfx10.1 and gfx10.3 GPUs:
+>
+>
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/amd/addrlib/sr=
+c/gfx10/gfx10addrlib.cpp#L923
+>
+> >
+> >>
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_S_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D)=
+ |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D)=
+ |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_S)=
+ |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX9));
+> >> +}
+> >> +
+> >> +static void
+> >> +add_gfx10_3_modifiers(const struct amdgpu_device *adev,
+> >> +                    uint64_t **mods, uint64_t *size, uint64_t
+> *capacity)
+> >> +{
+> >> +       int pipe_xor_bits =3D
+> ilog2(adev->gfx.config.gb_addr_config_fields.num_pipes);
+> >> +       int pkrs =3D
+> ilog2(adev->gfx.config.gb_addr_config_fields.num_pkrs);
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_R_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(PACKERS, pkrs) |
+> >> +                   AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_INDEPENDENT_128B, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_128B));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_R_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(PACKERS, pkrs) |
+> >> +                   AMD_FMT_MOD_SET(DCC, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_RETILE, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_INDEPENDENT_128B, 1) |
+> >> +                   AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,
+> AMD_FMT_MOD_DCC_BLOCK_128B));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_R_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(PACKERS, pkrs));
+> >> +
+> >> +       add_modifier(mods, size, capacity, AMD_FMT_MOD |
+> >> +                   AMD_FMT_MOD_SET(TILE,
+> AMD_FMT_MOD_TILE_GFX9_64K_D_X) |
+> >> +                   AMD_FMT_MOD_SET(TILE_VERSION,
+> AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |
+> >> +                   AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |
+> >> +                   AMD_FMT_MOD_SET(PACKERS, pkrs));
+> >
+> >
+> > D swizzle modes are unsupported.
+>
+> Same as above.
+> >
+> > Marek
+> >
+>
+
+--00000000000004c38c05ae5fb733
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>OK. Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D=
+"mailto:marek.olsak@amd.com">marek.olsak@amd.com</a>&gt;</div><div><br></di=
+v><div>Marek<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Wed, Sep 2, 2020 at 6:31 AM Bas Nieuwenhuizen &lt;=
+<a href=3D"mailto:bas@basnieuwenhuizen.nl">bas@basnieuwenhuizen.nl</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, A=
+ug 7, 2020 at 9:43 PM Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gm=
+ail.com" target=3D"_blank">maraeo@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Tue, Aug 4, 2020 at 5:32 PM Bas Nieuwenhuizen &lt;<a href=3D"mailto=
+:bas@basnieuwenhuizen.nl" target=3D"_blank">bas@basnieuwenhuizen.nl</a>&gt;=
+ wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; This expose modifier support on GFX9+.<br>
+&gt;&gt;<br>
+&gt;&gt; Only modifiers that can be rendered on the current GPU are<br>
+&gt;&gt; added. This is to reduce the number of modifiers exposed.<br>
+&gt;&gt;<br>
+&gt;&gt; The HW could expose more, but the best mechanism to decide<br>
+&gt;&gt; what to expose without an explosion in modifiers is still<br>
+&gt;&gt; to be decided, and in the meantime this should not regress<br>
+&gt;&gt; things from pre-modifiers and does not risk regressions as<br>
+&gt;&gt; we make up our mind in the future.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Bas Nieuwenhuizen &lt;<a href=3D"mailto:bas@basnieu=
+wenhuizen.nl" target=3D"_blank">bas@basnieuwenhuizen.nl</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 343 ++++++++=
++++++++++-<br>
+&gt;&gt;=C2=A0 1 file changed, 342 insertions(+), 1 deletion(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/d=
+rivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
+&gt;&gt; index c38257081868..6594cbe625f9 100644<br>
+&gt;&gt; --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
+&gt;&gt; +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c<br>
+&gt;&gt; @@ -3891,6 +3891,340 @@ fill_gfx9_tiling_info_from_modifier(const =
+struct amdgpu_device *adev,<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt;=C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt; +enum dm_micro_swizzle {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0MICRO_SWIZZLE_Z =3D 0,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0MICRO_SWIZZLE_S =3D 1,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0MICRO_SWIZZLE_D =3D 2,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0MICRO_SWIZZLE_R =3D 3<br>
+&gt;&gt; +};<br>
+&gt;&gt; +<br>
+&gt;&gt; +static bool dm_plane_format_mod_supported(struct drm_plane *plane=
+,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0uint32_t format,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0uint64_t modifier)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct amdgpu_device *adev =3D plane-&=
+gt;dev-&gt;dev_private;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0const struct drm_format_info *info =3D=
+ drm_format_info(format);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0enum dm_micro_swizzle microtile =3D mo=
+difier_gfx9_swizzle_mode(modifier) &amp; 3;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!info)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return fal=
+se;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * We always have to allow this modifi=
+er, because core DRM still<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * checks LINEAR support if userspace =
+does not provide modifers.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (modifier =3D=3D DRM_FORMAT_MOD_LIN=
+EAR)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return tru=
+e;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * The arbitrary tiling support for mu=
+ltiplane formats has not been hooked<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * up.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (info-&gt;num_planes &gt; 1)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return fal=
+se;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * For D swizzle the canonical modifie=
+r depends on the bpp, so check<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 * it here.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (AMD_FMT_MOD_GET(TILE_VERSION, modi=
+fier) =3D=3D AMD_FMT_MOD_TILE_VER_GFX9 &amp;&amp;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0adev-&gt;family &gt;=3D =
+AMDGPU_FAMILY_NV) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (microt=
+ile =3D=3D MICRO_SWIZZLE_D &amp;&amp; info-&gt;cpp[0] =3D=3D 4)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0return false;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (adev-&gt;family &gt;=3D AMDGPU_FAM=
+ILY_RV &amp;&amp; microtile =3D=3D MICRO_SWIZZLE_D &amp;&amp;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;cpp[0] &lt; 8)<=
+br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return fal=
+se;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (modifier_has_dcc(modifier)) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Per rad=
+eonsi comments 16/64 bpp are more complicated. */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (info-&=
+gt;cpp[0] !=3D 4)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0return false;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return true;<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static void<br>
+&gt;&gt; +add_modifier(uint64_t **mods, uint64_t *size, uint64_t *cap, uint=
+64_t mod)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!*mods)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br=
+>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (*cap - *size &lt; 1) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t n=
+ew_cap =3D *cap * 2;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *=
+new_mods =3D kmalloc(new_cap * sizeof(uint64_t), GFP_KERNEL);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!new_m=
+ods) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0kfree(*mods);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0*mods =3D NULL;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0return;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcpy(new=
+_mods, *mods, sizeof(uint64_t) * *size);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(*mod=
+s);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*mods =3D =
+new_mods;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*cap =3D n=
+ew_cap;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0(*mods)[*size] =3D mod;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0*size +=3D 1;<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static void<br>
+&gt;&gt; +add_gfx9_modifiers(const struct amdgpu_device *adev,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uin=
+t64_t **mods, uint64_t *size, uint64_t *capacity)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int pipes =3D ilog2(adev-&gt;gfx.confi=
+g.gb_addr_config_fields.num_pipes);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int pipe_xor_bits =3D min(8, pipes +<b=
+r>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ilog2(adev-&gt;gfx.config.g=
+b_addr_config_fields.num_se));<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int bank_xor_bits =3D min(8 - pipe_xor=
+_bits,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ilog2(adev-&gt;gfx.config.g=
+b_addr_config_fields.num_banks));<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int rb =3D ilog2(adev-&gt;gfx.config.g=
+b_addr_config_fields.num_se) +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ilog2(ade=
+v-&gt;gfx.config.gb_addr_config_fields.num_rb_per_se);<br>
+&gt;&gt; +<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (adev-&gt;family =3D=3D AMDGPU_FAMI=
+LY_RV) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * No _D D=
+CC swizzles yet because we only allow 32bpp, which<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * doesn&#=
+39;t support _D on DCN<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Always =
+enable constant encoding, because the only unit that<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * didn&#3=
+9;t support it was CB. But on texture/display we can<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * always =
+interpret it.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifi=
+er(mods, size, capacity, AMD_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GF=
+X9_64K_S_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD=
+_TILE_VER_GFX9) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,=
+ AMD_FMT_MOD_DCC_BLOCK_64B) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1));=
+<br>
+&gt;<br>
+&gt;<br>
+&gt; I don&#39;t think Raven1 can do DCC constant encoding in DCN and GL2.<=
+br>
+&gt;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifi=
+er(mods, size, capacity, AMD_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GF=
+X9_64K_S_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD=
+_TILE_VER_GFX9) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,=
+ AMD_FMT_MOD_DCC_BLOCK_64B) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 0));=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifi=
+er(mods, size, capacity, AMD_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GF=
+X9_64K_S_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD=
+_TILE_VER_GFX9) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_RETILE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,=
+ AMD_FMT_MOD_DCC_BLOCK_64B) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(RB, rb) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE, pipes));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifi=
+er(mods, size, capacity, AMD_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GF=
+X9_64K_S_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD=
+_TILE_VER_GFX9) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_RETILE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK,=
+ AMD_FMT_MOD_DCC_BLOCK_64B) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 0) |=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(RB, rb) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE, pipes));<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX9) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_bits));<br>
+&gt;<br>
+&gt;<br>
+&gt; Addrlib says that D swizzle modes are unsupported for 32bpp in DCN1. T=
+hey are only supported in DCE12. The swizzle modes between the two have no =
+intersection.<br>
+<br>
+Right, but we don&#39;t have the format here. These get further filtered<br=
+>
+by dm_plane_format_mod_supported, which does:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (adev-&gt;family &gt;=3D AMDGPU_FAMILY_RV &a=
+mp;&amp; microtile =3D=3D MICRO_SWIZZLE_D &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;cpp[0] &lt; 8)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+<br>
+(cpp is in bytes)<br>
+<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (adev-&gt;family =3D=3D AMDGPU_FAMI=
+LY_RV) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifi=
+er(mods, size, capacity, AMD_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GF=
+X9_64K_S_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD=
+_TILE_VER_GFX9) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_b=
+its) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(BANK_XOR_BITS, bank_xor_b=
+its));<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX9));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (adev-&gt;family =3D=3D AMDGPU_FAMI=
+LY_RV) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifi=
+er(mods, size, capacity, AMD_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GF=
+X9_64K_S) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD=
+_TILE_VER_GFX9));<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static void<br>
+&gt;&gt; +add_gfx10_1_modifiers(const struct amdgpu_device *adev,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 uint64_t **mods, uint64_t *size, uint64_t *capacity)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int pipe_xor_bits =3D ilog2(adev-&gt;g=
+fx.config.gb_addr_config_fields.num_pipes);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_R_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK, AMD_FMT_MOD_DCC_BLOCK_64B))=
+;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_R_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_RETILE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK, AMD_FMT_MOD_DCC_BLOCK_64B))=
+;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_R_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits));<br>
+&gt;<br>
+&gt;<br>
+&gt; D swizzle modes are unsupported according to Addrlib.<br>
+<br>
+Seems to be supported for DCN2:<br>
+<br>
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/amd/a=
+ddrlib/src/gfx10/gfx10addrlib.cpp#L1942" rel=3D"noreferrer" target=3D"_blan=
+k">https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/amd/addrlib/s=
+rc/gfx10/gfx10addrlib.cpp#L1942</a><br>
+<br>
+which seems to be both gfx10.1 and gfx10.3 GPUs:<br>
+<br>
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/amd/a=
+ddrlib/src/gfx10/gfx10addrlib.cpp#L923" rel=3D"noreferrer" target=3D"_blank=
+">https://gitlab.freedesktop.org/mesa/mesa/-/blob/master/src/amd/addrlib/sr=
+c/gfx10/gfx10addrlib.cpp#L923</a><br>
+<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_S_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX9));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_S) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX9));<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static void<br>
+&gt;&gt; +add_gfx10_3_modifiers(const struct amdgpu_device *adev,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 uint64_t **mods, uint64_t *size, uint64_t *capacity)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int pipe_xor_bits =3D ilog2(adev-&gt;g=
+fx.config.gb_addr_config_fields.num_pipes);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int pkrs =3D ilog2(adev-&gt;gfx.config=
+.gb_addr_config_fields.num_pkrs);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_R_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PACKERS, pkrs) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_128B, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK, AMD_FMT_MOD_DCC_BLOCK_128B)=
+);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_R_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PACKERS, pkrs) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_RETILE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_CONSTANT_ENCODE, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_64B, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_INDEPENDENT_128B, 1) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(DCC_MAX_COMPRESSED_BLOCK, AMD_FMT_MOD_DCC_BLOCK_128B)=
+);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_R_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PACKERS, pkrs));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0add_modifier(mods, size, capacity, AMD=
+_FMT_MOD |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE, AMD_FMT_MOD_TILE_GFX9_64K_D_X) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(TILE_VERSION, AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS) |<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PIPE_XOR_BITS, pipe_xor_bits) |<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0AMD_FMT_MOD_SET(PACKERS, pkrs));<br>
+&gt;<br>
+&gt;<br>
+&gt; D swizzle modes are unsupported.<br>
+<br>
+Same as above.<br>
+&gt;<br>
+&gt; Marek<br>
+&gt;<br>
+</blockquote></div>
+
+--00000000000004c38c05ae5fb733--
+
+--===============0124836693==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0124836693==--
