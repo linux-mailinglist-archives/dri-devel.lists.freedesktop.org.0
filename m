@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D46525D205
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260E125D210
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 204556EAD3;
-	Fri,  4 Sep 2020 07:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0206EB0A;
+	Fri,  4 Sep 2020 07:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA4916E570
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 264676E4DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:40 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id A3266968;
- Thu,  3 Sep 2020 04:02:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:38 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id F196AC12;
+ Thu,  3 Sep 2020 04:02:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=R8RukDV67kA4S
- lBsd48ysWMys3SVerSNYQrVkJ5+NyI=; b=IlcQ9sPrKZ9Jj/M/joRcolwfeHayy
- NWTGYlHWReDgBsTBKP80/adV/t39fAtd5SGhZ4e/xUQQmPukjeWdMvdbmmxnWKEP
- cPncjxAFy9WKIbQH4nk8Gy1+cRMGOY7uggLmDCLeSPF1oZ5Dc8HX44vOFr2YOYmo
- 4XQ+CIpB/VtBYpJKn2aeqKK8QSmbfopA+NB2+mpUr8yzFK6yXSoRv0CpFtGQjaSM
- Jp98iwUOa3TMFE5ETyN3Jv3cf5gt23CdiVb8y8g15snLWBweKsa26+TNmNi7RAhw
- GHNSOi1HgHi1he2TYnmJsaeUx0/A+cFNFfCG0ebEdOaNJBRTZEGxDUBjw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=2cnyUKVTc9vD/
+ 03BQF9KhDjcFGmV0tTe2xC3x8EBalQ=; b=gswgacHBfDHCYrxEieM6XVjsfcHNn
+ kq8T/+FlqMhbkziWfIk0eoNEN8bMwj+itHjTrVegs92oa5lH9fmm4sychECdiEtV
+ LpMk0YWNtE7jts+RY9yJi6XT8zN7zL6lJYb0cT54O+3qLql1fEkpJD6oeiAhg6OS
+ ZXehpldOt2lZtGPZya9CfEtAT+xiAOr1vXqmvdZDgBpCnS3g7+d74fALknLssq/i
+ 4HPpKR+M+igq0oz7ZB2TI6IxSvJNjhPMOLauKB3TUCP1m2fYVKzHNS3X0EQtJmWo
+ cuVcQN7qRXmB4RdPMXR+biro+zMSFk2jgbKASgM60+rObEXAYTZ6od3Wg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=R8RukDV67kA4SlBsd48ysWMys3SVerSNYQrVkJ5+NyI=; b=tamQUJrm
- a1BPaCoPR+ALLWUVWpB+ATFU8NacElegFsoKJYy+9XpC7EPL7WTzyaLgfCc1AiLh
- hYW7036UJkK+DTHeIqnJmTmSV7Gtpqlpkx8dqeH9jS1lvoT8Qj5LEtHSZxU1eDYW
- wXzC72NxE/yniUEkvNIY5JCYcDi5+bKXwBBZx/B60Z3J4CV0POK3Cel9QidIa1zY
- 7W6ls7Olk2Dr/NBRo+6WVpQ0tC948GAGfAWdpY2pOI6bMpWHncZ9PoomSxzR6qWr
- l+WISegqYiqWF7DYOC6ILQBew+BvLDzW/pKnAhbo+/cnLqkgMk7PX5izWfLbPYxh
- 1AUpqxLhx9wqlQ==
-X-ME-Sender: <xms:HaNQX9QGhTrK4G9c8Xqj6KoPg2OWY6skUo7ODMeAMVVWWvih2MT94Q>
- <xme:HaNQX2x8LNoPiuqzQGV-JuPKB7EqDMj2Kgu-GK9fWyGkRkMXw8RdQzJmuzR52yBJt
- 0NaA5STnzmczadqCYQ>
+ fm3; bh=2cnyUKVTc9vD/03BQF9KhDjcFGmV0tTe2xC3x8EBalQ=; b=UhKj7b3v
+ hT/KqTBheneVi/SjN4PlD/fGNjLNBzlvmYxxbfK3ul1FEhf9Eh6uz6rLnvKN3Cvr
+ Lw/GA+h+HB52vrOl0QsrC8jK/fmIq4q3JOuXSexm3m/6ncq7XytcaJduG5T4Sgrn
+ 1no8WOSHvG/LUzD874U3izoDbCZah1otOgvDu7kngwNwYwbpFcZaMixQj2x40X9X
+ fwUzLpTJABiYdF6BIPld71ctqdmQeUVHjo8vUhVcoCigbOVw4MZC+msBOkz57aQt
+ kQMs5fpg5dFlGSPjAH+kWNek70J0C2fd4BQjr+HUR97LJG51XMW0Bqdc/y12H6zR
+ tPEnDNaRpPFUDA==
+X-ME-Sender: <xms:HqNQX-CTFBu_5VFudCAMIckNZn8eENjjMhldqw5aevGpGuJGCn9OGA>
+ <xme:HqNQX4hSFN89iH6ABzrUeNKs7SXgn5dX17Na6fTrpl3U0ErKNf8TSH0hLs1OkxNy8
+ 4-jAzSNeH3zCI2Mysg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -49,21 +49,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetgg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
  heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvje
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:HaNQXy1aqi9LFayOmZNKVkWvtaM6eYFQAhuOnR4Bp3IcNh7fY6ho6A>
- <xmx:HaNQX1A_7MRKvxK2P_9vqJBeVCIDhU4FIeeiiTKCYztsDU1CvKmsmQ>
- <xmx:HaNQX2iZfBMoWZ248RZeY71nPmTx6zSfGqBCnCT-EUuFzc70Sz0wdA>
- <xmx:HaNQX9oKmLvejdues64l5SNueW0F9cVbehreufwf6Bxsfw7C_CdqqufdGL4>
+X-ME-Proxy: <xmx:HqNQXxmsjTrIIoe3VLxIx7eI65EWjFS86cZYMcvYoR3pVr697zTDxA>
+ <xmx:HqNQX8wo4NCCaE1cVLcqZZwI2ZGARAAMtIj92RJ3Hr0Y4XMzu83ieg>
+ <xmx:HqNQXzRrbBRato9myjQZP0oX6LBAcBinVY6_sfpdv9SNCAuJq6os9w>
+ <xmx:HqNQX7ZVkIVXfw9MtBFw5nWd10xKBVAXBOFN7KZH6cWxkmoDv61l0y4gsEo>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D7F39306005E;
- Thu,  3 Sep 2020 04:02:36 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3B116328005E;
+ Thu,  3 Sep 2020 04:02:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 31/80] drm/vc4: crtc: Clear the PixelValve FIFO during
- configuration
-Date: Thu,  3 Sep 2020 10:01:03 +0200
-Message-Id: <ccd6269ba37b2f849ba6e62471c99bd93a4548a0.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 32/80] drm/vc4: hvs: Make the stop_channel function public
+Date: Thu,  3 Sep 2020 10:01:04 +0200
+Message-Id: <a9d5f0891c3bc1deb6b16d56ca6994ed912ec7c7.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -93,33 +92,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even though it's not really clear why we need to flush the PV FIFO during
-the configuration even though we started by flushing it, experience shows
-that without it we get a stale pixel stuck in the FIFO between the HVS and
-the PV.
+During the transition from the firmware to the KMS driver, we need to pay
+particular attention to how we deal with the pixelvalves that have already
+been enabled, otherwise either timeouts or stuck pixels can occur. We'll
+thus need to call the function to stop an HVS channel at boot.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Reviewed-by: Eric Anholt <eric@anholt.net>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
 Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_drv.h | 1 +
+ drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 73d918706f7e..00b2c2b011d1 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -358,7 +358,7 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
- 	if (is_dsi)
- 		CRTC_WRITE(PV_HACT_ACT, mode->hdisplay * pixel_rep);
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 251fcc35530c..554c2e29b23d 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -907,6 +907,7 @@ void vc4_irq_reset(struct drm_device *dev);
  
--	CRTC_WRITE(PV_CONTROL,
-+	CRTC_WRITE(PV_CONTROL, PV_CONTROL_FIFO_CLR |
- 		   vc4_crtc_get_fifo_full_level_bits(vc4_crtc, format) |
- 		   VC4_SET_FIELD(format, PV_CONTROL_FORMAT) |
- 		   VC4_SET_FIELD(pixel_rep - 1, PV_CONTROL_PIXEL_REP) |
+ /* vc4_hvs.c */
+ extern struct platform_driver vc4_hvs_driver;
++void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
+ int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state);
+ void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
+ void vc4_hvs_atomic_disable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 0f56a7b57916..b5ee9556e821 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -248,7 +248,7 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
+ 	return 0;
+ }
+ 
+-static void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
++void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 
 -- 
 git-series 0.9.1
 _______________________________________________
