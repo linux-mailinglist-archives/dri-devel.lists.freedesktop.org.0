@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E9725D201
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F294625D218
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 256B56EAAA;
-	Fri,  4 Sep 2020 07:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D17E26EA8E;
+	Fri,  4 Sep 2020 07:11:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BFD6E0DA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12AAC6E5AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:21 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id A956DB3E;
- Thu,  3 Sep 2020 04:02:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:19 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id E3841773;
+ Thu,  3 Sep 2020 04:02:19 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=XlGpFlv6D97QI
- cR+PEZduyWAquy8gwEaTC5GLSq5yqg=; b=NvuPIVux6hydkw9EJybRRCvdSvf61
- qbpp1KOXnYAbN0youhYs4Q3eftMvoJ7ImURd0OZ8VioyEhDa6jGgNeL6gR8ghZH9
- Hb96CLyA4isiDFvTNcT82CoRCZlXG+8BdX1VtPIFuvG11T3fGdGmFax3jPHR/pZC
- /aJ0cOQV3vpxCKO9wpogsQ+GCRAgYx9sBl+4MH0/YdXv1GPG524dUL/moLLs3ceC
- FPjel+qRc9/VfPWNJmgMcr5wMFrd7Hlqq9k2a3x9LIGDd4Rh/13nFuvL2Ncq2L20
- Pg+nhJYJAXrjb8aXvIJlRtAE4JEcRtF1UtxKx8gWc7Wox4VgCPJgALAiw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=duNhF2Nx3MRwQ
+ EHgb22EplTMve51MHVBzNHoNv4llic=; b=H4fPFrGrTlG33nPaFMNzsnaAJcMie
+ ifIgBa+XciGBKoQFOQtre3divkrRonhAKSwYpv1RKJC5zewEzyxwqaQeKfWT0fGi
+ FtIQepMpxwHes6xPyOqf7ZGaVxzLhqCROeAl7D65udeEYGlWMDKPOaeNjFM719+M
+ U26GVrwcGmdM2uVrJRA1D44A0kCfa7w3SoDwOuZxwYqyHbjcT7uP6OCdPXkPFFS3
+ 8nRRk+nocPzIzrCQQi11ZM/HDcPXDU8xrwhIdjS83h6XzDNnP1y9yJe0lrFy4Ft9
+ MI1snQQ66IxWc8hp9UNNjveqwYPIaupBdyMPiGEMvl+RAvcMcavWhWDEw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=XlGpFlv6D97QIcR+PEZduyWAquy8gwEaTC5GLSq5yqg=; b=WHoVHEVg
- A8WJrz4JA1J2dLChmKjeaRCmK6nI/Go8PzAJ82s9Pio+py26ZbSoKrmSh1ftyUns
- Mg2V6ZwdEkB8mwcsusNk9/oPqiX5TQ33vXFi4EO9s4GEXpwV7RPO7CyhRTC3Z481
- qyZSnx8oWHOF3PkOfjeekDmlveykYLD6YDAKrBGnkbUoSINnaqW/Xv8k7W+0cVRk
- rsJv6LIP2b2E6oYq7PJGrno1IwDyjHzHtXkbFnN4Ls5v69D108hYm4Nl06cRsNV6
- rIRUky12ukrDrfwLzgqLfkf1Nk26qrArb/umVPozGptuOM1BqFKCql2J+gyfgJgx
- 4Sq/sHl1nYLnpA==
-X-ME-Sender: <xms:CqNQX287I5OjHl9-isURx0k_K4mSYPem7mvH_MrZRvrpdWWzSO0Dag>
- <xme:CqNQX2sksKF_pbD6CDPOHU6TSBKSEsZYutnn4KlOXLzsQtmkErr9ADpxyu6Ch8X3G
- 6xWNq8Q0Xv0QZ_GvYg>
+ fm3; bh=duNhF2Nx3MRwQEHgb22EplTMve51MHVBzNHoNv4llic=; b=U0f0Y/Eg
+ LdTDDDOAvNAMKUpBLIdIaoE7sspChJ2ZGrU7W0LfTrkfJOfg2cQ78I2JVpjt6iXw
+ C+bNJBTL7NdAa5Ioov3Qq1GF5CYYyt+cbZEV500y6jwZsbFh9CWmJUhOa05zrzxw
+ mvqXFRpdH/Jo3/wkyDl1S1/1OGPHGGQ9D6LtkshtbrtXwQUFEmVtPyoy8sNOBATG
+ vu5dXXlPvoGCyuvEBNgyWINYnwd2hy/t7r7H2LAk/jhbIocI3pgyf0H64j7OlvcN
+ aGavLaSHa8gwvf/8xsyqZfox4Kx33lW3P3DcZeE9xf0c6DyVB0mjHfqyltQ1GiGy
+ WrT/K34kSj3BzA==
+X-ME-Sender: <xms:C6NQX7iOVYFyXZ_vJ27ms03zYmJf_PUcr-VFyAK5Z2WmMxUSssTxVQ>
+ <xme:C6NQX4AwPVl4qrGyqC98flk-50QLmPhsqzDOsQnow3pifgPRUPVRIvBkaNAv_NeMX
+ Ut2NsZfFbgB_sgCVtA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -49,20 +49,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetgg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
  heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeduge
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:CqNQX8D7u2zOoxjKd201JIqWlNtpVLN_bWYccHIfMK4lts_sBzXotw>
- <xmx:CqNQX-ccHArh7O0kQ66om4YHyC9RrEzCVZx9c3S_aAoXXJkwFwRT1Q>
- <xmx:CqNQX7OcJ8Mis3zSmyC0LKUjajoISIY82kOuL8ZzE-c6PueQTEWE8A>
- <xmx:CqNQX4nt0bkbGaoRDpOB6QaZ9DNYj8qZfeOXeQTVYtKWjRNlmLLj_QXyRUw>
+X-ME-Proxy: <xmx:C6NQX7H-AKaUagpflYGUN9k6qqvo03FWjZcwxEFzdmNAsb2YEun8kQ>
+ <xmx:C6NQX4TjTiG_m_Nth-woUU1IRPcMymzCBvqBeEZEGxEfN1vCzN3AVw>
+ <xmx:C6NQX4w784DfSTJuAUjUibHUCu3w50k0uewfMPiBK9vxnt4no6sFGg>
+ <xmx:C6NQXy5poo7TckukTDraYeQc9fyGeGwS7Y0ZbxVljIX3afyqRAWvBuQPlvU>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id E9CA4306005B;
- Thu,  3 Sep 2020 04:02:17 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 40644328005D;
+ Thu,  3 Sep 2020 04:02:19 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 17/80] drm/vc4: crtc: Rename HDMI encoder type to HDMI0
-Date: Thu,  3 Sep 2020 10:00:49 +0200
-Message-Id: <84e11e4793aaa30d6e5c56e305d22404ac5a932d.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 18/80] drm/vc4: crtc: Add HDMI1 encoder type
+Date: Thu,  3 Sep 2020 10:00:50 +0200
+Message-Id: <6ba56d2421a4ad59ce72178e8f37eacfbd72cb33.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -92,9 +92,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous generations were only supporting a single HDMI controller, but
-that's about to change, so put an index as well to differentiate between
-the two controllers.
+The BCM2711 sports a second HDMI controller, so let's add that second HDMI
+encoder type.
 
 Reviewed-by: Eric Anholt <eric@anholt.net>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
@@ -102,50 +101,21 @@ Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 2 +-
- drivers/gpu/drm/vc4/vc4_drv.h  | 2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 1d9e3658ae59..04744223460a 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -835,7 +835,7 @@ static const struct vc4_pv_data bcm2835_pv2_data = {
- 	.fifo_depth = 64,
- 	.pixels_per_clock = 1,
- 	.encoder_types = {
--		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_HDMI,
-+		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_HDMI0,
- 		[PV_CONTROL_CLK_SELECT_VEC] = VC4_ENCODER_TYPE_VEC,
- 	},
- };
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 179010b9a010..5781773aec4b 100644
+index 5781773aec4b..4126506b3a69 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -426,7 +426,7 @@ to_vc4_plane_state(struct drm_plane_state *state)
- 
+@@ -427,6 +427,7 @@ to_vc4_plane_state(struct drm_plane_state *state)
  enum vc4_encoder_type {
  	VC4_ENCODER_TYPE_NONE,
--	VC4_ENCODER_TYPE_HDMI,
-+	VC4_ENCODER_TYPE_HDMI0,
+ 	VC4_ENCODER_TYPE_HDMI0,
++	VC4_ENCODER_TYPE_HDMI1,
  	VC4_ENCODER_TYPE_VEC,
  	VC4_ENCODER_TYPE_DSI0,
  	VC4_ENCODER_TYPE_DSI1,
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 15a11cd4de25..ec34c08b16df 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1309,7 +1309,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 					GFP_KERNEL);
- 	if (!vc4_hdmi_encoder)
- 		return -ENOMEM;
--	vc4_hdmi_encoder->base.type = VC4_ENCODER_TYPE_HDMI;
-+	vc4_hdmi_encoder->base.type = VC4_ENCODER_TYPE_HDMI0;
- 	hdmi->encoder = &vc4_hdmi_encoder->base.base;
- 
- 	hdmi->pdev = pdev;
 -- 
 git-series 0.9.1
 _______________________________________________
