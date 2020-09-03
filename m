@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5015B25BB8B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 09:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A704625BB8E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 09:24:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55D26E193;
-	Thu,  3 Sep 2020 07:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525B46E192;
+	Thu,  3 Sep 2020 07:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68CB76E18E;
- Thu,  3 Sep 2020 07:23:20 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id c25so570826vkm.1;
- Thu, 03 Sep 2020 00:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nYtPH/AGq9Arqr6Pnj4bZq+KucnVkSWBPEySgVn+z48=;
- b=kVliyIbaEUKHfO4xZWqE+52p0FTfiE73C1Dhz7+J11EpmW05Vb4VZ9f4Qt+b2O4RHN
- IR+F8tMYHxguugL1aOXsWLv8yr6I7M8o2IGDxbg8NzVxaLhqOvInhfgdoNU+CO34B04p
- 6UbNDtk/pPVbYhltWMeUM5bw5lnIk5Vmyp+HBE56MA6P29Ab2sBk6o8LCbGVlCLgwa9Z
- rDEhVIkbMKT6QqWek8lH2lC6kPXb0KhWvjfEs2AQdOEbpPjmaFtbQLSq20Tag+zYGwPo
- kyNgK7uZboEjdcTmaC9mJ5aNksjusZgvbZxTYbPXPtcqmfnXemtqxdUmkToKhzphuLGf
- FyoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nYtPH/AGq9Arqr6Pnj4bZq+KucnVkSWBPEySgVn+z48=;
- b=oeH1ACkkiBiVU0ofuFyI0a0OyiFhu8VFzfaxoyE7rx1x+vDugymW70Vnn9mdEOI0CO
- h2Y3t1hTvs714SEqdV5l9jVHFFjuLsDZIDMDH5BwC+0lN5fcGQzMOhcQO/kuEk8pD5CZ
- tmzu+7VYSsef2pAu46UsRV8jIsnYLSM6HMlNNFWYnipwe9sPIhWAjfLcHne0u42qAcTN
- F7P39PMqVN5nydgdbnl3AQG2JnP6AL0Nk+vZDbvLOd9C1XBkl5X3Im3lLDR9Jh4Xbt9A
- eFxOUciwKulIBMTAj9PS9IU1MhqIbx+eLruxAmNYauICdegXfNu27ysjnbz09qKHk8bY
- IU/A==
-X-Gm-Message-State: AOAM532Y91hIC7gQ54AMAIrwugI7xXaIJkM5JBPelRjL8eGxvZae277z
- RJw8zemJM8X8w3kUMGpyRxulTIoDDhYre9g6tWc=
-X-Google-Smtp-Source: ABdhPJzkeFXIQzqDgqXC99kkdDPH3UnC8CAmw5bH+NsVf2nsqOvneLOy0x2VfmXMLS2U68g+CkWma2gKwfqEGyfNlCs=
-X-Received: by 2002:a1f:2a48:: with SMTP id q69mr774030vkq.69.1599117799327;
- Thu, 03 Sep 2020 00:23:19 -0700 (PDT)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F196E18E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 07:24:03 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0837NiCe018361;
+ Thu, 3 Sep 2020 02:23:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1599117824;
+ bh=BdMcfk7mKlIUdjEAq+VRlXKBmSbVXPDgc1l6pkmOA7o=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=hW/IwaIAdNdnDU+v9/vyXaVafOVA6mmWSPNAnOsbLJTpPOjr1PIN6w9d1AY/I+cWK
+ xCJFRnE4Llr/SRmaBAyQrObTLjVNM3Atvvq23zGVy6BDtpXBkIaEve2lhZN7vzy8sf
+ P9plX1XlNEr6VGHh+TmH3jhq+ly8CfrPVu34CIto=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0837Ni3x117709
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 3 Sep 2020 02:23:44 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 3 Sep
+ 2020 02:23:43 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 3 Sep 2020 02:23:43 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0837NenZ011328;
+ Thu, 3 Sep 2020 02:23:40 -0500
+Subject: Re: [PATCH v9 2/3] drm: bridge: Add support for Cadence MHDP8546
+ DPI/DP bridge
+To: Milind Parab <mparab@cadence.com>, Swapnil Kashinath Jakhade
+ <sjakhade@cadence.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "Laurent.pinchart@ideasonboard.com"
+ <Laurent.pinchart@ideasonboard.com>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>, "jonas@kwiboo.se"
+ <jonas@kwiboo.se>, "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
+ <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
+ <e53e87b0-7e0a-763f-8b8b-0dc278e1f225@ti.com>
+ <DM6PR07MB5531DF749C993423B0A3E746D32C0@DM6PR07MB5531.namprd07.prod.outlook.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <4a0d1e85-0db6-af62-a1ea-e8f0c684b4a6@ti.com>
+Date: Thu, 3 Sep 2020 10:23:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200901154200.2451899-1-robdclark@gmail.com>
- <20200901154200.2451899-3-robdclark@gmail.com>
-In-Reply-To: <20200901154200.2451899-3-robdclark@gmail.com>
-From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
-Date: Thu, 3 Sep 2020 00:23:08 -0700
-Message-ID: <CAOeoa-cbQv2pkpxhXMV++NY3MbouPP077UVPnp7fu3zjFxt8Uw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 2/3] drm/msm: Convert shrinker msgs to
- tracepoints
-To: Rob Clark <robdclark@gmail.com>
+In-Reply-To: <DM6PR07MB5531DF749C993423B0A3E746D32C0@DM6PR07MB5531.namprd07.prod.outlook.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,108 +74,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Cc: "praneeth@ti.com" <praneeth@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>,
+ "jsarha@ti.com" <jsarha@ti.com>, Yuti Suresh Amonkar <yamonkar@cadence.com>,
+ "nikhil.nd@ti.com" <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 1, 2020 at 8:41 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> This reduces the spam in dmesg when we start hitting the shrinker, and
-> replaces it with something we can put on a timeline while profiling or
-> debugging system issues.
+Hi Milind,
 
-That is a good solution,
+On 03/09/2020 09:22, Milind Parab wrote:
 
-Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+> Also, note that CDNS MHDP implements DP_FRAMER_TU_p where bits 5:0 is tu_valid_symbols. So max programmable value is 63.
+> Register document gives following explanation 
+> "Number of valid symbols per Transfer Unit (TU). Rounded down to lower integer value (Allowed values are 1 to (TU_size-1)"
+> 
+> So, it says in case vs calculates to 64 (where Avail BW and Req BW are same) we program tu_valid_symbols = 63
 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_gem_shrinker.c |  5 +++--
->  drivers/gpu/drm/msm/msm_gpu_trace.h    | 26 ++++++++++++++++++++++++++
->  2 files changed, 29 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> index 722d61668a97..482576d7a39a 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> @@ -6,6 +6,7 @@
->
->  #include "msm_drv.h"
->  #include "msm_gem.h"
-> +#include "msm_gpu_trace.h"
->
->  static bool msm_gem_shrinker_lock(struct drm_device *dev, bool *unlock)
->  {
-> @@ -87,7 +88,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
->                 mutex_unlock(&dev->struct_mutex);
->
->         if (freed > 0)
-> -               pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
-> +               trace_msm_gem_purge(freed << PAGE_SHIFT);
->
->         return freed;
->  }
-> @@ -123,7 +124,7 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
->         *(unsigned long *)ptr += unmapped;
->
->         if (unmapped > 0)
-> -               pr_info_ratelimited("Purging %u vmaps\n", unmapped);
-> +               trace_msm_gem_purge_vmaps(unmapped);
->
->         return NOTIFY_DONE;
->  }
-> diff --git a/drivers/gpu/drm/msm/msm_gpu_trace.h b/drivers/gpu/drm/msm/msm_gpu_trace.h
-> index 07572ab179fa..1079fe551279 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu_trace.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu_trace.h
-> @@ -114,6 +114,32 @@ TRACE_EVENT(msm_gmu_freq_change,
->                 TP_printk("freq=%u, perf_index=%u", __entry->freq, __entry->perf_index)
->  );
->
-> +
-> +TRACE_EVENT(msm_gem_purge,
-> +               TP_PROTO(u32 bytes),
-> +               TP_ARGS(bytes),
-> +               TP_STRUCT__entry(
-> +                       __field(u32, bytes)
-> +                       ),
-> +               TP_fast_assign(
-> +                       __entry->bytes = bytes;
-> +                       ),
-> +               TP_printk("Purging %u bytes", __entry->bytes)
-> +);
-> +
-> +
-> +TRACE_EVENT(msm_gem_purge_vmaps,
-> +               TP_PROTO(u32 unmapped),
-> +               TP_ARGS(unmapped),
-> +               TP_STRUCT__entry(
-> +                       __field(u32, unmapped)
-> +                       ),
-> +               TP_fast_assign(
-> +                       __entry->unmapped = unmapped;
-> +                       ),
-> +               TP_printk("Purging %u vmaps", __entry->unmapped)
-> +);
-> +
->  #endif
->
->  #undef TRACE_INCLUDE_PATH
-> --
-> 2.26.2
->
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+Hmm, so "Rounded down to lower integer value" means
+
+floor(x) - 1 ?
+
+If that's the case, we need to subtract 1 in all cases, not only when req bw == avail bw.
+
+> Third, is about the line_threshold calculation
+> Unlike TU_SIZE and Valid_Symbols, line_threshold is implementation dependent
+> 
+> CDNS MHDP register specs gives the definition as " Video FIFO latency threshold" 
+> Bits 5:0, Name "cfg_active_line_tresh", Description "Video Fifo Latency threshold. Defines the number of FIFO rows before reading starts. This setting depends on the transmitted video format and link rate."
+> 
+> This parameter is the Threshold of the FIFO. For optimal performance (considering equal write and read clock) we normally put the threshold in the mid of the FIFO.
+> Hence the reset value is fixed as 32.
+> Since symbol FIFO is accessed by Pxl clock and Symbol Link Clock the Threshold is set to a value which is dependent on the ratio of these clocks
+> 
+> line_threshold = full_fifo - fifo_ratio_due_to_clock_diff + 2
+> where,
+> full_fifo = (vs+1) * (8/bpp)
+> fifo_ratio_due_to_clock_diff = ((vs+1) * pxlclock/mhdp->link.rate - 1) / mhdp->link.num_lanes 
+> 
+> Note that line_threshold can take a max value of 63
+
+That doesn't result in anything sensible. 8/bpp is always 0.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
