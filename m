@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3954825C802
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 19:25:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD19F25C89B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 20:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A58886EA38;
-	Thu,  3 Sep 2020 17:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6A656E204;
+	Thu,  3 Sep 2020 18:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com
- [IPv6:2607:f8b0:4864:20::449])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351DF6EA38
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 17:25:07 +0000 (UTC)
-Received: by mail-pf1-x449.google.com with SMTP id s204so2354890pfs.18
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 10:25:07 -0700 (PDT)
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com
+ [IPv6:2607:f8b0:4864:20::f49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC1FE6E204
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 18:16:58 +0000 (UTC)
+Received: by mail-qv1-xf49.google.com with SMTP id y32so2325275qve.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 11:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:message-id:mime-version:subject:from:to:cc;
- bh=6AY1T/BYMaOLM6rrW9aeA8hU+X+YyLXOqbaG+RF8H0M=;
- b=aS2kG58bmMLSnKgjV5uEDm0tPHq+R8jtjxNbrRy2V7rw4UlPNV+91ze6MbVHZvYObX
- lW2EoKI2aZjjZmHcpM6QvUKdG0mukKQa7r8c1gCixJ6zhYAZSt6n2BhgyHUdoKc5WiJi
- /14i55JenJbdbQ+r6Z1vGXUVaezcatB2RC1A297WWeQ78MVbnPqp4xnfQUMHsACMHYRb
- X4vQy2bo0C1REFI5Oz2oiq5SFTnwWWrKKoe1O4/QMOI+a9WlO/qSMd1+h8B/o3GLdBQE
- eZVwPfRF2x9CExIGunojMFGRWbLV1tfVkojP0YYcPy9c0MIeDyRtcCcY572whhT9CO4I
- qf5Q==
+ bh=l9dmc/8Gy2gfae1Oa9YnsHQ0v4BtDJdWSppLEszGZVI=;
+ b=bK6BmvhNktIyP+Wd+taLi8BePFuV2NBvASVJ7pAmkhPgHWcCss+wH+I+qv9O5SDB4r
+ EUXAOAv2wEw2IPDyjXZq2hTlQNIYrkdlFj/lAdaVqRM07SZe+sMvqk+40X677ubzreF3
+ HkksBfzV7XNEIZmbK9pJCSQq9OjNP+pWje0yeWR8PYfYdEB0d+V7bLGxZ6LmD19o5uii
+ 5D/YmNZnM8Oax6xj0V7CZbu/tVT8EBcqn9YuPWimvJl3BRQgj/n4lECTaizmCXK5ZRrW
+ QAsUtIiNNknRwoAOT+l/+rZw0BYAzhhTLoUABn8f6sW1m8hRA9WXEj8w9uNSmB95kRYS
+ z6IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
  :to:cc;
- bh=6AY1T/BYMaOLM6rrW9aeA8hU+X+YyLXOqbaG+RF8H0M=;
- b=XAzTadHYpUcICINTkGew0xNcFeLAfsFbzKUdwWcM7f8m45yrzc2NS88WZPGSK6VnYs
- Bf+hcML6rlBiRaIvNZWIN6Lq1gc6ptrBn2w9lyW0+k0HkXdRrmxMnIPTu2/YO+CtxFFH
- 4mAFifA+ttb+j4Ls3vPD8t5RHw6tX6x0ZYemTmuuCTSX/ej2QX/6utnF9e2jZEfoBtlA
- XvK/pkUPJMc0OZaj5KhT9TrC92pF189gnuEzY5JDfFySh0L2ZMgKa0mEMuEF4l+PEL3+
- JHYmq0SV2qA89QTrguQVj+bnoI43qT3dv6g2Hei3ggsweuIJxzJOrxKMWaN5tw+4d4yD
- n7Kg==
-X-Gm-Message-State: AOAM533VrBLPSAop1dR+rR78jMWlxSlNh9qOFcfPc/ujWWjCI48XLo30
- Qs2nw+YQG1pDB5W4Hhw2VpYt1SpG57VxWXjJgMGabRRqYlJqUhEJaFQgPMYXzwJXuS7iTeMllKz
- sIlq+AAU7IlhKyIBMTgRd0DaSoFKki2SYi7cYya/6HfIF+pV4oVDKNQqaDGfq4qL36nzXQmqyMD
- /k1nw1hA==
-X-Google-Smtp-Source: ABdhPJwQdoGEYC03qYkQyO88gWP8C1DlQ/DBvKGXVSZBrqaDBjJ7f6s+WXVjKs8mfwj5R8mo8rmJtG6afNGYUM0=
+ bh=l9dmc/8Gy2gfae1Oa9YnsHQ0v4BtDJdWSppLEszGZVI=;
+ b=fMaTIPqps4V0RJ2lneE859NSrF/4uU9zzqBNpNeDKkKu5jkNxISVpJXopZog9OHMDw
+ Gr5ruKeXsw+t4b86k/ja7QaLDld++9Q0k2pkBe9fQjrdwmJm2w1JoUlwpWidKC1bS3Sx
+ tFi7HGQz/ys/H85YCVMFU2tg7Wnyk7DAFT59MVrvnxhoi/yO6Li35Q9oi0ohvNDL451M
+ EzG/BbdP8dwRJwsz3QPfylXJdxUq7xRobXV5r9Z7MC+5UKaDOiNb61Trmc3QnHZ1wG6C
+ 3RjK//+PiMNCbRJZC+neNMeOPBg9wETmXLTf50slhlNQpaIUu5yO2Wv/NZUaUyjew84G
+ Ja6A==
+X-Gm-Message-State: AOAM530XKsqJsFTHgSa2kTl6K1c4zxE1J6fFHGy8TaB92MglfCra6owf
+ soEYg5Wrh8KuvupbxP3EkcpeXm6p3x2ycEAT0RGQHwykv7k5Bi4AV8PBxLa9u5kZ4ihT0Y9jTyv
+ f+xtMfFQaXSFjZTWJ9qFfP4fcuTjsbE17iR2pcp92XV2RifwY9XkMnPtibrvfvyL5xxQhXAoHNk
+ /Ja8dUFg==
+X-Google-Smtp-Source: ABdhPJx2CxYzWkRMZ+Fk7PStUCx+GbKTUDCbMribS7VDriwzrbLElBpLQFDDYAuz+QrPvtb74mK0Iq/ZMYwW0Hc=
 X-Received: from ikelos.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:5eca])
- (user=hoegsberg job=sendgmr) by 2002:a17:902:ff12:: with SMTP id
- f18mr4903465plj.118.1599153906488; Thu, 03 Sep 2020 10:25:06 -0700 (PDT)
-Date: Thu,  3 Sep 2020 17:24:54 +0000
-Message-Id: <20200903172454.423798-1-hoegsberg@google.com>
+ (user=hoegsberg job=sendgmr) by 2002:a0c:a3e5:: with SMTP id
+ v92mr3009691qvv.10.1599157017703; Thu, 03 Sep 2020 11:16:57 -0700 (PDT)
+Date: Thu,  3 Sep 2020 18:16:52 +0000
+Message-Id: <20200903181652.432067-1-hoegsberg@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
-Subject: [PATCH] FROMLIST: udmabuf: Add missing compact_ioctl
+Subject: [PATCH] udmabuf: Add missing compact_ioctl
 From: "Kristian H. Kristensen" <hoegsberg@google.com>
 To: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,15 +71,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Make sure we can use this on mixed systems.
 
 Signed-off-by: Kristian H. Kristensen <hoegsberg@google.com>
-(am from TBD)
-
-BUG=b:167236452
-TEST=dmabuf_test from drm-tests passes on mixed systems
-
-Change-Id: I4e9f26aedf82a36b9888bb36d41ccd3b7a27365e
 ---
  drivers/dma-buf/udmabuf.c | 3 +++
  1 file changed, 3 insertions(+)
+
+Sorry Gerd for all the spam. Once I finally got git send-email
+working, I ended up sending a version with all ChromeOS decorations,
+of course.  Here's a normal upstream version.
+
+Email based workflow - the barrier is real.
+
+Kristian
 
 diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
 index 9635897458a0..6f4ff6ede050 100644
