@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD76C25D226
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A2025D212
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B67926EAD2;
-	Fri,  4 Sep 2020 07:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8EF86EB0D;
+	Fri,  4 Sep 2020 07:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565B46E581
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5D46E581
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:48 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id E3329B44;
- Thu,  3 Sep 2020 04:03:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:47 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 4F19AD28;
+ Thu,  3 Sep 2020 04:03:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=drJ+BFJBQYiQb
- DPjeCt0XCzj5cTedbAvqWxxXhWZ8EE=; b=gCCzoAdCYyGXvRsdqASjO73QpOwQJ
- zQjppC7iedvkdUtYOqNlCAFxeHw8BJUQ5TmvzO/uSPOcb0LoDyY35tFB2gAGI+5E
- eexqW+uT844t4SF+FFj3+KLkpz1achXpUWrgeWRpntG3enU865Lh6OQ6p0C8Ner3
- tkl8s8DWPr08bi1eFEorjdWYA/HPPW1q31I3oKU1UGXiD7RHeo3Cggut+lriOgf6
- CcA6YtFoeWZB2s1bLHGo1uwuC1sPQXnP6MQbE6BAw4vl2ImPnx1NgveqgihAc/7Y
- hNwnz8yMTfwJ4dlDW29bktf+qLi2ryo6iQ/eRVk+GYl2gIqdtvabdln4w==
+ :mime-version:content-transfer-encoding; s=fm3; bh=7VQR+ciz8MaOr
+ 8+XGEG6mS+8PtKW5q44bWQ5wfiE1po=; b=MVxMgfrJONAEQGq2FwL1fsqFkjVNm
+ mfFU98clFLeDfv//dr35qTEdE+tC2iH91eJwaD+0pLJO/cYmWDIrXGZpHgwyqFdX
+ CwCwNwBQQLNYfual72oY1WPchv0rsQDFI80JlrNj5kABj2J86oxa4ijXJeyFFUFZ
+ 4W725t3ic9Yj63e1l8AmZibe7E6yo2wKWTZdFRXs/EoQ5Fk3SgaGoeMTXY1akK10
+ 6bfYP81lubiL+qnhiWv40DSdC+CpYi9V0GMSyiPnFO5iBFyTb7w20gqCpxRHxqMf
+ 7FfxZ8wtJZNhyuGt7cfb0Nhx+lYUbvdEDrh3+LoQAf6mArrmAmhWP4ecA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=drJ+BFJBQYiQbDPjeCt0XCzj5cTedbAvqWxxXhWZ8EE=; b=CZqFk8Zl
- zXDbmjhIjGht5eOI4Jwu6VTkDhFErkBCMsLoIe3fJ4ERSF9c16cMujrcRJB1RRZI
- s7LPlCoB+C7NPPNCRWVae9dNUv3UADpc8kiZstXQAF/PP+F94JjIU5rAvs5Ci8cc
- 7QLhaspp87Mm4MRJBzbOHckgIuLlRDxoRrsYqxF+Xl31nOO2oS8moKlSCkpQyPnJ
- ijL5TWgfi8f++4GyqWt7U6iDQlbfGmy/OtSmZU9viw3oZCw62dHE/sSCjuZrMy9A
- SdCGBYBbzxbtEFQIVFQk9WsCcvqKVdc5nSjBYiwOL8QW1hng728F65oGsiA//O0q
- LGsLAbYn46D5ig==
-X-ME-Sender: <xms:YaNQXwNbHfMsk6xKPNHgkMxUs7X4eYhksslFZkOROcIUoiM9b8qPPg>
- <xme:YaNQX2-O_qsEimcbhCGg4uQfuN1yKQGorBDgLoBaZeWgwWOq8S-dzXAdE8Sw-SBIm
- Y81Y2xzo9NcmvVJwPA>
+ fm3; bh=7VQR+ciz8MaOr8+XGEG6mS+8PtKW5q44bWQ5wfiE1po=; b=Ar6KcPnu
+ rcE3HcHuTOU/pdacFhgrMR9sSKCfFC7FETHJ1Gatmc7XKlEMRzkejbbdxRYACdfC
+ SbWhI9gRzXDzHv4pDRGuUwz/y1mQSvLmhFggEQWU8h3B0k9/ECjt0R7eEzTLItw2
+ 3Ba/lNNcFoiZfmfDCjiYWoYh9ZIz64LP5BRWUpGvyz7NsG4Lqb1Pej8+D1xOrNTi
+ uq/UFMz0TJZA4g8sRUtM6ldKYr4PqgXUSrW6oLXDSvj3Z+EXNLclCBRYCU1LCvq+
+ 36OGzDgnL2RQbISemL59VC2M/xL+ejqdHuThyKgkTU+moUdmoFxB4Km0UoQf0p8A
+ JhBvUkzLSFVm4w==
+X-ME-Sender: <xms:YqNQX4ZlIsfeZ5cxsnUS02YG-4V4pTtbO5rqujbSiON7nXGf2rmHZg>
+ <xme:YqNQXza6WcRhuiKqQpsS0Uzcux63-ESGt1CQWiql5yYK4wBLiwTKQAXvOpC7iLE6e
+ Qfs3mcxReR4YxdmGJc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -49,20 +49,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetgg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
  heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeejvd
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:YaNQX3S3DndjD1C8MM5RKKaoDRUxdzAV3YNphEniXmdlMpuss4i6VA>
- <xmx:YaNQX4vA6eWar3WDzEDIUCQrW9K9SUqE-wPdU7HpIntogke46hrK4w>
- <xmx:YaNQX4eh6y3iwUl8PDxeXs_UgBHFcN0Ccn49CjlcFfOGvQzLjl737Q>
- <xmx:YaNQX82MDLYwia3iE8lIz9HH-cgwh45eg8UbExofTETXrkA4yOX1_cNhOdg>
+X-ME-Proxy: <xmx:YqNQXy8lqaxjzIW_oWEretu2FMpvqF53kVoquQax6DUORoT3HUkPxA>
+ <xmx:YqNQXyp7pMnT3oXalUB-qKu6WzNrfzs3jlP6lQF7jdWIFF9eoWD3kA>
+ <xmx:YqNQXzrxq9QL602L_w-B5vEB1YcUSl3YzdtX5VG9wNO0ja-_objJiw>
+ <xmx:YqNQX8QJLP_AAKEF7mphZne-mWoKQj7XsHhY6JaxohVbRmrT7hcI7QkikeU>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2A1B4306005F;
- Thu,  3 Sep 2020 04:03:45 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 76549328005E;
+ Thu,  3 Sep 2020 04:03:46 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 79/80] drm/vc4: drv: Support BCM2711
-Date: Thu,  3 Sep 2020 10:01:51 +0200
-Message-Id: <beac4f9ef0261bca731a0402c8354e9af740519c.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
+Date: Thu,  3 Sep 2020 10:01:52 +0200
+Message-Id: <cfce2276d172d3d9c4d34d966b58fd47f77c4e46.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -92,142 +92,249 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BCM2711 has a reworked display pipeline, and the load tracker needs
-some adjustment to operate properly. Let's add a compatible for BCM2711
-and disable the load tracker until properly supported.
+Now that all the drivers have been adjusted for it, let's bring in the
+necessary device tree changes.
 
+The VEC and PV3 are left out for now, since it will require a more specific
+clock setup.
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
 Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c   |  1 +-
- drivers/gpu/drm/vc4/vc4_drv.h   |  3 ++-
- drivers/gpu/drm/vc4/vc4_kms.c   | 44 +++++++++++++++++++++++-----------
- drivers/gpu/drm/vc4/vc4_plane.c |  5 ++++-
- 4 files changed, 40 insertions(+), 13 deletions(-)
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts |  48 +++++++++++-
+ arch/arm/boot/dts/bcm2711.dtsi        | 122 ++++++++++++++++++++++++++-
+ 2 files changed, 169 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 9567d1019212..f1a5fd5dab6f 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -372,6 +372,7 @@ static int vc4_platform_drm_remove(struct platform_device *pdev)
- }
+diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
+index e94244a215af..09a1182c2936 100644
+--- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
++++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
+@@ -70,6 +70,14 @@
+ 	};
+ };
  
- static const struct of_device_id vc4_of_match[] = {
-+	{ .compatible = "brcm,bcm2711-vc5", },
- 	{ .compatible = "brcm,bcm2835-vc4", },
- 	{ .compatible = "brcm,cygnus-vc4", },
- 	{},
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 501a48a714d3..8c8d96b6289f 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -200,6 +200,9 @@ struct vc4_dev {
- 
- 	int power_refcount;
- 
-+	/* Set to true when the load tracker is supported. */
-+	bool load_tracker_available;
++&ddc0 {
++	status = "okay";
++};
 +
- 	/* Set to true when the load tracker is active. */
- 	bool load_tracker_enabled;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index bfc7ddd49ac5..16e233e1406e 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -536,6 +536,9 @@ static int vc4_load_tracker_atomic_check(struct drm_atomic_state *state)
- 	struct drm_plane *plane;
- 	int i;
- 
-+	if (!vc4->load_tracker_available)
-+		return 0;
++&ddc1 {
++	status = "okay";
++};
 +
- 	priv_state = drm_atomic_get_private_obj_state(state,
- 						      &vc4->load_tracker);
- 	if (IS_ERR(priv_state))
-@@ -683,12 +686,18 @@ int vc4_kms_load(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_ctm_state *ctm_state;
- 	struct vc4_load_tracker_state *load_state;
-+	bool is_vc5 = of_device_is_compatible(dev->dev->of_node,
-+					      "brcm,bcm2711-vc5");
- 	int ret;
+ &firmware {
+ 	firmware_clocks: clocks {
+ 		compatible = "raspberrypi,firmware-clocks";
+@@ -170,6 +178,38 @@
+ 			  "RGMII_TXD3";
+ };
  
--	/* Start with the load tracker enabled. Can be disabled through the
--	 * debugfs load_tracker file.
--	 */
--	vc4->load_tracker_enabled = true;
-+	if (!is_vc5) {
-+		vc4->load_tracker_available = true;
++&hdmi0 {
++	clocks = <&firmware_clocks 13>, <&firmware_clocks 14>, <&dvp 0>, <&clk_27MHz>;
++	clock-names = "hdmi", "bvb", "audio", "cec";
++	status = "okay";
++};
 +
-+		/* Start with the load tracker enabled. Can be
-+		 * disabled through the debugfs load_tracker file.
-+		 */
-+		vc4->load_tracker_enabled = true;
-+	}
- 
- 	sema_init(&vc4->async_modeset, 1);
- 
-@@ -702,8 +711,14 @@ int vc4_kms_load(struct drm_device *dev)
- 		return ret;
- 	}
- 
--	dev->mode_config.max_width = 2048;
--	dev->mode_config.max_height = 2048;
-+	if (is_vc5) {
-+		dev->mode_config.max_width = 7680;
-+		dev->mode_config.max_height = 7680;
-+	} else {
-+		dev->mode_config.max_width = 2048;
-+		dev->mode_config.max_height = 2048;
-+	}
++&hdmi1 {
++	clocks = <&firmware_clocks 13>, <&firmware_clocks 14>, <&dvp 1>, <&clk_27MHz>;
++	clock-names = "hdmi", "bvb", "audio", "cec";
++	status = "okay";
++};
 +
- 	dev->mode_config.funcs = &vc4_mode_funcs;
- 	dev->mode_config.preferred_depth = 24;
- 	dev->mode_config.async_page_flip = true;
-@@ -718,14 +733,17 @@ int vc4_kms_load(struct drm_device *dev)
- 	drm_atomic_private_obj_init(dev, &vc4->ctm_manager, &ctm_state->base,
- 				    &vc4_ctm_state_funcs);
- 
--	load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
--	if (!load_state) {
--		drm_atomic_private_obj_fini(&vc4->ctm_manager);
--		return -ENOMEM;
--	}
-+	if (vc4->load_tracker_available) {
-+		load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
-+		if (!load_state) {
-+			drm_atomic_private_obj_fini(&vc4->ctm_manager);
-+			return -ENOMEM;
-+		}
- 
--	drm_atomic_private_obj_init(dev, &vc4->load_tracker, &load_state->base,
--				    &vc4_load_tracker_state_funcs);
-+		drm_atomic_private_obj_init(dev, &vc4->load_tracker,
-+					    &load_state->base,
-+					    &vc4_load_tracker_state_funcs);
-+	}
- 
- 	drm_mode_config_reset(dev);
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 1e38e603f83b..24d7e6db6fdd 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -516,6 +516,11 @@ static void vc4_plane_calc_load(struct drm_plane_state *state)
- 	struct vc4_plane_state *vc4_state;
- 	struct drm_crtc_state *crtc_state;
- 	unsigned int vscale_factor;
-+	struct vc4_dev *vc4;
++&hvs {
++	clocks = <&firmware_clocks 4>;
++};
 +
-+	vc4 = to_vc4_dev(state->plane->dev);
-+	if (!vc4->load_tracker_available)
-+		return;
++&pixelvalve0 {
++	status = "okay";
++};
++
++&pixelvalve1 {
++	status = "okay";
++};
++
++&pixelvalve2 {
++	status = "okay";
++};
++
++&pixelvalve4 {
++	status = "okay";
++};
++
+ &pwm1 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pwm1_0_gpio40 &pwm1_1_gpio41>;
+@@ -253,3 +293,11 @@
+ &vchiq {
+ 	interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+ };
++
++&vc4 {
++	status = "okay";
++};
++
++&vec {
++	status = "disabled";
++};
+diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+index 00bcaed1be32..4847dd305317 100644
+--- a/arch/arm/boot/dts/bcm2711.dtsi
++++ b/arch/arm/boot/dts/bcm2711.dtsi
+@@ -12,6 +12,18 @@
  
- 	vc4_state = to_vc4_plane_state(state);
- 	crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+ 	interrupt-parent = <&gicv2>;
+ 
++	vc4: gpu {
++		compatible = "brcm,bcm2711-vc5";
++		status = "disabled";
++	};
++
++	clk_27MHz: clk-27M {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		clock-frequency = <27000000>;
++		clock-output-names = "27MHz-clock";
++	};
++
+ 	clk_108MHz: clk-108M {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+@@ -238,6 +250,27 @@
+ 			status = "disabled";
+ 		};
+ 
++		pixelvalve0: pixelvalve@7e206000 {
++			compatible = "brcm,bcm2711-pixelvalve0";
++			reg = <0x7e206000 0x100>;
++			interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++		};
++
++		pixelvalve1: pixelvalve@7e207000 {
++			compatible = "brcm,bcm2711-pixelvalve1";
++			reg = <0x7e207000 0x100>;
++			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++		};
++
++		pixelvalve2: pixelvalve@7e20a000 {
++			compatible = "brcm,bcm2711-pixelvalve2";
++			reg = <0x7e20a000 0x100>;
++			interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++		};
++
+ 		pwm1: pwm@7e20c800 {
+ 			compatible = "brcm,bcm2835-pwm";
+ 			reg = <0x7e20c800 0x28>;
+@@ -248,10 +281,25 @@
+ 			status = "disabled";
+ 		};
+ 
+-		hvs@7e400000 {
++		pixelvalve4: pixelvalve@7e216000 {
++			compatible = "brcm,bcm2711-pixelvalve4";
++			reg = <0x7e216000 0x100>;
++			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++		};
++
++		hvs: hvs@7e400000 {
++			compatible = "brcm,bcm2711-hvs";
+ 			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		pixelvalve3: pixelvalve@7ec12000 {
++			compatible = "brcm,bcm2711-pixelvalve3";
++			reg = <0x7ec12000 0x100>;
++			interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++		};
++
+ 		dvp: clock@7ef00000 {
+ 			compatible = "brcm,brcm2711-dvp";
+ 			reg = <0x7ef00000 0x10>;
+@@ -259,6 +307,78 @@
+ 			#clock-cells = <1>;
+ 			#reset-cells = <1>;
+ 		};
++
++		hdmi0: hdmi@7ef00700 {
++			compatible = "brcm,bcm2711-hdmi0";
++			reg = <0x7ef00700 0x300>,
++			      <0x7ef00300 0x200>,
++			      <0x7ef00f00 0x80>,
++			      <0x7ef00f80 0x80>,
++			      <0x7ef01b00 0x200>,
++			      <0x7ef01f00 0x400>,
++			      <0x7ef00200 0x80>,
++			      <0x7ef04300 0x100>,
++			      <0x7ef20000 0x100>;
++			reg-names = "hdmi",
++				    "dvp",
++				    "phy",
++				    "rm",
++				    "packet",
++				    "metadata",
++				    "csc",
++				    "cec",
++				    "hd";
++			clock-names = "hdmi", "bvb", "audio", "cec";
++			resets = <&dvp 0>;
++			ddc = <&ddc0>;
++			dmas = <&dma 10>;
++			dma-names = "audio-rx";
++			status = "disabled";
++		};
++
++		ddc0: i2c@7ef04500 {
++			compatible = "brcm,bcm2711-hdmi-i2c";
++			reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
++			reg-names = "bsc", "auto-i2c";
++			clock-frequency = <97500>;
++			status = "disabled";
++		};
++
++		hdmi1: hdmi@7ef05700 {
++			compatible = "brcm,bcm2711-hdmi1";
++			reg = <0x7ef05700 0x300>,
++			      <0x7ef05300 0x200>,
++			      <0x7ef05f00 0x80>,
++			      <0x7ef05f80 0x80>,
++			      <0x7ef06b00 0x200>,
++			      <0x7ef06f00 0x400>,
++			      <0x7ef00280 0x80>,
++			      <0x7ef09300 0x100>,
++			      <0x7ef20000 0x100>;
++			reg-names = "hdmi",
++				    "dvp",
++				    "phy",
++				    "rm",
++				    "packet",
++				    "metadata",
++				    "csc",
++				    "cec",
++				    "hd";
++			ddc = <&ddc1>;
++			clock-names = "hdmi", "bvb", "audio", "cec";
++			resets = <&dvp 1>;
++			dmas = <&dma 17>;
++			dma-names = "audio-rx";
++			status = "disabled";
++		};
++
++		ddc1: i2c@7ef09500 {
++			compatible = "brcm,bcm2711-hdmi-i2c";
++			reg = <0x7ef09500 0x100>, <0x7ef05b00 0x300>;
++			reg-names = "bsc", "auto-i2c";
++			clock-frequency = <97500>;
++			status = "disabled";
++		};
+ 	};
+ 
+ 	/*
 -- 
 git-series 0.9.1
 _______________________________________________
