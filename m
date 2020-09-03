@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31ED25D208
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E8025D20F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F266EAD9;
-	Fri,  4 Sep 2020 07:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F156C6EAA0;
+	Fri,  4 Sep 2020 07:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 487B26E4E8
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9471C6E199
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:17 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 1A702C29;
- Thu,  3 Sep 2020 04:03:15 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:16 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 66119C02;
+ Thu,  3 Sep 2020 04:03:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=RQL2p0XNTFOVc
- zFS1RiCOdkrFsHPgmafoyYC4B9enjU=; b=HfZajquNfgYrf88rR81bIYG++P5Ub
- naSqUgUW6Uo+ENC7aJO5XfeRXyIXPEFvxJdD6/fYCefemhase7DR38UsvGUQwr4b
- bVnO9QFyfqQ1tMT4h+o5zhcKaRXa4/keTQIhkMFqeJp9mNsc4NNSuLym/26qtJK7
- uQSS5byjSwulhUyUN94gSF/w1zayalWfP6bzKqmBE8bCYlu8YrlUk3MHI68pP124
- MA/s20Sh7Qs2YQeXA026F188D0HGZRh7MdH7lM3gSIoYG8Xf9P3AZ8XX0FH9lCiu
- wD0mTFWvWXvmQ1RelJY7NIcDTaveT7nT3DqHsXRckxESbbYLwyXj9nT9Q==
+ :mime-version:content-transfer-encoding; s=fm3; bh=nDtwCT/GEboFZ
+ 6h2FalfKwFluMDJ6O4H2K3IGSnhOgU=; b=aSZDAT6IIt7QAKKa0fxFrWzYUyVxP
+ RlF6FVPu7j7kuJVO0jYhI5UoqtUngHrP853CCqgjBvXTwMKnACN8qYUTcRefbiIB
+ 3seXWGvU7CAVyZaKBl2pK9HAW6YgMydhju8f7U0kU4jctfGHRWqdiMT/x3Xuntq4
+ NEV6xmqX8cvG2424ECzzsP4ovIdZW5bhym5G78Sy4S23n+olAtrribyWr1oB7T6R
+ xcfuDobP0OWk3R4Es50e3uMuPZoS2rwR79egm5PjOqNlX92iOCyYWwjx5Ep3md+G
+ lC5fiFcJVK11kW4837wYSpzZwcPXinHwZRwRsPZsvgUixfmVgeUYcDPZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=RQL2p0XNTFOVczFS1RiCOdkrFsHPgmafoyYC4B9enjU=; b=QJTJkKWO
- d/fZzPhV57bt5bj69jnyXUrepWCB9+auDCZ4Z+V/vU4g6ZhdG3ITtPenW4Ad53Zi
- O/NE5SAHQiJIZliY8FjcCtHV9r9uiknntIPUwxqi5VlYQbqBc+wCyq3W3MAuux9P
- YA1cVtLSgQCotjIqBfhz6Pejz71QEZ/FvkAgKAotA3y2GCa2TZeGERbaccQQ9KFE
- rkFnEGsuCDAoUEhat5qYfxcON3KIt1Hbc7WecoObiuWG0t/rlv+JvtDLMhC0YRrV
- eArgcnG/ktZJYm0M8a1fJIRW91sd/v6SOSW4TAoW47489MLcVu11wCVyu9UErvTa
- sfXWqjX4mrX+rQ==
-X-ME-Sender: <xms:QqNQX8LNWbZNyGUsBX6QuD24rmK46s05ugNfMJhXqTqEvw-LhNHpEw>
- <xme:QqNQX8ID54Xkkvjy_x-klHLXD1JaaRuTqcVAWDaL8GHf6zOVKXUJa_h2_ZX1uwF4A
- OhMbM_d7xcezaw1DV8>
+ fm3; bh=nDtwCT/GEboFZ6h2FalfKwFluMDJ6O4H2K3IGSnhOgU=; b=Wg4thRAp
+ wWoeQ0tYAbvzXY7j6OkSI6PrrkwcDBNFsZlcu6lg00soOM0vfX7zw27/FuHj/5z/
+ e6wp1ctGGnkCA++f4r4Tj3mGmizlUbreWMrfSCkTdXXDYcQl7cSTk4vTM1H1zt6r
+ nWWE0orYiaCAGKoxl9BwkQLRgIPlYYxSEQHtOciZh9VDrtf6L0caCPdFSrNYEaGS
+ On8lJvyc37JvnpBhfYXr2imAnsYfpVUa115F8cDXBlrlfXFJAa3xn7hcsrKkmCU9
+ IubY9QQ4OTRk6OVIMvhKTfPhv+UDgRL7eKEswsx54Lcr8+e9M2IQyzT68Qpt2vDP
+ 1Ng5Hw39TX5JIA==
+X-ME-Sender: <xms:Q6NQXxXrObUoGXq7WF4R0TG5nWk81IbusJz4raYQcUzM8wA6F1Q5zA>
+ <xme:Q6NQXxkSMGixEvqTiVIjoqploIs0M-_XJvHZ4nwlTvxhu1NhRf0eSgAOZfhSxf74l
+ CPltfzFoD9vApW7Yiw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
- heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeegle
+ heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeehge
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:QqNQX8s99Trwh2qADNvDMtNNI_AFFS-vmg7hrI5pZpS5Svd_foYdiw>
- <xmx:QqNQX5Yd97VQn1MrciGBHMS1C2DpQtNgRNINcmlizG-VnS3oRdHOUQ>
- <xmx:QqNQXzYhWBVL6DfvF1JWfSsrJAfOldBkgBDZmHcFhi-76w_KZZrWfw>
- <xmx:QqNQXxALO0MHO1yL-c_9xTctwmeG6A_ZoEPQE7pExzuCTn3B0-KAn52G-xc>
+X-ME-Proxy: <xmx:Q6NQX9aCJuHC8hn8qKQkwlZclnU0R5bZVUfj9J5hEnTnmdx6QkOpSA>
+ <xmx:Q6NQX0VlHe0CGLTgCGI7jcIDyY7Yti9-XDnEHwDobvZrMFkulcBb5A>
+ <xmx:Q6NQX7ngX8y9n0m4XSA8cW9F2HGX3jYd963WeW4J-5q4gOrw1uQ0Bw>
+ <xmx:RKNQX5cHEIEUKuBC_HQxY01eKBz0zS2nXam6HFYJV460s5LENdhEZSrUDaY>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 56CC2306005B;
- Thu,  3 Sep 2020 04:03:14 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id A6428328005A;
+ Thu,  3 Sep 2020 04:03:15 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 57/80] drm/vc4: hdmi: Store the encoder type in the variant
- structure
-Date: Thu,  3 Sep 2020 10:01:29 +0200
-Message-Id: <2736a86b498551ba9dbc5803c5bb910627a2550c.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 58/80] drm/vc4: hdmi: Deal with multiple debugfs files
+Date: Thu,  3 Sep 2020 10:01:30 +0200
+Message-Id: <9505c1eb40b3ef3709277bf9e8af77917b249c32.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -93,10 +92,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vc4 CRTC will use the encoder type to control its output clock
-muxing. However, this will be different from HDMI0 to HDMI1, so let's
-store our type in the variant structure so that we can support multiple
-controllers later on.
+The HDMI driver was registering a single debugfs file so far with the name
+hdmi_regs.
+
+Obviously, this is not going to work anymore when will have multiple HDMI
+controllers since we will end up trying to register two files with the same
+name.
+
+Let's use the variant to avoid that name conflict.
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
@@ -104,41 +107,43 @@ Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 5 ++++-
  drivers/gpu/drm/vc4/vc4_hdmi.h | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 9e2bc6cb690e..f6d18bdbd1bb 100644
+index f6d18bdbd1bb..4d0b44a2ac61 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1267,7 +1267,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+@@ -1369,7 +1369,9 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		goto err_destroy_encoder;
  
- 	dev_set_drvdata(dev, vc4_hdmi);
- 	encoder = &vc4_hdmi->encoder.base.base;
--	vc4_hdmi->encoder.base.type = VC4_ENCODER_TYPE_HDMI0;
-+	vc4_hdmi->encoder.base.type = variant->encoder_type;
- 	vc4_hdmi->pdev = pdev;
- 	vc4_hdmi->variant = variant;
+-	vc4_debugfs_add_file(drm, "hdmi_regs", vc4_hdmi_debugfs_regs, vc4_hdmi);
++	vc4_debugfs_add_file(drm, variant->debugfs_name,
++			     vc4_hdmi_debugfs_regs,
++			     vc4_hdmi);
  
-@@ -1446,6 +1446,7 @@ static int vc4_hdmi_dev_remove(struct platform_device *pdev)
- }
+ 	return 0;
+ 
+@@ -1447,6 +1449,7 @@ static int vc4_hdmi_dev_remove(struct platform_device *pdev)
  
  static const struct vc4_hdmi_variant bcm2835_variant = {
-+	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
++	.debugfs_name		= "hdmi_regs",
  	.registers		= vc4_hdmi_fields,
  	.num_registers		= ARRAY_SIZE(vc4_hdmi_fields),
  
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 0c32dc46d289..0d529db4b3ab 100644
+index 0d529db4b3ab..794216f3228d 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -27,6 +27,9 @@ struct vc4_hdmi;
- struct vc4_hdmi_register;
+@@ -30,6 +30,9 @@ struct vc4_hdmi_variant {
+ 	/* Encoder Type for that controller */
+ 	enum vc4_encoder_type encoder_type;
  
- struct vc4_hdmi_variant {
-+	/* Encoder Type for that controller */
-+	enum vc4_encoder_type encoder_type;
++	/* Filename to expose the registers in debugfs */
++	const char *debugfs_name;
 +
  	/* List of the registers available on that variant */
  	const struct vc4_hdmi_register *registers;
