@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B24625BF74
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 12:51:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B8625BF79
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 12:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B07B6E976;
-	Thu,  3 Sep 2020 10:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C80FC6E97E;
+	Thu,  3 Sep 2020 10:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0FD6E979
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 10:51:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2D66E97E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 10:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599130294;
+ s=mimecast20190719; t=1599130299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wn373w+eIWH/3uB660y0YsqFgCSZy2MxI5Vgj0Uvs6A=;
- b=IN6vKhs8/NVQ94fECVcAqQQskWrvxLqxTKkwG7Mva3P8tH3FbjqGb/1HiQOjjY0Vcw1JnX
- QGBIjrdt9R+/ByCJ2EpcpSAI6F6zDtiVmGccKMw1jcge2UViBtK/i3tn/lvympZuJr/MHj
- G8LealcTYcUq44UJbTqZ6vvnGTSmU4Y=
+ bh=ZukzWkoKOICgMwClnkSHfjft9LoCEglKBEzHtiqOOV4=;
+ b=An/XrhyyA/qL6sJhUpfGhbx8+hOVtKvqgy4MiDC/hDiV7CZvPKS76HvrXRAZpZkFBnVC7E
+ GaxE6MqXlz2SYRdMzq9TAtw9VghBzyjoXNOoNAhkoiZlq97nzesmg1wSni83kz+aDiKG74
+ gA7g5nYnLWoZJE5SBRE7p5t5jWXCYSs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-TJRHc2JtPxWUxOyBmNhOVw-1; Thu, 03 Sep 2020 06:51:31 -0400
-X-MC-Unique: TJRHc2JtPxWUxOyBmNhOVw-1
+ us-mta-506-MZSAfRjuPfC7YFwMhi2GjA-1; Thu, 03 Sep 2020 06:51:35 -0400
+X-MC-Unique: MZSAfRjuPfC7YFwMhi2GjA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2C8D64087;
- Thu,  3 Sep 2020 10:51:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 287848030BD;
+ Thu,  3 Sep 2020 10:51:33 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-115-4.ams2.redhat.com [10.36.115.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAD417EEAE;
- Thu,  3 Sep 2020 10:51:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62B41784A8;
+ Thu,  3 Sep 2020 10:51:29 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -44,10 +44,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v9 03/17] pwm: lpss: Fix off by one error in base_unit math in
- pwm_lpss_prepare()
-Date: Thu,  3 Sep 2020 12:51:00 +0200
-Message-Id: <20200903105114.9969-4-hdegoede@redhat.com>
+Subject: [PATCH v9 04/17] pwm: lpss: Add range limit check for the base_unit
+ register value
+Date: Thu,  3 Sep 2020 12:51:01 +0200
+Message-Id: <20200903105114.9969-5-hdegoede@redhat.com>
 In-Reply-To: <20200903105114.9969-1-hdegoede@redhat.com>
 References: <20200903105114.9969-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -69,51 +69,76 @@ Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
  Hans de Goede <hdegoede@redhat.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWNjb3JkaW5nIHRvIHRoZSBkYXRhLXNoZWV0IHRoZSB3YXkgdGhlIFBXTSBjb250cm9sbGVyIHdv
-cmtzIGlzIHRoYXQKZWFjaCBpbnB1dCBjbG9jay1jeWNsZSB0aGUgYmFzZV91bml0IGdldHMgYWRk
-ZWQgdG8gYSBOIGJpdCBjb3VudGVyIGFuZAp0aGF0IGNvdW50ZXIgb3ZlcmZsb3dpbmcgZGV0ZXJt
-aW5lcyB0aGUgUFdNIG91dHB1dCBmcmVxdWVuY3kuCgpTbyBhc3N1bWluZyBlLmcuIGEgMTYgYml0
-IGNvdW50ZXIgdGhpcyBtZWFucyB0aGF0IGlmIGJhc2VfdW5pdCBpcyBzZXQgdG8gMSwKYWZ0ZXIg
-NjU1MzUgaW5wdXQgY2xvY2stY3ljbGVzIHRoZSBjb3VudGVyIGhhcyBiZWVuIGluY3JlYXNlZCBm
-cm9tIDAgdG8KNjU1MzUgYW5kIGl0IHdpbGwgb3ZlcmZsb3cgb24gdGhlIG5leHQgY3ljbGUsIHNv
-IGl0IHdpbGwgb3ZlcmZsb3cgYWZ0ZXIKZXZlcnkgNjU1MzYgY2xvY2sgY3ljbGVzIGFuZCB0aHVz
-IHRoZSBjYWxjdWxhdGlvbnMgZG9uZSBpbgpwd21fbHBzc19wcmVwYXJlKCkgc2hvdWxkIHVzZSA2
-NTUzNiBhbmQgbm90IDY1NTM1LgoKVGhpcyBjb21taXQgZml4ZXMgdGhpcy4gTm90ZSB0aGlzIGFs
-c28gYWxpZ25zIHRoZSBjYWxjdWxhdGlvbnMgaW4KcHdtX2xwc3NfcHJlcGFyZSgpIHdpdGggdGhv
-c2UgaW4gcHdtX2xwc3NfZ2V0X3N0YXRlKCkuCgpOb3RlIHRoaXMgZWZmZWN0aXZlbHkgcmV2ZXJ0
-cyBjb21taXQgNjg0MzA5ZTUwNDNlICgicHdtOiBscHNzOiBBdm9pZApwb3RlbnRpYWwgb3ZlcmZs
-b3cgb2YgYmFzZV91bml0IikuIFRoZSBuZXh0IHBhdGNoIGluIHRoaXMgc2VyaWVzIHJlYWxseQpm
-aXhlcyB0aGUgcG90ZW50aWFsIG92ZXJmbG93IG9mIHRoZSBiYXNlX3VuaXQgdmFsdWUuCgpGaXhl
-czogNjg0MzA5ZTUwNDNlICgicHdtOiBscHNzOiBBdm9pZCBwb3RlbnRpYWwgb3ZlcmZsb3cgb2Yg
-YmFzZV91bml0IikKUmV2aWV3ZWQtYnk6IEFuZHkgU2hldmNoZW5rbyA8YW5kcml5LnNoZXZjaGVu
-a29AbGludXguaW50ZWwuY29tPgpBY2tlZC1ieTogVXdlIEtsZWluZS1Lw7ZuaWcgPHUua2xlaW5l
-LWtvZW5pZ0BwZW5ndXRyb25peC5kZT4KQWNrZWQtYnk6IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5
-LnJlZGluZ0BnbWFpbC5jb20+ClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRl
-QHJlZGhhdC5jb20+Ci0tLQpDaGFuZ2VzIGluIHYzOgotIEFkZCBGaXhlcyB0YWcKLSBBZGQgUmV2
-aWV3ZWQtYnk6IEFuZHkgU2hldmNoZW5rbyB0YWcKLS0tCiBkcml2ZXJzL3B3bS9wd20tbHBzcy5j
-IHwgNiArKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wd20vcHdtLWxwc3MuYyBiL2RyaXZlcnMvcHdtL3B3
-bS1scHNzLmMKaW5kZXggOWQ5NjVmZmU2NmQxLi40M2IxZmM2MzRhZjEgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvcHdtL3B3bS1scHNzLmMKKysrIGIvZHJpdmVycy9wd20vcHdtLWxwc3MuYwpAQCAtOTMs
-NyArOTMsNyBAQCBzdGF0aWMgdm9pZCBwd21fbHBzc19wcmVwYXJlKHN0cnVjdCBwd21fbHBzc19j
-aGlwICpscHdtLCBzdHJ1Y3QgcHdtX2RldmljZSAqcHdtLAogCSAqIFRoZSBlcXVhdGlvbiBpczoK
-IAkgKiBiYXNlX3VuaXQgPSByb3VuZChiYXNlX3VuaXRfcmFuZ2UgKiBmcmVxIC8gYykKIAkgKi8K
-LQliYXNlX3VuaXRfcmFuZ2UgPSBCSVQobHB3bS0+aW5mby0+YmFzZV91bml0X2JpdHMpIC0gMTsK
-KwliYXNlX3VuaXRfcmFuZ2UgPSBCSVQobHB3bS0+aW5mby0+YmFzZV91bml0X2JpdHMpOwogCWZy
-ZXEgKj0gYmFzZV91bml0X3JhbmdlOwogCiAJYmFzZV91bml0ID0gRElWX1JPVU5EX0NMT1NFU1Rf
-VUxMKGZyZXEsIGMpOwpAQCAtMTA0LDggKzEwNCw4IEBAIHN0YXRpYyB2b2lkIHB3bV9scHNzX3By
-ZXBhcmUoc3RydWN0IHB3bV9scHNzX2NoaXAgKmxwd20sIHN0cnVjdCBwd21fZGV2aWNlICpwd20s
-CiAKIAlvcmlnX2N0cmwgPSBjdHJsID0gcHdtX2xwc3NfcmVhZChwd20pOwogCWN0cmwgJj0gflBX
-TV9PTl9USU1FX0RJVl9NQVNLOwotCWN0cmwgJj0gfihiYXNlX3VuaXRfcmFuZ2UgPDwgUFdNX0JB
-U0VfVU5JVF9TSElGVCk7Ci0JYmFzZV91bml0ICY9IGJhc2VfdW5pdF9yYW5nZTsKKwljdHJsICY9
-IH4oKGJhc2VfdW5pdF9yYW5nZSAtIDEpIDw8IFBXTV9CQVNFX1VOSVRfU0hJRlQpOworCWJhc2Vf
-dW5pdCAmPSAoYmFzZV91bml0X3JhbmdlIC0gMSk7CiAJY3RybCB8PSAodTMyKSBiYXNlX3VuaXQg
-PDwgUFdNX0JBU0VfVU5JVF9TSElGVDsKIAljdHJsIHw9IG9uX3RpbWVfZGl2OwogCi0tIAoyLjI4
-LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+When the user requests a high enough period ns value, then the
+calculations in pwm_lpss_prepare() might result in a base_unit value of 0.
+
+But according to the data-sheet the way the PWM controller works is that
+each input clock-cycle the base_unit gets added to a N bit counter and
+that counter overflowing determines the PWM output frequency. Adding 0
+to the counter is a no-op. The data-sheet even explicitly states that
+writing 0 to the base_unit bits will result in the PWM outputting a
+continuous 0 signal.
+
+When the user requestes a low enough period ns value, then the
+calculations in pwm_lpss_prepare() might result in a base_unit value
+which is bigger then base_unit_range - 1. Currently the codes for this
+deals with this by applying a mask:
+
+	base_unit &= (base_unit_range - 1);
+
+But this means that we let the value overflow the range, we throw away the
+higher bits and store whatever value is left in the lower bits into the
+register leading to a random output frequency, rather then clamping the
+output frequency to the highest frequency which the hardware can do.
+
+This commit fixes both issues by clamping the base_unit value to be
+between 1 and (base_unit_range - 1).
+
+Fixes: 684309e5043e ("pwm: lpss: Avoid potential overflow of base_unit")
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Thierry Reding <thierry.reding@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v5:
+- Use clamp_val(... instead of clam_t(unsigned long long, ...
+
+Changes in v3:
+- Change upper limit of clamp to (base_unit_range - 1)
+- Add Fixes tag
+---
+ drivers/pwm/pwm-lpss.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
+index 43b1fc634af1..da9bc3d10104 100644
+--- a/drivers/pwm/pwm-lpss.c
++++ b/drivers/pwm/pwm-lpss.c
+@@ -97,6 +97,8 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *lpwm, struct pwm_device *pwm,
+ 	freq *= base_unit_range;
+ 
+ 	base_unit = DIV_ROUND_CLOSEST_ULL(freq, c);
++	/* base_unit must not be 0 and we also want to avoid overflowing it */
++	base_unit = clamp_val(base_unit, 1, base_unit_range - 1);
+ 
+ 	on_time_div = 255ULL * duty_ns;
+ 	do_div(on_time_div, period_ns);
+@@ -105,7 +107,6 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *lpwm, struct pwm_device *pwm,
+ 	orig_ctrl = ctrl = pwm_lpss_read(pwm);
+ 	ctrl &= ~PWM_ON_TIME_DIV_MASK;
+ 	ctrl &= ~((base_unit_range - 1) << PWM_BASE_UNIT_SHIFT);
+-	base_unit &= (base_unit_range - 1);
+ 	ctrl |= (u32) base_unit << PWM_BASE_UNIT_SHIFT;
+ 	ctrl |= on_time_div;
+ 
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
