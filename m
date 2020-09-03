@@ -2,55 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACB425C0DA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 14:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E71B25C182
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 15:09:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7881D6E9DB;
-	Thu,  3 Sep 2020 12:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9234A6E9EE;
+	Thu,  3 Sep 2020 13:09:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2D56E1D6
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 12:22:13 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id w3so3416621ljo.5
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 05:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AmASOpjxirKUPe5KF2kTy+958y5fGEm2GLzYZrAWmY0=;
- b=i0y2uYMmTvexrD5BT2Rg+2fR0wxA2Yuw2kq4ZFSIPgBWPk+zTIRox7tLo/V7J1IDcg
- /zGL+yZo0kczuHH1lpR6RfLpnpsjbK1Xp0ad2DHuWiTiwIFLLDyXSUCe+EHEXlAi3p/e
- pUr+iDCt5+xuvOEFlzj81oBsxg91JWPrhoQrh/NEf6k/eN5Qg/a80myuftRM/DW9XmNC
- ipV330QqlNcjkmijfbJW8+o9rHOfLN3FmFatTgkTg9EzG5KQ3wG5MwH0rOaFzRGEbvkH
- hEhTtGPWREF3ecaEB8e8krjUDxI3vOI+oVG2I+4TqSvovZEv6c27pjXJC4dege2SgzxD
- u2CQ==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8C16E9EF
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 13:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599138584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oOKwAmzdX19wFLaLs6FnpWqrSpxl3eshTWS+wqlIdDI=;
+ b=JARYBLiDsGJmJXe7uX/fXc1UNIMY69m75Jub1om9r7DY0I6yPbohVO0g4Qq89gmYrPRbMK
+ 1g8bdGFSoU7n/jJfg/JDsuoxQY6yAzXP6TI4Q+K2lLmzrTyPwjJ+lvyDyigrnhfdYG+huz
+ snQbmxqpMtiEFDEQRYLvDkEF4NB7+N8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-wNUkquDpNx63xazPFUHCIQ-1; Thu, 03 Sep 2020 09:09:42 -0400
+X-MC-Unique: wNUkquDpNx63xazPFUHCIQ-1
+Received: by mail-ej1-f72.google.com with SMTP id jz22so1206808ejb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 06:09:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AmASOpjxirKUPe5KF2kTy+958y5fGEm2GLzYZrAWmY0=;
- b=ldf+rS+PmueeaZydS3m9tQuErNNMdx+NzLDoqH1RgO7iDlTpKHL209K+beRMrALTem
- qMIceyPadOqd/a7f3X1SlY2BfTCysGlzg56jHYYYeFshEq52amz7fLx0kKUmtbin6wgg
- 2LUj26GeiwK5RJrQLrArpoc+v14pkpAxa6ElNzzuNlp85CH14ExdkubCw2bs01LamlIs
- Oq/jytS1ot3e9+t8qd6BZYAKxre8rXEXZ8uaXZNj6vZIc4rP2MB5z+p0yEcCuzVaJKMZ
- 3uwMWRmDzSeyiZ2guZphPLGAIpwFPToyKp28tajM+n417pkdT1RUnXDI/Gkl6LjTp/UJ
- lYZQ==
-X-Gm-Message-State: AOAM531bwxK2dSyBl0jQydGEQ9+6xOjgp4fFjm+Y1I6+9OQOaltcgVzN
- jWR3ckagGncV0yzOQsim1AmBvDRJkR6XC9y7ZWpYWbHJ7yVcJA==
-X-Google-Smtp-Source: ABdhPJwQ0KpxtLPZAseSnphNEoFuICKHObdYRxY2PW9uBsaYw3EIqCfxJnx9Lxv1GfE40giqNWLH6sOOChl2QA2RQ2I=
-X-Received: by 2002:a2e:b892:: with SMTP id r18mr1073176ljp.249.1599135731427; 
- Thu, 03 Sep 2020 05:22:11 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oOKwAmzdX19wFLaLs6FnpWqrSpxl3eshTWS+wqlIdDI=;
+ b=MpmuSWETnm7mptveN7jZc7GYCDMWWxQUFK7xEPRGFHPa3THgAF57FCeMLKs6Lr6axZ
+ bbhpILS6/xCdCFJE2OrMjihWP5PrMeXFgcpTsPKbwE6+LrxD775qmBAB9TWLJc+RzXC+
+ N5uSgYF7EDTia3/DvDnNixSXnsxAc8SSmpc+OBa5mUatbHVjnXyo1Ab4QwfxQADDcY3r
+ q5Et/eGwY4g8H2QGRleR88yiOJeSWzwoVxfcHuHaFK4oXYFLH7zTBlcKfbaOJsQqkwWt
+ bmrrv7vaA0cz4LPlu/iJUd+rWXv6Hoggckzf47ufk4fqjYE0Q4iAfkGtiU8Mf3SyeZ9n
+ mN1g==
+X-Gm-Message-State: AOAM530tfctz+sGRkTD8QzXSB9GBcxkzRzda0i0PQcqpAI3aUd2RryGY
+ G90K64W95fQUB0f7bR2R+NEz640OOKO259b5STBbSm43PjUbbnMHBVC/USsXLmvp6gu2pJIfZVO
+ XkJ6CGdNO+mKvYwn2VMZ3kBupVk4W
+X-Received: by 2002:a17:906:d282:: with SMTP id
+ ay2mr1910846ejb.265.1599138581377; 
+ Thu, 03 Sep 2020 06:09:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4WbCzGSIX11Eb7tLYhakyrPDa74ODNUuKAajKTh1x+4i7BJ6ADpqdzqIF9xQvFCK8/v6JPQ==
+X-Received: by 2002:a17:906:d282:: with SMTP id
+ ay2mr1910818ejb.265.1599138581124; 
+ Thu, 03 Sep 2020 06:09:41 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id v7sm3391177edd.48.2020.09.03.06.09.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 06:09:40 -0700 (PDT)
+Subject: Re: [PATCH v10 07/17] pwm: lpss: Remove suspend/resume handlers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20200903112337.4113-1-hdegoede@redhat.com>
+ <20200903112337.4113-8-hdegoede@redhat.com>
+ <20200903124816.GA1891694@smile.fi.intel.com>
+ <20200903125620.GB1891694@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <63bf5fd7-148e-262a-4076-66d2ffb58557@redhat.com>
+Date: Thu, 3 Sep 2020 15:09:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <cover.1598331148.git.joe@perches.com>
- <990bf6f33ccaf73ad56eb4bea8bd2c0db5e90a31.1598331148.git.joe@perches.com>
- <d5ea3bc7-bff2-c702-51ed-cb85767824a7@amd.com>
-In-Reply-To: <d5ea3bc7-bff2-c702-51ed-cb85767824a7@amd.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 3 Sep 2020 17:51:59 +0530
-Message-ID: <CAO_48GGeXrDe9F1S64pf4qeF-2vMMiwOTZXOXDctAdPO5Pn04w@mail.gmail.com>
-Subject: Re: [PATCH 08/29] dma-buf: Avoid comma separated statements
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20200903125620.GB1891694@smile.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,37 +87,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiri Kosina <trivial@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>, Joe Perches <joe@perches.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gSm9lLAoKT24gV2VkLCAyNiBBdWcgMjAyMCBhdCAyMDozOCwgQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDI1LjA4LjIwIHVtIDA2
-OjU2IHNjaHJpZWIgSm9lIFBlcmNoZXM6Cj4gPiBVc2Ugc2VtaWNvbG9ucyBhbmQgYnJhY2VzLgo+
-ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEpvZSBQZXJjaGVzIDxqb2VAcGVyY2hlcy5jb20+Cj4KPiBB
-Y2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpGV0lX
-LApBY2tlZC1ieTogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KCj4KPiA+
-IC0tLQo+ID4gICBkcml2ZXJzL2RtYS1idWYvc3QtZG1hLWZlbmNlLmMgfCA3ICsrKysrLS0KPiA+
-ICAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+Cj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL3N0LWRtYS1mZW5jZS5jIGIvZHJpdmVycy9k
-bWEtYnVmL3N0LWRtYS1mZW5jZS5jCj4gPiBpbmRleCBlNTkzMDY0MzQxYzguLmM4YTEyZDdhZDcx
-YSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9zdC1kbWEtZmVuY2UuYwo+ID4gKysr
-IGIvZHJpdmVycy9kbWEtYnVmL3N0LWRtYS1mZW5jZS5jCj4gPiBAQCAtNDcxLDggKzQ3MSwxMSBA
-QCBzdGF0aWMgaW50IHRocmVhZF9zaWduYWxfY2FsbGJhY2sodm9pZCAqYXJnKQo+ID4gICAgICAg
-ICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9zaWduYWwoZjEpOwo+ID4KPiA+ICAgICAgICAgICAg
-ICAgc21wX3N0b3JlX21iKGNiLnNlZW4sIGZhbHNlKTsKPiA+IC0gICAgICAgICAgICAgaWYgKCFm
-MiB8fCBkbWFfZmVuY2VfYWRkX2NhbGxiYWNrKGYyLCAmY2IuY2IsIHNpbXBsZV9jYWxsYmFjaykp
-Cj4gPiAtICAgICAgICAgICAgICAgICAgICAgbWlzcysrLCBjYi5zZWVuID0gdHJ1ZTsKPiA+ICsg
-ICAgICAgICAgICAgaWYgKCFmMiB8fAo+ID4gKyAgICAgICAgICAgICAgICAgZG1hX2ZlbmNlX2Fk
-ZF9jYWxsYmFjayhmMiwgJmNiLmNiLCBzaW1wbGVfY2FsbGJhY2spKSB7Cj4gPiArICAgICAgICAg
-ICAgICAgICAgICAgbWlzcysrOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgIGNiLnNlZW4gPSB0
-cnVlOwo+ID4gKyAgICAgICAgICAgICB9Cj4gPgo+ID4gICAgICAgICAgICAgICBpZiAoIXQtPmJl
-Zm9yZSkKPiA+ICAgICAgICAgICAgICAgICAgICAgICBkbWFfZmVuY2Vfc2lnbmFsKGYxKTsKPgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+
+On 9/3/20 2:56 PM, Andy Shevchenko wrote:
+> On Thu, Sep 03, 2020 at 03:48:16PM +0300, Andy Shevchenko wrote:
+>> On Thu, Sep 03, 2020 at 01:23:27PM +0200, Hans de Goede wrote:
+> 
+>> the question is do we need to have similar in acpi_lpss.c?
+>> For example,
+>> 	static const struct lpss_device_desc byt_pwm_dev_desc = {
+>> 		.flags = LPSS_SAVE_CTX,
+>> 		^^^^^^^^^^^^^^
+>> 		.prv_offset = 0x800,
+>> 		.setup = byt_pwm_setup,
+>> 	};
+>>
+>> 	static const struct lpss_device_desc bsw_pwm_dev_desc = {
+>> 		.flags = LPSS_SAVE_CTX | LPSS_NO_D3_DELAY,
+>> 		^^^^^^^^^^^^^^
+>> 		.prv_offset = 0x800,
+>> 		.setup = bsw_pwm_setup,
+>> 	};
+> 
+> Okay, it's a private space which has clock and reset gating, so means we still
+> need to handle it.
+
+Right I was about to say the same.
+
+As always, thank you for your reviews.
+
+Regards,
+
+Hans
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
