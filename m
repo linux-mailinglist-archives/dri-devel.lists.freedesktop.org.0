@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4953525D217
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A3125D22D
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3AB6EA93;
-	Fri,  4 Sep 2020 07:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C142B6EB14;
+	Fri,  4 Sep 2020 07:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 300736E5A0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEBD06E5A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:28 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id F2B9CCB7;
- Thu,  3 Sep 2020 04:03:25 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:26 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 82DCCC8A;
+ Thu,  3 Sep 2020 04:03:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=DLnWksX2GU2bc
- dXPEtYsniHBmYXyJRSiMM5E1reodUE=; b=iBJgiVW5hPnxbHslMumGyEH+pvtwa
- apdbK4hpgNFYThkuz/at2bi8HwIpY+lN93KhxMppdevN7xDrMnyH13aBhx5WzKQh
- EQHR5L/4zptHlgmoLKgIJ9ZeDrBqrMVb7j3Xi3n29e210rOb2hihiVmHb6Q6abRI
- a0/zmiw5o9luoxIGfQDXrcWtrcWCy5vgY5aoAnaGlp8GU7UyzjC9v9qW6/HhI57P
- a9+B8OwlgPl3pdjiCO779LaPUMCRo1I5Bd3L2uSkuszNGMMHHntR1zFH3lg5JudR
- EGiGH4SADDs6la/UJnugXhEfKwgTA9lI4KRdYrcdwg0/Vd33KSOcHItSA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=R7gde/JmokMBO
+ gfgWZpXaMXBU7tMPOuvSM4JJSMjk5s=; b=e9xFqgaag0gE4xZ0sr15PhueYinnF
+ 9qob3x43AUA9pUnDELCC0bXsQlTeIevTeDQ2tJOdV3d2IQE7VdTByoiLfQhqjIlA
+ vdV/e3DWjTiWw7qGdccRNkg4IQOcifA7rBuwNMypypnUp8z9gj+Qrl0dPBFr8RJl
+ sCuQ59idHWpKg5fO7Qo1/BOa6O550zmPoxD6BKxc0S4JQXpAdAgkAIFZ9PEEnmGp
+ H5IF6Uqp51tug/6SsKnwJ1mC2umCLhm3KrbZbKZvs+LSt2I071a+7IJICr8OMNS0
+ wgQpvKbLCbO//fSkQQWomUp3RP8puN2XzwV9OIqQTFwlTnlAGf7ghcDEA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=DLnWksX2GU2bcdXPEtYsniHBmYXyJRSiMM5E1reodUE=; b=IG488LYy
- MGWZUEYmQI8fNf9PBRv2XoBnAoGYIcGy/YmRBGfVQXQjMYB8QT5aq7/AJTP7idUB
- kulb9jSEk+hDqokLtzvyAgEe3U4J5LX/B3kfG7BAsJs7A2o05G6m0SyCPcXjMRRZ
- MgWPCnyEi5x12jq1ioIdnONfL0l10U6V0nalOz7+10pE0aYutxqpOlmx+a2Sxs4V
- 8B95OPdYQGaztxZayga9vfXxUBxlToylt09WAgme/mpLGMAEgsSN+5DZF3ud1qbn
- 1roq+8niEvOlqVpJF/7jHHk79XulfOXRdrK18twR5V3s5TrsuT1MSwH98rZVzP8R
- b/AhwQPYi1h+XQ==
-X-ME-Sender: <xms:TaNQX8dfFwBPipxH8lpvpk-LWyEfkT9N_tl8O3jz6I632PAiluvykA>
- <xme:TaNQX-Otai-zMd8tmGbxETOE4Nn4IRlJxQUiAnQ1fIBCBdg-ZLDS3WmaOlCjmj3US
- Lt5fkckLiAPIcpX6gg>
+ fm3; bh=R7gde/JmokMBOgfgWZpXaMXBU7tMPOuvSM4JJSMjk5s=; b=LH8IJN6w
+ OpOjXtkOAVpr4imWz3ZMAvOXKKiG7tZObi4J4icxZzg1GdNFj9sGZamt6jqZq04U
+ hbAKxNVrgdgy9KTps5z62dVjwHGjYTgpnWb+nGRD/lNPNKncyB8mcCCieo6oF/G8
+ OP3ocNX/eem359xQhCUY11K6CegOzvJ4KIjykqDT86G0lKsqwLk4QOw4vzaOGW1o
+ jn1OOXtthDnU0R/nbf12HmLbFlbIQBK9e3ViVgeqkB9w/KdyUIHfIczJr896vaRU
+ dY5dqjqXlJ6RaggWGwd3H5BQARj5awYut/6FM0MUtXIQFPk9ET0o5LWQWfPukdIT
+ qhUaLheCYottWQ==
+X-ME-Sender: <xms:T6NQX18NWETovjBvqNI4arQRRsV1TNtY_IpqafVeXCn3YCDeNk0z9g>
+ <xme:T6NQX5snCzOBzNVuvdXIKEYLkEgxRtd8LKVPVCV2-Tppg-BIGo83HZkQleThcAhFR
+ 2-4jxgsUhJ_wePefhI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
- heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeehke
+ heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeeivd
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:TaNQX9hTSifeDg7DHj2BhemhMNu1g2h1sfNzKMwMjUCQPou7SI_d2Q>
- <xmx:TaNQXx8v_WFC6mVBJVfrhc1Jg4aFiftnIW9owWQ9TSqtouhppajYNA>
- <xmx:TaNQX4uu-r8itMG06IuIb_3I8WdeQ27tB5ECkraepasnUqMDjY5lYw>
- <xmx:TaNQX4HENCSrPLPafI4xoQEwRUjbZT38zJuuPrUxWf7bhmQ745Fqmk_itME>
+X-ME-Proxy: <xmx:T6NQXzB3maWgqL6D01aKxniMipI8ATtrUs1e5derygDF_gb1zttWmg>
+ <xmx:T6NQX5dLkCjo91H2F6zjljtUL4-95b7rEAJqPWaC73Rh30SUqkRXGw>
+ <xmx:T6NQX6Od0cY_-sqAWjGwtmlDSVgjY6JyId1F9ufAEoNjPcFwBBzH2w>
+ <xmx:T6NQX7nfmSN3XNDFUw3ydAtlOqeL4GYVNmbm7JujO9bYJ3nTRHm3AASkKfo>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 372B9306005E;
- Thu,  3 Sep 2020 04:03:25 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B12CB328005A;
+ Thu,  3 Sep 2020 04:03:26 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 65/80] drm/vc4: hdmi: Use reg-names to retrieve the HDMI
- audio registers
-Date: Thu,  3 Sep 2020 10:01:37 +0200
-Message-Id: <a1ba5605fe1006a1ead5262ef3d66ea5d0750381.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 66/80] drm/vc4: hdmi: Reset audio infoframe on
+ encoder_enable if previously streaming
+Date: Thu,  3 Sep 2020 10:01:38 +0200
+Message-Id: <cd579ccc2c9b9d2fce0ebaf32f847cedb0e4a7a2.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -95,10 +95,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The register range used for audio setup in the previous generations of
-SoC were always the second range in the device tree. However, now that
-the BCM2711 has way more register ranges, it makes sense to retrieve it
-by names for it, while preserving the id-based lookup as a fallback.
+If the encoder is disabled and re-enabled (eg mode change) all infoframes
+are reset, whilst the audio subsystem know nothing about this change.
+The driver therefore needs to reinstate the audio infoframe for
+itself.
 
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
 Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
@@ -106,36 +106,69 @@ Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c |  9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  2 ++
+ 2 files changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 487c04de6b85..53c3b5ae1179 100644
+index 53c3b5ae1179..43e59466b1d8 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -953,6 +953,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- 	struct snd_soc_card *card = &vc4_hdmi->audio.card;
+@@ -308,8 +308,16 @@ static void vc4_hdmi_set_audio_infoframe(struct drm_encoder *encoder)
+ 
+ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
+ {
++	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
++
+ 	vc4_hdmi_set_avi_infoframe(encoder);
+ 	vc4_hdmi_set_spd_infoframe(encoder);
++	/*
++	 * If audio was streaming, then we need to reenabled the audio
++	 * infoframe here during encoder_enable.
++	 */
++	if (vc4_hdmi->audio.streaming)
++		vc4_hdmi_set_audio_infoframe(encoder);
+ }
+ 
+ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
+@@ -694,6 +702,7 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
  	struct device *dev = &vc4_hdmi->pdev->dev;
- 	const __be32 *addr;
-+	int index;
  	int ret;
  
- 	if (!of_find_property(dev->of_node, "dmas", NULL)) {
-@@ -973,7 +974,13 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- 	 * for DMA transfers.
- 	 * This VC/MMU should probably be exposed to avoid this kind of hacks.
- 	 */
--	addr = of_get_address(dev->of_node, 1, NULL, NULL);
-+	index = of_property_match_string(dev->of_node, "reg-names", "hd");
-+	/* Before BCM2711, we don't have a named register range */
-+	if (index < 0)
-+		index = 1;
++	vc4_hdmi->audio.streaming = false;
+ 	ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO);
+ 	if (ret)
+ 		dev_err(dev, "Failed to stop audio infoframe: %d\n", ret);
+@@ -797,6 +806,7 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		vc4_hdmi_set_audio_infoframe(encoder);
++		vc4_hdmi->audio.streaming = true;
+ 
+ 		if (vc4_hdmi->variant->phy_rng_enable)
+ 			vc4_hdmi->variant->phy_rng_enable(vc4_hdmi);
+@@ -815,6 +825,8 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
+ 		if (vc4_hdmi->variant->phy_rng_disable)
+ 			vc4_hdmi->variant->phy_rng_disable(vc4_hdmi);
+ 
++		vc4_hdmi->audio.streaming = false;
 +
-+	addr = of_get_address(dev->of_node, index, NULL, NULL);
+ 		break;
+ 	default:
+ 		break;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index 342f6e0227a2..77d47d1707ce 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -85,6 +85,8 @@ struct vc4_hdmi_audio {
+ 	int channels;
+ 	struct snd_dmaengine_dai_dma_data dma_data;
+ 	struct snd_pcm_substream *substream;
 +
- 	vc4_hdmi->audio.dma_data.addr = be32_to_cpup(addr) + mai_data->offset;
- 	vc4_hdmi->audio.dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 	vc4_hdmi->audio.dma_data.maxburst = 2;
++	bool streaming;
+ };
+ 
+ /* General HDMI hardware state. */
 -- 
 git-series 0.9.1
 _______________________________________________
