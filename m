@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E8425D216
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2646C25D1FB
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E49D6EAAF;
-	Fri,  4 Sep 2020 07:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C11C56EACC;
+	Fri,  4 Sep 2020 07:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBED6E45D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82A8A6E4E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:03:35 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id EF98AB0C;
- Thu,  3 Sep 2020 04:03:32 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:33 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 59740C18;
+ Thu,  3 Sep 2020 04:03:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:03:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=twYQ6CQVyJq87
- 1hgYUIZ656qI0ZdNTYpeq6oKuMKI94=; b=imxnIt0huX0nAaWbuq/8E0KjF8RCI
- FjimPgt8hc6ydTbrNssfvKSt0P8ZF/x/EA5gkG/aJOk8dOoYTSyPQqxZw3CYGhNG
- GajTR57Uv1BFXhRlprU+8+5EDgrHsPxptUPzUGCai7Z1zHLH0klVt+51TldI3pXO
- MJEqGCsWjnOl66q6ULMayMfQey99v6ea2qrxN7dmVmnuaz3XxWpXsixpD7X+hQzX
- 9SgeVfST5TdQ5hyzw7a09kKaWcD7DBvBlmQoo/uErQomtrq1q+h6FRxxlmp+/Mn7
- UNLD0PIKmeL1yOZkIbCTP7RkQ6fEcEj0BXhP2+nNjx8PQprx8EAXzE/YQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=7xfe+tngvDJEY
+ yUZhayJC8QppzfdlwLaBZR0Cls2PKk=; b=cDAp9pcmmAjzSkzW6PCfYurgzp2S/
+ lloNta+FniysiGwo/Z7KYRo3PMIbZAczW+Bzhkqh0BiP0S5CeNc0ibJ+HfuoFxIz
+ dhty100SiMFZCAe3DbhAlh9ZiRrKQcSZSrrVeux2j4JZvhyz2l3oMNSn4dYX+PTQ
+ CUu99lez8j5eCWxE4OEblco3WB4uKfWNrwmKQuVvcKSQqLx+ndH/JDvniVRtJMGk
+ AaSYLeyt4GHt25tOcFbRUIyJiZ+Yj3EJIBpnIPdzsNJve4ItxizfT87JJUqnni9Q
+ 3s+s5+DnkuEgHs61YK1O6El3ksqkQG8flHaGT+1Bht6i1WGG0tMgQUgWA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=twYQ6CQVyJq871hgYUIZ656qI0ZdNTYpeq6oKuMKI94=; b=cV0ofdKs
- U0vagQxtfI4Vmh1w/ccDRDPuv5DnFqG8XTUMhojG2G5wYrkZoNgEd4KNiCFZdUiV
- 5na2P9dRsJeR9ZttK5n779zKc6GAcgDWNUvQKYUcWw0uFlVv25hYNAViuBbJngFV
- Cxr1/FTT4YNPdhv+BFCXQXJMy2Pc+9n0mDg5dy4lemzjCfQnmjr5tygROZCXZIsB
- nKJCiGMH5pu260aZOKwlQKHhStAvDL6WMol6/eBT0O+pn/aGzpVCrE3rXy/rqfZm
- 4S9XwGQ/dR7MJf6ipbJpBxII2Ce6/LvHWU2QnDcSID9KIv0ZgZ7y73NodYEe6IVA
- xa/ulIGvkv7R1g==
-X-ME-Sender: <xms:VKNQX6Do-tuTK9oDLhwOWewScwHlxqzbXFLI-W2D3Bb-b8KKV832JQ>
- <xme:VKNQX0joSpJ3VR_J7LjRqS55rRANUFTZa1uHPMCPqWSvosPIgr2vInY7fAZu-RIlJ
- 54oZw73HZLKaIhTmmk>
+ fm3; bh=7xfe+tngvDJEYyUZhayJC8QppzfdlwLaBZR0Cls2PKk=; b=GJR49dxW
+ 6IBXLqWnkyf72+VJOp5lV6LXGbBVzZl5c+JoY2Ulu29yVLhtjxpZSZjs0LCqiY7x
+ nHBGXp5A/ZVcThs8PndsOah2ooUaOvs09E5OIdejzo/T8OedlfImTv5aV8fsBT6D
+ iUGynUt6gtf0NAF6M+e52QkwBt7sGppx2ENw07oT9eBqyUau5w81Hu1cKeQqKvYg
+ 8jjMIgFyVr0yE7V+Ys7YjnyV8ghBmTeG7Db+ZA2c7sZjvtPEK5D9XvsiZTycJU1p
+ 9c/0ocqNyje0qRqSNQElMsza5OcW8nJeGPOF3GMVvl99XbDIB95dwRTowyT/uHIc
+ IBLmWyckwHlWNA==
+X-ME-Sender: <xms:VaNQX0EScVT9I_3-rQecQE5Nqy4L9h7o-CagpCHSa1vHLg_bZ3mc5Q>
+ <xme:VaNQX9VHbQQTKw6MUBCt0VXoo_fNIaerGaek4bWgJVAZgrRbsLPzez_TjL4XkjoBE
+ RyzVxIbgZrdrl7kva4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
- heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeeivd
+ heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeeije
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:VKNQX9nuVSBcfu18Gmx0myE8fuvrSErCIDqcj6Tjhr-377yNIQSu1Q>
- <xmx:VKNQX4wUHZyMUROtDTe8fsq6oT3X-cvR_Bt-3VqW0g_B5EnAGW3gxQ>
- <xmx:VKNQX_RLKy51Td3-4U8GYBQs4yieck6jFPpyY6RPI9g-2PQbuS8xDQ>
- <xmx:VKNQX3Z3suZVLP1eD0OTYCme5BnV1WY3VPNvr_yFA9HXSFrLgUX6wIqm5zI>
+X-ME-Proxy: <xmx:VaNQX-JLzfYAtkPl5cHp1o6ueo3K71wcuQURl5UypX2ra4pFDVPKlg>
+ <xmx:VaNQX2HH0byuLFHsk64cOEP-9iHPNZZBi3M2aoIKQRGHpuD6EedepQ>
+ <xmx:VaNQX6XOIgbgH7_u-McmvEOcbEUOI1l65F1ajSWad6-D6RwadUxCsA>
+ <xmx:VqNQXxO0kevK005VXW04D1sknp3XTOthZFuzVi3Fv73vGXSBp0YIWtNavEk>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3FF51328005A;
- Thu,  3 Sep 2020 04:03:32 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 964CC306005B;
+ Thu,  3 Sep 2020 04:03:33 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 70/80] drm/vc4: hdmi: Remove register dumps in enable
-Date: Thu,  3 Sep 2020 10:01:42 +0200
-Message-Id: <c8c8d388f2d32fc3536336be36d003a862487eb7.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 71/80] drm/vc4: hdmi: Always recenter the HDMI FIFO
+Date: Thu,  3 Sep 2020 10:01:43 +0200
+Message-Id: <b3faaf05ac6c4d3c364d28fa441571eb85903269.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -92,12 +92,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code has some logic, disabled by default, to dump the register
-setup in the HDMI controller.
-
-However, since we're going to split those functions in multiple, shorter,
-functions that only make sense where they are called in sequence, keeping
-the register dump makes little sense.
+In order to avoid a pixel getting stuck in an unflushable FIFO, we need to
+recenter the FIFO every time we're doing a modeset and not only if we're
+connected to an HDMI monitor.
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
@@ -105,51 +102,81 @@ Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 46 +++++++++++++++++++----------------
+ 1 file changed, 26 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 5e479647559f..3c7862a1dda8 100644
+index 3c7862a1dda8..c9eae5352b9a 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -430,7 +430,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+@@ -425,6 +425,30 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+ 		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
+ }
+ 
++static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
++{
++	u32 drift;
++	int ret;
++
++	drift = HDMI_READ(HDMI_FIFO_CTL);
++	drift &= VC4_HDMI_FIFO_VALID_WRITE_MASK;
++
++	HDMI_WRITE(HDMI_FIFO_CTL,
++		   drift & ~VC4_HDMI_FIFO_CTL_RECENTER);
++	HDMI_WRITE(HDMI_FIFO_CTL,
++		   drift | VC4_HDMI_FIFO_CTL_RECENTER);
++	usleep_range(1000, 1100);
++	HDMI_WRITE(HDMI_FIFO_CTL,
++		   drift & ~VC4_HDMI_FIFO_CTL_RECENTER);
++	HDMI_WRITE(HDMI_FIFO_CTL,
++		   drift | VC4_HDMI_FIFO_CTL_RECENTER);
++
++	ret = wait_for(HDMI_READ(HDMI_FIFO_CTL) &
++		       VC4_HDMI_FIFO_CTL_RECENTER_DONE, 1);
++	WARN_ONCE(ret, "Timeout waiting for "
++		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
++}
++
+ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+ {
  	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
--	bool debug_dump_regs = false;
- 	unsigned long pixel_rate, hsm_rate;
- 	int ret;
+@@ -543,8 +567,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+ 	}
  
-@@ -489,14 +488,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- 	if (vc4_hdmi->variant->phy_init)
- 		vc4_hdmi->variant->phy_init(vc4_hdmi, mode);
- 
--	if (debug_dump_regs) {
--		struct drm_printer p = drm_info_printer(&vc4_hdmi->pdev->dev);
+ 	if (vc4_encoder->hdmi_monitor) {
+-		u32 drift;
 -
--		dev_info(&vc4_hdmi->pdev->dev, "HDMI regs before:\n");
--		drm_print_regset32(&p, &vc4_hdmi->hdmi_regset);
--		drm_print_regset32(&p, &vc4_hdmi->hd_regset);
--	}
--
- 	HDMI_WRITE(HDMI_VID_CTL, 0);
+ 		WARN_ON(!(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
+ 			  VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE));
+ 		HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
+@@ -555,25 +577,9 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+ 			   VC4_HDMI_RAM_PACKET_ENABLE);
  
- 	HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
-@@ -522,14 +513,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- 
- 	HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
- 
--	if (debug_dump_regs) {
--		struct drm_printer p = drm_info_printer(&vc4_hdmi->pdev->dev);
+ 		vc4_hdmi_set_infoframes(encoder);
 -
--		dev_info(&vc4_hdmi->pdev->dev, "HDMI regs after:\n");
--		drm_print_regset32(&p, &vc4_hdmi->hdmi_regset);
--		drm_print_regset32(&p, &vc4_hdmi->hd_regset);
--	}
+-		drift = HDMI_READ(HDMI_FIFO_CTL);
+-		drift &= VC4_HDMI_FIFO_VALID_WRITE_MASK;
 -
- 	HDMI_WRITE(HDMI_VID_CTL,
- 		   HDMI_READ(HDMI_VID_CTL) |
- 		   VC4_HD_VID_CTL_ENABLE |
+-		HDMI_WRITE(HDMI_FIFO_CTL,
+-			   drift & ~VC4_HDMI_FIFO_CTL_RECENTER);
+-		HDMI_WRITE(HDMI_FIFO_CTL,
+-			   drift | VC4_HDMI_FIFO_CTL_RECENTER);
+-		usleep_range(1000, 1100);
+-		HDMI_WRITE(HDMI_FIFO_CTL,
+-			   drift & ~VC4_HDMI_FIFO_CTL_RECENTER);
+-		HDMI_WRITE(HDMI_FIFO_CTL,
+-			   drift | VC4_HDMI_FIFO_CTL_RECENTER);
+-
+-		ret = wait_for(HDMI_READ(HDMI_FIFO_CTL) &
+-			       VC4_HDMI_FIFO_CTL_RECENTER_DONE, 1);
+-		WARN_ONCE(ret, "Timeout waiting for "
+-			  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
+ 	}
++
++	vc4_hdmi_recenter_fifo(vc4_hdmi);
+ }
+ 
+ static enum drm_mode_status
 -- 
 git-series 0.9.1
 _______________________________________________
