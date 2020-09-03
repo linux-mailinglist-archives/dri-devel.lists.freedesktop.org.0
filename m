@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F2B25BFC8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 13:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C52725BFED
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 13:12:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F222B6E99A;
-	Thu,  3 Sep 2020 11:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 610A76E1BE;
+	Thu,  3 Sep 2020 11:12:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C9E6E99A;
- Thu,  3 Sep 2020 11:00:17 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id b12so2176523edz.11;
- Thu, 03 Sep 2020 04:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=yYnEhusLXt+hTyNwij80s+Gh0oRryAwxqx+BI6vUKbE=;
- b=gTvX8FwXfFQlpDzzVsS3ip59h/XuerPrvVdnqrG5HcIi0cwxOp/w/0CGVCLZiXunDa
- Si4JRPhN46mTAW0harbqSN0VL6x4uD/uUbpUahC0z9lIAn9G998blexk8fAo0McVyy2q
- J7iMSvDdzMXtnMx3ZO3cK9AgTQF1qPFxtYxyEcrDlQTimYuw6VSjxjSwIohmVkPS0jZ7
- UWyAoP+0ISccomDzz9ok/mpEuW6NAk5wgeSNurjfk2MLkTUQmFUuWZ4jpfKkfyJs5Ff2
- /oIF3cC7+96yKk25gXRHoMvtIpYK7wy/zEsu2WUrhJqLd1/b5SMEsXneE4qoSShVejDt
- PT8Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C02F6E1C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 11:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599131558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=efREBgpIuAxc+bnBJ5R3S/pFsZS/Ey21En4F0jCEO9A=;
+ b=amK9U2EPOmKWszV5JlhjqcikvtYYztT+vE283iaLSpxyVsCWdq/CTOwmlot/RUXOnPkpPX
+ kEpLO+5dBaoKiTzN9xgKFVdfu30xDvN/Dp9zHZxR5oYvApcWH4mD8+aiw3NuvRUBjoixQJ
+ mwGw8/IDCeg4ZzHZU6nk45OICzGr+yM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-X0fj6irdOoGfbN5_YFBfsg-1; Thu, 03 Sep 2020 07:12:34 -0400
+X-MC-Unique: X0fj6irdOoGfbN5_YFBfsg-1
+Received: by mail-ej1-f69.google.com with SMTP id ml20so1040860ejb.23
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 04:12:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=yYnEhusLXt+hTyNwij80s+Gh0oRryAwxqx+BI6vUKbE=;
- b=Qn1fkkd9UPKrEliIoJRHC65zA66XMoQVdvcIripV9+WAfx5kzw1AOOAsmjnVHx7Aus
- d7zeuN6rvcCUIs4SrilbNM8e+ghZQFrOH6pMOTkj3305GDtQxDNkKIXGOWQJdmanbotl
- w4z3aBrl+nWZTTUKl94YPQ4nBR2tRVwe3OryRGkmmvobKh0eLiXhKQWX7vL3myydDowE
- cUayk+fzLvA8JMvyl5imrMnh0w3u38KlLRhKyXOoiqSPSIjQad68YPdQ1pbLAthK3X++
- 9/OUBWmOAr+E3bgmtkksAi3HaYHRIY2l2OMmZexsKIKm1AOnvHfqvGlyNZOChnGtDfyZ
- Kt5Q==
-X-Gm-Message-State: AOAM533Ft1PUuHJaKFACTeRcYG0jzsW07KGX9kK0JbUHg6YbsaqIOOf/
- wASFS+sfhhzSWl/nwxmceCk=
-X-Google-Smtp-Source: ABdhPJwwigy71b9GHpZk/fZqbXWJuk42q2qwbW6hq0JrDrtGYE2aQTX2CZ9GJMutQVQv23fU0NgwLg==
-X-Received: by 2002:aa7:d417:: with SMTP id z23mr2362298edq.62.1599130815291; 
- Thu, 03 Sep 2020 04:00:15 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id c8sm2877359ejp.30.2020.09.03.04.00.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 04:00:14 -0700 (PDT)
-Date: Thu, 3 Sep 2020 13:00:12 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v9 07/17] pwm: lpss: Remove suspend/resume handlers
-Message-ID: <20200903110012.GB3756465@ulmo>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=efREBgpIuAxc+bnBJ5R3S/pFsZS/Ey21En4F0jCEO9A=;
+ b=esYGQTjGW6Vn95VhA8/lDSw8qjyFEehPktUMFtJ6eGccxT9ueREvlAqtmcaEWvpXZX
+ iw2BnXUfasebZtavrw2rXFaWZqh1NJxzWnJS4BlwZp5UnB0/AUL8/dF1qsMQxpfGpEe7
+ wBlTQTGJHJpB8/nE8GKDe4WC/ML7Xx1FXKnqtcoV5d59cp4+iZKroiIpJcJbOyBJRXMa
+ 6CEpuUIEujNG1qVQeVoRGpawAZlEJfW5go/dCAC5WVNJSBZiYkW2SHd00C/6wPwLrU29
+ je0kOSUD9S/dY2JeY5ww+6LtgClGU7WsHD1HJFeW8+fzkeZIOH8GtWMdcD2mKV43stCl
+ Bnug==
+X-Gm-Message-State: AOAM531k+gJy8PLNWRPqIBslPvIgWrwYmAQKfVTrs++nnq5F0fcmWIkX
+ 494kqDuf4ETJkyXqAqXy55neW6YF016QIJy0vSQy2FnmKG3x64x64pUss/Pin4gwjU63jwthtj9
+ +NfgGo/68JmFb0wiJGoGHr8I26k10
+X-Received: by 2002:a17:906:c7da:: with SMTP id
+ dc26mr1490817ejb.491.1599131553522; 
+ Thu, 03 Sep 2020 04:12:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwz45IHe95vEABByf1/DSG38NFHvqU3XHec96U37Ufe0eGhD/vOjFiqWQ2lkLsAJDGyIGIi4Q==
+X-Received: by 2002:a17:906:c7da:: with SMTP id
+ dc26mr1490775ejb.491.1599131553140; 
+ Thu, 03 Sep 2020 04:12:33 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id r16sm2909233ejb.110.2020.09.03.04.12.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 04:12:32 -0700 (PDT)
+Subject: Re: [PATCH v9 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on
+ existing hardware state
+To: Thierry Reding <thierry.reding@gmail.com>
 References: <20200903105114.9969-1-hdegoede@redhat.com>
- <20200903105114.9969-8-hdegoede@redhat.com>
+ <20200903105114.9969-7-hdegoede@redhat.com> <20200903105909.GA3756465@ulmo>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <e342aee0-c7a6-62db-e4b7-9d72554fd55c@redhat.com>
+Date: Thu, 3 Sep 2020 13:12:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200903105114.9969-8-hdegoede@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <20200903105909.GA3756465@ulmo>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,82 +89,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1269301440=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============1269301440==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="UHN/qo2QbUvPLonB"
-Content-Disposition: inline
+On 9/3/20 12:59 PM, Thierry Reding wrote:
+> On Thu, Sep 03, 2020 at 12:51:03PM +0200, Hans de Goede wrote:
+>> Before this commit pwm_lpss_apply() was making 2 assuming
+>> 2 pre-conditions were met by the existing hardware state:
+> 
+> I think that "making 2" is too much.
 
+You're right at first the sentence had something about making
+2 assumptions, then I added pre-conditions in there for it
+to better describe the problem...
 
---UHN/qo2QbUvPLonB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> 1. That the base-unit and on-time-div read back from the
+>> control register are those actually in use, so that it
+>> can skip setting the update bit if the read-back value
+>> matches the desired values.
+>>
+>> 2. That the controller is enabled when the cached
+>> pwm_state.enabled says that the controller is enabled.
+>>
+>> As the long history of fixes for subtle (often suspend/resume)
+>> lpss-pwm issues shows, this assumptions are not necessary
+>> always true.
+>>
+>> 1. Specifically is not true on some (*) Cherry Trail devices
+>> with a nasty GFX0._PS3 method which: a. saves the ctrl reg value.
+>> b. sets the base-unit to 0 and writes the update bit to apply/commit
+>> c. restores the original ctrl value without setting the update bit,
+>> so that the 0 base-unit value is still in use.
+>>
+>> 2. Assumption 2. currently is true, but only because of the code which
+>> saves/restores the state on suspend/resume. By convention restoring the
+>> PWM state should be done by the PWM consumer and the presence of this
+>> code in the pmw-lpss driver is a bug. Therefor the save/restore code will
+>> be dropped in the next patch in this series, after which this assumption
+>> also is no longer true.
+>>
+>> This commit changes the pwm_lpss_apply() to make any assumptions about the
+> 
+> Did you mean to say "... to _not_ make any assumptions ..."?
 
-On Thu, Sep 03, 2020 at 12:51:04PM +0200, Hans de Goede wrote:
-> PWM controller drivers should not restore the PWM state on resume. The
-> convention is that PWM consumers do this by calling pwm_apply_state(),
-> so that it can be done at the exact moment when the consumer needs
-> the state to be stored, avoiding e.g. backlight flickering.
->=20
-> The only in kernel consumers of the pwm-lpss code, the i915 driver
-> and the pwm-class sysfs interface code both correctly restore the
-> state on resume, so there is no need to do this in the pwm-lpss code.
->=20
-> More-over the removed resume handler is buggy, since it blindly
-> restores the ctrl-register contents without setting the update
-> bit, which is necessary to get the controller to actually use/apply
-> the restored base-unit and on-time-div values.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/pwm/pwm-lpss-platform.c |  1 -
->  drivers/pwm/pwm-lpss.c          | 24 ------------------------
->  drivers/pwm/pwm-lpss.h          |  3 ---
->  3 files changed, 28 deletions(-)
+Yes, oops. That is a small but important difference.
 
-Nice!
+I'll do a v10 with your 2 Acked-by's added and both commit msg issues fixed.
 
-Acked-by: Thierry Reding <thierry.reding@gmail.com>
+Hopefully that will be the last version.
 
---UHN/qo2QbUvPLonB
-Content-Type: application/pgp-signature; name="signature.asc"
+>> state the hardware is in. Instead it makes pwm_lpss_apply() always fully
+>> program the PWM controller, making it much less fragile.
+>>
+>> *) Seen on the Acer One 10 S1003, Lenovo Ideapad Miix 310 and 320 models
+>> and various Medion models.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/pwm/pwm-lpss.c | 21 +++++++++------------
+>>   1 file changed, 9 insertions(+), 12 deletions(-)
+> 
+> Other than the two small nits, this looks much more idiomatic and true
+> to the atomic API, so:
+> 
+> Acked-by: Thierry Reding <thierry.reding@gmail.com>
 
------BEGIN PGP SIGNATURE-----
+Thank you.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9QzLwACgkQ3SOs138+
-s6HB4w/7BWTWBa37E/k/JCj9g8/G5zhz6bPtbVQvfjK9uo2SR3Cw9i8ICbGP4kBz
-Hws/izNzkiZT1xylqpMH29fNoLekSTTmA8xxMMwGwbxlqEWdGXgOzKR5cgJ25rCb
-VmEvNxXpITvKR7PeHDrUspOtpZl3CscbScJDA2vxE7W0SeTF2iO19fgF8B//u/tu
-DUQ7aEiORHBGwnIMefulW3bYO2yq8iFG18Iq+vVnPIcak/YqYxKlDaDs+5jY/Oqa
-Jqh250h+36HM0cSYvSMxIqDV1pP6HarcgRavj5daC1V/ymQqZFfmmiq+XVplJSxO
-+CPyioI2QcaRX2iQtOUFd5aAQSaj3E7sKCsv9APE2TqSushpoufrkwnKi1/1lIll
-YMzlXmVRivUg94dYeKWASJ5D9wWzCz5H67aBtu5V21oNcZc3L7Y1Xuztyxhp9ESH
-TDEIiFxqDyritfY+jqC4XXJiwtQYrI16310kEwi2wFA3PB4x2tRmWAi6BQuU5+tU
-y7hCBcSZZaOxbVlKG2dHsUawLT4pJ35G73YjsPzsJJLFfHN504aVSLIbZEogNt3r
-jq466Qm87cD0M6eqT8b338dmUffjZn+bJtp6b0i9FRny+i0Yy3z4KfaT7kh0EP79
-OsdzaUeoPDhyFupUt5Rai5wmOflTsqOupN4bA4OEKDwD8XM35f8=
-=hZTz
------END PGP SIGNATURE-----
+Regards,
 
---UHN/qo2QbUvPLonB--
-
---===============1269301440==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Hans
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1269301440==--
