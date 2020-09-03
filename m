@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD7A25D22E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA5125D220
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B23D26EB11;
-	Fri,  4 Sep 2020 07:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362486EABA;
+	Fri,  4 Sep 2020 07:12:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ironport.ite.com.tw (60-251-196-230.HINET-IP.hinet.net
  [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC3E6E976
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 09:44:45 +0000 (UTC)
-IronPort-SDR: 4LN//4MVXlku1KqMsHXVrpcG1J+m/m4kBVez8vTKNt4AmLbbOnm1zV4vZB5f7ZTE+/Ukatyxn7
- QLkqRyd03XGg==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE1A6E977
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 09:50:15 +0000 (UTC)
+IronPort-SDR: ovLPfrJvufwUIVunz2Xj6BuH6wFc8LBfdp9biIy7m0b0zNabpEBbm9055mhc3qO/zYkmJsmF74
+ 0zs+e+7zjq0A==
 Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 03 Sep 2020 17:44:43 +0800
+ by ironport.ite.com.tw with ESMTP; 03 Sep 2020 17:49:10 +0800
 Received: from CSBMAIL1.internal.ite.com.tw (csbmail1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 0839ichB068690;
- Thu, 3 Sep 2020 17:44:38 +0800 (GMT-8)
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 0839n2Mx071028;
+ Thu, 3 Sep 2020 17:49:02 +0800 (GMT-8)
  (envelope-from allen.chen@ite.com.tw)
 Received: from VirtualBox.internal.ite.com.tw (192.168.70.14) by
  CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Thu, 3 Sep 2020 17:44:38 +0800
+ 15.1.1713.5; Thu, 3 Sep 2020 17:49:03 +0800
 From: allen <allen.chen@ite.com.tw>
 To: 
-Subject: [PATCH] drm/bridge: add it6505 driver
-Date: Thu, 3 Sep 2020 17:43:58 +0800
-Message-ID: <20200903094402.331348-1-allen.chen@ite.com.tw>
+Subject: [PATCH v2] drm/bridge: add it6505 driver
+Date: Thu, 3 Sep 2020 17:48:31 +0800
+Message-ID: <20200903094835.331525-1-allen.chen@ite.com.tw>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Originating-IP: [192.168.70.14]
 X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
  CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: F06FCF3A032C202C3EF4F7B53F341CA65379AC2AE2C8B3330D9A238BFF351C8C2000:8
-X-MAIL: mse.ite.com.tw 0839ichB068690
+X-TM-SNTS-SMTP: 88FA3F7FAD5B3D3394F4448D0AFE56123EE693C7FC598C5B1973E24AF640EE0D2000:8
+X-MAIL: mse.ite.com.tw 0839n2Mx071028
 X-Mailman-Approved-At: Fri, 04 Sep 2020 07:11:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,7 +77,6 @@ Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 Signed-off-by: Yilun Lin <yllin@google.com>
 Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-
 ---
  drivers/gpu/drm/bridge/Kconfig      |    7 +
  drivers/gpu/drm/bridge/Makefile     |    1 +
