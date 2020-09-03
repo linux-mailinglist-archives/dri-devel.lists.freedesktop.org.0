@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3582025CB82
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 22:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3BC25CB9F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 22:59:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A10636E92A;
-	Thu,  3 Sep 2020 20:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C526E92F;
+	Thu,  3 Sep 2020 20:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1E1A06E92A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 20:51:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 010DE6E934
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 20:59:19 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B99B1045;
- Thu,  3 Sep 2020 13:51:53 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 059751045;
+ Thu,  3 Sep 2020 13:59:19 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 623DB3F68F;
- Thu,  3 Sep 2020 13:51:52 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 328733F68F;
+ Thu,  3 Sep 2020 13:59:18 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
-To: inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com
-Subject: [PATCH] drm/exynos: Drop local dma_parms
-Date: Thu,  3 Sep 2020 21:51:48 +0100
-Message-Id: <dade9fce82e4905f3d61494785f81604674df5da.1599166024.git.robin.murphy@arm.com>
+To: chunkuang.hu@kernel.org,
+	p.zabel@pengutronix.de
+Subject: [PATCH] drm/mediatek: Drop local dma_parms
+Date: Thu,  3 Sep 2020 21:59:14 +0100
+Message-Id: <d6f1943aaf58bb0ca527e048406e09cf387a12b0.1599166624.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -39,7 +39,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+Cc: linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -54,67 +54,79 @@ Also the DMA segment size is simply a size, not a bitmask.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dma.c | 26 +------------------------
- 1 file changed, 1 insertion(+), 25 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 23 +++--------------------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h |  2 --
+ 2 files changed, 3 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-index 58b89ec11b0e..9f25a5ebbf7d 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-@@ -31,23 +31,6 @@
- #define EXYNOS_DEV_ADDR_START	0x20000000
- #define EXYNOS_DEV_ADDR_SIZE	0x40000000
- 
--static inline int configure_dma_max_seg_size(struct device *dev)
--{
--	if (!dev->dma_parms)
--		dev->dma_parms = kzalloc(sizeof(*dev->dma_parms), GFP_KERNEL);
--	if (!dev->dma_parms)
--		return -ENOMEM;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 040a8f393fe2..3941f6f6b003 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -221,21 +221,10 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+ 	 * Configure the DMA segment size to make sure we get contiguous IOVA
+ 	 * when importing PRIME buffers.
+ 	 */
+-	if (!dma_dev->dma_parms) {
+-		private->dma_parms_allocated = true;
+-		dma_dev->dma_parms =
+-			devm_kzalloc(drm->dev, sizeof(*dma_dev->dma_parms),
+-				     GFP_KERNEL);
+-	}
+-	if (!dma_dev->dma_parms) {
+-		ret = -ENOMEM;
+-		goto err_component_unbind;
+-	}
 -
--	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
--	return 0;
--}
--
--static inline void clear_dma_max_seg_size(struct device *dev)
--{
--	kfree(dev->dma_parms);
--	dev->dma_parms = NULL;
--}
--
- /*
-  * drm_iommu_attach_device- attach device to iommu mapping
-  *
-@@ -69,9 +52,7 @@ static int drm_iommu_attach_device(struct drm_device *drm_dev,
- 		return -EINVAL;
+-	ret = dma_set_max_seg_size(dma_dev, (unsigned int)DMA_BIT_MASK(32));
++	ret = dma_set_max_seg_size(dma_dev, UINT_MAX);
+ 	if (ret) {
+ 		dev_err(dma_dev, "Failed to set DMA segment size\n");
+-		goto err_unset_dma_parms;
++		goto err_component_unbind;
  	}
  
--	ret = configure_dma_max_seg_size(subdrv_dev);
--	if (ret)
--		return ret;
-+	dma_set_max_seg_size(subdrv_dev, UINT_MAX);
+ 	/*
+@@ -246,16 +235,13 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+ 	drm->irq_enabled = true;
+ 	ret = drm_vblank_init(drm, MAX_CRTC);
+ 	if (ret < 0)
+-		goto err_unset_dma_parms;
++		goto err_component_unbind;
  
- 	if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)) {
- 		/*
-@@ -89,9 +70,6 @@ static int drm_iommu_attach_device(struct drm_device *drm_dev,
- 		ret = iommu_attach_device(priv->mapping, subdrv_dev);
- 	}
+ 	drm_kms_helper_poll_init(drm);
+ 	drm_mode_config_reset(drm);
  
--	if (ret)
--		clear_dma_max_seg_size(subdrv_dev);
+ 	return 0;
+ 
+-err_unset_dma_parms:
+-	if (private->dma_parms_allocated)
+-		dma_dev->dma_parms = NULL;
+ err_component_unbind:
+ 	component_unbind_all(drm->dev, drm);
+ 
+@@ -269,9 +255,6 @@ static void mtk_drm_kms_deinit(struct drm_device *drm)
+ 	drm_kms_helper_poll_fini(drm);
+ 	drm_atomic_helper_shutdown(drm);
+ 
+-	if (private->dma_parms_allocated)
+-		private->dma_dev->dma_parms = NULL;
 -
- 	return ret;
+ 	component_unbind_all(drm->dev, drm);
  }
  
-@@ -114,8 +92,6 @@ static void drm_iommu_detach_device(struct drm_device *drm_dev,
- 		arm_iommu_attach_device(subdrv_dev, *dma_priv);
- 	} else if (IS_ENABLED(CONFIG_IOMMU_DMA))
- 		iommu_detach_device(priv->mapping, subdrv_dev);
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+index b5be63e53176..6afd0b5f2b92 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+@@ -44,8 +44,6 @@ struct mtk_drm_private {
+ 	struct mtk_ddp_comp *ddp_comp[DDP_COMPONENT_ID_MAX];
+ 	const struct mtk_mmsys_driver_data *data;
+ 	struct drm_atomic_state *suspend_state;
 -
--	clear_dma_max_seg_size(subdrv_dev);
- }
+-	bool dma_parms_allocated;
+ };
  
- int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
+ extern struct platform_driver mtk_ddp_driver;
 -- 
 2.28.0.dirty
 
