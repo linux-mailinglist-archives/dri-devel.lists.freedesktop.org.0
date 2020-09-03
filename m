@@ -2,61 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B315B25D1FC
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579EF25D1D6
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2EA6EA96;
-	Fri,  4 Sep 2020 07:11:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E7D6EA8B;
+	Fri,  4 Sep 2020 07:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7E5B6E090
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 15:07:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1599145642;
- bh=8R68AIlx4OoapEV9eDfkFEfV8WdKN6gzUcWaRAO+AvU=;
- h=X-UI-Sender-Class:Date:In-Reply-To:References:Subject:Reply-to:To:
- CC:From;
- b=FT19T9Kf0lXT4621EFUCYRiQdFSNl8L5tvuDwqDoA9kasAz/SYybSopDC64pSJIEs
- YZEUpVw3D3aSN6n/uWfbNAkrBxPM+yFj5O2fRspMZX4Q9Cds+USlTQzg/4ptWpb+VN
- ezFZq3rYh0Ho32rpoiZuvpz/9pQ9v8/sgTxk+E/A=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from frank-s9 ([217.61.148.118]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MY68T-1k3npE476D-00YT2P; Thu, 03
- Sep 2020 17:07:22 +0200
-Date: Thu, 03 Sep 2020 17:07:15 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20200819081752.4805-1-linux@fw-web.de>
-References: <20200819081752.4805-1-linux@fw-web.de>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC5EF6E1F3;
+ Thu,  3 Sep 2020 16:07:02 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 0215DBC0;
+ Thu,  3 Sep 2020 12:06:58 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 12:06:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm3; bh=CDJxcejXbveVT7ieC7JLDFXzefOPZK7N4V/DE/RQ60E=; b=Prel7R0m
+ 7gFfX5FKLu2mZXWBBQ46953f/60UKt20cPPVJ3fDRrrvk0kfHBc4kQjgHi6tCXpJ
+ 9MOWm9Gz/12cz9zaKW+AXhZpfbjLO5w/xeZGZsHKLjJ2Mp6pO29+oXUnwYiCOhZX
+ XgxIDV4pdQi8LqYMYczcllokeDypngzD45HuP6BVzzGZBcIi9/9UzRVY760pCPZy
+ 2JnkrBmiv3ZKw3UosH058UvlGzYjPVhbirapsVOkkcMUCH8Hc7TVJTsnTMhKfwT+
+ xWvj/JGJraQJAixu+DQh5B/wLN9e5saqYDorBlmU4Kqrehani66gP5bjaVMT69Pe
+ IZffBtczzv0Nsw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm3; bh=CDJxcejXbveVT7ieC7JLDFXzefOPZ
+ K7N4V/DE/RQ60E=; b=fgodJSYpK+ujflHg9KkhlDPcYtxQ5CFIyabYcBb7Bmv2j
+ nQoK6fu/Ulgg9aSTIFHJNZJW60hEvOLjjrF48AKFyO6zE5uvXxQ7sxUcIWM7lt7W
+ ABhlS8BFERGByJb6QQopMFdkZ5MvEL3W6IXDA15zuEiMWPszFkTPYeHCbRP4aNeo
+ PfJ8PemYDPxeHqmJM4jSbRJ9U/Ia5GlrIAhAVhtiDxN2zOrY2uQo+JSFxOuyIjYH
+ 3L8ZYkPkxSEMS1T7vIW0AwdUF6pTkr2KBZrRi0ryNkfBQ3gVrNA0WQpufiHe0laI
+ CHoXY2eoCZ/Z676EIHlTXmdbkdGSpj86pTgp65A2g==
+X-ME-Sender: <xms:oRRRX3aZaok27IoH7vpukzlLxD45vRh-2cAZpAqW1fBe0PrNylviAw>
+ <xme:oRRRX2Z3AV1KndAPoqcSdJsO12foFXzsm_e59ugr9LpXlGhv3Kw9UzG8MVwksk0z_
+ zWsMvWfSR7bCVTokN8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudeguddgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddunecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhephfehtefggeekteffueeileekfeegteetfffggfekleehkeffvedvgedtieetvddu
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:oRRRX5_STWj7GJguPZuf_K6uKWAenrgo-FORv8UtyTYaAe34B7q0Jw>
+ <xmx:oRRRX9rz1KU4sMmTxQEBtWceY0h-9ueEWpCNs4Z5W5NyEUUwI6AP9g>
+ <xmx:oRRRXyp0_QPFHarRL6MXqBliMqlcrZPhEJrm6UgctgMPCgwU_2Vvfg>
+ <xmx:ohRRX-egIl8r_R0X8c1qr7d4Pp5VSZUCMF6mZ11mzsZChZgPkZrKb1Qfr84>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E5D893280067;
+ Thu,  3 Sep 2020 12:06:56 -0400 (EDT)
+Date: Thu, 3 Sep 2020 18:06:53 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <20200903160653.sulxo6x4lumump6x@gilmour.lan>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 0/7] make hdmi work on bananapi-r2
-To: linux-mediatek@lists.infradead.org,Frank Wunderlich <linux@fw-web.de>
-From: Frank Wunderlich <frank-w@public-files.de>
-Message-ID: <3B754053-BA89-4DB7-A089-665C5B6B34CC@public-files.de>
-X-Provags-ID: V03:K1:0M3LhMUDc3zMbEzp+O27j0jh7FY2Qc6/35P77yj2d3hoCi5xih6
- tzJAQ21lNqguoddgx6+yoW/vjJk0im+FKxZ6xmmzOU9kE/Dk4L/pYRvLc+mKWVfZs17rtKX
- rBy5IZuHp4d5JQnh8Yeohh9Oxvtu1lJs4ccBVLFEo0itZa2X68yyHZ0PmoWjSGfA/8/o+Ks
- tyFityHCd+83zAE/rEbDw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bpJu/58zYQI=:cDQCjZiMvEBa+NcDHdthnm
- cz9tsefw6Ev7GQyJkYgPAT7D3XqMkkf6z+aQObkQPRfzr7o1Hsk6RXW6dD9f2DVOc49dTitJ7
- 5PBa1yLJ4p5WLhk3unO1lNIMOtLTcivS1XfqbjK9coA5RHjPlY+5t0pfKXbDUrYlWzVUutoEV
- XhEtVrucsFCuuOWyv+6Z+08n2Y0a29E/sOFhTEHYOUB+h9tv7xNTXRPhjK4Ehjwxl9GRy9S91
- vmZCIKGhGBLQyvNICk3eqHbuhCHCItMW47udK6dquOfYH6/DiQr9u/GqmtL3YCjelerfmtj9b
- CWVgBIpNcH8cN8O2/qr3bg/6r8IZV4EScyk7oKNupTYT1wYctLG5f1GAX9l2cmyApxbJ1DLXq
- bFl4hAHq+s7+5KfjQ2xBc2FpCZMdsAjFVZDu7mPbqtxAet2Z+ZHLLYGZECHlmZM7Vn0DCQj8v
- MSaPCjwn0m/CR4Px8K1r6kCfPXoZLb/AjrqJwW6w6xo554ndD9icXiv5zgRpS4oK8ysrLN7uE
- LWfo2D3xdckg8RnZ6apSDdsA93al+k/4zqGNjE1EWK0tUmwuEIphDAjzRhIh6f/1jsLusrwF+
- LGjI8xosUoioBLLNOX+ZdcnWhgKMiz9WieLPgavVqzRLg99lPC8VwWYzpmWatkbWPaVEFE2MQ
- FYsZxGUiH/hpHMgII9s9vFTMYskcbHyvO7WN4KwgUzP0mFUwYsl/wcRuJoSD8U3cKw/Uawmro
- 9yx4xwy6qvc5vS3JnYFu8vs+e4fgNN3fXHA4bRmFHMkTz4T2fr9q3V9EHAKHZzxmzIYmJxPy3
- /HQkjyvuitIkIjQMA0f4e3sXcccfvo1bhAUZsvp8olp+xe9OS3+q11AE0WfRjOL0LkqlxFCsy
- AFirLE/rcFDYRscQwyGOudjLxq2mQOr9yCxN1fRKPn51ns3y46IJLs7mSAZ2R8OVenMo8G+NJ
- zBxYN0PqLlKK4NRp4d/SpZfKPe8ZbM5ljb6U8RiyFu9r/tJwREeK4AnmIv7MSYFTngLx6jwoe
- vFx3lZ4gv2J6IrX7DdS9uc9yrdOga+H8/bdor8Ov017z54FDaoTKIyo8/fZ7ZwYneEqHy/hlZ
- zQopCtGm9hFvvoOqrrbeZ//f35AcMqD8Qq2xN88ktYoGQ09HTxuLFsO8Q9EURx4ZyQ7bQWCkR
- 7E95ASHkZqwa9KVHXveawqoHoH/N9D2IphJYxw8+y1dB0heDlAHMrzIi8CEyb3DddKCwZzdEX
- RNFQeQhqhdnM71xdANl367E4zB2hIVDw0y/+FKw==
 X-Mailman-Approved-At: Fri, 04 Sep 2020 07:11:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,21 +76,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: frank-w@public-files.de
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0522406278=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Any opinion about DTS Patches? Which maintainer will include it in tree? Is any ack/review needed?
-regards Frank
+--===============0522406278==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ajxofjxazu4662dx"
+Content-Disposition: inline
+
+
+--ajxofjxazu4662dx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Dave, Daniel,
+
+Here's this week PR for drm-misc-next
+
+Thanks!
+Maxime
+
+drm-misc-next-2020-09-03:
+drm-misc-next for 5.10:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - doc: update the doc to encourage drivers to use devm_drm_dev_alloc
+  - ttm: More reworks / cleanups
+
+Driver Changes:
+  - sun4i: Minor fix in the LVDS encoder
+  - panels: New panel: AM-1280800N3TZQW-T00H
+The following changes since commit cd6da0b113512b15a4d35f355f9ecd8858297369:
+
+  drm/mgag200: fix spelling mistake "expeced" -> "expected" (2020-08-27 11:=
+17:52 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2020-09-03
+
+for you to fetch changes up to 4c8e84b8876dc726a7e5327b3113d75423c46728:
+
+  drm/managed: Cleanup of unused functions and polishing docs (2020-09-03 1=
+6:25:06 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for 5.10:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - doc: update the doc to encourage drivers to use devm_drm_dev_alloc
+  - ttm: More reworks / cleanups
+
+Driver Changes:
+  - sun4i: Minor fix in the LVDS encoder
+  - panels: New panel: AM-1280800N3TZQW-T00H
+
+----------------------------------------------------------------
+Christian K=F6nig (3):
+      drm/ttm: make sure that we always zero init mem.bus v2
+      drm/nouveau: move io_reserve_lru handling into the driver v5
+      drm/ttm: remove io_reserve_lru handling v3
+
+Daniel Vetter (1):
+      drm/managed: Cleanup of unused functions and polishing docs
+
+Dave Airlie (2):
+      drm/amdgpu/ttm: remove unused parameter to move blit
+      drm/radeon/ttm: don't store driver copy of device pointer.
+
+Dinghao Liu (1):
+      drm/crc-debugfs: Fix memleak in crc_control_write
+
+Gerd Hoffmann (2):
+      drm/virtio: fix unblank
+      drm/virtio: drop virtio_gpu_output->enabled
+
+Jagan Teki (2):
+      dt-bindings: display: simple: Add AM-1280800N3TZQW-T00H
+      drm/panel: simple: Add AM-1280800N3TZQW-T00H
+
+Laurent Pinchart (1):
+      drm: panel: Fix bpc for OrtusTech COM43H4M85ULC panel
+
+Maxime Ripard (1):
+      drm/sun4i: lvds: Invert the LVDS polarity
+
+Melissa Wen (1):
+      drm/vkms: add alpha-premultiplied color blending
+
+Randy Dunlap (3):
+      drm: virtio: fix kconfig dependency warning
+      dma-buf: fix kernel-doc warning in dma-fence.c
+      dma-buf: fix kernel-doc warning in <linux/dma-buf.h>
+
+Rikard Falkeborn (1):
+      drm/gma500: Constify static structs
+
+Robert Chiras (1):
+      drm/panel: rm67191: Remove CLOCK_NON_CONTINUOUS flag
+
+Sam McNally (1):
+      drm/dp_mst: Support remote i2c writes
+
+Sidong Yang (1):
+      drm/vkms: avoid warning in vkms_get_vblank_timestamp
+
+Tian Tao (1):
+      drm/hisilicon: Removed the dependency on the mmu
+
+Ville Syrj=E4l=E4 (2):
+      drm: Nuke mode->private_flags
+      drm: Replace mode->export_head with a boolean
+
+Vinod Koul (1):
+      drm/bridge: Fix the dsi remote end-points
+
+ .../bindings/display/panel/panel-simple.yaml       |   2 +
+ Documentation/driver-api/driver-model/devres.rst   |   2 +-
+ drivers/dma-buf/dma-fence.c                        |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   8 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |   4 +-
+ drivers/gpu/drm/drm_connector.c                    |  45 +++++---
+ drivers/gpu/drm/drm_debugfs_crc.c                  |   4 +-
+ drivers/gpu/drm/drm_dp_mst_topology.c              | 106 +++++++++++++++---
+ drivers/gpu/drm/drm_drv.c                          |  78 ++++---------
+ drivers/gpu/drm/drm_managed.c                      |   2 +-
+ drivers/gpu/drm/gma500/framebuffer.c               |   6 +-
+ drivers/gpu/drm/hisilicon/hibmc/Kconfig            |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               | 101 +++++++++++++----
+ drivers/gpu/drm/nouveau/nouveau_bo.h               |   3 +
+ drivers/gpu/drm/nouveau/nouveau_drv.h              |   2 +
+ drivers/gpu/drm/nouveau/nouveau_ttm.c              |  44 +++++++-
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c      |   3 +-
+ drivers/gpu/drm/panel/panel-simple.c               |  31 +++++-
+ drivers/gpu/drm/radeon/radeon_ttm.c                |   8 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                 |   4 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                       |  43 +++-----
+ drivers/gpu/drm/ttm/ttm_bo_util.c                  | 121 ++---------------=
+----
+ drivers/gpu/drm/ttm/ttm_bo_vm.c                    |  39 ++-----
+ drivers/gpu/drm/ttm/ttm_resource.c                 |   3 -
+ drivers/gpu/drm/virtio/Kconfig                     |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_display.c           |  15 ++-
+ drivers/gpu/drm/virtio/virtgpu_drv.h               |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c             |   6 +-
+ drivers/gpu/drm/vkms/vkms_composer.c               |  55 +++++++---
+ drivers/gpu/drm/vkms/vkms_crtc.c                   |   5 +
+ include/drm/drm_device.h                           |   2 +-
+ include/drm/drm_drv.h                              |  16 +--
+ include/drm/drm_modes.h                            |  26 ++---
+ include/drm/ttm/ttm_bo_api.h                       |   1 -
+ include/drm/ttm/ttm_bo_driver.h                    |   5 -
+ include/drm/ttm/ttm_resource.h                     |  16 ---
+ include/linux/dma-buf.h                            |   3 +-
+ 37 files changed, 436 insertions(+), 380 deletions(-)
+
+--ajxofjxazu4662dx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX1EUnQAKCRDj7w1vZxhR
+xR3cAP4zy7Lj6Qk79V4mwxtzr12b9G5gRCLRS6wGFwcfRDRZEQEAozj02mZoNPR4
+jC/Qk9sP4My0ynEOTVWwjNjL1cpJbQY=
+=klB7
+-----END PGP SIGNATURE-----
+
+--ajxofjxazu4662dx--
+
+--===============0522406278==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0522406278==--
