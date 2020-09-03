@@ -2,64 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8C025BD9F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 10:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBC525BE18
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 11:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1246E1B3;
-	Thu,  3 Sep 2020 08:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 950776E96E;
+	Thu,  3 Sep 2020 09:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 316586E1B3
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:45:35 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id w5so2247255wrp.8
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 01:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=w/8hEgczsSwA5siMShAWCRj+Fa/wWaouVqRmrq4savc=;
- b=JEyxJJHSiduf3Z20lir53f8KwZEdsX/lWxPlh0m/E79yi9SQq9SA7WUsImF68DPkQM
- b0IHTMLspzmTMB6GkKRN/v2KGeohNti5YY4toHZT//MtRFLu4vYWlhJ45glSoq1iq3PP
- dO4dT7hCYUobXhNoukuhIXto9eNKIeUTGsPzk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=w/8hEgczsSwA5siMShAWCRj+Fa/wWaouVqRmrq4savc=;
- b=sZg+YTxiH4wiY+WN4wNoMoVCzcMqWIXPzsaFykCmDSy4zXMivXNovfSzXFV0IJsIRA
- WEKfAm7bQAkm0dfwuBB72yl9JBO5hRl9ABq0L8ggmBvwEaaKA8l/a9UeAJA7tb0pV1cq
- wXcCNn25CbCOZcEZHeaS6eOU2BnCMdeTDzNnolwQ3RCBM6WuspX4lW5f6jXbN3SlFTAt
- hrD59LSR5Stp35gjOTtNd6flP435E24hVShieOX1TGkTe+loFxok/+CntIA6lNps7xbK
- GzRTjXORu504E+yY6XR1wj5ku5ZMORiEnpX15NIJelVxwWomWDpH+YOCYwgACsgSt6zM
- xDSg==
-X-Gm-Message-State: AOAM532S9E41hRD4f2ScUWppZWSM8bE+85YsuXWkSgqswvdfyXbt2r9A
- kJ4rkOfuUNoDCmu+PRFTYOdqZA==
-X-Google-Smtp-Source: ABdhPJx30EL7M9pGuMwPSxIVWHfLkpax1C49r8vzGrTW34Tl1cKNPRCQWUvi96dX0LLOKxnVGLLT0A==
-X-Received: by 2002:adf:e74d:: with SMTP id c13mr1188595wrn.45.1599122734444; 
- Thu, 03 Sep 2020 01:45:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g7sm3561732wrv.82.2020.09.03.01.45.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 01:45:33 -0700 (PDT)
-Date: Thu, 3 Sep 2020 10:45:31 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Bernard <bernard@vivo.com>
-Subject: Re: [Re-send][PATCH] gpu/drm: remove drm_modeset_lock protection for
- drm_error
-Message-ID: <20200903084531.GJ2352366@phenom.ffwll.local>
-Mail-Followup-To: Bernard <bernard@vivo.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <ADIABQBNDXyW8X9QUmo2xaoL.1.1599052622252.Hmail.bernard@vivo.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEE56E96D;
+ Thu,  3 Sep 2020 09:08:41 +0000 (UTC)
+IronPort-SDR: jVQwnx7JhfCUiMDVgJ3Zp4Att3N4YeZWJX5nZ0tMmb8VIU0Op6H2nbAc+9iBqJX0O0H7n2SkbS
+ 0rf3wshYa8ug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="137594932"
+X-IronPort-AV: E=Sophos;i="5.76,386,1592895600"; d="scan'208";a="137594932"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2020 02:08:41 -0700
+IronPort-SDR: caTYvbvfMEHR5U/pFc9WfuubkHNtxwnAO7LQ8oWngipPEMHTPrw/nQxxzhGkyAoz3wpbVsjjg4
+ 6c2nv6B4YYkA==
+X-IronPort-AV: E=Sophos;i="5.76,386,1592895600"; d="scan'208";a="326142259"
+Received: from cbanica1-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.22.177])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2020 02:08:37 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 03 Sep 2020 12:08:34 +0300
+Message-ID: <87sgbz2pnx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ADIABQBNDXyW8X9QUmo2xaoL.1.1599052622252.Hmail.bernard@vivo.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,65 +47,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 02, 2020 at 09:17:02PM +0800, Bernard wrote:
-> In function drm_atomic_helper_shutdown, maybe there is no need
-> to protect DRM_ERROR log in DRM_MODESET_LOCK_ALL_BEGIN &
-> DRM_MODESET_LOCK_ALL_END. This change is to make code run a bit
-> fast.
-> 
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
-This is only run at driver unload, so really no need to optimize anything
-for speed. And I think this change makes the code less symmetric, so not
-really worth it imo.
+Hi Dave & Daniel -
 
-Similar with the via change, drm/via is very very legacy code where the
-next step will be to just outright delete it all.
+drm-intel-fixes-2020-09-03:
+drm/i915 fixes for v5.9-rc4:
+- Clang build warning fix
+- HDCP fixes
 
-Thanks anyway for submitting the patches, in other places such a change
-would indeed make sense I think.
--Daniel
+BR,
+Jani.
 
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 85d163f16801..8902fd6316fc 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -3100,12 +3100,10 @@ void drm_atomic_helper_shutdown(struct drm_device *dev)
->  	int ret;
->  
->  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-> -
->  	ret = drm_atomic_helper_disable_all(dev, &ctx);
-> +	DRM_MODESET_LOCK_ALL_END(ctx, ret);
->  	if (ret)
->  		DRM_ERROR("Disabling all crtc's during unload failed with %i\n", ret);
-> -
-> -	DRM_MODESET_LOCK_ALL_END(ctx, ret);
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_shutdown);
->  
-> -- 
-> 2.17.1
-> 
-> 
-> 
+The following changes since commit f75aef392f869018f78cfedf3c320a6b3fcfda6b:
+
+  Linux 5.9-rc3 (2020-08-30 16:01:54 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-09-03
+
+for you to fetch changes up to 57537b4e1d37002ed8cbd0a9be082104749e9d8f:
+
+  drm/i915: Clear the repeater bit on HDCP disable (2020-09-02 10:48:23 +0300)
+
+----------------------------------------------------------------
+drm/i915 fixes for v5.9-rc4:
+- Clang build warning fix
+- HDCP fixes
+
+----------------------------------------------------------------
+Nathan Chancellor (1):
+      drm/i915/display: Ensure that ret is always initialized in icl_combo_phy_verify_state
+
+Sean Paul (2):
+      drm/i915: Fix sha_text population code
+      drm/i915: Clear the repeater bit on HDCP disable
+
+ drivers/gpu/drm/i915/display/intel_combo_phy.c |  4 ++--
+ drivers/gpu/drm/i915/display/intel_hdcp.c      | 32 +++++++++++++++++++++-----
+ include/drm/drm_hdcp.h                         |  3 +++
+ 3 files changed, 31 insertions(+), 8 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
