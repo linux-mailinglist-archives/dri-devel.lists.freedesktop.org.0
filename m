@@ -1,60 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBD025CDED
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 00:44:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A8D25CE21
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 00:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2376C6EA3F;
-	Thu,  3 Sep 2020 22:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A45C6EA3D;
+	Thu,  3 Sep 2020 22:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81D46EA3D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 22:44:01 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1599173044; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=9JPxwE1RsWBBeDdNQgXEeWaibZ66lXnQpU+8hZ0Goy4=;
- b=sJ2LjpPx12tlLf4cF39EjgE8QcV/817uYNuhsCtCFAsoAbAfuVmv730cU7olDUQYh9AY1qsx
- coytbQl+svrie+/OwnV72R7m8mjlQRCg3fbmqjH/ZuM6yjs6yGlX3BGw/wl/d48iWBHLU4Ij
- bGjW3IW2CXxRrihkwzoBkLDbtzI=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5f5171a74f13e63f041f3b63 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 03 Sep 2020 22:43:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 6B67AC4339C; Thu,  3 Sep 2020 22:43:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 253F8C433A1;
- Thu,  3 Sep 2020 22:43:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 253F8C433A1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/msm/dp: remove mode hard-coding in case of DP CTS
-Date: Thu,  3 Sep 2020 15:43:28 -0700
-Message-Id: <20200903224328.26452-5-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200903224328.26452-1-abhinavk@codeaurora.org>
-References: <20200903224328.26452-1-abhinavk@codeaurora.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21E096EA3D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 22:54:44 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9D25A2078E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 22:54:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599173683;
+ bh=UXKo8kyys7Jj/KQr45tWL3zKiNH9QtHrNfzW2RvKWt0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=EmXfwBYt3D5p90EF4QL4KaB9rOBoRovhKKBkFVE8uGA5dui+0P8hxZrd3FY69Wliu
+ TTk9c/A0IjU+NziYUsCaN76rxm3L/o0iaout5mKVSD5nkUgrmwzBBpATVKe/S5ftGP
+ 8y9pRGpGCh2RjzS9I/QpFRr1OIiFLmH8uoXa9OuQ=
+Received: by mail-ed1-f51.google.com with SMTP id w1so4312697edr.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 15:54:43 -0700 (PDT)
+X-Gm-Message-State: AOAM530lgla92+sziZJRHG9maGpZtMdIEZMSyeZQaUIs4mmDmeXC26fb
+ KfFubsT8i7di9rNAB8fkTTavKV5C73yU0xa/Og==
+X-Google-Smtp-Source: ABdhPJxV4e9JXF8pl9lR06Tx6AQ3q1ACWUDkZvY2hawRP5jIfK2LoCgaT7r5tM+Hy5bnYViKitxKW+Li7urVLN9lTTw=
+X-Received: by 2002:aa7:dcd2:: with SMTP id w18mr5713705edu.288.1599173682230; 
+ Thu, 03 Sep 2020 15:54:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200819081752.4805-1-linux@fw-web.de>
+ <3B754053-BA89-4DB7-A089-665C5B6B34CC@public-files.de>
+In-Reply-To: <3B754053-BA89-4DB7-A089-665C5B6B34CC@public-files.de>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 4 Sep 2020 06:54:30 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9TYUWWNg+1zT4LwomrabBsiZQKXAS9jTHCFKiAmCm4PA@mail.gmail.com>
+Message-ID: <CAAOTY_9TYUWWNg+1zT4LwomrabBsiZQKXAS9jTHCFKiAmCm4PA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] make hdmi work on bananapi-r2
+To: Frank Wunderlich <frank-w@public-files.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,124 +54,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- tanmay@codeaurora.org, aravindh@codeaurora.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Frank Wunderlich <linux@fw-web.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No need to fix the number of resolutions to one during the video
-pattern CTS test. The userspace test client will handle both
-the hotplug as well as picking the right resolution for the test.
-
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c |  3 --
- drivers/gpu/drm/msm/dp/dp_link.c    |  2 +-
- drivers/gpu/drm/msm/dp/dp_panel.c   | 46 +----------------------------
- 3 files changed, 2 insertions(+), 49 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 2c20898ce77b..bc6560e875aa 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -419,10 +419,7 @@ static int dp_display_usbpd_disconnect_cb(struct device *dev)
- static void dp_display_handle_video_request(struct dp_display_private *dp)
- {
- 	if (dp->link->sink_request & DP_TEST_LINK_VIDEO_PATTERN) {
--		/* force disconnect followed by connect */
--		dp->usbpd->connect(dp->usbpd, false);
- 		dp->panel->video_test = true;
--		dp->usbpd->connect(dp->usbpd, true);
- 		dp_link_send_test_response(dp->link);
- 	}
- }
-diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-index 3cbae92deff0..ac0e1daea913 100644
---- a/drivers/gpu/drm/msm/dp/dp_link.c
-+++ b/drivers/gpu/drm/msm/dp/dp_link.c
-@@ -1059,8 +1059,8 @@ int dp_link_process_request(struct dp_link *dp_link)
- 	}
- 
- 	if (dp_link_is_video_pattern_requested(link)) {
-+		ret = 0;
- 		dp_link->sink_request |= DP_TEST_LINK_VIDEO_PATTERN;
--		return -EINVAL;
- 	}
- 
- 	if (dp_link_is_audio_pattern_requested(link)) {
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 7cdf37c525d8..1515217395a4 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -128,46 +128,6 @@ static u32 dp_panel_get_supported_bpp(struct dp_panel *dp_panel,
- 	return bpp;
- }
- 
--static void dp_panel_set_test_mode(struct dp_panel_private *panel,
--		struct dp_display_mode *mode)
--{
--	struct drm_display_mode *drm_mode = NULL;
--	struct dp_link_test_video *test_info = NULL;
--
--	drm_mode = &mode->drm_mode;
--	test_info = &panel->link->test_video;
--
--	drm_mode->hdisplay = test_info->test_h_width;
--	drm_mode->hsync_start = drm_mode->hdisplay + test_info->test_h_total -
--			(test_info->test_h_start + test_info->test_h_width);
--	drm_mode->hsync_end = drm_mode->hsync_start +
--				test_info->test_hsync_width;
--	drm_mode->htotal = drm_mode->hsync_end + test_info->test_h_start -
--						test_info->test_hsync_width;
--
--	drm_mode->vdisplay = test_info->test_v_height;
--	drm_mode->vsync_start = drm_mode->vdisplay + test_info->test_v_total -
--			(test_info->test_v_start + test_info->test_v_height);
--	drm_mode->vsync_end = drm_mode->vsync_start +
--				test_info->test_vsync_width;
--	drm_mode->vtotal = drm_mode->vsync_end + test_info->test_v_start -
--						test_info->test_vsync_width;
--
--	drm_mode->clock = test_info->test_h_total *
--		test_info->test_v_total * test_info->test_rr_n;
--
--	drm_mode->type = 0x48;
--	drm_mode_set_name(drm_mode);
--
--	if (test_info->test_rr_d == 0)
--		drm_mode->clock /= 1000;
--	else
--		drm_mode->clock /= 1001;
--
--	if (test_info->test_h_width == 640)
--		drm_mode->clock = 25170;
--}
--
- static int dp_panel_update_modes(struct drm_connector *connector,
- 	struct edid *edid)
- {
-@@ -294,12 +254,8 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
- 
- 	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
- 
--	if (dp_panel->video_test) {
--		dp_panel_set_test_mode(panel, mode);
--		return 1;
--	} else if (dp_panel->edid) {
-+	if (dp_panel->edid)
- 		return dp_panel_update_modes(connector, dp_panel->edid);
--	}
- 
- 	return 0;
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJhbmsgV3VuZGVybGljaCA8ZnJhbmstd0BwdWJsaWMtZmlsZXMuZGU+IOaWvCAyMDIw5bm0Oeac
+iDPml6Ug6YCx5ZubIOS4i+WNiDExOjA35a+r6YGT77yaCj4KPiBIaQo+Cj4gQW55IG9waW5pb24g
+YWJvdXQgRFRTIFBhdGNoZXM/IFdoaWNoIG1haW50YWluZXIgd2lsbCBpbmNsdWRlIGl0IGluIHRy
+ZWU/IElzIGFueSBhY2svcmV2aWV3IG5lZWRlZD8KCkFjY29yZGluZyB0byBtYWludGFpbmVyIGxp
+c3QgWzFdLCB0aGUgbWFpbnRhaW5lciBpcwoKQVJNL01lZGlhdGVrIFNvQyBzdXBwb3J0Ck06IE1h
+dHRoaWFzIEJydWdnZXIgPG1hdHRoaWFzLmJnZ0BnbWFpbC5jb20+Ckw6IGxpbnV4LWFybS1rZXJu
+ZWxAbGlzdHMuaW5mcmFkZWFkLm9yZyAobW9kZXJhdGVkIGZvciBub24tc3Vic2NyaWJlcnMpCkw6
+IGxpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcgKG1vZGVyYXRlZCBmb3Igbm9uLXN1
+YnNjcmliZXJzKQpTOiBNYWludGFpbmVkClc6IGh0dHBzOi8vbXRrLmJjbmZzLm9yZy8KQzogaXJj
+Oi8vY2hhdC5mcmVlbm9kZS5uZXQvbGludXgtbWVkaWF0ZWsKRjogYXJjaC9hcm0vYm9vdC9kdHMv
+bXQ2KgpGOiBhcmNoL2FybS9ib290L2R0cy9tdDcqCkY6IGFyY2gvYXJtL2Jvb3QvZHRzL210OCoK
+RjogYXJjaC9hcm0vbWFjaC1tZWRpYXRlay8KRjogYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRl
+ay8KRjogZHJpdmVycy9zb2MvbWVkaWF0ZWsvCk46IG10awpOOiBtdFs2NzhdCks6IG1lZGlhdGVr
+CgoKUmVnYXJkcywKQ2h1bi1LdWFuZy4KClsxXSBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9s
+aW51eC9NQUlOVEFJTkVSUwoKPiByZWdhcmRzIEZyYW5rCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
