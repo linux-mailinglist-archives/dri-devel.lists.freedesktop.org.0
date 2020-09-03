@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0005C25BF6C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 12:51:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB6C25BF6E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 12:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E25C46E1A5;
-	Thu,  3 Sep 2020 10:51:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD1836E1B8;
+	Thu,  3 Sep 2020 10:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84BAF6E171
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 10:51:25 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FB96E929
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 10:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599130284;
+ s=mimecast20190719; t=1599130288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=2jfkitntswutOLQ1DY1OiWZZ+qzs7EZXcRyjoLVfEWI=;
- b=DdmqP1jzF8gNfKRXqupdTQt0B0B1lCMKClfoqUH+/2ZlKXstDW9o1L+X+vmDbdGqpeFJ0j
- DxWeelSPE5oPiRAKLVuba4xMJi80V+RwvTqXKoZ4yvAjwD/HWgoU3luTLxWeFPK1nE4RTw
- FB9c74JRCEvQxkt8CiprsmokrUPVoqs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c+wC7ixkxZtL6B/Ur8An//2LHjZwp8cEzzDSJyc9S+g=;
+ b=J2aDEf+cTgVXHv73wpL2UEqWCnVcjy78b1aMtNqzILGZMguv6xCYNGCFc0C6ZpnhxAmQ/v
+ jxWJLFzybn9AIqlxlupLzBt8eDrXj65WsvFSiWiV4uqEO42Et4gSK7GKhCiEDVHutmYXX6
+ 75/qNFQ4RVGtovxKuHcLBDHH5ioCv54=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-EEOplwD-PNqAcZIQbpPObA-1; Thu, 03 Sep 2020 06:51:22 -0400
-X-MC-Unique: EEOplwD-PNqAcZIQbpPObA-1
+ us-mta-549-xJF3-7VqMBmc1B3J8TjlKw-1; Thu, 03 Sep 2020 06:51:24 -0400
+X-MC-Unique: xJF3-7VqMBmc1B3J8TjlKw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9F051091062;
- Thu,  3 Sep 2020 10:51:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8F548030BD;
+ Thu,  3 Sep 2020 10:51:22 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-115-4.ams2.redhat.com [10.36.115.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8A2D7EEAE;
- Thu,  3 Sep 2020 10:51:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F307A7EB72;
+ Thu,  3 Sep 2020 10:51:19 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -43,10 +44,12 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v9 00/17] acpi/pwm/i915: Convert pwm-crc and i915 driver's PWM
- code to use the atomic PWM API
-Date: Thu,  3 Sep 2020 12:50:57 +0200
-Message-Id: <20200903105114.9969-1-hdegoede@redhat.com>
+Subject: [PATCH v9 01/17] ACPI / LPSS: Resume Cherry Trail PWM controller in
+ no-irq phase
+Date: Thu,  3 Sep 2020 12:50:58 +0200
+Message-Id: <20200903105114.9969-2-hdegoede@redhat.com>
+In-Reply-To: <20200903105114.9969-1-hdegoede@redhat.com>
+References: <20200903105114.9969-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,8 +65,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -71,106 +75,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+The DSDTs on most Cherry Trail devices have an ugly clutch where the PWM
+controller gets poked from the _PS0 method of the graphics-card device:
 
-So the bug-fix which prompted v8, lead to some discussion about the pwm-lpss
-suspend/resume code. So as discussed this version drops the following 2
-patches:
+	Local0 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
+	If (((Local0 & 0x03) == 0x03))
+	{
+	    PSAT &= 0xFFFFFFFC
+	    Local1 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
+	    RSTA = Zero
+	    RSTF = Zero
+	    RSTA = One
+	    RSTF = One
+	    PWMB |= 0xC0000000
+	    PWMC = PWMB /* \_SB_.PCI0.GFX0.PWMB */
+	}
 
-[PATCH v8 06/17] pwm: lpss: Use pwm_lpss_restore() when restoring state on resume
-[PATCH v8 07/17] pwm: lpss: Always update state and set update bit
+Where PSAT is the power-status register of the PWM controller, so if it
+is in D3 when the GFX0 device's PS0 method runs then it will turn it on
+and restore the PWM ctrl register value it saved from its PS3 handler.
+Note not only does it restore it, it ors it with 0xC0000000 turning it
+on at a time where we may not want it to get turned on at all.
 
-Replacing them with:
+The pwm_get call which the i915 driver does to get a reference to the
+PWM controller, already adds a device-link making the GFX0 device a
+consumer of the PWM device. So it should already have been resumed when
+the above AML runs and the AML should thus not do its undesirable poking
+of the PWM controller register.
 
-[PATCH v9 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on hardware state
-[PATCH v9 07/17] pwm: lpss: Remove suspend/resume handlers
+But the PCI core powers on PCI devices in the no-irq resume phase and
+thus calls the troublesome PS0 method in the no-irq resume phase.
+Where as LPSS devices by default are resumed in the early resume phase.
 
-Andy, Thierry, can you review these 2 new patches please?
+This commit sets the resume_from_noirq flag in the bsw_pwm_dev_desc
+struct, so that Cherry Trail PWM controllers will be resumed in the
+no-irq phase. Together with the device-link added by the pwm-get this
+ensures that the PWM controller will be on when the troublesome PS0
+method runs, which stops it from poking the PWM controller.
 
-The plan still is to push the entire series to drm-intel-next-queued
-(because of interdependencies) once the 2 new patches are reviewed and
-the series has passed CI.
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/acpi/acpi_lpss.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This series has been tested (and re-tested after adding various bug-fixes)
-extensively. It has been tested on the following devices:
-
--Asus T100TA  BYT + CRC-PMIC PWM
--Toshiba WT8-A  BYT + CRC-PMIC PWM
--Thundersoft TS178  BYT + CRC-PMIC PWM, inverse PWM
--Asus T100HA  CHT + CRC-PMIC PWM
--Terra Pad 1061  BYT + LPSS PWM
--Trekstor Twin 10.1  BYT + LPSS PWM
--Asus T101HA  CHT + LPSS PWM
--GPD Pocket  CHT + LPSS PWM
--Acer One S1003  CHT + LPSS PWM
-
-Regards,
-
-Hans
-
-
-Changelog:
-
-Changes in v9:
-- Replace:
-  [PATCH v8 06/17] pwm: lpss: Use pwm_lpss_restore() when restoring state on resume
-  [PATCH v8 07/17] pwm: lpss: Always update state and set update bit
-  with:
-  [PATCH v9 06/17] pwm: lpss: Make pwm_lpss_apply() not rely on hardware state
-  [PATCH v9 07/17] pwm: lpss: Remove suspend/resume handlers
-
-Changes in v8:
-- Add a new patch dealing with the ACPI/DSDT GFX0._PS3 code poking the PWM controller
-  in unexpected ways on some Cherry Trail devices
-
-Changes in v7:
-- Fix a u64 divide leading to undefined reference to `__udivdi3' errors on 32 bit
-  platforms by casting the divisor to an unsigned long
-
-Changes in v6:
-- Rebase on v5.9-rc1
-- Adjust pwm-crc patches for pwm_state.period and .duty_cycle now being u64
-
-Changes in v5:
-- Dropped the "pwm: lpss: Correct get_state result for base_unit == 0"
-  patch. The base_unit == 0 condition should never happen and sofar it is
-  unclear what the proper behavior / correct values to store in the
-  pwm_state should be when this does happen.  Since this patch was added as
-  an extra pwm-lpss fix in v4 of this patch-set and otherwise is orthogonal
-  to the of this patch-set just drop it (again).
-- "[PATCH 04/16] pwm: lpss: Add range limit check for the base_unit register value"
-  - Use clamp_val(... instead of clam_t(unsigned long long, ...
-- "[PATCH 05/16] pwm: lpss: Add pwm_lpss_prepare_enable() helper"
-  - This is a new patch in v5 of this patchset
-- [PATCH 06/16] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume
-  - Use the new pwm_lpss_prepare_enable() helper
-
-Changes in v4:
-- "[PATCH v4 06/16] pwm: lpss: Correct get_state result for base_unit == 0"
-  - This is a new patch in v4 of this patchset
-- "[PATCH v4 12/16] pwm: crc: Implement get_state() method"
-  - Use DIV_ROUND_UP when calculating the period and duty_cycle values
-- "[PATCH v4 16/16] drm/i915: panel: Use atomic PWM API for devs with an external PWM controller"
-  - Add a note to the commit message about the changes in pwm_disable_backlight()
-  - Use the pwm_set/get_relative_duty_cycle() helpers
-
-Changes in v3:
-- "[PATCH v3 04/15] pwm: lpss: Add range limit check for the base_unit register value"
-  - Use base_unit_range - 1 as maximum value for the clamp()
-- "[PATCH v3 05/15] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume"
-  - This replaces the "pwm: lpss: Set SW_UPDATE bit when enabling the PWM"
-    patch from previous versions of this patch-set, which really was a hack
-    working around the resume issue which this patch fixes properly.
-- PATCH v3 6 - 11 pwm-crc changes:
-  - Various small changes resulting from the reviews by Andy and Uwe,
-    including some refactoring of the patches to reduce the amount of churn
-    in the patch-set
-
-Changes in v2:
-- Fix coverletter subject
-- Drop accidentally included debugging patch
-- "[PATCH v3 02/15] ACPI / LPSS: Save Cherry Trail PWM ctx registers only once (
-  - Move #define LPSS_SAVE_CTX_ONCE define to group it with LPSS_SAVE_CTX
+diff --git a/drivers/acpi/acpi_lpss.c b/drivers/acpi/acpi_lpss.c
+index 5e2bfbcf526f..67892fc0b822 100644
+--- a/drivers/acpi/acpi_lpss.c
++++ b/drivers/acpi/acpi_lpss.c
+@@ -257,6 +257,7 @@ static const struct lpss_device_desc bsw_pwm_dev_desc = {
+ 	.flags = LPSS_SAVE_CTX | LPSS_NO_D3_DELAY,
+ 	.prv_offset = 0x800,
+ 	.setup = bsw_pwm_setup,
++	.resume_from_noirq = true,
+ };
+ 
+ static const struct lpss_device_desc byt_uart_dev_desc = {
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
