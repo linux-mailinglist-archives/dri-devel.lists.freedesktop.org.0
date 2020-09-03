@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33D125D20B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEDE25D21B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5F66EAE3;
-	Fri,  4 Sep 2020 07:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B466EABC;
+	Fri,  4 Sep 2020 07:12:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa4.hc3370-68.iphmx.com (esa4.hc3370-68.iphmx.com
- [216.71.155.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 480C86EA09
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 16:38:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1599151129;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=1r9p2+RFoF3u+hOb93ac0ysyr0EJPEppHknwa791fSA=;
- b=EUbg9dD8+DiJNN/HgoMIWVR3KDHZDBowzxCcMMGAf/+6OaqfaZqKJaGO
- 6pjRcDjJy9gj3hLbkH/2QuKCiqKCYRTIyxNufrcv4Fphq72Kj2ZDHMA+s
- KkesPvOhuQAD6Hj2qJDY1/KzeRG20RwGlyRVW1I0YyjzqS/UMOWUlcVlp k=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: n1UBm6NTmzRoEEmp6chXaBm2JeGlv1UPeWW4NcDpE6MmwKaEEug3qgxA4LMjLaJkfVteFGd+aK
- UyQpDEBtpjDgR7UYwd0Jg33GV7o86inlKKFgsaaHyJNUflCzFSfwopxMOWerSgF0XhG9sEzEfL
- 4RRD4RotP+qyYV2hpJYsl3r0gsfqUIOsSdH5lSVHXWp122/oY9ooFXECyGx/srx7sfWn8zfJG2
- vY03kGbKprm5mmB9gPqzwmUs7bHHXQflmjbxrqlmteL5zA03CFuteALBCgRnmyTsXmwaj14XY0
- bkc=
-X-SBRS: 2.7
-X-MesageID: 26904079
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.76,387,1592884800"; d="scan'208";a="26904079"
-Date: Thu, 3 Sep 2020 18:38:37 +0200
-From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: =?utf-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Subject: Re: [PATCH v5 3/3] xen: add helpers to allocate unpopulated memory
-Message-ID: <20200903163837.GM753@Air-de-Roger>
-References: <20200901083326.21264-1-roger.pau@citrix.com>
- <20200901083326.21264-4-roger.pau@citrix.com>
- <b1713f26-8202-ac1e-c18a-4989312219b9@suse.com>
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7E076EA12
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 16:49:07 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id k15so2763097pfc.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 09:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=idein-jp.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6MiY8KpFRQuV+ysL9DCr4xSTX/g1EShAORePMHqghL4=;
+ b=pBJeQ23KIHbzXBpKfkghsW7b1CIt6Qx1Vp3wmzilz3HAqGrkHDgUFcG316QhnoVg+r
+ nvqL11dmNNtd+EJXwcJuE8s00gtndEysHGVm0blg2WlJqIBVH/Zm2PRQlVBDnGboCo5o
+ KufTnAveTOx9ABv0Wj7EqIiPpXaKkbqKtgp8bF+gbOA/D9sTKl4KqhDIkRW0rYT1DVOL
+ jTagKidWnOrEMvBWSG9E18rm+iVgk+zGFuK4BnTHcMFo4U0xd5r2Yg8u9+Hg/lraW+uk
+ NoVvbzqcO0iI0A7tzLjPCvt3pnnIn1xPp31Up2QLTxzItb9raLtCM7f51XlepmAsv5Dw
+ c78Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6MiY8KpFRQuV+ysL9DCr4xSTX/g1EShAORePMHqghL4=;
+ b=MiGepYwCj9gg1WSxU9rzz+UoccAYiJRI7nTs5BL1lG727cf5Unl9Z0bC1OLCb0r7id
+ /FtTn6BUXrZNaqVU2C9llBbnQT7SGVIGWVCPKPCK30C5FP9DvBOJZcanX0XZHhdLWJmO
+ j1b72K9bmGSMLyCRo73C7bAxwBZtjVgZzGaDiKgHFy4fXuIr2kSr1viM6TNxFHALghQG
+ o0kLyIS3Yv+L2QSfBCtiO+k7zfq2ljuFB9bz4Z/72e5NQ3P3Aiangoa4IAqYpHnQ+f6k
+ zfumoWb38TG7Gqw3q1Kppf2bWpncHMl75f/MNBwFKadIKtPqdb8j41pwIzsPEfWYOfEh
+ iTaQ==
+X-Gm-Message-State: AOAM530Fk/VIS/t8fz19Cn9xPgd8GYM6yFkl21jbobe5hKkDm8swZRbx
+ cFDmWzD9oMKLv2I5BWfVnSJzrxNS+LmY
+X-Google-Smtp-Source: ABdhPJybP+T8oJ1hNnZmInif3Q0tj7JFnNJSSJPfsCWc/zw1uRGlGmlOmouoyyvw3yyvjzE6IuBkUA==
+X-Received: by 2002:a63:5c66:: with SMTP id n38mr1438687pgm.217.1599151746775; 
+ Thu, 03 Sep 2020 09:49:06 -0700 (PDT)
+Received: from localhost.localdomain
+ (i220-221-200-167.s41.a008.ap.plala.or.jp. [220.221.200.167])
+ by smtp.googlemail.com with ESMTPSA id mw8sm2897411pjb.47.2020.09.03.09.49.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 03 Sep 2020 09:49:05 -0700 (PDT)
+From: Yukimasa Sugizaki <ysugi@idein.jp>
+X-Google-Original-From: Yukimasa Sugizaki <i.can.speak.c.and.basic@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/v3d: CL/CSD job timeout fixes
+Date: Fri,  4 Sep 2020 01:48:18 +0900
+Message-Id: <20200903164821.2879-1-i.can.speak.c.and.basic@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b1713f26-8202-ac1e-c18a-4989312219b9@suse.com>
-X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
- FTLPEX02CL06.citrite.net (10.13.108.179)
 X-Mailman-Approved-At: Fri, 04 Sep 2020 07:11:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,86 +68,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
- David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Yukimasa Sugizaki <ysugi@idein.jp>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBTZXAgMDMsIDIwMjAgYXQgMDU6MzA6MDdQTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3
-cm90ZToKPiBPbiAwMS4wOS4yMCAxMDozMywgUm9nZXIgUGF1IE1vbm5lIHdyb3RlOgo+ID4gVG8g
-YmUgdXNlZCBpbiBvcmRlciB0byBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4gVGhpcyBpcyBiYXNl
-ZCBvbiB0aGUKPiA+IFpPTkVfREVWSUNFIGZhY2lsaXR5IHdoaWNoIGlzIHVzZWQgYnkgcGVyc2lz
-dGVudCBtZW1vcnkgZGV2aWNlcyBpbgo+ID4gb3JkZXIgdG8gY3JlYXRlIHN0cnVjdCBwYWdlcyBh
-bmQga2VybmVsIHZpcnR1YWwgbWFwcGluZ3MgZm9yIHRoZSBJT01FTQo+ID4gYXJlYXMgb2Ygc3Vj
-aCBkZXZpY2VzLiBOb3RlIHRoYXQgb24ga2VybmVscyB3aXRob3V0IHN1cHBvcnQgZm9yCj4gPiBa
-T05FX0RFVklDRSBYZW4gd2lsbCBmYWxsYmFjayB0byB1c2UgYmFsbG9vbmVkIHBhZ2VzIGluIG9y
-ZGVyIHRvCj4gPiBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4KPiA+IAo+ID4gVGhlIG5ld2x5IGFk
-ZGVkIGhlbHBlcnMgdXNlIHRoZSBzYW1lIHBhcmFtZXRlcnMgYXMgdGhlIGV4aXN0aW5nCj4gPiB7
-YWxsb2MvZnJlZX1feGVuYmFsbG9vbmVkX3BhZ2VzIGZ1bmN0aW9ucywgd2hpY2ggYWxsb3dzIGZv
-ciBpbi1wbGFjZQo+ID4gcmVwbGFjZW1lbnQgb2YgdGhlIGNhbGxlcnMuIE9uY2UgYSBtZW1vcnkg
-cmVnaW9uIGhhcyBiZWVuIGFkZGVkIHRvIGJlCj4gPiB1c2VkIGFzIHNjcmF0Y2ggbWFwcGluZyBz
-cGFjZSBpdCB3aWxsIG5vIGxvbmdlciBiZSByZWxlYXNlZCwgYW5kIHBhZ2VzCj4gPiByZXR1cm5l
-ZCBhcmUga2VwdCBpbiBhIGxpbmtlZCBsaXN0LiBUaGlzIGFsbG93cyB0byBoYXZlIGEgYnVmZmVy
-IG9mCj4gPiBwYWdlcyBhbmQgcHJldmVudHMgcmVzb3J0aW5nIHRvIGZyZXF1ZW50IGFkZGl0aW9u
-cyBhbmQgcmVtb3ZhbHMgb2YKPiA+IHJlZ2lvbnMuCj4gPiAKPiA+IElmIGVuYWJsZWQgKGJlY2F1
-c2UgWk9ORV9ERVZJQ0UgaXMgc3VwcG9ydGVkKSB0aGUgdXNhZ2Ugb2YgdGhlIG5ldwo+ID4gZnVu
-Y3Rpb25hbGl0eSB1bnRhbmdsZXMgWGVuIGJhbGxvb24gYW5kIFJBTSBob3RwbHVnIGZyb20gdGhl
-IHVzYWdlIG9mCj4gPiB1bnBvcHVsYXRlZCBwaHlzaWNhbCBtZW1vcnkgcmFuZ2VzIHRvIG1hcCBm
-b3JlaWduIHBhZ2VzLCB3aGljaCBpcyB0aGUKPiA+IGNvcnJlY3QgdGhpbmcgdG8gZG8gaW4gb3Jk
-ZXIgdG8gYXZvaWQgbWFwcGluZ3Mgb2YgZm9yZWlnbiBwYWdlcyBkZXBlbmQKPiA+IG9uIG1lbW9y
-eSBob3RwbHVnLgo+ID4gCj4gPiBOb3RlIHRoZSBkcml2ZXIgaXMgY3VycmVudGx5IG5vdCBlbmFi
-bGVkIG9uIEFybSBwbGF0Zm9ybXMgYmVjYXVzZSBpdAo+ID4gd291bGQgaW50ZXJmZXJlIHdpdGgg
-dGhlIGlkZW50aXR5IG1hcHBpbmcgcmVxdWlyZWQgb24gc29tZSBwbGF0Zm9ybXMuCj4gPiAKPiA+
-IFNpZ25lZC1vZmYtYnk6IFJvZ2VyIFBhdSBNb25uw6kgPHJvZ2VyLnBhdUBjaXRyaXguY29tPgo+
-IAo+IFNvcnJ5LCBJIGp1c3QgZ290IGEgYnVpbGQgZXJyb3IgZm9yIHg4NiAzMi1iaXQgYnVpbGQ6
-Cj4gCj4gV0FSTklORzogdW5tZXQgZGlyZWN0IGRlcGVuZGVuY2llcyBkZXRlY3RlZCBmb3IgWk9O
-RV9ERVZJQ0UKPiAgIERlcGVuZHMgb24gW25dOiBNRU1PUllfSE9UUExVRyBbPW5dICYmIE1FTU9S
-WV9IT1RSRU1PVkUgWz1uXSAmJgo+IFNQQVJTRU1FTV9WTUVNTUFQIFs9bl0gJiYgQVJDSF9IQVNf
-UFRFX0RFVk1BUCBbPW5dCj4gICBTZWxlY3RlZCBieSBbeV06Cj4gICAtIFhFTl9VTlBPUFVMQVRF
-RF9BTExPQyBbPXldICYmIFhFTiBbPXldICYmIFg4NiBbPXldCj4gICBHRU4gICAgIE1ha2VmaWxl
-Cj4gICBDQyAgICAgIGtlcm5lbC9ib3VuZHMucwo+ICAgQ0FMTCAgICAvaG9tZS9ncm9zcy9rb3Jn
-L3NyYy9zY3JpcHRzL2F0b21pYy9jaGVjay1hdG9taWNzLnNoCj4gICBVUEQgICAgIGluY2x1ZGUv
-Z2VuZXJhdGVkL2JvdW5kcy5oCj4gICBDQyAgICAgIGFyY2gveDg2L2tlcm5lbC9hc20tb2Zmc2V0
-cy5zCj4gSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC9ob21lL2dyb3NzL2tvcmcvc3JjL2luY2x1ZGUv
-bGludXgvbW16b25lLmg6MTk6MCwKPiAgICAgICAgICAgICAgICAgIGZyb20gL2hvbWUvZ3Jvc3Mv
-a29yZy9zcmMvaW5jbHVkZS9saW51eC9nZnAuaDo2LAo+ICAgICAgICAgICAgICAgICAgZnJvbSAv
-aG9tZS9ncm9zcy9rb3JnL3NyYy9pbmNsdWRlL2xpbnV4L3NsYWIuaDoxNSwKPiAgICAgICAgICAg
-ICAgICAgIGZyb20gL2hvbWUvZ3Jvc3Mva29yZy9zcmMvaW5jbHVkZS9saW51eC9jcnlwdG8uaDox
-OSwKPiAgICAgICAgICAgICAgICAgIGZyb20gL2hvbWUvZ3Jvc3Mva29yZy9zcmMvYXJjaC94ODYv
-a2VybmVsL2FzbS1vZmZzZXRzLmM6OToKPiAvaG9tZS9ncm9zcy9rb3JnL3NyYy9pbmNsdWRlL2xp
-bnV4L3BhZ2UtZmxhZ3MtbGF5b3V0Lmg6OTU6MjogZXJyb3I6ICNlcnJvcgo+ICJOb3QgZW5vdWdo
-IGJpdHMgaW4gcGFnZSBmbGFncyIKPiAgI2Vycm9yICJOb3QgZW5vdWdoIGJpdHMgaW4gcGFnZSBm
-bGFncyIKPiAgIF5+fn5+Cj4gbWFrZVsyXTogKioqIFsvaG9tZS9ncm9zcy9rb3JnL3NyYy9zY3Jp
-cHRzL01ha2VmaWxlLmJ1aWxkOjExNDoKPiBhcmNoL3g4Ni9rZXJuZWwvYXNtLW9mZnNldHMuc10g
-RXJyb3IgMQo+IG1ha2VbMV06ICoqKiBbL2hvbWUvZ3Jvc3Mva29yZy9zcmMvTWFrZWZpbGU6MTE3
-NTogcHJlcGFyZTBdIEVycm9yIDIKPiBtYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSAnL2hvbWUv
-Z3Jvc3Mva29yZy94ODYzMicKPiBtYWtlOiAqKiogW01ha2VmaWxlOjE4NTogX19zdWItbWFrZV0g
-RXJyb3IgMgoKU29ycnkgZm9yIHRoaXMuIEkndmUgdGVzdGVkIGEgMzJiaXQgYnVpbGQgYnV0IEkg
-dGhpbmsgaXQgd2FzIGJlZm9yZQp0aGUgbGFzdCBLY29uZmlnIGNoYW5nZXMuIEknbSBhIGxpdHRs
-ZSB1bnN1cmUgaG93IHRvIHNvbHZlIHRoaXMsIGFzClpPTkVfREVWSUNFIGRvZXNuJ3Qgc2VsZWN0
-IHRoZSByZXF1aXJlZCBvcHRpb25zIGZvciBpdCB0byBydW4sIGJ1dApyYXRoZXIgZGVwZW5kcyBv
-biB0aGVtIHRvIGJlIGF2YWlsYWJsZS4KCllvdSBjYW4gdHJpZ2dlciBzb21ldGhpbmcgc2ltaWxh
-ciBvbiB4ODYtNjQgYnkgZG9pbmc6CgokIG1ha2UgQVJDSD14ODZfNjQgeGVuLmNvbmZpZwpVc2lu
-ZyAuY29uZmlnIGFzIGJhc2UKTWVyZ2luZyAuL2tlcm5lbC9jb25maWdzL3hlbi5jb25maWcKTWVy
-Z2luZyAuL2FyY2gveDg2L2NvbmZpZ3MveGVuLmNvbmZpZwojCiMgbWVyZ2VkIGNvbmZpZ3VyYXRp
-b24gd3JpdHRlbiB0byAuY29uZmlnIChuZWVkcyBtYWtlKQojCnNjcmlwdHMva2NvbmZpZy9jb25m
-ICAtLW9sZGRlZmNvbmZpZyBLY29uZmlnCgpXQVJOSU5HOiB1bm1ldCBkaXJlY3QgZGVwZW5kZW5j
-aWVzIGRldGVjdGVkIGZvciBaT05FX0RFVklDRQogIERlcGVuZHMgb24gW25dOiBNRU1PUllfSE9U
-UExVRyBbPXldICYmIE1FTU9SWV9IT1RSRU1PVkUgWz1uXSAmJiBTUEFSU0VNRU1fVk1FTU1BUCBb
-PXldICYmIEFSQ0hfSEFTX1BURV9ERVZNQVAgWz15XQogIFNlbGVjdGVkIGJ5IFt5XToKICAtIFhF
-Tl9VTlBPUFVMQVRFRF9BTExPQyBbPXldICYmIFhFTiBbPXldICYmIFg4Nl82NCBbPXldCiMKIyBj
-b25maWd1cmF0aW9uIHdyaXR0ZW4gdG8gLmNvbmZpZwojCgpJIHRoaW5rIHRoZSBvbmx5IHNvbHV0
-aW9uIGlzIHRvIGhhdmUgWEVOX1VOUE9QVUxBVEVEX0FMTE9DIGRlcGVuZCBvbgpaT05FX0RFVklD
-RSByYXRoZXIgdGhhbiBzZWxlY3QgaXQ/CgpUaGFua3MsIFJvZ2VyLgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Yukimasa Sugizaki <ysugi@idein.jp>
+
+Hi,
+
+The current V3D scheduler has two issues where CSD jobs are resubmitted
+regardless of the previous timed-out flag, and where the timer is not
+restarted for timed-out CL/CSD jobs (which we wish to continue running).
+The second one is due to the DRM scheduler API change and fixed in a
+similar way to [1].  A kernel command-line option to set the default
+timeout value is also added.
+
+I tested this patchset with Piglit and our CSD programs in [2].  Because
+it is hard to get the current upstream kernel to work on BCM2711, I used
+the kernel from rpi-5.8.y tree [3].  There still are problems where some
+Piglit tests get longer time to finish running (3610 minutes to 3650
+minutes in total), and some ones result in the invalid memory read
+errors with unknown reasons:
+
+[17086.230959] v3d fec00000.v3d: MMU error from client CLE (4) at 0xac1000, pte invalid
+[17086.238722] v3d fec00000.v3d: MMU error from client CLE (4) at 0x1b61000, pte invalid
+[18643.303188] v3d fec00000.v3d: MMU error from client L2T (0) at 0x15bff00, pte invalid
+[18655.933748] v3d fec00000.v3d: MMU error from client L2T (0) at 0x15bff00, pte invalid
+
+However, most of the CL/CSD programs are now working happily without
+kernel warnings and errors.
+
+Regards,
+Sugizaki
+
+[1] https://patchwork.kernel.org/patch/11732895/
+[2] https://github.com/Idein/py-videocore6
+[3] https://github.com/raspberrypi/linux/tree/rpi-5.8.y
+
+Yukimasa Sugizaki (3):
+  drm/v3d: Don't resubmit guilty CSD jobs
+  drm/v3d: Correctly restart the timer when progress is made
+  drm/v3d: Add job timeout module param
+
+ drivers/gpu/drm/v3d/v3d_sched.c | 62 +++++++++++++++++++++++++++++++++--------
+ 1 file changed, 51 insertions(+), 11 deletions(-)
+
+--
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
