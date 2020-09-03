@@ -1,54 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFF625C9FA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 22:08:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC9725CAE5
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 22:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57FAD6E408;
-	Thu,  3 Sep 2020 20:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9DE6E8B8;
+	Thu,  3 Sep 2020 20:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D347F6E408
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 20:08:40 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6C27B20C09
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 20:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599163720;
- bh=VNQBiy+9hTVwRrEP9Lqn0yhiulQhOMN+3eYs5y17OSo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fpu3+eIhqnPrgb0qkZaEvK3Kmu6p311u+wQxiizl/PBDQky26ZvdXEF9ZBBWJX790
- KQiAx25ql7TsaMgmfFnPlg+xYGZbmKisva1U51ZXi/PmbDdJ3jVQNYBbBEOzuUbsDI
- W4iLYZPfAEzOMG9cHh4+nZQsdoQ8fdBGp+++s/Tc=
-Received: by mail-ej1-f50.google.com with SMTP id nw23so5599477ejb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 13:08:40 -0700 (PDT)
-X-Gm-Message-State: AOAM5313poCnT2gBcBEkKM0sD63x1blQ3eCJ84FwIGmRBMUyCN79+x4n
- N4KxYhMN0No0EmJ9J4Xr2TwVqgAs1yA+b0q33E0=
-X-Google-Smtp-Source: ABdhPJyuDkfhPLPKz+PzRWR6ZZ6XjdtJBpFQ1L6Teu/datJrHcsDx/4D3LZlqVcdF89l0M1sqH04BmaIJmXbbK5x2pw=
-X-Received: by 2002:a17:906:82d1:: with SMTP id
- a17mr3855109ejy.385.1599163718890; 
- Thu, 03 Sep 2020 13:08:38 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AAC916E8B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 20:36:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DCEC12FC;
+ Thu,  3 Sep 2020 13:36:18 -0700 (PDT)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8833F3F71F;
+ Thu,  3 Sep 2020 13:36:17 -0700 (PDT)
+From: Robin Murphy <robin.murphy@arm.com>
+To: james.qian.wang@arm.com,
+	liviu.dudau@arm.com,
+	mihail.atanassov@arm.com
+Subject: [PATCH] drm/komeda: Drop local dma_parms
+Date: Thu,  3 Sep 2020 21:36:13 +0100
+Message-Id: <8de297b5b916628c77b99068fb5aac1a69eed6f5.1599164796.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
-References: <20200903165717.1272492-1-m.tretter@pengutronix.de>
-In-Reply-To: <20200903165717.1272492-1-m.tretter@pengutronix.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Thu, 3 Sep 2020 22:08:27 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcJCfFL43OLXC_DAowU0o_jW2rZ7qX-m8ePcPEMo0PEgQ@mail.gmail.com>
-Message-ID: <CAJKOXPcJCfFL43OLXC_DAowU0o_jW2rZ7qX-m8ePcPEMo0PEgQ@mail.gmail.com>
-Subject: Re: [PATCH 00/16] drm/exynos: Convert driver to drm bridge
-To: Michael Tretter <m.tretter@pengutronix.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- =?UTF-8?B?QmFydMWCb21pZWogxbtvxYJuaWVya2lld2ljeg==?=
- <b.zolnierkie@samsung.com>, 
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,46 +40,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com
+Cc: malidp@foss.arm.com, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 3 Sep 2020 at 18:57, Michael Tretter <m.tretter@pengutronix.de> wrote:
->
-> Hello,
->
-> the Exynos MIPI DSI Phy is also found on the i.MX8M Mini. However, on the
-> i.MX8M Mini, the bridge is driven by an LCDIF display controller instead of
-> the Exynos Decon. The driver for the LCDIF does not use the component
-> framework, but uses drm bridges.
->
-> This series converts the Exynos MIPI DSI into a drm bridge and makes it usable
-> with such drivers. Although the driver is converted, it still supports the
-> component framework API to stay compliant with the Exynos DRM driver.
->
-> Unfortunately, I don't have any Exynos SoC to actually test the series.  I
-> tested the driver with a few additional unfinished patches on the i.MX8M Mini
-> EVK, but somebody should definitely verify that the driver is still working on
-> Exynos hardware.
+Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
+for platform devices"), struct platform_device already provides a
+dma_parms structure, so we can save allocating another one.
 
-Hi Michael,
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
 
-+Cc maintainers and folks in Samsung.
+FYI, get_maintainer.pl seems to be choking on your L: entry somehow,
+since it just shows " (open list:ARM KOMEDA DRM-KMS DRIVER)" without the
+description or address, not sure what's up with that.
 
-Please follow the script/get_maintainers.pl to get the list of
-maintainers of the Exynos DRM drivers. First they could provide you
-with testing, second they might be the people merging the driver.
+ drivers/gpu/drm/arm/display/komeda/komeda_dev.c | 1 -
+ drivers/gpu/drm/arm/display/komeda/komeda_dev.h | 2 --
+ 2 files changed, 3 deletions(-)
 
-Unfortunately I cannot provide proper testing as none of my boards
-have a display attached. :)
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+index 1d767473ba8a..e7bb905062d9 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+@@ -261,7 +261,6 @@ struct komeda_dev *komeda_dev_create(struct device *dev)
+ 		goto disable_clk;
+ 	}
 
-Best regards,
-Krzysztof
+-	dev->dma_parms = &mdev->dma_parms;
+ 	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
+
+ 	mdev->iommu = iommu_get_domain_for_dev(mdev->dev);
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+index ce27f2f27c24..5b536f0cb548 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+@@ -163,8 +163,6 @@ struct komeda_dev {
+ 	struct device *dev;
+ 	/** @reg_base: the base address of komeda io space */
+ 	u32 __iomem   *reg_base;
+-	/** @dma_parms: the dma parameters of komeda */
+-	struct device_dma_parameters dma_parms;
+
+ 	/** @chip: the basic chip information */
+ 	struct komeda_chip_info chip;
+--
+2.28.0.dirty
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
