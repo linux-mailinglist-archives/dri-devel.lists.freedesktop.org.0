@@ -1,68 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260E125D210
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F4F25D21C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0206EB0A;
-	Fri,  4 Sep 2020 07:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3436EAB1;
+	Fri,  4 Sep 2020 07:12:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264676E4DD
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DED26E570
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:41 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id F196AC12;
- Thu,  3 Sep 2020 04:02:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:39 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 628C0C73;
+ Thu,  3 Sep 2020 04:02:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=2cnyUKVTc9vD/
- 03BQF9KhDjcFGmV0tTe2xC3x8EBalQ=; b=gswgacHBfDHCYrxEieM6XVjsfcHNn
- kq8T/+FlqMhbkziWfIk0eoNEN8bMwj+itHjTrVegs92oa5lH9fmm4sychECdiEtV
- LpMk0YWNtE7jts+RY9yJi6XT8zN7zL6lJYb0cT54O+3qLql1fEkpJD6oeiAhg6OS
- ZXehpldOt2lZtGPZya9CfEtAT+xiAOr1vXqmvdZDgBpCnS3g7+d74fALknLssq/i
- 4HPpKR+M+igq0oz7ZB2TI6IxSvJNjhPMOLauKB3TUCP1m2fYVKzHNS3X0EQtJmWo
- cuVcQN7qRXmB4RdPMXR+biro+zMSFk2jgbKASgM60+rObEXAYTZ6od3Wg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=p6ASSALBj3trP
+ I2b5fKvIn475D/TYRNvZYPVKAGOypE=; b=l1oId/VtqfMuWyNqyJnpgWHQpeZLB
+ tXKsRIPQI0jgyxSjBxgZSG88ssGDn2/z2sCfebB2fRAHx3XvWyCGVMcwf6JkMj/P
+ rBr9uofjEk143Tj1iwMOyg0hkQLEREKxy4yXgTO0rrRvJfsvHbxcPb6lyLNKO6TZ
+ YNnUvFBEbxqh8gyBotzF4NBARYn7PWr11WVKVKV9advjfYuvuKUwt/ACXc1jgBuB
+ GV/1RbWS99DsyVcAYM5pMbLI4fLF/PUyBMFTvjwy8me53ZtkZw0hfCw1Jbv0mtrh
+ Zfa8CFYRhH/LkqnvgILrl0GoypXWgJsFTimmcZXk7ExaJNp1lDdEUHg7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=2cnyUKVTc9vD/03BQF9KhDjcFGmV0tTe2xC3x8EBalQ=; b=UhKj7b3v
- hT/KqTBheneVi/SjN4PlD/fGNjLNBzlvmYxxbfK3ul1FEhf9Eh6uz6rLnvKN3Cvr
- Lw/GA+h+HB52vrOl0QsrC8jK/fmIq4q3JOuXSexm3m/6ncq7XytcaJduG5T4Sgrn
- 1no8WOSHvG/LUzD874U3izoDbCZah1otOgvDu7kngwNwYwbpFcZaMixQj2x40X9X
- fwUzLpTJABiYdF6BIPld71ctqdmQeUVHjo8vUhVcoCigbOVw4MZC+msBOkz57aQt
- kQMs5fpg5dFlGSPjAH+kWNek70J0C2fd4BQjr+HUR97LJG51XMW0Bqdc/y12H6zR
- tPEnDNaRpPFUDA==
-X-ME-Sender: <xms:HqNQX-CTFBu_5VFudCAMIckNZn8eENjjMhldqw5aevGpGuJGCn9OGA>
- <xme:HqNQX4hSFN89iH6ABzrUeNKs7SXgn5dX17Na6fTrpl3U0ErKNf8TSH0hLs1OkxNy8
- 4-jAzSNeH3zCI2Mysg>
+ fm3; bh=p6ASSALBj3trPI2b5fKvIn475D/TYRNvZYPVKAGOypE=; b=PQxM7x84
+ J5jaJa0sD5VVszrYo843fEwAP3XYlJcq6Lw0iUWJzQ7z3wLZajQG20e4RV2MIC69
+ 7JtZ+ckNrMlYvXXytuqGXeWHOHV3+bi3TLghlTjVHWvaQVWTeZFahoHS/aj2oUea
+ Ay2eL+LVMBIot2OT0srkqHjieIlnxU+HkD8hY+XwjLLrhow/S8lVILswAqq0JbJs
+ NjSwQOaFtOmt4NetCBncxLMXJi8UpwcB3x0UXs8g7mLmKC9YH88HLL7Hn6nhCYvp
+ 6aYHBXUCuqZtfGT1UrKm00NH+09WpX/D/NSF7lnreeQUhrpIdgeDI/Nxadw0927T
+ izgiIQJLmG7rSw==
+X-ME-Sender: <xms:H6NQX5KHMpwXjX5Av8h4uWxTi_R-hx3keteB64cZWfDCvsgMba8hcw>
+ <xme:H6NQX1IB38VbuNmKHeKf6WmE7FGbw63VdbuChdv-UnJaWokeZqtP3JBiIJ2u9DDrO
+ 6_ide8AmB6N6kvmmDM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
- heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvje
+ heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefvd
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:HqNQXxmsjTrIIoe3VLxIx7eI65EWjFS86cZYMcvYoR3pVr697zTDxA>
- <xmx:HqNQX8wo4NCCaE1cVLcqZZwI2ZGARAAMtIj92RJ3Hr0Y4XMzu83ieg>
- <xmx:HqNQXzRrbBRato9myjQZP0oX6LBAcBinVY6_sfpdv9SNCAuJq6os9w>
- <xmx:HqNQX7ZVkIVXfw9MtBFw5nWd10xKBVAXBOFN7KZH6cWxkmoDv61l0y4gsEo>
+X-ME-Proxy: <xmx:H6NQXxuUG-ZJ3F5Pc60vM0dd3SwuT2nn2pNk8ZvdlTM1RGz9VD0CYA>
+ <xmx:H6NQX6a9lfj8Dl4to9sM5sJma8al-jm7G5EmA5fUGZfb5Zdkf6na2g>
+ <xmx:H6NQXwaocGWhsC7MKLNFmYUbbHfw3d5ybpkkowUpcBgnz_tpwJWWRw>
+ <xmx:IKNQX6AVanyZ2FFTqiQu3w-iGIrSIq6LVQlayper2BREBkJQ23a6gu-RAAw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3B116328005E;
- Thu,  3 Sep 2020 04:02:38 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9A7AA306005F;
+ Thu,  3 Sep 2020 04:02:39 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 32/80] drm/vc4: hvs: Make the stop_channel function public
-Date: Thu,  3 Sep 2020 10:01:04 +0200
-Message-Id: <a9d5f0891c3bc1deb6b16d56ca6994ed912ec7c7.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 33/80] drm/vc4: hvs: Introduce a function to get the
+ assigned FIFO
+Date: Thu,  3 Sep 2020 10:01:05 +0200
+Message-Id: <178192d90874559b8386139f2226e773347729fc.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -92,10 +93,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the transition from the firmware to the KMS driver, we need to pay
-particular attention to how we deal with the pixelvalves that have already
-been enabled, otherwise either timeouts or stuck pixels can occur. We'll
-thus need to call the function to stop an HVS channel at boot.
+At boot time, if we detect that a pixelvalve has been enabled, we need to
+be able to retrieve the HVS channel it has been assigned to so that we can
+disable that channel too. Let's create that function that returns the FIFO
+or an error from a given output.
 
 Reviewed-by: Eric Anholt <eric@anholt.net>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
@@ -103,35 +104,94 @@ Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h | 1 +
- drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_drv.h |  1 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c | 54 ++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 55 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 251fcc35530c..554c2e29b23d 100644
+index 554c2e29b23d..860be019d8e3 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -907,6 +907,7 @@ void vc4_irq_reset(struct drm_device *dev);
- 
+@@ -908,6 +908,7 @@ void vc4_irq_reset(struct drm_device *dev);
  /* vc4_hvs.c */
  extern struct platform_driver vc4_hvs_driver;
-+void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
+ void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
++int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output);
  int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state);
  void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
  void vc4_hvs_atomic_disable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 0f56a7b57916..b5ee9556e821 100644
+index b5ee9556e821..4d0a833366ce 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -248,7 +248,7 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
- 	return 0;
+@@ -19,6 +19,7 @@
+  * each CRTC.
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/component.h>
+ #include <linux/platform_device.h>
+@@ -196,6 +197,59 @@ static void vc4_hvs_update_gamma_lut(struct drm_crtc *crtc)
+ 	vc4_hvs_lut_load(crtc);
  }
  
--static void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
-+void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
++int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output)
++{
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
++	u32 reg;
++	int ret;
++
++	if (!vc4->hvs->hvs5)
++		return output;
++
++	switch (output) {
++	case 0:
++		return 0;
++
++	case 1:
++		return 1;
++
++	case 2:
++		reg = HVS_READ(SCALER_DISPECTRL);
++		ret = FIELD_GET(SCALER_DISPECTRL_DSP2_MUX_MASK, reg);
++		if (ret == 0)
++			return 2;
++
++		return 0;
++
++	case 3:
++		reg = HVS_READ(SCALER_DISPCTRL);
++		ret = FIELD_GET(SCALER_DISPCTRL_DSP3_MUX_MASK, reg);
++		if (ret == 3)
++			return -EPIPE;
++
++		return ret;
++
++	case 4:
++		reg = HVS_READ(SCALER_DISPEOLN);
++		ret = FIELD_GET(SCALER_DISPEOLN_DSP4_MUX_MASK, reg);
++		if (ret == 3)
++			return -EPIPE;
++
++		return ret;
++
++	case 5:
++		reg = HVS_READ(SCALER_DISPDITHER);
++		ret = FIELD_GET(SCALER_DISPDITHER_DSP5_MUX_MASK, reg);
++		if (ret == 3)
++			return -EPIPE;
++
++		return ret;
++
++	default:
++		return -EPIPE;
++	}
++}
++
+ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
+ 				struct drm_display_mode *mode, bool oneshot)
  {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
 -- 
 git-series 0.9.1
 _______________________________________________
