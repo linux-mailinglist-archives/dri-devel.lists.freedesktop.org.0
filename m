@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86F325D1E9
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C0525D1CF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:11:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0676EAB2;
-	Fri,  4 Sep 2020 07:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EAF6EA8A;
+	Fri,  4 Sep 2020 07:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD6D6E195
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 203426E45D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 08:02:50 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id A67DFC88;
- Thu,  3 Sep 2020 04:02:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:48 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id E54A5CC1;
+ Thu,  3 Sep 2020 04:02:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 03 Sep 2020 04:02:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=VQCRUyPO71jHm
- 4tPu/mGDPw0qADlrf66ZnceVVw2jzU=; b=gB91F0tWOMc4ilSm2BtQ5+PW7L0Z3
- xsJWFo6dYxOJj0FVSnHaUbnAmcjRNlWaJXIo1H5ya78bxx07lQ16//yj7dpk59R1
- wwvz9642H7wNf4fb0tTQ8z8stzd6Qn5VHQ73bjMhVlK05IQzlAxgkYXT5uE0ifOp
- wFAzTJ/ENczjN7+vx1eWs9cwJu9KEiUSki8zy+CyH1NW7SSeodkj6ejov/LlZV5e
- Mj5LXio1DT7DQzoSvfeox9J90h6joTDgGePcWGc7mwcTKLihPQlt+/990af+BEAG
- Ke5uXLbUXw3YbP0qsryN1zjQXyI6JdXqOyAlaglrZKFy8AnbwZRo+4/LQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=0YrB6rCm671h0
+ yLZx7r8Z0z/1nMccwPir+vxSkZxMfw=; b=gxOvJ0XcojnSeRKOGvKbWcNy+fYt9
+ EsZBgZhHwzKd1t4FWhARs2p69Rv8umw6gDj7i7BEqoUUZn4HWkfUoovIg7E5TRM9
+ qlsFyatA42It6hJ2eYOSGkqZayk8uhm1uKKvEm6YhaK0d1VgoNoPpiZ18DWdZk8g
+ JMsMFdtqahC/RbZaUcjiK6X5gw06moTMHWdva4ZpbHz7PCeEMdMoawv3AiR8iWBf
+ sbIAyYRlqiBY1rX5K4ICeuHa7BW2qsbqSimrnJktrnjkJD5Lh15/1h1aD/Yp/9R6
+ R71H0hq7yw1uC5fVgxrQXlzt8kkyIkwXWoSCW3wlDq/vn8HOTve+M333Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=VQCRUyPO71jHm4tPu/mGDPw0qADlrf66ZnceVVw2jzU=; b=HKWLd+xO
- a78a9ujQVzVbEiyZObIBS+AhbJwk70hMmQfqnR0/ts613Cs30sXqq9hEMTTiGtkJ
- w/gusOpyeQm4cCha+W3d3yizYkOz0zAkpNfOiGVbbruWcwOkK/sLtbRtapvpPftp
- sqNEN/2GTejbeQcT+jrTiFIBJOm/IVZeMRhbbRoePDVuCd1/DBXtlh//knzA04FD
- UYNke/G0Rn5B+UwDBUkJX45gCq34IOC+cr3hnncg3V5Xu9U1LuiCvDpNMEA9qcKV
- Uvk4ycD/9AG4vxaF1UKsD/oIHZEb4igMpO7hg8frFn1zLHoMJgmwXbWgX9MQP81h
- B9Lfzl9GMFwHTQ==
-X-ME-Sender: <xms:JqNQX_kdgDZyKvhTYPSx3BQKDXiwZh_R8El1KSxpf5U8UUrKr6sQ1A>
- <xme:JqNQXy2V_CbE5LhI_s_LM268mZTzTf_Yz-s1HSCUudZ2U95zTPLSR-06aKmOB3SG2
- m2zkwweQkC8Rhhaefs>
+ fm3; bh=0YrB6rCm671h0yLZx7r8Z0z/1nMccwPir+vxSkZxMfw=; b=ST2CoW7F
+ 3GwvsYYvJx/1RIPmiAq4LEcCTYUW+oXoTvyaUw+yPqnwv58eoysz8uri9dYDmBWk
+ RxF0dGAKOwmRbNGhWZ4QM5kElU69is+VsZqIw/7+ZbqPGBEvSfebTyBVQpIpUnyo
+ IkAf6ED7NpVuT0fxGoWa3O22HB8RaCI24Zi+GUDdKhdFWxdLQhvd004/lnf+7LfB
+ qsTYKFVZPaTXh1l8XTUX2gJRBsKi5icwAeQ80qhSrjOIKaxOPwRO8jgs0NNwGfsW
+ DFXp6SuTx6YRZrP5sWpPfHzEkdmw098DqS92kK699zSRgETMygOMCeFA2dwnvisl
+ RBArZvlEV+ObNg==
+X-ME-Sender: <xms:KKNQXzC0onf1VdpjaDOm2HHeOJgMEGs4jYQAGL8nfUEMBbmLA-V69A>
+ <xme:KKNQX5j0XyI0gwBNSEpGtYCfHsl0yxSGXtya6d4GU1Agev8J9A9roYyzBf9_yxxMP
+ qrRJ5-4wEcLA-OqD5g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -49,20 +49,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegtddguddviecutefuodetgg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
  heehvdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefie
  enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:JqNQX1pKbgoaQvTJLdUHJlFtqNvLOWVggZv3kZ0gDx_OS6asDBn5lw>
- <xmx:JqNQX3nwnWMNjzDpCAtB0d5XJSDbRZ6ZCVsQQhEv-8TR36VgOBO7XQ>
- <xmx:JqNQX93dGypZ7YDu16yRyqlVVG_5Vp-CG5tMvEvJum0rIuqjKHFIAg>
- <xmx:J6NQX-vkUUfpadEhWsB6b7PeoyZIg19B390aso_m9Th_lGEKwa5Gv15iTCY>
+X-ME-Proxy: <xmx:KKNQX-kMHBwnf8AM7gt__PVc_VgnD97BJoZHxp1IwKZyxor4aqtKPw>
+ <xmx:KKNQX1xBOmWvcQLAsHitg9s0A5_q75U5VKJxTdPjsF97c21XopQTng>
+ <xmx:KKNQX4RAmrWWSN9jmoOKdEx_frKRZRSWBeVPk4YsKoh77oh-XDyJEQ>
+ <xmx:KKNQX8bsjErHzmk9N0IRBi-rxBtPf2UIktHZT8_r8Uz1cjQscWc78QTZpCw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 964C4328005E;
- Thu,  3 Sep 2020 04:02:46 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 003C73060060;
+ Thu,  3 Sep 2020 04:02:47 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v5 38/80] drm/vc4: hdmi: Use debugfs private field
-Date: Thu,  3 Sep 2020 10:01:10 +0200
-Message-Id: <24028dc06c379dbc71f98e027cce2839fdd446ce.1599120059.git-series.maxime@cerno.tech>
+Subject: [PATCH v5 39/80] drm/vc4: hdmi: Move structure to header
+Date: Thu,  3 Sep 2020 10:01:11 +0200
+Message-Id: <db3ff2babc914e38e86f794c4e49128697aed887.1599120059.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
@@ -92,12 +92,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're calling vc4_debugfs_add_file with our struct vc4_hdmi pointer set
-in the private field, but we don't use that field and go through the
-main struct vc4_dev to get it.
-
-Let's use the private field directly, that will save us some trouble
-later on.
+We will need to share the vc4_hdmi and related structures with multiple
+files, so let's create a header for it.
 
 Reviewed-by: Eric Anholt <eric@anholt.net>
 Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
@@ -105,24 +101,196 @@ Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 76 +-------------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h | 86 +++++++++++++++++++++++++++++++++++-
+ 2 files changed, 87 insertions(+), 75 deletions(-)
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi.h
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index ec34c08b16df..ae8c4d53e239 100644
+index ae8c4d53e239..5c4d2fee6b86 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -183,9 +183,7 @@ static const struct debugfs_reg32 hd_regs[] = {
- static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
- {
- 	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct drm_device *dev = node->minor->dev;
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct vc4_hdmi *hdmi = vc4->hdmi;
-+	struct vc4_hdmi *hdmi = node->info_ent->data;
- 	struct drm_printer p = drm_seq_file_printer(m);
+@@ -49,87 +49,13 @@
+ #include <sound/soc.h>
+ #include "media/cec.h"
+ #include "vc4_drv.h"
++#include "vc4_hdmi.h"
+ #include "vc4_regs.h"
  
- 	drm_print_regset32(&p, &hdmi->hdmi_regset);
+ #define HSM_CLOCK_FREQ 163682864
+ #define CEC_CLOCK_FREQ 40000
+ #define CEC_CLOCK_DIV  (HSM_CLOCK_FREQ / CEC_CLOCK_FREQ)
+ 
+-/* HDMI audio information */
+-struct vc4_hdmi_audio {
+-	struct snd_soc_card card;
+-	struct snd_soc_dai_link link;
+-	struct snd_soc_dai_link_component cpu;
+-	struct snd_soc_dai_link_component codec;
+-	struct snd_soc_dai_link_component platform;
+-	int samplerate;
+-	int channels;
+-	struct snd_dmaengine_dai_dma_data dma_data;
+-	struct snd_pcm_substream *substream;
+-};
+-
+-/* General HDMI hardware state. */
+-struct vc4_hdmi {
+-	struct platform_device *pdev;
+-
+-	struct drm_encoder *encoder;
+-	struct drm_connector *connector;
+-
+-	struct vc4_hdmi_audio audio;
+-
+-	struct i2c_adapter *ddc;
+-	void __iomem *hdmicore_regs;
+-	void __iomem *hd_regs;
+-	int hpd_gpio;
+-	bool hpd_active_low;
+-
+-	struct cec_adapter *cec_adap;
+-	struct cec_msg cec_rx_msg;
+-	bool cec_tx_ok;
+-	bool cec_irq_was_rx;
+-
+-	struct clk *pixel_clock;
+-	struct clk *hsm_clock;
+-
+-	struct debugfs_regset32 hdmi_regset;
+-	struct debugfs_regset32 hd_regset;
+-};
+-
+-#define HDMI_READ(offset) readl(vc4->hdmi->hdmicore_regs + offset)
+-#define HDMI_WRITE(offset, val) writel(val, vc4->hdmi->hdmicore_regs + offset)
+-#define HD_READ(offset) readl(vc4->hdmi->hd_regs + offset)
+-#define HD_WRITE(offset, val) writel(val, vc4->hdmi->hd_regs + offset)
+-
+-/* VC4 HDMI encoder KMS struct */
+-struct vc4_hdmi_encoder {
+-	struct vc4_encoder base;
+-	bool hdmi_monitor;
+-	bool limited_rgb_range;
+-};
+-
+-static inline struct vc4_hdmi_encoder *
+-to_vc4_hdmi_encoder(struct drm_encoder *encoder)
+-{
+-	return container_of(encoder, struct vc4_hdmi_encoder, base.base);
+-}
+-
+-/* VC4 HDMI connector KMS struct */
+-struct vc4_hdmi_connector {
+-	struct drm_connector base;
+-
+-	/* Since the connector is attached to just the one encoder,
+-	 * this is the reference to it so we can do the best_encoder()
+-	 * hook.
+-	 */
+-	struct drm_encoder *encoder;
+-};
+-
+-static inline struct vc4_hdmi_connector *
+-to_vc4_hdmi_connector(struct drm_connector *connector)
+-{
+-	return container_of(connector, struct vc4_hdmi_connector, base);
+-}
+-
+ static const struct debugfs_reg32 hdmi_regs[] = {
+ 	VC4_REG32(VC4_HDMI_CORE_REV),
+ 	VC4_REG32(VC4_HDMI_SW_RESET_CONTROL),
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+new file mode 100644
+index 000000000000..5ec5d1f6b1e6
+--- /dev/null
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -0,0 +1,86 @@
++#ifndef _VC4_HDMI_H_
++#define _VC4_HDMI_H_
++
++#include <drm/drm_connector.h>
++#include <media/cec.h>
++#include <sound/dmaengine_pcm.h>
++#include <sound/soc.h>
++
++#include "vc4_drv.h"
++
++/* HDMI audio information */
++struct vc4_hdmi_audio {
++	struct snd_soc_card card;
++	struct snd_soc_dai_link link;
++	struct snd_soc_dai_link_component cpu;
++	struct snd_soc_dai_link_component codec;
++	struct snd_soc_dai_link_component platform;
++	int samplerate;
++	int channels;
++	struct snd_dmaengine_dai_dma_data dma_data;
++	struct snd_pcm_substream *substream;
++};
++
++/* General HDMI hardware state. */
++struct vc4_hdmi {
++	struct platform_device *pdev;
++
++	struct drm_encoder *encoder;
++	struct drm_connector *connector;
++
++	struct vc4_hdmi_audio audio;
++
++	struct i2c_adapter *ddc;
++	void __iomem *hdmicore_regs;
++	void __iomem *hd_regs;
++	int hpd_gpio;
++	bool hpd_active_low;
++
++	struct cec_adapter *cec_adap;
++	struct cec_msg cec_rx_msg;
++	bool cec_tx_ok;
++	bool cec_irq_was_rx;
++
++	struct clk *pixel_clock;
++	struct clk *hsm_clock;
++
++	struct debugfs_regset32 hdmi_regset;
++	struct debugfs_regset32 hd_regset;
++};
++
++#define HDMI_READ(offset) readl(vc4->hdmi->hdmicore_regs + offset)
++#define HDMI_WRITE(offset, val) writel(val, vc4->hdmi->hdmicore_regs + offset)
++#define HD_READ(offset) readl(vc4->hdmi->hd_regs + offset)
++#define HD_WRITE(offset, val) writel(val, vc4->hdmi->hd_regs + offset)
++
++/* VC4 HDMI encoder KMS struct */
++struct vc4_hdmi_encoder {
++	struct vc4_encoder base;
++	bool hdmi_monitor;
++	bool limited_rgb_range;
++};
++
++static inline struct vc4_hdmi_encoder *
++to_vc4_hdmi_encoder(struct drm_encoder *encoder)
++{
++	return container_of(encoder, struct vc4_hdmi_encoder, base.base);
++}
++
++/* VC4 HDMI connector KMS struct */
++struct vc4_hdmi_connector {
++	struct drm_connector base;
++
++	/* Since the connector is attached to just the one encoder,
++	 * this is the reference to it so we can do the best_encoder()
++	 * hook.
++	 */
++	struct drm_encoder *encoder;
++};
++
++static inline struct vc4_hdmi_connector *
++to_vc4_hdmi_connector(struct drm_connector *connector)
++{
++	return container_of(connector, struct vc4_hdmi_connector, base);
++}
++
++#endif /* _VC4_HDMI_H_ */
 -- 
 git-series 0.9.1
 _______________________________________________
