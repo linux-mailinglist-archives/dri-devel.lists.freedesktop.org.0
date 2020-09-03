@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC37025D215
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:13:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0517E25D221
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 09:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF8E6EA9F;
-	Fri,  4 Sep 2020 07:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2986EAD1;
+	Fri,  4 Sep 2020 07:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87BAE6EA36
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 17:32:56 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k15so4076753wrn.10
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 10:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A526E92A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 20:27:09 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id z13so756412iom.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 13:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tcd-ie.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kdQAZvbXCVXJwkRywSLG6JnetvOXivYhmXNx/fFNfOo=;
- b=PeZ+do84XUsG8yX+y0xtDFdM3W7ihrw4+Eg7Lf0egrb9LtMBQGYbfe6kry3lmEqaZ4
- YD5uVyabXPVOVnG1zctNz091NT+5kRmWJ8Qxdde146p1G2TpEQ8aLZWKX307mJHW2sP5
- YOWr2Z/cspMQV4ehyL7JTVxf4sQxxzDheuxQ0=
+ :cc; bh=XHoryAxbdooXqCdzEiDfBNHDRDqVJTRBeWqND7AhQWw=;
+ b=RCNqeDrberJQa8iEXoKdFFmsXmVgm0OJW7eIchkOEab4PeUqCYPXFDpEN7VrPE2Q2r
+ GUQQuiaAGbKydhEJAnnDCPiK90LXur6kCJr5L5sQ2r/ne46TMpiIdcTaCv2fHYoM6yNb
+ n/CznyFIPF9GJUXXveE7AfWdl33o/8t6SBeJ8YB3I8NVC2PqmD4/iWDqPdEI5wN78LVf
+ ncTI5ftXwXoF9V4Ax5mdMwpMg3xer78eQreGPZO8czXhtl772MKmX11X+ribr9UqcF1C
+ urDp6n8FeZvPlJlmjz8S3oOgFUFG1EujxtEbZKlxpUccJF2SFlBjkXHX8U39zQ/QDpq6
+ IUOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kdQAZvbXCVXJwkRywSLG6JnetvOXivYhmXNx/fFNfOo=;
- b=kTGnkURELPIDL8PSrD0fDaZ7WBICG7YH4ILvCpFM9pfwLMxIAt4cK/HyBWR0wK9rGC
- 3BkBOzZ2FgwIkA2F8StpBhUgO0k9mke/C4NYl2QyIta4YcLPRm+H5ch1usm6duh1RYMA
- 0KyBAnIJC4sNvEMsOx9P+EaFnK3ztgdIKGIOvpgbEB+QGNRXKLWfpqpWzfpmkcgWCdoR
- RsPHx+PONrmCtY4JTwEdzTSpntockB9tY1VgeKadh9qR4JDz1bN7KN4XQEAh8wPGH4Tx
- A5W8Bl19lEMpzX1juo3NJBskvv2bSrtFu1dTV+vqXO76KSoyYQ0G4Vo66R9CJw0IfBs/
- vtVQ==
-X-Gm-Message-State: AOAM533if66smbctB/hmnZd172eoGB8YR6cvB/AIxZThUtNkBI4FEAtX
- mEDVgGG2cqS+PPaGmG4YmtWwytT5GMDZnz5y6YuNSg==
-X-Google-Smtp-Source: ABdhPJzlo38OUlokDbtl4G3RL3E1kLc3kVQIe+ooBj2Om40oPL84GGMLXmXAPwATVhS0dB/n9pwMRt0/2muUtlKoUvU=
-X-Received: by 2002:a5d:56c1:: with SMTP id m1mr3453960wrw.87.1599154374779;
- Thu, 03 Sep 2020 10:32:54 -0700 (PDT)
+ bh=XHoryAxbdooXqCdzEiDfBNHDRDqVJTRBeWqND7AhQWw=;
+ b=Q+Es50PvkrCxEhvnMNOEg3OF++AOaK3KNbGB6ZcWy+sCuKOKXjrGCFKkcTAjWYMe3Q
+ cUfR4zdfydHFsuifVwckdpA9ErSoQt5zTWSmZlDKzyhUillqzGUJKX+7gRfL8/xyExC5
+ EsOaa83FF9ccNBtha6woAJsjbIvwrvG7nnkb7Tp4U2GaV4NnItD3ivz3lR6G7samT1ex
+ bW50c4ZMfRQCZ8k3hboyJw2eVuTYHWCeNBt1pLCHvpVD44iR8oGi+hQRgg8xo7egT3VG
+ YiPzPGsVfaNLpdn58zUiJ0VE8we0TYN0OucoHQZW+rfgLH8kuuiLZzTvVzbqqndUoGo6
+ 4mkQ==
+X-Gm-Message-State: AOAM530zOEAaMrCs9bq9qwejH3MKHpNQMOfOFQQp2wgrxvzqPLRpIhQT
+ FPHk64uzBAfw+4NBA6nfoDkHwPy61l25VXNXlvamFQ==
+X-Google-Smtp-Source: ABdhPJwmTrpk85LWcnftpfNTJtQ24c/2yXv/TkIoKUAohLkMn+MLB1sF1W3BqKfqx9SeVWLrNTgZBBPqyFF6pQr5QKA=
+X-Received: by 2002:a02:834a:: with SMTP id w10mr5122585jag.63.1599164828964; 
+ Thu, 03 Sep 2020 13:27:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200824193036.6033-1-james.quinlan@broadcom.com>
- <20200824193036.6033-8-james.quinlan@broadcom.com>
- <20200902215314.GA881878@ubuntu-n2-xlarge-x86>
- <CA+-6iNzc38OAL7TGxobpODKXOD1CW-VFNU0rK9Z043QfR3MfsQ@mail.gmail.com>
- <20200902223852.GA1786990@ubuntu-n2-xlarge-x86>
- <6922bc0b-1849-2f2f-ec2f-fe9f0124dcfc@gmail.com>
- <20200903005240.GA1118@Ryzen-9-3900X.localdomain>
-In-Reply-To: <20200903005240.GA1118@Ryzen-9-3900X.localdomain>
-From: Jim Quinlan <james.quinlan@broadcom.com>
-Date: Thu, 3 Sep 2020 13:32:43 -0400
-Message-ID: <CA+-6iNyv_sFJOxDi5OcYNWe=ovLnOnrZNsWFQk5b-bzQzA8T_Q@mail.gmail.com>
-Subject: Re: [PATCH v11 07/11] device-mapping: Introduce DMA range map,
- supplanting dma_pfn_offset
-To: Nathan Chancellor <natechancellor@gmail.com>, 
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+ <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
+ <20200529124523.GA11817@infradead.org>
+ <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
+ <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com>
+ <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
+ <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
+ <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
+ <766525c3-4da9-6db7-cd90-fb4b82cd8083@deltatee.com>
+ <CALQxJuuS8KKUX_eWWSE81gsq5ePAETB-FoqRUSWFfqgr+B13gg@mail.gmail.com>
+In-Reply-To: <CALQxJuuS8KKUX_eWWSE81gsq5ePAETB-FoqRUSWFfqgr+B13gg@mail.gmail.com>
+From: Tom Murphy <murphyt7@tcd.ie>
+Date: Thu, 3 Sep 2020 21:26:57 +0100
+Message-ID: <CALQxJuuk0YR9dZWkqSmLU-kUKoOuuNj-kSikvQGq0wekijycLA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
+To: Logan Gunthorpe <logang@deltatee.com>
 X-Mailman-Approved-At: Fri, 04 Sep 2020 07:11:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,138 +71,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR REMOTEPROC SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Frank Rowand <frowand.list@gmail.com>,
- "maintainer:X86 ARCHITECTURE 32-BIT AND 64-BIT" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 ACPI/arm64" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Christoph Hellwig <hch@infradead.org>, linux-rockchip@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  Thomas Gleixner <tglx@linutronix.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ virtualization@lists.linux-foundation.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ David Woodhouse <dwmw2@infradead.org>, Cornelia Huck <cohuck@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 2, 2020 at 8:52 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Fri, 28 Aug 2020 at 00:34, Tom Murphy <murphyt7@tcd.ie> wrote:
 >
-> On Wed, Sep 02, 2020 at 05:36:29PM -0700, Florian Fainelli wrote:
+> On Thu, 27 Aug 2020 at 22:36, Logan Gunthorpe <logang@deltatee.com> wrote:
 > >
 > >
-> > On 9/2/2020 3:38 PM, Nathan Chancellor wrote:
-> > [snip]
-> > > > Hello Nathan,
-> > > >
-> > > > Can you tell me how much memory your RPI has and if all of it is
+> >
+> > On 2020-08-23 6:04 p.m., Tom Murphy wrote:
+> > > I have added a check for the sg_dma_len == 0 :
+> > > """
+> > >  } __sgt_iter(struct scatterlist *sgl, bool dma) {
+> > >         struct sgt_iter s = { .sgp = sgl };
 > > >
-> > > This is the 4GB version.
+> > > +       if (sgl && sg_dma_len(sgl) == 0)
+> > > +           s.sgp = NULL;
 > > >
-> > > > accessible by the PCIe device?  Could you also please include the DTS
-> > > > of the PCIe node?  IIRC, the RPI firmware does some mangling of the
-> > > > PCIe DT before Linux boots -- could you describe what is going on
-> > > > there?
-> > >
-> > > Unfortunately, I am not familiar with how to get this information. If
-> > > you could provide some instructions for how to do so, I am more than
-> > > happy to. I am not very knowleagable about the inner working of the Pi,
-> > > I mainly use it as a test platform for making sure that LLVM does not
-> > > cause problems on real devices.
+> > >         if (s.sgp) {
+> > >             .....
+> > > """
+> > > at location [1].
+> > > but it doens't fix the problem.
 > >
-> > Can you bring the dtc application to your Pi root filesystem, and if so, can
-> > you run the following:
+> > Based on my read of the code, it looks like we also need to change usage
+> > of sgl->length... Something like the rough patch below, maybe?
 > >
-> > dtc -I fs -O dtb /proc/device-tree -f > /tmp/device.dtb
+> > Also, Tom, do you have an updated version of the patchset to convert the
+> > Intel IOMMU to dma-iommu available? The last one I've found doesn't
+> > apply cleanly (I'm assuming parts of it have been merged in slightly
+> > modified forms).
+> >
 >
-> Sure, the result is attached.
->
-> > or cat /sys/firmware/fdt > device.dtb
-> >
-> > and attach the resulting file?
-> >
-> > >
-> > > > Finally, can you attach the text of the full boot log?
-> > >
-> > > I have attached a working and broken boot log. Thank you for the quick
-> > > response!
-> >
-> > Is it possible for you to rebuild your kernel with CONFIG_MMC_DEBUG by any
-> > chance?
->
-> Of course. A new log is attached with the debug output from that config.
+> I'll try and post one in the next 24hours
 
-
-Hi Nicolas,
-
-Can you please help us out here?  It appears that your commit
-
-3d2cbb644836 "ARM: dts: bcm2711: Move emmc2 into its own bus"
-
-added the following line to the bcm2711.dtsi file:
-
-+ dma-ranges = <0x0 0xc0000000  0x0 0x00000000  0x40000000>;
-
-and for some reason the eMMC is not operating properly w/ my commit..
- Regardless, the only difference that my commit should make is to
-enforce the bounds of the dma_window (whereas the previous code
-adds/subs the pfn_offset everywhere).
-
-Thanks,
-Jim Quinlan
-
-PS If you would like to talk, let me know and we can make arrangements.
-
+I have just posted this now:
+The subject of the cover letter is:
+"[PATCH V2 0/5] Convert the intel iommu driver to the dma-iommu api"
 
 >
->
-> > I have a suspicion that this part of the DTS for the bcm2711.dtsi platform
-> > is at fault:
+> > Thanks,
 > >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/bcm2711.dtsi#n264
+> > Logan
 > >
-> > and the resulting dma-ranges parsing is just not working for reasons to be
-> > determined.
 > > --
-> > Florian
->
-> Let me know if you need anything else out of me.
->
-> Cheers,
-> Nathan
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h
+> > b/drivers/gpu/drm/i915/i915
+> > index b7b59328cb76..9367ac801f0c 100644
+> > --- a/drivers/gpu/drm/i915/i915_scatterlist.h
+> > +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+> > @@ -27,13 +27,19 @@ static __always_inline struct sgt_iter {
+> >  } __sgt_iter(struct scatterlist *sgl, bool dma) {
+> >         struct sgt_iter s = { .sgp = sgl };
+> >
+> > +       if (sgl && !sg_dma_len(s.sgp))
+> > +               s.sgp = NULL;
+> > +
+> >         if (s.sgp) {
+> >                 s.max = s.curr = s.sgp->offset;
+> > -               s.max += s.sgp->length;
+> > -               if (dma)
+> > +
+> > +               if (dma) {
+> > +                       s.max += sg_dma_len(s.sgp);
+> >                         s.dma = sg_dma_address(s.sgp);
+> > -               else
+> > +               } else {
+> > +                       s.max += s.sgp->length;
+> >                         s.pfn = page_to_pfn(sg_page(s.sgp));
+> > +               }
+> >         }
+> >
+> >         return s;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
