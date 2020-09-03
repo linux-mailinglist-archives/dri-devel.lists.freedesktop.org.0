@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13ACD25BF86
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 12:52:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 497DD25BF89
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Sep 2020 12:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33D76E98B;
-	Thu,  3 Sep 2020 10:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32036E990;
+	Thu,  3 Sep 2020 10:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFEBA6E98F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 10:51:57 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC916E990
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Sep 2020 10:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599130317;
+ s=mimecast20190719; t=1599130320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ssNgCUXpAKBFoEiowMJpHnd/L+IbBFe8IIgVfV3vAFg=;
- b=bStq2pGtXA83ABlBpZc9xnT8LtalrZUhD26/lVOdz+9HnXTRcRRjbQvK4C46+2QZIoR1hc
- dQD3tJ67ziqVeBgYFPY22C0hijUeFpqP71LA7o9Ta6Z/oENAFFcJ6UiNBj8UzbZMeRPZ4z
- Vn5PpmS2UF/kw/OOi2R+CznrQTUdHG0=
+ bh=bls/UFMf0L0kdioky5wX0QpmXgpNAMyX15B1clsViAI=;
+ b=Jmw3m9R3rSCyEvXXp3CVjk2fM1ymoiG8Nz/hg4WutXzFKKgLB9dSQ3lU9UcjAB9bSJtwIU
+ H4TORcaGvVzg1qloTEgHO1LKWwslXPw8xz967fSM4aCwUQCBFQx3XkTuQ/iImSoOeWzzsT
+ HPpzPxBD0VksdJOI7A4JFfOrv8tCrzU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-KuBBOrc5PXu97RstcILEaA-1; Thu, 03 Sep 2020 06:51:53 -0400
-X-MC-Unique: KuBBOrc5PXu97RstcILEaA-1
+ us-mta-545-l4FzkQYFP5WJ-FwLqSkjZQ-1; Thu, 03 Sep 2020 06:51:59 -0400
+X-MC-Unique: l4FzkQYFP5WJ-FwLqSkjZQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63FEA1019625;
- Thu,  3 Sep 2020 10:51:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93556801AE6;
+ Thu,  3 Sep 2020 10:51:56 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-115-4.ams2.redhat.com [10.36.115.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4AE2784A8;
- Thu,  3 Sep 2020 10:51:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8533784A8;
+ Thu,  3 Sep 2020 10:51:51 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -44,9 +44,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v9 10/17] pwm: crc: Fix period changes not having any effect
-Date: Thu,  3 Sep 2020 12:51:07 +0200
-Message-Id: <20200903105114.9969-11-hdegoede@redhat.com>
+Subject: [PATCH v9 11/17] pwm: crc: Enable/disable PWM output on enable/disable
+Date: Thu,  3 Sep 2020 12:51:08 +0200
+Message-Id: <20200903105114.9969-12-hdegoede@redhat.com>
 In-Reply-To: <20200903105114.9969-1-hdegoede@redhat.com>
 References: <20200903105114.9969-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -68,72 +68,42 @@ Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
  Hans de Goede <hdegoede@redhat.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pwm-crc code is using 2 different enable bits:
-1. bit 7 of the PWM0_CLK_DIV (PWM_OUTPUT_ENABLE)
-2. bit 0 of the BACKLIGHT_EN register
-
-The BACKLIGHT_EN register at address 0x51 really controls a separate
-output-only GPIO which is earmarked to be used as output connected to the
-backlight-enable pin for LCD panels, this GPO is part of the PMIC's
-"Display Panel Control Block." . This pin should probably be moved over
-to a GPIO provider driver (and consumers modified accordingly), but that
-is something for an(other) patch.
-
-Enabling / disabling the actual PWM output is controlled by the
-PWM_OUTPUT_ENABLE bit of the PWM0_CLK_DIV register.
-
-As the comment in the old code already indicates we must disable the PWM
-before we can change the clock divider. But the crc_pwm_disable() and
-crc_pwm_enable() calls the old code make for this only change the
-BACKLIGHT_EN register; and the value of that register does not matter for
-changing the period / the divider. What does matter is that the
-PWM_OUTPUT_ENABLE bit must be cleared before a new value can be written.
-
-This commit modifies crc_pwm_config() to clear PWM_OUTPUT_ENABLE instead
-when changing the period, so that period changes actually work.
-
-Note this fix will cause a significant behavior change on some devices
-using the CRC PWM output to drive their backlight. Before the PWM would
-always run with the output frequency configured by the BIOS at boot, now
-the period time specified by the i915 driver will actually be honored.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Thierry Reding <thierry.reding@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/pwm/pwm-crc.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
-index 44ec7d5b63e1..81232da0c767 100644
---- a/drivers/pwm/pwm-crc.c
-+++ b/drivers/pwm/pwm-crc.c
-@@ -82,14 +82,11 @@ static int crc_pwm_config(struct pwm_chip *c, struct pwm_device *pwm,
- 	if (pwm_get_period(pwm) != period_ns) {
- 		int clk_div = crc_pwm_calc_clk_div(period_ns);
- 
--		/* changing the clk divisor, need to disable fisrt */
--		crc_pwm_disable(c, pwm);
-+		/* changing the clk divisor, clear PWM_OUTPUT_ENABLE first */
-+		regmap_write(crc_pwm->regmap, PWM0_CLK_DIV, 0);
- 
- 		regmap_write(crc_pwm->regmap, PWM0_CLK_DIV,
- 					clk_div | PWM_OUTPUT_ENABLE);
--
--		/* enable back */
--		crc_pwm_enable(c, pwm);
- 	}
- 
- 	/* change the pwm duty cycle */
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIHB3bS1jcmMgY29kZSBpcyB1c2luZyAyIGRpZmZlcmVudCBlbmFibGUgYml0czoKMS4gYml0
+IDcgb2YgdGhlIFBXTTBfQ0xLX0RJViAoUFdNX09VVFBVVF9FTkFCTEUpCjIuIGJpdCAwIG9mIHRo
+ZSBCQUNLTElHSFRfRU4gcmVnaXN0ZXIKClNvIGZhciB3ZSd2ZSBrZXB0IHRoZSBQV01fT1VUUFVU
+X0VOQUJMRSBiaXQgc2V0IHdoZW4gZGlzYWJsaW5nIHRoZSBQV00sCnRoaXMgY29tbWl0IG1ha2Vz
+IGNyY19wd21fZGlzYWJsZSgpIGNsZWFyIGl0IG9uIGRpc2FibGUgYW5kIG1ha2VzCmNyY19wd21f
+ZW5hYmxlKCkgc2V0IGl0IGFnYWluIG9uIHJlLWVuYWJsZS4KCkFja2VkLWJ5OiBVd2UgS2xlaW5l
+LUvDtm5pZyA8dS5rbGVpbmUta29lbmlnQHBlbmd1dHJvbml4LmRlPgpSZXZpZXdlZC1ieTogQW5k
+eSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+CkFja2VkLWJ5
+OiBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5yZWRpbmdAZ21haWwuY29tPgpTaWduZWQtb2ZmLWJ5
+OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29tPgotLS0KQ2hhbmdlcyBpbiB2MzoK
+LSBSZW1vdmUgcGFyYWdyYXBoIGFib3V0IHRyaS1zdGF0aW5nIHRoZSBvdXRwdXQgZnJvbSB0aGUg
+Y29tbWl0IG1lc3NhZ2UsCiAgd2UgZG9uJ3QgaGF2ZSBhIGRhdGFzaGVldCBzbyB0aGlzIHdhcyBq
+dXN0IGFuIHVuZm91bmRlZCBndWVzcwotLS0KIGRyaXZlcnMvcHdtL3B3bS1jcmMuYyB8IDQgKysr
+KwogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+cHdtL3B3bS1jcmMuYyBiL2RyaXZlcnMvcHdtL3B3bS1jcmMuYwppbmRleCA4MTIzMmRhMGM3Njcu
+LmI3MjAwOGM5YjA3MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9wd20vcHdtLWNyYy5jCisrKyBiL2Ry
+aXZlcnMvcHdtL3B3bS1jcmMuYwpAQCAtNTQsNyArNTQsOSBAQCBzdGF0aWMgaW50IGNyY19wd21f
+Y2FsY19jbGtfZGl2KGludCBwZXJpb2RfbnMpCiBzdGF0aWMgaW50IGNyY19wd21fZW5hYmxlKHN0
+cnVjdCBwd21fY2hpcCAqYywgc3RydWN0IHB3bV9kZXZpY2UgKnB3bSkKIHsKIAlzdHJ1Y3QgY3J5
+c3RhbGNvdmVfcHdtICpjcmNfcHdtID0gdG9fY3JjX3B3bShjKTsKKwlpbnQgZGl2ID0gY3JjX3B3
+bV9jYWxjX2Nsa19kaXYocHdtX2dldF9wZXJpb2QocHdtKSk7CiAKKwlyZWdtYXBfd3JpdGUoY3Jj
+X3B3bS0+cmVnbWFwLCBQV00wX0NMS19ESVYsIGRpdiB8IFBXTV9PVVRQVVRfRU5BQkxFKTsKIAly
+ZWdtYXBfd3JpdGUoY3JjX3B3bS0+cmVnbWFwLCBCQUNLTElHSFRfRU4sIDEpOwogCiAJcmV0dXJu
+IDA7CkBAIC02Myw4ICs2NSwxMCBAQCBzdGF0aWMgaW50IGNyY19wd21fZW5hYmxlKHN0cnVjdCBw
+d21fY2hpcCAqYywgc3RydWN0IHB3bV9kZXZpY2UgKnB3bSkKIHN0YXRpYyB2b2lkIGNyY19wd21f
+ZGlzYWJsZShzdHJ1Y3QgcHdtX2NoaXAgKmMsIHN0cnVjdCBwd21fZGV2aWNlICpwd20pCiB7CiAJ
+c3RydWN0IGNyeXN0YWxjb3ZlX3B3bSAqY3JjX3B3bSA9IHRvX2NyY19wd20oYyk7CisJaW50IGRp
+diA9IGNyY19wd21fY2FsY19jbGtfZGl2KHB3bV9nZXRfcGVyaW9kKHB3bSkpOwogCiAJcmVnbWFw
+X3dyaXRlKGNyY19wd20tPnJlZ21hcCwgQkFDS0xJR0hUX0VOLCAwKTsKKwlyZWdtYXBfd3JpdGUo
+Y3JjX3B3bS0+cmVnbWFwLCBQV00wX0NMS19ESVYsIGRpdik7CiB9CiAKIHN0YXRpYyBpbnQgY3Jj
+X3B3bV9jb25maWcoc3RydWN0IHB3bV9jaGlwICpjLCBzdHJ1Y3QgcHdtX2RldmljZSAqcHdtLAot
+LSAKMi4yOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
