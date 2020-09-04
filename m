@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213E925E152
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 20:09:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6503E25E154
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 20:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87B26E04B;
-	Fri,  4 Sep 2020 18:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 443B66E088;
+	Fri,  4 Sep 2020 18:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04BC96E04B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 18:08:54 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id y6so1509617plk.10
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 11:08:54 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC846E088
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 18:08:58 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id u128so5032377pfb.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 11:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vzdf81iezfmu4wvC29MoXNkCDvJVBLYXkjv5GQ8JBzg=;
- b=AY5OpA7EQVxVAQ2BRX17UsK93kzal14AKuR6K16pVMKsOYoO8PkFnqa4VfSl/adDAt
- XJ1kq1MbD9UwAc8cTVRUKWrp8Hb49mM2XqEEwqy8vpbmhJ6sw8TLcsWbJogpfNM8eFhz
- OaFfs98t3oVzsTtMaiEPwPi48rdYUP/ydXtDc=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VR8GNVs/4QhnhespfyktUk1pNIw2OaOAjoA98mpiYlI=;
+ b=XEjxaSkJBRR+Nw65OrveDE7+DhOIyYNNraHHcuxii2UG8l+JWdFCrP2biFNSD8SJLt
+ iPpvc/c18znjeUqOgilXudlTLABnQxCGUa233Zz7pHeEFnFh/Ygh4hEFUPEM3OK82AlB
+ GtyNiZFiOZX6nfJJ0FnGEnxtA1aACnAzqAeUY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vzdf81iezfmu4wvC29MoXNkCDvJVBLYXkjv5GQ8JBzg=;
- b=ag0+8axwnUYU0Y+5mmbIGQeEyu5sgeFa6s8Z5tuAx3YYr/+AZForVribk0pe6KrG0m
- 5fBjvw4bxzBR8S6kGdiOxVWlJu+xh2xoJeWh//tbaPY8wKqSwAYWwznt2rsBNPMlzAa4
- UUc6iik5q5XvxdbmW6vFJrDhj1lOTyES3LLgPll/FJeFDK4klyuvdg61wfHjv28WCvov
- 3ih0ZHOEwpHOCZ9qOtXUnFVWKuRoYW8TH8m7M1bw7kUjQTxeUVNlKCaWLjuKcJGrFcLE
- NqEnn1sSsCOjprevCrSeZvqnn5jcSXE0G2iIEeM/3eTrRmV7Bcqyp9Yhweeqap3jPRE2
- GDlQ==
-X-Gm-Message-State: AOAM531xQMQqUo8Sfwz80Tkl3O1iKd4/uI7mlk1OdYRcYh0mQA6sx1e9
- CCgZyqt5EYriiE3ZQI/O6KAc4Q==
-X-Google-Smtp-Source: ABdhPJz+WOCZ/I5jjFzcU51vGXw5nkCE8i7D62RQZfF3tj0lru20q/i+6dduujH2uY1P2mruBR1a2Q==
-X-Received: by 2002:a17:90a:5a48:: with SMTP id
- m8mr9275714pji.181.1599242934113; 
- Fri, 04 Sep 2020 11:08:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VR8GNVs/4QhnhespfyktUk1pNIw2OaOAjoA98mpiYlI=;
+ b=NrlSpqtzScZtS3yVzx+3wUEdOMOYRz2I3pZYRCMtZ06kLLLtlfD+RLj60xZrDkgfEJ
+ zJNQOme49IMYXp82vJ5IH/m0cx8ExYdlFR69jh9Vo20+ArdP8pUwIdh5Uv8NYg0FtsVP
+ PH6+jNParoo2Hz/jWW2YPY0tO8NjV1Ckhf1KDbuvWETz/dYMc0pG9dpRl1PJ7uskNkhI
+ OO6HFo/uYWX6iXI3JSBG3fAPmhiUwrby4vFkZ+tpdiqiLT3rtSyNHQfkX6kxH0qF1hiL
+ ZF5PzC+62XJJ1QNKoXoaRbjKbIkM4xqf5/9UUXsV0vnduKNX3DYJwmzr+Ogw6T4Q1vLj
+ Z48w==
+X-Gm-Message-State: AOAM533uflxtU/mHoVOTZjHkFrp1DBjy+tvQn2hmf3d9Tf+4vYt85XS/
+ J7YeLeED2U5BxiMtVJivtl392A==
+X-Google-Smtp-Source: ABdhPJxCodZ5I7hCe8TfVPMYqQ+obWSOHN+ol2zsrB4TMir8vNQYBz2HIJbl5PnGjUbOhMTC7eVnSQ==
+X-Received: by 2002:a63:5c1a:: with SMTP id q26mr8341714pgb.223.1599242937733; 
+ Fri, 04 Sep 2020 11:08:57 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c809:c7d5:b9ea:24bf:6b2b:1eee])
- by smtp.gmail.com with ESMTPSA id 131sm7448281pfy.5.2020.09.04.11.08.49
+ by smtp.gmail.com with ESMTPSA id 131sm7448281pfy.5.2020.09.04.11.08.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 11:08:53 -0700 (PDT)
+ Fri, 04 Sep 2020 11:08:57 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Yes Optoelectronics
-Date: Fri,  4 Sep 2020 23:38:19 +0530
-Message-Id: <20200904180821.302194-1-jagan@amarulasolutions.com>
+Subject: [PATCH 2/3] dt-bindings: display: simple: Add YTC700TLAG-05-201C
+Date: Fri,  4 Sep 2020 23:38:20 +0530
+Message-Id: <20200904180821.302194-2-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200904180821.302194-1-jagan@amarulasolutions.com>
+References: <20200904180821.302194-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,26 +73,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vendor dt-bindings for Yes Optoelectronics Co.,Ltd.
+Add dt-bindings for YTC700TLAG-05-201C 7" TFT LCD panel from
+Yes Optoelectronics Co.,Ltd.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 9aeab66be85f..15a6a8e7260d 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1167,6 +1167,8 @@ patternProperties:
-     description: Shenzhen Xunlong Software CO.,Limited
-   "^xylon,.*":
-     description: Xylon
-+  "^yes-optoelectronics,.*":
-+    description: Yes Optoelectronics Co.,Ltd.
-   "^yna,.*":
-     description: YSH & ATIL
-   "^yones-toptech,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index f629d04f7737..3e12b32897e0 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -268,6 +268,8 @@ properties:
+       - vxt,vl050-8048nt-c01
+         # Winstar Display Corporation 3.5" QVGA (320x240) TFT LCD panel
+       - winstar,wf35ltiacd
++        # Yes Optoelectronics YTC700TLAG-05-201C 7" TFT LCD panel
++      - yes-optoelectronics,ytc700tlag-05-201c
+ 
+   backlight: true
+   enable-gpios: true
 -- 
 2.25.1
 
