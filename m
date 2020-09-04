@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0E625DE05
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 17:42:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8453F25DE14
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 17:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2B16EC49;
-	Fri,  4 Sep 2020 15:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBDB6EC3F;
+	Fri,  4 Sep 2020 15:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
  [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1956E6EC49
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 15:42:51 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a9so6512171wmm.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 08:42:51 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E45876EC41
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 15:45:52 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id z9so6520593wmk.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 08:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UFt5VYp91zERLEDHeaE+RW9pXHUGaLWnGfwWTh4Sc2U=;
- b=fU31qie4kt2TV9lPfFAfIIE0WAv8mDvUqhU1LLlYfB8UsatCipj8RgKEIFsNAc6ocA
- xG5uup6s1fR/dqAgzERNBs1S+XEZ6SNWmkahGKmG0CN08m2kz4XzOMvv6F0SDvBIT2qC
- wwZZDieY4lzyH3DTqG+DOaZgYgqgdTegIxpjpRBWVbTACjeTaAxRe1XDf4prKT4CyiPR
- S4C6gpk6BSh+GiEs63wlu6eyxtO0I2XXbLJNQXeR0jNlfDzTSir6ah3Adnxf3Z9sMrKC
- RZxxyTWdhtr1be/4hfo8j9Q1RBviQ3jtYMRbW5VWDj+IVf1QVbLFY+ZDb6MlmseawrnF
- r3gQ==
+ :cc; bh=BWAhN7a+4874hzvxevYBZLVV3qk181dMhkmwcopVXuI=;
+ b=oFrwyne8UjE4GXeuhjjOpVE9dYZzB2GlQAZCkFaOP1wA0cXqKCn7uoJJwGDObMHxPc
+ dFLnAam23p6BBsCONYgBCS8Y3VSJ7EySoY4Fq5UoZy/F8Fn2lbfkkqBi1OjU/s5JCuEQ
+ +UHKUniKfnrVglb99KDPOYVPapsE5nuHsbwWDUXY5kMUq5FTRJ89pfRug0hq4ZLwqTag
+ kxJjyxhTh7qRPvOCRVNb+dWojAmEJ2ch1rJknyxyZUNQd2ZIZPR2hKHtF5EnNzeGSe5W
+ 3LkwSplCw1X7pDUYAp/rmsDgjRmrze7FYppzpfhj7RhzMpSAeo+cHJAmHAAMamm/Yicg
+ alXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UFt5VYp91zERLEDHeaE+RW9pXHUGaLWnGfwWTh4Sc2U=;
- b=f2AxiTcygECZYdRG4JyWUaN1/8VEOxEINaGM9FVFKtqLiA8xVh71iYyKbzkfROxdhb
- 1gmLIKi8pb7i83Hz5qHen7/FNw5Cn5hh7VvLESNiC/r0iCy6fPHL+5JntmjldtHxnu9R
- a1yNib8SGCjbSl768HbVUCSb253SFjPun1BPqDMPeGBwhtVi0k2Yd83a3mHXGOJeEGqz
- La3K1VxsWb1g5RBYCn0EVnJvAfyXoeHrXaPL/4xM1aJVihTfC8qHFQQN8DyyQljyY3dD
- j5Qt6Sia8t4yh4GPb+W57bvTOlq+FFEhfcSdpVdZglbDm+n/qs4aOaCrLtKQG51M6rsH
- lHnA==
-X-Gm-Message-State: AOAM532Hi0QoVpEg73hRBYrTEIpBlqUvRqS8BMgH0lhhEPuJ1sJzoIUZ
- F3ac/9DrivkeQLmdowQ3BHrP1AcXyAFBPNSneDMWQg==
-X-Google-Smtp-Source: ABdhPJxLkBJqCTGf+urDE22psZ9kQBs7jd5tDjfYTwq0eIZiLv8gjpbdFkfhT1WGAohsQRYRqyhPHhMeA9xiVx5bOPw=
-X-Received: by 2002:a1c:1d52:: with SMTP id d79mr8761629wmd.82.1599234169816; 
- Fri, 04 Sep 2020 08:42:49 -0700 (PDT)
+ bh=BWAhN7a+4874hzvxevYBZLVV3qk181dMhkmwcopVXuI=;
+ b=kI8+qIZJduHeGyqgBgxFdlgd/GVIXu0Cw9nLFGtHeJ+tSxJCjh1iJXnhllCHokUAfc
+ gc1bf12fbg3fHCV0kqDSDTBq6Z8ip8urdtPC3dtqhPvULpRuoGXMdJyLly4IvK5VpndQ
+ ooR3gcD1Tb0jhuhTQtkjV2MzgknjZ0ew8YmTuflZ6pSg7h4kd2PrN4Is7t7a4dcC5BWD
+ dZCIhnQLMO3QzBG5L5cRjInYLIKBTognLfWB1UPu62dv7GZXnOrerQCyH/XSoej7pLK5
+ 24viMDNag0375RTjq/igifN5l1hkoAqhaDQ3B6pcDOtB4kyfMyIkHgSu0E6MV0SGfccr
+ TN+A==
+X-Gm-Message-State: AOAM5322UyU8AV/4OEqtiMZhBOx8VM9y2ymMGtgm9SUgQ90E/VdFwXUy
+ Tw2amIRBavRR8eswOEoHykcdyjXWsJ06vZq/P/RUsA==
+X-Google-Smtp-Source: ABdhPJzfjtKP7vZTuEflczNVPJm8Afz2ShaotHKRilLa7ZLCMiX8evx3ILz6Mx8pA1RbRMbqOuiZ+w5nytdpOD6GqG0=
+X-Received: by 2002:a1c:4303:: with SMTP id q3mr8102774wma.158.1599234351549; 
+ Fri, 04 Sep 2020 08:45:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
- <a712d2b70aaee20379cfc52c2141aa2f6e2a9d5b.1599120059.git-series.maxime@cerno.tech>
-In-Reply-To: <a712d2b70aaee20379cfc52c2141aa2f6e2a9d5b.1599120059.git-series.maxime@cerno.tech>
+ <5c19bbf10153cb42ca0fb67e08606c8295c17236.1599120059.git-series.maxime@cerno.tech>
+In-Reply-To: <5c19bbf10153cb42ca0fb67e08606c8295c17236.1599120059.git-series.maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 4 Sep 2020 16:42:35 +0100
-Message-ID: <CAPY8ntBuPWFU-xEoLwR=C1ccbA5CoxcQ1Gx_zvWf+VQzRg=E1g@mail.gmail.com>
-Subject: Re: [PATCH v5 13/80] drm/vc4: kms: Convert to for_each_new_crtc_state
+Date: Fri, 4 Sep 2020 16:45:36 +0100
+Message-ID: <CAPY8ntAPzQ2BWRivzmfSbX03WZiQ0UDRCDBFgWA2-ZtrqO10nA@mail.gmail.com>
+Subject: Re: [PATCH v5 55/80] drm/vc4: hdmi: Add a CSC setup callback
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,49 +77,147 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime
 
-On Thu, 3 Sep 2020 at 09:02, Maxime Ripard <maxime@cerno.tech> wrote:
+On Thu, 3 Sep 2020 at 09:03, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The vc4 atomic commit loop has an handrolled loop that is basically
-> identical to for_each_new_crtc_state, let's convert it to that helper.
+> Similarly to the previous patches, the CSC setup is slightly different in
+> the BCM2711 than in the previous generations. Let's add a callback for it.
 >
 > Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
 > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Based on your comment to the previous revision, I'm happy.
-
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_kms.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 70 +++++++++++++++++++++--------------
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  3 ++-
+>  2 files changed, 45 insertions(+), 28 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 210cc2408087..a41d105d4e3c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -152,14 +152,16 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
->         struct drm_device *dev = state->dev;
->         struct vc4_dev *vc4 = to_vc4_dev(dev);
->         struct vc4_hvs *hvs = vc4->hvs;
-> -       struct vc4_crtc *vc4_crtc;
-> +       struct drm_crtc_state *new_crtc_state;
-> +       struct drm_crtc *crtc;
->         int i;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index c29376c3fd8a..532618e02399 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -334,6 +334,41 @@ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
+>                 DRM_ERROR("Failed to release power domain: %d\n", ret);
+>  }
 >
-> -       for (i = 0; i < dev->mode_config.num_crtc; i++) {
-> -               if (!state->crtcs[i].ptr || !state->crtcs[i].commit)
-> +       for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +               struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+> +static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
+> +{
+> +       u32 csc_ctl;
 > +
-> +               if (!new_crtc_state->commit)
->                         continue;
+> +       csc_ctl = VC4_SET_FIELD(VC4_HD_CSC_CTL_ORDER_BGR,
+> +                               VC4_HD_CSC_CTL_ORDER);
+> +
+> +       if (enable) {
+> +               /* CEA VICs other than #1 requre limited range RGB
+> +                * output unless overridden by an AVI infoframe.
+> +                * Apply a colorspace conversion to squash 0-255 down
+> +                * to 16-235.  The matrix here is:
+> +                *
+> +                * [ 0      0      0.8594 16]
+> +                * [ 0      0.8594 0      16]
+> +                * [ 0.8594 0      0      16]
+> +                * [ 0      0      0       1]
+> +                */
+> +               csc_ctl |= VC4_HD_CSC_CTL_ENABLE;
+> +               csc_ctl |= VC4_HD_CSC_CTL_RGB2YCC;
+> +               csc_ctl |= VC4_SET_FIELD(VC4_HD_CSC_CTL_MODE_CUSTOM,
+> +                                        VC4_HD_CSC_CTL_MODE);
+> +
+> +               HDMI_WRITE(HDMI_CSC_12_11, (0x000 << 16) | 0x000);
+> +               HDMI_WRITE(HDMI_CSC_14_13, (0x100 << 16) | 0x6e0);
+> +               HDMI_WRITE(HDMI_CSC_22_21, (0x6e0 << 16) | 0x000);
+> +               HDMI_WRITE(HDMI_CSC_24_23, (0x100 << 16) | 0x000);
+> +               HDMI_WRITE(HDMI_CSC_32_31, (0x000 << 16) | 0x6e0);
+> +               HDMI_WRITE(HDMI_CSC_34_33, (0x100 << 16) | 0x000);
+> +       }
+> +
+> +       /* The RGB order applies even when CSC is disabled. */
+> +       HDMI_WRITE(HDMI_CSC_CTL, csc_ctl);
+> +}
+> +
+>  static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>  {
+>         struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+> @@ -357,7 +392,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>                                         mode->crtc_vsync_end -
+>                                         interlaced,
+>                                         VC4_HDMI_VERTB_VBP));
+> -       u32 csc_ctl;
+>         int ret;
 >
-> -               vc4_crtc = to_vc4_crtc(state->crtcs[i].ptr);
->                 vc4_hvs_mask_underrun(dev, vc4_crtc->channel);
+>         ret = pm_runtime_get_sync(&vc4_hdmi->pdev->dev);
+> @@ -428,41 +462,20 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>                    (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
+>                    (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
+>
+> -       csc_ctl = VC4_SET_FIELD(VC4_HD_CSC_CTL_ORDER_BGR,
+> -                               VC4_HD_CSC_CTL_ORDER);
+>
+>         if (vc4_encoder->hdmi_monitor &&
+> -           drm_default_rgb_quant_range(mode) ==
+> -           HDMI_QUANTIZATION_RANGE_LIMITED) {
+> -               /* CEA VICs other than #1 requre limited range RGB
+> -                * output unless overridden by an AVI infoframe.
+> -                * Apply a colorspace conversion to squash 0-255 down
+> -                * to 16-235.  The matrix here is:
+> -                *
+> -                * [ 0      0      0.8594 16]
+> -                * [ 0      0.8594 0      16]
+> -                * [ 0.8594 0      0      16]
+> -                * [ 0      0      0       1]
+> -                */
+> -               csc_ctl |= VC4_HD_CSC_CTL_ENABLE;
+> -               csc_ctl |= VC4_HD_CSC_CTL_RGB2YCC;
+> -               csc_ctl |= VC4_SET_FIELD(VC4_HD_CSC_CTL_MODE_CUSTOM,
+> -                                        VC4_HD_CSC_CTL_MODE);
+> +           drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED) {
+> +               if (vc4_hdmi->variant->csc_setup)
+> +                       vc4_hdmi->variant->csc_setup(vc4_hdmi, true);
+>
+> -               HDMI_WRITE(HDMI_CSC_12_11, (0x000 << 16) | 0x000);
+> -               HDMI_WRITE(HDMI_CSC_14_13, (0x100 << 16) | 0x6e0);
+> -               HDMI_WRITE(HDMI_CSC_22_21, (0x6e0 << 16) | 0x000);
+> -               HDMI_WRITE(HDMI_CSC_24_23, (0x100 << 16) | 0x000);
+> -               HDMI_WRITE(HDMI_CSC_32_31, (0x000 << 16) | 0x6e0);
+> -               HDMI_WRITE(HDMI_CSC_34_33, (0x100 << 16) | 0x000);
+>                 vc4_encoder->limited_rgb_range = true;
+>         } else {
+> +               if (vc4_hdmi->variant->csc_setup)
+> +                       vc4_hdmi->variant->csc_setup(vc4_hdmi, false);
+> +
+>                 vc4_encoder->limited_rgb_range = false;
 >         }
 >
+> -       /* The RGB order applies even when CSC is disabled. */
+> -       HDMI_WRITE(HDMI_CSC_CTL, csc_ctl);
+> -
+>         HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
+>
+>         if (debug_dump_regs) {
+> @@ -1430,6 +1443,7 @@ static const struct vc4_hdmi_variant bcm2835_variant = {
+>         .num_registers          = ARRAY_SIZE(vc4_hdmi_fields),
+>
+>         .init_resources         = vc4_hdmi_init_resources,
+> +       .csc_setup              = vc4_hdmi_csc_setup,
+>         .reset                  = vc4_hdmi_reset,
+>         .phy_init               = vc4_hdmi_phy_init,
+>         .phy_disable            = vc4_hdmi_phy_disable,
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index 950accbc44e4..c8fd58548ea2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -41,6 +41,9 @@ struct vc4_hdmi_variant {
+>         /* Callback to reset the HDMI block */
+>         void (*reset)(struct vc4_hdmi *vc4_hdmi);
+>
+> +       /* Callback to enable / disable the CSC */
+> +       void (*csc_setup)(struct vc4_hdmi *vc4_hdmi, bool enable);
+> +
+>         /* Callback to initialize the PHY according to the mode */
+>         void (*phy_init)(struct vc4_hdmi *vc4_hdmi,
+>                          struct drm_display_mode *mode);
 > --
 > git-series 0.9.1
 _______________________________________________
