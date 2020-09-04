@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7997C25D83E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 14:00:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0E125D790
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 13:38:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C9E6EB81;
-	Fri,  4 Sep 2020 12:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2F46EB40;
+	Fri,  4 Sep 2020 11:38:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AEA6EB8F;
- Fri,  4 Sep 2020 12:00:35 +0000 (UTC)
-IronPort-SDR: nyDH3aGun4yNDSkt6ja4cTiP/LpncOaH40DRe3OVMvEh5MKRJpGye4c3m0Xo+1PIBE016sR0s0
- kQdw3Y3XvLSg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="145461703"
-X-IronPort-AV: E=Sophos;i="5.76,389,1592895600"; d="scan'208";a="145461703"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2020 05:00:34 -0700
-IronPort-SDR: PkGrel3noCsm0wvGPZzpK2//zuqYnkByWD1OiesDquDWQMuXUJKG0YXhQCqmToLfZl0e6OpoFt
- TNxxRRDO1DOw==
-X-IronPort-AV: E=Sophos;i="5.76,389,1592895600"; d="scan'208";a="298389887"
-Received: from unknown (HELO karthik-2012-Client-Platform.iind.intel.com)
- ([10.223.74.217])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 04 Sep 2020 05:00:25 -0700
-From: Karthik B S <karthik.b.s@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 3/7] drm/i915: Add checks specific to async flips
-Date: Fri,  4 Sep 2020 17:03:26 +0530
-Message-Id: <20200904113330.19815-4-karthik.b.s@intel.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200904113330.19815-1-karthik.b.s@intel.com>
-References: <20200904113330.19815-1-karthik.b.s@intel.com>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F6F6EB40
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 11:38:27 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id u18so5767042wmc.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 04:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=zBTRNjzB5mPzhMVyXQWz7MNu1O+zSDEFEFHnoBhDYZc=;
+ b=WtXR/0sltULRHVCaC8HhLbBR6SIHL5piDWOv3CHxtHHHPnSqQYEf25q1QTSFYE5zf7
+ gdWSs8a+2WHWhbJHSIBA1GkGmShfElAMK7OVV9CUYUBgk9R6/BkndkZ+llRZRKOCjgdY
+ QuYRCjx+JGzaomOmsTvuvLaLt/FWRjGb6H0U7xOWxh8TQpnhDUykaRdcZGX2lifAbDKo
+ 3t+uVzuMJydLR8u7eonGsIYYfPje0wKasCBg1diomCO/dcYyU5MfVzqY0uXMkdoXk2Yu
+ cdoSyzhfjwQ5WxrXfjAgoTvLYoHlW8zWTZ5egE9QOdCcVOW04/EMMiJX781OkiYDi2UO
+ Oahw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=zBTRNjzB5mPzhMVyXQWz7MNu1O+zSDEFEFHnoBhDYZc=;
+ b=HhmoMubQ7YXwVQt7kDPCAinBc6bGflF2679FwC3SBBAALz4Qft9nf7ff6Ygi94AXnB
+ qn1CAvOlhhdRU02zc03AqY0n7261e8980sch5mc4OfDhs/fACPnoZt0oiDIptNGxZPWa
+ sZuOveD/S2Rki4Vc9cUnVZTHPgk84lpeTVOOFDo8Hh5I7/X4FD1sJtMfJKnJGY/V34mH
+ PaU37ie1CXwcNrsIZX2meB5SXn9s4A63GYKqnIgfeW84SbnkKvgp115gHXeCGS7d8GA/
+ IN1UmeZ86HxuVmWdRqgzIIWly/bDj1l4ReOo9b/+Jsd9FHYiAeUgeyC/o+BzsLZujsNz
+ tY+g==
+X-Gm-Message-State: AOAM531Q9xOApsUSd8z7yKKveFcGgqHU5bN94hnC85LdeLC+SjQsqZjq
+ FiHBf81bRQ0JZfz3cVIWLQGGMw==
+X-Google-Smtp-Source: ABdhPJx8d1p6vyslMOjVsOadjvrrKIpOa1vfRvm5f4PLcqxuLfSM0sJjG+WOSWjoXpgYJJW1oaxM+g==
+X-Received: by 2002:a1c:1b8f:: with SMTP id b137mr7618389wmb.151.1599219505621; 
+ Fri, 04 Sep 2020 04:38:25 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id j14sm11125993wrr.66.2020.09.04.04.38.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 04:38:24 -0700 (PDT)
+Date: Fri, 4 Sep 2020 12:38:22 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Alexandru Stan <amstan@chromium.org>
+Subject: Re: [PATCH 2/3] backlight: pwm_bl: Artificially add 0% during
+ interpolation
+Message-ID: <20200904113822.xoyt4w5x7vwvh7cr@holly.lan>
+References: <20200721042522.2403410-1-amstan@chromium.org>
+ <20200720212502.2.Iab4d2192e4cf50226e0a58d58df7d90ef92713ce@changeid>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200720212502.2.Iab4d2192e4cf50226e0a58d58df7d90ef92713ce@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,219 +69,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
- Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- nicholas.kazlauskas@amd.com
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Lee Jones <lee.jones@linaro.org>, Matthias Kaehlcke <mka@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If flip is requested on any other plane, reject it.
+On Mon, Jul 20, 2020 at 09:25:21PM -0700, Alexandru Stan wrote:
+> Some displays need the low end of the curve cropped in order to make
+> them happy. In that case we still want to have the 0% point, even though
+> anything between 0% and 5%(example) would be skipped.
 
-Make sure there is no change in fbc, offset and framebuffer modifiers
-when async flip is requested.
+For backlights it is not defined that 0 means off and, to be honest, 0
+means off is actually rather weird for anything except transflexive
+or front lit reflective displays[1]. There is a problem on several
+systems that when the backlight slider is reduced to zero you can't
+see the screen properly to turn it back up. This patch looks like it
+would make that problem worse by hurting systems with will written
+device trees.
 
-If any of these are modified, reject async flip.
+There is some nasty legacy here: some backlight displays that are off
+at zero and that sucks because userspace doesn't know whether zero is
+off or lowest possible setting.
 
-v2: -Replace DRM_ERROR (Paulo)
-    -Add check for changes in OFFSET, FBC, RC(Paulo)
+Nevertheless perhaps a better way to handle this case is for 0 to map to
+5% power and for the userspace to turn the backlight on/off as final
+step in an animated backlight fade out (and one again for a fade in).
 
-v3: -Removed TODO as benchmarking tests have been run now.
 
-v4: -Added more state checks for async flip (Ville)
-    -Moved intel_atomic_check_async to the end of intel_atomic_check
-     as the plane checks needs to pass before this. (Ville)
-    -Removed crtc_state->enable_fbc check. (Ville)
-    -Set the I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP flag for async
-     flip case as scanline counter is not reliable here.
+Daniel.
 
-v5: -Fix typo and other check patch errors seen in CI
-     in 'intel_atomic_check_async' function.
-
-v6: -Don't call intel_atomic_check_async multiple times. (Ville)
-    -Remove the check for n_planes in intel_atomic_check_async
-    -Added documentation for async flips. (Paulo)
-
-v7: -Replace 'intel_plane' with 'plane'. (Ville)
-    -Replace all uapi.foo as hw.foo. (Ville)
-    -Do not use intel_wm_need_update function. (Ville)
-    -Add destination coordinate check. (Ville)
-    -Do not allow async flip with linear buffer
-     on older hw as it has issues with this. (Ville)
-    -Remove break after intel_atomic_check_async. (Ville)
-
-Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 143 +++++++++++++++++++
- 1 file changed, 143 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index c795ea01cec3..6fa142b1c6ff 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -14875,6 +14875,142 @@ static bool intel_cpu_transcoders_need_modeset(struct intel_atomic_state *state,
- 	return false;
- }
- 
-+/**
-+ * DOC: asynchronous flip implementation
-+ *
-+ * Asynchronous page flip is the implementation for the DRM_MODE_PAGE_FLIP_ASYNC
-+ * flag. Currently async flip is only supported via the drmModePageFlip IOCTL.
-+ * Correspondingly, support is currently added for primary plane only.
-+ *
-+ * Async flip can only change the plane surface address, so anything else
-+ * changing is rejected from the intel_atomic_check_async() function.
-+ * Once this check is cleared, flip done interrupt is enabled using
-+ * the skl_enable_flip_done() function.
-+ *
-+ * As soon as the surface address register is written, flip done interrupt is
-+ * generated and the requested events are sent to the usersapce in the interrupt
-+ * handler itself. The timestamp and sequence sent during the flip done event
-+ * correspond to the last vblank and have no relation to the actual time when
-+ * the flip done event was sent.
-+ */
-+
-+static int intel_atomic_check_async(struct intel_atomic_state *state)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
-+	struct intel_crtc_state *old_crtc_state, *new_crtc_state;
-+	struct intel_plane_state *new_plane_state, *old_plane_state;
-+	struct intel_crtc *crtc;
-+	struct intel_plane *plane;
-+	int i;
-+
-+	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
-+					    new_crtc_state, i) {
-+		if (needs_modeset(new_crtc_state)) {
-+			DRM_DEBUG_KMS("Modeset Required. Async flip not supported\n");
-+			return -EINVAL;
-+		}
-+
-+		if (!new_crtc_state->hw.active) {
-+			DRM_DEBUG_KMS("CRTC inactive\n");
-+			return -EINVAL;
-+		}
-+		if (old_crtc_state->active_planes != new_crtc_state->active_planes) {
-+			DRM_DEBUG_KMS("Active planes cannot be changed during async flip\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
-+					     new_plane_state, i) {
-+		/*TODO: Async flip is only supported through the page flip IOCTL
-+		 * as of now. So support currently added for primary plane only.
-+		 * Support for other planes should be added when async flip is
-+		 * enabled in the atomic IOCTL path.
-+		 */
-+		if (plane->id != PLANE_PRIMARY)
-+			return -EINVAL;
-+
-+		/*FIXME: This check is kept generic for all gen <= 10 platforms.
-+		 * Need to verify this for all gen9 and gen10 platforms to enable
-+		 * this selectively if required.
-+		 */
-+		if (new_plane_state->hw.fb->modifier == DRM_FORMAT_MOD_LINEAR &&
-+		    INTEL_GEN(dev_priv) <= 10) {
-+			DRM_DEBUG_KMS("Linear memory does not support async flips on gen <= 10\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->color_plane[0].x !=
-+		    new_plane_state->color_plane[0].x ||
-+		    old_plane_state->color_plane[0].y !=
-+		    new_plane_state->color_plane[0].y) {
-+			DRM_DEBUG_KMS("Offsets cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.fb->modifier !=
-+		    new_plane_state->hw.fb->modifier) {
-+			DRM_DEBUG_KMS("Framebuffer modifiers cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.fb->format !=
-+		    new_plane_state->hw.fb->format) {
-+			DRM_DEBUG_KMS("Framebuffer format cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.rotation !=
-+		    new_plane_state->hw.rotation) {
-+			DRM_DEBUG_KMS("Rotation cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.fb->width !=
-+		    new_plane_state->hw.fb->width ||
-+		    old_plane_state->hw.fb->height !=
-+		    new_plane_state->hw.fb->height) {
-+			DRM_DEBUG_KMS("Framebuffer dimensions cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->uapi.src_w != new_plane_state->uapi.src_w ||
-+		    old_plane_state->uapi.src_h != new_plane_state->uapi.src_h ||
-+		    old_plane_state->uapi.src_x != new_plane_state->uapi.src_x ||
-+		    old_plane_state->uapi.src_y != new_plane_state->uapi.src_y ||
-+		    old_plane_state->uapi.crtc_w != new_plane_state->uapi.crtc_w ||
-+		    old_plane_state->uapi.crtc_h != new_plane_state->uapi.crtc_h ||
-+		    old_plane_state->uapi.crtc_x != new_plane_state->uapi.crtc_x ||
-+		    old_plane_state->uapi.crtc_y != new_plane_state->uapi.crtc_y) {
-+			DRM_DEBUG_KMS("Plane size/co-ordinates cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.alpha != new_plane_state->hw.alpha) {
-+			DRM_DEBUG_KMS("Alpha value cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.pixel_blend_mode !=
-+		    new_plane_state->hw.pixel_blend_mode) {
-+			DRM_DEBUG_KMS("Pixel blend mode cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.color_encoding != new_plane_state->hw.color_encoding) {
-+			DRM_DEBUG_KMS("Color encoding cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+
-+		if (old_plane_state->hw.color_range != new_plane_state->hw.color_range) {
-+			DRM_DEBUG_KMS("Color range cannot be changed in async flip\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * intel_atomic_check - validate state object
-  * @dev: drm device
-@@ -15052,6 +15188,13 @@ static int intel_atomic_check(struct drm_device *dev,
- 				       "[modeset]" : "[fastset]");
- 	}
- 
-+	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		if (new_crtc_state->uapi.async_flip) {
-+			ret = intel_atomic_check_async(state);
-+			if (ret)
-+				goto fail;
-+		}
-+	}
- 	return 0;
- 
-  fail:
--- 
-2.22.0
-
+> 
+> Signed-off-by: Alexandru Stan <amstan@chromium.org>
+> ---
+> 
+>  drivers/video/backlight/pwm_bl.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> index 5193a72305a2..b24711ddf504 100644
+> --- a/drivers/video/backlight/pwm_bl.c
+> +++ b/drivers/video/backlight/pwm_bl.c
+> @@ -349,6 +349,14 @@ static int pwm_backlight_parse_dt(struct device *dev,
+>  			/* Fill in the last point, since no line starts here. */
+>  			table[x2] = y2;
+>  
+> +			/*
+> +			 * If we don't start at 0 yet we're increasing, assume
+> +			 * the dts wanted to crop the low end of the range, so
+> +			 * insert a 0 to provide a display off mode.
+> +			 */
+> +			if (table[0] > 0 && table[0] < table[num_levels - 1])
+> +				table[0] = 0;
+> +
+>  			/*
+>  			 * As we use interpolation lets remove current
+>  			 * brightness levels table and replace for the
+> -- 
+> 2.27.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
