@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31F525D04E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 06:19:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBEE25D050
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 06:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39EA16E235;
-	Fri,  4 Sep 2020 04:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C4A6EA65;
+	Fri,  4 Sep 2020 04:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2A16E233;
- Fri,  4 Sep 2020 04:19:32 +0000 (UTC)
-IronPort-SDR: PCzagOipJQq2o4qHgDDfqJBXvPhyKqnHWZ/UG5NXbkdIkCYLYB6unD1QChw0OYXNdJN16KVmQt
- 21Dhehl6aHiQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="137211975"
-X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="137211975"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40046E235;
+ Fri,  4 Sep 2020 04:19:33 +0000 (UTC)
+IronPort-SDR: LMxbBzvO0yEhBknJIDLgcHUBljo1aKbVYlQFkBdLjHuJ5fQXtDZFjUNXbejVHqi+pkVUGje1Mo
+ BYBN4vXIqhgQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="137211980"
+X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="137211980"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2020 21:19:31 -0700
-IronPort-SDR: 7DeB1FmDnBv/TWt5vUJ3+nVfPuHzNkmRwHkHRjcfDvcmJB+l0cCxCe+9phHwwupSyKSP0X3fLO
- qVoi5pLO/q5Q==
+ 03 Sep 2020 21:19:33 -0700
+IronPort-SDR: jJiah38G1E3MHHroJQEXQGJYo0EjYBgxob4PEc7ZFXph+Q4PtuRJ3HZxVP3wVdnsF8zmAE8t0g
+ JypeMM67ax8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="282899545"
+X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="282899556"
 Received: from vsrini4-xps-8920.iind.intel.com (HELO localhost.localdomain)
  ([10.223.163.28])
- by fmsmga007.fm.intel.com with ESMTP; 03 Sep 2020 21:19:30 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 03 Sep 2020 21:19:32 -0700
 From: Vidya Srinivas <vidya.srinivas@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/dp: Add PHY_TEST_PATTERN CP2520 Pattern 2 and 3
-Date: Fri,  4 Sep 2020 09:44:17 +0530
-Message-Id: <1599192859-2654-1-git-send-email-vidya.srinivas@intel.com>
+Subject: [PATCH 2/3] drm/i915/dp: TPS4 PHY test pattern compliance support
+Date: Fri,  4 Sep 2020 09:44:18 +0530
+Message-Id: <1599192859-2654-2-git-send-email-vidya.srinivas@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
+In-Reply-To: <1599192859-2654-1-git-send-email-vidya.srinivas@intel.com>
 References: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
+ <1599192859-2654-1-git-send-email-vidya.srinivas@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,45 +59,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Khaled Almahallawy <khaled.almahallawy@intel.com>
 
-Add the missing CP2520 pattern 2 and 3 phy compliance patterns
+Adding support for TPS4 (CP2520 Pattern 3) PHY pattern source tests.
 
-v2: cosemtic changes
+v2: uniform bit names TP4a/b/c (Manasi)
 
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com> (v1)
 Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
+Tested-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 2 +-
- include/drm/drm_dp_helper.h     | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 14 ++++++++++++--
+ drivers/gpu/drm/i915/i915_reg.h         |  4 ++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index a3c82e726057..d0fb78c6aca6 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1583,7 +1583,7 @@ int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
- 			return err;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 04231ca5643b..a8a3ffcef5dc 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5403,7 +5403,7 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+ 			&intel_dp->compliance.test_data.phytest;
+ 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
+ 	enum pipe pipe = crtc->pipe;
+-	u32 pattern_val;
++	u32 pattern_val, dp_tp_ctl;
  
+ 	switch (data->phy_pattern) {
+ 	case DP_PHY_TEST_PATTERN_NONE:
+@@ -5443,7 +5443,7 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+ 			       DDI_DP_COMP_CTL_ENABLE |
+ 			       DDI_DP_COMP_CTL_CUSTOM80);
  		break;
 -	case DP_PHY_TEST_PATTERN_CP2520:
 +	case DP_PHY_TEST_PATTERN_CP2520_PAT1:
- 		err = drm_dp_dpcd_read(aux, DP_TEST_HBR2_SCRAMBLER_RESET,
- 				       &data->hbr2_reset,
- 				       sizeof(data->hbr2_reset));
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index e2d2df5e869e..73285b4c25a0 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -708,7 +708,9 @@
- # define DP_PHY_TEST_PATTERN_ERROR_COUNT    0x2
- # define DP_PHY_TEST_PATTERN_PRBS7          0x3
- # define DP_PHY_TEST_PATTERN_80BIT_CUSTOM   0x4
--# define DP_PHY_TEST_PATTERN_CP2520         0x5
-+# define DP_PHY_TEST_PATTERN_CP2520_PAT1    0x5
-+# define DP_PHY_TEST_PATTERN_CP2520_PAT2    0x6
-+# define DP_PHY_TEST_PATTERN_CP2520_PAT3    0x7
- 
- #define DP_TEST_HBR2_SCRAMBLER_RESET        0x24A
- #define DP_TEST_80BIT_CUSTOM_PATTERN_7_0    0x250
+ 		/*
+ 		 * FIXME: Ideally pattern should come from DPCD 0x24A. As
+ 		 * current firmware of DPR-100 could not set it, so hardcoding
+@@ -5455,6 +5455,16 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+ 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_HBR2 |
+ 			       pattern_val);
+ 		break;
++		case DP_PHY_TEST_PATTERN_CP2520_PAT3:
++			DRM_DEBUG_KMS("Set TPS4 Phy Test Pattern\n");
++			intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe), 0x0);
++			dp_tp_ctl = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
++			dp_tp_ctl &= ~DP_TP_CTL_TRAIN_PAT4_SEL_MASK;
++			dp_tp_ctl |= DP_TP_CTL_TRAIN_PAT4_SEL_TP4a;
++			dp_tp_ctl &= ~DP_TP_CTL_LINK_TRAIN_MASK;
++			dp_tp_ctl |= DP_TP_CTL_LINK_TRAIN_PAT4;
++			intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl);
++			break;
+ 	default:
+ 		WARN(1, "Invalid Phy Test Pattern\n");
+ 	}
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index ab4b1abd4364..4850890918dc 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -9974,6 +9974,10 @@ enum skl_power_gate {
+ #define  DP_TP_CTL_MODE_SST			(0 << 27)
+ #define  DP_TP_CTL_MODE_MST			(1 << 27)
+ #define  DP_TP_CTL_FORCE_ACT			(1 << 25)
++#define  DP_TP_CTL_TRAIN_PAT4_SEL_MASK		(3 << 19)
++#define  DP_TP_CTL_TRAIN_PAT4_SEL_TP4a		(0 << 19)
++#define  DP_TP_CTL_TRAIN_PAT4_SEL_TP4b		(1 << 19)
++#define  DP_TP_CTL_TRAIN_PAT4_SEL_TP4c		(2 << 19)
+ #define  DP_TP_CTL_ENHANCED_FRAME_ENABLE	(1 << 18)
+ #define  DP_TP_CTL_FDI_AUTOTRAIN		(1 << 15)
+ #define  DP_TP_CTL_LINK_TRAIN_MASK		(7 << 8)
 -- 
 2.7.4
 
