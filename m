@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6017625DBF3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66BA25DBF5
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2F36EBFB;
-	Fri,  4 Sep 2020 14:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498EC6EC04;
+	Fri,  4 Sep 2020 14:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C86C6EBED
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:39:55 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id s13so6281680wmh.4
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 07:39:55 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1069E6EBB7
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:39:57 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id e16so7015444wrm.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 07:39:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jVoidh4eK5SMWwvVdGvcbPkxD3QsnFfymSXNjak7xmE=;
- b=OOfQuuEjKv7K7JE/iEfPadM7YeVbvi5x5/nRiuZ6Tiu4JjvAjZGDTsrz58t4W/Q186
- sia+cMjtDK6YHVoR3S9fGguTewDkrDaHcwW/icau3G6FNw5SWLBqlNWPg0qLRt7QOOCF
- J3VwzJUi2cBNzOJF6tXyipqqGGXF3Xs0YBwA8=
+ bh=Mmp2YddBxU3SpyfXCINIYmjt0mZ2lhKSiW8oJoAH7bE=;
+ b=Wj6k2TACn1+LuYNJTiDIkAUKHf/PpNYxuNcArqBXSAulYPcYXGwg4eJyVfl4Jvk6il
+ pHHw6dZVoNor0wqdlOJfkn3Bbux67TkCEEVBvWkYMXmYaF3q/6JIgj2fQu7BhcR7jmC3
+ nRjoeEgJs3XD2E4pr3+pFoKE7gNKWPngMfHRU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jVoidh4eK5SMWwvVdGvcbPkxD3QsnFfymSXNjak7xmE=;
- b=sXySCiz3iSIIjqzS3LJPpQEygoZc1WEohmHCMYqw/0t1zWPJjLl0tKNFgBVd9JrcWA
- kyR8mqk2HHfHw4NOy07A6tOTl83fG2kuIMbzNOBqySY8tu27uvHogDmRC0IKRACbv0cu
- HJoFmOfhT1qf7uY4NrPm/8/hX00xA6Lo4epzzquqeBK+9+okgK6OLNTU9bFbt/xm2EJ2
- xg/nNTpLRTBFZylPyHrsDfiuCcE+6oK1Q1rRPsqRYYQ+pNUZkotnj6xyV8cxQAdYgHP+
- LsfBVHF2NTdcPMpteL4GpYjIVwl+GfFSdfJh34HDX8auKF3ljxbploRu8B49vWFh+NyU
- e3CA==
-X-Gm-Message-State: AOAM532JONKa5BB2dx7oKNHmQDphra8kYoD6aDbkTmABFqSkH8X01d4u
- HfNE/OPjjmNL+oTXCoWdd+VUO+8Kmigeubgw
-X-Google-Smtp-Source: ABdhPJwXq6NOrlxpVN3brn1Ux/H7QK48bMhmZeY6MRyKCSG1l5Ra/JAtR0LL2xfsumSS1k1GSsxlxg==
-X-Received: by 2002:a1c:2d95:: with SMTP id t143mr7665997wmt.44.1599230393790; 
- Fri, 04 Sep 2020 07:39:53 -0700 (PDT)
+ bh=Mmp2YddBxU3SpyfXCINIYmjt0mZ2lhKSiW8oJoAH7bE=;
+ b=DRkOiF4dz/l6NNEbbLE8sYeCgi6bJ3wXu+4xp2XWHV1Pv7F3FzPtWA08enXyYmzyXg
+ 9JBjIuTkLVfDQj6kyz5qZSnKpVKonyhrW0Emy0n8zdg7BBvGiDyw22D/+8Xbz3rPSNOa
+ 6MGX8975iwmn/+9SIAFNc8hUcDB18a9mDAwb991Zfo2Mdsjhp5vLl/3xa4GIYm9052ad
+ p4e2mOXaOPnKt527xY0nxQSjUTxCH52Y176WUc2ZcCqK6KKXi7Qxm9KwzUqShzs5EZqa
+ g+LkWf2XcIyE5s/SCE6pZ8LUgB5539qHvwWY8/Zzg0+G+K4yMEz1U3QqIbuR3CW50fCV
+ 2XxQ==
+X-Gm-Message-State: AOAM530cnQrMEfej5uQDp2BxOS0DFFVAAIFsa6vskZRHa1j30iWl/oLj
+ ThaaOKzcV48a5B8bMMRBuqv7Jvo/s4JA9+fB
+X-Google-Smtp-Source: ABdhPJwsgeMgc+H+IGuIfVePmmxMjg2zrT9uHe9f+P9050U1uBAI/sXCfVwPSb6cnY2JQ0zU1rVhjQ==
+X-Received: by 2002:a5d:4e02:: with SMTP id p2mr8657833wrt.276.1599230395375; 
+ Fri, 04 Sep 2020 07:39:55 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z15sm11597949wrv.94.2020.09.04.07.39.52
+ by smtp.gmail.com with ESMTPSA id z15sm11597949wrv.94.2020.09.04.07.39.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 07:39:53 -0700 (PDT)
+ Fri, 04 Sep 2020 07:39:54 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 03/24] drm/aspeed: Use managed drmm_mode_config_cleanup
-Date: Fri,  4 Sep 2020 16:39:20 +0200
-Message-Id: <20200904143941.110665-4-daniel.vetter@ffwll.ch>
+Subject: [PATCH 04/24] drm/vgem: Use devm_drm_dev_alloc
+Date: Fri,  4 Sep 2020 16:39:21 +0200
+Message-Id: <20200904143941.110665-5-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
 References: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
@@ -63,78 +63,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Joel Stanley <joel@jms.id.au>, Daniel Vetter <daniel.vetter@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+ Chris Wilson <chris@chris-wilson.co.uk>, Sean Paul <seanpaul@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since aspeed doesn't use devm_kzalloc anymore we can use the managed
-mode config cleanup.
+This means we also need to slightly restructure the exit code, so that
+final cleanup of the drm_device is triggered by unregistering the
+platform device. Note that devres is both clean up when the driver is
+unbound (not the case for vgem, we don't bind), and also when unregistering
+the device (very much the case for vgem). Therefore we can rely on devres
+even though vgem isn't a proper platform device driver.
 
-v2: Keep call order as suggested by Sam.
+This also somewhat untangles the load code, since the drm and platform device
+setup are no longer interleaved, but two distinct steps.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: linux-arm-kernel@lists.infradead.org
+v2: use devres_open/release_group so we can use devm without real
+hacks in the driver core or having to create an entire fake bus for
+testing drivers. Might want to extract this into helpers eventually,
+maybe as a mock_drm_dev_alloc or test_drm_dev_alloc.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Emil Velikov <emil.velikov@collabora.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vgem/vgem_drv.c | 55 ++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index 903f4f304647..2b424b2b85cc 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -63,15 +63,21 @@ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
- 	.atomic_commit		= drm_atomic_helper_commit,
- };
- 
--static void aspeed_gfx_setup_mode_config(struct drm_device *drm)
-+static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
- {
--	drm_mode_config_init(drm);
-+	int ret;
-+
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		return ret;
- 
- 	drm->mode_config.min_width = 0;
- 	drm->mode_config.min_height = 0;
- 	drm->mode_config.max_width = 800;
- 	drm->mode_config.max_height = 600;
- 	drm->mode_config.funcs = &aspeed_gfx_mode_config_funcs;
-+
-+	return ret;
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+index 313339bbff90..f95537627463 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -401,16 +401,8 @@ static int vgem_prime_mmap(struct drm_gem_object *obj,
+ 	return 0;
  }
  
- static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
-@@ -144,7 +150,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	writel(0, priv->base + CRT_CTRL1);
- 	writel(0, priv->base + CRT_CTRL2);
- 
--	aspeed_gfx_setup_mode_config(drm);
-+	ret = aspeed_gfx_setup_mode_config(drm);
-+	if (ret < 0)
-+		return ret;
- 
- 	ret = drm_vblank_init(drm, 1);
- 	if (ret < 0) {
-@@ -179,7 +187,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
- static void aspeed_gfx_unload(struct drm_device *drm)
+-static void vgem_release(struct drm_device *dev)
+-{
+-	struct vgem_device *vgem = container_of(dev, typeof(*vgem), drm);
+-
+-	platform_device_unregister(vgem->platform);
+-}
+-
+ static struct drm_driver vgem_driver = {
+ 	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
+-	.release			= vgem_release,
+ 	.open				= vgem_open,
+ 	.postclose			= vgem_postclose,
+ 	.gem_free_object_unlocked	= vgem_gem_free_object,
+@@ -442,48 +434,49 @@ static struct drm_driver vgem_driver = {
+ static int __init vgem_init(void)
  {
- 	drm_kms_helper_poll_fini(drm);
--	drm_mode_config_cleanup(drm);
+ 	int ret;
++	struct platform_device *pdev;
+ 
+-	vgem_device = kzalloc(sizeof(*vgem_device), GFP_KERNEL);
+-	if (!vgem_device)
+-		return -ENOMEM;
++	pdev = platform_device_register_simple("vgem", -1, NULL, 0);
++	if (IS_ERR(pdev))
++		return PTR_ERR(vgem_device->platform);
+ 
+-	vgem_device->platform =
+-		platform_device_register_simple("vgem", -1, NULL, 0);
+-	if (IS_ERR(vgem_device->platform)) {
+-		ret = PTR_ERR(vgem_device->platform);
+-		goto out_free;
++	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
++		ret = -ENOMEM;
++		goto out_unregister;
+ 	}
+ 
+-	dma_coerce_mask_and_coherent(&vgem_device->platform->dev,
++	dma_coerce_mask_and_coherent(&pdev->dev,
+ 				     DMA_BIT_MASK(64));
+-	ret = drm_dev_init(&vgem_device->drm, &vgem_driver,
+-			   &vgem_device->platform->dev);
+-	if (ret)
+-		goto out_unregister;
+-	drmm_add_final_kfree(&vgem_device->drm, vgem_device);
++
++	vgem_device = devm_drm_dev_alloc(&pdev->dev, &vgem_driver,
++					 struct vgem_device, drm);
++	if (IS_ERR(vgem_device)) {
++		ret = PTR_ERR(vgem_device);
++		goto out_devres;
++	}
++	vgem_device->platform = pdev;
+ 
+ 	/* Final step: expose the device/driver to userspace */
+ 	ret = drm_dev_register(&vgem_device->drm, 0);
+ 	if (ret)
+-		goto out_put;
++		goto out_devres;
+ 
+ 	return 0;
+ 
+-out_put:
+-	drm_dev_put(&vgem_device->drm);
+-	platform_device_unregister(vgem_device->platform);
+-	return ret;
++out_devres:
++	devres_release_group(&pdev->dev, NULL);
+ out_unregister:
+-	platform_device_unregister(vgem_device->platform);
+-out_free:
+-	kfree(vgem_device);
++	platform_device_unregister(pdev);
+ 	return ret;
  }
  
- DEFINE_DRM_GEM_CMA_FOPS(fops);
+ static void __exit vgem_exit(void)
+ {
++	struct platform_device *pdev = vgem_device->platform;
++
+ 	drm_dev_unregister(&vgem_device->drm);
+-	drm_dev_put(&vgem_device->drm);
++	devres_release_group(&pdev->dev, NULL);
++	platform_device_unregister(pdev);
+ }
+ 
+ module_init(vgem_init);
 -- 
 2.28.0
 
