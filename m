@@ -2,69 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D4D25E4B7
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05B125E4A3
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:35:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D74156ED0A;
-	Sat,  5 Sep 2020 00:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B806ECF7;
+	Sat,  5 Sep 2020 00:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCAF6EB23
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 09:06:56 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id F0E415C00D0;
- Fri,  4 Sep 2020 05:06:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 04 Sep 2020 05:06:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=1o72WctqDY+zCsC7OnIzx9kRKHo
- rm2lEhRdF3SbI988=; b=mmkmS07oJ9t+hn7BZy/wUf/OZ8JyrTcZCuDqU5Hs1lW
- Z6IKxmrtcA3beKHfsh9kU0QkYCqZZ7RD+v7pywU47rN6gZI0NwUaciEMiS/Zg+hF
- xnj8iXpfFqeyedhqG7LQxcIs8cEezMWGY/Q7pDeuZtLUeElMNleAX2o+FuW0HxW3
- 67uvviIgIAUrLVsAcqHNTZdR2QQdStLcoUOtAOV0ZtKRrMt4me9dsVkwvTyYUldn
- VrTPnmT1TtjSZmk/Hb4xR5ZV3ezMEFU7bdw9dbY509FpyMQcCkEzjzVNkf2tQ+kz
- IwUZ/k9zVXWtFmGVsNgGNFIKndlAo+bZ6psBvct9EGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1o72Wc
- tqDY+zCsC7OnIzx9kRKHorm2lEhRdF3SbI988=; b=B6AlSxfmtTl9Cz8YOPlVdL
- YEu1NeaNWiQjWbuvnoee3l0nCLw+warrKXz3YuW4RrQt7AdbxEoPVOfp4Uaq1/Jp
- pE+yXnVgA77m86zNBMt++G4Baq9qpt2xXmlal2HfiTCZFgONAUpvYGOUwFkqhdE9
- 5e+w4iekdpLkUVNSU3LkY4lOa+Ydlej7SUZ1RQLtMkcR7+0UcKbfQYQNPQd8JqWn
- 6sjf1bbtA7Ks/nEn/82H0YUuaZpV3yGmbw0yXbZrX1MAoR93givFoSPndjIAT4vz
- WH9bcfntKeK2Rli+oA8S63YgnE9Ci7AKNSurV3teq+HG9bbzAXi/We9I8Suv2vPw
- ==
-X-ME-Sender: <xms:qgNSXxVyDTwliPx1VeoondJ50dM2zGrkqiazTTUAUinzcWwlVuaCTw>
- <xme:qgNSXxmNik9BPqLeM-dtT5asS-rFi8kC6uBf0Iv3dfLC8fgo5JcEMe1bEB8PSiuEP
- ea1ohgX2_fI02Ssa9g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegfedguddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qgNSX9bhLhH-xW3rILo-qCiSS8PirrzWZDGL3aCPCUpaQVqzEguo6Q>
- <xmx:qgNSX0XYB3rmDmXIcDp_dWYIfDZ-MyLvp7Uxi3NHexf3-ZftxHpWsQ>
- <xmx:qgNSX7nXhHMCP9D3dUm1AiZVxs0LvJ3OUJB2zaYRPsIw1155kpd76A>
- <xmx:rANSX2vm5xsG4RxFK0Wm6C-R0kpmAF9bLi3WrbqQAf5eJ6T7fteSiA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9A74C328005A;
- Fri,  4 Sep 2020 05:06:50 -0400 (EDT)
-Date: Fri, 4 Sep 2020 11:06:48 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH] drm/sun4i: Fix DE2 YVU handling
-Message-ID: <20200904090648.wj74dlkgp5qo3mfb@gilmour.lan>
-References: <20200901220305.6809-1-jernej.skrabec@siol.net>
+X-Greylist: delayed 371 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Sep 2020 09:17:34 UTC
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB91D6EB31;
+ Fri,  4 Sep 2020 09:17:34 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 4466F3D5; Fri,  4 Sep 2020 11:11:19 +0200 (CEST)
+Date: Fri, 4 Sep 2020 11:11:17 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 00/20] iommu/arm-smmu + drm/msm: per-process GPU pgtables
+Message-ID: <20200904091117.GH6714@8bytes.org>
+References: <20200817220238.603465-1-robdclark@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200901220305.6809-1-jernej.skrabec@siol.net>
+Content-Disposition: inline
+In-Reply-To: <20200817220238.603465-1-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Sat, 05 Sep 2020 00:35:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,61 +39,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: irlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org,
- Roman Stratiienko <r.stratiienko@gmail.com>
-Content-Type: multipart/mixed; boundary="===============2010710705=="
+Cc: Wambui Karuga <wambui.karugax@gmail.com>, Hanna Hawa <hannah@marvell.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>, Will Deacon <will@kernel.org>,
+ Emil Velikov <emil.velikov@collabora.com>, Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Sam Ravnborg <sam@ravnborg.org>,
+ Jon Hunter <jonathanh@nvidia.com>, Ben Dooks <ben.dooks@codethink.co.uk>,
+ Sibi Sankar <sibis@codeaurora.org>, Thierry Reding <treding@nvidia.com>,
+ Brian Masney <masneyb@onstation.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Pritesh Raithatha <praithatha@nvidia.com>, Stephen Boyd <swboyd@chromium.org>,
+ Nicolin Chen <nicoleotsuka@gmail.com>, freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krishna Reddy <vdumpa@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Aug 17, 2020 at 03:01:25PM -0700, Rob Clark wrote:
+> Jordan Crouse (12):
+>   iommu/arm-smmu: Pass io-pgtable config to implementation specific
+>     function
+>   iommu/arm-smmu: Add support for split pagetables
+>   iommu/arm-smmu: Prepare for the adreno-smmu implementation
+>   iommu/arm-smmu-qcom: Add implementation for the adreno GPU SMMU
+>   dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
+>   drm/msm: Add a context pointer to the submitqueue
+>   drm/msm: Drop context arg to gpu->submit()
+>   drm/msm: Set the global virtual address range from the IOMMU domain
+>   drm/msm: Add support to create a local pagetable
+>   drm/msm: Add support for private address space instances
+>   drm/msm/a6xx: Add support for per-instance pagetables
+>   arm: dts: qcom: sm845: Set the compatible string for the GPU SMMU
+> 
+> Rob Clark (8):
+>   drm/msm: remove dangling submitqueue references
+>   iommu: add private interface for adreno-smmu
+>   drm/msm/gpu: add dev_to_gpu() helper
+>   drm/msm: set adreno_smmu as gpu's drvdata
+>   iommu/arm-smmu: constify some helpers
+>   arm: dts: qcom: sc7180: Set the compatible string for the GPU SMMU
+>   iommu/arm-smmu: add a way for implementations to influence SCTLR
+>   drm/msm: show process names in gem_describe
 
---===============2010710705==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lhvls7hmqle5lecj"
-Content-Disposition: inline
+Can the DRM parts be merged independently from the IOMMU parts or does
+this need to be queued together? If it needs to be together I defer the
+decission to Will through which tree this should go.
 
 
---lhvls7hmqle5lecj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 02, 2020 at 12:03:05AM +0200, Jernej Skrabec wrote:
-> Function sun8i_vi_layer_get_csc_mode() is supposed to return CSC mode
-> but due to inproper return type (bool instead of u32) it returns just 0
-> or 1. Colors are wrong for YVU formats because of that.
->=20
-> Fixes: daab3d0e8e2b ("drm/sun4i: de2: csc_mode in de2 format struct is mo=
-stly redundant")
-> Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Applied, thanks!
-Maxime
-
---lhvls7hmqle5lecj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX1IDqAAKCRDj7w1vZxhR
-xeuJAP90RxwlsHMsS3BsBTa5ovNs3ktqUgJLNp2+jXLIhC6XHwD+KvQYtc0bFTNH
-ISN+iTcZw/oBVJVpnbDLCORYtX1qNgs=
-=Alq+
------END PGP SIGNATURE-----
-
---lhvls7hmqle5lecj--
-
---===============2010710705==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+	Joerg
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2010710705==--
