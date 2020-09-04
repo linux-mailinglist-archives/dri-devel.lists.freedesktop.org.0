@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0432825DC48
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298A225DC4A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:53:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28A5E6EC2E;
-	Fri,  4 Sep 2020 14:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFE26EC18;
+	Fri,  4 Sep 2020 14:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2CF16EC2E;
- Fri,  4 Sep 2020 14:53:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC3816EC18;
+ Fri,  4 Sep 2020 14:53:39 +0000 (UTC)
 Received: from kozik-lap.mshome.net (unknown [194.230.155.106])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4C7EC20772;
- Fri,  4 Sep 2020 14:53:29 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 231322074D;
+ Fri,  4 Sep 2020 14:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599231214;
- bh=lpyJxehqQVhZJxW/dY5CSwmGXBpmMlm6lsFz5qVX6yg=;
+ s=default; t=1599231219;
+ bh=ASiZ0rB9LNwgfTE9ttuElktd19XeAlJ3o/IpyKudDPU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wK3d7MIkeOqvjPK91YR6e58IF+TNcP/AeMmFuRNFzRLRMMMKh4KskfdqOwjzRX5+/
- eVBbIXHVwJfRm52xd54SRoKevr9esDFL4y2KbbCWrQq9/HPa3ACLLTFAud5fdhaGan
- 4HVvSSC0EG+QmCTIVQKKJ8HjSIPNOV/dyYKkaU/M=
+ b=aR2RVbgZWjLaYqLsuAvDRAoxLGCQRm9KsDGoMMp/gGpODc1XE/ZpmzOUF1GTJldsI
+ soD3XHAySHDgl59TNt7eXiWKS8uTSEJuDhusDjecYWQRjptUw3qSwxrPyPR2i8i9rV
+ t6oKaiifMgz4rkD9iMzTPAs30EIopKu4CUaPFcTo=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
@@ -39,10 +39,10 @@ To: Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 02/13] dt-bindings: display: bridge: nwl-dsi: Add common
- properties
-Date: Fri,  4 Sep 2020 16:53:01 +0200
-Message-Id: <20200904145312.10960-3-krzk@kernel.org>
+Subject: [PATCH 03/13] dt-bindings: arm: fsl: Fix matching Purism Librem5
+ phones
+Date: Fri,  4 Sep 2020 16:53:02 +0200
+Message-Id: <20200904145312.10960-4-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200904145312.10960-1-krzk@kernel.org>
 References: <20200904145312.10960-1-krzk@kernel.org>
@@ -65,32 +65,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add common properties appearing in DTSes (assigned-clocks and others) to
-fix dtbs_check warnings like:
+All Purism Librem5 phones have three compatibles so they need their own
+entry to fix dbts_check warnings like:
 
-  arch/arm64/boot/dts/freescale/imx8mq-evk.dt.yaml: mipi-dsi@30a00000:
-    'assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^panel@[0-9]+$', 'pinctrl-[0-9]+'
+  arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml: /:
+    compatible: ['purism,librem5r2', 'purism,librem5', 'fsl,imx8mq'] is not valid under any of the given schemas
+
+  arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml: /:
+    compatible: ['purism,librem5r2', 'purism,librem5', 'fsl,imx8mq'] is too long
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/arm/fsl.yaml | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
-index 04099f5bea3f..b8ba6eb482a1 100644
---- a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
-@@ -30,6 +30,10 @@ properties:
-   '#size-cells':
-     const: 0
+diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+index 37cef8653541..edef7a9f4e36 100644
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -377,12 +377,18 @@ properties:
+               - fsl,imx8mq-evk            # i.MX8MQ EVK Board
+               - google,imx8mq-phanbell    # Google Coral Edge TPU
+               - purism,librem5-devkit     # Purism Librem5 devkit
+-              - purism,librem5r2          # Purism Librem5 phone "Chestnut"
+-              - purism,librem5r3          # Purism Librem5 phone "Dogwood"
+               - solidrun,hummingboard-pulse # SolidRun Hummingboard Pulse
+               - technexion,pico-pi-imx8m  # TechNexion PICO-PI-8M evk
+           - const: fsl,imx8mq
  
-+  assigned-clock-parents: true
-+  assigned-clock-rates: true
-+  assigned-clocks: true
++      - description: Purism Librem5 phones
++        items:
++          - enum:
++              - purism,librem5r2          # Purism Librem5 phone "Chestnut"
++              - purism,librem5r3          # Purism Librem5 phone "Dogwood"
++          - const: purism,librem5
++          - const: fsl,imx8mq
 +
-   clocks:
-     items:
-       - description: DSI core clock
+       - description: Zodiac Inflight Innovations Ultra Boards
+         items:
+           - enum:
 -- 
 2.17.1
 
