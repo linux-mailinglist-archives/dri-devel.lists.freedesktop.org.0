@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC80C25DC44
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:53:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0432825DC48
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:53:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 098626EC1F;
-	Fri,  4 Sep 2020 14:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A5E6EC2E;
+	Fri,  4 Sep 2020 14:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E12816EC1C;
- Fri,  4 Sep 2020 14:53:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2CF16EC2E;
+ Fri,  4 Sep 2020 14:53:34 +0000 (UTC)
 Received: from kozik-lap.mshome.net (unknown [194.230.155.106])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 192A620722;
- Fri,  4 Sep 2020 14:53:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4C7EC20772;
+ Fri,  4 Sep 2020 14:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599231208;
- bh=bvXZcz7ttVocHXEVxEt5vYwPMCOoOFG4MAo12LWzn3w=;
+ s=default; t=1599231214;
+ bh=lpyJxehqQVhZJxW/dY5CSwmGXBpmMlm6lsFz5qVX6yg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kxY9sZT4eR3/CDZbyP/ApLs6rtNEXa0MdbPLKO4rgS7onWVP3+/Nl9GLwVCJ/OFbg
- ylTvLxlAir9ilUwaFgZAhbYQF1K9J9WiNr4WD9NxuJTQlbaoW0PMF/CBCjqOUBmdmb
- IVgVlnXvuo9ZYq/UNiK2xCf8H+ectwAqN63xY/Sk=
+ b=wK3d7MIkeOqvjPK91YR6e58IF+TNcP/AeMmFuRNFzRLRMMMKh4KskfdqOwjzRX5+/
+ eVBbIXHVwJfRm52xd54SRoKevr9esDFL4y2KbbCWrQq9/HPa3ACLLTFAud5fdhaGan
+ 4HVvSSC0EG+QmCTIVQKKJ8HjSIPNOV/dyYKkaU/M=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
@@ -39,10 +39,10 @@ To: Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 01/13] dt-bindings: power: fsl,
- imx-gpcv2: Document interrupt controller properties
-Date: Fri,  4 Sep 2020 16:53:00 +0200
-Message-Id: <20200904145312.10960-2-krzk@kernel.org>
+Subject: [PATCH 02/13] dt-bindings: display: bridge: nwl-dsi: Add common
+ properties
+Date: Fri,  4 Sep 2020 16:53:01 +0200
+Message-Id: <20200904145312.10960-3-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200904145312.10960-1-krzk@kernel.org>
 References: <20200904145312.10960-1-krzk@kernel.org>
@@ -65,32 +65,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The i.MX General Power Controller v2 is also an interrupt controller so
-document additional properties to fix dtbs_check warnings like:
+Add common properties appearing in DTSes (assigned-clocks and others) to
+fix dtbs_check warnings like:
 
-  arch/arm64/boot/dts/freescale/imx8mq-evk.dt.yaml: gpc@303a0000:
-    '#interrupt-cells', 'interrupt-controller' do not match any of the regexes: 'pinctrl-[0-9]+'
+  arch/arm64/boot/dts/freescale/imx8mq-evk.dt.yaml: mipi-dsi@30a00000:
+    'assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^panel@[0-9]+$', 'pinctrl-[0-9]+'
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- Documentation/devicetree/bindings/power/fsl,imx-gpcv2.yaml | 4 ++++
+ Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/power/fsl,imx-gpcv2.yaml b/Documentation/devicetree/bindings/power/fsl,imx-gpcv2.yaml
-index bde09a0b2da3..a96e6dbf1858 100644
---- a/Documentation/devicetree/bindings/power/fsl,imx-gpcv2.yaml
-+++ b/Documentation/devicetree/bindings/power/fsl,imx-gpcv2.yaml
-@@ -33,6 +33,10 @@ properties:
-   interrupts:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+index 04099f5bea3f..b8ba6eb482a1 100644
+--- a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+@@ -30,6 +30,10 @@ properties:
+   '#size-cells':
+     const: 0
  
-+  interrupt-controller: true
-+  '#interrupt-cells':
-+    const: 3
++  assigned-clock-parents: true
++  assigned-clock-rates: true
++  assigned-clocks: true
 +
-   pgc:
-     type: object
-     description: list of power domains provided by this controller.
+   clocks:
+     items:
+       - description: DSI core clock
 -- 
 2.17.1
 
