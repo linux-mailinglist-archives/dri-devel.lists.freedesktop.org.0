@@ -1,102 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE2825D4A2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 11:21:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DAA25D561
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 11:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5463E6EB2C;
-	Fri,  4 Sep 2020 09:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 388C76E030;
+	Fri,  4 Sep 2020 09:46:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED066EB28
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 09:21:33 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200904092132euoutp017ddd432fd2a20ac1a36826ca03b71588~xijKBlvaa1972319723euoutp01Z
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 09:21:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200904092132euoutp017ddd432fd2a20ac1a36826ca03b71588~xijKBlvaa1972319723euoutp01Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599211292;
- bh=gNpZjoYhg1RJ4UinTP5qJUtsYs+Akmz0Pc5iWXyWKZ0=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=X/+iRLMr03qSZOd3JeRlfU/g/9SJLMgiu1uxjomPF2QIemTJ9XEFx8GggZ226xzx+
- Pd3D8++5jxqc+RsA59kw0s46B0pjJCJy1iJReNsT6ALR0X2LDVfwL0eLpGxTgnvqvT
- mcsW1/W/WKIYvpzcqHj/Yrvr1cuwXznTf5+0WzQw=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200904092131eucas1p22ee1d236863aad6703bfceaea39cc646~xijJYJdfE0449504495eucas1p2J;
- Fri,  4 Sep 2020 09:21:31 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id FB.AB.06456.B17025F5; Fri,  4
- Sep 2020 10:21:31 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200904092130eucas1p2b1869c64f61dd57d54ce8560273d6cba~xijIuZ4KN1922419224eucas1p2A;
- Fri,  4 Sep 2020 09:21:30 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200904092130eusmtrp14805ecffdeb9b6cb876128ce7bdc82a2~xijItzVQt0339603396eusmtrp1Y;
- Fri,  4 Sep 2020 09:21:30 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-3f-5f52071bd917
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 49.9A.06314.A17025F5; Fri,  4
- Sep 2020 10:21:30 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200904092130eusmtip243484d72403385afaccfefa135c9f0c0~xijIOOHTe3020730207eusmtip2t;
- Fri,  4 Sep 2020 09:21:30 +0000 (GMT)
-Subject: Re: [PATCH 02/16] drm/exynos: extract helper functions for probe
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Michael Tretter <m.tretter@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-Message-ID: <fb6c7aee-d89c-8ddf-62de-088ef3af1ddd@samsung.com>
-Date: Fri, 4 Sep 2020 11:21:34 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 576696E02E
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 09:46:42 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j2so6074792wrx.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 02:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iVx7hC5Z+ZE9a7SrgsdYEtoRluDNQl4XcnFv96CEECo=;
+ b=GkEwuFZ2XgoFCAbgB9JFRh7/4rIuBnkk7B3WowF0Ouo7ZwRGjDRK2ZDlmZJ2RLg/On
+ nrfPdZUS/h6zd7gpkrNCNoCHNFDi305JAdVAde3a7doEtdHs0smrUnlcdJG+pKDd/cO7
+ z7gpywm58gbc6ZQtGbyM4abXSOAwVd/o12b8eqbMIFpwHGPaugZDkoyz3B5fyVcPllbH
+ rhj30xsmlH1C15HVBRhssiDsZvK16TDN6lMszim4cQjNM01buVbRtafq3/3c+yhlPLjS
+ mzWOjOvn/OLzZPG+rs7d835O+afcHy1Qx9kDXY5pA1V4bgiKpFHrAZ3z4gH8TtH47vbm
+ sVRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iVx7hC5Z+ZE9a7SrgsdYEtoRluDNQl4XcnFv96CEECo=;
+ b=af2eR+M4y7JXv8aYIlC6pq5LCqSg6oSnAC5YHNrUNjE5eDZfp1E/7vtBryZqmKAoUy
+ FAwXHjxLPjzsibyBlVX+H9tcA8gHLZFjsI4fkvQCP2HIn/8WaEUtxqDgIQ71gHARYG2p
+ pQWhFR8MbYJF5FrzTMN+dXOvMdLIqZRCh95Dwnxk9dMDlBTrhdpB9R02cwnpocCPBBQn
+ BLCa5u+gzIV1Rk0pZnkj7p2MvpP1lnimA2NfpSXcPfhobHr84o1maOILMLYloaZk4dM+
+ atWuhXTq0fkuGvIiqNHGjfhWqtZDXmxfd14WsWNCKd6QKbWnS5Z0eQJR9lr2TVRlHReq
+ 5wBw==
+X-Gm-Message-State: AOAM533htqavFUcV3Dvq71tK2dWGw27+UAmegfBKCKxMpYvE88Flu2yV
+ coXo1cd5AGFEkyox4s6R8YDZ6Z7IsXR8T2aTrnGpxw==
+X-Google-Smtp-Source: ABdhPJwptTnuYBF7f+Osku8uKwpWjtboRQN9W4oEJ9YqWxV4nkxW6SWMHqNqVamQSLiM39jayeQ7YaNuePi+ebV3FW8=
+X-Received: by 2002:a5d:4949:: with SMTP id r9mr7050780wrs.27.1599212800728;
+ Fri, 04 Sep 2020 02:46:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c0d6aad1-5d9b-4a24-e9a5-3878fb289ac3@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBKsWRmVeSWpSXmKPExsWy7djP87rS7EHxBqc+S1rcWneO1eLK1/ds
- Fqum7mSxOH9+A7tF58Ql7BYzzu9jsti2Aih7qC/agcPj/Y1Wdo/ZHTNZPTat6mTzuN99nMmj
- /6+BR9+WVYwenzfJBbBHcdmkpOZklqUW6dslcGXM71/PVvBevaKx0bqBcb1SFyMnh4SAicTX
- BWfYuxi5OIQEVjBKPHnwjgXC+cIosf3WQSYI5zOjxNNbx5lgWg4uf8MKkVgOVLVyNzOE855R
- 4uvNg4wgVcICnhLv5i8E62ATMJToetvF1sXIwSEiUCLx5pE3SD2zQD+jxNp/bWwgNbwCdhK9
- 7y6B2SwCKhKXfjWB2aICcRLHTj1igagRlDg58wmYzSlgL/Hv8V5WEJtZQF6ieetsZghbXOLW
- k/lgZ0sIHGKX+DbpMyvE2S4Sk67fZoawhSVeHd/CDmHLSJye3MMC0dDMKPHw3Fp2CKeHUeJy
- 0wxGiCpriTvnfoG9wCygKbF+lz5E2FHibNcLJpCwhACfxI23ghBH8ElM2jadGSLMK9HRJgRR
- rSYx6/g6uLUHL1xinsCoNAvJa7OQvDMLyTuzEPYuYGRZxSieWlqcm55abJiXWq5XnJhbXJqX
- rpecn7uJEZieTv87/mkH49dLSYcYBTgYlXh4b7wPiBdiTSwrrsw9xCjBwawkwut09nScEG9K
- YmVValF+fFFpTmrxIUZpDhYlcV7jRS9jhQTSE0tSs1NTC1KLYLJMHJxSDYxCJ9JfRmXdqAnv
- 7pgkaXmMzXOBhQzz1Vez23IiazrMKxcd35Db4XRWwVxL+9dblbfOWxNZ+YsXVzy/93ZLWEh0
- Ry/nl92FvAeylK/d8tl34QrnnyUFoeqzti9mve65s02c80uRi3nBi/IJG2bOqw8Qqzvd+vFv
- Rd6X0rxdP7/OEfdu1b3KskSJpTgj0VCLuag4EQA7m+6NSwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRmVeSWpSXmKPExsVy+t/xe7pS7EHxBuu2alvcWneO1eLK1/ds
- Fqum7mSxOH9+A7tF58Ql7BYzzu9jsti2Aih7qC/agcPj/Y1Wdo/ZHTNZPTat6mTzuN99nMmj
- /6+BR9+WVYwenzfJBbBH6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp29mk
- pOZklqUW6dsl6GXM71/PVvBevaKx0bqBcb1SFyMnh4SAicTB5W9Yuxi5OIQEljJKnFs6gRUi
- ISNxcloDlC0s8edaFxtE0VtGiUV728ASwgKeEu/mL2QCsdkEDCW63oIUcXKICJRIfDr3iAmk
- gVmgn1Fi8sId7BDd/xglln2ZywxSxStgJ9H77hJYB4uAisSlX01gtqhAnMSZnhdsEDWCEidn
- PmEBsTkF7CX+Pd4LtplZwExi3uaHzBC2vETz1tlQtrjErSfzmSYwCs1C0j4LScssJC2zkLQs
- YGRZxSiSWlqcm55bbKhXnJhbXJqXrpecn7uJERiR24793LyD8dLG4EOMAhyMSjy8N94HxAux
- JpYVV+YeYpTgYFYS4XU6ezpOiDclsbIqtSg/vqg0J7X4EKMp0HMTmaVEk/OBySKvJN7Q1NDc
- wtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwfEwenVANji9JVLoFNYrIxoQsyRHJ+vlp8
- 4PXmk0ZJ0itDBSfktt7r9rw3f26QnpKvL6PxSjmXIxP1wvfn8v68v+zGlibzm2+u8gStSQ6S
- kRfWPhz5rCW2uctT85DCm7+v0v9KCsZLaJt01ErvuzOr3EvzR61MQueDw69aEu8/mnbhDGe8
- f0HGRr5NgYxKLMUZiYZazEXFiQD0TLsV3gIAAA==
-X-CMS-MailID: 20200904092130eucas1p2b1869c64f61dd57d54ce8560273d6cba
-X-Msg-Generator: CA
-X-RootMTR: 20200903165747eucas1p2f644b3ae6d7c48cb77f5c5f8b9be66ba
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200903165747eucas1p2f644b3ae6d7c48cb77f5c5f8b9be66ba
-References: <20200903165717.1272492-1-m.tretter@pengutronix.de>
- <CGME20200903165747eucas1p2f644b3ae6d7c48cb77f5c5f8b9be66ba@eucas1p2.samsung.com>
- <20200903165717.1272492-3-m.tretter@pengutronix.de>
- <c0d6aad1-5d9b-4a24-e9a5-3878fb289ac3@samsung.com>
+References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
+ <d757ddd6549da140f178563e5fd2bf1d129913fd.1599120059.git-series.maxime@cerno.tech>
+In-Reply-To: <d757ddd6549da140f178563e5fd2bf1d129913fd.1599120059.git-series.maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 4 Sep 2020 10:46:26 +0100
+Message-ID: <CAPY8ntC_Tobv+4TtgtYhvAst00_zsfxZdZd=torcb57SQ0CMQA@mail.gmail.com>
+Subject: Re: [PATCH v5 75/80] drm/vc4: hdmi: Add pixel BVB clock control
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,101 +62,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent.pinchart@ideasonboard.com, krzk@kernel.org, narmstrong@baylibre.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCk9uIDA0LjA5LjIwMjAgMTE6MDQsIE1hcmVrIFN6eXByb3dza2kgd3JvdGU6Cj4gT24gMDMu
-MDkuMjAyMCAxODo1NywgTWljaGFlbCBUcmV0dGVyIHdyb3RlOgo+PiBBcyB0aGUgZHJpdmVyIHNo
-YWxsIGJlIHVzYWJsZSB3aXRoIGRyaXZlcnMgdGhhdCB1c2UgdGhlIGNvbXBvbmVudAo+PiBmcmFt
-ZXdvcmsgYW5kIGRyaXZlcnMgdGhhdCBkb24ndCwgc3BsaXQgdGhlIGNvbW1vbiBwcm9iaW5nIGNv
-ZGUgaW50byBhCj4+IHNlcGFyYXRlIGZ1bmN0aW9uIHRoYXQgY2FuIGJlIGNhbGxlZCBmcm9tIGRp
-ZmZlcmVudCBsb2NhdGlvbnMuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgVHJldHRlciA8
-bS50cmV0dGVyQHBlbmd1dHJvbml4LmRlPgo+Cj4gVGhpcyBpcyB0aGUgZmlyc3QgcGF0Y2ggdGhh
-dCBjYXVzZXMgdGhlIGNyYXNoIG9uIEV4eW5vcyBib2FyZHM6Cj4KPiBleHlub3M0LWZiIDExYzAw
-MDAwLmZpbWQ6IEFkZGluZyB0byBpb21tdSBncm91cCAwCj4gT0Y6IGdyYXBoOiBubyBwb3J0IG5v
-ZGUgZm91bmQgaW4gL3NvYy9maW1kQDExYzAwMDAwCj4gW2RybV0gRXh5bm9zIERSTTogdXNpbmcg
-MTFjMDAwMDAuZmltZCBkZXZpY2UgZm9yIERNQSBtYXBwaW5nIG9wZXJhdGlvbnMKPiBleHlub3Mt
-ZHJtIGV4eW5vcy1kcm06IGJvdW5kIDExYzAwMDAwLmZpbWQgKG9wcyBmaW1kX2NvbXBvbmVudF9v
-cHMpCj4gT0Y6IGdyYXBoOiBubyBwb3J0IG5vZGUgZm91bmQgaW4gL3NvYy9kc2lAMTFjODAwMDAK
-PiA4PC0tLSBjdXQgaGVyZSAtLS0KPiBVbmFibGUgdG8gaGFuZGxlIGtlcm5lbCBOVUxMIHBvaW50
-ZXIgZGVyZWZlcmVuY2UgYXQgdmlydHVhbCBhZGRyZXNzIAo+IDAwMDAwMDg0Cj4gcGdkID0gKHB0
-cnZhbCkKPiBbMDAwMDAwODRdICpwZ2Q9MDAwMDAwMDAKPiBJbnRlcm5hbCBlcnJvcjogT29wczog
-NSBbIzFdIFBSRUVNUFQgU01QIEFSTQo+IE1vZHVsZXMgbGlua2VkIGluOgo+IENQVTogMSBQSUQ6
-IDEgQ29tbTogc3dhcHBlci8wIE5vdCB0YWludGVkIAo+IDUuOS4wLXJjMi1uZXh0LTIwMjAwODI0
-LTAwMDA0LWc2ODBiYWNjYmExYzIgIzE1OTEKPiBIYXJkd2FyZSBuYW1lOiBTYW1zdW5nIEV4eW5v
-cyAoRmxhdHRlbmVkIERldmljZSBUcmVlKQo+IFBDIGlzIGF0IGRybV9icmlkZ2VfYXR0YWNoKzB4
-MTgvMHgxNjQKPiBMUiBpcyBhdCBleHlub3NfZHNpX2JpbmQrMHg4OC8weDljCj4gcGMgOiBbPGMw
-NjIwNTI0Pl3CoMKgwqAgbHIgOiBbPGMwNjQ0ZGY4Pl3CoMKgwqAgcHNyOiAyMDAwMDAxMwo+IC4u
-Lgo+IFByb2Nlc3Mgc3dhcHBlci8wIChwaWQ6IDEsIHN0YWNrIGxpbWl0ID0gMHgocHRydmFsKSkK
-PiAuLi4KPiBbPGMwNjIwNTI0Pl0gKGRybV9icmlkZ2VfYXR0YWNoKSBmcm9tIFs8YzA2NDRkZjg+
-XSAKPiAoZXh5bm9zX2RzaV9iaW5kKzB4ODgvMHg5YykKPiBbPGMwNjQ0ZGY4Pl0gKGV4eW5vc19k
-c2lfYmluZCkgZnJvbSBbPGMwNjYxYWVjPl0gCj4gKGNvbXBvbmVudF9iaW5kX2FsbCsweGZjLzB4
-MjkwKQo+IFs8YzA2NjFhZWM+XSAoY29tcG9uZW50X2JpbmRfYWxsKSBmcm9tIFs8YzA2NDEzZDA+
-XSAKPiAoZXh5bm9zX2RybV9iaW5kKzB4ZTQvMHgxOWMpCj4gWzxjMDY0MTNkMD5dIChleHlub3Nf
-ZHJtX2JpbmQpIGZyb20gWzxjMDY2MjA2MD5dIAo+ICh0cnlfdG9fYnJpbmdfdXBfbWFzdGVyKzB4
-MWU0LzB4MmM0KQo+IFs8YzA2NjIwNjA+XSAodHJ5X3RvX2JyaW5nX3VwX21hc3RlcikgZnJvbSBb
-PGMwNjYyNWEwPl0gCj4gKGNvbXBvbmVudF9tYXN0ZXJfYWRkX3dpdGhfbWF0Y2grMHhkNC8weDEw
-OCkKPiBbPGMwNjYyNWEwPl0gKGNvbXBvbmVudF9tYXN0ZXJfYWRkX3dpdGhfbWF0Y2gpIGZyb20g
-WzxjMDY0MTBmOD5dIAo+IChleHlub3NfZHJtX3BsYXRmb3JtX3Byb2JlKzB4ZTQvMHgxMTApCj4g
-WzxjMDY0MTBmOD5dIChleHlub3NfZHJtX3BsYXRmb3JtX3Byb2JlKSBmcm9tIFs8YzA2NmM3ODg+
-XSAKPiAocGxhdGZvcm1fZHJ2X3Byb2JlKzB4NmMvMHhhNCkKPiBbPGMwNjZjNzg4Pl0gKHBsYXRm
-b3JtX2Rydl9wcm9iZSkgZnJvbSBbPGMwNjY5Y2M0Pl0gCj4gKHJlYWxseV9wcm9iZSsweDIwMC8w
-eDRmYykKPiBbPGMwNjY5Y2M0Pl0gKHJlYWxseV9wcm9iZSkgZnJvbSBbPGMwNjZhMTg4Pl0gCj4g
-KGRyaXZlcl9wcm9iZV9kZXZpY2UrMHg3OC8weDFmYykKPiBbPGMwNjZhMTg4Pl0gKGRyaXZlcl9w
-cm9iZV9kZXZpY2UpIGZyb20gWzxjMDY2YTU3MD5dIAo+IChkZXZpY2VfZHJpdmVyX2F0dGFjaCsw
-eDU4LzB4NjApCj4gWzxjMDY2YTU3MD5dIChkZXZpY2VfZHJpdmVyX2F0dGFjaCkgZnJvbSBbPGMw
-NjZhNjU0Pl0gCj4gKF9fZHJpdmVyX2F0dGFjaCsweGRjLzB4MTc0KQo+IFs8YzA2NmE2NTQ+XSAo
-X19kcml2ZXJfYXR0YWNoKSBmcm9tIFs8YzA2NjdhNGM+XSAKPiAoYnVzX2Zvcl9lYWNoX2Rldisw
-eDY4LzB4YjQpCj4gWzxjMDY2N2E0Yz5dIChidXNfZm9yX2VhY2hfZGV2KSBmcm9tIFs8YzA2Njhk
-ODA+XSAKPiAoYnVzX2FkZF9kcml2ZXIrMHgxNTgvMHgyMTQpCj4gWzxjMDY2OGQ4MD5dIChidXNf
-YWRkX2RyaXZlcikgZnJvbSBbPGMwNjZiNTM4Pl0gCj4gKGRyaXZlcl9yZWdpc3RlcisweDc4LzB4
-MTEwKQo+IFs8YzA2NmI1Mzg+XSAoZHJpdmVyX3JlZ2lzdGVyKSBmcm9tIFs8YzA2NDEyYjg+XSAK
-PiAoZXh5bm9zX2RybV9pbml0KzB4ZTQvMHgxMTgpCj4gWzxjMDY0MTJiOD5dIChleHlub3NfZHJt
-X2luaXQpIGZyb20gWzxjMDEwMjNmND5dIAo+IChkb19vbmVfaW5pdGNhbGwrMHg4Yy8weDQyNCkK
-PiBbPGMwMTAyM2Y0Pl0gKGRvX29uZV9pbml0Y2FsbCkgZnJvbSBbPGMxMDAxMWE4Pl0gCj4gKGtl
-cm5lbF9pbml0X2ZyZWVhYmxlKzB4MTkwLzB4MWRjKQo+IFs8YzEwMDExYTg+XSAoa2VybmVsX2lu
-aXRfZnJlZWFibGUpIGZyb20gWzxjMGFlOGFiND5dIAo+IChrZXJuZWxfaW5pdCsweDgvMHgxMTgp
-Cj4gWzxjMGFlOGFiND5dIChrZXJuZWxfaW5pdCkgZnJvbSBbPGMwMTAwMTE0Pl0gKHJldF9mcm9t
-X2ZvcmsrMHgxNC8weDIwKQo+IEV4Y2VwdGlvbiBzdGFjaygweGVmMGRmZmIwIHRvIDB4ZWYwZGZm
-ZjgpCj4gZmZhMDrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgCj4g
-MDAwMDAwMDAKPiBmZmMwOiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
-MDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAKPiAwMDAwMDAwMAo+IGZmZTA6IDAwMDAwMDAwIDAwMDAw
-MDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDEzIDAwMDAwMDAwCj4gQ29kZTogZTkyZDQwNzAg
-MGEwMDAwMmUgZTM1MjAwMDAgMGEwMDAwNDQgKGU1OTJjMDZjKQo+IC0tLVsgZW5kIHRyYWNlIDFj
-OTNiMjZkMTY2MDcwZjYgXS0tLQo+IEtlcm5lbCBwYW5pYyAtIG5vdCBzeW5jaW5nOiBBdHRlbXB0
-ZWQgdG8ga2lsbCBpbml0ISBleGl0Y29kZT0weDAwMDAwMDBiCj4gQ1BVMDogc3RvcHBpbmcKPiBD
-UFU6IDAgUElEOiAwIENvbW06IHN3YXBwZXIvMCBUYWludGVkOiBHwqDCoMKgwqDCoCBEIAo+IDUu
-OS4wLXJjMi1uZXh0LTIwMjAwODI0LTAwMDA0LWc2ODBiYWNjYmExYzIgIzE1OTEKPiBIYXJkd2Fy
-ZSBuYW1lOiBTYW1zdW5nIEV4eW5vcyAoRmxhdHRlbmVkIERldmljZSBUcmVlKQo+IFs8YzAxMTE2
-MGM+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBjZmMwPl0gKHNob3dfc3RhY2srMHgx
-MC8weDE0KQo+IFs8YzAxMGNmYzA+XSAoc2hvd19zdGFjaykgZnJvbSBbPGMwNTMzYzNjPl0gKGR1
-bXBfc3RhY2srMHhiYy8weGU4KQo+IFs8YzA1MzNjM2M+XSAoZHVtcF9zdGFjaykgZnJvbSBbPGMw
-MTEwNGUwPl0gKGhhbmRsZV9JUEkrMHgzZTAvMHg0MjgpCj4gWzxjMDExMDRlMD5dIChoYW5kbGVf
-SVBJKSBmcm9tIFs8YzA1NTExZGM+XSAoZ2ljX2hhbmRsZV9pcnErMHg5OC8weDljKQo+IFs8YzA1
-NTExZGM+XSAoZ2ljX2hhbmRsZV9pcnEpIGZyb20gWzxjMDEwMGFmMD5dIChfX2lycV9zdmMrMHg3
-MC8weGIwKQo+IEV4Y2VwdGlvbiBzdGFjaygweGMxMTAxZjA4IHRvIDB4YzExMDFmNTApCj4gMWYw
-MDrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYzAxMDk1ZDggMDAwMDAwMDAg
-MDAwMDAwMDAgYzExMDAwMDAgYzExMDhlZWMgCj4gYzExMDhmMzAKPiAxZjIwOiAwMDAwMDAwMSBj
-MTA3ZDA2OCBjMTEwOGVjOCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwNWRjMCAKPiBj
-MTEwMWY1OAo+IDFmNDA6IGMwMTA5NWQ4IGMwMTA5NWRjIDYwMDAwMDEzIGZmZmZmZmZmCj4gWzxj
-MDEwMGFmMD5dIChfX2lycV9zdmMpIGZyb20gWzxjMDEwOTVkYz5dIChhcmNoX2NwdV9pZGxlKzB4
-MjQvMHg0NCkKPiBbPGMwMTA5NWRjPl0gKGFyY2hfY3B1X2lkbGUpIGZyb20gWzxjMDE2MzVkYz5d
-IChkb19pZGxlKzB4MWJjLzB4MmJjKQo+IFs8YzAxNjM1ZGM+XSAoZG9faWRsZSkgZnJvbSBbPGMw
-MTYzYTkwPl0gKGNwdV9zdGFydHVwX2VudHJ5KzB4MTgvMHgxYykKPiBbPGMwMTYzYTkwPl0gKGNw
-dV9zdGFydHVwX2VudHJ5KSBmcm9tIFs8YzEwMDBmODg+XSAKPiAoc3RhcnRfa2VybmVsKzB4NjI4
-LzB4NjY0KQo+IFs8YzEwMDBmODg+XSAoc3RhcnRfa2VybmVsKSBmcm9tIFs8MDAwMDAwMDA+XSAo
-MHgwKQo+IC0tLVsgZW5kIEtlcm5lbCBwYW5pYyAtIG5vdCBzeW5jaW5nOiBBdHRlbXB0ZWQgdG8g
-a2lsbCBpbml0ISAKPiBleGl0Y29kZT0weDAwMDAwMDBiIF0tLS0KCiMgYXJtLWxpbnV4LWdudWVh
-YmktYWRkcjJsaW5lIC1hIGMwNjIwNTI0IC1lIHZtbGludXgKMHhjMDYyMDUyNApkcml2ZXJzL2dw
-dS9kcm0vZHJtX2JyaWRnZS5jOjE4NCAoZGlzY3JpbWluYXRvciAxKQoKd2hhdCBpczoKCjE4NDrC
-oMKgwqAgaWYgKHByZXZpb3VzICYmICghcHJldmlvdXMtPmRldiB8fCBwcmV2aW91cy0+ZW5jb2Rl
-ciAhPSBlbmNvZGVyKSkKCkJlc3QgcmVnYXJkcwotLSAKTWFyZWsgU3p5cHJvd3NraSwgUGhEClNh
-bXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi Maxime
+
+On Thu, 3 Sep 2020 at 09:03, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+>
+> The BCM2711 has another clock that needs to be ramped up depending on the
+> pixel rate: the pixel BVB clock. Add the code to adjust that clock when
+> changing the mode.
+>
+> Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> [Maxime: Changed the commit log, used clk_set_min_rate]
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Link: https://lore.kernel.org/r/20200901040759.29992-3-hoegeun.kwon@samsung.com
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 23 +++++++++++++++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index ab7abb409de2..39508107dafd 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -54,6 +54,7 @@
+>  #include "vc4_regs.h"
+>
+>  #define CEC_CLOCK_FREQ 40000
+> +#define VC4_HSM_MID_CLOCK 149985000
+
+I didn't flag it earlier, but this is a bit of a weird name for the
+define. I know it wants to be concise, but it made me do a double take
+as to what it is for.
+I'm currently applying all these patches to our Raspberry Pi tree and
+actually CEC needs a fixed HSM on Pi0-3 to avoid recomputing all the
+timings. So I have a VC4_HSM_CLOCK define which is the fixed clock
+rate for Pi 0-3.
+This one is more a threshold for HSM to control BVB, and my brain
+starts to hurt over what it should be called.
+
+Unless there are other comments around this patchset (and I hope to
+read through the remaining ones today), then I don't consider it a
+blocker, but we can probably do better as and when we add the next
+threshold for 4k60.
+My current understanding is that the clock has to be an integer divide
+of 600MHz, and at least the pixel rate / 2, so the only link to HSM is
+due to HSM being 101% of pixel rate, but I will try to find
+confirmation of that.
+
+>
+>  static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+>  {
+> @@ -344,6 +345,7 @@ static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder)
+>         HDMI_WRITE(HDMI_VID_CTL,
+>                    HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_ENABLE);
+>
+> +       clk_disable_unprepare(vc4_hdmi->pixel_bvb_clock);
+>         clk_disable_unprepare(vc4_hdmi->hsm_clock);
+>         clk_disable_unprepare(vc4_hdmi->pixel_clock);
+>
+> @@ -516,6 +518,27 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
+>                 return;
+>         }
+>
+> +       /*
+> +        * FIXME: When the pixel freq is 594MHz (4k60), this needs to be setup
+> +        * at 150MHz.
+> +        */
+
+Typo here. For 4k60 we need 300MHz (pixel clock / 2)
+
+Otherwise
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> +       ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock,
+> +                              (hsm_rate > VC4_HSM_MID_CLOCK ? 150000000 : 75000000));
+> +       if (ret) {
+> +               DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
+> +               clk_disable_unprepare(vc4_hdmi->hsm_clock);
+> +               clk_disable_unprepare(vc4_hdmi->pixel_clock);
+> +               return;
+> +       }
+> +
+> +       ret = clk_prepare_enable(vc4_hdmi->pixel_bvb_clock);
+> +       if (ret) {
+> +               DRM_ERROR("Failed to turn on pixel bvb clock: %d\n", ret);
+> +               clk_disable_unprepare(vc4_hdmi->hsm_clock);
+> +               clk_disable_unprepare(vc4_hdmi->pixel_clock);
+> +               return;
+> +       }
+> +
+>         if (vc4_hdmi->variant->reset)
+>                 vc4_hdmi->variant->reset(vc4_hdmi);
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index 34138e0dd4a6..59639b405b7f 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -119,6 +119,7 @@ struct vc4_hdmi {
+>         struct clk *pixel_clock;
+>         struct clk *hsm_clock;
+>         struct clk *audio_clock;
+> +       struct clk *pixel_bvb_clock;
+>
+>         struct debugfs_regset32 hdmi_regset;
+>         struct debugfs_regset32 hd_regset;
+> --
+> git-series 0.9.1
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
