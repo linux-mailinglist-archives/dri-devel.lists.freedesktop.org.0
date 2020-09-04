@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7F925DC65
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E6225DC67
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 872F66EC46;
-	Fri,  4 Sep 2020 14:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55E976EC47;
+	Fri,  4 Sep 2020 14:54:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13BC96EC45;
- Fri,  4 Sep 2020 14:54:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3019A6EC47;
+ Fri,  4 Sep 2020 14:54:20 +0000 (UTC)
 Received: from kozik-lap.mshome.net (unknown [194.230.155.106])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 00E3520770;
- Fri,  4 Sep 2020 14:54:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9D4D120722;
+ Fri,  4 Sep 2020 14:54:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599231253;
- bh=8DCiIQT4QmRUyZL55BGyuiFf/ASSh3pGLjvV3qU7b0U=;
+ s=default; t=1599231260;
+ bh=rpsSuPF55D8wUkxcwd9feqYT0zQ6KFywXHAw7ktgB80=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=axFOgXNUlouJbYTWKptFbEYpVM/XPIw17xVMzEkB/rDE3QaswnNrTWVqeJStS7myj
- Nex7r/CMeN+JhTLXeHLn4W43h1GVzGeTJcqIsycgfXIEBZIVuYfCNIYpTILSvIJu/u
- 1PMWepaBkTIANHbg0ODfKbitQhS7xKUfin3fS0b8=
+ b=JvV9pFWC3wErh0W+nTssH8qc19UqAU6Gr91Qlc56nQb2/BCiK1FfnlfgOUtWssA3X
+ 3fL2Ao7O7XBk3M5t0Zkx4Gcm616faoXTUxKKUZ1RYBQGWrpod+i60sROoY9MO9C0QA
+ 6Sx6tlTQYQ/ORbwGcJEl8bN5GGPSCJZAgzcM/oq8=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
@@ -39,10 +39,9 @@ To: Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 09/13] arm64: dts: imx8mp-evk: Align pin configuration group
- names with schema
-Date: Fri,  4 Sep 2020 16:53:08 +0200
-Message-Id: <20200904145312.10960-10-krzk@kernel.org>
+Subject: [PATCH 10/13] arm64: dts: imx8mq: Add missing interrupts to GPC
+Date: Fri,  4 Sep 2020 16:53:09 +0200
+Message-Id: <20200904145312.10960-11-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200904145312.10960-1-krzk@kernel.org>
 References: <20200904145312.10960-1-krzk@kernel.org>
@@ -65,74 +64,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Device tree schema expects pin configuration groups to end with 'grp'
-suffix, otherwise dtbs_check complain with a warning like:
+The i.MX General Power Controller v2 device node was missing interrupts
+property necessary to route its interrupt to GIC.  This also fixes the
+dbts_check warnings like:
 
-  ... 'usdhc3grp-100mhz', 'usdhc3grp-200mhz' do not match any of the regexes: 'grp$', 'pinctrl-[0-9]+'
+  arch/arm64/boot/dts/freescale/imx8mq-evk.dt.yaml: gpc@303a0000:
+    {'compatible': ... '$nodename': ['gpc@303a0000']} is not valid under any of the given schemas
+  arch/arm64/boot/dts/freescale/imx8mq-evk.dt.yaml: gpc@303a0000: 'interrupts' is a required property
 
+Fixes: fdbcc04da246 ("arm64: dts: imx8mq: add GPC power domains")
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arm64/boot/dts/freescale/imx8mp-evk.dts | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-index 3d535f1b3440..ad66f1286d95 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-@@ -157,7 +157,7 @@
- 		>;
- 	};
- 
--	pinctrl_reg_usdhc2_vmmc: regusdhc2vmmc {
-+	pinctrl_reg_usdhc2_vmmc: regusdhc2vmmcgrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_SD2_RESET_B__GPIO2_IO19	0x41
- 		>;
-@@ -182,7 +182,7 @@
- 		>;
- 	};
- 
--	pinctrl_usdhc2_100mhz: usdhc2grp-100mhz {
-+	pinctrl_usdhc2_100mhz: usdhc2-100mhzgrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK	0x194
- 			MX8MP_IOMUXC_SD2_CMD__USDHC2_CMD	0x1d4
-@@ -194,7 +194,7 @@
- 		>;
- 	};
- 
--	pinctrl_usdhc2_200mhz: usdhc2grp-200mhz {
-+	pinctrl_usdhc2_200mhz: usdhc2-200mhzgrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK	0x196
- 			MX8MP_IOMUXC_SD2_CMD__USDHC2_CMD	0x1d6
-@@ -206,7 +206,7 @@
- 		>;
- 	};
- 
--	pinctrl_usdhc2_gpio: usdhc2grp-gpio {
-+	pinctrl_usdhc2_gpio: usdhc2gpiogrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_SD2_CD_B__GPIO2_IO12	0x1c4
- 		>;
-@@ -228,7 +228,7 @@
- 		>;
- 	};
- 
--	pinctrl_usdhc3_100mhz: usdhc3grp-100mhz {
-+	pinctrl_usdhc3_100mhz: usdhc3-100mhzgrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_NAND_WE_B__USDHC3_CLK	0x194
- 			MX8MP_IOMUXC_NAND_WP_B__USDHC3_CMD	0x1d4
-@@ -244,7 +244,7 @@
- 		>;
- 	};
- 
--	pinctrl_usdhc3_200mhz: usdhc3grp-200mhz {
-+	pinctrl_usdhc3_200mhz: usdhc3-200mhzgrp {
- 		fsl,pins = <
- 			MX8MP_IOMUXC_NAND_WE_B__USDHC3_CLK	0x196
- 			MX8MP_IOMUXC_NAND_WP_B__USDHC3_CMD	0x1d6
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+index aad3b9f2f35c..5e0e7d0f1bc4 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+@@ -623,6 +623,7 @@
+ 			gpc: gpc@303a0000 {
+ 				compatible = "fsl,imx8mq-gpc";
+ 				reg = <0x303a0000 0x10000>;
++				interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>;
+ 				interrupt-parent = <&gic>;
+ 				interrupt-controller;
+ 				#interrupt-cells = <3>;
 -- 
 2.17.1
 
