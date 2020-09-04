@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257B725DC0A
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4506D25DC10
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:40:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE406EC09;
-	Fri,  4 Sep 2020 14:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 122126EC22;
+	Fri,  4 Sep 2020 14:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7E76EC1E
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:40:07 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id q9so6307518wmj.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 07:40:07 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73A756EC1F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:40:08 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id a65so6281679wme.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 07:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QMvX9hmUqz6p45iZrFsQ0+pmY5YRNJr+kE+ADKN2NdI=;
- b=NSv3BL7aQ9XhE8T/jt7SFLCvI4EO8MSwp1VSqCDfNBbcE32Q3LLGiPJBo3HdfBW4Lm
- 2MNCdxviVmEBIvFvnnPa7yJ4IeNCoeXpRx/3qIkKo0F7SpCxu3XIbXnup0k+ZLuwLUu/
- v2HFnBc88KM7R78eBkVObB+zg8mxs9ssrYRws=
+ bh=du/z75457y6KI1rsQmBRtEQ4cXiJI1WVzJRMvyz/O3E=;
+ b=O0AR/e4rSWoS/mHwwcO30vgbZIBmW5cF2/mKIMzDpdw6TiG4uHSpWQE5Pik+5YQZmD
+ N5AoPcHOaZyHd78CDcUFyPC5WOz7HnGmsiQbRfSvCiu9XJmV5dXdbsYI9WCwWNVKL86A
+ 1orrxZ9LdvOJMt7Mw2IROBnQgM+zRcZAVib9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QMvX9hmUqz6p45iZrFsQ0+pmY5YRNJr+kE+ADKN2NdI=;
- b=MwKA5ipa73eaQvMW9qfgZPQeyWfVXAF9/DUTO2VzoKQHs7mgbXLcEPIKt6MlMFE8dT
- rz4Sp7zXHoEryojPeThPBIkhBg94CagWVJ5wusrijdmBZNNlUStk5JSl64l9/pKpaUVO
- wyKut3tvJkwsn+f79wHBvbZmAWhqYC0Q/1y7N4fg16s/29QDEYaoBgL9JAEo3q/hlgip
- o+FoT4x3mIBmjXhu+Kbj0X+s4zXkJm5MPM4+IF5fENx4D7XgDCYT5DTuP8s9CKC3+N6B
- Qo2Y6Xh2eEMbUXahQuw0b8sy3+DPzVwqZWKfZCkxH1WpZjHX9mV6ZKNZ+3t4wRtCNExk
- RTdg==
-X-Gm-Message-State: AOAM530Pxex2L+PBgh3Td4Ztj7RCIH6OX3CL8kFeAShYoeBhUXmWpDAW
- hdfPxxHHYYZAafsxCEX3XF6vjv8DKs8CodJ0
-X-Google-Smtp-Source: ABdhPJxlbAPD0t+C8zswzbzueEUi+mGjzQU2OtnGoVaGT6LD8UB8yxoPCTX3MjXSOKxQyAYlc43BhQ==
-X-Received: by 2002:a1c:234b:: with SMTP id j72mr8054995wmj.153.1599230405766; 
- Fri, 04 Sep 2020 07:40:05 -0700 (PDT)
+ bh=du/z75457y6KI1rsQmBRtEQ4cXiJI1WVzJRMvyz/O3E=;
+ b=E6qdk5NRMellTMxrmQV/Ve8WNTCfav9sSNSvyUxNe4NUc6l597GmemjXF1HqEqpav9
+ vLxsOTKNlz90+E309J2Z84fujp+HbJJySmbORsgMP7W4t9LUeAYsC2kBORw/2IYo86Ro
+ D9trOqwWpgE7RfhBzz/rQFO9gEsDOQBczUbdFdw/HG5m7fVhOIHBlLZ4rEIAVvppZFKB
+ 3WZPvRKJubi1utsxAEwd8uJ3R2Dk85H9xaFXWP/MZtYLFcYB1O+OxOWy/SyNflAmrUfg
+ OQw7ogTASsuXU65o2P27ZGAuMTSEHO3kYvLWPsI+lsikILOPSEs+4AzET1SXMdOCojx4
+ LUBw==
+X-Gm-Message-State: AOAM5337CRlfP2Q9S/TlViZoCOilBaCWyS2RS9SvUKTFAURlixyiH6ty
+ 6Xj9FcPSvQ7e1IRcVdp5pZ0sUPa2C5r0X4pC
+X-Google-Smtp-Source: ABdhPJx2VS/zkTx2NmlxxniPZd3sxAnKtpQbp6GS47CjxR1z9nx1eqsz0p+ByDvUCPEQ/u4PbSbw7A==
+X-Received: by 2002:a1c:e917:: with SMTP id q23mr7694766wmc.125.1599230406838; 
+ Fri, 04 Sep 2020 07:40:06 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z15sm11597949wrv.94.2020.09.04.07.40.04
+ by smtp.gmail.com with ESMTPSA id z15sm11597949wrv.94.2020.09.04.07.40.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 07:40:05 -0700 (PDT)
+ Fri, 04 Sep 2020 07:40:06 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 14/24] drm/arc: Embedd a drm_connector for sim case
-Date: Fri,  4 Sep 2020 16:39:31 +0200
-Message-Id: <20200904143941.110665-15-daniel.vetter@ffwll.ch>
+Subject: [PATCH 15/24] drm/arc: Drop surplus connector registration
+Date: Fri,  4 Sep 2020 16:39:32 +0200
+Message-Id: <20200904143941.110665-16-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
 References: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
@@ -65,77 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+ Alexey Brodkin <abrodkin@synopsys.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Removes the last devm_kzalloc, which means we're now prepared to use
-drmm_mode_config_cleanup!
+drm_connector_register does nothing before drm_dev_register(), it
+is meant for hotpluggable connectors only. Same for the unregister side.
 
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- drivers/gpu/drm/arc/arcpgu.h     |  1 +
- drivers/gpu/drm/arc/arcpgu_sim.c | 14 +-------------
- 2 files changed, 2 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/arc/arcpgu_sim.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
-index 52afd638a4d2..c52cdd2274e1 100644
---- a/drivers/gpu/drm/arc/arcpgu.h
-+++ b/drivers/gpu/drm/arc/arcpgu.h
-@@ -15,6 +15,7 @@ struct arcpgu_drm_private {
- 	void __iomem		*regs;
- 	struct clk		*clk;
- 	struct drm_simple_display_pipe pipe;
-+	struct drm_connector	sim_conn;
- };
- 
- #define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, drm)
 diff --git a/drivers/gpu/drm/arc/arcpgu_sim.c b/drivers/gpu/drm/arc/arcpgu_sim.c
-index 134afb9fa625..e42fe5d05a3d 100644
+index e42fe5d05a3d..3772df1647aa 100644
 --- a/drivers/gpu/drm/arc/arcpgu_sim.c
 +++ b/drivers/gpu/drm/arc/arcpgu_sim.c
-@@ -18,10 +18,6 @@
- #define YRES_MAX	8192
+@@ -29,7 +29,6 @@ static int arcpgu_drm_connector_get_modes(struct drm_connector *connector)
  
- 
--struct arcpgu_drm_connector {
--	struct drm_connector connector;
--};
--
- static int arcpgu_drm_connector_get_modes(struct drm_connector *connector)
+ static void arcpgu_drm_connector_destroy(struct drm_connector *connector)
  {
- 	int count;
-@@ -57,7 +53,6 @@ static struct drm_encoder_funcs arcpgu_drm_encoder_funcs = {
- int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
- {
- 	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
--	struct arcpgu_drm_connector *arcpgu_connector;
- 	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
- 	int ret;
-@@ -72,14 +67,7 @@ int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
- 	if (ret)
- 		return ret;
+-	drm_connector_unregister(connector);
+ 	drm_connector_cleanup(connector);
+ }
  
--	arcpgu_connector = devm_kzalloc(drm->dev, sizeof(*arcpgu_connector),
--					GFP_KERNEL);
--	if (!arcpgu_connector) {
--		ret = -ENOMEM;
--		goto error_encoder_cleanup;
--	}
--
--	connector = &arcpgu_connector->connector;
-+	connector = &arcpgu->sim_conn;
- 	drm_connector_helper_add(connector, &arcpgu_drm_connector_helper_funcs);
+@@ -80,7 +79,6 @@ int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
+ 	ret = drm_connector_attach_encoder(connector, encoder);
+ 	if (ret < 0) {
+ 		dev_err(drm->dev, "could not attach connector to encoder\n");
+-		drm_connector_unregister(connector);
+ 		goto error_connector_cleanup;
+ 	}
  
- 	ret = drm_connector_init(drm, connector, &arcpgu_drm_connector_funcs,
 -- 
 2.28.0
 
