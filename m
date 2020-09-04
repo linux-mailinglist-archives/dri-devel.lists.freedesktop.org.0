@@ -1,41 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1526D25CF6A
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 04:30:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B28FB25D005
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 05:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A766F6E217;
-	Fri,  4 Sep 2020 02:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D3A6E21D;
+	Fri,  4 Sep 2020 03:53:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0F636E217
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 02:30:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85D26540;
- Fri,  4 Sep 2020 04:30:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599186611;
- bh=3IhAp6iiTQb1VIkwNiG2ixLcKMYBNgk+LZRubUP8PCw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lRcg68qSD5iYxtgkBuIVFRvJRfhUMvWKvU3HZyFB2v6AWSmK9IzjnnOl5o4J3w1ic
- swiLpzMA9uttHRDEkkhSHKyZ8vQZmlXrwm948O2PAHfZK1K+Yi274qHQZEKDcsBcsT
- um8P7GYinkLDmsvDgYhWubWdAb8OeV00+fQVWg78=
-Date: Fri, 4 Sep 2020 05:29:48 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v9 2/3] drm: bridge: Add support for Cadence MHDP8546
- DPI/DP bridge
-Message-ID: <20200904022948.GE9369@pendragon.ideasonboard.com>
-References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
- <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
- <71452de7-80e7-0144-4802-e3370c00854b@ti.com>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5BC6E21D
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 03:53:08 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id m22so6704273eje.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Sep 2020 20:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=8x3NTRCTKgtCNUxj9R1GgJk1hed7ywjOyhVq4HVWWIA=;
+ b=tl4b+2Rt+YMPUu4mo7RZJIIZILFp6poZAYZsnmGMtJYF9ADqleaUmMgu9wFRp8HX4v
+ 4BhZfYACBaGyMeHRRbA+RRxGSEUDTd4ADVysrzdX49b5RIBb+lEaYiSKcm2q4+yDpJC8
+ 1AJQoCJXWJ+ta43TU0+HZ4k+XaH4YVUme/9m2j50hKSSchZBcSVwoAnvxPBZ5eLkVqTO
+ LsQHeFVF+X6X25PBhwt7IwbEWsjuuqRp1vD2osXB7Uhhb9azMetn6ydKPgmIK4dZZ9Vn
+ H3vRTkQBBqNjpcPSKfxBoZ9HZ1uysn8WB9nEm4k1IA8U0pYTlp29SRJo3gpV8YL13aBm
+ y3aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=8x3NTRCTKgtCNUxj9R1GgJk1hed7ywjOyhVq4HVWWIA=;
+ b=S/7XpFfp6iqLpSZd+ZcmYRHbLB/FiECfQ+cYWJdVwIwNS7Qr415aiu7FYQFSvmCVoE
+ 3qMxMRp9DR9YKkhfNHGDEAgex4vhPDsMw0iK/VrEsoiIvZ5cjRf1o1ZGDWN/ZKGWx3q3
+ HKXU4uDzaLHfn+mKDpGI2K/2QgckqM8Vyjce5BxapPR4Uf8E/T3bJNvbLr4w6r8E6xSD
+ t3QHGzFguo3n9nKRcsLrQhePl1lVycSwZ/Y/hixsVYaUu46qYN+EqabTBfsqX4G7xnMc
+ QXlqmJuM6N5TB8gpLM7Dz+9phPfwTgBwfbNDk3UGMaJt8M91Eu5m3qgfIVfUKhvq2VTd
+ 7ewA==
+X-Gm-Message-State: AOAM532Qr1dfD+PPXAGLeCGaay+TDHMDM37EcVkW1ToTxBV/SxnAbFhB
+ zZnrJ/CnZ9pXL0TV0pfelxdHA7cC4EktbRCKgUI=
+X-Google-Smtp-Source: ABdhPJw5WqGeSuLUM7iMduAWAG1PRIDEdlc6m2nlWiUW3tBxr0BW7oSQOFX30FfcGZrrUOOB18ivC8m6kL7iSZ5gHoE=
+X-Received: by 2002:a17:906:d787:: with SMTP id
+ pj7mr5238195ejb.340.1599191587006; 
+ Thu, 03 Sep 2020 20:53:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <71452de7-80e7-0144-4802-e3370c00854b@ti.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 4 Sep 2020 13:52:56 +1000
+Message-ID: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.9-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,167 +59,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, narmstrong@baylibre.com, airlied@linux.ie,
- jonas@kwiboo.se, nsekhar@ti.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
- jsarha@ti.com, Swapnil Jakhade <sjakhade@cadence.com>, nikhil.nd@ti.com,
- mparab@cadence.com
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi Linus,
 
-On Tue, Sep 01, 2020 at 10:46:03AM +0300, Tomi Valkeinen wrote:
-> Hi Swapnil,
-> 
-> On 31/08/2020 11:23, Swapnil Jakhade wrote:
-> 
-> > +static int cdns_mhdp_validate_mode_params(struct cdns_mhdp_device *mhdp,
-> > +					  const struct drm_display_mode *mode,
-> > +					  struct drm_bridge_state *bridge_state)
-> > +{
-> > +	u32 tu_size = 30, line_thresh1, line_thresh2, line_thresh = 0;
-> > +	u32 rate, vs, vs_f, required_bandwidth, available_bandwidth;
-> > +	struct cdns_mhdp_bridge_state *state;
-> > +	int pxlclock;
-> > +	u32 bpp;
-> > +
-> > +	state = to_cdns_mhdp_bridge_state(bridge_state);
-> > +
-> > +	pxlclock = mode->crtc_clock;
-> > +
-> > +	/* Get rate in MSymbols per second per lane */
-> > +	rate = mhdp->link.rate / 1000;
-> > +
-> > +	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
-> 
-> None of the above are used when calling cdns_mhdp_bandwidth_ok(). For clarity, I'd move the above
-> lines a bit closer to where they are needed, as currently it makes me think the above values are
-> used when checking the bandwidth.
-> 
-> > +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-> > +				    mhdp->link.rate)) {
-> > +		dev_err(mhdp->dev, "%s: Not enough BW for %s (%u lanes at %u Mbps)\n",
-> > +			__func__, mode->name, mhdp->link.num_lanes,
-> > +			mhdp->link.rate / 100);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* find optimal tu_size */
-> > +	required_bandwidth = pxlclock * bpp / 8;
-> > +	available_bandwidth = mhdp->link.num_lanes * rate;
-> > +	do {
-> > +		tu_size += 2;
-> > +
-> > +		vs_f = tu_size * required_bandwidth / available_bandwidth;
-> > +		vs = vs_f / 1000;
-> > +		vs_f = vs_f % 1000;
-> > +		/* Downspreading is unused currently */
-> > +	} while ((vs == 1 || ((vs_f > 850 || vs_f < 100) && vs_f != 0) ||
-> > +		 tu_size - vs < 2) && tu_size < 64);
-> > +
-> > +	if (vs > 64) {
-> > +		dev_err(mhdp->dev,
-> > +			"%s: No space for framing %s (%u lanes at %u Mbps)\n",
-> > +			__func__, mode->name, mhdp->link.num_lanes,
-> > +			mhdp->link.rate / 100);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (vs == tu_size)
-> > +		vs = tu_size - 1;
-> > +
-> > +	line_thresh1 = ((vs + 1) << 5) * 8 / bpp;
-> > +	line_thresh2 = (pxlclock << 5) / 1000 / rate * (vs + 1) - (1 << 5);
-> > +	line_thresh = line_thresh1 - line_thresh2 / mhdp->link.num_lanes;
-> > +	line_thresh = (line_thresh >> 5) + 2;
-> > +
-> > +	state->vs = vs;
-> > +	state->tu_size = tu_size;
-> > +	state->line_thresh = line_thresh;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
-> > +				  struct drm_bridge_state *bridge_state,
-> > +				  struct drm_crtc_state *crtc_state,
-> > +				  struct drm_connector_state *conn_state)
-> > +{
-> > +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-> > +	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-> > +	int ret;
-> > +
-> > +	mutex_lock(&mhdp->link_mutex);
-> > +
-> > +	if (!mhdp->plugged) {
-> > +		mhdp->link.rate = mhdp->host.link_rate;
-> > +		mhdp->link.num_lanes = mhdp->host.lanes_cnt;
-> > +	}
-> > +
-> > +	ret = cdns_mhdp_validate_mode_params(mhdp, mode, bridge_state);
-> > +
-> > +	mutex_unlock(&mhdp->link_mutex);
-> > +
-> > +	return ret;
-> > +}
-> 
-> Laurent mentioned that atomic_check should not change state. Note that
-> cdns_mhdp_validate_mode_params also changes state, as it calculates tu_size, vs and line_thresh.
+Not much going on this week, nouveau has a display hw bug workaround,
+amdgpu has some PM fixes and CIK regression fixes, one single radeon
+PLL fix, and a couple of i915 display fixes.
 
-.atomic_check() isn't allowed to change any global state, which means
-both hardware state and data in cdns_mhdp_device. The drm_bridge_state
-(and thus the cdns_mhdp_bridge_state) can be modified as it stores the
-state for the atomic commit being checked.
+Dave.
 
-> There seems to be issues with mode changes, but I think the first step would be to clarify the
-> related code a bit. cdns_mhdp_validate_mode_params() is misnamed, I think it should be renamed to
-> calculate_tu or something like that.
-> 
-> cdns_mhdp_bandwidth_ok() should take display_fmt or bpp as a parameter, as currently it digs that up
-> from the current state.
-> 
-> Probably cdns_mhdp_validate_mode_params() would be better if it doesn't write the result to the
-> state, but returns the values. That way it could also be used to verify if suitable settings can be
-> found, without changing the state.
+drm-fixes-2020-09-04:
+drm fixes for 5.9-rc4
 
-This use case is actually a very good example of proper usage of the
-atomic state :-) .atomic_check() has to perform computations to verify
-the atomic commit, and storing the results in the commit's state
-prevents duplicating the same calculation at .atomic_commit() time.
+amdgpu:
+- Fix for 32bit systems
+- SW CTF fix
+- Update for Sienna Cichlid
+- CIK bug fixes
 
-> The are two issues I see with some testing, which are probably related.
-> 
-> The first one is that if I run kmstest with a new mode, I see tu-size & co being calculated. But the
-> calculation happens before link training, which doesn't make sense. So I think what's done here is
-> that atomic_check causes tu-size calculations, then atomic_enable does link training and enables the
-> video.
-> 
-> The second happens when my monitor fails with the first CR after power-on, and the driver drops
-> number-of-lanes to 2. It goes like this:
-> 
-> The driver is loaded. Based on EDID, fbdev is created with 1920x1200. Link training is done, which
-> has the CR issue, and because of that the actual mode that we get is 1280x960. I get a proper
-> picture here, so far so good.
-> 
-> Then if I run kmstest, it only allows 1280x960 as the link doesn't support higher modes (that's ok).
-> It the does link training and gets a 4 lane link, and enables 1280x960. But the picture is not ok.
-> 
-> If I then exit kmstest, it goes back to fbdev, but now that picture is broken also.
-> 
-> Running kmstest again gives me 1920x1200 (as the link has been 4 lane now), and the picture is fine.
-> 
-> I think the above suggests that the driver is not properly updating all the registers based on the
-> new mode and link. I tried adding cdns_mhdp_validate_mode_params() call to
-> cdns_mhdp_atomic_enable(), so that tu-size etc will be calculated, but that did not fix the problem.
+radeon:
+- PLL fix
 
--- 
-Regards,
+i915:
+- Clang build warning fix
+- HDCP fixes
 
-Laurent Pinchart
+nouveau:
+- display fixes
+The following changes since commit f75aef392f869018f78cfedf3c320a6b3fcfda6b:
+
+  Linux 5.9-rc3 (2020-08-30 16:01:54 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-09-04
+
+for you to fetch changes up to d37d56920004cae612fa32d1f92aaacca5e145f7:
+
+  Merge branch 'linux-5.9' of git://github.com/skeggsb/linux into
+drm-fixes (2020-09-04 11:14:49 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.9-rc4
+
+amdgpu:
+- Fix for 32bit systems
+- SW CTF fix
+- Update for Sienna Cichlid
+- CIK bug fixes
+
+radeon:
+- PLL fix
+
+i915:
+- Clang build warning fix
+- HDCP fixes
+
+nouveau:
+- display fixes
+
+----------------------------------------------------------------
+Ben Skeggs (3):
+      drm/nouveau/kms/nv50-: add some whitespace before debug message
+      drm/nouveau/kms/nv50-gp1xx: disable notifies again after core update
+      drm/nouveau/kms/nv50-gp1xx: add WAR for EVO push buffer HW bug
+
+Dave Airlie (3):
+      Merge tag 'amd-drm-fixes-5.9-2020-09-03' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2020-09-03' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge branch 'linux-5.9' of git://github.com/skeggsb/linux into drm-fixes
+
+Evan Quan (1):
+      drm/amd/pm: avoid false alarm due to confusing
+softwareshutdowntemp setting
+
+Jiansong Chen (1):
+      drm/amd/pm: enable MP0 DPM for sienna_cichlid
+
+Kai-Heng Feng (1):
+      drm/radeon: Prefer lower feedback dividers
+
+Kevin Wang (1):
+      drm/amd/pm: fix is_dpm_running() run error on 32bit system
+
+Lyude Paul (1):
+      drm/nouveau/kms/gv100-: Include correct push header in crcc37d.c
+
+Nathan Chancellor (1):
+      drm/i915/display: Ensure that ret is always initialized in
+icl_combo_phy_verify_state
+
+Sandeep Raghuraman (2):
+      drm/amdgpu: Specify get_argument function for ci_smu_funcs
+      drm/amdgpu: Fix bug in reporting voltage for CIK
+
+Sean Paul (2):
+      drm/i915: Fix sha_text population code
+      drm/i915: Clear the repeater bit on HDCP disable
+
+ drivers/gpu/drm/amd/powerplay/arcturus_ppt.c       | 10 +++++--
+ drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c   |  3 +-
+ .../gpu/drm/amd/powerplay/hwmgr/vega10_thermal.c   | 14 ++++++++--
+ drivers/gpu/drm/amd/powerplay/navi10_ppt.c         | 10 +++++--
+ drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c | 14 +++++++---
+ drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c   |  2 ++
+ drivers/gpu/drm/i915/display/intel_combo_phy.c     |  4 +--
+ drivers/gpu/drm/i915/display/intel_hdcp.c          | 32 ++++++++++++++++++----
+ drivers/gpu/drm/nouveau/dispnv50/core507d.c        |  5 +++-
+ drivers/gpu/drm/nouveau/dispnv50/crcc37d.c         |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |  6 ++++
+ drivers/gpu/drm/nouveau/include/nvif/push507c.h    |  2 +-
+ drivers/gpu/drm/radeon/radeon_display.c            |  2 +-
+ include/drm/drm_hdcp.h                             |  3 ++
+ 14 files changed, 84 insertions(+), 25 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
