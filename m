@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3697025E3AE
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 00:25:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE7325E4BA
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:36:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70D6ECE8;
-	Fri,  4 Sep 2020 22:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2936ED17;
+	Sat,  5 Sep 2020 00:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 929876ECE8
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 22:25:44 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id c19so8356369wmd.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 15:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=zrLMKNTk6DlVsGytrkOjXJuP9EZ+uCfXucuurHA8Ico=;
- b=pR7D9m7fwwnrGzLwdJ8SEXX1U3knoHlUsyXXJk/Vpbch67upO4xGNjK495qiSuCx1K
- tDtYwPT8Ci6WkuMzo0SUV8yGa3Rsj40iwhKK+QjQepkmHYYSWNHl8pkXJghNnblQh7du
- 5VtqU6rMRbhrP+18V9FOTuYSomjr/fszmrHU7VGfy4Wtxm4ypWckvQnx282/unvwA4zn
- cKfUpj3NVloXsx6XOxsjSF1tz9wkj7k706t0gmTa5xN41881qcTPp7Dzybykm8VBjFom
- rg+nZ6TC+4eUO2xpr9A2LVZuiADcTyCEqx1O091JUm5eHdKvW36FZDFECvQcSOvMY+5N
- xVQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=zrLMKNTk6DlVsGytrkOjXJuP9EZ+uCfXucuurHA8Ico=;
- b=TfROJHnjO4jTdbtrUM+ZkFSfeZua6HNVjJv6uo8P2xyhFYBeHu6+vXPf7xwGQ6EL5p
- ZywbTLh+cXo9aURtIIb4jfQ1opMeOU/GhvIJo6vPqtvJZfOwMOqTWr809cRdAMEpjKfM
- zbESAgz0GZaPOWez85Kpn81gilftiPO7qH1npUw9Ll3Mp60dKmpQho+QgqQvtH1DdMdY
- D1lSjtT82wQhfqPXQ4j+ZpeHgjvt3DMpJvy/BpWno7HqKiALteHtNrB+YJCc/mqqaGdW
- Ek/kKMy25WqvMJhjd26Dwduz7vxyWg0DLETCzVNwf6emBik+3rjYoscPrRB4sR8ScjbR
- EChA==
-X-Gm-Message-State: AOAM533Znbe9V62sQHkZkXaqRlXcO98OeZyzAsdUsLKjZgP7NVHCNpUD
- nXGGvPjXqsIijuMxZ7kJRzw=
-X-Google-Smtp-Source: ABdhPJzqTEJ2dOzXpptUIAPmtvjGH9As3Cd1GrZ5RQU/T1NYe3VjZyD5W9jKJiN2faepRfGh/02mEA==
-X-Received: by 2002:a1c:5641:: with SMTP id k62mr10132668wmb.13.1599258343096; 
- Fri, 04 Sep 2020 15:25:43 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id a15sm15481367wrn.3.2020.09.04.15.25.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 15:25:42 -0700 (PDT)
-Date: Fri, 4 Sep 2020 19:25:35 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Subject: Re: [PATCH v6 1/3] drm/vkms: Decouple crc operations from composer
-Message-ID: <20200904222535.j6ggfxyrlosrva6u@smtp.gmail.com>
-References: <20200830142000.146706-1-rodrigosiqueiramelo@gmail.com>
- <20200830142000.146706-2-rodrigosiqueiramelo@gmail.com>
+X-Greylist: delayed 488 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Sep 2020 07:29:39 UTC
+Received: from cmta20.telus.net (cmta20.telus.net [209.171.16.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE78A6EB1D
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 07:29:39 +0000 (UTC)
+Received: from montezuma.home ([154.5.226.127]) by cmsmtp with SMTP
+ id E62IkLM3Dts7mE62JkUKB3; Fri, 04 Sep 2020 01:21:30 -0600
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=esGhMbhX c=1 sm=1 tr=0
+ a=f8b3WT/FcTuUJCJtQO1udw==:117 a=f8b3WT/FcTuUJCJtQO1udw==:17
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=sdRlC8HA8of5HKNwkIoA:9 a=CjuIK1q_8ugA:10
+ a=AjGcO6oz07-iQ99wixmX:22 a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
+Date: Fri, 4 Sep 2020 00:21:26 -0700 (PDT)
+From: Zwane Mwaikambo <zwane@yosper.io>
+To: Lyude Paul <lyude@redhat.com>
+Subject: [PATCH]] drm/dp check aux_dev before use in
+ drm_dp_aux_dev_get_by_minor()
+In-Reply-To: <alpine.DEB.2.21.2008121314020.39850@montezuma.home>
+Message-ID: <alpine.DEB.2.21.2009031042400.44355@montezuma.home>
+References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
+ <20200811085830.GZ2352366@phenom.ffwll.local>
+ <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
+ <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
+ <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
+ <alpine.DEB.2.21.2008121314020.39850@montezuma.home>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200830142000.146706-2-rodrigosiqueiramelo@gmail.com>
+X-CMAE-Envelope: MS4wfI+UlnBQk2yWjWrY1QreIDLHfETiLDlU4IpvhwW3DoX+nGOKWR2Iz1jc1S0v+b3xZwxvif+MsK4pqy7sOuqY2UeeRyTHPvFXGyj7MrqjMLaFCmQCLTas
+ oCCvU2yV2sUMXOF0wx0FehKrP6Dq6W1xDoe+woBQRojgaaYVONPuPFeHx7nbLy4ID/lQPAg8Plh6IgpoJ915qK6JD7TlHwfEMkGmNUb9THz9PRcnKxGYRWh5
+ SqJ8DGtXOx8NUGACa6Yis1FXlX5cAfVjsAIrHtsGNbmALPKuFx03+9Y3oS+Ziq6fFWIEXuYtNDQKlpjdRN8/WjeLoLopSqusG5s+LmqaxOk=
+X-Mailman-Approved-At: Sat, 05 Sep 2020 00:35:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,87 +52,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, Liviu Dudau <liviu.dudau@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, zwanem@gmail.com,
+ dkwon@redhat.com, Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAwOC8zMCwgUm9kcmlnbyBTaXF1ZWlyYSB3cm90ZToKPiBJbiB0aGUgdmttc19jb21w
-b3Nlci5jLCBzb21lIG9mIHRoZSBmdW5jdGlvbnMgcmVsYXRlZCB0byBDUkMgYW5kIGNvbXBvc2UK
-PiBoYXZlIGludGVyZGVwZW5kZW5jZSBiZXR3ZWVuIGVhY2ggb3RoZXIuIFRoaXMgcGF0Y2ggcmV3
-b3JrcyBzb21lCj4gZnVuY3Rpb25zIGluc2lkZSB2a21zX2NvbXBvc2VyIHRvIG1ha2UgY3JjIGFu
-ZCBjb21wb3NlciBjb21wdXRhdGlvbgo+IGRlY291cGxlZC4KPiAKPiBUaGlzIHBhdGNoIGlzIHBy
-ZXBhcmF0aW9uIHdvcmsgZm9yIG1ha2luZyB2a21zIGFibGUgdG8gc3VwcG9ydCBuZXcKPiBmZWF0
-dXJlcy4KPiAKPiBUZXN0ZWQtYnk6IE1lbGlzc2EgV2VuIDxtZWxpc3NhLnNyd0BnbWFpbC5jb20+
-Cj4gU2lnbmVkLW9mZi1ieTogUm9kcmlnbyBTaXF1ZWlyYSA8cm9kcmlnb3NpcXVlaXJhbWVsb0Bn
-bWFpbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfY29tcG9zZXIuYyB8
-IDQ5ICsrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDI5IGlu
-c2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vdmttcy92a21zX2NvbXBvc2VyLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Nv
-bXBvc2VyLmMKPiBpbmRleCBlYWVjYzVhNmM1ZGIuLmY2N2QxYmFmMTk0MiAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2NvbXBvc2VyLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdmttcy92a21zX2NvbXBvc2VyLmMKPiBAQCAtMTMxLDM1ICsxMzEsMzEgQEAgc3RhdGlj
-IHZvaWQgY29tcG9zZV9jdXJzb3Ioc3RydWN0IHZrbXNfY29tcG9zZXIgKmN1cnNvcl9jb21wb3Nl
-ciwKPiAgCSAgICAgIHByaW1hcnlfY29tcG9zZXIsIGN1cnNvcl9jb21wb3Nlcik7Cj4gIH0KPiAg
-Cj4gLXN0YXRpYyB1aW50MzJfdCBfdmttc19nZXRfY3JjKHN0cnVjdCB2a21zX2NvbXBvc2VyICpw
-cmltYXJ5X2NvbXBvc2VyLAo+IC0JCQkgICAgICBzdHJ1Y3Qgdmttc19jb21wb3NlciAqY3Vyc29y
-X2NvbXBvc2VyKQo+ICtzdGF0aWMgaW50IGNvbXBvc2VfcGxhbmVzKHZvaWQgKip2YWRkcl9vdXQs
-Cj4gKwkJCSAgc3RydWN0IHZrbXNfY29tcG9zZXIgKnByaW1hcnlfY29tcG9zZXIsCj4gKwkJCSAg
-c3RydWN0IHZrbXNfY29tcG9zZXIgKmN1cnNvcl9jb21wb3NlcikKPiAgewo+ICAJc3RydWN0IGRy
-bV9mcmFtZWJ1ZmZlciAqZmIgPSAmcHJpbWFyeV9jb21wb3Nlci0+ZmI7Cj4gIAlzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKmdlbV9vYmogPSBkcm1fZ2VtX2ZiX2dldF9vYmooZmIsIDApOwo+ICAJc3Ry
-dWN0IHZrbXNfZ2VtX29iamVjdCAqdmttc19vYmogPSBkcm1fZ2VtX3RvX3ZrbXNfZ2VtKGdlbV9v
-YmopOwo+IC0Jdm9pZCAqdmFkZHJfb3V0ID0ga3phbGxvYyh2a21zX29iai0+Z2VtLnNpemUsIEdG
-UF9LRVJORUwpOwo+IC0JdTMyIGNyYyA9IDA7Cj4gIAo+IC0JaWYgKCF2YWRkcl9vdXQpIHsKPiAt
-CQlEUk1fRVJST1IoIkZhaWxlZCB0byBhbGxvY2F0ZSBtZW1vcnkgZm9yIG91dHB1dCBmcmFtZS4i
-KTsKPiAtCQlyZXR1cm4gMDsKPiArCWlmICghKnZhZGRyX291dCkgewo+ICsJCSp2YWRkcl9vdXQg
-PSBremFsbG9jKHZrbXNfb2JqLT5nZW0uc2l6ZSwgR0ZQX0tFUk5FTCk7Cj4gKwkJaWYgKCEqdmFk
-ZHJfb3V0KSB7Cj4gKwkJCURSTV9FUlJPUigiQ2Fubm90IGFsbG9jYXRlIG1lbW9yeSBmb3Igb3V0
-cHV0IGZyYW1lLiIpOwo+ICsJCQlyZXR1cm4gLUVOT01FTTsKPiArCQl9Cj4gIAl9Cj4gIAo+IC0J
-aWYgKFdBUk5fT04oIXZrbXNfb2JqLT52YWRkcikpIHsKPiAtCQlrZnJlZSh2YWRkcl9vdXQpOwo+
-IC0JCXJldHVybiBjcmM7Cj4gLQl9Cj4gKwlpZiAoV0FSTl9PTighdmttc19vYmotPnZhZGRyKSkK
-PiArCQlyZXR1cm4gLUVJTlZBTDsKPiAgCj4gLQltZW1jcHkodmFkZHJfb3V0LCB2a21zX29iai0+
-dmFkZHIsIHZrbXNfb2JqLT5nZW0uc2l6ZSk7Cj4gKwltZW1jcHkoKnZhZGRyX291dCwgdmttc19v
-YmotPnZhZGRyLCB2a21zX29iai0+Z2VtLnNpemUpOwo+ICAKPiAgCWlmIChjdXJzb3JfY29tcG9z
-ZXIpCj4gLQkJY29tcG9zZV9jdXJzb3IoY3Vyc29yX2NvbXBvc2VyLCBwcmltYXJ5X2NvbXBvc2Vy
-LCB2YWRkcl9vdXQpOwo+ICsJCWNvbXBvc2VfY3Vyc29yKGN1cnNvcl9jb21wb3NlciwgcHJpbWFy
-eV9jb21wb3NlciwgKnZhZGRyX291dCk7Cj4gIAo+IC0JY3JjID0gY29tcHV0ZV9jcmModmFkZHJf
-b3V0LCBwcmltYXJ5X2NvbXBvc2VyKTsKPiAtCj4gLQlrZnJlZSh2YWRkcl9vdXQpOwo+IC0KPiAt
-CXJldHVybiBjcmM7Cj4gKwlyZXR1cm4gMDsKPiAgfQo+ICAKPiAgLyoqCj4gQEAgLTE4MCw5ICsx
-NzYsMTEgQEAgdm9pZCB2a21zX2NvbXBvc2VyX3dvcmtlcihzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndv
-cmspCj4gIAlzdHJ1Y3Qgdmttc19vdXRwdXQgKm91dCA9IGRybV9jcnRjX3RvX3ZrbXNfb3V0cHV0
-KGNydGMpOwo+ICAJc3RydWN0IHZrbXNfY29tcG9zZXIgKnByaW1hcnlfY29tcG9zZXIgPSBOVUxM
-Owo+ICAJc3RydWN0IHZrbXNfY29tcG9zZXIgKmN1cnNvcl9jb21wb3NlciA9IE5VTEw7Cj4gKwl2
-b2lkICp2YWRkcl9vdXQgPSBOVUxMOwo+ICAJdTMyIGNyYzMyID0gMDsKPiAgCXU2NCBmcmFtZV9z
-dGFydCwgZnJhbWVfZW5kOwo+ICAJYm9vbCBjcmNfcGVuZGluZzsKPiArCWludCByZXQ7Cj4gIAo+
-ICAJc3Bpbl9sb2NrX2lycSgmb3V0LT5jb21wb3Nlcl9sb2NrKTsKPiAgCWZyYW1lX3N0YXJ0ID0g
-Y3J0Y19zdGF0ZS0+ZnJhbWVfc3RhcnQ7Cj4gQEAgLTIwNiwxNCArMjA0LDI1IEBAIHZvaWQgdmtt
-c19jb21wb3Nlcl93b3JrZXIoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAJaWYgKGNydGNf
-c3RhdGUtPm51bV9hY3RpdmVfcGxhbmVzID09IDIpCj4gIAkJY3Vyc29yX2NvbXBvc2VyID0gY3J0
-Y19zdGF0ZS0+YWN0aXZlX3BsYW5lc1sxXS0+Y29tcG9zZXI7Cj4gIAo+IC0JaWYgKHByaW1hcnlf
-Y29tcG9zZXIpCj4gLQkJY3JjMzIgPSBfdmttc19nZXRfY3JjKHByaW1hcnlfY29tcG9zZXIsIGN1
-cnNvcl9jb21wb3Nlcik7Cj4gKwlpZiAoIXByaW1hcnlfY29tcG9zZXIpCj4gKwkJcmV0dXJuOwo+
-ICsKPiArCXJldCA9IGNvbXBvc2VfcGxhbmVzKCZ2YWRkcl9vdXQsIHByaW1hcnlfY29tcG9zZXIs
-IGN1cnNvcl9jb21wb3Nlcik7Cj4gKwlpZiAocmV0KSB7Cj4gKwkJaWYgKHJldCA9PSAtRUlOVkFM
-KQo+ICsJCQlrZnJlZSh2YWRkcl9vdXQpOwo+ICsJCXJldHVybjsKPiArCX0KPiArCj4gKwljcmMz
-MiA9IGNvbXB1dGVfY3JjKHZhZGRyX291dCwgcHJpbWFyeV9jb21wb3Nlcik7Cj4gIAo+ICAJLyoK
-PiAgCSAqIFRoZSB3b3JrZXIgY2FuIGZhbGwgYmVoaW5kIHRoZSB2YmxhbmsgaHJ0aW1lciwgbWFr
-ZSBzdXJlIHdlIGNhdGNoIHVwLgo+ICAJICovCj4gIAl3aGlsZSAoZnJhbWVfc3RhcnQgPD0gZnJh
-bWVfZW5kKQo+ICAJCWRybV9jcnRjX2FkZF9jcmNfZW50cnkoY3J0YywgdHJ1ZSwgZnJhbWVfc3Rh
-cnQrKywgJmNyYzMyKTsKPiArCj4gKwlrZnJlZSh2YWRkcl9vdXQpOwo+ICB9Cj4gIAo+ICBzdGF0
-aWMgY29uc3QgY2hhciAqIGNvbnN0IHBpcGVfY3JjX3NvdXJjZXNbXSA9IHsiYXV0byJ9Owo+IC0t
-IAo+IDIuMjguMAo+CgpJIG5vdGljZWQgdHdvIGltcHJvdmVtZW50czogZm9yIGEgcHJlLWV4aXN0
-aW5nIG9wIChhbGxvYyksIGJ1dCB0aGF0CmNvdWxkIGFmZmVjdCB0aGUgbG9naWMgb2YgdGhlIG5l
-eHQgcGF0Y2g7IGFuZCBhbm90aGVyIG9uZSAoa2ZyZWUgLQpyZWxlYXNlIHZhZGRyX291dCBlYXJs
-aWVyLCB3aGVuIGl04oCZcyBubyBsb25nZXIgbmVlZGVkKSB0aGF0IHlvdSBhbHNvCmFkanVzdGVk
-IGluIHRoZSBuZXh0IG9uZSBhbmQgaXMgaGFybWxlc3MgaGVyZS4KClNvLCBsb29raW5nIGFzIGEg
-cHJlcGFyYXRpb24gZm9yIHRoZSB3cml0ZWJhY2sgcGF0Y2gsIEkgdGVzdGVkIGFuZApjb25zaWRl
-ciB0aGF0IHRoaXMgcmV3b3JrIGtlZXBzIG9wZXJhdGlvbnMgc3RhYmxlIGhlcmUuCgpSZXZpZXdl
-ZC1ieTogTWVsaXNzYSBXZW4gPG1lbGlzc2Euc3J3QGdtYWlsLmNvbT4KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+I observed this when unplugging a DP monitor whilst a computer is asleep 
+and then waking it up. This left DP chardev nodes still being present on 
+the filesystem and accessing these device nodes caused an oops because 
+drm_dp_aux_dev_get_by_minor() assumes a device exists if it is opened. 
+This can also be reproduced by creating a device node with mknod(1) and 
+issuing an open(2)
+
+[166164.933198] BUG: kernel NULL pointer dereference, address: 0000000000000018
+[166164.933202] #PF: supervisor read access in kernel mode
+[166164.933204] #PF: error_code(0x0000) - not-present page
+[166164.933205] PGD 0 P4D 0 
+[166164.933208] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[166164.933211] CPU: 4 PID: 99071 Comm: fwupd Tainted: G        W         
+5.8.0-rc6+ #1
+[166164.933213] Hardware name: LENOVO 20RD002VUS/20RD002VUS, BIOS R16ET25W 
+(1.11 ) 04/21/2020
+[166164.933232] RIP: 0010:drm_dp_aux_dev_get_by_minor+0x29/0x70 
+[drm_kms_helper]
+[166164.933234] Code: 00 0f 1f 44 00 00 55 48 89 e5 41 54 41 89 fc 48 c7 
+c7 60 01 a4 c0 e8 26 ab 30 d7 44 89 e6 48 c7 c7 80 01 a4 c0 e8 47 94 d6 d6 
+<8b> 50 18 49 89 c4 48 8d 78 18 85 d2 74 33 8d 4a 01 89 d0 f0 0f b1
+[166164.933236] RSP: 0018:ffffb7d7c41cbbf0 EFLAGS: 00010246
+[166164.933237] RAX: 0000000000000000 RBX: ffff8a90001fe900 RCX: 0000000000000000
+[166164.933238] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffffffffc0a40180
+[166164.933239] RBP: ffffb7d7c41cbbf8 R08: 0000000000000000 R09: ffff8a93e157d6d0
+[166164.933240] R10: 0000000000000000 R11: ffffffffc0a40188 R12: 0000000000000003
+[166164.933241] R13: ffff8a9402200e80 R14: ffff8a90001fe900 R15: 0000000000000000
+[166164.933244] FS:  00007f7fb041eb00(0000) GS:ffff8a9411500000(0000) 
+knlGS:0000000000000000
+[166164.933245] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[166164.933246] CR2: 0000000000000018 CR3: 00000000352c2003 CR4: 00000000003606e0
+[166164.933247] Call Trace:
+[166164.933264]  auxdev_open+0x1b/0x40 [drm_kms_helper]
+[166164.933278]  chrdev_open+0xa7/0x1c0
+[166164.933282]  ? cdev_put.part.0+0x20/0x20
+[166164.933287]  do_dentry_open+0x161/0x3c0
+[166164.933291]  vfs_open+0x2d/0x30
+[166164.933297]  path_openat+0xb27/0x10e0
+[166164.933306]  ? atime_needs_update+0x73/0xd0
+[166164.933309]  do_filp_open+0x91/0x100
+[166164.933313]  ? __alloc_fd+0xb2/0x150
+[166164.933316]  do_sys_openat2+0x210/0x2d0
+[166164.933318]  do_sys_open+0x46/0x80
+[166164.933320]  __x64_sys_openat+0x20/0x30
+[166164.933328]  do_syscall_64+0x52/0xc0
+[166164.933336]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+
+(gdb) disassemble drm_dp_aux_dev_get_by_minor+0x29
+Dump of assembler code for function drm_dp_aux_dev_get_by_minor:
+   0x0000000000017b10 <+0>:     callq  0x17b15 <drm_dp_aux_dev_get_by_minor+5>
+   0x0000000000017b15 <+5>:     push   %rbp
+   0x0000000000017b16 <+6>:     mov    %rsp,%rbp
+   0x0000000000017b19 <+9>:     push   %r12
+   0x0000000000017b1b <+11>:    mov    %edi,%r12d
+   0x0000000000017b1e <+14>:    mov    $0x0,%rdi
+   0x0000000000017b25 <+21>:    callq  0x17b2a <drm_dp_aux_dev_get_by_minor+26>
+   0x0000000000017b2a <+26>:    mov    %r12d,%esi
+   0x0000000000017b2d <+29>:    mov    $0x0,%rdi
+   0x0000000000017b34 <+36>:    callq  0x17b39 <drm_dp_aux_dev_get_by_minor+41>
+   0x0000000000017b39 <+41>:    mov    0x18(%rax),%edx <=========
+   0x0000000000017b3c <+44>:    mov    %rax,%r12
+   0x0000000000017b3f <+47>:    lea    0x18(%rax),%rdi
+   0x0000000000017b43 <+51>:    test   %edx,%edx
+   0x0000000000017b45 <+53>:    je     0x17b7a <drm_dp_aux_dev_get_by_minor+106>
+   0x0000000000017b47 <+55>:    lea    0x1(%rdx),%ecx
+   0x0000000000017b4a <+58>:    mov    %edx,%eax
+   0x0000000000017b4c <+60>:    lock cmpxchg %ecx,(%rdi)
+   0x0000000000017b50 <+64>:    jne    0x17b76 <drm_dp_aux_dev_get_by_minor+102>
+   0x0000000000017b52 <+66>:    test   %edx,%edx
+   0x0000000000017b54 <+68>:    js     0x17b6d <drm_dp_aux_dev_get_by_minor+93>
+   0x0000000000017b56 <+70>:    test   %ecx,%ecx
+   0x0000000000017b58 <+72>:    js     0x17b6d <drm_dp_aux_dev_get_by_minor+93>
+   0x0000000000017b5a <+74>:    mov    $0x0,%rdi
+   0x0000000000017b61 <+81>:    callq  0x17b66 <drm_dp_aux_dev_get_by_minor+86>
+   0x0000000000017b66 <+86>:    mov    %r12,%rax
+   0x0000000000017b69 <+89>:    pop    %r12
+   0x0000000000017b6b <+91>:    pop    %rbp
+   0x0000000000017b6c <+92>:    retq   
+   0x0000000000017b6d <+93>:    xor    %esi,%esi
+   0x0000000000017b6f <+95>:    callq  0x17b74 <drm_dp_aux_dev_get_by_minor+100>
+   0x0000000000017b74 <+100>:   jmp    0x17b5a <drm_dp_aux_dev_get_by_minor+74>
+   0x0000000000017b76 <+102>:   mov    %eax,%edx
+   0x0000000000017b78 <+104>:   jmp    0x17b43 <drm_dp_aux_dev_get_by_minor+51>
+   0x0000000000017b7a <+106>:   xor    %r12d,%r12d
+   0x0000000000017b7d <+109>:   jmp    0x17b5a <drm_dp_aux_dev_get_by_minor+74>
+End of assembler dump.
+
+(gdb) list *drm_dp_aux_dev_get_by_minor+0x29
+0x17b39 is in drm_dp_aux_dev_get_by_minor (drivers/gpu/drm/drm_dp_aux_dev.c:65).
+60      static struct drm_dp_aux_dev *drm_dp_aux_dev_get_by_minor(unsigned index)
+61      {
+62              struct drm_dp_aux_dev *aux_dev = NULL;
+63
+64              mutex_lock(&aux_idr_mutex);
+65              aux_dev = idr_find(&aux_idr, index);
+66              if (!kref_get_unless_zero(&aux_dev->refcount))
+67                      aux_dev = NULL;
+68              mutex_unlock(&aux_idr_mutex);
+69
+(gdb) p/x &((struct drm_dp_aux_dev *)(0x0))->refcount
+$8 = 0x18
+
+Looking at the caller, checks on the minor are pushed down to 
+drm_dp_aux_dev_get_by_minor()
+
+static int auxdev_open(struct inode *inode, struct file *file)
+{
+    unsigned int minor = iminor(inode);
+    struct drm_dp_aux_dev *aux_dev;
+
+    aux_dev = drm_dp_aux_dev_get_by_minor(minor); <====
+    if (!aux_dev)
+        return -ENODEV;
+
+    file->private_data = aux_dev;
+    return 0;
+}
+
+
+Fixes: e94cb37b34eb8 ("Add a drm_aux-dev module for reading/writing dpcd registers")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zwane Mwaikambo <zwane@yosper.io>
+---
+
+diff --git a/drivers/gpu/drm/drm_dp_aux_dev.c b/drivers/gpu/drm/drm_dp_aux_dev.c
+index 2510717d5a08..e25181bf2c48 100644
+--- a/drivers/gpu/drm/drm_dp_aux_dev.c
++++ b/drivers/gpu/drm/drm_dp_aux_dev.c
+@@ -63,7 +63,7 @@ static struct drm_dp_aux_dev *drm_dp_aux_dev_get_by_minor(unsigned index)
+ 
+ 	mutex_lock(&aux_idr_mutex);
+ 	aux_dev = idr_find(&aux_idr, index);
+-	if (!kref_get_unless_zero(&aux_dev->refcount))
++	if (aux_dev && !kref_get_unless_zero(&aux_dev->refcount))
+ 		aux_dev = NULL;
+ 	mutex_unlock(&aux_idr_mutex);
+ 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
