@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD4425E185
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 20:38:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBFE25E1B0
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 21:02:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6DBA6ECA8;
-	Fri,  4 Sep 2020 18:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C971F6ECB2;
+	Fri,  4 Sep 2020 19:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 995C26ECA8
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 18:38:33 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id g6so3445391pjl.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 11:38:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gN27klP+xvdh4VCRymNneqUuQ86dJp3MjSovTG9iYzs=;
- b=f0Jwou69C/7TrqqB9lFI94XYvQksANHuOhyqWyZAEqiCPI2LXXAyHq+VBhDJwZqu/f
- 9xv7Ef6xDPfWyP00oHOT8gghENcZFMm0AzKbSLzhU3cbeNqAsDFMbcHzdEwI5XTNM/Ji
- qu05uN23dKizDUUkNBYmdZ9RJTc+sS+UG7JH8x/dPvLayMEFaNxGDWBpR5l3UM+ibT63
- 0pb8KK17kD4v59k0lfGN/1XIe8gMFCMhqQfLXFm5UjonBtfHCMNV5I14q5xmLxATrj+0
- LMes5WNUxxTKP+/iShHzuEUIdPOCFESdY1A6qIa18+syOkknQKnebNyCnWn3RtorGH8Y
- eyZA==
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA5A6ECB2
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 19:02:37 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id b12so4387271lfp.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 12:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7uUg6PoEyw6gZZ+b9cvN8OnBYQP4dXfhi5vW5L71sp4=;
+ b=Bp9dBLRImFEFuBOvL8cmF4FJjs9ZKdU3TSSCwzYTyefntJCy1jPMS/1pik6rxe7p13
+ AYSgb1uqemGd/+2bP3mpNLhOSvzhMS9Gw1K93F0ARpKI4mmCOxXinmdaZi8GFib9Uvil
+ MWJ2XoxqXmHYrFtnySgiFspI3EtB5FQL+gY+k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gN27klP+xvdh4VCRymNneqUuQ86dJp3MjSovTG9iYzs=;
- b=Qli6DfWPK4Rgls9YpVKc/rCu3QkESFU7lhROv76JK0AzRLErQqPReDhLVrVHZyopcf
- 1bCSVlt5oeDGOZUPgtMc7mnUpIGm0IdUBJW8WvBHUmQRK4GQQlqcByOrf2GkS5sjlQfr
- ZQr8+hTeBA54aac+RDfpQKgBHRSaEXUEiAoPUMT0AyjRY7HqU78QmT52Ww849tnHF7Jj
- l9qzcv/hij82ANmaMwBB9uHEpGlI9kxiqpuY4pCZd6XXQ36Fo8Y/5q560cMQsSgSPj+o
- k6wh5E5BuUmPPK8cLElnTM40dwhj4JDOtd2EbTAuF2969OgGxSV38ju9+f1n2CfsME2n
- Jm5g==
-X-Gm-Message-State: AOAM533K/UcPSzj6wdzIKRhuPkMAC44yg2idhzA+MMOqKeRX1LzEo46i
- WOuJC9Oj/lFFQ51UjfOMZ3bCbI4CXLRzLw==
-X-Google-Smtp-Source: ABdhPJx1mAfm8y42Tj3AuikdpzX/Bi6i+SInA1f4QVddiIMinVeSGfBGVsvyI6a0Pq0L5SzYXkFY0A==
-X-Received: by 2002:a17:902:ff02:: with SMTP id
- f2mr9652217plj.218.1599244712769; 
- Fri, 04 Sep 2020 11:38:32 -0700 (PDT)
-Received: from ikelos.c.googlers.com.com
- (136.247.83.34.bc.googleusercontent.com. [34.83.247.136])
- by smtp.gmail.com with ESMTPSA id n128sm7635713pfd.29.2020.09.04.11.38.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 11:38:32 -0700 (PDT)
-From: "Kristian H. Kristensen" <hoegsberg@gmail.com>
-To: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] udmabuf: Add missing compact_ioctl
-Date: Fri,  4 Sep 2020 18:38:28 +0000
-Message-Id: <20200904183828.657948-1-hoegsberg@gmail.com>
-X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7uUg6PoEyw6gZZ+b9cvN8OnBYQP4dXfhi5vW5L71sp4=;
+ b=Ho2pa4ql2syzbYMQCKrsEp1r/3IpzY8Y3qEFloy8xOU9nniIwdGlJpsJK3eZriS1lz
+ PfGPcHTkgKKloFzJp7RnvdeFj+AI8jONKzBFFOjnGD0jkkvoJcf/4qSpxsa9ZToFXBxz
+ sF/rqO76Rv81BxgF75gTXTMFTMh0Kk/CoIThOt7PN0KpRMqjE0Hr4W8icPktcSHalzxJ
+ 4z0/i4D/zs93l2/1/HS/3hQq+RNotETNc3SEeFs5NyWfV50Jw1qEMKSaegO879Y7XBMo
+ MDm9LRQoBEge0GQIqnHPvRGr69nerYQXDtgs58ahqExkDM7bUvfZ1tkUlAOR/H7pR47z
+ kCHA==
+X-Gm-Message-State: AOAM532TrvcS3JNZgLo4QGw6HL2KAtXbDwRWbysNf9Bt3p+VDWQq5mpd
+ dPPLXAlq6sXBajtKAELeoIxGQlfaviHBzQ==
+X-Google-Smtp-Source: ABdhPJzyrgVoc2K/VosJjcQBvVrOlvBLOzsQJEiLAaTTKgLPpMbw8JVZ8ZmcskyPdg+NampKjSV9Mw==
+X-Received: by 2002:a05:6512:1142:: with SMTP id
+ m2mr4526120lfg.22.1599246154752; 
+ Fri, 04 Sep 2020 12:02:34 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com.
+ [209.85.208.173])
+ by smtp.gmail.com with ESMTPSA id e17sm384186ljn.18.2020.09.04.12.02.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Sep 2020 12:02:33 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id a22so2807154ljp.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 12:02:33 -0700 (PDT)
+X-Received: by 2002:a05:651c:32e:: with SMTP id
+ b14mr2189883ljp.314.1599246152917; 
+ Fri, 04 Sep 2020 12:02:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
+In-Reply-To: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 4 Sep 2020 12:02:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh2EH9DKRpJQ7+X+NWjjduLPy_Ncv1GzxnXBg-3mTn0Fw@mail.gmail.com>
+Message-ID: <CAHk-=wh2EH9DKRpJQ7+X+NWjjduLPy_Ncv1GzxnXBg-3mTn0Fw@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 5.9-rc4
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kristian H. Kristensen" <hoegsberg@google.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Kristian H. Kristensen" <hoegsberg@google.com>
+On Thu, Sep 3, 2020 at 8:53 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> Not much going on this week, nouveau has a display hw bug workaround,
+> amdgpu has some PM fixes and CIK regression fixes, one single radeon
+> PLL fix, and a couple of i915 display fixes.
 
-Make sure we can use this on mixed systems.
+Any movement on the i915 relocation issue? I've only seen the one
+report for the 64-bit case, but clearly there was more going on than
+just the missing page table flush on 32-bit..
 
-Signed-off-by: Kristian H. Kristensen <hoegsberg@google.com>
----
- drivers/dma-buf/udmabuf.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 9635897458a0..6f4ff6ede050 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -270,6 +270,9 @@ static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
- static const struct file_operations udmabuf_fops = {
- 	.owner		= THIS_MODULE,
- 	.unlocked_ioctl = udmabuf_ioctl,
-+#ifdef CONFIG_COMPAT
-+	.compat_ioctl   = udmabuf_ioctl,
-+#endif
- };
- 
- static struct miscdevice udmabuf_misc = {
--- 
-2.28.0.526.ge36021eeef-goog
-
+              Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
