@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2234A25D098
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 06:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057D425D103
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 07:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 524AD6EA77;
-	Fri,  4 Sep 2020 04:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567126E237;
+	Fri,  4 Sep 2020 05:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCFA6EA77;
- Fri,  4 Sep 2020 04:34:48 +0000 (UTC)
-IronPort-SDR: yfpIZNI1xG9pP8GF62WhWRQL8xlY62aKWXbH4baemJM4WMxppXKSx89hGcqwlTKYOX2IobBUaI
- pJPCS+zsq1Fg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="157699874"
-X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="157699874"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2020 21:34:47 -0700
-IronPort-SDR: ZDazRUI3NYLg7Sw1y8B6/39wQIE3pCcNs6tS0c0MOLDH79D7SyeeN5oXa2gE+bPSzEtugz1bjk
- liznDBIE50jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="478315081"
-Received: from vsrini4-xps-8920.iind.intel.com (HELO localhost.localdomain)
- ([10.223.163.28])
- by orsmga005.jf.intel.com with ESMTP; 03 Sep 2020 21:34:45 -0700
-From: Vidya Srinivas <vidya.srinivas@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] [RFC] drm/i915/dp: DP PHY compliance for EHL/JSL
-Date: Fri,  4 Sep 2020 09:59:35 +0530
-Message-Id: <1599193775-2809-1-git-send-email-vidya.srinivas@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
-References: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B96836E237
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 05:53:55 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0845rjLP115317;
+ Fri, 4 Sep 2020 00:53:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1599198825;
+ bh=MdmoxK2AeCCqej9xs0bxxv1OBv8ANR9M3r35yVubq2s=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=KF7I1vpZblhqUvzvqPDfcc5ojQRfe0fri66/dNK0eCxj7EcMxE8xoV0fzh1i0j96z
+ 1NYjejsCdRJjtexH5w+A+LZoeuu5c1y4eKByCTTmdoIMplTwsHmjgj5/CTzm5Bed3t
+ +55tDZ+y+Qxy6jRZlBUWgnoJZAtEBM8w7cZY6D3Y=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0845rjpx089883
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 4 Sep 2020 00:53:45 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 4 Sep
+ 2020 00:53:44 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 4 Sep 2020 00:53:44 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0845reXd081865;
+ Fri, 4 Sep 2020 00:53:41 -0500
+Subject: Re: [PATCH v9 2/3] drm: bridge: Add support for Cadence MHDP8546
+ DPI/DP bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <1598862215-10222-1-git-send-email-sjakhade@cadence.com>
+ <1598862215-10222-3-git-send-email-sjakhade@cadence.com>
+ <71452de7-80e7-0144-4802-e3370c00854b@ti.com>
+ <20200904022948.GE9369@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <ae3b4dfb-72a7-2734-e104-7fa5b24d81f5@ti.com>
+Date: Fri, 4 Sep 2020 08:53:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200904022948.GE9369@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,246 +65,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vidya Srinivas <vidya.srinivas@intel.com>,
- Khaled Almahallawy <khaled.almahallawy@intel.com>
-MIME-Version: 1.0
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
+ yamonkar@cadence.com, narmstrong@baylibre.com, airlied@linux.ie,
+ jonas@kwiboo.se, nsekhar@ti.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com, robh+dt@kernel.org,
+ jsarha@ti.com, Swapnil Jakhade <sjakhade@cadence.com>, nikhil.nd@ti.com,
+ mparab@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please Note: Comment from Ville could not be addressed
-as his comments are with respect to base implementation
-(design) which are already merged. We need JSL changes
-for compliance. Hence pushing the required changes
-on top of existing design. Apoligies for that.
+Hi,
 
-v2: Rebased patch on top of Khaled's (yet to be merged):
-    https://patchwork.freedesktop.org/series/79779/
-    Fixed phy patterns for JSL/EHL
-    Add TPS4 support for JSL/EHL
+On 04/09/2020 05:29, Laurent Pinchart wrote:
 
-Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
-Signed-off-by: Vidya Srinivas <vidya.srinivas@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 81 +++++++++++++++++++++++++--------
- drivers/gpu/drm/i915/i915_reg.h         | 18 ++++++--
- 2 files changed, 78 insertions(+), 21 deletions(-)
+>> Laurent mentioned that atomic_check should not change state. Note that
+>> cdns_mhdp_validate_mode_params also changes state, as it calculates tu_size, vs and line_thresh.
+> 
+> .atomic_check() isn't allowed to change any global state, which means
+> both hardware state and data in cdns_mhdp_device. The drm_bridge_state
+> (and thus the cdns_mhdp_bridge_state) can be modified as it stores the
+> state for the atomic commit being checked.
+> 
+>> There seems to be issues with mode changes, but I think the first step would be to clarify the
+>> related code a bit. cdns_mhdp_validate_mode_params() is misnamed, I think it should be renamed to
+>> calculate_tu or something like that.
+>>
+>> cdns_mhdp_bandwidth_ok() should take display_fmt or bpp as a parameter, as currently it digs that up
+>> from the current state.
+>>
+>> Probably cdns_mhdp_validate_mode_params() would be better if it doesn't write the result to the
+>> state, but returns the values. That way it could also be used to verify if suitable settings can be
+>> found, without changing the state.
+> 
+> This use case is actually a very good example of proper usage of the
+> atomic state :-) .atomic_check() has to perform computations to verify
+> the atomic commit, and storing the results in the commit's state
+> prevents duplicating the same calculation at .atomic_commit() time.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index a8a3ffcef5dc..1773f3d5d0f4 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5405,25 +5405,32 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 	enum pipe pipe = crtc->pipe;
- 	u32 pattern_val, dp_tp_ctl;
- 
-+	i915_reg_t dp_comp_reg;
-+
-+	if (IS_ELKHARTLAKE(dev_priv))
-+		dp_comp_reg = EHL_DDI_DP_COMP_CTL(dig_port->base.port);
-+	else if (IS_TIGERLAKE(dev_priv))
-+		dp_comp_reg = DDI_DP_COMP_CTL(pipe);
-+
- 	switch (data->phy_pattern) {
- 	case DP_PHY_TEST_PATTERN_NONE:
- 		DRM_DEBUG_KMS("Disable Phy Test Pattern\n");
--		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe), 0x0);
-+		intel_de_write(dev_priv, dp_comp_reg, 0x0);
- 		break;
- 	case DP_PHY_TEST_PATTERN_D10_2:
- 		DRM_DEBUG_KMS("Set D10.2 Phy Test Pattern\n");
--		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
-+		intel_de_write(dev_priv, dp_comp_reg,
- 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_D10_2);
- 		break;
- 	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
- 		DRM_DEBUG_KMS("Set Error Count Phy Test Pattern\n");
--		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
-+		intel_de_write(dev_priv, dp_comp_reg,
- 			       DDI_DP_COMP_CTL_ENABLE |
- 			       DDI_DP_COMP_CTL_SCRAMBLED_0);
- 		break;
- 	case DP_PHY_TEST_PATTERN_PRBS7:
- 		DRM_DEBUG_KMS("Set PRBS7 Phy Test Pattern\n");
--		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
-+		intel_de_write(dev_priv, dp_comp_reg,
- 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_PRBS7);
- 		break;
- 	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
-@@ -5432,14 +5439,27 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 		 * current firmware of DPR-100 could not set it, so hardcoding
- 		 * now for complaince test.
- 		 */
--		DRM_DEBUG_KMS("Set 80Bit Custom Phy Test Pattern 0x3e0f83e0 0x0f83e0f8 0x0000f83e\n");
-+		DRM_DEBUG_KMS("Set 80Bit Custom Phy Test Pattern \
-+			      0x3e0f83e0 0x0f83e0f8 0x0000f83e\n");
- 		pattern_val = 0x3e0f83e0;
--		intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 0), pattern_val);
-+		if (IS_ELKHARTLAKE(dev_priv))
-+			intel_de_write(dev_priv, EHL_DDI_DP_COMP_PAT(dig_port->base.port, 0),
-+				       pattern_val);
-+		else
-+			intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 0), pattern_val);
- 		pattern_val = 0x0f83e0f8;
--		intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 1), pattern_val);
-+		if (IS_ELKHARTLAKE(dev_priv))
-+			intel_de_write(dev_priv, EHL_DDI_DP_COMP_PAT(dig_port->base.port, 1),
-+				       pattern_val);
-+		else
-+			intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 1), pattern_val);
- 		pattern_val = 0x0000f83e;
--		intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 2), pattern_val);
--		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
-+		if (IS_ELKHARTLAKE(dev_priv))
-+			intel_de_write(dev_priv, EHL_DDI_DP_COMP_PAT(dig_port->base.port, 2),
-+				       pattern_val);
-+		else
-+			intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 2), pattern_val);
-+		intel_de_write(dev_priv, dp_comp_reg,
- 			       DDI_DP_COMP_CTL_ENABLE |
- 			       DDI_DP_COMP_CTL_CUSTOM80);
- 		break;
-@@ -5451,7 +5471,7 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 		 */
- 		DRM_DEBUG_KMS("Set HBR2 compliance Phy Test Pattern\n");
- 		pattern_val = 0xFB;
--		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
-+		intel_de_write(dev_priv, dp_comp_reg,
- 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_HBR2 |
- 			       pattern_val);
- 		break;
-@@ -5478,22 +5498,32 @@ intel_dp_autotest_phy_ddi_disable(struct intel_dp *intel_dp)
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
- 	enum pipe pipe = crtc->pipe;
--	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value;
-+	u32 trans_ddi_func_ctl_value, trans_conf_value,
-+		dp_tp_ctl_value, trans_ddi_port_mask;
-+	i915_reg_t dp_tp_reg;
-+
-+	if (IS_ELKHARTLAKE(dev_priv)) {
-+		dp_tp_reg = DP_TP_CTL(dig_port->base.port);
-+		trans_ddi_port_mask = TRANS_DDI_PORT_MASK;
-+	} else if (IS_TIGERLAKE(dev_priv)) {
-+		dp_tp_reg = TGL_DP_TP_CTL(pipe);
-+		trans_ddi_port_mask = TGL_TRANS_DDI_PORT_MASK;
-+	}
- 
- 	trans_ddi_func_ctl_value = intel_de_read(dev_priv,
- 						 TRANS_DDI_FUNC_CTL(pipe));
- 	trans_conf_value = intel_de_read(dev_priv, PIPECONF(pipe));
--	dp_tp_ctl_value = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
- 
-+	dp_tp_ctl_value = intel_de_read(dev_priv, dp_tp_reg);
- 	trans_ddi_func_ctl_value &= ~(TRANS_DDI_FUNC_ENABLE |
--				      TGL_TRANS_DDI_PORT_MASK);
-+					trans_ddi_port_mask);
- 	trans_conf_value &= ~PIPECONF_ENABLE;
- 	dp_tp_ctl_value &= ~DP_TP_CTL_ENABLE;
- 
- 	intel_de_write(dev_priv, PIPECONF(pipe), trans_conf_value);
- 	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(pipe),
- 		       trans_ddi_func_ctl_value);
--	intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl_value);
-+	intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl_value);
- }
- 
- static void
-@@ -5505,20 +5535,29 @@ intel_dp_autotest_phy_ddi_enable(struct intel_dp *intel_dp, uint8_t lane_cnt)
- 	enum port port = dig_port->base.port;
- 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
- 	enum pipe pipe = crtc->pipe;
--	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value;
-+	u32 trans_ddi_func_ctl_value, trans_conf_value,
-+		dp_tp_ctl_value, trans_ddi_sel_port;
-+	i915_reg_t dp_tp_reg;
-+
-+	if (IS_ELKHARTLAKE(dev_priv)) {
-+		dp_tp_reg = DP_TP_CTL(port);
-+		trans_ddi_sel_port = TRANS_DDI_SELECT_PORT(port);
-+	} else if (IS_TIGERLAKE(dev_priv)) {
-+		dp_tp_reg = TGL_DP_TP_CTL(pipe);
-+		trans_ddi_sel_port = TGL_TRANS_DDI_SELECT_PORT(port);
-+	}
- 
- 	trans_ddi_func_ctl_value = intel_de_read(dev_priv,
- 						 TRANS_DDI_FUNC_CTL(pipe));
- 	trans_conf_value = intel_de_read(dev_priv, PIPECONF(pipe));
- 	dp_tp_ctl_value = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
--
- 	trans_ddi_func_ctl_value |= TRANS_DDI_FUNC_ENABLE |
--				    TGL_TRANS_DDI_SELECT_PORT(port);
-+				    trans_ddi_sel_port;
- 	trans_conf_value |= PIPECONF_ENABLE;
- 	dp_tp_ctl_value |= DP_TP_CTL_ENABLE;
- 
- 	intel_de_write(dev_priv, PIPECONF(pipe), trans_conf_value);
--	intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl_value);
-+	intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl_value);
- 	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(pipe),
- 		       trans_ddi_func_ctl_value);
- }
-@@ -5565,6 +5604,7 @@ static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
- static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-+	struct drm_i915_private *dev_priv = i915;
- 	u8 response = DP_TEST_NAK;
- 	u8 request = 0;
- 	int status;
-@@ -5590,6 +5630,11 @@ static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
- 		response = intel_dp_autotest_edid(intel_dp);
- 		break;
- 	case DP_TEST_LINK_PHY_TEST_PATTERN:
-+		if (!IS_ELKHARTLAKE(dev_priv) && !IS_TIGERLAKE(dev_priv)) {
-+			drm_dbg_kms(&i915->drm,
-+				"PHY compliance for platform not supported\n");
-+			return;
-+		}
- 		drm_dbg_kms(&i915->drm, "PHY_PATTERN test requested\n");
- 		response = intel_dp_autotest_phy_pattern(intel_dp);
- 		break;
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 4850890918dc..7d3b6779661f 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -10026,10 +10026,16 @@ enum skl_power_gate {
- #define  DDI_BUF_BALANCE_LEG_ENABLE	(1 << 31)
- #define DDI_BUF_TRANS_HI(port, i)	_MMIO(_PORT(port, _DDI_BUF_TRANS_A, _DDI_BUF_TRANS_B) + (i) * 8 + 4)
- 
-+/* EHL/JSL DP compliance control */
-+#define _EHL_DDI_DP_COMP_CTL_A		0x640F0
-+#define _EHL_DDI_DP_COMP_CTL_B		0x641F0
-+#define EHL_DDI_DP_COMP_CTL(port) \
-+	_MMIO_PORT(port, _EHL_DDI_DP_COMP_CTL_A, _EHL_DDI_DP_COMP_CTL_B)
-+
- /* DDI DP Compliance Control */
--#define _DDI_DP_COMP_CTL_A			0x605F0
--#define _DDI_DP_COMP_CTL_B			0x615F0
--#define DDI_DP_COMP_CTL(pipe)			_MMIO_PIPE(pipe, _DDI_DP_COMP_CTL_A, _DDI_DP_COMP_CTL_B)
-+#define _DDI_DP_COMP_CTL_A		0x605F0
-+#define _DDI_DP_COMP_CTL_B		0x615F0
-+#define DDI_DP_COMP_CTL(pipe)		_MMIO_PIPE(pipe, _DDI_DP_COMP_CTL_A, _DDI_DP_COMP_CTL_B)
- #define   DDI_DP_COMP_CTL_ENABLE		(1 << 31)
- #define   DDI_DP_COMP_CTL_D10_2			(0 << 28)
- #define   DDI_DP_COMP_CTL_SCRAMBLED_0		(1 << 28)
-@@ -10039,6 +10045,12 @@ enum skl_power_gate {
- #define   DDI_DP_COMP_CTL_SCRAMBLED_1		(5 << 28)
- #define   DDI_DP_COMP_CTL_HBR2_RESET		(0xFC << 0)
- 
-+/* EHL */
-+#define _EHL_DDI_DP_COMP_PAT_A	0x640F4
-+#define _EHL_DDI_DP_COMP_PAT_B	0x641F4
-+#define EHL_DDI_DP_COMP_PAT(port, i) \
-+	_MMIO(_PORT(port, _EHL_DDI_DP_COMP_PAT_A, _EHL_DDI_DP_COMP_PAT_B) + (i) * 4)
-+
- /* DDI DP Compliance Pattern */
- #define _DDI_DP_COMP_PAT_A			0x605F4
- #define _DDI_DP_COMP_PAT_B			0x615F4
+Yes, you're right.
+
+But it's still not good, as cdns_mhdp_validate_mode_params uses link details to do the calculations,
+but we do link training only later and thus the calculations are invalid.
+
+cdns_mhdp_validate_mode_params is also called from the HPD interrupt, and there it changes the
+current bridge state. link_mutex is being held in every place where cdns_mhdp_validate_mode_params
+is called, so I guess it's fine.
+
+ Tomi
+
 -- 
-2.7.4
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
