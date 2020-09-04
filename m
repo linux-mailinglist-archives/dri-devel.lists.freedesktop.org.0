@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C28025E4A7
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:35:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF43A25E4B9
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:36:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDA86ECFB;
-	Sat,  5 Sep 2020 00:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3C196ED16;
+	Sat,  5 Sep 2020 00:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mxwww.masterlogin.de (mxwww.masterlogin.de
  [IPv6:2a03:2900:1:1::a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98126EB36
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 11:12:49 +0000 (UTC)
-Received: from mxout1.routing.net (unknown [192.168.10.81])
- by backup.mxwww.masterlogin.de (Postfix) with ESMTPS id D2F152C461
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 11:00:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 328776EB36
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 11:10:07 +0000 (UTC)
+Received: from mxout4.routing.net (unknown [192.168.10.112])
+ by backup.mxwww.masterlogin.de (Postfix) with ESMTPS id C92D72C478
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 11:00:34 +0000 (UTC)
 Received: from mxbox3.masterlogin.de (unknown [192.168.10.78])
- by mxout1.routing.net (Postfix) with ESMTP id 7695F4015A;
- Fri,  4 Sep 2020 11:00:30 +0000 (UTC)
+ by mxout4.routing.net (Postfix) with ESMTP id 4A9FF101526;
+ Fri,  4 Sep 2020 11:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
- s=20200217; t=1599217230;
+ s=20200217; t=1599217231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ijU+V9LGg8duQNI23k95/QRwqGkghf0DR8qVS5zQXKM=;
- b=DyC1QQUrVfbr9PPBOPEfQJI2jDEYTZowJ39GrKkk69VWbAUNzNMDJ9/w/kPzGQqUBXDJ9i
- RFvwSrJyQ6RnhZmv8YZFPSFSdqW6QwKzE6lPobm0luwJFh4OrTIXYflT0r0Hjg1rM0dCDB
- oRuCTc9w3P1T09DRWticyCTCQo8zsmk=
+ bh=ppDWfJAd/jA3m9aGO327KiGAx1XEkMrfYwNEBQ5LlLQ=;
+ b=bdpplkmoaJrB2iBcY4g2VVbN+v7z7TsKrRe8efp38zWpN5d0xEH6uNBiWqOR9D+ASlmRRg
+ inw2RKlIStx113x8H+O+CdIhUklqcbxs0QYWwPBXs2Wjb27SXtb53egi4p390yvTSmcdB/
+ hRMsqN7DxoVH+YdIx5iJPRkEj6nu/zA=
 Received: from localhost.localdomain (fttx-pool-217.61.147.193.bambit.de
  [217.61.147.193])
- by mxbox3.masterlogin.de (Postfix) with ESMTPSA id BAA1A360469;
- Fri,  4 Sep 2020 11:00:29 +0000 (UTC)
+ by mxbox3.masterlogin.de (Postfix) with ESMTPSA id 753FA36026E;
+ Fri,  4 Sep 2020 11:00:30 +0000 (UTC)
 From: Frank Wunderlich <linux@fw-web.de>
 To: linux-mediatek@lists.infradead.org,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v6 2/4] arm: dts: mt7623: move display nodes to separate
- mt7623n.dtsi
-Date: Fri,  4 Sep 2020 13:00:00 +0200
-Message-Id: <20200904110002.88966-3-linux@fw-web.de>
+Subject: [PATCH v6 3/4] arm: dts: mt7623: add display subsystem related device
+ nodes
+Date: Fri,  4 Sep 2020 13:00:01 +0200
+Message-Id: <20200904110002.88966-4-linux@fw-web.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200904110002.88966-1-linux@fw-web.de>
 References: <20200904110002.88966-1-linux@fw-web.de>
@@ -59,204 +59,452 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Ryder Lee <ryder.lee@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, Sean Wang <sean.wang@mediatek.com>,
+ Frank Wunderlich <frank-w@public-files.de>,
+ chunhui dai <chunhui.dai@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>,
- David Woodhouse <dwmw@amazon.co.uk>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRnJhbmsgV3VuZGVybGljaCA8ZnJhbmstd0BwdWJsaWMtZmlsZXMuZGU+CgptdDc2MjNh
-IGhhcyBubyBncmFwaGljcyBzdXBwb3J0IHNvIG1vdmUgbm9kZXMgZnJvbSBnZW5lcmljIG10NzYy
-My5kdHNpCnRvIG10NzYyM24uZHRzaQoKRml4ZXM6IDFmNmVkMjI0NTk0ICgiYXJtOiBkdHM6IG10
-NzYyMzogYWRkIE1hbGktNDUwIGRldmljZSBub2RlIikKU3VnZ2VzdGVkLWJ5OiBEYXZpZCBXb29k
-aG91c2UgPGR3bXdAYW1hem9uLmNvLnVrPgpTaWduZWQtb2ZmLWJ5OiBGcmFuayBXdW5kZXJsaWNo
-IDxmcmFuay13QHB1YmxpYy1maWxlcy5kZT4KLS0tCiBhcmNoL2FybS9ib290L2R0cy9tdDc2MjMu
-ZHRzaSAgICAgICAgICAgICAgICAgfCAxMjMgLS0tLS0tLS0tLS0tLS0tLQogYXJjaC9hcm0vYm9v
-dC9kdHMvbXQ3NjIzbi1iYW5hbmFwaS1icGktcjIuZHRzIHwgICAyICstCiBhcmNoL2FybS9ib290
-L2R0cy9tdDc2MjNuLXJmYi1lbW1jLmR0cyAgICAgICAgfCAgIDIgKy0KIGFyY2gvYXJtL2Jvb3Qv
-ZHRzL210NzYyM24uZHRzaSAgICAgICAgICAgICAgICB8IDEzNCArKysrKysrKysrKysrKysrKysK
-IDQgZmlsZXMgY2hhbmdlZCwgMTM2IGluc2VydGlvbnMoKyksIDEyNSBkZWxldGlvbnMoLSkKIGNy
-ZWF0ZSBtb2RlIDEwMDY0NCBhcmNoL2FybS9ib290L2R0cy9tdDc2MjNuLmR0c2kKCmRpZmYgLS1n
-aXQgYS9hcmNoL2FybS9ib290L2R0cy9tdDc2MjMuZHRzaSBiL2FyY2gvYXJtL2Jvb3QvZHRzL210
-NzYyMy5kdHNpCmluZGV4IGExMDZjMGQ5MGE1Mi4uZDA5YjU2NzFjOTFiIDEwMDY0NAotLS0gYS9h
-cmNoL2FybS9ib290L2R0cy9tdDc2MjMuZHRzaQorKysgYi9hcmNoL2FybS9ib290L2R0cy9tdDc2
-MjMuZHRzaQpAQCAtMTQsNyArMTQsNiBAQAogI2luY2x1ZGUgPGR0LWJpbmRpbmdzL3Bvd2VyL210
-MjcwMS1wb3dlci5oPgogI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8vZ3Bpby5oPgogI2luY2x1
-ZGUgPGR0LWJpbmRpbmdzL3BoeS9waHkuaD4KLSNpbmNsdWRlIDxkdC1iaW5kaW5ncy9tZW1vcnkv
-bXQyNzAxLWxhcmItcG9ydC5oPgogI2luY2x1ZGUgPGR0LWJpbmRpbmdzL3Jlc2V0L210MjcwMS1y
-ZXNldHMuaD4KICNpbmNsdWRlIDxkdC1iaW5kaW5ncy90aGVybWFsL3RoZXJtYWwuaD4KIApAQCAt
-Mjk3LDE3ICsyOTYsNiBAQCB0aW1lcjogdGltZXJAMTAwMDgwMDAgewogCQljbG9jay1uYW1lcyA9
-ICJzeXN0ZW0tY2xrIiwgInJ0Yy1jbGsiOwogCX07CiAKLQlzbWlfY29tbW9uOiBzbWlAMTAwMGMw
-MDAgewotCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1zbWktY29tbW9uIiwKLQkJCSAg
-ICAgIm1lZGlhdGVrLG10MjcwMS1zbWktY29tbW9uIjsKLQkJcmVnID0gPDAgMHgxMDAwYzAwMCAw
-IDB4MTAwMD47Ci0JCWNsb2NrcyA9IDwmaW5mcmFjZmcgQ0xLX0lORlJBX1NNST4sCi0JCQkgPCZt
-bXN5cyBDTEtfTU1fU01JX0NPTU1PTj4sCi0JCQkgPCZpbmZyYWNmZyBDTEtfSU5GUkFfU01JPjsK
-LQkJY2xvY2stbmFtZXMgPSAiYXBiIiwgInNtaSIsICJhc3luYyI7Ci0JCXBvd2VyLWRvbWFpbnMg
-PSA8JnNjcHN5cyBNVDI3MDFfUE9XRVJfRE9NQUlOX0RJU1A+OwotCX07Ci0KIAlwd3JhcDogcHdy
-YXBAMTAwMGQwMDAgewogCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1wd3JhcCIsCiAJ
-CQkgICAgICJtZWRpYXRlayxtdDI3MDEtcHdyYXAiOwpAQCAtMzM5LDE3ICszMjcsNiBAQCBzeXNp
-cnE6IGludGVycnVwdC1jb250cm9sbGVyQDEwMjAwMTAwIHsKIAkJcmVnID0gPDAgMHgxMDIwMDEw
-MCAwIDB4MWM+OwogCX07CiAKLQlpb21tdTogbW1zeXNfaW9tbXVAMTAyMDUwMDAgewotCQljb21w
-YXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1tNHUiLAotCQkJICAgICAibWVkaWF0ZWssbXQyNzAx
-LW00dSI7Ci0JCXJlZyA9IDwwIDB4MTAyMDUwMDAgMCAweDEwMDA+OwotCQlpbnRlcnJ1cHRzID0g
-PEdJQ19TUEkgMTA2IElSUV9UWVBFX0xFVkVMX0xPVz47Ci0JCWNsb2NrcyA9IDwmaW5mcmFjZmcg
-Q0xLX0lORlJBX000VT47Ci0JCWNsb2NrLW5hbWVzID0gImJjbGsiOwotCQltZWRpYXRlayxsYXJi
-cyA9IDwmbGFyYjAgJmxhcmIxICZsYXJiMj47Ci0JCSNpb21tdS1jZWxscyA9IDwxPjsKLQl9Owot
-CiAJZWZ1c2U6IGVmdXNlQDEwMjA2MDAwIHsKIAkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2
-MjMtZWZ1c2UiLAogCQkJICAgICAibWVkaWF0ZWssbXQ4MTczLWVmdXNlIjsKQEAgLTcyNSw5NCAr
-NzAyLDYgQEAgbW1jMDogbW1jQDExMjMwMDAwIHsKIAkJc3RhdHVzID0gImRpc2FibGVkIjsKIAl9
-OwogCi0JZzNkc3lzOiBzeXNjb25AMTMwMDAwMDAgewotCQljb21wYXRpYmxlID0gIm1lZGlhdGVr
-LG10NzYyMy1nM2RzeXMiLAotCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLWczZHN5cyIsCi0JCQkg
-ICAgICJzeXNjb24iOwotCQlyZWcgPSA8MCAweDEzMDAwMDAwIDAgMHgyMDA+OwotCQkjY2xvY2st
-Y2VsbHMgPSA8MT47Ci0JCSNyZXNldC1jZWxscyA9IDwxPjsKLQl9OwotCi0JbWFsaTogZ3B1QDEz
-MDQwMDAwIHsKLQkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtbWFsaSIsICJhcm0sbWFs
-aS00NTAiOwotCQlyZWcgPSA8MCAweDEzMDQwMDAwIDAgMHgzMDAwMD47Ci0JCWludGVycnVwdHMg
-PSA8R0lDX1NQSSAxNzAgSVJRX1RZUEVfTEVWRUxfTE9XPiwKLQkJCSAgICAgPEdJQ19TUEkgMTcx
-IElSUV9UWVBFX0xFVkVMX0xPVz4sCi0JCQkgICAgIDxHSUNfU1BJIDE3MiBJUlFfVFlQRV9MRVZF
-TF9MT1c+LAotCQkJICAgICA8R0lDX1NQSSAxNzMgSVJRX1RZUEVfTEVWRUxfTE9XPiwKLQkJCSAg
-ICAgPEdJQ19TUEkgMTc0IElSUV9UWVBFX0xFVkVMX0xPVz4sCi0JCQkgICAgIDxHSUNfU1BJIDE3
-NSBJUlFfVFlQRV9MRVZFTF9MT1c+LAotCQkJICAgICA8R0lDX1NQSSAxNzYgSVJRX1RZUEVfTEVW
-RUxfTE9XPiwKLQkJCSAgICAgPEdJQ19TUEkgMTc3IElSUV9UWVBFX0xFVkVMX0xPVz4sCi0JCQkg
-ICAgIDxHSUNfU1BJIDE3OCBJUlFfVFlQRV9MRVZFTF9MT1c+LAotCQkJICAgICA8R0lDX1NQSSAx
-NzkgSVJRX1RZUEVfTEVWRUxfTE9XPiwKLQkJCSAgICAgPEdJQ19TUEkgMTgwIElSUV9UWVBFX0xF
-VkVMX0xPVz47Ci0JCWludGVycnVwdC1uYW1lcyA9ICJncCIsICJncG1tdSIsICJwcDAiLCAicHBt
-bXUwIiwgInBwMSIsCi0JCQkJICAicHBtbXUxIiwgInBwMiIsICJwcG1tdTIiLCAicHAzIiwgInBw
-bW11MyIsCi0JCQkJICAicHAiOwotCQljbG9ja3MgPSA8JnRvcGNrZ2VuIENMS19UT1BfTU1QTEw+
-LAotCQkJIDwmZzNkc3lzIENMS19HM0RTWVNfQ09SRT47Ci0JCWNsb2NrLW5hbWVzID0gImJ1cyIs
-ICJjb3JlIjsKLQkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5f
-TUZHPjsKLQkJcmVzZXRzID0gPCZnM2RzeXMgTVQyNzAxX0czRFNZU19DT1JFX1JTVD47Ci0JfTsK
-LQotCW1tc3lzOiBzeXNjb25AMTQwMDAwMDAgewotCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10
-NzYyMy1tbXN5cyIsCi0JCQkgICAgICJtZWRpYXRlayxtdDI3MDEtbW1zeXMiLAotCQkJICAgICAi
-c3lzY29uIjsKLQkJcmVnID0gPDAgMHgxNDAwMDAwMCAwIDB4MTAwMD47Ci0JCSNjbG9jay1jZWxs
-cyA9IDwxPjsKLQl9OwotCi0JbGFyYjA6IGxhcmJAMTQwMTAwMDAgewotCQljb21wYXRpYmxlID0g
-Im1lZGlhdGVrLG10NzYyMy1zbWktbGFyYiIsCi0JCQkgICAgICJtZWRpYXRlayxtdDI3MDEtc21p
-LWxhcmIiOwotCQlyZWcgPSA8MCAweDE0MDEwMDAwIDAgMHgxMDAwPjsKLQkJbWVkaWF0ZWssc21p
-ID0gPCZzbWlfY29tbW9uPjsKLQkJbWVkaWF0ZWssbGFyYi1pZCA9IDwwPjsKLQkJY2xvY2tzID0g
-PCZtbXN5cyBDTEtfTU1fU01JX0xBUkIwPiwKLQkJCSA8Jm1tc3lzIENMS19NTV9TTUlfTEFSQjA+
-OwotCQljbG9jay1uYW1lcyA9ICJhcGIiLCAic21pIjsKLQkJcG93ZXItZG9tYWlucyA9IDwmc2Nw
-c3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fRElTUD47Ci0JfTsKLQotCWltZ3N5czogc3lzY29uQDE1
-MDAwMDAwIHsKLQkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtaW1nc3lzIiwKLQkJCSAg
-ICAgIm1lZGlhdGVrLG10MjcwMS1pbWdzeXMiLAotCQkJICAgICAic3lzY29uIjsKLQkJcmVnID0g
-PDAgMHgxNTAwMDAwMCAwIDB4MTAwMD47Ci0JCSNjbG9jay1jZWxscyA9IDwxPjsKLQl9OwotCi0J
-bGFyYjI6IGxhcmJAMTUwMDEwMDAgewotCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1z
-bWktbGFyYiIsCi0JCQkgICAgICJtZWRpYXRlayxtdDI3MDEtc21pLWxhcmIiOwotCQlyZWcgPSA8
-MCAweDE1MDAxMDAwIDAgMHgxMDAwPjsKLQkJbWVkaWF0ZWssc21pID0gPCZzbWlfY29tbW9uPjsK
-LQkJbWVkaWF0ZWssbGFyYi1pZCA9IDwyPjsKLQkJY2xvY2tzID0gPCZpbWdzeXMgQ0xLX0lNR19T
-TUlfQ09NTT4sCi0JCQkgPCZpbWdzeXMgQ0xLX0lNR19TTUlfQ09NTT47Ci0JCWNsb2NrLW5hbWVz
-ID0gImFwYiIsICJzbWkiOwotCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQyNzAxX1BPV0VS
-X0RPTUFJTl9JU1A+OwotCX07Ci0KLQlqcGVnZGVjOiBqcGVnZGVjQDE1MDA0MDAwIHsKLQkJY29t
-cGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtanBnZGVjIiwKLQkJCSAgICAgIm1lZGlhdGVrLG10
-MjcwMS1qcGdkZWMiOwotCQlyZWcgPSA8MCAweDE1MDA0MDAwIDAgMHgxMDAwPjsKLQkJaW50ZXJy
-dXB0cyA9IDxHSUNfU1BJIDE0MyBJUlFfVFlQRV9MRVZFTF9MT1c+OwotCQljbG9ja3MgPSAgPCZp
-bWdzeXMgQ0xLX0lNR19KUEdERUNfU01JPiwKLQkJCSAgPCZpbWdzeXMgQ0xLX0lNR19KUEdERUM+
-OwotCQljbG9jay1uYW1lcyA9ICJqcGdkZWMtc21pIiwKLQkJCSAgICAgICJqcGdkZWMiOwotCQlw
-b3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQyNzAxX1BPV0VSX0RPTUFJTl9JU1A+OwotCQltZWRp
-YXRlayxsYXJiID0gPCZsYXJiMj47Ci0JCWlvbW11cyA9IDwmaW9tbXUgTVQyNzAxX000VV9QT1JU
-X0pQR0RFQ19XRE1BPiwKLQkJCSA8JmlvbW11IE1UMjcwMV9NNFVfUE9SVF9KUEdERUNfQlNETUE+
-OwotCX07Ci0KIAl2ZGVjc3lzOiBzeXNjb25AMTYwMDAwMDAgewogCQljb21wYXRpYmxlID0gIm1l
-ZGlhdGVrLG10NzYyMy12ZGVjc3lzIiwKIAkJCSAgICAgIm1lZGlhdGVrLG10MjcwMS12ZGVjc3lz
-IiwKQEAgLTgyMSwxOCArNzEwLDYgQEAgdmRlY3N5czogc3lzY29uQDE2MDAwMDAwIHsKIAkJI2Ns
-b2NrLWNlbGxzID0gPDE+OwogCX07CiAKLQlsYXJiMTogbGFyYkAxNjAxMDAwMCB7Ci0JCWNvbXBh
-dGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLXNtaS1sYXJiIiwKLQkJCSAgICAgIm1lZGlhdGVrLG10
-MjcwMS1zbWktbGFyYiI7Ci0JCXJlZyA9IDwwIDB4MTYwMTAwMDAgMCAweDEwMDA+OwotCQltZWRp
-YXRlayxzbWkgPSA8JnNtaV9jb21tb24+OwotCQltZWRpYXRlayxsYXJiLWlkID0gPDE+OwotCQlj
-bG9ja3MgPSA8JnZkZWNzeXMgQ0xLX1ZERUNfQ0tHRU4+LAotCQkJIDwmdmRlY3N5cyBDTEtfVkRF
-Q19MQVJCPjsKLQkJY2xvY2stbmFtZXMgPSAiYXBiIiwgInNtaSI7Ci0JCXBvd2VyLWRvbWFpbnMg
-PSA8JnNjcHN5cyBNVDI3MDFfUE9XRVJfRE9NQUlOX1ZERUM+OwotCX07Ci0KIAloaWZzeXM6IHN5
-c2NvbkAxYTAwMDAwMCB7CiAJCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLWhpZnN5cyIs
-CiAJCQkgICAgICJtZWRpYXRlayxtdDI3MDEtaGlmc3lzIiwKZGlmZiAtLWdpdCBhL2FyY2gvYXJt
-L2Jvb3QvZHRzL210NzYyM24tYmFuYW5hcGktYnBpLXIyLmR0cyBiL2FyY2gvYXJtL2Jvb3QvZHRz
-L210NzYyM24tYmFuYW5hcGktYnBpLXIyLmR0cwppbmRleCAyYjc2MGY5MGYzOGMuLjM0NGY4YzY1
-YzRhYSAxMDA2NDQKLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi1iYW5hbmFwaS1icGkt
-cjIuZHRzCisrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL210NzYyM24tYmFuYW5hcGktYnBpLXIyLmR0
-cwpAQCAtNiw3ICs2LDcgQEAKIAogL2R0cy12MS87CiAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW5w
-dXQvaW5wdXQuaD4KLSNpbmNsdWRlICJtdDc2MjMuZHRzaSIKKyNpbmNsdWRlICJtdDc2MjNuLmR0
-c2kiCiAjaW5jbHVkZSAibXQ2MzIzLmR0c2kiCiAKIC8gewpkaWZmIC0tZ2l0IGEvYXJjaC9hcm0v
-Ym9vdC9kdHMvbXQ3NjIzbi1yZmItZW1tYy5kdHMgYi9hcmNoL2FybS9ib290L2R0cy9tdDc2MjNu
-LXJmYi1lbW1jLmR0cwppbmRleCAwNDQ3NzQ4ZjlmYTAuLmY4ZWZjYzM2NGJjMyAxMDA2NDQKLS0t
-IGEvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi1yZmItZW1tYy5kdHMKKysrIGIvYXJjaC9hcm0v
-Ym9vdC9kdHMvbXQ3NjIzbi1yZmItZW1tYy5kdHMKQEAgLTcsNyArNyw3IEBACiAKIC9kdHMtdjEv
-OwogI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2lucHV0L2lucHV0Lmg+Ci0jaW5jbHVkZSAibXQ3NjIz
-LmR0c2kiCisjaW5jbHVkZSAibXQ3NjIzbi5kdHNpIgogI2luY2x1ZGUgIm10NjMyMy5kdHNpIgog
-CiAvIHsKZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL210NzYyM24uZHRzaSBiL2FyY2gv
-YXJtL2Jvb3QvZHRzL210NzYyM24uZHRzaQpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAw
-MDAwMDAwMDAuLmE0N2U4MjQ2ODg5NQotLS0gL2Rldi9udWxsCisrKyBiL2FyY2gvYXJtL2Jvb3Qv
-ZHRzL210NzYyM24uZHRzaQpAQCAtMCwwICsxLDEzNCBAQAorLy8gU1BEWC1MaWNlbnNlLUlkZW50
-aWZpZXI6IEdQTC0yLjAKKy8qCisgKiBDb3B5cmlnaHQgwqkgMjAxNy0yMDIwIE1lZGlhVGVrIElu
-Yy4KKyAqIEF1dGhvcjogU2VhbiBXYW5nIDxzZWFuLndhbmdAbWVkaWF0ZWsuY29tPgorICoJICAg
-UnlkZXIgTGVlIDxyeWRlci5sZWVAbWVkaWF0ZWsuY29tPgorICoKKyAqLworCisjaW5jbHVkZSAi
-bXQ3NjIzLmR0c2kiCisjaW5jbHVkZSA8ZHQtYmluZGluZ3MvbWVtb3J5L210MjcwMS1sYXJiLXBv
-cnQuaD4KKworLyB7CisJZzNkc3lzOiBzeXNjb25AMTMwMDAwMDAgeworCQljb21wYXRpYmxlID0g
-Im1lZGlhdGVrLG10NzYyMy1nM2RzeXMiLAorCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLWczZHN5
-cyIsCisJCQkgICAgICJzeXNjb24iOworCQlyZWcgPSA8MCAweDEzMDAwMDAwIDAgMHgyMDA+Owor
-CQkjY2xvY2stY2VsbHMgPSA8MT47CisJCSNyZXNldC1jZWxscyA9IDwxPjsKKwl9OworCisJbWFs
-aTogZ3B1QDEzMDQwMDAwIHsKKwkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtbWFsaSIs
-ICJhcm0sbWFsaS00NTAiOworCQlyZWcgPSA8MCAweDEzMDQwMDAwIDAgMHgzMDAwMD47CisJCWlu
-dGVycnVwdHMgPSA8R0lDX1NQSSAxNzAgSVJRX1RZUEVfTEVWRUxfTE9XPiwKKwkJCSAgICAgPEdJ
-Q19TUEkgMTcxIElSUV9UWVBFX0xFVkVMX0xPVz4sCisJCQkgICAgIDxHSUNfU1BJIDE3MiBJUlFf
-VFlQRV9MRVZFTF9MT1c+LAorCQkJICAgICA8R0lDX1NQSSAxNzMgSVJRX1RZUEVfTEVWRUxfTE9X
-PiwKKwkJCSAgICAgPEdJQ19TUEkgMTc0IElSUV9UWVBFX0xFVkVMX0xPVz4sCisJCQkgICAgIDxH
-SUNfU1BJIDE3NSBJUlFfVFlQRV9MRVZFTF9MT1c+LAorCQkJICAgICA8R0lDX1NQSSAxNzYgSVJR
-X1RZUEVfTEVWRUxfTE9XPiwKKwkJCSAgICAgPEdJQ19TUEkgMTc3IElSUV9UWVBFX0xFVkVMX0xP
-Vz4sCisJCQkgICAgIDxHSUNfU1BJIDE3OCBJUlFfVFlQRV9MRVZFTF9MT1c+LAorCQkJICAgICA8
-R0lDX1NQSSAxNzkgSVJRX1RZUEVfTEVWRUxfTE9XPiwKKwkJCSAgICAgPEdJQ19TUEkgMTgwIElS
-UV9UWVBFX0xFVkVMX0xPVz47CisJCWludGVycnVwdC1uYW1lcyA9ICJncCIsICJncG1tdSIsICJw
-cDAiLCAicHBtbXUwIiwgInBwMSIsCisJCQkJICAicHBtbXUxIiwgInBwMiIsICJwcG1tdTIiLCAi
-cHAzIiwgInBwbW11MyIsCisJCQkJICAicHAiOworCQljbG9ja3MgPSA8JnRvcGNrZ2VuIENMS19U
-T1BfTU1QTEw+LAorCQkJIDwmZzNkc3lzIENMS19HM0RTWVNfQ09SRT47CisJCWNsb2NrLW5hbWVz
-ID0gImJ1cyIsICJjb3JlIjsKKwkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dF
-Ul9ET01BSU5fTUZHPjsKKwkJcmVzZXRzID0gPCZnM2RzeXMgTVQyNzAxX0czRFNZU19DT1JFX1JT
-VD47CisJfTsKKworCW1tc3lzOiBzeXNjb25AMTQwMDAwMDAgeworCQljb21wYXRpYmxlID0gIm1l
-ZGlhdGVrLG10NzYyMy1tbXN5cyIsCisJCQkgICAgICJtZWRpYXRlayxtdDI3MDEtbW1zeXMiLAor
-CQkJICAgICAic3lzY29uIjsKKwkJcmVnID0gPDAgMHgxNDAwMDAwMCAwIDB4MTAwMD47CisJCSNj
-bG9jay1jZWxscyA9IDwxPjsKKwl9OworCisJbGFyYjA6IGxhcmJAMTQwMTAwMDAgeworCQljb21w
-YXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1zbWktbGFyYiIsCisJCQkgICAgICJtZWRpYXRlayxt
-dDI3MDEtc21pLWxhcmIiOworCQlyZWcgPSA8MCAweDE0MDEwMDAwIDAgMHgxMDAwPjsKKwkJbWVk
-aWF0ZWssc21pID0gPCZzbWlfY29tbW9uPjsKKwkJbWVkaWF0ZWssbGFyYi1pZCA9IDwwPjsKKwkJ
-Y2xvY2tzID0gPCZtbXN5cyBDTEtfTU1fU01JX0xBUkIwPiwKKwkJCSA8Jm1tc3lzIENMS19NTV9T
-TUlfTEFSQjA+OworCQljbG9jay1uYW1lcyA9ICJhcGIiLCAic21pIjsKKwkJcG93ZXItZG9tYWlu
-cyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fRElTUD47CisJfTsKKworCWxhcmIxOiBs
-YXJiQDE2MDEwMDAwIHsKKwkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtc21pLWxhcmIi
-LAorCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLXNtaS1sYXJiIjsKKwkJcmVnID0gPDAgMHgxNjAx
-MDAwMCAwIDB4MTAwMD47CisJCW1lZGlhdGVrLHNtaSA9IDwmc21pX2NvbW1vbj47CisJCW1lZGlh
-dGVrLGxhcmItaWQgPSA8MT47CisJCWNsb2NrcyA9IDwmdmRlY3N5cyBDTEtfVkRFQ19DS0dFTj4s
-CisJCQkgPCZ2ZGVjc3lzIENMS19WREVDX0xBUkI+OworCQljbG9jay1uYW1lcyA9ICJhcGIiLCAi
-c21pIjsKKwkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fVkRF
-Qz47CisJfTsKKworCWxhcmIyOiBsYXJiQDE1MDAxMDAwIHsKKwkJY29tcGF0aWJsZSA9ICJtZWRp
-YXRlayxtdDc2MjMtc21pLWxhcmIiLAorCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLXNtaS1sYXJi
-IjsKKwkJcmVnID0gPDAgMHgxNTAwMTAwMCAwIDB4MTAwMD47CisJCW1lZGlhdGVrLHNtaSA9IDwm
-c21pX2NvbW1vbj47CisJCW1lZGlhdGVrLGxhcmItaWQgPSA8Mj47CisJCWNsb2NrcyA9IDwmaW1n
-c3lzIENMS19JTUdfU01JX0NPTU0+LAorCQkJIDwmaW1nc3lzIENMS19JTUdfU01JX0NPTU0+Owor
-CQljbG9jay1uYW1lcyA9ICJhcGIiLCAic21pIjsKKwkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lz
-IE1UMjcwMV9QT1dFUl9ET01BSU5fSVNQPjsKKwl9OworCisJaW1nc3lzOiBzeXNjb25AMTUwMDAw
-MDAgeworCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1pbWdzeXMiLAorCQkJICAgICAi
-bWVkaWF0ZWssbXQyNzAxLWltZ3N5cyIsCisJCQkgICAgICJzeXNjb24iOworCQlyZWcgPSA8MCAw
-eDE1MDAwMDAwIDAgMHgxMDAwPjsKKwkJI2Nsb2NrLWNlbGxzID0gPDE+OworCX07CisKKwlpb21t
-dTogbW1zeXNfaW9tbXVAMTAyMDUwMDAgeworCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYy
-My1tNHUiLAorCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLW00dSI7CisJCXJlZyA9IDwwIDB4MTAy
-MDUwMDAgMCAweDEwMDA+OworCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMTA2IElSUV9UWVBFX0xF
-VkVMX0xPVz47CisJCWNsb2NrcyA9IDwmaW5mcmFjZmcgQ0xLX0lORlJBX000VT47CisJCWNsb2Nr
-LW5hbWVzID0gImJjbGsiOworCQltZWRpYXRlayxsYXJicyA9IDwmbGFyYjAgJmxhcmIxICZsYXJi
-Mj47CisJCSNpb21tdS1jZWxscyA9IDwxPjsKKwl9OworCisJanBlZ2RlYzoganBlZ2RlY0AxNTAw
-NDAwMCB7CisJCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLWpwZ2RlYyIsCisJCQkgICAg
-ICJtZWRpYXRlayxtdDI3MDEtanBnZGVjIjsKKwkJcmVnID0gPDAgMHgxNTAwNDAwMCAwIDB4MTAw
-MD47CisJCWludGVycnVwdHMgPSA8R0lDX1NQSSAxNDMgSVJRX1RZUEVfTEVWRUxfTE9XPjsKKwkJ
-Y2xvY2tzID0gIDwmaW1nc3lzIENMS19JTUdfSlBHREVDX1NNST4sCisJCQkgIDwmaW1nc3lzIENM
-S19JTUdfSlBHREVDPjsKKwkJY2xvY2stbmFtZXMgPSAianBnZGVjLXNtaSIsCisJCQkgICAgICAi
-anBnZGVjIjsKKwkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5f
-SVNQPjsKKwkJbWVkaWF0ZWssbGFyYiA9IDwmbGFyYjI+OworCQlpb21tdXMgPSA8JmlvbW11IE1U
-MjcwMV9NNFVfUE9SVF9KUEdERUNfV0RNQT4sCisJCQkgPCZpb21tdSBNVDI3MDFfTTRVX1BPUlRf
-SlBHREVDX0JTRE1BPjsKKwl9OworCisJc21pX2NvbW1vbjogc21pQDEwMDBjMDAwIHsKKwkJY29t
-cGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtc21pLWNvbW1vbiIsCisJCQkgICAgICJtZWRpYXRl
-ayxtdDI3MDEtc21pLWNvbW1vbiI7CisJCXJlZyA9IDwwIDB4MTAwMGMwMDAgMCAweDEwMDA+Owor
-CQljbG9ja3MgPSA8JmluZnJhY2ZnIENMS19JTkZSQV9TTUk+LAorCQkJIDwmbW1zeXMgQ0xLX01N
-X1NNSV9DT01NT04+LAorCQkJIDwmaW5mcmFjZmcgQ0xLX0lORlJBX1NNST47CisJCWNsb2NrLW5h
-bWVzID0gImFwYiIsICJzbWkiLCAiYXN5bmMiOworCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMg
-TVQyNzAxX1BPV0VSX0RPTUFJTl9ESVNQPjsKKwl9OworfTsKLS0gCjIuMjUuMQoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+From: Ryder Lee <ryder.lee@mediatek.com>
+
+Add display subsystem related device nodes for MT7623.
+
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: chunhui dai <chunhui.dai@mediatek.com>
+Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
+Signed-off-by: Ryder Lee <ryder.lee@mediatek.com>
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Tested-by: Frank Wunderlich <frank-w@public-files.de>
+---
+changed
+v5->v6:
+  change compatible of hdmi-node because of changes in hdmi-phy
+v4->v5:
+  add nodes to new mt7623n.dtsi to avoid conflict with mt7623a
+v3->v4:
+  drop display_components which is duplicate of existing mmsys
+v2->v3:
+  drop bls to dpi routing
+
+arm: dts: mt7623: use mt2701 compatible for hdmi node
+---
+ arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts |  72 ++++++++
+ arch/arm/boot/dts/mt7623n-rfb-emmc.dts        |  72 ++++++++
+ arch/arm/boot/dts/mt7623n.dtsi                | 172 ++++++++++++++++++
+ 3 files changed, 316 insertions(+)
+
+diff --git a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
+index 344f8c65c4aa..f41f221e56ca 100644
+--- a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
++++ b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
+@@ -21,6 +21,19 @@ chosen {
+ 		stdout-path = "serial2:115200n8";
+ 	};
+ 
++	connector {
++		compatible = "hdmi-connector";
++		label = "hdmi";
++		type = "d";
++		ddc-i2c-bus = <&hdmiddc0>;
++
++		port {
++			hdmi_connector_in: endpoint {
++				remote-endpoint = <&hdmi0_out>;
++			};
++		};
++	};
++
+ 	cpus {
+ 		cpu@0 {
+ 			proc-supply = <&mt6323_vproc_reg>;
+@@ -114,10 +127,18 @@ memory@80000000 {
+ 	};
+ };
+ 
++&bls {
++	status = "okay";
++};
++
+ &btif {
+ 	status = "okay";
+ };
+ 
++&cec {
++	status = "okay";
++};
++
+ &cir {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&cir_pins_a>;
+@@ -128,6 +149,21 @@ &crypto {
+ 	status = "okay";
+ };
+ 
++&dpi0 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		port@0 {
++			reg = <0>;
++			dpi0_out: endpoint {
++				remote-endpoint = <&hdmi0_in>;
++			};
++		};
++	};
++};
++
+ &eth {
+ 	status = "okay";
+ 
+@@ -199,6 +235,42 @@ fixed-link {
+ 	};
+ };
+ 
++&hdmi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&hdmi_pins_a>;
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		port@0 {
++			reg = <0>;
++			hdmi0_in: endpoint {
++				remote-endpoint = <&dpi0_out>;
++			};
++		};
++
++		port@1 {
++			reg = <1>;
++			hdmi0_out: endpoint {
++				remote-endpoint = <&hdmi_connector_in>;
++			};
++		};
++	};
++};
++
++&hdmiddc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&hdmi_ddc_pins_a>;
++	status = "okay";
++};
++
++&hdmi_phy {
++	mediatek,ibias = <0xa>;
++	mediatek,ibias_up = <0x1c>;
++	status = "okay";
++};
++
+ &i2c0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&i2c0_pins_a>;
+diff --git a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
+index f8efcc364bc3..1b9b9a8145a7 100644
+--- a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
++++ b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
+@@ -24,6 +24,19 @@ chosen {
+ 		stdout-path = "serial2:115200n8";
+ 	};
+ 
++	connector {
++		compatible = "hdmi-connector";
++		label = "hdmi";
++		type = "d";
++		ddc-i2c-bus = <&hdmiddc0>;
++
++		port {
++			hdmi_connector_in: endpoint {
++				remote-endpoint = <&hdmi0_out>;
++			};
++		};
++	};
++
+ 	cpus {
+ 		cpu@0 {
+ 			proc-supply = <&mt6323_vproc_reg>;
+@@ -106,10 +119,18 @@ sound {
+ 	};
+ };
+ 
++&bls {
++	status = "okay";
++};
++
+ &btif {
+ 	status = "okay";
+ };
+ 
++&cec {
++	status = "okay";
++};
++
+ &cir {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&cir_pins_a>;
+@@ -120,6 +141,21 @@ &crypto {
+ 	status = "okay";
+ };
+ 
++&dpi0 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		port@0 {
++			reg = <0>;
++			dpi0_out: endpoint {
++				remote-endpoint = <&hdmi0_in>;
++			};
++		};
++	};
++};
++
+ &eth {
+ 	status = "okay";
+ 
+@@ -203,6 +239,42 @@ fixed-link {
+ 	};
+ };
+ 
++&hdmi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&hdmi_pins_a>;
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		port@0 {
++			reg = <0>;
++			hdmi0_in: endpoint {
++				remote-endpoint = <&dpi0_out>;
++			};
++		};
++
++		port@1 {
++			reg = <1>;
++			hdmi0_out: endpoint {
++				remote-endpoint = <&hdmi_connector_in>;
++			};
++		};
++	};
++};
++
++&hdmiddc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&hdmi_ddc_pins_a>;
++	status = "okay";
++};
++
++&hdmi_phy {
++	mediatek,ibias = <0xa>;
++	mediatek,ibias_up = <0x1c>;
++	status = "okay";
++};
++
+ &i2c0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&i2c0_pins_a>;
+diff --git a/arch/arm/boot/dts/mt7623n.dtsi b/arch/arm/boot/dts/mt7623n.dtsi
+index a47e82468895..1880ac9e32cf 100644
+--- a/arch/arm/boot/dts/mt7623n.dtsi
++++ b/arch/arm/boot/dts/mt7623n.dtsi
+@@ -10,6 +10,11 @@
+ #include <dt-bindings/memory/mt2701-larb-port.h>
+ 
+ / {
++	aliases {
++		rdma0 = &rdma0;
++		rdma1 = &rdma1;
++	};
++
+ 	g3dsys: syscon@13000000 {
+ 		compatible = "mediatek,mt7623-g3dsys",
+ 			     "mediatek,mt2701-g3dsys",
+@@ -131,4 +136,171 @@ smi_common: smi@1000c000 {
+ 		clock-names = "apb", "smi", "async";
+ 		power-domains = <&scpsys MT2701_POWER_DOMAIN_DISP>;
+ 	};
++
++	ovl: ovl@14007000 {
++		compatible = "mediatek,mt7623-disp-ovl",
++			     "mediatek,mt2701-disp-ovl";
++		reg = <0 0x14007000 0 0x1000>;
++		interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DISP_OVL>;
++		iommus = <&iommu MT2701_M4U_PORT_DISP_OVL_0>;
++		mediatek,larb = <&larb0>;
++	};
++
++	rdma0: rdma@14008000 {
++		compatible = "mediatek,mt7623-disp-rdma",
++			     "mediatek,mt2701-disp-rdma";
++		reg = <0 0x14008000 0 0x1000>;
++		interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DISP_RDMA>;
++		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA>;
++		mediatek,larb = <&larb0>;
++	};
++
++	wdma@14009000 {
++		compatible = "mediatek,mt7623-disp-wdma",
++			     "mediatek,mt2701-disp-wdma";
++		reg = <0 0x14009000 0 0x1000>;
++		interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DISP_WDMA>;
++		iommus = <&iommu MT2701_M4U_PORT_DISP_WDMA>;
++		mediatek,larb = <&larb0>;
++	};
++
++	bls: pwm@1400a000 {
++		compatible = "mediatek,mt7623-disp-pwm",
++			     "mediatek,mt2701-disp-pwm";
++		reg = <0 0x1400a000 0 0x1000>;
++		#pwm-cells = <2>;
++		clocks = <&mmsys CLK_MM_MDP_BLS_26M>,
++			 <&mmsys CLK_MM_DISP_BLS>;
++		clock-names = "main", "mm";
++		status = "disabled";
++	};
++
++	color: color@1400b000 {
++		compatible = "mediatek,mt7623-disp-color",
++			     "mediatek,mt2701-disp-color";
++		reg = <0 0x1400b000 0 0x1000>;
++		interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DISP_COLOR>;
++	};
++
++	dsi: dsi@1400c000 {
++		compatible = "mediatek,mt7623-dsi",
++			     "mediatek,mt2701-dsi";
++		reg = <0 0x1400c000 0 0x1000>;
++		interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DSI_ENGINE>,
++			 <&mmsys CLK_MM_DSI_DIG>,
++			 <&mipi_tx0>;
++		clock-names = "engine", "digital", "hs";
++		phys = <&mipi_tx0>;
++		phy-names = "dphy";
++		status = "disabled";
++	};
++
++	mutex: mutex@1400e000 {
++		compatible = "mediatek,mt7623-disp-mutex",
++			     "mediatek,mt2701-disp-mutex";
++		reg = <0 0x1400e000 0 0x1000>;
++		interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_MUTEX_32K>;
++	};
++
++	rdma1: rdma@14012000 {
++		compatible = "mediatek,mt7623-disp-rdma",
++			     "mediatek,mt2701-disp-rdma";
++		reg = <0 0x14012000 0 0x1000>;
++		interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DISP_RDMA1>;
++		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA1>;
++		mediatek,larb = <&larb0>;
++	};
++
++	dpi0: dpi@14014000 {
++		compatible = "mediatek,mt7623-dpi",
++			     "mediatek,mt2701-dpi";
++		reg = <0 0x14014000 0 0x1000>;
++		interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&mmsys CLK_MM_DPI1_DIGL>,
++			 <&mmsys CLK_MM_DPI1_ENGINE>,
++			 <&apmixedsys CLK_APMIXED_TVDPLL>;
++		clock-names = "pixel", "engine", "pll";
++		status = "disabled";
++	};
++
++	hdmi0: hdmi@14015000 {
++		compatible = "mediatek,mt7623-hdmi",
++			     "mediatek,mt2701-hdmi";
++		reg = <0 0x14015000 0 0x400>;
++		clocks = <&mmsys CLK_MM_HDMI_PIXEL>,
++			 <&mmsys CLK_MM_HDMI_PLL>,
++			 <&mmsys CLK_MM_HDMI_AUDIO>,
++			 <&mmsys CLK_MM_HDMI_SPDIF>;
++		clock-names = "pixel", "pll", "bclk", "spdif";
++		phys = <&hdmi_phy>;
++		phy-names = "hdmi";
++		mediatek,syscon-hdmi = <&mmsys 0x900>;
++		cec = <&cec>;
++		status = "disabled";
++	};
++
++	mipi_tx0: mipi-dphy@10010000 {
++		compatible = "mediatek,mt7623-mipi-tx",
++			     "mediatek,mt2701-mipi-tx";
++		reg = <0 0x10010000 0 0x90>;
++		clocks = <&clk26m>;
++		clock-output-names = "mipi_tx0_pll";
++		#clock-cells = <0>;
++		#phy-cells = <0>;
++	};
++
++	cec: cec@10012000 {
++		compatible = "mediatek,mt7623-cec",
++			     "mediatek,mt8173-cec";
++		reg = <0 0x10012000 0 0xbc>;
++		interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_LOW>;
++		clocks = <&infracfg CLK_INFRA_CEC>;
++		status = "disabled";
++	};
++
++	hdmi_phy: phy@10209100 {
++		compatible = "mediatek,mt7623-hdmi-phy",
++			     "mediatek,mt2701-hdmi-phy";
++		reg = <0 0x10209100 0 0x24>;
++		clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
++		clock-names = "pll_ref";
++		clock-output-names = "hdmitx_dig_cts";
++		#clock-cells = <0>;
++		#phy-cells = <0>;
++		status = "disabled";
++	};
++
++	hdmiddc0: i2c@11013000 {
++		compatible = "mediatek,mt7623-hdmi-ddc",
++			     "mediatek,mt8173-hdmi-ddc";
++		interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_LOW>;
++		reg = <0 0x11013000 0 0x1C>;
++		clocks = <&pericfg CLK_PERI_I2C3>;
++		clock-names = "ddc-i2c";
++		status = "disabled";
++	};
++};
++
++&pio {
++	hdmi_pins_a: hdmi-default {
++		pins-hdmi {
++			pinmux = <MT7623_PIN_123_HTPLG_FUNC_HTPLG>;
++			input-enable;
++			bias-pull-down;
++		};
++	};
++
++	hdmi_ddc_pins_a: hdmi_ddc-default {
++		pins-hdmi-ddc {
++			pinmux = <MT7623_PIN_124_GPIO124_FUNC_HDMISCK>,
++				 <MT7623_PIN_125_GPIO125_FUNC_HDMISD>;
++		};
++	};
+ };
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
