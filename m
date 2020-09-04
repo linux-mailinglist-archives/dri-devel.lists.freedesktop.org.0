@@ -1,54 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0665125E4B5
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:36:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D4D25E4B7
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAAB6ED12;
-	Sat,  5 Sep 2020 00:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D74156ED0A;
+	Sat,  5 Sep 2020 00:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa2.hc3370-68.iphmx.com (esa2.hc3370-68.iphmx.com
- [216.71.145.153])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679C26E293
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 08:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1599208963;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=xLTKJpKu0Qb9zvtBCrFuNtN0uryK+Cr91K+kobkwuTU=;
- b=VJH4hc0FPhmjgut4SqbjI7CokB2tWO7ccaoYtbQZPeKo8AETmu6DDSfU
- uWYiCukAb9/QxH/zjCH7IM1NY4yc0cSjqalXiTWZtLKDIuq1sktwsuruY
- 5IQfNXZ3C6lgKNwHAwXcVM0nkJ4971tSTcYWex88WkjAiPBi2OCjDiGg7 s=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: h5tULVCP7TU027wl9AXL6ZQ6VRDTloWxNR1nakHosYYzU8awVMN14syMLQayv9uBc8sCFQrpo9
- MPsKynxlrUeIV2fLzkBXNB2LUVlnfaK5CMhGyHMRLQdBCX/4b+icfvHWVHnKE5oWjtKeDrh1Vt
- bxXRH4/LS58XLNlEMXW3QOoEhr480K9hH8A115xIrprTnfo3A9FB8sMcgG1DSn17YgpLbZzhqS
- 8hNixQHRV8a/451xr8mSb/Ts/liLTz0NYAxGPT2Wdtw9MukJ2GIKcdJVYScDS0jHAxjENA9Gp1
- +EE=
-X-SBRS: 2.7
-X-MesageID: 26001821
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.76,389,1592884800"; d="scan'208";a="26001821"
-Date: Fri, 4 Sep 2020 10:42:29 +0200
-From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: =?utf-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Subject: Re: [PATCH v5 3/3] xen: add helpers to allocate unpopulated memory
-Message-ID: <20200904084229.GN753@Air-de-Roger>
-References: <20200901083326.21264-1-roger.pau@citrix.com>
- <20200901083326.21264-4-roger.pau@citrix.com>
- <b1713f26-8202-ac1e-c18a-4989312219b9@suse.com>
- <20200903163837.GM753@Air-de-Roger>
- <6fd73d30-5525-7f00-1e9c-d7bb96ea34a6@suse.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCAF6EB23
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 09:06:56 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id F0E415C00D0;
+ Fri,  4 Sep 2020 05:06:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 04 Sep 2020 05:06:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=1o72WctqDY+zCsC7OnIzx9kRKHo
+ rm2lEhRdF3SbI988=; b=mmkmS07oJ9t+hn7BZy/wUf/OZ8JyrTcZCuDqU5Hs1lW
+ Z6IKxmrtcA3beKHfsh9kU0QkYCqZZ7RD+v7pywU47rN6gZI0NwUaciEMiS/Zg+hF
+ xnj8iXpfFqeyedhqG7LQxcIs8cEezMWGY/Q7pDeuZtLUeElMNleAX2o+FuW0HxW3
+ 67uvviIgIAUrLVsAcqHNTZdR2QQdStLcoUOtAOV0ZtKRrMt4me9dsVkwvTyYUldn
+ VrTPnmT1TtjSZmk/Hb4xR5ZV3ezMEFU7bdw9dbY509FpyMQcCkEzjzVNkf2tQ+kz
+ IwUZ/k9zVXWtFmGVsNgGNFIKndlAo+bZ6psBvct9EGg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1o72Wc
+ tqDY+zCsC7OnIzx9kRKHorm2lEhRdF3SbI988=; b=B6AlSxfmtTl9Cz8YOPlVdL
+ YEu1NeaNWiQjWbuvnoee3l0nCLw+warrKXz3YuW4RrQt7AdbxEoPVOfp4Uaq1/Jp
+ pE+yXnVgA77m86zNBMt++G4Baq9qpt2xXmlal2HfiTCZFgONAUpvYGOUwFkqhdE9
+ 5e+w4iekdpLkUVNSU3LkY4lOa+Ydlej7SUZ1RQLtMkcR7+0UcKbfQYQNPQd8JqWn
+ 6sjf1bbtA7Ks/nEn/82H0YUuaZpV3yGmbw0yXbZrX1MAoR93givFoSPndjIAT4vz
+ WH9bcfntKeK2Rli+oA8S63YgnE9Ci7AKNSurV3teq+HG9bbzAXi/We9I8Suv2vPw
+ ==
+X-ME-Sender: <xms:qgNSXxVyDTwliPx1VeoondJ50dM2zGrkqiazTTUAUinzcWwlVuaCTw>
+ <xme:qgNSXxmNik9BPqLeM-dtT5asS-rFi8kC6uBf0Iv3dfLC8fgo5JcEMe1bEB8PSiuEP
+ ea1ohgX2_fI02Ssa9g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegfedguddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:qgNSX9bhLhH-xW3rILo-qCiSS8PirrzWZDGL3aCPCUpaQVqzEguo6Q>
+ <xmx:qgNSX0XYB3rmDmXIcDp_dWYIfDZ-MyLvp7Uxi3NHexf3-ZftxHpWsQ>
+ <xmx:qgNSX7nXhHMCP9D3dUm1AiZVxs0LvJ3OUJB2zaYRPsIw1155kpd76A>
+ <xmx:rANSX2vm5xsG4RxFK0Wm6C-R0kpmAF9bLi3WrbqQAf5eJ6T7fteSiA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9A74C328005A;
+ Fri,  4 Sep 2020 05:06:50 -0400 (EDT)
+Date: Fri, 4 Sep 2020 11:06:48 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH] drm/sun4i: Fix DE2 YVU handling
+Message-ID: <20200904090648.wj74dlkgp5qo3mfb@gilmour.lan>
+References: <20200901220305.6809-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6fd73d30-5525-7f00-1e9c-d7bb96ea34a6@suse.com>
-X-ClientProxiedBy: AMSPEX02CAS01.citrite.net (10.69.22.112) To
- FTLPEX02CL06.citrite.net (10.13.108.179)
+In-Reply-To: <20200901220305.6809-1-jernej.skrabec@siol.net>
 X-Mailman-Approved-At: Sat, 05 Sep 2020 00:35:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,96 +78,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
- David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: irlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org,
+ Roman Stratiienko <r.stratiienko@gmail.com>
+Content-Type: multipart/mixed; boundary="===============2010710705=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMDQsIDIwMjAgYXQgMDk6MDA6MThBTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3
-cm90ZToKPiBPbiAwMy4wOS4yMCAxODozOCwgUm9nZXIgUGF1IE1vbm7DqSB3cm90ZToKPiA+IE9u
-IFRodSwgU2VwIDAzLCAyMDIwIGF0IDA1OjMwOjA3UE0gKzAyMDAsIErDvHJnZW4gR3Jvw58gd3Jv
-dGU6Cj4gPiA+IE9uIDAxLjA5LjIwIDEwOjMzLCBSb2dlciBQYXUgTW9ubmUgd3JvdGU6Cj4gPiA+
-ID4gVG8gYmUgdXNlZCBpbiBvcmRlciB0byBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4gVGhpcyBp
-cyBiYXNlZCBvbiB0aGUKPiA+ID4gPiBaT05FX0RFVklDRSBmYWNpbGl0eSB3aGljaCBpcyB1c2Vk
-IGJ5IHBlcnNpc3RlbnQgbWVtb3J5IGRldmljZXMgaW4KPiA+ID4gPiBvcmRlciB0byBjcmVhdGUg
-c3RydWN0IHBhZ2VzIGFuZCBrZXJuZWwgdmlydHVhbCBtYXBwaW5ncyBmb3IgdGhlIElPTUVNCj4g
-PiA+ID4gYXJlYXMgb2Ygc3VjaCBkZXZpY2VzLiBOb3RlIHRoYXQgb24ga2VybmVscyB3aXRob3V0
-IHN1cHBvcnQgZm9yCj4gPiA+ID4gWk9ORV9ERVZJQ0UgWGVuIHdpbGwgZmFsbGJhY2sgdG8gdXNl
-IGJhbGxvb25lZCBwYWdlcyBpbiBvcmRlciB0bwo+ID4gPiA+IGNyZWF0ZSBmb3JlaWduIG1hcHBp
-bmdzLgo+ID4gPiA+IAo+ID4gPiA+IFRoZSBuZXdseSBhZGRlZCBoZWxwZXJzIHVzZSB0aGUgc2Ft
-ZSBwYXJhbWV0ZXJzIGFzIHRoZSBleGlzdGluZwo+ID4gPiA+IHthbGxvYy9mcmVlfV94ZW5iYWxs
-b29uZWRfcGFnZXMgZnVuY3Rpb25zLCB3aGljaCBhbGxvd3MgZm9yIGluLXBsYWNlCj4gPiA+ID4g
-cmVwbGFjZW1lbnQgb2YgdGhlIGNhbGxlcnMuIE9uY2UgYSBtZW1vcnkgcmVnaW9uIGhhcyBiZWVu
-IGFkZGVkIHRvIGJlCj4gPiA+ID4gdXNlZCBhcyBzY3JhdGNoIG1hcHBpbmcgc3BhY2UgaXQgd2ls
-bCBubyBsb25nZXIgYmUgcmVsZWFzZWQsIGFuZCBwYWdlcwo+ID4gPiA+IHJldHVybmVkIGFyZSBr
-ZXB0IGluIGEgbGlua2VkIGxpc3QuIFRoaXMgYWxsb3dzIHRvIGhhdmUgYSBidWZmZXIgb2YKPiA+
-ID4gPiBwYWdlcyBhbmQgcHJldmVudHMgcmVzb3J0aW5nIHRvIGZyZXF1ZW50IGFkZGl0aW9ucyBh
-bmQgcmVtb3ZhbHMgb2YKPiA+ID4gPiByZWdpb25zLgo+ID4gPiA+IAo+ID4gPiA+IElmIGVuYWJs
-ZWQgKGJlY2F1c2UgWk9ORV9ERVZJQ0UgaXMgc3VwcG9ydGVkKSB0aGUgdXNhZ2Ugb2YgdGhlIG5l
-dwo+ID4gPiA+IGZ1bmN0aW9uYWxpdHkgdW50YW5nbGVzIFhlbiBiYWxsb29uIGFuZCBSQU0gaG90
-cGx1ZyBmcm9tIHRoZSB1c2FnZSBvZgo+ID4gPiA+IHVucG9wdWxhdGVkIHBoeXNpY2FsIG1lbW9y
-eSByYW5nZXMgdG8gbWFwIGZvcmVpZ24gcGFnZXMsIHdoaWNoIGlzIHRoZQo+ID4gPiA+IGNvcnJl
-Y3QgdGhpbmcgdG8gZG8gaW4gb3JkZXIgdG8gYXZvaWQgbWFwcGluZ3Mgb2YgZm9yZWlnbiBwYWdl
-cyBkZXBlbmQKPiA+ID4gPiBvbiBtZW1vcnkgaG90cGx1Zy4KPiA+ID4gPiAKPiA+ID4gPiBOb3Rl
-IHRoZSBkcml2ZXIgaXMgY3VycmVudGx5IG5vdCBlbmFibGVkIG9uIEFybSBwbGF0Zm9ybXMgYmVj
-YXVzZSBpdAo+ID4gPiA+IHdvdWxkIGludGVyZmVyZSB3aXRoIHRoZSBpZGVudGl0eSBtYXBwaW5n
-IHJlcXVpcmVkIG9uIHNvbWUgcGxhdGZvcm1zLgo+ID4gPiA+IAo+ID4gPiA+IFNpZ25lZC1vZmYt
-Ynk6IFJvZ2VyIFBhdSBNb25uw6kgPHJvZ2VyLnBhdUBjaXRyaXguY29tPgo+ID4gPiAKPiA+ID4g
-U29ycnksIEkganVzdCBnb3QgYSBidWlsZCBlcnJvciBmb3IgeDg2IDMyLWJpdCBidWlsZDoKPiA+
-ID4gCj4gPiA+IFdBUk5JTkc6IHVubWV0IGRpcmVjdCBkZXBlbmRlbmNpZXMgZGV0ZWN0ZWQgZm9y
-IFpPTkVfREVWSUNFCj4gPiA+ICAgIERlcGVuZHMgb24gW25dOiBNRU1PUllfSE9UUExVRyBbPW5d
-ICYmIE1FTU9SWV9IT1RSRU1PVkUgWz1uXSAmJgo+ID4gPiBTUEFSU0VNRU1fVk1FTU1BUCBbPW5d
-ICYmIEFSQ0hfSEFTX1BURV9ERVZNQVAgWz1uXQo+ID4gPiAgICBTZWxlY3RlZCBieSBbeV06Cj4g
-PiA+ICAgIC0gWEVOX1VOUE9QVUxBVEVEX0FMTE9DIFs9eV0gJiYgWEVOIFs9eV0gJiYgWDg2IFs9
-eV0KPiA+ID4gICAgR0VOICAgICBNYWtlZmlsZQo+ID4gPiAgICBDQyAgICAgIGtlcm5lbC9ib3Vu
-ZHMucwo+ID4gPiAgICBDQUxMICAgIC9ob21lL2dyb3NzL2tvcmcvc3JjL3NjcmlwdHMvYXRvbWlj
-L2NoZWNrLWF0b21pY3Muc2gKPiA+ID4gICAgVVBEICAgICBpbmNsdWRlL2dlbmVyYXRlZC9ib3Vu
-ZHMuaAo+ID4gPiAgICBDQyAgICAgIGFyY2gveDg2L2tlcm5lbC9hc20tb2Zmc2V0cy5zCj4gPiA+
-IEluIGZpbGUgaW5jbHVkZWQgZnJvbSAvaG9tZS9ncm9zcy9rb3JnL3NyYy9pbmNsdWRlL2xpbnV4
-L21tem9uZS5oOjE5OjAsCj4gPiA+ICAgICAgICAgICAgICAgICAgIGZyb20gL2hvbWUvZ3Jvc3Mv
-a29yZy9zcmMvaW5jbHVkZS9saW51eC9nZnAuaDo2LAo+ID4gPiAgICAgICAgICAgICAgICAgICBm
-cm9tIC9ob21lL2dyb3NzL2tvcmcvc3JjL2luY2x1ZGUvbGludXgvc2xhYi5oOjE1LAo+ID4gPiAg
-ICAgICAgICAgICAgICAgICBmcm9tIC9ob21lL2dyb3NzL2tvcmcvc3JjL2luY2x1ZGUvbGludXgv
-Y3J5cHRvLmg6MTksCj4gPiA+ICAgICAgICAgICAgICAgICAgIGZyb20gL2hvbWUvZ3Jvc3Mva29y
-Zy9zcmMvYXJjaC94ODYva2VybmVsL2FzbS1vZmZzZXRzLmM6OToKPiA+ID4gL2hvbWUvZ3Jvc3Mv
-a29yZy9zcmMvaW5jbHVkZS9saW51eC9wYWdlLWZsYWdzLWxheW91dC5oOjk1OjI6IGVycm9yOiAj
-ZXJyb3IKPiA+ID4gIk5vdCBlbm91Z2ggYml0cyBpbiBwYWdlIGZsYWdzIgo+ID4gPiAgICNlcnJv
-ciAiTm90IGVub3VnaCBiaXRzIGluIHBhZ2UgZmxhZ3MiCj4gPiA+ICAgIF5+fn5+Cj4gPiA+IG1h
-a2VbMl06ICoqKiBbL2hvbWUvZ3Jvc3Mva29yZy9zcmMvc2NyaXB0cy9NYWtlZmlsZS5idWlsZDox
-MTQ6Cj4gPiA+IGFyY2gveDg2L2tlcm5lbC9hc20tb2Zmc2V0cy5zXSBFcnJvciAxCj4gPiA+IG1h
-a2VbMV06ICoqKiBbL2hvbWUvZ3Jvc3Mva29yZy9zcmMvTWFrZWZpbGU6MTE3NTogcHJlcGFyZTBd
-IEVycm9yIDIKPiA+ID4gbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgJy9ob21lL2dyb3NzL2tv
-cmcveDg2MzInCj4gPiA+IG1ha2U6ICoqKiBbTWFrZWZpbGU6MTg1OiBfX3N1Yi1tYWtlXSBFcnJv
-ciAyCj4gPiAKPiA+IFNvcnJ5IGZvciB0aGlzLiBJJ3ZlIHRlc3RlZCBhIDMyYml0IGJ1aWxkIGJ1
-dCBJIHRoaW5rIGl0IHdhcyBiZWZvcmUKPiA+IHRoZSBsYXN0IEtjb25maWcgY2hhbmdlcy4gSSdt
-IGEgbGl0dGxlIHVuc3VyZSBob3cgdG8gc29sdmUgdGhpcywgYXMKPiA+IFpPTkVfREVWSUNFIGRv
-ZXNuJ3Qgc2VsZWN0IHRoZSByZXF1aXJlZCBvcHRpb25zIGZvciBpdCB0byBydW4sIGJ1dAo+ID4g
-cmF0aGVyIGRlcGVuZHMgb24gdGhlbSB0byBiZSBhdmFpbGFibGUuCj4gPiAKPiA+IFlvdSBjYW4g
-dHJpZ2dlciBzb21ldGhpbmcgc2ltaWxhciBvbiB4ODYtNjQgYnkgZG9pbmc6Cj4gPiAKPiA+ICQg
-bWFrZSBBUkNIPXg4Nl82NCB4ZW4uY29uZmlnCj4gPiBVc2luZyAuY29uZmlnIGFzIGJhc2UKPiA+
-IE1lcmdpbmcgLi9rZXJuZWwvY29uZmlncy94ZW4uY29uZmlnCj4gPiBNZXJnaW5nIC4vYXJjaC94
-ODYvY29uZmlncy94ZW4uY29uZmlnCj4gPiAjCj4gPiAjIG1lcmdlZCBjb25maWd1cmF0aW9uIHdy
-aXR0ZW4gdG8gLmNvbmZpZyAobmVlZHMgbWFrZSkKPiA+ICMKPiA+IHNjcmlwdHMva2NvbmZpZy9j
-b25mICAtLW9sZGRlZmNvbmZpZyBLY29uZmlnCj4gPiAKPiA+IFdBUk5JTkc6IHVubWV0IGRpcmVj
-dCBkZXBlbmRlbmNpZXMgZGV0ZWN0ZWQgZm9yIFpPTkVfREVWSUNFCj4gPiAgICBEZXBlbmRzIG9u
-IFtuXTogTUVNT1JZX0hPVFBMVUcgWz15XSAmJiBNRU1PUllfSE9UUkVNT1ZFIFs9bl0gJiYgU1BB
-UlNFTUVNX1ZNRU1NQVAgWz15XSAmJiBBUkNIX0hBU19QVEVfREVWTUFQIFs9eV0KPiA+ICAgIFNl
-bGVjdGVkIGJ5IFt5XToKPiA+ICAgIC0gWEVOX1VOUE9QVUxBVEVEX0FMTE9DIFs9eV0gJiYgWEVO
-IFs9eV0gJiYgWDg2XzY0IFs9eV0KPiA+ICMKPiA+ICMgY29uZmlndXJhdGlvbiB3cml0dGVuIHRv
-IC5jb25maWcKPiA+ICMKPiA+IAo+ID4gSSB0aGluayB0aGUgb25seSBzb2x1dGlvbiBpcyB0byBo
-YXZlIFhFTl9VTlBPUFVMQVRFRF9BTExPQyBkZXBlbmQgb24KPiA+IFpPTkVfREVWSUNFIHJhdGhl
-ciB0aGFuIHNlbGVjdCBpdD8KPiAKPiBZZXMsIEkgdGhpbmsgc28uCj4gCj4gSSd2ZSBmb2xkZWQg
-dGhhdCBpbiBhbmQgbm93IGJ1aWxkIGlzIGZpbmUuCgpUaGFua3MsIEkgYXNzdW1lIG5vIGZ1cnRo
-ZXIgYWN0aW9uIGlzIG5lZWRlZCBvbiBteSBzaWRlLgoKUm9nZXIuCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============2010710705==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="lhvls7hmqle5lecj"
+Content-Disposition: inline
+
+
+--lhvls7hmqle5lecj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 02, 2020 at 12:03:05AM +0200, Jernej Skrabec wrote:
+> Function sun8i_vi_layer_get_csc_mode() is supposed to return CSC mode
+> but due to inproper return type (bool instead of u32) it returns just 0
+> or 1. Colors are wrong for YVU formats because of that.
+>=20
+> Fixes: daab3d0e8e2b ("drm/sun4i: de2: csc_mode in de2 format struct is mo=
+stly redundant")
+> Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+
+Applied, thanks!
+Maxime
+
+--lhvls7hmqle5lecj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX1IDqAAKCRDj7w1vZxhR
+xeuJAP90RxwlsHMsS3BsBTa5ovNs3ktqUgJLNp2+jXLIhC6XHwD+KvQYtc0bFTNH
+ISN+iTcZw/oBVJVpnbDLCORYtX1qNgs=
+=Alq+
+-----END PGP SIGNATURE-----
+
+--lhvls7hmqle5lecj--
+
+--===============2010710705==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2010710705==--
