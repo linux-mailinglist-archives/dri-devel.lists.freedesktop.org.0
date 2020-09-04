@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BE425DA2E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 15:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DB525DBEA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 16:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1986E29E;
-	Fri,  4 Sep 2020 13:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01D236EBA3;
+	Fri,  4 Sep 2020 14:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73C256E151
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 13:42:56 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id v16so5865769otp.10
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 06:42:56 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 675A66EBA3
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:39:52 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id w5so6994239wrp.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 07:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KCjhFigRCnxuR+n/x42/B7BmTnslOFqpAi74/rceJjU=;
- b=N/iFzTCfxZsmpLptZRvTvYDbSSOkE57O8xGBA5IxeEtaOV/VTKg+N1rk3mU68vKu2S
- irFtQ8XW+y25YgfP17RgoBVlKiim0p8fbJbAIc5yC1pzHEtVFl3MrBv18nS2Jh0/UwAA
- wYjTYzcRqq8txj8zFs91yyYSCewV6aCdzX7TE=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nj1LXr5SmR8mPY+7JqmSg1xTdauPRS5mjVoCd94bZjU=;
+ b=hJAPrGZqCSLKyZyTnahX2RMeMHJiHxPhofDaiGz8ZgEPerncqsv5WRUsD58IsjlDXV
+ cYW1wpuOALDf5VoL2mUMDwfUObL0C+kXHfLs2hboKSQcBpHJNowd1wtuNtbpUZXY7+jn
+ PHBfS9MZUWCeUNGCevqL3/cg9DQXQd4KZHIqw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KCjhFigRCnxuR+n/x42/B7BmTnslOFqpAi74/rceJjU=;
- b=JO8EM8pu05vvCrILrDct9/prttBX9vYdmWZTBJ1Miy/SUjkQEibuqPsQ7DvEwSDLql
- 4WMclQfQBfersEhVRFfzhQmPKoi0vITMEcM7DE9DvpfeNJKIOPLB4FOoqGpjbiVJiDFZ
- ltsGcTFMHiFOkxd+DLgwvgueQR1iK9+KF2H+Ls1610nGB4LX09HSb8ArAKrpsw4tOUU5
- xUKHNzcOdGBuaqdhKv411rCl5PU8LkxTfW8vHTanq0+c5fDWz25tZERQswasTBRqQbIq
- DsLpIeIDdJQi87T7c2uPxv7JpF1trIWkjWuS9LO5jt/qIdsgQZxvufEEMEUpDX5pwj1G
- XiDA==
-X-Gm-Message-State: AOAM5321kaUaJgPlBf/T04Gh0tJd7zT1amRQca+H8OwE1j0vrIGtP8HQ
- lUHdpe0EyNrXLdupuSMT442tWXxnJv2nF3ZIKx8x4g==
-X-Google-Smtp-Source: ABdhPJz4AYLB9qLfFgbnbP6K9rXahHrgbv4wnKxqLFilnKxCQUuStOeetrn1PBik1eVM/WaQCCX9X604j9cuANASCjU=
-X-Received: by 2002:a9d:7a52:: with SMTP id z18mr5746866otm.281.1599226975701; 
- Fri, 04 Sep 2020 06:42:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-41-daniel.vetter@ffwll.ch>
- <20200424164626.GD3822@ravnborg.org>
-In-Reply-To: <20200424164626.GD3822@ravnborg.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nj1LXr5SmR8mPY+7JqmSg1xTdauPRS5mjVoCd94bZjU=;
+ b=UcS1w2wp7IQan+SWtuPX66Jl2cCkux1RQVOCWJ4KdxP0696kRYMtS29e39NvXKdXnl
+ FbuBr7LMpAeOdOhtgxmvb2ATsgWYPK0ickxsaD0J7/biXXQNB8EwDmHWrA6CvpjLFxb/
+ RzRt29p0weH2QPwSDGy7tNWPknLpDxErxUQ4vKl5m1wSGynhB+t9Je6RCRH6Zavdg4JV
+ hF4gm3vVPOhdv0uotjI6Wg/MVtO6hsdAX291e6Gk2R9GO8wmnXhWil01j9COdbRgAy7e
+ WaCoQCAVzUAQ6uNmdJhCfObHtcwLZEAd6BHmcPMnxT/dgsp0tBc+VALpMlASM8sY8Xg7
+ Cgsw==
+X-Gm-Message-State: AOAM532vMgD5xfzPK1j/jqVF0cHYEvgPb62Yu4CrkhQwgRHdoA9s91r5
+ pmXAl090lNXJ9XMlUn/uLjPZXLRcX+aloCRe
+X-Google-Smtp-Source: ABdhPJwy06z13lLVJqFHnj9qeWAmfyrEPDa4eXi6sWBMhaYi8VpmRhMIORfYphn1FSLZbb+/0om3/Q==
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr8616615wrm.229.1599230390647; 
+ Fri, 04 Sep 2020 07:39:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z15sm11597949wrv.94.2020.09.04.07.39.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 07:39:50 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 4 Sep 2020 15:42:44 +0200
-Message-ID: <CAKMK7uGcNnFqcwAQMSOuvCeX==vbtbRNe88cgr-yeuWiFJaUcQ@mail.gmail.com>
-Subject: Re: [PATCH 40/59] drm/arcpgu: Stop using drm_device->dev_private
-To: Sam Ravnborg <sam@ravnborg.org>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/24] drm_managed, leftovers
+Date: Fri,  4 Sep 2020 16:39:17 +0200
+Message-Id: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,125 +61,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 24, 2020 at 6:46 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Daniel.
->
-> On Wed, Apr 15, 2020 at 09:40:15AM +0200, Daniel Vetter wrote:
-> > Upcasting using a container_of macro is more typesafe, faster and
-> > easier for the compiler to optimize.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Alexey Brodkin <abrodkin@synopsys.com>
->
-> Subject: drm/arc: arcpgu: Stop using drm_device->dev_private
->
-> And another bikeshedding below.
-> With this considered:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->
-> > ---
-> >  drivers/gpu/drm/arc/arcpgu.h      | 2 ++
-> >  drivers/gpu/drm/arc/arcpgu_crtc.c | 4 ++--
-> >  drivers/gpu/drm/arc/arcpgu_drv.c  | 4 +---
-> >  3 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
-> > index cd9e932f501e..87821c91a00c 100644
-> > --- a/drivers/gpu/drm/arc/arcpgu.h
-> > +++ b/drivers/gpu/drm/arc/arcpgu.h
-> > @@ -17,6 +17,8 @@ struct arcpgu_drm_private {
-> >       struct drm_plane        *plane;
-> >  };
-> >
-> > +#define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, drm)
-> > +
-> Preferred name is to_arcgpu(). There is no device in the name of struct
-> arcpgu_drm_private. And the general consensus it to use to_<driver> for
-> the top-level struct.
+Hi all,
 
-[Sorry just realized I never replied on-list for this here]
+After quite a long interruption with looking too much at dma-fence I've
+found some time (and motivation due to questions from people who got
+confused by the intermediate state) to polish this off. Changes:
 
-drm_device very much has a dev_  and there's some other drivders with
-this pattern too. Plus I think it's more consistent with the other
-macros in here. For simple drivers where there's only 1 structure I
-agree though, so if you insist I can follow up with a patch. Fixing
-this in-series is imo too much trouble for the benefit, every single
-patch would need to be redone ...
+- arc changes moved to the end, since they're not really critical. Iirc
+  there's still a bug in there, but some are fixed in this version, so
+  needs some testing. Also added some of the Acks from Sam, and applied
+  the minor nits.
+
+- virtual drivers (vkms, vgem & i915 selftests) changed to use
+  devres_open/release_group, so that we don't need a hack in driver core
+  or an entire fake bus.
+
+I'd really like to get "drm/dev: Remove drm_dev_init" so that all the
+confusing intermediate functions are gone from drivers.
+
+Review, testing, comments all very much welcome like usual.
 
 Cheers, Daniel
 
->
-> >  #define crtc_to_arcpgu_priv(x) container_of(x, struct arcpgu_drm_private, crtc)
-> >
-> >  static inline void arc_pgu_write(struct arcpgu_drm_private *arcpgu,
-> > diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
-> > index be7c29cec318..ba796a216244 100644
-> > --- a/drivers/gpu/drm/arc/arcpgu_crtc.c
-> > +++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
-> > @@ -178,7 +178,7 @@ static const struct drm_plane_funcs arc_pgu_plane_funcs = {
-> >
-> >  static struct drm_plane *arc_pgu_plane_init(struct drm_device *drm)
-> >  {
-> > -     struct arcpgu_drm_private *arcpgu = drm->dev_private;
-> > +     struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
-> >       struct drm_plane *plane = NULL;
-> >       int ret;
-> >
-> > @@ -202,7 +202,7 @@ static struct drm_plane *arc_pgu_plane_init(struct drm_device *drm)
-> >
-> >  int arc_pgu_setup_crtc(struct drm_device *drm)
-> >  {
-> > -     struct arcpgu_drm_private *arcpgu = drm->dev_private;
-> > +     struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
-> >       struct drm_plane *primary;
-> >       int ret;
-> >
-> > diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-> > index bbd7acb150f3..81b8d7ae6623 100644
-> > --- a/drivers/gpu/drm/arc/arcpgu_drv.c
-> > +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-> > @@ -50,8 +50,6 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
-> >       struct resource *res;
-> >       int ret;
-> >
-> > -     drm->dev_private = arcpgu;
-> > -
-> >       arcpgu->clk = devm_clk_get(drm->dev, "pxlclk");
-> >       if (IS_ERR(arcpgu->clk))
-> >               return PTR_ERR(arcpgu->clk);
-> > @@ -120,7 +118,7 @@ static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
-> >  {
-> >       struct drm_info_node *node = (struct drm_info_node *)m->private;
-> >       struct drm_device *drm = node->minor->dev;
-> > -     struct arcpgu_drm_private *arcpgu = drm->dev_private;
-> > +     struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
-> >       unsigned long clkrate = clk_get_rate(arcpgu->clk);
-> >       unsigned long mode_clock = arcpgu->crtc.mode.crtc_clock * 1000;
-> >
-> > --
-> > 2.25.1
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Daniel Vetter (24):
+  drm/armada: Use devm_drm_dev_alloc
+  drm/armada: Don't use drm_device->dev_private
+  drm/aspeed: Use managed drmm_mode_config_cleanup
+  drm/vgem: Use devm_drm_dev_alloc
+  drm/vkms: Use devm_drm_dev_alloc
+  drm/xlnx: Use devm_drm_dev_alloc
+  drm/i915/selftest: Create mock_destroy_device
+  drm/i915/selftests: align more to real device lifetimes
+  drm/dev: Remove drm_dev_init
+  drm/arc: Switch to devm_drm_dev_alloc
+  drm/arc: Stop using drm_device->dev_private
+  drm/arc: Delete arcpgu_priv->fb
+  drm/arc: Embedded a drm_simple_display_pipe
+  drm/arc: Embedd a drm_connector for sim case
+  drm/arc: Drop surplus connector registration
+  drm/arc: Use drmm_mode_config_cleanup
+  drm/arc: Align with simple pipe helpers
+  drm/arc: Convert to drm_simple_kms_pipe_helper
+  drm/arc: Drop crtc check in arc_pgu_update
+  drm/arc: Inline arcpgu_crtc.c
+  drm/arc: Inline arcpgu_drm_hdmi_init
+  drm/arc: Inline remaining files
+  drm/arc: Initialize sim connector before display pipe
+  drm/arc: Move to drm/tiny
 
-
+ MAINTAINERS                                   |   2 +-
+ drivers/gpu/drm/Kconfig                       |   2 -
+ drivers/gpu/drm/Makefile                      |   1 -
+ drivers/gpu/drm/arc/Kconfig                   |  10 -
+ drivers/gpu/drm/arc/Makefile                  |   3 -
+ drivers/gpu/drm/arc/arcpgu.h                  |  37 --
+ drivers/gpu/drm/arc/arcpgu_crtc.c             | 222 ---------
+ drivers/gpu/drm/arc/arcpgu_drv.c              | 224 ---------
+ drivers/gpu/drm/arc/arcpgu_hdmi.c             |  48 --
+ drivers/gpu/drm/arc/arcpgu_regs.h             |  31 --
+ drivers/gpu/drm/arc/arcpgu_sim.c              | 108 -----
+ drivers/gpu/drm/armada/armada_crtc.c          |   4 +-
+ drivers/gpu/drm/armada/armada_debugfs.c       |   2 +-
+ drivers/gpu/drm/armada/armada_drm.h           |   2 +
+ drivers/gpu/drm/armada/armada_drv.c           |  30 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |   4 +-
+ drivers/gpu/drm/armada/armada_gem.c           |   4 +-
+ drivers/gpu/drm/armada/armada_overlay.c       |   8 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  15 +-
+ drivers/gpu/drm/drm_drv.c                     |  41 +-
+ drivers/gpu/drm/drm_internal.h                |   1 +
+ drivers/gpu/drm/drm_managed.c                 |  13 -
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_object.c  |   2 +-
+ .../drm/i915/gem/selftests/i915_gem_phys.c    |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |   2 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |   2 +-
+ .../drm/i915/selftests/intel_memory_region.c  |   2 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  47 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.h  |   2 +
+ drivers/gpu/drm/tiny/Kconfig                  |  10 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/arcpgu.c                 | 434 ++++++++++++++++++
+ drivers/gpu/drm/vgem/vgem_drv.c               |  55 +--
+ drivers/gpu/drm/vkms/vkms_drv.c               |  54 ++-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  21 +-
+ include/drm/drm_drv.h                         |   4 -
+ 42 files changed, 578 insertions(+), 884 deletions(-)
+ delete mode 100644 drivers/gpu/drm/arc/Kconfig
+ delete mode 100644 drivers/gpu/drm/arc/Makefile
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu.h
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_crtc.c
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_drv.c
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_hdmi.c
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_regs.h
+ delete mode 100644 drivers/gpu/drm/arc/arcpgu_sim.c
+ create mode 100644 drivers/gpu/drm/tiny/arcpgu.c
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
