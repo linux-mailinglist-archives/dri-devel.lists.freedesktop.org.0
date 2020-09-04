@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636D525E4B6
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B6125E4A4
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90656ED14;
-	Sat,  5 Sep 2020 00:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA116ECFA;
+	Sat,  5 Sep 2020 00:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F516EC01
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1599231010;
- bh=ODT7HpTlapjg5CzOuoOTo8SJPHHlMe4W9upOfVEYdWw=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=f39O04PVwAFnb1Bob0H9dxvF/DnWuFN1q8xkj+8Wkh0b3eMeMngyTGLEW3+oTejQg
- MJ3TkykQJWhSDpzkVXQW0g5ApKk4ezdT6ExBgXaWrsr6pbTAVNH7NEYNHFUM0P7it5
- JTkTAN0GpTM6Nm+K36BBBBTrZGjqFf3rD+o3YrRc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.147.193] ([217.61.147.193]) by web-mail.gmx.net
- (3c-app-gmx-bs07.server.lan [172.19.170.56]) (via HTTP); Fri, 4 Sep 2020
- 16:50:10 +0200
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C1D6EBFD
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 14:53:23 +0000 (UTC)
+Received: from fsav110.sakura.ne.jp (fsav110.sakura.ne.jp [27.133.134.237])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 084ErJOu003314;
+ Fri, 4 Sep 2020 23:53:19 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav110.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav110.sakura.ne.jp);
+ Fri, 04 Sep 2020 23:53:19 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav110.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 084ErIRe003301
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Fri, 4 Sep 2020 23:53:19 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH v2 (resend)] video: fbdev: fix OOB read in
+ vga_8planes_imageblit()
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <11ad8786-e407-3289-8bd9-2745c4834718@i-love.sakura.ne.jp>
+ <90b55ec3-d5b0-3307-9f7c-7ff5c5fd6ad3@i-love.sakura.ne.jp>
+Message-ID: <36618e37-2cb6-8114-7a43-788780fae321@i-love.sakura.ne.jp>
+Date: Fri, 4 Sep 2020 23:53:16 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Message-ID: <trinity-3825f323-0deb-4f60-8cd5-b673f02e7115-1599231010390@3c-app-gmx-bs07>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Aw: Re: [PATCH v5 0/4] Move Mediatek HDMI PHY driver from DRM
- folder to PHY folder
-Date: Fri, 4 Sep 2020 16:50:10 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <CAAOTY_9ELMBK7zPeeBQ39QjJ9g4PsOhpHXsTBHgcq=kNk8bRxA@mail.gmail.com>
-References: <20200823014830.15962-1-chunkuang.hu@kernel.org>
- <CAAOTY_9ELMBK7zPeeBQ39QjJ9g4PsOhpHXsTBHgcq=kNk8bRxA@mail.gmail.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:KpMzbqOqM5q/mCTt5CedCNkbKG9MoqFurTCaE2fv8zT3Jk8FbuztfGPNDkS8ZIUwmmNrm
- swZAg1L3OfhnPQLicSZu+5aaVonS5O/nItBgBB+usLTMycfJOW18FzbM9RCje9Utso/6tA7juSxI
- T+0UDN8w7zuiLir2AEBDU/V/PyIYpPu3JDa8M4RmPcYKcvaWqYGqq7Iu+HFPnUVzoeijhQxaybZc
- AMXQYTBxTNsOVIb3mLGWVjy+BnELcjsMLl9ZLG6WQ2BCNSwAuct87WWOTrTWN8/iqJaKhoG8Af95
- mA=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VovrIiqRHMg=:Jf4VyMXmDkJ+Zb8YSms9vv
- FCrWc5umJho7FI4+1cf+y4MkTyHPeK9QYyuN7q3Vc6bvRqvQJpQ0AIRf5w+4cM+ciAVhTLVm0
- jv4fZraZIrhEfLcT0+tE4uOcmCPUv7oC8Go45FvNBPawdjk1cvmgvdPi7HcuC/zS3fCp79vcd
- Q2xFhBf/HavzeTGMP4DaktTl0u3GWR4/TuoDFqJAHgaG6xeA7t+wFSqgfSVQkr4kf+s/6chqn
- M8955iV3ALgndLhlmpvmpMeC6IkhfsEHRUyHcCfo9HfWu8Mf9H2xPSXmJVvxjKv04O+/mfFGR
- iTH0B20dGcRhoR56ALdMmFuJXko8ep+rToBM/zQ+oBkBTy4pbwvWtt4Ij5l5f3BgZp9Jzolsa
- NC2hzqkWuQe531EI+ywftwXEQPdOJZKMrcKphP0Skj3/mlmRnMrN+1omDa3C2+uH12q6N8aK8
- nUk51rS91dFnlZ4bpcGla3NgeHtlHjsce0g301aFlGLgn/ZO/adBslpNvePYTYxr+GFQSQxmv
- z0aClCGUeev3OzvKfrP2Uhly3k59YYgbEbO/GBrdBOLcwRCeP/VK3ZHxgDT/wwa16BP2Usu4V
- /2yTNLYrITX3cp0Ik+adt7qJ1ZZubfkUsQuHVK5i5XQjbZX4JACo0nWVYGmMed+isUIO7YPdz
- BO/iB7sHSYz3sqvMpJVDrcPEcvjfRlRFDYqo105/4RpGQYt6SSy8yA1FjzQ38nQcnj2Y=
+In-Reply-To: <90b55ec3-d5b0-3307-9f7c-7ff5c5fd6ad3@i-love.sakura.ne.jp>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 05 Sep 2020 00:35:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,21 +52,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-By: Frank Wunderlich <frank-w@public-files.de>
+Hello, Greg.
 
-regards Frank
+Since nobody is interested in this bug, can you directly pick up
+this obvious patch without waiting for maintainer's response?
+
+On 2020/08/31 19:37, Tetsuo Handa wrote:
+> syzbot is reporting OOB read at vga_8planes_imageblit() [1], for
+> "cdat[y] >> 4" can become a negative value due to "const char *cdat".
+> 
+> [1] https://syzkaller.appspot.com/bug?id=0d7a0da1557dcd1989e00cb3692b26d4173b4132
+> 
+> Reported-by: syzbot <syzbot+69fbd3e01470f169c8c4@syzkaller.appspotmail.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> ---
+>  drivers/video/fbdev/vga16fb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+> index a20eeb8308ff..578d3541e3d6 100644
+> --- a/drivers/video/fbdev/vga16fb.c
+> +++ b/drivers/video/fbdev/vga16fb.c
+> @@ -1121,7 +1121,7 @@ static void vga_8planes_imageblit(struct fb_info *info, const struct fb_image *i
+>          char oldop = setop(0);
+>          char oldsr = setsr(0);
+>          char oldmask = selectmask();
+> -        const char *cdat = image->data;
+> +	const unsigned char *cdat = image->data;
+>  	u32 dx = image->dx;
+>          char __iomem *where;
+>          int y;
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
