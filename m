@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710C925D094
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 06:30:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2234A25D098
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 06:34:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7382F6EA79;
-	Fri,  4 Sep 2020 04:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524AD6EA77;
+	Fri,  4 Sep 2020 04:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3398A6EA78;
- Fri,  4 Sep 2020 04:30:17 +0000 (UTC)
-IronPort-SDR: vhqv7oCLx4moKAKSHCpwTskvqOpMssFGgGNdgUnSr1d+7wvU5fNtA3IvkWqxzpas6d77zCGpZK
- tSYNG/La9tLA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="157699522"
-X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="157699522"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCFA6EA77;
+ Fri,  4 Sep 2020 04:34:48 +0000 (UTC)
+IronPort-SDR: yfpIZNI1xG9pP8GF62WhWRQL8xlY62aKWXbH4baemJM4WMxppXKSx89hGcqwlTKYOX2IobBUaI
+ pJPCS+zsq1Fg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="157699874"
+X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="157699874"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2020 21:30:17 -0700
-IronPort-SDR: BSPPlqeGo2GP+P/90PJpxD7Xul18bAKAfL6K4TRJcsiKoINnRTlv6q9g8ObpElQNoITAY4t6NS
- DJ7QRQvMbaCw==
+ 03 Sep 2020 21:34:47 -0700
+IronPort-SDR: ZDazRUI3NYLg7Sw1y8B6/39wQIE3pCcNs6tS0c0MOLDH79D7SyeeN5oXa2gE+bPSzEtugz1bjk
+ liznDBIE50jg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="447154766"
+X-IronPort-AV: E=Sophos;i="5.76,388,1592895600"; d="scan'208";a="478315081"
 Received: from vsrini4-xps-8920.iind.intel.com (HELO localhost.localdomain)
  ([10.223.163.28])
- by orsmga004.jf.intel.com with ESMTP; 03 Sep 2020 21:30:15 -0700
+ by orsmga005.jf.intel.com with ESMTP; 03 Sep 2020 21:34:45 -0700
 From: Vidya Srinivas <vidya.srinivas@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] [RFC] drm/i915/dp: DP PHY compliance for EHL/JSL
-Date: Fri,  4 Sep 2020 09:55:04 +0530
-Message-Id: <1599193504-2754-3-git-send-email-vidya.srinivas@intel.com>
+Subject: [PATCH] [RFC] drm/i915/dp: DP PHY compliance for EHL/JSL
+Date: Fri,  4 Sep 2020 09:59:35 +0530
+Message-Id: <1599193775-2809-1-git-send-email-vidya.srinivas@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1599193504-2754-1-git-send-email-vidya.srinivas@intel.com>
-References: <20200723003627.31198-1-khaled.almahallawy@intel.com>
- <1599193504-2754-1-git-send-email-vidya.srinivas@intel.com>
+In-Reply-To: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
+References: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
