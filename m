@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2EB25DF0D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 18:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CF825DF32
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 18:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D136EB36;
-	Fri,  4 Sep 2020 16:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71FE76EC6C;
+	Fri,  4 Sep 2020 16:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB9A6EB36
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 16:06:18 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id cv8so3222358qvb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 09:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2k+RMtQ7FVvTOkg2KVamAhOp4172u29BwvuLUNGieoE=;
- b=E3UJoB2RPcPyiVe1/U8HdULwx64HkjynNKAmKPmm069PXep9Rp7QzmrXwxuuHVt6sK
- wLL2wy1GsS6UOmrd9H2rrz/bCDFyICm2iqiR3cXx+4pcQwPbf+KiWs1kRM3krqfD7ayL
- 9bNc2K9CqhrufC905POoGFJRZ4fFrgwEt2zHk+BhWZWhkZapkyZDdMCtCm0xiamtrUDT
- Mcy5pEKbnSQSHDU/MnmasTIb6T+9pdzTi4qE31g186uyfDS7OJQaClPC7ErvLgsq5muo
- Q3AAxAtUa5wsUGYPElGUal65nG+y5RmDrL0N4/jCYkORNsRPejnpBnFVYc4zGX2lS6ED
- CqPQ==
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE9E89394
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 16:07:10 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id z1so7308986wrt.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Sep 2020 09:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dVLnBf+HCHWVdh9m6Z43Xg9vlvgeQWVYTf+jx0D/QhA=;
+ b=R4rzUvNSDTzGTJq/6QMIDSc0vwZGx4NvSraeGnvwzk+4aMZUOarvXt0SUvQ79kK8tu
+ tvMoiP4jxNfy/0W38n4aEBRKnU4ziXKQfgMoI854/wj4hgg/Td1+Xuk1ftl1419Ty9AW
+ c/e1F7yqOXGBR4U7kA28rqkRk4XJ/qxtpnPmSO6b53XHmiS5EmRhFD7u4QYh2kElhAUD
+ /m64njKdpOOIbLXRQUEtX25NzH4apsAzpkuBoCDlOpz8KhKbP3lF365UVTxqk89JmNdu
+ FeFeQmCF+inRZ8tr8aE/VJdLIO4nVcaLYadDsCe/hgeoJ888EYTpBZB3N1ukeJ1W7ktJ
+ SIjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2k+RMtQ7FVvTOkg2KVamAhOp4172u29BwvuLUNGieoE=;
- b=pmmuhyPZsFZww+VdXweyHudc9o7j1ZyL32JcSG+hz2q1FA2PQKUo7plvngJplxFoSR
- vciBkWTdY49KrPvVsSwu80yUTZNIqqAUXOZn8K0e5EswT/gDP9DVQciQkpkBp1tuyFD4
- Vvw1F2PkdEPdFfGFBQoddXAQ/m7nbFDKfj19iDnkywhWR54Fn+kqbYZ1s64ouG2wH8ff
- m263oITfYm/eqdL3UtIa6+b91a4LwVaantECzUrD9EXWyw2d57SbacktZEkV7tKWDrAC
- NI8VV4+bsr6W6DtIVxxReCUkF8/qL3MQnXqwefKW1qZoMRmyCk+Exz650q7Sig/VwhVu
- wSiA==
-X-Gm-Message-State: AOAM5312m8P32qq0CKY+2ybyP0uhPdeqqM4k/mCAH3ROSgU94Uj7Jg8b
- SD5faU3i5o51eOgJnc11dFg=
-X-Google-Smtp-Source: ABdhPJzq14od5HRnlJY5OJFH0Zl73OpWrOWApVh1vD7AQrfE7+xYmoR82ZrPSllUV12xFQddQi/PSw==
-X-Received: by 2002:a0c:b2d4:: with SMTP id d20mr7559760qvf.1.1599235557522;
- Fri, 04 Sep 2020 09:05:57 -0700 (PDT)
-Received: from smtp.gmail.com ([2607:fea8:56e0:6d60::10ec])
- by smtp.gmail.com with ESMTPSA id c13sm4841611qtq.5.2020.09.04.09.05.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dVLnBf+HCHWVdh9m6Z43Xg9vlvgeQWVYTf+jx0D/QhA=;
+ b=W3aNQ2xWmcF4wC4ZLUillB7GrS7F/OkPSGtEJvAJvU90Rk+uYQOmkSN4/JUg0cxYow
+ YdXGK2geEtu01bjc1o/0qP+Z62xry8SDfv8z02VMiNksntj+JPtlQqgNlicjrNaUddeO
+ pG6HijCKfh12W/3INuv8B6zC9oc9pIeY0lTxYN12c3FBDUlgXHcxyf7zChU1xHR6N9Dl
+ WIAgaM34TvC+mXxcqNrIJjr8Sl6aFFr0UKImMUccFJT2lQUo1jaDTKDzINjAk6TfJypn
+ IYkFMJHRQ9TE3dXjfy7KQlbsGexDVy1qqqg0RKpiWb+tTZMDH8EAybNaeWPZ7ad+3Qq6
+ af6w==
+X-Gm-Message-State: AOAM532KPydO8SQHVFFG0qGi5Nf1MdalstmS0u9O1LLd8O3jpcG/z+0A
+ stzhWBofYyitqjKH7edJlR76aA==
+X-Google-Smtp-Source: ABdhPJwA/BTMcEPzH72GJwHTTbUagnG1yVGFoQLpQ6ushKuS0WjcuGo4/RnRdoJyPLSL9izGJ21S6g==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr8276389wrp.298.1599235628671; 
+ Fri, 04 Sep 2020 09:07:08 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2a02:aa12:a77f:2000:4cea:81e7:5fd4:93f7])
+ by smtp.gmail.com with ESMTPSA id h185sm12467609wme.25.2020.09.04.09.07.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 09:05:56 -0700 (PDT)
-Date: Fri, 4 Sep 2020 12:05:42 -0400
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: add entry for VKMS
-Message-ID: <20200904160542.3nxdioebafgt352x@smtp.gmail.com>
-References: <20200904130605.vs5tnfhgnemnz6pt@smtp.gmail.com>
+ Fri, 04 Sep 2020 09:07:07 -0700 (PDT)
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2 00/11] amd/display: Add GFX9+ modifier support.
+Date: Fri,  4 Sep 2020 18:06:58 +0200
+Message-Id: <20200904160709.123970-1-bas@basnieuwenhuizen.nl>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200904130605.vs5tnfhgnemnz6pt@smtp.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,87 +66,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0451626677=="
+Cc: maraeo@gmail.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This adds modifier support to radeonsi.
+It has been tested on
 
---===============0451626677==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nrdcccm2bvsn7by3"
-Content-Disposition: inline
+- VEGA10, RAVEN, NAVI14
+- weston, sway, X with xf86-video-amdgpu (i.e. legacy path still works)
 
+and includes some basic testing of the layout code.
 
---nrdcccm2bvsn7by3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The main goal is to keep it somewhat simple and regression free, so
+on the display side this series only exposes what the current GPU
+can render to. While we could expose more I think that is more
+suitable for follow-up work as the benefit would be minimal and
+there are some more design discussion there to discuss that are
+orthogonal from the initial implementation.
 
-On 09/04, Melissa Wen wrote:
-> Add myself as maintainer of VKMS driver
->=20
-> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 01fb9ee6b951..d4277824a01c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5640,6 +5640,7 @@ F:	drivers/gpu/drm/udl/
-> =20
->  DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
->  M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> +M:	Melissa Wen <melissa.srw@gmail.com>
->  R:	Haneen Mohammed <hamohammed.sa@gmail.com>
->  R:	Daniel Vetter <daniel@ffwll.ch>
->  L:	dri-devel@lists.freedesktop.org
-> --=20
-> 2.28.0
->=20
+Similarly this series only exposes 32-bpp displayable DCC in the cases
+that radeonsi would use it and any extra capabilities here should be
+future work.
 
-Acked-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+I believe these are by far the most complicated modifiers we've seen
+up till now, mostly related to
 
---=20
-Rodrigo Siqueira
-https://siqueira.tech
+- GPU identification for cases where it matters wrt tiling.
+- Every generation having tiling layout changes
+- Compression settings.
 
---nrdcccm2bvsn7by3
-Content-Type: application/pgp-signature; name="signature.asc"
+I believe the complexity is necessary as every layout should be different
+and all layouts should be the best in some situation (though not all
+combinations of GPU parameters will actually have an existing GPU).
 
------BEGIN PGP SIGNATURE-----
+That said, on the render side the number of modifiers actually listed for
+a given GPU is ~10, and in the current implementation that is the same
+for the display side. (we could expose more actually differing layouts
+on the display side for cross-GPU compatibility, but I consider that
+out of scope for this initial work).
 
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl9SZdAACgkQWJzP/com
-vP81KxAAnOH/Da0fUQ5YNF1s4/rdaiUCgFJc50DsODod4nSCblcPGhZ11XqLBrbl
-MbnhslELK6lIVMl2JD9wXR02nFif/fCzktt7f4jjzx4edrs01kSx9M7ndmQD2cyp
-P6bHw8itjc6e62Jb9ZZFH/l3w8d9BSxdaAoxtz44+lGG4PJfYlsgS+EpFfljQtmN
-v8oK+jXTZygo1BGzXt2dIgz/UC8KNHNHbT9/ExT71Qb61YcdeJN3fINLA5HAcKX6
-+VIibp9W++7dM2/t6EUWfhRY2oM4RFyVp+mygpR1talPpDN9jn4ff9eotHW+mBHK
-2ZfeNxIGrNAkvPkoL5jJxioq8cvJ1MCgvuS9vfZEHXbARaeX9WzCNcylgtJrPsmh
-nJ9gO5G6JaESkYyaT+yoYmhXfTUTzTkXHNOQnuhjtaWoPZCbVYS2Jorq/VUh4TIM
-7sS0bYSzE3634iyCZKT0gQmDqORcWiPTxakVa6ofmBMot8e4e6wElb20wvRibNSd
-T437J+JdC84ftD7vPXkQx1dFRrSgngEuM6k0odU6VmCEzKvsfoOPXD4r+Jx4sFEx
-DTebG+leukKTHXY5sHNj2r4VrpLMHNhIwFc37bvsmkMgEY4uQHC6ZMd3xqW8Ag4t
-UVE4AWvax7idObwfFKJHVFmy2gi+rXW+wksuH5TEDT3DacyYfYs=
-=oaui
------END PGP SIGNATURE-----
+This series can be found on
+https://github.com/BNieuwenhuizen/linux/tree/modifiers
 
---nrdcccm2bvsn7by3--
+An userspace implementation in radeonsi can be found on
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6176
 
---===============0451626677==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+v2:
+
+Per suggestion from Daniel Vetter I added logic to get the tiling_flags at
+addfb2 time and convert them into modifiers for GFX9+.  Furthermore, the DCC
+constant econding modifers only get exposed on RAVEN2 and newer.
+
+Bas Nieuwenhuizen (11):
+  drm/amd/display: Do not silently accept DCC for multiplane formats.
+  drm/amd: Init modifier field of helper fb.
+  drm/amd/display: Honor the offset for plane 0.
+  drm/fourcc:  Add AMD DRM modifiers.
+  drm/amd/display: Store tiling_flags in the framebuffer.
+  drm/amd/display: Convert tiling_flags to modifiers.
+  drm/amd/display: Refactor surface tiling setup.
+  drm/amd/display: Set DC options from modifiers.
+  drm/amd/display: Add formats for DCC with 2/3 planes.
+  drm/amd/display: Expose modifiers.
+  drm/amd/display: Clean up GFX9 tiling_flags path.
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 169 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   3 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 754 ++++++++++++++----
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   2 -
+ include/uapi/drm/drm_fourcc.h                 | 115 +++
+ 6 files changed, 880 insertions(+), 165 deletions(-)
+
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0451626677==--
