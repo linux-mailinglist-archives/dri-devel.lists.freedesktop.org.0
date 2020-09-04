@@ -2,49 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D454B25E2BC
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 22:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6752B25E302
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Sep 2020 22:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECFE86ECC2;
-	Fri,  4 Sep 2020 20:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64DFD6ECD5;
+	Fri,  4 Sep 2020 20:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAA286ECC2
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 20:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599251320;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BWp0AAI+VZUu8qz/13ssyrVxYR5SrJ8VDuwzkJreei0=;
- b=D6pX3bOYWhbkisbpj9i7EySEbgezcqwg8vlOD/VTQcJQBTVDtoJj/ygKld2aSV/13XLuGZ
- Ye0g3RQYGdnZ6UPE+4kWfq/mNuKdb+uTTExrfe3TFpcy8B4n9mTxD8SF5E+nHwG3nQff7v
- OYAtC7KqihXD7ENhZGMzggWi0KJd8Es=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-4WJb22XZMNCaxKXeeacgtQ-1; Fri, 04 Sep 2020 16:28:38 -0400
-X-MC-Unique: 4WJb22XZMNCaxKXeeacgtQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F82610BBECF;
- Fri,  4 Sep 2020 20:28:28 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-118-1.rdu2.redhat.com [10.10.118.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95FE360C05;
- Fri,  4 Sep 2020 20:28:24 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH v5 2/2] drm/nouveau/kms/nv50-: Log SOR/PIOR caps
-Date: Fri,  4 Sep 2020 16:27:59 -0400
-Message-Id: <20200904202813.1260202-2-lyude@redhat.com>
-In-Reply-To: <20200904202813.1260202-1-lyude@redhat.com>
-References: <20200904202813.1260202-1-lyude@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF516ECD5
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 20:49:29 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.9-rc4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599252569;
+ bh=PvB4DkPOxFuGOgSWUOxsQjmURrkgJbD47BnL0h1Yo1Q=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=dQgtwbhlhAOqt+rla2zTnqRD85WBxkOzVZhsgeEg7Gcl3oIN6sqna/Y7K0v/E1tCd
+ GPxD7R5uXm4r9Jm8wctWnnyObiFBCDmrNw1qqqmYCTvKCoNrez3ERV4lMFJgqfwKXB
+ hHBHb0Y01pk/Eb2z9rGeqtHHAv7YjWY75yAk0l4Q=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
+References: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-09-04
+X-PR-Tracked-Commit-Id: d37d56920004cae612fa32d1f92aaacca5e145f7
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: cf85f5de83b19361c3d575fa0ea05d8194bb0d05
+Message-Id: <159925256932.25529.13873694892912208460.pr-tracker-bot@kernel.org>
+Date: Fri, 04 Sep 2020 20:49:29 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +47,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since I'm almost certain I didn't get capability checking right for
-pre-volta chipsets, let's start logging any caps we find to make things
-like this obvious in the future.
+The pull request you sent on Fri, 4 Sep 2020 13:52:56 +1000:
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-09-04
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 7799530e07c1f..376add0faacc3 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -303,6 +303,14 @@ nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- /******************************************************************************
-  * Output path helpers
-  *****************************************************************************/
-+static void
-+nv50_outp_dump_caps(struct nouveau_drm *drm,
-+		    struct nouveau_encoder *outp)
-+{
-+	NV_DEBUG(drm, "%s caps: dp_interlace=%d\n",
-+		 outp->base.base.name, outp->caps.dp_interlace);
-+}
-+
- static void
- nv50_outp_release(struct nouveau_encoder *nv_encoder)
- {
-@@ -1819,6 +1827,7 @@ nv50_sor_create(struct drm_connector *connector, struct dcb_output *dcbe)
- 	drm_connector_attach_encoder(connector, encoder);
- 
- 	disp->core->func->sor->get_caps(disp, nv_encoder, ffs(dcbe->or) - 1);
-+	nv50_outp_dump_caps(drm, nv_encoder);
- 
- 	if (dcbe->type == DCB_OUTPUT_DP) {
- 		struct nvkm_i2c_aux *aux =
-@@ -1989,6 +1998,7 @@ nv50_pior_create(struct drm_connector *connector, struct dcb_output *dcbe)
- 	drm_connector_attach_encoder(connector, encoder);
- 
- 	disp->core->func->pior->get_caps(disp, nv_encoder, ffs(dcbe->or) - 1);
-+	nv50_outp_dump_caps(drm, nv_encoder);
- 
- 	return 0;
- }
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/cf85f5de83b19361c3d575fa0ea05d8194bb0d05
+
+Thank you!
+
 -- 
-2.26.2
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
