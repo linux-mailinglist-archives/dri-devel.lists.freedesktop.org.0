@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F24A25EA11
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 22:04:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1103C25EA15
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 22:04:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A016E25E;
-	Sat,  5 Sep 2020 20:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49FD6E283;
+	Sat,  5 Sep 2020 20:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F0D6E25A;
- Sat,  5 Sep 2020 20:04:34 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id e33so6095461pgm.0;
- Sat, 05 Sep 2020 13:04:34 -0700 (PDT)
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DACA6E283;
+ Sat,  5 Sep 2020 20:04:37 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id y6so225003plt.9;
+ Sat, 05 Sep 2020 13:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WoDQiEeJAqzvSQPZDGTbwnwbGBKVRcssr2a0VUJTcQk=;
- b=CMPXgFVmXxKH0kT3BlX77la7lmdAWUB37i8xHViv7ZWX7BSVkG1MNTyZhUxbUUZz4A
- asb6BXXszSN3Ej8leMM0yKJhMmSWPLhP6t98MKdF1qgzoNx8umresqrCL/T3bzX3TPew
- 7f7a9QDEX9lqjOGo+tHdXMJvFA2zkN/UVbDySpfvOxbj5z51dF2WG0DPXA3Vm6ariZyp
- 4Q9/G9KT6WeaXLskR6p2t85aYKFEa7lbxgpTi+fjbeZgtl2ysnLM5v82RC/LnOLMPcui
- JP593y9xIK5SHdPiSu5R01ipee8AtreHDfYoH7xybzuf4gNN3a2WSuUilQGLNbEKjgkr
- MYlA==
+ bh=aVMkWCieLiQqs1s98W4fKMDNGsrQRdazjGIgX0sG0U8=;
+ b=XIsst6zTRocNpSbh8ZkMcP8rXc1UlxPp9wvTGhVHdMt2FAqKPKGysbEjoDrzXjy4S/
+ PC3N+IWrPHnYBAZCVnuQmwzU4wDWQz4c/hmZoh76Covq4UvhJS+lxh4DX6LCbiDTuCkQ
+ ploMnJat8u1KpKtJRVHbTeSZUjl9RLMis+9k9neUHhSW4wftRh2z1gC3XN4junA/Q0VF
+ o/H7VkAd4vX69OCQZ36qlwRiJsBGyCQ/e6OPZNlnrvn8vP449AnweWxH5Oc8OlmQGxHP
+ 9hqM0a+7zopVkWSQNvr/Dsf6H73wmlbpG1MtysUeEed5lQKId7YUv+JL1oDa/ApWEQyt
+ 21eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WoDQiEeJAqzvSQPZDGTbwnwbGBKVRcssr2a0VUJTcQk=;
- b=TxogpA9nS4VYq9F81b+OkZB8qwoZMxim1zDHqG+spLYkySDAQ5DILQptPJG6QMFIHy
- a/XCGqPy0LXd36FYv4kbrOxQb2+t7YtCo17nEvmtuimCTd5EEns7We9F+2UMJmjV30J7
- dscHaQrLYeBXSMn9XPX/rn63NVKk0sOzzlNg3LKa8bjhW++6B5fmh4cQ6yP+VrjQLZfm
- 0vYA/P3bveQBH5Wujeq3BVgcVgR0sgLdo/X0AtkUwdxMms5/ufpxJqg4fM3Mulwd22BN
- +vTrKjH+0l4e3Typfm/GqTjSGpo8zO7wc1VKZ4rUAL17zUsIuOBwIQZOhRX8f8hScIoP
- i0rA==
-X-Gm-Message-State: AOAM533UVfYKezpXkCnraosXfBm6ze7kBsaYzC2hebYprgAdeE7Ql0YL
- 857jU9OQEaMkT8JBKeGdRMw=
-X-Google-Smtp-Source: ABdhPJw9loIT+njDOeojgNCy4ZHg6fr9vwomQL6ClUcpRbzB3QxRPpGc8zlQ8LB7Jofwld5GBq5o2g==
-X-Received: by 2002:a65:4b86:: with SMTP id t6mr11280051pgq.81.1599336274174; 
- Sat, 05 Sep 2020 13:04:34 -0700 (PDT)
+ bh=aVMkWCieLiQqs1s98W4fKMDNGsrQRdazjGIgX0sG0U8=;
+ b=AK71kmN79LiNRBNBJN7oO1s5dEvmfpQBNGyrsOrjl3qFVEHjjutkhFccsC0nFLgUtm
+ wlqrfbRcdiXzUVbKTttzVXgT32MUeS/pHKIPg6OTnZnysmZc7aES1sR2uBXXYSiW8kqj
+ Zgk1/LRyn8m6AzSNMVaHnl7hATGjmVAMpovBl1om7eLeJJUNgu+7He8q8i6bhV8YtI+L
+ qEVqWSg8r7z0CP9khELck+K0wVOaRurgPF/Yb/wQLzEqxAS/PGFDj0MItVDcRLW1LCgp
+ 00EeF7sW7BwhJ20XByiI3SMOAUFL/i4dvMpiWUSOe1slQQ5x5rdMwHDO6UIwWQeNhQIv
+ wCoA==
+X-Gm-Message-State: AOAM532L3IoagJRzvxfW+1yBdC+QJmc1s6AFAjg3KTdZZxNRxWc0LC+z
+ 1/Q6DrKxTzZTAHSuVzuJx8Y=
+X-Google-Smtp-Source: ABdhPJzfSQzj1VT/1ZeuQwfFa6XbcOUoxqCIasybI+jgmGkTQ4Dov2x78m0PB+fX5c5v+yVMYjtrgg==
+X-Received: by 2002:a17:90a:c791:: with SMTP id
+ gn17mr13007632pjb.44.1599336276589; 
+ Sat, 05 Sep 2020 13:04:36 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- x19sm9954261pfm.28.2020.09.05.13.04.32
+ l19sm10293189pff.8.2020.09.05.13.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Sep 2020 13:04:32 -0700 (PDT)
+ Sat, 05 Sep 2020 13:04:35 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v17 10/20] drm/msm/a6xx: Add support for per-instance
- pagetables
-Date: Sat,  5 Sep 2020 13:04:16 -0700
-Message-Id: <20200905200454.240929-11-robdclark@gmail.com>
+Subject: [PATCH v17 11/20] drm/msm: Show process names in gem_describe
+Date: Sat,  5 Sep 2020 13:04:17 -0700
+Message-Id: <20200905200454.240929-12-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200905200454.240929-1-robdclark@gmail.com>
 References: <20200905200454.240929-1-robdclark@gmail.com>
@@ -70,12 +70,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Sibi Sankar <sibis@codeaurora.org>,
- Vivek Gautam <vivek.gautam@codeaurora.org>,
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
  open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -83,145 +81,144 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jordan Crouse <jcrouse@codeaurora.org>
+From: Rob Clark <robdclark@chromium.org>
 
-Add support for using per-instance pagetables if all the dependencies are
-available.
+In $debugfs/gem we already show any vma(s) associated with an object.
+Also show process names if the vma's address space is a per-process
+address space.
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 62 +++++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
- drivers/gpu/drm/msm/msm_ringbuffer.h  |  1 +
- 3 files changed, 64 insertions(+)
+ drivers/gpu/drm/msm/msm_drv.c     |  2 +-
+ drivers/gpu/drm/msm/msm_gem.c     | 25 +++++++++++++++++++++----
+ drivers/gpu/drm/msm/msm_gem.h     |  5 +++++
+ drivers/gpu/drm/msm/msm_gem_vma.c |  1 +
+ drivers/gpu/drm/msm/msm_gpu.c     |  8 +++++---
+ drivers/gpu/drm/msm/msm_gpu.h     |  2 +-
+ 6 files changed, 34 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index f6aad038d8b6..92ebc73f51e6 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -81,6 +81,49 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
- 	OUT_RING(ring, upper_32_bits(iova));
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 7e963f707852..7143756b7e83 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -597,7 +597,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+ 	kref_init(&ctx->ref);
+ 	msm_submitqueue_init(dev, ctx);
+ 
+-	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu);
++	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu, current);
+ 	file->driver_priv = ctx;
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 3cb7aeb93fd3..76a6c5271e57 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -842,11 +842,28 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m)
+ 
+ 		seq_puts(m, "      vmas:");
+ 
+-		list_for_each_entry(vma, &msm_obj->vmas, list)
+-			seq_printf(m, " [%s: %08llx,%s,inuse=%d]",
+-				vma->aspace != NULL ? vma->aspace->name : NULL,
+-				vma->iova, vma->mapped ? "mapped" : "unmapped",
++		list_for_each_entry(vma, &msm_obj->vmas, list) {
++			const char *name, *comm;
++			if (vma->aspace) {
++				struct msm_gem_address_space *aspace = vma->aspace;
++				struct task_struct *task =
++					get_pid_task(aspace->pid, PIDTYPE_PID);
++				if (task) {
++					comm = kstrdup(task->comm, GFP_KERNEL);
++				} else {
++					comm = NULL;
++				}
++				name = aspace->name;
++			} else {
++				name = comm = NULL;
++			}
++			seq_printf(m, " [%s%s%s: aspace=%p, %08llx,%s,inuse=%d]",
++				name, comm ? ":" : "", comm ? comm : "",
++				vma->aspace, vma->iova,
++				vma->mapped ? "mapped" : "unmapped",
+ 				vma->inuse);
++			kfree(comm);
++		}
+ 
+ 		seq_puts(m, "\n");
+ 	}
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 9c573c4269cb..7b1c7a5f8eef 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -24,6 +24,11 @@ struct msm_gem_address_space {
+ 	spinlock_t lock; /* Protects drm_mm node allocation/removal */
+ 	struct msm_mmu *mmu;
+ 	struct kref kref;
++
++	/* For address spaces associated with a specific process, this
++	 * will be non-NULL:
++	 */
++	struct pid *pid;
+ };
+ 
+ struct msm_gem_vma {
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index 29cc1305cf37..80a8a266d68f 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -17,6 +17,7 @@ msm_gem_address_space_destroy(struct kref *kref)
+ 	drm_mm_takedown(&aspace->mm);
+ 	if (aspace->mmu)
+ 		aspace->mmu->funcs->destroy(aspace->mmu);
++	put_pid(aspace->pid);
+ 	kfree(aspace);
  }
  
-+static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
-+		struct msm_ringbuffer *ring, struct msm_file_private *ctx)
-+{
-+	phys_addr_t ttbr;
-+	u32 asid;
-+	u64 memptr = rbmemptr(ring, ttbr0);
-+
-+	if (ctx == a6xx_gpu->cur_ctx)
-+		return;
-+
-+	if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
-+		return;
-+
-+	/* Execute the table update */
-+	OUT_PKT7(ring, CP_SMMU_TABLE_UPDATE, 4);
-+	OUT_RING(ring, CP_SMMU_TABLE_UPDATE_0_TTBR0_LO(lower_32_bits(ttbr)));
-+
-+	OUT_RING(ring,
-+		CP_SMMU_TABLE_UPDATE_1_TTBR0_HI(upper_32_bits(ttbr)) |
-+		CP_SMMU_TABLE_UPDATE_1_ASID(asid));
-+	OUT_RING(ring, CP_SMMU_TABLE_UPDATE_2_CONTEXTIDR(0));
-+	OUT_RING(ring, CP_SMMU_TABLE_UPDATE_3_CONTEXTBANK(0));
-+
-+	/*
-+	 * Write the new TTBR0 to the memstore. This is good for debugging.
-+	 */
-+	OUT_PKT7(ring, CP_MEM_WRITE, 4);
-+	OUT_RING(ring, CP_MEM_WRITE_0_ADDR_LO(lower_32_bits(memptr)));
-+	OUT_RING(ring, CP_MEM_WRITE_1_ADDR_HI(upper_32_bits(memptr)));
-+	OUT_RING(ring, lower_32_bits(ttbr));
-+	OUT_RING(ring, (asid << 16) | upper_32_bits(ttbr));
-+
-+	/*
-+	 * And finally, trigger a uche flush to be sure there isn't anything
-+	 * lingering in that part of the GPU
-+	 */
-+
-+	OUT_PKT7(ring, CP_EVENT_WRITE, 1);
-+	OUT_RING(ring, 0x31);
-+
-+	a6xx_gpu->cur_ctx = ctx;
-+}
-+
- static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 9f1bd17dfa47..59eed0fb12fc 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -825,10 +825,9 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
+ 
+ /* Return a new address space for a msm_drm_private instance */
+ struct msm_gem_address_space *
+-msm_gpu_create_private_address_space(struct msm_gpu *gpu)
++msm_gpu_create_private_address_space(struct msm_gpu *gpu, struct task_struct *task)
  {
- 	unsigned int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
-@@ -90,6 +133,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	struct msm_ringbuffer *ring = submit->ring;
- 	unsigned int i;
+ 	struct msm_gem_address_space *aspace = NULL;
+-
+ 	if (!gpu)
+ 		return NULL;
  
-+	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
-+
- 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
- 		rbmemptr_stats(ring, index, cpcycles_start));
+@@ -836,8 +835,11 @@ msm_gpu_create_private_address_space(struct msm_gpu *gpu)
+ 	 * If the target doesn't support private address spaces then return
+ 	 * the global one
+ 	 */
+-	if (gpu->funcs->create_private_address_space)
++	if (gpu->funcs->create_private_address_space) {
+ 		aspace = gpu->funcs->create_private_address_space(gpu);
++		if (!IS_ERR(aspace))
++			aspace->pid = get_pid(task_pid(task));
++	}
  
-@@ -704,6 +749,8 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	/* Always come up on rb 0 */
- 	a6xx_gpu->cur_ring = gpu->rb[0];
+ 	if (IS_ERR_OR_NULL(aspace))
+ 		aspace = msm_gem_address_space_get(gpu->aspace);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 04a2f7539712..5ee358b480e6 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -301,7 +301,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		const char *name, struct msm_gpu_config *config);
  
-+	a6xx_gpu->cur_ctx = NULL;
-+
- 	/* Enable the SQE_to start the CP engine */
- 	gpu_write(gpu, REG_A6XX_CP_SQE_CNTL, 1);
+ struct msm_gem_address_space *
+-msm_gpu_create_private_address_space(struct msm_gpu *gpu);
++msm_gpu_create_private_address_space(struct msm_gpu *gpu, struct task_struct *task);
  
-@@ -1016,6 +1063,20 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
- 	return (unsigned long)busy_time;
- }
+ void msm_gpu_cleanup(struct msm_gpu *gpu);
  
-+static struct msm_gem_address_space *
-+a6xx_create_private_address_space(struct msm_gpu *gpu)
-+{
-+	struct msm_mmu *mmu;
-+
-+	mmu = msm_iommu_pagetable_create(gpu->aspace->mmu);
-+
-+	if (IS_ERR(mmu))
-+		return ERR_CAST(mmu);
-+
-+	return msm_gem_address_space_create(mmu,
-+		"gpu", 0x100000000ULL, 0x1ffffffffULL);
-+}
-+
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-@@ -1039,6 +1100,7 @@ static const struct adreno_gpu_funcs funcs = {
- 		.gpu_state_put = a6xx_gpu_state_put,
- #endif
- 		.create_address_space = adreno_iommu_create_address_space,
-+		.create_private_address_space = a6xx_create_private_address_space,
- 	},
- 	.get_timestamp = a6xx_get_timestamp,
- };
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 03ba60d5b07f..da22d7549d9b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -19,6 +19,7 @@ struct a6xx_gpu {
- 	uint64_t sqe_iova;
- 
- 	struct msm_ringbuffer *cur_ring;
-+	struct msm_file_private *cur_ctx;
- 
- 	struct a6xx_gmu gmu;
- };
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 7764373d0ed2..0987d6bf848c 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -31,6 +31,7 @@ struct msm_rbmemptrs {
- 	volatile uint32_t fence;
- 
- 	volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
-+	volatile u64 ttbr0;
- };
- 
- struct msm_ringbuffer {
 -- 
 2.26.2
 
