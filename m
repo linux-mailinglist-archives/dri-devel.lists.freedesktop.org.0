@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5071A25E70B
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 12:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D0325E700
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 12:36:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6726ED41;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B4B6ED43;
 	Sat,  5 Sep 2020 10:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9D06ED3E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 510A86ED57
  for <dri-devel@lists.freedesktop.org>; Sat,  5 Sep 2020 10:35:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,23 +18,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=hpZRxbQbU4UZPUFLy0f8wBeus4l9994rDf201H0TeU0=; b=tsgESgwxBCI1v0+Djr+UhcHFr1
- +ATuRmHicisQJhrWZ5fqiDPUhF49rlVbmbJOUJS33k0THiXJZEy4iZ7RMhGuX0RC8pfuDFdS550CS
- C7MpLmD8vWmwPD5GqPL9zoXBi/uMkPLBUZZoMiV7ZTLXGdzdVfSAX9u5DjlH3t++BsIqxpQspP6pq
- kkwLsWyUzc4KHzx3AGROo94aAkoSjWIet8Kn1PJjXCe2blv2lb2DRn6mv/PiZJz2UQXKbiuydL9k6
- eixfxm7RzxgAPvW8iCDgfZnwrc80ISqw4YLve2sKT6dBxWIaOrbY/UIbHmH/OJsww521jIg7JrgpA
- J/jndxvg==;
+ bh=TrOgPWsAzr+MCyuF48zP3obIupcqWkaM8eaYC+5XsoI=; b=JSLuNmWamfk625fM6bgvAhD6Fm
+ LSNFIihi+vGcXLKpuLKz8sEBXwXrEwjit88U0eohTS8kEVsZTeCP65s606/54LkLMBT01T7muJFOz
+ TtwT8CIblOMNQqRaA945v3zJdeYIYKUUyeBbBVXjTcdk8CxpRjv202THFovAhGjIeb5GMgxK2bK+p
+ M4mluAomI1SzHIL1rB6ad6Y75w83nt6n83Zy/fB3Oqwtz8FW+9w7ZWzPckWmgjnz5IuS9CQSHJN1J
+ IsV2Hbazq1wntXvNQsqmpyxzTrQLvBdXmSYsbTvVKPMlaDKzVJgHgyquvr3M7WGmtaEkODqyIM9Ce
+ 55toiCBw==;
 Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1kEVXx-0003SS-GX; Sat, 05 Sep 2020 13:35:49 +0300
+ id 1kEVXx-0003SS-N2; Sat, 05 Sep 2020 13:35:49 +0300
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [RFC PATCH v2 08/17] gpu: host1x: Implement /dev/host1x device node
-Date: Sat,  5 Sep 2020 13:34:11 +0300
-Message-Id: <20200905103420.3021852-9-mperttunen@nvidia.com>
+Subject: [RFC PATCH v2 09/17] gpu: host1x: DMA fences and userspace fence
+ creation
+Date: Sat,  5 Sep 2020 13:34:12 +0300
+Message-Id: <20200905103420.3021852-10-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200905103420.3021852-1-mperttunen@nvidia.com>
 References: <20200905103420.3021852-1-mperttunen@nvidia.com>
@@ -61,410 +62,465 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the /dev/host1x device node, implementing the following
-functionality:
+Add an implementation of dma_fences based on syncpoints. Syncpoint
+interrupts are used to signal fences. Additionally, after
+software signaling has been enabled, a 30 second timeout is started.
+If the syncpoint threshold is not reached within this period,
+the fence is signalled with an -ETIMEDOUT error code. This is to
+allow fences that would never reach their syncpoint threshold to
+be cleaned up.
 
-- Reading syncpoint values
-- Allocating syncpoints (providing syncpoint FDs)
-- Incrementing syncpoints (based on syncpoint FD)
+Additionally, add a new /dev/host1x IOCTL for creating sync_file
+file descriptors backed by syncpoint fences.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
  drivers/gpu/host1x/Makefile |   1 +
- drivers/gpu/host1x/dev.c    |   9 ++
- drivers/gpu/host1x/dev.h    |   3 +
- drivers/gpu/host1x/uapi.c   | 275 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/host1x/uapi.h   |  22 +++
- include/linux/host1x.h      |   2 +
- 6 files changed, 312 insertions(+)
- create mode 100644 drivers/gpu/host1x/uapi.c
- create mode 100644 drivers/gpu/host1x/uapi.h
+ drivers/gpu/host1x/fence.c  | 207 ++++++++++++++++++++++++++++++++++++
+ drivers/gpu/host1x/fence.h  |  15 +++
+ drivers/gpu/host1x/intr.c   |   9 ++
+ drivers/gpu/host1x/intr.h   |   2 +
+ drivers/gpu/host1x/uapi.c   | 106 ++++++++++++++++++
+ include/linux/host1x.h      |   3 +
+ 7 files changed, 343 insertions(+)
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
 
 diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
-index 096017b8789d..882f928d75e1 100644
+index 882f928d75e1..a48af2cefae1 100644
 --- a/drivers/gpu/host1x/Makefile
 +++ b/drivers/gpu/host1x/Makefile
-@@ -9,6 +9,7 @@ host1x-y = \
- 	job.o \
+@@ -10,6 +10,7 @@ host1x-y = \
  	debug.o \
  	mipi.o \
-+	uapi.o \
+ 	uapi.o \
++	fence.o \
  	hw/host1x01.o \
  	hw/host1x02.o \
  	hw/host1x04.o \
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index d0ebb70e2fdd..641317d23828 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -461,6 +461,12 @@ static int host1x_probe(struct platform_device *pdev)
- 		goto deinit_syncpt;
- 	}
- 
-+	err = host1x_uapi_init(&host->uapi, host);
-+	if (err) {
-+		dev_err(&pdev->dev, "failed to initialize uapi\n");
-+		goto deinit_intr;
-+	}
-+
- 	host1x_debug_init(host);
- 
- 	if (host->info->has_hypervisor)
-@@ -480,6 +486,8 @@ static int host1x_probe(struct platform_device *pdev)
- 	host1x_unregister(host);
- deinit_debugfs:
- 	host1x_debug_deinit(host);
-+	host1x_uapi_deinit(&host->uapi);
-+deinit_intr:
- 	host1x_intr_deinit(host);
- deinit_syncpt:
- 	host1x_syncpt_deinit(host);
-@@ -501,6 +509,7 @@ static int host1x_remove(struct platform_device *pdev)
- 
- 	host1x_unregister(host);
- 	host1x_debug_deinit(host);
-+	host1x_uapi_deinit(&host->uapi);
- 	host1x_intr_deinit(host);
- 	host1x_syncpt_deinit(host);
- 	reset_control_assert(host->rst);
-diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index 63010ae37a97..7b8b7e20e32b 100644
---- a/drivers/gpu/host1x/dev.h
-+++ b/drivers/gpu/host1x/dev.h
-@@ -17,6 +17,7 @@
- #include "intr.h"
- #include "job.h"
- #include "syncpt.h"
-+#include "uapi.h"
- 
- struct host1x_syncpt;
- struct host1x_syncpt_base;
-@@ -143,6 +144,8 @@ struct host1x {
- 	struct list_head list;
- 
- 	struct device_dma_parameters dma_parms;
-+
-+	struct host1x_uapi uapi;
- };
- 
- void host1x_hypervisor_writel(struct host1x *host1x, u32 r, u32 v);
-diff --git a/drivers/gpu/host1x/uapi.c b/drivers/gpu/host1x/uapi.c
+diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
 new file mode 100644
-index 000000000000..bc10e5fc0813
+index 000000000000..400da6c1ab48
 --- /dev/null
-+++ b/drivers/gpu/host1x/uapi.c
-@@ -0,0 +1,275 @@
++++ b/drivers/gpu/host1x/fence.c
+@@ -0,0 +1,207 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * /dev/host1x syncpoint interface
++ * Syncpoint dma_fence implementation
 + *
 + * Copyright (c) 2020, NVIDIA Corporation.
 + */
 +
-+#include <linux/anon_inodes.h>
-+#include <linux/cdev.h>
++#include <linux/dma-fence.h>
 +#include <linux/file.h>
 +#include <linux/fs.h>
-+#include <linux/host1x.h>
-+#include <linux/nospec.h>
++#include <linux/slab.h>
++#include <linux/sync_file.h>
 +
-+#include "dev.h"
++#include "intr.h"
 +#include "syncpt.h"
-+#include "uapi.h"
 +
-+#include <uapi/linux/host1x.h>
++DEFINE_SPINLOCK(lock);
 +
-+static int syncpt_file_release(struct inode *inode, struct file *file)
-+{
-+	struct host1x_syncpt *sp = file->private_data;
++struct host1x_syncpt_fence {
++	struct dma_fence base;
 +
-+	host1x_syncpt_put(sp);
++	atomic_t signaling;
 +
-+	return 0;
-+}
++	struct host1x_syncpt *sp;
++	u32 threshold;
 +
-+static int syncpt_file_ioctl_info(struct host1x_syncpt *sp, void __user *data)
-+{
-+	struct host1x_syncpoint_info args;
-+	unsigned long copy_err;
++	struct host1x_waitlist *waiter;
++	void *waiter_ref;
 +
-+	copy_err = copy_from_user(&args, data, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	if (args.reserved[0] || args.reserved[1] || args.reserved[2])
-+		return -EINVAL;
-+
-+	args.id = sp->id;
-+
-+	copy_err = copy_to_user(data, &args, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int syncpt_file_ioctl_incr(struct host1x_syncpt *sp, void __user *data)
-+{
-+	struct host1x_syncpoint_increment args;
-+	unsigned long copy_err;
-+	u32 i;
-+
-+	copy_err = copy_from_user(&args, data, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	for (i = 0; i < args.count; i++) {
-+		host1x_syncpt_incr(sp);
-+		if (signal_pending(current))
-+			return -EINTR;
-+	}
-+
-+	return 0;
-+}
-+
-+static long syncpt_file_ioctl(struct file *file, unsigned int cmd,
-+			      unsigned long arg)
-+{
-+	void __user *data = (void __user *)arg;
-+	long err;
-+
-+	switch (cmd) {
-+	case HOST1X_IOCTL_SYNCPOINT_INFO:
-+		err = syncpt_file_ioctl_info(file->private_data, data);
-+		break;
-+
-+	case HOST1X_IOCTL_SYNCPOINT_INCREMENT:
-+		err = syncpt_file_ioctl_incr(file->private_data, data);
-+		break;
-+
-+	default:
-+		err = -ENOTTY;
-+	}
-+
-+	return err;
-+}
-+
-+static const struct file_operations syncpt_file_fops = {
-+	.owner = THIS_MODULE,
-+	.release = syncpt_file_release,
-+	.unlocked_ioctl = syncpt_file_ioctl,
-+	.compat_ioctl = syncpt_file_ioctl,
++	struct delayed_work timeout_work;
 +};
 +
-+struct host1x_syncpt *host1x_syncpt_fd_get(int fd)
++static const char *syncpt_fence_get_driver_name(struct dma_fence *f)
 +{
-+	struct host1x_syncpt *sp;
-+	struct file *file = fget(fd);
++	return "host1x";
++}
 +
++static const char *syncpt_fence_get_timeline_name(struct dma_fence *f)
++{
++	return "syncpoint";
++}
++
++static bool syncpt_fence_enable_signaling(struct dma_fence *f)
++{
++	struct host1x_syncpt_fence *sf =
++		container_of(f, struct host1x_syncpt_fence, base);
++	int err;
++
++	if (host1x_syncpt_is_expired(sf->sp, sf->threshold))
++		return false;
++
++	dma_fence_get(f);
++
++	/*
++	 * The dma_fence framework requires the fence driver to keep a
++	 * reference to any fences for which 'enable_signaling' has been
++	 * called (and that have not been signalled).
++	 * 
++	 * We provide a userspace API to create arbitrary syncpoint fences,
++	 * so we cannot normally guarantee that all fences get signalled.
++	 * As such, setup a timeout, so that long-lasting fences will get
++	 * reaped eventually.
++	 */
++	schedule_delayed_work(&sf->timeout_work, msecs_to_jiffies(30000));
++
++	err = host1x_intr_add_action(sf->sp->host, sf->sp, sf->threshold,
++				     HOST1X_INTR_ACTION_SIGNAL_FENCE, f,
++				     sf->waiter, &sf->waiter_ref);
++	if (err) {
++		cancel_delayed_work_sync(&sf->timeout_work);
++		dma_fence_put(f);
++		return false;
++	}
++
++	/* intr framework takes ownership of waiter */
++	sf->waiter = NULL;
++
++	/*
++	 * The fence may get signalled at any time after the above call,
++	 * so we need to initialize all state used by signalling
++	 * before it.
++	 */
++
++	return true;
++}
++
++static void syncpt_fence_release(struct dma_fence *f)
++{
++	struct host1x_syncpt_fence *sf =
++		container_of(f, struct host1x_syncpt_fence, base);
++
++	if (sf->waiter)
++		kfree(sf->waiter);
++
++	dma_fence_free(f);
++}
++
++const struct dma_fence_ops syncpt_fence_ops = {
++	.get_driver_name = syncpt_fence_get_driver_name,
++	.get_timeline_name = syncpt_fence_get_timeline_name,
++	.enable_signaling = syncpt_fence_enable_signaling,
++	.release = syncpt_fence_release,
++};
++
++void host1x_fence_signal(struct host1x_syncpt_fence *f)
++{
++	if (atomic_xchg(&f->signaling, 1))
++		return;
++
++	/*
++	 * Cancel pending timeout work - if it races, it will
++	 * not get 'f->signaling' and return.
++	 */
++	cancel_delayed_work_sync(&f->timeout_work);
++
++	host1x_intr_put_ref(f->sp->host, f->sp->id, f->waiter_ref);
++
++	dma_fence_signal(&f->base);
++	dma_fence_put(&f->base);
++}
++
++static void do_fence_timeout(struct work_struct *work)
++{
++	struct delayed_work *dwork = (struct delayed_work *)work;
++	struct host1x_syncpt_fence *f =
++		container_of(dwork, struct host1x_syncpt_fence, timeout_work);
++
++	if (atomic_xchg(&f->signaling, 1))
++		return;
++
++	/*
++	 * Cancel pending timeout work - if it races, it will
++	 * not get 'f->signaling' and return.
++	 */
++	host1x_intr_put_ref(f->sp->host, f->sp->id, f->waiter_ref);
++
++	dma_fence_set_error(&f->base, -ETIMEDOUT);
++	dma_fence_signal(&f->base);
++	dma_fence_put(&f->base);
++}
++
++struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold)
++{
++	struct host1x_syncpt_fence *fence;
++
++	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
++	if (!fence)
++		return ERR_PTR(-ENOMEM);
++
++	fence->waiter = kzalloc(sizeof(*fence->waiter), GFP_KERNEL);
++	if (!fence->waiter)
++		return ERR_PTR(-ENOMEM);
++
++	fence->sp = sp;
++	fence->threshold = threshold;
++
++	dma_fence_init(&fence->base, &syncpt_fence_ops, &lock,
++		       dma_fence_context_alloc(1), 0);
++
++	INIT_DELAYED_WORK(&fence->timeout_work, do_fence_timeout);
++
++	return &fence->base;
++}
++EXPORT_SYMBOL(host1x_fence_create);
++
++int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold)
++{
++	struct sync_file *file;
++	struct dma_fence *f;
++	int fd;
++
++	f = host1x_fence_create(sp, threshold);
++	if (IS_ERR(f))
++		return PTR_ERR(f);
++
++	fd = get_unused_fd_flags(O_CLOEXEC);
++	if (fd < 0) {
++		dma_fence_put(f);
++		return fd;
++	}
++
++	file = sync_file_create(f);
++	dma_fence_put(f);
 +	if (!file)
-+		return ERR_PTR(-EINVAL);
++		return -ENOMEM;
 +
-+	if (file->f_op != &syncpt_file_fops) {
-+		fput(file);
-+		return ERR_PTR(-EINVAL);
-+	}
++	fd_install(fd, file->file);
 +
-+	sp = file->private_data;
-+
-+	host1x_syncpt_get(sp);
-+
-+	fput(file);
-+
-+	return sp;
++	return fd;
 +}
-+EXPORT_SYMBOL(host1x_syncpt_fd_get);
++EXPORT_SYMBOL(host1x_fence_create_fd);
 +
-+static int dev_file_open(struct inode *inode, struct file *file)
++int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshold)
 +{
-+	struct host1x_uapi *uapi =
-+		container_of(inode->i_cdev, struct host1x_uapi, cdev);
++	struct host1x_syncpt_fence *f;
 +
-+	file->private_data = container_of(uapi, struct host1x, uapi);
-+
-+	return 0;
-+}
-+
-+static int dev_file_ioctl_read_syncpoint(struct host1x *host1x,
-+					 void __user *data)
-+{
-+	struct host1x_read_syncpoint args;
-+	unsigned long copy_err;
-+
-+	copy_err = copy_from_user(&args, data, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	if (args.id >= host1x_syncpt_nb_pts(host1x))
++	if (fence->ops != &syncpt_fence_ops)
 +		return -EINVAL;
 +
-+	args.id = array_index_nospec(args.id, host1x_syncpt_nb_pts(host1x));
-+	args.value = host1x_syncpt_read(&host1x->syncpt[args.id]);
++	f = container_of(fence, struct host1x_syncpt_fence, base);
 +
-+	copy_err = copy_to_user(data, &args, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
++	*id = f->sp->id;
++	*threshold = f->threshold;
 +
 +	return 0;
 +}
-+
-+static int dev_file_ioctl_alloc_syncpoint(struct host1x *host1x,
-+					  void __user *data)
-+{
-+	struct host1x_allocate_syncpoint args;
-+	struct host1x_syncpt *sp;
-+	unsigned long copy_err;
-+	int err;
-+
-+	copy_err = copy_from_user(&args, data, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	if (args.reserved[0] || args.reserved[1] || args.reserved[2])
-+		return -EINVAL;
-+
-+	sp = host1x_syncpt_alloc(host1x, NULL, HOST1X_SYNCPT_CLIENT_MANAGED);
-+	if (!sp)
-+		return -EBUSY;
-+
-+	err = anon_inode_getfd("host1x_syncpt", &syncpt_file_fops, sp,
-+			       O_CLOEXEC);
-+	if (err < 0)
-+		goto free_syncpt;
-+
-+	args.fd = err;
-+
-+	copy_err = copy_to_user(data, &args, sizeof(args));
-+	if (copy_err) {
-+		err = -EFAULT;
-+		goto put_fd;
-+	}
-+
-+	return 0;
-+
-+put_fd:
-+	put_unused_fd(args.fd);
-+free_syncpt:
-+	host1x_syncpt_put(sp);
-+
-+	return err;
-+}
-+
-+static long dev_file_ioctl(struct file *file, unsigned int cmd,
-+			   unsigned long arg)
-+{
-+	void __user *data = (void __user *)arg;
-+	long err;
-+
-+	switch (cmd) {
-+	case HOST1X_IOCTL_READ_SYNCPOINT:
-+		err = dev_file_ioctl_read_syncpoint(file->private_data, data);
-+		break;
-+
-+	case HOST1X_IOCTL_ALLOCATE_SYNCPOINT:
-+		err = dev_file_ioctl_alloc_syncpoint(file->private_data, data);
-+		break;
-+
-+	default:
-+		err = -ENOTTY;
-+	}
-+
-+	return err;
-+}
-+
-+static const struct file_operations dev_file_fops = {
-+	.owner = THIS_MODULE,
-+	.open = dev_file_open,
-+	.unlocked_ioctl = dev_file_ioctl,
-+	.compat_ioctl = dev_file_ioctl,
-+};
-+
-+int host1x_uapi_init(struct host1x_uapi *uapi, struct host1x *host1x)
-+{
-+	int err;
-+	dev_t dev_num;
-+
-+	err = alloc_chrdev_region(&dev_num, 0, 1, "host1x");
-+	if (err)
-+		return err;
-+
-+	uapi->class = class_create(THIS_MODULE, "host1x");
-+	if (IS_ERR(uapi->class)) {
-+		err = PTR_ERR(uapi->class);
-+		goto unregister_chrdev_region;
-+	}
-+
-+	cdev_init(&uapi->cdev, &dev_file_fops);
-+	err = cdev_add(&uapi->cdev, dev_num, 1);
-+	if (err)
-+		goto destroy_class;
-+
-+	uapi->dev = device_create(uapi->class, host1x->dev,
-+				  dev_num, NULL, "host1x");
-+	if (IS_ERR(uapi->dev)) {
-+		err = PTR_ERR(uapi->dev);
-+		goto del_cdev;
-+	}
-+
-+	cdev_add(&uapi->cdev, dev_num, 1);
-+
-+	uapi->dev_num = dev_num;
-+
-+	return 0;
-+
-+del_cdev:
-+	cdev_del(&uapi->cdev);
-+destroy_class:
-+	class_destroy(uapi->class);
-+unregister_chrdev_region:
-+	unregister_chrdev_region(dev_num, 1);
-+
-+	return err;
-+}
-+
-+void host1x_uapi_deinit(struct host1x_uapi *uapi)
-+{
-+	device_destroy(uapi->class, uapi->dev_num);
-+	cdev_del(&uapi->cdev);
-+	class_destroy(uapi->class);
-+	unregister_chrdev_region(uapi->dev_num, 1);
-+}
-diff --git a/drivers/gpu/host1x/uapi.h b/drivers/gpu/host1x/uapi.h
++EXPORT_SYMBOL(host1x_fence_extract);
+diff --git a/drivers/gpu/host1x/fence.h b/drivers/gpu/host1x/fence.h
 new file mode 100644
-index 000000000000..7beb5e44c1b1
+index 000000000000..e36dfc11cca4
 --- /dev/null
-+++ b/drivers/gpu/host1x/uapi.h
-@@ -0,0 +1,22 @@
++++ b/drivers/gpu/host1x/fence.h
+@@ -0,0 +1,15 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2020, NVIDIA Corporation.
 + */
 +
-+#ifndef HOST1X_UAPI_H
-+#define HOST1X_UAPI_H
++#ifndef HOST1X_FENCE_H
++#define HOST1X_FENCE_H
 +
-+#include <linux/cdev.h>
++struct host1x_syncpt_fence;
 +
-+struct host1x_uapi {
-+	struct class *class;
++bool host1x_fence_signal(struct host1x_syncpt_fence *fence);
 +
-+	struct cdev cdev;
-+	struct device *dev;
-+	dev_t dev_num;
-+};
-+
-+int host1x_uapi_init(struct host1x_uapi *uapi, struct host1x *host1x);
-+void host1x_uapi_deinit(struct host1x_uapi *uapi);
++int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshold);
 +
 +#endif
+diff --git a/drivers/gpu/host1x/intr.c b/drivers/gpu/host1x/intr.c
+index 5d328d20ce6d..19b59c5c94d0 100644
+--- a/drivers/gpu/host1x/intr.c
++++ b/drivers/gpu/host1x/intr.c
+@@ -13,6 +13,7 @@
+ #include <trace/events/host1x.h>
+ #include "channel.h"
+ #include "dev.h"
++#include "fence.h"
+ #include "intr.h"
+ 
+ /* Wait list management */
+@@ -121,12 +122,20 @@ static void action_wakeup_interruptible(struct host1x_waitlist *waiter)
+ 	wake_up_interruptible(wq);
+ }
+ 
++static void action_signal_fence(struct host1x_waitlist *waiter)
++{
++	struct host1x_syncpt_fence *f = waiter->data;
++
++	host1x_fence_signal(f);
++}
++
+ typedef void (*action_handler)(struct host1x_waitlist *waiter);
+ 
+ static const action_handler action_handlers[HOST1X_INTR_ACTION_COUNT] = {
+ 	action_submit_complete,
+ 	action_wakeup,
+ 	action_wakeup_interruptible,
++	action_signal_fence,
+ };
+ 
+ static void run_handlers(struct list_head completed[HOST1X_INTR_ACTION_COUNT])
+diff --git a/drivers/gpu/host1x/intr.h b/drivers/gpu/host1x/intr.h
+index aac38194398f..dedbd0f700fb 100644
+--- a/drivers/gpu/host1x/intr.h
++++ b/drivers/gpu/host1x/intr.h
+@@ -33,6 +33,8 @@ enum host1x_intr_action {
+ 	 */
+ 	HOST1X_INTR_ACTION_WAKEUP_INTERRUPTIBLE,
+ 
++	HOST1X_INTR_ACTION_SIGNAL_FENCE,
++
+ 	HOST1X_INTR_ACTION_COUNT
+ };
+ 
+diff --git a/drivers/gpu/host1x/uapi.c b/drivers/gpu/host1x/uapi.c
+index bc10e5fc0813..aae0f534bc71 100644
+--- a/drivers/gpu/host1x/uapi.c
++++ b/drivers/gpu/host1x/uapi.c
+@@ -11,8 +11,10 @@
+ #include <linux/fs.h>
+ #include <linux/host1x.h>
+ #include <linux/nospec.h>
++#include <linux/sync_file.h>
+ 
+ #include "dev.h"
++#include "fence.h"
+ #include "syncpt.h"
+ #include "uapi.h"
+ 
+@@ -194,6 +196,102 @@ static int dev_file_ioctl_alloc_syncpoint(struct host1x *host1x,
+ 	return err;
+ }
+ 
++static int dev_file_ioctl_create_fence(struct host1x *host1x, void __user *data)
++{
++	struct host1x_create_fence args;
++	unsigned long copy_err;
++	struct sync_file *file;
++	int fd;
++
++	copy_err = copy_from_user(&args, data, sizeof(args));
++	if (copy_err)
++		return -EFAULT;
++
++	if (args.reserved[0])
++		return -EINVAL;
++
++	if (args.id >= host1x_syncpt_nb_pts(host1x))
++		return -EINVAL;
++
++	args.id = array_index_nospec(args.id, host1x_syncpt_nb_pts(host1x));
++
++	fd = host1x_fence_create_fd(&host1x->syncpt[args.id], args.threshold);
++	if (fd < 0)
++		return fd;
++
++	args.fence_fd = fd;
++
++	copy_err = copy_to_user(data, &args, sizeof(args));
++	if (copy_err) {
++		fput(file->file);
++		return -EFAULT;
++	}
++
++	return 0;
++}
++
++static int dev_file_ioctl_fence_extract(struct host1x *host1x, void __user *data)
++{
++	struct host1x_fence_extract_fence __user *fences_user_ptr;
++	struct dma_fence *fence, **fences;
++	struct host1x_fence_extract args;
++	struct dma_fence_array *array;
++	unsigned int num_fences, i;
++	unsigned long copy_err;
++	int err;
++
++	copy_err = copy_from_user(&args, data, sizeof(args));
++	if (copy_err)
++		return -EFAULT;
++
++	fences_user_ptr = u64_to_user_ptr(args.fences_ptr);
++
++	if (args.reserved[0] || args.reserved[1])
++		return -EINVAL;
++
++	fence = sync_file_get_fence(args.fence_fd);
++	if (!fence)
++		return -EINVAL;
++
++	array = to_dma_fence_array(fence);
++	if (array) {
++		fences = array->fences;
++		num_fences = array->num_fences;
++	} else {
++		fences = &fence;
++		num_fences = 1;
++	}
++
++	for (i = 0; i < min(num_fences, args.num_fences); i++) {
++		struct host1x_fence_extract_fence f;
++
++		err = host1x_fence_extract(fences[i], &f.id, &f.threshold);
++		if (err)
++			goto put_fence;
++
++		copy_err = copy_to_user(fences_user_ptr + i, &f, sizeof(f));
++		if (copy_err) {
++			err = -EFAULT;
++			goto put_fence;
++		}
++	}
++
++	args.num_fences = i+1;
++
++	copy_err = copy_to_user(data, &args, sizeof(args));
++	if (copy_err) {
++		err = -EFAULT;
++		goto put_fence;
++	}
++
++	return 0;
++
++put_fence:
++	dma_fence_put(fence);
++
++	return err;
++}
++
+ static long dev_file_ioctl(struct file *file, unsigned int cmd,
+ 			   unsigned long arg)
+ {
+@@ -209,6 +307,14 @@ static long dev_file_ioctl(struct file *file, unsigned int cmd,
+ 		err = dev_file_ioctl_alloc_syncpoint(file->private_data, data);
+ 		break;
+ 
++	case HOST1X_IOCTL_CREATE_FENCE:
++		err = dev_file_ioctl_create_fence(file->private_data, data);
++		break;
++
++	case HOST1X_IOCTL_FENCE_EXTRACT:
++		err = dev_file_ioctl_fence_extract(file->private_data, data);
++		break;
++
+ 	default:
+ 		err = -ENOTTY;
+ 	}
 diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index da87ceb33c2d..b970e1bbc29d 100644
+index b970e1bbc29d..73a247e180a9 100644
 --- a/include/linux/host1x.h
 +++ b/include/linux/host1x.h
-@@ -160,6 +160,8 @@ void host1x_syncpt_put(struct host1x_syncpt *sp);
- struct host1x_syncpt_base *host1x_syncpt_get_base(struct host1x_syncpt *sp);
- u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
+@@ -162,6 +162,9 @@ u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
  
-+struct host1x_syncpt *host1x_syncpt_fd_get(int fd);
+ struct host1x_syncpt *host1x_syncpt_fd_get(int fd);
+ 
++struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold);
++int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold);
 +
  /*
   * host1x channel
