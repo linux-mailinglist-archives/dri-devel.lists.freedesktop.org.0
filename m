@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4127D25E6EC
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 12:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB30725E70C
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 12:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B087F6ED38;
-	Sat,  5 Sep 2020 10:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C2F6ED40;
+	Sat,  5 Sep 2020 10:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B716ED38
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Sep 2020 10:19:23 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209159] New: AMD Vega 20 framebuffer switch fails on 5.9rc2+
-Date: Sat, 05 Sep 2020 10:19:22 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ryan@testtoast.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-209159-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261866ED3F
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Sep 2020 10:35:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=GL7/Qfpql25Njk17chMypUW1y52LzwxHyj9gF+a0l7c=; b=K3we7NpP+JKWWtc2ERT00mGsBw
+ aOIj5Z4hc+5dmehRhqtfV0HVv5H1jy4qVvoRqyJpBKlfGo5B6v43v0ehlOSo+WfHhuYfzbXgvciO0
+ DNKOIa2Wx6YqNs4GLnBSYsvgyKwuxzSXkSV8qYQRL+ur4+JnfC3l8/L9p3c86AQgHfJXgIFo8xMmt
+ 4evz6km5x8uCbuR7jC0OnTbR/157farH9RsBdTjw+oAqrnH4QijFG8EGE2UMnpZDKVhHYZ+hfFf5q
+ 3sMYSJk/lglHB3VpgvoYhhRrWD+5OUczxh9eMsmXIv8mzSqvtgmyC2q7EQ+tUEMTqI/5/Xi9qwEJm
+ s6jjCR5g==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=toshino.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
+ id 1kEVXw-0003SS-BW; Sat, 05 Sep 2020 13:35:48 +0300
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [RFC PATCH v2 00/17] Host1x/TegraDRM UAPI
+Date: Sat,  5 Sep 2020 13:34:03 +0300
+Message-Id: <20200905103420.3021852-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,61 +52,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209159
+Hi all,
 
-            Bug ID: 209159
-           Summary: AMD Vega 20 framebuffer switch fails on 5.9rc2+
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.9-rc2/3
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: ryan@testtoast.com
-        Regression: No
+here's a second revision of the Host1x/TegraDRM UAPI proposal,
+hopefully with most issues from v1 resolved, and also with
+an implementation. There are still open issues with the
+implementation:
 
-Created attachment 292349
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292349&action=edit
-lspci
+* Relocs are now handled on TegraDRM side instead of Host1x,
+  so the firewall is not aware of them, causing submission
+  failure where the firewall is enabled. Proposed solution
+  is to move the firewall to TegraDRM side, but this hasn't
+  been done yet.
+* For the new UAPI, syncpoint recovery on job timeout is
+  disabled. What this means is that upon job timeout,
+  all further jobs using that syncpoint are cancelled,
+  and the syncpoint is marked unusable until it is freed.
+  However, there is currently a race between the timeout
+  handler and job submission, where submission can observe
+  the syncpoint in non-locked state and yet the job
+  cancellations won't cancel the new job.
+* Waiting for DMA reservation fences is not implemented yet.
+* I have only tested on Tegra186.
 
-Vega 20 (Radeon VII) on X99 platform - boot freezes during FB switch. Booting
-without quiet and with earlyprintk=efi,keep shows a stall immediately after
+The series consists of three parts:
 
-...
-[    1.941238] AMD-Vi: AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>
-[    1.941239] AMD-Vi: AMD IOMMUv2 functionality not available on this system
-[    1.948454] nvme nvme0: 20/0/0 default/read/poll queues
-[    1.953176]  nvme0n1: p1 p2 p3 p4 p5 p6 p7
-[    1.956313] usb 1-14: new full-speed USB device number 5 using xhci_hcd
-[    1.989790] [drm] amdgpu kernel modesetting enabled.
-[    1.989849] CRAT table not found
-[    1.989850] Virtual CRAT table created for CPU
-[    1.989857] amdgpu: Topology: Add CPU node
-[    2.006244] checking generic (c0000000 300000) vs hw (c0000000 10000000)
-[    2.006246] fb0: switching to amdgpudrmfb from EFI VGA
+* The first part contains some fixes and improvements to
+  the Host1x driver of more general nature,
+* The second part adds the Host1x side UAPI, as well as
+  Host1x-side changes needed for the new TegraDRM UAPI,
+* The third part adds the new TegraDRM UAPI.
 
+I have written some tests to test the new interface,
+see https://github.com/cyndis/uapi-test. Porting of proper
+userspace (e.g. opentegra, vdpau-tegra) will come once
+there is some degree of conclusion on the UAPI definition.
 
-On -rc1 boot continues normally with
-...
-[    2.006315] amdgpu 0000:67:00.0: vgaarb: deactivate vga console
-[    2.006345] amdgpu 0000:67:00.0: enabling device (0106 -> 0107)
-[    2.006408] [drm] initializing kernel modesetting (VEGA20 0x1002:0x66AF
-0x1002:0x081E 0xC1).
-...
+The series can be also found in
+https://github.com/cyndis/linux/commits/work/host1x-uapi.
+
+Older versions:
+v1: https://www.spinics.net/lists/linux-tegra/msg51000.html
+
+Thank you,
+Mikko
+
+Mikko Perttunen (17):
+  gpu: host1x: Use different lock classes for each client
+  gpu: host1x: Allow syncpoints without associated client
+  gpu: host1x: Show number of pending waiters in debugfs
+  gpu: host1x: Remove cancelled waiters immediately
+  gpu: host1x: Use HW-equivalent syncpoint expiration check
+  gpu: host1x: Cleanup and refcounting for syncpoints
+  gpu: host1x: Introduce UAPI header
+  gpu: host1x: Implement /dev/host1x device node
+  gpu: host1x: DMA fences and userspace fence creation
+  WIP: gpu: host1x: Add no-recovery mode
+  gpu: host1x: Add job release callback
+  gpu: host1x: Add support for syncpoint waits in CDMA pushbuffer
+  gpu: host1x: Reset max value when freeing a syncpoint
+  drm/tegra: Add new UAPI to header
+  drm/tegra: Add power_on/power_off engine callbacks
+  drm/tegra: Allocate per-engine channel in core code
+  WIP: drm/tegra: Implement new UAPI
+
+ drivers/gpu/drm/tegra/Makefile      |   2 +
+ drivers/gpu/drm/tegra/dc.c          |   4 +-
+ drivers/gpu/drm/tegra/drm.c         |  75 ++-
+ drivers/gpu/drm/tegra/drm.h         |  20 +-
+ drivers/gpu/drm/tegra/gr2d.c        |   4 +-
+ drivers/gpu/drm/tegra/gr3d.c        |   4 +-
+ drivers/gpu/drm/tegra/uapi.h        |  59 +++
+ drivers/gpu/drm/tegra/uapi/submit.c | 687 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/uapi/uapi.c   | 328 +++++++++++++
+ drivers/gpu/drm/tegra/vic.c         | 131 +++---
+ drivers/gpu/host1x/Makefile         |   2 +
+ drivers/gpu/host1x/bus.c            |   7 +-
+ drivers/gpu/host1x/cdma.c           |  53 ++-
+ drivers/gpu/host1x/debug.c          |  14 +-
+ drivers/gpu/host1x/dev.c            |   9 +
+ drivers/gpu/host1x/dev.h            |  10 +-
+ drivers/gpu/host1x/fence.c          | 207 +++++++++
+ drivers/gpu/host1x/fence.h          |  15 +
+ drivers/gpu/host1x/hw/cdma_hw.c     |   2 +-
+ drivers/gpu/host1x/hw/channel_hw.c  |  67 ++-
+ drivers/gpu/host1x/hw/debug_hw.c    |  11 +-
+ drivers/gpu/host1x/intr.c           |  23 +-
+ drivers/gpu/host1x/intr.h           |   2 +
+ drivers/gpu/host1x/job.c            |  79 +++-
+ drivers/gpu/host1x/job.h            |  14 +
+ drivers/gpu/host1x/syncpt.c         | 137 +++---
+ drivers/gpu/host1x/syncpt.h         |  21 +-
+ drivers/gpu/host1x/uapi.c           | 381 +++++++++++++++
+ drivers/gpu/host1x/uapi.h           |  22 +
+ include/linux/host1x.h              |  40 +-
+ include/uapi/drm/tegra_drm.h        | 431 +++++++++++++++--
+ include/uapi/linux/host1x.h         | 134 ++++++
+ 32 files changed, 2718 insertions(+), 277 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/uapi.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/submit.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/uapi.c
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
+ create mode 100644 drivers/gpu/host1x/uapi.c
+ create mode 100644 drivers/gpu/host1x/uapi.h
+ create mode 100644 include/uapi/linux/host1x.h
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
