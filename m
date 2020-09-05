@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38C125E83B
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 15:56:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0549425E844
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 16:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0C6C6E0E2;
-	Sat,  5 Sep 2020 13:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F180E6E0E8;
+	Sat,  5 Sep 2020 14:05:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F866E0E2
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Sep 2020 13:56:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53FB76E0E8
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Sep 2020 14:05:10 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209163] New: amdgpu: The CS has been cancelled because the
- context is lost
-Date: Sat, 05 Sep 2020 13:56:17 +0000
+Subject: [Bug 209163] amdgpu: The CS has been cancelled because the context
+ is lost
+Date: Sat, 05 Sep 2020 14:05:09 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-209163-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209163-2300-Y8qYEKllb1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209163-2300@https.bugzilla.kernel.org/>
+References: <bug-209163-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -59,28 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209163
 
-            Bug ID: 209163
-           Summary: amdgpu: The CS has been cancelled because the context
-                    is lost
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 4.9.118
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: high
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: satish.in@outlook.in
-        Regression: No
-
-Created attachment 292355
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292355&action=edit
-dmesg log
-
-I am getting error after playing application continuously .
+--- Comment #1 from Satish patel (satish.in@outlook.in) ---
+Created attachment 292357
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292357&action=edit
+AMDGPU version information
 
 -- 
 You are receiving this mail because:
