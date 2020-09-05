@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C0025E4A8
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 02:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4127D25E6EC
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 12:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 912146ECFF;
-	Sat,  5 Sep 2020 00:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B087F6ED38;
+	Sat,  5 Sep 2020 10:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 514 seconds by postgrey-1.36 at gabe;
- Fri, 04 Sep 2020 22:00:11 UTC
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 143496ECE1
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Sep 2020 22:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=skogtun.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CSV8fgUCyOoK9Ra6R0elSO8AVBPoGfoCDvuZQf1//AU=; b=an3bOoyp13xtDFVZ2xDRuDlVDJ
- Fcz807ZjfcVZRxc+plgUN+sfa4P/haJfMJYhRsxbpf/ubk6Goojdr/YDs5K+j1aRa+1Ko9Cg6Kzgw
- 8pbVNOyAdYTNHoiMkbBbRS1uRnrFpRVR+dzvlJy9WpdUDNG/eL6IlAYjMQ/hPr2AzkICa5zwoWVYT
- Rhc9/mRI2kwMkgA6XidX5bYmqAK/ktPfijuEoBpW2SAr68NLKYJnOFFpkrvhTHkUbXacjOlaiOvLJ
- J24jtQfrcG6CHMu8lJ8MWbWZoevNcD2woMHK1aEYXBGke36xps7uy0LKr8b8VnEBAcoJn2CZwHk3s
- CvhrQ8Pg==;
-Received: from [2a01:79c:cebf:7fb0:de97:df61:fecc:46bb] (port=53844)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <harald@skogtun.org>)
- id 1kEJcN-0003Ab-LQ; Fri, 04 Sep 2020 23:51:35 +0200
-Subject: Re: [git pull] drm fixes for 5.9-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>
-References: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
- <CAHk-=wh2EH9DKRpJQ7+X+NWjjduLPy_Ncv1GzxnXBg-3mTn0Fw@mail.gmail.com>
-From: Harald Arnesen <harald@skogtun.org>
-Message-ID: <cfcea1be-e02f-b391-ab1f-780888da138d@skogtun.org>
-Date: Fri, 4 Sep 2020 23:51:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B716ED38
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Sep 2020 10:19:23 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209159] New: AMD Vega 20 framebuffer switch fails on 5.9rc2+
+Date: Sat, 05 Sep 2020 10:19:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ryan@testtoast.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-209159-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wh2EH9DKRpJQ7+X+NWjjduLPy_Ncv1GzxnXBg-3mTn0Fw@mail.gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Sat, 05 Sep 2020 00:35:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,29 +51,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Linus Torvalds [04.09.2020 21:02]:
+https://bugzilla.kernel.org/show_bug.cgi?id=209159
 
-> On Thu, Sep 3, 2020 at 8:53 PM Dave Airlie <airlied@gmail.com> wrote:
->>
->> Not much going on this week, nouveau has a display hw bug workaround,
->> amdgpu has some PM fixes and CIK regression fixes, one single radeon
->> PLL fix, and a couple of i915 display fixes.
-> 
-> Any movement on the i915 relocation issue? I've only seen the one
-> report for the 64-bit case, but clearly there was more going on than
-> just the missing page table flush on 32-bit..
+            Bug ID: 209159
+           Summary: AMD Vega 20 framebuffer switch fails on 5.9rc2+
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.9-rc2/3
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: ryan@testtoast.com
+        Regression: No
 
-Still doesn't work without the three reverts
-(763fedd6a216, 9e0f9464e2ab, 7ac2d2536dfa)...
+Created attachment 292349
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292349&action=edit
+lspci
+
+Vega 20 (Radeon VII) on X99 platform - boot freezes during FB switch. Booting
+without quiet and with earlyprintk=efi,keep shows a stall immediately after
+
+...
+[    1.941238] AMD-Vi: AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>
+[    1.941239] AMD-Vi: AMD IOMMUv2 functionality not available on this system
+[    1.948454] nvme nvme0: 20/0/0 default/read/poll queues
+[    1.953176]  nvme0n1: p1 p2 p3 p4 p5 p6 p7
+[    1.956313] usb 1-14: new full-speed USB device number 5 using xhci_hcd
+[    1.989790] [drm] amdgpu kernel modesetting enabled.
+[    1.989849] CRAT table not found
+[    1.989850] Virtual CRAT table created for CPU
+[    1.989857] amdgpu: Topology: Add CPU node
+[    2.006244] checking generic (c0000000 300000) vs hw (c0000000 10000000)
+[    2.006246] fb0: switching to amdgpudrmfb from EFI VGA
+
+
+On -rc1 boot continues normally with
+...
+[    2.006315] amdgpu 0000:67:00.0: vgaarb: deactivate vga console
+[    2.006345] amdgpu 0000:67:00.0: enabling device (0106 -> 0107)
+[    2.006408] [drm] initializing kernel modesetting (VEGA20 0x1002:0x66AF
+0x1002:0x081E 0xC1).
+...
+
 -- 
-Hilsen Harald
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
