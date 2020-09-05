@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE43425EA31
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 22:05:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9298E25EA33
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Sep 2020 22:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9FE66E2CD;
-	Sat,  5 Sep 2020 20:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E0F6E2D6;
+	Sat,  5 Sep 2020 20:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC56E267;
- Sat,  5 Sep 2020 20:05:07 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id q3so2664493pls.11;
- Sat, 05 Sep 2020 13:05:07 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97A0B6E2DD;
+ Sat,  5 Sep 2020 20:05:10 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id k13so719801plk.3;
+ Sat, 05 Sep 2020 13:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DvFdTPchcbyWEX++eP+RtKIp66/AsHgH2aEoABwhrPw=;
- b=Owm67BOye7cLn9/FM8RhXNLMKAdbSblV5WEyMv7bJR8n9ma1DGn8BAfSLnoMQDMxMt
- EPDu/uwUkDOVTGgmEoieRU+cWIYSRwpP6G179J2U3AyXFcG4RCTV7Omxd2wkMnw2R+v+
- fRwVl1GJL4pcAu5p6rbMdMtSy5hWFVfpMXB3Fi5mveMK8gC97pkmbrGKY/DZmIW3QNIx
- g445ia8irLz4OwfA70RY95WQn+fFk8xzYycE4n89onbedeNxEeQr88b+I+Cj/mOsx3yg
- hpA3R3zMSS120XHism4saTnqpyqyPLWgVOM3h/VOWflTvyH5NhYGduGtkTNrC9FD701Z
- gevw==
+ bh=RI73hAm8taFHglKyL+fRjHiZ9E+te2SePrFdWbpImkA=;
+ b=vcwVx61Pt9UhOQmiYEavtCbKoTKImHwiu+5jNHRaBSnjLI1sdwRkCWJV7Ec4krDahz
+ lc+nmsDR6BxsvxOcXYoa1f00LwwOFO8ueOqgYAWv9LYJ6smg5RbifVEIzOgln8l3P/l1
+ kxjB3AO/QbVXPZ4QDZ/L9rWZYPKkOqi94fVEADu5b5L08A3T75RNv0g8OHkw6+OVZXQn
+ FZYfZfboXk3lS0zsdJbCw4Bb/18UXsxjbCWTj5LgU6LVp65iJ8gZvtPHviCUsWPFJstF
+ dLaCPjABpEIDLYyxFhuGouemYzSkTEMaicAUMUcUcFsAakPRpDHPxT1f20D+zjUnlnNP
+ jLVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DvFdTPchcbyWEX++eP+RtKIp66/AsHgH2aEoABwhrPw=;
- b=cQYMXirjVnISpwrk4EImuYjkxcmvZlq2mLB0kzzoJ4Qg8cl50dPWIIatu4BWRGSITx
- LND3AHLitdB/9XAq0UQQzXa13YWts7vcMVeKqSReudAXNziVZjLSoYTGU2U5gRRxO23L
- r2gNsp7/uT9jsJds3gKC9tYoSinU9wpYKujl/MYgagpTynCtjdgLwSUQbhytQfCrXc4k
- fk7Fo+KypMyFWDLP9loadkRKxYlZFCtrD/2A44FZgn57hafZIUoruxYF7wdRvbwatdqu
- qo1boXDLvX1VP8Hh1ql7X6XU0mCaVMPs5r+jJW7shrXvpc4c2SfkEMzxVLTPRTyNMJHZ
- PWmA==
-X-Gm-Message-State: AOAM532zZD5ii/U3P8DdBsAkr7tt4g8np8bBtlH1IJVW2D1GBsZSc7Wg
- riHN/WKv6UG7eM+CHhU/jG0=
-X-Google-Smtp-Source: ABdhPJxcnTtjrFZorqcAMTBoFnU7uOJs0ZXz5XW2NjfoAJXt07Zkspj2KF6vavtuzciDC2NujMM/Qw==
-X-Received: by 2002:a17:90a:8402:: with SMTP id
- j2mr13744447pjn.153.1599336307437; 
- Sat, 05 Sep 2020 13:05:07 -0700 (PDT)
+ bh=RI73hAm8taFHglKyL+fRjHiZ9E+te2SePrFdWbpImkA=;
+ b=f1R4lYg3GoPDpUGkSUXH7KFcQDDkzwJ8ngfLyaCmxaJuqMVtGCRLlyjABWTbjAmpFN
+ jbmHh375PLrZVcY2fEdni8e/GoEcfdk14y6EnlET9xzO9YX69UILAoe4m4lmKLRj29gh
+ uE0N0yO+VTcl0k1Cw+VbHPKBXrYT0g1qlm4rbE6Htg3hTC1NDhZoY5vm4vBoV28nSb3D
+ XwRr5XNCWgO/0aMqIMxFpI5/PPDfArfTDny3oAGYFZhT5q1qnVrxhEXCChalWUFQBZie
+ rt7WSfaCtgIlyAq0bOqxmEy9BsNlI+ez9wApzXh++wfznV40kW42MgMMYmi3fXTxbmD7
+ m94A==
+X-Gm-Message-State: AOAM5303qSdXrmH/pxGXDmu/ekM3qIJt7sN6mRZDs1nj6iptFyskFSOC
+ FOFlBXBE1yA4ca4LoAXwLkY=
+X-Google-Smtp-Source: ABdhPJzMiqoqztwMnULjxDUjTNS0z8BEMDOuI3DDlzgg2GpvsRIBIOXD8OIwXo/hNDfPqheUam39uw==
+X-Received: by 2002:a17:902:b092:b029:d0:89f1:9e2c with SMTP id
+ p18-20020a170902b092b02900d089f19e2cmr12189283plr.8.1599336310134; 
+ Sat, 05 Sep 2020 13:05:10 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- 70sm10615253pfu.107.2020.09.05.13.05.05
+ x3sm10486542pfo.95.2020.09.05.13.05.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Sep 2020 13:05:06 -0700 (PDT)
+ Sat, 05 Sep 2020 13:05:08 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v17 17/20] iommu/arm-smmu: Add a way for implementations to
- influence SCTLR
-Date: Sat,  5 Sep 2020 13:04:23 -0700
-Message-Id: <20200905200454.240929-18-robdclark@gmail.com>
+Subject: [PATCH v17 18/20] dt-bindings: arm-smmu: Add compatible string for
+ Adreno GPU SMMU
+Date: Sat,  5 Sep 2020 13:04:24 -0700
+Message-Id: <20200905200454.240929-19-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200905200454.240929-1-robdclark@gmail.com>
 References: <20200905200454.240929-1-robdclark@gmail.com>
@@ -72,12 +72,12 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Thierry Reding <treding@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
- linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- Stephen Boyd <swboyd@chromium.org>, Krishna Reddy <vdumpa@nvidia.com>,
- Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm@vger.kernel.org,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Sibi Sankar <sibis@codeaurora.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
  "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -85,73 +85,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Jordan Crouse <jcrouse@codeaurora.org>
 
-For the Adreno GPU's SMMU, we want SCTLR.HUPCF set to ensure that
-pending translations are not terminated on iova fault.  Otherwise
-a terminated CP read could hang the GPU by returning invalid
-command-stream data.
+Every Qcom Adreno GPU has an embedded SMMU for its own use. These
+devices depend on unique features such as split pagetables,
+different stall/halt requirements and other settings. Identify them
+with a compatible string so that they can be identified in the
+arm-smmu implementation specific code.
 
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 6 ++++++
- drivers/iommu/arm/arm-smmu/arm-smmu.c      | 3 +++
- drivers/iommu/arm/arm-smmu/arm-smmu.h      | 3 +++
- 3 files changed, 12 insertions(+)
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index 1e942eed2dfc..0663d7d26908 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -129,6 +129,12 @@ static int qcom_adreno_smmu_init_context(struct arm_smmu_domain *smmu_domain,
- 	    (smmu_domain->cfg.fmt == ARM_SMMU_CTX_FMT_AARCH64))
- 		pgtbl_cfg->quirks |= IO_PGTABLE_QUIRK_ARM_TTBR1;
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 503160a7b9a0..3b63f2ae24db 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -28,8 +28,6 @@ properties:
+           - enum:
+               - qcom,msm8996-smmu-v2
+               - qcom,msm8998-smmu-v2
+-              - qcom,sc7180-smmu-v2
+-              - qcom,sdm845-smmu-v2
+           - const: qcom,smmu-v2
  
-+	/*
-+	 * On the GPU device we want to process subsequent transactions after a
-+	 * fault to keep the GPU from hanging
-+	 */
-+	smmu_domain->cfg.sctlr_set |= ARM_SMMU_SCTLR_HUPCF;
-+
- 	/*
- 	 * Initialize private interface with GPU:
- 	 */
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index dad7fa86fbd4..1f06ab219819 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -617,6 +617,9 @@ void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
- 	if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
- 		reg |= ARM_SMMU_SCTLR_E;
- 
-+	reg |= cfg->sctlr_set;
-+	reg &= ~cfg->sctlr_clr;
-+
- 	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
- }
- 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index 6c5ff9999eae..ddf2ca4c923d 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -144,6 +144,7 @@ enum arm_smmu_cbar_type {
- #define ARM_SMMU_CB_SCTLR		0x0
- #define ARM_SMMU_SCTLR_S1_ASIDPNE	BIT(12)
- #define ARM_SMMU_SCTLR_CFCFG		BIT(7)
-+#define ARM_SMMU_SCTLR_HUPCF		BIT(8)
- #define ARM_SMMU_SCTLR_CFIE		BIT(6)
- #define ARM_SMMU_SCTLR_CFRE		BIT(5)
- #define ARM_SMMU_SCTLR_E		BIT(4)
-@@ -341,6 +342,8 @@ struct arm_smmu_cfg {
- 		u16			asid;
- 		u16			vmid;
- 	};
-+	u32				sctlr_set;    /* extra bits to set in SCTLR */
-+	u32				sctlr_clr;    /* bits to mask in SCTLR */
- 	enum arm_smmu_cbar_type		cbar;
- 	enum arm_smmu_context_fmt	fmt;
- };
+       - description: Qcom SoCs implementing "arm,mmu-500"
+@@ -40,6 +38,13 @@ properties:
+               - qcom,sm8150-smmu-500
+               - qcom,sm8250-smmu-500
+           - const: arm,mmu-500
++      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
++        items:
++          - enum:
++              - qcom,sc7180-smmu-v2
++              - qcom,sdm845-smmu-v2
++          - const: qcom,adreno-smmu
++          - const: qcom,smmu-v2
+       - description: Marvell SoCs implementing "arm,mmu-500"
+         items:
+           - const: marvell,ap806-smmu-500
 -- 
 2.26.2
 
