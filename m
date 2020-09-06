@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C15925F3E0
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:22:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E00025F3DE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3BC6E25B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 991216E228;
 	Mon,  7 Sep 2020 07:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dmz.c-home.cz (gw.c-home.cz [89.24.150.100])
- by gabe.freedesktop.org (Postfix) with ESMTP id 73EBF6E075
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Sep 2020 16:33:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 74EBD6E075
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Sep 2020 16:33:09 +0000 (UTC)
 Received: from ubuntu1804.c-home.cz (unifi.c-home.cz [192.168.1.239])
- by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 086GLocu011279;
- Sun, 6 Sep 2020 18:21:58 +0200 (CEST)
+ by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 086GLocv011279;
+ Sun, 6 Sep 2020 18:21:59 +0200 (CEST)
 From: Martin Cerveny <m.cerveny@computer.org>
 To: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 1/2] drm/sun4i: sun8i-csc: Secondary CSC register correction
-Date: Sun,  6 Sep 2020 18:21:39 +0200
-Message-Id: <20200906162140.5584-2-m.cerveny@computer.org>
+Subject: [PATCH 2/2] drm/sun4i: mixer: Extend regmap max_register
+Date: Sun,  6 Sep 2020 18:21:40 +0200
+Message-Id: <20200906162140.5584-3-m.cerveny@computer.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200906162140.5584-1-m.cerveny@computer.org>
 References: <20200906162140.5584-1-m.cerveny@computer.org>
@@ -46,28 +46,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Allwinner V3s" has secondary video layer (VI).
-Decoded video is displayed in wrong colors until
-secondary CSC registers are programmed correctly.
+Better guess. Secondary CSC registers are from 0xF0000.
 
 Signed-off-by: Martin Cerveny <m.cerveny@computer.org>
 ---
- drivers/gpu/drm/sun4i/sun8i_csc.h | 2 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
-index f42441b1b14d..a55a38ad849c 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
-@@ -12,7 +12,7 @@ struct sun8i_mixer;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index cc4fb916318f..c3304028e3dc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -307,7 +307,7 @@ static struct regmap_config sun8i_mixer_regmap_config = {
+ 	.reg_bits	= 32,
+ 	.val_bits	= 32,
+ 	.reg_stride	= 4,
+-	.max_register	= 0xbfffc, /* guessed */
++	.max_register	= 0xffffc, /* guessed */
+ };
  
- /* VI channel CSC units offsets */
- #define CCSC00_OFFSET 0xAA050
--#define CCSC01_OFFSET 0xFA000
-+#define CCSC01_OFFSET 0xFA050
- #define CCSC10_OFFSET 0xA0000
- #define CCSC11_OFFSET 0xF0000
- 
+ static int sun8i_mixer_of_get_id(struct device_node *node)
 -- 
 2.17.1
 
