@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C33025F3E2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:22:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AC225F3D9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1204B6E2C7;
-	Mon,  7 Sep 2020 07:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0D2E6E137;
+	Mon,  7 Sep 2020 07:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C86F26E0DE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 06:34:00 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id v196so8125586pfc.1
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Sep 2020 23:34:00 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E730A6E0DC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 06:35:41 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id q3so2163509plr.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=m15jCTtsBAUKP+0jfB9in9HIjBdPjBE4Y+TgmZ5/xE0=;
- b=oKcX83qNAmH/enHKgQVFuUZrgn1v592Ii5llp56wrH1uuq47AuZF7tgvVTEacw8m5X
- 67Ha0oF50dm2WcuelnBDh7hoqksWVFv232g7FbvwYXSjOqnAxRGNrnBqxkuCn41Jk907
- KGmT2IDHdkSTpTO7vySyW4tq1LLXCMObaVHpaPcUkV95g6ScpC8AuUk3d3DHA0Vfp/nj
- WfGbFYRiW4klopM/ON/sZuPQKlaNz/uRCshXvOq5aat/oTI4z864Ux2Xa8tGvloE2UiV
- drbQdLjifGkxsl/NBlYH1b8VSLUrm4bWyRrzVYrr8h0Z2RPhc0Wgw71cWYavkTCCdtzn
- 3BoQ==
+ bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+ b=Lght7Ifr1LpMt8ODv/ddonkYDgzWp8nZkg1/c/SjWJ8F+ZngJs82vf/xcGWrzRvqY7
+ ou1W681VqX+F9lu2Xqc0ZpV4i6UUyob9coYjA5tVJMOg07ZWGsDugXBqZBJWuaGCP+BS
+ IfGVH9pKNnx82dDz/31NRPQDtBYa2qeQEUGBeXAiBUqJB+6B7fsASnM0vRbJTHMC9Qmj
+ Wp5QykCr96OApc0FAUkWbPieinRUqhfSyP017+3ldlThqh0gNqvvYGQzol0Fi6Cm/Sp8
+ pdT+pA8htrY9tVfsBb6O2UMBh8LZF5FBkt/j1e/oP9MkvS737M2GOLwfKA0H7Cyfa2f5
+ lKJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=m15jCTtsBAUKP+0jfB9in9HIjBdPjBE4Y+TgmZ5/xE0=;
- b=aM8CdkHGVyxnWZQvduvuFjESEgpG/ssbqLBuqLTKDO4pWpOERppxjvqjC92NfXn52t
- LC9u8GmzkL5Z81cGwgI1DgQ/bsGPMeLopA7XGKZNAI19z830J9b/vI1yL43SWRXZN19R
- DqYdHl6FtARfWnrjvnDdIE/0+vMj1WFPcHDAe1blSWqRT+CLtLFf3ZFI3GvFFEgeyE7n
- tiIzXjcblPMjeEQlFK5r4vNgGUA6LyojNb9FBCDeflbDP6/pUtQuiqtacrioFaWoWyMS
- dXeiVh/BrsOzO2YYb2IK7pWP3fduwTX11vIYnCGv4/0AFtULL1n3zAUmqaOSM1hTjtof
- MEWA==
-X-Gm-Message-State: AOAM533bvd0x3vYqF5JYJnNi2Tw+VTGnOLkpdXMh1eAp/EkORu4Ct2gL
- Uag6dlOhWWrCtxKAupt7T0k=
-X-Google-Smtp-Source: ABdhPJw6ZH79o8HU3/QSSp52qMLeXwXaUJN0ob6XhOQCKSaHK7Tzit4rT2kSbg628qUever7ECTm0A==
-X-Received: by 2002:a62:8607:0:b029:13c:1611:6593 with SMTP id
- x7-20020a6286070000b029013c16116593mr16912878pfd.16.1599460440268; 
- Sun, 06 Sep 2020 23:34:00 -0700 (PDT)
+ bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+ b=k1zz1LJx23/VcfI8qBxAZ3yDNmDmJLJz7FMjHYeOMCNhLXxt8BJaP7FKR7wD69zMId
+ Dn6zE/pW/TQ0xTZ8B3t41QUR4GLlAZTwOc37w9igqDP0uAShQPZHCgn3ImYcUbLvnS9Y
+ NrSzaQTxOkWROwINSjVZKeMbGWqf4kJnVKeBrlFMVU82JRQs3+gZH0L2auWRCMBjt77p
+ ZbLCryow0MQJrAiEF7XXbIjBKGU4tmAMRfPy1TKfrEtibk1JeYQ/voIv2MPzpSN+at2q
+ GzANFB+SX9bMJoiowWG/VQzzCqVRJRFDFQiYcMqucTgjuYyvAAUDq/T/d2wl1yWR+qH1
+ OD0A==
+X-Gm-Message-State: AOAM531pZzrDW7Noyh0G3ZKU/7T+WyysbI6Xgm8k/xQkAzgtZ2KZrqCX
+ wDnkA76kC8hCo61dvHL5tvA=
+X-Google-Smtp-Source: ABdhPJwOD5kJx+DFcApvOWX+p/5e9qXZZ2sVaWifSzXJ6UpEB+RbV7/BqVTOwMBbgqsIz5Cei42hAg==
+X-Received: by 2002:a17:902:8c94:: with SMTP id
+ t20mr17926553plo.76.1599460541415; 
+ Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
 Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id q82sm14767933pfc.139.2020.09.06.23.33.56
+ by smtp.gmail.com with ESMTPSA id y3sm11660330pjg.8.2020.09.06.23.35.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Sep 2020 23:33:59 -0700 (PDT)
-Date: Mon, 7 Sep 2020 12:01:53 +0530
+ Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
+Date: Mon, 7 Sep 2020 12:03:47 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -55,14 +55,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
- and fix-ups.
-Message-ID: <20200907063153.GA29062@gmail.com>
+Subject: Re: [PATCH v1 1/2] video: fbdev: aty: radeon_pm: remove redundant
+ CONFIG_PM container
+Message-ID: <20200907063347.GB29062@gmail.com>
 References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
  <20200806072658.592444-1-vaibhavgupta40@gmail.com>
+ <20200806072658.592444-2-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200806072658.592444-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200806072658.592444-2-vaibhavgupta40@gmail.com>
 X-Mailman-Approved-At: Mon, 07 Sep 2020 07:22:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,10 +85,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please review this patch-series.
 
-Thank you
-Vaibhav Gupta
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
