@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B2C25F901
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 13:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E3225F90B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 13:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 677CD6E421;
-	Mon,  7 Sep 2020 11:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A4D6E32F;
+	Mon,  7 Sep 2020 11:10:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28006E421
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 11:05:48 +0000 (UTC)
-IronPort-SDR: m8n5SG5vMqq9zU71pkKlZkvoCHsFfap1g2ZGOweyWPt5q7L023E6tFEE+NItbpMm0xGrG2kQGl
- pqyFTb+wJ19Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="176042590"
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; d="scan'208";a="176042590"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2020 04:05:48 -0700
-IronPort-SDR: /v5b++m3kkkbfFA9wbim3ZJdffEEVpxjZhqPtTvjdgKUi4hmW4iO8F388Pcbzls2iqus21xquf
- ByBivjDzRdqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; d="scan'208";a="303700090"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 07 Sep 2020 04:05:45 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 07 Sep 2020 14:05:44 +0300
-Date: Mon, 7 Sep 2020 14:05:44 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Zwane Mwaikambo <zwane@yosper.io>
-Subject: Re: [PATCH]] drm/dp check aux_dev before use in
- drm_dp_aux_dev_get_by_minor()
-Message-ID: <20200907110544.GE6112@intel.com>
-References: <alpine.DEB.2.21.2008101004110.27032@montezuma.home>
- <20200811085830.GZ2352366@phenom.ffwll.local>
- <alpine.DEB.2.21.2008111514210.35094@montezuma.home>
- <CAKMK7uHxikojLQNbsnnfDfGZ3tFP9CRUTzvr+DsZghzQupaBGg@mail.gmail.com>
- <a1141faf8c6a0a924d87132fb4a297cd6d47e09d.camel@redhat.com>
- <alpine.DEB.2.21.2008121314020.39850@montezuma.home>
- <alpine.DEB.2.21.2009031042400.44355@montezuma.home>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B67226E32F
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 11:10:31 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id j2so15372387wrx.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 04:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hyfLckJhiZ5sjHjg6KN13DoyRvqbjPb2/1GNLHUTQ18=;
+ b=QmBXtZscSFhFSWmsqbWRggCLAvMzSVGeAB6uNwTdM11fep54tfrxptBj+Rd04GjKwU
+ ZO/seRoLaVJDlrcn5Y6Q0GrKitqT9URFvyE7524RsQd0UKxWpDkp5+3VoKjiIB03A7kN
+ 7KaO/TzW3UYcLcuzYXkfNpJnYtgbkKkfMJaq2ZGjOvKxpsb8egJGHVNPLx/+YZ7D7HIL
+ X/prO/CU2BMymmOCgs45XbqHNZlv10+915vQvZBs5+UG6V2+a6HZ/qTz0X/nGD7UNIn8
+ wJApzbh0qn5frSxnTrjUygmG6ePUI1fgFhcZ7gy0KmuLbmJ8Kiy1rQVx+IG4GypJQfeZ
+ LOHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hyfLckJhiZ5sjHjg6KN13DoyRvqbjPb2/1GNLHUTQ18=;
+ b=jjKpZZmqrtTB9ZAvpVsmYEBWUw7kONiEA4CKKd2UURqnJZS29cEZWnd1I2CuVYK8OP
+ u8uFX4WMNhS4ra3AlSJxNz2Fwt+/gWvXAqt6VMBcQS2bjNKb4Q7SZfhmMOfBpo8uYLc/
+ 41jBLvezftSwLpQvnTxOiXY4J8jKh9H0w7mm3l5XNYQhZDYKJxxyZ1N4V2UiOJdNSfkJ
+ 9gxOb/Yaq4psDxiot+7kjflXWW/iHeXM/UKH+63xC7Soo7vrDwX4tuDp3YEZtgeremoj
+ ln6cRWlwfqA1XZekhOcgTHhI2Gj4a33Rqj/SECeYy/BH+OemqiSbLSVAtbJBspsp08FL
+ aqrg==
+X-Gm-Message-State: AOAM531iOTjmQ/i4hp1/vOdxZYvE3LmhC+zSPaT+F0v1IxepNJEbhDGF
+ 6o4u0OW6ehVb3v99mxRtVsaZyw==
+X-Google-Smtp-Source: ABdhPJydVdSsCLGHaYXiDQPPFXJqDlI3Gq8+/+6752E5DlDac2zDdha6cnWoGI5J0cNDYNsz91bj7A==
+X-Received: by 2002:adf:9bc9:: with SMTP id e9mr20751383wrc.123.1599477030165; 
+ Mon, 07 Sep 2020 04:10:30 -0700 (PDT)
+Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
+ by smtp.gmail.com with ESMTPSA id u13sm19922111wrm.77.2020.09.07.04.10.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Sep 2020 04:10:29 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: thierry.reding@gmail.com,
+	sam@ravnborg.org
+Subject: [PATCH 0/3] drm: panel: add support for TDO tl070wsh30 panel
+Date: Mon,  7 Sep 2020 13:10:24 +0200
+Message-Id: <20200907111027.21933-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2009031042400.44355@montezuma.home>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,226 +66,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zwanem@gmail.com, dkwon@redhat.com,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 04, 2020 at 12:21:26AM -0700, Zwane Mwaikambo wrote:
-> I observed this when unplugging a DP monitor whilst a computer is asleep =
-
-> and then waking it up. This left DP chardev nodes still being present on =
-
-> the filesystem and accessing these device nodes caused an oops because =
-
-> drm_dp_aux_dev_get_by_minor() assumes a device exists if it is opened. =
-
-> This can also be reproduced by creating a device node with mknod(1) and =
-
-> issuing an open(2)
-> =
-
-> [166164.933198] BUG: kernel NULL pointer dereference, address: 0000000000=
-000018
-> [166164.933202] #PF: supervisor read access in kernel mode
-> [166164.933204] #PF: error_code(0x0000) - not-present page
-> [166164.933205] PGD 0 P4D 0 =
-
-> [166164.933208] Oops: 0000 [#1] PREEMPT SMP NOPTI
-> [166164.933211] CPU: 4 PID: 99071 Comm: fwupd Tainted: G        W         =
-
-> 5.8.0-rc6+ #1
-> [166164.933213] Hardware name: LENOVO 20RD002VUS/20RD002VUS, BIOS R16ET25=
-W =
-
-> (1.11 ) 04/21/2020
-> [166164.933232] RIP: 0010:drm_dp_aux_dev_get_by_minor+0x29/0x70 =
-
-> [drm_kms_helper]
-> [166164.933234] Code: 00 0f 1f 44 00 00 55 48 89 e5 41 54 41 89 fc 48 c7 =
-
-> c7 60 01 a4 c0 e8 26 ab 30 d7 44 89 e6 48 c7 c7 80 01 a4 c0 e8 47 94 d6 d=
-6 =
-
-> <8b> 50 18 49 89 c4 48 8d 78 18 85 d2 74 33 8d 4a 01 89 d0 f0 0f b1
-> [166164.933236] RSP: 0018:ffffb7d7c41cbbf0 EFLAGS: 00010246
-> [166164.933237] RAX: 0000000000000000 RBX: ffff8a90001fe900 RCX: 00000000=
-00000000
-> [166164.933238] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffffffff=
-c0a40180
-> [166164.933239] RBP: ffffb7d7c41cbbf8 R08: 0000000000000000 R09: ffff8a93=
-e157d6d0
-> [166164.933240] R10: 0000000000000000 R11: ffffffffc0a40188 R12: 00000000=
-00000003
-> [166164.933241] R13: ffff8a9402200e80 R14: ffff8a90001fe900 R15: 00000000=
-00000000
-> [166164.933244] FS:  00007f7fb041eb00(0000) GS:ffff8a9411500000(0000) =
-
-> knlGS:0000000000000000
-> [166164.933245] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [166164.933246] CR2: 0000000000000018 CR3: 00000000352c2003 CR4: 00000000=
-003606e0
-> [166164.933247] Call Trace:
-> [166164.933264]  auxdev_open+0x1b/0x40 [drm_kms_helper]
-> [166164.933278]  chrdev_open+0xa7/0x1c0
-> [166164.933282]  ? cdev_put.part.0+0x20/0x20
-> [166164.933287]  do_dentry_open+0x161/0x3c0
-> [166164.933291]  vfs_open+0x2d/0x30
-> [166164.933297]  path_openat+0xb27/0x10e0
-> [166164.933306]  ? atime_needs_update+0x73/0xd0
-> [166164.933309]  do_filp_open+0x91/0x100
-> [166164.933313]  ? __alloc_fd+0xb2/0x150
-> [166164.933316]  do_sys_openat2+0x210/0x2d0
-> [166164.933318]  do_sys_open+0x46/0x80
-> [166164.933320]  __x64_sys_openat+0x20/0x30
-> [166164.933328]  do_syscall_64+0x52/0xc0
-> [166164.933336]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> =
-
-> =
-
-> (gdb) disassemble drm_dp_aux_dev_get_by_minor+0x29
-> Dump of assembler code for function drm_dp_aux_dev_get_by_minor:
->    0x0000000000017b10 <+0>:     callq  0x17b15 <drm_dp_aux_dev_get_by_min=
-or+5>
->    0x0000000000017b15 <+5>:     push   %rbp
->    0x0000000000017b16 <+6>:     mov    %rsp,%rbp
->    0x0000000000017b19 <+9>:     push   %r12
->    0x0000000000017b1b <+11>:    mov    %edi,%r12d
->    0x0000000000017b1e <+14>:    mov    $0x0,%rdi
->    0x0000000000017b25 <+21>:    callq  0x17b2a <drm_dp_aux_dev_get_by_min=
-or+26>
->    0x0000000000017b2a <+26>:    mov    %r12d,%esi
->    0x0000000000017b2d <+29>:    mov    $0x0,%rdi
->    0x0000000000017b34 <+36>:    callq  0x17b39 <drm_dp_aux_dev_get_by_min=
-or+41>
->    0x0000000000017b39 <+41>:    mov    0x18(%rax),%edx <=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
->    0x0000000000017b3c <+44>:    mov    %rax,%r12
->    0x0000000000017b3f <+47>:    lea    0x18(%rax),%rdi
->    0x0000000000017b43 <+51>:    test   %edx,%edx
->    0x0000000000017b45 <+53>:    je     0x17b7a <drm_dp_aux_dev_get_by_min=
-or+106>
->    0x0000000000017b47 <+55>:    lea    0x1(%rdx),%ecx
->    0x0000000000017b4a <+58>:    mov    %edx,%eax
->    0x0000000000017b4c <+60>:    lock cmpxchg %ecx,(%rdi)
->    0x0000000000017b50 <+64>:    jne    0x17b76 <drm_dp_aux_dev_get_by_min=
-or+102>
->    0x0000000000017b52 <+66>:    test   %edx,%edx
->    0x0000000000017b54 <+68>:    js     0x17b6d <drm_dp_aux_dev_get_by_min=
-or+93>
->    0x0000000000017b56 <+70>:    test   %ecx,%ecx
->    0x0000000000017b58 <+72>:    js     0x17b6d <drm_dp_aux_dev_get_by_min=
-or+93>
->    0x0000000000017b5a <+74>:    mov    $0x0,%rdi
->    0x0000000000017b61 <+81>:    callq  0x17b66 <drm_dp_aux_dev_get_by_min=
-or+86>
->    0x0000000000017b66 <+86>:    mov    %r12,%rax
->    0x0000000000017b69 <+89>:    pop    %r12
->    0x0000000000017b6b <+91>:    pop    %rbp
->    0x0000000000017b6c <+92>:    retq   =
-
->    0x0000000000017b6d <+93>:    xor    %esi,%esi
->    0x0000000000017b6f <+95>:    callq  0x17b74 <drm_dp_aux_dev_get_by_min=
-or+100>
->    0x0000000000017b74 <+100>:   jmp    0x17b5a <drm_dp_aux_dev_get_by_min=
-or+74>
->    0x0000000000017b76 <+102>:   mov    %eax,%edx
->    0x0000000000017b78 <+104>:   jmp    0x17b43 <drm_dp_aux_dev_get_by_min=
-or+51>
->    0x0000000000017b7a <+106>:   xor    %r12d,%r12d
->    0x0000000000017b7d <+109>:   jmp    0x17b5a <drm_dp_aux_dev_get_by_min=
-or+74>
-> End of assembler dump.
-> =
-
-> (gdb) list *drm_dp_aux_dev_get_by_minor+0x29
-> 0x17b39 is in drm_dp_aux_dev_get_by_minor (drivers/gpu/drm/drm_dp_aux_dev=
-.c:65).
-> 60      static struct drm_dp_aux_dev *drm_dp_aux_dev_get_by_minor(unsigne=
-d index)
-> 61      {
-> 62              struct drm_dp_aux_dev *aux_dev =3D NULL;
-> 63
-> 64              mutex_lock(&aux_idr_mutex);
-> 65              aux_dev =3D idr_find(&aux_idr, index);
-> 66              if (!kref_get_unless_zero(&aux_dev->refcount))
-> 67                      aux_dev =3D NULL;
-> 68              mutex_unlock(&aux_idr_mutex);
-> 69
-> (gdb) p/x &((struct drm_dp_aux_dev *)(0x0))->refcount
-> $8 =3D 0x18
-> =
-
-> Looking at the caller, checks on the minor are pushed down to =
-
-> drm_dp_aux_dev_get_by_minor()
-> =
-
-> static int auxdev_open(struct inode *inode, struct file *file)
-> {
->     unsigned int minor =3D iminor(inode);
->     struct drm_dp_aux_dev *aux_dev;
-> =
-
->     aux_dev =3D drm_dp_aux_dev_get_by_minor(minor); <=3D=3D=3D=3D
->     if (!aux_dev)
->         return -ENODEV;
-> =
-
->     file->private_data =3D aux_dev;
->     return 0;
-> }
-> =
-
-> =
-
-> Fixes: e94cb37b34eb8 ("Add a drm_aux-dev module for reading/writing dpcd =
-registers")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zwane Mwaikambo <zwane@yosper.io>
-> ---
-> =
-
-> diff --git a/drivers/gpu/drm/drm_dp_aux_dev.c b/drivers/gpu/drm/drm_dp_au=
-x_dev.c
-> index 2510717d5a08..e25181bf2c48 100644
-> --- a/drivers/gpu/drm/drm_dp_aux_dev.c
-> +++ b/drivers/gpu/drm/drm_dp_aux_dev.c
-> @@ -63,7 +63,7 @@ static struct drm_dp_aux_dev *drm_dp_aux_dev_get_by_min=
-or(unsigned index)
->  =
-
->  	mutex_lock(&aux_idr_mutex);
->  	aux_dev =3D idr_find(&aux_idr, index);
-> -	if (!kref_get_unless_zero(&aux_dev->refcount))
-> +	if (aux_dev && !kref_get_unless_zero(&aux_dev->refcount))
-
-Dejavu
-
-https://lists.freedesktop.org/archives/dri-devel/2019-May/218855.html
-https://lists.freedesktop.org/archives/dri-devel/2019-July/226168.html
-
-I guess we just got stuck waiting for confirmation that it reproduces
-with the bogus device node trick.
-
->  		aux_dev =3D NULL;
->  	mutex_unlock(&aux_idr_mutex);
->  =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBhZGRzIHN1cHBvcnQgYmluZGluZ3MgYW5kIHN1cHBvcnQgZm9yIHRoZSBURE8gVEwwNzBX
+U0gzMCBURlQtTENEIHBhbmVsCm1vZHVsZSBzaGlwcGVkIHdpdGggdGhlIEFtbG9naWMgUzQwMCBE
+ZXZlbG9wbWVudCBLaXQuClRoZSBwYW5lbCBoYXMgYSAxMDI0w5c2MDAgcmVzb2x1dGlvbiBhbmQg
+dXNlcyAyNCBiaXQgUkdCIHBlciBwaXhlbC4KSXQgcHJvdmlkZXMgYSBNSVBJIERTSSBpbnRlcmZh
+Y2UgdG8gdGhlIGhvc3QsIGEgYnVpbHQtaW4gTEVEIGJhY2tsaWdodAphbmQgdG91Y2ggY29udHJv
+bGxlci4KCkNoYW5nZXMgc2luY2UgdjEgYXQgWzFdOgotIGFkZGVkIG1pc3NpbmcgdmVuZG9yLXBy
+ZWZpeGVzIHBhdGNoCi0gcmVtb3ZlZCB2cmVmcmVzaAotIGZpeGVkIHdhcm5pbmcgb24gYWRkX3Bh
+bmVsIHJldHVybgotIHJlbW92ZWQgRFJNIGxvZ2dpbmcKClsxXSBodHRwczovL3BhdGNod29yay5m
+cmVlZGVza3RvcC5vcmcvc2VyaWVzLzgxMzc2LyNyZXYxCgpOZWlsIEFybXN0cm9uZyAoMyk6CiAg
+ZHQtYmluZGluZ3M6IHZlbmRvci1wcmVmaXhlczogQWRkIFNoYW5naGFpIFRvcCBEaXNwbGF5CiAg
+ICBPcHRvbGVsZWN0cm9uaWNzIHZlbmRvciBwcmVmaXgKICBkdC1iaW5kaW5nczogZGlzcGxheTog
+cGFuZWw6IGFkZCBURE8gdGwwNzB3c2gzMCBEU0kgcGFuZWwgYmluZGluZ3MKICBkcm06IHBhbmVs
+OiBhZGQgVERPIHRsMDcwd3NoMzAgcGFuZWwgZHJpdmVyCgogLi4uL2Rpc3BsYXkvcGFuZWwvdGRv
+LHRsMDcwd3NoMzAueWFtbCAgICAgICAgIHwgIDU4ICsrKysKIC4uLi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL3ZlbmRvci1wcmVmaXhlcy55YW1sICB8ICAgMiArCiBkcml2ZXJzL2dwdS9kcm0vcGFuZWwv
+S2NvbmZpZyAgICAgICAgICAgICAgICAgfCAgMTEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmVsL01h
+a2VmaWxlICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5l
+bC10ZG8tdGwwNzB3c2gzMC5jICB8IDI1NiArKysrKysrKysrKysrKysrKysKIDUgZmlsZXMgY2hh
+bmdlZCwgMzI4IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC90ZG8sdGwwNzB3c2gzMC55YW1sCiBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXRkby10bDA3MHdz
+aDMwLmMKCi0tIAoyLjIyLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
