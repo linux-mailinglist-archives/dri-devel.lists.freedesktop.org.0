@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5626725FBA9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 15:51:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C14825FBAE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 15:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465936E45C;
-	Mon,  7 Sep 2020 13:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66F66E45E;
+	Mon,  7 Sep 2020 13:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E1D6E45C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 13:51:24 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id 3so13674885oih.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 06:51:24 -0700 (PDT)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C76C06E466
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 13:53:14 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id h17so11527855otr.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 06:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/nFpZHNo+4pHLEitc/9SenBOyCVjC/0CPz2kbdxtOH8=;
- b=RS7GyQZuOIqmx2b6sEHEQ7/Hqen5LTRNVLkSqQmjz2v0DRvgOtvNmkIVkG1VsczeyP
- eBtzkHOyHhqNVWeRUxia7LUNLvHf0qW/N9yGgDO9ocgU1hpjDKbYExqCHNHc0+c7+QY/
- RejLoLqJZBEb9Z1s3b+I6DfpTfaJ71shh60bE=
+ :cc; bh=6ycAA+DdU1xPs+4BPRjymvkLu6X0RXJu9Y30n9A+nhw=;
+ b=iEuCxz9/GZ6l217tQFZNQnUWpR9k7WJUgYHDT3dvu6LGpJUTO3ZHU8XY45NhdzKDQO
+ 1fKDlDTQJUBRg69fGPFS9NGm88rxiua5V6kLDIHzvXJQl2XTqcbaxMJ2A3jRMSNE3KpM
+ gljXkMSlOUveuv/7r6jtHMbsJfGshsRGGdmd0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/nFpZHNo+4pHLEitc/9SenBOyCVjC/0CPz2kbdxtOH8=;
- b=oWhST9fOFi0915oOJjteZX0v+CMXbS1pKxuGjoDuI5Dh+tVfIcvANjwgTUBI1R0K6x
- Um3cfPJwJAI55pcswKBzJuOHCrVJfno8kzFELI2CGJ+t8XhNYwASYEGO+0V3TiMYhrdq
- k28iUbPqfUGnp4W6zAn3C59MrOmoYQNsKQY+E7ffMVmV/WJuHQO/06pi3ZV+FoPPFFll
- oOcipCkvEYWK/IWwb0wKocC4VyPhiY2ddvE/ybAUwtzEziv0poglkLP7HAx61uKvvSfe
- 0Z6U5hW8akNdq3E6BK6BImztM2s/Qubj0tTLKwjfuJ7G9i6Lpl7TE3lKgE7w1QKKJvvn
- lzWg==
-X-Gm-Message-State: AOAM530lfcPaPVBAjtYsCZLnlWFG3w/12hYJ5eQs4OciP+5cGw5gTuQP
- KtimI8Mrx/LTExmIu8PrQS/nl8Mt+kfp2ykGbIfbzg==
-X-Google-Smtp-Source: ABdhPJwN+PkCI8qE3itu6gZnreMz3YBk/wN/pCbhJNH87TywBqQ9Z0ROcxDdU9aRAbynAenb2Zc2xLR0NIC1j1RESDc=
-X-Received: by 2002:aca:de41:: with SMTP id v62mr8522854oig.128.1599486683869; 
- Mon, 07 Sep 2020 06:51:23 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=6ycAA+DdU1xPs+4BPRjymvkLu6X0RXJu9Y30n9A+nhw=;
+ b=c3KfMnuhXr8czqvDdg+iDWIOecIkt8DW8mNDhf2DUQvK1cIkmWQWLNNCd2zHu45+tb
+ 8Q67DY1QdpivcU1BIIPY3AQ2DiGg2x0iKHfnXXofakz+sy+/ullCS4+K/auRPik+Tw0W
+ ZxXUi+8knhJsB4iB+oRgLjnhnq6/vsgAlUyBvxuoadbCdbYHN+hp2uljFGaTo/Is3gjt
+ SaqzidZLlutARF9ydb2Z9XVNJaxEhDU+DBPMBk2XXACqG/SiyZa4X4D7YJJ0ga+/afD/
+ vLJ15eq2OhlKUk5B3qxJ6vrHUSirPrS2C88ecxwGOPZhJMcewH1uJupfZcyhzkJzST/g
+ Qqpw==
+X-Gm-Message-State: AOAM530AvMWOsEosXRb6/K9rX1M7E8UCCKmQIc+rrx8JqvuKqmdp1nzX
+ ctHz968EpSF3XYHXgfGuoCHwYvMwh4Qo6ax2TjCYIw==
+X-Google-Smtp-Source: ABdhPJyIa5ADwu1SDw+83jpp18ZhpBHh8/4pkOiQO0+iszF4Hhvn1IVbMUtYG2efgD1SKjDwsO+pmUrMsJOpLEnsVks=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id
+ t25mr14697170otq.188.1599486793337; 
+ Mon, 07 Sep 2020 06:53:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
- <t3hHLqZ0yNm5FdxpyJovgjEVzs-OD7qD5nYrYXug8UhkBykhekB0_hOqPltEvFH3daJ3HYtY_3FInv3U5xIHprg1FS7b2SP8fCf48r7DvVg=@emersion.fr>
- <CAKMK7uFztTjjvQvM-toeZv3hps+NMJFXV7s=Dzs5PwG3J+7wjw@mail.gmail.com>
- <ap5W_r98yx5DpM1jFkrof6yWGWPtxbyObFp3iIP1-hm-SD_-Jij72KZK2VhVV2p-34EqdVE6T1JeW4zAgjnNsxv_CtULfvg2ASY3xECXMuY=@emersion.fr>
- <CAKMK7uGs2vQNf1+=4spQV4aCncOPE4+E7g95xqZ7kcD8pp5bTg@mail.gmail.com>
- <55Yt-xRb-j_BnxyoixpIT6a4aOd2-SMetoyIVRBwOBFc98R5A3-gAcYcFo5Sjj-7TcvLdy3669gwn5eCOoOi85A2MlZaUwqpQETei77426A=@emersion.fr>
- <20200907083133.GS2352366@phenom.ffwll.local>
- <jjQkalouYz08npkZ2r2MPoXoGML4DkABCtPEZYJkHgR9dGOQCcICe_oq_rpBVnzkpxK4SwDXY9gF8zlhfMWqiWoHHpP5N08nUmo-tA3jIW4=@emersion.fr>
- <20200907084137.GU2352366@phenom.ffwll.local>
- <20200907120728.65d8735e@eldfell>
-In-Reply-To: <20200907120728.65d8735e@eldfell>
+References: <20200907112425.15610-1-kraxel@redhat.com>
+ <20200907112425.15610-2-kraxel@redhat.com>
+In-Reply-To: <20200907112425.15610-2-kraxel@redhat.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 7 Sep 2020 15:51:12 +0200
-Message-ID: <CAKMK7uF=KOO9UrrP8i+dBbsbkV3m2o45ZmZP0DSVPp5TNAw_4A@mail.gmail.com>
-Subject: Re: [PATCH] drm/doc: Document that modifiers are always required for
- fb
-To: Pekka Paalanen <ppaalanen@gmail.com>
+Date: Mon, 7 Sep 2020 15:53:02 +0200
+Message-ID: <CAKMK7uGjT73rh=9iuCKAXvC_CaOuygm8PgOQgofkTgH7wRysFw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] drm: allow limiting the scatter list size.
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,97 +59,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Juston Li <juston.li@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Sandy Huang <hjc@rock-chips.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR NVIDIA TEGRA" <linux-tegra@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgNywgMjAyMCBhdCAxMTowNyBBTSBQZWtrYSBQYWFsYW5lbiA8cHBhYWxhbmVu
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBNb24sIDcgU2VwIDIwMjAgMTA6NDE6MzcgKzAyMDAK
-PiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+Cj4gPiBPbiBNb24sIFNl
-cCAwNywgMjAyMCBhdCAwODozNzozMUFNICswMDAwLCBTaW1vbiBTZXIgd3JvdGU6Cj4gPiA+IE9u
-IE1vbmRheSwgU2VwdGVtYmVyIDcsIDIwMjAgMTA6MzEgQU0sIERhbmllbCBWZXR0ZXIgPGRhbmll
-bEBmZndsbC5jaD4gd3JvdGU6Cj4gPiA+Cj4gPiA+ID4gT24gV2VkLCBTZXAgMDIsIDIwMjAgYXQg
-MDI6NTk6NDlQTSArMDAwMCwgU2ltb24gU2VyIHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gPiBPbiBX
-ZWRuZXNkYXksIFNlcHRlbWJlciAyLCAyMDIwIDQ6MjkgUE0sIERhbmllbCBWZXR0ZXIgZGFuaWVs
-LnZldHRlckBmZndsbC5jaCB3cm90ZToKPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IE9uIFdlZCwgU2Vw
-IDIsIDIwMjAgYXQgMjo0OSBQTSBTaW1vbiBTZXIgY29udGFjdEBlbWVyc2lvbi5mciB3cm90ZToK
-PiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBPbiBXZWRuZXNkYXksIFNlcHRlbWJlciAyLCAyMDIw
-IDI6NDQgUE0sIERhbmllbCBWZXR0ZXIgZGFuaWVsLnZldHRlckBmZndsbC5jaCB3cm90ZToKPiA+
-ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gPiBJIHN1cHBvc2Ugc29tZXRoaW5nIHNpbWlsYXIg
-aGFwcGVucyBpbiB1c2VyLXNwYWNlOiBnYm1fYm9fY3JlYXRlCj4gPiA+ID4gPiA+ID4gPiA+IHdp
-dGhvdXQgbW9kaWZpZXJzIG5lZWRzIHRvIHByb3Blcmx5IHNldCB0aGUgaW1wbGljaXQgbW9kaWZp
-ZXIsIGllLgo+ID4gPiA+ID4gPiA+ID4gPiBnYm1fYm9fZ2V0X21vZGlmaWVyIG5lZWRzIHRvIHJl
-dHVybiB0aGUgZWZmZWN0aXZlIG1vZGlmaWVyLiBJcyB0aGlzCj4gPiA+ID4gPiA+ID4gPiA+IHNv
-bWV0aGluZyBhbHJlYWR5IGRvY3VtZW50ZWQ/Cj4gPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+
-ID4gSSBkb24ndCB0aGluayB0aGF0IGhhcHBlbnMsIGJ1dCBpdCBoYXMgY29tZSB1cCBpbiBkaXNj
-dXNzaW9ucy4gSXQncwo+ID4gPiA+ID4gPiA+ID4ga2luZGEgZGlmZmVyZW50IHNjZW5hcmlvIHRo
-b3VnaDogZ2V0ZmIyIGlzIGZvciBjcm9zcy1jb21wb3NpdG9yIHN0dWZmLAo+ID4gPiA+ID4gPiA+
-ID4gZW5hYmxpbmcgc21vb3RoIHRyYW5zaXRpb25zIGF0IGJvb3QtdXAgYW5kIHdoZW4gc3dpdGNo
-aW5nLiBTbyB5b3UgaGF2ZQo+ID4gPiA+ID4gPiA+ID4gYSBsZWdpdCByZWFzb24gZm9yIG1peGlu
-ZyBtb2RpZmllci1hd2FyZSB1c2Vyc3BhY2Ugd2l0aAo+ID4gPiA+ID4gPiA+ID4gbm9uLW1vZGlm
-aWVyLWF3YXJlIHVzZXJzcGFjZS4gQW5kIHRoZSBtb2RpZmllci1hd2FyZSB1c2Vyc3BhY2Ugd291
-bGQKPiA+ID4gPiA+ID4gPiA+IGxpa2UgdGhhdCBldmVyeXRoaW5nIHdvcmtzIHdpdGggbW9kaWZp
-ZXJzIGNvbnNpc3RlbnRseSwgaW5jbHVkaW5nCj4gPiA+ID4gPiA+ID4gPiBnZXRmYjIuIEJ1dCBn
-Ym0gaXMganVzdCB3aXRoaW4gYSBzaW5nbGUgcHJvY2VzcywgYW5kIHRoYXQgc2hvdWxkCj4gPiA+
-ID4gPiA+ID4gPiBlaXRoZXIgcnVuIGFsbCB3aXRoIG1vZGlmaWVycywgb3Igbm90IGF0IGFsbCwg
-c2luY2UgdGhlc2Ugd29ybGRzIGp1c3QKPiA+ID4gPiA+ID4gPiA+IGRvbnQgbWl4IHdlbGwuIEhl
-bmNlIEknbSBub3Qgc2VlaW5nIG11Y2ggdXNlIGZvciB0aGF0LCAtbW9kZXNldHRpbmcKPiA+ID4g
-PiA+ID4gPiA+IGJlaW5nIGEgY29uZnVzZWQgbWVzcyBub253aXRoc3RhbmRpbmcgOi0pCj4gPiA+
-ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBXZWxs4oCmIFRoZXJlJ3MgYWxzbyB0aGUgY2FzZSB3aGVy
-ZSBzb21lIGxlZ2FjeSBXYXlsYW5kIGNsaWVudCB0YWxrcyB0byBhCj4gPiA+ID4gPiA+ID4gbW9k
-aWZpZXItYXdhcmUgY29tcG9zaXRvci4gZ2JtX2JvX2ltcG9ydCB3b3VsZCBiZSBjYWxsZWQgd2l0
-aG91dCBhCj4gPiA+ID4gPiA+ID4gbW9kaWZpZXIsIGJ1dCB0aGUgY29tcG9zaXRvciBleHBlY3Rz
-IGdibV9ib19nZXRfbW9kaWZpZXIgdG8gd29yay4KPiA+ID4gPiA+ID4gPiBBbHNvLCB3bHJvb3Rz
-IHdpbGwgY2FsbCBnYm1fYm9fY3JlYXRlIHdpdGhvdXQgYSBtb2RpZmllciB0byBvbmx5IGxldAo+
-ID4gPiA+ID4gPiA+IHRoZSBkcml2ZXIgcGljayAic2FmZSIgbW9kaWZpZXJzIGluIGNhc2UgcGFz
-c2luZyB0aGUgZnVsbCBsaXN0IG9mCj4gPiA+ID4gPiA+ID4gbW9kaWZpZXJzIHJlc3VsdHMgaW4g
-YSBibGFjayBzY3JlZW4uIExhdGVyIG9uIHdscm9vdHMgd2lsbCBjYWxsCj4gPiA+ID4gPiA+ID4g
-Z2JtX2JvX2dldF9tb2RpZmllciB0byBmaWd1cmUgb3V0IHdoYXQgbW9kaWZpZXIgdGhlIGRyaXZl
-ciBwaWNrZWQuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IGdibV9ib19pbXBvcnQgaXMgYSBkaWZm
-ZXJlbnQgdGhpbmcgZnJvbSBnYm1fYm9fY3JlYXRlLiBGb3JtZXIgSSBhZ3JlZQo+ID4gPiA+ID4g
-PiBzaG91bGQgZmlndXJlIG91dCB0aGUgcmlnaHQgbW9kaWZpZXJzIChhbmQgSSB0aGluayBpdCBk
-b2VzIHRoYXQsIGF0Cj4gPiA+ID4gPiA+IGxlYXN0IG9uIGludGVsIG1lc2EpLiBGb3IgZ2JtX2Jv
-X2NyZWF0ZSBJJ20gbm90IHN1cmUgd2Ugc2hvdWxkL25lZWQgdG8KPiA+ID4gPiA+ID4gcmVxdWly
-ZSB0aGF0Lgo+ID4gPiA+ID4KPiA+ID4gPiA+IEkgZ3Vlc3MgdGhlIGNvbXBvc2l0b3Igd2lsbCBq
-dXN0IGZvcndhcmQgdGhlIHZhbHVlIHJldHVybmVkIGJ5Cj4gPiA+ID4gPiBnYm1fYm9fZ2V0X21v
-ZGlmaWVyIGluIGFueSBjYXNlLCBzbyByZXR1cm5pbmcgSU5WQUxJRCB3b3VsZCBiZSBmaW5lCj4g
-PiA+ID4gPiB0b28gKHRvIG1lYW4gImltcGxpY2l0IG1vZGlmaWVyIikuCj4gPiA+ID4gPiBJbiBi
-b3RoIHRoZSBjcmVhdGUgYW5kIGltcG9ydCBjYXNlcywgb3RoZXIgbWV0YWRhdGEgbGlrZSBwaXRj
-aGVzIGFuZAo+ID4gPiA+ID4gb2Zmc2V0cyBzaG91bGQgYmUgY29ycmVjdGx5IHNldCBJIHRoaW5r
-Pwo+ID4gPiA+Cj4gPiA+ID4gV2VsbCBpZiB5b3UgaGF2ZSBhIG1vZGlmaWVyIGZvcm1hdCB1bmRl
-cm5lYXRoLCB0aGUgbm9uLW1vZGlmaWVyZWQgb2Zmc2V0cwo+ID4gPiA+IGFuZCBwaXRjaGVzIG1p
-Z2h0IGJlIHB1cmUgZmljdGlvbi4gQWxzbywgdGhleSBtaWdodCBub3QgYmUgc3VmZmljaWVudCwg
-aWYKPiA+ID4gPiB0aGUgbW9kaWZpZXIgYWRkcyBtb3JlIHBsYW5lcy4KPiA+ID4KPiA+ID4gSW4g
-dGhpcyBjYXNlIChnYm1fYm9fY3JlYXRlIHdpdGhvdXQgbW9kaWZpZXJzKSwgd2UncmUgZGlzY3Vz
-c2luZwo+ID4gPiB3aGV0aGVyIHdlIHJlcXVpcmUgZ2JtX2JvX2dldF9tb2RpZmllciB0byByZXR1
-cm4gYSB2YWxpZCBtb2RpZmllciwgb3IKPiA+ID4gaWYgSU5WQUxJRCBpcyBmaW5lLgo+ID4KPiA+
-IEhtIHRoZW4gSSBtaXNzZWQgdGhlIHVzZS1jYXNlIGZvciBhIGdibV9ib19jcmVhdGUgd2l0aG91
-dCBtb2RpZmllcnMsIHdoZXJlCj4gPiBhZnRlcndhcmRzIHVzZXJzcGFjZSB3YW50cyB0aGUgbW9k
-aWZpZXJzLiBUaGF0IHNvdW5kcyBsaWtlIGEgYnVnIChhbmQgeWVzCj4gPiAtbW9kZXNldHRpbmcg
-aXMgYnVnZ3kgdGhhdCB3YXkpLgo+Cj4gSSdtIGd1ZXNzaW5nIHRoYXQgdXNlIGNhc2UgbWlnaHQg
-YmUgcmVsYXRlZCB0bwo+IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dl
-c3Rvbi8tL2lzc3Vlcy80MjkKPgo+IFRoZSB3ZXN0b24gaXNzdWUgaXMgYWJvdXQKPiBnYm1fc3Vy
-ZmFjZV9jcmVhdGUvZ2JtX3N1cmZhY2VfY3JlYXRlX3dpdGhfbW9kaWZpZXJzLCBidXQgdGhhdCdz
-IG5vdAo+IHRvbyBkaWZmZXJlbnQgZnJvbSBnYm1fYm9fY3JlYXRlL2dibV9ib19jcmVhdGVfd2l0
-aF9tb2RpZmllcnM/Cj4KPiBXZXN0b24gaGFwcGVucyB0byBoYXZlIHRoaXMgY29kZToKPiBodHRw
-czovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vLS9ibG9iLzkuMC4wL2xp
-Yndlc3Rvbi9iYWNrZW5kLWRybS9kcm0tZ2JtLmMjTDIwOS0yMzAKPiBhbmQgdGhlbiBpdCB1bmNv
-bmRpdGlvbmFsbHkgY2FsbHMgZ2JtX2JvX2dldF9tb2RpZmllcigpLiBIb3dldmVyLAo+IERSTV9G
-T1JNQVRfTU9EX0lOVkFMSUQgaXMgaGFuZGxlZCBzcGVjaWFsbHk6Cj4gaHR0cHM6Ly9naXRsYWIu
-ZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2VzdG9uLy0vYmxvYi85LjAuMC9saWJ3ZXN0b24vYmFj
-a2VuZC1kcm0vZmIuYyNMODAtOTcKCkhtIHllYWggdGhhdCBmZWVscyBhIGJpdCBsaWtlIGFuIGlu
-dGVyaW0gaGFjayBpbnN0ZWFkIG9mIG1vcmUKbW9kaWZpZXJzIGZhbGxiYWNrIGxvZ2ljLiBJIGd1
-ZXNzIHNob3VsZG4ndCBiZSB0b28gdHJpY2t5IGZvciBtZXNhIHRvCnN1cHBvcnQgdGhhdCwgc2lu
-Y2UgaW50ZXJuYWxseSBtb2RpZmllciBhd2FyZSBkcml2ZXJzIHdvcmsgb25seSB3aXRoCm1vZGlm
-aWVycyBhbnl3YXkgKG9yIGF0IGxlYXN0IHNob3VsZCwgdGhhdCdzIHdoYXQgd2UncmUgcmVxdWly
-aW5nIG9uCnRoZSBrbXMgc2lkZSB3aXRoIHRoaXMgcGF0Y2ggYXQgbGVhc3QpLgoKVXAgdG8gbWVz
-YSBwZW9wbGUgSSdkIHNheS4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdp
-bmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Sep 7, 2020 at 1:24 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> Add drm_device argument to drm_prime_pages_to_sg(), so we can
+> call dma_max_mapping_size() to figure the segment size limit
+> and call into __sg_alloc_table_from_pages() with the correct
+> limit.
+>
+> This fixes virtio-gpu with sev.  Possibly it'll fix other bugs
+> too given that drm seems to totaly ignore segment size limits
+> so far ...
+>
+> v2: place max_segment in drm driver not gem object.
+> v3: move max_segment next to the other gem fields.
+> v4: just use dma_max_mapping_size().
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Uh, are you sure this works in all cases for virtio? The comments I've
+found suggest very much not ... Or is that all very old stuff only
+that no one cares about anymore?
+-Daniel
+
+> ---
+>  include/drm/drm_prime.h                     |  3 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  3 ++-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c      |  2 +-
+>  drivers/gpu/drm/drm_prime.c                 | 13 ++++++++++---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  3 ++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  2 +-
+>  drivers/gpu/drm/msm/msm_gem.c               |  2 +-
+>  drivers/gpu/drm/msm/msm_gem_prime.c         |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_prime.c     |  2 +-
+>  drivers/gpu/drm/radeon/radeon_prime.c       |  2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  5 +++--
+>  drivers/gpu/drm/tegra/gem.c                 |  2 +-
+>  drivers/gpu/drm/vgem/vgem_drv.c             |  2 +-
+>  drivers/gpu/drm/xen/xen_drm_front_gem.c     |  3 ++-
+>  14 files changed, 29 insertions(+), 17 deletions(-)
+>
+> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+> index 9af7422b44cf..bf141e74a1c2 100644
+> --- a/include/drm/drm_prime.h
+> +++ b/include/drm/drm_prime.h
+> @@ -88,7 +88,8 @@ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr);
+>  int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+>  int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma);
+>
+> -struct sg_table *drm_prime_pages_to_sg(struct page **pages, unsigned int nr_pages);
+> +struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
+> +                                      struct page **pages, unsigned int nr_pages);
+>  struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
+>                                      int flags);
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index 519ce4427fce..d7050ab95946 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -302,7 +302,8 @@ static struct sg_table *amdgpu_dma_buf_map(struct dma_buf_attachment *attach,
+>
+>         switch (bo->tbo.mem.mem_type) {
+>         case TTM_PL_TT:
+> -               sgt = drm_prime_pages_to_sg(bo->tbo.ttm->pages,
+> +               sgt = drm_prime_pages_to_sg(obj->dev,
+> +                                           bo->tbo.ttm->pages,
+>                                             bo->tbo.num_pages);
+>                 if (IS_ERR(sgt))
+>                         return sgt;
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 4b7cfbac4daa..0a952f27c184 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -656,7 +656,7 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj)
+>
+>         WARN_ON(shmem->base.import_attach);
+>
+> -       return drm_prime_pages_to_sg(shmem->pages, obj->size >> PAGE_SHIFT);
+> +       return drm_prime_pages_to_sg(obj->dev, shmem->pages, obj->size >> PAGE_SHIFT);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 1693aa7c14b5..8a6a3c99b7d8 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -802,9 +802,11 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
+>   *
+>   * This is useful for implementing &drm_gem_object_funcs.get_sg_table.
+>   */
+> -struct sg_table *drm_prime_pages_to_sg(struct page **pages, unsigned int nr_pages)
+> +struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
+> +                                      struct page **pages, unsigned int nr_pages)
+>  {
+>         struct sg_table *sg = NULL;
+> +       size_t max_segment = 0;
+>         int ret;
+>
+>         sg = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+> @@ -813,8 +815,13 @@ struct sg_table *drm_prime_pages_to_sg(struct page **pages, unsigned int nr_page
+>                 goto out;
+>         }
+>
+> -       ret = sg_alloc_table_from_pages(sg, pages, nr_pages, 0,
+> -                               nr_pages << PAGE_SHIFT, GFP_KERNEL);
+> +       if (dev)
+> +               max_segment = dma_max_mapping_size(dev->dev);
+> +       if (max_segment == 0 || max_segment > SCATTERLIST_MAX_SEGMENT)
+> +               max_segment = SCATTERLIST_MAX_SEGMENT;
+> +       ret = __sg_alloc_table_from_pages(sg, pages, nr_pages, 0,
+> +                                         nr_pages << PAGE_SHIFT,
+> +                                         max_segment, GFP_KERNEL);
+>         if (ret)
+>                 goto out;
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index f06e19e7be04..ea19f1d27275 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -103,7 +103,8 @@ struct page **etnaviv_gem_get_pages(struct etnaviv_gem_object *etnaviv_obj)
+>                 int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
+>                 struct sg_table *sgt;
+>
+> -               sgt = drm_prime_pages_to_sg(etnaviv_obj->pages, npages);
+> +               sgt = drm_prime_pages_to_sg(etnaviv_obj->base.dev,
+> +                                           etnaviv_obj->pages, npages);
+>                 if (IS_ERR(sgt)) {
+>                         dev_err(dev->dev, "failed to allocate sgt: %ld\n",
+>                                 PTR_ERR(sgt));
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> index 6d9e5c3c4dd5..4aa3426a9ba4 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -19,7 +19,7 @@ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>         if (WARN_ON(!etnaviv_obj->pages))  /* should have already pinned! */
+>                 return ERR_PTR(-EINVAL);
+>
+> -       return drm_prime_pages_to_sg(etnaviv_obj->pages, npages);
+> +       return drm_prime_pages_to_sg(obj->dev, etnaviv_obj->pages, npages);
+>  }
+>
+>  void *etnaviv_gem_prime_vmap(struct drm_gem_object *obj)
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index b2f49152b4d4..b4553caaa196 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -126,7 +126,7 @@ static struct page **get_pages(struct drm_gem_object *obj)
+>
+>                 msm_obj->pages = p;
+>
+> -               msm_obj->sgt = drm_prime_pages_to_sg(p, npages);
+> +               msm_obj->sgt = drm_prime_pages_to_sg(obj->dev, p, npages);
+>                 if (IS_ERR(msm_obj->sgt)) {
+>                         void *ptr = ERR_CAST(msm_obj->sgt);
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
+> index d7c8948427fe..515ef80816a0 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_prime.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+> @@ -19,7 +19,7 @@ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>         if (WARN_ON(!msm_obj->pages))  /* should have already pinned! */
+>                 return NULL;
+>
+> -       return drm_prime_pages_to_sg(msm_obj->pages, npages);
+> +       return drm_prime_pages_to_sg(obj->dev, msm_obj->pages, npages);
+>  }
+>
+>  void *msm_gem_prime_vmap(struct drm_gem_object *obj)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+> index bae6a3eccee0..7766b810653f 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+> @@ -32,7 +32,7 @@ struct sg_table *nouveau_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>         struct nouveau_bo *nvbo = nouveau_gem_object(obj);
+>         int npages = nvbo->bo.num_pages;
+>
+> -       return drm_prime_pages_to_sg(nvbo->bo.ttm->pages, npages);
+> +       return drm_prime_pages_to_sg(obj->dev, nvbo->bo.ttm->pages, npages);
+>  }
+>
+>  void *nouveau_gem_prime_vmap(struct drm_gem_object *obj)
+> diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
+> index b906e8fbd5f3..ea4c900e7c41 100644
+> --- a/drivers/gpu/drm/radeon/radeon_prime.c
+> +++ b/drivers/gpu/drm/radeon/radeon_prime.c
+> @@ -36,7 +36,7 @@ struct sg_table *radeon_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>         struct radeon_bo *bo = gem_to_radeon_bo(obj);
+>         int npages = bo->tbo.num_pages;
+>
+> -       return drm_prime_pages_to_sg(bo->tbo.ttm->pages, npages);
+> +       return drm_prime_pages_to_sg(obj->dev, bo->tbo.ttm->pages, npages);
+>  }
+>
+>  void *radeon_gem_prime_vmap(struct drm_gem_object *obj)
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> index b9275ba7c5a5..77eeaf3439f6 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -85,7 +85,8 @@ static int rockchip_gem_get_pages(struct rockchip_gem_object *rk_obj)
+>
+>         rk_obj->num_pages = rk_obj->base.size >> PAGE_SHIFT;
+>
+> -       rk_obj->sgt = drm_prime_pages_to_sg(rk_obj->pages, rk_obj->num_pages);
+> +       rk_obj->sgt = drm_prime_pages_to_sg(rk_obj->base.dev,
+> +                                           rk_obj->pages, rk_obj->num_pages);
+>         if (IS_ERR(rk_obj->sgt)) {
+>                 ret = PTR_ERR(rk_obj->sgt);
+>                 goto err_put_pages;
+> @@ -442,7 +443,7 @@ struct sg_table *rockchip_gem_prime_get_sg_table(struct drm_gem_object *obj)
+>         int ret;
+>
+>         if (rk_obj->pages)
+> -               return drm_prime_pages_to_sg(rk_obj->pages, rk_obj->num_pages);
+> +               return drm_prime_pages_to_sg(obj->dev,rk_obj->pages, rk_obj->num_pages);
+>
+>         sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+>         if (!sgt)
+> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+> index 723df142a981..47e2935b8c68 100644
+> --- a/drivers/gpu/drm/tegra/gem.c
+> +++ b/drivers/gpu/drm/tegra/gem.c
+> @@ -284,7 +284,7 @@ static int tegra_bo_get_pages(struct drm_device *drm, struct tegra_bo *bo)
+>
+>         bo->num_pages = bo->gem.size >> PAGE_SHIFT;
+>
+> -       bo->sgt = drm_prime_pages_to_sg(bo->pages, bo->num_pages);
+> +       bo->sgt = drm_prime_pages_to_sg(bo->gem.dev, bo->pages, bo->num_pages);
+>         if (IS_ERR(bo->sgt)) {
+>                 err = PTR_ERR(bo->sgt);
+>                 goto put_pages;
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> index 313339bbff90..15dd41e67de3 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> @@ -321,7 +321,7 @@ static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_object *obj)
+>  {
+>         struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+>
+> -       return drm_prime_pages_to_sg(bo->pages, bo->base.size >> PAGE_SHIFT);
+> +       return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.size >> PAGE_SHIFT);
+>  }
+>
+>  static struct drm_gem_object* vgem_prime_import(struct drm_device *dev,
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> index 39ff95b75357..aed7510e2710 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> +++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> @@ -179,7 +179,8 @@ struct sg_table *xen_drm_front_gem_get_sg_table(struct drm_gem_object *gem_obj)
+>         if (!xen_obj->pages)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       return drm_prime_pages_to_sg(xen_obj->pages, xen_obj->num_pages);
+> +       return drm_prime_pages_to_sg(gem_obj->dev,
+> +                                    xen_obj->pages, xen_obj->num_pages);
+>  }
+>
+>  struct drm_gem_object *
+> --
+> 2.27.0
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
