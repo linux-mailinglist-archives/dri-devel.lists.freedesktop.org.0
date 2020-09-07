@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B57625F8B3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 12:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E26025F8E9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 12:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46ADC6E420;
-	Mon,  7 Sep 2020 10:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718386E2C4;
+	Mon,  7 Sep 2020 10:54:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907AD6E420
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 10:44:26 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204987] fault in amdgpu_dm_atomic_commit_tail on Vega64 with
- compton and redshift
-Date: Mon, 07 Sep 2020 10:44:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: bhasker@unixindia.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-204987-2300-nXFBwIsl10@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204987-2300@https.bugzilla.kernel.org/>
-References: <bug-204987-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8A6E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 10:54:33 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 8F1C620024;
+ Mon,  7 Sep 2020 12:54:30 +0200 (CEST)
+Date: Mon, 7 Sep 2020 12:54:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH 0/2] drm: panel: add support for TDO tl070wsh30 panel
+Message-ID: <20200907105428.GA523433@ravnborg.org>
+References: <20200904161504.23915-1-narmstrong@baylibre.com>
+ <7e63abb2-89d1-3047-29c2-d312ba5ce16d@baylibre.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <7e63abb2-89d1-3047-29c2-d312ba5ce16d@baylibre.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=YRok_seE1VY6wa09Rq8A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,21 +43,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-amlogic@lists.infradead.org, thierry.reding@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=204987
+On Mon, Sep 07, 2020 at 12:33:41PM +0200, Neil Armstrong wrote:
+> Hi,
+> 
+> Please ignore this serie, the vendors patch is missing and the panel driver
+> still has the vrefresh...
+> 
+> Will repost.
 
---- Comment #4 from Bhasker C V (bhasker@unixindia.com) ---
-Created attachment 292395
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292395&action=edit
-Kernel crash AMD GPU at amdgpu_dm_atomic_commit_tail
+Please fix so DRM_DEV_* is replaced by dev_* logging.
+We no longer use the DRM_ based logging for panels.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Drop drm_print.h from includes and fix build.
+
+I did not read the code just noticed this detail.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
