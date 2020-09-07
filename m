@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CCC25F4D7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB48A25F4D5
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CAF6E3A0;
-	Mon,  7 Sep 2020 08:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1228F6E39B;
+	Mon,  7 Sep 2020 08:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086BE6E3A0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:18:36 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j2so14792728wrx.7
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:18:35 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6288F6E39B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:18:37 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id a9so13296103wmm.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XiGLEbE2dKDD12JitgDtEsxbd+0LxnrAdV1CrEXmiRQ=;
- b=kAzq7EJGLz995AvTFpcAo4rOeCWw30p5YQ4JtG2UgAr5asHU5qAUoN9Cc/BqxxrNN7
- nA5Z72ugY3Ag07/mJnmb/pUbLbZpIBzcD5Q1ww7lbojklUkQ1caz1b+uRS7fS/AshHcc
- Bj9iPX7NG4vHdRxO0V2FQPMuLFQV2x/aGt8ov8ya/bQypMBcOhapbdaNfuZND2lX6Nq6
- C2lp3/x2FXUWsR8uNCXAShZMecxIoZecF9cX3cXPaukVY0DJH6DcCC7fAvYALyk1YPsg
- YFKleImq0NZOkUBwZmFC8di3CHS8KYdLubuEstpP0whNU891V/5YVBHqqtkqWTmGX02P
- LFFA==
+ bh=gQg2+Z+4Z9uoP0k4Ymx06ITa24flhw5hWYghDUJXUcc=;
+ b=mHnwiHES/95d5fwmwj3syQIIfcHT2rU+zt6c44vokEPjZC8MH8VaJ3jJFhyksp5Z9Y
+ bHD1XFEmqHEQnapBKvPGBrnhuzu0jrP+hzLtnyn+7j5fYoeFNqUF82O2g0bmDIiCSJxg
+ s5oy9H0H8j7xjor/dauiwcwc+tyyTRt7CD1ulWZ0jnhXLhxQrUCQA46m327yoh3HM/5u
+ LypNDlIQdmscbtyRoHTeNN6brTLXpJQoI13Q3QOx8qxlXVJ+GZeYvzDdxNylb4otks39
+ TsHZByeOmJRG4BsfCE0JW7GtGMGAYH5NThY/nUKJQDC8fYXBY6MecG6mQeDGpmdXdaKI
+ Uaxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XiGLEbE2dKDD12JitgDtEsxbd+0LxnrAdV1CrEXmiRQ=;
- b=krBaVl6jzVDo/jM0CkFCC98rR6LWb3aWmCph6yIqqv6C1xCR3LLWDsrim3rX8OuSYf
- G0E7bDj6wUyb+IsOg14kVLkxoMPjG4Ve03M6cuuJzjb8vfPKDh9sGhZUqLnYu4WjG/fm
- LM+3s+5pIhIErvZcHDJow12ACtMt63S+RblNlI33d0+A/GdwJIj9/HU+83CDevYNE73Z
- Oa4uYT3L5uftv2BSRRQ3jeqfEsCFzCfjkXGhQUXDdyy4lgK2QPe7LmTq68SQydheIxTj
- nOGJZfMYRZ73jttgimh9S6OQB19rAPSbtaCNzex+V5NJOnDtHS8k+RmQrdfIGqbzaIVk
- 72ww==
-X-Gm-Message-State: AOAM533Osywz+WoaHOLf2htZkftpktyKq/KA+lHm7jfoopDSJsLHIgd2
- iR4FMyS+GzctB9Th3I8oYW4LSQ==
-X-Google-Smtp-Source: ABdhPJxZ3Iny+4mL/4lW4MM/cgzEAFywNr2pwQjrzpGJmPzKxeTVHerIt0uR9zKBXCHK0wlHXFjiIQ==
-X-Received: by 2002:adf:f846:: with SMTP id d6mr21862018wrq.56.1599466714491; 
- Mon, 07 Sep 2020 01:18:34 -0700 (PDT)
+ bh=gQg2+Z+4Z9uoP0k4Ymx06ITa24flhw5hWYghDUJXUcc=;
+ b=uJfyIVR/+InOU1UbkAGJ+WsA0sMFdvjOtKTU/7DGIOeXk/Wqi65DytbTOeF1YaFxkj
+ GqZa2wnNMy2fPmOaY2CNmoueCrk6Uta9I0q2jHxc/meSpUDOH4tfD0fZASJIE+SVfsRF
+ fWVYv6/z+v0Ve1LLtJUADQc8CtNfZnNTGgNpPupbuBu1oPLpzO9I8zcpk3mbw8rNjw0q
+ 5GQGyQnU4oMgGEpQ8M0T1LimyPk2EL4TLQH5WbNU1XcSE1Z0/E/eUdxh37/4RgCUqEMZ
+ Mo16xsZczEeyrkOgg7tFEFNQjrf/t/QAVFWUQ0z/AVu2j3W7yhXUUXqrL0CKcP9WLkE4
+ YxJA==
+X-Gm-Message-State: AOAM530gBdffMXx3ilfEvqdtzTU3l/O4+AogMmRzC7p6D7nuKZS1s2tE
+ D85XgPYEfplQOUrCzuvPgp9Xxw==
+X-Google-Smtp-Source: ABdhPJxfZ5V7YDJSl0elZl8O7bedUSaI/mdlUPSSpde69SuVvmXp/sHs2fN44ZK5WgqsTt2M/Nf+Ww==
+X-Received: by 2002:a05:600c:414e:: with SMTP id
+ h14mr18975161wmm.2.1599466715849; 
+ Mon, 07 Sep 2020 01:18:35 -0700 (PDT)
 Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
- by smtp.gmail.com with ESMTPSA id q186sm28032205wma.45.2020.09.07.01.18.33
+ by smtp.gmail.com with ESMTPSA id q186sm28032205wma.45.2020.09.07.01.18.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 01:18:33 -0700 (PDT)
+ Mon, 07 Sep 2020 01:18:35 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: daniel@ffwll.ch
-Subject: [PATCH 3/6] drm/meson: add support for VPU found in AXG SoCs
-Date: Mon,  7 Sep 2020 10:18:22 +0200
-Message-Id: <20200907081825.1654-4-narmstrong@baylibre.com>
+Subject: [PATCH 4/6] drm/meson: venc: add ENCL encoder setup for MIPI-DSI
+ output
+Date: Mon,  7 Sep 2020 10:18:23 +0200
+Message-Id: <20200907081825.1654-5-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200907081825.1654-1-narmstrong@baylibre.com>
 References: <20200907081825.1654-1-narmstrong@baylibre.com>
@@ -74,492 +76,315 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Amlogic AXG SoC family has a downgraded VPU with the following
-changes :
-- Only a single OSD plane, no overlay video plane
-- The primary plane doesn't support HW scaling
-- The pixels are read directly from DDR without any Canvas module
-- Doesn't support HDMI or CVBS
-- Ouputs only with ENCL encoder to a DPI-to-DSI Synopsys DW-MIPI-DSI transceiver
+This adds supports for the ENCL encoder connected to a MIPI-DSI transceiver on the
+Amlogic AXG SoCs.
 
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/meson/meson_crtc.c      |   8 +-
- drivers/gpu/drm/meson/meson_drv.c       | 115 ++++++++++++++++--------
- drivers/gpu/drm/meson/meson_drv.h       |  10 ++-
- drivers/gpu/drm/meson/meson_plane.c     |  74 +++++++++++++--
- drivers/gpu/drm/meson/meson_registers.h |   1 +
- drivers/gpu/drm/meson/meson_viu.c       |  50 ++++++++++-
- drivers/gpu/drm/meson/meson_vpp.c       |   6 +-
- 7 files changed, 215 insertions(+), 49 deletions(-)
+ drivers/gpu/drm/meson/meson_venc.c | 230 ++++++++++++++++++++++++++++-
+ drivers/gpu/drm/meson/meson_venc.h |   6 +
+ drivers/gpu/drm/meson/meson_vpp.h  |   2 +
+ 3 files changed, 236 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
-index 2854272dc2d9..430599caa5a0 100644
---- a/drivers/gpu/drm/meson/meson_crtc.c
-+++ b/drivers/gpu/drm/meson/meson_crtc.c
-@@ -366,7 +366,13 @@ void meson_crtc_irq(struct meson_drm *priv)
- 		writel_relaxed(priv->viu.osd_sc_v_ctrl0,
- 				priv->io_base + _REG(VPP_OSD_VSC_CTRL0));
+diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
+index f93c725b6f02..3090418deffb 100644
+--- a/drivers/gpu/drm/meson/meson_venc.c
++++ b/drivers/gpu/drm/meson/meson_venc.c
+@@ -6,6 +6,7 @@
+  */
  
--		if (!priv->viu.osd1_afbcd)
-+		/* AXG doesn't use CANVAS since it support a single plane */
-+		if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG)) {
-+			writel_relaxed(priv->viu.osd1_addr,
-+				priv->io_base + _REG(VIU_OSD1_BLK1_CFG_W4));
-+			writel_relaxed(priv->viu.osd1_blk2_cfg4,
-+				priv->io_base + _REG(VIU_OSD1_BLK2_CFG_W4));
-+		} else if (!priv->viu.osd1_afbcd)
- 			meson_canvas_config(priv->canvas, priv->canvas_id_osd1,
- 					    priv->viu.osd1_addr,
- 					    priv->viu.osd1_stride,
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 8b9c8dd788c4..92346653223f 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -223,6 +223,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	drm->dev_private = priv;
- 	priv->drm = drm;
- 	priv->dev = dev;
-+	priv->data = match;
- 	priv->compat = match->compat;
- 	priv->afbcd.ops = match->afbcd_ops;
+ #include <linux/export.h>
++#include <linux/iopoll.h>
  
-@@ -255,32 +256,34 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 		goto free_drm;
- 	}
+ #include <drm/drm_modes.h>
  
--	priv->canvas = meson_canvas_get(dev);
--	if (IS_ERR(priv->canvas)) {
--		ret = PTR_ERR(priv->canvas);
--		goto free_drm;
--	}
-+	if (priv->data->requires_canvas) {
-+		priv->canvas = meson_canvas_get(dev);
-+		if (IS_ERR(priv->canvas)) {
-+			ret = PTR_ERR(priv->canvas);
-+			goto free_drm;
-+		}
+@@ -1557,6 +1558,224 @@ void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
+ }
+ EXPORT_SYMBOL_GPL(meson_venc_hdmi_mode_set);
  
--	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_osd1);
--	if (ret)
--		goto free_drm;
--	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_0);
--	if (ret) {
--		meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
--		goto free_drm;
--	}
--	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_1);
--	if (ret) {
--		meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
--		meson_canvas_free(priv->canvas, priv->canvas_id_vd1_0);
--		goto free_drm;
--	}
--	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_2);
--	if (ret) {
--		meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
--		meson_canvas_free(priv->canvas, priv->canvas_id_vd1_0);
--		meson_canvas_free(priv->canvas, priv->canvas_id_vd1_1);
--		goto free_drm;
-+		ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_osd1);
-+		if (ret)
-+			goto free_drm;
-+		ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_0);
-+		if (ret) {
-+			meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
-+			goto free_drm;
-+		}
-+		ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_1);
-+		if (ret) {
-+			meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
-+			meson_canvas_free(priv->canvas, priv->canvas_id_vd1_0);
-+			goto free_drm;
-+		}
-+		ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_2);
-+		if (ret) {
-+			meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
-+			meson_canvas_free(priv->canvas, priv->canvas_id_vd1_0);
-+			meson_canvas_free(priv->canvas, priv->canvas_id_vd1_1);
-+			goto free_drm;
-+		}
- 	}
- 
- 	priv->vsync_irq = platform_get_irq(pdev, 0);
-@@ -303,8 +306,8 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	ret = drmm_mode_config_init(drm);
- 	if (ret)
- 		goto free_drm;
--	drm->mode_config.max_width = 3840;
--	drm->mode_config.max_height = 2160;
-+	drm->mode_config.max_width = priv->data->max_width;
-+	drm->mode_config.max_height = priv->data->max_height;
- 	drm->mode_config.funcs = &meson_mode_config_funcs;
- 	drm->mode_config.helper_private	= &meson_mode_config_helpers;
- 
-@@ -322,9 +325,11 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 
- 	/* Encoder Initialization */
- 
--	ret = meson_venc_cvbs_create(priv);
--	if (ret)
--		goto free_drm;
-+	if (priv->data->provides_cvbs) {
-+		ret = meson_venc_cvbs_create(priv);
-+		if (ret)
-+			goto free_drm;
-+	}
- 
- 	if (has_components) {
- 		ret = component_bind_all(drm->dev, drm);
-@@ -334,13 +339,17 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 		}
- 	}
- 
--	ret = meson_plane_create(priv);
--	if (ret)
--		goto free_drm;
-+	if (priv->data->osd_count) {
-+		ret = meson_plane_create(priv);
-+		if (ret)
-+			goto free_drm;
-+	}
- 
--	ret = meson_overlay_create(priv);
--	if (ret)
--		goto free_drm;
-+	if (priv->data->vd_count) {
-+		ret = meson_overlay_create(priv);
-+		if (ret)
-+			goto free_drm;
-+	}
- 
- 	ret = meson_crtc_create(priv);
- 	if (ret)
-@@ -516,20 +525,52 @@ static int meson_drv_probe(struct platform_device *pdev)
- 
- static struct meson_drm_match_data meson_drm_gxbb_data = {
- 	.compat = VPU_COMPATIBLE_GXBB,
-+	.requires_canvas = true,
-+	.provides_cvbs = true,
-+	.osd_count = 2,
-+	.vd_count = 2,
-+	.max_width = 3840,
-+	.max_height = 2160,
- };
- 
- static struct meson_drm_match_data meson_drm_gxl_data = {
- 	.compat = VPU_COMPATIBLE_GXL,
-+	.requires_canvas = true,
-+	.provides_cvbs = true,
-+	.osd_count = 2,
-+	.vd_count = 2,
-+	.max_width = 3840,
-+	.max_height = 2160,
- };
- 
- static struct meson_drm_match_data meson_drm_gxm_data = {
- 	.compat = VPU_COMPATIBLE_GXM,
- 	.afbcd_ops = &meson_afbcd_gxm_ops,
-+	.requires_canvas = true,
-+	.provides_cvbs = true,
-+	.osd_count = 2,
-+	.vd_count = 2,
-+	.max_width = 3840,
-+	.max_height = 2160,
++static unsigned short meson_encl_gamma_table[256] = {
++	0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60,
++	64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124,
++	128, 132, 136, 140, 144, 148, 152, 156, 160, 164, 168, 172, 176, 180, 184, 188,
++	192, 196, 200, 204, 208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 248, 252,
++	256, 260, 264, 268, 272, 276, 280, 284, 288, 292, 296, 300, 304, 308, 312, 316,
++	320, 324, 328, 332, 336, 340, 344, 348, 352, 356, 360, 364, 368, 372, 376, 380,
++	384, 388, 392, 396, 400, 404, 408, 412, 416, 420, 424, 428, 432, 436, 440, 444,
++	448, 452, 456, 460, 464, 468, 472, 476, 480, 484, 488, 492, 496, 500, 504, 508,
++	512, 516, 520, 524, 528, 532, 536, 540, 544, 548, 552, 556, 560, 564, 568, 572,
++	576, 580, 584, 588, 592, 596, 600, 604, 608, 612, 616, 620, 624, 628, 632, 636,
++	640, 644, 648, 652, 656, 660, 664, 668, 672, 676, 680, 684, 688, 692, 696, 700,
++	704, 708, 712, 716, 720, 724, 728, 732, 736, 740, 744, 748, 752, 756, 760, 764,
++	768, 772, 776, 780, 784, 788, 792, 796, 800, 804, 808, 812, 816, 820, 824, 828,
++	832, 836, 840, 844, 848, 852, 856, 860, 864, 868, 872, 876, 880, 884, 888, 892,
++	896, 900, 904, 908, 912, 916, 920, 924, 928, 932, 936, 940, 944, 948, 952, 956,
++	960, 964, 968, 972, 976, 980, 984, 988, 992, 996, 1000, 1004, 1008, 1012, 1016, 1020,
 +};
 +
-+static struct meson_drm_match_data meson_drm_axg_data = {
-+	.compat = VPU_COMPATIBLE_AXG,
-+	.osd_count = 1,
-+	.vd_count = 0,
-+	.max_width = 1920,
-+	.max_height = 1080,
- };
- 
- static struct meson_drm_match_data meson_drm_g12a_data = {
- 	.compat = VPU_COMPATIBLE_G12A,
- 	.afbcd_ops = &meson_afbcd_g12a_ops,
-+	.requires_canvas = true,
-+	.provides_cvbs = true,
-+	.osd_count = 4,
-+	.vd_count = 2,
-+	.max_width = 3840,
-+	.max_height = 2160,
- };
- 
- static const struct of_device_id dt_match[] = {
-@@ -539,6 +580,8 @@ static const struct of_device_id dt_match[] = {
- 	  .data       = (void *)&meson_drm_gxl_data },
- 	{ .compatible = "amlogic,meson-gxm-vpu",
- 	  .data       = (void *)&meson_drm_gxm_data },
-+	{ .compatible = "amlogic,meson-axg-vpu",
-+	  .data       = (void *)&meson_drm_axg_data },
- 	{ .compatible = "amlogic,meson-g12a-vpu",
- 	  .data       = (void *)&meson_drm_g12a_data },
- 	{}
-diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
-index 177dac3ca3be..5d67f97ec298 100644
---- a/drivers/gpu/drm/meson/meson_drv.h
-+++ b/drivers/gpu/drm/meson/meson_drv.h
-@@ -22,12 +22,19 @@ enum vpu_compatible {
- 	VPU_COMPATIBLE_GXBB = 0,
- 	VPU_COMPATIBLE_GXL  = 1,
- 	VPU_COMPATIBLE_GXM  = 2,
--	VPU_COMPATIBLE_G12A = 3,
-+	VPU_COMPATIBLE_AXG  = 3,
-+	VPU_COMPATIBLE_G12A = 4,
- };
- 
- struct meson_drm_match_data {
- 	enum vpu_compatible compat;
- 	struct meson_afbcd_ops *afbcd_ops;
-+	bool requires_canvas;
-+	bool provides_cvbs;
-+	unsigned int osd_count;
-+	unsigned int vd_count;
-+	unsigned int max_width;
-+	unsigned int max_height;
- };
- 
- struct meson_drm_soc_limits {
-@@ -52,6 +59,7 @@ struct meson_drm {
- 	struct drm_plane *primary_plane;
- 	struct drm_plane *overlay_plane;
- 
-+	const struct meson_drm_match_data *data;
- 	const struct meson_drm_soc_limits *limits;
- 
- 	/* Components Data */
-diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index 35338ed18209..9111b3540bdf 100644
---- a/drivers/gpu/drm/meson/meson_plane.c
-+++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -93,6 +93,25 @@ static int meson_plane_atomic_check(struct drm_plane *plane,
- 						   false, true);
- }
- 
-+static int meson_plane_atomic_check_axg(struct drm_plane *plane,
-+					struct drm_plane_state *state)
++#define GAMMA_VCOM_POL    7     /* RW */
++#define GAMMA_RVS_OUT     6     /* RW */
++#define ADR_RDY           5     /* Read Only */
++#define WR_RDY            4     /* Read Only */
++#define RD_RDY            3     /* Read Only */
++#define GAMMA_TR          2     /* RW */
++#define GAMMA_SET         1     /* RW */
++#define GAMMA_EN          0     /* RW */
++
++#define H_RD              12
++#define H_AUTO_INC        11
++#define H_SEL_R           10
++#define H_SEL_G           9
++#define H_SEL_B           8
++#define HADR_MSB          7            /* 7:0 */
++#define HADR              0            /* 7:0 */
++
++#define GAMMA_RETRY       1000
++
++static void meson_encl_set_gamma_table(struct meson_drm *priv, u16 *data,
++				       u32 rgb_mask)
 +{
-+	struct drm_crtc_state *crtc_state;
++	int i, ret;
++	u32 reg;
 +
-+	if (!state->crtc)
-+		return 0;
++	writel_bits_relaxed(BIT(GAMMA_EN), 0,
++			    priv->io_base + _REG(L_GAMMA_CNTL_PORT));
 +
-+	crtc_state = drm_atomic_get_crtc_state(state->state, state->crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
++	ret = readl_relaxed_poll_timeout(priv->io_base +
++						_REG(L_GAMMA_CNTL_PORT),
++					 reg, reg & BIT(ADR_RDY), 10, 10000);
++	if (ret)
++		pr_warn("%s: GAMMA ADR_RDY timeout\n", __func__);
 +
-+	/* AXG VPU OSD plane doesn't support scaling */
-+	return drm_atomic_helper_check_plane_state(state, crtc_state,
-+						   DRM_PLANE_HELPER_NO_SCALING,
-+						   DRM_PLANE_HELPER_NO_SCALING,
-+						   true, true);
-+}
++	writel_relaxed(BIT(H_AUTO_INC) |
++		       BIT(rgb_mask) |
++		       (0 << HADR),
++		       priv->io_base + _REG(L_GAMMA_ADDR_PORT));
 +
- #define MESON_MOD_AFBC_VALID_BITS (AFBC_FORMAT_MOD_BLOCK_SIZE_16x16 |	\
- 				   AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |	\
- 				   AFBC_FORMAT_MOD_YTR |		\
-@@ -125,6 +144,29 @@ static u32 meson_g12a_afbcd_line_stride(struct meson_drm *priv)
- 	return ((line_stride + 1) >> 1) << 1;
- }
- 
-+static u32 meson_axg_line_stride(struct meson_drm *priv, u32 format)
-+{
-+	u32 line_stride = 0;
-+	u32 bwidth;
++	for (i = 0; i < 256; i++) {
++		ret = readl_relaxed_poll_timeout(priv->io_base +
++							_REG(L_GAMMA_CNTL_PORT),
++						 reg, reg & BIT(WR_RDY),
++						 10, 10000);
++		if (ret)
++			pr_warn_once("%s: GAMMA WR_RDY timeout\n", __func__);
 +
-+	switch (format) {
-+	case DRM_FORMAT_RGB565:
-+		bwidth = priv->viu.osd1_stride >> 1;
-+		line_stride = ((bwidth << 4) + 127) >> 7;
-+		break;
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_XBGR8888:
-+	case DRM_FORMAT_ABGR8888:
-+		bwidth = priv->viu.osd1_stride >> 2;
-+		line_stride = ((bwidth << 5) + 127) >> 7;
-+		break;
++		writel_relaxed(data[i],
++			       priv->io_base + _REG(L_GAMMA_DATA_PORT));
 +	}
 +
-+	return ((line_stride + 1) >> 1) << 1;
++	ret = readl_relaxed_poll_timeout(priv->io_base +
++						_REG(L_GAMMA_CNTL_PORT),
++					 reg, reg & BIT(ADR_RDY), 10, 10000);
++	if (ret)
++		pr_warn("%s: GAMMA ADR_RDY timeout\n", __func__);
++
++	writel_relaxed(BIT(H_AUTO_INC) |
++		       BIT(rgb_mask) |
++		       (0x23 << HADR),
++		       priv->io_base + _REG(L_GAMMA_ADDR_PORT));
 +}
 +
- static void meson_plane_atomic_update(struct drm_plane *plane,
- 				      struct drm_plane_state *old_state)
- {
-@@ -161,15 +203,20 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
- 	else
- 		priv->viu.osd1_afbcd = false;
- 
--	/* Enable OSD and BLK0, set max global alpha */
--	priv->viu.osd1_ctrl_stat = OSD_ENABLE |
--				   (0xFF << OSD_GLOBAL_ALPHA_SHIFT) |
--				   OSD_BLK0_ENABLE;
-+	priv->viu.osd1_ctrl_stat = OSD_ENABLE | OSD_BLK0_ENABLE;
++void meson_encl_load_gamma(struct meson_drm *priv)
++{
++	meson_encl_set_gamma_table(priv, meson_encl_gamma_table, H_SEL_R);
++	meson_encl_set_gamma_table(priv, meson_encl_gamma_table, H_SEL_G);
++	meson_encl_set_gamma_table(priv, meson_encl_gamma_table, H_SEL_B);
 +
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		priv->viu.osd1_ctrl_stat |= 0x100 << OSD_GLOBAL_ALPHA_SHIFT;
-+	else
-+		priv->viu.osd1_ctrl_stat |= 0xFF << OSD_GLOBAL_ALPHA_SHIFT;
- 
- 	priv->viu.osd1_ctrl_stat2 = readl(priv->io_base +
- 					  _REG(VIU_OSD1_CTRL_STAT2));
- 
--	canvas_id_osd1 = priv->canvas_id_osd1;
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		canvas_id_osd1 = 0x40;
-+	else
-+		canvas_id_osd1 = priv->canvas_id_osd1;
- 
- 	/* Set up BLK0 to point to the right canvas */
- 	priv->viu.osd1_blk0_cfg[0] = canvas_id_osd1 << OSD_CANVAS_SEL;
-@@ -366,7 +413,10 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
- 	priv->viu.osd1_height = fb->height;
- 	priv->viu.osd1_width = fb->width;
- 
--	if (priv->viu.osd1_afbcd) {
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		priv->viu.osd1_blk2_cfg4 = meson_axg_line_stride(priv,
-+							fb->format->format);
-+	else if (priv->viu.osd1_afbcd) {
- 		priv->afbcd.modifier = fb->modifier;
- 		priv->afbcd.format = fb->format->format;
- 
-@@ -413,6 +463,13 @@ static void meson_plane_atomic_disable(struct drm_plane *plane,
- 	priv->viu.osd1_enabled = false;
- }
- 
-+static const struct drm_plane_helper_funcs meson_plane_helper_funcs_axg = {
-+	.atomic_check	= meson_plane_atomic_check_axg,
-+	.atomic_disable	= meson_plane_atomic_disable,
-+	.atomic_update	= meson_plane_atomic_update,
-+	.prepare_fb	= drm_gem_fb_prepare_fb,
-+};
++	writel_bits_relaxed(BIT(GAMMA_EN), BIT(GAMMA_EN),
++			    priv->io_base + _REG(L_GAMMA_CNTL_PORT));
++}
 +
- static const struct drm_plane_helper_funcs meson_plane_helper_funcs = {
- 	.atomic_check	= meson_plane_atomic_check,
- 	.atomic_disable	= meson_plane_atomic_disable,
-@@ -550,7 +607,10 @@ int meson_plane_create(struct meson_drm *priv)
- 				 format_modifiers,
- 				 DRM_PLANE_TYPE_PRIMARY, "meson_primary_plane");
- 
--	drm_plane_helper_add(plane, &meson_plane_helper_funcs);
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		drm_plane_helper_add(plane, &meson_plane_helper_funcs_axg);
-+	else
-+		drm_plane_helper_add(plane, &meson_plane_helper_funcs);
- 
- 	/* For now, OSD Primary plane is always on the front */
- 	drm_plane_create_zpos_immutable_property(plane, 1);
-diff --git a/drivers/gpu/drm/meson/meson_registers.h b/drivers/gpu/drm/meson/meson_registers.h
-index 446e7961da48..18396b59e6cb 100644
---- a/drivers/gpu/drm/meson/meson_registers.h
-+++ b/drivers/gpu/drm/meson/meson_registers.h
-@@ -588,6 +588,7 @@
- #define VPP_OSD_SCALE_COEF_IDX 0x1dcc
- #define VPP_OSD_SCALE_COEF 0x1dcd
- #define VPP_INT_LINE_NUM 0x1dce
-+#define VPP_MATRIX_CLIP 0x1dde
- 
- #define VPP_WRAP_OSD1_MATRIX_COEF00_01 0x3d60
- #define VPP_WRAP_OSD1_MATRIX_COEF02_10 0x3d61
-diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
-index aede0c67a57f..9b644e598211 100644
---- a/drivers/gpu/drm/meson/meson_viu.c
-+++ b/drivers/gpu/drm/meson/meson_viu.c
-@@ -423,19 +423,63 @@ void meson_viu_init(struct meson_drm *priv)
- 
- 	/* On GXL/GXM, Use the 10bit HDR conversion matrix */
- 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
--	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL))
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL) ||
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
- 		meson_viu_load_matrix(priv);
- 	else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
- 		meson_viu_set_g12a_osd1_matrix(priv, RGB709_to_YUV709l_coeff,
- 					       true);
- 
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG)) {
-+		writel_bits_relaxed(BIT(0), BIT(0),
-+				priv->io_base + _REG(VPP_MATRIX_CTRL));
-+		writel_bits_relaxed(0x3 << 8, 0,
-+				priv->io_base + _REG(VPP_MATRIX_CTRL));
++void meson_venc_mipi_dsi_mode_set(struct meson_drm *priv,
++				  struct drm_display_mode *mode)
++{
++	unsigned int max_pxcnt;
++	unsigned int max_lncnt;
++	unsigned int havon_begin;
++	unsigned int havon_end;
++	unsigned int vavon_bline;
++	unsigned int vavon_eline;
++	unsigned int hso_begin;
++	unsigned int hso_end;
++	unsigned int vso_begin;
++	unsigned int vso_end;
++	unsigned int vso_bline;
++	unsigned int vso_eline;
 +
-+		writel_relaxed(0x0fc00e00,
-+				priv->io_base + _REG(VPP_MATRIX_PRE_OFFSET0_1));
-+		writel_relaxed(0x00000e00,
-+				priv->io_base + _REG(VPP_MATRIX_PRE_OFFSET2));
++	max_pxcnt = mode->htotal - 1;
++	max_lncnt = mode->vtotal - 1;
++	havon_begin = mode->htotal - mode->hsync_start;
++	havon_end = havon_begin + mode->hdisplay - 1;
++	vavon_bline = mode->vtotal - mode->vsync_start;
++	vavon_eline = vavon_bline + mode->vdisplay - 1;
++	hso_begin = 0;
++	hso_end = mode->hsync_end - mode->hsync_start;
++	vso_begin = 0;
++	vso_end = 0;
++	vso_bline = 0;
++	vso_eline = mode->vsync_end - mode->vsync_start;
 +
-+		/*
-+		 * ycbcr limit range, 709 to RGB
-+		 * -16      1.164  0      1.793  0
-+		 * -128     1.164 -0.213 -0.534  0
-+		 * -128     1.164  2.115  0      0
-+		 */
-+		writel_relaxed(0x04a80000,
-+				priv->io_base + _REG(VPP_MATRIX_COEF00_01));
-+		writel_relaxed(0x072c04a8,
-+				priv->io_base + _REG(VPP_MATRIX_COEF02_10));
-+		writel_relaxed(0x1f261ddd,
-+				priv->io_base + _REG(VPP_MATRIX_COEF11_12));
-+		writel_relaxed(0x04a80876,
-+				priv->io_base + _REG(VPP_MATRIX_COEF20_21));
-+		writel_relaxed(0x0, priv->io_base + _REG(VPP_MATRIX_COEF22));
-+		writel_relaxed(0x0, priv->io_base + _REG(VPP_MATRIX_OFFSET0_1));
-+		writel_relaxed(0x0, priv->io_base + _REG(VPP_MATRIX_OFFSET2));
++	meson_vpp_setup_mux(priv, MESON_VIU_VPP_MUX_ENCL);
 +
-+		writel_bits_relaxed(0x1f << 3, 0,
-+				priv->io_base + _REG(VPP_MATRIX_CLIP));
++	writel_relaxed(0, priv->io_base + _REG(ENCL_VIDEO_EN));
++
++	writel_relaxed(0x8000, priv->io_base + _REG(ENCL_VIDEO_MODE));
++	writel_relaxed(0x0418, priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
++
++	writel_relaxed(0x1000, priv->io_base + _REG(ENCL_VIDEO_FILT_CTRL));
++	writel_relaxed(max_pxcnt, priv->io_base + _REG(ENCL_VIDEO_MAX_PXCNT));
++	writel_relaxed(max_lncnt, priv->io_base + _REG(ENCL_VIDEO_MAX_LNCNT));
++	writel_relaxed(havon_begin, priv->io_base + _REG(ENCL_VIDEO_HAVON_BEGIN));
++	writel_relaxed(havon_end, priv->io_base + _REG(ENCL_VIDEO_HAVON_END));
++	writel_relaxed(vavon_bline, priv->io_base + _REG(ENCL_VIDEO_VAVON_BLINE));
++	writel_relaxed(vavon_eline, priv->io_base + _REG(ENCL_VIDEO_VAVON_ELINE));
++
++	writel_relaxed(hso_begin, priv->io_base + _REG(ENCL_VIDEO_HSO_BEGIN));
++	writel_relaxed(hso_end, priv->io_base + _REG(ENCL_VIDEO_HSO_END));
++	writel_relaxed(vso_begin, priv->io_base + _REG(ENCL_VIDEO_VSO_BEGIN));
++	writel_relaxed(vso_end, priv->io_base + _REG(ENCL_VIDEO_VSO_END));
++	writel_relaxed(vso_bline, priv->io_base + _REG(ENCL_VIDEO_VSO_BLINE));
++	writel_relaxed(vso_eline, priv->io_base + _REG(ENCL_VIDEO_VSO_ELINE));
++	writel_relaxed(3, priv->io_base + _REG(ENCL_VIDEO_RGBIN_CTRL));
++
++	/* default black pattern */
++	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_MDSEL));
++	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_Y));
++	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_CB));
++	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_CR));
++	writel_relaxed(1, priv->io_base + _REG(ENCL_TST_EN));
++	writel_bits_relaxed(BIT(3), 0, priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
++
++	writel_relaxed(1, priv->io_base + _REG(ENCL_VIDEO_EN));
++
++	writel_relaxed(0, priv->io_base + _REG(L_RGB_BASE_ADDR));
++	writel_relaxed(0x400, priv->io_base + _REG(L_RGB_COEFF_ADDR));
++	writel_relaxed(0x400, priv->io_base + _REG(L_DITH_CNTL_ADDR));
++
++	/* DE signal for TTL */
++	writel_relaxed(havon_begin, priv->io_base + _REG(L_OEH_HS_ADDR));
++	writel_relaxed(havon_end + 1, priv->io_base + _REG(L_OEH_HE_ADDR));
++	writel_relaxed(vavon_bline, priv->io_base + _REG(L_OEH_VS_ADDR));
++	writel_relaxed(vavon_eline, priv->io_base + _REG(L_OEH_VE_ADDR));
++
++	/* DE signal for TTL */
++	writel_relaxed(havon_begin, priv->io_base + _REG(L_OEV1_HS_ADDR));
++	writel_relaxed(havon_end + 1, priv->io_base + _REG(L_OEV1_HE_ADDR));
++	writel_relaxed(vavon_bline, priv->io_base + _REG(L_OEV1_VS_ADDR));
++	writel_relaxed(vavon_eline, priv->io_base + _REG(L_OEV1_VE_ADDR));
++
++	/* Hsync signal for TTL */
++	if (mode->flags & DRM_MODE_FLAG_PHSYNC) {
++		writel_relaxed(hso_end, priv->io_base + _REG(L_STH1_HS_ADDR));
++		writel_relaxed(hso_begin, priv->io_base + _REG(L_STH1_HE_ADDR));
++	} else {
++		writel_relaxed(hso_begin, priv->io_base + _REG(L_STH1_HS_ADDR));
++		writel_relaxed(hso_end, priv->io_base + _REG(L_STH1_HE_ADDR));
++	}
++	writel_relaxed(0, priv->io_base + _REG(L_STH1_VS_ADDR));
++	writel_relaxed(max_lncnt, priv->io_base + _REG(L_STH1_VE_ADDR));
++
++	/* Vsync signal for TTL */
++	writel_relaxed(vso_begin, priv->io_base + _REG(L_STV1_HS_ADDR));
++	writel_relaxed(vso_end, priv->io_base + _REG(L_STV1_HE_ADDR));
++	if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
++		writel_relaxed(vso_eline, priv->io_base + _REG(L_STV1_VS_ADDR));
++		writel_relaxed(vso_bline, priv->io_base + _REG(L_STV1_VE_ADDR));
++	} else {
++		writel_relaxed(vso_bline, priv->io_base + _REG(L_STV1_VS_ADDR));
++		writel_relaxed(vso_eline, priv->io_base + _REG(L_STV1_VE_ADDR));
 +	}
 +
- 	/* Initialize OSD1 fifo control register */
- 	reg = VIU_OSD_DDR_PRIORITY_URGENT |
--		VIU_OSD_HOLD_FIFO_LINES(31) |
--		VIU_OSD_FIFO_DEPTH_VAL(32) | /* fifo_depth_val: 32*8=256 */
- 		VIU_OSD_WORDS_PER_BURST(4) | /* 4 words in 1 burst */
- 		VIU_OSD_FIFO_LIMITS(2);      /* fifo_lim: 2*16=32 */
- 
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		reg |= VIU_OSD_HOLD_FIFO_LINES(24);
-+	else
-+		reg |= VIU_OSD_HOLD_FIFO_LINES(31);
++	/* DE signal */
++	writel_relaxed(havon_begin, priv->io_base + _REG(L_DE_HS_ADDR));
++	writel_relaxed(havon_end + 1, priv->io_base + _REG(L_DE_HE_ADDR));
++	writel_relaxed(vavon_bline, priv->io_base + _REG(L_DE_VS_ADDR));
++	writel_relaxed(vavon_eline, priv->io_base + _REG(L_DE_VE_ADDR));
 +
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL) ||
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		reg |= VIU_OSD_FIFO_DEPTH_VAL(32); /* fifo_depth_val: 32*8=256 */
-+	else
-+		reg |= VIU_OSD_FIFO_DEPTH_VAL(64); /* fifo_depth_val: 64*8=512 */
++	/* Hsync signal */
++	writel_relaxed(hso_begin, priv->io_base + _REG(L_HSYNC_HS_ADDR));
++	writel_relaxed(hso_end, priv->io_base + _REG(L_HSYNC_HE_ADDR));
++	writel_relaxed(0, priv->io_base + _REG(L_HSYNC_VS_ADDR));
++	writel_relaxed(max_lncnt, priv->io_base + _REG(L_HSYNC_VE_ADDR));
 +
- 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
- 		reg |= VIU_OSD_BURST_LENGTH_32;
- 	else
-diff --git a/drivers/gpu/drm/meson/meson_vpp.c b/drivers/gpu/drm/meson/meson_vpp.c
-index 154837688ab0..069f527d42c6 100644
---- a/drivers/gpu/drm/meson/meson_vpp.c
-+++ b/drivers/gpu/drm/meson/meson_vpp.c
-@@ -91,7 +91,8 @@ static void meson_vpp_write_vd_scaling_filter_coefs(struct meson_drm *priv,
- void meson_vpp_init(struct meson_drm *priv)
++	/* Vsync signal */
++	writel_relaxed(vso_begin, priv->io_base + _REG(L_VSYNC_HS_ADDR));
++	writel_relaxed(vso_end, priv->io_base + _REG(L_VSYNC_HE_ADDR));
++	writel_relaxed(vso_bline, priv->io_base + _REG(L_VSYNC_VS_ADDR));
++	writel_relaxed(vso_eline, priv->io_base + _REG(L_VSYNC_VE_ADDR));
++
++	writel_relaxed(0, priv->io_base + _REG(L_INV_CNT_ADDR));
++	writel_relaxed(BIT(4) | BIT(5),
++		       priv->io_base + _REG(L_TCON_MISC_SEL_ADDR));
++
++	priv->venc.current_mode = MESON_VENC_MODE_MIPI_DSI;
++}
++EXPORT_SYMBOL_GPL(meson_venc_mipi_dsi_mode_set);
++
+ void meson_venci_cvbs_mode_set(struct meson_drm *priv,
+ 			       struct meson_cvbs_enci_mode *mode)
  {
- 	/* set dummy data default YUV black */
--	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL))
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL) ||
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
- 		writel_relaxed(0x108080, priv->io_base + _REG(VPP_DUMMY_DATA1));
- 	else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM)) {
- 		writel_bits_relaxed(0xff << 16, 0xff << 16,
-@@ -107,6 +108,9 @@ void meson_vpp_init(struct meson_drm *priv)
- 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
- 		writel_relaxed(VPP_OFIFO_SIZE_DEFAULT,
- 			       priv->io_base + _REG(VPP_OFIFO_SIZE));
-+	else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_AXG))
-+		writel_bits_relaxed(VPP_OFIFO_SIZE_MASK, 0x400,
-+				    priv->io_base + _REG(VPP_OFIFO_SIZE));
- 	else
- 		writel_bits_relaxed(VPP_OFIFO_SIZE_MASK, 0x77f,
- 				    priv->io_base + _REG(VPP_OFIFO_SIZE));
+@@ -1747,8 +1966,15 @@ unsigned int meson_venci_get_field(struct meson_drm *priv)
+ 
+ void meson_venc_enable_vsync(struct meson_drm *priv)
+ {
+-	writel_relaxed(VENC_INTCTRL_ENCI_LNRST_INT_EN,
+-		       priv->io_base + _REG(VENC_INTCTRL));
++	switch (priv->venc.current_mode) {
++	case MESON_VENC_MODE_MIPI_DSI:
++		writel_relaxed(0x200,
++			       priv->io_base + _REG(VENC_INTCTRL));
++		break;
++	default:
++		writel_relaxed(VENC_INTCTRL_ENCI_LNRST_INT_EN,
++			       priv->io_base + _REG(VENC_INTCTRL));
++	}
+ 	regmap_update_bits(priv->hhi, HHI_GCLK_MPEG2, BIT(25), BIT(25));
+ }
+ 
+diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
+index 9138255ffc9e..15f9a5effb40 100644
+--- a/drivers/gpu/drm/meson/meson_venc.h
++++ b/drivers/gpu/drm/meson/meson_venc.h
+@@ -21,6 +21,7 @@ enum {
+ 	MESON_VENC_MODE_CVBS_PAL,
+ 	MESON_VENC_MODE_CVBS_NTSC,
+ 	MESON_VENC_MODE_HDMI,
++	MESON_VENC_MODE_MIPI_DSI,
+ };
+ 
+ struct meson_cvbs_enci_mode {
+@@ -47,6 +48,9 @@ struct meson_cvbs_enci_mode {
+ 	unsigned int analog_sync_adj;
+ };
+ 
++/* LCD Encoder gamma setup */
++void meson_encl_load_gamma(struct meson_drm *priv);
++
+ /* HDMI Clock parameters */
+ enum drm_mode_status
+ meson_venc_hdmi_supported_mode(const struct drm_display_mode *mode);
+@@ -63,6 +67,8 @@ void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
+ 			      unsigned int ycrcb_map,
+ 			      bool yuv420_mode,
+ 			      const struct drm_display_mode *mode);
++void meson_venc_mipi_dsi_mode_set(struct meson_drm *priv,
++				  struct drm_display_mode *mode);
+ unsigned int meson_venci_get_field(struct meson_drm *priv);
+ 
+ void meson_venc_enable_vsync(struct meson_drm *priv);
+diff --git a/drivers/gpu/drm/meson/meson_vpp.h b/drivers/gpu/drm/meson/meson_vpp.h
+index afc9553ed8d3..b790042a1650 100644
+--- a/drivers/gpu/drm/meson/meson_vpp.h
++++ b/drivers/gpu/drm/meson/meson_vpp.h
+@@ -12,6 +12,8 @@
+ struct drm_rect;
+ struct meson_drm;
+ 
++/* Mux VIU/VPP to ENCL */
++#define MESON_VIU_VPP_MUX_ENCL	0x0
+ /* Mux VIU/VPP to ENCI */
+ #define MESON_VIU_VPP_MUX_ENCI	0x5
+ /* Mux VIU/VPP to ENCP */
 -- 
 2.22.0
 
