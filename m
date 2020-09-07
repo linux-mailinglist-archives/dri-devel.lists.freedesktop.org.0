@@ -1,71 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4378E25FC14
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 16:29:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBE825FC11
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 16:29:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 681846E47E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD886E480;
 	Mon,  7 Sep 2020 14:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A79AA6E41A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 09:18:32 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id u3so2975287pjr.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 02:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kpwNni5DZsL81VsUzOEF6fgBNL8irinRHr++pS6DIH4=;
- b=O0nVzEt0to+Hpt5DmVNSrpKsB5pOnDvRJ8682q1tjqS9v/Qx3Bmbmcd8+okOLCi3Ci
- FjWoetYIYjZznCRSXunkH7DUavf55Gq7vRf958XI9iG/HYsQIrNfJpNlhebrFk0nL8sn
- Zht4yGQs7+PF5kJyNUh2Fn+CjmW4Vpp8DIzMgswenMi9y9jHnEeEoBy6OnYMcDqxYgkb
- 0rmPSbRH8mKBId82tj1AdNhjksNhIqlXe7b0dbwEFqxCNq1T4a04DRFhs5vXccFg99Bo
- L/DoH3fIdmoqbfxRybBFcOB09axnPvtjZ2ivlNSmNFMInppDv8rhq+A27pmtroCDe0vq
- SwDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kpwNni5DZsL81VsUzOEF6fgBNL8irinRHr++pS6DIH4=;
- b=ceyptZT12R6NMbmH9IMg5RZp9evBaI5UXrOQh9HeAS26EL7Wk3VchWFLQtceKVCih2
- gVDR98E5Gtz45xTtoJV6Rk6u94/+XlAgVZ6vIXQyrFKf1yxzPltcKTxE1wHfFXNW3sMX
- ojhDr2Llje0SilrSHid1cVfrdFPXXFR8b6vIL7tTiTFEWc75UppeMCeVseURoZHBe2U7
- LZOzvzKsjSZA9mL9Ymye4Tekt0arhs89hwjceILlmXkp2toeGktKZJwi4cQ5vkZG10p8
- MF79CSNdWcLmLv+I8EY2CVRycCGQymgAqbYDRc7XQIz3qgVBPSJbST1ZX4GW7w/nthLB
- Aybg==
-X-Gm-Message-State: AOAM531dWQKelbdtCrwWS2fD82pa4iVwAQumcIo6e/CnRpClGYOJOldB
- kKzNBKiOsFrgBoHwZmJbsBw=
-X-Google-Smtp-Source: ABdhPJz8OyFdACQ/fUoHKevIftBWifFC0ICyCifnJiqsqaCt6U+OjFvMmXblon5SpVeKNm99E3VMxA==
-X-Received: by 2002:a17:902:8bc7:: with SMTP id
- r7mr17695124plo.92.1599470312191; 
- Mon, 07 Sep 2020 02:18:32 -0700 (PDT)
-Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id h1sm5934980pji.52.2020.09.07.02.18.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 02:18:31 -0700 (PDT)
-Date: Mon, 7 Sep 2020 14:46:21 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
- and fix-ups.
-Message-ID: <20200907091621.GA30377@gmail.com>
-References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
- <20200907075559.GN2352366@phenom.ffwll.local>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 937256E400
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 09:16:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B82691FB;
+ Mon,  7 Sep 2020 02:16:58 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
+ [10.1.196.255])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06F793F66E;
+ Mon,  7 Sep 2020 02:16:54 -0700 (PDT)
+Date: Mon, 7 Sep 2020 10:16:49 +0100
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Jim Quinlan <james.quinlan@broadcom.com>
+Subject: Re: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
+Message-ID: <20200907091649.GA6428@e121166-lin.cambridge.arm.com>
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+ <b19bc982-a0c4-c6ff-d8f5-650f2b3a83c8@gmail.com>
+ <20200827063517.GA4637@lst.de>
+ <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200907075559.GN2352366@phenom.ffwll.local>
+In-Reply-To: <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Mon, 07 Sep 2020 14:29:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,124 +45,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Christoph Hellwig <hch@lst.de>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Saravana Kannan <saravanak@google.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 07, 2020 at 09:55:59AM +0200, Daniel Vetter wrote:
-> On Thu, Aug 06, 2020 at 12:52:54PM +0530, Vaibhav Gupta wrote:
-> > Linux Kernel Mentee: Remove Legacy Power Management. 
-> > 
-> > The original goal of the patch series is to upgrade the power management
-> > framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
-> > and .resume() callbacks.
-> > 
-> > The upgrade makes sure that the involvement of PCI Core does not change the
-> > order of operations executed in a driver. Thus, does not change its behavior.
-> > 
-> > During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
-> > redundant. This was introduced in the commit
-> > 42ddb453a0cd ("radeon: Conditionally compile PM code").
-> 
-> I do wonder whether it wouldn't be better to just outright delete these,
-> we have the drm radeon driver for pretty much all the same hardware ...
-> -Daniel
-> 
-Hello Daniel,
-I don't have any problem in either way. My priority is to get rid of the
-legacy .suspend and .resume pointers from "struct pci_driver" . Hence, modifying
-every driver that is using them.
+On Thu, Aug 27, 2020 at 09:29:59AM -0400, Jim Quinlan wrote:
+> On Thu, Aug 27, 2020 at 2:35 AM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > On Tue, Aug 25, 2020 at 10:40:27AM -0700, Florian Fainelli wrote:
+> > > Hi,
+> > >
+> > > On 8/24/2020 12:30 PM, Jim Quinlan wrote:
+> > >>
+> > >> Patchset Summary:
+> > >>    Enhance a PCIe host controller driver.  Because of its unusual design
+> > >>    we are foced to change dev->dma_pfn_offset into a more general role
+> > >>    allowing multiple offsets.  See the 'v1' notes below for more info.
+> > >
+> > > We are version 11 and counting, and it is not clear to me whether there is
+> > > any chance of getting these patches reviewed and hopefully merged for the
+> > > 5.10 merge window.
+> > >
+> > > There are a lot of different files being touched, so what would be the
+> > > ideal way of routing those changes towards inclusion?
+> >
+> > FYI, I offered to take the dma-mapping bits through the dma-mapping tree.
+> > I have a bit of a backlog, but plan to review and if Jim is ok with that
+> > apply the current version.
+> Sounds good to me.
 
-Vaibhav Gupta
-> > 
-> > ------------
-> > 
-> > Before 42ddb453a0cd:
-> > $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> > 
-> > Based on output in terminal:
-> > 
-> > 547:#ifdef CONFIG_PM
-> >        |-- 959:#ifdef CONFIG_PPC_PMAC
-> >        |-- 972:#endif
-> >        |-- 1291:#ifdef CONFIG_PPC_OF
-> >        |-- 1301:#endif /* CONFIG_PPC_OF */
-> >        |-- 1943:#ifdef CONFIG_PPC_OF
-> >                    |-- 2206:#if 0 /* Not ready yet */
-> >                    |-- 2508:#endif /* 0 */
-> >        |-- 2510:#endif /* CONFIG_PPC_OF */
-> >        |-- 2648:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2654:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2768:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2774:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
-> >        |-- 2801:#endif /* CONFIG_PPC_OF */
-> > 2803:#endif /* CONFIG_PM */
-> > 
-> > ------------
-> > 
-> > After 42ddb453a0cd:
-> > $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> > 
-> > Based on output in terminal:
-> > 
-> > 547:#ifdef CONFIG_PM
-> >        |-- 959:#ifdef CONFIG_PPC_PMAC
-> >        |-- 972:#endif
-> >        |-- 1291:#ifdef CONFIG_PPC_OF
-> >        |-- 1301:#endif /* CONFIG_PPC_OF */
-> >        |-- 1430:#if defined(CONFIG_PM)
-> >                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
-> >                    |-- 1944:#endif
-> >                    |-- 1946:#ifdef CONFIG_PPC_OF
-> >                                |-- 1947:#ifdef CONFIG_PPC_PMAC
-> >                                |-- 2208:#endif
-> >                    |-- 2209:#endif
-> >                    |-- 2211:#if 0 /* Not ready yet */
-> >                    |-- 2513:#endif /* 0 */
-> >        |-- 2515:#endif /* CONFIG_PPC_OF */
-> >        |-- 2653:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2659:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2773:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2779:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
-> >        |-- 2806:#endif /* CONFIG_PPC_OF */
-> > 2808:#endif /* CONFIG_PM */
-> > 
-> > ------------
-> > 
-> > This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
-> > 
-> > The patch-series fixes it along with PM upgrade.
-> > 
-> > All patches are compile-tested only.
-> > 
-> > Test tools:
-> >     - Compiler: gcc (GCC) 10.1.0
-> >     - allmodconfig build: make -j$(nproc) W=1 all
-> > 
-> > Vaibhav Gupta (2):
-> >   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
-> >   fbdev: radeonfb:use generic power management
-> > 
-> >  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
-> >  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
-> >  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
-> >  3 files changed, 35 insertions(+), 16 deletions(-)
-> > 
-> > -- 
-> > 2.27.0
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Hi Jim,
+
+is the dependency now solved ? Should we review/take this series as
+is for v5.10 through the PCI tree ?
+
+Thanks,
+Lorenzo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
