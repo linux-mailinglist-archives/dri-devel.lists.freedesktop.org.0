@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D790625F47E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D9025F480
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:03:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA5F36E2DE;
-	Mon,  7 Sep 2020 08:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C56026E31D;
+	Mon,  7 Sep 2020 08:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 392446E2DE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:02:47 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id l9so13242501wme.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:02:47 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 868616E342
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:02:57 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id j2so14741656wrx.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:references:from:autocrypt:organization:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FOIGm+MeZY0iZ8ZG3rTpB5cPrFLcLRaJXQUNLhkaUH8=;
- b=1slvBdVF6gktdLRkcVj06lZvoe6Qrqs3W66mp8erMOhDkKIW2iON4VPXYv+vn+wTtW
- 9iuhcOGBdhYIBG39D6C2bgsiUHkc7D11VWGYSzYdKWTrOI59kEDFKYrcIFU1GKJuYx4M
- 7cyeguz8SkW0dUfj3KldhTyby5nuL5x0Pod27dUm2pQcTg25yLS9g/Z9AcNAKoLbfqML
- hk8bCjU/TMJUVhI9o9B0wqsxjqshbAZwWN/E/zvsy9PFURtbH9UU+kTi0a/6xjGYlO5w
- pUAGZSDkk0jq5AL56cd+WtiVrbnzMKcioH0vaaJLwaE2uvyCwaEjRUBePfV11J45MmjE
- VDPQ==
+ bh=4xVBpZJk3B3sGC8e0YUfLrzfC0ZzglusESsfU+wv+zg=;
+ b=apdq98lIicFBwX8i1BVk3L0kQJOrIA3yJJMdHk5MyJyfS8p/38GFacYxfpvkeC19ZO
+ /x0VFu02aRY06gdp41I2ytldmM7xGa3Q7/epi6LVywT77F3QuUjzO5U7znQXN/QeR3ZU
+ soBdJCjDPhf57cySVVIsG1s/DU2h6kgnVKjJC1ljtygbx/G3T41nwC2a4AkeUYHsxlPL
+ AFz8qLKJKb/N17AsDwLtgjKq7TobylD2thdDNgE91Qofg5Dx1YpjMtK+C4qGbUIaesTf
+ +fsQmLJ9RkEJQvN2YfSq+v7ayhLdMBLjavRq/3doxjLlgwmISE+puig9J3ooXlaI90Ol
+ uezQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=FOIGm+MeZY0iZ8ZG3rTpB5cPrFLcLRaJXQUNLhkaUH8=;
- b=h/gi77Fblmkn08/D6HFNbuDAFfVVaz5kDbw1Ie4MSSwB7+BeCKFbJazI4WSgtYmc+N
- oybomZH0pfLEfeGFUO1AtkIwqbTAl3o7Lc8Q+p953FFp+/mYhhba9b7FXtw1MCT5Hij/
- 1PxhPTJ9f4cI+VUO0rWNWnQqIEhxIvPxPqyhNFpEfkSy+kfc32utc5rYdnowYFtn27Nj
- 0XZqvj9jhapvyhCSZawOVrhKXGpW189E0nr9fC/x3gdIGgVzUPiGUGntQDBJ5S0p32k1
- kZ9I/I91Rz96NzUt5vo6Pw3d6pOGRLzuK54a8IX4cHIVFDAmFCi4mG6lVyxeFFni+LBi
- pQzA==
-X-Gm-Message-State: AOAM532OE9k8gpPyEsQ524Eo6cC36bKHGyy1kNrilXwm1OuweaBSqceO
- t7kpie87REGnLlnXPziN7p1zaA==
-X-Google-Smtp-Source: ABdhPJzA303LnVSpPs0rqqJVdZ6G5OpDglfAlF6qYYFUtQ+Oe38yabLNx+Gpkfq7wzvX9BSBqalEbA==
-X-Received: by 2002:a1c:b703:: with SMTP id h3mr19171992wmf.131.1599465765687; 
- Mon, 07 Sep 2020 01:02:45 -0700 (PDT)
+ bh=4xVBpZJk3B3sGC8e0YUfLrzfC0ZzglusESsfU+wv+zg=;
+ b=Q4atINJaz9/jgYu2uJZDOuDG1kI3iU5/PHga1gUeS4Qlpufg2nObuNDIHJPC/yyt4h
+ bWKdJa4ffKqE2i/xDRJnWAxrP+KmFkPAbRJF8VrZ8p4ILSEg+vLpV3f4h35ODThexJGq
+ lCeykJTxWkIJnm475RO/XTzGqYWTdQ0tjAhmi6IJMQDl6ITV8DkOGkNRJnJrPfNNJkXB
+ QPokS5Mo3vS33V9NLwF/KKp5RGhXvdb0ahqtSL6Qz/tgrKr/6wIiH1Xswsv1XSk7kK9U
+ BjyI/uiPHQ7e5TSncCt45fSkQaADHSqNjJFY0OSd9iV8pazKI9KTrMhKbHoaVNBYPU+P
+ 4MLw==
+X-Gm-Message-State: AOAM531bGlbTcaMvp8PNdw8sWAdzeqvDhUEZ5lW5lxBW+1b1khJBZWG4
+ /n0AL+u70nhtEJJTjYuJrYfmuA==
+X-Google-Smtp-Source: ABdhPJxabxT1HOw193C6STaGuGZMf6q8GGBaHNqfrdkIHW/CZODmRkpFcG2+cIE9nDcMI6D+7p6Cpw==
+X-Received: by 2002:adf:ec47:: with SMTP id w7mr1231197wrn.175.1599465776038; 
+ Mon, 07 Sep 2020 01:02:56 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac?
  ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
- by smtp.gmail.com with ESMTPSA id b1sm27730168wru.54.2020.09.07.01.02.44
+ by smtp.gmail.com with ESMTPSA id l9sm26112679wmh.1.2020.09.07.01.02.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Sep 2020 01:02:45 -0700 (PDT)
-Subject: Re: [PATCH] drm/bridge/synopsys: dsi: allow sending longer LP commands
+ Mon, 07 Sep 2020 01:02:55 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge/synopsys: dsi: add support for non-continuous
+ HS clock
 To: Yannick Fertre <yannick.fertre@st.com>,
  Philippe Cornu <philippe.cornu@st.com>,
  Benjamin Gaignard <benjamin.gaignard@st.com>, David Airlie
@@ -58,7 +59,7 @@ To: Yannick Fertre <yannick.fertre@st.com>,
  Alexandre Torgue <alexandre.torgue@st.com>, dri-devel@lists.freedesktop.org,
  linux-stm32@st-md-mailman.stormreply.com,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200701143131.841-1-yannick.fertre@st.com>
+References: <20200701194234.18123-1-yannick.fertre@st.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -110,12 +111,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <10134f03-3bb9-072b-a70f-edc972f7bf57@baylibre.com>
-Date: Mon, 7 Sep 2020 10:02:43 +0200
+Message-ID: <0df90e8c-06d9-7574-d122-7676f33d49bf@baylibre.com>
+Date: Mon, 7 Sep 2020 10:02:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200701143131.841-1-yannick.fertre@st.com>
+In-Reply-To: <20200701194234.18123-1-yannick.fertre@st.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,60 +135,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/2020 16:31, Yannick Fertre wrote:
+On 01/07/2020 21:42, Yannick Fertre wrote:
 > From: Antonio Borneo <antonio.borneo@st.com>
 > 
-> Current code does not properly computes the max length of LP
-> commands that can be send during H or V sync, and rely on static
-> values.
-> Limiting the max LP length to 4 byte during the V-sync is overly
-> conservative.
+> Current code enables the HS clock when video mode is started or to
+> send out a HS command, and disables the HS clock to send out a LP
+> command. This is not what DSI spec specify.
 > 
-> Relax the limit and allows longer LP commands (16 bytes) to be
-> sent during V-sync.
+> Enable HS clock either in command and in video mode.
+> Set automatic HS clock management for panels and devices that
+> support non-continuous HS clock.
 > 
 > Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index d580b2aa4ce9..1a24ea648ef8 100644
+> index d580b2aa4ce9..979acaa90d00 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -360,6 +360,15 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
->  	bool lpm = msg->flags & MIPI_DSI_MSG_USE_LPM;
->  	u32 val = 0;
->  
-> +	/*
-> +	 * TODO dw drv improvements
-> +	 * largest packet sizes during hfp or during vsa/vpb/vfp
-> +	 * should be computed according to byte lane, lane number and only
-> +	 * if sending lp cmds in high speed is enable (PHY_TXREQUESTCLKHS)
-> +	 */
-> +	dsi_write(dsi, DSI_DPI_LP_CMD_TIM, OUTVACT_LPCMD_TIME(16)
-> +		  | INVACT_LPCMD_TIME(4));
-> +
->  	if (msg->flags & MIPI_DSI_MSG_REQ_ACK)
->  		val |= ACK_RQST_EN;
+> @@ -365,7 +365,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
 >  	if (lpm)
-> @@ -611,14 +620,6 @@ static void dw_mipi_dsi_dpi_config(struct dw_mipi_dsi *dsi,
->  	dsi_write(dsi, DSI_DPI_VCID, DPI_VCID(dsi->channel));
->  	dsi_write(dsi, DSI_DPI_COLOR_CODING, color);
->  	dsi_write(dsi, DSI_DPI_CFG_POL, val);
-> -	/*
-> -	 * TODO dw drv improvements
-> -	 * largest packet sizes during hfp or during vsa/vpb/vfp
-> -	 * should be computed according to byte lane, lane number and only
-> -	 * if sending lp cmds in high speed is enable (PHY_TXREQUESTCLKHS)
-> -	 */
-> -	dsi_write(dsi, DSI_DPI_LP_CMD_TIM, OUTVACT_LPCMD_TIME(4)
-> -		  | INVACT_LPCMD_TIME(4));
+>  		val |= CMD_MODE_ALL_LP;
+>  
+> -	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
+>  	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
 >  }
 >  
->  static void dw_mipi_dsi_packet_handler_config(struct dw_mipi_dsi *dsi)
+> @@ -541,16 +540,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
+>  static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
+>  				 unsigned long mode_flags)
+>  {
+> +	u32 val;
+> +
+>  	dsi_write(dsi, DSI_PWR_UP, RESET);
+>  
+>  	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
+>  		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
+>  		dw_mipi_dsi_video_mode_config(dsi);
+> -		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
+>  	} else {
+>  		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
+>  	}
+>  
+> +	val = PHY_TXREQUESTCLKHS;
+> +	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+> +		val |= AUTO_CLKLANE_CTRL;
+> +	dsi_write(dsi, DSI_LPCLK_CTRL, val);
+> +
+>  	dsi_write(dsi, DSI_PWR_UP, POWERUP);
+>  }
+>  
 > 
-
 
 Tested on Amlogic AXG (v1.21a)
 
@@ -197,6 +197,7 @@ Applying to drm-misc-next
 
 Thanks !
 Neil
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
