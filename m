@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F71625F462
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:56:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB1925F473
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9715D6E2C8;
-	Mon,  7 Sep 2020 07:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD8D26E2D3;
+	Mon,  7 Sep 2020 07:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367CE6E2C8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 07:56:03 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id a65so13389663wme.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 00:56:03 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA7E96E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 07:57:20 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id s13so13388452wmh.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 00:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=3k0z39QYWIe/UY6EeGOX5LkXyhspBlH5cO5WQ/J5ViE=;
- b=ahlN06GLnzA9rOV4Xi2uqvVT1PEbPo9vjwo5QkVmZdciublt9X3jqlpA+43hVvscoD
- dbSn4ZR1e1Hjyj7pWfskGgAUcc2oDXP8xZD9Sz1u4Nay5BBkQmEqn7RZhgO3sOR4CBem
- nRL2H6VesekZfv772O8OZba9JFQLCJIUIEMB8=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=+rjjPCHYlTF/NZT9oY7eJi0tfq04Fr6TYzNkChk06Ak=;
+ b=Didogix5e5IC5mOLgQmO3UxJ+1/jdCHsjBvoYiHPl/y+4tI27WUwXawD+Pvzc5jpA9
+ G9nZLAy1/mkAZl9nibcrS2OURouM8f1AIJj0VQIg3FXhCaIdUrlEh/aswYHmsTI4M13H
+ 2LDHAOgLbuJxFgarJaX0klsVFphdD0Sivkdtg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=3k0z39QYWIe/UY6EeGOX5LkXyhspBlH5cO5WQ/J5ViE=;
- b=Dm3NyZ5U8NFC7A2a2wIoiWstPptztbKKvY6GuXnSkVl2CciZW9MKVpPRR9Bu5smaCb
- 7++rWHKm6/6DsZcPlE2R8DJKvzXo8lpGkrbhB0AxIBloEJ7JVecg2w1fys5PmhP9QKr1
- wzRfw3dY2ev8gAGDOa96pKWAavUWgeUXPOvaAJ4HuztuVMm2nVTEmonlV6xpKyLVuwyS
- hAIoky0KlOHrth5QywBxskn23qucWSfFJvYfAjiB/7CoS+auJ+0EepdG72Y2Jcoap5g9
- UYyNE+tISDZC4ScbvJnu+tS/9bVvOfdw+03I/HCUKv33B/+xNQmA4Hv777ieBzJUniqY
- K73A==
-X-Gm-Message-State: AOAM5330KGhFwiAm60HqCMU9YOZralUXzGt+yAeehV36xBToZj0uqrrT
- oeClPN4gegN97nN2fogen0f7/g==
-X-Google-Smtp-Source: ABdhPJxFZJ8XJ1CLC+QmdlYHF7G9rGRpD842F2k869iPGYdjhpkwEkztDb5WNmJNAoIZyZlDHm95wg==
-X-Received: by 2002:a1c:2dc6:: with SMTP id t189mr1545774wmt.92.1599465361880; 
- Mon, 07 Sep 2020 00:56:01 -0700 (PDT)
+ bh=+rjjPCHYlTF/NZT9oY7eJi0tfq04Fr6TYzNkChk06Ak=;
+ b=DsOF4eiE2pBX2gmDMnLi+mUSzafeewRY6uCuRwZ0nofbgJyr5mvmd7Pff5ZLBdtlMg
+ /e6QCplVP31bfmAJymDOSJO7EddylN8A6M25HYYSfinQtbPUBQ2P5UIxn5vbGwceKRhc
+ 85NzgO2t5VTaS4pfrPQbsBkRJOwmIJ4fW4w6vyiARHGob2XDjj/02gxJYWJxRiRzQnAv
+ cfFvKwIwApkaYTNIjNi+HYaj2p66kd862fW2F4fG862oZYpxt5NwpB2L9FBcs2wQrF/B
+ U8vZRpkC+s1FkdOnV3ereE712+qmSSb5vGP8P30ZV+UkdFM7ps3nY0aZ9Tie7JFmP0sP
+ /rgg==
+X-Gm-Message-State: AOAM533jjz8x3XkikMcjKXvhZY1el6B9F0aa+4rniQrHrU7O20PuI+3r
+ fShE+wtIkobmsF5amrihki9RrhbU5kiLt5YE
+X-Google-Smtp-Source: ABdhPJwYj9d+C9Bl2UBlwnKJe8hT10sTZ7Te1knv5Na18mFtcxX4c+2tiYSTI/DSy38GiApxu+a+dw==
+X-Received: by 2002:a7b:c4d9:: with SMTP id g25mr19137732wmk.15.1599465439345; 
+ Mon, 07 Sep 2020 00:57:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q4sm26403992wru.65.2020.09.07.00.56.00
+ by smtp.gmail.com with ESMTPSA id p11sm24446705wma.11.2020.09.07.00.57.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 00:56:01 -0700 (PDT)
-Date: Mon, 7 Sep 2020 09:55:59 +0200
+ Mon, 07 Sep 2020 00:57:18 -0700 (PDT)
+Date: Mon, 7 Sep 2020 09:57:16 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
- and fix-ups.
-Message-ID: <20200907075559.GN2352366@phenom.ffwll.local>
-Mail-Followup-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH v2] drm/amdgpu/dc: Require primary plane to be enabled
+ whenever the CRTC is
+Message-ID: <20200907075716.GO2352366@phenom.ffwll.local>
+References: <20200821165758.1106210-1-michel@daenzer.net>
+ <20200904104304.41246-1-michel@daenzer.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200904104304.41246-1-michel@daenzer.net>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,122 +67,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Helgaas <bjorn@helgaas.com>,
- Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Thierry Reding <treding@nvidia.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 06, 2020 at 12:52:54PM +0530, Vaibhav Gupta wrote:
-> Linux Kernel Mentee: Remove Legacy Power Management. 
-> 
-> The original goal of the patch series is to upgrade the power management
-> framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
-> and .resume() callbacks.
-> 
-> The upgrade makes sure that the involvement of PCI Core does not change the
-> order of operations executed in a driver. Thus, does not change its behavior.
-> 
-> During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
-> redundant. This was introduced in the commit
-> 42ddb453a0cd ("radeon: Conditionally compile PM code").
+On Fri, Sep 04, 2020 at 12:43:04PM +0200, Michel D=E4nzer wrote:
+> From: Michel D=E4nzer <mdaenzer@redhat.com>
+> =
 
-I do wonder whether it wouldn't be better to just outright delete these,
-we have the drm radeon driver for pretty much all the same hardware ...
--Daniel
+> Don't check drm_crtc_state::active for this either, per its
+> documentation in include/drm/drm_crtc.h:
+> =
 
-> 
-> ------------
-> 
-> Before 42ddb453a0cd:
-> $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> 
-> Based on output in terminal:
-> 
-> 547:#ifdef CONFIG_PM
->        |-- 959:#ifdef CONFIG_PPC_PMAC
->        |-- 972:#endif
->        |-- 1291:#ifdef CONFIG_PPC_OF
->        |-- 1301:#endif /* CONFIG_PPC_OF */
->        |-- 1943:#ifdef CONFIG_PPC_OF
->                    |-- 2206:#if 0 /* Not ready yet */
->                    |-- 2508:#endif /* 0 */
->        |-- 2510:#endif /* CONFIG_PPC_OF */
->        |-- 2648:#ifdef CONFIG_PPC_PMAC
->        |-- 2654:#endif /* CONFIG_PPC_PMAC */
->        |-- 2768:#ifdef CONFIG_PPC_PMAC
->        |-- 2774:#endif /* CONFIG_PPC_PMAC */
->        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
->        |-- 2801:#endif /* CONFIG_PPC_OF */
-> 2803:#endif /* CONFIG_PM */
-> 
-> ------------
-> 
-> After 42ddb453a0cd:
-> $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> 
-> Based on output in terminal:
-> 
-> 547:#ifdef CONFIG_PM
->        |-- 959:#ifdef CONFIG_PPC_PMAC
->        |-- 972:#endif
->        |-- 1291:#ifdef CONFIG_PPC_OF
->        |-- 1301:#endif /* CONFIG_PPC_OF */
->        |-- 1430:#if defined(CONFIG_PM)
->                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
->                    |-- 1944:#endif
->                    |-- 1946:#ifdef CONFIG_PPC_OF
->                                |-- 1947:#ifdef CONFIG_PPC_PMAC
->                                |-- 2208:#endif
->                    |-- 2209:#endif
->                    |-- 2211:#if 0 /* Not ready yet */
->                    |-- 2513:#endif /* 0 */
->        |-- 2515:#endif /* CONFIG_PPC_OF */
->        |-- 2653:#ifdef CONFIG_PPC_PMAC
->        |-- 2659:#endif /* CONFIG_PPC_PMAC */
->        |-- 2773:#ifdef CONFIG_PPC_PMAC
->        |-- 2779:#endif /* CONFIG_PPC_PMAC */
->        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
->        |-- 2806:#endif /* CONFIG_PPC_OF */
-> 2808:#endif /* CONFIG_PM */
-> 
-> ------------
-> 
-> This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
-> 
-> The patch-series fixes it along with PM upgrade.
-> 
-> All patches are compile-tested only.
-> 
-> Test tools:
->     - Compiler: gcc (GCC) 10.1.0
->     - allmodconfig build: make -j$(nproc) W=1 all
-> 
-> Vaibhav Gupta (2):
->   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
->   fbdev: radeonfb:use generic power management
-> 
->  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
->  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
->  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
->  3 files changed, 35 insertions(+), 16 deletions(-)
-> 
-> -- 
-> 2.27.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  * Hence drivers must not consult @active in their various
+>  * &drm_mode_config_funcs.atomic_check callback to reject an atomic
+>  * commit.
+> =
 
--- 
+> atomic_remove_fb disables the CRTC as needed for disabling the primary
+> plane.
+> =
+
+> This prevents at least the following problems if the primary plane gets
+> disabled (e.g. due to destroying the FB assigned to the primary plane,
+> as happens e.g. with mutter in Wayland mode):
+> =
+
+> * The legacy cursor ioctl returned EINVAL for a non-0 cursor FB ID
+>   (which enables the cursor plane).
+> * If the cursor plane was enabled, changing the legacy DPMS property
+>   value from off to on returned EINVAL.
+> =
+
+> v2:
+> * Minor changes to code comment and commit log, per review feedback.
+> =
+
+> GitLab: https://gitlab.gnome.org/GNOME/mutter/-/issues/1108
+> GitLab: https://gitlab.gnome.org/GNOME/mutter/-/issues/1165
+> GitLab: https://gitlab.gnome.org/GNOME/mutter/-/issues/1344
+> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Michel D=E4nzer <mdaenzer@redhat.com>
+
+Commit message agrees with my understand of this maze now, so:
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 32 ++++++-------------
+>  1 file changed, 10 insertions(+), 22 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 45f5f4b7024d..c5f9452490d6 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5269,19 +5269,6 @@ static void dm_crtc_helper_disable(struct drm_crtc=
+ *crtc)
+>  {
+>  }
+>  =
+
+> -static bool does_crtc_have_active_cursor(struct drm_crtc_state *new_crtc=
+_state)
+> -{
+> -	struct drm_device *dev =3D new_crtc_state->crtc->dev;
+> -	struct drm_plane *plane;
+> -
+> -	drm_for_each_plane_mask(plane, dev, new_crtc_state->plane_mask) {
+> -		if (plane->type =3D=3D DRM_PLANE_TYPE_CURSOR)
+> -			return true;
+> -	}
+> -
+> -	return false;
+> -}
+> -
+>  static int count_crtc_active_planes(struct drm_crtc_state *new_crtc_stat=
+e)
+>  {
+>  	struct drm_atomic_state *state =3D new_crtc_state->state;
+> @@ -5345,19 +5332,20 @@ static int dm_crtc_helper_atomic_check(struct drm=
+_crtc *crtc,
+>  		return ret;
+>  	}
+>  =
+
+> -	/* In some use cases, like reset, no stream is attached */
+> -	if (!dm_crtc_state->stream)
+> -		return 0;
+> -
+>  	/*
+> -	 * We want at least one hardware plane enabled to use
+> -	 * the stream with a cursor enabled.
+> +	 * We require the primary plane to be enabled whenever the CRTC is, oth=
+erwise
+> +	 * drm_mode_cursor_universal may end up trying to enable the cursor pla=
+ne while all other
+> +	 * planes are disabled, which is not supported by the hardware. And the=
+re is legacy
+> +	 * userspace which stops using the HW cursor altogether in response to =
+the resulting EINVAL.
+>  	 */
+> -	if (state->enable && state->active &&
+> -	    does_crtc_have_active_cursor(state) &&
+> -	    dm_crtc_state->active_planes =3D=3D 0)
+> +	if (state->enable &&
+> +	    !(state->plane_mask & drm_plane_mask(crtc->primary)))
+>  		return -EINVAL;
+>  =
+
+> +	/* In some use cases, like reset, no stream is attached */
+> +	if (!dm_crtc_state->stream)
+> +		return 0;
+> +
+>  	if (dc_validate_stream(dc, dm_crtc_state->stream) =3D=3D DC_OK)
+>  		return 0;
+>  =
+
+> -- =
+
+> 2.28.0
+> =
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
