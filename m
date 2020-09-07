@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617D925F1EF
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD53C25F1F0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71DC36E0F8;
-	Mon,  7 Sep 2020 03:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11DCD6E10D;
+	Mon,  7 Sep 2020 03:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A56146E0F8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:04:10 +0000 (UTC)
-Date: 07 Sep 2020 11:59:08 +0900
-X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56314833"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 55EF66E10D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:04:17 +0000 (UTC)
+Date: 07 Sep 2020 11:59:14 +0900
+X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56531124"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:08 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:14 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id BBF854179B94;
- Mon,  7 Sep 2020 11:59:08 +0900 (JST)
-Message-ID: <87k0x670rz.wl-kuninori.morimoto.gx@renesas.com>
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 111824179B94;
+ Mon,  7 Sep 2020 11:59:14 +0900 (JST)
+Message-ID: <87imcq70ru.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 6/9] arm64: dts: renesas: r8a77961: Add DU device nodes
+Subject: [PATCH 7/9] arm64: dts: renesas: r8a77961: Add HDMI device nodes
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To: Rob Herring <robh+dt@kernel.org>,
  Laurent <laurent.pinchart@ideasonboard.com>,
@@ -56,39 +56,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch adds DU device nodes for R-Car M3-W+ (r8a77961) SoC.
+This patch adds HDMI device nodes for R-Car M3-W+ (r8a77961) SoC.
 This patch is test on R-Car M3-W+ Salvator-XS board.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index c2a6918ed5e6..dcd92f5abad6 100644
+index dcd92f5abad6..5050cf8e7625 100644
 --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -2165,8 +2165,19 @@ port@2 {
+@@ -2145,14 +2145,23 @@ port@1 {
  		};
  
- 		du: display@feb00000 {
-+			compatible = "renesas,du-r8a77961";
- 			reg = <0 0xfeb00000 0 0x70000>;
+ 		hdmi0: hdmi@fead0000 {
++			compatible = "renesas,r8a77961-hdmi", "renesas,rcar-gen3-hdmi";
+ 			reg = <0 0xfead0000 0 0x10000>;
 -			/* placeholder */
-+			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
-+				 <&cpg CPG_MOD 722>;
-+			clock-names = "du.0", "du.1", "du.2";
-+			resets = <&cpg 724>, <&cpg 722>;
-+			reset-names = "du.0", "du.2";
-+
-+			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
++			interrupts = <GIC_SPI 389 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 729>, <&cpg CPG_CORE R8A77961_CLK_HDMI>;
++			clock-names = "iahb", "isfr";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 729>;
 +			status = "disabled";
  
  			ports {
  				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 				port@0 {
+ 					reg = <0>;
++					dw_hdmi0_in: endpoint {
++						remote-endpoint = <&du_out_hdmi0>;
++					};
+ 				};
+ 				port@1 {
+ 					reg = <1>;
+@@ -2191,6 +2200,7 @@ du_out_rgb: endpoint {
+ 				port@1 {
+ 					reg = <1>;
+ 					du_out_hdmi0: endpoint {
++						remote-endpoint = <&dw_hdmi0_in>;
+ 					};
+ 				};
+ 				port@2 {
 -- 
 2.25.1
 
