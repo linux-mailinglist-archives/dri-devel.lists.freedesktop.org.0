@@ -1,33 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98540260BAC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 09:17:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 492CC260BAA
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 09:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27FC16E43F;
-	Tue,  8 Sep 2020 07:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F17826E3F0;
+	Tue,  8 Sep 2020 07:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B166E48C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 15:19:07 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2B8CEB6FB;
- Mon,  7 Sep 2020 15:19:07 +0000 (UTC)
-Message-ID: <d23837ac7e077625ffbb8d34bf3c8f999c338f0e.camel@suse.de>
-Subject: Re: [PATCH v11 07/11] device-mapping: Introduce DMA range map,
- supplanting dma_pfn_offset
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Christoph Hellwig <hch@lst.de>, Jim Quinlan <james.quinlan@broadcom.com>
-Date: Mon, 07 Sep 2020 17:18:59 +0200
-In-Reply-To: <20200901082429.GA1440@lst.de>
-References: <20200824193036.6033-1-james.quinlan@broadcom.com>
- <20200824193036.6033-8-james.quinlan@broadcom.com>
- <20200901082429.GA1440@lst.de>
-User-Agent: Evolution 3.36.5 
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4576E4BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 16:14:30 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 64344938;
+ Mon,  7 Sep 2020 12:14:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 07 Sep 2020 12:14:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=y3uHfRZw+5Gz3Ka30vws1hOsu/J
+ Ass4/0jIBLDK53qQ=; b=Y3LRXGdaQBcC+WaeQYBB4hZG1dgAxEAMZ0FKTZlUSx/
+ wV0UYUmA8yvx5g3zwZ4ZBC1/OGNaqE4tpT6dvpcRKahUYY23GoLqNoaWYwVPgaEQ
+ BfxsobOB2FIXX2LWpNYi/zwcUZ1el+uOh2FaB5LfY+BBFn0hfVJK84MGwYrQMTrw
+ l8cQURRtOcxeRUGf+23vBMSs9iG1mSgY2+1ItTtJN2Ky3/3j1rkY5aSDnHFzJyHC
+ ce2FO8NyBnlqH75Yag2Z8AMsuJDgUmRL3aF3kspJgPg8tNbEbtTaDqKLRDSVcUqs
+ cvyCm92kNkW6B17YlMSanl5dL9VC+vDs0yN8HLQQfJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=y3uHfR
+ Zw+5Gz3Ka30vws1hOsu/JAss4/0jIBLDK53qQ=; b=MlQ2NHj9l0Z+IZ+t/rJhZ9
+ WN3kRbULikovTJ44vc+PZdL3LjAiZSlaRefGxNkRKY5QF8ytDCn1t9I0yH1cnsgt
+ Yi/bXSGTWBIcJ3xFCJgOidh2MI3rWjY+4QpXIPY+fO6k/fG2Mtnc3TeYiqRn8fBu
+ uJU0hZI5FAM+tmi/A7W+vm6nC+ct/wIxOHTQ+FRdV3AjY/f12ZohUdI8119zhk2X
+ /a73B6y0739qET3zb2Sg5f9RRHzkfa1gjYqhApHgprYcvUjoZLv3J8IGzfMKUnHF
+ nPBJ81VZ8zEEjJ+q0ZFxiKR6WaWGpoofNATf/UaEG9dQ6tzlQWB71PU2ru78GI9w
+ ==
+X-ME-Sender: <xms:YlxWXzhbrnt0ovKIFbGGLrgfZP-LJg9Cm6_RWPHDGBgk3UYtmav-Nw>
+ <xme:YlxWXwBDxz6cMgC29ilBWG90hBNK2WlB--juAFPA8f5ODz2AaXFhAXyVluiuiH3dZ
+ h1d7anF-QDkAIzBSGo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehtddgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
+ jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
+ ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
+ rgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YlxWXzHfaXxsd-TiiNtBi_pjR41MMNHY29tK4II7EwKAG8-Kxmz4Kw>
+ <xmx:YlxWXwR6qZvXaylD48hKMqHqxsPf07RKwCTrCTd2M6jtAxVvEw1nyA>
+ <xmx:YlxWXwxQvLpLz-pAiWwfYjpLsjmthYS4oEi6bFxUcgGs3xUBL7a63A>
+ <xmx:ZFxWX1LcZVCiJ8FUqi-3B1RJ5S0BPFahr3rsoNpLr_ogjgqFN9G6nlorR4Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6A21A3280066;
+ Mon,  7 Sep 2020 12:14:26 -0400 (EDT)
+Date: Mon, 7 Sep 2020 18:14:24 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jian-Hong Pan <jian-hong@endlessm.com>
+Subject: Re: [PATCH v5 00/80] drm/vc4: Support BCM2711 Display Pipeline
+Message-ID: <20200907161424.okjolk5v7pdiyoqu@gilmour.lan>
+References: <CAPpJ_efY2=qmaAtuYVfWhZNBhzTAtAxm9CS5jb_sTpca97jkpA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAPpJ_efY2=qmaAtuYVfWhZNBhzTAtAxm9CS5jb_sTpca97jkpA@mail.gmail.com>
 X-Mailman-Approved-At: Tue, 08 Sep 2020 07:17:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,110 +79,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-pci@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR
- \(REMOTEPROC\) SUBSYSTEM" <linux-remoteproc@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>, "H.
- Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, "open
- list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
- Ingo Molnar <mingo@redhat.com>, bcm-kernel-feedback-list@broadcom.com,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>, "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE" <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:USB
- SUBSYSTEM" <linux-usb@vger.kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
-Content-Type: multipart/mixed; boundary="===============1724383010=="
+Cc: devicetree@vger.kernel.org, tim.gover@raspberrypi.com, kdasu.kdev@gmail.com,
+ sboyd@kernel.org, nsaenzjulienne@suse.de, dave.stevenson@raspberrypi.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org,
+ Linux Upstreaming Team <linux@endlessm.com>, phil@raspberrypi.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0260911983=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1724383010==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-7ynDZbhKR8WXoCauQUzC"
+--===============0260911983==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jipczgpyckh77ast"
+Content-Disposition: inline
 
 
---=-7ynDZbhKR8WXoCauQUzC
-Content-Type: text/plain; charset="UTF-8"
+--jipczgpyckh77ast
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Christoph, a small fix to your fixes:
+Hi!
 
-On Tue, 2020-09-01 at 10:24 +0200, Christoph Hellwig wrote:
-> I've applied this to the dma-mapping tree.
+On Fri, Sep 04, 2020 at 06:16:16PM +0800, Jian-Hong Pan wrote:
+> Thanks for version 5 patch series!
 >=20
-> I had to resolve a conflict in drivers/of/address.c with a recent
-> mainline commit.  I also applied the minor tweaks Andy pointed out
-> plus a few more style changes.  A real change is that I changed the
-> prototype for dma_copy_dma_range_map to require less boilerplate code.
+> I applied it based on linux-next tag next-20200828 and build it with
+> the config [1] to test on RPi 4
+> However, It fails to get HDMI state machine clock and pixel bcb clock.
+> Then, vc4-drm probes failed. Full dmseg [2]:
+>=20
+> [    2.552675] [drm:vc5_hdmi_init_resources] *ERROR* Failed to get
+> HDMI state machine clock
+> [    2.557974] raspberrypi-firmware soc:firmware: Attached to firmware
+> from 2020-06-01T13:23:40
+> [    2.567612] of_clk_hw_onecell_get: invalid index 14
+> [    2.567636] [drm:vc5_hdmi_init_resources] *ERROR* Failed to get
+> pixel bvb clock
+> [    2.567664] vc4-drm gpu: failed to bind fef00700.hdmi (ops vc4_hdmi_op=
+s): -2
+> [    2.567731] vc4-drm gpu: master bind failed: -2
+> [    2.567755] vc4-drm: probe of gpu failed with error -2
 
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 0b5f8d62f251..4cd012817af6 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -610,7 +610,7 @@ struct usb_device *usb_alloc_dev(struct usb_device *par=
-ent,
-         * mask for the entire HCD, so don't do that.
-         */
-        dev->dev.dma_mask =3D bus->sysdev->dma_mask;
--       if (!dma_copy_dma_range_map(&dev->dev, bus->sysdev))
-+       if (dma_copy_dma_range_map(&dev->dev, bus->sysdev))
-                dev_err(&dev->dev, "failed to copy DMA map\n");
-        set_dev_node(&dev->dev, dev_to_node(bus->sysdev));
-        dev->state =3D USB_STATE_ATTACHED;
+Sorry, I should have mentionned it in the cover letter. This series
+depends on that patch from Hoegeun:
+https://lore.kernel.org/dri-devel/20200901040759.29992-2-hoegeun.kwon@samsu=
+ng.com/
 
-Regards,
-Nicolas
+Maxime
 
-
---=-7ynDZbhKR8WXoCauQUzC
+--jipczgpyckh77ast
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl9WT2MACgkQlfZmHno8
-x/5q5Qf+OmaWcIzrt/lcS25wejqy5pTxhDjSytNTrN8Gxzv5pMXBnbZRXkBlG2Is
-+0Q8A2byliMTtdy3KKax7cglRDXrgoWj+uae9Fv3bYkr7OFvpRfNguEU0kzibabA
-Mse73yBnaRQZZfRZplvez4tTYp8LYF2KBT70V6o9YJmHqyK/XMs5YolSDE4YUdxj
-GdSH5FGrBoPWhtgMMANzJu9aozbAG1SE1cpHQT/CSQ8ihRiFiaVCzpDEQKFnKdhg
-0QYUajzkg8sN3fKFIBr2gQbwgblg9K2A2YRjAYPiuCerOqQ5RGtv8cu/m6E045Sh
-aC6pJKqrIwYTwc2vFS/xwQnFpMYcYA==
-=oOCe
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX1ZcYAAKCRDj7w1vZxhR
+xYwCAQDm6F6h2pwNs7Q8EP9XiO/LnXQS0wkHQt2icHMNkTpDBQEAxZclGsOEUXAz
+POMH62A+x8HcwntZ9CRAtQ42hIa3zw8=
+=Mzu7
 -----END PGP SIGNATURE-----
 
---=-7ynDZbhKR8WXoCauQUzC--
+--jipczgpyckh77ast--
 
-
---===============1724383010==
+--===============0260911983==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -155,5 +155,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1724383010==--
-
+--===============0260911983==--
