@@ -1,60 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C7A26015D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 19:04:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C49392603F3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 19:57:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3DF6E516;
-	Mon,  7 Sep 2020 17:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA4B6E517;
+	Mon,  7 Sep 2020 17:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 208096E509;
- Mon,  7 Sep 2020 17:03:59 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id w7so8899139pfi.4;
- Mon, 07 Sep 2020 10:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TqcpdSDPs0LRIseaVhQGu6lq6otZWIdGFe5nmwipIPY=;
- b=nh4IZq0a7cB1grKRk0BQOjqiQdJevhCjPIE3Oy6x4m6BbVWLFoq9yhe8gcIdyQ+7lP
- L/ARBz4ee8hPFMVgcd6jyHh5ZfZ/Dj44nfJpJHIh5mjtp17CcTtMVH18DHpw5OvJb5Cb
- mep0jPyaO4Gl8sZGlvBTmQot8x/DCEkaI4jQWZqaXYzl2pQ/ErTjq3AYqwIjxOLwsXsB
- 1e/b+4Bi4jsxW5+AODtnFMmLTT2LHHWKpfz/zlRbjS2MTSIQ0wK7l3XoOdf0oR5PR9Mc
- EiAkStykT6uUsa15ttcLY70EvLYXZOET/EEdKgqlFkZ/18UM9G1LZwTiODpcmVH9JGYM
- dVnw==
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CBD6E4B5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 17:57:30 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a9so14922277wmm.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 10:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RsFG54GV+NP4F+IIVMuYkYvf7gdGYuBHjlNkFLPcIoM=;
+ b=jXFW2vpqo0B1JyOT5VBIuG9gyefyLdQ0ycGwHcTHninipd8+5VtxLgb8IkgYYvMt+v
+ 8W+GI4P2cd8TxlUpDDrsjBQnd8tqBCLuASSa1+xYojW+R0KHtDvEovie75S1Z6YMzFju
+ JSavVRhxpqkmcQ+s4OQk1bVYh4yKB5g9BqEvk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TqcpdSDPs0LRIseaVhQGu6lq6otZWIdGFe5nmwipIPY=;
- b=T74SuQ0UOmYka71ojPI7b8Bpi0W1yEqaXBEKLR8X7nq/3TxJstFPy/ouHZLuKI4TCz
- gChYdX0ZAK3MnTz7DKUG6EkUH3CvpoiVWYY6vzF1djnZG5VTutjohF8aO/uFNW6+i8Wt
- 7cXy0ehgRtyQLlHam7iIxRKjnVp4UMjNRoxMNGzJVmJ9/yaD2IQusxADY58HU1XHOrJT
- reaHQj+HI5zKlybRlXnSu+FI+5cloFjVVb+g1KODBIourRwL8EFEfmg8RjDoVj13k5lb
- a9ImmvoLVkdf1HcQMjDmVi2fNpLLeBoIt9rk/ZMZPWjqYmbLer+Era2sWyndfZ+2Eb1v
- OkDA==
-X-Gm-Message-State: AOAM531Yav6hd7iKLxD1/FA5vWfFzBEmB0csO2aPJwbO1w0i8RrZZ2uc
- kzKlRp23X9w7jYDbt5yUJY7hW5uvgUu51w==
-X-Google-Smtp-Source: ABdhPJw3IiW7lQ4CJE9PK3gspPmWTcTtJzvH3rq+m+ZOuCjZ76vbaISC0I/9xcIgB2sB9xvdcANNaA==
-X-Received: by 2002:a62:5cc4:: with SMTP id q187mr21209157pfb.95.1599498238018; 
- Mon, 07 Sep 2020 10:03:58 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- l12sm12705425pjq.31.2020.09.07.10.03.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=RsFG54GV+NP4F+IIVMuYkYvf7gdGYuBHjlNkFLPcIoM=;
+ b=eXW047On2LJm80jv0vIjI/xHlR7nb+pmsUzgd4XgF5qr3d2Ck4aHrYVvwFVf2hni9s
+ Rfr89zQrWyKUTSwXJTZiLF58bBVYiBmmDfLgixr78aNrnKgOXzKp1SQcC1SkKlTawo5K
+ vxNLDAgTSfEOKgvokh95E4PQrLT+TZYPRFfEMdtDNuivFpLtKcYqz9c6j6K7UhroNu7p
+ mP7Fuj2hUtUO6kkuP3QK8EfTRbY5gtndvqI3qE4W3n0/k41d5tQZETwJUNDcebuNwS8o
+ Mv+GrT+AonW1d2T4cR09CBvQAJrBNbdoJ4Lys0bleY3Dy/9v61CSbe3hrW89k0Uj1xyL
+ cPcQ==
+X-Gm-Message-State: AOAM532sKP5aJAyA/t9eeREsutKcL/COWqwRl0lrCPoCTeeHtCtnnnkx
+ 3r0MJMVbUd2AGrFQADMTW1/8fw==
+X-Google-Smtp-Source: ABdhPJwkSG6w/oKeAR2zEQQ1pJGVVVgYfJ7bv5Pg1nyA4WyBR3gTj1fQsBdjbM44Fhl2fJnj9VpuFQ==
+X-Received: by 2002:a7b:c387:: with SMTP id s7mr423949wmj.171.1599501448675;
+ Mon, 07 Sep 2020 10:57:28 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 71sm30404303wrm.23.2020.09.07.10.57.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 10:03:56 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm/dpu: clean up some impossibilities
-Date: Mon,  7 Sep 2020 10:04:48 -0700
-Message-Id: <20200907170450.370122-2-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200907170450.370122-1-robdclark@gmail.com>
-References: <20200907170450.370122-1-robdclark@gmail.com>
+ Mon, 07 Sep 2020 10:57:27 -0700 (PDT)
+Date: Mon, 7 Sep 2020 19:57:25 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
+ and fix-ups.
+Message-ID: <20200907175725.GX2352366@phenom.ffwll.local>
+Mail-Followup-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+ <20200907075559.GN2352366@phenom.ffwll.local>
+ <20200907091621.GA30377@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200907091621.GA30377@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,195 +80,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Hongbo Yao <yaohongbo@huawei.com>, open list <linux-kernel@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, Kalyan Thota <kalyan_t@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bjorn@helgaas.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thierry Reding <treding@nvidia.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Sep 07, 2020 at 02:46:21PM +0530, Vaibhav Gupta wrote:
+> On Mon, Sep 07, 2020 at 09:55:59AM +0200, Daniel Vetter wrote:
+> > On Thu, Aug 06, 2020 at 12:52:54PM +0530, Vaibhav Gupta wrote:
+> > > Linux Kernel Mentee: Remove Legacy Power Management. 
+> > > 
+> > > The original goal of the patch series is to upgrade the power management
+> > > framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
+> > > and .resume() callbacks.
+> > > 
+> > > The upgrade makes sure that the involvement of PCI Core does not change the
+> > > order of operations executed in a driver. Thus, does not change its behavior.
+> > > 
+> > > During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
+> > > redundant. This was introduced in the commit
+> > > 42ddb453a0cd ("radeon: Conditionally compile PM code").
+> > 
+> > I do wonder whether it wouldn't be better to just outright delete these,
+> > we have the drm radeon driver for pretty much all the same hardware ...
+> > -Daniel
+> > 
+> Hello Daniel,
+> I don't have any problem in either way. My priority is to get rid of the
+> legacy .suspend and .resume pointers from "struct pci_driver" . Hence, modifying
+> every driver that is using them.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 81 ++++--------------------
- 1 file changed, 12 insertions(+), 69 deletions(-)
+Ok, also sounds like we can't just ditch it outright and merging your
+patches makes sense.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 89c0245b5de5..ad49b0e17fcb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -265,11 +265,6 @@ enum dpu_intf_mode dpu_crtc_get_intf_mode(struct drm_crtc *crtc)
- {
- 	struct drm_encoder *encoder;
- 
--	if (!crtc) {
--		DPU_ERROR("invalid crtc\n");
--		return INTF_MODE_NONE;
--	}
--
- 	/*
- 	 * TODO: This function is called from dpu debugfs and as part of atomic
- 	 * check. When called from debugfs, the crtc->mutex must be held to
-@@ -500,12 +495,6 @@ static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
- 	struct dpu_crtc_state *cstate;
- 	struct drm_encoder *encoder;
- 	struct drm_device *dev;
--	unsigned long flags;
--
--	if (!crtc) {
--		DPU_ERROR("invalid crtc\n");
--		return;
--	}
- 
- 	if (!crtc->state->enable) {
- 		DPU_DEBUG("crtc%d -> enable %d, skip atomic_begin\n",
-@@ -521,15 +510,6 @@ static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
- 
- 	_dpu_crtc_setup_lm_bounds(crtc, crtc->state);
- 
--	if (dpu_crtc->event) {
--		WARN_ON(dpu_crtc->event);
--	} else {
--		spin_lock_irqsave(&dev->event_lock, flags);
--		dpu_crtc->event = crtc->state->event;
--		crtc->state->event = NULL;
--		spin_unlock_irqrestore(&dev->event_lock, flags);
--	}
--
- 	/* encoder will trigger pending mask now */
- 	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
- 		dpu_encoder_trigger_kickoff_pending(encoder);
-@@ -583,14 +563,11 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
- 		return;
- 	}
- 
--	if (dpu_crtc->event) {
--		DPU_DEBUG("already received dpu_crtc->event\n");
--	} else {
--		spin_lock_irqsave(&dev->event_lock, flags);
--		dpu_crtc->event = crtc->state->event;
--		crtc->state->event = NULL;
--		spin_unlock_irqrestore(&dev->event_lock, flags);
--	}
-+	WARN_ON(dpu_crtc->event);
-+	spin_lock_irqsave(&dev->event_lock, flags);
-+	dpu_crtc->event = crtc->state->event;
-+	crtc->state->event = NULL;
-+	spin_unlock_irqrestore(&dev->event_lock, flags);
- 
- 	/*
- 	 * If no mixers has been allocated in dpu_crtc_atomic_check(),
-@@ -635,14 +612,7 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
- static void dpu_crtc_destroy_state(struct drm_crtc *crtc,
- 		struct drm_crtc_state *state)
- {
--	struct dpu_crtc_state *cstate;
--
--	if (!crtc || !state) {
--		DPU_ERROR("invalid argument(s)\n");
--		return;
--	}
--
--	cstate = to_dpu_crtc_state(state);
-+	struct dpu_crtc_state *cstate = to_dpu_crtc_state(state);
- 
- 	DPU_DEBUG("crtc%d\n", crtc->base.id);
- 
-@@ -731,14 +701,8 @@ static void dpu_crtc_reset(struct drm_crtc *crtc)
-  */
- static struct drm_crtc_state *dpu_crtc_duplicate_state(struct drm_crtc *crtc)
- {
--	struct dpu_crtc_state *cstate, *old_cstate;
--
--	if (!crtc || !crtc->state) {
--		DPU_ERROR("invalid argument(s)\n");
--		return NULL;
--	}
-+	struct dpu_crtc_state *cstate, *old_cstate = to_dpu_crtc_state(crtc->state);
- 
--	old_cstate = to_dpu_crtc_state(crtc->state);
- 	cstate = kmemdup(old_cstate, sizeof(*old_cstate), GFP_KERNEL);
- 	if (!cstate) {
- 		DPU_ERROR("failed to allocate state\n");
-@@ -754,19 +718,12 @@ static struct drm_crtc_state *dpu_crtc_duplicate_state(struct drm_crtc *crtc)
- static void dpu_crtc_disable(struct drm_crtc *crtc,
- 			     struct drm_crtc_state *old_crtc_state)
- {
--	struct dpu_crtc *dpu_crtc;
--	struct dpu_crtc_state *cstate;
-+	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
-+	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
- 	struct drm_encoder *encoder;
- 	unsigned long flags;
- 	bool release_bandwidth = false;
- 
--	if (!crtc || !crtc->state) {
--		DPU_ERROR("invalid crtc\n");
--		return;
--	}
--	dpu_crtc = to_dpu_crtc(crtc);
--	cstate = to_dpu_crtc_state(crtc->state);
--
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
- 
- 	/* Disable/save vblank irq handling */
-@@ -825,19 +782,13 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- static void dpu_crtc_enable(struct drm_crtc *crtc,
- 		struct drm_crtc_state *old_crtc_state)
- {
--	struct dpu_crtc *dpu_crtc;
-+	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct drm_encoder *encoder;
- 	bool request_bandwidth = false;
- 
--	if (!crtc) {
--		DPU_ERROR("invalid crtc\n");
--		return;
--	}
--
- 	pm_runtime_get_sync(crtc->dev->dev);
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
--	dpu_crtc = to_dpu_crtc(crtc);
- 
- 	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
- 		/* in video mode, we hold an extra bandwidth reference
-@@ -873,9 +824,9 @@ struct plane_state {
- static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 		struct drm_crtc_state *state)
- {
--	struct dpu_crtc *dpu_crtc;
-+	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
-+	struct dpu_crtc_state *cstate = to_dpu_crtc_state(state);
- 	struct plane_state *pstates;
--	struct dpu_crtc_state *cstate;
- 
- 	const struct drm_plane_state *pstate;
- 	struct drm_plane *plane;
-@@ -889,16 +840,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	int left_zpos_cnt = 0, right_zpos_cnt = 0;
- 	struct drm_rect crtc_rect = { 0 };
- 
--	if (!crtc) {
--		DPU_ERROR("invalid crtc\n");
--		return -EINVAL;
--	}
--
- 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
- 
--	dpu_crtc = to_dpu_crtc(crtc);
--	cstate = to_dpu_crtc_state(state);
--
- 	if (!state->enable || !state->active) {
- 		DPU_DEBUG("crtc%d -> enable %d, active %d, skip atomic_check\n",
- 				crtc->base.id, state->enable, state->active);
+Please note that Bart (he's usually picking up the fbdev patches) is on
+vacations until next week, I guess he'll then go and vacuum up everything
+for 5.10 as he usually does.
+
+Cheers, Daniel
+
+> 
+> Vaibhav Gupta
+> > > 
+> > > ------------
+> > > 
+> > > Before 42ddb453a0cd:
+> > > $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
+> > > 
+> > > Based on output in terminal:
+> > > 
+> > > 547:#ifdef CONFIG_PM
+> > >        |-- 959:#ifdef CONFIG_PPC_PMAC
+> > >        |-- 972:#endif
+> > >        |-- 1291:#ifdef CONFIG_PPC_OF
+> > >        |-- 1301:#endif /* CONFIG_PPC_OF */
+> > >        |-- 1943:#ifdef CONFIG_PPC_OF
+> > >                    |-- 2206:#if 0 /* Not ready yet */
+> > >                    |-- 2508:#endif /* 0 */
+> > >        |-- 2510:#endif /* CONFIG_PPC_OF */
+> > >        |-- 2648:#ifdef CONFIG_PPC_PMAC
+> > >        |-- 2654:#endif /* CONFIG_PPC_PMAC */
+> > >        |-- 2768:#ifdef CONFIG_PPC_PMAC
+> > >        |-- 2774:#endif /* CONFIG_PPC_PMAC */
+> > >        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
+> > >        |-- 2801:#endif /* CONFIG_PPC_OF */
+> > > 2803:#endif /* CONFIG_PM */
+> > > 
+> > > ------------
+> > > 
+> > > After 42ddb453a0cd:
+> > > $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
+> > > 
+> > > Based on output in terminal:
+> > > 
+> > > 547:#ifdef CONFIG_PM
+> > >        |-- 959:#ifdef CONFIG_PPC_PMAC
+> > >        |-- 972:#endif
+> > >        |-- 1291:#ifdef CONFIG_PPC_OF
+> > >        |-- 1301:#endif /* CONFIG_PPC_OF */
+> > >        |-- 1430:#if defined(CONFIG_PM)
+> > >                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
+> > >                    |-- 1944:#endif
+> > >                    |-- 1946:#ifdef CONFIG_PPC_OF
+> > >                                |-- 1947:#ifdef CONFIG_PPC_PMAC
+> > >                                |-- 2208:#endif
+> > >                    |-- 2209:#endif
+> > >                    |-- 2211:#if 0 /* Not ready yet */
+> > >                    |-- 2513:#endif /* 0 */
+> > >        |-- 2515:#endif /* CONFIG_PPC_OF */
+> > >        |-- 2653:#ifdef CONFIG_PPC_PMAC
+> > >        |-- 2659:#endif /* CONFIG_PPC_PMAC */
+> > >        |-- 2773:#ifdef CONFIG_PPC_PMAC
+> > >        |-- 2779:#endif /* CONFIG_PPC_PMAC */
+> > >        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
+> > >        |-- 2806:#endif /* CONFIG_PPC_OF */
+> > > 2808:#endif /* CONFIG_PM */
+> > > 
+> > > ------------
+> > > 
+> > > This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
+> > > 
+> > > The patch-series fixes it along with PM upgrade.
+> > > 
+> > > All patches are compile-tested only.
+> > > 
+> > > Test tools:
+> > >     - Compiler: gcc (GCC) 10.1.0
+> > >     - allmodconfig build: make -j$(nproc) W=1 all
+> > > 
+> > > Vaibhav Gupta (2):
+> > >   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
+> > >   fbdev: radeonfb:use generic power management
+> > > 
+> > >  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
+> > >  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
+> > >  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
+> > >  3 files changed, 35 insertions(+), 16 deletions(-)
+> > > 
+> > > -- 
+> > > 2.27.0
+> > > 
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 -- 
-2.26.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
