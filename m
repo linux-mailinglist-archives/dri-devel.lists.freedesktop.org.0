@@ -1,40 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAA625FAE4
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 15:00:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 687AA25FAF9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 15:07:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1E26E450;
-	Mon,  7 Sep 2020 13:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 447CB89FD9;
+	Mon,  7 Sep 2020 13:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB0B6E44E;
- Mon,  7 Sep 2020 13:00:46 +0000 (UTC)
-IronPort-SDR: U0XwZ+XrCDlOOB2QQjLxRta0ajuFEF/x9v83bIs7SkUOB3pWQbke2LVjA5CS5IQ9X2KSS7mDGK
- yvTDLlQpSX7w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="145707582"
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; d="scan'208";a="145707582"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2020 06:00:45 -0700
-IronPort-SDR: Fk7Z+/7Q7bfMqSWdcEvH9638S6jp/kZXDh6h+CWgPtooP+mloSphgfktjsn88LYgfPPlkjm03i
- n/jfjuFmB8qw==
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; d="scan'208";a="479634341"
-Received: from jazminsx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.24.158])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2020 06:00:42 -0700
-Date: Mon, 7 Sep 2020 16:00:39 +0300
-From: Joonas Lahtinen <jlahtine@jlahtine-mobl.ger.corp.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <20200907130039.GA27766@jlahtine-mobl.ger.corp.intel.com>
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F77C89FD9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 13:07:46 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id g4so12793663edk.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 06:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X3D8B6jlxOAJ39N1wax3GpsrHGllV39rK7js9TE4MFg=;
+ b=mRYOTwC7XC0gfQztuDaJ9ANAyxqG7VR4GUmVJhrZQCQS6hdUVO+ykq8CEoNCa7W/IC
+ Q0JmhCZO2B8WE5E5d1PnZZoPz+G6Z1sX3ohr3v17Yefx4sZwuSOvaGKGhNhoP0Vm325Z
+ 5du4UNR7x6b1cwxUfgRYVxk3ZnjWBjI14dCkA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X3D8B6jlxOAJ39N1wax3GpsrHGllV39rK7js9TE4MFg=;
+ b=kp4vzKYs2nO/lwEzugjPy7b2aGcD+QwnRBqNS2PNG1ZIqXQelWpqinVKRWfWELVho/
+ E5Dzvh5cn+BADnk4NgOOe85qo/liWsDZUhYo0Myl2OdmNzvKccSOTQqWbqr5kMv4Kuiz
+ Zeh8XbP+/R0SmqMCsEviGvxJYqHmey9Yv/A3NSxD3Jwx13OmvdXM+hjHJR3aoEZV0SWT
+ oKnyQUf3v+b9K9DkGOJQhK6GBdCD0xHjAtVHYehdhun/NkqjwhmLzSn1CVg+qqG5rJPm
+ eT5eWqvkKTuZGRcx17mbNNDviT1c4XS5xohG2SdtyVwIa09gWqcFfJ2CeVUgeqDA1jb4
+ rP3A==
+X-Gm-Message-State: AOAM533LCKvGS43RQa7zvCr13186KVu4a9kCStnPLLkaGwUb8adluQ2Y
+ 4q7dPpcnrfPj9OBOElQux6HG4xIHIrJ7vw==
+X-Google-Smtp-Source: ABdhPJwl27FPXJTpdprey2ZP/GJFvC+a0MonurR60h5f+j59e+DM0JXkSn5txgAvGR1o/XVmEOyCQw==
+X-Received: by 2002:a05:6402:696:: with SMTP id
+ f22mr6878957edy.290.1599484064423; 
+ Mon, 07 Sep 2020 06:07:44 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com.
+ [209.85.221.43])
+ by smtp.gmail.com with ESMTPSA id lg22sm16013080ejb.48.2020.09.07.06.07.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Sep 2020 06:07:43 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id a17so15728864wrn.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 06:07:43 -0700 (PDT)
+X-Received: by 2002:adf:d0cb:: with SMTP id z11mr20692073wrh.192.1599484062899; 
+ Mon, 07 Sep 2020 06:07:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <CGME20200904133512eucas1p204efa4e252ceb5fb50715239705f9965@eucas1p2.samsung.com>
+ <20200904131711.12950-1-m.szyprowski@samsung.com>
+ <20200904131711.12950-31-m.szyprowski@samsung.com>
+In-Reply-To: <20200904131711.12950-31-m.szyprowski@samsung.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Mon, 7 Sep 2020 15:07:31 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5AZDzG6i00gcAZKM9ZV1tATWufL=+xXUAmgrbTPt8W6Gw@mail.gmail.com>
+Message-ID: <CAAFQd5AZDzG6i00gcAZKM9ZV1tATWufL=+xXUAmgrbTPt8W6Gw@mail.gmail.com>
+Subject: Re: [PATCH v10 30/30] videobuf2: use sgtable-based scatterlist
+ wrappers
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,287 +72,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+Hi Marek,
 
-Exactly same content as previous PR:
+On Fri, Sep 4, 2020 at 3:35 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Use recently introduced common wrappers operating directly on the struct
+> sg_table objects and scatterlist page iterators to make the code a bit
+> more compact, robust, easier to follow and copy/paste safe.
+>
+> No functional change, because the code already properly did all the
+> scatterlist related calls.
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
+>  .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
+>  .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
+>  3 files changed, 31 insertions(+), 47 deletions(-)
+>
 
-https://lists.freedesktop.org/archives/intel-gfx/2020-September/247626.html
+Thanks for the patch! Please see my comments inline.
 
-Just rebased adding the missing S-o-b:s and updated "Fixes:" tags according=
-ly
-as requested.
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index ec3446cc45b8..1b242d844dde 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+>         unsigned int i;
+>         unsigned long size = 0;
+>
+> -       for_each_sg(sgt->sgl, s, sgt->nents, i) {
+> +       for_each_sgtable_dma_sg(sgt, s, i) {
+>                 if (sg_dma_address(s) != expected)
+>                         break;
+> -               expected = sg_dma_address(s) + sg_dma_len(s);
+> +               expected += sg_dma_len(s);
+>                 size += sg_dma_len(s);
+>         }
+>         return size;
+> @@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
+>         if (!sgt)
+>                 return;
+>
+> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                              buf->dma_dir);
+> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>  }
+>
+>  static void vb2_dc_finish(void *buf_priv)
+> @@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
+>         if (!sgt)
+>                 return;
+>
+> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>  }
+>
+>  /*********************************************/
+> @@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
+>                  * memory locations do not require any explicit cache
+>                  * maintenance prior or after being used by the device.
+>                  */
+> -               dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                                  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+>         sg_free_table(sgt);
+>         kfree(attach);
+>         db_attach->priv = NULL;
+> @@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+>
+>         /* release any previous cache */
+>         if (attach->dma_dir != DMA_NONE) {
+> -               dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                                  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+>                 attach->dma_dir = DMA_NONE;
+>         }
+>
+> @@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+>          * mapping to the client with new direction, no cache sync
+>          * required see comment in vb2_dc_dmabuf_ops_detach()
+>          */
+> -       sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                                     dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -       if (!sgt->nents) {
+> +       if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
+> +                           DMA_ATTR_SKIP_CPU_SYNC)) {
+>                 pr_err("failed to map scatterlist\n");
+>                 mutex_unlock(lock);
+>                 return ERR_PTR(-EIO);
 
-Regards, Joonas
+As opposed to dma_map_sg_attrs(), dma_map_sgtable() now returns an
+error code on its own. Is it expected to ignore it and return -EIO?
 
-***
+> @@ -455,8 +453,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
+>                  * No need to sync to CPU, it's already synced to the CPU
+>                  * since the finish() memop will have been called before this.
+>                  */
+> -               dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                                  buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +               dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+>                 pages = frame_vector_pages(buf->vec);
+>                 /* sgt should exist only if vector contains pages... */
+>                 BUG_ON(IS_ERR(pages));
+> @@ -553,9 +551,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
+>          * No need to sync to the device, this will happen later when the
+>          * prepare() memop is called.
+>          */
+> -       sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                                     buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -       if (sgt->nents <= 0) {
+> +       if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +                           DMA_ATTR_SKIP_CPU_SYNC)) {
+>                 pr_err("failed to map scatterlist\n");
+>                 ret = -EIO;
 
-drm-intel-gt-next-2020-09-07:
+Ditto.
 
-(Same content as drm-intel-gt-next-2020-09-04-3, S-o-b's added)
+>                 goto fail_sgt_init;
+> @@ -577,8 +574,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
+>         return buf;
+>
+>  fail_map_sg:
+> -       dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                          buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +       dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>
+>  fail_sgt_init:
+>         sg_free_table(sgt);
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 0a40e00f0d7e..0dd3b19025e0 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -148,9 +148,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
+>          * No need to sync to the device, this will happen later when the
+>          * prepare() memop is called.
+>          */
+> -       sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                                     buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -       if (!sgt->nents)
+> +       if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +                           DMA_ATTR_SKIP_CPU_SYNC))
+>                 goto fail_map;
+>
 
-UAPI Changes:
-(- Potential implicit changes from WW locking refactoring)
+Ditto.
 
-Cross-subsystem Changes:
-(- WW locking changes should align the i915 locking more with others)
+>         buf->handler.refcount = &buf->refcount;
+> @@ -186,8 +185,8 @@ static void vb2_dma_sg_put(void *buf_priv)
+>         if (refcount_dec_and_test(&buf->refcount)) {
+>                 dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
+>                         buf->num_pages);
+> -               dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                                  buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +               dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+>                 if (buf->vaddr)
+>                         vm_unmap_ram(buf->vaddr, buf->num_pages);
+>                 sg_free_table(buf->dma_sgt);
+> @@ -204,8 +203,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
+>         struct vb2_dma_sg_buf *buf = buf_priv;
+>         struct sg_table *sgt = buf->dma_sgt;
+>
+> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                              buf->dma_dir);
+> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>  }
+>
+>  static void vb2_dma_sg_finish(void *buf_priv)
+> @@ -213,7 +211,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
+>         struct vb2_dma_sg_buf *buf = buf_priv;
+>         struct sg_table *sgt = buf->dma_sgt;
+>
+> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>  }
+>
+>  static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+> @@ -256,9 +254,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+>          * No need to sync to the device, this will happen later when the
+>          * prepare() memop is called.
+>          */
+> -       sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -                                     buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -       if (!sgt->nents)
+> +       if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +                           DMA_ATTR_SKIP_CPU_SYNC))
+>                 goto userptr_fail_map;
+>
 
-Driver Changes:
+Ditto.
 
-- MAJOR: Apply WW locking across the driver (Maarten)
+>         return buf;
+> @@ -284,8 +281,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
+>
+>         dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
+>                __func__, buf->num_pages);
+> -       dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
+> -                          DMA_ATTR_SKIP_CPU_SYNC);
+> +       dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>         if (buf->vaddr)
+>                 vm_unmap_ram(buf->vaddr, buf->num_pages);
+>         sg_free_table(buf->dma_sgt);
+> @@ -408,8 +404,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
+>
+>         /* release the scatterlist cache */
+>         if (attach->dma_dir != DMA_NONE)
+> -               dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                       attach->dma_dir);
+> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>         sg_free_table(sgt);
+>         kfree(attach);
+>         db_attach->priv = NULL;
+> @@ -434,15 +429,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
+>
+>         /* release any previous cache */
+>         if (attach->dma_dir != DMA_NONE) {
+> -               dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                       attach->dma_dir);
+> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>                 attach->dma_dir = DMA_NONE;
+>         }
+>
+>         /* mapping to the client with new direction */
+> -       sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                               dma_dir);
+> -       if (!sgt->nents) {
+> +       if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+>                 pr_err("failed to map scatterlist\n");
+>                 mutex_unlock(lock);
+>                 return ERR_PTR(-EIO);
 
-- Reverts for 5 commits to make applying WW locking faster (Maarten)
-- Disable preparser around invalidations on Tigerlake for non-RCS engines (=
-Chris)
-- Add missing dma_fence_put() for error case of syncobj timeline (Chris)
-- Parse command buffer earlier in eb_relocate(slow) to facilitate backoff (=
-Maarten)
-- Pin engine before pinning all objects (Maarten)
-- Rework intel_context pinning to do everything outside of pin_mutex (Maart=
-en)
+Ditto.
 
-- Avoid tracking GEM context until registered (Cc: stable, Chris)
-- Provide a fastpath for waiting on vma bindings (Chris)
-- Fixes to preempt-to-busy mechanism (Chris)
-- Distinguish the virtual breadcrumbs from the irq breadcrumbs (Chris)
-- Switch to object allocations for page directories (Chris)
-- Hold context/request reference while breadcrumbs are active (Chris)
-- Make sure execbuffer always passes ww state to i915_vma_pin (Maarten)
+> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> index c66fda4a65e4..bf5ac63a5742 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> @@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
+>                 kfree(attach);
+>                 return ret;
+>         }
+> -       for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+> +       for_each_sgtable_sg(sgt, sg, i) {
+>                 struct page *page = vmalloc_to_page(vaddr);
+>
+>                 if (!page) {
+> @@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
+>
+>         /* release the scatterlist cache */
+>         if (attach->dma_dir != DMA_NONE)
+> -               dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                       attach->dma_dir);
+> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>         sg_free_table(sgt);
+>         kfree(attach);
+>         db_attach->priv = NULL;
+> @@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
+>
+>         /* release any previous cache */
+>         if (attach->dma_dir != DMA_NONE) {
+> -               dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                       attach->dma_dir);
+> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>                 attach->dma_dir = DMA_NONE;
+>         }
+>
+>         /* mapping to the client with new direction */
+> -       sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -                               dma_dir);
+> -       if (!sgt->nents) {
+> +       if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+>                 pr_err("failed to map scatterlist\n");
+>                 mutex_unlock(lock);
+>                 return ERR_PTR(-EIO);
 
-- Code refactoring to facilitate use of WW locking (Maarten)
-- Locking refactoring to use more granular locking (Maarten, Chris)
-- Support for multiple pinned timelines per engine (Chris)
-- Move complication of I915_GEM_THROTTLE to the ioctl from general code (Ch=
-ris)
-- Make active tracking/vma page-directory stash work preallocated (Chris)
-- Avoid flushing submission tasklet too often (Chris)
-- Reduce context termination list iteration guard to RCU (Chris)
-- Reductions to locking contention (Chris)
-- Fixes for issues found by CI (Chris)
-The following changes since commit 3393649977f9a8847c659e282ea290d4b703295c:
+Ditto.
 
-  Merge tag 'drm-intel-next-2020-08-24-1' of git://anongit.freedesktop.org/=
-drm/drm-intel into drm-next (2020-08-28 14:09:31 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2020-0=
-9-07
-
-for you to fetch changes up to e0ee152fce25dc9269c7ea5280c98aa4b3682759:
-
-  drm/i915: Unlock the shared hwsp_gtt object after pinning (2020-09-07 15:=
-08:11 +0300)
-
-----------------------------------------------------------------
-(Same content as drm-intel-gt-next-2020-09-04-3, S-o-b's added)
-
-UAPI Changes:
-(- Potential implicit changes from WW locking refactoring)
-
-Cross-subsystem Changes:
-(- WW locking changes should align the i915 locking more with others)
-
-Driver Changes:
-
-- MAJOR: Apply WW locking across the driver (Maarten)
-
-- Reverts for 5 commits to make applying WW locking faster (Maarten)
-- Disable preparser around invalidations on Tigerlake for non-RCS engines (=
-Chris)
-- Add missing dma_fence_put() for error case of syncobj timeline (Chris)
-- Parse command buffer earlier in eb_relocate(slow) to facilitate backoff (=
-Maarten)
-- Pin engine before pinning all objects (Maarten)
-- Rework intel_context pinning to do everything outside of pin_mutex (Maart=
-en)
-
-- Avoid tracking GEM context until registered (Cc: stable, Chris)
-- Provide a fastpath for waiting on vma bindings (Chris)
-- Fixes to preempt-to-busy mechanism (Chris)
-- Distinguish the virtual breadcrumbs from the irq breadcrumbs (Chris)
-- Switch to object allocations for page directories (Chris)
-- Hold context/request reference while breadcrumbs are active (Chris)
-- Make sure execbuffer always passes ww state to i915_vma_pin (Maarten)
-
-- Code refactoring to facilitate use of WW locking (Maarten)
-- Locking refactoring to use more granular locking (Maarten, Chris)
-- Support for multiple pinned timelines per engine (Chris)
-- Move complication of I915_GEM_THROTTLE to the ioctl from general code (Ch=
-ris)
-- Make active tracking/vma page-directory stash work preallocated (Chris)
-- Avoid flushing submission tasklet too often (Chris)
-- Reduce context termination list iteration guard to RCU (Chris)
-- Reductions to locking contention (Chris)
-- Fixes for issues found by CI (Chris)
-
-----------------------------------------------------------------
-Chris Wilson (33):
-      drm/i915: Reduce i915_request.lock contention for i915_request_wait
-      drm/i915/selftests: Mock the status_page.vma for the kernel_context
-      drm/i915: Soften the tasklet flush frequency before waits
-      drm/i915/gem: Remove disordered per-file request list for throttling
-      drm/i915/gt: Disable preparser around xcs invalidations on tgl
-      drm/i915/gt: Delay taking the spinlock for grabbing from the buffer p=
-ool
-      drm/i915/selftests: Flush the active barriers before asserting
-      drm/i915/gt: Fix termination condition for freeing all buffer objects
-      drm/i915/gem: Delay tracking the GEM context until it is registered
-      drm/i915/gt: Support multiple pinned timelines
-      drm/i915/gt: Pull release of node->age under the spinlock
-      drm/i915/selftests: Drop stale timeline constructor assert
-      drm/i915: Skip taking acquire mutex for no ref->active callback
-      drm/i915: Export a preallocate variant of i915_active_acquire()
-      drm/i915: Keep the most recently used active-fence upon discard
-      drm/i915: Make the stale cached active node available for any timeline
-      drm/i915: Reduce locking around i915_active_acquire_preallocate_barri=
-er()
-      drm/i915: Provide a fastpath for waiting on vma bindings
-      drm/i915: Remove requirement for holding i915_request.lock for breadc=
-rumbs
-      drm/i915/gt: Replace intel_engine_transfer_stale_breadcrumbs
-      drm/i915/gt: Only transfer the virtual context to the new engine if a=
-ctive
-      drm/i915/gt: Distinguish the virtual breadcrumbs from the irq breadcr=
-umbs
-      drm/i915: Preallocate stashes for vma page-directories
-      drm/i915/gt: Switch to object allocations for page directories
-      drm/i915/gt: Shrink i915_page_directory's slab bucket
-      drm/i915/gt: Move intel_breadcrumbs_arm_irq earlier
-      drm/i915/gt: Hold context/request reference while breadcrumbs are act=
-ive
-      drm/i915/selftests: Prevent selecting 0 for our random width/align
-      drm/i915/gem: Reduce context termination list iteration guard to RCU
-      drm/i915/gem: Free the fence after a fence-chain lookup failure
-      drm/i915: Be wary of data races when reading the active execlists
-      drm/i915: Remove i915_request.lock requirement for execution callbacks
-      drm/i915: Filter wake_flags passed to default_wake_function
-
-Maarten Lankhorst (23):
-      Revert "drm/i915/gem: Async GPU relocations only"
-      drm/i915: Revert relocation chaining commits.
-      Revert "drm/i915/gem: Drop relocation slowpath".
-      Revert "drm/i915/gem: Split eb_vma into its own allocation"
-      drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.
-      drm/i915: Remove locking from i915_gem_object_prepare_read/write
-      drm/i915: Parse command buffer earlier in eb_relocate(slow)
-      drm/i915: Use per object locking in execbuf, v12.
-      drm/i915: Use ww locking in intel_renderstate.
-      drm/i915: Add ww context handling to context_barrier_task
-      drm/i915: Nuke arguments to eb_pin_engine
-      drm/i915: Pin engine before pinning all objects, v5.
-      drm/i915: Rework intel_context pinning to do everything outside of pi=
-n_mutex
-      drm/i915: Make sure execbuffer always passes ww state to i915_vma_pin.
-      drm/i915: Convert i915_gem_object/client_blt.c to use ww locking as w=
-ell, v2.
-      drm/i915: Kill last user of intel_context_create_request outside of s=
-elftests
-      drm/i915: Convert i915_perf to ww locking as well
-      drm/i915: Dirty hack to fix selftests locking inversion
-      drm/i915/selftests: Fix locking inversion in lrc selftest.
-      drm/i915: Use ww pinning for intel_context_create_request()
-      drm/i915: Move i915_vma_lock in the selftests to avoid lock inversion=
-, v3.
-      drm/i915: Add ww locking to vm_fault_gtt
-      drm/i915: Add ww locking to pin_to_display_plane, v2.
-
-Thomas Hellstr=F6m (1):
-      drm/i915: Unlock the shared hwsp_gtt object after pinning
-
- drivers/gpu/drm/i915/display/intel_display.c       |    6 +-
- drivers/gpu/drm/i915/gem/i915_gem_client_blt.c     |   89 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |  105 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |    4 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c         |   80 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     | 1601 +++++++++++++---=
-----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |   51 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.h         |   40 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_blt.c     |  152 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_blt.h     |    3 +
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |   10 +
- drivers/gpu/drm/i915/gem/i915_gem_pm.c             |    2 +-
- drivers/gpu/drm/i915/gem/i915_gem_throttle.c       |   67 +-
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |    2 +-
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c    |    9 +-
- .../drm/i915/gem/selftests/i915_gem_client_blt.c   |    2 +-
- .../drm/i915/gem/selftests/i915_gem_coherency.c    |   50 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  144 +-
- .../drm/i915/gem/selftests/i915_gem_execbuffer.c   |   60 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |   45 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c |    2 +-
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |  106 +-
- drivers/gpu/drm/i915/gt/gen6_ppgtt.h               |    5 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  181 +--
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c        |  305 ++--
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.h        |   36 +
- drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h  |   47 +
- drivers/gpu/drm/i915/gt/intel_context.c            |  318 ++--
- drivers/gpu/drm/i915/gt/intel_context.h            |   13 +
- drivers/gpu/drm/i915/gt/intel_context_types.h      |    5 +-
- drivers/gpu/drm/i915/gt/intel_engine.h             |   20 -
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   34 +-
- drivers/gpu/drm/i915/gt/intel_engine_pm.c          |    3 +-
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |   31 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |   97 +-
- drivers/gpu/drm/i915/gt/intel_gt.c                 |   23 +-
- drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c     |  103 +-
- .../gpu/drm/i915/gt/intel_gt_buffer_pool_types.h   |    6 +-
- drivers/gpu/drm/i915/gt/intel_gt_irq.c             |    1 +
- drivers/gpu/drm/i915/gt/intel_gtt.c                |  300 +---
- drivers/gpu/drm/i915/gt/intel_gtt.h                |  142 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  182 ++-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c              |  150 +-
- drivers/gpu/drm/i915/gt/intel_renderstate.c        |   73 +-
- drivers/gpu/drm/i915/gt/intel_renderstate.h        |    9 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |    1 +
- drivers/gpu/drm/i915/gt/intel_ring.c               |   10 +-
- drivers/gpu/drm/i915/gt/intel_ring.h               |    3 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    |   42 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |    1 +
- drivers/gpu/drm/i915/gt/intel_timeline.c           |   28 +-
- drivers/gpu/drm/i915/gt/intel_timeline.h           |   24 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |   43 +-
- drivers/gpu/drm/i915/gt/mock_engine.c              |   30 +-
- drivers/gpu/drm/i915/gt/selftest_context.c         |    2 +
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |   22 +-
- drivers/gpu/drm/i915/gt/selftest_rps.c             |   30 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c        |   10 +-
- drivers/gpu/drm/i915/gt/selftest_workarounds.c     |    2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |    2 +-
- drivers/gpu/drm/i915/gvt/cmd_parser.c              |    3 +-
- drivers/gpu/drm/i915/gvt/scheduler.c               |   17 +-
- drivers/gpu/drm/i915/i915_active.c                 |  237 ++-
- drivers/gpu/drm/i915/i915_active.h                 |   31 +-
- drivers/gpu/drm/i915/i915_drv.c                    |    2 +-
- drivers/gpu/drm/i915/i915_drv.h                    |   24 +-
- drivers/gpu/drm/i915/i915_gem.c                    |  107 +-
- drivers/gpu/drm/i915/i915_gem.h                    |   12 +
- drivers/gpu/drm/i915/i915_irq.c                    |    1 +
- drivers/gpu/drm/i915/i915_perf.c                   |   57 +-
- drivers/gpu/drm/i915/i915_request.c                |  224 +--
- drivers/gpu/drm/i915/i915_request.h                |    8 -
- drivers/gpu/drm/i915/i915_sw_fence.c               |   10 +-
- drivers/gpu/drm/i915/i915_vma.c                    |   65 +-
- drivers/gpu/drm/i915/i915_vma.h                    |   13 +-
- drivers/gpu/drm/i915/selftests/i915_gem.c          |   41 +
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   75 +-
- drivers/gpu/drm/i915/selftests/i915_perf.c         |    4 +-
- drivers/gpu/drm/i915/selftests/i915_request.c      |   18 +-
- drivers/gpu/drm/i915/selftests/i915_vma.c          |    2 +-
- .../gpu/drm/i915/selftests/intel_memory_region.c   |    8 +-
- drivers/gpu/drm/i915/selftests/mock_gtt.c          |   26 +-
- 82 files changed, 3743 insertions(+), 2206 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_breadcrumbs.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h
+Best regards,
+Tomasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
