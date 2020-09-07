@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7C8260517
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 21:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3FE26052F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 21:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA7ED6E530;
-	Mon,  7 Sep 2020 19:24:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC6B36E544;
+	Mon,  7 Sep 2020 19:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6489A6E530
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 19:24:23 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+X-Greylist: delayed 582 seconds by postgrey-1.36 at gabe;
+ Mon, 07 Sep 2020 19:35:34 UTC
+Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8459F6E544
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 19:35:34 +0000 (UTC)
+Received: from mail.abrecht.li (unknown [10.60.1.3])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 0B33820033;
- Mon,  7 Sep 2020 21:24:19 +0200 (CEST)
-Date: Mon, 7 Sep 2020 21:24:18 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: add TDO tl070wsh30
- DSI panel bindings
-Message-ID: <20200907192418.GA558348@ravnborg.org>
-References: <20200907111027.21933-1-narmstrong@baylibre.com>
- <20200907111027.21933-3-narmstrong@baylibre.com>
- <20200907114552.GA526406@ravnborg.org>
- <358ee0c3-fe1c-b9b6-9ed8-086f9d14afd9@baylibre.com>
+ by abrecht.li (Postfix) with ESMTPSA id 1EF6B2D972E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 19:25:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li 1EF6B2D972E6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=danielabrecht.ch;
+ s=mail; t=1599506750;
+ bh=ihbRRJ+fy8MjMT6ZBXsNCndxLBIJRdbV9FnAl7YJqNY=; h=From:To:From;
+ b=LfEe//fFV/byu3mJkAUlHYVTVX8mqEqd7DMQXFNBuLwoGd9u/s6YYzjdoQ49k9VHU
+ X4ryVxr9glo//GNrT3sK1P+Rv7GTKYxa0sPwWTI0vM60clk06KgLXdIRGtZTKINySm
+ MHBNyEOnK4a89TLy0y6DdsscSHyhxGVqyY5jtEQ8=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <358ee0c3-fe1c-b9b6-9ed8-086f9d14afd9@baylibre.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=IpJZQVW2AAAA:8 a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8
- a=26pVUN82OfOXP9tGjk4A:9 a=CjuIK1q_8ugA:10 a=IawgGOuG5U0WyFbmm1f5:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
+Date: Mon, 07 Sep 2020 19:25:50 +0000
+From: Daniel Abrecht <freedesktop-linux-dri-devel@danielabrecht.ch>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: mxsfb: check framebuffer pitch
+In-Reply-To: <20200907160343.124405-1-stefan@agner.ch>
+References: <20200907160343.124405-1-stefan@agner.ch>
+Message-ID: <1053506ddfbb352ba0fe96c6576f78fd@abrecht.li>
+X-Sender: freedesktop-linux-dri-devel@danielabrecht.ch
+User-Agent: Roundcube Webmail/1.3.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,130 +48,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, thierry.reding@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil.
+Am 2020-09-07 16:03, schrieb Stefan Agner:
+> The lcdif IP does not support a framebuffer pitch (stride) other than
+> the CRTC width.
 
-On Mon, Sep 07, 2020 at 03:24:47PM +0200, Neil Armstrong wrote:
-> Hi,
-> 
-> On 07/09/2020 13:45, Sam Ravnborg wrote:
-> > Hi Neil.
-> > 
-> > On Mon, Sep 07, 2020 at 01:10:26PM +0200, Neil Armstrong wrote:
-> >> This add the bindings for the 1024*600 tl070wsh30 DSI panel.
-> > 
-> > The binding looks like a panel-simple-dsi.yaml candidate.
-> > Only differen is enable-gpios versus reset-gpios
-> 
-> This is the only difference, the panel only has a reset signal and no
-> enable signal.
-> 
-> But I can add a reset-gpios to panel-simple-dsi.yaml, would it be ok ?
+This may be true for some SOCs, but not for all of them. I used to have
+this working flawlessly on the imx8mq like so:
+http://projects.dpa.li/git/?p=linux.git;a=commitdiff;h=5a7baa8ba7f1f30139cfcd0f9e13b3773f3605ff
 
-Yes, that would be fine as long as it is not a required property.
-It was a mistake we did not add it from the beginning.
+That in turn was based on some patches which weren't fully upstreamed
+yet at the time, and was inspired by another patch I had seen here:
+https://lore.kernel.org/linux-arm-kernel/20190722174853.GA31795@bogus/t/#m7ac218480eb1d827ff65f82f2e03a5a84c94a5e0
 
-There has been patches floating to add reset-gpios to panle.simple.c
-that I rejected - this was also wrong.
-Really simple and dumb panels has no reset but dsi panels that
-panel-simple supports too has a reset.
+I had almost forgotten about this already, since I currently don't
+need it anymore, and I was waiting for the patches it was based on
+to get taken up. But if anyone else needs this, feel free to do
+whatever you want with it.
+I could also take another look at this and submit some patches if this
+is preferred, but I'm quiet busy right now, so that could take a while.
 
-	Sam
+In the meantime and for other SOCs, I think checking for an unsupported
+pitch is still needed regardless. I'm not against this patch, this is
+just a note to make sure it's known that and how this can be done on
+the imx8mq.
 
-
-> 
-> Neil
-> 
-> > 
-> > Could you check if we can use panel-simple-dsi-yaml.
-> > 
-> > 	Sam
-> > 
-> >>
-> >> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> >> ---
-> >>  .../display/panel/tdo,tl070wsh30.yaml         | 58 +++++++++++++++++++
-> >>  1 file changed, 58 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/display/panel/tdo,tl070wsh30.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/display/panel/tdo,tl070wsh30.yaml b/Documentation/devicetree/bindings/display/panel/tdo,tl070wsh30.yaml
-> >> new file mode 100644
-> >> index 000000000000..20f4fdedfcb0
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/panel/tdo,tl070wsh30.yaml
-> >> @@ -0,0 +1,58 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-> >> +# Copyright 2020 BayLibre, SAS
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/panel/tdo,tl070wsh30.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: TDO TL070WSH30 DSI panel
-> >> +
-> >> +maintainers:
-> >> +  - Neil Armstrong <narmstrong@baylibre.com>
-> >> +
-> >> +allOf:
-> >> +  - $ref: panel-common.yaml#
-> >> +
-> >> +properties:
-> >> +
-> >> +  compatible:
-> >> +    enum:
-> >> +      - tdo,tl070wsh30
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +    description: DSI virtual channel
-> >> +
-> >> +  backlight: true
-> >> +  reset-gpios: true
-> >> +  port: true
-> >> +  power-supply: true
-> >> +
-> >> +additionalProperties: false
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - power-supply
-> >> +  - reset-gpios
-> >> +  - port
-> >> +  - reg
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    dsi {
-> >> +      #address-cells = <1>;
-> >> +      #size-cells = <0>;
-> >> +      panel@0 {
-> >> +        compatible = "tdo,tl070wsh30";
-> >> +        reg = <0>;
-> >> +        power-supply = <&vcc_lcd_reg>;
-> >> +        backlight = <&panel_backlight>;
-> >> +        reset-gpios = <&gpio_reset>;
-> >> +
-> >> +        port {
-> >> +          panel: endpoint {
-> >> +            remote-endpoint = <&mipi_dsi_out>;
-> >> +          };
-> >> +        };
-> >> +      };
-> >> +    };
-> >> -- 
-> >> 2.22.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Regards,
+Daniel Abrecht
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
