@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200FA25FF7A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 18:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4083025FF8A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 18:34:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7C76E4C4;
-	Mon,  7 Sep 2020 16:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 753466E4CF;
+	Mon,  7 Sep 2020 16:34:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39EC06E4C4;
- Mon,  7 Sep 2020 16:33:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF4C06E4C9;
+ Mon,  7 Sep 2020 16:34:22 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0D34921973;
- Mon,  7 Sep 2020 16:33:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D180121D79;
+ Mon,  7 Sep 2020 16:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599496404;
- bh=8kycOnijtKMCdBXwR4QpnHqk7Dod/fZM4Wcf0Qe0JoQ=;
+ s=default; t=1599496462;
+ bh=uOc0azX8v4k0GSQ8D2c65Vbw9pkR+3DpUsRWNI9PVYg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bnWtiEb1rhYq082a7KvVqdpAHo6aqnYgZ/zkdFX7xEyJ3koQnwFB37GbxOVco6syW
- eXJ5Q962l9KOw/xqUwRjGOC7GoJhqbC3yYJ2qc10QztFgJ/a8ebM7GJo/K2swzkoFJ
- ZYVp7Lq4nrc6k3NwlKJWQnA/rNNPmqg4A6+iUyPU=
+ b=JQYf5h4sF4825/mVNXiK5HwIvosOgPTBMi5PhhnsRJcSr8PiySMhAaL57i4tqC4L8
+ oOsiwxhICxoWyQHzseZkWopqn8wkIhUqySehYaFsffEPM2imnWXS9bRmWPjpJ4TEMm
+ Ym48jke7bfG9QDwvtr6C9v5i2UcCtvGrtXuW6Et4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 50/53] drm/amdgpu: Fix bug in reporting voltage
+Subject: [PATCH AUTOSEL 5.4 41/43] drm/amdgpu: Fix bug in reporting voltage
  for CIK
-Date: Mon,  7 Sep 2020 12:32:16 -0400
-Message-Id: <20200907163220.1280412-50-sashal@kernel.org>
+Date: Mon,  7 Sep 2020 12:33:27 -0400
+Message-Id: <20200907163329.1280888-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907163220.1280412-1-sashal@kernel.org>
-References: <20200907163220.1280412-1-sashal@kernel.org>
+In-Reply-To: <20200907163329.1280888-1-sashal@kernel.org>
+References: <20200907163329.1280888-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-index 753cb2cf6b77e..3adf9c1dfdbb0 100644
+index e6da53e9c3f46..3a2a1dc9a786a 100644
 --- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
 +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-@@ -3587,7 +3587,8 @@ static int smu7_read_sensor(struct pp_hwmgr *hwmgr, int idx,
+@@ -3575,7 +3575,8 @@ static int smu7_read_sensor(struct pp_hwmgr *hwmgr, int idx,
  	case AMDGPU_PP_SENSOR_GPU_POWER:
  		return smu7_get_gpu_power(hwmgr, (uint32_t *)value);
  	case AMDGPU_PP_SENSOR_VDDGFX:
