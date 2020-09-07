@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DBF260444
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 20:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E998C260452
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 20:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644C96E523;
-	Mon,  7 Sep 2020 18:08:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF276E51D;
+	Mon,  7 Sep 2020 18:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
  [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C0956E51B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 18:08:35 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j2so16635123wrx.7
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 11:08:35 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C74BE6E520
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 18:12:59 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id z1so16685739wrt.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 11:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=LyC2hdr432eimG+v9CNZwHQUaeAr5ZvsQoUp02RMXgk=;
- b=IGRDLxJCQoA5wn8W4Fh4ZFsBr0p2ZRTFU/tGv89LVnsHf1JwVn2tK1EYmtAKPGb0HK
- OIjD+kSK51lDshKeYrP5FCoFK+oaC2TmxZb7cjSag8EBFxWang1LH6lu5K0JO480n/S3
- 7qZuMeLRQ4kfw7L/1fth4+DDjocRltjNce7B4=
+ bh=LHSyc27SmPIwObKMPUKu6Jzix2yeZ+HcMvuXkW9Ej9Q=;
+ b=lNOW67a+Qb3S5rdDdVPQDsTdliDth/s8VA7315uDR1h8B3Q02sUNrzfPtdhAqs4Cm6
+ Ra97u/iC/ydr+aq4v1UYzQuZMmxvi+KPDGaX30afXGR2oIV2N26WAihGqKwU/9W++sEm
+ o5502+gTsNtFiHGs70IK2LR3FnLACv3sa/PQ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=LyC2hdr432eimG+v9CNZwHQUaeAr5ZvsQoUp02RMXgk=;
- b=IkLooA+n9AcsBNfqC357t+q9EJFfLC5eUK74tCv7xQS1BRiKhUAmNQ1HXpJ6WDTNzu
- eABNDCnWA2fUfPMOW9s8ToOjYFTMsEytYqYW7BfSvTlU15FJwZH0gA7fkeya8Zx50D9h
- x/HsQp6tqr1mFVe03XU3INiSB4YwKTTEFiXWyRnBt5scOKGO7oWk4FBPdHcVAM9UqQup
- p0F1LvffrVvfzUB5frhBhRjgn4evUwIzrQwAL+EKPWdVOhqT6D871XjAFnsKtZ5/F1RQ
- zjBGD84Wywh8OqwZvAZlL4RfcQVrBleHcKvN9tcD25fKatsVaBJnQYyzLQd7Dk4oCVf7
- sByg==
-X-Gm-Message-State: AOAM530sJ1jMFRGFVAJFH1pH+cuMzdsTWGt8xu4YeWIGd/qFpl/y7TS/
- +l9ZvBWbj/oxFa6XhdxBgPSr9TlcwbhTAQFK
-X-Google-Smtp-Source: ABdhPJzf9iasfMyP69kS/BjMba1lWNCMlHAfC9BSwlYkOWCFyKNaAafYVRb7ysuEZ7jgu9jwg6k4bQ==
-X-Received: by 2002:a5d:67cd:: with SMTP id n13mr22354183wrw.51.1599502113991; 
- Mon, 07 Sep 2020 11:08:33 -0700 (PDT)
+ bh=LHSyc27SmPIwObKMPUKu6Jzix2yeZ+HcMvuXkW9Ej9Q=;
+ b=X2Z488bMpWW1RjK6tLdY/+71C35gZ5zUS3aDS4QD9NVEOvfw89wPWOYiVqRnw2bbCA
+ 6THn7L8FUDFXBCXZJCM33ldMxCE0A54K+6hiFeezZr4QoGl5LfzuoJIjoSy3kjvAOhX1
+ khddK+7aiUYzsNnLe+PSEwMXWBAccb4Ir6A1nI8X16XEqrQRq4wOfp/zS6pJVHNy2tkZ
+ jnoI7bajUMEVzqmaFyXmcdmyfDIoanfI9jX/5EwNQPDQ5rz0nJB9JETlRePeHf1K61Nw
+ wiODplX7K483McIC7G9idzQiOBE61sfZ7T6gEr/t+VpFgSHMc9XI6pvzl1/XgK5IUOke
+ FxgQ==
+X-Gm-Message-State: AOAM530A+/oCCnUqvoenj3GA+nJ4LM4nySpi25WkQRkmGL1ABjBy2DYc
+ 9k7tweyq9MaS6kbufcBzh/lX4A==
+X-Google-Smtp-Source: ABdhPJyGDi4A9+7lbhoSp7iHrMDG1YFxL4t/wsCpcOhxc4Aw8aj+qv0a4iOn1uWdO+2SSzHeqdI8yQ==
+X-Received: by 2002:adf:fd8d:: with SMTP id d13mr23339249wrr.104.1599502378425; 
+ Mon, 07 Sep 2020 11:12:58 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b76sm28335064wme.45.2020.09.07.11.08.32
+ by smtp.gmail.com with ESMTPSA id h8sm29567101wrw.68.2020.09.07.11.12.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 11:08:33 -0700 (PDT)
-Date: Mon, 7 Sep 2020 20:08:31 +0200
+ Mon, 07 Sep 2020 11:12:57 -0700 (PDT)
+Date: Mon, 7 Sep 2020 20:12:56 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/atomic-helper: Extract
- drm_atomic_helper_calc_timestamping_constants()
-Message-ID: <20200907180831.GA2352366@phenom.ffwll.local>
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/atomic-helper: Remove the
+ timestamping constant update from
+ drm_atomic_helper_update_legacy_modeset_state()
+Message-ID: <20200907181256.GB2352366@phenom.ffwll.local>
 References: <20200907120026.6360-1-ville.syrjala@linux.intel.com>
+ <20200907120026.6360-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200907120026.6360-1-ville.syrjala@linux.intel.com>
+In-Reply-To: <20200907120026.6360-2-ville.syrjala@linux.intel.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,90 +74,139 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 07, 2020 at 03:00:24PM +0300, Ville Syrjala wrote:
+On Mon, Sep 07, 2020 at 03:00:25PM +0300, Ville Syrjala wrote:
 > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 > =
 
-> Put the vblank timestamping constants update loop into its own
-> function. It has no business living inside
-> drm_atomic_helper_update_legacy_modeset_state() so we'll be wanting
-> to move it out entirely. As a first step we'll still call it
-> from drm_atomic_helper_update_legacy_modeset_state().
+> The timestamping constants have nothing to do with any legacy state
+> so should not be updated from
+> drm_atomic_helper_update_legacy_modeset_state().
+> =
+
+> Let's make everyone call drm_atomic_helper_calc_timestamping_constants()
+> directly instead of relying on
+> drm_atomic_helper_update_legacy_modeset_state() to call it.
+> =
+
+> @@
+> expression S;
+> @@
+> - drm_atomic_helper_calc_timestamping_constants(S);
+> =
+
+> @@
+> expression D, S;
+> @@
+>   drm_atomic_helper_update_legacy_modeset_state(D, S);
+> + drm_atomic_helper_calc_timestamping_constants(S);
 > =
 
 > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 
+I think the kerneldoc for
+drm_crtc_vblank_helper_get_vblank/_timestamp_internal (both of them) also
+needs to be updated to mention the new function. With that fixed:
+
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c | 22 +++++++++++++++++++++-
->  include/drm/drm_atomic_helper.h     |  3 +++
->  2 files changed, 24 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
+>  drivers/gpu/drm/drm_atomic_helper.c               | 7 ++-----
+>  drivers/gpu/drm/i915/display/intel_display.c      | 1 +
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c           | 1 +
+>  4 files changed, 5 insertions(+), 5 deletions(-)
 > =
 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 490684787cff..0511097343da 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7397,6 +7397,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm=
+_atomic_state *state)
+>  	int crtc_disable_count =3D 0;
+>  =
+
+>  	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+> +	drm_atomic_helper_calc_timestamping_constants(state);
+>  =
+
+>  	dm_state =3D dm_atomic_get_new_state(state);
+>  	if (dm_state && dm_state->context) {
 > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
 omic_helper.c
-> index 9e1ad493e689..673e3fc282d9 100644
+> index 673e3fc282d9..45ee613c8efd 100644
 > --- a/drivers/gpu/drm/drm_atomic_helper.c
 > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1186,13 +1186,33 @@ drm_atomic_helper_update_legacy_modeset_state(str=
-uct drm_device *dev,
->  			crtc->x =3D new_plane_state->src_x >> 16;
+> @@ -1115,9 +1115,7 @@ disable_outputs(struct drm_device *dev, struct drm_=
+atomic_state *old_state)
+>   * @old_state: atomic state object with old state structures
+>   *
+>   * This function updates all the various legacy modeset state pointers in
+> - * connectors, encoders and CRTCs. It also updates the timestamping cons=
+tants
+> - * used for precise vblank timestamps by calling
+> - * drm_calc_timestamping_constants().
+> + * connectors, encoders and CRTCs.
+>   *
+>   * Drivers can use this for building their own atomic commit if they don=
+'t have
+>   * a pure helper-based modeset implementation.
+> @@ -1187,8 +1185,6 @@ drm_atomic_helper_update_legacy_modeset_state(struc=
+t drm_device *dev,
 >  			crtc->y =3D new_plane_state->src_y >> 16;
 >  		}
-> +	}
->  =
-
-> +	drm_atomic_helper_calc_timestamping_constants(old_state);
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_update_legacy_modeset_state);
-> +
-> +/**
-> + * drm_atomic_helper_calc_timestamping_constants - update vblank timesta=
-mping constants
-> + * @state: atomic state object
-> + *
-> + * Updates the timestamping constants used for precise vblank timestamps
-> + * by calling drm_calc_timestamping_constants() for all enabled crtcs in=
- @state.
-> + */
-> +void drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_sta=
-te *state)
-> +{
-> +	struct drm_crtc_state *new_crtc_state;
-> +	struct drm_crtc *crtc;
-> +	int i;
-> +
-> +	/* set legacy state in the crtc structure */
-> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
->  		if (new_crtc_state->enable)
->  			drm_calc_timestamping_constants(crtc,
->  							&new_crtc_state->adjusted_mode);
 >  	}
+> -
+> -	drm_atomic_helper_calc_timestamping_constants(old_state);
 >  }
-> -EXPORT_SYMBOL(drm_atomic_helper_update_legacy_modeset_state);
-> +EXPORT_SYMBOL(drm_atomic_helper_calc_timestamping_constants);
+>  EXPORT_SYMBOL(drm_atomic_helper_update_legacy_modeset_state);
 >  =
 
->  static void
->  crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *old_state)
-> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_hel=
-per.h
-> index b268180c97eb..85df04c8e62f 100644
-> --- a/include/drm/drm_atomic_helper.h
-> +++ b/include/drm/drm_atomic_helper.h
-> @@ -74,6 +74,9 @@ void
->  drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
->  					      struct drm_atomic_state *old_state);
+> @@ -1296,6 +1292,7 @@ void drm_atomic_helper_commit_modeset_disables(stru=
+ct drm_device *dev,
+>  	disable_outputs(dev, old_state);
 >  =
 
-> +void
-> +drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *s=
-tate);
-> +
->  void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
->  					       struct drm_atomic_state *state);
->  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+>  	drm_atomic_helper_update_legacy_modeset_state(dev, old_state);
+> +	drm_atomic_helper_calc_timestamping_constants(old_state);
+>  =
+
+>  	crtc_set_mode(dev, old_state);
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
+rm/i915/display/intel_display.c
+> index ec148a8da2c2..035840ce3825 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -15578,6 +15578,7 @@ static void intel_atomic_commit_tail(struct intel=
+_atomic_state *state)
+>  =
+
+>  	if (state->modeset) {
+>  		drm_atomic_helper_update_legacy_modeset_state(dev, &state->base);
+> +		drm_atomic_helper_calc_timestamping_constants(&state->base);
+>  =
+
+>  		intel_set_cdclk_pre_plane_update(state);
+>  =
+
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/no=
+uveau/dispnv50/disp.c
+> index 7799530e07c1..b6d1b926bc5e 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -2069,6 +2069,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_stat=
+e *state)
+>  	drm_atomic_helper_wait_for_fences(dev, state, false);
+>  	drm_atomic_helper_wait_for_dependencies(state);
+>  	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+> +	drm_atomic_helper_calc_timestamping_constants(state);
+>  =
+
+>  	if (atom->lock_core)
+>  		mutex_lock(&disp->mutex);
 > -- =
 
 > 2.26.2
