@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9C025F1F1
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377D825F1F2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:05:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D88A6E11D;
-	Mon,  7 Sep 2020 03:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030716E125;
+	Mon,  7 Sep 2020 03:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
  [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A39AC6E11D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:04:39 +0000 (UTC)
-Date: 07 Sep 2020 11:59:37 +0900
-X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56314868"
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9DD556E125
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:05:00 +0000 (UTC)
+Date: 07 Sep 2020 11:59:58 +0900
+X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56314885"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:37 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:58 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 219A54179B94;
- Mon,  7 Sep 2020 11:59:37 +0900 (JST)
-Message-ID: <87h7sa70r7.wl-kuninori.morimoto.gx@renesas.com>
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1403E4179B94;
+ Mon,  7 Sep 2020 11:59:58 +0900 (JST)
+Message-ID: <87ft7u70qm.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 8/9] arm64: dts: renesas: r8a77961-salvator-xs: add HDMI
- Display support
+Subject: [PATCH 9/9] arm64: dts: renesas: r8a77961-salvator-xs: add HDMI Sound
+ support
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To: Rob Herring <robh+dt@kernel.org>,
  Laurent <laurent.pinchart@ideasonboard.com>,
@@ -56,49 +56,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch enables HDMI Display on R-Car M3-W+ Salvator-XS board.
+This patch enables HDMI Sound on R-Car M3-W+ Salvator-XS board.
 This patch is test on R-Car M3-W+ Salvator-XS board.
+
+This reverts commit b997613fad58a03588f0f64a3d86db6c5bd76dd2.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- .../boot/dts/renesas/r8a77961-salvator-xs.dts | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../boot/dts/renesas/r8a77961-salvator-xs.dts | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
-index 2ffc7e31dd58..ca21a702db54 100644
+index ca21a702db54..1e7603365106 100644
 --- a/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
-@@ -29,3 +29,31 @@ memory@600000000 {
- 		reg = <0x6 0x00000000 0x1 0x00000000>;
+@@ -51,9 +51,38 @@ rcar_dw_hdmi0_out: endpoint {
+ 				remote-endpoint = <&hdmi0_con>;
+ 			};
+ 		};
++		port@2 {
++			reg = <2>;
++			dw_hdmi0_snd_in: endpoint {
++				remote-endpoint = <&rsnd_endpoint1>;
++			};
++		};
  	};
  };
+ 
+ &hdmi0_con {
+ 	remote-endpoint = <&rcar_dw_hdmi0_out>;
+ };
 +
-+&du {
-+	clocks = <&cpg CPG_MOD 724>,
-+		 <&cpg CPG_MOD 723>,
-+		 <&cpg CPG_MOD 722>,
-+		 <&versaclock6 1>,
-+		 <&x21_clk>,
-+		 <&versaclock6 2>;
-+	clock-names = "du.0", "du.1", "du.2",
-+		      "dclkin.0", "dclkin.1", "dclkin.2";
-+};
-+
-+&hdmi0 {
-+	status = "okay";
-+
++&rcar_sound {
 +	ports {
-+		port@1 {
++		/* rsnd_port0 is on salvator-common */
++		rsnd_port1: port@1 {
 +			reg = <1>;
-+			rcar_dw_hdmi0_out: endpoint {
-+				remote-endpoint = <&hdmi0_con>;
++			rsnd_endpoint1: endpoint {
++				remote-endpoint = <&dw_hdmi0_snd_in>;
++
++				dai-format = "i2s";
++				bitclock-master = <&rsnd_endpoint1>;
++				frame-master = <&rsnd_endpoint1>;
++
++				playback = <&ssi2>;
 +			};
 +		};
 +	};
 +};
 +
-+&hdmi0_con {
-+	remote-endpoint = <&rcar_dw_hdmi0_out>;
++&sound_card {
++	dais = <&rsnd_port0	/* ak4613 */
++		&rsnd_port1>;	/* HDMI0  */
 +};
 -- 
 2.25.1
