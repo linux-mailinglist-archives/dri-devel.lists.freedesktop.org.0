@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCE725F1EB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B7425F1EC
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:03:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFDB6E081;
-	Mon,  7 Sep 2020 03:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4186E0AD;
+	Mon,  7 Sep 2020 03:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2E9696E081
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:03:46 +0000 (UTC)
-Date: 07 Sep 2020 11:58:42 +0900
-X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56531074"
+ by gabe.freedesktop.org (Postfix) with ESMTP id CE6596E0AD
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:03:50 +0000 (UTC)
+Date: 07 Sep 2020 11:58:49 +0900
+X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56531086"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 11:58:42 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 11:58:49 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 95EA84001DCC;
- Mon,  7 Sep 2020 11:58:42 +0900 (JST)
-Message-ID: <87pn6y70sp.wl-kuninori.morimoto.gx@renesas.com>
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id E66F34007F42;
+ Mon,  7 Sep 2020 11:58:48 +0900 (JST)
+Message-ID: <87o8mi70sj.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 2/9] dt-bindings: display: renesas: dw-hdmi: Add R8A77961
- support
+Subject: [PATCH 3/9] drm: rcar-du: Add r8a77961 support
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To: Rob Herring <robh+dt@kernel.org>,
  Laurent <laurent.pinchart@ideasonboard.com>,
@@ -54,27 +53,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch adds R-Car M3-W+ (R8A77961) SoC bindings.
+This patch adds R-Car M3-W+ (R8A77961) support which has
+compatible to R-Car M3-W (R8A77960).
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-index 819f3e31013c..6b2aa000b204 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-@@ -16,6 +16,7 @@ Required properties:
-   - "renesas,r8a774b1-hdmi" for R8A774B1 (RZ/G2N) compatible HDMI TX
-   - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
-   - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
-+  - "renesas,r8a77961-hdmi" for R8A77961 (R-Car M3-W+) compatible HDMI TX
-   - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
-   - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 and RZ/G2 compatible
- 			     HDMI TX
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index f53b0ec71085..64533cbdbef0 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -458,6 +458,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+ 	{ .compatible = "renesas,du-r8a7794", .data = &rcar_du_r8a7794_info },
+ 	{ .compatible = "renesas,du-r8a7795", .data = &rcar_du_r8a7795_info },
+ 	{ .compatible = "renesas,du-r8a7796", .data = &rcar_du_r8a7796_info },
++	{ .compatible = "renesas,du-r8a77961", .data = &rcar_du_r8a7796_info },
+ 	{ .compatible = "renesas,du-r8a77965", .data = &rcar_du_r8a77965_info },
+ 	{ .compatible = "renesas,du-r8a77970", .data = &rcar_du_r8a77970_info },
+ 	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
 -- 
 2.25.1
 
