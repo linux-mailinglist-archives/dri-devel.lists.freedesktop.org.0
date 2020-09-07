@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6178525F084
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Sep 2020 22:34:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F1325F131
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 02:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC716E146;
-	Sun,  6 Sep 2020 20:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD36B6E037;
+	Mon,  7 Sep 2020 00:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F41316E146
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Sep 2020 20:33:56 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id nw23so15362211ejb.4
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Sep 2020 13:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k1u31zWVb/xtq4zWR8IqXITU9cST43X1jVmMQ6Khtjc=;
- b=AAEd7uDisMvj4IWWY6cwd8eKB+Uv8KPC+pbb5PxuYD1RHISfNs+aPzznszKIKHBqoK
- bJsnaBlytKPe8VEi7sCD0zvUhBp9pNeAlGklp2wW3TG/fSLPVxRfqPmvADw8h0FhmCNM
- vJ7He/a/9u+mkXEuu2fw4WwhGfjCXRvkmnxoYVgcx6GD9bkY5yVmgzcQWbZOcXHb2Nxp
- C7ag1TinV+RKEGX3W1p+1gprj4db+2JWvMw1T2uF5rYDTAtM+g2GrHWyI2sCNTYwCEuH
- j859J70xtr6YNFWUZ549ZzRwA92/bXuOuZAKCT6y2jRX7+RpcuzylfAj2mXOotcmr922
- vjdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k1u31zWVb/xtq4zWR8IqXITU9cST43X1jVmMQ6Khtjc=;
- b=PDPmmuMv8Ms0dvDPpp1dxPowZZe1ve2NINpcPX27GInlwwIysln/679Q63un0yM2iE
- HczbqcVx5CFqHKExWrj7Kg9HEpZvy2mlKegZypw97aqdwbdK+3hMEFKatCHGNKl0Dn+b
- GQDd9mrel1u83Tjnz6bukZjtt72pn01QUcHisdh6HJlDwMDjqKhYPsv8ZAfI6bhAjNST
- zr+fPI5GA6/ajv1caix+994WR+Rq6yazY9S0tx+NQwpyGPVbuZW5+LS2iVoIGxKVJXnG
- r5v7Wf0Q1HT6MHKHOnaAVAEeC6166yGwZZrB6VYyMfoAGdEuAkA6vFNeKC9jPCdZ/NMn
- Eo0Q==
-X-Gm-Message-State: AOAM533eKTOeOl/zl2+Sa+DsQpRKcp7VkKJLRMYXggMrUvQDE7tUJmst
- v9o/NOGcMfVfZLk4QMoN0Wb13IyWcUZvRCQ3WTY=
-X-Google-Smtp-Source: ABdhPJxAue3rsrq47sfL7omIfmy8aw6NF/OD0xZvrgtLITJBii6+t2OQIFBK3GPcND0H6OJvig0iUSQasoRFiOHwlPM=
-X-Received: by 2002:a17:906:813:: with SMTP id
- e19mr17716996ejd.101.1599424435566; 
- Sun, 06 Sep 2020 13:33:55 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA956E037
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 00:44:28 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209179] New: nouveau 0000:01:00.0: can't change power state
+ from D3cold to D0 (config space inaccessible)
+Date: Mon, 07 Sep 2020 00:44:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kernel@mattmcadoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-209179-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <CAPM=9tz0whDeamM+k_8Wu8TVzz0TDr+qMNMXo8rKeeNRKxBuiQ@mail.gmail.com>
- <CAHk-=wh2EH9DKRpJQ7+X+NWjjduLPy_Ncv1GzxnXBg-3mTn0Fw@mail.gmail.com>
-In-Reply-To: <CAHk-=wh2EH9DKRpJQ7+X+NWjjduLPy_Ncv1GzxnXBg-3mTn0Fw@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 7 Sep 2020 06:33:43 +1000
-Message-ID: <CAPM=9tzOBOAiMXP+59x_n1Spsk4gz1cGjfnyXQj2deHaiRhSFg@mail.gmail.com>
-Subject: Re: [git pull] drm fixes for 5.9-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,32 +52,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 5 Sep 2020 at 05:02, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, Sep 3, 2020 at 8:53 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > Not much going on this week, nouveau has a display hw bug workaround,
-> > amdgpu has some PM fixes and CIK regression fixes, one single radeon
-> > PLL fix, and a couple of i915 display fixes.
->
-> Any movement on the i915 relocation issue? I've only seen the one
-> report for the 64-bit case, but clearly there was more going on than
-> just the missing page table flush on 32-bit..
+https://bugzilla.kernel.org/show_bug.cgi?id=209179
 
-I'm going to pull in the reverts this week I think, Intel are changing
-some part of their patchflows to me, but the 5.10 queue had to revert
-some stuff in this area for other reasons, so I'd like to sanely get
-those into 5.9 as well.
+            Bug ID: 209179
+           Summary: nouveau 0000:01:00.0: can't change power state from
+                    D3cold to D0 (config space inaccessible)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.8.7
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: kernel@mattmcadoo.com
+        Regression: No
 
-Dave.
+Created attachment 292387
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292387&action=edit
+full dmesg output
+
+Lenovo ThinkPad W540, with hybrid video (Intel/Nvidia)
+
+01:00.0 VGA compatible controller: NVIDIA Corporation GK107GLM [Quadro K1100M]
+(rev ff) (prog-if ff)
+!!! Unknown header type 7f
+Kernel driver in use: nouveau
+
+Dmesg has numerous errors like the following (full dmesg output in attachment):
+
+[   16.243256] nouveau 0000:01:00.0: can't change power state from D3cold to D0
+(config space inaccessible)
+[   16.243265] nouveau 0000:01:00.0: can't change power state from D3cold to D0
+(config space inaccessible)
+[   16.303637] nouveau 0000:01:00.0: can't change power state from D3cold to D0
+(config space inaccessible)
+[   16.303659] nouveau 0000:01:00.0: tmr: stalled at ffffffffffffffff
+[   16.303659] ------------[ cut here ]------------
+[   16.303660] nouveau 0000:01:00.0: timeout
+[   16.303679] WARNING: CPU: 6 PID: 87 at
+drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c:107 nvkm_pmu_reset+0x275/0x2d0
+[   16.303680] Modules linked in:
+[   16.303683] CPU: 6 PID: 87 Comm: kworker/6:1 Not tainted 5.8.7-gentoo #5
+[   16.303684] Hardware name: LENOVO 20BG0014US/20BG0014US, BIOS GNET91WW (2.39
+) 05/29/2019
+[   16.303688] Workqueue: pm pm_runtime_work
+[   16.303691] RIP: 0010:nvkm_pmu_reset+0x275/0x2d0
+[   16.303693] Code: e4 74 57 e8 dd 09 10 00 4c 89 e2 48 c7 c7 66 d0 33 84 48
+83 05 8b f5 5e 04 01 48 89 c6 e8 62 19 1c ff 48 83 05 83 f5 5e 04 01 <0f> 0b 48
+83 05 81 f5 5e 04 01 48 8b 45 00 48 83 05 7d f5 5e 04 01
+[   16.303694] RSP: 0018:ffffc900002c7a80 EFLAGS: 00010202
+[   16.303695] RAX: 0000000000000000 RBX: ffff88885338e800 RCX:
+0000000000000000
+[   16.303696] RDX: 0000000000000001 RSI: 0000000000000002 RDI:
+0000000000000001
+[   16.303697] RBP: ffff88885337da00 R08: 0000000000000491 R09:
+0000000000000000
+[   16.303699] R10: 0000000000000002 R11: 000000000007aee4 R12:
+ffff8888591c95a0
+[   16.303700] R13: 00000003caea9731 R14: 00000003caea956f R15:
+ffff88885921b0b0
+[   16.303701] FS:  0000000000000000(0000) GS:ffff88885d780000(0000)
+knlGS:0000000000000000
+[   16.303702] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   16.303703] CR2: 000055a07a344f14 CR3: 000000083ea48006 CR4:
+00000000001606e0
+[   16.303704] Call Trace:
+[   16.303710]  nvkm_pmu_preinit+0x1a/0x30
+[   16.303712]  nvkm_subdev_preinit+0x44/0xa0
+[   16.303716]  ? nvkm_device_pci_preinit+0x5e/0x80
+[   16.303717]  nvkm_device_init+0x76/0x2e0
+[   16.303720]  nvkm_udevice_init+0x64/0x90
+[   16.303721]  nvkm_object_init+0x52/0x190
+[   16.303723]  nvkm_object_init+0x8b/0x190
+[   16.303724]  nvkm_object_init+0x8b/0x190
+[   16.303727]  ? new_id_store+0x2a0/0x2a0
+[   16.303729]  nvkm_client_resume+0x19/0x30
+[   16.303732]  nvif_client_resume+0x22/0x30
+[   16.303734]  nouveau_do_resume+0x32/0x120
+[   16.303736]  nouveau_pmops_runtime_resume+0xa4/0x1d0
+[   16.303738]  pci_pm_runtime_resume+0xba/0x120
+[   16.303740]  ? new_id_store+0x2a0/0x2a0
+[   16.303741]  __rpm_callback+0xd6/0x1f0
+[   16.303743]  ? new_id_store+0x2a0/0x2a0
+[   16.303744]  ? new_id_store+0x2a0/0x2a0
+[   16.303745]  rpm_callback+0x36/0xc0
+[   16.303746]  ? new_id_store+0x2a0/0x2a0
+[   16.303748]  rpm_resume+0x7d0/0x9f0
+[   16.303750]  __pm_runtime_resume+0x5c/0x90
+[   16.303751]  ? new_id_store+0x2a0/0x2a0
+[   16.303752]  rpm_get_suppliers+0x4c/0x1a0
+[   16.303754]  ? new_id_store+0x2a0/0x2a0
+[   16.303755]  __rpm_callback+0x198/0x1f0
+[   16.303756]  ? new_id_store+0x2a0/0x2a0
+[   16.303757]  ? new_id_store+0x2a0/0x2a0
+[   16.303759]  rpm_callback+0x36/0xc0
+[   16.303760]  ? new_id_store+0x2a0/0x2a0
+[   16.303761]  rpm_resume+0x7d0/0x9f0
+[   16.303763]  pm_runtime_work+0x99/0xf0
+[   16.303765]  process_one_work+0x203/0x620
+[   16.303767]  worker_thread+0x257/0x5f0
+[   16.303769]  ? rescuer_thread+0x4a0/0x4a0
+[   16.303770]  kthread+0x1d0/0x220
+[   16.303772]  ? kthread_create_worker+0xa0/0xa0
+[   16.303774]  ret_from_fork+0x22/0x30
+[   16.303777] ---[ end trace 084955cbd974989c ]---
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
