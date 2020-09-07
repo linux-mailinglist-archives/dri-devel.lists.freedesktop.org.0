@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137FA25F47C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:02:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D790625F47E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5546E2ED;
-	Mon,  7 Sep 2020 08:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5F36E2DE;
+	Mon,  7 Sep 2020 08:02:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777896E2DE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:02:33 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id e17so13440515wme.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:02:33 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 392446E2DE
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:02:47 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l9so13242501wme.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:02:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:references:from:autocrypt:organization:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=k+3iNNz2e3VIUSi9ibKxGbdLF6tlcFaTW710S6m0llY=;
- b=qbK0Faqwnh+3VnUqgOulQ3FopzqfMJStave8qNsnmGcUju8EdeqYrEVrZOBeX5QbZC
- MWVSYrPhAAYThaQl9CHruIfVm3QSn9pyZj8hP21Yf3PhRAf0XpypRbz+zC9Hg9qc5+Qq
- nN+tc4tqpAiOoMJN4obq+QIo/SIXW+Qn/JWJCETrL8XdQ5++/7+qUWE3hDUhBVz9pKIs
- PODuduHz83o9lnSgpBMmHMwJtTotlM3lmkTwxOa3hzPRGfmz0+HB65g+PDBOIUk3/vXI
- f1ID3y8o+meBCEAFHWXY46tgz9iCNe8cHrSLKUH9iOa9AQmAiZeiLc5QJupyJdMuXHnQ
- pN/w==
+ bh=FOIGm+MeZY0iZ8ZG3rTpB5cPrFLcLRaJXQUNLhkaUH8=;
+ b=1slvBdVF6gktdLRkcVj06lZvoe6Qrqs3W66mp8erMOhDkKIW2iON4VPXYv+vn+wTtW
+ 9iuhcOGBdhYIBG39D6C2bgsiUHkc7D11VWGYSzYdKWTrOI59kEDFKYrcIFU1GKJuYx4M
+ 7cyeguz8SkW0dUfj3KldhTyby5nuL5x0Pod27dUm2pQcTg25yLS9g/Z9AcNAKoLbfqML
+ hk8bCjU/TMJUVhI9o9B0wqsxjqshbAZwWN/E/zvsy9PFURtbH9UU+kTi0a/6xjGYlO5w
+ pUAGZSDkk0jq5AL56cd+WtiVrbnzMKcioH0vaaJLwaE2uvyCwaEjRUBePfV11J45MmjE
+ VDPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=k+3iNNz2e3VIUSi9ibKxGbdLF6tlcFaTW710S6m0llY=;
- b=BpucUbmmgmE5a4NPlEvjpBmPEsotF6ChWgUtnh5Ya29vdWDMciMpl0wFY00wJY+fpW
- Morxo3WvCnRStj80/u/NWmqltUOLv4kksowT6BDF5BtEPe11VZSRX4p0QwiuqyIFSmJR
- sQuKUTvIyB6RiOWXvDU3B9IvoyH8/9C4N4PLlLePOBIK7SMWC+gmspUZAAfnPLDEHl8d
- nKtcN4JJ/b+jV/g64r/R3Up4HajZ58UlEIO0WxExVVBP0UB2j9fkRuOiDqGlwCiAkDjC
- uLoAag9QQGQstOYluppqmK53eH3luR9n3+61dJWT7G7RaXD57x2Vh3P0W6TtmOj64mHc
- xHXg==
-X-Gm-Message-State: AOAM533Jc/HQByz5C0Z2KZohyBG9z9INcFwa1jFRr3L2vV+d9o0/EzPH
- ocaQWe6BWLu6XxnL1JzN7BeWEQ==
-X-Google-Smtp-Source: ABdhPJxuyg+sX2JhC+TERapyb7IL3F3vKLKONH3dc2Z3CFDaK0tcZiT+P0V12b1hK8PvP3FVac/gyA==
-X-Received: by 2002:a1c:9a48:: with SMTP id c69mr18783360wme.43.1599465751929; 
- Mon, 07 Sep 2020 01:02:31 -0700 (PDT)
+ bh=FOIGm+MeZY0iZ8ZG3rTpB5cPrFLcLRaJXQUNLhkaUH8=;
+ b=h/gi77Fblmkn08/D6HFNbuDAFfVVaz5kDbw1Ie4MSSwB7+BeCKFbJazI4WSgtYmc+N
+ oybomZH0pfLEfeGFUO1AtkIwqbTAl3o7Lc8Q+p953FFp+/mYhhba9b7FXtw1MCT5Hij/
+ 1PxhPTJ9f4cI+VUO0rWNWnQqIEhxIvPxPqyhNFpEfkSy+kfc32utc5rYdnowYFtn27Nj
+ 0XZqvj9jhapvyhCSZawOVrhKXGpW189E0nr9fC/x3gdIGgVzUPiGUGntQDBJ5S0p32k1
+ kZ9I/I91Rz96NzUt5vo6Pw3d6pOGRLzuK54a8IX4cHIVFDAmFCi4mG6lVyxeFFni+LBi
+ pQzA==
+X-Gm-Message-State: AOAM532OE9k8gpPyEsQ524Eo6cC36bKHGyy1kNrilXwm1OuweaBSqceO
+ t7kpie87REGnLlnXPziN7p1zaA==
+X-Google-Smtp-Source: ABdhPJzA303LnVSpPs0rqqJVdZ6G5OpDglfAlF6qYYFUtQ+Oe38yabLNx+Gpkfq7wzvX9BSBqalEbA==
+X-Received: by 2002:a1c:b703:: with SMTP id h3mr19171992wmf.131.1599465765687; 
+ Mon, 07 Sep 2020 01:02:45 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac?
  ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
- by smtp.gmail.com with ESMTPSA id h76sm27154621wme.10.2020.09.07.01.02.30
+ by smtp.gmail.com with ESMTPSA id b1sm27730168wru.54.2020.09.07.01.02.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Sep 2020 01:02:31 -0700 (PDT)
-Subject: Re: [PATCH v2] drm/bridge/synopsys: dsi: allow LP commands in video
- mode
+ Mon, 07 Sep 2020 01:02:45 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge/synopsys: dsi: allow sending longer LP commands
 To: Yannick Fertre <yannick.fertre@st.com>,
  Philippe Cornu <philippe.cornu@st.com>,
  Benjamin Gaignard <benjamin.gaignard@st.com>, David Airlie
@@ -59,7 +58,7 @@ To: Yannick Fertre <yannick.fertre@st.com>,
  Alexandre Torgue <alexandre.torgue@st.com>, dri-devel@lists.freedesktop.org,
  linux-stm32@st-md-mailman.stormreply.com,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200708140836.32418-1-yannick.fertre@st.com>
+References: <20200701143131.841-1-yannick.fertre@st.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -111,12 +110,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <00e65daf-d5c1-86da-f4ae-7b53fd484790@baylibre.com>
-Date: Mon, 7 Sep 2020 10:02:29 +0200
+Message-ID: <10134f03-3bb9-072b-a70f-edc972f7bf57@baylibre.com>
+Date: Mon, 7 Sep 2020 10:02:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200708140836.32418-1-yannick.fertre@st.com>
+In-Reply-To: <20200701143131.841-1-yannick.fertre@st.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -135,46 +134,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/07/2020 16:08, Yannick Fertre wrote:
+On 01/07/2020 16:31, Yannick Fertre wrote:
 > From: Antonio Borneo <antonio.borneo@st.com>
 > 
-> Current code only sends LP commands in command mode.
+> Current code does not properly computes the max length of LP
+> commands that can be send during H or V sync, and rely on static
+> values.
+> Limiting the max LP length to 4 byte during the V-sync is overly
+> conservative.
 > 
-> Allows sending LP commands also in video mode by setting the
-> proper flag in DSI_VID_MODE_CFG.
+> Relax the limit and allows longer LP commands (16 bytes) to be
+> sent during V-sync.
 > 
 > Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index 1a24ea648ef8..e9a0f42ff99f 100644
+> index d580b2aa4ce9..1a24ea648ef8 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -89,6 +89,7 @@
->  #define VID_MODE_TYPE_NON_BURST_SYNC_EVENTS	0x1
->  #define VID_MODE_TYPE_BURST			0x2
->  #define VID_MODE_TYPE_MASK			0x3
-> +#define ENABLE_LOW_POWER_CMD		BIT(15)
->  #define VID_MODE_VPG_ENABLE		BIT(16)
->  #define VID_MODE_VPG_HORIZONTAL		BIT(24)
+> @@ -360,6 +360,15 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
+>  	bool lpm = msg->flags & MIPI_DSI_MSG_USE_LPM;
+>  	u32 val = 0;
 >  
-> @@ -376,6 +377,13 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
->  
->  	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
->  	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
+> +	/*
+> +	 * TODO dw drv improvements
+> +	 * largest packet sizes during hfp or during vsa/vpb/vfp
+> +	 * should be computed according to byte lane, lane number and only
+> +	 * if sending lp cmds in high speed is enable (PHY_TXREQUESTCLKHS)
+> +	 */
+> +	dsi_write(dsi, DSI_DPI_LP_CMD_TIM, OUTVACT_LPCMD_TIME(16)
+> +		  | INVACT_LPCMD_TIME(4));
 > +
-> +	val = dsi_read(dsi, DSI_VID_MODE_CFG);
-> +	if (lpm)
-> +		val |= ENABLE_LOW_POWER_CMD;
-> +	else
-> +		val &= ~ENABLE_LOW_POWER_CMD;
-> +	dsi_write(dsi, DSI_VID_MODE_CFG, val);
+>  	if (msg->flags & MIPI_DSI_MSG_REQ_ACK)
+>  		val |= ACK_RQST_EN;
+>  	if (lpm)
+> @@ -611,14 +620,6 @@ static void dw_mipi_dsi_dpi_config(struct dw_mipi_dsi *dsi,
+>  	dsi_write(dsi, DSI_DPI_VCID, DPI_VCID(dsi->channel));
+>  	dsi_write(dsi, DSI_DPI_COLOR_CODING, color);
+>  	dsi_write(dsi, DSI_DPI_CFG_POL, val);
+> -	/*
+> -	 * TODO dw drv improvements
+> -	 * largest packet sizes during hfp or during vsa/vpb/vfp
+> -	 * should be computed according to byte lane, lane number and only
+> -	 * if sending lp cmds in high speed is enable (PHY_TXREQUESTCLKHS)
+> -	 */
+> -	dsi_write(dsi, DSI_DPI_LP_CMD_TIM, OUTVACT_LPCMD_TIME(4)
+> -		  | INVACT_LPCMD_TIME(4));
 >  }
 >  
->  static int dw_mipi_dsi_gen_pkt_hdr_write(struct dw_mipi_dsi *dsi, u32 hdr_val)
+>  static void dw_mipi_dsi_packet_handler_config(struct dw_mipi_dsi *dsi)
 > 
+
 
 Tested on Amlogic AXG (v1.21a)
 
