@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BA42605E8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 22:47:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877832605EA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 22:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E015A6E550;
-	Mon,  7 Sep 2020 20:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A688F6E554;
+	Mon,  7 Sep 2020 20:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA856E4F8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 20:47:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB476E558
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 20:47:07 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-MXRZHLvUO5mQT95inSxQ-Q-1; Mon, 07 Sep 2020 16:47:00 -0400
-X-MC-Unique: MXRZHLvUO5mQT95inSxQ-Q-1
+ us-mta-505-T1QySKjbMe6kH5q2JgVcXw-1; Mon, 07 Sep 2020 16:47:02 -0400
+X-MC-Unique: T1QySKjbMe6kH5q2JgVcXw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9741E1800D41;
- Mon,  7 Sep 2020 20:46:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EA30801E53;
+ Mon,  7 Sep 2020 20:47:01 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-45.bne.redhat.com
  [10.64.54.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93C9760BF3;
- Mon,  7 Sep 2020 20:46:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEFDE60BE2;
+ Mon,  7 Sep 2020 20:46:59 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/13] drm/radeon/ttm: move to driver binding/destroy
- functions. (v2)
-Date: Tue,  8 Sep 2020 06:46:22 +1000
-Message-Id: <20200907204630.1406528-6-airlied@gmail.com>
+Subject: [PATCH 06/13] drm/nouveau/ttm: use driver bind/unbind/destroy
+ functions.
+Date: Tue,  8 Sep 2020 06:46:23 +1000
+Message-Id: <20200907204630.1406528-7-airlied@gmail.com>
 In-Reply-To: <20200907204630.1406528-1-airlied@gmail.com>
 References: <20200907204630.1406528-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -53,320 +53,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: kraxel@redhat.com, sroland@vmware.com, bskeggs@redhat.com,
  christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
-
-Do agp decision in the driver, instead of special binding funcs
-
-v2: use container_of, drop some {}.
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/radeon/radeon.h        |  7 +-
- drivers/gpu/drm/radeon/radeon_cs.c     |  2 +-
- drivers/gpu/drm/radeon/radeon_gem.c    |  6 +-
- drivers/gpu/drm/radeon/radeon_object.c |  2 +-
- drivers/gpu/drm/radeon/radeon_prime.c  |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c    | 92 +++++++++++++++++++-------
- drivers/gpu/drm/radeon/radeon_vm.c     |  2 +-
- 7 files changed, 80 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index cc4f58d16589..df6f0b49836b 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -2815,10 +2815,11 @@ extern void radeon_legacy_set_clock_gating(struct radeon_device *rdev, int enabl
- extern void radeon_atom_set_clock_gating(struct radeon_device *rdev, int enable);
- extern void radeon_ttm_placement_from_domain(struct radeon_bo *rbo, u32 domain);
- extern bool radeon_ttm_bo_is_radeon_bo(struct ttm_buffer_object *bo);
--extern int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
-+extern int radeon_ttm_tt_set_userptr(struct radeon_device *rdev,
-+				     struct ttm_tt *ttm, uint64_t addr,
- 				     uint32_t flags);
--extern bool radeon_ttm_tt_has_userptr(struct ttm_tt *ttm);
--extern bool radeon_ttm_tt_is_readonly(struct ttm_tt *ttm);
-+extern bool radeon_ttm_tt_has_userptr(struct radeon_device *rdev, struct ttm_tt *ttm);
-+extern bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev, struct ttm_tt *ttm);
- extern void radeon_vram_location(struct radeon_device *rdev, struct radeon_mc *mc, u64 base);
- extern void radeon_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
- extern int radeon_resume_kms(struct drm_device *dev, bool resume, bool fbcon);
-diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-index 33ae1b883268..21ce2f9502c0 100644
---- a/drivers/gpu/drm/radeon/radeon_cs.c
-+++ b/drivers/gpu/drm/radeon/radeon_cs.c
-@@ -160,7 +160,7 @@ static int radeon_cs_parser_relocs(struct radeon_cs_parser *p)
- 			p->relocs[i].allowed_domains = domain;
- 		}
- 
--		if (radeon_ttm_tt_has_userptr(p->relocs[i].robj->tbo.ttm)) {
-+		if (radeon_ttm_tt_has_userptr(p->rdev, p->relocs[i].robj->tbo.ttm)) {
- 			uint32_t domain = p->relocs[i].preferred_domains;
- 			if (!(domain & RADEON_GEM_DOMAIN_GTT)) {
- 				DRM_ERROR("Only RADEON_GEM_DOMAIN_GTT is "
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 7f5dfe04789e..e5c4271e64ed 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -331,7 +331,7 @@ int radeon_gem_userptr_ioctl(struct drm_device *dev, void *data,
- 		goto handle_lockup;
- 
- 	bo = gem_to_radeon_bo(gobj);
--	r = radeon_ttm_tt_set_userptr(bo->tbo.ttm, args->addr, args->flags);
-+	r = radeon_ttm_tt_set_userptr(rdev, bo->tbo.ttm, args->addr, args->flags);
- 	if (r)
- 		goto release_object;
- 
-@@ -420,7 +420,7 @@ int radeon_mode_dumb_mmap(struct drm_file *filp,
- 		return -ENOENT;
- 	}
- 	robj = gem_to_radeon_bo(gobj);
--	if (radeon_ttm_tt_has_userptr(robj->tbo.ttm)) {
-+	if (radeon_ttm_tt_has_userptr(robj->rdev, robj->tbo.ttm)) {
- 		drm_gem_object_put(gobj);
- 		return -EPERM;
- 	}
-@@ -721,7 +721,7 @@ int radeon_gem_op_ioctl(struct drm_device *dev, void *data,
- 	robj = gem_to_radeon_bo(gobj);
- 
- 	r = -EPERM;
--	if (radeon_ttm_tt_has_userptr(robj->tbo.ttm))
-+	if (radeon_ttm_tt_has_userptr(robj->rdev, robj->tbo.ttm))
- 		goto out;
- 
- 	r = radeon_bo_reserve(robj, false);
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index bb7582afd803..3fcd15d21ddc 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -331,7 +331,7 @@ int radeon_bo_pin_restricted(struct radeon_bo *bo, u32 domain, u64 max_offset,
- 	struct ttm_operation_ctx ctx = { false, false };
- 	int r, i;
- 
--	if (radeon_ttm_tt_has_userptr(bo->tbo.ttm))
-+	if (radeon_ttm_tt_has_userptr(bo->rdev, bo->tbo.ttm))
- 		return -EPERM;
- 
- 	if (bo->pin_count) {
-diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
-index b906e8fbd5f3..d6d9c8b46ab4 100644
---- a/drivers/gpu/drm/radeon/radeon_prime.c
-+++ b/drivers/gpu/drm/radeon/radeon_prime.c
-@@ -121,7 +121,7 @@ struct dma_buf *radeon_gem_prime_export(struct drm_gem_object *gobj,
- 					int flags)
- {
- 	struct radeon_bo *bo = gem_to_radeon_bo(gobj);
--	if (radeon_ttm_tt_has_userptr(bo->tbo.ttm))
-+	if (radeon_ttm_tt_has_userptr(bo->rdev, bo->tbo.ttm))
- 		return ERR_PTR(-EPERM);
- 	return drm_gem_prime_export(gobj, flags);
- }
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 1d3e8bb69f8e..ff6821356ea7 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -141,8 +141,9 @@ static void radeon_evict_flags(struct ttm_buffer_object *bo,
- static int radeon_verify_access(struct ttm_buffer_object *bo, struct file *filp)
- {
- 	struct radeon_bo *rbo = container_of(bo, struct radeon_bo, tbo);
-+	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
- 
--	if (radeon_ttm_tt_has_userptr(bo->ttm))
-+	if (radeon_ttm_tt_has_userptr(rdev, bo->ttm))
- 		return -EPERM;
- 	return drm_vma_node_verify_access(&rbo->tbo.base.vma_node,
- 					  filp->private_data);
-@@ -561,12 +562,6 @@ static void radeon_ttm_backend_destroy(struct ttm_bo_device *bdev, struct ttm_tt
- 	kfree(gtt);
- }
- 
--static struct ttm_backend_func radeon_backend_func = {
--	.bind = &radeon_ttm_backend_bind,
--	.unbind = &radeon_ttm_backend_unbind,
--	.destroy = &radeon_ttm_backend_destroy,
--};
--
- static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
- 					   uint32_t page_flags)
- {
-@@ -585,7 +580,6 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
- 	if (gtt == NULL) {
- 		return NULL;
- 	}
--	gtt->ttm.ttm.func = &radeon_backend_func;
- 	if (ttm_dma_tt_init(&gtt->ttm, bo, page_flags)) {
- 		kfree(gtt);
- 		return NULL;
-@@ -593,19 +587,25 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm_buffer_object *bo,
- 	return &gtt->ttm.ttm;
- }
- 
--static struct radeon_ttm_tt *radeon_ttm_tt_to_gtt(struct ttm_tt *ttm)
-+static struct radeon_ttm_tt *radeon_ttm_tt_to_gtt(struct radeon_device *rdev,
-+						  struct ttm_tt *ttm)
- {
--	if (!ttm || ttm->func != &radeon_backend_func)
-+#if IS_ENABLED(CONFIG_AGP)
-+	if (rdev->flags & RADEON_IS_AGP)
-+		return NULL;
-+#endif
-+
-+	if (!ttm)
- 		return NULL;
--	return (struct radeon_ttm_tt *)ttm;
-+	return container_of(ttm, struct radeon_ttm_tt, ttm.ttm);
- }
- 
- static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 				  struct ttm_tt *ttm,
- 				  struct ttm_operation_ctx *ctx)
- {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
--	struct radeon_device *rdev;
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (gtt && gtt->userptr) {
-@@ -625,7 +625,6 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 		return 0;
- 	}
- 
--	rdev = radeon_get_rdev(bdev);
- #if IS_ENABLED(CONFIG_AGP)
- 	if (rdev->flags & RADEON_IS_AGP) {
- 		return ttm_agp_tt_populate(bdev, ttm, ctx);
-@@ -643,8 +642,8 @@ static int radeon_ttm_tt_populate(struct ttm_bo_device *bdev,
- 
- static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
- {
--	struct radeon_device *rdev;
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (gtt && gtt->userptr) {
-@@ -656,7 +655,6 @@ static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
- 	if (slave)
- 		return;
- 
--	rdev = radeon_get_rdev(bdev);
- #if IS_ENABLED(CONFIG_AGP)
- 	if (rdev->flags & RADEON_IS_AGP) {
- 		ttm_agp_tt_unpopulate(bdev, ttm);
-@@ -674,10 +672,11 @@ static void radeon_ttm_tt_unpopulate(struct ttm_bo_device *bdev, struct ttm_tt *
- 	ttm_unmap_and_unpopulate_pages(rdev->dev, &gtt->ttm);
- }
- 
--int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
-+int radeon_ttm_tt_set_userptr(struct radeon_device *rdev,
-+			      struct ttm_tt *ttm, uint64_t addr,
- 			      uint32_t flags)
- {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 
- 	if (gtt == NULL)
- 		return -EINVAL;
-@@ -688,9 +687,52 @@ int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
- 	return 0;
- }
- 
--bool radeon_ttm_tt_has_userptr(struct ttm_tt *ttm)
-+static int radeon_ttm_tt_bind(struct ttm_bo_device *bdev,
-+			      struct ttm_tt *ttm,
-+			      struct ttm_resource *bo_mem)
-+{
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+
-+#if IS_ENABLED(CONFIG_AGP)
-+	if (rdev->flags & RADEON_IS_AGP)
-+		return ttm_agp_bind(bdev, ttm, bo_mem);
-+#endif
-+
-+	return radeon_ttm_backend_bind(bdev, ttm, bo_mem);
-+}
-+
-+static void radeon_ttm_tt_unbind(struct ttm_bo_device *bdev,
-+				 struct ttm_tt *ttm)
-+{
-+#if IS_ENABLED(CONFIG_AGP)
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+
-+	if (rdev->flags & RADEON_IS_AGP) {
-+		ttm_agp_unbind(bdev, ttm);
-+		return;
-+	}
-+#endif
-+	radeon_ttm_backend_unbind(bdev, ttm);
-+}
-+
-+static void radeon_ttm_tt_destroy(struct ttm_bo_device *bdev,
-+				  struct ttm_tt *ttm)
-+{
-+#if IS_ENABLED(CONFIG_AGP)
-+	struct radeon_device *rdev = radeon_get_rdev(bdev);
-+
-+	if (rdev->flags & RADEON_IS_AGP) {
-+		ttm_agp_destroy(bdev, ttm);
-+		return;
-+	}
-+#endif
-+	radeon_ttm_backend_destroy(bdev, ttm);
-+}
-+
-+bool radeon_ttm_tt_has_userptr(struct radeon_device *rdev,
-+			       struct ttm_tt *ttm)
- {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 
- 	if (gtt == NULL)
- 		return false;
-@@ -698,9 +740,10 @@ bool radeon_ttm_tt_has_userptr(struct ttm_tt *ttm)
- 	return !!gtt->userptr;
- }
- 
--bool radeon_ttm_tt_is_readonly(struct ttm_tt *ttm)
-+bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
-+			       struct ttm_tt *ttm)
- {
--	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(ttm);
-+	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
- 
- 	if (gtt == NULL)
- 		return false;
-@@ -712,6 +755,9 @@ static struct ttm_bo_driver radeon_bo_driver = {
- 	.ttm_tt_create = &radeon_ttm_tt_create,
- 	.ttm_tt_populate = &radeon_ttm_tt_populate,
- 	.ttm_tt_unpopulate = &radeon_ttm_tt_unpopulate,
-+	.ttm_tt_bind = &radeon_ttm_tt_bind,
-+	.ttm_tt_unbind = &radeon_ttm_tt_unbind,
-+	.ttm_tt_destroy = &radeon_ttm_tt_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = &radeon_evict_flags,
- 	.move = &radeon_bo_move,
-diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-index 71e2c3785ab9..ebad27c91a0d 100644
---- a/drivers/gpu/drm/radeon/radeon_vm.c
-+++ b/drivers/gpu/drm/radeon/radeon_vm.c
-@@ -942,7 +942,7 @@ int radeon_vm_bo_update(struct radeon_device *rdev,
- 	bo_va->flags &= ~RADEON_VM_PAGE_VALID;
- 	bo_va->flags &= ~RADEON_VM_PAGE_SYSTEM;
- 	bo_va->flags &= ~RADEON_VM_PAGE_SNOOPED;
--	if (bo_va->bo && radeon_ttm_tt_is_readonly(bo_va->bo->tbo.ttm))
-+	if (bo_va->bo && radeon_ttm_tt_is_readonly(rdev, bo_va->bo->tbo.ttm))
- 		bo_va->flags &= ~RADEON_VM_PAGE_WRITEABLE;
- 
- 	if (mem) {
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KCkFja2VkLWJ5OiBDaHJpc3Rp
+YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClJldmlld2VkLWJ5OiBCZW4gU2tl
+Z2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJs
+aWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5j
+ICAgIHwgNDQgKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
+dXZlYXVfc2dkbWEuYyB8IDU0ICsrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L25vdXZlYXVfdHRtLmggICB8ICAzICsrCiAzIGZpbGVzIGNoYW5nZWQsIDU5
+IGluc2VydGlvbnMoKyksIDQyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZl
+YXVfYm8uYwppbmRleCAwOTFmODBmYmJkN2MuLmY2Y2FjNmVlYzY4NyAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L25vdXZlYXVfYm8uYwpAQCAtNjY4LDYgKzY2OCwzMyBAQCBub3V2ZWF1X3R0bV90dF9j
+cmVhdGUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgdWludDMyX3QgcGFnZV9mbGFncykK
+IAlyZXR1cm4gbm91dmVhdV9zZ2RtYV9jcmVhdGVfdHRtKGJvLCBwYWdlX2ZsYWdzKTsKIH0KIAor
+c3RhdGljIGludAorbm91dmVhdV90dG1fdHRfYmluZChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
+diwgc3RydWN0IHR0bV90dCAqdHRtLAorCQkgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqcmVnKQor
+eworI2lmIElTX0VOQUJMRUQoQ09ORklHX0FHUCkKKwlzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSA9
+IG5vdXZlYXVfYmRldihiZGV2KTsKKworCWlmIChkcm0tPmFncC5icmlkZ2UpCisJCXJldHVybiB0
+dG1fYWdwX2JpbmQoYmRldiwgdHRtLCByZWcpOworI2VuZGlmCisJcmV0dXJuIG5vdXZlYXVfc2dk
+bWFfYmluZChiZGV2LCB0dG0sIHJlZyk7Cit9CisKK3N0YXRpYyB2b2lkCitub3V2ZWF1X3R0bV90
+dF91bmJpbmQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQgKnR0bSkK
+K3sKKyNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCisJc3RydWN0IG5vdXZlYXVfZHJtICpkcm0g
+PSBub3V2ZWF1X2JkZXYoYmRldik7CisKKwlpZiAoZHJtLT5hZ3AuYnJpZGdlKSB7CisJCXR0bV9h
+Z3BfdW5iaW5kKGJkZXYsIHR0bSk7CisJCXJldHVybjsKKwl9CisjZW5kaWYKKwlub3V2ZWF1X3Nn
+ZG1hX3VuYmluZChiZGV2LCB0dG0pOworfQorCiBzdGF0aWMgdm9pZAogbm91dmVhdV9ib19ldmlj
+dF9mbGFncyhzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBzdHJ1Y3QgdHRtX3BsYWNlbWVu
+dCAqcGwpCiB7CkBAIC0xMjg1LDYgKzEzMTIsMjAgQEAgbm91dmVhdV90dG1fdHRfdW5wb3B1bGF0
+ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKIAl0dG1fdW5tYXBfYW5kX3VucG9wdWxhdGVf
+cGFnZXMoZGV2LCB0dG1fZG1hKTsKIH0KIAorc3RhdGljIHZvaWQKK25vdXZlYXVfdHRtX3R0X2Rl
+c3Ryb3koc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCisJCSAgICAgICBzdHJ1Y3QgdHRtX3R0
+ICp0dG0pCit7CisjaWYgSVNfRU5BQkxFRChDT05GSUdfQUdQKQorCXN0cnVjdCBub3V2ZWF1X2Ry
+bSAqZHJtID0gbm91dmVhdV9iZGV2KGJkZXYpOworCWlmIChkcm0tPmFncC5icmlkZ2UpIHsKKwkJ
+dHRtX2FncF9kZXN0cm95KGJkZXYsIHR0bSk7CisJCXJldHVybjsKKwl9CisjZW5kaWYKKwlub3V2
+ZWF1X3NnZG1hX2Rlc3Ryb3koYmRldiwgdHRtKTsKK30KKwogdm9pZAogbm91dmVhdV9ib19mZW5j
+ZShzdHJ1Y3Qgbm91dmVhdV9ibyAqbnZibywgc3RydWN0IG5vdXZlYXVfZmVuY2UgKmZlbmNlLCBi
+b29sIGV4Y2x1c2l2ZSkKIHsKQEAgLTEzMDAsNiArMTM0MSw5IEBAIHN0cnVjdCB0dG1fYm9fZHJp
+dmVyIG5vdXZlYXVfYm9fZHJpdmVyID0gewogCS50dG1fdHRfY3JlYXRlID0gJm5vdXZlYXVfdHRt
+X3R0X2NyZWF0ZSwKIAkudHRtX3R0X3BvcHVsYXRlID0gJm5vdXZlYXVfdHRtX3R0X3BvcHVsYXRl
+LAogCS50dG1fdHRfdW5wb3B1bGF0ZSA9ICZub3V2ZWF1X3R0bV90dF91bnBvcHVsYXRlLAorCS50
+dG1fdHRfYmluZCA9ICZub3V2ZWF1X3R0bV90dF9iaW5kLAorCS50dG1fdHRfdW5iaW5kID0gJm5v
+dXZlYXVfdHRtX3R0X3VuYmluZCwKKwkudHRtX3R0X2Rlc3Ryb3kgPSAmbm91dmVhdV90dG1fdHRf
+ZGVzdHJveSwKIAkuZXZpY3Rpb25fdmFsdWFibGUgPSB0dG1fYm9fZXZpY3Rpb25fdmFsdWFibGUs
+CiAJLmV2aWN0X2ZsYWdzID0gbm91dmVhdV9ib19ldmljdF9mbGFncywKIAkubW92ZV9ub3RpZnkg
+PSBub3V2ZWF1X2JvX21vdmVfbnRmeSwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfc2dkbWEuYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc2dk
+bWEuYwppbmRleCA2MDAwYzY1MGIxMDUuLjA1ZTU0MjI1NGUxZiAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zZ2RtYS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L25vdXZlYXVfc2dkbWEuYwpAQCAtMTQsNyArMTQsNyBAQCBzdHJ1Y3Qgbm91dmVhdV9z
+Z2RtYV9iZSB7CiAJc3RydWN0IG5vdXZlYXVfbWVtICptZW07CiB9OwogCi1zdGF0aWMgdm9pZAor
+dm9pZAogbm91dmVhdV9zZ2RtYV9kZXN0cm95KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBz
+dHJ1Y3QgdHRtX3R0ICp0dG0pCiB7CiAJc3RydWN0IG5vdXZlYXVfc2dkbWFfYmUgKm52YmUgPSAo
+c3RydWN0IG5vdXZlYXVfc2dkbWFfYmUgKil0dG07CkBAIC0yNSwxMCArMjUsMTEgQEAgbm91dmVh
+dV9zZ2RtYV9kZXN0cm95KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX3R0
+ICp0dG0pCiAJfQogfQogCi1zdGF0aWMgaW50Ci1udjA0X3NnZG1hX2JpbmQoc3RydWN0IHR0bV9i
+b19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQgKnR0bSwgc3RydWN0IHR0bV9yZXNvdXJjZSAq
+cmVnKQoraW50Citub3V2ZWF1X3NnZG1hX2JpbmQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
+IHN0cnVjdCB0dG1fdHQgKnR0bSwgc3RydWN0IHR0bV9yZXNvdXJjZSAqcmVnKQogewogCXN0cnVj
+dCBub3V2ZWF1X3NnZG1hX2JlICpudmJlID0gKHN0cnVjdCBub3V2ZWF1X3NnZG1hX2JlICopdHRt
+OworCXN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9iZGV2KGJkZXYpOwogCXN0cnVj
+dCBub3V2ZWF1X21lbSAqbWVtID0gbm91dmVhdV9tZW0ocmVnKTsKIAlpbnQgcmV0OwogCkBAIC0z
+Niw2NSArMzcsMzQgQEAgbnYwNF9zZ2RtYV9iaW5kKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2
+LCBzdHJ1Y3QgdHRtX3R0ICp0dG0sIHN0cnVjdCB0dG1fcmVzb3UKIAlpZiAocmV0KQogCQlyZXR1
+cm4gcmV0OwogCi0JcmV0ID0gbm91dmVhdV9tZW1fbWFwKG1lbSwgJm1lbS0+Y2xpLT52bW0udm1t
+LCAmbWVtLT52bWFbMF0pOwotCWlmIChyZXQpIHsKLQkJbm91dmVhdV9tZW1fZmluaShtZW0pOwot
+CQlyZXR1cm4gcmV0OworCWlmIChkcm0tPmNsaWVudC5kZXZpY2UuaW5mby5mYW1pbHkgPCBOVl9E
+RVZJQ0VfSU5GT19WMF9URVNMQSkgeworCQlyZXQgPSBub3V2ZWF1X21lbV9tYXAobWVtLCAmbWVt
+LT5jbGktPnZtbS52bW0sICZtZW0tPnZtYVswXSk7CisJCWlmIChyZXQpIHsKKwkJCW5vdXZlYXVf
+bWVtX2ZpbmkobWVtKTsKKwkJCXJldHVybiByZXQ7CisJCX0KIAl9CiAKIAludmJlLT5tZW0gPSBt
+ZW07CiAJcmV0dXJuIDA7CiB9CiAKLXN0YXRpYyB2b2lkCi1udjA0X3NnZG1hX3VuYmluZChzdHJ1
+Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV90dCAqdHRtKQordm9pZAorbm91dmVh
+dV9zZ2RtYV91bmJpbmQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQg
+KnR0bSkKIHsKIAlzdHJ1Y3Qgbm91dmVhdV9zZ2RtYV9iZSAqbnZiZSA9IChzdHJ1Y3Qgbm91dmVh
+dV9zZ2RtYV9iZSAqKXR0bTsKIAlub3V2ZWF1X21lbV9maW5pKG52YmUtPm1lbSk7CiB9CiAKLXN0
+YXRpYyBzdHJ1Y3QgdHRtX2JhY2tlbmRfZnVuYyBudjA0X3NnZG1hX2JhY2tlbmQgPSB7Ci0JLmJp
+bmQJCQk9IG52MDRfc2dkbWFfYmluZCwKLQkudW5iaW5kCQkJPSBudjA0X3NnZG1hX3VuYmluZCwK
+LQkuZGVzdHJveQkJPSBub3V2ZWF1X3NnZG1hX2Rlc3Ryb3kKLX07Ci0KLXN0YXRpYyBpbnQKLW52
+NTBfc2dkbWFfYmluZChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV90dCAq
+dHRtLCBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZWcpCi17Ci0Jc3RydWN0IG5vdXZlYXVfc2dkbWFf
+YmUgKm52YmUgPSAoc3RydWN0IG5vdXZlYXVfc2dkbWFfYmUgKil0dG07Ci0Jc3RydWN0IG5vdXZl
+YXVfbWVtICptZW0gPSBub3V2ZWF1X21lbShyZWcpOwotCWludCByZXQ7Ci0KLQlyZXQgPSBub3V2
+ZWF1X21lbV9ob3N0KHJlZywgJm52YmUtPnR0bSk7Ci0JaWYgKHJldCkKLQkJcmV0dXJuIHJldDsK
+LQotCW52YmUtPm1lbSA9IG1lbTsKLQlyZXR1cm4gMDsKLX0KLQotc3RhdGljIHN0cnVjdCB0dG1f
+YmFja2VuZF9mdW5jIG52NTBfc2dkbWFfYmFja2VuZCA9IHsKLQkuYmluZAkJCT0gbnY1MF9zZ2Rt
+YV9iaW5kLAotCS51bmJpbmQJCQk9IG52MDRfc2dkbWFfdW5iaW5kLAotCS5kZXN0cm95CQk9IG5v
+dXZlYXVfc2dkbWFfZGVzdHJveQotfTsKLQogc3RydWN0IHR0bV90dCAqCiBub3V2ZWF1X3NnZG1h
+X2NyZWF0ZV90dG0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgdWludDMyX3QgcGFnZV9m
+bGFncykKIHsKLQlzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSA9IG5vdXZlYXVfYmRldihiby0+YmRl
+dik7CiAJc3RydWN0IG5vdXZlYXVfc2dkbWFfYmUgKm52YmU7CiAKIAludmJlID0ga3phbGxvYyhz
+aXplb2YoKm52YmUpLCBHRlBfS0VSTkVMKTsKIAlpZiAoIW52YmUpCiAJCXJldHVybiBOVUxMOwog
+Ci0JaWYgKGRybS0+Y2xpZW50LmRldmljZS5pbmZvLmZhbWlseSA8IE5WX0RFVklDRV9JTkZPX1Yw
+X1RFU0xBKQotCQludmJlLT50dG0udHRtLmZ1bmMgPSAmbnYwNF9zZ2RtYV9iYWNrZW5kOwotCWVs
+c2UKLQkJbnZiZS0+dHRtLnR0bS5mdW5jID0gJm52NTBfc2dkbWFfYmFja2VuZDsKLQogCWlmICh0
+dG1fZG1hX3R0X2luaXQoJm52YmUtPnR0bSwgYm8sIHBhZ2VfZmxhZ3MpKSB7CiAJCWtmcmVlKG52
+YmUpOwogCQlyZXR1cm4gTlVMTDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfdHRtLmggYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3R0bS5oCmlu
+ZGV4IGVhZjI1NDYxY2Q5MS4uNjk1NTIwNDliYjk2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9ub3V2ZWF1X3R0bS5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
+dXZlYXVfdHRtLmgKQEAgLTIyLDQgKzIyLDcgQEAgaW50ICBub3V2ZWF1X3R0bV9tbWFwKHN0cnVj
+dCBmaWxlICosIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqKTsKIGludCAgbm91dmVhdV90dG1fZ2xv
+YmFsX2luaXQoc3RydWN0IG5vdXZlYXVfZHJtICopOwogdm9pZCBub3V2ZWF1X3R0bV9nbG9iYWxf
+cmVsZWFzZShzdHJ1Y3Qgbm91dmVhdV9kcm0gKik7CiAKK2ludCBub3V2ZWF1X3NnZG1hX2JpbmQo
+c3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQgKnR0bSwgc3RydWN0IHR0
+bV9yZXNvdXJjZSAqcmVnKTsKK3ZvaWQgbm91dmVhdV9zZ2RtYV91bmJpbmQoc3RydWN0IHR0bV9i
+b19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQgKnR0bSk7Cit2b2lkIG5vdXZlYXVfc2dkbWFf
+ZGVzdHJveShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV90dCAqdHRtKTsK
+ICNlbmRpZgotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
