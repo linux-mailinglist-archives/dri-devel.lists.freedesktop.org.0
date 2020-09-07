@@ -1,123 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D9025F480
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:03:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D53625F48A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56026E31D;
-	Mon,  7 Sep 2020 08:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED57E6E2DF;
+	Mon,  7 Sep 2020 08:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 868616E342
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:02:57 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j2so14741656wrx.7
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:autocrypt:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4xVBpZJk3B3sGC8e0YUfLrzfC0ZzglusESsfU+wv+zg=;
- b=apdq98lIicFBwX8i1BVk3L0kQJOrIA3yJJMdHk5MyJyfS8p/38GFacYxfpvkeC19ZO
- /x0VFu02aRY06gdp41I2ytldmM7xGa3Q7/epi6LVywT77F3QuUjzO5U7znQXN/QeR3ZU
- soBdJCjDPhf57cySVVIsG1s/DU2h6kgnVKjJC1ljtygbx/G3T41nwC2a4AkeUYHsxlPL
- AFz8qLKJKb/N17AsDwLtgjKq7TobylD2thdDNgE91Qofg5Dx1YpjMtK+C4qGbUIaesTf
- +fsQmLJ9RkEJQvN2YfSq+v7ayhLdMBLjavRq/3doxjLlgwmISE+puig9J3ooXlaI90Ol
- uezQ==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC8616E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:06:12 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id s13so13416512wmh.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=J1Mpi4UEGst1+jfTnSAZj1njlq1xD6nM4x6w31L/2X0=;
+ b=FOBwhnKLM1GK4o55+YgVRJeoCXrR0a/twv0kdgj2Dq5MTJ9AQc7YprEvSbcjJjzWxb
+ pEKPxBs8/0EgAthjuLFjWRjPxmVQPqZq1Q5LjmfvN/l9W+3pQEosyGzE/Ophf1h2LeEO
+ x1YRnxSN+YZH9+bM2Gu5Cv0spcDU8nzdt0nz4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=4xVBpZJk3B3sGC8e0YUfLrzfC0ZzglusESsfU+wv+zg=;
- b=Q4atINJaz9/jgYu2uJZDOuDG1kI3iU5/PHga1gUeS4Qlpufg2nObuNDIHJPC/yyt4h
- bWKdJa4ffKqE2i/xDRJnWAxrP+KmFkPAbRJF8VrZ8p4ILSEg+vLpV3f4h35ODThexJGq
- lCeykJTxWkIJnm475RO/XTzGqYWTdQ0tjAhmi6IJMQDl6ITV8DkOGkNRJnJrPfNNJkXB
- QPokS5Mo3vS33V9NLwF/KKp5RGhXvdb0ahqtSL6Qz/tgrKr/6wIiH1Xswsv1XSk7kK9U
- BjyI/uiPHQ7e5TSncCt45fSkQaADHSqNjJFY0OSd9iV8pazKI9KTrMhKbHoaVNBYPU+P
- 4MLw==
-X-Gm-Message-State: AOAM531bGlbTcaMvp8PNdw8sWAdzeqvDhUEZ5lW5lxBW+1b1khJBZWG4
- /n0AL+u70nhtEJJTjYuJrYfmuA==
-X-Google-Smtp-Source: ABdhPJxabxT1HOw193C6STaGuGZMf6q8GGBaHNqfrdkIHW/CZODmRkpFcG2+cIE9nDcMI6D+7p6Cpw==
-X-Received: by 2002:adf:ec47:: with SMTP id w7mr1231197wrn.175.1599465776038; 
- Mon, 07 Sep 2020 01:02:56 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac?
- ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
- by smtp.gmail.com with ESMTPSA id l9sm26112679wmh.1.2020.09.07.01.02.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Sep 2020 01:02:55 -0700 (PDT)
-Subject: Re: [PATCH] drm/bridge/synopsys: dsi: add support for non-continuous
- HS clock
-To: Yannick Fertre <yannick.fertre@st.com>,
- Philippe Cornu <philippe.cornu@st.com>,
- Benjamin Gaignard <benjamin.gaignard@st.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200701194234.18123-1-yannick.fertre@st.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <0df90e8c-06d9-7574-d122-7676f33d49bf@baylibre.com>
-Date: Mon, 7 Sep 2020 10:02:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=J1Mpi4UEGst1+jfTnSAZj1njlq1xD6nM4x6w31L/2X0=;
+ b=V4MZhtYNS8GudhTrTfI9++J9rT2Y9/vcMtg0GZyQIGyFXxikX30UU79RZEWjMNLb9J
+ XGb6ALkNlx2IB/YT+gCPzBpYP36ZHI9zrrqfnBLE77qb5EfpMDBE+KXsSlRDcLOUOJSj
+ 3DSjynFoH3enZXbK5cHfAzIV1BqEN4aj+/qMRWHwGEjyeOKnMwbIuw86qrV7yN4xibXs
+ 4kJdURHWuPwZsuvpRMQKZOJu1n7jC5BVajxwtk/tFGC7Pkok9QGU/jb9m0+aFAlxOWuN
+ v5UkwtKNmJbhSnAiCos7quTylmPCJNusGMngDmxK+9vBb8Bqxqi/tRK+iZg4/k5d0Rar
+ 5jDQ==
+X-Gm-Message-State: AOAM532kYUl6ixNugKNkba6hMr/4XT9v7IvZgUbUzABGjo11luSvtNc1
+ fvRRQsSedgLDz0gkkkcIvBhzYw==
+X-Google-Smtp-Source: ABdhPJyP3+GM7ddbwBGCkBbL4EcryirV3FquaTBp2f8U3roTfj+eTB2QdzV7CLgAoppO8cZcTc4LoQ==
+X-Received: by 2002:a1c:cc05:: with SMTP id h5mr18787566wmb.129.1599465971341; 
+ Mon, 07 Sep 2020 01:06:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d2sm7437483wro.34.2020.09.07.01.06.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Sep 2020 01:06:10 -0700 (PDT)
+Date: Mon, 7 Sep 2020 10:06:08 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 1/1] drm/amdgpu: Convert to using devm_drm_dev_alloc()
+Message-ID: <20200907080608.GP2352366@phenom.ffwll.local>
+References: <20200904012218.4971-1-luben.tuikov@amd.com>
+ <20200904012218.4971-2-luben.tuikov@amd.com>
+ <CADnq5_NRyOfP48C5w4Q87qx98-hTLQP7PsP8OhGMbXJBu_Gb4A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200701194234.18123-1-yannick.fertre@st.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CADnq5_NRyOfP48C5w4Q87qx98-hTLQP7PsP8OhGMbXJBu_Gb4A@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,74 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/2020 21:42, Yannick Fertre wrote:
-> From: Antonio Borneo <antonio.borneo@st.com>
+On Sat, Sep 05, 2020 at 11:50:05AM -0400, Alex Deucher wrote:
+> On Thu, Sep 3, 2020 at 9:22 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
+> >
+> > Convert to using devm_drm_dev_alloc(),
+> > as drm_dev_init() is going away.
+> >
+> > Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
 > 
-> Current code enables the HS clock when video mode is started or to
-> send out a HS command, and disables the HS clock to send out a LP
-> command. This is not what DSI spec specify.
+> I think we can drop the final drm_put in the error case?  I think the
+> unwinding in current devm code should take care of it.
+
+Same applies for the pci remove hook too.
+-Daniel
 > 
-> Enable HS clock either in command and in video mode.
-> Set automatic HS clock management for panels and devices that
-> support non-continuous HS clock.
+> Alex
 > 
-> Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index d580b2aa4ce9..979acaa90d00 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -365,7 +365,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
->  	if (lpm)
->  		val |= CMD_MODE_ALL_LP;
->  
-> -	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
->  	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
->  }
->  
-> @@ -541,16 +540,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
->  static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
->  				 unsigned long mode_flags)
->  {
-> +	u32 val;
-> +
->  	dsi_write(dsi, DSI_PWR_UP, RESET);
->  
->  	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
->  		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
->  		dw_mipi_dsi_video_mode_config(dsi);
-> -		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
->  	} else {
->  		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
->  	}
->  
-> +	val = PHY_TXREQUESTCLKHS;
-> +	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-> +		val |= AUTO_CLKLANE_CTRL;
-> +	dsi_write(dsi, DSI_LPCLK_CTRL, val);
-> +
->  	dsi_write(dsi, DSI_PWR_UP, POWERUP);
->  }
->  
-> 
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++--------
+> >  1 file changed, 3 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > index 146a85c8df1c..06d994187c24 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > @@ -1142,18 +1142,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+> > -       if (!adev)
+> > -               return -ENOMEM;
+> > +       adev = devm_drm_dev_alloc(&pdev->dev, &kms_driver, typeof(*adev), ddev);
+> > +       if (IS_ERR(adev))
+> > +               return PTR_ERR(adev);
+> >
+> >         adev->dev  = &pdev->dev;
+> >         adev->pdev = pdev;
+> >         ddev = adev_to_drm(adev);
+> > -       ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
+> > -       if (ret)
+> > -               goto err_free;
+> > -
+> > -       drmm_add_final_kfree(ddev, adev);
+> >
+> >         if (!supports_atomic)
+> >                 ddev->driver_features &= ~DRIVER_ATOMIC;
+> > --
+> > 2.28.0.394.ge197136389
+> >
+> > _______________________________________________
+> > amd-gfx mailing list
+> > amd-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
-Tested on Amlogic AXG (v1.21a)
-
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-
-Applying to drm-misc-next
-
-Thanks !
-Neil
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
