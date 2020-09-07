@@ -2,46 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9575425F56E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:37:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491CE25F57A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:40:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1156E3C4;
-	Mon,  7 Sep 2020 08:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 883536E3C6;
+	Mon,  7 Sep 2020 08:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4BE6E3C4
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:37:38 +0000 (UTC)
-Date: Mon, 07 Sep 2020 08:37:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1599467856;
- bh=JN/yZ7SilYIlWx/DmY1NfdlbGIdDTKlelRuwWYnAwVQ=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=i1mfJb6NwBgg1+wYGY8j/BPa7kCDqbdNqZpmQcjQuofGnHnp5lTXUUpBVBegd/l6y
- lbygVLU/MG1EEU86mrgFafQSzWfnO6mWb41z5cX7SCIRqlTM4+5D2hfTgosTnGq1zN
- zDhL0n3R4OCYcG2rr+LoiulXcQ2GLhqM+N1VvjrhVxQDdlIN3CG9qgul6k/f7afqKG
- h8LlAP40ovMNtqS/LkHpE5oxz2XQcFujXLSmYeX7/904kVJRfDrKRKnZJ0wWzvCT6n
- stJqdjXaNZKqXHAFn4sfJDfpe9kyQxsIqfPNc3TCDN8wXE7Yu+Z9invv5JNtyF4DWt
- sECYGm99tNVbQ==
-To: Daniel Vetter <daniel@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/doc: Document that modifiers are always required for
- fb
-Message-ID: <jjQkalouYz08npkZ2r2MPoXoGML4DkABCtPEZYJkHgR9dGOQCcICe_oq_rpBVnzkpxK4SwDXY9gF8zlhfMWqiWoHHpP5N08nUmo-tA3jIW4=@emersion.fr>
-In-Reply-To: <20200907083133.GS2352366@phenom.ffwll.local>
-References: <20200902102440.3621733-1-daniel.vetter@ffwll.ch>
- <t3hHLqZ0yNm5FdxpyJovgjEVzs-OD7qD5nYrYXug8UhkBykhekB0_hOqPltEvFH3daJ3HYtY_3FInv3U5xIHprg1FS7b2SP8fCf48r7DvVg=@emersion.fr>
- <CAKMK7uFztTjjvQvM-toeZv3hps+NMJFXV7s=Dzs5PwG3J+7wjw@mail.gmail.com>
- <ap5W_r98yx5DpM1jFkrof6yWGWPtxbyObFp3iIP1-hm-SD_-Jij72KZK2VhVV2p-34EqdVE6T1JeW4zAgjnNsxv_CtULfvg2ASY3xECXMuY=@emersion.fr>
- <CAKMK7uGs2vQNf1+=4spQV4aCncOPE4+E7g95xqZ7kcD8pp5bTg@mail.gmail.com>
- <55Yt-xRb-j_BnxyoixpIT6a4aOd2-SMetoyIVRBwOBFc98R5A3-gAcYcFo5Sjj-7TcvLdy3669gwn5eCOoOi85A2MlZaUwqpQETei77426A=@emersion.fr>
- <20200907083133.GS2352366@phenom.ffwll.local>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5BE6E3C6
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:40:28 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id w2so13541865wmi.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:40:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cJf1kmiWsQZG8IFiIR3q6R3hEFfEZk5imyH5+TkJyPA=;
+ b=Lnd5Vtj3bdjvwakv4ZO/pL5KZE7kSwZH0nHoau2uOrh0hBk2hCL8YO6JlH8QA8pOeH
+ l0AS/mV5iFBnlln7a0ddsvf9/+25wOaJJp+WaFdx3vjrR5/n7CLei4K00D7YKETEpFcQ
+ ZFrL7C4AYrDgU/DxsFzdqmanw5V3xEIpkCzU0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cJf1kmiWsQZG8IFiIR3q6R3hEFfEZk5imyH5+TkJyPA=;
+ b=HsKnTlx9SbA70R0zXukDlP01wpOwPIRyNJIbOuE7P/N2IFBXm9lu/Fb9DA3yW4YFwa
+ 3EHpAxCwF2+YElJM14eINa2cqvxL8J0a5V0UQdgTWwjB6ujGQcoL3BlKbvy21a06bbRF
+ 7p3QOhH1PccOcCAtXmWK3KF/eyxu9twJzlMt18JgwIidiHWo5CAo+yn/iN8CPjWGSO7d
+ HMrXEMXFo9oDiPN0PyEWvboKYTj18Ga6Tk8KHjQOWQ5xQK9dvkVYBnD4aq9g6+kBSR59
+ 0tQKTlP+WS1WstD0+mY3QYGpZP4eL62HBabSBlHnGz4AZktAn+yqpxgWtofIl8IaiA8R
+ gYGQ==
+X-Gm-Message-State: AOAM530xiaj42VzX9wj/qjMFvbgRhXi2HzTeZgy3p4UsPgjega5eVsi2
+ I4rp6EEi+hP8M2EU7pcOHwpbZw==
+X-Google-Smtp-Source: ABdhPJxcceae4ymKyuj2P3/auSOcq/8WOwgttKuu9CM/GDXtd+wBmnh3AulTh4Bg8F0MrHmAz6yH6w==
+X-Received: by 2002:a7b:cc8f:: with SMTP id p15mr19679857wma.18.1599468027002; 
+ Mon, 07 Sep 2020 01:40:27 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b11sm27220193wrt.38.2020.09.07.01.40.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Sep 2020 01:40:26 -0700 (PDT)
+Date: Mon, 7 Sep 2020 10:40:24 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 0/2] drm: fix virtio-gpu + sev
+Message-ID: <20200907084024.GT2352366@phenom.ffwll.local>
+References: <20200907063343.18097-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20200907063343.18097-1-kraxel@redhat.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,74 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Stone <daniels@collabora.com>,
- =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Juston Li <juston.li@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uZGF5LCBTZXB0ZW1iZXIgNywgMjAyMCAxMDozMSBBTSwgRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPiB3cm90ZToKCj4gT24gV2VkLCBTZXAgMDIsIDIwMjAgYXQgMDI6NTk6NDlQ
-TSArMDAwMCwgU2ltb24gU2VyIHdyb3RlOgo+Cj4gPiBPbiBXZWRuZXNkYXksIFNlcHRlbWJlciAy
-LCAyMDIwIDQ6MjkgUE0sIERhbmllbCBWZXR0ZXIgZGFuaWVsLnZldHRlckBmZndsbC5jaCB3cm90
-ZToKPiA+Cj4gPiA+IE9uIFdlZCwgU2VwIDIsIDIwMjAgYXQgMjo0OSBQTSBTaW1vbiBTZXIgY29u
-dGFjdEBlbWVyc2lvbi5mciB3cm90ZToKPiA+ID4KPiA+ID4gPiBPbiBXZWRuZXNkYXksIFNlcHRl
-bWJlciAyLCAyMDIwIDI6NDQgUE0sIERhbmllbCBWZXR0ZXIgZGFuaWVsLnZldHRlckBmZndsbC5j
-aCB3cm90ZToKPiA+ID4gPgo+ID4gPiA+ID4gPiBJIHN1cHBvc2Ugc29tZXRoaW5nIHNpbWlsYXIg
-aGFwcGVucyBpbiB1c2VyLXNwYWNlOiBnYm1fYm9fY3JlYXRlCj4gPiA+ID4gPiA+IHdpdGhvdXQg
-bW9kaWZpZXJzIG5lZWRzIHRvIHByb3Blcmx5IHNldCB0aGUgaW1wbGljaXQgbW9kaWZpZXIsIGll
-Lgo+ID4gPiA+ID4gPiBnYm1fYm9fZ2V0X21vZGlmaWVyIG5lZWRzIHRvIHJldHVybiB0aGUgZWZm
-ZWN0aXZlIG1vZGlmaWVyLiBJcyB0aGlzCj4gPiA+ID4gPiA+IHNvbWV0aGluZyBhbHJlYWR5IGRv
-Y3VtZW50ZWQ/Cj4gPiA+ID4gPgo+ID4gPiA+ID4gSSBkb24ndCB0aGluayB0aGF0IGhhcHBlbnMs
-IGJ1dCBpdCBoYXMgY29tZSB1cCBpbiBkaXNjdXNzaW9ucy4gSXQncwo+ID4gPiA+ID4ga2luZGEg
-ZGlmZmVyZW50IHNjZW5hcmlvIHRob3VnaDogZ2V0ZmIyIGlzIGZvciBjcm9zcy1jb21wb3NpdG9y
-IHN0dWZmLAo+ID4gPiA+ID4gZW5hYmxpbmcgc21vb3RoIHRyYW5zaXRpb25zIGF0IGJvb3QtdXAg
-YW5kIHdoZW4gc3dpdGNoaW5nLiBTbyB5b3UgaGF2ZQo+ID4gPiA+ID4gYSBsZWdpdCByZWFzb24g
-Zm9yIG1peGluZyBtb2RpZmllci1hd2FyZSB1c2Vyc3BhY2Ugd2l0aAo+ID4gPiA+ID4gbm9uLW1v
-ZGlmaWVyLWF3YXJlIHVzZXJzcGFjZS4gQW5kIHRoZSBtb2RpZmllci1hd2FyZSB1c2Vyc3BhY2Ug
-d291bGQKPiA+ID4gPiA+IGxpa2UgdGhhdCBldmVyeXRoaW5nIHdvcmtzIHdpdGggbW9kaWZpZXJz
-IGNvbnNpc3RlbnRseSwgaW5jbHVkaW5nCj4gPiA+ID4gPiBnZXRmYjIuIEJ1dCBnYm0gaXMganVz
-dCB3aXRoaW4gYSBzaW5nbGUgcHJvY2VzcywgYW5kIHRoYXQgc2hvdWxkCj4gPiA+ID4gPiBlaXRo
-ZXIgcnVuIGFsbCB3aXRoIG1vZGlmaWVycywgb3Igbm90IGF0IGFsbCwgc2luY2UgdGhlc2Ugd29y
-bGRzIGp1c3QKPiA+ID4gPiA+IGRvbnQgbWl4IHdlbGwuIEhlbmNlIEknbSBub3Qgc2VlaW5nIG11
-Y2ggdXNlIGZvciB0aGF0LCAtbW9kZXNldHRpbmcKPiA+ID4gPiA+IGJlaW5nIGEgY29uZnVzZWQg
-bWVzcyBub253aXRoc3RhbmRpbmcgOi0pCj4gPiA+ID4KPiA+ID4gPiBXZWxs4oCmIFRoZXJlJ3Mg
-YWxzbyB0aGUgY2FzZSB3aGVyZSBzb21lIGxlZ2FjeSBXYXlsYW5kIGNsaWVudCB0YWxrcyB0byBh
-Cj4gPiA+ID4gbW9kaWZpZXItYXdhcmUgY29tcG9zaXRvci4gZ2JtX2JvX2ltcG9ydCB3b3VsZCBi
-ZSBjYWxsZWQgd2l0aG91dCBhCj4gPiA+ID4gbW9kaWZpZXIsIGJ1dCB0aGUgY29tcG9zaXRvciBl
-eHBlY3RzIGdibV9ib19nZXRfbW9kaWZpZXIgdG8gd29yay4KPiA+ID4gPiBBbHNvLCB3bHJvb3Rz
-IHdpbGwgY2FsbCBnYm1fYm9fY3JlYXRlIHdpdGhvdXQgYSBtb2RpZmllciB0byBvbmx5IGxldAo+
-ID4gPiA+IHRoZSBkcml2ZXIgcGljayAic2FmZSIgbW9kaWZpZXJzIGluIGNhc2UgcGFzc2luZyB0
-aGUgZnVsbCBsaXN0IG9mCj4gPiA+ID4gbW9kaWZpZXJzIHJlc3VsdHMgaW4gYSBibGFjayBzY3Jl
-ZW4uIExhdGVyIG9uIHdscm9vdHMgd2lsbCBjYWxsCj4gPiA+ID4gZ2JtX2JvX2dldF9tb2RpZmll
-ciB0byBmaWd1cmUgb3V0IHdoYXQgbW9kaWZpZXIgdGhlIGRyaXZlciBwaWNrZWQuCj4gPiA+Cj4g
-PiA+IGdibV9ib19pbXBvcnQgaXMgYSBkaWZmZXJlbnQgdGhpbmcgZnJvbSBnYm1fYm9fY3JlYXRl
-LiBGb3JtZXIgSSBhZ3JlZQo+ID4gPiBzaG91bGQgZmlndXJlIG91dCB0aGUgcmlnaHQgbW9kaWZp
-ZXJzIChhbmQgSSB0aGluayBpdCBkb2VzIHRoYXQsIGF0Cj4gPiA+IGxlYXN0IG9uIGludGVsIG1l
-c2EpLiBGb3IgZ2JtX2JvX2NyZWF0ZSBJJ20gbm90IHN1cmUgd2Ugc2hvdWxkL25lZWQgdG8KPiA+
-ID4gcmVxdWlyZSB0aGF0Lgo+ID4KPiA+IEkgZ3Vlc3MgdGhlIGNvbXBvc2l0b3Igd2lsbCBqdXN0
-IGZvcndhcmQgdGhlIHZhbHVlIHJldHVybmVkIGJ5Cj4gPiBnYm1fYm9fZ2V0X21vZGlmaWVyIGlu
-IGFueSBjYXNlLCBzbyByZXR1cm5pbmcgSU5WQUxJRCB3b3VsZCBiZSBmaW5lCj4gPiB0b28gKHRv
-IG1lYW4gImltcGxpY2l0IG1vZGlmaWVyIikuCj4gPiBJbiBib3RoIHRoZSBjcmVhdGUgYW5kIGlt
-cG9ydCBjYXNlcywgb3RoZXIgbWV0YWRhdGEgbGlrZSBwaXRjaGVzIGFuZAo+ID4gb2Zmc2V0cyBz
-aG91bGQgYmUgY29ycmVjdGx5IHNldCBJIHRoaW5rPwo+Cj4gV2VsbCBpZiB5b3UgaGF2ZSBhIG1v
-ZGlmaWVyIGZvcm1hdCB1bmRlcm5lYXRoLCB0aGUgbm9uLW1vZGlmaWVyZWQgb2Zmc2V0cwo+IGFu
-ZCBwaXRjaGVzIG1pZ2h0IGJlIHB1cmUgZmljdGlvbi4gQWxzbywgdGhleSBtaWdodCBub3QgYmUg
-c3VmZmljaWVudCwgaWYKPiB0aGUgbW9kaWZpZXIgYWRkcyBtb3JlIHBsYW5lcy4KCkluIHRoaXMg
-Y2FzZSAoZ2JtX2JvX2NyZWF0ZSB3aXRob3V0IG1vZGlmaWVycyksIHdlJ3JlIGRpc2N1c3NpbmcK
-d2hldGhlciB3ZSByZXF1aXJlIGdibV9ib19nZXRfbW9kaWZpZXIgdG8gcmV0dXJuIGEgdmFsaWQg
-bW9kaWZpZXIsIG9yCmlmIElOVkFMSUQgaXMgZmluZS4KCj4gU28gSSdtIG5vdCBzdXJlIGhvdyB3
-ZSBjYW4gbGV0IHRoZSAiaW1wbGljaXQgbW9kaWZpZXIiIGdvIHRocm91Z2ggb25jZSBhCj4gc3Rh
-Y2sgaXMgY29udmVydGVkIHRvIHN1cHBvcnQgbW9kaWZpZXJzLiBJbiBhIHdheSBtb2RpZmllcnMg
-YXJlIG9uZS13YXkKPiBjb21wYXRpYmxlIG9ubHk6IGltcGxpY2l0IG1vZGlmaWVycyAtPiBleHBs
-aWNpdCBtb2RpZmllcnMgc2hvdWxkIGJlCj4gd2VsbC1kZWZpbmVkLCB0aGUgb3RoZXIgd2F5IGp1
-c3QgbG9vc2VzIGluZm9ybWF0aW9uIGFuZCBkb2Vzbid0IHdvcmsuCgpUaGF0IG1ha2VzIHNlbnNl
-IHRvIG1lLCBhbmQgc3RpbGwgd29ya3MgZmluZSB3aXRoIHRoZSB0d28gdXNlLWNhc2VzCm91dGxp
-bmVkIGFib3ZlLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Sep 07, 2020 at 08:33:41AM +0200, Gerd Hoffmann wrote:
+> virtio-gpu must make sure scatter list segments are not too big.
+> 
+> Gerd Hoffmann (2):
+>   drm: allow limiting the scatter list size.
+>   drm/virtio: set max_segment
+
+So this all feels a bit irky and mid-layer, and why can't the various
+helpers not just use dma_max_mapping_size(drm_device->dev) directly.
+
+And then I read that dma api use in virtio subsystem is a huge mess of
+hacks, and that it doesn't set up these quirks through the dma api
+abstraction but throught it's own abstraction on top. So we don't really
+have any other option I think.
+
+I think would be good to add a TODO item to the virtio_max_dma_size call
+like:
+
+	TODO: once virtio uses the dma api correctly, remove the explicit
+	max_segment handling na duse dma_max_mapping_size directly
+	everywhere.
+
+Or maybe also put that into the @max_segment kerneldoc in the drm_device
+struct.
+
+With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> on the
+series.
+-Daniel
+
+> 
+>  include/drm/drm_device.h                    |  8 ++++++++
+>  include/drm/drm_prime.h                     |  3 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  3 ++-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c      |  3 ++-
+>  drivers/gpu/drm/drm_prime.c                 | 10 +++++++---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  3 ++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  3 ++-
+>  drivers/gpu/drm/msm/msm_gem.c               |  3 ++-
+>  drivers/gpu/drm/msm/msm_gem_prime.c         |  3 ++-
+>  drivers/gpu/drm/nouveau/nouveau_prime.c     |  3 ++-
+>  drivers/gpu/drm/radeon/radeon_prime.c       |  3 ++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  6 ++++--
+>  drivers/gpu/drm/tegra/gem.c                 |  3 ++-
+>  drivers/gpu/drm/vgem/vgem_drv.c             |  3 ++-
+>  drivers/gpu/drm/virtio/virtgpu_kms.c        |  1 +
+>  drivers/gpu/drm/xen/xen_drm_front_gem.c     |  3 ++-
+>  16 files changed, 44 insertions(+), 17 deletions(-)
+> 
+> -- 
+> 2.27.0
+> 
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
