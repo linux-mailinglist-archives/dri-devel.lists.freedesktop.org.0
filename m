@@ -2,59 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2787625F820
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 12:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D227825F83A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 12:29:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0196E2E1;
-	Mon,  7 Sep 2020 10:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA776E41B;
+	Mon,  7 Sep 2020 10:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2FB16E2E1
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 10:27:19 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id q9so13871265wmj.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 03:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q+TGJ9Ym0syTVzzBabl2tk8Nt0BUMxgbGAdUQw/45cA=;
- b=btZLeOKD0ZVAZhWmFKYS7P+7KmHUYWi1YspXazFPkyYMaMzS+7Yne84P1Hf5+6az8t
- 2Is6BXNHwuVtIc+ZX/bdAkv/amNgrbBGPRtmn7XmYH+E/cSG/3Q1VYZa85sd0iDyalx2
- c/R5xqbskcE2fnqx/ZjejzFED8IF2x1kT87psi2z0vymvG9eGPOmkp/YvyVOg/WNSClz
- jyPl9BNrQCoFZSoxYYvAF7VhDAqY4c4AZn8usGF9s7LhAos481B0gg2hEFjj0LAK8axM
- at7Z2eSFJbP2M6ydH2zGbss0+yB1bC04xUBy5MDsWLJj3lO37XBAwiY3dCC2C98+Nuel
- KIjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q+TGJ9Ym0syTVzzBabl2tk8Nt0BUMxgbGAdUQw/45cA=;
- b=HQS/TgaHioRwYPTHYF/y1qDTzsZRPHlHazZRk5uwuo/hLGg+iMqTGI5/HZxBV5WXb0
- KeHAua8gNj0Hg2AhAOnKya360KzGjUojA/wVl3PUVNIZ75SMuSUBes0BqvqKlO5Wj8us
- Esgj8Ww/S0o4+8mFG61oiTEuRNhn9EgA+9eboB8ZY/f9wBqOu2aByc+Letp2tV97HPRA
- tcpr9AIndxTScG7mx22CHlnAsUWzvR/kmDDHJfL4A8rUN2WPTVcMRAdhUSNE2n4kn+QP
- 9Fp6vSf2/xsTwJ5XQopNFcpNqOsohfoykFGQ9nUrYIxci4D2F7QPXod+RWMDWFTTv2h7
- VByA==
-X-Gm-Message-State: AOAM531mV0p/ROFnQyyamnTptUUjAwwh26COtO2zRpJHfVozf7UsQMvL
- 5b7zOLMxQfFJZdqik9+rUl45bQ==
-X-Google-Smtp-Source: ABdhPJyxS4K4d+QoWFAYuoDAZcg++KNLJApzaQrGlUOj4t+ZfxjITEPYxwzZXZUCD6x1bh0qP/+QKQ==
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr20046965wmj.169.1599474438401; 
- Mon, 07 Sep 2020 03:27:18 -0700 (PDT)
-Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
- by smtp.gmail.com with ESMTPSA id j14sm27758688wrr.66.2020.09.07.03.27.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 03:27:17 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: maxime@cerno.tech, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- angelo.ribeiro@synopsys.com
-Subject: [PATCH] drm/bridge: dw-mipi-dsi: fix dw_mipi_dsi_debugfs_show/write
- warnings
-Date: Mon,  7 Sep 2020 12:27:11 +0200
-Message-Id: <20200907102711.23748-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4AC9D6E41B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 10:29:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 0C0B02A6042;
+ Mon,  7 Sep 2020 12:29:25 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id qXTjMtX9lbI6; Mon,  7 Sep 2020 12:29:24 +0200 (CEST)
+Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id CE6672A6016;
+ Mon,  7 Sep 2020 12:29:23 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1kFEOw-000Lc5-KY; Mon, 07 Sep 2020 12:29:22 +0200
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+ <20200907075559.GN2352366@phenom.ffwll.local>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
+ and fix-ups.
+Message-ID: <5ea9e575-e2ba-1f12-4894-3c0d271ea294@daenzer.net>
+Date: Mon, 7 Sep 2020 12:29:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.1
 MIME-Version: 1.0
+In-Reply-To: <20200907075559.GN2352366@phenom.ffwll.local>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +51,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bjorn@helgaas.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thierry Reding <treding@nvidia.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes the following warnings while building in W=1 :
-dw-mipi-dsi.c:1002:5: warning: no previous prototype for 'dw_mipi_dsi_debugfs_write' [-Wmissing-prototypes]
-dw-mipi-dsi.c:1027:5: warning: no previous prototype for 'dw_mipi_dsi_debugfs_show' [-Wmissing-prototypes]
-
-Fixes: e2435d69204c ("drm/bridge: dw-mipi-dsi.c: Add VPG runtime config through debugfs")
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 0b3825a4fbdb..52f5c5a2ed64 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -999,7 +999,7 @@ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
- 
- #ifdef CONFIG_DEBUG_FS
- 
--int dw_mipi_dsi_debugfs_write(void *data, u64 val)
-+static int dw_mipi_dsi_debugfs_write(void *data, u64 val)
- {
- 	struct debugfs_entries *vpg = data;
- 	struct dw_mipi_dsi *dsi;
-@@ -1024,7 +1024,7 @@ int dw_mipi_dsi_debugfs_write(void *data, u64 val)
- 	return 0;
- }
- 
--int dw_mipi_dsi_debugfs_show(void *data, u64 *val)
-+static int dw_mipi_dsi_debugfs_show(void *data, u64 *val)
- {
- 	struct debugfs_entries *vpg = data;
- 
--- 
-2.22.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wOS0wNyA5OjU1IGEubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gT24gVGh1LCBB
+dWcgMDYsIDIwMjAgYXQgMTI6NTI6NTRQTSArMDUzMCwgVmFpYmhhdiBHdXB0YSB3cm90ZToKPj4g
+TGludXggS2VybmVsIE1lbnRlZTogUmVtb3ZlIExlZ2FjeSBQb3dlciBNYW5hZ2VtZW50Lgo+Pgo+
+PiBUaGUgb3JpZ2luYWwgZ29hbCBvZiB0aGUgcGF0Y2ggc2VyaWVzIGlzIHRvIHVwZ3JhZGUgdGhl
+IHBvd2VyIG1hbmFnZW1lbnQKPj4gZnJhbWV3b3JrIG9mIHJhZGVvbmZiIGZiZGV2IGRyaXZlci4g
+VGhpcyBoYXMgYmVlbiBkb25lIGJ5IHVwZ3JhZGluZyAuc3VzcGVuZCgpCj4+IGFuZCAucmVzdW1l
+KCkgY2FsbGJhY2tzLgo+Pgo+PiBUaGUgdXBncmFkZSBtYWtlcyBzdXJlIHRoYXQgdGhlIGludm9s
+dmVtZW50IG9mIFBDSSBDb3JlIGRvZXMgbm90IGNoYW5nZSB0aGUKPj4gb3JkZXIgb2Ygb3BlcmF0
+aW9ucyBleGVjdXRlZCBpbiBhIGRyaXZlci4gVGh1cywgZG9lcyBub3QgY2hhbmdlIGl0cyBiZWhh
+dmlvci4KPj4KPj4gRHVyaW5nIHRoaXMgcHJvY2VzcywgaXQgd2FzIGZvdW5kIHRoYXQgIiNpZiBk
+ZWZpbmVkKENPTkZJR19QTSkiIGF0IGxpbmUgMTQzNCBpcwo+PiByZWR1bmRhbnQuIFRoaXMgd2Fz
+IGludHJvZHVjZWQgaW4gdGhlIGNvbW1pdAo+PiA0MmRkYjQ1M2EwY2QgKCJyYWRlb246IENvbmRp
+dGlvbmFsbHkgY29tcGlsZSBQTSBjb2RlIikuCj4gCj4gSSBkbyB3b25kZXIgd2hldGhlciBpdCB3
+b3VsZG4ndCBiZSBiZXR0ZXIgdG8ganVzdCBvdXRyaWdodCBkZWxldGUgdGhlc2UsCj4gd2UgaGF2
+ZSB0aGUgZHJtIHJhZGVvbiBkcml2ZXIgZm9yIHByZXR0eSBtdWNoIGFsbCB0aGUgc2FtZSBoYXJk
+d2FyZSAuLi4KCkluIGNvbnRyYXN0IHRvIHJhZGVvbmZiLCB0aGUgcmFkZW9uIGRyaXZlciBkb2Vz
+bid0IHN1cHBvcnQgCnN1c3BlbmQtdG8tUkFNIG9uIEFwcGxlIFBvd2VyUEMgbm90ZWJvb2tzLgoK
+Ci0tIApFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAgICAgICAgICB8ICAgICAgICAgICAg
+ICAgaHR0cHM6Ly9yZWRoYXQuY29tCkxpYnJlIHNvZnR3YXJlIGVudGh1c2lhc3QgICAgICAgICAg
+ICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3BlcgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
