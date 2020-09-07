@@ -1,44 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB2925FA0E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 14:00:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E44A25FA43
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 14:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF366E440;
-	Mon,  7 Sep 2020 12:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA2D6E443;
+	Mon,  7 Sep 2020 12:15:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA1D6E440;
- Mon,  7 Sep 2020 12:00:36 +0000 (UTC)
-IronPort-SDR: 7t9mmFTWRFnueT1cQa1GQL2fGCp9WlGkWHcXviZHtPBqPFJx0iSUdij3txljjxkGpx50m9+vsa
- C1Nh3ZcCFZtg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="219549879"
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; d="scan'208";a="219549879"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2020 05:00:36 -0700
-IronPort-SDR: Y8z61XIH/ImjDv4MhrXxud8ITVjjVlG9/OOsnRPUsqRdI+mq5/Uyym8AN4glfrfEcxrhB2bboj
- Njx6UcYqtXrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; d="scan'208";a="284156715"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 07 Sep 2020 05:00:33 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 07 Sep 2020 15:00:33 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915: Drop the
- drm_atomic_helper_calc_timestamping_constants() call
-Date: Mon,  7 Sep 2020 15:00:26 +0300
-Message-Id: <20200907120026.6360-3-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200907120026.6360-1-ville.syrjala@linux.intel.com>
-References: <20200907120026.6360-1-ville.syrjala@linux.intel.com>
-MIME-Version: 1.0
+X-Greylist: delayed 967 seconds by postgrey-1.36 at gabe;
+ Mon, 07 Sep 2020 12:15:20 UTC
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 629266E443
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 12:15:20 +0000 (UTC)
+Received: from localhost (gate.crashing.org [63.228.1.57])
+ (authenticated bits=0)
+ by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 087Bwjb2023420
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 7 Sep 2020 06:58:49 -0500
+Message-ID: <6161b96a30e51ff77a387a71eee6a46400530155.camel@kernel.crashing.org>
+Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
+ and fix-ups.
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Daniel Vetter <daniel@ffwll.ch>, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Date: Mon, 07 Sep 2020 21:58:44 +1000
+In-Reply-To: <20200907075559.GN2352366@phenom.ffwll.local>
+References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+ <20200907075559.GN2352366@phenom.ffwll.local>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,41 +42,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bjorn@helgaas.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thierry Reding <treding@nvidia.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCldl
-IHVwZGF0ZSB0aGUgdGltZXN0YW1waW5nIGNvbnN0YW50cyBwZXItY3J0YyBleHBsaWNpdGx5IGlu
-CmludGVsX2NydGNfdXBkYXRlX2FjdGl2ZV90aW1pbmdzKCkuIEZ1cnRlcm1vcmUgdGhlIGhlbHBl
-ciB3aWxsCnVzZSB1YXBpLmFkanVzdGVkX21vZGUgd2hlcmVhcyB3ZSB3YW50IGh3LmFkanVzdGVk
-X21vZGUuIFRodXMKbGV0J3MgZHJvcCB0aGUgaGVscGVyIGNhbGwgYW4gcmVseSBvbiB3aGF0IHdl
-IGFscmVhZHkgaGF2ZSBpbgppbnRlbF9jcnRjX3VwZGF0ZV9hY3RpdmVfdGltaW5ncygpLiBXZSBj
-YW4gbm93IGFsc28gZHJvcCB0aGUKaHcuYWRqdXN0ZWRfbW9kZSAtPiB1YXBpLmFkanVzdGVkX21v
-ZGUgY29weSBoYWNrIHRoYXQgd2FzIGFkZGVkCnRvIGtlZXAgdGhlIGhlbHBlciBmcm9tIGRlcml2
-aW5nIHRoZSB0aW1lc3RhbXBpbmcgY29uc3RhbnRzIGZyb20KdGhlIHdyb25nIHRoaW5nLgoKU2ln
-bmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNv
-bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYyB8IDcg
-LS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYwppbmRleCAwMzU4NDBjZTM4MjUuLmE4NDZm
-NDE0Yzc1OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9k
-aXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5
-LmMKQEAgLTEzNDcyLDEyICsxMzQ3Miw2IEBAIGludGVsX21vZGVzZXRfcGlwZV9jb25maWcoc3Ry
-dWN0IGludGVsX2NydGNfc3RhdGUgKnBpcGVfY29uZmlnKQogCQkgICAgImh3IG1heCBicHA6ICVp
-LCBwaXBlIGJwcDogJWksIGRpdGhlcmluZzogJWlcbiIsCiAJCSAgICBiYXNlX2JwcCwgcGlwZV9j
-b25maWctPnBpcGVfYnBwLCBwaXBlX2NvbmZpZy0+ZGl0aGVyKTsKIAotCS8qCi0JICogTWFrZSBk
-cm1fY2FsY190aW1lc3RhbXBpbmdfY29uc3RhbnRzIGluCi0JICogZHJtX2F0b21pY19oZWxwZXJf
-dXBkYXRlX2xlZ2FjeV9tb2Rlc2V0X3N0YXRlKCkgaGFwcHkKLQkgKi8KLQlwaXBlX2NvbmZpZy0+
-dWFwaS5hZGp1c3RlZF9tb2RlID0gcGlwZV9jb25maWctPmh3LmFkanVzdGVkX21vZGU7Ci0KIAly
-ZXR1cm4gMDsKIH0KIApAQCAtMTU1NzgsNyArMTU1NzIsNiBAQCBzdGF0aWMgdm9pZCBpbnRlbF9h
-dG9taWNfY29tbWl0X3RhaWwoc3RydWN0IGludGVsX2F0b21pY19zdGF0ZSAqc3RhdGUpCiAKIAlp
-ZiAoc3RhdGUtPm1vZGVzZXQpIHsKIAkJZHJtX2F0b21pY19oZWxwZXJfdXBkYXRlX2xlZ2FjeV9t
-b2Rlc2V0X3N0YXRlKGRldiwgJnN0YXRlLT5iYXNlKTsKLQkJZHJtX2F0b21pY19oZWxwZXJfY2Fs
-Y190aW1lc3RhbXBpbmdfY29uc3RhbnRzKCZzdGF0ZS0+YmFzZSk7CiAKIAkJaW50ZWxfc2V0X2Nk
-Y2xrX3ByZV9wbGFuZV91cGRhdGUoc3RhdGUpOwogCi0tIAoyLjI2LjIKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, 2020-09-07 at 09:55 +0200, Daniel Vetter wrote:
+> On Thu, Aug 06, 2020 at 12:52:54PM +0530, Vaibhav Gupta wrote:
+> > Linux Kernel Mentee: Remove Legacy Power Management. 
+> > 
+> > The original goal of the patch series is to upgrade the power
+> > management
+> > framework of radeonfb fbdev driver. This has been done by upgrading
+> > .suspend()
+> > and .resume() callbacks.
+> > 
+> > The upgrade makes sure that the involvement of PCI Core does not
+> > change the
+> > order of operations executed in a driver. Thus, does not change its
+> > behavior.
+> > 
+> > During this process, it was found that "#if defined(CONFIG_PM)" at
+> > line 1434 is
+> > redundant. This was introduced in the commit
+> > 42ddb453a0cd ("radeon: Conditionally compile PM code").
+> 
+> I do wonder whether it wouldn't be better to just outright delete
+> these,
+> we have the drm radeon driver for pretty much all the same hardware
+> ...
+
+The only thing is, afaik, the DRM drivers never got the D2/D3 code that
+I wrote for radeonfb to get old powerbooks to suspend/resume.
+
+Cheers,
+Ben.
+
+> -Daniel
+> 
+> > 
+> > ------------
+> > 
+> > Before 42ddb453a0cd:
+> > $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n
+> > "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
+> > 
+> > Based on output in terminal:
+> > 
+> > 547:#ifdef CONFIG_PM
+> >        |-- 959:#ifdef CONFIG_PPC_PMAC
+> >        |-- 972:#endif
+> >        |-- 1291:#ifdef CONFIG_PPC_OF
+> >        |-- 1301:#endif /* CONFIG_PPC_OF */
+> >        |-- 1943:#ifdef CONFIG_PPC_OF
+> >                    |-- 2206:#if 0 /* Not ready yet */
+> >                    |-- 2508:#endif /* 0 */
+> >        |-- 2510:#endif /* CONFIG_PPC_OF */
+> >        |-- 2648:#ifdef CONFIG_PPC_PMAC
+> >        |-- 2654:#endif /* CONFIG_PPC_PMAC */
+> >        |-- 2768:#ifdef CONFIG_PPC_PMAC
+> >        |-- 2774:#endif /* CONFIG_PPC_PMAC */
+> >        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
+> >        |-- 2801:#endif /* CONFIG_PPC_OF */
+> > 2803:#endif /* CONFIG_PM */
+> > 
+> > ------------
+> > 
+> > After 42ddb453a0cd:
+> > $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n
+> > "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
+> > 
+> > Based on output in terminal:
+> > 
+> > 547:#ifdef CONFIG_PM
+> >        |-- 959:#ifdef CONFIG_PPC_PMAC
+> >        |-- 972:#endif
+> >        |-- 1291:#ifdef CONFIG_PPC_OF
+> >        |-- 1301:#endif /* CONFIG_PPC_OF */
+> >        |-- 1430:#if defined(CONFIG_PM)
+> >                    |-- 1431:#if defined(CONFIG_X86) ||
+> > defined(CONFIG_PPC_PMAC)
+> >                    |-- 1944:#endif
+> >                    |-- 1946:#ifdef CONFIG_PPC_OF
+> >                                |-- 1947:#ifdef CONFIG_PPC_PMAC
+> >                                |-- 2208:#endif
+> >                    |-- 2209:#endif
+> >                    |-- 2211:#if 0 /* Not ready yet */
+> >                    |-- 2513:#endif /* 0 */
+> >        |-- 2515:#endif /* CONFIG_PPC_OF */
+> >        |-- 2653:#ifdef CONFIG_PPC_PMAC
+> >        |-- 2659:#endif /* CONFIG_PPC_PMAC */
+> >        |-- 2773:#ifdef CONFIG_PPC_PMAC
+> >        |-- 2779:#endif /* CONFIG_PPC_PMAC */
+> >        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
+> >        |-- 2806:#endif /* CONFIG_PPC_OF */
+> > 2808:#endif /* CONFIG_PM */
+> > 
+> > ------------
+> > 
+> > This also affected the CONFIG_PPC_OF container (line 1943 at commit
+> > 65122f7e80b5)
+> > 
+> > The patch-series fixes it along with PM upgrade.
+> > 
+> > All patches are compile-tested only.
+> > 
+> > Test tools:
+> >     - Compiler: gcc (GCC) 10.1.0
+> >     - allmodconfig build: make -j$(nproc) W=1 all
+> > 
+> > Vaibhav Gupta (2):
+> >   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM
+> > container
+> >   fbdev: radeonfb:use generic power management
+> > 
+> >  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
+> >  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++---
+> > ----
+> >  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
+> >  3 files changed, 35 insertions(+), 16 deletions(-)
+> > 
+> > -- 
+> > 2.27.0
+> > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
