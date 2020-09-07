@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A285C25F8AA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 12:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B57625F8B3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 12:44:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6346E423;
-	Mon,  7 Sep 2020 10:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46ADC6E420;
+	Mon,  7 Sep 2020 10:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7E96E420
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 10:42:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 907AD6E420
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 10:44:26 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204987] fault in amdgpu_dm_atomic_commit_tail on Vega64 with
  compton and redshift
-Date: Mon, 07 Sep 2020 10:42:48 +0000
+Date: Mon, 07 Sep 2020 10:44:25 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204987-2300-MpWylcZqhs@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-204987-2300-nXFBwIsl10@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204987-2300@https.bugzilla.kernel.org/>
 References: <bug-204987-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,21 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=204987
 
-Bhasker C V (bhasker@unixindia.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |bhasker@unixindia.com
-
---- Comment #3 from Bhasker C V (bhasker@unixindia.com) ---
-I get this error after hibernation and resume. This does not happen during
-immediate resume but if left overnight and resume in the morning, I see the
-amdgpu_dm_atomic_commit_tail.
-I am failing to load kexec kernel when on AMD ryzen. Hence I have a shapshot of
-the error message. The system freezes and there is nothing that can be done
-other than to cold reboot. 
-
-Attaching a photo of the crash
+--- Comment #4 from Bhasker C V (bhasker@unixindia.com) ---
+Created attachment 292395
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292395&action=edit
+Kernel crash AMD GPU at amdgpu_dm_atomic_commit_tail
 
 -- 
 You are receiving this mail because:
