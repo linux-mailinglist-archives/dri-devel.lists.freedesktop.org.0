@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B213C25F1ED
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:04:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B7D25F1EE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 05:04:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3C76E0EB;
-	Mon,  7 Sep 2020 03:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 621A36E0F2;
+	Mon,  7 Sep 2020 03:04:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4CB1F6E0EB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:03:57 +0000 (UTC)
-Date: 07 Sep 2020 11:58:54 +0900
-X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56531092"
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3DC6C6E0F2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 03:04:04 +0000 (UTC)
+Date: 07 Sep 2020 11:59:01 +0900
+X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; d="scan'208";a="56531098"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 11:58:54 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:01 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3B50B4179697;
- Mon,  7 Sep 2020 11:58:54 +0900 (JST)
-Message-ID: <87mu2270se.wl-kuninori.morimoto.gx@renesas.com>
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 77DA94179687;
+ Mon,  7 Sep 2020 11:59:01 +0900 (JST)
+Message-ID: <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 4/9] arm64: dts: renesas: r8a77961: Add FCP device nodes
+Subject: [PATCH 5/9] arm64: dts: renesas: r8a77961: Add VSP device nodes
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To: Rob Herring <robh+dt@kernel.org>,
  Laurent <laurent.pinchart@ideasonboard.com>,
@@ -56,72 +56,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch adds FCP device nodes for R-Car M3-W+ (r8a77961) SoC.
+This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
 This patch is test on R-Car M3-W+ Salvator-XS board.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 52 +++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 55 +++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 0abfea0b27be..fe0db11b9cb9 100644
+index fe0db11b9cb9..c2a6918ed5e6 100644
 --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -2004,6 +2004,58 @@ pciec1: pcie@ee800000 {
- 			status = "disabled";
+@@ -2056,6 +2056,61 @@ fcpvd2: fcp@fea37000 {
+ 			iommus = <&ipmmu_vi0 10>;
  		};
  
-+		fcpf0: fcp@fe950000 {
-+			compatible = "renesas,fcpf";
-+			reg = <0 0xfe950000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 615>;
++		vspb: vsp@fe960000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfe960000 0 0x8000>;
++			interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 626>;
 +			power-domains = <&sysc R8A77961_PD_A3VC>;
-+			resets = <&cpg 615>;
++			resets = <&cpg 626>;
++
++			renesas,fcp = <&fcpvb0>;
 +		};
 +
-+		fcpvb0: fcp@fe96f000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfe96f000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 607>;
++		vspd0: vsp@fea20000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea20000 0 0x5000>;
++			interrupts = <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 623>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 623>;
++
++			renesas,fcp = <&fcpvd0>;
++		};
++
++		vspd1: vsp@fea28000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea28000 0 0x5000>;
++			interrupts = <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 622>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 622>;
++
++			renesas,fcp = <&fcpvd1>;
++		};
++
++		vspd2: vsp@fea30000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea30000 0 0x5000>;
++			interrupts = <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 621>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 621>;
++
++			renesas,fcp = <&fcpvd2>;
++		};
++
++		vspi0: vsp@fe9a0000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfe9a0000 0 0x8000>;
++			interrupts = <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 631>;
 +			power-domains = <&sysc R8A77961_PD_A3VC>;
-+			resets = <&cpg 607>;
-+		};
++			resets = <&cpg 631>;
 +
-+		fcpvi0: fcp@fe9af000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfe9af000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 611>;
-+			power-domains = <&sysc R8A77961_PD_A3VC>;
-+			resets = <&cpg 611>;
-+			iommus = <&ipmmu_vc0 19>;
-+		};
-+
-+		fcpvd0: fcp@fea27000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfea27000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 603>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 603>;
-+			iommus = <&ipmmu_vi0 8>;
-+		};
-+
-+		fcpvd1: fcp@fea2f000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfea2f000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 602>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 602>;
-+			iommus = <&ipmmu_vi0 9>;
-+		};
-+
-+		fcpvd2: fcp@fea37000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfea37000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 601>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 601>;
-+			iommus = <&ipmmu_vi0 10>;
++			renesas,fcp = <&fcpvi0>;
 +		};
 +
  		csi20: csi2@fea80000 {
