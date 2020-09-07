@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492CC260BAA
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 09:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57BD260BB2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 09:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F17826E3F0;
-	Tue,  8 Sep 2020 07:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E0C6E4CD;
+	Tue,  8 Sep 2020 07:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4576E4BB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 16:14:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC80E6E4C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 16:21:53 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 64344938;
- Mon,  7 Sep 2020 12:14:28 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id AA314A63;
+ Mon,  7 Sep 2020 12:21:52 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 07 Sep 2020 12:14:29 -0400
+ by compute4.internal (MEProxy); Mon, 07 Sep 2020 12:21:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=y3uHfRZw+5Gz3Ka30vws1hOsu/J
- Ass4/0jIBLDK53qQ=; b=Y3LRXGdaQBcC+WaeQYBB4hZG1dgAxEAMZ0FKTZlUSx/
- wV0UYUmA8yvx5g3zwZ4ZBC1/OGNaqE4tpT6dvpcRKahUYY23GoLqNoaWYwVPgaEQ
- BfxsobOB2FIXX2LWpNYi/zwcUZ1el+uOh2FaB5LfY+BBFn0hfVJK84MGwYrQMTrw
- l8cQURRtOcxeRUGf+23vBMSs9iG1mSgY2+1ItTtJN2Ky3/3j1rkY5aSDnHFzJyHC
- ce2FO8NyBnlqH75Yag2Z8AMsuJDgUmRL3aF3kspJgPg8tNbEbtTaDqKLRDSVcUqs
- cvyCm92kNkW6B17YlMSanl5dL9VC+vDs0yN8HLQQfJA==
+ :content-type:in-reply-to; s=fm3; bh=A60HhPZ+gFJdxyk3h9bO7xfmZgf
+ j0/CfuVUABAVyKqk=; b=njTXFrhJ893ktCHqZwlnD9epwuVBir0+SQdGyc92uWd
+ ehRimf4IYPny7j7IfUcCFSy91p8q70n0r6jxgv9RRpn269QKkoRfcp5Bayj9Lswz
+ dU+WA1Je+uhhuUZKnJc/mJWpFWgPgGHBY8HMyNApcK2MGhs94lYDNA7ef/BpJBD4
+ T/OOFRwEYHgCQtpx17eZaTXLlTamgrgqw0RnCjHo2t7juQfvAqdMjRdXhpehpMRk
+ fs9Tqbq0HU2V/vfcI3wMRe+Dh4bA1hMlabk2rBNuiX7hc/4siKpR/howoEK+BJAq
+ 8f3jHrcsV1NF/lAnog7juTU6YTVWUombXOBTfYyw1Og==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=y3uHfR
- Zw+5Gz3Ka30vws1hOsu/JAss4/0jIBLDK53qQ=; b=MlQ2NHj9l0Z+IZ+t/rJhZ9
- WN3kRbULikovTJ44vc+PZdL3LjAiZSlaRefGxNkRKY5QF8ytDCn1t9I0yH1cnsgt
- Yi/bXSGTWBIcJ3xFCJgOidh2MI3rWjY+4QpXIPY+fO6k/fG2Mtnc3TeYiqRn8fBu
- uJU0hZI5FAM+tmi/A7W+vm6nC+ct/wIxOHTQ+FRdV3AjY/f12ZohUdI8119zhk2X
- /a73B6y0739qET3zb2Sg5f9RRHzkfa1gjYqhApHgprYcvUjoZLv3J8IGzfMKUnHF
- nPBJ81VZ8zEEjJ+q0ZFxiKR6WaWGpoofNATf/UaEG9dQ6tzlQWB71PU2ru78GI9w
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=A60HhP
+ Z+gFJdxyk3h9bO7xfmZgfj0/CfuVUABAVyKqk=; b=T6DtmFr8ugFHH4Ey2ZjBlA
+ vF7lEB9jKd5f1JBLmhfwr/maDyUGQ/0ldFe49ra9Nx7KCaAMN7j0ZTioGPjVnRjB
+ tX2Jhx5INOA6Akc/7HY/atSuynvUMwY70HUZM/SpZIk5DnuJJypA7UbRyYmLoalz
+ hmvfI6D/tt/zWJ/eh5kRNyoITL/uKGBikfYPP5d94L+cupJXBsSCRCgmtWbJUs1Z
+ g551gjKX9OfncasOsnZ3SzL4pD/m0dOaALHTt44ir9n2+Q4PmteEb+E3Z1bXmNii
+ DrMtc6kYizRvIJagTwx/Cglrq+RYNngIFKhgJyXhS8P+U+PZ7rpG2mHuCvLT4Hzg
  ==
-X-ME-Sender: <xms:YlxWXzhbrnt0ovKIFbGGLrgfZP-LJg9Cm6_RWPHDGBgk3UYtmav-Nw>
- <xme:YlxWXwBDxz6cMgC29ilBWG90hBNK2WlB--juAFPA8f5ODz2AaXFhAXyVluiuiH3dZ
- h1d7anF-QDkAIzBSGo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehtddgleelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YlxWXzHfaXxsd-TiiNtBi_pjR41MMNHY29tK4II7EwKAG8-Kxmz4Kw>
- <xmx:YlxWXwR6qZvXaylD48hKMqHqxsPf07RKwCTrCTd2M6jtAxVvEw1nyA>
- <xmx:YlxWXwxQvLpLz-pAiWwfYjpLsjmthYS4oEi6bFxUcgGs3xUBL7a63A>
- <xmx:ZFxWX1LcZVCiJ8FUqi-3B1RJ5S0BPFahr3rsoNpLr_ogjgqFN9G6nlorR4Q>
+X-ME-Sender: <xms:H15WX_MtvtjiqLoO2UxQMqOnjXTZdJVzXNuKHTl6ZiSI-hY4LrjSDw>
+ <xme:H15WX5_-O4TFaN8m5B5x1TQqdkoZ_37WrUPEEEu_dG8EcUKWIRv2etEIziUnYCjgV
+ fisAOT9u_o4q4L0b4M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehtddguddtudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleff
+ gfejvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeike
+ drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ mhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:H15WX-SbQsh5RU1jYM9yn5HAQXmNedU8qhFsODr4KVJuUjIKFMYPww>
+ <xmx:H15WXzukfs-iEOqn1TdZuzhNuiCem1ZNGICN8ZfknIadiUIjKwPQNg>
+ <xmx:H15WX3ezIO29bCzWx0QD0DjgABJEHJWhySgg2JMnMFCNvrH8w5VuDA>
+ <xmx:IF5WX2xFILkOcuf1Ky8UGmNFLe08GYiMTj4nyDAwV23drChQQKdyQ7KnUbQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6A21A3280066;
- Mon,  7 Sep 2020 12:14:26 -0400 (EDT)
-Date: Mon, 7 Sep 2020 18:14:24 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id EE49F328005D;
+ Mon,  7 Sep 2020 12:21:50 -0400 (EDT)
+Date: Mon, 7 Sep 2020 18:21:49 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Jian-Hong Pan <jian-hong@endlessm.com>
-Subject: Re: [PATCH v5 00/80] drm/vc4: Support BCM2711 Display Pipeline
-Message-ID: <20200907161424.okjolk5v7pdiyoqu@gilmour.lan>
-References: <CAPpJ_efY2=qmaAtuYVfWhZNBhzTAtAxm9CS5jb_sTpca97jkpA@mail.gmail.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v5 75/80] drm/vc4: hdmi: Add pixel BVB clock control
+Message-ID: <20200907162149.plabkjrgajjqbtiu@gilmour.lan>
+References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
+ <d757ddd6549da140f178563e5fd2bf1d129913fd.1599120059.git-series.maxime@cerno.tech>
+ <CAPY8ntC_Tobv+4TtgtYhvAst00_zsfxZdZd=torcb57SQ0CMQA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPpJ_efY2=qmaAtuYVfWhZNBhzTAtAxm9CS5jb_sTpca97jkpA@mail.gmail.com>
+In-Reply-To: <CAPY8ntC_Tobv+4TtgtYhvAst00_zsfxZdZd=torcb57SQ0CMQA@mail.gmail.com>
 X-Mailman-Approved-At: Tue, 08 Sep 2020 07:17:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,72 +81,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tim.gover@raspberrypi.com, kdasu.kdev@gmail.com,
- sboyd@kernel.org, nsaenzjulienne@suse.de, dave.stevenson@raspberrypi.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org,
- Linux Upstreaming Team <linux@endlessm.com>, phil@raspberrypi.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0260911983=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1113168592=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0260911983==
+--===============1113168592==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jipczgpyckh77ast"
+	protocol="application/pgp-signature"; boundary="rvxp5il2lqnzas2n"
 Content-Disposition: inline
 
 
---jipczgpyckh77ast
+--rvxp5il2lqnzas2n
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+Hi,
 
-On Fri, Sep 04, 2020 at 06:16:16PM +0800, Jian-Hong Pan wrote:
-> Thanks for version 5 patch series!
+On Fri, Sep 04, 2020 at 10:46:26AM +0100, Dave Stevenson wrote:
+> On Thu, 3 Sep 2020 at 09:03, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> >
+> > The BCM2711 has another clock that needs to be ramped up depending on t=
+he
+> > pixel rate: the pixel BVB clock. Add the code to adjust that clock when
+> > changing the mode.
+> >
+> > Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> > [Maxime: Changed the commit log, used clk_set_min_rate]
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > Link: https://lore.kernel.org/r/20200901040759.29992-3-hoegeun.kwon@sam=
+sung.com
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 23 +++++++++++++++++++++++
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
+> >  2 files changed, 24 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+> > index ab7abb409de2..39508107dafd 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -54,6 +54,7 @@
+> >  #include "vc4_regs.h"
+> >
+> >  #define CEC_CLOCK_FREQ 40000
+> > +#define VC4_HSM_MID_CLOCK 149985000
 >=20
-> I applied it based on linux-next tag next-20200828 and build it with
-> the config [1] to test on RPi 4
-> However, It fails to get HDMI state machine clock and pixel bcb clock.
-> Then, vc4-drm probes failed. Full dmseg [2]:
+> I didn't flag it earlier, but this is a bit of a weird name for the
+> define. I know it wants to be concise, but it made me do a double take
+> as to what it is for.
+> I'm currently applying all these patches to our Raspberry Pi tree and
+> actually CEC needs a fixed HSM on Pi0-3 to avoid recomputing all the
+> timings. So I have a VC4_HSM_CLOCK define which is the fixed clock
+> rate for Pi 0-3.
+> This one is more a threshold for HSM to control BVB, and my brain
+> starts to hurt over what it should be called.
 >=20
-> [    2.552675] [drm:vc5_hdmi_init_resources] *ERROR* Failed to get
-> HDMI state machine clock
-> [    2.557974] raspberrypi-firmware soc:firmware: Attached to firmware
-> from 2020-06-01T13:23:40
-> [    2.567612] of_clk_hw_onecell_get: invalid index 14
-> [    2.567636] [drm:vc5_hdmi_init_resources] *ERROR* Failed to get
-> pixel bvb clock
-> [    2.567664] vc4-drm gpu: failed to bind fef00700.hdmi (ops vc4_hdmi_op=
-s): -2
-> [    2.567731] vc4-drm gpu: master bind failed: -2
-> [    2.567755] vc4-drm: probe of gpu failed with error -2
+> Unless there are other comments around this patchset (and I hope to
+> read through the remaining ones today), then I don't consider it a
+> blocker, but we can probably do better as and when we add the next
+> threshold for 4k60.
+> My current understanding is that the clock has to be an integer divide
+> of 600MHz, and at least the pixel rate / 2, so the only link to HSM is
+> due to HSM being 101% of pixel rate, but I will try to find
+> confirmation of that.
 
-Sorry, I should have mentionned it in the cover letter. This series
-depends on that patch from Hoegeun:
-https://lore.kernel.org/dri-devel/20200901040759.29992-2-hoegeun.kwon@samsu=
-ng.com/
+I'm currently working on the 4k60 support, so it will go away soon
+(using your suggestion) so there's no need to overthink it :)
 
+> >  static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+> >  {
+> > @@ -344,6 +345,7 @@ static void vc4_hdmi_encoder_post_crtc_powerdown(st=
+ruct drm_encoder *encoder)
+> >         HDMI_WRITE(HDMI_VID_CTL,
+> >                    HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_ENABLE);
+> >
+> > +       clk_disable_unprepare(vc4_hdmi->pixel_bvb_clock);
+> >         clk_disable_unprepare(vc4_hdmi->hsm_clock);
+> >         clk_disable_unprepare(vc4_hdmi->pixel_clock);
+> >
+> > @@ -516,6 +518,27 @@ static void vc4_hdmi_encoder_pre_crtc_configure(st=
+ruct drm_encoder *encoder)
+> >                 return;
+> >         }
+> >
+> > +       /*
+> > +        * FIXME: When the pixel freq is 594MHz (4k60), this needs to b=
+e setup
+> > +        * at 150MHz.
+> > +        */
+>=20
+> Typo here. For 4k60 we need 300MHz (pixel clock / 2)
+>=20
+> Otherwise
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+I've fixed it, thanks!
 Maxime
 
---jipczgpyckh77ast
+--rvxp5il2lqnzas2n
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX1ZcYAAKCRDj7w1vZxhR
-xYwCAQDm6F6h2pwNs7Q8EP9XiO/LnXQS0wkHQt2icHMNkTpDBQEAxZclGsOEUXAz
-POMH62A+x8HcwntZ9CRAtQ42hIa3zw8=
-=Mzu7
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX1ZeHQAKCRDj7w1vZxhR
+xe1NAQDBoDF7y+tHlr5DcJFlIwZ3QQRh7Hc5OIfBiA9mYLIdkwD/fneGxtomigY5
+/txCXfqzYna4dCVjluu3UqPV14GrHwg=
+=gt4+
 -----END PGP SIGNATURE-----
 
---jipczgpyckh77ast--
+--rvxp5il2lqnzas2n--
 
---===============0260911983==
+--===============1113168592==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -155,4 +212,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0260911983==--
+--===============1113168592==--
