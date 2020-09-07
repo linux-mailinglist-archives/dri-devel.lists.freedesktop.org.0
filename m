@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AC225F3D9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:22:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D6225F3DF
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 09:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0D2E6E137;
-	Mon,  7 Sep 2020 07:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB8E86E22D;
+	Mon,  7 Sep 2020 07:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E730A6E0DC
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 06:35:41 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id q3so2163509plr.13
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D39A989E35
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 06:36:13 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id k13so2071857plk.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Sep 2020 23:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
  bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=Lght7Ifr1LpMt8ODv/ddonkYDgzWp8nZkg1/c/SjWJ8F+ZngJs82vf/xcGWrzRvqY7
- ou1W681VqX+F9lu2Xqc0ZpV4i6UUyob9coYjA5tVJMOg07ZWGsDugXBqZBJWuaGCP+BS
- IfGVH9pKNnx82dDz/31NRPQDtBYa2qeQEUGBeXAiBUqJB+6B7fsASnM0vRbJTHMC9Qmj
- Wp5QykCr96OApc0FAUkWbPieinRUqhfSyP017+3ldlThqh0gNqvvYGQzol0Fi6Cm/Sp8
- pdT+pA8htrY9tVfsBb6O2UMBh8LZF5FBkt/j1e/oP9MkvS737M2GOLwfKA0H7Cyfa2f5
- lKJA==
+ b=fbHCaOCT73QEitsORT8A7jULECshSkNFsfN0lqxLnv9NqtLuZTNiX299eqFsSn/i0H
+ XMaY+57ZpeMCy9gD/sNhsDPGufEugVn3KjnZ+OJuMYTDHy967E6y5zQ+tY8J0ehM58Q9
+ okbx0KCZthd774jTBDaqQ82+5V5gM1Qw9yhGYtouHWThA3P7v1+gpX4t/J88Jj7BGNE7
+ CbiK2/6h2plBhRy9hZdcNAioNjc4IXErPDRGh/NcyVYimkrJ9ffD/2cJFyHnQ6isZM+T
+ OwSW01Va2UNJWrGX5dr3UwV15jtf/OqmS4qGkgKEEVfJaE0e+R2/litSe+ceLyzu9iSY
+ zJXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
  bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=k1zz1LJx23/VcfI8qBxAZ3yDNmDmJLJz7FMjHYeOMCNhLXxt8BJaP7FKR7wD69zMId
- Dn6zE/pW/TQ0xTZ8B3t41QUR4GLlAZTwOc37w9igqDP0uAShQPZHCgn3ImYcUbLvnS9Y
- NrSzaQTxOkWROwINSjVZKeMbGWqf4kJnVKeBrlFMVU82JRQs3+gZH0L2auWRCMBjt77p
- ZbLCryow0MQJrAiEF7XXbIjBKGU4tmAMRfPy1TKfrEtibk1JeYQ/voIv2MPzpSN+at2q
- GzANFB+SX9bMJoiowWG/VQzzCqVRJRFDFQiYcMqucTgjuYyvAAUDq/T/d2wl1yWR+qH1
- OD0A==
-X-Gm-Message-State: AOAM531pZzrDW7Noyh0G3ZKU/7T+WyysbI6Xgm8k/xQkAzgtZ2KZrqCX
- wDnkA76kC8hCo61dvHL5tvA=
-X-Google-Smtp-Source: ABdhPJwOD5kJx+DFcApvOWX+p/5e9qXZZ2sVaWifSzXJ6UpEB+RbV7/BqVTOwMBbgqsIz5Cei42hAg==
-X-Received: by 2002:a17:902:8c94:: with SMTP id
- t20mr17926553plo.76.1599460541415; 
- Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
+ b=a6MFjk5egYyinHXgebiZitKXQvOdgWAp2236YBnWbQBTwGkyQKTek/MxuTb+xGDu55
+ 2MLwA6dIb8m3dQoOvxEGeUxrHS/L5rYcsJTRtgo1PzrZGojIYrvLLaIIPHwlNZ8c/iSF
+ 2Zscs/VziyVHvxURBEs1Hm7PjAeBIc4iLag9V31sp7PORcbEmqUxm98ZQSMdUZvzYAG7
+ LjdTrSOlNhfO0cj2rGd/ZFlBlGfYOQ5orYkqbhYonkU5QZIeKLNFfBWvKVKDNbk4v2nw
+ cmSiUof3dE8Qqk/14N8I66AsBcZC8bY+yDYQ3IMpZEb2SVwWs69pEPHKT9cTC7l+Tdk4
+ kYQA==
+X-Gm-Message-State: AOAM533eyOp7YL10OQwescHeKrvlAoNzJik3ljKU/Ot879fQHxAo6XLL
+ XfCXo9fxQW5OLappNZR/+cs=
+X-Google-Smtp-Source: ABdhPJwgx99BRCDhQRZTixm/9uPVMLMpWFBKTUcxE26SgTtzeQ5XhqrvRSSOK6jPTDclOjwHDi/NDw==
+X-Received: by 2002:a17:902:a50b:: with SMTP id
+ s11mr11590419plq.136.1599460573455; 
+ Sun, 06 Sep 2020 23:36:13 -0700 (PDT)
 Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id y3sm11660330pjg.8.2020.09.06.23.35.37
+ by smtp.gmail.com with ESMTPSA id md10sm11631756pjb.45.2020.09.06.23.36.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
-Date: Mon, 7 Sep 2020 12:03:47 +0530
+ Sun, 06 Sep 2020 23:36:13 -0700 (PDT)
+Date: Mon, 7 Sep 2020 12:04:14 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -55,15 +55,14 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v1 1/2] video: fbdev: aty: radeon_pm: remove redundant
- CONFIG_PM container
-Message-ID: <20200907063347.GB29062@gmail.com>
+Subject: Re: [PATCH v1 2/2] fbdev: radeonfb:use generic power management
+Message-ID: <20200907063414.GC29062@gmail.com>
 References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
  <20200806072658.592444-1-vaibhavgupta40@gmail.com>
- <20200806072658.592444-2-vaibhavgupta40@gmail.com>
+ <20200806072658.592444-3-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200806072658.592444-2-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200806072658.592444-3-vaibhavgupta40@gmail.com>
 X-Mailman-Approved-At: Mon, 07 Sep 2020 07:22:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
