@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68B425F590
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:44:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B9425F5AF
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:51:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832B86E3DB;
-	Mon,  7 Sep 2020 08:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB8589FEA;
+	Mon,  7 Sep 2020 08:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E91726E3DB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:44:26 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id c18so14856447wrm.9
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=vCnAWdnxSr/38fyjTvOTRJxFVAmm6+c6MV2keTsd7MA=;
- b=Sekv5nMWTfXrdvtBSBt4tq0Y2AbxKBQri2AcmRiNB1b/6QkAYONgRhWwL6adv1U9Oy
- OX2jj3wgvrHe6JSVMMdbyFzCJHoLonklvzeVS7ggDhRinAxScsdt2RO/p8UzCg+atNG2
- DdmRTImKPguTHk+r/2WmdHazQCI/qe2UrdAT8=
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C440189FEA;
+ Mon,  7 Sep 2020 08:51:43 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id l17so11925162edq.12;
+ Mon, 07 Sep 2020 01:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vZFK4W6iAAZOZWydUY/UK+/VjgY7HPnaQzN5OZF/D1o=;
+ b=WoH69jlMy4fN1/2ZxpTSfGf4z/G0ceJf1K/6x+4srfk76KZ0qwZ2wAqu7USu09Wvff
+ tjFDIMlGJ/wqAECW+jhFSbgBdIvazS1NYLv0GDCqgdQd7NNrbqfq4WJwFaPhRngozWoA
+ hVLI0CbTSqAEXQFPhXOcqo/WY2DGVbRY9N+l1v105vypfdqmNY+sy+5y83sYE0Du1Mlm
+ KiDfA3LjSLLL986lBANOLtNhCmqcJhMwQpGMGGwuP4Rjwji4+lXyyOQJtAS2o5ZHc0R8
+ aakuG56BpfcH1ZXJYtW1PWrQHSyqzJ6C5mBFoJzU+Emgath93QCuiCay5gZdnmPVApBm
+ uz/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to;
- bh=vCnAWdnxSr/38fyjTvOTRJxFVAmm6+c6MV2keTsd7MA=;
- b=ZIxxBwQxdvfCEWgmBiOrzZDx9CV7//86Uern18puf4wiU73hsjDYKDGw++g0hleeR5
- 5TdztyRolyUdvJDk6qjFd4meTzVYb3tZTJ403omx1uooyYTC2BqRFhBRa2WHgSBK3l7k
- DuIyurWzXIRCuzly0MMq72m+hs5TTTgrX4+Q/o0xL2T2jubPx2dOLxPp2TEAo9rXr4TM
- M37GvdmRrmjTgHzDNj/3uIrs9/gyV3qdEx4wzeYs9kardD6XdUc9q1Ao/Agxw4g+28dX
- Z17cW1CbDhA2oqghwaUnrBfbE9WUKQ6JcQuCxobEiFFIJPYapEkwu4g0jea3lzcwEcG7
- XGGw==
-X-Gm-Message-State: AOAM532WnIceFAMj+FUtnwVCsIfu+Bm5Ewkv/0jmVnxzRLtg4EMF66BF
- nk3q7xkGOB7jOB4Lni3cnoleHg==
-X-Google-Smtp-Source: ABdhPJxo0b2BioN6yS6K8NDFZRYtT7Z/wlisahbg3vMF0PpzK5nxYaIuo/QXZEQcvDOG3slBf4Dj+A==
-X-Received: by 2002:a5d:660f:: with SMTP id n15mr15531018wru.103.1599468265492; 
- Mon, 07 Sep 2020 01:44:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z19sm6776901wmi.3.2020.09.07.01.44.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 01:44:24 -0700 (PDT)
-Date: Mon, 7 Sep 2020 10:44:23 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] drm/meson: add support for MIPI-DSI transceiver
-Message-ID: <20200907084423.GW2352366@phenom.ffwll.local>
-Mail-Followup-To: Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20200907081825.1654-1-narmstrong@baylibre.com>
- <20200907081825.1654-7-narmstrong@baylibre.com>
- <20200907084351.GV2352366@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vZFK4W6iAAZOZWydUY/UK+/VjgY7HPnaQzN5OZF/D1o=;
+ b=mCUU/ADkLRPs8iiYkdCrNwmYX3TkBnKpw5t6EA3t5adAhgqzP4ZscM13iQ4ChluUjN
+ mnDUo6bvyWZldKpmRxTKvoIN13CaIPjPXWiSiZJN+A/2Ld1ab5KZnuopP2gBMlDRsjyy
+ 1sB/4X9goY8b8zVDav3Dz7peFZ8M5Kym5UwoKtJ0o6kGF/lKZpXbtgJLTxI9VazbtNST
+ DnvU3SD0KCoey+ebLld4IC3s3tBvY9n7to984+sGQitJ2hxNErVATw52bOdpoa97JW9+
+ P8TFMYpiwtk68u+2xKBK5frTf98PLa8I+kbTPAZ/V61VckcHN29eIxwUjfqkKsgLKr7s
+ H5LQ==
+X-Gm-Message-State: AOAM532pjgz67pOeDN5wR+Wa5Qkr8iexON0eMbyhHIV/69etJm3X3euO
+ 1WRqp4zkQoxzhiKBtJ9o9xvXxBEiwIHiPi/Ca+Y=
+X-Google-Smtp-Source: ABdhPJzpNDvzbfGgOAetDptbl2bW4tp8edW/7S6FfNlaOH26Zmubs/VZdvV9vap3jKhvqzjLTWCUij+C2ka/ZhtSUF8=
+X-Received: by 2002:a05:6402:1d93:: with SMTP id
+ dk19mr20610602edb.198.1599468702504; 
+ Mon, 07 Sep 2020 01:51:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200907084351.GV2352366@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20200904160709.123970-1-bas@basnieuwenhuizen.nl>
+In-Reply-To: <20200904160709.123970-1-bas@basnieuwenhuizen.nl>
+From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Date: Mon, 7 Sep 2020 10:51:31 +0200
+Message-ID: <CAD=4a=UAfoBBUTAxNPu709Q1JbjjwCivmFirC7Ka7DNzM3cSTA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] amd/display: Add GFX9+ modifier support.
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,653 +61,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1312812581=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 07, 2020 at 10:43:51AM +0200, Daniel Vetter wrote:
-> On Mon, Sep 07, 2020 at 10:18:25AM +0200, Neil Armstrong wrote:
-> > The Amlogic AXg SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a), with a custom
-> > glue managing the IP resets, clock and data input similar to the DW-HDMI Glue on other
-> > Amlogic SoCs.
-> > 
-> > This adds support for the Glue managing the transceiver, mimicing the init flow provided
-> > by Amlogic to setup the ENCl encoder, the glue, the transceiver, the digital D-PHY and the
-> > Analog PHY in the proper way.
-> > 
-> > The DW-MIPI-DSI transceiver + D-PHY are directly clocked by the VCLK2 clock, which pixel clock
-> > is derived and feeds the ENCL encoder and the VIU pixel reader.
-> > 
-> > An optional "MEAS" clock can be enabled to measure the delay between each vsync feeding the
-> > DW-MIPI-DSI transceiver.
-> > 
-> > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> 
-> More dw-hdmi drivers which aren't bridges but components, and the thing is
-> still midlayer-y as heck :-/
+--===============1312812581==
+Content-Type: multipart/alternative; boundary="000000000000d79d4505aeb55316"
 
-*dw-dsi, but really they both work the same way and should both be fixed
-...
+--000000000000d79d4505aeb55316
+Content-Type: text/plain; charset="UTF-8"
 
-> 
-> Can we try to fix this? There's a ton of this going on, and the more we
-> add the old fashioned way the harder this gets to fix up for real.
-> -Daniel
-> 
-> > ---
-> >  drivers/gpu/drm/meson/Kconfig             |   7 +
-> >  drivers/gpu/drm/meson/Makefile            |   1 +
-> >  drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 562 ++++++++++++++++++++++
-> >  3 files changed, 570 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> > 
-> > diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
-> > index 9f9281dd49f8..385f6f23839b 100644
-> > --- a/drivers/gpu/drm/meson/Kconfig
-> > +++ b/drivers/gpu/drm/meson/Kconfig
-> > @@ -16,3 +16,10 @@ config DRM_MESON_DW_HDMI
-> >  	default y if DRM_MESON
-> >  	select DRM_DW_HDMI
-> >  	imply DRM_DW_HDMI_I2S_AUDIO
-> > +
-> > +config DRM_MESON_DW_MIPI_DSI
-> > +	tristate "MIPI DSI Synopsys Controller support for Amlogic Meson Display"
-> > +	depends on DRM_MESON
-> > +	default y if DRM_MESON
-> > +	select DRM_DW_MIPI_DSI
-> > +	select GENERIC_PHY_MIPI_DPHY
-> > diff --git a/drivers/gpu/drm/meson/Makefile b/drivers/gpu/drm/meson/Makefile
-> > index 28a519cdf66b..2cc870e91182 100644
-> > --- a/drivers/gpu/drm/meson/Makefile
-> > +++ b/drivers/gpu/drm/meson/Makefile
-> > @@ -5,3 +5,4 @@ meson-drm-y += meson_rdma.o meson_osd_afbcd.o
-> >  
-> >  obj-$(CONFIG_DRM_MESON) += meson-drm.o
-> >  obj-$(CONFIG_DRM_MESON_DW_HDMI) += meson_dw_hdmi.o
-> > +obj-$(CONFIG_DRM_MESON_DW_MIPI_DSI) += meson_dw_mipi_dsi.o
-> > diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> > new file mode 100644
-> > index 000000000000..bbe1294fce7c
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> > @@ -0,0 +1,562 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * Copyright (C) 2016 BayLibre, SAS
-> > + * Author: Neil Armstrong <narmstrong@baylibre.com>
-> > + * Copyright (C) 2015 Amlogic, Inc. All rights reserved.
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/component.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of_graph.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/phy/phy.h>
-> > +
-> > +#include <video/mipi_display.h>
-> > +
-> > +#include <drm/bridge/dw_mipi_dsi.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_device.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +#include <drm/drm_print.h>
-> > +
-> > +#include "meson_drv.h"
-> > +#include "meson_dw_mipi_dsi.h"
-> > +#include "meson_registers.h"
-> > +#include "meson_venc.h"
-> > +
-> > +#define DRIVER_NAME "meson-dw-mipi-dsi"
-> > +#define DRIVER_DESC "Amlogic Meson MIPI-DSI DRM driver"
-> > +
-> > +/*  MIPI DSI/VENC Color Format Definitions */
-> > +#define MIPI_DSI_VENC_COLOR_30B   0x0
-> > +#define MIPI_DSI_VENC_COLOR_24B   0x1
-> > +#define MIPI_DSI_VENC_COLOR_18B   0x2
-> > +#define MIPI_DSI_VENC_COLOR_16B   0x3
-> > +
-> > +#define COLOR_16BIT_CFG_1         0x0
-> > +#define COLOR_16BIT_CFG_2         0x1
-> > +#define COLOR_16BIT_CFG_3         0x2
-> > +#define COLOR_18BIT_CFG_1         0x3
-> > +#define COLOR_18BIT_CFG_2         0x4
-> > +#define COLOR_24BIT               0x5
-> > +#define COLOR_20BIT_LOOSE         0x6
-> > +#define COLOR_24_BIT_YCBCR        0x7
-> > +#define COLOR_16BIT_YCBCR         0x8
-> > +#define COLOR_30BIT               0x9
-> > +#define COLOR_36BIT               0xa
-> > +#define COLOR_12BIT               0xb
-> > +#define COLOR_RGB_111             0xc
-> > +#define COLOR_RGB_332             0xd
-> > +#define COLOR_RGB_444             0xe
-> > +
-> > +/*  MIPI DSI Relative REGISTERs Definitions */
-> > +/* For MIPI_DSI_TOP_CNTL */
-> > +#define BIT_DPI_COLOR_MODE        20
-> > +#define BIT_IN_COLOR_MODE         16
-> > +#define BIT_CHROMA_SUBSAMPLE      14
-> > +#define BIT_COMP2_SEL             12
-> > +#define BIT_COMP1_SEL             10
-> > +#define BIT_COMP0_SEL              8
-> > +#define BIT_DE_POL                 6
-> > +#define BIT_HSYNC_POL              5
-> > +#define BIT_VSYNC_POL              4
-> > +#define BIT_DPICOLORM              3
-> > +#define BIT_DPISHUTDN              2
-> > +#define BIT_EDPITE_INTR_PULSE      1
-> > +#define BIT_ERR_INTR_PULSE         0
-> > +
-> > +/* HHI Registers */
-> > +#define HHI_VIID_CLK_DIV	0x128 /* 0x4a offset in data sheet */
-> > +#define VCLK2_DIV_MASK		0xff
-> > +#define VCLK2_DIV_EN		BIT(16)
-> > +#define VCLK2_DIV_RESET		BIT(17)
-> > +#define CTS_ENCL_SEL_MASK	(0xf << 12)
-> > +#define CTS_ENCL_SEL_SHIFT	12
-> > +#define HHI_VIID_CLK_CNTL	0x12c /* 0x4b offset in data sheet */
-> > +#define VCLK2_EN		BIT(19)
-> > +#define VCLK2_SEL_MASK		(0x7 << 16)
-> > +#define VCLK2_SEL_SHIFT		16
-> > +#define VCLK2_SOFT_RESET	BIT(15)
-> > +#define VCLK2_DIV1_EN		BIT(0)
-> > +#define HHI_VID_CLK_CNTL2	0x194 /* 0x65 offset in data sheet */
-> > +#define CTS_ENCL_EN		BIT(3)
-> > +
-> > +/**
-> > + * DOC: MIPI DSI
-> > + *
-> > + */
-> > +
-> > +struct meson_dw_mipi_dsi {
-> > +	struct drm_encoder encoder;
-> > +	struct meson_drm *priv;
-> > +	struct device *dev;
-> > +	void __iomem *base;
-> > +	struct phy *phy;
-> > +	union phy_configure_opts phy_opts;
-> > +	struct dw_mipi_dsi *dmd;
-> > +	struct dw_mipi_dsi_plat_data pdata;
-> > +	struct mipi_dsi_device *dsi_device;
-> > +	unsigned long mode_flags;
-> > +	struct clk *px_clk;
-> > +};
-> > +#define encoder_to_meson_dw_mipi_dsi(x) \
-> > +	container_of(x, struct meson_dw_mipi_dsi, encoder)
-> > +
-> > +static void dw_mipi_dsi_set_vclk(struct meson_dw_mipi_dsi *mipi_dsi,
-> > +				 struct drm_display_mode *mode)
-> > +{
-> > +	struct meson_drm *priv = mipi_dsi->priv;
-> > +	unsigned int vclk2_div;
-> > +	unsigned int pll_rate;
-> > +	int ret;
-> > +
-> > +	pll_rate = mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate;
-> > +	vclk2_div = pll_rate / (mode->clock * 1000);
-> > +
-> > +	ret = clk_set_rate(mipi_dsi->px_clk, pll_rate);
-> > +	if (ret) {
-> > +		pr_err("Failed to set DSI PLL rate %lu\n",
-> > +		       mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate);
-> > +
-> > +		return;
-> > +	}
-> > +
-> > +	/* Disable VCLK2 */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL, VCLK2_EN, 0);
-> > +
-> > +	/* Setup the VCLK2 divider value */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_DIV,
-> > +				VCLK2_DIV_MASK, (vclk2_div - 1));
-> > +
-> > +	/* select gp0 for vclk2 */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
-> > +				VCLK2_SEL_MASK, (0 << VCLK2_SEL_SHIFT));
-> > +
-> > +	/* enable vclk2 gate */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL, VCLK2_EN, VCLK2_EN);
-> > +
-> > +	/* select vclk2_div1 for encl */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_DIV,
-> > +				CTS_ENCL_SEL_MASK, (8 << CTS_ENCL_SEL_SHIFT));
-> > +
-> > +	/* release vclk2_div_reset and enable vclk2_div */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_DIV,
-> > +				VCLK2_DIV_EN | VCLK2_DIV_RESET, VCLK2_DIV_EN);
-> > +
-> > +	/* enable vclk2_div1 gate */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
-> > +				VCLK2_DIV1_EN, VCLK2_DIV1_EN);
-> > +
-> > +	/* reset vclk2 */
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
-> > +				VCLK2_SOFT_RESET, VCLK2_SOFT_RESET);
-> > +	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
-> > +				VCLK2_SOFT_RESET, 0);
-> > +
-> > +	/* enable encl_clk */
-> > +	regmap_update_bits(priv->hhi, HHI_VID_CLK_CNTL2,
-> > +				CTS_ENCL_EN, CTS_ENCL_EN);
-> > +
-> > +	usleep_range(10000, 11000);
-> > +}
-> > +
-> > +static int dw_mipi_dsi_phy_init(void *priv_data)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
-> > +	struct meson_drm *priv = mipi_dsi->priv;
-> > +
-> > +
-> > +	phy_power_on(mipi_dsi->phy);
-> > +
-> > +	writel_relaxed(1, priv->io_base + _REG(ENCL_VIDEO_EN));
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void dw_mipi_dsi_phy_power_off(void *priv_data)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
-> > +
-> > +	phy_power_off(mipi_dsi->phy);
-> > +}
-> > +
-> > +static int
-> > +dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
-> > +			  unsigned long mode_flags, u32 lanes, u32 format,
-> > +			  unsigned int *lane_mbps)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
-> > +
-> > +	*lane_mbps = mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate / 1000000;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int
-> > +dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
-> > +			   struct dw_mipi_dsi_dphy_timing *timing)
-> > +{
-> > +	/* TOFIX handle other cases */
-> > +
-> > +	timing->clk_lp2hs = 37;
-> > +	timing->clk_hs2lp = 135;
-> > +	timing->data_lp2hs = 50;
-> > +	timing->data_hs2lp = 3;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int
-> > +dw_mipi_dsi_get_esc_clk_rate(void *priv_data, unsigned int *esc_clk_rate)
-> > +{
-> > +	*esc_clk_rate = 4; /* Mhz */
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct dw_mipi_dsi_phy_ops meson_dw_mipi_dsi_phy_ops = {
-> > +	.init = dw_mipi_dsi_phy_init,
-> > +	.power_off = dw_mipi_dsi_phy_power_off,
-> > +	.get_lane_mbps = dw_mipi_dsi_get_lane_mbps,
-> > +	.get_timing = dw_mipi_dsi_phy_get_timing,
-> > +	.get_esc_clk_rate = dw_mipi_dsi_get_esc_clk_rate,
-> > +};
-> > +
-> > +/* Encoder */
-> > +
-> > +static void meson_mipi_dsi_encoder_destroy(struct drm_encoder *encoder)
-> > +{
-> > +	drm_encoder_cleanup(encoder);
-> > +}
-> > +
-> > +static const struct drm_encoder_funcs meson_mipi_dsi_encoder_funcs = {
-> > +	.destroy        = meson_mipi_dsi_encoder_destroy,
-> > +};
-> > +
-> > +static int meson_mipi_dsi_encoder_atomic_check(struct drm_encoder *encoder,
-> > +					struct drm_crtc_state *crtc_state,
-> > +					struct drm_connector_state *conn_state)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi =
-> > +			encoder_to_meson_dw_mipi_dsi(encoder);
-> > +
-> > +	switch (mipi_dsi->dsi_device->format) {
-> > +	case MIPI_DSI_FMT_RGB888:
-> > +		break;
-> > +	case MIPI_DSI_FMT_RGB666:
-> > +		break;
-> > +	case MIPI_DSI_FMT_RGB666_PACKED:
-> > +	case MIPI_DSI_FMT_RGB565:
-> > +	default:
-> > +		DRM_DEV_ERROR(mipi_dsi->dev,
-> > +				"invalid pixel format %d\n",
-> > +				mipi_dsi->dsi_device->format);
-> > +		return -EINVAL;
-> > +	};
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void meson_mipi_dsi_encoder_disable(struct drm_encoder *encoder)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi =
-> > +			encoder_to_meson_dw_mipi_dsi(encoder);
-> > +	struct meson_drm *priv = mipi_dsi->priv;
-> > +
-> > +	writel_relaxed(0, priv->io_base + _REG(ENCL_VIDEO_EN));
-> > +}
-> > +
-> > +static void meson_mipi_dsi_encoder_enable(struct drm_encoder *encoder)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi =
-> > +			encoder_to_meson_dw_mipi_dsi(encoder);
-> > +	struct meson_drm *priv = mipi_dsi->priv;
-> > +
-> > +	writel_bits_relaxed(BIT(3), BIT(3),
-> > +			priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
-> > +	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_EN));
-> > +}
-> > +
-> > +static void meson_dw_mipi_dsi_init(struct meson_dw_mipi_dsi *mipi_dsi)
-> > +{
-> > +	writel_relaxed((1 << 4) | (1 << 5) | (0 << 6),
-> > +			mipi_dsi->base + MIPI_DSI_TOP_CNTL);
-> > +
-> > +	writel_bits_relaxed(0xf, 0xf,
-> > +			    mipi_dsi->base + MIPI_DSI_TOP_SW_RESET);
-> > +	writel_bits_relaxed(0xf, 0,
-> > +			    mipi_dsi->base + MIPI_DSI_TOP_SW_RESET);
-> > +
-> > +	writel_bits_relaxed(0x3, 0x3,
-> > +			    mipi_dsi->base + MIPI_DSI_TOP_CLK_CNTL);
-> > +
-> > +	writel_relaxed(0, mipi_dsi->base + MIPI_DSI_TOP_MEM_PD);
-> > +}
-> > +
-> > +static void meson_mipi_dsi_encoder_mode_set(struct drm_encoder *encoder,
-> > +				   struct drm_display_mode *mode,
-> > +				   struct drm_display_mode *adjusted_mode)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = encoder_to_meson_dw_mipi_dsi(encoder);
-> > +	unsigned int dpi_data_format, venc_data_width;
-> > +	struct meson_drm *priv = mipi_dsi->priv;
-> > +	int bpp;
-> > +	u32 reg;
-> > +
-> > +	mipi_dsi->mode_flags = mode->flags;
-> > +
-> > +	bpp = mipi_dsi_pixel_format_to_bpp(mipi_dsi->dsi_device->format);
-> > +
-> > +	phy_mipi_dphy_get_default_config(mode->clock * 1000,
-> > +					 bpp, mipi_dsi->dsi_device->lanes,
-> > +					 &mipi_dsi->phy_opts.mipi_dphy);
-> > +
-> > +	phy_configure(mipi_dsi->phy, &mipi_dsi->phy_opts);
-> > +
-> > +	switch (mipi_dsi->dsi_device->format) {
-> > +	case MIPI_DSI_FMT_RGB888:
-> > +		dpi_data_format = COLOR_24BIT;
-> > +		venc_data_width = MIPI_DSI_VENC_COLOR_24B;
-> > +		break;
-> > +	case MIPI_DSI_FMT_RGB666:
-> > +		dpi_data_format = COLOR_18BIT_CFG_2;
-> > +		venc_data_width = MIPI_DSI_VENC_COLOR_18B;
-> > +		break;
-> > +	case MIPI_DSI_FMT_RGB666_PACKED:
-> > +	case MIPI_DSI_FMT_RGB565:
-> > +		/* invalid */
-> > +		break;
-> > +	};
-> > +
-> > +	dw_mipi_dsi_set_vclk(mipi_dsi, mode);
-> > +	meson_venc_mipi_dsi_mode_set(priv, mode);
-> > +
-> > +	meson_encl_load_gamma(priv);
-> > +
-> > +	writel_relaxed(0, priv->io_base + _REG(ENCL_VIDEO_EN));
-> > +
-> > +	meson_dw_mipi_dsi_init(mipi_dsi);
-> > +
-> > +	/* Configure Set color format for DPI register */
-> > +	reg = readl_relaxed(mipi_dsi->base + MIPI_DSI_TOP_CNTL) &
-> > +		~(0xf<<BIT_DPI_COLOR_MODE) &
-> > +		~(0x7<<BIT_IN_COLOR_MODE) &
-> > +		~(0x3<<BIT_CHROMA_SUBSAMPLE);
-> > +
-> > +	writel_relaxed(reg |
-> > +		(dpi_data_format  << BIT_DPI_COLOR_MODE)  |
-> > +		(venc_data_width  << BIT_IN_COLOR_MODE) |
-> > +		0 << BIT_COMP0_SEL |
-> > +		1 << BIT_COMP1_SEL |
-> > +		2 << BIT_COMP2_SEL |
-> > +		(mipi_dsi->mode_flags & DRM_MODE_FLAG_NHSYNC ? 0 : BIT(BIT_HSYNC_POL)) |
-> > +		(mipi_dsi->mode_flags & DRM_MODE_FLAG_NVSYNC ? 0 : BIT(BIT_VSYNC_POL)),
-> > +		mipi_dsi->base + MIPI_DSI_TOP_CNTL);
-> > +}
-> > +
-> > +static const struct drm_encoder_helper_funcs
-> > +				meson_mipi_dsi_encoder_helper_funcs = {
-> > +	.atomic_check	= meson_mipi_dsi_encoder_atomic_check,
-> > +	.disable	= meson_mipi_dsi_encoder_disable,
-> > +	.enable		= meson_mipi_dsi_encoder_enable,
-> > +	.mode_set	= meson_mipi_dsi_encoder_mode_set,
-> > +};
-> > +
-> > +static int meson_dw_mipi_dsi_bind(struct device *dev, struct device *master,
-> > +				void *data)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = dev_get_drvdata(dev);
-> > +	struct drm_device *drm = data;
-> > +	struct meson_drm *priv = drm->dev_private;
-> > +	struct drm_encoder *encoder;
-> > +	int ret;
-> > +
-> > +	/* Check before if we are supposed to have a sub-device... */
-> > +	if (!mipi_dsi->dsi_device)
-> > +		return -EPROBE_DEFER;
-> > +
-> > +	encoder = &mipi_dsi->encoder;
-> > +	mipi_dsi->priv = priv;
-> > +
-> > +	/* Encoder */
-> > +	ret = drm_encoder_init(drm, encoder, &meson_mipi_dsi_encoder_funcs,
-> > +			       DRM_MODE_ENCODER_DSI, "meson_mipi_dsi");
-> > +	if (ret) {
-> > +		dev_err(priv->dev, "Failed to init DSI encoder\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	drm_encoder_helper_add(encoder, &meson_mipi_dsi_encoder_helper_funcs);
-> > +
-> > +	encoder->possible_crtcs = BIT(0);
-> > +
-> > +	ret = dw_mipi_dsi_bind(mipi_dsi->dmd, encoder);
-> > +	if (ret) {
-> > +		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	phy_init(mipi_dsi->phy);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void meson_dw_mipi_dsi_unbind(struct device *dev, struct device *master,
-> > +				   void *data)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = dev_get_drvdata(dev);
-> > +
-> > +	dw_mipi_dsi_remove(mipi_dsi->dmd);
-> > +
-> > +	phy_exit(mipi_dsi->phy);
-> > +}
-> > +
-> > +static const struct component_ops meson_dw_mipi_dsi_ops = {
-> > +	.bind	= meson_dw_mipi_dsi_bind,
-> > +	.unbind	= meson_dw_mipi_dsi_unbind,
-> > +};
-> > +
-> > +static int meson_dw_mipi_dsi_host_attach(void *priv_data,
-> > +					 struct mipi_dsi_device *device)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
-> > +
-> > +	mipi_dsi->dsi_device = device;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int meson_dw_mipi_dsi_host_detach(void *priv_data,
-> > +					 struct mipi_dsi_device *device)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
-> > +
-> > +	if (device == mipi_dsi->dsi_device)
-> > +		mipi_dsi->dsi_device = NULL;
-> > +	else
-> > +		return -EINVAL;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct dw_mipi_dsi_host_ops meson_dw_mipi_dsi_host_ops = {
-> > +	.attach = meson_dw_mipi_dsi_host_attach,
-> > +	.detach = meson_dw_mipi_dsi_host_detach,
-> > +};
-> > +
-> > +static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi;
-> > +	struct reset_control *top_rst;
-> > +	struct resource *res;
-> > +	int ret;
-> > +
-> > +	mipi_dsi = devm_kzalloc(&pdev->dev, sizeof(*mipi_dsi), GFP_KERNEL);
-> > +	if (!mipi_dsi)
-> > +		return -ENOMEM;
-> > +
-> > +	mipi_dsi->dev = &pdev->dev;
-> > +
-> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +	mipi_dsi->base = devm_ioremap_resource(&pdev->dev, res);
-> > +	if (IS_ERR(mipi_dsi->base))
-> > +		return PTR_ERR(mipi_dsi->base);
-> > +
-> > +	mipi_dsi->phy = devm_phy_get(&pdev->dev, "dphy");
-> > +	if (IS_ERR(mipi_dsi->phy)) {
-> > +		ret = PTR_ERR(mipi_dsi->phy);
-> > +		dev_err(&pdev->dev, "failed to get mipi dphy: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	mipi_dsi->px_clk = devm_clk_get(&pdev->dev, "px_clk");
-> > +	if (IS_ERR(mipi_dsi->px_clk)) {
-> > +		dev_err(&pdev->dev, "Unable to get PLL clk\n");
-> > +		return PTR_ERR(mipi_dsi->px_clk);
-> > +	}
-> > +
-> > +	/*
-> > +	 * We use a TOP reset signal because the APB reset signal
-> > +	 * is handled by the TOP control registers.
-> > +	 */
-> > +	top_rst = devm_reset_control_get_exclusive(&pdev->dev, "top");
-> > +	if (IS_ERR(top_rst)) {
-> > +		ret = PTR_ERR(top_rst);
-> > +
-> > +		if (ret != -EPROBE_DEFER)
-> > +			dev_err(&pdev->dev, "Unable to get reset control: %d\n", ret);
-> > +
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = clk_prepare_enable(mipi_dsi->px_clk);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Unable to prepare/enable PX clock\n");
-> > +		goto err_clkdisable;
-> > +	}
-> > +
-> > +	reset_control_assert(top_rst);
-> > +	usleep_range(10, 20);
-> > +	reset_control_deassert(top_rst);
-> > +
-> > +	/* MIPI DSI Controller */
-> > +
-> > +	mipi_dsi->pdata.base = mipi_dsi->base;
-> > +	mipi_dsi->pdata.max_data_lanes = 4;
-> > +	mipi_dsi->pdata.phy_ops = &meson_dw_mipi_dsi_phy_ops;
-> > +	mipi_dsi->pdata.host_ops = &meson_dw_mipi_dsi_host_ops;
-> > +	mipi_dsi->pdata.priv_data = mipi_dsi;
-> > +	platform_set_drvdata(pdev, mipi_dsi);
-> > +
-> > +	mipi_dsi->dmd = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata);
-> > +	if (IS_ERR(mipi_dsi->dmd)) {
-> > +		ret = PTR_ERR(mipi_dsi->dmd);
-> > +		if (ret != -EPROBE_DEFER)
-> > +			dev_err(&pdev->dev,
-> > +				"Failed to probe dw_mipi_dsi: %d\n", ret);
-> > +		goto err_clkdisable;
-> > +	}
-> > +
-> > +	return component_add(mipi_dsi->dev, &meson_dw_mipi_dsi_ops);
-> > +
-> > +err_clkdisable:
-> > +	clk_disable_unprepare(mipi_dsi->px_clk);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int meson_dw_mipi_dsi_remove(struct platform_device *pdev)
-> > +{
-> > +	struct meson_dw_mipi_dsi *mipi_dsi = dev_get_drvdata(&pdev->dev);
-> > +
-> > +	component_del(mipi_dsi->dev, &meson_dw_mipi_dsi_ops);
-> > +
-> > +	clk_disable_unprepare(mipi_dsi->px_clk);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id meson_dw_mipi_dsi_of_table[] = {
-> > +	{ .compatible = "amlogic,meson-axg-dw-mipi-dsi", },
-> > +	{ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, meson_dw_mipi_dsi_of_table);
-> > +
-> > +static struct platform_driver meson_dw_mipi_dsi_platform_driver = {
-> > +	.probe		= meson_dw_mipi_dsi_probe,
-> > +	.remove		= meson_dw_mipi_dsi_remove,
-> > +	.driver		= {
-> > +		.name		= DRIVER_NAME,
-> > +		.of_match_table	= meson_dw_mipi_dsi_of_table,
-> > +	},
-> > +};
-> > +module_platform_driver(meson_dw_mipi_dsi_platform_driver);
-> > +
-> > +MODULE_AUTHOR("Neil Armstrong <narmstrong@baylibre.com>");
-> > +MODULE_DESCRIPTION(DRIVER_DESC);
-> > +MODULE_LICENSE("GPL");
-> > -- 
-> > 2.22.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Den fre 4 sep. 2020 kl 18:07 skrev Bas Nieuwenhuizen <
+bas@basnieuwenhuizen.nl>:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> This adds modifier support to radeonsi.
+>
+
+Wouldn't it be more correct to say that this adds modifier support to
+amdgpu (and enables it to work with radeonsi OpenGL)
+or something like that?
+
+//E
+
+
+> It has been tested on
+>
+> - VEGA10, RAVEN, NAVI14
+> - weston, sway, X with xf86-video-amdgpu (i.e. legacy path still works)
+>
+> and includes some basic testing of the layout code.
+>
+> The main goal is to keep it somewhat simple and regression free, so
+> on the display side this series only exposes what the current GPU
+> can render to. While we could expose more I think that is more
+> suitable for follow-up work as the benefit would be minimal and
+> there are some more design discussion there to discuss that are
+> orthogonal from the initial implementation.
+>
+> Similarly this series only exposes 32-bpp displayable DCC in the cases
+> that radeonsi would use it and any extra capabilities here should be
+> future work.
+>
+> I believe these are by far the most complicated modifiers we've seen
+> up till now, mostly related to
+>
+> - GPU identification for cases where it matters wrt tiling.
+> - Every generation having tiling layout changes
+> - Compression settings.
+>
+> I believe the complexity is necessary as every layout should be different
+> and all layouts should be the best in some situation (though not all
+> combinations of GPU parameters will actually have an existing GPU).
+>
+> That said, on the render side the number of modifiers actually listed for
+> a given GPU is ~10, and in the current implementation that is the same
+> for the display side. (we could expose more actually differing layouts
+> on the display side for cross-GPU compatibility, but I consider that
+> out of scope for this initial work).
+>
+> This series can be found on
+> https://github.com/BNieuwenhuizen/linux/tree/modifiers
+>
+> An userspace implementation in radeonsi can be found on
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6176
+>
+> v2:
+>
+> Per suggestion from Daniel Vetter I added logic to get the tiling_flags at
+> addfb2 time and convert them into modifiers for GFX9+.  Furthermore, the
+> DCC
+> constant econding modifers only get exposed on RAVEN2 and newer.
+>
+> Bas Nieuwenhuizen (11):
+>   drm/amd/display: Do not silently accept DCC for multiplane formats.
+>   drm/amd: Init modifier field of helper fb.
+>   drm/amd/display: Honor the offset for plane 0.
+>   drm/fourcc:  Add AMD DRM modifiers.
+>   drm/amd/display: Store tiling_flags in the framebuffer.
+>   drm/amd/display: Convert tiling_flags to modifiers.
+>   drm/amd/display: Refactor surface tiling setup.
+>   drm/amd/display: Set DC options from modifiers.
+>   drm/amd/display: Add formats for DCC with 2/3 planes.
+>   drm/amd/display: Expose modifiers.
+>   drm/amd/display: Clean up GFX9 tiling_flags path.
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 169 +++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   3 +
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 754 ++++++++++++++----
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   2 -
+>  include/uapi/drm/drm_fourcc.h                 | 115 +++
+>  6 files changed, 880 insertions(+), 165 deletions(-)
+>
+> --
+> 2.28.0
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+>
+
+--000000000000d79d4505aeb55316
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:arial,helvetica,sans-serif"><br></div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">Den fre 4 sep. 2020 kl 18:07=
+ skrev Bas Nieuwenhuizen &lt;<a href=3D"mailto:bas@basnieuwenhuizen.nl">bas=
+@basnieuwenhuizen.nl</a>&gt;:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">This adds modifier support to radeonsi.<br></blockquote><div>=
+<br></div><div><div style=3D"font-family:arial,helvetica,sans-serif" class=
+=3D"gmail_default">Wouldn&#39;t it be more correct to say that this adds mo=
+difier support to amdgpu (and enables it to work with radeonsi OpenGL)</div=
+><div style=3D"font-family:arial,helvetica,sans-serif" class=3D"gmail_defau=
+lt">or something like that?</div></div><div><br></div><div><div style=3D"fo=
+nt-family:arial,helvetica,sans-serif" class=3D"gmail_default">//E</div></di=
+v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+It has been tested on<br>
+<br>
+- VEGA10, RAVEN, NAVI14<br>
+- weston, sway, X with xf86-video-amdgpu (i.e. legacy path still works)<br>
+<br>
+and includes some basic testing of the layout code.<br>
+<br>
+The main goal is to keep it somewhat simple and regression free, so<br>
+on the display side this series only exposes what the current GPU<br>
+can render to. While we could expose more I think that is more<br>
+suitable for follow-up work as the benefit would be minimal and<br>
+there are some more design discussion there to discuss that are<br>
+orthogonal from the initial implementation.<br>
+<br>
+Similarly this series only exposes 32-bpp displayable DCC in the cases<br>
+that radeonsi would use it and any extra capabilities here should be<br>
+future work.<br>
+<br>
+I believe these are by far the most complicated modifiers we&#39;ve seen<br=
+>
+up till now, mostly related to<br>
+<br>
+- GPU identification for cases where it matters wrt tiling.<br>
+- Every generation having tiling layout changes<br>
+- Compression settings.<br>
+<br>
+I believe the complexity is necessary as every layout should be different<b=
+r>
+and all layouts should be the best in some situation (though not all<br>
+combinations of GPU parameters will actually have an existing GPU).<br>
+<br>
+That said, on the render side the number of modifiers actually listed for<b=
+r>
+a given GPU is ~10, and in the current implementation that is the same<br>
+for the display side. (we could expose more actually differing layouts<br>
+on the display side for cross-GPU compatibility, but I consider that<br>
+out of scope for this initial work).<br>
+<br>
+This series can be found on<br>
+<a href=3D"https://github.com/BNieuwenhuizen/linux/tree/modifiers" rel=3D"n=
+oreferrer" target=3D"_blank">https://github.com/BNieuwenhuizen/linux/tree/m=
+odifiers</a><br>
+<br>
+An userspace implementation in radeonsi can be found on<br>
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6176" =
+rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/me=
+sa/-/merge_requests/6176</a><br>
+<br>
+v2:<br>
+<br>
+Per suggestion from Daniel Vetter I added logic to get the tiling_flags at<=
+br>
+addfb2 time and convert them into modifiers for GFX9+.=C2=A0 Furthermore, t=
+he DCC<br>
+constant econding modifers only get exposed on RAVEN2 and newer.<br>
+<br>
+Bas Nieuwenhuizen (11):<br>
+=C2=A0 drm/amd/display: Do not silently accept DCC for multiplane formats.<=
+br>
+=C2=A0 drm/amd: Init modifier field of helper fb.<br>
+=C2=A0 drm/amd/display: Honor the offset for plane 0.<br>
+=C2=A0 drm/fourcc:=C2=A0 Add AMD DRM modifiers.<br>
+=C2=A0 drm/amd/display: Store tiling_flags in the framebuffer.<br>
+=C2=A0 drm/amd/display: Convert tiling_flags to modifiers.<br>
+=C2=A0 drm/amd/display: Refactor surface tiling setup.<br>
+=C2=A0 drm/amd/display: Set DC options from modifiers.<br>
+=C2=A0 drm/amd/display: Add formats for DCC with 2/3 planes.<br>
+=C2=A0 drm/amd/display: Expose modifiers.<br>
+=C2=A0 drm/amd/display: Clean up GFX9 tiling_flags path.<br>
+<br>
+=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_display.c=C2=A0 =C2=A0| 169 +++-<br=
+>
+=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A03 +<br>
+=C2=A0.../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 754 ++++++++++++++---=
+-<br>
+=C2=A0.../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |=C2=A0 =C2=A02 -<br>
+=C2=A0include/uapi/drm/drm_fourcc.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 115 +++<br>
+=C2=A06 files changed, 880 insertions(+), 165 deletions(-)<br>
+<br>
+-- <br>
+2.28.0<br>
+<br>
+_______________________________________________<br>
+amd-gfx mailing list<br>
+<a href=3D"mailto:amd-gfx@lists.freedesktop.org" target=3D"_blank">amd-gfx@=
+lists.freedesktop.org</a><br>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/amd-gfx" rel=3D"n=
+oreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listinfo=
+/amd-gfx</a><br>
+</blockquote></div></div>
+
+--000000000000d79d4505aeb55316--
+
+--===============1312812581==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1312812581==--
