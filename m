@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A160225FC45
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 16:50:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD63225FC4B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 16:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDE76E326;
-	Mon,  7 Sep 2020 14:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4BAA6E405;
+	Mon,  7 Sep 2020 14:52:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F446E326
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 14:50:46 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id n2so2437736oij.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 07:50:46 -0700 (PDT)
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 090F36E405
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 14:52:30 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id h17so11665697otr.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 07:52:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NocdxbzOwXFNFlWIr6/cqeHsmP04fNIWa9z1kM4h3ac=;
- b=pmyU/+OyrDysnV8OD7AQ9yYbK+Pd8croysJ+JCugFISmJm43WRW3r6/enqJcfbNP79
- BMtufltTW9ClBgl8Af9zQqYA+rGsFf9CKITCmiH02mrA43BaByUygtTN/NE7AkYaX1M6
- +JzUGQ0J6f6f8+wL8aeS/3cG6YX4ER0kYIOKpg3Ds7Qw6zPKQDOhqIe14xkYtCCSWXrI
- lY0yMeR93miTaDOrE/Jeyg4PdrZ2EX/2m8LPbV8aqeLLffKfN6s/khC35s8Ivfp+3yMk
- AMLpysOs5EbsG8jIDedfELAS/9QdofYhL8QKtVRwJSlmO4DIMONUml7a2xeJ6sUi9FBx
- rq9A==
-X-Gm-Message-State: AOAM530ndXVqJJ1YVHUhQVrcNYBZ6Ho4f57KCCleZ6PkjEmWlHpangCn
- y7zID1LcXYvrMNgT/CnpJlxP7PqkMA501+Cb0FE=
-X-Google-Smtp-Source: ABdhPJxPEeOz9rD4CfjHYipCYAJC4QkIqyBMHvsKbLfrLvLKIyCWCxxTkUZb5VVmim8i5VZiOO3KPF8rJoL+7tO1GAQ=
-X-Received: by 2002:aca:b742:: with SMTP id h63mr12128676oif.148.1599490245942; 
- Mon, 07 Sep 2020 07:50:45 -0700 (PDT)
+ bh=YR5nCLsMFYFwM3pRnFFBBgFgP7DthYxhn+lLufrwFRM=;
+ b=m8w+uJUfyLkeO+ILuqlWGmj2EPS1+jANgHyjcU7uemLK3vNFQuFibZr4CYSCqHGfMx
+ f+oo4zbvp1OJP3FhuH08S1ErywT8wlK1PRJ8cL2RoQiqned/zXs2kx2lpzzGnDlYZZ3z
+ XVPTdbGdLSBQKCjTI5q3XiOfWtTxFJkW5PiA9Z4Ovy2h5MJX7OBb3aQrUdHODG6JQ4Hh
+ Lrn/yjsNrKfiHuSncnfvMUgD4DxcVhDF5xUMeZBtH4m+/AHFaCMxsChBVElBbQ+Yoixm
+ 92a/XCOgFvOqvhKSi0f452YS4ii6RDvnf8YnDKf4ktD2yGYoT31UVospAFnuYeQh/KMM
+ x0Mw==
+X-Gm-Message-State: AOAM5319+YKl6LOIPR3Fql5Zz5ot37/opRX1J/btgVAi6Yrx0J8isQ/D
+ hPPUrjBQ3GUPHOAltRfKwebVZFhNSeFBjZSDk0E=
+X-Google-Smtp-Source: ABdhPJwMUIApW9HWKDkC3PKb6cFgsiRPnCVRrqTYBPT/r/sTcW9BIcPzvjDMKs+ttWmcC5MmxT2A7Giu82Aj7PG5r3o=
+X-Received: by 2002:a05:6830:1008:: with SMTP id
+ a8mr13857111otp.107.1599490349290; 
+ Mon, 07 Sep 2020 07:52:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
- <87r1re70sv.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87r1re70sv.wl-kuninori.morimoto.gx@renesas.com>
+ <87pn6y70sp.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87pn6y70sp.wl-kuninori.morimoto.gx@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Sep 2020 16:50:34 +0200
-Message-ID: <CAMuHMdVvnDLogOgQaASYLhFxNCq=eVpdZKV2J2eX=h5UzvNtfw@mail.gmail.com>
-Subject: Re: [PATCH 1/9] dt-bindings: display: renesas: du: Document the
- r8a77961 bindings
+Date: Mon, 7 Sep 2020 16:52:18 +0200
+Message-ID: <CAMuHMdWC9uQ5ekntNsMQQFBZ1tEnf01+b_-ShgpVJsxqeOjEVA@mail.gmail.com>
+Subject: Re: [PATCH 2/9] dt-bindings: display: renesas: dw-hdmi: Add R8A77961
+ support
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,31 +66,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Morimoto-san,
-
 On Mon, Sep 7, 2020 at 4:58 AM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
 > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> Document the R-Car M3-W+ (R8A77961) SoC in the R-Car DU bindings.
+> This patch adds R-Car M3-W+ (R8A77961) SoC bindings.
 >
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -18,6 +18,7 @@ Required Properties:
->      - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
->      - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
->      - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
-> +    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
->      - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
->      - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
->      - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
-
-Looks good to me, but please also add an entry to the table below
-describing the port mappings.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
