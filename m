@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7029B25F4D9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76EB25F4DA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 10:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92FA76E3AC;
-	Mon,  7 Sep 2020 08:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96B026E3B2;
+	Mon,  7 Sep 2020 08:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D446E39B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:18:38 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k15so14754202wrn.10
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:18:38 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 804786E3A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 08:18:40 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id y15so663527wmi.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 01:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bX1s4xMuL5vY2ccVWkeVsR98TkYqApy3vJM/yyJ0UUI=;
- b=xpy/MF7WlNAaepdnXSosFHddhAhU/jmZO82o8zHY6wCRvPW51p6Du1L3QdA5hyh+ik
- hFGY+o5OV8lzi1QtZ4416DJ5yxkukQtNxwePe5bCqdSgWTcYi4FxrxzelPJktF6SpTiM
- f4ZIHH72qSZyKypnocTiV0dUTgiuNzUcW5t71r64Laq0WZzwW00OJyZyW0HEV9tIaa7Y
- GTC7joGdyUaJWKSaMj7BqNXlSqVhhIPfZGbR0B8J8PiSw/ZWrJSK6WKzom3T+7XwWNPk
- V7KKJh8S0Nq0h0/loU+TzSIruF6bhgiYmKYdMS9us3aNOWCcqLn/QZz67/sXQOGWCqbM
- QmDw==
+ bh=e1VQdJ3NOg+F1fNjmsoEY2AtaPcKRKUAySHUYDX+C0s=;
+ b=G6mAebW2gw11g8L5gRnfzmR/vmbKgniPmtnNOrsPRyqwZ+ryQw3XQOEFBS//C2Z1sm
+ yXwLe9y4ANiiYum8CUaUg0oIvR8JsvACsCU31BTMhZKhuCj7Px7+uvwu3PIoAhSnNef2
+ LKjt1eCC0am4jhmIxWOp4nMoxAlqKm1EuP3uSCWO49n9X7nbdOkbr+yCWwOv+eHCN3fh
+ 1BCNmdKHuZShWkeCzhJaivRw8odahnn5Fint2bH8/HdGJCGGbip16uddxHx5xLZPBx9f
+ JnzhHjFJRLlnnc0zU9CiMqzDZ88YFUZp0L6raL5P5QDm3yh/8pJTQ7EMCeRaYRhlY1vZ
+ f12g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bX1s4xMuL5vY2ccVWkeVsR98TkYqApy3vJM/yyJ0UUI=;
- b=OUhNSIMzfRfJVQxzCyOLj5mUoSCNgmJVrDEDzQqE6SzfpdilFlTeupcqbVQpZs15kw
- StMmeAtAO5LF6UlW00zZ4McPP2CmyXjZWjc21Q+TdFtLRvD5Ap0IIBPPti/cq61lIcXC
- yzjh5xnWKD2NG/3nyFn6lI2wWzNuyVze1B776zElJ0u0kthqQztkemHqAzCM9ViFxGl+
- 7V1wUjvjfibM4gydUeBZALMtkS4LK95xM2KutKBsXFU+6L+CTTYSs4G2RhBKWreKxO5O
- ipYlx6Qear/N6VQLD9pfZJ5tJ8Z/Om6NhXiZ4Z/TSGAcUpq5VwlWtNZlB0m5eqJ+DBAy
- BAnQ==
-X-Gm-Message-State: AOAM531UALo5XZN5hY7SNugvY41kGxP+2XxZn8Sv9j0B2q/S7WcV+lFL
- RSZRGx1PREHAiY016YGAaQwCflbH5QXS6EDy
-X-Google-Smtp-Source: ABdhPJx37EVAY06BMAZdNUlhN9PbcXqw4hXGyZnhzv+klLTi6jqFy02Q485CkAsqiiMLG71JIu+hlg==
-X-Received: by 2002:a5d:52c6:: with SMTP id r6mr13292808wrv.141.1599466717335; 
- Mon, 07 Sep 2020 01:18:37 -0700 (PDT)
+ bh=e1VQdJ3NOg+F1fNjmsoEY2AtaPcKRKUAySHUYDX+C0s=;
+ b=N7OFI5jpvKVFTnU+cZHih80zo4w+FU1wsPSHtNCX//xh702c4q3ds7vdy0gS3p/hoY
+ DcXWxvRzMWfBzhEZ0rfvh2ryOc+rmXAZSm/MimkLTNpuDKze3F6BLL7+UrZYifPJOE/n
+ 2+oqMav9IpfoIR+nM+yJ0YJQPFfj46KB84/k8uA2e8+9IAMZX4MDUD0wO47nb6aT8IVA
+ BC1bN8ME0DWU21+bEWmomPKVo2LyQeZ5KOieRxJP8UqRAexUf4h5iVDTUNxoZvzWG8BF
+ RZi+JaXBAphyjTDYMdJTL9Hg1+PC5TAy3HKpL+yIE4/iBq1E9/yRBJ7wuIMTtkqws073
+ ti6w==
+X-Gm-Message-State: AOAM531AAhrvTQDiShd87yMMt2K+H2J9rZLoOYQ2MIQv7rnef65Z9diU
+ lkvXlyAtYP+Mo0C08DlMB3jMNw==
+X-Google-Smtp-Source: ABdhPJyjVh9SCIYRWU7ndlYpRLrZd12SUvlD8dTzCVwJChJae4CKmsg31bej9jedn5SiRE0pofVEDw==
+X-Received: by 2002:a1c:7405:: with SMTP id p5mr19495012wmc.35.1599466718934; 
+ Mon, 07 Sep 2020 01:18:38 -0700 (PDT)
 Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
- by smtp.gmail.com with ESMTPSA id q186sm28032205wma.45.2020.09.07.01.18.35
+ by smtp.gmail.com with ESMTPSA id q186sm28032205wma.45.2020.09.07.01.18.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 01:18:36 -0700 (PDT)
+ Mon, 07 Sep 2020 01:18:38 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: daniel@ffwll.ch
-Subject: [PATCH 5/6] drm/meson: remove useless recursive components matching
-Date: Mon,  7 Sep 2020 10:18:24 +0200
-Message-Id: <20200907081825.1654-6-narmstrong@baylibre.com>
+Subject: [PATCH 6/6] drm/meson: add support for MIPI-DSI transceiver
+Date: Mon,  7 Sep 2020 10:18:25 +0200
+Message-Id: <20200907081825.1654-7-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200907081825.1654-1-narmstrong@baylibre.com>
 References: <20200907081825.1654-1-narmstrong@baylibre.com>
@@ -74,83 +74,620 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The initial design was recursive to cover all port/endpoints, but only the first layer
-of endpoints should be covered by the components list.
-This also breaks the MIPI-DSI init/bridge attach sequence, thus only parse the
-first endpoints instead of recursing.
+The Amlogic AXg SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a), with a custom
+glue managing the IP resets, clock and data input similar to the DW-HDMI Glue on other
+Amlogic SoCs.
+
+This adds support for the Glue managing the transceiver, mimicing the init flow provided
+by Amlogic to setup the ENCl encoder, the glue, the transceiver, the digital D-PHY and the
+Analog PHY in the proper way.
+
+The DW-MIPI-DSI transceiver + D-PHY are directly clocked by the VCLK2 clock, which pixel clock
+is derived and feeds the ENCL encoder and the VIU pixel reader.
+
+An optional "MEAS" clock can be enabled to measure the delay between each vsync feeding the
+DW-MIPI-DSI transceiver.
 
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 48 +++++--------------------------
- 1 file changed, 7 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/meson/Kconfig             |   7 +
+ drivers/gpu/drm/meson/Makefile            |   1 +
+ drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 562 ++++++++++++++++++++++
+ 3 files changed, 570 insertions(+)
+ create mode 100644 drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 92346653223f..1a4cf910c6a0 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -449,46 +449,6 @@ static int compare_of(struct device *dev, void *data)
- 	return dev->of_node == data;
- }
- 
--/* Possible connectors nodes to ignore */
--static const struct of_device_id connectors_match[] = {
--	{ .compatible = "composite-video-connector" },
--	{ .compatible = "svideo-connector" },
--	{ .compatible = "hdmi-connector" },
--	{ .compatible = "dvi-connector" },
--	{}
--};
--
--static int meson_probe_remote(struct platform_device *pdev,
--			      struct component_match **match,
--			      struct device_node *parent,
--			      struct device_node *remote)
--{
--	struct device_node *ep, *remote_node;
--	int count = 1;
--
--	/* If node is a connector, return and do not add to match table */
--	if (of_match_node(connectors_match, remote))
--		return 1;
--
--	component_match_add(&pdev->dev, match, compare_of, remote);
--
--	for_each_endpoint_of_node(remote, ep) {
--		remote_node = of_graph_get_remote_port_parent(ep);
--		if (!remote_node ||
--		    remote_node == parent || /* Ignore parent endpoint */
--		    !of_device_is_available(remote_node)) {
--			of_node_put(remote_node);
--			continue;
--		}
--
--		count += meson_probe_remote(pdev, match, remote, remote_node);
--
--		of_node_put(remote_node);
--	}
--
--	return count;
--}
--
- static int meson_drv_probe(struct platform_device *pdev)
- {
- 	struct component_match *match = NULL;
-@@ -503,8 +463,14 @@ static int meson_drv_probe(struct platform_device *pdev)
- 			continue;
- 		}
- 
--		count += meson_probe_remote(pdev, &match, np, remote);
-+		DRM_DEBUG_DRIVER("parent %pOF remote %pOF\n", np, remote);
+diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
+index 9f9281dd49f8..385f6f23839b 100644
+--- a/drivers/gpu/drm/meson/Kconfig
++++ b/drivers/gpu/drm/meson/Kconfig
+@@ -16,3 +16,10 @@ config DRM_MESON_DW_HDMI
+ 	default y if DRM_MESON
+ 	select DRM_DW_HDMI
+ 	imply DRM_DW_HDMI_I2S_AUDIO
 +
-+		DRM_DEBUG_DRIVER("match add %pOF parent %s\n", remote, dev_name(&pdev->dev));
-+		component_match_add(&pdev->dev, &match, compare_of, remote);
-+
- 		of_node_put(remote);
-+
-+		++count;
- 	}
++config DRM_MESON_DW_MIPI_DSI
++	tristate "MIPI DSI Synopsys Controller support for Amlogic Meson Display"
++	depends on DRM_MESON
++	default y if DRM_MESON
++	select DRM_DW_MIPI_DSI
++	select GENERIC_PHY_MIPI_DPHY
+diff --git a/drivers/gpu/drm/meson/Makefile b/drivers/gpu/drm/meson/Makefile
+index 28a519cdf66b..2cc870e91182 100644
+--- a/drivers/gpu/drm/meson/Makefile
++++ b/drivers/gpu/drm/meson/Makefile
+@@ -5,3 +5,4 @@ meson-drm-y += meson_rdma.o meson_osd_afbcd.o
  
- 	if (count && !match)
+ obj-$(CONFIG_DRM_MESON) += meson-drm.o
+ obj-$(CONFIG_DRM_MESON_DW_HDMI) += meson_dw_hdmi.o
++obj-$(CONFIG_DRM_MESON_DW_MIPI_DSI) += meson_dw_mipi_dsi.o
+diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+new file mode 100644
+index 000000000000..bbe1294fce7c
+--- /dev/null
++++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+@@ -0,0 +1,562 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (C) 2016 BayLibre, SAS
++ * Author: Neil Armstrong <narmstrong@baylibre.com>
++ * Copyright (C) 2015 Amlogic, Inc. All rights reserved.
++ */
++
++#include <linux/clk.h>
++#include <linux/component.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/of_graph.h>
++#include <linux/reset.h>
++#include <linux/phy/phy.h>
++
++#include <video/mipi_display.h>
++
++#include <drm/bridge/dw_mipi_dsi.h>
++#include <drm/drm_mipi_dsi.h>
++
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_device.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_print.h>
++
++#include "meson_drv.h"
++#include "meson_dw_mipi_dsi.h"
++#include "meson_registers.h"
++#include "meson_venc.h"
++
++#define DRIVER_NAME "meson-dw-mipi-dsi"
++#define DRIVER_DESC "Amlogic Meson MIPI-DSI DRM driver"
++
++/*  MIPI DSI/VENC Color Format Definitions */
++#define MIPI_DSI_VENC_COLOR_30B   0x0
++#define MIPI_DSI_VENC_COLOR_24B   0x1
++#define MIPI_DSI_VENC_COLOR_18B   0x2
++#define MIPI_DSI_VENC_COLOR_16B   0x3
++
++#define COLOR_16BIT_CFG_1         0x0
++#define COLOR_16BIT_CFG_2         0x1
++#define COLOR_16BIT_CFG_3         0x2
++#define COLOR_18BIT_CFG_1         0x3
++#define COLOR_18BIT_CFG_2         0x4
++#define COLOR_24BIT               0x5
++#define COLOR_20BIT_LOOSE         0x6
++#define COLOR_24_BIT_YCBCR        0x7
++#define COLOR_16BIT_YCBCR         0x8
++#define COLOR_30BIT               0x9
++#define COLOR_36BIT               0xa
++#define COLOR_12BIT               0xb
++#define COLOR_RGB_111             0xc
++#define COLOR_RGB_332             0xd
++#define COLOR_RGB_444             0xe
++
++/*  MIPI DSI Relative REGISTERs Definitions */
++/* For MIPI_DSI_TOP_CNTL */
++#define BIT_DPI_COLOR_MODE        20
++#define BIT_IN_COLOR_MODE         16
++#define BIT_CHROMA_SUBSAMPLE      14
++#define BIT_COMP2_SEL             12
++#define BIT_COMP1_SEL             10
++#define BIT_COMP0_SEL              8
++#define BIT_DE_POL                 6
++#define BIT_HSYNC_POL              5
++#define BIT_VSYNC_POL              4
++#define BIT_DPICOLORM              3
++#define BIT_DPISHUTDN              2
++#define BIT_EDPITE_INTR_PULSE      1
++#define BIT_ERR_INTR_PULSE         0
++
++/* HHI Registers */
++#define HHI_VIID_CLK_DIV	0x128 /* 0x4a offset in data sheet */
++#define VCLK2_DIV_MASK		0xff
++#define VCLK2_DIV_EN		BIT(16)
++#define VCLK2_DIV_RESET		BIT(17)
++#define CTS_ENCL_SEL_MASK	(0xf << 12)
++#define CTS_ENCL_SEL_SHIFT	12
++#define HHI_VIID_CLK_CNTL	0x12c /* 0x4b offset in data sheet */
++#define VCLK2_EN		BIT(19)
++#define VCLK2_SEL_MASK		(0x7 << 16)
++#define VCLK2_SEL_SHIFT		16
++#define VCLK2_SOFT_RESET	BIT(15)
++#define VCLK2_DIV1_EN		BIT(0)
++#define HHI_VID_CLK_CNTL2	0x194 /* 0x65 offset in data sheet */
++#define CTS_ENCL_EN		BIT(3)
++
++/**
++ * DOC: MIPI DSI
++ *
++ */
++
++struct meson_dw_mipi_dsi {
++	struct drm_encoder encoder;
++	struct meson_drm *priv;
++	struct device *dev;
++	void __iomem *base;
++	struct phy *phy;
++	union phy_configure_opts phy_opts;
++	struct dw_mipi_dsi *dmd;
++	struct dw_mipi_dsi_plat_data pdata;
++	struct mipi_dsi_device *dsi_device;
++	unsigned long mode_flags;
++	struct clk *px_clk;
++};
++#define encoder_to_meson_dw_mipi_dsi(x) \
++	container_of(x, struct meson_dw_mipi_dsi, encoder)
++
++static void dw_mipi_dsi_set_vclk(struct meson_dw_mipi_dsi *mipi_dsi,
++				 struct drm_display_mode *mode)
++{
++	struct meson_drm *priv = mipi_dsi->priv;
++	unsigned int vclk2_div;
++	unsigned int pll_rate;
++	int ret;
++
++	pll_rate = mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate;
++	vclk2_div = pll_rate / (mode->clock * 1000);
++
++	ret = clk_set_rate(mipi_dsi->px_clk, pll_rate);
++	if (ret) {
++		pr_err("Failed to set DSI PLL rate %lu\n",
++		       mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate);
++
++		return;
++	}
++
++	/* Disable VCLK2 */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL, VCLK2_EN, 0);
++
++	/* Setup the VCLK2 divider value */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_DIV,
++				VCLK2_DIV_MASK, (vclk2_div - 1));
++
++	/* select gp0 for vclk2 */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
++				VCLK2_SEL_MASK, (0 << VCLK2_SEL_SHIFT));
++
++	/* enable vclk2 gate */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL, VCLK2_EN, VCLK2_EN);
++
++	/* select vclk2_div1 for encl */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_DIV,
++				CTS_ENCL_SEL_MASK, (8 << CTS_ENCL_SEL_SHIFT));
++
++	/* release vclk2_div_reset and enable vclk2_div */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_DIV,
++				VCLK2_DIV_EN | VCLK2_DIV_RESET, VCLK2_DIV_EN);
++
++	/* enable vclk2_div1 gate */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
++				VCLK2_DIV1_EN, VCLK2_DIV1_EN);
++
++	/* reset vclk2 */
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
++				VCLK2_SOFT_RESET, VCLK2_SOFT_RESET);
++	regmap_update_bits(priv->hhi, HHI_VIID_CLK_CNTL,
++				VCLK2_SOFT_RESET, 0);
++
++	/* enable encl_clk */
++	regmap_update_bits(priv->hhi, HHI_VID_CLK_CNTL2,
++				CTS_ENCL_EN, CTS_ENCL_EN);
++
++	usleep_range(10000, 11000);
++}
++
++static int dw_mipi_dsi_phy_init(void *priv_data)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
++	struct meson_drm *priv = mipi_dsi->priv;
++
++
++	phy_power_on(mipi_dsi->phy);
++
++	writel_relaxed(1, priv->io_base + _REG(ENCL_VIDEO_EN));
++
++	return 0;
++}
++
++static void dw_mipi_dsi_phy_power_off(void *priv_data)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
++
++	phy_power_off(mipi_dsi->phy);
++}
++
++static int
++dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
++			  unsigned long mode_flags, u32 lanes, u32 format,
++			  unsigned int *lane_mbps)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
++
++	*lane_mbps = mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate / 1000000;
++
++	return 0;
++}
++
++static int
++dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
++			   struct dw_mipi_dsi_dphy_timing *timing)
++{
++	/* TOFIX handle other cases */
++
++	timing->clk_lp2hs = 37;
++	timing->clk_hs2lp = 135;
++	timing->data_lp2hs = 50;
++	timing->data_hs2lp = 3;
++
++	return 0;
++}
++
++static int
++dw_mipi_dsi_get_esc_clk_rate(void *priv_data, unsigned int *esc_clk_rate)
++{
++	*esc_clk_rate = 4; /* Mhz */
++
++	return 0;
++}
++
++static const struct dw_mipi_dsi_phy_ops meson_dw_mipi_dsi_phy_ops = {
++	.init = dw_mipi_dsi_phy_init,
++	.power_off = dw_mipi_dsi_phy_power_off,
++	.get_lane_mbps = dw_mipi_dsi_get_lane_mbps,
++	.get_timing = dw_mipi_dsi_phy_get_timing,
++	.get_esc_clk_rate = dw_mipi_dsi_get_esc_clk_rate,
++};
++
++/* Encoder */
++
++static void meson_mipi_dsi_encoder_destroy(struct drm_encoder *encoder)
++{
++	drm_encoder_cleanup(encoder);
++}
++
++static const struct drm_encoder_funcs meson_mipi_dsi_encoder_funcs = {
++	.destroy        = meson_mipi_dsi_encoder_destroy,
++};
++
++static int meson_mipi_dsi_encoder_atomic_check(struct drm_encoder *encoder,
++					struct drm_crtc_state *crtc_state,
++					struct drm_connector_state *conn_state)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi =
++			encoder_to_meson_dw_mipi_dsi(encoder);
++
++	switch (mipi_dsi->dsi_device->format) {
++	case MIPI_DSI_FMT_RGB888:
++		break;
++	case MIPI_DSI_FMT_RGB666:
++		break;
++	case MIPI_DSI_FMT_RGB666_PACKED:
++	case MIPI_DSI_FMT_RGB565:
++	default:
++		DRM_DEV_ERROR(mipi_dsi->dev,
++				"invalid pixel format %d\n",
++				mipi_dsi->dsi_device->format);
++		return -EINVAL;
++	};
++
++	return 0;
++}
++
++static void meson_mipi_dsi_encoder_disable(struct drm_encoder *encoder)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi =
++			encoder_to_meson_dw_mipi_dsi(encoder);
++	struct meson_drm *priv = mipi_dsi->priv;
++
++	writel_relaxed(0, priv->io_base + _REG(ENCL_VIDEO_EN));
++}
++
++static void meson_mipi_dsi_encoder_enable(struct drm_encoder *encoder)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi =
++			encoder_to_meson_dw_mipi_dsi(encoder);
++	struct meson_drm *priv = mipi_dsi->priv;
++
++	writel_bits_relaxed(BIT(3), BIT(3),
++			priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
++	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_EN));
++}
++
++static void meson_dw_mipi_dsi_init(struct meson_dw_mipi_dsi *mipi_dsi)
++{
++	writel_relaxed((1 << 4) | (1 << 5) | (0 << 6),
++			mipi_dsi->base + MIPI_DSI_TOP_CNTL);
++
++	writel_bits_relaxed(0xf, 0xf,
++			    mipi_dsi->base + MIPI_DSI_TOP_SW_RESET);
++	writel_bits_relaxed(0xf, 0,
++			    mipi_dsi->base + MIPI_DSI_TOP_SW_RESET);
++
++	writel_bits_relaxed(0x3, 0x3,
++			    mipi_dsi->base + MIPI_DSI_TOP_CLK_CNTL);
++
++	writel_relaxed(0, mipi_dsi->base + MIPI_DSI_TOP_MEM_PD);
++}
++
++static void meson_mipi_dsi_encoder_mode_set(struct drm_encoder *encoder,
++				   struct drm_display_mode *mode,
++				   struct drm_display_mode *adjusted_mode)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = encoder_to_meson_dw_mipi_dsi(encoder);
++	unsigned int dpi_data_format, venc_data_width;
++	struct meson_drm *priv = mipi_dsi->priv;
++	int bpp;
++	u32 reg;
++
++	mipi_dsi->mode_flags = mode->flags;
++
++	bpp = mipi_dsi_pixel_format_to_bpp(mipi_dsi->dsi_device->format);
++
++	phy_mipi_dphy_get_default_config(mode->clock * 1000,
++					 bpp, mipi_dsi->dsi_device->lanes,
++					 &mipi_dsi->phy_opts.mipi_dphy);
++
++	phy_configure(mipi_dsi->phy, &mipi_dsi->phy_opts);
++
++	switch (mipi_dsi->dsi_device->format) {
++	case MIPI_DSI_FMT_RGB888:
++		dpi_data_format = COLOR_24BIT;
++		venc_data_width = MIPI_DSI_VENC_COLOR_24B;
++		break;
++	case MIPI_DSI_FMT_RGB666:
++		dpi_data_format = COLOR_18BIT_CFG_2;
++		venc_data_width = MIPI_DSI_VENC_COLOR_18B;
++		break;
++	case MIPI_DSI_FMT_RGB666_PACKED:
++	case MIPI_DSI_FMT_RGB565:
++		/* invalid */
++		break;
++	};
++
++	dw_mipi_dsi_set_vclk(mipi_dsi, mode);
++	meson_venc_mipi_dsi_mode_set(priv, mode);
++
++	meson_encl_load_gamma(priv);
++
++	writel_relaxed(0, priv->io_base + _REG(ENCL_VIDEO_EN));
++
++	meson_dw_mipi_dsi_init(mipi_dsi);
++
++	/* Configure Set color format for DPI register */
++	reg = readl_relaxed(mipi_dsi->base + MIPI_DSI_TOP_CNTL) &
++		~(0xf<<BIT_DPI_COLOR_MODE) &
++		~(0x7<<BIT_IN_COLOR_MODE) &
++		~(0x3<<BIT_CHROMA_SUBSAMPLE);
++
++	writel_relaxed(reg |
++		(dpi_data_format  << BIT_DPI_COLOR_MODE)  |
++		(venc_data_width  << BIT_IN_COLOR_MODE) |
++		0 << BIT_COMP0_SEL |
++		1 << BIT_COMP1_SEL |
++		2 << BIT_COMP2_SEL |
++		(mipi_dsi->mode_flags & DRM_MODE_FLAG_NHSYNC ? 0 : BIT(BIT_HSYNC_POL)) |
++		(mipi_dsi->mode_flags & DRM_MODE_FLAG_NVSYNC ? 0 : BIT(BIT_VSYNC_POL)),
++		mipi_dsi->base + MIPI_DSI_TOP_CNTL);
++}
++
++static const struct drm_encoder_helper_funcs
++				meson_mipi_dsi_encoder_helper_funcs = {
++	.atomic_check	= meson_mipi_dsi_encoder_atomic_check,
++	.disable	= meson_mipi_dsi_encoder_disable,
++	.enable		= meson_mipi_dsi_encoder_enable,
++	.mode_set	= meson_mipi_dsi_encoder_mode_set,
++};
++
++static int meson_dw_mipi_dsi_bind(struct device *dev, struct device *master,
++				void *data)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = dev_get_drvdata(dev);
++	struct drm_device *drm = data;
++	struct meson_drm *priv = drm->dev_private;
++	struct drm_encoder *encoder;
++	int ret;
++
++	/* Check before if we are supposed to have a sub-device... */
++	if (!mipi_dsi->dsi_device)
++		return -EPROBE_DEFER;
++
++	encoder = &mipi_dsi->encoder;
++	mipi_dsi->priv = priv;
++
++	/* Encoder */
++	ret = drm_encoder_init(drm, encoder, &meson_mipi_dsi_encoder_funcs,
++			       DRM_MODE_ENCODER_DSI, "meson_mipi_dsi");
++	if (ret) {
++		dev_err(priv->dev, "Failed to init DSI encoder\n");
++		return ret;
++	}
++
++	drm_encoder_helper_add(encoder, &meson_mipi_dsi_encoder_helper_funcs);
++
++	encoder->possible_crtcs = BIT(0);
++
++	ret = dw_mipi_dsi_bind(mipi_dsi->dmd, encoder);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
++		return ret;
++	}
++
++	phy_init(mipi_dsi->phy);
++
++	return 0;
++}
++
++static void meson_dw_mipi_dsi_unbind(struct device *dev, struct device *master,
++				   void *data)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = dev_get_drvdata(dev);
++
++	dw_mipi_dsi_remove(mipi_dsi->dmd);
++
++	phy_exit(mipi_dsi->phy);
++}
++
++static const struct component_ops meson_dw_mipi_dsi_ops = {
++	.bind	= meson_dw_mipi_dsi_bind,
++	.unbind	= meson_dw_mipi_dsi_unbind,
++};
++
++static int meson_dw_mipi_dsi_host_attach(void *priv_data,
++					 struct mipi_dsi_device *device)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
++
++	mipi_dsi->dsi_device = device;
++
++	return 0;
++}
++
++static int meson_dw_mipi_dsi_host_detach(void *priv_data,
++					 struct mipi_dsi_device *device)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
++
++	if (device == mipi_dsi->dsi_device)
++		mipi_dsi->dsi_device = NULL;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++static const struct dw_mipi_dsi_host_ops meson_dw_mipi_dsi_host_ops = {
++	.attach = meson_dw_mipi_dsi_host_attach,
++	.detach = meson_dw_mipi_dsi_host_detach,
++};
++
++static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi;
++	struct reset_control *top_rst;
++	struct resource *res;
++	int ret;
++
++	mipi_dsi = devm_kzalloc(&pdev->dev, sizeof(*mipi_dsi), GFP_KERNEL);
++	if (!mipi_dsi)
++		return -ENOMEM;
++
++	mipi_dsi->dev = &pdev->dev;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	mipi_dsi->base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(mipi_dsi->base))
++		return PTR_ERR(mipi_dsi->base);
++
++	mipi_dsi->phy = devm_phy_get(&pdev->dev, "dphy");
++	if (IS_ERR(mipi_dsi->phy)) {
++		ret = PTR_ERR(mipi_dsi->phy);
++		dev_err(&pdev->dev, "failed to get mipi dphy: %d\n", ret);
++		return ret;
++	}
++
++	mipi_dsi->px_clk = devm_clk_get(&pdev->dev, "px_clk");
++	if (IS_ERR(mipi_dsi->px_clk)) {
++		dev_err(&pdev->dev, "Unable to get PLL clk\n");
++		return PTR_ERR(mipi_dsi->px_clk);
++	}
++
++	/*
++	 * We use a TOP reset signal because the APB reset signal
++	 * is handled by the TOP control registers.
++	 */
++	top_rst = devm_reset_control_get_exclusive(&pdev->dev, "top");
++	if (IS_ERR(top_rst)) {
++		ret = PTR_ERR(top_rst);
++
++		if (ret != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "Unable to get reset control: %d\n", ret);
++
++		return ret;
++	}
++
++	ret = clk_prepare_enable(mipi_dsi->px_clk);
++	if (ret) {
++		dev_err(&pdev->dev, "Unable to prepare/enable PX clock\n");
++		goto err_clkdisable;
++	}
++
++	reset_control_assert(top_rst);
++	usleep_range(10, 20);
++	reset_control_deassert(top_rst);
++
++	/* MIPI DSI Controller */
++
++	mipi_dsi->pdata.base = mipi_dsi->base;
++	mipi_dsi->pdata.max_data_lanes = 4;
++	mipi_dsi->pdata.phy_ops = &meson_dw_mipi_dsi_phy_ops;
++	mipi_dsi->pdata.host_ops = &meson_dw_mipi_dsi_host_ops;
++	mipi_dsi->pdata.priv_data = mipi_dsi;
++	platform_set_drvdata(pdev, mipi_dsi);
++
++	mipi_dsi->dmd = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata);
++	if (IS_ERR(mipi_dsi->dmd)) {
++		ret = PTR_ERR(mipi_dsi->dmd);
++		if (ret != -EPROBE_DEFER)
++			dev_err(&pdev->dev,
++				"Failed to probe dw_mipi_dsi: %d\n", ret);
++		goto err_clkdisable;
++	}
++
++	return component_add(mipi_dsi->dev, &meson_dw_mipi_dsi_ops);
++
++err_clkdisable:
++	clk_disable_unprepare(mipi_dsi->px_clk);
++
++	return ret;
++}
++
++static int meson_dw_mipi_dsi_remove(struct platform_device *pdev)
++{
++	struct meson_dw_mipi_dsi *mipi_dsi = dev_get_drvdata(&pdev->dev);
++
++	component_del(mipi_dsi->dev, &meson_dw_mipi_dsi_ops);
++
++	clk_disable_unprepare(mipi_dsi->px_clk);
++
++	return 0;
++}
++
++static const struct of_device_id meson_dw_mipi_dsi_of_table[] = {
++	{ .compatible = "amlogic,meson-axg-dw-mipi-dsi", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, meson_dw_mipi_dsi_of_table);
++
++static struct platform_driver meson_dw_mipi_dsi_platform_driver = {
++	.probe		= meson_dw_mipi_dsi_probe,
++	.remove		= meson_dw_mipi_dsi_remove,
++	.driver		= {
++		.name		= DRIVER_NAME,
++		.of_match_table	= meson_dw_mipi_dsi_of_table,
++	},
++};
++module_platform_driver(meson_dw_mipi_dsi_platform_driver);
++
++MODULE_AUTHOR("Neil Armstrong <narmstrong@baylibre.com>");
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_LICENSE("GPL");
 -- 
 2.22.0
 
