@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47972605F0
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 22:47:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BB72606D5
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 00:16:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB6E6E566;
-	Mon,  7 Sep 2020 20:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEE66E0D5;
+	Mon,  7 Sep 2020 22:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC73F6E563
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 20:47:17 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-FXjD_ouaOBCaOfcmRcF2vg-1; Mon, 07 Sep 2020 16:47:14 -0400
-X-MC-Unique: FXjD_ouaOBCaOfcmRcF2vg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CA311005E67;
- Mon,  7 Sep 2020 20:47:13 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-45.bne.redhat.com
- [10.64.54.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0D1860BE2;
- Mon,  7 Sep 2020 20:47:11 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/13] drm/ttm: drop the tt backend function paths.
-Date: Tue,  8 Sep 2020 06:46:30 +1000
-Message-Id: <20200907204630.1406528-14-airlied@gmail.com>
-In-Reply-To: <20200907204630.1406528-1-airlied@gmail.com>
-References: <20200907204630.1406528-1-airlied@gmail.com>
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75706E0D5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 22:16:50 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id h20so10070768ybj.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Sep 2020 15:16:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=F2iD1QtHAhHrgcfoDph7b1wzr8tUhCnrmgan+Oj2g9A=;
+ b=eVGbu8G1wp1hMe2dgrdG+NI2ykxW27H5o0jRwf8T4vinwNCtglXD5gkA6RqSBTpZdE
+ QZKkbQyhATsRC61eEDheRC60xe7SzGg8fOuWkxirEU5fPH+Jpn7N1t/9RK3kaay+i4Ua
+ rBIWbGbGw76bS7UVSauI82vZLQElrsB4ILp6OirZxGxcWpg/IlL10qqSqzXsqyLP6oOo
+ cdHgC5Gr3A8fJ4izKZ4vmYQl4SkirR7iLJU19iqbx5N/EGuUcw+mKdsx9f1+SIPZdze4
+ dzRdxDe6HrG9s01AZZWRsKrywNLJUgx17jF97Vm8pR/AhQQBOu/uJdbn9aTWNo7FeSIR
+ rN1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=F2iD1QtHAhHrgcfoDph7b1wzr8tUhCnrmgan+Oj2g9A=;
+ b=RTiG8oI0Upa2csEI5vtcXkFNMnKPGFhrrUod8W3W2Qba4ZRjP/TcZjeLSXuM0/jfd0
+ xra1vD37PRlkw3SxSi8reK2W7/ZorV/KxwyYc7uqzA8RTBpafhEaECKwfn1P9jvUL7V8
+ smOgKeas7NuuuizO1bBu19AgltS7h2p+ix9xCknWY3P/wqlxQjmhrLPwdSsuwAnrEa58
+ wgBczYJZRVacKRlPKvWofPGhdHzNDCCJ1VFUQK3j/PJB5Zyc8F8XsNiuF7yx6w/sChrb
+ EhV7WjOeIALqCN7bP5eUySFdJgIdWTNQEeKm/BzGkVebiELuRrf95zrf0i9HuATNnt1f
+ 1ttw==
+X-Gm-Message-State: AOAM531vbPe77qO7b+U+DAfraL+ZjAITGIMl3iJ/T9A9jA9M0NsB6Zbn
+ sH53nrfh0kfgcQBpNjWD9NX0CvZfy0U315ST/cI=
+X-Google-Smtp-Source: ABdhPJxaiSAYSR3HrT8vaeZ76h+0F17rebZ0yRBVgnp5gPCXs9HZNzj4pAzs25ukFRo5/m4sIcd0xk2OOQPuV3f1qiE=
+X-Received: by 2002:a25:3803:: with SMTP id f3mr29651415yba.470.1599517009888; 
+ Mon, 07 Sep 2020 15:16:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: gmail.com
+References: <20200907204630.1406528-1-airlied@gmail.com>
+In-Reply-To: <20200907204630.1406528-1-airlied@gmail.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Tue, 8 Sep 2020 08:16:39 +1000
+Message-ID: <CACAvsv7w4fdPic+pqm5gK9j9HzwEy28TfR9cARz74T-gzB1vRA@mail.gmail.com>
+Subject: Re: [PATCH 00/13] ttm tt refactor repost of part 1
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,74 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com, sroland@vmware.com, bskeggs@redhat.com,
- christian.koenig@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ sroland@vmware.com, Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClRoZXNlIGFyZSBub3cgZHJp
-dmVyIHNpZGUuCgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgpTaWduZWQtb2ZmLWJ5OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29t
-PgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgfCAxNSArKystLS0tLS0tLS0tLQog
-aW5jbHVkZS9kcm0vdHRtL3R0bV90dC5oICAgICB8IDM5IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDUxIGRlbGV0
-aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCmluZGV4IDczYzk3ZGNmYTUxMi4uNjdhYTdmZTM5NDMy
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX3R0LmMKQEAgLTIyMiwxMCArMjIyLDcgQEAgdm9pZCB0dG1fdHRfZGVz
-dHJveShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV90dCAqdHRtKQogCQlm
-cHV0KHR0bS0+c3dhcF9zdG9yYWdlKTsKIAogCXR0bS0+c3dhcF9zdG9yYWdlID0gTlVMTDsKLQlp
-ZiAoYmRldi0+ZHJpdmVyLT50dG1fdHRfZGVzdHJveSkKLQkJYmRldi0+ZHJpdmVyLT50dG1fdHRf
-ZGVzdHJveShiZGV2LCB0dG0pOwotCWVsc2UKLQkJdHRtLT5mdW5jLT5kZXN0cm95KGJkZXYsIHR0
-bSk7CisJYmRldi0+ZHJpdmVyLT50dG1fdHRfZGVzdHJveShiZGV2LCB0dG0pOwogfQogCiBzdGF0
-aWMgdm9pZCB0dG1fdHRfaW5pdF9maWVsZHMoc3RydWN0IHR0bV90dCAqdHRtLApAQCAtMzEzLDEw
-ICszMTAsNyBAQCBFWFBPUlRfU1lNQk9MKHR0bV9kbWFfdHRfZmluaSk7CiB2b2lkIHR0bV90dF91
-bmJpbmQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQgKnR0bSkKIHsK
-IAlpZiAodHRtLT5zdGF0ZSA9PSB0dF9ib3VuZCkgewotCQlpZiAoYmRldi0+ZHJpdmVyLT50dG1f
-dHRfdW5iaW5kKQotCQkJYmRldi0+ZHJpdmVyLT50dG1fdHRfdW5iaW5kKGJkZXYsIHR0bSk7Ci0J
-CWVsc2UKLQkJCXR0bS0+ZnVuYy0+dW5iaW5kKGJkZXYsIHR0bSk7CisJCWJkZXYtPmRyaXZlci0+
-dHRtX3R0X3VuYmluZChiZGV2LCB0dG0pOwogCQl0dG0tPnN0YXRlID0gdHRfdW5ib3VuZDsKIAl9
-CiB9CkBAIC0zMzcsMTAgKzMzMSw3IEBAIGludCB0dG1fdHRfYmluZChzdHJ1Y3QgdHRtX2JvX2Rl
-dmljZSAqYmRldiwKIAlpZiAocmV0KQogCQlyZXR1cm4gcmV0OwogCi0JaWYgKGJkZXYtPmRyaXZl
-ci0+dHRtX3R0X2JpbmQpCi0JCXJldCA9IGJkZXYtPmRyaXZlci0+dHRtX3R0X2JpbmQoYmRldiwg
-dHRtLCBib19tZW0pOwotCWVsc2UKLQkJcmV0ID0gdHRtLT5mdW5jLT5iaW5kKGJkZXYsIHR0bSwg
-Ym9fbWVtKTsKKwlyZXQgPSBiZGV2LT5kcml2ZXItPnR0bV90dF9iaW5kKGJkZXYsIHR0bSwgYm9f
-bWVtKTsKIAlpZiAodW5saWtlbHkocmV0ICE9IDApKQogCQlyZXR1cm4gcmV0OwogCmRpZmYgLS1n
-aXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX3R0LmggYi9pbmNsdWRlL2RybS90dG0vdHRtX3R0LmgK
-aW5kZXggYmRjOGFhZGYzMjQ2Li4xNDY1NDRiYTFjMTAgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJt
-L3R0bS90dG1fdHQuaAorKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX3R0LmgKQEAgLTQ4LDQ3ICs0
-OCw5IEBAIGVudW0gdHRtX2NhY2hpbmdfc3RhdGUgewogCXR0X2NhY2hlZAogfTsKIAotc3RydWN0
-IHR0bV9iYWNrZW5kX2Z1bmMgewotCS8qKgotCSAqIHN0cnVjdCB0dG1fYmFja2VuZF9mdW5jIG1l
-bWJlciBiaW5kCi0JICoKLQkgKiBAdHRtOiBQb2ludGVyIHRvIGEgc3RydWN0IHR0bV90dC4KLQkg
-KiBAYm9fbWVtOiBQb2ludGVyIHRvIGEgc3RydWN0IHR0bV9yZXNvdXJjZSBkZXNjcmliaW5nIHRo
-ZQotCSAqIG1lbW9yeSB0eXBlIGFuZCBsb2NhdGlvbiBmb3IgYmluZGluZy4KLQkgKgotCSAqIEJp
-bmQgdGhlIGJhY2tlbmQgcGFnZXMgaW50byB0aGUgYXBlcnR1cmUgaW4gdGhlIGxvY2F0aW9uCi0J
-ICogaW5kaWNhdGVkIGJ5IEBib19tZW0uIFRoaXMgZnVuY3Rpb24gc2hvdWxkIGJlIGFibGUgdG8g
-aGFuZGxlCi0JICogZGlmZmVyZW5jZXMgYmV0d2VlbiBhcGVydHVyZSBhbmQgc3lzdGVtIHBhZ2Ug
-c2l6ZXMuCi0JICovCi0JaW50ICgqYmluZCkgKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBz
-dHJ1Y3QgdHRtX3R0ICp0dG0sIHN0cnVjdCB0dG1fcmVzb3VyY2UgKmJvX21lbSk7Ci0KLQkvKioK
-LQkgKiBzdHJ1Y3QgdHRtX2JhY2tlbmRfZnVuYyBtZW1iZXIgdW5iaW5kCi0JICoKLQkgKiBAdHRt
-OiBQb2ludGVyIHRvIGEgc3RydWN0IHR0bV90dC4KLQkgKgotCSAqIFVuYmluZCBwcmV2aW91c2x5
-IGJvdW5kIGJhY2tlbmQgcGFnZXMuIFRoaXMgZnVuY3Rpb24gc2hvdWxkIGJlCi0JICogYWJsZSB0
-byBoYW5kbGUgZGlmZmVyZW5jZXMgYmV0d2VlbiBhcGVydHVyZSBhbmQgc3lzdGVtIHBhZ2Ugc2l6
-ZXMuCi0JICovCi0Jdm9pZCAoKnVuYmluZCkgKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBz
-dHJ1Y3QgdHRtX3R0ICp0dG0pOwotCi0JLyoqCi0JICogc3RydWN0IHR0bV9iYWNrZW5kX2Z1bmMg
-bWVtYmVyIGRlc3Ryb3kKLQkgKgotCSAqIEB0dG06IFBvaW50ZXIgdG8gYSBzdHJ1Y3QgdHRtX3R0
-LgotCSAqCi0JICogRGVzdHJveSB0aGUgYmFja2VuZC4gVGhpcyB3aWxsIGJlIGNhbGwgYmFjayBm
-cm9tIHR0bV90dF9kZXN0cm95IHNvCi0JICogZG9uJ3QgY2FsbCB0dG1fdHRfZGVzdHJveSBmcm9t
-IHRoZSBjYWxsYmFjayBvciBpbmZpbml0ZSBsb29wLgotCSAqLwotCXZvaWQgKCpkZXN0cm95KSAo
-c3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fdHQgKnR0bSk7Ci19OwotCiAv
-KioKICAqIHN0cnVjdCB0dG1fdHQKICAqCi0gKiBAZnVuYzogUG9pbnRlciB0byBhIHN0cnVjdCB0
-dG1fYmFja2VuZF9mdW5jIHRoYXQgZGVzY3JpYmVzCi0gKiB0aGUgYmFja2VuZCBtZXRob2RzLgot
-ICogcG9pbnRlci4KICAqIEBwYWdlczogQXJyYXkgb2YgcGFnZXMgYmFja2luZyB0aGUgZGF0YS4K
-ICAqIEBudW1fcGFnZXM6IE51bWJlciBvZiBwYWdlcyBpbiB0aGUgcGFnZSBhcnJheS4KICAqIEBi
-ZGV2OiBQb2ludGVyIHRvIHRoZSBjdXJyZW50IHN0cnVjdCB0dG1fYm9fZGV2aWNlLgpAQCAtMTAy
-LDcgKzY0LDYgQEAgc3RydWN0IHR0bV9iYWNrZW5kX2Z1bmMgewogICogbWVtb3J5LgogICovCiBz
-dHJ1Y3QgdHRtX3R0IHsKLQlzdHJ1Y3QgdHRtX2JhY2tlbmRfZnVuYyAqZnVuYzsKIAlzdHJ1Y3Qg
-cGFnZSAqKnBhZ2VzOwogCXVpbnQzMl90IHBhZ2VfZmxhZ3M7CiAJdW5zaWduZWQgbG9uZyBudW1f
-cGFnZXM7Ci0tIAoyLjI3LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On Tue, 8 Sep 2020 at 06:46, Dave Airlie <airlied@gmail.com> wrote:
+>
+> Most of these have r-b or acks already, patch 1 I may have
+> posted before but found in my tree, so reposting it, and patch
+> 5 for radeon I think were what needed re-review.
+R-b for ttm and nouveau changes, A-b for the other drivers.
+
+Ben.
+
+>
+> I'd like to land these, and I'll revisit the remainder of this
+> series.
+>
+> Dave.
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
