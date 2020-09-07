@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CDB25FDAE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 17:55:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFF125FDF7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Sep 2020 18:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 561E16E4AD;
-	Mon,  7 Sep 2020 15:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1E16E4BA;
+	Mon,  7 Sep 2020 16:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5176E4AD
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 15:55:31 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 800833E;
- Mon,  7 Sep 2020 17:55:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599494107;
- bh=ePFs/RPBL9rw0BM8t2BDNCfTz5P+uLJypOhdDkXDWVc=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=mw2nVh2/FK9JmNKXQcVQdZqMjJ7x9Bb5KdwTmil+ECNMUzBOgM6FbdMGVetb+I3wF
- LqcFcRRMEmhPPlEVxp+uz57vsR2yWrUOgZR0tDEIJo+oLiRVNHvd+P5XV2fhb1Sr7q
- 1Vxai3AExKaP0uqfmmoq7EMbzSsw17haOF/fHIPw=
-Subject: Re: [PATCH 5/9] arm64: dts: renesas: r8a77961: Add VSP device nodes
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Laurent
- <laurent.pinchart@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
- <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <31ec6196-7613-8eb3-e092-07d0c874632a@ideasonboard.com>
-Date: Mon, 7 Sep 2020 16:55:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71F166E4BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Sep 2020 16:03:46 +0000 (UTC)
+Received: from trochilidae.toradex.int (31-10-206-124.static.upc.ch
+ [31.10.206.124])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 85A7B5C05BC;
+ Mon,  7 Sep 2020 18:03:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1599494624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=CpO14UbtP2tQcbPOTl7yEqP11tbFzj3QRmh1sYkSBmQ=;
+ b=kY1bUQBRzxxuDEzULSy5YKhMgXtt+FppllGokTl2wN7Zrr+5S2pndPiuPfCKvOMbOOTUJ6
+ W/LnlT5SqKQsodfi2kerN5OWY2hOdjoaTViz/spqAClFEYcHVfvnSJYzlzza08198AlZ9q
+ xv4SMxvXhHv9zAC0dXdQIF7SfBwQqXE=
+From: Stefan Agner <stefan@agner.ch>
+To: marex@denx.de,
+	stefan@agner.ch
+Subject: [PATCH] drm: mxsfb: check framebuffer pitch
+Date: Mon,  7 Sep 2020 18:03:43 +0200
+Message-Id: <20200907160343.124405-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,124 +45,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Linux-DT <devicetree@vger.kernel.org>,
- "\(Renesas\) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
- Magnus <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ kernel@pengutronix.de, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Morimoto-san,
+The lcdif IP does not support a framebuffer pitch (stride) other than
+the CRTC width. Check for equality and reject the state otherwise.
 
-On 07/09/2020 03:59, Kuninori Morimoto wrote:
-> 
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> 
-> This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
-> This patch is test on R-Car M3-W+ Salvator-XS board.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 55 +++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> index fe0db11b9cb9..c2a6918ed5e6 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -2056,6 +2056,61 @@ fcpvd2: fcp@fea37000 {
->  			iommus = <&ipmmu_vi0 10>;
->  		};
+This prevents a distorted picture when using 640x800 and running the
+Mesa graphics stack. Mesa tires to use a cache aligned stride, which
+leads at that particular resolution to width != stride. Currently
+Mesa has no fallback behavior, but rejecting this configuration allows
+userspace to handle the issue correctly.
 
-The FCP's added are:
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-                fcpf0: fcp@fe950000 {
-                fcpf1: fcp@fe951000 {
-                fcpvb0: fcp@fe96f000 {
-                fcpvb1: fcp@fe92f000 {
-                fcpvi0: fcp@fe9af000 {
-                fcpvi1: fcp@fe9bf000 {
-                fcpvd0: fcp@fea27000 {
-                fcpvd1: fcp@fea2f000 {
-                fcpvd2: fcp@fea37000 {
-
-So indeed, the first fcpf0 comes before fe960000.
-
-Do we keep the items grouped by the first occurrence? or sort the nodes
-based on address?
-
-for some reason I thought we were ordering based on address, but I see
-other situations where we group too - so I'm confused (and wishing there
-was an automatic tool to get the sorting correct without fuss).
-
-Is there a set policy?
-
---
-Kieran
-
-
-> +		vspb: vsp@fe960000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfe960000 0 0x8000>;
-> +			interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 626>;
-> +			power-domains = <&sysc R8A77961_PD_A3VC>;
-> +			resets = <&cpg 626>;
-> +
-> +			renesas,fcp = <&fcpvb0>;
-> +		};
-> +
-> +		vspd0: vsp@fea20000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfea20000 0 0x5000>;
-> +			interrupts = <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 623>;
-> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> +			resets = <&cpg 623>;
-> +
-> +			renesas,fcp = <&fcpvd0>;
-> +		};
-> +
-> +		vspd1: vsp@fea28000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfea28000 0 0x5000>;
-> +			interrupts = <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 622>;
-> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> +			resets = <&cpg 622>;
-> +
-> +			renesas,fcp = <&fcpvd1>;
-> +		};
-> +
-> +		vspd2: vsp@fea30000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfea30000 0 0x5000>;
-> +			interrupts = <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 621>;
-> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> +			resets = <&cpg 621>;
-> +
-> +			renesas,fcp = <&fcpvd2>;
-> +		};
-> +
-> +		vspi0: vsp@fe9a0000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfe9a0000 0 0x8000>;
-> +			interrupts = <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 631>;
-> +			power-domains = <&sysc R8A77961_PD_A3VC>;
-> +			resets = <&cpg 631>;
-> +
-> +			renesas,fcp = <&fcpvi0>;
-> +		};
-> +
->  		csi20: csi2@fea80000 {
->  			reg = <0 0xfea80000 0 0x10000>;
->  			/* placeholder */
-> 
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index b721b8b262ce..79aa14027f91 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -403,14 +403,28 @@ static int mxsfb_plane_atomic_check(struct drm_plane *plane,
+ {
+ 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
+ 	struct drm_crtc_state *crtc_state;
++	unsigned int pitch;
++	int ret;
+ 
+ 	crtc_state = drm_atomic_get_new_crtc_state(plane_state->state,
+ 						   &mxsfb->crtc);
+ 
+-	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+-						   DRM_PLANE_HELPER_NO_SCALING,
+-						   DRM_PLANE_HELPER_NO_SCALING,
+-						   false, true);
++	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
++						  DRM_PLANE_HELPER_NO_SCALING,
++						  DRM_PLANE_HELPER_NO_SCALING,
++						  false, true);
++	if (ret || !plane_state->visible)
++		return ret;
++
++	pitch = crtc_state->mode.hdisplay *
++		plane_state->fb->format->cpp[0];
++	if (plane_state->fb->pitches[0] != pitch) {
++		dev_err(plane->dev->dev,
++			"Invalid pitch: fb and crtc widths must be the same");
++		return -EINVAL;
++	}
++
++	return 0;
+ }
+ 
+ static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
