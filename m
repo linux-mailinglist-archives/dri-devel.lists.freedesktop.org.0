@@ -1,38 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BEF2611B3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 14:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C88F2611B9
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 15:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4D06E822;
-	Tue,  8 Sep 2020 12:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45DFE89F89;
+	Tue,  8 Sep 2020 13:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FC96E822
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 12:59:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 919001234;
- Tue,  8 Sep 2020 14:59:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599569961;
- bh=GDMaaknSuM/l5R2bNi1lvtcCye+AKH88XR9vhap1/7A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RER59LuXTiblOv2vSyDxvZpT+Ed7gQ+POuX8WyqY88MvZXDj3Y50WMKCNegqg5to5
- K0fGTPm/wCJATwzOQEk2vCENEnxIF4UkJNBzKwxKuy+KFqt99DQEKAb/CxaK4reQ4D
- pGJqx5590eRkfuBSB+fie6ZxVTRbPj7s2eGEE6zk=
-Date: Tue, 8 Sep 2020 15:58:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Agner <stefan@agner.ch>
-Subject: Re: [PATCH v2] drm: mxsfb: check framebuffer pitch
-Message-ID: <20200908125855.GL6047@pendragon.ideasonboard.com>
-References: <20200908125558.256843-1-stefan@agner.ch>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A571F89F89
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 13:01:33 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id n25so8998676ljj.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 06:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9ROFMex6SmeQcgvgfjI5Vchgvc+G2tj/iCxGO6nsxuo=;
+ b=gck+FqS4TFd5ioreMir7T2hmA8fOv7VmNt+UEdcoNlHpyopB61mqzfwAgUgzpnzI1M
+ awXeDvbGswaVG9tiaeMeWaU39z+IibLEQ+XqA6dnfa0fojUufDKdMMk1Cf3PgB6k6MD8
+ jr/nL7gXzFGPBVryCkZTzvftcp8o6uyy5VwP3T5/xlmEVZ0ICQT66jYZJ2dm0Qsu+KO4
+ OZANzsYGJ2FdjcMvOaH17vORAB6hK/dCqCiIA2790Wa7sTbCy6mb16uHiI7SK3HbLHxU
+ gGT61gn0NiPQwyQewP2S+WzKFszo3IFb/LbbilVCN7YK4fhSGXVMm1FM4hBkhd3sDSGz
+ OjZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9ROFMex6SmeQcgvgfjI5Vchgvc+G2tj/iCxGO6nsxuo=;
+ b=Svo9iAcUXeVJy6JYCm+5uE5ji3mCqoLJ0fVUogFnPkfSMpWFC77D2Yy0sXjwU1XRP8
+ wIjK1jyeZ/pWol9aeeOk7oHDoaBinqG8i0Dd9c4RWw14khC2VBZjzUfNm/Y9L5LgDtxm
+ 4WYEaGMlOfbW07fF6+iMh9uF7uILFFjXP0qazx0gmOqNZTJKxMfqIZnQISi88pZYnkIF
+ kt38xJWmZpKz6I5TBVdTOYA3GkOkW1TuQOu5TV8hgqrJlcjsXPDcXyndNJ0s5NbUzQvT
+ nB+5ZSeUkh1U3MBO7sOc93lJnOHIgW+eVjcp20thkozSmNYnwIhn7ZlLoBWTbRKcxPpG
+ rRnQ==
+X-Gm-Message-State: AOAM5333PicJnUAaGDmhmDrxWL7ABZLlSoWhvJXVoP0W1ruxHCjillni
+ 1oh2qYbu2xa+mmG6RbxdxbKl1m91JY1dU9LomrM=
+X-Google-Smtp-Source: ABdhPJzNCPOWmmxsXcRfVxojDQus+EStgmwv1gk8/iTKXOq4a7uo6VFLWq6gOeHI82RqCdy4Fdrc7ekP8uPBAtxxulA=
+X-Received: by 2002:a2e:9899:: with SMTP id b25mr11694176ljj.178.1599570091951; 
+ Tue, 08 Sep 2020 06:01:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20200908125558.256843-1-stefan@agner.ch>
 In-Reply-To: <20200908125558.256843-1-stefan@agner.ch>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 8 Sep 2020 10:01:20 -0300
+Message-ID: <CAOMZO5Amaxi-rU44b_q4+6k4vtOoCOmbKgiDJ0r3tEi4zkZB=w@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: mxsfb: check framebuffer pitch
+To: Stefan Agner <stefan@agner.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,10 +60,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, airlied@linux.ie, s.hauer@pengutronix.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, linux-imx@nxp.com, kernel@pengutronix.de,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marex@denx.de>, Sascha Hauer <kernel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -56,75 +76,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Stefan,
 
-Thank you for the patch.
-
-On Tue, Sep 08, 2020 at 02:55:58PM +0200, Stefan Agner wrote:
+On Tue, Sep 8, 2020 at 9:56 AM Stefan Agner <stefan@agner.ch> wrote:
+>
 > The lcdif IP does not support a framebuffer pitch (stride) other than
 > framebuffer width. Check for equality and reject the framebuffer
 > otherwise.
-> 
+>
 > This prevents a distorted picture when using 640x800 and running the
 > Mesa graphics stack. Mesa tires to use a cache aligned stride, which
-
-Still s/tires/tries/ :-)
-
 > leads at that particular resolution to width != stride. Currently
 > Mesa has no fallback behavior, but rejecting this configuration allows
 > userspace to handle the issue correctly.
-> 
-> Signed-off-by: Stefan Agner <stefan@agner.ch>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+What about adding a Fixes tag so that it can be backported to old
+stable kernels?
 
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index 8c549c3931af..fa6798d21029 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -21,6 +21,7 @@
->  #include <drm/drm_connector.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fb_helper.h>
-> +#include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_irq.h>
-> @@ -81,8 +82,26 @@ void mxsfb_disable_axi_clk(struct mxsfb_drm_private *mxsfb)
->  		clk_disable_unprepare(mxsfb->clk_axi);
->  }
->  
-> +static struct drm_framebuffer *
-> +mxsfb_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> +		  const struct drm_mode_fb_cmd2 *mode_cmd)
-> +{
-> +	const struct drm_format_info *info;
-> +
-> +	info = drm_get_format_info(dev, mode_cmd);
-> +	if (!info)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (mode_cmd->width * info->cpp[0] != mode_cmd->pitches[0]) {
-> +		dev_dbg(dev->dev, "Invalid pitch: fb width must match pitch\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	return drm_gem_fb_create(dev, file_priv, mode_cmd);
-> +}
-> +
->  static const struct drm_mode_config_funcs mxsfb_mode_config_funcs = {
-> -	.fb_create		= drm_gem_fb_create,
-> +	.fb_create		= mxsfb_fb_create,
->  	.atomic_check		= drm_atomic_helper_check,
->  	.atomic_commit		= drm_atomic_helper_commit,
->  };
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
