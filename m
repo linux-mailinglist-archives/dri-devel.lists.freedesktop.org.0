@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5878B26079D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 02:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5813226079F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 02:34:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8712F6E50D;
-	Tue,  8 Sep 2020 00:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8793A6E505;
+	Tue,  8 Sep 2020 00:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id A6E396E58E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 00:34:11 +0000 (UTC)
-Date: 08 Sep 2020 09:34:11 +0900
-X-IronPort-AV: E=Sophos;i="5.76,403,1592838000"; d="scan'208";a="56613266"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 08 Sep 2020 09:34:11 +0900
+ by gabe.freedesktop.org (Postfix) with ESMTP id 702B36E505
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 00:34:18 +0000 (UTC)
+Date: 08 Sep 2020 09:34:17 +0900
+X-IronPort-AV: E=Sophos;i="5.76,403,1592838000"; d="scan'208";a="56613288"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 08 Sep 2020 09:34:17 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id F05C74005174;
- Tue,  8 Sep 2020 09:34:10 +0900 (JST)
-Message-ID: <87lfhlrtwp.wl-kuninori.morimoto.gx@renesas.com>
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id ADCFC413D31A;
+ Tue,  8 Sep 2020 09:34:17 +0900 (JST)
+Message-ID: <87k0x5rtwi.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 02/10] dt-bindings: display: renesas: dw-hdmi: tidyup
- example compatible.
+Subject: [PATCH v2 03/10] dt-bindings: display: renesas: dw-hdmi: Add R8A77961
+ support
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To: Rob Herring <robh+dt@kernel.org>,
  Laurent <laurent.pinchart@ideasonboard.com>,
@@ -56,26 +56,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-required is "renesas,r8a7795-hdmi", instead of "renesas,r8a7795-dw-hdmi"
+This patch adds R-Car M3-W+ (R8A77961) SoC bindings.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-index 819f3e31013c..e6526ab485d0 100644
+index e6526ab485d0..2086f4514911 100644
 --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
 +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-@@ -42,7 +42,7 @@ Optional properties:
- Example:
- 
- 	hdmi0: hdmi@fead0000 {
--		compatible = "renesas,r8a7795-dw-hdmi";
-+		compatible = "renesas,r8a7795-hdmi";
- 		reg = <0 0xfead0000 0 0x10000>;
- 		interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
+@@ -16,6 +16,7 @@ Required properties:
+   - "renesas,r8a774b1-hdmi" for R8A774B1 (RZ/G2N) compatible HDMI TX
+   - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
+   - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
++  - "renesas,r8a77961-hdmi" for R8A77961 (R-Car M3-W+) compatible HDMI TX
+   - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
+   - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 and RZ/G2 compatible
+ 			     HDMI TX
 -- 
 2.25.1
 
