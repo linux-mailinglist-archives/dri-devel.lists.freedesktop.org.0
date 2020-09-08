@@ -1,46 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8FD526188F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 19:57:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4442618D5
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 20:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12456E202;
-	Tue,  8 Sep 2020 17:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 958D4898F0;
+	Tue,  8 Sep 2020 18:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A84086E202
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 17:57:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72A353B;
- Tue,  8 Sep 2020 19:57:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599587852;
- bh=cfvUdMZzACQX1NDPlS0gX0nzqztCbxhhaXeXA296Og0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AqWZAUGoa9Ox7oNIugTwGvgTy2YIJ8LPn5rpTdlnZOOZtlA/GgoxIxZoXiCzehQuH
- vPYz8wwjIy94vO9q3IoMcskDIoru60Hza9EMiwfnoR2VqSTC/QfRZtEoZGKye09dVw
- +cOZqgltQI9i5IrRoonrkuVS2EsCLv84lgNpI+jg=
-Date: Tue, 8 Sep 2020 20:57:07 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Vinay Simha B N <simhavcs@gmail.com>
-Subject: Re: [PATCH] drm/bridge/tc358775: Fixes bus formats read
-Message-ID: <20200908175707.GH11405@pendragon.ideasonboard.com>
-References: <1597217150-22911-1-git-send-email-simhavcs@gmail.com>
- <20200812095418.GG6057@pendragon.ideasonboard.com>
- <CAGWqDJ4i=t4Noi7wjGDDhUYkB_uuQ6A-WiMrh1ErKRi2HU9t9w@mail.gmail.com>
- <20200812131818.GI6057@pendragon.ideasonboard.com>
- <CAGWqDJ6eHCNXb5dMCUJ785iUp7gjdCk0bB=GuZesVesaVACucQ@mail.gmail.com>
- <CAGWqDJ5QWyvgJWyink1eH2fHhFWEKSei7XPCdtCRaM1BqRs-Tw@mail.gmail.com>
- <CAGWqDJ7DQbnxBmL9xt3cJoXkcm4aU1Msf-MiJOi12hd61GbJpg@mail.gmail.com>
- <CAGWqDJ4eqDNZFz+F2ybaCzuZ=bvr_4hFq=GGMmPCK0zY1KcyPw@mail.gmail.com>
- <CAGWqDJ4zHO4sjXOkG=iSeBhJn4J9+ccr6CKOKcAEBxU31b4VGw@mail.gmail.com>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 555E3898F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 18:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599588224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=awIs+A5+b7iEX4BVYq2CIRQLbcuGHxZWlw3jP/Gsyu4=;
+ b=gWuwAqZp+STxAYD5tLGWQU/Av4YH65ePGWZsoddiZm0xKkDCRveLCzBeCIUXSBp59Jun/v
+ GqNvnYhcxL7tbHFu4g4IYnZITseL/ZblUyQwdPSTngP2+L2k9ZPbRw1aoGvIYLx2uW9HIV
+ FnVeQiBO3pisK3SeI7Q6wrfr1UBbjOI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-eApXzjhRMXu9CMjhByTNBA-1; Tue, 08 Sep 2020 14:03:38 -0400
+X-MC-Unique: eApXzjhRMXu9CMjhByTNBA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A69698015F6;
+ Tue,  8 Sep 2020 18:03:35 +0000 (UTC)
+Received: from [10.36.115.46] (ovpn-115-46.ams2.redhat.com [10.36.115.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 695DF7A1F9;
+ Tue,  8 Sep 2020 18:03:32 +0000 (UTC)
+Subject: Re: [PATCH v4 11/23] device-dax: Kill dax_kmem_res
+To: Joao Martins <joao.m.martins@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>
+References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <159643100485.4062302.976628339798536960.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <a3ad70a2-77a8-d50e-f372-731a8e27c03b@redhat.com>
+ <17686fcc-202e-0982-d0de-54d5349cfb5d@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <25856e56-6afd-6efe-a396-f5a50b77f1f6@redhat.com>
+Date: Tue, 8 Sep 2020 20:03:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAGWqDJ4zHO4sjXOkG=iSeBhJn4J9+ccr6CKOKcAEBxU31b4VGw@mail.gmail.com>
+In-Reply-To: <17686fcc-202e-0982-d0de-54d5349cfb5d@oracle.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,419 +109,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>
+Cc: Pavel Tatashin <pasha.tatashin@soleen.com>, ard.biesheuvel@linaro.org,
+ peterz@infradead.org, Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org, akpm@linux-foundation.org,
+ linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vinay,
+>>> +		release_mem_region(range.start, range_len(&range));
+>>
+>> remove_memory() does a release_mem_region_adjustable(). Don't you
+>> actually want to release the *unaligned* region you requested?
+>>
+> Isn't it what we're doing here?
+> (The release_mem_region_adjustable() is using the same
+> dax_kmem-aligned range and there's no split/adjust)
 
-On Tue, Sep 08, 2020 at 11:22:48PM +0530, Vinay Simha B N wrote:
-> laurent,
+Oh, I think I was messing up things (there is just too much going on in
+this patch).
+
+Right, request_mem_region() and add_memory_driver_managed() are - and
+were - called with the exact same range. That would have been clearer if
+the patch would simply use range.start and range_len(&range) for both
+calls (similar in the original code).
+
+So, also the release calls have to use the same range. Agreed.
+
 > 
-> Please review or give some feedback.
-
-I'm sorry, I have very little time these days :-( Maybe Neil can provide
-feedback ?
-
-> On Tue, Aug 25, 2020 at 7:57 PM Vinay Simha B N <simhavcs@gmail.com> wrote:
+> Meaning right now (+ parent marked as !BUSY), and if I am understanding
+> this correctly:
 > 
-> > laurent,
-> >
-> > Please review or give some feedback.
-> >
-> > On Thu, Aug 13, 2020 at 9:09 PM Vinay Simha B N <simhavcs@gmail.com>
-> > wrote:
-> > >
-> > > laurent,
-> > >
-> > > The code sequence was a problem. *num_inputs_fmts =
-> > > ARRAY_SIZE(tc_lvds_in_bus_fmts); should come first and then allocate
-> > > the kcalloc.
-> > >
-> > > input_fmts = kcalloc(*num_input_fmts, ARRAY_SIZE(tc_lvds_in_bus_fmts),
-> > >                              GFP_KERNEL);
-> > > ..
-> > >         for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
-> > >                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
-> > >
-> > >         *num_inputs_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
-> > >
-> > > So, internally in the drm pipeline get set the input format based on
-> > > the output formats?
-> > >
-> > > On Wed, Aug 12, 2020 at 10:45 PM Vinay Simha B N <simhavcs@gmail.com>
-> > wrote:
-> > > >
-> > > > laurent,
-> > > >
-> > > > if i add the .atomic_get_input_bus_fmts =
-> > > > tc_bridge_get_input_bus_fmts, with the implementation suggested,
-> > > > system does not boot fully, the reason is, we capture all the
-> > > > supported input formats, but not sure where to set the final input
-> > > > format. Please suggest.
-> > > >
-> > > > for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
-> > > >                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
-> > > >
-> > > >         *num_input_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
-> > > >
-> > > > On Wed, Aug 12, 2020 at 8:25 PM Vinay Simha B N <simhavcs@gmail.com>
-> > wrote:
-> > > > >
-> > > > > laurent,
-> > > > >
-> > > > > Video data input format :  RGB666 loosely packed 24 bits per pixel
-> > > > > Can we use MEDIA_BUS_FMT_RGB666_1X24_CPADHI? There was no information
-> > > > > wrt CPADHI or for loosely packed
-> > > > >
-> > > > > static const u32 tc_lvds_in_bus_fmts[] = {
-> > > > >         MEDIA_BUS_FMT_RGB565_1X16,
-> > > > >         MEDIA_BUS_FMT_RGB666_1X18,
-> > > > >         MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
-> > > > >         MEDIA_BUS_FMT_RBG888_1X24,
-> > > > > };
-> > > > >
-> > > > > for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
-> > > > >                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
-> > > > > >> This will have all the available input formats, but finally which
-> > video data input format chosen?
-> > > > > Since dsi->format = MIPI_DSI_FMT_RGB888 is used does it chooses
-> > > > > MEDIA_BUS_FMT_RBG888_1X24 by the drm pipeline
-> > > > >
-> > > > > On Wed, Aug 12, 2020 at 6:48 PM Laurent Pinchart
-> > > > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > >
-> > > > > > Hi Vinay,
-> > > > > >
-> > > > > > On Wed, Aug 12, 2020 at 06:07:52PM +0530, Vinay Simha B N wrote:
-> > > > > > > On Wed, Aug 12, 2020 at 3:24 PM Laurent Pinchart wrote:
-> > > > > > > > On Wed, Aug 12, 2020 at 12:55:50PM +0530, Vinay Simha BN wrote:
-> > > > > > > > > - bus formats read from
-> > drm_bridge_state.output_bus_cfg.format
-> > > > > > > > >   and .atomic_get_input_bus_fmts() instead of connector
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
-> > > > > > > > >
-> > > > > > > > > ---
-> > > > > > > > >  v1:
-> > > > > > > > >  * Laurent Pinchart review comments incorporated
-> > > > > > > > >    drm_bridge_state.output_bus_cfg.format
-> > > > > > > > >    instead of connector
-> > > > > > > > > ---
-> > > > > > > > >  drivers/gpu/drm/bridge/tc358775.c | 76
-> > ++++++++++++++++++++++++++++++---------
-> > > > > > > > >  1 file changed, 59 insertions(+), 17 deletions(-)
-> > > > > > > > >
-> > > > > > > > > diff --git a/drivers/gpu/drm/bridge/tc358775.c
-> > b/drivers/gpu/drm/bridge/tc358775.c
-> > > > > > > > > index 7da15cd..5d8714a 100644
-> > > > > > > > > --- a/drivers/gpu/drm/bridge/tc358775.c
-> > > > > > > > > +++ b/drivers/gpu/drm/bridge/tc358775.c
-> > > > > > > > > @@ -271,6 +271,13 @@ struct tc_data {
-> > > > > > > > >       struct gpio_desc        *stby_gpio;
-> > > > > > > > >       u8                      lvds_link; /* single-link or
-> > dual-link */
-> > > > > > > > >       u8                      bpc;
-> > > > > > > > > +     u32                     output_bus_fmt;
-> > > > > > > > > +};
-> > > > > > > > > +
-> > > > > > > > > +static const u32 tc_lvds_out_bus_fmts[] = {
-> > > > > > > > > +     MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-> > > > > > > > > +     MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> > > > > > > > > +     MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> > > > > > > > >  };
-> > > > > > > > >
-> > > > > > > > >  static inline struct tc_data *bridge_to_tc(struct
-> > drm_bridge *b)
-> > > > > > > > > @@ -359,19 +366,6 @@ static void d2l_write(struct i2c_client
-> > *i2c, u16 addr, u32 val)
-> > > > > > > > >                       ret, addr);
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > > -/* helper function to access bus_formats */
-> > > > > > > > > -static struct drm_connector *get_connector(struct
-> > drm_encoder *encoder)
-> > > > > > > > > -{
-> > > > > > > > > -     struct drm_device *dev = encoder->dev;
-> > > > > > > > > -     struct drm_connector *connector;
-> > > > > > > > > -
-> > > > > > > > > -     list_for_each_entry(connector,
-> > &dev->mode_config.connector_list, head)
-> > > > > > > > > -             if (connector->encoder == encoder)
-> > > > > > > > > -                     return connector;
-> > > > > > > > > -
-> > > > > > > > > -     return NULL;
-> > > > > > > > > -}
-> > > > > > > > > -
-> > > > > > > > >  static void tc_bridge_enable(struct drm_bridge *bridge)
-> > > > > > > > >  {
-> > > > > > > > >       struct tc_data *tc = bridge_to_tc(bridge);
-> > > > > > > > > @@ -380,7 +374,6 @@ static void tc_bridge_enable(struct
-> > drm_bridge *bridge)
-> > > > > > > > >       u32 val = 0;
-> > > > > > > > >       u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
-> > > > > > > > >       struct drm_display_mode *mode;
-> > > > > > > > > -     struct drm_connector *connector =
-> > get_connector(bridge->encoder);
-> > > > > > > > >
-> > > > > > > > >       mode = &bridge->encoder->crtc->state->adjusted_mode;
-> > > > > > > > >
-> > > > > > > > > @@ -451,14 +444,13 @@ static void tc_bridge_enable(struct
-> > drm_bridge *bridge)
-> > > > > > > > >       d2l_write(tc->i2c, LVPHY0, LV_PHY0_PRBS_ON(4) |
-> > LV_PHY0_ND(6));
-> > > > > > > > >
-> > > > > > > > >       dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
-> > > > > > > > > -             connector->display_info.bus_formats[0],
-> > > > > > > > > +             tc->output_bus_fmt,
-> > > > > > > > >               tc->bpc);
-> > > > > > > > >       /*
-> > > > > > > > >        * Default hardware register settings of tc358775
-> > configured
-> > > > > > > > >        * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24
-> > format
-> > > > > > > > >        */
-> > > > > > > > > -     if (connector->display_info.bus_formats[0] ==
-> > > > > > > > > -             MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
-> > > > > > > > > +     if (tc->output_bus_fmt ==
-> > MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
-> > > > > > > > >               /* VESA-24 */
-> > > > > > > > >               d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0,
-> > LVI_R1, LVI_R2, LVI_R3));
-> > > > > > > > >               d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4,
-> > LVI_R7, LVI_R5, LVI_G0));
-> > > > > > > > > @@ -590,6 +582,51 @@ static int tc358775_parse_dt(struct
-> > device_node *np, struct tc_data *tc)
-> > > > > > > > >       return 0;
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > > +static int tc_bridge_atomic_check(struct drm_bridge *bridge,
-> > > > > > > > > +                               struct drm_bridge_state
-> > *bridge_state,
-> > > > > > > > > +                               struct drm_crtc_state
-> > *crtc_state,
-> > > > > > > > > +                               struct drm_connector_state
-> > *conn_state)
-> > > > > > > > > +{
-> > > > > > > > > +     struct tc_data *tc = bridge_to_tc(bridge);
-> > > > > > > > > +
-> > > > > > > > > +     tc->output_bus_fmt =
-> > bridge_state->output_bus_cfg.format;
-> > > > > > > >
-> > > > > > > > .atomic_check() isn't allowed to modify the device state,
-> > neither the
-> > > > > > > > hardware state nor the software state in drm_bridge or
-> > tc_data. You can
-> > > > > > > > instead access the bridge state directly in
-> > tc_bridge_enable(), with
-> > > > > > > >
-> > > > > > > >         struct drm_bridge_state *state =
-> > > > > > > >                 drm_priv_to_bridge_state(bridge->base.state);
-> > > > > > >
-> > > > > > > Currently the driver is picking up from the dts panel
-> > > > > > > (data-mapping = "vesa-24";) or jeida-24 or jeida-18.
-> > > > > > >
-> > > > > > > Does state->output_bus_cfg.format  get set from the data-mapping?
-> > > > > >
-> > > > > > It should. The drm_panel should take care of that. In
-> > > > > > panel_simple_get_non_edid_modes(), it calls
-> > > > > >
-> > > > > >         if (panel->desc->bus_format)
-> > > > > >
-> >  drm_display_info_set_bus_formats(&connector->display_info,
-> > > > > >
-> > &panel->desc->bus_format, 1);
-> > > > > >
-> > > > > > to initialize the bus format in display_info. Then, the DRM bridge
-> > > > > > helper drm_atomic_bridge_chain_select_bus_fmts() retrieves the
-> > output
-> > > > > > format by calling .atomic_get_output_bus_fmts() if implemented by
-> > the
-> > > > > > last bridge in the chain, or directly from the connector
-> > display_info.
-> > > > > > The last bridge in the chain is a DRM panel bridge, and doesn't
-> > > > > > implement .atomic_get_output_bus_fmts(), so the format from
-> > display_info
-> > > > > > is used, and is stored in the output_bus_cfg.format field of this
-> > bridge
-> > > > > > in select_bus_fmt_recursive().
-> > > > > >
-> > > > > > If something doesn't work according to the plan, I can help you
-> > > > > > debugging.
-> > > > > >
-> > > > > > > > > +
-> > > > > > > > > +     dev_dbg(tc->dev, "output_bus_fmt %04x\n",
-> > tc->output_bus_fmt);
-> > > > > > > > > +
-> > > > > > > > > +     return 0;
-> > > > > > > > > +}
-> > > > > > > > > +
-> > > > > > > > > +static u32 *
-> > > > > > > > > +tc_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-> > > > > > > > > +                          struct drm_bridge_state
-> > *bridge_state,
-> > > > > > > > > +                          struct drm_crtc_state *crtc_state,
-> > > > > > > > > +                          struct drm_connector_state
-> > *conn_state,
-> > > > > > > > > +                          u32 output_fmt,
-> > > > > > > > > +                          unsigned int *num_input_fmts)
-> > > > > > > > > +{
-> > > > > > > > > +     u32 *input_fmts = NULL;
-> > > > > > > > > +     int i;
-> > > > > > > >
-> > > > > > > > i only takes positive values, so it can be an unsigned int.
-> > > > > > > >
-> > > > > > > > > +
-> > > > > > > > > +     *num_input_fmts = 0;
-> > > > > > > > > +
-> > > > > > > > > +     for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ;
-> > ++i) {
-> > > > > > > > > +             if (output_fmt == tc_lvds_out_bus_fmts[i]) {
-> > > > > > > > > +                     *num_input_fmts = 1;
-> > > > > > > > > +                     input_fmts = kcalloc(*num_input_fmts,
-> > > > > > > > > +
-> > sizeof(*input_fmts),
-> > > > > > > > > +                                          GFP_KERNEL);
-> > > > > > > > > +                     if (!input_fmts)
-> > > > > > > > > +                             return NULL;
-> > > > > > > > > +
-> > > > > > > > > +                     input_fmts[0] = output_fmt;
-> > > > > > > >
-> > > > > > > > I don't think this is right, the input of the bridge isn't
-> > LVDS, is it ?
-> > > > > > >
-> > > > > > > Input to the bridge is DSI, format is already set
-> > > > > > >
-> > > > > > > dsi->format = MIPI_DSI_FMT_RGB888;
-> > > > > > >
-> > > > > > > enum mipi_dsi_pixel_format {
-> > > > > > >         MIPI_DSI_FMT_RGB888,
-> > > > > > >         MIPI_DSI_FMT_RGB666,
-> > > > > > >         MIPI_DSI_FMT_RGB666_PACKED,
-> > > > > > >         MIPI_DSI_FMT_RGB565,
-> > > > > > > };
-> > > > > > > include/drm/drm_mipi_dsi.h
-> > > > > > >
-> > > > > > > Why do we require this atomic_get_input_bus_fmts?
-> > > > > > >
-> > > > > > > Do i need to implement both atomic_get_input_bus_fmts and
-> > > > > > > atomic_get_output_bus_fmts?
-> > > > > >
-> > > > > > .atomic_get_output_bus_fmts() is only need for the last bridge in
-> > the
-> > > > > > chain, and is not mandatory when that bridge supports a single
-> > format.
-> > > > > > As this bridge can't be last (if the output is connect to a panel,
-> > there
-> > > > > > will be a drm_bridge wrapping the drm_panel), you don't have to
-> > > > > > implement that operation.
-> > > > > >
-> > > > > > .atomic_get_input_bus_fmts() is used to negotiate formats along the
-> > > > > > pipeline. The helps the DRM bridge helpers figure out what formats
-> > are
-> > > > > > possible, with the help of bridges that must report what input
-> > formats
-> > > > > > are compatible with a given output format. The DRM bridge helpers
-> > will
-> > > > > > take care of the rest.
-> > > > > >
-> > > > > > So, for this bridge, the input and output formats are decoupled.
-> > The
-> > > > > > bridge can output any of the three supported LVDS formats,
-> > regardless of
-> > > > > > what format it gets at its input. You should thus verify that the
-> > output
-> > > > > > format you receive in this function is supported (and return NULL
-> > if it
-> > > > > > isn't), and then return the list of supported input formats. If you
-> > > > > > don't implement .atomic_get_input_bus_fmts(), then the DRM bridge
-> > > > > > helpers will consider that the input and output formats are the
-> > same,
-> > > > > > and will set the output format of the previous bridge to, for
-> > example,
-> > > > > > MEDIA_BUS_FMT_RGB666_1X7X3_SPWG. It may work if the previous bridge
-> > > > > > doesn't care about its output format, but if it does, then it will
-> > be
-> > > > > > puzzled, as the previous bridge outputs DSI, not LVDS.
-> > > > > >
-> > > > > > > > As far as I can tell, the hardware support transcoding any of
-> > the
-> > > > > > > > supported input formats (RGB565, RGB666 or RGB888) to any of
-> > the
-> > > > > > > > supported output formats. How about the following ?
-> > > > > > > >
-> > > > > > > > static const u32 tc_lvds_in_bus_fmts[] = {
-> > > > > > > >         MEDIA_BUS_FMT_RGB565_1X16,
-> > > > > > > >         MEDIA_BUS_FMT_RGB666_1X18,
-> > > > > > > >         MEDIA_BUS_FMT_RBG888_1X24,
-> > > > > > > > };
-> > > > > > > >
-> > > > > > > > ...
-> > > > > > > >
-> > > > > > > >         u32 *input_fmts;
-> > > > > > > >         unsigned int i;
-> > > > > > > >
-> > > > > > > >         *num_input_fmts = 0;
-> > > > > > > >
-> > > > > > > >         for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ;
-> > ++i) {
-> > > > > > > >                 if (output_fmt == tc_lvds_out_bus_fmts[i])
-> > > > > > > >                         break;
-> > > > > > > >         }
-> > > > > > > >
-> > > > > > > >         if (i == ARRAY_SIZE(tc_lvds_out_bus_fmts))
-> > > > > > > >                 return NULL;
-> > > > > > > >
-> > > > > > > >         input_fmts = kcalloc(*num_input_fmts,
-> > ARRAY_SIZE(tc_lvds_in_bus_fmts),
-> > > > > > > >                              GFP_KERNEL);
-> > > > > > > >         if (!input_fmts)
-> > > > > > > >                 return NULL;
-> > > > > > > >
-> > > > > > > >         for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
-> > > > > > > >                 input_fmts[i] = tc_lvds_in_bus_fmts[i];
-> > > > > > > >
-> > > > > > > >         *num_inputs_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
-> > > > > > > >         return input_fmts;
-> > > > > > > >
-> > > > > > > > > +
-> > > > > > > > > +                     break;
-> > > > > > > > > +             }
-> > > > > > > > > +     }
-> > > > > > > > > +
-> > > > > > > > > +     return input_fmts;
-> > > > > > > > > +}
-> > > > > > > > > +
-> > > > > > > > >  static int tc_bridge_attach(struct drm_bridge *bridge,
-> > > > > > > > >                           enum drm_bridge_attach_flags flags)
-> > > > > > > > >  {
-> > > > > > > > > @@ -639,6 +676,11 @@ static int tc_bridge_attach(struct
-> > drm_bridge *bridge,
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > >  static const struct drm_bridge_funcs tc_bridge_funcs = {
-> > > > > > > > > +     .atomic_duplicate_state =
-> > drm_atomic_helper_bridge_duplicate_state,
-> > > > > > > > > +     .atomic_destroy_state =
-> > drm_atomic_helper_bridge_destroy_state,
-> > > > > > > > > +     .atomic_reset = drm_atomic_helper_bridge_reset,
-> > > > > > > > > +     .atomic_get_input_bus_fmts =
-> > tc_bridge_get_input_bus_fmts,
-> > > > > > > > > +     .atomic_check = tc_bridge_atomic_check,
-> > > > > > > > >       .attach = tc_bridge_attach,
-> > > > > > > > >       .pre_enable = tc_bridge_pre_enable,
-> > > > > > > > >       .enable = tc_bridge_enable,
+> request_mem_region(range.start, range_len)
+>    __request_region(iomem_res, range.start, range_len) -> alloc @parent
+> add_memory_driver_managed(parent.start, resource_size(parent))
+>    __request_region(parent.start, resource_size(parent)) -> alloc @child
+> 
+> [...]
+> 
+> remove_memory(range.start, range_len)
+>  request_mem_region_adjustable(range.start, range_len)
+>   __release_region(range.start, range_len) -> remove @child
+> 
+> release_mem_region(range.start, range_len)
+>   __release_region(range.start, range_len) -> doesn't remove @parent because !BUSY?
+> 
+> The add/removal of this relies on !BUSY. But now I am wondering if the parent remaining
+> unreleased is deliberate even on CONFIG_MEMORY_HOTREMOVE=y.
+
+Interesting, I can only tell that virtio-mem expects that
+remove_memory() won't remove the parent resource (which is !BUSY). So it
+relies on the existing functionality.
+
+I do wonder how walk_system_ram_range() behaves if both the parent and
+the child are BUSY. Looking at it, I think it will detect the parent and
+skip to the next range (without visiting the child) - which is not what
+we want.
+
+We could set the parent to BUSY just before doing the
+release_mem_region() call, but that feels like a hack.
+
+Maybe it's just easier to keep dax_kmem_res around ...
 
 -- 
-Regards,
+Thanks,
 
-Laurent Pinchart
+David / dhildenb
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
