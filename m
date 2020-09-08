@@ -2,59 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A96260A55
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 07:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D397E260A63
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 07:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 163616E156;
-	Tue,  8 Sep 2020 05:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF4F66E15D;
+	Tue,  8 Sep 2020 05:53:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F506E156
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 05:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599544200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hv6ahcmXPHg+20rdHp2NXPr6kpw5Az2FqrOEJWbBt2k=;
- b=jLuW1B1XayBzYtWEZyomNoRzxGMkpTuLtX2iQPU73frvpkzC0gvd0SGFLhpBhCnO2o3Thm
- 41H4CP5Ie+TLPnyxt+zJF+Cp2nPmVRo5dmUqA3yI6XavYHiIeEkU58OhmPz88r5hwnhwGQ
- xzMTxY9672t2fgH1vxN0J1ptmSUD0r8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-Xk8mt8cENeiuK7MqIh44Wg-1; Tue, 08 Sep 2020 01:49:59 -0400
-X-MC-Unique: Xk8mt8cENeiuK7MqIh44Wg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0486E800050;
- Tue,  8 Sep 2020 05:49:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 955A25C1C4;
- Tue,  8 Sep 2020 05:49:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1E26817538; Tue,  8 Sep 2020 07:49:56 +0200 (CEST)
-Date: Tue, 8 Sep 2020 07:49:56 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 03/13] drm/qxl: move bind/unbind/destroy to the driver
- function table.
-Message-ID: <20200908054956.ucqoo566itzvu6td@sirius.home.kraxel.org>
-References: <20200907204630.1406528-1-airlied@gmail.com>
- <20200907204630.1406528-4-airlied@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7306B6E15D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 05:53:53 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 461BE35;
+ Tue,  8 Sep 2020 07:53:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1599544431;
+ bh=CoHqnNcD4UelLduRYf10ta4D8OvDE9yAXLVTgMbAa40=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W4V9cV6S8CokchWx9/jnWuUw1HqBJgTHEGfEfea4SgkIqFk3jioUjy9Mc0QFS3JlR
+ QEXsOyM50wwnTcYIS5XYggByNX+54crYlJq3DC9aJx7Pw0G7uoPbJdAqzDFECk5b0D
+ FXdYVKAqRp8uaxx0oHv9mlcGVu1JcD9jyu12wG6o=
+Date: Tue, 8 Sep 2020 08:53:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 01/10] dt-bindings: display: renesas: du: Document the
+ r8a77961 bindings
+Message-ID: <20200908055326.GL6047@pendragon.ideasonboard.com>
+References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
+ <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20200907204630.1406528-4-airlied@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
+In-Reply-To: <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,22 +47,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sroland@vmware.com, bskeggs@redhat.com, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Linux-DT <devicetree@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 08, 2020 at 06:46:20AM +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> =
+Hi Morimoto-san,
 
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+Thank you for the patch.
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+On Tue, Sep 08, 2020 at 09:34:04AM +0900, Kuninori Morimoto wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> 
+> Document the R-Car M3-W+ (R8A77961) SoC in the R-Car DU bindings.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> index 51cd4d162770..317c9dd2d57c 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> @@ -18,6 +18,7 @@ Required Properties:
+>      - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
+>      - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
+>      - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
+> +    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
+>      - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
+>      - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
+>      - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
+> @@ -83,6 +84,7 @@ corresponding to each DU output.
+>   R8A7794 (R-Car E2)     DPAD 0         DPAD 1         -              -
+>   R8A7795 (R-Car H3)     DPAD 0         HDMI 0         HDMI 1         LVDS 0
+>   R8A7796 (R-Car M3-W)   DPAD 0         HDMI 0         LVDS 0         -
+> + R8A77961 (R-Car M3-W+) DPAD 0         HDMI 0         LVDS 0         -
+>   R8A77965 (R-Car M3-N)  DPAD 0         HDMI 0         LVDS 0         -
+>   R8A77970 (R-Car V3M)   DPAD 0         LVDS 0         -              -
+>   R8A77980 (R-Car V3H)   DPAD 0         LVDS 0         -              -
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
