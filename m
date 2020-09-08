@@ -1,74 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1652627D1
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 751E82627CE
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD586E9D2;
-	Wed,  9 Sep 2020 07:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C56E6E9CB;
+	Wed,  9 Sep 2020 07:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FAFD8930F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 15:35:55 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 088FYRJn136537;
- Tue, 8 Sep 2020 15:35:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=15pWPW/Ca41cmRWLeuMPyWbmipPwtweDunpubNIoPPI=;
- b=SVXTsDpSFwpPl2YQu4pQGURdmipzP4knX+vFsNr4Xf+nYLSlX4XYR3f5uayYcU6bwbQh
- rcWTxvH+qvnR5sfSliFIEg2QsTwDOZNTnXCp34PVu8bDs8lF5qFuQHDBAgxTtE3hUiFm
- EWHwEyXn4VAidUm5YyZA6h8Lnix8nXCgpJXSLuEMSUsz36PEPYCLv3TjVZDvzUt+/v8R
- uK1J8X+kMM8nCHSLIkuXWdDSsCkesnZ0a3wwnjae04wdh9PSq3WECNNilly14CPKB0pA
- zasqVOZyIhdi6ZesycNYUEZ7FmfAFl+ZwoK+c/Cv7TIn9f9n0wpdei+xbWpluqBLeeDC Mw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 33c2mkvaj2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 08 Sep 2020 15:35:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 088FTXks100262;
- Tue, 8 Sep 2020 15:33:32 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 33dacj1nk1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Sep 2020 15:33:32 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 088FXTdr008498;
- Tue, 8 Sep 2020 15:33:30 GMT
-Received: from [10.175.177.246] (/10.175.177.246)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 08 Sep 2020 08:33:29 -0700
-Subject: Re: [PATCH v4 11/23] device-dax: Kill dax_kmem_res
-To: David Hildenbrand <david@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>
-References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
- <159643100485.4062302.976628339798536960.stgit@dwillia2-desk3.amr.corp.intel.com>
- <a3ad70a2-77a8-d50e-f372-731a8e27c03b@redhat.com>
-From: Joao Martins <joao.m.martins@oracle.com>
-Message-ID: <17686fcc-202e-0982-d0de-54d5349cfb5d@oracle.com>
-Date: Tue, 8 Sep 2020 16:33:25 +0100
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F40B6E870;
+ Tue,  8 Sep 2020 15:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DvSiEr2JCy+2h9dy7CIecEenG2gQsa0A5OP2d9PI/p0=; b=dbg0PtMPK+HbvI6GMZzh/J5E8Z
+ Q/TWc7UsDFhg1cOVJt/pysWKo3QQRWraF1mqHM6mdRGQ6y0rj+OXqZUSgbgyS5kW1MF22xpb3bm/M
+ J9Rf7mpjgRlZVOcx1SZJ6EJp7lFy55R6nqk8PsS8AEsD0hf0g4vJC65mDtFEAYzf7cE0mQHAAVUlU
+ S7bbDUQqTHtHsrq5f8RHYZU0yCa5rG3lpeqMLTKlNXStV+C6+vhM0UL/8Wjc5CgLnNZYF3jPybjc/
+ ulyb1L7dumDVfTJQeMlSwf7IyaVvWKGWBe0b9ikUV9lDLMezAf5m+fY9DJk+AU+8aTTS01s/mCgwR
+ I5zJe2Ew==;
+Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1kFfnI-0008Go-Gj; Tue, 08 Sep 2020 09:44:29 -0600
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Tom Murphy <murphyt7@tcd.ie>
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+ <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
+ <20200529124523.GA11817@infradead.org>
+ <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
+ <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com>
+ <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
+ <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
+ <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
+ <766525c3-4da9-6db7-cd90-fb4b82cd8083@deltatee.com>
+ <60a82319-cbee-4cd1-0d5e-3c407cc51330@linux.intel.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <e598fb31-ef7a-c2ee-8a54-bf62d50c480c@deltatee.com>
+Date: Tue, 8 Sep 2020 09:44:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <a3ad70a2-77a8-d50e-f372-731a8e27c03b@redhat.com>
+In-Reply-To: <60a82319-cbee-4cd1-0d5e-3c407cc51330@linux.intel.com>
 Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9738
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- malwarescore=0
- bulkscore=0 phishscore=0 adultscore=0 suspectscore=1 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009080148
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9738
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 clxscore=1011 mlxlogscore=999
- malwarescore=0 suspectscore=1 lowpriorityscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009080148
+X-SA-Exim-Connect-IP: 24.64.145.4
+X-SA-Exim-Rcpt-To: robin.murphy@arm.com, kgene@kernel.org,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ cohuck@redhat.com, dwmw2@infradead.org, gerald.schaefer@de.ibm.com,
+ virtualization@lists.linux-foundation.org, tglx@linutronix.de,
+ matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ agross@kernel.org, linux-rockchip@lists.infradead.org, hch@infradead.org,
+ jonathanh@nvidia.com, krzk@kernel.org, maz@kernel.org,
+ linux-samsung-soc@vger.kernel.org, jean-philippe@linaro.org,
+ m.szyprowski@samsung.com, will@kernel.org, julien.grall@arm.com,
+ linux-tegra@vger.kernel.org, bjorn.andersson@linaro.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie, kvm@vger.kernel.org,
+ murphyt7@tcd.ie, tvrtko.ursulin@linux.intel.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-8.5 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [Intel-gfx] [PATCH 0/8] Convert the intel iommu driver to the
+ dma-iommu api
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,176 +86,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Tatashin <pasha.tatashin@soleen.com>, ard.biesheuvel@linaro.org,
- peterz@infradead.org, Vishal Verma <vishal.l.verma@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org, akpm@linux-foundation.org,
- linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Christoph Hellwig <hch@infradead.org>, linux-rockchip@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Sorry for the late response]
-
-On 8/21/20 11:06 AM, David Hildenbrand wrote:
-> On 03.08.20 07:03, Dan Williams wrote:
->> @@ -37,109 +45,94 @@ int dev_dax_kmem_probe(struct device *dev)
->>  	 * could be mixed in a node with faster memory, causing
->>  	 * unavoidable performance issues.
->>  	 */
->> -	numa_node = dev_dax->target_node;
->>  	if (numa_node < 0) {
->>  		dev_warn(dev, "rejecting DAX region with invalid node: %d\n",
->>  				numa_node);
->>  		return -EINVAL;
->>  	}
->>  
->> -	/* Hotplug starting at the beginning of the next block: */
->> -	kmem_start = ALIGN(range->start, memory_block_size_bytes());
->> -
->> -	kmem_size = range_len(range);
->> -	/* Adjust the size down to compensate for moving up kmem_start: */
->> -	kmem_size -= kmem_start - range->start;
->> -	/* Align the size down to cover only complete blocks: */
->> -	kmem_size &= ~(memory_block_size_bytes() - 1);
->> -	kmem_end = kmem_start + kmem_size;
->> -
->> -	new_res_name = kstrdup(dev_name(dev), GFP_KERNEL);
->> -	if (!new_res_name)
->> +	res_name = kstrdup(dev_name(dev), GFP_KERNEL);
->> +	if (!res_name)
->>  		return -ENOMEM;
->>  
->> -	/* Region is permanently reserved if hotremove fails. */
->> -	new_res = request_mem_region(kmem_start, kmem_size, new_res_name);
->> -	if (!new_res) {
->> -		dev_warn(dev, "could not reserve region [%pa-%pa]\n",
->> -			 &kmem_start, &kmem_end);
->> -		kfree(new_res_name);
->> +	res = request_mem_region(range.start, range_len(&range), res_name);
-> 
-> I think our range could be empty after aligning. I assume
-> request_mem_region() would check that, but maybe we could report a
-> better error/warning in that case.
-> 
-dax_kmem_range() already returns a memory-block-aligned @range but
-IIUC request_mem_region() isn't checking for that. Having said that
-the returned @res wouldn't be different from the passed range.start.
-
->>  	/*
->>  	 * Ensure that future kexec'd kernels will not treat this as RAM
->>  	 * automatically.
->>  	 */
->> -	rc = add_memory_driver_managed(numa_node, new_res->start,
->> -				       resource_size(new_res), kmem_name);
->> +	rc = add_memory_driver_managed(numa_node, res->start,
->> +				       resource_size(res), kmem_name);
->> +
->> +	res->flags |= IORESOURCE_BUSY;
-> 
-> Hm, I don't think that's correct. Any specific reason why to mark the
-> not-added, unaligned parts BUSY? E.g., walk_system_ram_range() could
-> suddenly stumble over it - and e.g., similarly kexec code when trying to
-> find memory for placing kexec images. I think we should leave this
-> !BUSY, just as it is right now.
-> 
-Agreed.
-
->>  	if (rc) {
->> -		release_resource(new_res);
->> -		kfree(new_res);
->> -		kfree(new_res_name);
->> +		release_mem_region(range.start, range_len(&range));
->> +		kfree(res_name);
->>  		return rc;
->>  	}
->> -	dev_dax->dax_kmem_res = new_res;
->> +
->> +	dev_set_drvdata(dev, res_name);
->>  
->>  	return 0;
->>  }
->>  
->>  #ifdef CONFIG_MEMORY_HOTREMOVE
->> -static int dev_dax_kmem_remove(struct device *dev)
->> +static void dax_kmem_release(struct dev_dax *dev_dax)
->>  {
->> -	struct dev_dax *dev_dax = to_dev_dax(dev);
->> -	struct resource *res = dev_dax->dax_kmem_res;
->> -	resource_size_t kmem_start = res->start;
->> -	resource_size_t kmem_size = resource_size(res);
->> -	const char *res_name = res->name;
->>  	int rc;
->> +	struct device *dev = &dev_dax->dev;
->> +	const char *res_name = dev_get_drvdata(dev);
->> +	struct range range = dax_kmem_range(dev_dax);
->>  
->>  	/*
->>  	 * We have one shot for removing memory, if some memory blocks were not
->>  	 * offline prior to calling this function remove_memory() will fail, and
->>  	 * there is no way to hotremove this memory until reboot because device
->> -	 * unbind will succeed even if we return failure.
->> +	 * unbind will proceed regardless of the remove_memory result.
->>  	 */
->> -	rc = remove_memory(dev_dax->target_node, kmem_start, kmem_size);
->> -	if (rc) {
->> -		any_hotremove_failed = true;
->> -		dev_err(dev,
->> -			"DAX region %pR cannot be hotremoved until the next reboot\n",
->> -			res);
->> -		return rc;
->> +	rc = remove_memory(dev_dax->target_node, range.start, range_len(&range));
->> +	if (rc == 0) {
-> 
-> if (!rc) ?
-> 
-Better off would be to keep the old order:
-
-	if (rc) {
-		any_hotremove_failed = true;
-		dev_err(dev, "%#llx-%#llx cannot be hotremoved until the next reboot\n",
-				range.start, range.end);
-	        return;
-	}
-
-	release_mem_region(range.start, range_len(&range));
-	dev_set_drvdata(dev, NULL);
-	kfree(res_name);
-	return;
-
-
->> +		release_mem_region(range.start, range_len(&range));
-> 
-> remove_memory() does a release_mem_region_adjustable(). Don't you
-> actually want to release the *unaligned* region you requested?
-> 
-Isn't it what we're doing here?
-(The release_mem_region_adjustable() is using the same
-dax_kmem-aligned range and there's no split/adjust)
-
-Meaning right now (+ parent marked as !BUSY), and if I am understanding
-this correctly:
-
-request_mem_region(range.start, range_len)
-   __request_region(iomem_res, range.start, range_len) -> alloc @parent
-add_memory_driver_managed(parent.start, resource_size(parent))
-   __request_region(parent.start, resource_size(parent)) -> alloc @child
-
-[...]
-
-remove_memory(range.start, range_len)
- request_mem_region_adjustable(range.start, range_len)
-  __release_region(range.start, range_len) -> remove @child
-
-release_mem_region(range.start, range_len)
-  __release_region(range.start, range_len) -> doesn't remove @parent because !BUSY?
-
-The add/removal of this relies on !BUSY. But now I am wondering if the parent remaining
-unreleased is deliberate even on CONFIG_MEMORY_HOTREMOVE=y.
-
-	Joao
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiAyMDIwLTA5LTA4IDk6MjggYS5tLiwgVHZydGtvIFVyc3VsaW4gd3JvdGU6Cj4+Cj4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3NjYXR0ZXJsaXN0LmgKPj4gYi9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1Cj4+IGluZGV4IGI3YjU5MzI4Y2I3Ni4uOTM2N2FjODAx
+ZjBjIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3NjYXR0ZXJsaXN0
+LmgKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9zY2F0dGVybGlzdC5oCj4+IEBA
+IC0yNywxMyArMjcsMTkgQEAgc3RhdGljIF9fYWx3YXlzX2lubGluZSBzdHJ1Y3Qgc2d0X2l0ZXIg
+ewo+PiDCoCB9IF9fc2d0X2l0ZXIoc3RydWN0IHNjYXR0ZXJsaXN0ICpzZ2wsIGJvb2wgZG1hKSB7
+Cj4+IMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IHNndF9pdGVyIHMgPSB7IC5zZ3AgPSBzZ2wgfTsK
+Pj4KPj4gK8KgwqDCoMKgwqDCoCBpZiAoc2dsICYmICFzZ19kbWFfbGVuKHMuc2dwKSkKPiAKPiBJ
+J2QgZXh0ZW5kIHRoZSBjb25kaXRpb24gdG8gYmUsIGp1c3QgdG8gYmUgc2FmZToKPiDCoMKgwqDC
+oGlmIChkbWEgJiYgc2dsICYmICFzZ19kbWFfbGVuKHMuc2dwKSkKPgoKUmlnaHQsIGdvb2QgY2F0
+Y2gsIHRoYXQncyBkZWZpbml0ZWx5IG5lY2Vzc2FyeS4KCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHMuc2dwID0gTlVMTDsKPj4gKwo+PiDCoMKgwqDCoMKgwqDCoMKgIGlmIChzLnNn
+cCkgewo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzLm1heCA9IHMuY3VyciA9
+IHMuc2dwLT5vZmZzZXQ7Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHMubWF4ICs9
+IHMuc2dwLT5sZW5ndGg7Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChkbWEp
+Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGRtYSkgewo+PiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcy5tYXggKz0gc2dfZG1h
+X2xlbihzLnNncCk7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBzLmRtYSA9IHNnX2RtYV9hZGRyZXNzKHMuc2dwKTsKPj4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgZWxzZQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9IGVs
+c2Ugewo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcy5t
+YXggKz0gcy5zZ3AtPmxlbmd0aDsKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHMucGZuID0gcGFnZV90b19wZm4oc2dfcGFnZShzLnNncCkpOwo+PiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4gCj4gT3RoZXJ3aXNlIGhhcyB0aGlzIGJl
+ZW4gdGVzdGVkIG9yIGFsdGVybmF0aXZlbHkgaG93IHRvIHRlc3QgaXQ/IChIb3cgdG8KPiByZXBy
+byB0aGUgaXNzdWUuKQoKSXQgaGFzIG5vdCBiZWVuIHRlc3RlZC4gVG8gdGVzdCBpdCwgeW91IG5l
+ZWQgVG9tJ3MgcGF0Y2ggc2V0IHdpdGhvdXQgdGhlCmxhc3QgIkRPIE5PVCBNRVJHRSIgcGF0Y2g6
+CgpodHRwczovL2xrbWwua2VybmVsLm9yZy9sa21sLzIwMjAwOTA3MDcwMDM1LkdBMjUxMTRAaW5m
+cmFkZWFkLm9yZy9ULwoKVGhhbmtzLAoKTG9nYW4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
