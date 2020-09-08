@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED0526092A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 06:00:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B4E26093F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 06:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB5F6E117;
-	Tue,  8 Sep 2020 04:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7118A6E11C;
+	Tue,  8 Sep 2020 04:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4D56E117;
- Tue,  8 Sep 2020 04:00:31 +0000 (UTC)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B706E113;
+ Tue,  8 Sep 2020 04:15:27 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Blryw3lfYz9sSP;
- Tue,  8 Sep 2020 14:00:23 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4BlsJF3Rswz9sSP;
+ Tue,  8 Sep 2020 14:15:25 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1599537629;
- bh=lX+lFzaomXR3T5BNsGpelGARr9NU3vJkQfKKiQ3vhfo=;
+ s=201702; t=1599538525;
+ bh=Wqtrfj5HlqGrcYAVH1VxP++Iktu5EHpo0Uh5otsB+Yw=;
  h=Date:From:To:Cc:Subject:From;
- b=OnTn3YI/noqm0XeiRNjqDqsf27QSFchpoFOwYNoKV5Eln0f4Xg46WXR9m4LQFxXSq
- y18VBCHxYmAbMFCbbrVFeP30hQtx/kEDT3WNg4BUeUM0em/LkskRDYwrVfumXzQ/w/
- h6ezb6t0N5kEtiwMyYqnfFSiffQHE7GKi9rPZQBAE8gAItZd+71Q8rGTLTxoL+kdOG
- BvXO/VMr0xmmGnwlUfVYjk3nr7UPOgC77+dsm34C5mmwbGDrHsjdT9oELMy98qniqZ
- 9kty7X/fjrRhkTFO8tOXoVkaB9Tjlpw8q7DKyJtV9fjv0L7vxOdJA9MpBBp8w3nfjp
- aLV37DoAM5L2A==
-Date: Tue, 8 Sep 2020 14:00:22 +1000
+ b=dxgd6gvHmlZyMPSJGHOi5lJ9f/gSHg/5rhLlmKLYY1ZG71wlH1u1C5sbek4stOjFk
+ 4bLPdNKGdlLSQ7KcqgpOOq8exsl8WHv7Id2gKFrVmAGbWGjW6+g9nKZr0UtCs6yAsa
+ I/IBcyVPD6RUXvTg+7gn/pH4uLvCt98XxbiJeulcpEcAwWreSeUUCQX/l3zgc+qL4L
+ 5qIw0cm6qQOGv2UvRCJO2Gtr1ED58OVKBSBrkmkgbTKUMUHEjVT6p8tgjNFBDrxp9K
+ 4X9sc5t8wauUA79vkbIMu+y10qHAjBbCQ/wFhJ5BtuRp3eKfXMAGLTKVaesX8tHL6d
+ wbMHvPA3uLp5w==
+Date: Tue, 8 Sep 2020 14:15:24 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20200908140022.67dd3801@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm-misc tree
+Message-ID: <20200908141524.7b63519e@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,71 +47,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Hans de Goede <hdegoede@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0158620330=="
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============2122816041=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0158620330==
-Content-Type: multipart/signed; boundary="Sig_/h0m8vAjcwPu32aOQXEmjVLl";
+--===============2122816041==
+Content-Type: multipart/signed; boundary="Sig_/.XlmKJHoCIUNF/Gn=PQnoFl";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/h0m8vAjcwPu32aOQXEmjVLl
+--Sig_/.XlmKJHoCIUNF/Gn=PQnoFl
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) produced this warning:
 
-  drivers/gpu/drm/i915/display/intel_panel.c
+WARNING: modpost: missing MODULE_LICENSE() in drivers/gpu/drm/panel/panel-s=
+amsung-s6e63m0.o
 
-between commit:
+Introduced by commit
 
-  f8bd54d21904 ("drm/i915: panel: Use atomic PWM API for devs with an exter=
-nal PWM controller")
-
-from Linus' tree and commit:
-
-  6b51e7d23aa8 ("drm/i915: panel: Honor the VBT PWM frequency for devs with=
- an external PWM controller")
-
-from the drm-intel tree.
-
-I fixed it up (I just used the latter) and can carry the fix as
-necessary. This is now fixed as far as linux-next is concerned, but any
-non trivial conflicts should be mentioned to your upstream maintainer
-when your tree is submitted for merging.  You may also want to consider
-cooperating with the maintainer of the conflicting tree to minimise any
-particularly complex conflicts.
+  b7b23e447687 ("drm/panel: s6e63m0: Break out SPI transport")
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/h0m8vAjcwPu32aOQXEmjVLl
+--Sig_/.XlmKJHoCIUNF/Gn=PQnoFl
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9XAdYACgkQAVBC80lX
-0GyqvQf8Cn9ZF8yqil/uPRy79nIaruZ5rShO6tXxLcj2/g03Eyk3zsCcaV9Vs00N
-2MVGydDPI4xh40OjIrPKuhbHjvqwosg9TQQ6g0q8VIv/e1tE62qP3Dst3VWYIHhl
-t3TgfrLfzqMKoLgUrcyqbUmZ2/E+iH538sLZbm2UdqJNVT311IgNSMMVtdYbfn+Q
-5w5LGYltB74C0ai55NDMw8Hl4/uqeXIDMqdy3C4Ul7R1wE83hD7s2j9F59vx0AAo
-RbNIupYaBxVQMwqev3TsrRO7tPJvEDBB1fH+UZsD3YyTG7ZqyTRL+EYdPi/YC176
-b5FtRP4/npzO3KXZ0FafbxtzNWUu5w==
-=pB//
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9XBVwACgkQAVBC80lX
+0GxB/ggAiHVjxZVmZRH4U48nYAh9BXl3leiuMFSupmtqObfxXFoXcNl+6zuSOun/
+LhE5yVnH+QqXB1J+UYI4Rmy6es14KAoEOl8kheQ/Zv7Jf9y43i+gasFhhxEq9g2d
+ucrUtu93e4rg0eXPjtVkqBw1JvWyPYwM5ukicisII2pUNpzjzLQBZf35VaZiNUM7
+cjiyLG8seiflM/aFDKjrHEmoI2C/u8UYHOk91jbox97r56d4zH1ry6yjXoSG7Shs
+njgKoefGvGXrgaAmRmKJbFKo7lMwCyPkRm5/w2Bgu4cFVDuKF+uD0V7F+CnymjOE
+tI6J9EQPV+BdufHHVdKOrrpzNE0rMw==
+=AR27
 -----END PGP SIGNATURE-----
 
---Sig_/h0m8vAjcwPu32aOQXEmjVLl--
+--Sig_/.XlmKJHoCIUNF/Gn=PQnoFl--
 
---===============0158620330==
+--===============2122816041==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -125,4 +106,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0158620330==--
+--===============2122816041==--
