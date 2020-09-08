@@ -1,58 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B272627EB
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEFC2627C1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0F56E9E4;
-	Wed,  9 Sep 2020 07:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2CF6E9C7;
+	Wed,  9 Sep 2020 07:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D566D6E062
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 18:57:21 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id g29so220129pgl.2
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 11:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=bZ0hdB3aDnQdw+HPiv6w6/rS4ctBv4+DDy7Q7mzZQJA=;
- b=kQSLq1W11bCof3VZGivNs9jhTs6eQXMNg151pVMeum5ivTvrGyNKTmBC8o3aAVTMCD
- fWHq03en9zOkEUNKYb6mITKGyBNqVTB2ceHUt93ApjVkk5vDvZP7SZyD5G3hpSk3mpff
- TpEU3uBAzAcI94SB+dVKpTJKqYy/8/3vpSWho=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=bZ0hdB3aDnQdw+HPiv6w6/rS4ctBv4+DDy7Q7mzZQJA=;
- b=t/wjnFrcAP/1Ryjfbz9MDVns5gDWaZbtqggqEZpJAJ57BsCVdlc9QgrLXZNlsAtosU
- rtN97ARh3KB183eCwRYT22eHRo97FyNjug3/QUhxZ9AStHmcEyopzOOBaeyyCnjf9/B+
- tQcekB19mtQlYmjPTyI2PjcVL5Cpi5TGDc3zfNDob23zQyzrXNsP69klRisGmjlgYWI8
- xDmZpLMA40g2eyLauTsIe2JZ4Jv7cPoz02kAdoRv61nSlGbNUNKefdg5YAcTAyQYAi7d
- FbWJtyRR5cRJq2zNjMulwNN0Qr2wWrmDaTSUxkMtDEezxtAvp8cHosNL0QzVwrKdxQgF
- KdUg==
-X-Gm-Message-State: AOAM531CQD9NZ1Qz5Aj6qFIrY1czuECwgWPUDGrJHBgVJK3rBE3saYUC
- 1+ZuMIZSQqJPMHPbh7iggz1emA==
-X-Google-Smtp-Source: ABdhPJwf6IhPcHFN4xXP49f62bCdnIGRRPklRPb2u3kzC8iwzMNMbimK4omnPZ6atruNND3LgaRG1g==
-X-Received: by 2002:a63:b202:: with SMTP id x2mr126839pge.432.1599591441474;
- Tue, 08 Sep 2020 11:57:21 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id o6sm44291pju.25.2020.09.08.11.57.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 11:57:20 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A474E6E062
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 19:10:22 +0000 (UTC)
+Received: from kevin (unknown [IPv6:2607:fea8:55f:a950::68f4])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: alyssa)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 93A0B295E47;
+ Tue,  8 Sep 2020 20:10:18 +0100 (BST)
+Date: Tue, 8 Sep 2020 15:10:10 -0400
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH 4/5] drm/panfrost: add amlogic reset quirk callback
+Message-ID: <20200908191010.GB10568@kevin>
+References: <20200908151853.4837-1-narmstrong@baylibre.com>
+ <20200908151853.4837-5-narmstrong@baylibre.com>
 MIME-Version: 1.0
-In-Reply-To: <010101745aaf685e-49eb2897-ee17-40bf-89e8-2adebe8d022f-000000@us-west-2.amazonses.com>
-References: <010101745aaf685e-49eb2897-ee17-40bf-89e8-2adebe8d022f-000000@us-west-2.amazonses.com>
-Subject: Re: [PATCH v5] drm/msm/dp: Add DP compliance tests on Snapdragon
- Chipsets
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
-Date: Tue, 08 Sep 2020 11:57:19 -0700
-Message-ID: <159959143931.454335.4137726843867018185@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+In-Reply-To: <20200908151853.4837-5-narmstrong@baylibre.com>
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,50 +40,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: tomeu.vizoso@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0495179900=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2020-09-04 12:54:39)
-> add event thread to execute events serially from event queue. Also
-> timeout mode is supported  which allow an event be deferred to be
-> executed at later time. Both link and phy compliant tests had been
-> done successfully.
-> 
-> Changes in v2:
-> - Fix potential deadlock by removing redundant connect_mutex
-> - Check and enable link clock during modeset
-> - Drop unused code and fix function prototypes.
-> - set sink power to normal operation state (D0) before DPCD read
-> 
-> Changes in v3:
-> - push idle pattern at main link before timing generator off
-> - add timeout handles for both connect and disconnect
-> 
-> Changes in v4:
-> - add ST_SUSPEND_PENDING to handles suspend/modeset test operations
-> - clear dp phy aux interrupt status when ERR_DPPHY_AUX error
-> - send segment addr during edid read
-> - clear bpp depth before MISC register write
-> 
-> Changes in v5:
-> - add ST_SUSPENDED to fix crash at resume
-> 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> 
-> This patch depends-on following series:
-> https://lore.kernel.org/dri-devel/20200818051137.21478-1-tanmay@codeaurora.org/
 
-Can this be based on v12 of the patch series? v4 of this patch was based
-on v12, but this has regressed and gone back to v11.
+--===============0495179900==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
+Content-Disposition: inline
 
-v12 is https://lkml.kernel.org/lkml/20200827211658.27479-1-tanmay@codeaurora.org/
+
+--G4iJoqBmSsgzjUCe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+> Since the documentation of the GPU cores are not public, we do not know what does these
+> values, but they permit having a fully functional GPU running with Panfrost.
+
+Since this is Amlogic magic, not specifically GPU, I'd rephrase this as
+"Since the Amlogic's integration of the GPU cores with the SoC is not
+publicly documented..."
+
+> +	/*
+> +	 * The Amlogic integrated Mali-T820, Mali-G31 & Mali-G52 needs
+> +	 * these undocumented bits to be set in order to operate
+> +	 * correctly.
+> +	 * These GPU_PWR registers contains:
+> +	 * "device-specific power control value"
+> +	 */
+
+PWR_OVERRIDE1 is the Amlogic specific value.
+
+Per the name, for PWR_KEY, I'd do add "#define GPU_PWR_KEY_UNLOCK
+0x2968A819" in panfrost-gpu.h so it's clear which value is which.
+
+--G4iJoqBmSsgzjUCe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl9X1woACgkQ/v5QWgr1
+WA0XAg//c9nGGJntvueFe8c6qd2IaRIMN3EM6NDls15z8sc2USz064lxnb0x5o15
+futnTLgG+9RPsMRDl3GmLwHyffyRWWIupoVPgMEu/RdWUai8d4yKyF76xVDpUOAD
+RnPBzvstwXzN3Wggj47fB6ajEZFFOI2erWqEgAY8UZARPkw3jP+lUbHpagmKdMVF
+SYrAuYXOZmOjdlHXeTM4jxAW1I76imu2iEnvm+/2bpgRUumypy3/K33/wICFL9W3
+RVC1/2Gw6zRrhT9Je9eVBLID7xoeJk5jFHAFss9xd+OtshquOBlapVXwJVcfEm+p
+gDFNrxG/pXgrJvkI6a8anp0cqyaixvIONfMt2fJwfTbqP5+K0QigQFVclGa6eXM3
+iLkfjlbgrCn8iiywRBx7BunsMqMWgHEt5K78PGczw2JmU+Ahp1O1vq9Az0s2yYIt
+X5nlp/iwUHRtPEnoNwqPFfasUnO3UAkObmax9oZVG3iBede/wMMWDOvm/J0Q8pEq
+jI/liFrKDPa7Qnkwara3B1hxAeMedig7Qi+RAFuRTUFlNCoBuD4TfCcvBGqH1cDX
+aupOBHrxmstHtZH5lnCcy7cXepJuCOmati2khQRvoOJolnRYI1HFyt2poZT3HQ+w
+K8zkmWUzKZZk/QwJn31i7zX7emvAvma0aO3dGzdT4+F3OMeJRf0=
+=eeWO
+-----END PGP SIGNATURE-----
+
+--G4iJoqBmSsgzjUCe--
+
+--===============0495179900==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0495179900==--
