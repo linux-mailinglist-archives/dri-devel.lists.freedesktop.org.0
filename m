@@ -1,36 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0F42627E6
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED5F2627E7
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3676E9D5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D36E6E9CE;
 	Wed,  9 Sep 2020 07:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 703396E817
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 12:08:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.76,359,1592863200"; d="scan'208";a="466596022"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
- by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2020 14:08:43 +0200
-Date: Tue, 8 Sep 2020 14:08:43 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [kbuild-all] Re: [PATCH] coccinelle: api: fix
- device_attr_show.cocci warnings
-In-Reply-To: <3c266a0e-a2b9-ffde-0768-3b4fa89b0bfe@samsung.com>
-Message-ID: <alpine.DEB.2.22.394.2009081408160.2478@hadrien>
-References: <202008101736.EtK0s7BQ%lkp@intel.com>
- <CGME20200810092148eucas1p117cc6af85f23fb6e457fddb913d2b41a@eucas1p1.samsung.com>
- <20200810092100.GA42813@2f5448a72a42>
- <3c266a0e-a2b9-ffde-0768-3b4fa89b0bfe@samsung.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D633C6E828;
+ Tue,  8 Sep 2020 13:35:09 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 771094165174DAF404A8;
+ Tue,  8 Sep 2020 21:35:03 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 8 Sep 2020 21:34:55 +0800
+From: Chen Zhou <chenzhou10@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/amd/display: Remove duplicate include
+Date: Tue, 8 Sep 2020 21:35:52 +0800
+Message-ID: <20200908133552.105282-1-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,96 +41,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- Denis Efremov <efremov@linux.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Nathan Chancellor <natechancellor@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Peter Rosin <peda@axentia.se>, Qiujun Huang <hqjagain@gmail.com>
+Cc: chenzhou10@huawei.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Remove duplicate header which is included twice.
 
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-On Tue, 8 Sep 2020, Bartlomiej Zolnierkiewicz wrote:
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+index a5d750ed569e..65dc5dcd4eb8 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+@@ -35,7 +35,6 @@
+ #include "dcn30_dpp.h"
+ #include "dcn10/dcn10_cm_common.h"
+ #include "dcn30_cm_common.h"
+-#include "clk_mgr.h"
+ #include "reg_helper.h"
+ #include "abm.h"
+ #include "clk_mgr.h"
+-- 
+2.17.1
 
->
-> Hi,
->
-> On 8/10/20 11:21 AM, kernel test robot wrote:
-> > From: kernel test robot <lkp@intel.com>
-> >
-> > drivers/video/fbdev/core/fbcon.c:3509:8-16: WARNING: use scnprintf or sprintf
-> > drivers/video/fbdev/core/fbcon.c:3484:8-16: WARNING: use scnprintf or sprintf
-> >
-> >
-> >  From Documentation/filesystems/sysfs.txt:
-> >   show() must not use snprintf() when formatting the value to be
-> >   returned to user space. If you can guarantee that an overflow
-> >   will never happen you can use sprintf() otherwise you must use
-> >   scnprintf().
-> >
-> > Generated by: scripts/coccinelle/api/device_attr_show.cocci
-> >
-> > Fixes: abfc19ff202d ("coccinelle: api: add device_attr_show script")
-> > CC: Denis Efremov <efremov@linux.com>
-> > Signed-off-by: kernel test robot <lkp@intel.com>
-> > ---
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   fc80c51fd4b23ec007e88d4c688f2cac1b8648e7
-> > commit: abfc19ff202d287742483e15fd478ddd6ada2187 coccinelle: api: add device_attr_show script
-> >
-> > Please take the patch only if it's a positive warning. Thanks!
-> >
-> >  fbcon.c |    4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > --- a/drivers/video/fbdev/core/fbcon.c
-> > +++ b/drivers/video/fbdev/core/fbcon.c
-> > @@ -3481,7 +3481,7 @@ static ssize_t show_rotate(struct device
-> >  	rotate = fbcon_get_rotate(info);
-> >  err:
-> >  	console_unlock();
-> > -	return snprintf(buf, PAGE_SIZE, "%d\n", rotate);
-> > +	return scnprintf(buf, PAGE_SIZE, "%d\n", rotate);
->
-> buf length is at least PAGE_SIZE and rotate val is an int so
-> shouldn't this be converted to use sprintf() instead?
-
-The rule is evolving in this direction.  Thanks for the feedback.
-
-julia
-
->
-> >  }
-> >
-> >  static ssize_t show_cursor_blink(struct device *device,
-> > @@ -3506,7 +3506,7 @@ static ssize_t show_cursor_blink(struct
-> >  	blink = (ops->flags & FBCON_FLAGS_CURSOR_TIMER) ? 1 : 0;
-> >  err:
-> >  	console_unlock();
-> > -	return snprintf(buf, PAGE_SIZE, "%d\n", blink);
-> > +	return scnprintf(buf, PAGE_SIZE, "%d\n", blink);
->
-> ditto for blink val
->
-> >  }
-> >
-> >  static ssize_t store_cursor_blink(struct device *device,
-> >
->
-> Best regards,
-> --
-> Bartlomiej Zolnierkiewicz
-> Samsung R&D Institute Poland
-> Samsung Electronics
-> _______________________________________________
-> kbuild-all mailing list -- kbuild-all@lists.01.org
-> To unsubscribe send an email to kbuild-all-leave@lists.01.org
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
