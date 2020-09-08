@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AEDF2607E1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 02:59:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B562607E4
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 03:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7CF89F31;
-	Tue,  8 Sep 2020 00:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B532F6E0FF;
+	Tue,  8 Sep 2020 01:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 462BF89F31
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 00:59:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4906E0FF
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 01:00:27 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Tue, 08 Sep 2020 00:59:17 +0000
+Date: Tue, 08 Sep 2020 01:00:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203905-2300-Jlwe0Fia6c@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-203905-2300-PX9X3Y5kd8@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
 References: <bug-203905-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,19 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=203905
 
-John Shand (jshand2013@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jshand2013@gmail.com
-
---- Comment #15 from John Shand (jshand2013@gmail.com) ---
-i have had this problem as well.  was recently working well with kernel 5.8.7. 
-i then install ucode-amd and then grub-mkconfig -o /boot/grub/grub.cfg to set
-the changes.  grub automatically made the new code image work with initramfs
-and then, backlight went back to about 20% or 255.
-
-would this have anything to do with amd's ucode image??
+--- Comment #16 from John Shand (jshand2013@gmail.com) ---
+Created attachment 292417
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292417&action=edit
+Dmesg 8-9-2020
 
 -- 
 You are receiving this mail because:
