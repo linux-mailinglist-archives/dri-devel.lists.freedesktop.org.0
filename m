@@ -1,99 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 664C52610D8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 13:37:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B602610DA
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 13:37:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A461F6E7EA;
-	Tue,  8 Sep 2020 11:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11046E7F1;
+	Tue,  8 Sep 2020 11:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109466E7EA
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B66E46E7E6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:48 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113741euoutp0147fcd4fdf60351043a680ac670472874~yy-LooMjl0798607986euoutp01W
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:41 +0000 (GMT)
+ 20200908113747euoutp0182d4a0d931df7b1a1b17f31fb4233deb~yy-Q68JsJ0798807988euoutp01b
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:47 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200908113741euoutp0147fcd4fdf60351043a680ac670472874~yy-LooMjl0798607986euoutp01W
+ 20200908113747euoutp0182d4a0d931df7b1a1b17f31fb4233deb~yy-Q68JsJ0798807988euoutp01b
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599565061;
- bh=QuitxZQBOIQ19NncwIG/YnTvX6FhNS3m7J4VbZY5Bt0=;
+ s=mail20170921; t=1599565067;
+ bh=IksfWJS9W+nx/s+HKKC3IC9FURMGnu/x8VGbOOkCFFA=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=NRCM9Lbih/VTmkZ3FE8ZJs8IkxsNhlrAJDrHK/az56zZenk9Kx7QSSfgbLhusVMc+
- hlwLkIzuAfh14RMcNBAAFxeiAy/nTwO6wExAgh2JH0F4lwfAj4Dd+vhxliYqC9FoQY
- FZf0eGnF//dsif9ala31OmhTaMgpcGnR4psytbh4=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ b=O76ukPbtuOy3JkQ+g0/81Vfnr96z+pvVPeyqKnLxsvMuBSiTTmhlhEEOplfjHKCW+
+ 6p5pYwkRaQ2hZ4Pf0AzJNMgWJeI5jj6tv7q6m/78txuf0ZpoQCP+GsByE68f+0kFsM
+ a2RFw1U+SvQ7RI5XQzql7dhbbq+pNZlyijiqU2kI=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113741eucas1p1cfc35d4e53cbf9a9aab4ff993eb1e7f9~yy-Lf68pq0524005240eucas1p10;
- Tue,  8 Sep 2020 11:37:41 +0000 (GMT)
+ 20200908113747eucas1p1d9f7fd6fbf9e0a1ca52324db61ad30ec~yy-Qmh3XJ0741007410eucas1p1l;
+ Tue,  8 Sep 2020 11:37:47 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 12.65.05997.50D675F5; Tue,  8
- Sep 2020 12:37:41 +0100 (BST)
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 21.6E.06456.B0D675F5; Tue,  8
+ Sep 2020 12:37:47 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113741eucas1p21d6fb2c42f863d634454ed326af248a9~yy-LHidDE1615916159eucas1p2z;
- Tue,  8 Sep 2020 11:37:41 +0000 (GMT)
+ 20200908113746eucas1p2192fcec3ad95ed43c74461c0ccdf527d~yy-QJpdrM2602726027eucas1p29;
+ Tue,  8 Sep 2020 11:37:46 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200908113741eusmtrp272ff657bcf89c57b5e34f4456e4f91af~yy-LG9axG3046530465eusmtrp2p;
- Tue,  8 Sep 2020 11:37:41 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-01-5f576d051c5e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 33.C4.06017.50D675F5; Tue,  8
- Sep 2020 12:37:41 +0100 (BST)
+ 20200908113746eusmtrp2d1245f1c835f043e9794572bfb889081~yy-QJGOGn3046530465eusmtrp26;
+ Tue,  8 Sep 2020 11:37:46 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-27-5f576d0b8704
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 09.C4.06017.A0D675F5; Tue,  8
+ Sep 2020 12:37:46 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113740eusmtip1f9fe9174bcdd4e4fecd7f30db5724f5f~yy-KmQNB20553405534eusmtip1B;
- Tue,  8 Sep 2020 11:37:40 +0000 (GMT)
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200908113746eusmtip28a5016e082bbc918ca632d2c497f9d9b~yy-P0M8wF1482014820eusmtip2O;
+ Tue,  8 Sep 2020 11:37:46 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-To: Julia Lawall <julia.lawall@inria.fr>
-Message-ID: <9e553578-a8dd-847e-0d19-8c34ce4bf1bc@samsung.com>
-Date: Tue, 8 Sep 2020 13:37:40 +0200
+Subject: Re: [PATCH] video: fbdev: remove set but not used 'ulBestVCO'
+To: Jason Yan <yanaijie@huawei.com>
+Message-ID: <8b15618f-eaf5-e646-2655-939d8b456b27@samsung.com>
+Date: Tue, 8 Sep 2020 13:37:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2008262252270.2522@hadrien>
+In-Reply-To: <20200827130008.428706-1-yanaijie@huawei.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPKsWRmVeSWpSXmKPExsWy7djPc7qsueHxBm+a1C0u3v/GYnHl63s2
- iyundjNaNK3qZ7Y4232N0eJE3wdWi8u75rA5sHtMenGIxePJlelMHt2z/7F43O8+zuTxdGoX
- m8fnTXIBbFFcNimpOZllqUX6dglcGTMfT2csOMpXsfjPLLYGxjfcXYycHBICJhJ/v19m7mLk
- 4hASWMEo0Xd0FQuE84VR4vz0JiYI5zOjxOLpdxm7GDnAWp5dlYaIL2eUePtmDiuE85ZR4sX6
- 5Swgc9kErCQmtq9iBLGFBVwkLs1YBNYsIqAhsfmpMEg9s8BxRok9Wy+B1fAK2En8fzKLFcRm
- EVCRmLWphw3EFhWIkPj04DArRI2gxMmZT1hA5nAK2Eqs35oKEmYWEJe49WQ+E4QtL7H97Ryw
- dyQEDrFLtCx5yQbxp4vE7BfbmSFsYYlXx7ewQ9gyEv93zmeCaFjHKPG34wVU93ZGieWT/0F1
- W0vcOfeLDWQzs4CmxPpd+hBhR4klL0HqQaHCJ3HjrSDEEXwSk7ZNhwrzSnS0CUFUq0lsWLaB
- DWZt186VzBMYlWYh+WwWkndmIXlnFsLeBYwsqxjFU0uLc9NTi43yUsv1ihNzi0vz0vWS83M3
- MQKT0el/x7/sYNz1J+kQowAHoxIP7wevsHgh1sSy4srcQ4wSHMxKIrxOZ0/HCfGmJFZWpRbl
- xxeV5qQWH2KU5mBREuc1XvQyVkggPbEkNTs1tSC1CCbLxMEp1cDoZckrpyy15rap4MU9mstE
- YldIqu6PcNv/ffGjZdWllqqfFZle6fmzFGot9y/zP3tqkdb8TsHruz/EvnjM8GbPPqfb7iXP
- i2tXX9flkuLu804s/DonutzG7uScIKGwb8yyNs3/GYwTVpycouC82f2DS4pk6CzTm7VV6t/f
- //1Sqc1YxBjc7KPEUpyRaKjFXFScCACLkr9TQgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAIsWRmVeSWpSXmKPExsVy+t/xu7qsueHxBu83M1tcvP+NxeLK1/ds
- FldO7Wa0aFrVz2xxtvsao8WJvg+sFpd3zWFzYPeY9OIQi8eTK9OZPLpn/2PxuN99nMnj6dQu
- No/Pm+QC2KL0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov0
- 7RL0MmY+ns5YcJSvYvGfWWwNjG+4uxg5OCQETCSeXZXuYuTiEBJYyijxeNtKVoi4jMTx9WVd
- jJxAprDEn2tdbBA1rxklTuw/zQSSYBOwkpjYvooRxBYWcJG4NGMRI0iviICGxOanwiD1zAJH
- GSUurJvHBNE8gVFi+r3nLCANvAJ2Ev+fzGIFsVkEVCRmbephA7FFBSIkDu+YxQhRIyhxcuYT
- FpChnAK2Euu3poKEmQXUJf7Mu8QMYYtL3HoynwnClpfY/nYO8wRGoVlIumchaZmFpGUWkpYF
- jCyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAmNv27GfW3Ywdr0LPsQowMGoxMP7wSssXog1
- say4MvcQowQHs5IIr9PZ03FCvCmJlVWpRfnxRaU5qcWHGE2BfpvILCWanA9MC3kl8YamhuYW
- lobmxubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhgjSiaUdzSxfenfaLd9zkRz/hYG
- AYP6X3MPCwvH/9lwU06x3+DKpYzZN6JPz//8RmrljLu9W859r32hWffz/KQbS6O+Vpwrzihw
- +qAeai4U+Frr/578asW/f72CWNoyZz6vdC9xy1DT/Fnmvvfi6nO9qlZXF29X2OtamLlYUV9e
- Uqn81PJanXNKLMUZiYZazEXFiQAjBPRy0wIAAA==
-X-CMS-MailID: 20200908113741eucas1p21d6fb2c42f863d634454ed326af248a9
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOKsWRmVeSWpSXmKPExsWy7djPc7rcueHxBo1NLBZXvr5ns/i//Aqj
+ xYm+D6wWl3fNYbNYtKeT2YHVo+XIW1aP+93HmTw+b5ILYI7isklJzcksSy3St0vgyjj48ixT
+ wRSBiiO/TzM2MC7l6WLk5JAQMJF4eP0LexcjF4eQwApGiVnd06CcL4wSa9ruMEM4nxklptxv
+ Z4RpmXJ7CguILSSwnFFi20sLiKK3jBLnPjwGS7AJWElMbF8F1iAs4Cbxr/cDM4gtIqAs0Xh/
+ OitIA7NAA6PEvcOHgfZxcPAK2Ek0rPIGqWERUJGYOWUqG4gtKhAh8enBYVYQm1dAUOLkzCdg
+ 8zmB5i+63gBmMwuIS9x6Mp8JwpaXaN46G+xqCYHp7BJbbx9gg7jaRWJ/ywpWCFtY4tXxLewQ
+ tozE/50gzSAN6xgl/na8gOreziixfPI/qG5riTvnfrGBXMosoCmxfpc+RNhRYvb7lUwgYQkB
+ PokbbwUhjuCTmLRtOjNEmFeio00IolpNYsOyDWwwa7t2rmSewKg0C8lrs5C8MwvJO7MQ9i5g
+ ZFnFKJ5aWpybnlpsmJdarlecmFtcmpeul5yfu4kRmFxO/zv+aQfj10tJhxgFOBiVeHg/eIXF
+ C7EmlhVX5h5ilOBgVhLhdTp7Ok6INyWxsiq1KD++qDQntfgQozQHi5I4r/Gil7FCAumJJanZ
+ qakFqUUwWSYOTqkGxkCutCkTlU7smn/SJ0r8188IHsdGmQbzkrqPD6s897Fxhq1hXGRRGJr+
+ a/FUH7uOz1Pk2BP/fSvsUXqv0yrw7tnS3nXLoi6VW7r8V3MTqi74eUyqcFu52JwEif2M1Zdn
+ lrJmqZXuWLvmoH29utIm2ei1mrNaeGVtH7TteKVfciRpy6IKczkHJZbijERDLeai4kQAae9N
+ 2SoDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsVy+t/xe7pcueHxBr8uKlpc+fqezeL/8iuM
+ Fif6PrBaXN41h81i0Z5OZgdWj5Yjb1k97ncfZ/L4vEkugDlKz6Yov7QkVSEjv7jEVina0MJI
+ z9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL+Pgy7NMBVMEKo78Ps3YwLiUp4uRk0NC
+ wERiyu0pLF2MXBxCAksZJXY/3cfYxcgBlJCROL6+DKJGWOLPtS42iJrXjBLzXx1iAUmwCVhJ
+ TGxfxQhiCwu4Sfzr/cAMYosIKEs03p/OCtLALNDAKHHyaxsjRHcvo0TD9BdgG3gF7CQaVnmD
+ NLAIqEjMnDKVDcQWFYiQOLxjFthQXgFBiZMzn4At4wRatuh6A5jNLKAu8WfeJWYIW1zi1pP5
+ TBC2vETz1tnMExiFZiFpn4WkZRaSlllIWhYwsqxiFEktLc5Nzy020itOzC0uzUvXS87P3cQI
+ jKZtx35u2cHY9S74EKMAB6MSD+8Hr7B4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW5ccX
+ leakFh9iNAV6biKzlGhyPjDS80riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YWpBbB
+ 9DFxcEo1MJ7q+9MfeUTmTOqBn2uuCl7snS+QdDvbWKT/5gd5hpqja8KbrxtzrXlv+N94irfe
+ gYjCuoqwrXUbbaU6Wi3rnhnWOfuZMfybq7+1TemmeFXc76UzlVLiMq6tDju88OxGyYlaDUtP
+ iHrGMvGECEqw3AnjlHP6tuprySfzmbVfIv7oic/XTZJ2VGIpzkg01GIuKk4EAGCK1xW8AgAA
+X-CMS-MailID: 20200908113746eucas1p2192fcec3ad95ed43c74461c0ccdf527d
 X-Msg-Generator: CA
-X-RootMTR: 20200826205412eucas1p16c748e9d73f4cd924aae1d6386ab450c
+X-RootMTR: 20200827130039eucas1p124a0c2d9912f55281386c9318013a17a
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200826205412eucas1p16c748e9d73f4cd924aae1d6386ab450c
-References: <CGME20200826205412eucas1p16c748e9d73f4cd924aae1d6386ab450c@eucas1p1.samsung.com>
- <alpine.DEB.2.22.394.2008262252270.2522@hadrien>
+X-CMS-RootMailID: 20200827130039eucas1p124a0c2d9912f55281386c9318013a17a
+References: <CGME20200827130039eucas1p124a0c2d9912f55281386c9318013a17a@eucas1p1.samsung.com>
+ <20200827130008.428706-1-yanaijie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,68 +105,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
- Bernie Thompson <bernie@plugable.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Denis Efremov <efremov@linux.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Hulk Robot <hulkci@huawei.com>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 8/26/20 10:54 PM, Julia Lawall wrote:
-> From: kernel test robot <lkp@intel.com>
-> 
->  Use kobj_to_dev() instead of container_of()
-> 
-> Generated by: scripts/coccinelle/api/kobj_to_dev.cocci
-> 
-> Fixes: a2fc3718bc22 ("coccinelle: api: add kobj_to_dev.cocci script")
-> CC: Denis Efremov <efremov@linux.com>
-> Signed-off-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
-
-Applied to drm-misc-next tree, thanks.
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
-> ---
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlawall/linux.git for-5.10
-> head:   a2fc3718bc22e85378085568ecc5765fb28cabce
-> commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/3] coccinelle: api: add kobj_to_dev.cocci script
-> :::::: branch date: 5 days ago
-> :::::: commit date: 5 days ago
-> 
->  udlfb.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> --- a/drivers/video/fbdev/udlfb.c
-> +++ b/drivers/video/fbdev/udlfb.c
-> @@ -1457,7 +1457,7 @@ static ssize_t edid_show(
->  			struct file *filp,
->  			struct kobject *kobj, struct bin_attribute *a,
->  			 char *buf, loff_t off, size_t count) {
-> -	struct device *fbdev = container_of(kobj, struct device, kobj);
-> +	struct device *fbdev = kobj_to_dev(kobj);
->  	struct fb_info *fb_info = dev_get_drvdata(fbdev);
->  	struct dlfb_data *dlfb = fb_info->par;
-> 
-> @@ -1479,7 +1479,7 @@ static ssize_t edid_store(
->  			struct file *filp,
->  			struct kobject *kobj, struct bin_attribute *a,
->  			char *src, loff_t src_off, size_t src_size) {
-> -	struct device *fbdev = container_of(kobj, struct device, kobj);
-> +	struct device *fbdev = kobj_to_dev(kobj);
->  	struct fb_info *fb_info = dev_get_drvdata(fbdev);
->  	struct dlfb_data *dlfb = fb_info->par;
->  	int ret;
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDgvMjcvMjAgMzowMCBQTSwgSmFzb24gWWFuIHdyb3RlOgo+IFRoaXMgYWRkcmVzc2VzIHRo
+ZSBmb2xsb3dpbmcgZ2NjIHdhcm5pbmcgd2l0aCAibWFrZSBXPTEiOgo+IAo+IGRyaXZlcnMvdmlk
+ZW8vZmJkZXYva3lyby9TVEc0MDAwSW5pdERldmljZS5jOiBJbiBmdW5jdGlvbgo+IOKAmFByb2dy
+YW1DbG9ja+KAmToKPiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2t5cm8vU1RHNDAwMEluaXREZXZpY2Uu
+YzoxMjM6Njogd2FybmluZzogdmFyaWFibGUKPiDigJh1bEJlc3RWQ0/igJkgc2V0IGJ1dCBub3Qg
+dXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPiAgIDEyMyB8ICB1MzIgdWxCZXN0VkNP
+ID0gMCwgdWxCZXN0Q2xrID0gMCwgdWxCZXN0U2NvcmUgPSAwOwo+ICAgICAgIHwgICAgICBefn5+
+fn5+fn4KPiAKPiBSZXBvcnRlZC1ieTogSHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5jb20+Cj4g
+U2lnbmVkLW9mZi1ieTogSmFzb24gWWFuIDx5YW5haWppZUBodWF3ZWkuY29tPgoKQXBwbGllZCB0
+byBkcm0tbWlzYy1uZXh0IHRyZWUsIHRoYW5rcy4KCkJlc3QgcmVnYXJkcywKLS0KQmFydGxvbWll
+aiBab2xuaWVya2lld2ljegpTYW1zdW5nIFImRCBJbnN0aXR1dGUgUG9sYW5kClNhbXN1bmcgRWxl
+Y3Ryb25pY3MKCj4gLS0tCj4gIGRyaXZlcnMvdmlkZW8vZmJkZXYva3lyby9TVEc0MDAwSW5pdERl
+dmljZS5jIHwgNCArLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxl
+dGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9reXJvL1NURzQw
+MDBJbml0RGV2aWNlLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2t5cm8vU1RHNDAwMEluaXREZXZp
+Y2UuYwo+IGluZGV4IGVkYWVlYzJkOTU5MC4uMjE4NzVkM2MyZGMyIDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvdmlkZW8vZmJkZXYva3lyby9TVEc0MDAwSW5pdERldmljZS5jCj4gKysrIGIvZHJpdmVy
+cy92aWRlby9mYmRldi9reXJvL1NURzQwMDBJbml0RGV2aWNlLmMKPiBAQCAtMTIwLDcgKzEyMCw3
+IEBAIHUzMiBQcm9ncmFtQ2xvY2sodTMyIHJlZkNsb2NrLAo+ICB7Cj4gIAl1MzIgUiA9IDAsIEYg
+PSAwLCBPRCA9IDAsIE9ESW5kZXggPSAwOwo+ICAJdTMyIHVsQmVzdFIgPSAwLCB1bEJlc3RGID0g
+MCwgdWxCZXN0T0QgPSAwOwo+IC0JdTMyIHVsQmVzdFZDTyA9IDAsIHVsQmVzdENsayA9IDAsIHVs
+QmVzdFNjb3JlID0gMDsKPiArCXUzMiB1bEJlc3RDbGsgPSAwLCB1bEJlc3RTY29yZSA9IDA7Cj4g
+IAl1MzIgdWxTY29yZSwgdWxQaGFzZVNjb3JlLCB1bFZjb1Njb3JlOwo+ICAJdTMyIHVsVG1wID0g
+MCwgdWxWQ087Cj4gIAl1MzIgdWxTY2FsZUNsb2NrUmVxLCB1bE1pbkNsb2NrLCB1bE1heENsb2Nr
+Owo+IEBAIC0xODksNyArMTg5LDYgQEAgdTMyIFByb2dyYW1DbG9jayh1MzIgcmVmQ2xvY2ssCj4g
+IAkJCQkJCXVsU2NvcmUgPSB1bFBoYXNlU2NvcmUgKyB1bFZjb1Njb3JlOwo+ICAKPiAgCQkJCQkJ
+aWYgKCF1bEJlc3RTY29yZSkgewo+IC0JCQkJCQkJdWxCZXN0VkNPID0gdWxWQ087Cj4gIAkJCQkJ
+CQl1bEJlc3RPRCA9IE9EOwo+ICAJCQkJCQkJdWxCZXN0RiA9IEY7Cj4gIAkJCQkJCQl1bEJlc3RS
+ID0gUjsKPiBAQCAtMjA2LDcgKzIwNSw2IEBAIHUzMiBQcm9ncmFtQ2xvY2sodTMyIHJlZkNsb2Nr
+LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJ1dCB3ZSBzaGFsbCBrZWVwIHRoaXMgY29k
+ZSBpbiBjYXNlIG5ldyByZXN0cmljdGlvbnMgY29tZSBpbnRvIHBsYXkKPiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovCj4gIAkJCQkJCWlmICgodWxTY29yZSA+
+PSB1bEJlc3RTY29yZSkgJiYgKE9EID4gMCkpIHsKPiAtCQkJCQkJCXVsQmVzdFZDTyA9IHVsVkNP
+Owo+ICAJCQkJCQkJdWxCZXN0T0QgPSBPRDsKPiAgCQkJCQkJCXVsQmVzdEYgPSBGOwo+ICAJCQkJ
+CQkJdWxCZXN0UiA9IFI7Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
