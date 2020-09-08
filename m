@@ -1,110 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1219F261C33
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 21:16:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 962C7261DD6
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 21:43:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75526E8B2;
-	Tue,  8 Sep 2020 19:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72D566E1B1;
+	Tue,  8 Sep 2020 19:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9E96E8B2;
- Tue,  8 Sep 2020 19:16:14 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2058.outbound.protection.outlook.com [40.107.100.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2710F6E1B1;
+ Tue,  8 Sep 2020 19:43:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z9NmcO5jREJCHmCZmv5PhW3cU172y/p7E3cbdl14CgspCgs+qy6+m2iKz0BRUPYdhzbx5sA0G4Tk6s8AqYcOoU3XKEYWr6R4r0V2mK6ShpSt368Quv1RKbx7/NVcuEg5m9g4+loEWnSst1IRpEELrAlmBF2Pj0QsR9ipYv3ci3vOvegnkQWujfpzCaqqcx5n/bf3Hc/yTDSs8fFQEu2C2Dq2trWFawtF9mnImUwOqDdYDaHN3Mr7YAUfAa+PXRrAWUj6HggdD2nzjlfrY+dGFIdhcRTyesf1fIeuQYL+0NmVWtKta2k1rSyY15Opz3Gk8YKL1tcF2wvU+lr4SUQBUw==
+ b=jpcbdFgh7tEqmOX6vWKSPug3atkJiQzlAu0z3Zp0i23jt+xlEz6+THNYfkz4TxpVv24exByug7RayclGcmb05E+WdjUgmZnDylCWUF/8b3o8oBxdaWQDW87InErXeuFQiVF7/Wt8iPjGgAnLVLb7QLtNwNuR6FO+uQ3Z+9eExI7vbU5x+RnunbsyKfeFDDfCXR5Pt5v0Ty4zal78ueMOjVsepvbJvUmerE2H9CrgP5cqqjBNI3PLZgKBShZADKQCC+82Su42WGwKhP50GHffaU79sPIy5ax4HcMoUo6tBWMersBXCYYd95BJ4kdEP2Tydf+SHqVMP9IvTqIE+o3D4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d2iIlSL/+JwQQr7qbdEdVNLS39E7eII+AKtfg10xNYc=;
- b=kttFZuXeHOuTpMUxfQVL1QTRoeijKa7XwQGcULEAbtQ7sSRiuM4la7dmRqAzfRxcr0yynR5GYKR4A5lv5/7eSonoB6x2T8sUmpvnQv7iZ/JDywNglHy/jkaGE1H/Nye6UvQN76xIFudBsmj+XacCKQ9objeGPms50kyJwE/LEqXNXqumZ37TVPVsDaiQLBk7oGs0OIXn7hWPPMonTOayB5lIvEZxVyLsnSwSqCVidfOQJVHbDTJMnPdqoabciv7gubP9mrPzA59ofWREeT7l4aPsbmDNDxMcK2ByN86Y+xyzco5IMQiKGlS6f+1DWkdNmJB0KRh2Z0n15qySgBX6iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=lists.infradead.org
- smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
+ bh=j3Bd0kGfWwBh5+8MHbjl8s28BQEIb0uVxk3wBRqKPxc=;
+ b=dMPrlK0A26wTceSR69GA0/2UorSSh5XbPfVY/kL8SEVNmkkiEGJ+5QQT5sH3yLc3qQEmLZohQ5Cs6q1oKGLx+QpsZMqbxhlaNyg0e05Sl+p3NLOP5Z8IOegs8j3disGll9UG3d8GhVc97/QKLwrxMCzv9hbYOLySp2c61n+INyqUz7RjnED5XgVT84N2U+MXXzNunsHIOux/UueqN/kiRSrd/yc3xv6BICLollj5foBefPwhnxj/pxAlekLQOD1FZ2Es0JM26tvq6KpPzCa8uHorhrqGgwLZ9p8PWnYygdWLvZ+DRf825bHVH4Yu4QyNj09Aaq7LItFCdsfGqHkSfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d2iIlSL/+JwQQr7qbdEdVNLS39E7eII+AKtfg10xNYc=;
- b=BnRhJgZ8QSMd/BJJ/KD1uc8yKT9/qhb6psF8KGWl5N8dyh9irMzsKdC8iLcW57FbLvHOZzmu9uOp4zOpJs6PYWyo8g89EWF+ijztwMXVA6yk4y5QXe10yXldibzYJzhBb0a0Ku0HX/wxQ/FWdiOJvrfXeZPZbktB+G4INnwgJec=
-Received: from CY4PR14CA0030.namprd14.prod.outlook.com (2603:10b6:903:101::16)
- by MN2PR02MB6877.namprd02.prod.outlook.com (2603:10b6:208:204::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Tue, 8 Sep
- 2020 19:16:11 +0000
-Received: from CY1NAM02FT052.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:101:cafe::56) by CY4PR14CA0030.outlook.office365.com
- (2603:10b6:903:101::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15 via Frontend
- Transport; Tue, 8 Sep 2020 19:16:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT052.mail.protection.outlook.com (10.152.74.123) with Microsoft SMTP
- Server id 15.20.3348.17 via Frontend Transport; Tue, 8 Sep 2020 19:16:10
- +0000
-Received: from [149.199.38.66] (port=39053 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1kFj5v-0006Ao-B8; Tue, 08 Sep 2020 12:15:55 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by smtp.xilinx.com with smtp (Exim 4.63)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1kFj69-0007JW-Qa; Tue, 08 Sep 2020 12:16:09 -0700
-Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 088JG0Kw023800; 
- Tue, 8 Sep 2020 12:16:00 -0700
-Received: from [172.19.75.82] (helo=xsjsycl40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1kFj60-0007EO-3Y; Tue, 08 Sep 2020 12:16:00 -0700
-Received: by xsjsycl40.xilinx.com (Postfix, from userid 13638)
- id 12A36352762; Tue,  8 Sep 2020 12:16:00 -0700 (PDT)
-Date: Tue, 8 Sep 2020 12:16:00 -0700
-From: Hyun Kwon <hyun.kwon@xilinx.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/xlnx: Use devm_drm_dev_alloc
-Message-ID: <20200908191600.GA1569998@xilinx.com>
-References: <20200904143941.110665-7-daniel.vetter@ffwll.ch>
- <20200907082225.150837-1-daniel.vetter@ffwll.ch>
+ bh=j3Bd0kGfWwBh5+8MHbjl8s28BQEIb0uVxk3wBRqKPxc=;
+ b=AN84vfyI2/2qraL9TOoCVGA6GHqIsxqqfNrMDGP4xAlI3P3JeWlzjKxLcc6vUkaiD2/vh0W7aSAjbGeRldTrVDW6Dg2dlZSTmUt0faKrSwGsYZe6hOVn9EwhTt0ehGoc+xzLeJ1T+21WQ6aWJmLQa/MQ91lQI7qywARZZ8wuJDc=
+Authentication-Results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
+ by DM6PR12MB3691.namprd12.prod.outlook.com (2603:10b6:5:1c5::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Tue, 8 Sep
+ 2020 19:43:03 +0000
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::3452:6d8f:e0ef:b45e]) by DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::3452:6d8f:e0ef:b45e%6]) with mapi id 15.20.3348.019; Tue, 8 Sep 2020
+ 19:43:03 +0000
+Subject: Re: [PATCH 1/1] drm/amdgpu: Convert to using devm_drm_dev_alloc()
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20200904012218.4971-1-luben.tuikov@amd.com>
+ <20200904012218.4971-2-luben.tuikov@amd.com>
+ <CADnq5_NRyOfP48C5w4Q87qx98-hTLQP7PsP8OhGMbXJBu_Gb4A@mail.gmail.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Message-ID: <43526b84-53d7-3ea2-165f-345666a5bad2@amd.com>
+Date: Tue, 8 Sep 2020 15:43:00 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+In-Reply-To: <CADnq5_NRyOfP48C5w4Q87qx98-hTLQP7PsP8OhGMbXJBu_Gb4A@mail.gmail.com>
+Content-Language: en-CA
+X-ClientProxiedBy: YT1PR01CA0152.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::31) To DM6PR12MB3962.namprd12.prod.outlook.com
+ (2603:10b6:5:1ce::21)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200907082225.150837-1-daniel.vetter@ffwll.ch>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.252.35.64] (165.204.54.211) by
+ YT1PR01CA0152.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.16 via Frontend Transport; Tue, 8 Sep 2020 19:43:02 +0000
+X-Originating-IP: [165.204.54.211]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7726dea6-dbea-47e2-48d3-08d8542ba4f3
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6877:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB687758BBD98AB8A25B36F114D6290@MN2PR02MB6877.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 17da95b8-bd2f-41c9-424a-08d8542f667d
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3691:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3691C6D590CF4657F23FBCD999290@DM6PR12MB3691.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xEK0QhHDrhGijlpRY44GWRBjROQYrWYpMU5/H6ZBC5ay6MzIJBjGX7D0dH3oYQa35BAE2ewMu6sNGXaQ5ALYDT42Hp/g7nd8OLb6uGbVPiknNLw30z53pbxYSkc53A2+m4rvogZIarquTKr9ti3xFXmmGJEPPVJPCYqW690nblLOPc/81aS8fglOUfW7tIQnNPWRw67Y8YTkevH5XB2bu4ZMNbUO9EYifdRFPxorIOvzu895EKS4MPd7490A0JBIEkomH9mePM7lSdpUstNg7w853Xhh0NN6TbiOg0BFCUvsyJ416g8PrNpuFGRK/xW3qyFCDxltA4htWhuRWTPWmoI4FMEO8caDwxpgjrk1+HhqIhIrcOunNWwGzkxZWOXiRQi9oDCiFfQWRpBZPw0VXA==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(396003)(346002)(136003)(376002)(39860400002)(46966005)(33656002)(44832011)(54906003)(42186006)(2616005)(8936002)(426003)(336012)(81166007)(478600001)(316002)(82740400003)(82310400003)(83380400001)(8676002)(47076004)(6266002)(5660300002)(26005)(4326008)(6916009)(186003)(356005)(70206006)(70586007)(2906002)(36756003)(1076003);
+X-Microsoft-Antispam-Message-Info: YpT91KiMZbYoL4353LHH1qXz0Gl1p8JsEdCPd7CI/VAaktVUot2UYdA3UTPBaEGOIeeqRNDZfAp9Pz6ktB8EnM4rFppBjskIlPJ5WgRVAnFcw7KQWk7X6KqSyWIOtZKpljiCPQZ99iTtjkeTN10bv2wWopIG5bqyTpI1vOwbmh0SgBQXod20jGD2nOUNAuXI/gJdgwOmO5CJCs+3rt2pauY7BdVHtYFTEq6YjLyVGu2gdlwVJ/0B02vOt7hcKm0bGIpjkmQUgzpRsUIVinRD6P+W0R/I+VYZEMOM8TOtbywUsMRM9fs65C3YG6YXa6BKyIbUGu2zZJbY9K4gnshQrLP1ZfoJ82SB2JxCR0vhj+zZbjg2Ay2HdjgholFfKE/Mu1t9/SFU4MayTxpwoTE6fQlgKnn8E6W1ICi6ifT7dQU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(6916009)(8676002)(2616005)(956004)(54906003)(44832011)(966005)(53546011)(478600001)(6486002)(45080400002)(26005)(52116002)(36756003)(83380400001)(186003)(16526019)(4326008)(2906002)(316002)(16576012)(31696002)(5660300002)(31686004)(66476007)(86362001)(8936002)(66946007)(66556008)(43740500002);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2020 19:16:10.0569 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7726dea6-dbea-47e2-48d3-08d8542ba4f3
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT052.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6877
+X-MS-Exchange-AntiSpam-MessageData: PKmGjpEYgVNw9tyXhdHCDDpm79uT7n9zVtc6qZJCs+T893DZMLPLX2FNk0cTXcJp/AySR4yyKWSkViYkcPua0DhJVGUrj7QOKO0XEYsvGDhJyQeAvM3JLNS4AdYusK2oaudB5ZK7wOC0Z0x1XwP2n4UZoXVMM5keQjiPSFyXosnKc5W+Ljt9jgHtnkqE+qVW3eCIUkPzwP8Dw3y8FWDs+SqJosmA5ax0F+2SnhIN6Bx4jLu4ImfebHjaLd+Q2XYxhHsru9E2avXLs/VdkaUxHLJomPbhx6zJT1fkD11zyKKmx40oVZmPu2+WfChDxe5A/CJ2dK0LWee+wptURlahxaRYzN5W9I+JaoDUSQipjWdE+9u7GFWBXDaDFmNentocchyrKaHzbAoZun3DmWDYiXgKGdVq8Y1qyLpQjll62CXEQp4r2kjM0ysgZbSou1Vq76iUWS8pwf2xmSCk1CuWX28SojJgxF8M3pqQjo5IBOoEnHkVFvlMz9+rLeVYTFRKGTE4O5yZIeJM2heo9P+d9hBJzIiDZjSgaqYIsShoYOq/9CO7ZNC65HvnitcytN8TN26AHgIimixWcvC3ub6/uQxK9KkUKbkLrKmDuHPIxNS8ASgNA9kJlMCC7Y+hkUxbf323VB+6VYTS9mvhLpjeuw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17da95b8-bd2f-41c9-424a-08d8542f667d
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2020 19:43:03.3635 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bWsPVFRbBT/NB13VVRV++yuQ1gZLbc38Uzja8Ovm6CoiiOkd2MenBf0FYTJw7FpR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3691
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,125 +98,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Michal Simek <michals@xilinx.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On Mon, Sep 07, 2020 at 01:22:25AM -0700, Daniel Vetter wrote:
-> Gets rid of drmm_add_final_kfree, which I want to unexport so that it
-> stops confusion people about this transitional state of rolling drm
-> managed memory out.
+On 2020-09-05 11:50, Alex Deucher wrote:
+> On Thu, Sep 3, 2020 at 9:22 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
+>>
+>> Convert to using devm_drm_dev_alloc(),
+>> as drm_dev_init() is going away.
+>>
+>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
 > 
-> This also fixes the missing drm_dev_put in the error path of the probe
-> code.
+> I think we can drop the final drm_put in the error case?  I think the
+> unwinding in current devm code should take care of it.
+
+We get to the error case if devm_drm_dev_alloc() succeeds,
+but we get an error thereafter, thus we do a drm_dev_put()
+past the err_free label, all in amdgpu_pci_probe().
+
+However, devm_drm_dev_alloc() calls devm_drm_dev_init(), which
+calls drm_dev_init(), which does a kref_init() on &dev->ref,
+which sets the kref to 1.
+
+The drm_dev_put(), in the error case, would decrement it,
+and if it is 0 after being decremented, then drm_dev_release()
+is called, which does the "managed" free.
+
+Regards,
+Luben
+
 > 
-> v2: Drop the misplaced drm_dev_put from zynqmp_dpsub_drm_init (all
-> other paths leaked on error, this should have been in
-> zynqmp_dpsub_probe), now that subsumed by the auto-cleanup of
-> devm_drm_dev_alloc.
+> Alex
 > 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: linux-arm-kernel@lists.infradead.org
+>> ---
+>>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++--------
+>>  1 file changed, 3 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> index 146a85c8df1c..06d994187c24 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> @@ -1142,18 +1142,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>>         if (ret)
+>>                 return ret;
+>>
+>> -       adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+>> -       if (!adev)
+>> -               return -ENOMEM;
+>> +       adev = devm_drm_dev_alloc(&pdev->dev, &kms_driver, typeof(*adev), ddev);
+>> +       if (IS_ERR(adev))
+>> +               return PTR_ERR(adev);
+>>
+>>         adev->dev  = &pdev->dev;
+>>         adev->pdev = pdev;
+>>         ddev = adev_to_drm(adev);
+>> -       ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
+>> -       if (ret)
+>> -               goto err_free;
+>> -
+>> -       drmm_add_final_kfree(ddev, adev);
+>>
+>>         if (!supports_atomic)
+>>                 ddev->driver_features &= ~DRIVER_ATOMIC;
+>> --
+>> 2.28.0.394.ge197136389
+>>
+>> _______________________________________________
+>> amd-gfx mailing list
+>> amd-gfx@lists.freedesktop.org
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=02%7C01%7Cluben.tuikov%40amd.com%7C17ffbdbf1cfb4aa34d1c08d851b362cb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637349178195046108&amp;sdata=tSTqRZ27GuQVAP8g7jmXAmM%2BhiGn3RUa72flIapYp9c%3D&amp;reserved=0
 
-Looks correct to me.
-
-Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
-
-Thanks!
-
--hyun
-
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 27 ++++++---------------------
->  1 file changed, 6 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> index 26328c76305b..8e69303aad3f 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> @@ -111,7 +111,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
->  	/* Initialize mode config, vblank and the KMS poll helper. */
->  	ret = drmm_mode_config_init(drm);
->  	if (ret < 0)
-> -		goto err_dev_put;
-> +		return ret;
->  
->  	drm->mode_config.funcs = &zynqmp_dpsub_mode_config_funcs;
->  	drm->mode_config.min_width = 0;
-> @@ -121,7 +121,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
->  
->  	ret = drm_vblank_init(drm, 1);
->  	if (ret)
-> -		goto err_dev_put;
-> +		return ret;
->  
->  	drm->irq_enabled = 1;
->  
-> @@ -154,8 +154,6 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
->  
->  err_poll_fini:
->  	drm_kms_helper_poll_fini(drm);
-> -err_dev_put:
-> -	drm_dev_put(drm);
->  	return ret;
->  }
->  
-> @@ -208,27 +206,16 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
->  	int ret;
->  
->  	/* Allocate private data. */
-> -	dpsub = kzalloc(sizeof(*dpsub), GFP_KERNEL);
-> -	if (!dpsub)
-> -		return -ENOMEM;
-> +	dpsub = devm_drm_dev_alloc(&pdev->dev, &zynqmp_dpsub_drm_driver,
-> +				   struct zynqmp_dpsub, drm);
-> +	if (IS_ERR(dpsub))
-> +		return PTR_ERR(dpsub);
->  
->  	dpsub->dev = &pdev->dev;
->  	platform_set_drvdata(pdev, dpsub);
->  
->  	dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
->  
-> -	/*
-> -	 * Initialize the DRM device early, as the DRM core mandates usage of
-> -	 * the managed memory helpers tied to the DRM device.
-> -	 */
-> -	ret = drm_dev_init(&dpsub->drm, &zynqmp_dpsub_drm_driver, &pdev->dev);
-> -	if (ret < 0) {
-> -		kfree(dpsub);
-> -		return ret;
-> -	}
-> -
-> -	drmm_add_final_kfree(&dpsub->drm, dpsub);
-> -
->  	/* Try the reserved memory. Proceed if there's none. */
->  	of_reserved_mem_device_init(&pdev->dev);
->  
-> @@ -286,8 +273,6 @@ static int zynqmp_dpsub_remove(struct platform_device *pdev)
->  	clk_disable_unprepare(dpsub->apb_clk);
->  	of_reserved_mem_device_release(&pdev->dev);
->  
-> -	drm_dev_put(drm);
-> -
->  	return 0;
->  }
->  
-> -- 
-> 2.28.0
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
