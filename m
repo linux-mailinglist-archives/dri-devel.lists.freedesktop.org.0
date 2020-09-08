@@ -1,47 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058182611A5
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 14:52:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B232611AE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 14:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E587D6E81C;
-	Tue,  8 Sep 2020 12:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A88406E821;
+	Tue,  8 Sep 2020 12:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3A086E81C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 12:52:25 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74FB639;
- Tue,  8 Sep 2020 14:52:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599569532;
- bh=82Ig7qKF5ln6orTKjywtdCUifvSel0QPp4ksH4LLSQQ=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=eG9xY8+ZjcQTDTCt6MNaxU1rJ4v1NkZC7T+D6Exlm/PguyuFPNTF6omQauBB5Ckfm
- ZLsKSJQXnGoz//rSPMHuQ76piQH3Z6O6k3zvbAJjKsOeCJwQiy5623nix/bmPZWXfd
- bcBd7Uyfn1yihzEVG78h2FzBpdM0W+BT+KIm9ru0=
-Subject: Re: [PATCH v2 01/10] dt-bindings: display: renesas: du: Document the
- r8a77961 bindings
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Laurent
- <laurent.pinchart@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
- <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <0e94a8c9-7f87-ebdf-4514-7f4984a6860f@ideasonboard.com>
-Date: Tue, 8 Sep 2020 13:52:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4117D89FD4
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 12:56:02 +0000 (UTC)
+Received: from trochilidae.toradex.int (31-10-206-124.static.upc.ch
+ [31.10.206.124])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 6BFD55C4CAB;
+ Tue,  8 Sep 2020 14:56:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1599569760;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=qxfcotVSiPgSlKPB5rZ5xXDXpnK6trtv7RzFevjZqVc=;
+ b=GpnxllrNBTG+jCZMxIjRiuwMkKDhmunZ5oYrsTtVr2FjWZ8FBeSR3aOGSCi7oxp+4zOEZD
+ YK2pCIkK0Kx+ZXHdzzFoKzQv6R7cIYiuV7+Ho/qw0lMc2tEpjklLwNUcVrnZ/1kNm0HRUQ
+ XuSQkc1BYcXovM4hqzcwycbL+krdrP0=
+From: Stefan Agner <stefan@agner.ch>
+To: marex@denx.de,
+	stefan@agner.ch
+Subject: [PATCH v2] drm: mxsfb: check framebuffer pitch
+Date: Tue,  8 Sep 2020 14:55:58 +0200
+Message-Id: <20200908125558.256843-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,52 +45,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Linux-DT <devicetree@vger.kernel.org>,
- "\(Renesas\) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
- Magnus <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com,
+ laurent.pinchart@ideasonboard.com, kernel@pengutronix.de, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Morimoto-san,
+The lcdif IP does not support a framebuffer pitch (stride) other than
+framebuffer width. Check for equality and reject the framebuffer
+otherwise.
 
-On 08/09/2020 01:34, Kuninori Morimoto wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> 
-> Document the R-Car M3-W+ (R8A77961) SoC in the R-Car DU bindings.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+This prevents a distorted picture when using 640x800 and running the
+Mesa graphics stack. Mesa tires to use a cache aligned stride, which
+leads at that particular resolution to width != stride. Currently
+Mesa has no fallback behavior, but rejecting this configuration allows
+userspace to handle the issue correctly.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-> ---
->  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> index 51cd4d162770..317c9dd2d57c 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -18,6 +18,7 @@ Required Properties:
->      - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
->      - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
->      - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
-> +    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
->      - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
->      - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
->      - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
-> @@ -83,6 +84,7 @@ corresponding to each DU output.
->   R8A7794 (R-Car E2)     DPAD 0         DPAD 1         -              -
->   R8A7795 (R-Car H3)     DPAD 0         HDMI 0         HDMI 1         LVDS 0
->   R8A7796 (R-Car M3-W)   DPAD 0         HDMI 0         LVDS 0         -
-> + R8A77961 (R-Car M3-W+) DPAD 0         HDMI 0         LVDS 0         -
->   R8A77965 (R-Car M3-N)  DPAD 0         HDMI 0         LVDS 0         -
->   R8A77970 (R-Car V3M)   DPAD 0         LVDS 0         -              -
->   R8A77980 (R-Car V3H)   DPAD 0         LVDS 0         -              -
-> 
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 8c549c3931af..fa6798d21029 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -21,6 +21,7 @@
+ #include <drm/drm_connector.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fb_helper.h>
++#include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_irq.h>
+@@ -81,8 +82,26 @@ void mxsfb_disable_axi_clk(struct mxsfb_drm_private *mxsfb)
+ 		clk_disable_unprepare(mxsfb->clk_axi);
+ }
+ 
++static struct drm_framebuffer *
++mxsfb_fb_create(struct drm_device *dev, struct drm_file *file_priv,
++		  const struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	const struct drm_format_info *info;
++
++	info = drm_get_format_info(dev, mode_cmd);
++	if (!info)
++		return ERR_PTR(-EINVAL);
++
++	if (mode_cmd->width * info->cpp[0] != mode_cmd->pitches[0]) {
++		dev_dbg(dev->dev, "Invalid pitch: fb width must match pitch\n");
++		return ERR_PTR(-EINVAL);
++	}
++
++	return drm_gem_fb_create(dev, file_priv, mode_cmd);
++}
++
+ static const struct drm_mode_config_funcs mxsfb_mode_config_funcs = {
+-	.fb_create		= drm_gem_fb_create,
++	.fb_create		= mxsfb_fb_create,
+ 	.atomic_check		= drm_atomic_helper_check,
+ 	.atomic_commit		= drm_atomic_helper_commit,
+ };
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
