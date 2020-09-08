@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D397E260A63
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 07:53:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3399260A68
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 07:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF4F66E15D;
-	Tue,  8 Sep 2020 05:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F1E6E58B;
+	Tue,  8 Sep 2020 05:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7306B6E15D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 05:53:53 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A08B6E58B
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 05:55:02 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 461BE35;
- Tue,  8 Sep 2020 07:53:51 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A30F335;
+ Tue,  8 Sep 2020 07:55:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599544431;
- bh=CoHqnNcD4UelLduRYf10ta4D8OvDE9yAXLVTgMbAa40=;
+ s=mail; t=1599544500;
+ bh=GNaokO1IKobciXJiBShGkCS/MP/j9Qj6ECmVpSOYAXk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W4V9cV6S8CokchWx9/jnWuUw1HqBJgTHEGfEfea4SgkIqFk3jioUjy9Mc0QFS3JlR
- QEXsOyM50wwnTcYIS5XYggByNX+54crYlJq3DC9aJx7Pw0G7uoPbJdAqzDFECk5b0D
- FXdYVKAqRp8uaxx0oHv9mlcGVu1JcD9jyu12wG6o=
-Date: Tue, 8 Sep 2020 08:53:26 +0300
+ b=Ph2rNC00v+ST1VrHsmVxYWGsJLdcFc6814Y4xEejXLD20EU6NNovMhWQyBCpnxacl
+ 5wAEIiKdoI4zpB7pSoahcPZkxqavpHIQ2+c4PlSSQXNuvHN+cZtpUYtTGzAx0/d8Yc
+ HxO9QFG6w2WOHizVQ/hgV0wCXiAmq8YfRIHdKt78=
+Date: Tue, 8 Sep 2020 08:54:36 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 01/10] dt-bindings: display: renesas: du: Document the
- r8a77961 bindings
-Message-ID: <20200908055326.GL6047@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 02/10] dt-bindings: display: renesas: dw-hdmi: tidyup
+ example compatible.
+Message-ID: <20200908055436.GM6047@pendragon.ideasonboard.com>
 References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
- <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
+ <87lfhlrtwp.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87lfhlrtwp.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +63,32 @@ Hi Morimoto-san,
 
 Thank you for the patch.
 
-On Tue, Sep 08, 2020 at 09:34:04AM +0900, Kuninori Morimoto wrote:
+On Tue, Sep 08, 2020 at 09:34:11AM +0900, Kuninori Morimoto wrote:
 > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > 
-> Document the R-Car M3-W+ (R8A77961) SoC in the R-Car DU bindings.
+> required is "renesas,r8a7795-hdmi", instead of "renesas,r8a7795-dw-hdmi"
 > 
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> index 51cd4d162770..317c9dd2d57c 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -18,6 +18,7 @@ Required Properties:
->      - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
->      - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
->      - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
-> +    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
->      - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
->      - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
->      - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
-> @@ -83,6 +84,7 @@ corresponding to each DU output.
->   R8A7794 (R-Car E2)     DPAD 0         DPAD 1         -              -
->   R8A7795 (R-Car H3)     DPAD 0         HDMI 0         HDMI 1         LVDS 0
->   R8A7796 (R-Car M3-W)   DPAD 0         HDMI 0         LVDS 0         -
-> + R8A77961 (R-Car M3-W+) DPAD 0         HDMI 0         LVDS 0         -
->   R8A77965 (R-Car M3-N)  DPAD 0         HDMI 0         LVDS 0         -
->   R8A77970 (R-Car V3M)   DPAD 0         LVDS 0         -              -
->   R8A77980 (R-Car V3H)   DPAD 0         LVDS 0         -              -
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> index 819f3e31013c..e6526ab485d0 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> @@ -42,7 +42,7 @@ Optional properties:
+>  Example:
+>  
+>  	hdmi0: hdmi@fead0000 {
+> -		compatible = "renesas,r8a7795-dw-hdmi";
+> +		compatible = "renesas,r8a7795-hdmi";
+>  		reg = <0 0xfead0000 0 0x10000>;
+>  		interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
 
 -- 
 Regards,
