@@ -1,100 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203832610D2
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 13:37:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BC72610D3
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 13:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CFC6E7EC;
-	Tue,  8 Sep 2020 11:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710ED6E7DD;
+	Tue,  8 Sep 2020 11:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 572C86E7EF
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:28 +0000 (UTC)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 795546E7DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:31 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113725euoutp01fee7d14fafd21542260f66c8c1e1fc3f~yy_84oHlj0798307983euoutp01N
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200908113725euoutp01fee7d14fafd21542260f66c8c1e1fc3f~yy_84oHlj0798307983euoutp01N
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113730euoutp024a58a039c603c2d1dcb3246906436346~yy-A4FaHO3214932149euoutp02a
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200908113730euoutp024a58a039c603c2d1dcb3246906436346~yy-A4FaHO3214932149euoutp02a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599565046;
- bh=YX5Ozfb/CjfLlm36wfddM3hg5/EdwEKcQNMZa2vnYhE=;
+ s=mail20170921; t=1599565050;
+ bh=R99R4ZxQzrdJUupr1CTVlhYpaUBTi0hOmTt2nf1voBA=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=hx8CI0ajE7vQqi1irmaQvP1SWqxPVpQFveUg9/9xHEdEIG+Q1XPX4uaobvJYi6qjW
- Tw5Rpu68Hk1s7pshrfkv1d94EbYNwjIqfQm94Rf+RPM2nXo+kk6StVt8etYJ6o+2EL
- uiH+3Nfk/e12eSd8u8sESb/PbBTKLdgaIvFotRjU=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113725eucas1p1b8d5f3d985cdc1e55ecc4ac172617191~yy_8wSc6I1728817288eucas1p1L;
- Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
+ b=UpXqAKp5BCHEoQP6Sz53B4wOom3qPFAL8QZzf6Es8buILk6sbuwBU90KLz4zJ9T45
+ lhCokOvgkyuIeZny/e5ogrlhRZjQyNFB0rb2M6I2RyeKoyFVsVkLtsG2t1Uwv2S77e
+ kwXgUeDlVZwyHHEcFKXIsDhOftVAzJy/5qm6PL3E=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113730eucas1p26bd2c1c6153827a69540b10bb5c7b339~yy-AswukO1635216352eucas1p2Z;
+ Tue,  8 Sep 2020 11:37:30 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id AE.4E.06456.5FC675F5; Tue,  8
- Sep 2020 12:37:25 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 53.B5.06318.9FC675F5; Tue,  8
+ Sep 2020 12:37:30 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113725eucas1p18452307ce859b6b9d7af4a9334790621~yy_8e-m1_0545005450eucas1p1-;
- Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113725eusmtrp175e41df502f8f8b693466f0d00b4a4d3~yy_8eYWvV2045820458eusmtrp1n;
- Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-df-5f576cf5c793
+ 20200908113729eucas1p17dae0de2383d2cab8553c8cb74e68a2a~yy-AZzspo1315713157eucas1p1I;
+ Tue,  8 Sep 2020 11:37:29 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113729eusmtrp284e430433b37aedc125854b91bd3ae74~yy-AZNgmu3046530465eusmtrp2O;
+ Tue,  8 Sep 2020 11:37:29 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-8e-5f576cf96e54
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id F5.D1.06314.5FC675F5; Tue,  8
- Sep 2020 12:37:25 +0100 (BST)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 8B.B4.06017.9FC675F5; Tue,  8
+ Sep 2020 12:37:29 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113725eusmtip268fe25a2781131603481e6f7efd103bd~yy_8KSQfB1658216582eusmtip2Y;
- Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
+ 20200908113729eusmtip26eb083b087c085bcf664473253ca2ca4~yy_-4YgyL1101511015eusmtip2i;
+ Tue,  8 Sep 2020 11:37:29 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] docs: fb: Correcting the location of
- FRAMEBUFFER_CONSOLE option.
-To: Bilal Wasim <bilalwasim676@gmail.com>
-Message-ID: <35fef2e8-dafd-c1dc-711d-fdbdf80c36a8@samsung.com>
-Date: Tue, 8 Sep 2020 13:37:25 +0200
+Subject: Re: [PATCH] video: fbdev: replace spurious snprintf() with sprintf()
+To: Alex Dewar <alex.dewar90@gmail.com>
+Message-ID: <8a486558-08cb-b8fa-5a33-77d73482b1ea@samsung.com>
+Date: Tue, 8 Sep 2020 13:37:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200824145155.42502-1-bilalwasim676@gmail.com>
+In-Reply-To: <20200824174407.429817-1-alex.dewar90@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsWy7djP87pfc8LjDVb9NrCY2GJg8eRAO6PF
- la/v2SwWti1hsTjR94HV4vKuOWwObB47Z91l97jffZzJY3HfZFaPz5vkAliiuGxSUnMyy1KL
- 9O0SuDI2rvvMVLCUu2LjhzXMDYwbObsYOTkkBEwk7n7dzNzFyMUhJLCCUeLxlTssEM4XRonn
- /3cwQjifGSUuN1xhh2m5vraDCSKxnFHi2rIdbBDOW0aJK08usYJUsQlYSUxsX8UIYgsLhEts
- OfeFDcQWEdCU+Pp+JdhYZoFeRomGdR1gRbwCdhKnL35gBrFZBFQkjr7YwQRiiwpESHx6cJgV
- okZQ4uTMJywgNqeArcStuQvBbGYBcYlbT+YzQdjyEtvfzgH7SEJgFbvE97bDbBB3u0jce3ub
- CcIWlnh1fAvUPzISpyf3sEA0rGOU+NvxAqp7O6PE8sn/oLqtJe6c+wVkcwCt0JRYv0sfxJQQ
- cJQ4c0EewuSTuPFWEOIGPolJ26YzQ4R5JTrahCBmqElsWLaBDWZr186VzBMYlWYh+WwWkm9m
- IflmFsLaBYwsqxjFU0uLc9NTiw3zUsv1ihNzi0vz0vWS83M3MQITzul/xz/tYPx6KekQowAH
- oxIP7wevsHgh1sSy4srcQ4wSHMxKIrxOZ0/HCfGmJFZWpRblxxeV5qQWH2KU5mBREuc1XvQy
- VkggPbEkNTs1tSC1CCbLxMEp1cDIuC8pV6V+z0/F0Logp08vz7HJbl8Sb7bV7fERj6Qt2hl/
- tAxCez8pm37VXdMfcWpTtfGc5b/7VjsqNm398XzHiby/W6Ser729NG7fl6n5VxdG3tFN6Tyx
- /laWy4G4xi+3VwRlvDHc2+rf0GZ0MVLiW+GSktyL7QJ+gtfWB0iJ6Ho/it8u0VCixFKckWio
- xVxUnAgA7YivtTQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsVy+t/xe7pfc8LjDboPyVpMbDGweHKgndHi
- ytf3bBYL25awWJzo+8BqcXnXHDYHNo+ds+6ye9zvPs7ksbhvMqvH501yASxRejZF+aUlqQoZ
- +cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehkb131mKljKXbHxwxrm
- BsaNnF2MnBwSAiYS19d2MHUxcnEICSxllFj15SZLFyMHUEJG4vj6MogaYYk/17rYIGpeM0o8
- 6fnDDpJgE7CSmNi+ihHEFhYIlzj8+iwriC0ioCnx9f1KRpAGZoFeRomNUx4wQ3RPYJRo/76a
- CaSKV8BO4vTFD8wgNouAisTRFzvA4qICERKHd8xihKgRlDg58wkLiM0pYCtxa+5CMJtZQF3i
- z7xLzBC2uMStJ/OZIGx5ie1v5zBPYBSahaR9FpKWWUhaZiFpWcDIsopRJLW0ODc9t9hQrzgx
- t7g0L10vOT93EyMwwrYd+7l5B+OljcGHGAU4GJV4eD94hcULsSaWFVfmHmKU4GBWEuF1Ons6
- Tog3JbGyKrUoP76oNCe1+BCjKdBzE5mlRJPzgdGfVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZI
- ID2xJDU7NbUgtQimj4mDU6qBscsz5OhFPaH46XX2899ebjU5VMKR+bWyQkLM5mbkMYPXFvaH
- emqOHb4RW3Zjp4dv2KsDc+rEU/Y7TjScpFPUUns5iP0vS3zb4lSB84+nqSvHNfv/le3YUrsw
- 6+fiQr4ndd5XlJrerz2j1M3YERq5ubvJO0CjyEsuUu6g+8409quH3cIMNh1RYinOSDTUYi4q
- TgQAAF8E/8YCAAA=
-X-CMS-MailID: 20200908113725eucas1p18452307ce859b6b9d7af4a9334790621
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRj22zk7O45mx6n4oqIwrTBIK6MOmZJmNIJQKio0tZUHlTaVzUuK
+ PxaJOhOpJYlT0JLUiddpmqIR5qUSL2REisOyBV4YamrWzJlnR8l/D8+F530+PhITN/HdyMSk
+ VEaZJJNLCCHePvBn9IhFfj32aO13RFdMZNGb2gEB/eybEaM/rS0SdPfUAqLfFS3x6fGucuKs
+ QLph0SJpz69KXNqpMwqkVd1zPOn0w0GedMXgGUFECs/EMfLEdEbpH3xLmKBdtQpScsl7llYN
+ rkajRAGyJ4E6Aetb9XgBEpJiqhZBQ7UWsYKYWkWQMxXECSsIyqqW0G6iT28lOFMNAqM6mzOZ
+ ETSP3OexAkGdhsd5dbaAExUO69YGjMXO1CHo798i2ABGjSHo0UzbAiIqGArXZ3EW45QPVNRO
+ 2ngX6gb8/PqWz3kc4X2pyeaxp4Lg6cdlG8YoV5g0VfA47AUd5nKMLQCqSwC1w8sYd3YYPHjZ
+ wuOwE8wPtgk47AFbnWyYDTQi2Myf3Ul3IKh5Yt15pkCYGrFsY3K7wheauvw5OgReNGh4LA2U
+ A3wxO3JHOIC2vQTjaBHk54o590Form4mdmsLOvXYIyTR7Zmm2zNHt2eO7n9vJcLrkCuTplLE
+ M6qAJCbDTyVTqNKS4v3uJCsMaPsbDVkH116h139v9yKKRJJ9Iumla7FivixdlanoRUBiEmdR
+ 6PBQjFgUJ8vMYpTJsco0OaPqRe4kLnEVBTyfixZT8bJU5i7DpDDKXZVH2rupUWTiG2/LKa8L
+ ktSiSo8mU4zzSregh76qM+Tc3Ag7WR4QxVyeifR0LimbbthvzNabwlt/+2efc+cf95lgMko/
+ N34wnqeZuHZDf03/QKhv8WJUq3k8WmP4QfrXu8zAgmm6pfhin6Q1zKhpsztgd2Ve4atW5BWO
+ RSzqy7oDvUMmJbgqQXbsMKZUyf4BIK4Y2kIDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrEIsWRmVeSWpSXmKPExsVy+t/xe7o/c8LjDY6+VreYf7PK4u+kY+wW
+ Cx/eZba48vU9m8WeO68ZLU70fWC1uLxrDpsDu8fvX5MYPfZ+W8DisXPWXXaPxXteMnnc7z7O
+ 5PF5k1wAW5SeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+
+ XYJexqQv/9gL2jgqfm3uZGlgPM/WxcjJISFgInFk5T8gm4tDSGApo8Tdb5cZuxg5gBIyEsfX
+ l0HUCEv8udYFVfOaUeL1vVuMIAk2ASuJie2rwGxhAV+JZyseMYHYIgLqEkeP/gdrYBa4wCjR
+ tvkBVPcERokN33ewglTxCthJ9Hx/wQJiswioSMxfcQusW1QgQuLwjlmMEDWCEidnPgGr4RSw
+ lZh26SOYzQy04c+8S8wQtrjErSfzmSBseYntb+cwT2AUmoWkfRaSlllIWmYhaVnAyLKKUSS1
+ tDg3PbfYSK84Mbe4NC9dLzk/dxMjMP62Hfu5ZQdj17vgQ4wCHIxKPLwfvMLihVgTy4orcw8x
+ SnAwK4nwOp09HSfEm5JYWZValB9fVJqTWnyI0RTouYnMUqLJ+cDUkFcSb2hqaG5haWhubG5s
+ ZqEkztshcDBGSCA9sSQ1OzW1ILUIpo+Jg1OqgbE+au+EEOacS0y+Vy14d35ze55V9rlCbX5f
+ YbacmLE3m1pl5b+ti4rq5+v5ZS25xvFT+xb7v2Pl3zY8Yfrmn776/s4lCyUeVBxWFY5xPrgh
+ i+Wi2Kn6JVw9q5Jn3JqUZsmuukbq/uorjaI61RENzDOubL949rEbV+n/mPOrX+31WCB8+N+V
+ o8pKLMUZiYZazEXFiQC1asJ31QIAAA==
+X-CMS-MailID: 20200908113729eucas1p17dae0de2383d2cab8553c8cb74e68a2a
 X-Msg-Generator: CA
-X-RootMTR: 20200824145242eucas1p1ed74d79e952a573a80d43864b500e0ca
+X-RootMTR: 20200824174423eucas1p25ee511479ffce613260a49d415e5733f
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200824145242eucas1p1ed74d79e952a573a80d43864b500e0ca
-References: <CGME20200824145242eucas1p1ed74d79e952a573a80d43864b500e0ca@eucas1p1.samsung.com>
- <20200824145155.42502-1-bilalwasim676@gmail.com>
+X-CMS-RootMailID: 20200824174423eucas1p25ee511479ffce613260a49d415e5733f
+References: <CGME20200824174423eucas1p25ee511479ffce613260a49d415e5733f@eucas1p2.samsung.com>
+ <20200824174407.429817-1-alex.dewar90@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,26 +106,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, corbet@lwn.net
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-[ added linux-fbdev ML to Cc: ]
-
-On 8/24/20 4:51 PM, Bilal Wasim wrote:
-> fbcon doc mentions FRAMEBUFFER_CONSOLE option to be under
-> Device Drivers->Graphics Support->Frame buffer Devices->
-> Console display driver support->Framebuffer Console Support,
-> while its under Device Drivers->Graphics Support->
-> Console display driver support->Framebuffer Console Support.
+On 8/24/20 7:44 PM, Alex Dewar wrote:
+> par->vgapass is a u8, so if we are assuming that buf is at least
+> PAGE_SIZE then the extra checking is pointless.
 > 
-> Correcting it in the docs.
-> 
-> Signed-off-by: Bilal Wasim <bilalwasim676@gmail.com>
+> Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
 
 Applied to drm-misc-next tree, thanks.
 
@@ -137,24 +130,23 @@ Samsung R&D Institute Poland
 Samsung Electronics
 
 > ---
->  Documentation/fb/fbcon.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/video/fbdev/sstfb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-> index e57a3d1d085a..a7b487cba307 100644
-> --- a/Documentation/fb/fbcon.rst
-> +++ b/Documentation/fb/fbcon.rst
-> @@ -20,8 +20,8 @@ A. Configuration
->  ================
+> diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
+> index afe6d1b7c3a0..c05cdabeb11c 100644
+> --- a/drivers/video/fbdev/sstfb.c
+> +++ b/drivers/video/fbdev/sstfb.c
+> @@ -733,7 +733,7 @@ static ssize_t show_vgapass(struct device *device, struct device_attribute *attr
+>  {
+>  	struct fb_info *info = dev_get_drvdata(device);
+>  	struct sstfb_par *par = info->par;
+> -	return snprintf(buf, PAGE_SIZE, "%d\n", par->vgapass);
+> +	return sprintf(buf, "%d\n", par->vgapass);
+>  }
 >  
->  The framebuffer console can be enabled by using your favorite kernel
-> -configuration tool.  It is under Device Drivers->Graphics Support->Frame
-> -buffer Devices->Console display driver support->Framebuffer Console Support.
-> +configuration tool.  It is under Device Drivers->Graphics Support->
-> +Console display driver support->Framebuffer Console Support.
->  Select 'y' to compile support statically or 'm' for module support.  The
->  module will be fbcon.
->  
+>  static struct device_attribute device_attrs[] = {
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
