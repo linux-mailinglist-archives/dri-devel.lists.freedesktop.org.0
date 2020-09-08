@@ -2,82 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193DC260D78
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 10:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B01260DAE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 10:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEB5E6E198;
-	Tue,  8 Sep 2020 08:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EDFD6E5B0;
+	Tue,  8 Sep 2020 08:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED0186E193
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 08:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599553330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wpXz+q9ud+AOPvV34hwZq6iLp3ZbJEEfJ7EHtLY6RqI=;
- b=QULxbftDwKoMNUOtm5ATCAJATAg/ZccdSaQ/2BrM8G99UfRmEPGi5h6RiqVE1P5baCK55u
- CczbMdr7tayIfkXF7Le3XZjtgPDYzjEfqGVjZLLUPezUcGOJk8uk9NRLsZQfC03ojRrAs7
- 3xuAs8qfnZaeDsX3Fn7hZ7NBSK5pUKc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-IHQEDc2zM4mnmcpMHtKmAw-1; Tue, 08 Sep 2020 04:22:09 -0400
-X-MC-Unique: IHQEDc2zM4mnmcpMHtKmAw-1
-Received: by mail-ej1-f71.google.com with SMTP id w17so6345373eja.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 01:22:08 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D241E6E5B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 08:36:44 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id t10so18211165wrv.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 01:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=qISAXO+68EXHqBU8VQh1M47t0rgk2bgtgEXfZ4OySC4=;
+ b=a8fDlFPNZErZTHfMvmdH4tiRqZFb9SO99Z34/eTbeiaW9BXottsGEtaUxuwHc06kre
+ ZszJK7Z1U/ibZtz58jsFFAJJRJmLKBcOCTSoHyzsa4sjkjLA2finFX2icBedfZ915bMX
+ /pfPSCsiX5cuwQhdrfRyPWgJJQZ8XOPdQDz3M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wpXz+q9ud+AOPvV34hwZq6iLp3ZbJEEfJ7EHtLY6RqI=;
- b=T+qg90x15Ukt9qBxS3sheofs4nCMdcawktMJazqF4sVMjbe1mmOJv1/qw9Zmq3Ajxi
- /rfGQ1Pv6Rf4xTNyByk02UVl2C8XbFw9K6+fNLNqDrUnxnxDu+dYZO14Rg7lLWvyFydh
- F0SpruUmTT/zQxIEw8c+0zpsr5H/T2DPiZfrZvX3pj3JPV0TajqsaWWu79eQNSkugLJZ
- mTioABSYmym5TnQ8sGmEExIu4E61bPQUss+X7gTwnUuk9dHPFa5DIVsEJ5wvsh5ykOXW
- qKdoJv5+8EuxRx01jUHWkucANbyKtuOyboRonu9E4hr6ALLVIzywtVR8BxbR6Okz/1dA
- 8RHQ==
-X-Gm-Message-State: AOAM531Fl3ZRnq0OfpGQNkYqtLOtmzSDMvCsJPymCO9ddT/EeVXnWgqw
- svU/XIB4SeYS7Y6sJq91DKoZ0S1qPK1decMnzyTgMyThusnqGxKdeWH5LfxzX7Xh61DtVhPDFkh
- UGbKLMJ8uM+phB6AFIxD+Pd4n+xG3
-X-Received: by 2002:a17:906:6a50:: with SMTP id
- n16mr437635ejs.107.1599553328055; 
- Tue, 08 Sep 2020 01:22:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSpUnMjZKtgUsJ+BcSD0zVfJfVDHsM/AFxTEzrhyw0d1WYhP2BgF9hcfPBn3/2GC9nlSOMMQ==
-X-Received: by 2002:a17:906:6a50:: with SMTP id
- n16mr437624ejs.107.1599553327903; 
- Tue, 08 Sep 2020 01:22:07 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id i7sm7632087ejo.22.2020.09.08.01.22.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 01:22:07 -0700 (PDT)
-Subject: Re: linux-next: manual merge of the drm-intel tree with Linus' tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20200908140022.67dd3801@canb.auug.org.au>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <db369f50-a3a0-2504-0628-ce5e6780d31b@redhat.com>
-Date: Tue, 8 Sep 2020 10:22:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qISAXO+68EXHqBU8VQh1M47t0rgk2bgtgEXfZ4OySC4=;
+ b=mGVavNqRtxxPnfhEh3K9L+ipeDlfMOYZCnXxQP/Yavd119mdD34MJWHB/4yQlZEvUZ
+ gxwZwntiyflchiYUXqpBN9WkB6ripxaf0kPtXkh4+R64eJLSCSlx+h8ik3Heqvu5Rl5e
+ V6JyXTQC1r+CHiL8ueNlZ6Z+0UXYk9LzmGELQAlPnWjk8R/Wp8dOQ1TuJwKfkXbn52zE
+ yDCl8bjX2/+vrRqHKSXmTCZGgUorSCb35DQONh1s+iL07fi6dUfPQsQMjb++kR2MqzTk
+ JlKcYTC7V+r0m3Cgp0O/k8s57IyUEB3o2n4+drLGqjJPQXANOXCMgc43B4ZirvbLjMOd
+ +nig==
+X-Gm-Message-State: AOAM5335JV7/JLDyqIRZJQ3Gz2mCQ5nAFXTyhZBBb0IeWBtzw93X/+D4
+ jJh345m7NDWzLfrX7/kqf9ZJjw==
+X-Google-Smtp-Source: ABdhPJyuQIRuQW79Yf70mhAf5i9+ifV3jy2dmzDQM77rIsXipuY1EoHbKb7k0GYxxemZIHw8Q+VzIA==
+X-Received: by 2002:a5d:4104:: with SMTP id l4mr25455322wrp.396.1599554203379; 
+ Tue, 08 Sep 2020 01:36:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c205sm31211975wmd.33.2020.09.08.01.36.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 01:36:42 -0700 (PDT)
+Date: Tue, 8 Sep 2020 10:36:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+Message-ID: <20200908083640.GF2352366@phenom.ffwll.local>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <20200901073222.GR2352366@phenom.ffwll.local>
+ <20200908054359.GA25682@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200908140022.67dd3801@canb.auug.org.au>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200908054359.GA25682@pendragon.ideasonboard.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,49 +66,456 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guru Das Srinagesh <gurus@codeaurora.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Robert Beckett <bob.beckett@collabora.com>, kernel@collabora.com,
+ Benjamin Gaignard <benjamin.gaignard@st.com>, James Jones <jajones@nvidia.com>,
+ dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
+ "Andrew F . Davis" <afd@ti.com>, Liam Mark <lmark@codeaurora.org>,
+ Laura Abbott <labbott@kernel.org>, Daniel Stone <daniels@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
-
-On 9/8/20 6:00 AM, Stephen Rothwell wrote:
-> Hi all,
+On Tue, Sep 08, 2020 at 08:43:59AM +0300, Laurent Pinchart wrote:
+> Hi Daniel,
 > 
-> Today's linux-next merge of the drm-intel tree got a conflict in:
+> On Tue, Sep 01, 2020 at 09:32:22AM +0200, Daniel Vetter wrote:
+> > On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
+> > > This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+> > > which will allocate memory suitable for the given device.
+> > > 
+> > > The implementation is mostly a port of the Contiguous Videobuf2
+> > > memory allocator (see videobuf2/videobuf2-dma-contig.c)
+> > > over to the DMA-BUF Heap interface.
+> > > 
+> > > The intention of this allocator is to provide applications
+> > > with a more system-agnostic API: the only thing the application
+> > > needs to know is which device to get the buffer for.
+> > > 
+> > > Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+> > > is unknown to the application.
+> > > 
+> > > I'm not really expecting this patch to be correct or even
+> > > a good idea, but just submitting it to start a discussion on DMA-BUF
+> > > heap discovery and negotiation.
+> > > 
+> > > Given Plumbers is just a couple weeks from now, I've submitted
+> > > a BoF proposal to discuss this, as perhaps it would make
+> > > sense to discuss this live?
+> > > 
+> > > Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > 
+> > I think on the uapi/constraint solving side there's been already tons of
+> > discussions while I enjoyed vacations, so different concern from me
+> > entirely on the implementation side:
+> > 
+> > In the past the only thing we had in upstream was subsystem/driver
+> > specific allocators, and dma-buf for sharing. With dma-buf heaps we kinda
+> > get a central allocator, which duplicates large chunks of of all these
+> > allocators. And since it's a central allocator by design, the reason for
+> > having per-subsystem allocators is kinda gone.
+> > 
+> > I think there's two approaches here:
+> > - we convert e.g. drm allocator helpers to internally use the right heap
+> >   implementation.
 > 
->    drivers/gpu/drm/i915/display/intel_panel.c
+> We however don't always have a need for a dmabuf, as not all buffers are
+> meant to be shared (and we often can't tell beforehand, at allocation
+> time, if a given buffer will be shared or not). While the overhead of
+> allocating a dmabuf should be file, assigning a file descriptor to each
+> buffer would be prohibitely expensive.
 > 
-> between commit:
+> We would need to decouple the dma heaps from file descriptors. I think
+> that's doable, but it changes the philosophy of dma heaps and needs
+> careful consideration. In particular, one may wonder what that would
+> bring us, compared to the DMA mapping API for instance.
+
+Oh I don't mean that we use the dma-buf heaps interfaces, but the backend.
+Underneath it's all a struct dma_buf, that's where I figured we should
+intercept the code sharing. Definitely not file descriptor handles.
+
+> > That would also give us some fairly direct way to expose
+> >   these constraints in sysfs so a userspace allocator knows which dma-buf
+> >   heap to pick for shared stuff.
 > 
->    f8bd54d21904 ("drm/i915: panel: Use atomic PWM API for devs with an external PWM controller")
+> sysfs won't work I'm afraid, as constraints may depend on the format for
+> instace. We need subsystem-specific APIs to expose constraints.
+
+Yeah sysfs would be the default, and maybe a list of useable heaps that
+the subsystem api then tells you which to use when.
+-Daniel
+
 > 
-> from Linus' tree and commit:
+> > - we require that any heap is just a different uapi for an existing driver
+> >   allocator, e.g. by having a dma-buf wrapper for all gem drivers.
+> > 
+> > Otherwise I think what we end up with is a pile of dma-buf heaps for
+> > android's blob gpu driver world, and not used anywhere else. Not something
+> > even remotely interesting for upstream :-)
+> > 
+> > tldr; I'd like to see how dma-buf heaps closely integrate with all the
+> > existing buffer management code we have. Both kernel (and throuhg some
+> > allocator library effort) in userspace.
+> > 
+> > > ---
+> > >  drivers/dma-buf/heaps/Kconfig       |   9 +
+> > >  drivers/dma-buf/heaps/Makefile      |   1 +
+> > >  drivers/dma-buf/heaps/device_heap.c | 268 ++++++++++++++++++++++++++++
+> > >  include/linux/device.h              |   5 +
+> > >  include/linux/dma-heap.h            |   6 +
+> > >  5 files changed, 289 insertions(+)
+> > >  create mode 100644 drivers/dma-buf/heaps/device_heap.c
+> > > 
+> > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> > > index a5eef06c4226..2bb3604184bd 100644
+> > > --- a/drivers/dma-buf/heaps/Kconfig
+> > > +++ b/drivers/dma-buf/heaps/Kconfig
+> > > @@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
+> > >  	  Choose this option to enable dma-buf CMA heap. This heap is backed
+> > >  	  by the Contiguous Memory Allocator (CMA). If your system has these
+> > >  	  regions, you should say Y here.
+> > > +
+> > > +config DMABUF_HEAPS_DEVICES
+> > > +	bool "DMA-BUF Device DMA Heap (Experimental)"
+> > > +	depends on DMABUF_HEAPS
+> > > +	help
+> > > +	  Choose this option to enable dma-buf per-device heap. This heap is backed
+> > > +	  by the DMA-API and it's an Experimental feature, meant mostly for testing
+> > > +	  and experimentation.
+> > > +	  Just say N here.
+> > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+> > > index 6e54cdec3da0..c691d85b3044 100644
+> > > --- a/drivers/dma-buf/heaps/Makefile
+> > > +++ b/drivers/dma-buf/heaps/Makefile
+> > > @@ -2,3 +2,4 @@
+> > >  obj-y					+= heap-helpers.o
+> > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+> > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+> > > +obj-$(CONFIG_DMABUF_HEAPS_DEVICES)	+= device_heap.o
+> > > diff --git a/drivers/dma-buf/heaps/device_heap.c b/drivers/dma-buf/heaps/device_heap.c
+> > > new file mode 100644
+> > > index 000000000000..1803dc622dd8
+> > > --- /dev/null
+> > > +++ b/drivers/dma-buf/heaps/device_heap.c
+> > > @@ -0,0 +1,268 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * DMABUF Device DMA heap exporter
+> > > + *
+> > > + * Copyright (C) 2020, Collabora Ltd.
+> > > + *
+> > > + * Based on:
+> > > + *   videobuf2-dma-contig.c - DMA contig memory allocator for videobuf2
+> > > + *   Copyright (C) 2010 Samsung Electronics
+> > > + */
+> > > +
+> > > +#include <linux/device.h>
+> > > +#include <linux/dma-buf.h>
+> > > +#include <linux/dma-heap.h>
+> > > +#include <linux/dma-mapping.h>
+> > > +#include <linux/scatterlist.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/module.h>
+> > > +
+> > > +struct dev_dmabuf_attachment {
+> > > +	struct sg_table sgt;
+> > > +	enum dma_data_direction dma_dir;
+> > > +};
+> > > +
+> > > +struct dev_dmabuf {
+> > > +	struct dma_heap *heap;
+> > > +	struct dma_buf *dmabuf;
+> > > +	struct device *dev;
+> > > +	size_t size;
+> > > +	void *vaddr;
+> > > +	dma_addr_t dma_addr;
+> > > +	unsigned long attrs;
+> > > +
+> > > +	struct sg_table sgt;
+> > > +};
+> > > +
+> > > +static struct sg_table *dev_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
+> > > +					   enum dma_data_direction dma_dir)
+> > > +{
+> > > +	struct dev_dmabuf_attachment *attach = db_attach->priv;
+> > > +	/* stealing dmabuf mutex to serialize map/unmap operations */
+> > > +	struct mutex *lock = &db_attach->dmabuf->lock;
+> > > +	struct sg_table *sgt;
+> > > +
+> > > +	mutex_lock(lock);
+> > > +
+> > > +	sgt = &attach->sgt;
+> > > +	/* return previously mapped sg table */
+> > > +	if (attach->dma_dir == dma_dir) {
+> > > +		mutex_unlock(lock);
+> > > +		return sgt;
+> > > +	}
+> > > +
+> > > +	/* release any previous cache */
+> > > +	if (attach->dma_dir != DMA_NONE) {
+> > > +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> > > +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > > +		attach->dma_dir = DMA_NONE;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * mapping to the client with new direction, no cache sync
+> > > +	 * required see comment in .dmabuf_ops_detach()
+> > > +	 */
+> > > +	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> > > +				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > > +	if (!sgt->nents) {
+> > > +		dev_err(db_attach->dev, "failed to map scatterlist\n");
+> > > +		mutex_unlock(lock);
+> > > +		return ERR_PTR(-EIO);
+> > > +	}
+> > > +
+> > > +	attach->dma_dir = dma_dir;
+> > > +
+> > > +	mutex_unlock(lock);
+> > > +
+> > > +	return sgt;
+> > > +}
+> > > +
+> > > +static void dev_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
+> > > +				 struct sg_table *sgt,
+> > > +				 enum dma_data_direction dma_dir)
+> > > +{
+> > > +	/* nothing to be done here */
+> > > +}
+> > > +
+> > > +static int dev_dmabuf_ops_attach(struct dma_buf *dmabuf,
+> > > +				 struct dma_buf_attachment *dbuf_attach)
+> > > +{
+> > > +	struct dev_dmabuf_attachment *attach;
+> > > +	unsigned int i;
+> > > +	struct scatterlist *rd, *wr;
+> > > +	struct sg_table *sgt;
+> > > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > > +	int ret;
+> > > +
+> > > +	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
+> > > +	if (!attach)
+> > > +		return -ENOMEM;
+> > > +	sgt = &attach->sgt;
+> > > +
+> > > +	/*
+> > > +	 * Copy the buf->sgt scatter list to the attachment, as we can't
+> > > +	 * map the same scatter list to multiple attachments at the same time.
+> > > +	 */
+> > > +	ret = sg_alloc_table(sgt, buf->sgt.orig_nents, GFP_KERNEL);
+> > > +	if (ret) {
+> > > +		kfree(attach);
+> > > +		return -ENOMEM;
+> > > +	}
+> > > +
+> > > +	rd = buf->sgt.sgl;
+> > > +	wr = sgt->sgl;
+> > > +	for (i = 0; i < sgt->orig_nents; ++i) {
+> > > +		sg_set_page(wr, sg_page(rd), rd->length, rd->offset);
+> > > +		rd = sg_next(rd);
+> > > +		wr = sg_next(wr);
+> > > +	}
+> > > +
+> > > +	attach->dma_dir = DMA_NONE;
+> > > +	dbuf_attach->priv = attach;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void dev_dmabuf_ops_detach(struct dma_buf *dmabuf,
+> > > +				  struct dma_buf_attachment *db_attach)
+> > > +{
+> > > +	struct dev_dmabuf_attachment *attach = db_attach->priv;
+> > > +	struct sg_table *sgt;
+> > > +
+> > > +	if (!attach)
+> > > +		return;
+> > > +	sgt = &attach->sgt;
+> > > +
+> > > +	/* release the scatterlist cache */
+> > > +	if (attach->dma_dir != DMA_NONE)
+> > > +		/*
+> > > +		 * Cache sync can be skipped here, as the memory is
+> > > +		 * allocated from device coherent memory, which means the
+> > > +		 * memory locations do not require any explicit cache
+> > > +		 * maintenance prior or after being used by the device.
+> > > +		 *
+> > > +		 * XXX: This needs a revisit.
+> > > +		 */
+> > > +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> > > +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > > +	sg_free_table(sgt);
+> > > +	kfree(attach);
+> > > +	db_attach->priv = NULL;
+> > > +}
+> > > +
+> > > +
+> > > +static void *dev_dmabuf_ops_vmap(struct dma_buf *dmabuf)
+> > > +{
+> > > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > > +
+> > > +	return buf->vaddr;
+> > > +}
+> > > +
+> > > +static void dev_dmabuf_ops_release(struct dma_buf *dmabuf)
+> > > +{
+> > > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > > +
+> > > +	sg_free_table(&buf->sgt);
+> > > +	dma_free_attrs(buf->dev, buf->size, buf->vaddr,
+> > > +		       buf->dma_addr, buf->attrs);
+> > > +	put_device(buf->dev);
+> > > +	kfree(buf);
+> > > +}
+> > > +
+> > > +static int dev_dmabuf_ops_mmap(struct dma_buf *dmabuf,
+> > > +			       struct vm_area_struct *vma)
+> > > +{
+> > > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > > +	int ret;
+> > > +
+> > > +	ret = dma_mmap_attrs(buf->dev, vma, buf->vaddr,
+> > > +			     buf->dma_addr, buf->size,
+> > > +			     buf->attrs);
+> > > +	if (ret) {
+> > > +		dev_err(buf->dev, "remapping memory failed, error: %d\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct dma_buf_ops dev_dmabuf_ops = {
+> > > +	.attach = dev_dmabuf_ops_attach,
+> > > +	.detach = dev_dmabuf_ops_detach,
+> > > +	.map_dma_buf = dev_dmabuf_ops_map,
+> > > +	.unmap_dma_buf = dev_dmabuf_ops_unmap,
+> > > +	.vmap = dev_dmabuf_ops_vmap,
+> > > +	.mmap = dev_dmabuf_ops_mmap,
+> > > +	.release = dev_dmabuf_ops_release,
+> > > +};
+> > > +
+> > > +static int dev_heap_allocate(struct dma_heap *heap,
+> > > +			unsigned long size,
+> > > +			unsigned long fd_flags,
+> > > +			unsigned long heap_flags)
+> > > +{
+> > > +	struct device *dev = dma_heap_get_drvdata(heap);
+> > > +	struct dev_dmabuf *buf;
+> > > +	struct dma_buf_export_info exp_info = {};
+> > > +	unsigned long attrs = 0;
+> > > +	int ret = -ENOMEM;
+> > > +
+> > > +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+> > > +	if (!buf)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	buf->vaddr = dma_alloc_attrs(dev, size, &buf->dma_addr,
+> > > +				     GFP_KERNEL, attrs);
+> > > +	/* Prevent the device from being released while the buffer is used */
+> > > +	buf->dev = get_device(dev);
+> > > +	buf->heap = heap;
+> > > +	buf->size = size;
+> > > +	buf->attrs = attrs;
+> > > +
+> > > +	/* XXX: This call is documented as unsafe. See dma_get_sgtable_attrs(). */
+> > > +	ret = dma_get_sgtable_attrs(buf->dev, &buf->sgt,
+> > > +				    buf->vaddr, buf->dma_addr,
+> > > +				    buf->size, buf->attrs);
+> > > +	if (ret < 0) {
+> > > +		dev_err(buf->dev, "failed to get scatterlist from DMA API\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	exp_info.exp_name = dev_name(dev);
+> > > +	exp_info.owner = THIS_MODULE;
+> > > +	exp_info.ops = &dev_dmabuf_ops;
+> > > +	exp_info.size = size;
+> > > +	exp_info.flags = fd_flags;
+> > > +	exp_info.priv = buf;
+> > > +
+> > > +	buf->dmabuf = dma_buf_export(&exp_info);
+> > > +	if (IS_ERR(buf->dmabuf)) {
+> > > +		dev_err(buf->dev, "failed to export dmabuf\n");
+> > > +		return PTR_ERR(buf->dmabuf);
+> > > +	}
+> > > +
+> > > +	ret = dma_buf_fd(buf->dmabuf, fd_flags);
+> > > +	if (ret < 0) {
+> > > +		dev_err(buf->dev, "failed to get dmabuf fd: %d\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static const struct dma_heap_ops dev_heap_ops = {
+> > > +	.allocate = dev_heap_allocate,
+> > > +};
+> > > +
+> > > +void dev_dma_heap_add(struct device *dev)
+> > > +{
+> > > +	struct dma_heap_export_info exp_info;
+> > > +
+> > > +	exp_info.name = dev_name(dev);
+> > > +	exp_info.ops = &dev_heap_ops;
+> > > +	exp_info.priv = dev;
+> > > +
+> > > +	dev->heap = dma_heap_add(&exp_info);
+> > > +}
+> > > +EXPORT_SYMBOL(dev_dma_heap_add);
+> > > diff --git a/include/linux/device.h b/include/linux/device.h
+> > > index ca18da4768e3..1fae95d55ea1 100644
+> > > --- a/include/linux/device.h
+> > > +++ b/include/linux/device.h
+> > > @@ -45,6 +45,7 @@ struct iommu_ops;
+> > >  struct iommu_group;
+> > >  struct dev_pin_info;
+> > >  struct dev_iommu;
+> > > +struct dma_heap;
+> > >  
+> > >  /**
+> > >   * struct subsys_interface - interfaces to device functions
+> > > @@ -597,6 +598,10 @@ struct device {
+> > >  	struct iommu_group	*iommu_group;
+> > >  	struct dev_iommu	*iommu;
+> > >  
+> > > +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
+> > > +	struct dma_heap		*heap;
+> > > +#endif
+> > > +
+> > >  	bool			offline_disabled:1;
+> > >  	bool			offline:1;
+> > >  	bool			of_node_reused:1;
+> > > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> > > index 454e354d1ffb..dcf7cca2f487 100644
+> > > --- a/include/linux/dma-heap.h
+> > > +++ b/include/linux/dma-heap.h
+> > > @@ -56,4 +56,10 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
+> > >   */
+> > >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+> > >  
+> > > +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
+> > > +void dev_dma_heap_add(struct device *dev);
+> > > +#else
+> > > +static inline void dev_dma_heap_add(struct device *dev) {}
+> > > +#endif
+> > > +
+> > >  #endif /* _DMA_HEAPS_H */
 > 
->    6b51e7d23aa8 ("drm/i915: panel: Honor the VBT PWM frequency for devs with an external PWM controller")
-
-That doesn't sound correct, those are both commits from the drm-intel tree.
-
-> from the drm-intel tree.
+> -- 
+> Regards,
 > 
-> I fixed it up (I just used the latter)
+> Laurent Pinchart
 
-Just taking the drivers/gpu/drm/i915/display/intel_panel.c contents of:
-
-f8bd54d21904 ("drm/i915: panel: Use atomic PWM API for devs with an external PWM controller")
-
-Is the right thing to do, the problem is a difference in a line which gets
-removed in that commit.
-
-Regards,
-
-Hans
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
