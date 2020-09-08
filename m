@@ -2,101 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113B42610DD
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 13:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194022610F8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 13:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F98C6E7FE;
-	Tue,  8 Sep 2020 11:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229E3883F4;
+	Tue,  8 Sep 2020 11:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A70216E7FE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:38:00 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113759euoutp0282e63258e6c418005dcc594f0f8d94c3~yy-cCbWWE0041600416euoutp02A
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 11:37:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200908113759euoutp0282e63258e6c418005dcc594f0f8d94c3~yy-cCbWWE0041600416euoutp02A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599565079;
- bh=0s4Ik3+RTnNQIV6PDJ+CNOxzRLFQDzKVLXECY7JWkyM=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=Ci26dG2obB34PGBbpcoK3/8aXkWZccE2Q/NYKd9rxM/dP88l4hcJtM2441U11gcG+
- T4Gn8XsB0ZutjBOOcG1QFvWK+iQ86H08q5XaGMNJQdoJaiaOSVq0ul5/+zr9qNmKC0
- zZkubkZUIZJ14tCxrhmI3RprBLZ1cFyyFXcVN/4Q=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113758eucas1p1f922c5bbb2463f540d70f4e219a8362c~yy-bULu0c1732217322eucas1p1K;
- Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id D5.6E.06456.61D675F5; Tue,  8
- Sep 2020 12:37:58 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113758eucas1p29aad7c57574221fd154e74662a3bc75d~yy-a6Ng_02679626796eucas1p23;
- Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113758eusmtrp11702a45991d6c386cce0918636f8b8e4~yy-a5eimt2072320723eusmtrp1K;
- Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-43-5f576d16396f
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 27.E1.06314.61D675F5; Tue,  8
- Sep 2020 12:37:58 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113757eusmtip2ecc970bf5132f075feb3c4300f5e357e~yy-aUvAui1663016630eusmtip2e;
- Tue,  8 Sep 2020 11:37:57 +0000 (GMT)
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH v1 0/2] video: fbdev: radeonfb: PCI PM framework upgrade
- and fix-ups.
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <9798158d-ef29-e5a4-c792-fd51ba64b91b@samsung.com>
-Date: Tue, 8 Sep 2020 13:37:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 802286E1BD;
+ Tue,  8 Sep 2020 11:50:51 +0000 (UTC)
+IronPort-SDR: o0c8Q4AtFHfm4XuTrtX2R90kK3whEeeDZdhp3H5/BCc4baHKAVCXZKv2l6ZNUCHxKiP0LYc+Y0
+ 5pk0IWLcnBSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9737"; a="242929237"
+X-IronPort-AV: E=Sophos;i="5.76,405,1592895600"; d="scan'208";a="242929237"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2020 04:50:51 -0700
+IronPort-SDR: AxB0uXb2O24A+ehSgbwFe1iGfNdgMwnlisc1mHL6uLkz8hEawq0LKhlHp8Zh4PXy7509cNCxjS
+ iuXjq3oDaeTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,405,1592895600"; d="scan'208";a="304064265"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 08 Sep 2020 04:50:48 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 08 Sep 2020 14:50:47 +0300
+Date: Tue, 8 Sep 2020 14:50:47 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915: Drop the
+ drm_atomic_helper_calc_timestamping_constants() call
+Message-ID: <20200908115047.GH6112@intel.com>
+References: <20200907120026.6360-1-ville.syrjala@linux.intel.com>
+ <20200907120026.6360-3-ville.syrjala@linux.intel.com>
+ <20200907181438.GC2352366@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20200907070221.29938-1-vaibhavgupta40@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zk7O44mn2ttL7MSRhRJWVLRqcTK+nGQqP6YXShbdZiiW7I5
- SxHUylK7YKlJa6aJmVo5MfFaBCvTsK20K2lO0pWZy7GKtEjzdJT893zP5X3fBz6akPeJ1XSc
- IYkzGrQJGkpKNjwedy5X6qNjVrY6NIz3RBbBlJ+IZTJdXYh5+WOUYoaf3qGYjgteMZM7MEQy
- L1qsFHO/qELMjLdcI5me3/5MU2+OiCm/NyreJGObLe8lbGmdmW2wvybZcyOnxGxddQ7FPii+
- LWFdZ9tF7O+xfMSeP/mVYr/VLdwp3SsNO8IlxCVzxhXhB6WxnoEPosSRwOMFdhuZgcoUuciP
- Brwa2u67UC6S0nJcieCn1UsJj+8IPr90TD++IfDmjUtmIv23aiSCcBNBz6lCES/IsQdBTU8A
- jym8Hi6eqZ6aS9Nz8T4o7FLztAIvg+42i4jPEriPgKL+ZwQvyHA4vOooo3hM4kUw9thK8nge
- 3g2+/odiwRMAT64MkvxMvym/79ICniawCt4NlogEHASNHivBzwecQ0NWhw0JR2+Fy1cd0wXm
- wnB7/TSeD53550ghUIPgT/bQdLoRwc38CUpwbYBe5y+K30zgpWBrWSHQm6HyyY1/JQH7w1tP
- gHCEP1xqKCIEWgbZp+WCezHUVtRSM2tzm6uIPKSxzGpmmVXHMquO5f/eUkRWIxVnNul1nCnU
- wB0LMWn1JrNBF3L4qL4OTf26zol2XxP60X3IjjCNNHNk3shdMXKxNtmUorcjoAmNQhbh6Dwg
- lx3RpqRyxqMxRnMCZ7KjQJrUqGSryj7vl2OdNomL57hEzjijimg/dQZaU79tY9BYnmvgj84d
- /FEd5yqJvtt3YOFklM2xhxt2BkWnOzIfnYyMf7NamZzlS6rIq5ImNp13y9MG20LtT8O/VJX0
- hj5PmySXdDW2Br/J7vbumCweK98y/1Mrjq9kAwqDwraoIppfX1+nWevcHpXq3r1HYX6gLIAR
- pTvsco4rXUOaYrWhwYTRpP0LxD5Yr3EDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsVy+t/xe7piueHxBjuOsVl8aGpltljSlGHR
- eP8io8WVr+/ZLF6dWctmcaLvA6tF1+MXLBaXd81hs9g7fRmrxc9d81gsbv/ms9hxp5PJYsme
- 96wOvB47Z91l91iwqdRj26FrLB49b1pYPTat6mTz2D93DbvH/e7jTB6/f0xm9Ohtfsfm8XmT
- XABXlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7G
- 28ePmAreSFdMObSepYFxkUgXIyeHhICJxIPV69i7GLk4hASWMkqsubqQtYuRAyghI3F8fRlE
- jbDEn2tdbBA1rxklGo5NZQRJsAlYSUxsX8UIUi8sEC0x9aIUSFhEQEfi0tFZTCD1zAIPmCUO
- vHjFDNE8kVFi34SNLCBVvAJ2EldPLGIDsVkEVCR+HJsDFhcViJA4vGMWI0SNoMTJmU9YQBZw
- AtV/miQLEmYWUJf4M+8SM4QtLnHryXwmCFteYvvbOcwTGIVmIemehaRlFpKWWUhaFjCyrGIU
- SS0tzk3PLTbUK07MLS7NS9dLzs/dxAiM7W3Hfm7ewXhpY/AhRgEORiUe3g9eYfFCrIllxZW5
- hxglOJiVRHidzp6OE+JNSaysSi3Kjy8qzUktPsRoCvTbRGYp0eR8YNrJK4k3NDU0t7A0NDc2
- NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAGDfn++vtAsv3ZUzZ3DNtjUqo0xeBBVWz
- lT1srvYnZ0TfmTrvxKqZBuHpDHrfzLKE9996d6puAqc0e+G/j7t+9Tm/0b3/0/j9tjMi5uLm
- U06/4f+pHxwx7X6nou0DPYYp/D8uLpLWu7yNU/J/29U5irO49suyL1/KHP/k57Elz9qznt9d
- Pf2B13olluKMREMt5qLiRAClTHXlAwMAAA==
-X-CMS-MailID: 20200908113758eucas1p29aad7c57574221fd154e74662a3bc75d
-X-Msg-Generator: CA
-X-RootMTR: 20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74
-References: <CGME20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74@eucas1p2.samsung.com>
- <20200907070221.29938-1-vaibhavgupta40@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200907181438.GC2352366@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,114 +55,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bjorn@helgaas.com>, Thierry Reding <thierry.reding@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Thierry Reding <treding@nvidia.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 07, 2020 at 08:14:38PM +0200, Daniel Vetter wrote:
+> On Mon, Sep 07, 2020 at 03:00:26PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > =
 
-On 9/7/20 9:02 AM, Vaibhav Gupta wrote:
-> Linux Kernel Mentee: Remove Legacy Power Management. 
-> 
-> The original goal of the patch series is to upgrade the power management
-> framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
-> and .resume() callbacks.
-> 
-> The upgrade makes sure that the involvement of PCI Core does not change the
-> order of operations executed in a driver. Thus, does not change its behavior.
-> 
-> During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
-> redundant. This was introduced in the commit
-> 42ddb453a0cd ("radeon: Conditionally compile PM code").
-> 
-> ------------
-> 
-> Before 42ddb453a0cd:
-> $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> 
-> Based on output in terminal:
-> 
-> 547:#ifdef CONFIG_PM
->        |-- 959:#ifdef CONFIG_PPC_PMAC
->        |-- 972:#endif
->        |-- 1291:#ifdef CONFIG_PPC_OF
->        |-- 1301:#endif /* CONFIG_PPC_OF */
->        |-- 1943:#ifdef CONFIG_PPC_OF
->                    |-- 2206:#if 0 /* Not ready yet */
->                    |-- 2508:#endif /* 0 */
->        |-- 2510:#endif /* CONFIG_PPC_OF */
->        |-- 2648:#ifdef CONFIG_PPC_PMAC
->        |-- 2654:#endif /* CONFIG_PPC_PMAC */
->        |-- 2768:#ifdef CONFIG_PPC_PMAC
->        |-- 2774:#endif /* CONFIG_PPC_PMAC */
->        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
->        |-- 2801:#endif /* CONFIG_PPC_OF */
-> 2803:#endif /* CONFIG_PM */
-> 
-> ------------
-> 
-> After 42ddb453a0cd:
-> $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> 
-> Based on output in terminal:
-> 
-> 547:#ifdef CONFIG_PM
->        |-- 959:#ifdef CONFIG_PPC_PMAC
->        |-- 972:#endif
->        |-- 1291:#ifdef CONFIG_PPC_OF
->        |-- 1301:#endif /* CONFIG_PPC_OF */
->        |-- 1430:#if defined(CONFIG_PM)
->                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
->                    |-- 1944:#endif
->                    |-- 1946:#ifdef CONFIG_PPC_OF
->                                |-- 1947:#ifdef CONFIG_PPC_PMAC
->                                |-- 2208:#endif
->                    |-- 2209:#endif
->                    |-- 2211:#if 0 /* Not ready yet */
->                    |-- 2513:#endif /* 0 */
->        |-- 2515:#endif /* CONFIG_PPC_OF */
->        |-- 2653:#ifdef CONFIG_PPC_PMAC
->        |-- 2659:#endif /* CONFIG_PPC_PMAC */
->        |-- 2773:#ifdef CONFIG_PPC_PMAC
->        |-- 2779:#endif /* CONFIG_PPC_PMAC */
->        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
->        |-- 2806:#endif /* CONFIG_PPC_OF */
-> 2808:#endif /* CONFIG_PM */
-> 
-> ------------
-> 
-> This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
-> 
-> The patch-series fixes it along with PM upgrade.
-> 
-> All patches are compile-tested only.
-> 
-> Test tools:
->     - Compiler: gcc (GCC) 10.1.0
->     - allmodconfig build: make -j$(nproc) W=1 all
-> 
-> Vaibhav Gupta (2):
->   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
->   fbdev: radeonfb:use generic power management
-> 
->  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
->  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
->  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
->  3 files changed, 35 insertions(+), 16 deletions(-)
+> > We update the timestamping constants per-crtc explicitly in
+> > intel_crtc_update_active_timings(). Furtermore the helper will
+> > use uapi.adjusted_mode whereas we want hw.adjusted_mode. Thus
+> > let's drop the helper call an rely on what we already have in
+> > intel_crtc_update_active_timings(). We can now also drop the
+> > hw.adjusted_mode -> uapi.adjusted_mode copy hack that was added
+> > to keep the helper from deriving the timestamping constants from
+> > the wrong thing.
+> > =
 
-Applied to drm-misc-next tree, thanks.
+> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> =
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+> Does this fix some CI fail? I'd kinda expect/hope for that ...
+
+Nah. Just trying to get rid of some of the confusing stuff before
+we add even more confusing stuff for bigjoiner.
+
+> =
+
+> Anyway looks like a good idea to not mess with the uapi state like this.
+> =
+
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> =
+
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_display.c | 7 -------
+> >  1 file changed, 7 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu=
+/drm/i915/display/intel_display.c
+> > index 035840ce3825..a846f414c759 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -13472,12 +13472,6 @@ intel_modeset_pipe_config(struct intel_crtc_st=
+ate *pipe_config)
+> >  		    "hw max bpp: %i, pipe bpp: %i, dithering: %i\n",
+> >  		    base_bpp, pipe_config->pipe_bpp, pipe_config->dither);
+> >  =
+
+> > -	/*
+> > -	 * Make drm_calc_timestamping_constants in
+> > -	 * drm_atomic_helper_update_legacy_modeset_state() happy
+> > -	 */
+> > -	pipe_config->uapi.adjusted_mode =3D pipe_config->hw.adjusted_mode;
+> > -
+> >  	return 0;
+> >  }
+> >  =
+
+> > @@ -15578,7 +15572,6 @@ static void intel_atomic_commit_tail(struct int=
+el_atomic_state *state)
+> >  =
+
+> >  	if (state->modeset) {
+> >  		drm_atomic_helper_update_legacy_modeset_state(dev, &state->base);
+> > -		drm_atomic_helper_calc_timestamping_constants(&state->base);
+> >  =
+
+> >  		intel_set_cdclk_pre_plane_update(state);
+> >  =
+
+> > -- =
+
+> > 2.26.2
+> > =
+
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
