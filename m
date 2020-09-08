@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F55261334
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 17:11:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A4F261359
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 17:19:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFFA26E03B;
-	Tue,  8 Sep 2020 15:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C8C6E85F;
+	Tue,  8 Sep 2020 15:19:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9D389F45
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 15:11:25 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BC423B;
- Tue,  8 Sep 2020 17:11:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599577883;
- bh=h9mUakxYmdFqKjR3d2mncvxhU+lwjQr60pkqM2gFibI=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=KY4ff04dUI1/a/22sWx/eaKjlTgAeMmU46HECBs9/Ko+/zAdYDc2yGS+VwEPugUuB
- boRoFcG0uUrlLjXGa53CibXvrcJwl4QGIbDST8fy0iMEpYjv9eP2dkVZ5IvwuAKJL/
- KvRDIIWi0e9VDzIkjLJeOtdgl/+/XwyJZbtj6n8o=
-Subject: Re: [PATCH v2 07/10] arm64: dts: renesas: r8a77961: Add DU device
- nodes
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Laurent
- <laurent.pinchart@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
- <87eendrtv1.wl-kuninori.morimoto.gx@renesas.com>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <2e44fb1d-9eaf-ce6a-04d0-8c64f8b9bb5d@ideasonboard.com>
-Date: Tue, 8 Sep 2020 16:11:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F87D6E867
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 15:18:59 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z1so19590240wrt.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 08:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3a/pKfNTcctsi5NMPeYXrn0Dqu/AbgV0+iD767DAkfk=;
+ b=NJ62SxAYUNxu4wcmx23rzjC0yurPxVJ86uAMywAwLtKYtunOkXMT5kgoHOR/25NA2R
+ vYdYurAJ1EX+InbHWiXPsmj6g8LHhZdY7XCo0ZHf00lyrl1axgUFNprhhjXOkQVwCp1f
+ zXXOL8kxE/98FJDIfQqSuGGU0QFzRNrogY7xjpAQ3fzwnjP11rJwvTEBeU6GtDCZ2Zf+
+ 6GuYjQlqpzeRgOGSZ0RTUuzPde+Dgpfon7qdQFhPz7KpzO5ayMlKTLNyK9JmLeCF0RmS
+ KrFS7MfiUwxJF0wm0vyb4kkKCVg0KEIPGStgaWElGD8vwcnf8tKdcBPFPNSg0DrTlyHR
+ bmKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3a/pKfNTcctsi5NMPeYXrn0Dqu/AbgV0+iD767DAkfk=;
+ b=rjCTRXFQ5xoNkuoBnuvjBskcb25BH3/1yxKek9S/vmiLeg8wB+z+ZbhOu2M63wJUoN
+ n+nrJPSl/30ogCGbrMA7rIHIETCuO5//K7HtAqJW76fCeY7Vret+iD1tkCufDzXBmC49
+ 2IKWuqfJBtixBxJXwcKl2XfwMBjdnRH5Ir59V38cUrDge/87MSGn4ESB/hiLnViaESDg
+ n3uiv3rfo1ZegIR79Wir8YPPGNTnQ+YcXdimiPzxAXmjB1nDiqRZHGvVngz3GomA4Ulf
+ VxAXVtc3NuyKp1MRWEQHpkNJsEVSKAqoj6eY8ZRKda7ok6P3uUyQiVi8f/XndI72aCqk
+ tA3w==
+X-Gm-Message-State: AOAM530EwwHFd9TRv53423jqbZ7oTdg3llqRNPeu9+F09zagbLAXL8w9
+ X2L1WZfcww2d/YRt7tt402dNyRavcCPAl4PW
+X-Google-Smtp-Source: ABdhPJxoedfun5a5jObY/rI/dRKE9z7QNbsGMa2l9zbVlFHBZ6rsBniEq+5NHWlHqnC9szuSHALYXg==
+X-Received: by 2002:a5d:684b:: with SMTP id o11mr137401wrw.101.1599578337783; 
+ Tue, 08 Sep 2020 08:18:57 -0700 (PDT)
+Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
+ by smtp.gmail.com with ESMTPSA id d25sm10004886wra.25.2020.09.08.08.18.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 08:18:57 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com
+Subject: [PATCH 0/5] drm/panfrost: add Amlogic integration quirks
+Date: Tue,  8 Sep 2020 17:18:48 +0200
+Message-Id: <20200908151853.4837-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <87eendrtv1.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,60 +66,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Linux-DT <devicetree@vger.kernel.org>,
- "\(Renesas\) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
- Magnus <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Morimoto-san,
+The T820, G31 & G52 GPUs integrated by Amlogic in the respective GXM, G12A/SM1 & G12B
+SoCs needs a quirk in the PWR registers at the GPU reset time.
 
-On 08/09/2020 01:35, Kuninori Morimoto wrote:
-> 
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> 
-> This patch adds DU device nodes for R-Car M3-W+ (r8a77961) SoC.
-> This patch was tested on R-Car M3-W+ Salvator-XS board.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+The coherency integration of the IOMMU in the Mali-G52 found in the Amlogic G12B SoCs
+is broken and leads to constant and random faults from the IOMMU.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+This serie adds the necessary quirks for the Amlogic integrated GPUs only.
 
+Neil Armstrong (5):
+  iommu/io-pgtable-arm: Add BROKEN_NS quirk to disable shareability on
+    ARM LPAE
+  drm/panfrost: add support specifying pgtbl quirks
+  drm/panfrost: add support for reset quirk
+  drm/panfrost: add amlogic reset quirk callback
+  drm/panfrost: add Amlogic GPU integration quirks
 
-> ---
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> index 423808b6cd58..c7fabd9e875b 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -2165,8 +2165,19 @@ port@2 {
->  		};
->  
->  		du: display@feb00000 {
-> +			compatible = "renesas,du-r8a77961";
->  			reg = <0 0xfeb00000 0 0x70000>;
-> -			/* placeholder */
-> +			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
-> +				 <&cpg CPG_MOD 722>;
-> +			clock-names = "du.0", "du.1", "du.2";
-> +			resets = <&cpg 724>, <&cpg 722>;
-> +			reset-names = "du.0", "du.2";
-> +
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
-> +			status = "disabled";
->  
->  			ports {
->  				#address-cells = <1>;
-> 
+ drivers/gpu/drm/panfrost/panfrost_device.h |  6 ++++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 18 ++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    | 17 +++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.h    |  2 ++
+ drivers/gpu/drm/panfrost/panfrost_mmu.c    |  1 +
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |  3 +++
+ drivers/iommu/io-pgtable-arm.c             |  7 ++++---
+ include/linux/io-pgtable.h                 |  4 ++++
+ 8 files changed, 55 insertions(+), 3 deletions(-)
+
+-- 
+2.22.0
 
 _______________________________________________
 dri-devel mailing list
