@@ -1,59 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1DA2627DE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3AE2627D7
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3F76E9DA;
-	Wed,  9 Sep 2020 07:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A03046E9D4;
+	Wed,  9 Sep 2020 07:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A87BD6E1BC
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 10:32:41 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id n13so15448017edo.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 03:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sior-be.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MmrpT2iDfcYtx9VDEEtRqqNAR2mycMe15/tVKCQ8MG8=;
- b=YprpFTHDhaFJkK9f7pzFydwp9te82djacbA8HsrEjou8mk/fBmT1bvs+JV2SJeabVS
- tJUfWRGJIb9jdBS1fdy8gYELiWbTNweOBSy0jE+Xwch3YplVvSsVrHAmW3t59+0uVLp8
- 7kIdyod3dn/JF1NTJAellP5qa7EpRyNbAll8NAI6vPYX7Da/yM7sNS+4kJT+jS1OWs7a
- c0tYZrgODcyLtPZeGFrlumXWiOazks2s8p7cEOfRdq1UXLlzrcX5fqapCxstZjK8LctE
- pMX7jwwl175NCouTZJ7U4ZGsCvHwEkv6rgZA33DY8vvrFAaV7rLkBH6Z+XXkxuENlnVj
- T8ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MmrpT2iDfcYtx9VDEEtRqqNAR2mycMe15/tVKCQ8MG8=;
- b=P1g75CeczgWuKgW0ilBPGoBVn5ldlCJv/h6t4TQ49iS6BIP9tEd6ZGdqoHyKtB+MDN
- O9GFnxBRNfd73Iv96eIySGNbOp8GWscDlhGL1uQFPQHDIJoh6SGgIOsdUZr/IO/F75P8
- qW5PGBHiT8p4RBnBBEd3DXMtZF61cKskBEaYG7gptbVhNK1Wv0XG1S7q2z7cEMTGH9g6
- sF2NRv86eXuNsXUi2d5RTLXZ8RMCnm0nQULlEWMcpfJ+iCa3jkD5emvOUDonachTV3Wc
- yeRh/9CvjWkGVOmGstPaYBULVwnAh3lXhfi0gx3lcr3zf1AOLBU2+8/GtqfIULhebtnH
- 8eiA==
-X-Gm-Message-State: AOAM532JAR5u4/XOBoLNTP2ixT2eo9ghnZ0jj6NFXTQlLEt55mDGtT11
- eu/7XksnGLUIEr+Xie/ofEZ9Aw==
-X-Google-Smtp-Source: ABdhPJy1342pFfoFTIRUwWKdwb/ygHnwZo9GAVPV1Q2EnNid3WdNBcuTVxSomezSuPgbneDfModeZQ==
-X-Received: by 2002:a50:aa94:: with SMTP id q20mr25548359edc.119.1599561160112; 
- Tue, 08 Sep 2020 03:32:40 -0700 (PDT)
-Received: from aws.localdomain ([94.107.139.190])
- by smtp.gmail.com with ESMTPSA id j10sm17302091ejf.116.2020.09.08.03.32.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 03:32:39 -0700 (PDT)
-From: Alejandro Sior <aho@sior.be>
-To: 
-Subject: [PATCH] Fixed NULL pointer dereference in handle_edid functions for
- GPUs that do not support EDID
-Date: Tue,  8 Sep 2020 12:32:25 +0200
-Message-Id: <20200908103226.27616-1-aho@sior.be>
-X-Mailer: git-send-email 2.28.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 085EB6E19C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 10:42:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE88931B;
+ Tue,  8 Sep 2020 03:42:32 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
+ [10.1.196.255])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AEF13F66E;
+ Tue,  8 Sep 2020 03:42:28 -0700 (PDT)
+Date: Tue, 8 Sep 2020 11:42:26 +0100
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
+Message-ID: <20200908104226.GB22909@e121166-lin.cambridge.arm.com>
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+ <b19bc982-a0c4-c6ff-d8f5-650f2b3a83c8@gmail.com>
+ <20200827063517.GA4637@lst.de>
+ <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
+ <20200907091649.GA6428@e121166-lin.cambridge.arm.com>
+ <CA+-6iNzoz3pM2pJksXogeuou6wB9W-59rN-amCLERFLuY5zLMg@mail.gmail.com>
+ <00e49acb-c659-de10-3e87-76bfd82e4a76@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <00e49acb-c659-de10-3e87-76bfd82e4a76@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,63 +48,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Alejandro Sior <aho@sior.be>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Cc: "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Christoph Hellwig <hch@lst.de>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the function intel_vgpu_reg_rw_edid of gvt/kvmgt.c, pos can get equal to NULL for GPUs that do not
-properly support EDID. In those cases, when pos gets passed to the handle_edid functions, it
-gets added a short offset then it's dereferenced in memcpy's, leading to a kernel
-oops: null pointer dereference.
+On Mon, Sep 07, 2020 at 11:29:06AM -0700, Florian Fainelli wrote:
+> 
+> 
+> On 9/7/2020 10:43 AM, Jim Quinlan wrote:
+> > On Mon, Sep 7, 2020 at 5:16 AM Lorenzo Pieralisi
+> > <lorenzo.pieralisi@arm.com> wrote:
+> > > 
+> > > On Thu, Aug 27, 2020 at 09:29:59AM -0400, Jim Quinlan wrote:
+> > > > On Thu, Aug 27, 2020 at 2:35 AM Christoph Hellwig <hch@lst.de> wrote:
+> > > > > 
+> > > > > On Tue, Aug 25, 2020 at 10:40:27AM -0700, Florian Fainelli wrote:
+> > > > > > Hi,
+> > > > > > 
+> > > > > > On 8/24/2020 12:30 PM, Jim Quinlan wrote:
+> > > > > > > 
+> > > > > > > Patchset Summary:
+> > > > > > >     Enhance a PCIe host controller driver.  Because of its unusual design
+> > > > > > >     we are foced to change dev->dma_pfn_offset into a more general role
+> > > > > > >     allowing multiple offsets.  See the 'v1' notes below for more info.
+> > > > > > 
+> > > > > > We are version 11 and counting, and it is not clear to me whether there is
+> > > > > > any chance of getting these patches reviewed and hopefully merged for the
+> > > > > > 5.10 merge window.
+> > > > > > 
+> > > > > > There are a lot of different files being touched, so what would be the
+> > > > > > ideal way of routing those changes towards inclusion?
+> > > > > 
+> > > > > FYI, I offered to take the dma-mapping bits through the dma-mapping tree.
+> > > > > I have a bit of a backlog, but plan to review and if Jim is ok with that
+> > > > > apply the current version.
+> > > > Sounds good to me.
+> > > 
+> > > Hi Jim,
+> > > 
+> > > is the dependency now solved ? Should we review/take this series as
+> > > is for v5.10 through the PCI tree ?
+> > Hello Lorenzo,
+> > 
+> > We are still working out a regression with the DMA offset commit on
+> > the RaspberryPi.  Nicolas has found the root cause and we are now
+> > devising a solution.
+> 
+> Maybe we can parallelize the PCIe driver review while the DMA changes
+> are being worked on in Christoph's branch. Lorenzo, are you fine with
+> the PCIe changes proper?
 
-More concretely, that kernel oops renders Broadwell GPUs users
-completely unable to set up virtual machines with virtual GPU passthrough (virtual machines
-hang indefinitely when trying to make use of the virtual GPU), and make
-them have huge problems when trying to remove the virtual GPUs once the
-kernel oops has happened (writing 1 in the vGPU remove file just makes
-the operation hang undefinitely, again, and the kernel is unable to shutdown
-since the vGPU removing hangs indefinitely). More information on the
-issues that this causes are described in details in this github issue post: https://github.com/intel/gvt-linux/issues/170#issuecomment-685806160
+I will have a look - the main contentious point was about the DMA
+changes - if Christoph is happy with them I am OK with them
+too - I hope there is not anything controversial in the host
+bridge driver itself but I will look into it.
 
-This patch solves this problem by checking is pos is equal to NULL, and
-if it is, it sets ret to a nagative value, making the module simply indicate that the access to EDID region has failed, without any fatal repercussion.
-
-When this patch is applied, Broadwell GPU users do not suffer from that
-kernel oops anymore, and thus do not encounter any of
-the described problems and get able to set up virtual machines
-with GPU passthrough without problems.
-Users of GPUs with proper EDID support, are of course, still able to
-benefit from the EDID features.
-
-Signed-off-by: Alejandro W. Sior <aho@sior.be>
-
----
- drivers/gpu/drm/i915/gvt/kvmgt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index ad8a9df49f29..49163363ba4a 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -557,7 +557,9 @@ static size_t intel_vgpu_reg_rw_edid(struct intel_vgpu *vgpu, char *buf,
- 		(struct vfio_edid_region *)kvmgt_vdev(vgpu)->region[i].data;
- 	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
- 
--	if (pos < region->vfio_edid_regs.edid_offset) {
-+	if (pos == NULL) {
-+		ret = -EINVAL;
-+	} else if (pos < region->vfio_edid_regs.edid_offset) {
- 		ret = handle_edid_regs(vgpu, region, buf, count, pos, iswrite);
- 	} else {
- 		pos -= EDID_BLOB_OFFSET;
--- 
-2.28.0
-
+Lorenzo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
