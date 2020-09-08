@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293322627D3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7062627D0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63B26E9D0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7816E9CD;
 	Wed,  9 Sep 2020 07:04:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA7C6E0BA
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 23:36:57 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id c2so1067231ljj.12
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 16:36:57 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC27D6E157
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 23:45:48 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id m5so593794lfp.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 16:45:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rDZ8rOIcndqB1/SMUGVo/U3Os5v12RouimNmvPxV4Xw=;
- b=GKvVdr62U4pfIktgOyS+3+xkZ2rmdRFti+rnRYXA4C9+tXCOZ72hAA236ivvM5ej9k
- 1yqgsSCodSkObycuxmdYdarWJsx9+hBgI69RX3gg09xR/aiIGAVy5qyiNR7sECHzGYTX
- msPbD/QedNeYkEdJEloVUjjmMXBNPIFoTaTl4YJ2nl441K2Gm6xPE2Qnulu4+++G5y+B
- oLHBXM8k/jy1TNabj1kJHAEQtSbh1z5iiKVbSGP9RnNwS3UJ3vdO0pSLv+Qyi03fqIyu
- 7B4WKj0A0HSicLnDNSqOTlYXVd1AdumqLoJ02fpU/aTiiMQNwmwiv7s7HUhg8OMDt8+p
- H/nw==
+ bh=nqlCz46v8uEccjihDR7hwRP+AvQ7XUetwVJ3dIAkBHs=;
+ b=WEavzin2dbCwe3OR8nfls/ct+e+8t4vqn5qaOhGa+SaF7IhZTJZE0yw3KdwivEcs+D
+ URkeQzxSD21GUX6RexWB4Jzh9cM7fjE7VBTZ5rMTYwz6rvH2qTZwvyjOubiORS+tWj6P
+ 3FRPiHJmAjWgB2LqUAdFJAaAyA4y+iKf+aQL6YF8TpOtLo2gCLirtMykVyJUlD+tyouJ
+ kJLcT0lVs+BDjRaSUCF5GbQ3BJfovnBcVrv2w1DyuqUFxFdbydN6NR+hv7PP6tz9pbba
+ pHKoRYlC6ekkDfpQdf9GwzOHM4dau6ziHaWAc4XcQ9mVnIN8HvxcDvk7SLQ2TMH6vHTB
+ ef7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rDZ8rOIcndqB1/SMUGVo/U3Os5v12RouimNmvPxV4Xw=;
- b=ozMSMuSwalKcMB1rwZASXV4Oxm99/uLZvwfimmCDx2OQXQI93Iy3KH9oYS7JgJTd8s
- ggbvA07EekzXJ2jDNCWAOUQxRR6YxcUP+YAeTNgEc7XauD48KMQwGQ/GPancLBve1bzO
- bfGMfzhH64VRqFeP2xLYwUjz/lyh+Y6qLb/7s2gGM8pCCOmLL6HXRd8Odfc6EwKi2rpq
- u1wQ+HhnxPV26pIp60VsB7eesUS94Rx0sFUH/GLcY9pWuRMFlsJUbHZESAPimXW6LoY4
- phc2mWjpGwBBLn0MyxsIJgcNjrRl4N5vfgM+mYwfz3xX2ow3yApxDlNrepGUZtRyeEPK
- ptUA==
-X-Gm-Message-State: AOAM531fBHaTLavdRLsPGs8DrnbVlgQnX6SW7ohBDEQt5YFa2JRtC3jQ
- KgYOiaDwmcfoJlvB8gfa1RQ=
-X-Google-Smtp-Source: ABdhPJwwyI61fyaloH7zxC+FXApjvP+fbC6sWP8BaXoWryLhofJpYHodyvO+esrugOwEnSpa2zFBcw==
-X-Received: by 2002:a2e:3506:: with SMTP id z6mr434251ljz.418.1599608216322;
- Tue, 08 Sep 2020 16:36:56 -0700 (PDT)
+ bh=nqlCz46v8uEccjihDR7hwRP+AvQ7XUetwVJ3dIAkBHs=;
+ b=pqNn4R+9TGR+FBSlacBtGRaOTyRRE4Jiqe74YrM0DCpbtlh6N09HIUykuL0sIyd3Ip
+ N8FoXC2JzI3OwjiHD7V0VZMiVoEicP7trzO4V63KnxAwarsMvXK269BpP4Azxmxb7IZV
+ skMIxf2lD1DRwOH3y/kyC4MKHlsbp8aMjShr92o0kBhXoPueTl+EuFJAiK+pVmHKdt1F
+ kZXVWPpCdnKU7i69i8gk2UKlumLxYy+XtRounfU8MGxHDQKC3Z3X1LoATaA3Pv3DxF5k
+ hVjLVlvKwEgxWbKvMGYSFKI3Xad6WIilwco/XIEFIU8dXMaGTMuYgqdeuDE1irIIP/qd
+ Dkmw==
+X-Gm-Message-State: AOAM532SDiaMcUuMUwaV/NYOMeaxKFdntUbg4Yx30hAjWLgqCnC6ghhk
+ 3ZEQmonpydGx2h1+6vN+cEE=
+X-Google-Smtp-Source: ABdhPJxo2Ga1dKmNB9jgq0d28QRcFB87v0Oc/CYACd2OyEX1sAaMhbJT2su4e8iz4Dwz4Kijd0DK/w==
+X-Received: by 2002:ac2:4891:: with SMTP id x17mr637981lfc.28.1599608747417;
+ Tue, 08 Sep 2020 16:45:47 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
  [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id t4sm276971ljh.122.2020.09.08.16.36.55
+ by smtp.googlemail.com with ESMTPSA id q17sm200279lfd.37.2020.09.08.16.45.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 16:36:55 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 00/17] Host1x/TegraDRM UAPI
+ Tue, 08 Sep 2020 16:45:46 -0700 (PDT)
+Subject: Re: DRM_TEGRA_SUBMIT_BUF_WRITE_RELOC
 To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
  jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
 References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <20200905103420.3021852-15-mperttunen@nvidia.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <241b35d2-7033-7744-18bf-7065016ae1f8@gmail.com>
-Date: Wed, 9 Sep 2020 02:36:54 +0300
+Message-ID: <54aff7f1-86b2-6bd7-1e47-2078edcf94b3@gmail.com>
+Date: Wed, 9 Sep 2020 02:45:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200905103420.3021852-1-mperttunen@nvidia.com>
+In-Reply-To: <20200905103420.3021852-15-mperttunen@nvidia.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,13 +80,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDUuMDkuMjAyMCAxMzozNCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gSGkgYWxsLAo+
-IAo+IGhlcmUncyBhIHNlY29uZCByZXZpc2lvbiBvZiB0aGUgSG9zdDF4L1RlZ3JhRFJNIFVBUEkg
-cHJvcG9zYWwsCj4gaG9wZWZ1bGx5IHdpdGggbW9zdCBpc3N1ZXMgZnJvbSB2MSByZXNvbHZlZCwg
-YW5kIGFsc28gd2l0aAo+IGFuIGltcGxlbWVudGF0aW9uLiBUaGVyZSBhcmUgc3RpbGwgb3BlbiBp
-c3N1ZXMgd2l0aCB0aGUKPiBpbXBsZW1lbnRhdGlvbjoKQ291bGQgeW91IHBsZWFzZSBjbGFyaWZ5
-IHRoZSBjdXJyZW50IHN0YXR1cyBvZiB0aGUgRE1BIGhlYXBzLiBBcmUgd2UKc3RpbGwgZ29pbmcg
-dG8gdXNlIERNQSBoZWFwcz8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+MDUuMDkuMjAyMCAxMzozNCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Ci4uLgo+ICsvKiBT
+dWJtaXNzaW9uICovCj4gKwo+ICsvKiogUGF0Y2ggYWRkcmVzcyBvZiB0aGUgc3BlY2lmaWVkIG1h
+cHBpbmcgaW4gdGhlIHN1Ym1pdHRlZCBnYXRoZXIuICovCj4gKyNkZWZpbmUgRFJNX1RFR1JBX1NV
+Qk1JVF9CVUZfV1JJVEVfUkVMT0MJCSgxPDwwKQoKU2hvdWxkbid0IHRoZSBrZXJuZWwgZHJpdmVy
+IGJlIGF3YXJlIGFib3V0IHdoYXQgcmVsb2NhdGlvbnMgbmVlZCB0byBiZQpwYXRjaGVkPyBDb3Vs
+ZCB5b3UgcGxlYXNlIGV4cGxhaW4gdGhlIHB1cnBvc2Ugb2YgdGhpcyBmbGFnPwpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
