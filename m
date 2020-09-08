@@ -2,31 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4C42627F0
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C422627E0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B736E9E6;
-	Wed,  9 Sep 2020 07:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA686E9E3;
+	Wed,  9 Sep 2020 07:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE2CA6E878
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 16:09:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D8E6E87D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 16:11:40 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 29CF9ADDB;
- Tue,  8 Sep 2020 16:09:48 +0000 (UTC)
-Message-ID: <f3d9a4a95e419b2cd67469b4adba4cfe4da71f7a.camel@suse.de>
-Subject: Re: [PATCH v2 1/4] clk: bcm: rpi: Add register to control pixel bvb
- clk
+ by mx2.suse.de (Postfix) with ESMTP id 892F8B74F;
+ Tue,  8 Sep 2020 16:11:39 +0000 (UTC)
+Message-ID: <7367c17489ef7d5bc24c0452c9887663f938344b.camel@suse.de>
+Subject: Re: [PATCH v2 0/4] drm/vc4: Support HDMI QHD or higher output
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: Hoegeun Kwon <hoegeun.kwon@samsung.com>, eric@anholt.net,
  maxime@cerno.tech,  stefan.wahren@i2se.com, dave.stevenson@raspberrypi.com
-Date: Tue, 08 Sep 2020 18:09:44 +0200
-In-Reply-To: <20200901040759.29992-2-hoegeun.kwon@samsung.com>
-References: <20200901040759.29992-1-hoegeun.kwon@samsung.com>
- <CGME20200901040851epcas1p28f443c0e819bea756ebf9296491b32da@epcas1p2.samsung.com>
- <20200901040759.29992-2-hoegeun.kwon@samsung.com>
+Date: Tue, 08 Sep 2020 18:11:36 +0200
+In-Reply-To: <20200901040759.29992-1-hoegeun.kwon@samsung.com>
+References: <CGME20200901040850epcas1p2150ea195dfb20b46d6421af63b1f5129@epcas1p2.samsung.com>
+ <20200901040759.29992-1-hoegeun.kwon@samsung.com>
 User-Agent: Evolution 3.36.5 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
@@ -47,72 +45,77 @@ Cc: devicetree@vger.kernel.org, tim.gover@raspberrypi.com, kdasu.kdev@gmail.com,
  dri-devel@lists.freedesktop.org, phil@raspberrypi.com, robh+dt@kernel.org,
  bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
  linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============2143731548=="
+Content-Type: multipart/mixed; boundary="===============1178813601=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2143731548==
+--===============1178813601==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-bRnBewXchSGzBuzQX1iH"
+	protocol="application/pgp-signature"; boundary="=-KMxdxbhMfC1Bf45kOePp"
 
 
---=-bRnBewXchSGzBuzQX1iH
+--=-KMxdxbhMfC1Bf45kOePp
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, 2020-09-01 at 13:07 +0900, Hoegeun Kwon wrote:
-> To use QHD or higher, we need to modify the pixel_bvb_clk value. So
-> add register to control this clock.
+> Hi everyone,
 >=20
-> Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> ---
->  drivers/clk/bcm/clk-raspberrypi.c | 1 +
->  1 file changed, 1 insertion(+)
+> There is a problem that the output does not work at a resolution
+> exceeding FHD. To solve this, we need to adjust the bvb clock at a
+> resolution exceeding FHD.
 >=20
-> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-rasp=
-berrypi.c
-> index 5cc82954e1ce..f89b9cfc4309 100644
-> --- a/drivers/clk/bcm/clk-raspberrypi.c
-> +++ b/drivers/clk/bcm/clk-raspberrypi.c
-> @@ -271,6 +271,7 @@ static int raspberrypi_discover_clocks(struct raspber=
-rypi_clk *rpi,
->  		case RPI_FIRMWARE_CORE_CLK_ID:
->  		case RPI_FIRMWARE_M2MC_CLK_ID:
->  		case RPI_FIRMWARE_V3D_CLK_ID:
-> +		case RPI_FIRMWARE_PIXEL_BVB_CLK_ID:
->  			hw =3D raspberrypi_clk_register(rpi, clks->parent,
->  						      clks->id);
->  			if (IS_ERR(hw))
+> Rebased on top of next-20200708 and [1].
+>=20
+> [1] : [PATCH v4 00/78] drm/vc4: Support BCM2711 Display Pipeline (Maxime'=
+s patchset)
+>=20
+> Changes from v1:
+>   - Added dt-bindings documents
+>   - Change patch order, first fix driver and then device tree
+>=20
+> Hoegeun Kwon (4):
+>   clk: bcm: rpi: Add register to control pixel bvb clk
+>   drm/vc4: hdmi: Add pixel bvb clock control
+>   dt-bindings: display: vc4: hdmi: Add bvb clock-names property
+>   ARM: dts: bcm2711: Add bvb clock for hdmi-pixel
+>=20
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml   | 12 ++++++---
+>  arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  6 +++--
+>  drivers/clk/bcm/clk-raspberrypi.c             |  1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                | 25 +++++++++++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.h                |  1 +
+>  5 files changed, 39 insertions(+), 6 deletions(-)
 
-Acked-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Tested-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Small note to anyone reviewing this, patches 3 & 4 where squashed into this
+series: https://lkml.org/lkml/2020/9/3/219
 
 Regards,
 Nicolas
 
 
---=-bRnBewXchSGzBuzQX1iH
+--=-KMxdxbhMfC1Bf45kOePp
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl9XrMgACgkQlfZmHno8
-x/5Piwf8CYoN2PUqTObU8bIxbxLs0x5KdJ0l4F+I0cw3UhAtM8A0+OSU2hOZLEHH
-xgw/OG9Ejn4mG6V32drl5FuTcGuXO1q0z+dJn7B33mtBHFUy2XX9Qk1RdsBcjt38
-wdTxlupb/ggrkqeTEH7wOjVteRHGa/mSsKnGnLUJhNPQd3L5EMRKdQ+wUJnbE0E2
-5nDJ8W0+oIgbDoP5KVhduAV17jWQ9OoAZEffeX9KQ6z+HOs5/rKQRrKw+38Tv2DO
-JuWd8XPDem3+KJ89G8ohVWn6ugsoLX77V+6U5cp8Tp/5WtLBqa7p7Y852GB1jn+T
-IIUkypxQvzYaa6gNlQguSSORoALCxw==
-=VNO1
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl9XrTgACgkQlfZmHno8
+x/4bVwf+N7uuI1uhrijPKBHw/kVDjkfpbhhO78uXdO7AwTDOGvasQGmyTwz6rZLo
+nWSHBPD+B8UnmdaSPbBqKpt2b1hDcxCYAh6jdWvd2hwUiX4zzu0dQFrzg+JqVL6n
+7YsL6yIteSo5kBxBnWNZ6XZBCjIsgbXSplVQY2EAEqOhyhD47c1jr9wkam899PE3
+L3s0Qlox7zAGWI9IE9OJoS+pATo2+wyMrUjx8nlSs7ygUP1WCUOnVII6dCJusTXP
+iD5J/IoO/c9VQHa68m9VQUorEW3KG4P0v4I5gCB8dRtSiPXN30bpZZqysWBb1aiv
+uJ0vrxKphu9teKjIoBXxEHl4vBfy0g==
+=2yE8
 -----END PGP SIGNATURE-----
 
---=-bRnBewXchSGzBuzQX1iH--
+--=-KMxdxbhMfC1Bf45kOePp--
 
 
---===============2143731548==
+--===============1178813601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -123,5 +126,5 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2143731548==--
+--===============1178813601==--
 
