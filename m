@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11296260A87
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 08:03:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA2B260A8C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Sep 2020 08:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 350206E595;
-	Tue,  8 Sep 2020 06:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BAF96E598;
+	Tue,  8 Sep 2020 06:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 869986E595
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 06:03:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9BB6E598
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Sep 2020 06:04:23 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDD3E35;
- Tue,  8 Sep 2020 08:03:20 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9F5E35;
+ Tue,  8 Sep 2020 08:04:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1599545001;
- bh=xXpRO665MiNTYqVjhDpDFFsQ4yl5B22DqI7a60PCOPM=;
+ s=mail; t=1599545061;
+ bh=ca7O6RFFRSVQZqqqL9m9ZU0O5qL+e0TLreO9J8eIsQ0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GsAGNYPGAtWnMo7G8xHxrEuUe+4w7FL8wU/ELnEX6sawXgLk1lp3/MN4/L4vT2N9s
- 3s4laE2RQdHbb0YtTmeNJqE0CXN5vzKsp4gguF+S0t3LJXTwW8/fHiOlg3Orw4fPDJ
- zD7rASZatCmHdl3XEmb3fMbPTLqBvr8aDr/GmN6Y=
-Date: Tue, 8 Sep 2020 09:02:56 +0300
+ b=ugtEGusrDDt1uwGWsO3xbJwMaj9Q5XSrz3taDRhJlivsqszwzK0zh4X7XB8R7redg
+ qd+vYleIfP0NRZjVbK4yCFzwejIcGbLQiaQSfHvy9AClB8KuB/EkNPiqGt/NJjtS2w
+ zATIxjw8cWBZlWtWJJbyJen332/mcBkJWbAoq6Ds=
+Date: Tue, 8 Sep 2020 09:03:57 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 07/10] arm64: dts: renesas: r8a77961: Add DU device
+Subject: Re: [PATCH v2 08/10] arm64: dts: renesas: r8a77961: Add HDMI device
  nodes
-Message-ID: <20200908060256.GR6047@pendragon.ideasonboard.com>
+Message-ID: <20200908060357.GS6047@pendragon.ideasonboard.com>
 References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
- <87eendrtv1.wl-kuninori.morimoto.gx@renesas.com>
+ <87d02xrtux.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87eendrtv1.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87d02xrtux.wl-kuninori.morimoto.gx@renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,11 +63,11 @@ Hi Morimoto-san,
 
 Thank you for the patch.
 
-On Tue, Sep 08, 2020 at 09:35:10AM +0900, Kuninori Morimoto wrote:
+On Tue, Sep 08, 2020 at 09:35:15AM +0900, Kuninori Morimoto wrote:
 > 
 > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > 
-> This patch adds DU device nodes for R-Car M3-W+ (r8a77961) SoC.
+> This patch adds HDMI device nodes for R-Car M3-W+ (r8a77961) SoC.
 > This patch was tested on R-Car M3-W+ Salvator-XS board.
 > 
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
@@ -75,34 +75,46 @@ On Tue, Sep 08, 2020 at 09:35:10AM +0900, Kuninori Morimoto wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
 > diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> index 423808b6cd58..c7fabd9e875b 100644
+> index c7fabd9e875b..7f21491f6436 100644
 > --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -2165,8 +2165,19 @@ port@2 {
+> @@ -2145,14 +2145,23 @@ port@1 {
 >  		};
 >  
->  		du: display@feb00000 {
-> +			compatible = "renesas,du-r8a77961";
->  			reg = <0 0xfeb00000 0 0x70000>;
+>  		hdmi0: hdmi@fead0000 {
+> +			compatible = "renesas,r8a77961-hdmi", "renesas,rcar-gen3-hdmi";
+>  			reg = <0 0xfead0000 0 0x10000>;
 > -			/* placeholder */
-> +			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
-> +				 <&cpg CPG_MOD 722>;
-> +			clock-names = "du.0", "du.1", "du.2";
-> +			resets = <&cpg 724>, <&cpg 722>;
-> +			reset-names = "du.0", "du.2";
-> +
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+> +			interrupts = <GIC_SPI 389 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&cpg CPG_MOD 729>, <&cpg CPG_CORE R8A77961_CLK_HDMI>;
+> +			clock-names = "iahb", "isfr";
+> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+> +			resets = <&cpg 729>;
 > +			status = "disabled";
 >  
 >  			ports {
 >  				#address-cells = <1>;
+>  				#size-cells = <0>;
+>  				port@0 {
+>  					reg = <0>;
+> +					dw_hdmi0_in: endpoint {
+> +						remote-endpoint = <&du_out_hdmi0>;
+> +					};
+>  				};
+>  				port@1 {
+>  					reg = <1>;
+> @@ -2191,6 +2200,7 @@ du_out_rgb: endpoint {
+>  				port@1 {
+>  					reg = <1>;
+>  					du_out_hdmi0: endpoint {
+> +						remote-endpoint = <&dw_hdmi0_in>;
+>  					};
+>  				};
+>  				port@2 {
 
 -- 
 Regards,
