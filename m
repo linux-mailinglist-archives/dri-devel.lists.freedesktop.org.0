@@ -2,41 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D716263E9F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8821263E99
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D9166E26C;
-	Thu, 10 Sep 2020 07:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD286E23D;
+	Thu, 10 Sep 2020 07:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net
- [IPv6:2001:a60:0:28:0:1:25:1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE806ECA2
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 18:58:19 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4BmrrQ1Khcz1rsMj;
- Wed,  9 Sep 2020 20:58:14 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4BmrrQ0BX8z1qtYL;
- Wed,  9 Sep 2020 20:58:14 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id 2F7AGEfP-Mrw; Wed,  9 Sep 2020 20:58:12 +0200 (CEST)
-X-Auth-Info: ZLqCzL4pY/kwc/bMcrfLGQI2HYQx6LTyAfMIIaz251Y=
-Received: from desktop.lan (ip-89-176-112-137.net.upcbroadband.cz
- [89.176.112.137])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Wed,  9 Sep 2020 20:58:12 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] [RFC] drm/stm: Prefer faster display pixel clock over slower
- ones
-Date: Wed,  9 Sep 2020 20:58:02 +0200
-Message-Id: <20200909185802.106844-1-marex@denx.de>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF3B6ECAB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 19:02:20 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a9so3470713wmm.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 12:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C5BanKhi0v3vlOO/CZA+lZIZgxy5a1H/JGqfzet+ZBg=;
+ b=tUgY/1fYk5Kq+fvcwA0lHtkxZI0KcXPOUUiv4CLIsFYUhCg36sr+Nu8GRq1dChywgY
+ QBMR7qdX/I7qDOmqr8bCf4B9leYrX1WtA2xyeWik/zA4Us606HG9fnd6hfalnKmI5oci
+ 5nRh8wK64RyBxLekIAcJAgErFVGD5flo5WayxD/DttKWoOWg+fDFV8aR0eNnuL0cvsUz
+ 2g2wZv6SB7E+4or2hdOgLwXymUHPSaRNeTk5BYHNGpSAIQVJ5F/5YdUaXaFhZAXPmII3
+ BPx4ZO1KfaR9PIfDIcoYu95JjFt9lcJj8cUjkvJ5cM8RH9E3quhwUpaHtNPjDmy93/m9
+ 5rHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C5BanKhi0v3vlOO/CZA+lZIZgxy5a1H/JGqfzet+ZBg=;
+ b=kjbLnidR4AbQW9iQR7RFc5Px0Gf41aHPE+9BfXNLNmVUGLn+9FIIqLj7anvlRMPiUX
+ 6DDohZ4drWJqg2V1KDbJ4wg4B1H9jsXW+V9jegk0LBHOU5XnDHdycE4ZT7eKkH2c1Qxp
+ Kcs7JQY57RbojFGjU6HeAPcrUfFt122h1hODIywycYOziIjkouVlI4nUGPu7fUhXGLvQ
+ BKtjdYbThKpeL2D7QpSUUpjjgPhe2O3ISBAqx/utD5IQyWNCkuViX/qQxnSipPY33MMi
+ XyKOFoXgHaeWuduTRhbZ2N9hwb+MEFcKvbLTTDjd4k9MdLsI5SBpdGYJSKg4WO5CyUzs
+ Gf9g==
+X-Gm-Message-State: AOAM530CX7bdGnONub3ppRjphnDRopeQnjqxvbwGtnWtktWKi4B78gYT
+ pAbHZ7CUW01zLBOK/b+oLME=
+X-Google-Smtp-Source: ABdhPJwPBWKRAcgWTlrUQmnl/uCGo1O0YqG+z6a3TYA8X/Jkm6kTxwS/lTyuEMN5Yq9AedMRaZYfzg==
+X-Received: by 2002:a1c:5641:: with SMTP id k62mr5238839wmb.13.1599678139157; 
+ Wed, 09 Sep 2020 12:02:19 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
+ by smtp.gmail.com with ESMTPSA id f23sm593788wmc.3.2020.09.09.12.02.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Sep 2020 12:02:18 -0700 (PDT)
+From: Alex Dewar <alex.dewar90@gmail.com>
+To: 
+Subject: [PATCH] drm/bridge: dw-mipi-dsi: Use kmemdup cf. kmalloc+memcpy
+Date: Wed,  9 Sep 2020 20:02:08 +0100
+Message-Id: <20200909190213.156302-1-alex.dewar90@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
@@ -52,64 +66,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Alexandre Torgue <alexandre.torgue@st.com>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Antonio Borneo <antonio.borneo@st.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
  Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ Markus Elfring <elfring@users.sourceforge.net>,
  =?UTF-8?q?Yannick=20Fertr=C3=A9?= <yannick.fertre@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Benjamin Gaignard <benjamin.gaignard@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgdGhlIGRlbHRhIGJldHdlZW4gcmVxdWVzdGVkIHBpeGVsY2xvY2sgYW5kIHJlc3VsdGluZyBw
-aXhlbGNsb2NrCmlzIGxhcmdlciB0aGFuIHRoZSBkZWx0YSBiZXR3ZWVuIHJlcXVlc3RlZCBwaXhl
-bGNsb2NrIGFuZCB0aGUgbmV4dApzdGVwIGluIGF2YWlsYWJsZSBwaXhlbGNsb2NrIChsaW1pdGVk
-IHRvIDEwJSBvZiBwaXhlbGNsb2NrIHRvIGF2b2lkCnRvbyBtdWNoIG91dC1vZi1zcGVjaWZpY2F0
-aW9uIG9wZXJhdGlvbiksIHVzZSB0aGUgZmFzdGVyIHBpeGVsY2xvY2suCgpUaGlzIGZpeGVzIHRo
-ZSBjb25kaXRpb24gd2hlcmUgdGhlIHJlc3VsdGluZyBwaXhlbGNsb2NrIGlzIG11Y2gKc2xvd2Vy
-IHRoYW4gdGhlIGxvd2VzdCBjbG9jayByYXRlIHN1cHBvcnRlZCBieSB0aGUgZGlzcGxheSwgd2hp
-bGUKdGhlIG5leHQgYXZhaWxhYmxlIHBpeGVsY2xvY2sgYXJlIGp1c3Qgc2xpZ2h0bHkgZmFzdGVy
-IHRoYW4gdGhlCmhpZ2hlc3QgY2xvY2sgcmF0ZSBzdXBwb3J0ZWQgYnkgdGhlIGRpc3BsYXkuIFVz
-aW5nIHRoZSBsb3dlciBjbG9jawpyYXRlIGxlYWRzIGUuZy4gdG8gc3VidGxlIGFydGlmYWN0cyBi
-YXJlbHkgdmlzaWJsZSBvbiB0aGUgZGlzcGxheSwKbGlrZSBmbGlja2VyaW5nIHBpeGVscy4gVXNp
-bmcgc2xpZ2h0bHkgZmFzdGVyIGNsb2NrIGxlYWRzIHRvIG5vCnN1Y2ggZWZmZWN0LgoKU2lnbmVk
-LW9mZi1ieTogTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+CkNjOiBBbGV4YW5kcmUgVG9yZ3Vl
-IDxhbGV4YW5kcmUudG9yZ3VlQHN0LmNvbT4KQ2M6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1p
-bi5nYWlnbmFyZEBzdC5jb20+CkNjOiBNYXhpbWUgQ29xdWVsaW4gPG1jb3F1ZWxpbi5zdG0zMkBn
-bWFpbC5jb20+CkNjOiBQaGlsaXBwZSBDb3JudSA8cGhpbGlwcGUuY29ybnVAc3QuY29tPgpDYzog
-VmluY2VudCBBYnJpb3UgPHZpbmNlbnQuYWJyaW91QHN0LmNvbT4KQ2M6IFlhbm5pY2sgRmVydHLD
-qSA8eWFubmljay5mZXJ0cmVAc3QuY29tPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1z
-dG0zMkBzdC1tZC1tYWlsbWFuLnN0b3JtcmVwbHkuY29tCi0tLQogZHJpdmVycy9ncHUvZHJtL3N0
-bS9sdGRjLmMgfCAxOSArKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMTkgaW5z
-ZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jIGIvZHJp
-dmVycy9ncHUvZHJtL3N0bS9sdGRjLmMKaW5kZXggNmUyOGY3MDcwOTJmLi4wN2M3MzA3OTI5M2Mg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9zdG0vbHRkYy5jCkBAIC01MDcsNiArNTA3LDI1IEBAIHN0YXRpYyBib29sIGx0ZGNfY3J0
-Y19tb2RlX2ZpeHVwKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIHsKIAlzdHJ1Y3QgbHRkY19kZXZp
-Y2UgKmxkZXYgPSBjcnRjX3RvX2x0ZGMoY3J0Yyk7CiAJaW50IHJhdGUgPSBtb2RlLT5jbG9jayAq
-IDEwMDA7CisJaW50IHJhdGVfbWluID0gY2xrX3JvdW5kX3JhdGUobGRldi0+cGl4ZWxfY2xrLCBy
-YXRlKTsKKwlpbnQgcmF0ZV9tYXggPSBjbGtfcm91bmRfcmF0ZShsZGV2LT5waXhlbF9jbGssIHJh
-dGUgKyAocmF0ZSAvIDEwKSk7CisKKwkvKgorCSAqIElmIHRoZSBkZWx0YSBiZXR3ZWVuIHJlcXVl
-c3RlZCBwaXhlbGNsb2NrIGFuZCByZXN1bHRpbmcgcGl4ZWxjbG9jaworCSAqIGlzIGxhcmdlciB0
-aGFuIHRoZSBkZWx0YSBiZXR3ZWVuIHJlcXVlc3RlZCBwaXhlbGNsb2NrIGFuZCB0aGUgbmV4dAor
-CSAqIHN0ZXAgaW4gYXZhaWxhYmxlIHBpeGVsY2xvY2sgKGxpbWl0ZWQgdG8gMTAlIG9mIHBpeGVs
-Y2xvY2sgdG8gYXZvaWQKKwkgKiB0b28gbXVjaCBvdXQtb2Ytc3BlY2lmaWNhdGlvbiBvcGVyYXRp
-b24pLCB1c2UgdGhlIGZhc3RlciBwaXhlbGNsb2NrLgorCSAqCisJICogVGhpcyBmaXhlcyB0aGUg
-Y29uZGl0aW9uIHdoZXJlIHRoZSByZXN1bHRpbmcgcGl4ZWxjbG9jayBpcyBtdWNoCisJICogc2xv
-d2VyIHRoYW4gdGhlIGxvd2VzdCBjbG9jayByYXRlIHN1cHBvcnRlZCBieSB0aGUgZGlzcGxheSwg
-d2hpbGUKKwkgKiB0aGUgbmV4dCBhdmFpbGFibGUgcGl4ZWxjbG9jayBhcmUganVzdCBzbGlnaHRs
-eSBmYXN0ZXIgdGhhbiB0aGUKKwkgKiBoaWdoZXN0IGNsb2NrIHJhdGUgc3VwcG9ydGVkIGJ5IHRo
-ZSBkaXNwbGF5LiBVc2luZyB0aGUgbG93ZXIgY2xvY2sKKwkgKiByYXRlIGxlYWRzIGUuZy4gdG8g
-c3VidGxlIGFydGlmYWN0cyBiYXJlbHkgdmlzaWJsZSBvbiB0aGUgZGlzcGxheSwKKwkgKiBsaWtl
-IGZsaWNrZXJpbmcgcGl4ZWxzLiBVc2luZyBzbGlnaHRseSBmYXN0ZXIgY2xvY2sgbGVhZHMgdG8g
-bm8KKwkgKiBzdWNoIGVmZmVjdC4KKwkgKi8KKwlpZiAocmF0ZSAtIHJhdGVfbWluID4gcmF0ZV9t
-YXggLSByYXRlKQorCQlyYXRlID0gcmF0ZV9tYXg7CiAKIAlpZiAoY2xrX3NldF9yYXRlKGxkZXYt
-PnBpeGVsX2NsaywgcmF0ZSkgPCAwKSB7CiAJCURSTV9FUlJPUigiQ2Fubm90IHNldCByYXRlICgl
-ZEh6KSBmb3IgcGl4ZWwgY2xrXG4iLCByYXRlKTsKLS0gCjIuMjguMAoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+kmemdup can be used instead of kmalloc+memcpy. Replace an occurrence of
+this pattern.
+
+Issue identified with Coccinelle.
+
+Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 52f5c5a2ed64..7e9a62ad56e8 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -1049,12 +1049,10 @@ static void debugfs_create_files(void *data)
+ 	};
+ 	int i;
+ 
+-	dsi->debugfs_vpg = kmalloc(sizeof(debugfs), GFP_KERNEL);
++	dsi->debugfs_vpg = kmemdup(debugfs, sizeof(debugfs), GFP_KERNEL);
+ 	if (!dsi->debugfs_vpg)
+ 		return;
+ 
+-	memcpy(dsi->debugfs_vpg, debugfs, sizeof(debugfs));
+-
+ 	for (i = 0; i < ARRAY_SIZE(debugfs); i++)
+ 		debugfs_create_file(dsi->debugfs_vpg[i].name, 0644,
+ 				    dsi->debugfs, &dsi->debugfs_vpg[i],
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
