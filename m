@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63932627AE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:04:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 145E62627F8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21DDA6E9C2;
-	Wed,  9 Sep 2020 07:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E21216E9E9;
+	Wed,  9 Sep 2020 07:05:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFE16E9C2
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:04:02 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7BD6E9E9
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599635041;
+ s=mimecast20190719; t=1599635149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BmoilYUW2IczIUBHKVecyAuGDS0ktP0Mp/D5yvQmOpo=;
- b=Hf53X5MW7T5zLov0Ghi2e3P26gTF7PkVxk317eyuRLgvIEJ7UMvuqOXonFwRRVaeof15Pc
- LoHqqNnhIQnzQJRv8qB5UFSEHBQjs72VAzU/2qAlL9914mRix613UMJBVczEp56zkJ5CUf
- HlsnurJKICFGR0Gl7n7FEKHoLrWAm/E=
+ bh=g8/0vcnTChs+13WocVKg+Fs0vK6K7H+xhfabW76D+Zs=;
+ b=V4Qd7OqNoVqsi66Vf16WnCpYEm0jB1vGtTcarCfljI/ECpJBeDeLv2cdaff6QRB4F4435m
+ TZdvo5TRov0aO8wF+uoTt86Gdh/q8K1OqLgbD0VkES/ZLp+RO2yeglCvgxkIm9nvQsgY7A
+ PZMNBkYNvAraWuzNLL3XUk6Oj2wY/3s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-lrORURhaMpe3yjyXXAFi4Q-1; Wed, 09 Sep 2020 03:03:57 -0400
-X-MC-Unique: lrORURhaMpe3yjyXXAFi4Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-216-kQRe8GZWOneZFWAFvORj5Q-1; Wed, 09 Sep 2020 03:05:47 -0400
+X-MC-Unique: kQRe8GZWOneZFWAFvORj5Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DC491DDE4;
- Wed,  9 Sep 2020 07:03:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A86618BA280;
+ Wed,  9 Sep 2020 07:05:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC98A27BCD;
- Wed,  9 Sep 2020 07:03:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE0EA805CF;
+ Wed,  9 Sep 2020 07:05:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 00FC99ACF; Wed,  9 Sep 2020 09:03:49 +0200 (CEST)
-Date: Wed, 9 Sep 2020 09:03:49 +0200
+ id 94A739ACF; Wed,  9 Sep 2020 09:05:42 +0200 (CEST)
+Date: Wed, 9 Sep 2020 09:05:42 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 04/23] virtio: Add get_shm_region method
-Message-ID: <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: Re: [PATCH v2 10/23] virtio-gpu api: host visible feature
+Message-ID: <20200909070542.e37mfkz6qqfv3ghs@sirius.home.kraxel.org>
 References: <20200902210847.2689-1-gurchetansingh@chromium.org>
- <20200902210847.2689-5-gurchetansingh@chromium.org>
- <20200902221514.GE1263242@redhat.com>
- <CAAfnVBnfbwc07au1OMec8g5yHC0D3yXc88nOtTopO4sitYf8ig@mail.gmail.com>
+ <20200902210847.2689-11-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAfnVBnfbwc07au1OMec8g5yHC0D3yXc88nOtTopO4sitYf8ig@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200902210847.2689-11-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,39 +65,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, Miklos Szeredi <miklos@szeredi.hu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: virtio-dev@lists.oasis-open.org, sebastien.boeuf@intel.com,
+ vgoyal@redhat.com, dri-devel@lists.freedesktop.org, mst@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 02, 2020 at 05:00:25PM -0700, Gurchetan Singh wrote:
-> On Wed, Sep 2, 2020 at 3:15 PM Vivek Goyal <vgoyal@redhat.com> wrote:
-> 
-> > Hi Gurchetan,
-> >
-> > Now Miklos has queued, these tree virtio patches for shared memory
-> > region in his tree as part of virtiofs dax patch series.
-> >
-> > I am hoping this will get merged in 5.10 through his tree.
-> >
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?h=dax
-> 
-> 
-> Terrific ... !  Maybe we can queue the version Miklos has in drm-misc-next
-> to avoid merge conflicts ?!?
+  Hi,
 
-I guess it would either be merging the fuse tree into drm-misc-next,
-or cherry-picking the three virtio shm patches from the fuse tree.
+> +enum virtio_gpu_shm_id {
+> +	VIRTIO_GPU_SHM_ID_UNDEFINED = 0,
+> +	VIRTIO_GPU_SHM_ID_HOST_VISIBLE = 1
+> +};
 
-Daniel?  What is the usual way to handle this?
-
-thanks,
-  Gerd
+I think this is also not in the virtio spec update.
 
 _______________________________________________
 dri-devel mailing list
