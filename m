@@ -2,57 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8821263E99
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5CC263E7C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD286E23D;
-	Thu, 10 Sep 2020 07:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29FCA6E098;
+	Thu, 10 Sep 2020 07:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF3B6ECAB
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 19:02:20 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a9so3470713wmm.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 12:02:20 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99C0089D43
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 21:15:54 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id k25so5390953ljg.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 14:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=C5BanKhi0v3vlOO/CZA+lZIZgxy5a1H/JGqfzet+ZBg=;
- b=tUgY/1fYk5Kq+fvcwA0lHtkxZI0KcXPOUUiv4CLIsFYUhCg36sr+Nu8GRq1dChywgY
- QBMR7qdX/I7qDOmqr8bCf4B9leYrX1WtA2xyeWik/zA4Us606HG9fnd6hfalnKmI5oci
- 5nRh8wK64RyBxLekIAcJAgErFVGD5flo5WayxD/DttKWoOWg+fDFV8aR0eNnuL0cvsUz
- 2g2wZv6SB7E+4or2hdOgLwXymUHPSaRNeTk5BYHNGpSAIQVJ5F/5YdUaXaFhZAXPmII3
- BPx4ZO1KfaR9PIfDIcoYu95JjFt9lcJj8cUjkvJ5cM8RH9E3quhwUpaHtNPjDmy93/m9
- 5rHQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HnVKigTPD0SFBmS6CufvtEE5hp82hUFW+McOGmr8ObQ=;
+ b=AEMv6CEcQnDBpdKHTGDMpkqWbBkkyC3XIxDghgAq6QwSz0FWI1czP7m0rAzo79YaUO
+ HhSPr/YEjsCxhLZNISf2Be4NR3orDy7ZMU3ziy+PCzsbiOvedaK+eULC3/znoKwQpZQN
+ yEFMKl+0lLsRF885mZeeYpXmXqdzwu2hriKD0arnoUdoFgdQq/W7VbK0tMmb4llhPzLH
+ mylxshFdjPd7CFrrJjAFAcdxxmHgEZQUtW8vDl46F6E2AS+0y0rImqP+AIcfI+PYsOlt
+ 0lsDcTyRVia/TrfsxcEeguz4Au8Zcsz1oZXSrbyLfaWKtThupylDm5rqOR7ozYYE3wOt
+ ou7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=C5BanKhi0v3vlOO/CZA+lZIZgxy5a1H/JGqfzet+ZBg=;
- b=kjbLnidR4AbQW9iQR7RFc5Px0Gf41aHPE+9BfXNLNmVUGLn+9FIIqLj7anvlRMPiUX
- 6DDohZ4drWJqg2V1KDbJ4wg4B1H9jsXW+V9jegk0LBHOU5XnDHdycE4ZT7eKkH2c1Qxp
- Kcs7JQY57RbojFGjU6HeAPcrUfFt122h1hODIywycYOziIjkouVlI4nUGPu7fUhXGLvQ
- BKtjdYbThKpeL2D7QpSUUpjjgPhe2O3ISBAqx/utD5IQyWNCkuViX/qQxnSipPY33MMi
- XyKOFoXgHaeWuduTRhbZ2N9hwb+MEFcKvbLTTDjd4k9MdLsI5SBpdGYJSKg4WO5CyUzs
- Gf9g==
-X-Gm-Message-State: AOAM530CX7bdGnONub3ppRjphnDRopeQnjqxvbwGtnWtktWKi4B78gYT
- pAbHZ7CUW01zLBOK/b+oLME=
-X-Google-Smtp-Source: ABdhPJwPBWKRAcgWTlrUQmnl/uCGo1O0YqG+z6a3TYA8X/Jkm6kTxwS/lTyuEMN5Yq9AedMRaZYfzg==
-X-Received: by 2002:a1c:5641:: with SMTP id k62mr5238839wmb.13.1599678139157; 
- Wed, 09 Sep 2020 12:02:19 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
- by smtp.gmail.com with ESMTPSA id f23sm593788wmc.3.2020.09.09.12.02.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 12:02:18 -0700 (PDT)
-From: Alex Dewar <alex.dewar90@gmail.com>
-To: 
-Subject: [PATCH] drm/bridge: dw-mipi-dsi: Use kmemdup cf. kmalloc+memcpy
-Date: Wed,  9 Sep 2020 20:02:08 +0100
-Message-Id: <20200909190213.156302-1-alex.dewar90@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ bh=HnVKigTPD0SFBmS6CufvtEE5hp82hUFW+McOGmr8ObQ=;
+ b=hps/qKqCYyowIbZ3FutH7zwrtbwMUkrUI9T37YJzHnRK+wLBStbr+BqU5UZ56p3cyn
+ dISNA+QnZ4Co7zAkIz4RSc7hwctEw7Ns5VhVSd/9cWaQoHgUTAjVupqB+SFAe4KGvJ4a
+ YDgmxCNjZevXn+3P1y3EZ7JWmUX1qfUcKx8XGDIpY+pZLUB+azpsoql2h9xh/dgvxGyB
+ KEJyX4jj5pi6Oe+VK74hYVFMwgMhVGyk7pVVPK7V/PtHsH+z5gMwB7Ut5CqFyIHMote+
+ fyxVsrWqXq1/qLGmxu2UBGMqQBTAw5KHBU3bMQmwhTqxqIKOP7lGYoBhOGycy9DA9tMI
+ Pghw==
+X-Gm-Message-State: AOAM533gtkPljUZmPUGvNSkRbEzeP6jJT5vbvU6VrmOBC9sH+Up10/ux
+ 6lKH2mGLraqyAUzey/QcFHY=
+X-Google-Smtp-Source: ABdhPJxp8VYmLXdjWwfoDoXk3NH/mFiHKjQmDtqVaj5hvvbbW+sEPnZMlMfqd4r/5YSVXyKy5zLhqw==
+X-Received: by 2002:a2e:3c08:: with SMTP id j8mr2597735lja.358.1599686153003; 
+ Wed, 09 Sep 2020 14:15:53 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
+ [109.252.170.211])
+ by smtp.googlemail.com with ESMTPSA id j7sm821561lfb.41.2020.09.09.14.15.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Sep 2020 14:15:52 -0700 (PDT)
+Subject: Re: [PATCH v5 27/36] memory: tegra-mc: Register as interconnect
+ provider
+To: Georgi Djakov <georgi.djakov@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
+References: <20200814000621.8415-1-digetx@gmail.com>
+ <20200814000621.8415-28-digetx@gmail.com>
+ <923b6801-5194-b936-13c6-0972761c29b8@linaro.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <01996606-84cd-909d-8dfc-4f33bdf8f3cc@gmail.com>
+Date: Thu, 10 Sep 2020 00:15:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <923b6801-5194-b936-13c6-0972761c29b8@linaro.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,55 +81,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Antonio Borneo <antonio.borneo@st.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- Markus Elfring <elfring@users.sourceforge.net>,
- =?UTF-8?q?Yannick=20Fertr=C3=A9?= <yannick.fertre@st.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Alex Dewar <alex.dewar90@gmail.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kmemdup can be used instead of kmalloc+memcpy. Replace an occurrence of
-this pattern.
-
-Issue identified with Coccinelle.
-
-Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 52f5c5a2ed64..7e9a62ad56e8 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -1049,12 +1049,10 @@ static void debugfs_create_files(void *data)
- 	};
- 	int i;
- 
--	dsi->debugfs_vpg = kmalloc(sizeof(debugfs), GFP_KERNEL);
-+	dsi->debugfs_vpg = kmemdup(debugfs, sizeof(debugfs), GFP_KERNEL);
- 	if (!dsi->debugfs_vpg)
- 		return;
- 
--	memcpy(dsi->debugfs_vpg, debugfs, sizeof(debugfs));
--
- 	for (i = 0; i < ARRAY_SIZE(debugfs); i++)
- 		debugfs_create_file(dsi->debugfs_vpg[i].name, 0644,
- 				    dsi->debugfs, &dsi->debugfs_vpg[i],
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDkuMDkuMjAyMCAxMTozMSwgR2VvcmdpIERqYWtvdiDQv9C40YjQtdGCOgo+IE9uIDgvMTQvMjAg
+MDM6MDYsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4gTm93IG1lbW9yeSBjb250cm9sbGVyIGlz
+IGEgbWVtb3J5IGludGVyY29ubmVjdGlvbiBwcm92aWRlci4gVGhpcyBhbGxvd3MgdXMKPj4gdG8g
+dXNlIGludGVyY29ubmVjdCBBUEkgaW4gb3JkZXIgdG8gY2hhbmdlIG1lbW9yeSBjb25maWd1cmF0
+aW9uLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFpbC5j
+b20+Cj4gCj4gVGhhbmtzIERtaXRyeSEgTG9va3MgZ29vZCB0byBtZS4KPiAKPiBBY2tlZC1ieTog
+R2VvcmdpIERqYWtvdiA8Z2VvcmdpLmRqYWtvdkBsaW5hcm8ub3JnPgo+IAoKVGhhbmtzIHlvdSEK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
