@@ -1,36 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFA4262E77
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 14:23:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F275F262E7E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 14:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352726EB69;
-	Wed,  9 Sep 2020 12:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 295576EB78;
+	Wed,  9 Sep 2020 12:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 15E956EB6A
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 12:23:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B875513D5;
- Wed,  9 Sep 2020 05:23:43 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99DC13F68F;
- Wed,  9 Sep 2020 05:23:42 -0700 (PDT)
-Subject: Re: [PATCH 4/5] drm/panfrost: add amlogic reset quirk callback
-To: Neil Armstrong <narmstrong@baylibre.com>, robh@kernel.org,
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB2E66EB78
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 12:26:30 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z1so2747375wrt.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 05:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=v+HVm/b+H3mJ/aQj0jQ6ncdbRg/4ripycG7kuiRXz38=;
+ b=jUxtpZBLgLTuosME3bJvvt9bfduU2oDAAaamtfvY3qWncW8bLR9REXSPg033fPUYwR
+ 0fnRvvhqjh/cmoOdMb7jzoFfKxjcHrrb1Pi8kYS1iQf0V3TCfNfm0SNx3JMFlyiPKZCg
+ RXZjEnuxjpbOOUWS4Z39bMqNOoTqqTLsHDGW3xlqIOXDXRzKhzlvNDcIXiwxLAKGZ5yV
+ duh+IoIvEIWNS3V0DFnTXi0pj6h4pocLkNNn/h1H3G80sqaMTig2y6XCf1/IjftlImNZ
+ 7tS84K44NxX2tTO0Z3uwnWOlyfBVOAbqG2J8tFmFqIBNaEVF+5zPULfNNlyyewWm5hYq
+ ZIMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=v+HVm/b+H3mJ/aQj0jQ6ncdbRg/4ripycG7kuiRXz38=;
+ b=r6N5GFvP674LlbeCvg+ZOgd9zOc3qImzBhhKQbncA//H+0BiZXUWN7qBpHV0OC/EFy
+ DrmqAnFKqhFQkgMfKA+IbUcbXTerKUYPPCC3MpbCqktgHduettj5h60wvx8CDzM4zS7l
+ fGqbB7ycA9mnYeOo8F9aZm8WQBHx8DR+Q8nbiqiVURavOS/m1g0/o+FPq0ge+JLGym+k
+ dMU4ebituLv14yrXV7zKRuOQOFftkQPOb+vIX77zIFTnuHzrRaOvPKaDibOaegrEtzVW
+ 5pN22pY5w/mM47PxOP0yvRKyVHOETrABKrjpbEM0trTVCzcQMMV/QN33Fl1C33SuwCs/
+ 870g==
+X-Gm-Message-State: AOAM530NRzBtk4/CvV0+wvgyWXlTUB9ky0f3G7iMZb1ac+Re486uuhaC
+ we7slw8ghKPwxhHXQl5J+LM6zQ==
+X-Google-Smtp-Source: ABdhPJxPW6PDEpvFaNndkEuPMdFYL6941r0L8ZAChOFOQ/iiwySXiD8i8WCne0OXa7WsUOnjaAJ5Ng==
+X-Received: by 2002:adf:dfc3:: with SMTP id q3mr3654126wrn.238.1599654389111; 
+ Wed, 09 Sep 2020 05:26:29 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac?
+ ([2a01:e35:2ec0:82b0:5405:9623:e2f1:b2ac])
+ by smtp.gmail.com with ESMTPSA id q12sm3896424wrp.17.2020.09.09.05.26.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Sep 2020 05:26:28 -0700 (PDT)
+Subject: Re: [PATCH 3/5] drm/panfrost: add support for reset quirk
+To: Steven Price <steven.price@arm.com>, robh@kernel.org,
  tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com
 References: <20200908151853.4837-1-narmstrong@baylibre.com>
- <20200908151853.4837-5-narmstrong@baylibre.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <5efe218c-19d5-c25b-74cc-e5ae5da418a2@arm.com>
-Date: Wed, 9 Sep 2020 13:23:41 +0100
+ <20200908151853.4837-4-narmstrong@baylibre.com>
+ <ff982600-d705-1dc8-44c8-b69015791997@arm.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT7CwHsEEwEKACUC
+ GyMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJXDO2CAhkBAAoJEBaat7Gkz/iubGIH/iyk
+ RqvgB62oKOFlgOTYCMkYpm2aAOZZLf6VKHKc7DoVwuUkjHfIRXdslbrxi4pk5VKU6ZP9AKsN
+ NtMZntB8WrBTtkAZfZbTF7850uwd3eU5cN/7N1Q6g0JQihE7w4GlIkEpQ8vwSg5W7hkx3yQ6
+ 2YzrUZh/b7QThXbNZ7xOeSEms014QXazx8+txR7jrGF3dYxBsCkotO/8DNtZ1R+aUvRfpKg5
+ ZgABTC0LmAQnuUUf2PHcKFAHZo5KrdO+tyfL+LgTUXIXkK+tenkLsAJ0cagz1EZ5gntuheLD
+ YJuzS4zN+1Asmb9kVKxhjSQOcIh6g2tw7vaYJgL/OzJtZi6JlIXOwU0EVid/pAEQAND7AFhr
+ 5faf/EhDP9FSgYd/zgmb7JOpFPje3uw7jz9wFb28Cf0Y3CcncdElYoBNbRlesKvjQRL8mozV
+ 9RN+IUMHdUx1akR/A4BPXNdL7StfzKWOCxZHVS+rIQ/fE3Qz/jRmT6t2ZkpplLxVBpdu95qJ
+ YwSZjuwFXdC+A7MHtQXYi3UfCgKiflj4+/ITcKC6EF32KrmIRqamQwiRsDcUUKlAUjkCLcHL
+ CQvNsDdm2cxdHxC32AVm3Je8VCsH7/qEPMQ+cEZk47HOR3+Ihfn1LEG5LfwsyWE8/JxsU2a1
+ q44LQM2lcK/0AKAL20XDd7ERH/FCBKkNVzi+svYJpyvCZCnWT0TRb72mT+XxLWNwfHTeGALE
+ +1As4jIS72IglvbtONxc2OIid3tR5rX3k2V0iud0P7Hnz/JTdfvSpVj55ZurOl2XAXUpGbq5
+ XRk5CESFuLQV8oqCxgWAEgFyEapI4GwJsvfl/2Er8kLoucYO1Id4mz6N33+omPhaoXfHyLSy
+ dxD+CzNJqN2GdavGtobdvv/2V0wukqj86iKF8toLG2/Fia3DxMaGUxqI7GMOuiGZjXPt/et/
+ qeOySghdQ7Sdpu6fWc8CJXV2mOV6DrSzc6ZVB4SmvdoruBHWWOR6YnMz01ShFE49pPucyU1h
+ Av4jC62El3pdCrDOnWNFMYbbon3vABEBAAHCwn4EGAECAAkFAlYnf6QCGwICKQkQFpq3saTP
+ +K7BXSAEGQECAAYFAlYnf6QACgkQd9zb2sjISdGToxAAkOjSfGxp0ulgHboUAtmxaU3viucV
+ e2Hl1BVDtKSKmbIVZmEUvx9D06IijFaEzqtKD34LXD6fjl4HIyDZvwfeaZCbJbO10j3k7FJE
+ QrBtpdVqkJxme/nYlGOVzcOiKIepNkwvnHVnuVDVPcXyj2wqtsU7VZDDX41z3X4xTQwY3SO1
+ 9nRO+f+i4RmtJcITgregMa2PcB0LvrjJlWroI+KAKCzoTHzSTpCXMJ1U/dEqyc87bFBdc+DI
+ k8mWkPxsccdbs4t+hH0NoE3Kal9xtAl56RCtO/KgBLAQ5M8oToJVatxAjO1SnRYVN1EaAwrR
+ xkHdd97qw6nbg9BMcAoa2NMc0/9MeiaQfbgW6b0reIz/haHhXZ6oYSCl15Knkr4t1o3I2Bqr
+ Mw623gdiTzotgtId8VfLB2Vsatj35OqIn5lVbi2ua6I0gkI6S7xJhqeyrfhDNgzTHdQVHB9/
+ 7jnM0ERXNy1Ket6aDWZWCvM59dTyu37g3VvYzGis8XzrX1oLBU/tTXqo1IFqqIAmvh7lI0Se
+ gCrXz7UanxCwUbQBFjzGn6pooEHJYRLuVGLdBuoApl/I4dLqCZij2AGa4CFzrn9W0cwm3HCO
+ lR43gFyz0dSkMwNUd195FrvfAz7Bjmmi19DnORKnQmlvGe/9xEEfr5zjey1N9+mt3//geDP6
+ clwKBkq0JggA+RTEAELzkgPYKJ3NutoStUAKZGiLOFMpHY6KpItbbHjF2ZKIU1whaRYkHpB2
+ uLQXOzZ0d7x60PUdhqG3VmFnzXSztA4vsnDKk7x2xw0pMSTKhMafpxaPQJf494/jGnwBHyi3
+ h3QGG1RjfhQ/OMTX/HKtAUB2ct3Q8/jBfF0hS5GzT6dYtj0Ci7+8LUsB2VoayhNXMnaBfh+Q
+ pAhaFfRZWTjUFIV4MpDdFDame7PB50s73gF/pfQbjw5Wxtes/0FnqydfId95s+eej+17ldGp
+ lMv1ok7K0H/WJSdr7UwDAHEYU++p4RRTJP6DHWXcByVlpNQ4SSAiivmWiwOt490+Ac7ATQRN
+ WQbPAQgAvIoM384ZRFocFXPCOBir5m2J+96R2tI2XxMgMfyDXGJwFilBNs+fpttJlt2995A8
+ 0JwPj8SFdm6FBcxygmxBBCc7i/BVQuY8aC0Z/w9Vzt3Eo561r6pSHr5JGHe8hwBQUcNPd/9l
+ 2ynP57YTSE9XaGJK8gIuTXWo7pzIkTXfN40Wh5jeCCspj4jNsWiYhljjIbrEj300g8RUT2U0
+ FcEoiV7AjJWWQ5pi8lZJX6nmB0lc69Jw03V6mblgeZ/1oTZmOepkagwy2zLDXxihf0GowUif
+ GphBDeP8elWBNK+ajl5rmpAMNRoKxpN/xR4NzBg62AjyIvigdywa1RehSTfccQARAQABwsBf
+ BBgBAgAJBQJNWQbPAhsMAAoJEBaat7Gkz/iuteIH+wZuRDqK0ysAh+czshtG6JJlLW6eXJJR
+ Vi7dIPpgFic2LcbkSlvB8E25Pcfz/+tW+04Urg4PxxFiTFdFCZO+prfd4Mge7/OvUcwoSub7
+ ZIPo8726ZF5/xXzajahoIu9/hZ4iywWPAHRvprXaim5E/vKjcTeBMJIqZtS4u/UK3EpAX59R
+ XVxVpM8zJPbk535ELUr6I5HQXnihQm8l6rt9TNuf8p2WEDxc8bPAZHLjNyw9a/CdeB97m2Tr
+ zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <6ef08900-9ef8-40d0-d7c6-f45840ce9a39@baylibre.com>
+Date: Wed, 9 Sep 2020 14:26:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200908151853.4837-5-narmstrong@baylibre.com>
-Content-Language: en-GB
+In-Reply-To: <ff982600-d705-1dc8-44c8-b69015791997@arm.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,91 +127,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/09/2020 16:18, Neil Armstrong wrote:
-> The T820, G31 & G52 GPUs integratewd by Amlogic in the respective GXM, G12A/SM1 & G12B
-> SoCs needs a quirk in the PWR registers at the GPU reset time.
-> 
-> Since the documentation of the GPU cores are not public, we do not know what does these
-> values, but they permit having a fully functional GPU running with Panfrost.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->   drivers/gpu/drm/panfrost/panfrost_gpu.c  | 13 +++++++++++++
->   drivers/gpu/drm/panfrost/panfrost_gpu.h  |  2 ++
->   drivers/gpu/drm/panfrost/panfrost_regs.h |  3 +++
->   3 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index c129aaf77790..018737bd4ac6 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -80,6 +80,19 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
->   	return 0;
->   }
->   
-> +void panfrost_gpu_amlogic_quirks(struct panfrost_device *pfdev)
-> +{
-> +	/*
-> +	 * The Amlogic integrated Mali-T820, Mali-G31 & Mali-G52 needs
-> +	 * these undocumented bits to be set in order to operate
-> +	 * correctly.
-> +	 * These GPU_PWR registers contains:
-> +	 * "device-specific power control value"
-> +	 */
-> +	gpu_write(pfdev, GPU_PWR_KEY, 0x2968A819);
-
-As Alyssa has mentioned this magic value is not Amlogic specific, but is 
-just the unlock key value, so please add the define in panfrost-gpu.h
-
-> +	gpu_write(pfdev, GPU_PWR_OVERRIDE1, 0xfff | (0x20 << 16));
-
-But PWR_OVERRIDE1 is indeed device specific so I can't offer an insight 
-here.
-
-> +}
-> +
->   static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
->   {
->   	u32 quirks = 0;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> index 4112412087b2..a881d7dc812f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> @@ -16,4 +16,6 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
->   void panfrost_gpu_power_on(struct panfrost_device *pfdev);
->   void panfrost_gpu_power_off(struct panfrost_device *pfdev);
->   
-> +void panfrost_gpu_amlogic_reset_quirk(struct panfrost_device *pfdev);
-
-You need to be consistent about the name - this has _reset_, the above 
-function doesn't.
-
-Steve
-
-> +
->   #endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index ea38ac60581c..fa0d02f3c830 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -51,6 +51,9 @@
->   #define GPU_STATUS			0x34
->   #define   GPU_STATUS_PRFCNT_ACTIVE	BIT(2)
->   #define GPU_LATEST_FLUSH_ID		0x38
-> +#define GPU_PWR_KEY			0x050	/* (WO) Power manager key register */
-> +#define GPU_PWR_OVERRIDE0		0x054	/* (RW) Power manager override settings */
-> +#define GPU_PWR_OVERRIDE1		0x058	/* (RW) Power manager override settings */
->   #define GPU_FAULT_STATUS		0x3C
->   #define GPU_FAULT_ADDRESS_LO		0x40
->   #define GPU_FAULT_ADDRESS_HI		0x44
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMDkvMDkvMjAyMCAxNDoyMywgU3RldmVuIFByaWNlIHdyb3RlOgo+IE9uIDA4LzA5LzIwMjAg
+MTY6MTgsIE5laWwgQXJtc3Ryb25nIHdyb3RlOgo+PiBUaGUgVDgyMCwgRzMxICYgRzUyIEdQVXMg
+aW50ZWdyYXRld2QgYnkgQW1sb2dpYyBpbiB0aGUgcmVzcGVjdGl2ZSBHWE0sIEcxMkEvU00xICYg
+RzEyQgo+PiBTb0NzIG5lZWRzIGEgcXVpcmsgaW4gdGhlIFBXUiByZWdpc3RlcnMgYXQgdGhlIEdQ
+VSByZXNldCB0aW1lLgo+Pgo+PiBUaGlzIGFkZHMgYSBjYWxsYmFjayBpbiB0aGUgZGV2aWNlIGNv
+bXBhdGlibGUgc3RydWN0IG9mIHBlcm1pdCB0aGlzLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBOZWls
+IEFybXN0cm9uZyA8bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4+IC0tLQo+PiDCoCBkcml2ZXJz
+L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmggfCAzICsrKwo+PiDCoCBkcml2ZXJz
+L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ3B1LmPCoMKgwqAgfCA0ICsrKysKPj4gwqAgMiBm
+aWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCBiL2RyaXZlcnMvZ3B1L2RybS9wYW5m
+cm9zdC9wYW5mcm9zdF9kZXZpY2UuaAo+PiBpbmRleCAyY2YxYTZhMTNhZjguLjRjOWNkNTQ1MmJh
+NSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rldmlj
+ZS5oCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaAo+
+PiBAQCAtNzMsNiArNzMsOSBAQCBzdHJ1Y3QgcGFuZnJvc3RfY29tcGF0aWJsZSB7Cj4+IMKgIMKg
+wqDCoMKgwqAgLyogSU9NTVUgcXVpcmtzIGZsYWdzICovCj4+IMKgwqDCoMKgwqAgdW5zaWduZWQg
+bG9uZyBwZ3RibF9xdWlya3M7Cj4+ICsKPj4gK8KgwqDCoCAvKiBWZW5kb3IgaW1wbGVtZW50YXRp
+b24gcXVpcmtzIGF0IHJlc2V0IHRpbWUgY2FsbGJhY2sgKi8KPj4gK8KgwqDCoCB2b2lkICgqdmVu
+ZG9yX3Jlc2V0X3F1aXJrKShzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldik7Cj4+IMKgIH07
+Cj4+IMKgIMKgIHN0cnVjdCBwYW5mcm9zdF9kZXZpY2Ugewo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dwdS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZy
+b3N0L3BhbmZyb3N0X2dwdS5jCj4+IGluZGV4IGUwZjE5MGU0MzgxMy4uYzEyOWFhZjc3NzkwIDEw
+MDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ3B1LmMKPj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dwdS5jCj4+IEBAIC02Miw2
+ICs2MiwxMCBAQCBpbnQgcGFuZnJvc3RfZ3B1X3NvZnRfcmVzZXQoc3RydWN0IHBhbmZyb3N0X2Rl
+dmljZSAqcGZkZXYpCj4+IMKgwqDCoMKgwqAgZ3B1X3dyaXRlKHBmZGV2LCBHUFVfSU5UX0NMRUFS
+LCBHUFVfSVJRX1JFU0VUX0NPTVBMRVRFRCk7Cj4+IMKgwqDCoMKgwqAgZ3B1X3dyaXRlKHBmZGV2
+LCBHUFVfQ01ELCBHUFVfQ01EX1NPRlRfUkVTRVQpOwo+PiDCoCArwqDCoMKgIC8qIFRoZSBBbWxv
+Z2ljIEdQVSBpbnRlZ3JhdGlvbiBuZWVkcyBxdWlya3MgYXQgdGhpcyBzdGFnZSAqLwo+PiArwqDC
+oMKgIGlmIChwZmRldi0+Y29tcC0+dmVuZG9yX3Jlc2V0X3F1aXJrKQo+PiArwqDCoMKgwqDCoMKg
+wqAgcGZkZXYtPmNvbXAtPnZlbmRvcl9yZXNldF9xdWlyayhwZmRldik7Cj4+ICsKPj4gwqDCoMKg
+wqDCoCByZXQgPSByZWFkbF9yZWxheGVkX3BvbGxfdGltZW91dChwZmRldi0+aW9tZW0gKyBHUFVf
+SU5UX1JBV1NUQVQsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB2YWwsIHZhbCAmIEdQVV9JUlFfUkVT
+RVRfQ09NUExFVEVELCAxMDAsIDEwMDAwKTsKPiAKPiBQbGFjaW5nIHRoZSBxdWlyayBiZWZvcmUg
+dGhlIHJlc2V0IGhhcyBjb21wbGV0ZWQgaXMgZG9kZ3kuIENhbiB0aGlzIGJlIG9yZGVyZWQgYWZ0
+ZXIgdGhlIEdQVV9JUlFfUkVTRVRfQ09NUExFVEVEIHNpZ25hbCBoYXMgYmVlbiBzZWVuPyBUaGUg
+cHJvYmxlbSBpcyB0aGUgcmVzZXQgY291bGQgKGluIHRoZW9yeSkgY2F1c2UgYSBwb3dlciB0cmFu
+c2l0aW9uIChlLmcuIGlmIHRoZSBHUFUgaXMgcmVzZXQgd2hpbGUgYSBjb3JlIGlzIHBvd2VyZWQp
+IGFuZCBjaGFuZ2luZyB0aGUgUFdSX09WRVJSSURFeCByZWdpc3RlcnMgZHVyaW5nIGEgdHJhbnNp
+dGlvbiBpcyB1bmRlZmluZWQuIEJ1dCBJIGRvbid0IGtub3cgdGhlIGRldGFpbHMgb2YgaG93IHRo
+ZSBoYXJkd2FyZSBpcyBicm9rZW4gc28gaXQgaXMgcG9zc2libGUgdGhlIG92ZXJyaWRlIGlzIG5l
+ZWRlZCBmb3IgdGhlIHJlc2V0IHRvIGNvbXBsZXRlIHNvIHRoaXMgd291bGQgbmVlZCB0ZXN0aW5n
+Lgo+IAo+IEkgYWxzbyB3b25kZXIgaWYgdGhpcyBjb3VsZCBsaXZlIGluIHBhbmZyb3N0X2dwdV9p
+bml0X3F1aXJrcygpIGluc3RlYWQ/IEFsdGhvdWdoIHRoYXQgaXMgbW9zdGx5IGFib3V0IHF1aXJr
+cyBjb21tb24gdG8gYWxsIE1hbGkgR1BVIGltcGxlbWVudGF0aW9ucyByYXRoZXIgdGhhbiBhIHNw
+ZWNpZmljIGltcGxlbWVudGF0aW9uLiBBbHRob3VnaCBub3cgSSd2ZSBsb29rZWQgSSd2ZSBub3Rp
+Y2VkIHdlIGhhdmUgYSBidWcgYXMgd2UgZG9uJ3QgYXBwZWFyIHRvIHJlYXBwbHkgdGhvc2UgcXVp
+cmtzIGFmdGVyIGEgcmVzZXQgLSBJJ2xsIHNlbmQgYSBwYXRjaCEKCkluZGVlZCwgaXQgbmVlZHMg
+dG8gYmUgYXBwbGllZCBhZnRlciBlYWNoIHJlc2V0LCBzbyBpZiB5b3Ugc2VuZCBhIHBhdGNoIGZv
+ciB0aGlzIHByZXR0eSBzdXJlIGl0IGNvdWxkIGxpdmUgaW4gcGFuZnJvc3RfZ3B1X2luaXRfcXVp
+cmtzKCkuCgpOZWlsCgo+IAo+IFN0ZXZlCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
