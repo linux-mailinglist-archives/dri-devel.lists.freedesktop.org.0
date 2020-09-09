@@ -1,54 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9072637A3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 22:43:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F4A2637F0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 22:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244C16F4FA;
-	Wed,  9 Sep 2020 20:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D8DC6F50A;
+	Wed,  9 Sep 2020 20:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928AB6F4FA
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 20:43:42 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id y2so3642597ilp.7
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 13:43:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BvEuTgm2IZoHBm+jPm4TdnWSuIpSZHMUsLkTxZ2He2I=;
- b=d6Mc+MyaGwh3g/p7COik87PC4/F2YEEPwIcvtBTiHjxJjBSXP24wH7BuwZ38X3QZBJ
- /ULfvau9DHkTb7d8v4XEIYmeNHgOHnM944X0CZocE3mnj5+GGx8r8s5CpQqKyHMDtqj8
- K1vTvWRreKzA6H9Aj0XtzZqFLDhj3esrQVNkfboAsP1mHa+dET9dVk2Tg+Y22CyWwjNe
- jh4mrYHNoda6VzXYWGFcfrDmeRJ+ZHgrVZ5rx+mePdtylfpNwm16YT9+ZeN1YX4LDynX
- xLzg+533yhnzbuPkzK9kk2NCmfISOy5Req7mFF1retyix9s62VwcZfPHLbQG6l7cqz7Q
- r1tA==
-X-Gm-Message-State: AOAM533FC6/NwQ9v0XME/lYJV0+oRxD7mqB3MCM3qcuzlagiUM8dVdmJ
- KReht+tjt9ULh7CW6z6BeA==
-X-Google-Smtp-Source: ABdhPJy4rTKJaPZ/jWpOVJ4cgZzmcFL0VsJJo+wB8OY1va7sQv3j1LxWb/8BcCQh8lOkrHj8o37atg==
-X-Received: by 2002:a05:6e02:685:: with SMTP id
- o5mr5246688ils.72.1599684221973; 
- Wed, 09 Sep 2020 13:43:41 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
- by smtp.gmail.com with ESMTPSA id a21sm1677462ioh.12.2020.09.09.13.43.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 13:43:41 -0700 (PDT)
-Received: (nullmailer pid 3044856 invoked by uid 1000);
- Wed, 09 Sep 2020 20:43:31 -0000
-Date: Wed, 9 Sep 2020 14:43:31 -0600
-From: Rob Herring <robh@kernel.org>
-To: "Robert Chiras (OSS)" <robert.chiras@oss.nxp.com>
-Subject: Re: [PATCH 4/5] dt-bindings: display/bridge: nwl-dsi: Document
- fsl,clock-drop-level property
-Message-ID: <20200909204331.GA3043802@bogus>
-References: <1598613212-1113-1-git-send-email-robert.chiras@oss.nxp.com>
- <1598613212-1113-5-git-send-email-robert.chiras@oss.nxp.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D022E6F50A;
+ Wed,  9 Sep 2020 20:56:03 +0000 (UTC)
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A2AC920BED;
+ Wed,  9 Sep 2020 20:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599684963;
+ bh=HOi/gRnNWCADuH3C2tuPouagH6ACKRSW8Me9mQGESc8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MIR0n2v6jYMLvL9ylCeswSmSkNjM38pD+hUWnq3QNBxdxavUAFW1nFlTLHe2pybfD
+ odrRmpSK6VaBtY4y/JW5mI6voxGDP7xP7wyaKsNWcxcK7TIQVymwmw1HPj8MEaIJrr
+ wYpwdfF4aTXncxhcjdHkCnRIxxiQ6/mo+8A6FHH4=
+Date: Wed, 9 Sep 2020 13:55:58 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+Message-ID: <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1598613212-1113-5-git-send-email-robert.chiras@oss.nxp.com>
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,53 +46,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-imx@nxp.com
+Cc: linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
+ alsa-devel <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-ide@vger.kernel.org, dm-devel@redhat.com,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ sparclinux@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
+ linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-mmc@vger.kernel.org, Kees Cook <kees.cook@canonical.com>,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
+ storagedev@microchip.com, ceph-devel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
+ Jiri Kosina <trivial@kernel.org>, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 28, 2020 at 02:13:31PM +0300, Robert Chiras (OSS) wrote:
-> From: Robert Chiras <robert.chiras@nxp.com>
-> 
-> Add documentation for a new property: 'fsl,clock-drop-level'.
-> 
-> Signed-off-by: Robert Chiras <robert.chiras@nxp.com>
-> ---
->  Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
-> index 8b5741b..b415f4e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
-> @@ -143,6 +143,10 @@ properties:
->  
->      additionalProperties: false
->  
-> +  clock-drop-level:
+On Wed, Sep 09, 2020 at 01:06:39PM -0700, Joe Perches wrote:
+> diff --git a/crypto/tcrypt.c b/crypto/tcrypt.c
+> index eea0f453cfb6..8aac5bc60f4c 100644
+> --- a/crypto/tcrypt.c
+> +++ b/crypto/tcrypt.c
+> @@ -2464,7 +2464,7 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
+>  		test_hash_speed("streebog512", sec,
+>  				generic_hash_speed_template);
+>  		if (mode > 300 && mode < 400) break;
+> -		fallthrough;
+> +		break;
+>  	case 399:
+>  		break;
 
-fsl, ?
-
-> +    description:
-> +      Specifies the level at wich the crtc_clock should be dropped
-
-Needs a type $ref.
-
-> +
->  patternProperties:
->    "^panel@[0-9]+$":
->      type: object
-> -- 
-> 2.7.4
-> 
+Just imho, this change makes the preceding 'if' look even more
+pointless. Maybe the fallthrough was a deliberate choice? Not that my
+opinion matters here as I don't know this module, but it looked a bit
+odd to me.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
