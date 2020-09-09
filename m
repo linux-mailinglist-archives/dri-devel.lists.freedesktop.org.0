@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE07F263E9B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347A8263E7F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD7E6E262;
-	Thu, 10 Sep 2020 07:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043176E039;
+	Thu, 10 Sep 2020 07:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 889066EAC3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 08:31:54 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id q9so1422238wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 01:31:54 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346186EAC4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 08:32:08 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z4so1975054wrr.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 01:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:autocrypt:message-id:date
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6OOTP+3hdsrfyd1wUmm5Yj49uRIpO1u4gRia8ib7GbE=;
- b=sbzYYJGUi2Tgen72Fb1lBf/XSZaBrkLvQD0BVyoOfqs/sMekPUafYW1x3vowHxwF8f
- aKTSHlnDBiinjPy49bdsn1tVSKNkh4e3CECp0JHpS0wGHTf+cXyCmlhiURNRo4SBF/lX
- J5zHpQdDpMa3Zvh4J13mMOuU0a8slfRlIQeFJYsU8/h/0Viwh5QvZyn8IJzF5HqQheE+
- /wQ7mnjeLWn0XiO4G92oUnsc5klaBe1RkLG8UdJryGQk3vg7eK2XH5/vTOjqhp9did8v
- TzwW6IWlsgj4Fb2TYW8rnHMbRlTsX0aPSJSIaldbOietK5n0IXzHZmCyJuV0rVR+84dR
- nPcA==
+ bh=U8AMXqG5zAHaXdikAoNoWpDEHgynd16DZ3dfucAxOiY=;
+ b=VGLUq9ndE7uuaBORiFcPHnd5vhovkRbty0XDj7Brco0i7kzaDZttYgC+Qp9zBE3tfS
+ IIikpqp0XlHd9u71w7YLT57BpKkBTz8pDxuVe94wvLsUo/8b1Szxm4T8d4DqlUqaSgNR
+ cerbiXsnecywdnTJZnuOtwBLiZDI2wUZA4U457F3Xn5AhpX7fIeNMjH0mQ6J8LEr61Or
+ xn9ELLCYnRv2S9wAQvLGiBPHBTsP8PM+zsOWy/rxUbSgHUjX1z6zmRejkc+25u4D+yQt
+ NZh4bOusjVbpHBPxIiRakWORWF1yC2tAPu9o5PN9JvNj4USnd1cuEFXxbS3uG+kIOiic
+ 6C6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6OOTP+3hdsrfyd1wUmm5Yj49uRIpO1u4gRia8ib7GbE=;
- b=uOWi0SuMbqxKyx81oXzffxxIK9V2MakmiBkJAWwZtMiQuJ2+c9qexAOEzqjdhOWnNy
- Im+jrx5FsIhXu2A09FwOfjiF1KN2cTP7XM4V2eZ86hREA5m34/VxRrMM6R+fb5tLDYB3
- 5wgVqm2ItLfDZkpXRx49nrRU4bA9Fqns124ubf+jQIM2j/2CFLy4T7jMMKnBM3IbGqHn
- SoKgbHL5sLiq/wzEsjD04alGReszfxDkuYh/PM6pK7fmItf4IiOkkwi3LUcCwrHTRMS/
- 4fNJXD5yyoSovh5koEE1anMtCfWjvhRD0w76qCkZC15nrG4b0/xo6OdjBKr58wOcraxu
- S9Gw==
-X-Gm-Message-State: AOAM533EHLoihh6c+tjiAxlIIcjGMCuxG0kPqj3ToTZ9BvWxRZH3wHZE
- EQ4KCpoNQokLudWV7+ljYuz76g==
-X-Google-Smtp-Source: ABdhPJzLc81jh8oauFaHy0YfdIx9yli0duH7En+dTAhBtbEL4Xd8mI3wMAjPF7+EAkWCgkB2Czl7Dw==
-X-Received: by 2002:a05:600c:1:: with SMTP id g1mr2287583wmc.57.1599640313218; 
- Wed, 09 Sep 2020 01:31:53 -0700 (PDT)
+ bh=U8AMXqG5zAHaXdikAoNoWpDEHgynd16DZ3dfucAxOiY=;
+ b=f7b4Du6amsWh77xzMS5QL2yDASCCiGiaDCMkS5YlA+ueZ/MmGkAUDQaybYXmSsdM25
+ SGpCapcGwaSAm54vUjcbzZog9AHgpmk0XAJ7fjCDMHhGWo2MZAEL1CyjhSUuYOC/p+GC
+ KO0yl/jvhEUFWBo1MSaNzmARG/mr5rBA4g8q4H0KjVmwKFH/zwB46MR0CJClaHAr9Y2b
+ 30Y86RTjCtk/ARiPwBaNnm56sRti4U4+t6H6HjMaldtv3KtBXEudpD4nIGOPOAkGUXB8
+ Gvyjq8Mm8zLbu/fwr+FeOquIkbhAwLBCkOALxpZwX/mkwgfsVyU/zW1jsIxL++AJzXLn
+ Za+Q==
+X-Gm-Message-State: AOAM531cUQ8EqTz5rj5bGhUL79SJ6zhSqAc10DbKKOxQ6MnEch/1OSoH
+ A7QJckSWwFoif/LyE+RDaIXyZQ==
+X-Google-Smtp-Source: ABdhPJyYWpfKckcqkSDupRC7mtTr58cvL3RkhMr74MJs8/Rw/jFJ+pzf/kZM0m4mlAvlUxV3NOJMog==
+X-Received: by 2002:a05:6000:1c8:: with SMTP id t8mr2618180wrx.3.1599640326860; 
+ Wed, 09 Sep 2020 01:32:06 -0700 (PDT)
 Received: from [10.44.66.8] ([212.45.67.2])
- by smtp.googlemail.com with ESMTPSA id f1sm3111398wrx.75.2020.09.09.01.31.51
+ by smtp.googlemail.com with ESMTPSA id b76sm2848976wme.45.2020.09.09.01.32.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 01:31:52 -0700 (PDT)
-Subject: Re: [PATCH v5 27/36] memory: tegra-mc: Register as interconnect
+ Wed, 09 Sep 2020 01:32:06 -0700 (PDT)
+Subject: Re: [PATCH v5 30/36] memory: tegra20-emc: Register as interconnect
  provider
 To: Dmitry Osipenko <digetx@gmail.com>,
  Thierry Reding <thierry.reding@gmail.com>,
@@ -57,7 +57,7 @@ To: Dmitry Osipenko <digetx@gmail.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
 References: <20200814000621.8415-1-digetx@gmail.com>
- <20200814000621.8415-28-digetx@gmail.com>
+ <20200814000621.8415-31-digetx@gmail.com>
 From: Georgi Djakov <georgi.djakov@linaro.org>
 Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
  xsFNBFjTuRcBEACyAOVzghvyN19Sa/Nit4LPBWkICi5W20p6bwiZvdjhtuh50H5q4ktyxJtp
@@ -102,10 +102,10 @@ Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
  7ayYJIXFqjl/X0KBcCbiAl4vbdBw1bqFnO4zd1lMXKVoa29UHqby4MPbQhjWNVv9kqp8A39+
  E9xw890l1xdERkjVKX6IEJu2hf7X3MMl9tOjBK6MvdOUxvh1bNNmXh7OlBL1MpJYY/ydIm3B
  KEmKjLDvB0pePJkdTw==
-Message-ID: <923b6801-5194-b936-13c6-0972761c29b8@linaro.org>
-Date: Wed, 9 Sep 2020 11:31:50 +0300
+Message-ID: <0fe69608-8fb9-9346-1c71-f37cc6f4193b@linaro.org>
+Date: Wed, 9 Sep 2020 11:32:03 +0300
 MIME-Version: 1.0
-In-Reply-To: <20200814000621.8415-28-digetx@gmail.com>
+In-Reply-To: <20200814000621.8415-31-digetx@gmail.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -133,8 +133,6 @@ On 8/14/20 03:06, Dmitry Osipenko wrote:
 > to use interconnect API in order to change memory configuration.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-
-Thanks Dmitry! Looks good to me.
 
 Acked-by: Georgi Djakov <georgi.djakov@linaro.org>
 _______________________________________________
