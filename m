@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C8D262C23
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 11:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EC5262C25
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 11:42:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DCB6EB29;
-	Wed,  9 Sep 2020 09:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E39A6EB2D;
+	Wed,  9 Sep 2020 09:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB046EB29
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 09:42:27 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id w2so1628377wmi.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 02:42:27 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37506EB2D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 09:42:33 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a9so1676014wmm.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 02:42:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QEXwLqzrufnYQC84+P/tGhOxwlIm/I5QckE0v14WaiM=;
- b=rzo9RthFRpF73CFkZMk6dMAEQxVmT7XM73VhV8ZPtPJtqYIi6apdSZIDtyWQM3hnaD
- CK0PsI/5SlWLHQhmX1Ue2RfwGQNssfGEee6bxKLedufjUvcBBfHR0cG70fSBN/8dlRIC
- ljMF9x4NaKUntkFyB7Mkwr0aKUqKZ/DGJ1So2kys3uM98pj6ev5b++3jBpbjV0qI/31d
- lmc3fZfS69IyAZuU/3KstmKX3M0zMk1N5UaB2dw0idfcx8IwWkawNSqxL1mU7RonKMLR
- t23HqNiYNSWG9DQP/rk3VQ6HEL7QFqJ7hEcGFoL0E8ci2aa2319EWcBUtgk6QEXXBhST
- cEfg==
+ bh=VBWrzLaWgvERfZXWdf1tz2E//xZoCgKLR1vFli6+1D4=;
+ b=NPa0/9/rtOBNIPygOUbt7jEjhEJ1MOT3fMAAxxLUaebUFwJ9OiTT8L54e90WZDep2z
+ 545HcY3k++k0DtSg4soZTHcWoHPjIhkbfJO5mcqRNihjMHf4aw5uOd1NBSTDrCbBrinC
+ 6CjKyebg/3ry9njV9FCZg1OAN3JLXNxCMsFj1q2+2KSfwIj4s8bVda2Iurcass1z2iLg
+ Y15Kkp5RLpoL1G+4kj00PH2RVOpeWMZX8B5EErkKQd5INmfEeiAL+Q6ySgmIUtY0aJlo
+ e6BrakefxHhFPuuwRL44Ieb7Y5kLQ41a/2AUZhWKEcDLUibR9g/9PPo1s/l2FgSDaDdK
+ f7hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QEXwLqzrufnYQC84+P/tGhOxwlIm/I5QckE0v14WaiM=;
- b=NNJ5i4JxARiMtDwjRxZz/A88SsXM8nsaCLzJuHbvmhQMyoeEsVpAwen5Ymz0lSNjXM
- LRtTGbPvjPUF51JyZEbPWAyAEewlgW/SbRtIo7WCLVoA+FcbXhAE06JO3n2wCu7ORxHN
- hwwdkVdzhJOGPovXpxXPoIqtIi570r/OBhvrBX0Yd8jmtpR06O8wvZimTqjCN1YUoulz
- i7vSeF9AeFKqi9juxyoSu88Qu00HESYToWknHUGg4U78bGato1OfmEvDwx83y/F7r2gM
- M0Lew4iy7Eh6rx/zd1UV4tVTvFabkZH3YN+dKoRrPhUTbEZRQ4wGJXHN+kSndAt2jZK8
- C/5g==
-X-Gm-Message-State: AOAM530sAmbxEninzIYXfkZn5XbrG4TOaRWMv+moQfiV+kj0gt1FGJVv
- wG4xYyBPp7Dcama7T3tLSXs=
-X-Google-Smtp-Source: ABdhPJzJA0J1f3hod/SueHDzxAxM9KsAK9po2kUB+W4SDwcmJnl2dTJUuq5WT1behwRdobpCdHtz0g==
-X-Received: by 2002:a1c:7f14:: with SMTP id a20mr2724657wmd.95.1599644545774; 
- Wed, 09 Sep 2020 02:42:25 -0700 (PDT)
+ bh=VBWrzLaWgvERfZXWdf1tz2E//xZoCgKLR1vFli6+1D4=;
+ b=VgJaez/w6JPa5SsqXUwT4baQ9HubIYzETnxJI/7cxbV7QcRin0yZ1gOdm8wsP0FSb0
+ 0QRrfUZOmkq6dbtWAGnaUXEdyNqcnBIkNqW6wA8K86FFdJhp9tTM95VeghI2zFejrOrQ
+ uU62MhxwvEaBHUCTaMCvMsu8sRQWCGRRa4Gbl9xYUgK0rHsAPhyL31I3CHDkf2ef24uW
+ AA3rxKJB2ixUDu4LDhxeR2EK5+PdNFN9bnzKstsU6mUC5OQjiKHOkfntyxHQ9UsBQo8r
+ ejLuP8zsPVEuszxVs02zeCgmsEEplH9EC5lqj+7IN4MxuwQ3ekWPMDSNf7Gaj3Et8V92
+ QuyQ==
+X-Gm-Message-State: AOAM533s4/OIM2Ku0J4X4TZiAyfJdDQtwCm560OFkm/Wx5NgLSEFOcfT
+ ZD9JG0MlnzFsQOwtUUQTPi8=
+X-Google-Smtp-Source: ABdhPJx8VLl38MJu9Ut6xnjEAJVot7X9zLqEMuBjpaRQwqDQrMPa7P8pAyW+Ex+EhE42W9PqDXDJ6A==
+X-Received: by 2002:a1c:5a56:: with SMTP id o83mr2781596wmb.77.1599644552524; 
+ Wed, 09 Sep 2020 02:42:32 -0700 (PDT)
 Received: from ziggy.stardust ([213.195.113.201])
- by smtp.gmail.com with ESMTPSA id o2sm3085614wmo.37.2020.09.09.02.42.24
+ by smtp.gmail.com with ESMTPSA id a11sm3053430wmm.18.2020.09.09.02.42.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 02:42:25 -0700 (PDT)
-Subject: Re: [PATCH v6 2/4] arm: dts: mt7623: move display nodes to separate
- mt7623n.dtsi
+ Wed, 09 Sep 2020 02:42:32 -0700 (PDT)
+Subject: Re: [PATCH v6 3/4] arm: dts: mt7623: add display subsystem related
+ device nodes
 To: Frank Wunderlich <linux@fw-web.de>, linux-mediatek@lists.infradead.org,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>
 References: <20200904110002.88966-1-linux@fw-web.de>
- <20200904110002.88966-3-linux@fw-web.de>
+ <20200904110002.88966-4-linux@fw-web.de>
 From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <64998e6b-aa2c-4934-7797-0c1e802064a5@gmail.com>
-Date: Wed, 9 Sep 2020 11:42:23 +0200
+Message-ID: <2d0248ea-2cb0-b8de-0c81-23160bd213c4@gmail.com>
+Date: Wed, 9 Sep 2020 11:42:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200904110002.88966-3-linux@fw-web.de>
+In-Reply-To: <20200904110002.88966-4-linux@fw-web.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,218 +73,458 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Ryder Lee <ryder.lee@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, Sean Wang <sean.wang@mediatek.com>,
+ Frank Wunderlich <frank-w@public-files.de>,
+ chunhui dai <chunhui.dai@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>,
- David Woodhouse <dwmw@amazon.co.uk>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAwNC8wOS8yMDIwIDEzOjAwLCBGcmFuayBXdW5kZXJsaWNoIHdyb3RlOgo+IEZyb206IEZy
-YW5rIFd1bmRlcmxpY2ggPGZyYW5rLXdAcHVibGljLWZpbGVzLmRlPgo+IAo+IG10NzYyM2EgaGFz
-IG5vIGdyYXBoaWNzIHN1cHBvcnQgc28gbW92ZSBub2RlcyBmcm9tIGdlbmVyaWMgbXQ3NjIzLmR0
-c2kKPiB0byBtdDc2MjNuLmR0c2kKPiAKPiBGaXhlczogMWY2ZWQyMjQ1OTQgKCJhcm06IGR0czog
-bXQ3NjIzOiBhZGQgTWFsaS00NTAgZGV2aWNlIG5vZGUiKQo+IFN1Z2dlc3RlZC1ieTogRGF2aWQg
-V29vZGhvdXNlIDxkd213QGFtYXpvbi5jby51az4KPiBTaWduZWQtb2ZmLWJ5OiBGcmFuayBXdW5k
-ZXJsaWNoIDxmcmFuay13QHB1YmxpYy1maWxlcy5kZT4KCkFwcGxpZWQgdG8gdjUuOS1uZXh0L2R0
-czMyCgpUaGFua3MhCgo+IC0tLQo+ICAgYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzLmR0c2kgICAg
-ICAgICAgICAgICAgIHwgMTIzIC0tLS0tLS0tLS0tLS0tLS0KPiAgIGFyY2gvYXJtL2Jvb3QvZHRz
-L210NzYyM24tYmFuYW5hcGktYnBpLXIyLmR0cyB8ICAgMiArLQo+ICAgYXJjaC9hcm0vYm9vdC9k
-dHMvbXQ3NjIzbi1yZmItZW1tYy5kdHMgICAgICAgIHwgICAyICstCj4gICBhcmNoL2FybS9ib290
-L2R0cy9tdDc2MjNuLmR0c2kgICAgICAgICAgICAgICAgfCAxMzQgKysrKysrKysrKysrKysrKysr
-Cj4gICA0IGZpbGVzIGNoYW5nZWQsIDEzNiBpbnNlcnRpb25zKCspLCAxMjUgZGVsZXRpb25zKC0p
-Cj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi5kdHNpCj4g
-Cj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL210NzYyMy5kdHNpIGIvYXJjaC9hcm0v
-Ym9vdC9kdHMvbXQ3NjIzLmR0c2kKPiBpbmRleCBhMTA2YzBkOTBhNTIuLmQwOWI1NjcxYzkxYiAx
-MDA2NDQKPiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9tdDc2MjMuZHRzaQo+ICsrKyBiL2FyY2gv
-YXJtL2Jvb3QvZHRzL210NzYyMy5kdHNpCj4gQEAgLTE0LDcgKzE0LDYgQEAKPiAgICNpbmNsdWRl
-IDxkdC1iaW5kaW5ncy9wb3dlci9tdDI3MDEtcG93ZXIuaD4KPiAgICNpbmNsdWRlIDxkdC1iaW5k
-aW5ncy9ncGlvL2dwaW8uaD4KPiAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9waHkvcGh5Lmg+Cj4g
-LSNpbmNsdWRlIDxkdC1iaW5kaW5ncy9tZW1vcnkvbXQyNzAxLWxhcmItcG9ydC5oPgo+ICAgI2lu
-Y2x1ZGUgPGR0LWJpbmRpbmdzL3Jlc2V0L210MjcwMS1yZXNldHMuaD4KPiAgICNpbmNsdWRlIDxk
-dC1iaW5kaW5ncy90aGVybWFsL3RoZXJtYWwuaD4KPiAgIAo+IEBAIC0yOTcsMTcgKzI5Niw2IEBA
-IHRpbWVyOiB0aW1lckAxMDAwODAwMCB7Cj4gICAJCWNsb2NrLW5hbWVzID0gInN5c3RlbS1jbGsi
-LCAicnRjLWNsayI7Cj4gICAJfTsKPiAgIAo+IC0Jc21pX2NvbW1vbjogc21pQDEwMDBjMDAwIHsK
-PiAtCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1zbWktY29tbW9uIiwKPiAtCQkJICAg
-ICAibWVkaWF0ZWssbXQyNzAxLXNtaS1jb21tb24iOwo+IC0JCXJlZyA9IDwwIDB4MTAwMGMwMDAg
-MCAweDEwMDA+Owo+IC0JCWNsb2NrcyA9IDwmaW5mcmFjZmcgQ0xLX0lORlJBX1NNST4sCj4gLQkJ
-CSA8Jm1tc3lzIENMS19NTV9TTUlfQ09NTU9OPiwKPiAtCQkJIDwmaW5mcmFjZmcgQ0xLX0lORlJB
-X1NNST47Cj4gLQkJY2xvY2stbmFtZXMgPSAiYXBiIiwgInNtaSIsICJhc3luYyI7Cj4gLQkJcG93
-ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fRElTUD47Cj4gLQl9Owo+
-IC0KPiAgIAlwd3JhcDogcHdyYXBAMTAwMGQwMDAgewo+ICAgCQljb21wYXRpYmxlID0gIm1lZGlh
-dGVrLG10NzYyMy1wd3JhcCIsCj4gICAJCQkgICAgICJtZWRpYXRlayxtdDI3MDEtcHdyYXAiOwo+
-IEBAIC0zMzksMTcgKzMyNyw2IEBAIHN5c2lycTogaW50ZXJydXB0LWNvbnRyb2xsZXJAMTAyMDAx
-MDAgewo+ICAgCQlyZWcgPSA8MCAweDEwMjAwMTAwIDAgMHgxYz47Cj4gICAJfTsKPiAgIAo+IC0J
-aW9tbXU6IG1tc3lzX2lvbW11QDEwMjA1MDAwIHsKPiAtCQljb21wYXRpYmxlID0gIm1lZGlhdGVr
-LG10NzYyMy1tNHUiLAo+IC0JCQkgICAgICJtZWRpYXRlayxtdDI3MDEtbTR1IjsKPiAtCQlyZWcg
-PSA8MCAweDEwMjA1MDAwIDAgMHgxMDAwPjsKPiAtCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMTA2
-IElSUV9UWVBFX0xFVkVMX0xPVz47Cj4gLQkJY2xvY2tzID0gPCZpbmZyYWNmZyBDTEtfSU5GUkFf
-TTRVPjsKPiAtCQljbG9jay1uYW1lcyA9ICJiY2xrIjsKPiAtCQltZWRpYXRlayxsYXJicyA9IDwm
-bGFyYjAgJmxhcmIxICZsYXJiMj47Cj4gLQkJI2lvbW11LWNlbGxzID0gPDE+Owo+IC0JfTsKPiAt
-Cj4gICAJZWZ1c2U6IGVmdXNlQDEwMjA2MDAwIHsKPiAgIAkJY29tcGF0aWJsZSA9ICJtZWRpYXRl
-ayxtdDc2MjMtZWZ1c2UiLAo+ICAgCQkJICAgICAibWVkaWF0ZWssbXQ4MTczLWVmdXNlIjsKPiBA
-QCAtNzI1LDk0ICs3MDIsNiBAQCBtbWMwOiBtbWNAMTEyMzAwMDAgewo+ICAgCQlzdGF0dXMgPSAi
-ZGlzYWJsZWQiOwo+ICAgCX07Cj4gICAKPiAtCWczZHN5czogc3lzY29uQDEzMDAwMDAwIHsKPiAt
-CQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1nM2RzeXMiLAo+IC0JCQkgICAgICJtZWRp
-YXRlayxtdDI3MDEtZzNkc3lzIiwKPiAtCQkJICAgICAic3lzY29uIjsKPiAtCQlyZWcgPSA8MCAw
-eDEzMDAwMDAwIDAgMHgyMDA+Owo+IC0JCSNjbG9jay1jZWxscyA9IDwxPjsKPiAtCQkjcmVzZXQt
-Y2VsbHMgPSA8MT47Cj4gLQl9Owo+IC0KPiAtCW1hbGk6IGdwdUAxMzA0MDAwMCB7Cj4gLQkJY29t
-cGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtbWFsaSIsICJhcm0sbWFsaS00NTAiOwo+IC0JCXJl
-ZyA9IDwwIDB4MTMwNDAwMDAgMCAweDMwMDAwPjsKPiAtCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkg
-MTcwIElSUV9UWVBFX0xFVkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJQ19TUEkgMTcxIElSUV9UWVBF
-X0xFVkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJQ19TUEkgMTcyIElSUV9UWVBFX0xFVkVMX0xPVz4s
-Cj4gLQkJCSAgICAgPEdJQ19TUEkgMTczIElSUV9UWVBFX0xFVkVMX0xPVz4sCj4gLQkJCSAgICAg
-PEdJQ19TUEkgMTc0IElSUV9UWVBFX0xFVkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJQ19TUEkgMTc1
-IElSUV9UWVBFX0xFVkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJQ19TUEkgMTc2IElSUV9UWVBFX0xF
-VkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJQ19TUEkgMTc3IElSUV9UWVBFX0xFVkVMX0xPVz4sCj4g
-LQkJCSAgICAgPEdJQ19TUEkgMTc4IElSUV9UWVBFX0xFVkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJ
-Q19TUEkgMTc5IElSUV9UWVBFX0xFVkVMX0xPVz4sCj4gLQkJCSAgICAgPEdJQ19TUEkgMTgwIElS
-UV9UWVBFX0xFVkVMX0xPVz47Cj4gLQkJaW50ZXJydXB0LW5hbWVzID0gImdwIiwgImdwbW11Iiwg
-InBwMCIsICJwcG1tdTAiLCAicHAxIiwKPiAtCQkJCSAgInBwbW11MSIsICJwcDIiLCAicHBtbXUy
-IiwgInBwMyIsICJwcG1tdTMiLAo+IC0JCQkJICAicHAiOwo+IC0JCWNsb2NrcyA9IDwmdG9wY2tn
-ZW4gQ0xLX1RPUF9NTVBMTD4sCj4gLQkJCSA8JmczZHN5cyBDTEtfRzNEU1lTX0NPUkU+Owo+IC0J
-CWNsb2NrLW5hbWVzID0gImJ1cyIsICJjb3JlIjsKPiAtCQlwb3dlci1kb21haW5zID0gPCZzY3Bz
-eXMgTVQyNzAxX1BPV0VSX0RPTUFJTl9NRkc+Owo+IC0JCXJlc2V0cyA9IDwmZzNkc3lzIE1UMjcw
-MV9HM0RTWVNfQ09SRV9SU1Q+Owo+IC0JfTsKPiAtCj4gLQltbXN5czogc3lzY29uQDE0MDAwMDAw
-IHsKPiAtCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1tbXN5cyIsCj4gLQkJCSAgICAg
-Im1lZGlhdGVrLG10MjcwMS1tbXN5cyIsCj4gLQkJCSAgICAgInN5c2NvbiI7Cj4gLQkJcmVnID0g
-PDAgMHgxNDAwMDAwMCAwIDB4MTAwMD47Cj4gLQkJI2Nsb2NrLWNlbGxzID0gPDE+Owo+IC0JfTsK
-PiAtCj4gLQlsYXJiMDogbGFyYkAxNDAxMDAwMCB7Cj4gLQkJY29tcGF0aWJsZSA9ICJtZWRpYXRl
-ayxtdDc2MjMtc21pLWxhcmIiLAo+IC0JCQkgICAgICJtZWRpYXRlayxtdDI3MDEtc21pLWxhcmIi
-Owo+IC0JCXJlZyA9IDwwIDB4MTQwMTAwMDAgMCAweDEwMDA+Owo+IC0JCW1lZGlhdGVrLHNtaSA9
-IDwmc21pX2NvbW1vbj47Cj4gLQkJbWVkaWF0ZWssbGFyYi1pZCA9IDwwPjsKPiAtCQljbG9ja3Mg
-PSA8Jm1tc3lzIENMS19NTV9TTUlfTEFSQjA+LAo+IC0JCQkgPCZtbXN5cyBDTEtfTU1fU01JX0xB
-UkIwPjsKPiAtCQljbG9jay1uYW1lcyA9ICJhcGIiLCAic21pIjsKPiAtCQlwb3dlci1kb21haW5z
-ID0gPCZzY3BzeXMgTVQyNzAxX1BPV0VSX0RPTUFJTl9ESVNQPjsKPiAtCX07Cj4gLQo+IC0JaW1n
-c3lzOiBzeXNjb25AMTUwMDAwMDAgewo+IC0JCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIz
-LWltZ3N5cyIsCj4gLQkJCSAgICAgIm1lZGlhdGVrLG10MjcwMS1pbWdzeXMiLAo+IC0JCQkgICAg
-ICJzeXNjb24iOwo+IC0JCXJlZyA9IDwwIDB4MTUwMDAwMDAgMCAweDEwMDA+Owo+IC0JCSNjbG9j
-ay1jZWxscyA9IDwxPjsKPiAtCX07Cj4gLQo+IC0JbGFyYjI6IGxhcmJAMTUwMDEwMDAgewo+IC0J
-CWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLXNtaS1sYXJiIiwKPiAtCQkJICAgICAibWVk
-aWF0ZWssbXQyNzAxLXNtaS1sYXJiIjsKPiAtCQlyZWcgPSA8MCAweDE1MDAxMDAwIDAgMHgxMDAw
-PjsKPiAtCQltZWRpYXRlayxzbWkgPSA8JnNtaV9jb21tb24+Owo+IC0JCW1lZGlhdGVrLGxhcmIt
-aWQgPSA8Mj47Cj4gLQkJY2xvY2tzID0gPCZpbWdzeXMgQ0xLX0lNR19TTUlfQ09NTT4sCj4gLQkJ
-CSA8JmltZ3N5cyBDTEtfSU1HX1NNSV9DT01NPjsKPiAtCQljbG9jay1uYW1lcyA9ICJhcGIiLCAi
-c21pIjsKPiAtCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQyNzAxX1BPV0VSX0RPTUFJTl9J
-U1A+Owo+IC0JfTsKPiAtCj4gLQlqcGVnZGVjOiBqcGVnZGVjQDE1MDA0MDAwIHsKPiAtCQljb21w
-YXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1qcGdkZWMiLAo+IC0JCQkgICAgICJtZWRpYXRlayxt
-dDI3MDEtanBnZGVjIjsKPiAtCQlyZWcgPSA8MCAweDE1MDA0MDAwIDAgMHgxMDAwPjsKPiAtCQlp
-bnRlcnJ1cHRzID0gPEdJQ19TUEkgMTQzIElSUV9UWVBFX0xFVkVMX0xPVz47Cj4gLQkJY2xvY2tz
-ID0gIDwmaW1nc3lzIENMS19JTUdfSlBHREVDX1NNST4sCj4gLQkJCSAgPCZpbWdzeXMgQ0xLX0lN
-R19KUEdERUM+Owo+IC0JCWNsb2NrLW5hbWVzID0gImpwZ2RlYy1zbWkiLAo+IC0JCQkgICAgICAi
-anBnZGVjIjsKPiAtCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQyNzAxX1BPV0VSX0RPTUFJ
-Tl9JU1A+Owo+IC0JCW1lZGlhdGVrLGxhcmIgPSA8JmxhcmIyPjsKPiAtCQlpb21tdXMgPSA8Jmlv
-bW11IE1UMjcwMV9NNFVfUE9SVF9KUEdERUNfV0RNQT4sCj4gLQkJCSA8JmlvbW11IE1UMjcwMV9N
-NFVfUE9SVF9KUEdERUNfQlNETUE+Owo+IC0JfTsKPiAtCj4gICAJdmRlY3N5czogc3lzY29uQDE2
-MDAwMDAwIHsKPiAgIAkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtdmRlY3N5cyIsCj4g
-ICAJCQkgICAgICJtZWRpYXRlayxtdDI3MDEtdmRlY3N5cyIsCj4gQEAgLTgyMSwxOCArNzEwLDYg
-QEAgdmRlY3N5czogc3lzY29uQDE2MDAwMDAwIHsKPiAgIAkJI2Nsb2NrLWNlbGxzID0gPDE+Owo+
-ICAgCX07Cj4gICAKPiAtCWxhcmIxOiBsYXJiQDE2MDEwMDAwIHsKPiAtCQljb21wYXRpYmxlID0g
-Im1lZGlhdGVrLG10NzYyMy1zbWktbGFyYiIsCj4gLQkJCSAgICAgIm1lZGlhdGVrLG10MjcwMS1z
-bWktbGFyYiI7Cj4gLQkJcmVnID0gPDAgMHgxNjAxMDAwMCAwIDB4MTAwMD47Cj4gLQkJbWVkaWF0
-ZWssc21pID0gPCZzbWlfY29tbW9uPjsKPiAtCQltZWRpYXRlayxsYXJiLWlkID0gPDE+Owo+IC0J
-CWNsb2NrcyA9IDwmdmRlY3N5cyBDTEtfVkRFQ19DS0dFTj4sCj4gLQkJCSA8JnZkZWNzeXMgQ0xL
-X1ZERUNfTEFSQj47Cj4gLQkJY2xvY2stbmFtZXMgPSAiYXBiIiwgInNtaSI7Cj4gLQkJcG93ZXIt
-ZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fVkRFQz47Cj4gLQl9Owo+IC0K
-PiAgIAloaWZzeXM6IHN5c2NvbkAxYTAwMDAwMCB7Cj4gICAJCWNvbXBhdGlibGUgPSAibWVkaWF0
-ZWssbXQ3NjIzLWhpZnN5cyIsCj4gICAJCQkgICAgICJtZWRpYXRlayxtdDI3MDEtaGlmc3lzIiwK
-PiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi1iYW5hbmFwaS1icGktcjIu
-ZHRzIGIvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi1iYW5hbmFwaS1icGktcjIuZHRzCj4gaW5k
-ZXggMmI3NjBmOTBmMzhjLi4zNDRmOGM2NWM0YWEgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm0vYm9v
-dC9kdHMvbXQ3NjIzbi1iYW5hbmFwaS1icGktcjIuZHRzCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9k
-dHMvbXQ3NjIzbi1iYW5hbmFwaS1icGktcjIuZHRzCj4gQEAgLTYsNyArNiw3IEBACj4gICAKPiAg
-IC9kdHMtdjEvOwo+ICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2lucHV0L2lucHV0Lmg+Cj4gLSNp
-bmNsdWRlICJtdDc2MjMuZHRzaSIKPiArI2luY2x1ZGUgIm10NzYyM24uZHRzaSIKPiAgICNpbmNs
-dWRlICJtdDYzMjMuZHRzaSIKPiAgIAo+ICAgLyB7Cj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jv
-b3QvZHRzL210NzYyM24tcmZiLWVtbWMuZHRzIGIvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi1y
-ZmItZW1tYy5kdHMKPiBpbmRleCAwNDQ3NzQ4ZjlmYTAuLmY4ZWZjYzM2NGJjMyAxMDA2NDQKPiAt
-LS0gYS9hcmNoL2FybS9ib290L2R0cy9tdDc2MjNuLXJmYi1lbW1jLmR0cwo+ICsrKyBiL2FyY2gv
-YXJtL2Jvb3QvZHRzL210NzYyM24tcmZiLWVtbWMuZHRzCj4gQEAgLTcsNyArNyw3IEBACj4gICAK
-PiAgIC9kdHMtdjEvOwo+ICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2lucHV0L2lucHV0Lmg+Cj4g
-LSNpbmNsdWRlICJtdDc2MjMuZHRzaSIKPiArI2luY2x1ZGUgIm10NzYyM24uZHRzaSIKPiAgICNp
-bmNsdWRlICJtdDYzMjMuZHRzaSIKPiAgIAo+ICAgLyB7Cj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJt
-L2Jvb3QvZHRzL210NzYyM24uZHRzaSBiL2FyY2gvYXJtL2Jvb3QvZHRzL210NzYyM24uZHRzaQo+
-IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi5hNDdlODI0Njg4OTUK
-PiAtLS0gL2Rldi9udWxsCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi5kdHNpCj4g
-QEAgLTAsMCArMSwxMzQgQEAKPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAK
-PiArLyoKPiArICogQ29weXJpZ2h0IMKpIDIwMTctMjAyMCBNZWRpYVRlayBJbmMuCj4gKyAqIEF1
-dGhvcjogU2VhbiBXYW5nIDxzZWFuLndhbmdAbWVkaWF0ZWsuY29tPgo+ICsgKgkgICBSeWRlciBM
-ZWUgPHJ5ZGVyLmxlZUBtZWRpYXRlay5jb20+Cj4gKyAqCj4gKyAqLwo+ICsKPiArI2luY2x1ZGUg
-Im10NzYyMy5kdHNpIgo+ICsjaW5jbHVkZSA8ZHQtYmluZGluZ3MvbWVtb3J5L210MjcwMS1sYXJi
-LXBvcnQuaD4KPiArCj4gKy8gewo+ICsJZzNkc3lzOiBzeXNjb25AMTMwMDAwMDAgewo+ICsJCWNv
-bXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLWczZHN5cyIsCj4gKwkJCSAgICAgIm1lZGlhdGVr
-LG10MjcwMS1nM2RzeXMiLAo+ICsJCQkgICAgICJzeXNjb24iOwo+ICsJCXJlZyA9IDwwIDB4MTMw
-MDAwMDAgMCAweDIwMD47Cj4gKwkJI2Nsb2NrLWNlbGxzID0gPDE+Owo+ICsJCSNyZXNldC1jZWxs
-cyA9IDwxPjsKPiArCX07Cj4gKwo+ICsJbWFsaTogZ3B1QDEzMDQwMDAwIHsKPiArCQljb21wYXRp
-YmxlID0gIm1lZGlhdGVrLG10NzYyMy1tYWxpIiwgImFybSxtYWxpLTQ1MCI7Cj4gKwkJcmVnID0g
-PDAgMHgxMzA0MDAwMCAwIDB4MzAwMDA+Owo+ICsJCWludGVycnVwdHMgPSA8R0lDX1NQSSAxNzAg
-SVJRX1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJICAgICA8R0lDX1NQSSAxNzEgSVJRX1RZUEVfTEVW
-RUxfTE9XPiwKPiArCQkJICAgICA8R0lDX1NQSSAxNzIgSVJRX1RZUEVfTEVWRUxfTE9XPiwKPiAr
-CQkJICAgICA8R0lDX1NQSSAxNzMgSVJRX1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJICAgICA8R0lD
-X1NQSSAxNzQgSVJRX1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJICAgICA8R0lDX1NQSSAxNzUgSVJR
-X1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJICAgICA8R0lDX1NQSSAxNzYgSVJRX1RZUEVfTEVWRUxf
-TE9XPiwKPiArCQkJICAgICA8R0lDX1NQSSAxNzcgSVJRX1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJ
-ICAgICA8R0lDX1NQSSAxNzggSVJRX1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJICAgICA8R0lDX1NQ
-SSAxNzkgSVJRX1RZUEVfTEVWRUxfTE9XPiwKPiArCQkJICAgICA8R0lDX1NQSSAxODAgSVJRX1RZ
-UEVfTEVWRUxfTE9XPjsKPiArCQlpbnRlcnJ1cHQtbmFtZXMgPSAiZ3AiLCAiZ3BtbXUiLCAicHAw
-IiwgInBwbW11MCIsICJwcDEiLAo+ICsJCQkJICAicHBtbXUxIiwgInBwMiIsICJwcG1tdTIiLCAi
-cHAzIiwgInBwbW11MyIsCj4gKwkJCQkgICJwcCI7Cj4gKwkJY2xvY2tzID0gPCZ0b3Bja2dlbiBD
-TEtfVE9QX01NUExMPiwKPiArCQkJIDwmZzNkc3lzIENMS19HM0RTWVNfQ09SRT47Cj4gKwkJY2xv
-Y2stbmFtZXMgPSAiYnVzIiwgImNvcmUiOwo+ICsJCXBvd2VyLWRvbWFpbnMgPSA8JnNjcHN5cyBN
-VDI3MDFfUE9XRVJfRE9NQUlOX01GRz47Cj4gKwkJcmVzZXRzID0gPCZnM2RzeXMgTVQyNzAxX0cz
-RFNZU19DT1JFX1JTVD47Cj4gKwl9Owo+ICsKPiArCW1tc3lzOiBzeXNjb25AMTQwMDAwMDAgewo+
-ICsJCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLW1tc3lzIiwKPiArCQkJICAgICAibWVk
-aWF0ZWssbXQyNzAxLW1tc3lzIiwKPiArCQkJICAgICAic3lzY29uIjsKPiArCQlyZWcgPSA8MCAw
-eDE0MDAwMDAwIDAgMHgxMDAwPjsKPiArCQkjY2xvY2stY2VsbHMgPSA8MT47Cj4gKwl9Owo+ICsK
-PiArCWxhcmIwOiBsYXJiQDE0MDEwMDAwIHsKPiArCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10
-NzYyMy1zbWktbGFyYiIsCj4gKwkJCSAgICAgIm1lZGlhdGVrLG10MjcwMS1zbWktbGFyYiI7Cj4g
-KwkJcmVnID0gPDAgMHgxNDAxMDAwMCAwIDB4MTAwMD47Cj4gKwkJbWVkaWF0ZWssc21pID0gPCZz
-bWlfY29tbW9uPjsKPiArCQltZWRpYXRlayxsYXJiLWlkID0gPDA+Owo+ICsJCWNsb2NrcyA9IDwm
-bW1zeXMgQ0xLX01NX1NNSV9MQVJCMD4sCj4gKwkJCSA8Jm1tc3lzIENMS19NTV9TTUlfTEFSQjA+
-Owo+ICsJCWNsb2NrLW5hbWVzID0gImFwYiIsICJzbWkiOwo+ICsJCXBvd2VyLWRvbWFpbnMgPSA8
-JnNjcHN5cyBNVDI3MDFfUE9XRVJfRE9NQUlOX0RJU1A+Owo+ICsJfTsKPiArCj4gKwlsYXJiMTog
-bGFyYkAxNjAxMDAwMCB7Cj4gKwkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtc21pLWxh
-cmIiLAo+ICsJCQkgICAgICJtZWRpYXRlayxtdDI3MDEtc21pLWxhcmIiOwo+ICsJCXJlZyA9IDww
-IDB4MTYwMTAwMDAgMCAweDEwMDA+Owo+ICsJCW1lZGlhdGVrLHNtaSA9IDwmc21pX2NvbW1vbj47
-Cj4gKwkJbWVkaWF0ZWssbGFyYi1pZCA9IDwxPjsKPiArCQljbG9ja3MgPSA8JnZkZWNzeXMgQ0xL
-X1ZERUNfQ0tHRU4+LAo+ICsJCQkgPCZ2ZGVjc3lzIENMS19WREVDX0xBUkI+Owo+ICsJCWNsb2Nr
-LW5hbWVzID0gImFwYiIsICJzbWkiOwo+ICsJCXBvd2VyLWRvbWFpbnMgPSA8JnNjcHN5cyBNVDI3
-MDFfUE9XRVJfRE9NQUlOX1ZERUM+Owo+ICsJfTsKPiArCj4gKwlsYXJiMjogbGFyYkAxNTAwMTAw
-MCB7Cj4gKwkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtc21pLWxhcmIiLAo+ICsJCQkg
-ICAgICJtZWRpYXRlayxtdDI3MDEtc21pLWxhcmIiOwo+ICsJCXJlZyA9IDwwIDB4MTUwMDEwMDAg
-MCAweDEwMDA+Owo+ICsJCW1lZGlhdGVrLHNtaSA9IDwmc21pX2NvbW1vbj47Cj4gKwkJbWVkaWF0
-ZWssbGFyYi1pZCA9IDwyPjsKPiArCQljbG9ja3MgPSA8JmltZ3N5cyBDTEtfSU1HX1NNSV9DT01N
-PiwKPiArCQkJIDwmaW1nc3lzIENMS19JTUdfU01JX0NPTU0+Owo+ICsJCWNsb2NrLW5hbWVzID0g
-ImFwYiIsICJzbWkiOwo+ICsJCXBvd2VyLWRvbWFpbnMgPSA8JnNjcHN5cyBNVDI3MDFfUE9XRVJf
-RE9NQUlOX0lTUD47Cj4gKwl9Owo+ICsKPiArCWltZ3N5czogc3lzY29uQDE1MDAwMDAwIHsKPiAr
-CQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1pbWdzeXMiLAo+ICsJCQkgICAgICJtZWRp
-YXRlayxtdDI3MDEtaW1nc3lzIiwKPiArCQkJICAgICAic3lzY29uIjsKPiArCQlyZWcgPSA8MCAw
-eDE1MDAwMDAwIDAgMHgxMDAwPjsKPiArCQkjY2xvY2stY2VsbHMgPSA8MT47Cj4gKwl9Owo+ICsK
-PiArCWlvbW11OiBtbXN5c19pb21tdUAxMDIwNTAwMCB7Cj4gKwkJY29tcGF0aWJsZSA9ICJtZWRp
-YXRlayxtdDc2MjMtbTR1IiwKPiArCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLW00dSI7Cj4gKwkJ
-cmVnID0gPDAgMHgxMDIwNTAwMCAwIDB4MTAwMD47Cj4gKwkJaW50ZXJydXB0cyA9IDxHSUNfU1BJ
-IDEwNiBJUlFfVFlQRV9MRVZFTF9MT1c+Owo+ICsJCWNsb2NrcyA9IDwmaW5mcmFjZmcgQ0xLX0lO
-RlJBX000VT47Cj4gKwkJY2xvY2stbmFtZXMgPSAiYmNsayI7Cj4gKwkJbWVkaWF0ZWssbGFyYnMg
-PSA8JmxhcmIwICZsYXJiMSAmbGFyYjI+Owo+ICsJCSNpb21tdS1jZWxscyA9IDwxPjsKPiArCX07
-Cj4gKwo+ICsJanBlZ2RlYzoganBlZ2RlY0AxNTAwNDAwMCB7Cj4gKwkJY29tcGF0aWJsZSA9ICJt
-ZWRpYXRlayxtdDc2MjMtanBnZGVjIiwKPiArCQkJICAgICAibWVkaWF0ZWssbXQyNzAxLWpwZ2Rl
-YyI7Cj4gKwkJcmVnID0gPDAgMHgxNTAwNDAwMCAwIDB4MTAwMD47Cj4gKwkJaW50ZXJydXB0cyA9
-IDxHSUNfU1BJIDE0MyBJUlFfVFlQRV9MRVZFTF9MT1c+Owo+ICsJCWNsb2NrcyA9ICA8JmltZ3N5
-cyBDTEtfSU1HX0pQR0RFQ19TTUk+LAo+ICsJCQkgIDwmaW1nc3lzIENMS19JTUdfSlBHREVDPjsK
-PiArCQljbG9jay1uYW1lcyA9ICJqcGdkZWMtc21pIiwKPiArCQkJICAgICAgImpwZ2RlYyI7Cj4g
-KwkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fSVNQPjsKPiAr
-CQltZWRpYXRlayxsYXJiID0gPCZsYXJiMj47Cj4gKwkJaW9tbXVzID0gPCZpb21tdSBNVDI3MDFf
-TTRVX1BPUlRfSlBHREVDX1dETUE+LAo+ICsJCQkgPCZpb21tdSBNVDI3MDFfTTRVX1BPUlRfSlBH
-REVDX0JTRE1BPjsKPiArCX07Cj4gKwo+ICsJc21pX2NvbW1vbjogc21pQDEwMDBjMDAwIHsKPiAr
-CQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy1zbWktY29tbW9uIiwKPiArCQkJICAgICAi
-bWVkaWF0ZWssbXQyNzAxLXNtaS1jb21tb24iOwo+ICsJCXJlZyA9IDwwIDB4MTAwMGMwMDAgMCAw
-eDEwMDA+Owo+ICsJCWNsb2NrcyA9IDwmaW5mcmFjZmcgQ0xLX0lORlJBX1NNST4sCj4gKwkJCSA8
-Jm1tc3lzIENMS19NTV9TTUlfQ09NTU9OPiwKPiArCQkJIDwmaW5mcmFjZmcgQ0xLX0lORlJBX1NN
-ST47Cj4gKwkJY2xvY2stbmFtZXMgPSAiYXBiIiwgInNtaSIsICJhc3luYyI7Cj4gKwkJcG93ZXIt
-ZG9tYWlucyA9IDwmc2Nwc3lzIE1UMjcwMV9QT1dFUl9ET01BSU5fRElTUD47Cj4gKwl9Owo+ICt9
-Owo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+
+On 04/09/2020 13:00, Frank Wunderlich wrote:
+> From: Ryder Lee <ryder.lee@mediatek.com>
+> 
+> Add display subsystem related device nodes for MT7623.
+> 
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Signed-off-by: chunhui dai <chunhui.dai@mediatek.com>
+> Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
+> Signed-off-by: Ryder Lee <ryder.lee@mediatek.com>
+> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de>
+
+Applied to v5.9-next/dts32
+
+Thanks!
+
+> ---
+> changed
+> v5->v6:
+>    change compatible of hdmi-node because of changes in hdmi-phy
+> v4->v5:
+>    add nodes to new mt7623n.dtsi to avoid conflict with mt7623a
+> v3->v4:
+>    drop display_components which is duplicate of existing mmsys
+> v2->v3:
+>    drop bls to dpi routing
+> 
+> arm: dts: mt7623: use mt2701 compatible for hdmi node
+> ---
+>   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts |  72 ++++++++
+>   arch/arm/boot/dts/mt7623n-rfb-emmc.dts        |  72 ++++++++
+>   arch/arm/boot/dts/mt7623n.dtsi                | 172 ++++++++++++++++++
+>   3 files changed, 316 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
+> index 344f8c65c4aa..f41f221e56ca 100644
+> --- a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
+> +++ b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
+> @@ -21,6 +21,19 @@ chosen {
+>   		stdout-path = "serial2:115200n8";
+>   	};
+>   
+> +	connector {
+> +		compatible = "hdmi-connector";
+> +		label = "hdmi";
+> +		type = "d";
+> +		ddc-i2c-bus = <&hdmiddc0>;
+> +
+> +		port {
+> +			hdmi_connector_in: endpoint {
+> +				remote-endpoint = <&hdmi0_out>;
+> +			};
+> +		};
+> +	};
+> +
+>   	cpus {
+>   		cpu@0 {
+>   			proc-supply = <&mt6323_vproc_reg>;
+> @@ -114,10 +127,18 @@ memory@80000000 {
+>   	};
+>   };
+>   
+> +&bls {
+> +	status = "okay";
+> +};
+> +
+>   &btif {
+>   	status = "okay";
+>   };
+>   
+> +&cec {
+> +	status = "okay";
+> +};
+> +
+>   &cir {
+>   	pinctrl-names = "default";
+>   	pinctrl-0 = <&cir_pins_a>;
+> @@ -128,6 +149,21 @@ &crypto {
+>   	status = "okay";
+>   };
+>   
+> +&dpi0 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		port@0 {
+> +			reg = <0>;
+> +			dpi0_out: endpoint {
+> +				remote-endpoint = <&hdmi0_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>   &eth {
+>   	status = "okay";
+>   
+> @@ -199,6 +235,42 @@ fixed-link {
+>   	};
+>   };
+>   
+> +&hdmi0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&hdmi_pins_a>;
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		port@0 {
+> +			reg = <0>;
+> +			hdmi0_in: endpoint {
+> +				remote-endpoint = <&dpi0_out>;
+> +			};
+> +		};
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +			hdmi0_out: endpoint {
+> +				remote-endpoint = <&hdmi_connector_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&hdmiddc0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&hdmi_ddc_pins_a>;
+> +	status = "okay";
+> +};
+> +
+> +&hdmi_phy {
+> +	mediatek,ibias = <0xa>;
+> +	mediatek,ibias_up = <0x1c>;
+> +	status = "okay";
+> +};
+> +
+>   &i2c0 {
+>   	pinctrl-names = "default";
+>   	pinctrl-0 = <&i2c0_pins_a>;
+> diff --git a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
+> index f8efcc364bc3..1b9b9a8145a7 100644
+> --- a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
+> +++ b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
+> @@ -24,6 +24,19 @@ chosen {
+>   		stdout-path = "serial2:115200n8";
+>   	};
+>   
+> +	connector {
+> +		compatible = "hdmi-connector";
+> +		label = "hdmi";
+> +		type = "d";
+> +		ddc-i2c-bus = <&hdmiddc0>;
+> +
+> +		port {
+> +			hdmi_connector_in: endpoint {
+> +				remote-endpoint = <&hdmi0_out>;
+> +			};
+> +		};
+> +	};
+> +
+>   	cpus {
+>   		cpu@0 {
+>   			proc-supply = <&mt6323_vproc_reg>;
+> @@ -106,10 +119,18 @@ sound {
+>   	};
+>   };
+>   
+> +&bls {
+> +	status = "okay";
+> +};
+> +
+>   &btif {
+>   	status = "okay";
+>   };
+>   
+> +&cec {
+> +	status = "okay";
+> +};
+> +
+>   &cir {
+>   	pinctrl-names = "default";
+>   	pinctrl-0 = <&cir_pins_a>;
+> @@ -120,6 +141,21 @@ &crypto {
+>   	status = "okay";
+>   };
+>   
+> +&dpi0 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		port@0 {
+> +			reg = <0>;
+> +			dpi0_out: endpoint {
+> +				remote-endpoint = <&hdmi0_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>   &eth {
+>   	status = "okay";
+>   
+> @@ -203,6 +239,42 @@ fixed-link {
+>   	};
+>   };
+>   
+> +&hdmi0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&hdmi_pins_a>;
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		port@0 {
+> +			reg = <0>;
+> +			hdmi0_in: endpoint {
+> +				remote-endpoint = <&dpi0_out>;
+> +			};
+> +		};
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +			hdmi0_out: endpoint {
+> +				remote-endpoint = <&hdmi_connector_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&hdmiddc0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&hdmi_ddc_pins_a>;
+> +	status = "okay";
+> +};
+> +
+> +&hdmi_phy {
+> +	mediatek,ibias = <0xa>;
+> +	mediatek,ibias_up = <0x1c>;
+> +	status = "okay";
+> +};
+> +
+>   &i2c0 {
+>   	pinctrl-names = "default";
+>   	pinctrl-0 = <&i2c0_pins_a>;
+> diff --git a/arch/arm/boot/dts/mt7623n.dtsi b/arch/arm/boot/dts/mt7623n.dtsi
+> index a47e82468895..1880ac9e32cf 100644
+> --- a/arch/arm/boot/dts/mt7623n.dtsi
+> +++ b/arch/arm/boot/dts/mt7623n.dtsi
+> @@ -10,6 +10,11 @@
+>   #include <dt-bindings/memory/mt2701-larb-port.h>
+>   
+>   / {
+> +	aliases {
+> +		rdma0 = &rdma0;
+> +		rdma1 = &rdma1;
+> +	};
+> +
+>   	g3dsys: syscon@13000000 {
+>   		compatible = "mediatek,mt7623-g3dsys",
+>   			     "mediatek,mt2701-g3dsys",
+> @@ -131,4 +136,171 @@ smi_common: smi@1000c000 {
+>   		clock-names = "apb", "smi", "async";
+>   		power-domains = <&scpsys MT2701_POWER_DOMAIN_DISP>;
+>   	};
+> +
+> +	ovl: ovl@14007000 {
+> +		compatible = "mediatek,mt7623-disp-ovl",
+> +			     "mediatek,mt2701-disp-ovl";
+> +		reg = <0 0x14007000 0 0x1000>;
+> +		interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DISP_OVL>;
+> +		iommus = <&iommu MT2701_M4U_PORT_DISP_OVL_0>;
+> +		mediatek,larb = <&larb0>;
+> +	};
+> +
+> +	rdma0: rdma@14008000 {
+> +		compatible = "mediatek,mt7623-disp-rdma",
+> +			     "mediatek,mt2701-disp-rdma";
+> +		reg = <0 0x14008000 0 0x1000>;
+> +		interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DISP_RDMA>;
+> +		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA>;
+> +		mediatek,larb = <&larb0>;
+> +	};
+> +
+> +	wdma@14009000 {
+> +		compatible = "mediatek,mt7623-disp-wdma",
+> +			     "mediatek,mt2701-disp-wdma";
+> +		reg = <0 0x14009000 0 0x1000>;
+> +		interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DISP_WDMA>;
+> +		iommus = <&iommu MT2701_M4U_PORT_DISP_WDMA>;
+> +		mediatek,larb = <&larb0>;
+> +	};
+> +
+> +	bls: pwm@1400a000 {
+> +		compatible = "mediatek,mt7623-disp-pwm",
+> +			     "mediatek,mt2701-disp-pwm";
+> +		reg = <0 0x1400a000 0 0x1000>;
+> +		#pwm-cells = <2>;
+> +		clocks = <&mmsys CLK_MM_MDP_BLS_26M>,
+> +			 <&mmsys CLK_MM_DISP_BLS>;
+> +		clock-names = "main", "mm";
+> +		status = "disabled";
+> +	};
+> +
+> +	color: color@1400b000 {
+> +		compatible = "mediatek,mt7623-disp-color",
+> +			     "mediatek,mt2701-disp-color";
+> +		reg = <0 0x1400b000 0 0x1000>;
+> +		interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DISP_COLOR>;
+> +	};
+> +
+> +	dsi: dsi@1400c000 {
+> +		compatible = "mediatek,mt7623-dsi",
+> +			     "mediatek,mt2701-dsi";
+> +		reg = <0 0x1400c000 0 0x1000>;
+> +		interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DSI_ENGINE>,
+> +			 <&mmsys CLK_MM_DSI_DIG>,
+> +			 <&mipi_tx0>;
+> +		clock-names = "engine", "digital", "hs";
+> +		phys = <&mipi_tx0>;
+> +		phy-names = "dphy";
+> +		status = "disabled";
+> +	};
+> +
+> +	mutex: mutex@1400e000 {
+> +		compatible = "mediatek,mt7623-disp-mutex",
+> +			     "mediatek,mt2701-disp-mutex";
+> +		reg = <0 0x1400e000 0 0x1000>;
+> +		interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_MUTEX_32K>;
+> +	};
+> +
+> +	rdma1: rdma@14012000 {
+> +		compatible = "mediatek,mt7623-disp-rdma",
+> +			     "mediatek,mt2701-disp-rdma";
+> +		reg = <0 0x14012000 0 0x1000>;
+> +		interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DISP_RDMA1>;
+> +		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA1>;
+> +		mediatek,larb = <&larb0>;
+> +	};
+> +
+> +	dpi0: dpi@14014000 {
+> +		compatible = "mediatek,mt7623-dpi",
+> +			     "mediatek,mt2701-dpi";
+> +		reg = <0 0x14014000 0 0x1000>;
+> +		interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&mmsys CLK_MM_DPI1_DIGL>,
+> +			 <&mmsys CLK_MM_DPI1_ENGINE>,
+> +			 <&apmixedsys CLK_APMIXED_TVDPLL>;
+> +		clock-names = "pixel", "engine", "pll";
+> +		status = "disabled";
+> +	};
+> +
+> +	hdmi0: hdmi@14015000 {
+> +		compatible = "mediatek,mt7623-hdmi",
+> +			     "mediatek,mt2701-hdmi";
+> +		reg = <0 0x14015000 0 0x400>;
+> +		clocks = <&mmsys CLK_MM_HDMI_PIXEL>,
+> +			 <&mmsys CLK_MM_HDMI_PLL>,
+> +			 <&mmsys CLK_MM_HDMI_AUDIO>,
+> +			 <&mmsys CLK_MM_HDMI_SPDIF>;
+> +		clock-names = "pixel", "pll", "bclk", "spdif";
+> +		phys = <&hdmi_phy>;
+> +		phy-names = "hdmi";
+> +		mediatek,syscon-hdmi = <&mmsys 0x900>;
+> +		cec = <&cec>;
+> +		status = "disabled";
+> +	};
+> +
+> +	mipi_tx0: mipi-dphy@10010000 {
+> +		compatible = "mediatek,mt7623-mipi-tx",
+> +			     "mediatek,mt2701-mipi-tx";
+> +		reg = <0 0x10010000 0 0x90>;
+> +		clocks = <&clk26m>;
+> +		clock-output-names = "mipi_tx0_pll";
+> +		#clock-cells = <0>;
+> +		#phy-cells = <0>;
+> +	};
+> +
+> +	cec: cec@10012000 {
+> +		compatible = "mediatek,mt7623-cec",
+> +			     "mediatek,mt8173-cec";
+> +		reg = <0 0x10012000 0 0xbc>;
+> +		interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&infracfg CLK_INFRA_CEC>;
+> +		status = "disabled";
+> +	};
+> +
+> +	hdmi_phy: phy@10209100 {
+> +		compatible = "mediatek,mt7623-hdmi-phy",
+> +			     "mediatek,mt2701-hdmi-phy";
+> +		reg = <0 0x10209100 0 0x24>;
+> +		clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
+> +		clock-names = "pll_ref";
+> +		clock-output-names = "hdmitx_dig_cts";
+> +		#clock-cells = <0>;
+> +		#phy-cells = <0>;
+> +		status = "disabled";
+> +	};
+> +
+> +	hdmiddc0: i2c@11013000 {
+> +		compatible = "mediatek,mt7623-hdmi-ddc",
+> +			     "mediatek,mt8173-hdmi-ddc";
+> +		interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_LOW>;
+> +		reg = <0 0x11013000 0 0x1C>;
+> +		clocks = <&pericfg CLK_PERI_I2C3>;
+> +		clock-names = "ddc-i2c";
+> +		status = "disabled";
+> +	};
+> +};
+> +
+> +&pio {
+> +	hdmi_pins_a: hdmi-default {
+> +		pins-hdmi {
+> +			pinmux = <MT7623_PIN_123_HTPLG_FUNC_HTPLG>;
+> +			input-enable;
+> +			bias-pull-down;
+> +		};
+> +	};
+> +
+> +	hdmi_ddc_pins_a: hdmi_ddc-default {
+> +		pins-hdmi-ddc {
+> +			pinmux = <MT7623_PIN_124_GPIO124_FUNC_HDMISCK>,
+> +				 <MT7623_PIN_125_GPIO125_FUNC_HDMISD>;
+> +		};
+> +	};
+>   };
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
