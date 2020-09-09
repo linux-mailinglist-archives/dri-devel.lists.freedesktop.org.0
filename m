@@ -2,53 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5311263E7A
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9443263E90
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C656E212;
-	Thu, 10 Sep 2020 07:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A7C6E22B;
+	Thu, 10 Sep 2020 07:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
- [IPv6:2607:f8b0:4864:20::942])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3806D6EA0E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:13:23 +0000 (UTC)
-Received: by mail-ua1-x942.google.com with SMTP id w23so429215uam.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 00:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CVOXiOEzuPIPELtkzIBti2oTVQlq254I82Oqaqw5WGE=;
- b=Vd7ST+5j8sDHceUYPBeyqlywLA2yav/L80K9J/su39UL2ARenE6HVq7J9pUqGCK5cn
- may0jaNWa4mHvGzlNk1o6DmLGK+L9Ts+rfMpW+Ygae+//xUstSYdD4dFDVyAgls/bmE2
- Ohsgs+7xy//7gnNWYPSyH5otScdntWyDQR8qA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CVOXiOEzuPIPELtkzIBti2oTVQlq254I82Oqaqw5WGE=;
- b=kNmOEx1jSYGMOnhAViCD/eoWOMqQ6tMyzrZpzKw1nbvTMYAH1cmDO+uZCg/5MH7Iyq
- 8WqXx8urWH6mFVhy6uavpjimkxmJKd6AZqPeT/0zWDaEayIk6ARCpSJO+vl1vSuosmgL
- uFOlGDQmO1JRGBHdGYISjcrF9X0JugS05SZj6ChTJUmMIxlUuXWP2nAKlbQoP+YzMc8X
- CtuQksjKcX94JoQyMwdEcbMjV+/ZEU9tSi0xMdtgHqUhUKKocA42FU5GfNJCIEleViHH
- 2DR6qwj70Yl40uGFudZMGhjyOcZa4IknpmYluHMzDSRr5+QdcwZj7VWRkFfWGEOiZdp4
- RIrg==
-X-Gm-Message-State: AOAM533Xj2XBGRJjvwljxEM+BDXla+aTnoit9qxAXnRVuCMwl63ymC9J
- Dx6Wk5USb+QjDt++G23IJ61cVTAT7h8LEKdW9nVMFA==
-X-Google-Smtp-Source: ABdhPJyKDXjrH4Rdx8HoBvuhILp7Bm5NPUOe54OLFKaVIpD1ZUiGiEhtU0K/vJkW6aIffWUWo3xWlZcwq9ZB+SH09G0=
-X-Received: by 2002:ab0:32d:: with SMTP id 42mr1633870uat.107.1599635602680;
- Wed, 09 Sep 2020 00:13:22 -0700 (PDT)
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB7636EA2D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:36:01 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 1CD00EA207CDC654870D;
+ Wed,  9 Sep 2020 15:35:55 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 9 Sep 2020 15:35:44 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <eric@anholt.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/vc4: Remove unused variables
+Date: Wed, 9 Sep 2020 15:33:27 +0800
+Message-ID: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20200902210847.2689-1-gurchetansingh@chromium.org>
- <20200902210847.2689-5-gurchetansingh@chromium.org>
- <20200902221514.GE1263242@redhat.com>
- <CAAfnVBnfbwc07au1OMec8g5yHC0D3yXc88nOtTopO4sitYf8ig@mail.gmail.com>
- <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
-In-Reply-To: <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 9 Sep 2020 09:13:11 +0200
-Message-ID: <CAJfpegsMEZoCQe7frsr9Kaq6EZsuRFWP3zs7sgrxnUDLzfcx_w@mail.gmail.com>
-Subject: Re: [PATCH v2 04/23] virtio: Add get_shm_region method
-To: Gerd Hoffmann <kraxel@redhat.com>
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,44 +41,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>, Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 9, 2020 at 9:04 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Wed, Sep 02, 2020 at 05:00:25PM -0700, Gurchetan Singh wrote:
-> > On Wed, Sep 2, 2020 at 3:15 PM Vivek Goyal <vgoyal@redhat.com> wrote:
-> >
-> > > Hi Gurchetan,
-> > >
-> > > Now Miklos has queued, these tree virtio patches for shared memory
-> > > region in his tree as part of virtiofs dax patch series.
-> > >
-> > > I am hoping this will get merged in 5.10 through his tree.
-> > >
-> > >
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?h=dax
-> >
-> >
-> > Terrific ... !  Maybe we can queue the version Miklos has in drm-misc-next
-> > to avoid merge conflicts ?!?
->
-> I guess it would either be merging the fuse tree into drm-misc-next,
-> or cherry-picking the three virtio shm patches from the fuse tree.
-
-Maybe cleanest if we'd do a separate branch for the virtio patches and
-pull that into both the fuse-next and the drm-misc-next trees?
-
-Thanks,
-Miklos
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CnZjNF9wbGFu
+ZS5jOiBJbiBmdW5jdGlvbiDigJh2YzRfcGxhbmVfaW5pdOKAmToKdmM0X3BsYW5lLmM6MTM0MDo2
+OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBub3QKdXNlZCBbLVd1bnVzZWQt
+YnV0LXNldC12YXJpYWJsZV0KClNpZ25lZC1vZmYtYnk6IFRpYW4gVGFvIDx0aWFudGFvNkBoaXNp
+bGljb24uY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3BsYW5lLmMgfCAzICstLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmM0
+L3ZjNF9wbGFuZS5jCmluZGV4IDI0ZDdlNmQuLjViZTBmNWRkYSAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3ZjNC92YzRfcGxhbmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9w
+bGFuZS5jCkBAIC0xMzM3LDcgKzEzMzcsNiBAQCBzdHJ1Y3QgZHJtX3BsYW5lICp2YzRfcGxhbmVf
+aW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lID0g
+TlVMTDsKIAlzdHJ1Y3QgdmM0X3BsYW5lICp2YzRfcGxhbmU7CiAJdTMyIGZvcm1hdHNbQVJSQVlf
+U0laRShodnNfZm9ybWF0cyldOwotCWludCByZXQgPSAwOwogCXVuc2lnbmVkIGk7CiAJc3RhdGlj
+IGNvbnN0IHVpbnQ2NF90IG1vZGlmaWVyc1tdID0gewogCQlEUk1fRk9STUFUX01PRF9CUk9BRENP
+TV9WQzRfVF9USUxFRCwKQEAgLTEzNTcsNyArMTM1Niw3IEBAIHN0cnVjdCBkcm1fcGxhbmUgKnZj
+NF9wbGFuZV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJCWZvcm1hdHNbaV0gPSBodnNf
+Zm9ybWF0c1tpXS5kcm07CiAKIAlwbGFuZSA9ICZ2YzRfcGxhbmUtPmJhc2U7Ci0JcmV0ID0gZHJt
+X3VuaXZlcnNhbF9wbGFuZV9pbml0KGRldiwgcGxhbmUsIDAsCisJZHJtX3VuaXZlcnNhbF9wbGFu
+ZV9pbml0KGRldiwgcGxhbmUsIDAsCiAJCQkJICAgICAgICZ2YzRfcGxhbmVfZnVuY3MsCiAJCQkJ
+ICAgICAgIGZvcm1hdHMsIEFSUkFZX1NJWkUoZm9ybWF0cyksCiAJCQkJICAgICAgIG1vZGlmaWVy
+cywgdHlwZSwgTlVMTCk7Ci0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
