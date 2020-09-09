@@ -1,63 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BEE262BDA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 11:29:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8A2262BF3
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 11:35:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942756EDAA;
-	Wed,  9 Sep 2020 09:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D95416EDAE;
+	Wed,  9 Sep 2020 09:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7E906EDAA
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 09:29:39 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k15so2125982wrn.10
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 02:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hXqUYlv6FQXC0NWO3WzPdE9cu2eajOHbbEEHxWTWdr0=;
- b=iJchZfpFQeGOp4xe5euU+/KAv43EtHc+f3JjQy9OjclyGT1NNZMqQtQjVt3vPOtVk9
- CdJDf0fFRlO60XhovLO4Z9taFYuKOsN8WxBVenNMO1axiCpk1MXDiwpMJeX2Xd/Ll1/Y
- JJCYy/vm3h5W3ILW3rLA6ugcfPrw2fC8wKWHsaPUtg+So/SpygKapcg3WSKvS2FXWzjP
- se0WAkeCf8Hd9zwCUJ4N7H5r6KFIjtpQsFLxNreOd0Ab6vcHOvyG/eDGBe07hgDAQnl2
- vWXqpWV231QJlfhnp9OmKElLU8+pareBW9/wn54mYdzV2jgDJeB1McLRk9qlzYomAArB
- prhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hXqUYlv6FQXC0NWO3WzPdE9cu2eajOHbbEEHxWTWdr0=;
- b=NbLdryFE6c1newIb/NBUYQCST47qg9IbzlUdTTVQMdTEbu/R7DsdBwnUBw3kHEWiNZ
- kjjnnTnYi9AC6vD2anhMgX/YDObgEwYa80703Lrw4gDvHmqO5OrGgn9N5bQLtNXcBfEO
- CzVoD24nDt9P7znJJeZ+zIq9TAmxFI2sW0gOMH+yKKOmmrfCnWlpIMUWAO8EWXUc6zJk
- VdpWmFuQkulUc4bCt60lPKW+H31L0YTZ0VfG1nJThCWcBQMBJu6ktAx267t+5Zk3iK/e
- OcK+XfGSpLKdmd5auHPqtteCcMEA/WNjob9xnM3Lfr0j1RC322RVWqHI5xjXF3DlzYW/
- 5eNQ==
-X-Gm-Message-State: AOAM530G9vNcBoYNJflyCsQy3IAOO39f3SP/JXjjgBMQfOF78n3wQ8ha
- /jfVq34YsGKnwUfoGLFW717wJ8BDYYE=
-X-Google-Smtp-Source: ABdhPJyDTwb2K2ZKpKUpD0LZXGyNPMp/PutjdsuYzbERZTuNTHiwl/D/cGiKStvqJ5MPsY8+VhGozQ==
-X-Received: by 2002:adf:b602:: with SMTP id f2mr2920298wre.186.1599643778250; 
- Wed, 09 Sep 2020 02:29:38 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.113.201])
- by smtp.gmail.com with ESMTPSA id h184sm3126522wmh.41.2020.09.09.02.29.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 02:29:37 -0700 (PDT)
-Subject: Re: [PATCH v5 7/7] arm: dts: mt7623: add display subsystem related
- device nodes
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6EA6EDAE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 09:35:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 87B94ADBD;
+ Wed,  9 Sep 2020 09:35:03 +0000 (UTC)
+Subject: Re: [PATCH v5 6/7] arm: dts: mt7623: move display nodes to separate
+ mt7623n.dtsi
+From: Matthias Brugger <matthias.bgg@gmail.com>
 To: Frank Wunderlich <linux@fw-web.de>, linux-mediatek@lists.infradead.org
 References: <20200819081752.4805-1-linux@fw-web.de>
- <20200819081752.4805-8-linux@fw-web.de>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <2bbeff85-d1c6-5cc1-1f23-5e77eaa364c3@gmail.com>
-Date: Wed, 9 Sep 2020 11:29:36 +0200
+ <20200819081752.4805-7-linux@fw-web.de>
+ <57085883-5044-aec2-021b-3b0880da70bc@gmail.com>
+Message-ID: <3b3ef297-a3cf-6a3f-3118-9cc8b4ccc1f4@gmail.com>
+Date: Wed, 9 Sep 2020 11:35:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200819081752.4805-8-linux@fw-web.de>
+In-Reply-To: <57085883-5044-aec2-021b-3b0880da70bc@gmail.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,451 +42,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- chunhui dai <chunhui.dai@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Woodhouse <dwmw@amazon.co.uk>, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 19/08/2020 10:17, Frank Wunderlich wrote:
-> From: Ryder Lee <ryder.lee@mediatek.com>
+On 09/09/2020 11:29, Matthias Brugger wrote:
 > 
-> Add display subsystem related device nodes for MT7623.
 > 
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Signed-off-by: chunhui dai <chunhui.dai@mediatek.com>
-> Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-> Signed-off-by: Ryder Lee <ryder.lee@mediatek.com>
-> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-> Tested-by: Frank Wunderlich <frank-w@public-files.de>
-
-Applied to v5.9-next/dts32
-
-Thanks!
-
-> ---
-> changed
-> v4->v5:
->    add nodes to new mt7623n.dtsi to avoid conflict with mt7623a
-> v3->v4:
->    drop display_components which is duplicate of existing mmsys
-> v2->v3:
->    drop bls to dpi routing
-> ---
->   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts |  72 ++++++++
->   arch/arm/boot/dts/mt7623n-rfb-emmc.dts        |  72 ++++++++
->   arch/arm/boot/dts/mt7623n.dtsi                | 171 ++++++++++++++++++
->   3 files changed, 315 insertions(+)
+> On 19/08/2020 10:17, Frank Wunderlich wrote:
+>> From: Frank Wunderlich <frank-w@public-files.de>
+>>
+>> mt7623a has no graphics support so move nodes from generic mt7623.dtsi
+>> to mt7623n.dtsi
+>>
+>> Fixes: 1f6ed224594 ("arm: dts: mt7623: add Mali-450 device node")
+>> Suggested-by: David Woodhouse <dwmw@amazon.co.uk>
+>> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
 > 
-> diff --git a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
-> index 344f8c65c4aa..f41f221e56ca 100644
-> --- a/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
-> +++ b/arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts
-> @@ -21,6 +21,19 @@ chosen {
->   		stdout-path = "serial2:115200n8";
->   	};
->   
-> +	connector {
-> +		compatible = "hdmi-connector";
-> +		label = "hdmi";
-> +		type = "d";
-> +		ddc-i2c-bus = <&hdmiddc0>;
-> +
-> +		port {
-> +			hdmi_connector_in: endpoint {
-> +				remote-endpoint = <&hdmi0_out>;
-> +			};
-> +		};
-> +	};
-> +
->   	cpus {
->   		cpu@0 {
->   			proc-supply = <&mt6323_vproc_reg>;
-> @@ -114,10 +127,18 @@ memory@80000000 {
->   	};
->   };
->   
-> +&bls {
-> +	status = "okay";
-> +};
-> +
->   &btif {
->   	status = "okay";
->   };
->   
-> +&cec {
-> +	status = "okay";
-> +};
-> +
->   &cir {
->   	pinctrl-names = "default";
->   	pinctrl-0 = <&cir_pins_a>;
-> @@ -128,6 +149,21 @@ &crypto {
->   	status = "okay";
->   };
->   
-> +&dpi0 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		port@0 {
-> +			reg = <0>;
-> +			dpi0_out: endpoint {
-> +				remote-endpoint = <&hdmi0_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
->   &eth {
->   	status = "okay";
->   
-> @@ -199,6 +235,42 @@ fixed-link {
->   	};
->   };
->   
-> +&hdmi0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&hdmi_pins_a>;
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		port@0 {
-> +			reg = <0>;
-> +			hdmi0_in: endpoint {
-> +				remote-endpoint = <&dpi0_out>;
-> +			};
-> +		};
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +			hdmi0_out: endpoint {
-> +				remote-endpoint = <&hdmi_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&hdmiddc0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&hdmi_ddc_pins_a>;
-> +	status = "okay";
-> +};
-> +
-> +&hdmi_phy {
-> +	mediatek,ibias = <0xa>;
-> +	mediatek,ibias_up = <0x1c>;
-> +	status = "okay";
-> +};
-> +
->   &i2c0 {
->   	pinctrl-names = "default";
->   	pinctrl-0 = <&i2c0_pins_a>;
-> diff --git a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
-> index f8efcc364bc3..1b9b9a8145a7 100644
-> --- a/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
-> +++ b/arch/arm/boot/dts/mt7623n-rfb-emmc.dts
-> @@ -24,6 +24,19 @@ chosen {
->   		stdout-path = "serial2:115200n8";
->   	};
->   
-> +	connector {
-> +		compatible = "hdmi-connector";
-> +		label = "hdmi";
-> +		type = "d";
-> +		ddc-i2c-bus = <&hdmiddc0>;
-> +
-> +		port {
-> +			hdmi_connector_in: endpoint {
-> +				remote-endpoint = <&hdmi0_out>;
-> +			};
-> +		};
-> +	};
-> +
->   	cpus {
->   		cpu@0 {
->   			proc-supply = <&mt6323_vproc_reg>;
-> @@ -106,10 +119,18 @@ sound {
->   	};
->   };
->   
-> +&bls {
-> +	status = "okay";
-> +};
-> +
->   &btif {
->   	status = "okay";
->   };
->   
-> +&cec {
-> +	status = "okay";
-> +};
-> +
->   &cir {
->   	pinctrl-names = "default";
->   	pinctrl-0 = <&cir_pins_a>;
-> @@ -120,6 +141,21 @@ &crypto {
->   	status = "okay";
->   };
->   
-> +&dpi0 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		port@0 {
-> +			reg = <0>;
-> +			dpi0_out: endpoint {
-> +				remote-endpoint = <&hdmi0_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
->   &eth {
->   	status = "okay";
->   
-> @@ -203,6 +239,42 @@ fixed-link {
->   	};
->   };
->   
-> +&hdmi0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&hdmi_pins_a>;
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		port@0 {
-> +			reg = <0>;
-> +			hdmi0_in: endpoint {
-> +				remote-endpoint = <&dpi0_out>;
-> +			};
-> +		};
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +			hdmi0_out: endpoint {
-> +				remote-endpoint = <&hdmi_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&hdmiddc0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&hdmi_ddc_pins_a>;
-> +	status = "okay";
-> +};
-> +
-> +&hdmi_phy {
-> +	mediatek,ibias = <0xa>;
-> +	mediatek,ibias_up = <0x1c>;
-> +	status = "okay";
-> +};
-> +
->   &i2c0 {
->   	pinctrl-names = "default";
->   	pinctrl-0 = <&i2c0_pins_a>;
-> diff --git a/arch/arm/boot/dts/mt7623n.dtsi b/arch/arm/boot/dts/mt7623n.dtsi
-> index a47e82468895..61545fc541c4 100644
-> --- a/arch/arm/boot/dts/mt7623n.dtsi
-> +++ b/arch/arm/boot/dts/mt7623n.dtsi
-> @@ -10,6 +10,10 @@
->   #include <dt-bindings/memory/mt2701-larb-port.h>
->   
->   / {
-> +	aliases {
-> +		rdma0 = &rdma0;
-> +		rdma1 = &rdma1;
-> +	};
->   	g3dsys: syscon@13000000 {
->   		compatible = "mediatek,mt7623-g3dsys",
->   			     "mediatek,mt2701-g3dsys",
-> @@ -131,4 +135,171 @@ smi_common: smi@1000c000 {
->   		clock-names = "apb", "smi", "async";
->   		power-domains = <&scpsys MT2701_POWER_DOMAIN_DISP>;
->   	};
-> +
-> +	ovl: ovl@14007000 {
-> +		compatible = "mediatek,mt7623-disp-ovl",
-> +			     "mediatek,mt2701-disp-ovl";
-> +		reg = <0 0x14007000 0 0x1000>;
-> +		interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DISP_OVL>;
-> +		iommus = <&iommu MT2701_M4U_PORT_DISP_OVL_0>;
-> +		mediatek,larb = <&larb0>;
-> +	};
-> +
-> +	rdma0: rdma@14008000 {
-> +		compatible = "mediatek,mt7623-disp-rdma",
-> +			     "mediatek,mt2701-disp-rdma";
-> +		reg = <0 0x14008000 0 0x1000>;
-> +		interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DISP_RDMA>;
-> +		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA>;
-> +		mediatek,larb = <&larb0>;
-> +	};
-> +
-> +	wdma@14009000 {
-> +		compatible = "mediatek,mt7623-disp-wdma",
-> +			     "mediatek,mt2701-disp-wdma";
-> +		reg = <0 0x14009000 0 0x1000>;
-> +		interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DISP_WDMA>;
-> +		iommus = <&iommu MT2701_M4U_PORT_DISP_WDMA>;
-> +		mediatek,larb = <&larb0>;
-> +	};
-> +
-> +	bls: pwm@1400a000 {
-> +		compatible = "mediatek,mt7623-disp-pwm",
-> +			     "mediatek,mt2701-disp-pwm";
-> +		reg = <0 0x1400a000 0 0x1000>;
-> +		#pwm-cells = <2>;
-> +		clocks = <&mmsys CLK_MM_MDP_BLS_26M>,
-> +			 <&mmsys CLK_MM_DISP_BLS>;
-> +		clock-names = "main", "mm";
-> +		status = "disabled";
-> +	};
-> +
-> +	color: color@1400b000 {
-> +		compatible = "mediatek,mt7623-disp-color",
-> +			     "mediatek,mt2701-disp-color";
-> +		reg = <0 0x1400b000 0 0x1000>;
-> +		interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DISP_COLOR>;
-> +	};
-> +
-> +	dsi: dsi@1400c000 {
-> +		compatible = "mediatek,mt7623-dsi",
-> +			     "mediatek,mt2701-dsi";
-> +		reg = <0 0x1400c000 0 0x1000>;
-> +		interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DSI_ENGINE>,
-> +			 <&mmsys CLK_MM_DSI_DIG>,
-> +			 <&mipi_tx0>;
-> +		clock-names = "engine", "digital", "hs";
-> +		phys = <&mipi_tx0>;
-> +		phy-names = "dphy";
-> +		status = "disabled";
-> +	};
-> +
-> +	mutex: mutex@1400e000 {
-> +		compatible = "mediatek,mt7623-disp-mutex",
-> +			     "mediatek,mt2701-disp-mutex";
-> +		reg = <0 0x1400e000 0 0x1000>;
-> +		interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_MUTEX_32K>;
-> +	};
-> +
-> +	rdma1: rdma@14012000 {
-> +		compatible = "mediatek,mt7623-disp-rdma",
-> +			     "mediatek,mt2701-disp-rdma";
-> +		reg = <0 0x14012000 0 0x1000>;
-> +		interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DISP_RDMA1>;
-> +		iommus = <&iommu MT2701_M4U_PORT_DISP_RDMA1>;
-> +		mediatek,larb = <&larb0>;
-> +	};
-> +
-> +	dpi0: dpi@14014000 {
-> +		compatible = "mediatek,mt7623-dpi",
-> +			     "mediatek,mt2701-dpi";
-> +		reg = <0 0x14014000 0 0x1000>;
-> +		interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&mmsys CLK_MM_DPI1_DIGL>,
-> +			 <&mmsys CLK_MM_DPI1_ENGINE>,
-> +			 <&apmixedsys CLK_APMIXED_TVDPLL>;
-> +		clock-names = "pixel", "engine", "pll";
-> +		status = "disabled";
-> +	};
-> +
-> +	hdmi0: hdmi@14015000 {
-> +		compatible = "mediatek,mt7623-hdmi",
-> +			     "mediatek,mt8173-hdmi";
-> +		reg = <0 0x14015000 0 0x400>;
-> +		clocks = <&mmsys CLK_MM_HDMI_PIXEL>,
-> +			 <&mmsys CLK_MM_HDMI_PLL>,
-> +			 <&mmsys CLK_MM_HDMI_AUDIO>,
-> +			 <&mmsys CLK_MM_HDMI_SPDIF>;
-> +		clock-names = "pixel", "pll", "bclk", "spdif";
-> +		phys = <&hdmi_phy>;
-> +		phy-names = "hdmi";
-> +		mediatek,syscon-hdmi = <&mmsys 0x900>;
-> +		cec = <&cec>;
-> +		status = "disabled";
-> +	};
-> +
-> +	mipi_tx0: mipi-dphy@10010000 {
-> +		compatible = "mediatek,mt7623-mipi-tx",
-> +			     "mediatek,mt2701-mipi-tx";
-> +		reg = <0 0x10010000 0 0x90>;
-> +		clocks = <&clk26m>;
-> +		clock-output-names = "mipi_tx0_pll";
-> +		#clock-cells = <0>;
-> +		#phy-cells = <0>;
-> +	};
-> +
-> +	cec: cec@10012000 {
-> +		compatible = "mediatek,mt7623-cec",
-> +			     "mediatek,mt8173-cec";
-> +		reg = <0 0x10012000 0 0xbc>;
-> +		interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_LOW>;
-> +		clocks = <&infracfg CLK_INFRA_CEC>;
-> +		status = "disabled";
-> +	};
-> +
-> +	hdmi_phy: phy@10209100 {
-> +		compatible = "mediatek,mt7623-hdmi-phy",
-> +			     "mediatek,mt2701-hdmi-phy";
-> +		reg = <0 0x10209100 0 0x24>;
-> +		clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
-> +		clock-names = "pll_ref";
-> +		clock-output-names = "hdmitx_dig_cts";
-> +		#clock-cells = <0>;
-> +		#phy-cells = <0>;
-> +		status = "disabled";
-> +	};
-> +
-> +	hdmiddc0: i2c@11013000 {
-> +		compatible = "mediatek,mt7623-hdmi-ddc",
-> +			     "mediatek,mt8173-hdmi-ddc";
-> +		interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_LOW>;
-> +		reg = <0 0x11013000 0 0x1C>;
-> +		clocks = <&pericfg CLK_PERI_I2C3>;
-> +		clock-names = "ddc-i2c";
-> +		status = "disabled";
-> +	};
-> +};
-> +
-> +&pio {
-> +	hdmi_pins_a: hdmi-default {
-> +		pins-hdmi {
-> +			pinmux = <MT7623_PIN_123_HTPLG_FUNC_HTPLG>;
-> +			input-enable;
-> +			bias-pull-down;
-> +		};
-> +	};
-> +
-> +	hdmi_ddc_pins_a: hdmi_ddc-default {
-> +		pins-hdmi-ddc {
-> +			pinmux = <MT7623_PIN_124_GPIO124_FUNC_HDMISCK>,
-> +				 <MT7623_PIN_125_GPIO125_FUNC_HDMISD>;
-> +		};
-> +	};
->   };
+> Applied to v5.9-next/dts32
 > 
+
+Realized that there is a v6, so I pull out this and 7/7.
+
+Regards,
+Matthias
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
