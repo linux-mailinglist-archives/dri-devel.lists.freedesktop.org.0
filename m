@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0EB262953
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8426726297A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 10:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A79EC6EA76;
-	Wed,  9 Sep 2020 07:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537086EA82;
+	Wed,  9 Sep 2020 08:03:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86B66EA76;
- Wed,  9 Sep 2020 07:54:15 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 012EBAB8B;
- Wed,  9 Sep 2020 07:54:15 +0000 (UTC)
-Subject: Re: [PATCH 24/24] drm/arc: Move to drm/tiny
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
- <20200904143941.110665-25-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <4ccaebf3-e1b5-8ca4-1f69-ac4b9d93277d@suse.de>
-Date: Wed, 9 Sep 2020 09:54:10 +0200
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D88976EA82
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 08:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=XjASIbBeIVCNLT3Zk1bmoMu9tjCwPWXDJh9QgrZMSlQ=; b=su4oUu3kUyoKA1fjUAZHsOSqam
+ jp8gV2HiekuE/1PkiPK+QsRVN2RfeWPDsZaV385Uq2FZLbiErPvNRWStJQcqjfciB8LCmyuZxj2B6
+ l1GrpxJmeYcd/YsdzDJyXytB+1fdM02HBwmd6887dvfjhfYhJGGhrnkgqZkWUUonABTsTZtXBi4KO
+ rR2ZEGcYSAwv35er/CtQLI2g4HcGv5OEwAEx9/dwz6hchGeCWHxFrW8qJeJzPsKvhREi23J+fv5dB
+ uNin4aLMK25q5Zwt6hyAjnR2wYYKBpUwMdOQWa4uV+BPIj3DGBPhEHMWmW/T8H8Q4kqo+WL1k619U
+ o4pgD/RA==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1kFv4c-0007Nr-2u; Wed, 09 Sep 2020 11:03:22 +0300
+Subject: Re: [RFC PATCH v2 06/17] gpu: host1x: Cleanup and refcounting for
+ syncpoints
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <20200905103420.3021852-7-mperttunen@nvidia.com>
+ <913a625c-9630-92af-aba0-fdddf6bbdb29@gmail.com>
+ <e9cce9d5-1a63-077e-1ca6-ac5d5112d5fe@kapsi.fi>
+ <a7213cd6-3bba-95a2-1f88-b8a64a5c2e87@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <50d2e0b3-e23d-d2d1-0523-a8f83a7eecba@kapsi.fi>
+Date: Wed, 9 Sep 2020 11:03:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200904143941.110665-25-daniel.vetter@ffwll.ch>
+In-Reply-To: <a7213cd6-3bba-95a2-1f88-b8a64a5c2e87@gmail.com>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,214 +62,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============0502273900=="
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0502273900==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xLRTUUIAJQml5CknFcJyCMjRvNoamIqSD"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xLRTUUIAJQml5CknFcJyCMjRvNoamIqSD
-Content-Type: multipart/mixed; boundary="JyRDEOAlaRFUcRuF4dv2BpeEqBJsDZXh7";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <4ccaebf3-e1b5-8ca4-1f69-ac4b9d93277d@suse.de>
-Subject: Re: [PATCH 24/24] drm/arc: Move to drm/tiny
-References: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
- <20200904143941.110665-25-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200904143941.110665-25-daniel.vetter@ffwll.ch>
-
---JyRDEOAlaRFUcRuF4dv2BpeEqBJsDZXh7
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 04.09.20 um 16:39 schrieb Daniel Vetter:
-> Because it is.
-
-Absolutely.
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->=20
-> v2: Delete now unused crtc funcs (0day)
->=20
-> Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Alexey Brodkin <abrodkin@synopsys.com>
-> ---
->  MAINTAINERS                                         |  2 +-
->  drivers/gpu/drm/Kconfig                             |  2 --
->  drivers/gpu/drm/Makefile                            |  1 -
->  drivers/gpu/drm/arc/Kconfig                         | 10 ----------
->  drivers/gpu/drm/arc/Makefile                        |  3 ---
->  drivers/gpu/drm/tiny/Kconfig                        | 10 ++++++++++
->  drivers/gpu/drm/tiny/Makefile                       |  1 +
->  drivers/gpu/drm/{arc/arcpgu_drv.c =3D> tiny/arcpgu.c} |  0
->  8 files changed, 12 insertions(+), 17 deletions(-)
->  delete mode 100644 drivers/gpu/drm/arc/Kconfig
->  delete mode 100644 drivers/gpu/drm/arc/Makefile
->  rename drivers/gpu/drm/{arc/arcpgu_drv.c =3D> tiny/arcpgu.c} (100%)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f92035bfbbcd..b16e80c4d669 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1334,7 +1334,7 @@ ARC PGU DRM DRIVER
->  M:	Alexey Brodkin <abrodkin@synopsys.com>
->  S:	Supported
->  F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
-> -F:	drivers/gpu/drm/arc/
-> +F:	drivers/gpu/drm/tiny/arcpgu.c
-> =20
->  ARCNET NETWORK LAYER
->  M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 147d61b9674e..9efb82caaa87 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -354,8 +354,6 @@ source "drivers/gpu/drm/vc4/Kconfig"
-> =20
->  source "drivers/gpu/drm/etnaviv/Kconfig"
-> =20
-> -source "drivers/gpu/drm/arc/Kconfig"
-> -
->  source "drivers/gpu/drm/hisilicon/Kconfig"
-> =20
->  source "drivers/gpu/drm/mediatek/Kconfig"
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 2f31579f91d4..6c15ef9b04d6 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -109,7 +109,6 @@ obj-y			+=3D panel/
->  obj-y			+=3D bridge/
->  obj-$(CONFIG_DRM_FSL_DCU) +=3D fsl-dcu/
->  obj-$(CONFIG_DRM_ETNAVIV) +=3D etnaviv/
-> -obj-$(CONFIG_DRM_ARCPGU)+=3D arc/
->  obj-y			+=3D hisilicon/
->  obj-$(CONFIG_DRM_ZTE)	+=3D zte/
->  obj-$(CONFIG_DRM_MXSFB)	+=3D mxsfb/
-> diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
-> deleted file mode 100644
-> index e8f3d63e0b91..000000000000
-> --- a/drivers/gpu/drm/arc/Kconfig
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0-only
-> -config DRM_ARCPGU
-> -	tristate "ARC PGU"
-> -	depends on DRM && OF
-> -	select DRM_KMS_CMA_HELPER
-> -	select DRM_KMS_HELPER
-> -	help
-> -	  Choose this option if you have an ARC PGU controller.
-> -
-> -	  If M is selected the module will be called arcpgu.
-> diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefil=
-e
-> deleted file mode 100644
-> index b26f2495c532..000000000000
-> --- a/drivers/gpu/drm/arc/Makefile
-> +++ /dev/null
-> @@ -1,3 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0-only
-> -arcpgu-y :=3D arcpgu_drv.o
-> -obj-$(CONFIG_DRM_ARCPGU) +=3D arcpgu.o
-> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfi=
-g
-> index 2b6414f0fa75..9bbaa1a69050 100644
-> --- a/drivers/gpu/drm/tiny/Kconfig
-> +++ b/drivers/gpu/drm/tiny/Kconfig
-> @@ -1,5 +1,15 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> =20
-> +config DRM_ARCPGU
-> +	tristate "ARC PGU"
-> +	depends on DRM && OF
-> +	select DRM_KMS_CMA_HELPER
-> +	select DRM_KMS_HELPER
-> +	help
-> +	  Choose this option if you have an ARC PGU controller.
-> +
-> +	  If M is selected the module will be called arcpgu.
-> +
->  config DRM_CIRRUS_QEMU
->  	tristate "Cirrus driver for QEMU emulated device"
->  	depends on DRM && PCI && MMU
-> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makef=
-ile
-> index 6ae4e9e5a35f..bef6780bdd6f 100644
-> --- a/drivers/gpu/drm/tiny/Makefile
-> +++ b/drivers/gpu/drm/tiny/Makefile
-> @@ -1,5 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> =20
-> +obj-$(CONFIG_DRM_ARCPGU)		+=3D arcpgu.o
->  obj-$(CONFIG_DRM_CIRRUS_QEMU)		+=3D cirrus.o
->  obj-$(CONFIG_DRM_GM12U320)		+=3D gm12u320.o
->  obj-$(CONFIG_TINYDRM_HX8357D)		+=3D hx8357d.o
-> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/tiny/ar=
-cpgu.c
-> similarity index 100%
-> rename from drivers/gpu/drm/arc/arcpgu_drv.c
-> rename to drivers/gpu/drm/tiny/arcpgu.c
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---JyRDEOAlaRFUcRuF4dv2BpeEqBJsDZXh7--
-
---xLRTUUIAJQml5CknFcJyCMjRvNoamIqSD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9YiiUUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNZkQgAmNi0dpzQzmNZONyCca6jtEfsdVrP
-ATf65Plh/Zx0pieulYUik1er7Kt/BGJY7YvJmy5js8q0asCsOHkQeFYsTkliY5bl
-L0sSZBIGXiwgWRuv7qNXQVidcVxxxQDbtE/afJRBdBqorGNaqv/eHu/UcVSTL0nP
-wOqLwRj6DpbWomueEzTfMquXK3gz8trVkn3wYfq7mItmNVoePJp8nDCwo5IDyczo
-ftAaZzCXSuJJMyS2fXQrHpsFEWgO3KHDpnFSW6N6n3iueHJ3gonq/ELTYoWopUfG
-hviyrP4GVoPogYFSQUOGN+4WwhLc5cuVrG+tHG24R6z7pgeT9neIDIMo+w==
-=r2O8
------END PGP SIGNATURE-----
-
---xLRTUUIAJQml5CknFcJyCMjRvNoamIqSD--
-
---===============0502273900==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0502273900==--
+T24gOS85LzIwIDM6MDcgQU0sIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiAwNS4wOS4yMDIwIDE3
+OjUzLCBNaWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPiAuLi4KPj4+IEhlbGxvLCBNaWtrbyEK
+Pj4+Cj4+PiBXaGF0IGRvIHlvdSB0aGluayBhYm91dCB0byBvcGVuLWNvZGUgYWxsIHRoZSBob3N0
+MXggc3RydWN0cyBieSBtb3ZpbmcKPj4+IHRoZW0gYWxsIG91dCBpbnRvIHRoZSBwdWJsaWMgbGlu
+dXgvaG9zdDF4Lmg/IFRoZW4gd2UgY291bGQgaW5saW5lIGFsbAo+Pj4gdGhlc2UgdHJpdmlhbCBz
+aW5nbGUtbGluZSBmdW5jdGlvbnMgYnkgaGF2aW5nIHRoZW0gZGVmaW5lZCBpbiB0aGUgcHVibGlj
+Cj4+PiBoZWFkZXIuIFRoaXMgd2lsbCBhdm9pZCBhbGwgdGhlIHVubmVjZXNzYXJ5IG92ZXJoZWFk
+IGJ5IGFsbG93aW5nCj4+PiBjb21waWxlciB0byBvcHRpbWl6ZSB0aGUgY29kZSBuaWNlbHkuCj4+
+Pgo+Pj4gT2YgY291cnNlIHRoaXMgY291bGQgYmUgYSBzZXBhcmF0ZSBjaGFuZ2UgYW5kIGl0IGNv
+dWxkIGJlIGRvbmUgc29tZXRpbWUKPj4+IGxhdGVyLCBJIGp1c3Qgd2FudGVkIHRvIHNoYXJlIHRo
+aXMgcXVpY2sgdGhvdWdodCBmb3IgdGhlIHN0YXJ0IG9mIHRoZQo+Pj4gcmV2aWV3Lgo+Pj4KPj4K
+Pj4gSGkgOikKPj4KPj4gSSB0aGluayBmb3Igc3VjaCBtaWNyby1vcHRpbWl6YXRpb25zIHdlIHNo
+b3VsZCBoYXZlIGEgYmVuY2htYXJrIHRvCj4+IGV2YWx1YXRlIGFnYWluc3QuIEknbSBub3Qgc3Vy
+ZSB3ZSBoYXZlIGFsbCB0aGF0IG1hbnkgZnVuY3Rpb24gY2FsbHMgaW50bwo+PiBoZXJlIG92ZXJh
+bGwgdGhhdCBpdCB3b3VsZCBtYWtlIGEgbm90aWNlYWJsZSBkaWZmZXJlbmNlLiBJbiBhbnkgY2Fz
+ZSwgYXMKPj4geW91IHNhaWQsIEknZCBwcmVmZXIgdG8ga2VlcCBmdXJ0aGVyIHJlZmFjdG9yaW5n
+IHRvIGEgc2VwYXJhdGUgc2VyaWVzIHRvCj4+IGF2b2lkIGdyb3dpbmcgdGhpcyBzZXJpZXMgdG9v
+IG11Y2guCj4gCj4gVGhlIHBlcmZvcm1hbmNlIGRpZmZlcmVuY2UgZG9lc24ndCBib3RoZXIgbWUs
+IGl0IHNob3VsZCBiZSBpbnNpZ25pZmljYW50Cj4gaW4gdGhpcyBwYXJ0aWN1bGFyIGNhc2UuIFRo
+ZSBhbW91bnQgb2YgdGhlIGV4cG9ydGVkIGZ1bmN0aW9ucyBpcyB3aGF0Cj4gbWFrZXMgbWUgZmVl
+bCB1bmNvbWZvcnRhYmxlLCBhbmQgZXNwZWNpYWxseSB0aGF0IG1vc3Qgb2YgdGhvc2UgZnVuY3Rp
+b25zCj4gYXJlIHRyaXZpYWwuCgpJIGRvbid0IHNlZSBhIHBhcnRpY3VsYXIgcHJvYmxlbSB3aXRo
+IHRoaXMgLS0gSSB0aGluayBpdCdzIGJldHRlciB0byAKa2VlcCB0aGUgZGF0YSBzdHJ1Y3R1cmVz
+IGluIHRoZSBkcml2ZXItaW50ZXJuYWwgaGVhZGVycyB0byB0byBpbXByb3ZlIAptb2R1bGFyaXph
+dGlvbi4gSSB0aGluayB3ZSBjYW4gZ2V0IHJpZCBvZiB0aGUgc3luY3B0X2dldF9ieV9pZCogCmZ1
+bmN0aW9ucyBvbmNlIHdlIHJlbW92ZSB0aGUgc3RhZ2luZyBjb2RlLCBzbyB0aGF0IHdvdWxkIGNs
+ZWFuIHVwIHRoaW5ncyAKYXMgd2VsbC4KCj4gCj4gTXkgY29uY2VybiBpcyB0aGF0IGRvaW5nIGNs
+ZWFudXBzIG9mIHRoZSB1cHN0cmVhbSBkcml2ZXJzIHVzdWFsbHkgbm90Cj4gZWFzeS4gSGVuY2Ug
+aXQgY291bGQgYmUgYSBnb29kIHRoaW5nIHRvIHB1dCBlZmZvcnQgaW50byByZXN0cnVjdHVyaW5n
+Cj4gdGhlIGN1cnJlbnQgY29kZSBiZWZvcmUgbmV3IGNvZGUgaXMgYWRkZWQuIEJ1dCBhdCBmaXJz
+dCB3ZSBuZWVkIHRvIGhhdmUKPiBhIGZ1bGwtZmVhdHVyZWQgZHJhZnQgaW1wbGVtZW50YXRpb24g
+dGhhdCB3aWxsIHNob3cgd2hhdCBwYXJ0cyBvZiB0aGUKPiBkcml2ZXIgcmVxdWlyZSByZWZhY3Rv
+cmluZy4KPiAKCk15IGZlZWxpbmcgaXMgdGhhdCBvbmNlIHdlIGhhdmUgdGhlIG5ldyBVQVBJIGlt
+cGxlbWVudGVkLCByZWZhY3RvcmluZyAKd2lsbCBiZSBlYXNpZXIgYmVjYXVzZSB3ZSBoYXZlIGEg
+YmV0dGVyIGlkZWEgb2Ygd2hhdCB3ZSBuZWVkIG9mIHRoZSAKY29kZSwgYW5kIHdlIHdpbGwgYmUg
+YWJsZSB0byByZW1vdmUgdGhlIHN0YWdpbmcgY29kZSwgYWxsb3dpbmcgcmVtb3ZhbCAKb3IgZWFz
+aWVyIHJlZmFjdG9yaW5nIG9mIG1hbnkgb2xkIHBhdGhzLgoKV2hpbGUgZG9pbmcgdGhhdCwgc29t
+ZSBvZiB0aGUgbmV3IGNvZGUgd2lsbCBoYXZlIHRvIGJlIGNoYW5nZWQgYWdhaW4gYXMgCndlbGws
+IHN1cmUsIGJ1dCBhdCBsZWFzdCB0aGUgZW50aXJlIHRpbWUgd2Ugd2lsbCBoYXZlIGEgZnVuY3Rp
+b25hbCAKaW1wbGVtZW50YXRpb24uCgpNaWtrbwpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
