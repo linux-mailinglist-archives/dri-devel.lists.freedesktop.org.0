@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C510262793
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 08:59:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0750A26279B
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D73946E9B1;
-	Wed,  9 Sep 2020 06:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D96D6E9B5;
+	Wed,  9 Sep 2020 07:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2C76E9B0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 06:59:40 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k15so1640814wrn.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 23:59:40 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB086E9B3
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:00:08 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a9so1204902wmm.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 00:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v83Egdi6ND2jGynZTgCBEmNsp3MgfPzSb7smHHu8tuA=;
- b=Jz3FyaVgs5FEK46vjzgP6Huyv3kRkIunR88mxuGaRzXWkQXzNWYvdQJ4U5w9F1LYv1
- LaF1jHPDXugiukfpqzeP15YgBgMKHdSmii5A5k4T/M8bEh6sn83oETC0nihF03qalq8s
- 7Cu5vrChegE2pJ7mqJjVTLoPgfQmKpll7k6Yg=
+ :cc; bh=C0T1xsgL8KLicvdVgVXLl7s0tEv0E1jWAmUmJuZvE6M=;
+ b=FB387YjF0O6z0PHyDFeCCLcy3kWqNJt7oO3U0OstfwqkQ+XYxn9kG2V06bZcnD+89I
+ U94+cHwlpttdMWHUaX2aou0JDOPG1WrblqY9S5Qv1sR9dLlfPmNacb83UByeOv5age4o
+ 4XIiU8aSpcOZSzga3NNYCiEptWUcr7L8htrO0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=v83Egdi6ND2jGynZTgCBEmNsp3MgfPzSb7smHHu8tuA=;
- b=lQxIApe5n6+jANp1B4fHeG0KavjQY2z24zGGzBIW7q2rTRAus4vEpM3ulc0UiIvc69
- GRuvlZQj24AZqEU5PBWejzAfv7PeBRww6JKL0dzIIgYilU1zxfwpoaCXaRp8eNuMx5vs
- HwvS1NgxQhz5Q7kbqBbZoIgPwa9d3AsYnkXbIREFEX3TKWLmWDaGiemQ9v0w0eSOWqWc
- +LDyy9p7Qkl9h08BieZm/ICz7Z0RGHKH6hKJ6h3jbF4ixtRGw6FS9vOQOXXoJK/UMDhF
- WhfAa6LxhhFu4N+KFXw5xmNDtvRAbtyNcjzx6RoiA6kVmcyymVz866D6JetDodpIYP+3
- TFZA==
-X-Gm-Message-State: AOAM533eeCpewpb9U2Bi6sFSIMRk+SaXPAa55WzkU+IfapE5lc/c6XFc
- pEigLO4Jq6PcJGZkTYTS5nHt7i9TSH1w2D4IY2XREg==
-X-Google-Smtp-Source: ABdhPJxuWAZD5tRSJGFLzpGiWfaKw/MQucLYZFZxsveXn7QPRVrRLbgClYUYbGGAYkgVue45lMCd5Bin03SDjqzJARc=
-X-Received: by 2002:a05:6000:11cd:: with SMTP id
- i13mr2311750wrx.140.1599634778906; 
- Tue, 08 Sep 2020 23:59:38 -0700 (PDT)
+ bh=C0T1xsgL8KLicvdVgVXLl7s0tEv0E1jWAmUmJuZvE6M=;
+ b=YwnlXtpdw6soJ16EwJFLlAlj21Htq4T60620ISoGSoviS5BF2cSL6QDuFjsrskxbKx
+ d5kayNXm1xMFZZgqqXldBg6g6pjBHrS2Pb1KpMJDes8mZUlyHMx1psPtc9BEyaQ2IedX
+ T16AVKO9uNDS9uuD834nMgySrwz/e1GKwkq879rsKKa/0R1/25YwBpKX/SnGippI9KYG
+ sCxcykXP99E6fDIRcY2dkcQN7f6KwOjzlCLx+bFsRKrziH3qKBP31HQEC61Rn2vgWwQK
+ 9Alj1vEp4TsENrM/tSpHr+VEzy/OA2TI+Aoid5x90TEYdp2lGCib2B/Jznk7UXhmh6jO
+ VMuQ==
+X-Gm-Message-State: AOAM53061PLEwQfsdKeHMy45MMvIUv1T3VybyAHqk7PB9GkHNUIog/QR
+ 5jgWKjDETHXyQGexIyZJFJpUXxIz4v5JWPkLqMicpw==
+X-Google-Smtp-Source: ABdhPJwinfaFAdsCsDojdsyX6Fk+9P/lQi6aByGWz4YFFegaUm9jLw/oMWdy1Oa5TFgKOyNI7g30Nt2iV7pNUjidmsA=
+X-Received: by 2002:a1c:99c7:: with SMTP id b190mr1997587wme.44.1599634806373; 
+ Wed, 09 Sep 2020 00:00:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200901162133.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
  <20200901162133.4.I900b1b80709b7632a47d0ddb4cd375b4a3616c9e@changeid>
- <c5caee2875a86e68fc66c7bf2eae03393289aded.camel@redhat.com>
-In-Reply-To: <c5caee2875a86e68fc66c7bf2eae03393289aded.camel@redhat.com>
+ <2f1e64e4-bb37-0cfb-6b3b-3f51fd5faca3@xs4all.nl>
+In-Reply-To: <2f1e64e4-bb37-0cfb-6b3b-3f51fd5faca3@xs4all.nl>
 From: Sam McNally <sammc@chromium.org>
-Date: Wed, 9 Sep 2020 16:59:01 +1000
-Message-ID: <CAJqEsoDLyuCoMQob+bk8OfnFXcqacs3Jg7Hc2ksBor9qWrnrAQ@mail.gmail.com>
+Date: Wed, 9 Sep 2020 16:59:29 +1000
+Message-ID: <CAJqEsoB6V6LWoY-whLGV74tamxppObPtNqWYMUyqtwAgnjrhPQ@mail.gmail.com>
 Subject: Re: [PATCH 4/5] drm_dp_cec: add plumbing in preparation for MST
  support
-To: lyude@redhat.com
+To: Hans Verkuil <hverkuil@xs4all.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,31 +60,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
- David Francis <David.Francis@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Hans Verkuil <hans.verkuil@cisco.com>, Ben Skeggs <bskeggs@redhat.com>,
- Wambui Karuga <wambui.karugax@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mikita Lipski <mikita.lipski@amd.com>,
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Mikita Lipski <mikita.lipski@amd.com>, dri-devel@lists.freedesktop.org,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ David Francis <David.Francis@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Leo Li <sunpeng.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>, intel-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Sep 2020 at 04:12, Lyude Paul <lyude@redhat.com> wrote:
+On Tue, 8 Sep 2020 at 18:41, Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> Super minor nitpicks:
->
-> On Tue, 2020-09-01 at 16:22 +1000, Sam McNally wrote:
+> On 01/09/2020 08:22, Sam McNally wrote:
 > > From: Hans Verkuil <hans.verkuil@cisco.com>
 > >
 > > Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
@@ -104,13 +102,11 @@ On Wed, 2 Sep 2020 at 04:12, Lyude Paul <lyude@redhat.com> wrote:
 > >  include/drm/drm_dp_helper.h                   |  6 +++--
 > >  5 files changed, 19 insertions(+), 15 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
 > > index 461fa4da0a34..6e7075893ec9 100644
 > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
 > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > @@ -419,7 +419,7 @@ void amdgpu_dm_initialize_dp_connector(struct
-> > amdgpu_display_manager *dm,
+> > @@ -419,7 +419,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
 > >
 > >       drm_dp_aux_init(&aconnector->dm_dp_aux.aux);
 > >       drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
@@ -131,8 +127,7 @@ On Wed, 2 Sep 2020 at 04:12, Lyude Paul <lyude@redhat.com> wrote:
 > >
 > >  /*
 > >   * Unfortunately it turns out that we have a chicken-and-egg situation
-> > @@ -338,8 +339,6 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const
-> > struct edid *edid)
+> > @@ -338,8 +339,6 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
 > >       if (aux->cec.adap) {
 > >               if (aux->cec.adap->capabilities == cec_caps &&
 > >                   aux->cec.adap->available_log_addrs == num_las) {
@@ -140,12 +135,8 @@ On Wed, 2 Sep 2020 at 04:12, Lyude Paul <lyude@redhat.com> wrote:
 > > -                     cec_s_phys_addr_from_edid(aux->cec.adap, edid);
 > >                       goto unlock;
 > >               }
->
-> May as well drop the braces here
->
 > >               /*
-> > @@ -364,15 +363,16 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const
-> > struct edid *edid)
+> > @@ -364,15 +363,16 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
 > >       if (cec_register_adapter(aux->cec.adap, connector->dev->dev)) {
 > >               cec_delete_adapter(aux->cec.adap);
 > >               aux->cec.adap = NULL;
@@ -163,15 +154,50 @@ On Wed, 2 Sep 2020 at 04:12, Lyude Paul <lyude@redhat.com> wrote:
 > > +      * from drm_dp_cec_register_connector() edid == NULL, so in
 > > +      * that case the phys addr is just invalidated.
 > > +      */
+>
+> The comment is no longer in sync with the code: if EDID == NULL, then
+> nothing is done due to the edid check in the 'if' below.
+>
 > > +     if (aux->cec.adap && edid) {
+>
+> I think this should just be: if (aux->cec.adap)
+>
+> Also, the {} aren't necessary here.
+>
 > > +             cec_s_phys_addr_from_edid(aux->cec.adap, edid);
 > > +     }
->
-> And here
->
 > >       mutex_unlock(&aux->cec.lock);
 > >  }
 > >  EXPORT_SYMBOL(drm_dp_cec_set_edid);
+>
+> Frankly, the changes to this function should be dropped completely, from
+> what I can see they are not necessary. It was done in my original patch
+> because of the way I handled mst, but you did it differently (and I think
+> better), so these changes are no longer needed.
+>
+> I know I am actually commenting on my old patch, but that patch was from a
+> work-in-progress git branch and was never meant as a 'proper' patch.
+>
+> However, what complicates matters is that after digging a bit more I discovered
+> that commit 732300154980 ("drm: Do not call drm_dp_cec_set_edid() while registering
+> DP connectors") changed drm_dp_cec_register_connector() so that it no longer
+> calls drm_dp_cec_set_edid(), but the comments there and in this function were
+> not updated. It would be nice if you can add a patch fixing these outdated
+> comments.
+>
+> Regardless of that change in commit 732300154980, the edid pointer can still be
+> NULL and the existing behavior should be kept (i.e. create a CEC device, but with
+> an invalid physical address since there is no EDID for some reason).
+>
+> Regards,
+>
+>         Hans
+>
+
+Thanks. Leaving drm_dp_cec_set_edid() unchanged combined with Lyude's
+suggestion to use aux->is_remote removes the need for this patch
+entirely.
+
 > > @@ -418,6 +418,7 @@ EXPORT_SYMBOL(drm_dp_cec_unset_edid);
 > >   * drm_dp_cec_register_connector() - register a new connector
 > >   * @aux: DisplayPort AUX channel
@@ -192,36 +218,14 @@ On Wed, 2 Sep 2020 at 04:12, Lyude Paul <lyude@redhat.com> wrote:
 > >               return;
 > >       aux->cec.connector = connector;
 > > +     aux->cec.is_mst = is_mst;
->
-> Also JFYI, you can also check aux->is_remote, but maybe you've got another
-> reason for copying this here
->
-
-I think this was just an artefact of this patch originally being
-written before aux->is_remote was added. Switching to it mostly
-removes the need for this patch, and leaving drm_dp_cec_set_edid()
-unchanged, as Hans suggests, removes the rest.
-
-> Either way:
->
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
->
-> ...Also, maybe this is just a coincidence - but do I know your name from
-> somewhere? Perhaps an IRC community from long ago?
->
-
-Not that I can think of; it's probably just a coincidence.
-
 > >       INIT_DELAYED_WORK(&aux->cec.unregister_work,
 > >                         drm_dp_cec_unregister_work);
 > >  }
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> > b/drivers/gpu/drm/i915/display/intel_dp.c
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
 > > index 82b9de274f65..744cb55572f9 100644
 > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
 > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -6261,7 +6261,7 @@ intel_dp_connector_register(struct drm_connector
-> > *connector)
+> > @@ -6261,7 +6261,7 @@ intel_dp_connector_register(struct drm_connector *connector)
 > >       intel_dp->aux.dev = connector->kdev;
 > >       ret = drm_dp_aux_register(&intel_dp->aux);
 > >       if (!ret)
@@ -230,8 +234,7 @@ Not that I can think of; it's probably just a coincidence.
 > >       return ret;
 > >  }
 > >
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
 > > index 49dd0cbc332f..671a70e95cd1 100644
 > > --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
 > > +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
@@ -240,8 +243,7 @@ Not that I can think of; it's probably just a coincidence.
 > >       case DRM_MODE_CONNECTOR_DisplayPort:
 > >       case DRM_MODE_CONNECTOR_eDP:
 > > -             drm_dp_cec_register_connector(&nv_connector->aux, connector);
-> > +             drm_dp_cec_register_connector(&nv_connector->aux, connector,
-> > false);
+> > +             drm_dp_cec_register_connector(&nv_connector->aux, connector, false);
 > >               break;
 > >       }
 > >
@@ -264,19 +266,16 @@ Not that I can think of; it's probably just a coincidence.
 > >       struct delayed_work unregister_work;
 > >  };
 > >
-> > @@ -1746,7 +1748,7 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, u32
-> > edid_quirks,
+> > @@ -1746,7 +1748,7 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, u32 edid_quirks,
 > >  #ifdef CONFIG_DRM_DP_CEC
 > >  void drm_dp_cec_irq(struct drm_dp_aux *aux);
 > >  void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
 > > -                                struct drm_connector *connector);
-> > +                                struct drm_connector *connector, bool
-> > is_mst);
+> > +                                struct drm_connector *connector, bool is_mst);
 > >  void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
 > >  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid);
 > >  void drm_dp_cec_unset_edid(struct drm_dp_aux *aux);
-> > @@ -1757,7 +1759,7 @@ static inline void drm_dp_cec_irq(struct drm_dp_aux
-> > *aux)
+> > @@ -1757,7 +1759,7 @@ static inline void drm_dp_cec_irq(struct drm_dp_aux *aux)
 > >
 > >  static inline void
 > >  drm_dp_cec_register_connector(struct drm_dp_aux *aux,
@@ -285,10 +284,7 @@ Not that I can think of; it's probably just a coincidence.
 > >  {
 > >  }
 > >
-> --
-> Sincerely,
->       Lyude Paul (she/her)
->       Software Engineer at Red Hat
+> >
 >
 _______________________________________________
 dri-devel mailing list
