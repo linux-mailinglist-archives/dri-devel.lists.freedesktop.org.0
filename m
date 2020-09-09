@@ -2,65 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDA52627D9
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964B22627E5
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01E806E9D7;
-	Wed,  9 Sep 2020 07:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F6B6E9EB;
+	Wed,  9 Sep 2020 07:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC126E8FA
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 02:06:54 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id a22so1383222ljp.13
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Sep 2020 19:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CxD0K5ERopLSbf6cvkQwLtW5syT9rt5pdwC61DUguiE=;
- b=GMBwItlSrwzsWAdp91ahdy7Pi2m+LdLOEFbWZU6DfjpIbh2SwAQdMZGdtpshN38cGS
- RNUEnY+s7nmhut7zAxIjAVXoTAOTpYDn/tcgXm8jcK7hOKNzA9D5nRHTYyzO9URVSg/J
- Hw9BO2yOzhrivGoeS7ART7aXt3YH6A/O3Ez8U/S01Xt/R7N9SvCaO/apEVy++3ZdG7rU
- w/hABDk+Kz2WmGAF8yWk6JfgMBoy6ef4j67nhvrPAOCW1LVleyCCVJr7ucfCAx0AKvhM
- BWu4KrYeiRkp67AKlJN9svFL+QeKSBWDxzBfXUHKJr8MCMvBb802Z9MRXvbV6yf09Hk0
- XLIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CxD0K5ERopLSbf6cvkQwLtW5syT9rt5pdwC61DUguiE=;
- b=THxsDOdcipOrQH29QYGAuiooRe+4RaRcAv1uFOucxK5kKHUvrM3xmfwLLsLaFHNaV2
- aAxGLyAj5+pRYYYkb9h3LrImc7M55TzZgR0ryoPaWUfkEDtv3ZgCzdTwbAkILLFIcBvX
- xGcXnBAmHG7aC/ZLY7kKvTWyIFICqsf+78QY3l49EX8tyhTSuz8nHCmUgHk3zzizNohk
- bCp2SiCLRct1SEUTOK+L0vhLUN729vMCESQuCuDlbreu/zrl2hTjqoP1G7ouIqpX5HMk
- k0giVfu8WBo7GoXqtzXyqxy5Be9zVf7JTUdv0zVhh70ir5MZHy9xfc/+TnzOAcbDepaH
- RppA==
-X-Gm-Message-State: AOAM533KWPNAin1uAuWeJjovu4tOghWjmBjp0zrwo/Xr58rn+aHgZNjI
- ddPEG9lLfQKlUdSY06doJ6M=
-X-Google-Smtp-Source: ABdhPJzTEfBiW5wnT+E8sPjnN6aQhgbBQkm8zRs21KV5Hf7WYovJYTFtoOsdg3ZwjBfF7NQmFpqgRQ==
-X-Received: by 2002:a05:651c:1193:: with SMTP id
- w19mr605476ljo.89.1599617213398; 
- Tue, 08 Sep 2020 19:06:53 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id u14sm349930lji.83.2020.09.08.19.06.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 19:06:52 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 17/17] WIP: drm/tegra: Implement new UAPI
-To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-18-mperttunen@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <172f940f-af60-8f8a-6c76-4ff89accd8c5@gmail.com>
-Date: Wed, 9 Sep 2020 05:06:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBEE26E8FC;
+ Wed,  9 Sep 2020 02:11:45 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0892AS5c094075;
+ Wed, 9 Sep 2020 02:11:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=vtum29krzlUsLIvRnyVxjLuvhWBtLTr/qnU9AvnGbCE=;
+ b=xBu1bvtfDZ9503xniraz9muXI2Eg0qhYCYcOf6RobuyNUO3o1Po7XLCiySpH1j3NqLzx
+ 2jgXXHktcetcwXVddyuNr8Y2tEFe3S1Fic84p/c7b/8cWZhzNvssHJn72rt+zNyDQI3g
+ W6nGbDQrnBPjzFv3JHhmeBC2Lng7TyLH4twd3n8hvyY34Y8B6srBiufkC1dha4TbTt8U
+ iYM7VJ+79F4uaHjvVJydS3mD7NcVtBky/+GEZFGwxEWNcRrsg0F0s6PbT0Xh+BU3JioS
+ 8YO2a/M76MlnuYxeGIlhqTuBmwNwX5juOavRg+aCtHeGvwObjWNA43YKkCVKSbI3nWmM bw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 33c2mkxvtd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 09 Sep 2020 02:11:40 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 089252Ah095301;
+ Wed, 9 Sep 2020 02:09:40 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 33cmk53euj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 09 Sep 2020 02:09:40 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08929Zlw022818;
+ Wed, 9 Sep 2020 02:09:35 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 08 Sep 2020 19:09:35 -0700
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+ Joe Perches <joe@perches.com>, oprofile-list@lists.sf.net,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, drbd-dev@tron.linbit.com,
+ intel-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-input@vger.kernel.org, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+ linux-bcache@vger.kernel.org, Jiri Kosina <trivial@kernel.org>
+Subject: Re: [PATCH 00/29] treewide: Convert comma separated statements
+Date: Tue,  8 Sep 2020 22:09:14 -0400
+Message-Id: <159961731707.5787.13988542229153933257.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1598331148.git.joe@perches.com>
+References: <cover.1598331148.git.joe@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <20200905103420.3021852-18-mperttunen@nvidia.com>
-Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9738
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009090018
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9738
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 clxscore=1011 mlxlogscore=999
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009090018
 X-Mailman-Approved-At: Wed, 09 Sep 2020 07:04:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,37 +87,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-scsi@vger.kernel.org, "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-kselftest@vger.kernel.org,
+ linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDUuMDkuMjAyMCAxMzozNCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gK2ludCB0ZWdy
-YV9kcm1faW9jdGxfY2hhbm5lbF9vcGVuKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHZvaWQgKmRh
-dGEsCj4gKwkJCQkgc3RydWN0IGRybV9maWxlICpmaWxlKQo+ICt7Cj4gKwlzdHJ1Y3QgdGVncmFf
-ZHJtX2ZpbGUgKmZwcml2ID0gZmlsZS0+ZHJpdmVyX3ByaXY7Cj4gKwlzdHJ1Y3QgdGVncmFfZHJt
-ICp0ZWdyYSA9IGRybS0+ZGV2X3ByaXZhdGU7Cj4gKwlzdHJ1Y3QgZHJtX3RlZ3JhX2NoYW5uZWxf
-b3BlbiAqYXJncyA9IGRhdGE7Cj4gKwlzdHJ1Y3QgdGVncmFfZHJtX2NsaWVudCAqY2xpZW50ID0g
-TlVMTDsKPiArCXN0cnVjdCB0ZWdyYV9kcm1fY2hhbm5lbF9jdHggKmN0eDsKPiArCWludCBlcnI7
-Cj4gKwo+ICsJaWYgKGFyZ3MtPmZsYWdzIHx8IGFyZ3MtPnJlc2VydmVkWzBdIHx8IGFyZ3MtPnJl
-c2VydmVkWzFdKQo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiArCWN0eCA9IGt6YWxsb2Moc2l6
-ZW9mKCpjdHgpLCBHRlBfS0VSTkVMKTsKPiArCWlmICghY3R4KQo+ICsJCXJldHVybiAtRU5PTUVN
-Owo+ICsKPiArCWVyciA9IC1FTk9ERVY7Cj4gKwlsaXN0X2Zvcl9lYWNoX2VudHJ5KGNsaWVudCwg
-JnRlZ3JhLT5jbGllbnRzLCBsaXN0KSB7Cj4gKwkJaWYgKGNsaWVudC0+YmFzZS5jbGFzcyA9PSBh
-cmdzLT5ob3N0MXhfY2xhc3MpIHsKPiArCQkJZXJyID0gMDsKPiArCQkJYnJlYWs7Cj4gKwkJfQo+
-ICsJfQo+ICsJaWYgKGVycikKPiArCQlnb3RvIGZyZWVfY3R4Owo+ICsKPiArCWlmIChjbGllbnQt
-PnNoYXJlZF9jaGFubmVsKSB7Cj4gKwkJY3R4LT5jaGFubmVsID0gaG9zdDF4X2NoYW5uZWxfZ2V0
-KGNsaWVudC0+c2hhcmVkX2NoYW5uZWwpOwo+ICsJfSBlbHNlIHsKPiArCQljdHgtPmNoYW5uZWwg
-PSBob3N0MXhfY2hhbm5lbF9yZXF1ZXN0KCZjbGllbnQtPmJhc2UpOwo+ICsJCWlmICghY3R4LT5j
-aGFubmVsKSB7Cj4gKwkJCWVyciA9IC1FQlVTWTsKPiArCQkJZ290byBmcmVlX2N0eDsKPiArCQl9
-Cj4gKwl9Cj4gKwo+ICsJZXJyID0geGFfYWxsb2MoJmZwcml2LT5jb250ZXh0cywgJmFyZ3MtPmNo
-YW5uZWxfY3R4LCBjdHgsCj4gKwkJICAgICAgIFhBX0xJTUlUKDEsIFUzMl9NQVgpLCBHRlBfS0VS
-TkVMKTsKPiArCWlmIChlcnIgPCAwKSB7Cj4gKwkJbXV0ZXhfdW5sb2NrKCZmcHJpdi0+bG9jayk7
-CgpMb29rcyBsaWtlIHRoZSBsb2NrIHdhcyBuZXZlciB0YWtlbi4KCj4gKwkJZ290byBwdXRfY2hh
-bm5lbDsKPiArCX0KPiArCj4gKwljdHgtPmNsaWVudCA9IGNsaWVudDsKPiArCXhhX2luaXRfZmxh
-Z3MoJmN0eC0+bWFwcGluZ3MsIFhBX0ZMQUdTX0FMTE9DKTsKCldoeSBub3QgWEFfRkxBR1NfQUxM
-T0MxPwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, 24 Aug 2020 21:55:57 -0700, Joe Perches wrote:
+
+> There are many comma separated statements in the kernel.
+> See:https://lore.kernel.org/lkml/alpine.DEB.2.22.394.2008201856110.2524@hadrien/
+> 
+> Convert the comma separated statements that are in if/do/while blocks
+> to use braces and semicolons.
+> 
+> Many comma separated statements still exist but those are changes for
+> another day.
+> 
+> [...]
+
+Applied to 5.10/scsi-queue, thanks!
+
+[01/29] coding-style.rst: Avoid comma statements
+        (no commit info)
+[02/29] alpha: Avoid comma separated statements
+        (no commit info)
+[03/29] ia64: Avoid comma separated statements
+        (no commit info)
+[04/29] sparc: Avoid comma separated statements
+        (no commit info)
+[05/29] ata: Avoid comma separated statements
+        (no commit info)
+[06/29] drbd: Avoid comma separated statements
+        (no commit info)
+[07/29] lp: Avoid comma separated statements
+        (no commit info)
+[08/29] dma-buf: Avoid comma separated statements
+        (no commit info)
+[09/29] drm/gma500: Avoid comma separated statements
+        (no commit info)
+[10/29] drm/i915: Avoid comma separated statements
+        (no commit info)
+[11/29] hwmon: (scmi-hwmon): Avoid comma separated statements
+        (no commit info)
+[12/29] Input: MT - Avoid comma separated statements
+        (no commit info)
+[13/29] bcache: Avoid comma separated statements
+        (no commit info)
+[14/29] media: Avoid comma separated statements
+        (no commit info)
+[15/29] mtd: Avoid comma separated statements
+        (no commit info)
+[16/29] 8390: Avoid comma separated statements
+        (no commit info)
+[17/29] fs_enet: Avoid comma separated statements
+        (no commit info)
+[18/29] wan: sbni: Avoid comma separated statements
+        (no commit info)
+[19/29] s390/tty3270: Avoid comma separated statements
+        (no commit info)
+[20/29] scsi: arm: Avoid comma separated statements
+        https://git.kernel.org/mkp/scsi/c/a08a07326510
+[21/29] media: atomisp: Avoid comma separated statements
+        (no commit info)
+[22/29] video: fbdev: Avoid comma separated statements
+        (no commit info)
+[23/29] fuse: Avoid comma separated statements
+        (no commit info)
+[24/29] reiserfs: Avoid comma separated statements
+        (no commit info)
+[25/29] lib/zlib: Avoid comma separated statements
+        (no commit info)
+[26/29] lib: zstd: Avoid comma separated statements
+        (no commit info)
+[27/29] ipv6: fib6: Avoid comma separated statements
+        (no commit info)
+[28/29] sunrpc: Avoid comma separated statements
+        (no commit info)
+[29/29] tools: Avoid comma separated statements
+        (no commit info)
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
