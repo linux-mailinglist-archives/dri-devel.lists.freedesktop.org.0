@@ -1,33 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9443263E90
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7B1263E8F
 	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A7C6E22B;
-	Thu, 10 Sep 2020 07:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB8C06E21D;
+	Thu, 10 Sep 2020 07:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB7636EA2D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:36:01 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 1CD00EA207CDC654870D;
- Wed,  9 Sep 2020 15:35:55 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 9 Sep 2020 15:35:44 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <eric@anholt.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/vc4: Remove unused variables
-Date: Wed, 9 Sep 2020 15:33:27 +0800
-Message-ID: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF1926E23D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:56:54 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id 0100CDF97D;
+ Wed,  9 Sep 2020 07:55:34 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id 0KJESEMEeMys; Wed,  9 Sep 2020 07:55:33 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id A78AADF974;
+ Wed,  9 Sep 2020 07:55:33 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id F6uEGtU0Vm66; Wed,  9 Sep 2020 07:55:33 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+ by zimbra.v3.sk (Postfix) with ESMTPSA id 6B3A0DF930;
+ Wed,  9 Sep 2020 07:55:33 +0000 (UTC)
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v5 0/2] Add a Himax HX8837 display controller driver
+Date: Wed,  9 Sep 2020 09:56:47 +0200
+Message-Id: <20200909075649.1100300-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,33 +48,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CnZjNF9wbGFu
-ZS5jOiBJbiBmdW5jdGlvbiDigJh2YzRfcGxhbmVfaW5pdOKAmToKdmM0X3BsYW5lLmM6MTM0MDo2
-OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBub3QKdXNlZCBbLVd1bnVzZWQt
-YnV0LXNldC12YXJpYWJsZV0KClNpZ25lZC1vZmYtYnk6IFRpYW4gVGFvIDx0aWFudGFvNkBoaXNp
-bGljb24uY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3BsYW5lLmMgfCAzICstLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmM0
-L3ZjNF9wbGFuZS5jCmluZGV4IDI0ZDdlNmQuLjViZTBmNWRkYSAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3ZjNC92YzRfcGxhbmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9w
-bGFuZS5jCkBAIC0xMzM3LDcgKzEzMzcsNiBAQCBzdHJ1Y3QgZHJtX3BsYW5lICp2YzRfcGxhbmVf
-aW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lID0g
-TlVMTDsKIAlzdHJ1Y3QgdmM0X3BsYW5lICp2YzRfcGxhbmU7CiAJdTMyIGZvcm1hdHNbQVJSQVlf
-U0laRShodnNfZm9ybWF0cyldOwotCWludCByZXQgPSAwOwogCXVuc2lnbmVkIGk7CiAJc3RhdGlj
-IGNvbnN0IHVpbnQ2NF90IG1vZGlmaWVyc1tdID0gewogCQlEUk1fRk9STUFUX01PRF9CUk9BRENP
-TV9WQzRfVF9USUxFRCwKQEAgLTEzNTcsNyArMTM1Niw3IEBAIHN0cnVjdCBkcm1fcGxhbmUgKnZj
-NF9wbGFuZV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJCWZvcm1hdHNbaV0gPSBodnNf
-Zm9ybWF0c1tpXS5kcm07CiAKIAlwbGFuZSA9ICZ2YzRfcGxhbmUtPmJhc2U7Ci0JcmV0ID0gZHJt
-X3VuaXZlcnNhbF9wbGFuZV9pbml0KGRldiwgcGxhbmUsIDAsCisJZHJtX3VuaXZlcnNhbF9wbGFu
-ZV9pbml0KGRldiwgcGxhbmUsIDAsCiAJCQkJICAgICAgICZ2YzRfcGxhbmVfZnVuY3MsCiAJCQkJ
-ICAgICAgIGZvcm1hdHMsIEFSUkFZX1NJWkUoZm9ybWF0cyksCiAJCQkJICAgICAgIG1vZGlmaWVy
-cywgdHlwZSwgTlVMTCk7Ci0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+please take a look at the patches chained to this messages and consider
+applying them. They add support for the controller that drives the panel
+on the OLPC XO laptops.
+
+The only change since the previous version is the Reviewed-by tag in DT
+bindings.
+
+Compared to v3 the bindings have been converted to YAML and the driver
+itself has been rewritten without any fancy features such as the
+self-refresh so that the bare minimum works before the rest can be figured
+out. Detailed change logs are in individual patches.
+
+Tested on an OLPC XO-1.75 laptop.
+
+Thank you
+Lubo
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
