@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D8B263DA9
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 08:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5311263E7A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF9AB6E095;
-	Thu, 10 Sep 2020 06:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C656E212;
+	Thu, 10 Sep 2020 07:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBFE6E030;
- Thu, 10 Sep 2020 06:53:15 +0000 (UTC)
-Received: from localhost (p5486ceec.dip0.t-ipconnect.de [84.134.206.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 93A222078E;
- Thu, 10 Sep 2020 06:53:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599720795;
- bh=/LOePKGDUR83plqAhx1ySvpBeTmOBTt4AYD41Ar10p8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e3Jk9M7ZKtsnsBd892ykDqq6ldjJyX23IqJ7DyDWgKOR2vkDHWpTUx3L4W3ZSGRl8
- gbJ25CK/q4T0DRgLEQdFDMLfOBf9AoSauHV2UkWklXje0SfXK1Ub2yM0Bl5ncgFE73
- tRqSbJwVN+gRudxLpTtOTt3VxbQSMkA19oVYS08w=
-Date: Thu, 10 Sep 2020 08:53:12 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-Message-ID: <20200910065312.GH1031@ninjato>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
+ [IPv6:2607:f8b0:4864:20::942])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3806D6EA0E
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:13:23 +0000 (UTC)
+Received: by mail-ua1-x942.google.com with SMTP id w23so429215uam.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 00:13:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CVOXiOEzuPIPELtkzIBti2oTVQlq254I82Oqaqw5WGE=;
+ b=Vd7ST+5j8sDHceUYPBeyqlywLA2yav/L80K9J/su39UL2ARenE6HVq7J9pUqGCK5cn
+ may0jaNWa4mHvGzlNk1o6DmLGK+L9Ts+rfMpW+Ygae+//xUstSYdD4dFDVyAgls/bmE2
+ Ohsgs+7xy//7gnNWYPSyH5otScdntWyDQR8qA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CVOXiOEzuPIPELtkzIBti2oTVQlq254I82Oqaqw5WGE=;
+ b=kNmOEx1jSYGMOnhAViCD/eoWOMqQ6tMyzrZpzKw1nbvTMYAH1cmDO+uZCg/5MH7Iyq
+ 8WqXx8urWH6mFVhy6uavpjimkxmJKd6AZqPeT/0zWDaEayIk6ARCpSJO+vl1vSuosmgL
+ uFOlGDQmO1JRGBHdGYISjcrF9X0JugS05SZj6ChTJUmMIxlUuXWP2nAKlbQoP+YzMc8X
+ CtuQksjKcX94JoQyMwdEcbMjV+/ZEU9tSi0xMdtgHqUhUKKocA42FU5GfNJCIEleViHH
+ 2DR6qwj70Yl40uGFudZMGhjyOcZa4IknpmYluHMzDSRr5+QdcwZj7VWRkFfWGEOiZdp4
+ RIrg==
+X-Gm-Message-State: AOAM533Xj2XBGRJjvwljxEM+BDXla+aTnoit9qxAXnRVuCMwl63ymC9J
+ Dx6Wk5USb+QjDt++G23IJ61cVTAT7h8LEKdW9nVMFA==
+X-Google-Smtp-Source: ABdhPJyKDXjrH4Rdx8HoBvuhILp7Bm5NPUOe54OLFKaVIpD1ZUiGiEhtU0K/vJkW6aIffWUWo3xWlZcwq9ZB+SH09G0=
+X-Received: by 2002:ab0:32d:: with SMTP id 42mr1633870uat.107.1599635602680;
+ Wed, 09 Sep 2020 00:13:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200902210847.2689-1-gurchetansingh@chromium.org>
+ <20200902210847.2689-5-gurchetansingh@chromium.org>
+ <20200902221514.GE1263242@redhat.com>
+ <CAAfnVBnfbwc07au1OMec8g5yHC0D3yXc88nOtTopO4sitYf8ig@mail.gmail.com>
+ <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
+In-Reply-To: <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 9 Sep 2020 09:13:11 +0200
+Message-ID: <CAJfpegsMEZoCQe7frsr9Kaq6EZsuRFWP3zs7sgrxnUDLzfcx_w@mail.gmail.com>
+Subject: Re: [PATCH v2 04/23] virtio: Add get_shm_region method
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,96 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
- oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
- alsa-devel <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, linux-ide@vger.kernel.org, dm-devel@redhat.com,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- sparclinux@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
- linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
- coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-mmc@vger.kernel.org, Kees Cook <kees.cook@canonical.com>,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
- storagedev@microchip.com, ceph-devel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
- Jiri Kosina <trivial@kernel.org>, linux-parisc@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- Nick Desaulniers <ndesaulniers@google.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
- bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: multipart/mixed; boundary="===============2126759720=="
+Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>, Vivek Goyal <vgoyal@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Sep 9, 2020 at 9:04 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Wed, Sep 02, 2020 at 05:00:25PM -0700, Gurchetan Singh wrote:
+> > On Wed, Sep 2, 2020 at 3:15 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+> >
+> > > Hi Gurchetan,
+> > >
+> > > Now Miklos has queued, these tree virtio patches for shared memory
+> > > region in his tree as part of virtiofs dax patch series.
+> > >
+> > > I am hoping this will get merged in 5.10 through his tree.
+> > >
+> > >
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?h=dax
+> >
+> >
+> > Terrific ... !  Maybe we can queue the version Miklos has in drm-misc-next
+> > to avoid merge conflicts ?!?
+>
+> I guess it would either be merging the fuse tree into drm-misc-next,
+> or cherry-picking the three virtio shm patches from the fuse tree.
 
---===============2126759720==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OpLPJvDmhXTZE4Lg"
-Content-Disposition: inline
+Maybe cleanest if we'd do a separate branch for the virtio patches and
+pull that into both the fuse-next and the drm-misc-next trees?
 
-
---OpLPJvDmhXTZE4Lg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-> index e32ef3f01fe8..b13b1cbcac29 100644
-> --- a/drivers/i2c/busses/i2c-i801.c
-> +++ b/drivers/i2c/busses/i2c-i801.c
-> @@ -1785,7 +1785,7 @@ static int i801_probe(struct pci_dev *dev, const struct pci_device_id *id)
->  		fallthrough;
->  	case PCI_DEVICE_ID_INTEL_82801CA_3:
->  		priv->features |= FEATURE_HOST_NOTIFY;
-> -		fallthrough;
-> +		break;
->  	case PCI_DEVICE_ID_INTEL_82801BA_2:
->  	case PCI_DEVICE_ID_INTEL_82801AB_3:
->  	case PCI_DEVICE_ID_INTEL_82801AA_3:
-
-I am not the maintainer (Jean is) but I suggest to drop this hunk. The
-code is more complex with multiple 'fallthrough', so this change alone
-actually makes the code inconsistent. A rework would need a seperate
-patch.
-
-
---OpLPJvDmhXTZE4Lg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9ZzVQACgkQFA3kzBSg
-KbYNuA//cymFe0KsFqywRHv3eBWJhoqwvWN2Xhwrx5/b6N3kkKGTo61aOo1ZI2gU
-55rQoGusy8OzGXaxlyhNS8Ea9ztPZc/tHEohOHKPYr52ErUMXlbMo3I3q7sZAZEI
-O/bRlnPKUCKqKOpZBin0ri6NE3FNYybTW30HgIk/LFUeCuaup10cUcxCmPfXHlNc
-M/2M2tBVyyBOqlVVsPxIfEZ4jGDaikxt7mBZDj4QMJnivnuMFuuz8U7gYzkXIHfO
-4ahGx+dBLCCInwFNFjEIPr+biq6Bgt/Vl9bbgN/BYbzdgbbJcikEhWHd9FxEoxQ5
-Y4M6/HxLDuCwTLIoFHjVifsFHK4Emk5ECc0xBWjHu3CJDunZSmy6yS5gbD1BrstW
-Djf0Ue1kyqnVPBDKE0EwFmwz1z1V14bhhXVC1fkiJjTpYRA6g3zMwH1oan6XIbGj
-v4OuWFDkQLEfzCCBIASGS849HtQ4rNafKxX3KQ3qxngh7XBrK7X92SLf3qRJurdt
-h5Ozd/zYDzyKQ1nOf/XWAOP5SKZH2ANjTrFKgIZE8MRkTmbzrlZkCnDnFD0pKPlB
-Z9h9uPZ7kifAejwaRPfsTu6/B9XJafMKfLa3hKTg2kgO+p67ItBEQ0W8wrXLE1/1
-c5FW5PqdkjKnx/9yUqosjEsHV2goh1guE4cziLkF1pZXcrElbtk=
-=ZP3J
------END PGP SIGNATURE-----
-
---OpLPJvDmhXTZE4Lg--
-
---===============2126759720==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks,
+Miklos
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2126759720==--
