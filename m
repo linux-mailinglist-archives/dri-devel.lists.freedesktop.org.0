@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3684226280B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:09:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BD7262867
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 09:21:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C97266EA03;
-	Wed,  9 Sep 2020 07:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A41346EA1D;
+	Wed,  9 Sep 2020 07:21:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 985056EA03
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599635389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g0q6eqKfC/3KqVG6SS3ON6WNlMCgYjvrsJYm0TQXNKw=;
- b=cs7B11CDh2AAbspnsu783Gfo9gWphBZPUbooYVVzU50T7utkqDO5wvQ+DUfZhBT8zukmlw
- e02o+SQitFfumaHG7TfZXbTeGD54nkdYYrLL0TvHOpCYDxJ/JIQRlnvAyneNHBXHMQCYnT
- uIlwZHy1io1N3YeYdotZ3CKoQAsdLqQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-HqFQLwjnM_O2ltjEJsAFkw-1; Wed, 09 Sep 2020 03:09:47 -0400
-X-MC-Unique: HqFQLwjnM_O2ltjEJsAFkw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D32910BBED3;
- Wed,  9 Sep 2020 07:09:46 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52C628246E;
- Wed,  9 Sep 2020 07:09:43 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 58FBC9ACF; Wed,  9 Sep 2020 09:09:42 +0200 (CEST)
-Date: Wed, 9 Sep 2020 09:09:42 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH v2 10/23] virtio-gpu api: host visible feature
-Message-ID: <20200909070942.viiccmj26em5b45d@sirius.home.kraxel.org>
-References: <20200902210847.2689-1-gurchetansingh@chromium.org>
- <20200902210847.2689-11-gurchetansingh@chromium.org>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 099126EA1D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 07:21:15 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id t14so1407574pgl.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 00:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W2VhfbOKCbP6xOWgijAOnPOO6KfSFoAdclkx3aMqBRo=;
+ b=L/4ezaJDF1N2ep+9GnJ84KZi95IRpEZ4ZWgfuDP2LU+gUtpo+nIYEL+HmfBIVEyoCq
+ nE/1MviSNKQlysBhOqzUgNyGOVNLvrnr5yOKeG5C1nfZO4uBi0rYZrX5Zn0rQM7OKlKG
+ YrjN6qW1SSp7AFtpH1HyQQqgt/NdCSI4YtjnU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W2VhfbOKCbP6xOWgijAOnPOO6KfSFoAdclkx3aMqBRo=;
+ b=fMuaoTBCGaiQkPyttGOPzbK1MQH6pid+DibwHTE4LXtJm9M3PdKs6WgyceeAgGN3XU
+ yjSFkbU/4E0ZdoVCLQ1UiNthfZp0d4iSgXYa0s8M2y7hy3nYlxJxPKouc52MWFUwpKIC
+ BolG+Uq4BRe5a5tVRBnLjOCzr/T5hF+lEN0kQorHFa+tZaHXJYJIlqvgjCRIrWMqn3Gl
+ 1lB3W/eYSdigxZrJsH8rEW9OMsEw5hyD5uT5Hs3Xgva06NUnypuCdIug/IrD1TZRhACv
+ KJfflpZFflNx7l44DSfFRWClYY3hxSuINS+/aC52BTatZiGeYja4dkBJGEZ2ccWZj2SE
+ tvOA==
+X-Gm-Message-State: AOAM531AcbbAOUTW3ZmCLqAPljcpt5cyouKVnHQMG4v+Z4B7V0L37SyG
+ iJyGEIf28SYe5M16kLeoYx3dbg==
+X-Google-Smtp-Source: ABdhPJx0ZsofsTAWNo0Ij5tcwdElOt0zTXIrS0wCtQFIypiKOvWFqfXhsSoirjHQG0nDKDW0G1JHIA==
+X-Received: by 2002:a17:902:b494:: with SMTP id
+ y20mr2494781plr.111.1599636075513; 
+ Wed, 09 Sep 2020 00:21:15 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:15:7220:84ff:fe09:cabc])
+ by smtp.gmail.com with ESMTPSA id g1sm1595387pfm.124.2020.09.09.00.21.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Sep 2020 00:21:14 -0700 (PDT)
+From: Sam McNally <sammc@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/4] dp/dp_mst: Add support for sink event notify messages
+Date: Wed,  9 Sep 2020 17:20:49 +1000
+Message-Id: <20200909172023.v2.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
+X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
 MIME-Version: 1.0
-In-Reply-To: <20200902210847.2689-11-gurchetansingh@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,27 +62,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, sebastien.boeuf@intel.com,
- vgoyal@redhat.com, dri-devel@lists.freedesktop.org, mst@redhat.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Sam McNally <sammc@chromium.org>, Hans Verkuil <hans.verkuil@cisco.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+Sink event notify messages are used for MST CEC IRQs. Add parsing
+support for sink event notify messages in preparation for handling MST
+CEC IRQs.
 
-> --- a/include/uapi/drm/virtgpu_drm.h
+Signed-off-by: Sam McNally <sammc@chromium.org>
+---
 
-kernel <-> userspace API.
+(no changes since v1)
 
-> --- a/include/uapi/linux/virtio_gpu.h
+ drivers/gpu/drm/drm_dp_mst_topology.c | 37 ++++++++++++++++++++++++++-
+ include/drm/drm_dp_mst_helper.h       | 14 ++++++++++
+ 2 files changed, 50 insertions(+), 1 deletion(-)
 
-host <-> guest API.
-
-Please create sepparate patches for these.
-
-thanks,
-  Gerd
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 17dbed0a9800..15b6cc39a754 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -1027,6 +1027,30 @@ static bool drm_dp_sideband_parse_resource_status_notify(struct drm_dp_sideband_
+ 	return false;
+ }
+ 
++static bool drm_dp_sideband_parse_sink_event_notify(
++	struct drm_dp_sideband_msg_rx *raw,
++	struct drm_dp_sideband_msg_req_body *msg)
++{
++	int idx = 1;
++
++	msg->u.sink_event.port_number = (raw->msg[idx] & 0xf0) >> 4;
++	idx++;
++	if (idx > raw->curlen)
++		goto fail_len;
++
++	memcpy(msg->u.sink_event.guid, &raw->msg[idx], 16);
++	idx += 16;
++	if (idx > raw->curlen)
++		goto fail_len;
++
++	msg->u.sink_event.event_id = (raw->msg[idx] << 8) | (raw->msg[idx + 1]);
++	idx++;
++	return true;
++fail_len:
++	DRM_DEBUG_KMS("sink event notify parse length fail %d %d\n", idx, raw->curlen);
++	return false;
++}
++
+ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
+ 				      struct drm_dp_sideband_msg_req_body *msg)
+ {
+@@ -1038,6 +1062,8 @@ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
+ 		return drm_dp_sideband_parse_connection_status_notify(raw, msg);
+ 	case DP_RESOURCE_STATUS_NOTIFY:
+ 		return drm_dp_sideband_parse_resource_status_notify(raw, msg);
++	case DP_SINK_EVENT_NOTIFY:
++		return drm_dp_sideband_parse_sink_event_notify(raw, msg);
+ 	default:
+ 		DRM_ERROR("Got unknown request 0x%02x (%s)\n", msg->req_type,
+ 			  drm_dp_mst_req_type_str(msg->req_type));
+@@ -3875,6 +3901,8 @@ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
+ 			guid = msg->u.conn_stat.guid;
+ 		else if (msg->req_type == DP_RESOURCE_STATUS_NOTIFY)
+ 			guid = msg->u.resource_stat.guid;
++		else if (msg->req_type == DP_SINK_EVENT_NOTIFY)
++			guid = msg->u.sink_event.guid;
+ 
+ 		if (guid)
+ 			mstb = drm_dp_get_mst_branch_device_by_guid(mgr, guid);
+@@ -3948,7 +3976,8 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 	drm_dp_sideband_parse_req(&mgr->up_req_recv, &up_req->msg);
+ 
+ 	if (up_req->msg.req_type != DP_CONNECTION_STATUS_NOTIFY &&
+-	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY) {
++	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY &&
++	    up_req->msg.req_type != DP_SINK_EVENT_NOTIFY) {
+ 		DRM_DEBUG_KMS("Received unknown up req type, ignoring: %x\n",
+ 			      up_req->msg.req_type);
+ 		kfree(up_req);
+@@ -3976,6 +4005,12 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+ 		DRM_DEBUG_KMS("Got RSN: pn: %d avail_pbn %d\n",
+ 			      res_stat->port_number,
+ 			      res_stat->available_pbn);
++	} else if (up_req->msg.req_type == DP_SINK_EVENT_NOTIFY) {
++		const struct drm_dp_sink_event_notify *sink_event =
++			&up_req->msg.u.sink_event;
++
++		DRM_DEBUG_KMS("Got SEN: pn: %d event_id %d\n",
++			      sink_event->port_number, sink_event->event_id);
+ 	}
+ 
+ 	up_req->hdr = mgr->up_req_recv.initial_hdr;
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index 6ae5860d8644..c7c79e0ced18 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -402,6 +402,19 @@ struct drm_dp_resource_status_notify {
+ 	u16 available_pbn;
+ };
+ 
++#define DP_SINK_EVENT_PANEL_REPLAY_ACTIVE_FRAME_CRC_ERROR	BIT(0)
++#define DP_SINK_EVENT_PANEL_REPLAY_RFB_STORAGE_ERROR		BIT(1)
++#define DP_SINK_EVENT_DSC_RC_BUFFER_UNDER_RUN			BIT(2)
++#define DP_SINK_EVENT_DSC_RC_BUFFER_OVERFLOW			BIT(3)
++#define DP_SINK_EVENT_DSC_CHUNK_LENGTH_ERROR			BIT(4)
++#define DP_SINK_EVENT_CEC_IRQ_EVENT				BIT(5)
++
++struct drm_dp_sink_event_notify {
++	u8 port_number;
++	u8 guid[16];
++	u16 event_id;
++};
++
+ struct drm_dp_query_payload_ack_reply {
+ 	u8 port_number;
+ 	u16 allocated_pbn;
+@@ -413,6 +426,7 @@ struct drm_dp_sideband_msg_req_body {
+ 		struct drm_dp_connection_status_notify conn_stat;
+ 		struct drm_dp_port_number_req port_num;
+ 		struct drm_dp_resource_status_notify resource_stat;
++		struct drm_dp_sink_event_notify sink_event;
+ 
+ 		struct drm_dp_query_payload query_payload;
+ 		struct drm_dp_allocate_payload allocate_payload;
+-- 
+2.28.0.526.ge36021eeef-goog
 
 _______________________________________________
 dri-devel mailing list
