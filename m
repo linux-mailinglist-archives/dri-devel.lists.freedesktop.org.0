@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EADE262E50
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 14:07:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88E2262E51
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Sep 2020 14:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C126E1E9;
-	Wed,  9 Sep 2020 12:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5B46E1F8;
+	Wed,  9 Sep 2020 12:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4011D89EA6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 12:07:53 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id e16so2692740wrm.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 05:07:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JAYuxh9pbkNECMzudLOzx4+jlA7bFbO6VYs0dcqBaaI=;
- b=lyHO0q9ev/XDXO83TYVqdVfYbu66rlYXZqiW7rtg67aAcYW+fFrjz8RZsJE4KskpCQ
- oL0TC7JKcOg0ODvdjIGGrNjDusNC9BGBTtANpmr1t+W4f10IrqTHFzSgvZnHA72EQ3Hm
- Yucx4YiQ1H1K8XeRrMMQDEw9QTG8J/vjipU8c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JAYuxh9pbkNECMzudLOzx4+jlA7bFbO6VYs0dcqBaaI=;
- b=rQgQMlKjyNU3dV4lhs14toachk6WvB8yFvswY9fDl9/cCWwGULN+3/ZupZiwhFFqRx
- JeWP4MkuG94aZCjHoiFJy5Uxgr+BmUvWwRpVcqbcHgWGVJqhKJt6V4wzOl5U8NPe7BcE
- M/c6TGbO5Iyv/zV/EQCqBEoNKoYO51K7iom9n8HhijcpmwZsCZ4jA1geZjkerfIXheO+
- jqc+uDEVeT97AiH7rkCemjUmzr8vlRklI25lhMMZ2Wq3j3ZzUulrliipDpakQXiMa+KM
- IL0hOUTSCbEcDCJm3j/qcvjvD1iLHaADU8oammu3vmhAaI+0K8nItJ0QmYTeqMNlanYb
- xnqA==
-X-Gm-Message-State: AOAM5300BMsANTpHToB4p0gVX8yJ5o/g/Xy+jUJkl+mmnpCoR8uVsl4s
- uuPPb8tMzwHUfeJkNc4sUtdzlvXOk7EV0jPZ
-X-Google-Smtp-Source: ABdhPJzP8BeSDNhywOL62z4gFNc4yd1k7LyoMN5Kk5jiPrST1aDn6+Lm/HAE4KoTbUpj863/TLoVRQ==
-X-Received: by 2002:a5d:61d2:: with SMTP id q18mr3482306wrv.404.1599653271608; 
- Wed, 09 Sep 2020 05:07:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b18sm4285764wrn.21.2020.09.09.05.07.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 05:07:50 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/vgem: Use devm_drm_dev_alloc
-Date: Wed,  9 Sep 2020 14:07:45 +0200
-Message-Id: <20200909120745.716178-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200904143941.110665-5-daniel.vetter@ffwll.ch>
-References: <20200904143941.110665-5-daniel.vetter@ffwll.ch>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A8F6E1F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 12:08:39 +0000 (UTC)
+IronPort-SDR: Iwl5WR8A2kZMxQM19lbgVZ6DVrufQG+9tx6sa78vqBhJMOGVgKRCbKw8bvX5V2Tml85o2A3GQG
+ QaYHMX8L6/Sg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="222519214"
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; d="scan'208";a="222519214"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2020 05:08:38 -0700
+IronPort-SDR: 9cxFj3RUQgk5FjzT8W4RE51B+9h4XAtAaSIcKY7Q+rPYRQzO94hwuyucphFcaUvq4rGjf2kzR8
+ nE/+gA8i/z5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; d="scan'208";a="304479669"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 09 Sep 2020 05:08:35 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 09 Sep 2020 15:08:35 +0300
+Date: Wed, 9 Sep 2020 15:08:35 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: Fix pitch handling for fully planar YUV
+ formats
+Message-ID: <20200909120835.GJ6112@intel.com>
+References: <20200806022649.22506-1-laurent.pinchart+renesas@ideasonboard.com>
+ <3c2147d8-b5bc-b0e8-6435-4d3ec0154249@ideasonboard.com>
+ <20200908155208.GF11405@pendragon.ideasonboard.com>
+ <6e66b920-96d6-591a-af59-353558b89f98@ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <6e66b920-96d6-591a-af59-353558b89f98@ideasonboard.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,142 +56,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
- Sean Paul <seanpaul@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This means we also need to slightly restructure the exit code, so that
-final cleanup of the drm_device is triggered by unregistering the
-platform device. Note that devres is both clean up when the driver is
-unbound (not the case for vgem, we don't bind), and also when unregistering
-the device (very much the case for vgem). Therefore we can rely on devres
-even though vgem isn't a proper platform device driver.
+On Tue, Sep 08, 2020 at 05:05:48PM +0100, Kieran Bingham wrote:
+> Hi Laurent,
+> =
 
-This also somewhat untangles the load code, since the drm and platform device
-setup are no longer interleaved, but two distinct steps.
+> On 08/09/2020 16:52, Laurent Pinchart wrote:
+> > Hi Kieran,
+> > =
 
-v2: use devres_open/release_group so we can use devm without real
-hacks in the driver core or having to create an entire fake bus for
-testing drivers. Might want to extract this into helpers eventually,
-maybe as a mock_drm_dev_alloc or test_drm_dev_alloc.
+> > On Tue, Sep 08, 2020 at 04:42:58PM +0100, Kieran Bingham wrote:
+> >> On 06/08/2020 03:26, Laurent Pinchart wrote:
+> >>> When creating a frame buffer, the driver verifies that the pitches for
+> >>> the chroma planes match the luma plane. This is done incorrectly for
+> >>> fully planar YUV formats, without taking horizontal subsampling into
+> >>> account. Fix it.
+> >>>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboar=
+d.com>
+> >>> ---
+<snip>
+> >>>  	}, {
+> >>>  		.fourcc =3D DRM_FORMAT_YVU444,
+> >>>  		.v4l2 =3D V4L2_PIX_FMT_YVU444M,
+> >>>  		.bpp =3D 24,
+> >>>  		.planes =3D 3,
+> >>> +		.hsub =3D 1,
+> >>>  	},
+> >>>  };
+> >>>  =
 
-v3: Fix error code handling (Melissa)
+> >>
+> >> I wonder when we can have a global/generic set of format tables so that
+> >> all of this isn't duplicated on a per-driver basis.
+> > =
 
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Emil Velikov <emil.velikov@collabora.com>
-Cc: Sean Paul <seanpaul@chromium.org>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/vgem/vgem_drv.c | 55 ++++++++++++++-------------------
- 1 file changed, 24 insertions(+), 31 deletions(-)
+> > Note that this table also contains register values, so at least that
+> > part will need to be kept. For the rest, do you mean a 4CC library that
+> =
 
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index 15dd41e67de3..cb884c890065 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -401,16 +401,8 @@ static int vgem_prime_mmap(struct drm_gem_object *obj,
- 	return 0;
- }
- 
--static void vgem_release(struct drm_device *dev)
--{
--	struct vgem_device *vgem = container_of(dev, typeof(*vgem), drm);
--
--	platform_device_unregister(vgem->platform);
--}
--
- static struct drm_driver vgem_driver = {
- 	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
--	.release			= vgem_release,
- 	.open				= vgem_open,
- 	.postclose			= vgem_postclose,
- 	.gem_free_object_unlocked	= vgem_gem_free_object,
-@@ -442,48 +434,49 @@ static struct drm_driver vgem_driver = {
- static int __init vgem_init(void)
- {
- 	int ret;
-+	struct platform_device *pdev;
- 
--	vgem_device = kzalloc(sizeof(*vgem_device), GFP_KERNEL);
--	if (!vgem_device)
--		return -ENOMEM;
-+	pdev = platform_device_register_simple("vgem", -1, NULL, 0);
-+	if (IS_ERR(pdev))
-+		return PTR_ERR(pdev);
- 
--	vgem_device->platform =
--		platform_device_register_simple("vgem", -1, NULL, 0);
--	if (IS_ERR(vgem_device->platform)) {
--		ret = PTR_ERR(vgem_device->platform);
--		goto out_free;
-+	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
-+		ret = -ENOMEM;
-+		goto out_unregister;
- 	}
- 
--	dma_coerce_mask_and_coherent(&vgem_device->platform->dev,
-+	dma_coerce_mask_and_coherent(&pdev->dev,
- 				     DMA_BIT_MASK(64));
--	ret = drm_dev_init(&vgem_device->drm, &vgem_driver,
--			   &vgem_device->platform->dev);
--	if (ret)
--		goto out_unregister;
--	drmm_add_final_kfree(&vgem_device->drm, vgem_device);
-+
-+	vgem_device = devm_drm_dev_alloc(&pdev->dev, &vgem_driver,
-+					 struct vgem_device, drm);
-+	if (IS_ERR(vgem_device)) {
-+		ret = PTR_ERR(vgem_device);
-+		goto out_devres;
-+	}
-+	vgem_device->platform = pdev;
- 
- 	/* Final step: expose the device/driver to userspace */
- 	ret = drm_dev_register(&vgem_device->drm, 0);
- 	if (ret)
--		goto out_put;
-+		goto out_devres;
- 
- 	return 0;
- 
--out_put:
--	drm_dev_put(&vgem_device->drm);
--	platform_device_unregister(vgem_device->platform);
--	return ret;
-+out_devres:
-+	devres_release_group(&pdev->dev, NULL);
- out_unregister:
--	platform_device_unregister(vgem_device->platform);
--out_free:
--	kfree(vgem_device);
-+	platform_device_unregister(pdev);
- 	return ret;
- }
- 
- static void __exit vgem_exit(void)
- {
-+	struct platform_device *pdev = vgem_device->platform;
-+
- 	drm_dev_unregister(&vgem_device->drm);
--	drm_dev_put(&vgem_device->drm);
-+	devres_release_group(&pdev->dev, NULL);
-+	platform_device_unregister(pdev);
- }
- 
- module_init(vgem_init);
--- 
-2.28.0
+> Yes, the driver specific mappings of course need to be driver specific.
+> =
 
+> =
+
+> > would be shared between DRM/KMS and V4L2 ? That's a great idea. Too bad
+> > it has been shot down when patches were submitted :-S
+> =
+
+> =
+
+>  /o\ ... It just seems like so much data replication that must be used
+> by many drivers.
+> =
+
+> Even without mapping the DRM/V4L2 fourccs - even a common table in each
+> subsystem would be beneficial wouldn't it?
+> =
+
+> I mean - RCar-DU isn't the only device that needs to know how many
+> planes DRM_FORMAT_YUV422 has, or what horizontal subsampling it uses?
+> =
+
+> Anyway, that's not an issue with this patch, it just seems glaring to me
+> that these entries are common across all hardware that use them ...
+> =
+
+> (the bpp/planes/subsampling of course, not the hardware specific register=
+s).
+
+See drm_format_info() & co.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
