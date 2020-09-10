@@ -1,92 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30DD2640C0
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 10:58:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F2A264157
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 11:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C00186E87F;
-	Thu, 10 Sep 2020 08:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0F389D67;
+	Thu, 10 Sep 2020 09:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2071.outbound.protection.outlook.com [40.107.220.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 616296E87F
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 08:58:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gJlo2kUJDPlzOsXSA1pk0pRcOHEYHOpiDgFoyfeHPHZYHTXLnhJc9LeANBAP8jbCo/07247/ojpFePP7/pdjTnlL2eOQlroIAvZy/16Kc9SpUgjSiGipLbwIkesHLYN0umEq9ciVBvMeH/TGIJIt03HWKIbmtupvlx6TTQhqbMK9fBZbLMj5outmu8odVXrdbhtqK6cnuVUvjlcY1dmhB0xfjYBbScDdoEswMkiaDUsi9R48hijQ/ne82Kj09IU5waF1yxZbzyNjDTyAPjdGSOAkZRERhBC9GOfnBjCNw7BRitf097HHtdVIqEIU3/nQKCGCQk6KiVIoAvU/nRM/Ig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vW4+qfcQLNPWhArgkNch29pKkZBLs8RnjSOq48xgozQ=;
- b=iauW6/6booB5YzLkFIpv2uw9Tt8ZbGpRSOm/RZ+Af4OM//su2rck08PszPvpxP5rvuEHjVa3qdTDz6FIn4FSyDiL8myQ2R569AFRW0/Wcze3+3Q9FO6ukadLdlZVvWXa11AAv7zliwR62k5J8BWpYQyfYNPMB/mXq6eU10WCffJhliNq0/C3ciLuXN3S4MAmksMoiwVNYa8xDrqlj5zwzOnK0HyzQsBtP41b6JfQeOmZORi/jRE4pIv7XXxF9HM4G+LqqIUBlY69c1F61gHxdjy/2IKAYL/mGvu88MEiX6L6lUlW/YiJVDDSR7MxTamnZofwUTX/stVjDvUsjdt/gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vW4+qfcQLNPWhArgkNch29pKkZBLs8RnjSOq48xgozQ=;
- b=ngTV6DesFiK06YqDcVy9B4Qo71Vya4miPHdY/Fbf9BDIRHuBquwGE6dyIN/xoyWjPBVWveVulQFTQHsWQRs4jRkWFpYl+wNnCRQqfqErbSPc5XaIfXk/CIig/QtqFqS/cvBnCuvlG6BEBIwZyy5pej52F3X6LiuoOukP8/tYF5E=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4125.namprd12.prod.outlook.com (2603:10b6:208:1d9::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
- 2020 08:58:27 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
- 08:58:27 +0000
-Subject: Re: [PATCH] drm/mm: prevent a potential null-pointer dereference
-To: Jing Xiangfeng <jingxiangfeng@huawei.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, nirmoy.das@amd.com
-References: <20200910023858.43759-1-jingxiangfeng@huawei.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <f6c93d83-b47d-a004-8da9-92305024c4b7@amd.com>
-Date: Thu, 10 Sep 2020 10:58:21 +0200
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net
+ [194.109.24.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D49489D67
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 09:17:45 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud8.xs4all.net with ESMTPA
+ id GIi0kYt1SPTBMGIi1kQaZv; Thu, 10 Sep 2020 11:17:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1599729464; bh=SOB+0wexHska1Ivgxq6US3wAQZn9sVTIazfeIH88yQ0=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=nxL6ixWoWEXEiGQapeNSq7XtIn4mWLlyNNtzPUmmqSYGrKJJS0YIgPyIqa792QHnw
+ XdBL9VWo9A4Us3G7+ZDYRMmbT2KwgtQGM69loIGxJWEwXMFvZ1SuE/dN6XeLPERSqB
+ 3Ok/dq1tb7uPjmRWzTEPo1WZR/y7nHxU4ketZpjOtFFyqyhnCCkgHxqf9MvjoVPh9S
+ QVBx59SDczngil2/NopypYqzD9lLTuQKNRzEGUQKKRCaTV3Uzgi9YSMtIj6eHMDSzD
+ wr7r+CY6Xj7xx3TDMyC+HGsMp2AGGaRXh3W1GsJqRe4e7FKaU7vaQiUhGjTR7Wit8W
+ v9M36n3FB0Flg==
+Subject: Re: [PATCH v10 30/30] videobuf2: use sgtable-based scatterlist
+ wrappers
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20200904131711.12950-1-m.szyprowski@samsung.com>
+ <CGME20200904133512eucas1p204efa4e252ceb5fb50715239705f9965@eucas1p2.samsung.com>
+ <20200904131711.12950-31-m.szyprowski@samsung.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <e1070a0d-2772-b5e2-7067-9f53ade19aae@xs4all.nl>
+Date: Thu, 10 Sep 2020 11:17:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20200910023858.43759-1-jingxiangfeng@huawei.com>
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR10CA0062.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:15::15) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR10CA0062.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 08:58:25 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7653d191-cd8c-417f-1769-08d85567ae91
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4125:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4125A7B50FDC2A84E1DD12F583270@MN2PR12MB4125.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:785;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mfKL9ZOhbnVeWRH9OwgUSulU5dG3XiejaXY/ObrZWWtkx5TfJ685H2DUp9viAJqK4ZtALin9+NCwJUNn3HBbrzs5ch/CdxKS6CrdqRZlfXKiwofCKcbNsRUhD/yhWm2bB6/kQJKWj+RvQnz50ZhyY9rk63483uqv87jNNMhpTYuDJazpGQkSBzmeRk+XjFbLXso1ajb/D9YF3T96UBHjk5fyjXe11QuYEBEIHdtBLU5Tng+RCDFeIgwjmpGGNLSHws1HgLrgDhQttxpM7yVODrc1rwad2n5qG3ybNvPnd2Q5unan4AKyvQha6ND4IkCpUSN3KsGSjL1x3mZ6hZEUEC17VxSk2gX53QjZqWpS1pJyk0JqCSDYsK2UohLsj6xC
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(346002)(136003)(396003)(6636002)(5660300002)(16526019)(2616005)(4326008)(31696002)(36756003)(8676002)(8936002)(52116002)(66946007)(66556008)(66476007)(86362001)(478600001)(316002)(6666004)(186003)(2906002)(31686004)(6486002)(83380400001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: P2En7LclLCWjFYX9JX9IqEGyDui7PCi/aePqyXFcJg4rl7dWX0GMCoeYArpvsdGHFwPmbyCbOhZO8lUjvoM32g1EDIORz8bvFySxBiV32JTjFuObUc9xZKx59peFFnr3xthZmym25VNqvAA33ZKFMvXyp3aIfnSjWl6rtsuWL8UvpOX+HZPlAVOBbBklGZRIOow7iwpupJQykiFuT+vt2imMlUOEfD5ErDuJuCmeidPOKUPdXjq/DTvGlXBS5IPpkZgr6zO1Xid7xpSFx656z4mK7HtiT9mQNIcsf7SuTuZZULA+1FK3TvZxUVlg1EMxaM0s/+NGUZkG3vussH8ksgbf/9WzvcO8vKKPf50lRNQ7BLAAsBBqt6ayb84TVBvJ5H9wB+ZAwnse+1NhSVDp2BAa/e/VjrSA10u/iasDGu461Zg+uW/SqodY88uQVuNjzdr4gWAPXYCysMqnixeDvedjuts2IMAe+dKUhVapsmAdoLRsg6KeCjnGeVIuxXd08VmFpPRlz6KP+mu3Aid7547Z2XCS9lIWfNMeJEPu0GlzVFusryEfC67x7ml1RH6toxEKbAqvJSs/sexVUbtuylISmoYNOrZ+Fio4VQxeYihq7NyyVrmJLdouUQUcER3/CvnYlQT8Ybm/l0kcJ/+w/K6oQOrINhVv+Kjab5mEQ/wUupKbhdpiIsr4J+LrMsT1VcpUS7EqucpO3NfQWDyRkQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7653d191-cd8c-417f-1769-08d85567ae91
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 08:58:27.4510 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q5u58wATuqdeheLkf2QQnTcwcMxjTdXmXRrtEG8jCjUD7Mu7juk3aDTet1tQRag+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4125
+In-Reply-To: <20200904131711.12950-31-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfOyym1s3hFy/wAnDsU5HmkCZJYyTj0QxaN6e/uK7k12aGGra4yqVYNAI11oZgPFnkurAxOfrqhRtT3UeKSK+3Y6xUMlkjhbpk5SqXaBWLGvAC8bcL20U
+ SQl3FQ6ug7sKPMxbQ9nPZ9abpjMmfbsdeKC4HHQE2YYcaNMQ7qict2h/6JShk+yTvN4XM0ZES+Lyb1vnILB077gRCSygCrFB5sCcwJNVbP4AdxQa3VpctLPs
+ WcOQXh/YE2Xw/tNcQ2Ny2bGrLZq++NZwUbCvGVe8FPIvQ7C/7Pc2p+A0wWGkoSUZNDbW92sPKFyYIGBxsCVG0S9K548oSNYUYgniCx159VuyK0gVspmpTJ8e
+ ZzjeqWfrVDuNrKdeM8Nne0gfhl7mX0+5Ep8CvtWuusUWROjdbImIgoaeuN0i813xBDrU5iobK+2ZL9DhtnwI+ZWGC5qwHiRTBnMgeH7WGjIrUcenbPsQW+Cl
+ eCBIEzwASMN9RMaEEwbzJcaZcrLcXPUzNUBrFUdeN3e/GwGG9vWNlGWRvREsKFAuTJkc2/zA1b1zVFwohmjpejqRVae1H7XgwmNR9MKKwe76cNRdWr1d5Bu5
+ 40cz/MOmAYDbV1eddNggEFio1GVwEJwmIBafyh/8UhvK4c/57KpZ0H9DnTdBFNB9ec1H8PypAO7yjhsVDzKvcSBCKBD3ot0N/yuc4hJ9uQUr6D6MEY/WIVfb
+ Po0zpkjQXuKHrpA+HijgkLX/elJC8p10Gfa2xlVh5MprizQIMePbnw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,50 +61,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Tomasz Figa <tfiga@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.09.20 um 04:38 schrieb Jing Xiangfeng:
-> The macro 'DECLARE_NEXT_HOLE_ADDR' may hit a potential null-pointer
-> dereference. So use 'entry' after checking it.
+On 04/09/2020 15:17, Marek Szyprowski wrote:
+> Use recently introduced common wrappers operating directly on the struct
+> sg_table objects and scatterlist page iterators to make the code a bit
+> more compact, robust, easier to follow and copy/paste safe.
+> 
+> No functional change, because the code already properly did all the
+> scatterlist related calls.
+> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-I don't see a potential null-pointer dereference here.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Where should that be?
+Note that I agree with Marek to keep returning -EIO. If we want to propagate
+low-level errors, then that should be done in a separate patch. But I think EIO
+is fine.
 
-Christian.
+Regards,
 
->
-> Fixes: 5fad79fd66ff ("drm/mm: cleanup and improve next_hole_*_addr()")
-> Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
+	Hans
+
 > ---
->   drivers/gpu/drm/drm_mm.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-> index a4a04d246135..6fcf70f71962 100644
-> --- a/drivers/gpu/drm/drm_mm.c
-> +++ b/drivers/gpu/drm/drm_mm.c
-> @@ -392,11 +392,14 @@ first_hole(struct drm_mm *mm,
->   #define DECLARE_NEXT_HOLE_ADDR(name, first, last)			\
->   static struct drm_mm_node *name(struct drm_mm_node *entry, u64 size)	\
->   {									\
-> -	struct rb_node *parent, *node = &entry->rb_hole_addr;		\
-> +	struct rb_node *parent, *node;					\
->   									\
-> -	if (!entry || RB_EMPTY_NODE(node))				\
-> +	if (!entry)							\
->   		return NULL;						\
->   									\
-> +	node = &entry->rb_hole_addr;					\
-> +	if (RB_EMPTY_NODE(node))					\
-> +		return NULL;						\
->   	if (usable_hole_addr(node->first, size)) {			\
->   		node = node->first;					\
->   		while (usable_hole_addr(node->last, size))		\
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
+>  .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
+>  .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
+>  3 files changed, 31 insertions(+), 47 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index ec3446cc45b8..1b242d844dde 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+>  	unsigned int i;
+>  	unsigned long size = 0;
+>  
+> -	for_each_sg(sgt->sgl, s, sgt->nents, i) {
+> +	for_each_sgtable_dma_sg(sgt, s, i) {
+>  		if (sg_dma_address(s) != expected)
+>  			break;
+> -		expected = sg_dma_address(s) + sg_dma_len(s);
+> +		expected += sg_dma_len(s);
+>  		size += sg_dma_len(s);
+>  	}
+>  	return size;
+> @@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
+>  	if (!sgt)
+>  		return;
+>  
+> -	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+> -			       buf->dma_dir);
+> +	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>  }
+>  
+>  static void vb2_dc_finish(void *buf_priv)
+> @@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
+>  	if (!sgt)
+>  		return;
+>  
+> -	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+> +	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>  }
+>  
+>  /*********************************************/
+> @@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
+>  		 * memory locations do not require any explicit cache
+>  		 * maintenance prior or after being used by the device.
+>  		 */
+> -		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+> +				  DMA_ATTR_SKIP_CPU_SYNC);
+>  	sg_free_table(sgt);
+>  	kfree(attach);
+>  	db_attach->priv = NULL;
+> @@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+>  
+>  	/* release any previous cache */
+>  	if (attach->dma_dir != DMA_NONE) {
+> -		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+> +				  DMA_ATTR_SKIP_CPU_SYNC);
+>  		attach->dma_dir = DMA_NONE;
+>  	}
+>  
+> @@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+>  	 * mapping to the client with new direction, no cache sync
+>  	 * required see comment in vb2_dc_dmabuf_ops_detach()
+>  	 */
+> -	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (!sgt->nents) {
+> +	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
+> +			    DMA_ATTR_SKIP_CPU_SYNC)) {
+>  		pr_err("failed to map scatterlist\n");
+>  		mutex_unlock(lock);
+>  		return ERR_PTR(-EIO);
+> @@ -455,8 +453,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
+>  		 * No need to sync to CPU, it's already synced to the CPU
+>  		 * since the finish() memop will have been called before this.
+>  		 */
+> -		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+> +				  DMA_ATTR_SKIP_CPU_SYNC);
+>  		pages = frame_vector_pages(buf->vec);
+>  		/* sgt should exist only if vector contains pages... */
+>  		BUG_ON(IS_ERR(pages));
+> @@ -553,9 +551,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
+>  	 * No need to sync to the device, this will happen later when the
+>  	 * prepare() memop is called.
+>  	 */
+> -	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (sgt->nents <= 0) {
+> +	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +			    DMA_ATTR_SKIP_CPU_SYNC)) {
+>  		pr_err("failed to map scatterlist\n");
+>  		ret = -EIO;
+>  		goto fail_sgt_init;
+> @@ -577,8 +574,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
+>  	return buf;
+>  
+>  fail_map_sg:
+> -	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -			   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>  
+>  fail_sgt_init:
+>  	sg_free_table(sgt);
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 0a40e00f0d7e..0dd3b19025e0 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -148,9 +148,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
+>  	 * No need to sync to the device, this will happen later when the
+>  	 * prepare() memop is called.
+>  	 */
+> -	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (!sgt->nents)
+> +	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +			    DMA_ATTR_SKIP_CPU_SYNC))
+>  		goto fail_map;
+>  
+>  	buf->handler.refcount = &buf->refcount;
+> @@ -186,8 +185,8 @@ static void vb2_dma_sg_put(void *buf_priv)
+>  	if (refcount_dec_and_test(&buf->refcount)) {
+>  		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
+>  			buf->num_pages);
+> -		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+> +				  DMA_ATTR_SKIP_CPU_SYNC);
+>  		if (buf->vaddr)
+>  			vm_unmap_ram(buf->vaddr, buf->num_pages);
+>  		sg_free_table(buf->dma_sgt);
+> @@ -204,8 +203,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
+>  	struct vb2_dma_sg_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> -	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+> -			       buf->dma_dir);
+> +	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>  }
+>  
+>  static void vb2_dma_sg_finish(void *buf_priv)
+> @@ -213,7 +211,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
+>  	struct vb2_dma_sg_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> -	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+> +	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>  }
+>  
+>  static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+> @@ -256,9 +254,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+>  	 * No need to sync to the device, this will happen later when the
+>  	 * prepare() memop is called.
+>  	 */
+> -	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (!sgt->nents)
+> +	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +			    DMA_ATTR_SKIP_CPU_SYNC))
+>  		goto userptr_fail_map;
+>  
+>  	return buf;
+> @@ -284,8 +281,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
+>  
+>  	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
+>  	       __func__, buf->num_pages);
+> -	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
+> -			   DMA_ATTR_SKIP_CPU_SYNC);
+> +	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>  	if (buf->vaddr)
+>  		vm_unmap_ram(buf->vaddr, buf->num_pages);
+>  	sg_free_table(buf->dma_sgt);
+> @@ -408,8 +404,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
+>  
+>  	/* release the scatterlist cache */
+>  	if (attach->dma_dir != DMA_NONE)
+> -		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -			attach->dma_dir);
+> +		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>  	sg_free_table(sgt);
+>  	kfree(attach);
+>  	db_attach->priv = NULL;
+> @@ -434,15 +429,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
+>  
+>  	/* release any previous cache */
+>  	if (attach->dma_dir != DMA_NONE) {
+> -		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -			attach->dma_dir);
+> +		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>  		attach->dma_dir = DMA_NONE;
+>  	}
+>  
+>  	/* mapping to the client with new direction */
+> -	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -				dma_dir);
+> -	if (!sgt->nents) {
+> +	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+>  		pr_err("failed to map scatterlist\n");
+>  		mutex_unlock(lock);
+>  		return ERR_PTR(-EIO);
+> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> index c66fda4a65e4..bf5ac63a5742 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> @@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
+>  		kfree(attach);
+>  		return ret;
+>  	}
+> -	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+> +	for_each_sgtable_sg(sgt, sg, i) {
+>  		struct page *page = vmalloc_to_page(vaddr);
+>  
+>  		if (!page) {
+> @@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
+>  
+>  	/* release the scatterlist cache */
+>  	if (attach->dma_dir != DMA_NONE)
+> -		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -			attach->dma_dir);
+> +		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>  	sg_free_table(sgt);
+>  	kfree(attach);
+>  	db_attach->priv = NULL;
+> @@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
+>  
+>  	/* release any previous cache */
+>  	if (attach->dma_dir != DMA_NONE) {
+> -		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -			attach->dma_dir);
+> +		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+>  		attach->dma_dir = DMA_NONE;
+>  	}
+>  
+>  	/* mapping to the client with new direction */
+> -	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> -				dma_dir);
+> -	if (!sgt->nents) {
+> +	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+>  		pr_err("failed to map scatterlist\n");
+>  		mutex_unlock(lock);
+>  		return ERR_PTR(-EIO);
+> 
 
 _______________________________________________
 dri-devel mailing list
