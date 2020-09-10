@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39771265CE9
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2D3265CCA
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCFA6E9BA;
-	Fri, 11 Sep 2020 09:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 124C76E3B0;
+	Fri, 11 Sep 2020 09:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D7A6E249
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 22:00:40 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id t20so6140419qtr.8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 15:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=PT5fNi7xEflk8GkI4Xi2kkoOSPhyGZTLMGtsTW99lM8=;
- b=UFahawZL4avRAiB31WSjU4euU3yRJTvrwhgJJi+Qn9x5fE7mBIWZH9kFeYWriHmGo0
- 8DHjQ50B0xl5dOak65fkLcV7yN5nOj1VsXQgQL4pnpjyXKeRmShEKNeJfTtR0mesghnq
- 1CvMe0xbWvYL/GH0IlhuCHB3VedkLXkWosVaUZVL1AbvGCkv73Vg4ZUIg+1YfY2orVY4
- ibgOpRDf2ulUeLZOiriIIhngYnlgiH1Ul0bXET7r0sUeUwXoYVnH3b1erPyJJ+CTh/gW
- 7BPZdJCEA0WMx6E0iFl0XvHMlzIpVULhWwJ3piwrrgfe0RTT3ZLO3kQzq2D2JvEyh2f7
- 1g4Q==
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51C146E249
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 22:09:44 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id z19so4442965lfr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 15:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vg6m1Dp8b5XLKvFQ8jfS/reWQnW1RmWz2NuJau7dp7A=;
+ b=e1bd/TxP6zwnW0PdTgJTO1Cp3zCufWPLaHx9xD2dWVl6yMqcx1nJWV2+Ou0GmVPrUx
+ R7oEfVIo0BrqAnPzIPkwuSrKNYq4hZm/sWQ7kAqFOKTY0We9pD8RqUDDxzukTR3VfMbD
+ PE3fPEaMyNNy8S4xxSeyYYdgkQE3rrSy99MxXiOsDRRSnP9hqoeKp4y4T3yGCJhkuZjo
+ pY0KK50uRFjfJyh9lm+Cy8pdlHzIq1m8gP6VcbS+ZWEsg3Rwgo+eIi+RWllxsHzbKDpg
+ weKZBSX2KzM0jMoFrUbAwlw6Hjad/2+l4XnDYbs5o4F5HEd9JFadZE/UuLQR8MIxkL+T
+ //yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PT5fNi7xEflk8GkI4Xi2kkoOSPhyGZTLMGtsTW99lM8=;
- b=pE0Qwl3jFL2qUr5wo7FiFCc0ifpzzplBko37lRRcOXAVTJKby6kPlpNIhwhdglTVTY
- sL0UiLk9O5Fb61B4eqXW4wMOs2YCVPlymyo9Vlo/jehng+SIqmWiaRltoAEK6VXmhwPs
- k/GqwM3nvvqXDdc4GNzIdxogLxKigDEQDI1ZJaMZWfIPF2aLuvAGLiuDsf31AiY/kbN9
- ytt/9t2BYh8oyFc3fWom2njxQbuWrteKIx6JCyCmAZly5UkSxGqROAwU4+ZRg9f4hrEp
- ocz4YETAp8SYLQ+zGaJAyk15E3ByvuqtrU7nBJP1RHAZQL7YBGBLSMq47whqOSffdpDr
- 0hRA==
-X-Gm-Message-State: AOAM5334rztaQcTlJ5+BknuG5EnvRPXAfD/UgRYVqXcv4Keudt34DZaN
- Tg5D3Jc2C0vtH3kHJDpAN8PklQ==
-X-Google-Smtp-Source: ABdhPJzkV98KqvV9kj+Vq3Fl6B3U5epSGI8O2umuU/HuE10PsA2MfBhWuzMuy+vaiCys73JsOVxnXA==
-X-Received: by 2002:ac8:376d:: with SMTP id p42mr10057359qtb.288.1599775239625; 
- Thu, 10 Sep 2020 15:00:39 -0700 (PDT)
-Received: from uller (ec2-34-197-84-77.compute-1.amazonaws.com. [34.197.84.77])
- by smtp.gmail.com with ESMTPSA id u66sm406702qka.136.2020.09.10.15.00.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 15:00:39 -0700 (PDT)
-Date: Thu, 10 Sep 2020 22:00:37 +0000
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Kalyan Thota <kalyan_t@codeaurora.org>
-Subject: Re: [PATCH 2/3] arm64: dts: sc7180: add bus clock to mdp node for
- sc7180 target
-Message-ID: <20200910220037.GA472@uller>
-References: <1594899334-19772-1-git-send-email-kalyan_t@codeaurora.org>
- <1594899334-19772-2-git-send-email-kalyan_t@codeaurora.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vg6m1Dp8b5XLKvFQ8jfS/reWQnW1RmWz2NuJau7dp7A=;
+ b=O7SI8SIWAqi0dVok7Y65RPG/v0a2kSPgoDlQfkMQ8mhCFtsRH3bcDYRXew98kKVWio
+ yDq1YoVbZ8oBN0FUUnsfPR3265MVnQGV8W8ojH0CFKmfiOqATL1UcxLJREq1yUsb75Ik
+ ZXTEtzWK0dNYIdUsyzq0aVJg7lja+CmWVMXTvv35a4pVEb1upj/iJ6dlUGS3PEOVl4YQ
+ wCP7U0MIWqcLh8u8dSqzB47eBS/AqPT4CPr3EWFerbtEjlyttGaM2Yj8GBeiGSQ9IVbU
+ nnlRfeKVQ67gbGyRZIkZEhh76r7GvYwuov6B8PUE29BdDKiFPr5w78kQ7B02Td+jcoDm
+ QFMg==
+X-Gm-Message-State: AOAM532JZZlovRj5fk8hiETne9AB6zgtcF0Vnlj1LZa5Xh0izRY5aXz0
+ /tIN6bzuUm0UpFruXAi+bPw=
+X-Google-Smtp-Source: ABdhPJx/4CqhC5R9BvAl9DpGdk1FYGTliLAbf4Pl12nZWA+WI/WZmmrQXjlg+aVC9i1PivjU0QF3Cw==
+X-Received: by 2002:a19:42c4:: with SMTP id p187mr5226615lfa.149.1599775782656; 
+ Thu, 10 Sep 2020 15:09:42 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
+ [109.252.170.211])
+ by smtp.googlemail.com with ESMTPSA id h27sm23975lfj.87.2020.09.10.15.09.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Sep 2020 15:09:42 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 00/17] Host1x/TegraDRM UAPI
+To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
+ <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <241b35d2-7033-7744-18bf-7065016ae1f8@gmail.com>
+ <81c4020b-38d5-b94b-5919-b988341aee72@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c4f01491-55af-73d3-f39f-bd8d2149795e@gmail.com>
+Date: Fri, 11 Sep 2020 01:09:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1594899334-19772-2-git-send-email-kalyan_t@codeaurora.org>
+In-Reply-To: <81c4020b-38d5-b94b-5919-b988341aee72@kapsi.fi>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 11 Sep 2020 09:49:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,83 +75,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, travitej@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, seanpaul@chromium.org, hoegsberg@chromium.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 16 Jul 11:35 UTC 2020, Kalyan Thota wrote:
-
-> From: Krishna Manikandan <mkrishn@codeaurora.org>
-> 
-> Move the bus clock to mdp device node,in order
-> to facilitate bus band width scaling on sc7180
-> target.
-> 
-> The parent device MDSS will not vote for bus bw,
-> instead the vote will be triggered by mdp device
-> node. Since a minimum vote is required to turn
-> on bus clock, move the clock node to mdp device
-> from where the votes are requested.
-> 
-> This patch has dependency on the below series
-> https://patchwork.kernel.org/patch/11468783/
-> 
-
-Isn't this dependency on an old revision of patch 3/3 in this series?
-
-Regardless, I don't see either the linked patch or patch 3 merged in
-linux-next, so I presume I should not merge this?
-
-Regards,
-Bjorn
-
-> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-> ---
->  arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> index 4f2c0d1..31fed6d 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> @@ -1510,10 +1510,9 @@
->  			power-domains = <&dispcc MDSS_GDSC>;
->  
->  			clocks = <&gcc GCC_DISP_AHB_CLK>,
-> -				 <&gcc GCC_DISP_HF_AXI_CLK>,
->  				 <&dispcc DISP_CC_MDSS_AHB_CLK>,
->  				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> -			clock-names = "iface", "bus", "ahb", "core";
-> +			clock-names = "iface", "ahb", "core";
->  
->  			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
->  			assigned-clock-rates = <300000000>;
-> @@ -1539,12 +1538,13 @@
->  				      <0 0x0aeb0000 0 0x2008>;
->  				reg-names = "mdp", "vbif";
->  
-> -				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
->  					 <&dispcc DISP_CC_MDSS_ROT_CLK>,
->  					 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
->  					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
->  					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-> -				clock-names = "iface", "rot", "lut", "core",
-> +				clock-names = "bus", "iface", "rot", "lut", "core",
->  					      "vsync";
->  				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
->  						  <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-> -- 
-> 1.9.1
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDkuMDkuMjAyMCAxMTo0MCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gOS85LzIw
+IDI6MzYgQU0sIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4gMDUuMDkuMjAyMCAxMzozNCwgTWlr
+a28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+PiBIaSBhbGwsCj4+Pgo+Pj4gaGVyZSdzIGEgc2Vj
+b25kIHJldmlzaW9uIG9mIHRoZSBIb3N0MXgvVGVncmFEUk0gVUFQSSBwcm9wb3NhbCwKPj4+IGhv
+cGVmdWxseSB3aXRoIG1vc3QgaXNzdWVzIGZyb20gdjEgcmVzb2x2ZWQsIGFuZCBhbHNvIHdpdGgK
+Pj4+IGFuIGltcGxlbWVudGF0aW9uLiBUaGVyZSBhcmUgc3RpbGwgb3BlbiBpc3N1ZXMgd2l0aCB0
+aGUKPj4+IGltcGxlbWVudGF0aW9uOgo+PiBDb3VsZCB5b3UgcGxlYXNlIGNsYXJpZnkgdGhlIGN1
+cnJlbnQgc3RhdHVzIG9mIHRoZSBETUEgaGVhcHMuIEFyZSB3ZQo+PiBzdGlsbCBnb2luZyB0byB1
+c2UgRE1BIGhlYXBzPwo+Pgo+IAo+IFNvcnJ5LCBzaG91bGQgaGF2ZSBtZW50aW9uZWQgdGhlIHN0
+YXR1cyBpbiB0aGUgY292ZXIgbGV0dGVyLiBJIHNlbnQgYW4KPiBlbWFpbCB0byBkcmktZGV2ZWwg
+YWJvdXQgaG93IERNQSBoZWFwcyBzaG91bGQgYmUgdXNlZCAtLSBJIGJlbGlldmUgdGhlCj4gY29u
+Y2x1c2lvbiB3YXMgdGhhdCBpdCdzIG5vdCBlbnRpcmVseSBjbGVhciwgYnV0IGRtYS1idWZzIHNo
+b3VsZCBvbmx5IGJlCj4gdXNlZCBmb3IgYnVmZmVycyBzaGFyZWQgYmV0d2VlbiBlbmdpbmVzLiBT
+byBmb3IgdGhlIHRpbWUgYmVpbmcsIHdlCj4gc2hvdWxkIHN0aWxsIGltcGxlbWVudCBHRU0gZm9y
+IGludHJhLVRlZ3JhRFJNIGJ1ZmZlcnMuIFRoZXJlIHNlZW1zIHRvIGJlCj4gc29tZSBwbGFubmlu
+ZyBvbmdvaW5nIHRvIHNlZSBpZiB0aGUgZGlmZmVyZW50IHN1YnN5c3RlbSBhbGxvY2F0b3JzIGNh
+bgo+IGJlIHVuaWZpZWQgKHNlZSBkbWEtYnVmIGhlYXBzIHRhbGsgZnJvbSBsaW51eCBwbHVtYmVy
+cyBjb25mZXJlbmNlKSwgYnV0Cj4gZm9yIG5vdyB3ZSBzaG91bGQgZ28gZm9yIEdFTS4KClRoYW5r
+cyEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
