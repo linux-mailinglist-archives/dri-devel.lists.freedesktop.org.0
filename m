@@ -1,87 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC2E263EB3
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:26:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9D6263EEA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:48:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E716E29B;
-	Thu, 10 Sep 2020 07:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 034B56E29E;
+	Thu, 10 Sep 2020 07:48:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB0E6E29B;
- Thu, 10 Sep 2020 07:26:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eE45ANClbzGFVItJKvgZOiUCSeWefmf+fRUyGI0MxNgkANLN7r/vWHEYFIfepfP85Pdy5TMiClhOYdSUWnB9XcViJezcVpfab8SIZQllcTa6gun4C/wm3db24+dvvuuYFp5IjA9rRFLU/E2BGCalsPTofjaB3oiZUgrdsAOCllKNNUwxWTfVdK2JH+x9ED2rZyKZqIHo3bvGPGisfWeYzo3YdgR3ngWjqCzv4kbM2+Qk3We48oNeRwdcV3aifZ7IdmGeWx3QIJQODUlllyFAydpOgUzH+vPRAyBWHD8kOLvp8NqMAE7YL+SCsr/pjADhn9vej3HDtMqtwJy8LivI5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A1ZE0SK0D0IE7s2Zd07MnnbCBNFnEK75DaijWItx25M=;
- b=M6iz0pkYkkFxrydc3NDg+SfsVlfR7ZYmyR5PtwNAwfBTKJmsQNBNeas8EnY07rurAWgy69k1KGe6fIQtxinjvaW4ACajEe5P+3mqj7LOyQd0jDebXjGKZAi1lj93wY/pjla09neyDYeIemhsJka7ERszaE2ICSyRRxjUQuQcwN0wtVOpygZ+csWX8d56gncxr0o+hnJo6hoL1lIwbitPU1IHY7BE2Y9L+QGher3QGfs1pT1sSSaOqMeqv9J0VwtrKf0o8m7VmQlAkC5wZc/KQq1v+SzSwlchNlWLqaalwPBLPAgKSj4VnZ0IHEFGbzsEnhCJhV2GWGC0qyihtTKFpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A1ZE0SK0D0IE7s2Zd07MnnbCBNFnEK75DaijWItx25M=;
- b=Kqi1+lXrg0zDoyfeQ1e57pBCIH0xKq+xWvU7w8W8QRzH+wQR3dfJQ5UWiNDVgwTbYSB2UHYB4DmRnmPKWy3Yz88JMLj0HkVIfujBxJcsOCSjMnKQy5SwzmbatoAC3B8l+3AWBMBDxl76730MFnUlECtUu1WoNUlky8/59UzmqzY=
-Authentication-Results: huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=none action=none header.from=amd.com;
-Received: from MWHPR12MB1248.namprd12.prod.outlook.com (2603:10b6:300:12::21)
- by MWHPR12MB1597.namprd12.prod.outlook.com (2603:10b6:301:e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.19; Thu, 10 Sep
- 2020 07:26:44 +0000
-Received: from MWHPR12MB1248.namprd12.prod.outlook.com
- ([fe80::e881:6ca2:c1d7:48e6]) by MWHPR12MB1248.namprd12.prod.outlook.com
- ([fe80::e881:6ca2:c1d7:48e6%7]) with mapi id 15.20.3348.019; Thu, 10 Sep 2020
- 07:26:44 +0000
-Date: Thu, 10 Sep 2020 15:26:33 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH -next] drm/amdkfd: Fix -Wunused-const-variable warning
-Message-ID: <20200910072633.GE2472906@hr-amd>
-References: <20200910025532.19616-1-yuehaibing@huawei.com>
-Content-Disposition: inline
-In-Reply-To: <20200910025532.19616-1-yuehaibing@huawei.com>
-X-ClientProxiedBy: HKAPR03CA0010.apcprd03.prod.outlook.com
- (2603:1096:203:c8::15) To MWHPR12MB1248.namprd12.prod.outlook.com
- (2603:10b6:300:12::21)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E934B6E29E
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 07:48:00 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a17so5574693wrn.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 00:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EzwOJPxFQZYC72dKxH1QwXbLeAK6MXsJW34CXePZsDk=;
+ b=NU3t/lYA4IuNCNtpekqscA2TyplAkzfP+R8MUCR3PvCAb8uJiYk1wOzzb8wwXS4UMr
+ DVA4tRl1Ve9Exjbx9S/0pONj/l6Gmg8wchly5ZcfOeQgRhaHAGu83K0TF5f78u/Lc85y
+ hkhIHeTu8rvomAvVXj5waA1W35Dcxm1hJK7BI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=EzwOJPxFQZYC72dKxH1QwXbLeAK6MXsJW34CXePZsDk=;
+ b=PQsRGdXdzhS+Q0NYg4STqOl5GKpOdIC7LYs0l6dQeISOSTMG9fdEhRa11Z73koVTyq
+ l8/lojxybjKwslgvXYBeQD541lsN5ToQRAfGRaakmqAtgbacC6W5isphNhHNW4w8b3Xd
+ c8Vdbalw5zw3cNjccc8VAZOUUpv3atmnDVdQmskhn/2LrwrZlUenJx8XpJgBwthjZp+0
+ eNjYISQ1ArffUkNyDCTBXAvKnDgW8HnAgD+1rr2g1G6VNus1vu4gd2HOSOJToKJbwrc7
+ qXk4Z+knC6wVu70os66DTpg0sVQ5e8KCoXeSBKLiL/AqqEwHiIbZC2XNK85LMocRYQEr
+ oYLA==
+X-Gm-Message-State: AOAM531+mmtos78efdU9jdTOs8Btwc8YXtnzlMhzp/eaAI5Ld3zCQ0JR
+ hH1C7febHB5eA38q7giwzQkc+lMfK56sqU/4
+X-Google-Smtp-Source: ABdhPJyHnNn0zGerD4FHfuyk3jfmyvmU9pJsJ0jZ9yhN7+q1Nh4texQADwMpFBCQe7+lPrgnAcEOvw==
+X-Received: by 2002:a5d:4247:: with SMTP id s7mr7407060wrr.167.1599724079550; 
+ Thu, 10 Sep 2020 00:47:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h204sm2348153wmf.35.2020.09.10.00.47.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Sep 2020 00:47:58 -0700 (PDT)
+Date: Thu, 10 Sep 2020 09:47:56 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH 2/3] backlight: pwm_bl: Artificially add 0% during
+ interpolation
+Message-ID: <20200910074756.GE438822@phenom.ffwll.local>
+Mail-Followup-To: Daniel Thompson <daniel.thompson@linaro.org>,
+ Alexandru Stan <amstan@chromium.org>,
+ linux-pwm <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Matthias Kaehlcke <mka@chromium.org>
+References: <20200721042522.2403410-1-amstan@chromium.org>
+ <20200720212502.2.Iab4d2192e4cf50226e0a58d58df7d90ef92713ce@changeid>
+ <20200904113822.xoyt4w5x7vwvh7cr@holly.lan>
+ <20200907075018.GM2352366@phenom.ffwll.local>
+ <20200909144537.daq2exfihhxm6bai@holly.lan>
+ <CAKMK7uEK5afDHT9n0s+eDYA1Qztf9Xxibz_rZDzy5F6G9EOEVw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from hr-amd (58.247.170.245) by
- HKAPR03CA0010.apcprd03.prod.outlook.com (2603:1096:203:c8::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.5 via Frontend Transport; Thu, 10 Sep 2020 07:26:41 +0000
-X-Originating-IP: [58.247.170.245]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 29ddcedd-1c1d-4794-c9d0-08d8555ade6a
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1597:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1597CC173EBC270DD068778DEC270@MWHPR12MB1597.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LI1+KT1d/Lttd81YouMhEl74UDaK22K3ucgxIIfRP/i5hnSby/xBhTg2CwzGk1aSmR1hDKUwrZjN+FRArGw17oongDJXXePo+e5o5IX+aV7i/HJ4dmY1PmKbM9I+fEq6qGKuurtSks90Sh2djFQiDQIHSqBkKj/ipg5EmVLGcPzZd5sHzeNLgBwh7UiQemhpzgr5fbRvmYZqWbzGY2PCS+zdOQxzkN9UQl/27cGaJKUI4+eFpjA2hFvvGm4kG41nUVKYsZz9cCiS/vjYaCrshkXLAbHBTg41V4+pA5HLiJBg98v1iQLzzx+NDh/fCIQ48Zn+RnlYY0Yl76GAt4obojQEHM9PE9+RjJBC8FOuYG8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR12MB1248.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(396003)(366004)(346002)(39860400002)(66556008)(83380400001)(33716001)(26005)(66946007)(33656002)(66476007)(6666004)(1076003)(45080400002)(8936002)(6916009)(8676002)(5660300002)(9686003)(6496006)(86362001)(2906002)(966005)(316002)(478600001)(16526019)(956004)(4326008)(55016002)(186003)(52116002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: qyMfUbc7dy0jDfnq91jUiTR+2++bXL4PteBrrvVEu5dWsiDfDq3qI3aep6D7rmSsnZr1ChVSmVWzkmeR0mkrbKhf6XdJ5IBqWxsjaWoLorrLuvNmNMXEOnweVsGj0kY/TQQ80Yr1PgVUI9sMlK88NVpWCVuQyb0K9JIVjPBElbn7SJ3UEJpFkkWDZK4mPG2d5BtBfO1zVLLBC3y2bY62fkf5fEzw0zew+bbRlzp2jMXHSgF9j/ne4rD+ktcSWYeRAX3v9ZkelXFtYJiCP3H1/dRlaUlmJJeCq7Kyd3wYHKhxC0xortslXKBgy5Syf4zfQKEAiaNox364+REsIX3gdixFumQ7CzYPb9Qy2YX8PPRT3kfKTyyHUKh60M9CBPU1x3WGL5TfPYm2RxfMp8HVapiPvO6OYlEEFbx9m4boOqz2oNyzziFaeYipI49xvVM9/w4Vfa4VBKu7oIKh+VePdP3bOrEUXLezuPCncYhErCTeaS9Z2Vquy/rGoIHsC01TtdgbLp7bK9DJSJMAV9A5TqgPCawQSc4o8nvyJviBFtGx2YBiA7ftWIZ355CkfSpHdBXNocUKk5XluKWltiBAjI0OXCH7jeZGCxKWtWkayFHKuy5wF8G+QrdViFOGrV/NOGxemJtQzIQxs8TOsJw3Qw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29ddcedd-1c1d-4794-c9d0-08d8555ade6a
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR12MB1248.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 07:26:44.3511 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bqUsnpoO7MR02CBlGxH2WAZ7u2JLD6+0JorKY+MReln7fi075n1lbveKn3UmoUI0WQi+KfWXmmlBXccwx4OQow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1597
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEK5afDHT9n0s+eDYA1Qztf9Xxibz_rZDzy5F6G9EOEVw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,50 +86,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yong.Zhao@amd.com, airlied@linux.ie, Felix.Kuehling@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Alexandru Stan <amstan@chromium.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Lee Jones <lee.jones@linaro.org>, Matthias Kaehlcke <mka@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBTZXAgMTAsIDIwMjAgYXQgMTA6NTU6MzJBTSArMDgwMCwgWXVlSGFpYmluZyB3cm90
-ZToKPiBJZiBLRkRfU1VQUE9SVF9JT01NVV9WMiBpcyBub3Qgc2V0LCBnY2Mgd2FybnM6Cj4gCj4g
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vYW1ka2ZkL2tmZF9kZXZpY2UuYzoxMjE6Mzc6
-IHdhcm5pbmc6IKGucmF2ZW5fZGV2aWNlX2luZm+hryBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1
-bnVzZWQtY29uc3QtdmFyaWFibGU9XQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGtmZF9kZXZpY2Vf
-aW5mbyByYXZlbl9kZXZpY2VfaW5mbyA9IHsKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn4KPiAKPiBNb3ZlIGl0IHRvIGlmZGVmIGJsb2NrLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KPiAt
-LS0KClJhdmVuIGFscmVhZHkgaGFzIHRoZSBmYWxsYmFjayBwYXRoLCBzbyBpdCBzaG91bGQgYmUg
-b3V0IG9mIElPTU1VIHYyIGZsYWcuCgpZb3UgbWF5IHdhbnQgdG8gbW92ZSByYXZlbl9kZXZpY2Vf
-aW5mbyBvdXQgb2YgSU9NTVUgdjIgZmxhZyBpbiBrZmRfc3VwcG9ydGVkX2RldmljZXNbXVsyXSBh
-cyB3ZWxsLgoKVGhhbmtzLApSYXkKCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9k
-ZXZpY2UuYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9k
-ZXZpY2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2UuYwo+IGluZGV4
-IDBlNzFhMDU0M2Y5OC4uY2FlNGRmMjU5ZTI2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2UuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-a2ZkL2tmZF9kZXZpY2UuYwo+IEBAIC0xMTYsNyArMTE2LDYgQEAgc3RhdGljIGNvbnN0IHN0cnVj
-dCBrZmRfZGV2aWNlX2luZm8gY2Fycml6b19kZXZpY2VfaW5mbyA9IHsKPiAgCS5udW1feGdtaV9z
-ZG1hX2VuZ2luZXMgPSAwLAo+ICAJLm51bV9zZG1hX3F1ZXVlc19wZXJfZW5naW5lID0gMiwKPiAg
-fTsKPiAtI2VuZGlmCj4gIAo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGtmZF9kZXZpY2VfaW5mbyBy
-YXZlbl9kZXZpY2VfaW5mbyA9IHsKPiAgCS5hc2ljX2ZhbWlseSA9IENISVBfUkFWRU4sCj4gQEAg
-LTEzNSw2ICsxMzQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGtmZF9kZXZpY2VfaW5mbyByYXZl
-bl9kZXZpY2VfaW5mbyA9IHsKPiAgCS5udW1feGdtaV9zZG1hX2VuZ2luZXMgPSAwLAo+ICAJLm51
-bV9zZG1hX3F1ZXVlc19wZXJfZW5naW5lID0gMiwKPiAgfTsKPiArI2VuZGlmCj4gIAo+ICBzdGF0
-aWMgY29uc3Qgc3RydWN0IGtmZF9kZXZpY2VfaW5mbyBoYXdhaWlfZGV2aWNlX2luZm8gPSB7Cj4g
-IAkuYXNpY19mYW1pbHkgPSBDSElQX0hBV0FJSSwKPiAtLSAKPiAyLjE3LjEKPiAKPiAKPiBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9u
-YW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJG
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRldmVsJmFt
-cDtkYXRhPTAyJTdDMDElN0NyYXkuaHVhbmclNDBhbWQuY29tJTdDZTg4MDVmZDQzZTlhNGFkMzNj
-ZDAwOGQ4NTU1YTU2N2ElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0Mw
-JTdDNjM3MzUzMTkzNzk1MDM0MDUyJmFtcDtzZGF0YT1IcVVHalVwUXRmQ2taM3dBMSUyRjZIVENa
-cm4lMkY0JTJCdVFPUlRvYnphSVlhJTJCTnMlM0QmYW1wO3Jlc2VydmVkPTAKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Sep 09, 2020 at 05:03:37PM +0200, Daniel Vetter wrote:
+> On Wed, Sep 9, 2020 at 4:45 PM Daniel Thompson
+> <daniel.thompson@linaro.org> wrote:
+> >
+> > On Mon, Sep 07, 2020 at 09:50:18AM +0200, Daniel Vetter wrote:
+> > > On Fri, Sep 04, 2020 at 12:38:22PM +0100, Daniel Thompson wrote:
+> > > > On Mon, Jul 20, 2020 at 09:25:21PM -0700, Alexandru Stan wrote:
+> > > > > Some displays need the low end of the curve cropped in order to make
+> > > > > them happy. In that case we still want to have the 0% point, even though
+> > > > > anything between 0% and 5%(example) would be skipped.
+> > > >
+> > > > For backlights it is not defined that 0 means off and, to be honest, 0
+> > > > means off is actually rather weird for anything except transflexive
+> > > > or front lit reflective displays[1]. There is a problem on several
+> > > > systems that when the backlight slider is reduced to zero you can't
+> > > > see the screen properly to turn it back up. This patch looks like it
+> > > > would make that problem worse by hurting systems with will written
+> > > > device trees.
+> > > >
+> > > > There is some nasty legacy here: some backlight displays that are off
+> > > > at zero and that sucks because userspace doesn't know whether zero is
+> > > > off or lowest possible setting.
+> > > >
+> > > > Nevertheless perhaps a better way to handle this case is for 0 to map to
+> > > > 5% power and for the userspace to turn the backlight on/off as final
+> > > > step in an animated backlight fade out (and one again for a fade in).
+> > >
+> > > Afaik chromeos encodes "0 means off" somewhere in there stack. We've
+> > > gotten similar patches for the i915 backlight driver when we started
+> > > obeying the panel's lower limit in our pwm backlight driver thing that's
+> > > sometimes used instead of acpi.
+> >
+> > Out of interest... were they accepted?
+> >
+> > I did took a quick look at intel_panel.c and didn't see anything
+> > that appeared to be special casing zero but I thought I might double
+> > check.
+> 
+> I don't think so. Just figured I bring this up since it might explain
+> why this is coming back again from an @chromium.com address.
+
+Thanks to Alexandru pointing at the right code it's clear this got fix,
+over 5 years ago:
+
+https://source.chromium.org/chromiumos/_/chromium/chromiumos/platform2/+/6e83a6a8bb772ed8a2f939da1c7a152147c12789
+
+	power: Write to bl_power when backlight reaches or leaves 0.
+	
+	Make InternalBacklight write FB_BLANK_UNBLANK to bl_power
+	just before setting the internal backlight brightness to a
+	nonzero value, and FB_BLANK_POWERDOWN to bl_power just
+	before setting the brightness to 0.
+	
+	This is needed for hardware that interprets a brightness
+	level of 0 as meaning "dim" rather than "off".
+	
+	BUG=chromium:396218
+	TEST=added unit tests
+	
+	Change-Id: I914e333ab41db623564d5a67beac89f1a62bce9d
+	Reviewed-on: https://chromium-review.googlesource.com/311010
+	Commit-Ready: Dan Erat <derat@chromium.org>
+	Tested-by: Dan Erat <derat@chromium.org>
+	Reviewed-by: Dan Erat <derat@chromium.org>
+
+Cheers, Daniel
+
+> > > There's also the problem that with fancy panels with protocol (dsi, edp,
+> > > ...) shutting of the backlight completely out of the proper power sequence
+> > > hangs the panel (for some panels at least), so providing a backlight off
+> > > that doesn't go through the drm modeset sequence isn't always possible.
+> > >
+> > > It's a bit a mess indeed :-/
+> > > -Daniel
+> > >
+> > > >
+> > > >
+> > > > Daniel.
+> > > >
+> > > > >
+> > > > > Signed-off-by: Alexandru Stan <amstan@chromium.org>
+> > > > > ---
+> > > > >
+> > > > >  drivers/video/backlight/pwm_bl.c | 8 ++++++++
+> > > > >  1 file changed, 8 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> > > > > index 5193a72305a2..b24711ddf504 100644
+> > > > > --- a/drivers/video/backlight/pwm_bl.c
+> > > > > +++ b/drivers/video/backlight/pwm_bl.c
+> > > > > @@ -349,6 +349,14 @@ static int pwm_backlight_parse_dt(struct device *dev,
+> > > > >                   /* Fill in the last point, since no line starts here. */
+> > > > >                   table[x2] = y2;
+> > > > >
+> > > > > +                 /*
+> > > > > +                  * If we don't start at 0 yet we're increasing, assume
+> > > > > +                  * the dts wanted to crop the low end of the range, so
+> > > > > +                  * insert a 0 to provide a display off mode.
+> > > > > +                  */
+> > > > > +                 if (table[0] > 0 && table[0] < table[num_levels - 1])
+> > > > > +                         table[0] = 0;
+> > > > > +
+> > > > >                   /*
+> > > > >                    * As we use interpolation lets remove current
+> > > > >                    * brightness levels table and replace for the
+> > > > > --
+> > > > > 2.27.0
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
