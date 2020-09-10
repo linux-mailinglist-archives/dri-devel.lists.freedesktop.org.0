@@ -2,64 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F43E263E77
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C13C263EA2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606F189F8E;
-	Thu, 10 Sep 2020 07:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBFC76E286;
+	Thu, 10 Sep 2020 07:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C386F564
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Sep 2020 22:36:04 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id g72so4106474qke.8
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 15:36:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=c134n78aG+T1D05fG/7gwyDy+RohECK5LAEVlOiODCw=;
- b=NyzBsT+JUu0U0kwfTlzpDClheXiWwFCChT8B3B3AnRObKvk4drNujFjFruGeHjyE5E
- J/ekKdFGX4ZPNWUfEPhKExoK0sWWjXwST+pbBqDSQQLO3bhHO97u7XE9KwITCllyZTNP
- KD49/yc1MfvhSPgbWZUU1AxUsv6U0vCFkivBcLxiu3ppVdmJeK1Itxs2CD5ayafEhare
- Y4u34snA9MTl4Likr5RS+E4LR0hKde+fx41J4h2BvlUn7go15Yxb6eLzvLXVka4Mre/N
- zumvX8Blxljzlanq14R9XGa7dbkpGn90Uvx/RhT36f5UMVOZXDvQeH4wAZB+Eu6xRGBh
- woew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=c134n78aG+T1D05fG/7gwyDy+RohECK5LAEVlOiODCw=;
- b=lKEJtqepBz+8XiMJT/kCDPH+/NE5HJM+quVFmHYoT0I/vttBqgZB3D+ywGtTE/4Yd5
- WJW3I3Ik0BLyDZSyl+8ev8TxRiVU7Mmqag0XKOl4v+Rk84ayuqvmIXKMuIsKFPnEJr5s
- suF7OtoWE1ok8jYGeeuSefcRliE30dz+X7Bm8ALsS3AAlUCVGjCoG0Zl0iQTemKchOlS
- c9QVKQHzIyilFuyFFV5KdYKiaZts5Td291YRMwx9HNrpyOtKE8KjrgH4XGMwzK/naiTu
- X8yqNpMUWn215qDXMs6zPr9pC1i5o7aXfgIaMonCpO0z6OcJNxTUvB77TyEpj/BNeDZO
- Id2A==
-X-Gm-Message-State: AOAM5320Yx/73HcsVXLC6gdsfO4UP2LLzzhKLoXPDVS0Ic3eSL7KaVVF
- Y06Z5shCnCPqvIbTHWOllEjomw==
-X-Google-Smtp-Source: ABdhPJx7fgh7UgPdTXT6uFy6snoRxxciP2Hd+WS8NFMVek051RlvF5/SRN4VKGquIHZA++zqp1uC0Q==
-X-Received: by 2002:a05:620a:2225:: with SMTP id
- n5mr5229154qkh.171.1599690963887; 
- Wed, 09 Sep 2020 15:36:03 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id g5sm4497430qtx.43.2020.09.09.15.36.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 15:36:03 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kG8h8-004BIN-8t; Wed, 09 Sep 2020 19:36:02 -0300
-Date: Wed, 9 Sep 2020 19:36:02 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-Message-ID: <20200909223602.GJ87483@ziepe.ca>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
+ [59.111.176.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31AE689CD5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 02:05:32 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [157.0.31.124])
+ by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 62E7F4826B1;
+ Thu, 10 Sep 2020 10:05:28 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+ abdoulaye berthe <abdoulaye.berthe@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, jinlong zhang <jinlong.zhang@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: optimize code runtime a bit
+Date: Wed,  9 Sep 2020 19:05:04 -0700
+Message-Id: <20200910020520.9973-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZGh1KHR8aS0xJSkJPVkpOQkJMS0hOSUNMQkxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKQ1VKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6Dgw5OT8dQx1ONQguAgIw
+ SisaFE9VSlVKTkJCTEtITklCSEtCVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU9ZV1kIAVlBSEhCSTcG
+X-HM-Tid: 0a7475c2b50f93bakuws62e7f4826b1
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,61 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
- oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
- alsa-devel <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, linux-ide@vger.kernel.org, dm-devel@redhat.com,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- sparclinux@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
- linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
- coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-mmc@vger.kernel.org, Kees Cook <kees.cook@canonical.com>,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
- storagedev@microchip.com, ceph-devel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
- Jiri Kosina <trivial@kernel.org>, linux-parisc@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- Nick Desaulniers <ndesaulniers@google.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
- bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 09, 2020 at 01:06:39PM -0700, Joe Perches wrote:
-> fallthrough to a separate case/default label break; isn't very readable.
-> 
-> Convert pseudo-keyword fallthrough; statements to a simple break; when
-> the next label is case or default and the only statement in the next
-> label block is break;
-> 
-> Found using:
-> 
-> $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
-> 
-> Miscellanea:
-> 
-> o Move or coalesce a couple label blocks above a default: block.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
-> 
-> Compiled allyesconfig x86-64 only.
-> A few files for other arches were not compiled.
+In fnction is_cr_done & is_ch_eq_done, when done = false
+happened once, no need to circle left ln_count.
+This change is to make the code run a bit fast.
 
-IB part looks OK, I prefer it like this
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-You could do the same for continue as well, I saw a few of those..
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index b2be6ad5101d..53e30be8b66a 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -373,34 +373,30 @@ static void dpcd_set_lt_pattern_and_lane_settings(
+ static bool is_cr_done(enum dc_lane_count ln_count,
+ 	union lane_status *dpcd_lane_status)
+ {
+-	bool done = true;
+ 	uint32_t lane;
+ 	/*LANEx_CR_DONE bits All 1's?*/
+ 	for (lane = 0; lane < (uint32_t)(ln_count); lane++) {
+ 		if (!dpcd_lane_status[lane].bits.CR_DONE_0)
+-			done = false;
++			return false;
+ 	}
+-	return done;
+-
++	return true;
+ }
+ 
+ static bool is_ch_eq_done(enum dc_lane_count ln_count,
+ 	union lane_status *dpcd_lane_status,
+ 	union lane_align_status_updated *lane_status_updated)
+ {
+-	bool done = true;
+ 	uint32_t lane;
+ 	if (!lane_status_updated->bits.INTERLANE_ALIGN_DONE)
+-		done = false;
++		return false;
+ 	else {
+ 		for (lane = 0; lane < (uint32_t)(ln_count); lane++) {
+ 			if (!dpcd_lane_status[lane].bits.SYMBOL_LOCKED_0 ||
+ 				!dpcd_lane_status[lane].bits.CHANNEL_EQ_DONE_0)
+-				done = false;
++				return false;
+ 		}
+ 	}
+-	return done;
+-
++	return true;
+ }
+ 
+ static void update_drive_settings(
+-- 
+2.28.0
 
-Thanks,
-Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
