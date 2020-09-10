@@ -1,79 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63807264BBC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 19:48:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAC0264BDD
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 19:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17ACA6E965;
-	Thu, 10 Sep 2020 17:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1806E140;
+	Thu, 10 Sep 2020 17:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 164F56E95C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 17:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599760085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ehkzB4LttygthmWCADkLgwoMYDzvXG4NiI7HnkwKLek=;
- b=UTdhcYLvxBi1Bau5hz+Iqcq8FJ1trQs3Ri4rHYhT7OJAy2vtlTY0OV8114J7XMI8BOE84T
- iBkK/x0ugwEGSeSRP9u11aAlt+EBULrNEo0ap1l/LxC+LQ6MGZkGpBMMA3b5ETUPLnzTPp
- 89KEijfzCTb2wl4kXMtVK4sniABb+rs=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-48QIGqknMjqZebB-rMzffw-1; Thu, 10 Sep 2020 13:48:03 -0400
-X-MC-Unique: 48QIGqknMjqZebB-rMzffw-1
-Received: by mail-qt1-f199.google.com with SMTP id c5so4676046qtd.12
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 10:48:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=ehkzB4LttygthmWCADkLgwoMYDzvXG4NiI7HnkwKLek=;
- b=q6z9sPRqMu6YT8OEECsncw8ZSI2ct7dB1mHGV5L4go8RoyHMc2Phq8EMvJS69UVECN
- +O8acZ+lDMu11a3U8WR+mwJ3t8I04CpUEy93uqYTFHfPFsAnP4cg5sPdOujOCJQKIFAO
- tkIjUKZnEmQKqI7lwbvbOliDU3VOrII2N8LMem28KctHvWRlPaC7DWwwaO/jdfE1Cvn6
- hlR+9j2SUrQBC5hLpf7SEn+MIDCJL+aDCoIvKOUfQRnE2wFQcCPNiSrrOkl7YO53i3F3
- N4JSaSKP+raPhMHGpCBDlj0Yp4DumnnFfdLX/GDg+8nlzcsmVrmIYLcKOVSjS2vpd7yX
- DUVg==
-X-Gm-Message-State: AOAM532NAjg1wY6h7k/uLO0P7ywoS924qJQpTlTobA4rsTRO+acJiCH7
- D+Sa8+AlG+96k7yMJQEhMmqjmUH9MosXlaUX6eSyS28DHcUQR0to7igHjMEVDyvN5uX5ipNWtz+
- VJOSxrKu33sZ/fDUbPwP4+oqOUb0c
-X-Received: by 2002:ac8:4757:: with SMTP id k23mr8914735qtp.105.1599760082023; 
- Thu, 10 Sep 2020 10:48:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzrl4LkG26r8eXUfai68ZH7uwANmEYme9QgnBK2OI1JAg0CpzmWdq4JyMISo9AxCnwM+2uzQ==
-X-Received: by 2002:ac8:4757:: with SMTP id k23mr8914716qtp.105.1599760081800; 
- Thu, 10 Sep 2020 10:48:01 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id o13sm6910440qkm.16.2020.09.10.10.48.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 10:48:01 -0700 (PDT)
-Message-ID: <d1571cdd6a68e8f17ff2e386abd35fd5819d2de8.camel@redhat.com>
-Subject: Re: [PATCH] V2: Currently, DRM get the capability of the mst hub
- only from DP_DPCD_REV and get the slower speed even the mst hub can run in
- the faster speed.
-From: Lyude Paul <lyude@redhat.com>
-To: Koba Ko <koba.ko@canonical.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,  dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 10 Sep 2020 13:48:00 -0400
-In-Reply-To: <20200910063640.21519-1-koba.ko@canonical.com>
-References: <20200910063640.21519-1-koba.ko@canonical.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 751126E140
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 17:51:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C45A3B;
+ Thu, 10 Sep 2020 19:51:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1599760301;
+ bh=y3StJQ6KbephI8BRJDpv5lraVinrNsZ9pLVCmo7EXnU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y7wZtnDhwQWY274tMcCsFv6LWkhqWcWkS/1pQaVjEEX42wqVjeyuJKjnyLyMiawaW
+ xb/QHgnBellk3M2Pfq4L3iQkbSE6kTo0VoYnZ58i1w24yXwqwzJNK3etw16s9+hQXX
+ tfM7Y7JUQU5sZE9QCBT+udxehUy7GQd1Cf93FUdk=
+Date: Thu, 10 Sep 2020 20:51:13 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vitaly Prosyak <vitaly.prosyak@amd.com>
+Subject: Re: per-plane LUTs and CSCs?
+Message-ID: <20200910175113.GG3940@pendragon.ideasonboard.com>
+References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
+ <20200910102543.11dc9fe0@eldfell>
+ <20200910075226.GF438822@phenom.ffwll.local>
+ <20200910115026.58dffaf1@eldfell>
+ <20200910093009.qkb5yvpyf46uj6mp@fsr-ub1864-141>
+ <20200910132803.14dc028d@eldfell>
+ <20200910105618.GE3940@pendragon.ideasonboard.com>
+ <5f39e5ee-bf2b-e4dc-7584-7e6cd4c5b104@amd.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <5f39e5ee-bf2b-e4dc-7584-7e6cd4c5b104@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,63 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anthony.wong@canonical.com
+Cc: Sebastian Wick <sebastian@sebastianwick.net>,
+ dri-devel@lists.freedesktop.org, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit message should be shorter and follow the format other commits for
-drm usually do, in this case something like:
+Hi Vitaly,
 
-drm/dp_mst: Retrieve extended DPCD caps for topology manager
-
-On Thu, 2020-09-10 at 14:36 +0800, Koba Ko wrote:
-> As per DP-1.3, First check DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT.
-> If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 1, read the DP_DP13_DPCD_REV to
-> get the faster capability.
-> If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 0, read DP_DPCD_REV.
+On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
+> On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
+> > On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
+> >> On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
+> >>> On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
+> >>>> On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
+> >>>>> On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
+> >>>>>> On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
+> >>>>>>      
+> >>>>>>> Hi all,
+> >>>>>>>
+> >>>>>>> I was wondering whether you could give me an advise on how to proceed further
+> >>>>>>> with the following issue as I'm preparing to upstream the next set of patches
+> >>>>>>> for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
+> >>>>>>> each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
+> >>>>>>> respectively. Then the output from those 3 pipes is blended together and then
+> >>>>>>> gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
+> >>>>>>> needed.
+> >>>>
+> >>>> Hi,
+> >>>>
+> >>>> hmm, so FB -> CSC -> LUT -> CSC -> blending?
+> >>>>
+> >>>> Is it then
+> >>>> 	blending -> LUT -> CSC -> encoder
+> >>>> or
+> >>>> 	blending -> CSC -> LUT -> encoder?
+> >>>
+> >>> The DCSS pipeline topology is this:
+> >>>
+> >>> FB1->CSC_A->LUT->CSC_B-\
+> >>> FB2->CSC_A->LUT->CSC_B-|-blender->LUT->CSC_O->encoder
+> >>> FB3->CSC_A->LUT->CSC_B-/
+> >>>
+> >>> Basically, CSC_A is used to convert to a common colorspace if needed
+> >>> (YUV->RGB) as well as to perform pixel range conversions: limited->full.
+> >>> CSC_B is for gamut conversions(like 709->2020). The CSC_O is used to
+> >>> convert to the colorspace used by the output (like RGB->YUV).
+> >>
+> >> I didn't realize that it would be correct to do RGB-YUV conversion in
+> >> non-linear space, but yeah, that's what most software do too I guess.
+> >>
+> >>>> Are all these LUTs per-channel 1D LUTs or something else?
+> >>>
+> >>> LUTs are 3D, per pixel component.
+> >>
+> >> Sorry, which one?
+> >>
+> >> An example of a 3D LUT is 32x32x32 entries with each entry being a
+> >> triplet, while a 1D LUT could be 1024 entries with each entry being a
+> >> scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
+> >> you need just one for the color value triplet mapping.
+> >>
+> >> A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
+> >> channel mixing that a CTM can.
+> >>
+> >> So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
+> >> blocks exist...
+> >
+> > Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
+> > R-Car), having a separate CSC can give more precision (as well as
+> > allowing the two problems to be decoupled, at a relatively low hardware
+> > cost).
 > 
-> Signed-off-by: Koba Ko <koba.ko@canonical.com>
-> ---
-> ChangeLog:
-> 1. use drm_dp_read_dpcd_caps instead.
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 7753c718ddf9..293f71d0ae90 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -3694,8 +3694,8 @@ int drm_dp_mst_topology_mgr_set_mst(struct
-> drm_dp_mst_topology_mgr *mgr, bool ms
->  			((dpcd_ext & DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT)
-> ?  DP_DP13_DPCD_REV : DP_DPCD_REV);
->  
->  		/* get dpcd info */
-> -		ret = drm_dp_dpcd_read(mgr->aux, dpcd_offset, mgr->dpcd,
-> DP_RECEIVER_CAP_SIZE);
-> -		if (ret != DP_RECEIVER_CAP_SIZE) {
-> +		ret = drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd);
-> +		if (ret < 0) {
->  			DRM_DEBUG_KMS("failed to read DPCD\n");
+> If you put nonlinear signal to 3DLUT then your
+> precision would be improved.
+> How many bits each color value has in 3DLUT ?
 
-Let's use drm_dbg_kms() here, and let's also print the return code when this
-fails.
+The whole display pipeline uses 8 bits per component.
 
-With those things fixed:
-
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
->  			goto out_unlock;
->  		}
 -- 
-Cheers,
-	Lyude Paul (she/her)
-	Software Engineer at Red Hat
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
