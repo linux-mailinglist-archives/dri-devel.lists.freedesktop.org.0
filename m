@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF16A265CD2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87441265CDC
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6CF6E995;
-	Fri, 11 Sep 2020 09:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206E86E9A4;
+	Fri, 11 Sep 2020 09:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 303CD6E2CF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 07:52:53 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id F28D11EF2D70231AC517;
- Thu, 10 Sep 2020 15:52:50 +0800 (CST)
-Received: from [127.0.0.1] (10.174.179.108) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0;
- Thu, 10 Sep 2020 15:52:49 +0800
-Subject: Re: [PATCH -next] drm/rockchip: cdn-dp: Mark
- cdn_dp_core_suspend/resume __maybe_unused
-To: <hjc@rock-chips.com>, <heiko@sntech.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-References: <20200811021225.50296-1-yuehaibing@huawei.com>
-From: Yuehaibing <yuehaibing@huawei.com>
-Message-ID: <7b9799c6-96e2-2273-a296-ea1a94e4cade@huawei.com>
-Date: Thu, 10 Sep 2020 15:52:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200811021225.50296-1-yuehaibing@huawei.com>
-X-Originating-IP: [10.174.179.108]
-X-CFilter-Loop: Reflected
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8B36E2CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 07:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1599724444;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=l1WbT/SvoDNXkiR2i/Ms97l7Wmw8ncgIm8q+yWXRhJo=;
+ b=S6AG7+laKYIuuOoC14IT/ehfiLrSRYF+qFl7EI2JPzP6Cbh7mRyZu0Q/MgT8xNfkS6
+ nKWVOcCUFrB7tEpom1VxQh7b8Ozuip0I3XqQ0pmey6kzAaEcs6wiGE7hKFbjclEeuymg
+ cxH50eky64oS3ePp4aMvS9Gm6T23pFPpYD7j6tjiEWL84YvKWCDFUe/jsEBychRoILqy
+ Ct9ZQ1E4WX9cD03eKwR3UAI+MERvHsQNOpCwMyOiqAW7sFCwcoGN9tCXcOJ+SrPtA3UM
+ U5JePROLXrXE04bkuHAkbmIEiehTYqdlYZrkVCRVSmzAlvikQCsyTC8/MpbsidYya8V/
+ K+RQ==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSfXA0N8oI="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
+ with ESMTPSA id n03b0dw8A7rtbeU
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 10 Sep 2020 09:53:55 +0200 (CEST)
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
+ JZ4780)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <2093A5E6-28CC-42C6-8CF9-3E78942254F4@goldelico.com>
+Date: Thu, 10 Sep 2020 09:53:53 +0200
+Message-Id: <DD421AB9-E419-41C1-B23E-B7FC4603C433@goldelico.com>
+References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
+ <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
+ <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
+ <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
+ <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
+ <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
+ <2093A5E6-28CC-42C6-8CF9-3E78942254F4@goldelico.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Fri, 11 Sep 2020 09:49:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,36 +62,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cGluZy4uLgoKT24gMjAyMC84LzExIDEwOjEyLCBZdWVIYWliaW5nIHdyb3RlOgo+IElmIENPTkZJ
-R19QTSBpcyBub3Qgc2V0LCBnY2Mgd2FybnM6Cj4gCj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
-L2Nkbi1kcC1jb3JlLmM6MTEyNDoxMjoKPiAgd2FybmluZzog4oCYY2RuX2RwX3Jlc3VtZeKAmSBk
-ZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtZnVuY3Rpb25dCj4gCj4gTWFyayB0aGVtIF9f
-bWF5YmVfdW51c2VkIHRvIGZpeCB0aGlzLgo+IAo+IFJlcG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxo
-dWxrY2lAaHVhd2VpLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVoYWliaW5n
-QGh1YXdlaS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAtY29y
-ZS5jIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
-b25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAt
-Y29yZS5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMKPiBpbmRleCBh
-NGE0NWRhZjkzZjIuLjQxM2IwZTkwZjEwZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-cm9ja2NoaXAvY2RuLWRwLWNvcmUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9j
-ZG4tZHAtY29yZS5jCj4gQEAgLTExMDcsNyArMTEwNyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-Y29tcG9uZW50X29wcyBjZG5fZHBfY29tcG9uZW50X29wcyA9IHsKPiAgCS51bmJpbmQgPSBjZG5f
-ZHBfdW5iaW5kLAo+ICB9Owo+ICAKPiAtc3RhdGljIGludCBjZG5fZHBfc3VzcGVuZChzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpCj4gK3N0YXRpYyBfX21heWJlX3VudXNlZCBpbnQgY2RuX2RwX3N1c3BlbmQo
-c3RydWN0IGRldmljZSAqZGV2KQo+ICB7Cj4gIAlzdHJ1Y3QgY2RuX2RwX2RldmljZSAqZHAgPSBk
-ZXZfZ2V0X2RydmRhdGEoZGV2KTsKPiAgCWludCByZXQgPSAwOwo+IEBAIC0xMTIxLDcgKzExMjEs
-NyBAQCBzdGF0aWMgaW50IGNkbl9kcF9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiAgCXJl
-dHVybiByZXQ7Cj4gIH0KPiAgCj4gLXN0YXRpYyBpbnQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3QgZGV2
-aWNlICpkZXYpCj4gK3N0YXRpYyBfX21heWJlX3VudXNlZCBpbnQgY2RuX2RwX3Jlc3VtZShzdHJ1
-Y3QgZGV2aWNlICpkZXYpCj4gIHsKPiAgCXN0cnVjdCBjZG5fZHBfZGV2aWNlICpkcCA9IGRldl9n
-ZXRfZHJ2ZGF0YShkZXYpOwo+ICAKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Hi Ezequiel,
+
+> Am 27.08.2020 um 09:21 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+> 
+> Hi Ezequiel,
+> 
+>> Am 24.08.2020 um 19:38 schrieb Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>:
+>> 
+>> On Mon, 24 Aug 2020 at 13:05, H. Nikolaus Schaller <hns@goldelico.com> wrote:
+>>> 
+>>> Hi Ezequiel,
+>> 
+>> The fix is just re-organizing the code a bit. Just pushed a possible
+>> fix for that (following the IPU handling by Paul Cercueil),
+>> please feel free to test this:
+>> 
+>> https://gitlab.collabora.com/linux/0day/-/commits/jz4780-drm-hdmi-module-fix-v5.9-rc2
+> 
+> Works well (after doing a minor fix to the CI20 defconfig)!
+> 
+>> 
+>> FWIW, my test setup uses mainline vanilla U-Boot v2020.07.
+>> The kernel is loaded via TFTP. Debian mipsel is mounted via NFS
+>> (which means dm9000 works). I'm testing with weston and modetest.
+>> 
+>> Note that enabling DRM_INGENIC_IPU will make the driver
+>> fail to load, as the IPU is not optional (and not present on ci20.dts).
+>> A minor thing to fix.
+>> 
+>> Cheers,
+>> Ezequiel
+>> 
+>>> And it seems to differ significantly from what Paul has developed recently
+>>> to make it work. It seems to be quite lucky that we have a working setup now :)
+>>> 
+>>>> Nikolaus, Paul: Do you have plans to submit these?
+>>> 
+>>> Yes, as soon as we are sure that it works (and when it doesn't).
+>>> 
+>>> But thanks to your work it is now much easier to improve things, since we
+>>> are no longer looking for a break-through but just have to avoid regressions.
+>>> 
+>>>> If not, I'll be happy to get them out the door for review.
+>>> 
+>>> Let it mature a little first and have it tested on more setups and rebased
+>>> to mainline v5.9-rc2 :)
+> 
+> 
+>> Am 24.08.2020 um 23:11 schrieb Paul Cercueil <paul@crapouillou.net>:
+>> 
+>> DRM drivers follow their own schedule, you should rebase to drm-misc-next instead.
+>> 
+> 
+> With the comment from Paul, I think it is best if you push them for review.
+> 
+> My patch set based on v5.9-rc2 is here (including one EFUSE patch which I have
+> included only for making my Ethernet interface work for testing):
+> 
+> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/jz4780-hdmi-v5
+> 
+> Please take it, do the required squashes and rebasing and post them for discussion to the
+> appropriate lists.
+
+I hope you are well. Do you plan to do the squash and rebase and posts?
+
+BR and thanks,
+Nikolaus
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
