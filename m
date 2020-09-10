@@ -2,97 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B26A264F45
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 21:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39910264F58
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 21:40:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33E36E187;
-	Thu, 10 Sep 2020 19:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE386E1CD;
+	Thu, 10 Sep 2020 19:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E536E187
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 19:39:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TM1wgjYwVHiI/ZBZjmf1X/7uiIyQpXriIGKQdcJafuO96rygbhp7VLthpLwCi/e9W4zGkGIgcfcoU4/ZhJEKMpwiO3AYLOMYx+q5bRhSq43X2XZ1fc39p9VPeyTE33X65WuJ8iVJfUOjQOsnTCJ6UWfZkzaK8YDqjqCnEemah4e5+m17P/5tos3xBqdE1LkYQMm7gOhjLD1S8sGiTkKCFxSjwwC5iw9DO99HTNi9mPfKxtOr/3eLKrZbmDztk3obBt0h6MKSTyAPCZp9haxLn6YdliUpssALiAgzvztZIAf09uV+uOsTT76eNvncUUE5/N2tEx9A/DB9YTu+Us+U9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lX5pdUx8tekwO4oBGbNflACYUgGxZV5H5xeZdrFw+xs=;
- b=YSiVF01esfY2/ozLUJFV0BNzZR8kUbvH/aEOKTSthke4OJH7yImL6750TiywFFT4IGIOyHj3Or1yigKhFlIcyW1OS7Appk3uakXS1N9Pk/SpE2LYHuJ5FMN8SwsG2dHBuT4JGdCtubQ+ZsJ+lzuG6V1E+fk3FCiT1GMq+wWXdpEabOeSAyIbBgA5l58Vpa5WT1bQ763gePG2CQXiHfkufWV8Xi8eFhBu1FWsTCRBj+6s/GOYhwctDAS+skEyasTwb9WcfwCI67qTS5fQ++hIWgSTEGTtwKVspQCTfSfmlB0WeguUN+Pi9C718mAtBmcxroWsNVxRr9fwv/kkm1Q1eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lX5pdUx8tekwO4oBGbNflACYUgGxZV5H5xeZdrFw+xs=;
- b=BeOHd1RwYAaoDmIMt7eVoTIDnsOILVeVbKX1IhFkvZqwdFYSkO+AxdZzpkipDgAk9XAfjbVxWuLfBbDBV9EMxijCp0WlggQdIHUP9MHa/y74KhAdPyYGfKhc6qPzqQt94d8rU3+FLMT2HUnnfoLvYkx19PkG4X5JZcDZBGHaYZ4=
-Authentication-Results: sebastianwick.net; dkim=none (message not signed)
- header.d=none;sebastianwick.net; dmarc=none action=none header.from=amd.com;
-Received: from MW2PR12MB2474.namprd12.prod.outlook.com (2603:10b6:907:9::13)
- by MWHPR1201MB0143.namprd12.prod.outlook.com (2603:10b6:301:54::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
- 2020 19:39:14 +0000
-Received: from MW2PR12MB2474.namprd12.prod.outlook.com
- ([fe80::4057:8e1f:56f1:9e2f]) by MW2PR12MB2474.namprd12.prod.outlook.com
- ([fe80::4057:8e1f:56f1:9e2f%6]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
- 19:39:14 +0000
-Subject: Re: per-plane LUTs and CSCs?
-From: Vitaly Prosyak <vitaly.prosyak@amd.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
- <20200910102543.11dc9fe0@eldfell>
- <20200910075226.GF438822@phenom.ffwll.local>
- <20200910115026.58dffaf1@eldfell>
- <20200910093009.qkb5yvpyf46uj6mp@fsr-ub1864-141>
- <20200910132803.14dc028d@eldfell>
- <20200910105618.GE3940@pendragon.ideasonboard.com>
- <5f39e5ee-bf2b-e4dc-7584-7e6cd4c5b104@amd.com>
- <20200910175113.GG3940@pendragon.ideasonboard.com>
- <536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com>
-Message-ID: <00ed1099-fbcb-6bd7-79a4-7b2890c78aa3@amd.com>
-Date: Thu, 10 Sep 2020 15:39:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: BN6PR2001CA0038.namprd20.prod.outlook.com
- (2603:10b6:405:16::24) To MW2PR12MB2474.namprd12.prod.outlook.com
- (2603:10b6:907:9::13)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15EF76E19B
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 19:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599766829;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M3pyBZ+rXlsFH/2CCeXT3znb6scdKridYf/bb0DNKLg=;
+ b=bGtp0nDzFNKCCa1IGdE57M6I/uZ+jRz8jo7MfT0qxpOI4aF2dcMeImzI8dlK/DQ/aOP/DF
+ kOnSChx0X3C323GVbadpg7EEP30aVQU41+1EbFsUoAIX5spJSNSGQu/Nd4K9wmYjMZkJO2
+ LWDXpnMIE0VyEUjGEvPchokouxDmxys=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-7dzuCt7vPRaYlqhGBJjumA-1; Thu, 10 Sep 2020 15:40:25 -0400
+X-MC-Unique: 7dzuCt7vPRaYlqhGBJjumA-1
+Received: by mail-qt1-f199.google.com with SMTP id z27so4947736qtu.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 12:40:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=M3pyBZ+rXlsFH/2CCeXT3znb6scdKridYf/bb0DNKLg=;
+ b=NVAs6damyGNLr/ZMGZ8XKNpGonBwxaOdxeoHGUwykrxFNT4yTsnPUNeZ28OmrJ1Huq
+ jEkXkNjHgdS2u8CeBQ3uP6qf8OOzTjtGy8o8KKXav3/ydOe49Yq6VAPN4S/blnPTKjC9
+ pzUsrRa814KHw8ZmxTFh21yUtWejRyqyQqeFYpAket/RbGFKP8ZbbkyTlOud61hKJUZK
+ ZmmQrWyiYaU2o/gLgjDGyWnR3w/4Azwreb5dFK6E2kNW32MoCY7LBGuabVqqSDELBehN
+ hVMWFXDYLQG0ah3Z4Tm7EwcCs0vHpJe7avEXqT0OLWYjtglK48c9Esn5W5UqzbR1ZI7p
+ 86SQ==
+X-Gm-Message-State: AOAM531eLFhgZK4FQH8sU4C/T0I9t8ULyMAQ2KbnloX4K2PV9q24mKg1
+ nseNoa0AQJHegrZYkzplml2bVrx8TgR8+vjsIxrDJDphhwViBvcXNVZGupaViwpFlHzpUoOQOpQ
+ kdqw6IXoL0MPfPKpV2ik9Sk/dsE7a
+X-Received: by 2002:a0c:8091:: with SMTP id 17mr10334490qvb.19.1599766825172; 
+ Thu, 10 Sep 2020 12:40:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUyveSAAiE9GmeUEy+Jlht9UvGY8poyEteZbb3Atfbc6F4N7RovjnI0AU0+l10+FgiZhUxwA==
+X-Received: by 2002:a0c:8091:: with SMTP id 17mr10334466qvb.19.1599766824767; 
+ Thu, 10 Sep 2020 12:40:24 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id i62sm7506871qkf.36.2020.09.10.12.40.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Sep 2020 12:40:23 -0700 (PDT)
+Message-ID: <4a86567044381fad26fe6e16ac5a2685b3c9cd84.camel@redhat.com>
+Subject: Re: [PATCH v2 07/18] drm/dp: Pimp drm_dp_downstream_max_bpc()
+From: Lyude Paul <lyude@redhat.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Date: Thu, 10 Sep 2020 15:40:22 -0400
+In-Reply-To: <20200910144623.GA6112@intel.com>
+References: <20200904115354.25336-1-ville.syrjala@linux.intel.com>
+ <20200904115354.25336-8-ville.syrjala@linux.intel.com>
+ <b74be975fee266257887126a0d2921ac550d725f.camel@redhat.com>
+ <20200910144623.GA6112@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.252.2.74] (165.204.84.11) by
- BN6PR2001CA0038.namprd20.prod.outlook.com (2603:10b6:405:16::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
- Transport; Thu, 10 Sep 2020 19:39:11 +0000
-X-Originating-IP: [165.204.84.11]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: bc59b66c-21c5-4971-6aa0-08d855c13269
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0143:
-X-Microsoft-Antispam-PRVS: <MWHPR1201MB014384AD1E949F163BBACAE181270@MWHPR1201MB0143.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4nCsm0y0uoUXLLd0OcZ1C/CpygySf4xQ+Z0gTIwvWWF2tCXA2pb4/s09r+0DJnJ3OQtc2xoFX9RLUqV7px+5TAqhCthMN8PW5aDEQOMGe7HLJENHb8ytA3jIqmV0C8egHZHbNfSNwzHjVmHpJyAxUy+eOEPbKF9pxIF4FHXgGzysQOYv6j3f7j8GS//VIHQkOkAhUIICqim7QAEWleDkgwsNZAYE8Qxu/Rr0MsPqT8EmR0nraacQUO3EsH88on5Al1JZL0aUfdefehwmH1leRmjH4RHfyugMnMCuHcgQP1GRCvv+GJdtHJGSFos2goOjCeIljms31bJBRwL1wpAAuJWhw5lpA+DvliuO7E/9+O/QCqf1xLOLYs8JBB+v7Uv0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB2474.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(8936002)(956004)(4326008)(2906002)(86362001)(83380400001)(54906003)(66556008)(66946007)(31686004)(66476007)(36756003)(44832011)(33964004)(16576012)(478600001)(16526019)(2616005)(52116002)(5660300002)(186003)(31696002)(6666004)(6486002)(8676002)(6916009)(26005)(316002)(53546011)(3480700007)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: u2w3pK62QTiA/ONEcyffqOqT5qY0dgApKyT1uUCn8ayPExuI57VpiCTLneOQY2BZPkt2SedQPCfJiZgIXbvVoro9vgmKJfHeR6QJw5e6zSXEmq41BJzlv7lsgb4cdqDcYnc1QN4Er61tnWQQQkc+MiRfat3FvGHD6JsRTiFiCXskQwsqlfv+ydhc13SQNn0DkUXUxVsyp6DPa/e2/9AHRVAf+ZGE2Uz9KPzthG1MuhXhDTK3hMqdynu+Ma4i6KT/OwZOzjtHdSm1NHulpAI3sgUhys1BtI6bo7r96wtbxtU1VeRLZXPVV3PwtkpdUMcLSSq5SE1aM6dhWx8EwPMGTeSBeEyH+yV/PoGLJ+pzsuAKBR578jNymXMacNkQ7tHU6zK1fpUQNHN+inJKlMC5L40cY0DjEogtMV7bxHq2krJI0sfdBPBTJQvO9FfkMJWktpYihqmWqUUtsz7HTx4msTQbg0Zk0vlZI13SGY/em1n0+IezeLq6ZtTlVg1D+FihWy4MqywB0bovd/N6D3Zzki16CjFDcNWF5Fi+zuQUTU5cuVEFEM7SueF2AL8FGDr+ODWEcF/j9kV8gPdFj1rzrRw1QJpszSZzpgXHBYhurirhQRk0JvUI7SaJHETbNRxZwJtJwV3ZfBk0sz+gF64aiw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc59b66c-21c5-4971-6aa0-08d855c13269
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2474.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 19:39:14.4488 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LIEf0aphM4h+3g39hNU4FF5ZLZKc1cqE8PVgqFztUmdNyg5y8Lq74uGl/O8+reEqgXuo3U6etWh+4dvaFYonpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0143
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,242 +84,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian@sebastianwick.net>,
- dri-devel@lists.freedesktop.org, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============1142789346=="
+Reply-To: lyude@redhat.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1142789346==
-Content-Type: multipart/alternative;
- boundary="------------7F54EF0603E79BF0AD07782A"
-Content-Language: en-US
-
---------------7F54EF0603E79BF0AD07782A
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 2020-09-10 2:07 p.m., Vitaly Prosyak wrote:
->
->
-> On 2020-09-10 1:51 p.m., Laurent Pinchart wrote:
->> Hi Vitaly,
->>
->> On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
->>> On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
->>>> On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
->>>>> On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
->>>>>> On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
->>>>>>> On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
->>>>>>>> On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
->>>>>>>>> On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
->>>>>>>>>       
->>>>>>>>>> Hi all,
->>>>>>>>>>
->>>>>>>>>> I was wondering whether you could give me an advise on how to proceed further
->>>>>>>>>> with the following issue as I'm preparing to upstream the next set of patches
->>>>>>>>>> for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
->>>>>>>>>> each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
->>>>>>>>>> respectively. Then the output from those 3 pipes is blended together and then
->>>>>>>>>> gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
->>>>>>>>>> needed.
->>>>>>> Hi,
->>>>>>>
->>>>>>> hmm, so FB -> CSC -> LUT -> CSC -> blending?
->>>>>>>
->>>>>>> Is it then
->>>>>>> 	blending -> LUT -> CSC -> encoder
->>>>>>> or
->>>>>>> 	blending -> CSC -> LUT -> encoder?
->>>>>> The DCSS pipeline topology is this:
->>>>>>
->>>>>> FB1->CSC_A->LUT->CSC_B-\
->>>>>> FB2->CSC_A->LUT->CSC_B-|-blender->LUT->CSC_O->encoder
->>>>>> FB3->CSC_A->LUT->CSC_B-/
->>>>>>
->>>>>> Basically, CSC_A is used to convert to a common colorspace if needed
->>>>>> (YUV->RGB) as well as to perform pixel range conversions: limited->full.
->>>>>> CSC_B is for gamut conversions(like 709->2020). The CSC_O is used to
->>>>>> convert to the colorspace used by the output (like RGB->YUV).
->>>>> I didn't realize that it would be correct to do RGB-YUV conversion in
->>>>> non-linear space, but yeah, that's what most software do too I guess.
->>>>>
->>>>>>> Are all these LUTs per-channel 1D LUTs or something else?
->>>>>> LUTs are 3D, per pixel component.
->>>>> Sorry, which one?
->>>>>
->>>>> An example of a 3D LUT is 32x32x32 entries with each entry being a
->>>>> triplet, while a 1D LUT could be 1024 entries with each entry being a
->>>>> scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
->>>>> you need just one for the color value triplet mapping.
->>>>>
->>>>> A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
->>>>> channel mixing that a CTM can.
->>>>>
->>>>> So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
->>>>> blocks exist...
->>>> Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
->>>> R-Car), having a separate CSC can give more precision (as well as
->>>> allowing the two problems to be decoupled, at a relatively low hardware
->>>> cost).
->>> If you put nonlinear signal to 3DLUT then your
->>> precision would be improved.
->>> How many bits each color value has in 3DLUT ?
->> The whole display pipeline uses 8 bits per component.
-> It is pretty low , please, use always nonlinear signal in the pipe and it allows you to compress and 'win' about 2 bits.
-
-Do you have alpha and de-alpha blocks in your pipeline?
-You can do CSC and blending in nonlinear mode, it is less accurate than in linear, but it is viable way.
-Also alpha should be removed (if it is applied) before CSC.
-
-
-
---------------7F54EF0603E79BF0AD07782A
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2020-09-10 2:07 p.m., Vitaly Prosyak
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com">
-      
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 2020-09-10 1:51 p.m., Laurent
-        Pinchart wrote:<br>
-      </div>
-      <blockquote type="cite" cite="mid:20200910175113.GG3940@pendragon.ideasonboard.com">
-        <pre class="moz-quote-pre" wrap="">Hi Vitaly,
-
-On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
-</pre>
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
-</pre>
-                <blockquote type="cite">
-                  <pre class="moz-quote-pre" wrap="">On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
-</pre>
-                  <blockquote type="cite">
-                    <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
-</pre>
-                    <blockquote type="cite">
-                      <pre class="moz-quote-pre" wrap="">On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
-     
-</pre>
-                      <blockquote type="cite">
-                        <pre class="moz-quote-pre" wrap="">Hi all,
-
-I was wondering whether you could give me an advise on how to proceed further
-with the following issue as I'm preparing to upstream the next set of patches
-for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
-each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
-respectively. Then the output from those 3 pipes is blended together and then
-gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
-needed.
-</pre>
-                      </blockquote>
-                    </blockquote>
-                  </blockquote>
-                  <pre class="moz-quote-pre" wrap="">Hi,
-
-hmm, so FB -&gt; CSC -&gt; LUT -&gt; CSC -&gt; blending?
-
-Is it then
-	blending -&gt; LUT -&gt; CSC -&gt; encoder
-or
-	blending -&gt; CSC -&gt; LUT -&gt; encoder?
-</pre>
-                </blockquote>
-                <pre class="moz-quote-pre" wrap="">The DCSS pipeline topology is this:
-
-FB1-&gt;CSC_A-&gt;LUT-&gt;CSC_B-\
-FB2-&gt;CSC_A-&gt;LUT-&gt;CSC_B-|-blender-&gt;LUT-&gt;CSC_O-&gt;encoder
-FB3-&gt;CSC_A-&gt;LUT-&gt;CSC_B-/
-
-Basically, CSC_A is used to convert to a common colorspace if needed
-(YUV-&gt;RGB) as well as to perform pixel range conversions: limited-&gt;full.
-CSC_B is for gamut conversions(like 709-&gt;2020). The CSC_O is used to
-convert to the colorspace used by the output (like RGB-&gt;YUV).
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">I didn't realize that it would be correct to do RGB-YUV conversion in
-non-linear space, but yeah, that's what most software do too I guess.
-
-</pre>
-              <blockquote type="cite">
-                <blockquote type="cite">
-                  <pre class="moz-quote-pre" wrap="">Are all these LUTs per-channel 1D LUTs or something else?
-</pre>
-                </blockquote>
-                <pre class="moz-quote-pre" wrap="">LUTs are 3D, per pixel component.
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">Sorry, which one?
-
-An example of a 3D LUT is 32x32x32 entries with each entry being a
-triplet, while a 1D LUT could be 1024 entries with each entry being a
-scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
-you need just one for the color value triplet mapping.
-
-A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
-channel mixing that a CTM can.
-
-So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
-blocks exist...
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
-R-Car), having a separate CSC can give more precision (as well as
-allowing the two problems to be decoupled, at a relatively low hardware
-cost).
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">If you put nonlinear signal to 3DLUT then your
-precision would be improved.
-How many bits each color value has in 3DLUT ?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">The whole display pipeline uses 8 bits per component.
-</pre>
-      </blockquote>
-      <pre>It is pretty low , please, use always nonlinear signal in the pipe and it allows you to compress and 'win' about 2 bits.</pre>
-    </blockquote>
-    <pre>Do you have alpha and de-alpha blocks in your pipeline?
-You can do CSC and blending in nonlinear mode, it is less accurate than in linear, but it is viable way.
-Also alpha should be removed (if it is applied) before CSC.
-</pre>
-    <br>
-  </body>
-</html>
-
---------------7F54EF0603E79BF0AD07782A--
-
---===============1142789346==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1142789346==--
+T24gVGh1LCAyMDIwLTA5LTEwIGF0IDE3OjQ2ICswMzAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
+Cj4gT24gVHVlLCBTZXAgMDgsIDIwMjAgYXQgMDE6NTE6NTZQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3
+cm90ZToKPiA+IE9uIEZyaSwgMjAyMC0wOS0wNCBhdCAxNDo1MyArMDMwMCwgVmlsbGUgU3lyamFs
+YSB3cm90ZToKPiA+ID4gRnJvbTogVmlsbGUgU3lyasODxpLDgsKkbMODxpLDgsKkIDx2aWxsZS5z
+eXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+ID4gCj4gPiA+IERlYWwgd2l0aCBtb3JlIGNhc2Vz
+IGluIGRybV9kcF9kb3duc3RyZWFtX21heF9icGMoKToKPiA+ID4gLSBEUENEIDEuMCAtPiBhc3N1
+bWUgOGJwYyBmb3Igbm9uLURQCj4gPiA+IC0gRFBDRCAxLjErIERQIChvciBEUCsrIHdpdGggRFAg
+c2luaykgLT4gYWxsb3cgYW55dGhpbmcKPiA+ID4gLSBEUENEIDEuMSsgVE1EUyAtPiBjaGVjayB0
+aGUgY2FwcywgYXNzdW1lIDhicGMgaWYgdGhlIHZhbHVlIGlzIGNyYXAKPiA+ID4gLSBhbnl0aGlu
+ZyBlbHNlIC0+IGFzc3VtZSA4YnBjCj4gPiA+IAo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBT
+eXJqw4PGksOCwqRsw4PGksOCwqQgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4g
+PiAtLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMgICAgICAgICAgICAg
+ICB8IDY5ICsrKysrKysrKysrLS0tLS0tLS0KPiA+ID4gIC4uLi9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2Rpc3BsYXlfZGVidWdmcy5jICB8ICAzICstCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICAgfCAgMiArLQo+ID4gPiAgaW5jbHVkZS9kcm0vZHJt
+X2RwX2hlbHBlci5oICAgICAgICAgICAgICAgICAgIHwgMTAgKystCj4gPiA+ICA0IGZpbGVzIGNo
+YW5nZWQsIDUxIGluc2VydGlvbnMoKyksIDMzIGRlbGV0aW9ucygtKQo+ID4gPiAKPiA+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiA+ID4gYi9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCj4gPiA+IGluZGV4IDBmY2I5NGY3ZGJlNS4uYWI4NzIw
+OWMyNWQ4IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5j
+Cj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiA+ID4gQEAgLTY1
+MywzNiArNjUzLDQ0IEBAIGludCBkcm1fZHBfZG93bnN0cmVhbV9tYXhfY2xvY2soY29uc3QgdTgK
+PiA+ID4gZHBjZFtEUF9SRUNFSVZFUl9DQVBfU0laRV0sCj4gPiA+ICBFWFBPUlRfU1lNQk9MKGRy
+bV9kcF9kb3duc3RyZWFtX21heF9jbG9jayk7Cj4gPiA+ICAKPiA+ID4gIC8qKgo+ID4gPiAtICog
+ZHJtX2RwX2Rvd25zdHJlYW1fbWF4X2JwYygpIC0gZXh0cmFjdCBicmFuY2ggZGV2aWNlIG1heAo+
+ID4gPiAtICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYml0cyBwZXIgY29tcG9uZW50
+Cj4gPiA+IC0gKiBAZHBjZDogRGlzcGxheVBvcnQgY29uZmlndXJhdGlvbiBkYXRhCj4gPiA+IC0g
+KiBAcG9ydF9jYXA6IHBvcnQgY2FwYWJpbGl0aWVzCj4gPiA+IC0gKgo+ID4gPiAtICogU2VlIGFs
+c286Cj4gPiA+IC0gKiBkcm1fZHBfcmVhZF9kb3duc3RyZWFtX2luZm8oKQo+ID4gPiAtICogZHJt
+X2RwX2Rvd25zdHJlYW1fbWF4X2Nsb2NrKCkKPiA+ID4gLSAqCj4gPiA+IC0gKiBSZXR1cm5zOiBN
+YXggYnBjIG9uIHN1Y2Nlc3Mgb3IgMCBpZiBtYXggYnBjIG5vdCBkZWZpbmVkCj4gPiA+IC0gKi8K
+PiA+ID4gKyAgKiBkcm1fZHBfZG93bnN0cmVhbV9tYXhfYnBjKCkgLSBleHRyYWN0IGRvd25zdHJl
+YW0gZmFjaW5nIHBvcnQgbWF4Cj4gPiA+ICsgICogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgYml0cyBwZXIgY29tcG9uZW50Cj4gPiA+ICsgICogQGRwY2Q6IERpc3BsYXlQb3J0IGNvbmZp
+Z3VyYXRpb24gZGF0YQo+ID4gPiArICAqIEBwb3J0X2NhcDogZG93bnN0cmVhbSBmYWNpbmcgcG9y
+dCBjYXBhYmlsaXRpZXMKPiA+ID4gKyAgKiBAZWRpZDogRURJRAo+ID4gPiArICAqCj4gPiA+ICsg
+ICogUmV0dXJucyBtYXggYnBjIG9uIHN1Y2Nlc3Mgb3IgMCBpZiBtYXggYnBjIG5vdCBkZWZpbmVk
+Cj4gPiA+ICsgICovCj4gPiA+ICBpbnQgZHJtX2RwX2Rvd25zdHJlYW1fbWF4X2JwYyhjb25zdCB1
+OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpFXSwKPiA+ID4gLQkJCSAgICAgIGNvbnN0IHU4IHBv
+cnRfY2FwWzRdKQo+ID4gPiArCQkJICAgICAgY29uc3QgdTggcG9ydF9jYXBbNF0sCj4gPiA+ICsJ
+CQkgICAgICBjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCkKPiA+ID4gIHsKPiA+ID4gLQlpbnQgdHlw
+ZSA9IHBvcnRfY2FwWzBdICYgRFBfRFNfUE9SVF9UWVBFX01BU0s7Cj4gPiA+IC0JYm9vbCBkZXRh
+aWxlZF9jYXBfaW5mbyA9IGRwY2RbRFBfRE9XTlNUUkVBTVBPUlRfUFJFU0VOVF0gJgo+ID4gPiAt
+CQlEUF9ERVRBSUxFRF9DQVBfSU5GT19BVkFJTEFCTEU7Cj4gPiA+IC0JaW50IGJwYzsKPiA+ID4g
+LQo+ID4gPiAtCWlmICghZGV0YWlsZWRfY2FwX2luZm8pCj4gPiAKPiA+IEkgZG9uJ3QgdGhpbmsg
+d2UgY2FuIGRyb3AgdGhpcyBjaGVjay4gVGhlcmUncyBhIHNvbWV3aGF0IHN1cnByaXNpbmcgYmx1
+cmIKPiA+IGFib3V0IGRvd25zdHJlYW0gcG9ydCBjYXBzIGluIHRoZSBEUCAyLjAgc3BlYyAoc2Vj
+dGlvbiA1LjMuMy4xKToKPiA+IAo+ID4gICAgSW4gYWRkaXRpb24sIHRoZSBhZGFwdGVyIHNoYWxs
+IHNldCB0aGUgRGV0YWlsZWQgQ2FwYWJpbGl0aWVzIEluZm8KPiA+IHJlZ2lzdGVycwo+ID4gICAg
+KERQQ0QgQWRkcmVzc2VzIDAwMDgwaCB0aHJvdWdoIDAwMDhGaCkgdG8gc2hvdyBhbGwgdGhlIGRv
+d25zdHJlYW0gdHlwZXMsCj4gPiAgICBpbmNsdWRpbmcgREZQIDAuIEVpdGhlciBvbmUgb3IgZm91
+ciBieXRlcyBhcmUgdXNlZCwgcGVyIERGUCB0eXBlCj4gPiAgICBpbmRpY2F0aW9uLiBUaGVyZWZv
+cmUsIHVwIHRvIDE2ICh3aXRoIDEtYnl0ZSBkZXNjcmlwdG9yKSBvciBmb3VyICh3aXRoIDQtCj4g
+PiAgICBieXRlIGRlc2NyaXB0b3IpIERGUCBjYXBhYmlsaXRpZXMgY2FuIGJlIHN0b3JlZC4KPiA+
+IAo+ID4gSSd2ZSBuZXZlciBvbmNlIGFjdHVhbGx5IHNlZW4gYSBzaW5rIGRvIHRoaXMsIGJ1dCB0
+aGlzIGRvZXMgbWVhbiBpdCdzCj4gPiB0ZWNobmljYWxseSBwb3NzaWJsZSB0dGhhdCBpZiB3ZSBk
+b24ndCBjaGVjayB0aGUgZGV0YWlsZWQgY2FwcyBiaXQgdGhlbiB3ZQo+ID4gbWlnaHQgZW5kIHVw
+IHJlYWRpbmcgYW5vdGhlciBwb3J0J3MgREZQIHR5cGUgaW5zdGVhZCBvZiBtYXhfYnBjIGluZm8u
+IE5vdGUKPiA+IHRob3VnaCB0aGF0IHdlIGNhbiBtYWtlIHRoZSBhc3N1bXB0aW9uIHRoZSBmb3Vy
+IGJ5dGUgdmVyc2lvbiBvZiB0aGUgZmllbGQgaXMKPiA+IHVzZWQgZm9yIERQIDEuNCsKPiAKPiBU
+aGUgY2hlY2sgaXMgbm93IC4uLgo+IAo+IAo+ID4gPiArCWlmICghZHJtX2RwX2lzX2JyYW5jaChk
+cGNkKSkKPiA+ID4gIAkJcmV0dXJuIDA7Cj4gPiA+ICAKPiA+ID4gLQlzd2l0Y2ggKHR5cGUpIHsK
+PiA+ID4gLQljYXNlIERQX0RTX1BPUlRfVFlQRV9WR0E6Cj4gPiA+IC0JY2FzZSBEUF9EU19QT1JU
+X1RZUEVfRFZJOgo+ID4gPiAtCWNhc2UgRFBfRFNfUE9SVF9UWVBFX0hETUk6Cj4gPiA+ICsJaWYg
+KGRwY2RbRFBfRFBDRF9SRVZdIDwgMHgxMSkgewo+ID4gPiArCQlzd2l0Y2ggKGRwY2RbRFBfRE9X
+TlNUUkVBTVBPUlRfUFJFU0VOVF0gJgo+ID4gPiBEUF9EV05fU1RSTV9QT1JUX1RZUEVfTUFTSykg
+ewo+ID4gPiArCQljYXNlIERQX0RXTl9TVFJNX1BPUlRfVFlQRV9EUDoKPiA+ID4gKwkJCXJldHVy
+biAwOwo+ID4gPiArCQlkZWZhdWx0Ogo+ID4gPiArCQkJcmV0dXJuIDg7Cj4gPiA+ICsJCX0KPiA+
+ID4gKwl9Cj4gPiA+ICsKPiA+ID4gKwlzd2l0Y2ggKHBvcnRfY2FwWzBdICYgRFBfRFNfUE9SVF9U
+WVBFX01BU0spIHsKPiA+ID4gKwljYXNlIERQX0RTX1BPUlRfVFlQRV9EUDoKPiA+ID4gKwkJcmV0
+dXJuIDA7Cj4gPiA+ICAJY2FzZSBEUF9EU19QT1JUX1RZUEVfRFBfRFVBTE1PREU6Cj4gPiA+IC0J
+CWJwYyA9IHBvcnRfY2FwWzJdICYgRFBfRFNfTUFYX0JQQ19NQVNLOwo+ID4gPiArCQlpZiAoaXNf
+ZWRpZF9kaWdpdGFsX2lucHV0X2RwKGVkaWQpKQo+ID4gPiArCQkJcmV0dXJuIDA7Cj4gPiA+ICsJ
+CWZhbGx0aHJvdWdoOwo+ID4gPiArCWNhc2UgRFBfRFNfUE9SVF9UWVBFX0hETUk6Cj4gPiA+ICsJ
+Y2FzZSBEUF9EU19QT1JUX1RZUEVfRFZJOgo+ID4gPiArCWNhc2UgRFBfRFNfUE9SVF9UWVBFX1ZH
+QToKPiA+ID4gKwkJaWYgKChkcGNkW0RQX0RPV05TVFJFQU1QT1JUX1BSRVNFTlRdICYKPiA+ID4g
+RFBfREVUQUlMRURfQ0FQX0lORk9fQVZBSUxBQkxFKSA9PSAwKQo+ID4gPiArCQkJcmV0dXJuIDg7
+Cj4gCj4gLi4uIGhlcmUKCkFoLW1pc3NlZCB0aGF0ISBSLWInZCBieSBtZSB0aGVuIDopCj4gCj4g
+Cj4gPiA+ICAKPiA+ID4gLQkJc3dpdGNoIChicGMpIHsKPiA+ID4gKwkJc3dpdGNoIChwb3J0X2Nh
+cFsyXSAmIERQX0RTX01BWF9CUENfTUFTSykgewo+ID4gPiAgCQljYXNlIERQX0RTXzhCUEM6Cj4g
+PiA+ICAJCQlyZXR1cm4gODsKPiA+ID4gIAkJY2FzZSBEUF9EU18xMEJQQzoKPiA+ID4gQEAgLTY5
+MSwxMCArNjk5LDEyIEBAIGludCBkcm1fZHBfZG93bnN0cmVhbV9tYXhfYnBjKGNvbnN0IHU4Cj4g
+PiA+IGRwY2RbRFBfUkVDRUlWRVJfQ0FQX1NJWkVdLAo+ID4gPiAgCQkJcmV0dXJuIDEyOwo+ID4g
+PiAgCQljYXNlIERQX0RTXzE2QlBDOgo+ID4gPiAgCQkJcmV0dXJuIDE2Owo+ID4gPiArCQlkZWZh
+dWx0Ogo+ID4gPiArCQkJcmV0dXJuIDg7Cj4gPiA+ICAJCX0KPiA+ID4gLQkJZmFsbHRocm91Z2g7
+Cj4gPiA+ICsJCWJyZWFrOwo+ID4gPiAgCWRlZmF1bHQ6Cj4gPiA+IC0JCXJldHVybiAwOwo+ID4g
+PiArCQlyZXR1cm4gODsKPiA+ID4gIAl9Cj4gPiA+ICB9Cj4gPiA+ICBFWFBPUlRfU1lNQk9MKGRy
+bV9kcF9kb3duc3RyZWFtX21heF9icGMpOwo+ID4gPiBAQCAtNzE3LDEyICs3MjcsMTUgQEAgRVhQ
+T1JUX1NZTUJPTChkcm1fZHBfZG93bnN0cmVhbV9pZCk7Cj4gPiA+ICAgKiBAbTogcG9pbnRlciBm
+b3IgZGVidWdmcyBmaWxlCj4gPiA+ICAgKiBAZHBjZDogRGlzcGxheVBvcnQgY29uZmlndXJhdGlv
+biBkYXRhCj4gPiA+ICAgKiBAcG9ydF9jYXA6IHBvcnQgY2FwYWJpbGl0aWVzCj4gPiA+ICsgKiBA
+ZWRpZDogRURJRAo+ID4gPiAgICogQGF1eDogRGlzcGxheVBvcnQgQVVYIGNoYW5uZWwKPiA+ID4g
+ICAqCj4gPiA+ICAgKi8KPiA+ID4gIHZvaWQgZHJtX2RwX2Rvd25zdHJlYW1fZGVidWcoc3RydWN0
+IHNlcV9maWxlICptLAo+ID4gPiAgCQkJICAgICBjb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NB
+UF9TSVpFXSwKPiA+ID4gLQkJCSAgICAgY29uc3QgdTggcG9ydF9jYXBbNF0sIHN0cnVjdCBkcm1f
+ZHBfYXV4ICphdXgpCj4gPiA+ICsJCQkgICAgIGNvbnN0IHU4IHBvcnRfY2FwWzRdLAo+ID4gPiAr
+CQkJICAgICBjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwKPiA+ID4gKwkJCSAgICAgc3RydWN0IGRy
+bV9kcF9hdXggKmF1eCkKPiA+ID4gIHsKPiA+ID4gIAlib29sIGRldGFpbGVkX2NhcF9pbmZvID0g
+ZHBjZFtEUF9ET1dOU1RSRUFNUE9SVF9QUkVTRU5UXSAmCj4gPiA+ICAJCQkJIERQX0RFVEFJTEVE
+X0NBUF9JTkZPX0FWQUlMQUJMRTsKPiA+ID4gQEAgLTc4OSw3ICs4MDIsNyBAQCB2b2lkIGRybV9k
+cF9kb3duc3RyZWFtX2RlYnVnKHN0cnVjdCBzZXFfZmlsZSAqbSwKPiA+ID4gIAkJCQlzZXFfcHJp
+bnRmKG0sICJcdFx0TWF4IFRNRFMgY2xvY2s6ICVkIGtIelxuIiwKPiA+ID4gY2xrKTsKPiA+ID4g
+IAkJfQo+ID4gPiAgCj4gPiA+IC0JCWJwYyA9IGRybV9kcF9kb3duc3RyZWFtX21heF9icGMoZHBj
+ZCwgcG9ydF9jYXApOwo+ID4gPiArCQlicGMgPSBkcm1fZHBfZG93bnN0cmVhbV9tYXhfYnBjKGRw
+Y2QsIHBvcnRfY2FwLCBlZGlkKTsKPiA+ID4gIAo+ID4gPiAgCQlpZiAoYnBjID4gMCkKPiA+ID4g
+IAkJCXNlcV9wcmludGYobSwgIlx0XHRNYXggYnBjOiAlZFxuIiwgYnBjKTsKPiA+ID4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9kZWJ1Z2Zz
+LmMKPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfZGVi
+dWdmcy5jCj4gPiA+IGluZGV4IDUzYTBhM2Q5YTIyZC4uMGJmMzFmOWE4YWY1IDEwMDY0NAo+ID4g
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfZGVidWdm
+cy5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxh
+eV9kZWJ1Z2ZzLmMKPiA+ID4gQEAgLTYyNiw2ICs2MjYsNyBAQCBzdGF0aWMgdm9pZCBpbnRlbF9k
+cF9pbmZvKHN0cnVjdCBzZXFfZmlsZSAqbSwKPiA+ID4gIHsKPiA+ID4gIAlzdHJ1Y3QgaW50ZWxf
+ZW5jb2RlciAqaW50ZWxfZW5jb2RlciA9Cj4gPiA+IGludGVsX2F0dGFjaGVkX2VuY29kZXIoaW50
+ZWxfY29ubmVjdG9yKTsKPiA+ID4gIAlzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gZW5jX3Rv
+X2ludGVsX2RwKGludGVsX2VuY29kZXIpOwo+ID4gPiArCWNvbnN0IHN0cnVjdCBkcm1fcHJvcGVy
+dHlfYmxvYiAqZWRpZCA9IGludGVsX2Nvbm5lY3Rvci0KPiA+ID4gPiBiYXNlLmVkaWRfYmxvYl9w
+dHI7Cj4gPiA+ICAKPiA+ID4gIAlzZXFfcHJpbnRmKG0sICJcdERQQ0QgcmV2OiAleFxuIiwgaW50
+ZWxfZHAtPmRwY2RbRFBfRFBDRF9SRVZdKTsKPiA+ID4gIAlzZXFfcHJpbnRmKG0sICJcdGF1ZGlv
+IHN1cHBvcnQ6ICVzXG4iLCB5ZXNubyhpbnRlbF9kcC0+aGFzX2F1ZGlvKSk7Cj4gPiA+IEBAIC02
+MzMsNyArNjM0LDcgQEAgc3RhdGljIHZvaWQgaW50ZWxfZHBfaW5mbyhzdHJ1Y3Qgc2VxX2ZpbGUg
+Km0sCj4gPiA+ICAJCWludGVsX3BhbmVsX2luZm8obSwgJmludGVsX2Nvbm5lY3Rvci0+cGFuZWwp
+Owo+ID4gPiAgCj4gPiA+ICAJZHJtX2RwX2Rvd25zdHJlYW1fZGVidWcobSwgaW50ZWxfZHAtPmRw
+Y2QsIGludGVsX2RwLT5kb3duc3RyZWFtX3BvcnRzLAo+ID4gPiAtCQkJCSZpbnRlbF9kcC0+YXV4
+KTsKPiA+ID4gKwkJCQllZGlkID8gZWRpZC0+ZGF0YSA6IE5VTEwsICZpbnRlbF9kcC0+YXV4KTsK
+PiA+ID4gIH0KPiA+ID4gIAo+ID4gPiAgc3RhdGljIHZvaWQgaW50ZWxfZHBfbXN0X2luZm8oc3Ry
+dWN0IHNlcV9maWxlICptLAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9kcC5jCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9kcC5jCj4gPiA+IGluZGV4IDJjOGU4MmQ5N2EzNC4uYzczYjNlZmQ4NGUwIDEwMDY0NAo+
+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPiA+ID4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gPiA+IEBAIC02
+MDcxLDcgKzYwNzEsNyBAQCBpbnRlbF9kcF9zZXRfZWRpZChzdHJ1Y3QgaW50ZWxfZHAgKmludGVs
+X2RwKQo+ID4gPiAgCj4gPiA+ICAJaW50ZWxfZHAtPmRmcC5tYXhfYnBjID0KPiA+ID4gIAkJZHJt
+X2RwX2Rvd25zdHJlYW1fbWF4X2JwYyhpbnRlbF9kcC0+ZHBjZCwKPiA+ID4gLQkJCQkJICBpbnRl
+bF9kcC0+ZG93bnN0cmVhbV9wb3J0cyk7Cj4gPiA+ICsJCQkJCSAgaW50ZWxfZHAtPmRvd25zdHJl
+YW1fcG9ydHMsIGVkaWQpOwo+ID4gPiAgCj4gPiA+ICAJZHJtX2RiZ19rbXMoJmk5MTUtPmRybSwg
+IltDT05ORUNUT1I6JWQ6JXNdIERGUCBtYXggYnBjICVkXG4iLAo+ID4gPiAgCQkgICAgY29ubmVj
+dG9yLT5iYXNlLmJhc2UuaWQsIGNvbm5lY3Rvci0+YmFzZS5uYW1lLAo+ID4gPiBkaWZmIC0tZ2l0
+IGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBl
+ci5oCj4gPiA+IGluZGV4IDRmOTQ2ODI2ZGZjZS4uNjIxOGRlMTI5NGMxIDEwMDY0NAo+ID4gPiAt
+LS0gYS9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPiA+ID4gKysrIGIvaW5jbHVkZS9kcm0v
+ZHJtX2RwX2hlbHBlci5oCj4gPiA+IEBAIC0xNjQ2LDEwICsxNjQ2LDE0IEBAIGJvb2wgZHJtX2Rw
+X2Rvd25zdHJlYW1faXNfdG1kcyhjb25zdCB1OAo+ID4gPiBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9T
+SVpFXSwKPiA+ID4gIGludCBkcm1fZHBfZG93bnN0cmVhbV9tYXhfY2xvY2soY29uc3QgdTggZHBj
+ZFtEUF9SRUNFSVZFUl9DQVBfU0laRV0sCj4gPiA+ICAJCQkJY29uc3QgdTggcG9ydF9jYXBbNF0p
+Owo+ID4gPiAgaW50IGRybV9kcF9kb3duc3RyZWFtX21heF9icGMoY29uc3QgdTggZHBjZFtEUF9S
+RUNFSVZFUl9DQVBfU0laRV0sCj4gPiA+IC0JCQkgICAgICBjb25zdCB1OCBwb3J0X2NhcFs0XSk7
+Cj4gPiA+ICsJCQkgICAgICBjb25zdCB1OCBwb3J0X2NhcFs0XSwKPiA+ID4gKwkJCSAgICAgIGNv
+bnN0IHN0cnVjdCBlZGlkICplZGlkKTsKPiA+ID4gIGludCBkcm1fZHBfZG93bnN0cmVhbV9pZChz
+dHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBjaGFyIGlkWzZdKTsKPiA+ID4gLXZvaWQgZHJtX2RwX2Rv
+d25zdHJlYW1fZGVidWcoc3RydWN0IHNlcV9maWxlICptLCBjb25zdCB1OAo+ID4gPiBkcGNkW0RQ
+X1JFQ0VJVkVSX0NBUF9TSVpFXSwKPiA+ID4gLQkJCSAgICAgY29uc3QgdTggcG9ydF9jYXBbNF0s
+IHN0cnVjdCBkcm1fZHBfYXV4ICphdXgpOwo+ID4gPiArdm9pZCBkcm1fZHBfZG93bnN0cmVhbV9k
+ZWJ1ZyhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sCj4gPiA+ICsJCQkgICAgIGNvbnN0IHU4IGRwY2RbRFBf
+UkVDRUlWRVJfQ0FQX1NJWkVdLAo+ID4gPiArCQkJICAgICBjb25zdCB1OCBwb3J0X2NhcFs0XSwK
+PiA+ID4gKwkJCSAgICAgY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQsCj4gPiA+ICsJCQkgICAgIHN0
+cnVjdCBkcm1fZHBfYXV4ICphdXgpOwo+ID4gPiAgZW51bSBkcm1fbW9kZV9zdWJjb25uZWN0b3IK
+PiA+ID4gIGRybV9kcF9zdWJjb25uZWN0b3JfdHlwZShjb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVS
+X0NBUF9TSVpFXSwKPiA+ID4gIAkJCSBjb25zdCB1OCBwb3J0X2NhcFs0XSk7Cj4gPiAtLSAKPiA+
+IENoZWVycywKPiA+IAlMeXVkZSBQYXVsIChzaGUvaGVyKQo+ID4gCVNvZnR3YXJlIEVuZ2luZWVy
+IGF0IFJlZCBIYXQKLS0gClNpbmNlcmVseSwKICAgICAgTHl1ZGUgUGF1bCAoc2hlL2hlcikKICAg
+ICAgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
