@@ -2,56 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26E2264E94
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 21:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B26A264F45
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 21:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C446E196;
-	Thu, 10 Sep 2020 19:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B33E36E187;
+	Thu, 10 Sep 2020 19:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 746 seconds by postgrey-1.36 at gabe;
- Thu, 10 Sep 2020 19:20:08 UTC
-Received: from a27-18.smtp-out.us-west-2.amazonses.com
- (a27-18.smtp-out.us-west-2.amazonses.com [54.240.27.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B69D06E196
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 19:20:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1599764861;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
- bh=Kl0MyMuaBn8Zn3M6+9JvouSYL3DlAU/dUBvxQFf7xBY=;
- b=guvWw0MER0otHVxTdqpDjdH8/ob0cfVg6ndFyi9eR6qVXGIORs+CLI1c+fjNtUzv
- e05YC2TMWmCpCzN0Fp5mLRIABMJnoAr3+MVs67NeT0nfaFegSLj+Fr871XLosfwMg9+
- 7OoXS6G5RIfn8lcFMFP0KECgTKoUrkG7/rQfjYg0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599764861;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
- bh=Kl0MyMuaBn8Zn3M6+9JvouSYL3DlAU/dUBvxQFf7xBY=;
- b=BT+44cLwetOoQnasiZouaTjzNmdN7e8l8KtJoAAW6qXRkHBp0oUWbccPPtcDwo2H
- ZUS1wwL5PhYR5w/bhFE7nxMx+aAU8ZOIBESP84TEysXEWnFmhHDNR2hpiiqhIGuN0ZT
- ntetWgI90HS8odbw1RTBGcd1qnBXUQ8e8wWjszGo=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C4822C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 5/5] drm/msm/dp: wait for audio notification before
- disabling clocks
-Date: Thu, 10 Sep 2020 19:07:41 +0000
-Message-ID: <01010174796a92a7-5cf20d31-9b75-47dd-8663-83eff873aac0-000000@us-west-2.amazonses.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200910190718.13929-1-abhinavk@codeaurora.org>
-References: <20200910190718.13929-1-abhinavk@codeaurora.org>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0E536E187
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 19:39:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TM1wgjYwVHiI/ZBZjmf1X/7uiIyQpXriIGKQdcJafuO96rygbhp7VLthpLwCi/e9W4zGkGIgcfcoU4/ZhJEKMpwiO3AYLOMYx+q5bRhSq43X2XZ1fc39p9VPeyTE33X65WuJ8iVJfUOjQOsnTCJ6UWfZkzaK8YDqjqCnEemah4e5+m17P/5tos3xBqdE1LkYQMm7gOhjLD1S8sGiTkKCFxSjwwC5iw9DO99HTNi9mPfKxtOr/3eLKrZbmDztk3obBt0h6MKSTyAPCZp9haxLn6YdliUpssALiAgzvztZIAf09uV+uOsTT76eNvncUUE5/N2tEx9A/DB9YTu+Us+U9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lX5pdUx8tekwO4oBGbNflACYUgGxZV5H5xeZdrFw+xs=;
+ b=YSiVF01esfY2/ozLUJFV0BNzZR8kUbvH/aEOKTSthke4OJH7yImL6750TiywFFT4IGIOyHj3Or1yigKhFlIcyW1OS7Appk3uakXS1N9Pk/SpE2LYHuJ5FMN8SwsG2dHBuT4JGdCtubQ+ZsJ+lzuG6V1E+fk3FCiT1GMq+wWXdpEabOeSAyIbBgA5l58Vpa5WT1bQ763gePG2CQXiHfkufWV8Xi8eFhBu1FWsTCRBj+6s/GOYhwctDAS+skEyasTwb9WcfwCI67qTS5fQ++hIWgSTEGTtwKVspQCTfSfmlB0WeguUN+Pi9C718mAtBmcxroWsNVxRr9fwv/kkm1Q1eg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lX5pdUx8tekwO4oBGbNflACYUgGxZV5H5xeZdrFw+xs=;
+ b=BeOHd1RwYAaoDmIMt7eVoTIDnsOILVeVbKX1IhFkvZqwdFYSkO+AxdZzpkipDgAk9XAfjbVxWuLfBbDBV9EMxijCp0WlggQdIHUP9MHa/y74KhAdPyYGfKhc6qPzqQt94d8rU3+FLMT2HUnnfoLvYkx19PkG4X5JZcDZBGHaYZ4=
+Authentication-Results: sebastianwick.net; dkim=none (message not signed)
+ header.d=none;sebastianwick.net; dmarc=none action=none header.from=amd.com;
+Received: from MW2PR12MB2474.namprd12.prod.outlook.com (2603:10b6:907:9::13)
+ by MWHPR1201MB0143.namprd12.prod.outlook.com (2603:10b6:301:54::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
+ 2020 19:39:14 +0000
+Received: from MW2PR12MB2474.namprd12.prod.outlook.com
+ ([fe80::4057:8e1f:56f1:9e2f]) by MW2PR12MB2474.namprd12.prod.outlook.com
+ ([fe80::4057:8e1f:56f1:9e2f%6]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
+ 19:39:14 +0000
+Subject: Re: per-plane LUTs and CSCs?
+From: Vitaly Prosyak <vitaly.prosyak@amd.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
+ <20200910102543.11dc9fe0@eldfell>
+ <20200910075226.GF438822@phenom.ffwll.local>
+ <20200910115026.58dffaf1@eldfell>
+ <20200910093009.qkb5yvpyf46uj6mp@fsr-ub1864-141>
+ <20200910132803.14dc028d@eldfell>
+ <20200910105618.GE3940@pendragon.ideasonboard.com>
+ <5f39e5ee-bf2b-e4dc-7584-7e6cd4c5b104@amd.com>
+ <20200910175113.GG3940@pendragon.ideasonboard.com>
+ <536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com>
+Message-ID: <00ed1099-fbcb-6bd7-79a4-7b2890c78aa3@amd.com>
+Date: Thu, 10 Sep 2020 15:39:07 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: BN6PR2001CA0038.namprd20.prod.outlook.com
+ (2603:10b6:405:16::24) To MW2PR12MB2474.namprd12.prod.outlook.com
+ (2603:10b6:907:9::13)
 MIME-Version: 1.0
-X-SES-Outgoing: 2020.09.10-54.240.27.18
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.252.2.74] (165.204.84.11) by
+ BN6PR2001CA0038.namprd20.prod.outlook.com (2603:10b6:405:16::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Thu, 10 Sep 2020 19:39:11 +0000
+X-Originating-IP: [165.204.84.11]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: bc59b66c-21c5-4971-6aa0-08d855c13269
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0143:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB014384AD1E949F163BBACAE181270@MWHPR1201MB0143.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4nCsm0y0uoUXLLd0OcZ1C/CpygySf4xQ+Z0gTIwvWWF2tCXA2pb4/s09r+0DJnJ3OQtc2xoFX9RLUqV7px+5TAqhCthMN8PW5aDEQOMGe7HLJENHb8ytA3jIqmV0C8egHZHbNfSNwzHjVmHpJyAxUy+eOEPbKF9pxIF4FHXgGzysQOYv6j3f7j8GS//VIHQkOkAhUIICqim7QAEWleDkgwsNZAYE8Qxu/Rr0MsPqT8EmR0nraacQUO3EsH88on5Al1JZL0aUfdefehwmH1leRmjH4RHfyugMnMCuHcgQP1GRCvv+GJdtHJGSFos2goOjCeIljms31bJBRwL1wpAAuJWhw5lpA+DvliuO7E/9+O/QCqf1xLOLYs8JBB+v7Uv0
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB2474.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(8936002)(956004)(4326008)(2906002)(86362001)(83380400001)(54906003)(66556008)(66946007)(31686004)(66476007)(36756003)(44832011)(33964004)(16576012)(478600001)(16526019)(2616005)(52116002)(5660300002)(186003)(31696002)(6666004)(6486002)(8676002)(6916009)(26005)(316002)(53546011)(3480700007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: u2w3pK62QTiA/ONEcyffqOqT5qY0dgApKyT1uUCn8ayPExuI57VpiCTLneOQY2BZPkt2SedQPCfJiZgIXbvVoro9vgmKJfHeR6QJw5e6zSXEmq41BJzlv7lsgb4cdqDcYnc1QN4Er61tnWQQQkc+MiRfat3FvGHD6JsRTiFiCXskQwsqlfv+ydhc13SQNn0DkUXUxVsyp6DPa/e2/9AHRVAf+ZGE2Uz9KPzthG1MuhXhDTK3hMqdynu+Ma4i6KT/OwZOzjtHdSm1NHulpAI3sgUhys1BtI6bo7r96wtbxtU1VeRLZXPVV3PwtkpdUMcLSSq5SE1aM6dhWx8EwPMGTeSBeEyH+yV/PoGLJ+pzsuAKBR578jNymXMacNkQ7tHU6zK1fpUQNHN+inJKlMC5L40cY0DjEogtMV7bxHq2krJI0sfdBPBTJQvO9FfkMJWktpYihqmWqUUtsz7HTx4msTQbg0Zk0vlZI13SGY/em1n0+IezeLq6ZtTlVg1D+FihWy4MqywB0bovd/N6D3Zzki16CjFDcNWF5Fi+zuQUTU5cuVEFEM7SueF2AL8FGDr+ODWEcF/j9kV8gPdFj1rzrRw1QJpszSZzpgXHBYhurirhQRk0JvUI7SaJHETbNRxZwJtJwV3ZfBk0sz+gF64aiw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc59b66c-21c5-4971-6aa0-08d855c13269
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2474.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 19:39:14.4488 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LIEf0aphM4h+3g39hNU4FF5ZLZKc1cqE8PVgqFztUmdNyg5y8Lq74uGl/O8+reEqgXuo3U6etWh+4dvaFYonpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,241 +105,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vsujithk@codeaurora.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, swboyd@chromium.org,
- khsieh@codeaurora.org, seanpaul@chromium.org, tanmay@codeaurora.org,
- rohitkr@codeaurora.org, aravindh@codeaurora.org, cychiang@chromium.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sebastian Wick <sebastian@sebastianwick.net>,
+ dri-devel@lists.freedesktop.org, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1142789346=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the current implementation, there is a very small window for
-the audio side to safely signal the hdmi_code_shutdown() before
-the clocks are disabled.
+--===============1142789346==
+Content-Type: multipart/alternative;
+ boundary="------------7F54EF0603E79BF0AD07782A"
+Content-Language: en-US
 
-Add some synchronization between the DP display and DP audio module
-to safely disable the clocks to avoid unclocked access from audio
-side.
+--------------7F54EF0603E79BF0AD07782A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In addition, audio side can open the sound card even if DP monitor
-is not connected. Avoid programming hardware registers in this case
-and bail out early.
 
-Changes in v4:
-- removed some leftover prints
+On 2020-09-10 2:07 p.m., Vitaly Prosyak wrote:
+>
+>
+> On 2020-09-10 1:51 p.m., Laurent Pinchart wrote:
+>> Hi Vitaly,
+>>
+>> On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
+>>> On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
+>>>> On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
+>>>>> On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
+>>>>>> On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
+>>>>>>> On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
+>>>>>>>> On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
+>>>>>>>>> On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
+>>>>>>>>>       
+>>>>>>>>>> Hi all,
+>>>>>>>>>>
+>>>>>>>>>> I was wondering whether you could give me an advise on how to proceed further
+>>>>>>>>>> with the following issue as I'm preparing to upstream the next set of patches
+>>>>>>>>>> for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
+>>>>>>>>>> each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
+>>>>>>>>>> respectively. Then the output from those 3 pipes is blended together and then
+>>>>>>>>>> gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
+>>>>>>>>>> needed.
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> hmm, so FB -> CSC -> LUT -> CSC -> blending?
+>>>>>>>
+>>>>>>> Is it then
+>>>>>>> 	blending -> LUT -> CSC -> encoder
+>>>>>>> or
+>>>>>>> 	blending -> CSC -> LUT -> encoder?
+>>>>>> The DCSS pipeline topology is this:
+>>>>>>
+>>>>>> FB1->CSC_A->LUT->CSC_B-\
+>>>>>> FB2->CSC_A->LUT->CSC_B-|-blender->LUT->CSC_O->encoder
+>>>>>> FB3->CSC_A->LUT->CSC_B-/
+>>>>>>
+>>>>>> Basically, CSC_A is used to convert to a common colorspace if needed
+>>>>>> (YUV->RGB) as well as to perform pixel range conversions: limited->full.
+>>>>>> CSC_B is for gamut conversions(like 709->2020). The CSC_O is used to
+>>>>>> convert to the colorspace used by the output (like RGB->YUV).
+>>>>> I didn't realize that it would be correct to do RGB-YUV conversion in
+>>>>> non-linear space, but yeah, that's what most software do too I guess.
+>>>>>
+>>>>>>> Are all these LUTs per-channel 1D LUTs or something else?
+>>>>>> LUTs are 3D, per pixel component.
+>>>>> Sorry, which one?
+>>>>>
+>>>>> An example of a 3D LUT is 32x32x32 entries with each entry being a
+>>>>> triplet, while a 1D LUT could be 1024 entries with each entry being a
+>>>>> scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
+>>>>> you need just one for the color value triplet mapping.
+>>>>>
+>>>>> A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
+>>>>> channel mixing that a CTM can.
+>>>>>
+>>>>> So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
+>>>>> blocks exist...
+>>>> Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
+>>>> R-Car), having a separate CSC can give more precision (as well as
+>>>> allowing the two problems to be decoupled, at a relatively low hardware
+>>>> cost).
+>>> If you put nonlinear signal to 3DLUT then your
+>>> precision would be improved.
+>>> How many bits each color value has in 3DLUT ?
+>> The whole display pipeline uses 8 bits per component.
+> It is pretty low , please, use always nonlinear signal in the pipe and it allows you to compress and 'win' about 2 bits.
 
-Changes in v5:
-- fix crash when user tries to play audio in suspended
-  state
+Do you have alpha and de-alpha blocks in your pipeline?
+You can do CSC and blending in nonlinear mode, it is less accurate than in linear, but it is viable way.
+Also alpha should be removed (if it is applied) before CSC.
 
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_audio.c   | 32 +++++++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_display.c | 40 +++++++++++++++++++++++++----
- drivers/gpu/drm/msm/dp/dp_display.h |  3 +++
- 3 files changed, 70 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
-index 11fa5ad7a801..82a8673ab8da 100644
---- a/drivers/gpu/drm/msm/dp/dp_audio.c
-+++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-@@ -497,8 +497,23 @@ int dp_audio_hw_params(struct device *dev,
- 	int rc = 0;
- 	struct dp_audio_private *audio;
- 	struct platform_device *pdev;
-+	struct msm_dp *dp_display;
- 
- 	pdev = to_platform_device(dev);
-+	dp_display = platform_get_drvdata(pdev);
-+
-+	/*
-+	 * there could be cases where sound card can be opened even
-+	 * before OR even when DP is not connected . This can cause
-+	 * unclocked access as the audio subsystem relies on the DP
-+	 * driver to maintain the correct state of clocks. To protect
-+	 * such cases check for connection status and bail out if not
-+	 * connected.
-+	 */
-+	if (!dp_display->power_on) {
-+		rc = -EINVAL;
-+		goto end;
-+	}
- 
- 	audio = dp_audio_get_data(pdev);
- 	if (IS_ERR(audio)) {
-@@ -512,6 +527,8 @@ int dp_audio_hw_params(struct device *dev,
- 	dp_audio_setup_acr(audio);
- 	dp_audio_safe_to_exit_level(audio);
- 	dp_audio_enable(audio, true);
-+	dp_display->audio_enabled = true;
-+
- end:
- 	return rc;
- }
-@@ -520,15 +537,30 @@ static void dp_audio_shutdown(struct device *dev, void *data)
- {
- 	struct dp_audio_private *audio;
- 	struct platform_device *pdev;
-+	struct msm_dp *dp_display;
- 
- 	pdev = to_platform_device(dev);
-+	dp_display = platform_get_drvdata(pdev);
- 	audio = dp_audio_get_data(pdev);
- 	if (IS_ERR(audio)) {
- 		DRM_ERROR("failed to get audio data\n");
- 		return;
- 	}
- 
-+	/*
-+	 * if audio was not enabled there is no need
-+	 * to execute the shutdown and we can bail out early.
-+	 * This also makes sure that we dont cause an unclocked
-+	 * access when audio subsystem calls this without DP being
-+	 * connected. is_connected cannot be used here as its set
-+	 * to false earlier than this call
-+	 */
-+	if (!dp_display->audio_enabled)
-+		return;
-+
- 	dp_audio_enable(audio, false);
-+	/* signal the dp display to safely shutdown clocks */
-+	dp_display_signal_audio_complete(dp_display);
- }
- 
- static const struct hdmi_codec_ops dp_audio_codec_ops = {
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 59ffdb8a1636..22578ad4b9e2 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -80,7 +80,6 @@ struct dp_display_private {
- 
- 	/* state variables */
- 	bool core_initialized;
--	bool power_on;
- 	bool hpd_irq_on;
- 	bool audio_supported;
- 
-@@ -102,6 +101,9 @@ struct dp_display_private {
- 	struct dp_display_mode dp_mode;
- 	struct msm_dp dp_display;
- 
-+	/* wait for audio signaling */
-+	struct completion audio_comp;
-+
- 	/* event related only access by event thread */
- 	struct mutex event_mutex;
- 	wait_queue_head_t event_q;
-@@ -173,6 +175,15 @@ static int dp_del_event(struct dp_display_private *dp_priv, u32 event)
- 	return 0;
- }
- 
-+void dp_display_signal_audio_complete(struct msm_dp *dp_display)
-+{
-+	struct dp_display_private *dp;
-+
-+	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	complete_all(&dp->audio_comp);
-+}
-+
- static int dp_display_bind(struct device *dev, struct device *master,
- 			   void *data)
- {
-@@ -595,6 +606,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 
- 	/* signal the disconnect event early to ensure proper teardown */
- 	dp_display_handle_plugged_change(g_dp_display, false);
-+	reinit_completion(&dp->audio_comp);
- 
- 	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK |
- 					DP_DP_IRQ_HPD_INT_MASK, true);
-@@ -789,15 +801,18 @@ static int dp_display_prepare(struct msm_dp *dp)
- static int dp_display_enable(struct dp_display_private *dp, u32 data)
- {
- 	int rc = 0;
-+	struct msm_dp *dp_display;
- 
--	if (dp->power_on) {
-+	dp_display = g_dp_display;
-+
-+	if (dp_display->power_on) {
- 		DRM_DEBUG_DP("Link already setup, return\n");
- 		return 0;
- 	}
- 
- 	rc = dp_ctrl_on_stream(dp->ctrl);
- 	if (!rc)
--		dp->power_on = true;
-+		dp_display->power_on = true;
- 
- 	return rc;
- }
-@@ -823,14 +838,27 @@ static int dp_display_post_enable(struct msm_dp *dp_display)
- 
- static int dp_display_disable(struct dp_display_private *dp, u32 data)
- {
--	if (!dp->power_on)
-+	struct msm_dp *dp_display;
-+
-+	dp_display = g_dp_display;
-+
-+	if (!dp_display->power_on)
- 		return -EINVAL;
- 
-+	/* wait only if audio was enabled */
-+	if (dp_display->audio_enabled) {
-+		if (!wait_for_completion_timeout(&dp->audio_comp,
-+				HZ * 5))
-+			DRM_ERROR("audio comp timeout\n");
-+	}
-+
-+	dp_display->audio_enabled = false;
-+
- 	dp_ctrl_off(dp->ctrl);
- 
- 	dp->core_initialized = false;
- 
--	dp->power_on = false;
-+	dp_display->power_on = false;
- 
- 	return 0;
- }
-@@ -1144,6 +1172,8 @@ static int dp_display_probe(struct platform_device *pdev)
- 	/* Store DP audio handle inside DP display */
- 	g_dp_display->dp_audio = dp->audio;
- 
-+	init_completion(&dp->audio_comp);
-+
- 	platform_set_drvdata(pdev, g_dp_display);
- 
- 	rc = component_add(&pdev->dev, &dp_display_comp_ops);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index 5020faf360db..8b78b40bbd6c 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -15,6 +15,8 @@ struct msm_dp {
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	bool is_connected;
-+	bool audio_enabled;
-+	bool power_on;
- 
- 	hdmi_codec_plugged_cb plugged_cb;
- 
-@@ -32,6 +34,7 @@ int dp_display_get_modes(struct msm_dp *dp_display,
- int dp_display_request_irq(struct msm_dp *dp_display);
- bool dp_display_check_video_test(struct msm_dp *dp_display);
- int dp_display_get_test_bpp(struct msm_dp *dp_display);
-+void dp_display_signal_audio_complete(struct msm_dp *dp_display);
- 
- void __init msm_dp_pll_driver_register(void);
- void __exit msm_dp_pll_driver_unregister(void);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+
+--------------7F54EF0603E79BF0AD07782A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2020-09-10 2:07 p.m., Vitaly Prosyak
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com">
+      
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 2020-09-10 1:51 p.m., Laurent
+        Pinchart wrote:<br>
+      </div>
+      <blockquote type="cite" cite="mid:20200910175113.GG3940@pendragon.ideasonboard.com">
+        <pre class="moz-quote-pre" wrap="">Hi Vitaly,
+
+On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
+</pre>
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
+</pre>
+              <blockquote type="cite">
+                <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
+</pre>
+                <blockquote type="cite">
+                  <pre class="moz-quote-pre" wrap="">On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
+</pre>
+                  <blockquote type="cite">
+                    <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
+</pre>
+                    <blockquote type="cite">
+                      <pre class="moz-quote-pre" wrap="">On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
+     
+</pre>
+                      <blockquote type="cite">
+                        <pre class="moz-quote-pre" wrap="">Hi all,
+
+I was wondering whether you could give me an advise on how to proceed further
+with the following issue as I'm preparing to upstream the next set of patches
+for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
+each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
+respectively. Then the output from those 3 pipes is blended together and then
+gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
+needed.
+</pre>
+                      </blockquote>
+                    </blockquote>
+                  </blockquote>
+                  <pre class="moz-quote-pre" wrap="">Hi,
+
+hmm, so FB -&gt; CSC -&gt; LUT -&gt; CSC -&gt; blending?
+
+Is it then
+	blending -&gt; LUT -&gt; CSC -&gt; encoder
+or
+	blending -&gt; CSC -&gt; LUT -&gt; encoder?
+</pre>
+                </blockquote>
+                <pre class="moz-quote-pre" wrap="">The DCSS pipeline topology is this:
+
+FB1-&gt;CSC_A-&gt;LUT-&gt;CSC_B-\
+FB2-&gt;CSC_A-&gt;LUT-&gt;CSC_B-|-blender-&gt;LUT-&gt;CSC_O-&gt;encoder
+FB3-&gt;CSC_A-&gt;LUT-&gt;CSC_B-/
+
+Basically, CSC_A is used to convert to a common colorspace if needed
+(YUV-&gt;RGB) as well as to perform pixel range conversions: limited-&gt;full.
+CSC_B is for gamut conversions(like 709-&gt;2020). The CSC_O is used to
+convert to the colorspace used by the output (like RGB-&gt;YUV).
+</pre>
+              </blockquote>
+              <pre class="moz-quote-pre" wrap="">I didn't realize that it would be correct to do RGB-YUV conversion in
+non-linear space, but yeah, that's what most software do too I guess.
+
+</pre>
+              <blockquote type="cite">
+                <blockquote type="cite">
+                  <pre class="moz-quote-pre" wrap="">Are all these LUTs per-channel 1D LUTs or something else?
+</pre>
+                </blockquote>
+                <pre class="moz-quote-pre" wrap="">LUTs are 3D, per pixel component.
+</pre>
+              </blockquote>
+              <pre class="moz-quote-pre" wrap="">Sorry, which one?
+
+An example of a 3D LUT is 32x32x32 entries with each entry being a
+triplet, while a 1D LUT could be 1024 entries with each entry being a
+scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
+you need just one for the color value triplet mapping.
+
+A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
+channel mixing that a CTM can.
+
+So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
+blocks exist...
+</pre>
+            </blockquote>
+            <pre class="moz-quote-pre" wrap="">Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
+R-Car), having a separate CSC can give more precision (as well as
+allowing the two problems to be decoupled, at a relatively low hardware
+cost).
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">If you put nonlinear signal to 3DLUT then your
+precision would be improved.
+How many bits each color value has in 3DLUT ?
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">The whole display pipeline uses 8 bits per component.
+</pre>
+      </blockquote>
+      <pre>It is pretty low , please, use always nonlinear signal in the pipe and it allows you to compress and 'win' about 2 bits.</pre>
+    </blockquote>
+    <pre>Do you have alpha and de-alpha blocks in your pipeline?
+You can do CSC and blending in nonlinear mode, it is less accurate than in linear, but it is viable way.
+Also alpha should be removed (if it is applied) before CSC.
+</pre>
+    <br>
+  </body>
+</html>
+
+--------------7F54EF0603E79BF0AD07782A--
+
+--===============1142789346==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1142789346==--
