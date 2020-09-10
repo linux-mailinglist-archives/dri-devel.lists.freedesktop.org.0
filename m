@@ -2,68 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5D1264358
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 12:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584DD264387
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 12:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD9FD6E8FD;
-	Thu, 10 Sep 2020 10:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A76026E8F1;
+	Thu, 10 Sep 2020 10:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39AF56E8FD
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 10:10:41 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08A9xRZN115204;
- Thu, 10 Sep 2020 10:08:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=g37SUWXNvau9Rx808CmTrAwTrd4joDVnEfZqnUQu9/A=;
- b=msofuDRlCUpv3DJnBwkdTHyW2Tw5Wax58knzjfefB3xX02eZcq7eiLQ4PtM/R9T5fosP
- fWytiCt8lkJ4Z/QIT2NhryK0bd8yNb1N2HMkAoeGBOOn3H+LVgj0ia7VcZPXQIKZS16S
- gSjmR7X4WWYN4lWdnuyacQK5jHeqDYDv1umVfrr9XgiFjQztUyU/uvHy1mOPV8mxd0pa
- Fkq/5AF7Jw2+OgK6ihM1r1JuWfGGrYRlf4Rnd3gCCC9RFZ+ygDLUUx+7I8JhwmEz3Zq8
- 4/IiVEfyfdHTgCd6sH0eT8ZNnYUQxAKiypi4hB9FuDvMwNN8VJolyihqxZmcnS6M9nf4 fQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 33c23r76fc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 10 Sep 2020 10:08:34 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08AA5VEM174120;
- Thu, 10 Sep 2020 10:08:34 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 33cmeum8r5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Sep 2020 10:08:34 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08AA8WcW003816;
- Thu, 10 Sep 2020 10:08:33 GMT
-Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 10 Sep 2020 03:08:32 -0700
-Date: Thu, 10 Sep 2020 13:08:25 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Eric Anholt <eric@anholt.duckdns.org>
-Subject: [PATCH] drm/vc4: hdmi: Fix NULL vs IS_ERR() checks in
- vc5_hdmi_init_resources()
-Message-ID: <20200910100825.GC79916@mwanda>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64FFA89DFE;
+ Thu, 10 Sep 2020 10:16:38 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id z9so5237876wmk.1;
+ Thu, 10 Sep 2020 03:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DqY3ytm1lW24L4dBr5ZhfVe1Kl4JG7b6aElJixa0DtQ=;
+ b=TyMbFj/CCKS/yEhzmJyx0SXASPCumWs129eaMWwliNPHoe9nGlJZk2Tsw17ABtL/mL
+ mWke72l5dRMmrFg9ieYmDr1jVfXiMwSmIMEMsNuXAYrMDmbRSlu2SEhpSFeukLVe3cg9
+ +5O+wBu+Jx7JfEyF9JNwdrWebHIVozT6N0VTqxSNEjrIsLOZ3R3dejl3APk21PLF2Oj8
+ +Kb8ACZuKGttnfzoDexc2yloyF3/YUcCQzcDsr90PZvO0KOXZEocClY8eSC4NnFPV4xO
+ lvhsU6vpfnm+pvKWrckJN/8r5bLtL/kaV4lfgkeSIGRnLzVQeQ+BBL7u23nOrwhO07G+
+ JHEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DqY3ytm1lW24L4dBr5ZhfVe1Kl4JG7b6aElJixa0DtQ=;
+ b=nH0yUAovvhubPl6sBUwBrs2sJB+5Xq2akRghDHpweg6/kgxahhKiBNCcRHONYke6JV
+ TNaI8PJRrI5Quu9Yhvo7PqDIhsMswRX7d0/zm0oRMLnRxOm1roeOJhNfS8RtqfYco6rJ
+ 6kYa887RZZ3IZ1PMCm3uj1SOFkhSYUPRXncTlhUBMOJP5vX4UNRVLu0DS7zo7/0fnIpg
+ BR8BbfaMHa+yM0Xao5p7gMjZuLtNoyAwWZtFygVSXsWfOOIte6c21Rm/4+S6wTB3DGgU
+ 8FMgtFVSo/iYmnYHOGZICPDyghAkI9f1bgCxoX7s1HyaWymlnpjmbYAg4a520ZLxCMEs
+ 6krQ==
+X-Gm-Message-State: AOAM533qjl2gqhCvSs7SKZD+9zpK27R1z3zvIpXmsqGQFyc0nIsW00k8
+ hg5xcXNj8Kjst3KW/ekQrpA=
+X-Google-Smtp-Source: ABdhPJxz+CTfYBRsr9wPZ8ehDJQEmTq++yYJr4Xo0s0U0R6hQKoUpOmBLcC8LM7TIOPThVoU3WYKbg==
+X-Received: by 2002:a1c:234b:: with SMTP id j72mr7837172wmj.153.1599732997083; 
+ Thu, 10 Sep 2020 03:16:37 -0700 (PDT)
+Received: from ziggy.stardust ([213.195.113.201])
+ by smtp.gmail.com with ESMTPSA id a127sm2936155wmh.34.2020.09.10.03.16.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Sep 2020 03:16:36 -0700 (PDT)
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+To: Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jiri Kosina <trivial@kernel.org>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Message-ID: <81d852d4-115f-c6c6-ef80-17c47ec4849a@gmail.com>
+Date: Thu, 10 Sep 2020 12:16:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9739
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0 adultscore=0
- bulkscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009100094
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9739
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- priorityscore=1501
- mlxlogscore=999 mlxscore=0 bulkscore=0 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009100093
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,111 +71,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-fbdev@vger.kernel.org, oss-drivers@netronome.com,
+ nouveau@lists.freedesktop.org, alsa-devel <alsa-devel@alsa-project.org>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-ide@vger.kernel.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, dccp@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ kvmarm@lists.cs.columbia.edu, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+ Kees Cook <kees.cook@canonical.com>, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
+ storagedev@microchip.com, ceph-devel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-nfs@vger.kernel.org,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-sctp@vger.kernel.org, iommu@lists.linux-foundation.org,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The devm_ioremap() function never returns error pointers, it returns
-NULL.
 
-Fixes: 8323989140f3 ("drm/vc4: hdmi: Support the BCM2711 HDMI controllers")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index d0792915436c..03825596a308 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1545,64 +1545,64 @@ static int vc5_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
- 
- 	vc4_hdmi->hdmicore_regs = devm_ioremap(dev, res->start,
- 					       resource_size(res));
--	if (IS_ERR(vc4_hdmi->hdmicore_regs))
--		return PTR_ERR(vc4_hdmi->hdmicore_regs);
-+	if (!vc4_hdmi->hdmicore_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hd");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->hd_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->hd_regs))
--		return PTR_ERR(vc4_hdmi->hd_regs);
-+	if (!vc4_hdmi->hd_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cec");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->cec_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->cec_regs))
--		return PTR_ERR(vc4_hdmi->cec_regs);
-+	if (!vc4_hdmi->cec_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "csc");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->csc_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->csc_regs))
--		return PTR_ERR(vc4_hdmi->csc_regs);
-+	if (!vc4_hdmi->csc_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dvp");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->dvp_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->dvp_regs))
--		return PTR_ERR(vc4_hdmi->dvp_regs);
-+	if (!vc4_hdmi->dvp_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->phy_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->phy_regs))
--		return PTR_ERR(vc4_hdmi->phy_regs);
-+	if (!vc4_hdmi->phy_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "packet");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->ram_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->ram_regs))
--		return PTR_ERR(vc4_hdmi->ram_regs);
-+	if (!vc4_hdmi->ram_regs)
-+		return -ENOMEM;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "rm");
- 	if (!res)
- 		return -ENODEV;
- 
- 	vc4_hdmi->rm_regs = devm_ioremap(dev, res->start, resource_size(res));
--	if (IS_ERR(vc4_hdmi->rm_regs))
--		return PTR_ERR(vc4_hdmi->rm_regs);
-+	if (!vc4_hdmi->rm_regs)
-+		return -ENOMEM;
- 
- 	vc4_hdmi->hsm_clock = devm_clk_get(dev, "hdmi");
- 	if (IS_ERR(vc4_hdmi->hsm_clock)) {
--- 
-2.28.0
+On 09/09/2020 22:06, Joe Perches wrote:
+> diff --git a/drivers/net/wireless/mediatek/mt7601u/dma.c b/drivers/net/wireless/mediatek/mt7601u/dma.c
+> index 09f931d4598c..778be26d329f 100644
+> --- a/drivers/net/wireless/mediatek/mt7601u/dma.c
+> +++ b/drivers/net/wireless/mediatek/mt7601u/dma.c
+> @@ -193,11 +193,11 @@ static void mt7601u_complete_rx(struct urb *urb)
+>   	case -ESHUTDOWN:
+>   	case -ENOENT:
+>   		return;
+> +	case 0:
+> +		break;
+>   	default:
+>   		dev_err_ratelimited(dev->dev, "rx urb failed: %d\n",
+>   				    urb->status);
+> -		fallthrough;
+> -	case 0:
+>   		break;
+>   	}
+>   
+> @@ -238,11 +238,11 @@ static void mt7601u_complete_tx(struct urb *urb)
+>   	case -ESHUTDOWN:
+>   	case -ENOENT:
+>   		return;
+> +	case 0:
+> +		break;
+>   	default:
+>   		dev_err_ratelimited(dev->dev, "tx urb failed: %d\n",
+>   				    urb->status);
+> -		fallthrough;
+> -	case 0:
+>   		break;
+>   	}
 
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
