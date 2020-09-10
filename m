@@ -1,95 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B565F264C42
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 20:07:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 080E5264C8B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 20:14:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1276E071;
-	Thu, 10 Sep 2020 18:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04EEA6E968;
+	Thu, 10 Sep 2020 18:14:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr770053.outbound.protection.outlook.com [40.107.77.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AA66E071
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 18:07:34 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11B0D6E968
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 18:14:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T4hJRBCGR5TpTGb5Prvp3tGiqCqyQfkqGdM4FN2c6W2iV1ubcoBOU6GQ1iKvcdIiueAD2P0cgfwVBu/LANPIJ4WFPKYtTNr9D+E1heKvdA0QrfKIHWw4Eg5XpzNb757IqxFK23a/WlZhLh76BzkVe/d8NFK+2ne/d97S1IaUL5ejy2BChURlr5VjiVpLCpVqSxZ2DulpslhxU4E8WjGdQKFxDQt9Q0vfhndGkCjUkjVYrjKLlnmYykhwavYDwLl1vMCz0kL5SqXWIcTzn5Lrlp4eDUqCYk51488yK2lFB0kyrJFyglIPj2TFbNO+vwINZCrZeq6uAWpRTZ/hyDomZw==
+ b=N6oBzjH+ltOGFYRajrtU1Tmlk+jVEm/P6si+t0v7qj9T3wYCtcDjISMpmnFOcne4/UsWtVsDqXE83ViOLp7jSUHY2y18K5Vv7+hurcypnZ6S57eJMtapRLqto3JOzsZ1E3BXMUGEIyJOs6fitbbPngQFWZFTwvFPVTsnndnjqCtlfUuYixkczs8kClT7nqnt66/jK6hJWSyPIXyZZo9VNEkAkT9z0ZaF4Kbfe1vCBX3WQTLHOa7EsHHlW7mDNeLd5d7DG0S+z/V0fT2moxIL7RLyt4ERnKC6zTCuSN/fuBpEZTcj1uwsNBeFLbfbnSSXAS3KGWEIW2OxULeBMWDyYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RS/CplOxk5A5YLI3ypl8GahvDW6WVUZ9yNdeWoJyZLE=;
- b=Wm6TcUTKoGreYbktklZbASLs/JUWDnMZOljgxVe47ya0tkZn3YWAoMX4JRKz2NiBSdFex6XiLwB3KBCdzQlslVjFmxw5iN5Cgd77It8wocqGHdExGpTM93t4UPLiPJUyt1A4GWu3u9D5p7QHHgEfTM2YnnMFyU/IkcsoHslrCa+6T45FH+U9Phgum1OAPsyIjK0ZbfQhhV2WUPfxi1co52MfCvG6uzMEvZ5/KmkLtz2BIXCkgl8tcS9Wc//YUieU7dian89p93x4/nFne5ABMSq5Pv7n4rdV0vv6oRU0bEV4ZQaTpaD43iwnRQM2OxK+eQk+B30IEzqjpl23QoN/UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=MHjB2unu+9Et4mo9cnxLh3GBS2bINldpk93zFl43Gzk=;
+ b=gKa/Amvm7RvLB0dhff7ewfzXOXyVbTcVOdZ5RrRkwyLliG1byH6vERq62RS4P160fj3eMaLxFpP7FZA7lOFdhv/vEgBFFVkN90zCwcBRbT4z/8xPqjFOPzFVtPV/pYdx5FMeieXhNoWn711ZUWzrSu+TLGf1/hzsbCabfjF7vRg482c35SEWkvGkXxOsVs1JocFo01OSdMKYCY4dVLeqgHE9Dj4e+GN1lSHd/+BeGq0VfL0+FW9yQ+Ca47J8YKHhqgDknQmaV/IcyRec/B7bAd+oaSudBkLNh7jFP0s9IqR+t6ITDRrfWFsEkImKcK1PeucZOSU5v1zO0QSdVXSMzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 149.199.60.83) smtp.rcpttodomain=ffwll.ch
+ smtp.mailfrom=xilinx.com; 
+ dmarc=none action=none header.from=xilinx.com; dkim=none (message not
+ signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RS/CplOxk5A5YLI3ypl8GahvDW6WVUZ9yNdeWoJyZLE=;
- b=ck45ZrVe9z0OZS8dFb1ujXA6L8JMJxp0C0gPQ0e3pbgdK90VzNVM8C7jKEK9WCrKvan6CbhdWr8wpMkDSwIGgFfjQl+u/Zv1RtfpKAkc9iZxfOcG0fFUzPTYAAXfG4z9TNGklD3SEel4wkMzm3bmbXrMSRjJVGhWnz7Y/hDYN7s=
-Authentication-Results: sebastianwick.net; dkim=none (message not signed)
- header.d=none;sebastianwick.net; dmarc=none action=none header.from=amd.com;
-Received: from MW2PR12MB2474.namprd12.prod.outlook.com (52.132.180.141) by
- MWHPR1201MB2508.namprd12.prod.outlook.com (10.172.95.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3370.16; Thu, 10 Sep 2020 18:07:30 +0000
-Received: from MW2PR12MB2474.namprd12.prod.outlook.com
- ([fe80::4057:8e1f:56f1:9e2f]) by MW2PR12MB2474.namprd12.prod.outlook.com
- ([fe80::4057:8e1f:56f1:9e2f%6]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
- 18:07:30 +0000
-Subject: Re: per-plane LUTs and CSCs?
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
- <20200910102543.11dc9fe0@eldfell>
- <20200910075226.GF438822@phenom.ffwll.local>
- <20200910115026.58dffaf1@eldfell>
- <20200910093009.qkb5yvpyf46uj6mp@fsr-ub1864-141>
- <20200910132803.14dc028d@eldfell>
- <20200910105618.GE3940@pendragon.ideasonboard.com>
- <5f39e5ee-bf2b-e4dc-7584-7e6cd4c5b104@amd.com>
- <20200910175113.GG3940@pendragon.ideasonboard.com>
-From: Vitaly Prosyak <vitaly.prosyak@amd.com>
-Message-ID: <536023f7-e5c1-d1fa-fd4f-e2378f1077e2@amd.com>
-Date: Thu, 10 Sep 2020 14:07:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200910175113.GG3940@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-ClientProxiedBy: BN0PR02CA0017.namprd02.prod.outlook.com
- (2603:10b6:408:e4::22) To MW2PR12MB2474.namprd12.prod.outlook.com
- (2603:10b6:907:9::13)
+ bh=MHjB2unu+9Et4mo9cnxLh3GBS2bINldpk93zFl43Gzk=;
+ b=IVEuEPA7u40Gyu9wJ0tOyAgecrHHOlosMKJxUAUBCruBoPK+BoHpOg5ZJGxLsAb0ppjpnJihIHgU8V2Fxl/asSHVHoFz8tI5CLRs9ThXy3NvMm5VKlkhHVP+FoIkSGhyogjSjxbAhgCWAxGsFi3PATmr8F9QNbLqkgWis8xFFLc=
+Received: from BL0PR02CA0023.namprd02.prod.outlook.com (2603:10b6:207:3c::36)
+ by DM6PR02MB7003.namprd02.prod.outlook.com (2603:10b6:5:255::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
+ 2020 18:14:26 +0000
+Received: from BL2NAM02FT010.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:207:3c:cafe::ea) by BL0PR02CA0023.outlook.office365.com
+ (2603:10b6:207:3c::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Thu, 10 Sep 2020 18:14:26 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 149.199.60.83) smtp.mailfrom=xilinx.com; ffwll.ch; dkim=none (message not
+ signed) header.d=none;ffwll.ch; dmarc=none action=none
+ header.from=xilinx.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of xilinx.com: DNS Timeout)
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT010.mail.protection.outlook.com (10.152.77.53) with Microsoft SMTP
+ Server id 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 18:14:25
+ +0000
+Received: from [149.199.38.66] (port=37327 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1kGR5D-0003IK-S1; Thu, 10 Sep 2020 11:14:07 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by smtp.xilinx.com with smtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1kGR5V-0002dy-Bn; Thu, 10 Sep 2020 11:14:25 -0700
+Received: from [172.19.75.82] (helo=xsjsycl40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1kGR5O-0002cu-98; Thu, 10 Sep 2020 11:14:18 -0700
+Received: by xsjsycl40.xilinx.com (Postfix, from userid 13638)
+ id 4003F352C02; Thu, 10 Sep 2020 11:14:18 -0700 (PDT)
+Date: Thu, 10 Sep 2020 11:14:18 -0700
+From: Hyun Kwon <hyun.kwon@xilinx.com>
+To: Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH] drm: xlnx: remove defined but not used
+ 'scaling_factors_666'
+Message-ID: <20200910181418.GA3187626@xilinx.com>
+References: <20200910140630.1191782-1-yanaijie@huawei.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.252.2.74] (165.204.84.11) by
- BN0PR02CA0017.namprd02.prod.outlook.com (2603:10b6:408:e4::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3370.16 via Frontend Transport; Thu, 10 Sep 2020 18:07:28 +0000
-X-Originating-IP: [165.204.84.11]
-X-MS-PublicTrafficType: Email
+Content-Disposition: inline
+In-Reply-To: <20200910140630.1191782-1-yanaijie@huawei.com>
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: dc8443e5-31e4-4379-e826-08d855b4625f
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB2508:
-X-Microsoft-Antispam-PRVS: <MWHPR1201MB2508BD7A1ADCF5B59367929981270@MWHPR1201MB2508.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f78f61b6-73a3-402f-b8ee-08d855b559d9
+X-MS-TrafficTypeDiagnostic: DM6PR02MB7003:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB7003EEBD33BA17B8D8BF7B06D6270@DM6PR02MB7003.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:923;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MVNXLCBRJfkxaOe0cBA6wCnsoJzxFWUPBhPbjFfe+b0hUEJYn2R0ZeJLvVxJn27huOqPO9ZntihbwJZpQ0yS8ukBi67ybz6Xr2o3w6JnLv09a1Cj3m8l6Kc9ZU+xKcSSqyBIJflQz/L9AFTboyiFxhv8UI0x9YiVvyG7H1vnMbURNeGgkrTD3NYUMUMwyedvPTNgPJi/Jrw+Mxwvkh68yy8nB9lj+A0K8MLaf1REKairgxifTZOLxBvbvYEHmKjJIf3dJGBFA5eT0i2PvEAtw1a3L6i0dVEmR2URwCzvY/yGdi4MUNlpWiegMdgQPXVHgEIjOILowrg/VOojENhYgkffzZcUeSUFvpZOceC3bLEwwLW9Nzxy3IK+SB/AVvi6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB2474.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(346002)(366004)(136003)(396003)(54906003)(316002)(66556008)(31696002)(26005)(6486002)(86362001)(66476007)(44832011)(16526019)(16576012)(83380400001)(31686004)(53546011)(33964004)(8676002)(5660300002)(66946007)(4326008)(478600001)(186003)(2616005)(956004)(6666004)(2906002)(52116002)(6916009)(36756003)(3480700007)(8936002)(43740500002);
+X-Microsoft-Antispam-Message-Info: yQwHXJqIyAnEQ9dQ2qu+IwQKxbYxX7EbC04QDo8smL6uCD+5e00xAVMwFPmG8Iw5XpRQotE3Ji5Aa/ofwKbpowlq8lGB3ZG2gMuWDc82YiBoy+jDYMnlP9rWsIo2gMCFKNIwYXHLp8g2ltY3kh37uXtirtwc994Iuizuk4j2kG50jd0p70zb8fCpwRHCq1hJjL1Uux80AdG/JUkkzqs0wey6dgQYi212Pma3xYVS7d1qEn/EGXP19t3QtptHYO23mz8G2yAR7I2wa4W14piTQtvYFp3GA3+sT2+sdQvI6oeSvcfBlJzhnV4q3+pDexb48kioi2HYQJL6QVIwK/hC7bphGEyA+ltbCOPwhrj1oEmpk+jdaaBYyorYovYMvs6JyeHTQtEPxvUs87enXc7Mpw==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:ErrorRetry; CAT:NONE;
+ SFS:(396003)(39860400002)(136003)(346002)(376002)(46966005)(44832011)(81166007)(316002)(83380400001)(82740400003)(336012)(54906003)(33656002)(70206006)(2906002)(6266002)(426003)(2616005)(356005)(1076003)(26005)(8676002)(5660300002)(82310400003)(8936002)(186003)(42186006)(6916009)(478600001)(70586007)(36756003)(47076004)(63350400001)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: cBBXJXRmv8I+1b4FWReyK2thywV1+dwyoC6dTo2PRSwKHO5aAsdoh5ADEjfo/kCd66wIMqLNz5jyUM7QfVzqAmjumTuS8CfMuwJqCImNl0FitiWo+VMxOnnzKbDQkr14tkIntTE1iXT2jTTq9fQDvUI/znvNSw20d4a8nfoI1DhYo6mLl+7JVA7eP8iDHCm38nuUnvcYO3Vb3ndxtwz44hhafXeWGZp0avUxBaokxtEHE9k/QP2b8mNbhMpfeuqs/FY21eRiDRfQIh553UTxWLT2Y53aDj0qP+QxAzWza0xDrfvjH/Xy6lBe9ROYvBHCg4NPnbWD1EI2E6q/1lClqvr1kzlzAkhN0boxJ2/iVEulGRsWGg7rK7XXvBKp5FWmZ6sUY7U1lHbJR0cSkfjWYxRIWcAxsJF6ER827rWOQ5HTKfnkh73qL5PT8XWJdUw1Ct5Vc658y6YTfccq6Io+r2wW1k3BkF3D8aNl6mjZlN5UKsfIdrbNZQpE+JX2LgplZGkDqFjbhgz40i5sJybsOK3MAZF8FjXDSjcTEOyW6RL3+zIBr23IsXpiQPMF+NkSvncpFRB6RwTR3J64hBlGenbucitk+gCbibftZaf83tPx3v8srAoCpedsxIbXdveGh8QRu4NXtTMoTWoCe/dffQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc8443e5-31e4-4379-e826-08d855b4625f
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2474.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 18:07:30.7451 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MrNCfXyEl56KFC/55kB7ctnsk+KjCIkizANjI9JcZL88we61NqM9AnrHDjNt3bdqgRaqg73jfZAE6Tue93CoKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB2508
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 18:14:25.7702 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f78f61b6-73a3-402f-b8ee-08d855b559d9
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT010.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB7003
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,238 +113,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian@sebastianwick.net>,
- dri-devel@lists.freedesktop.org, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0881036199=="
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Hulk Robot <hulkci@huawei.com>, Michal Simek <michals@xilinx.com>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0881036199==
-Content-Type: multipart/alternative;
- boundary="------------EA7C305F308CD67F2AEC99B5"
-Content-Language: en-US
-
---------------EA7C305F308CD67F2AEC99B5
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 2020-09-10 1:51 p.m., Laurent Pinchart wrote:
-> Hi Vitaly,
->
-> On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
->> On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
->>> On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
->>>> On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
->>>>> On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
->>>>>> On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
->>>>>>> On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
->>>>>>>> On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
->>>>>>>>       
->>>>>>>>> Hi all,
->>>>>>>>>
->>>>>>>>> I was wondering whether you could give me an advise on how to proceed further
->>>>>>>>> with the following issue as I'm preparing to upstream the next set of patches
->>>>>>>>> for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
->>>>>>>>> each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
->>>>>>>>> respectively. Then the output from those 3 pipes is blended together and then
->>>>>>>>> gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
->>>>>>>>> needed.
->>>>>> Hi,
->>>>>>
->>>>>> hmm, so FB -> CSC -> LUT -> CSC -> blending?
->>>>>>
->>>>>> Is it then
->>>>>> 	blending -> LUT -> CSC -> encoder
->>>>>> or
->>>>>> 	blending -> CSC -> LUT -> encoder?
->>>>> The DCSS pipeline topology is this:
->>>>>
->>>>> FB1->CSC_A->LUT->CSC_B-\
->>>>> FB2->CSC_A->LUT->CSC_B-|-blender->LUT->CSC_O->encoder
->>>>> FB3->CSC_A->LUT->CSC_B-/
->>>>>
->>>>> Basically, CSC_A is used to convert to a common colorspace if needed
->>>>> (YUV->RGB) as well as to perform pixel range conversions: limited->full.
->>>>> CSC_B is for gamut conversions(like 709->2020). The CSC_O is used to
->>>>> convert to the colorspace used by the output (like RGB->YUV).
->>>> I didn't realize that it would be correct to do RGB-YUV conversion in
->>>> non-linear space, but yeah, that's what most software do too I guess.
->>>>
->>>>>> Are all these LUTs per-channel 1D LUTs or something else?
->>>>> LUTs are 3D, per pixel component.
->>>> Sorry, which one?
->>>>
->>>> An example of a 3D LUT is 32x32x32 entries with each entry being a
->>>> triplet, while a 1D LUT could be 1024 entries with each entry being a
->>>> scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
->>>> you need just one for the color value triplet mapping.
->>>>
->>>> A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
->>>> channel mixing that a CTM can.
->>>>
->>>> So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
->>>> blocks exist...
->>> Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
->>> R-Car), having a separate CSC can give more precision (as well as
->>> allowing the two problems to be decoupled, at a relatively low hardware
->>> cost).
->> If you put nonlinear signal to 3DLUT then your
->> precision would be improved.
->> How many bits each color value has in 3DLUT ?
-> The whole display pipeline uses 8 bits per component.
-
-It is pretty low , please, use always nonlinear signal in the pipe and it allows you to compress and 'win' about 2 bits.
-
--- 
-[AMD Official Use Only - Internal Distribution Only]
-
---------------EA7C305F308CD67F2AEC99B5
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2020-09-10 1:51 p.m., Laurent
-      Pinchart wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20200910175113.GG3940@pendragon.ideasonboard.com">
-      <pre class="moz-quote-pre" wrap="">Hi Vitaly,
-
-On Thu, Sep 10, 2020 at 01:09:03PM -0400, Vitaly Prosyak wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On 2020-09-10 6:56 a.m., Laurent Pinchart wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 01:28:03PM +0300, Pekka Paalanen wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">On Thu, 10 Sep 2020 12:30:09 +0300 Laurentiu Palcu wrote:
-</pre>
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 11:50:26AM +0300, Pekka Paalanen wrote:
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">On Thu, 10 Sep 2020 09:52:26 +0200 Daniel Vetter wrote:
-</pre>
-                <blockquote type="cite">
-                  <pre class="moz-quote-pre" wrap="">On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
-</pre>
-                  <blockquote type="cite">
-                    <pre class="moz-quote-pre" wrap="">On Wed, 9 Sep 2020 13:57:28 +0300 Laurentiu Palcu wrote:
-     
-</pre>
-                    <blockquote type="cite">
-                      <pre class="moz-quote-pre" wrap="">Hi all,
-
-I was wondering whether you could give me an advise on how to proceed further
-with the following issue as I'm preparing to upstream the next set of patches
-for the iMX8MQ display controller(DCSS). The display controller has 3 planes,
-each with 2 CSCs and one degamma LUT. The CSCs are in front and after the LUT
-respectively. Then the output from those 3 pipes is blended together and then
-gamma correction is applied using a linear-to-nonlinear LUT and another CSC, if
-needed.
-</pre>
-                    </blockquote>
-                  </blockquote>
-                </blockquote>
-                <pre class="moz-quote-pre" wrap="">
-Hi,
-
-hmm, so FB -&gt; CSC -&gt; LUT -&gt; CSC -&gt; blending?
-
-Is it then
-	blending -&gt; LUT -&gt; CSC -&gt; encoder
-or
-	blending -&gt; CSC -&gt; LUT -&gt; encoder?
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">
-The DCSS pipeline topology is this:
-
-FB1-&gt;CSC_A-&gt;LUT-&gt;CSC_B-\
-FB2-&gt;CSC_A-&gt;LUT-&gt;CSC_B-|-blender-&gt;LUT-&gt;CSC_O-&gt;encoder
-FB3-&gt;CSC_A-&gt;LUT-&gt;CSC_B-/
-
-Basically, CSC_A is used to convert to a common colorspace if needed
-(YUV-&gt;RGB) as well as to perform pixel range conversions: limited-&gt;full.
-CSC_B is for gamut conversions(like 709-&gt;2020). The CSC_O is used to
-convert to the colorspace used by the output (like RGB-&gt;YUV).
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">
-I didn't realize that it would be correct to do RGB-YUV conversion in
-non-linear space, but yeah, that's what most software do too I guess.
-
-</pre>
-            <blockquote type="cite">
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">Are all these LUTs per-channel 1D LUTs or something else?
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">
-LUTs are 3D, per pixel component.
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">
-Sorry, which one?
-
-An example of a 3D LUT is 32x32x32 entries with each entry being a
-triplet, while a 1D LUT could be 1024 entries with each entry being a
-scalar. 1D LUTs are used per-channel so you need three of them, 3D LUTs
-you need just one for the color value triplet mapping.
-
-A 3D LUT can express much more than a 4x4 CTM. A 1D LUT cannot do the
-channel mixing that a CTM can.
-
-So if you truly have 3D LUTs everywhere, I wonder why the CSC matrix
-blocks exist...
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-Possibly because the 3D LUT uses interpolation (it's a 17x17x17 LUT in
-R-Car), having a separate CSC can give more precision (as well as
-allowing the two problems to be decoupled, at a relatively low hardware
-cost).
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-If you put nonlinear signal to 3DLUT then your
-precision would be improved.
-How many bits each color value has in 3DLUT ?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-The whole display pipeline uses 8 bits per component.
-</pre>
-    </blockquote>
-    <pre>It is pretty low , please, use always nonlinear signal in the pipe and it allows you to compress and 'win' about 2 bits.</pre>
-    <blockquote type="cite" cite="mid:20200910175113.GG3940@pendragon.ideasonboard.com">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      [AMD Official Use Only - Internal Distribution Only]</div>
-  </body>
-</html>
-
---------------EA7C305F308CD67F2AEC99B5--
-
---===============0881036199==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0881036199==--
+SGkgSmFzb24sCgpPbiBUaHUsIFNlcCAxMCwgMjAyMCBhdCAwNzowNjozMEFNIC0wNzAwLCBKYXNv
+biBZYW4gd3JvdGU6Cj4gVGhpcyBhZGRyZXNzZXMgdGhlIGZvbGxvd2luZyBnY2Mgd2FybmluZyB3
+aXRoICJtYWtlIFc9MSI6Cj4gCj4gZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYzoy
+NDU6MTg6IHdhcm5pbmc6Cj4g4oCYc2NhbGluZ19mYWN0b3JzXzY2NuKAmSBkZWZpbmVkIGJ1dCBu
+b3QgdXNlZCBbLVd1bnVzZWQtY29uc3QtdmFyaWFibGU9XQo+ICAgMjQ1IHwgc3RhdGljIGNvbnN0
+IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNjY2W10gPSB7Cj4gICAgICAgfCAgICAgICAgICAgICAgICAg
+IF5+fn5+fn5+fn5+fn5+fn5+fn4KPiAKPiBSZXBvcnRlZC1ieTogSHVsayBSb2JvdCA8aHVsa2Np
+QGh1YXdlaS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogSmFzb24gWWFuIDx5YW5haWppZUBodWF3ZWku
+Y29tPgoKUmV2aWV3ZWQtYnk6IEh5dW4gS3dvbiA8aHl1bi5rd29uQHhpbGlueC5jb20+CgpUaGFu
+a3MhCgotaHl1bgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYyB8
+IDYgLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlzcC5jIGIvZHJpdmVycy9ncHUvZHJt
+L3hsbngvenlucW1wX2Rpc3AuYwo+IGluZGV4IGE0NTVjZmMxYmVlNS4uOThiZDQ4ZjEzZmQxIDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNwLmMKPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZGlzcC5jCj4gQEAgLTI0MiwxMiArMjQyLDYgQEAg
+c3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNTY1W10gPSB7Cj4gIAlaWU5RTVBfRElT
+UF9BVl9CVUZfNUJJVF9TRiwKPiAgfTsKPiAgCj4gLXN0YXRpYyBjb25zdCB1MzIgc2NhbGluZ19m
+YWN0b3JzXzY2NltdID0gewo+IC0JWllOUU1QX0RJU1BfQVZfQlVGXzZCSVRfU0YsCj4gLQlaWU5R
+TVBfRElTUF9BVl9CVUZfNkJJVF9TRiwKPiAtCVpZTlFNUF9ESVNQX0FWX0JVRl82QklUX1NGLAo+
+IC19Owo+IC0KPiAgc3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfODg4W10gPSB7Cj4g
+IAlaWU5RTVBfRElTUF9BVl9CVUZfOEJJVF9TRiwKPiAgCVpZTlFNUF9ESVNQX0FWX0JVRl84QklU
+X1NGLAo+IC0tIAo+IDIuMjUuNAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
