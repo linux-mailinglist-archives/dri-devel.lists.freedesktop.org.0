@@ -1,68 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656A2263970
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 02:28:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE98263975
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 02:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D50F189428;
-	Thu, 10 Sep 2020 00:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F8989933;
+	Thu, 10 Sep 2020 00:37:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9078B8940F
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 00:28:20 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id k25so5859784ljg.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 17:28:20 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270C389933
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 00:37:43 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id u4so5880353ljd.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 17:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xx8WRtl3wcFZUb3ojUwKz4SroDfdBqOj9vcrDYrT33k=;
- b=A1GkPoicASKPnHQ2C5h+wNn3sx+n90p2WA/D1Q3bLVwb8tHd/1zSmOV+Ljhf2JDZAd
- SrZTxFF6pYEMLfwZ2HRLzvgPtsWF6A4DuJUCYFIV8caNpFrML0nCrWTL76/9Ol7QsVgb
- DCXhkb5X3wj7iByaIknAtk0BmaDyCaFrsyB7w=
+ :cc; bh=D6vVm1lBYx5/XP/HS4iDSxpRxq4keD6rSO4vw5LOqnw=;
+ b=VO03nTlZt1V5KCHouVrNVdPbdGQ+UdgZbM8pYf7ZfyFS9Xq43dLq/DUuOuQTrtVOa2
+ We/A3zwhiWoc+Z5D7Ce8pFQxquvPUJTt52wBNjFtW4d4+2udHSzEd2YQo7dYSIjegNj+
+ DWUThxIbqrVf56MpepNbjAD9MSici91kV/s2s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xx8WRtl3wcFZUb3ojUwKz4SroDfdBqOj9vcrDYrT33k=;
- b=aGjU7l6izw5/rFWBdG1iawh02tu0XXHejbY8mSJntCTRHTWwZ/8LL63dHTHVN/2iVJ
- PbQM9pb0Wd89zIx0KMGO/3nrcMrLWEWZL+4dHd6/nXVy3qUER25BjvT8cAT1YQMGJq9q
- 7Aomo9dhDy9O//4Hn8L05XIOrWFfOH7hbjCdEKbEg2E9Me2TbRhSUT0TwvFasuhQPel5
- VHd6+Ld5rEeC+6hDJSY7IDFP/NRjP4tDTAmnSv57ni131Xqucs4xvkbvXZSe2/DpV/Oy
- KZOruqqlc1+oKEBnW7cUiL1bCNHfB1kBDg/o7bPDctnVOkHrnADP6aakXDZ6P8IpjhzH
- uylw==
-X-Gm-Message-State: AOAM530BSu8GIOdXeUqVI3WlBgF8O+djK++xHVXdST2WjOtv+yTcmorR
- UiTvnD5J/qHk/oNqxehD6sfWuopUwhKXdQ==
-X-Google-Smtp-Source: ABdhPJz/oxzrGp0gr5CWQeY2+2tLnA5kmI/sDiDnuqjjj09yleEXsa+/CwsNp7anceY8QyI1UuLucA==
-X-Received: by 2002:a2e:b386:: with SMTP id f6mr3106169lje.186.1599697698741; 
- Wed, 09 Sep 2020 17:28:18 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44])
- by smtp.gmail.com with ESMTPSA id e22sm1113378ljn.73.2020.09.09.17.28.16
+ bh=D6vVm1lBYx5/XP/HS4iDSxpRxq4keD6rSO4vw5LOqnw=;
+ b=X6TFGJU58NFtNC/1nwZGrMb27+0OIvDtnuw9npDn20z2UPUF1S85KHkgWNHhZtIu/p
+ ZG7GPPHAkQ2f5JlWYm09KT6fc+b7vsIshhp+U1Xv5XctqUHtyMM+8lpVikfMNJ+kvlG+
+ /N1U5Md0NgQ0QTtQHoq8hLdXWyUopnNPPbDRz2eWD1BHXHRW/goMlHcUKg+ahM/q5lrh
+ t7JR0ilX11CO2m3WLU6xnTuhZBHFCIZgNgBAX+iPhlOcsurzDst0Ps86MzlxLwau4s2W
+ skJS/9uV13pDEFix03mJ96wvuAVr+d+ije4gVve1FKntp/GyfVfrYj5uJjO+nBIqhFDw
+ JN9Q==
+X-Gm-Message-State: AOAM532zXAbRJvTWFDCZBLJwoQ5nIYo/UlrGDVb8xeawv5/5UfpPiL8H
+ dUP7vQzMEIRtLPaQ2O+oYRzisY+270iR/A==
+X-Google-Smtp-Source: ABdhPJzc+Cj/Ua5BD6tAjeC+a9Uxmst8x68bdlLPy82hc+RZNPI1RlBYUs0GnwNGIiWPUqNXxMqL2w==
+X-Received: by 2002:a2e:711:: with SMTP id 17mr2808508ljh.462.1599698261366;
+ Wed, 09 Sep 2020 17:37:41 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
+ [209.85.208.182])
+ by smtp.gmail.com with ESMTPSA id a192sm924232lfd.51.2020.09.09.17.37.40
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 17:28:16 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id u27so2572962lfm.13
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 17:28:16 -0700 (PDT)
-X-Received: by 2002:a19:c801:: with SMTP id y1mr2938076lff.217.1599697696017; 
- Wed, 09 Sep 2020 17:28:16 -0700 (PDT)
+ Wed, 09 Sep 2020 17:37:40 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id k25so5880292ljg.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Sep 2020 17:37:40 -0700 (PDT)
+X-Received: by 2002:a05:651c:205b:: with SMTP id
+ t27mr2820603ljo.95.1599698260183; 
+ Wed, 09 Sep 2020 17:37:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200902210847.2689-1-gurchetansingh@chromium.org>
- <20200902210847.2689-5-gurchetansingh@chromium.org>
- <20200902221514.GE1263242@redhat.com>
- <CAAfnVBnfbwc07au1OMec8g5yHC0D3yXc88nOtTopO4sitYf8ig@mail.gmail.com>
- <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
- <CAJfpegsMEZoCQe7frsr9Kaq6EZsuRFWP3zs7sgrxnUDLzfcx_w@mail.gmail.com>
- <20200909092646.GA438822@phenom.ffwll.local>
- <CAKMK7uHzES32APTafwYjWc=-hswGe3q7Re4Rw354hKwA+mb0zg@mail.gmail.com>
-In-Reply-To: <CAKMK7uHzES32APTafwYjWc=-hswGe3q7Re4Rw354hKwA+mb0zg@mail.gmail.com>
+References: <20200908070723.6394-1-kraxel@redhat.com>
+In-Reply-To: <20200908070723.6394-1-kraxel@redhat.com>
 From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Wed, 9 Sep 2020 17:28:04 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBkbmxB7jdE3W2x3fjsiQYvJ1nimPNsk7qZnJKQJB7JrKw@mail.gmail.com>
-Message-ID: <CAAfnVBkbmxB7jdE3W2x3fjsiQYvJ1nimPNsk7qZnJKQJB7JrKw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/23] virtio: Add get_shm_region method
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 9 Sep 2020 17:37:28 -0700
+X-Gmail-Original-Message-ID: <CAAfnVBnTz=2rW7086ZTa9FfRbZmE+-CX80vMoqt8LE7qDOEqyA@mail.gmail.com>
+Message-ID: <CAAfnVBnTz=2rW7086ZTa9FfRbZmE+-CX80vMoqt8LE7qDOEqyA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm/virtio: fix stale mm entries on driver shutdown
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,184 +69,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, Miklos Szeredi <miklos@szeredi.hu>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Vivek Goyal <vgoyal@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0205598778=="
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1678410366=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0205598778==
-Content-Type: multipart/alternative; boundary="000000000000eb9e8405aeeaa4e2"
+--===============1678410366==
+Content-Type: multipart/alternative; boundary="0000000000008c236b05aeeac6f5"
 
---000000000000eb9e8405aeeaa4e2
+--0000000000008c236b05aeeac6f5
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 9, 2020 at 2:28 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+On Tue, Sep 8, 2020 at 12:07 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> On Wed, Sep 9, 2020 at 11:27 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, Sep 09, 2020 at 09:13:11AM +0200, Miklos Szeredi wrote:
-> > > On Wed, Sep 9, 2020 at 9:04 AM Gerd Hoffmann <kraxel@redhat.com>
-> wrote:
-> > > >
-> > > > On Wed, Sep 02, 2020 at 05:00:25PM -0700, Gurchetan Singh wrote:
-> > > > > On Wed, Sep 2, 2020 at 3:15 PM Vivek Goyal <vgoyal@redhat.com>
-> wrote:
-> > > > >
-> > > > > > Hi Gurchetan,
-> > > > > >
-> > > > > > Now Miklos has queued, these tree virtio patches for shared
-> memory
-> > > > > > region in his tree as part of virtiofs dax patch series.
-> > > > > >
-> > > > > > I am hoping this will get merged in 5.10 through his tree.
-> > > > > >
-> > > > > >
-> > > > > >
-> https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?h=dax
-> > > > >
-> > > > >
-> > > > > Terrific ... !  Maybe we can queue the version Miklos has in
-> drm-misc-next
-> > > > > to avoid merge conflicts ?!?
-> > > >
-> > > > I guess it would either be merging the fuse tree into drm-misc-next,
-> > > > or cherry-picking the three virtio shm patches from the fuse tree.
-> > >
-> > > Maybe cleanest if we'd do a separate branch for the virtio patches and
-> > > pull that into both the fuse-next and the drm-misc-next trees?
-> >
-> > +1
-> >
-> > If the trees are more closely related (e.g. drm and v4l or so) then
-> > occasionally we just merge patches into one tree with acks from all the
-> > other maintainers. But topic branch for the common bits feels better
-> here.
-> >
-> > Please send the topic pull request to drm-misc maintainers (Maarten,
-> > Maxime, Thomas) so they can pull it in.
+>
+>
+> Gerd Hoffmann (3):
+>   drm/virtio: use drmm_mode_config_init
+>   drm/virtio: return virtio_gpu_queue errors
+>   drm/virtio: add virtio_gpu_cmd_unref_resource error handling
 >
 
-That sounds like an excellent plan !
+lgtm +/- nits:
+- add a simple "why" in the first commit message
+- checkpatch --strict reports:
 
-I will send out blob v3 (incorporating kraxel@'s feedback) once the topic
-pull request (it seems Miklos will do this?) for the shm region patches has
-been merged into drm-misc-next.
+CHECK: Alignment should match open parenthesis
+#101: FILE: drivers/gpu/drm/virtio/virtgpu_vq.c:450:
++static int virtio_gpu_queue_ctrl_buffer(struct virtio_gpu_device *vgdev,
+                                         struct virtio_gpu_vbuffer *vbuf)
+
+Either way, series is:
+
+Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
 
 
 >
-> Works better when I add them :-)
-> -Daniel
->
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
->
->
+>  drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 11 ++++---
+>  drivers/gpu/drm/virtio/virtgpu_kms.c     |  6 +++-
+>  drivers/gpu/drm/virtio/virtgpu_vq.c      | 41 +++++++++++++-----------
+>  4 files changed, 36 insertions(+), 24 deletions(-)
 >
 > --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> 2.27.0
+>
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >
 
---000000000000eb9e8405aeeaa4e2
+--0000000000008c236b05aeeac6f5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 9, 2020 at 2:28 AM Daniel=
- Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch">daniel.vetter@ffwll.c=
-h</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On Wed, Sep 9, 2020 at 11:27 AM Daniel Vetter &lt;<a href=3D"mailto:daniel=
-@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Wed, Sep 09, 2020 at 09:13:11AM +0200, Miklos Szeredi wrote:<br>
-&gt; &gt; On Wed, Sep 9, 2020 at 9:04 AM Gerd Hoffmann &lt;<a href=3D"mailt=
-o:kraxel@redhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On Wed, Sep 02, 2020 at 05:00:25PM -0700, Gurchetan Singh wr=
-ote:<br>
-&gt; &gt; &gt; &gt; On Wed, Sep 2, 2020 at 3:15 PM Vivek Goyal &lt;<a href=
-=3D"mailto:vgoyal@redhat.com" target=3D"_blank">vgoyal@redhat.com</a>&gt; w=
-rote:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Hi Gurchetan,<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Now Miklos has queued, these tree virtio patches f=
-or shared memory<br>
-&gt; &gt; &gt; &gt; &gt; region in his tree as part of virtiofs dax patch s=
-eries.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; I am hoping this will get merged in 5.10 through h=
-is tree.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; <a href=3D"https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/mszeredi/fuse.git/log/?h=3Ddax" rel=3D"noreferrer" target=3D"_blan=
-k">https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?h=
-=3Ddax</a><br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Terrific ... !=C2=A0 Maybe we can queue the version Mik=
-los has in drm-misc-next<br>
-&gt; &gt; &gt; &gt; to avoid merge conflicts ?!?<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I guess it would either be merging the fuse tree into drm-mi=
-sc-next,<br>
-&gt; &gt; &gt; or cherry-picking the three virtio shm patches from the fuse=
- tree.<br>
-&gt; &gt;<br>
-&gt; &gt; Maybe cleanest if we&#39;d do a separate branch for the virtio pa=
-tches and<br>
-&gt; &gt; pull that into both the fuse-next and the drm-misc-next trees?<br=
->
-&gt;<br>
-&gt; +1<br>
-&gt;<br>
-&gt; If the trees are more closely related (e.g. drm and v4l or so) then<br=
->
-&gt; occasionally we just merge patches into one tree with acks from all th=
-e<br>
-&gt; other maintainers. But topic branch for the common bits feels better h=
-ere.<br>
-&gt;<br>
-&gt; Please send the topic pull request to drm-misc maintainers (Maarten,<b=
-r>
-&gt; Maxime, Thomas) so they can pull it in.<br></blockquote><div><br></div=
-><div><div>That sounds like an excellent plan !</div><div><br></div><div>I =
-will send out blob v3 (incorporating kraxel@&#39;s feedback) once the topic=
- pull request (it seems Miklos will do this?) for the shm region patches ha=
-s been merged into drm-misc-next.</div></div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 8, 2020 at 12:07 AM Gerd =
+Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
 <br>
-Works better when I add them :-)<br>
--Daniel<br>
+Gerd Hoffmann (3):<br>
+=C2=A0 drm/virtio: use drmm_mode_config_init<br>
+=C2=A0 drm/virtio: return virtio_gpu_queue errors<br>
+=C2=A0 drm/virtio: add virtio_gpu_cmd_unref_resource error handling<br></bl=
+ockquote><div><br></div><div>lgtm +/-=C2=A0nits:</div><div>- add a simple &=
+quot;why&quot; in the first commit message</div><div>- checkpatch --strict =
+reports:</div><div><br></div><div>CHECK: Alignment should match open parent=
+hesis<br>#101: FILE: drivers/gpu/drm/virtio/virtgpu_vq.c:450:<br>+static in=
+t virtio_gpu_queue_ctrl_buffer(struct virtio_gpu_device *vgdev,<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct vi=
+rtio_gpu_vbuffer *vbuf)</div><div><br></div><div>Either way, series is:</di=
+v><div><br></div><div>Reviewed-by: Gurchetan Singh &lt;<a href=3D"mailto:gu=
+rchetansingh@chromium.org">gurchetansingh@chromium.org</a>&gt;<br></div><di=
+v>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-&gt; --<br>
-&gt; Daniel Vetter<br>
-&gt; Software Engineer, Intel Corporation<br>
-&gt; <a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">=
-http://blog.ffwll.ch</a><br>
-<br>
-<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_drv.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<=
+br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_display.c | 11 ++++---<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_kms.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++=
+-<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_vq.c=C2=A0 =C2=A0 =C2=A0 | 41 ++++++++=
++++++-----------<br>
+=C2=A04 files changed, 36 insertions(+), 24 deletions(-)<br>
 <br>
 -- <br>
-Daniel Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
-//blog.ffwll.ch</a><br>
+2.27.0<br>
+<br>
+<br>
+_______________________________________________<br>
+dri-devel mailing list<br>
+<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">dri-de=
+vel@lists.freedesktop.org</a><br>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" rel=3D=
+"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listin=
+fo/dri-devel</a><br>
 </blockquote></div></div>
 
---000000000000eb9e8405aeeaa4e2--
+--0000000000008c236b05aeeac6f5--
 
---===============0205598778==
+--===============1678410366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -263,4 +183,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0205598778==--
+--===============1678410366==--
