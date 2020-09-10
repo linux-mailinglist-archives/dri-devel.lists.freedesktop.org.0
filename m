@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D31265CCC
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:49:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 220EE265CD1
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9416E9A3;
-	Fri, 11 Sep 2020 09:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2CA36E9A0;
+	Fri, 11 Sep 2020 09:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A3F6E92B
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 13:34:49 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id z13so7046709iom.8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 06:34:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tcd-ie.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h8Tpj5wYSQjiK+TAJfFO0Tf9jiEY5yGG/m2aEP5Z4pw=;
- b=YqA5PLut0xGMj0S2JsZ1nqoWnAI87qW2iB6rBuyzlNr/i8p2GIELK1QX+lKWUsTwzK
- J2dSARVPeG4IwzzuA8pE1P+5OVAa2eHFRKGaWb7NjIZv2LfVgNFdgO/O5efipKLRnyRj
- 59Ivydb0yd96322f4OP7eAyli9gq1bJJqNWwr7UQp7WOJw13CiHGa50UV4LiwaciCZ54
- rPVab7PqDAVXapxusuMo+bEb8iCDOteeaNoCp92DVDajkbd2ofZmMkGtoG3Skprhh9uL
- /U8Q1jK9UaeuY5X3L97dgHkQYmRrGLYCXPbuv3z5NyjgpChQ4n/amkDeY/PGFcsIM7Fy
- bAqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h8Tpj5wYSQjiK+TAJfFO0Tf9jiEY5yGG/m2aEP5Z4pw=;
- b=j8f5m0NaPbZ9SgCwcEbuPBFxq5apMDuO2aDJJx4P3g6tWrwjRONYp+jgYTN9tmxaXh
- wqxDrWM3T41toj5sK5CeVrFMhUj+N3x+uGrtaxHMDsX5gc72px/W8CJaSUevpgQTDB3Q
- CO3K6AOfXfGpqwXMbzcoaCnPuvSl+8L7+Ktpet3gAgCwjm4Vm871U/IHFkjZQN4yYaqH
- KVa2Elu5VO5LxSfy6R/SQ6lKKl1k9g5htLw0rPssoKTLJn8yI6WpqtMihbs+LlItwH2S
- fk5nx3YxC56+p+G1QnfraURZ+wLwOWAt1jE7jglegWdk4F8i1hS/JL7IgK910K5gKBdV
- ea5Q==
-X-Gm-Message-State: AOAM533f34Ggq2jjl2jAFkht9pbMhU9AVS3mjnmoZH04EC6XARki1OY0
- 52/rHzJcIIb3S3XxQS0GMVvV2kqPriHcy5/HKCAAug==
-X-Google-Smtp-Source: ABdhPJwu6upi5knKzGwyXFCyYTEZCPzreSot+419n5zt9A65oGcyQgjDJ6G718nc8PHKFashtF6vKw91+qlabsYr8+c=
-X-Received: by 2002:a02:b199:: with SMTP id t25mr8370395jah.124.1599744889300; 
- Thu, 10 Sep 2020 06:34:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191221150402.13868-1-murphyt7@tcd.ie>
- <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
- <20200529124523.GA11817@infradead.org>
- <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
- <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com>
- <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
- <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
- <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
- <766525c3-4da9-6db7-cd90-fb4b82cd8083@deltatee.com>
- <60a82319-cbee-4cd1-0d5e-3c407cc51330@linux.intel.com>
- <e598fb31-ef7a-c2ee-8a54-bf62d50c480c@deltatee.com>
- <b27cae1f-07ff-bef2-f125-a5f0d968016d@linux.intel.com>
- <CALQxJut5c=cWdi+SVkN3JnbkhPSYmLkOyRUhduL-UJ9gyKn9Ow@mail.gmail.com>
- <7106602a-9964-851e-9c4e-d8acf4033b89@linux.intel.com>
- <ea24e077-5aa6-dd8e-69a7-d186b606703f@linux.intel.com>
- <CALQxJus4prs0T6G9Z4bw5BDgwmkaiynBcoknLsYEY45SNZ6Ukg@mail.gmail.com>
-In-Reply-To: <CALQxJus4prs0T6G9Z4bw5BDgwmkaiynBcoknLsYEY45SNZ6Ukg@mail.gmail.com>
-From: Tom Murphy <murphyt7@tcd.ie>
-Date: Thu, 10 Sep 2020 14:34:38 +0100
-Message-ID: <CALQxJuuU4vpx=5Dg07epSWws-fshC6PJnrPWu-ir5nadgXspKw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 0/8] Convert the intel iommu driver to the
- dma-iommu api
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1684E6E965
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 13:54:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1599746093;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=sQCBpC4vP/mEdqY1zYkRBqalTkYAXoFGxKxAEijy+rA=;
+ b=h15biseBUE/sAwpol7TQEsCIIbTEjvL/3sjN0GkjonrQ2ca116lI0AjfF+lePvXvZj
+ nIBIVG1w6pcz+9kIyQPAnUH+Qdlh/xgMMvNfbET5lgpfjGkys8EtgHYNb7vZAgrHEKGj
+ psvFyQREawQOtD1lJ3yswNGmCF2zbvfY7uD1l01OzquvBKkIM01w7SU0LtwmXprb/Z9t
+ u1U0I59OKfZdsViThFKGntczOjQa6lknfs/kj79jC0ngEdLnXD5ALCs1Msv+nPph8p/O
+ KixGbaF3ySvVTEHmUhHIVzwZZNNu5gUkeGpyaf6hk+hjxfUY+/FWvn69uuNOHmsnd41E
+ q2+A==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSfXA0N8oI="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
+ with ESMTPSA id n03b0dw8ADmjepb
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 10 Sep 2020 15:48:45 +0200 (CEST)
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
+ JZ4780)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <CAAEAJfBgWKk9T0y81C53r5vNe8jFZdUPp72PzypB4zbF8hJDYA@mail.gmail.com>
+Date: Thu, 10 Sep 2020 15:48:44 +0200
+Message-Id: <AC1E11D0-717B-44DC-8A67-CB62ECCA7301@goldelico.com>
+References: <1940005.XIBaf5lNV5@jeremy> <1857880.I5TKlsx52r@jason>
+ <CAAEAJfDU=rvQ4aEAbBrveLigUjoYFGhLZJ7PsE_WpoOYxaDqdg@mail.gmail.com>
+ <6531669.OW97vx6Khr@jason> <B8QFFQ.FVZD8SCWAWD51@crapouillou.net>
+ <CAAEAJfBQRLKxaR_6HUi-Dvoc+_WC0JPJNGH5C0rz-yxhOwArdw@mail.gmail.com>
+ <829D6884-D1F1-4197-B25C-F0DBF2F4AEA7@goldelico.com>
+ <CAAEAJfBO5-T9oG_whDu5=MDcthAJpbJ5ER3eJJx1gXMsHu-v7w@mail.gmail.com>
+ <2093A5E6-28CC-42C6-8CF9-3E78942254F4@goldelico.com>
+ <DD421AB9-E419-41C1-B23E-B7FC4603C433@goldelico.com>
+ <CAAEAJfBgWKk9T0y81C53r5vNe8jFZdUPp72PzypB4zbF8hJDYA@mail.gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Fri, 11 Sep 2020 09:49:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,149 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Christoph Hellwig <hch@infradead.org>, linux-rockchip@lists.infradead.org,
- Andy Gross <agross@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- virtualization@lists.linux-foundation.org,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Logan Gunthorpe <logang@deltatee.com>, David Woodhouse <dwmw2@infradead.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Paul Boddie <paul@boddie.org.uk>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ MIPS Creator CI20 Development <mips-creator-ci20-dev@googlegroups.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Sep 2020 at 14:33, Tom Murphy <murphyt7@tcd.ie> wrote:
->
-> On Wed, 9 Sep 2020 at 13:56, Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
-> >
-> >
-> > On 09/09/2020 10:16, Tvrtko Ursulin wrote:
-> > > On 08/09/2020 23:43, Tom Murphy wrote:
-> > >> On Tue, 8 Sep 2020 at 16:56, Tvrtko Ursulin
-> > >> <tvrtko.ursulin@linux.intel.com> wrote:
-> > >>> On 08/09/2020 16:44, Logan Gunthorpe wrote:
-> > >>>> On 2020-09-08 9:28 a.m., Tvrtko Ursulin wrote:
-> > >>>>>>
-> > >>>>>> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h
-> > >>>>>> b/drivers/gpu/drm/i915/i915
-> > >>>>>> index b7b59328cb76..9367ac801f0c 100644
-> > >>>>>> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
-> > >>>>>> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-> > >>>>>> @@ -27,13 +27,19 @@ static __always_inline struct sgt_iter {
-> > >>>>>>     } __sgt_iter(struct scatterlist *sgl, bool dma) {
-> > >>>>>>            struct sgt_iter s = { .sgp = sgl };
-> > >>>>>>
-> > >>>>>> +       if (sgl && !sg_dma_len(s.sgp))
-> > >>>>>
-> > >>>>> I'd extend the condition to be, just to be safe:
-> > >>>>>       if (dma && sgl && !sg_dma_len(s.sgp))
-> > >>>>>
-> > >>>>
-> > >>>> Right, good catch, that's definitely necessary.
-> > >>>>
-> > >>>>>> +               s.sgp = NULL;
-> > >>>>>> +
-> > >>>>>>            if (s.sgp) {
-> > >>>>>>                    s.max = s.curr = s.sgp->offset;
-> > >>>>>> -               s.max += s.sgp->length;
-> > >>>>>> -               if (dma)
-> > >>>>>> +
-> > >>>>>> +               if (dma) {
-> > >>>>>> +                       s.max += sg_dma_len(s.sgp);
-> > >>>>>>                            s.dma = sg_dma_address(s.sgp);
-> > >>>>>> -               else
-> > >>>>>> +               } else {
-> > >>>>>> +                       s.max += s.sgp->length;
-> > >>>>>>                            s.pfn = page_to_pfn(sg_page(s.sgp));
-> > >>>>>> +               }
-> > >>>>>
-> > >>>>> Otherwise has this been tested or alternatively how to test it?
-> > >>>>> (How to
-> > >>>>> repro the issue.)
-> > >>>>
-> > >>>> It has not been tested. To test it, you need Tom's patch set without
-> > >>>> the
-> > >>>> last "DO NOT MERGE" patch:
-> > >>>>
-> > >>>> https://lkml.kernel.org/lkml/20200907070035.GA25114@infradead.org/T/
-> > >>>
-> > >>> Tom, do you have a branch somewhere I could pull from? (Just being lazy
-> > >>> about downloading a bunch of messages from the archives.)
-> > >>
-> > >> I don't unfortunately. I'm working locally with poor internet.
-> > >>
-> > >>>
-> > >>> What GPU is in your Lenovo x1 carbon 5th generation and what
-> > >>> graphical/desktop setup I need to repro?
-> > >>
-> > >>
-> > >> Is this enough info?:
-> > >>
-> > >> $ lspci -vnn | grep VGA -A 12
-> > >> 00:02.0 VGA compatible controller [0300]: Intel Corporation HD
-> > >> Graphics 620 [8086:5916] (rev 02) (prog-if 00 [VGA controller])
-> > >>      Subsystem: Lenovo ThinkPad X1 Carbon 5th Gen [17aa:224f]
-> > >>      Flags: bus master, fast devsel, latency 0, IRQ 148
-> > >>      Memory at eb000000 (64-bit, non-prefetchable) [size=16M]
-> > >>      Memory at 60000000 (64-bit, prefetchable) [size=256M]
-> > >>      I/O ports at e000 [size=64]
-> > >>      [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-> > >>      Capabilities: [40] Vendor Specific Information: Len=0c <?>
-> > >>      Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
-> > >>      Capabilities: [ac] MSI: Enable+ Count=1/1 Maskable- 64bit-
-> > >>      Capabilities: [d0] Power Management version 2
-> > >>      Capabilities: [100] Process Address Space ID (PASID)
-> > >>      Capabilities: [200] Address Translation Service (ATS)
-> > >
-> > > Works for a start. What about the steps to repro? Any desktop
-> > > environment and it is just visual corruption, no hangs/stalls or such?
-> > >
-> > > I've submitted a series consisting of what I understood are the patches
-> > > needed to repro the issue to our automated CI here:
-> > >
-> > > https://patchwork.freedesktop.org/series/81489/
-> > >
-> > > So will see if it will catch something, or more targeted testing will be
-> > > required. Hopefully it does trip over in which case I can add the patch
-> > > suggested by Logan on top and see if that fixes it. Or I'll need to
-> > > write a new test case.
-> > >
-> > > If you could glance over my series to check I identified the patches
-> > > correctly it would be appreciated.
-> >
-> > Our CI was more than capable at catching the breakage so I've copied you
-> > on a patch (https://patchwork.freedesktop.org/series/81497/) which has a
-> > good potential to fix this. (Or improve the robustness of our sg walks,
-> > depends how you look at it.)
-> >
-> > Would you be able to test it in your environment by any chance? If it
-> > works I understand it unblocks your IOMMU work, right?
+Hi Ezequiel,
 
-And yes this does unblock the iommu work
+> Am 10.09.2020 um 14:14 schrieb Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>:
+>>> With the comment from Paul, I think it is best if you push them for review.
+>>> 
+>>> My patch set based on v5.9-rc2 is here (including one EFUSE patch which I have
+>>> included only for making my Ethernet interface work for testing):
+>>> 
+>>> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/jz4780-hdmi-v5
+>>> 
+>>> Please take it, do the required squashes and rebasing and post them for discussion to the
+>>> appropriate lists.
+>> 
+>> I hope you are well. Do you plan to do the squash and rebase and posts?
+>> 
+> 
+> Hi Nikolaus,
+> 
+> I wanted to use the component API for the the dw hdmi glue driver
+> but somehow it wasn't probing and I haven't had time to debug it. Using the
+> component API consistently would allow to do some cleanups IMHO.
 
->
-> I tested your latest patch set ([PATCH 1/2] drm/i915: Fix DMA mapped
-> scatterlist walks) and it fixes the issue. great work!
->
-> >
-> > Regards,
-> >
-> > Tvrtko
+Yes, that would be a good move as long as it is not a dead-end-street :)
+
+If you have something to test please let us know.
+
+BR,
+Nikolaus
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
