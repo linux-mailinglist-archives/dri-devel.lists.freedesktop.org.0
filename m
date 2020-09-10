@@ -2,60 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3961264083
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 10:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624F92640A6
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 10:56:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A126E45F;
-	Thu, 10 Sep 2020 08:50:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80FCF6E8C5;
+	Thu, 10 Sep 2020 08:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD876E45F
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 08:50:31 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id z17so3123879lfi.12
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 01:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=YqsKluwy1xuCannxukwKrtvr5btKflVIozfo8NE6y30=;
- b=Xi7hOFhfhle+nH9+TKR0UHFIvJHW4zx29sJQGmiEGewKthcsQ9gs8tmjtDfK1zW+h7
- MdjB+Y3VJCgDhKvK6Uu/obSaVV4fDgUOdg++y0NAaWKeZPqQHc3pvMVQ/+KnUGc4bLm7
- aPTjaqtdL0+XJ8nenHLPNY+5aMFM7WQW6u6Cnnf+Tla0zb83q0jJbxrGwJ93DttQB2JD
- bGoUD4PKLyzRM66M+EpOh8SxfP5M4fU2JYjqCwcTI/9LBlfUmn9sh/F1GlBZrIMOq2Y0
- T/+FDsnoVJz6dqg+NB1FW6dnNQgnyiy4d1f8UxfYCOUN/pkGRvDAqjXZKQhcSj6tom+U
- MWwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=YqsKluwy1xuCannxukwKrtvr5btKflVIozfo8NE6y30=;
- b=Mo7MLx9fr5J/RR9gL261ZS8zkQFO9QybjlItDBuW4P/7C7ekwfsH6l241C4mhGxdQa
- dRSokliGO50kZLyxnnRo5gqG3SqjWFQOmJvPLgPQZxmbigsqKQeQ/Ame/Iy9rmV++OMp
- Mugm/914Q74qv4fQ5wXI+Udm9BKV0xKzWc83ZSYY/K9mKdlB+sFov7xGLHJBeFz2i2kq
- Ep68NSfjCq2E5d9Euc21Lmwy35TcEKElZvQoAXtMv8EnQdmVRwzwNp8mu1wxYkq6WJqV
- APFEJZIpsFpVcej2uaAkYiGxJvkEQSXNFyKc4wZef0aaalP5ihO0qWAZOrOkNh3blSdn
- NbUw==
-X-Gm-Message-State: AOAM530uRHfDmBABdF1P8sSqZB145DPLLuTHYEBrHNaeL9RSggtUMPfK
- s872KsshIZbhG7k1wVCFuAE=
-X-Google-Smtp-Source: ABdhPJxmH55KHcjIErHb+8C+l9cDUqxviDQYQzfiTtP8mjB13WN/UxdADS30ngEIWcAne+lzZ9SujQ==
-X-Received: by 2002:a19:be0b:: with SMTP id o11mr1291610lff.117.1599727830301; 
- Thu, 10 Sep 2020 01:50:30 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id 18sm1194503lfg.29.2020.09.10.01.50.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 01:50:30 -0700 (PDT)
-Date: Thu, 10 Sep 2020 11:50:26 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Laurentiu Palcu
- <laurentiu.palcu@oss.nxp.com>
-Subject: Re: per-plane LUTs and CSCs?
-Message-ID: <20200910115026.58dffaf1@eldfell>
-In-Reply-To: <20200910075226.GF438822@phenom.ffwll.local>
-References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
- <20200910102543.11dc9fe0@eldfell>
- <20200910075226.GF438822@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3218B6E46E;
+ Thu, 10 Sep 2020 08:56:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XOG6DY+EPqE6P9wHG/AISnV8fsRGtz/cy6yymJUD7lhMN+yGvjD7j7bvsD/PEa4MtMpAQx4UApF61rUjnHYe0iDMy505rdSDQ1VbqvoV1Ef1QmJQnXHtf9lZlVbiwMBEZTyKgJhWbKaeF8/SPqVku5Qf2lGruH0zmAcNAVgViS2WeO/RY5ZlRS+YlFWC19N7lqNj37v6bntbYidx837t8l3b21ImS2DQal+uAW1o0zJ8wKbS0Dp0n54wuqg7A4V5oOtK4BP3e01aVLUQANLuo3h1lU46rF2f44XbZ3cs5sthC7bW7TSCyhRViuBbWnCp/BZlC7RZfhz1CNVCTyFKyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VNRQaZoogK/2ZM/LPwm0vzzFVmdCm+IHMPGyq+vgVC4=;
+ b=fdbemJV17ZwWat1bE8lxZGZN3Do350otK/e8AZ3gD/FFKaopAwVvI5bxLmSi6vxww/h0gUeu1sdt5cc2Rzk8M+sIpaLBXoGN5qs3t2VKSTLbW49Xd1D7p1TSbXg9yUvmR89Tqc6WYu/Lm6D6wLDKprBnM/BMISUNrJ21zDSPAa4RW1ft0PfidB95MbNEKfqVeu4yUDyn9o3kp7WdKR4TF9rhM+4D/6fPpKnMEYFqiTYVRC6yMnwzmVWZ1Oz/2UXl4wVt7jNkvXpoXlECccgmIMqnsZeRoNaLRisRyjaqoMmi1yIIs4VtEzYwTfPYfP5uMghRJyZ8e5HNw6a+iCer0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VNRQaZoogK/2ZM/LPwm0vzzFVmdCm+IHMPGyq+vgVC4=;
+ b=TC6Owbu7hSzGjgPce4C7Lee2NO0McEvlRFzp4a1CosbxSuVr+Y8a+jkXoJcz0imXiBZCm6WEI08Vtrzr4dcQPP8ZATClK6yzvec22Ifa+y+6CMT9Dg2GmDyFW0bmBc/0d3AjHQkJn34RT+zz4YC/veMhoOQcFSDE7lW0wxspMgw=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4125.namprd12.prod.outlook.com (2603:10b6:208:1d9::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
+ 2020 08:56:10 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3370.016; Thu, 10 Sep 2020
+ 08:56:10 +0000
+Subject: Re: [PATCH -next] drm/ttm/agp: Fix Wunused-variable warning
+To: YueHaibing <yuehaibing@huawei.com>, alexander.deucher@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20200910023345.20428-1-yuehaibing@huawei.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <1226ea65-a957-baa2-e9c7-fe88b1aae620@amd.com>
+Date: Thu, 10 Sep 2020 10:56:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200910023345.20428-1-yuehaibing@huawei.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR01CA0133.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::38) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR01CA0133.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::38) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Thu, 10 Sep 2020 08:56:09 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 06d6f89a-da56-46c9-6cae-08d855675cff
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4125:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4125753B30C6C4CCE9D2758983270@MN2PR12MB4125.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:644;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VTuP6JNvr/DnGVcfz7rrkXKB/DO5QbJfBP6lOYjOaM7GpqV1RBvLk6TsI19tdkxAUt/WJGgXCw2JS+JbCvi6aj6hWwU0cvB5S9FpTy/ZUPAtMdmPwMvh+RivLU96JSp+xxS/Mz7hqO9cDNxlgabW9Nm4AovbdEm7oFweZqFNO8CMvg8nRkRZf2l9DGWbDnIMrfnIpwrYdIYbtYa8hPLNwQu/JZ4e+1iEVe4ehpGsPv/EU0yJMKG7HXXebxiiUqtD6Jn5dy+bQGNylB1LE0YnzjE06jzodkbCNK1EZpuiGyjB/SNEG7aGa7089ZClKtrj2YcRCtPp/CdSH5MSPftyLxBCcsgrEAqv3GeUJA6ZLY5jinh9/IHuMVNjg1RlNP6w
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(366004)(346002)(136003)(396003)(5660300002)(16526019)(2616005)(4326008)(31696002)(36756003)(8676002)(8936002)(52116002)(66946007)(66556008)(66476007)(86362001)(478600001)(316002)(6666004)(66574015)(186003)(2906002)(31686004)(6486002)(83380400001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: xoc+rpqzqoN4Meoz7OOGwpFUsXmtTdEGAnRRVgEmOlZmWbv/SjZ7H2xs0zmYjValBgAaFy7jpWNVIF+ZqgF8ZUuNoRs8sBozpWTUNIze4YB+kezm4ZVpzyl+vnBH1T3CQ6dvdOeRXwwWv+038YY2bmRWNFYKSMktPY2D5ZXdGpxT2X9aJ2YwHqseK6WFfMGMo3rG0pqFzVk/OwiYg6BP55avb2uMDT2d2oPMTGcZpTzI+MQ6DlVhYczmH1GYSd0HgZunPRSZHBJkeWBTq/Rh6Tl5Cr4LsQSG8rdfL7Z2eDcmXsRniWCqBlWNQQ229S3cqpr54N7as8tElYeVisdkM5kZYfSld6kzgjZhfgsj/1uKmBRAPDZx9MrBWZRmxHBwL+ep7wqtwSaMmdPv1TEfACjwZfu5D5C+degZGm3/yG/y+gZR7pjk8uj7nJHxGIF6nGDgSzZp+KuS9YeBcuOB38LYPZFVHIyuaj/lEDlmAUQu0rzqnL8Yv5GytuGS9LHpN7KAGypoqzpGbABkki+ezCkwx6JsbS3qi1uDeWkwe3gSrHPrKLm+8sp6byDTmgQ+yhj8N4k8WesRutPfgBX0RsmKvxSaW2LEN1OSzRRKFi4PqYES7dQixO4lIi7kH8yQv5JBnDuNvEn9SOiUbiROSwNoZNNtVRXF+x9fGup0nu5ynbsfnjBn2St3YaBVpLzsbQy7kwwOiHEHA8rZiHDuJQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06d6f89a-da56-46c9-6cae-08d855675cff
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 08:56:10.5889 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zSGKjYzdUsbpD9aj2IMfQWyzMCyiQ3xXHcFXheuXd/oBsG84OIqu4EbgcLGDbP8r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,146 +99,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Sebastian Wick <sebastian@sebastianwick.net>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============1099955642=="
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1099955642==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/jiKl=kv+VUMCh=PELc7xHRX"; protocol="application/pgp-signature"
-
---Sig_/jiKl=kv+VUMCh=PELc7xHRX
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 10 Sep 2020 09:52:26 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Thu, Sep 10, 2020 at 10:25:43AM +0300, Pekka Paalanen wrote:
-> > On Wed, 9 Sep 2020 13:57:28 +0300
-> > Laurentiu Palcu <laurentiu.palcu@oss.nxp.com> wrote:
-> >  =20
-> > > Hi all,
-> > >=20
-> > > I was wondering whether you could give me an advise on how to proceed=
- further
-> > > with the following issue as I'm preparing to upstream the next set of=
- patches
-> > > for the iMX8MQ display controller(DCSS). The display controller has 3=
- planes,
-> > > each with 2 CSCs and one degamma LUT. The CSCs are in front and after=
- the LUT
-> > > respectively. Then the output from those 3 pipes is blended together =
-and then
-> > > gamma correction is applied using a linear-to-nonlinear LUT and anoth=
-er CSC, if
-> > > needed.
-
-Hi,
-
-hmm, so FB -> CSC -> LUT -> CSC -> blending?
-
-Is it then
-	blending -> LUT -> CSC -> encoder
-or
-	blending -> CSC -> LUT -> encoder?
-
-Are all these LUTs per-channel 1D LUTs or something else?
-
-What ever the KMS UAPI for these is going to be looking like, it
-obviously needs to define all this. So I'm guessing we need to define
-the abstract color pipeline of KMS in general that includes everything
-any driver might want to expose. Then each driver picks the blocks in
-the pipeline it wants to expose and the other blocks are assumed to be
-"identity transform".
-
-Without such general abstract color pipeline defined and documented it
-is very unlikely IMO for generic userspace to make use of the driver
-features.
-
-All blocks must also default to identity transform. A block
-unimplemented by a driver is the same as a block not used or understood
-by a KMS client.
-
-Userspace that does not understand all the blocks will need to use the
-"harmless default values". This then ties in with what I've discussed
-with danvet before: when you are VT-switching from one KMS client to
-another, how do you reset the full KMS state (including blocks you
-don't understand) to the same state you had before. The other KMS
-client may have messed them up while you were gone.
-
-All this default value talk is to ensure that the abstract KMS color
-pipeline can be extended without breaking existing userspace.
-
-...
-
-> > > So, how should I continue with this one? Any pointers? =20
-> >=20
-> > Hi,
-> >=20
-> > I can't help you, but I can say that we are currently in the process of
-> > designing a color management and HDR extension for Wayland, and I'm
-> > sure in the long term I would like to use per-plane color space
-> > transformation features of KMS in Weston eventually.
-> >=20
-> > IOW, one more userspace that is going to be taking advantage of such
-> > features as long as they are not too driver-specific. =20
->=20
-> Personally I think best to wait for userspace to come up with color
-> manager protocols, that should give us a much clearer idea of what the
-> kernel interface should look like. Since hw is pretty special in this
-> area, I expect we'll have to do a bunch of impendendance mismatching in
-> the kernel anyway.
-
-Speaking of that, where should we scream if we feel like we are missing
-KMS properties to get the best out of color management and HDR in
-Weston, assuming we're not kernel devs?
-
-Who to Cc?
-
-We currently have intel and AMD hardware at hand if that makes any
-difference.
-
-
-Thanks,
-pq
-
---Sig_/jiKl=kv+VUMCh=PELc7xHRX
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9Z6NIACgkQI1/ltBGq
-qqfxvw/6AngPBkZ9Wb/IUkbKtHGP2sT6Eaul/xRNsuQ27YXmy7gR3PASdqRdLpg/
-abvYadJk21Zjsyl4Y9MEvJr9kq7jzE4hsUlT4HlC4R0w8vrvRj3oVjeHURU0sPgY
-7Z9b41DDvypl5gn4JA1pN68gOQGmwt8zGt4wzmEASNhQoERNsQtJtTPJoU4lNMfp
-JnbCUog2yQmxS5v93+DbflvP5f2dYwmKYOASnUGHbwGpgxGuXeAgPoFoVPhTXjLi
-LHvQoEiRgMXY2LKNmNzJj+ZBJLhCsczaw1wAvs8D+PbZj7mmards8qoiHME5vM2l
-iTVfEpj+W3QjDzyOde3xOogxZu7Otf3tIvknrzsFC5WaLN9v1WWDxvKu4R4WOKuB
-E7nJv7gq2slySjQGjqVvVt+HSSbPNOGeuGKk0VI7cNFgmsXGVI5uMX3M/9NLCzqW
-BCRcVD5I/PEWorIv6J4BIpVcmcScmJMeP51fCDKK7mYPs1cUGriQ1HdB+Qj0FUi+
-ioryZTGU8jnPqsMceEcaYc7e6+EvcrnGP97WVM5upB7FFaIqZM+Zm1XtlWIjyOP0
-Z48impBFJ0Mthe7BLumvau9ewPoNUrvoBiD3r/vogndDtZ8b3jC33UsvjGrhEN4U
-OhztduewVjYeROKdLSkQ08lfQLIk0p1e7IxftgXYSTP+aXuk398=
-=55In
------END PGP SIGNATURE-----
-
---Sig_/jiKl=kv+VUMCh=PELc7xHRX--
-
---===============1099955642==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1099955642==--
+QW0gMTAuMDkuMjAgdW0gMDQ6MzMgc2NocmllYiBZdWVIYWliaW5nOgo+IElmIENPTkZJR19BR1Ag
+aXMgbm90IHNldCwgZ2NjIHdhcm5zOgo+Cj4gZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25f
+dHRtLmM6IEluIGZ1bmN0aW9uIOKAmHJhZGVvbl90dG1fdHRfYmluZOKAmToKPiBkcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYzo2OTI6MjQ6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJs
+ZSDigJhyZGV24oCZIFstV3VudXNlZC12YXJpYWJsZV0KPiAgICBzdHJ1Y3QgcmFkZW9uX2Rldmlj
+ZSAqcmRldiA9IHJhZGVvbl9nZXRfcmRldihiZGV2KTsKPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgXn5+fgo+Cj4gTW92ZSBpdCB0byBpZmRlZiBibG9jayB0byBmaXggdGhpcy4KPgo+IFNpZ25l
+ZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KClJldmlld2VkLWJ5
+OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cgo+IC0tLQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgfCAyICstCj4gICAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24v
+cmFkZW9uX3R0bS5jCj4gaW5kZXggMzFjNjNkMzM5NjI5Li40NDllNzdlYjc1ZjkgMTAwNjQ0Cj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+IEBAIC02ODksOSArNjg5LDkgQEAgc3RhdGlj
+IGludCByYWRlb25fdHRtX3R0X2JpbmQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICAJ
+CQkgICAgICBzdHJ1Y3QgdHRtX3R0ICp0dG0sCj4gICAJCQkgICAgICBzdHJ1Y3QgdHRtX3Jlc291
+cmNlICpib19tZW0pCj4gICB7Cj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCj4gICAJc3Ry
+dWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYgPSByYWRlb25fZ2V0X3JkZXYoYmRldik7Cj4gICAKPiAt
+I2lmIElTX0VOQUJMRUQoQ09ORklHX0FHUCkKPiAgIAlpZiAocmRldi0+ZmxhZ3MgJiBSQURFT05f
+SVNfQUdQKQo+ICAgCQlyZXR1cm4gdHRtX2FncF9iaW5kKHR0bSwgYm9fbWVtKTsKPiAgICNlbmRp
+ZgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
