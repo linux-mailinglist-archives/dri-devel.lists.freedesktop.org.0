@@ -2,43 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C13C263EA2
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE2F263E95
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 09:23:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFC76E286;
-	Thu, 10 Sep 2020 07:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043456E235;
+	Thu, 10 Sep 2020 07:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31AE689CD5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 02:05:32 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 62E7F4826B1;
- Thu, 10 Sep 2020 10:05:28 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- abdoulaye berthe <abdoulaye.berthe@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, jinlong zhang <jinlong.zhang@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: optimize code runtime a bit
-Date: Wed,  9 Sep 2020 19:05:04 -0700
-Message-Id: <20200910020520.9973-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.28.0
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0792389F4A;
+ Thu, 10 Sep 2020 02:34:03 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 6ED9E922509EC3D6151A;
+ Thu, 10 Sep 2020 10:33:59 +0800 (CST)
+Received: from localhost (10.174.179.108) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Sep 2020
+ 10:33:50 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/ttm/agp: Fix Wunused-variable warning
+Date: Thu, 10 Sep 2020 10:33:45 +0800
+Message-ID: <20200910023345.20428-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZGh1KHR8aS0xJSkJPVkpOQkJMS0hOSUNMQkxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKQ1VKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6Dgw5OT8dQx1ONQguAgIw
- SisaFE9VSlVKTkJCTEtITklCSEtCVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBSEhCSTcG
-X-HM-Tid: 0a7475c2b50f93bakuws62e7f4826b1
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 10 Sep 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,69 +41,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In fnction is_cr_done & is_ch_eq_done, when done = false
-happened once, no need to circle left ln_count.
-This change is to make the code run a bit fast.
-
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-index b2be6ad5101d..53e30be8b66a 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-@@ -373,34 +373,30 @@ static void dpcd_set_lt_pattern_and_lane_settings(
- static bool is_cr_done(enum dc_lane_count ln_count,
- 	union lane_status *dpcd_lane_status)
- {
--	bool done = true;
- 	uint32_t lane;
- 	/*LANEx_CR_DONE bits All 1's?*/
- 	for (lane = 0; lane < (uint32_t)(ln_count); lane++) {
- 		if (!dpcd_lane_status[lane].bits.CR_DONE_0)
--			done = false;
-+			return false;
- 	}
--	return done;
--
-+	return true;
- }
- 
- static bool is_ch_eq_done(enum dc_lane_count ln_count,
- 	union lane_status *dpcd_lane_status,
- 	union lane_align_status_updated *lane_status_updated)
- {
--	bool done = true;
- 	uint32_t lane;
- 	if (!lane_status_updated->bits.INTERLANE_ALIGN_DONE)
--		done = false;
-+		return false;
- 	else {
- 		for (lane = 0; lane < (uint32_t)(ln_count); lane++) {
- 			if (!dpcd_lane_status[lane].bits.SYMBOL_LOCKED_0 ||
- 				!dpcd_lane_status[lane].bits.CHANNEL_EQ_DONE_0)
--				done = false;
-+				return false;
- 		}
- 	}
--	return done;
--
-+	return true;
- }
- 
- static void update_drive_settings(
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SWYgQ09ORklHX0FHUCBpcyBub3Qgc2V0LCBnY2Mgd2FybnM6Cgpkcml2ZXJzL2dwdS9kcm0vcmFk
+ZW9uL3JhZGVvbl90dG0uYzogSW4gZnVuY3Rpb24g4oCYcmFkZW9uX3R0bV90dF9iaW5k4oCZOgpk
+cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYzo2OTI6MjQ6IHdhcm5pbmc6IHVudXNl
+ZCB2YXJpYWJsZSDigJhyZGV24oCZIFstV3VudXNlZC12YXJpYWJsZV0KICBzdHJ1Y3QgcmFkZW9u
+X2RldmljZSAqcmRldiA9IHJhZGVvbl9nZXRfcmRldihiZGV2KTsKICAgICAgICAgICAgICAgICAg
+ICAgICAgXn5+fgoKTW92ZSBpdCB0byBpZmRlZiBibG9jayB0byBmaXggdGhpcy4KClNpZ25lZC1v
+ZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKaW5k
+ZXggMzFjNjNkMzM5NjI5Li40NDllNzdlYjc1ZjkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9yYWRlb24vcmFkZW9uX3R0bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
+X3R0bS5jCkBAIC02ODksOSArNjg5LDkgQEAgc3RhdGljIGludCByYWRlb25fdHRtX3R0X2JpbmQo
+c3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCiAJCQkgICAgICBzdHJ1Y3QgdHRtX3R0ICp0dG0s
+CiAJCQkgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpib19tZW0pCiB7CisjaWYgSVNfRU5BQkxF
+RChDT05GSUdfQUdQKQogCXN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2ID0gcmFkZW9uX2dldF9y
+ZGV2KGJkZXYpOwogCi0jaWYgSVNfRU5BQkxFRChDT05GSUdfQUdQKQogCWlmIChyZGV2LT5mbGFn
+cyAmIFJBREVPTl9JU19BR1ApCiAJCXJldHVybiB0dG1fYWdwX2JpbmQodHRtLCBib19tZW0pOwog
+I2VuZGlmCi0tIAoyLjE3LjEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
