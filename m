@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DF5265CE8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87167265CE2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA576E9AC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924106E9AE;
 	Fri, 11 Sep 2020 09:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF9C89DFD
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 17:18:48 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id w16so6848874qkj.7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 10:18:48 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D61E36E248
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 21:53:35 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id n25so10163403ljj.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 14:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KOPXfJ4o+30xKb8orSC8RLivwhkM6sb3eQ91eOmY0Vo=;
- b=gNcWA/DM9IKpsqtMRdGgyqQBa8ngfSU0q04kaiB/amfRI5odcxESYG9avLfaext3aR
- MTBhV7S0tIkeb6rvVo/oM4QNgeAnZobe2glDYt3akPElqv7scj9/BCIuGRH8BOwLKgHC
- 8T7CvZ3siJpvaw1VkA9fqbjVSW5pMMp03K2VOVLo344lOlhMt+OwM3PKI5+zMDyQj14Z
- bIf0x2ixTqcKpb+zjZPuNYb3mhvU/fYE8w0QWQ2XvytuC4yuU0KeDHHKz6nsOBLyWQiY
- xIvGAS3BHP9rpF6YcHRcpDs3TuLpEYX8sQN4TzTLBWQ8xqTvLYevBPB9zqAYKqgDCbWm
- uSig==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZTz92FZRLYQUuL1AGrMY217U2x0D5xTTHk4tSTwZ26I=;
+ b=P3SZ+1wII1hoifG4XlZEtd9JsxZ4/tEiGdEipNFTMxBw37+k0HJq9qm0gJWi/h2Snl
+ oVjaJqZQKhl6qCxV3rLbYbdpM3zAYYJpoiw2kMRnNRVGN5O3ayGT3pvM5KUjidgguW66
+ o62Sc7Fs20xtD+WRJxf03Vb5W24pdCYdWKJdR04WQH1OAFl0oQBlACGRu8ytakrn1Iv0
+ ZiUMR6aPfNwE/VCt7UWamSe+LIosHJKc7wHClWT0oR3kpBvnox7jZ7bXUpyGH0UHUNen
+ Wa1VtC2B3HoS8739wAzvdrcr8sU0RwzI417UYDvBy4SqJL1+UiQJU+VTvoTi8Izf6h59
+ cPyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KOPXfJ4o+30xKb8orSC8RLivwhkM6sb3eQ91eOmY0Vo=;
- b=Z7/UVVPFDZnqT1bl7t6mwLqazDYVcwwEBoIInD59oYi8c/DkWgNhxK069XkMGDaWFh
- 2ES/bvFXxDuOj8Sp1K4rlLhL1YUH0448FaBHRmi5++p+WKNQSJ+E6or3XOvWoFeyJHEU
- PYAoyIV3Cj7ft+3cmSUs3rrNVUhaLEmUBQ9I2FKnc8QfJXMbBnaMIQRgv1Wid6LkeC2R
- vqD66ZaKpS43EuI13CYV6jWS4BydICmyq28CNLzERSeVuLBVM7ZEj53L5Tx5RbmvMDEt
- Z2tawR/EUNLdvJTzE21Sfh5D513r+HBRwquhalbrYYd/BRxSuUaq2XVWirM962sx8KiV
- ffkg==
-X-Gm-Message-State: AOAM530KGir8WL68qgLizTJ13wDmK4ntLfQXD+Y/5l9oTJIZLhYqoHAo
- HwGV5fH2025YcG2MVPZ9C7o=
-X-Google-Smtp-Source: ABdhPJxwB25vHPpgRsVbfVcHXlqygPLmZlVsqyZuhSN4fHMZ/F6hTxWL8F5aoBE4JZF8QQlHp/ZDzw==
-X-Received: by 2002:a37:b347:: with SMTP id c68mr8956861qkf.430.1599758327484; 
- Thu, 10 Sep 2020 10:18:47 -0700 (PDT)
-Received: from localhost.localdomain ([2604:1380:45d1:2600::1])
- by smtp.gmail.com with ESMTPSA id a25sm7370452qtd.8.2020.09.10.10.18.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 10:18:46 -0700 (PDT)
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Eric Anholt <eric@anholt.net>,
-	Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] drm/vc4: Fix bitwise OR versus ternary operator in
- vc4_plane_mode_set
-Date: Thu, 10 Sep 2020 10:18:32 -0700
-Message-Id: <20200910171831.4112580-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ bh=ZTz92FZRLYQUuL1AGrMY217U2x0D5xTTHk4tSTwZ26I=;
+ b=dcEpHdSziK705ktpeuYuATs/E7eCsYoh4Be7zesXuz2XuOKHikMByghv1FwkaLsd5t
+ PNfzcyv/UsNfMBW07YMi/gbU/HrcJ2x9IgmuZwDozxntQfTcNO/ZoehPj9t/6NoDtbwh
+ iaglsGYGsZQlpzmT+33ELMvm+1xH2tEcws7SQcpZ02FJ2vaOKLbphe+P1ofO2dYptYDQ
+ dug7vtifVkqeuBQTKYdqYiu/KEyiIiAvAcKcC4BYABYOr1W0kpz4IihX87ZDN2sluwbC
+ LZKXgOPTw0EUmwI7uaDtlWskQ/QsTwl40OJaIydOumrZSLEDs7OyPiW7RAK0oJm9R++A
+ GgCg==
+X-Gm-Message-State: AOAM531ZDaNbf5Hch8O3aY3V/p0YABRZCg0uShe0AWbxqmZt46goeOWk
+ nl+rftjee/2dTkNKe/KSSq0=
+X-Google-Smtp-Source: ABdhPJzAtxOdImQW7Iwj61TpQ/70njlX6JUG7pEszRZjYGlGI0N+d8Ack9GN8s5OhVspUeQbOWzvBg==
+X-Received: by 2002:a2e:90ca:: with SMTP id o10mr5756072ljg.155.1599774814213; 
+ Thu, 10 Sep 2020 14:53:34 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
+ [109.252.170.211])
+ by smtp.googlemail.com with ESMTPSA id j127sm21998lfd.6.2020.09.10.14.53.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Sep 2020 14:53:33 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 00/17] Host1x/TegraDRM UAPI
+To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
+ <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <963bb17d-9501-0118-b5c2-a06d68c3eb9f@gmail.com>
+ <8fb335d3-5af9-5922-579c-e3575772732a@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ae922486-5e10-e795-54a7-565b87abfa4d@gmail.com>
+Date: Fri, 11 Sep 2020 00:53:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
+In-Reply-To: <8fb335d3-5af9-5922-579c-e3575772732a@kapsi.fi>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 11 Sep 2020 09:49:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,63 +75,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: clang-built-linux@googlegroups.com,
- Nathan Chancellor <natechancellor@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang warns:
-
-drivers/gpu/drm/vc4/vc4_plane.c:901:27: warning: operator '?:' has lower
-precedence than '|'; '|' will be evaluated first
-[-Wbitwise-conditional-parentheses]
-                                fb->format->has_alpha ?
-                                ~~~~~~~~~~~~~~~~~~~~~ ^
-drivers/gpu/drm/vc4/vc4_plane.c:901:27: note: place parentheses around
-the '|' expression to silence this warning
-                                fb->format->has_alpha ?
-                                ~~~~~~~~~~~~~~~~~~~~~ ^
-drivers/gpu/drm/vc4/vc4_plane.c:901:27: note: place parentheses around
-the '?:' expression to evaluate it first
-                                fb->format->has_alpha ?
-                                ~~~~~~~~~~~~~~~~~~~~~~^
-1 warning generated.
-
-Add the parentheses as that was clearly intended, otherwise
-SCALER5_CTL2_ALPHA_PREMULT won't be added to the list.
-
-Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
-Link: https://github.com/ClangBuiltLinux/linux/issues/1150
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
- drivers/gpu/drm/vc4/vc4_plane.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 24d7e6db6fdd..89543fa8ca4d 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -898,8 +898,8 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 		vc4_dlist_write(vc4_state,
- 				VC4_SET_FIELD(state->alpha >> 4,
- 					      SCALER5_CTL2_ALPHA) |
--				fb->format->has_alpha ?
--					SCALER5_CTL2_ALPHA_PREMULT : 0 |
-+				(fb->format->has_alpha ?
-+					SCALER5_CTL2_ALPHA_PREMULT : 0) |
- 				(mix_plane_alpha ?
- 					SCALER5_CTL2_ALPHA_MIX : 0) |
- 				VC4_SET_FIELD(fb->format->has_alpha ?
-
-base-commit: 8c3c818c23a5bbce6ff180dd2ee04415241df77c
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDkuMDkuMjAyMCAxMTo0NCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Ci4uLgo+PiBDb3Vs
+ZCB5b3UgcGxlYXNlIGVudW1lcmF0ZSBhbGwgdGhlIGN1cnJlbnRseSBvcGVuZWQgcXVlc3Rpb25z
+Pwo+Pgo+IAo+IFdoaWNoIG9wZW4gcXVlc3Rpb25zIGRvIHlvdSByZWZlciB0bz8KCkFueXRoaW5n
+IHJlbGF0ZWQgdG8gdGhlIFVBUEkgZGVmaW5pdGlvbiB0aGF0IG5lZWRzIG1vcmUgdGhvdWdodC4g
+SWYKdGhlcmUgaXMgbm90aGluZyBvdXRzdGFuZGluZywgdGhlbiBnb29kIQoKPiBUaGUgb3BlbiBp
+dGVtcyBvZiB2MSBzaG91bGQgYmUKPiBjbG9zZWQgbm93OyBmb3IgZmVuY2VzIHdlIHNldHVwIGFu
+IFNXIHRpbWVvdXQgdG8gcHJldmVudCB0aGVtIGZyb20KPiBzdGlja2luZyBhcm91bmQgZm9yZXZl
+ciwgYW5kIHJlZ2FyZGluZyBHRU0gdGhlIEdFTSBJT0NUTHMgYXJlIGFnYWluCj4gYmVpbmcgdXNl
+ZC4KPiAKCldlJ2xsIHNlZSBob3cgaXQgd2lsbCBiZSBpbiBwcmFjdGljZSEgRm9yIG5vdyBpdCdz
+IGEgYml0IGRpZmZpY3VsdCB0bwpkZWNpZGUgd2hhdCBpcyBnb29kIGFuZCB3aGF0IG5lZWRzIG1v
+cmUgaW1wcm92ZW1lbnQuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
