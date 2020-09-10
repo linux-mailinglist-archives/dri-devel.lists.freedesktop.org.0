@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC0526397F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 03:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96913263BB5
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 06:05:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B04089E19;
-	Thu, 10 Sep 2020 01:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6E489FA6;
+	Thu, 10 Sep 2020 04:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6EF389823;
- Thu, 10 Sep 2020 01:20:54 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id c8so4602226edv.5;
- Wed, 09 Sep 2020 18:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3wo5Yjx1lQEjY7epFrCqThFC2PcTK5CRikb0clhHXKk=;
- b=QMFXPPGMl8QHVTh2ApEhSZ3Tt8VEhnHxuEO4uINaauJJ9FhZL6Un4/0TGdvyZ160v9
- 9M7XWBUv1mNEkPAyoNrR7pRR6A+sw0RGjjcnWcUcJlOhaCow8fH473GP7Gy+9F0jWZfC
- FWPt3McCLvFKqGIR8csTB7Q6Pp++S+U6wmwYlS4HCkHwNV1zL2sd2JCWHTxWZKkepTe2
- AxK5HjK9kysTq8K5NmKf+buv00NKqWqiMblXTnXDsyrDKfFDzIamm/ALPfBdFVJ54qcF
- QfglbjTgKwcXA2olqyv8MKRUfN1/heAee39AwsBgw2sLOfkBE3XNcmHMv6KgSwElLtZt
- OwpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3wo5Yjx1lQEjY7epFrCqThFC2PcTK5CRikb0clhHXKk=;
- b=g7/UGeqd/5gtED72m/mdQPi/lDi7lc8TmRXlAzNBlGdQZxVmtew8eqkTluOJuWeI0S
- eNTWgVOqdYh1yZ1SBl7tloc/ioSmF2nn4f6c0qjvJiK9HBWlbp05LtxhCoEEctN5/DG1
- IRHrtijbcUpTR5EFfE5cQRuJHwtIVtaZniL3SZ6ZorQBu/km2f8WG2e8U6EYNQj7SBqH
- qC/mjMcj7leYry5p8Y+QLhLVxO2EOuLHpeGFNBEAexaQgdluOzcPH8hSKFoHqBj9b3vC
- 5i54GfKjCOQmW619TvItZF3KtNaWjE97fo8FP+W2MBleKzXlLj7czsARuQK+3xLdrMSu
- C1hw==
-X-Gm-Message-State: AOAM531WUjDP9Cz8TFa0oM0lIO/zeTBWUEA5u+4wRejhjKei+M0lxDux
- t+xu859KNDQNJOUOeqC7XqsxZ07I/k1fVZ1upfjFcfMu
-X-Google-Smtp-Source: ABdhPJxuR1PoFpW/PHJZ2wDyACj/8Dwk9fs7XPkbu+vjLOtNJ/jscovOE+Dayr5DadVVNk8c0H58zKLfiD3KaUhPyj4=
-X-Received: by 2002:a05:6402:1219:: with SMTP id
- c25mr7137254edw.220.1599700853417; 
- Wed, 09 Sep 2020 18:20:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
- <20200904143941.110665-2-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200904143941.110665-2-daniel.vetter@ffwll.ch>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 10 Sep 2020 11:20:41 +1000
-Message-ID: <CAPM=9twn+NOZL=QJCH2-Uat4Srk6MQ3iirb0aHWwC_pXWaLOOw@mail.gmail.com>
-Subject: Re: [PATCH 01/24] drm/armada: Use devm_drm_dev_alloc
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1BFD897E8;
+ Thu, 10 Sep 2020 04:05:23 +0000 (UTC)
+IronPort-SDR: JA3xn25Qh05al1Gwz4HV/6X7K4jQjmJx36gob5TcWpeHQtPg7lgSAom0ejq/YTSfX2Yhl8WS1S
+ bjIs5yHBIPLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="146172706"
+X-IronPort-AV: E=Sophos;i="5.76,411,1592895600"; d="scan'208";a="146172706"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2020 21:05:23 -0700
+IronPort-SDR: 5yjn9IFPqUXtcJxSI2YTA0hrpJZ2bxFRMmv+ruyYwJOHKeg8d41s0u2F/TPMlY4yd+pUrgnLIc
+ tCxpMk3+oZiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,411,1592895600"; d="scan'208";a="304740594"
+Received: from vsrini4-xps-8920.iind.intel.com (HELO localhost.localdomain)
+ ([10.223.163.28])
+ by orsmga006.jf.intel.com with ESMTP; 09 Sep 2020 21:05:21 -0700
+From: Vidya Srinivas <vidya.srinivas@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] [RFC] drm/i915/dp: DP PHY compliance for EHL/JSL
+Date: Thu, 10 Sep 2020 09:30:03 +0530
+Message-Id: <1599710403-26387-1-git-send-email-vidya.srinivas@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1599193775-2809-1-git-send-email-vidya.srinivas@intel.com>
+References: <1599193775-2809-1-git-send-email-vidya.srinivas@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,94 +49,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Vidya Srinivas <vidya.srinivas@intel.com>,
+ Khaled Almahallawy <khaled.almahallawy@intel.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the two armada patches.
+Please Note: Comment from Ville could not be addressed
+as his comments are with respect to base implementation
+(design) which are already merged. We need JSL changes
+for compliance. Hence pushing the required changes
+on top of existing design. Apoligies for that.
 
-Reviewed-by: Dave Airlie <airlied@redhat.com>
+v2: Rebased patch on top of Khaled's (yet to be merged):
+    https://patchwork.freedesktop.org/series/79779/
+    Fixed phy patterns for JSL/EHL
+    Add TPS4 support for JSL/EHL
 
-On Sat, 5 Sep 2020 at 00:40, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> Also remove the now no longer needed build bug on since that's already
-> not needed anymore with drmm_add_final_kfree. Conversion to managed
-> drm_device cleanup is easy, the final drm_dev_put() is already the
-> last thing in both the bind unbind as in the unbind flow.
->
-> Also, this relies on component.c correctly wrapping bind&unbind in
-> separate devres groups, which it does.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> ---
->  drivers/gpu/drm/armada/armada_drv.c | 26 ++++++--------------------
->  1 file changed, 6 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-> index 5fc25c3f445c..a8d5908b3922 100644
-> --- a/drivers/gpu/drm/armada/armada_drv.c
-> +++ b/drivers/gpu/drm/armada/armada_drv.c
-> @@ -87,24 +87,13 @@ static int armada_drm_bind(struct device *dev)
->                                      "armada-drm"))
->                 return -EBUSY;
->
-> -       priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> -       if (!priv)
-> -               return -ENOMEM;
-> -
-> -       /*
-> -        * The drm_device structure must be at the start of
-> -        * armada_private for drm_dev_put() to work correctly.
-> -        */
-> -       BUILD_BUG_ON(offsetof(struct armada_private, drm) != 0);
-> -
-> -       ret = drm_dev_init(&priv->drm, &armada_drm_driver, dev);
-> -       if (ret) {
-> -               dev_err(dev, "[" DRM_NAME ":%s] drm_dev_init failed: %d\n",
-> -                       __func__, ret);
-> -               kfree(priv);
-> -               return ret;
-> +       priv = devm_drm_dev_alloc(dev, &armada_drm_driver,
-> +                                 struct armada_private, drm);
-> +       if (IS_ERR(priv)) {
-> +               dev_err(dev, "[" DRM_NAME ":%s] devm_drm_dev_alloc failed: %li\n",
-> +                       __func__, PTR_ERR(priv));
-> +               return PTR_ERR(priv);
->         }
-> -       drmm_add_final_kfree(&priv->drm, priv);
->
->         /* Remove early framebuffers */
->         ret = drm_fb_helper_remove_conflicting_framebuffers(NULL,
-> @@ -174,7 +163,6 @@ static int armada_drm_bind(struct device *dev)
->   err_kms:
->         drm_mode_config_cleanup(&priv->drm);
->         drm_mm_takedown(&priv->linear);
-> -       drm_dev_put(&priv->drm);
->         return ret;
->  }
->
-> @@ -194,8 +182,6 @@ static void armada_drm_unbind(struct device *dev)
->
->         drm_mode_config_cleanup(&priv->drm);
->         drm_mm_takedown(&priv->linear);
-> -
-> -       drm_dev_put(&priv->drm);
->  }
->
->  static int compare_of(struct device *dev, void *data)
-> --
-> 2.28.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+Signed-off-by: Vidya Srinivas <vidya.srinivas@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dp.c | 106 +++++++++++++++++++++++---------
+ drivers/gpu/drm/i915/i915_reg.h         |  18 +++++-
+ 2 files changed, 92 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index a8a3ffcef5dc..0a535932ed18 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5404,26 +5404,37 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+ 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 pattern_val, dp_tp_ctl;
++	i915_reg_t dp_tp_reg, dp_comp_reg;
++
++	if (IS_ELKHARTLAKE(dev_priv))
++		dp_tp_reg = DP_TP_CTL(dig_port->base.port);
++	else if (IS_TIGERLAKE(dev_priv))
++		dp_tp_reg = TGL_DP_TP_CTL(pipe);
++
++	if (IS_ELKHARTLAKE(dev_priv))
++		dp_comp_reg = EHL_DDI_DP_COMP_CTL(dig_port->base.port);
++	else if (IS_TIGERLAKE(dev_priv))
++		dp_comp_reg = DDI_DP_COMP_CTL(pipe);
+ 
+ 	switch (data->phy_pattern) {
+ 	case DP_PHY_TEST_PATTERN_NONE:
+ 		DRM_DEBUG_KMS("Disable Phy Test Pattern\n");
+-		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe), 0x0);
++		intel_de_write(dev_priv, dp_comp_reg, 0x0);
+ 		break;
+ 	case DP_PHY_TEST_PATTERN_D10_2:
+ 		DRM_DEBUG_KMS("Set D10.2 Phy Test Pattern\n");
+-		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
++		intel_de_write(dev_priv, dp_comp_reg,
+ 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_D10_2);
+ 		break;
+ 	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
+ 		DRM_DEBUG_KMS("Set Error Count Phy Test Pattern\n");
+-		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
++		intel_de_write(dev_priv, dp_comp_reg,
+ 			       DDI_DP_COMP_CTL_ENABLE |
+ 			       DDI_DP_COMP_CTL_SCRAMBLED_0);
+ 		break;
+ 	case DP_PHY_TEST_PATTERN_PRBS7:
+ 		DRM_DEBUG_KMS("Set PRBS7 Phy Test Pattern\n");
+-		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
++		intel_de_write(dev_priv, dp_comp_reg,
+ 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_PRBS7);
+ 		break;
+ 	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
+@@ -5432,14 +5443,27 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+ 		 * current firmware of DPR-100 could not set it, so hardcoding
+ 		 * now for complaince test.
+ 		 */
+-		DRM_DEBUG_KMS("Set 80Bit Custom Phy Test Pattern 0x3e0f83e0 0x0f83e0f8 0x0000f83e\n");
++		DRM_DEBUG_KMS("Set 80Bit Custom Phy Test Pattern \
++			      0x3e0f83e0 0x0f83e0f8 0x0000f83e\n");
+ 		pattern_val = 0x3e0f83e0;
+-		intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 0), pattern_val);
++		if (IS_ELKHARTLAKE(dev_priv))
++			intel_de_write(dev_priv, EHL_DDI_DP_COMP_PAT(dig_port->base.port, 0),
++				       pattern_val);
++		else
++			intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 0), pattern_val);
+ 		pattern_val = 0x0f83e0f8;
+-		intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 1), pattern_val);
++		if (IS_ELKHARTLAKE(dev_priv))
++			intel_de_write(dev_priv, EHL_DDI_DP_COMP_PAT(dig_port->base.port, 1),
++				       pattern_val);
++		else
++			intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 1), pattern_val);
+ 		pattern_val = 0x0000f83e;
+-		intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 2), pattern_val);
+-		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
++		if (IS_ELKHARTLAKE(dev_priv))
++			intel_de_write(dev_priv, EHL_DDI_DP_COMP_PAT(dig_port->base.port, 2),
++				       pattern_val);
++		else
++			intel_de_write(dev_priv, DDI_DP_COMP_PAT(pipe, 2), pattern_val);
++		intel_de_write(dev_priv, dp_comp_reg,
+ 			       DDI_DP_COMP_CTL_ENABLE |
+ 			       DDI_DP_COMP_CTL_CUSTOM80);
+ 		break;
+@@ -5451,20 +5475,20 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+ 		 */
+ 		DRM_DEBUG_KMS("Set HBR2 compliance Phy Test Pattern\n");
+ 		pattern_val = 0xFB;
+-		intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe),
++		intel_de_write(dev_priv, dp_comp_reg,
+ 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_HBR2 |
+ 			       pattern_val);
+ 		break;
+-		case DP_PHY_TEST_PATTERN_CP2520_PAT3:
+-			DRM_DEBUG_KMS("Set TPS4 Phy Test Pattern\n");
+-			intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe), 0x0);
+-			dp_tp_ctl = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
+-			dp_tp_ctl &= ~DP_TP_CTL_TRAIN_PAT4_SEL_MASK;
+-			dp_tp_ctl |= DP_TP_CTL_TRAIN_PAT4_SEL_TP4a;
+-			dp_tp_ctl &= ~DP_TP_CTL_LINK_TRAIN_MASK;
+-			dp_tp_ctl |= DP_TP_CTL_LINK_TRAIN_PAT4;
+-			intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl);
+-			break;
++	case DP_PHY_TEST_PATTERN_CP2520_PAT3:
++		DRM_DEBUG_KMS("Set TPS4 Phy Test Pattern\n");
++		intel_de_write(dev_priv, dp_comp_reg, 0x0);
++		dp_tp_ctl = intel_de_read(dev_priv, dp_tp_reg);
++		dp_tp_ctl &= ~DP_TP_CTL_TRAIN_PAT4_SEL_MASK;
++		dp_tp_ctl |= DP_TP_CTL_TRAIN_PAT4_SEL_TP4a;
++		dp_tp_ctl &= ~DP_TP_CTL_LINK_TRAIN_MASK;
++		dp_tp_ctl |= DP_TP_CTL_LINK_TRAIN_PAT4;
++		intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl);
++		break;
+ 	default:
+ 		WARN(1, "Invalid Phy Test Pattern\n");
+ 	}
+@@ -5478,22 +5502,32 @@ intel_dp_autotest_phy_ddi_disable(struct intel_dp *intel_dp)
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
+ 	enum pipe pipe = crtc->pipe;
+-	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value;
++	u32 trans_ddi_func_ctl_value, trans_conf_value,
++		dp_tp_ctl_value, trans_ddi_port_mask;
++	i915_reg_t dp_tp_reg;
++
++	if (IS_ELKHARTLAKE(dev_priv)) {
++		dp_tp_reg = DP_TP_CTL(dig_port->base.port);
++		trans_ddi_port_mask = TRANS_DDI_PORT_MASK;
++	} else if (IS_TIGERLAKE(dev_priv)) {
++		dp_tp_reg = TGL_DP_TP_CTL(pipe);
++		trans_ddi_port_mask = TGL_TRANS_DDI_PORT_MASK;
++	}
+ 
+ 	trans_ddi_func_ctl_value = intel_de_read(dev_priv,
+ 						 TRANS_DDI_FUNC_CTL(pipe));
+ 	trans_conf_value = intel_de_read(dev_priv, PIPECONF(pipe));
+-	dp_tp_ctl_value = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
+ 
++	dp_tp_ctl_value = intel_de_read(dev_priv, dp_tp_reg);
+ 	trans_ddi_func_ctl_value &= ~(TRANS_DDI_FUNC_ENABLE |
+-				      TGL_TRANS_DDI_PORT_MASK);
++				      trans_ddi_port_mask);
+ 	trans_conf_value &= ~PIPECONF_ENABLE;
+ 	dp_tp_ctl_value &= ~DP_TP_CTL_ENABLE;
+ 
+ 	intel_de_write(dev_priv, PIPECONF(pipe), trans_conf_value);
+ 	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(pipe),
+ 		       trans_ddi_func_ctl_value);
+-	intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl_value);
++	intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl_value);
+ }
+ 
+ static void
+@@ -5505,20 +5539,29 @@ intel_dp_autotest_phy_ddi_enable(struct intel_dp *intel_dp, uint8_t lane_cnt)
+ 	enum port port = dig_port->base.port;
+ 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
+ 	enum pipe pipe = crtc->pipe;
+-	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value;
++	u32 trans_ddi_func_ctl_value, trans_conf_value,
++		dp_tp_ctl_value, trans_ddi_sel_port;
++	i915_reg_t dp_tp_reg;
++
++	if (IS_ELKHARTLAKE(dev_priv)) {
++		dp_tp_reg = DP_TP_CTL(port);
++		trans_ddi_sel_port = TRANS_DDI_SELECT_PORT(port);
++	} else if (IS_TIGERLAKE(dev_priv)) {
++		dp_tp_reg = TGL_DP_TP_CTL(pipe);
++		trans_ddi_sel_port = TGL_TRANS_DDI_SELECT_PORT(port);
++	}
+ 
+ 	trans_ddi_func_ctl_value = intel_de_read(dev_priv,
+ 						 TRANS_DDI_FUNC_CTL(pipe));
+ 	trans_conf_value = intel_de_read(dev_priv, PIPECONF(pipe));
+-	dp_tp_ctl_value = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
+-
++	dp_tp_ctl_value = intel_de_read(dev_priv, dp_tp_reg);
+ 	trans_ddi_func_ctl_value |= TRANS_DDI_FUNC_ENABLE |
+-				    TGL_TRANS_DDI_SELECT_PORT(port);
++				    trans_ddi_sel_port;
+ 	trans_conf_value |= PIPECONF_ENABLE;
+ 	dp_tp_ctl_value |= DP_TP_CTL_ENABLE;
+ 
+ 	intel_de_write(dev_priv, PIPECONF(pipe), trans_conf_value);
+-	intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl_value);
++	intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl_value);
+ 	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(pipe),
+ 		       trans_ddi_func_ctl_value);
+ }
+@@ -5590,6 +5633,11 @@ static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
+ 		response = intel_dp_autotest_edid(intel_dp);
+ 		break;
+ 	case DP_TEST_LINK_PHY_TEST_PATTERN:
++		if (!IS_ELKHARTLAKE(dev_priv) && !IS_TIGERLAKE(dev_priv)) {
++			DRM_DEBUG_KMS( \
++				"PHY compliance for platform not supported\n");
++			return;
++		}
+ 		drm_dbg_kms(&i915->drm, "PHY_PATTERN test requested\n");
+ 		response = intel_dp_autotest_phy_pattern(intel_dp);
+ 		break;
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 4850890918dc..7d3b6779661f 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -10026,10 +10026,16 @@ enum skl_power_gate {
+ #define  DDI_BUF_BALANCE_LEG_ENABLE	(1 << 31)
+ #define DDI_BUF_TRANS_HI(port, i)	_MMIO(_PORT(port, _DDI_BUF_TRANS_A, _DDI_BUF_TRANS_B) + (i) * 8 + 4)
+ 
++/* EHL/JSL DP compliance control */
++#define _EHL_DDI_DP_COMP_CTL_A		0x640F0
++#define _EHL_DDI_DP_COMP_CTL_B		0x641F0
++#define EHL_DDI_DP_COMP_CTL(port) \
++	_MMIO_PORT(port, _EHL_DDI_DP_COMP_CTL_A, _EHL_DDI_DP_COMP_CTL_B)
++
+ /* DDI DP Compliance Control */
+-#define _DDI_DP_COMP_CTL_A			0x605F0
+-#define _DDI_DP_COMP_CTL_B			0x615F0
+-#define DDI_DP_COMP_CTL(pipe)			_MMIO_PIPE(pipe, _DDI_DP_COMP_CTL_A, _DDI_DP_COMP_CTL_B)
++#define _DDI_DP_COMP_CTL_A		0x605F0
++#define _DDI_DP_COMP_CTL_B		0x615F0
++#define DDI_DP_COMP_CTL(pipe)		_MMIO_PIPE(pipe, _DDI_DP_COMP_CTL_A, _DDI_DP_COMP_CTL_B)
+ #define   DDI_DP_COMP_CTL_ENABLE		(1 << 31)
+ #define   DDI_DP_COMP_CTL_D10_2			(0 << 28)
+ #define   DDI_DP_COMP_CTL_SCRAMBLED_0		(1 << 28)
+@@ -10039,6 +10045,12 @@ enum skl_power_gate {
+ #define   DDI_DP_COMP_CTL_SCRAMBLED_1		(5 << 28)
+ #define   DDI_DP_COMP_CTL_HBR2_RESET		(0xFC << 0)
+ 
++/* EHL */
++#define _EHL_DDI_DP_COMP_PAT_A	0x640F4
++#define _EHL_DDI_DP_COMP_PAT_B	0x641F4
++#define EHL_DDI_DP_COMP_PAT(port, i) \
++	_MMIO(_PORT(port, _EHL_DDI_DP_COMP_PAT_A, _EHL_DDI_DP_COMP_PAT_B) + (i) * 4)
++
+ /* DDI DP Compliance Pattern */
+ #define _DDI_DP_COMP_PAT_A			0x605F4
+ #define _DDI_DP_COMP_PAT_B			0x615F4
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
