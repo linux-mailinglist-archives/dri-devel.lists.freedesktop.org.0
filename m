@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13BE264524
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 13:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A13F264566
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Sep 2020 13:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E264C6E906;
-	Thu, 10 Sep 2020 11:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C678289FDE;
+	Thu, 10 Sep 2020 11:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C306E906
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 11:09:24 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id i17so5512779oig.10
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 04:09:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XHyLYBCvV/QBPG8y5LyMG37sKoWK6MV97mkGdWUv8vs=;
- b=EvsF2K3/6gvfbDgzZzGVCGuH4IOw95Yt+X1VCuJAHzIytDsrVKNaFFh3ITslImyPhd
- BiXVGuTnNDdYM/Zd79dbZn/2U/O9eLeA0ZFbzgcJPxh7Jb9SVnt7AyCi7gId1B4zHV9K
- aaAI4lnAc3Y5uD1CksapQcENriwZyJA+WQ3FmVlh2MG1l00CI3fFqkOTNIDLhe92WFYW
- x7i2a4ryIdxC5o4cbx7t1t9bhw0kYOfohfkit3YssBrW1yRYiuR8/CXl1MXlSRicNC6g
- 2PdR3LFowIJAk9ubVz1ETZNo+xHlTBjOXXWFBeP2L3FRmE7wy47YEsAZAoUwtr2AOp/+
- AmkQ==
-X-Gm-Message-State: AOAM531qoLO0F8geclfISo5IDs8qAlAnjrEFb7plxc7aNtGx6UYXCj7F
- RuJf1zjvhNNn7+d3O+owyo0/6bBrKpcdRVrCfCg=
-X-Google-Smtp-Source: ABdhPJyRR/8Bfk+8m5dk07edfLMGgniqflKGYa4vK8RrPJXBSGfpDUqz8PGEAe2B9sDx97OhvfrRJ65SBY8tODhzOjw=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr3377102oib.54.1599736163569; 
- Thu, 10 Sep 2020 04:09:23 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B982189FDE
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 11:38:59 +0000 (UTC)
+IronPort-SDR: sly+ku1pOt8FVoNmBRz9B2CGaetdq5duXUkD1CqNptXFcT+DdIxn/A/SdLLkXJ3JXqoT1ngS6S
+ +g/N0+SxO2kQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="220071960"
+X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="220071960"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2020 04:38:59 -0700
+IronPort-SDR: G4NrXfpKu5BhDI7dqdRON0Quf2QqpH2D2vSTCqMNSKVZBvgPboyyocX2NwnBUkbZP1CXvHV+YD
+ 6+103JoRHTEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="341898286"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 10 Sep 2020 04:38:55 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 10 Sep 2020 14:38:55 +0300
+Date: Thu, 10 Sep 2020 14:38:55 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: per-plane LUTs and CSCs?
+Message-ID: <20200910113855.GX6112@intel.com>
+References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
+ <n5uMyyDW2WrhtODRwgsqla2mU-pP-gLV4vHHoIZzjvmzG17epyoBjSh8HxIcnaPAwIlRQZ7Aj7cuUz_iby97UlRMw-WAOss7k0oPQD8YPaQ=@emersion.fr>
+ <20200910081836.GG438822@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
- <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
- <31ec6196-7613-8eb3-e092-07d0c874632a@ideasonboard.com>
- <CAMuHMdVHGQ0FFcLjQfXhke5PKJKnNfZ3NOF-p08v3QrQ-87npA@mail.gmail.com>
- <f1ed4b08-59eb-986e-4036-820887993f00@ideasonboard.com>
-In-Reply-To: <f1ed4b08-59eb-986e-4036-820887993f00@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 10 Sep 2020 13:09:12 +0200
-Message-ID: <CAMuHMdVGFOaBFCejGDgzf8AUbHFis0TOM-DDJ3h9k0+fuu=umQ@mail.gmail.com>
-Subject: Re: [PATCH 5/9] arm64: dts: renesas: r8a77961: Add VSP device nodes
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Content-Disposition: inline
+In-Reply-To: <20200910081836.GG438822@phenom.ffwll.local>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,149 +54,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-DT <devicetree@vger.kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- David Airlie <airlied@linux.ie>,
- "\(Renesas\) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
- Magnus <magnus.damm@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Laurent <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+On Thu, Sep 10, 2020 at 10:18:36AM +0200, Daniel Vetter wrote:
+> On Thu, Sep 10, 2020 at 07:50:59AM +0000, Simon Ser wrote:
+> > On Wednesday, September 9, 2020 12:57 PM, Laurentiu Palcu <laurentiu.pa=
+lcu@oss.nxp.com> wrote:
+> > =
 
-On Thu, Sep 10, 2020 at 12:34 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> On 10/09/2020 10:44, Geert Uytterhoeven wrote:
-> > On Mon, Sep 7, 2020 at 5:55 PM Kieran Bingham
-> > <kieran.bingham+renesas@ideasonboard.com> wrote:
-> >> On 07/09/2020 03:59, Kuninori Morimoto wrote:
-> >>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> >>>
-> >>> This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
-> >>> This patch is test on R-Car M3-W+ Salvator-XS board.
-> >>>
-> >>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> >>> ---
-> >>>  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 55 +++++++++++++++++++++++
-> >>>  1 file changed, 55 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> >>> index fe0db11b9cb9..c2a6918ed5e6 100644
-> >>> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> >>> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> >>> @@ -2056,6 +2056,61 @@ fcpvd2: fcp@fea37000 {
-> >>>                       iommus = <&ipmmu_vi0 10>;
-> >>>               };
-> >>
-> >> The FCP's added are:
-> >>
-> >>                 fcpf0: fcp@fe950000 {
-> >>                 fcpf1: fcp@fe951000 {
-> >>                 fcpvb0: fcp@fe96f000 {
-> >>                 fcpvb1: fcp@fe92f000 {
-> >>                 fcpvi0: fcp@fe9af000 {
-> >>                 fcpvi1: fcp@fe9bf000 {
-> >>                 fcpvd0: fcp@fea27000 {
-> >>                 fcpvd1: fcp@fea2f000 {
-> >>                 fcpvd2: fcp@fea37000 {
-> >>
-> >> So indeed, the first fcpf0 comes before fe960000.
-> >>
-> >> Do we keep the items grouped by the first occurrence? or sort the nodes
-> >> based on address?
-> >>
-> >> for some reason I thought we were ordering based on address, but I see
-> >> other situations where we group too - so I'm confused (and wishing there
-> >> was an automatic tool to get the sorting correct without fuss).
-> >>
-> >> Is there a set policy?
-> >
-> > For nodes with a unit-address, we usually[*] sort by unit-address, but we keep
-> > similar nodes grouped.  Hence I prefer this v1 over v2.
->
-> I assume then the groups are sorted by the first entry,
->
-> I.e. hypothetically:
->
-> fdp@0
-> fcp@1
-> vsp@2
-> fdp@3
-> fcp@4
-> vsp@5
-> cmm@6
-> cmm@7
->
-> would become
->
-> fdp@0
-> fdp@3
-> fcp@1
-> fcp@4
-> vsp@2
-> vsp@5
-> cmm@6
-> cmm@7
+> > > Hi all,
+> > >
+> > > I was wondering whether you could give me an advise on how to proceed=
+ further
+> > > with the following issue as I'm preparing to upstream the next set of=
+ patches
+> > > for the iMX8MQ display controller(DCSS). The display controller has 3=
+ planes,
+> > > each with 2 CSCs and one degamma LUT. The CSCs are in front and after=
+ the LUT
+> > > respectively. Then the output from those 3 pipes is blended together =
+and then
+> > > gamma correction is applied using a linear-to-nonlinear LUT and anoth=
+er CSC, if
+> > > needed.
+> > >
+> > > Currently, downstream, we have all those CSCs and LUTs hard-coded int=
+o a header
+> > > file. Based on the colorspace, range, gamut selected for the output a=
+nd/or
+> > > plane input, we pick up the right CSCs and LUTs from that header file=
+ to
+> > > configure our pipes... I guess this solution does the job, userspace =
+doesn't
+> > > need to care much about how to generate those tables. But, it's also =
+not very
+> > > flexible in case there is an app smart enough to know and actually ge=
+nerate
+> > > their own custom tables. :/
+> > >
+> > > Looking through the dri-devel archives, I've seen that there was a te=
+ntative to
+> > > implement a more or less generic per-plane LUT/CSC solution but it di=
+dn't make
+> > > it in due to lack of userspace consumers...
+> > =
 
-Exactly.  That's how we (Reneas SoCs) have been (trying to) doing it.
-I am aware there are some deviations (e.g. do you keep all 4 possible
-SCIF types together (they're all serial@), or do you group them per
-type? And some nodes (ipmmu) may be sorted alphabetically by label).
+> > Apart from full color management mentioned by Pekka, are there other
+> > use-cases for these per-plane props?
+> > =
 
-> Has anyone already created any scripting/validation to automate the
-> sorting requirements?
+> > One thing I can think of is that some drivers annoyingly only apply the
+> > per-CRTC gamma LUT to the primary plane. I think it would make more
+> > sense to not attach a gamma prop to the CRTC and instead only attach it
+> > to the primary plane to make that clear. But I guess that would also
+> > break existing user-space?
+> =
 
-Not yet, AFAIK. I've been thinking about doing that several times,
-though ;-)
+> Uh, which drivers? This would be a driver bug (and there's been plenty of
+> those where the cursor has the wrong color temp and fun stuff like that).
+> We need to fix these driver issues instead of lamenting in userspace that
+> it's all kinda broken :-)
 
-> > [*] Seems like FCP/VSP are interleaved in r8a77990.dsi, doh.
-> >
->
-> Personally I prefer that - but my opinion doesn't matter here - so as
-> long as the rules are defined (or even better, automatically
-> enforceable) that's fine.
+Quite a bit of old hardware simpy couldn't apply the gamma to the
+other planes. But hopefully that is no longer the case for any
+modern hardware.
 
-Indeed.
+-- =
 
-Perhaps creating rules is something to be handled at a higher level
-(i.e. common for all DTS files)?
-
-Summarizing "our" rules:
-  1. Nodes without unit-address are sorted alphabetically, by node name,
-  2. Nodes with unit-address are sorted numerically, by unit-address,
-       a. Nodes of the same type are grouped together, i.e. the whole
-          group is sorted w.r.t. to other nodes/groups based on the
-          unit-address of the first member of the group.
-  3. Anchors are sorted alphabetically, but anchor name.
-
-Do they make sense?
-
-> >>> +             vspb: vsp@fe960000 {
-> >>> +                     compatible = "renesas,vsp2";
-> >>> +                     reg = <0 0xfe960000 0 0x8000>;
-> >>> +                     interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
-> >>> +                     clocks = <&cpg CPG_MOD 626>;
-> >>> +                     power-domains = <&sysc R8A77961_PD_A3VC>;
-> >>> +                     resets = <&cpg 626>;
-> >>> +
-> >>> +                     renesas,fcp = <&fcpvb0>;
-> >>> +             };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
