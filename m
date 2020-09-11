@@ -1,35 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40AB268546
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9240C268565
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A0D6E1B8;
-	Mon, 14 Sep 2020 07:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B3A6E1F3;
+	Mon, 14 Sep 2020 07:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 070136E07F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 11:22:43 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 852E8207FBD92955F13B;
- Fri, 11 Sep 2020 19:22:39 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
- 19:22:32 +0800
-From: Yu Kuai <yukuai3@huawei.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <jie.qiu@mediatek.com>,
- <junzhi.zhao@mediatek.com>
-Subject: [PATCH] drm/mediatek: add missing put_device() call in
- mtk_hdmi_dt_parse_pdata()
-Date: Fri, 11 Sep 2020 19:21:51 +0800
-Message-ID: <20200911112151.3220469-1-yukuai3@huawei.com>
-X-Mailer: git-send-email 2.25.4
+X-Greylist: delayed 1104 seconds by postgrey-1.36 at gabe;
+ Fri, 11 Sep 2020 14:46:01 UTC
+Received: from a27-187.smtp-out.us-west-2.amazonses.com
+ (a27-187.smtp-out.us-west-2.amazonses.com [54.240.27.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38C916E053;
+ Fri, 11 Sep 2020 14:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=gbvhytky6xpx7itkhb67ktsxbiwpnxix; d=codeaurora.org; t=1599834456;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+ bh=5tZsB/wJn1cwAYaUlKplKeAwB+VSLVJQXUcWnRzqmpA=;
+ b=ZzDG/CcM6b+GZIQ0YPbT4I6S+zRm/8NNS/no/u4PIpGehfDTP52wFnq9JBlHS1Tu
+ 1/oDgDqYYq4W01gWNwvkUKQYpOMsE24T6+TTfk0yOu3zlKP/vd/Mtw6uW+3rBUmzH6H
+ aUC5U++PREk2ZLZs8rbvlY0wwSAO31S8lFme3Zg0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599834456;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+ bh=5tZsB/wJn1cwAYaUlKplKeAwB+VSLVJQXUcWnRzqmpA=;
+ b=AovZDGfARtOkSNDW55Lz7DLrUajaWxER4GlGePKEyiuWmJnfU5UJ9O0RVU7WTIE2
+ jmkwTWqVFjtqApmX3kD7oJch98nf1L3QrHzTB1Y4mduI2xm2eyKv2VD4k0HjV8h6EWz
+ pSE04F2s5Uk76lWFaPvoTjWywHN2OPk5b/fYQfYI=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1A1F0C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
+ smtp.mailfrom=saiprakash.ranjan@codeaurora.org
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCHv4 0/6] System Cache support for GPU and required SMMU support
+Date: Fri, 11 Sep 2020 14:27:36 +0000
+Message-ID: <010101747d9082bd-3c449b80-876f-433f-b6ef-ec6978fa97d1-000000@us-west-2.amazonses.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+X-SES-Outgoing: 2020.09.11-54.240.27.187
+Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
 X-Mailman-Approved-At: Mon, 14 Sep 2020 07:03:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,93 +64,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yi.zhang@huawei.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- yukuai3@huawei.com, linux-arm-kernel@lists.infradead.org
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-if of_find_device_by_node() succeed, mtk_drm_kms_init() doesn't have
-a corresponding put_device(). Thus add jump target to fix the exception
-handling for this function implementation.
+Some hardware variants contain a system cache or the last level
+cache(llc). This cache is typically a large block which is shared
+by multiple clients on the SOC. GPU uses the system cache to cache
+both the GPU data buffers(like textures) as well the SMMU pagetables.
+This helps with improved render performance as well as lower power
+consumption by reducing the bus traffic to the system memory.
 
-Fixes: 8f83f26891e1 ("drm/mediatek: Add HDMI support")
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+The system cache architecture allows the cache to be split into slices
+which then be used by multiple SOC clients. This patch series is an
+effort to enable and use two of those slices perallocated for the GPU,
+one for the GPU data buffers and another for the GPU SMMU hardware
+pagetables.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index f2e9b429960b..a97725680d4e 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1507,25 +1507,30 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
- 		dev_err(dev,
- 			"Failed to get system configuration registers: %d\n",
- 			ret);
--		return ret;
-+		goto put_device;
- 	}
- 	hdmi->sys_regmap = regmap;
- 
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	hdmi->regs = devm_ioremap_resource(dev, mem);
--	if (IS_ERR(hdmi->regs))
--		return PTR_ERR(hdmi->regs);
-+	if (IS_ERR(hdmi->regs)) {
-+		ret = PTR_ERR(hdmi->regs);
-+		goto put_device;
-+	}
- 
- 	remote = of_graph_get_remote_node(np, 1, 0);
--	if (!remote)
--		return -EINVAL;
-+	if (!remote) {
-+		ret = -EINVAL;
-+		goto put_device;
-+	}
- 
- 	if (!of_device_is_compatible(remote, "hdmi-connector")) {
- 		hdmi->next_bridge = of_drm_find_bridge(remote);
- 		if (!hdmi->next_bridge) {
- 			dev_err(dev, "Waiting for external bridge\n");
- 			of_node_put(remote);
--			return -EPROBE_DEFER;
-+			ret = -EPROBE_DEFER;
-+			goto put_device;
- 		}
- 	}
- 
-@@ -1534,7 +1539,8 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
- 		dev_err(dev, "Failed to find ddc-i2c-bus node in %pOF\n",
- 			remote);
- 		of_node_put(remote);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto put_device;
- 	}
- 	of_node_put(remote);
- 
-@@ -1542,10 +1548,14 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
- 	of_node_put(i2c_np);
- 	if (!hdmi->ddc_adpt) {
- 		dev_err(dev, "Failed to get ddc i2c adapter by node\n");
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto put_device;
- 	}
- 
- 	return 0;
-+put_device:
-+	put_device(hdmi->cec_dev);
-+	return ret;
- }
- 
- /*
+Patch 1 - Patch 4 adds system cache support in SMMU and GPU driver.
+Patch 5 and 6 are minor cleanups for arm-smmu impl.
+
+The series is based on top of https://gitlab.freedesktop.org/drm/msm/-/tree/msm-next-pgtables
+
+Changes in v4:
+ * Drop IOMMU_SYS_CACHE prot flag
+ * Rebase on top of https://gitlab.freedesktop.org/drm/msm/-/tree/msm-next-pgtables
+
+Changes in v3:
+ * Fix domain attribute setting to before iommu_attach_device()
+ * Fix few code style and checkpatch warnings
+ * Rebase on top of Jordan's latest split pagetables and per-instance
+   pagetables support
+
+Changes in v2:
+ * Addressed review comments and rebased on top of Jordan's split
+   pagetables series
+
+Sai Prakash Ranjan (4):
+  iommu/io-pgtable-arm: Add support to use system cache
+  iommu/arm-smmu: Add domain attribute for system cache
+  iommu: arm-smmu-impl: Use table to list QCOM implementations
+  iommu: arm-smmu-impl: Remove unwanted extra blank lines
+
+Sharat Masetty (2):
+  drm/msm: rearrange the gpu_rmw() function
+  drm/msm/a6xx: Add support for using system cache(LLC)
+
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 83 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |  4 ++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 21 +++++-
+ drivers/gpu/drm/msm/msm_drv.c              |  8 +++
+ drivers/gpu/drm/msm/msm_drv.h              |  1 +
+ drivers/gpu/drm/msm/msm_gpu.h              |  5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 17 ++---
+ drivers/iommu/arm/arm-smmu/arm-smmu.c      | 17 +++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |  1 +
+ drivers/iommu/io-pgtable-arm.c             |  7 +-
+ include/linux/io-pgtable.h                 |  4 ++
+ include/linux/iommu.h                      |  1 +
+ 12 files changed, 155 insertions(+), 14 deletions(-)
+
+
+base-commit: 11e579ab6a3c2003efa2cfd1f0b3b4395f041618
 -- 
-2.25.4
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
 _______________________________________________
 dri-devel mailing list
