@@ -1,29 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7DB266065
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 15:39:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 332F8266071
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 15:39:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DF186EA3F;
-	Fri, 11 Sep 2020 13:39:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA126EA4D;
+	Fri, 11 Sep 2020 13:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F246EA34
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 13:39:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1645E6EA1B
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 13:39:13 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kGjGg-0005Is-Uf; Fri, 11 Sep 2020 15:39:10 +0200
+ id 1kGjGg-0005Is-Vh; Fri, 11 Sep 2020 15:39:10 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 17/21] drm/imx: parallel-display: move initialization into
- probe
-Date: Fri, 11 Sep 2020 15:38:51 +0200
-Message-Id: <20200911133855.29801-17-p.zabel@pengutronix.de>
+Subject: [PATCH v2 18/21] drm/imx: parallel-display: use drm managed resources
+Date: Fri, 11 Sep 2020 15:38:52 +0200
+Message-Id: <20200911133855.29801-18-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200911133855.29801-1-p.zabel@pengutronix.de>
 References: <20200911133855.29801-1-p.zabel@pengutronix.de>
@@ -51,93 +50,156 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The parts of the initialization do not require the drm device can be
-done once during probe instead of possibly multiple times during bind.
-The bind function only creates the encoder.
+Move device tree parsing into probe(). Use drmm_kzalloc() to align
+encoder memory lifetime with the drm device, and use
+drmm_add_action_or_reset() to make sure drm_encoder_cleanup() is
+called before the memory is freed.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
-New in v2.
+Changes since v1:
+ - Split some changes into previous patches, rebased.
 ---
- drivers/gpu/drm/imx/parallel-display.c | 42 ++++++++++++--------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/imx/parallel-display.c | 76 ++++++++++++++++----------
+ 1 file changed, 47 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 16e576f8ee83..42b44dbf45f5 100644
+index 42b44dbf45f5..2b2160387cbf 100644
 --- a/drivers/gpu/drm/imx/parallel-display.c
 +++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -261,6 +261,10 @@ static int imx_pd_register(struct drm_device *drm,
- 	struct drm_bridge *bridge = &imxpd->bridge;
- 	int ret;
+@@ -15,6 +15,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_fb_helper.h>
++#include <drm/drm_managed.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+@@ -22,10 +23,14 @@
  
-+	memset(connector, 0, sizeof(*connector));
-+	memset(encoder, 0, sizeof(*encoder));
-+	memset(bridge, 0, sizeof(*bridge));
-+
- 	ret = imx_drm_encoder_parse_of(drm, encoder, imxpd->dev->of_node);
- 	if (ret)
- 		return ret;
-@@ -301,6 +305,18 @@ static int imx_pd_register(struct drm_device *drm,
- static int imx_pd_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct drm_device *drm = data;
-+	struct imx_parallel_display *imxpd = dev_get_drvdata(dev);
-+
-+	return imx_pd_register(drm, imxpd);
-+}
-+
-+static const struct component_ops imx_pd_ops = {
-+	.bind	= imx_pd_bind,
+ #include "imx-drm.h"
+ 
+-struct imx_parallel_display {
++struct imx_parallel_display_encoder {
+ 	struct drm_connector connector;
+ 	struct drm_encoder encoder;
+ 	struct drm_bridge bridge;
++	struct imx_parallel_display *pd;
 +};
 +
-+static int imx_pd_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
- 	struct device_node *np = dev->of_node;
- 	const u8 *edidp;
- 	struct imx_parallel_display *imxpd;
-@@ -309,8 +325,9 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
- 	u32 bus_format = 0;
- 	const char *fmt;
++struct imx_parallel_display {
+ 	struct device *dev;
+ 	void *edid;
+ 	u32 bus_format;
+@@ -37,12 +42,12 @@ struct imx_parallel_display {
  
--	imxpd = dev_get_drvdata(dev);
--	memset(imxpd, 0, sizeof(*imxpd));
-+	imxpd = devm_kzalloc(dev, sizeof(*imxpd), GFP_KERNEL);
-+	if (!imxpd)
-+		return -ENOMEM;
- 
- 	/* port@1 is the output port */
- 	ret = drm_of_find_panel_or_bridge(np, 1, 0, &imxpd->panel,
-@@ -337,28 +354,9 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
- 
- 	imxpd->dev = dev;
- 
--	ret = imx_pd_register(drm, imxpd);
--	if (ret)
--		return ret;
--
--	return 0;
--}
--
--static const struct component_ops imx_pd_ops = {
--	.bind	= imx_pd_bind,
--};
--
--static int imx_pd_probe(struct platform_device *pdev)
--{
--	struct imx_parallel_display *imxpd;
--
--	imxpd = devm_kzalloc(&pdev->dev, sizeof(*imxpd), GFP_KERNEL);
--	if (!imxpd)
--		return -ENOMEM;
--
- 	platform_set_drvdata(pdev, imxpd);
- 
--	return component_add(&pdev->dev, &imx_pd_ops);
-+	return component_add(dev, &imx_pd_ops);
+ static inline struct imx_parallel_display *con_to_imxpd(struct drm_connector *c)
+ {
+-	return container_of(c, struct imx_parallel_display, connector);
++	return container_of(c, struct imx_parallel_display_encoder, connector)->pd;
  }
  
- static int imx_pd_remove(struct platform_device *pdev)
+ static inline struct imx_parallel_display *bridge_to_imxpd(struct drm_bridge *b)
+ {
+-	return container_of(b, struct imx_parallel_display, bridge);
++	return container_of(b, struct imx_parallel_display_encoder, bridge)->pd;
+ }
+ 
+ static int imx_pd_connector_get_modes(struct drm_connector *connector)
+@@ -253,17 +258,39 @@ static const struct drm_bridge_funcs imx_pd_bridge_funcs = {
+ 	.atomic_get_output_bus_fmts = imx_pd_bridge_atomic_get_output_bus_fmts,
+ };
+ 
+-static int imx_pd_register(struct drm_device *drm,
+-	struct imx_parallel_display *imxpd)
++static void imx_pd_encoder_cleanup(struct drm_device *drm, void *ptr)
++{
++	struct drm_encoder *encoder = ptr;
++
++	drm_encoder_cleanup(encoder);
++}
++
++static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+ {
+-	struct drm_connector *connector = &imxpd->connector;
+-	struct drm_encoder *encoder = &imxpd->encoder;
+-	struct drm_bridge *bridge = &imxpd->bridge;
++	struct drm_device *drm = data;
++	struct imx_parallel_display *imxpd = dev_get_drvdata(dev);
++	struct imx_parallel_display_encoder *imxpd_encoder;
++	struct drm_connector *connector;
++	struct drm_encoder *encoder;
++	struct drm_bridge *bridge;
+ 	int ret;
+ 
+-	memset(connector, 0, sizeof(*connector));
+-	memset(encoder, 0, sizeof(*encoder));
+-	memset(bridge, 0, sizeof(*bridge));
++	imxpd_encoder = drmm_kzalloc(drm, sizeof(*imxpd_encoder), GFP_KERNEL);
++	if (!imxpd_encoder)
++		return -ENOMEM;
++
++	imxpd_encoder->pd = imxpd;
++	connector = &imxpd_encoder->connector;
++	encoder = &imxpd_encoder->encoder;
++	bridge = &imxpd_encoder->bridge;
++
++	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
++	if (ret)
++		return ret;
++
++	ret = drmm_add_action_or_reset(drm, imx_pd_encoder_cleanup, encoder);
++	if (ret)
++		return ret;
+ 
+ 	ret = imx_drm_encoder_parse_of(drm, encoder, imxpd->dev->of_node);
+ 	if (ret)
+@@ -276,18 +303,9 @@ static int imx_pd_register(struct drm_device *drm,
+ 	 */
+ 	connector->dpms = DRM_MODE_DPMS_OFF;
+ 
+-	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
+-
+ 	bridge->funcs = &imx_pd_bridge_funcs;
+ 	drm_bridge_attach(encoder, bridge, NULL, 0);
+ 
+-	if (!imxpd->next_bridge) {
+-		drm_connector_helper_add(connector,
+-					 &imx_pd_connector_helper_funcs);
+-		drm_connector_init(drm, connector, &imx_pd_connector_funcs,
+-				   DRM_MODE_CONNECTOR_DPI);
+-	}
+-
+ 	if (imxpd->next_bridge) {
+ 		ret = drm_bridge_attach(encoder, imxpd->next_bridge, bridge, 0);
+ 		if (ret < 0) {
+@@ -296,20 +314,17 @@ static int imx_pd_register(struct drm_device *drm,
+ 			return ret;
+ 		}
+ 	} else {
++		drm_connector_helper_add(connector,
++					 &imx_pd_connector_helper_funcs);
++		drm_connector_init(drm, connector, &imx_pd_connector_funcs,
++				   DRM_MODE_CONNECTOR_DPI);
++
+ 		drm_connector_attach_encoder(connector, encoder);
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+-{
+-	struct drm_device *drm = data;
+-	struct imx_parallel_display *imxpd = dev_get_drvdata(dev);
+-
+-	return imx_pd_register(drm, imxpd);
+-}
+-
+ static const struct component_ops imx_pd_ops = {
+ 	.bind	= imx_pd_bind,
+ };
 -- 
 2.20.1
 
