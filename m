@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EE5265D02
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:53:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5F5265D2C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D3A6E9EA;
-	Fri, 11 Sep 2020 09:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803696E9FA;
+	Fri, 11 Sep 2020 09:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA61F6E9EA
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 09:52:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75CE26E9FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 09:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
  MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iOgmppT0qGwZOUSB5AHlfatEojFVOgSi72SRxPTKIUU=; b=YkNcRn0/g+VnGQ/Wmck4Wd/mHv
- KcpmsVuBM0Z8eGelYlb3LJJnYbJRrT76gfnzWZqV9FT2XOhNQJT4fpq0q9xZ3tGvSlYTTpesFW+k7
- xdTgaictL65VL6kg+Iz4O23Zvzw6qtw+M/ehmvS1CvUrBBAmxWeVL+BgOes0J2OJMDU3++3KzHDSH
- keyNQ4f4Catt0f97fjgNotpaEg6VKjbezZvaa5KKAk4xEmqyOfo29DF87AqdE20PE2Az9dLjWUmgL
- qdOJbIvFJBFg1cHM7xRgLhkfJSlp7ZjfYsODZj6yxXjF3kXjXq/4mZBToTlb+GaQXK1joAvvXbMkc
- G9sbCf/g==;
+ bh=hgg6FoHK15WmMAYAEZFH4drMXVQgN/IydltaEjCXX9Q=; b=yh5ekNT/CnmyWDBz6fZFL5dyjr
+ JS9Ob1Puccx+SzGO/pYsqJMh77fkopJjRsSsu+q7sD4UFFYgTemKiOhhI5kHU0aMkTT23gVBTaYuW
+ HzI7dzCv7sMIQNEWCqNZHMxzLrofLZcKmG74ofPELKP+GWLUsdjb57rmlPqbsK2ELg5Nniu2Hn1Xe
+ 4RItI/PfpkFuQTpHtunat8I+DoRUk56RQB+WBk4AF0f3Xn1pd2OvuR1CDBI2nIrZfHTXTSL1Ww8HJ
+ hFhbzHXcdbytDHmgNgWSsOqmIxLkZkOgbrnxQJTKw+qbyIt+hmGIHH1dYsKMBud1JbGiMq2tGiadX
+ cTKM+M1g==;
 Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
  helo=[192.168.1.10])
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1kGfjj-0000uP-NU; Fri, 11 Sep 2020 12:52:55 +0300
-Subject: Re: DRM_TEGRA_SUBMIT_BUF_WRITE_RELOC
+ id 1kGfqQ-0004Gx-UP; Fri, 11 Sep 2020 12:59:51 +0300
+Subject: Re: [RFC PATCH v2 17/17] WIP: drm/tegra: Implement new UAPI
 To: Dmitry Osipenko <digetx@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
  jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
 References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-15-mperttunen@nvidia.com>
- <54aff7f1-86b2-6bd7-1e47-2078edcf94b3@gmail.com>
- <a734a45f-2366-8a9f-1029-c052bd03bf78@kapsi.fi>
- <17e24d23-3b1e-44e3-57ca-35721dbd4af2@gmail.com>
+ <20200905103420.3021852-18-mperttunen@nvidia.com>
+ <11c05ff2-092b-dc40-73a9-c0ec0fa22826@gmail.com>
+ <3b3b7d35-e96c-1b6e-ddd0-24fd8a9dd5bf@gmail.com>
+ <6d317f3f-51c8-6ed5-0a27-00e72f204941@kapsi.fi>
+ <dba5e023-23d5-7e8a-f45e-bf41abf66ef6@gmail.com>
 From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <b85af7b8-870a-31e2-2f09-902a84a2afb6@kapsi.fi>
-Date: Fri, 11 Sep 2020 12:52:44 +0300
+Message-ID: <27ee1096-d7fa-da63-f60e-93dbdd679893@kapsi.fi>
+Date: Fri, 11 Sep 2020 12:59:40 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <17e24d23-3b1e-44e3-57ca-35721dbd4af2@gmail.com>
+In-Reply-To: <dba5e023-23d5-7e8a-f45e-bf41abf66ef6@gmail.com>
 Content-Language: en-US
 X-SA-Exim-Connect-IP: 84.250.171.65
 X-SA-Exim-Mail-From: cyndis@kapsi.fi
@@ -68,27 +69,29 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gOS8xMS8yMCAxOjE1IEFNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMDkuMDkuMjAyMCAx
-MToxMCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IE9uIDkvOS8yMCAyOjQ1IEFNLCBE
-bWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+PiAwNS4wOS4yMDIwIDEzOjM0LCBNaWtrbyBQZXJ0dHVu
-ZW4g0L/QuNGI0LXRgjoKPj4+IC4uLgo+Pj4+ICsvKiBTdWJtaXNzaW9uICovCj4+Pj4gKwo+Pj4+
-ICsvKiogUGF0Y2ggYWRkcmVzcyBvZiB0aGUgc3BlY2lmaWVkIG1hcHBpbmcgaW4gdGhlIHN1Ym1p
-dHRlZCBnYXRoZXIuICovCj4+Pj4gKyNkZWZpbmUgRFJNX1RFR1JBX1NVQk1JVF9CVUZfV1JJVEVf
-UkVMT0PCoMKgwqDCoMKgwqDCoCAoMTw8MCkKPj4+Cj4+PiBTaG91bGRuJ3QgdGhlIGtlcm5lbCBk
-cml2ZXIgYmUgYXdhcmUgYWJvdXQgd2hhdCByZWxvY2F0aW9ucyBuZWVkIHRvIGJlCj4+PiBwYXRj
-aGVkPyBDb3VsZCB5b3UgcGxlYXNlIGV4cGxhaW4gdGhlIHB1cnBvc2Ugb2YgdGhpcyBmbGFnPwo+
-Pj4KPj4KPj4gU3VyZSwgdGhlIGtlcm5lbCBrbm93cyBpZiBpdCByZXR1cm5lZCB0aGUgSU9WQSB0
-byB0aGUgdXNlciBvciBub3QsIHNvIHdlCj4+IGNvdWxkIHJlbW92ZSB0aGlzIGZsYWcgYW5kIGRl
-dGVybWluZSBpdCBpbXBsaWNpdGx5LiBJIGRvbid0IHRoaW5rIHRoZXJlCj4+IGlzIG11Y2ggaGFy
-bSBpbiBpdCB0aG91Z2g7IGlmIHdlIGhhdmUgdGhlIGZsYWcgYW4gYXBwbGljYXRpb24gY2FuIGRl
-Y2lkZQo+PiB0byBpZ25vcmUgdGhlIGlvdmEgZmllbGQgYW5kIGp1c3QgcGFzcyBXUklURV9SRUxP
-QyBhbHdheXMsIGFuZCBpdCdzIG5vdAo+PiByZWFsbHkgYW55IGV4dHJhIGNvZGUgb24ga2VybmVs
-IHNpZGUuCj4gCj4gU291bmRzIGxpa2UgdGhlcmUgaXMgbm8gcmVhbCBwcmFjdGljYWwgdXNlIGZv
-ciB0aGlzIGZsYWcgb3RoZXIgdGhhbiBmb3IKPiB0ZXN0aW5nIHB1cnBvc2VzLCBjb3JyZWN0Pwo+
-IAoKUGF0Y2hpbmcgZGVwZW5kaW5nIGp1c3Qgb24gaWYgdGhlIE1BUCBJT0NUTCByZXR1cm5lZCBh
-biBJT1ZBIG9yIG5vdCAKc2VlbXMgYSBiaXQgInNwb29reSBhY3Rpb24gYXQgYSBkaXN0YW5jZSIt
-aXNoIHRvIG1lLCBidXQgbWF5YmUgaXQncyBub3QgCnNvIGJhZC4uIEknbGwgY29uc2lkZXIgcmVt
-b3ZpbmcgaXQuCgpNaWtrbwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+T24gOS8xMS8yMCAxMjo1NyBBTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDA5LjA5LjIwMjAg
+MTE6MzYsIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+IC4uLgo+Pj4KPj4+IERvZXMgaXQg
+bWFrZSBzZW5zZSB0byBoYXZlIHRpbWVvdXQgaW4gbWljcm9zZWNvbmRzPwo+Pj4KPj4KPj4gTm90
+IHN1cmUsIGJ1dCBiZXR0ZXIgaGF2ZSBpdCBhIGJpdCBtb3JlIGZpbmUtZ3JhaW5lZCByYXRoZXIg
+dGhhbgo+PiBjb2Fyc2UtZ3JhaW5lZC4gVGhpcyBzdGlsbCBnaXZlcyBhIG1heGltdW0gdGltZW91
+dCBvZiA3MSBtaW51dGVzIHNvIEkKPj4gZG9uJ3QgdGhpbmsgaXQgaGFzIGFueSBuZWdhdGl2ZXMg
+Y29tcGFyZWQgdG8gbWlsbGlzZWNvbmRzLgo+IAo+IElmIHRoZXJlIGlzIG5vIGdvb2QgcmVhc29u
+IHRvIHVzZSBtaWNyb3NlY29uZHMgcmlnaHQgbm93LCB0aGVuIHNob3VsZCBiZQo+IGJldHRlciB0
+byBkZWZhdWx0IHRvIG1pbGxpc2Vjb25kcywgSU1PLiBJdCBzaG91bGRuJ3QgYmUgYSBwcm9ibGVt
+IHRvCj4gZXh0ZW5kIHRoZSBJT0NMVCB3aXRoIGEgbWljcm9zZWNvbmRzIGVudHJ5LCBpZiBldmVy
+IGJlIG5lZWRlZC4KPiAKPiB7Cj4gCV9fdTMyIHRpbWVvdXRfbXM7Cj4gLi4uCj4gCV9fdTMyIHRp
+bWVvdXRfdXM7Cj4gfQo+IAo+IHRpbWVvdXQgPSB0aW1lb3V0X21zICsgMTAwMCAqIHRpbWVvdXRf
+dXM7Cj4gCj4gVGhlcmUgc2hvdWxkbid0IGJlIGEgbmVlZCBmb3IgYSBsb25nIHRpbWVvdXRzLCBz
+aW5jZSBhIGpvYiB0aGF0IHRha2VzCj4gb3ZlciAxMDBtcyBpcyBwcm9iYWJseSB0b28gdW5wcmFj
+dGljYWwuIEl0IGFsc28gc2hvdWxkIGJlIHBvc3NpYmxlIHRvCj4gZGV0ZWN0IGEgcHJvZ3Jlc3Np
+bmcgam9iIGFuZCB0aGVuIGRlZmVyIHRpbWVvdXQgaW4gdGhlIGRyaXZlci4gQXQgbGVhc3QKPiB0
+aGlzIGlzIHdoYXQgb3RoZXIgZHJpdmVycyBkbywgbGlrZSBldG5hdml2IGRyaXZlciBmb3IgZXhh
+bXBsZToKPiAKPiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92NS45LXJjNC9zb3Vy
+Y2UvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9zY2hlZC5jI0wxMDcKPiAKCkkgc3Rp
+bGwgZG9uJ3QgcXVpdGUgdW5kZXJzdGFuZCB3aHkgaXQncyBiZXR0ZXIgdG8gZGVmYXVsdCB0byAK
+bWlsbGlzZWNvbmRzPyBBcyB5b3Ugc2F5LCB0aGVyZSBpcyBubyBuZWVkIHRvIGhhdmUgYSBsb25n
+IHRpbWVvdXQsIGFuZCAKaWYgd2UgZ28gbWljcm9zZWNvbmRzIG5vdywgdGhlbiB0aGVyZSB3b3Vs
+ZG4ndCBiZSBhIG5lZWQgdG8gZXh0ZW5kIGluIAp0aGUgZnV0dXJlLgoKTWlra28KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
