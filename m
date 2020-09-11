@@ -1,94 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24212669C2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 22:50:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EADAB2669CB
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 22:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1076E0CE;
-	Fri, 11 Sep 2020 20:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2E76E041;
+	Fri, 11 Sep 2020 20:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269846E0BF;
- Fri, 11 Sep 2020 20:50:01 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CE26E041
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 20:54:51 +0000 (UTC)
+IronPort-SDR: dlzPsAWAF61ObGIVmvIQ3qcKmnq7o+tCWJeMLt/EqJ/RVrQGKqnl027OliXYSKONuIUUe5TCos
+ QyCRQ1rxgIog==
+X-IronPort-AV: E=McAfee;i="6000,8403,9741"; a="156247169"
+X-IronPort-AV: E=Sophos;i="5.76,417,1592895600"; d="scan'208";a="156247169"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2020 13:54:50 -0700
+IronPort-SDR: O1wmxZVNRbQ1NfiTilcZ5Ec63psy1OhezvyixYiQrj7LlKzcyP665O+++PGAhPRAxYtFqJvxBb
+ DhzlG4/srZZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,417,1592895600"; d="scan'208";a="481461520"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga005.jf.intel.com with ESMTP; 11 Sep 2020 13:54:50 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 11 Sep 2020 13:54:49 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Fri, 11 Sep 2020 13:54:49 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Fri, 11 Sep 2020 13:54:43 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hsf+SCGkrsswpwGhilN46ypKPntlYSFwHreBkBhLMmjtiI4+sd776d8uS7PuwA+9tD4+lU/ogH+U0NQ+i4t5p57oDqEhaZYgQPfNCFWt71FhR0C5UIr6wT80Y0EhC3LH1IoZd0xF+oshEkPbN9kdzOqLC9WEmW4mYWm8Hdm19nheOUPINInRWR0NvcJZEV0bdNDPMurE2J+n57h+QfhnuYjZ4L4oHJEwGrrTkjgpd2T4mGi/J0EOAmnbQrzIffYIE5Kya/VURuao4kJU5z3+uUwcGJHRL0sdeqVwnkR9WykPjcbopBFxlme9PJxKPXGsukKxmYHX5imMjrQWd2K0NA==
+ b=fqqU9t3wPx+TO0vKElL31x91GTlJyd29MCK8wqykCPH5lPoc6qWmrU07gcfpWW5ZY5PeQ7hlUlKW9NusHuhf54GDFSMfLm+LOCe8ojIgYxWqt19WfJifSWvjPwkNisRs+hi/jLN3T/hvpfuQE7980TxxS7V63HdJSNOWkV0+dveF4d8h0fcL8z2jA4FnVyU0+Wx3Eg/5ojXcfi42MVpzLLg7VU4GKGReAUrHc7Z7LpTCV1KjPCMSaevY0J5si60B4I3F/fMjQU6oaNWnIg4BYgil/USXNgpQGuOjZZESXCQdL/MboDGfZXVQBebvRU9OOXH06sIMw3++UjaFq4wArQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xepuNOJDUAiZUvu15u7YPooLQWFssVBVOPSAjM0yJ40=;
- b=kJW9NaQMwU5qhHzLloKgk/2ZzxStpaSn/EVLWh66Zw5mJwohRF2SlGle/YCMWtHEOGzT5tTjGMieZEsS/qmh8URTsgML8622fRqJyVquc9xSEsLvqjII7SB8niOw9NUVUmBi8sSQ71T85C2SMhdCU3nTPHiPGor7HTsZ3DZ7ADByoxIEPzNJZN8ras5O19uUOqtYbFWvDM1tzn9Irfx5KVjvnxIFYZkRsL2smWt7M4x5ut2ubbo38HxyP+iEZ22+zZ2BFv+nIamWhEqYzkBpDJamKwPeEu2vPIZyZi6J7BmcjEWFK43i7ra0N+UTmCOymRqDL/z8/qgUuhD2w25/GQ==
+ bh=uMcQwvJtYgPF3/SWiX8mqwn0uqC7n79nJWM/eQcAhjY=;
+ b=ANfEru+x6vLNiu919QPZYkFb1LLgJTHtu6JE/6M8daOsrXPXo/uzRyw+j5DY0f3dIjPLkRuz7z6hZEfx1ZUQiNc+rCwT2k7g7fTHClaEXmxXoankaxm4vGoKwLaMBwbv3KVBSIqvjJ7WAtjPIx3aULVeI+Fk1NXVohb70qo/GN1R6ETx8FB3taFqaqrzC2PxnnrCp/TXK5XO9UehI7UW1bd6SZmiVxOuZsoVFS/cGuIRX/w6sW3t8PUAk/+0yz/yC5RmxNmr+RuGgCA3XHnaKKUcjTiGXNFwL6L0jNu4ngtqZq0A4bJwswe49tfLOaZBxrfbWfGGPu8Zzjc0Tyv/rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xepuNOJDUAiZUvu15u7YPooLQWFssVBVOPSAjM0yJ40=;
- b=xzTr6LBNYzYsMFYeeNsiSyHEwcMQqQgniN9a3UY4sVTmJpwLB11qBMRTMtft/z6Xp1GEhzI0Bg4n4YwrOGeYdC/6gFkeaVlLO72QEdedKhxbcW7F+WGmTGhPrqyQtnp/NtGGhgFIOCJ+I6zXOuUIWHvHbT5vllpuAKKbTWVf/zk=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
- by DM5PR1201MB0122.namprd12.prod.outlook.com (2603:10b6:4:57::10) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=uMcQwvJtYgPF3/SWiX8mqwn0uqC7n79nJWM/eQcAhjY=;
+ b=H9tcRJOik7q/sV7u2tLlGkc5gp1Whf9OPsLTjwgH6XUuMWC5LDEvvbC64B+EdEgZO7GqaT4ZmpTxugq9JtmsaKm9dumCQIqEKrouc6G01Iz0o/arnFKjYlkdaypx5hBBAkXiYws19gplOrLT0W/Ty1kNJ8MHsWrzR4dNwMTEjlQ=
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
+ by BYAPR11MB2680.namprd11.prod.outlook.com (2603:10b6:a02:c9::21)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
- 2020 20:49:58 +0000
-Received: from DM6PR12MB3962.namprd12.prod.outlook.com
- ([fe80::3452:6d8f:e0ef:b45e]) by DM6PR12MB3962.namprd12.prod.outlook.com
- ([fe80::3452:6d8f:e0ef:b45e%6]) with mapi id 15.20.3370.016; Fri, 11 Sep 2020
- 20:49:58 +0000
-Subject: Re: [PATCH 1/1] drm/amdgpu: Convert to using devm_drm_dev_alloc()
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
-References: <20200904012218.4971-1-luben.tuikov@amd.com>
- <20200904012218.4971-2-luben.tuikov@amd.com>
- <CADnq5_NRyOfP48C5w4Q87qx98-hTLQP7PsP8OhGMbXJBu_Gb4A@mail.gmail.com>
- <20200907080608.GP2352366@phenom.ffwll.local>
- <20200907080726.GQ2352366@phenom.ffwll.local>
- <6b97cb7f-61f2-8e89-c7bf-f98166accf39@amd.com>
-Message-ID: <bae5883a-0edd-7510-321f-2ae6fffeacf4@amd.com>
-Date: Fri, 11 Sep 2020 16:49:56 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-In-Reply-To: <6b97cb7f-61f2-8e89-c7bf-f98166accf39@amd.com>
-Content-Language: en-CA
-X-ClientProxiedBy: YTBPR01CA0021.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::34) To DM6PR12MB3962.namprd12.prod.outlook.com
- (2603:10b6:5:1ce::21)
+ 2020 20:54:41 +0000
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::1d4e:2269:63d7:f2d6]) by BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::1d4e:2269:63d7:f2d6%6]) with mapi id 15.20.3348.019; Fri, 11 Sep 2020
+ 20:54:41 +0000
+From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+To: Neil Armstrong <narmstrong@baylibre.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Paauwe, 
+ Bob J" <bob.j.paauwe@intel.com>, "Dea, Edmund J" <edmund.j.dea@intel.com>
+Subject: RE: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
+Thread-Topic: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
+Thread-Index: AQHWf9HFmAm5AcKirkeVCqcGep3UralhqwoAgAJPn8A=
+Date: Fri, 11 Sep 2020 20:54:41 +0000
+Message-ID: <BY5PR11MB418272DBF475568D4CE2B0D38C240@BY5PR11MB4182.namprd11.prod.outlook.com>
+References: <1598904172-30865-1-git-send-email-anitha.chrisanthus@intel.com>
+ <1598904172-30865-3-git-send-email-anitha.chrisanthus@intel.com>
+ <a1e50102-f400-c45c-9111-5b8afdba614c@baylibre.com>
+In-Reply-To: <a1e50102-f400-c45c-9111-5b8afdba614c@baylibre.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: baylibre.com; dkim=none (message not signed)
+ header.d=none;baylibre.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.151.242.136]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e9eeff28-eb0d-4891-98ee-08d85694e7a4
+x-ms-traffictypediagnostic: BYAPR11MB2680:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB268037E0B48F531C95E124428C240@BYAPR11MB2680.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1360;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IKoywcYCNZGFg5S3GHgoIEseT06admqrW43/KLkY90450RE2tGiSE6lfZ0oneMTnDtJtvppBN7glTBSMgR4R/l5M/KPevIRk5r4yiSsQFY+lBVEZj60062VhPWLzEQvFXLAnP690mZ3Eb3HEpVQ1mGcxaQrn78OeH8B09hPF5Wum+BQmEcXTB6IcmcdyoQnB5PQGl//tdEFNo77DTeZIKUFrrXA0oFN3co3gk306SqOOJw/Ym4kzGYtgqIk9MqAT3e04EJ1eiaoOIe/w82FWr9yxDuKVq+mypTVDEWgxbzHnN6KCkGiMoTIkVL+GxsOVLNbxjvxYh2wkzjUTotV4CEXBXDAnoVD9jzBkkPQCJqBt2xJUoi+mW5zdFGHGtR+4uC2o08T80ss4w5tJzZJpNQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(71200400001)(66446008)(4326008)(7696005)(316002)(966005)(2906002)(53546011)(110136005)(6506007)(83380400001)(33656002)(64756008)(52536014)(6636002)(9686003)(5660300002)(66946007)(76116006)(107886003)(55016002)(66556008)(66476007)(8936002)(26005)(86362001)(8676002)(186003)(478600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: vSNSiGoBSnsQoOio4sv6UnxeJA7ENspERMtR85RfF5bBSAn2am5j5Ap++LdsczjorkFB4pVqeNEL3wSW4CdP0O/b7l5x/t5NkA1FLpbgziQb4MLPbhC/eevp9qGBnFRWTA1GIGtq3vRSRZNLFfCsK1TnOSBn9elFLWvO8lPaVx9p6FDmJ6ZW6QuCbXfBaRy0qAqjLigHDPQl+IiLEYWR4b6R19ER3vq56sqf/LWXKJvJ7uvCYmQFKbrNSJkBbG0hStg5LTIyuiuAwsnUtnjUwki9EuvPL7Ytxz7ubfYmtljbcILMeeqbnZBQQu87kzSlw8/bAsTQrNet6onso1I+3DVdyRSzhlYOL9Ogs7K56nVdCWXD2o494VWeFUtEAPC3p9ensKVQ9aajkjlPXD7jqfBvv8uu8qzuQBft3I1ZxuXU9X8hvtNwITybysRkGR+RLPfKs65uThMRSp+JW3VVBBdzhtKovzfhVliYKovqXn0p4GsS69oKN4WYGV+2Qs/yyTk4gJ5WbXv6SiJ9oN0fWdDjPLhXY/HvmFeKih4yaGA3KhLRk0D5sYrU52AUF2hMspEVvs9EdrnQlZMEoXkM6vieprwEMbWNJrVbM+r9G0Xxdx4Xy0Y63Rn9Udt8lYLrRXsO4XbHy9tHnWm5VIZY7g==
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.252.35.64] (165.204.54.211) by
- YTBPR01CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3370.16 via Frontend Transport; Fri, 11 Sep 2020 20:49:57 +0000
-X-Originating-IP: [165.204.54.211]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0f1471a3-c3c2-486d-2f6f-08d856943ec5
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB0122:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB0122DFFA413B5AFE8E18550099240@DM5PR1201MB0122.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YGnTzR3CqJGRyJ73KxQpOMPCxQkA61+XHdLQdb/BLPbJaKWAgqHrcwbm8RBhdE+fI+sh2162/nUckogyxXcceeT5h5Ex/G3hk9Y94YEH/ORS4S2fL1gXHJpF4JtTRkPTAuQ/A5mNns+9tHT6/EQ2a9lGLF6lI4NuCvCVC8Kpfv3g/U14r5Dmo1AlidBx7Una9lhdONI5eYivXlRjLBPfGo1/yXqjwKkSfatzWKw4mupnWry/dRVL6Wy9GrjPo6Ny604A8aZd2taR5EGI6SmWIH61AzdTmxLhGAWVsFSfq/sAZtSr7Ai/PfzkrtCjrE18vEEkdylhz2dHmR0ynDOmPOZa5y4YZPFDzE72mVoaXzDJH8o5nVrUzlYvkQo5lQzXaxG52GY+jGtDtBB/AXoalP7FUgMdbn258IiDHZvaeAms89NSLg9CXS0fiEr7Dhqi0wLS1wFzOmAIukG+7hlwKQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(136003)(376002)(366004)(478600001)(45080400002)(956004)(54906003)(26005)(2616005)(53546011)(36756003)(16576012)(316002)(16526019)(66476007)(110136005)(44832011)(66556008)(5660300002)(83380400001)(186003)(6486002)(66946007)(8676002)(8936002)(83080400001)(4326008)(966005)(86362001)(2906002)(31686004)(52116002)(31696002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: ZsOnTWAm+alG3QfqLYyKWQCMIJ6c2bubcDdpL11YqRQAKPxwDFMxNyF1JJRwUCxN4bpK4HEmK5UlCRcAflWT9UHXSAlXjahtdJrNhKjMs1dLuRpTZp7xZ5YMeNtwDIg46GcYmuMzukagrELEuDmg64QewITnKHP6BLDSONO6l3aaxZtyTxqRvh+DUrF5pTzrwz6M4mLJfgVJEKlrotkZgQEQbbbSUAh8a/SMNAgBsb2P+RC9OpnI9nmKcW/1S5vIq1p2C9Cn6HnJAqYgG4WVtjLVSyFHTENTKhfgsn2mTNRl54zuS2BBUcLqKrj/0P6BDEDNPk5C0atx3y1nx1qJGGISNhze9BCEe58qGthLdiSIJ0C64HUsITcyvYJ6sVjFTPMtEf4+3qtEqBK4XzczcZjljER4Q9UqLrbGd0LZg6SVsRazgqZzR1onuxb6lzsilWMSYo4LugLSXSgAX2drvxwFePzsuVLm6PjVUQ5Y9FSZBADtK47YTyDqkNS8kZkWdGh2hjjsZ2DpO6nhG0Iy2ABmmZgccWC675mUFK6Kpgy3Mhd7w/sm/kyIO4tSUUw75F0d+jHBDUAmDe4fdxRlH0HJ5pao8ycsuJ1Gc5FlQ4/HsXCdPUZxnAG44H66Yyd520XMIPJYnhghMjmAGNXHOQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f1471a3-c3c2-486d-2f6f-08d856943ec5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2020 20:49:58.3332 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2FBcoK2QRSD6byrcdI/cHbP/aM4+992QguB/Uap1gaJEpt4sadF6lRavB6L+Slpx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0122
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9eeff28-eb0d-4891-98ee-08d85694e7a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2020 20:54:41.2858 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EjyqTFEa64S8SWjb2FKju5bXxnK02b+UP/yv6o0Vo+1ilgcICRM/zLG5nDKt+lT6WiuUjTe4cjGq/zdv+KzNRyvy8F3+OjqSGrqCNvL8oV4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2680
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,165 +124,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>, "Tuikov,
- Luben" <Luben.Tuikov@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: "Vetter, Daniel" <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-09-08 16:09, Luben Tuikov wrote:
-> On 2020-09-07 04:07, Daniel Vetter wrote:
->> On Mon, Sep 07, 2020 at 10:06:08AM +0200, Daniel Vetter wrote:
->>> On Sat, Sep 05, 2020 at 11:50:05AM -0400, Alex Deucher wrote:
->>>> On Thu, Sep 3, 2020 at 9:22 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
->>>>>
->>>>> Convert to using devm_drm_dev_alloc(),
->>>>> as drm_dev_init() is going away.
->>>>>
->>>>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
->>>>
->>>> I think we can drop the final drm_put in the error case?  I think the
->>>> unwinding in current devm code should take care of it.
->>>
->>> Same applies for the pci remove hook too.
->>
->> KASAN run with unload should have caught this. 
-> 
-> But it didn't? Why?
-> Could it be that drm_dev_put() actually got
-> the kref to 0 and then drm_dev_release()
-> was called which did a kfree()?
-> 
-> Could you try that same unload KASAN run but
-> with your suggestion of removing drm_dev_put() from
-> amdgpu_pci_remove()? What do you get then?
+Hi Neil,
+Thanks for your review. Is a device tree binding document like this one enough? Entries for kmb-drm are similar to this.
+https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/gpu/brcm%2Cbcm-v3d.txt
 
-Hi Daniel,
+How do I submit it once I have it ready?
 
-Have you had a chance to run this unload KASAN run with
-your suggestion of removing drm_dev_put() from
-the PCI release hook?
+Thanks,
+Anitha
 
-If it "should have caught this", but it didn't,
-perhaps it did catch it when you removed the drm_dev_put()
-hook from the PCI release hook, when you did a KASAN unload run?
-Showing that drm_dev_put() is still necessary, since,
-1) we're still using kref,
-2) kref is kref-init-ed under devm_drm_dev_alloc() as I pointed
-   out in my reply to Alex in this thread.
-
-I believe KASAN (and logic) show this patch to be solid.
-
+> -----Original Message-----
+> From: Neil Armstrong <narmstrong@baylibre.com>
+> Sent: Thursday, September 10, 2020 2:33 AM
+> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>; dri-
+> devel@lists.freedesktop.org; Paauwe, Bob J <bob.j.paauwe@intel.com>;
+> Dea, Edmund J <edmund.j.dea@intel.com>
+> Cc: Vetter, Daniel <daniel.vetter@intel.com>
+> Subject: Re: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
 > 
->> I strongly recommend doing
->> that for any changes to the unload code, it's way to easy to mix up
->> something and release it in the wrong order or from the wrong callback or
->> with the wrong managed (devm_ vs drmm_) functions.
+> On 31/08/2020 22:02, Anitha Chrisanthus wrote:
+> > This is a basic KMS atomic modesetting display driver for KeemBay family
+> of
+> > SOCs. Driver has no 2D or 3D graphics.It calls into the ADV bridge
+> > driver at the connector level.
+> >
+> > Single CRTC with LCD controller->mipi DSI-> ADV bridge
+> >
+> > Only 1080p resolution and single plane is supported at this time.
+> >
+> > v2: moved extern to .h, removed license text
+> >     use drm_dev_init, upclassed dev_private, removed HAVE_IRQ.(Sam)
+> >
+> > v3: Squashed all 59 commits to one
+> >
+> > v4: review changes from Sam Ravnborg
+> > 	renamed dev_p to kmb
+> > 	moved clocks under kmb_clock, consolidated clk initializations
+> > 	use drmm functions
+> > 	use DRM_GEM_CMA_DRIVER_OPS_VMAP
+> >
+> > v5: corrected spellings
+> > v6: corrected checkpatch warnings
+> > v7: review changes Sam Ravnborg and Thomas Zimmerman
+> > 	removed kmb_crtc.h kmb_crtc_cleanup (Thomas)
+> > 	renamed mode_set, kmb_load, inlined unload (Thomas)
+> > 	moved remaining logging to drm_*(Thomas)
+> > 	re-orged driver initialization (Thomas)
+> > 	moved plane_status to drm_private (Sam)
+> > 	removed unnecessary logs and defines and ifdef codes (Sam)
+> > 	call helper_check in plane_atomic_check (Sam)
+> > 	renamed set to get for bpp and format functions(Sam)
+> > 	use drm helper functions for reset, duplicate/destroy state instead
+> > 	of kmb functions (Sam)
+> > 	removed kmb_priv from kmb_plane and removed kmb_plane_state
+> (Sam)
+> >
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
+> > ---
+> >  drivers/gpu/drm/kmb/kmb_crtc.c  | 224 +++++++++++++
+> >  drivers/gpu/drm/kmb/kmb_drv.c   | 676
+> ++++++++++++++++++++++++++++++++++++++++
+> >  drivers/gpu/drm/kmb/kmb_drv.h   | 170 ++++++++++
+> >  drivers/gpu/drm/kmb/kmb_plane.c | 480
+> ++++++++++++++++++++++++++++
+> >  drivers/gpu/drm/kmb/kmb_plane.h | 110 +++++++
+> >  5 files changed, 1660 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+> >  create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+> >  create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+> >  create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+> >  create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+> >
 > 
-> Sorry, I don't understand what you mean by "doing that"? Do
-> you mean "not calling drm_dev_put()"? Sure, but what
-> are we supposed to call instead?
+> [...]
 > 
-> I also don't understand what you mean by "easy to mix up something
-> and release it in wrong order or from the wrong callback..." etc.
+> > +
+> > +static const struct of_device_id kmb_of_match[] = {
+> > +	{.compatible = "intel,kmb_display"},
+> > +	{},
+> > +};
 > 
-> If you want things to happen in certain order,
-> you can either put the correct-order-sequence
-> behind the non-zero-->0 transition of kref, say in
-> drm_dev_release() as it is right now,
+> As I already commented on v1, a proper YAML bindings files
+> is mandatory here, to check if the bindings are correct and if
+> the drivers uses them correctly (port/endpoints, etc..)
 > 
-> static void drm_dev_release(struct kref *ref)
-> {
->         struct drm_device *dev = container_of(ref, struct drm_device, ref);
-> 
->         if (dev->driver->release)
->                 dev->driver->release(dev);
-> 
->         drm_managed_release(dev);
-> 
->         kfree(dev->managed.final_kfree);
-> }
-> 
-> Or you can remove kref from DRM dev (which I do not
-> recommend), and stipulate the release sequence
-> as I asked in Message-ID: <165961bb-3b5b-cedc-2fc0-838b7999d2e3@amd.com>,
-> "Re: [PATCH] drm/managed: Cleanup of unused functions and polishing docs".
-> 
-> Then we can follow that and submit patches to conform.
-
-Eagerly awaiting your response on this so that we can conform
-to the direction you're setting forth.
-
-Are you removing kref (release() cb) from DRM and if so,
-what function should we call in order to do the "final"
-(although without kref, the notion of "final" is obviated)
-free, OR kref stays in and this patch, which conforms
-to using devm_drm_dev_alloc(), as postulated by you,
-can go in.
-
-Regards,
-Luben
-
-> 
-> Regards,
-> Luben
-> 
-> 
-> 
->> -Daniel
->>
->>> -Daniel
->>>>
->>>> Alex
->>>>
->>>>> ---
->>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++--------
->>>>>  1 file changed, 3 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>>>> index 146a85c8df1c..06d994187c24 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>>>> @@ -1142,18 +1142,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->>>>>         if (ret)
->>>>>                 return ret;
->>>>>
->>>>> -       adev = kzalloc(sizeof(*adev), GFP_KERNEL);
->>>>> -       if (!adev)
->>>>> -               return -ENOMEM;
->>>>> +       adev = devm_drm_dev_alloc(&pdev->dev, &kms_driver, typeof(*adev), ddev);
->>>>> +       if (IS_ERR(adev))
->>>>> +               return PTR_ERR(adev);
->>>>>
->>>>>         adev->dev  = &pdev->dev;
->>>>>         adev->pdev = pdev;
->>>>>         ddev = adev_to_drm(adev);
->>>>> -       ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
->>>>> -       if (ret)
->>>>> -               goto err_free;
->>>>> -
->>>>> -       drmm_add_final_kfree(ddev, adev);
->>>>>
->>>>>         if (!supports_atomic)
->>>>>                 ddev->driver_features &= ~DRIVER_ATOMIC;
->>>>> --
->>>>> 2.28.0.394.ge197136389
->>>>>
->>>>> _______________________________________________
->>>>> amd-gfx mailing list
->>>>> amd-gfx@lists.freedesktop.org
->>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=02%7C01%7Cluben.tuikov%40amd.com%7C0c811cf4c16d4f79bc0d08d853051125%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637350628521258815&amp;sdata=k9GiFNi%2Fu6Y1AlW7ea1cQINYigfYbrvPk2RkmUJkY8U%3D&amp;reserved=0
->>>
->>> -- 
->>> Daniel Vetter
->>> Software Engineer, Intel Corporation
->>> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=02%7C01%7Cluben.tuikov%40amd.com%7C0c811cf4c16d4f79bc0d08d853051125%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637350628521258815&amp;sdata=aIT9t6q0qCTy%2BZhHPH0XIJgZ%2FYNF8xwzAQ2HlbxxMDk%3D&amp;reserved=0
->>
-> 
-
+> Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
