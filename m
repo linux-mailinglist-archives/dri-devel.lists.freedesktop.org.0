@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2040E268568
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:04:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F10B0268549
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBFB6E200;
-	Mon, 14 Sep 2020 07:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 895CC6E1C4;
+	Mon, 14 Sep 2020 07:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941066E069
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 16:40:12 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id v23so13025737ljd.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 09:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s/H/gDz410T534CAt4TPbdHUY+qlZvAzdyyNfh+ES2I=;
- b=RhtS9pjymfijzTI6xem6SOzEF898S/QqhAEn1KdjA2bCT0MgB9o3Uro+UgFRTva06F
- LEVDgKjSTWHMytB5vn1xpCoXaSAhQrJfyT8cdKlH3Uarlz4FOgPT0mYVnapsWi8F6JEN
- TMLSRrWKyw+Mqs8GXt5oxBM3h+9NBXur5iQvVUiVYbW+Qr+1RbOb+Tp86MLfpcF7AEdh
- iM2AJGCE7moZMSDaUcJtQtVqV2usa1v6ZLB9HjCsTYj2XD8yOC+0P9WUcCRV3MMVLro5
- mzdofZ5zRwjc8mebp4UNrakC5RgQD6E9FcJOAUUHJLPCWD6v2Z8AP7mmcaZMxlS2UK0T
- /JjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s/H/gDz410T534CAt4TPbdHUY+qlZvAzdyyNfh+ES2I=;
- b=MwwxBJeAZAE4TU4xywZnjdDf4N16tcUEYeaSp+Uh7MqNv9N6uBTnL6WA5eRqexgbfr
- HJbvMxmxd30CsHG4Q4NXZtrWIu1++MpBtkVDaPNHS8exggUu7PICe4h7sE3WU8VdyjJ5
- bMRY5xnHVhu3ySyugd4HZ2+Sfje5QIk3yP3EYAhIpMrncYuvYjA7rnkBm6oE8wClV75j
- 3z6dh1WvMTiWAAAof/qW9il3Esos2cqfJVFZ8V2Yi14QLv8bB9wZFwcg6vWRbbA9Xgoa
- ADVamYXyWQwePhKKpgtpyRLuRSH8fBujKn/Tkm2hbD5f7lLZcelED8lLWAErYcc0r0im
- prYQ==
-X-Gm-Message-State: AOAM531tTbnZmtcPH3ytV9UElxjRZMTouzccZdIKGtUvOjn3eQUR1AhB
- cQRpO5dV0wQtwXO1jkZcsQg=
-X-Google-Smtp-Source: ABdhPJwVShUZYpjapXvRIR//ZQongBdDDi5huXKQAa0hbSUrTv/ffz5KoIzURpMgPoctRWXXejP5DQ==
-X-Received: by 2002:a2e:9ad4:: with SMTP id p20mr1120622ljj.456.1599842410904; 
- Fri, 11 Sep 2020 09:40:10 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id 10sm500534lfq.64.2020.09.11.09.40.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Sep 2020 09:40:10 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 10/17] WIP: gpu: host1x: Add no-recovery mode
-To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-11-mperttunen@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7d7a29e8-3151-12ea-da66-d8a479edda84@gmail.com>
-Date: Fri, 11 Sep 2020 19:40:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from a27-186.smtp-out.us-west-2.amazonses.com
+ (a27-186.smtp-out.us-west-2.amazonses.com [54.240.27.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 920D76EAB3;
+ Fri, 11 Sep 2020 16:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=gbvhytky6xpx7itkhb67ktsxbiwpnxix; d=codeaurora.org; t=1599843010;
+ h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
+ bh=75M3K27A75eW01qMnHulweMV5JfADkFu3ldMwzlgYeY=;
+ b=mW8LGoOS/6Jq0Ib6WLcF6Pci/FZtFlRyzdcCdlKBlpD//1wd6KArghw/mjoqSXMY
+ CosjOOmrfqPzyJRe2XZCO3hPGcqDIYLcPB5sz2/mh+IVNqTrGPjGT7l1YWXeFIY5WGv
+ vq09NqpkiOBIyFepoB4G7DTfkzqkgtrwLbrAr8DA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599843010;
+ h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:Feedback-ID;
+ bh=75M3K27A75eW01qMnHulweMV5JfADkFu3ldMwzlgYeY=;
+ b=lgrdhX1uI1QsEmsyPKHre9UuazR7joAymA204PS25rAS22EWcXBmuantTOZ9mBEi
+ FFMFuRyu3/OjwgDInPOx4ApDrQkihBpZQMVP8LDd/ZA7w5uvh9keRGB9cWAsAnCmSXS
+ PrTURa5HTQ6n+0S+1zRxe6BwizaaI9L5eu9g0WSk=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200905103420.3021852-11-mperttunen@nvidia.com>
-Content-Language: en-US
+Date: Fri, 11 Sep 2020 16:50:10 +0000
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCHv4 6/6] iommu: arm-smmu-impl: Remove unwanted extra blank
+ lines
+In-Reply-To: <7ff9b238-e203-059f-d793-1c44475c6aa2@arm.com>
+References: <cover.1599832685.git.saiprakash.ranjan@codeaurora.org>
+ <010101747d912d9f-c8050b8d-1e81-4be0-ac35-b221f657b490-000000@us-west-2.amazonses.com>
+ <c26b5317-f12d-8be9-be45-3307ce5efbfc@arm.com>
+ <20200911160706.GA20802@willie-the-truck>
+ <010101747df8e9df-fad2f88d-e970-4753-a99a-2cfeeb1a29a9-000000@us-west-2.amazonses.com>
+ <7ff9b238-e203-059f-d793-1c44475c6aa2@arm.com>
+Message-ID: <010101747e13064f-3cf95243-ff07-40a3-84fb-c554695a1372-000000@us-west-2.amazonses.com>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+X-SES-Outgoing: 2020.09.11-54.240.27.186
+Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
 X-Mailman-Approved-At: Mon, 14 Sep 2020 07:03:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,35 +63,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Will Deacon <will@kernel.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDUuMDkuMjAyMCAxMzozNCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gKwl9IGVsc2Ug
-ewo+ICsJCXN0cnVjdCBob3N0MXhfam9iICpmYWlsZWRfam9iID0gam9iOwo+ICsKPiArCQlob3N0
-MXhfam9iX2R1bXAoZGV2LCBqb2IpOwo+ICsKPiArCQlob3N0MXhfc3luY3B0X3NldF9sb2NrZWQo
-am9iLT5zeW5jcHQpOwo+ICsJCWZhaWxlZF9qb2ItPmNhbmNlbGxlZCA9IHRydWU7Cj4gKwo+ICsJ
-CWxpc3RfZm9yX2VhY2hfZW50cnlfY29udGludWUoam9iLCAmY2RtYS0+c3luY19xdWV1ZSwgbGlz
-dCkgewo+ICsJCQl1bnNpZ25lZCBpbnQgaTsKPiArCj4gKwkJCWlmIChqb2ItPnN5bmNwdCAhPSBm
-YWlsZWRfam9iLT5zeW5jcHQpCj4gKwkJCQljb250aW51ZTsKPiArCj4gKwkJCWZvciAoaSA9IDA7
-IGkgPCBqb2ItPm51bV9zbG90czsgaSsrKSB7Cj4gKwkJCQl1bnNpZ25lZCBpbnQgc2xvdCA9IChq
-b2ItPmZpcnN0X2dldC84ICsgaSkgJQo+ICsJCQkJCQkgICAgSE9TVDFYX1BVU0hCVUZGRVJfU0xP
-VFM7Cj4gKwkJCQl1MzIgKm1hcHBlZCA9IGNkbWEtPnB1c2hfYnVmZmVyLm1hcHBlZDsKPiArCj4g
-KwkJCQltYXBwZWRbMipzbG90KzBdID0gMHgxYmFkMDAwMDsKPiArCQkJCW1hcHBlZFsyKnNsb3Qr
-MV0gPSAweDFiYWQwMDAwOwoKVGhlIDB4MWJhZDAwMDAgaXMgYSB2YWxpZCBtZW1vcnkgYWRkcmVz
-cyBvbiBUZWdyYTIwLgoKVGhlIDB4NjAwMDAwMDAgaXMgaW52YWxpZCBwaHlzIGFkZHJlc3MgZm9y
-IGFsbCBoYXJkd2FyZSBnZW5lcmF0aW9ucy4KSXQncyB1c2VkIGJ5IGdyYXRlLWtlcm5lbCBbMV0g
-YW5kIFZERSBkcml2ZXIgWzJdLiBOb3RlIHRoYXQgdGhlIDB4NiA8PAoyOCBpcyBhbHNvIGludmFs
-aWQgSG9zdDF4IG9wY29kZSwgd2hpbGUgMHgxIHNob3VsZCBicmVhayBDRE1BIHBhcnNlcgpkdXJp
-bmcgb2YgUEIgZGVidWctZHVtcGluZy4KClsxXQpodHRwczovL2dpdGh1Yi5jb20vZ3JhdGUtZHJp
-dmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uaCNMMTYKClsy
-XQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92NS45LXJjNC9zb3VyY2UvZHJpdmVy
-cy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZkZS9pb21tdS5jI0w5OQoKVGhlIFZERSBkcml2ZXIgcmVz
-ZXJ2ZXMgdGhlIHRyYXBwaW5nIElPVkEgYWRkcmVzc2VzLCBJIGFzc3VtZSB0aGUgSG9zdDF4CmRy
-aXZlciBzaG91bGQgZG8gdGhlIHNhbWUuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On 2020-09-11 22:04, Robin Murphy wrote:
+> On 2020-09-11 17:21, Sai Prakash Ranjan wrote:
+>> On 2020-09-11 21:37, Will Deacon wrote:
+>>> On Fri, Sep 11, 2020 at 05:03:06PM +0100, Robin Murphy wrote:
+>>>> BTW am I supposed to have received 3 copies of everything? Because I 
+>>>> did...
+>>> 
+>>> Yeah, this seems to be happening for all of Sai's emails :/
+>>> 
+>> 
+>> Sorry, I am not sure what went wrong as I only sent this once
+>> and there are no recent changes to any of my configs, I'll
+>> check it further.
+> 
+> Actually on closer inspection it appears to be "correct" behaviour.
+> I'm still subscribed to LAKML and the IOMMU list on this account, but
+> normally Office 365 deduplicates so aggressively that I have rules set
+> up to copy list mails that I'm cc'ed on back to my inbox, in case they
+> arrive first and cause the direct copy to get eaten - apparently
+> there's something unique about your email setup that manages to defeat
+> the deduplicator and make it deliver all 3 copies intact... :/
+> 
+
+No changes in my local setup atleast, but in the past we have
+had cases with codeaurora mail acting weird or it could be my vpn,
+will have to check.
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
