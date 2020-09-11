@@ -1,32 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EF0265AC8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:47:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C725265AE3
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53F906E359;
-	Fri, 11 Sep 2020 07:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33AC36E370;
+	Fri, 11 Sep 2020 07:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1C8D6E359
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:47:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 353DAAEAB;
- Fri, 11 Sep 2020 07:48:04 +0000 (UTC)
-Subject: Re: [PATCH] drm/vc4: Remove unused variables
-To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-References: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <83352520-3f8c-96c4-d769-e1c74435d039@suse.de>
-Date: Fri, 11 Sep 2020 09:47:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A584E6E370
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:54:26 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id 37so7640332oto.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 00:54:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iRv9yIHZZUvAx/sjt2B6TJL/6NYp5TV525d+8nPrBR4=;
+ b=I+2RFZQ/M2QdHKLfo5g+fn5MvHdaQrAUqz/SfY/4xm/AeO0PPxEY5O7jpsDh1pPYys
+ +QAeDUFytkBHbe22MmILP4caW9vyorJehGIGYUkWlEWKU9QFaa8nm6Hnc0N1TeeCfWu4
+ QTdKIPNbrT4Q8cETAcL5cPQiQR02pBcuB0SjQEMJhUm+cwziKRE2Dr5dMSjSKWjIjSss
+ Db8fP0MwtaDVGbNQ0/l9oPMTGdCBErS52yDf83gVEBBNX5gGN36inFHzYjzCdmw19WC7
+ hmRKPvdCjYL7jthFPXrq+ooI0kBIBB2vCPvJYwxmgczTHoM2XAmlMurWeqysWprYy6Zw
+ zUFA==
+X-Gm-Message-State: AOAM5326J3d/Kob5zL4ZcSTtz2cVyq4PiG6mN8P4TPBbK1QxuI47JloG
+ S41fBYjHwJ5qlAJl3sY3mFU9v6DgV/dKLkdxDQA=
+X-Google-Smtp-Source: ABdhPJzfYgS+XIweSuz4KWbw0J+8mr1lBKPTB2E+08G5MRtC2rI6aDS+r0yC6XPxYBq5m1BBJrK1GA/NBSzzIcumv9Q=
+X-Received: by 2002:a9d:5a92:: with SMTP id w18mr447420oth.145.1599810865961; 
+ Fri, 11 Sep 2020 00:54:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
+References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
+ <87a6y1rtun.wl-kuninori.morimoto.gx@renesas.com>
+ <20200908060657.GU6047@pendragon.ideasonboard.com>
+ <87wo14rd9v.wl-kuninori.morimoto.gx@renesas.com>
+ <20200908063732.GW6047@pendragon.ideasonboard.com>
+In-Reply-To: <20200908063732.GW6047@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 11 Sep 2020 09:54:15 +0200
+Message-ID: <CAMuHMdXb4G65k_Scp-0qakedg0kNYM3d3Nm6_ZsZuOEdygn8mA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/10] arm64: dts: renesas: r8a77961-salvator-xs: add
+ HDMI Sound support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,121 +56,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: multipart/mixed; boundary="===============1886516266=="
+Cc: Linux-DT <devicetree@vger.kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus <magnus.damm@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1886516266==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9"
+On Tue, Sep 8, 2020 at 8:37 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Tue, Sep 08, 2020 at 03:33:29PM +0900, Kuninori Morimoto wrote:
+> > > > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > > >
+> > > > This patch enables HDMI Sound on R-Car M3-W+ Salvator-XS board.
+> > > >
+> > > > This reverts commit b997613fad58a03588f0f64a3d86db6c5bd76dd2.
+> > >
+> > > Which tree can this commit be found in ?
+> >
+> > Grr, I forgot to remove it from git-log.
+> > will fix in v3
+>
+> No worries :-)
+>
+> I've applied patch 01 to 04 to my tree and plan to send a pull request
+> later today. Could you just let me know if you're fine with the small
+> modification to the commit message proposed in 04/10 ?
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9
-Content-Type: multipart/mixed; boundary="ZWDJi7XWO23ZqoDt57P3fWGwFy1rHBkcf";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Cc: linuxarm@huawei.com
-Message-ID: <83352520-3f8c-96c4-d769-e1c74435d039@suse.de>
-Subject: Re: [PATCH] drm/vc4: Remove unused variables
-References: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
+And I'm queueing patches 6-10 in renesas-devel for v5.10, with the "revert"
+line removed.  For patch 6, I took v1, as it matches what we did for M3-W.
 
---ZWDJi7XWO23ZqoDt57P3fWGwFy1rHBkcf
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Gr{oetje,eeting}s,
 
-Hi
+                        Geert
 
-Am 09.09.20 um 09:33 schrieb Tian Tao:
-> Fixes the following W=3D1 kernel build warning(s):
-> vc4_plane.c: In function =E2=80=98vc4_plane_init=E2=80=99:
-> vc4_plane.c:1340:6: warning: variable =E2=80=98ret=E2=80=99 set but not=
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> used [-Wunused-but-set-variable]
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->  drivers/gpu/drm/vc4/vc4_plane.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_=
-plane.c
-> index 24d7e6d..5be0f5dda 100644
-> --- a/drivers/gpu/drm/vc4/vc4_plane.c
-> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-> @@ -1337,7 +1337,6 @@ struct drm_plane *vc4_plane_init(struct drm_devic=
-e *dev,
->  	struct drm_plane *plane =3D NULL;
->  	struct vc4_plane *vc4_plane;
->  	u32 formats[ARRAY_SIZE(hvs_formats)];
-> -	int ret =3D 0;
->  	unsigned i;
->  	static const uint64_t modifiers[] =3D {
->  		DRM_FORMAT_MOD_BROADCOM_VC4_T_TILED,
-> @@ -1357,7 +1356,7 @@ struct drm_plane *vc4_plane_init(struct drm_devic=
-e *dev,
->  		formats[i] =3D hvs_formats[i].drm;
-> =20
->  	plane =3D &vc4_plane->base;
-> -	ret =3D drm_universal_plane_init(dev, plane, 0,
-> +	drm_universal_plane_init(dev, plane, 0,
->  				       &vc4_plane_funcs,
->  				       formats, ARRAY_SIZE(formats),
->  				       modifiers, type, NULL);
-
-IMHO vc4_plane_init() should rather handle ret correctly and return an
-error if it's non-zero.
-
-Best regards
-Thomas
-
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---ZWDJi7XWO23ZqoDt57P3fWGwFy1rHBkcf--
-
---tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9bK6MUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP5bQf/VHn1nSMXCTkKDNESxB12sxhspLze
-qy92rbzqMZtL+OBVPBdToJ8HpOwKKedr8WHrUR9AZwzDAlhryfw9b8aKSIABR4xD
-Ga2MirqR2OxGayovLTw/RRDyzgxd/TPTKOMzR5W7mKJOtEMGJBMYKlNRS0eGTMpB
-z/pbwMuMBz7od+T0d1ZA7PJOOc3U3cyZKmw+TUVAse5cEc9HqsK0ImSskgS6cb9i
-IGiGImK2+4XKrKVoOFuVEw57zfHnMDf9V7R6LdqP5/n7uN1H6eH7+igajF3tCOuR
-FPerZowdVlVdavd+JxiT0MSDlMZotWEVzwAd7L3/blo0ApI0Xf7cgslGGQ==
-=706w
------END PGP SIGNATURE-----
-
---tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9--
-
---===============1886516266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1886516266==--
