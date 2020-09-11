@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2201826856B
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:04:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40AB268546
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B05C6E202;
-	Mon, 14 Sep 2020 07:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A0D6E1B8;
+	Mon, 14 Sep 2020 07:03:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CCD6E07F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 11:22:14 +0000 (UTC)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 276D44D483AD00BB640F;
- Fri, 11 Sep 2020 19:22:11 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
- 19:22:01 +0800
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 070136E07F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 11:22:43 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 852E8207FBD92955F13B;
+ Fri, 11 Sep 2020 19:22:39 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
+ 19:22:32 +0800
 From: Yu Kuai <yukuai3@huawei.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <djkurtz@chromium.org>,
- <yt.shen@mediatek.com>, <ck.hu@mediatek.com>, <littlecvr@chromium.org>
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <jie.qiu@mediatek.com>,
+ <junzhi.zhao@mediatek.com>
 Subject: [PATCH] drm/mediatek: add missing put_device() call in
- mtk_drm_kms_init()
-Date: Fri, 11 Sep 2020 19:21:19 +0800
-Message-ID: <20200911112119.3218073-1-yukuai3@huawei.com>
+ mtk_hdmi_dt_parse_pdata()
+Date: Fri, 11 Sep 2020 19:21:51 +0800
+Message-ID: <20200911112151.3220469-1-yukuai3@huawei.com>
 X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
 X-Originating-IP: [10.175.127.227]
@@ -55,57 +55,79 @@ if of_find_device_by_node() succeed, mtk_drm_kms_init() doesn't have
 a corresponding put_device(). Thus add jump target to fix the exception
 handling for this function implementation.
 
-Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+Fixes: 8f83f26891e1 ("drm/mediatek: Add HDMI support")
 Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 040a8f393fe2..7aceace94ebf 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -165,7 +165,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 
- 	ret = drmm_mode_config_init(drm);
- 	if (ret)
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index f2e9b429960b..a97725680d4e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1507,25 +1507,30 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+ 		dev_err(dev,
+ 			"Failed to get system configuration registers: %d\n",
+ 			ret);
 -		return ret;
-+		goto put_mutex_dev;
- 
- 	drm->mode_config.min_width = 64;
- 	drm->mode_config.min_height = 64;
-@@ -182,7 +182,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 
- 	ret = component_bind_all(drm->dev, drm);
- 	if (ret)
--		return ret;
-+		goto put_mutex_dev;
- 
- 	/*
- 	 * We currently support two fixed data streams, each optional,
-@@ -229,7 +229,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
++		goto put_device;
  	}
- 	if (!dma_dev->dma_parms) {
- 		ret = -ENOMEM;
--		goto err_component_unbind;
-+		goto put_dma_dev;
+ 	hdmi->sys_regmap = regmap;
+ 
+ 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	hdmi->regs = devm_ioremap_resource(dev, mem);
+-	if (IS_ERR(hdmi->regs))
+-		return PTR_ERR(hdmi->regs);
++	if (IS_ERR(hdmi->regs)) {
++		ret = PTR_ERR(hdmi->regs);
++		goto put_device;
++	}
+ 
+ 	remote = of_graph_get_remote_node(np, 1, 0);
+-	if (!remote)
+-		return -EINVAL;
++	if (!remote) {
++		ret = -EINVAL;
++		goto put_device;
++	}
+ 
+ 	if (!of_device_is_compatible(remote, "hdmi-connector")) {
+ 		hdmi->next_bridge = of_drm_find_bridge(remote);
+ 		if (!hdmi->next_bridge) {
+ 			dev_err(dev, "Waiting for external bridge\n");
+ 			of_node_put(remote);
+-			return -EPROBE_DEFER;
++			ret = -EPROBE_DEFER;
++			goto put_device;
+ 		}
  	}
  
- 	ret = dma_set_max_seg_size(dma_dev, (unsigned int)DMA_BIT_MASK(32));
-@@ -256,9 +256,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- err_unset_dma_parms:
- 	if (private->dma_parms_allocated)
- 		dma_dev->dma_parms = NULL;
-+put_dma_dev:
-+	put_device(private->dma_dev);
- err_component_unbind:
- 	component_unbind_all(drm->dev, drm);
--
-+put_mutex_dev:
-+	put_device(private->mutex_dev);
- 	return ret;
+@@ -1534,7 +1539,8 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+ 		dev_err(dev, "Failed to find ddc-i2c-bus node in %pOF\n",
+ 			remote);
+ 		of_node_put(remote);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto put_device;
+ 	}
+ 	of_node_put(remote);
+ 
+@@ -1542,10 +1548,14 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+ 	of_node_put(i2c_np);
+ 	if (!hdmi->ddc_adpt) {
+ 		dev_err(dev, "Failed to get ddc i2c adapter by node\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto put_device;
+ 	}
+ 
+ 	return 0;
++put_device:
++	put_device(hdmi->cec_dev);
++	return ret;
  }
  
+ /*
 -- 
 2.25.4
 
