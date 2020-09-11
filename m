@@ -1,46 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09590265F1E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 13:59:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB124265FE6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 14:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3BC6E9FF;
-	Fri, 11 Sep 2020 11:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B29846E17B;
+	Fri, 11 Sep 2020 12:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B12196E15E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 11:59:27 +0000 (UTC)
-IronPort-SDR: l6ic1khofqepmzl3EyAhm6qY+oZuoHc45vqrEa1dINApY1fsY28liRDazD2lf4s8UBLQXJbOdU
- TVGzYWhWZ/fw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="220295365"
-X-IronPort-AV: E=Sophos;i="5.76,415,1592895600"; d="scan'208";a="220295365"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2020 04:59:26 -0700
-IronPort-SDR: nBMbAVI/5fX9U537ITu4TKQLuhp788Uw4uIaLyj26JzUBJOgzO4BGyIzdqhycLa8gkAGBTT4iG
- mCFKfNKttb6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,415,1592895600"; d="scan'208";a="286876173"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 11 Sep 2020 04:59:22 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 11 Sep 2020 14:59:21 +0300
-Date: Fri, 11 Sep 2020 14:59:21 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Stefan Agner <stefan@agner.ch>
-Subject: Re: [RFC PATCH 2/3] drm/atomic-helper: add REQUIRE_MATCHING_FB flag
-Message-ID: <20200911115921.GD6112@intel.com>
-References: <20200910092425.1016976-1-stefan@agner.ch>
- <20200910092425.1016976-2-stefan@agner.ch>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 393146E17B
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 12:57:46 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id w2so4364687wmi.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 05:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AguWSS6hH+lKKqVQd++lXjpy1KKYfYlmBDGR6jwD9iU=;
+ b=qsxqZFhRQjf3UVCkiXQvX79dxu4h5jcolrOFHxHCWKnRuGidD3RF14yM6WToV+CsgA
+ qVuvIqm2ii0y8HN5TuIqY5Np8h59SQcIR8y/VWcG6vsaDOvkkSJKwjnTNT+Sa1Ltmo7F
+ AeK91YoCNPZm6VfV/NcnHz+rW30NnnEPz1J5zgLxY3fLRmOvQsMt5SpXQtXrzFnZheUm
+ lk4S3fKlDmoIQaVRu0ZhNbTpjA64MVX57XMoaYX7FUH2KwcOBGML7pmpbFsJnu+Xwb7B
+ pNCNRZKH0mja8Ye1QRbezgUGy0cPxFkIkIGWxH2vgJczglh5D3TZY/5oAO9LZcRCGCgZ
+ WU/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=AguWSS6hH+lKKqVQd++lXjpy1KKYfYlmBDGR6jwD9iU=;
+ b=klLx9DrS8bdiNR5Em8bZ9c/rjS820+E4If/rLNKr1Ctk4/rTZy7SSp1PEewX6RhF8M
+ ilGGxz3aBD/seh9xdI4zWCfOLap0oRRCdq64txjcojX1r3zXgwdfHZuZpk2GT3tZ/y+i
+ 4vPLTgCGSLwGSRIvMOujsv2vuZzef0Gw4mjU2NJbp1wHWCNO16p243yG46MZZaCeMLeq
+ YT6Zagt20Fqq6t4QltDei8P85nkFO4d0C9hszXjMfcSsUT8jrEU+vab+jTYZgOeHGiqg
+ FE91c0zN19x432fSX6/T/Zwz2mgp7HeKKR7fgtBEP+gwWXJXMCBpp1fLJJsp2Vgb4Iri
+ 58Mg==
+X-Gm-Message-State: AOAM532ZOk2OF4xfWeIfgo59U2tTEdahhYrJCjfAz0hMlGm/lO/7Qf+I
+ 5Vr4FYJZjrmlW3cwku9C0+ji6g==
+X-Google-Smtp-Source: ABdhPJyasK1/i4ECt1iw6DYy+GKb0sbRfzfayrdMLJRo7zclGfzIDLYMnbSgKIrtN5TRBB9qQ5FrNA==
+X-Received: by 2002:a1c:156:: with SMTP id 83mr2148956wmb.49.1599829064665;
+ Fri, 11 Sep 2020 05:57:44 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:28ac:1772:9398:891a?
+ ([2a01:e35:2ec0:82b0:28ac:1772:9398:891a])
+ by smtp.gmail.com with ESMTPSA id h5sm4353923wrt.31.2020.09.11.05.57.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Sep 2020 05:57:43 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Use kmemdup cf. kmalloc+memcpy
+To: Alex Dewar <alex.dewar90@gmail.com>
+References: <20200909190213.156302-1-alex.dewar90@gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <c14d055d-1f6e-8c46-3a6e-7794ec69e6fe@baylibre.com>
+Date: Fri, 11 Sep 2020 14:57:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200910092425.1016976-2-stefan@agner.ch>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200909190213.156302-1-alex.dewar90@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,117 +122,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ Antonio Borneo <antonio.borneo@st.com>, Philippe Cornu <philippe.cornu@st.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Yannick_Fertr=c3=a9?= <yannick.fertre@st.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Markus Elfring <elfring@users.sourceforge.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 10, 2020 at 11:24:24AM +0200, Stefan Agner wrote:
-> Add flag which checks that the framebuffer size matches the plane size
-> exactly. This is useful for display controller which can't handle
-> framebuffers other than the plane/CRTC size.
-> =
-
-> Signed-off-by: Stefan Agner <stefan@agner.ch>
+On 09/09/2020 21:02, Alex Dewar wrote:
+> kmemdup can be used instead of kmalloc+memcpy. Replace an occurrence of
+> this pattern.
+> 
+> Issue identified with Coccinelle.
+> 
+> Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c               | 7 +++++++
->  drivers/gpu/drm/selftests/test-drm_plane_helper.c | 9 +++++++++
->  include/drm/drm_atomic_helper.h                   | 1 +
->  3 files changed, 17 insertions(+)
-> =
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> index 52f5c5a2ed64..7e9a62ad56e8 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -1049,12 +1049,10 @@ static void debugfs_create_files(void *data)
+>  	};
+>  	int i;
+>  
+> -	dsi->debugfs_vpg = kmalloc(sizeof(debugfs), GFP_KERNEL);
+> +	dsi->debugfs_vpg = kmemdup(debugfs, sizeof(debugfs), GFP_KERNEL);
+>  	if (!dsi->debugfs_vpg)
+>  		return;
+>  
+> -	memcpy(dsi->debugfs_vpg, debugfs, sizeof(debugfs));
+> -
+>  	for (i = 0; i < ARRAY_SIZE(debugfs); i++)
+>  		debugfs_create_file(dsi->debugfs_vpg[i].name, 0644,
+>  				    dsi->debugfs, &dsi->debugfs_vpg[i],
+> 
 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
-omic_helper.c
-> index 755572a37f3f..8bc7f8c2e566 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -802,6 +802,7 @@ int drm_atomic_helper_check_plane_state(struct drm_pl=
-ane_state *plane_state,
->  	int hscale, vscale;
->  	bool can_position =3D flags & DRM_PLANE_CAN_POSITION;
->  	bool can_update_disabled =3D flags & DRM_PLANE_CAN_UPDATE_DISABLED;
-> +	bool require_matching_fb =3D flags & DRM_PLANE_REQUIRE_MATCHING_FB;
->  =
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 
->  	WARN_ON(plane_state->crtc && plane_state->crtc !=3D crtc_state->crtc);
->  =
-
-> @@ -860,6 +861,12 @@ int drm_atomic_helper_check_plane_state(struct drm_p=
-lane_state *plane_state,
->  		return -EINVAL;
->  	}
->  =
-
-> +	if (require_matching_fb && (drm_rect_width(src) !=3D fb->width ||
-> +	    drm_rect_height(src) !=3D fb->height)) {
-
-src rect is .16 fixed point vs. fb dimensions are integers
-
-Still not a fan of these swiss army knife functions but meh.
-
-> +		DRM_DEBUG_KMS("Framebuffer size must match plane size.\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_check_plane_state);
-> diff --git a/drivers/gpu/drm/selftests/test-drm_plane_helper.c b/drivers/=
-gpu/drm/selftests/test-drm_plane_helper.c
-> index 01e95b2d572f..2c81bbef830e 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_plane_helper.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_plane_helper.c
-> @@ -139,6 +139,15 @@ int igt_check_plane_state(void *ignored)
->  	FAIL_ON(!check_src_eq(&plane_state, 0, 0, 1023 << 16, 767 << 16));
->  	FAIL_ON(!check_crtc_eq(&plane_state, 0, 0, 1023, 767));
->  =
-
-> +	/* Check whether requiring same size framebuffer works correctly. */
-> +	set_src(&plane_state, 0, 0, 1024 << 16, 768 << 16);
-> +	set_crtc(&plane_state, 0, 0, 1024, 768);
-> +	ret =3D drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
-> +						  DRM_PLANE_HELPER_NO_SCALING,
-> +						  DRM_PLANE_HELPER_NO_SCALING,
-> +						  DRM_PLANE_REQUIRE_MATCHING_FB);
-> +	FAIL(!ret, "Should not be able to use different size framebuffer with R=
-EQUIRE_MATCHING_FB\n");
-> +
->  	/* Simple scaling tests. */
->  	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
->  	set_crtc(&plane_state, 0, 0, 1024, 768);
-> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_hel=
-per.h
-> index bb9957b4f91b..244b730e84d3 100644
-> --- a/include/drm/drm_atomic_helper.h
-> +++ b/include/drm/drm_atomic_helper.h
-> @@ -43,6 +43,7 @@ int drm_atomic_helper_check_modeset(struct drm_device *=
-dev,
->  =
-
->  #define DRM_PLANE_CAN_POSITION				BIT(0)
->  #define DRM_PLANE_CAN_UPDATE_DISABLED			BIT(1)
-> +#define DRM_PLANE_REQUIRE_MATCHING_FB			BIT(2)
->  =
-
->  int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_st=
-ate,
->  					const struct drm_crtc_state *crtc_state,
-> -- =
-
-> 2.28.0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Thanks,
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
