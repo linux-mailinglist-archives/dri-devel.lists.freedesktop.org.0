@@ -2,48 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C725265AE3
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA498265AFA
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33AC36E370;
-	Fri, 11 Sep 2020 07:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 116146E366;
+	Fri, 11 Sep 2020 07:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A584E6E370
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:54:26 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id 37so7640332oto.4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 00:54:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iRv9yIHZZUvAx/sjt2B6TJL/6NYp5TV525d+8nPrBR4=;
- b=I+2RFZQ/M2QdHKLfo5g+fn5MvHdaQrAUqz/SfY/4xm/AeO0PPxEY5O7jpsDh1pPYys
- +QAeDUFytkBHbe22MmILP4caW9vyorJehGIGYUkWlEWKU9QFaa8nm6Hnc0N1TeeCfWu4
- QTdKIPNbrT4Q8cETAcL5cPQiQR02pBcuB0SjQEMJhUm+cwziKRE2Dr5dMSjSKWjIjSss
- Db8fP0MwtaDVGbNQ0/l9oPMTGdCBErS52yDf83gVEBBNX5gGN36inFHzYjzCdmw19WC7
- hmRKPvdCjYL7jthFPXrq+ooI0kBIBB2vCPvJYwxmgczTHoM2XAmlMurWeqysWprYy6Zw
- zUFA==
-X-Gm-Message-State: AOAM5326J3d/Kob5zL4ZcSTtz2cVyq4PiG6mN8P4TPBbK1QxuI47JloG
- S41fBYjHwJ5qlAJl3sY3mFU9v6DgV/dKLkdxDQA=
-X-Google-Smtp-Source: ABdhPJzfYgS+XIweSuz4KWbw0J+8mr1lBKPTB2E+08G5MRtC2rI6aDS+r0yC6XPxYBq5m1BBJrK1GA/NBSzzIcumv9Q=
-X-Received: by 2002:a9d:5a92:: with SMTP id w18mr447420oth.145.1599810865961; 
- Fri, 11 Sep 2020 00:54:25 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AED826E366
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:59:25 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 00E6BAFE6;
+ Fri, 11 Sep 2020 07:59:40 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: hdegoede@redhat.com, daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Subject: [PATCH] drm/vboxvideo: Use drm_gem_vram_vmap() interfaces
+Date: Fri, 11 Sep 2020 09:59:22 +0200
+Message-Id: <20200911075922.19317-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
- <87a6y1rtun.wl-kuninori.morimoto.gx@renesas.com>
- <20200908060657.GU6047@pendragon.ideasonboard.com>
- <87wo14rd9v.wl-kuninori.morimoto.gx@renesas.com>
- <20200908063732.GW6047@pendragon.ideasonboard.com>
-In-Reply-To: <20200908063732.GW6047@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Sep 2020 09:54:15 +0200
-Message-ID: <CAMuHMdXb4G65k_Scp-0qakedg0kNYM3d3Nm6_ZsZuOEdygn8mA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] arm64: dts: renesas: r8a77961-salvator-xs: add
- HDMI Sound support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,53 +36,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-DT <devicetree@vger.kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus <magnus.damm@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 8, 2020 at 8:37 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Sep 08, 2020 at 03:33:29PM +0900, Kuninori Morimoto wrote:
-> > > > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > > >
-> > > > This patch enables HDMI Sound on R-Car M3-W+ Salvator-XS board.
-> > > >
-> > > > This reverts commit b997613fad58a03588f0f64a3d86db6c5bd76dd2.
-> > >
-> > > Which tree can this commit be found in ?
-> >
-> > Grr, I forgot to remove it from git-log.
-> > will fix in v3
->
-> No worries :-)
->
-> I've applied patch 01 to 04 to my tree and plan to send a pull request
-> later today. Could you just let me know if you're fine with the small
-> modification to the commit message proposed in 04/10 ?
+VRAM helpers support ref counting for pin and vmap operations, no need
+to avoid these operations, by employing the internal kmap interface. Just
+use drm_gem_vram_vmap() and let it handle the details.
 
-And I'm queueing patches 6-10 in renesas-devel for v5.10, with the "revert"
-line removed.  For patch 6, I took v1, as it matches what we did for M3-W.
+Also unexport the kmap interfaces from VRAM helpers. Vboxvideo was the
+last user of these internal functions.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_gem_vram_helper.c | 56 +--------------------------
+ drivers/gpu/drm/vboxvideo/vbox_mode.c | 10 +++--
+ include/drm/drm_gem_vram_helper.h     |  3 --
+ 3 files changed, 8 insertions(+), 61 deletions(-)
 
-                        Geert
-
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index 07447abb4134..0e3cdc40379c 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -97,8 +97,8 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+  * hardware's draing engine.
+  *
+  * To access a buffer object's memory from the DRM driver, call
+- * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
+- * space and returns the memory address. Use drm_gem_vram_kunmap() to
++ * drm_gem_vram_vmap(). It maps the buffer into kernel address
++ * space and returns the memory address. Use drm_gem_vram_vunmap() to
+  * release the mapping.
+  */
+ 
+@@ -436,39 +436,6 @@ static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
+ 	return kmap->virtual;
+ }
+ 
+-/**
+- * drm_gem_vram_kmap() - Maps a GEM VRAM object into kernel address space
+- * @gbo:	the GEM VRAM object
+- * @map:	establish a mapping if necessary
+- * @is_iomem:	returns true if the mapped memory is I/O memory, or false \
+-	otherwise; can be NULL
+- *
+- * This function maps the buffer object into the kernel's address space
+- * or returns the current mapping. If the parameter map is false, the
+- * function only queries the current mapping, but does not establish a
+- * new one.
+- *
+- * Returns:
+- * The buffers virtual address if mapped, or
+- * NULL if not mapped, or
+- * an ERR_PTR()-encoded error code otherwise.
+- */
+-void *drm_gem_vram_kmap(struct drm_gem_vram_object *gbo, bool map,
+-			bool *is_iomem)
+-{
+-	int ret;
+-	void *virtual;
+-
+-	ret = ttm_bo_reserve(&gbo->bo, true, false, NULL);
+-	if (ret)
+-		return ERR_PTR(ret);
+-	virtual = drm_gem_vram_kmap_locked(gbo, map, is_iomem);
+-	ttm_bo_unreserve(&gbo->bo);
+-
+-	return virtual;
+-}
+-EXPORT_SYMBOL(drm_gem_vram_kmap);
+-
+ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+ {
+ 	if (WARN_ON_ONCE(!gbo->kmap_use_count))
+@@ -484,22 +451,6 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
+ 	 */
+ }
+ 
+-/**
+- * drm_gem_vram_kunmap() - Unmaps a GEM VRAM object
+- * @gbo:	the GEM VRAM object
+- */
+-void drm_gem_vram_kunmap(struct drm_gem_vram_object *gbo)
+-{
+-	int ret;
+-
+-	ret = ttm_bo_reserve(&gbo->bo, false, false, NULL);
+-	if (WARN_ONCE(ret, "ttm_bo_reserve_failed(): ret=%d\n", ret))
+-		return;
+-	drm_gem_vram_kunmap_locked(gbo);
+-	ttm_bo_unreserve(&gbo->bo);
+-}
+-EXPORT_SYMBOL(drm_gem_vram_kunmap);
+-
+ /**
+  * drm_gem_vram_vmap() - Pins and maps a GEM VRAM object into kernel address
+  *                       space
+@@ -511,9 +462,6 @@ EXPORT_SYMBOL(drm_gem_vram_kunmap);
+  * permanently. Call drm_gem_vram_vunmap() with the returned address to
+  * unmap and unpin the GEM VRAM object.
+  *
+- * If you have special requirements for the pinning or mapping operations,
+- * call drm_gem_vram_pin() and drm_gem_vram_kmap() directly.
+- *
+  * Returns:
+  * The buffer's virtual address on success, or
+  * an ERR_PTR()-encoded error code otherwise.
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+index d9a5af62af89..4fcc0a542b8a 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+@@ -397,11 +397,13 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+ 
+ 	vbox_crtc->cursor_enabled = true;
+ 
+-	/* pinning is done in prepare/cleanup framebuffer */
+-	src = drm_gem_vram_kmap(gbo, true, NULL);
++	src = drm_gem_vram_vmap(gbo);
+ 	if (IS_ERR(src)) {
++		/*
++		 * BUG: we should have pinned the BO in prepare_fb().
++		 */
+ 		mutex_unlock(&vbox->hw_mutex);
+-		DRM_WARN("Could not kmap cursor bo, skipping update\n");
++		DRM_WARN("Could not map cursor bo, skipping update\n");
+ 		return;
+ 	}
+ 
+@@ -414,7 +416,7 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+ 	data_size = width * height * 4 + mask_size;
+ 
+ 	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size);
+-	drm_gem_vram_kunmap(gbo);
++	drm_gem_vram_vunmap(gbo, src);
+ 
+ 	flags = VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
+ 		VBOX_MOUSE_POINTER_ALPHA;
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index 035332f3723f..b34f1da89cc7 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -101,9 +101,6 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
+ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
+ int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
+ int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
+-void *drm_gem_vram_kmap(struct drm_gem_vram_object *gbo, bool map,
+-			bool *is_iomem);
+-void drm_gem_vram_kunmap(struct drm_gem_vram_object *gbo);
+ void *drm_gem_vram_vmap(struct drm_gem_vram_object *gbo);
+ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, void *vaddr);
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.28.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
