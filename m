@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92217268566
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:04:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2201826856B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:04:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D19286E1F5;
-	Mon, 14 Sep 2020 07:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B05C6E202;
+	Mon, 14 Sep 2020 07:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C19346E99B
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 10:07:49 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.76,414,1592838000"; d="scan'208";a="56813791"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 11 Sep 2020 19:07:48 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4762C4240D3B;
- Fri, 11 Sep 2020 19:07:46 +0900 (JST)
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Kconfig: Update description for DRM_RCAR_DW_HDMI config
-Date: Fri, 11 Sep 2020 11:07:41 +0100
-Message-Id: <20200911100741.20013-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93CCD6E07F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 11:22:14 +0000 (UTC)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 276D44D483AD00BB640F;
+ Fri, 11 Sep 2020 19:22:11 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
+ 19:22:01 +0800
+From: Yu Kuai <yukuai3@huawei.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <djkurtz@chromium.org>,
+ <yt.shen@mediatek.com>, <ck.hu@mediatek.com>, <littlecvr@chromium.org>
+Subject: [PATCH] drm/mediatek: add missing put_device() call in
+ mtk_drm_kms_init()
+Date: Fri, 11 Sep 2020 19:21:19 +0800
+Message-ID: <20200911112119.3218073-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.25.4
+MIME-Version: 1.0
+X-Originating-IP: [10.175.127.227]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 14 Sep 2020 07:03:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,44 +43,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
- linux-kernel@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
+Cc: yi.zhang@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ yukuai3@huawei.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-rcar_dw_hdmi driver is also used on Renesas RZ/G2 SoC's, update the
-same to reflect the description for DRM_RCAR_DW_HDMI config.
+if of_find_device_by_node() succeed, mtk_drm_kms_init() doesn't have
+a corresponding put_device(). Thus add jump target to fix the exception
+handling for this function implementation.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- drivers/gpu/drm/rcar-du/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index f65d1489dc50..bd8b43fb9753 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -22,11 +22,11 @@ config DRM_RCAR_CMM
- 	  Enable support for R-Car Color Management Module (CMM).
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 040a8f393fe2..7aceace94ebf 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -165,7 +165,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
  
- config DRM_RCAR_DW_HDMI
--	tristate "R-Car DU Gen3 HDMI Encoder Support"
-+	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
- 	depends on DRM && OF
- 	select DRM_DW_HDMI
- 	help
--	  Enable support for R-Car Gen3 internal HDMI encoder.
-+	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+ 	ret = drmm_mode_config_init(drm);
+ 	if (ret)
+-		return ret;
++		goto put_mutex_dev;
  
- config DRM_RCAR_LVDS
- 	tristate "R-Car DU LVDS Encoder Support"
+ 	drm->mode_config.min_width = 64;
+ 	drm->mode_config.min_height = 64;
+@@ -182,7 +182,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+ 
+ 	ret = component_bind_all(drm->dev, drm);
+ 	if (ret)
+-		return ret;
++		goto put_mutex_dev;
+ 
+ 	/*
+ 	 * We currently support two fixed data streams, each optional,
+@@ -229,7 +229,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+ 	}
+ 	if (!dma_dev->dma_parms) {
+ 		ret = -ENOMEM;
+-		goto err_component_unbind;
++		goto put_dma_dev;
+ 	}
+ 
+ 	ret = dma_set_max_seg_size(dma_dev, (unsigned int)DMA_BIT_MASK(32));
+@@ -256,9 +256,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+ err_unset_dma_parms:
+ 	if (private->dma_parms_allocated)
+ 		dma_dev->dma_parms = NULL;
++put_dma_dev:
++	put_device(private->dma_dev);
+ err_component_unbind:
+ 	component_unbind_all(drm->dev, drm);
+-
++put_mutex_dev:
++	put_device(private->mutex_dev);
+ 	return ret;
+ }
+ 
 -- 
-2.17.1
+2.25.4
 
 _______________________________________________
 dri-devel mailing list
