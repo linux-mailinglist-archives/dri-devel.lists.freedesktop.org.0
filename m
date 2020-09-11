@@ -2,59 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F15265C0B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4907265C1C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B3F6E044;
-	Fri, 11 Sep 2020 08:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B492A6E3A2;
+	Fri, 11 Sep 2020 09:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C39386E044
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:56:46 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id q9so3685602wmj.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=JmRAtgrvidCvnjYSz9nvpyFiEjMSCYV5QqMAFfFdYS4=;
- b=LEqR+2sjB+GpPRht4zshPvb+pnAJuY169uY7Q6BwVU7+AkCANaJjO2HjEJC3+maL8M
- 54b0zCHfAFs/kqjqSOu3s8f8PA9ntzc3TT43u7iCpvsZR1W4euedc3ZZcq1crJkx35t+
- c9jRtsqoc836WFBRuocdO4GEIFkXgfSrpvi/c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JmRAtgrvidCvnjYSz9nvpyFiEjMSCYV5QqMAFfFdYS4=;
- b=rScdxUzQG3diPnoNMjEySdzODaGXDNGo9tZUJAhGWnVuUK0I4VGls4/aRRZcvvqRjl
- fPm5WScWaGyyNwU13RqBPTtMB41mg2oXLa4WBB1xvIfiUx14xnbZOSSXRm/kx2jEdp/v
- cygGoiZmPuKXZRgEPZfQra2jWAPVyBN5tPrNm/F7HvmLbfPbs/ZD855wmqQEtvKL3McX
- kqSM2/P4z/bpRdIHosomqss6Z2Zm3kaWk5JOdN/pdIDUnFmF9Zpknq4IngcDlt0VvhQ7
- ifRgu3hzjFBguLBu13Eu5lT0RnYtppgk/gJbHuzGtBQ3QBAqBmTCzcpBbTMUgSxEmXaz
- TOag==
-X-Gm-Message-State: AOAM531WT7QBQ5WRLSn3CDWBN1Q7CP8tSvIkHHY9r2GkpuZvhwrAE8hj
- 5ViL1juCeOAUsCLUUhrVxovgCQ==
-X-Google-Smtp-Source: ABdhPJwx562VHwJbLQkKIWCTdsbamNlU7QvrTuA5wbicSXb6Gxi65wNDF+NAZ2VPXhLWRoej7pr/Zg==
-X-Received: by 2002:a7b:c5c6:: with SMTP id n6mr1123884wmk.120.1599814605358; 
- Fri, 11 Sep 2020 01:56:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b18sm3357160wrn.21.2020.09.11.01.56.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 01:56:44 -0700 (PDT)
-Date: Fri, 11 Sep 2020 10:56:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
-Message-ID: <20200911085642.GR438822@phenom.ffwll.local>
-References: <1598904172-30865-1-git-send-email-anitha.chrisanthus@intel.com>
- <1598904172-30865-3-git-send-email-anitha.chrisanthus@intel.com>
- <20200910083042.GH438822@phenom.ffwll.local>
- <20200910183343.GC893045@ravnborg.org>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF60A6E398;
+ Fri, 11 Sep 2020 09:00:08 +0000 (UTC)
+IronPort-SDR: acG04jobFv69NOwv3u2cC/wpIiYJ7ABXW1//NtOnJvicmcYjej6AkXq83nhJAKaUvjmuDDcIej
+ 7Qqj/OsbZ2+g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="220274015"
+X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; d="scan'208";a="220274015"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2020 02:00:06 -0700
+IronPort-SDR: rDuZyoacQS3UGl2xXzehJ9a66brFYCu0PmEqYvW/mn3rcNsy+0wVSeqmkF3BzLpuL4YXDw8S19
+ YRuD91mqRLeg==
+X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; d="scan'208";a="286839054"
+Received: from atrikali-mobl.amr.corp.intel.com (HELO [10.252.57.76])
+ ([10.252.57.76])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2020 02:00:01 -0700
+Subject: Re: [Intel-gfx] [PATCH 08/24] drm/i915/selftests: align more to real
+ device lifetimes
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200904143941.110665-1-daniel.vetter@ffwll.ch>
+ <20200904143941.110665-9-daniel.vetter@ffwll.ch>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <bf227b2f-6fcb-8ff3-8a07-4880d7d9640f@linux.intel.com>
+Date: Fri, 11 Sep 2020 10:59:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200910183343.GC893045@ravnborg.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200904143941.110665-9-daniel.vetter@ffwll.ch>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +54,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, daniel.vetter@intel.com,
- edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 10, 2020 at 08:33:43PM +0200, Sam Ravnborg wrote:
-> Hi Daniel.
-> 
-> > > +	}
-> > > +
-> > > +	/* Initialize MIPI DSI */
-> > > +	ret = kmb_dsi_init(drm, adv_bridge);
-> > 
-> > Split up isn't correct here, this won't compile since the dsi code isn't
-> > in this patch yet. So you need to have this ordered the other way round.
-> 
-> I have explicit asked for a simple file split as done here
-> and told Anitha this was fine.
-> 
-> As the kbuild/kconfig bits are the last patch then no build breakage.
-> The file based split was IMO fine to ease review.
-> 
-> If this is not OK then blame me :-)
+Op 04-09-2020 om 16:39 schreef Daniel Vetter:
+> The big change is device_add so that device_del can auto-cleanup
+> devres resources. This allows us to use devm_drm_dev_alloc, which
+> removes the last user of drm_dev_init.
+>
+> v2: Rebased
+>
+> v3: use devres_open/release_group so we can use devm without real
+> hacks in the driver core or having to create an entire fake bus for
+> testing drivers. Might want to extract this into helpers eventually,
+> maybe as a mock_drm_dev_alloc or test_drm_dev_alloc.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  .../gpu/drm/i915/selftests/mock_gem_device.c  | 42 +++++++++++--------
+>  1 file changed, 25 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> index fbb403edb7a0..164ad1746da9 100644
+> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> @@ -128,12 +128,6 @@ struct drm_i915_private *mock_gem_device(void)
+>  	pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+>  	if (!pdev)
+>  		return NULL;
+> -	i915 = kzalloc(sizeof(*i915), GFP_KERNEL);
+> -	if (!i915) {
+> -		kfree(pdev);
+> -		return NULL;
+> -	}
+> -
+>  	device_initialize(&pdev->dev);
+>  	pdev->class = PCI_BASE_CLASS_DISPLAY << 16;
+>  	pdev->dev.release = release_dev;
+> @@ -146,8 +140,29 @@ struct drm_i915_private *mock_gem_device(void)
+>  	iommu.priv = (void *)-1;
+>  	pdev->dev.iommu = &iommu;
+>  #endif
+> +	err = device_add(&pdev->dev);
+> +	if (err) {
+> +		kfree(pdev);
+> +		return NULL;
+> +	}
+> +
+> +	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+> +		device_del(&pdev->dev);
+> +		return NULL;
+> +	}
+> +
+> +	i915 = devm_drm_dev_alloc(&pdev->dev, &mock_driver,
+> +				  struct drm_i915_private, drm);
+> +	if (err) {
+> +		pr_err("Failed to allocate mock GEM device: err=%d\n", err);
+> +		devres_release_group(&pdev->dev, NULL);
+> +		device_del(&pdev->dev);
+> +
+> +		return NULL;
+> +	}
+>  
+>  	pci_set_drvdata(pdev, i915);
+> +	i915->drm.pdev = pdev;
+>  
+>  	dev_pm_domain_set(&pdev->dev, &pm_domain);
+>  	pm_runtime_enable(&pdev->dev);
+> @@ -155,16 +170,6 @@ struct drm_i915_private *mock_gem_device(void)
+>  	if (pm_runtime_enabled(&pdev->dev))
+>  		WARN_ON(pm_runtime_get_sync(&pdev->dev));
+>  
+> -	err = drm_dev_init(&i915->drm, &mock_driver, &pdev->dev);
+> -	if (err) {
+> -		pr_err("Failed to initialise mock GEM device: err=%d\n", err);
+> -		put_device(&pdev->dev);
+> -		kfree(i915);
+> -
+> -		return NULL;
+> -	}
+> -	i915->drm.pdev = pdev;
+> -	drmm_add_final_kfree(&i915->drm, i915);
+>  
+>  	i915_params_copy(&i915->params, &i915_modparams);
+>  
+> @@ -231,5 +236,8 @@ struct drm_i915_private *mock_gem_device(void)
+>  
+>  void mock_destroy_device(struct drm_i915_private *i915)
+>  {
+> -	drm_dev_put(&i915->drm);
+> +	struct device *dev = i915->drm.dev;
+> +
+> +	devres_release_group(dev, NULL);
+> +	device_del(dev);
+>  }
 
-Ah I missed that, sounds ok for me too then :-)
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Looks sane,
+
+For patch 7 and 8:
+
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
