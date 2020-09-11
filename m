@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB37B2660C7
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 15:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352672660CA
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 15:57:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 157766EA67;
-	Fri, 11 Sep 2020 13:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BF16EA70;
+	Fri, 11 Sep 2020 13:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA2A6EA67
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 13:57:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02BAF6E958
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 13:57:29 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kGjYN-0000W2-C0; Fri, 11 Sep 2020 15:57:27 +0200
+ id 1kGjYN-0000W2-CR; Fri, 11 Sep 2020 15:57:27 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/7] drm/simple_kms_helper: add drmm_simple_encoder_alloc()
-Date: Fri, 11 Sep 2020 15:57:19 +0200
-Message-Id: <20200911135724.25833-2-p.zabel@pengutronix.de>
+Subject: [PATCH v3 3/7] drm/plane: add drmm_universal_plane_alloc()
+Date: Fri, 11 Sep 2020 15:57:20 +0200
+Message-Id: <20200911135724.25833-3-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200911135724.25833-1-p.zabel@pengutronix.de>
 References: <20200911135724.25833-1-p.zabel@pengutronix.de>
@@ -50,79 +50,233 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an alternative to drm_simple_encoder_init() that allocates and
-initializes a simple encoder and registers drm_encoder_cleanup() with
+Add an alternative to drm_universal_plane_init() that allocates
+and initializes a plane and registers drm_plane_cleanup() with
 drmm_add_action_or_reset().
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/drm_simple_kms_helper.c | 12 ++++++++++++
- include/drm/drm_simple_kms_helper.h     | 24 ++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+Changes since v2:
+ - call va_start() / va_end() unconditionally
+---
+ drivers/gpu/drm/drm_plane.c | 126 +++++++++++++++++++++++++++---------
+ include/drm/drm_plane.h     |  42 ++++++++++++
+ 2 files changed, 139 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 74946690aba4..3cbbfb0f9b51 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -9,6 +9,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index affe1cfed009..0081f6bb76b2 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -30,6 +30,7 @@
+ #include <drm/drm_file.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_fourcc.h>
 +#include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -71,6 +72,17 @@ int drm_simple_encoder_init(struct drm_device *dev,
+ #include <drm/drm_vblank.h>
+ 
+ #include "drm_crtc_internal.h"
+@@ -152,31 +153,16 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_simple_encoder_init);
  
-+static const struct drm_encoder_funcs drmm_simple_encoder_funcs_empty = { };
-+
-+void *__drmm_simple_encoder_alloc(struct drm_device *dev, size_t size,
-+				  size_t offset, int encoder_type)
-+{
-+	return __drmm_encoder_alloc(dev, size, offset,
-+				    &drmm_simple_encoder_funcs_empty,
-+				    encoder_type, NULL);
-+}
-+EXPORT_SYMBOL(__drmm_simple_encoder_alloc);
-+
- static enum drm_mode_status
- drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
- 			       const struct drm_display_mode *mode)
-diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
-index a026375464ff..e6dbf3161c2f 100644
---- a/include/drm/drm_simple_kms_helper.h
-+++ b/include/drm/drm_simple_kms_helper.h
-@@ -185,4 +185,28 @@ int drm_simple_encoder_init(struct drm_device *dev,
- 			    struct drm_encoder *encoder,
- 			    int encoder_type);
+-/**
+- * drm_universal_plane_init - Initialize a new universal plane object
+- * @dev: DRM device
+- * @plane: plane object to init
+- * @possible_crtcs: bitmask of possible CRTCs
+- * @funcs: callbacks for the new plane
+- * @formats: array of supported formats (DRM_FORMAT\_\*)
+- * @format_count: number of elements in @formats
+- * @format_modifiers: array of struct drm_format modifiers terminated by
+- *                    DRM_FORMAT_MOD_INVALID
+- * @type: type of plane (overlay, primary, cursor)
+- * @name: printf style format string for the plane name, or NULL for default name
+- *
+- * Initializes a plane object of type @type.
+- *
+- * Returns:
+- * Zero on success, error code on failure.
+- */
+-int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+-			     uint32_t possible_crtcs,
+-			     const struct drm_plane_funcs *funcs,
+-			     const uint32_t *formats, unsigned int format_count,
+-			     const uint64_t *format_modifiers,
+-			     enum drm_plane_type type,
+-			     const char *name, ...)
++__printf(9, 0)
++static int __drm_universal_plane_init(struct drm_device *dev,
++				      struct drm_plane *plane,
++				      uint32_t possible_crtcs,
++				      const struct drm_plane_funcs *funcs,
++				      const uint32_t *formats,
++				      unsigned int format_count,
++				      const uint64_t *format_modifiers,
++				      enum drm_plane_type type,
++				      const char *name, va_list ap)
+ {
+ 	struct drm_mode_config *config = &dev->mode_config;
+ 	unsigned int format_modifier_count = 0;
+@@ -237,11 +223,7 @@ int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 	}
  
-+void *__drmm_simple_encoder_alloc(struct drm_device *dev, size_t size,
-+				  size_t offset, int encoder_type);
+ 	if (name) {
+-		va_list ap;
+-
+-		va_start(ap, name);
+ 		plane->name = kvasprintf(GFP_KERNEL, name, ap);
+-		va_end(ap);
+ 	} else {
+ 		plane->name = kasprintf(GFP_KERNEL, "plane-%d",
+ 					drm_num_planes(dev));
+@@ -286,8 +268,94 @@ int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 
+ 	return 0;
+ }
 +
 +/**
-+ * drmm_simple_encoder_alloc - Allocate and initialize an encoder with basic
-+ *                             functionality.
-+ * @dev: drm device
-+ * @type: the type of the struct which contains struct &drm_encoder
-+ * @member: the name of the &drm_encoder within @type.
-+ * @encoder_type: user visible type of the encoder
++ * drm_universal_plane_init - Initialize a new universal plane object
++ * @dev: DRM device
++ * @plane: plane object to init
++ * @possible_crtcs: bitmask of possible CRTCs
++ * @funcs: callbacks for the new plane
++ * @formats: array of supported formats (DRM_FORMAT\_\*)
++ * @format_count: number of elements in @formats
++ * @format_modifiers: array of struct drm_format modifiers terminated by
++ *                    DRM_FORMAT_MOD_INVALID
++ * @type: type of plane (overlay, primary, cursor)
++ * @name: printf style format string for the plane name, or NULL for default name
 + *
-+ * Allocates and initializes an encoder that has no further functionality.
-+ * Settings for possible CRTC and clones are left to their initial values.
-+ * Cleanup is automatically handled through registering drm_encoder_cleanup()
-+ * with drmm_add_action().
++ * Initializes a plane object of type @type.
 + *
 + * Returns:
-+ * Pointer to new encoder, or ERR_PTR on failure.
++ * Zero on success, error code on failure.
 + */
-+#define drmm_simple_encoder_alloc(dev, type, member, encoder_type) \
-+	((type *)__drmm_simple_encoder_alloc(dev, sizeof(type), \
-+					     offsetof(type, member), \
-+					     encoder_type))
++int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
++			     uint32_t possible_crtcs,
++			     const struct drm_plane_funcs *funcs,
++			     const uint32_t *formats, unsigned int format_count,
++			     const uint64_t *format_modifiers,
++			     enum drm_plane_type type,
++			     const char *name, ...)
++{
++	va_list ap;
++	int ret;
 +
- #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
++	va_start(ap, name);
++	ret = __drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
++					 formats, format_count, format_modifiers,
++					 type, name, ap);
++	va_end(ap);
++	return ret;
++}
+ EXPORT_SYMBOL(drm_universal_plane_init);
+ 
++static void drmm_universal_plane_alloc_release(struct drm_device *dev, void *ptr)
++{
++	struct drm_plane *plane = ptr;
++
++	if (WARN_ON(!plane->dev))
++		return;
++
++	drm_plane_cleanup(plane);
++}
++
++void *__drmm_universal_plane_alloc(struct drm_device *dev, size_t size,
++				   size_t offset, uint32_t possible_crtcs,
++				   const struct drm_plane_funcs *funcs,
++				   const uint32_t *formats, unsigned int format_count,
++				   const uint64_t *format_modifiers,
++				   enum drm_plane_type type,
++				   const char *name, ...)
++{
++	void *container;
++	struct drm_plane *plane;
++	va_list ap;
++	int ret;
++
++	if (!funcs || funcs->destroy)
++		return ERR_PTR(-EINVAL);
++
++	container = drmm_kzalloc(dev, size, GFP_KERNEL);
++	if (!container)
++		return ERR_PTR(-ENOMEM);
++
++	plane = container + offset;
++
++	va_start(ap, name);
++	ret = __drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
++					 formats, format_count, format_modifiers,
++					 type, name, ap);
++	va_end(ap);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = drmm_add_action_or_reset(dev, drmm_universal_plane_alloc_release,
++				       plane);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return container;
++}
++EXPORT_SYMBOL(__drmm_universal_plane_alloc);
++
+ int drm_plane_register_all(struct drm_device *dev)
+ {
+ 	unsigned int num_planes = 0;
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 3f396d94afe4..82bd63710a39 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -746,6 +746,48 @@ int drm_plane_init(struct drm_device *dev,
+ 		   bool is_primary);
+ void drm_plane_cleanup(struct drm_plane *plane);
+ 
++__printf(10, 11)
++void *__drmm_universal_plane_alloc(struct drm_device *dev,
++				   size_t size, size_t offset,
++				   uint32_t possible_crtcs,
++				   const struct drm_plane_funcs *funcs,
++				   const uint32_t *formats,
++				   unsigned int format_count,
++				   const uint64_t *format_modifiers,
++				   enum drm_plane_type plane_type,
++				   const char *name, ...);
++
++/**
++ * drmm_universal_plane_alloc - Allocate and initialize an universal plane object
++ * @dev: DRM device
++ * @type: the type of the struct which contains struct &drm_plane
++ * @member: the name of the &drm_plane within @type
++ * @possible_crtcs: bitmask of possible CRTCs
++ * @funcs: callbacks for the new plane
++ * @formats: array of supported formats (DRM_FORMAT\_\*)
++ * @format_count: number of elements in @formats
++ * @format_modifiers: array of struct drm_format modifiers terminated by
++ *                    DRM_FORMAT_MOD_INVALID
++ * @plane_type: type of plane (overlay, primary, cursor)
++ * @name: printf style format string for the plane name, or NULL for default name
++ *
++ * Allocates and initializes a plane object of type @type. Cleanup is
++ * automatically handled through registering drm_plane_cleanup() with
++ * drmm_add_action().
++ *
++ * The @drm_plane_funcs.destroy hook must be NULL.
++ *
++ * Returns:
++ * Pointer to new plane, or ERR_PTR on failure.
++ */
++#define drmm_universal_plane_alloc(dev, type, member, possible_crtcs, funcs, formats, \
++				   format_count, format_modifiers, plane_type, name, ...) \
++	((type *)__drmm_universal_plane_alloc(dev, sizeof(type), \
++					      offsetof(type, member), \
++					      possible_crtcs, funcs, formats, \
++					      format_count, format_modifiers, \
++					      plane_type, name, ##__VA_ARGS__))
++
+ /**
+  * drm_plane_index - find the index of a registered plane
+  * @plane: plane to find index for
 -- 
 2.20.1
 
