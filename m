@@ -2,65 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9CE266A57
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 23:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD30E2675B5
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Sep 2020 00:11:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD2E6E0ED;
-	Fri, 11 Sep 2020 21:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50D9D6E0EF;
+	Fri, 11 Sep 2020 22:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 410 seconds by postgrey-1.36 at gabe;
- Fri, 11 Sep 2020 21:52:24 UTC
-Received: from a27-21.smtp-out.us-west-2.amazonses.com
- (a27-21.smtp-out.us-west-2.amazonses.com [54.240.27.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E216E0D4;
- Fri, 11 Sep 2020 21:52:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=gbvhytky6xpx7itkhb67ktsxbiwpnxix; d=codeaurora.org; t=1599860734;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=ugAF6M/Vv/bl8EUYaXGQWHTNSpMHFIh6qv//R/9KMqM=;
- b=B3bFtElseyNrthFY9tnVLgc0RwXhIxb23lipSXnJjsRn0Kp4UkTmjYWfK8nRBxN1
- /IO1EtMiiNAcpHqo1rA0HtLJ/D7yz63nLpuLrjhwvtkAXmT9zWPzC7sE+Q9Y7JpZpfg
- fNwYXLsFMcPcM/qdIZqCR88VnuGaWdgGsddbdQSk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599860734;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
- bh=ugAF6M/Vv/bl8EUYaXGQWHTNSpMHFIh6qv//R/9KMqM=;
- b=J5NuOFdIrpW8xbTKwnMjW3XV1P1dhe2z3tJs2yF3GLO8QLfeW5aAfzrv6nl35O0b
- Zx9CA1j4VJAgCu/ylnxrTGxzUt10kvjBX5lljj2O7gdHtQMs4xU1u/2DghPUlSVX7u4
- 0bdEUo+wk7M+XCWZpP/GmNaPfhQxxo67oqy6oa6k=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7004EC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Fri, 11 Sep 2020 21:45:34 +0000
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Luca Weiss <luca@z3ntu.xyz>
-Subject: Re: [PATCH] drm/msm/adreno: fix probe without iommu
-Message-ID: <010101747f2178df-3200d9c0-89da-4ebc-b0b8-737b9eea9fb3-000000@us-west-2.amazonses.com>
-Mail-Followup-To: Luca Weiss <luca@z3ntu.xyz>, freedreno@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Jonathan Marek <jonathan@marek.ca>,
- Brian Masney <masneyb@onstation.org>,
- John Stultz <john.stultz@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200911160854.484114-1-luca@z3ntu.xyz>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30526E0EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 22:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ogTQed4AB3YTOxiNumxOSIUQDui4rXqp7ldPSCSbBJ8=; b=gPdH7Mi+qbv0+WK4jFhsY6nd0d
+ RdTASNJFBBYgMPRnW5CatCY/463DWXIHv4oUhiME+OqvpTgWNJvH0y58fz1FsmK6W6TTxJSLT9KuO
+ QTnEFYY421E1mcEH/2gu6DYBvompjnxYcIpVj6MnI6NJZ90k/wvHoakyQeh1mA4lQKVdVTkCJ95Zs
+ ez/Y0BxUpRV/SfyZ+6AfXaWxw8y4x6sc1nJgPyIt5TtdTJGqmtjGZef8sTncgtZxW3d5v+xr8pA1N
+ oL7N8A49ZDqLFKlv2zqBegCPWLSS2Xjbwjbmi6X8iBHLjJgAJzOPsBG3TnUCRyFREZnC+APfp0d+W
+ citAHyKA==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1kGrGG-0005lL-Gn; Sat, 12 Sep 2020 01:11:16 +0300
+Subject: Re: [RFC PATCH v2 10/17] WIP: gpu: host1x: Add no-recovery mode
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <20200905103420.3021852-11-mperttunen@nvidia.com>
+ <7d7a29e8-3151-12ea-da66-d8a479edda84@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <c2498218-e107-4df4-41ce-c60da65ceaf7@kapsi.fi>
+Date: Sat, 12 Sep 2020 01:11:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200911160854.484114-1-luca@z3ntu.xyz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-SES-Outgoing: 2020.09.11-54.240.27.21
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
+In-Reply-To: <7d7a29e8-3151-12ea-da66-d8a479edda84@gmail.com>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,61 +59,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Brian Masney <masneyb@onstation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 11, 2020 at 06:08:53PM +0200, Luca Weiss wrote:
-> The function iommu_domain_alloc returns NULL on platforms without IOMMU
-> such as msm8974. This resulted in PTR_ERR(-ENODEV) being assigned to
-> gpu->aspace so the correct code path wasn't taken.
-> 
-> Fixes: ccac7ce373c1 ("drm/msm: Refactor address space initialization")
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
-
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 862dd35b27d3..6e8bef1a9ea2 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -189,10 +189,16 @@ struct msm_gem_address_space *
->  adreno_iommu_create_address_space(struct msm_gpu *gpu,
->  		struct platform_device *pdev)
->  {
-> -	struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
-> -	struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
-> +	struct iommu_domain *iommu;
-> +	struct msm_mmu *mmu;
->  	struct msm_gem_address_space *aspace;
->  
-> +	iommu = iommu_domain_alloc(&platform_bus_type);
-> +	if (!iommu)
-> +		return NULL;
-> +
-> +	mmu = msm_iommu_new(&pdev->dev, iommu);
-> +
->  	aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
->  		0xffffffff - SZ_16M);
->  
-> -- 
-> 2.28.0
-> 
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gOS8xMS8yMCA3OjQwIFBNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMDUuMDkuMjAyMCAx
+MzozNCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+ICsJfSBlbHNlIHsKPj4gKwkJc3Ry
+dWN0IGhvc3QxeF9qb2IgKmZhaWxlZF9qb2IgPSBqb2I7Cj4+ICsKPj4gKwkJaG9zdDF4X2pvYl9k
+dW1wKGRldiwgam9iKTsKPj4gKwo+PiArCQlob3N0MXhfc3luY3B0X3NldF9sb2NrZWQoam9iLT5z
+eW5jcHQpOwo+PiArCQlmYWlsZWRfam9iLT5jYW5jZWxsZWQgPSB0cnVlOwo+PiArCj4+ICsJCWxp
+c3RfZm9yX2VhY2hfZW50cnlfY29udGludWUoam9iLCAmY2RtYS0+c3luY19xdWV1ZSwgbGlzdCkg
+ewo+PiArCQkJdW5zaWduZWQgaW50IGk7Cj4+ICsKPj4gKwkJCWlmIChqb2ItPnN5bmNwdCAhPSBm
+YWlsZWRfam9iLT5zeW5jcHQpCj4+ICsJCQkJY29udGludWU7Cj4+ICsKPj4gKwkJCWZvciAoaSA9
+IDA7IGkgPCBqb2ItPm51bV9zbG90czsgaSsrKSB7Cj4+ICsJCQkJdW5zaWduZWQgaW50IHNsb3Qg
+PSAoam9iLT5maXJzdF9nZXQvOCArIGkpICUKPj4gKwkJCQkJCSAgICBIT1NUMVhfUFVTSEJVRkZF
+Ul9TTE9UUzsKPj4gKwkJCQl1MzIgKm1hcHBlZCA9IGNkbWEtPnB1c2hfYnVmZmVyLm1hcHBlZDsK
+Pj4gKwo+PiArCQkJCW1hcHBlZFsyKnNsb3QrMF0gPSAweDFiYWQwMDAwOwo+PiArCQkJCW1hcHBl
+ZFsyKnNsb3QrMV0gPSAweDFiYWQwMDAwOwo+IAo+IFRoZSAweDFiYWQwMDAwIGlzIGEgdmFsaWQg
+bWVtb3J5IGFkZHJlc3Mgb24gVGVncmEyMC4KPiAKPiBUaGUgMHg2MDAwMDAwMCBpcyBpbnZhbGlk
+IHBoeXMgYWRkcmVzcyBmb3IgYWxsIGhhcmR3YXJlIGdlbmVyYXRpb25zLgo+IEl0J3MgdXNlZCBi
+eSBncmF0ZS1rZXJuZWwgWzFdIGFuZCBWREUgZHJpdmVyIFsyXS4gTm90ZSB0aGF0IHRoZSAweDYg
+PDwKPiAyOCBpcyBhbHNvIGludmFsaWQgSG9zdDF4IG9wY29kZSwgd2hpbGUgMHgxIHNob3VsZCBi
+cmVhayBDRE1BIHBhcnNlcgo+IGR1cmluZyBvZiBQQiBkZWJ1Zy1kdW1waW5nLgo+IAo+IFsxXQo+
+IGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVy
+cy9ncHUvZHJtL3RlZ3JhL2dlbS5oI0wxNgo+IAo+IFsyXQo+IGh0dHBzOi8vZWxpeGlyLmJvb3Rs
+aW4uY29tL2xpbnV4L3Y1LjktcmM0L3NvdXJjZS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvdGVncmEt
+dmRlL2lvbW11LmMjTDk5Cj4gCj4gVGhlIFZERSBkcml2ZXIgcmVzZXJ2ZXMgdGhlIHRyYXBwaW5n
+IElPVkEgYWRkcmVzc2VzLCBJIGFzc3VtZSB0aGUgSG9zdDF4Cj4gZHJpdmVyIHNob3VsZCBkbyB0
+aGUgc2FtZS4KPiAKClRoZSAweDFiYWQwMDAwJ3MgYXJlIG5vdCBpbnRlbmRlZCB0byBiZSBtZW1v
+cnkgYWRkcmVzc2VzLCB0aGV5IGFyZSBOT09QIApvcGNvZGVzIChJTkNSIG9mIDAgd29yZHMgdG8g
+b2Zmc2V0IDB4YmFkKS4gSSdsbCBmaXggdGhpcyB0byB1c2UgcHJvcGVyIApmdW5jdGlvbnMgdG8g
+Y29uc3RydWN0IHRoZSBvcGNvZGVzIGFuZCBhZGQgc29tZSBjb21tZW50cy4gVGhlc2UgbmVlZCB0
+byAKYmUgTk9PUCBvcGNvZGVzIHNvIHRoZSBjb21tYW5kIHBhcnNlciBza2lwcyBvdmVyIHRoZXNl
+ICJjYW5jZWxsZWQiIGpvYnMgCndoZW4gdGhlIGNoYW5uZWwgaXMgcmVzdW1lZC4KCkJUVywgMHg2
+MDAwMDAwMCBpcyB2YWxpZCBvbiBUZWdyYTE5NCBhbmQgbGF0ZXIuCgpNaWtrbwpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
