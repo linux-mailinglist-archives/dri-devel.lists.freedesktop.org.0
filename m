@@ -2,27 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D0A26606A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 15:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35863266072
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 15:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7059D6EA45;
-	Fri, 11 Sep 2020 13:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 779736EA50;
+	Fri, 11 Sep 2020 13:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6706E116
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A251A6E128
  for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 13:39:12 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kGjGg-0005Is-OX; Fri, 11 Sep 2020 15:39:10 +0200
+ id 1kGjGg-0005Is-Ou; Fri, 11 Sep 2020 15:39:10 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 04/21] drm/imx: imx-ldb: reduce scope of edid_len
-Date: Fri, 11 Sep 2020 15:38:38 +0200
-Message-Id: <20200911133855.29801-4-p.zabel@pengutronix.de>
+Subject: [PATCH v2 05/21] drm/imx: imx-ldb: use local encoder and connector
+ variables
+Date: Fri, 11 Sep 2020 15:38:39 +0200
+Message-Id: <20200911133855.29801-5-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200911133855.29801-1-p.zabel@pengutronix.de>
 References: <20200911133855.29801-1-p.zabel@pengutronix.de>
@@ -50,48 +51,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The edid_len variable is never used again. Use a local variable instead
-of storing it in the device structure.
+Use local variables for encoder and connector.
+This simplifies the following commits.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
 New in v2.
 ---
- drivers/gpu/drm/imx/imx-ldb.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/imx/imx-ldb.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index af757d1e21fe..41e2978cb1eb 100644
+index 41e2978cb1eb..288a81f134fe 100644
 --- a/drivers/gpu/drm/imx/imx-ldb.c
 +++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -62,7 +62,6 @@ struct imx_ldb_channel {
- 	struct i2c_adapter *ddc;
- 	int chno;
- 	void *edid;
--	int edid_len;
- 	struct drm_display_mode mode;
- 	int mode_valid;
- 	u32 bus_format;
-@@ -536,15 +535,14 @@ static int imx_ldb_panel_ddc(struct device *dev,
+@@ -411,6 +411,7 @@ static int imx_ldb_register(struct drm_device *drm,
+ 	struct imx_ldb_channel *imx_ldb_ch)
+ {
+ 	struct imx_ldb *ldb = imx_ldb_ch->ldb;
++	struct drm_connector *connector = &imx_ldb_ch->connector;
+ 	struct drm_encoder *encoder = &imx_ldb_ch->encoder;
+ 	int ret;
+ 
+@@ -432,8 +433,7 @@ static int imx_ldb_register(struct drm_device *drm,
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_LVDS);
+ 
+ 	if (imx_ldb_ch->bridge) {
+-		ret = drm_bridge_attach(&imx_ldb_ch->encoder,
+-					imx_ldb_ch->bridge, NULL, 0);
++		ret = drm_bridge_attach(encoder, imx_ldb_ch->bridge, NULL, 0);
+ 		if (ret) {
+ 			DRM_ERROR("Failed to initialize bridge with drm\n");
+ 			return ret;
+@@ -445,13 +445,13 @@ static int imx_ldb_register(struct drm_device *drm,
+ 		 * historical reasons, the ldb driver can also work without
+ 		 * a panel.
+ 		 */
+-		drm_connector_helper_add(&imx_ldb_ch->connector,
+-				&imx_ldb_connector_helper_funcs);
+-		drm_connector_init_with_ddc(drm, &imx_ldb_ch->connector,
++		drm_connector_helper_add(connector,
++					 &imx_ldb_connector_helper_funcs);
++		drm_connector_init_with_ddc(drm, connector,
+ 					    &imx_ldb_connector_funcs,
+ 					    DRM_MODE_CONNECTOR_LVDS,
+ 					    imx_ldb_ch->ddc);
+-		drm_connector_attach_encoder(&imx_ldb_ch->connector, encoder);
++		drm_connector_attach_encoder(connector, encoder);
  	}
  
- 	if (!channel->ddc) {
-+		int edid_len;
-+
- 		/* if no DDC available, fallback to hardcoded EDID */
- 		dev_dbg(dev, "no ddc available\n");
- 
--		edidp = of_get_property(child, "edid",
--					&channel->edid_len);
-+		edidp = of_get_property(child, "edid", &edid_len);
- 		if (edidp) {
--			channel->edid = kmemdup(edidp,
--						channel->edid_len,
--						GFP_KERNEL);
-+			channel->edid = kmemdup(edidp, edid_len, GFP_KERNEL);
- 		} else if (!channel->panel) {
- 			/* fallback to display-timings node */
- 			ret = of_get_drm_display_mode(child,
+ 	return 0;
 -- 
 2.20.1
 
