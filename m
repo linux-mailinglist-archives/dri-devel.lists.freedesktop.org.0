@@ -1,88 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3602668C5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 21:30:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E24212669C2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 22:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE69F6E079;
-	Fri, 11 Sep 2020 19:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1076E0CE;
+	Fri, 11 Sep 2020 20:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 322936E079;
- Fri, 11 Sep 2020 19:30:14 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269846E0BF;
+ Fri, 11 Sep 2020 20:50:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SjeczuIvFw7CJCWhvs34tWwWLUoTXJuj4m5ji1emRIupPngCSoVJ/KjyRLU7F0vfAKp5UlsLYdte4/DyXF0VVsQBad3LXkiY1/KJIC1Us5WE6TVFVZIY61w9cRaERmPINFiGQ7DjudBveZcyX3MsGtH2vgy2l8YJDSXKcHc7t9/kJzPN+hGAtJs308QkRMYxZHjmzcry7RWcvB3aalBZEL7Jmn69+R9DIdq33FZmcB0cTwxlJoNgq9W5bi1Yg6EzfWVj8pm3FRR+7ixBxmbfIf1YqE/cXu0OLpXkns31EspEPAOJdFNE322ZYyZ9Ncs9T9EaAOmhiGoauNmQJeW5CA==
+ b=Hsf+SCGkrsswpwGhilN46ypKPntlYSFwHreBkBhLMmjtiI4+sd776d8uS7PuwA+9tD4+lU/ogH+U0NQ+i4t5p57oDqEhaZYgQPfNCFWt71FhR0C5UIr6wT80Y0EhC3LH1IoZd0xF+oshEkPbN9kdzOqLC9WEmW4mYWm8Hdm19nheOUPINInRWR0NvcJZEV0bdNDPMurE2J+n57h+QfhnuYjZ4L4oHJEwGrrTkjgpd2T4mGi/J0EOAmnbQrzIffYIE5Kya/VURuao4kJU5z3+uUwcGJHRL0sdeqVwnkR9WykPjcbopBFxlme9PJxKPXGsukKxmYHX5imMjrQWd2K0NA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VZGj3vyKDtaka86kisfwIV8xTj14I3TC7kDq7/flJeU=;
- b=b43SSYteQznzXEBi9gN3Uhs9KF5tdUb9jIrpl0F8Ck+AlC44z6ZZ0PdGnNJ7tM5x0kEq+XXAFn5dXff+tf9f1/1oQ5KKK+VwhLnH5NXEAI92iSHJuHyUxaAs8bU+2dbh1kF1fwyttlVwiq3cggzA2UiOIwTh9qUTqztSR/heDxBSA927JIyAH17YV4p1c24A3wx/KRyt720e+19+N+7j/FjjhvXLx51n/7NG2uU3RftCJqzPu2ycqCW3vrPiNmm7KQdPgLEvTtl0MOfmknZyxhyWp1NbLBcKL8BQTrg74bi5T+lNxsYVwIYhcwYBpz4UhSEVYlnwwdOPW313jK8PQw==
+ bh=xepuNOJDUAiZUvu15u7YPooLQWFssVBVOPSAjM0yJ40=;
+ b=kJW9NaQMwU5qhHzLloKgk/2ZzxStpaSn/EVLWh66Zw5mJwohRF2SlGle/YCMWtHEOGzT5tTjGMieZEsS/qmh8URTsgML8622fRqJyVquc9xSEsLvqjII7SB8niOw9NUVUmBi8sSQ71T85C2SMhdCU3nTPHiPGor7HTsZ3DZ7ADByoxIEPzNJZN8ras5O19uUOqtYbFWvDM1tzn9Irfx5KVjvnxIFYZkRsL2smWt7M4x5ut2ubbo38HxyP+iEZ22+zZ2BFv+nIamWhEqYzkBpDJamKwPeEu2vPIZyZi6J7BmcjEWFK43i7ra0N+UTmCOymRqDL/z8/qgUuhD2w25/GQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VZGj3vyKDtaka86kisfwIV8xTj14I3TC7kDq7/flJeU=;
- b=DP9N+uiTHaLKziGEHicvFQCQvZpN+k/K5jDY0F4Bek4czcdy4XgmdY9XYVNZ+39Bs5Tn/6Fc/3LUDFj3eGGdyECEqUW7dUrXtV8HbQJQDHKzfb+FzTTZYoVaxyY7qtLTXl32c8bdVfk5H8cnYGA9L2mjgiyYVJ3AEZZKQqNn9m8=
+ bh=xepuNOJDUAiZUvu15u7YPooLQWFssVBVOPSAjM0yJ40=;
+ b=xzTr6LBNYzYsMFYeeNsiSyHEwcMQqQgniN9a3UY4sVTmJpwLB11qBMRTMtft/z6Xp1GEhzI0Bg4n4YwrOGeYdC/6gFkeaVlLO72QEdedKhxbcW7F+WGmTGhPrqyQtnp/NtGGhgFIOCJ+I6zXOuUIWHvHbT5vllpuAKKbTWVf/zk=
 Authentication-Results: amd.com; dkim=none (message not signed)
  header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4124.namprd12.prod.outlook.com (2603:10b6:5:221::20)
- by DM6PR12MB3963.namprd12.prod.outlook.com (2603:10b6:5:1cd::29) with
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
+ by DM5PR1201MB0122.namprd12.prod.outlook.com (2603:10b6:4:57::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
- 2020 19:30:11 +0000
-Received: from DM6PR12MB4124.namprd12.prod.outlook.com
- ([fe80::25a1:ace4:4ca8:167e]) by DM6PR12MB4124.namprd12.prod.outlook.com
- ([fe80::25a1:ace4:4ca8:167e%8]) with mapi id 15.20.3370.017; Fri, 11 Sep 2020
- 19:30:11 +0000
-Date: Fri, 11 Sep 2020 15:29:58 -0400
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-Subject: Re: [PATCH v2 3/4] drm/amd/display: Add pipe_state tracepoint
-Message-ID: <20200911192958.pqgvj3rez35cq3xk@outlook.office365.com>
-References: <20200911145927.401322-1-Rodrigo.Siqueira@amd.com>
- <20200911145927.401322-4-Rodrigo.Siqueira@amd.com>
- <e70b5c24-ece8-c989-7058-890e51bc6ae1@amd.com>
-In-Reply-To: <e70b5c24-ece8-c989-7058-890e51bc6ae1@amd.com>
-X-ClientProxiedBy: YTXPR0101CA0011.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00::24) To DM6PR12MB4124.namprd12.prod.outlook.com
- (2603:10b6:5:221::20)
+ 2020 20:49:58 +0000
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::3452:6d8f:e0ef:b45e]) by DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::3452:6d8f:e0ef:b45e%6]) with mapi id 15.20.3370.016; Fri, 11 Sep 2020
+ 20:49:58 +0000
+Subject: Re: [PATCH 1/1] drm/amdgpu: Convert to using devm_drm_dev_alloc()
+From: Luben Tuikov <luben.tuikov@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
+References: <20200904012218.4971-1-luben.tuikov@amd.com>
+ <20200904012218.4971-2-luben.tuikov@amd.com>
+ <CADnq5_NRyOfP48C5w4Q87qx98-hTLQP7PsP8OhGMbXJBu_Gb4A@mail.gmail.com>
+ <20200907080608.GP2352366@phenom.ffwll.local>
+ <20200907080726.GQ2352366@phenom.ffwll.local>
+ <6b97cb7f-61f2-8e89-c7bf-f98166accf39@amd.com>
+Message-ID: <bae5883a-0edd-7510-321f-2ae6fffeacf4@amd.com>
+Date: Fri, 11 Sep 2020 16:49:56 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+In-Reply-To: <6b97cb7f-61f2-8e89-c7bf-f98166accf39@amd.com>
+Content-Language: en-CA
+X-ClientProxiedBy: YTBPR01CA0021.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::34) To DM6PR12MB3962.namprd12.prod.outlook.com
+ (2603:10b6:5:1ce::21)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from outlook.office365.com (2607:fea8:56e0:6d60::e9a1) by
- YTXPR0101CA0011.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::24) with Microsoft
+Received: from [10.252.35.64] (165.204.54.211) by
+ YTBPR01CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3348.15 via Frontend Transport; Fri, 11 Sep 2020 19:30:11 +0000
-X-Originating-IP: [2607:fea8:56e0:6d60::e9a1]
+ 15.20.3370.16 via Frontend Transport; Fri, 11 Sep 2020 20:49:57 +0000
+X-Originating-IP: [165.204.54.211]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5a30c589-23a4-41dd-9b6b-08d8568919b3
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3963:
+X-MS-Office365-Filtering-Correlation-Id: 0f1471a3-c3c2-486d-2f6f-08d856943ec5
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0122:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3963B5F4256E431DA377FBBF98240@DM6PR12MB3963.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB0122DFFA413B5AFE8E18550099240@DM5PR1201MB0122.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VmfkRyXv9bKQISGXUQIPPLp6SIqaQ/MmDYCV3e1769PBuI3d6C5Kfmgz+KS/3g92Zbb9IhuE8FnouOcO91YpIuXCyOgu3Wvfkbo912fP3Nj6ZySDxSpsPKVlZjFQuce6/gn9XfJ3CB/mRq6NxnIPo1pz7PG1/s+7JPQ2NIQXzamKSkiQxSYsqXX+EMVpRlu5VVPaEe8aSeH3/+FgKMe2tCkV8WFV7jVdSU7IgQ/ZfuJwXgSr6KjdEJEImV+deiXYMOq+wv+wUR3LItAzhyQCO9fL7aMTDDT9wTIb1JdceQ8aTyZeC9xNSirEarRO7kNdkhYGchxwzxpyYHG9QwgEU1/3qEQ+NJiBU79r94Cx4Gzd7WdzcmyuABNsW4i8PnJSqOGaM0fqZ2nE36z9eSvDp4VL7BDvfMgAPZ6Ch16hhruJJclle/bts/bcRPlhMtrSTmMULKCvNNLjwIxETdl+5Q==
+X-Microsoft-Antispam-Message-Info: YGnTzR3CqJGRyJ73KxQpOMPCxQkA61+XHdLQdb/BLPbJaKWAgqHrcwbm8RBhdE+fI+sh2162/nUckogyxXcceeT5h5Ex/G3hk9Y94YEH/ORS4S2fL1gXHJpF4JtTRkPTAuQ/A5mNns+9tHT6/EQ2a9lGLF6lI4NuCvCVC8Kpfv3g/U14r5Dmo1AlidBx7Una9lhdONI5eYivXlRjLBPfGo1/yXqjwKkSfatzWKw4mupnWry/dRVL6Wy9GrjPo6Ny604A8aZd2taR5EGI6SmWIH61AzdTmxLhGAWVsFSfq/sAZtSr7Ai/PfzkrtCjrE18vEEkdylhz2dHmR0ynDOmPOZa5y4YZPFDzE72mVoaXzDJH8o5nVrUzlYvkQo5lQzXaxG52GY+jGtDtBB/AXoalP7FUgMdbn258IiDHZvaeAms89NSLg9CXS0fiEr7Dhqi0wLS1wFzOmAIukG+7hlwKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4124.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39860400002)(346002)(376002)(396003)(366004)(52116002)(30864003)(4326008)(2906002)(55016002)(66476007)(7696005)(6506007)(53546011)(6862004)(6636002)(966005)(450100002)(9686003)(66556008)(44144004)(86362001)(478600001)(186003)(21480400003)(6666004)(66946007)(1076003)(54906003)(316002)(8936002)(16526019)(83380400001)(8676002)(5660300002)(2700100001);
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(39860400002)(136003)(376002)(366004)(478600001)(45080400002)(956004)(54906003)(26005)(2616005)(53546011)(36756003)(16576012)(316002)(16526019)(66476007)(110136005)(44832011)(66556008)(5660300002)(83380400001)(186003)(6486002)(66946007)(8676002)(8936002)(83080400001)(4326008)(966005)(86362001)(2906002)(31686004)(52116002)(31696002)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: es1+ZoODbkt+x0CGeH5GfGxdjEJNp6R2MCkQ3vkKSwacDfsfL8uj5uC8Chc2j34wcNn/NlXgaZNgeHxeHJ9VZ3TIQbk13uCBJNzaztDgQMemtrXVBTG71KM8Kq5WQiAQrpfNHl/JbnNay8NtkapYuqfwlIibeCz9aK4s3KjaGntW905zI5EFFbL9IPKGzXyIvP+WKjs0B0Djcxa25JaGuKOo6F64PEuRLXSGOmpUKHaPy0dvBMf4owMfwJFPR5eLknIhcADoslJDS8eSIysVHcoyV76W/HEHeZFC/y575RySHYEmOp6LxpaipONUIJwonhsPJ8/Oxiup1p9K3CTAgU6ss/bwQ7ECQjj5RTW9OpKW2lIBKc+VQIq+2KIQeFy6yFBaVy+YBvdTausST3QOE8xUWMr8+Z2W/M1OmPcIdlYU6IHWMifXqE/CzWQRMEZ4ND8AvgBzb9lQ+BHPmcGDtqnL8c4M6GF5dVbnmynbeZKlSi92kgVYCEphN3u/ELZqHT5R9eewKOadi8LEtm8ovQ3Z7wLgh3DvrcO8X9Pig1l22S4kJgahFo2vTuBV6hcog4X1qn98/ImSRVxAOo/mGq9iX4jhle2XAIqBlUjT6u+uYpSROouUC07fM+U9QtsU5mAGw1YX+IzbqphWzAxJc/FAfn46xjWwGyJIhqCzF/EuoGGvzrGic4Xq94lqZIrI
+X-MS-Exchange-AntiSpam-MessageData: ZsOnTWAm+alG3QfqLYyKWQCMIJ6c2bubcDdpL11YqRQAKPxwDFMxNyF1JJRwUCxN4bpK4HEmK5UlCRcAflWT9UHXSAlXjahtdJrNhKjMs1dLuRpTZp7xZ5YMeNtwDIg46GcYmuMzukagrELEuDmg64QewITnKHP6BLDSONO6l3aaxZtyTxqRvh+DUrF5pTzrwz6M4mLJfgVJEKlrotkZgQEQbbbSUAh8a/SMNAgBsb2P+RC9OpnI9nmKcW/1S5vIq1p2C9Cn6HnJAqYgG4WVtjLVSyFHTENTKhfgsn2mTNRl54zuS2BBUcLqKrj/0P6BDEDNPk5C0atx3y1nx1qJGGISNhze9BCEe58qGthLdiSIJ0C64HUsITcyvYJ6sVjFTPMtEf4+3qtEqBK4XzczcZjljER4Q9UqLrbGd0LZg6SVsRazgqZzR1onuxb6lzsilWMSYo4LugLSXSgAX2drvxwFePzsuVLm6PjVUQ5Y9FSZBADtK47YTyDqkNS8kZkWdGh2hjjsZ2DpO6nhG0Iy2ABmmZgccWC675mUFK6Kpgy3Mhd7w/sm/kyIO4tSUUw75F0d+jHBDUAmDe4fdxRlH0HJ5pao8ycsuJ1Gc5FlQ4/HsXCdPUZxnAG44H66Yyd520XMIPJYnhghMjmAGNXHOQ==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a30c589-23a4-41dd-9b6b-08d8568919b3
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4124.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f1471a3-c3c2-486d-2f6f-08d856943ec5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2020 19:30:11.6167 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2020 20:49:58.3332 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dVllt1hqhxapBKisuS65DRqmnVEAyJd+EaSFa14dRKdPL8Dq2DJxvV5s9UuuLpLOtaAj0OqLWKMNdt3qp32d2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3963
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2FBcoK2QRSD6byrcdI/cHbP/aM4+992QguB/Uap1gaJEpt4sadF6lRavB6L+Slpx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,362 +101,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
- hersenxs.wu@amd.com, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============2078824782=="
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>, "Tuikov,
+ Luben" <Luben.Tuikov@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2078824782==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ljmcd3qnmadcng2j"
-Content-Disposition: inline
+On 2020-09-08 16:09, Luben Tuikov wrote:
+> On 2020-09-07 04:07, Daniel Vetter wrote:
+>> On Mon, Sep 07, 2020 at 10:06:08AM +0200, Daniel Vetter wrote:
+>>> On Sat, Sep 05, 2020 at 11:50:05AM -0400, Alex Deucher wrote:
+>>>> On Thu, Sep 3, 2020 at 9:22 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
+>>>>>
+>>>>> Convert to using devm_drm_dev_alloc(),
+>>>>> as drm_dev_init() is going away.
+>>>>>
+>>>>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+>>>>
+>>>> I think we can drop the final drm_put in the error case?  I think the
+>>>> unwinding in current devm code should take care of it.
+>>>
+>>> Same applies for the pci remove hook too.
+>>
+>> KASAN run with unload should have caught this. 
+> 
+> But it didn't? Why?
+> Could it be that drm_dev_put() actually got
+> the kref to 0 and then drm_dev_release()
+> was called which did a kfree()?
+> 
+> Could you try that same unload KASAN run but
+> with your suggestion of removing drm_dev_put() from
+> amdgpu_pci_remove()? What do you get then?
 
---ljmcd3qnmadcng2j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Daniel,
 
-On 09/11, Kazlauskas, Nicholas wrote:
-> On 2020-09-11 10:59 a.m., Rodrigo Siqueira wrote:
-> > This commit introduces a trace mechanism for struct pipe_ctx by adding a
-> > middle layer struct in the amdgpu_dm_trace.h for capturing the most
-> > important data from struct pipe_ctx and showing its data via tracepoint.
-> > This tracepoint was added to dc.c and dcn10_hw_sequencer, however, it
-> > can be added to other DCN architecture.
-> >=20
-> > Co-developed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->=20
->=20
-> This patch, while very useful, unfortunately pulls in a lot of DM code in=
-to
-> DC so I would prefer to hold off on this one for now.
+Have you had a chance to run this unload KASAN run with
+your suggestion of removing drm_dev_put() from
+the PCI release hook?
 
-Hi Nicholas, first of all, thanks for your feedback.
+If it "should have caught this", but it didn't,
+perhaps it did catch it when you removed the drm_dev_put()
+hook from the PCI release hook, when you did a KASAN unload run?
+Showing that drm_dev_put() is still necessary, since,
+1) we're still using kref,
+2) kref is kref-init-ed under devm_drm_dev_alloc() as I pointed
+   out in my reply to Alex in this thread.
 
-By "pulls in a lot of DM code into DC" do you mean all references to
-plane_state and plane_res? Or the data inserted in the struct?
-=20
-> It would be better if this had a proper DC interface for tracing/logging
-> these states. If the API was more like how we handle tracing register
-> reads/writes this would be cleaner.
+I believe KASAN (and logic) show this patch to be solid.
 
-Could you elaborate a little bit more about  "a proper DC interface"?
-What is your view of this sort of interface?
+> 
+>> I strongly recommend doing
+>> that for any changes to the unload code, it's way to easy to mix up
+>> something and release it in the wrong order or from the wrong callback or
+>> with the wrong managed (devm_ vs drmm_) functions.
+> 
+> Sorry, I don't understand what you mean by "doing that"? Do
+> you mean "not calling drm_dev_put()"? Sure, but what
+> are we supposed to call instead?
+> 
+> I also don't understand what you mean by "easy to mix up something
+> and release it in wrong order or from the wrong callback..." etc.
+> 
+> If you want things to happen in certain order,
+> you can either put the correct-order-sequence
+> behind the non-zero-->0 transition of kref, say in
+> drm_dev_release() as it is right now,
+> 
+> static void drm_dev_release(struct kref *ref)
+> {
+>         struct drm_device *dev = container_of(ref, struct drm_device, ref);
+> 
+>         if (dev->driver->release)
+>                 dev->driver->release(dev);
+> 
+>         drm_managed_release(dev);
+> 
+>         kfree(dev->managed.final_kfree);
+> }
+> 
+> Or you can remove kref from DRM dev (which I do not
+> recommend), and stipulate the release sequence
+> as I asked in Message-ID: <165961bb-3b5b-cedc-2fc0-838b7999d2e3@amd.com>,
+> "Re: [PATCH] drm/managed: Cleanup of unused functions and polishing docs".
+> 
+> Then we can follow that and submit patches to conform.
 
-Also, how about Patch 04? Same problems?
+Eagerly awaiting your response on this so that we can conform
+to the direction you're setting forth.
 
-Best Regards
-Rodrigo Siqueira
+Are you removing kref (release() cb) from DRM and if so,
+what function should we call in order to do the "final"
+(although without kref, the notion of "final" is obviated)
+free, OR kref stays in and this patch, which conforms
+to using devm_drm_dev_alloc(), as postulated by you,
+can go in.
 
+Regards,
+Luben
+
+> 
 > Regards,
-> Nicholas Kazlauskas
->=20
-> > ---
-> >   .../amd/display/amdgpu_dm/amdgpu_dm_trace.h   | 172 ++++++++++++++++++
-> >   drivers/gpu/drm/amd/display/dc/core/dc.c      |  11 ++
-> >   .../amd/display/dc/dcn10/dcn10_hw_sequencer.c |  17 +-
-> >   3 files changed, 195 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-> > index 5fb4c4a5c349..53f62506e17c 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-> > @@ -376,6 +376,178 @@ TRACE_EVENT(amdgpu_dm_atomic_check_finish,
-> >   		      __entry->async_update, __entry->allow_modeset)
-> >   );
-> > +#ifndef _AMDGPU_DM_TRACE_STRUCTS_DEFINED_
-> > +#define _AMDGPU_DM_TRACE_STRUCTS_DEFINED_
-> > +
-> > +struct amdgpu_dm_trace_pipe_state {
-> > +	int pipe_idx;
-> > +	const void *stream;
-> > +	int stream_w;
-> > +	int stream_h;
-> > +	int dst_x;
-> > +	int dst_y;
-> > +	int dst_w;
-> > +	int dst_h;
-> > +	int src_x;
-> > +	int src_y;
-> > +	int src_w;
-> > +	int src_h;
-> > +	int clip_x;
-> > +	int clip_y;
-> > +	int clip_w;
-> > +	int clip_h;
-> > +	int recout_x;
-> > +	int recout_y;
-> > +	int recout_w;
-> > +	int recout_h;
-> > +	int viewport_x;
-> > +	int viewport_y;
-> > +	int viewport_w;
-> > +	int viewport_h;
-> > +	int flip_immediate;
-> > +	int surface_pitch;
-> > +	int format;
-> > +	int swizzle;
-> > +	unsigned int update_flags;
-> > +};
-> > +
-> > +#define fill_out_trace_pipe_state(trace_pipe_state, pipe_ctx) \
-> > +	do { \
-> > +		trace_pipe_state.pipe_idx	=3D (pipe_ctx)->pipe_idx; \
-> > +		trace_pipe_state.stream		=3D (pipe_ctx)->stream; \
-> > +		trace_pipe_state.stream_w	=3D (pipe_ctx)->stream->timing.h_addressab=
-le; \
-> > +		trace_pipe_state.stream_h	=3D (pipe_ctx)->stream->timing.v_addressab=
-le; \
-> > +		trace_pipe_state.dst_x		=3D (pipe_ctx)->plane_state->dst_rect.x; \
-> > +		trace_pipe_state.dst_y		=3D (pipe_ctx)->plane_state->dst_rect.y; \
-> > +		trace_pipe_state.dst_w		=3D (pipe_ctx)->plane_state->dst_rect.width;=
- \
-> > +		trace_pipe_state.dst_h		=3D (pipe_ctx)->plane_state->dst_rect.height=
-; \
-> > +		trace_pipe_state.src_x		=3D (pipe_ctx)->plane_state->src_rect.x; \
-> > +		trace_pipe_state.src_y		=3D (pipe_ctx)->plane_state->src_rect.y; \
-> > +		trace_pipe_state.src_w		=3D (pipe_ctx)->plane_state->src_rect.width;=
- \
-> > +		trace_pipe_state.src_h		=3D (pipe_ctx)->plane_state->src_rect.height=
-; \
-> > +		trace_pipe_state.clip_x		=3D (pipe_ctx)->plane_state->clip_rect.x; \
-> > +		trace_pipe_state.clip_y		=3D (pipe_ctx)->plane_state->clip_rect.y; \
-> > +		trace_pipe_state.clip_w		=3D (pipe_ctx)->plane_state->clip_rect.widt=
-h; \
-> > +		trace_pipe_state.clip_h		=3D (pipe_ctx)->plane_state->clip_rect.heig=
-ht; \
-> > +		trace_pipe_state.recout_x	=3D (pipe_ctx)->plane_res.scl_data.recout.=
-x; \
-> > +		trace_pipe_state.recout_y	=3D (pipe_ctx)->plane_res.scl_data.recout.=
-y; \
-> > +		trace_pipe_state.recout_w	=3D (pipe_ctx)->plane_res.scl_data.recout.=
-width; \
-> > +		trace_pipe_state.recout_h	=3D (pipe_ctx)->plane_res.scl_data.recout.=
-height; \
-> > +		trace_pipe_state.viewport_x	=3D (pipe_ctx)->plane_res.scl_data.viewp=
-ort.x; \
-> > +		trace_pipe_state.viewport_y	=3D (pipe_ctx)->plane_res.scl_data.viewp=
-ort.y; \
-> > +		trace_pipe_state.viewport_w	=3D (pipe_ctx)->plane_res.scl_data.viewp=
-ort.width; \
-> > +		trace_pipe_state.viewport_h	=3D (pipe_ctx)->plane_res.scl_data.viewp=
-ort.height; \
-> > +		trace_pipe_state.flip_immediate =3D (pipe_ctx)->plane_state->flip_im=
-mediate; \
-> > +		trace_pipe_state.surface_pitch	=3D (pipe_ctx)->plane_state->plane_si=
-ze.surface_pitch; \
-> > +		trace_pipe_state.format		=3D (pipe_ctx)->plane_state->format; \
-> > +		trace_pipe_state.swizzle	=3D (pipe_ctx)->plane_state->tiling_info.gf=
-x9.swizzle; \
-> > +		trace_pipe_state.update_flags	=3D (pipe_ctx)->update_flags.raw; \
-> > +	} while (0)
-> > +
-> > +#endif /* _AMDGPU_DM_TRACE_STRUCTS_DEFINED_ */
-> > +
-> > +TRACE_EVENT(amdgpu_dm_dc_pipe_state,
-> > +	    TP_PROTO(const struct amdgpu_dm_trace_pipe_state *pipe_state),
-> > +	    TP_ARGS(pipe_state),
-> > +	    TP_STRUCT__entry(
-> > +			     __field(int, pipe_idx)
-> > +			     __field(const void *, stream)
-> > +			     __field(int, stream_w)
-> > +			     __field(int, stream_h)
-> > +			     __field(int, dst_x)
-> > +			     __field(int, dst_y)
-> > +			     __field(int, dst_w)
-> > +			     __field(int, dst_h)
-> > +			     __field(int, src_x)
-> > +			     __field(int, src_y)
-> > +			     __field(int, src_w)
-> > +			     __field(int, src_h)
-> > +			     __field(int, clip_x)
-> > +			     __field(int, clip_y)
-> > +			     __field(int, clip_w)
-> > +			     __field(int, clip_h)
-> > +			     __field(int, recout_x)
-> > +			     __field(int, recout_y)
-> > +			     __field(int, recout_w)
-> > +			     __field(int, recout_h)
-> > +			     __field(int, viewport_x)
-> > +			     __field(int, viewport_y)
-> > +			     __field(int, viewport_w)
-> > +			     __field(int, viewport_h)
-> > +			     __field(int, flip_immediate)
-> > +			     __field(int, surface_pitch)
-> > +			     __field(int, format)
-> > +			     __field(int, swizzle)
-> > +			     __field(unsigned int, update_flags)
-> > +	),
-> > +
-> > +	TP_fast_assign(
-> > +		       __entry->pipe_idx =3D pipe_state->pipe_idx;
-> > +		       __entry->stream =3D pipe_state->stream;
-> > +		       __entry->stream_w =3D pipe_state->stream_w;
-> > +		       __entry->stream_h =3D pipe_state->stream_h;
-> > +		       __entry->dst_x =3D pipe_state->dst_x;
-> > +		       __entry->dst_y =3D pipe_state->dst_y;
-> > +		       __entry->dst_w =3D pipe_state->dst_w;
-> > +		       __entry->dst_h =3D pipe_state->dst_h;
-> > +		       __entry->src_x =3D pipe_state->src_x;
-> > +		       __entry->src_y =3D pipe_state->src_y;
-> > +		       __entry->src_w =3D pipe_state->src_w;
-> > +		       __entry->src_h =3D pipe_state->src_h;
-> > +		       __entry->clip_x =3D pipe_state->clip_x;
-> > +		       __entry->clip_y =3D pipe_state->clip_y;
-> > +		       __entry->clip_w =3D pipe_state->clip_w;
-> > +		       __entry->clip_h =3D pipe_state->clip_h;
-> > +		       __entry->recout_x =3D pipe_state->recout_x;
-> > +		       __entry->recout_y =3D pipe_state->recout_y;
-> > +		       __entry->recout_w =3D pipe_state->recout_w;
-> > +		       __entry->recout_h =3D pipe_state->recout_h;
-> > +		       __entry->viewport_x =3D pipe_state->viewport_x;
-> > +		       __entry->viewport_y =3D pipe_state->viewport_y;
-> > +		       __entry->viewport_w =3D pipe_state->viewport_w;
-> > +		       __entry->viewport_h =3D pipe_state->viewport_h;
-> > +		       __entry->flip_immediate =3D pipe_state->flip_immediate;
-> > +		       __entry->surface_pitch =3D pipe_state->surface_pitch;
-> > +		       __entry->format =3D pipe_state->format;
-> > +		       __entry->swizzle =3D pipe_state->swizzle;
-> > +		       __entry->update_flags =3D pipe_state->update_flags;
-> > +	),
-> > +	TP_printk("pipe_idx=3D%d stream=3D%p rct(%d,%d) dst=3D(%d,%d,%d,%d) "
-> > +		  "src=3D(%d,%d,%d,%d) clip=3D(%d,%d,%d,%d) recout=3D(%d,%d,%d,%d) "
-> > +		  "viewport=3D(%d,%d,%d,%d) flip_immediate=3D%d pitch=3D%d "
-> > +		  "format=3D%d swizzle=3D%d update_flags=3D%x",
-> > +		  __entry->pipe_idx,
-> > +		  __entry->stream,
-> > +		  __entry->stream_w,
-> > +		  __entry->stream_h,
-> > +		  __entry->dst_x,
-> > +		  __entry->dst_y,
-> > +		  __entry->dst_w,
-> > +		  __entry->dst_h,
-> > +		  __entry->src_x,
-> > +		  __entry->src_y,
-> > +		  __entry->src_w,
-> > +		  __entry->src_h,
-> > +		  __entry->clip_x,
-> > +		  __entry->clip_y,
-> > +		  __entry->clip_w,
-> > +		  __entry->clip_h,
-> > +		  __entry->recout_x,
-> > +		  __entry->recout_y,
-> > +		  __entry->recout_w,
-> > +		  __entry->recout_h,
-> > +		  __entry->viewport_x,
-> > +		  __entry->viewport_y,
-> > +		  __entry->viewport_w,
-> > +		  __entry->viewport_h,
-> > +		  __entry->flip_immediate,
-> > +		  __entry->surface_pitch,
-> > +		  __entry->format,
-> > +		  __entry->swizzle,
-> > +		  __entry->update_flags
-> > +	)
-> > +);
-> > +
-> >   #endif /* _AMDGPU_DM_TRACE_H_ */
-> >   #undef TRACE_INCLUDE_PATH
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm=
-/amd/display/dc/core/dc.c
-> > index dc463d99ef50..0c9f177e5827 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> > @@ -2644,6 +2644,17 @@ void dc_commit_updates_for_stream(struct dc *dc,
-> >   		}
-> >   	}
-> > +	for (i =3D 0; i < MAX_PIPES; ++i) {
-> > +		struct pipe_ctx *pipe_ctx =3D &dc->current_state->res_ctx.pipe_ctx[i=
-];
-> > +
-> > +		if (pipe_ctx->plane_state) {
-> > +			struct amdgpu_dm_trace_pipe_state pipe_state_trace;
-> > +
-> > +			fill_out_trace_pipe_state(pipe_state_trace, pipe_ctx);
-> > +			trace_amdgpu_dm_dc_pipe_state(&pipe_state_trace);
-> > +		}
-> > +	}
-> > +
-> >   	commit_planes_for_stream(
-> >   				dc,
-> >   				srf_updates,
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c =
-b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> > index 8ca94f506195..464d0ad093b9 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> > @@ -1020,15 +1020,22 @@ static bool dcn10_hw_wa_force_recovery(struct d=
-c *dc)
-> >   }
-> > -
-> >   void dcn10_verify_allow_pstate_change_high(struct dc *dc)
-> >   {
-> > -	static bool should_log_hw_state; /* prevent hw state log by default */
-> > -
-> >   	if (!hubbub1_verify_allow_pstate_change_high(dc->res_pool->hubbub)) {
-> > -		if (should_log_hw_state) {
-> > -			dcn10_log_hw_state(dc, NULL);
-> > +		int i;
-> > +
-> > +		for (i =3D 0; i < MAX_PIPES; ++i) {
-> > +			struct pipe_ctx *pipe_ctx =3D &dc->current_state->res_ctx.pipe_ctx[=
-i];
-> > +
-> > +			if (pipe_ctx->plane_state) {
-> > +				struct amdgpu_dm_trace_pipe_state pipe_state_trace;
-> > +
-> > +				fill_out_trace_pipe_state(pipe_state_trace, pipe_ctx);
-> > +				trace_amdgpu_dm_dc_pipe_state(&pipe_state_trace);
-> > +			}
-> >   		}
-> > +
-> >   		BREAK_TO_DEBUGGER();
-> >   		if (dcn10_hw_wa_force_recovery(dc)) {
-> >   		/*check again*/
-> >=20
->=20
-
---=20
-Rodrigo Siqueira
-https://siqueira.tech
-
---ljmcd3qnmadcng2j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl9b0DEACgkQWJzP/com
-vP/1kxAAidtH249OOgXdZyk8pMjDBEzuhpsbLJOL4wuaUABs471+DDQtFSk1szFj
-YLWNUIdTtWEcd9iZD4HoYeSIJJF9h1NkwQs4Hf79wtYH5+tT9OpeBe3NQpg3wX4j
-YwHtFkpif9hypAi+7qxgpdaaLmK4Yj8r5A82TmC47lq2rFnSYxgScNbiA1FVIfVc
-AGdOUqQberk351xv6yf2kTelM/rC5DAUHmVVrp22rbAfmKYg7Ph2SOgJ752iRBhO
-OUV1HhAjGudaOJJSi+KoWlXN6Jb30DocuQBUNJGXwHhN/46R2/UXPYiFCFvLU3yv
-pDpqRp83hp0wrXwOjeWDrzWe71Jui2T9NKPmekTt3Hn54YEf83ao3HQ1RLRODSri
-6nhCaV+wycNgrPICRdO/b2YWdtAdUXPzM1Zat6cuVK2AVaeZoAs0hxQfx9LBMwnS
-H3KjTUNTTnJv1egMLZ9YEWhk5EUvvfwK+cWoCoJImbuk1r6IX3NotDP7wWC2sxzN
-wpf6uEtdoZF0yb++40hE4R5z9laUbaqu0lwWbnRJp3txn158N8MIaSjxhEDVFSin
-KkXb0zprq+Iv5vIt/xXXJVGVFTRW+K02TFfhsyt745bHPMVqngduKvXq8XhSMb3x
-lUQS1rarJapCw8YvTa8+9KTq2Os0AUg8O7lpZC1XqbqRh4Vb/H4=
-=3y15
------END PGP SIGNATURE-----
-
---ljmcd3qnmadcng2j--
-
---===============2078824782==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> Luben
+> 
+> 
+> 
+>> -Daniel
+>>
+>>> -Daniel
+>>>>
+>>>> Alex
+>>>>
+>>>>> ---
+>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++--------
+>>>>>  1 file changed, 3 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>>> index 146a85c8df1c..06d994187c24 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>>> @@ -1142,18 +1142,13 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>>>>>         if (ret)
+>>>>>                 return ret;
+>>>>>
+>>>>> -       adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+>>>>> -       if (!adev)
+>>>>> -               return -ENOMEM;
+>>>>> +       adev = devm_drm_dev_alloc(&pdev->dev, &kms_driver, typeof(*adev), ddev);
+>>>>> +       if (IS_ERR(adev))
+>>>>> +               return PTR_ERR(adev);
+>>>>>
+>>>>>         adev->dev  = &pdev->dev;
+>>>>>         adev->pdev = pdev;
+>>>>>         ddev = adev_to_drm(adev);
+>>>>> -       ret = drm_dev_init(ddev, &kms_driver, &pdev->dev);
+>>>>> -       if (ret)
+>>>>> -               goto err_free;
+>>>>> -
+>>>>> -       drmm_add_final_kfree(ddev, adev);
+>>>>>
+>>>>>         if (!supports_atomic)
+>>>>>                 ddev->driver_features &= ~DRIVER_ATOMIC;
+>>>>> --
+>>>>> 2.28.0.394.ge197136389
+>>>>>
+>>>>> _______________________________________________
+>>>>> amd-gfx mailing list
+>>>>> amd-gfx@lists.freedesktop.org
+>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=02%7C01%7Cluben.tuikov%40amd.com%7C0c811cf4c16d4f79bc0d08d853051125%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637350628521258815&amp;sdata=k9GiFNi%2Fu6Y1AlW7ea1cQINYigfYbrvPk2RkmUJkY8U%3D&amp;reserved=0
+>>>
+>>> -- 
+>>> Daniel Vetter
+>>> Software Engineer, Intel Corporation
+>>> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=02%7C01%7Cluben.tuikov%40amd.com%7C0c811cf4c16d4f79bc0d08d853051125%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637350628521258815&amp;sdata=aIT9t6q0qCTy%2BZhHPH0XIJgZ%2FYNF8xwzAQ2HlbxxMDk%3D&amp;reserved=0
+>>
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2078824782==--
