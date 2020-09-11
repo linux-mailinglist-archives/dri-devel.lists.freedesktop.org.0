@@ -1,56 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD46265B3E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:14:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B43DB265B43
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732416E388;
-	Fri, 11 Sep 2020 08:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEE3F6E35F;
+	Fri, 11 Sep 2020 08:15:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 642F86E36F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:14:09 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j2so10551362wrx.7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:14:09 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9EE76E35F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:15:23 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id o5so10503369wrn.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=G0oyitWRiinDoICjGYeoh1HzR/rNf5XGFFRU5bGVxy4=;
- b=iXL8ANzgMewtHoaJE85FZJrOdBU5YSkNPFa+Fv98Ff66/79XfahbdlDLwrolTzDffr
- Op6ydZathEqGCDmSgOix35gp+AqBfsPlb6W6QpoPOZFr2NtEJoAI9k3aEPL4jr7Yklny
- 5mLqt4uKaXAXdUWpqRpLXNQVlw11ppiKAsfWg=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=k8Bj3ASTIpypJ8ggKoM+aQRjaad0dEkxTPVx2fp8uGs=;
+ b=fRQh/tOglgsku2462Zr61073wgcr+e/eaLU/50pvajTvuPIvdnYICnzSUm7FvMvi4p
+ MmKv0YhMk8XAy/F9mhJHBDTrgGsTzpvfgEmvRYXCtUF9xzPga5JBhaDao8umntOK+AQh
+ I7vagGkCjLylhdYtE/dkSzoXa/xVyy+ik0G6E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=G0oyitWRiinDoICjGYeoh1HzR/rNf5XGFFRU5bGVxy4=;
- b=gzLV5Hqcu5myMdEgFzp2xctBr5NySSc1bC9azhLSuJfVxNbC61fM/ikNSh33zswUtR
- P43FKbDlEdXDpOWieCZ4iMhWkcB6pF+BSCwmUrLVcMNoZ+vpg2+T1jaAzfSZgQyA7ny2
- KBxzmTFZL2h6Fn/dCf2goPrfrwVP5/biDH7ELl8Ew7omdhSzEx2zjmMaZuj5ZoHNOs3E
- CuTW5x2WCpzcm4ddov+xrUlCALF2PvHbBSTdwfT/WkJKRCOq0YFEjVRyJ0RKOFZAyEPh
- ne9Z1gV/Euj7hT6uS69RofZxHI0kfMRVI3qeABjY4lW2ZtLvwmSCgLdOHfdkyezx7AlH
- qnzA==
-X-Gm-Message-State: AOAM533cOPUELOxMRfqJgTodUwB4JRj4vDB/2/2OnO7bArtLV6pFYidN
- hkbqN8Ijh1CR9ROpsIFu3ZDRNQ==
-X-Google-Smtp-Source: ABdhPJzqIhhFaT3LPgJZx9vgwh0pvCV/w91YC0fj23SmIHTj66NkV5RxWhxlIGUyhl7DdZHIC94gSA==
-X-Received: by 2002:a5d:444b:: with SMTP id x11mr816975wrr.402.1599812047793; 
- Fri, 11 Sep 2020 01:14:07 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=k8Bj3ASTIpypJ8ggKoM+aQRjaad0dEkxTPVx2fp8uGs=;
+ b=Mm0baBXs+RAGj0nqH9kuElxnk9YSkLrUbv5SOpmk9gWsItZMzTAvlisWL1kKaUl15G
+ W3KCY1/NGICvRDR2ABy6RflEOzpC7NDv+R3LceLy+TLA9hH8ZpFv1W8hJeaGl2wOoOQ4
+ d1Kr6fZ8IytgR5u4XYYWxuczmeR9MHO6E5i8AHbXtESfzbi2c7/9NkKvMpLPOjZ0EvHV
+ ObRtbEabfSuQTpmOJMQjeMgC7gzIYtrd8xqp0c2NLyW04yPvl5Jr6O+ng+q24RJiX/ew
+ 3tdmSNT1WCYuld/tv+LG7+MGAT9qK7rF9qpPuxAJ++18Qzxpu0RL0Cbfm72VaIjMjg0R
+ +Crg==
+X-Gm-Message-State: AOAM532+JaR0vdVNmAb5ZnRRDK4F/ReLGf7eFeUDSxnbYdcWlzttlicM
+ CbR16xx5ID+qeuGSUzbJpzAu7Q==
+X-Google-Smtp-Source: ABdhPJxU1ll9iAceBTayzDGewibbztq9+abcfDZ6D804bpFjvBJi1qAFfNus3ZOJ7xUMAgiq6aX1LA==
+X-Received: by 2002:adf:f5c7:: with SMTP id k7mr866124wrp.246.1599812122122;
+ Fri, 11 Sep 2020 01:15:22 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t202sm2804806wmt.14.2020.09.11.01.14.06
+ by smtp.gmail.com with ESMTPSA id k8sm2777115wma.16.2020.09.11.01.15.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 01:14:07 -0700 (PDT)
-Date: Fri, 11 Sep 2020 10:14:05 +0200
+ Fri, 11 Sep 2020 01:15:21 -0700 (PDT)
+Date: Fri, 11 Sep 2020 10:15:19 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/vboxvideo: Use drm_gem_vram_vmap() interfaces
-Message-ID: <20200911081405.GL438822@phenom.ffwll.local>
-References: <20200911075922.19317-1-tzimmermann@suse.de>
+To: Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH] drm: xlnx: remove defined but not used
+ 'scaling_factors_666'
+Message-ID: <20200911081519.GM438822@phenom.ffwll.local>
+Mail-Followup-To: Hyun Kwon <hyun.kwon@xilinx.com>,
+ Jason Yan <yanaijie@huawei.com>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ Michal Simek <michals@xilinx.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Hulk Robot <hulkci@huawei.com>
+References: <20200910140630.1191782-1-yanaijie@huawei.com>
+ <20200910181418.GA3187626@xilinx.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200911075922.19317-1-tzimmermann@suse.de>
+In-Reply-To: <20200910181418.GA3187626@xilinx.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,176 +76,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, hdegoede@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jason Yan <yanaijie@huawei.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Hulk Robot <hulkci@huawei.com>, Michal Simek <michals@xilinx.com>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 11, 2020 at 09:59:22AM +0200, Thomas Zimmermann wrote:
-> VRAM helpers support ref counting for pin and vmap operations, no need
-> to avoid these operations, by employing the internal kmap interface. Just
-> use drm_gem_vram_vmap() and let it handle the details.
-> 
-> Also unexport the kmap interfaces from VRAM helpers. Vboxvideo was the
-> last user of these internal functions.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Oh I got confused for a bit about ttm's usage of kmap. Usually that means
-the per-page mapping done by the kmap() functions, might be a good idea to
-rename that to vmap for consistency with dma-buf and everything outside of
-ttm.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 56 +--------------------------
->  drivers/gpu/drm/vboxvideo/vbox_mode.c | 10 +++--
->  include/drm/drm_gem_vram_helper.h     |  3 --
->  3 files changed, 8 insertions(+), 61 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 07447abb4134..0e3cdc40379c 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -97,8 +97,8 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
->   * hardware's draing engine.
->   *
->   * To access a buffer object's memory from the DRM driver, call
-> - * drm_gem_vram_kmap(). It (optionally) maps the buffer into kernel address
-> - * space and returns the memory address. Use drm_gem_vram_kunmap() to
-> + * drm_gem_vram_vmap(). It maps the buffer into kernel address
-> + * space and returns the memory address. Use drm_gem_vram_vunmap() to
->   * release the mapping.
->   */
->  
-> @@ -436,39 +436,6 @@ static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
->  	return kmap->virtual;
->  }
->  
-> -/**
-> - * drm_gem_vram_kmap() - Maps a GEM VRAM object into kernel address space
-> - * @gbo:	the GEM VRAM object
-> - * @map:	establish a mapping if necessary
-> - * @is_iomem:	returns true if the mapped memory is I/O memory, or false \
-> -	otherwise; can be NULL
-> - *
-> - * This function maps the buffer object into the kernel's address space
-> - * or returns the current mapping. If the parameter map is false, the
-> - * function only queries the current mapping, but does not establish a
-> - * new one.
-> - *
-> - * Returns:
-> - * The buffers virtual address if mapped, or
-> - * NULL if not mapped, or
-> - * an ERR_PTR()-encoded error code otherwise.
-> - */
-> -void *drm_gem_vram_kmap(struct drm_gem_vram_object *gbo, bool map,
-> -			bool *is_iomem)
-> -{
-> -	int ret;
-> -	void *virtual;
-> -
-> -	ret = ttm_bo_reserve(&gbo->bo, true, false, NULL);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -	virtual = drm_gem_vram_kmap_locked(gbo, map, is_iomem);
-> -	ttm_bo_unreserve(&gbo->bo);
-> -
-> -	return virtual;
-> -}
-> -EXPORT_SYMBOL(drm_gem_vram_kmap);
-> -
->  static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
->  {
->  	if (WARN_ON_ONCE(!gbo->kmap_use_count))
-> @@ -484,22 +451,6 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
->  	 */
->  }
->  
-> -/**
-> - * drm_gem_vram_kunmap() - Unmaps a GEM VRAM object
-> - * @gbo:	the GEM VRAM object
-> - */
-> -void drm_gem_vram_kunmap(struct drm_gem_vram_object *gbo)
-> -{
-> -	int ret;
-> -
-> -	ret = ttm_bo_reserve(&gbo->bo, false, false, NULL);
-> -	if (WARN_ONCE(ret, "ttm_bo_reserve_failed(): ret=%d\n", ret))
-> -		return;
-> -	drm_gem_vram_kunmap_locked(gbo);
-> -	ttm_bo_unreserve(&gbo->bo);
-> -}
-> -EXPORT_SYMBOL(drm_gem_vram_kunmap);
-> -
->  /**
->   * drm_gem_vram_vmap() - Pins and maps a GEM VRAM object into kernel address
->   *                       space
-> @@ -511,9 +462,6 @@ EXPORT_SYMBOL(drm_gem_vram_kunmap);
->   * permanently. Call drm_gem_vram_vunmap() with the returned address to
->   * unmap and unpin the GEM VRAM object.
->   *
-> - * If you have special requirements for the pinning or mapping operations,
-> - * call drm_gem_vram_pin() and drm_gem_vram_kmap() directly.
-> - *
->   * Returns:
->   * The buffer's virtual address on success, or
->   * an ERR_PTR()-encoded error code otherwise.
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-> index d9a5af62af89..4fcc0a542b8a 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-> @@ -397,11 +397,13 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
->  
->  	vbox_crtc->cursor_enabled = true;
->  
-> -	/* pinning is done in prepare/cleanup framebuffer */
-> -	src = drm_gem_vram_kmap(gbo, true, NULL);
-> +	src = drm_gem_vram_vmap(gbo);
->  	if (IS_ERR(src)) {
-> +		/*
-> +		 * BUG: we should have pinned the BO in prepare_fb().
-> +		 */
->  		mutex_unlock(&vbox->hw_mutex);
-> -		DRM_WARN("Could not kmap cursor bo, skipping update\n");
-> +		DRM_WARN("Could not map cursor bo, skipping update\n");
->  		return;
->  	}
->  
-> @@ -414,7 +416,7 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
->  	data_size = width * height * 4 + mask_size;
->  
->  	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size);
-> -	drm_gem_vram_kunmap(gbo);
-> +	drm_gem_vram_vunmap(gbo, src);
->  
->  	flags = VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
->  		VBOX_MOUSE_POINTER_ALPHA;
-> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-> index 035332f3723f..b34f1da89cc7 100644
-> --- a/include/drm/drm_gem_vram_helper.h
-> +++ b/include/drm/drm_gem_vram_helper.h
-> @@ -101,9 +101,6 @@ u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
->  s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
->  int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
->  int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
-> -void *drm_gem_vram_kmap(struct drm_gem_vram_object *gbo, bool map,
-> -			bool *is_iomem);
-> -void drm_gem_vram_kunmap(struct drm_gem_vram_object *gbo);
->  void *drm_gem_vram_vmap(struct drm_gem_vram_object *gbo);
->  void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, void *vaddr);
->  
-> -- 
-> 2.28.0
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBTZXAgMTAsIDIwMjAgYXQgMTE6MTQ6MThBTSAtMDcwMCwgSHl1biBLd29uIHdyb3Rl
+Ogo+IEhpIEphc29uLAo+IAo+IE9uIFRodSwgU2VwIDEwLCAyMDIwIGF0IDA3OjA2OjMwQU0gLTA3
+MDAsIEphc29uIFlhbiB3cm90ZToKPiA+IFRoaXMgYWRkcmVzc2VzIHRoZSBmb2xsb3dpbmcgZ2Nj
+IHdhcm5pbmcgd2l0aCAibWFrZSBXPTEiOgo+ID4gCj4gPiBkcml2ZXJzL2dwdS9kcm0veGxueC96
+eW5xbXBfZGlzcC5jOjI0NToxODogd2FybmluZzoKPiA+IOKAmHNjYWxpbmdfZmFjdG9yc182Njbi
+gJkgZGVmaW5lZCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWNvbnN0LXZhcmlhYmxlPV0KPiA+ICAg
+MjQ1IHwgc3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNjY2W10gPSB7Cj4gPiAgICAg
+ICB8ICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fgo+ID4gCj4gPiBSZXBvcnRl
+ZC1ieTogSHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBK
+YXNvbiBZYW4gPHlhbmFpamllQGh1YXdlaS5jb20+Cj4gCj4gUmV2aWV3ZWQtYnk6IEh5dW4gS3dv
+biA8aHl1bi5rd29uQHhpbGlueC5jb20+CgpJIHRoaW5rIHlvdSdyZSB0aGUgbWFpbnRhaW5lciwg
+c28gcGxlYXNlIGFsc28gcHVzaCBwYXRjaGVzIHRvCmRybS1taXNjLW5leHQuIE90aGVyd2lzZSB0
+aGV5J2xsIGp1c3QgZ2V0IGxvc3QsIG9yIGF0IGxlYXN0IGl0J3MgdmVyeQpjb25mdXNpbmcgd2hl
+biBhIG1haW50YWluZXIgcmV2aWV3cyBhIHBhdGNoIGJ1dCB0aGVyZSdzIG5vIGluZGljYXRpb24g
+d2hhdAp3aWxsIGhhcHBlbiB3aXRoIHRoZSBwYXRjaC4KLURhbmllbAoKPiAKPiBUaGFua3MhCj4g
+Cj4gLWh5dW4KPiAKPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNw
+LmMgfCA2IC0tLS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGRlbGV0aW9ucygtKQo+ID4gCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYyBiL2RyaXZl
+cnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNwLmMKPiA+IGluZGV4IGE0NTVjZmMxYmVlNS4uOThi
+ZDQ4ZjEzZmQxIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rp
+c3AuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYwo+ID4gQEAg
+LTI0MiwxMiArMjQyLDYgQEAgc3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNTY1W10g
+PSB7Cj4gPiAgCVpZTlFNUF9ESVNQX0FWX0JVRl81QklUX1NGLAo+ID4gIH07Cj4gPiAgCj4gPiAt
+c3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNjY2W10gPSB7Cj4gPiAtCVpZTlFNUF9E
+SVNQX0FWX0JVRl82QklUX1NGLAo+ID4gLQlaWU5RTVBfRElTUF9BVl9CVUZfNkJJVF9TRiwKPiA+
+IC0JWllOUU1QX0RJU1BfQVZfQlVGXzZCSVRfU0YsCj4gPiAtfTsKPiA+IC0KPiA+ICBzdGF0aWMg
+Y29uc3QgdTMyIHNjYWxpbmdfZmFjdG9yc184ODhbXSA9IHsKPiA+ICAJWllOUU1QX0RJU1BfQVZf
+QlVGXzhCSVRfU0YsCj4gPiAgCVpZTlFNUF9ESVNQX0FWX0JVRl84QklUX1NGLAo+ID4gLS0gCj4g
+PiAyLjI1LjQKPiA+IAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
+IENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
