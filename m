@@ -1,44 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211F1265CE4
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92326265CE6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 11:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56D996E9EC;
-	Fri, 11 Sep 2020 09:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA386E9B9;
+	Fri, 11 Sep 2020 09:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4766E25D
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 22:57:20 +0000 (UTC)
-Received: from fsav110.sakura.ne.jp (fsav110.sakura.ne.jp [27.133.134.237])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08AMv8qc089110;
- Fri, 11 Sep 2020 07:57:08 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav110.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav110.sakura.ne.jp);
- Fri, 11 Sep 2020 07:57:08 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav110.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08AMv7Ii089106
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Fri, 11 Sep 2020 07:57:08 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Subject: [PATCH] fbcon: Fix user font detection test at fbcon_resize().
-To: syzbot <syzbot+b38b1ef6edf0c74a8d97@syzkaller.appspotmail.com>,
- george.kennedy@oracle.com, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, syzkaller-bugs@googlegroups.com
-References: <00000000000024be1505ad487cbb@google.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Message-ID: <f6e3e611-8704-1263-d163-f52c906a4f06@I-love.SAKURA.ne.jp>
-Date: Fri, 11 Sep 2020 07:57:06 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <00000000000024be1505ad487cbb@google.com>
-Content-Language: en-US
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5C56E287
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 03:44:36 +0000 (UTC)
+Received: from mail-pf1-f198.google.com ([209.85.210.198])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <koba.ko@canonical.com>) id 1kGZzG-0008DP-Ph
+ for dri-devel@lists.freedesktop.org; Fri, 11 Sep 2020 03:44:34 +0000
+Received: by mail-pf1-f198.google.com with SMTP id 8so5972890pfx.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Sep 2020 20:44:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=oBCdh9AHVKn2pvKDjPYbf2p/ubia6a1LMjcyX5qUih0=;
+ b=LnfM+UW8zNYLf5UhajIsID6ncXjhAh2oP85FXg2USNpk0zcQ6b1Z+XaLw0JYb9DvG6
+ TZ9GL/XNki0LbRd2r7vyZ9GnbJ2tx8dVCCgkc5M029ukiu1Xb6yBDFALSAB6MIVjJ/da
+ sPgEderRimNe19GqPnYRkhOEnZqgrK+BoEqSFYUWf1IGqi5i/DcvdLfjBvEObxl6Gvf3
+ NwQAuU4WVKXYuhWIjoH90sQ+/AnqXEw/+NBJoV/NtCiRq/fckxXRGYRk5Nfxm1u5KFmd
+ umWi79kyC3fjyMp+iZ3BShvUq0P2oopQs3rpUotYWY1aIYC06cQJHO9t6ruSm/B4Bu+c
+ BnQA==
+X-Gm-Message-State: AOAM5338nrHT52frFyEyB2IURQIIwxv1nY4/ArDuTc4MuIPg7TobW3/q
+ BWNeziLKIrGUMjJo62izxKcAJSJxf6yjYzpqZjG12f1sgwUZNa3gH14GxTY1Vdcu8Yy/g5uarDP
+ FqE+yRWqJc15PmdgObOvhW2Rzlo5QGjtUsdzGIWP+XMTyxg==
+X-Received: by 2002:a17:902:c253:: with SMTP id 19mr52939plg.65.1599795873446; 
+ Thu, 10 Sep 2020 20:44:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyY4uaVpMyLnMtK0DRHCZhKP7Ii+rxYMe3wFJYMXiN3+HVrxw7f0xI1ZOkDROwv497nOMpnJg==
+X-Received: by 2002:a17:902:c253:: with SMTP id 19mr52922plg.65.1599795873124; 
+ Thu, 10 Sep 2020 20:44:33 -0700 (PDT)
+Received: from canonical.com (61-220-137-37.HINET-IP.hinet.net.
+ [61.220.137.37])
+ by smtp.gmail.com with ESMTPSA id q7sm415031pgg.10.2020.09.10.20.44.32
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 10 Sep 2020 20:44:32 -0700 (PDT)
+From: Koba Ko <koba.ko@canonical.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/dp_mst: Retrieve extended DPCD caps for topology
+ manager
+Date: Fri, 11 Sep 2020 11:44:31 +0800
+Message-Id: <20200911034431.29059-1-koba.ko@canonical.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Fri, 11 Sep 2020 09:49:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,54 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
- daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, natechancellor@gmail.com
+Cc: anthony.wong@canonical.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot is reporting OOB read at fbcon_resize() [1], for
-commit 39b3cffb8cf31117 ("fbcon: prevent user font height or width change
- from causing potential out-of-bounds access") is by error using
-registered_fb[con2fb_map[vc->vc_num]]->fbcon_par->p->userfont (which was
-set to non-zero) instead of fb_display[vc->vc_num].userfont (which remains
-zero for that display).
+As per DP-1.3, First check DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT.
+If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 1, read the DP_DP13_DPCD_REV to
+get the faster capability.
+If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 0, read DP_DPCD_REV.
 
-We could remove tricky userfont flag [2], for we can determine it by
-comparing address of the font data and addresses of built-in font data.
-But since that commit is failing to fix the original OOB read [3], this
-patch keeps the change minimal in case we decide to revert altogether.
-
-[1] https://syzkaller.appspot.com/bug?id=ebcbbb6576958a496500fee9cf7aa83ea00b5920
-[2] https://syzkaller.appspot.com/text?tag=Patch&x=14030853900000
-[3] https://syzkaller.appspot.com/bug?id=6fba8c186d97cf1011ab17660e633b1cc4e080c9
-
-Reported-by: syzbot <syzbot+b38b1ef6edf0c74a8d97@syzkaller.appspotmail.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Fixes: 39b3cffb8cf31117 ("fbcon: prevent user font height or width change from causing potential out-of-bounds access")
-Cc: George Kennedy <george.kennedy@oracle.com>
+Signed-off-by: Koba Ko <koba.ko@canonical.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/video/fbdev/core/fbcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changelog:
+1. Adjust the commit message.
+2. use drm_dbg_kms instead and print the return code.
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 66167830fefd..dae7ae7f225a 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2203,7 +2203,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 	struct fb_var_screeninfo var = info->var;
- 	int x_diff, y_diff, virt_w, virt_h, virt_fw, virt_fh;
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 7753c718ddf9..63f8809b9aa4 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3671,8 +3671,6 @@ EXPORT_SYMBOL(drm_dp_read_mst_cap);
+ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool mst_state)
+ {
+ 	int ret = 0;
+-	u8 dpcd_ext = 0;
+-	unsigned int dpcd_offset = 0;
+ 	struct drm_dp_mst_branch *mstb = NULL;
  
--	if (ops->p && ops->p->userfont && FNTSIZE(vc->vc_font.data)) {
-+	if (p->userfont && FNTSIZE(vc->vc_font.data)) {
- 		int size;
- 		int pitch = PITCH(vc->vc_font.width);
+ 	mutex_lock(&mgr->payload_lock);
+@@ -3686,17 +3684,11 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
+ 		struct drm_dp_payload reset_pay;
+ 
+ 		WARN_ON(mgr->mst_primary);
+-		drm_dp_dpcd_read(mgr->aux,
+-				 DP_TRAINING_AUX_RD_INTERVAL,
+-				 &dpcd_ext, sizeof(dpcd_ext));
+-
+-		dpcd_offset =
+-			((dpcd_ext & DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT) ?  DP_DP13_DPCD_REV : DP_DPCD_REV);
+ 
+ 		/* get dpcd info */
+-		ret = drm_dp_dpcd_read(mgr->aux, dpcd_offset, mgr->dpcd, DP_RECEIVER_CAP_SIZE);
+-		if (ret != DP_RECEIVER_CAP_SIZE) {
+-			DRM_DEBUG_KMS("failed to read DPCD\n");
++		ret = drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd);
++		if (ret < 0) {
++			drm_dbg_kms(mgr->dev, "failed to read DPCD, ret %d\n", ret);
+ 			goto out_unlock;
+ 		}
  
 -- 
-2.18.4
-
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
