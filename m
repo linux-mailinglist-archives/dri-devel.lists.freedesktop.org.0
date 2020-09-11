@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4B4265A65
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0E2265A9C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B971B6E356;
-	Fri, 11 Sep 2020 07:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A94F89EFF;
+	Fri, 11 Sep 2020 07:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4A66E359
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:20:28 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id q13so12388025ejo.9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 00:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=YFeXjg7bqtTOYH49LIXUF1fo0jTBbkbgWiE0BAtXQYM=;
- b=olkRWEm+WkS5GkVvHd2wfMIUqeYzYCZEhMDvsVxvkL+iSN6OtLdTXjcP1+Zeu+VopI
- nyiKZEt75J3tgl2EDVHz4ypb72b4LB/r0PiEqr06K7QuWFHx6hwbIodp2uU4B6wHAhyn
- VcdXlw3SDgWyJ+ukCqgQblphQ2UXgoa5yDt7E1mLOzqapI8Ha+VWmjqOqW800PkXdY1s
- FT0UKWiorqK1mlKQQL2utMCAQozPPfU5ud0gdNC8OcmvwuND7/IEkGuRbDLGEOMWH5yq
- 1xl8hhCnmBrTTKZ9guGPoZ67hmZcXpXjFJFYptCgiCTkoEdB2kj48bv6S4apuMp6d+U8
- FxBQ==
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8AA89EFF
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:37:21 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id g96so7563861otb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 00:37:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=YFeXjg7bqtTOYH49LIXUF1fo0jTBbkbgWiE0BAtXQYM=;
- b=V18BZ9sqMtZl4vIgm2mx0a8jFtzTeVslJ/IcSf/0qOvU/NnMKqurstuxx30STfeHTO
- JrKcpOvH2TOnw7yUZtX2rBUmPUfBjShpwXUUZ8eeZbzS7PSh8AuiKrOXb5GFtJc9Y8wi
- uEuQ/NNyQLzOjVR/a7FnJF3+wlmRD2S4+/3GPyhSWU9UuDKQuZSuqyeGIedNU0WCoRK0
- DKNiVC3krzXPtgQku8+0OAWr9ovveARjO/zI9omBOb0ax8c5Og2I+SBVIr10VsSex+FK
- /Nk26DTJmcWKXUJGi8Kz6HYe6lbi2ySy49bQRZ6EOGqDxCWYbngu7Q23j5mKctq1oLN/
- ZvsA==
-X-Gm-Message-State: AOAM530dy0TQybFDskQ0+hJRosGSw59Xeh87msOZSPIN0cNcPVbmfUPx
- thZzIsuD5D2BWC2lsNbCDOgwzWDSi/ICsJqD954=
-X-Google-Smtp-Source: ABdhPJw5ZsirWV0c7OfUpQwJtF/NnjigCb9xkes2Un4J5HwOVhwQLdiF2NkaO5xLFDOkwqy7/91kNkfVF/LyQOXoKYI=
-X-Received: by 2002:a17:906:fb8c:: with SMTP id
- lr12mr799162ejb.9.1599808827116; 
- Fri, 11 Sep 2020 00:20:27 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vO3shii/E7fgPE7FHhT9bDipzvL+QVGM4jZh7S0ik5Q=;
+ b=nDq8xwra5Wl0nOhpoO330cGFS9+vNDpxnS9Vxshd8xFhHZQMcTdMfzcmftCJJLTLWH
+ 4dxXg25d8dPUDl7wwsWB1uDgbcMB/ZKbZmo9LPKZh72Vx4B/aOI7r58hmk23mcKvJXE/
+ iWamEDn6vEIaR9K3dQaLQjst4XNyCOlx6M4nFd2wb+iL3xkPr3NCYM7+8RqALHvJd5KT
+ MFrY4EU1Hxzx6/d3BGSuWNztJQUtgZT9Wk7QW9anwxzkWRWTexf6Mle+W3v20JQhFFQc
+ iw8+Lti0CdLdk6r+U+rXUaXLP2KUmZMU25+jnlrNBb+mhAcpruqHp6OaNwX9PWbMCzsR
+ N/fg==
+X-Gm-Message-State: AOAM5323aREYMbq+GNZp67Ub1ZAOR0Mo9cEG9TGfaP0e9HxIKp6Yv8+7
+ 9pp00k8gdgDMzzn20iQUnPnECSHyS5woC4exEKc=
+X-Google-Smtp-Source: ABdhPJxcwMIwnS7iUfHMr6autuHPnOKVqu6GSLZ4M208xRRY0vxpd3q85CZDkM3kLC3ZxIamOVWdfXV+o834hcATMyw=
+X-Received: by 2002:a9d:5a92:: with SMTP id w18mr417440oth.145.1599809840778; 
+ Fri, 11 Sep 2020 00:37:20 -0700 (PDT)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 11 Sep 2020 17:20:15 +1000
-Message-ID: <CAPM=9txiwAocSprg6zCMF7ajJm-aY7wX=NY47+ZhVdKLfVZi+A@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.9-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
+ <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
+ <31ec6196-7613-8eb3-e092-07d0c874632a@ideasonboard.com>
+ <CAMuHMdVHGQ0FFcLjQfXhke5PKJKnNfZ3NOF-p08v3QrQ-87npA@mail.gmail.com>
+ <f1ed4b08-59eb-986e-4036-820887993f00@ideasonboard.com>
+ <CAMuHMdVGFOaBFCejGDgzf8AUbHFis0TOM-DDJ3h9k0+fuu=umQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVGFOaBFCejGDgzf8AUbHFis0TOM-DDJ3h9k0+fuu=umQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 11 Sep 2020 09:37:09 +0200
+Message-ID: <CAMuHMdUxCq+yawHsgJZYiEwaFLo-J9vJL8yiom=zsVVUVCdS4Q@mail.gmail.com>
+Subject: Re: [PATCH 5/9] arm64: dts: renesas: r8a77961: Add VSP device nodes
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,159 +56,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Linux-DT <devicetree@vger.kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ David Airlie <airlied@linux.ie>,
+ "\(Renesas\) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
+ Magnus <magnus.damm@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Laurent <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Thu, Sep 10, 2020 at 1:09 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Sep 10, 2020 at 12:34 PM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+> > On 10/09/2020 10:44, Geert Uytterhoeven wrote:
+> > > On Mon, Sep 7, 2020 at 5:55 PM Kieran Bingham
+> > > <kieran.bingham+renesas@ideasonboard.com> wrote:
+> > >> On 07/09/2020 03:59, Kuninori Morimoto wrote:
+> > >>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > >>>
+> > >>> This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
+> > >>> This patch is test on R-Car M3-W+ Salvator-XS board.
 
-Regular fixes, not much a major amount. One thing though is Laurent
-fixed some Kconfig issues, and I'm carrying the rapidio kconfig change
-so the drm one for xlnx driver works. He hadn't got a response from
-rapidio maintainers.
+> > >>> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> > >>> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> > >>> @@ -2056,6 +2056,61 @@ fcpvd2: fcp@fea37000 {
+> > >>>                       iommus = <&ipmmu_vi0 10>;
+> > >>>               };
+> > >>
+> > >> The FCP's added are:
+> > >>
+> > >>                 fcpf0: fcp@fe950000 {
+> > >>                 fcpf1: fcp@fe951000 {
+> > >>                 fcpvb0: fcp@fe96f000 {
+> > >>                 fcpvb1: fcp@fe92f000 {
+> > >>                 fcpvi0: fcp@fe9af000 {
+> > >>                 fcpvi1: fcp@fe9bf000 {
+> > >>                 fcpvd0: fcp@fea27000 {
+> > >>                 fcpvd1: fcp@fea2f000 {
+> > >>                 fcpvd2: fcp@fea37000 {
+> > >>
+> > >> So indeed, the first fcpf0 comes before fe960000.
+> > >>
+> > >> Do we keep the items grouped by the first occurrence? or sort the nodes
+> > >> based on address?
+> > >>
+> > >> for some reason I thought we were ordering based on address, but I see
+> > >> other situations where we group too - so I'm confused (and wishing there
+> > >> was an automatic tool to get the sorting correct without fuss).
+> > >>
+> > >> Is there a set policy?
+> > >
+> > > For nodes with a unit-address, we usually[*] sort by unit-address, but we keep
+> > > similar nodes grouped.  Hence I prefer this v1 over v2.
+> >
+> > I assume then the groups are sorted by the first entry,
+> >
+> > I.e. hypothetically:
+> >
+> > fdp@0
+> > fcp@1
+> > vsp@2
+> > fdp@3
+> > fcp@4
+> > vsp@5
+> > cmm@6
+> > cmm@7
+> >
+> > would become
+> >
+> > fdp@0
+> > fdp@3
+> > fcp@1
+> > fcp@4
+> > vsp@2
+> > vsp@5
+> > cmm@6
+> > cmm@7
+>
+> Exactly.  That's how we (Reneas SoCs) have been (trying to) doing it.
+> I am aware there are some deviations (e.g. do you keep all 4 possible
+> SCIF types together (they're all serial@), or do you group them per
+> type? And some nodes (ipmmu) may be sorted alphabetically by label).
+>
+> > Has anyone already created any scripting/validation to automate the
+> > sorting requirements?
+>
+> Not yet, AFAIK. I've been thinking about doing that several times,
+> though ;-)
+>
+> > > [*] Seems like FCP/VSP are interleaved in r8a77990.dsi, doh.
+> > >
+> >
+> > Personally I prefer that - but my opinion doesn't matter here - so as
+> > long as the rules are defined (or even better, automatically
+> > enforceable) that's fine.
+>
+> Indeed.
+>
+> Perhaps creating rules is something to be handled at a higher level
+> (i.e. common for all DTS files)?
+>
+> Summarizing "our" rules:
+>   1. Nodes without unit-address are sorted alphabetically, by node name,
+>   2. Nodes with unit-address are sorted numerically, by unit-address,
+>        a. Nodes of the same type are grouped together, i.e. the whole
+>           group is sorted w.r.t. to other nodes/groups based on the
+>           unit-address of the first member of the group.
+>   3. Anchors are sorted alphabetically, but anchor name.
+>
+> Do they make sense?
 
-Otherwise, virtio, sun4i, tve200, ingenic have some fixes, one audio
-fix for i915 and a core docs fix.
+For comparison, scripts/dtc/dtx_diff uses "dtc -s" for sorting, which
+sorts everything (nodes and properties) alphabetically.
+While I can agree on sorting all nodes alphabetically, sorting
+properties alphabetically goes IMHO a bit too far.  E.g. it's established
+practice to put "compatible" and "reg" first.
 
-DAve.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-drm-fixes-2020-09-11:
-drm fixes for 5.9-rc5
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-rapidio/xlnx kconfig fix.
-
-core:
-- Documentation fix.
-
-i915:
-- audio regression fix
-
-virtio:
-- Fix double free in virtio.
-- Fix virtio unblank.
-- Remove output->enabled from virtio, as it should use crtc_state.
-
-sun4i:
-- Add missing put_device in sun4i, and other fixes.
-- Handle sun4i alpha on lowest plane correctly.
-
-tv200:
-- Fix tve200 enable/disable.
-
-ingenic
-- Small ingenic fixes.
-The following changes since commit 20561da3a2e1e0e827ef5510cb0f74bcfd377e41:
-
-  Revert "drm/i915/gem: Delete unused code" (2020-09-08 15:45:27 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-09-11
-
-for you to fetch changes up to 7f7a47952c0f981f9c9a6409c8cf8d025d55af64:
-
-  Merge tag 'drm-misc-fixes-2020-09-09' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-09-11
-09:49:23 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.9-rc5
-
-rapidio/xlnx kconfig fix.
-
-core:
-- Documentation fix.
-
-i915:
-- audio regression fix
-
-virtio:
-- Fix double free in virtio.
-- Fix virtio unblank.
-- Remove output->enabled from virtio, as it should use crtc_state.
-
-sun4i:
-- Add missing put_device in sun4i, and other fixes.
-- Handle sun4i alpha on lowest plane correctly.
-
-tv200:
-- Fix tve200 enable/disable.
-
-ingenic
-- Small ingenic fixes.
-
-----------------------------------------------------------------
-Dave Airlie (3):
-      Merge tag 'drm-xlnx-dpsub-fixes-20200905' of
-git://linuxtv.org/pinchartl/media into drm-fixes
-      Merge tag 'drm-intel-fixes-2020-09-10' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2020-09-09' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Gerd Hoffmann (2):
-      drm/virtio: fix unblank
-      drm/virtio: drop virtio_gpu_output->enabled
-
-Gurchetan Singh (1):
-      drm/virtio: Revert "drm/virtio: Call the right shmem helpers"
-
-Jernej Skrabec (1):
-      drm/sun4i: Fix DE2 YVU handling
-
-Kai Vehmanen (1):
-      drm/i915: fix regression leading to display audio probe failure on GLK
-
-Krzysztof Kozlowski (2):
-      dma-buf: Fix kerneldoc of dma_buf_set_name()
-      dma-buf: fence-chain: Document missing dma_fence_chain_init()
-parameter in kerneldoc
-
-Laurent Pinchart (2):
-      rapidio: Replace 'select' DMAENGINES 'with depends on'
-      drm: xlnx: dpsub: Fix DMADEVICES Kconfig dependency
-
-Linus Walleij (1):
-      drm/tve200: Stabilize enable/disable
-
-Maxime Ripard (2):
-      drm/sun4i: backend: Support alpha property on lowest plane
-      drm/sun4i: backend: Disable alpha on the lowest plane on the A20
-
-Ondrej Jirman (1):
-      drm/sun4i: Fix dsi dcs long write function
-
-Paul Cercueil (2):
-      drm/ingenic: Fix leak of device_node pointer
-      drm/ingenic: Fix driver not probing when IPU port is missing
-
-Randy Dunlap (1):
-      Documentation: fix dma-buf.rst underline length warning
-
-Yu Kuai (1):
-      drm/sun4i: add missing put_device() call in sun8i_r40_tcon_tv_set_mux()
-
- Documentation/driver-api/dma-buf.rst         |  2 +-
- drivers/dma-buf/dma-buf.c                    |  6 +++---
- drivers/dma-buf/dma-fence-chain.c            |  1 +
- drivers/gpu/drm/i915/display/intel_display.c | 10 ++++------
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c    | 20 ++++++++++++--------
- drivers/gpu/drm/sun4i/sun4i_backend.c        |  4 +---
- drivers/gpu/drm/sun4i/sun4i_tcon.c           |  8 ++++++--
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c       |  4 ++--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c       |  2 +-
- drivers/gpu/drm/tve200/tve200_display.c      | 22 +++++++++++++++++++++-
- drivers/gpu/drm/virtio/virtgpu_display.c     | 15 +++++++++++----
- drivers/gpu/drm/virtio/virtgpu_drv.h         |  2 +-
- drivers/gpu/drm/virtio/virtgpu_object.c      |  8 +++++++-
- drivers/gpu/drm/virtio/virtgpu_plane.c       |  6 ++++--
- drivers/gpu/drm/xlnx/Kconfig                 |  1 +
- drivers/rapidio/Kconfig                      |  2 +-
- 16 files changed, 77 insertions(+), 36 deletions(-)
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
