@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B547A265900
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 07:58:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4B4265A65
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66ACE6E2DD;
-	Fri, 11 Sep 2020 05:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B971B6E356;
+	Fri, 11 Sep 2020 07:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915FC6E2D6;
- Fri, 11 Sep 2020 05:58:47 +0000 (UTC)
-IronPort-SDR: nb9B+JAGwxyIdnwwq/hhG8ojwn95SwX9rHpiP8UgVe5rodBlShByllQbAy5eUKKOHDS+DXrcls
- fWhCRvVDjBKg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="222899430"
-X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; 
- d="asc'?scan'208";a="222899430"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 22:58:45 -0700
-IronPort-SDR: Q402+VGaRmxhMWdHJGWqdRbUQWDkz5A9hlInK3bqLW8woPO4FQwk83QfYMDeXNGHJThOG9nxAI
- 6UtL7nLTc5LA==
-X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; 
- d="asc'?scan'208";a="329643229"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 22:58:42 -0700
-Date: Fri, 11 Sep 2020 13:39:23 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Alejandro Sior <aho@sior.be>
-Subject: Re: [Intel-gfx][PATCH v2] drm/i915/gvt: Prevent NULL pointer
- dereference in intel_vgpu_reg_rw_edid()
-Message-ID: <20200911053923.GS28614@zhen-hp.sh.intel.com>
-References: <743818af-fa38-e31a-1780-84a6a7e72e25@web.de>
- <20200908181122.9100-1-aho@sior.be>
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4A66E359
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:20:28 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id q13so12388025ejo.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 00:20:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=YFeXjg7bqtTOYH49LIXUF1fo0jTBbkbgWiE0BAtXQYM=;
+ b=olkRWEm+WkS5GkVvHd2wfMIUqeYzYCZEhMDvsVxvkL+iSN6OtLdTXjcP1+Zeu+VopI
+ nyiKZEt75J3tgl2EDVHz4ypb72b4LB/r0PiEqr06K7QuWFHx6hwbIodp2uU4B6wHAhyn
+ VcdXlw3SDgWyJ+ukCqgQblphQ2UXgoa5yDt7E1mLOzqapI8Ha+VWmjqOqW800PkXdY1s
+ FT0UKWiorqK1mlKQQL2utMCAQozPPfU5ud0gdNC8OcmvwuND7/IEkGuRbDLGEOMWH5yq
+ 1xl8hhCnmBrTTKZ9guGPoZ67hmZcXpXjFJFYptCgiCTkoEdB2kj48bv6S4apuMp6d+U8
+ FxBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=YFeXjg7bqtTOYH49LIXUF1fo0jTBbkbgWiE0BAtXQYM=;
+ b=V18BZ9sqMtZl4vIgm2mx0a8jFtzTeVslJ/IcSf/0qOvU/NnMKqurstuxx30STfeHTO
+ JrKcpOvH2TOnw7yUZtX2rBUmPUfBjShpwXUUZ8eeZbzS7PSh8AuiKrOXb5GFtJc9Y8wi
+ uEuQ/NNyQLzOjVR/a7FnJF3+wlmRD2S4+/3GPyhSWU9UuDKQuZSuqyeGIedNU0WCoRK0
+ DKNiVC3krzXPtgQku8+0OAWr9ovveARjO/zI9omBOb0ax8c5Og2I+SBVIr10VsSex+FK
+ /Nk26DTJmcWKXUJGi8Kz6HYe6lbi2ySy49bQRZ6EOGqDxCWYbngu7Q23j5mKctq1oLN/
+ ZvsA==
+X-Gm-Message-State: AOAM530dy0TQybFDskQ0+hJRosGSw59Xeh87msOZSPIN0cNcPVbmfUPx
+ thZzIsuD5D2BWC2lsNbCDOgwzWDSi/ICsJqD954=
+X-Google-Smtp-Source: ABdhPJw5ZsirWV0c7OfUpQwJtF/NnjigCb9xkes2Un4J5HwOVhwQLdiF2NkaO5xLFDOkwqy7/91kNkfVF/LyQOXoKYI=
+X-Received: by 2002:a17:906:fb8c:: with SMTP id
+ lr12mr799162ejb.9.1599808827116; 
+ Fri, 11 Sep 2020 00:20:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200908181122.9100-1-aho@sior.be>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 11 Sep 2020 17:20:15 +1000
+Message-ID: <CAPM=9txiwAocSprg6zCMF7ajJm-aY7wX=NY47+ZhVdKLfVZi+A@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.9-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,159 +59,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Zhi Wang <zhi.a.wang@intel.com>
-Content-Type: multipart/mixed; boundary="===============1221702051=="
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
---===============1221702051==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8S1fMsFYqgBC+BN/"
-Content-Disposition: inline
+Regular fixes, not much a major amount. One thing though is Laurent
+fixed some Kconfig issues, and I'm carrying the rapidio kconfig change
+so the drm one for xlnx driver works. He hadn't got a response from
+rapidio maintainers.
 
+Otherwise, virtio, sun4i, tve200, ingenic have some fixes, one audio
+fix for i915 and a core docs fix.
 
---8S1fMsFYqgBC+BN/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020.09.08 20:11:21 +0200, Alejandro Sior wrote:
-> In the function intel_vgpu_reg_rw_edid of kvmgt.c, pos can be equal
-> to NULL for GPUs that do not properly support EDID. In those cases, when
-> pos gets passed to the handle_edid functions, it gets added a short offset
-> then it's dereferenced in memcpy's, leading to NULL pointer
-> dereference kernel oops.
->=20
-> More concretely, that kernel oops renders some Broadwell GPUs users
-> unable to set up virtual machines with virtual GPU passthrough (virtual
-> machines hang indefinitely when trying to make use of the virtual GPU),
-> and make them unable to remove the virtual GPUs once the kernel oops has
-> happened (it hangs indefinitely, and notably too when the kernel tries to
-> shutdown). The issues that this causes and steps to reproduce are
-> discussed in more details in this github issue post:
-> https://github.com/intel/gvt-linux/issues/170#issuecomment-685806160
->=20
-> Check if pos is equal to NULL, and if it is, set ret to a negative
-> value, making the module simply indicate that the access to EDID region
-> has failed, without any fatal repercussion.
->=20
-> Signed-off-by: Alejandro Sior <aho@sior.be>
->=20
-> ---
-> Changes in v2:
-> - removed middle name of author to comply with git name
-> - rephrased the patch description with imperative phrasing
-> - removed useless paragraph
-> - made a paragraph more concise
-> - fixed typos
-> - made individual lines shorter than 75 chars
->=20
->  drivers/gpu/drm/i915/gvt/kvmgt.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/=
-kvmgt.c
-> index ad8a9df49f29..49163363ba4a 100644
-> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> @@ -557,7 +557,9 @@ static size_t intel_vgpu_reg_rw_edid(struct intel_vgp=
-u *vgpu, char *buf,
->  		(struct vfio_edid_region *)kvmgt_vdev(vgpu)->region[i].data;
->  	loff_t pos =3D *ppos & VFIO_PCI_OFFSET_MASK;
-> =20
-> -	if (pos < region->vfio_edid_regs.edid_offset) {
-> +	if (pos =3D=3D NULL) {
-> +		ret =3D -EINVAL;
-> +	} else if (pos < region->vfio_edid_regs.edid_offset) {
->  		ret =3D handle_edid_regs(vgpu, region, buf, count, pos, iswrite);
->  	} else {
->  		pos -=3D EDID_BLOB_OFFSET;
-
-Thanks for reporting this! Sorry that we failed to do sanity validation on =
-older
-platform when enabling vfio edid function for all platform.
-
-Could you try below one to see if it fixes your problem? Instead of refusing
-possible read of edid, this fixes port number for BDW.
-
-=46rom d5d9304b6bfdc31356fd2feb1ddbbf28073fe3d4 Mon Sep 17 00:00:00 2001
-=46rom: Zhenyu Wang <zhenyuw@linux.intel.com>
-Date: Fri, 11 Sep 2020 13:50:20 +0800
-Subject: [PATCH] drm/i915/gvt: Fix port number for BDW on EDID region setup
-
-Current BDW virtual display port is initialized as PORT_B, so need
-to use same port for VFIO EDID region, otherwise invalid EDID blob
-pointer is assigned.
-
-Fixes: 0178f4ce3c3b ("drm/i915/gvt: Enable vfio edid for all GVT supported =
-platform")
-Signed-off-by: Zhenyu Wang <zhenyuw@linux.intel.com>
----
- drivers/gpu/drm/i915/gvt/vgpu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgp=
-u.c
-index 8fa9b31a2484..f6d7e33c7099 100644
---- a/drivers/gpu/drm/i915/gvt/vgpu.c
-+++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-@@ -368,6 +368,7 @@ void intel_gvt_destroy_idle_vgpu(struct intel_vgpu *vgp=
-u)
- static struct intel_vgpu *__intel_gvt_create_vgpu(struct intel_gvt *gvt,
- 		struct intel_vgpu_creation_params *param)
- {
-+	struct drm_i915_private *dev_priv =3D gvt->gt->i915;
- 	struct intel_vgpu *vgpu;
- 	int ret;
-=20
-@@ -436,7 +437,10 @@ static struct intel_vgpu *__intel_gvt_create_vgpu(stru=
-ct intel_gvt *gvt,
- 	if (ret)
- 		goto out_clean_sched_policy;
-=20
--	ret =3D intel_gvt_hypervisor_set_edid(vgpu, PORT_D);
-+	if (IS_BROADWELL(dev_priv))
-+		ret =3D intel_gvt_hypervisor_set_edid(vgpu, PORT_B);
-+	else
-+		ret =3D intel_gvt_hypervisor_set_edid(vgpu, PORT_D);
- 	if (ret)
- 		goto out_clean_sched_policy;
-=20
---=20
-2.28.0
+DAve.
 
 
+drm-fixes-2020-09-11:
+drm fixes for 5.9-rc5
 
---=20
+rapidio/xlnx kconfig fix.
 
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+core:
+- Documentation fix.
 
---8S1fMsFYqgBC+BN/
-Content-Type: application/pgp-signature; name="signature.asc"
+i915:
+- audio regression fix
 
------BEGIN PGP SIGNATURE-----
+virtio:
+- Fix double free in virtio.
+- Fix virtio unblank.
+- Remove output->enabled from virtio, as it should use crtc_state.
 
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCX1sNiwAKCRCxBBozTXgY
-J178AKCLWKo7RfqGXpQi9NqnMJIxrpwgcwCeIrbxnT+NeVSpEFsJHEnHt7VcFaQ=
-=j8Om
------END PGP SIGNATURE-----
+sun4i:
+- Add missing put_device in sun4i, and other fixes.
+- Handle sun4i alpha on lowest plane correctly.
 
---8S1fMsFYqgBC+BN/--
+tv200:
+- Fix tve200 enable/disable.
 
---===============1221702051==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+ingenic
+- Small ingenic fixes.
+The following changes since commit 20561da3a2e1e0e827ef5510cb0f74bcfd377e41:
 
+  Revert "drm/i915/gem: Delete unused code" (2020-09-08 15:45:27 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-09-11
+
+for you to fetch changes up to 7f7a47952c0f981f9c9a6409c8cf8d025d55af64:
+
+  Merge tag 'drm-misc-fixes-2020-09-09' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-09-11
+09:49:23 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.9-rc5
+
+rapidio/xlnx kconfig fix.
+
+core:
+- Documentation fix.
+
+i915:
+- audio regression fix
+
+virtio:
+- Fix double free in virtio.
+- Fix virtio unblank.
+- Remove output->enabled from virtio, as it should use crtc_state.
+
+sun4i:
+- Add missing put_device in sun4i, and other fixes.
+- Handle sun4i alpha on lowest plane correctly.
+
+tv200:
+- Fix tve200 enable/disable.
+
+ingenic
+- Small ingenic fixes.
+
+----------------------------------------------------------------
+Dave Airlie (3):
+      Merge tag 'drm-xlnx-dpsub-fixes-20200905' of
+git://linuxtv.org/pinchartl/media into drm-fixes
+      Merge tag 'drm-intel-fixes-2020-09-10' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'drm-misc-fixes-2020-09-09' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Gerd Hoffmann (2):
+      drm/virtio: fix unblank
+      drm/virtio: drop virtio_gpu_output->enabled
+
+Gurchetan Singh (1):
+      drm/virtio: Revert "drm/virtio: Call the right shmem helpers"
+
+Jernej Skrabec (1):
+      drm/sun4i: Fix DE2 YVU handling
+
+Kai Vehmanen (1):
+      drm/i915: fix regression leading to display audio probe failure on GLK
+
+Krzysztof Kozlowski (2):
+      dma-buf: Fix kerneldoc of dma_buf_set_name()
+      dma-buf: fence-chain: Document missing dma_fence_chain_init()
+parameter in kerneldoc
+
+Laurent Pinchart (2):
+      rapidio: Replace 'select' DMAENGINES 'with depends on'
+      drm: xlnx: dpsub: Fix DMADEVICES Kconfig dependency
+
+Linus Walleij (1):
+      drm/tve200: Stabilize enable/disable
+
+Maxime Ripard (2):
+      drm/sun4i: backend: Support alpha property on lowest plane
+      drm/sun4i: backend: Disable alpha on the lowest plane on the A20
+
+Ondrej Jirman (1):
+      drm/sun4i: Fix dsi dcs long write function
+
+Paul Cercueil (2):
+      drm/ingenic: Fix leak of device_node pointer
+      drm/ingenic: Fix driver not probing when IPU port is missing
+
+Randy Dunlap (1):
+      Documentation: fix dma-buf.rst underline length warning
+
+Yu Kuai (1):
+      drm/sun4i: add missing put_device() call in sun8i_r40_tcon_tv_set_mux()
+
+ Documentation/driver-api/dma-buf.rst         |  2 +-
+ drivers/dma-buf/dma-buf.c                    |  6 +++---
+ drivers/dma-buf/dma-fence-chain.c            |  1 +
+ drivers/gpu/drm/i915/display/intel_display.c | 10 ++++------
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c    | 20 ++++++++++++--------
+ drivers/gpu/drm/sun4i/sun4i_backend.c        |  4 +---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c           |  8 ++++++--
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c       |  4 ++--
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c       |  2 +-
+ drivers/gpu/drm/tve200/tve200_display.c      | 22 +++++++++++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_display.c     | 15 +++++++++++----
+ drivers/gpu/drm/virtio/virtgpu_drv.h         |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c      |  8 +++++++-
+ drivers/gpu/drm/virtio/virtgpu_plane.c       |  6 ++++--
+ drivers/gpu/drm/xlnx/Kconfig                 |  1 +
+ drivers/rapidio/Kconfig                      |  2 +-
+ 16 files changed, 77 insertions(+), 36 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1221702051==--
