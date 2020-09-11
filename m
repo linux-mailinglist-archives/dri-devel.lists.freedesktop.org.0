@@ -1,68 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43DB265B43
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03704265BE3
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE3F6E35F;
-	Fri, 11 Sep 2020 08:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB9266E049;
+	Fri, 11 Sep 2020 08:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9EE76E35F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:15:23 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id o5so10503369wrn.13
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:15:23 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDB689E7C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:47:16 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id e17so3669599wme.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=k8Bj3ASTIpypJ8ggKoM+aQRjaad0dEkxTPVx2fp8uGs=;
- b=fRQh/tOglgsku2462Zr61073wgcr+e/eaLU/50pvajTvuPIvdnYICnzSUm7FvMvi4p
- MmKv0YhMk8XAy/F9mhJHBDTrgGsTzpvfgEmvRYXCtUF9xzPga5JBhaDao8umntOK+AQh
- I7vagGkCjLylhdYtE/dkSzoXa/xVyy+ik0G6E=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DvMPyj8qt4jHW/51wnfAjWdKajgYfQPiWAmb6Xy5N8U=;
+ b=Ov5mAc6CKxy1ruYfZtdKD2aJn0yVjOs8IJqLy43pn+ZB0avc5vlU8MX19KYF1F5abf
+ fKCNErmB99WLs5aZP85a90fNn9hXLMtPScllxEvtd0zvrxBpWd8tBGlNlz6skNnUZTUJ
+ EKTGPxBfF24p43dIXjzz8H1O+D4LngZdcbl+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=k8Bj3ASTIpypJ8ggKoM+aQRjaad0dEkxTPVx2fp8uGs=;
- b=Mm0baBXs+RAGj0nqH9kuElxnk9YSkLrUbv5SOpmk9gWsItZMzTAvlisWL1kKaUl15G
- W3KCY1/NGICvRDR2ABy6RflEOzpC7NDv+R3LceLy+TLA9hH8ZpFv1W8hJeaGl2wOoOQ4
- d1Kr6fZ8IytgR5u4XYYWxuczmeR9MHO6E5i8AHbXtESfzbi2c7/9NkKvMpLPOjZ0EvHV
- ObRtbEabfSuQTpmOJMQjeMgC7gzIYtrd8xqp0c2NLyW04yPvl5Jr6O+ng+q24RJiX/ew
- 3tdmSNT1WCYuld/tv+LG7+MGAT9qK7rF9qpPuxAJ++18Qzxpu0RL0Cbfm72VaIjMjg0R
- +Crg==
-X-Gm-Message-State: AOAM532+JaR0vdVNmAb5ZnRRDK4F/ReLGf7eFeUDSxnbYdcWlzttlicM
- CbR16xx5ID+qeuGSUzbJpzAu7Q==
-X-Google-Smtp-Source: ABdhPJxU1ll9iAceBTayzDGewibbztq9+abcfDZ6D804bpFjvBJi1qAFfNus3ZOJ7xUMAgiq6aX1LA==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr866124wrp.246.1599812122122;
- Fri, 11 Sep 2020 01:15:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DvMPyj8qt4jHW/51wnfAjWdKajgYfQPiWAmb6Xy5N8U=;
+ b=ZKtA4/cvTAXKRPTdGshsW1bj5A5XJvFSvUsfpNEUX1cd59hNu+u/pvKDQAS1JKPmdr
+ LO4FAaP51obIOaTb3JMLK7UnAE/ioGfwfntLfmnPfr9Sn9mGWI1n7vfGFE9i7C13VQrG
+ mTvx2KLbeetOXkxFMCBa56hwgzqIWeylYExRXh2eUTqBTvaEAaAm67O3m8+DsoGnmSso
+ O0Fvyl/Un6q/OmZIO83Zq4Ft2SD5v4sIANGl8u5j6KIA1jGUKpW5Am+h54jTpbmvkBsh
+ CoLAOUeqHOQVVfX+euuOrE9aJWb6z27zsPfQajXzPvR/s8YwxLGzGUN1G1n0G/chy+1A
+ J7zw==
+X-Gm-Message-State: AOAM530sjHreax621GE+qSvQpMTBibwd+9JxL0MpvHjfhgy5qKUvhKfq
+ tRXLfvn+yhmFhp6QRB50PO9vuw==
+X-Google-Smtp-Source: ABdhPJyipNgbxSeMoX6NrRZx1OE3w2u3cJEppw47qQwDAyRcTPzaAITWyd+RoOQ6Ns6oHwlefjzrmA==
+X-Received: by 2002:a1c:2742:: with SMTP id n63mr1105455wmn.24.1599814035385; 
+ Fri, 11 Sep 2020 01:47:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k8sm2777115wma.16.2020.09.11.01.15.21
+ by smtp.gmail.com with ESMTPSA id p11sm2935553wma.11.2020.09.11.01.47.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 01:15:21 -0700 (PDT)
-Date: Fri, 11 Sep 2020 10:15:19 +0200
+ Fri, 11 Sep 2020 01:47:14 -0700 (PDT)
+Date: Fri, 11 Sep 2020 10:47:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH] drm: xlnx: remove defined but not used
- 'scaling_factors_666'
-Message-ID: <20200911081519.GM438822@phenom.ffwll.local>
-Mail-Followup-To: Hyun Kwon <hyun.kwon@xilinx.com>,
- Jason Yan <yanaijie@huawei.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- Michal Simek <michals@xilinx.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Hulk Robot <hulkci@huawei.com>
-References: <20200910140630.1191782-1-yanaijie@huawei.com>
- <20200910181418.GA3187626@xilinx.com>
+Subject: Re: [PATCH] drm/xlnx: Use devm_drm_dev_alloc
+Message-ID: <20200911084712.GN438822@phenom.ffwll.local>
+References: <20200904143941.110665-7-daniel.vetter@ffwll.ch>
+ <20200907082225.150837-1-daniel.vetter@ffwll.ch>
+ <20200908191600.GA1569998@xilinx.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200910181418.GA3187626@xilinx.com>
+In-Reply-To: <20200908191600.GA1569998@xilinx.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,47 +66,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Yan <yanaijie@huawei.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Hulk Robot <hulkci@huawei.com>, Michal Simek <michals@xilinx.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Michal Simek <michals@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBTZXAgMTAsIDIwMjAgYXQgMTE6MTQ6MThBTSAtMDcwMCwgSHl1biBLd29uIHdyb3Rl
-Ogo+IEhpIEphc29uLAo+IAo+IE9uIFRodSwgU2VwIDEwLCAyMDIwIGF0IDA3OjA2OjMwQU0gLTA3
-MDAsIEphc29uIFlhbiB3cm90ZToKPiA+IFRoaXMgYWRkcmVzc2VzIHRoZSBmb2xsb3dpbmcgZ2Nj
-IHdhcm5pbmcgd2l0aCAibWFrZSBXPTEiOgo+ID4gCj4gPiBkcml2ZXJzL2dwdS9kcm0veGxueC96
-eW5xbXBfZGlzcC5jOjI0NToxODogd2FybmluZzoKPiA+IOKAmHNjYWxpbmdfZmFjdG9yc182Njbi
-gJkgZGVmaW5lZCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWNvbnN0LXZhcmlhYmxlPV0KPiA+ICAg
-MjQ1IHwgc3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNjY2W10gPSB7Cj4gPiAgICAg
-ICB8ICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fgo+ID4gCj4gPiBSZXBvcnRl
-ZC1ieTogSHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBK
-YXNvbiBZYW4gPHlhbmFpamllQGh1YXdlaS5jb20+Cj4gCj4gUmV2aWV3ZWQtYnk6IEh5dW4gS3dv
-biA8aHl1bi5rd29uQHhpbGlueC5jb20+CgpJIHRoaW5rIHlvdSdyZSB0aGUgbWFpbnRhaW5lciwg
-c28gcGxlYXNlIGFsc28gcHVzaCBwYXRjaGVzIHRvCmRybS1taXNjLW5leHQuIE90aGVyd2lzZSB0
-aGV5J2xsIGp1c3QgZ2V0IGxvc3QsIG9yIGF0IGxlYXN0IGl0J3MgdmVyeQpjb25mdXNpbmcgd2hl
-biBhIG1haW50YWluZXIgcmV2aWV3cyBhIHBhdGNoIGJ1dCB0aGVyZSdzIG5vIGluZGljYXRpb24g
-d2hhdAp3aWxsIGhhcHBlbiB3aXRoIHRoZSBwYXRjaC4KLURhbmllbAoKPiAKPiBUaGFua3MhCj4g
-Cj4gLWh5dW4KPiAKPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNw
-LmMgfCA2IC0tLS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGRlbGV0aW9ucygtKQo+ID4gCj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYyBiL2RyaXZl
-cnMvZ3B1L2RybS94bG54L3p5bnFtcF9kaXNwLmMKPiA+IGluZGV4IGE0NTVjZmMxYmVlNS4uOThi
-ZDQ4ZjEzZmQxIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rp
-c3AuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rpc3AuYwo+ID4gQEAg
-LTI0MiwxMiArMjQyLDYgQEAgc3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNTY1W10g
-PSB7Cj4gPiAgCVpZTlFNUF9ESVNQX0FWX0JVRl81QklUX1NGLAo+ID4gIH07Cj4gPiAgCj4gPiAt
-c3RhdGljIGNvbnN0IHUzMiBzY2FsaW5nX2ZhY3RvcnNfNjY2W10gPSB7Cj4gPiAtCVpZTlFNUF9E
-SVNQX0FWX0JVRl82QklUX1NGLAo+ID4gLQlaWU5RTVBfRElTUF9BVl9CVUZfNkJJVF9TRiwKPiA+
-IC0JWllOUU1QX0RJU1BfQVZfQlVGXzZCSVRfU0YsCj4gPiAtfTsKPiA+IC0KPiA+ICBzdGF0aWMg
-Y29uc3QgdTMyIHNjYWxpbmdfZmFjdG9yc184ODhbXSA9IHsKPiA+ICAJWllOUU1QX0RJU1BfQVZf
-QlVGXzhCSVRfU0YsCj4gPiAgCVpZTlFNUF9ESVNQX0FWX0JVRl84QklUX1NGLAo+ID4gLS0gCj4g
-PiAyLjI1LjQKPiA+IAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
-IENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Sep 08, 2020 at 12:16:00PM -0700, Hyun Kwon wrote:
+> Hi Daniel,
+> 
+> On Mon, Sep 07, 2020 at 01:22:25AM -0700, Daniel Vetter wrote:
+> > Gets rid of drmm_add_final_kfree, which I want to unexport so that it
+> > stops confusion people about this transitional state of rolling drm
+> > managed memory out.
+> > 
+> > This also fixes the missing drm_dev_put in the error path of the probe
+> > code.
+> > 
+> > v2: Drop the misplaced drm_dev_put from zynqmp_dpsub_drm_init (all
+> > other paths leaked on error, this should have been in
+> > zynqmp_dpsub_probe), now that subsumed by the auto-cleanup of
+> > devm_drm_dev_alloc.
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Michal Simek <michal.simek@xilinx.com>
+> > Cc: linux-arm-kernel@lists.infradead.org
+> 
+> Looks correct to me.
+> 
+> Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
+
+Merged all patches up to this one here to drm-misc-next.
+-Daniel
+
+> 
+> Thanks!
+> 
+> -hyun
+> 
+> > ---
+> >  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 27 ++++++---------------------
+> >  1 file changed, 6 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> > index 26328c76305b..8e69303aad3f 100644
+> > --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> > +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> > @@ -111,7 +111,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
+> >  	/* Initialize mode config, vblank and the KMS poll helper. */
+> >  	ret = drmm_mode_config_init(drm);
+> >  	if (ret < 0)
+> > -		goto err_dev_put;
+> > +		return ret;
+> >  
+> >  	drm->mode_config.funcs = &zynqmp_dpsub_mode_config_funcs;
+> >  	drm->mode_config.min_width = 0;
+> > @@ -121,7 +121,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
+> >  
+> >  	ret = drm_vblank_init(drm, 1);
+> >  	if (ret)
+> > -		goto err_dev_put;
+> > +		return ret;
+> >  
+> >  	drm->irq_enabled = 1;
+> >  
+> > @@ -154,8 +154,6 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
+> >  
+> >  err_poll_fini:
+> >  	drm_kms_helper_poll_fini(drm);
+> > -err_dev_put:
+> > -	drm_dev_put(drm);
+> >  	return ret;
+> >  }
+> >  
+> > @@ -208,27 +206,16 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+> >  	int ret;
+> >  
+> >  	/* Allocate private data. */
+> > -	dpsub = kzalloc(sizeof(*dpsub), GFP_KERNEL);
+> > -	if (!dpsub)
+> > -		return -ENOMEM;
+> > +	dpsub = devm_drm_dev_alloc(&pdev->dev, &zynqmp_dpsub_drm_driver,
+> > +				   struct zynqmp_dpsub, drm);
+> > +	if (IS_ERR(dpsub))
+> > +		return PTR_ERR(dpsub);
+> >  
+> >  	dpsub->dev = &pdev->dev;
+> >  	platform_set_drvdata(pdev, dpsub);
+> >  
+> >  	dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
+> >  
+> > -	/*
+> > -	 * Initialize the DRM device early, as the DRM core mandates usage of
+> > -	 * the managed memory helpers tied to the DRM device.
+> > -	 */
+> > -	ret = drm_dev_init(&dpsub->drm, &zynqmp_dpsub_drm_driver, &pdev->dev);
+> > -	if (ret < 0) {
+> > -		kfree(dpsub);
+> > -		return ret;
+> > -	}
+> > -
+> > -	drmm_add_final_kfree(&dpsub->drm, dpsub);
+> > -
+> >  	/* Try the reserved memory. Proceed if there's none. */
+> >  	of_reserved_mem_device_init(&pdev->dev);
+> >  
+> > @@ -286,8 +273,6 @@ static int zynqmp_dpsub_remove(struct platform_device *pdev)
+> >  	clk_disable_unprepare(dpsub->apb_clk);
+> >  	of_reserved_mem_device_release(&pdev->dev);
+> >  
+> > -	drm_dev_put(drm);
+> > -
+> >  	return 0;
+> >  }
+> >  
+> > -- 
+> > 2.28.0
+> > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
