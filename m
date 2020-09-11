@@ -2,48 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0E2265A9C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EF0265AC8
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 09:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A94F89EFF;
-	Fri, 11 Sep 2020 07:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F906E359;
+	Fri, 11 Sep 2020 07:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC8AA89EFF
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:37:21 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id g96so7563861otb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 00:37:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vO3shii/E7fgPE7FHhT9bDipzvL+QVGM4jZh7S0ik5Q=;
- b=nDq8xwra5Wl0nOhpoO330cGFS9+vNDpxnS9Vxshd8xFhHZQMcTdMfzcmftCJJLTLWH
- 4dxXg25d8dPUDl7wwsWB1uDgbcMB/ZKbZmo9LPKZh72Vx4B/aOI7r58hmk23mcKvJXE/
- iWamEDn6vEIaR9K3dQaLQjst4XNyCOlx6M4nFd2wb+iL3xkPr3NCYM7+8RqALHvJd5KT
- MFrY4EU1Hxzx6/d3BGSuWNztJQUtgZT9Wk7QW9anwxzkWRWTexf6Mle+W3v20JQhFFQc
- iw8+Lti0CdLdk6r+U+rXUaXLP2KUmZMU25+jnlrNBb+mhAcpruqHp6OaNwX9PWbMCzsR
- N/fg==
-X-Gm-Message-State: AOAM5323aREYMbq+GNZp67Ub1ZAOR0Mo9cEG9TGfaP0e9HxIKp6Yv8+7
- 9pp00k8gdgDMzzn20iQUnPnECSHyS5woC4exEKc=
-X-Google-Smtp-Source: ABdhPJxcwMIwnS7iUfHMr6autuHPnOKVqu6GSLZ4M208xRRY0vxpd3q85CZDkM3kLC3ZxIamOVWdfXV+o834hcATMyw=
-X-Received: by 2002:a9d:5a92:: with SMTP id w18mr417440oth.145.1599809840778; 
- Fri, 11 Sep 2020 00:37:20 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1C8D6E359
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 07:47:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 353DAAEAB;
+ Fri, 11 Sep 2020 07:48:04 +0000 (UTC)
+Subject: Re: [PATCH] drm/vc4: Remove unused variables
+To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+References: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <83352520-3f8c-96c4-d769-e1c74435d039@suse.de>
+Date: Fri, 11 Sep 2020 09:47:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
- <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
- <31ec6196-7613-8eb3-e092-07d0c874632a@ideasonboard.com>
- <CAMuHMdVHGQ0FFcLjQfXhke5PKJKnNfZ3NOF-p08v3QrQ-87npA@mail.gmail.com>
- <f1ed4b08-59eb-986e-4036-820887993f00@ideasonboard.com>
- <CAMuHMdVGFOaBFCejGDgzf8AUbHFis0TOM-DDJ3h9k0+fuu=umQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVGFOaBFCejGDgzf8AUbHFis0TOM-DDJ3h9k0+fuu=umQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Sep 2020 09:37:09 +0200
-Message-ID: <CAMuHMdUxCq+yawHsgJZYiEwaFLo-J9vJL8yiom=zsVVUVCdS4Q@mail.gmail.com>
-Subject: Re: [PATCH 5/9] arm64: dts: renesas: r8a77961: Add VSP device nodes
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,137 +39,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-DT <devicetree@vger.kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- David Airlie <airlied@linux.ie>,
- "\(Renesas\) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
- Magnus <magnus.damm@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Laurent <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============1886516266=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 10, 2020 at 1:09 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Sep 10, 2020 at 12:34 PM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> > On 10/09/2020 10:44, Geert Uytterhoeven wrote:
-> > > On Mon, Sep 7, 2020 at 5:55 PM Kieran Bingham
-> > > <kieran.bingham+renesas@ideasonboard.com> wrote:
-> > >> On 07/09/2020 03:59, Kuninori Morimoto wrote:
-> > >>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > >>>
-> > >>> This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
-> > >>> This patch is test on R-Car M3-W+ Salvator-XS board.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1886516266==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9"
 
-> > >>> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > >>> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > >>> @@ -2056,6 +2056,61 @@ fcpvd2: fcp@fea37000 {
-> > >>>                       iommus = <&ipmmu_vi0 10>;
-> > >>>               };
-> > >>
-> > >> The FCP's added are:
-> > >>
-> > >>                 fcpf0: fcp@fe950000 {
-> > >>                 fcpf1: fcp@fe951000 {
-> > >>                 fcpvb0: fcp@fe96f000 {
-> > >>                 fcpvb1: fcp@fe92f000 {
-> > >>                 fcpvi0: fcp@fe9af000 {
-> > >>                 fcpvi1: fcp@fe9bf000 {
-> > >>                 fcpvd0: fcp@fea27000 {
-> > >>                 fcpvd1: fcp@fea2f000 {
-> > >>                 fcpvd2: fcp@fea37000 {
-> > >>
-> > >> So indeed, the first fcpf0 comes before fe960000.
-> > >>
-> > >> Do we keep the items grouped by the first occurrence? or sort the nodes
-> > >> based on address?
-> > >>
-> > >> for some reason I thought we were ordering based on address, but I see
-> > >> other situations where we group too - so I'm confused (and wishing there
-> > >> was an automatic tool to get the sorting correct without fuss).
-> > >>
-> > >> Is there a set policy?
-> > >
-> > > For nodes with a unit-address, we usually[*] sort by unit-address, but we keep
-> > > similar nodes grouped.  Hence I prefer this v1 over v2.
-> >
-> > I assume then the groups are sorted by the first entry,
-> >
-> > I.e. hypothetically:
-> >
-> > fdp@0
-> > fcp@1
-> > vsp@2
-> > fdp@3
-> > fcp@4
-> > vsp@5
-> > cmm@6
-> > cmm@7
-> >
-> > would become
-> >
-> > fdp@0
-> > fdp@3
-> > fcp@1
-> > fcp@4
-> > vsp@2
-> > vsp@5
-> > cmm@6
-> > cmm@7
->
-> Exactly.  That's how we (Reneas SoCs) have been (trying to) doing it.
-> I am aware there are some deviations (e.g. do you keep all 4 possible
-> SCIF types together (they're all serial@), or do you group them per
-> type? And some nodes (ipmmu) may be sorted alphabetically by label).
->
-> > Has anyone already created any scripting/validation to automate the
-> > sorting requirements?
->
-> Not yet, AFAIK. I've been thinking about doing that several times,
-> though ;-)
->
-> > > [*] Seems like FCP/VSP are interleaved in r8a77990.dsi, doh.
-> > >
-> >
-> > Personally I prefer that - but my opinion doesn't matter here - so as
-> > long as the rules are defined (or even better, automatically
-> > enforceable) that's fine.
->
-> Indeed.
->
-> Perhaps creating rules is something to be handled at a higher level
-> (i.e. common for all DTS files)?
->
-> Summarizing "our" rules:
->   1. Nodes without unit-address are sorted alphabetically, by node name,
->   2. Nodes with unit-address are sorted numerically, by unit-address,
->        a. Nodes of the same type are grouped together, i.e. the whole
->           group is sorted w.r.t. to other nodes/groups based on the
->           unit-address of the first member of the group.
->   3. Anchors are sorted alphabetically, but anchor name.
->
-> Do they make sense?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9
+Content-Type: multipart/mixed; boundary="ZWDJi7XWO23ZqoDt57P3fWGwFy1rHBkcf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Cc: linuxarm@huawei.com
+Message-ID: <83352520-3f8c-96c4-d769-e1c74435d039@suse.de>
+Subject: Re: [PATCH] drm/vc4: Remove unused variables
+References: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1599636807-9003-1-git-send-email-tiantao6@hisilicon.com>
 
-For comparison, scripts/dtc/dtx_diff uses "dtc -s" for sorting, which
-sorts everything (nodes and properties) alphabetically.
-While I can agree on sorting all nodes alphabetically, sorting
-properties alphabetically goes IMHO a bit too far.  E.g. it's established
-practice to put "compatible" and "reg" first.
+--ZWDJi7XWO23ZqoDt57P3fWGwFy1rHBkcf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
+Hi
 
-                        Geert
+Am 09.09.20 um 09:33 schrieb Tian Tao:
+> Fixes the following W=3D1 kernel build warning(s):
+> vc4_plane.c: In function =E2=80=98vc4_plane_init=E2=80=99:
+> vc4_plane.c:1340:6: warning: variable =E2=80=98ret=E2=80=99 set but not=
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> used [-Wunused-but-set-variable]
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>  drivers/gpu/drm/vc4/vc4_plane.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_=
+plane.c
+> index 24d7e6d..5be0f5dda 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -1337,7 +1337,6 @@ struct drm_plane *vc4_plane_init(struct drm_devic=
+e *dev,
+>  	struct drm_plane *plane =3D NULL;
+>  	struct vc4_plane *vc4_plane;
+>  	u32 formats[ARRAY_SIZE(hvs_formats)];
+> -	int ret =3D 0;
+>  	unsigned i;
+>  	static const uint64_t modifiers[] =3D {
+>  		DRM_FORMAT_MOD_BROADCOM_VC4_T_TILED,
+> @@ -1357,7 +1356,7 @@ struct drm_plane *vc4_plane_init(struct drm_devic=
+e *dev,
+>  		formats[i] =3D hvs_formats[i].drm;
+> =20
+>  	plane =3D &vc4_plane->base;
+> -	ret =3D drm_universal_plane_init(dev, plane, 0,
+> +	drm_universal_plane_init(dev, plane, 0,
+>  				       &vc4_plane_funcs,
+>  				       formats, ARRAY_SIZE(formats),
+>  				       modifiers, type, NULL);
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+IMHO vc4_plane_init() should rather handle ret correctly and return an
+error if it's non-zero.
+
+Best regards
+Thomas
+
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--ZWDJi7XWO23ZqoDt57P3fWGwFy1rHBkcf--
+
+--tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9bK6MUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP5bQf/VHn1nSMXCTkKDNESxB12sxhspLze
+qy92rbzqMZtL+OBVPBdToJ8HpOwKKedr8WHrUR9AZwzDAlhryfw9b8aKSIABR4xD
+Ga2MirqR2OxGayovLTw/RRDyzgxd/TPTKOMzR5W7mKJOtEMGJBMYKlNRS0eGTMpB
+z/pbwMuMBz7od+T0d1ZA7PJOOc3U3cyZKmw+TUVAse5cEc9HqsK0ImSskgS6cb9i
+IGiGImK2+4XKrKVoOFuVEw57zfHnMDf9V7R6LdqP5/n7uN1H6eH7+igajF3tCOuR
+FPerZowdVlVdavd+JxiT0MSDlMZotWEVzwAd7L3/blo0ApI0Xf7cgslGGQ==
+=706w
+-----END PGP SIGNATURE-----
+
+--tuMxfVcijXw6oOWTfrnlipSFhy5ISqJI9--
+
+--===============1886516266==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1886516266==--
