@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F686265BFC
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:52:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF54265BFE
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Sep 2020 10:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA85F6E36F;
-	Fri, 11 Sep 2020 08:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5056E38A;
+	Fri, 11 Sep 2020 08:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53166E36F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:52:29 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k18so3977948wmj.5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:52:29 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 102B66E38A
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 08:54:36 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id s12so10642833wrw.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Sep 2020 01:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DcyXccZXPMFr/R1Dg78dx/KSBRnYn09RJu2+V0ubbXg=;
- b=dzJ2NMGkInvplVwqRDvGMynfG8jGTEdMGUZtlkmhM9/bIyp891VKaSDr25cJ3QVdUW
- YfFEeGCUGpznwPhoASy6j0afbovDil9LoKWpH9T2TcAHVugz4nTjsx/7pDTBAIH/MNLq
- 9EwX0zE12byfE1CQAAJ9zTSvBYA9INA4E+XzY=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=l74wd6NMB+UUQWVCt5aPCq/IVe0WNLlAuB214FZvfPA=;
+ b=djiuqUUHblnIjuVEPh1h1h+trIWDBS9HBnr4ZJaFNmHq+G1S6nAY47wGtWEHwHA6w/
+ 741TeKcHqv+TY0/qITjAROtrPQgps9vL1t5QbVClQfvHR7ubiziA2BvzpRQaTLMAFNwz
+ TtLnF52tSljeTVYASrgsOoZ+bRSLFfTv03WKQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DcyXccZXPMFr/R1Dg78dx/KSBRnYn09RJu2+V0ubbXg=;
- b=Z0Ah/ypLryKej9D6jrDT7T7INUsXtNXBw4H5mzo9aQvtTe0cfFY2fri4Rdq7ie5AuZ
- m3zXUl9ejkfaZNio7RaVxfzxpHeLa+AlvOD+f6wkFvj22nh12yCDcr8Gofvp5Yi78CUI
- llUmE3hLSsq+KrCkQFkiYNEqU3uwIsrngh5oObptn3UVToBLloxTlP3jw2ezCcsJHM2T
- kNg6Mo+qU9BRShFOZica8rnBfKJRy7+l15Zo4SN3PMRxhsGVAdtfWnL/zctOEz46wnvR
- /omhKbi5vfrqfU3SJnAtaRztW3UICWpYslNxgw2x+SUQFolZJe4IXg1321FSLLVMKCPp
- CNZA==
-X-Gm-Message-State: AOAM532FWFMhxaYgFYmd2aCmISYllyJ7YsKWaxU5T4fgHeRg9wCP326y
- QLKAMQlZ3xRXN/2QlMKPAIqlfw==
-X-Google-Smtp-Source: ABdhPJy1dkrPMWJGHEeEg/FOUU3kuFvnPOBoFL+g4fDXWiATatzyPOz45xLmSMdtK0AxULCxkysMyQ==
-X-Received: by 2002:a1c:7c1a:: with SMTP id x26mr1197349wmc.112.1599814348498; 
- Fri, 11 Sep 2020 01:52:28 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=l74wd6NMB+UUQWVCt5aPCq/IVe0WNLlAuB214FZvfPA=;
+ b=PlzoVMOudnAoTCj5vGlbIfmkrI2ugZJBVSR5NzHMBflxCZPbNa1atFrplv6zuzl8y4
+ CejWSha9Y22BYLPcsip0LYoZnpTDa61mmRcEeHv7OsCbJgpX8VQBLMCNCPmO9KvR39yX
+ 7JjfQjJdszxyUuzVAUGCTwqJkDIbFA0kLTLnlxfMmT7B29qTLrAOsK3GP0AbgRfVjpiY
+ CQH6JJL4Tr0qKouzO6koj5Ocy7psv2sQBh4T9YgHPJV8fGeZBgBIWJd7D3EMN/LeqTcJ
+ TGtYnI8xxrWTVLt7XRhlbWTBl9R8Ckh2LhaA6Lsjzl3cMFjchVOMRvW4YhXz6rL0aN1h
+ 424g==
+X-Gm-Message-State: AOAM531GVWqx3recu7MBWdTwLvdloEh/Ng2+ul/wA4AHDCpkn0DVTIKk
+ J2XZ5cmq2vcWr/VbKmydbwUBsw==
+X-Google-Smtp-Source: ABdhPJwCo+rJODET6mRLi+uobSSYyKWOVpB0S1spxGhqb3+t6ZBlutn7gP1xklANUJCZ+GSc6GfVCw==
+X-Received: by 2002:a5d:40c7:: with SMTP id b7mr992023wrq.300.1599814474727;
+ Fri, 11 Sep 2020 01:54:34 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u66sm9004232wme.1.2020.09.11.01.52.27
+ by smtp.gmail.com with ESMTPSA id 2sm3178204wrs.64.2020.09.11.01.54.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 01:52:27 -0700 (PDT)
-Date: Fri, 11 Sep 2020 10:52:26 +0200
+ Fri, 11 Sep 2020 01:54:34 -0700 (PDT)
+Date: Fri, 11 Sep 2020 10:54:32 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Stefan Agner <stefan@agner.ch>
-Subject: Re: [RFC PATCH 2/3] drm/atomic-helper: add REQUIRE_MATCHING_FB flag
-Message-ID: <20200911085226.GP438822@phenom.ffwll.local>
-References: <20200910092425.1016976-1-stefan@agner.ch>
- <20200910092425.1016976-2-stefan@agner.ch>
+To: Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH] drm/i810: make i810_flush_queue() return void
+Message-ID: <20200911085432.GQ438822@phenom.ffwll.local>
+Mail-Followup-To: Jason Yan <yanaijie@huawei.com>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Hulk Robot <hulkci@huawei.com>
+References: <20200910140610.1191578-1-yanaijie@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200910092425.1016976-2-stefan@agner.ch>
+In-Reply-To: <20200910140610.1191578-1-yanaijie@huawei.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,96 +68,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com
+Cc: airlied@linux.ie, Hulk Robot <hulkci@huawei.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 10, 2020 at 11:24:24AM +0200, Stefan Agner wrote:
-> Add flag which checks that the framebuffer size matches the plane size
-> exactly. This is useful for display controller which can't handle
-> framebuffers other than the plane/CRTC size.
+On Thu, Sep 10, 2020 at 10:06:10PM +0800, Jason Yan wrote:
+> This function always return '0' and no callers use the return value. So
+> make it a void function.
 > 
-> Signed-off-by: Stefan Agner <stefan@agner.ch>
+> This eliminates the following coccicheck warning:
+> 
+> drivers/gpu/drm/i810/i810_dma.c:860:8-11: Unneeded variable: "ret".
+> Return "0" on line 885
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Jason Yan <yanaijie@huawei.com>
+
+Queued up for 5.10 in drm-misc-next, thanks for your patch.
+-Daniel
+
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c               | 7 +++++++
->  drivers/gpu/drm/selftests/test-drm_plane_helper.c | 9 +++++++++
->  include/drm/drm_atomic_helper.h                   | 1 +
->  3 files changed, 17 insertions(+)
+>  drivers/gpu/drm/i810/i810_dma.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 755572a37f3f..8bc7f8c2e566 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -802,6 +802,7 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
->  	int hscale, vscale;
->  	bool can_position = flags & DRM_PLANE_CAN_POSITION;
->  	bool can_update_disabled = flags & DRM_PLANE_CAN_UPDATE_DISABLED;
-> +	bool require_matching_fb = flags & DRM_PLANE_REQUIRE_MATCHING_FB;
+> diff --git a/drivers/gpu/drm/i810/i810_dma.c b/drivers/gpu/drm/i810/i810_dma.c
+> index 303c2d483c6e..88250860f8e4 100644
+> --- a/drivers/gpu/drm/i810/i810_dma.c
+> +++ b/drivers/gpu/drm/i810/i810_dma.c
+> @@ -853,11 +853,11 @@ static void i810_dma_quiescent(struct drm_device *dev)
+>  	i810_wait_ring(dev, dev_priv->ring.Size - 8);
+>  }
 >  
->  	WARN_ON(plane_state->crtc && plane_state->crtc != crtc_state->crtc);
+> -static int i810_flush_queue(struct drm_device *dev)
+> +static void i810_flush_queue(struct drm_device *dev)
+>  {
+>  	drm_i810_private_t *dev_priv = dev->dev_private;
+>  	struct drm_device_dma *dma = dev->dma;
+> -	int i, ret = 0;
+> +	int i;
+>  	RING_LOCALS;
 >  
-> @@ -860,6 +861,12 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
->  		return -EINVAL;
+>  	i810_kernel_lost_context(dev);
+> @@ -882,7 +882,7 @@ static int i810_flush_queue(struct drm_device *dev)
+>  			DRM_DEBUG("still on client\n");
 >  	}
 >  
-> +	if (require_matching_fb && (drm_rect_width(src) != fb->width ||
-> +	    drm_rect_height(src) != fb->height)) {
-> +		DRM_DEBUG_KMS("Framebuffer size must match plane size.\n");
-> +		return -EINVAL;
-> +	}
-
-I think you also want to check that the x,y src are at (0, 0).
-
-Plus needs kerneldoc.
-
-But aside from the details, I like.
-
-> +
->  	return 0;
+> -	return ret;
+> +	return;
 >  }
->  EXPORT_SYMBOL(drm_atomic_helper_check_plane_state);
-> diff --git a/drivers/gpu/drm/selftests/test-drm_plane_helper.c b/drivers/gpu/drm/selftests/test-drm_plane_helper.c
-> index 01e95b2d572f..2c81bbef830e 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_plane_helper.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_plane_helper.c
-> @@ -139,6 +139,15 @@ int igt_check_plane_state(void *ignored)
->  	FAIL_ON(!check_src_eq(&plane_state, 0, 0, 1023 << 16, 767 << 16));
->  	FAIL_ON(!check_crtc_eq(&plane_state, 0, 0, 1023, 767));
 >  
-> +	/* Check whether requiring same size framebuffer works correctly. */
-> +	set_src(&plane_state, 0, 0, 1024 << 16, 768 << 16);
-> +	set_crtc(&plane_state, 0, 0, 1024, 768);
-> +	ret = drm_atomic_helper_check_plane_state(&plane_state, &crtc_state,
-> +						  DRM_PLANE_HELPER_NO_SCALING,
-> +						  DRM_PLANE_HELPER_NO_SCALING,
-> +						  DRM_PLANE_REQUIRE_MATCHING_FB);
-> +	FAIL(!ret, "Should not be able to use different size framebuffer with REQUIRE_MATCHING_FB\n");
-
-I think also needs a negative test with src_x/y != 0, plus maybe one that
-succeeds.
-
-Cheers, Daniel
-> +
->  	/* Simple scaling tests. */
->  	set_src(&plane_state, 0, 0, 512 << 16, 384 << 16);
->  	set_crtc(&plane_state, 0, 0, 1024, 768);
-> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-> index bb9957b4f91b..244b730e84d3 100644
-> --- a/include/drm/drm_atomic_helper.h
-> +++ b/include/drm/drm_atomic_helper.h
-> @@ -43,6 +43,7 @@ int drm_atomic_helper_check_modeset(struct drm_device *dev,
->  
->  #define DRM_PLANE_CAN_POSITION				BIT(0)
->  #define DRM_PLANE_CAN_UPDATE_DISABLED			BIT(1)
-> +#define DRM_PLANE_REQUIRE_MATCHING_FB			BIT(2)
->  
->  int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
->  					const struct drm_crtc_state *crtc_state,
+>  /* Must be called with the lock held */
 > -- 
-> 2.28.0
+> 2.25.4
 > 
 
 -- 
