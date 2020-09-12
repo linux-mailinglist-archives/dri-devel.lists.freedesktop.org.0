@@ -2,56 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B3126855A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D85268553
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEC06E1F2;
-	Mon, 14 Sep 2020 07:03:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2936E1E6;
+	Mon, 14 Sep 2020 07:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 549466E2ED
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 18:33:47 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id q21so13759315edv.1
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 11:33:47 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2E96E042
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 21:51:04 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id k25so15424435ljk.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 14:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=sDdNABI91Tfr3hqKhoVLbPlEvPq5j5lfipsDHNaq4ik=;
- b=POua7IFvCe0e6K6KYqXq0wSmVk2tqbCN7sftakcwvJNpHX0YWSIhY+GoCljfJ7I85a
- 4TjrNL9eFYYu82+CcAtWBegXoOq2YF0aCOYUldzXY7tyTzld4fgEXkuqPPpTpTNYMOnp
- 1xxCjpKqHLog0AVRcRXJoisHzc6dygviNaZR7Iydf2rPC7KhdbwvwEtpA0zPJp31fNPX
- 7sye9aW+jbSAuy4nufR2RvSzrugllPJUjN/1lSVihOPtB3/mMPvs9ve6zmhqJGYsMIfk
- bjp4PjbSBK4SXk4iUrxMcnOqwoBGa4lzz9DfHlq0J6UjZoiifd7GzPWKmfXvmhxmzXrk
- 3Wbw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x7NtD2cqmVyAb0mvqEzYpWxVCY3t1I1LATgOhBQ2Smk=;
+ b=SddZNpt6cKbqkDivdqi+qiv5AXVgdJ8qpaJns97YxglFowZBloOhrCiH74qgP+kUYb
+ CBoW2wyg5TqQMwOlMrQtShVVmBhFV6Q/sURG8pfMrXthT/0965lGp4DvuRTuSOAcPyxa
+ YPMVNtBLpZ15BCDjqLlEwZVc4M7MX+zGn6bKIUEIbYKsvbeNHODLE0FIy0LYLFJ783d2
+ IkHpXWfktgscsQErCfbJMN+/rZSEG8kupUv5K48OvjgI0Ktl/tOTEtUDDonGB22gyaXY
+ JfeJkdKJXDpQ3tlFn6huBuawB5WPwf/zlY3gSFAzS2FsWCM5EIuGxdXjDSF8TXuTagP2
+ zi/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=sDdNABI91Tfr3hqKhoVLbPlEvPq5j5lfipsDHNaq4ik=;
- b=LUeqmo6NaMgg3s2AoBm8l0xWG3EV9fV6HcHIGrTUoXkYInaiPJDw+ftSddZC7MjWgH
- ZX77dtxioNy/6JVbLsd1+0okhvM3+pIoLQ0oyPq2gJrrBjte+iFJ362INloXDUXhPX0k
- 03g9eQk1LyrFLhWqhT4GEM2i71c73spJdVLoiFlSh6OgqDVlIBqsWP+foo2Y29B4f3Li
- E0OhhGnG4sFERCGYaUoPoPP/CeM4pMbWV52RkzC9NnlsihpadLxZf3OwKdOPoP3jz4bO
- E9Kldk+hFbJj6xUz5+AzE0MssMZcetbcNU52dhnB3FJ5dgL+dils57Kk2gW4QJ77ngSd
- XErQ==
-X-Gm-Message-State: AOAM530wNNHvByYvWTBa9R9MCWYglpdYizLP6clYyrFyZjlUs/8qnLB0
- AGenaVZRFbbOfHkUnoYOWHUkT9Ali0y9ZX/F
-X-Google-Smtp-Source: ABdhPJxhXt41CHf1+Qod2riES3Z2vcmnrRmGcoecWnMBU11QIqnqWnaonf9eRAkhxYhvUjVqdDursg==
-X-Received: by 2002:a05:6402:2c3:: with SMTP id
- b3mr9567811edx.213.1599935625874; 
- Sat, 12 Sep 2020 11:33:45 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2dd9:a000:10b6:eb2f:be44:9365])
- by smtp.gmail.com with ESMTPSA id v2sm3589248ejh.57.2020.09.12.11.33.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 11:33:45 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Joel Stanley <joel@jms.id.au>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: make linux-aspeed list remarks consistent
-Date: Sat, 12 Sep 2020 20:33:34 +0200
-Message-Id: <20200912183334.22683-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x7NtD2cqmVyAb0mvqEzYpWxVCY3t1I1LATgOhBQ2Smk=;
+ b=TzNw4JV9IJ9jk+o51gWPORrIvWnt0aQG7MQXA0mm7ITbkin+/B0noJWEsABvRWx3al
+ s3xHvNfMxHcydZqnvtu76fPBwQrOq4UOpp/fm8acdBzo6xkINCqKsH9dSeD/47kNo5yg
+ SyeQCXbfh2d9CV9wr+G8bcktDEXjOWGNLlkDtvYFc+vmRSWoLOZ648asl3W2pmCuZNuT
+ VtkNTR4wibh2qXoNkv85XrcueVvCREjvGY6pL7q3qFDhSGvKLqCxpExKombaFStIUErS
+ YaSxihOqRQfLfC+Bjd8NeXPyvoEvtTNw5RlS1RYnDy3Nhtlz9ojepgBK0T4irXjKuey/
+ wMeA==
+X-Gm-Message-State: AOAM532v458gBJdeazEBonmTDGxpOFsIBVABoYGKyiw0JqHmjvNwOma+
+ V9Nuql05IYKsAm5jU3sUGFQ=
+X-Google-Smtp-Source: ABdhPJw39OlgjMmz4lqL6T+rgdndiDsRzGiObFwyXkfYqPKxIRfleS1zXw3PNnFmnlobyxOIky7uMQ==
+X-Received: by 2002:a2e:9b99:: with SMTP id z25mr3003635lji.403.1599947463050; 
+ Sat, 12 Sep 2020 14:51:03 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
+ [109.252.170.211])
+ by smtp.googlemail.com with ESMTPSA id g30sm1816912lfj.74.2020.09.12.14.51.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 12 Sep 2020 14:51:02 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 10/17] WIP: gpu: host1x: Add no-recovery mode
+To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
+ <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20200905103420.3021852-1-mperttunen@nvidia.com>
+ <20200905103420.3021852-11-mperttunen@nvidia.com>
+ <7d7a29e8-3151-12ea-da66-d8a479edda84@gmail.com>
+ <c2498218-e107-4df4-41ce-c60da65ceaf7@kapsi.fi>
+ <07f933b3-10d9-0318-e2f3-6dfd5b4903ac@gmail.com>
+ <28f18a23-b588-004d-4945-91b7a593607a@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3f80aff2-23ce-9b1f-d242-e46e974fbeed@gmail.com>
+Date: Sun, 13 Sep 2020 00:51:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <28f18a23-b588-004d-4945-91b7a593607a@kapsi.fi>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 14 Sep 2020 07:03:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,56 +78,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, linux-kernel@vger.kernel.org,
- Joe Perches <joe@perches.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Pia Eichinger <pia.eichinger@st.oth-regensburg.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit f15a3ea80391 ("MAINTAINERS: Add ASPEED BMC GFX DRM driver entry")
-does not mention that linux-aspeed@lists.ozlabs.org is moderated for
-non-subscribers, but the other three entries for
-linux-aspeed@lists.ozlabs.org do.
-
-By 'majority vote' among entries, let us assume it was just missed here and
-adjust it to be consistent with others.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on master and next-20200911
-
-Joel, please ack.
-David, Daniel, please pick this minor non-urgent clean-up patch.
-
-This patch submission will also show me if linux-aspeed is moderated or
-not. I have not subscribed to linux-aspeed and if it shows up quickly in
-the archive, the list is probably not moderated; and if it takes longer,
-it is moderated, and hence, validating the patch.
-
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 26af84f97353..f2561c3fc9db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5448,7 +5448,7 @@ F:	drivers/gpu/drm/panel/panel-arm-versatile.c
- 
- DRM DRIVER FOR ASPEED BMC GFX
- M:	Joel Stanley <joel@jms.id.au>
--L:	linux-aspeed@lists.ozlabs.org
-+L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTIuMDkuMjAyMCAxNjozMSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Ci4uLgo+PiBJJ20g
+bm93IHRha2luZyBhIGNsb3NlciBsb29rIGF0IHRoaXMgcGF0Y2ggYW5kIGl0IHJhaXNlcyBzb21l
+IG1vcmUKPj4gcXVlc3Rpb25zLCBsaWtlIGZvciBleGFtcGxlIGJ5IGxvb2tpbmcgYXQgdGhlICJP
+biBqb2IgdGltZW91dCwgd2Ugc3RvcAo+PiB0aGUgY2hhbm5lbCwgTk9QIGFsbCBmdXR1cmUgam9i
+cyBvbiB0aGUgY2hhbm5lbCB1c2luZyB0aGUgc2FtZSBzeW5jcG9pbnQKPj4gLi4uIiB0aHJvdWdo
+IHRoZSBwcmlzbSBvZiBncmF0ZS1rZXJuZWwgZXhwZXJpZW5jZSwgSSdtIG5vdCBzdXJlIGhvdyBp
+dAo+PiBjb3VsZCBjby1leGlzdCB3aXRoIHRoZSBkcm0tc2NoZWR1bGVyIGFuZCB3aHkgaXQncyBu
+ZWVkZWQgYXQgYWxsLiBCdXQgSQo+PiB0aGluayB3ZSBuZWVkIGEgZmVhdHVyZS1jb21wbGV0ZSB2
+ZXJzaW9uIChhdCBsZWFzdCBhIHJvdWdoIHZlcnNpb24pLCBzbwo+PiB0aGF0IHdlIGNvdWxkIHN0
+YXJ0IHRoZSB0ZXN0aW5nLCBhbmQgdGhlbiBpdCBzaG91bGQgYmUgZWFzaWVyIHRvIHJldmlldwo+
+PiBhbmQgZGlzY3VzcyBzdWNoIHRoaW5ncy4KPj4KPiAKPiBUaGUgcmVhc29uIHRoaXMgaXMgbmVl
+ZGVkIGlzIHRoYXQgaWYgYSBqb2IgdGltZXMgb3V0IGFuZCB3ZSBkb24ndCBkbyBpdHMKPiBzeW5j
+cG9pbnQgaW5jcmVtZW50cyBvbiB0aGUgQ1BVLCB0aGVuIGEgc3VjY2Vzc2l2ZSBqb2IgaW5jcmVt
+ZW50aW5nIHRoYXQKPiBzYW1lIHN5bmNwb2ludCB3b3VsZCBjYXVzZSBmZW5jZXMgdG8gc2lnbmFs
+IGluY29ycmVjdGx5LiBUaGUgam9iIHRoYXQKPiB3YXMgc3VwcG9zZWQgdG8gc2lnbmFsIHRob3Nl
+IGZlbmNlcyBkaWRuJ3QgYWN0dWFsbHkgcnVuOyBhbmQgYW55IGRhdGEKPiB0aG9zZSBmZW5jZXMg
+d2VyZSBwcm90ZWN0aW5nIHdvdWxkIHN0aWxsIGJlIGdhcmJhZ2UuCgpJJ2xsIG5lZWQgdG8gcmUt
+cmVhZCB0aGUgcHJldmlvdXMgZGlzY3Vzc2lvbiBiZWNhdXNlIElJUkMsIEkgd2FzCnN1Z2dlc3Rp
+bmcgdGhhdCBvbmNlIGpvYiBpcyBodW5nLCBhbGwgam9icyBzaG91bGQgYmUgcmVtb3ZlZCBmcm9t
+CnF1ZXVlL1BCIGFuZCByZS1zdWJtaXR0ZWQsIHRoZW4gdGhlIHJlLXN1Ym1pdHRlZCBqb2JzIHdp
+bGwgdXNlIHRoZQpuZXcvdXBkYXRlZCBzeW5jIHBvaW50IGJhc2UuCgpBbmQgd2UgcHJvYmFibHkg
+c2hvdWxkIG5lZWQgYW5vdGhlciBkcm1fdGVncmFfc3VibWl0X2NtZCB0eXBlIHRoYXQgd2FpdHMK
+Zm9yIGEgcmVsYXRpdmUgc3luYyBwb2ludCBpbmNyZW1lbnQuIFRoZQpkcm1fdGVncmFfc3VibWl0
+X2NtZF93YWl0X3N5bmNwdCB1c2VzIGFic29sdXRlIHN5bmMgcG9pbnQgdmFsdWUgYW5kIGl0CnNo
+b3VsZG4ndCBiZSB1c2VkIGZvciBzeW5jIHBvaW50IGluY3JlbWVudHMgdGhhdCBhcmUgaW50ZXJu
+YWwgdG8gYSBqb2IKYmVjYXVzZSBpdCBjb21wbGljYXRlcyB0aGUgcmVjb3ZlcnkuCgpBbGwgd2Fp
+dHMgdGhhdCBhcmUgaW50ZXJuYWwgdG8gYSBqb2Igc2hvdWxkIG9ubHkgd2FpdCBmb3IgcmVsYXRp
+dmUgc3luYwpwb2ludCBpbmNyZW1lbnRzLgoKSW4gdGhlIGdyYXRlLWtlcm5lbCBldmVyeSBqb2Ig
+dXNlcyB1bmlxdWUtYW5kLWNsZWFuIHN5bmMgcG9pbnQgKHdoaWNoIGlzCmFsc28gaW50ZXJuYWwg
+dG8gdGhlIGtlcm5lbCBkcml2ZXIpIGFuZCBhIHJlbGF0aXZlIHdhaXQgWzFdIGlzIHVzZWQgZm9y
+CnRoZSBqb2IncyBpbnRlcm5hbCBzeW5jIHBvaW50IGluY3JlbWVudHMgWzJdWzNdWzRdLCBhbmQg
+dGh1cywga2VybmVsCmRyaXZlciBzaW1wbHkganVtcHMgb3ZlciBhIGh1bmcgam9iIGJ5IHVwZGF0
+aW5nIERNQUdFVCB0byBwb2ludCBhdCB0aGUKc3RhcnQgb2YgYSBuZXh0IGpvYi4KClsxXQpodHRw
+czovL2dpdGh1Yi5jb20vZ3JhdGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1
+L2RybS90ZWdyYS91YXBpL3BhdGNoaW5nLmMjTDM2NwoKWzJdCmh0dHBzOi8vZ2l0aHViLmNvbS9n
+cmF0ZS1kcml2ZXIveGY4Ni12aWRlby1vcGVudGVncmEvYmxvYi9tYXN0ZXIvc3JjL2dwdS9ncjNk
+LmMjTDQ4NgpbM10KaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci94Zjg2LXZpZGVvLW9w
+ZW50ZWdyYS9ibG9iL21hc3Rlci9zcmMvZXhhL2NvcHlfMmQuYyNMMzg5Cls0XQpodHRwczovL2dp
+dGh1Yi5jb20vZ3JhdGUtZHJpdmVyL3hmODYtdmlkZW8tb3BlbnRlZ3JhL2Jsb2IvbWFzdGVyL3Ny
+Yy9ncHUvdGVncmFfc3RyZWFtX3YyLmMjTDUzNgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
