@@ -1,30 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30034268555
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01971268544
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7018F6E1EC;
-	Mon, 14 Sep 2020 07:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432166E157;
+	Mon, 14 Sep 2020 07:03:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0220D6E10D
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 03:39:12 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 18E061B6E0AECF900F1A;
- Sat, 12 Sep 2020 11:39:07 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BFC16E0F8
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 03:39:19 +0000 (UTC)
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 62983FEE47D084154D36;
+ Sat, 12 Sep 2020 11:39:17 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 12 Sep 2020
- 11:38:57 +0800
+ 11:39:06 +0800
 From: Jason Yan <yanaijie@huawei.com>
-To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <linus.walleij@linaro.org>,
- <laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/panel: samsung: make vint_table static
-Date: Sat, 12 Sep 2020 11:38:17 +0800
-Message-ID: <20200912033817.142849-1-yanaijie@huawei.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@siol.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <bogdan.togorean@analog.com>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: bridge: adv7511: make adv7511_hdmi_hw_params() static
+Date: Sat, 12 Sep 2020 11:38:26 +0800
+Message-ID: <20200912033826.142923-1-yanaijie@huawei.com>
 X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
 X-Originating-IP: [10.175.127.227]
@@ -50,28 +51,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This eliminates the following sparse warning:
 
-drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c:217:15: warning: symbol
-'vint_table' was not declared. Should it be static?
+drivers/gpu/drm/bridge/adv7511/adv7511_audio.c:58:5: warning: symbol
+'adv7511_hdmi_hw_params' was not declared. Should it be static?
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-index 1d1c79a18613..b3f5797c23e0 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-@@ -214,7 +214,7 @@ static const u8 gamma_tbl[S6E3HA2_NUM_GAMMA_STEPS][S6E3HA2_GAMMA_CMD_CNT] = {
- 	  0x00, 0x00 }
- };
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+index f101dd2819b5..45838bd08d37 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+@@ -55,9 +55,9 @@ static int adv7511_update_cts_n(struct adv7511 *adv7511)
+ 	return 0;
+ }
  
--unsigned char vint_table[S6E3HA2_VINT_STATUS_MAX] = {
-+static unsigned char vint_table[S6E3HA2_VINT_STATUS_MAX] = {
- 	0x18, 0x19, 0x1a, 0x1b, 0x1c,
- 	0x1d, 0x1e, 0x1f, 0x20, 0x21
- };
+-int adv7511_hdmi_hw_params(struct device *dev, void *data,
+-			   struct hdmi_codec_daifmt *fmt,
+-			   struct hdmi_codec_params *hparms)
++static int adv7511_hdmi_hw_params(struct device *dev, void *data,
++				  struct hdmi_codec_daifmt *fmt,
++				  struct hdmi_codec_params *hparms)
+ {
+ 	struct adv7511 *adv7511 = dev_get_drvdata(dev);
+ 	unsigned int audio_source, i2s_format = 0;
 -- 
 2.25.4
 
