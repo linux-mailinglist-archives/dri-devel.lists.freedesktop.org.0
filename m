@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01971268544
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F815268556
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432166E157;
-	Mon, 14 Sep 2020 07:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667D66E1F4;
+	Mon, 14 Sep 2020 07:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BFC16E0F8
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 03:39:19 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 62983FEE47D084154D36;
- Sat, 12 Sep 2020 11:39:17 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 12 Sep 2020
- 11:39:06 +0800
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B38F6E10D
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 03:39:33 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id D291B804685E4839383A;
+ Sat, 12 Sep 2020 11:39:31 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Sat, 12 Sep 2020
+ 11:39:22 +0800
 From: Jason Yan <yanaijie@huawei.com>
 To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
  <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@siol.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <bogdan.togorean@analog.com>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm: bridge: adv7511: make adv7511_hdmi_hw_params() static
-Date: Sat, 12 Sep 2020 11:38:26 +0800
-Message-ID: <20200912033826.142923-1-yanaijie@huawei.com>
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/bridge: analogix_dp: make
+ analogix_dp_start_aux_transaction() static
+Date: Sat, 12 Sep 2020 11:38:43 +0800
+Message-ID: <20200912033843.143240-1-yanaijie@huawei.com>
 X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
 X-Originating-IP: [10.175.127.227]
@@ -51,32 +52,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This eliminates the following sparse warning:
 
-drivers/gpu/drm/bridge/adv7511/adv7511_audio.c:58:5: warning: symbol
-'adv7511_hdmi_hw_params' was not declared. Should it be static?
+drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c:527:5: warning: symbol
+'analogix_dp_start_aux_transaction' was not declared. Should it be
+static?
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-index f101dd2819b5..45838bd08d37 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-@@ -55,9 +55,9 @@ static int adv7511_update_cts_n(struct adv7511 *adv7511)
- 	return 0;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+index 914c569ab8c1..fafb4b492ea0 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+@@ -524,7 +524,7 @@ void analogix_dp_enable_sw_function(struct analogix_dp_device *dp)
+ 	writel(reg, dp->reg_base + ANALOGIX_DP_FUNC_EN_1);
  }
  
--int adv7511_hdmi_hw_params(struct device *dev, void *data,
--			   struct hdmi_codec_daifmt *fmt,
--			   struct hdmi_codec_params *hparms)
-+static int adv7511_hdmi_hw_params(struct device *dev, void *data,
-+				  struct hdmi_codec_daifmt *fmt,
-+				  struct hdmi_codec_params *hparms)
+-int analogix_dp_start_aux_transaction(struct analogix_dp_device *dp)
++static int analogix_dp_start_aux_transaction(struct analogix_dp_device *dp)
  {
- 	struct adv7511 *adv7511 = dev_get_drvdata(dev);
- 	unsigned int audio_source, i2s_format = 0;
+ 	int reg;
+ 	int retval = 0;
 -- 
 2.25.4
 
