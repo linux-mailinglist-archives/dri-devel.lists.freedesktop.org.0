@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64682267927
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Sep 2020 11:29:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFB1267929
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Sep 2020 11:30:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA9D6E124;
-	Sat, 12 Sep 2020 09:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61E9B6E125;
+	Sat, 12 Sep 2020 09:30:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C6FC6E124
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 09:29:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53EA86E125
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 09:30:03 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209225] [AMDGPU] oops each boot: dc_link_set_backlight_level
-Date: Sat, 12 Sep 2020 09:29:44 +0000
+Date: Sat, 12 Sep 2020 09:30:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209225-2300-RO0zpDxXF7@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-209225-2300-lViS6dXWX9@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209225-2300@https.bugzilla.kernel.org/>
 References: <bug-209225-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,9 +58,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209225
 
---- Comment #4 from Arthur Borsboom (arthurborsboom@gmail.com) ---
-The behavior for kernel 5.8.8 and 5.9.0-rc4 seems to be similar. The last dmesg
-is from kernel 5.9.0-rc4
+Arthur Borsboom (arthurborsboom@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.8.7, 5.8.8                |5.8.7, 5.8.8, 5.9.0-rc4
 
 -- 
 You are receiving this mail because:
