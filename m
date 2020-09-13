@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D85268553
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3F626854D
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2936E1E6;
-	Mon, 14 Sep 2020 07:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 309836E1CF;
+	Mon, 14 Sep 2020 07:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2E96E042
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 21:51:04 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id k25so15424435ljk.0
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 14:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x7NtD2cqmVyAb0mvqEzYpWxVCY3t1I1LATgOhBQ2Smk=;
- b=SddZNpt6cKbqkDivdqi+qiv5AXVgdJ8qpaJns97YxglFowZBloOhrCiH74qgP+kUYb
- CBoW2wyg5TqQMwOlMrQtShVVmBhFV6Q/sURG8pfMrXthT/0965lGp4DvuRTuSOAcPyxa
- YPMVNtBLpZ15BCDjqLlEwZVc4M7MX+zGn6bKIUEIbYKsvbeNHODLE0FIy0LYLFJ783d2
- IkHpXWfktgscsQErCfbJMN+/rZSEG8kupUv5K48OvjgI0Ktl/tOTEtUDDonGB22gyaXY
- JfeJkdKJXDpQ3tlFn6huBuawB5WPwf/zlY3gSFAzS2FsWCM5EIuGxdXjDSF8TXuTagP2
- zi/A==
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1C76E10B
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Sep 2020 03:14:46 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id 185so13860518oie.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Sep 2020 20:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eCqlMmeFwnaJqMzKobKwxzuAcoUu5Y/KrYbNh4cg/CI=;
+ b=DSkn8ROU3zelVpsj2ReGD/hlM9SmL8+oVHeuo55D3Ic0A6eMcy5rkmr99lJJzVFgZo
+ 8gUsA0TI+kmEXjjmeOQh6QNCZsbI8E0b1I14BakseeoBK2LIdqXrPdEhoSKSLbp2Bu3K
+ +UyKDxO97lMNDMcpJjVvVQbFBCEgJx5kcua5mSGE/Pq859gjwaGn+Lec2G++4Z/wS1dK
+ WJYf5gt/PDgM/aZR5xORixMOF17AHJ0KiYoJEfUouANo012fcDfXjes/jUKVdWG3j7W7
+ 4+VD16X+/V971rzUV+N6mXkdlnh1T1e+9WTMD1pZCBXxiqky3Rl+zcxN0EcbPRrHC1+S
+ r5sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x7NtD2cqmVyAb0mvqEzYpWxVCY3t1I1LATgOhBQ2Smk=;
- b=TzNw4JV9IJ9jk+o51gWPORrIvWnt0aQG7MQXA0mm7ITbkin+/B0noJWEsABvRWx3al
- s3xHvNfMxHcydZqnvtu76fPBwQrOq4UOpp/fm8acdBzo6xkINCqKsH9dSeD/47kNo5yg
- SyeQCXbfh2d9CV9wr+G8bcktDEXjOWGNLlkDtvYFc+vmRSWoLOZ648asl3W2pmCuZNuT
- VtkNTR4wibh2qXoNkv85XrcueVvCREjvGY6pL7q3qFDhSGvKLqCxpExKombaFStIUErS
- YaSxihOqRQfLfC+Bjd8NeXPyvoEvtTNw5RlS1RYnDy3Nhtlz9ojepgBK0T4irXjKuey/
- wMeA==
-X-Gm-Message-State: AOAM532v458gBJdeazEBonmTDGxpOFsIBVABoYGKyiw0JqHmjvNwOma+
- V9Nuql05IYKsAm5jU3sUGFQ=
-X-Google-Smtp-Source: ABdhPJw39OlgjMmz4lqL6T+rgdndiDsRzGiObFwyXkfYqPKxIRfleS1zXw3PNnFmnlobyxOIky7uMQ==
-X-Received: by 2002:a2e:9b99:: with SMTP id z25mr3003635lji.403.1599947463050; 
- Sat, 12 Sep 2020 14:51:03 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id g30sm1816912lfj.74.2020.09.12.14.51.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 12 Sep 2020 14:51:02 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 10/17] WIP: gpu: host1x: Add no-recovery mode
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-11-mperttunen@nvidia.com>
- <7d7a29e8-3151-12ea-da66-d8a479edda84@gmail.com>
- <c2498218-e107-4df4-41ce-c60da65ceaf7@kapsi.fi>
- <07f933b3-10d9-0318-e2f3-6dfd5b4903ac@gmail.com>
- <28f18a23-b588-004d-4945-91b7a593607a@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3f80aff2-23ce-9b1f-d242-e46e974fbeed@gmail.com>
-Date: Sun, 13 Sep 2020 00:51:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eCqlMmeFwnaJqMzKobKwxzuAcoUu5Y/KrYbNh4cg/CI=;
+ b=j6LglmoAEKbSoh51r1pZ3LySm2qzuhAe2WASfwvXR+H31XMVRNQSLzvPqoUuQw8LMp
+ 5PKqQhWMVVyKt8RPN9zlcjKS8/P9xRbnAGb5s5cWwcc69CVQO8AwZWMz3WAerr3BoEx3
+ 6i7q9PfmiwvHYs4b1m9YoJWtdTeYhLA5XUqe4I0AigqMrz1oFCUUEhJxWOxo/xo4YUN8
+ u9UKXrICxNGUVTo53WGXdSRGvE+m3lc42FHO1fUvDJoioXcTca3GZwLQy1IPOhhXPXh9
+ Xx0ZW3N+JdyBLW2mw3liwUSA/zMy4zawSg4ZSIAwnvoWSvSZ0jg6FQxQxUx0KKRC2Nik
+ U3Sg==
+X-Gm-Message-State: AOAM530BjwSDaq4G2M13MFUVfyYL61CB958T1H/5e7nXQxpUVpxpWFnq
+ DPBOcEvOWlv+kMX6iljfCFtmQg==
+X-Google-Smtp-Source: ABdhPJwbeFPrbjxKAQIpdugGlybxZzVcWEtLsjEIfZtzkecp8+WvSdNWhEUJeeUEm54+jzLXONtJoQ==
+X-Received: by 2002:a05:6808:601:: with SMTP id y1mr5490419oih.9.1599966885546; 
+ Sat, 12 Sep 2020 20:14:45 -0700 (PDT)
+Received: from yoga ([2605:6000:e5cb:c100:8898:14ff:fe6d:34e])
+ by smtp.gmail.com with ESMTPSA id w19sm1192469otq.70.2020.09.12.20.14.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 12 Sep 2020 20:14:44 -0700 (PDT)
+Date: Sat, 12 Sep 2020 22:14:42 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Luca Weiss <luca@z3ntu.xyz>
+Subject: Re: [PATCH] drm/msm/adreno: fix probe without iommu
+Message-ID: <20200913031442.GS3715@yoga>
+References: <20200911160854.484114-1-luca@z3ntu.xyz>
 MIME-Version: 1.0
-In-Reply-To: <28f18a23-b588-004d-4945-91b7a593607a@kapsi.fi>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200911160854.484114-1-luca@z3ntu.xyz>
 X-Mailman-Approved-At: Mon, 14 Sep 2020 07:03:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,53 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Brian Masney <masneyb@onstation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTIuMDkuMjAyMCAxNjozMSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Ci4uLgo+PiBJJ20g
-bm93IHRha2luZyBhIGNsb3NlciBsb29rIGF0IHRoaXMgcGF0Y2ggYW5kIGl0IHJhaXNlcyBzb21l
-IG1vcmUKPj4gcXVlc3Rpb25zLCBsaWtlIGZvciBleGFtcGxlIGJ5IGxvb2tpbmcgYXQgdGhlICJP
-biBqb2IgdGltZW91dCwgd2Ugc3RvcAo+PiB0aGUgY2hhbm5lbCwgTk9QIGFsbCBmdXR1cmUgam9i
-cyBvbiB0aGUgY2hhbm5lbCB1c2luZyB0aGUgc2FtZSBzeW5jcG9pbnQKPj4gLi4uIiB0aHJvdWdo
-IHRoZSBwcmlzbSBvZiBncmF0ZS1rZXJuZWwgZXhwZXJpZW5jZSwgSSdtIG5vdCBzdXJlIGhvdyBp
-dAo+PiBjb3VsZCBjby1leGlzdCB3aXRoIHRoZSBkcm0tc2NoZWR1bGVyIGFuZCB3aHkgaXQncyBu
-ZWVkZWQgYXQgYWxsLiBCdXQgSQo+PiB0aGluayB3ZSBuZWVkIGEgZmVhdHVyZS1jb21wbGV0ZSB2
-ZXJzaW9uIChhdCBsZWFzdCBhIHJvdWdoIHZlcnNpb24pLCBzbwo+PiB0aGF0IHdlIGNvdWxkIHN0
-YXJ0IHRoZSB0ZXN0aW5nLCBhbmQgdGhlbiBpdCBzaG91bGQgYmUgZWFzaWVyIHRvIHJldmlldwo+
-PiBhbmQgZGlzY3VzcyBzdWNoIHRoaW5ncy4KPj4KPiAKPiBUaGUgcmVhc29uIHRoaXMgaXMgbmVl
-ZGVkIGlzIHRoYXQgaWYgYSBqb2IgdGltZXMgb3V0IGFuZCB3ZSBkb24ndCBkbyBpdHMKPiBzeW5j
-cG9pbnQgaW5jcmVtZW50cyBvbiB0aGUgQ1BVLCB0aGVuIGEgc3VjY2Vzc2l2ZSBqb2IgaW5jcmVt
-ZW50aW5nIHRoYXQKPiBzYW1lIHN5bmNwb2ludCB3b3VsZCBjYXVzZSBmZW5jZXMgdG8gc2lnbmFs
-IGluY29ycmVjdGx5LiBUaGUgam9iIHRoYXQKPiB3YXMgc3VwcG9zZWQgdG8gc2lnbmFsIHRob3Nl
-IGZlbmNlcyBkaWRuJ3QgYWN0dWFsbHkgcnVuOyBhbmQgYW55IGRhdGEKPiB0aG9zZSBmZW5jZXMg
-d2VyZSBwcm90ZWN0aW5nIHdvdWxkIHN0aWxsIGJlIGdhcmJhZ2UuCgpJJ2xsIG5lZWQgdG8gcmUt
-cmVhZCB0aGUgcHJldmlvdXMgZGlzY3Vzc2lvbiBiZWNhdXNlIElJUkMsIEkgd2FzCnN1Z2dlc3Rp
-bmcgdGhhdCBvbmNlIGpvYiBpcyBodW5nLCBhbGwgam9icyBzaG91bGQgYmUgcmVtb3ZlZCBmcm9t
-CnF1ZXVlL1BCIGFuZCByZS1zdWJtaXR0ZWQsIHRoZW4gdGhlIHJlLXN1Ym1pdHRlZCBqb2JzIHdp
-bGwgdXNlIHRoZQpuZXcvdXBkYXRlZCBzeW5jIHBvaW50IGJhc2UuCgpBbmQgd2UgcHJvYmFibHkg
-c2hvdWxkIG5lZWQgYW5vdGhlciBkcm1fdGVncmFfc3VibWl0X2NtZCB0eXBlIHRoYXQgd2FpdHMK
-Zm9yIGEgcmVsYXRpdmUgc3luYyBwb2ludCBpbmNyZW1lbnQuIFRoZQpkcm1fdGVncmFfc3VibWl0
-X2NtZF93YWl0X3N5bmNwdCB1c2VzIGFic29sdXRlIHN5bmMgcG9pbnQgdmFsdWUgYW5kIGl0CnNo
-b3VsZG4ndCBiZSB1c2VkIGZvciBzeW5jIHBvaW50IGluY3JlbWVudHMgdGhhdCBhcmUgaW50ZXJu
-YWwgdG8gYSBqb2IKYmVjYXVzZSBpdCBjb21wbGljYXRlcyB0aGUgcmVjb3ZlcnkuCgpBbGwgd2Fp
-dHMgdGhhdCBhcmUgaW50ZXJuYWwgdG8gYSBqb2Igc2hvdWxkIG9ubHkgd2FpdCBmb3IgcmVsYXRp
-dmUgc3luYwpwb2ludCBpbmNyZW1lbnRzLgoKSW4gdGhlIGdyYXRlLWtlcm5lbCBldmVyeSBqb2Ig
-dXNlcyB1bmlxdWUtYW5kLWNsZWFuIHN5bmMgcG9pbnQgKHdoaWNoIGlzCmFsc28gaW50ZXJuYWwg
-dG8gdGhlIGtlcm5lbCBkcml2ZXIpIGFuZCBhIHJlbGF0aXZlIHdhaXQgWzFdIGlzIHVzZWQgZm9y
-CnRoZSBqb2IncyBpbnRlcm5hbCBzeW5jIHBvaW50IGluY3JlbWVudHMgWzJdWzNdWzRdLCBhbmQg
-dGh1cywga2VybmVsCmRyaXZlciBzaW1wbHkganVtcHMgb3ZlciBhIGh1bmcgam9iIGJ5IHVwZGF0
-aW5nIERNQUdFVCB0byBwb2ludCBhdCB0aGUKc3RhcnQgb2YgYSBuZXh0IGpvYi4KClsxXQpodHRw
-czovL2dpdGh1Yi5jb20vZ3JhdGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1
-L2RybS90ZWdyYS91YXBpL3BhdGNoaW5nLmMjTDM2NwoKWzJdCmh0dHBzOi8vZ2l0aHViLmNvbS9n
-cmF0ZS1kcml2ZXIveGY4Ni12aWRlby1vcGVudGVncmEvYmxvYi9tYXN0ZXIvc3JjL2dwdS9ncjNk
-LmMjTDQ4NgpbM10KaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci94Zjg2LXZpZGVvLW9w
-ZW50ZWdyYS9ibG9iL21hc3Rlci9zcmMvZXhhL2NvcHlfMmQuYyNMMzg5Cls0XQpodHRwczovL2dp
-dGh1Yi5jb20vZ3JhdGUtZHJpdmVyL3hmODYtdmlkZW8tb3BlbnRlZ3JhL2Jsb2IvbWFzdGVyL3Ny
-Yy9ncHUvdGVncmFfc3RyZWFtX3YyLmMjTDUzNgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Fri 11 Sep 11:08 CDT 2020, Luca Weiss wrote:
+
+> The function iommu_domain_alloc returns NULL on platforms without IOMMU
+> such as msm8974. This resulted in PTR_ERR(-ENODEV) being assigned to
+> gpu->aspace so the correct code path wasn't taken.
+> 
+> Fixes: ccac7ce373c1 ("drm/msm: Refactor address space initialization")
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+
+> ---
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 862dd35b27d3..6e8bef1a9ea2 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -189,10 +189,16 @@ struct msm_gem_address_space *
+>  adreno_iommu_create_address_space(struct msm_gpu *gpu,
+>  		struct platform_device *pdev)
+>  {
+> -	struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
+> -	struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
+> +	struct iommu_domain *iommu;
+> +	struct msm_mmu *mmu;
+>  	struct msm_gem_address_space *aspace;
+>  
+> +	iommu = iommu_domain_alloc(&platform_bus_type);
+> +	if (!iommu)
+> +		return NULL;
+> +
+> +	mmu = msm_iommu_new(&pdev->dev, iommu);
+> +
+>  	aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
+>  		0xffffffff - SZ_16M);
+>  
+> -- 
+> 2.28.0
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
