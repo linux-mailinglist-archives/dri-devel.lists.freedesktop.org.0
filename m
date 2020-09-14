@@ -1,60 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADBA268545
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:03:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 920FA26857A
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:07:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F866E1A7;
-	Mon, 14 Sep 2020 07:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F8589C93;
+	Mon, 14 Sep 2020 07:07:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32AA76E0BA;
- Mon, 14 Sep 2020 02:30:06 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id c196so11445907pfc.0;
- Sun, 13 Sep 2020 19:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZifYdXY/7F2LoiT7gKnIbVwnlCP6qvLug13m2oN5teE=;
- b=gxlzUj0xB0yJzg+U+5am9MlOexD+ex+GBmHcy+ZwRAfevVIs3epB2w8paAeANIXgit
- jx7rLx9HRr9MOiZd4mftyGKHwfhtDN0/8hGve8qYRsygsqN/ApjbJsV/IQeNPAxnBtnA
- 9iT3WNn+7BHeNC/w5shwjj1bCDf9ctz3B3lWa8Be3F5lyGLyY2Jem8tob/jESkwV0KDL
- /5sGttriChwnC3Sz0bZ5gfgHFayZ0h/enNYw0hkHT3NltTjhNETsyknhrkSDr5uXQCeO
- alus8zTyjbaKW7s3XMgF4mj3i6whdvI+HWC5zmtziKBJ3ywcA2UuEzpDTMp666/9JCZz
- E1vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZifYdXY/7F2LoiT7gKnIbVwnlCP6qvLug13m2oN5teE=;
- b=cdtSmHUHx9eJETibUyAnKO5yLfQlue5H7cB9t+Sf0zhhTq8G2zb4X2iClNwApsyMkA
- fVoSn8L/h54WyiSZYaSQoPESTqoWdCljqEuRfFwaoDYtYzJzcZ2iUNvH8WqkvE6IKKP5
- 8nw209H/3AAURQynk8ab7q2kuaQdznxA9lqIQbowoxz316aCA453K1i4vwA3g5+pBVjH
- qSigz9W/0nu6xgwFxarPu48pcpXsERmEIJw3BbzlWa08BLHWh6cLk+zYUEIfaKuCwSRe
- 01r5EThTq11ZJsI7Z9xoaGvSJWjTbVi+2zt4JfEl8tvT8BTaeWC+BIFRU+htCV7IcKV+
- 9PiQ==
-X-Gm-Message-State: AOAM530AhQ3bL5hWLaN15/vcJ++hbOs0dRcjci+3J2BmW9mod0SNqUVF
- L0NPSQxI6UjXcgoepxPthVc=
-X-Google-Smtp-Source: ABdhPJwNFwdUH+e2nolvRlNJB6bmWymbrUxCPUl3Zk8Dd/rloSA++etdrtwOBW10+jp51Wr4Ga/N3g==
-X-Received: by 2002:aa7:9795:: with SMTP id o21mr11830850pfp.26.1600050605774; 
- Sun, 13 Sep 2020 19:30:05 -0700 (PDT)
-Received: from ZB-PF0YQ8ZU.360buyad.local
- (f.a4.5177.ip4.static.sl-reverse.com. [119.81.164.15])
- by smtp.gmail.com with ESMTPSA id j9sm8426372pfe.170.2020.09.13.19.30.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 19:30:04 -0700 (PDT)
-From: Zhenzhong Duan <zhenzhong.duan@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/msm/a6xx: Fix a size determination in
- a6xx_get_indexed_registers()
-Date: Mon, 14 Sep 2020 10:29:49 +0800
-Message-Id: <20200914022949.129-1-zhenzhong.duan@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6778789C93
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 07:07:25 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5513CACF3;
+ Mon, 14 Sep 2020 07:07:39 +0000 (UTC)
+Subject: Re: [PATCH] drm/vc4: Handing the return value of
+ drm_universal_plane_init
+To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+References: <1599811777-34093-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <d35a968e-d957-7d0a-cf93-084d7b4002e0@suse.de>
+Date: Mon, 14 Sep 2020 09:07:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 14 Sep 2020 07:03:05 +0000
+In-Reply-To: <1599811777-34093-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,43 +40,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, jonathan@marek.ca, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
- dri-devel@lists.freedesktop.org, Markus.Elfring@web.de, sean@poorly.run,
- Zhenzhong Duan <zhenzhong.duan@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============1688494436=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's allocating an array of a6xx_gpu_state_obj structure rather than
-its pointers.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1688494436==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4bTyLzhK43sYIAR6fVZpB85MDepDwDL2k"
 
-Fixes: d6852b4b2d01 ("drm/msm/a6xx: Track and manage a6xx state memory")
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@gmail.com>
----
-v2: Update commit message per Markus, thanks
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4bTyLzhK43sYIAR6fVZpB85MDepDwDL2k
+Content-Type: multipart/mixed; boundary="Y5hw2zFn9stj8m8Th9pIGK6DEj1yRRN8E";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Cc: linuxarm@huawei.com
+Message-ID: <d35a968e-d957-7d0a-cf93-084d7b4002e0@suse.de>
+Subject: Re: [PATCH] drm/vc4: Handing the return value of
+ drm_universal_plane_init
+References: <1599811777-34093-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1599811777-34093-1-git-send-email-tiantao6@hisilicon.com>
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--Y5hw2zFn9stj8m8Th9pIGK6DEj1yRRN8E
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index b12f5b4..e9ede19 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -875,7 +875,7 @@ static void a6xx_get_indexed_registers(struct msm_gpu *gpu,
- 	int i;
- 
- 	a6xx_state->indexed_regs = state_kcalloc(a6xx_state, count,
--		sizeof(a6xx_state->indexed_regs));
-+		sizeof(*a6xx_state->indexed_regs));
- 	if (!a6xx_state->indexed_regs)
- 		return;
- 
--- 
-1.8.3.1
+Hi
+
+Am 11.09.20 um 10:09 schrieb Tian Tao:
+> Handing the return value of drm_universal_plane_init to fix the followi=
+ng
+> W=3D1 kernel build warning(s):
+> vc4_plane.c: In function =E2=80=98vc4_plane_init=E2=80=99:
+> vc4_plane.c:1340:6: warning: variable =E2=80=98ret=E2=80=99 set but not=
+
+> used [-Wunused-but-set-variable]
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks!
+
+> ---
+>  drivers/gpu/drm/vc4/vc4_plane.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_=
+plane.c
+> index 24d7e6d..65c1205 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -1361,6 +1361,8 @@ struct drm_plane *vc4_plane_init(struct drm_devic=
+e *dev,
+>  				       &vc4_plane_funcs,
+>  				       formats, ARRAY_SIZE(formats),
+>  				       modifiers, type, NULL);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> =20
+>  	drm_plane_helper_add(plane, &vc4_plane_helper_funcs);
+> =20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Y5hw2zFn9stj8m8Th9pIGK6DEj1yRRN8E--
+
+--4bTyLzhK43sYIAR6fVZpB85MDepDwDL2k
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9fFqsUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNbGAf/bBX68vBxpFMJAU6GmfVrHOV4ILkn
+rigrt33CXkNXDv7c69Qh3tZ+F63NUMSD2GDvnxFWN4yyXYk6hp861RB1i3yL63+U
+oSmBAZg7CUom6Dj7vhVme2nVZ33/YlhS6eo9J9IrDmLbLmmnVWM41qs1t6tIu11o
+tkqBz3YCOjlaw/99ZCVuYPfz+OzvoSUjjSFxfKr2PTdXq90wLxNn9/cO58aDyUPg
+SrYC22ZIq5t3TNzxvY/FXnNwHalHyKIVGbSlilA9M19vFyWF8b3g34bzy4PAdoY3
+FpBBvMUbhriwPOP61ZRxFGb7LllqES/gHu9wgx6R/VdTTzn9Kq2Tc0QEsQ==
+=crLV
+-----END PGP SIGNATURE-----
+
+--4bTyLzhK43sYIAR6fVZpB85MDepDwDL2k--
+
+--===============1688494436==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1688494436==--
