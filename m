@@ -1,44 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3832C268440
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 07:52:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFBA2684BD
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 08:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DDB6E0C1;
-	Mon, 14 Sep 2020 05:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2306E152;
+	Mon, 14 Sep 2020 06:22:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD62B6E0C1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 05:52:15 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208825] lspci triggers NULL pointer dereference on AMD Renoir
- 4800H/5600M laptop
-Date: Mon, 14 Sep 2020 05:52:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208825-2300-E2djf9dRL5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208825-2300@https.bugzilla.kernel.org/>
-References: <bug-208825-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41EEA6E152;
+ Mon, 14 Sep 2020 06:22:56 +0000 (UTC)
+IronPort-SDR: zcNGAMiunBj2R36IPl3d0bIpLov1gqN9iyV3Yvp4kHHkbPIWxbaqoZDrBiMU798oJvVqh6Lube
+ 5pP8R5RBG2kA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="159965653"
+X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; d="scan'208";a="159965653"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2020 23:22:55 -0700
+IronPort-SDR: T/cA4MObcu8UtKSTzZ9myNyHJ79JjhnK92VI67DNqh2Yef0jqODt/nrHv4qyMV9OXN/9L6ddfg
+ YRGme3Nzrvgw==
+X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; d="scan'208";a="287536596"
+Received: from karthik-2012-client-platform.iind.intel.com ([10.223.74.217])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 13 Sep 2020 23:22:51 -0700
+From: Karthik B S <karthik.b.s@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v8 0/8] Asynchronous flip implementation for i915
+Date: Mon, 14 Sep 2020 11:26:25 +0530
+Message-Id: <20200914055633.21109-1-karthik.b.s@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,25 +46,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
+ Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
+ nicholas.kazlauskas@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208825
+Without async flip support in the kernel, fullscreen apps where game
+resolution is equal to the screen resolution, must perform an extra blit
+per frame prior to flipping.
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+Asynchronous page flips will also boost the FPS of Mesa benchmarks.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
+v2: -Few patches have been squashed and patches have been shuffled as
+     per the reviews on the previous version.
 
---- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
-Can you bisect and determine what patch fixed it?
+v3: -Few patches have been squashed and patches have been shuffled as
+     per the reviews on the previous version.
+
+v4: -Made changes to fix the sequence and time stamp issue as per the
+     comments received on the previous version.
+    -Timestamps are calculated using the flip done time stamp and current
+     timestamp. Here I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP flag is used
+     for timestamp calculations.
+    -Event is sent from the interrupt handler immediately using this
+     updated timestamps and sequence.
+    -Added more state checks as async flip should only allow change in plane
+     surface address and nothing else should be allowed to change.
+    -Added a separate plane hook for async flip.
+    -Need to find a way to reject fbc enabling if it comes as part of this
+     flip as bspec states that changes to FBC are not allowed.
+
+v5: -Fixed the Checkpatch and sparse warnings.
+
+v6: -Reverted back to the old timestamping code as per the feedback received.
+    -Added documentation.
+
+v7: -Changes in intel_atomic_check_async()
+    -Add vfunc for skl_program_async_surface_address()
+
+v8: -Add WA for older platforms with double buffered
+     async address update enable bit.
+
+Test-with: <20200908061001.20302-1-karthik.b.s@intel.com>
+
+Karthik B S (8):
+  drm/i915: Add enable/disable flip done and flip done handler
+  drm/i915: Add support for async flips in I915
+  drm/i915: Add checks specific to async flips
+  drm/i915: Do not call drm_crtc_arm_vblank_event in async flips
+  drm/i915: Add dedicated plane hook for async flip case
+  drm/i915: WA for platforms with double buffered adress update enable
+    bit
+  Documentation/gpu: Add asynchronous flip documentation for i915
+  drm/i915: Enable async flips in i915
+
+ Documentation/gpu/i915.rst                    |   6 +
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   7 +
+ drivers/gpu/drm/i915/display/intel_display.c  | 201 ++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |   3 +
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  30 +++
+ drivers/gpu/drm/i915/i915_irq.c               |  52 +++++
+ drivers/gpu/drm/i915/i915_irq.h               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |   1 +
+ 8 files changed, 302 insertions(+)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.22.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
