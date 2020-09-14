@@ -1,48 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EF32699E2
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 01:44:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D37512699E4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 01:45:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F1F6E820;
-	Mon, 14 Sep 2020 23:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E646C6E821;
+	Mon, 14 Sep 2020 23:45:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17AC6E820
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 23:44:15 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6820821D24
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 23:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600127055;
- bh=+OhI6QNHCUTezEy3dC8zYNoj1C1U2IUoG/B2Kdfhl0Y=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tldsgMhMqLV/lzvk9W8V5/yK35Olz+LfV3L7KOMtcrLzTTSw9fIEELANJodDHRdQD
- B2T06DyfTxiJHGrZBjdCQxk84dzjB+FaMfaCJZXZ86nBGTk2e53cS8NF4dcy4+EixH
- rkXN5fe+bf0vsl7ZMkLPt9XaQOHrlWvtn5Lg5UjE=
-Received: by mail-ej1-f41.google.com with SMTP id lo4so2356622ejb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 16:44:15 -0700 (PDT)
-X-Gm-Message-State: AOAM5335ynfJ6S1OWE/XWOZX4Mxg0eeG/6mhP2Tgj1PE5SkKk+Ih1dZ/
- LlvvBOYYSM/e+cLOQ8YnHrTUg1iY2dKVL4E0vw==
-X-Google-Smtp-Source: ABdhPJyYu9jlk9XD95lFQa7HI5Qb4vp8g0UXjCYsPMegPd9apv/vOGC9kUF8wL49jyw/7LJM+MYuJZzZHH36b+Lyj/4=
-X-Received: by 2002:a17:906:8690:: with SMTP id
- g16mr16850817ejx.187.1600127053936; 
- Mon, 14 Sep 2020 16:44:13 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDE96E821
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 23:45:00 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id c2so1133918ljj.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 16:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u4tgUNPtLOQN8BYq/DRY6HEVpSCCTykqICDxiRKjYGo=;
+ b=mgfyvcA0BlB9Q6lIQG1I5drd5d6kfM+x/jklg9Rk9QGyTplU3I6PDm5HnpGF52QkLz
+ H8OTsNrXyHJLhAd0lFDCZIO5eHGo0q+zTosz8FgOd6xx7imKjWvuqbuMs4ZauxZph8/T
+ da9345Znz+AKry9I+P8+9e1+d/JpAaS2WAh9s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u4tgUNPtLOQN8BYq/DRY6HEVpSCCTykqICDxiRKjYGo=;
+ b=DI0nfVCZ1L7eg1b3dh/DMPjUgs/vkMYze0x34obtKBzK6Wxfp5CX3z7If9t7fmTQ5F
+ 1pzuHRk/dDoKfNG2gv2hgHSonYyoZ0OBcm+Zr9N0xi8u1bPA53kefoAHJAeW1l4i5E3g
+ kDKLMc12KGlOGTqJoe2pWCNCxLvzeKsEkhYgEx4D6LOdxWTw/XAufOQeGBFT+dWQBzN6
+ FcVS86miXF34fy2VEy24QEZit7DbhAWOKZcnDmxpU2Dhcj2hMmy5xaoGRyGE+So9zbgo
+ B+3u7/x80YdaJjs2/8ac4D4fSNst6oJ+yKcV7tKgZyU7jJrbRvYCorgWJPPDyyq5sX6S
+ XpQg==
+X-Gm-Message-State: AOAM53152yjNA22VQEEJr/L32geaD+klL1FfsRcfgR9UyS/j2nM55IWi
+ uQauW6or/vKk3Jv4Y/6m4RNM1AHPAXYTKA==
+X-Google-Smtp-Source: ABdhPJzRxyUUa9+eqjBdYd004RGfIk71L4S8EWmFH6hHxb1VeJ6KriWClG0ApypYz5Yt3PnA1MkMJA==
+X-Received: by 2002:a2e:9948:: with SMTP id r8mr5657062ljj.126.1600127098479; 
+ Mon, 14 Sep 2020 16:44:58 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
+ [209.85.208.170])
+ by smtp.gmail.com with ESMTPSA id i11sm3644986lfe.242.2020.09.14.16.44.57
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Sep 2020 16:44:57 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id k25so1208742ljk.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 16:44:57 -0700 (PDT)
+X-Received: by 2002:a2e:6f0d:: with SMTP id k13mr5412803ljc.250.1600127096702; 
+ Mon, 14 Sep 2020 16:44:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200911112151.3220469-1-yukuai3@huawei.com>
-In-Reply-To: <20200911112151.3220469-1-yukuai3@huawei.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 15 Sep 2020 07:44:03 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__jzUgrz9UuRFn104ePfMY5sR4vLuRRFNWVO=1naZUntw@mail.gmail.com>
-Message-ID: <CAAOTY__jzUgrz9UuRFn104ePfMY5sR4vLuRRFNWVO=1naZUntw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: add missing put_device() call in
- mtk_hdmi_dt_parse_pdata()
-To: Yu Kuai <yukuai3@huawei.com>
+References: <20200902210847.2689-1-gurchetansingh@chromium.org>
+ <20200902210847.2689-5-gurchetansingh@chromium.org>
+ <20200902221514.GE1263242@redhat.com>
+ <CAAfnVBnfbwc07au1OMec8g5yHC0D3yXc88nOtTopO4sitYf8ig@mail.gmail.com>
+ <20200909070349.uyvg44xakdftibxh@sirius.home.kraxel.org>
+ <CAJfpegsMEZoCQe7frsr9Kaq6EZsuRFWP3zs7sgrxnUDLzfcx_w@mail.gmail.com>
+ <20200909092646.GA438822@phenom.ffwll.local>
+ <CAKMK7uHzES32APTafwYjWc=-hswGe3q7Re4Rw354hKwA+mb0zg@mail.gmail.com>
+ <CAAfnVBkbmxB7jdE3W2x3fjsiQYvJ1nimPNsk7qZnJKQJB7JrKw@mail.gmail.com>
+ <CAJfpegvngPguV3PFtCnP05c12Pwm_+9yng4=FWaaGuDHtezXYw@mail.gmail.com>
+In-Reply-To: <CAJfpegvngPguV3PFtCnP05c12Pwm_+9yng4=FWaaGuDHtezXYw@mail.gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Mon, 14 Sep 2020 16:44:45 -0700
+X-Gmail-Original-Message-ID: <CAAfnVB=tUuxWt+3LwkNm0-ByXYSjzsjA+4N-FREkcAA1yBcz=g@mail.gmail.com>
+Message-ID: <CAAfnVB=tUuxWt+3LwkNm0-ByXYSjzsjA+4N-FREkcAA1yBcz=g@mail.gmail.com>
+Subject: Re: [PATCH v2 04/23] virtio: Add get_shm_region method
+To: Miklos Szeredi <miklos@szeredi.hu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,71 +77,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, junzhi.zhao@mediatek.com,
- jie.qiu@mediatek.com, yi.zhang@huawei.com, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vivek Goyal <vgoyal@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1239914534=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFl1IEt1YWk6CgpZdSBLdWFpIDx5dWt1YWkzQGh1YXdlaS5jb20+IOaWvCAyMDIw5bm0Oeac
-iDEx5pelIOmAseS6lCDkuIvljYg3OjIy5a+r6YGT77yaCj4KPiBpZiBvZl9maW5kX2RldmljZV9i
-eV9ub2RlKCkgc3VjY2VlZCwgbXRrX2RybV9rbXNfaW5pdCgpIGRvZXNuJ3QgaGF2ZQo+IGEgY29y
-cmVzcG9uZGluZyBwdXRfZGV2aWNlKCkuIFRodXMgYWRkIGp1bXAgdGFyZ2V0IHRvIGZpeCB0aGUg
-ZXhjZXB0aW9uCj4gaGFuZGxpbmcgZm9yIHRoaXMgZnVuY3Rpb24gaW1wbGVtZW50YXRpb24uCgpS
-ZXZpZXdlZC1ieTogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cgo+Cj4g
-Rml4ZXM6IDhmODNmMjY4OTFlMSAoImRybS9tZWRpYXRlazogQWRkIEhETUkgc3VwcG9ydCIpCj4g
-U2lnbmVkLW9mZi1ieTogWXUgS3VhaSA8eXVrdWFpM0BodWF3ZWkuY29tPgo+IC0tLQo+ICBkcml2
-ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYyB8IDI2ICsrKysrKysrKysrKysrKysrKy0t
-LS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygt
-KQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMKPiBpbmRleCBmMmU5YjQyOTk2MGIu
-LmE5NzcyNTY4MGQ0ZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2hkbWkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jCj4gQEAg
-LTE1MDcsMjUgKzE1MDcsMzAgQEAgc3RhdGljIGludCBtdGtfaGRtaV9kdF9wYXJzZV9wZGF0YShz
-dHJ1Y3QgbXRrX2hkbWkgKmhkbWksCj4gICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LAo+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICJGYWlsZWQgdG8gZ2V0IHN5c3RlbSBjb25maWd1cmF0aW9u
-IHJlZ2lzdGVyczogJWRcbiIsCj4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0KTsKPiAtICAg
-ICAgICAgICAgICAgcmV0dXJuIHJldDsKPiArICAgICAgICAgICAgICAgZ290byBwdXRfZGV2aWNl
-Owo+ICAgICAgICAgfQo+ICAgICAgICAgaGRtaS0+c3lzX3JlZ21hcCA9IHJlZ21hcDsKPgo+ICAg
-ICAgICAgbWVtID0gcGxhdGZvcm1fZ2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfTUVNLCAw
-KTsKPiAgICAgICAgIGhkbWktPnJlZ3MgPSBkZXZtX2lvcmVtYXBfcmVzb3VyY2UoZGV2LCBtZW0p
-Owo+IC0gICAgICAgaWYgKElTX0VSUihoZG1pLT5yZWdzKSkKPiAtICAgICAgICAgICAgICAgcmV0
-dXJuIFBUUl9FUlIoaGRtaS0+cmVncyk7Cj4gKyAgICAgICBpZiAoSVNfRVJSKGhkbWktPnJlZ3Mp
-KSB7Cj4gKyAgICAgICAgICAgICAgIHJldCA9IFBUUl9FUlIoaGRtaS0+cmVncyk7Cj4gKyAgICAg
-ICAgICAgICAgIGdvdG8gcHV0X2RldmljZTsKPiArICAgICAgIH0KPgo+ICAgICAgICAgcmVtb3Rl
-ID0gb2ZfZ3JhcGhfZ2V0X3JlbW90ZV9ub2RlKG5wLCAxLCAwKTsKPiAtICAgICAgIGlmICghcmVt
-b3RlKQo+IC0gICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPiArICAgICAgIGlmICghcmVt
-b3RlKSB7Cj4gKyAgICAgICAgICAgICAgIHJldCA9IC1FSU5WQUw7Cj4gKyAgICAgICAgICAgICAg
-IGdvdG8gcHV0X2RldmljZTsKPiArICAgICAgIH0KPgo+ICAgICAgICAgaWYgKCFvZl9kZXZpY2Vf
-aXNfY29tcGF0aWJsZShyZW1vdGUsICJoZG1pLWNvbm5lY3RvciIpKSB7Cj4gICAgICAgICAgICAg
-ICAgIGhkbWktPm5leHRfYnJpZGdlID0gb2ZfZHJtX2ZpbmRfYnJpZGdlKHJlbW90ZSk7Cj4gICAg
-ICAgICAgICAgICAgIGlmICghaGRtaS0+bmV4dF9icmlkZ2UpIHsKPiAgICAgICAgICAgICAgICAg
-ICAgICAgICBkZXZfZXJyKGRldiwgIldhaXRpbmcgZm9yIGV4dGVybmFsIGJyaWRnZVxuIik7Cj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgb2Zfbm9kZV9wdXQocmVtb3RlKTsKPiAtICAgICAgICAg
-ICAgICAgICAgICAgICByZXR1cm4gLUVQUk9CRV9ERUZFUjsKPiArICAgICAgICAgICAgICAgICAg
-ICAgICByZXQgPSAtRVBST0JFX0RFRkVSOwo+ICsgICAgICAgICAgICAgICAgICAgICAgIGdvdG8g
-cHV0X2RldmljZTsKPiAgICAgICAgICAgICAgICAgfQo+ICAgICAgICAgfQo+Cj4gQEAgLTE1MzQs
-NyArMTUzOSw4IEBAIHN0YXRpYyBpbnQgbXRrX2hkbWlfZHRfcGFyc2VfcGRhdGEoc3RydWN0IG10
-a19oZG1pICpoZG1pLAo+ICAgICAgICAgICAgICAgICBkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBm
-aW5kIGRkYy1pMmMtYnVzIG5vZGUgaW4gJXBPRlxuIiwKPiAgICAgICAgICAgICAgICAgICAgICAg
-ICByZW1vdGUpOwo+ICAgICAgICAgICAgICAgICBvZl9ub2RlX3B1dChyZW1vdGUpOwo+IC0gICAg
-ICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPiArICAgICAgICAgICAgICAgcmV0ID0gLUVJTlZB
-TDsKPiArICAgICAgICAgICAgICAgZ290byBwdXRfZGV2aWNlOwo+ICAgICAgICAgfQo+ICAgICAg
-ICAgb2Zfbm9kZV9wdXQocmVtb3RlKTsKPgo+IEBAIC0xNTQyLDEwICsxNTQ4LDE0IEBAIHN0YXRp
-YyBpbnQgbXRrX2hkbWlfZHRfcGFyc2VfcGRhdGEoc3RydWN0IG10a19oZG1pICpoZG1pLAo+ICAg
-ICAgICAgb2Zfbm9kZV9wdXQoaTJjX25wKTsKPiAgICAgICAgIGlmICghaGRtaS0+ZGRjX2FkcHQp
-IHsKPiAgICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWlsZWQgdG8gZ2V0IGRkYyBpMmMg
-YWRhcHRlciBieSBub2RlXG4iKTsKPiAtICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4g
-KyAgICAgICAgICAgICAgIHJldCA9IC1FSU5WQUw7Cj4gKyAgICAgICAgICAgICAgIGdvdG8gcHV0
-X2RldmljZTsKPiAgICAgICAgIH0KPgo+ICAgICAgICAgcmV0dXJuIDA7Cj4gK3B1dF9kZXZpY2U6
-Cj4gKyAgICAgICBwdXRfZGV2aWNlKGhkbWktPmNlY19kZXYpOwo+ICsgICAgICAgcmV0dXJuIHJl
-dDsKPiAgfQo+Cj4gIC8qCj4gLS0KPiAyLjI1LjQKPgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============1239914534==
+Content-Type: multipart/alternative; boundary="00000000000032283305af4e9fb1"
+
+--00000000000032283305af4e9fb1
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Sep 10, 2020 at 2:56 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+
+> On Thu, Sep 10, 2020 at 2:28 AM Gurchetan Singh
+> <gurchetansingh@chromium.org> wrote:
+>
+> > That sounds like an excellent plan !
+> >
+> > I will send out blob v3 (incorporating kraxel@'s feedback) once the
+> topic pull request (it seems Miklos will do this?) for the shm region
+> patches has been merged into drm-misc-next.
+>
+> I split out the three patches into:
+>
+>   git://
+> git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#virtio-shm
+
+
+Thanks, pull request sent.
+
+
+>
+>
+> Thanks,
+> Miklos
+>
+
+--00000000000032283305af4e9fb1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 10, 2020 at 2:56 AM Miklo=
+s Szeredi &lt;<a href=3D"mailto:miklos@szeredi.hu" target=3D"_blank">miklos=
+@szeredi.hu</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Thu, Sep 10, 2020 at 2:28 AM Gurchetan Singh<br>
+&lt;<a href=3D"mailto:gurchetansingh@chromium.org" target=3D"_blank">gurche=
+tansingh@chromium.org</a>&gt; wrote:<br>
+<br>
+&gt; That sounds like an excellent plan !<br>
+&gt;<br>
+&gt; I will send out blob v3 (incorporating kraxel@&#39;s feedback) once th=
+e topic pull request (it seems Miklos will do this?) for the shm region pat=
+ches has been merged into drm-misc-next.<br>
+<br>
+I split out the three patches into:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.kernel.org/pub/scm/linux/kernel/git/msze=
+redi/fuse.git#virtio-shm" rel=3D"noreferrer" target=3D"_blank">git.kernel.o=
+rg/pub/scm/linux/kernel/git/mszeredi/fuse.git#virtio-shm</a></blockquote><d=
+iv><br></div><div>Thanks, pull request sent.</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+Thanks,<br>
+Miklos<br>
+</blockquote></div></div>
+
+--00000000000032283305af4e9fb1--
+
+--===============1239914534==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1239914534==--
