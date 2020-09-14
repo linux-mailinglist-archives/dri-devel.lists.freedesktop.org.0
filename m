@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2A4269F43
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:08:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A0F269F3B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:08:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD5496E859;
-	Tue, 15 Sep 2020 07:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 851186E863;
+	Tue, 15 Sep 2020 07:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0846E5AB
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 20:45:18 +0000 (UTC)
-Message-Id: <20200914204441.888971282@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B5B6E5A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 20:45:17 +0000 (UTC)
+Message-Id: <20200914204441.994684356@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600116315;
+ s=2020; t=1600116316;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=8jOReEDZljlqa4dRpw6zeMP+ergwjtpRGdTwRrkKdMw=;
- b=vFnjOhcm6A5rkHvga94OSbt2wSr9aZ4/4+Gjp2chF1ha6JRKuOU3CNHmQq7Rg0ucK7RjRq
- d1D2Op6P1EtRbiw1cEqLOfkMOTw5M9OBQCUWIX2Vc7AfVnYS9V/tDPBpJkwrvrHwRdU1d7
- 7DUDLh3A28EHsBiZZaaiZ4XcKkxPFqmL/FjArWA/u2rDiLgyAiFFZv/ZPgW3uVZZIF0hNt
- SO4D6rz5myLzg+OIBie1VxAn7tKs9mhq1R5tw2SsZ+K8oofgfxbHrAuKz3D8rHzFCar81p
- rprjoEA30lfX7K/ss6o941PuhINzOHmOt/SOQ4kR19H9U8YiCZtP9wbcNIoZtg==
+ bh=TRrTJ1jZm0XUMVVVU/gV/azUYmKke4wyEiIzxYaskEw=;
+ b=3TD4iEAa5z0918ENIAD9UxVHjDn6ypjdORbq/o3MOziAQLn2y1ZnbIN+xIaEaHclb0As+g
+ 58l/uRb7XMMAuEbOSN2Ue4Kh8MReixiWlQi5uyvfUGUgvgpdIeI9d9iu/KlurZfPHgCQ16
+ TElbADAbR1FhIsJ8R5Mm6lfip/Blm699jZkGnbmpWLLZhJtUitEXrKx74t54p2WgINTc7J
+ Eyh7FNLevwbWXZVNvHaiTDEXkbaqKcDlPV1IJ9AaJsejXEHERuNWJg72je9bpL2lFGOLKa
+ tLZfD1PaRIHn/gSUkFHjmh94UUn70FgTc3BXS0N8kofNqvF8MBi3aOXfALZc7Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600116315;
+ s=2020e; t=1600116316;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=8jOReEDZljlqa4dRpw6zeMP+ergwjtpRGdTwRrkKdMw=;
- b=JU7ChlHF+O/eQcV9Z/9GQyaR7D5Z3O57wqZXnRf3e7Ecka8E/GQOwYqD+fJd5CXXar201W
- f9H0fImrNN7UHEDQ==
-Date: Mon, 14 Sep 2020 22:42:18 +0200
+ bh=TRrTJ1jZm0XUMVVVU/gV/azUYmKke4wyEiIzxYaskEw=;
+ b=bHJIqI1achWaHiH5/5wVKP2PP0lec8Ju34VdhGbJlNLEqtL/PZG2iVbcTXhNbUAOwhfTJu
+ lVgqSlRYWtmPO0Bw==
+Date: Mon, 14 Sep 2020 22:42:19 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 09/13] ARM: Clenaup PREEMPT_COUNT leftovers
+Subject: [patch 10/13] xtensa: Clenaup PREEMPT_COUNT leftovers
 References: <20200914204209.256266093@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 15 Sep 2020 07:07:18 +0000
@@ -55,7 +55,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Lai Jiangshan <jiangshanlai@gmail.com>, dri-devel@lists.freedesktop.org,
- Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
  linux-kselftest@vger.kernel.org, linux-hexagon@vger.kernel.org,
  Will Deacon <will@kernel.org>, Ingo Molnar <mingo@kernel.org>,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>, linux-arch@vger.kernel.org,
@@ -74,7 +74,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
  linux-arm-kernel@lists.infradead.org, Richard Henderson <rth@twiddle.net>,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Chris Zankel <chris@zankel.net>, linux-mm@kvack.org,
  Linus Torvalds <torvalds@linuxfoundation.org>, linux-alpha@vger.kernel.org,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -88,65 +88,24 @@ CONFIG_PREEMPT_COUNT is now unconditionally enabled and will be
 removed. Cleanup the leftovers before doing so.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Chris Zankel <chris@zankel.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: linux-xtensa@linux-xtensa.org
 ---
- arch/arm/include/asm/assembler.h   |   11 -----------
- arch/arm/kernel/iwmmxt.S           |    2 --
- arch/arm/mach-ep93xx/crunch-bits.S |    2 --
- 3 files changed, 15 deletions(-)
+ arch/xtensa/kernel/entry.S |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/arch/arm/include/asm/assembler.h
-+++ b/arch/arm/include/asm/assembler.h
-@@ -212,7 +212,6 @@
- /*
-  * Increment/decrement the preempt count.
-  */
--#ifdef CONFIG_PREEMPT_COUNT
- 	.macro	inc_preempt_count, ti, tmp
- 	ldr	\tmp, [\ti, #TI_PREEMPT]	@ get preempt count
- 	add	\tmp, \tmp, #1			@ increment it
-@@ -229,16 +228,6 @@
- 	get_thread_info \ti
- 	dec_preempt_count \ti, \tmp
- 	.endm
--#else
--	.macro	inc_preempt_count, ti, tmp
--	.endm
--
--	.macro	dec_preempt_count, ti, tmp
--	.endm
--
--	.macro	dec_preempt_count_ti, ti, tmp
--	.endm
--#endif
- 
- #define USERL(l, x...)				\
- 9999:	x;					\
---- a/arch/arm/kernel/iwmmxt.S
-+++ b/arch/arm/kernel/iwmmxt.S
-@@ -94,9 +94,7 @@ ENTRY(iwmmxt_task_enable)
- 	mov	r2, r2				@ cpwait
- 	bl	concan_save
- 
--#ifdef CONFIG_PREEMPT_COUNT
- 	get_thread_info r10
--#endif
- 4:	dec_preempt_count r10, r3
- 	ret	r9				@ normal exit from exception
- 
---- a/arch/arm/mach-ep93xx/crunch-bits.S
-+++ b/arch/arm/mach-ep93xx/crunch-bits.S
-@@ -191,9 +191,7 @@ ENTRY(crunch_task_enable)
- 	cfldr64		mvdx15, [r0, #CRUNCH_MVDX15]
- 
- 1:
--#ifdef CONFIG_PREEMPT_COUNT
- 	get_thread_info r10
--#endif
- 2:	dec_preempt_count r10, r3
- 	ret	lr
- 
+--- a/arch/xtensa/kernel/entry.S
++++ b/arch/xtensa/kernel/entry.S
+@@ -819,7 +819,7 @@ ENTRY(debug_exception)
+ 	 * preemption if we have HW breakpoints to preserve DEBUGCAUSE.DBNUM
+ 	 * meaning.
+ 	 */
+-#if defined(CONFIG_PREEMPT_COUNT) && defined(CONFIG_HAVE_HW_BREAKPOINT)
++#ifdef CONFIG_HAVE_HW_BREAKPOINT
+ 	GET_THREAD_INFO(a2, a1)
+ 	l32i	a3, a2, TI_PRE_COUNT
+ 	addi	a3, a3, 1
 
 _______________________________________________
 dri-devel mailing list
