@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDD2268DE9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 16:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40772268EFE
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 17:06:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1384E6E30C;
-	Mon, 14 Sep 2020 14:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579E56E30F;
+	Mon, 14 Sep 2020 15:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764906E30C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 14:38:37 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id q9so268667wmj.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 07:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IjbixCp8WGmBT3SSBXNg9iYLtFyktHTevtEOgRAv+nM=;
- b=IKWrEGPMkvOIRBJvq7P+qHsirCICQhZHjK4SMd8L89z7WJl3AaCKTBOUuCvGecVl0P
- xwRWgoxfzq7DhsOkZvKowFDCLXk6uxebub8YjiohF87nOTTcEmRN/hOdmRVDg/qW8M8q
- V4dOMDC1Nvz84JgW5PyT+b0+pn1pmhRN8tdW64iobd/6pvC6ps/JGKiZygtaCn07XMC8
- WyMmQHHY8gOv1PiZKGDaHRZp7QQ8mbHaCf4IbF19QjXI5OHSyhg84GMI4sNC44FfTx0X
- obrr8SnwUbXUYgseGoB2i3DX2QHzGDtmi4QWrO5m0uBhWAD7ky73RBF8Hua21hgbWbEv
- Ckdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IjbixCp8WGmBT3SSBXNg9iYLtFyktHTevtEOgRAv+nM=;
- b=XlvRSXCN2DUehP6gq2uQwLYg8B6wOpEmepqd6mBTN92YB8BuAlp8UutYOUqRcmxbWI
- 5qivJI/+yDB22OnaeYVhuXcfLUR5b7Ee7Q9vqXV8BgAEA7tqZOjeJOkBJzfGvo1CZMCo
- s6ZNEC403TAzyAYbXR7nLI0cjHOlvuMftIXxfU4WNXX+nPtoDxnSVjZt+UIetUth81Jo
- DbpYjoNZ6vIjy+VImsnTfupa2jynZcmFEDlWZ0/7uKPpC/mg1BWkeuj+Qs5ctMkhoaRS
- XEziDB0dsVJ92EWWtXpvPbMSGcWEECmUkxvN7xZL1JFft4rHh3ypOeYk4U8WO476BrEm
- ZX4A==
-X-Gm-Message-State: AOAM532YoelxxoAFowONgs3Ven5VbhXZVDKYRp9QP0JGES8pNksTDz+j
- hshSGbG9T+0+aDnvEqUMjWbj3UeyGOUHfAchpVM=
-X-Google-Smtp-Source: ABdhPJwt4jmqCaV+Ill0sL9RU/S2K0AO5ze6FDocrZJHp/LDJwVhputbTIG0xmEcREypMlt4lxGW/PxBOTkx0assvdI=
-X-Received: by 2002:a1c:a953:: with SMTP id s80mr15017533wme.70.1600094316094; 
- Mon, 14 Sep 2020 07:38:36 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960FB89F2A;
+ Mon, 14 Sep 2020 15:05:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 8FFDAB1DD;
+ Mon, 14 Sep 2020 15:06:10 +0000 (UTC)
+Subject: Re: [PATCH 01/20] drm/amdgpu: Introduce GEM object functions
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+ tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
+ thierry.reding@gmail.com, jonathanh@nvidia.com,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+ sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+ tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+ andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
+ aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
+ tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
+ miaoqinglang@huawei.com, emil.velikov@collabora.com
+References: <20200813083644.31711-1-tzimmermann@suse.de>
+ <20200813083644.31711-2-tzimmermann@suse.de>
+ <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de>
+Date: Mon, 14 Sep 2020 17:05:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
- <n5uMyyDW2WrhtODRwgsqla2mU-pP-gLV4vHHoIZzjvmzG17epyoBjSh8HxIcnaPAwIlRQZ7Aj7cuUz_iby97UlRMw-WAOss7k0oPQD8YPaQ=@emersion.fr>
- <20200910081836.GG438822@phenom.ffwll.local>
- <4ggVpoPfSS2JmnPLixWtD-1pcm-aPl0DBELYyqKh6boZxra-xibFZpLbxrykyvxFpW6xs5-R89O2iqdAgnoRaoMAs-DNOFRLKYWR-cZas2I=@emersion.fr>
- <CADnq5_PU71BTTEXFPLToySyub=5deOOpqBZkYZWO=7+Ht81HUw@mail.gmail.com>
- <20200914133235.GK6112@intel.com>
-In-Reply-To: <20200914133235.GK6112@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 14 Sep 2020 10:38:24 -0400
-Message-ID: <CADnq5_NLP9jLj3ce9gxrbHnW=GUBrgwgm+HyCjMvdumgq3W2ww@mail.gmail.com>
-Subject: Re: per-plane LUTs and CSCs?
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+In-Reply-To: <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +61,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0525593728=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgMTQsIDIwMjAgYXQgOTozMiBBTSBWaWxsZSBTeXJqw6Rsw6QKPHZpbGxlLnN5
-cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIE1vbiwgU2VwIDE0LCAyMDIwIGF0
-IDAyOjEzOjA5QU0gLTA0MDAsIEFsZXggRGV1Y2hlciB3cm90ZToKPiA+IE9uIFRodSwgU2VwIDEw
-LCAyMDIwIGF0IDQ6MjkgQU0gU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPiB3cm90ZToK
-PiA+ID4KPiA+ID4gT24gVGh1cnNkYXksIFNlcHRlbWJlciAxMCwgMjAyMCAxMDoxOCBBTSwgRGFu
-aWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+ID4KPiA+ID4gPiBPbiBUaHUs
-IFNlcCAxMCwgMjAyMCBhdCAwNzo1MDo1OUFNICswMDAwLCBTaW1vbiBTZXIgd3JvdGU6Cj4gPiA+
-ID4KPiA+ID4gPiA+IE9uIFdlZG5lc2RheSwgU2VwdGVtYmVyIDksIDIwMjAgMTI6NTcgUE0sIExh
-dXJlbnRpdSBQYWxjdSBsYXVyZW50aXUucGFsY3VAb3NzLm54cC5jb20gd3JvdGU6Cj4gPiA+ID4g
-Pgo+ID4gPiA+ID4gPiBIaSBhbGwsCj4gPiA+ID4gPiA+IEkgd2FzIHdvbmRlcmluZyB3aGV0aGVy
-IHlvdSBjb3VsZCBnaXZlIG1lIGFuIGFkdmlzZSBvbiBob3cgdG8gcHJvY2VlZCBmdXJ0aGVyCj4g
-PiA+ID4gPiA+IHdpdGggdGhlIGZvbGxvd2luZyBpc3N1ZSBhcyBJJ20gcHJlcGFyaW5nIHRvIHVw
-c3RyZWFtIHRoZSBuZXh0IHNldCBvZiBwYXRjaGVzCj4gPiA+ID4gPiA+IGZvciB0aGUgaU1YOE1R
-IGRpc3BsYXkgY29udHJvbGxlcihEQ1NTKS4gVGhlIGRpc3BsYXkgY29udHJvbGxlciBoYXMgMyBw
-bGFuZXMsCj4gPiA+ID4gPiA+IGVhY2ggd2l0aCAyIENTQ3MgYW5kIG9uZSBkZWdhbW1hIExVVC4g
-VGhlIENTQ3MgYXJlIGluIGZyb250IGFuZCBhZnRlciB0aGUgTFVUCj4gPiA+ID4gPiA+IHJlc3Bl
-Y3RpdmVseS4gVGhlbiB0aGUgb3V0cHV0IGZyb20gdGhvc2UgMyBwaXBlcyBpcyBibGVuZGVkIHRv
-Z2V0aGVyIGFuZCB0aGVuCj4gPiA+ID4gPiA+IGdhbW1hIGNvcnJlY3Rpb24gaXMgYXBwbGllZCB1
-c2luZyBhIGxpbmVhci10by1ub25saW5lYXIgTFVUIGFuZCBhbm90aGVyIENTQywgaWYKPiA+ID4g
-PiA+ID4gbmVlZGVkLgo+ID4gPiA+ID4gPiBDdXJyZW50bHksIGRvd25zdHJlYW0sIHdlIGhhdmUg
-YWxsIHRob3NlIENTQ3MgYW5kIExVVHMgaGFyZC1jb2RlZCBpbnRvIGEgaGVhZGVyCj4gPiA+ID4g
-PiA+IGZpbGUuIEJhc2VkIG9uIHRoZSBjb2xvcnNwYWNlLCByYW5nZSwgZ2FtdXQgc2VsZWN0ZWQg
-Zm9yIHRoZSBvdXRwdXQgYW5kL29yCj4gPiA+ID4gPiA+IHBsYW5lIGlucHV0LCB3ZSBwaWNrIHVw
-IHRoZSByaWdodCBDU0NzIGFuZCBMVVRzIGZyb20gdGhhdCBoZWFkZXIgZmlsZSB0bwo+ID4gPiA+
-ID4gPiBjb25maWd1cmUgb3VyIHBpcGVzLi4uIEkgZ3Vlc3MgdGhpcyBzb2x1dGlvbiBkb2VzIHRo
-ZSBqb2IsIHVzZXJzcGFjZSBkb2Vzbid0Cj4gPiA+ID4gPiA+IG5lZWQgdG8gY2FyZSBtdWNoIGFi
-b3V0IGhvdyB0byBnZW5lcmF0ZSB0aG9zZSB0YWJsZXMuIEJ1dCwgaXQncyBhbHNvIG5vdCB2ZXJ5
-Cj4gPiA+ID4gPiA+IGZsZXhpYmxlIGluIGNhc2UgdGhlcmUgaXMgYW4gYXBwIHNtYXJ0IGVub3Vn
-aCB0byBrbm93IGFuZCBhY3R1YWxseSBnZW5lcmF0ZQo+ID4gPiA+ID4gPiB0aGVpciBvd24gY3Vz
-dG9tIHRhYmxlcy4gOi8KPiA+ID4gPiA+ID4gTG9va2luZyB0aHJvdWdoIHRoZSBkcmktZGV2ZWwg
-YXJjaGl2ZXMsIEkndmUgc2VlbiB0aGF0IHRoZXJlIHdhcyBhIHRlbnRhdGl2ZSB0bwo+ID4gPiA+
-ID4gPiBpbXBsZW1lbnQgYSBtb3JlIG9yIGxlc3MgZ2VuZXJpYyBwZXItcGxhbmUgTFVUL0NTQyBz
-b2x1dGlvbiBidXQgaXQgZGlkbid0IG1ha2UKPiA+ID4gPiA+ID4gaXQgaW4gZHVlIHRvIGxhY2sg
-b2YgdXNlcnNwYWNlIGNvbnN1bWVycy4uLgo+ID4gPiA+ID4KPiA+ID4gPiA+IEFwYXJ0IGZyb20g
-ZnVsbCBjb2xvciBtYW5hZ2VtZW50IG1lbnRpb25lZCBieSBQZWtrYSwgYXJlIHRoZXJlIG90aGVy
-Cj4gPiA+ID4gPiB1c2UtY2FzZXMgZm9yIHRoZXNlIHBlci1wbGFuZSBwcm9wcz8KPiA+ID4gPiA+
-IE9uZSB0aGluZyBJIGNhbiB0aGluayBvZiBpcyB0aGF0IHNvbWUgZHJpdmVycyBhbm5veWluZ2x5
-IG9ubHkgYXBwbHkgdGhlCj4gPiA+ID4gPiBwZXItQ1JUQyBnYW1tYSBMVVQgdG8gdGhlIHByaW1h
-cnkgcGxhbmUuIEkgdGhpbmsgaXQgd291bGQgbWFrZSBtb3JlCj4gPiA+ID4gPiBzZW5zZSB0byBu
-b3QgYXR0YWNoIGEgZ2FtbWEgcHJvcCB0byB0aGUgQ1JUQyBhbmQgaW5zdGVhZCBvbmx5IGF0dGFj
-aCBpdAo+ID4gPiA+ID4gdG8gdGhlIHByaW1hcnkgcGxhbmUgdG8gbWFrZSB0aGF0IGNsZWFyLiBC
-dXQgSSBndWVzcyB0aGF0IHdvdWxkIGFsc28KPiA+ID4gPiA+IGJyZWFrIGV4aXN0aW5nIHVzZXIt
-c3BhY2U/Cj4gPiA+ID4KPiA+ID4gPiBVaCwgd2hpY2ggZHJpdmVycz8gVGhpcyB3b3VsZCBiZSBh
-IGRyaXZlciBidWcgKGFuZCB0aGVyZSdzIGJlZW4gcGxlbnR5IG9mCj4gPiA+ID4gdGhvc2Ugd2hl
-cmUgdGhlIGN1cnNvciBoYXMgdGhlIHdyb25nIGNvbG9yIHRlbXAgYW5kIGZ1biBzdHVmZiBsaWtl
-IHRoYXQpLgo+ID4gPiA+IFdlIG5lZWQgdG8gZml4IHRoZXNlIGRyaXZlciBpc3N1ZXMgaW5zdGVh
-ZCBvZiBsYW1lbnRpbmcgaW4gdXNlcnNwYWNlIHRoYXQKPiA+ID4gPiBpdCdzIGFsbCBraW5kYSBi
-cm9rZW4gOi0pCj4gPiA+Cj4gPiA+IEFwcGFyZW50bHkgdGhpcyBpcyBidWcgd2l0aCB0aGUgb2xk
-IHJhZGVvbiBkcml2ZXIgWzFdLiBJdCB3b3JrcyBmaW5lIG9uCj4gPiA+IGFsbCBpOTE1IHNldHVw
-cyBJJ3ZlIHRyaWVkLCBhbmQgYWxzbyB3b3JrcyBmaW5lIG9uIGFtZGdwdSAod2l0aCBEQykuCj4g
-PiA+Cj4gPiA+IEkndmUgb3BlbmVkIGEgcmFkZW9uIGJ1Zy4KPiA+ID4KPiA+ID4gWzFdOiBodHRw
-czovL2dpdGh1Yi5jb20vc3dheXdtL3dscm9vdHMvaXNzdWVzLzk2OAo+ID4KPiA+IFRoaXMgaXMg
-YSBoYXJkd2FyZSBsaW1pdGF0aW9uLiAgSSBzdXNwZW5kIGFsbCBoYXJkd2FyZSBvZiBhIGNlcnRh
-aW4KPiA+IGFnZSBoYWQgdGhpcyBzYW1lIGxpbWl0YXRpb24uICBPbGQgc3R1ZmYgZGlkbid0IGhh
-dmUgbXVsdGlwbGUgcGxhbmVzLgo+Cj4gVGhhdCBkb2Vzbid0IHNvdW5kIHJpZ2h0IHRvIG1lLiBt
-YWNoNjQgdnQvZ3QgYW5kIHJhZ2UxMjggaGFkIGFuCj4gb3ZlcmxheSBwbGFuZSBhbHJlYWR5LiBJ
-IGV2ZW4gdmFndWVseSByZW1lYmVyIHN0YXJpbmcgYXQgc29tZQo+IHJhZGVvbiBvdmVybGF5IGNv
-ZGUgYXQgc29tZSBwb2ludCB0aGlua2luZyAidGhhdCBzdHVmZiBsb29rcwo+IGlkZW50aWNhbCB0
-byB0aGUgcmFnZTEyOCBzdHVmZiwgd29uZGVyIHdoeSBpdCdzIG5vdCBzaGFyZWQgY29kZT8iLgo+
-CgpBaCwgeWVhaCwgc29ycnksIEkgZm9yZ290IGFib3V0IHRoYXQuICBXZSBkb24ndCBleHBvc2Ug
-dGhhdCB2aWEgS01TLgpBY3R1YWxseSByMTI4IGlzIGFsbW9zdCBpZGVudGljYWwgdG8gc29tZSBv
-ZiB0aGUgZWFybHkgcmFkZW9ucy4gIEkKYWN0dWFsbHkgaGFkIGEgZGR4IGJyYW5jaCB5ZWFycyBh
-Z28gd2hpY2ggYWRkZWQgcjEyOCBzdXBwb3J0IHRvCnhmODYtdmlkZW8tYXRpOgpodHRwczovL2Nn
-aXQuZnJlZWRlc2t0b3Aub3JnL35hZ2Q1Zi94Zjg2LXZpZGVvLWF0aS9sb2cvP2g9cjEyOC1zdXBw
-b3J0ClRoYXQgb3ZlcmxheSBwbGFuZSB3ZW50IGF3YXkgaW4gdGhlIHIzMDAgdGltZSBmcmFtZSBJ
-SVJDIGFzIGV2ZXJ5b25lCm1vdmVkIHRvIHVzaW5nIHRoZSAzRCBlbmdpbmUgZm9yIENTQyBhbmQg
-c2NhbGluZy4KCkFsZXgKCj4gPiBJdCBoYWQgYSBwcmltYXJ5IHBsYW5lIGFuZCBhIGN1cnNvciBh
-bmQgZ2FtbWEgZGlkbid0IGFwcGx5IHRvIHRoZQo+ID4gY3Vyc29yLgo+Cj4gVGhhdCBsYXN0IHBh
-cnQgSSBjYW4gYmVsaWV2ZS4KPgo+IC0tCj4gVmlsbGUgU3lyasOkbMOkCj4gSW50ZWwKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0525593728==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f
+Content-Type: multipart/mixed; boundary="zniUnHMaoWytGRm2jwIkKjV0oPt2fa9bx";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
+ tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
+ thierry.reding@gmail.com, jonathanh@nvidia.com,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
+ sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
+ tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
+ andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
+ aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
+ tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
+ miaoqinglang@huawei.com, emil.velikov@collabora.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ xen-devel@lists.xenproject.org
+Message-ID: <c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de>
+Subject: Re: [PATCH 01/20] drm/amdgpu: Introduce GEM object functions
+References: <20200813083644.31711-1-tzimmermann@suse.de>
+ <20200813083644.31711-2-tzimmermann@suse.de>
+ <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
+In-Reply-To: <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
+
+--zniUnHMaoWytGRm2jwIkKjV0oPt2fa9bx
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 13.08.20 um 12:22 schrieb Christian K=C3=B6nig:
+> Am 13.08.20 um 10:36 schrieb Thomas Zimmermann:
+>> GEM object functions deprecate several similar callback interfaces in
+>> struct drm_driver. This patch replaces the per-driver callbacks with
+>> per-instance callbacks in amdgpu. The only exception is gem_prime_mmap=
+,
+>> which is non-trivial to convert.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 6 ------
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 ++++++++++++
+>> =C2=A0 2 files changed, 12 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> index 81a79760ca61..51525b8774c9 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> @@ -1468,19 +1468,13 @@ static struct drm_driver kms_driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .lastclose =3D amdgpu_driver_lastclose_=
+kms,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .irq_handler =3D amdgpu_irq_handler,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ioctls =3D amdgpu_ioctls_kms,
+>> -=C2=A0=C2=A0=C2=A0 .gem_free_object_unlocked =3D amdgpu_gem_object_fr=
+ee,
+>> -=C2=A0=C2=A0=C2=A0 .gem_open_object =3D amdgpu_gem_object_open,
+>> -=C2=A0=C2=A0=C2=A0 .gem_close_object =3D amdgpu_gem_object_close,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_create =3D amdgpu_mode_dumb_creat=
+e,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_map_offset =3D amdgpu_mode_dumb_m=
+map,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fops =3D &amdgpu_driver_kms_fops,
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_handle_to_fd =3D drm_gem_=
+prime_handle_to_fd,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_fd_to_handle =3D drm_gem_prime_f=
+d_to_handle,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_export =3D amdgpu_gem_prime_export,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_import =3D amdgpu_gem_prime_=
+import,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_vmap =3D amdgpu_gem_prime_vmap,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_vunmap =3D amdgpu_gem_prime_vunmap,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_mmap =3D amdgpu_gem_prime_mm=
+ap,
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D DRIVER_NAME,
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> index 43f4966331dd..ca2b79f94e99 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> @@ -36,6 +36,7 @@
+>> =C2=A0 #include <drm/amdgpu_drm.h>
+>> =C2=A0 #include <drm/drm_cache.h>
+>> =C2=A0 #include "amdgpu.h"
+>> +#include "amdgpu_dma_buf.h"
+>> =C2=A0 #include "amdgpu_trace.h"
+>> =C2=A0 #include "amdgpu_amdkfd.h"
+>> =C2=A0 @@ -510,6 +511,15 @@ bool amdgpu_bo_support_uswc(u64 bo_flags)
+>> =C2=A0 #endif
+>> =C2=A0 }
+>> =C2=A0 +static const struct drm_gem_object_funcs amdgpu_gem_object_fun=
+cs =3D {
+>> +=C2=A0=C2=A0=C2=A0 .free =3D amdgpu_gem_object_free,
+>> +=C2=A0=C2=A0=C2=A0 .open =3D amdgpu_gem_object_open,
+>> +=C2=A0=C2=A0=C2=A0 .close =3D amdgpu_gem_object_close,
+>> +=C2=A0=C2=A0=C2=A0 .export =3D amdgpu_gem_prime_export,
+>> +=C2=A0=C2=A0=C2=A0 .vmap =3D amdgpu_gem_prime_vmap,
+>> +=C2=A0=C2=A0=C2=A0 .vunmap =3D amdgpu_gem_prime_vunmap,
+>> +};
+>> +
+>=20
+> Wrong file, this belongs into amdgpu_gem.c
+>=20
+>> =C2=A0 static int amdgpu_bo_do_create(struct amdgpu_device *adev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo_param *=
+bp,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo **bo_pt=
+r)
+>> @@ -552,6 +562,8 @@ static int amdgpu_bo_do_create(struct
+>> amdgpu_device *adev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D kzalloc(sizeof(struct amdgpu_bo)=
+, GFP_KERNEL);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bo =3D=3D NULL)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;=
+
+>> +
+>> +=C2=A0=C2=A0=C2=A0 bo->tbo.base.funcs =3D &amdgpu_gem_object_funcs;
+>=20
+> And this should probably go into amdgpu_gem_object_create().
+
+I'm trying to understand what amdgpu does.  What about all the places
+where amdgpu calls amdgpu_bo_create() internally? Wouldn't these miss
+the free callback for the GEM object?
+
+Best regards
+Thomas
+
+>=20
+> Apart from that looks like a good idea to me.
+>=20
+> Christian.
+>=20
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_private_object_init(adev->ddev,=
+ &bo->tbo.base, size);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_LIST_HEAD(&bo->shadow_list);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo->vm_bo =3D NULL;
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--zniUnHMaoWytGRm2jwIkKjV0oPt2fa9bx--
+
+--MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9fhs0UHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPJNAgAlfJhPTx8SHwyCGcF7SoXCxqFUag5
+/hXG2aWBOQj0PGNIWjEqH/FwrQApUbBmpbBWXncgOJjyevY1bY3RXSi+ibAW263g
+1lb0Cf5fR55oudCzfJIiQhM5nXHpnbDTdEq1kVtVf4mD3cn1eyPWtOgpXIklFs+w
+YSnklFEtZsXQnHs9whrVXf1UPUoecKtVRfIflZBfGttuRdODIknW+9iFA/+QYggh
+4WsKIHEpME3IpnfYOqS6yZ3oqcKeROalr2HZ6EUy/NaixshxCZxnLQVMNWx7saKP
+aygn2TEK3CwcBwiYGlPcx3/VFCRdviSNuxDmkZ5CV3ceT5gUjE0suBVVaA==
+=QxSN
+-----END PGP SIGNATURE-----
+
+--MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f--
+
+--===============0525593728==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0525593728==--
