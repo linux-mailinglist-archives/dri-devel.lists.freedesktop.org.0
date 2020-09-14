@@ -2,112 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053F3268909
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 12:14:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C6E268935
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 12:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257E689E43;
-	Mon, 14 Sep 2020 10:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50E5F89EEB;
+	Mon, 14 Sep 2020 10:24:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A3389E43
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 10:14:38 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20200914101436epoutp048ed6ad15f042bb8f3a8a0898a871e57f~0nuWGHjPc1823818238epoutp04z
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 10:14:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20200914101436epoutp048ed6ad15f042bb8f3a8a0898a871e57f~0nuWGHjPc1823818238epoutp04z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1600078476;
- bh=JFHh/aJHJSOEUE3wBLBZ6+XAzqIP08cbJ7dL1Svgqao=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=rAs2IW9v784QA/xtKYnVMbpBeje2nT3hMDCjmkHwvpseauIqiTGs+14SDbRIo/uKr
- EGm5nEkOnfpJ8qUawlUKPuRYlYsSPNjFgoL7vrKy/Ec4XTaWXpM3IhBa7U6wy+cf97
- dQaU3T1MYv1rrn84C7I9vO6hQsO6OeKgtES+qp38=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200914101435epcas1p29a76292724b3aebe9fa62a6978516562~0nuVfGzO20504705047epcas1p2T;
- Mon, 14 Sep 2020 10:14:35 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.153]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4Bqhzr3GkYzMqYkb; Mon, 14 Sep
- 2020 10:14:32 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- 32.66.20696.8824F5F5; Mon, 14 Sep 2020 19:14:32 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200914101431epcas1p1bacd96c32698402f3cf7f548e2c56671~0nuR0b0M90884808848epcas1p1d;
- Mon, 14 Sep 2020 10:14:31 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200914101431epsmtrp12098a071dd1bd3eac40dd1efb35af723~0nuRywuSy0253402534epsmtrp1D;
- Mon, 14 Sep 2020 10:14:31 +0000 (GMT)
-X-AuditID: b6c32a39-eebff700000050d8-39-5f5f4288194f
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 68.9B.08303.7824F5F5; Mon, 14 Sep 2020 19:14:31 +0900 (KST)
-Received: from [10.113.111.64] (unknown [10.113.111.64]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200914101431epsmtip10d235e40b1f3db804a825a4cd432d310~0nuRaqj8U2917329173epsmtip1D;
- Mon, 14 Sep 2020 10:14:31 +0000 (GMT)
-Subject: Re: [PATCH v5 00/80] drm/vc4: Support BCM2711 Display Pipeline
-To: Maxime Ripard <maxime@cerno.tech>
-From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Message-ID: <3e113525-aa89-b1e2-56b7-ca55bd41d057@samsung.com>
-Date: Mon, 14 Sep 2020 19:14:11 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D6289EEB
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 10:24:21 +0000 (UTC)
+IronPort-SDR: ntlw2zGbpS72fDKDcXC1xcgkuFWUBiGM4ou0BOgZfKLKPbzYrk6nfDP4AxgZvAMUK86BbpFVsh
+ 72JwoBD+K/gg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="146794704"
+X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; d="scan'208";a="146794704"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2020 03:24:20 -0700
+IronPort-SDR: QcyP07RF3LAU/PI2J/duytNCtP6tKMncHxoFHjpptViBWJHxO3DuUntzK/+Rvdd1QVz+Pb6Jl6
+ pX2V7TlmncCw==
+X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; d="scan'208";a="450820403"
+Received: from akeogh1-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.27.129])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2020 03:24:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Abhinav Kumar <abhinavk@codeaurora.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/4] Add support for video pattern DP CTS to MSM DP
+In-Reply-To: <20200903224328.26452-1-abhinavk@codeaurora.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200903224328.26452-1-abhinavk@codeaurora.org>
+Date: Mon, 14 Sep 2020 13:24:21 +0300
+Message-ID: <875z8gzmei.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200908120019.3rmhzoijoijrbb7d@gilmour.lan>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUwbZRzHeXrX6zFTdsCAJ+i0HBu6aaEFCgeBbbo5b9EYiHFTcSkHvVGk
- tF2Pt7mYVQhL7VZeMg1bAcE4BCodWBApjjBeJmGLEAPB2MkIeyGCq8AQZoYMW45F/vv8Xr73
- ve89z+FIwAwWimdr81iDltGQ2Da0c2BPlNT0mlIpu303mLJbrqOUu/ZrlKobHBFS48vzGHXt
- 0zFAzTeaMco5bkcpx90JITXWXYNRlbfaRNTFf54AqtPaiFFXXH9iVGnPoIh6MvEdSnV92Qeo
- O19MgQP+dPH8TxhtnfoZo38fGcVop3VSRDtsn2H01LkhAd1++Qxdev0xSpd12ADdfvM0veR4
- PuWZD3KS1CyjYg0SVpupU2Vrs5LJN99RHlQq4mRyqTyBiiclWiaXTSYPvZUiPZyt8YQiJQWM
- Jt/TSmE4jozal2TQ5eexErWOy0smWb1Ko0/QR3JMLpevzYrM1OUmymWyaIVnMT1HPVM/iemH
- w4vKvqlBjGBgpxn44pCIhQ3FDpEZbMMDiC4AV1onN4uHAP5g78b4YgnArrV58FTSYl5H+EE3
- gGttPShfuAH8fHpMaAY4Hki8AY2OeK9gB7Ebjlt6NgQIsYDC0sejiHeAEVK4fP5XgZfFxD44
- 1taCeRn1CFr/rdngIOJ96Lw/K+J3/OHwpXuo9/m+RCJ8VLbf20aIF2DJ99UIzyHQda9O4PWC
- xDoOb9rNGP/Wh+DIeq+Q50A4N9Qh4jkUzpaf3WQOjl+aQ3mxEcDyyurNQQzsbbgg8BojxB7Y
- 2h3Ft8Ogc7UW8MZ+8K/l8xvZISGGprMB/EoEnDFe27R9Dt6wNAp4pqGtbwapAGHWLcmsW+JY
- t8Sx/m9cD1AbCGb1XG4Wy8n1iq2n7QAbF35vQheoci9E9gMBDvoBxBFyh/h11XFlgFjFnPqY
- NeiUhnwNy/UDhedbVyKhQZk6zx+jzVPKFdExMTFUrDxOIZeTIeJpl0QZQGQxeWwOy+pZw1Od
- APcNNQqOujJsrcJnqxca1DeizzTFL9VUjZraM77ys4tPWF6633suMvpdS1qhAOtVf2J/mOh0
- R2Gpc0Wdp08ZzcPli6slyH6JRPJ31e7SldAjxa92lqmOFzyqNLkjjVdnXeDKUnDYe78JdrVF
- YIUpFesfCpvSWpNWHvQPFBZJmvtuxwIjoyl3Uf63/kgIyfglPfXFobcD+09EG1d36eqSG6Wy
- rlS3f5+sY/ngaPOxwXafYVLl95F76XL2zpQj4RU5dySugqbtLdLpme5jr6jCXVFxuRGTa7aT
- eOei0WR6cNRZMlFW6zpg69h+Qds30Jzmk94bG/Sjz8hK2krhyfr1+auLL3/rQ6KcmpHvRQwc
- 8x8nIOcreQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMIsWRmVeSWpSXmKPExsWy7bCSnG67U3y8wcRmeYu1vUdZLN7OXcxi
- Mf/IOVaLK1/fs1kcaLzMaPF+eRebxc4ra1ksNj2+xmpxedccNouJtzewW8z48Y/RYtus5WwW
- 6269ZrNo3XuE3eLftY0sFjvmHWS0eDT1PqODoEfT+2NsHrPun2XzuHPuPJvHzll32T02repk
- 87jffZzJY/OSeo/Wo79YPPq2rGL02Hy62uPzJrkA7igum5TUnMyy1CJ9uwSujGcL7rIVnFSu
- 6Fs2h7mB8bBsFyMnh4SAicSarv/MXYxcHEICOxgleg4eYoJIyEis6t/C2sXIAWQLSxw+XAxR
- 85pR4kjbY0aQuLCAu0TDJnOQchEBVYkrvXvB5jALfGCRuN35nA2iYS6TxJ2nc1hAqtgEdCW+
- 9lwHW8ArYCdxecMaNhCbBah7/Z85bCBDRQUiJXbusIQoEZQ4OfMJC0iYU8BK4nufPUiYWcBM
- Yt7mh8wQtrxE89bZULa4xK0n85kmMArNQtI9C0nLLCQts5C0LGBkWcUomVpQnJueW2xYYJSX
- Wq5XnJhbXJqXrpecn7uJERzPWlo7GPes+qB3iJGJg/EQowQHs5IIr2tKbLwQb0piZVVqUX58
- UWlOavEhRmkOFiVx3q+zFsYJCaQnlqRmp6YWpBbBZJk4OKUamGxy2s4FTl5bv4dx/YUZN9le
- 7BOc3TL7Z6vw1HdpLdnqli84zVaxXzPfKiDpuyRmvcQJxj8tb/PuVi6svckrmV2aGtfOo1X1
- 4nDqMasi5py5QWUiHX+rguRer9Ve939u7fRNHOeuhX7UnnvSuHOLfT1b7RWjrjr/LxvXOzTb
- hxTn/F/CdOhRl4Xfy4tzzB0k9rzbvHCPuepKY62CzwuWr9xxcq/NTJ/YXptjEq58z9SZ5/lv
- Pu39fPUzu9KyI57MDYdMVcq/P5RtqkmV2cf+2anNqlajVWVC0bJ7W/5IrX/+KvjXhfnvjJof
- VGR1izhZ+t7/Js0RFpbRqL249YHwRvnNb2xnSxXt416/Z17/bCWW4oxEQy3mouJEAMFcw5dW
- AwAA
-X-CMS-MailID: 20200914101431epcas1p1bacd96c32698402f3cf7f548e2c56671
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200904071259epcas1p3de4209531c0bc5ed6ea9ef19827b6ed5
-References: <CGME20200904071259epcas1p3de4209531c0bc5ed6ea9ef19827b6ed5@epcas1p3.samsung.com>
- <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
- <cca5234f-e1e8-b642-048b-b710f402409d@samsung.com>
- <20200908120019.3rmhzoijoijrbb7d@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,99 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Kamal Dasu <kdasu.kdev@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- =?UTF-8?B?64KY7ISx6rWt?= <sungguk.na@samsung.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, tanmay@codeaurora.org, swboyd@chromium.org,
+ khsieh@codeaurora.org, seanpaul@chromium.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, aravindh@codeaurora.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF4aW1lLAoKT24gOS84LzIwIDk6MDAgUE0sIE1heGltZSBSaXBhcmQgd3JvdGU6Cj4gSGkg
-SG9lZ2V1biwKPgo+IE9uIE1vbiwgU2VwIDA3LCAyMDIwIGF0IDA4OjQ5OjEyUE0gKzA5MDAsIEhv
-ZWdldW4gS3dvbiB3cm90ZToKPj4gT24gOS8zLzIwIDU6MDAgUE0sIE1heGltZSBSaXBhcmQgd3Jv
-dGU6Cj4+PiBIaSBldmVyeW9uZSwKPj4+Cj4+PiBIZXJlJ3MgYSAocHJldHR5IGxvbmcpIHNlcmll
-cyB0byBpbnRyb2R1Y2Ugc3VwcG9ydCBpbiB0aGUgVkM0IERSTSBkcml2ZXIKPj4+IGZvciB0aGUg
-ZGlzcGxheSBwaXBlbGluZSBmb3VuZCBpbiB0aGUgQkNNMjcxMSAoYW5kIHRodXMgdGhlIFJhc3Bi
-ZXJyeVBpIDQpLgo+Pj4KPj4+IFRoZSBtYWluIGRpZmZlcmVuY2VzIGFyZSB0aGF0IHRoZXJlJ3Mg
-dHdvIEhETUkgY29udHJvbGxlcnMgYW5kIHRoYXQgdGhlcmUncwo+Pj4gbW9yZSBwaXhlbHZhbHZl
-IG5vdy4gVGhvc2UgcGl4ZWx2YWx2ZSBjb21lIHdpdGggYSBtdXggaW4gdGhlIEhWUyB0aGF0IHN0
-aWxsCj4+PiBoYXZlIG9ubHkgMyBGSUZPcy4gQm90aCBvZiB0aG9zZSBkaWZmZXJlbmNlcyBhcmUg
-YnJlYWtpbmcgYSBidW5jaCBvZgo+Pj4gZXhwZWN0YXRpb25zIGluIHRoZSBkcml2ZXIsIHNvIHdl
-IGZpcnN0IG5lZWQgYSBnb29kIGJ1bmNoIG9mIGNsZWFudXAgYW5kCj4+PiByZXdvcmtzIHRvIGlu
-dHJvZHVjZSBzdXBwb3J0IGZvciB0aGUgbmV3IGNvbnRyb2xsZXJzLgo+Pj4KPj4+IFNpbWlsYXJs
-eSwgdGhlIEhETUkgY29udHJvbGxlciBoYXMgYWxsIGl0cyByZWdpc3RlcnMgc2h1ZmZsZWQgYW5k
-IHNwbGl0IGluCj4+PiBtdWx0aXBsZSBjb250cm9sbGVycyBub3csIHNvIHdlIG5lZWQgYSBidW5j
-aCBvZiBjaGFuZ2VzIHRvIHN1cHBvcnQgdGhpcyBhcwo+Pj4gd2VsbC4KPj4+Cj4+PiBPbmx5IHRo
-ZSBIRE1JIHN1cHBvcnQgaXMgZW5hYmxlZCBmb3Igbm93IChldmVuIHRob3VnaCB0aGUgRFBJIGFu
-ZCBEU0kKPj4+IG91dHB1dHMgaGF2ZSBiZWVuIHRlc3RlZCB0b28pLgo+Pj4KPj4+IExldCBtZSBr
-bm93IGlmIHlvdSBoYXZlIGFueSBjb21tZW50cwo+Pj4gTWF4aW1lCj4+Pgo+Pj4gQ2M6IGJjbS1r
-ZXJuZWwtZmVlZGJhY2stbGlzdEBicm9hZGNvbS5jb20KPj4+IENjOiBkZXZpY2V0cmVlQHZnZXIu
-a2VybmVsLm9yZwo+Pj4gQ2M6IEthbWFsIERhc3UgPGtkYXN1LmtkZXZAZ21haWwuY29tPgo+Pj4g
-Q2M6IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4+PiBDYzogUm9iIEhl
-cnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz4KPj4+IENjOiBTdGVwaGVuIEJveWQgPHNib3lkQGtl
-cm5lbC5vcmc+Cj4+Pgo+Pj4gQ2hhbmdlcyBmcm9tIHY0Ogo+Pj4gICAgIC0gUmViYXNlZCBvbiB0
-b3Agb2YgbmV4dC0yMDIwMDgyOAo+Pj4gICAgIC0gQ29sbGVjdGVkIHRoZSB2YXJpb3VzIHRhZ3MK
-Pj4+ICAgICAtIEZpeGVkIHNvbWUgaXNzdWVzIHdpdGggNGsgc3VwcG9ydCBhbmQgZHVhbCBvdXRw
-dXQgKHRoYW5rcyBIb2VnZXVuISkKPj4gVGhhbmtzIGZvciB5b3VyIHY1IHBhdGNoc2V0Lgo+Pgo+
-PiBJIHRlc3RlZCBhbGwgcGF0Y2hlcyBiYXNlZCBvbiB0aGUgbmV4dC0yMDIwMDgxMi4KPiBUaGFu
-a3MgYWdhaW4gZm9yIHRlc3RpbmcgYWxsIHRoZSBwYXRjaGVzCj4KPj4gRXZlcnl0aGluZyBlbHNl
-IGlzIGZpbmUsIGJ1dCB0aGUgZHVhbCBoZG1pIG1vZGV0ZXN0IGRvZXNuJ3Qgd29yayB3ZWxsIGlu
-IG15Cj4+IGVudmlyb25tZW50Li4uCj4+Cj4+IEluIG15IGVudmlyb25tZW50LCBkc2kgaXMgbm90
-IGNvbm5lY3RlZCwgSSBoYXZlIHNlZW4geW91ciBhbnN3ZXJbMV0uCj4gQ2FuIHlvdSBzaGFyZSBh
-IGJpdCBtb3JlIHlvdXIgc2V0dXA/IFdoYXQgbW9uaXRvcnMgYXJlIGJlaW5nIGNvbm5lY3RlZAo+
-IHRvIGVhY2ggSERNSSBwb3J0PyBEbyB5b3UgaG90cGx1ZyBhbnk/ClllcywgTW9uaXRvcnMgYXJl
-IGJlaW5nIGNvbm5lY3RlZCB0byBlYWNoIEhETUkgcG9ydHMuIChkaWQgbm90IHVzZSBob3RwbHVn
-KQoKV2hlbiBib290aW5nLCBib3RoIEhETUktMCBhbmQgMSBhcmUgcmVjb2duaXplZCBhbmQgdGhl
-IGtlcm5lbCBsb2cgaXMgb3V0cHV0LgpCdXQgYWZ0ZXIgcnVuIG1vZGV0ZXN0IG9uIEhETUktMCh3
-b3JrcykgYW5kIG1vZGV0ZXN0IG9uIEhETUktMSh3b3JrcyksCmNydGMgdGltZWQgb3V0IG9jY3Vy
-cyBvbiBIRE1JLTAgYW5kIGRvZXMgbm90IHdvcmsuCgpXaGVuIEhETUktMCBpcyBub3Qgd29ya2lu
-ZyB3ZSBkbyBhIG1vZGV0ZXN0IG9uIEhETUktMCwgaXQgd2lsbCB3b3JrIGFnaW4KYWZ0ZXIgYWJv
-dXQgNDAgc2VjLgoKQmVsb3cgaXMgdGhlIGxvZyBmb3IgbW9kZXRlc3QuCgoKcm9vdDp+PiBtb2Rl
-dGVzdCAtTXZjNCAtcyAzMjoxMjgweDcyMCDCoMKgwqAgwqDCoMKgIC0gSERNSS0wIHdvcmtzCnNl
-dHRpbmcgbW9kZSAxMjgweDcyMC02MEh6QFhSMjQgb24gY29ubmVjdG9ycyAzMiwgY3J0YyA2NApm
-YWlsZWQgdG8gc2V0IGdhbW1hOiBJbnZhbGlkIGFyZ3VtZW50Cgpyb290On4+IG1vZGV0ZXN0IC1N
-dmM0IC1zIDMyOjEyODB4NzIwIMKgwqDCoCDCoMKgwqAgLSBIRE1JLTAgd29ya3MKc2V0dGluZyBt
-b2RlIDEyODB4NzIwLTYwSHpAWFIyNCBvbiBjb25uZWN0b3JzIDMyLCBjcnRjIDY0CmZhaWxlZCB0
-byBzZXQgZ2FtbWE6IEludmFsaWQgYXJndW1lbnQKCnJvb3Q6fj4gbW9kZXRlc3QgLU12YzQgLXMg
-Mzg6MTI4MHg3MjAgwqDCoMKgIMKgwqDCoCAtIEhETUktMSB3b3JrcwpzZXR0aW5nIG1vZGUgMTI4
-MHg3MjAtNjBIekBYUjI0IG9uIGNvbm5lY3RvcnMgMzgsIGNydGMgNjkKZmFpbGVkIHRvIHNldCBn
-YW1tYTogSW52YWxpZCBhcmd1bWVudAoKIMKgwqDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAg
-wqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIC0gQ3J0YyB0aW1lZCBvdXQgb2NjdXJzIG9uIEhE
-TUktMCBhbmQgCmRvZXMgbm90IHdvcmsuCgpbwqDCoCA3MS4xMzQyODNdIFtkcm06ZHJtX2F0b21p
-Y19oZWxwZXJfd2FpdF9mb3JfZmxpcF9kb25lXSAqRVJST1IqIApbQ1JUQzo2NDpjcnRjLTNdIGZs
-aXBfZG9uZSB0aW1lZCBvdXQKW8KgwqAgODEuMzc0Mjk2XSBbZHJtOmRybV9hdG9taWNfaGVscGVy
-X3dhaXRfZm9yX2RlcGVuZGVuY2llc10gKkVSUk9SKiAKW0NSVEM6NjQ6Y3J0Yy0zXSBmbGlwX2Rv
-bmUgdGltZWQgb3V0ClvCoMKgIDkxLjYxODM4MF0gW2RybTpkcm1fYXRvbWljX2hlbHBlcl93YWl0
-X2Zvcl9kZXBlbmRlbmNpZXNdICpFUlJPUiogCltDT05ORUNUT1I6MzI6SERNSS1BLTFdIGZsaXBf
-ZG9uZSB0aW1lZCBvdXQKW8KgIDEwMS44NTQyNzRdIFtkcm06ZHJtX2F0b21pY19oZWxwZXJfd2Fp
-dF9mb3JfZGVwZW5kZW5jaWVzXSAqRVJST1IqIApbUExBTkU6NjA6cGxhbmUtM10gZmxpcF9kb25l
-IHRpbWVkIG91dAoKW8KgIDExMi4wOTQyNzFdIFtkcm06ZHJtX2F0b21pY19oZWxwZXJfd2FpdF9m
-b3JfZmxpcF9kb25lXSAqRVJST1IqIApbQ1JUQzo2NDpjcnRjLTNdIGZsaXBfZG9uZSB0aW1lZCBv
-dXQKW8KgIDEyMi41OTAzMTFdIFtkcm06ZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfZGVwZW5k
-ZW5jaWVzXSAqRVJST1IqIApbQ1JUQzo2NDpjcnRjLTNdIGZsaXBfZG9uZSB0aW1lZCBvdXQKCnJv
-b3Q6fj4gbW9kZXRlc3QgLU12YzQgLXMgMzI6MTI4MHg3MjAKW8KgIDEzMi44MzAzMDldIFtkcm06
-ZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfZGVwZW5kZW5jaWVzXSAqRVJST1IqIApbQ09OTkVD
-VE9SOjMyOkhETUktQS0xXSBmbGlwX2RvbmUgdGltZWQgb3V0ClvCoCAxNDMuMDcwMzA3XSBbZHJt
-OmRybV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX2RlcGVuZGVuY2llc10gKkVSUk9SKiAKW1BMQU5F
-OjYwOnBsYW5lLTNdIGZsaXBfZG9uZSB0aW1lZCBvdXQKW8KgIDE1My4zMTAzMDNdIFtkcm06ZHJt
-X2F0b21pY19oZWxwZXJfd2FpdF9mb3JfZmxpcF9kb25lXSAqRVJST1IqIApbQ1JUQzo2NDpjcnRj
-LTNdIGZsaXBfZG9uZSB0aW1lZCBvdXQKc2V0dGluZyBtb2RlIDEyODB4NzIwLTYwSHpAWFIyNCBv
-biBjb25uZWN0b3JzIDMyLCBjcnRjIDY0ClvCoCAxNjMuNTUwMzQwXSBbZHJtOmRybV9hdG9taWNf
-aGVscGVyX3dhaXRfZm9yX2RlcGVuZGVuY2llc10gKkVSUk9SKiAKW0NSVEM6NjQ6Y3J0Yy0zXSBm
-bGlwX2RvbmUgdGltZWQgb3V0ClvCoCAxNzMuNzkwMjc3XSBbZHJtOmRybV9hdG9taWNfaGVscGVy
-X3dhaXRfZm9yX2RlcGVuZGVuY2llc10gKkVSUk9SKiAKW0NPTk5FQ1RPUjozMjpIRE1JLUEtMV0g
-ZmxpcF9kb25lIHRpbWVkIG91dApbwqAgMTg0LjAzMDI4Nl0gW2RybTpkcm1fYXRvbWljX2hlbHBl
-cl93YWl0X2Zvcl9kZXBlbmRlbmNpZXNdICpFUlJPUiogCltQTEFORTo2MDpwbGFuZS0zXSBmbGlw
-X2RvbmUgdGltZWQgb3V0CmZhaWxlZCB0byBzZXQgZ2FtbWE6IEludmFsaWQgYXJndW1lbnQgwqDC
-oMKgIMKgwqDCoCAtIEhETUktMCB3b3JrcwoKCkJlc3QgcmVnYXJkcywKSG9lZ2V1bgoKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, 03 Sep 2020, Abhinav Kumar <abhinavk@codeaurora.org> wrote:
+> Add support for video pattern Display Port Compliance tests to
+> MSM DP driver.
+
+FWIW, I find it useful to prefix the cover letter subject line with the
+usual git log prefixes, e.g. "drm/msm/dp", so people can filter their
+mails better.
+
+
+BR,
+Jani.
+
+
+> Abhinav Kumar (4):
+>   drm/msm/dp: add debugfs support to DP driver
+>   drm/msm/dp: move debugfs node to /sys/kernel/debug/dri/*/
+>   drm/msm/dp: add debugfs nodes for video pattern tests
+>   drm/msm/dp: remove mode hard-coding in case of DP CTS
+>
+>  drivers/gpu/drm/msm/Makefile            |   3 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |   7 +
+>  drivers/gpu/drm/msm/dp/dp_debug.c       | 485 ++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_debug.h       |  74 ++++
+>  drivers/gpu/drm/msm/dp/dp_display.c     |  28 +-
+>  drivers/gpu/drm/msm/dp/dp_link.c        |   2 +-
+>  drivers/gpu/drm/msm/dp/dp_link.h        |  23 ++
+>  drivers/gpu/drm/msm/dp/dp_panel.c       |  46 +--
+>  drivers/gpu/drm/msm/msm_drv.h           |   2 +
+>  9 files changed, 617 insertions(+), 53 deletions(-)
+>  create mode 100644 drivers/gpu/drm/msm/dp/dp_debug.c
+>  create mode 100644 drivers/gpu/drm/msm/dp/dp_debug.h
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
