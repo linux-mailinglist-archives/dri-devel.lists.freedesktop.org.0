@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D0E268C30
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 15:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2D1268C33
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 15:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 987EF89709;
-	Mon, 14 Sep 2020 13:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669FD89A88;
+	Mon, 14 Sep 2020 13:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD9389709
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 13:29:30 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id g4so17638483edk.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 06:29:30 -0700 (PDT)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6388889709
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 13:29:31 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id a12so17566309eds.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 06:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O337qWgiQtRxWseaQqzKcsApKROYygDiI0vsqDOyWvw=;
- b=FJYW5Zpkr+69Ontc35YOWyp+mL3+YJfwB6//npnOq0Ga13hSRTyG9rqdWj4+XoSTwl
- 0uaNEpWiH5ReO87er2LlifBH3NPFWwDgSJtyPPqhcyG9S/rx7NEmE2AK4OmD6az3c7DC
- ECmjZ+seRByPUAp7C5IfbE7h8FYRsyZttir92Zt789sOyIpU3j3rWB5nvqqs7dr7cMO7
- peRappoBTy37hf78g1FzRQmgX/YXKNbYhx8gcXWfsYlOOW3rf6mbLtBBMJyHEnWS3jjd
- 9WjyGB1FJEwRD3WS9vt6zSYCrduQ5EHUPtPT6cB1Pg5lJ5U61W3Gr9AcU4++WYHupOt9
- R9ZQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ShM3ina3e3/hH7dOyVac4CL9sFVc4RQd6mh3jLnIlg0=;
+ b=pUG+6EgLO2UPiBn6Yk4D2WmMQ/2yB7GdzCr1j99p7omOVBGUkd7OME2Fcch33BqK1h
+ kRoISKMKO5KS64Eoe/fHBFeNwV6nFMzIKjBkMfXBmA4CS+3/ttEr8EbhVHNz9ZsbSKC+
+ tYgEBRJJqVRXOcxWBasjfP0giKeqzan4zln/A47HPqfQB6JFTqJfBGpbRUO/fyQwbUal
+ UdqQUeN+a9jSnmr+R3MdQ6PbF9DaVnJ+dE5LVNIofNGl83vr4fPPxwNAhIod4K+nZZ4S
+ S/jizlrTm17N+FilPGRnJONY9iEJiG9iXj+/8ipwpTSCARh5J35nyMCPQkiynXVYWbZ+
+ uZLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O337qWgiQtRxWseaQqzKcsApKROYygDiI0vsqDOyWvw=;
- b=JqumAYjH3WVtGyb/RKFAQ1J+Pe+lPM+8s/r6beV22XhqGiAE6ITFB7mlbJtm/jlUsp
- qfxAQgno4NfGT2REh1EtrJWckLqabg/WPdKTuP9VkliIO5asVziklvs4MMI2jIRK7ma5
- wo4AFekPO0Ra3Hx2AGjevvcTrRiXaR7ciiJnzKnnz4JyjlKWPO2oqQA11ByilKSJ9xgY
- pvbagqW5jyFP4AyqCuaoHoAKoHzOe5TJYMgiH063QZLV2Hcp/CyZKOeu9FEI5ed/x/w3
- kzMYVkDUbG6ORVDZF+VCvtO8k2bfsOLTZtpVyyFirAAylOa7yIM+UBTjg/BTa92bh3QE
- aHJg==
-X-Gm-Message-State: AOAM532UMdH0/bY0L80E/xoN7WzAlm8+XQltcJ6lBcx8psBUI52InRKl
- LMxG+dIjzAFqDUHRF7LX6e8=
-X-Google-Smtp-Source: ABdhPJwJsiXZY3KpcwY1vzYkVg2ohf4EGDVpkoGXaNUtWvR8WeUIIoXfyp3ei6G37Iy9uvNZbC5ExA==
-X-Received: by 2002:aa7:d78f:: with SMTP id s15mr16965480edq.322.1600090169251; 
- Mon, 14 Sep 2020 06:29:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ShM3ina3e3/hH7dOyVac4CL9sFVc4RQd6mh3jLnIlg0=;
+ b=KpzIh9wykjIJyuF0l9wKx4mVA3js6UwTreby/eb8nYVtSasGDkCltA5GdiNdoGSom9
+ lRvm/GQ89Ehb9zJYjF/rnUjZOpCXzjSa3ccwuGoEILT+zyd7UbJuPso8aUQy123NUUPO
+ gSXf3L7ZtV9lpN5MNFzVDEWqOo2QTfD1f9PJr+RprjqIjXoc3UfOLVVBzBLY81ce019J
+ eCq9/y97ks+b53hxhbZSy59aeRqxHJFpqDNLFL0Bh61ufXuDjqa5mO6s3Za96zekvSPL
+ Ryk1yRcLC5p/AGhyoYj1PqBQqpvKBezLBGGnQE4vUK3rJLaD+Wzqi8NAjPZMyYljQ/uE
+ N6NQ==
+X-Gm-Message-State: AOAM530lyjdp7XB/vH6Se9W+GLFPn81rJeIj4eEz6w9REURZILgFCIna
+ B6RHkwCuNt1ROQi0MCfvgHmF8C92npo=
+X-Google-Smtp-Source: ABdhPJxDNWaaOe6mtDbVu9uBxPuALA0/yZsLGV/qaVVWO83ofnwCuhSwypEKZj15QfAv8gcowcwWvA==
+X-Received: by 2002:a05:6402:17b9:: with SMTP id
+ j25mr17411290edy.203.1600090170135; 
+ Mon, 14 Sep 2020 06:29:30 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:6179:d701:8021:da3d])
- by smtp.gmail.com with ESMTPSA id d6sm9575625edm.31.2020.09.14.06.29.27
+ by smtp.gmail.com with ESMTPSA id d6sm9575625edm.31.2020.09.14.06.29.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 06:29:28 -0700 (PDT)
+ Mon, 14 Sep 2020 06:29:29 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: akpm@linux-foundation.org
-Subject: Changing vma->vm_file in dma_buf_mmap()
-Date: Mon, 14 Sep 2020 15:29:18 +0200
-Message-Id: <20200914132920.59183-1-christian.koenig@amd.com>
+Subject: [PATCH 1/2] drm/shmem-helpers: revert "Redirect mmap for imported
+ dma-buf"
+Date: Mon, 14 Sep 2020 15:29:19 +0200
+Message-Id: <20200914132920.59183-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200914132920.59183-1-christian.koenig@amd.com>
+References: <20200914132920.59183-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,32 +73,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
  linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrew,
-
-I'm the new DMA-buf maintainer and Daniel and others came up with patches extending the use of the dma_buf_mmap() function.
-
-Now this function is doing something a bit odd by changing the vma->vm_file while installing a VMA in the mmap() system call
-
-The background here is that DMA-buf allows device drivers to export buffer which are then imported into another device driver. The mmap() handler of the importing device driver then find that the pgoff belongs to the exporting device and so redirects the mmap() call there.
-
-In other words user space calls mmap() on one file descriptor, but get a different one mapped into your virtual address space.
-
-My question is now: Is that legal or can you think of something which breaks here?
-
-If it's not legal we should probably block any new users of the dma_buf_mmap() function and consider what should happen with the two existing ones.
-
-If that is legal I would like to document this by adding a new vma_set_file() function which does the necessary reference count dance.
-
-Thanks in advance,
-Christian.
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyByZXZlcnRzIGNvbW1pdCAyNmQzYWMzY2IwNGQxNzFhODYxOTUyZTg5MzI0ZTM0NzU5OGEz
+NDdmLgoKV2UgbmVlZCB0byBmaWd1cmUgb3V0IGlmIGRtYV9idWZfbW1hcCgpIGlzIHZhbGlkIG9y
+IG5vdCBmaXJzdC4KClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5r
+b2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIu
+YyB8IDMgLS0tCiAxIGZpbGUgY2hhbmdlZCwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZ2VtX3NobWVtX2hlbHBlci5jCmluZGV4IDBhOTUyZjI3YzE4NC4uY2Q3MjczNDNmNzJiIDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwpAQCAtNTk0LDkgKzU5NCw2IEBA
+IGludCBkcm1fZ2VtX3NobWVtX21tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0cnVj
+dCB2bV9hcmVhX3N0cnVjdCAqdm1hKQogCS8qIFJlbW92ZSB0aGUgZmFrZSBvZmZzZXQgKi8KIAl2
+bWEtPnZtX3Bnb2ZmIC09IGRybV92bWFfbm9kZV9zdGFydCgmb2JqLT52bWFfbm9kZSk7CiAKLQlp
+ZiAob2JqLT5pbXBvcnRfYXR0YWNoKQotCQlyZXR1cm4gZG1hX2J1Zl9tbWFwKG9iai0+ZG1hX2J1
+Ziwgdm1hLCAwKTsKLQogCXNobWVtID0gdG9fZHJtX2dlbV9zaG1lbV9vYmoob2JqKTsKIAogCXJl
+dCA9IGRybV9nZW1fc2htZW1fZ2V0X3BhZ2VzKHNobWVtKTsKLS0gCjIuMTcuMQoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
