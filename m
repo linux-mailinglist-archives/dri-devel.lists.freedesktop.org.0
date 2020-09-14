@@ -1,46 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93142691F3
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 18:45:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A318826920A
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 18:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5ACD6E4DE;
-	Mon, 14 Sep 2020 16:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320586E51A;
+	Mon, 14 Sep 2020 16:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B40A6E4DE;
- Mon, 14 Sep 2020 16:45:19 +0000 (UTC)
-IronPort-SDR: nVKKkbPNkSiRXna/tWofZFavsoYsLUdLldfFoJDT9GU7Crbp/aayxl732M4uddfNcvxCG7jnvY
- z56craFeoF7w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="243942489"
-X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="243942489"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6D56E50D;
+ Mon, 14 Sep 2020 16:47:46 +0000 (UTC)
+IronPort-SDR: eTNEjhl3clJhcpKHhLj+YF5elokOG3V4Iz/eHp3LYKZdn9EPleUiJZRV1oye9Oaa0h1/IsZizE
+ 0z9LKf1qtmQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="146851101"
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="146851101"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2020 09:45:15 -0700
-IronPort-SDR: Q1puHls1IccRwMKDmUtPGqXO9BU+sBJUwBdtnEPqyHMVSgXoGdyM5FGTZMGcMwNb8Q5FNOFXqE
- aYjUIcI43dVw==
-X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="306240559"
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2020 09:47:44 -0700
+IronPort-SDR: myz5Y7mrXCHjH740bFh0aCX37M4dg16nxkZ62z6HGs+HH8I4a2H6vaC67R4GIjje/0Fy1Dd4e4
+ ng2OaE6GQdOg==
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="306241329"
 Received: from matancoh-mobl2.ger.corp.intel.com (HELO [10.255.198.45])
  ([10.255.198.45])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2020 09:45:13 -0700
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/gem: Serialise debugfs
- i915_gem_objects with ctx->mutex
-To: Chris Wilson <chris@chris-wilson.co.uk>, intel-gfx@lists.freedesktop.org
-References: <20200723172119.17649-1-chris@chris-wilson.co.uk>
- <20200723172119.17649-3-chris@chris-wilson.co.uk>
+ 14 Sep 2020 09:47:41 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix the race between the GEM close
+ and debugfs
+To: "Nikunj A. Dadhania" <nikunj.dadhania@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20200914110019.18613-1-nikunj.dadhania@linux.intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <5e7f2c00-c72e-46ff-defe-404b5a847a02@linux.intel.com>
-Date: Mon, 14 Sep 2020 17:45:09 +0100
+Message-ID: <66c99a4d-ab35-55e8-44a2-18f5c39b8b1f@linux.intel.com>
+Date: Mon, 14 Sep 2020 17:47:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200723172119.17649-3-chris@chris-wilson.co.uk>
+In-Reply-To: <20200914110019.18613-1-nikunj.dadhania@linux.intel.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,26 +58,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, "Nikunj A. Dadhania" <nikunj.dadhania@linux.intel.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 23/07/2020 18:21, Chris Wilson wrote:
-> Since the debugfs may peek into the GEM contexts as the corresponding
-> client/fd is being closed, we may try and follow a dangling pointer.
-> However, the context closure itself is serialised with the ctx->mutex,
-> so if we hold that mutex as we inspect the state coupled in the context,
-> we know the pointers within the context are stable and will remain valid
-> as we inspect their tables.
+On 14/09/2020 12:00, Nikunj A. Dadhania wrote:
+> As we close GEM object and set file_priv to -EBADF which is protected
+> by ctx->mutex, populating the GEM debugfs info is not protected
+> and results in the crash shown below.
 > 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: CQ Tang <cq.tang@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: stable@vger.kernel.org
+> Make sure to protect the access to file_priv using ctx->mutex to avoid
+> race.
+> 
+> BUG: unable to handle page fault for address: ffffffffffffffff
+> RIP: 0010:i915_gem_object_info+0x26b/0x3eb
+> Code: 89 44 24 48 48 89 44 24 40 48 89 44 24 38 48 89 44 24 30 48 89 44 24 28 48 89 44 24 20 49 8b 46 f0 48 89 44 24 20 49 8b 46 a0 <48> 8b 58 08 b9 0a 00 00 00 48 b8 aa aa aa aa aa aa aa aa 48 8d bc
+> RSP: 0018:ffffac81c14cfc30 EFLAGS: 00010246
+> RAX: fffffffffffffff7 RBX: ffff95094429c218 RCX: ffff95096756c740
+> RDX: 0000000000000000 RSI: ffffffff919b93ee RDI: ffff95094429c218
+> RBP: ffffac81c14cfd58 R08: ffff9509746fab80 R09: 0000000000000000
+> R10: 0000000000000001 R11: 0000000000000000 R12: ffff9509753f8e80
+> R13: ffffac81c14cfc98 R14: ffff95094429c268 R15: ffffac81c14cfc88
+> FS:  00007a1bdcd52900(0000) GS:ffff950977e00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffffffffffffff CR3: 000000026b4e0000 CR4: 0000000000340ef0
+> Call Trace:
+>   seq_read+0x162/0x3ca
+>   full_proxy_read+0x5b/0x8d
+>   __vfs_read+0x45/0x1b9
+>   vfs_read+0xc9/0x15e
+>   ksys_read+0x7e/0xde
+>   do_syscall_64+0x54/0x7e
+>   entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> RIP: 0033:0x7a1bdd34cf03
+> 
+> Signed-off-by: Nikunj A. Dadhania <nikunj.dadhania@linux.intel.com>
 > ---
 >   drivers/gpu/drm/i915/i915_debugfs.c | 2 ++
 >   1 file changed, 2 insertions(+)
@@ -100,8 +121,9 @@ On 23/07/2020 18:21, Chris Wilson wrote:
 >   		list_safe_reset_next(ctx, cn, link);
 > 
 
-Hm this apparently never got it's r-b and so got re-discovered in the 
-field. +Nikunj
+Fix is correct, but it looked familiar and indeed I found a fix for the 
+same issues back from July. Copied you on that one which now has an r-b. 
+This one can have it as well but please also copy stable.
 
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
