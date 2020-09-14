@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3182D269F2F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:07:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC46D269F28
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:07:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C89A26E84E;
-	Tue, 15 Sep 2020 07:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 956586E83E;
+	Tue, 15 Sep 2020 07:07:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DBAA6E59F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2746E58E
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 20:45:09 +0000 (UTC)
-Message-Id: <20200914204209.256266093@linutronix.de>
+Message-Id: <20200914204440.969090025@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600116304;
+ s=2020; t=1600116305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9WPslsayaKn9l4KRCy6vC0tA0OD05xl/cJA1zjQzh9Q=;
- b=JAPA/qzJzqHcag6qcakOZ9GWUXDKy6NtfE7r1NQIWc0gTSVI1iY9yrfWEOEFzix8pmbAuS
- MuaADNs3pSiCLAI4n+a3p1Yf/IWnvCFznqLXHdFbrDe3FVowlmnsdQrS2jaIRBADVVI35z
- w4z5EtbZ4BM+lDYkm4gbkp+SUGbQKvIrUNGyKtK0Iy+a2fNL9PfeIjhLDWq/Rh541SefY6
- UEZRJAC+1zAPbDuYa0LqAwZ3otlmljq7saTqU/AENBQStLBF6lG25DUU28wlzUFRs8NAHx
- Sc5WJ3V+SMr9bgVMgPIVxmsQXr7EAdha5VH1MxCb2AQt5zljIPUjkUY/FDZVaw==
+ content-transfer-encoding:content-transfer-encoding:  references:references;
+ bh=sKqpUZgQTSsofOfA1QdAWY2+LBfcprxU0W9PCOpQ7JY=;
+ b=uO+ld7WSpQY4vI69jsCu6Pz2RE8hrYv0Gf5wXsXRpBHLrOwLdq1mTBXH5kF9EQzLVjQ8dE
+ L9nryl5hXhHp4GAEJYk/MN1jCD5uAR0Lc9CYUCyrB5iaNdnDjumEicqwlc1xyf56QorUoO
+ uuiL35aqGp53wHsl6QrGtxfrGdDGxJVoXaT9mQ9NIlwuCv++BBc71raPpS2ikuywEKDnnN
+ zT0iPxwQe8ky13mLBUJaRhmhYsg+53xaAsyMbRHht54GnYUMN6nTgx9WKPIo86mWiJiR3V
+ E0z51mP0R5IBbmjI9Fx+cm/iN3YTH1Tg0+XL+eAlcW12YKEEbMjB3cccf0P+yQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600116304;
+ s=2020e; t=1600116305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9WPslsayaKn9l4KRCy6vC0tA0OD05xl/cJA1zjQzh9Q=;
- b=JVGAZSnCuZ9YvnhwM1nsyY3Yl860vCMg1V49xOerJHh7jF1cfp3RkRkcmNc+b0cld1O3y+
- vBmqvqKHtYT11hAw==
-Date: Mon, 14 Sep 2020 22:42:09 +0200
+ content-transfer-encoding:content-transfer-encoding:  references:references;
+ bh=sKqpUZgQTSsofOfA1QdAWY2+LBfcprxU0W9PCOpQ7JY=;
+ b=kFv5VCuwJvLbfOKz3oy8dhCG/DCPgG09EZhdEaXg5ZPKl5YxMOg851zb3lfo1duSkOyL7R
+ vZCR4sfvPRoaC/AQ==
+Date: Mon, 14 Sep 2020 22:42:10 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 00/13] preempt: Make preempt count unconditional
+Subject: [patch 01/13] lib/debug: Remove pointless ARCH_NO_PREEMPT dependencies
+References: <20200914204209.256266093@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 15 Sep 2020 07:07:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,108 +84,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Folks!
+ARCH_NO_PREEMPT disables the selection of CONFIG_PREEMPT_VOLUNTARY and
+CONFIG_PREEMPT, but architectures which set this config option still
+support preempt count for hard and softirq accounting.
 
-While working on various preempt count related things, I stumbled (again)
-over the inconsistency of our preempt count handling.
+There is absolutely no reason to prevent lockdep from using the preempt
+counter nor is there a reason to prevent the enablement of
+CONFIG_DEBUG_ATOMIC_SLEEP on such architectures.
 
-The handling of preempt_count() is inconsistent accross kernel
-configurations. On kernels which have PREEMPT_COUNT=n
-preempt_disable/enable() and the lock/unlock functions are not affecting
-the preempt count, only local_bh_disable/enable() and _bh variants of
-locking, soft interrupt delivery, hard interrupt and NMI context affect it.
+Remove the dependencies, which affects ALPHA, HEXAGON, M68K and UM.
 
-It's therefore impossible to have a consistent set of checks which provide
-information about the context in which a function is called. In many cases
-it makes sense to have seperate functions for seperate contexts, but there
-are valid reasons to avoid that and handle different calling contexts
-conditionally.
-
-The lack of such indicators which work on all kernel configuratios is a
-constant source of trouble because developers either do not understand the
-implications or try to work around this inconsistency in weird
-ways. Neither seem these issues be catched by reviewers and testing.
-
-Recently merged code does:
-
-	 gfp = preemptible() ? GFP_KERNEL : GFP_ATOMIC;
-
-Looks obviously correct, except for the fact that preemptible() is
-unconditionally false for CONFIF_PREEMPT_COUNT=n, i.e. all allocations in
-that code use GFP_ATOMIC on such kernels.
-
-Attempts to make preempt count unconditional and consistent have been
-rejected in the past with handwaving performance arguments.
-
-Freshly conducted benchmarks did not reveal any measurable impact from
-enabling preempt count unconditionally. On kernels with CONFIG_PREEMPT_NONE
-or CONFIG_PREEMPT_VOLUNTARY the preempt count is only incremented and
-decremented but the result of the decrement is not tested. Contrary to that
-enabling CONFIG_PREEMPT which tests the result has a small but measurable
-impact due to the conditional branch/call.
-
-It's about time to make essential functionality of the kernel consistent
-accross the various preemption models.
-
-The series is also available from git:
-
-   git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git preempt
-
-That's the first part of a larger effort related to preempt count:
-
- 1) The analysis of the usage sites of in_interrupt(), in_atomic(),
-    in_softirq() is still ongoing, but so far the number of buggy users is
-    clearly the vast majority. There will be seperate patch series
-    (currently 46 and counting) to address these issues once the analysis
-    is complete in the next days.
-
- 2) The long discussed state tracking of local irq disable in preempt count
-    which accounts interrupt disabled sections as atomic and avoids issuing
-    costly instructions (sti, cli, popf or their non X86 counterparts) when
-    the state does not change, i.e. nested irq_save() or irq_restore(). I
-    have this working on X86 already and contrary to my earlier attempts
-    this was reasonably straight forward due to the recent entry/exit code
-    consolidation.
-
-    What I've not done yet is to optimize the preempt count handling
-    of the [un]lock_irq* operations so they handle the interrupt disabled
-    state and the preempt count modification in one go. That's an obvious
-    add on, but correctness first ...
-
- 3) Lazy interrupt disabling as a straight forward extension to #2. This
-    avoids the actual disabling at the CPU level completely and catches an
-    incoming interrupt in the low level entry code, modifies the interrupt
-    disabled state on the return stack, notes the interrupt as pending in
-    software and raises it again when interrupts are reenabled. This has
-    still a few issues which I'm hunting down (cpuidle is unhappy ...)
-
-Thanks,
-
-	tglx
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: linux-alpha@vger.kernel.org
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: linux-um@lists.infradead.org
+Cc: Brian Cain <bcain@codeaurora.org>
+Cc: linux-hexagon@vger.kernel.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-m68k@lists.linux-m68k.org
 ---
- arch/arm/include/asm/assembler.h                                 |   11 --
- arch/arm/kernel/iwmmxt.S                                         |    2 
- arch/arm/mach-ep93xx/crunch-bits.S                               |    2 
- arch/xtensa/kernel/entry.S                                       |    2 
- drivers/gpu/drm/i915/Kconfig.debug                               |    1 
- drivers/gpu/drm/i915/i915_utils.h                                |    3 
- include/linux/bit_spinlock.h                                     |    4 -
- include/linux/lockdep.h                                          |    6 -
- include/linux/pagemap.h                                          |    4 -
- include/linux/preempt.h                                          |   37 +---------
- include/linux/uaccess.h                                          |    6 -
- kernel/Kconfig.preempt                                           |    4 -
- kernel/sched/core.c                                              |    6 -
- lib/Kconfig.debug                                                |    3 
- lib/Kconfig.debug.rej                                            |   14 +--
- tools/testing/selftests/rcutorture/configs/rcu/SRCU-t            |    1 
- tools/testing/selftests/rcutorture/configs/rcu/SRCU-u            |    1 
- tools/testing/selftests/rcutorture/configs/rcu/TINY01            |    1 
- tools/testing/selftests/rcutorture/doc/TINY_RCU.txt              |    5 -
- tools/testing/selftests/rcutorture/doc/TREE_RCU-kconfig.txt      |    1 
- tools/testing/selftests/rcutorture/formal/srcu-cbmc/src/config.h |    1 
- 21 files changed, 23 insertions(+), 92 deletions(-)
+ lib/Kconfig.debug |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1161,7 +1161,7 @@ config PROVE_LOCKING
+ 	select DEBUG_RWSEMS
+ 	select DEBUG_WW_MUTEX_SLOWPATH
+ 	select DEBUG_LOCK_ALLOC
+-	select PREEMPT_COUNT if !ARCH_NO_PREEMPT
++	select PREEMPT_COUNT
+ 	select TRACE_IRQFLAGS
+ 	default n
+ 	help
+@@ -1323,7 +1323,6 @@ config DEBUG_ATOMIC_SLEEP
+ 	bool "Sleep inside atomic section checking"
+ 	select PREEMPT_COUNT
+ 	depends on DEBUG_KERNEL
+-	depends on !ARCH_NO_PREEMPT
+ 	help
+ 	  If you say Y here, various routines which may sleep will become very
+ 	  noisy if they are called inside atomic sections: when a spinlock is
 
 _______________________________________________
 dri-devel mailing list
