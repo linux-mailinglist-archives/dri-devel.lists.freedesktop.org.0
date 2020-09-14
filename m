@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493452685B1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:22:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8492685B4
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 09:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB876E288;
-	Mon, 14 Sep 2020 07:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 949826E3F2;
+	Mon, 14 Sep 2020 07:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 440596E34B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6675B6E3DA
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 07:22:39 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6E507AC6E;
+ by mx2.suse.de (Postfix) with ESMTP id 88637B195;
  Mon, 14 Sep 2020 07:22:53 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@redhat.com, sam@ravnborg.org, kraxel@redhat.com,
  emil.l.velikov@gmail.com
-Subject: [PATCH v3 1/4] drm/ast: Set format registers in primary plane's update
-Date: Mon, 14 Sep 2020 09:22:33 +0200
-Message-Id: <20200914072236.19398-2-tzimmermann@suse.de>
+Subject: [PATCH v3 2/4] drm/ast: Disable planes while switching display modes
+Date: Mon, 14 Sep 2020 09:22:34 +0200
+Message-Id: <20200914072236.19398-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200914072236.19398-1-tzimmermann@suse.de>
 References: <20200914072236.19398-1-tzimmermann@suse.de>
@@ -44,105 +44,90 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The atomic modesetting code tried to distinguish format changes from
-full modesetting operations. But the implementation was buggy and the
-format registers were often updated even for simple pageflips.
+The ast HW cursor requires the primary plane and CRTC to display at
+a valid mode and format. This is not the case while switching
+display modes, which can lead to the screen turing permanently dark.
 
-Fix this problem by handling format changes in the primary plane's
-update function.
+As a workaround, the ast driver now disables active planes while the
+mode or format switch takes place. It also synchronizes with the vertical
+refresh to give CRTC and planes some time to catch up on each other.
+The active planes planes (primary or cursor) will be re-enabled by
+each plane's atomic_update() function.
 
 v3:
-	* program format in primary plane's update function
+	* move the logic into the CRTC's atomic_disable function
+v2:
+	* move the logic into the commit-tail function
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 44 +++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  |  2 ++
+ drivers/gpu/drm/ast/ast_mode.c | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index c1af6b725933..467049ca8430 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -177,6 +177,8 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
+ 
+ #define AST_IO_MM_OFFSET		(0x380)
+ 
++#define AST_IO_VGAIR1_VREFRESH		BIT(3)
++
+ #define __ast_read(x) \
+ static inline u##x ast_read##x(struct ast_private *ast, u32 reg) { \
+ u##x val = 0;\
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 62fe682a7de6..2323fe0b71bd 100644
+index 2323fe0b71bd..5b45b57c3d17 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -562,13 +562,24 @@ ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct drm_plane_state *state = plane->state;
- 	struct drm_gem_vram_object *gbo;
- 	s64 gpu_addr;
-+	struct drm_framebuffer *fb = state->fb;
-+	struct drm_framebuffer *old_fb = old_state->fb;
+@@ -514,6 +514,16 @@ static void ast_set_start_address_crt1(struct ast_private *ast,
+ 
+ }
+ 
++static void ast_wait_for_vretrace(struct ast_private *ast)
++{
++	unsigned long timeout = jiffies + HZ;
++	u8 vgair1;
 +
-+	if (!old_fb || (fb->format != old_fb->format)) {
-+		struct drm_crtc_state *crtc_state = state->crtc->state;
-+		struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
-+		struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
++	do {
++		vgair1 = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
++	} while (!(vgair1 & AST_IO_VGAIR1_VREFRESH) && time_before(jiffies, timeout));
++}
 +
-+		ast_set_color_reg(ast, fb->format);
-+		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
-+	}
- 
--	gbo = drm_gem_vram_of_gem(state->fb->obj[0]);
-+	gbo = drm_gem_vram_of_gem(fb->obj[0]);
- 	gpu_addr = drm_gem_vram_offset(gbo);
- 	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
- 		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
- 
--	ast_set_offset_reg(ast, state->fb);
-+	ast_set_offset_reg(ast, fb);
- 	ast_set_start_address_crt1(ast, (u32)gpu_addr);
- 
- 	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
-@@ -733,6 +744,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 					struct drm_crtc_state *state)
+ /*
+  * Primary plane
+  */
+@@ -809,7 +819,28 @@ static void
+ ast_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+ 			       struct drm_crtc_state *old_crtc_state)
  {
 +	struct drm_device *dev = crtc->dev;
- 	struct ast_crtc_state *ast_state;
- 	const struct drm_format_info *format;
- 	bool succ;
-@@ -743,8 +755,8 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 	ast_state = to_ast_crtc_state(state);
++	struct ast_private *ast = to_ast_private(dev);
++
+ 	ast_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
++
++	/*
++	 * HW cursors require the underlying primary plane and CRTC to
++	 * display a valid mode and image. This is not the case during
++	 * full modeset operations. So we temporarily disable any active
++	 * plane, including the HW cursor. Each plane's atomic_update()
++	 * helper will re-enable it if necessary.
++	 *
++	 * We only do this during *full* modesets. It does not affect
++	 * simple pageflips on the planes.
++	 */
++	drm_atomic_helper_disable_planes_on_crtc(old_crtc_state, false);
++
++	/*
++	 * Ensure that no scanout takes place before reprogramming mode
++	 * and format registers.
++	 */
++	ast_wait_for_vretrace(ast);
+ }
  
- 	format = ast_state->format;
--	if (!format)
--		return 0;
-+	if (drm_WARN_ON_ONCE(dev, !format))
-+		return -EINVAL; /* BUG: We didn't set format in primary check(). */
- 
- 	succ = ast_get_vbios_mode_info(format, &state->mode,
- 				       &state->adjusted_mode,
-@@ -768,27 +780,15 @@ static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct ast_private *ast = to_ast_private(dev);
--	struct ast_crtc_state *ast_state;
--	const struct drm_format_info *format;
--	struct ast_vbios_mode_info *vbios_mode_info;
--	struct drm_display_mode *adjusted_mode;
-+	struct drm_crtc_state *crtc_state = crtc->state;
-+	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
-+	struct ast_vbios_mode_info *vbios_mode_info =
-+		&ast_crtc_state->vbios_mode_info;
-+	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
- 
--	ast_state = to_ast_crtc_state(crtc->state);
--
--	format = ast_state->format;
--	if (!format)
--		return;
--
--	vbios_mode_info = &ast_state->vbios_mode_info;
--
--	ast_set_color_reg(ast, format);
--	ast_set_vbios_color_reg(ast, format, vbios_mode_info);
--
--	if (!crtc->state->mode_changed)
-+	if (!drm_atomic_crtc_needs_modeset(crtc_state))
- 		return;
- 
--	adjusted_mode = &crtc->state->adjusted_mode;
--
- 	ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
- 	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
- 	ast_set_std_reg(ast, adjusted_mode, vbios_mode_info);
+ static const struct drm_crtc_helper_funcs ast_crtc_helper_funcs = {
 -- 
 2.28.0
 
