@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40772268EFE
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 17:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11715268F0E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 17:07:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579E56E30F;
-	Mon, 14 Sep 2020 15:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 452A26E4C7;
+	Mon, 14 Sep 2020 15:07:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960FB89F2A;
- Mon, 14 Sep 2020 15:05:56 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8FFDAB1DD;
- Mon, 14 Sep 2020 15:06:10 +0000 (UTC)
-Subject: Re: [PATCH 01/20] drm/amdgpu: Introduce GEM object functions
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
- tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
- miaoqinglang@huawei.com, emil.velikov@collabora.com
-References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-2-tzimmermann@suse.de>
- <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de>
-Date: Mon, 14 Sep 2020 17:05:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001E16E4C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 15:07:18 +0000 (UTC)
+IronPort-SDR: uGoxQ9kHAQDnJCGt5D9jt3gCl6XKOlcNtwxmqEmw8zKSiCGvFqu8xbAeWTr33bu5KNfItG5iiM
+ MZ0ccXOW+b0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="223274570"
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="223274570"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2020 08:07:12 -0700
+IronPort-SDR: mxs+imdCvQpJQ0/bs7ZrSQ/wQbFhc7YWaaRk/7PQXVKLPFCs11j3GM5QPTnEpp1IJnKEKTJI/1
+ ud40DFvZ2kPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="306196595"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 14 Sep 2020 08:07:08 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 14 Sep 2020 18:07:08 +0300
+Date: Mon, 14 Sep 2020 18:07:08 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: per-plane LUTs and CSCs?
+Message-ID: <20200914150708.GQ6112@intel.com>
+References: <20200909105727.f5n5c6zudx2qyz2f@fsr-ub1864-141>
+ <n5uMyyDW2WrhtODRwgsqla2mU-pP-gLV4vHHoIZzjvmzG17epyoBjSh8HxIcnaPAwIlRQZ7Aj7cuUz_iby97UlRMw-WAOss7k0oPQD8YPaQ=@emersion.fr>
+ <20200910081836.GG438822@phenom.ffwll.local>
+ <4ggVpoPfSS2JmnPLixWtD-1pcm-aPl0DBELYyqKh6boZxra-xibFZpLbxrykyvxFpW6xs5-R89O2iqdAgnoRaoMAs-DNOFRLKYWR-cZas2I=@emersion.fr>
+ <CADnq5_PU71BTTEXFPLToySyub=5deOOpqBZkYZWO=7+Ht81HUw@mail.gmail.com>
+ <20200914133235.GK6112@intel.com>
+ <CADnq5_NLP9jLj3ce9gxrbHnW=GUBrgwgm+HyCjMvdumgq3W2ww@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
+Content-Disposition: inline
+In-Reply-To: <CADnq5_NLP9jLj3ce9gxrbHnW=GUBrgwgm+HyCjMvdumgq3W2ww@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,221 +58,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0525593728=="
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0525593728==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f"
+On Mon, Sep 14, 2020 at 10:38:24AM -0400, Alex Deucher wrote:
+> On Mon, Sep 14, 2020 at 9:32 AM Ville Syrj=E4l=E4
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Mon, Sep 14, 2020 at 02:13:09AM -0400, Alex Deucher wrote:
+> > > On Thu, Sep 10, 2020 at 4:29 AM Simon Ser <contact@emersion.fr> wrote:
+> > > >
+> > > > On Thursday, September 10, 2020 10:18 AM, Daniel Vetter <daniel@ffw=
+ll.ch> wrote:
+> > > >
+> > > > > On Thu, Sep 10, 2020 at 07:50:59AM +0000, Simon Ser wrote:
+> > > > >
+> > > > > > On Wednesday, September 9, 2020 12:57 PM, Laurentiu Palcu laure=
+ntiu.palcu@oss.nxp.com wrote:
+> > > > > >
+> > > > > > > Hi all,
+> > > > > > > I was wondering whether you could give me an advise on how to=
+ proceed further
+> > > > > > > with the following issue as I'm preparing to upstream the nex=
+t set of patches
+> > > > > > > for the iMX8MQ display controller(DCSS). The display controll=
+er has 3 planes,
+> > > > > > > each with 2 CSCs and one degamma LUT. The CSCs are in front a=
+nd after the LUT
+> > > > > > > respectively. Then the output from those 3 pipes is blended t=
+ogether and then
+> > > > > > > gamma correction is applied using a linear-to-nonlinear LUT a=
+nd another CSC, if
+> > > > > > > needed.
+> > > > > > > Currently, downstream, we have all those CSCs and LUTs hard-c=
+oded into a header
+> > > > > > > file. Based on the colorspace, range, gamut selected for the =
+output and/or
+> > > > > > > plane input, we pick up the right CSCs and LUTs from that hea=
+der file to
+> > > > > > > configure our pipes... I guess this solution does the job, us=
+erspace doesn't
+> > > > > > > need to care much about how to generate those tables. But, it=
+'s also not very
+> > > > > > > flexible in case there is an app smart enough to know and act=
+ually generate
+> > > > > > > their own custom tables. :/
+> > > > > > > Looking through the dri-devel archives, I've seen that there =
+was a tentative to
+> > > > > > > implement a more or less generic per-plane LUT/CSC solution b=
+ut it didn't make
+> > > > > > > it in due to lack of userspace consumers...
+> > > > > >
+> > > > > > Apart from full color management mentioned by Pekka, are there =
+other
+> > > > > > use-cases for these per-plane props?
+> > > > > > One thing I can think of is that some drivers annoyingly only a=
+pply the
+> > > > > > per-CRTC gamma LUT to the primary plane. I think it would make =
+more
+> > > > > > sense to not attach a gamma prop to the CRTC and instead only a=
+ttach it
+> > > > > > to the primary plane to make that clear. But I guess that would=
+ also
+> > > > > > break existing user-space?
+> > > > >
+> > > > > Uh, which drivers? This would be a driver bug (and there's been p=
+lenty of
+> > > > > those where the cursor has the wrong color temp and fun stuff lik=
+e that).
+> > > > > We need to fix these driver issues instead of lamenting in usersp=
+ace that
+> > > > > it's all kinda broken :-)
+> > > >
+> > > > Apparently this is bug with the old radeon driver [1]. It works fin=
+e on
+> > > > all i915 setups I've tried, and also works fine on amdgpu (with DC).
+> > > >
+> > > > I've opened a radeon bug.
+> > > >
+> > > > [1]: https://github.com/swaywm/wlroots/issues/968
+> > >
+> > > This is a hardware limitation.  I suspend all hardware of a certain
+> > > age had this same limitation.  Old stuff didn't have multiple planes.
+> >
+> > That doesn't sound right to me. mach64 vt/gt and rage128 had an
+> > overlay plane already. I even vaguely remeber staring at some
+> > radeon overlay code at some point thinking "that stuff looks
+> > identical to the rage128 stuff, wonder why it's not shared code?".
+> >
+> =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f
-Content-Type: multipart/mixed; boundary="zniUnHMaoWytGRm2jwIkKjV0oPt2fa9bx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
- tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
- miaoqinglang@huawei.com, emil.velikov@collabora.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org
-Message-ID: <c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de>
-Subject: Re: [PATCH 01/20] drm/amdgpu: Introduce GEM object functions
-References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-2-tzimmermann@suse.de>
- <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
-In-Reply-To: <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
+> Ah, yeah, sorry, I forgot about that.  We don't expose that via KMS.
+> Actually r128 is almost identical to some of the early radeons.  I
+> actually had a ddx branch years ago which added r128 support to
+> xf86-video-ati:
+> https://cgit.freedesktop.org/~agd5f/xf86-video-ati/log/?h=3Dr128-support
+> That overlay plane went away in the r300 time frame IIRC as everyone
+> moved to using the 3D engine for CSC and scaling.
 
---zniUnHMaoWytGRm2jwIkKjV0oPt2fa9bx
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Right. Windows didn't have use for overlay planes so a lot of hw
+lost them around that time I guess. Intel hw didn't quite lose them,
+but they did lose a bunch of features such as scaling and planar
+YCbCr formats. And at least in our case most of the lost stuff has
+been reintroduced in recent years after Android/Windows started to
+use them again. Which is fine by me since I can often use ancient
+hw to bring up some of the "new" features in the latest hw ;)
 
-Hi
+-- =
 
-Am 13.08.20 um 12:22 schrieb Christian K=C3=B6nig:
-> Am 13.08.20 um 10:36 schrieb Thomas Zimmermann:
->> GEM object functions deprecate several similar callback interfaces in
->> struct drm_driver. This patch replaces the per-driver callbacks with
->> per-instance callbacks in amdgpu. The only exception is gem_prime_mmap=
-,
->> which is non-trivial to convert.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 6 ------
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 ++++++++++++
->> =C2=A0 2 files changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> index 81a79760ca61..51525b8774c9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> @@ -1468,19 +1468,13 @@ static struct drm_driver kms_driver =3D {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .lastclose =3D amdgpu_driver_lastclose_=
-kms,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .irq_handler =3D amdgpu_irq_handler,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ioctls =3D amdgpu_ioctls_kms,
->> -=C2=A0=C2=A0=C2=A0 .gem_free_object_unlocked =3D amdgpu_gem_object_fr=
-ee,
->> -=C2=A0=C2=A0=C2=A0 .gem_open_object =3D amdgpu_gem_object_open,
->> -=C2=A0=C2=A0=C2=A0 .gem_close_object =3D amdgpu_gem_object_close,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_create =3D amdgpu_mode_dumb_creat=
-e,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dumb_map_offset =3D amdgpu_mode_dumb_m=
-map,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fops =3D &amdgpu_driver_kms_fops,
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_handle_to_fd =3D drm_gem_=
-prime_handle_to_fd,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_fd_to_handle =3D drm_gem_prime_f=
-d_to_handle,
->> -=C2=A0=C2=A0=C2=A0 .gem_prime_export =3D amdgpu_gem_prime_export,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_import =3D amdgpu_gem_prime_=
-import,
->> -=C2=A0=C2=A0=C2=A0 .gem_prime_vmap =3D amdgpu_gem_prime_vmap,
->> -=C2=A0=C2=A0=C2=A0 .gem_prime_vunmap =3D amdgpu_gem_prime_vunmap,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_mmap =3D amdgpu_gem_prime_mm=
-ap,
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D DRIVER_NAME,
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> index 43f4966331dd..ca2b79f94e99 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> @@ -36,6 +36,7 @@
->> =C2=A0 #include <drm/amdgpu_drm.h>
->> =C2=A0 #include <drm/drm_cache.h>
->> =C2=A0 #include "amdgpu.h"
->> +#include "amdgpu_dma_buf.h"
->> =C2=A0 #include "amdgpu_trace.h"
->> =C2=A0 #include "amdgpu_amdkfd.h"
->> =C2=A0 @@ -510,6 +511,15 @@ bool amdgpu_bo_support_uswc(u64 bo_flags)
->> =C2=A0 #endif
->> =C2=A0 }
->> =C2=A0 +static const struct drm_gem_object_funcs amdgpu_gem_object_fun=
-cs =3D {
->> +=C2=A0=C2=A0=C2=A0 .free =3D amdgpu_gem_object_free,
->> +=C2=A0=C2=A0=C2=A0 .open =3D amdgpu_gem_object_open,
->> +=C2=A0=C2=A0=C2=A0 .close =3D amdgpu_gem_object_close,
->> +=C2=A0=C2=A0=C2=A0 .export =3D amdgpu_gem_prime_export,
->> +=C2=A0=C2=A0=C2=A0 .vmap =3D amdgpu_gem_prime_vmap,
->> +=C2=A0=C2=A0=C2=A0 .vunmap =3D amdgpu_gem_prime_vunmap,
->> +};
->> +
->=20
-> Wrong file, this belongs into amdgpu_gem.c
->=20
->> =C2=A0 static int amdgpu_bo_do_create(struct amdgpu_device *adev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo_param *=
-bp,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct amdgpu_bo **bo_pt=
-r)
->> @@ -552,6 +562,8 @@ static int amdgpu_bo_do_create(struct
->> amdgpu_device *adev,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo =3D kzalloc(sizeof(struct amdgpu_bo)=
-, GFP_KERNEL);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bo =3D=3D NULL)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;=
-
->> +
->> +=C2=A0=C2=A0=C2=A0 bo->tbo.base.funcs =3D &amdgpu_gem_object_funcs;
->=20
-> And this should probably go into amdgpu_gem_object_create().
-
-I'm trying to understand what amdgpu does.  What about all the places
-where amdgpu calls amdgpu_bo_create() internally? Wouldn't these miss
-the free callback for the GEM object?
-
-Best regards
-Thomas
-
->=20
-> Apart from that looks like a good idea to me.
->=20
-> Christian.
->=20
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_private_object_init(adev->ddev,=
- &bo->tbo.base, size);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_LIST_HEAD(&bo->shadow_list);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo->vm_bo =3D NULL;
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---zniUnHMaoWytGRm2jwIkKjV0oPt2fa9bx--
-
---MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9fhs0UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPJNAgAlfJhPTx8SHwyCGcF7SoXCxqFUag5
-/hXG2aWBOQj0PGNIWjEqH/FwrQApUbBmpbBWXncgOJjyevY1bY3RXSi+ibAW263g
-1lb0Cf5fR55oudCzfJIiQhM5nXHpnbDTdEq1kVtVf4mD3cn1eyPWtOgpXIklFs+w
-YSnklFEtZsXQnHs9whrVXf1UPUoecKtVRfIflZBfGttuRdODIknW+9iFA/+QYggh
-4WsKIHEpME3IpnfYOqS6yZ3oqcKeROalr2HZ6EUy/NaixshxCZxnLQVMNWx7saKP
-aygn2TEK3CwcBwiYGlPcx3/VFCRdviSNuxDmkZ5CV3ceT5gUjE0suBVVaA==
-=QxSN
------END PGP SIGNATURE-----
-
---MeVdSsKebthdc7DC8hvgqWlLwpjnz0H9f--
-
---===============0525593728==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0525593728==--
