@@ -1,88 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41A3269419
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 19:51:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D0D26941B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Sep 2020 19:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8185D6E52C;
-	Mon, 14 Sep 2020 17:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20326E528;
+	Mon, 14 Sep 2020 17:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B488F6E4E8;
- Mon, 14 Sep 2020 17:51:12 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id l17so399655edq.12;
- Mon, 14 Sep 2020 10:51:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=cinD4tchkxocHKviw5M6liz7E8UU7FD4XovFhsNsjyI=;
- b=tqZKHKN1V6C6oQElOwFS4+jyvbLS9BzylBSbwUbd02rQ76/lT49lrc+1lA+C8DN8Dd
- Nc0GbsJCPaCOHclSGk4/rG8fGqamsaUD5D+cmba9mrjnCmyMQa6mZgYbC5c/w9kZwhfb
- aJRkSAXMinRH/3gtwBaIiUmXBpTvWVTG5r/fSBBRDxoLah5xFDDjscX2kvgZr8AfeAC0
- gMFA6X+UeLkG9NLYtld2tfKKPMYvQC8wFwsgo6QeCj/1SP2gpRaBO+qK+7RqV2MPi/tn
- AYDtIiDOG7XJrasBS+cYJnkZhddVCOd5+jF87VvJuyV9OeppL+UABQ8WQSDYD79g3mPs
- ytfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language;
- bh=cinD4tchkxocHKviw5M6liz7E8UU7FD4XovFhsNsjyI=;
- b=XzUNwjExRpWcHkXwHWNfAsvRcXiuP4E7y4VV9owD+CyqdYI+pUkjNfgjiGv8u62Her
- HHXS8d4H8wB8rWXrApK8xB3yS2gw5f0dlU87YtCDK4Co5vevxYGPVOePdDuXwX/PDPd4
- gfYsGRcwBWDJS28ezMn4okCp3LEIb912iibK68v2Cmtz3JsbLAyMUcGZDNsMFqi7zjtw
- +UfZtIf3O5AdjnTftTCan4wn+1mgWjoV4wkZuej7KOxlt6HVgfFRZrw2v1nwO3O5K/YG
- B1NQT2Uj2T8Y/TRcSzOZidMNHboGfghlInya6/+RNmal7BRep2UVtidq95VVwIVf7Nio
- RG5Q==
-X-Gm-Message-State: AOAM530GN4ze5YiijLF6SwdudN+PT6Iz+0syxbB0ys7l7qhOGW5nCTHp
- KcALNXAVnIXXZG5Zrb1cE4M=
-X-Google-Smtp-Source: ABdhPJyHIadEQ0w95cMm+XKXdD2wy6DDt/xaqpuYqbeZucK6WVOqY6RobxWEhAYoVlCs20sURxiHJg==
-X-Received: by 2002:a50:b046:: with SMTP id i64mr19248036edd.9.1600105871323; 
- Mon, 14 Sep 2020 10:51:11 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id c22sm9791887edr.70.2020.09.14.10.51.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 10:51:10 -0700 (PDT)
-Subject: Re: [PATCH 01/20] drm/amdgpu: Introduce GEM object functions
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, abdiel.janulgue@linux.intel.com,
- tvrtko.ursulin@linux.intel.com, andi.shyti@intel.com, sam@ravnborg.org,
- miaoqinglang@huawei.com, emil.velikov@collabora.com
-References: <20200813083644.31711-1-tzimmermann@suse.de>
- <20200813083644.31711-2-tzimmermann@suse.de>
- <5c1b3cab-1898-46df-2c5c-23ab6cbfbb7a@amd.com>
- <c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ee7528ba-6775-53be-97fe-c8425178b491@gmail.com>
-Date: Mon, 14 Sep 2020 19:51:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34B26E530
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 17:51:15 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1600105879; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=9QmHcWXvGdFKIBQeux89IG8cd2AqI9c4ill+N7aDvAU=;
+ b=gHSPqRdh+mKx706NhFocZ+lG1lRqvEI/AWGH5vDTccW5O5f+0yUglW3eoMhWV8VEGOC2apAh
+ /XrzdDen7xuSpJrRnE8MM7pUEiPnD8L2LpQkF6dfDZpmdUn/tovgUL7YB06Sl4/lht+rbEJF
+ ltokD3OQngbZP8frt8usc0K01hg=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f5fad909bdf68cc03e9d64b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 14 Sep 2020 17:51:12
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C8666C43385; Mon, 14 Sep 2020 17:51:11 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 53261C433C8;
+ Mon, 14 Sep 2020 17:51:10 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de>
-Content-Language: en-US
+Date: Mon, 14 Sep 2020 10:51:10 -0700
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v12 0/5] Add support for DisplayPort driver on SnapDragon
+In-Reply-To: <CAF6AEGttutrtxntAeRDtb3Hf_0i4z+9+rWMuShTrPVwTUHKTdg@mail.gmail.com>
+References: <20200827211658.27479-1-tanmay@codeaurora.org>
+ <CAF6AEGttutrtxntAeRDtb3Hf_0i4z+9+rWMuShTrPVwTUHKTdg@mail.gmail.com>
+Message-ID: <9dba5799c9569d0b7abb460cc983f559@codeaurora.org>
+X-Sender: tanmay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,299 +63,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1257912369=="
+Cc: David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, khsieh@codeaurora.org,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ aravindh@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============1257912369==
-Content-Type: multipart/alternative;
- boundary="------------29780EC5D45E17F55361B946"
-Content-Language: en-US
+On 2020-09-12 11:25, Rob Clark wrote:
+> Fyi, I've pushed this series and the dp-compliance bits to 
+> msm-next-dp[1]
+> 
+> I didn't include the dp audio series yet, which seems to need some
+> minor rebasing.  (And a small request, when resending, cc
+> freedreno@lists.freedesktop.org, so it shows up in the patchwork
+> instance[2] I use)
+> 
+> You might want to double check that I got the correct versions of the
+> series, etc.  And that nothing else (other than audio) is missing.
+> 
 
-This is a multi-part message in MIME format.
---------------29780EC5D45E17F55361B946
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Thanks Rob for pulling changes in msm-next-dp branch.
+I confirm that changes you pointed above are latest
+changes and nothing else is missing in driver.
+Sure, we will make sure to send changes in freedreno list as well.
 
-Am 14.09.20 um 17:05 schrieb Thomas Zimmermann:
-> Hi
->
-> Am 13.08.20 um 12:22 schrieb Christian König:
->> Am 13.08.20 um 10:36 schrieb Thomas Zimmermann:
->>> GEM object functions deprecate several similar callback interfaces in
->>> struct drm_driver. This patch replaces the per-driver callbacks with
->>> per-instance callbacks in amdgpu. The only exception is gem_prime_mmap,
->>> which is non-trivial to convert.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  6 ------
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 ++++++++++++
->>>    2 files changed, 12 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> index 81a79760ca61..51525b8774c9 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>> @@ -1468,19 +1468,13 @@ static struct drm_driver kms_driver = {
->>>        .lastclose = amdgpu_driver_lastclose_kms,
->>>        .irq_handler = amdgpu_irq_handler,
->>>        .ioctls = amdgpu_ioctls_kms,
->>> -    .gem_free_object_unlocked = amdgpu_gem_object_free,
->>> -    .gem_open_object = amdgpu_gem_object_open,
->>> -    .gem_close_object = amdgpu_gem_object_close,
->>>        .dumb_create = amdgpu_mode_dumb_create,
->>>        .dumb_map_offset = amdgpu_mode_dumb_mmap,
->>>        .fops = &amdgpu_driver_kms_fops,
->>>          .prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->>>        .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
->>> -    .gem_prime_export = amdgpu_gem_prime_export,
->>>        .gem_prime_import = amdgpu_gem_prime_import,
->>> -    .gem_prime_vmap = amdgpu_gem_prime_vmap,
->>> -    .gem_prime_vunmap = amdgpu_gem_prime_vunmap,
->>>        .gem_prime_mmap = amdgpu_gem_prime_mmap,
->>>          .name = DRIVER_NAME,
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->>> index 43f4966331dd..ca2b79f94e99 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->>> @@ -36,6 +36,7 @@
->>>    #include <drm/amdgpu_drm.h>
->>>    #include <drm/drm_cache.h>
->>>    #include "amdgpu.h"
->>> +#include "amdgpu_dma_buf.h"
->>>    #include "amdgpu_trace.h"
->>>    #include "amdgpu_amdkfd.h"
->>>    @@ -510,6 +511,15 @@ bool amdgpu_bo_support_uswc(u64 bo_flags)
->>>    #endif
->>>    }
->>>    +static const struct drm_gem_object_funcs amdgpu_gem_object_funcs = {
->>> +    .free = amdgpu_gem_object_free,
->>> +    .open = amdgpu_gem_object_open,
->>> +    .close = amdgpu_gem_object_close,
->>> +    .export = amdgpu_gem_prime_export,
->>> +    .vmap = amdgpu_gem_prime_vmap,
->>> +    .vunmap = amdgpu_gem_prime_vunmap,
->>> +};
->>> +
->> Wrong file, this belongs into amdgpu_gem.c
->>
->>>    static int amdgpu_bo_do_create(struct amdgpu_device *adev,
->>>                       struct amdgpu_bo_param *bp,
->>>                       struct amdgpu_bo **bo_ptr)
->>> @@ -552,6 +562,8 @@ static int amdgpu_bo_do_create(struct
->>> amdgpu_device *adev,
->>>        bo = kzalloc(sizeof(struct amdgpu_bo), GFP_KERNEL);
->>>        if (bo == NULL)
->>>            return -ENOMEM;
->>> +
->>> +    bo->tbo.base.funcs = &amdgpu_gem_object_funcs;
->> And this should probably go into amdgpu_gem_object_create().
-> I'm trying to understand what amdgpu does.  What about all the places
-> where amdgpu calls amdgpu_bo_create() internally? Wouldn't these miss
-> the free callback for the GEM object?
+Thanks.
 
-Those shouldn't have a GEM object in the first place.
-
-Or otherwise we would have a reference counting issue.
-
-Regards,
-Christian.
-
->
-> Best regards
-> Thomas
->
->> Apart from that looks like a good idea to me.
->>
->> Christian.
->>
->>>        drm_gem_private_object_init(adev->ddev, &bo->tbo.base, size);
->>>        INIT_LIST_HEAD(&bo->shadow_list);
->>>        bo->vm_bo = NULL;
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-
-
---------------29780EC5D45E17F55361B946
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Am 14.09.20 um 17:05 schrieb Thomas
-      Zimmermann:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de">
-      <pre class="moz-quote-pre" wrap="">Hi
-
-Am 13.08.20 um 12:22 schrieb Christian König:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Am 13.08.20 um 10:36 schrieb Thomas Zimmermann:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">GEM object functions deprecate several similar callback interfaces in
-struct drm_driver. This patch replaces the per-driver callbacks with
-per-instance callbacks in amdgpu. The only exception is gem_prime_mmap,
-which is non-trivial to convert.
-
-Signed-off-by: Thomas Zimmermann <a class="moz-txt-link-rfc2396E" href="mailto:tzimmermann@suse.de">&lt;tzimmermann@suse.de&gt;</a>
----
-  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  6 ------
-  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 ++++++++++++
-  2 files changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 81a79760ca61..51525b8774c9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1468,19 +1468,13 @@ static struct drm_driver kms_driver = {
-      .lastclose = amdgpu_driver_lastclose_kms,
-      .irq_handler = amdgpu_irq_handler,
-      .ioctls = amdgpu_ioctls_kms,
--    .gem_free_object_unlocked = amdgpu_gem_object_free,
--    .gem_open_object = amdgpu_gem_object_open,
--    .gem_close_object = amdgpu_gem_object_close,
-      .dumb_create = amdgpu_mode_dumb_create,
-      .dumb_map_offset = amdgpu_mode_dumb_mmap,
-      .fops = &amp;amdgpu_driver_kms_fops,
-        .prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-      .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--    .gem_prime_export = amdgpu_gem_prime_export,
-      .gem_prime_import = amdgpu_gem_prime_import,
--    .gem_prime_vmap = amdgpu_gem_prime_vmap,
--    .gem_prime_vunmap = amdgpu_gem_prime_vunmap,
-      .gem_prime_mmap = amdgpu_gem_prime_mmap,
-        .name = DRIVER_NAME,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 43f4966331dd..ca2b79f94e99 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -36,6 +36,7 @@
-  #include &lt;drm/amdgpu_drm.h&gt;
-  #include &lt;drm/drm_cache.h&gt;
-  #include "amdgpu.h"
-+#include "amdgpu_dma_buf.h"
-  #include "amdgpu_trace.h"
-  #include "amdgpu_amdkfd.h"
-  @@ -510,6 +511,15 @@ bool amdgpu_bo_support_uswc(u64 bo_flags)
-  #endif
-  }
-  +static const struct drm_gem_object_funcs amdgpu_gem_object_funcs = {
-+    .free = amdgpu_gem_object_free,
-+    .open = amdgpu_gem_object_open,
-+    .close = amdgpu_gem_object_close,
-+    .export = amdgpu_gem_prime_export,
-+    .vmap = amdgpu_gem_prime_vmap,
-+    .vunmap = amdgpu_gem_prime_vunmap,
-+};
-+
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Wrong file, this belongs into amdgpu_gem.c
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">  static int amdgpu_bo_do_create(struct amdgpu_device *adev,
-                     struct amdgpu_bo_param *bp,
-                     struct amdgpu_bo **bo_ptr)
-@@ -552,6 +562,8 @@ static int amdgpu_bo_do_create(struct
-amdgpu_device *adev,
-      bo = kzalloc(sizeof(struct amdgpu_bo), GFP_KERNEL);
-      if (bo == NULL)
-          return -ENOMEM;
-+
-+    bo-&gt;tbo.base.funcs = &amp;amdgpu_gem_object_funcs;
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-And this should probably go into amdgpu_gem_object_create().
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I'm trying to understand what amdgpu does.  What about all the places
-where amdgpu calls amdgpu_bo_create() internally? Wouldn't these miss
-the free callback for the GEM object?</pre>
-    </blockquote>
-    <br>
-    Those shouldn't have a GEM object in the first place.<br>
-    <br>
-    Or otherwise we would have a reference counting issue.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite"
-      cite="mid:c445493b-9914-63f2-1cf2-c3c1de14e3e5@suse.de">
-      <pre class="moz-quote-pre" wrap="">
-
-Best regards
-Thomas
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Apart from that looks like a good idea to me.
-
-Christian.
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">      drm_gem_private_object_init(adev-&gt;ddev, &amp;bo-&gt;tbo.base, size);
-      INIT_LIST_HEAD(&amp;bo-&gt;shadow_list);
-      bo-&gt;vm_bo = NULL;
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">_______________________________________________
-amd-gfx mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>
-<a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/amd-gfx">https://lists.freedesktop.org/mailman/listinfo/amd-gfx</a>
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------29780EC5D45E17F55361B946--
-
---===============1257912369==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> BR,
+> -R
+> 
+> [1] https://gitlab.freedesktop.org/drm/msm/-/commits/msm-next-dp
+> [2] https://patchwork.freedesktop.org/project/freedreno
+> 
+> On Thu, Aug 27, 2020 at 2:17 PM Tanmay Shah <tanmay@codeaurora.org> 
+> wrote:
+>> 
+>> These patches add Display-Port driver on SnapDragon/msm hardware.
+>> This series also contains device-tree bindings for msm DP driver.
+>> It also contains Makefile and Kconfig changes to compile msm DP 
+>> driver.
+>> 
+>> The block diagram of DP driver is shown below:
+>> 
+>> 
+>>                  +-------------+
+>>                  |DRM FRAMEWORK|
+>>                  +------+------+
+>>                         |
+>>                    +----v----+
+>>                    | DP DRM  |
+>>                    +----+----+
+>>                         |
+>>                    +----v----+
+>>      +------------+|   DP    +----------++------+
+>>      +        +---+| DISPLAY |+---+      |      |
+>>      |        +    +-+-----+-+    |      |      |
+>>      |        |      |     |      |      |      |
+>>      |        |      |     |      |      |      |
+>>      |        |      |     |      |      |      |
+>>      v        v      v     v      v      v      v
+>>  +------+ +------+ +---+ +----+ +----+ +---+ +-----+
+>>  |  DP  | |  DP  | |DP | | DP | | DP | |DP | | DP  |
+>>  |PARSER| | HPD  | |AUX| |LINK| |CTRL| |PHY| |POWER|
+>>  +--+---+ +---+--+ +---+ +----+ +--+-+ +-+-+ +-----+
+>>     |                              |     |
+>>  +--v---+                         +v-----v+
+>>  |DEVICE|                         |  DP   |
+>>  | TREE |                         |CATALOG|
+>>  +------+                         +---+---+
+>>                                       |
+>>                                   +---v----+
+>>                                   |CTRL/PHY|
+>>                                   |   HW   |
+>>                                   +--------+
+>> 
+>> Changes in v12:
+>> 
+>> -- Add support of pm ops in display port driver
+>> -- Clear bpp depth bits before writing to MISC register
+>> -- Fix edid read
+>> 
+>> Previous change log:
+>> https://lkml.kernel.org/lkml/20200818051137.21478-1-tanmay@codeaurora.org/
+>> 
+>> Chandan Uddaraju (4):
+>>   dt-bindings: msm/dp: add bindings of DP/DP-PLL driver for Snapdragon
+>>   drm: add constant N value in helper file
+>>   drm/msm/dp: add displayPort driver support
+>>   drm/msm/dp: add support for DP PLL driver
+>> 
+>> Jeykumar Sankaran (1):
+>>   drm/msm/dpu: add display port support in DPU
+>> 
+>> Tanmay Shah (1):
+>>   drm/msm/dp: Add Display Port HPD feature
+>> 
+>>  drivers/gpu/drm/i915/display/intel_display.c  |    2 +-
+>>  drivers/gpu/drm/msm/Kconfig                   |    9 +
+>>  drivers/gpu/drm/msm/Makefile                  |   14 +
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   27 +-
+>>  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |    8 +
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   83 +-
+>>  drivers/gpu/drm/msm/dp/dp_aux.c               |  535 ++++++
+>>  drivers/gpu/drm/msm/dp/dp_aux.h               |   30 +
+>>  drivers/gpu/drm/msm/dp/dp_catalog.c           | 1045 ++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_catalog.h           |  105 +
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.c              | 1693 
+>> +++++++++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.h              |   35 +
+>>  drivers/gpu/drm/msm/dp/dp_display.c           | 1046 ++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_display.h           |   31 +
+>>  drivers/gpu/drm/msm/dp/dp_drm.c               |  168 ++
+>>  drivers/gpu/drm/msm/dp/dp_drm.h               |   18 +
+>>  drivers/gpu/drm/msm/dp/dp_hpd.c               |   69 +
+>>  drivers/gpu/drm/msm/dp/dp_hpd.h               |   79 +
+>>  drivers/gpu/drm/msm/dp/dp_link.c              | 1214 ++++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_link.h              |  132 ++
+>>  drivers/gpu/drm/msm/dp/dp_panel.c             |  486 +++++
+>>  drivers/gpu/drm/msm/dp/dp_panel.h             |   95 +
+>>  drivers/gpu/drm/msm/dp/dp_parser.c            |  267 +++
+>>  drivers/gpu/drm/msm/dp/dp_parser.h            |  138 ++
+>>  drivers/gpu/drm/msm/dp/dp_pll.c               |   99 +
+>>  drivers/gpu/drm/msm/dp/dp_pll.h               |   61 +
+>>  drivers/gpu/drm/msm/dp/dp_pll_10nm.c          |  930 +++++++++
+>>  drivers/gpu/drm/msm/dp/dp_pll_private.h       |   89 +
+>>  drivers/gpu/drm/msm/dp/dp_power.c             |  373 ++++
+>>  drivers/gpu/drm/msm/dp/dp_power.h             |  103 +
+>>  drivers/gpu/drm/msm/dp/dp_reg.h               |  518 +++++
+>>  drivers/gpu/drm/msm/msm_drv.c                 |    2 +
+>>  drivers/gpu/drm/msm/msm_drv.h                 |   59 +-
+>>  include/drm/drm_dp_helper.h                   |    1 +
+>>  34 files changed, 9545 insertions(+), 19 deletions(-)
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_display.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_display.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_link.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_link.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_10nm.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_private.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_power.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_power.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_reg.h
+>> 
+>> 
+>> base-commit: d012a7190fc1fd72ed48911e77ca97ba4521bccd
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+>> Forum,
+>> a Linux Foundation Collaborative Project
+>> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1257912369==--
