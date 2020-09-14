@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC46D269F28
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:07:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C249269F40
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 956586E83E;
-	Tue, 15 Sep 2020 07:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6140A6E853;
+	Tue, 15 Sep 2020 07:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2746E58E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4281C6E5A0
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 20:45:09 +0000 (UTC)
-Message-Id: <20200914204440.969090025@linutronix.de>
+Message-Id: <20200914204441.115488215@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600116305;
+ s=2020; t=1600116306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=sKqpUZgQTSsofOfA1QdAWY2+LBfcprxU0W9PCOpQ7JY=;
- b=uO+ld7WSpQY4vI69jsCu6Pz2RE8hrYv0Gf5wXsXRpBHLrOwLdq1mTBXH5kF9EQzLVjQ8dE
- L9nryl5hXhHp4GAEJYk/MN1jCD5uAR0Lc9CYUCyrB5iaNdnDjumEicqwlc1xyf56QorUoO
- uuiL35aqGp53wHsl6QrGtxfrGdDGxJVoXaT9mQ9NIlwuCv++BBc71raPpS2ikuywEKDnnN
- zT0iPxwQe8ky13mLBUJaRhmhYsg+53xaAsyMbRHht54GnYUMN6nTgx9WKPIo86mWiJiR3V
- E0z51mP0R5IBbmjI9Fx+cm/iN3YTH1Tg0+XL+eAlcW12YKEEbMjB3cccf0P+yQ==
+ bh=+wlx0B5bXFGE1ZqmF2GOQz7Vu5f4dOGKH6MLdtZ/des=;
+ b=FKqpL2700K2KI8YRyNg486WotbPXB8OPjTNR7CD6hpf4WOsECuFHsf9Fl7xQ/njOCC4us1
+ V7/8dgt2Y8Q5bsUgPdX3cx6XhZz7xzGxkW9H08+RkTCs1S3zZRCuJ6BO6NdCa1sGP2ZZpX
+ 3bB1p3j0W8RPnI56xz7EqLgYOttnzUhttUOz6CqCP4LTLNoe43UQ+fBcsmVdaPtzMUWgf2
+ T1f1tMxghsrPiIICkGbkbj/aNUjRjRxUCjZE6DU4Hd0Nghaw+wzNONpacrfVovmhca4M2C
+ rQnc8p8FaD3ZJfM8rRAgyRFUboeWQsqzuPbUDTsqtxOETbLcX/pUl6ZnCc32nQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600116305;
+ s=2020e; t=1600116306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=sKqpUZgQTSsofOfA1QdAWY2+LBfcprxU0W9PCOpQ7JY=;
- b=kFv5VCuwJvLbfOKz3oy8dhCG/DCPgG09EZhdEaXg5ZPKl5YxMOg851zb3lfo1duSkOyL7R
- vZCR4sfvPRoaC/AQ==
-Date: Mon, 14 Sep 2020 22:42:10 +0200
+ bh=+wlx0B5bXFGE1ZqmF2GOQz7Vu5f4dOGKH6MLdtZ/des=;
+ b=3ZJjdClz5oMHjfFfg9NKeHYyaj0Ejpc30NZ9Tracs4udi2vCXYHDiLEh6EZOsJaUpk6Jwn
+ e+AMA/J0ha4T1+Bg==
+Date: Mon, 14 Sep 2020 22:42:11 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 01/13] lib/debug: Remove pointless ARCH_NO_PREEMPT dependencies
+Subject: [patch 02/13] preempt: Make preempt count unconditional
 References: <20200914204209.256266093@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 15 Sep 2020 07:07:18 +0000
@@ -84,52 +84,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ARCH_NO_PREEMPT disables the selection of CONFIG_PREEMPT_VOLUNTARY and
-CONFIG_PREEMPT, but architectures which set this config option still
-support preempt count for hard and softirq accounting.
+The handling of preempt_count() is inconsistent accross kernel
+configurations. On kernels which have PREEMPT_COUNT=n
+preempt_disable/enable() and the lock/unlock functions are not affecting
+the preempt count, only local_bh_disable/enable() and _bh variants of
+locking, soft interrupt delivery, hard interrupt and NMI context affect it.
 
-There is absolutely no reason to prevent lockdep from using the preempt
-counter nor is there a reason to prevent the enablement of
-CONFIG_DEBUG_ATOMIC_SLEEP on such architectures.
+It's therefore impossible to have a consistent set of checks which provide
+information about the context in which a function is called. In many cases
+it makes sense to have seperate functions for seperate contexts, but there
+are valid reasons to avoid that and handle different calling contexts
+conditionally.
 
-Remove the dependencies, which affects ALPHA, HEXAGON, M68K and UM.
+The lack of such indicators which work on all kernel configuratios is a
+constant source of trouble because developers either do not understand the
+implications or try to work around this inconsistency in weird
+ways. Neither seem these issues be catched by reviewers and testing.
+
+Recently merged code does:
+
+	 gfp = preemptible() ? GFP_KERNEL : GFP_ATOMIC;
+
+Looks obviously correct, except for the fact that preemptible() is
+unconditionally false for CONFIF_PREEMPT_COUNT=n, i.e. all allocations in
+that code use GFP_ATOMIC on such kernels.
+
+Attempts to make preempt count unconditional and consistent have been
+rejected in the past with handwaving performance arguments.
+
+Freshly conducted benchmarks did not reveal any measurable impact from
+enabling preempt count unconditionally. On kernels with CONFIG_PREEMPT_NONE
+or CONFIG_PREEMPT_VOLUNTARY the preempt count is only incremented and
+decremented but the result of the decrement is not tested. Contrary to that
+enabling CONFIG_PREEMPT which tests the result has a small but measurable
+impact due to the conditional branch/call.
+
+It's about time to make essential functionality of the kernel consistent
+accross the various preemption models.
+
+Enable CONFIG_PREEMPT_COUNT unconditionally. Follow up changes will remove
+the #ifdeffery and remove the config option at the end.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
-Cc: Jeff Dike <jdike@addtoit.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: linux-um@lists.infradead.org
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: linux-hexagon@vger.kernel.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-m68k@lists.linux-m68k.org
 ---
- lib/Kconfig.debug |    3 +--
+ kernel/Kconfig.preempt |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1161,7 +1161,7 @@ config PROVE_LOCKING
- 	select DEBUG_RWSEMS
- 	select DEBUG_WW_MUTEX_SLOWPATH
- 	select DEBUG_LOCK_ALLOC
--	select PREEMPT_COUNT if !ARCH_NO_PREEMPT
-+	select PREEMPT_COUNT
- 	select TRACE_IRQFLAGS
- 	default n
- 	help
-@@ -1323,7 +1323,6 @@ config DEBUG_ATOMIC_SLEEP
- 	bool "Sleep inside atomic section checking"
- 	select PREEMPT_COUNT
- 	depends on DEBUG_KERNEL
--	depends on !ARCH_NO_PREEMPT
- 	help
- 	  If you say Y here, various routines which may sleep will become very
- 	  noisy if they are called inside atomic sections: when a spinlock is
+--- a/kernel/Kconfig.preempt
++++ b/kernel/Kconfig.preempt
+@@ -75,8 +75,7 @@ config PREEMPT_RT
+ endchoice
+ 
+ config PREEMPT_COUNT
+-       bool
++       def_bool y
+ 
+ config PREEMPTION
+        bool
+-       select PREEMPT_COUNT
 
 _______________________________________________
 dri-devel mailing list
