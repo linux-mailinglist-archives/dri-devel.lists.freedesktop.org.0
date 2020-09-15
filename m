@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3DE269BF9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 04:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14362269BFA
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 04:40:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC456E830;
-	Tue, 15 Sep 2020 02:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A81506E832;
+	Tue, 15 Sep 2020 02:40:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1432F6E831
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C8C6E830
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 02:40:25 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-o68IjlHrNOqCGTOKa-xlqg-1; Mon, 14 Sep 2020 22:40:21 -0400
-X-MC-Unique: o68IjlHrNOqCGTOKa-xlqg-1
+ us-mta-345-Dbm_e-9iPz-Uvkrm7sUQBQ-1; Mon, 14 Sep 2020 22:40:22 -0400
+X-MC-Unique: Dbm_e-9iPz-Uvkrm7sUQBQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09249425CD;
- Tue, 15 Sep 2020 02:40:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 524B9800688;
+ Tue, 15 Sep 2020 02:40:21 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-25.bne.redhat.com
  [10.64.54.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12A327512A;
- Tue, 15 Sep 2020 02:40:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F8137512A;
+ Tue, 15 Sep 2020 02:40:20 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/7] drm/ttm: split bound/populated flags.
-Date: Tue, 15 Sep 2020 12:40:06 +1000
-Message-Id: <20200915024007.67163-7-airlied@gmail.com>
+Subject: [PATCH 7/7] drm/ttm: move populated state into page flags
+Date: Tue, 15 Sep 2020 12:40:07 +1000
+Message-Id: <20200915024007.67163-8-airlied@gmail.com>
 In-Reply-To: <20200915024007.67163-1-airlied@gmail.com>
 References: <20200915024007.67163-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,133 +59,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-Move bound up into the bo object, and keep populated with the tt
-object.
-
-The ghost object handling needs to follow the flags at the bo
-level now instead of it being part of the ttm tt object.
+Just use the top bit of page flags to store the populated state.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c | 15 +++++++++++----
- include/drm/ttm/ttm_bo_api.h      |  1 +
- include/drm/ttm/ttm_bo_driver.h   |  6 +++---
- include/drm/ttm/ttm_tt.h          | 12 ++++--------
- 4 files changed, 19 insertions(+), 15 deletions(-)
+ include/drm/ttm/ttm_tt.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 4c5c9a333c74..6b0320252a60 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -572,10 +572,13 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
- 		 * bo to be unbound and destroyed.
- 		 */
- 
--		if (man->use_tt)
-+		if (man->use_tt) {
- 			ghost_obj->ttm = NULL;
--		else
-+			ttm_bo_tt_set_unbound(ghost_obj);
-+		} else {
- 			bo->ttm = NULL;
-+			ttm_bo_tt_set_unbound(bo);
-+		}
- 
- 		dma_resv_unlock(&ghost_obj->base._resv);
- 		ttm_bo_put(ghost_obj);
-@@ -628,10 +631,13 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
- 		 * bo to be unbound and destroyed.
- 		 */
- 
--		if (to->use_tt)
-+		if (to->use_tt) {
- 			ghost_obj->ttm = NULL;
--		else
-+			ttm_bo_tt_set_unbound(ghost_obj);
-+		} else {
- 			bo->ttm = NULL;
-+			ttm_bo_tt_set_unbound(bo);
-+		}
- 
- 		dma_resv_unlock(&ghost_obj->base._resv);
- 		ttm_bo_put(ghost_obj);
-@@ -695,6 +701,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	memset(&bo->mem, 0, sizeof(bo->mem));
- 	bo->mem.mem_type = TTM_PL_SYSTEM;
- 	bo->ttm = NULL;
-+	ttm_bo_tt_set_unbound(bo);
- 
- 	dma_resv_unlock(&ghost->base._resv);
- 	ttm_bo_put(ghost);
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 36ff64e2736c..1d20a7f15a7a 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -141,6 +141,7 @@ struct ttm_buffer_object {
- 	struct ttm_resource mem;
- 	struct file *persistent_swap_storage;
- 	struct ttm_tt *ttm;
-+	bool ttm_bound;
- 	bool evicted;
- 	bool deleted;
- 
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 0112619f6172..0677e2582ff8 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -700,17 +700,17 @@ void ttm_bo_tt_unbind(struct ttm_buffer_object *bo);
- 
- static inline bool ttm_bo_tt_is_bound(struct ttm_buffer_object *bo)
- {
--	return bo->ttm->_state == tt_bound;
-+	return bo->ttm_bound;
- }
- 
- static inline void ttm_bo_tt_set_unbound(struct ttm_buffer_object *bo)
- {
--	bo->ttm->_state = tt_unbound;
-+	bo->ttm_bound = false;
- }
- 
- static inline void ttm_bo_tt_set_bound(struct ttm_buffer_object *bo)
- {
--	bo->ttm->_state = tt_bound;
-+	bo->ttm_bound = true;
- }
- /**
-  * ttm_bo_tt_destroy.
 diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 1ac56730d952..94e16238c93d 100644
+index 94e16238c93d..c777b72063db 100644
 --- a/include/drm/ttm/ttm_tt.h
 +++ b/include/drm/ttm/ttm_tt.h
-@@ -70,26 +70,22 @@ struct ttm_tt {
+@@ -42,6 +42,8 @@ struct ttm_operation_ctx;
+ #define TTM_PAGE_FLAG_SG              (1 << 8)
+ #define TTM_PAGE_FLAG_NO_RETRY	      (1 << 9)
+ 
++#define TTM_PAGE_FLAG_PRIV_POPULATED  (1 << 31)
++
+ enum ttm_caching_state {
+ 	tt_uncached,
+ 	tt_wc,
+@@ -70,22 +72,21 @@ struct ttm_tt {
  	struct sg_table *sg; /* for SG objects via dma-buf */
  	struct file *swap_storage;
  	enum ttm_caching_state caching_state;
--	enum {
--		tt_bound,
--		tt_unbound,
--		tt_unpopulated,
--	} _state;
-+	bool populated;
+-	bool populated;
  };
  
  static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
  {
--	return tt->_state != tt_unpopulated;
-+	return tt->populated;
+-	return tt->populated;
++	return tt->page_flags & TTM_PAGE_FLAG_PRIV_POPULATED;
  }
  
  static inline void ttm_tt_set_unpopulated(struct ttm_tt *tt)
  {
--	tt->_state = tt_unpopulated;
-+	tt->populated = false;
+-	tt->populated = false;
++	tt->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
  }
  
  static inline void ttm_tt_set_populated(struct ttm_tt *tt)
  {
--	tt->_state = tt_unbound;
-+	tt->populated = true;
+-	tt->populated = true;
++	tt->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
  }
  
  /**
