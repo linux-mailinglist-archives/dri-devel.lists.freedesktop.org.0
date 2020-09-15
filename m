@@ -2,34 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DADC26A743
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 16:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7CA26A747
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 16:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C756E0FB;
-	Tue, 15 Sep 2020 14:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A178C6E339;
+	Tue, 15 Sep 2020 14:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A2E6E239
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 12:38:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1600173515; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SnThdIg2YWGNs9dq3b6T62D7NZe5+JkYnSB4sOV6bH0=;
- b=l3R87eYCLItM1825bdqH0xrnmFEiUx4Ml7y8PW6jezQV6I1eFtT9gYmyX/0EeSMUzboTq6
- 9FLOsFI9sJvszZZIaQ4tEkVhNjSyrhWOF9fOCEsDGzy2RboRaE8rqPWeT6GGEVx2JW6KvQ
- WyZgHM8L8kvwWxdXStaz4MfbT1TIoe4=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/3] drm/ingenic: Add support for reserved memory
-Date: Tue, 15 Sep 2020 14:38:18 +0200
-Message-Id: <20200915123818.13272-4-paul@crapouillou.net>
-In-Reply-To: <20200915123818.13272-1-paul@crapouillou.net>
-References: <20200915123818.13272-1-paul@crapouillou.net>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B15A6E060
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 12:47:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id ED00A299D30
+Subject: Re: [PATCH v3 0/1] drm/bridge: ps8640: Make sure all needed is
+ powered to get the EDID
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+References: <20200827085911.944899-1-enric.balletbo@collabora.com>
+Message-ID: <68d6a409-39fb-0aa8-7d21-d6afc7b51aab@collabora.com>
+Date: Tue, 15 Sep 2020 14:40:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20200827085911.944899-1-enric.balletbo@collabora.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 15 Sep 2020 14:38:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,70 +39,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, laurent.pinchart@ideasonboard.com,
+ hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for static memory reserved from Device Tree. Since we're
-using GEM buffers backed by CMA, it is interesting to have an option to
-specify the CMA area where the GEM buffers will be allocated.
+Hi Sam,
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+On 27/8/20 10:59, Enric Balletbo i Serra wrote:
+> The first 4 patches of the series version 2:
+>   - drm/bridge_connector: Set default status connected for eDP connectors
+>   - drm/bridge: ps8640: Get the EDID from eDP control
+>   - drm/bridge: ps8640: Return an error for incorrect attach flags
+>   - drm/bridge: ps8640: Print an error if VDO control fails
+> 
+> Are already applied to drm-misc-next, so I removed from this series. The
+> pending patch is part of the original series and is a rework of the power
+> handling to get the EDID. Basically, we need to make sure all the
+> needed is powered to be able to get the EDID. Before, we saw that getting
+> the EDID failed as explained in the third patch.
+> 
+> [1] https://lkml.org/lkml/2020/6/15/1208
+> 
+> Changes in v3:
+> - Make poweron/poweroff and pre_enable/post_disable reverse one to each other (Sam Ravnborg)
+> 
+> Changes in v2:
+> - Use drm_bridge_chain_pre_enable/post_disable() helpers (Sam Ravnborg)
+> 
+> Enric Balletbo i Serra (1):
+>   drm/bridge: ps8640: Rework power state handling
+> 
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 68 ++++++++++++++++++++++----
+>  1 file changed, 58 insertions(+), 10 deletions(-)
+> 
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index aa32660033d2..44b0d029095e 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -14,6 +14,7 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of_device.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- 
-@@ -827,6 +828,11 @@ static void ingenic_drm_unbind_all(void *d)
- 	component_unbind_all(priv->dev, &priv->drm);
- }
- 
-+static void __maybe_unused ingenic_drm_release_rmem(void *d)
-+{
-+	of_reserved_mem_device_release(d);
-+}
-+
- static int ingenic_drm_bind(struct device *dev, bool has_components)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -848,6 +854,19 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 		return -EINVAL;
- 	}
- 
-+	if (IS_ENABLED(CONFIG_OF_RESERVED_MEM)) {
-+		ret = of_reserved_mem_device_init(dev);
-+
-+		if (ret && ret != -ENODEV)
-+			return dev_err_probe(dev, ret, "Failed to get reserved memory\n");
-+
-+		if (ret != -ENODEV) {
-+			ret = devm_add_action_or_reset(dev, ingenic_drm_release_rmem, dev);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
- 	priv = devm_drm_dev_alloc(dev, &ingenic_drm_driver_data,
- 				  struct ingenic_drm, drm);
- 	if (IS_ERR(priv))
--- 
-2.28.0
+A gentle ping on this patch. Would be nice land this together with the already
+accepted patches.
 
+Thanks,
+  Enric
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
