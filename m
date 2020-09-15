@@ -1,50 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C39226BE09
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:31:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1015A26BE0C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1A196E9B7;
-	Wed, 16 Sep 2020 07:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAB86E98D;
+	Wed, 16 Sep 2020 07:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F13796E1CD;
- Tue, 15 Sep 2020 19:57:39 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600199857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WUf3cR8tRBv7eifn3bYRJqwOE06JyVH+YNcuAlhPEzY=;
- b=R4Zt8iBiRf9a+cl1bV87aTb7PzjrsY9fDXMhiBS8K2ot+081OXV43gzpJxoKPhJ+bG/r3d
- IZ+XMelmwH6I1/IeBzA0fsbvOLaK8KTaPACawTHUg6jjadOJqPR3b3oHieYk1VWz6/0oQm
- 160PfMvRl4sOXnVT35YSXZOTlM61qgXSYzZSMF7oaVHQZW8+sX+YqTW5CPNn3M/4wDy6pz
- FqyKA3YK/qnHJa+/v8mb9TXFlw3YCbBIJGJZD6NGKFvRIxsCkXAfwQ3qqvw+SkHnN/x3SA
- Xr1GzKJIli+LvQNZjFraeH3J5TJIjCZBBRyHcln921IMOu/pI6tJi9qyOaIRUA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600199857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WUf3cR8tRBv7eifn3bYRJqwOE06JyVH+YNcuAlhPEzY=;
- b=GHgvirbCN6gxc0oKsh65B0tX+BLegnUGJa5AhDfyLfEqCZ+BxU1R9tgqcRPDwCSIqCwX9J
- bXubW9jdXnVc0gCA==
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-In-Reply-To: <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
-References: <20200914204209.256266093@linutronix.de>
- <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
- <871rj4owfn.fsf@nanos.tec.linutronix.de>
- <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
- <87bli75t7v.fsf@nanos.tec.linutronix.de>
- <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
-Date: Tue, 15 Sep 2020 21:57:37 +0200
-Message-ID: <87y2la4xu6.fsf@nanos.tec.linutronix.de>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC7926E1E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 21:40:22 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c18so4785584wrm.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 14:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:autocrypt:message-id:date
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZyrGKVFDx4BGNZ/Sa7IJ5z8va1EbUDyxko9EIPRujuM=;
+ b=veI3AvonDskRaUwF5ORDqWFJETZI+22t06b/E6CdpcUb2Bzet3eVUU+UbEoXj1wSQD
+ OGEwGLzQwLOITt4yQYbu1Ie+NhSn1/be3xk3XtV2QILTMQMBjh+aJ0UpN9pQ8mpszEeE
+ kXSR8rL/V1SbcsTZ7EK2+nY4J4F4WSIfRRNfbWPSxbxhUMRUMI097f484mmSRO6pX6rY
+ D6pt8gDg5MvVwfT1GtNlmnmorUrZ+k/hCNb2a2/hfjXAYcgXcJqZG+RTzVLyA2KUTthX
+ ZjVfvZ0sTXMyhkyKNP+m95A/ZlvhmFnw/gYhj82/QTMufjmd/wgIM63mEm+fXS4iVePJ
+ fpOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZyrGKVFDx4BGNZ/Sa7IJ5z8va1EbUDyxko9EIPRujuM=;
+ b=rIOgD4Vkwpnk8UyuerE58c4RYxIpSnv4bpC5DSZ72zbEUkEmHjfqYVh2zekn3Qmhju
+ Qpa1Mnmea8eXj31R/Z66wi8bbXewl1vYzTYOmrapIjaEgH2A+pcmeyMPpzY32FvyRNNg
+ aCDpJwPB27UEUx7ieUhIb8M5FRW0dzZuD1e7Eo28GN3YaRS2yOGpl8+1MrY6j9G7LKNW
+ lXH3/Ye88dCuJOnomNMLa32r3a4RD0QWKirI6bZWCrbNn17fIFc1uSMzFOhY6bKwJCDg
+ onaZEeE9OgWk9YXqa9TlJRHIGaXKqO9/uwQoaJGlChuwnB91bVVIOkz0BYy0NFmvOn3C
+ V/MQ==
+X-Gm-Message-State: AOAM531l4P8/RGK9ovibgaogYjtC16FS3NZDJT+3GC6pt9lvfrVsf5TY
+ xOBThBqjAXF6QSP2LwQ5ZFUqVQ==
+X-Google-Smtp-Source: ABdhPJyxWNiKiFioPsFe2QDV2mvw1qAZrQlyU6fOTAFIT5XSLZvrE8JtKxXTq+yytVPmhh3AebY7qg==
+X-Received: by 2002:a5d:69cd:: with SMTP id s13mr22613427wrw.379.1600206021323; 
+ Tue, 15 Sep 2020 14:40:21 -0700 (PDT)
+Received: from [10.44.66.8] ([212.45.67.2])
+ by smtp.googlemail.com with ESMTPSA id g14sm443358wrv.25.2020.09.15.14.40.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Sep 2020 14:40:20 -0700 (PDT)
+Subject: Re: [PATCH RFC v6 1/6] dt-bindings: exynos-bus: Add documentation for
+ interconnect properties
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>, Rob Herring <robh@kernel.org>
+References: <20200702163724.2218-1-s.nawrocki@samsung.com>
+ <CGME20200702163748eucas1p2cf7eab70bc072dea9a95183018b38ad3@eucas1p2.samsung.com>
+ <20200702163724.2218-2-s.nawrocki@samsung.com>
+ <20200709210448.GA876103@bogus>
+ <65af1a5c-8f8a-ef65-07f8-e0b3d04c336c@samsung.com>
+ <35d9d396-b553-a815-1f3b-1af4dc37a2ca@samsung.com>
+ <b711257d-c34b-b609-3ada-312871967b98@linaro.org>
+ <e6e369fb-ccf2-09ed-ad6a-680e67198359@samsung.com>
+From: Georgi Djakov <georgi.djakov@linaro.org>
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+ KEmKjLDvB0pePJkdTw==
+Message-ID: <ae438269-fbb5-326a-aa97-f04033c2b3b6@linaro.org>
+Date: Wed, 16 Sep 2020 00:40:18 +0300
 MIME-Version: 1.0
+In-Reply-To: <e6e369fb-ccf2-09ed-ad6a-680e67198359@samsung.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 16 Sep 2020 07:31:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,103 +119,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
- Linux-MM <linux-mm@kvack.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
- Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matt Turner <mattst88@gmail.com>,
- Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
- Shuah Khan <shuah@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Jeff Dike <jdike@addtoit.com>, linux-um <linux-um@lists.infradead.org>,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- rcu@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- alpha <linux-alpha@vger.kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
+ a.swigon@samsung.com, krzk@kernel.org, linux-kernel@vger.kernel.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ m.szyprowski@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15 2020 at 10:35, Linus Torvalds wrote:
-> On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->>
->> OTOH, having a working 'preemptible()' or maybe better named
->> 'can_schedule()' check makes tons of sense to make decisions about
->> allocation modes or other things.
->
-> No. I think that those kinds of decisions about actual behavior are
-> always simply fundamentally wrong.
->
-> Note that this is very different from having warnings about invalid
-> use. THAT is correct. It may not warn in all configurations, but that
-> doesn't matter: what matters is that it warns in common enough
-> configurations that developers will catch it.
-
-You wish. I just found a 7 year old bug in a 10G network driver which
-surely would have been found if people would enable debug configs and
-not just run the crap on their PREEMPT_NONE, all debug off kernel. And
-that driver is not subject to bitrot, it gets regular bug fixes from
-people who seem to care (distro folks).
-
-> So having a warning in "might_sleep()" that doesn't always trigger,
-> because you have a limited configuration that can't even detect the
-> situation, that's fine and dandy and intentional.
-
-and lets people get away with their crap.
-
-> But having code like
->
->        if (can_schedule())
->            .. do something different ..
->
-> is fundamentally complete and utter garbage.
->
-> It's one thing if you test for "am I in hardware interrupt context".
-> Those tests aren't great either, but at least they make sense.
-
-They make sense in limited situations like exception handlers and such
-which really have to know from which context an exception was raised.
-
-But with the above reasoning such checks do not make sense in any other
-general code. 'in hard interrupt context' is just another context where
-you can't do stuff which you can do when in preemptible task context.
-
-Most tests are way broader than a single context. in_interrupt() is true
-for hard interrupt, soft interrupt delivery and all BH disabled
-contexts, which is completely ill defined.
-
-> But a driver - or some library routine - making a difference based on
-> some nebulous "can I schedule" is fundamentally and basically WRONG.
->
-> If some code changes behavior, it needs to be explicit to the *caller*
-> of that code.
-
-I'm fine with that, but then we have to be consequent and ban _all_ of
-these and not just declare can_schedule() to be a bad one.
-
-Thanks,
-
-        tglx
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgU3lsd2VzdGVyLAoKT24gOS85LzIwIDE3OjQ3LCBTeWx3ZXN0ZXIgTmF3cm9ja2kgd3JvdGU6
+Cj4gSGkgR2VvcmdpLAo+IAo+IE9uIDA5LjA5LjIwMjAgMTE6MDcsIEdlb3JnaSBEamFrb3Ygd3Jv
+dGU6Cj4+IE9uIDgvMjgvMjAgMTc6NDksIFN5bHdlc3RlciBOYXdyb2NraSB3cm90ZToKPj4+IE9u
+IDMwLjA3LjIwMjAgMTQ6MjgsIFN5bHdlc3RlciBOYXdyb2NraSB3cm90ZToKPj4+PiBPbiAwOS4w
+Ny4yMDIwIDIzOjA0LCBSb2IgSGVycmluZyB3cm90ZToKPj4+Pj4gT24gVGh1LCBKdWwgMDIsIDIw
+MjAgYXQgMDY6Mzc6MTlQTSArMDIwMCwgU3lsd2VzdGVyIE5hd3JvY2tpIHdyb3RlOgo+Pj4+Pj4g
+QWRkIGRvY3VtZW50YXRpb24gZm9yIG5ldyBvcHRpb25hbCBwcm9wZXJ0aWVzIGluIHRoZSBleHlu
+b3MgYnVzIG5vZGVzOgo+Pj4+Pj4gc2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50LCAjaW50ZXJj
+b25uZWN0LWNlbGxzLCBidXMtd2lkdGguCj4+Pj4+PiBUaGVzZSBwcm9wZXJ0aWVzIGFsbG93IHRv
+IHNwZWNpZnkgdGhlIFNvQyBpbnRlcmNvbm5lY3Qgc3RydWN0dXJlIHdoaWNoCj4+Pj4+PiB0aGVu
+IGFsbG93cyB0aGUgaW50ZXJjb25uZWN0IGNvbnN1bWVyIGRldmljZXMgdG8gcmVxdWVzdCBzcGVj
+aWZpYwo+Pj4+Pj4gYmFuZHdpZHRoIHJlcXVpcmVtZW50cy4KPj4+Pj4+Cj4+Pj4+PiBTaWduZWQt
+b2ZmLWJ5OiBBcnR1ciDFmndpZ2/FhCA8YS5zd2lnb25Ac2Ftc3VuZy5jb20+Cj4+Pj4+PiBTaWdu
+ZWQtb2ZmLWJ5OiBTeWx3ZXN0ZXIgTmF3cm9ja2kgPHMubmF3cm9ja2lAc2Ftc3VuZy5jb20+Cj4+
+Pgo+Pj4+Pj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RldmZyZXEv
+ZXh5bm9zLWJ1cy50eHQKPj4+Pj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kZXZmcmVxL2V4eW5vcy1idXMudHh0Cj4gCj4+Pj4+PiArT3B0aW9uYWwgcHJvcGVydGll
+cyBmb3IgaW50ZXJjb25uZWN0IGZ1bmN0aW9uYWxpdHkgKFFvUyBmcmVxdWVuY3kgY29uc3RyYWlu
+dHMpOgo+Pj4+Pj4gKy0gc2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50OiBwaGFuZGxlIHRvIHRo
+ZSBwYXJlbnQgaW50ZXJjb25uZWN0IG5vZGU7IGZvcgo+Pj4+Pj4gKyAgcGFzc2l2ZSBkZXZpY2Vz
+IHNob3VsZCBwb2ludCB0byBzYW1lIG5vZGUgYXMgdGhlIGV4eW5vcyxwYXJlbnQtYnVzIHByb3Bl
+cnR5Lgo+Pj4KPj4+Pj4gQWRkaW5nIHZlbmRvciBzcGVjaWZpYyBwcm9wZXJ0aWVzIGZvciBhIGNv
+bW1vbiBiaW5kaW5nIGRlZmVhdHMgdGhlIAo+Pj4+PiBwb2ludC4KPj4+Cj4+PiBBY3R1YWxseSB3
+ZSBjb3VsZCBkbyB3aXRob3V0IGFueSBuZXcgcHJvcGVydHkgaWYgd2UgdXNlZCBleGlzdGluZyBp
+bnRlcmNvbm5lY3QKPj4+IGNvbnN1bWVycyBiaW5kaW5nIHRvIHNwZWNpZnkgbGlua2luZyBiZXR3
+ZWVuIHRoZSBwcm92aWRlciBub2Rlcy4gSSB0aGluayB0aG9zZQo+Pj4gZXh5bm9zLWJ1cyBub2Rl
+cyBjb3VsZCB3ZWxsIGJlIGNvbnNpZGVyZWQgYm90aCB0aGUgaW50ZXJjb25uZWN0IHByb3ZpZGVy
+cyAKPj4+IGFuZCBjb25zdW1lcnMuIFRoZSBleGFtcGxlIHdvdWxkIHRoZW4gYmUgc29tZXRoaW5n
+IGFsb25nIHRoZSBsaW5lcyAKPj4+ICh5ZXMsIEkga25vdyB0aGUgYnVzIG5vZGUgbmFtaW5nIG5l
+ZWRzIHRvIGJlIGZpeGVkKToKPj4+Cj4+PiAJc29jIHsKPj4+IAkJYnVzX2RtYzogYnVzX2RtYyB7
+Cj4+PiAJCQljb21wYXRpYmxlID0gInNhbXN1bmcsZXh5bm9zLWJ1cyI7Cj4+PiAJCQkvKiAuLi4g
+Ki8KPj4+IAkJCXNhbXN1bmcsZGF0YS1jbG9jay1yYXRpbyA9IDw0PjsKPj4+IAkJCSNpbnRlcmNv
+bm5lY3QtY2VsbHMgPSA8MD47Cj4+PiAJCX07Cj4+Pgo+Pj4gCQlidXNfbGVmdGJ1czogYnVzX2xl
+ZnRidXMgewo+Pj4gCQkJY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5vcy1idXMiOwo+Pj4gCQkJ
+LyogLi4uICovCj4+PiAJCQlpbnRlcmNvbm5lY3RzID0gPCZidXNfbGVmdGJ1cyAmYnVzX2RtYz47
+Cj4+PiAJCQkjaW50ZXJjb25uZWN0LWNlbGxzID0gPDA+Owo+Pj4gCQl9Owo+Pj4KPj4+IAkJYnVz
+X2Rpc3BsYXk6IGJ1c19kaXNwbGF5IHsKPj4+IAkJCWNvbXBhdGlibGUgPSAic2Ftc3VuZyxleHlu
+b3MtYnVzIjsKPj4+IAkJCS8qIC4uLiAqLwo+Pj4gCQkJaW50ZXJjb25uZWN0cyA9IDwmYnVzX2Rp
+c3BsYXkgJmJ1c19sZWZ0YnVzPjsKPj4KPj4gSG1tLCBidXNfZGlzcGxheSBiZWluZyBhIGNvbnN1
+bWVyIG9mIGl0c2VsZiBpcyBhIGJpdCBvZGQ/IERpZCB5b3UgbWVhbjoKPj4gIAkJCWludGVyY29u
+bmVjdHMgPSA8JmJ1c19kbWMgJmJ1c19sZWZ0YnVzPjsKPiAKPiBNaWdodCBiZSwgYnV0IHdlIHdv
+dWxkIG5lZWQgdG8gc3dhcCB0aGUgcGhhbmRsZXMgc28gPHNvdXJjZSwgZGVzdGluYXRpb24+Cj4g
+b3JkZXIgaXMgbWFpbnRhaW5lZCwgaS5lLiBpbnRlcmNvbm5lY3RzID0gPCZidXNfbGVmdGJ1cyAm
+YnVzX2RtYz47CgpPaywgaSBzZWUuIFRoYW5rcyBmb3IgY2xhcmlmeWluZyEgQ3VycmVudGx5IHRo
+ZSAiaW50ZXJjb25uZWN0cyIgcHJvcGVydHkgaXMKZGVmaW5lZCBhcyBhIHBhaXIgb2YgaW5pdGlh
+dG9yIGFuZCB0YXJnZXQgbm9kZXMuIFlvdSBjYW4ga2VlcCBpdCBhbHNvIGFzCmludGVyY29ubmVj
+dHMgPSA8JmJ1c19kaXNwbGF5ICZidXNfZG1jPiwgYnV0IHlvdSB3aWxsIG5lZWQgdG8gZmlndXJl
+IG91dApkdXJpbmcgcHJvYmUgdGhhdCB0aGVyZSBpcyBhbm90aGVyIG5vZGUgaW4gdGhlIG1pZGRs
+ZSBhbmQgZGVmZXIuIEkgYXNzdW1lCnRoYXQgaWYgYSBwcm92aWRlciBpcyBhbHNvIGFuIGludGVy
+Y29ubmVjdCBjb25zdW1lciwgd2Ugd2lsbCBsaW5rIGl0IHRvCndoYXRldmVyIG5vZGVzIGFyZSBz
+cGVjaWZpZWQgaW4gdGhlICJpbnRlcmNvbm5lY3RzIiBwcm9wZXJ0eT8KCj4gTXkgaW50ZW50aW9u
+IGhlcmUgd2FzIHRvIGRlc2NyaWJlIHRoZSAnYnVzX2Rpc3BsYXkgLT4gYnVzX2xlZnRidXMnIHBh
+cnQgCj4gb2YgZGF0YSBwYXRoICdidXNfZGlzcGxheSAtPiBidXNfbGVmdGJ1cyAtPiBidXNfZG1j
+JywgYnVzX2Rpc3BsYXkgaXMKPiByZWFsbHkgYSBjb25zdW1lciBvZiAnYnVzX2xlZnRidXMgLT4g
+YnVzX2RtYycgcGF0aC4KPgo+IEknbSBub3Qgc3VyZSBpZiBpdCBpcyBhbGxvd2VkIHRvIHNwZWNp
+Znkgb25seSBzaW5nbGUgcGhhbmRsZSAoYW5kIAo+IGludGVyY29ubmVjdCBwcm92aWRlciBzcGVj
+aWZpZXIpIGluIHRoZSBpbnRlcmNvbm5lY3QgcHJvcGVydHksIHRoYXQgd291bGQKPiBiZSBuZWVk
+ZWQgZm9yIHRoZSBidXNfbGVmdGJ1cyBub2RlIHRvIGRlZmluZSBidXNfZG1jIGFzIHRoZSBpbnRl
+cmNvbm5lY3QgCj4gZGVzdGluYXRpb24gcG9ydC4gVGhlcmUgc2VlbXMgdG8gYmUgc3VjaCBhIHVz
+ZSBjYXNlIGluIGFyY2gvYXJtNjQvYm9vdC8KPiBkdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRz
+aS4KCkluIHRoZSBnZW5lcmFsIGNhc2UgeW91IGhhdmUgdG8gc3BlY2lmeSBwYWlycy4gVGhlICJk
+bWEtbWVtIiBpcyBhIHJlc2VydmVkCm5hbWUgZm9yIGRldmljZXMgdGhhdCBwZXJmb3JtIERNQSB0
+aHJvdWdoIGFub3RoZXIgYnVzIHdpdGggc2VwYXJhdGUgYWRkcmVzcwp0cmFuc2xhdGlvbiBydWxl
+cy4KCj4+PiAJCQkjaW50ZXJjb25uZWN0LWNlbGxzID0gPDA+Owo+Pj4gCQl9Owo+Pj4KPj4+Cj4+
+PiAJCSZtaXhlciB7Cj4+PiAJCQljb21wYXRpYmxlID0gInNhbXN1bmcsZXh5bm9zNDIxMi1taXhl
+ciI7Cj4+PiAJCQlpbnRlcmNvbm5lY3RzID0gPCZidXNfZGlzcGxheSAmYnVzX2RtYz47Cj4+PiAJ
+CQkvKiAuLi4gKi8KPj4+IAkJfTsKPj4+IAl9Owo+Pj4KPj4+IFdoYXQgZG8geW91IHRoaW5rLCBH
+ZW9yZ2ksIFJvYj8KPj4KPj4gSSBjYW4ndCB1bmRlcnN0YW5kIHRoZSBhYm92ZSBleGFtcGxlIHdp
+dGggYnVzX2Rpc3BsYXkgYmVpbmcgaXQncyBvd24gY29uc3VtZXIuCj4+IFRoaXMgc2VlbXMgc3Ry
+YW5nZSB0byBtZS4gQ291bGQgeW91IHBsZWFzZSBjbGFyaWZ5IGl0Pwo+IAo+PiBPdGhlcndpc2Ug
+dGhlIGludGVyY29ubmVjdCBjb25zdW1lciBEVCBiaW5kaW5ncyBhcmUgYWxyZWFkeSB3ZWxsIGVz
+dGFibGlzaGVkCj4+IGFuZCBpIGRvbid0IHNlZSBhbnl0aGluZyBwcmV2ZW50aW5nIGEgbm9kZSB0
+byBiZSBib3RoIGNvbnN1bWVyIGFuZCBwcm92aWRlci4KPj4gU28gdGhpcyBzaG91bGQgYmUgb2th
+eSBpbiBnZW5lcmFsLgo+IAo+IFRoYW5rcywgYmVsb3cgaXMgYW4gdXBkYXRlZCBleGFtcGxlIGFj
+Y29yZGluZyB0byB5b3VyIHN1Z2dlc3Rpb25zLiAKPiBEb2VzIGl0IGxvb2sgYmV0dGVyIG5vdz8K
+PiAKPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS04PC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQo+IHNvYyB7Cj4gCWJ1c19kbWM6IGJ1c19kbWMgewo+IAkJY29tcGF0aWJsZSA9ICJz
+YW1zdW5nLGV4eW5vcy1idXMiOwo+IAkJLyogLi4uICovCj4gCQlzYW1zdW5nLGRhdGEtY2xvY2st
+cmF0aW8gPSA8ND47Cj4gCQkjaW50ZXJjb25uZWN0LWNlbGxzID0gPDA+Owo+IAl9Owo+IAo+IAli
+dXNfbGVmdGJ1czogYnVzX2xlZnRidXMgewo+IAkJY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5v
+cy1idXMiOwo+IAkJLyogLi4uICovCj4gCQlpbnRlcmNvbm5lY3RzID0gPCZidXNfZG1jPjsKPiAJ
+CSNpbnRlcmNvbm5lY3QtY2VsbHMgPSA8MD47Cj4gCX07Cj4gCj4gCWJ1c19kaXNwbGF5OiBidXNf
+ZGlzcGxheSB7Cj4gCQljb21wYXRpYmxlID0gInNhbXN1bmcsZXh5bm9zLWJ1cyI7Cj4gCQkvKiAu
+Li4gKi8KPiAJCWludGVyY29ubmVjdHMgPSA8JmJ1c19sZWZ0YnVzICZidXNfZG1jPjsKPiAJCSNp
+bnRlcmNvbm5lY3QtY2VsbHMgPSA8MD47Cj4gCX07Cj4gCj4gCSZtaXhlciB7Cj4gCQljb21wYXRp
+YmxlID0gInNhbXN1bmcsZXh5bm9zNDIxMi1taXhlciI7Cj4gCQlpbnRlcmNvbm5lY3RzID0gPCZi
+dXNfZGlzcGxheSAmYnVzX2RtYz47Cj4gCQkvKiAuLi4gKi8KPiAJfTsKPiB9Owo+IC0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLTg8LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgpJdCdz
+IGRpZmZpY3VsdCB0byBoYXZlIGEgY29tbW9uIHdheSB0byBkZXNjcmliZSBhbGwgdGhlIGRpZmZl
+cmVudCBraW5kcyBvZgp0b3BvbG9naWVzIGluIERULCBhcyBzb21lIFNvQ3MgYXJlIHZlcnkgY29t
+cGxleCwgaGF2aW5nIG11bHRpLXRpZXJlZCB0b3BvbG9naWVzCndpdGggaHVuZHJlZHMgb2Ygbm9k
+ZXMsIHdpdGggbXVsdGlwbGUgbGlua3MgYmV0d2VlbiB0aGVtIGV0Yy4gQ3VycmVudGx5LCB0aGUK
+aWRlYSBpcyB0byBoYXZlIHRoZSB0b3BvbG9neSBhcyBwbGF0Zm9ybSBkYXRhLCBidXQgaSBndWVz
+cyB0aGF0IHlvdSB3YW50IHRvCmF2b2lkIHRoaXMuIEkgaG9wZSB0aGF0IHdlIHdpbGwgYmUgYWJs
+ZSB0byBkZXNjcmliZSBzaW1wbGVyIHRvcG9sb2dpZXMgaW4gRFQgaW4KdGhlIGZ1dHVyZSwgYnV0
+IHdlIGRvbid0IGhhdmUgc3VjaCBzdXBwb3J0IGluIHRoZSBmcmFtZXdvcmsgeWV0LgoKU28gbWF5
+YmUgd2UgY291bGQgdHJ5IHlvdXIgcHJvcG9zYWwgYW5kIHNlZSBob3cgaXQgd2lsbCB3b3JrIGZv
+ciBleHlub3MuCgpUaGFua3MsCkdlb3JnaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
