@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CFC26A4EC
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 14:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BE526A4ED
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 14:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2586E266;
-	Tue, 15 Sep 2020 12:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5486E284;
+	Tue, 15 Sep 2020 12:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB356E266
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 12:19:20 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id k18so3209923wmj.5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 05:19:20 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A446E284
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 12:19:22 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id y15so3249577wmi.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 05:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/f+R+j91elfFPYf4zfHO7Bzdv43BgZ5CODvbZ0Vzlb0=;
- b=ALUSvXEave0lkRZzUeEbGO8h2GDfO0EU1AiDTv2SiPlJ4oOGdkbhRYuv9hFUcMyGSO
- alirB7AKsTW6bTsLpcZ92Ic+b9IriMXONlINaxSKzFIhfodhg/IoZo/6QshxxDEFPQF9
- +z0PYAL6PDisRD661B16WsycbbcZ61BeLzcMHp1/DvhmU7DKPBTRMHjtHkMn5RmafR2Q
- s70bVvvdGwrgVsJxh0OiBJnXJwxMlOn6mg4OI+PW/l4Ap6wUcG33kZiGkZP+yBlpHoqh
- dmfDxhWB79y7cZntYKBsS+i/WkkYB0rizS9oBJEauiIWy4wyfvIo6eZjTzxlPGxabafg
- ikHQ==
+ bh=un3Gh2gweDlAUsvqGdAT6fJ9irEjsQvOrf4xpheQKFc=;
+ b=Lq9x8PS6ikykudXTzqmiSjlkw1Mv5Fjj4FKyQyXpGeeAWDF9A9ovPyTjb3Da4qoZun
+ 0Qo8bZXk2A2lRtM0JArOOu82jnPkup70fFXg/EEeL7/tGd/sSGimI8b8CSJ6Epc8heO/
+ dW0IioLCpj/OBwmHmNCYc1TXGLCqSD/6EomeJWbxHNdQNcf0QWyxXRG/UfSnTIS9REVD
+ yXDRxOzEUYAIpyaO4xRjQxrFnS+f11Gin6cKWKlip0nSwAXkI4tIdX9PcL3AgppY8tmR
+ aKdTsPcHucEfk28DnxBE+2jvIqN7Nzx+Ti8b1c1mjBtsjgDQPZns2rU9G9yALoi1dnnt
+ pLtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/f+R+j91elfFPYf4zfHO7Bzdv43BgZ5CODvbZ0Vzlb0=;
- b=FYjQUUlcZ1wepzptUBASXXTCoBDtNOsdBDxAaT/bDD5lOGs8L3NsaVJ8ToWMfmzJBW
- akLMnhCXkPgpG1EYIlzDDvT4O6Rg4mcjFxY6797tlOf9enZxJ2AkKO8R8vgRjld1fb9h
- Ctrhfukq5ePmhrrTsuiyTX0eopRif9doWBu4dOfhaEVhvjJx0w48c9Atb1LnZcDRufgV
- meJdJvcFrNDyTSj8ubWvcwfI2j7zosOpwcUqfSX9gJSHxcRI7q/a3DhmC1nNlXopsR9j
- GmASy6jBJttAaoSG+L3uawcPymys7fqrZb+CxhXbPCYGPj0EEwinbpc5Q6mKeuopAX1A
- 7dEg==
-X-Gm-Message-State: AOAM5334bJwhFCwmqR9rkhOje8nWpn3ZLAgVo86l8vVMYaQj3K5+fxtR
- 2FMgCm8L1Vrj5/Fg3nJA75etgQ==
-X-Google-Smtp-Source: ABdhPJyu3ypcdWMW/OyELVvdkIVANM6RtWY9v4+qY/DqA8slXt9wOmWk6s4o4g2lz7Q0ucEvuSK83Q==
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr4634653wmb.155.1600172359411; 
- Tue, 15 Sep 2020 05:19:19 -0700 (PDT)
+ bh=un3Gh2gweDlAUsvqGdAT6fJ9irEjsQvOrf4xpheQKFc=;
+ b=H+6apb6XuarqLgWuuyMzM0uwQ4oN99F6sNLJSL/QI+0bNPG8X+kYi+2s7COOCIPnoY
+ jkeRagRseAB+IXgMy4bJQldBEp3WjWcVQUHYNS/1H08kCfLPkXV/wwUAm5EW0ZPIH90P
+ tVePJnA9rh3AIgs8ynMQmy4J/c7cSoNmOxElB28113oRRDT1hS7IxwpiqzfqeeZ78C4E
+ asjYSbpuSB9Gtv1HY6vVc67+Hh6juUr+p/qdrcVlV/tQt2NRoB+3ZMUTyOFy6FD9dS81
+ xs5CP5GmlX3uIStTsoet8viZ2EFbraZdDpVNwoPjvRE/19BOenRCNwNxMU0/PeBI2TJ0
+ zbEA==
+X-Gm-Message-State: AOAM531T6NGbtHQFoBWKt3l5oRTlkhMjlzXdH3pCnvhB5+7K0MCv74Ek
+ 7SBVyDqi8RfrftPtOGq9wkwfIw==
+X-Google-Smtp-Source: ABdhPJzfh8abje87LbHn4Yy3eXAdcq+orthOqFQV/rOJWuOe4E/5vFnXxQuTIYJlbMLLAVPJWsKNWQ==
+X-Received: by 2002:a7b:c5cf:: with SMTP id n15mr4395014wmk.93.1600172360770; 
+ Tue, 15 Sep 2020 05:19:20 -0700 (PDT)
 Received: from bender.baylibre.local (home.beaume.starnux.net. [82.236.8.43])
  by smtp.gmail.com with ESMTPSA id
- 2sm18271411wmf.25.2020.09.15.05.19.18
+ 2sm18271411wmf.25.2020.09.15.05.19.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:19:18 -0700 (PDT)
+ Tue, 15 Sep 2020 05:19:20 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: thierry.reding@gmail.com,
 	sam@ravnborg.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v4 2/4] dt-bindings: display: panel-simple-dsi: add optional
- reset gpio
-Date: Tue, 15 Sep 2020 14:19:10 +0200
-Message-Id: <20200915121912.4347-3-narmstrong@baylibre.com>
+Subject: [PATCH v4 3/4] dt-bindings: display: panel-simple-dsi: add TDO
+ TL070WSH30 DSI panel bindings
+Date: Tue, 15 Sep 2020 14:19:11 +0200
+Message-Id: <20200915121912.4347-4-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200915121912.4347-1-narmstrong@baylibre.com>
 References: <20200915121912.4347-1-narmstrong@baylibre.com>
@@ -78,28 +78,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simple DSI panels can also have a reset GPIO signal in addition/instead of an
-enable GPIO signal.
-
-This adds an optional reset-gpios property.
+This add the bindings for the 1024x600 TFT LCD TL070WSH30 DSI panel to panel-simple-dsi.
 
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml      | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index c0dd9fa29f1d..4d08e746cb21 100644
+index 4d08e746cb21..a29ab65507f0 100644
 --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -54,6 +54,7 @@ properties:
+@@ -47,6 +47,8 @@ properties:
+       - panasonic,vvx10f004b00
+         # Panasonic 10" WUXGA TFT LCD panel
+       - panasonic,vvx10f034n00
++        # Shangai Top Display Optoelectronics 7" TL070WSH30 1024x600 TFT LCD panel
++      - tdo,tl070wsh30
  
-   backlight: true
-   enable-gpios: true
-+  reset-gpios: true
-   port: true
-   power-supply: true
- 
+   reg:
+     maxItems: 1
 -- 
 2.22.0
 
