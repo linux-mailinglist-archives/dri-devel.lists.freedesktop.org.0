@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488C326AA46
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ADE26AA84
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C41D86E0F3;
-	Tue, 15 Sep 2020 17:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6686E8AF;
+	Tue, 15 Sep 2020 17:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
- [209.85.166.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C8F6E0F3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 17:14:47 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id r9so4959943ioa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 10:14:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UjmOVn51US4ye5ub9FFJR5dw7eba8fmk19nqIQFg/Ps=;
- b=KdLTMLcd+leBzIYsaFl3ezqt9gEnKC1kG7cXUeIR6zkEaAA+axgCP6LdagF48a47bQ
- xCVMAJWygfDLmsElMrH7onTf/marSyJSaSKRCm8tSbmn8CxEMRs/kfrJTq3/9yq7hF9u
- avkJWbJJNPut+XHfqWedZwdoz3htxFDF6FPnyq8fuyNb5/dCzNALaXffWowYBXr2FdAx
- Aiiz/FIyILUArvBv8q5fafvmiMOUd3iAYo9LkAD9bBeD0m8oOhl9YRm37ZWb1crnG/+A
- NgxVHLW6i/KM74nMTSSQQxitOAjcAqT6ZA8Oyj9SFHziS4iWno2Ks2qtslJ6G6VjoWL/
- mZbA==
-X-Gm-Message-State: AOAM531ykkiC5ZsM8AS15N4nR0jTrdZtwNWJdmPzYgvN9hy3v/PJ9ZxK
- Pxi+4k8WR5n9vazdJ7l4RQ==
-X-Google-Smtp-Source: ABdhPJxxfh2vAvVlCQhrRap2W6x+iat3Ht+bngSXEAH4nORPd70SAjRVOx5rKBHvI6PMcuxpXlmvwg==
-X-Received: by 2002:a02:6043:: with SMTP id d3mr18818985jaf.122.1600190087443; 
- Tue, 15 Sep 2020 10:14:47 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id z10sm7806877ioi.13.2020.09.15.10.14.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 10:14:46 -0700 (PDT)
-Received: (nullmailer pid 2146621 invoked by uid 1000);
- Tue, 15 Sep 2020 17:14:44 -0000
-Date: Tue, 15 Sep 2020 11:14:44 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add documentation
- for LT9611UXC
-Message-ID: <20200915171444.GA2146589@bogus>
-References: <20200909092823.64810-1-dmitry.baryshkov@linaro.org>
- <20200909092823.64810-2-dmitry.baryshkov@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2F16E8AD;
+ Tue, 15 Sep 2020 17:25:52 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id EC9D520678;
+ Tue, 15 Sep 2020 17:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600190751;
+ bh=zAnK9MdJHBLYi0RM5uCLYkcfWnZYrpv2oBo/jSvr9uY=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=Ykvmjz+uTRDK4muYb7ZaU4DA//3YkvSNNe72xuNxHLx5WYlF6vS8rMYi7/p95sA0e
+ ZPdUkNpigzrHNbl4M/6ZTzpu5fGsQWXGQS5l9WSBuK+ES7WGVLX9Rtn/w5xojTk3HA
+ SqvN6NXO/B4lR6nWQIM4LgYias8O7Oiya2Sq1o2E=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id B8FC535226B7; Tue, 15 Sep 2020 10:25:50 -0700 (PDT)
+Date: Tue, 15 Sep 2020 10:25:50 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+Message-ID: <20200915172550.GO29330@paulmck-ThinkPad-P72>
+References: <20200914204209.256266093@linutronix.de>
+ <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200909092823.64810-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,33 +49,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Reply-To: paulmck@kernel.org
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Brian Cain <bcain@codeaurora.org>, Richard Weinberger <richard@nod.at>,
+ Russell King <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
+ linux-um <linux-um@lists.infradead.org>, Josh Triplett <josh@joshtriplett.org>,
+ Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ alpha <linux-alpha@vger.kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Sep 2020 12:28:22 +0300, Dmitry Baryshkov wrote:
-> Lontium LT9611UXC is a DSI to HDMI bridge which supports 2 DSI ports
-> and I2S port as input and one HDMI port as output. The LT9611UXC chip is
-> handled by a separate driver, but the bindings used are fully compatible
-> with the LT9611 chip, so let's reuse the lt9611.yaml schema.
+On Mon, Sep 14, 2020 at 01:59:15PM -0700, Linus Torvalds wrote:
+> On Mon, Sep 14, 2020 at 1:45 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+> >
+> > Recently merged code does:
+> >
+> >          gfp = preemptible() ? GFP_KERNEL : GFP_ATOMIC;
+> >
+> > Looks obviously correct, except for the fact that preemptible() is
+> > unconditionally false for CONFIF_PREEMPT_COUNT=n, i.e. all allocations in
+> > that code use GFP_ATOMIC on such kernels.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Acked-by: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  .../devicetree/bindings/display/bridge/lontium,lt9611.yaml   | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> I don't think this is a good reason to entirely get rid of the no-preempt thing.
 > 
+> The above is just garbage. It's bogus. You can't do it.
+> 
+> Blaming the no-preempt code for this bug is extremely unfair, imho.
+> 
+> And the no-preempt code does help make for much better code generation
+> for simple spinlocks.
+> 
+> Where is that horribly buggy recent code? It's not in that exact
+> format, certainly, since 'grep' doesn't find it.
 
-Acked-by: Rob Herring <robh@kernel.org>
+It would be convenient for that "gfp =" code to work, as this would
+allow better cache locality while invoking RCU callbacks, and would
+further provide better robustness to callback floods.  The full story
+is quite long, but here are alternatives have not yet been proven to be
+abject failures:
+
+1.	Use workqueues to do the allocations in a clean context.
+	While waiting for the allocations, the callbacks are queued
+	in the old cache-busting manner.  This functions correctly,
+	but in the meantime (which on busy systems can be some time)
+	the cache locality and robustness are lost.
+
+2.	Provide the ability to allocate memory in raw atomic context.
+	This is extremely effective, especially when used in combination
+	with #1 above, but as you might suspect, the MM guys don't like
+	it much.
+
+In contrast, with Thomas's patch series, call_rcu() and kvfree_rcu()
+could just look at preemptible() to see whether or not it was safe to
+allocate memory, even in !PREEMPT kernels -- and in the common case,
+it almost always would be safe.  It is quite possible that this approach
+would work in isolation, or failing that, that adding #1 above would do
+the trick.
+
+I understand that this is all very hand-wavy, and I do apologize for that.
+If you really want the full sad story with performance numbers and the
+works, let me know!
+
+							Thanx, Paul
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
