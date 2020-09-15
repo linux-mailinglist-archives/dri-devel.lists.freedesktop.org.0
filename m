@@ -1,61 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E841C26A717
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 16:31:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F6526A748
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 16:38:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC36989FCC;
-	Tue, 15 Sep 2020 14:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FB56E33C;
+	Tue, 15 Sep 2020 14:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 209FA89FAC
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 14:30:58 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id ay8so3248195edb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 07:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vHe59uaejVNgZd3egV7MKNyj+7/UHmN9U8gc88ERG54=;
- b=WduzwhHWVqoiE2hsg/+LmJB//nGEamLH5K69Egnu8fAOXwmcYC64zSwrD+ilXr1kd7
- ycHEHueWK0OGPW6bnfEKhQ7sGKZV2L37uGX92GChVDxCguNjIUNWcQUv+vm2h6nlrD5+
- W1AP+nHn53PPSbSSI4qru7zQYrNCYW/gU5dMuYM5KIJk/jOIffL0B/x4CY0MealpCToD
- O7Hx5FplDXgwBtRkRGc1WFDbw9/2YNCRTkdCOIq5I/rnAjiUEfmBiMKr/vl5IksVxEjm
- SxrlZXhVUPnyNq8uTW1BDThrO/8fBDALR9MifiZI0gUZWHD9VKJIOvFXyBTdISQi2lrf
- Zs/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vHe59uaejVNgZd3egV7MKNyj+7/UHmN9U8gc88ERG54=;
- b=D8NTWxZQeoQduAQIoLI8NiuxOl0dvY40SNojEYVRjDWjzcXGhdwVtoniZKKCvlrJdx
- WitQXdmp3AlWjCj/EI3IBZsKJVkUu0fr5uESoabkH/olW8CwGaTuWOou3bh4+XNxZTNm
- 7H/J/5OQ73jUJs6A2iyeWjgMhxHHfZtGagTfevWXyE7m75nluiOIkNVUwbZQqTxHtql1
- VxOtFjwiyCs8QfTtJfg+hJM4vJdtK7YuCJBsentzt5aajpArc+8GpwVn5C/3WTF2seAL
- e0PJ4r9AAI+JIF60La2+QwN/xtfJP7vjNarn8r22gY4+PaXaa447CxooeEZcMI5SGrAy
- O1dA==
-X-Gm-Message-State: AOAM533GwBiahH16+tiuqQpDgrAhlDKzCgLU0PlymOb5W9F/Tyk3Soxc
- ldD71xWs7c5zW2LmH6+bvMfg0iBhEABuCA==
-X-Google-Smtp-Source: ABdhPJwQ+1n4xY7y0TnI9A3lgd5rysk5nt6hA0NM8YzoWY0GXvgMGW/5U48tf3uZy68LAy9RrV//AQ==
-X-Received: by 2002:a05:6402:138a:: with SMTP id
- b10mr22735135edv.113.1600180256540; 
- Tue, 15 Sep 2020 07:30:56 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:486d:c4b9:3aa9:add9])
- by smtp.gmail.com with ESMTPSA id j3sm1582420edy.7.2020.09.15.07.30.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 07:30:55 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: some cleanups
-Date: Tue, 15 Sep 2020 16:30:55 +0200
-Message-Id: <20200915143055.56565-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A624B6E33C;
+ Tue, 15 Sep 2020 14:38:51 +0000 (UTC)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 57B4820936;
+ Tue, 15 Sep 2020 14:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600180731;
+ bh=ULrLXLBFSf8v08km1JIpj+U9o/HmmxSgfv7QtS1UI34=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=tx3mGP4e7AlKlnOo5BXgVE4S6aXmPU3XQpmr1dge2/YWtyy8HN/EGy+fahm27hIfH
+ 6yedK1q/jiLysI7QXiV3v2r8XFYviECOztO4NSPa26lYbkgiXdHJ7lovy40URtlnCe
+ VqIirdg/lGheHhcrycOdzadS5KSmxHHq2U6T8o5Q=
+Received: by mail-oi1-f171.google.com with SMTP id m7so4156616oie.0;
+ Tue, 15 Sep 2020 07:38:51 -0700 (PDT)
+X-Gm-Message-State: AOAM531+xYCvi+62ZKraxliGyDQtlHVNQ8Ib7zCMU0vdgFe0iE6Vl6rj
+ /kIB05MGDkyZrSxA/Jw4yWUOzt9WCS8T15GFWg==
+X-Google-Smtp-Source: ABdhPJxRLb5pJZVUowukfIpm47EAVpHE5eGiUcywMTwuxxJXFp9MUEilmh3exqby3L0CYDonuiuZQcVK+5hz1YzMNFs=
+X-Received: by 2002:aca:1711:: with SMTP id j17mr3729398oii.152.1600180730631; 
+ Tue, 15 Sep 2020 07:38:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200904145312.10960-1-krzk@kernel.org>
+ <20200904145312.10960-7-krzk@kernel.org>
+ <20200914224407.GA388924@bogus>
+ <6bfa15383657ca38a28edac38b5e8adf891865e7.camel@fi.rohmeurope.com>
+In-Reply-To: <6bfa15383657ca38a28edac38b5e8adf891865e7.camel@fi.rohmeurope.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 15 Sep 2020 08:38:38 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK0UPXxQ6YD5Hp4VGP4vRVshzVTRZRR2eLMZ35aY3uYBA@mail.gmail.com>
+Message-ID: <CAL_JsqK0UPXxQ6YD5Hp4VGP4vRVshzVTRZRR2eLMZ35aY3uYBA@mail.gmail.com>
+Subject: Re: [PATCH 06/13] dt-bindings: mfd: rohm,
+ bd71837-pmic: Add common properties
+To: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,73 +57,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "sam@ravnborg.org" <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "krzk@kernel.org" <krzk@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-imx@nxp.com" <linux-imx@nxp.com>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+ "robert.chiras@nxp.com" <robert.chiras@nxp.com>,
+ "leoyang.li@nxp.com" <leoyang.li@nxp.com>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VW5leHBvcnQgdHRtX2NoZWNrX3VuZGVyX2xvd2VybGltaXQuCk1ha2UgdHRtX2JvX2FjY19zaXpl
-IHN0YXRpYyBhbmQgdW5leHBvcnQgaXQuClJlbW92ZSB0dG1fZ2V0X2tlcm5lbF96b25lX21lbW9y
-eV9zaXplLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgIHwgIDcgKysr
-LS0tLQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fbWVtb3J5LmMgfCAgNyAtLS0tLS0tCiBpbmNs
-dWRlL2RybS90dG0vdHRtX2JvX2FwaS5oICAgICB8IDEyIC0tLS0tLS0tLS0tLQogaW5jbHVkZS9k
-cm0vdHRtL3R0bV9tZW1vcnkuaCAgICAgfCAgMSAtCiA0IGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0
-aW9ucygrKSwgMjQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0
-bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKaW5kZXggZWUyNjMyMTI4
-ZDNjLi5mZmJkYzIwZDhlOGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwpAQCAtMTI1NCw5ICsxMjU0LDkg
-QEAgaW50IHR0bV9ib19pbml0KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAogfQogRVhQT1JU
-X1NZTUJPTCh0dG1fYm9faW5pdCk7CiAKLXNpemVfdCB0dG1fYm9fYWNjX3NpemUoc3RydWN0IHR0
-bV9ib19kZXZpY2UgKmJkZXYsCi0JCSAgICAgICB1bnNpZ25lZCBsb25nIGJvX3NpemUsCi0JCSAg
-ICAgICB1bnNpZ25lZCBzdHJ1Y3Rfc2l6ZSkKK3N0YXRpYyBzaXplX3QgdHRtX2JvX2FjY19zaXpl
-KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAorCQkJICAgICAgdW5zaWduZWQgbG9uZyBib19z
-aXplLAorCQkJICAgICAgdW5zaWduZWQgc3RydWN0X3NpemUpCiB7CiAJdW5zaWduZWQgbnBhZ2Vz
-ID0gKFBBR0VfQUxJR04oYm9fc2l6ZSkpID4+IFBBR0VfU0hJRlQ7CiAJc2l6ZV90IHNpemUgPSAw
-OwpAQCAtMTI2Niw3ICsxMjY2LDYgQEAgc2l6ZV90IHR0bV9ib19hY2Nfc2l6ZShzdHJ1Y3QgdHRt
-X2JvX2RldmljZSAqYmRldiwKIAlzaXplICs9IHR0bV9yb3VuZF9wb3Qoc2l6ZW9mKHN0cnVjdCB0
-dG1fdHQpKTsKIAlyZXR1cm4gc2l6ZTsKIH0KLUVYUE9SVF9TWU1CT0wodHRtX2JvX2FjY19zaXpl
-KTsKIAogc2l6ZV90IHR0bV9ib19kbWFfYWNjX3NpemUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
-ZXYsCiAJCQkgICB1bnNpZ25lZCBsb25nIGJvX3NpemUsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9tZW1vcnkuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX21lbW9yeS5j
-CmluZGV4IGFjZDYzYjcwZDgxNC4uOTg3YWEzMmM0ODA4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9tZW1vcnkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9tZW1v
-cnkuYwpAQCAtNTU0LDcgKzU1NCw2IEBAIHR0bV9jaGVja191bmRlcl9sb3dlcmxpbWl0KHN0cnVj
-dCB0dG1fbWVtX2dsb2JhbCAqZ2xvYiwKIAogCXJldHVybiBmYWxzZTsKIH0KLUVYUE9SVF9TWU1C
-T0wodHRtX2NoZWNrX3VuZGVyX2xvd2VybGltaXQpOwogCiBzdGF0aWMgaW50IHR0bV9tZW1fZ2xv
-YmFsX3Jlc2VydmUoc3RydWN0IHR0bV9tZW1fZ2xvYmFsICpnbG9iLAogCQkJCSAgc3RydWN0IHR0
-bV9tZW1fem9uZSAqc2luZ2xlX3pvbmUsCkBAIC02ODIsOSArNjgxLDMgQEAgc2l6ZV90IHR0bV9y
-b3VuZF9wb3Qoc2l6ZV90IHNpemUpCiAJcmV0dXJuIDA7CiB9CiBFWFBPUlRfU1lNQk9MKHR0bV9y
-b3VuZF9wb3QpOwotCi11aW50NjRfdCB0dG1fZ2V0X2tlcm5lbF96b25lX21lbW9yeV9zaXplKHN0
-cnVjdCB0dG1fbWVtX2dsb2JhbCAqZ2xvYikKLXsKLQlyZXR1cm4gZ2xvYi0+em9uZV9rZXJuZWwt
-Pm1heF9tZW07Ci19Ci1FWFBPUlRfU1lNQk9MKHR0bV9nZXRfa2VybmVsX3pvbmVfbWVtb3J5X3Np
-emUpOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fYm9fYXBpLmgKaW5kZXggMzZmZjY0ZTI3MzZjLi5mZDhkMjlmNWYzNzAgMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKKysrIGIvaW5jbHVkZS9kcm0v
-dHRtL3R0bV9ib19hcGkuaApAQCAtMzUyLDE4ICszNTIsNiBAQCB2b2lkIHR0bV9ib191bmxvY2tf
-ZGVsYXllZF93b3JrcXVldWUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIGludCByZXNjaGVk
-KTsKIGJvb2wgdHRtX2JvX2V2aWN0aW9uX3ZhbHVhYmxlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVj
-dCAqYm8sCiAJCQkgICAgICBjb25zdCBzdHJ1Y3QgdHRtX3BsYWNlICpwbGFjZSk7CiAKLS8qKgot
-ICogdHRtX2JvX2FjY19zaXplCi0gKgotICogQGJkZXY6IFBvaW50ZXIgdG8gYSB0dG1fYm9fZGV2
-aWNlIHN0cnVjdC4KLSAqIEBib19zaXplOiBzaXplIG9mIHRoZSBidWZmZXIgb2JqZWN0IGluIGJ5
-dGUuCi0gKiBAc3RydWN0X3NpemU6IHNpemUgb2YgdGhlIHN0cnVjdHVyZSBob2xkaW5nIGJ1ZmZl
-ciBvYmplY3QgZGF0YXMKLSAqCi0gKiBSZXR1cm5zIHNpemUgdG8gYWNjb3VudCBmb3IgYSBidWZm
-ZXIgb2JqZWN0Ci0gKi8KLXNpemVfdCB0dG1fYm9fYWNjX3NpemUoc3RydWN0IHR0bV9ib19kZXZp
-Y2UgKmJkZXYsCi0JCSAgICAgICB1bnNpZ25lZCBsb25nIGJvX3NpemUsCi0JCSAgICAgICB1bnNp
-Z25lZCBzdHJ1Y3Rfc2l6ZSk7CiBzaXplX3QgdHRtX2JvX2RtYV9hY2Nfc2l6ZShzdHJ1Y3QgdHRt
-X2JvX2RldmljZSAqYmRldiwKIAkJCSAgIHVuc2lnbmVkIGxvbmcgYm9fc2l6ZSwKIAkJCSAgIHVu
-c2lnbmVkIHN0cnVjdF9zaXplKTsKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fbWVt
-b3J5LmggYi9pbmNsdWRlL2RybS90dG0vdHRtX21lbW9yeS5oCmluZGV4IGM3OGVhOTljNDJjZi4u
-MmQ0NjhkN2M5NGU2IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX21lbW9yeS5oCisr
-KyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fbWVtb3J5LmgKQEAgLTkxLDcgKzkxLDYgQEAgZXh0ZXJu
-IGludCB0dG1fbWVtX2dsb2JhbF9hbGxvY19wYWdlKHN0cnVjdCB0dG1fbWVtX2dsb2JhbCAqZ2xv
-YiwKIGV4dGVybiB2b2lkIHR0bV9tZW1fZ2xvYmFsX2ZyZWVfcGFnZShzdHJ1Y3QgdHRtX21lbV9n
-bG9iYWwgKmdsb2IsCiAJCQkJICAgICBzdHJ1Y3QgcGFnZSAqcGFnZSwgdWludDY0X3Qgc2l6ZSk7
-CiBleHRlcm4gc2l6ZV90IHR0bV9yb3VuZF9wb3Qoc2l6ZV90IHNpemUpOwotZXh0ZXJuIHVpbnQ2
-NF90IHR0bV9nZXRfa2VybmVsX3pvbmVfbWVtb3J5X3NpemUoc3RydWN0IHR0bV9tZW1fZ2xvYmFs
-ICpnbG9iKTsKIGV4dGVybiBib29sIHR0bV9jaGVja191bmRlcl9sb3dlcmxpbWl0KHN0cnVjdCB0
-dG1fbWVtX2dsb2JhbCAqZ2xvYiwKIAkJCXVpbnQ2NF90IG51bV9wYWdlcywgc3RydWN0IHR0bV9v
-cGVyYXRpb25fY3R4ICpjdHgpOwogI2VuZGlmCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Sep 15, 2020 at 12:34 AM Vaittinen, Matti
+<Matti.Vaittinen@fi.rohmeurope.com> wrote:
+>
+>
+> Hello All,
+>
+> On Mon, 2020-09-14 at 16:44 -0600, Rob Herring wrote:
+> > On Fri, Sep 04, 2020 at 04:53:05PM +0200, Krzysztof Kozlowski wrote:
+> > > Add common properties appearing in DTSes (clock-names,
+> > > clock-output-names) to fix dtbs_check warnings like:
+> > >
+> > >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
+> > >     pmic@4b: 'clock-names', 'clock-output-names', do not match any
+> > > of the regexes: 'pinctrl-[0-9]+'
+> > >
+> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > > ---
+> > >  .../devicetree/bindings/mfd/rohm,bd71837-pmic.yaml          | 6
+> > > ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71837-
+> > > pmic.yaml b/Documentation/devicetree/bindings/mfd/rohm,bd71837-
+> > > pmic.yaml
+> > > index 65018a019e1d..ecce0d5e3a95 100644
+> > > --- a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> > > +++ b/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
+> > > @@ -32,9 +32,15 @@ properties:
+> > >    clocks:
+> > >      maxItems: 1
+> > >
+> > > +  clock-names:
+> > > +    maxItems: 1
+> >
+> > Needs to define what the name is.
+>
+> Someone once told me that "naming is hard".
+> Do we have some good common convention for 32K oscillator input naming?
+
+No.
+
+> Or should it just be dropped?
+
+Yes, having a name for a single entry in *-names is kind of pointless IMO.
+
+
+> > > +
+> > >    "#clock-cells":
+> > >      const: 0
+> > >
+> > > +  clock-output-names:
+> > > +    maxItems: 1
+> >
+> > Ideally this one too, but we've been more flexible on it.
+>
+> Data-sheet for BD71837 uses pin name "C32k_OUT". So maybe this would be
+> good?
+
+What's in all the dts files? I'd go with that if there's any clear
+winner. If it's already a random free-for-all, then just leave it
+as-is.
+
+>
+> BD71838 uses "bd71828-32k-out" . so we could also go with this same
+> convention and use "bd71837-32k-out". Or - we could take a risk and
+> *assume* typical use case for this clk (as this is typically used with
+> i.MX8 I'd guess the 32k is used for RTC) and name it accordingly.
+
+It should be aligned with what the output is called, not what it is
+connected to.
+
+Rob
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
