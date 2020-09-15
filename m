@@ -1,47 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9045326A6D5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 16:10:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 965C726A6DE
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 16:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA88389755;
-	Tue, 15 Sep 2020 14:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B104989CB2;
+	Tue, 15 Sep 2020 14:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5234C89755;
- Tue, 15 Sep 2020 14:10:18 +0000 (UTC)
-IronPort-SDR: iMCAbFzyPrgTNmgOenEPGSkIOqKlaWiuSCJYU6R300avE8wmZcNjdVvKefJtxNgsmFTdy7AKrr
- GsEMTvPaGGhw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="159309505"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="159309505"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2020 07:10:16 -0700
-IronPort-SDR: lURUwg4uirzAvGhJFV5QKRPDs4FcBFst8kp3lyqQ56HCXVJypC86TVa9FdMNpvJ23An5ezQFt6
- 70VVjNPuN9Bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="345843146"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 15 Sep 2020 07:10:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 15 Sep 2020 17:10:11 +0300
-Date: Tue, 15 Sep 2020 17:10:11 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Karthik B S <karthik.b.s@intel.com>
-Subject: Re: [PATCH v8 5/8] drm/i915: Add dedicated plane hook for async flip
- case
-Message-ID: <20200915141011.GL6112@intel.com>
-References: <20200914055633.21109-1-karthik.b.s@intel.com>
- <20200914055633.21109-6-karthik.b.s@intel.com>
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BAAD89CAF
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 14:12:32 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id z22so5277969ejl.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 07:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=0LTMVllaGQUrq4O3U7e3I3lEAouNpnLBGHC9QWWqnBU=;
+ b=D9UCV1fTuCT6BzD7W3Vltcv5wb00mMHlsQGhp834I9hQDOpJESwRrq8SP7WAcIiWVo
+ unNOplVmvwxSsbuJFa7Q9JuBNB7eaRXDBKCt8TyGR+bIcRpHnxcCmE478QUWM1nY58zP
+ IdSeLNqGa+wuPJz/9nMyhxfCZ95GYsb1tCuUi8EhUx1drrZDD91mlHrIejph+MIFiTI9
+ w/OvOeyiKZRbgTSICXZItA2+KmQrDxdn8mgGCf9WhWSFpSGBCZDuQolRlDCCOph9azdV
+ BG63QXET/pOiZUgVnG0MtDzOwTZAJxKJBOHhY4QeZFILsdf2ZNUSuyBhQdCs20299vSb
+ 3y5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=0LTMVllaGQUrq4O3U7e3I3lEAouNpnLBGHC9QWWqnBU=;
+ b=pfPeQg0DG2sWm92/bsoysun3vBH6GkwO+Eww3ly9Gyh8ilo1AyasR3MiljggcWtQDV
+ mYx4sRgt8ePk3tnzie2wYFhBFCrsP4jzOYbsH5hXecDIF8G5bZHyP2JVS17nc1uWS5+m
+ QSXfSSSBloy+ygYh/QsY0667IranZqSkevqo6vAbaFOPKcDYDTX8vsnkGkNZse1rfY70
+ yIYIeAgI5Wa1Buh0myM/t/ia3iTABO27ObxavygdagBuTRG+RgdSXbE8+yBNteRmcOhi
+ zXyeh7ZtlR5Dqu6f3nx+QF5pcHJQBeeD8NMVIhft1vCK9TIBvW6v6DujSCQV8F4UvWuC
+ lpoQ==
+X-Gm-Message-State: AOAM5312m5Wnw8qxv1nf4ueXJY/AWFbhC3TXAiZGFYJplPj60WvD+Z+e
+ ASeVufpEDkzkUZafWmumLP4i5W1oW7XSVw==
+X-Google-Smtp-Source: ABdhPJysqYn3i+0p2aYVBsxuWPR7eEldwLKh3b/8VSGO9DqRk8uCDrh1Zq6aIgostMz9wuTZosnI4w==
+X-Received: by 2002:a17:906:f11:: with SMTP id
+ z17mr20951276eji.88.1600179150790; 
+ Tue, 15 Sep 2020 07:12:30 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id q12sm10349145edj.19.2020.09.15.07.12.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Sep 2020 07:12:30 -0700 (PDT)
+Subject: Re: some half-baked ttm ideas
+To: Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <CAPM=9txcrHC77Quj6ufUHn0FD1-7b4YKO2MWFZGwJy8Tmj1i7g@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <6b59373e-c4e0-76b5-ffa7-d4bb954a1ffb@gmail.com>
+Date: Tue, 15 Sep 2020 16:12:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200914055633.21109-6-karthik.b.s@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAPM=9txcrHC77Quj6ufUHn0FD1-7b4YKO2MWFZGwJy8Tmj1i7g@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,141 +72,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: christian.koenig@amd.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 14, 2020 at 11:26:30AM +0530, Karthik B S wrote:
-> This hook is added to avoid writing other plane registers in case of
-> async flips, so that we do not write the double buffered registers
-> during async surface address update.
-> =
+Hi Dave,
 
-> v7: -Plane ctl needs bits from skl_plane_ctl_crtc as well. (Ville)
->     -Add a vfunc for skl_program_async_surface_address
->      and call it from intel_update_plane. (Ville)
-> =
+I think we should just completely nuke ttm_tt_bind() and ttm_tt_unbind() 
+and all of that.
 
-> v8: -Rebased.
-> =
+Drivers can to this from their move_notify() callback now instead.
 
-> Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-> Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
-> ---
->  .../gpu/drm/i915/display/intel_atomic_plane.c |  7 ++++++
->  .../drm/i915/display/intel_display_types.h    |  3 +++
->  drivers/gpu/drm/i915/display/intel_sprite.c   | 24 +++++++++++++++++++
->  3 files changed, 34 insertions(+)
-> =
+Regards,
+Christian.
 
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/=
-gpu/drm/i915/display/intel_atomic_plane.c
-> index 79032701873a..fdc633020255 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> @@ -408,6 +408,13 @@ void intel_update_plane(struct intel_plane *plane,
->  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
->  =
+Am 15.09.20 um 07:30 schrieb Dave Airlie:
+> Hi Christian,
+>
+> I've been trying to move towards the idea of not having TTM manage the
+> global TT, I'm still not sure what the result would look like so I've
+> been randomly trying out a direction or two,
+>
+> There are some patches in :
+> https://github.com/airlied/linux/commits/ttm-half-baked-ideas
+>
+> a) it splits use_tt into two flags, one for system memory backing and
+> one for binding, and tries to use them correctly.
+> b) adds cpu_pin/unpin hooks for the amdgpu/radeon drivers to use for userptr.
+>
+> I sort of envision being able to set the use_tt flag to false for
+> drivers who don't want TTM to maintain their global TT, but I'm still
+> not certain how that would look, I'd welcome any input there.
+>
+> Thanks,
+> Dave.
 
->  	trace_intel_update_plane(&plane->base, crtc);
-> +
-> +	if (crtc_state->uapi.async_flip) {
-> +		plane->program_async_surface_address(plane,
-> +						     crtc_state, plane_state);
-> +		return;
-> +	}
-
-if
-	.async_flip()
-else
-	.update_plane()
-
-should do
-
-> +
->  	plane->update_plane(plane, crtc_state, plane_state);
->  }
->  =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
-/gpu/drm/i915/display/intel_display_types.h
-> index b2d0edacc58c..d2ae781e4d81 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1190,6 +1190,9 @@ struct intel_plane {
->  			   struct intel_plane_state *plane_state);
->  	int (*min_cdclk)(const struct intel_crtc_state *crtc_state,
->  			 const struct intel_plane_state *plane_state);
-> +	void (*program_async_surface_address)(struct intel_plane *plane,
-
-That's a mouthful. I'd simplify it to eg. just .async_flip().
-
-> +					      const struct intel_crtc_state *crtc_state,
-> +					      const struct intel_plane_state *plane_state);
->  };
->  =
-
->  struct intel_watermark_params {
-> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/dr=
-m/i915/display/intel_sprite.c
-> index f0c89418d2e1..69407dfcebf6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
-> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-> @@ -609,6 +609,29 @@ icl_program_input_csc(struct intel_plane *plane,
->  			  PLANE_INPUT_CSC_POSTOFF(pipe, plane_id, 2), 0x0);
->  }
->  =
-
-> +static void
-> +skl_program_async_surface_address(struct intel_plane *plane,
-> +				  const struct intel_crtc_state *crtc_state,
-> +				  const struct intel_plane_state *plane_state)
-> +{
-> +	struct drm_i915_private *dev_priv =3D to_i915(plane->base.dev);
-> +	unsigned long irqflags;
-> +	enum plane_id plane_id =3D plane->id;
-> +	enum pipe pipe =3D plane->pipe;
-> +	u32 surf_addr =3D plane_state->color_plane[0].offset;
-> +	u32 plane_ctl =3D plane_state->ctl;
-> +
-> +	plane_ctl |=3D skl_plane_ctl_crtc(crtc_state);
-> +
-> +	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
-> +
-> +	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
-> +	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id),
-> +			  intel_plane_ggtt_offset(plane_state) + surf_addr);
-> +
-> +	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
-> +}
-> +
->  static void
->  skl_program_plane(struct intel_plane *plane,
->  		  const struct intel_crtc_state *crtc_state,
-> @@ -3096,6 +3119,7 @@ skl_universal_plane_create(struct drm_i915_private =
-*dev_priv,
->  	plane->get_hw_state =3D skl_plane_get_hw_state;
->  	plane->check_plane =3D skl_plane_check;
->  	plane->min_cdclk =3D skl_plane_min_cdclk;
-> +	plane->program_async_surface_address =3D skl_program_async_surface_addr=
-ess;
->  =
-
->  	if (INTEL_GEN(dev_priv) >=3D 11)
->  		formats =3D icl_get_plane_formats(dev_priv, pipe,
-> -- =
-
-> 2.22.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
