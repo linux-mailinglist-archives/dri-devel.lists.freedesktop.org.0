@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E672626AB38
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835BF26AB33
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED776E8D0;
-	Tue, 15 Sep 2020 17:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C17889F6E;
+	Tue, 15 Sep 2020 17:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A7A89A75
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 16:02:09 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id y11so3528540qtn.9
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 09:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qHGhBN6eHyO69pll+88g/3newfhKOBOeL1YWhiUfNUQ=;
- b=nqulYA+U+8v+m/92Wp/qSwp60FLL5ppEhy1d4NMu94BSSy3H2Ito9aUNKNk/I5IuqF
- 2AE4pe89kb9T8+IkNkK+64vp4Ge5nYKuazgHAAaffRYj3+8m1pVdgR+m3KzypTAW/i/a
- D+qqPTFpwVw9dtuMkdYgfEIt/mJbD2MVLHjG6KXwJEcwTt3v3mO4mgIqigOWTLfp6EXF
- GCJWtRwdXqf9EG8mvvOXTJjxHrzejopjiwSnY8eGV5haayXSY6V8wwuUdO+7Rg2gMf6/
- xNHcvBSDcXJNH23tzlQX6k57Dp56al2z38KUSiRqE+wjWji75xqAqd2o+uhYjNzFbOtt
- 92mg==
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8602E8932E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 17:29:52 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id l17so3815933edq.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 10:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SlyX5qFvMN3KiboyllxLciToK2Eq4o7JzV2O6OwBIsw=;
+ b=jndKH7zPjuT+Yy8CprIBxo1iTRcTUheSW1BJZMKuVBjDMhYq0L3y4DaJALchKU0bWV
+ /DG6HGyrAEcz92/BEzogfoheUq2NoOqWgUDoFeeALWTSjU7t6cmDtPMvcMOFw3IakuWp
+ gTraMfBlRb4r8fMQ5MmQhdTGA8v2635Dv7yTHmUW7c4FifhvFkeow+fmjxnyULOz9cNa
+ h1HY7N4mglhjyAyOCRnfI4Cdt1T65RO98WM5J4PiOI3ffCzhLE0AI3h6weRFWLf3hKMm
+ EKJFo5+5hvJXNo5Y4rFLV8xJX6gMUJcVSH99V+Jsd8X0JKE85PLJ2LMkkl1g2xhe0pJp
+ aGxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qHGhBN6eHyO69pll+88g/3newfhKOBOeL1YWhiUfNUQ=;
- b=gIsgce6FjB0O2k48nyisIc0qUBl2xCJme31kkLX0fVTkeKhHvDoSllERl1nJ38wWQa
- ZxgtkKJiipcjXa+NZ8K1f6UW7g6g1QaCSnO9xPPbgkih2z7E9r1069FVmpuiLO+m+uIA
- pdKCQIJi7xCvT0EOEletg2HtlbzB4trfjnC3LakNa0i93QOhBacHyrAvq1SvtngbImTG
- gl1jc5xNUNyh2l4BMTtTb3upP0HN0z9gR+yQyFp1RnpvW5gClGj5KaxCjj/qKjH3tN2s
- BP3XDiEH4kcByo9NkD34MK5geyCyfjmQEAAxFZIsvKRKWfuzZ2rAxjPa5NkGVpDt5Il3
- 7Lng==
-X-Gm-Message-State: AOAM532jlcNmjniyxQg6Yoo5kHkTIitB6idfSWWWlJrsTIvr9OPNEJa5
- 1SKgltP0RGdfFiLgNXY6jwmGMQ==
-X-Google-Smtp-Source: ABdhPJw6xKxWuntGSjSpo2t0XQrHAfXtHFl9zB7oY4bDRoJpWdY84ipY+jn9cSINhlirpBQ32z97ug==
-X-Received: by 2002:ac8:7188:: with SMTP id w8mr18494777qto.134.1600185729108; 
- Tue, 15 Sep 2020 09:02:09 -0700 (PDT)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id g37sm17775925qtk.76.2020.09.15.09.02.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 09:02:08 -0700 (PDT)
-Subject: Re: [Freedreno] [PATCH] drm/msm: Fix the a650 hw_apriv check
-To: Jordan Crouse <jcrouse@codeaurora.org>, linux-arm-msm@vger.kernel.org
-References: <20200915155638.1706161-1-jcrouse@codeaurora.org>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <821c76c7-32dd-4914-817f-7f52843e9b1b@marek.ca>
-Date: Tue, 15 Sep 2020 12:01:03 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SlyX5qFvMN3KiboyllxLciToK2Eq4o7JzV2O6OwBIsw=;
+ b=GHcCbPOvzos+lv9givzJAH7GrNTPkd06b6GQdUuHUGwMeakfnrF39UUNI/70Gi7m+j
+ 92PYaM771OgX0KoIXj4eo1g95Yb0uGHfQ5INe8tPmfmoxvAK4EDe7u8dhn0D1s0jdOnl
+ 16zVe7BDGzk0IWowLQ+ngpK/2/b4dk0dz354i/wnntChZ6F/OTtlzxNE2lkPstfrCoDG
+ tQXnukRkb0T8mCfgMrHCn7IqBE+J3MefTMkZT2oTyCezzrsDHJ/c123tfen10eu6Mlhr
+ SNsrBXQ+aBLAAQAJcOpOxGSJaDSk4Tj42MHlT2ih/lhbGVoYEGs0amyrmzuVuMnumtdi
+ J34Q==
+X-Gm-Message-State: AOAM531JK0kgOaWNomtKUOJ5g15GonNlOTcwioX77Trj/Y/Y25p2FV+F
+ VUsOsjr4sz8LILFm1WSB46WePacta/HTvJCCLSW6jw==
+X-Google-Smtp-Source: ABdhPJyTXQP46Cu/TV0meUS7Ki8Jvai2uP0B7f5/avU/VxUKH5b+mSAJAXEN/96XuLNIG/fdWfb7f8IfAIdjG+sZPvs=
+X-Received: by 2002:a50:e78f:: with SMTP id b15mr23870682edn.104.1600190989874; 
+ Tue, 15 Sep 2020 10:29:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200915155638.1706161-1-jcrouse@codeaurora.org>
-Content-Language: en-US
+References: <20200915162049.36434-1-colin.king@canonical.com>
+In-Reply-To: <20200915162049.36434-1-colin.king@canonical.com>
+From: Guenter Roeck <groeck@google.com>
+Date: Tue, 15 Sep 2020 10:29:39 -0700
+Message-ID: <CABXOdTcnAzFh81GuJ0Niqu6t2pF5AmwgFoXHf766XcXct_F+5g@mail.gmail.com>
+Subject: Re: [PATCH] drm/rockchip: cdn-dp: fix sign extension on an int
+ multiply for a u64 result
+To: Colin King <colin.king@canonical.com>
 X-Mailman-Approved-At: Tue, 15 Sep 2020 17:54:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,63 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Chris Zhong <zyw@rock-chips.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/15/20 11:56 AM, Jordan Crouse wrote:
-> Commit 604234f33658 ("drm/msm: Enable expanded apriv support for a650")
-> was checking the result of adreno_is_a650() before the gpu revision
-> got probed in adreno_gpu_init() so it was always coming across as
-> false. Snoop into the revision ID ahead of time to correctly set the
-> hw_apriv flag so that it can be used by msm_gpu to properly setup
-> global buffers.
-> 
-> Fixes: 604234f33658 ("drm/msm: Enable expanded apriv support for a650")
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+On Tue, Sep 15, 2020 at 9:20 AM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> The variable bit_per_pix is a u8 and is promoted in the multiplication
+> to an int type and then sign extended to a u64. If the result of the
+> int multiplication is greater than 0x7fffffff then the upper 32 bits will
+> be set to 1 as a result of the sign extension. Avoid this by casting
+> tu_size_reg to u64 to avoid sign extension and also a potential overflow.
+>
+> Addresses-Coverity: ("Unintended sign extension")
+> Fixes: 1a0f7ed3abe2 ("drm/rockchip: cdn-dp: add cdn DP support for rk3399")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-Tested-by: Jonathan Marek <jonathan@marek.ca>
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
 
 > ---
-> 
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 74bc27eb4203..f3b6d93c207c 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1048,6 +1048,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->   {
->   	struct msm_drm_private *priv = dev->dev_private;
->   	struct platform_device *pdev = priv->gpu_pdev;
-> +	struct adreno_platform_config *config = pdev->dev.platform_data;
-> +	const struct adreno_info *info;
->   	struct device_node *node;
->   	struct a6xx_gpu *a6xx_gpu;
->   	struct adreno_gpu *adreno_gpu;
-> @@ -1064,7 +1066,14 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->   	adreno_gpu->registers = NULL;
->   	adreno_gpu->reg_offsets = a6xx_register_offsets;
->   
-> -	if (adreno_is_a650(adreno_gpu))
-> +	/*
-> +	 * We need to know the platform type before calling into adreno_gpu_init
-> +	 * so that the hw_apriv flag can be correctly set. Snoop into the info
-> +	 * and grab the revision number
-> +	 */
-> +	info = adreno_info(config->rev);
-> +
-> +	if (info && info->revn == 650)
->   		adreno_gpu->base.hw_apriv = true;
->   
->   	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
-> 
+>  drivers/gpu/drm/rockchip/cdn-dp-reg.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.c b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+> index 9d2163ef4d6e..33fb4d05c506 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+> @@ -658,7 +658,7 @@ int cdn_dp_config_video(struct cdn_dp_device *dp)
+>          */
+>         do {
+>                 tu_size_reg += 2;
+> -               symbol = tu_size_reg * mode->clock * bit_per_pix;
+> +               symbol = (u64)tu_size_reg * mode->clock * bit_per_pix;
+>                 do_div(symbol, dp->max_lanes * link_rate * 8);
+>                 rem = do_div(symbol, 1000);
+>                 if (tu_size_reg > 64) {
+> --
+> 2.27.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
