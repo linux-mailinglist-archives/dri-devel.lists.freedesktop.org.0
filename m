@@ -1,116 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C22326A600
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 15:12:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E9D26A67B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 15:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0226E6E096;
-	Tue, 15 Sep 2020 13:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFE16E2CC;
+	Tue, 15 Sep 2020 13:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45F416E096
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 13:12:24 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id k15so3234033wrn.10
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 06:12:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TyPqer7wDB2gWtoMI+Ms6W/7jkrH1d+RA3XfBspqMnI=;
- b=kPnmuSd6QqrpVTHX95//DQc41AD116cjWihniGNpviDQoq16XlcDIdJZJLz5KNy0uI
- n3EhuPGapDIYBwT7G/5//QgEpnbBQAiq6Pe7xtgHh/g7wKAc89GziONgcZ3OITtMfixS
- 8kDIZaqcct2SGjhF3A+5OynRiMbv3+kWiaLfNSFH/3k2NR3RH3aDHLTctq1snCR1cQDl
- t8s1AMbKB8Vd03ehsU9r+39gJgNsCy/fi/yD1uf8hzX3UP4kbQW52svRhbIkU8B4aUCI
- mBJuu2P7qbf0OZ/xuaLsVBYfWNu28jor/g8nbeiMj2TFq/tAomrJNtRVaIjhGFOiYKJR
- NUfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TyPqer7wDB2gWtoMI+Ms6W/7jkrH1d+RA3XfBspqMnI=;
- b=YbJntPhX3Z1NFSD+jRF4h/kBP4RE0tqGNg5GdX7P/Iqh3DTlyiww0liXeEjb/3VDCQ
- TC4CirnHJnVmhsZMRwh8KDGgG9yybqF3a3vnryRts/IClj32e/t0APCRjhdHO2LStNVV
- yFYcNqPRBDsNsy3CRM1GBxW+ejcZ4zW59+tHtCc55VEkMP27OlGZO6IDnZytCngRwEAc
- 7Dns53cJcmEEYkWd3rKFaYhm9cliqwVevb+zZyckKHmha+QgnQmcgk4jMcidODZd0xwG
- GVNwBSJwt4Eu9rqSWI40/OMrX58sItgnARJ/+hGXTAYjdQCSVXlWBQmGVSXTyZVI/+eB
- GeIQ==
-X-Gm-Message-State: AOAM533TNAJKs9PuvDXjPh6efRviAdfcdc5hpxZSQaBgAN6PGL9gq/no
- 2Rg52KYzywnrUxDu/mb+Pr2oIV+RcEU3Kc8o
-X-Google-Smtp-Source: ABdhPJxEPShl+mPnUOC8QFqLlTd2pVCgx27uH2ApSQXB86l4U7LCzUE4ITMvmTwi5BRr/w0QEBI8Fg==
-X-Received: by 2002:a5d:5281:: with SMTP id c1mr21203738wrv.184.1600175542353; 
- Tue, 15 Sep 2020 06:12:22 -0700 (PDT)
-Received: from [192.168.1.23] (home.beaume.starnux.net. [82.236.8.43])
- by smtp.gmail.com with ESMTPSA id z83sm25855339wmb.4.2020.09.15.06.12.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 06:12:21 -0700 (PDT)
-Subject: Re: [PATCH v3 1/1] drm/bridge: ps8640: Rework power state handling
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- linux-kernel@vger.kernel.org
-References: <20200827085911.944899-1-enric.balletbo@collabora.com>
- <20200827085911.944899-2-enric.balletbo@collabora.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <08dafb77-b243-19e1-247a-6365c2b3234d@baylibre.com>
-Date: Tue, 15 Sep 2020 15:12:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7174C8976D;
+ Tue, 15 Sep 2020 13:47:47 +0000 (UTC)
+IronPort-SDR: HXqexDhvux4tSSjwkXOqcZ7BWuP6FJD1MwrV22yVIkOhxMdg2KIzrtSBmbRX5ZpcZuqTRBnfmB
+ LihgNldltRsA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="138762888"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="138762888"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP; 15 Sep 2020 06:47:44 -0700
+IronPort-SDR: C4IIqrtLUMjW6h+T6wvW2LcoS9TwIAGTOAL+CajO9YSwvXKQa8t/nqZLxvMql79QYQ+R0xenxJ
+ jGWx/kjB/oDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="319461742"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 15 Sep 2020 06:47:38 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 15 Sep 2020 16:47:37 +0300
+Date: Tue, 15 Sep 2020 16:47:37 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Karthik B S <karthik.b.s@intel.com>
+Subject: Re: [PATCH v8 1/8] drm/i915: Add enable/disable flip done and flip
+ done handler
+Message-ID: <20200915134737.GH6112@intel.com>
+References: <20200914055633.21109-1-karthik.b.s@intel.com>
+ <20200914055633.21109-2-karthik.b.s@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200827085911.944899-2-enric.balletbo@collabora.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200914055633.21109-2-karthik.b.s@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,192 +53,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
+ dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/08/2020 10:59, Enric Balletbo i Serra wrote:
-> The get_edid() callback can be triggered anytime by an ioctl, i.e
-> 
->   drm_mode_getconnector (ioctl)
->     -> drm_helper_probe_single_connector_modes
->        -> drm_bridge_connector_get_modes
->           -> ps8640_bridge_get_edid
-> 
-> Actually if the bridge pre_enable() function was not called before
-> get_edid(), the driver will not be able to get the EDID properly and
-> display will not work until a second get_edid() call is issued and if
-> pre_enable() is called before. The side effect of this, for example, is
-> that you see anything when `Frecon` starts, neither the splash screen,
-> until the graphical session manager starts.
-> 
-> To fix this we need to make sure that all we need is enabled before
-> reading the EDID. This means the following:
-> 
-> 1. If get_edid() is called before having the device powered we need to
->    power on the device. In such case, the driver will power off again the
->    device.
-> 
-> 2. If get_edid() is called after having the device powered, all should
->    just work. We added a powered flag in order to avoid recurrent calls
->    to ps8640_bridge_poweron() and unneeded delays.
-> 
-> 3. This seems to be specific for this device, but we need to make sure
->    the panel is powered on before do a power on cycle on this device.
->    Otherwise the device fails to retrieve the EDID.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+On Mon, Sep 14, 2020 at 11:26:26AM +0530, Karthik B S wrote:
+> Add enable/disable flip done functions and the flip done handler
+> function which handles the flip done interrupt.
+> =
+
+> Enable the flip done interrupt in IER.
+> =
+
+> Enable flip done function is called before writing the
+> surface address register as the write to this register triggers
+> the flip done interrupt
+> =
+
+> Flip done handler is used to send the page flip event as soon as the
+> surface address is written as per the requirement of async flips.
+> The interrupt is disabled after the event is sent.
+> =
+
+> v2: -Change function name from icl_* to skl_* (Paulo)
+>     -Move flip handler to this patch (Paulo)
+>     -Remove vblank_put() (Paulo)
+>     -Enable flip done interrupt for gen9+ only (Paulo)
+>     -Enable flip done interrupt in power_well_post_enable hook (Paulo)
+>     -Removed the event check in flip done handler to handle async
+>      flips without pageflip events.
+> =
+
+> v3: -Move skl_disable_flip_done out of interrupt handler (Paulo)
+>     -Make the pending vblank event NULL in the beginning of
+>      flip_done_handler to remove sporadic WARN_ON that is seen.
+> =
+
+> v4: -Calculate timestamps using flip done time stamp and current
+>      timestamp for async flips (Ville)
+> =
+
+> v5: -Fix the sparse warning by making the function 'g4x_get_flip_counter'
+>      static.(Reported-by: kernel test robot <lkp@intel.com>)
+>     -Fix the typo in commit message.
+> =
+
+> v6: -Revert back to old time stamping code.
+>     -Remove the break while calling skl_enable_flip_done. (Paulo)
+> =
+
+> v7: -Rebased.
+> =
+
+> v8: -Rebased.
+> =
+
+> Signed-off-by: Karthik B S <karthik.b.s@intel.com>
+> Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 > ---
-> 
-> Changes in v3:
-> - Make poweron/poweroff and pre_enable/post_disable reverse one to each other (Sam Ravnborg)
-> 
-> Changes in v2:
-> - Use drm_bridge_chain_pre_enable/post_disable() helpers (Sam Ravnborg)
-> 
->  drivers/gpu/drm/bridge/parade-ps8640.c | 68 ++++++++++++++++++++++----
->  1 file changed, 58 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index 9f7b7a9c53c5..7bd0affa057a 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -65,6 +65,7 @@ struct ps8640 {
->  	struct regulator_bulk_data supplies[2];
->  	struct gpio_desc *gpio_reset;
->  	struct gpio_desc *gpio_powerdown;
-> +	bool powered;
->  };
->  
->  static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
-> @@ -91,13 +92,15 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+>  drivers/gpu/drm/i915/display/intel_display.c |  8 +++
+>  drivers/gpu/drm/i915/i915_irq.c              | 52 ++++++++++++++++++++
+>  drivers/gpu/drm/i915/i915_irq.h              |  2 +
+>  3 files changed, 62 insertions(+)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
+rm/i915/display/intel_display.c
+> index ec148a8da2c2..48712fb0a251 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -15606,6 +15606,11 @@ static void intel_atomic_commit_tail(struct inte=
+l_atomic_state *state)
+>  =
+
+>  	intel_dbuf_pre_plane_update(state);
+>  =
+
+> +	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
+> +		if (new_crtc_state->uapi.async_flip)
+> +			skl_enable_flip_done(&crtc->base);
+> +	}
+> +
+>  	/* Now enable the clocks, plane, pipe, and connectors that we set up. */
+>  	dev_priv->display.commit_modeset_enables(state);
+>  =
+
+> @@ -15627,6 +15632,9 @@ static void intel_atomic_commit_tail(struct intel=
+_atomic_state *state)
+>  	drm_atomic_helper_wait_for_flip_done(dev, &state->base);
+>  =
+
+>  	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
+> +		if (new_crtc_state->uapi.async_flip)
+> +			skl_disable_flip_done(&crtc->base);
+> +
+>  		if (new_crtc_state->hw.active &&
+>  		    !needs_modeset(new_crtc_state) &&
+>  		    !new_crtc_state->preload_luts &&
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_=
+irq.c
+> index f113fe44572b..6cc129b031d3 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -1296,6 +1296,23 @@ display_pipe_crc_irq_handler(struct drm_i915_priva=
+te *dev_priv,
+>  			     u32 crc4) {}
+>  #endif
+>  =
+
+> +static void flip_done_handler(struct drm_i915_private *dev_priv,
+
+Pls use
+struct drm_i915_private *i915
+in new code.
+
+> +			      unsigned int pipe)
+
+enum pipe pipe
+
+> +{
+> +	struct intel_crtc *crtc =3D intel_get_crtc_for_pipe(dev_priv, pipe);
+> +	struct drm_crtc_state *crtc_state =3D crtc->base.state;
+> +	struct drm_pending_vblank_event *e =3D crtc_state->event;
+> +	struct drm_device *dev =3D &dev_priv->drm;
+> +	unsigned long irqflags;
+> +
+> +	spin_lock_irqsave(&dev->event_lock, irqflags);
+> +
+> +	crtc_state->event =3D NULL;
+> +
+> +	drm_crtc_send_vblank_event(&crtc->base, e);
+> +
+> +	spin_unlock_irqrestore(&dev->event_lock, irqflags);
+> +}
+>  =
+
+>  static void hsw_pipe_crc_irq_handler(struct drm_i915_private *dev_priv,
+>  				     enum pipe pipe)
+> @@ -2390,6 +2407,9 @@ gen8_de_irq_handler(struct drm_i915_private *dev_pr=
+iv, u32 master_ctl)
+>  		if (iir & GEN8_PIPE_VBLANK)
+>  			intel_handle_vblank(dev_priv, pipe);
+>  =
+
+> +		if (iir & GEN9_PIPE_PLANE1_FLIP_DONE)
+> +			flip_done_handler(dev_priv, pipe);
+> +
+>  		if (iir & GEN8_PIPE_CDCLK_CRC_DONE)
+>  			hsw_pipe_crc_irq_handler(dev_priv, pipe);
+>  =
+
+> @@ -2711,6 +2731,19 @@ int bdw_enable_vblank(struct drm_crtc *crtc)
 >  	return 0;
 >  }
->  
-> -static void ps8640_pre_enable(struct drm_bridge *bridge)
-> +static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
->  {
-> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->  	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
->  	unsigned long timeout;
->  	int ret, status;
->  
-> +	if (ps_bridge->powered)
-> +		return;
-> +
->  	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
->  				    ps_bridge->supplies);
->  	if (ret < 0) {
-> @@ -152,10 +155,6 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
->  		goto err_regulators_disable;
->  	}
->  
-> -	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
-> -	if (ret)
-> -		goto err_regulators_disable;
-> -
->  	/* Switch access edp panel's edid through i2c */
->  	ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
->  					I2C_BYPASS_EN);
-> @@ -164,6 +163,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
->  		goto err_regulators_disable;
->  	}
->  
-> +	ps_bridge->powered = true;
-> +
->  	return;
->  
->  err_regulators_disable:
-> @@ -171,12 +172,12 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
->  			       ps_bridge->supplies);
->  }
->  
-> -static void ps8640_post_disable(struct drm_bridge *bridge)
-> +static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
->  {
-> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->  	int ret;
->  
-> -	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
-> +	if (!ps_bridge->powered)
-> +		return;
->  
->  	gpiod_set_value(ps_bridge->gpio_reset, 1);
->  	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
-> @@ -184,6 +185,28 @@ static void ps8640_post_disable(struct drm_bridge *bridge)
->  				     ps_bridge->supplies);
->  	if (ret < 0)
->  		DRM_ERROR("cannot disable regulators %d\n", ret);
-> +
-> +	ps_bridge->powered = false;
-> +}
-> +
-> +static void ps8640_pre_enable(struct drm_bridge *bridge)
-> +{
-> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-> +	int ret;
-> +
-> +	ps8640_bridge_poweron(ps_bridge);
-> +
-> +	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
-> +	if (ret < 0)
-> +		ps8640_bridge_poweroff(ps_bridge);
-> +}
-> +
-> +static void ps8640_post_disable(struct drm_bridge *bridge)
-> +{
-> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-> +
-> +	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
-> +	ps8640_bridge_poweroff(ps_bridge);
->  }
->  
->  static int ps8640_bridge_attach(struct drm_bridge *bridge,
-> @@ -249,9 +272,34 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
->  					   struct drm_connector *connector)
->  {
->  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-> +	bool poweroff = !ps_bridge->powered;
-> +	struct edid *edid;
-> +
-> +	/*
-> +	 * When we end calling get_edid() triggered by an ioctl, i.e
-> +	 *
-> +	 *   drm_mode_getconnector (ioctl)
-> +	 *     -> drm_helper_probe_single_connector_modes
-> +	 *        -> drm_bridge_connector_get_modes
-> +	 *           -> ps8640_bridge_get_edid
-> +	 *
-> +	 * We need to make sure that what we need is enabled before reading
-> +	 * EDID, for this chip, we need to do a full poweron, otherwise it will
-> +	 * fail.
-> +	 */
-> +	drm_bridge_chain_pre_enable(bridge);
->  
-> -	return drm_get_edid(connector,
-> +	edid = drm_get_edid(connector,
->  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
-> +
-> +	/*
-> +	 * If we call the get_edid() function without having enabled the chip
-> +	 * before, return the chip to its original power state.
-> +	 */
-> +	if (poweroff)
-> +		drm_bridge_chain_post_disable(bridge);
-> +
-> +	return edid;
->  }
->  
->  static const struct drm_bridge_funcs ps8640_bridge_funcs = {
-> 
+>  =
 
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+> +void skl_enable_flip_done(struct drm_crtc *crtc)
+
+Pls use
+struct intel_crtc *crtc
+instead
+
+> +{
+> +	struct drm_i915_private *dev_priv =3D to_i915(crtc->dev);
+> +	enum pipe pipe =3D to_intel_crtc(crtc)->pipe;
+> +	unsigned long irqflags;
+> +
+> +	spin_lock_irqsave(&dev_priv->irq_lock, irqflags);
+> +
+> +	bdw_enable_pipe_irq(dev_priv, pipe, GEN9_PIPE_PLANE1_FLIP_DONE);
+> +
+> +	spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
+> +}
+> +
+>  /* Called from drm generic code, passed 'crtc' which
+>   * we use as a pipe index
+>   */
+> @@ -2771,6 +2804,19 @@ void bdw_disable_vblank(struct drm_crtc *crtc)
+>  	spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
+>  }
+>  =
+
+> +void skl_disable_flip_done(struct drm_crtc *crtc)
+
+struct intel_crtc *crtc
+here too
+
+> +{
+> +	struct drm_i915_private *dev_priv =3D to_i915(crtc->dev);
+
+s/dev_priv/i915/
+
+> +	enum pipe pipe =3D to_intel_crtc(crtc)->pipe;
+> +	unsigned long irqflags;
+> +
+> +	spin_lock_irqsave(&dev_priv->irq_lock, irqflags);
+> +
+> +	bdw_disable_pipe_irq(dev_priv, pipe, GEN9_PIPE_PLANE1_FLIP_DONE);
+> +
+> +	spin_unlock_irqrestore(&dev_priv->irq_lock, irqflags);
+> +}
+> +
+>  static void ibx_irq_reset(struct drm_i915_private *dev_priv)
+>  {
+>  	struct intel_uncore *uncore =3D &dev_priv->uncore;
+> @@ -2981,6 +3027,9 @@ void gen8_irq_power_well_post_enable(struct drm_i91=
+5_private *dev_priv,
+>  	u32 extra_ier =3D GEN8_PIPE_VBLANK | GEN8_PIPE_FIFO_UNDERRUN;
+>  	enum pipe pipe;
+>  =
+
+> +	if (INTEL_GEN(dev_priv) >=3D 9)
+> +		extra_ier |=3D GEN9_PIPE_PLANE1_FLIP_DONE;
+> +
+>  	spin_lock_irq(&dev_priv->irq_lock);
+>  =
+
+>  	if (!intel_irqs_enabled(dev_priv)) {
+> @@ -3459,6 +3508,9 @@ static void gen8_de_irq_postinstall(struct drm_i915=
+_private *dev_priv)
+>  	de_pipe_enables =3D de_pipe_masked | GEN8_PIPE_VBLANK |
+>  					   GEN8_PIPE_FIFO_UNDERRUN;
+>  =
+
+> +	if (INTEL_GEN(dev_priv) >=3D 9)
+> +		de_pipe_enables |=3D GEN9_PIPE_PLANE1_FLIP_DONE;
+> +
+>  	de_port_enables =3D de_port_masked;
+>  	if (IS_GEN9_LP(dev_priv))
+>  		de_port_enables |=3D BXT_DE_PORT_HOTPLUG_MASK;
+> diff --git a/drivers/gpu/drm/i915/i915_irq.h b/drivers/gpu/drm/i915/i915_=
+irq.h
+> index 25f25cd95818..2f10c8135116 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.h
+> +++ b/drivers/gpu/drm/i915/i915_irq.h
+> @@ -112,11 +112,13 @@ int i915gm_enable_vblank(struct drm_crtc *crtc);
+>  int i965_enable_vblank(struct drm_crtc *crtc);
+>  int ilk_enable_vblank(struct drm_crtc *crtc);
+>  int bdw_enable_vblank(struct drm_crtc *crtc);
+> +void skl_enable_flip_done(struct drm_crtc *crtc);
+
+I wouldn't mix these with the vblank hooks like this.
+
+With those this patch is
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+>  void i8xx_disable_vblank(struct drm_crtc *crtc);
+>  void i915gm_disable_vblank(struct drm_crtc *crtc);
+>  void i965_disable_vblank(struct drm_crtc *crtc);
+>  void ilk_disable_vblank(struct drm_crtc *crtc);
+>  void bdw_disable_vblank(struct drm_crtc *crtc);
+> +void skl_disable_flip_done(struct drm_crtc *crtc);
+>  =
+
+>  void gen2_irq_reset(struct intel_uncore *uncore);
+>  void gen3_irq_reset(struct intel_uncore *uncore, i915_reg_t imr,
+> -- =
+
+> 2.22.0
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
