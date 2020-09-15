@@ -1,60 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736BD26BDFB
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:30:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C39226BE09
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:31:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 042BD6E2FF;
-	Wed, 16 Sep 2020 07:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1A196E9B7;
+	Wed, 16 Sep 2020 07:31:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 417D56E2FF
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 07:30:36 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id gr14so8930876ejb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 00:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7RIGf9h6dDPWyLZTLeTzeO7hVWN+gA8tHzVpWF0AEcw=;
- b=i4MQpVGDrUnRJ8PbaSizdYCQl87PGP2D0ndZdHXIgE3DSTlqg7UvNH7Pg5Kykvwm3B
- mHAT1yDmZqrCn7Kdk68FmwBmBAnmkcw6ICZr0n5xxU0HNUbYi9sZfOODr5m6Ic6x2DTu
- VGtM5E99mFvQ+DlxHub5Ai2tqckX9bUZetP8ftqgyGLs5y8Nvd3JmkmSRX58ReHCQiQ3
- +GV8cR3Khsi39s8ui4cTYQG1cAPtypY5A1AvCDvL/01IgJ7SC7CrAVih9NoU3Mf34oTM
- G8O3J5ZjhsdRpfykYj7MhPTG+te3imGP1fK8cZKy+8dqB2EUdSmD59hrX03WO5R+/FDD
- KRQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7RIGf9h6dDPWyLZTLeTzeO7hVWN+gA8tHzVpWF0AEcw=;
- b=DbU5JWiksES4EJ7Y0YgRJDvfqSBFR+LoSXq2TKo7VpSHDaVjH3t2NRoe3BeYeSctqU
- 2D/Qsybd5McicBj5DMH1dWWocE8XMwssDzczR8xsrQJX0yPRgXTuzOvAxNXCo2oog0Wx
- nxefe63HCPVdmj9BPqlC2Iw1Buw0OyAO6SdGhq/Q8FuvXF72xHX+2ml53rbjRk3o4Oo9
- iaZNbjx9nxfHg4jP5/l1nWHKszpAZp1z7URL3bxAazBNF8hCHyLuAR0PCM1GvUqZPIAw
- imheDi1sPXidnBTuXyYv18hiuun48b6uhTa3vmBTf2L6dQh/7ooPQZZb9fO1IDaMstUV
- 1LDw==
-X-Gm-Message-State: AOAM530mbrkm59MJLhwn0GgQ1nlgF6fttt1YPcVTDexi46ywx3KXIqXC
- uchOBDqunTOy+AVRJIG6PoUp8+Fn47JyAwLLQy12oO7R
-X-Google-Smtp-Source: ABdhPJxBVelfQNggKV6XtOr3xDk6aA2uMUlUPgXwASgRLQbNEdMt6+RvZ1LaR0pCOgAAz3I/lEF8VYHC9Wd96LoVY1w=
-X-Received: by 2002:a17:906:2b83:: with SMTP id
- m3mr6228181ejg.456.1600241433828; 
- Wed, 16 Sep 2020 00:30:33 -0700 (PDT)
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F13796E1CD;
+ Tue, 15 Sep 2020 19:57:39 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1600199857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WUf3cR8tRBv7eifn3bYRJqwOE06JyVH+YNcuAlhPEzY=;
+ b=R4Zt8iBiRf9a+cl1bV87aTb7PzjrsY9fDXMhiBS8K2ot+081OXV43gzpJxoKPhJ+bG/r3d
+ IZ+XMelmwH6I1/IeBzA0fsbvOLaK8KTaPACawTHUg6jjadOJqPR3b3oHieYk1VWz6/0oQm
+ 160PfMvRl4sOXnVT35YSXZOTlM61qgXSYzZSMF7oaVHQZW8+sX+YqTW5CPNn3M/4wDy6pz
+ FqyKA3YK/qnHJa+/v8mb9TXFlw3YCbBIJGJZD6NGKFvRIxsCkXAfwQ3qqvw+SkHnN/x3SA
+ Xr1GzKJIli+LvQNZjFraeH3J5TJIjCZBBRyHcln921IMOu/pI6tJi9qyOaIRUA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1600199857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WUf3cR8tRBv7eifn3bYRJqwOE06JyVH+YNcuAlhPEzY=;
+ b=GHgvirbCN6gxc0oKsh65B0tX+BLegnUGJa5AhDfyLfEqCZ+BxU1R9tgqcRPDwCSIqCwX9J
+ bXubW9jdXnVc0gCA==
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+In-Reply-To: <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+References: <20200914204209.256266093@linutronix.de>
+ <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ <871rj4owfn.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+Date: Tue, 15 Sep 2020 21:57:37 +0200
+Message-ID: <87y2la4xu6.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <CAPM=9txcrHC77Quj6ufUHn0FD1-7b4YKO2MWFZGwJy8Tmj1i7g@mail.gmail.com>
- <6b59373e-c4e0-76b5-ffa7-d4bb954a1ffb@gmail.com>
- <CAPM=9tzXsGqnbkUH30vUHd7zyenCNj=ikVjx6P1qWq9dx0jiEg@mail.gmail.com>
- <CAPM=9tySxEnV+1q=hyu4c5tSX35ZJr6TBKwfnUkQZbuw=XkrLA@mail.gmail.com>
- <85097575-b713-095d-7c09-9e4d02f5fbda@shipmail.org>
- <fb34ccb6-56b6-319f-5a25-05af658b593a@amd.com>
-In-Reply-To: <fb34ccb6-56b6-319f-5a25-05af658b593a@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 16 Sep 2020 17:30:22 +1000
-Message-ID: <CAPM=9ty=EwHO_PpxuAS0apOeLPL=sYk1tXo6F=ViEqR00ABTvQ@mail.gmail.com>
-Subject: Re: some half-baked ttm ideas
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-Mailman-Approved-At: Wed, 16 Sep 2020 07:31:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +58,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Jeff Dike <jdike@addtoit.com>, linux-um <linux-um@lists.infradead.org>,
+ Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
+ rcu@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ alpha <linux-alpha@vger.kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxNiBTZXAgMjAyMCBhdCAxNjo1OCwgQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
-LmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDE2LjA5LjIwIHVtIDA4OjQ0IHNjaHJpZWIg
-VGhvbWFzIEhlbGxzdHLDtm0gKEludGVsKToKPiA+Cj4gPiBPbiA5LzE2LzIwIDY6MjggQU0sIERh
-dmUgQWlybGllIHdyb3RlOgo+ID4+IE9uIFdlZCwgMTYgU2VwIDIwMjAgYXQgMTQ6MTksIERhdmUg
-QWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4+IE9uIFdlZCwgMTYgU2VwIDIw
-MjAgYXQgMDA6MTIsIENocmlzdGlhbiBLw7ZuaWcKPiA+Pj4gPGNrb2VuaWcubGVpY2h0enVtZXJr
-ZW5AZ21haWwuY29tPiB3cm90ZToKPiA+Pj4+IEhpIERhdmUsCj4gPj4+Pgo+ID4+Pj4gSSB0aGlu
-ayB3ZSBzaG91bGQganVzdCBjb21wbGV0ZWx5IG51a2UgdHRtX3R0X2JpbmQoKSBhbmQKPiA+Pj4+
-IHR0bV90dF91bmJpbmQoKQo+ID4+Pj4gYW5kIGFsbCBvZiB0aGF0Lgo+ID4+Pj4KPiA+Pj4+IERy
-aXZlcnMgY2FuIHRvIHRoaXMgZnJvbSB0aGVpciBtb3ZlX25vdGlmeSgpIGNhbGxiYWNrIG5vdyBp
-bnN0ZWFkLgo+ID4+PiBHb29kIHBsYW4sIEkndmUgcHV0IGEgYnVuY2ggb2YgcmV3b3JrIGludG8g
-dGhlIHNhbWUgYnJhbmNoLAo+ID4+Pgo+ID4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90
-ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGYWlybGll
-ZCUyRmxpbnV4JTJGY29tbWl0cyUyRnR0bS1oYWxmLWJha2VkLWlkZWFzJmFtcDtkYXRhPTAyJTdD
-MDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzNkNmM5YWJmZmE1NTQzYTM4ODEwMDhk
-ODVhMGMwMTNjJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYz
-NzM1ODM1NDkxMjE2MjE2OSZhbXA7c2RhdGE9a2FSMXVDM3lMRiUyRjhBVDFiZ1RwbyUyRjhBbiUy
-QjB5eXdIWkJBZlhURCUyRnQlMkJNYjAlM0QmYW1wO3Jlc2VydmVkPTAKPiA+Pj4KPiA+Pj4KPiA+
-Pj4gYnV0IEkndmUgZnJpZWQgbXkgYnJhaW4gYSBiaXQsIEknbSBoYXZpbmcgdHJvdWJsZSByZWNv
-bmNpbGluZyBtb3ZlCj4gPj4+IG5vdGlmeSBhbmQgdW5iaW5kaW5nIGluIHRoZSByaWdodCBwbGFj
-ZXMsIEkgZmVlbCBsaWtlIEknbSBjaXJjbGluZwo+ID4+PiBhcm91bmQgdGhlIGFuc3dlciBidXQg
-aGF2ZW4ndCBoaXQgaXQgeWV0Lgo+ID4+IGRybS90dG06IGFkZCB1bmJpbmQgdG8gbW92ZSBub3Rp
-ZnkgcGF0aHMuCj4gPj4KPiA+PiBJbiB0aGF0IHRyZWUgaXMgaW5jb3JyZWN0IGFuZCBJIHRoaW5r
-IHdoZXJlIHRoaW5ncyBmYWxsIGFwYXJ0LCBzaW5jZQo+ID4+IGlmIHdlIGFyZSBtb3ZpbmcgVFRN
-IHRvIFZSQU0gdGhhdCB3aWxsIHVuYmluZCB0aGUgVFRNIG9iamVjdCBmcm9tIHRoZQo+ID4+IEdU
-VCBhdCBtb3ZlIG5vdGlmeSB0aW1lIGJlZm9yZSB0aGUgbW92ZSBoYXMgZXhlY3V0ZWQuCj4gPj4K
-PiA+PiBJJ20gZmVlbGluZyBhIG1vdmVfY29tcGxldGVfbm90aWZ5IG1pZ2h0IGJlIGFuIGlkZWEs
-IGJ1dCBJJ20gd29uZGVyaW5nCj4gPj4gaWYgaXQncyBhIGJhZCBpZGVhLgo+ID4+Cj4gPj4gRGF2
-ZS4KPiA+Cj4gPiBJIGRvbid0IGtub3cgaWYgdGhpcyBjb21wbGljYXRlcyB0aGluZ3MgbW9yZSwg
-YnV0IG1vdmVfbm90aWZ5IHdhcwo+ID4gb3JpZ2luYWxseSBvbmx5IHRob3VnaHQgdG8gYmUgYW4g
-aW52YWxpZGF0aW9uIGNhbGxiYWNrLCBhbmQgd2FzIG5ldmVyCj4gPiBpbnRlbmRlZCB0byBkcml2
-ZSBhbnkgb3RoZXIgYWN0aW9ucyBpbiB0aGUgZHJpdmVyIHRoYW4gdG8gaW52YWxpZGF0ZQo+ID4g
-dmFyaW91cyBHUFUgYmluZGluZ3MuCj4KPiBBbmQgZXhhY3RseSB0aGF0J3Mgd2hhdCB3ZSBuZWVk
-IHRvIGNoYW5nZS4gU2VlIFRUTSBvciBtb3JlIHByZWNpc2VseSB0aGUKPiBldmljdGlvbiBoYW5k
-bGluZyBzaG91bGQgb25seSBtYW5hZ2Ugd2hlcmUgYnVmZmVycyBhcmUgbG9jYXRlZCBhbmQKPiBu
-b3RpZnkgdGhhdCBkcml2ZXIgdGhhdCBzb21ldGhpbmcgbmVlZHMgdG8gbW92ZS4KPgo+IE1hbmFn
-aW5nIHRoZSB3aG9sZSBiaW5kaW5nL3VuYmluZGluZyBhbmQgYWN0dWFsbHkgbW92aW5nIHRoZSBi
-dWZmZXIKPiBhcm91bmQgaW5zaWRlIFRUTSB3YXMgYSBiYWQgaWRlYSB0byBiZWdpbiB3aXRoLgo+
-Cj4gSW4gb3RoZXIgd29yZHMgd2UgaGF2ZSBkb21haW5zIEEsIEIsIEMuLi4uIGFuZCBtYW5hZ2Ug
-d2hpY2ggQk9zIGFyZQo+IGluc2lkZSB0aG9zZSBkb21haW5zIGFuZCBjYW4gYmUgZXZpY3RlZCB3
-aGVuIG5lY2Vzc2FyeS4KPgo+IElmIHRoZSBuZWVkIGFyaXNlIHRvIGV2aWN0IHNvbWV0aGluZyB0
-aGUgZHJpdmVyIGdldHMgYSBub3RpZmljYXRpb24KPiB3aGljaCBCTyB3YXMgcGlja2VkIGZvciBl
-dmljdGlvbiBhbmQgYWN0cyBhY2NvcmRpbmdseS4KPgo+IFRoaXMgbWVhbnMgdGhhdCB0aGUgZXZp
-Y3Rpb25fdmFsdWFibGUsIGV2aWN0X2ZsYWcsIG1vdmVfbm90aWZ5LCBiaW5kaW5nLAo+IHVuYmlu
-ZGluZyBldGMuLi4gY2FsbGJhY2tzIHNob3VsZCBiZSByZW1vdmVkIGluIHRoZSBsb25nIHRlcm0u
-CgpJJ3ZlIHB1c2hlZCBhIGZldyBtb3JlIFdJUCBkaXJlY3Rpb24gY2hhbmdlcyBpbnRvIG15IGJy
-YW5jaCBub3csIEkKdGhpbmsgdGhlIGZ1biBiaXQgSSBoYXZlIHRvIGZhY2UgbmV4dCBpcyBzcGxp
-dHRpbmcgdGhlCm1vdmVfYWNjZWxfY2xlYW51cCBhbmQgcGlwZWxpbmUgbW92ZSBjbGVhbnVwcy4K
-CmJ1dCBJJ2xsIGtlZXAgaW4gbWluZCB0aGUgZ29hbCBvZiB0cnlpbmcgdG8gZ2V0IHRvIGEgY2xl
-YW5lciBmaW5pc2hlZCBzb2x1dGlvbi4KCkRhdmUuCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Sep 15 2020 at 10:35, Linus Torvalds wrote:
+> On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>>
+>> OTOH, having a working 'preemptible()' or maybe better named
+>> 'can_schedule()' check makes tons of sense to make decisions about
+>> allocation modes or other things.
+>
+> No. I think that those kinds of decisions about actual behavior are
+> always simply fundamentally wrong.
+>
+> Note that this is very different from having warnings about invalid
+> use. THAT is correct. It may not warn in all configurations, but that
+> doesn't matter: what matters is that it warns in common enough
+> configurations that developers will catch it.
+
+You wish. I just found a 7 year old bug in a 10G network driver which
+surely would have been found if people would enable debug configs and
+not just run the crap on their PREEMPT_NONE, all debug off kernel. And
+that driver is not subject to bitrot, it gets regular bug fixes from
+people who seem to care (distro folks).
+
+> So having a warning in "might_sleep()" that doesn't always trigger,
+> because you have a limited configuration that can't even detect the
+> situation, that's fine and dandy and intentional.
+
+and lets people get away with their crap.
+
+> But having code like
+>
+>        if (can_schedule())
+>            .. do something different ..
+>
+> is fundamentally complete and utter garbage.
+>
+> It's one thing if you test for "am I in hardware interrupt context".
+> Those tests aren't great either, but at least they make sense.
+
+They make sense in limited situations like exception handlers and such
+which really have to know from which context an exception was raised.
+
+But with the above reasoning such checks do not make sense in any other
+general code. 'in hard interrupt context' is just another context where
+you can't do stuff which you can do when in preemptible task context.
+
+Most tests are way broader than a single context. in_interrupt() is true
+for hard interrupt, soft interrupt delivery and all BH disabled
+contexts, which is completely ill defined.
+
+> But a driver - or some library routine - making a difference based on
+> some nebulous "can I schedule" is fundamentally and basically WRONG.
+>
+> If some code changes behavior, it needs to be explicit to the *caller*
+> of that code.
+
+I'm fine with that, but then we have to be consequent and ban _all_ of
+these and not just declare can_schedule() to be a bad one.
+
+Thanks,
+
+        tglx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
