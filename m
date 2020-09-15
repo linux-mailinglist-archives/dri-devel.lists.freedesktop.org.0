@@ -1,54 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D005026A8F9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 17:41:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8174926A905
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 17:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2370789FD3;
-	Tue, 15 Sep 2020 15:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3EA06E2EA;
+	Tue, 15 Sep 2020 15:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17AE889FD3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 15:41:21 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id g128so4524459iof.11
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 08:41:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9td3CHrhD2ePyY61tWqpgj5SUv0on2Qa1ge62urpHGs=;
- b=lsBU1yio4Cg/3RHF6BnJ96/wS1V9crEQ/Mwkr1drCe06qCkGTIxfElP2IuOtaub1Pe
- SG8v55cHqM41guOxb262bXEnUIOLU4WZMt3SpuBMiE3V367xfhRRgJCXF9+rO936mKgp
- Te9Lq5WOmLv5OofhiDeZan8tsW+JrbJxq5Xsp/E0gNZ6J2Swohxj9gqNY8DiylG9AVzJ
- Q3lYJLwMCgm02mR7neSf/raxRSVw4mRwUY3rDhlU+58Qeo8SqEXlxyNWmfWDEkW8i3gZ
- /BfBbNIcJRyqoBegNiBa5rzeNEBw8f13QQE61TrW9TUCcSnABaEYK/PdURII66WvTQ/g
- fYkA==
-X-Gm-Message-State: AOAM532HfBdDxzUAvdjOQyp5b9M5+bTlzuWihh4Y3KRixwxmjzaRu5Xl
- uMyHuzhm507lg8Wj2P+I4CuB2YHcdEGB
-X-Google-Smtp-Source: ABdhPJwNFt8xtG/jVr9dFKGqM4jI/u+N27xrn10aCxWh4fQsBFtbNUAm75Pkj7j/t6t5kOZ/mWI69Q==
-X-Received: by 2002:a6b:c997:: with SMTP id
- z145mr15671026iof.136.1600184480497; 
- Tue, 15 Sep 2020 08:41:20 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id s2sm9369515ili.49.2020.09.15.08.41.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 08:41:19 -0700 (PDT)
-Received: (nullmailer pid 1999129 invoked by uid 1000);
- Tue, 15 Sep 2020 15:41:19 -0000
-Date: Tue, 15 Sep 2020 09:41:19 -0600
-From: Rob Herring <robh@kernel.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH 2/6] dt-bindings: display: add Amlogic MIPI DSI Host
- Controller bindings
-Message-ID: <20200915154118.GA1988840@bogus>
-References: <20200907081825.1654-1-narmstrong@baylibre.com>
- <20200907081825.1654-3-narmstrong@baylibre.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A36F6E2EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 15:44:22 +0000 (UTC)
+IronPort-SDR: LXpJid7GOTxiGBMVD7AlVrWKjob2dfljQXxng7qGpeEibCELssex4CYGR3AcVRxMRMT9gd4wa0
+ 84Z1KwU1K9yA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="177350855"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="177350855"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2020 08:44:20 -0700
+IronPort-SDR: VGKqwfNDXqscDQAO6F7lJYGIFsY/g9tzvnD2HQWgZnQwjOdMZ3XuWtHf9bXfGAs7gt9r2WFl+k
+ GmETa25SWj7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="482870602"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by orsmga005.jf.intel.com with ESMTP; 15 Sep 2020 08:44:20 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 15 Sep 2020 08:44:20 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 15 Sep 2020 08:44:19 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
+ Tue, 15 Sep 2020 08:44:19 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/ttm: some cleanups
+Thread-Topic: [PATCH] drm/ttm: some cleanups
+Thread-Index: AQHWi2zbJC2TEXQt0kO+GqHVkskCbalp1WxA
+Date: Tue, 15 Sep 2020 15:44:19 +0000
+Message-ID: <250b654d110d4b1f8fc5ea537ccd22f9@intel.com>
+References: <20200915143055.56565-1-christian.koenig@amd.com>
+In-Reply-To: <20200915143055.56565-1-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.22.254.132]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200907081825.1654-3-narmstrong@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,115 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 07, 2020 at 10:18:21AM +0200, Neil Armstrong wrote:
-> The Amlogic AXg SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a), with a custom
-> glue managing the IP resets, clock and data input similar to the DW-HDMI Glue on other
-> Amlogic SoCs.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  .../display/amlogic,meson-dw-mipi-dsi.yaml    | 115 ++++++++++++++++++
->  1 file changed, 115 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/amlogic,meson-dw-mipi-dsi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-dw-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/amlogic,meson-dw-mipi-dsi.yaml
-> new file mode 100644
-> index 000000000000..6177f45ea1a6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/amlogic,meson-dw-mipi-dsi.yaml
-> @@ -0,0 +1,115 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2020 BayLibre, SAS
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/display/amlogic,meson-dw-mipi-dsi.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Amlogic specific extensions to the Synopsys Designware MIPI DSI Host Controller
-> +
-> +maintainers:
-> +  - Neil Armstrong <narmstrong@baylibre.com>
-> +
-> +description: |
-> +  The Amlogic Meson Synopsys Designware Integration is composed of
-> +  - A Synopsys DesignWare MIPI DSI Host Controller IP
-> +  - A TOP control block controlling the Clocks & Resets of the IP
-> +
-> +allOf:
-> +  - $ref: dsi-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - amlogic,meson-axg-dw-mipi-dsi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    items:
-> +      - const: pclk
-> +      - const: px_clk
-> +      - const: meas_clk
-> +
-> +  resets:
-> +    minItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: top
-> +
-> +  phys:
-> +    minItems: 1
-> +
-> +  phy-names:
-> +    items:
-> +      - const: dphy
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: Input node to receive pixel data.
-> +      port@1:
-> +        type: object
-> +        description: DSI output node to panel.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - phys
-> +  - phy-names
-> +  - ports
-> +
-> +additionalProperties: false
-
-Presumably you may have panel/bridge child nodes, so this needs to be 
-'unevaluatedProperties: false'.
-
-Rob
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBkcmktZGV2ZWwgPGRyaS1kZXZl
+bC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVoYWxmIE9mDQo+Q2hyaXN0aWFu
+IEvDtm5pZw0KPlNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAxNSwgMjAyMCAxMDozMSBBTQ0KPlRv
+OiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+U3ViamVjdDogW1BBVENIXSBkcm0v
+dHRtOiBzb21lIGNsZWFudXBzDQo+DQo+VW5leHBvcnQgdHRtX2NoZWNrX3VuZGVyX2xvd2VybGlt
+aXQuDQo+TWFrZSB0dG1fYm9fYWNjX3NpemUgc3RhdGljIGFuZCB1bmV4cG9ydCBpdC4NCj5SZW1v
+dmUgdHRtX2dldF9rZXJuZWxfem9uZV9tZW1vcnlfc2l6ZS4NCj4NCj5TaWduZWQtb2ZmLWJ5OiBD
+aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+LS0tDQo+IGRyaXZl
+cnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgIHwgIDcgKysrLS0tLQ0KPiBkcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9tZW1vcnkuYyB8ICA3IC0tLS0tLS0NCj4gaW5jbHVkZS9kcm0vdHRtL3R0bV9i
+b19hcGkuaCAgICAgfCAxMiAtLS0tLS0tLS0tLS0NCj4gaW5jbHVkZS9kcm0vdHRtL3R0bV9tZW1v
+cnkuaCAgICAgfCAgMSAtDQo+IDQgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyNCBk
+ZWxldGlvbnMoLSkNCj4NCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8u
+YyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMNCj5pbmRleCBlZTI2MzIxMjhkM2MuLmZm
+YmRjMjBkOGU4ZCAxMDA2NDQNCj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jDQo+
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYw0KPkBAIC0xMjU0LDkgKzEyNTQsOSBA
+QCBpbnQgdHRtX2JvX2luaXQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsDQo+IH0NCj4gRVhQ
+T1JUX1NZTUJPTCh0dG1fYm9faW5pdCk7DQo+DQo+LXNpemVfdCB0dG1fYm9fYWNjX3NpemUoc3Ry
+dWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsDQo+LQkJICAgICAgIHVuc2lnbmVkIGxvbmcgYm9fc2l6
+ZSwNCj4tCQkgICAgICAgdW5zaWduZWQgc3RydWN0X3NpemUpDQo+K3N0YXRpYyBzaXplX3QgdHRt
+X2JvX2FjY19zaXplKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LA0KPisJCQkgICAgICB1bnNp
+Z25lZCBsb25nIGJvX3NpemUsDQo+KwkJCSAgICAgIHVuc2lnbmVkIHN0cnVjdF9zaXplKQ0KPiB7
+DQo+IAl1bnNpZ25lZCBucGFnZXMgPSAoUEFHRV9BTElHTihib19zaXplKSkgPj4gUEFHRV9TSElG
+VDsNCj4gCXNpemVfdCBzaXplID0gMDsNCj5AQCAtMTI2Niw3ICsxMjY2LDYgQEAgc2l6ZV90IHR0
+bV9ib19hY2Nfc2l6ZShzdHJ1Y3QgdHRtX2JvX2RldmljZQ0KPipiZGV2LA0KPiAJc2l6ZSArPSB0
+dG1fcm91bmRfcG90KHNpemVvZihzdHJ1Y3QgdHRtX3R0KSk7DQo+IAlyZXR1cm4gc2l6ZTsNCj4g
+fQ0KPi1FWFBPUlRfU1lNQk9MKHR0bV9ib19hY2Nfc2l6ZSk7DQo+DQo+IHNpemVfdCB0dG1fYm9f
+ZG1hX2FjY19zaXplKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LA0KPiAJCQkgICB1bnNpZ25l
+ZCBsb25nIGJvX3NpemUsDQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX21l
+bW9yeS5jDQo+Yi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9tZW1vcnkuYw0KPmluZGV4IGFjZDYz
+YjcwZDgxNC4uOTg3YWEzMmM0ODA4IDEwMDY0NA0KPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX21lbW9yeS5jDQo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fbWVtb3J5LmMNCj5A
+QCAtNTU0LDcgKzU1NCw2IEBAIHR0bV9jaGVja191bmRlcl9sb3dlcmxpbWl0KHN0cnVjdCB0dG1f
+bWVtX2dsb2JhbA0KPipnbG9iLA0KPg0KPiAJcmV0dXJuIGZhbHNlOw0KPiB9DQo+LUVYUE9SVF9T
+WU1CT0wodHRtX2NoZWNrX3VuZGVyX2xvd2VybGltaXQpOw0KPg0KPiBzdGF0aWMgaW50IHR0bV9t
+ZW1fZ2xvYmFsX3Jlc2VydmUoc3RydWN0IHR0bV9tZW1fZ2xvYmFsICpnbG9iLA0KPiAJCQkJICBz
+dHJ1Y3QgdHRtX21lbV96b25lICpzaW5nbGVfem9uZSwNCj5AQCAtNjgyLDkgKzY4MSwzIEBAIHNp
+emVfdCB0dG1fcm91bmRfcG90KHNpemVfdCBzaXplKQ0KPiAJcmV0dXJuIDA7DQo+IH0NCj4gRVhQ
+T1JUX1NZTUJPTCh0dG1fcm91bmRfcG90KTsNCj4tDQo+LXVpbnQ2NF90IHR0bV9nZXRfa2VybmVs
+X3pvbmVfbWVtb3J5X3NpemUoc3RydWN0IHR0bV9tZW1fZ2xvYmFsICpnbG9iKQ0KPi17DQo+LQly
+ZXR1cm4gZ2xvYi0+em9uZV9rZXJuZWwtPm1heF9tZW07DQo+LX0NCj4tRVhQT1JUX1NZTUJPTCh0
+dG1fZ2V0X2tlcm5lbF96b25lX21lbW9yeV9zaXplKTsNCj5kaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
+cm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgNCj5pbmRl
+eCAzNmZmNjRlMjczNmMuLmZkOGQyOWY1ZjM3MCAxMDA2NDQNCj4tLS0gYS9pbmNsdWRlL2RybS90
+dG0vdHRtX2JvX2FwaS5oDQo+KysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaA0KPkBA
+IC0zNTIsMTggKzM1Miw2IEBAIHZvaWQgdHRtX2JvX3VubG9ja19kZWxheWVkX3dvcmtxdWV1ZShz
+dHJ1Y3QNCj50dG1fYm9fZGV2aWNlICpiZGV2LCBpbnQgcmVzY2hlZCk7DQo+IGJvb2wgdHRtX2Jv
+X2V2aWN0aW9uX3ZhbHVhYmxlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQo+IAkJCSAg
+ICAgIGNvbnN0IHN0cnVjdCB0dG1fcGxhY2UgKnBsYWNlKTsNCj4NCj4tLyoqDQo+LSAqIHR0bV9i
+b19hY2Nfc2l6ZQ0KPi0gKg0KPi0gKiBAYmRldjogUG9pbnRlciB0byBhIHR0bV9ib19kZXZpY2Ug
+c3RydWN0Lg0KPi0gKiBAYm9fc2l6ZTogc2l6ZSBvZiB0aGUgYnVmZmVyIG9iamVjdCBpbiBieXRl
+Lg0KPi0gKiBAc3RydWN0X3NpemU6IHNpemUgb2YgdGhlIHN0cnVjdHVyZSBob2xkaW5nIGJ1ZmZl
+ciBvYmplY3QgZGF0YXMNCj4tICoNCj4tICogUmV0dXJucyBzaXplIHRvIGFjY291bnQgZm9yIGEg
+YnVmZmVyIG9iamVjdA0KPi0gKi8NCj4tc2l6ZV90IHR0bV9ib19hY2Nfc2l6ZShzdHJ1Y3QgdHRt
+X2JvX2RldmljZSAqYmRldiwNCj4tCQkgICAgICAgdW5zaWduZWQgbG9uZyBib19zaXplLA0KPi0J
+CSAgICAgICB1bnNpZ25lZCBzdHJ1Y3Rfc2l6ZSk7DQo+IHNpemVfdCB0dG1fYm9fZG1hX2FjY19z
+aXplKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LA0KPiAJCQkgICB1bnNpZ25lZCBsb25nIGJv
+X3NpemUsDQo+IAkJCSAgIHVuc2lnbmVkIHN0cnVjdF9zaXplKTsNCj5kaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9kcm0vdHRtL3R0bV9tZW1vcnkuaA0KPmIvaW5jbHVkZS9kcm0vdHRtL3R0bV9tZW1vcnku
+aA0KPmluZGV4IGM3OGVhOTljNDJjZi4uMmQ0NjhkN2M5NGU2IDEwMDY0NA0KPi0tLSBhL2luY2x1
+ZGUvZHJtL3R0bS90dG1fbWVtb3J5LmgNCj4rKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX21lbW9y
+eS5oDQo+QEAgLTkxLDcgKzkxLDYgQEAgZXh0ZXJuIGludCB0dG1fbWVtX2dsb2JhbF9hbGxvY19w
+YWdlKHN0cnVjdA0KPnR0bV9tZW1fZ2xvYmFsICpnbG9iLA0KPiBleHRlcm4gdm9pZCB0dG1fbWVt
+X2dsb2JhbF9mcmVlX3BhZ2Uoc3RydWN0IHR0bV9tZW1fZ2xvYmFsICpnbG9iLA0KPiAJCQkJICAg
+ICBzdHJ1Y3QgcGFnZSAqcGFnZSwgdWludDY0X3Qgc2l6ZSk7DQo+IGV4dGVybiBzaXplX3QgdHRt
+X3JvdW5kX3BvdChzaXplX3Qgc2l6ZSk7DQo+LWV4dGVybiB1aW50NjRfdCB0dG1fZ2V0X2tlcm5l
+bF96b25lX21lbW9yeV9zaXplKHN0cnVjdA0KPnR0bV9tZW1fZ2xvYmFsICpnbG9iKTsNCj4gZXh0
+ZXJuIGJvb2wgdHRtX2NoZWNrX3VuZGVyX2xvd2VybGltaXQoc3RydWN0IHR0bV9tZW1fZ2xvYmFs
+ICpnbG9iLA0KPiAJCQl1aW50NjRfdCBudW1fcGFnZXMsIHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0
+eCAqY3R4KTsNCiAgIF5eXl5eDQoNCkV4dGVybnMgZm9yIGZ1bmN0aW9uIHByb3RvdHlwZXMgaGF2
+ZSBhbHdheXMgYmVlbiBhIHNsaWdodCBteXN0ZXJ5IHRvIG1lLg0KV2FzIHRoaXMgbmVjZXNzYXJ5
+IGZvciB0aGUgRVhQT1JUX1NZTUJPTD8NCg0KU2luY2UgdGhpcyBpcyBub3cgImxvY2FsIiBpcyB0
+aGUgZXh0ZXJuIHN0aWxsIG5lZWRlZD8NCg0KUmVnYXJkbGVzcywgSSBjYW4ndCByZXNpc3QgdGhl
+IGxvdyBseWluZyBmcnVpdC4uLg0KDQpSZXZpZXdlZC1ieTogTWljaGFlbCBKLiBSdWhsIDxtaWNo
+YWVsLmoucnVobEBpbnRlbC5jb20+DQoNCk0NCg0KDQo+ICNlbmRpZg0KPi0tDQo+Mi4xNy4xDQo+
+DQo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj5kcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0DQo+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsDQpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
