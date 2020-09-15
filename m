@@ -2,88 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6EA269F2D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A57269F3F
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2997F6E842;
-	Tue, 15 Sep 2020 07:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABB06E841;
+	Tue, 15 Sep 2020 07:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2064.outbound.protection.outlook.com [40.107.20.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF276E83A;
- Tue, 15 Sep 2020 06:34:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q7GQyzvsPNdx6LkvGaKVXt9QOCCneCCO6CGO2NXRuu6vNIU8bsHJEY308yZHMt/vGI+4vvab4xmwz9CbkMMgqG73YzdsSlEv2F4Ujzz2QH4bGZrcJClaKxoE7wRDm3Zb0dfnkOoLo1GRgZ7BmBzv+YbEw71E5R/VEQmGlADnazbGqtnveI6+wjrBI7W/6fRLQN5OpSBEwMLBgaEAJzPdWNMZQxyijKGEoaMPV8mIYLoHj02sUMJ/7cy0F9X/pxFazn9X1uBJqXfReBpum72RQjMUgJHBLrPb3qmZdnneSAv9ywcm8lAaxoX2XIowl7Flyd3ZhUE486FBUyFf+Iib0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rtEmsleJgEIRNZzMnaCYVOW16njlB/IOMQpWuiMnEMk=;
- b=FOV0xAdTMtVqOLNYPzjzBbahOARuqnH8IAUiyZYcUyQy2dTisKZr9OqPOSGj2NLsuumNlvBMmFjXCRuAnxZ8x9m6E/cOife5H8hphs9vjx1iA9uwIDronlVo3xGvAS/5cAeK7lV17dSv6NT3zdQAajT6eGwn1xUQeCSuILkkdE96y38YKATw8qCn0rmjd0ajopeyFNpP8L3S4eZm3Bho9KaHGImJQj5IJOruDmpzeTrtQqwYHYp5+mQQYt5/DJ8Rxzff01CyCPz7R1pY2mhHuUv6OmvOYLLXL3ThBSGPXXlGJucSOrRXybqQRvUcXsMsgK7aP8Xg3L1hSLPce9pqWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fi.rohmeurope.com; dmarc=pass action=none
- header.from=fi.rohmeurope.com; dkim=pass header.d=fi.rohmeurope.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rohmsemiconductoreurope.onmicrosoft.com;
- s=selector1-rohmsemiconductoreurope-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rtEmsleJgEIRNZzMnaCYVOW16njlB/IOMQpWuiMnEMk=;
- b=fqzdWFrD7msgDu59mHpyv4VUnUFLMlqfoQweAHEPEUod3XYKHJ1M2L8o8Ev7fsYteLffj+AvNT/BAR/+v4z52jnMyBHe1ZnpNxwYQyNmQ9GT1+vC9UEDxvwAn/BPu93kjxCjiOvTTBVNDAwpuEFHyh69HfQSFlWzyYVjDYt5KGo=
-Received: from HE1PR03MB3162.eurprd03.prod.outlook.com (2603:10a6:7:55::20) by
- HE1PR0301MB2476.eurprd03.prod.outlook.com (2603:10a6:3:6e::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3370.17; Tue, 15 Sep 2020 06:34:46 +0000
-Received: from HE1PR03MB3162.eurprd03.prod.outlook.com
- ([fe80::88fd:1086:3253:3fcd]) by HE1PR03MB3162.eurprd03.prod.outlook.com
- ([fe80::88fd:1086:3253:3fcd%7]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
- 06:34:46 +0000
-From: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To: "robh@kernel.org" <robh@kernel.org>, "krzk@kernel.org" <krzk@kernel.org>
-Subject: Re: [PATCH 06/13] dt-bindings: mfd: rohm,bd71837-pmic: Add common
- properties
-Thread-Topic: [PATCH 06/13] dt-bindings: mfd: rohm,bd71837-pmic: Add common
- properties
-Thread-Index: AQHWgss5NO4jUZlClkGJgvpiKmDktaloy4WAgACC0oA=
-Date: Tue, 15 Sep 2020 06:34:46 +0000
-Message-ID: <6bfa15383657ca38a28edac38b5e8adf891865e7.camel@fi.rohmeurope.com>
-References: <20200904145312.10960-1-krzk@kernel.org>
- <20200904145312.10960-7-krzk@kernel.org> <20200914224407.GA388924@bogus>
-In-Reply-To: <20200914224407.GA388924@bogus>
-Accept-Language: fi-FI, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none
- header.from=fi.rohmeurope.com;
-x-originating-ip: [62.78.225.252]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: acabe237-61b4-4f6a-557a-08d859417018
-x-ms-traffictypediagnostic: HE1PR0301MB2476:
-x-microsoft-antispam-prvs: <HE1PR0301MB247688FA7E134421BFB3F3ABAD200@HE1PR0301MB2476.eurprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /YAPxcSeWyCsy4wHECLjJ2pw37qaccjSCvOwuO8fhzu/Sd/mIRLSnoTU2RvuTyulQAwFte9LKkf5TqYZyoQ87JUDc47yKeDI2zNZsqkmbBnVY0MhZ3STjg1Ao4y/vi3HPAY9etSeGiv6fpFVK4s0klSHRXsD1Jx/xX7aIygLAJraVdOD/mFrH1oS8mPGyH+m227vosWA7Ne69kjr2VxTrs98GH9iVt2AfXkBMoLlRMZ+Kid8xgn6m09vZTsYpsg+VwRdhyQOHRWQPV8sBGnQwlOne7hDnCZsuJJpQ1FJ4LYf7OO8wGDVjKbN6+QHiS+zhXMmLpohs+6jwGl1M29rCc9gUgPZOI8+aZHEmMMJcvX419S6SS0YVORVoCG9+JIn
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HE1PR03MB3162.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39850400004)(396003)(136003)(346002)(376002)(7416002)(2906002)(8676002)(316002)(478600001)(4326008)(110136005)(3450700001)(8936002)(54906003)(5660300002)(6512007)(2616005)(71200400001)(66446008)(26005)(6486002)(66556008)(64756008)(66476007)(76116006)(86362001)(83380400001)(6506007)(186003)(66946007)(142933001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: dTZoALMawbX/QMYRtZa6eXACzD8MfZdE/9QoLiFa9Zu7EWYtNmMs1oYWYKxl7KnY+X8Y402XPLhAegolNGaLmZWwPX+i8iHV3q7elwmkAz8W5HFT1mxuctsP2anrhcOFhYnxFp75oqI5lcXtl9dynAJ5h9c/5YrMCZOW+M2zx11Xs+PquuLz7ngvkfGHTqXcThnho5e9ut+iX1VOCXnyf71aoRLc6acyqqN2usFT05tHPq83wk+VCNpLtlda1cfF4UUmHCw1BT8B9ywRyI2NRB0DCD3XeD9/YWsn/39ncphqk7iyeZxet7O4nvRecAV4ZOTxiU+zyv11Dt2qlqMxbbwvKrC07ftE5az7ChYF9WcwLK1+4iIzYyoYeEdt1IbVXe4YOC40lXAxoseuajovytr7WBkG0BSU4Q9CRLYMhBKjQH1QR4k67PO5UYGLKb6BNR1vns4rj1pmIVJfLSewazKtC8m9eGsKVprCsgWPCcAstOSwTSHdKdkvuHvm3MY94SCIxvWjtizEOhDgZ9G4VlGZLERaq2TWePTz+a6rrM7GSGgp4HeH+VMXq4fSUgtZz/omj5A4r+NmZyJEzZSTT9aipIeKf7fbhR/CJCul+a9DH+okcR6I8ZUQ9VlawXarIi0SwOkLFXDz2PWbSIV5Yg==
-x-ms-exchange-transport-forked: True
-Content-ID: <2757F9EFDD17A84A9DE0B10B51F84A28@eurprd03.prod.outlook.com>
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8EF6E83C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 06:58:34 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1600153118; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=TqpJbtJ5h/NOs90QzAjCnhYHSI+Sccp918FxJgx7Rwk=;
+ b=NiACpvGxEzJNsRv/FIm+4NdLQyG5xL5WjcXOWWdmMd/NnUpH2tIxSpL741KK1yHAjissvZrD
+ fKN4GjHojP6dJzTyoB0yPJ28xWnA5V7RGQbGDjgjw2Y6DobGj90zjFygqXiBHhFJxUeAUBy5
+ S1jqx1bsM2nwVmuZUPuOAfWQf8c=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f606613cc683673f9d2d33e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 15 Sep 2020 06:58:27
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 43672C433FE; Tue, 15 Sep 2020 06:58:27 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1F9F1C433C8;
+ Tue, 15 Sep 2020 06:58:26 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: fi.rohmeurope.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR03MB3162.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acabe237-61b4-4f6a-557a-08d859417018
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Sep 2020 06:34:46.0634 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 94f2c475-a538-4112-b5dd-63f17273d67a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Fuqz2DEnV+bJWtDVa8vhjX2ilB3awswg7e6RZ8yYoOOi9VLp47GtY4gQQrARallq6bPck80//SJcO2rUV31bXNSYJAohcnMnp2mkzncyph6BO+Vp5GzbkrQM+yHE0BTJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0301MB2476
+Date: Tue, 15 Sep 2020 12:28:26 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCHv4 6/6] iommu: arm-smmu-impl: Remove unwanted extra blank
+ lines
+In-Reply-To: <a33160854744942f660fae691a4a30ec@codeaurora.org>
+References: <cover.1599832685.git.saiprakash.ranjan@codeaurora.org>
+ <010101747d912d9f-c8050b8d-1e81-4be0-ac35-b221f657b490-000000@us-west-2.amazonses.com>
+ <c26b5317-f12d-8be9-be45-3307ce5efbfc@arm.com>
+ <20200911160706.GA20802@willie-the-truck>
+ <010101747df8e9df-fad2f88d-e970-4753-a99a-2cfeeb1a29a9-000000@us-west-2.amazonses.com>
+ <7ff9b238-e203-059f-d793-1c44475c6aa2@arm.com>
+ <a33160854744942f660fae691a4a30ec@codeaurora.org>
+Message-ID: <e815cbc83d6c3d92168d817cf0b01cbb@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 15 Sep 2020 07:07:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,99 +72,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "sam@ravnborg.org" <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
- "robert.chiras@nxp.com" <robert.chiras@nxp.com>,
- "leoyang.li@nxp.com" <leoyang.li@nxp.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Will Deacon <will@kernel.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hello All,
-
-On Mon, 2020-09-14 at 16:44 -0600, Rob Herring wrote:
-> On Fri, Sep 04, 2020 at 04:53:05PM +0200, Krzysztof Kozlowski wrote:
-> > Add common properties appearing in DTSes (clock-names,
-> > clock-output-names) to fix dtbs_check warnings like:
-> > 
-> >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
-> >     pmic@4b: 'clock-names', 'clock-output-names', do not match any
-> > of the regexes: 'pinctrl-[0-9]+'
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > ---
-> >  .../devicetree/bindings/mfd/rohm,bd71837-pmic.yaml          | 6
-> > ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71837-
-> > pmic.yaml b/Documentation/devicetree/bindings/mfd/rohm,bd71837-
-> > pmic.yaml
-> > index 65018a019e1d..ecce0d5e3a95 100644
-> > --- a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
-> > @@ -32,9 +32,15 @@ properties:
-> >    clocks:
-> >      maxItems: 1
-> >  
-> > +  clock-names:
-> > +    maxItems: 1
+On 2020-09-11 22:20, Sai Prakash Ranjan wrote:
+> On 2020-09-11 22:04, Robin Murphy wrote:
+>> On 2020-09-11 17:21, Sai Prakash Ranjan wrote:
+>>> On 2020-09-11 21:37, Will Deacon wrote:
+>>>> On Fri, Sep 11, 2020 at 05:03:06PM +0100, Robin Murphy wrote:
+>>>>> BTW am I supposed to have received 3 copies of everything? Because 
+>>>>> I did...
+>>>> 
+>>>> Yeah, this seems to be happening for all of Sai's emails :/
+>>>> 
+>>> 
+>>> Sorry, I am not sure what went wrong as I only sent this once
+>>> and there are no recent changes to any of my configs, I'll
+>>> check it further.
+>> 
+>> Actually on closer inspection it appears to be "correct" behaviour.
+>> I'm still subscribed to LAKML and the IOMMU list on this account, but
+>> normally Office 365 deduplicates so aggressively that I have rules set
+>> up to copy list mails that I'm cc'ed on back to my inbox, in case they
+>> arrive first and cause the direct copy to get eaten - apparently
+>> there's something unique about your email setup that manages to defeat
+>> the deduplicator and make it deliver all 3 copies intact... :/
+>> 
 > 
-> Needs to define what the name is.
-
-Someone once told me that "naming is hard".
-Do we have some good common convention for 32K oscillator input naming?
-Or should it just be dropped?
-
+> No changes in my local setup atleast, but in the past we have
+> had cases with codeaurora mail acting weird or it could be my vpn,
+> will have to check.
 > 
-> > +
-> >    "#clock-cells":
-> >      const: 0
-> >  
-> > +  clock-output-names:
-> > +    maxItems: 1
-> 
-> Ideally this one too, but we've been more flexible on it.
 
-Data-sheet for BD71837 uses pin name "C32k_OUT". So maybe this would be
-good?
+This was an issue with codeaurora servers and I am told that it is
+fixed now.
 
-BD71838 uses "bd71828-32k-out" . so we could also go with this same
-convention and use "bd71837-32k-out". Or - we could take a risk and
-*assume* typical use case for this clk (as this is typically used with
-i.MX8 I'd guess the 32k is used for RTC) and name it accordingly.
+Thanks,
+Sai
 
-Br,
-	Matti Vaittinen
-
---
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland
-SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-
-Simon says - in Latin please.
-"non cogito me" dixit Rene Descarte, deinde evanescavit
-
-(Thanks for the translation Simon)
-
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
