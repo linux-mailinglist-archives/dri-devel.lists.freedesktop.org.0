@@ -1,78 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F60626ADF3
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 21:47:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 230FC26AF0C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 23:00:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBA1D6E8FC;
-	Tue, 15 Sep 2020 19:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9E7E6E1D8;
+	Tue, 15 Sep 2020 21:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4A1F6E8FB
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 19:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600199229;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ur1rWbZNT5UsC7ZqJ5DKcCpE8+s/eiYwscnRZFIyoQs=;
- b=EuSih+q8ZCUOgC8b+bQ70tbqPnRENBsmQBWQ7m1QYYnd2+D6gp5EMZu1J9RdafdZr9+9tz
- LIRlrmn3km+2ZVh4S+vM6Re1rYHgJcBJIL14sP/PYAzys/l6SPkWCY4yDvBnC0aSmaqw8L
- YEUrALZxGEQfFr2kj9lDO1P0ba84P2A=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-D8m7qmgiOC-MGM63EU_v_g-1; Tue, 15 Sep 2020 15:47:04 -0400
-X-MC-Unique: D8m7qmgiOC-MGM63EU_v_g-1
-Received: by mail-qk1-f197.google.com with SMTP id w64so3853309qkc.14
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 12:47:04 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E71DA6E131;
+ Tue, 15 Sep 2020 21:00:32 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id d4so770434wmd.5;
+ Tue, 15 Sep 2020 14:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ijGU43Rg3f3PwSBnePSd9E3+WFzzYt7BXugXcmS9oI0=;
+ b=juTjkiI9rt4oxEXyQqxc+cKEpkMOSYsQ1NuVeqrw7HYGhvlTVezCEz8QH4AnMGCKrV
+ WVx2w8Qy/D9pmFbl9fbp/CS8OnXbFwGmuhAMz6kIDYgxDW+S2Uzk3i/p0Yipi4zrxORV
+ RmNWqNr2R2j7xx/9gyif315GoG6J+pRf/8OsUVwB4QvoDRxWmWMchBtzGYvltui3OewG
+ PN0oVobuyuRB8U9DYjnUKm43SGEtf53mGbSs1S/sRz95cq0L1v8IAuBzCHXVq0IWC3YO
+ ZOvP0sZbBXKnU5YeOlTxa8VZUSCrpDNZUa5PyuIgGM7PxdMFYJGHHxZZyEXm9CiQNUCx
+ SRJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=Ur1rWbZNT5UsC7ZqJ5DKcCpE8+s/eiYwscnRZFIyoQs=;
- b=MrZ5KoeKud+9oZxTvmKA4zj4zQejkQcYA3SpiDXSJSTmLFtgw5Ug//J/Wc6kFtuWOs
- ZoaK+ra2zqvROVmyiColQy4KQR9uqHC1jYrseF6Lk2zh8cogNJiXINq/9paTBiVeD2kg
- BpD9Sjum5cAgmzVqzF5lIHmmS01upTP69sFDz5pzj7Mdc+fQ2n+7HMRRLx7eVABl95NB
- N5QF+89bfqzwQtdIxHlKbt7Rup+4rnyYU0LojCLSegOyzRe7/g/l/J5cEbYZTZOLTSPj
- FXznjN1IHbBvGAeROVRWkjdne0Fs/n9KQn32Bd/0ZilPaoZP1Pf06IN/+I8qHb17RqEd
- SPeQ==
-X-Gm-Message-State: AOAM533qJLFMXLuPvcig1gWJRTiyzpUgW27oE+bzkCFl8wexOsj8t2JT
- ZQU2p5ZHbq5WFu1xN9M2yGOKkiaRMu2l4mrlRmmehssRrDWbFsJtJLTi0BrERAXlFq96+CC46aH
- y49K2v6whKgjEGId3I+dIj6uUw8Zn
-X-Received: by 2002:a05:620a:546:: with SMTP id
- o6mr20184479qko.296.1600199223682; 
- Tue, 15 Sep 2020 12:47:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzl+UYJSBul/q+CmYfqBZANubEc6SGBWhb3uWTdUm1eqMbnBd9q1e9hw6A3qtxfsEH1x2NVqA==
-X-Received: by 2002:a05:620a:546:: with SMTP id
- o6mr20184447qko.296.1600199223404; 
- Tue, 15 Sep 2020 12:47:03 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id 8sm17307041qkd.47.2020.09.15.12.47.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 12:47:02 -0700 (PDT)
-Message-ID: <b1b77b7022f9e388808bc3835f8fc88cda0718bc.camel@redhat.com>
-Subject: Re: [RFC 1/5] drm/i915/dp: Program source OUI on eDP panels
-From: Lyude Paul <lyude@redhat.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Date: Tue, 15 Sep 2020 15:47:01 -0400
-In-Reply-To: <20200915190639.GC503362@intel.com>
-References: <20200915172939.2810538-1-lyude@redhat.com>
- <20200915172939.2810538-2-lyude@redhat.com>
- <20200915190639.GC503362@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ijGU43Rg3f3PwSBnePSd9E3+WFzzYt7BXugXcmS9oI0=;
+ b=NEAK8ssg+ca+Xq5mibVepeu34koGqgs1YAKrX2RbZ81lb0QTPsPml9KPtgGYpvmbvL
+ MSqPbpREmLGTsGz2Jb+lzPxvKueKabGbpYMzJc2XOZnt1ubZQggrLiHoI/eeY0f084p6
+ VhRuYs/i6QVUbuFwMLex+Krw6QYRfon4Imh1e4Ss8BixtT3gDA1WB8WsdgQ/bSA/hzP8
+ bl5Lxd56/rQ6eygb1THIfc5+0ixzhvD1jM2VhW4TlC2/jlLumjfmjgArqtzRE5U/JEzE
+ rfHUXnBVddn+D3LrybOSQc7x45K+0x+jQdHOu5jN/0xclaNWJBP8Zgep6b1Gr4K16sR8
+ p/ug==
+X-Gm-Message-State: AOAM532QCJBLgytwiqdIyZ5o/I6gNHw2u63BFzxbc/DES9Nuy4PH9PVX
+ GsJObD4tEBQm6rY2JQSem7DA46Lu6bqT4kZpo98cudzu
+X-Google-Smtp-Source: ABdhPJws8+SFIY9bXqIrGDE1VeovXol+Doyp4kGBPDDR9CLHbTZ9ckxNv3MionnwXm3Mc/lUbNIUSB/PMliZfwTSHeo=
+X-Received: by 2002:a1c:a953:: with SMTP id s80mr1183855wme.70.1600203631572; 
+ Tue, 15 Sep 2020 14:00:31 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+References: <20200821165758.1106210-1-michel@daenzer.net>
+ <20200904104304.41246-1-michel@daenzer.net>
+ <20200907075716.GO2352366@phenom.ffwll.local>
+ <d0c95272-9a1c-f9f0-f1b9-4e7ce1f319c7@daenzer.net>
+ <c64d591b-8f3c-5384-f103-3283bcf15c9d@amd.com>
+In-Reply-To: <c64d591b-8f3c-5384-f103-3283bcf15c9d@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 15 Sep 2020 17:00:20 -0400
+Message-ID: <CADnq5_MTinm97qJW7GxUzCMxSHPRJotgi-b6MHFgv21TEJhNzg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu/dc: Require primary plane to be enabled
+ whenever the CRTC is
+To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,150 +66,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: thaytan@noraisin.net, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- Sean Paul <seanpaul@chromium.org>,
- =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Harry Wentland <hwentlan@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2020-09-15 at 15:06 -0400, Rodrigo Vivi wrote:
-> On Tue, Sep 15, 2020 at 01:29:35PM -0400, Lyude Paul wrote:
-> > Since we're about to start adding support for Intel's magic HDR
-> > backlight interface over DPCD, we need to ensure we're properly
-> > programming this field so that Intel specific sink services are exposed.
-> > Otherwise, 0x300-0x3ff will just read zeroes.
-> > 
-> > We also take care not to reprogram the source OUI if it already matches
-> > what we expect. This is just to be careful so that we don't accidentally
-> > take the panel out of any backlight control modes we found it in.
-> > 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > Cc: thaytan@noraisin.net
-> > Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp.c | 32 +++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> > b/drivers/gpu/drm/i915/display/intel_dp.c
-> > index 4bd10456ad188..b591672ec4eab 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -3428,6 +3428,7 @@ void intel_dp_sink_set_decompression_state(struct
-> > intel_dp *intel_dp,
-> >  void intel_dp_sink_dpms(struct intel_dp *intel_dp, int mode)
-> >  {
-> >  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	u8 edp_oui[] = { 0x00, 0xaa, 0x01 };
-> 
-> what are these values?
-
-I wish I knew, my assumption is this is the OUI that Intel's GPU driver uses on
-other platforms, but I don't have any documentation mentioning this (in fact,
-the few documents I do have on this backlight interface don't seem to make any
-mention of it). I only managed to find this when looking through the last
-attempt someone did at adding support for this backlight interface:
-
-https://patchwork.freedesktop.org/patch/334989/
-
-I think it should be fairly safe to write, as I know nouveau always programs a
-source OUI (we don't do it from our driver, but nvidia hardware seems to do it
-automatically) and I don't believe I've seen it ever change any behavior besides
-making things appear in the 0x300-0x3ff register range.
-
-AFAICT though, the backlight interface won't advertise itself without this being
-set early on. If you could find anyone from Intel who knows more about it though
-I'd definitely appreciate it (and just in general for the rest of the patch
-series as well)
-
-> 
-> >  	int ret, i;
-> >  
-> >  	/* Should have a valid DPCD by this point */
-> > @@ -3443,6 +3444,14 @@ void intel_dp_sink_dpms(struct intel_dp *intel_dp,
-> > int mode)
-> >  	} else {
-> >  		struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
-> >  
-> > +		/* Write the source OUI as early as possible */
-> > +		if (intel_dp_is_edp(intel_dp)) {
-> > +			ret = drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI,
-> > edp_oui,
-> > +						sizeof(edp_oui));
-> > +			if (ret < 0)
-> > +				drm_err(&i915->drm, "Failed to write eDP source
-> > OUI\n");
-> > +		}
-> > +
-> >  		/*
-> >  		 * When turning on, we need to retry for 1ms to give the sink
-> >  		 * time to wake up.
-> > @@ -4530,6 +4539,23 @@ static void intel_dp_get_dsc_sink_cap(struct intel_dp
-> > *intel_dp)
-> >  	}
-> >  }
-> >  
-> > +static void
-> > +intel_edp_init_source_oui(struct intel_dp *intel_dp)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	u8 oui[] = { 0x00, 0xaa, 0x01 };
-> > +	u8 buf[3] = { 0 };
-> > +
-> > +	if (drm_dp_dpcd_read(&intel_dp->aux, DP_SOURCE_OUI, buf, sizeof(buf)) <
-> > 0)
-> > +		drm_err(&i915->drm, "Failed to read source OUI\n");
-> > +
-> > +	if (memcmp(oui, buf, sizeof(oui)) == 0)
-> > +		return;
-> > +
-> > +	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) <
-> > 0)
-> > +		drm_err(&i915->drm, "Failed to write source OUI\n");
-> > +}
-> > +
-> >  static bool
-> >  intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> >  {
-> > @@ -4607,6 +4633,12 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> >  	if (INTEL_GEN(dev_priv) >= 10 || IS_GEMINILAKE(dev_priv))
-> >  		intel_dp_get_dsc_sink_cap(intel_dp);
-> >  
-> > +	/*
-> > +	 * Program our source OUI so we can make various Intel-specific AUX
-> > +	 * services available (such as HDR backlight controls)
-> > +	 */
-> > +	intel_edp_init_source_oui(intel_dp);
-> 
-> I believe we should restrict this to the supported platforms: cfl, whl, cml,
-> icl, tgl
-> no?
-> 
-> > +
-> >  	return true;
-> >  }
-> >  
-> > -- 
-> > 2.26.2
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
--- 
-Sincerely,
-      Lyude Paul (she/her)
-      Software Engineer at Red Hat
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIE1vbiwgU2VwIDE0LCAyMDIwIGF0IDEwOjM3IEFN
+IEthemxhdXNrYXMsIE5pY2hvbGFzCjxuaWNob2xhcy5rYXpsYXVza2FzQGFtZC5jb20+IHdyb3Rl
+Ogo+Cj4gT24gMjAyMC0wOS0xNCAzOjUyIGEubS4sIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+ID4g
+T24gMjAyMC0wOS0wNyA5OjU3IGEubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPj4gT24gRnJp
+LCBTZXAgMDQsIDIwMjAgYXQgMTI6NDM6MDRQTSArMDIwMCwgTWljaGVsIETDpG56ZXIgd3JvdGU6
+Cj4gPj4+IEZyb206IE1pY2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29tPgo+ID4+Pgo+
+ID4+PiBEb24ndCBjaGVjayBkcm1fY3J0Y19zdGF0ZTo6YWN0aXZlIGZvciB0aGlzIGVpdGhlciwg
+cGVyIGl0cwo+ID4+PiBkb2N1bWVudGF0aW9uIGluIGluY2x1ZGUvZHJtL2RybV9jcnRjLmg6Cj4g
+Pj4+Cj4gPj4+ICAgKiBIZW5jZSBkcml2ZXJzIG11c3Qgbm90IGNvbnN1bHQgQGFjdGl2ZSBpbiB0
+aGVpciB2YXJpb3VzCj4gPj4+ICAgKiAmZHJtX21vZGVfY29uZmlnX2Z1bmNzLmF0b21pY19jaGVj
+ayBjYWxsYmFjayB0byByZWplY3QgYW4gYXRvbWljCj4gPj4+ICAgKiBjb21taXQuCj4gPj4+Cj4g
+Pj4+IGF0b21pY19yZW1vdmVfZmIgZGlzYWJsZXMgdGhlIENSVEMgYXMgbmVlZGVkIGZvciBkaXNh
+YmxpbmcgdGhlIHByaW1hcnkKPiA+Pj4gcGxhbmUuCj4gPj4+Cj4gPj4+IFRoaXMgcHJldmVudHMg
+YXQgbGVhc3QgdGhlIGZvbGxvd2luZyBwcm9ibGVtcyBpZiB0aGUgcHJpbWFyeSBwbGFuZSBnZXRz
+Cj4gPj4+IGRpc2FibGVkIChlLmcuIGR1ZSB0byBkZXN0cm95aW5nIHRoZSBGQiBhc3NpZ25lZCB0
+byB0aGUgcHJpbWFyeSBwbGFuZSwKPiA+Pj4gYXMgaGFwcGVucyBlLmcuIHdpdGggbXV0dGVyIGlu
+IFdheWxhbmQgbW9kZSk6Cj4gPj4+Cj4gPj4+ICogVGhlIGxlZ2FjeSBjdXJzb3IgaW9jdGwgcmV0
+dXJuZWQgRUlOVkFMIGZvciBhIG5vbi0wIGN1cnNvciBGQiBJRAo+ID4+PiAgICAod2hpY2ggZW5h
+YmxlcyB0aGUgY3Vyc29yIHBsYW5lKS4KPiA+Pj4gKiBJZiB0aGUgY3Vyc29yIHBsYW5lIHdhcyBl
+bmFibGVkLCBjaGFuZ2luZyB0aGUgbGVnYWN5IERQTVMgcHJvcGVydHkKPiA+Pj4gICAgdmFsdWUg
+ZnJvbSBvZmYgdG8gb24gcmV0dXJuZWQgRUlOVkFMLgo+ID4+Pgo+ID4+PiB2MjoKPiA+Pj4gKiBN
+aW5vciBjaGFuZ2VzIHRvIGNvZGUgY29tbWVudCBhbmQgY29tbWl0IGxvZywgcGVyIHJldmlldyBm
+ZWVkYmFjay4KPiA+Pj4KPiA+Pj4gR2l0TGFiOgo+ID4+PiBodHRwczovL2dpdGxhYi5nbm9tZS5v
+cmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExMDgKPiA+Pj4KPiA+Pj4gR2l0TGFiOgo+ID4+PiBo
+dHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExNjUKPiA+Pj4K
+PiA+Pj4gR2l0TGFiOgo+ID4+PiBodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVy
+Ly0vaXNzdWVzLzEzNDQKPiA+Pj4KPiA+Pj4gU3VnZ2VzdGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxk
+YW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBNaWNoZWwgRMOkbnpl
+ciA8bWRhZW56ZXJAcmVkaGF0LmNvbT4KPiA+Pgo+ID4+IENvbW1pdCBtZXNzYWdlIGFncmVlcyB3
+aXRoIG15IHVuZGVyc3RhbmQgb2YgdGhpcyBtYXplIG5vdywgc286Cj4gPj4KPiA+PiBBY2tlZC1i
+eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiA+Cj4gPiBUaGFua3Mg
+RGFuaWVsIQo+ID4KPiA+Cj4gPiBOaWNrIC8gSGFycnksIGFueSBtb3JlIGZlZWRiYWNrPyBJZiBu
+b3QsIGNhbiB5b3UgYXBwbHkgdGhpcz8KPiA+Cj4gPgo+ID4gUC5TLiBTaW5jZSBEQ04gZG9lc24n
+dCBtYWtlIGEgZGlzdGluY3Rpb24gYmV0d2VlbiBwcmltYXJ5IG9yIG92ZXJsYXkKPiA+IHBsYW5l
+cyBpbiBoYXJkd2FyZSwgY291bGQgQ2hyb21pdW1PUyBhY2hpZXZlIHRoZSBzYW1lIGVmZmVjdCB3
+aXRoIG9ubHkKPiA+IHRoZSBwcmltYXJ5IHBsYW5lIGluc3RlYWQgb2Ygb25seSBhbiBvdmVybGF5
+IHBsYW5lPyBJZiBzbywgbWF5YmUgdGhlcmUncwo+ID4gbm8gbmVlZCBmb3IgdGhlICJibGFjayBw
+bGFuZSBoYWNrIi4KPiA+Cj4gPgo+Cj4gSSBvbmx5IGtub3cgdGhhdCBhdG9taWN0ZXN0IHRyaWVz
+IHRvIGVuYWJsZSB0aGlzIGNvbmZpZ3VyYXRpb24uIE5vdCBzdXJlCj4gaWYgQ2hyb21pdW1PUyBv
+ciBvdGhlciAicmVhbCIgdXNlcnNwYWNlIHRyaWVzIHRoaXMgY29uZmlndXJhdGlvbi4KPgo+IE1h
+eWJlIGZvciBub3cgdGhpcyBjYW4gZ28gaW4gYW5kIGlmIHNvbWV0aGluZyBicmVha3Mgd2UgY2Fu
+IGRlYWwgd2l0aAo+IHRoZSBmYWxsb3V0IHRoZW4uIFdlIGNhbiBhbHdheXMgZ28gYmFjayB0byBs
+eWluZyB0byB1c2Vyc3BhY2UgYWJvdXQgdGhlCj4gY3Vyc29yIGJlaW5nIHZpc2libGUgaWYgdGhl
+IGNvbW1pdCBmYWlscyBpbiB0aGF0IGNhc2UgSSBndWVzcyBzaW5jZSB0aGUKPiBibGFuayBwbGFu
+ZSBoYWNrIGlzIGdvaW5nIHRvIGFkZCBhIHNpZ25pZmljYW50IGFtb3VudCBvZiBjb21wbGV4aXR5
+IHRvIERNLgo+Cj4gUmV2aWV3ZWQtYnk6IE5pY2hvbGFzIEthemxhdXNrYXMgPG5pY2hvbGFzLmth
+emxhdXNrYXNAYW1kLmNvbT4KPgo+IFJlZ2FyZHMsCj4gTmljaG9sYXMgS2F6bGF1c2thcwo+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gYW1kLWdmeCBt
+YWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeApfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
