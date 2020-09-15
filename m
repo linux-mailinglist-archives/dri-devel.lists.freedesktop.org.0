@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A175026AAAD
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:30:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAEF26AB34
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EED06E8C9;
-	Tue, 15 Sep 2020 17:30:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E016E8C8;
+	Tue, 15 Sep 2020 17:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F74A6E8C8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 17:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600191028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YSSluK8yuAJutLkgMqPmfdCISUlx/kFM0c7VDjZgcEA=;
- b=eGNl3Pv951HTaH6CH04rf5Wrnp/G3aVR+y7jJcBj+dRsZERFLvYN2ujZ/C9Nrd/MLcpX7e
- ACKEh9yx1sg+Y5YJ5DPrJDK3kbT0XJ93bWnBnRBI4q3fmEmKn5JdFy9cHd69HeJ1/8N5Pq
- 18WiLJ1w6bsSuF9Zjy4H4pVKLNWmmpI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-aKpktXnYOT-lGmYyz3q91g-1; Tue, 15 Sep 2020 13:30:25 -0400
-X-MC-Unique: aKpktXnYOT-lGmYyz3q91g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DFBFAD68A;
- Tue, 15 Sep 2020 17:30:21 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-113-129.rdu2.redhat.com
- [10.10.113.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 318625FC2A;
- Tue, 15 Sep 2020 17:30:19 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RFC 5/5] drm/dp: Revert "drm/dp: Introduce EDID-based quirks"
-Date: Tue, 15 Sep 2020 13:29:39 -0400
-Message-Id: <20200915172939.2810538-6-lyude@redhat.com>
-In-Reply-To: <20200915172939.2810538-1-lyude@redhat.com>
-References: <20200915172939.2810538-1-lyude@redhat.com>
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
+ [IPv6:2607:f8b0:4864:20::a42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF76B6E353
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 14:44:46 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id t189so876110vka.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 07:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zT4idoY3GXU6AKl9P1KDotBGRD6i9BlOD/Yn8HDxrN8=;
+ b=cZcT/XO2v6Dw0s2Q7AzR/zkwbrn4Ls20hHCTCwjhdEm4E90JV0hcQRXDXeZO0/79hQ
+ aF+uMGX1TJIcuD68ObaYkd9bA7Qdk0HFRWwA/rZBI/5tw6+sCym7qpOxSaA1MKQzKvA+
+ PKT/I2wOPNx697M0Kt0AyARG4MwGHIMriU4Y05nxMvOVLHijn/kzh8bV9Lmyfx5IX6ls
+ rO3tL24NeY+O0sTDx89AZcGI995Ai5XwqYKMrD8Arrvow+1WyE8b+lLmjZzvByom/hw5
+ jE0q04luXWatzViaRyWafy86MVsVozNRTnWLmGTUMkBfAricswHoyVpHKVc9XAVxLIke
+ RGNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zT4idoY3GXU6AKl9P1KDotBGRD6i9BlOD/Yn8HDxrN8=;
+ b=fpN7cxJG6THgE1Ek7IppeP6RQZ6rt5QNS2kFRPEZFRgWv39uTDoK0Aqf+YXxwvTlVK
+ 7yzm4ni0ltVAJaSCTYVCI8u5NoNzguL0XYFgDifZFPGjdI/jd5b4+Xkquhd/OfXeVTYt
+ 5mioYDuuFUaC38PqPwxgIgHYUyQ9jiLqHW8BgWDI9AMAAw0HIRJjqWqdPOHnu5WQZAmn
+ wnIKwct0v37wflyDPkGkZ31VDZuzP3/LDlCapr1ntUvZB5v6t0hIZat7l6TqE7yDyTIQ
+ 2nP2CfZCBYdpg2fjxYDYx9ZOmyz/JlnVGgv13SgAF+isKzUWa8i9Y57CFAYHGiaGI9eN
+ g1Rw==
+X-Gm-Message-State: AOAM532rGTCfZTCi9N+kyUdtr4DNhs+uLxJ24U+kuftqAzQyfl7ADz95
+ AdEBdCirHqyRW5whUbPvoUvJm8L2V7Em9aCj/WcyOQ==
+X-Google-Smtp-Source: ABdhPJz9V+xdlRF8ie6wyANpoDEf4gTRpkJcbnRPg71Sjm27NaLv4OKg5H8hiYkDipcT92cxG4GzEtlmJZG5SuY43QQ=
+X-Received: by 2002:a1f:7882:: with SMTP id t124mr1612757vkc.22.1600181085580; 
+ Tue, 15 Sep 2020 07:44:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20200915140644.037604909@linuxfoundation.org>
+In-Reply-To: <20200915140644.037604909@linuxfoundation.org>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Tue, 15 Sep 2020 20:14:34 +0530
+Message-ID: <CA+G9fYv5hvOYNdfX6F40aZPP9Vr6aEsP_-22gX2P+Q95TrfF-A@mail.gmail.com>
+Subject: Re: [PATCH 5.4 000/132] 5.4.66-rc1 review
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailman-Approved-At: Tue, 15 Sep 2020 17:54:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,324 +62,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, Sean Paul <seanpaul@chromium.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, thaytan@noraisin.net,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Manasi Navare <manasi.d.navare@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <sean@poorly.run>, freedreno <freedreno@lists.freedesktop.org>,
+ Ben Hutchings <ben.hutchings@codethink.co.uk>, pavel@denx.de,
+ dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ linux- stable <stable@vger.kernel.org>, patches@kernelci.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, lkft-triage@lists.linaro.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 0883ce8146ed6074c76399f4e70dbed788582e12. Originally
-these quirks were added because of the issues with using the eDP
-backlight interfaces on certain laptop panels, which made it impossible
-to properly probe for DPCD backlight support without having a whitelist
-for panels that we know have working VESA backlight control interfaces
-over DPCD. As well, it should be noted it was impossible to use the
-normal sink OUI for recognizing these panels as none of them actually
-filled out their OUIs, hence needing to resort to checking EDIDs.
-
-At the time we weren't really sure why certain panels had issues with
-DPCD backlight controls, but we eventually figured out that there was a
-second interface that these problematic laptop panels actually did work
-with and advertise properly: Intel's proprietary backlight interface for
-HDR panels. So far the testing we've done hasn't brought any panels to
-light that advertise this interface and don't support it properly, which
-means we finally have a real solution to this problem.
-
-As a result, we now have no need for the force DPCD backlight quirk, and
-furthermore this also removes the need for any kind of EDID quirk
-checking in DRM. So, let's just revert it for now since we were the only
-driver using this.
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Cc: thaytan@noraisin.net
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>
----
- drivers/gpu/drm/drm_dp_helper.c               | 82 +------------------
- drivers/gpu/drm/drm_dp_mst_topology.c         |  3 +-
- .../drm/i915/display/intel_display_types.h    |  1 -
- drivers/gpu/drm/i915/display/intel_dp.c       | 12 +--
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
- drivers/gpu/drm/i915/display/intel_psr.c      |  2 +-
- include/drm/drm_dp_helper.h                   | 21 +----
- 7 files changed, 11 insertions(+), 113 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 1e7c638873c82..7138655bfc9d0 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -823,7 +823,7 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
- 	return connector->connector_type != DRM_MODE_CONNECTOR_eDP &&
- 		dpcd[DP_DPCD_REV] >= DP_DPCD_REV_11 &&
- 		dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT &&
--		!drm_dp_has_quirk(desc, 0, DP_DPCD_QUIRK_NO_SINK_COUNT);
-+		!drm_dp_has_quirk(desc, DP_DPCD_QUIRK_NO_SINK_COUNT);
- }
- EXPORT_SYMBOL(drm_dp_read_sink_count_cap);
- 
-@@ -1544,86 +1544,6 @@ drm_dp_get_quirks(const struct drm_dp_dpcd_ident *ident, bool is_branch)
- #undef DEVICE_ID_ANY
- #undef DEVICE_ID
- 
--struct edid_quirk {
--	u8 mfg_id[2];
--	u8 prod_id[2];
--	u32 quirks;
--};
--
--#define MFG(first, second) { (first), (second) }
--#define PROD_ID(first, second) { (first), (second) }
--
--/*
-- * Some devices have unreliable OUIDs where they don't set the device ID
-- * correctly, and as a result we need to use the EDID for finding additional
-- * DP quirks in such cases.
-- */
--static const struct edid_quirk edid_quirk_list[] = {
--	/* Optional 4K AMOLED panel in the ThinkPad X1 Extreme 2nd Generation
--	 * only supports DPCD backlight controls
--	 */
--	{ MFG(0x4c, 0x83), PROD_ID(0x41, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	/*
--	 * Some Dell CML 2020 systems have panels support both AUX and PWM
--	 * backlight control, and some only support AUX backlight control. All
--	 * said panels start up in AUX mode by default, and we don't have any
--	 * support for disabling HDR mode on these panels which would be
--	 * required to switch to PWM backlight control mode (plus, I'm not
--	 * even sure we want PWM backlight controls over DPCD backlight
--	 * controls anyway...). Until we have a better way of detecting these,
--	 * force DPCD backlight mode on all of them.
--	 */
--	{ MFG(0x06, 0xaf), PROD_ID(0x9b, 0x32), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x4c, 0x83), PROD_ID(0x47, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--};
--
--#undef MFG
--#undef PROD_ID
--
--/**
-- * drm_dp_get_edid_quirks() - Check the EDID of a DP device to find additional
-- * DP-specific quirks
-- * @edid: The EDID to check
-- *
-- * While OUIDs are meant to be used to recognize a DisplayPort device, a lot
-- * of manufacturers don't seem to like following standards and neglect to fill
-- * the dev-ID in, making it impossible to only use OUIDs for determining
-- * quirks in some cases. This function can be used to check the EDID and look
-- * up any additional DP quirks. The bits returned by this function correspond
-- * to the quirk bits in &drm_dp_quirk.
-- *
-- * Returns: a bitmask of quirks, if any. The driver can check this using
-- * drm_dp_has_quirk().
-- */
--u32 drm_dp_get_edid_quirks(const struct edid *edid)
--{
--	const struct edid_quirk *quirk;
--	u32 quirks = 0;
--	int i;
--
--	if (!edid)
--		return 0;
--
--	for (i = 0; i < ARRAY_SIZE(edid_quirk_list); i++) {
--		quirk = &edid_quirk_list[i];
--		if (memcmp(quirk->mfg_id, edid->mfg_id,
--			   sizeof(edid->mfg_id)) == 0 &&
--		    memcmp(quirk->prod_id, edid->prod_code,
--			   sizeof(edid->prod_code)) == 0)
--			quirks |= quirk->quirks;
--	}
--
--	DRM_DEBUG_KMS("DP sink: EDID mfg %*phD prod-ID %*phD quirks: 0x%04x\n",
--		      (int)sizeof(edid->mfg_id), edid->mfg_id,
--		      (int)sizeof(edid->prod_code), edid->prod_code, quirks);
--
--	return quirks;
--}
--EXPORT_SYMBOL(drm_dp_get_edid_quirks);
--
- /**
-  * drm_dp_read_desc - read sink/branch descriptor from DPCD
-  * @aux: DisplayPort AUX channel
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index e875425336406..f21516142dd50 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -5824,8 +5824,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- 	if (drm_dp_read_desc(port->mgr->aux, &desc, true))
- 		return NULL;
- 
--	if (drm_dp_has_quirk(&desc, 0,
--			     DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
-+	if (drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
- 	    port->mgr->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14 &&
- 	    port->parent == port->mgr->mst_primary) {
- 		u8 downstreamport;
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 9d540368bac89..0bf378903644c 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1322,7 +1322,6 @@ struct intel_dp {
- 	int max_link_rate;
- 	/* sink or branch descriptor */
- 	struct drm_dp_desc desc;
--	u32 edid_quirks;
- 	struct drm_dp_aux aux;
- 	u32 aux_busy_last_status;
- 	u8 train_set[4];
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index b591672ec4eab..27436a60bc328 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -162,8 +162,7 @@ static void intel_dp_set_sink_rates(struct intel_dp *intel_dp)
- 	};
- 	int i, max_rate;
- 
--	if (drm_dp_has_quirk(&intel_dp->desc, 0,
--			     DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS)) {
-+	if (drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS)) {
- 		/* Needed, e.g., for Apple MBP 2017, 15 inch eDP Retina panel */
- 		static const int quirk_rates[] = { 162000, 270000, 324000 };
- 
-@@ -2630,8 +2629,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
- 	struct intel_connector *intel_connector = intel_dp->attached_connector;
- 	struct intel_digital_connector_state *intel_conn_state =
- 		to_intel_digital_connector_state(conn_state);
--	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, 0,
--					   DP_DPCD_QUIRK_CONSTANT_N);
-+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
- 	int ret = 0, output_bpp;
- 
- 	if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv) && port != PORT_A)
-@@ -6103,7 +6101,6 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
- 
- 	intel_dp->has_audio = drm_detect_monitor_audio(edid);
- 	drm_dp_cec_set_edid(&intel_dp->aux, edid);
--	intel_dp->edid_quirks = drm_dp_get_edid_quirks(edid);
- }
- 
- static void
-@@ -6116,7 +6113,6 @@ intel_dp_unset_edid(struct intel_dp *intel_dp)
- 	intel_connector->detect_edid = NULL;
- 
- 	intel_dp->has_audio = false;
--	intel_dp->edid_quirks = 0;
- }
- 
- static int
-@@ -7467,8 +7463,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	edid = drm_get_edid(connector, &intel_dp->aux.ddc);
- 	if (edid) {
- 		if (drm_add_edid_modes(connector, edid)) {
--			drm_connector_update_edid_property(connector, edid);
--			intel_dp->edid_quirks = drm_dp_get_edid_quirks(edid);
-+			drm_connector_update_edid_property(connector,
-+								edid);
- 		} else {
- 			kfree(edid);
- 			edid = ERR_PTR(-EINVAL);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 64d885539e94a..c8b9ffa388cf5 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -52,8 +52,7 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
- 	const struct drm_display_mode *adjusted_mode =
- 		&crtc_state->hw.adjusted_mode;
--	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, 0,
--					   DP_DPCD_QUIRK_CONSTANT_N);
-+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
- 	int bpp, slots = -EINVAL;
- 
- 	crtc_state->lane_count = limits->max_lane_count;
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 8a9d0bdde1bfb..c7403406e2783 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -310,7 +310,7 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
- 	drm_dbg_kms(&dev_priv->drm, "eDP panel supports PSR version %x\n",
- 		    intel_dp->psr_dpcd[0]);
- 
--	if (drm_dp_has_quirk(&intel_dp->desc, 0, DP_DPCD_QUIRK_NO_PSR)) {
-+	if (drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_NO_PSR)) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "PSR support not currently available for this panel\n");
- 		return;
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 5c45195ced321..09dd81007dba4 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1671,16 +1671,13 @@ struct drm_dp_desc {
- 
- int drm_dp_read_desc(struct drm_dp_aux *aux, struct drm_dp_desc *desc,
- 		     bool is_branch);
--u32 drm_dp_get_edid_quirks(const struct edid *edid);
- 
- /**
-  * enum drm_dp_quirk - Display Port sink/branch device specific quirks
-  *
-  * Display Port sink and branch devices in the wild have a variety of bugs, try
-  * to collect them here. The quirks are shared, but it's up to the drivers to
-- * implement workarounds for them. Note that because some devices have
-- * unreliable OUIDs, the EDID of sinks should also be checked for quirks using
-- * drm_dp_get_edid_quirks().
-+ * implement workarounds for them.
-  */
- enum drm_dp_quirk {
- 	/**
-@@ -1712,16 +1709,6 @@ enum drm_dp_quirk {
- 	 * The DSC caps can be read from the physical aux instead.
- 	 */
- 	DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD,
--	/**
--	 * @DP_QUIRK_FORCE_DPCD_BACKLIGHT:
--	 *
--	 * The device is telling the truth when it says that it uses DPCD
--	 * backlight controls, even if the system's firmware disagrees. This
--	 * quirk should be checked against both the ident and panel EDID.
--	 * When present, the driver should honor the DPCD backlight
--	 * capabilities advertised.
--	 */
--	DP_QUIRK_FORCE_DPCD_BACKLIGHT,
- 	/**
- 	 * @DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS:
- 	 *
-@@ -1734,16 +1721,14 @@ enum drm_dp_quirk {
- /**
-  * drm_dp_has_quirk() - does the DP device have a specific quirk
-  * @desc: Device descriptor filled by drm_dp_read_desc()
-- * @edid_quirks: Optional quirk bitmask filled by drm_dp_get_edid_quirks()
-  * @quirk: Quirk to query for
-  *
-  * Return true if DP device identified by @desc has @quirk.
-  */
- static inline bool
--drm_dp_has_quirk(const struct drm_dp_desc *desc, u32 edid_quirks,
--		 enum drm_dp_quirk quirk)
-+drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
- {
--	return (desc->quirks | edid_quirks) & BIT(quirk);
-+	return desc->quirks & BIT(quirk);
- }
- 
- #ifdef CONFIG_DRM_DP_CEC
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxNSBTZXAgMjAyMCBhdCAxOTo1MCwgR3JlZyBLcm9haC1IYXJ0bWFuCjxncmVna2hA
+bGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4KPiBUaGlzIGlzIHRoZSBzdGFydCBvZiB0aGUg
+c3RhYmxlIHJldmlldyBjeWNsZSBmb3IgdGhlIDUuNC42NiByZWxlYXNlLgo+IFRoZXJlIGFyZSAx
+MzIgcGF0Y2hlcyBpbiB0aGlzIHNlcmllcywgYWxsIHdpbGwgYmUgcG9zdGVkIGFzIGEgcmVzcG9u
+c2UKPiB0byB0aGlzIG9uZS4gIElmIGFueW9uZSBoYXMgYW55IGlzc3VlcyB3aXRoIHRoZXNlIGJl
+aW5nIGFwcGxpZWQsIHBsZWFzZQo+IGxldCBtZSBrbm93Lgo+Cj4gUmVzcG9uc2VzIHNob3VsZCBi
+ZSBtYWRlIGJ5IFRodSwgMTcgU2VwIDIwMjAgMTQ6MDY6MTIgKzAwMDAuCj4gQW55dGhpbmcgcmVj
+ZWl2ZWQgYWZ0ZXIgdGhhdCB0aW1lIG1pZ2h0IGJlIHRvbyBsYXRlLgo+Cj4gVGhlIHdob2xlIHBh
+dGNoIHNlcmllcyBjYW4gYmUgZm91bmQgaW4gb25lIHBhdGNoIGF0Ogo+ICAgICAgICAgaHR0cHM6
+Ly93d3cua2VybmVsLm9yZy9wdWIvbGludXgva2VybmVsL3Y1Lngvc3RhYmxlLXJldmlldy9wYXRj
+aC01LjQuNjYtcmMxLmd6Cj4gb3IgaW4gdGhlIGdpdCB0cmVlIGFuZCBicmFuY2ggYXQ6Cj4gICAg
+ICAgICBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvc3RhYmxl
+L2xpbnV4LXN0YWJsZS1yYy5naXQgbGludXgtNS40LnkKPiBhbmQgdGhlIGRpZmZzdGF0IGNhbiBi
+ZSBmb3VuZCBiZWxvdy4KPgo+IHRoYW5rcywKPgo+IGdyZWcgay1oCj4KCmFybSBhbmQgYXJtNjQg
+YnVpbGQgYnJlYWtzIG9uIHN0YWJsZSByYyA1LjQuCgptYWtlIC1zayBLQlVJTERfQlVJTERfVVNF
+Uj1UdXhCdWlsZCAtQy9saW51eCAtajE2IEFSQ0g9YXJtCkNST1NTX0NPTVBJTEU9YXJtLWxpbnV4
+LWdudWVhYmloZi0gSE9TVENDPWdjYyBDQz0ic2NjYWNoZQphcm0tbGludXgtZ251ZWFiaWhmLWdj
+YyIgTz1idWlsZCB6SW1hZ2UKIwouLi9rZXJuZWwva3Byb2Jlcy5jOiBJbiBmdW5jdGlvbiDigJhr
+aWxsX2twcm9iZeKAmToKLi4va2VybmVsL2twcm9iZXMuYzoxMDgxOjMzOiB3YXJuaW5nOiBzdGF0
+ZW1lbnQgd2l0aCBubyBlZmZlY3QgWy1XdW51c2VkLXZhbHVlXQogMTA4MSB8ICNkZWZpbmUgZGlz
+YXJtX2twcm9iZV9mdHJhY2UocCkgKC1FTk9ERVYpCiAgICAgIHwgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeCi4uL2tlcm5lbC9rcHJvYmVzLmM6MjExMzozOiBub3RlOiBpbiBleHBh
+bnNpb24gb2YgbWFjcm8g4oCYZGlzYXJtX2twcm9iZV9mdHJhY2XigJkKIDIxMTMgfCAgIGRpc2Fy
+bV9rcHJvYmVfZnRyYWNlKHApOwogICAgICB8ICAgXn5+fn5+fn5+fn5+fn5+fn5+fn4KIwojIG1h
+a2UgLXNrIEtCVUlMRF9CVUlMRF9VU0VSPVR1eEJ1aWxkIC1DL2xpbnV4IC1qMTYgQVJDSD1hcm0K
+Q1JPU1NfQ09NUElMRT1hcm0tbGludXgtZ251ZWFiaWhmLSBIT1NUQ0M9Z2NjIENDPSJzY2NhY2hl
+CmFybS1saW51eC1nbnVlYWJpaGYtZ2NjIiBPPWJ1aWxkIG1vZHVsZXMKIwouLi9kcml2ZXJzL2dw
+dS9kcm0vbXNtL2FkcmVuby9hNXh4X3ByZWVtcHQuYzogSW4gZnVuY3Rpb24g4oCYcHJlZW1wdF9p
+bml0X3JpbmfigJk6Ci4uL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1eHhfcHJlZW1wdC5j
+OjIzNToyMTogZXJyb3I6CuKAmE1TTV9CT19NQVBfUFJJVuKAmSB1bmRlY2xhcmVkIChmaXJzdCB1
+c2UgaW4gdGhpcyBmdW5jdGlvbikKICAyMzUgfCAgIE1TTV9CT19VTkNBQ0hFRCB8IE1TTV9CT19N
+QVBfUFJJViwgZ3B1LT5hc3BhY2UsICZibywgJmlvdmEpOwogICAgICB8ICAgICAgICAgICAgICAg
+ICAgICAgXn5+fn5+fn5+fn5+fn5+Ci4uL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1eHhf
+cHJlZW1wdC5jOjIzNToyMTogbm90ZTogZWFjaAp1bmRlY2xhcmVkIGlkZW50aWZpZXIgaXMgcmVw
+b3J0ZWQgb25seSBvbmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0CmFwcGVhcnMgaW4KbWFrZVs1XTog
+KioqIFsuLi9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjI2NjoKZHJpdmVycy9ncHUvZHJtL21zbS9h
+ZHJlbm8vYTV4eF9wcmVlbXB0Lm9dIEVycm9yIDEKLi4vZHJpdmVycy9ncHUvZHJtL21zbS9hZHJl
+bm8vYTZ4eF9ncHUuYzogSW4gZnVuY3Rpb24g4oCYYTZ4eF9od19pbml04oCZOgouLi9kcml2ZXJz
+L2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jOjQxNDo2OiBlcnJvcjogaW1wbGljaXQKZGVj
+bGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYYWRyZW5vX2lzX2E2NDDigJk7IGRpZCB5b3UgbWVhbgri
+gJhhZHJlbm9faXNfYTU0MOKAmT8gWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRp
+b25dCiAgNDE0IHwgIGlmIChhZHJlbm9faXNfYTY0MChhZHJlbm9fZ3B1KSB8fCBhZHJlbm9faXNf
+YTY1MChhZHJlbm9fZ3B1KSkgewogICAgICB8ICAgICAgXn5+fn5+fn5+fn5+fn4KICAgICAgfCAg
+ICAgIGFkcmVub19pc19hNTQwCi4uL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1
+LmM6NDE0OjM2OiBlcnJvcjogaW1wbGljaXQKZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYYWRy
+ZW5vX2lzX2E2NTDigJk7IGRpZCB5b3UgbWVhbgrigJhhZHJlbm9faXNfYTU0MOKAmT8gWy1XZXJy
+b3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgNDE0IHwgIGlmIChhZHJlbm9faXNf
+YTY0MChhZHJlbm9fZ3B1KSB8fCBhZHJlbm9faXNfYTY1MChhZHJlbm9fZ3B1KSkgewogICAgICB8
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn4KICAgICAg
+fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFkcmVub19pc19hNTQwCi4uL2Ry
+aXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1LmM6NDE1OjE4OiBlcnJvcjoK4oCYUkVH
+X0E2WFhfR0JJRl9RU0JfU0lERTDigJkgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVu
+Y3Rpb24pCiAgNDE1IHwgICBncHVfd3JpdGUoZ3B1LCBSRUdfQTZYWF9HQklGX1FTQl9TSURFMCwg
+MHgwMDA3MTYyMCk7CiAgICAgIHwgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fgouLi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jOjQxNToxODogbm90
+ZTogZWFjaCB1bmRlY2xhcmVkCmlkZW50aWZpZXIgaXMgcmVwb3J0ZWQgb25seSBvbmNlIGZvciBl
+YWNoIGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4KLi4vZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8v
+YTZ4eF9ncHUuYzo0MTY6MTg6IGVycm9yOgrigJhSRUdfQTZYWF9HQklGX1FTQl9TSURFMeKAmSB1
+bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbikKICA0MTYgfCAgIGdwdV93cml0
+ZShncHUsIFJFR19BNlhYX0dCSUZfUVNCX1NJREUxLCAweDAwMDcxNjIwKTsKICAgICAgfCAgICAg
+ICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Ci4uL2RyaXZlcnMvZ3B1L2RybS9t
+c20vYWRyZW5vL2E2eHhfZ3B1LmM6NDE3OjE4OiBlcnJvcjoK4oCYUkVHX0E2WFhfR0JJRl9RU0Jf
+U0lERTLigJkgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pCiAgNDE3IHwg
+ICBncHVfd3JpdGUoZ3B1LCBSRUdfQTZYWF9HQklGX1FTQl9TSURFMiwgMHgwMDA3MTYyMCk7CiAg
+ICAgIHwgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fgouLi9kcml2ZXJz
+L2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jOjQxODoxODogZXJyb3I6CuKAmFJFR19BNlhY
+X0dCSUZfUVNCX1NJREUz4oCZIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9u
+KQogIDQxOCB8ICAgZ3B1X3dyaXRlKGdwdSwgUkVHX0E2WFhfR0JJRl9RU0JfU0lERTMsIDB4MDAw
+NzE2MjApOwogICAgICB8ICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4K
+Y2MxOiBzb21lIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzCm1ha2VbNV06ICoqKiBb
+Li4vc2NyaXB0cy9NYWtlZmlsZS5idWlsZDoyNjU6CmRyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5v
+L2E2eHhfZ3B1Lm9dIEVycm9yIDEKSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL2RyaXZlcnMvZ3B1
+L2RybS9tc20vbXNtX2dwdS5jOjc6Ci4uL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dwdS5jOiBJ
+biBmdW5jdGlvbiDigJhtc21fZ3B1X2luaXTigJk6Ci4uL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNt
+X2dwdS5oOjMzMDoyMjogZXJyb3I6IOKAmE1TTV9CT19NQVBfUFJJVuKAmQp1bmRlY2xhcmVkIChm
+aXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbikKICAzMzAgfCAgKCgoZ3B1KS0+aHdfYXByaXYgPyBN
+U01fQk9fTUFQX1BSSVYgOiAwKSB8IChmbGFncykpCiAgICAgIHwgICAgICAgICAgICAgICAgICAg
+ICAgXn5+fn5+fn5+fn5+fn5+Ci4uL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dwdS5jOjkzNToz
+OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8K4oCYY2hlY2tfYXByaXbigJkKICA5MzUgfCAg
+IGNoZWNrX2Fwcml2KGdwdSwgTVNNX0JPX1VOQ0FDSEVEKSwgZ3B1LT5hc3BhY2UsICZncHUtPm1l
+bXB0cnNfYm8sCiAgICAgIHwgICBefn5+fn5+fn5+fgouLi9kcml2ZXJzL2dwdS9kcm0vbXNtL21z
+bV9ncHUuaDozMzA6MjI6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZAppZGVudGlmaWVyIGlzIHJlcG9y
+dGVkIG9ubHkgb25jZSBmb3IgZWFjaCBmdW5jdGlvbiBpdCBhcHBlYXJzIGluCiAgMzMwIHwgICgo
+KGdwdSktPmh3X2Fwcml2ID8gTVNNX0JPX01BUF9QUklWIDogMCkgfCAoZmxhZ3MpKQogICAgICB8
+ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fgouLi9kcml2ZXJzL2dwdS9kcm0v
+bXNtL21zbV9ncHUuYzo5MzU6Mzogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvCuKAmGNoZWNr
+X2Fwcml24oCZCiAgOTM1IHwgICBjaGVja19hcHJpdihncHUsIE1TTV9CT19VTkNBQ0hFRCksIGdw
+dS0+YXNwYWNlLCAmZ3B1LT5tZW1wdHJzX2JvLAogICAgICB8ICAgXn5+fn5+fn5+fn4KbWFrZVs1
+XTogKioqIFsuLi9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjI2NjoKZHJpdmVycy9ncHUvZHJtL21z
+bS9tc21fZ3B1Lm9dIEVycm9yIDEKSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL2RyaXZlcnMvZ3B1
+L2RybS9tc20vbXNtX3JpbmdidWZmZXIuYzo4OgouLi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9y
+aW5nYnVmZmVyLmM6IEluIGZ1bmN0aW9uIOKAmG1zbV9yaW5nYnVmZmVyX25ld+KAmToKLi4vZHJp
+dmVycy9ncHUvZHJtL21zbS9tc21fZ3B1Lmg6MzMwOjIyOiBlcnJvcjog4oCYTVNNX0JPX01BUF9Q
+UklW4oCZCnVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKQogIDMzMCB8ICAo
+KChncHUpLT5od19hcHJpdiA/IE1TTV9CT19NQVBfUFJJViA6IDApIHwgKGZsYWdzKSkKICAgICAg
+fCAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn4KLi4vZHJpdmVycy9ncHUvZHJt
+L21zbS9tc21fcmluZ2J1ZmZlci5jOjMwOjM6IG5vdGU6IGluIGV4cGFuc2lvbiBvZgptYWNybyDi
+gJhjaGVja19hcHJpduKAmQogICAzMCB8ICAgY2hlY2tfYXByaXYoZ3B1LCBNU01fQk9fV0MgfCBN
+U01fQk9fR1BVX1JFQURPTkxZKSwKICAgICAgfCAgIF5+fn5+fn5+fn5+Ci4uL2RyaXZlcnMvZ3B1
+L2RybS9tc20vbXNtX2dwdS5oOjMzMDoyMjogbm90ZTogZWFjaCB1bmRlY2xhcmVkCmlkZW50aWZp
+ZXIgaXMgcmVwb3J0ZWQgb25seSBvbmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4K
+ICAzMzAgfCAgKCgoZ3B1KS0+aHdfYXByaXYgPyBNU01fQk9fTUFQX1BSSVYgOiAwKSB8IChmbGFn
+cykpCiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+Ci4uL2RyaXZl
+cnMvZ3B1L2RybS9tc20vbXNtX3JpbmdidWZmZXIuYzozMDozOiBub3RlOiBpbiBleHBhbnNpb24g
+b2YKbWFjcm8g4oCYY2hlY2tfYXByaXbigJkKICAgMzAgfCAgIGNoZWNrX2Fwcml2KGdwdSwgTVNN
+X0JPX1dDIHwgTVNNX0JPX0dQVV9SRUFET05MWSksCiAgICAgIHwgICBefn5+fn5+fn5+fgptYWtl
+WzVdOiAqKiogWy4uL3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6MjY1Ogpkcml2ZXJzL2dwdS9kcm0v
+bXNtL21zbV9yaW5nYnVmZmVyLm9dIEVycm9yIDEKbWFrZVs1XTogVGFyZ2V0ICdfX2J1aWxkJyBu
+b3QgcmVtYWRlIGJlY2F1c2Ugb2YgZXJyb3JzLgptYWtlWzRdOiAqKiogWy4uL3NjcmlwdHMvTWFr
+ZWZpbGUuYnVpbGQ6NTAwOiBkcml2ZXJzL2dwdS9kcm0vbXNtXSBFcnJvciAyCm1ha2VbNF06IFRh
+cmdldCAnX19idWlsZCcgbm90IHJlbWFkZSBiZWNhdXNlIG9mIGVycm9ycy4KbWFrZVszXTogKioq
+IFsuLi9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjUwMDogZHJpdmVycy9ncHUvZHJtXSBFcnJvciAy
+Cm1ha2VbM106IFRhcmdldCAnX19idWlsZCcgbm90IHJlbWFkZSBiZWNhdXNlIG9mIGVycm9ycy4K
+bWFrZVsyXTogKioqIFsuLi9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjUwMDogZHJpdmVycy9ncHVd
+IEVycm9yIDIKbWFrZVsyXTogVGFyZ2V0ICdfX2J1aWxkJyBub3QgcmVtYWRlIGJlY2F1c2Ugb2Yg
+ZXJyb3JzLgptYWtlWzFdOiAqKiogWy9saW51eC9NYWtlZmlsZToxNzI5OiBkcml2ZXJzXSBFcnJv
+ciAyCm1ha2VbMV06IFRhcmdldCAnbW9kdWxlcycgbm90IHJlbWFkZSBiZWNhdXNlIG9mIGVycm9y
+cy4KbWFrZTogKioqIFtNYWtlZmlsZToxNzk6IHN1Yi1tYWtlXSBFcnJvciAyCm1ha2U6IFRhcmdl
+dCAnbW9kdWxlcycgbm90IHJlbWFkZSBiZWNhdXNlIG9mIGVycm9ycy4KCgotLSAKTGluYXJvIExL
+RlQKaHR0cHM6Ly9sa2Z0LmxpbmFyby5vcmcKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
