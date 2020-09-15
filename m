@@ -1,66 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9658326A5DC
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 15:05:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0129126A5F4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 15:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C806E23D;
-	Tue, 15 Sep 2020 13:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F9D6E297;
+	Tue, 15 Sep 2020 13:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8812B6E23D
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 13:05:24 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z4so3252066wrr.4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 06:05:24 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649C66E297
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 13:10:20 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id o5so3197544wrn.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 06:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:from:to:cc:references:autocrypt:organization:message-id
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PAedulOaLRGPWn1Q+RwcE7+ai8g8vapA/ETRTpmrMvA=;
- b=jOnakUbco4IRYyGk5bE3DYRjRvtFKeNnrPpQlHZm9vkVgtANfs6YSsuPafs8f8yxnW
- TWYg4nID670IQYnA5nwTvH7W0QZZ353jkg24qQafVf3HdVdCgyhH58O9dSy2aAQgV8gw
- u4iYPd9gY3vcqOQ6VESqLe0nk6F97Ds8SFPUaX7cJjku0BmYGfGOcvXIH8zy8qId7ucX
- FZc5KZsLCRSJpLbgr5zJ3eu1nL5/6amzUR5Rq7wOIwsRfFDZfPLBixmXDUjL0i0/RAGe
- Fd8pcxLFNcc+VQI8/h7VMZhbLSyz6qpY3hKNY27gBxmJExoDlmjUHWHijCduCInM1V8/
- j4Wg==
+ bh=PzwaoGAaAw3eToudCX8zu6LBf47xuCGh+c0p3NOi0HQ=;
+ b=O77E75MwpshPpyRvgZbs1KH0Ie00TjiGkb+7RbnZDbNSDDoALLFBhSRHebRtqSGs8D
+ Zxm8PbLM1juVfN4p0ufOt3a1NJv55ntc8gZMmUfx3MWhs5TnyR3FGsO+oetAS4/nIQ3G
+ CRxCd8MWs8UJx8Rldbt94js8QyT4lknuIv4aNVJRW1r3KDcmGVUfb4YrJXmrkgkdJD1j
+ KVbT7mXnSe5Qj9ZSjSw19i4EQPFnUMB6fZeYhdlHvGhJpyB9p8oXsX2CCqqsziaA8il1
+ 25FtF0wqJMWq7wxbKxIJMZy2HLhy2AvH4/GkDTtPE/eOGe8Xb39as8lD4ByV9ykbompf
+ 9H5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:autocrypt
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=PAedulOaLRGPWn1Q+RwcE7+ai8g8vapA/ETRTpmrMvA=;
- b=laF4/TsbnoQOf9T91DpgRZxf+LV+dxBOib3zra5LKPE2iOpbQY+ISL435PbhXoIJG0
- eR+EUgodAY03s1jHGauLp1BH6r41ThGFUkIl9cwG6Fiz4iSBR80a0QauxQcavWiMKqZb
- CdQaZAYI3a87TIntFWQMPx53IZ7KEjdrrkr+xFDW8eIsl9FiXKIkFQTjotwnreEexWqb
- e+wyNMPcHMGUxq5Ri0w1BLfk+DpTPT2nTlEonYQPr50f4jnGy6wqpwWVzp+U5r3a15YI
- zTpqMVLt2r4AKjfHDZVXTzyWZxCZBAcFx7fJ0RNF0XR/hGIauXUcbZxP0C7fOBwpS8dX
- CdHw==
-X-Gm-Message-State: AOAM530s3y6MdX3TDO1Q+olGbqXAkqxDVqzGmIsV8yL4lmT0q6C3GC36
- KuORs9OkTqxrHm8Uq2BDcKkNGg==
-X-Google-Smtp-Source: ABdhPJwSgGK8pvg6vZvi16/WZcjKVDit+Y5y4mAJO1zJtZiSdJ8WtZvErg/IdDO4zNNq3uaZq7Y/zw==
-X-Received: by 2002:a5d:4842:: with SMTP id n2mr21740506wrs.260.1600175122708; 
- Tue, 15 Sep 2020 06:05:22 -0700 (PDT)
+ bh=PzwaoGAaAw3eToudCX8zu6LBf47xuCGh+c0p3NOi0HQ=;
+ b=ecgyLlXa/rL62IWMW+BJsqvN9Y9v8MOIm1pMLrXnMrNdaVHmZZPjgpx9wd5cQgyWUw
+ yRIjLc+kA7L/o0NPrL/K6182VqbtRBgJU5mVu4SwSFWh+exDpPNc8qymGvYq+ZtY+Ssr
+ OSUo7jsVoixC6YtK4CmpwTZZjWq9Qz3McBhFh12rVzmHSoG9jz/Cdjm8kTKr1SbIiJsF
+ Rg8q3GAB/eN2+3lU7CyzV+92Au04q+pMLfEBv+PLicVDGcA+qzYqGrYhPab6Ank/Zie4
+ rVrPjlb9APY7Vg9xVAJUmvbKeSHJBGOdT0KpbScQ1dFwb0BMiYxdPLSlMzhKAMhB2ItH
+ aVHA==
+X-Gm-Message-State: AOAM533u+vcLKUm/fLTr0raprp8Y0kn5CNEkzk66NykvITUzf5I6Cvdg
+ iC0Err3reI7lgP8fnYCrg6n1duhxJTnPOt6j
+X-Google-Smtp-Source: ABdhPJxmDszpPlM0dwv9rTgr5Cybx+UD6IkijdeDQd+qBhPuO2WproqNINLF4Wzhb1s0cTUjqnPhyw==
+X-Received: by 2002:a5d:6283:: with SMTP id k3mr22138255wru.191.1600175418350; 
+ Tue, 15 Sep 2020 06:10:18 -0700 (PDT)
 Received: from [192.168.1.23] (home.beaume.starnux.net. [82.236.8.43])
- by smtp.gmail.com with ESMTPSA id v9sm26339953wru.37.2020.09.15.06.05.20
+ by smtp.gmail.com with ESMTPSA id a15sm28521436wrn.3.2020.09.15.06.10.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 06:05:21 -0700 (PDT)
-Subject: Re: [PATCH v9 00/11] Genericize DW MIPI DSI bridge and add i.MX 6
- driver
+ Tue, 15 Sep 2020 06:10:17 -0700 (PDT)
+Subject: Re: [PATCH v3 0/1] drm/bridge: ps8640: Make sure all needed is
+ powered to get the EDID
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ linux-kernel@vger.kernel.org
+References: <20200827085911.944899-1-enric.balletbo@collabora.com>
+ <68d6a409-39fb-0aa8-7d21-d6afc7b51aab@collabora.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
-To: Ezequiel Garcia <ezequiel@collabora.com>,
- Adrian Ratiu <adrian.ratiu@collabora.com>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-References: <20200609174959.955926-1-adrian.ratiu@collabora.com>
- <c6f10db1-7f56-a156-36a1-125e764c8c1a@baylibre.com>
- <87lfk3kaj4.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
- <b318069fe873e456f18d07d11f5d165667c9b04a.camel@collabora.com>
- <e0d0efec-09e0-6bf8-bab7-44accd14fa52@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -111,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <e841d90b-0f1d-d5d9-9f67-f90d64c4fbc7@baylibre.com>
-Date: Tue, 15 Sep 2020 15:05:20 +0200
+Message-ID: <3a711997-65d4-91ab-1613-c0746d003dcd@baylibre.com>
+Date: Tue, 15 Sep 2020 15:10:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <e0d0efec-09e0-6bf8-bab7-44accd14fa52@baylibre.com>
+In-Reply-To: <68d6a409-39fb-0aa8-7d21-d6afc7b51aab@collabora.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,96 +124,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Philippe CORNU <philippe.cornu@st.com>, Yannick FERTRE <yannick.fertre@st.com>,
- Andrzej Hajda <a.hajda@samsung.com>, linux-imx@nxp.com, kernel@collabora.com,
- linux-stm32@st-md-mailman.stormreply.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrian,
+Hi,
 
-Gentle ping.
+On 15/09/2020 14:40, Enric Balletbo i Serra wrote:
+> Hi Sam,
+> 
+> On 27/8/20 10:59, Enric Balletbo i Serra wrote:
+>> The first 4 patches of the series version 2:
+>>   - drm/bridge_connector: Set default status connected for eDP connectors
+>>   - drm/bridge: ps8640: Get the EDID from eDP control
+>>   - drm/bridge: ps8640: Return an error for incorrect attach flags
+>>   - drm/bridge: ps8640: Print an error if VDO control fails
+>>
+>> Are already applied to drm-misc-next, so I removed from this series. The
+>> pending patch is part of the original series and is a rework of the power
+>> handling to get the EDID. Basically, we need to make sure all the
+>> needed is powered to be able to get the EDID. Before, we saw that getting
+>> the EDID failed as explained in the third patch.
+>>
+>> [1] https://lkml.org/lkml/2020/6/15/1208
+>>
+>> Changes in v3:
+>> - Make poweron/poweroff and pre_enable/post_disable reverse one to each other (Sam Ravnborg)
+>>
+>> Changes in v2:
+>> - Use drm_bridge_chain_pre_enable/post_disable() helpers (Sam Ravnborg)
+>>
+>> Enric Balletbo i Serra (1):
+>>   drm/bridge: ps8640: Rework power state handling
+>>
+>>  drivers/gpu/drm/bridge/parade-ps8640.c | 68 ++++++++++++++++++++++----
+>>  1 file changed, 58 insertions(+), 10 deletions(-)
+>>
+> 
+> A gentle ping on this patch. Would be nice land this together with the already
+> accepted patches.
 
-can you rebase on drm-misc-next so I can apply the IMX and STM patches ?
+Applying it to drm-misc-next
 
-On 24/08/2020 11:47, Neil Armstrong wrote:
-> Hi,
+Thanks,
+Neil
+
 > 
-> 
-> On 15/08/2020 15:05, Ezequiel Garcia wrote:
->> Hi Neil,
->>
->> On Wed, 2020-07-01 at 09:35 +0300, Adrian Ratiu wrote:
->>> Hi Neil,
->>>
->>> On Mon, 29 Jun 2020, Neil Armstrong <narmstrong@baylibre.com> 
->>> wrote:
->>>> Hi Adrian, 
->>>>
->>>> On 09/06/2020 19:49, Adrian Ratiu wrote: 
-> [...]
->>>
->>
->> It's been a month so I think it's a good idea to go forward
->> applying IMX and STM patches (probably with the usual
->> rebase dance).
->>
->> As for Rockchip...
->>
->>> The binding API removal change which directly touches RK can also 
->>> be applied separately, but unfortunately I do not have access to a 
->>> RK board with a DSI display to test it (or the bridge regmap logic 
->>> on RK btw...), I just "eye-balled" the RK code based on the public 
->>> docs and it LGTM.
->>>
->>
->> ... I'll be getting some DSI hardware to help with the pending
->> Rockchip issues, so we can tackle Rockchip as well. I'm quite sure
->> we'll loop Heiko as well if needed :-)
-> 
-> Sure, Adrian, can you rebase on drm-misc-next so I can apply the IMX and STM patches ?
-> 
->>
->> Cheers,
->> Ezequiel
->>
->>>> Neil
->>>>
->>>>> Big thank you to everyone who has contributed to this up to now,
->>>>> Adrian
->>>>>
->>>>> Adrian Ratiu (11):
->>>>>   drm: bridge: dw_mipi_dsi: add initial regmap infrastructure
->>>>>   drm: bridge: dw_mipi_dsi: abstract register access using reg_fields
->>>>>   drm: bridge: dw_mipi_dsi: add dsi v1.01 support
->>>>>   drm: bridge: dw_mipi_dsi: remove bind/unbind API
->>>>>   dt-bindings: display: add i.MX6 MIPI DSI host controller doc
->>>>>   ARM: dts: imx6qdl: add missing mipi dsi properties
->>>>>   drm: imx: Add i.MX 6 MIPI DSI host platform driver
->>>>>   drm: stm: dw-mipi-dsi: let the bridge handle the HW version check
->>>>>   drm: bridge: dw-mipi-dsi: split low power cfg register into fields
->>>>>   drm: bridge: dw-mipi-dsi: fix bad register field offsets
->>>>>   Documentation: gpu: todo: Add dw-mipi-dsi consolidation plan
->>>>>
->>>>>  .../display/imx/fsl,mipi-dsi-imx6.yaml        | 112 +++
->>>>>  Documentation/gpu/todo.rst                    |  25 +
->>>>>  arch/arm/boot/dts/imx6qdl.dtsi                |   8 +
->>>>>  drivers/gpu/drm/bridge/synopsys/Kconfig       |   1 +
->>>>>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 713 ++++++++++++------
->>>>>  drivers/gpu/drm/imx/Kconfig                   |   8 +
->>>>>  drivers/gpu/drm/imx/Makefile                  |   1 +
->>>>>  drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c        | 399 ++++++++++
->>>>>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   7 +-
->>>>>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  16 +-
->>>>>  10 files changed, 1059 insertions(+), 231 deletions(-)
->>>>>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
->>>>>  create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c
->>>>>
->>
+> Thanks,
+>   Enric
 > 
 
 _______________________________________________
