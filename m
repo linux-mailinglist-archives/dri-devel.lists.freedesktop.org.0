@@ -1,62 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2394F26AB37
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:54:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED4726AB49
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E198D6E8CD;
-	Tue, 15 Sep 2020 17:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11DAE6E122;
+	Tue, 15 Sep 2020 17:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013276E8C8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 17:48:23 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id n133so5114065qkn.11
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 10:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=PMuG0obES1mSU4p2Bpr9xG7rtnzSIk+zV1FaePqSpAg=;
- b=Hp9J3dEGpH2Tmiz9hu0LHBSu9dMuxfgzHEHC6EExeypCNaNj4GXYK7uTRowjOfqWTJ
- 6paAY39WTSiWMWBKsQ/MzVdwZDyQbM6Jwx9zVZhY8QTnqMonYJ5u4kg5B3UTHxAJnWbW
- 2t3bHz7zY2M7AOdSWlhKIVVIxkBGNpGtDaZIuv86g+tOyMut4zFas1uLfddUe0ux4Lpc
- GCdobFHAeTK029mmYVLioLA8QV7OL0zwrjP91ov5EcQvbVif/99cR8VooqMbZRpxxBd2
- 2Zl0dY+YD4haUWXc4hP73sHe0X8cXKlZz+kBGw5lvL03nr073GrKUdq0Y/ZyxD/nnOgR
- 4evQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PMuG0obES1mSU4p2Bpr9xG7rtnzSIk+zV1FaePqSpAg=;
- b=UQt+MVIOXSiCs/repvUR4Nv0sHuHyJ6kA3IAvz3n/seUj+48iD0g6N/wMHuc+QRfyk
- ZQAF6QyAN/XREafhvONd6zr9FYefQGkXAnYar03eqPfZmABEeDKD0H9bxTbr/i2yxyb+
- CDHRWQFxeF9PO4IFthD2pepd8sSrZ3XDYTdQe6ieFYTAHn6B2NRo03ucRcuAgRIUZMcz
- gvm2DvAse3+xnOIw2kRMDr9kBZjzFPnSqA74GYR/xbgQuzkcAsH+ZvN3dbcVEHf3HGN7
- 62fEHyXWCumK1o/o/aOWprUzERRGBBiMu15l7yHpldwThGPE6Kbl9gNge8Hvi4nELCXU
- 5L9Q==
-X-Gm-Message-State: AOAM533sG461KduAh/gYhzwlbZ2fv3Fr7VFk5CDhbuIxaDFuKpkhfiaM
- wJ7ZHsgunLCIz2Yr9Sf3DHaZpQ==
-X-Google-Smtp-Source: ABdhPJxTTAbFFmxhibWA9gq1WRKxKHcXRLCjzzCKT74WJ3jv9tDtGRFixbfDx/V4RZZsonZeQCirCA==
-X-Received: by 2002:a37:8404:: with SMTP id g4mr7503354qkd.63.1600192103023;
- Tue, 15 Sep 2020 10:48:23 -0700 (PDT)
-Received: from uller (ec2-34-197-84-77.compute-1.amazonaws.com. [34.197.84.77])
- by smtp.gmail.com with ESMTPSA id z19sm17735949qtb.37.2020.09.15.10.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 10:48:22 -0700 (PDT)
-Date: Tue, 15 Sep 2020 17:48:20 +0000
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add documentation
- for LT9611UXC
-Message-ID: <20200915174820.GI478@uller>
-References: <20200909092823.64810-1-dmitry.baryshkov@linaro.org>
- <20200909092823.64810-2-dmitry.baryshkov@linaro.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D6D6E122
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 17:58:01 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E977FD8;
+ Tue, 15 Sep 2020 19:57:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1600192679;
+ bh=XH4Stnb+Rin+YDKJkhMfdLwRltypIjsxSrOd0oEYBLM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PyG9lXVtaferjwo5+oPTSpIzmsCZDu4g0PtNLD74w5LCDqzPkdQWzFtaBn/fas/4x
+ T2ggRaZNJYWoNngReicNHNBdEqORNdqm+w9YiUKFV1kC7imcfaN3hqN5TrgbukAeiw
+ Yx+QOIbp+hQ/9TDCIVbGQXH213NfdkfOR+mCQ920=
+Date: Tue, 15 Sep 2020 20:57:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [GIT PULL FOR v5.10] R-Car display drivers miscellaneous changes
+Message-ID: <20200915175730.GA28219@pendragon.ideasonboard.com>
+References: <20200908160336.GA20954@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200909092823.64810-2-dmitry.baryshkov@linaro.org>
-X-Mailman-Approved-At: Tue, 15 Sep 2020 17:54:30 +0000
+In-Reply-To: <20200908160336.GA20954@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,64 +45,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 09 Sep 09:28 UTC 2020, Dmitry Baryshkov wrote:
+Hello,
 
-> Lontium LT9611UXC is a DSI to HDMI bridge which supports 2 DSI ports
-> and I2S port as input and one HDMI port as output. The LT9611UXC chip is
-> handled by a separate driver, but the bindings used are fully compatible
-> with the LT9611 chip, so let's reuse the lt9611.yaml schema.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Acked-by: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Is there anything blocking this ?
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+On Tue, Sep 08, 2020 at 07:03:36PM +0300, Laurent Pinchart wrote:
+> Hi Dave and Daniel,
+> 
+> The following changes since commit ce5c207c6b8dd9cdeaeeb2345b8a69335c0d98bf:
+> 
+>   Merge tag 'v5.9-rc4' into drm-next (2020-09-08 14:41:40 +1000)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/pinchartl/media.git tags/du-next-20200908
+> 
+> for you to fetch changes up to 2a7d2463be82554578185dbb61caa01aaf504156:
+> 
+>   drm: rcar-du: Fix crash when enabling a non-visible plane (2020-09-08 18:55:04 +0300)
+> 
+> ----------------------------------------------------------------
+> Miscellaneous R-Car display driver changes:
+> 
+> - R8A7742, R8A774E1 and R8A77961 support
+> - Fixes for pitch of YUV planar foamts and non-visible plane handling
+> - Kconfig fix to avoid displaying disabled options in .config
+> 
+> ----------------------------------------------------------------
+> Biju Das (2):
+>       dt-bindings: display: bridge: lvds-codec: Document power-supply property
+>       drm/bridge: lvds-codec: Add support for regulator
+> 
+> Kuninori Morimoto (4):
+>       dt-bindings: display: renesas: du: Document the r8a77961 bindings
+>       dt-bindings: display: renesas: dw-hdmi: Tidyup example compatible
+>       dt-bindings: display: renesas: dw-hdmi: Add R8A77961 support
+>       drm: rcar-du: Add r8a77961 support
+> 
+> Lad Prabhakar (4):
+>       dt-bindings: display: renesas,du: Document the r8a7742 bindings
+>       drm: rcar-du: Add r8a7742 support
+>       dt-bindings: display: renesas,lvds: Document r8a7742 bindings
+>       drm: rcar-du: lvds: Add r8a7742 support
+> 
+> Laurent Pinchart (2):
+>       drm: rcar-du: Fix pitch handling for fully planar YUV formats
+>       drm: rcar-du: Fix crash when enabling a non-visible plane
+> 
+> Marian-Cristian Rotariu (5):
+>       dt-bindings: display: renesas,du: Document r8a774e1 bindings
+>       drm: rcar-du: Add support for R8A774E1 SoC
+>       dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
+>       dt-bindings: display: renesas,dw-hdmi: Add r8a774e1 support
+>       drm: rcar-du: lvds: Add support for R8A774E1 SoC
+> 
+> Qian Cai (1):
+>       drm: rcar-du: Make DRM_RCAR_WRITEBACK depends on DRM_RCAR_DU
+> 
+>  .../bindings/display/bridge/lvds-codec.yaml     |  3 ++
+>  .../bindings/display/bridge/renesas,dw-hdmi.txt |  4 +-
+>  .../bindings/display/bridge/renesas,lvds.yaml   |  2 +
+>  .../devicetree/bindings/display/renesas,du.txt  |  6 +++
+>  drivers/gpu/drm/bridge/lvds-codec.c             | 29 ++++++++++
+>  drivers/gpu/drm/rcar-du/Kconfig                 |  1 +
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c           | 37 ++++++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c           | 54 ++++++++++++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.h           |  1 +
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c           |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c             |  2 +
+>  11 files changed, 135 insertions(+), 6 deletions(-)
+> 
 
-> ---
->  .../devicetree/bindings/display/bridge/lontium,lt9611.yaml   | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-> index d60208359234..7a1c89b995e2 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-> @@ -4,18 +4,19 @@
->  $id: http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Lontium LT9611 2 Port MIPI to HDMI Bridge
-> +title: Lontium LT9611(UXC) 2 Port MIPI to HDMI Bridge
->  
->  maintainers:
->    - Vinod Koul <vkoul@kernel.org>
->  
->  description: |
-> -  The LT9611 is a bridge device which converts DSI to HDMI
-> +  The LT9611 and LT9611UXC are bridge devices which convert DSI to HDMI
->  
->  properties:
->    compatible:
->      enum:
->        - lontium,lt9611
-> +      - lontium,lt9611uxc
->  
->    reg:
->      maxItems: 1
-> -- 
-> 2.28.0
-> 
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
