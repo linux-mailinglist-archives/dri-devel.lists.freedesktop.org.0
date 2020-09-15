@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86ADE26AA84
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7D626AA9F
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 19:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6686E8AF;
-	Tue, 15 Sep 2020 17:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10138932E;
+	Tue, 15 Sep 2020 17:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2F16E8AD;
- Tue, 15 Sep 2020 17:25:52 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9296E8B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 17:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600190992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iSBxXHVxreyINvrTyFv0S5yW/5OUGbLSBxjCteuwvvg=;
+ b=dvdaYiBbXZFwZUMvU3561yUIV5aat5iOvCoaZh+foXbELbLpMjFnwpGW6f//SU2DM8hCbR
+ 23elU+JocxOfBh7aIdMqFQs9SbYX1pRwnSloOStBgkoXPQjQC1HjVr28/f9HHFRXwZR+ql
+ SngY33F8C28SlgmdhW21WmMkvJZ1yF4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-Qdtd-AFhNF-XrFNUEvhurA-1; Tue, 15 Sep 2020 13:29:49 -0400
+X-MC-Unique: Qdtd-AFhNF-XrFNUEvhurA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EC9D520678;
- Tue, 15 Sep 2020 17:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600190751;
- bh=zAnK9MdJHBLYi0RM5uCLYkcfWnZYrpv2oBo/jSvr9uY=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=Ykvmjz+uTRDK4muYb7ZaU4DA//3YkvSNNe72xuNxHLx5WYlF6vS8rMYi7/p95sA0e
- ZPdUkNpigzrHNbl4M/6ZTzpu5fGsQWXGQS5l9WSBuK+ES7WGVLX9Rtn/w5xojTk3HA
- SqvN6NXO/B4lR6nWQIM4LgYias8O7Oiya2Sq1o2E=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id B8FC535226B7; Tue, 15 Sep 2020 10:25:50 -0700 (PDT)
-Date: Tue, 15 Sep 2020 10:25:50 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-Message-ID: <20200915172550.GO29330@paulmck-ThinkPad-P72>
-References: <20200914204209.256266093@linutronix.de>
- <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE0E810BBEC3;
+ Tue, 15 Sep 2020 17:29:48 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-113-129.rdu2.redhat.com
+ [10.10.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F5AD5C1DC;
+ Tue, 15 Sep 2020 17:29:48 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC 0/5] drm/i915: Add support for Intel's eDP backlight controls
+Date: Tue, 15 Sep 2020 13:29:34 -0400
+Message-Id: <20200915172939.2810538-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,94 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
- Linux-MM <linux-mm@kvack.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Brian Cain <bcain@codeaurora.org>, Richard Weinberger <richard@nod.at>,
- Russell King <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>,
- Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matt Turner <mattst88@gmail.com>,
- Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
- Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
- linux-um <linux-um@lists.infradead.org>, Josh Triplett <josh@joshtriplett.org>,
- Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- alpha <linux-alpha@vger.kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 14, 2020 at 01:59:15PM -0700, Linus Torvalds wrote:
-> On Mon, Sep 14, 2020 at 1:45 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > Recently merged code does:
-> >
-> >          gfp = preemptible() ? GFP_KERNEL : GFP_ATOMIC;
-> >
-> > Looks obviously correct, except for the fact that preemptible() is
-> > unconditionally false for CONFIF_PREEMPT_COUNT=n, i.e. all allocations in
-> > that code use GFP_ATOMIC on such kernels.
-> 
-> I don't think this is a good reason to entirely get rid of the no-preempt thing.
-> 
-> The above is just garbage. It's bogus. You can't do it.
-> 
-> Blaming the no-preempt code for this bug is extremely unfair, imho.
-> 
-> And the no-preempt code does help make for much better code generation
-> for simple spinlocks.
-> 
-> Where is that horribly buggy recent code? It's not in that exact
-> format, certainly, since 'grep' doesn't find it.
+A while ago we ran into issues while trying to enable the eDP backlight
+control interface as defined by VESA, in order to make the DPCD
+backlight controls on newer laptop panels work. The issue ended up being
+much more complicated however, as we also apparently needed to add
+support for an Intel-specific DPCD backlight control interface as the
+VESA interface is broken on many laptop panels. For lack of a better
+name, we just call this the Intel HDR backlight interface.
 
-It would be convenient for that "gfp =" code to work, as this would
-allow better cache locality while invoking RCU callbacks, and would
-further provide better robustness to callback floods.  The full story
-is quite long, but here are alternatives have not yet been proven to be
-abject failures:
+While this only adds support for the SDR backlight mode (I think), this
+will fix a lot of user's laptop panels that we weren't able to properly
+automatically detect DPCD backlight controls on previously.
 
-1.	Use workqueues to do the allocations in a clean context.
-	While waiting for the allocations, the callbacks are queued
-	in the old cache-busting manner.  This functions correctly,
-	but in the meantime (which on busy systems can be some time)
-	the cache locality and robustness are lost.
+Lyude Paul (5):
+  drm/i915/dp: Program source OUI on eDP panels
+  drm/i915: Rename pwm_* backlight callbacks to ext_pwm_*
+  drm/i915: Keep track of pwm-related backlight hooks separately
+  drm/i915: Enable Intel's HDR backlight interface (only SDR for now)
+  drm/dp: Revert "drm/dp: Introduce EDID-based quirks"
 
-2.	Provide the ability to allocate memory in raw atomic context.
-	This is extremely effective, especially when used in combination
-	with #1 above, but as you might suspect, the MM guys don't like
-	it much.
+ drivers/gpu/drm/drm_dp_helper.c               |  82 +--
+ drivers/gpu/drm/drm_dp_mst_topology.c         |   3 +-
+ .../drm/i915/display/intel_display_types.h    |  24 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  44 +-
+ .../drm/i915/display/intel_dp_aux_backlight.c | 384 ++++++++++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   3 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    | 476 ++++++++++--------
+ drivers/gpu/drm/i915/display/intel_panel.h    |   4 +
+ drivers/gpu/drm/i915/display/intel_psr.c      |   2 +-
+ drivers/gpu/drm/i915/i915_params.c            |   2 +-
+ include/drm/drm_dp_helper.h                   |  21 +-
+ 11 files changed, 673 insertions(+), 372 deletions(-)
 
-In contrast, with Thomas's patch series, call_rcu() and kvfree_rcu()
-could just look at preemptible() to see whether or not it was safe to
-allocate memory, even in !PREEMPT kernels -- and in the common case,
-it almost always would be safe.  It is quite possible that this approach
-would work in isolation, or failing that, that adding #1 above would do
-the trick.
+-- 
+2.26.2
 
-I understand that this is all very hand-wavy, and I do apologize for that.
-If you really want the full sad story with performance numbers and the
-works, let me know!
-
-							Thanx, Paul
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
