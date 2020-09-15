@@ -1,43 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14362269BFA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 04:40:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE291269DD4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 07:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A81506E832;
-	Tue, 15 Sep 2020 02:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C80016E839;
+	Tue, 15 Sep 2020 05:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C8C6E830
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 02:40:25 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-Dbm_e-9iPz-Uvkrm7sUQBQ-1; Mon, 14 Sep 2020 22:40:22 -0400
-X-MC-Unique: Dbm_e-9iPz-Uvkrm7sUQBQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 524B9800688;
- Tue, 15 Sep 2020 02:40:21 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-25.bne.redhat.com
- [10.64.54.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F8137512A;
- Tue, 15 Sep 2020 02:40:20 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/ttm: move populated state into page flags
-Date: Tue, 15 Sep 2020 12:40:07 +1000
-Message-Id: <20200915024007.67163-8-airlied@gmail.com>
-In-Reply-To: <20200915024007.67163-1-airlied@gmail.com>
-References: <20200915024007.67163-1-airlied@gmail.com>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBD06E839
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 05:30:32 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id nw23so3176161ejb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Sep 2020 22:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=f2NTtk0AArHkg9JS1U1Ck0v8Vcc8qCQSbAsipnfcVDI=;
+ b=BnQQfRuSifwA+nsMPQD2tTvr747CRExQ8DqE31LLr7PQnng2Hw7C0LmKGo3WSkmBAg
+ 9o5ks8RXBvUgxSznIpMdw6zUo4Y08rwuwc3XZEza5AWAyOiVAZuUsI9PX45CEJXq56hJ
+ mlFNh8lUzxtb5Wfs8eiHcKmR7JlKaxJtcnQPVrqOoOXqfh/pO9Pb2VXQ24gYNhRWTaaL
+ UOOsR9elX/WdEswqI6hdsPyYoUM3c3ASC/m1c0RQwMupm1WJ5o7yhGMF9e8aafgQeu1D
+ tfxztUccOfzs5uAIv5cqJNfSx/fLsa3IO/8ON8ZwsXuQVAycA3/W1Fl4bmBeu/35dJ50
+ hfGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=f2NTtk0AArHkg9JS1U1Ck0v8Vcc8qCQSbAsipnfcVDI=;
+ b=rlSPS60iRjSjGdp0ANfx77bYZSFbdkAB1sX3rMkcITXmIHkxdljT6VKySHdJg4dqW3
+ caILzeRXBgRVNrlGp5JkZ3JPXijgZOuedBuhkTZ7TpdKUbocrpeMhp/XxdpZo5ZM7KZ8
+ GPowK4WRUsOgOn1HZKcB+pS/I3H6DzZeq1U9T5wVVnkQV3XLFAXA0uXYSNfgmQ/ye+wU
+ +dSywBdPCLTtf1Fs9Y0JNryND5OKqI+U2+rVSv7n13CdpdEdexqnUHsZIRN5HlaqgudW
+ EI+n+asiTX7m0j0eOxVfmKHX+pPR/Pntqx3sqcgp9Hket6oFiwYRyyvpEzqGqncI7zPY
+ 4/oQ==
+X-Gm-Message-State: AOAM532Q75UeQSNdEXtQ/HXpxTt0LJSa57PjeBLZVjwspjTLWhr51Bm7
+ hxi2M66fZL82tzvx7nd11UamWzLvZhnrcTgVB9I=
+X-Google-Smtp-Source: ABdhPJw0mapY+hc0N42nk1rzpo/gyIsAYbmzosGTjMLhp+DrExiJjgWBF8zPFJVs4f7zx0qXaGxQ71yk3JGjqbdaAQM=
+X-Received: by 2002:a17:906:f92:: with SMTP id
+ q18mr17662068ejj.237.1600147830605; 
+ Mon, 14 Sep 2020 22:30:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: gmail.com
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 15 Sep 2020 15:30:19 +1000
+Message-ID: <CAPM=9txcrHC77Quj6ufUHn0FD1-7b4YKO2MWFZGwJy8Tmj1i7g@mail.gmail.com>
+Subject: some half-baked ttm ideas
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,64 +59,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: , PATCH@freedesktop.org, drm@freedesktop.org
-Cc: christian.koenig@amd.com, bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+Hi Christian,
 
-Just use the top bit of page flags to store the populated state.
+I've been trying to move towards the idea of not having TTM manage the
+global TT, I'm still not sure what the result would look like so I've
+been randomly trying out a direction or two,
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- include/drm/ttm/ttm_tt.h | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+There are some patches in :
+https://github.com/airlied/linux/commits/ttm-half-baked-ideas
 
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 94e16238c93d..c777b72063db 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -42,6 +42,8 @@ struct ttm_operation_ctx;
- #define TTM_PAGE_FLAG_SG              (1 << 8)
- #define TTM_PAGE_FLAG_NO_RETRY	      (1 << 9)
- 
-+#define TTM_PAGE_FLAG_PRIV_POPULATED  (1 << 31)
-+
- enum ttm_caching_state {
- 	tt_uncached,
- 	tt_wc,
-@@ -70,22 +72,21 @@ struct ttm_tt {
- 	struct sg_table *sg; /* for SG objects via dma-buf */
- 	struct file *swap_storage;
- 	enum ttm_caching_state caching_state;
--	bool populated;
- };
- 
- static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
- {
--	return tt->populated;
-+	return tt->page_flags & TTM_PAGE_FLAG_PRIV_POPULATED;
- }
- 
- static inline void ttm_tt_set_unpopulated(struct ttm_tt *tt)
- {
--	tt->populated = false;
-+	tt->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
- }
- 
- static inline void ttm_tt_set_populated(struct ttm_tt *tt)
- {
--	tt->populated = true;
-+	tt->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
- }
- 
- /**
--- 
-2.27.0
+a) it splits use_tt into two flags, one for system memory backing and
+one for binding, and tries to use them correctly.
+b) adds cpu_pin/unpin hooks for the amdgpu/radeon drivers to use for userptr.
 
+I sort of envision being able to set the use_tt flag to false for
+drivers who don't want TTM to maintain their global TT, but I'm still
+not certain how that would look, I'd welcome any input there.
+
+Thanks,
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
