@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC10226AD96
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 21:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A7726ADB2
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 21:36:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88586E134;
-	Tue, 15 Sep 2020 19:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B13589DCF;
+	Tue, 15 Sep 2020 19:36:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81B706E134;
- Tue, 15 Sep 2020 19:29:10 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id m6so4557336wrn.0;
- Tue, 15 Sep 2020 12:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WNOfew7cieK0fIPLf+MgiYy15Qujw2hwL5Iyu+qX2xE=;
- b=ohIxN49DAtGodQKEvkH4w5EPA9qaRJCt40swRQWxkKBIH88SL2NiKg9Rkf+SzBnXum
- lbwoLOchshoLLVuj/uAxwWx5oPPjMuLlA9109ML1HwWD2mX1Tp1ri6h1INF0fFX9VlOJ
- d/GsTLZC97ULuqqanrTeAHEjN0FGguNndIdLqiP54DHqJPsWAuXyLuc5/cbPUF8Hm9Wy
- 2rpCh6l9A4560fyFoRSa0Tvl0aMlPq3brU6PrQpl2cZqF99ydsKO+QHuABkBXxJ6xbdl
- EsUNJv7OaFIrRFGSEjhlRbCMp5w6JnmVQ5RxcY0SWg/pjOLDSgksRQQ2/64+eWdnlb+p
- nW4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WNOfew7cieK0fIPLf+MgiYy15Qujw2hwL5Iyu+qX2xE=;
- b=k23H+eJQ9WZRPI7S5kHBUA9jxvneWlEtDoDbkl1Q/Vp+JfnxsdZTnTQSqKOBfun6tA
- JFV3BRzr2N/J0HgyhawgEUAcDVHOhVD/pq4BY81Tsw2AQR0R/oPOxh0xsk89c10t39pV
- s/J/jgqH5n6+b/moQdh0xjLqF0Xh8VqUdFo+PNMryURuEhR9b/cHjSdR4HhPYJ0DlzBX
- kCO5tl2WEs5Sd2sLUCmU+L6Mq+Q2rrHPJywBebiht4LN0+5OpuT/f71iNeN/47ew/qce
- nefimXDqeYOOAuso2A37LVM0WLfxVqLBlocoJL9mwHxl44qDtmxT+u1noZYwxxOVKK0z
- T90A==
-X-Gm-Message-State: AOAM5330jDfEHdQ8uREF59qj1BDR4H3MtvzgJuxuu04m3sfqzj0pD02e
- cQvh7X+qAqbZPOwO+9HmkMuzMqCoTiCQj3zNXYI=
-X-Google-Smtp-Source: ABdhPJwuQ0az1NkHLajypW7vFoAnyGiloF+XVUfUJYGPW+n9xw4FDqRbB7+px/Or23gTyNjs6vYN7wMcMcZ6+jqqP9A=
-X-Received: by 2002:a5d:6886:: with SMTP id h6mr23815361wru.374.1600198149147; 
- Tue, 15 Sep 2020 12:29:09 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F12189DCF;
+ Tue, 15 Sep 2020 19:35:59 +0000 (UTC)
+IronPort-SDR: GEnHvclrNCFesRp7qorwpXpp9DA4EFC4Pt+ZE1UIQTsAuubsaLOWsC0D1YIu9lrbYnWYBAaYle
+ HWNkJVC5GbaQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="159386765"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="159386765"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2020 12:35:54 -0700
+IronPort-SDR: i2m5jk7nUWDhIcarS7CMsRRt9ERB90Cv8RG/ApZVbBpRKGqGU6fG49uc78PWAFvbeTy9FLSCUx
+ hUSdv5ho7g7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="288114814"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 15 Sep 2020 12:35:49 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 15 Sep 2020 22:35:49 +0300
+Date: Tue, 15 Sep 2020 22:35:49 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH -next 0/8] drm/amd/amdgpu: fix comparison pointer to bool
+ warning
+Message-ID: <20200915193549.GP6112@intel.com>
+References: <20200909130720.105234-1-zhengbin13@huawei.com>
+ <1fce0f2a-3777-e6d8-5a09-30261f843cfd@amd.com>
+ <CADnq5_NoeFbBAMT6s_ictVXsUc2tx1U48MLxnMbAr2Sd58jyYA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200910023345.20428-1-yuehaibing@huawei.com>
- <1226ea65-a957-baa2-e9c7-fe88b1aae620@amd.com>
-In-Reply-To: <1226ea65-a957-baa2-e9c7-fe88b1aae620@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 15 Sep 2020 15:28:58 -0400
-Message-ID: <CADnq5_NFKaOmx5s2DA1fkaTpYXPnFwkeUP=rtgF9yij64KJ6yA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/ttm/agp: Fix Wunused-variable warning
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <CADnq5_NoeFbBAMT6s_ictVXsUc2tx1U48MLxnMbAr2Sd58jyYA@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,44 +55,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
+Cc: yi.zhang@huawei.com, Dave Airlie <airlied@linux.ie>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Zheng Bin <zhengbin13@huawei.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBmdW5jdGlvbiBubyBsb25nZXIgZXhpc3RzLgoKQWxleAoKT24gVGh1LCBTZXAgMTAsIDIw
-MjAgYXQgNDo1NiBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-IHdyb3RlOgo+Cj4gQW0gMTAuMDkuMjAgdW0gMDQ6MzMgc2NocmllYiBZdWVIYWliaW5nOgo+ID4g
-SWYgQ09ORklHX0FHUCBpcyBub3Qgc2V0LCBnY2Mgd2FybnM6Cj4gPgo+ID4gZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fdHRtLmM6IEluIGZ1bmN0aW9uIOKAmHJhZGVvbl90dG1fdHRfYmlu
-ZOKAmToKPiA+IGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jOjY5MjoyNDogd2Fy
-bmluZzogdW51c2VkIHZhcmlhYmxlIOKAmHJkZXbigJkgWy1XdW51c2VkLXZhcmlhYmxlXQo+ID4g
-ICAgc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYgPSByYWRlb25fZ2V0X3JkZXYoYmRldik7Cj4g
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fgo+ID4KPiA+IE1vdmUgaXQgdG8gaWZkZWYg
-YmxvY2sgdG8gZml4IHRoaXMuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogWXVlSGFpYmluZyA8eXVl
-aGFpYmluZ0BodWF3ZWkuY29tPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNo
-cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vcmFkZW9uX3R0bS5jIHwgMiArLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3JhZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0u
-Ywo+ID4gaW5kZXggMzFjNjNkMzM5NjI5Li40NDllNzdlYjc1ZjkgMTAwNjQ0Cj4gPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiA+IEBAIC02ODksOSArNjg5LDkgQEAgc3RhdGljIGlu
-dCByYWRlb25fdHRtX3R0X2JpbmQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHR0bV90dCAqdHRtLAo+ID4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKmJvX21lbSkKPiA+ICAgewo+
-ID4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCj4gPiAgICAgICBzdHJ1Y3QgcmFkZW9uX2Rl
-dmljZSAqcmRldiA9IHJhZGVvbl9nZXRfcmRldihiZGV2KTsKPiA+Cj4gPiAtI2lmIElTX0VOQUJM
-RUQoQ09ORklHX0FHUCkKPiA+ICAgICAgIGlmIChyZGV2LT5mbGFncyAmIFJBREVPTl9JU19BR1Ap
-Cj4gPiAgICAgICAgICAgICAgIHJldHVybiB0dG1fYWdwX2JpbmQodHRtLCBib19tZW0pOwo+ID4g
-ICAjZW5kaWYKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdm
-eApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Sep 15, 2020 at 03:16:32PM -0400, Alex Deucher wrote:
+> I question the value of these warnings.  Why even have a boolean type
+> if you are going to get warnings when you use them...
+> That said, applied to avoid getting these patches again and again
+> every time someone sees this.
+
+if (this_is_sparta)
+if (this_is_sparta =3D=3D true)
+if (this_is_sparta !=3D false)
+
+I think the first one reads the best, and avoids having to
+decide between truth and falsehood :)
+
+> =
+
+> Alex
+> =
+
+> On Wed, Sep 9, 2020 at 9:21 AM Christian K=F6nig <christian.koenig@amd.co=
+m> wrote:
+> >
+> > Acked-by: Christian K=F6nig <christian.koenig@amd.com> for the series.
+> >
+> > Am 09.09.20 um 15:07 schrieb Zheng Bin:
+> > > Zheng Bin (8):
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in gfx_v9_0=
+.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in gfx_v10_=
+0.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in sdma_v5_=
+0.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in sdma_v5_=
+2.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in si.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in uvd_v6_0=
+.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in
+> > >      amdgpu_atpx_handler.c
+> > >    drm/amd/amdgpu: fix comparison pointer to bool warning in sdma_v4_=
+0.c
+> > >
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c | 4 ++--
+> > >   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c           | 2 +-
+> > >   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c            | 2 +-
+> > >   drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c           | 4 ++--
+> > >   drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c           | 2 +-
+> > >   drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c           | 2 +-
+> > >   drivers/gpu/drm/amd/amdgpu/si.c                  | 2 +-
+> > >   drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c            | 4 ++--
+> > >   8 files changed, 11 insertions(+), 11 deletions(-)
+> > >
+> > > --
+> > > 2.26.0.106.g9fadedd
+> > >
+> >
+> > _______________________________________________
+> > amd-gfx mailing list
+> > amd-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
