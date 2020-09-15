@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE0C269F3C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF41269F33
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 09:07:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA3AE6E85C;
-	Tue, 15 Sep 2020 07:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 672F76E84B;
+	Tue, 15 Sep 2020 07:07:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8EF86E837
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 03:04:01 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 8D0388EF6D4CA271CA8D;
- Tue, 15 Sep 2020 11:03:56 +0800 (CST)
-Received: from huawei.com (10.175.113.32) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Tue, 15 Sep 2020
- 11:03:45 +0800
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F1D6E837
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 03:04:02 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id EFB823644EABC9AC1BE0;
+ Tue, 15 Sep 2020 11:03:58 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Tue, 15 Sep 2020
+ 11:03:49 +0800
 From: Liu Shixin <liushixin2@huawei.com>
-To: Thierry Reding <thierry.reding@gmail.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/panel: simplify the return expression of
- rb070d30_panel_enable()
-Date: Tue, 15 Sep 2020 11:26:23 +0800
-Message-ID: <20200915032623.1772361-1-liushixin2@huawei.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH -next] omapfb: connector-dvi: simplify the return expression
+ of dvic_connect()
+Date: Tue, 15 Sep 2020 11:26:27 +0800
+Message-ID: <20200915032627.1772517-1-liushixin2@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.113.32]
@@ -42,7 +41,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Shixin <liushixin2@huawei.com>, linux-kernel@vger.kernel.org,
+Cc: Liu Shixin <liushixin2@huawei.com>, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -53,28 +53,31 @@ Simplify the return expression.
 
 Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-ronbo-rb070d30.c | 7 +------
+ drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-index 535c8d1cca21..a3782830ae3c 100644
---- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-+++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-@@ -75,13 +75,8 @@ static int rb070d30_panel_unprepare(struct drm_panel *panel)
- static int rb070d30_panel_enable(struct drm_panel *panel)
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
+index b4a1aefff766..2fa436475b40 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
+@@ -51,16 +51,11 @@ static int dvic_connect(struct omap_dss_device *dssdev)
  {
- 	struct rb070d30_panel *ctx = panel_to_rb070d30_panel(panel);
--	int ret;
+ 	struct panel_drv_data *ddata = to_panel_data(dssdev);
+ 	struct omap_dss_device *in = ddata->in;
+-	int r;
  
--	ret = mipi_dsi_dcs_exit_sleep_mode(ctx->dsi);
--	if (ret)
--		return ret;
+ 	if (omapdss_device_is_connected(dssdev))
+ 		return 0;
+ 
+-	r = in->ops.dvi->connect(in, dssdev);
+-	if (r)
+-		return r;
 -
 -	return 0;
-+	return mipi_dsi_dcs_exit_sleep_mode(ctx->dsi);
++	return in->ops.dvi->connect(in, dssdev);
  }
  
- static int rb070d30_panel_disable(struct drm_panel *panel)
+ static void dvic_disconnect(struct omap_dss_device *dssdev)
 -- 
 2.25.1
 
