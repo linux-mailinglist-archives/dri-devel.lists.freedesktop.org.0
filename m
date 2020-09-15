@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF78269BF7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 04:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF40269BF8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 04:40:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A70F46E82E;
-	Tue, 15 Sep 2020 02:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5056E82F;
+	Tue, 15 Sep 2020 02:40:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 556286E82E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 02:40:20 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2956E830
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 02:40:22 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-TTsrm60pOUS_LNqic_ipZw-1; Mon, 14 Sep 2020 22:40:16 -0400
-X-MC-Unique: TTsrm60pOUS_LNqic_ipZw-1
+ us-mta-580-qHTwVzuQOfaA9IIxcTmc4g-1; Mon, 14 Sep 2020 22:40:17 -0400
+X-MC-Unique: qHTwVzuQOfaA9IIxcTmc4g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C33FD800688;
- Tue, 15 Sep 2020 02:40:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19BD61007461;
+ Tue, 15 Sep 2020 02:40:16 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-25.bne.redhat.com
  [10.64.54.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC38E7512A;
- Tue, 15 Sep 2020 02:40:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26AE075142;
+ Tue, 15 Sep 2020 02:40:14 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] drm/ttm: wrap tt destroy.
-Date: Tue, 15 Sep 2020 12:40:02 +1000
-Message-Id: <20200915024007.67163-3-airlied@gmail.com>
+Subject: [PATCH 3/7] drm/ttm: tt destroy move null check to outer function.
+Date: Tue, 15 Sep 2020 12:40:03 +1000
+Message-Id: <20200915024007.67163-4-airlied@gmail.com>
 In-Reply-To: <20200915024007.67163-1-airlied@gmail.com>
 References: <20200915024007.67163-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,112 +59,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-All places this was called was using bo->ttm either direct
-or indirectly.
+This just makes things easier later.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c      |  9 +++------
- drivers/gpu/drm/ttm/ttm_bo_util.c | 24 ++++++++++++------------
- include/drm/ttm/ttm_bo_driver.h   |  5 +++++
- 3 files changed, 20 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 2 ++
+ drivers/gpu/drm/ttm/ttm_tt.c      | 3 ---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index e2bfe3a13c63..9aae9e1bd8e8 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -301,10 +301,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 
- out_err:
- 	new_man = ttm_manager_type(bdev, bo->mem.mem_type);
--	if (!new_man->use_tt) {
--		ttm_tt_destroy(bdev, bo->ttm);
--		bo->ttm = NULL;
--	}
-+	if (!new_man->use_tt)
-+		ttm_bo_tt_destroy(bo);
- 
- 	return ret;
- }
-@@ -322,8 +320,7 @@ static void ttm_bo_cleanup_memtype_use(struct ttm_buffer_object *bo)
- 	if (bo->bdev->driver->move_notify)
- 		bo->bdev->driver->move_notify(bo, false, NULL);
- 
--	ttm_tt_destroy(bo->bdev, bo->ttm);
--	bo->ttm = NULL;
-+	ttm_bo_tt_destroy(bo);
- 	ttm_resource_free(bo, &bo->mem);
- }
- 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 44b47ccdeaf7..0ddaaa1ddafd 100644
+index 0ddaaa1ddafd..f3452a1624fd 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -297,10 +297,8 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 	*old_mem = *new_mem;
- 	new_mem->mm_node = NULL;
+@@ -699,6 +699,8 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
  
--	if (!man->use_tt) {
--		ttm_tt_destroy(bdev, ttm);
--		bo->ttm = NULL;
--	}
-+	if (!man->use_tt)
-+		ttm_bo_tt_destroy(bo);
- 
- out1:
- 	ttm_resource_iounmap(bdev, old_mem, new_iomap);
-@@ -542,10 +540,8 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
- 		if (ret)
- 			return ret;
- 
--		if (!man->use_tt) {
--			ttm_tt_destroy(bdev, bo->ttm);
--			bo->ttm = NULL;
--		}
-+		if (!man->use_tt)
-+			ttm_bo_tt_destroy(bo);
- 		ttm_bo_free_old_node(bo);
- 	} else {
- 		/**
-@@ -665,10 +661,8 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
- 		if (ret)
- 			return ret;
- 
--		if (!to->use_tt) {
--			ttm_tt_destroy(bdev, bo->ttm);
--			bo->ttm = NULL;
--		}
-+		if (!to->use_tt)
-+			ttm_bo_tt_destroy(bo);
- 		ttm_bo_free_old_node(bo);
- 	}
- 
-@@ -702,3 +696,9 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 
- 	return 0;
+ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+ {
++	if (bo->ttm == NULL)
++		return;
+ 	ttm_tt_destroy(bo->bdev, bo->ttm);
+ 	bo->ttm = NULL;
  }
-+
-+void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
-+{
-+	ttm_tt_destroy(bo->bdev, bo->ttm);
-+	bo->ttm = NULL;
-+}
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 303a89d1066d..c2e93f04d0ad 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -684,6 +684,11 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo);
-  */
- pgprot_t ttm_io_prot(uint32_t caching_flags, pgprot_t tmp);
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index ff3d953aa90e..381face3cedb 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -209,9 +209,6 @@ EXPORT_SYMBOL(ttm_tt_set_placement_caching);
  
-+/**
-+ * ttm_bo_tt_destroy.
-+ */
-+void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
-+
- /**
-  * ttm_range_man_init
-  *
+ void ttm_tt_destroy(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+ {
+-	if (ttm == NULL)
+-		return;
+-
+ 	ttm_tt_unbind(bdev, ttm);
+ 
+ 	ttm_tt_unpopulate(bdev, ttm);
 -- 
 2.27.0
 
