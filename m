@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E7E26ACD6
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 21:01:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B3526ACDE
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Sep 2020 21:02:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD0689C17;
-	Tue, 15 Sep 2020 19:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0F889A44;
+	Tue, 15 Sep 2020 19:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1115089C03;
- Tue, 15 Sep 2020 19:01:07 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id z4so4461738wrr.4;
- Tue, 15 Sep 2020 12:01:06 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2F8C89A44
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 19:02:19 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id k18so545247wmj.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Sep 2020 12:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w5YqpllGkEhbUqBHfOeKyCpHAJAP7nCJ7uA9Og5Y3N0=;
- b=DX/XslHWstHmoXV3z9+jZRklMKGmuWTt+LE6drX1s90S+KWYF/13VSXkZNSimQ8TE5
- xQS+tt7uTf/hTFoov2EVRwbRg8jKEYSQyif3HlrLkX6tjSsxjACHd3wpM2Ft69eq8MZh
- 1+p/Nu9y1PdtxlE/Qkv/XxtG3KuWSMgP5G4X/G6DKfh66A5cgPVu4yLQFM3gPRrPAHw/
- Q2VqDA7A/BIWNjwNYdcOpSdL53Dce8BugmUqCZ3+ftmqAW6qKhUKiPlHANbKrmm7LNTK
- IJwo9CSCL7ytmtMCDYFBP9oTJxLRKvivGu1yCoSfoAQ80pA8TppvxeMX13fhR3947IaP
- 253w==
+ :cc:content-transfer-encoding;
+ bh=yXie8KLV7ShlZWhEm9UlbuFqIWQ7E77axILBYs0CyOY=;
+ b=VXzVLKVemj5KkWSG36GqyUkMATpaKPcudVfiq3MwDsuDJ0c17tK2bo/NiDgkfw5yKy
+ pE9dBIsXPOeBwPvxA4TPbdMit4Vl8y3nnoJetU2KH6rPOL/njCIt0dc8ysH1clbROPmg
+ copZ1T0oylISB8qXRxJT/VtlRzPEIax2Sego+m3Y+eU9poNsBgMojSQlrRFZoeRbv2Xo
+ andiWRFfCCEceJ2BVZxie7WEaBMYBewsWKxM7P945A5P0Dl5H/3wYxjy3zkg/9GPBnUK
+ 9Hxd75SWfQTT8utSQcOQqurRK5subkGfe9c4dTC8aJgFZAkBhzlI0orlRTS5x8jXLqSP
+ Hlog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w5YqpllGkEhbUqBHfOeKyCpHAJAP7nCJ7uA9Og5Y3N0=;
- b=uGaLytlEMx9GsefEap94lJ6dJlThQWllzoRVGzQM+qybop3p/c6fAVHMAzGUvX/wp8
- J3UllURB2CAYlLf12H2v+UoKBnpC1e8VQgK0M/uHIICBVd006wm/jpQDE3QNHyFRcQBo
- 9Gczfr+V6sBrzuMrIVMmcfDsOAZyCIg/9IIAYe6bv2/Gd4xTKyUXCVCoGlh43vVCCN7f
- Yu9IIwpOJ++NEd1TaEnoBlHlXMkGC9FVjdu+Kmx51Ju82v3zr6rXkuRPn4sDYSRMpmbV
- 9opzEslVHCPN5lmlkZ2tPCbSC82inPzU+K7Wzq7AaNgGrr5CA3r5Ezf4+TFrAMV9Z1R7
- QUjA==
-X-Gm-Message-State: AOAM532ywuBDHbIyhzTSDYIpJBO8hdBmcq4YY2+y57Xd4s7vsGyhi/h9
- W2ccxrWJ4ixtFImwisjYUQ3Wkg7/0RvGXJnmkSM=
-X-Google-Smtp-Source: ABdhPJx1DHgoxeZrju3jbJYcv3wbxCLaXhWMCkEHgn3amTjhKjouKilvEJkDrqVN75M9YRXOhqxLaVDJ8DQjJppUCG4=
-X-Received: by 2002:adf:dd82:: with SMTP id x2mr24242119wrl.419.1600196465753; 
- Tue, 15 Sep 2020 12:01:05 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yXie8KLV7ShlZWhEm9UlbuFqIWQ7E77axILBYs0CyOY=;
+ b=bQEqceIimfUHt/DRxDdJIxV6UY/xAWW/cxA1AwRwLt3bWRShnQQWaPaBO3D1pi2ORR
+ lWJL/o+MXRkdlK0IL3awTC1Ut6o7nbTCeXvFjPinT3ifc1Jj5Osq1Fr7a6usYo+7ZzVD
+ kenyaWFFAW5ANFBXgmmZunTLNzzfCwvMkaQHcBBQ6W1uCdr5GSok20q+722lHtUKNVEq
+ KW1Vj4peOj8CM2FjLKYpaK+fJJqLLlhcy4I61BN6Mr/Yb5sSNxV4Az5c/s7vQek22Ts7
+ +fGD0UI9JnN+DfYacxakFSwRHlfDaNuBO8vH7buuzr3uTeRf2NcStvzcS35PeydmiYvt
+ Kdsg==
+X-Gm-Message-State: AOAM531q7Adt48OegJA1QP0cIctPsHmGWd6qzcD/nlOD11n5RhNRzA3V
+ x+TVOqdLdjc3Z6iY6g+TwcTR2W5cAsTEJy1y3H4=
+X-Google-Smtp-Source: ABdhPJzk9eyxFbI1rJI68h478tr8wfvyAYGWtTFclkkVdtqdvg+JoAVZ3j4OlPmVc8RQgrxC9TLlU1GoxApBrz0roOA=
+X-Received: by 2002:a7b:c141:: with SMTP id z1mr793609wmi.79.1600196538282;
+ Tue, 15 Sep 2020 12:02:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <a31672e7-9047-e4ef-93d8-d0c9afd47964@infradead.org>
-In-Reply-To: <a31672e7-9047-e4ef-93d8-d0c9afd47964@infradead.org>
+References: <1599638225-39300-1-git-send-email-tiantao6@hisilicon.com>
+ <665ed169-cc12-2e6e-11f9-bc1a69fdaad7@amd.com>
+In-Reply-To: <665ed169-cc12-2e6e-11f9-bc1a69fdaad7@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 15 Sep 2020 15:00:54 -0400
-Message-ID: <CADnq5_NS2UB5VNKe2j6s4X3v2OQ7ow=se2xtFp0UD=7gJ4wMTA@mail.gmail.com>
-Subject: Re: [PATCH] drm: amd/display: fix spelling of "function"
-To: Randy Dunlap <rdunlap@infradead.org>
+Date: Tue, 15 Sep 2020 15:02:07 -0400
+Message-ID: <CADnq5_Mj4bJ-FMORL9cvex5E_5gO6p5CQqTvcDSA0OZoPeHevQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/scheduler: fix sched_fence.c kernel-doc warnings
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,135 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, linuxarm@huawei.com,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Wed, Sep 9, 2020 at 3:05 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Fix spellos of "function" in drivers/gpu/drm/amd/display/.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.h   |    2 +-
->  drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.h |    2 +-
->  drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.h   |    2 +-
->  drivers/gpu/drm/amd/display/dc/gpio/dce120/hw_factory_dce120.c      |    2 +-
->  drivers/gpu/drm/amd/display/dc/gpio/dcn10/hw_factory_dcn10.c        |    2 +-
->  drivers/gpu/drm/amd/display/dc/gpio/dcn20/hw_factory_dcn20.c        |    2 +-
->  drivers/gpu/drm/amd/display/dc/gpio/dcn21/hw_factory_dcn21.c        |    2 +-
->  drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c        |    2 +-
->  8 files changed, 8 insertions(+), 8 deletions(-)
->
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.h
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.h
-> @@ -33,7 +33,7 @@ struct display_mode_lib;
->
->  // Function: dml_rq_dlg_get_rq_reg
->  //  Main entry point for test to get the register values out of this DML class.
-> -//  This function calls <get_rq_param> and <extract_rq_regs> fucntions to calculate
-> +//  This function calls <get_rq_param> and <extract_rq_regs> functions to calculate
->  //  and then populate the rq_regs struct
->  // Input:
->  //  pipe_src_param - pipe source configuration (e.g. vp, pitch, etc.)
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.h
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.h
-> @@ -33,7 +33,7 @@ struct display_mode_lib;
->
->  // Function: dml_rq_dlg_get_rq_reg
->  //  Main entry point for test to get the register values out of this DML class.
-> -//  This function calls <get_rq_param> and <extract_rq_regs> fucntions to calculate
-> +//  This function calls <get_rq_param> and <extract_rq_regs> functions to calculate
->  //  and then populate the rq_regs struct
->  // Input:
->  //  pipe_src_param - pipe source configuration (e.g. vp, pitch, etc.)
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.h
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.h
-> @@ -32,7 +32,7 @@ struct display_mode_lib;
->
->  // Function: dml_rq_dlg_get_rq_reg
->  //  Main entry point for test to get the register values out of this DML class.
-> -//  This function calls <get_rq_param> and <extract_rq_regs> fucntions to calculate
-> +//  This function calls <get_rq_param> and <extract_rq_regs> functions to calculate
->  //  and then populate the rq_regs struct
->  // Input:
->  //  pipe_param - pipe source configuration (e.g. vp, pitch, scaling, dest, etc.)
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/gpio/dce120/hw_factory_dce120.c
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/gpio/dce120/hw_factory_dce120.c
-> @@ -162,7 +162,7 @@ static void define_hpd_registers(struct
->  }
->
->
-> -/* fucntion table */
-> +/* function table */
->  static const struct hw_factory_funcs funcs = {
->         .init_ddc_data = dal_hw_ddc_init,
->         .init_generic = NULL,
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/gpio/dcn10/hw_factory_dcn10.c
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/gpio/dcn10/hw_factory_dcn10.c
-> @@ -194,7 +194,7 @@ static void define_hpd_registers(struct
->  }
->
->
-> -/* fucntion table */
-> +/* function table */
->  static const struct hw_factory_funcs funcs = {
->         .init_ddc_data = dal_hw_ddc_init,
->         .init_generic = dal_hw_generic_init,
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/gpio/dcn20/hw_factory_dcn20.c
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/gpio/dcn20/hw_factory_dcn20.c
-> @@ -221,7 +221,7 @@ static void define_generic_registers(str
->         generic->base.regs = &generic_regs[en].gpio;
->  }
->
-> -/* fucntion table */
-> +/* function table */
->  static const struct hw_factory_funcs funcs = {
->         .init_ddc_data = dal_hw_ddc_init,
->         .init_generic = dal_hw_generic_init,
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/gpio/dcn21/hw_factory_dcn21.c
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/gpio/dcn21/hw_factory_dcn21.c
-> @@ -202,7 +202,7 @@ static void define_hpd_registers(struct
->  }
->
->
-> -/* fucntion table */
-> +/* function table */
->  static const struct hw_factory_funcs funcs = {
->         .init_ddc_data = dal_hw_ddc_init,
->         .init_generic = dal_hw_generic_init,
-> --- linux-next-20200908.orig/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
-> +++ linux-next-20200908/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
-> @@ -218,7 +218,7 @@ static void define_hpd_registers(struct
->  }
->
->
-> -/* fucntion table */
-> +/* function table */
->  static const struct hw_factory_funcs funcs = {
->         .init_ddc_data = dal_hw_ddc_init,
->         .init_generic = dal_hw_generic_init,
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFdlZCwgU2VwIDksIDIwMjAgYXQgNToxMSBBTSBD
+aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0g
+MDkuMDkuMjAgdW0gMDk6NTcgc2NocmllYiBUaWFuIFRhbzoKPiA+IEZpeCBrZXJuZWwtZG9jIHdh
+cm5pbmdzLgo+ID4gZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9mZW5jZS5jOjExMDog
+d2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yCj4gPiBtZW1iZXIgJ2YnIG5vdCBkZXNjcmli
+ZWQgaW4gJ2RybV9zY2hlZF9mZW5jZV9yZWxlYXNlX3NjaGVkdWxlZCcKPiA+IGRyaXZlcnMvZ3B1
+L2RybS9zY2hlZHVsZXIvc2NoZWRfZmVuY2UuYzoxMTA6IHdhcm5pbmc6IEV4Y2VzcyBmdW5jdGlv
+bgo+ID4gcGFyYW1ldGVyICdmZW5jZScgZGVzY3JpcHRpb24gaW4gJ2RybV9zY2hlZF9mZW5jZV9y
+ZWxlYXNlX3NjaGVkdWxlZCcKPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8dGlhbnRh
+bzZAaGlzaWxpY29uLmNvbT4KPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vc2No
+ZWR1bGVyL3NjaGVkX2ZlbmNlLmMgfCAyICstCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vc2NoZWR1bGVyL3NjaGVkX2ZlbmNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3Nj
+aGVkX2ZlbmNlLmMKPiA+IGluZGV4IDhiNDVjM2ExYjg0Li42OWRlMmM3IDEwMDY0NAo+ID4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9mZW5jZS5jCj4gPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX2ZlbmNlLmMKPiA+IEBAIC0xMDEsNyArMTAxLDcg
+QEAgc3RhdGljIHZvaWQgZHJtX3NjaGVkX2ZlbmNlX2ZyZWUoc3RydWN0IHJjdV9oZWFkICpyY3Up
+Cj4gPiAgIC8qKgo+ID4gICAgKiBkcm1fc2NoZWRfZmVuY2VfcmVsZWFzZV9zY2hlZHVsZWQgLSBj
+YWxsYmFjayB0aGF0IGZlbmNlIGNhbiBiZSBmcmVlZAo+ID4gICAgKgo+ID4gLSAqIEBmZW5jZTog
+ZmVuY2UKPiA+ICsgKiBAZjogZmVuY2UKPiA+ICAgICoKPiA+ICAgICogVGhpcyBmdW5jdGlvbiBp
+cyBjYWxsZWQgd2hlbiB0aGUgcmVmZXJlbmNlIGNvdW50IGJlY29tZXMgemVyby4KPiA+ICAgICog
+SXQganVzdCBSQ1Ugc2NoZWR1bGVzIGZyZWVpbmcgdXAgdGhlIGZlbmNlLgo+Cj4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
