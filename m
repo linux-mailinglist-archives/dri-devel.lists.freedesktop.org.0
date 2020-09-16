@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3252F26BE3B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AAA26BE43
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62466E9C6;
-	Wed, 16 Sep 2020 07:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7176E2F3;
+	Wed, 16 Sep 2020 07:38:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB7626E2F3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 07:37:30 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id o8so5822211otl.4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 00:37:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ir83kA7yZmatKHQpy7nyYwdfudWOyhH141WksSrpLpI=;
- b=Wbmy2wm4Y3Z7IHj2WQgnSxJHvWaqiIYxvJrRLzN5yosJdstiBZVZo9gvc44pSE/nA1
- P9hDpmjXczq2zLOkqvx/WHir/QasP1J2aBD5X+7FKjnP91s5nxsyqJv2jhU8PZzNRGRF
- pjrrhaFUmLe21mq1kggp9iTxwlhfZdVWViCcQ=
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDF466E2F3;
+ Wed, 16 Sep 2020 07:38:38 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id c2so5040662ljj.12;
+ Wed, 16 Sep 2020 00:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=/Ve+uN77l2mNjSGSgchzbGo6elSRLw4c+esXt/wG3n8=;
+ b=qfJOIvaWp0ltvhKrrA/Qb3zKGpq6LMq5IucxqsOYjGKBEHE282iCaS3duAGkufnxIy
+ yroKYAoaD4QcvSsAFQScxnOdrPvAPdveBzEHfdqUTDNp2eryQpcj7PD3xBbV3PjrOvgl
+ /siK36295K0OBgg9JXKmPTSdTu1MNv0iJYOcb2fSJHYr5YeUTau8dnKA9HFOKXtvRKrK
+ f1hRtFa5tEwaektfwHpHJC2r/V1XCH0OErpsof22px2Y3cV6qxgUV8tudTONmEXnohjf
+ cY9/XWzXvJSJiQNe8PyHICqxxib8he4KCMsCU+djAsYLFno5O7Dkqc0fg2/BPf54r0ve
+ QJhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ir83kA7yZmatKHQpy7nyYwdfudWOyhH141WksSrpLpI=;
- b=myT0ClNnDYhwJLAytUXN2LpVy/4YOTNQivxrtG3PGnbVnYhiKWftW3VJAMzuasvjKu
- lzRTJ3AtFJOCwP/zWV4zuWI1qJY5rB0GBg9ym1XBWlDfC3GBtGU3gP9BbNcathaJ7P3W
- hYdTsLN1d4CNVOIGadh6vwoTHZ8MN2moMBauuPI6vfKi+VI23dF1VqSgkHvxtLi/Jnlk
- jSuEtwt+J2e6ldqS6Ki2hA3YvGCJ9skc8IPIHI2GB487/2wyYd1Hi381MUPhlE42wr9e
- yLa7aPmhDQASUQ6LoJmC6bj3Iw9yFnJSW5x9jLAQQH5vrnQU4FgO5YytoC+uPPM1U1om
- gkLg==
-X-Gm-Message-State: AOAM532ZwsDLxN6BjSwVFyxQsEzx7w43fuOo/f+KwjMGdGZTsnQoo1Y2
- Ho4kp3EmK3iPCqWSOsfh/U6pegakFnReFtNzsPrZGQ==
-X-Google-Smtp-Source: ABdhPJwGl0rb2zlMJB/+T8+6pHD/ce/ZZx4zrU0sObZFxXtLXBpNIcPMMRDqJU2JyoR0WPCWkLBmcTGbfcRbBMPy77o=
-X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr16390529otq.188.1600241849077; 
- Wed, 16 Sep 2020 00:37:29 -0700 (PDT)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=/Ve+uN77l2mNjSGSgchzbGo6elSRLw4c+esXt/wG3n8=;
+ b=dARhLncE0YhDFWOBqdbvvjiJvQFnLScnrCp/pjSklM0DCb0gFZU1i7Fd8RI4IzjLN/
+ JDBTqReXeOF7gIfXpQRGvd5LfNkjbJlHDVbU6gbAltHthIxMc6XiU4Lfmd4J4webU4ZX
+ zE/vurHGTjX68zP7JpJTd/8df9c3JdFTbnhGpjsBZOmwu9CbeTdHw/TGPDsKrVlfwVF0
+ aeHMm/nBu3pnfzyI+FavRrDJrEYvr1VrzHPQm2Ouk8GHPyI+0bU+AHKcFdPtHkG4HH4g
+ mEzL+bJHhTGjI0aacHkwhrPByPkaTPL7NoArJaBP3f4mt7wD9HliHKJ1GoMWMt7NqUql
+ ikmQ==
+X-Gm-Message-State: AOAM5317F+u09jLLgVeJtBeK9bwmCY3ggy+IqZydQ9K4L0mURaGkPx2/
+ ntLAjR1rtMmJro+18pjXtVY=
+X-Google-Smtp-Source: ABdhPJwJbGNg9ljapuYPbuUtj0KvB1atxCILhskbIHoedwzAIw9tKZs2o0vx5QnfLSEpKIncKq74Lg==
+X-Received: by 2002:a05:651c:1307:: with SMTP id
+ u7mr8617236lja.267.1600241917282; 
+ Wed, 16 Sep 2020 00:38:37 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id m203sm4405724lfd.195.2020.09.16.00.38.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Sep 2020 00:38:36 -0700 (PDT)
+Subject: Re: [PATCH -next 0/8] drm/amd/amdgpu: fix comparison pointer to bool
+ warning
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+References: <20200909130720.105234-1-zhengbin13@huawei.com>
+ <1fce0f2a-3777-e6d8-5a09-30261f843cfd@amd.com>
+ <CADnq5_NoeFbBAMT6s_ictVXsUc2tx1U48MLxnMbAr2Sd58jyYA@mail.gmail.com>
+ <20200915193549.GP6112@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <6658f89f-6957-e6ea-af41-7625f1fd3cb1@gmail.com>
+Date: Wed, 16 Sep 2020 09:38:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200914204209.256266093@linutronix.de>
- <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
- <871rj4owfn.fsf@nanos.tec.linutronix.de>
- <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
- <87bli75t7v.fsf@nanos.tec.linutronix.de>
- <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
-In-Reply-To: <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 16 Sep 2020 09:37:17 +0200
-Message-ID: <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-To: Linus Torvalds <torvalds@linux-foundation.org>
+In-Reply-To: <20200915193549.GP6112@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,117 +76,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
- Linux-MM <linux-mm@kvack.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
- Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matt Turner <mattst88@gmail.com>,
- Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
- Shuah Khan <shuah@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Jeff Dike <jdike@addtoit.com>, linux-um <linux-um@lists.infradead.org>,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- rcu@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- alpha <linux-alpha@vger.kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: yi.zhang@huawei.com, Dave Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Zheng Bin <zhengbin13@huawei.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 7:35 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > OTOH, having a working 'preemptible()' or maybe better named
-> > 'can_schedule()' check makes tons of sense to make decisions about
-> > allocation modes or other things.
->
-> No. I think that those kinds of decisions about actual behavior are
-> always simply fundamentally wrong.
->
-> Note that this is very different from having warnings about invalid
-> use. THAT is correct. It may not warn in all configurations, but that
-> doesn't matter: what matters is that it warns in common enough
-> configurations that developers will catch it.
->
-> So having a warning in "might_sleep()" that doesn't always trigger,
-> because you have a limited configuration that can't even detect the
-> situation, that's fine and dandy and intentional.
->
-> But having code like
->
->        if (can_schedule())
->            .. do something different ..
->
-> is fundamentally complete and utter garbage.
->
-> It's one thing if you test for "am I in hardware interrupt context".
-> Those tests aren't great either, but at least they make sense.
->
-> But a driver - or some library routine - making a difference based on
-> some nebulous "can I schedule" is fundamentally and basically WRONG.
->
-> If some code changes behavior, it needs to be explicit to the *caller*
-> of that code.
->
-> So this is why GFP_ATOMIC is fine, but "if (!can_schedule())
-> do_something_atomic()" is pure shite.
->
-> And I am not IN THE LEAST interested in trying to help people doing
-> pure shite. We need to fix them. Like the crypto code is getting
-> fixed.
-
-Just figured I'll throw my +1 in from reading too many (gpu) drivers.
-Code that tries to cleverly adjust its behaviour depending upon the
-context it's running in is harder to understand and blows up in more
-interesting ways. We still have drm_can_sleep() and it's mostly just
-used for debug code, and I've largely ended up just deleting
-everything that used it because when you're driver is blowing up the
-last thing you want is to realize your debug code and output can't be
-relied upon. Or worse, that the only Oops you have is the one in the
-debug code, because the real one scrolled away - the original idea
-behind drm_can_sleep was to make all the modeset code work
-automagically both in normal ioctl/kworker context and in the panic
-handlers or kgdb callbacks. Wishful thinking at best.
-
-Also at least for me that extends to everything, e.g. I much prefer
-explicit spin_lock and spin_lock_irq vs magic spin_lock_irqsave for
-locks shared with interrupt handlers, since the former two gives me
-clear information from which contexts such function can be called.
-Other end is the memalloc_no*_save/restore functions, where I recently
-made a real big fool of myself because I didn't realize how much that
-impacts everything that's run within - suddenly "GFP_KERNEL for small
-stuff never fails" is wrong everywhere.
-
-It's all great for debugging and sanity checks (and we run with all
-that stuff enabled in our CI), but really semantic changes depending
-upon magic context checks freak my out :-)
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTUuMDkuMjAgdW0gMjE6MzUgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6Cj4gT24gVHVlLCBT
+ZXAgMTUsIDIwMjAgYXQgMDM6MTY6MzJQTSAtMDQwMCwgQWxleCBEZXVjaGVyIHdyb3RlOgo+PiBJ
+IHF1ZXN0aW9uIHRoZSB2YWx1ZSBvZiB0aGVzZSB3YXJuaW5ncy4gIFdoeSBldmVuIGhhdmUgYSBi
+b29sZWFuIHR5cGUKPj4gaWYgeW91IGFyZSBnb2luZyB0byBnZXQgd2FybmluZ3Mgd2hlbiB5b3Ug
+dXNlIHRoZW0uLi4KPj4gVGhhdCBzYWlkLCBhcHBsaWVkIHRvIGF2b2lkIGdldHRpbmcgdGhlc2Ug
+cGF0Y2hlcyBhZ2FpbiBhbmQgYWdhaW4KPj4gZXZlcnkgdGltZSBzb21lb25lIHNlZXMgdGhpcy4K
+PiBpZiAodGhpc19pc19zcGFydGEpCj4gaWYgKHRoaXNfaXNfc3BhcnRhID09IHRydWUpCj4gaWYg
+KHRoaXNfaXNfc3BhcnRhICE9IGZhbHNlKQo+Cj4gSSB0aGluayB0aGUgZmlyc3Qgb25lIHJlYWRz
+IHRoZSBiZXN0LCBhbmQgYXZvaWRzIGhhdmluZyB0bwo+IGRlY2lkZSBiZXR3ZWVuIHRydXRoIGFu
+ZCBmYWxzZWhvb2QgOikKCisxCgpDaHJpc3RpYW4uCgo+Cj4+IEFsZXgKPj4KPj4gT24gV2VkLCBT
+ZXAgOSwgMjAyMCBhdCA5OjIxIEFNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdA
+YW1kLmNvbT4gd3JvdGU6Cj4+PiBBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
+LmtvZW5pZ0BhbWQuY29tPiBmb3IgdGhlIHNlcmllcy4KPj4+Cj4+PiBBbSAwOS4wOS4yMCB1bSAx
+NTowNyBzY2hyaWViIFpoZW5nIEJpbjoKPj4+PiBaaGVuZyBCaW4gKDgpOgo+Pj4+ICAgICBkcm0v
+YW1kL2FtZGdwdTogZml4IGNvbXBhcmlzb24gcG9pbnRlciB0byBib29sIHdhcm5pbmcgaW4gZ2Z4
+X3Y5XzAuYwo+Pj4+ICAgICBkcm0vYW1kL2FtZGdwdTogZml4IGNvbXBhcmlzb24gcG9pbnRlciB0
+byBib29sIHdhcm5pbmcgaW4gZ2Z4X3YxMF8wLmMKPj4+PiAgICAgZHJtL2FtZC9hbWRncHU6IGZp
+eCBjb21wYXJpc29uIHBvaW50ZXIgdG8gYm9vbCB3YXJuaW5nIGluIHNkbWFfdjVfMC5jCj4+Pj4g
+ICAgIGRybS9hbWQvYW1kZ3B1OiBmaXggY29tcGFyaXNvbiBwb2ludGVyIHRvIGJvb2wgd2Fybmlu
+ZyBpbiBzZG1hX3Y1XzIuYwo+Pj4+ICAgICBkcm0vYW1kL2FtZGdwdTogZml4IGNvbXBhcmlzb24g
+cG9pbnRlciB0byBib29sIHdhcm5pbmcgaW4gc2kuYwo+Pj4+ICAgICBkcm0vYW1kL2FtZGdwdTog
+Zml4IGNvbXBhcmlzb24gcG9pbnRlciB0byBib29sIHdhcm5pbmcgaW4gdXZkX3Y2XzAuYwo+Pj4+
+ICAgICBkcm0vYW1kL2FtZGdwdTogZml4IGNvbXBhcmlzb24gcG9pbnRlciB0byBib29sIHdhcm5p
+bmcgaW4KPj4+PiAgICAgICBhbWRncHVfYXRweF9oYW5kbGVyLmMKPj4+PiAgICAgZHJtL2FtZC9h
+bWRncHU6IGZpeCBjb21wYXJpc29uIHBvaW50ZXIgdG8gYm9vbCB3YXJuaW5nIGluIHNkbWFfdjRf
+MC5jCj4+Pj4KPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYXRweF9o
+YW5kbGVyLmMgfCA0ICsrLS0KPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhf
+djEwXzAuYyAgICAgICAgICAgfCAyICstCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvZ2Z4X3Y5XzAuYyAgICAgICAgICAgIHwgMiArLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L3NkbWFfdjRfMC5jICAgICAgICAgICB8IDQgKystLQo+Pj4+ICAgIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L3NkbWFfdjVfMC5jICAgICAgICAgICB8IDIgKy0KPj4+PiAgICBk
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zZG1hX3Y1XzIuYyAgICAgICAgICAgfCAyICstCj4+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvc2kuYyAgICAgICAgICAgICAgICAgIHwg
+MiArLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3V2ZF92Nl8wLmMgICAgICAg
+ICAgICB8IDQgKystLQo+Pj4+ICAgIDggZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwg
+MTEgZGVsZXRpb25zKC0pCj4+Pj4KPj4+PiAtLQo+Pj4+IDIuMjYuMC4xMDYuZzlmYWRlZGQKPj4+
+Pgo+Pj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4+
+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4
+Cj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+IGRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
