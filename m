@@ -1,59 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5608626C22B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 13:35:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0035426C23F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 13:45:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0D86E9AC;
-	Wed, 16 Sep 2020 11:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17DB56E9AD;
+	Wed, 16 Sep 2020 11:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3812B8984C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:35:20 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id l9so2631089wme.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 04:35:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DdTA+P9lRhC68qI4dpVtWpzlyCIniGzxdHE1O+Q7zUU=;
- b=VZm53vKzP2cW6qF7XV0KSRt5PPELHpk07zG//Mxa2CBTIBDdZdST/S+s0rdEQKVsZW
- gTZ1OWjoGqV/1N91UgOzFqec1vf3PElY/ngrFrKXGmjuOOcYrYiRpj5tf2Kdv9HG27Xk
- tCQbqYKzbNGq1n8DixVR/dUuMsm1DSxiACKH4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DdTA+P9lRhC68qI4dpVtWpzlyCIniGzxdHE1O+Q7zUU=;
- b=egprfZiC7YpIyBjqjone5TII1w96BTMj3/eDDiNeXQvl8vXFm9V1V2OVhtbqCCoaRX
- kPjCOkOd2VdmDvQXUvyfrB8QroEOKnDi6jbrh0FDMDaNT+RogH0CYO/sUCMG5cdNN62e
- vMh4ALaXP8Jii+Hv1HVW+S8JX4nBmElJc+G2neeNczh6rq9tXPWvrLiIgL1wwPL3bIuI
- 8PTwpsP/rEPgDmVIRKWG/A15AvaPoelzg+VtnoncMW7C6RFrWhKOqb1BnKenNVIgx0Pm
- VtZeJfFQjrUWaS1Ei5kSjlcGplPypC83BttZWLapZ6B0sgSnSD3sqaV0OgfZF71Pw/LN
- H+3w==
-X-Gm-Message-State: AOAM530pdUKp4eJEdnT2Yd2rFgCvBEVn92bMXgC7dC2vm4aFq/3IohcR
- pFUI6CvsMKK2B0uJ44KRW/RZmw==
-X-Google-Smtp-Source: ABdhPJylkcOBbGgEGGZKZhaBAwyH9kqk9RFSGhRv17hk61GEhNulx96NJ9Vhx8cdjXcbwhCg7LMEDQ==
-X-Received: by 2002:a05:600c:2109:: with SMTP id
- u9mr3990398wml.147.1600256118887; 
- Wed, 16 Sep 2020 04:35:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g14sm4163583wrv.25.2020.09.16.04.35.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 04:35:18 -0700 (PDT)
-Date: Wed, 16 Sep 2020 13:35:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 07/21] drm/mediatek: Introduce GEM object functions
-Message-ID: <20200916113514.GK438822@phenom.ffwll.local>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-8-tzimmermann@suse.de>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2081.outbound.protection.outlook.com [40.107.223.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D607E6E9AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:45:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J/+FjNZiQJM0rlNJddUkQla7ZnsCWho2KNtHLhQdjll940d23sdAmzK3bbj1YqQ2UKMMWAZBtzVuiiPuKw5oPdpK4OeQq75pnn+YPmRE4I1Hl2UJGGmkCWh5S04g6gXiiLs1j/pg70iDZGpz+g0bjLFW/N4PBJMOKMl0ckOE8rNPfr9RGDyjmGPIcPe5NxxoKEN83ykZ6Lx9ZxldfvqnXL1Xxwobs5FLsfwpBGQxFHXKz+PDgjM/Z+iA3VkWGJ+1PolXV6qTD5HQM0P4x8NqFfy7uCh94FcnlARcTqym0WtZgUSgqBhU/iOrgt/aoyeIBgmRMZGBtOj7R348+ucg2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nD2z0U9zhqGGl+pqb8FU/UwSN/HGGEoGlL4m2hFoaHc=;
+ b=UILw2P//v6+35FFx3nt0Sjev0Vjjqc16h3yFnvMKZhbj70cAiYH8gn+F2htxUMmU29n2eJt8AI5QBdBkQALudRDCWlMFMBrkNnj7hJi/uDVrvlRlA0djNbkOqLnlgJRQIvvqDH4VUnWJX/g1q1ZF/n7jdi214FrlswVx7FsT8YyEC+3539HfCxgXwtpq1C9QNF1cp9eVKpjElRNarS2qfMN66skcz+PKPW8X/dqaKT5aS2qNsD/JyqwHEvwD2xHW5uxsHXk7P3/WjQflo7WD7W3hW+IQBmYMvqV+3Sc0GlI8/0hHVVyP68YRZEc+RIvcyaqz53n2TtMuJdQ+daiYKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nD2z0U9zhqGGl+pqb8FU/UwSN/HGGEoGlL4m2hFoaHc=;
+ b=DBlJjy6GVYiLjfklY7wT+N5m9VPABwM958fc/dxwK3c3Q8xEukWCrioLa2rqv2iKEkoxiSBHgzosicLUEHRAUWmJQk0hJkUMaD2H3L9hAhWN8fCQ7K5f5g2n2RjknN6TI9cPT+SGsnSQJe3l1sbJwV2Q/XQy+jtqEL2zwN6t3K4=
+Authentication-Results: kvack.org; dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4551.namprd12.prod.outlook.com (2603:10b6:208:263::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Wed, 16 Sep
+ 2020 11:45:48 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3391.014; Wed, 16 Sep 2020
+ 11:45:48 +0000
+Subject: Re: Changing vma->vm_file in dma_buf_mmap()
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>, akpm@linux-foundation.org,
+ sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20200914132920.59183-1-christian.koenig@amd.com>
+ <40cd26ae-b855-4627-5a13-4dcea5d622f6@gmail.com>
+ <20200914140632.GD1221970@ziepe.ca>
+ <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com>
+ <20200916095359.GD438822@phenom.ffwll.local>
+ <fc8f2af7-9fc2-cb55-3065-75a4060b7c82@amd.com>
+Message-ID: <b621db68-30b9-cc3f-c2c0-237a7fe4db09@amd.com>
+Date: Wed, 16 Sep 2020 13:45:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <fc8f2af7-9fc2-cb55-3065-75a4060b7c82@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: FR2P281CA0010.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::20) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200915145958.19993-8-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ FR2P281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.8 via Frontend Transport; Wed, 16 Sep 2020 11:45:46 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e1e0fbf2-9772-4108-496f-08d85a360ddf
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4551:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4551CF0E841B7EF50CD8122783210@MN2PR12MB4551.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5tbWN+MhlQR6WeOX88/hSS2tHGQcFcCX5jB3CloJdSP+fAEQAB2L+tY02m2R9LbaFYoL+o7wFh79GCw9/Bo+JXX+N89puPrr32C8oAKX7gBlTAUbLEEdZwr4lK4XQruotDFBRyZrUywVkn7zx0m+/YEFOCNWriDubBLuabOsu+0DVbVKMa8uSb7GeyVc8QuRzYsqH4Z2/TVWjVZv1J70AdW7E8lbih4OFotqjkpRVLJE1JqFz+iAZnOac3XLIGzKh3ZgJi4QxKyiKdMvgZTqzhhaG8RJwIRTyCp8B4Ci8Q6IpIVlaQ3+7p29Ydh6Xg7hbb+bnUCKXWlT9g5c/hY4BQnTq6aMkMVBK45W3wfnUHMykP7lXAp1xvbA0nvj0ZrtqMDDCe0ICAoFoSvStyYzUzTNL9Lz+QiYlbvLsFDzJAZEKujtN5bDqkqhE40CW3BaiHIDLmVhxleKvT/9Bmjmdw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(396003)(376002)(366004)(39860400002)(36756003)(166002)(16526019)(5660300002)(83380400001)(86362001)(6486002)(2906002)(31686004)(31696002)(8676002)(8936002)(2616005)(6666004)(316002)(66946007)(186003)(478600001)(66556008)(52116002)(33964004)(66476007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: U8FWlzKBBH75Xxb1FdkIBYMG3dRVSYtG5OKvpJYaNcdy0YUDUTSl0+/jo7NA00BBrVPQxqAn/jckFoXWjeF3xFWZlFVlI8DF339kCJYQHmcFrcyBZbvw/l6Z3qWbC/sSE4EAkUemoJZVqYVx1vAJm0ZwZfJdjQWmMt+LYGkXLNIO529YrxMiUhkNR151vhtInfLsd1Wkg04ZPoVackWSukG0QVlONDvqNY/D8kerfWjq4zlX+nQIig6O3hyTmgqJiIfuyZy2OCrgcGBh7tfbZ2fxfdlppA7H2DSsDEPcVyuOeC/9HqebaODXTcw9C+6H1DU7TR5SR7plaKeFxXLTg8Ck0lxn+59qEISziQT3qz9/L1dqUCe08szYxpIiZqRUOoHDqRUszfXRTG7YeQf44vlyac+OkHPYF6qlHo1bxcqZRH/isVF7msQ8rBI6cj2sMH5pom9djFJt0SBdVGoON759wK+9wSetOL6MFHMawwVZBSW7WVdW6toAst1Q3yzLf2SwrJ+CRQjXkX730eGOl6mQTJrvf8AREuH6Y+dJMBV6xGHEC8P9kyAJS9apJpCahD0u++90WxR9leNw3HKr8wTWwYrfj7s06Ua5h3EhdH8qdkTWklCKSgRrS29bx0KQD61NOHuKAcki13mtSJrmYzD8fFMMPmDkeRCUiZYXNiwc6+R5kTzufUlOzVpQpPkryWA86GQ7Dkc5pN3o/5Vd3A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1e0fbf2-9772-4108-496f-08d85a360ddf
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 11:45:48.3524 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5JVrwkz5BEPRRzhr+9PnAQYfBj5erpLpbHUhxwv8vlGlpszUEMRXOT+uQn4/bZCw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4551
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,113 +104,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
- thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
- emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
- jy0922.shim@samsung.com, oleksandr_andrushchenko@epam.com,
- tomi.valkeinen@ti.com, linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
- jonathanh@nvidia.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
- bskeggs@redhat.com, xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
- intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
- chunkuang.hu@kernel.org, andi.shyti@intel.com, linux-arm-msm@vger.kernel.org,
- marek.olsak@amd.com, tianci.yin@amd.com, etnaviv@lists.freedesktop.org,
- hdegoede@redhat.com, linux-mediatek@lists.infradead.org,
- rodrigo.vivi@intel.com, matthias.bgg@gmail.com, evan.quan@amd.com,
- sean@poorly.run, linux-arm-kernel@lists.infradead.org,
- tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, hyun.kwon@xilinx.com,
- rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
- xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- chris@chris-wilson.co.uk, kyungmin.park@samsung.com, nirmoy.das@amd.com,
- alexander.deucher@amd.com, Hawking.Zhang@amd.com,
- freedreno@lists.freedesktop.org, christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0253835805=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 04:59:44PM +0200, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in mediatek. The only exception is gem_prime_mmap,
-> which is non-trivial to convert.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  5 -----
->  drivers/gpu/drm/mediatek/mtk_drm_gem.c | 11 +++++++++++
->  2 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 040a8f393fe2..2f8d0043fca7 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -301,18 +301,13 @@ struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
->  static struct drm_driver mtk_drm_driver = {
->  	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  
-> -	.gem_free_object_unlocked = mtk_drm_gem_free_object,
-> -	.gem_vm_ops = &drm_gem_cma_vm_ops,
->  	.dumb_create = mtk_drm_gem_dumb_create,
->  
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
->  	.gem_prime_import = mtk_drm_gem_prime_import,
-> -	.gem_prime_get_sg_table = mtk_gem_prime_get_sg_table,
->  	.gem_prime_import_sg_table = mtk_gem_prime_import_sg_table,
->  	.gem_prime_mmap = mtk_drm_gem_mmap_buf,
-> -	.gem_prime_vmap = mtk_drm_gem_prime_vmap,
-> -	.gem_prime_vunmap = mtk_drm_gem_prime_vunmap,
->  	.fops = &mtk_drm_fops,
->  
->  	.name = DRIVER_NAME,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> index 6190cc3b7b0d..591b90410e4a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> @@ -8,11 +8,20 @@
->  #include <drm/drm.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_gem.h>
-> +#include <drm/drm_gem_cma_helper.h>
->  #include <drm/drm_prime.h>
->  
->  #include "mtk_drm_drv.h"
->  #include "mtk_drm_gem.h"
->  
-> +static const struct drm_gem_object_funcs mtk_drm_gem_object_funcs = {
-> +	.free = mtk_drm_gem_free_object,
-> +	.get_sg_table = mtk_gem_prime_get_sg_table,
-> +	.vmap = mtk_drm_gem_prime_vmap,
-> +	.vunmap = mtk_drm_gem_prime_vunmap,
-> +	.vm_ops = &drm_gem_cma_vm_ops,
-> +};
-> +
->  static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
->  						unsigned long size)
->  {
-> @@ -25,6 +34,8 @@ static struct mtk_drm_gem_obj *mtk_drm_gem_init(struct drm_device *dev,
->  	if (!mtk_gem_obj)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	mtk_gem_obj->base.funcs = &mtk_drm_gem_object_funcs;
-> +
->  	ret = drm_gem_object_init(dev, &mtk_gem_obj->base, size);
->  	if (ret < 0) {
->  		DRM_ERROR("failed to initialize gem object\n");
-> -- 
-> 2.28.0
+--===============0253835805==
+Content-Type: multipart/alternative;
+ boundary="------------2482CD56258F6ED3C81B0494"
+Content-Language: en-US
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--------------2482CD56258F6ED3C81B0494
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> 
+[SNIP]
+> But Jason pointed me to the right piece of code. See this comment in 
+> in mmap_region():
+>
+>> 		/* ->mmap() can change vma->vm_file, but must guarantee that
+>> * vma_link() below can deny write-access if VM_DENYWRITE is set
+>> * and map writably if VM_SHARED is set. This usually means the
+>> * new file must not have been exposed to user-space, yet.
+>> */
+>> 		vma <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/vma>->vm_file 
+>> <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/vm_file>  =  get_file 
+>> <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/get_file>(file 
+>> <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/file>);
+>> 		error  =  call_mmap 
+>> <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/call_mmap>(file 
+>> <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/file>,  vma <https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/vma>);
+>
+> So changing vma->vm_file is allowed at least under certain circumstances.
+>
+> Only the "file must not have been exposed to user-space, yet" part 
+> still needs double checking. Currently working on that.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ok, I think we can guarantee for all DMA-bufs what is required here.
+
+While searching the code I've found that at least vgem_prime_mmap() and 
+i915_gem_dmabuf_mmap() are doing the same thing of modifying vma->vm_file.
+
+So I'm leaning towards that this works as expected and we should just 
+document this properly.
+
+Daniel and Jason what do you think?
+
+Christian.
+
+--------------2482CD56258F6ED3C81B0494
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    [SNIP]<br>
+    <blockquote type="cite" cite="mid:fc8f2af7-9fc2-cb55-3065-75a4060b7c82@amd.com"> But Jason
+      pointed me to the right piece of code. See this comment in in
+      mmap_region():<br>
+      <br>
+      <blockquote type="cite">
+        <pre>		<span class="cm">/* -&gt;mmap() can change vma-&gt;vm_file, but must guarantee that</span>
+<span class="cm">		 * vma_link() below can deny write-access if VM_DENYWRITE is set</span>
+<span class="cm">		 * and map writably if VM_SHARED is set. This usually means the</span>
+<span class="cm">		 * new file must not have been exposed to user-space, yet.</span>
+<span class="cm">		 */</span>
+		<span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/vma" moz-do-not-send="true">vma</a></span><span class="o">-&gt;</span><span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/vm_file" moz-do-not-send="true">vm_file</a></span> <span class="o">=</span> <span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/get_file" moz-do-not-send="true">get_file</a></span><span class="p">(</span><span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/file" moz-do-not-send="true">file</a></span><span class="p">);</span>
+		<span class="n">error</span> <span class="o">=</span> <span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/call_mmap" moz-do-not-send="true">call_mmap</a></span><span class="p">(</span><span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/file" moz-do-not-send="true">file</a></span><span class="p">,</span> <span class="n"><a href="https://elixir.bootlin.com/linux/v5.9-rc5/C/ident/vma" moz-do-not-send="true">vma</a></span><span class="p">);</span></pre>
+      </blockquote>
+      <br>
+      So changing vma-&gt;vm_file is allowed at least under certain
+      circumstances.<br>
+      <br>
+      Only the &quot;file must not have been exposed to user-space, yet&quot; part
+      still needs double checking. Currently working on that.<br>
+    </blockquote>
+    <br>
+    Ok, I think we can guarantee for all DMA-bufs what is required here.<br>
+    <br>
+    While searching the code I've found that at least vgem_prime_mmap()
+    and i915_gem_dmabuf_mmap() are doing the same thing of modifying
+    vma-&gt;vm_file.<br>
+    <br>
+    So I'm leaning towards that this works as expected and we should
+    just document this properly.<br>
+    <br>
+    Daniel and Jason what do you think?<br>
+    <br>
+    Christian.<br>
+  </body>
+</html>
+
+--------------2482CD56258F6ED3C81B0494--
+
+--===============0253835805==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0253835805==--
