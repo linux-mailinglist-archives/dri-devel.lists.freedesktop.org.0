@@ -1,41 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A01A26C1E1
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 12:49:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A5326C208
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 13:21:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E8DF89817;
-	Wed, 16 Sep 2020 10:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA64B6E9A8;
+	Wed, 16 Sep 2020 11:21:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0A289817
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 10:49:18 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id A758A5C1831;
- Wed, 16 Sep 2020 12:49:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1600253356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZBf8O9oBKNgkqcBOi57h8VMMkqpLqM0f79H1ADe4svA=;
- b=Ul4WU6TYG2PB5FzPRNpGM404reKvKOFvSWTnxdjlG/H8Y0Kf9LlitkzX0AFw01v1iav0U5
- +bLC9WPc1wZw4EMkQqdCGkVioV18DyVKHEmDSlBAwOS2wAE5iqKXfIXIWBrUR0MMrr5Yr6
- GTC62cP7VJsjzVOhRPjbnQhVI9/tXe4=
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3CC6E99D
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:21:43 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id x23so2382044wmi.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 04:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mUOAFu1Sstz+Y84HDrSYqg/SYf7AQiwgyxkdfcX2QWQ=;
+ b=dNYt3KSmP2zoajuEOcpSRwKjslSpbjWRZP10ZdmvUDBODfNwzvcZciCjx0cVSGnRP/
+ JUZRa+hP31+BJN/M1t7m9Ls/tiT5od6BnRGoXiiAJTdUcoTfR5J6SoK2kCHBNgd6JM9c
+ NsxYbB5nxATvUhunbEGd6bVQp6IDhaI5uBozM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mUOAFu1Sstz+Y84HDrSYqg/SYf7AQiwgyxkdfcX2QWQ=;
+ b=pV+2h3KcnNq6HQOQgzdCjd7l3W+7RRz3KfP8WlHkgbt0jjWzQQ3fHxwHv63KmVq2xs
+ u2rLO4BmlTP5L6N4rT8rNWzQAgO/mjonjKWD2U7lOCjYj8Tut7NbZ9jqU9mNGfYaWUIT
+ MeRciVdXrUq5bVI8ex9L/wkx5peIsd/VpD5yu91QARWPTzGAR3GnjHDEbKPFzuDMpnH2
+ hGlBGy7MgX0ZEMcAzxX2LJy0JPd9cjzlDsRfsBVIa9V29vJxX6IvT8N0N55TDn1FGN28
+ /zXvTpoGVG1JgQBuiW7c55rL9ZChsj3oDPR8O75PkOrz7rlFv7TndIr4ZO0JQedXGjpf
+ SMFA==
+X-Gm-Message-State: AOAM531E7QQH/0/5xnGeOC0BhnlJbQYHoN0vKV7XHo8GWjAKysiSX8Gu
+ aj5rSFHhN3lV2cZDdmzss8KIiw==
+X-Google-Smtp-Source: ABdhPJxN4KFdG0OXvpCuI3UQDQSjm9d9naSAnHnzOZnbaecNO0ofucAiEdpaLFF0vBOBWzg3E9jOYA==
+X-Received: by 2002:a05:600c:414e:: with SMTP id
+ h14mr4127600wmm.2.1600255301791; 
+ Wed, 16 Sep 2020 04:21:41 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q186sm4894705wma.45.2020.09.16.04.21.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 04:21:40 -0700 (PDT)
+Date: Wed, 16 Sep 2020 13:21:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 03/21] drm/etnaviv: Introduce GEM object functions
+Message-ID: <20200916112136.GG438822@phenom.ffwll.local>
+References: <20200915145958.19993-1-tzimmermann@suse.de>
+ <20200915145958.19993-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-Date: Wed, 16 Sep 2020 12:49:16 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: =?UTF-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [RFC PATCH 2/3] drm/atomic-helper: add REQUIRE_MATCHING_FB flag
-In-Reply-To: <20200911115921.GD6112@intel.com>
-References: <20200910092425.1016976-1-stefan@agner.ch>
- <20200910092425.1016976-2-stefan@agner.ch> <20200911115921.GD6112@intel.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <75c9e52a801b7d2f3e6d0b0efa9531aa@agner.ch>
-X-Sender: stefan@agner.ch
+Content-Disposition: inline
+In-Reply-To: <20200915145958.19993-4-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,79 +66,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ thierry.reding@gmail.com, krzk@kernel.org, sam@ravnborg.org,
+ emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
+ jy0922.shim@samsung.com, oleksandr_andrushchenko@epam.com,
+ tomi.valkeinen@ti.com, linux-tegra@vger.kernel.org, linux@armlinux.org.uk,
+ jonathanh@nvidia.com, linux-rockchip@lists.infradead.org, kgene@kernel.org,
+ bskeggs@redhat.com, xen-devel@lists.xenproject.org, miaoqinglang@huawei.com,
+ intel-gfx@lists.freedesktop.org, matthew.auld@intel.com,
+ chunkuang.hu@kernel.org, andi.shyti@intel.com, linux-arm-msm@vger.kernel.org,
+ marek.olsak@amd.com, tianci.yin@amd.com, etnaviv@lists.freedesktop.org,
+ hdegoede@redhat.com, linux-mediatek@lists.infradead.org,
+ rodrigo.vivi@intel.com, matthias.bgg@gmail.com, evan.quan@amd.com,
+ sean@poorly.run, linux-arm-kernel@lists.infradead.org,
+ tvrtko.ursulin@linux.intel.com, amd-gfx@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, hyun.kwon@xilinx.com,
+ rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com, Felix.Kuehling@amd.com,
+ xinhui.pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ chris@chris-wilson.co.uk, kyungmin.park@samsung.com, nirmoy.das@amd.com,
+ alexander.deucher@amd.com, Hawking.Zhang@amd.com,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wOS0xMSAxMzo1OSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIFRodSwgU2Vw
-IDEwLCAyMDIwIGF0IDExOjI0OjI0QU0gKzAyMDAsIFN0ZWZhbiBBZ25lciB3cm90ZToKPj4gQWRk
-IGZsYWcgd2hpY2ggY2hlY2tzIHRoYXQgdGhlIGZyYW1lYnVmZmVyIHNpemUgbWF0Y2hlcyB0aGUg
-cGxhbmUgc2l6ZQo+PiBleGFjdGx5LiBUaGlzIGlzIHVzZWZ1bCBmb3IgZGlzcGxheSBjb250cm9s
-bGVyIHdoaWNoIGNhbid0IGhhbmRsZQo+PiBmcmFtZWJ1ZmZlcnMgb3RoZXIgdGhhbiB0aGUgcGxh
-bmUvQ1JUQyBzaXplLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gQWduZXIgPHN0ZWZhbkBh
-Z25lci5jaD4KPj4gLS0tCj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYyAg
-ICAgICAgICAgICAgIHwgNyArKysrKysrCj4+ICBkcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rl
-c3QtZHJtX3BsYW5lX2hlbHBlci5jIHwgOSArKysrKysrKysKPj4gIGluY2x1ZGUvZHJtL2RybV9h
-dG9taWNfaGVscGVyLmggICAgICAgICAgICAgICAgICAgfCAxICsKPj4gIDMgZmlsZXMgY2hhbmdl
-ZCwgMTcgaW5zZXJ0aW9ucygrKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9hdG9taWNfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+
-PiBpbmRleCA3NTU1NzJhMzdmM2YuLjhiYzdmOGMyZTU2NiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9hdG9taWNfaGVscGVyLmMKPj4gQEAgLTgwMiw2ICs4MDIsNyBAQCBpbnQgZHJtX2F0b21pY19o
-ZWxwZXJfY2hlY2tfcGxhbmVfc3RhdGUoc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqcGxhbmVfc3Rh
-dGUsCj4+ICAJaW50IGhzY2FsZSwgdnNjYWxlOwo+PiAgCWJvb2wgY2FuX3Bvc2l0aW9uID0gZmxh
-Z3MgJiBEUk1fUExBTkVfQ0FOX1BPU0lUSU9OOwo+PiAgCWJvb2wgY2FuX3VwZGF0ZV9kaXNhYmxl
-ZCA9IGZsYWdzICYgRFJNX1BMQU5FX0NBTl9VUERBVEVfRElTQUJMRUQ7Cj4+ICsJYm9vbCByZXF1
-aXJlX21hdGNoaW5nX2ZiID0gZmxhZ3MgJiBEUk1fUExBTkVfUkVRVUlSRV9NQVRDSElOR19GQjsK
-Pj4KPj4gIAlXQVJOX09OKHBsYW5lX3N0YXRlLT5jcnRjICYmIHBsYW5lX3N0YXRlLT5jcnRjICE9
-IGNydGNfc3RhdGUtPmNydGMpOwo+Pgo+PiBAQCAtODYwLDYgKzg2MSwxMiBAQCBpbnQgZHJtX2F0
-b21pY19oZWxwZXJfY2hlY2tfcGxhbmVfc3RhdGUoc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqcGxh
-bmVfc3RhdGUsCj4+ICAJCXJldHVybiAtRUlOVkFMOwo+PiAgCX0KPj4KPj4gKwlpZiAocmVxdWly
-ZV9tYXRjaGluZ19mYiAmJiAoZHJtX3JlY3Rfd2lkdGgoc3JjKSAhPSBmYi0+d2lkdGggfHwKPj4g
-KwkgICAgZHJtX3JlY3RfaGVpZ2h0KHNyYykgIT0gZmItPmhlaWdodCkpIHsKPiAKPiBzcmMgcmVj
-dCBpcyAuMTYgZml4ZWQgcG9pbnQgdnMuIGZiIGRpbWVuc2lvbnMgYXJlIGludGVnZXJzCgpHb29k
-IGNhdGNoLCB3aWxsIGZpeC4KCkhtLCBJIHdvbmRlciB3aHkgdGhpcyBkaWQgbm90IHRyaXAgbXkg
-dGVzdC4KCi0tClN0ZWZhbgoKPiAKPiBTdGlsbCBub3QgYSBmYW4gb2YgdGhlc2Ugc3dpc3MgYXJt
-eSBrbmlmZSBmdW5jdGlvbnMgYnV0IG1laC4KPiAKPj4gKwkJRFJNX0RFQlVHX0tNUygiRnJhbWVi
-dWZmZXIgc2l6ZSBtdXN0IG1hdGNoIHBsYW5lIHNpemUuXG4iKTsKPj4gKwkJcmV0dXJuIC1FSU5W
-QUw7Cj4+ICsJfQo+PiArCj4+ICAJcmV0dXJuIDA7Cj4+ICB9Cj4+ICBFWFBPUlRfU1lNQk9MKGRy
-bV9hdG9taWNfaGVscGVyX2NoZWNrX3BsYW5lX3N0YXRlKTsKPj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fcGxhbmVfaGVscGVyLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX3BsYW5lX2hlbHBlci5jCj4+IGluZGV4IDAxZTk1YjJk
-NTcyZi4uMmM4MWJiZWY4MzBlIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRl
-c3RzL3Rlc3QtZHJtX3BsYW5lX2hlbHBlci5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zZWxm
-dGVzdHMvdGVzdC1kcm1fcGxhbmVfaGVscGVyLmMKPj4gQEAgLTEzOSw2ICsxMzksMTUgQEAgaW50
-IGlndF9jaGVja19wbGFuZV9zdGF0ZSh2b2lkICppZ25vcmVkKQo+PiAgCUZBSUxfT04oIWNoZWNr
-X3NyY19lcSgmcGxhbmVfc3RhdGUsIDAsIDAsIDEwMjMgPDwgMTYsIDc2NyA8PCAxNikpOwo+PiAg
-CUZBSUxfT04oIWNoZWNrX2NydGNfZXEoJnBsYW5lX3N0YXRlLCAwLCAwLCAxMDIzLCA3NjcpKTsK
-Pj4KPj4gKwkvKiBDaGVjayB3aGV0aGVyIHJlcXVpcmluZyBzYW1lIHNpemUgZnJhbWVidWZmZXIg
-d29ya3MgY29ycmVjdGx5LiAqLwo+PiArCXNldF9zcmMoJnBsYW5lX3N0YXRlLCAwLCAwLCAxMDI0
-IDw8IDE2LCA3NjggPDwgMTYpOwo+PiArCXNldF9jcnRjKCZwbGFuZV9zdGF0ZSwgMCwgMCwgMTAy
-NCwgNzY4KTsKPj4gKwlyZXQgPSBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19wbGFuZV9zdGF0ZSgm
-cGxhbmVfc3RhdGUsICZjcnRjX3N0YXRlLAo+PiArCQkJCQkJICBEUk1fUExBTkVfSEVMUEVSX05P
-X1NDQUxJTkcsCj4+ICsJCQkJCQkgIERSTV9QTEFORV9IRUxQRVJfTk9fU0NBTElORywKPj4gKwkJ
-CQkJCSAgRFJNX1BMQU5FX1JFUVVJUkVfTUFUQ0hJTkdfRkIpOwo+PiArCUZBSUwoIXJldCwgIlNo
-b3VsZCBub3QgYmUgYWJsZSB0byB1c2UgZGlmZmVyZW50IHNpemUgZnJhbWVidWZmZXIgd2l0aCBS
-RVFVSVJFX01BVENISU5HX0ZCXG4iKTsKPj4gKwo+PiAgCS8qIFNpbXBsZSBzY2FsaW5nIHRlc3Rz
-LiAqLwo+PiAgCXNldF9zcmMoJnBsYW5lX3N0YXRlLCAwLCAwLCA1MTIgPDwgMTYsIDM4NCA8PCAx
-Nik7Cj4+ICAJc2V0X2NydGMoJnBsYW5lX3N0YXRlLCAwLCAwLCAxMDI0LCA3NjgpOwo+PiBkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2F0b21pY19oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2Ry
-bV9hdG9taWNfaGVscGVyLmgKPj4gaW5kZXggYmI5OTU3YjRmOTFiLi4yNDRiNzMwZTg0ZDMgMTAw
-NjQ0Cj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9hdG9taWNfaGVscGVyLmgKPj4gKysrIGIvaW5j
-bHVkZS9kcm0vZHJtX2F0b21pY19oZWxwZXIuaAo+PiBAQCAtNDMsNiArNDMsNyBAQCBpbnQgZHJt
-X2F0b21pY19oZWxwZXJfY2hlY2tfbW9kZXNldChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+Pgo+
-PiAgI2RlZmluZSBEUk1fUExBTkVfQ0FOX1BPU0lUSU9OCQkJCUJJVCgwKQo+PiAgI2RlZmluZSBE
-Uk1fUExBTkVfQ0FOX1VQREFURV9ESVNBQkxFRAkJCUJJVCgxKQo+PiArI2RlZmluZSBEUk1fUExB
-TkVfUkVRVUlSRV9NQVRDSElOR19GQgkJCUJJVCgyKQo+Pgo+PiAgaW50IGRybV9hdG9taWNfaGVs
-cGVyX2NoZWNrX3BsYW5lX3N0YXRlKHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRl
-LAo+PiAgCQkJCQljb25zdCBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCj4+IC0t
-Cj4+IDIuMjguMAo+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On Tue, Sep 15, 2020 at 04:59:40PM +0200, Thomas Zimmermann wrote:
+> GEM object functions deprecate several similar callback interfaces in
+> struct drm_driver. This patch replaces the per-driver callbacks with
+> per-instance callbacks in etnaviv. The only exception is gem_prime_mmap,
+> which is non-trivial to convert.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 13 -------------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 -
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 19 ++++++++++++++++++-
+>  3 files changed, 18 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index a9a3afaef9a1..aa270b79e585 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -468,12 +468,6 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+>  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  };
+>  
+> -static const struct vm_operations_struct vm_ops = {
+> -	.fault = etnaviv_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> -};
+> -
+>  static const struct file_operations fops = {
+>  	.owner              = THIS_MODULE,
+>  	.open               = drm_open,
+> @@ -490,16 +484,9 @@ static struct drm_driver etnaviv_drm_driver = {
+>  	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+>  	.open               = etnaviv_open,
+>  	.postclose           = etnaviv_postclose,
+> -	.gem_free_object_unlocked = etnaviv_gem_free_object,
+> -	.gem_vm_ops         = &vm_ops,
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> -	.gem_prime_pin      = etnaviv_gem_prime_pin,
+> -	.gem_prime_unpin    = etnaviv_gem_prime_unpin,
+> -	.gem_prime_get_sg_table = etnaviv_gem_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+> -	.gem_prime_vmap     = etnaviv_gem_prime_vmap,
+> -	.gem_prime_vunmap   = etnaviv_gem_prime_vunmap,
+>  	.gem_prime_mmap     = etnaviv_gem_prime_mmap,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init       = etnaviv_debugfs_init,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index 4d8dc9236e5f..914f0867ff71 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -49,7 +49,6 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  		struct drm_file *file);
+>  
+>  int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> -vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf);
+>  int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
+>  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
+>  void *etnaviv_gem_prime_vmap(struct drm_gem_object *obj);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index ea19f1d27275..312e9d58d5a7 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -171,7 +171,7 @@ int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	return obj->ops->mmap(obj, vma);
+>  }
+>  
+> -vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+> +static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+>  {
+>  	struct vm_area_struct *vma = vmf->vma;
+>  	struct drm_gem_object *obj = vma->vm_private_data;
+> @@ -561,6 +561,22 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
+>  	mutex_unlock(&priv->gem_lock);
+>  }
+>  
+> +static const struct vm_operations_struct vm_ops = {
+> +	.fault = etnaviv_gem_fault,
+> +	.open = drm_gem_vm_open,
+> +	.close = drm_gem_vm_close,
+> +};
+> +
+> +static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+> +	.free = etnaviv_gem_free_object,
+> +	.pin = etnaviv_gem_prime_pin,
+> +	.unpin = etnaviv_gem_prime_unpin,
+> +	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+> +	.vmap = etnaviv_gem_prime_vmap,
+> +	.vunmap = etnaviv_gem_prime_vunmap,
+> +	.vm_ops = &vm_ops,
+> +};
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +
+>  static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>  	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>  {
+> @@ -595,6 +611,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>  	INIT_LIST_HEAD(&etnaviv_obj->vram_list);
+>  
+>  	*obj = &etnaviv_obj->base;
+> +	(*obj)->funcs = &etnaviv_gem_object_funcs;
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.28.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
