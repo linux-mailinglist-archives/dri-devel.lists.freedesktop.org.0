@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B05F26C3E7
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 16:54:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1614726C3E8
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 16:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBE489264;
-	Wed, 16 Sep 2020 14:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 476346E88F;
+	Wed, 16 Sep 2020 14:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA3D89264
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 14:54:45 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id k15so7238508wrn.10
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 07:54:45 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF0106E88F
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 14:54:55 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z1so7270518wrt.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 07:54:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YZU9QUGLKYmVQE4Jarmg25884dOZMPraKSRpqpbHmZw=;
- b=qiskC9AHQnvHNw5aUBpNpG1Kjkz0URHoQKnjUuUvpBRdzVBFxZ9Z08uQfBCBOb79o8
- QVmrXN/4aC1o0xfp1K7oT4MNbwHBOfCzezeEJLIYEUqjdzfr0YTaJN3BPsRQpfnjI/jk
- Qi5a02Z0ereqESbev+LdTKQnsdtADu4qtmklp/+lzoJQrH4MMZa09nyT28OqB+3i3VHo
- Um+en+jYcnLb5CHslyoVCGsXzCEoCl+Hi3oEsbAiN7Hy8N1AwobeG4vStxcIvJpRG9uD
- jf7TeX/WulTLUqQ6qqD37POsLqo3MdFiNZIKzpQCn/EBvqNlyAiNsnTEX23GYaEXbFe9
- 5Znw==
+ bh=Q0A/yJiCI5DT/zHabWnCuwDPt2gCNMScgZOB7zhux6k=;
+ b=j1SnL90rYBR/woZcd8ZfTaCU+jto8gcjsMG5d9HvenyGCcQXyNc3/bBxMuGhHaC6qo
+ 9mEvOboqMIaFeWgsXBvWl18taFYL29wnUN4lyPGwkanoJqXTHJg/v9xribltrTReYBXX
+ /seQYtgxYXyv1HNtukUknbcr0bM/j6CpZUfyS8XMR7mtwM9wWTM9eyeGuL1hGPjx8uIN
+ yWkkXUj3V2NxrV4+SjWohwUIo6nvCgqob4SVuR0Os3qAegxs2XnMPi8vjugGW2vk/Pqi
+ JR20Wsat+7s+IA5kn8W5bxKc1tB0qvaJfhRSQhgWnILszz1lmbu6kRMPtaqwHvjyethM
+ 9w5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=YZU9QUGLKYmVQE4Jarmg25884dOZMPraKSRpqpbHmZw=;
- b=r2c1tTRmCIVcRBVORxy8aDDTnoGor0BoKEIvEJZfUHUI9C5dDOlMPMgxEBLYImlkGl
- 1aWbWjIjA7yHkiyNj7nxf8ZWkur7X7Vagecnef7AhWpp9CL9Rzs1HQNyCGWy2gvjxkZu
- zCc5pHxUCuDMe0bG7KjXKGqT4LN0kLNZKYvF3lJsaJQuzMSCZeH+UW9ljiuPD+uR3ojm
- I6nEnywltF5t64zfJ+D1LYgZijY+4G6S7XRhxfp1uGtCGZznrJJ/lzTAmxxHCoKLDegt
- k1UpREB6AhqjHQfCmrYI+C7PqJ7c1B67MckCPOLXN8K8VOAPHS6GfwzoR87tnMvthUFe
- v/lQ==
-X-Gm-Message-State: AOAM530tj3QZ7WyjRdil5UK0IJ/I+wnqLQEEs0vKdDEKPLcKnZ+YaqsY
- C1dm6LuutS5wyIiftICVE2XI1A==
-X-Google-Smtp-Source: ABdhPJwJMjp1sRuJHiMcw2GRuHuAIFRtg0P4pZd34bf2zw6iHoQCZkWZ4luW9h2PxV0Ck1zAWL5olg==
-X-Received: by 2002:adf:f011:: with SMTP id j17mr3440342wro.276.1600268083957; 
- Wed, 16 Sep 2020 07:54:43 -0700 (PDT)
+ bh=Q0A/yJiCI5DT/zHabWnCuwDPt2gCNMScgZOB7zhux6k=;
+ b=oSJRgf478TybJdK54/0491PCszgxKvhtYHV8GYq8Zhcs7K1eF/4djmDWxQu1fWcIbo
+ rTYYbVu7zi3GIEB4mH8DeFR+yQdtOVG78ayyU8AiIV/ppFxpIuVq8hGRU8mGHvzBMO+2
+ fIPBhiG3XzdN4iQpYQjoLuIzAX401NpmQwq3G2lR3iTVb0TrB0a3OcSPcj4x/fgZBmPd
+ 6yOZ1uQYK2eXXCSwzjxiLBehN693lhwV7OjN1cHniHmFn8fOHcXIzhRKgJz4S2FAy7b4
+ A9KvNpD3ZSRFBj8B4qaKoWzkQe7yt4FDcr97nyQbTgyyR5Ps/ltkI2UM4ZMpwlh5Vf2b
+ SoJw==
+X-Gm-Message-State: AOAM532DDOAbHmT87lNBmgNr2Zla1rYkkzLIpogCh1bcTVG9w5+8NlBW
+ fyExFRQXEzIOejezUnYkR3Yn6g==
+X-Google-Smtp-Source: ABdhPJzg6PYcdSFHjgUYe/5fduDZ/fCA7rAP0G03QLat9pjnIsiTkk72B0rDJo4aV80Chd2OgAdnBQ==
+X-Received: by 2002:adf:e407:: with SMTP id g7mr27082181wrm.349.1600268094405; 
+ Wed, 16 Sep 2020 07:54:54 -0700 (PDT)
 Received: from [192.168.1.23] (home.beaume.starnux.net. [82.236.8.43])
- by smtp.gmail.com with ESMTPSA id b84sm6165379wmd.0.2020.09.16.07.54.42
+ by smtp.gmail.com with ESMTPSA id l5sm4680452wmf.10.2020.09.16.07.54.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Sep 2020 07:54:43 -0700 (PDT)
-Subject: Re: [PATCH 0/3] drm: panfrost: Coherency support
+ Wed, 16 Sep 2020 07:54:53 -0700 (PDT)
+Subject: Re: [PATCH 3/3] arm64: dts: meson: Describe G12b GPU as coherent
 To: Robin Murphy <robin.murphy@arm.com>, will@kernel.org, robh@kernel.org,
  tomeu.vizoso@collabora.com, steven.price@arm.com,
  alyssa.rosenzweig@collabora.com, khilman@baylibre.com, jbrunet@baylibre.com
 References: <cover.1600213517.git.robin.murphy@arm.com>
+ <ba61c76654349d3dfcd14c1e24c5aed39ebe3cf7.1600213517.git.robin.murphy@arm.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -104,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <d109e9da-feb3-c09f-2b7f-98c92ce39593@baylibre.com>
-Date: Wed, 16 Sep 2020 16:54:41 +0200
+Message-ID: <1c0ded24-d748-88d9-66f1-5e2eec221cdc@baylibre.com>
+Date: Wed, 16 Sep 2020 16:54:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1600213517.git.robin.murphy@arm.com>
+In-Reply-To: <ba61c76654349d3dfcd14c1e24c5aed39ebe3cf7.1600213517.git.robin.murphy@arm.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,62 +131,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robin,
-
 On 16/09/2020 01:51, Robin Murphy wrote:
-> Hi all,
+> According to a downstream commit I found in the Khadas vendor kernel,
+> the GPU on G12b is wired up for ACE-lite, so (now that Panfrost knows
+> how to handle this properly) we should describe it as such. Otherwise
+> the mismatch leads to all manner of fun with mismatched attributes and
+> inadvertently snooping stale data from caches, which would account for
+> at least some of the brokenness observed on this platform.
 > 
-> I polished up my original proof-of-concept a little while back, but now
-> that I've got my hands on my Juno again I've been able to actually test
-> it to my satisfaction, so here are proper patches!
-
-I tested on the Kkadas VIM3, and yes it fixes the random FAULTS I have *without*:
-[  152.417127] panfrost ffe40000.gpu: gpu sched timeout, js=0, config=0x7300, status=0x58, head=0x3091400, tail=0x3091400, sched_job=000000004d83c2d7
-[  152.530928] panfrost ffe40000.gpu: js fault, js=1, status=INSTR_INVALID_ENC, head=0x30913c0, tail=0x30913c0
-[  152.539797] panfrost ffe40000.gpu: gpu sched timeout, js=1, config=0x7300, status=0x51, head=0x30913c0, tail=0x30913c0, sched_job=0000000038cecaf6
-[  156.943505] panfrost ffe40000.gpu: js fault, js=0, status=TILE_RANGE_FAULT, head=0x3091400, tail=0x3091400
-
-but, with this patchset, I get the following fps with kmscube:
-Rendered 97 frames in 2.016291 sec (48.108145 fps)
-Rendered 206 frames in 4.016723 sec (51.285584 fps)
-Rendered 316 frames in 6.017208 sec (52.516052 fps)
-Rendered 430 frames in 8.017456 sec (53.632975 fps)
-
-but when I resurrect my BROKEN_NS patchset (simply disabling shareability), I get:
-Rendered 120 frames in 2.000143 sec (59.995724 fps)
-Rendered 241 frames in 4.016760 sec (59.998605 fps)
-Rendered 362 frames in 6.033443 sec (59.998911 fps)
-Rendered 482 frames in 8.033531 sec (59.998522 fps)
-
-So I get a performance regression with the dma-coherent approach, even if it's
-clearly the cleaner.
-
-So:
-Tested-by: Neil Armstrong <narmstrong@baylibre.com>
-
-Neil
-
-> 
-> It probably makes sense for patches #1 and #2 to stay together and both
-> go via drm-misc, provided Will's OK with that.
-> 
-> Robin.
-> 
-> 
-> Robin Murphy (3):
->   iommu/io-pgtable-arm: Support coherency for Mali LPAE
->   drm/panfrost: Support cache-coherent integrations
->   arm64: dts: meson: Describe G12b GPU as coherent
-> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
 >  arch/arm64/boot/dts/amlogic/meson-g12b.dtsi | 4 ++++
->  drivers/gpu/drm/panfrost/panfrost_device.h  | 1 +
->  drivers/gpu/drm/panfrost/panfrost_drv.c     | 2 ++
->  drivers/gpu/drm/panfrost/panfrost_gem.c     | 2 ++
->  drivers/gpu/drm/panfrost/panfrost_mmu.c     | 1 +
->  drivers/iommu/io-pgtable-arm.c              | 5 ++++-
->  6 files changed, 14 insertions(+), 1 deletion(-)
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
+> index 9b8548e5f6e5..ee8fcae9f9f0 100644
+> --- a/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
+> +++ b/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
+> @@ -135,3 +135,7 @@ map1 {
+>  		};
+>  	};
+>  };
+> +
+> +&mali {
+> +	dma-coherent;
+> +};
 > 
 
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
