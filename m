@@ -2,46 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1D726C30D
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 15:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B1526C31F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 15:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D93FA6EA0D;
-	Wed, 16 Sep 2020 13:00:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D75C6E17B;
+	Wed, 16 Sep 2020 13:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0645A6EA0D;
- Wed, 16 Sep 2020 13:00:34 +0000 (UTC)
-IronPort-SDR: 0iDfMpEWuy3+ynV6X6VAY/en3NW9V0XPO6OhvlwkcS5IzikxBj+QkZwHRiFjAhmZC0z9XGEPD3
- 8D503D+zE0fA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="156843741"
-X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="156843741"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2020 06:00:34 -0700
-IronPort-SDR: sMWmWlURCz4Z3ZzjSwOkDzfklFQVW8yE7NxP6j3mHkin6klf7ghHOfhSPX4CsRf/wzVrBjYKQ6
- NDGyb2+yjZLQ==
-X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="483302863"
-Received: from kbs1-mobl1.gar.corp.intel.com (HELO [10.213.73.60])
- ([10.213.73.60])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2020 06:00:30 -0700
-Subject: Re: [PATCH v8 5/8] drm/i915: Add dedicated plane hook for async flip
- case
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20200914055633.21109-1-karthik.b.s@intel.com>
- <20200914055633.21109-6-karthik.b.s@intel.com>
- <20200915144149.GN6112@intel.com>
-From: Karthik B S <karthik.b.s@intel.com>
-Message-ID: <9a647b20-c391-0997-4fe6-8579d4591aa9@intel.com>
-Date: Wed, 16 Sep 2020 18:30:27 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C466E0E5;
+ Wed, 16 Sep 2020 13:08:52 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id k15so6841474wrn.10;
+ Wed, 16 Sep 2020 06:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=boqFmJSvqYexxLobLNyh9qTrVnM8InJDrYRAbGJcCho=;
+ b=PmsES2SARiy3RNMai1PKHwmsW52gv1/E88+yqUQ9Tv0jC62ZlRhBcsmzE3b4ti/83J
+ r967Z58Yh8Cq5xasJ5umEjNwsnfDwjz2P6JpvpSZxUi5Hpu8xv08QlwTCltKOHoDtSZR
+ of5GhwBlvKJLkJX0yM3FjWHxODmE3o+/AWfrJFfAlwuoIa+cZjjbbAB2S77mUnpl/nzz
+ IEARN45BnQqyfl3YrVY+FFSj3o2L5Kwft3L6/7+JH5t6W08YP+9B9PvrfNUDcxhXqwhK
+ bGp+rdUw4xXROyTT7ev5ufpUQ5a1W57gboULd52Ki4ZQQ8vQ/nGMbr8yEOkW5K8bmwXY
+ JvBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=boqFmJSvqYexxLobLNyh9qTrVnM8InJDrYRAbGJcCho=;
+ b=ZaGLUstXAfvM29IFnrgjugl5Y6/KDqDR5Brxl1zkX/1XiifK15l8Rs/yaaGjn4GVsp
+ 4EPKWkBnNwnKVvR+FAmXqpi98QRR9l9Z7Yq+N6sntf6rVStg2chEo09JCLBc3n/NLGaW
+ zqVkHvU5aE3Liu2ignay56TXyXecV5Y8xrFrUk1oMZjoLF+CFE4BzqJ0djNf6Dmh1M1/
+ wsAXr4G7J5xwByskbGTIe3jUu/n9Jy6e6rxNBDfFm6p3787Xrlue9Sgpd1xJH5g6IYgr
+ /JYzQAGlvmRgpq+vV7AaAABHVPnJy1ZURzV9tphu9KbfKkXd0pmvNb8JsPt3mWhr//KC
+ RZNg==
+X-Gm-Message-State: AOAM533wxrDYSB0mUpi4x1SbsRrX31xKXISDIU344mB7valkUF9Zx9iJ
+ vT+Y4biFvHU4QkDHlk+zDxW2s2romT/Pm7vmPic=
+X-Google-Smtp-Source: ABdhPJyn/PJ7xHU8ZYPwNfmhW+wrz8y3cokw/6HfKfyVIclqmJYVI81DT7pBaNF79qcayK5F8vAfGKFPbwm8P2+ByXQ=
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr28315368wrl.419.1600261731057; 
+ Wed, 16 Sep 2020 06:08:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200915144149.GN6112@intel.com>
-Content-Language: en-US
+References: <20200915184607.84435-1-alexander.deucher@amd.com>
+ <20200916063300.GJ142621@kroah.com>
+In-Reply-To: <20200916063300.GJ142621@kroah.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 16 Sep 2020 09:08:39 -0400
+Message-ID: <CADnq5_ObvQ9sT_p=mdEk1m_o_LPHx6zwiEP5qFvX9YxveOBOZA@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/radeon: handle PCIe root ports with
+ addressing limitations"
+To: Greg KH <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,100 +62,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "for 3.8" <stable@vger.kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiA5LzE1LzIwMjAgODoxMSBQTSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIE1vbiwg
-U2VwIDE0LCAyMDIwIGF0IDExOjI2OjMwQU0gKzA1MzAsIEthcnRoaWsgQiBTIHdyb3RlOgo+PiBU
-aGlzIGhvb2sgaXMgYWRkZWQgdG8gYXZvaWQgd3JpdGluZyBvdGhlciBwbGFuZSByZWdpc3RlcnMg
-aW4gY2FzZSBvZgo+PiBhc3luYyBmbGlwcywgc28gdGhhdCB3ZSBkbyBub3Qgd3JpdGUgdGhlIGRv
-dWJsZSBidWZmZXJlZCByZWdpc3RlcnMKPj4gZHVyaW5nIGFzeW5jIHN1cmZhY2UgYWRkcmVzcyB1
-cGRhdGUuCj4+Cj4+IHY3OiAtUGxhbmUgY3RsIG5lZWRzIGJpdHMgZnJvbSBza2xfcGxhbmVfY3Rs
-X2NydGMgYXMgd2VsbC4gKFZpbGxlKQo+PiAgICAgIC1BZGQgYSB2ZnVuYyBmb3Igc2tsX3Byb2dy
-YW1fYXN5bmNfc3VyZmFjZV9hZGRyZXNzCj4+ICAgICAgIGFuZCBjYWxsIGl0IGZyb20gaW50ZWxf
-dXBkYXRlX3BsYW5lLiAoVmlsbGUpCj4+Cj4+IHY4OiAtUmViYXNlZC4KPj4KPj4gU2lnbmVkLW9m
-Zi1ieTogS2FydGhpayBCIFMgPGthcnRoaWsuYi5zQGludGVsLmNvbT4KPj4gU2lnbmVkLW9mZi1i
-eTogVmFuZGl0YSBLdWxrYXJuaSA8dmFuZGl0YS5rdWxrYXJuaUBpbnRlbC5jb20+Cj4+IC0tLQo+
-PiAgIC4uLi9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYyB8ICA3ICsr
-KysrKwo+PiAgIC4uLi9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaCAgICB8
-ICAzICsrKwo+PiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMg
-ICB8IDI0ICsrKysrKysrKysrKysrKysrKysKPj4gICAzIGZpbGVzIGNoYW5nZWQsIDM0IGluc2Vy
-dGlvbnMoKykKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfYXRvbWljX3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2F0b21pY19wbGFuZS5jCj4+IGluZGV4IDc5MDMyNzAxODczYS4uZmRjNjMzMDIwMjU1IDEwMDY0
-NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFu
-ZS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRvbWljX3Bs
-YW5lLmMKPj4gQEAgLTQwOCw2ICs0MDgsMTMgQEAgdm9pZCBpbnRlbF91cGRhdGVfcGxhbmUoc3Ry
-dWN0IGludGVsX3BsYW5lICpwbGFuZSwKPj4gICAJc3RydWN0IGludGVsX2NydGMgKmNydGMgPSB0
-b19pbnRlbF9jcnRjKGNydGNfc3RhdGUtPnVhcGkuY3J0Yyk7Cj4+ICAgCj4+ICAgCXRyYWNlX2lu
-dGVsX3VwZGF0ZV9wbGFuZSgmcGxhbmUtPmJhc2UsIGNydGMpOwo+PiArCj4+ICsJaWYgKGNydGNf
-c3RhdGUtPnVhcGkuYXN5bmNfZmxpcCkgewo+IAo+IEhtbS4gTm93IEknbSBzdGFydGluZyB0byB3
-b25kZXIgaG93IHRoaXMgaXMgYWN0dWFsbHkgZ29pbmcgdG8gaW50ZXJhY3QKPiB3aXRoIGxlZ2Fj
-eSBjdXJzb3IgdXBkYXRlcy4gVGhlIGNydGNfc3RhdGUgd2UgdXNlIHRoZXJlIEkgdGhpbmsgY29t
-ZXMKPiBmcm9tIHRoZSBwcmV2aW91cyB1cGRhdGUgYW5kIHNvIHdpbGwgaGF2ZSB0aGlzIGZsYWcg
-c2V0IGl0IGlmIHdhcyBhbgo+IGFzeW5jIGZsaXAuIFdoaWNoIG1lYW5zIHRoZSBjdXJzb3IgaW9j
-dGwgd2lsbCBvb3BzLgo+IAo+IFdlIG1heSB3YW50IHRoZSBpZ3QgdG8gY2hlY2sgdGhpcyBwYXJ0
-aWN1bGFyIGNvbWJpbmF0aW9uIG9mIGlvY3Rscwo+IGFjdHVhbGx5Lgo+IAoKSSB0cmllZCB0aGlz
-IG91dCBsb2NhbGx5IGJ5IHVzaW5nIHRoZSBEUk1fSU9DVExfTU9ERV9DVVJTT1IgaW9jdGwgYWZ0
-ZXIgCmFuIGFzeW5jIGZsaXAuIEFuZCBsb29rcyBsaWtlIGl0cyB3b3JraW5nIGZpbmUuIER1cmlu
-ZyB0aGUgY3Vyc29yIGNvbW1pdCAKaXQgYWN0dWFsbHkgdGFrZXMgdGhlICdlbHNlJyBwYXRoLgoK
-SSdsbCBzZW5kIG91dCB0aGUgbmV3IHZlcnNpb24gb2YgdGhlIElHVCBzaG9ydGx5IHdpdGggdGhp
-cyBzdWJ0ZXN0IAphZGRlZC4gUGxlYXNlIGxldCBtZSBrbm93IGlmIEknbSBtaXNzaW5nIHNvbWV0
-aGluZyB0aGVyZS4KClRoYW5rcywKS2FydGhpay5CLlMKPj4gKwkJcGxhbmUtPnByb2dyYW1fYXN5
-bmNfc3VyZmFjZV9hZGRyZXNzKHBsYW5lLAo+PiArCQkJCQkJICAgICBjcnRjX3N0YXRlLCBwbGFu
-ZV9zdGF0ZSk7Cj4+ICsJCXJldHVybjsKPj4gKwl9Cj4+ICsKPj4gICAJcGxhbmUtPnVwZGF0ZV9w
-bGFuZShwbGFuZSwgY3J0Y19zdGF0ZSwgcGxhbmVfc3RhdGUpOwo+PiAgIH0KPj4gICAKPj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBl
-cy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgK
-Pj4gaW5kZXggYjJkMGVkYWNjNThjLi5kMmFlNzgxZTRkODEgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oCj4+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oCj4+IEBAIC0x
-MTkwLDYgKzExOTAsOSBAQCBzdHJ1Y3QgaW50ZWxfcGxhbmUgewo+PiAgIAkJCSAgIHN0cnVjdCBp
-bnRlbF9wbGFuZV9zdGF0ZSAqcGxhbmVfc3RhdGUpOwo+PiAgIAlpbnQgKCptaW5fY2RjbGspKGNv
-bnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLAo+PiAgIAkJCSBjb25zdCBz
-dHJ1Y3QgaW50ZWxfcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlKTsKPj4gKwl2b2lkICgqcHJvZ3Jh
-bV9hc3luY19zdXJmYWNlX2FkZHJlc3MpKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+ICsJ
-CQkJCSAgICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLAo+PiAr
-CQkJCQkgICAgICBjb25zdCBzdHJ1Y3QgaW50ZWxfcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlKTsK
-Pj4gICB9Owo+PiAgIAo+PiAgIHN0cnVjdCBpbnRlbF93YXRlcm1hcmtfcGFyYW1zIHsKPj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Nwcml0ZS5jCj4+IGluZGV4IGYwYzg5
-NDE4ZDJlMS4uNjk0MDdkZmNlYmY2IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX3Nwcml0ZS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfc3ByaXRlLmMKPj4gQEAgLTYwOSw2ICs2MDksMjkgQEAgaWNsX3Byb2dyYW1f
-aW5wdXRfY3NjKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+ICAgCQkJICBQTEFORV9JTlBV
-VF9DU0NfUE9TVE9GRihwaXBlLCBwbGFuZV9pZCwgMiksIDB4MCk7Cj4+ICAgfQo+PiAgIAo+PiAr
-c3RhdGljIHZvaWQKPj4gK3NrbF9wcm9ncmFtX2FzeW5jX3N1cmZhY2VfYWRkcmVzcyhzdHJ1Y3Qg
-aW50ZWxfcGxhbmUgKnBsYW5lLAo+PiArCQkJCSAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3Rh
-dGUgKmNydGNfc3RhdGUsCj4+ICsJCQkJICBjb25zdCBzdHJ1Y3QgaW50ZWxfcGxhbmVfc3RhdGUg
-KnBsYW5lX3N0YXRlKQo+PiArewo+PiArCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJp
-diA9IHRvX2k5MTUocGxhbmUtPmJhc2UuZGV2KTsKPj4gKwl1bnNpZ25lZCBsb25nIGlycWZsYWdz
-Owo+PiArCWVudW0gcGxhbmVfaWQgcGxhbmVfaWQgPSBwbGFuZS0+aWQ7Cj4+ICsJZW51bSBwaXBl
-IHBpcGUgPSBwbGFuZS0+cGlwZTsKPj4gKwl1MzIgc3VyZl9hZGRyID0gcGxhbmVfc3RhdGUtPmNv
-bG9yX3BsYW5lWzBdLm9mZnNldDsKPj4gKwl1MzIgcGxhbmVfY3RsID0gcGxhbmVfc3RhdGUtPmN0
-bDsKPj4gKwo+PiArCXBsYW5lX2N0bCB8PSBza2xfcGxhbmVfY3RsX2NydGMoY3J0Y19zdGF0ZSk7
-Cj4+ICsKPj4gKwlzcGluX2xvY2tfaXJxc2F2ZSgmZGV2X3ByaXYtPnVuY29yZS5sb2NrLCBpcnFm
-bGFncyk7Cj4+ICsKPj4gKwlpbnRlbF9kZV93cml0ZV9mdyhkZXZfcHJpdiwgUExBTkVfQ1RMKHBp
-cGUsIHBsYW5lX2lkKSwgcGxhbmVfY3RsKTsKPj4gKwlpbnRlbF9kZV93cml0ZV9mdyhkZXZfcHJp
-diwgUExBTkVfU1VSRihwaXBlLCBwbGFuZV9pZCksCj4+ICsJCQkgIGludGVsX3BsYW5lX2dndHRf
-b2Zmc2V0KHBsYW5lX3N0YXRlKSArIHN1cmZfYWRkcik7Cj4+ICsKPj4gKwlzcGluX3VubG9ja19p
-cnFyZXN0b3JlKCZkZXZfcHJpdi0+dW5jb3JlLmxvY2ssIGlycWZsYWdzKTsKPj4gK30KPj4gKwo+
-PiAgIHN0YXRpYyB2b2lkCj4+ICAgc2tsX3Byb2dyYW1fcGxhbmUoc3RydWN0IGludGVsX3BsYW5l
-ICpwbGFuZSwKPj4gICAJCSAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3Rh
-dGUsCj4+IEBAIC0zMDk2LDYgKzMxMTksNyBAQCBza2xfdW5pdmVyc2FsX3BsYW5lX2NyZWF0ZShz
-dHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYsCj4+ICAgCXBsYW5lLT5nZXRfaHdfc3Rh
-dGUgPSBza2xfcGxhbmVfZ2V0X2h3X3N0YXRlOwo+PiAgIAlwbGFuZS0+Y2hlY2tfcGxhbmUgPSBz
-a2xfcGxhbmVfY2hlY2s7Cj4+ICAgCXBsYW5lLT5taW5fY2RjbGsgPSBza2xfcGxhbmVfbWluX2Nk
-Y2xrOwo+PiArCXBsYW5lLT5wcm9ncmFtX2FzeW5jX3N1cmZhY2VfYWRkcmVzcyA9IHNrbF9wcm9n
-cmFtX2FzeW5jX3N1cmZhY2VfYWRkcmVzczsKPj4gICAKPj4gICAJaWYgKElOVEVMX0dFTihkZXZf
-cHJpdikgPj0gMTEpCj4+ICAgCQlmb3JtYXRzID0gaWNsX2dldF9wbGFuZV9mb3JtYXRzKGRldl9w
-cml2LCBwaXBlLAo+PiAtLSAKPj4gMi4yMi4wCj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Sep 16, 2020 at 2:32 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Sep 15, 2020 at 02:46:07PM -0400, Alex Deucher wrote:
+> > This change breaks tons of systems.
+>
+> Very vague :(
+
+Screen corruption making the system unusable.
+
+>
+> This commit has also been merged for over a year, why the sudden
+> problem now?
+>
+
+It was noticed by several people closer to when the change went in as
+well.  If you notice, most of the bugs date back quite a while.  We
+looked into it a bit at the time but couldn't determine the problem.
+It only seems to affect really old chips (like 15-20 years old) which
+makes it hard to reproduce if you don't have an old system.  There
+were a couple of threads at the time, but nothing was resolved.  I was
+able to find one of them:
+https://lkml.org/lkml/2019/12/14/263
+
+There were several new bugs filed which brought the issue back to my
+attention recently.
+
+> > This reverts commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713.
+>
+> You mean "33b3ad3788ab ("drm/radeon: handle PCIe root ports with
+> addressing limitations")"?
+>
+> That's the proper way to reference commits in changelogs please.  It's
+> even documented that way...
+
+When you revert a patch with git, that is what it does.  Maybe we
+should fix git to change the formatting.
+
+>
+> >
+> > Bug: https://bugzilla.kernel.org/show_bug.cgi?id=206973
+> > Bug: https://bugzilla.kernel.org/show_bug.cgi?id=206697
+> > Bug: https://bugzilla.kernel.org/show_bug.cgi?id=207763
+> > Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1140
+> > Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1287
+> > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: stable@vger.kernel.org
+> > Cc: Christoph Hellwig <hch@lst.de>
+> > Cc: christian.koenig@amd.com
+>
+> Fixes: 33b3ad3788ab ("drm/radeon: handle PCIe root ports with addressing limitations")
+>
+
+Sure, I can add that, but it doesn't really fix it, it reverts it.
+But point taken, it does fix the commit by removing it.
+
+Alex
+
+> as well?
+>
+> thanks,
+>
+> greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
