@@ -1,32 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4555E26C490
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:49:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F5526C487
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C3E6EA58;
-	Wed, 16 Sep 2020 15:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A936EA52;
+	Wed, 16 Sep 2020 15:49:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 106F76E158
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:07:09 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id DDB546E93D4F92723607;
- Wed, 16 Sep 2020 19:07:05 +0800 (CST)
-Received: from huawei.com (10.90.53.225) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Wed, 16 Sep 2020
- 19:07:01 +0800
-From: Qilong Zhang <zhangqilong3@huawei.com>
-To: <b.zolnierkie@samsung.com>
-Subject: [PATCH -next] dss:use devm_platform_ioremap_resource_byname
-Date: Wed, 16 Sep 2020 19:13:53 +0800
-Message-ID: <20200916111353.105914-1-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.26.0.106.g9fadedd
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E51E6E153
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:21:01 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B44135C0134;
+ Wed, 16 Sep 2020 07:20:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 16 Sep 2020 07:20:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=toOFwU7TnIQcZDmGmOHA/d3pUVT
+ QUsO5+7jZbJlT70Q=; b=gIamoFbYSuCYkITDhwKCmZO6bC1YndpjhkmQ5tB4/Np
+ lhbWIOEk+3iTT9yZwpg75KGyJeM9dD3r7SY1Moq0WfPcqbkl931foVKEQYs9iza2
+ TrqCx4+8fAMQqUzT2JD/gvHFzA0eF3MwxrfLziYE6IeRcpEkvbimIhCtj91Su4do
+ 7DiDDZrLf4bNeTZoqEPTiSJGb/ky3pShYvRVljec7suT76d3ECKVXfylIDp9Ebju
+ z5j9OTstBqaaRBawN0yznDzkM3n9oUmfasRosC803d9MFH771bZ2BnRl/05SSvJH
+ /NUaqiaY4sj1f9QTswPSr+CHPPb8s7uj2P43AgnCXkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=toOFwU
+ 7TnIQcZDmGmOHA/d3pUVTQUsO5+7jZbJlT70Q=; b=gpl1AsNsjVAvJ3TbYMZCUd
+ /7TyOgDcQDOIGLi8gh9pMRxWgrbhyGmDG9W84yisgwR1ucnd7TwMftkJtoqI3ed9
+ Pc0ORl6lBs7GCJ2UVrU7foQQEphAsOZGqw+gWAiieBv1zmDkakp3RWX4DDjW8PN4
+ CDCrwncApkN2TQB7nDdYDfCD5uUDsyvfPM8eH6RWLZx5DGeBO0M+RhXmNHqr8u5p
+ 0vFF1pTTxrb9t6ZtTjFqmaEhM+ypUSqhue1VhilUKRspQtF/LtrdvmQMYOXCqubW
+ KbKF4V6KODUSmtfcY5YkIKYZge0q7EsKNlNxt4jxb0YNkBCNcjULj7bqI2rHMrJg
+ ==
+X-ME-Sender: <xms:GPVhX6o0BAGBkbsOFZ4Uvcyq3lrHrrpiZNNoXzEblaUPN04iOLuQ0g>
+ <xme:GPVhX4pEyXa2EfkSSoIAvUdpu_-8jnps6ZjDNZlJTEM9FOp1AmnDF1CaZ-uFzzzyN
+ Fs9n3ZudyhEE6scB4A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtddvgdefkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrje
+ einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
+ gihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:GPVhX_OC3jmyo4mvqovxcpOptb8V3_eYzIjwR22H_5XdEuIF3UwTDA>
+ <xmx:GPVhX55_S0RA7_2w_3swlN-JnWpAegVPQzBJeafD4nMQk8YF8Zh4EA>
+ <xmx:GPVhX54Ouc4fY9sDDENB-bvMLmRVxapqTx3KEW7f29b3DjuFVxym_A>
+ <xmx:GfVhXznKymhtOKnYeShKvcbfneInIjuuOJtM-cOYJ0iJN2EdCaU7DA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9B662328005A;
+ Wed, 16 Sep 2020 07:20:56 -0400 (EDT)
+Date: Wed, 16 Sep 2020 13:20:54 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: Re: [git pull] virtio-shm region
+Message-ID: <20200916112054.5pgj43mvsbh3mbod@gilmour.lan>
+References: <CAAfnVBn2BzXWFY3hhjDxd5q0P2_JWn-HdkVxgS94x9keAUZiow@mail.gmail.com>
+ <20200915152657.oyz52c4q5qb5q7rw@gilmour.lan>
+ <CAAfnVB=BPD+MDnpjTzbXat-_k0E=G4tc5OfGfSpBc1MU6RtkaA@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.90.53.225]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAAfnVB=BPD+MDnpjTzbXat-_k0E=G4tc5OfGfSpBc1MU6RtkaA@mail.gmail.com>
 X-Mailman-Approved-At: Wed, 16 Sep 2020 15:49:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,166 +81,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Miklos Szeredi <miklos@szeredi.hu>
+Content-Type: multipart/mixed; boundary="===============1860851566=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the devm_platform_ioremap_resource_byname() helper instead of
-calling platform_get_resource_byname() and devm_ioremap_resource()
-separately.
 
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
----
- .../video/fbdev/omap2/omapfb/dss/hdmi4_core.c | 10 +--------
- .../video/fbdev/omap2/omapfb/dss/hdmi5_core.c | 10 +--------
- .../video/fbdev/omap2/omapfb/dss/hdmi_phy.c   | 10 +--------
- .../video/fbdev/omap2/omapfb/dss/hdmi_pll.c   |  9 +-------
- .../video/fbdev/omap2/omapfb/dss/video-pll.c  | 21 +++----------------
- 5 files changed, 7 insertions(+), 53 deletions(-)
+--===============1860851566==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5ou46wfn2f7d7xel"
+Content-Disposition: inline
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-index 7ca1803bf161..726c190862d4 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-@@ -875,15 +875,7 @@ void hdmi4_audio_stop(struct hdmi_core_data *core, struct hdmi_wp_data *wp)
- 
- int hdmi4_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
- {
--	struct resource *res;
--
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
--	if (!res) {
--		DSSERR("can't get CORE mem resource\n");
--		return -EINVAL;
--	}
--
--	core->base = devm_ioremap_resource(&pdev->dev, res);
-+	core->base = devm_platform_ioremap_resource_byname(pdev, "core");
- 	if (IS_ERR(core->base)) {
- 		DSSERR("can't ioremap CORE\n");
- 		return PTR_ERR(core->base);
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
-index 2f6ff14a48d9..eda29d3032e1 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
-@@ -887,15 +887,7 @@ int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
- 
- int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
- {
--	struct resource *res;
--
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
--	if (!res) {
--		DSSERR("can't get CORE IORESOURCE_MEM HDMI\n");
--		return -EINVAL;
--	}
--
--	core->base = devm_ioremap_resource(&pdev->dev, res);
-+	core->base = devm_platform_ioremap_resource_byname(pdev, "core");
- 	if (IS_ERR(core->base)) {
- 		DSSERR("can't ioremap HDMI core\n");
- 		return PTR_ERR(core->base);
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c
-index 9c645adba9e2..6fbfeb01b315 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c
-@@ -207,19 +207,11 @@ static const struct hdmi_phy_features *hdmi_phy_get_features(void)
- 
- int hdmi_phy_init(struct platform_device *pdev, struct hdmi_phy_data *phy)
- {
--	struct resource *res;
--
- 	phy_feat = hdmi_phy_get_features();
- 	if (!phy_feat)
- 		return -ENODEV;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
--	if (!res) {
--		DSSERR("can't get PHY mem resource\n");
--		return -EINVAL;
--	}
--
--	phy->base = devm_ioremap_resource(&pdev->dev, res);
-+	phy->base = devm_platform_ioremap_resource_byname(pdev, "phy");
- 	if (IS_ERR(phy->base)) {
- 		DSSERR("can't ioremap TX PHY\n");
- 		return PTR_ERR(phy->base);
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
-index 4991be031b0b..eb984d9999fe 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
-@@ -220,17 +220,10 @@ int hdmi_pll_init(struct platform_device *pdev, struct hdmi_pll_data *pll,
- 	struct hdmi_wp_data *wp)
- {
- 	int r;
--	struct resource *res;
- 
- 	pll->wp = wp;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "pll");
--	if (!res) {
--		DSSERR("can't get PLL mem resource\n");
--		return -EINVAL;
--	}
--
--	pll->base = devm_ioremap_resource(&pdev->dev, res);
-+	pll->base = devm_platform_ioremap_resource_byname(pdev, "pll");
- 	if (IS_ERR(pll->base)) {
- 		DSSERR("can't ioremap PLLCTRL\n");
- 		return PTR_ERR(pll->base);
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c b/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c
-index f45fe60b9e7d..bff03d920722 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c
-@@ -129,7 +129,6 @@ struct dss_pll *dss_video_pll_init(struct platform_device *pdev, int id,
- 	const char * const clkctrl_name[] = { "pll1_clkctrl", "pll2_clkctrl" };
- 	const char * const clkin_name[] = { "video1_clk", "video2_clk" };
- 
--	struct resource *res;
- 	struct dss_video_pll *vpll;
- 	void __iomem *pll_base, *clkctrl_base;
- 	struct clk *clk;
-@@ -138,14 +137,7 @@ struct dss_pll *dss_video_pll_init(struct platform_device *pdev, int id,
- 
- 	/* PLL CONTROL */
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, reg_name[id]);
--	if (!res) {
--		dev_err(&pdev->dev,
--			"missing platform resource data for pll%d\n", id);
--		return ERR_PTR(-ENODEV);
--	}
--
--	pll_base = devm_ioremap_resource(&pdev->dev, res);
-+	pll_base = devm_platform_ioremap_resource_byname(pdev, reg_name[id]);
- 	if (IS_ERR(pll_base)) {
- 		dev_err(&pdev->dev, "failed to ioremap pll%d reg_name\n", id);
- 		return ERR_CAST(pll_base);
-@@ -153,15 +145,8 @@ struct dss_pll *dss_video_pll_init(struct platform_device *pdev, int id,
- 
- 	/* CLOCK CONTROL */
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
--		clkctrl_name[id]);
--	if (!res) {
--		dev_err(&pdev->dev,
--			"missing platform resource data for pll%d\n", id);
--		return ERR_PTR(-ENODEV);
--	}
--
--	clkctrl_base = devm_ioremap_resource(&pdev->dev, res);
-+	clkctrl_base = devm_platform_ioremap_resource_byname(pdev,
-+					clkctrl_name[id]);
- 	if (IS_ERR(clkctrl_base)) {
- 		dev_err(&pdev->dev, "failed to ioremap pll%d clkctrl\n", id);
- 		return ERR_CAST(clkctrl_base);
--- 
-2.17.1
+
+--5ou46wfn2f7d7xel
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Sep 15, 2020 at 04:38:04PM -0700, Gurchetan Singh wrote:
+> On Tue, Sep 15, 2020 at 8:27 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>=20
+> > Hi,
+> >
+> > On Mon, Sep 14, 2020 at 04:39:41PM -0700, Gurchetan Singh wrote:
+> > > Hi,
+> > >
+> > > This set of changes are required for zero-copy virtio-gpu.
+> > >
+> > > The following changes since commit
+> > 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
+> > >
+> > >   Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+> > virtio-shm
+> > >
+> > > for you to fetch changes up to 38e895487afc2ed42c11045853cbb3fa20b52b=
+6e:
+> > >
+> > >   virtio: Implement get_shm_region for MMIO transport (2020-09-10
+> > 10:05:58
+> > > +0200)
+> > >
+> > > ----------------------------------------------------------------
+> > > Sebastien Boeuf (3):
+> > >       virtio: Add get_shm_region method
+> > >       virtio: Implement get_shm_region for PCI transport
+> > >       virtio: Implement get_shm_region for MMIO transport
+> > >
+> > >  drivers/virtio/virtio_mmio.c       | 31 +++++++++++++
+> > >  drivers/virtio/virtio_pci_modern.c | 95
+> > > ++++++++++++++++++++++++++++++++++++++
+> > >  include/linux/virtio_config.h      | 17 +++++++
+> > >  include/uapi/linux/virtio_mmio.h   | 11 +++++
+> > >  include/uapi/linux/virtio_pci.h    | 11 ++++-
+> > >  5 files changed, 164 insertions(+), 1 deletion(-)
+> >
+> > It's not really clear who you expect to pull that PR?
+> >
+>=20
+> Hmm, Daniel recommended "send[ing] the topic pull request to drm-misc
+> maintainers (Maarten, Maxime, Thomas)" in the other thread, but I'm not
+> really sure which one.  Maybe whomever is in charge of drm-misc-next pull
+> requests?
+
+That would be me then. I've applied it (but had to hack dim a bit, it
+doesn't like !text email too much apparently) and pushed it to
+drm-misc-next.
+
+Maxime
+
+--5ou46wfn2f7d7xel
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX2H1FgAKCRDj7w1vZxhR
+xZVmAQC1I3ntVQwApAoGwtrrC1X3E2Ciik/Dv8ZCHZ1GDXAe8AD+O60hDIswHFcl
+T66lEO3DOmZ6lqJBI7Qwt2axlPM/uwE=
+=3B8O
+-----END PGP SIGNATURE-----
+
+--5ou46wfn2f7d7xel--
+
+--===============1860851566==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1860851566==--
