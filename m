@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F019826C3D8
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 16:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F2826C3DD
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 16:49:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9EE6E128;
-	Wed, 16 Sep 2020 14:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14DF6E881;
+	Wed, 16 Sep 2020 14:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 321C26E128
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 14:45:18 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08GEishS076310;
- Wed, 16 Sep 2020 09:44:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600267494;
- bh=ASQ/hozXbE9GgVToWrEmeOzPhcOeVJGgS1nLFH5Yokw=;
- h=From:To:CC:Subject:Date;
- b=SHeC/OB3I9XLWY1nkX1yUcWtPqxaX4HFX8e5TrowBDjnG4yP6gd6dN1c9CUcikNw/
- Y44cPt0HQLH4egda2dMSf6wNm8baHW3FtIr8nMJ41QYo+HuDk5eWWqEcJABuj3KZvD
- TEA1lLpElGv6ywL6jWnMznKPC4MMUjSWfUb6BgKc=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08GEisco068554;
- Wed, 16 Sep 2020 09:44:54 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 16
- Sep 2020 09:44:51 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 16 Sep 2020 09:44:51 -0500
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08GEim8t129310;
- Wed, 16 Sep 2020 09:44:49 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] dt-bindings: dp-connector: add binding for DisplayPort
- connector
-Date: Wed, 16 Sep 2020 17:44:40 +0300
-Message-ID: <20200916144440.233714-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 132FF6E881
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 14:49:24 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id o8so10723479ejb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 07:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=OwaeFwlEg55yBaxofwPoLpwdQEQd6WPgPYlB8wB6rqU=;
+ b=Uv2GvbEJZ5+4ihR3icSvwEmLx4rsakQ0grBvA7rXX3+9arbQ8u6N6K8sLT+ZISCymk
+ YWmZ0oiIW37trWO55ns0gPwL3t1P5Fh528CyFNzANXaqDCK34k+k/wFRvmmVaeytWiYY
+ GpG/4YSVAtoP0NJICiggO1EU7BTHED6KwU4W6GpkHER+n/GY3SrGEOwPl7Ca99mZ6hsi
+ vw/zDorJNkAKl02EaHif4upmMQl0mnrgpBh7ipjSzYhOELuNoFas2zEcbraqolK7AxX+
+ cuyHHkZHSvkOh4CwQOsRpuhqW3APOeyXPMrIbN4sCJ9othqdp8piTEpwKrXnWBkp3iHU
+ 5H5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=OwaeFwlEg55yBaxofwPoLpwdQEQd6WPgPYlB8wB6rqU=;
+ b=bO4JmFEwLh1wd0kzjSKtLKO9Bx4o24jU/G5XfuvuLH5pbHxqd+04WFGIl3Xrl5c63U
+ VKxx6FMf0huLjCHz3S8A57AtIzv/LClU8f40rY+/PjZjuEVNs0GKksa45Zr6ll25XGfV
+ dbr6O38sWX5shWilz4cth35rYAKR6CT1pUh0nSk0QvRohO+lyx60aHknzM47zUwaBdfZ
+ mpYmRMmJohmUgTUB8RYV36VK2CJBgQ3blOwGTNXnW1IPSjhWAcWALH032LzeN/NfPTk+
+ z1WNNucGZZJLCSwhFXBiQRxFxG44mR4FTSPWijFC0nqx9fJVdSo9cjtxGUTEYcROqSNi
+ AiFg==
+X-Gm-Message-State: AOAM532Yl5/c0VKF+CVPlW4MlUw9Ljm7GOlBxDTYXVs+xJVCYEsUVLm0
+ XwG5yy62socTFejcWBUwSMVc2x2UKY8=
+X-Google-Smtp-Source: ABdhPJwF0rfk052Vx1LLSgJcI+DmVtu3UE66tn0e3lf/EZyp9eHQJbyZ8Og/X+ZtOr++jtq+v4ShKg==
+X-Received: by 2002:a17:906:3a0e:: with SMTP id
+ z14mr25121165eje.192.1600267762739; 
+ Wed, 16 Sep 2020 07:49:22 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id o11sm14313094edw.80.2020.09.16.07.49.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Sep 2020 07:49:22 -0700 (PDT)
+Subject: Re: [PATCH] drm/ttm: fix incorrect TT->SYSTEM move handling
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org
+References: <20200916142406.2379-1-christian.koenig@amd.com>
+Message-ID: <06463cba-c21b-c17d-0dea-15dd48060999@gmail.com>
+Date: Wed, 16 Sep 2020 16:49:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200916142406.2379-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,101 +71,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Swapnil Kashinath Jakhade <sjakhade@cadence.com>,
- Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add binding for DisplayPort connector. A few notes:
-
-* Similar to hdmi-connector, it has hpd-gpios as an optional property,
-  as the HPD could also be handled by, e.g., the DP bridge.
-
-* dp-pwr-supply, which provides 3.3V on DP_PWR pin, is optional, as it
-  is not strictly required: standard DP cables do not even have the pin
-  connected.
-
-* No property for the connector type. Full size and mini connectors are
-  identical except for the connector size and form, so I believe there
-  is no need to include the type in the bindings.
-
-* No eDP. There's really no "eDP connector", as it's always a custom
-  made connection between the DP and the DP panel. So possibly there is
-  no need for edp-connector binding, but even if there is, I don't want
-  to guess what it could look like, and could it be part of the
-  dp-connector binding.
-
-* No DP++. I'm not familiar with DP++, but I think it's all handled by
-  the DP bridge, and does not need any new properties to the dp-connector.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- .../display/connector/dp-connector.yaml       | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-new file mode 100644
-index 000000000000..983be1fe43f0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/connector/dp-connector.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: DisplayPort Connector
-+
-+maintainers:
-+  - Tomi Valkeinen <tomi.valkeinen@ti.com>
-+
-+properties:
-+  compatible:
-+    const: dp-connector
-+
-+  label: true
-+
-+  hpd-gpios:
-+    description: A GPIO line connected to HPD
-+    maxItems: 1
-+
-+  dp-pwr-supply:
-+    description: Power supply for the DP_PWR pin
-+    maxItems: 1
-+
-+  port:
-+    description: Connection to controller providing DP signals
-+
-+required:
-+  - compatible
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    connector {
-+        compatible = "dp-connector";
-+        label = "dp0";
-+
-+        port {
-+            dp_connector_in: endpoint {
-+                remote-endpoint = <&dp_out>;
-+            };
-+        };
-+    };
-+
-+...
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTYuMDkuMjAgdW0gMTY6MjQgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+IFdoZW4gd2Ug
+bW92ZSBmcm9tIHRoZSBTWVNURU0gZG9tYWluIHRvIHRoZSBUVCBkb21haW4KClR5cG8gaW4gdGhl
+IHN1YmplY3QsIHRoZSBvcmRlciBpbiB0aGUgc2VudGVuY2UgaGVyZSBpcyB0aGUgY29ycmVjdCBv
+bmUuCgpUaGlzIGlzIGFuIGltcG9ydGFudCBidWcgZml4IEknbSBodW50aW5nIGZvciB5ZWFycy4g
+UGxlYXNlIHJldmlldy4KClRoYW5rcywKQ2hyaXN0aWFuLgoKPiB3ZSBzdGlsbCBuZWVkIHRvIHBv
+dGVudGlhbGx5IGNoYW5nZSB0aGUgY2FjaGluZyBzdGF0ZS4KPgo+IFRoaXMgaXMgbW9zdCBsaWtl
+bHkgdGhlIHNvdXJjZSBvZiBhIGJ1bmNoIG9mIHByb2JsZW1zIHdpdGgKPiBBR1AgYW5kIFVTV0Mg
+dG9nZXRoZXIgd2l0aCBoaWJlcm5hdGlvbiBhbmQgc3dhcC4KPgo+IFNpZ25lZC1vZmYtYnk6IENo
+cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDQzogc3RhYmxlQHZn
+ZXIua2VybmVsLm9yZwo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyB8IDgg
+LS0tLS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA4IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
+bV9iby5jCj4gaW5kZXggZmZiZGMyMGQ4ZThkLi41ZjdlZmM5MDk3MGUgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2JvLmMKPiBAQCAtMjY0LDEzICsyNjQsNiBAQCBzdGF0aWMgaW50IHR0bV9ib19oYW5kbGVf
+bW92ZV9tZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgIAkJCWlmIChyZXQpCj4g
+ICAJCQkJZ290byBvdXRfZXJyOwo+ICAgCQl9Cj4gLQo+IC0JCWlmIChiby0+bWVtLm1lbV90eXBl
+ID09IFRUTV9QTF9TWVNURU0pIHsKPiAtCQkJaWYgKGJkZXYtPmRyaXZlci0+bW92ZV9ub3RpZnkp
+Cj4gLQkJCQliZGV2LT5kcml2ZXItPm1vdmVfbm90aWZ5KGJvLCBldmljdCwgbWVtKTsKPiAtCQkJ
+Ym8tPm1lbSA9ICptZW07Cj4gLQkJCWdvdG8gbW92ZWQ7Cj4gLQkJfQo+ICAgCX0KPiAgIAo+ICAg
+CWlmIChiZGV2LT5kcml2ZXItPm1vdmVfbm90aWZ5KQo+IEBAIC0yOTMsNyArMjg2LDYgQEAgc3Rh
+dGljIGludCB0dG1fYm9faGFuZGxlX21vdmVfbWVtKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
+Ym8sCj4gICAJCWdvdG8gb3V0X2VycjsKPiAgIAl9Cj4gICAKPiAtbW92ZWQ6Cj4gICAJYm8tPmV2
+aWN0ZWQgPSBmYWxzZTsKPiAgIAo+ICAgCWN0eC0+Ynl0ZXNfbW92ZWQgKz0gYm8tPm51bV9wYWdl
+cyA8PCBQQUdFX1NISUZUOwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
