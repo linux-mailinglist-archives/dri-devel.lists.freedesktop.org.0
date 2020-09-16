@@ -2,59 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34A226CE35
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 23:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A6326CE3D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 00:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0E76EB3B;
-	Wed, 16 Sep 2020 21:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0D36E0CE;
+	Wed, 16 Sep 2020 22:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55A86EB3B
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 21:43:14 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id o8so8125428otl.4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 14:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0U6lePtHUzuHNkGr/lHdQ2n9vFxpAC0RKTsGOLtWqMU=;
- b=BuOSmxtghdYv1Pu3+U3tb8abJ5nf3TWnJBg3uVURF8/e2SpjhWAdyUHWhFgYIFMxvB
- d5+bwZ5pRd58OgZ4vH/yU+7BPFXtf1oaS9iv8VNgV6jcyzfMIggtf1o50gCrR9J41Dga
- uJ7taPXVqQy9TZGItqkyL1/OnuZWlkNHLm4+E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0U6lePtHUzuHNkGr/lHdQ2n9vFxpAC0RKTsGOLtWqMU=;
- b=fTACmGk/4SZ9jkyRZQFgYZ0PL7pocEsmEyVGn6sqs1e8lT3L4UctW5/BO7t0juCdvH
- OFDpDYHZhS80z5bPQstBxfLXXDfHTEN5eQHFMBVqV5rdsFFn/hyNTnaFS3EKP1uBNbkM
- cZxmNA/ewKN4XUD8kxlsjB8NUtFKbwqlBBA7TkLBno/fCtUzZjzomH6Dv/5cjr264KFC
- ThgHRE8IMC6xYBjLVuQHCL00EMpP9I3ViYu0bTJxPh1EQdvCYgq7gmjPyf1vT/OPUhNA
- rJ/b1Fzv4j1/G6UEpJ+PI6wYFAh8qxPnppY15qbznoKR+0UilXJf/MYzM+ECPxlQ/i4c
- /KGQ==
-X-Gm-Message-State: AOAM533bCdRx+HxP5tBVj3lmtSA/a8FzwEt1s0radWRNJnlFvElIPc+Y
- pNfxmAzM/lYBdBvIjb2M0uiptMX9toyqhs/aBWZPJA==
-X-Google-Smtp-Source: ABdhPJxGBBe98enWtsOYaL3WRSDoocQkSDwgwVOMBH2iYSWZcVReSaRcccihGCR06ESa6+wDuF2q58JK53iBrw3zjHc=
-X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr18766603otq.188.1600292593863; 
- Wed, 16 Sep 2020 14:43:13 -0700 (PDT)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF966E0CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 22:01:06 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200916220104euoutp0167705ac133d87a58502671a42b8be310~1YpvvPeLV0333303333euoutp01H
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 22:01:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200916220104euoutp0167705ac133d87a58502671a42b8be310~1YpvvPeLV0333303333euoutp01H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1600293664;
+ bh=Ohj4F+YC/5yeR0d4FiQQVyk4AJZQwWUK4rNHFywlNkM=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=lJtpXpGT5Ae8+/XGjxdRcttqOlmhcjan6ftMuz3BzY7c1P60m21ljb269tXcGCFpk
+ 7vJe6zGcbIZM3qgkjnVwbpsNooMGryaXW/VuvfV5HgKW6uix5PtqLuGRGCCc6OajJb
+ qrQk076OtRXKsYM0gxXtzqsfiwwoqTR4fGeYnXiA=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200916220103eucas1p2ee4ccfc38403a66180c89df4b7bd8d9f~1Ypuxdj_X0691306913eucas1p2X;
+ Wed, 16 Sep 2020 22:01:03 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 95.5F.06456.F1B826F5; Wed, 16
+ Sep 2020 23:01:03 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200916220103eucas1p23715a9f254a935b904ed5ec68c0fb608~1YpuaEH8g3100131001eucas1p2-;
+ Wed, 16 Sep 2020 22:01:03 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200916220103eusmtrp1b2d733ed6a142e7b547602974c21c8e4~1YpuZTw2G1202712027eusmtrp1I;
+ Wed, 16 Sep 2020 22:01:03 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-5d-5f628b1fa49a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 1C.3E.06017.E1B826F5; Wed, 16
+ Sep 2020 23:01:02 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200916220102eusmtip22dae48a6e1db9d97e64fabc2a861509c~1Ypt0EP3A0914009140eusmtip2R;
+ Wed, 16 Sep 2020 22:01:02 +0000 (GMT)
+Subject: Re: [PATCH v2 08/16] drm/exynos: add host_ops callback for platform
+ drivers
+To: Michael Tretter <m.tretter@pengutronix.de>
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <4d77a4e9-e5c7-5c8e-5646-1333a3b972a8@samsung.com>
+Date: Thu, 17 Sep 2020 00:01:02 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0)
+ Gecko/20100101 Thunderbird/81.0
 MIME-Version: 1.0
-References: <20200914204209.256266093@linutronix.de>
- <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
- <871rj4owfn.fsf@nanos.tec.linutronix.de>
- <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
- <87bli75t7v.fsf@nanos.tec.linutronix.de>
- <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
- <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
- <20200916152956.GV29330@paulmck-ThinkPad-P72>
- <CAKMK7uGFyfhEyt=jmdk2jDO-hq0_Pf0ck+cKSELHjr2U3rPuYQ@mail.gmail.com>
- <20200916205840.GD29330@paulmck-ThinkPad-P72>
-In-Reply-To: <20200916205840.GD29330@paulmck-ThinkPad-P72>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 16 Sep 2020 23:43:02 +0200
-Message-ID: <CAKMK7uHL2dMv80b8uBXr=BqHD2TQeODQQM1MGYhAfCYbX7sLrA@mail.gmail.com>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-To: "Paul E. McKenney" <paulmck@kernel.org>
+In-Reply-To: <20200915180239.GB16903@pengutronix.de>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRju2zk752hNjvP2ZqE0SErKC/XjgCkaISMhFFIo8TL15CWdtjlr
+ /UnSxEuppeKcIRKFc5LzjhpmrshbOpMJBt4mUZrZzGtaRs6j5L/nfd7neb/ngY/ChAN8ZypR
+ ms7KpJJkEWGNt73fNJx1LYiJ8nrVCUyjSsdnjGtmgpmb+ogz2rIOnDEYGkgm7/FzklEZXvOY
+ Ns0wn9EXhjOqknmCqVrp4PkfFpvHH5DiDvUkKa7MreCLm7R5hHi6oJcnLtr2Ehe2aJF4pckl
+ mLpufSGOTU7MYGWeftHWCcX1yrS1oDt9NX38TFTrm4+sKKDPQ9+CEeUja0pIaxDkGN7i3LCK
+ YLnmK8ENKwj06npy31KnyiS5RQ2CvoFNjBvMCNZ1/bsqOzoMKnvGcAu2pz2gu1ZNWDBGV/Dg
+ t05gwQR9GrabP+3yAtoPPhhmePmIonD6JPQv7Vod6GgYndwgOYkt9Fd83uWtdkJoe1Zx7qQr
+ ZLVWYhx2gvurtXxLHqCnSDCVbSMu9SVY+JGLcdgOvvW27LU5DoMlD3EO34NpTTbGmXMRtDZ0
+ 7Bl8YGJ4i7CEw3ZC6zo9OToARtrbSQsNtA2ML9pyGWzgSVs5xtECyM0RcuoTMD3UunfQCV6M
+ rBHFSKQ+0Ex9oI36QBv1/3erEa5FTqxCnhLPyr2l7G0PuSRFrpDGe8SmpjShnR82+Ld3uR2t
+ jcboEU0h0RFBg0NMlJAvyZArU/QIKExkL7g4NBgpFMRJlHdZWWqUTJHMyvXoGIWLnATnns1H
+ COl4STp7k2XTWNn+lkdZOWciFRmPQkTvSpNGjAVbXbNVV6/c6vpideapKbDVXDSQ7rb6p26j
+ unPsmm+hqc3le1JofWi4cfaNZ6ybZi540THOrH3kPzeqmWlpDmh8WcpTGL0WNNkx7iajT9Dl
+ 0V830gq9ZYqsiZ/KpVPmsA1H06Gj3RHTkeW6QOaEMkO6HmIIFOHyBIm3OyaTS/4Bgnc9+F0D
+ AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHIsWRmVeSWpSXmKPExsVy+t/xe7py3UnxBhs+W1lsnLGe1eLK1/ds
+ Fi/uXWSxWDV1J4vF+fMb2C06Jy5ht5hxfh+TxbYV51gtDvVFW8yY/JLNYt7nnUwO3B7vb7Sy
+ e+ycdZfdY3bHTFaPTas62Tzudx9n8uj/a+DRt2UVo8fnTXIBHFF6NkX5pSWpChn5xSW2StGG
+ FkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GRPWVRZ89a44sfwEawPjStsuRk4O
+ CQETidUzGti7GLk4hASWMkocW9DKDJEQl9g9/y2ULSzx51oXG0TRW0aJFefWsoMkhAXCJGYf
+ vMoCYosI6EnsXzkLrIhZYCaTxKYHL5ggOlYwSZxd/Q5sFJuApsTfzTfZQGxeATuJM+cfABVx
+ cLAIqEqc/AA2SFQgQWLvjAvsECWCEidnPgGLcwKduurgFzCbWcBMYt7mh8wQtrxE89bZULa4
+ RNOXlawTGIVmIWmfhaRlFpKWWUhaFjCyrGIUSS0tzk3PLTbSK07MLS7NS9dLzs/dxAiM223H
+ fm7Zwdj1LvgQowAHoxIP7wbRpHgh1sSy4srcQ4wSHMxKIrxOZ0/HCfGmJFZWpRblxxeV5qQW
+ H2I0BfptIrOUaHI+MKXklcQbmhqaW1gamhubG5tZKInzdggcjBESSE8sSc1OTS1ILYLpY+Lg
+ lGpg7D7THaEw919KZ9pH/YZLYv8vswnUHVuixrxT1m3uUl87vj/XbudvPymnbXX47JdKUbkr
+ u27ut10vMlnG6jPTlv8ma66tV94lHOhqtPCTRcSLaR7X6jsvVYrIZjI5JP24Ndvn09pH7mc+
+ 92YxaNz7JSZjEWickR2jLBGtyd87hXnqivSbeY0/lFiKMxINtZiLihMBTjK7MPECAAA=
+X-CMS-MailID: 20200916220103eucas1p23715a9f254a935b904ed5ec68c0fb608
+X-Msg-Generator: CA
+X-RootMTR: 20200911135451eucas1p245ccd6535a7ce18b400793cc5039bc87
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200911135451eucas1p245ccd6535a7ce18b400793cc5039bc87
+References: <20200911135413.3654800-1-m.tretter@pengutronix.de>
+ <CGME20200911135451eucas1p245ccd6535a7ce18b400793cc5039bc87@eucas1p2.samsung.com>
+ <20200911135413.3654800-9-m.tretter@pengutronix.de>
+ <12dda4ee-8595-f534-b818-e97f4dfe6f2b@samsung.com>
+ <20200915180239.GB16903@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,195 +111,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
- Linux-MM <linux-mm@kvack.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
- Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matt Turner <mattst88@gmail.com>,
- Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
- Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
- linux-um <linux-um@lists.infradead.org>, Josh Triplett <josh@joshtriplett.org>,
- Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>, alpha <linux-alpha@vger.kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ b.zolnierkie@samsung.com, narmstrong@baylibre.com, sw0312.kim@samsung.com,
+ dri-devel@lists.freedesktop.org, krzk@kernel.org, kernel@pengutronix.de,
+ sylvester.nawrocki@gmail.com, Laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 16, 2020 at 10:58 PM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Wed, Sep 16, 2020 at 10:29:06PM +0200, Daniel Vetter wrote:
-> > On Wed, Sep 16, 2020 at 5:29 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > On Wed, Sep 16, 2020 at 09:37:17AM +0200, Daniel Vetter wrote:
-> > > > On Tue, Sep 15, 2020 at 7:35 PM Linus Torvalds
-> > > > <torvalds@linux-foundation.org> wrote:
-> > > > >
-> > > > > On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> > > > > >
-> > > > > > OTOH, having a working 'preemptible()' or maybe better named
-> > > > > > 'can_schedule()' check makes tons of sense to make decisions about
-> > > > > > allocation modes or other things.
-> > > > >
-> > > > > No. I think that those kinds of decisions about actual behavior are
-> > > > > always simply fundamentally wrong.
-> > > > >
-> > > > > Note that this is very different from having warnings about invalid
-> > > > > use. THAT is correct. It may not warn in all configurations, but that
-> > > > > doesn't matter: what matters is that it warns in common enough
-> > > > > configurations that developers will catch it.
-> > > > >
-> > > > > So having a warning in "might_sleep()" that doesn't always trigger,
-> > > > > because you have a limited configuration that can't even detect the
-> > > > > situation, that's fine and dandy and intentional.
-> > > > >
-> > > > > But having code like
-> > > > >
-> > > > >        if (can_schedule())
-> > > > >            .. do something different ..
-> > > > >
-> > > > > is fundamentally complete and utter garbage.
-> > > > >
-> > > > > It's one thing if you test for "am I in hardware interrupt context".
-> > > > > Those tests aren't great either, but at least they make sense.
-> > > > >
-> > > > > But a driver - or some library routine - making a difference based on
-> > > > > some nebulous "can I schedule" is fundamentally and basically WRONG.
-> > > > >
-> > > > > If some code changes behavior, it needs to be explicit to the *caller*
-> > > > > of that code.
-> > > > >
-> > > > > So this is why GFP_ATOMIC is fine, but "if (!can_schedule())
-> > > > > do_something_atomic()" is pure shite.
-> > > > >
-> > > > > And I am not IN THE LEAST interested in trying to help people doing
-> > > > > pure shite. We need to fix them. Like the crypto code is getting
-> > > > > fixed.
-> > > >
-> > > > Just figured I'll throw my +1 in from reading too many (gpu) drivers.
-> > > > Code that tries to cleverly adjust its behaviour depending upon the
-> > > > context it's running in is harder to understand and blows up in more
-> > > > interesting ways. We still have drm_can_sleep() and it's mostly just
-> > > > used for debug code, and I've largely ended up just deleting
-> > > > everything that used it because when you're driver is blowing up the
-> > > > last thing you want is to realize your debug code and output can't be
-> > > > relied upon. Or worse, that the only Oops you have is the one in the
-> > > > debug code, because the real one scrolled away - the original idea
-> > > > behind drm_can_sleep was to make all the modeset code work
-> > > > automagically both in normal ioctl/kworker context and in the panic
-> > > > handlers or kgdb callbacks. Wishful thinking at best.
-> > > >
-> > > > Also at least for me that extends to everything, e.g. I much prefer
-> > > > explicit spin_lock and spin_lock_irq vs magic spin_lock_irqsave for
-> > > > locks shared with interrupt handlers, since the former two gives me
-> > > > clear information from which contexts such function can be called.
-> > > > Other end is the memalloc_no*_save/restore functions, where I recently
-> > > > made a real big fool of myself because I didn't realize how much that
-> > > > impacts everything that's run within - suddenly "GFP_KERNEL for small
-> > > > stuff never fails" is wrong everywhere.
-> > > >
-> > > > It's all great for debugging and sanity checks (and we run with all
-> > > > that stuff enabled in our CI), but really semantic changes depending
-> > > > upon magic context checks freak my out :-)
-> > >
-> > > All fair, but some of us need to write code that must handle being
-> > > invoked from a wide variety of contexts.  Now perhaps you like the idea of
-> > > call_rcu() for schedulable contexts, call_rcu_nosched() when preemption
-> > > is disabled, call_rcu_irqs_are_disabled() when interrupts are disabled,
-> > > call_rcu_raw_atomic() from contexts where (for example) raw spinlocks
-> > > are held, and so on.  However, from what I can see, most people instead
-> > > consistently prefer that the RCU API instead be consolidated.
-> > >
-> > > Some in-flight cache-efficiency work for kvfree_rcu() and call_rcu()
-> > > needs to be able to allocate memory occasionally.  It can do that when
-> > > invoked from some contexts, but not when invoked from others.  Right now,
-> > > in !PREEMPT kernels, it cannot tell, and must either do things to the
-> > > memory allocators that some of the MM hate or must unnecessarily invoke
-> > > workqueues.  Thomas's patches would allow the code to just allocate in
-> > > the common case when these primitives are invoked from contexts where
-> > > allocation is permitted.
-> > >
-> > > If we want to restrict access to the can_schedule() or whatever primitive,
-> > > fine and good.  We can add a check to checkpatch.pl, for example.  Maybe
-> > > we can go back to the old brlock approach of requiring certain people's
-> > > review for each addition to the kernel.
-> > >
-> > > But there really are use cases that it would greatly help.
-> >
-> > We can deadlock in random fun places if random stuff we're calling
-> > suddenly starts allocating. Sometimes. Maybe once in a blue moon, to
-> > make it extra fun to reproduce. Maybe most driver subsystems are less
-> > brittle, but gpu drivers definitely need to know about the details for
-> > exactly this example. And yes gpu drivers use rcu for freeing
-> > dma_fence structures, and that tends to happen in code that we only
-> > recently figured out should really not allocate memory.
-> >
-> > I think minimally you need to throw in an unconditional
-> > fs_reclaim_acquire();fs_reclaim_release(); so that everyone who runs
-> > with full debugging knows what might happen. It's kinda like
-> > might_sleep, but a lot more specific. might_sleep() alone is not
-> > enough, because in the specific code paths I'm thinking of (and
-> > created special lockdep annotations for just recently) sleeping is
-> > allowed, but any memory allocations with GFP_RECLAIM set are no-go.
->
-> Completely agreed!  Any allocation on any free path must be handled
-> -extremely- carefully.  To that end...
->
-> First, there is always a fallback in case the allocation fails.  Which
-> might have performance or corner-case robustness issues, but which will
-> at least allow forward progress.  Second, we consulted with a number of
-> MM experts to arrive at appropriate GFP_* flags (and their patience is
-> greatly appreciated).  Third, the paths that can allocate will do so about
-> one time of 500, so any issues should be spotted sooner rather than later.
->
-> So you are quite right to be concerned, but I believe we will be doing the
-> right things.  And based on his previous track record, I am also quite
-> certain that Mr. Murphy will be on hand to provide me any additional
-> education that I might require.
->
-> Finally, I have noted down your point about fs_reclaim_acquire() and
-> fs_reclaim_release().  Whether or not they prove to be needed, I do
-> appreciate your calling them to my attention.
-
-I just realized that since these dma_fence structs are refcounted and
-userspace can hold references (directly, it can pass them around
-behind file descriptors) we might never hit such a path until slightly
-unusual or evil userspace does something interesting. Do you have
-links to those patches? Some googling didn't turn up anything. I can
-then figure out whether it's better to risk not spotting issues with
-call_rcu vs slapping a memalloc_noio_save/restore around all these
-critical section which force-degrades any allocation to GFP_ATOMIC at
-most, but has the risk that we run into code that assumes "GFP_KERNEL
-never fails for small stuff" and has a decidedly less tested fallback
-path than rcu code.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ClcgZG5pdSAxNS4wOS4yMDIwIG/CoDIwOjAyLCBNaWNoYWVsIFRyZXR0ZXIgcGlzemU6Cj4gT24g
+VHVlLCAxNSBTZXAgMjAyMCAxOTowNzo1OSArMDIwMCwgQW5kcnplaiBIYWpkYSB3cm90ZToKPj4g
+VyBkbml1IDExLjA5LjIwMjAgb8KgMTU6NTQsIE1pY2hhZWwgVHJldHRlciBwaXN6ZToKPj4+IFBs
+YXRmb3JtIGRyaXZlcnMgbmVlZCB0byBiZSBhd2FyZSBpZiBhIG1pcGkgZHNpIGRldmljZSBhdHRh
+Y2hlcyBvcgo+Pj4gZGV0YWNoZXMuIEFkZCBob3N0X29wcyB0byB0aGUgZHJpdmVyX2RhdGEgZm9y
+IGF0dGFjaCBhbmQgZGV0YWNoCj4+PiBjYWxsYmFja3MgYW5kIG1vdmUgdGhlIGk4MCBtb2RlIHNl
+bGVjdGlvbiBhbmQgdGhlIGhvdHBsdWcgaGFuZGxpbmcgaW50bwo+Pj4gdGhlIGNhbGxiYWNrLCBi
+ZWNhdXNlIHRoZXNlIGRlcGVuZCBvbiB0aGUgZHJtIGRyaXZlci4KPj4+Cj4+PiBTaWduZWQtb2Zm
+LWJ5OiBNaWNoYWVsIFRyZXR0ZXIgPG0udHJldHRlckBwZW5ndXRyb25peC5kZT4KPj4+IC0tLQo+
+Pj4gdjI6Cj4+PiAtIG5ldyBwYXRjaAo+Pj4gLS0tCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vZXh5
+bm9zL2V4eW5vc19kcm1fZHNpLmMgfCA2NCArKysrKysrKysrKysrKysrKysrKy0tLS0tCj4+PiAg
+ICAxIGZpbGUgY2hhbmdlZCwgNTMgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCj4+Pgo+
+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9kc2kuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9kc2kuYwo+Pj4gaW5kZXggMWExNWFl
+NzEyMDVkLi42ODRhMmZiZWYwOGEgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5
+bm9zL2V4eW5vc19kcm1fZHNpLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5
+bm9zX2RybV9kc2kuYwo+Pj4gQEAgLTIzOSw2ICsyMzksMTIgQEAgc3RydWN0IGV4eW5vc19kc2lf
+dHJhbnNmZXIgewo+Pj4gICAgI2RlZmluZSBEU0lNX1NUQVRFX0NNRF9MUE0JCUJJVCgyKQo+Pj4g
+ICAgI2RlZmluZSBEU0lNX1NUQVRFX1ZJRE9VVF9BVkFJTEFCTEUJQklUKDMpCj4+PiAgICAKPj4+
+ICtzdHJ1Y3QgZXh5bm9zX2RzaTsKPj4+ICtzdHJ1Y3QgZXh5bm9zX2RzaV9ob3N0X29wcyB7Cj4+
+PiArCWludCAoKmF0dGFjaCkoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgbWlwaV9kc2lfZGV2
+aWNlICpkZXZpY2UpOwo+Pj4gKwlpbnQgKCpkZXRhY2gpKHN0cnVjdCBkZXZpY2UgKmRldiwgc3Ry
+dWN0IG1pcGlfZHNpX2RldmljZSAqZGV2aWNlKTsKPj4+ICt9Owo+Pj4gKwo+Pj4gICAgZW51bSBl
+eHlub3NfcmVnX29mZnNldCB7Cj4+PiAgICAJRVhZTk9TX1JFR19PRlMsCj4+PiAgICAJRVhZTk9T
+NTQzM19SRUdfT0ZTCj4+PiBAQCAtMjU0LDYgKzI2MCw3IEBAIHN0cnVjdCBleHlub3NfZHNpX2Ry
+aXZlcl9kYXRhIHsKPj4+ICAgIAl1bnNpZ25lZCBpbnQgd2FpdF9mb3JfcmVzZXQ7Cj4+PiAgICAJ
+dW5zaWduZWQgaW50IG51bV9iaXRzX3Jlc29sOwo+Pj4gICAgCWNvbnN0IHVuc2lnbmVkIGludCAq
+cmVnX3ZhbHVlczsKPj4+ICsJY29uc3Qgc3RydWN0IGV4eW5vc19kc2lfaG9zdF9vcHMgKmhvc3Rf
+b3BzOwo+Pj4gICAgfTsKPj4+ICAgIAo+Pj4gICAgc3RydWN0IGV4eW5vc19kc2kgewo+Pj4gQEAg
+LTQ2Nyw2ICs0NzQsNDEgQEAgc3RhdGljIGNvbnN0IHVuc2lnbmVkIGludCBleHlub3M1NDMzX3Jl
+Z192YWx1ZXNbXSA9IHsKPj4+ICAgIAlbUEhZVElNSU5HX0hTX1RSQUlMXSA9IDB4MGMsCj4+PiAg
+ICB9Owo+Pj4gICAgCj4+PiArc3RhdGljIGludCBfX2V4eW5vc19kc2lfaG9zdF9hdHRhY2goc3Ry
+dWN0IGRldmljZSAqZGV2LAo+Pj4gKwkJCQkgICAgc3RydWN0IG1pcGlfZHNpX2RldmljZSAqZGV2
+aWNlKQo+Pj4gK3sKPj4+ICsJc3RydWN0IGV4eW5vc19kc2kgKmRzaSA9IGRldl9nZXRfZHJ2ZGF0
+YShkZXYpOwo+Pj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtID0gZHNpLT5lbmNvZGVyLmRldjsK
+Pj4KPj4gQXMgSSB3cm90ZSB5ZXN0ZXJkYXkgZHJtIGRldmljZSB3YXMgZ3VhcmFudGVlZCB0byBi
+ZSBwcmVzZW50IGhlcmUgb25seQo+PiBpZiBtaXBpIGRzaSBob3N0IHJlZ2lzdHJhdGlvbiB3YXMg
+cGVyZm9ybWVkIGluIGNvbXBvbmVudCBiaW5kLiBJbiBjYXNlCj4+IGl0IGlzIHBlcmZvcm1lZCBp
+biBwcm9iZSBpdCB3aWxsIGJlIGFsd2F5cyBOVUxMLCBhbmQgdGhlIGNvZGUgZG9lcyBub3QKPj4g
+bWFrZSBzZW5zZS4KPiBDb3JyZWN0LCBidXQgaWYgdGhlIGRyaXZlciBpcyB1c2VkIGFzIGEgZHJt
+IGJyaWRnZSwgdGhlcmUgd29uJ3QgYmUgYW4gZW5jb2Rlcgo+IHVudGlsIGJyaWRnZV9hdHRhY2gu
+IE1pcGkgZHNpIGRldmljZXMgZGVmZXIgdGhlaXIgcHJvYmUgdW50aWwgdGhlIG1pcGkgZHNpCj4g
+aG9zdCBpcyBhdmFpbGFibGUuIElmIEkgbW92ZSB0aGUgbWlwaSBkc2kgaG9zdCByZWdpc3RyYXRp
+b24gaW50bwo+IGJyaWRnZV9hdHRhY2gsIHRoZSBkcml2ZXIgZG9lcyBub3Qga25vdyBpZiB0aGUg
+bmV4dCBkZXZpY2UgaXMgYW5vdGhlciBicmlkZ2UKPiBvciBhIHBhbmVsIGR1cmluZyBicmlkZ2Vf
+YXR0YWNoLCBidXQgdGhlIGRyaXZlciBjYW5ub3Qgc3VjY2Vzc2Z1bGx5IHJldHVybgo+IGZyb20g
+YnJpZGdlX2F0dGFjaCwgYmVjYXVzZSB0aGVuIHRoZSBkcm0gZHJpdmVyIGV4cGVjdHMgYSBjb25u
+ZWN0b3IuCgoKSG1tLCBJIGFtIG5vdCBzdXJlIHdoeSBkbyB5b3UgdGhpbmsgZHJpdmVyIGV4cGVj
+dHMgY29ubmVjdG9yIG9uIHJldHVybiAKb2YgYnJpZGRnZV9hdHRhY2guCgoKPgo+IEkgZ3Vlc3Mg
+dGhhdCB0aGUgZW5jb2RlciBzaG91bGQgYmUgaW5pdGlhbGl6ZWQgYmVmb3JlIHJlZ2lzdGVyaW5n
+IHRoZSBtaXBpIGRzaQo+IGhvc3QgZHVyaW5nIHByb2JlIGluc3RlYWQgb2YgYmluZC4KCgpCdXQg
+eW91IHNob3VsZCBoYXZlIGFscmVhZHkgZHJtIGRldiBvbiBlbmNvZGVyIGluaXQgd2hpY2ggaW4g
+cHJvYmUgaXMgCnVuYXZhaWxhYmxlLgoKCgo+IFRoZSBwcm9iZSB3b24ndCBiZSByb2xsZWQgYmFj
+ayBvbgo+IFBST0JFX0RFRkVSIGR1cmluZyBiaW5kIGFuZCB0aGUgZW5jb2RlciB3aWxsIGJlIGF2
+YWlsYWJsZSBpbiBob3N0X2F0dGFjaC4KPiBXaGVuIHNwbGl0dGluZyB0aGUgZHJpdmVyIGludG8g
+dGhlIGV4eW5vcyBwbGF0Zm9ybSBzcGVjaWZpYyBjb2RlIGFuZCB0aGUgbW9yZQo+IGdlbmVyaWMg
+Y29kZSwgdGhlcmUgd29uJ3QgYmUgYW4gZW5jb2RlciBkdXJpbmcgaG9zdF9hdHRhY2ggaW4gdGhl
+IGdlbmVyaWMKPiBjb2RlLCBidXQgdGhlIGhvc3Rfb3BzIGNhbGxiYWNrIGNvdWxkIChhbmQgd2ls
+bCkgdXNlIHRoZSBwbGF0Zm9ybSBzcGVjaWZpYwo+IGVuY29kZXIsIHdoaWNoIGlzIGF2YWlsYWJs
+ZSBiZWZvcmUgYnJpZGdlX2F0dGFjaC4KPgo+IERvZXMgdGhpcyBtYWtlIHNlbnNlIHRvIHlvdT8K
+CgpOb3BlIDopIEJ1dCBtYXliZSBJIGFtIG1pc3Npbmcgc3RoLgoKR2VuZXJhbGx5IEkgc2VlIHR3
+byB3YXlzICh3aGljaCBJIGhhdmUgYWxyZWFkeSBkZXNjcmliZWQgaW4gZGlmZmVyZW50IAplLW1h
+aWwsIGluIGRpZmZlcmVudCB3b3Jkcyk6CgpBLiBTdGF0aWMgLSB3ZSB3YWl0IGZvciBldmVyeSBw
+YXJ0IG9mIGRpc3BsYXkgc3RhY2sgdG8gYmUgcHJvYmVkLCB0aGVuIApjcmVhdGUgZHJtX2RldiAt
+IHR5cGljYWwgYXBwcm9hY2gsIGJ1dCBzbG93IChkZWZlcnJlZCBwcm9iZSBjYXVzZXMgbGF0ZSAK
+ZHJtIGNyZWF0aW9uKSwgYW5kIHJhY3kgLSBvbmx5KD8pIGNvbXBvbmVudCBmcmFtZXdvcmsgYW5k
+IERTSSBidXMgaGF2ZSAKcG9zc2liaWxpdHkgdG8gc2lnbmFsIGRyaXZlciB1bmJpbmQsIHNvIHdl
+IGNhbiByZWFjdCBvbiBpdCBwcm9wZXJseS4KCkIuIER5bmFtaWMgLSBkcm0gZnJhbWV3b3JrIHJl
+cXVpcmVzIG9ubHkgY3J0Y3MgYW5kIGVuY29kZXJzIHRvIGJlIAphdHRhY2hlZCB0byBkcm0gb24g
+aW5pdCwgY29ubmVjdG9ycywgYW5kIGhpZGRlbiBwYXJ0cyAoZHJtX2JyaWRnZXMsIApkcm1fcGFu
+ZWxzKSBjYW4gYmUgY3JlYXRlZC9kZXN0cm95ZWQgYW5kIGF0dGFjaGVkL2RldGFjaGVkIGF0IGFu
+eSB0aW1lIAooYWxtb3N0KSwgc28gbGV0cyB0YWtlIGFkdmFudGFnZSBvZiBpdCAtIGNyZWF0ZSBk
+cm1fZGV2IEFTQVAgYW5kIGF0dGFjaCAKb3RoZXIgcGFydHMgd2hlbiB0aGV5IGJlY29tZSBhdmFp
+bGFibGUsIHRoZSBvbmx5IGlzc3VlIGlzIHRoYXQgdGhlcmUgaXMgCm5vIGdlbmVyaWMgd2F5IHRv
+IGJlIG5vdGlmaWVkIHdoZW4gZ2l2ZW4gcGFydHMgYmVjb21lcyBhdmFpbGFibGUgLSBpbiAKaW50
+ZXJlc3RpbmcgYXJlYSBvbmx5IG1pcGkgZGV2aWNlcyBoYXZlIHN1Y2ggbm90aWZpY2F0aW9ucyB2
+aWEgYXR0YWNoIApjYWxsYmFja3MuCgoKU28gZWl0aGVyIHdlIGNvbnZlcnQgZXh5bm9zX2RzaSB0
+byBBIGVpdGhlciB3ZSBjb250aW51ZSBCIGFwcHJvYWNoLiBJbiAKc2Vjb25kIGNhc2Ugd2Ugc2hv
+dWxkIGFzc3VyZSBtaXBpX2RzaSBob3N0IGlzIGNyZWF0ZWQgaWYgZHJtX2RldiBpcyAKYXZhaWxh
+YmxlLgoKClJlZ2FyZHMKCkFuZHJ6ZWoKCgoKPgo+IE1pY2hhZWwKPgo+Pgo+PiBSZWdhcmRzCj4+
+Cj4+IEFuZHJ6ZWoKPj4KPj4KPj4KPj4+ICsJc3RydWN0IGV4eW5vc19kcm1fY3J0YyAqY3J0YzsK
+Pj4+ICsKPj4+ICsJbXV0ZXhfbG9jaygmZHJtLT5tb2RlX2NvbmZpZy5tdXRleCk7Cj4+PiArCWNy
+dGMgPSBleHlub3NfZHJtX2NydGNfZ2V0X2J5X3R5cGUoZHJtLCBFWFlOT1NfRElTUExBWV9UWVBF
+X0xDRCk7Cj4+PiArCWNydGMtPmk4MF9tb2RlID0gIShkZXZpY2UtPm1vZGVfZmxhZ3MgJiBNSVBJ
+X0RTSV9NT0RFX1ZJREVPKTsKPj4+ICsJbXV0ZXhfdW5sb2NrKCZkcm0tPm1vZGVfY29uZmlnLm11
+dGV4KTsKPj4+ICsKPj4+ICsJaWYgKGRybS0+bW9kZV9jb25maWcucG9sbF9lbmFibGVkKQo+Pj4g
+KwkJZHJtX2ttc19oZWxwZXJfaG90cGx1Z19ldmVudChkcm0pOwo+Pj4gKwo+Pj4gKwlyZXR1cm4g
+MDsKPj4+ICt9Cj4+PiArCj4+PiArc3RhdGljIGludCBfX2V4eW5vc19kc2lfaG9zdF9kZXRhY2go
+c3RydWN0IGRldmljZSAqZGV2LAo+Pj4gKwkJCQkgICAgIHN0cnVjdCBtaXBpX2RzaV9kZXZpY2Ug
+KmRldmljZSkKPj4+ICt7Cj4+PiArCXN0cnVjdCBleHlub3NfZHNpICpkc2kgPSBkZXZfZ2V0X2Ry
+dmRhdGEoZGV2KTsKPj4+ICsJc3RydWN0IGRybV9kZXZpY2UgKmRybSA9IGRzaS0+ZW5jb2Rlci5k
+ZXY7Cj4+PiArCj4+PiArCWlmIChkcm0tPm1vZGVfY29uZmlnLnBvbGxfZW5hYmxlZCkKPj4+ICsJ
+CWRybV9rbXNfaGVscGVyX2hvdHBsdWdfZXZlbnQoZHJtKTsKPj4+ICsKPj4+ICsJcmV0dXJuIDA7
+Cj4+PiArfQo+Pj4gKwo+Pj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZXh5bm9zX2RzaV9ob3N0X29w
+cyBleHlub3NfZHNpX2hvc3Rfb3BzID0gewo+Pj4gKwkuYXR0YWNoID0gX19leHlub3NfZHNpX2hv
+c3RfYXR0YWNoLAo+Pj4gKwkuZGV0YWNoID0gX19leHlub3NfZHNpX2hvc3RfZGV0YWNoLAo+Pj4g
+K307Cj4+PiArCj4+PiAgICBzdGF0aWMgY29uc3Qgc3RydWN0IGV4eW5vc19kc2lfZHJpdmVyX2Rh
+dGEgZXh5bm9zM19kc2lfZHJpdmVyX2RhdGEgPSB7Cj4+PiAgICAJLnJlZ19vZnMgPSBFWFlOT1Nf
+UkVHX09GUywKPj4+ICAgIAkucGxsdG1yX3JlZyA9IDB4NTAsCj4+PiBAQCAtNDc3LDYgKzUxOSw3
+IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXh5bm9zX2RzaV9kcml2ZXJfZGF0YSBleHlub3MzX2Rz
+aV9kcml2ZXJfZGF0YSA9IHsKPj4+ICAgIAkud2FpdF9mb3JfcmVzZXQgPSAxLAo+Pj4gICAgCS5u
+dW1fYml0c19yZXNvbCA9IDExLAo+Pj4gICAgCS5yZWdfdmFsdWVzID0gcmVnX3ZhbHVlcywKPj4+
+ICsJLmhvc3Rfb3BzID0gJmV4eW5vc19kc2lfaG9zdF9vcHMsCj4+PiAgICB9Owo+Pj4gICAgCj4+
+PiAgICBzdGF0aWMgY29uc3Qgc3RydWN0IGV4eW5vc19kc2lfZHJpdmVyX2RhdGEgZXh5bm9zNF9k
+c2lfZHJpdmVyX2RhdGEgPSB7Cj4+PiBAQCAtNDg5LDYgKzUzMiw3IEBAIHN0YXRpYyBjb25zdCBz
+dHJ1Y3QgZXh5bm9zX2RzaV9kcml2ZXJfZGF0YSBleHlub3M0X2RzaV9kcml2ZXJfZGF0YSA9IHsK
+Pj4+ICAgIAkud2FpdF9mb3JfcmVzZXQgPSAxLAo+Pj4gICAgCS5udW1fYml0c19yZXNvbCA9IDEx
+LAo+Pj4gICAgCS5yZWdfdmFsdWVzID0gcmVnX3ZhbHVlcywKPj4+ICsJLmhvc3Rfb3BzID0gJmV4
+eW5vc19kc2lfaG9zdF9vcHMsCj4+PiAgICB9Owo+Pj4gICAgCj4+PiAgICBzdGF0aWMgY29uc3Qg
+c3RydWN0IGV4eW5vc19kc2lfZHJpdmVyX2RhdGEgZXh5bm9zNV9kc2lfZHJpdmVyX2RhdGEgPSB7
+Cj4+PiBAQCAtNDk5LDYgKzU0Myw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXh5bm9zX2RzaV9k
+cml2ZXJfZGF0YSBleHlub3M1X2RzaV9kcml2ZXJfZGF0YSA9IHsKPj4+ICAgIAkud2FpdF9mb3Jf
+cmVzZXQgPSAxLAo+Pj4gICAgCS5udW1fYml0c19yZXNvbCA9IDExLAo+Pj4gICAgCS5yZWdfdmFs
+dWVzID0gcmVnX3ZhbHVlcywKPj4+ICsJLmhvc3Rfb3BzID0gJmV4eW5vc19kc2lfaG9zdF9vcHMs
+Cj4+PiAgICB9Owo+Pj4gICAgCj4+PiAgICBzdGF0aWMgY29uc3Qgc3RydWN0IGV4eW5vc19kc2lf
+ZHJpdmVyX2RhdGEgZXh5bm9zNTQzM19kc2lfZHJpdmVyX2RhdGEgPSB7Cj4+PiBAQCAtNTEwLDYg
+KzU1NSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXh5bm9zX2RzaV9kcml2ZXJfZGF0YSBleHlu
+b3M1NDMzX2RzaV9kcml2ZXJfZGF0YSA9IHsKPj4+ICAgIAkud2FpdF9mb3JfcmVzZXQgPSAwLAo+
+Pj4gICAgCS5udW1fYml0c19yZXNvbCA9IDEyLAo+Pj4gICAgCS5yZWdfdmFsdWVzID0gZXh5bm9z
+NTQzM19yZWdfdmFsdWVzLAo+Pj4gKwkuaG9zdF9vcHMgPSAmZXh5bm9zX2RzaV9ob3N0X29wcywK
+Pj4+ICAgIH07Cj4+PiAgICAKPj4+ICAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXh5bm9zX2RzaV9k
+cml2ZXJfZGF0YSBleHlub3M1NDIyX2RzaV9kcml2ZXJfZGF0YSA9IHsKPj4+IEBAIC01MjEsNiAr
+NTY3LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBleHlub3NfZHNpX2RyaXZlcl9kYXRhIGV4eW5v
+czU0MjJfZHNpX2RyaXZlcl9kYXRhID0gewo+Pj4gICAgCS53YWl0X2Zvcl9yZXNldCA9IDEsCj4+
+PiAgICAJLm51bV9iaXRzX3Jlc29sID0gMTIsCj4+PiAgICAJLnJlZ192YWx1ZXMgPSBleHlub3M1
+NDIyX3JlZ192YWx1ZXMsCj4+PiArCS5ob3N0X29wcyA9ICZleHlub3NfZHNpX2hvc3Rfb3BzLAo+
+Pj4gICAgfTsKPj4+ICAgIAo+Pj4gICAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQg
+ZXh5bm9zX2RzaV9vZl9tYXRjaFtdID0gewo+Pj4gQEAgLTE1NTEsOCArMTU5OCw4IEBAIHN0YXRp
+YyBpbnQgZXh5bm9zX2RzaV9ob3N0X2F0dGFjaChzdHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCwK
+Pj4+ICAgIAkJCQkgIHN0cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRldmljZSkKPj4+ICAgIHsKPj4+
+ICAgIAlzdHJ1Y3QgZXh5bm9zX2RzaSAqZHNpID0gaG9zdF90b19kc2koaG9zdCk7Cj4+PiArCWNv
+bnN0IHN0cnVjdCBleHlub3NfZHNpX2hvc3Rfb3BzICpvcHMgPSBkc2ktPmRyaXZlcl9kYXRhLT5o
+b3N0X29wczsKPj4+ICAgIAlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIgPSAmZHNpLT5lbmNv
+ZGVyOwo+Pj4gLQlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtID0gZW5jb2Rlci0+ZGV2Owo+Pj4gICAg
+CXN0cnVjdCBkcm1fYnJpZGdlICpvdXRfYnJpZGdlOwo+Pj4gICAgCj4+PiAgICAJb3V0X2JyaWRn
+ZSAgPSBvZl9kcm1fZmluZF9icmlkZ2UoZGV2aWNlLT5kZXYub2Zfbm9kZSk7Cj4+PiBAQCAtMTU5
+MCwxOCArMTYzNywxMiBAQCBzdGF0aWMgaW50IGV4eW5vc19kc2lfaG9zdF9hdHRhY2goc3RydWN0
+IG1pcGlfZHNpX2hvc3QgKmhvc3QsCj4+PiAgICAJCQlyZXR1cm4gcmV0Owo+Pj4gICAgCX0KPj4+
+ICAgIAo+Pj4gLQltdXRleF9sb2NrKCZkcm0tPm1vZGVfY29uZmlnLm11dGV4KTsKPj4+IC0KPj4+
+ICAgIAlkc2ktPmxhbmVzID0gZGV2aWNlLT5sYW5lczsKPj4+ICAgIAlkc2ktPmZvcm1hdCA9IGRl
+dmljZS0+Zm9ybWF0Owo+Pj4gICAgCWRzaS0+bW9kZV9mbGFncyA9IGRldmljZS0+bW9kZV9mbGFn
+czsKPj4+IC0JZXh5bm9zX2RybV9jcnRjX2dldF9ieV90eXBlKGRybSwgRVhZTk9TX0RJU1BMQVlf
+VFlQRV9MQ0QpLT5pODBfbW9kZSA9Cj4+PiAtCQkJIShkc2ktPm1vZGVfZmxhZ3MgJiBNSVBJX0RT
+SV9NT0RFX1ZJREVPKTsKPj4+ICAgIAo+Pj4gLQltdXRleF91bmxvY2soJmRybS0+bW9kZV9jb25m
+aWcubXV0ZXgpOwo+Pj4gLQo+Pj4gLQlpZiAoZHJtLT5tb2RlX2NvbmZpZy5wb2xsX2VuYWJsZWQp
+Cj4+PiAtCQlkcm1fa21zX2hlbHBlcl9ob3RwbHVnX2V2ZW50KGRybSk7Cj4+PiArCWlmIChvcHMg
+JiYgb3BzLT5hdHRhY2gpCj4+PiArCQlvcHMtPmF0dGFjaChkc2ktPmRzaV9ob3N0LmRldiwgZGV2
+aWNlKTsKPj4+ICAgIAo+Pj4gICAgCXJldHVybiAwOwo+Pj4gICAgfQo+Pj4gQEAgLTE2MTAsNiAr
+MTY1MSw3IEBAIHN0YXRpYyBpbnQgZXh5bm9zX2RzaV9ob3N0X2RldGFjaChzdHJ1Y3QgbWlwaV9k
+c2lfaG9zdCAqaG9zdCwKPj4+ICAgIAkJCQkgIHN0cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRldmlj
+ZSkKPj4+ICAgIHsKPj4+ICAgIAlzdHJ1Y3QgZXh5bm9zX2RzaSAqZHNpID0gaG9zdF90b19kc2ko
+aG9zdCk7Cj4+PiArCWNvbnN0IHN0cnVjdCBleHlub3NfZHNpX2hvc3Rfb3BzICpvcHMgPSBkc2kt
+PmRyaXZlcl9kYXRhLT5ob3N0X29wczsKPj4+ICAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtID0g
+ZHNpLT5lbmNvZGVyLmRldjsKPj4+ICAgIAo+Pj4gICAgCWlmIChkc2ktPnBhbmVsKSB7Cj4+PiBA
+QCAtMTYyNSw4ICsxNjY3LDggQEAgc3RhdGljIGludCBleHlub3NfZHNpX2hvc3RfZGV0YWNoKHN0
+cnVjdCBtaXBpX2RzaV9ob3N0ICpob3N0LAo+Pj4gICAgCQlJTklUX0xJU1RfSEVBRCgmZHNpLT5i
+cmlkZ2VfY2hhaW4pOwo+Pj4gICAgCX0KPj4+ICAgIAo+Pj4gLQlpZiAoZHJtLT5tb2RlX2NvbmZp
+Zy5wb2xsX2VuYWJsZWQpCj4+PiAtCQlkcm1fa21zX2hlbHBlcl9ob3RwbHVnX2V2ZW50KGRybSk7
+Cj4+PiArCWlmIChvcHMgJiYgb3BzLT5kZXRhY2gpCj4+PiArCQlvcHMtPmRldGFjaChkc2ktPmRz
+aV9ob3N0LmRldiwgZGV2aWNlKTsKPj4+ICAgIAo+Pj4gICAgCWV4eW5vc19kc2lfdW5yZWdpc3Rl
+cl90ZV9pcnEoZHNpKTsKPj4+ICAgIAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL3Byb3RlY3QyLmZpcmVleWUuY29tL3YxL3VybD9r
+PTgwYzc4OTU0LWRkMTU5MjBjLTgwYzYwMjFiLTBjYzQ3YTMxYzhiNC1jMzlmYWQ0MWNiNzBiMTk0
+JnE9MSZlPWI1MWQ2NjgyLWJhNzItNDhjMC1iMGM5LTAxMzg2NmJhMzlhYiZ1PWh0dHBzJTNBJTJG
+JTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRldmVs
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
