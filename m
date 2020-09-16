@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFCF26C3FB
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:02:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7A326C3FC
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32F516E94D;
-	Wed, 16 Sep 2020 15:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C706E956;
+	Wed, 16 Sep 2020 15:02:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1086E890
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 15:01:57 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id g4so7294710wrs.5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 08:01:57 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C016E952
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 15:01:58 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id m6so7324277wrn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 08:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gidsKX2Zswr/VwhkhQMTK3wAIhUubsrLCvk0z38r4n4=;
- b=oIn4JOuCOy7CHb5ZQdtF3SJH5FKQ9V2Z7+N3zKF9SyHuINlifIlQheLnsDTuJweddb
- RIgMxn2Nr3rwOljGIi2sVO5CNwhrMCZZsTGqAvA1IKT3Lc2nLi7W2OhbZE8moxDZt4Ho
- gkldh03HHGorLu6oZnd++T6Up6ED/0pWJ/ur+k9AJ/zu13w+veYC95XwTrGyI0Opu742
- 98fJ5+Yo2BTZTXWqeEmf7AZ33nOSIM7nmZ0me8nG67MIVt9tP1vRYmhfjm0rbV1eKTzf
- Za7Q8WCnYAR7OIq4H/fdU5pY3CoX11T41lH+hSWhMlUr1Ll++wjeka7Ui00Jd1KitB/O
- RkNQ==
+ bh=yvushcHgW5x8Ci13qV/eVljqWihhBxbnLqYrlJGnnQM=;
+ b=aIi8RU3GfifGkaYbMW1MYLTxAkS9nN6U2v50gcwQKZKksSLDZajirW7gQTn2LLnktm
+ CyI0tpHPNTv19Qc5/cJj43pTaueffg0aGDYRumwLvKkRtOHUAMiREXV/heRedSuF6bWi
+ NKtLgvbCgtSXb0fVCOqvyo4yoEHswt6g3uH95KDxuMtJ43vxcihOQoHgi+oi7fMYQmsp
+ PORvN1HxIp9wQj9v8KwaJh/G4mvc4xhXRlymBrmVNwN6Dc1nER9V2ceAKr/nKyre1STa
+ LxAQLCy9ECvJfm8GVhR8ZEAjgdg1Z7VDe2nYFT3HOojjlMjRmblgctWj9erSX2AImZ/6
+ y98Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gidsKX2Zswr/VwhkhQMTK3wAIhUubsrLCvk0z38r4n4=;
- b=Fscw6tMApDqnmcogV241umJv1obNcPtZIpLNIckUswDo71XGCvnr/CYyX72Kmm8Eu5
- fzIB2PDjIkqAcFFnfwio2ibLc2D23jJYivCeryfbv3Mj1yw5q70K8yfQf9LMjnbnNG+p
- MMKazrh5Bvv2n07XYFgc0ECYDGQGNeN86qvJmXjnKbpC42QQy1DLM1gglQ2QAHwRSaEw
- Ygm9+MFWYmvG4dOKyBXlDIimmEHMm8wr5A82bGswoLhpaGef3tOezuiyepiA9KIvaf3S
- YwvyllkeULIF5UCky/o639P84Dcgdy7OS+JNIYcKGyNbeesMkARIj6G0o9heTW1uOAT9
- Cuaw==
-X-Gm-Message-State: AOAM533Pzgw8L0R57qEDl4Br+6JrLJLi5SJhaeR9XQk3/CrW5sbUXw9U
- MAbrBJ6IBtDT1S6m3DKTr7UjRw==
-X-Google-Smtp-Source: ABdhPJzi4a/WO+NRp20+3sYyly2vAAt3B+yfSFNlTW4Qddgxuygr8mJVM7RDXG3HBkLI4jtZ9O/c0Q==
-X-Received: by 2002:adf:f7ca:: with SMTP id a10mr26806103wrq.321.1600268515849; 
- Wed, 16 Sep 2020 08:01:55 -0700 (PDT)
+ bh=yvushcHgW5x8Ci13qV/eVljqWihhBxbnLqYrlJGnnQM=;
+ b=Zx/ehvMSlXSoo+1rqqqCBGK6gikWUXqGqhbpoKA2Z6Ph3YhnG9AS7crIjyym4L0DBM
+ WYy+eLaXC9ZDnZblCujbcBqgqgIp//zn4oLjANUN/d3gS6J6iPgka2PD4w//pLZ34PjE
+ 3q+45LWu4JquGxNBld/wRtH0RgIKRbCL/6kx32T57atYQDOkBe020HZLfMDfUEf9+11v
+ AXcQdnFErQmUlgC8/Yt148EQ6VztoNOwJl9a/oalaMEFdN9YjGRxHEV0KEuIuFo6eMO/
+ aU4plry87T4k1OI8fmrajfax9rzRofnoED29myC/3XZlNctSNP/h9wgpmcqNN63kJGn3
+ nJmA==
+X-Gm-Message-State: AOAM5319iR80XQlWvCfU5ezrZqKeM4KfDQJ3Pld2vmBAgVYGyxjP02T/
+ s9V1+wd8et7/VxO+xaqN49BXhg==
+X-Google-Smtp-Source: ABdhPJxoKhG14BSFQVVyTSDxEWd6rrCYlRRTJeLtOKT+FsHY/62gPCBcNexsNdCeXVc2WChrJeebzQ==
+X-Received: by 2002:adf:e292:: with SMTP id v18mr26961296wri.256.1600268517315; 
+ Wed, 16 Sep 2020 08:01:57 -0700 (PDT)
 Received: from bender.baylibre.local (home.beaume.starnux.net. [82.236.8.43])
  by smtp.gmail.com with ESMTPSA id
- m3sm33275243wrs.83.2020.09.16.08.01.54
+ m3sm33275243wrs.83.2020.09.16.08.01.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 08:01:55 -0700 (PDT)
+ Wed, 16 Sep 2020 08:01:56 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
  alyssa.rosenzweig@collabora.com
-Subject: [PATCH v2 2/3] drm/panfrost: add amlogic reset quirk callback
-Date: Wed, 16 Sep 2020 17:01:46 +0200
-Message-Id: <20200916150147.25753-3-narmstrong@baylibre.com>
+Subject: [PATCH v2 3/3] drm/panfrost: add Amlogic GPU integration quirks
+Date: Wed, 16 Sep 2020 17:01:47 +0200
+Message-Id: <20200916150147.25753-4-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200916150147.25753-1-narmstrong@baylibre.com>
 References: <20200916150147.25753-1-narmstrong@baylibre.com>
@@ -77,68 +77,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The T820, G31 & G52 GPUs integratewd by Amlogic in the respective GXM, G12A/SM1 & G12B
-SoCs needs a quirk in the PWR registers at the GPU reset time.
-
-Since the Amlogic's integration of the GPU cores with the SoC is not
-publicly documented we do not know what does these
-values, but they permit having a fully functional GPU running with Panfrost.
+This adds the required GPU quirks, including the quirk in the PWR registers at the GPU
+reset time and the IOMMU quirk for shareability issues observed on G52 in Amlogic G12B SoCs.
 
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_gpu.c  | 11 +++++++++++
- drivers/gpu/drm/panfrost/panfrost_gpu.h  |  2 ++
- drivers/gpu/drm/panfrost/panfrost_regs.h |  4 ++++
- 3 files changed, 17 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index a6de78bc1fa8..e1b2a3376624 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -76,6 +76,17 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 7c8a87d164c3..6e5dedacb777 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -658,7 +658,18 @@ static const struct panfrost_compatible default_data = {
+ 	.pm_domain_names = NULL,
+ };
  
-+void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev)
-+{
-+	/*
-+	 * The Amlogic integrated Mali-T820, Mali-G31 & Mali-G52 needs
-+	 * these undocumented bits in GPU_PWR_OVERRIDE1 to be set in order
-+	 * to operate correctly.
-+	 */
-+	gpu_write(pfdev, GPU_PWR_KEY, GPU_PWR_KEY_UNLOCK);
-+	gpu_write(pfdev, GPU_PWR_OVERRIDE1, 0xfff | (0x20 << 16));
-+}
++static const struct panfrost_compatible amlogic_data = {
++	.num_supplies = ARRAY_SIZE(default_supplies),
++	.supply_names = default_supplies,
++	.vendor_quirk = panfrost_gpu_amlogic_quirk,
++};
 +
- static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
- {
- 	u32 quirks = 0;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-index 4112412087b2..468c51e7e46d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-@@ -16,4 +16,6 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
- void panfrost_gpu_power_on(struct panfrost_device *pfdev);
- void panfrost_gpu_power_off(struct panfrost_device *pfdev);
- 
-+void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
-+
- #endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-index ea38ac60581c..eddaa62ad8b0 100644
---- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-@@ -51,6 +51,10 @@
- #define GPU_STATUS			0x34
- #define   GPU_STATUS_PRFCNT_ACTIVE	BIT(2)
- #define GPU_LATEST_FLUSH_ID		0x38
-+#define GPU_PWR_KEY			0x50	/* (WO) Power manager key register */
-+#define  GPU_PWR_KEY_UNLOCK		0x2968A819
-+#define GPU_PWR_OVERRIDE0		0x54	/* (RW) Power manager override settings */
-+#define GPU_PWR_OVERRIDE1		0x58	/* (RW) Power manager override settings */
- #define GPU_FAULT_STATUS		0x3C
- #define GPU_FAULT_ADDRESS_LO		0x40
- #define GPU_FAULT_ADDRESS_HI		0x44
+ static const struct of_device_id dt_match[] = {
++	/* Set first to probe before the generic compatibles */
++	{ .compatible = "amlogic,meson-gxm-mali",
++	  .data = &amlogic_data, },
++	{ .compatible = "amlogic,meson-g12a-mali",
++	  .data = &amlogic_data, },
+ 	{ .compatible = "arm,mali-t604", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t624", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t628", .data = &default_data, },
 -- 
 2.22.0
 
