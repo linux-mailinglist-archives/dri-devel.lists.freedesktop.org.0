@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8253126C053
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 11:19:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A13426C06E
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 11:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B8D6E049;
-	Wed, 16 Sep 2020 09:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13AB26E378;
+	Wed, 16 Sep 2020 09:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755BD6E049
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 09:19:07 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c18so6084327wrm.9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 02:19:07 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9606E378
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 09:24:25 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id x23so2046936wmi.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 02:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=NetssDfLMpPwZ1ag5RCqykVyQO38ofbrcIBQ7qHK6pY=;
- b=Ih8d12tnCiF6uwywXnhdLjx6PI2H06LVi+m03GEr/Fd5oZX3vRtgoINf4zGiJAx6En
- +lEqQy/dRUhekUTDbyU8OneJwf6mBEvC3CkUJ9949+GgQWa8WTsnEosxFyW4bOcBQCS2
- L8wlwN++fkiZjGTf3XXc61r+HXl/RTToPMm/0=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ez5wNYu/MjO97ZyiJlwYza1kXyksIirYgP4HuUfGgJI=;
+ b=d3+XJjrJRUzisc3cKiqOeTKogPtz/VkjAtoeu01l3mporQwtAVB8gL1GamAn0CZFv/
+ bJv2fxxcHIRFR/5BfYyiIRtGL19T0BkmeekwRmmOqDXlDG+CkGmgtdClvLipX/hW7iyA
+ VySBk8WU1ukjGGCA6HqSelri/Cjx1WauzmJew=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=NetssDfLMpPwZ1ag5RCqykVyQO38ofbrcIBQ7qHK6pY=;
- b=d9bKre/uBMQHpYVAdy3WasNQXSUxoqa0out31EzKzBJ326YaqODv/Om5uWbhYmhmWg
- vRb45/PlZ6nsksBRdnNHsSa+Ex8hODw2U52LIK/Jh/ggo3v77nCSRmYu7qPIcPrkxbnS
- ZNCgM5SnA5FQyUZECZC10LtaqyYKsDD4ogCk0ApeyCtJ1ABQIUK1OvNgZNPBtbhGzida
- w1cNP6/4R3Gqp+wEG8cRQ/NsLT1eb54hfOedYpWaqTqMn+Haim4iyBw/6zSkuAk1NgwD
- x6qaLhwV7ANvCXwL8f/EA2MAvGZv8HKcj6jWpHxwyZ2OJ5359CT+doEsE2+b0+9Puxtf
- DJgA==
-X-Gm-Message-State: AOAM532sJOmYBes/tzdRRvKUwdjE/Dw16O2Na3P/apCsQuX6rUMGMwR1
- hjgyBfwCEM1ebXXLI9Sd0ITcsA==
-X-Google-Smtp-Source: ABdhPJxQZxpUmYxi0pmhuEEug8N7pJYz8tL3t/YNJnSm6QP+Q5v8ZqUWUl++HQ2YBXkGzAVTeiMD6w==
-X-Received: by 2002:adf:f80a:: with SMTP id s10mr27111493wrp.351.1600247946114; 
- Wed, 16 Sep 2020 02:19:06 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ez5wNYu/MjO97ZyiJlwYza1kXyksIirYgP4HuUfGgJI=;
+ b=fY2t+f516llPshi023t4AwAI1ak0HxPWtl4pNoUy6LAcOr5ovKTEF3Nj+BnGSorm4Z
+ W5jubq5W6tH4njzVaqfV56G1MtoQyqWcOzN9hiL+bvXXZco6hFvRcEC+KcZJwTF0bued
+ DdR3K3bj/VvqHRbVB6njsMvLY5t1NV4fp79FzsPqypgr+198e15caWOtWE2De/YZJJAd
+ 7mBWIKlk+wJ1WC3CcTC8miZ3APumECP8xQSWysGvrIg1wYPBf+6mjs6eW66aLb+EezSV
+ l+M1NF2fwkwQUEzXJdBkxC/VO2Pai/RH0CtYwacGYiUno9HQCVYA5bKIafaw2q461xGS
+ iiMg==
+X-Gm-Message-State: AOAM5322auhUgOU4tBsWmSFe0we44joyArF+JXYkPB/a5h+uxrT5Gs1m
+ YC/zaVTmxYJ3OKzC//lkS8oO8NNyfDaZ356v
+X-Google-Smtp-Source: ABdhPJynUKvPQ71nTunyAOYD9QpTcmRfa55d/WfFYnq31D/BfUSVcNg6Go0lLXC6P1gU4eSpGI7Xmg==
+X-Received: by 2002:a7b:c8c9:: with SMTP id f9mr3778930wml.67.1600248264267;
+ Wed, 16 Sep 2020 02:24:24 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r14sm31759089wrn.56.2020.09.16.02.19.04
+ by smtp.gmail.com with ESMTPSA id n3sm4141794wmn.39.2020.09.16.02.24.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 02:19:05 -0700 (PDT)
-Date: Wed, 16 Sep 2020 11:19:03 +0200
+ Wed, 16 Sep 2020 02:24:23 -0700 (PDT)
+Date: Wed, 16 Sep 2020 11:24:21 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: make linux-aspeed list remarks consistent
-Message-ID: <20200916091903.GZ438822@phenom.ffwll.local>
-Mail-Followup-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Joel Stanley <joel@jms.id.au>, David Airlie <airlied@linux.ie>,
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
- Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20200912183334.22683-1-lukas.bulwahn@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [RESEND][PATCH v3 0/4] drm/ast: Disable HW cursor when switching
+ modes
+Message-ID: <20200916092421.GA438822@phenom.ffwll.local>
+References: <20200914072236.19398-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200912183334.22683-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20200914072236.19398-1-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,59 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Joel Stanley <joel@jms.id.au>, Joe Perches <joe@perches.com>,
- Pia Eichinger <pia.eichinger@st.oth-regensburg.de>
+Cc: emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 12, 2020 at 08:33:34PM +0200, Lukas Bulwahn wrote:
-> Commit f15a3ea80391 ("MAINTAINERS: Add ASPEED BMC GFX DRM driver entry")
-> does not mention that linux-aspeed@lists.ozlabs.org is moderated for
-> non-subscribers, but the other three entries for
-> linux-aspeed@lists.ozlabs.org do.
+On Mon, Sep 14, 2020 at 09:22:32AM +0200, Thomas Zimmermann wrote:
+> Since converting the ast driver to atomic modesetting, modesetting
+> occationally locks up the graphics hardware and turns the display
+> permanently dark. This happens once or twice per 10 mode switches.
+> Investigation shows that the ast hardware presumably requires the HW
+> cursor to be disabled while the modeswitch takes place.
 > 
-> By 'majority vote' among entries, let us assume it was just missed here and
-> adjust it to be consistent with others.
+> This patchset fixes the problem by disabling planes before programming
+> the CRTC mode. After the switch, the planes gets re-enabled if they were
+> enabled before. For mere pageflip operations, nothing changes.
 > 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> applies cleanly on master and next-20200911
+> Patches #1 makes format changes work as intended: format registers are
+> only updated if necessary. They used to be changed on each pageflip.
 > 
-> Joel, please ack.
-> David, Daniel, please pick this minor non-urgent clean-up patch.
+> Patches #2 to #4 change the modesetting logic such that planes will be
+> disabled with the CRTC, then the CRTC's new mode is being programmed,
+> and finally planes are reenabled. The primary plane is enabled before
+> the cursor plane. With this setup, the cursor plane always has a valid
+> mode and framebuffer available.
+> 
+> Tested on AST2100 HW. The issue is not 100% reproducible, but does not
+> show up after applying the patchset. I think the problem has been fixed.
+> 
+> Thomas Zimmermann (4):
+>   drm/ast: Set format registers in primary plane's update
+>   drm/ast: Disable planes while switching display modes
+>   drm/ast: Program display mode in CRTC's atomic_enable()
+>   drm/ast: Enable CRTC before planes
 
-Pushed to drm-misc-next, thanks.
--Daniel
+Ofc I can't check all the details, but I think this is using atomic
+helpers a lot more like they're intended to be used. So definitely a good
+cleanup. On the series:
 
-> This patch submission will also show me if linux-aspeed is moderated or
-> not. I have not subscribed to linux-aspeed and if it shows up quickly in
-> the archive, the list is probably not moderated; and if it takes longer,
-> it is moderated, and hence, validating the patch.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/ast/ast_drv.h  |   2 +
+>  drivers/gpu/drm/ast/ast_mode.c | 103 ++++++++++++++++++++-------------
+>  2 files changed, 64 insertions(+), 41 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 26af84f97353..f2561c3fc9db 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5448,7 +5448,7 @@ F:	drivers/gpu/drm/panel/panel-arm-versatile.c
->  
->  DRM DRIVER FOR ASPEED BMC GFX
->  M:	Joel Stanley <joel@jms.id.au>
-> -L:	linux-aspeed@lists.ozlabs.org
-> +L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-> -- 
-> 2.17.1
+> --
+> 2.28.0
 > 
 
 -- 
