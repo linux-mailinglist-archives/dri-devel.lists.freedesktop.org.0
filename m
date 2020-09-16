@@ -2,75 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C738E26C437
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CB026C43A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0A6EA3A;
-	Wed, 16 Sep 2020 15:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E066EA2D;
+	Wed, 16 Sep 2020 15:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 242986EA37
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 15:31:43 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j2so7377320wrx.7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 08:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=9cI/Q3uj4XukmIC4z8WNHvSj/a5e8kMejOwJHwyLhrU=;
- b=AM+EYquCzfIKg9LA8lupSx3x3fv80mV8XsdCao572x7y+f/jTyZhXBwzrc0WjnQou8
- LrCfZ50AraT6NxKKEryKLx4mXtBR5VtT4qys9tKcbvpyx2AL35v5k0GhLaNw/8gavSU8
- IsuN1Obfj09QlPgHgTIBmdOQvsn9a1XVQaKgk=
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76F5D6EA2D
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 15:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600270358;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3/efu16wz2bAmmly2Sbi/vrfR4bsazT4NhD8SO/s8aY=;
+ b=Vm2nsevssG6smgOofXugnWV4YhpF8f0y3xVdxBck8QVvTnbvL3DWEjb64tHxBh3fbE2sZh
+ kaNTQWfi/UrL38evq/tRVcegD+mq+TyUzKKooZdSD5esXHMtMrUCoFmHUER6nIZIVWcZJR
+ SkU1/rjeCQFzbMk2qNiRH/IK25+m30Q=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-3vp-3GRCO8Kw12w6QdlIHw-1; Wed, 16 Sep 2020 11:32:32 -0400
+X-MC-Unique: 3vp-3GRCO8Kw12w6QdlIHw-1
+Received: by mail-qv1-f71.google.com with SMTP id w32so4863180qvw.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 08:32:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=9cI/Q3uj4XukmIC4z8WNHvSj/a5e8kMejOwJHwyLhrU=;
- b=TIVpX3Q5Z6caS3SEc4ryWoce0Yd24UZj5Mk11kjqVCV8J0dmxeH3JGrnCCa+MlUYTg
- snsRGssEz/d1OdwOCtk8xTxhg7O6FjriltMPFpp2s8GuEzT6PQL9Tjg+39pHTUgAc2rA
- DsVrAkJCJIspvdaeM5+2HR6jh3puieRopK0dv08eZCFxdFlRE08uz8zLfwL/V9nAfGpC
- r74TiNlavTLo3eBNE1JEvUdp42rpWEv8Kfzd2yBDiyNn+fVQmrw2hFdrtTXoEW5v7Y3q
- vYWXF7VZhB4iEQrF/0ty6trkgCGOdqj3fl136VC93DR4lMa90OJOPUgNqF+1NVjb00jc
- 4uog==
-X-Gm-Message-State: AOAM530aAkCt3n6V3KGqdmowyo3lmJbGvI0wpw0NLvS8vjK+YGXytteB
- PbttlbSQg8kHn0YMroGtCCbVIw==
-X-Google-Smtp-Source: ABdhPJzS3ONUGxvj8D+IIvQbIM66/m0KNy7Rh9Y4UxkZuG8AIJ3dk9r1W8t5jYlSX5UuYWW6Uyecjw==
-X-Received: by 2002:adf:a4cc:: with SMTP id h12mr22069549wrb.123.1600270301723; 
- Wed, 16 Sep 2020 08:31:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z15sm32992374wrv.94.2020.09.16.08.31.40
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=3/efu16wz2bAmmly2Sbi/vrfR4bsazT4NhD8SO/s8aY=;
+ b=EIHNYHS1uztxcvf3Mv85SEnqGH60CsQ0AJIVOwBqb3XfXfoS5lH5HBXC6ni9f9B5mN
+ nwUIXDagDfE9YAgR+dEqEq/GqgSSjj5uNgoh+Ol3vZmLzVxZ6yMtlL8DZeXAbCXMzNQy
+ An09wtx3ujwMOCr0i0DShmukL2E5Ib7f4MThz2sxSW2fqZ9qAPXGTHTdRfj/FIX6j39o
+ qIPYoNiyBoH7UEVFKAGpNQpZeNXk9FxasSg8Z7InwyI41h36ZU0WaxkbT4so/FuuWv1S
+ dRJbwyoF509X/RJZx2bbCikdnPdMihXKtqXvbwCzoLWeUgmVMzWrRrZx4NsuQhbGc1CD
+ ZLMQ==
+X-Gm-Message-State: AOAM532NCJLMB/e1s83O97lkK6S5Ie95KthpR1eunnPHtZkQiI1WdX9o
+ UQobe3JuXfMtNyu9R++JF4kCiuVa0esB0dzUX/Rmv4PQxJoOJYkgHGgF89CqtDrfMYCmmEcDIiU
+ ijPpIN/H9R7xoflLz+4R8QkrNTPDr
+X-Received: by 2002:a37:990:: with SMTP id 138mr23112359qkj.53.1600270352158; 
+ Wed, 16 Sep 2020 08:32:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwklSE00+B71ao1DI+TFBaPxvUWeVVqcFDwZEZx4oZR70imhVCYMHO7ieRanYzzJ4TNVdGqhg==
+X-Received: by 2002:a37:990:: with SMTP id 138mr23112334qkj.53.1600270351881; 
+ Wed, 16 Sep 2020 08:32:31 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id n144sm20153331qkn.69.2020.09.16.08.32.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 08:31:40 -0700 (PDT)
-Date: Wed, 16 Sep 2020 17:31:38 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH -next 0/8] drm/amd/amdgpu: fix comparison pointer to bool
- warning
-Message-ID: <20200916153138.GR438822@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Alex Deucher <alexdeucher@gmail.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- yi.zhang@huawei.com, Dave Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Zheng Bin <zhengbin13@huawei.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>
-References: <20200909130720.105234-1-zhengbin13@huawei.com>
- <1fce0f2a-3777-e6d8-5a09-30261f843cfd@amd.com>
- <CADnq5_NoeFbBAMT6s_ictVXsUc2tx1U48MLxnMbAr2Sd58jyYA@mail.gmail.com>
- <20200915193549.GP6112@intel.com>
- <6658f89f-6957-e6ea-af41-7625f1fd3cb1@gmail.com>
- <20200916075156.GU438822@phenom.ffwll.local>
- <CADnq5_OS814FxmadZ9yBkrY6ije8h7FxswWstsxNr3rw=Bum=Q@mail.gmail.com>
- <372d7001-22cc-79b6-83b8-2fd75a1804d5@amd.com>
+ Wed, 16 Sep 2020 08:32:31 -0700 (PDT)
+Message-ID: <1a13028b0080bc050ab6ad172d05de06a78d73b1.camel@redhat.com>
+Subject: Re: [Intel-gfx] [RFC 1/5] drm/i915/dp: Program source OUI on eDP
+ panels
+From: Lyude Paul <lyude@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Date: Wed, 16 Sep 2020 11:32:29 -0400
+In-Reply-To: <87mu1qw4ig.fsf@intel.com>
+References: <20200915172939.2810538-1-lyude@redhat.com>
+ <20200915172939.2810538-2-lyude@redhat.com>
+ <20200915190639.GC503362@intel.com> <87mu1qw4ig.fsf@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <372d7001-22cc-79b6-83b8-2fd75a1804d5@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,185 +85,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yi.zhang@huawei.com, Dave Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Zheng Bin <zhengbin13@huawei.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: lyude@redhat.com
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Wambui Karuga <wambui.karugax@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 16, 2020 at 04:02:18PM +0200, Christian K=F6nig wrote:
-> Am 16.09.20 um 15:36 schrieb Alex Deucher:
-> > On Wed, Sep 16, 2020 at 3:51 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Wed, Sep 16, 2020 at 09:38:34AM +0200, Christian K=F6nig wrote:
-> > > > Am 15.09.20 um 21:35 schrieb Ville Syrj=E4l=E4:
-> > > > > On Tue, Sep 15, 2020 at 03:16:32PM -0400, Alex Deucher wrote:
-> > > > > > I question the value of these warnings.  Why even have a boolea=
-n type
-> > > > > > if you are going to get warnings when you use them...
-> > > > > > That said, applied to avoid getting these patches again and aga=
-in
-> > > > > > every time someone sees this.
-> > > > > if (this_is_sparta)
-> > > > > if (this_is_sparta =3D=3D true)
-> > > > > if (this_is_sparta !=3D false)
-> > > > > =
+On Wed, 2020-09-16 at 10:43 +0300, Jani Nikula wrote:
+> On Tue, 15 Sep 2020, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> > On Tue, Sep 15, 2020 at 01:29:35PM -0400, Lyude Paul wrote:
+> > > Since we're about to start adding support for Intel's magic HDR
+> > > backlight interface over DPCD, we need to ensure we're properly
+> > > programming this field so that Intel specific sink services are exposed.
+> > > Otherwise, 0x300-0x3ff will just read zeroes.
+> > > 
+> > > We also take care not to reprogram the source OUI if it already matches
+> > > what we expect. This is just to be careful so that we don't accidentally
+> > > take the panel out of any backlight control modes we found it in.
+> 
+> (For whatever reason I didn't receive the original message.)
+> 
+> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > > Cc: thaytan@noraisin.net
+> > > Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/display/intel_dp.c | 32 +++++++++++++++++++++++++
+> > >  1 file changed, 32 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
+> > > b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > index 4bd10456ad188..b591672ec4eab 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > @@ -3428,6 +3428,7 @@ void intel_dp_sink_set_decompression_state(struct
+> > > intel_dp *intel_dp,
+> > >  void intel_dp_sink_dpms(struct intel_dp *intel_dp, int mode)
+> > >  {
+> > >  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> > > +	u8 edp_oui[] = { 0x00, 0xaa, 0x01 };
+> > 
+> > what are these values?
+> 
+> An OUI lookup confirms these are Intel OUI.
 
-> > > > > I think the first one reads the best, and avoids having to
-> > > > > decide between truth and falsehood :)
-> > > > +1
-> > > +1, especially because we also have the inversion when using negative
-> > > errno codes for failures and 0 as success, which results in
-> > > =
+Thanks for the confirmation!
 
-> > >          if (errno =3D=3D 0) /* success case */
-> > > =
+> 
+> > >  	int ret, i;
+> > >  
+> > >  	/* Should have a valid DPCD by this point */
+> > > @@ -3443,6 +3444,14 @@ void intel_dp_sink_dpms(struct intel_dp *intel_dp,
+> > > int mode)
+> > >  	} else {
+> > >  		struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
+> > >  
+> > > +		/* Write the source OUI as early as possible */
+> > > +		if (intel_dp_is_edp(intel_dp)) {
+> > > +			ret = drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI,
+> > > edp_oui,
+> > > +						sizeof(edp_oui));
+> > > +			if (ret < 0)
+> > > +				drm_err(&i915->drm, "Failed to write eDP source
+> > > OUI\n");
+> > > +		}
+> > > +
+> > >  		/*
+> > >  		 * When turning on, we need to retry for 1ms to give the sink
+> > >  		 * time to wake up.
+> > > @@ -4530,6 +4539,23 @@ static void intel_dp_get_dsc_sink_cap(struct
+> > > intel_dp *intel_dp)
+> > >  	}
+> > >  }
+> > >  
+> > > +static void
+> > > +intel_edp_init_source_oui(struct intel_dp *intel_dp)
+> > > +{
+> > > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> > > +	u8 oui[] = { 0x00, 0xaa, 0x01 };
+> > > +	u8 buf[3] = { 0 };
+> > > +
+> > > +	if (drm_dp_dpcd_read(&intel_dp->aux, DP_SOURCE_OUI, buf, sizeof(buf)) <
+> > > 0)
+> > > +		drm_err(&i915->drm, "Failed to read source OUI\n");
+> > > +
+> > > +	if (memcmp(oui, buf, sizeof(oui)) == 0)
+> > > +		return;
+> > > +
+> > > +	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) <
+> > > 0)
+> > > +		drm_err(&i915->drm, "Failed to write source OUI\n");
+> > > +}
+> 
+> Maybe add this function with a parameter to force write or write only if
+> necessary, and call from both places that set source OUI?
+> 
+> > > +
+> > >  static bool
+> > >  intel_edp_init_dpcd(struct intel_dp *intel_dp)
+> > >  {
+> > > @@ -4607,6 +4633,12 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+> > >  	if (INTEL_GEN(dev_priv) >= 10 || IS_GEMINILAKE(dev_priv))
+> > >  		intel_dp_get_dsc_sink_cap(intel_dp);
+> > >  
+> > > +	/*
+> > > +	 * Program our source OUI so we can make various Intel-specific AUX
+> > > +	 * services available (such as HDR backlight controls)
+> > > +	 */
+> > > +	intel_edp_init_source_oui(intel_dp);
+> > 
+> > I believe we should restrict this to the supported platforms: cfl, whl, cml,
+> > icl, tgl
+> > no?
+> 
+> Mmh, this just exposes sink behaviour that I think can be supported by
+> any platform. I don't understand the notion of "supported platforms"
+> here.
 
-> > > but
-> > >          if (bool =3D=3D 0) /* failure case */
-> > > =
+Probably because the spec sheets that we have on this seem to suggest that this
+is new for particular platforms, and Intel seems to also additionally move a bit
+away from some of the interfaces exposed here onto actual VESA standards
+starting with icl and tgl.
 
-> > > now creative people do sometimes
-> > > =
+I would be fine with adding this, but I'm not really sure it's needed here
+either unless we want to stop using Intel backlight control interfaces for later
+hardware generations at some point in the future.
 
-> > >          if (!errno) /* success case */
-> > > =
+> 
+> > > +
+> > >  	return true;
+> > >  }
+> > >  
+> > > -- 
+> > > 2.26.2
+> > > 
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+-- 
+Sincerely,
+      Lyude Paul (she/her)
+      Software Engineer at Red Hat
 
-> > > which I think is horribly confusing. So imo for more easier telling a=
-part
-> > > of these too I think consistently using the short form for booleans, =
-and
-> > > consistently using the more explicit long form for errno checks is a =
-Very
-> > > Good Pattern :-)
-> > I don't disagree with your logic, but we regularly get patches to
-> > convert errno checks to drop the direct comparison because that is the
-> > "preferred kernel style".  Arguably, we should be explicit in all
-> > cases as that avoids all confusion.  With that in mind, my original
-> > point stands.  Why have a type when comparisons against valid settings
-> > for that type produce errors?
-
-Oh, I didn't know that this happens for errno too.
-
-I withdraw my +1 and concur this is a bikeshed. I guess still applying to
-shut up the patch stream is the most reasonable thing :-/
--Daniel
-
-> Well it isn't an error, but raising a nice warning is most likely a good
-> idea.
-
-> =
-
-> Christian.
-> =
-
-> > =
-
-> > Alex
-> > =
-
-> > > Cheers, Daniel
-> > > =
-
-> > > > Christian.
-> > > > =
-
-> > > > > > Alex
-> > > > > > =
-
-> > > > > > On Wed, Sep 9, 2020 at 9:21 AM Christian K=F6nig <christian.koe=
-nig@amd.com> wrote:
-> > > > > > > Acked-by: Christian K=F6nig <christian.koenig@amd.com> for th=
-e series.
-> > > > > > > =
-
-> > > > > > > Am 09.09.20 um 15:07 schrieb Zheng Bin:
-> > > > > > > > Zheng Bin (8):
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in gfx_v9_0.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in gfx_v10_0.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in sdma_v5_0.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in sdma_v5_2.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in si.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in uvd_v6_0.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in
-> > > > > > > >        amdgpu_atpx_handler.c
-> > > > > > > >      drm/amd/amdgpu: fix comparison pointer to bool warning=
- in sdma_v4_0.c
-> > > > > > > > =
-
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c | 4 ++=
---
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c           | 2 +-
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c            | 2 +-
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c           | 4 ++=
---
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c           | 2 +-
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c           | 2 +-
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/si.c                  | 2 +-
-> > > > > > > >     drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c            | 4 ++=
---
-> > > > > > > >     8 files changed, 11 insertions(+), 11 deletions(-)
-> > > > > > > > =
-
-> > > > > > > > --
-> > > > > > > > 2.26.0.106.g9fadedd
-> > > > > > > > =
-
-> > > > > > > _______________________________________________
-> > > > > > > amd-gfx mailing list
-> > > > > > > amd-gfx@lists.freedesktop.org
-> > > > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3=
-A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02%7=
-C01%7Cchristian.koenig%40amd.com%7Cdc7a8d7517d341e3a80c08d85a458ba8%7C3dd89=
-61fe4884e608e11a82d994e183d%7C0%7C0%7C637358602051676053&amp;sdata=3DMS0vcB=
-cU7unXjEFlbd8kLbJkJ4sKcvIdLjc8yhX4UUI%3D&amp;reserved=3D0
-> > > > > > _______________________________________________
-> > > > > > dri-devel mailing list
-> > > > > > dri-devel@lists.freedesktop.org
-> > > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
-2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D02%7=
-C01%7Cchristian.koenig%40amd.com%7Cdc7a8d7517d341e3a80c08d85a458ba8%7C3dd89=
-61fe4884e608e11a82d994e183d%7C0%7C0%7C637358602051686051&amp;sdata=3DMgfR%2=
-BwCVY9gWfhQ9i5kWcKiiYkV1C8O2dEKlZYSqscE%3D&amp;reserved=3D0
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D02%7C01%=
-7Cchristian.koenig%40amd.com%7Cdc7a8d7517d341e3a80c08d85a458ba8%7C3dd8961fe=
-4884e608e11a82d994e183d%7C0%7C0%7C637358602051686051&amp;sdata=3DMgfR%2BwCV=
-Y9gWfhQ9i5kWcKiiYkV1C8O2dEKlZYSqscE%3D&amp;reserved=3D0
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fbl=
-og.ffwll.ch%2F&amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7Cdc7a8d7517=
-d341e3a80c08d85a458ba8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6373586=
-02051686051&amp;sdata=3DGvLs5OXw2Ny%2BieJxm8hjawNb0rGA966539iAwlWwPMY%3D&am=
-p;reserved=3D0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
