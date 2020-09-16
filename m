@@ -1,39 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BFD26BD2D
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 08:32:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDD926BD5B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 08:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06566E2E5;
-	Wed, 16 Sep 2020 06:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1DD06E99A;
+	Wed, 16 Sep 2020 06:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7A56E2E5;
- Wed, 16 Sep 2020 06:32:26 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4F7B0206A5;
- Wed, 16 Sep 2020 06:32:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600237945;
- bh=wRtARHe2LKkE2nHSoQVtqIGXlzPYT4T/Rf9r1//fVC4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KNuL53mmpCgivYk8/Ekcnpr4cCgcJhha4/zMX2JhQwHAI9bPQ+9b2Xc2HXSW31eVE
- 2nlIErWqRfPzvRVEzA8RRoXQFMvD5dLPGYTE5vPOs6QzCWIgWVljFaQLmm1SmdYDBg
- R/FXWzWVtRrUgZ1C0Gj93HDZHsysIbmqJoAEW5fo=
-Date: Wed, 16 Sep 2020 08:33:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] Revert "drm/radeon: handle PCIe root ports with
- addressing limitations"
-Message-ID: <20200916063300.GJ142621@kroah.com>
-References: <20200915184607.84435-1-alexander.deucher@amd.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D10F6E992;
+ Wed, 16 Sep 2020 06:38:24 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id s12so5582553wrw.11;
+ Tue, 15 Sep 2020 23:38:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=OIJLGGGniVhQVtQMrqVCccoyI58LfU7rsBw2hzyYuuI=;
+ b=oU5oJFEMlTapmj1eWnqAWqrX7MbSACs/x591zt208RiV5P9ddLh4V1eRqiaou+swYD
+ kJJzX5p+dhHSunECdaFUSmMW1kpPD6Gs9GEov/Pt2JGxv2sFF+yjyjMLi2LFMVOxMdv8
+ Yrf3VrGJha4qH5xUHqnXyA1lyUcrhOXvrdqtnl02o6Bs5iRQV252kTYh3HAnUYmS2F86
+ YTJA5SW3R1RKxQVhlFY2Jd6a1lEKCNjS7LoRZwHtnPff7NtzFSSkK6YcmPMXFqVlh7Ue
+ iseJyk6Vnt66PKP54SXZShBy0J4IS0VJHU24LRP0wU1DebIkjiQLJ0T4mATs+d9trux5
+ AoTQ==
+X-Gm-Message-State: AOAM5334ec0plvV+IKsImTsqREIkZtFxTHtQyH12VGmvaHfdY6e1DO6Q
+ yKKFbMKGPcBjVdGlX9dhBB4=
+X-Google-Smtp-Source: ABdhPJyQlteL0N/pU4eGx+adqZwehoEnOdIRonAvDPv+rO2M8s8kM/CkVEgxf3jd4rBP/JE1VfY6cg==
+X-Received: by 2002:adf:f3c6:: with SMTP id g6mr27189618wrp.340.1600238303133; 
+ Tue, 15 Sep 2020 23:38:23 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.124])
+ by smtp.googlemail.com with ESMTPSA id 18sm3308363wmj.28.2020.09.15.23.38.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 15 Sep 2020 23:38:22 -0700 (PDT)
+Date: Wed, 16 Sep 2020 08:38:19 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 03/13] dt-bindings: arm: fsl: Fix matching Purism Librem5
+ phones
+Message-ID: <20200916063819.GA6687@kozik-lap>
+References: <20200904145312.10960-1-krzk@kernel.org>
+ <20200904145312.10960-4-krzk@kernel.org>
+ <20200914223343.GA386301@bogus>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915184607.84435-1-alexander.deucher@amd.com>
+In-Reply-To: <20200914223343.GA386301@bogus>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,48 +60,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, Lee Jones <lee.jones@linaro.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Robert Chiras <robert.chiras@nxp.com>, Li Yang <leoyang.li@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 02:46:07PM -0400, Alex Deucher wrote:
-> This change breaks tons of systems.
-
-Very vague :(
-
-This commit has also been merged for over a year, why the sudden
-problem now?
-
-> This reverts commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713.
-
-You mean "33b3ad3788ab ("drm/radeon: handle PCIe root ports with
-addressing limitations")"?
-
-That's the proper way to reference commits in changelogs please.  It's
-even documented that way...
-
+On Mon, Sep 14, 2020 at 04:33:43PM -0600, Rob Herring wrote:
+> On Fri, 04 Sep 2020 16:53:02 +0200, Krzysztof Kozlowski wrote:
+> > All Purism Librem5 phones have three compatibles so they need their own
+> > entry to fix dbts_check warnings like:
+> > 
+> >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml: /:
+> >     compatible: ['purism,librem5r2', 'purism,librem5', 'fsl,imx8mq'] is not valid under any of the given schemas
+> > 
+> >   arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml: /:
+> >     compatible: ['purism,librem5r2', 'purism,librem5', 'fsl,imx8mq'] is too long
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/arm/fsl.yaml | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > 
 > 
-> Bug: https://bugzilla.kernel.org/show_bug.cgi?id=206973
-> Bug: https://bugzilla.kernel.org/show_bug.cgi?id=206697
-> Bug: https://bugzilla.kernel.org/show_bug.cgi?id=207763
-> Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1140
-> Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1287
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Cc: stable@vger.kernel.org
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: christian.koenig@amd.com
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> I expect Shawn to pick this one up as this file gets touched a fair 
+> amount.
 
-Fixes: 33b3ad3788ab ("drm/radeon: handle PCIe root ports with addressing limitations")
+Hi Shawn,
 
-as well?
+Could you pick up this patch as well?
 
-thanks,
+Best regards,
+Krzysztof
 
-greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
