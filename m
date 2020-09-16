@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384E826CC6C
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 22:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3C026CC68
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 22:44:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5296EB2C;
-	Wed, 16 Sep 2020 20:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569F76EB2A;
+	Wed, 16 Sep 2020 20:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 205136EB2E
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 20:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sIMG4wWgY9okM8dfYXX6a9fUcsqWrWVJbPz4x4HHJm8=; b=v06gt/0ITtgVyOORAA8OCjcobZ
- U6DZ/nHwBSr3nK6SB1EFgrdnKbYQermRBF1XgsK11dR9Rmf51lF+9VWYH7mW7a//Ms1sHIh9s3RRW
- cmnwCvO4kBUzUQ6/eBBgG4PgnTliG7PHmi0Nymqmz0e3quHU5acqrxXKURh/HVoxhp/hmscmueGtQ
- 7ETry/C2W2cfFTT93fu2cnY5YxCcJSCPpRB/Xn1yiz+S9SjZGzUr10JkxEmBIU6WmaIq5CmWclWtz
- oNtzY/569M809ClABtxn1l/pe2qoCp9lWzHFAFKZtA5z8nJL9wO2Rm2mg7m9ozMB26GXALBsEt3bt
- kNsZ7oPw==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1kIeHX-00047O-FZ; Wed, 16 Sep 2020 23:43:59 +0300
-Subject: Re: [RFC PATCH v2 13/17] gpu: host1x: Reset max value when freeing a
- syncpoint
-To: Dmitry Osipenko <digetx@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20200905103420.3021852-1-mperttunen@nvidia.com>
- <20200905103420.3021852-14-mperttunen@nvidia.com>
- <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <0d12991e-3599-c5bf-11e5-78031f0f8088@kapsi.fi>
-Date: Wed, 16 Sep 2020 23:43:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9E36EB2A;
+ Wed, 16 Sep 2020 20:43:59 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5FF7621D7D;
+ Wed, 16 Sep 2020 20:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600289039;
+ bh=MM/OYkhIqW+q1jlzGplM7TRGk23CKIsPg/gtHCbpw/s=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=ePzv3fwWqslNC9hLhuqpPOyt/s8elqT4skklSXCKPyGt5+DSX45Mij1jR0UQAfYSu
+ rlP0OmdNpXpvof5fQPOx2SpQZrxcPIGOMObx61mSVBfXvuGrzip0wCyXdOZekUurt/
+ goh6RQLFx9+QF+bnlf7qV2Wg9jJz35j9g42ob9HA=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id 14CC43522BA0; Wed, 16 Sep 2020 13:43:59 -0700 (PDT)
+Date: Wed, 16 Sep 2020 13:43:59 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+Message-ID: <20200916204359.GB29330@paulmck-ThinkPad-P72>
+References: <20200914204209.256266093@linutronix.de>
+ <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ <871rj4owfn.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+ <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
+ <20200916152956.GV29330@paulmck-ThinkPad-P72>
+ <CAHk-=wjsMycgMHJrCmeetR3r+K5bpSRtmVWfd8iaoQCYd_VYAg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b4b3ae98-4ccb-152a-deda-2da81d1c46ef@gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjsMycgMHJrCmeetR3r+K5bpSRtmVWfd8iaoQCYd_VYAg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,51 +56,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: paulmck@kernel.org
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
+ linux-um <linux-um@lists.infradead.org>, Josh Triplett <josh@joshtriplett.org>,
+ Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ alpha <linux-alpha@vger.kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gOS8xNi8yMCAxMDo0NCBQTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDA1LjA5LjIwMjAg
-MTM6MzQsIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+PiBXaXRoIGpvYiByZWNvdmVyeSBi
-ZWNvbWluZyBvcHRpb25hbCwgc3luY3BvaW50cyBtYXkgaGF2ZSBhIG1pc21hdGNoCj4+IGJldHdl
-ZW4gdGhlaXIgdmFsdWUgYW5kIG1heCB2YWx1ZSB3aGVuIGZyZWVkLiBBcyBzdWNoLCB3aGVuIGZy
-ZWVpbmcsCj4+IHNldCB0aGUgbWF4IHZhbHVlIHRvIHRoZSBjdXJyZW50IHZhbHVlIG9mIHRoZSBz
-eW5jcG9pbnQgc28gdGhhdCBpdAo+PiBpcyBpbiBhIHNhbmUgc3RhdGUgZm9yIHRoZSBuZXh0IHVz
-ZXIuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IE1pa2tvIFBlcnR0dW5lbiA8bXBlcnR0dW5lbkBudmlk
-aWEuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9ob3N0MXgvc3luY3B0LmMgfCAxICsKPj4g
-ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2hvc3QxeC9zeW5jcHQuYyBiL2RyaXZlcnMvZ3B1L2hvc3QxeC9zeW5jcHQuYwo+PiBp
-bmRleCAyZmFkOGIyYTU1Y2MuLjgyZWNiNGFjMzg3ZSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9n
-cHUvaG9zdDF4L3N5bmNwdC5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2hvc3QxeC9zeW5jcHQuYwo+
-PiBAQCAtMzg1LDYgKzM4NSw3IEBAIHN0YXRpYyB2b2lkIHN5bmNwdF9yZWxlYXNlKHN0cnVjdCBr
-cmVmICpyZWYpCj4+ICAgewo+PiAgIAlzdHJ1Y3QgaG9zdDF4X3N5bmNwdCAqc3AgPSBjb250YWlu
-ZXJfb2YocmVmLCBzdHJ1Y3QgaG9zdDF4X3N5bmNwdCwgcmVmKTsKPj4gICAKPj4gKwlhdG9taWNf
-c2V0KCZzcC0+bWF4X3ZhbCwgaG9zdDF4X3N5bmNwdF9yZWFkX21pbihzcCkpOwo+PiAgIAlzcC0+
-bG9ja2VkID0gZmFsc2U7Cj4+ICAgCj4+ICAgCW11dGV4X2xvY2soJnNwLT5ob3N0LT5zeW5jcHRf
-bXV0ZXgpOwo+Pgo+IAo+IFBsZWFzZSBub3RlIHRoYXQgdGhlIHN5bmMgcG9pbnQgc3RhdGUgYWN0
-dWFsbHkgbmVlZHMgdG8gYmUgY29tcGxldGVseQo+IHJlc2V0IGF0IHRoZSBzeW5jIHBvaW50IHJl
-cXVlc3QtdGltZSBiZWNhdXNlIGJvdGggZG93bnN0cmVhbSBmYXN0Ym9vdAo+IGFuZCB1cHN0cmVh
-bSB1LWJvb3QgWzFdIGFyZSBuZWVkbGVzc2x5IGVuYWJsaW5nIGRpc3BsYXkgVkJMQU5LIGludGVy
-cnVwdAo+IHRoYXQgY29udGludW91c2x5IGluY3JlbWVudHMgc3luYyBwb2ludCAjMjYgZHVyaW5n
-IG9mIGtlcm5lbCBib290IHVudGlsCj4gZGlzcGxheSBjb250cm9sbGVyIGlzIHJlc2V0Lgo+IAo+
-IFsxXSBodHRwczovL2dpdGh1Yi5jb20vdS1ib290L3UtYm9vdC9ibG9iL21hc3Rlci9kcml2ZXJz
-L3ZpZGVvL3RlZ3JhLmMjTDE1NQo+IAo+IEhlbmNlIG9uY2Ugc3luYyBwb2ludCAjMjYgaXMgcmVx
-dWVzdGVkLCBpdCB3aWxsIGhhdmUgYSBkaXJ0eSBzdGF0ZS4gU28KPiBmYXIgdGhpcyBkb2Vzbid0
-IGhhdmUgYW55IHZpc2libGUgZWZmZWN0IGJlY2F1c2Ugc3luYyBwb2ludHMgYXJlbid0IHVzZWQK
-PiBtdWNoLgo+IAoKTWF5YmUgd2UgY2FuIGluc3RlYWQgcmVzZXJ2ZSBzeW5jcG9pbnRzIHRoYXQg
-bWlnaHQgYmUgdXNlZCBieSB0aGUgYm9vdCAKY2hhaW4sIGFuZCBvbmx5IGFsbG93IGFsbG9jYXRp
-bmcgdGhlbSBvbmNlIHRoZSBkaXNwbGF5IGRyaXZlciBoYXMgYWNrZWQgCnRoYXQgdGhlIHN5bmNw
-b2ludCB3aWxsIG5vIGxvbmdlciBiZSBpbmNyZW1lbnRlZD8gVGhhdCB3YXkgaWYgdGhlIApkaXNw
-bGF5IGRyaXZlciBpcyBkaXNhYmxlZCBmb3Igc29tZSByZWFzb24gd2UnbGwgc3RpbGwgYmUgZmlu
-ZS4KCkxvb2tpbmcgYXQgdGhlIGRvd25zdHJlYW0gZHJpdmVyLCBpdCAoc3RpbGwsIG9uIG5ldyBj
-aGlwcy4uKSByZXNlcnZlcyAKdGhlIGZvbGxvd2luZyBzeW5jcG9pbnRzOgoKLSAxMCAoQVZQKQot
-IDIyICgzRCkKLSAyNiAoVkJMQU5LMCkKLSAyNyAoVkJMQU5LMSkKCmFuZCBzYXlzIHRoYXQgdGhp
-cyBhcHBsaWVzIHRvIFQyMCwgVDMwLCBUMTE0IGFuZCBUMTQ4LgoKSSBzdXBwb3NlIGlmIHlvdSBo
-YXZlbid0IG9ic2VydmVkIHRoaXMgaGFwcGVuaW5nIHRvIG90aGVyIHN5bmNwb2ludHMgCnRoYW4g
-MjYsIHRoZW4gcmVzZXJ2aW5nIDI2IHdvdWxkIHByb2JhYmx5IGJlIGVub3VnaC4KCk1pa2tvCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Sep 16, 2020 at 11:32:00AM -0700, Linus Torvalds wrote:
+> On Wed, Sep 16, 2020 at 8:29 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > All fair, but some of us need to write code that must handle being
+> > invoked from a wide variety of contexts.
+> 
+> Note that I think that core functionality is different from random drivers.
+> 
+> Of course core code can (and will) look at things like
+> 
+>         if (in_interrupt())
+>             .. schedule work asynchronously ..
+> 
+> because core code ends up being called from odd places, and code like
+> that is expected to have understanding of the rules it plays with.
+> 
+> But something like RCU is a very different beast from some "walk the
+> scatter-gather list" code.
+> 
+> RCU does its work in the background, and works with lots of different
+> things. And it's so core and used everywhere that it knows about these
+> things. I mean, we literally have special code explicitly to let RCU
+> know "we entered kernel context now".
+> 
+> But something like a driver list walking thing should not be doing
+> different things behind peoples back depending on whether they hold
+> spinlocks or not. It should either just work regardless, or there
+> should be a flag (or special interface) for the "you're being called
+> in a crtitical region".
+> 
+> Because dynamically changing behavior really is very confusing.
+
+Whew!  I feel much better now.  ;-)
+
+							Thanx, Paul
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
