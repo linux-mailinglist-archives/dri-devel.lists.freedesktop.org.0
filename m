@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9DA26BE5B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:42:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B9D26BE5F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 09:43:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115326E9CC;
-	Wed, 16 Sep 2020 07:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A446E9CE;
+	Wed, 16 Sep 2020 07:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9296E9CB
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 07:42:34 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id z9so1879527wmk.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 00:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Ot6iZWd98YQr5mHaX8FXKQBw+IpUt9BsD4MskvvQqpo=;
- b=BJLaewkh1jJeIx94d5rS5o5OhiIfCBOn/m+CGOnQ3cN9D60IaKLC5G0C2QG+DU5jNq
- V1NdXeQKtmKS+bpl3GQfhqSH4nBVCtQjRuEmMA1r1vhnANHhawnanHGqicGnxufKJJF9
- 5vyA6Iv7lx2D07L4+9YoIV1Zgk+GzL0p7995w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ot6iZWd98YQr5mHaX8FXKQBw+IpUt9BsD4MskvvQqpo=;
- b=MdRKccy2fz7ZyyOoSNG/G73+pEXoB+kxczkMG724QQUaNC1IRDXCRu4kzniwgn3gKD
- /Dw86fC8TJ01N46pegAmdLFGMZSX+8SVQd/mfR/3lMCE8yQKrSDS6X+OP1jvTIiCIMTG
- s/mvNwS/X6lRW8fuf7UDk1GOPyr1/XLD1EWWcOd4efkT5I/ylL0vnZH3jgnrs/rU/vCe
- U/qk+b9EU298SimHo92VyeVIhP99QgPNTLD27+LFOk/XIneQRnb2t4rndmavE1SjmOsa
- efJKQgiehHng0wKRgriUdUfBu8dh06wvkqi6feWy1+RsHwnPLYL01L+viyqh93QE9A2F
- MuAQ==
-X-Gm-Message-State: AOAM5311Rq83C9fEXA/F2Z3QiazYG2xs9VjxmFx3FsYooIzGw2MP/Kyd
- pva/fVGTYe2POh69wcGrqgpJhA==
-X-Google-Smtp-Source: ABdhPJz3yMmR1XwOGajN+KW42rvNn/OWzNC/FWXYl3XGMATka4cMHZSootWZ6ul86yXqmajpNgIDFA==
-X-Received: by 2002:a7b:c8c9:: with SMTP id f9mr3317002wml.67.1600242153009;
- Wed, 16 Sep 2020 00:42:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y207sm4011619wmc.17.2020.09.16.00.42.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 00:42:32 -0700 (PDT)
-Date: Wed, 16 Sep 2020 09:42:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/gem: Serialise debugfs
- i915_gem_objects with ctx->mutex
-Message-ID: <20200916074230.GS438822@phenom.ffwll.local>
-References: <20200723172119.17649-1-chris@chris-wilson.co.uk>
- <20200723172119.17649-3-chris@chris-wilson.co.uk>
- <5e7f2c00-c72e-46ff-defe-404b5a847a02@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A22FB6E9CB;
+ Wed, 16 Sep 2020 07:43:37 +0000 (UTC)
+IronPort-SDR: +MTtykf2saFNZ2Fd+pfIVkzWfudYHvqawwjXDwYokjtLEDFw3C3OobFXnqIbm+tz7kpvySx0nd
+ a04SmcCvA2FA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="139430565"
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="139430565"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2020 00:43:36 -0700
+IronPort-SDR: OZ7tMty0VP/hRXfVXL0x4qgPXpQXMNVgdmQghv9OU0GOtBg6LdI4ZajhNrKK03UbRAXfRCzuQ8
+ uyjHu6wOhSvw==
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="483196147"
+Received: from djgriffi-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.8.217])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2020 00:43:30 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Lyude Paul <lyude@redhat.com>
+Subject: Re: [Intel-gfx] [RFC 1/5] drm/i915/dp: Program source OUI on eDP
+ panels
+In-Reply-To: <20200915190639.GC503362@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200915172939.2810538-1-lyude@redhat.com>
+ <20200915172939.2810538-2-lyude@redhat.com>
+ <20200915190639.GC503362@intel.com>
+Date: Wed, 16 Sep 2020 10:43:35 +0300
+Message-ID: <87mu1qw4ig.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5e7f2c00-c72e-46ff-defe-404b5a847a02@linux.intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,76 +52,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- "Nikunj A. Dadhania" <nikunj.dadhania@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Wambui Karuga <wambui.karugax@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 14, 2020 at 05:45:09PM +0100, Tvrtko Ursulin wrote:
-> 
-> On 23/07/2020 18:21, Chris Wilson wrote:
-> > Since the debugfs may peek into the GEM contexts as the corresponding
-> > client/fd is being closed, we may try and follow a dangling pointer.
-> > However, the context closure itself is serialised with the ctx->mutex,
-> > so if we hold that mutex as we inspect the state coupled in the context,
-> > we know the pointers within the context are stable and will remain valid
-> > as we inspect their tables.
-> > 
-> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: CQ Tang <cq.tang@intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >   drivers/gpu/drm/i915/i915_debugfs.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> > index 784219962193..ea469168cd44 100644
-> > --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> > +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> > @@ -326,6 +326,7 @@ static void print_context_stats(struct seq_file *m,
-> >   		}
-> >   		i915_gem_context_unlock_engines(ctx);
-> > +		mutex_lock(&ctx->mutex);
-> >   		if (!IS_ERR_OR_NULL(ctx->file_priv)) {
-> >   			struct file_stats stats = {
-> >   				.vm = rcu_access_pointer(ctx->vm),
-> > @@ -346,6 +347,7 @@ static void print_context_stats(struct seq_file *m,
-> >   			print_file_stats(m, name, stats);
-> >   		}
-> > +		mutex_unlock(&ctx->mutex);
-> >   		spin_lock(&i915->gem.contexts.lock);
-> >   		list_safe_reset_next(ctx, cn, link);
-> > 
-> 
-> Hm this apparently never got it's r-b and so got re-discovered in the field.
-> +Nikunj
-> 
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Tue, 15 Sep 2020, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> On Tue, Sep 15, 2020 at 01:29:35PM -0400, Lyude Paul wrote:
+>> Since we're about to start adding support for Intel's magic HDR
+>> backlight interface over DPCD, we need to ensure we're properly
+>> programming this field so that Intel specific sink services are exposed.
+>> Otherwise, 0x300-0x3ff will just read zeroes.
+>> 
+>> We also take care not to reprogram the source OUI if it already matches
+>> what we expect. This is just to be careful so that we don't accidentally
+>> take the panel out of any backlight control modes we found it in.
 
-I'm not super thrilled about patch 1 in this, for debugfs imo better to
-wrangle this in the driver. And without patch 1 and 2 this wont fix a
-whole lot.
--Daniel
+(For whatever reason I didn't receive the original message.)
 
+>> 
+>> Signed-off-by: Lyude Paul <lyude@redhat.com>
+>> Cc: thaytan@noraisin.net
+>> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_dp.c | 32 +++++++++++++++++++++++++
+>>  1 file changed, 32 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+>> index 4bd10456ad188..b591672ec4eab 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -3428,6 +3428,7 @@ void intel_dp_sink_set_decompression_state(struct intel_dp *intel_dp,
+>>  void intel_dp_sink_dpms(struct intel_dp *intel_dp, int mode)
+>>  {
+>>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>> +	u8 edp_oui[] = { 0x00, 0xaa, 0x01 };
+>
+> what are these values?
 
-> 
-> Regards,
-> 
-> Tvrtko
+An OUI lookup confirms these are Intel OUI.
+
+>
+>>  	int ret, i;
+>>  
+>>  	/* Should have a valid DPCD by this point */
+>> @@ -3443,6 +3444,14 @@ void intel_dp_sink_dpms(struct intel_dp *intel_dp, int mode)
+>>  	} else {
+>>  		struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
+>>  
+>> +		/* Write the source OUI as early as possible */
+>> +		if (intel_dp_is_edp(intel_dp)) {
+>> +			ret = drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, edp_oui,
+>> +						sizeof(edp_oui));
+>> +			if (ret < 0)
+>> +				drm_err(&i915->drm, "Failed to write eDP source OUI\n");
+>> +		}
+>> +
+>>  		/*
+>>  		 * When turning on, we need to retry for 1ms to give the sink
+>>  		 * time to wake up.
+>> @@ -4530,6 +4539,23 @@ static void intel_dp_get_dsc_sink_cap(struct intel_dp *intel_dp)
+>>  	}
+>>  }
+>>  
+>> +static void
+>> +intel_edp_init_source_oui(struct intel_dp *intel_dp)
+>> +{
+>> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>> +	u8 oui[] = { 0x00, 0xaa, 0x01 };
+>> +	u8 buf[3] = { 0 };
+>> +
+>> +	if (drm_dp_dpcd_read(&intel_dp->aux, DP_SOURCE_OUI, buf, sizeof(buf)) < 0)
+>> +		drm_err(&i915->drm, "Failed to read source OUI\n");
+>> +
+>> +	if (memcmp(oui, buf, sizeof(oui)) == 0)
+>> +		return;
+>> +
+>> +	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) < 0)
+>> +		drm_err(&i915->drm, "Failed to write source OUI\n");
+>> +}
+
+Maybe add this function with a parameter to force write or write only if
+necessary, and call from both places that set source OUI?
+
+>> +
+>>  static bool
+>>  intel_edp_init_dpcd(struct intel_dp *intel_dp)
+>>  {
+>> @@ -4607,6 +4633,12 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+>>  	if (INTEL_GEN(dev_priv) >= 10 || IS_GEMINILAKE(dev_priv))
+>>  		intel_dp_get_dsc_sink_cap(intel_dp);
+>>  
+>> +	/*
+>> +	 * Program our source OUI so we can make various Intel-specific AUX
+>> +	 * services available (such as HDR backlight controls)
+>> +	 */
+>> +	intel_edp_init_source_oui(intel_dp);
+>
+> I believe we should restrict this to the supported platforms: cfl, whl, cml, icl, tgl
+> no?
+
+Mmh, this just exposes sink behaviour that I think can be supported by
+any platform. I don't understand the notion of "supported platforms"
+here.
+
+>
+>> +
+>>  	return true;
+>>  }
+>>  
+>> -- 
+>> 2.26.2
+>> 
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
