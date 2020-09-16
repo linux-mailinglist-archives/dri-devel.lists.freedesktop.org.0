@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031DE26C18F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 12:22:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0685926C198
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 12:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 761766E9F7;
-	Wed, 16 Sep 2020 10:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 318276E04E;
+	Wed, 16 Sep 2020 10:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46E8C6E9F7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 10:22:53 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kIUaR-0003U0-RP; Wed, 16 Sep 2020 12:22:51 +0200
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kIUaR-0001AW-In; Wed, 16 Sep 2020 12:22:51 +0200
-Message-ID: <98ffb169b0b1588165697b8ecc4e43307331e1e7.camel@pengutronix.de>
-Subject: Re: [PATCH v3 5/7] drm/imx: use drmm_simple_encoder_alloc()
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 16 Sep 2020 12:22:51 +0200
-In-Reply-To: <20200916090823.GX438822@phenom.ffwll.local>
-References: <20200911135724.25833-1-p.zabel@pengutronix.de>
- <20200911135724.25833-5-p.zabel@pengutronix.de>
- <20200916090823.GX438822@phenom.ffwll.local>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549F26E04E
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 10:26:42 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2107357F;
+ Wed, 16 Sep 2020 12:26:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1600252000;
+ bh=yUpFXLpSMd8aDzEogJqMmCNE/VDz4HaTCogK73JfZBs=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=OnLvgDhuQ93uM4hWyCinvA5/Ed96Y8hguB9i7wfCgkSvmBO8Li8dmEWKD4K1NoQdf
+ b8uQvWKXDUcykmjZd7grIvwcg6bSJ64hRPyV5cQdZomHAv/l85nwJeuAgviJi3fTKN
+ iZPnFwwjOm19mIc670/m4TZxeSxfA2vHWoU01eHg=
+Subject: Re: [PATCH] drm: rcar-du: Put reference to VSP device
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20200915233004.GD14954@pendragon.ideasonboard.com>
+ <20200915233832.19769-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <1deb9fc0-7f87-ed4a-d719-401e08ad83ca@ideasonboard.com>
+Date: Wed, 16 Sep 2020 11:26:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20200915233832.19769-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,42 +50,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org, Yu Kuai <yukuai3@huawei.com>,
+ yi.zhang@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi Laurent,
 
-On Wed, 2020-09-16 at 11:08 +0200, Daniel Vetter wrote:
-> On Fri, Sep 11, 2020 at 03:57:22PM +0200, Philipp Zabel wrote:
-> > This allows to drop the custom drm_encoder_cleanup() actions.
-> > 
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> > New in v3, example conversion of drm_simple_encoder_init() users.
-> > 
-> > This and the following patches depend on the drm/imx conversion to use managed
-> > resources [1].
-> > 
-> > [1] https://lore.kernel.org/dri-devel/20200911133855.29801-3-p.zabel@pengutronix.de/T/#m335a28c5c26ab14bccc998d4dc0aed6850e9bc36
-[...]
-> Where does this apply to? Neither upstream nor linux-next seems to have
-> the drmm_ conversion for imx already applied, and that's kinda the juicy
-> part I'd like to look at a bit.
+On 16/09/2020 00:38, Laurent Pinchart wrote:
+> The reference to the VSP device acquired with of_find_device_by_node()
+> in rcar_du_vsp_init() is never released. Fix it with a drmm action,
+> which gets run both in the probe error path and in the remove path.
+> 
+> Fixes: 6d62ef3ac30b ("drm: rcar-du: Expose the VSP1 compositor through KMS planes")
+> Reported-by: Yu Kuai <yukuai3@huawei.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Oh, ok. I did (re)send the basic drmm_ conversion separately at [1],
-mentioned above.
+Looks nice and clean!
 
-> The patches here are just mechanical conversion. Can you pls include
-> the drmm_ conversion too (maybe even squash these patches here in, I
-> think that would be more readable)?
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-I'll squash and resend as a single series.
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> index f1a81c9b184d..fa09b3ae8b9d 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -13,6 +13,7 @@
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem_cma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_plane_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> @@ -341,6 +342,13 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+>  	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
+>  };
+>  
+> +static void rcar_du_vsp_cleanup(struct drm_device *dev, void *res)
+> +{
+> +	struct rcar_du_vsp *vsp = res;
+> +
+> +	put_device(vsp->vsp);
 
-regards
-Philipp
+Ugh the asymmetry of the put_device is a bit annoying, because it's not
+initially clear that the of_find_device_by_node() call 'gets' a reference.
+
+(Or at least not until you find:
+  https://lore.kernel.org/patchwork/patch/731284/)
+
+It is stated in the commit message though so that's fine, and although I
+thought perhaps a comment here might be useful to declare that it
+releases the reference taken by of_find_device_by_node(), I'm not sure
+it even adds that much value ... so either way.
+
+
+> +}
+> +
+>  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>  		     unsigned int crtcs)
+>  {
+> @@ -357,6 +365,10 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>  
+>  	vsp->vsp = &pdev->dev;
+>  
+> +	ret = drmm_add_action(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	ret = vsp1_du_init(vsp->vsp);
+>  	if (ret < 0)
+>  		return ret;
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
