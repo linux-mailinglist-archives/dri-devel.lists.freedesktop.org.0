@@ -1,68 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D493326C7CD
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 20:35:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BB126C9CF
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 21:27:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27F96EAB9;
-	Wed, 16 Sep 2020 18:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6766EACE;
+	Wed, 16 Sep 2020 19:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AF36EAB9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 18:35:12 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id y11so8052077lfl.5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:35:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 874A26EACE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 19:27:45 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id i26so12316719ejb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 12:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AxuwlCpSO8TsaLIcauC4aS5tgqsK9SeD3UYfP7DN7g0=;
- b=ZKGyeh6DjOj0P0poUJri2yvAXd4omTbSKkycPwhZ3i+69eOgCicq7HjntIxGCUS9d/
- zNZFDIECDK4GwkaKDrKuGgCWjAAnhqqHdcPPPF/38HaA25t0OpynH7kdnV1WYZaxFMxz
- W50ov+r+RFsylVih7TsRScGj6r7RgJSz63qJs=
+ :cc:content-transfer-encoding;
+ bh=86XH/9IiVG8WkAUBuuJvRIX3M4xatpQ4XbJBYCO84G8=;
+ b=KHCDS7EqKAm6QCMhvEliIOGiIDPALGdREyv6/qmOS9cP5wP9YtK6MKUXT+kzKcSrMv
+ avA4i2CKKcvvNFZaGPAW9kBiOHACfJvxATnBq/c7XOb7zv+E7psKPkQVk9Y8td1oq2QN
+ uFC3cr7eEg5hvvt2FxOisMuaveIC/kr+oP/iC3kBz/drZN4f9tN5lE/eRogkXSheRkJT
+ 6SAEUoOj8xozc9ZE0iIH5AKXl6yVuwnPw0fQz0HnKiqqOY6wx8V/B3SawC1DQBSkpXcv
+ CeCUJt4AOu0ouSS33Vn8cUXVdRRmK4WjpqE9kcnp+XrgCWkz3TGwkoLRuYYk2ciEuZJg
+ mv3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AxuwlCpSO8TsaLIcauC4aS5tgqsK9SeD3UYfP7DN7g0=;
- b=AjH7e9nz/+kv9o43WeNOozRoDb5eRAagP5xwpJVsgMWw3Rq4Qzq2QbgvdHcM46BG6t
- P/IPVVS8o72ELj3nOoliMK9fpGovgQ2KK7a86l+sZ44fLrLJtIJNGpmNLDxWyyHemTVv
- APqrWvpWmAW4Iu01uejPjJ2udce0nmCuukt9Umwf3V/CmYz8fPBOywayUtbFkodXL4tp
- 1Hpvf1rvJTkzRAsJW/A/vmvamhBI2u7Qtc/Y89rg81FbGydWifm3HNZG0hKJdYVXfiJN
- b61YwMALpg1Mx5IQHkoPvqk7NQydQCfIYEJG/UmUhX7rEuKOPjK8oKw2l1i9WNa0bJGQ
- niag==
-X-Gm-Message-State: AOAM5314dy02gBeENy056+HLhGrH7dUdTFO1MEJWd7F/st11T0M6iCxr
- gaujMKo3FjUJzXDT6UI6p/HP/giAbShm+g==
-X-Google-Smtp-Source: ABdhPJxaKy9TlyM3eKv2f8Wl6/kHeNaHDJXe+8uEzsmUYMtAbtcP8LTnD8FID1I4Hp1iyvs+d/d7Nw==
-X-Received: by 2002:ac2:5547:: with SMTP id l7mr7963641lfk.153.1600281310291; 
- Wed, 16 Sep 2020 11:35:10 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
- [209.85.167.45])
- by smtp.gmail.com with ESMTPSA id h11sm5065290lfd.21.2020.09.16.11.35.08
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Sep 2020 11:35:09 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id y17so8045982lfa.8
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:35:08 -0700 (PDT)
-X-Received: by 2002:a19:521a:: with SMTP id m26mr9002648lfb.133.1600281306776; 
- Wed, 16 Sep 2020 11:35:06 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=86XH/9IiVG8WkAUBuuJvRIX3M4xatpQ4XbJBYCO84G8=;
+ b=laFJ+BCaPF42iZjqKmPp6KHOR3n7Y1KcNHbRIctCvzuu53qft8p1lG/21KBIkMBZAQ
+ Xr03iHlonfFsKDiK2UAprN0k4pE51VdDqG2Wc32pdYHWvuvS6+SWAhVDVKtH0W4mk5qg
+ tMVj0MKVJgVfHpPX2Asrl1pI1lPB7KrPpXGgM59XkDmME1JlGJKA6j6iGvLIUTNLFb2w
+ mKY+rUFzOU8hqXOdOAf+bacFEHy8+MaqGkgENztDnxRf6GkzxVuJnca64M6mHhXePv2x
+ P67T/R9Ta34tmrwpt3ZZyCkpHvMCUkRItAGkbm4/edKpkNITcu/WRii+jRvSHQPIR7Ss
+ TBEw==
+X-Gm-Message-State: AOAM530Yjye+SUBpdtUCfc0YlRmcu/MQStBH0BJMEc13lCBekM0O8I5H
+ WJk/muO+NYSFw6zkgXhXsnysGeKgG4q0UvFrmYg=
+X-Google-Smtp-Source: ABdhPJwfJQr9pDBQxTf9N/NXWNl8bTJiKmDpLC+dkptKgt+JQo6Z+mLGY72kBk40jp5HBUGqvY8QxZIgInzl1Vn/ZXk=
+X-Received: by 2002:a17:906:f92:: with SMTP id
+ q18mr26180151ejj.237.1600284464064; 
+ Wed, 16 Sep 2020 12:27:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200914204209.256266093@linutronix.de>
- <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
- <871rj4owfn.fsf@nanos.tec.linutronix.de>
- <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
- <87bli75t7v.fsf@nanos.tec.linutronix.de>
- <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
- <87y2la4xu6.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87y2la4xu6.fsf@nanos.tec.linutronix.de>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 16 Sep 2020 11:34:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whvULv3M2dQzPra1W-uGiX=_6Z_YeGnRDodbtXgJpihWA@mail.gmail.com>
-Message-ID: <CAHk-=whvULv3M2dQzPra1W-uGiX=_6Z_YeGnRDodbtXgJpihWA@mail.gmail.com>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-To: Thomas Gleixner <tglx@linutronix.de>
+References: <20200916142406.2379-1-christian.koenig@amd.com>
+In-Reply-To: <20200916142406.2379-1-christian.koenig@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 17 Sep 2020 05:27:33 +1000
+Message-ID: <CAPM=9tzGmwcDfLAxrzrFi29kcbn1prifaECc_kn7+5_-65mfnQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: fix incorrect TT->SYSTEM move handling
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,63 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
- Linux-MM <linux-mm@kvack.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
- Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matt Turner <mattst88@gmail.com>,
- Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
- Shuah Khan <shuah@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Jeff Dike <jdike@addtoit.com>, linux-um <linux-um@lists.infradead.org>,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- rcu@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- alpha <linux-alpha@vger.kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 12:57 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> You wish. I just found a 7 year old bug in a 10G network driver which
-> surely would have been found if people would enable debug configs and
-> not just run the crap on their PREEMPT_NONE, all debug off kernel. And
-> that driver is not subject to bitrot, it gets regular bug fixes from
-> people who seem to care (distro folks).
-
-That driver clearly cannot be very well maintained. All the distro
-kernels have the basic debug checks in place, afaik.
-
-Is it some wonderful "enterprise hardware" garbage again that only
-gets used in special data centers?
-
-Becasue the "enterprise" people really are special. Very much in the
-"short bus" special kind of way. The fact that they have fooled so
-much of the industry into thinking that they are the competent and
-serious people is a disgrace.
-
-              Linus
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAxNyBTZXAgMjAyMCBhdCAwMDoyNCwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gV2hlbiB3ZSBtb3ZlIGZyb20gdGhl
+IFNZU1RFTSBkb21haW4gdG8gdGhlIFRUIGRvbWFpbgo+IHdlIHN0aWxsIG5lZWQgdG8gcG90ZW50
+aWFsbHkgY2hhbmdlIHRoZSBjYWNoaW5nIHN0YXRlLgo+Cj4gVGhpcyBpcyBtb3N0IGxpa2VseSB0
+aGUgc291cmNlIG9mIGEgYnVuY2ggb2YgcHJvYmxlbXMgd2l0aAo+IEFHUCBhbmQgVVNXQyB0b2dl
+dGhlciB3aXRoIGhpYmVybmF0aW9uIGFuZCBzd2FwLgoKSSdtIGdvaW5nIHRvIG5lZWQgbW9yZSBj
+b21tZW50YXJ5LCBiZWNhdXNlIEkndmUgYmVlbiBzdGFyaW5nIGF0IHRoaXMKY29kZSBhIGxvdCBp
+biB0aGUgcGFzdCBmZXcgZGF5cyBhbmQgSSdtIGFsdGhvdWdoIEkgZGlzbGlrZSB0aGlzIHBhdGgs
+CkknbSBub3Qgc3VyZSB3aGF0IHRoaXMgYnJpbmdzLgoKVGhlIGN1cnJlbnQgY29kZSBmbG93IHRv
+IG1lIGlzIGZvciBTWVNURU0tPlRUIGRvbWFpbgoKdHRtX3R0X2NyZWF0ZQp0dG1fdHRfc2V0X3Bs
+YWNlbWVudF9jYWNoaW5nIChuZXcgcGxhY2VtZW50KQp0dG1fdHRfYmluZCAoY2FuIGNhdXNlIHBv
+cHVsYXRlKQptb3ZlX25vdGlmeQpyZXBsYWNlIHBvaW50ZXJzCmV2aWN0ZWQgPSBmYWxzZQpyZXR1
+cm4KClRoZSBuZXcgZmxvdyBsb29rcyBsaWtlCnR0bV90dF9jcmVhdGUKdHRtX3R0X3NldF9wbGFj
+ZW1lbnRfY2FjaGluZyAobmV3IHBsYWNlbWVudCkKdHRtX3R0X2JpbmQgKGNhbiBjYXVzZSBwb3B1
+bGF0ZSkKbW92ZV9ub3RpZnkKKHZpYSB0dG1fYm9fbW92ZV90dG0pCnR0bV90dF9zZXRfcGxhY2Vt
+ZW50X2NhY2hpbmcgKG5ldyBwbGFjZW1lbnQpCnR0bV90dF9iaW5kCnJlcGxhY2UgcG9pbnRlcnMK
+KGJhY2sgdG8gbWFpbiBjb2RlKQpldmljdGVkID0gZmFsc2UKcmV0dXJuCgpJcyB0aGUgc2Vjb25k
+IHNldCBwbGFjZW1lbnQgY2FjaGluZyBkb2luZyBzb21ldGhpbmcgZGlmZmVyZW50IGhlcmU/IG9y
+CmlzIHRoZXJlIHNvbWV0aGluZyB0aGF0IGhhcHBlbnMgaW4gbW92ZSBub3RpZnkgdGhhdCB3ZSBu
+ZWVkIHRvIHNldAp0aGluZ3MgYWZ0ZXJ3YXJkcz8KCkRhdmUuCgo+Cj4gU2lnbmVkLW9mZi1ieTog
+Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENDOiBzdGFibGVA
+dmdlci5rZXJuZWwub3JnCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgfCA4
+IC0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA4IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
+bV9iby5jCj4gaW5kZXggZmZiZGMyMGQ4ZThkLi41ZjdlZmM5MDk3MGUgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2JvLmMKPiBAQCAtMjY0LDEzICsyNjQsNiBAQCBzdGF0aWMgaW50IHR0bV9ib19oYW5kbGVf
+bW92ZV9tZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgICAgICAgICAgICAgICAg
+ICAgICAgICBpZiAocmV0KQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZ290byBv
+dXRfZXJyOwo+ICAgICAgICAgICAgICAgICB9Cj4gLQo+IC0gICAgICAgICAgICAgICBpZiAoYm8t
+Pm1lbS5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNKSB7Cj4gLSAgICAgICAgICAgICAgICAgICAg
+ICAgaWYgKGJkZXYtPmRyaXZlci0+bW92ZV9ub3RpZnkpCj4gLSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBiZGV2LT5kcml2ZXItPm1vdmVfbm90aWZ5KGJvLCBldmljdCwgbWVtKTsKPiAt
+ICAgICAgICAgICAgICAgICAgICAgICBiby0+bWVtID0gKm1lbTsKPiAtICAgICAgICAgICAgICAg
+ICAgICAgICBnb3RvIG1vdmVkOwo+IC0gICAgICAgICAgICAgICB9Cj4gICAgICAgICB9Cj4KPiAg
+ICAgICAgIGlmIChiZGV2LT5kcml2ZXItPm1vdmVfbm90aWZ5KQo+IEBAIC0yOTMsNyArMjg2LDYg
+QEAgc3RhdGljIGludCB0dG1fYm9faGFuZGxlX21vdmVfbWVtKHN0cnVjdCB0dG1fYnVmZmVyX29i
+amVjdCAqYm8sCj4gICAgICAgICAgICAgICAgIGdvdG8gb3V0X2VycjsKPiAgICAgICAgIH0KPgo+
+IC1tb3ZlZDoKPiAgICAgICAgIGJvLT5ldmljdGVkID0gZmFsc2U7Cj4KPiAgICAgICAgIGN0eC0+
+Ynl0ZXNfbW92ZWQgKz0gYm8tPm51bV9wYWdlcyA8PCBQQUdFX1NISUZUOwo+IC0tCj4gMi4xNy4x
+Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
