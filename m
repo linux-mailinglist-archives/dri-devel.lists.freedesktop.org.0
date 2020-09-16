@@ -1,68 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B0726CA80
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 22:03:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 021B926CB87
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 22:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E746EB1D;
-	Wed, 16 Sep 2020 20:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CC36EB23;
+	Wed, 16 Sep 2020 20:29:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D446EB18
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 20:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600286615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fSSY0qs2o/TeGx1YAgbEJfLL9BNX1LvvoT2Q5yJ8J0k=;
- b=VRe1TTrA6zWg5mm+dEFVVDph67IdUCFi5rorjpG/qtwTcoiVlpoo9jgEtHlfZksdoKl10C
- 1pWG/EViQ0WtA4Sri67TiUD4imUEicFedVXYwTyAGtx2O9rukgt1vzRuouFnLMHnJeooeU
- XSgm5XNGs8GbPYA57mRhoaoAG7sl7nM=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-F6vAhPU5OLOxnky_1iPEdg-1; Wed, 16 Sep 2020 16:03:34 -0400
-X-MC-Unique: F6vAhPU5OLOxnky_1iPEdg-1
-Received: by mail-qk1-f197.google.com with SMTP id h191so7155542qke.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 13:03:34 -0700 (PDT)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 624626EB21
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 20:29:18 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id g96so7883184otb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 13:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jfgJnSB2bhKQDSQtNR/O8X7GsVYOAbT1ea08kPi1xE8=;
+ b=Hg8y851ePYZ8WQiMJoPwyU+sXO5H1E4m1YWgJB25Vi80MlW/sWDUqOxp2mcpnbFjRA
+ JQaXwZKjvCdBn7KFi5t/HBjntwthC3FY/aIkSk+md/+gwxuei9VHD6ldDA1E5QelovRK
+ REsPW2xBPjZrnpKbi5tB6r38dw//jdnXVvQX4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fSSY0qs2o/TeGx1YAgbEJfLL9BNX1LvvoT2Q5yJ8J0k=;
- b=Q5k3C37P1QHjWmYZYK0uc/O1YAWyvfmpHg4wR1WARHHByNtYj6jkGK+QE90UpDmJlp
- yAOZ817S2A7dPxlFKqGmVoSlV1UcoC74Y+61g1BP5OiUr8MpZBqsdcNBXPPIltoK6840
- yJ8PcPYPC/jxQZaoWztzu22oWq3dbWhvRsmLnWmtA526nSdr0g/Cx3HYGsS3cVbgDBd3
- m+0nDsga+UBoS6orMDkscEL7fYIt2wWF2YjpCgMm1SqJqe94RlbjkYzfbU5UvZjzHwDm
- Zz9lZdGYBmLPMChhkoQ+0WZDAYyL2QNEHqMf+w/zRIHCaoPupBJldn68zNuHmUPjmpYl
- dWMA==
-X-Gm-Message-State: AOAM533k0ThNmb4tMTScsh8jbp/MN9UXSOUSisgJzRsPne3Gfc7cQU/8
- tFuHM6F13WkIyWzS9cV1PY9boR6xwXuXsZ2WuL3RyBsoGjS2UsjzXCwpHOGWyR0AhgoaLUC37kQ
- DfZzzVIHY6hz3w1phRA6iVwdIuE/9nKHJMGkTfC1jr5ZV
-X-Received: by 2002:a0c:80c3:: with SMTP id 61mr24598126qvb.23.1600286613488; 
- Wed, 16 Sep 2020 13:03:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmRpTrDQHVUnByU8mBXCHdc1Awc6GSjYlrmduwF4bi2/zkY8P9kOmuuevOso2VQ7kbaxEsp316opQv0eARJgs=
-X-Received: by 2002:a0c:80c3:: with SMTP id 61mr24598084qvb.23.1600286612985; 
- Wed, 16 Sep 2020 13:03:32 -0700 (PDT)
+ bh=jfgJnSB2bhKQDSQtNR/O8X7GsVYOAbT1ea08kPi1xE8=;
+ b=Tsjsms/IecmTww/jzldVSgazCcYyx5FTw6+W5YlBCf5ZYOuIV4Bh78b1KXORQaKrDa
+ WaLQeQFMEdvlda9NkRBkx107l3lqS37YithzOFUIWeJckj6FtG6q8A8OpGjzXXDrb4Ad
+ L85vGeS2MJLscjoCGitzLmh9/oJ+JMF5EhXpA78Nfaik51J/qh0IvmesDuchdSHQ7S5l
+ 4uRG9URsnchOIxquULM9qjLbJPeem7dz6DQD+MAG8IJ0EZUV5NcrebfJCJYjbyxCgDfy
+ Y2pHLXQ0PgISxH0ico5yCOC7nhyO3JhFbxnpyfCJ8dExykJ6i6Zs7Y/SM9DUC7wXjWPT
+ zHiQ==
+X-Gm-Message-State: AOAM530IkvXdtB1aLQ9rfjwlLEE8y84RvmF3JTYDnXnPIghe7Gx/0c6Y
+ II2MzeKLRr0eu1OK426flsqwLJZiuca3x+9Xp25fJQ==
+X-Google-Smtp-Source: ABdhPJyp9Of+LYn6qLPki7Nl/8rfmMLDV2B7cI3AVOwAQ4KqtvLG8pHiS+TQrmOMl+LluaOA2Eov6ysFmH7fg1w3xeE=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id
+ t25mr18605193otq.188.1600288157601; 
+ Wed, 16 Sep 2020 13:29:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200812204952.1921587-1-jcline@redhat.com>
- <20200916194711.999602-1-jcline@redhat.com>
- <20200916194711.999602-2-jcline@redhat.com>
- <CACO55tueUdL0Jp15keCUpFzBuSM8gimkth7VUZxhnaijHOXKxw@mail.gmail.com>
-In-Reply-To: <CACO55tueUdL0Jp15keCUpFzBuSM8gimkth7VUZxhnaijHOXKxw@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 16 Sep 2020 22:03:22 +0200
-Message-ID: <CACO55tuKO61iQQEmrFwct2NDxgbgqMYBnrvtXaDQRu95dZfk6A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/nouveau: return temperatures in temp_get() via
- parameter
-To: Jeremy Cline <jcline@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
+References: <20200914204209.256266093@linutronix.de>
+ <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ <871rj4owfn.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+ <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
+ <20200916152956.GV29330@paulmck-ThinkPad-P72>
+In-Reply-To: <20200916152956.GV29330@paulmck-ThinkPad-P72>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 16 Sep 2020 22:29:06 +0200
+Message-ID: <CAKMK7uGFyfhEyt=jmdk2jDO-hq0_Pf0ck+cKSELHjr2U3rPuYQ@mail.gmail.com>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+To: "Paul E. McKenney" <paulmck@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,376 +65,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
+ linux-um <linux-um@lists.infradead.org>, Josh Triplett <josh@joshtriplett.org>,
+ Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>, alpha <linux-alpha@vger.kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 16, 2020 at 10:01 PM Karol Herbst <kherbst@redhat.com> wrote:
+On Wed, Sep 16, 2020 at 5:29 PM Paul E. McKenney <paulmck@kernel.org> wrote:
 >
-> On Wed, Sep 16, 2020 at 9:47 PM Jeremy Cline <jcline@redhat.com> wrote:
+> On Wed, Sep 16, 2020 at 09:37:17AM +0200, Daniel Vetter wrote:
+> > On Tue, Sep 15, 2020 at 7:35 PM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > >
+> > > On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > > >
+> > > > OTOH, having a working 'preemptible()' or maybe better named
+> > > > 'can_schedule()' check makes tons of sense to make decisions about
+> > > > allocation modes or other things.
+> > >
+> > > No. I think that those kinds of decisions about actual behavior are
+> > > always simply fundamentally wrong.
+> > >
+> > > Note that this is very different from having warnings about invalid
+> > > use. THAT is correct. It may not warn in all configurations, but that
+> > > doesn't matter: what matters is that it warns in common enough
+> > > configurations that developers will catch it.
+> > >
+> > > So having a warning in "might_sleep()" that doesn't always trigger,
+> > > because you have a limited configuration that can't even detect the
+> > > situation, that's fine and dandy and intentional.
+> > >
+> > > But having code like
+> > >
+> > >        if (can_schedule())
+> > >            .. do something different ..
+> > >
+> > > is fundamentally complete and utter garbage.
+> > >
+> > > It's one thing if you test for "am I in hardware interrupt context".
+> > > Those tests aren't great either, but at least they make sense.
+> > >
+> > > But a driver - or some library routine - making a difference based on
+> > > some nebulous "can I schedule" is fundamentally and basically WRONG.
+> > >
+> > > If some code changes behavior, it needs to be explicit to the *caller*
+> > > of that code.
+> > >
+> > > So this is why GFP_ATOMIC is fine, but "if (!can_schedule())
+> > > do_something_atomic()" is pure shite.
+> > >
+> > > And I am not IN THE LEAST interested in trying to help people doing
+> > > pure shite. We need to fix them. Like the crypto code is getting
+> > > fixed.
 > >
-> > The temp_get() function currently returns negative error numbers or a
-> > temperature. However, the thermal sensors can (in theory) measure
-> > negative temperatures. Some implementations of temp_get() correctly
-> > clamp negative temperature readings to 0 so that users do not mistake
-> > them for errors, but some, like gp100_temp_get(), do not.
+> > Just figured I'll throw my +1 in from reading too many (gpu) drivers.
+> > Code that tries to cleverly adjust its behaviour depending upon the
+> > context it's running in is harder to understand and blows up in more
+> > interesting ways. We still have drm_can_sleep() and it's mostly just
+> > used for debug code, and I've largely ended up just deleting
+> > everything that used it because when you're driver is blowing up the
+> > last thing you want is to realize your debug code and output can't be
+> > relied upon. Or worse, that the only Oops you have is the one in the
+> > debug code, because the real one scrolled away - the original idea
+> > behind drm_can_sleep was to make all the modeset code work
+> > automagically both in normal ioctl/kworker context and in the panic
+> > handlers or kgdb callbacks. Wishful thinking at best.
 > >
-> > Rather than relying on implementations remembering to clamp values,
-> > dedicate the function return value to error codes and accept a pointer
-> > to an integer where the temperature reading should be stored.
+> > Also at least for me that extends to everything, e.g. I much prefer
+> > explicit spin_lock and spin_lock_irq vs magic spin_lock_irqsave for
+> > locks shared with interrupt handlers, since the former two gives me
+> > clear information from which contexts such function can be called.
+> > Other end is the memalloc_no*_save/restore functions, where I recently
+> > made a real big fool of myself because I didn't realize how much that
+> > impacts everything that's run within - suddenly "GFP_KERNEL for small
+> > stuff never fails" is wrong everywhere.
 > >
-> > Signed-off-by: Jeremy Cline <jcline@redhat.com>
-> > ---
-> >  .../drm/nouveau/include/nvkm/subdev/therm.h   |  2 +-
-> >  drivers/gpu/drm/nouveau/nouveau_hwmon.c       | 12 ++++++------
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/base.c  | 19 ++++++++++++++-----
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/g84.c   | 11 ++++++-----
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/gp100.c | 11 ++++++-----
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/nv40.c  |  9 +++------
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/nv50.c  |  9 +++------
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/priv.h  | 17 +++++++++++++++--
-> >  .../gpu/drm/nouveau/nvkm/subdev/therm/temp.c  | 12 ++++++++----
-> >  9 files changed, 62 insertions(+), 40 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
-> > index 62c34f98c930..bfe9779216fc 100644
-> > --- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
-> > +++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/therm.h
-> > @@ -99,7 +99,7 @@ struct nvkm_therm {
-> >         bool clkgating_enabled;
-> >  };
-> >
-> > -int nvkm_therm_temp_get(struct nvkm_therm *);
-> > +int nvkm_therm_temp_get(struct nvkm_therm *therm, int *temp);
-> >  int nvkm_therm_fan_sense(struct nvkm_therm *);
-> >  int nvkm_therm_cstate(struct nvkm_therm *, int, int);
-> >  void nvkm_therm_clkgate_init(struct nvkm_therm *,
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> > index 1c3104d20571..aff6aa296678 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> > @@ -325,7 +325,7 @@ nouveau_temp_is_visible(const void *data, u32 attr, int channel)
-> >         struct nouveau_drm *drm = nouveau_drm((struct drm_device *)data);
-> >         struct nvkm_therm *therm = nvxx_therm(&drm->client.device);
-> >
-> > -       if (!therm || !therm->attr_get || nvkm_therm_temp_get(therm) < 0)
-> > +       if (!therm || !therm->attr_get || nvkm_therm_temp_get(therm, NULL) < 0)
-> >                 return 0;
-> >
-> >         switch (attr) {
-> > @@ -419,7 +419,7 @@ nouveau_temp_read(struct device *dev, u32 attr, int channel, long *val)
-> >         struct drm_device *drm_dev = dev_get_drvdata(dev);
-> >         struct nouveau_drm *drm = nouveau_drm(drm_dev);
-> >         struct nvkm_therm *therm = nvxx_therm(&drm->client.device);
-> > -       int ret;
-> > +       int ret = 0, temp;
-> >
-> >         if (!therm || !therm->attr_get)
-> >                 return -EOPNOTSUPP;
-> > @@ -428,8 +428,8 @@ nouveau_temp_read(struct device *dev, u32 attr, int channel, long *val)
-> >         case hwmon_temp_input:
-> >                 if (drm_dev->switch_power_state != DRM_SWITCH_POWER_ON)
-> >                         return -EINVAL;
-> > -               ret = nvkm_therm_temp_get(therm);
-> > -               *val = ret < 0 ? ret : (ret * 1000);
-> > +               ret = nvkm_therm_temp_get(therm, &temp);
-> > +               *val = temp * 1000;
-> >                 break;
-> >         case hwmon_temp_max:
-> >                 *val = therm->attr_get(therm, NVKM_THERM_ATTR_THRS_DOWN_CLK)
-> > @@ -459,7 +459,7 @@ nouveau_temp_read(struct device *dev, u32 attr, int channel, long *val)
-> >                 return -EOPNOTSUPP;
-> >         }
-> >
-> > -       return 0;
-> > +       return ret;
-> >  }
-> >
-> >  static int
-> > @@ -735,7 +735,7 @@ nouveau_hwmon_init(struct drm_device *dev)
-> >         hwmon->dev = dev;
-> >
-> >         if (therm && therm->attr_get && therm->attr_set) {
-> > -               if (nvkm_therm_temp_get(therm) >= 0)
-> > +               if (nvkm_therm_temp_get(therm, NULL) >= 0)
-> >                         special_groups[i++] = &temp1_auto_point_sensor_group;
-> >                 if (therm->fan_get && therm->fan_get(therm) >= 0)
-> >                         special_groups[i++] = &pwm_fan_sensor_group;
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
-> > index 4a4d1e224126..e7ffea1512e6 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c
-> > @@ -27,10 +27,15 @@
-> >  #include <subdev/pmu.h>
-> >
-> >  int
-> > -nvkm_therm_temp_get(struct nvkm_therm *therm)
-> > +nvkm_therm_temp_get(struct nvkm_therm *therm, int *temp)
-> >  {
-> > +       int ignored_reading;
-> > +
-> > +       if (temp == NULL)
-> > +               temp = &ignored_reading;
-> > +
-> >         if (therm->func->temp_get)
-> > -               return therm->func->temp_get(therm);
-> > +               return therm->func->temp_get(therm, temp);
-> >         return -ENODEV;
-> >  }
-> >
-> > @@ -40,9 +45,11 @@ nvkm_therm_update_trip(struct nvkm_therm *therm)
-> >         struct nvbios_therm_trip_point *trip = therm->fan->bios.trip,
-> >                                        *cur_trip = NULL,
-> >                                        *last_trip = therm->last_trip;
-> > -       u8  temp = therm->func->temp_get(therm);
-> > +       int temp;
-> >         u16 duty, i;
-> >
-> > +       WARN_ON(nvkm_therm_temp_get(therm, &temp) < 0);
-> > +
+> > It's all great for debugging and sanity checks (and we run with all
+> > that stuff enabled in our CI), but really semantic changes depending
+> > upon magic context checks freak my out :-)
 >
-> I think adding WARN_ONs like this is fine, I am just not sure how much
-> our code is actually protected against the GPU being runtime
-> suspended... so on laptops this could trigger some warnings.. might
-> even be just because nouveau_pmops_runtime_suspend and the hwmon API
-> race here, even though it's quite unlikely that the hwmon thread
-> stalls enough so it survives the entire suspend path. But in theory
-> that could be causing random errors getting reported.
+> All fair, but some of us need to write code that must handle being
+> invoked from a wide variety of contexts.  Now perhaps you like the idea of
+> call_rcu() for schedulable contexts, call_rcu_nosched() when preemption
+> is disabled, call_rcu_irqs_are_disabled() when interrupts are disabled,
+> call_rcu_raw_atomic() from contexts where (for example) raw spinlocks
+> are held, and so on.  However, from what I can see, most people instead
+> consistently prefer that the RCU API instead be consolidated.
 >
+> Some in-flight cache-efficiency work for kvfree_rcu() and call_rcu()
+> needs to be able to allocate memory occasionally.  It can do that when
+> invoked from some contexts, but not when invoked from others.  Right now,
+> in !PREEMPT kernels, it cannot tell, and must either do things to the
+> memory allocators that some of the MM hate or must unnecessarily invoke
+> workqueues.  Thomas's patches would allow the code to just allocate in
+> the common case when these primitives are invoked from contexts where
+> allocation is permitted.
+>
+> If we want to restrict access to the can_schedule() or whatever primitive,
+> fine and good.  We can add a check to checkpatch.pl, for example.  Maybe
+> we can go back to the old brlock approach of requiring certain people's
+> review for each addition to the kernel.
+>
+> But there really are use cases that it would greatly help.
 
-Actually, we never set the status to DRM_SWITCH_POWER_CHANGING, so I
-guess this race is indeed real. I thought we did that, but maybe
-that's because I never send out the patch to use them.
+We can deadlock in random fun places if random stuff we're calling
+suddenly starts allocating. Sometimes. Maybe once in a blue moon, to
+make it extra fun to reproduce. Maybe most driver subsystems are less
+brittle, but gpu drivers definitely need to know about the details for
+exactly this example. And yes gpu drivers use rcu for freeing
+dma_fence structures, and that tends to happen in code that we only
+recently figured out should really not allocate memory.
 
-> >         /* look for the trip point corresponding to the current temperature */
-> >         cur_trip = NULL;
-> >         for (i = 0; i < therm->fan->bios.nr_fan_trip; i++) {
-> > @@ -70,9 +77,11 @@ static int
-> >  nvkm_therm_compute_linear_duty(struct nvkm_therm *therm, u8 linear_min_temp,
-> >                                 u8 linear_max_temp)
-> >  {
-> > -       u8  temp = therm->func->temp_get(therm);
-> > +       int temp;
-> >         u16 duty;
-> >
-> > +       WARN_ON(nvkm_therm_temp_get(therm, &temp) < 0);
-> > +
-> >         /* handle the non-linear part first */
-> >         if (temp < linear_min_temp)
-> >                 return therm->fan->bios.min_duty;
-> > @@ -200,7 +209,7 @@ nvkm_therm_fan_mode(struct nvkm_therm *therm, int mode)
-> >         /* do not allow automatic fan management if the thermal sensor is
-> >          * not available */
-> >         if (mode == NVKM_THERM_CTRL_AUTO &&
-> > -           therm->func->temp_get(therm) < 0)
-> > +           nvkm_therm_temp_get(therm, NULL) < 0)
-> >                 return -EINVAL;
-> >
-> >         if (therm->mode == mode)
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/g84.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/g84.c
-> > index 96f8da40ac82..e2f891d5c7ba 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/g84.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/g84.c
-> > @@ -27,14 +27,15 @@
-> >  #include <subdev/fuse.h>
-> >
-> >  int
-> > -g84_temp_get(struct nvkm_therm *therm)
-> > +g84_temp_get(struct nvkm_therm *therm, int *temp)
-> >  {
-> >         struct nvkm_device *device = therm->subdev.device;
-> >
-> > -       if (nvkm_fuse_read(device->fuse, 0x1a8) == 1)
-> > -               return nvkm_rd32(device, 0x20400);
-> > -       else
-> > +       if (nvkm_fuse_read(device->fuse, 0x1a8) != 1)
-> >                 return -ENODEV;
-> > +
-> > +       *temp = nvkm_rd32(device, 0x20400);
-> > +       return 0;
-> >  }
-> >
-> >  void
-> > @@ -115,7 +116,7 @@ g84_therm_threshold_hyst_emulation(struct nvkm_therm *therm,
-> >         }
-> >
-> >         /* fix the state (in case someone reprogrammed the alarms) */
-> > -       cur = therm->func->temp_get(therm);
-> > +       WARN_ON(nvkm_therm_temp_get(therm, &cur) < 0);
-> >         if (new_state == NVKM_THERM_THRS_LOWER && cur > thrs->temp)
-> >                 new_state = NVKM_THERM_THRS_HIGHER;
-> >         else if (new_state == NVKM_THERM_THRS_HIGHER &&
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
-> > index 9f0dea3f61dc..4c32e4f21bec 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/gp100.c
-> > @@ -24,7 +24,7 @@
-> >  #include "priv.h"
-> >
-> >  static int
-> > -gp100_temp_get(struct nvkm_therm *therm)
-> > +gp100_temp_get(struct nvkm_therm *therm, int *temp)
-> >  {
-> >         struct nvkm_device *device = therm->subdev.device;
-> >         struct nvkm_subdev *subdev = &therm->subdev;
-> > @@ -35,11 +35,12 @@ gp100_temp_get(struct nvkm_therm *therm)
-> >         if (tsensor & 0x40000000)
-> >                 nvkm_trace(subdev, "reading temperature from SHADOWed sensor\n");
-> >
-> > -       /* device valid */
-> > -       if (tsensor & 0x20000000)
-> > -               return (inttemp >> 8);
-> > -       else
-> > +       /* device invalid */
-> > +       if (!(tsensor & 0x20000000))
-> >                 return -ENODEV;
-> > +
-> > +       *temp = inttemp >> 8;
-> > +       return 0;
-> >  }
-> >
-> >  static const struct nvkm_therm_func
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv40.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv40.c
-> > index 2c92ffb5f9d0..9753ad4bee4a 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv40.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv40.c
-> > @@ -70,7 +70,7 @@ nv40_sensor_setup(struct nvkm_therm *therm)
-> >  }
-> >
-> >  static int
-> > -nv40_temp_get(struct nvkm_therm *therm)
-> > +nv40_temp_get(struct nvkm_therm *therm, int *temp)
-> >  {
-> >         struct nvkm_device *device = therm->subdev.device;
-> >         struct nvbios_therm_sensor *sensor = &therm->bios_sensor;
-> > @@ -95,11 +95,8 @@ nv40_temp_get(struct nvkm_therm *therm)
-> >         core_temp = core_temp + sensor->offset_num / sensor->offset_den;
-> >         core_temp = core_temp + sensor->offset_constant - 8;
-> >
-> > -       /* reserve negative temperatures for errors */
-> > -       if (core_temp < 0)
-> > -               core_temp = 0;
-> > -
-> > -       return core_temp;
-> > +       *temp = core_temp;
-> > +       return 0;
-> >  }
-> >
-> >  static int
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv50.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv50.c
-> > index 9b57b433d4cf..38fa6777c129 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv50.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/nv50.c
-> > @@ -126,7 +126,7 @@ nv50_sensor_setup(struct nvkm_therm *therm)
-> >  }
-> >
-> >  static int
-> > -nv50_temp_get(struct nvkm_therm *therm)
-> > +nv50_temp_get(struct nvkm_therm *therm, int *temp)
-> >  {
-> >         struct nvkm_device *device = therm->subdev.device;
-> >         struct nvbios_therm_sensor *sensor = &therm->bios_sensor;
-> > @@ -143,11 +143,8 @@ nv50_temp_get(struct nvkm_therm *therm)
-> >         core_temp = core_temp + sensor->offset_num / sensor->offset_den;
-> >         core_temp = core_temp + sensor->offset_constant - 8;
-> >
-> > -       /* reserve negative temperatures for errors */
-> > -       if (core_temp < 0)
-> > -               core_temp = 0;
-> > -
-> > -       return core_temp;
-> > +       *temp = core_temp;
-> > +       return 0;
-> >  }
-> >
-> >  static void
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
-> > index 21659daf1864..04607d8b1755 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/priv.h
-> > @@ -91,7 +91,15 @@ struct nvkm_therm_func {
-> >         int (*pwm_set)(struct nvkm_therm *, int line, u32, u32);
-> >         int (*pwm_clock)(struct nvkm_therm *, int line);
-> >
-> > -       int (*temp_get)(struct nvkm_therm *);
-> > +       /**
-> > +        * @temp_get: Get the temperature reading from a thermal device
-> > +        *
-> > +        * @therm: The thermal device instance.
-> > +        * @temp: A pointer to write the temperature reading to.
-> > +        *
-> > +        * Returns: Zero on success, or a negative error code on failure.
-> > +        */
-> > +       int (*temp_get)(struct nvkm_therm *therm, int *temp);
-> >
-> >         int (*fan_sense)(struct nvkm_therm *);
-> >
-> > @@ -110,7 +118,12 @@ int  nv50_fan_pwm_get(struct nvkm_therm *, int, u32 *, u32 *);
-> >  int  nv50_fan_pwm_set(struct nvkm_therm *, int, u32, u32);
-> >  int  nv50_fan_pwm_clock(struct nvkm_therm *, int);
-> >
-> > -int  g84_temp_get(struct nvkm_therm *);
-> > +/**
-> > + * g84_temp_get() - An implementation of the &struct nvkm_therm_func temp_get()
-> > + * @therm: The thermal device instance.
-> > + * @temp: A pointer to write the temperature reading to.
-> > + */
-> > +int  g84_temp_get(struct nvkm_therm *therm, int *temp);
-> >  void g84_sensor_setup(struct nvkm_therm *);
-> >  void g84_therm_fini(struct nvkm_therm *);
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/temp.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/temp.c
-> > index ddb2b2c600ca..1e8803901abc 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/temp.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/temp.c
-> > @@ -86,7 +86,9 @@ nvkm_therm_sensor_event(struct nvkm_therm *therm, enum nvkm_therm_thrs thrs,
-> >         static const char * const thresholds[] = {
-> >                 "fanboost", "downclock", "critical", "shutdown"
-> >         };
-> > -       int temperature = therm->func->temp_get(therm);
-> > +       int temperature;
-> > +
-> > +       WARN_ON(nvkm_therm_temp_get(therm, &temperature) < 0);
-> >
-> >         if (thrs < 0 || thrs > 3)
-> >                 return;
-> > @@ -140,7 +142,9 @@ nvkm_therm_threshold_hyst_polling(struct nvkm_therm *therm,
-> >  {
-> >         enum nvkm_therm_thrs_direction direction;
-> >         enum nvkm_therm_thrs_state prev_state, new_state;
-> > -       int temp = therm->func->temp_get(therm);
-> > +       int temp;
-> > +
-> > +       WARN_ON(nvkm_therm_temp_get(therm, &temp) < 0);
-> >
-> >         prev_state = nvkm_therm_sensor_get_threshold_state(therm, thrs_name);
-> >
-> > @@ -185,7 +189,7 @@ alarm_timer_callback(struct nvkm_alarm *alarm)
-> >         spin_unlock_irqrestore(&therm->sensor.alarm_program_lock, flags);
-> >
-> >         /* schedule the next poll in one second */
-> > -       if (therm->func->temp_get(therm) >= 0)
-> > +       if (nvkm_therm_temp_get(therm, NULL) >= 0)
-> >                 nvkm_timer_alarm(tmr, 1000000000ULL, alarm);
-> >  }
-> >
-> > @@ -229,7 +233,7 @@ nvkm_therm_sensor_preinit(struct nvkm_therm *therm)
-> >  {
-> >         const char *sensor_avail = "yes";
-> >
-> > -       if (therm->func->temp_get(therm) < 0)
-> > +       if (nvkm_therm_temp_get(therm, NULL) < 0)
-> >                 sensor_avail = "no";
-> >
-> >         nvkm_debug(&therm->subdev, "internal sensor: %s\n", sensor_avail);
-> > --
-> > 2.26.2
-> >
+I think minimally you need to throw in an unconditional
+fs_reclaim_acquire();fs_reclaim_release(); so that everyone who runs
+with full debugging knows what might happen. It's kinda like
+might_sleep, but a lot more specific. might_sleep() alone is not
+enough, because in the specific code paths I'm thinking of (and
+created special lockdep annotations for just recently) sleeping is
+allowed, but any memory allocations with GFP_RECLAIM set are no-go.
 
+Cheers, Daniel
+
+
+
+
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
