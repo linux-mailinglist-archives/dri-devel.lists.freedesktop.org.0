@@ -1,78 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CB026C43A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:32:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA3526C49B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:52:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E066EA2D;
-	Wed, 16 Sep 2020 15:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CFC6EA5A;
+	Wed, 16 Sep 2020 15:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76F5D6EA2D
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 15:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600270358;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3/efu16wz2bAmmly2Sbi/vrfR4bsazT4NhD8SO/s8aY=;
- b=Vm2nsevssG6smgOofXugnWV4YhpF8f0y3xVdxBck8QVvTnbvL3DWEjb64tHxBh3fbE2sZh
- kaNTQWfi/UrL38evq/tRVcegD+mq+TyUzKKooZdSD5esXHMtMrUCoFmHUER6nIZIVWcZJR
- SkU1/rjeCQFzbMk2qNiRH/IK25+m30Q=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-3vp-3GRCO8Kw12w6QdlIHw-1; Wed, 16 Sep 2020 11:32:32 -0400
-X-MC-Unique: 3vp-3GRCO8Kw12w6QdlIHw-1
-Received: by mail-qv1-f71.google.com with SMTP id w32so4863180qvw.8
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 08:32:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=3/efu16wz2bAmmly2Sbi/vrfR4bsazT4NhD8SO/s8aY=;
- b=EIHNYHS1uztxcvf3Mv85SEnqGH60CsQ0AJIVOwBqb3XfXfoS5lH5HBXC6ni9f9B5mN
- nwUIXDagDfE9YAgR+dEqEq/GqgSSjj5uNgoh+Ol3vZmLzVxZ6yMtlL8DZeXAbCXMzNQy
- An09wtx3ujwMOCr0i0DShmukL2E5Ib7f4MThz2sxSW2fqZ9qAPXGTHTdRfj/FIX6j39o
- qIPYoNiyBoH7UEVFKAGpNQpZeNXk9FxasSg8Z7InwyI41h36ZU0WaxkbT4so/FuuWv1S
- dRJbwyoF509X/RJZx2bbCikdnPdMihXKtqXvbwCzoLWeUgmVMzWrRrZx4NsuQhbGc1CD
- ZLMQ==
-X-Gm-Message-State: AOAM532NCJLMB/e1s83O97lkK6S5Ie95KthpR1eunnPHtZkQiI1WdX9o
- UQobe3JuXfMtNyu9R++JF4kCiuVa0esB0dzUX/Rmv4PQxJoOJYkgHGgF89CqtDrfMYCmmEcDIiU
- ijPpIN/H9R7xoflLz+4R8QkrNTPDr
-X-Received: by 2002:a37:990:: with SMTP id 138mr23112359qkj.53.1600270352158; 
- Wed, 16 Sep 2020 08:32:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwklSE00+B71ao1DI+TFBaPxvUWeVVqcFDwZEZx4oZR70imhVCYMHO7ieRanYzzJ4TNVdGqhg==
-X-Received: by 2002:a37:990:: with SMTP id 138mr23112334qkj.53.1600270351881; 
- Wed, 16 Sep 2020 08:32:31 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id n144sm20153331qkn.69.2020.09.16.08.32.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 08:32:31 -0700 (PDT)
-Message-ID: <1a13028b0080bc050ab6ad172d05de06a78d73b1.camel@redhat.com>
-Subject: Re: [Intel-gfx] [RFC 1/5] drm/i915/dp: Program source OUI on eDP
- panels
-From: Lyude Paul <lyude@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>
-Date: Wed, 16 Sep 2020 11:32:29 -0400
-In-Reply-To: <87mu1qw4ig.fsf@intel.com>
-References: <20200915172939.2810538-1-lyude@redhat.com>
- <20200915172939.2810538-2-lyude@redhat.com>
- <20200915190639.GC503362@intel.com> <87mu1qw4ig.fsf@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0CE96EA5A;
+ Wed, 16 Sep 2020 15:52:40 +0000 (UTC)
+IronPort-SDR: L2BcySGrhLyFO9CSVQv2TP/W0alV81OBECvu8LPUM67tfDnZw581ZCsdGh8JNxOLyWGDoO7pOH
+ qTxdZppXyiKQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="158784848"
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; d="scan'208";a="158784848"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2020 08:52:39 -0700
+IronPort-SDR: 44wKCMYkqD5OoofWshq+uW4Yb4+tHbW7ugcL4WY+QpM2UGKL0BP8nNLZHW+vUZI5jt/vuF/Tng
+ YnXhLSjuWldw==
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; d="scan'208";a="451909434"
+Received: from kbs1-mobl1.gar.corp.intel.com (HELO [10.213.73.60])
+ ([10.213.73.60])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2020 08:52:35 -0700
+Subject: Re: [PATCH v8 5/8] drm/i915: Add dedicated plane hook for async flip
+ case
+From: Karthik B S <karthik.b.s@intel.com>
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20200914055633.21109-1-karthik.b.s@intel.com>
+ <20200914055633.21109-6-karthik.b.s@intel.com>
+ <20200915144149.GN6112@intel.com>
+ <9a647b20-c391-0997-4fe6-8579d4591aa9@intel.com>
+Message-ID: <3e36bc0e-0da5-b1e6-28f7-38d82c864f42@intel.com>
+Date: Wed, 16 Sep 2020 21:22:32 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <9a647b20-c391-0997-4fe6-8579d4591aa9@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,157 +55,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Vasily Khoruzhick <anarsoul@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
+ dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-09-16 at 10:43 +0300, Jani Nikula wrote:
-> On Tue, 15 Sep 2020, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> > On Tue, Sep 15, 2020 at 01:29:35PM -0400, Lyude Paul wrote:
-> > > Since we're about to start adding support for Intel's magic HDR
-> > > backlight interface over DPCD, we need to ensure we're properly
-> > > programming this field so that Intel specific sink services are exposed.
-> > > Otherwise, 0x300-0x3ff will just read zeroes.
-> > > 
-> > > We also take care not to reprogram the source OUI if it already matches
-> > > what we expect. This is just to be careful so that we don't accidentally
-> > > take the panel out of any backlight control modes we found it in.
-> 
-> (For whatever reason I didn't receive the original message.)
-> 
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > Cc: thaytan@noraisin.net
-> > > Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_dp.c | 32 +++++++++++++++++++++++++
-> > >  1 file changed, 32 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> > > b/drivers/gpu/drm/i915/display/intel_dp.c
-> > > index 4bd10456ad188..b591672ec4eab 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > > @@ -3428,6 +3428,7 @@ void intel_dp_sink_set_decompression_state(struct
-> > > intel_dp *intel_dp,
-> > >  void intel_dp_sink_dpms(struct intel_dp *intel_dp, int mode)
-> > >  {
-> > >  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > > +	u8 edp_oui[] = { 0x00, 0xaa, 0x01 };
-> > 
-> > what are these values?
-> 
-> An OUI lookup confirms these are Intel OUI.
-
-Thanks for the confirmation!
-
-> 
-> > >  	int ret, i;
-> > >  
-> > >  	/* Should have a valid DPCD by this point */
-> > > @@ -3443,6 +3444,14 @@ void intel_dp_sink_dpms(struct intel_dp *intel_dp,
-> > > int mode)
-> > >  	} else {
-> > >  		struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
-> > >  
-> > > +		/* Write the source OUI as early as possible */
-> > > +		if (intel_dp_is_edp(intel_dp)) {
-> > > +			ret = drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI,
-> > > edp_oui,
-> > > +						sizeof(edp_oui));
-> > > +			if (ret < 0)
-> > > +				drm_err(&i915->drm, "Failed to write eDP source
-> > > OUI\n");
-> > > +		}
-> > > +
-> > >  		/*
-> > >  		 * When turning on, we need to retry for 1ms to give the sink
-> > >  		 * time to wake up.
-> > > @@ -4530,6 +4539,23 @@ static void intel_dp_get_dsc_sink_cap(struct
-> > > intel_dp *intel_dp)
-> > >  	}
-> > >  }
-> > >  
-> > > +static void
-> > > +intel_edp_init_source_oui(struct intel_dp *intel_dp)
-> > > +{
-> > > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > > +	u8 oui[] = { 0x00, 0xaa, 0x01 };
-> > > +	u8 buf[3] = { 0 };
-> > > +
-> > > +	if (drm_dp_dpcd_read(&intel_dp->aux, DP_SOURCE_OUI, buf, sizeof(buf)) <
-> > > 0)
-> > > +		drm_err(&i915->drm, "Failed to read source OUI\n");
-> > > +
-> > > +	if (memcmp(oui, buf, sizeof(oui)) == 0)
-> > > +		return;
-> > > +
-> > > +	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) <
-> > > 0)
-> > > +		drm_err(&i915->drm, "Failed to write source OUI\n");
-> > > +}
-> 
-> Maybe add this function with a parameter to force write or write only if
-> necessary, and call from both places that set source OUI?
-> 
-> > > +
-> > >  static bool
-> > >  intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> > >  {
-> > > @@ -4607,6 +4633,12 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> > >  	if (INTEL_GEN(dev_priv) >= 10 || IS_GEMINILAKE(dev_priv))
-> > >  		intel_dp_get_dsc_sink_cap(intel_dp);
-> > >  
-> > > +	/*
-> > > +	 * Program our source OUI so we can make various Intel-specific AUX
-> > > +	 * services available (such as HDR backlight controls)
-> > > +	 */
-> > > +	intel_edp_init_source_oui(intel_dp);
-> > 
-> > I believe we should restrict this to the supported platforms: cfl, whl, cml,
-> > icl, tgl
-> > no?
-> 
-> Mmh, this just exposes sink behaviour that I think can be supported by
-> any platform. I don't understand the notion of "supported platforms"
-> here.
-
-Probably because the spec sheets that we have on this seem to suggest that this
-is new for particular platforms, and Intel seems to also additionally move a bit
-away from some of the interfaces exposed here onto actual VESA standards
-starting with icl and tgl.
-
-I would be fine with adding this, but I'm not really sure it's needed here
-either unless we want to stop using Intel backlight control interfaces for later
-hardware generations at some point in the future.
-
-> 
-> > > +
-> > >  	return true;
-> > >  }
-> > >  
-> > > -- 
-> > > 2.26.2
-> > > 
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
--- 
-Sincerely,
-      Lyude Paul (she/her)
-      Software Engineer at Red Hat
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiA5LzE2LzIwMjAgNjozMCBQTSwgS2FydGhpayBCIFMgd3JvdGU6Cj4gCj4gCj4gT24gOS8x
+NS8yMDIwIDg6MTEgUE0sIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToKPj4gT24gTW9uLCBTZXAgMTQs
+IDIwMjAgYXQgMTE6MjY6MzBBTSArMDUzMCwgS2FydGhpayBCIFMgd3JvdGU6Cj4+PiBUaGlzIGhv
+b2sgaXMgYWRkZWQgdG8gYXZvaWQgd3JpdGluZyBvdGhlciBwbGFuZSByZWdpc3RlcnMgaW4gY2Fz
+ZSBvZgo+Pj4gYXN5bmMgZmxpcHMsIHNvIHRoYXQgd2UgZG8gbm90IHdyaXRlIHRoZSBkb3VibGUg
+YnVmZmVyZWQgcmVnaXN0ZXJzCj4+PiBkdXJpbmcgYXN5bmMgc3VyZmFjZSBhZGRyZXNzIHVwZGF0
+ZS4KPj4+Cj4+PiB2NzogLVBsYW5lIGN0bCBuZWVkcyBiaXRzIGZyb20gc2tsX3BsYW5lX2N0bF9j
+cnRjIGFzIHdlbGwuIChWaWxsZSkKPj4+IMKgwqDCoMKgIC1BZGQgYSB2ZnVuYyBmb3Igc2tsX3By
+b2dyYW1fYXN5bmNfc3VyZmFjZV9hZGRyZXNzCj4+PiDCoMKgwqDCoMKgIGFuZCBjYWxsIGl0IGZy
+b20gaW50ZWxfdXBkYXRlX3BsYW5lLiAoVmlsbGUpCj4+Pgo+Pj4gdjg6IC1SZWJhc2VkLgo+Pj4K
+Pj4+IFNpZ25lZC1vZmYtYnk6IEthcnRoaWsgQiBTIDxrYXJ0aGlrLmIuc0BpbnRlbC5jb20+Cj4+
+PiBTaWduZWQtb2ZmLWJ5OiBWYW5kaXRhIEt1bGthcm5pIDx2YW5kaXRhLmt1bGthcm5pQGludGVs
+LmNvbT4KPj4+IC0tLQo+Pj4gwqAgLi4uL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21p
+Y19wbGFuZS5jIHzCoCA3ICsrKysrKwo+Pj4gwqAgLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+ZGlzcGxheV90eXBlcy5owqDCoMKgIHzCoCAzICsrKwo+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUuY8KgwqAgfCAyNCArKysrKysrKysrKysrKysrKysrCj4+
+PiDCoCAzIGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKykKPj4+Cj4+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYyAKPj4+
+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYwo+Pj4g
+aW5kZXggNzkwMzI3MDE4NzNhLi5mZGM2MzMwMjAyNTUgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFuZS5jCj4+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFuZS5jCj4+PiBAQCAtNDA4
+LDYgKzQwOCwxMyBAQCB2b2lkIGludGVsX3VwZGF0ZV9wbGFuZShzdHJ1Y3QgaW50ZWxfcGxhbmUg
+KnBsYW5lLAo+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YyA9IHRvX2ludGVs
+X2NydGMoY3J0Y19zdGF0ZS0+dWFwaS5jcnRjKTsKPj4+IMKgwqDCoMKgwqAgdHJhY2VfaW50ZWxf
+dXBkYXRlX3BsYW5lKCZwbGFuZS0+YmFzZSwgY3J0Yyk7Cj4+PiArCj4+PiArwqDCoMKgIGlmIChj
+cnRjX3N0YXRlLT51YXBpLmFzeW5jX2ZsaXApIHsKPj4KPj4gSG1tLiBOb3cgSSdtIHN0YXJ0aW5n
+IHRvIHdvbmRlciBob3cgdGhpcyBpcyBhY3R1YWxseSBnb2luZyB0byBpbnRlcmFjdAo+PiB3aXRo
+IGxlZ2FjeSBjdXJzb3IgdXBkYXRlcy4gVGhlIGNydGNfc3RhdGUgd2UgdXNlIHRoZXJlIEkgdGhp
+bmsgY29tZXMKPj4gZnJvbSB0aGUgcHJldmlvdXMgdXBkYXRlIGFuZCBzbyB3aWxsIGhhdmUgdGhp
+cyBmbGFnIHNldCBpdCBpZiB3YXMgYW4KPj4gYXN5bmMgZmxpcC4gV2hpY2ggbWVhbnMgdGhlIGN1
+cnNvciBpb2N0bCB3aWxsIG9vcHMuCj4+Cj4+IFdlIG1heSB3YW50IHRoZSBpZ3QgdG8gY2hlY2sg
+dGhpcyBwYXJ0aWN1bGFyIGNvbWJpbmF0aW9uIG9mIGlvY3Rscwo+PiBhY3R1YWxseS4KPj4KPiAK
+PiBJIHRyaWVkIHRoaXMgb3V0IGxvY2FsbHkgYnkgdXNpbmcgdGhlIERSTV9JT0NUTF9NT0RFX0NV
+UlNPUiBpb2N0bCBhZnRlciAKPiBhbiBhc3luYyBmbGlwLiBBbmQgbG9va3MgbGlrZSBpdHMgd29y
+a2luZyBmaW5lLiBEdXJpbmcgdGhlIGN1cnNvciBjb21taXQgCj4gaXQgYWN0dWFsbHkgdGFrZXMg
+dGhlICdlbHNlJyBwYXRoLgo+IAo+IEknbGwgc2VuZCBvdXQgdGhlIG5ldyB2ZXJzaW9uIG9mIHRo
+ZSBJR1Qgc2hvcnRseSB3aXRoIHRoaXMgc3VidGVzdCAKPiBhZGRlZC4gUGxlYXNlIGxldCBtZSBr
+bm93IGlmIEknbSBtaXNzaW5nIHNvbWV0aGluZyB0aGVyZS4KPiAKCkkndmUgcHVzaGVkIHRoZSBJ
+R1Qgd2l0aCB0aGUgY3Vyc29yIHN1YnRlc3QgYWRkZWQuCmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
+ZXNrdG9wLm9yZy9zZXJpZXMvNzk3MDEvCgpUaGFua3MsCkthcnRoaWsuQi5TCj4gVGhhbmtzLAo+
+IEthcnRoaWsuQi5TCj4+PiArwqDCoMKgwqDCoMKgwqAgcGxhbmUtPnByb2dyYW1fYXN5bmNfc3Vy
+ZmFjZV9hZGRyZXNzKHBsYW5lLAo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNydGNfc3RhdGUsIHBsYW5lX3N0YXRlKTsKPj4+ICvC
+oMKgwqDCoMKgwqDCoCByZXR1cm47Cj4+PiArwqDCoMKgIH0KPj4+ICsKPj4+IMKgwqDCoMKgwqAg
+cGxhbmUtPnVwZGF0ZV9wbGFuZShwbGFuZSwgY3J0Y19zdGF0ZSwgcGxhbmVfc3RhdGUpOwo+Pj4g
+wqAgfQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+ZGlzcGxheV90eXBlcy5oIAo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X2Rpc3BsYXlfdHlwZXMuaAo+Pj4gaW5kZXggYjJkMGVkYWNjNThjLi5kMmFlNzgxZTRkODEgMTAw
+NjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlf
+dHlwZXMuaAo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNw
+bGF5X3R5cGVzLmgKPj4+IEBAIC0xMTkwLDYgKzExOTAsOSBAQCBzdHJ1Y3QgaW50ZWxfcGxhbmUg
+ewo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGludGVsX3BsYW5l
+X3N0YXRlICpwbGFuZV9zdGF0ZSk7Cj4+PiDCoMKgwqDCoMKgIGludCAoKm1pbl9jZGNsaykoY29u
+c3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCj4+PiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBpbnRlbF9wbGFuZV9zdGF0ZSAqcGxhbmVfc3Rh
+dGUpOwo+Pj4gK8KgwqDCoCB2b2lkICgqcHJvZ3JhbV9hc3luY19zdXJmYWNlX2FkZHJlc3MpKHN0
+cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNy
+dGNfc3RhdGUsCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgY29uc3Qgc3RydWN0IGludGVsX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSk7Cj4+
+PiDCoCB9Owo+Pj4gwqAgc3RydWN0IGludGVsX3dhdGVybWFya19wYXJhbXMgewo+Pj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMgCj4+PiBi
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMKPj4+IGluZGV4IGYw
+Yzg5NDE4ZDJlMS4uNjk0MDdkZmNlYmY2IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUuYwo+Pj4gQEAgLTYwOSw2ICs2MDksMjkgQEAgaWNsX3By
+b2dyYW1faW5wdXRfY3NjKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgUExBTkVfSU5QVVRfQ1NDX1BPU1RPRkYocGlwZSwgcGxhbmVf
+aWQsIDIpLCAweDApOwo+Pj4gwqAgfQo+Pj4gK3N0YXRpYyB2b2lkCj4+PiArc2tsX3Byb2dyYW1f
+YXN5bmNfc3VyZmFjZV9hZGRyZXNzKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+PiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19z
+dGF0ZSAqY3J0Y19zdGF0ZSwKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGNvbnN0IHN0cnVjdCBpbnRlbF9wbGFuZV9zdGF0ZSAqcGxhbmVfc3RhdGUpCj4+PiArewo+Pj4g
+K8KgwqDCoCBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1KHBsYW5l
+LT5iYXNlLmRldik7Cj4+PiArwqDCoMKgIHVuc2lnbmVkIGxvbmcgaXJxZmxhZ3M7Cj4+PiArwqDC
+oMKgIGVudW0gcGxhbmVfaWQgcGxhbmVfaWQgPSBwbGFuZS0+aWQ7Cj4+PiArwqDCoMKgIGVudW0g
+cGlwZSBwaXBlID0gcGxhbmUtPnBpcGU7Cj4+PiArwqDCoMKgIHUzMiBzdXJmX2FkZHIgPSBwbGFu
+ZV9zdGF0ZS0+Y29sb3JfcGxhbmVbMF0ub2Zmc2V0Owo+Pj4gK8KgwqDCoCB1MzIgcGxhbmVfY3Rs
+ID0gcGxhbmVfc3RhdGUtPmN0bDsKPj4+ICsKPj4+ICvCoMKgwqAgcGxhbmVfY3RsIHw9IHNrbF9w
+bGFuZV9jdGxfY3J0YyhjcnRjX3N0YXRlKTsKPj4+ICsKPj4+ICvCoMKgwqAgc3Bpbl9sb2NrX2ly
+cXNhdmUoJmRldl9wcml2LT51bmNvcmUubG9jaywgaXJxZmxhZ3MpOwo+Pj4gKwo+Pj4gK8KgwqDC
+oCBpbnRlbF9kZV93cml0ZV9mdyhkZXZfcHJpdiwgUExBTkVfQ1RMKHBpcGUsIHBsYW5lX2lkKSwg
+cGxhbmVfY3RsKTsKPj4+ICvCoMKgwqAgaW50ZWxfZGVfd3JpdGVfZncoZGV2X3ByaXYsIFBMQU5F
+X1NVUkYocGlwZSwgcGxhbmVfaWQpLAo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlu
+dGVsX3BsYW5lX2dndHRfb2Zmc2V0KHBsYW5lX3N0YXRlKSArIHN1cmZfYWRkcik7Cj4+PiArCj4+
+PiArwqDCoMKgIHNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmRldl9wcml2LT51bmNvcmUubG9jaywg
+aXJxZmxhZ3MpOwo+Pj4gK30KPj4+ICsKPj4+IMKgIHN0YXRpYyB2b2lkCj4+PiDCoCBza2xfcHJv
+Z3JhbV9wbGFuZShzdHJ1Y3QgaW50ZWxfcGxhbmUgKnBsYW5lLAo+Pj4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwKPj4+IEBA
+IC0zMDk2LDYgKzMxMTksNyBAQCBza2xfdW5pdmVyc2FsX3BsYW5lX2NyZWF0ZShzdHJ1Y3QgCj4+
+PiBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiwKPj4+IMKgwqDCoMKgwqAgcGxhbmUtPmdldF9o
+d19zdGF0ZSA9IHNrbF9wbGFuZV9nZXRfaHdfc3RhdGU7Cj4+PiDCoMKgwqDCoMKgIHBsYW5lLT5j
+aGVja19wbGFuZSA9IHNrbF9wbGFuZV9jaGVjazsKPj4+IMKgwqDCoMKgwqAgcGxhbmUtPm1pbl9j
+ZGNsayA9IHNrbF9wbGFuZV9taW5fY2RjbGs7Cj4+PiArwqDCoMKgIHBsYW5lLT5wcm9ncmFtX2Fz
+eW5jX3N1cmZhY2VfYWRkcmVzcyA9IAo+Pj4gc2tsX3Byb2dyYW1fYXN5bmNfc3VyZmFjZV9hZGRy
+ZXNzOwo+Pj4gwqDCoMKgwqDCoCBpZiAoSU5URUxfR0VOKGRldl9wcml2KSA+PSAxMSkKPj4+IMKg
+wqDCoMKgwqDCoMKgwqDCoCBmb3JtYXRzID0gaWNsX2dldF9wbGFuZV9mb3JtYXRzKGRldl9wcml2
+LCBwaXBlLAo+Pj4gLS0gCj4+PiAyLjIyLjAKPj4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
