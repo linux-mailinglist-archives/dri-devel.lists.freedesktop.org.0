@@ -2,57 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDE226C48F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4555E26C490
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0056D6EA59;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C3E6EA58;
 	Wed, 16 Sep 2020 15:49:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC906E158
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:07:10 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id t10so6487120wrv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 04:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9nu6UrMqV2SVJMMVWIQbvvsBT41Bk/x2/rbQZZMvR5c=;
- b=RPRtBcCg7Nlj0wORAHGE/VDKI3mlLQS/qXvivUL4M7/JW5ECAKalvw72hjSbxez8Aw
- lMCZYbPq15i6bIjwQAxfIDpzMfPNPU/WZzWlPgKpy/oc+Y6L6jiGzWLpVMJB08/BtSZT
- oD2dRBEBNsclb8R+SHrzd4iEmmwYG8+TCQGsqD7GKc1k8aVkk3vybhh7XzdFgXUgO9lI
- QYDm0ol0pN3tx1rzzGaDqWMGc+wiiGj82UfSpSfbYEgpd1LIf+jsy1e4OB0MSuUMFEro
- jQSQHm/io9aXGCi5lKWqazsAZMtxawDIHKwA08vwThJ4DSoOkZZBbBDobGS4XE3i1iKb
- ItAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9nu6UrMqV2SVJMMVWIQbvvsBT41Bk/x2/rbQZZMvR5c=;
- b=d3yiHM9nV2UqX8IA491OVYmvq3rYfIFCWcytWMLl88e6tGIjxGCHNOmV8Tu/LRiErc
- lG/LPehPsT1DOt9ycdQvBoaV6LSwJrWVycwhL5TjTkSFU/6hJWyHxU4Upenx5oTcJtgE
- JWLiW9GOv3hM5UFtFqtrERjYAgt1bDcTVpKFZBJJn4BQt+G0VpGsSJ9BA1PEj4hGu+l3
- iy44z2jENbRFL99dF5JZFPwRSf8MxQz0L/gIjAPXte0Bg4kVJd2BJu9cutCogNo39ObS
- MiM++T709vAP2zAIb/B/KbpAX+VDtL/RD2l/jBitWxCbesGt7xe42+0lwCWJw2/tO3Uj
- 0B5g==
-X-Gm-Message-State: AOAM530KOqg0OI0HM9zP1sDqQmTFEviTunwik25/qduzyFK+X56x91PA
- 99U09Fdb8SglVuDNTIJQXr9q5A==
-X-Google-Smtp-Source: ABdhPJzs9y1RZuz1TgxiB6r0FtvUq2fsAnxRCKUrCMfPgN1zHNdHumy2WgbVHV91xEdhhPCKXoSDYQ==
-X-Received: by 2002:a5d:60d0:: with SMTP id x16mr25862069wrt.196.1600254428922; 
- Wed, 16 Sep 2020 04:07:08 -0700 (PDT)
-Received: from localhost.localdomain ([212.45.67.2])
- by smtp.googlemail.com with ESMTPSA id l19sm4682554wmi.8.2020.09.16.04.07.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 16 Sep 2020 04:07:08 -0700 (PDT)
-From: Georgi Djakov <georgi.djakov@linaro.org>
-To: robdclark@gmail.com,
-	sean@poorly.run
-Subject: [PATCH] drm/msm: Remove depends on interconnect
-Date: Wed, 16 Sep 2020 14:07:06 +0300
-Message-Id: <20200916110706.6671-1-georgi.djakov@linaro.org>
-X-Mailer: git-send-email 2.27.0
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106F76E158
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 11:07:09 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id DDB546E93D4F92723607;
+ Wed, 16 Sep 2020 19:07:05 +0800 (CST)
+Received: from huawei.com (10.90.53.225) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Wed, 16 Sep 2020
+ 19:07:01 +0800
+From: Qilong Zhang <zhangqilong3@huawei.com>
+To: <b.zolnierkie@samsung.com>
+Subject: [PATCH -next] dss:use devm_platform_ioremap_resource_byname
+Date: Wed, 16 Sep 2020 19:13:53 +0800
+Message-ID: <20200916111353.105914-1-zhangqilong3@huawei.com>
+X-Mailer: git-send-email 2.26.0.106.g9fadedd
 MIME-Version: 1.0
+X-Originating-IP: [10.90.53.225]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 16 Sep 2020 15:49:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,36 +40,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, georgi.djakov@linaro.org
+Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dependency on interconnect in the Kconfig was introduced to avoid
-the case of interconnect=m and driver=y, but the interconnect framework
-has been converted from tristate to bool now. Remove the dependency as
-the framework can't be a module anymore.
+Use the devm_platform_ioremap_resource_byname() helper instead of
+calling platform_get_resource_byname() and devm_ioremap_resource()
+separately.
 
-Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
+Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 ---
- drivers/gpu/drm/msm/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ .../video/fbdev/omap2/omapfb/dss/hdmi4_core.c | 10 +--------
+ .../video/fbdev/omap2/omapfb/dss/hdmi5_core.c | 10 +--------
+ .../video/fbdev/omap2/omapfb/dss/hdmi_phy.c   | 10 +--------
+ .../video/fbdev/omap2/omapfb/dss/hdmi_pll.c   |  9 +-------
+ .../video/fbdev/omap2/omapfb/dss/video-pll.c  | 21 +++----------------
+ 5 files changed, 7 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index 5c55cd0ce9f9..3348969460ab 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -6,7 +6,6 @@ config DRM_MSM
- 	depends on ARCH_QCOM || SOC_IMX5 || (ARM && COMPILE_TEST)
- 	depends on OF && COMMON_CLK
- 	depends on MMU
--	depends on INTERCONNECT || !INTERCONNECT
- 	depends on QCOM_OCMEM || QCOM_OCMEM=n
- 	select QCOM_MDT_LOADER if ARCH_QCOM
- 	select REGULATOR
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
+index 7ca1803bf161..726c190862d4 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
+@@ -875,15 +875,7 @@ void hdmi4_audio_stop(struct hdmi_core_data *core, struct hdmi_wp_data *wp)
+ 
+ int hdmi4_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+ {
+-	struct resource *res;
+-
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+-	if (!res) {
+-		DSSERR("can't get CORE mem resource\n");
+-		return -EINVAL;
+-	}
+-
+-	core->base = devm_ioremap_resource(&pdev->dev, res);
++	core->base = devm_platform_ioremap_resource_byname(pdev, "core");
+ 	if (IS_ERR(core->base)) {
+ 		DSSERR("can't ioremap CORE\n");
+ 		return PTR_ERR(core->base);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
+index 2f6ff14a48d9..eda29d3032e1 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
+@@ -887,15 +887,7 @@ int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+ 
+ int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+ {
+-	struct resource *res;
+-
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+-	if (!res) {
+-		DSSERR("can't get CORE IORESOURCE_MEM HDMI\n");
+-		return -EINVAL;
+-	}
+-
+-	core->base = devm_ioremap_resource(&pdev->dev, res);
++	core->base = devm_platform_ioremap_resource_byname(pdev, "core");
+ 	if (IS_ERR(core->base)) {
+ 		DSSERR("can't ioremap HDMI core\n");
+ 		return PTR_ERR(core->base);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c
+index 9c645adba9e2..6fbfeb01b315 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_phy.c
+@@ -207,19 +207,11 @@ static const struct hdmi_phy_features *hdmi_phy_get_features(void)
+ 
+ int hdmi_phy_init(struct platform_device *pdev, struct hdmi_phy_data *phy)
+ {
+-	struct resource *res;
+-
+ 	phy_feat = hdmi_phy_get_features();
+ 	if (!phy_feat)
+ 		return -ENODEV;
+ 
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
+-	if (!res) {
+-		DSSERR("can't get PHY mem resource\n");
+-		return -EINVAL;
+-	}
+-
+-	phy->base = devm_ioremap_resource(&pdev->dev, res);
++	phy->base = devm_platform_ioremap_resource_byname(pdev, "phy");
+ 	if (IS_ERR(phy->base)) {
+ 		DSSERR("can't ioremap TX PHY\n");
+ 		return PTR_ERR(phy->base);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
+index 4991be031b0b..eb984d9999fe 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
+@@ -220,17 +220,10 @@ int hdmi_pll_init(struct platform_device *pdev, struct hdmi_pll_data *pll,
+ 	struct hdmi_wp_data *wp)
+ {
+ 	int r;
+-	struct resource *res;
+ 
+ 	pll->wp = wp;
+ 
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "pll");
+-	if (!res) {
+-		DSSERR("can't get PLL mem resource\n");
+-		return -EINVAL;
+-	}
+-
+-	pll->base = devm_ioremap_resource(&pdev->dev, res);
++	pll->base = devm_platform_ioremap_resource_byname(pdev, "pll");
+ 	if (IS_ERR(pll->base)) {
+ 		DSSERR("can't ioremap PLLCTRL\n");
+ 		return PTR_ERR(pll->base);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c b/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c
+index f45fe60b9e7d..bff03d920722 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/video-pll.c
+@@ -129,7 +129,6 @@ struct dss_pll *dss_video_pll_init(struct platform_device *pdev, int id,
+ 	const char * const clkctrl_name[] = { "pll1_clkctrl", "pll2_clkctrl" };
+ 	const char * const clkin_name[] = { "video1_clk", "video2_clk" };
+ 
+-	struct resource *res;
+ 	struct dss_video_pll *vpll;
+ 	void __iomem *pll_base, *clkctrl_base;
+ 	struct clk *clk;
+@@ -138,14 +137,7 @@ struct dss_pll *dss_video_pll_init(struct platform_device *pdev, int id,
+ 
+ 	/* PLL CONTROL */
+ 
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, reg_name[id]);
+-	if (!res) {
+-		dev_err(&pdev->dev,
+-			"missing platform resource data for pll%d\n", id);
+-		return ERR_PTR(-ENODEV);
+-	}
+-
+-	pll_base = devm_ioremap_resource(&pdev->dev, res);
++	pll_base = devm_platform_ioremap_resource_byname(pdev, reg_name[id]);
+ 	if (IS_ERR(pll_base)) {
+ 		dev_err(&pdev->dev, "failed to ioremap pll%d reg_name\n", id);
+ 		return ERR_CAST(pll_base);
+@@ -153,15 +145,8 @@ struct dss_pll *dss_video_pll_init(struct platform_device *pdev, int id,
+ 
+ 	/* CLOCK CONTROL */
+ 
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+-		clkctrl_name[id]);
+-	if (!res) {
+-		dev_err(&pdev->dev,
+-			"missing platform resource data for pll%d\n", id);
+-		return ERR_PTR(-ENODEV);
+-	}
+-
+-	clkctrl_base = devm_ioremap_resource(&pdev->dev, res);
++	clkctrl_base = devm_platform_ioremap_resource_byname(pdev,
++					clkctrl_name[id]);
+ 	if (IS_ERR(clkctrl_base)) {
+ 		dev_err(&pdev->dev, "failed to ioremap pll%d clkctrl\n", id);
+ 		return ERR_CAST(clkctrl_base);
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
