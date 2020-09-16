@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9640226C451
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7DF26C452
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Sep 2020 17:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E21C6EA4C;
-	Wed, 16 Sep 2020 15:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DFF66EA4D;
+	Wed, 16 Sep 2020 15:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 377386EA4A;
- Wed, 16 Sep 2020 15:35:35 +0000 (UTC)
-IronPort-SDR: OSVZqzPKgQl7gWBdgzbyPKifu4g9SJxTIgBSUyxN1xbYHKREYhZb7eMh0B8bnMzV1P9RXW/BSM
- tolZ837+RA5A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="221048290"
-X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; d="scan'208";a="221048290"
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2A446EA4D;
+ Wed, 16 Sep 2020 15:35:40 +0000 (UTC)
+IronPort-SDR: K5Wi+4eay9LhRQGqTzGVXQHvCujTs+td+AmexGh7SsDS5K2lSDH/BtBZTZjh7vrwnPgWfd1uQE
+ Ru3/FNNk0XLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="177569053"
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; d="scan'208";a="177569053"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2020 08:35:33 -0700
-IronPort-SDR: +4QsQuT2IKBKSC/wBUATfcUUqevlzOOrv5pzOg149Tib1Bjco50AKV8a8D6nKdNSYakNdQmAbZ
- KoyRMaieer/A==
-X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; d="scan'208";a="307081820"
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2020 08:35:39 -0700
+IronPort-SDR: 5JZ6eoXcczPM7r6AjafXiVlgdkZkMq6FSTzpMt1yUj2Xe46wzFsW36JZsJMdy0sHjAA/6oA5v7
+ e3uZJr+mUxRQ==
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; d="scan'208";a="307081847"
 Received: from karthik-2012-client-platform.iind.intel.com ([10.223.74.217])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 16 Sep 2020 08:35:29 -0700
+ 16 Sep 2020 08:35:35 -0700
 From: Karthik B S <karthik.b.s@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 7/8] Documentation/gpu: Add asynchronous flip documentation
- for i915
-Date: Wed, 16 Sep 2020 20:38:23 +0530
-Message-Id: <20200916150824.15749-8-karthik.b.s@intel.com>
+Subject: [PATCH v9 8/8] drm/i915: Enable async flips in i915
+Date: Wed, 16 Sep 2020 20:38:24 +0530
+Message-Id: <20200916150824.15749-9-karthik.b.s@intel.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200916150824.15749-1-karthik.b.s@intel.com>
 References: <20200916150824.15749-1-karthik.b.s@intel.com>
@@ -58,7 +57,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the details of the implementation of asynchronous flips for i915.
+Enable asynchronous flips in i915 for gen9+ platforms.
+
+v2: -Async flip enablement should be a stand alone patch (Paulo)
+
+v3: -Move the patch to the end of the series (Paulo)
+
+v4: -Rebased.
+
+v5: -Rebased.
+
+v6: -Rebased.
 
 v7: -Rebased.
 
@@ -69,26 +78,23 @@ v9: -Rebased.
 Signed-off-by: Karthik B S <karthik.b.s@intel.com>
 Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 ---
- Documentation/gpu/i915.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 33cc6ddf8f64..84ead508f7ad 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -118,6 +118,12 @@ Atomic Plane Helpers
- .. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic_plane.c
-    :internal:
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 6f6edc581e14..e31abf5f1a9d 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -18021,6 +18021,9 @@ static void intel_mode_config_init(struct drm_i915_private *i915)
  
-+Asynchronous Page Flip
-+----------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display.c
-+   :doc: asynchronous flip implementation
-+
- Output Probing
- --------------
+ 	mode_config->funcs = &intel_mode_funcs;
  
++	if (INTEL_GEN(i915) >= 9)
++		mode_config->async_page_flip = true;
++
+ 	/*
+ 	 * Maximum framebuffer dimensions, chosen to match
+ 	 * the maximum render engine surface size on gen4+.
 -- 
 2.22.0
 
