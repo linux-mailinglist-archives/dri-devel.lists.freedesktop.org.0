@@ -2,72 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B39326E816
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1432826E817
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 307726E3D2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B70476E416;
 	Thu, 17 Sep 2020 22:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 219C86E2B8
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 16:39:10 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id d20so2895074qka.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 09:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=+pVCxdlOuttO0x9cQvyDQMtVpumybNdFktYswl2oQtg=;
- b=adzEyNZLe2lQX5kpuTuGY7FirDTdklycKFQYwPubA75xbgb5j6TD8ugrCI9bf7/dzt
- eiHHohZO+AnHSbJDTAvNMn2jBQ6JDcjLQMk3PWJV1eYz6vegb9MVG6Vqa7rp+RbSNba8
- foT0asL3W+B3RxnKV3BG/TZaQkkZydfwK38tce+3QLd4GgBxkdix9rlthBQRsvulbuhr
- znE6bDJ7PC7wrhL7/rCJimbDdwTHZl2Smzt4CuMu660WrRCrToNnF9RBP8oGf4nH0kEJ
- oNpDAzQj7uDJ0JzjGo+G3JuPYol20PLqQ1hak18E+tQ23TdfG63HPVeD5B0NtaY5P4oD
- TA4A==
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549946EC60
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 17:10:40 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id c13so3299807oiy.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 10:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HXoZogvsJhjtKuFoK3WF+ubF8suRBhDTxKDkq/Kclug=;
+ b=V3Qajdh0L/sUW2TIlpukVKiGNt84Vf6lK+ONZ/PkrfsXb9IUxsS4hJkLWYSwQH7pHY
+ ni+lagq8EeSCInPObfzwUls1VlBLuuMYXS3rs/6NgrZ/9DFKRb9pVwG7cakqnAvcvXLG
+ +Csdp9juOwbKzFwxyjWGmifliULd9JQXOS3Bs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=+pVCxdlOuttO0x9cQvyDQMtVpumybNdFktYswl2oQtg=;
- b=hI8jx/JxZ2tt7eY2a3aVbTPqW3C5nyIrywQdKpP4e+AuxFj01s33PaHZ9WIbODMnML
- pDa8iGtAbaFX8ZuMthdoLI48cZNaKxVv4OXE7KIW2p1BOp+KaM0XGpvLy9L88yGj1na4
- XtCNSi3XvSNi6ADQMNajboZeCABpTCwtJZcvIcGn/r40WtGp6LKzVpXRbXhcFn0CI3nw
- pkkC2wJrJaTSPWx+IGTo5a9fYuamah24C+Ff5GA4b56S4BRkYgVdUJpYm4Ouga2UrXaa
- pig2aAO+ZC5EtcxAasGJFPswsXBLGA8WgJQwSwFhNolY2eb5FxTxPFrR0HAvMtBgbNB0
- /ohQ==
-X-Gm-Message-State: AOAM5303qCLeiAuxIjQAYbJvuCbKbfVm8okhVwtGY03mGgP8XW7X5WtJ
- /IWeSi5Avf6fy8toglEDPkTtAg==
-X-Google-Smtp-Source: ABdhPJzXIO0eWNvXRiCeMQQ1VpPTu2QRRGdP2RU1h44X5j1zQ/qFh5iONStmiiT0w4aqZdD7WTkmUw==
-X-Received: by 2002:a37:5145:: with SMTP id f66mr17238436qkb.299.1600360749095; 
- Thu, 17 Sep 2020 09:39:09 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id 8sm207979qkd.47.2020.09.17.09.39.08
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HXoZogvsJhjtKuFoK3WF+ubF8suRBhDTxKDkq/Kclug=;
+ b=OtvJSmeYmjFoiNB6Jd12gJVonb7qaLWbw6UyvUz1KZ1ThHAdlQpvVLlm73PVh/ZMOx
+ ofpv0T3NvOtG9ytaiHkyxX4ey8PKuv9/8/cCBrlcEIw9N1qYaHXfabjcu1DkgYzyExb8
+ VOG/B3tnBAZspFafn2YCELsw7Ns4Ar7EQDbdMd9QCKDyjHeHWikzZRWzAd7/nr3pdnFi
+ YmlEYkQTlqV2x6/Lb9WBM37OzNzV1nTyhTo+yKnFW47myPsmv+Ylly9Q/pQCdPiBm3Go
+ 0l9hKCawFaoHZXyTvNb0b99h5uSiwRgt/c+jnBEQ769SI5jiHgTb1Q3cSEC9kpa/fR3J
+ PqYw==
+X-Gm-Message-State: AOAM530r/QcHH7Mzj50DR7WvNrwzYu04cyF/lHy37KHUif5b+sJeJ3kH
+ DFmSSz5Au5Guyo9n/kQogreTOg==
+X-Google-Smtp-Source: ABdhPJxw4wlOU05830Hhh3AmFblQ7U7Mt8U1jfpf/7jDYNR82XL8xy5ocKbsn1Qyk36hAjxgV0XdXA==
+X-Received: by 2002:a05:6808:8c1:: with SMTP id
+ k1mr7198408oij.92.1600362639468; 
+ Thu, 17 Sep 2020 10:10:39 -0700 (PDT)
+Received: from khost.hsd1.co.comcast.net
+ ([2601:281:8380:670:a6ae:11ff:fe11:fba7])
+ by smtp.gmail.com with ESMTPSA id x21sm314866oie.49.2020.09.17.10.10.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 09:39:08 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kIww7-000WtZ-PQ; Thu, 17 Sep 2020 13:39:07 -0300
-Date: Thu, 17 Sep 2020 13:39:07 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-Message-ID: <20200917163907.GI8409@ziepe.ca>
-References: <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
- <20200917113110.GE8409@ziepe.ca>
- <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
- <20200917121858.GF8409@ziepe.ca>
- <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
- <20200917143551.GG8409@ziepe.ca>
- <5b330920-c789-fac7-e9b1-49f3bc1097a8@gmail.com>
- <20200917152456.GH8409@ziepe.ca>
- <CAKMK7uHQLAHXC_aBZZco0e3tbAqnNuW8QdJk=-V-yM2khw5e=Q@mail.gmail.com>
- <b9e65f47-b5c8-db09-117a-a8e22a5b6c71@amd.com>
+ Thu, 17 Sep 2020 10:10:38 -0700 (PDT)
+From: Kevin Chowski <chowski@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] i915: Introduce quirk for shifting eDP brightness.
+Date: Thu, 17 Sep 2020 11:09:06 -0600
+Message-Id: <20200917110838.1.I63d52f5b96d7e81e1e2dc2a72c4bf5fd84d3d3d0@changeid>
+X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b9e65f47-b5c8-db09-117a-a8e22a5b6c71@amd.com>
 X-Mailman-Approved-At: Thu, 17 Sep 2020 22:17:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,31 +64,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Linux MM <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kevin Chowski <chowski@chromium.org>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBTZXAgMTcsIDIwMjAgYXQgMDY6MDY6MTRQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5p
-ZyB3cm90ZToKPiA+ID4gSWYgaXQgaXMgYWxyZWFkeSB0YWtpbmcgYSBwYWdlIGZhdWx0IEknbSBu
-b3Qgc3VyZSB0aGUgZXh0cmEgZnVuY3Rpb24KPiA+ID4gY2FsbCBpbmRpcmVjdGlvbiBpcyBnb2lu
-ZyB0byBiZSBhIGJpZyBkZWFsLiBIYXZpbmcgYSB1bmlmb3JtIFZNQQo+ID4gPiBzb3VuZHMgc2Fu
-ZXIgdGhhbiBldmVyeSBkcml2ZXIgY3VzdG9tIHJvbGxpbmcgc29tZXRoaW5nLgo+ID4gPiAKPiA+
-ID4gV2hlbiBJIHVud291bmQgYSBzaW1pbGFyIG1lc3MgaW4gUkRNQSBhbGwgdGhlIGN1c3RvbSBW
-TUEgc3R1ZmYgaW4gdGhlCj4gPiA+IGRyaXZlcnMgdHVybmVkIG91dCB0byBiZSBnZW5lcmFsbHkg
-YnVnZ3ksIGF0IGxlYXN0Lgo+ID4gPiAKPiA+ID4gSXMgdm1hLT52bV9maWxlLT5wcml2YXRlX2Rh
-dGEgdW5pdmVyc2FsbHkgYSBkbWFfYnVmIHBvaW50ZXIgYXQgbGVhc3Q/Cj4gPiBOb3BlLiBJIHRo
-aW5rIGlmIHlvdSB3YW50IHRoaXMgd2l0aG91dCBzb21lIGxhcmdlIHNjYWxlIHJld3JpdGUgb2Yg
-YQo+ID4gbG90IG9mIGNvZGUgd2UnZCBuZWVkIGEgdm1vcHMtPmdldF9kbWFidWYgb3Igc2ltaWxh
-ci4gTm90IHByZXR0eSwgYnV0Cj4gPiB3b3VsZCBnZXQgdGhlIGpvYiBkb25lLgo+IAo+IFllYWgs
-IGFncmVlIHRoYXQgc291bmRzIGxpa2UgdGhlIHNpbXBsZXN0IGFwcHJvYWNoLgoKSSBkb24ndCB0
-aGluayB0aGF0IHdpbGwgZmx5LCBpdCBpcyBjbGVhcmx5IG9ubHkgcGFwZXJpbmcgb3ZlciBhIG1l
-c3MKaW5zaWRlIERSTS9kbWEgYnVmIDpcCgpKYXNvbgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+We have observed that Google Pixelbook's backlight hardware is
+interpretting these backlight bits from the most-significant side of the
+16 bit word (if DP_EDP_PWMGEN_BIT_COUNT < 16), whereas the driver code
+assumes the peripheral cares about the least-significant bits.
+
+Testing was done from within Chrome OS's build environment when the
+patch is backported to 5.4 (the version we are newly targeting for the
+Pixelbook); for the record:
+   $ emerge-eve-kernelnext sys-kernel/chromeos-kernel-5_4 && \
+      ./update_kernel.sh --remote=$IP
+
+I used `/sys/kernel/debug/dri/0/eDP-1/i915_dpcd` on my laptop to verify
+that the registers were being set according to what the actual hardware
+expects; I also observe that the backlight is noticeably brighter with
+this patch.
+
+Signed-off-by: Kevin Chowski <chowski@chromium.org>
+---
+
+ .../drm/i915/display/intel_dp_aux_backlight.c | 34 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_quirks.c   | 13 +++++++
+ drivers/gpu/drm/i915/i915_drv.h               |  1 +
+ 3 files changed, 48 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index acbd7eb66cbe3..99c98f217356d 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -91,6 +91,23 @@ static u32 intel_dp_aux_get_backlight(struct intel_connector *connector)
+ 	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
+ 		level = (read_val[0] << 8 | read_val[1]);
+ 
++	if (i915->quirks & QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS) {
++		if (!drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT,
++						&read_val[0])) {
++			DRM_DEBUG_KMS("Failed to read DPCD register 0x%x\n",
++					DP_EDP_PWMGEN_BIT_COUNT);
++			return 0;
++		}
++		// Only bits 4:0 are used, 7:5 are reserved.
++		read_val[0] = read_val[0] & 0x1F;
++		if (read_val[0] > 16) {
++			DRM_DEBUG_KMS("Invalid DP_EDP_PWNGEN_BIT_COUNT 0x%X, expected at most 16\n",
++						read_val[0]);
++			return 0;
++		}
++		level >>= 16 - read_val[0];
++	}
++
+ 	return level;
+ }
+ 
+@@ -106,6 +123,23 @@ intel_dp_aux_set_backlight(const struct drm_connector_state *conn_state, u32 lev
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	u8 vals[2] = { 0x0 };
+ 
++	if (i915->quirks & QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS) {
++		if (!drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT,
++						&vals[0])) {
++			DRM_DEBUG_KMS("Failed to write aux backlight level: Failed to read DPCD register 0x%x\n",
++					  DP_EDP_PWMGEN_BIT_COUNT);
++			return;
++		}
++		// Only bits 4:0 are used, 7:5 are reserved.
++		vals[0] = vals[0] & 0x1F;
++		if (vals[0] > 16) {
++			DRM_DEBUG_KMS("Failed to write aux backlight level: Invalid DP_EDP_PWNGEN_BIT_COUNT 0x%X, expected at most 16\n",
++						vals[0]);
++			return;
++		}
++		level <<= (16 - vals[0]) & 0xFFFF;
++	}
++
+ 	vals[0] = level;
+ 
+ 	/* Write the MSB and/or LSB */
+diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
+index 46beb155d835f..63b27d49b2864 100644
+--- a/drivers/gpu/drm/i915/display/intel_quirks.c
++++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+@@ -53,6 +53,16 @@ static void quirk_increase_ddi_disabled_time(struct drm_i915_private *i915)
+ 	drm_info(&i915->drm, "Applying Increase DDI Disabled quirk\n");
+ }
+ 
++/*
++ * Some eDP backlight hardware uses the most-significant bits of the brightness
++ * register, so brightness values must be shifted first.
++ */
++static void quirk_shift_edp_backlight_brightness(struct drm_i915_private *i915)
++{
++	i915->quirks |= QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS;
++	DRM_INFO("Applying shift eDP backlight brightness quirk\n");
++}
++
+ struct intel_quirk {
+ 	int device;
+ 	int subsystem_vendor;
+@@ -156,6 +166,9 @@ static struct intel_quirk intel_quirks[] = {
+ 	/* ASRock ITX*/
+ 	{ 0x3185, 0x1849, 0x2212, quirk_increase_ddi_disabled_time },
+ 	{ 0x3184, 0x1849, 0x2212, quirk_increase_ddi_disabled_time },
++
++	/* Google Pixelbook */
++	{ 0x591E, 0x8086, 0x2212, quirk_shift_edp_backlight_brightness },
+ };
+ 
+ void intel_init_quirks(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index e4f7f6518945b..cc93bede4fab8 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -525,6 +525,7 @@ struct i915_psr {
+ #define QUIRK_PIN_SWIZZLED_PAGES (1<<5)
+ #define QUIRK_INCREASE_T12_DELAY (1<<6)
+ #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
++#define QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS (1<<8)
+ 
+ struct intel_fbdev;
+ struct intel_fbc_work;
+-- 
+2.28.0.618.gf4bc123cb7-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
