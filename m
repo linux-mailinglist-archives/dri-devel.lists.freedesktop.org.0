@@ -1,62 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B70026DFC7
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 17:37:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8377D26E012
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 17:53:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2F36E0D0;
-	Thu, 17 Sep 2020 15:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6576EC21;
+	Thu, 17 Sep 2020 15:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46DD76E0D0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:37:14 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id m12so2327856otr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 08:37:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZKdwGNTuB7raHchRws1uZpYC5kiBgIgkW7sRbNdes8U=;
- b=ISCJ5Tw66UvgaeWJoGMvoGpBgdi+Pvh73WzxPCKZycvbr4Kw5zYOwmcCQjHLfF+3da
- CYy+53x/nyxrzX0KXw6ljYFdDcKO3M9i08qHW5NqtLtlz6ZhbasQ8xieyUjx4qmoUfzZ
- Zbi23eh19F5Vb4GtV/XcziMcnv0MJy1iuV014=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZKdwGNTuB7raHchRws1uZpYC5kiBgIgkW7sRbNdes8U=;
- b=BbgyjvDPRhNr6P3ww7eE8wHTd3G8FP3kVfYfwNXcOMtUxhqPqHpF9MbylCk/GVh7Sr
- JNUlhxH4xKzInhp71xsERiV9ayOReC6/UWfY673sN3Uk8PMyxm8ilbuRLRaWEVa3a5WV
- A3hfZN6na1tbeotLgtjFj6hrQwo+k6lWiP2zgOVIUnZXBDWJGxEYH4AUwFF1zUyNtxTU
- 7Cv4/hFH5J2TBQial2F0v2PTe+vaUNa08X3QLahA3zZl0ZwHro3yMp+CGX7ZK6cV5ETB
- phpiWZd7oQPoQjH1gPTpbBZQy9Clbfu+9P3RCeLTlGEnknmGWMtX3EIuvhyBrHxLRdrd
- TyPQ==
-X-Gm-Message-State: AOAM533nJKq4T60ZE4n4xkfxEuzQrCzX0dUt74mU+AKyZemIN9PUkINI
- AyK1/BLX6zDdDa2PHu7gRpFt1bzsyTrHL6UAer9wVQ==
-X-Google-Smtp-Source: ABdhPJzGgOa/Oz2wRUro/hKXS9FrrveYmtnBfxpRy+S4Y7u9DCAavZtFsw1BfFfAu8kbrs7cNgN2/BHLCGrXvdc8BOY=
-X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr21146655otq.188.1600357033519; 
- Thu, 17 Sep 2020 08:37:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
- <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
- <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
- <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
- <20200917113110.GE8409@ziepe.ca>
- <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
- <20200917121858.GF8409@ziepe.ca>
- <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
- <20200917143551.GG8409@ziepe.ca>
- <5b330920-c789-fac7-e9b1-49f3bc1097a8@gmail.com>
- <20200917152456.GH8409@ziepe.ca>
-In-Reply-To: <20200917152456.GH8409@ziepe.ca>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 17 Sep 2020 17:37:01 +0200
-Message-ID: <CAKMK7uHQLAHXC_aBZZco0e3tbAqnNuW8QdJk=-V-yM2khw5e=Q@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-To: Jason Gunthorpe <jgg@ziepe.ca>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 159A16EC21;
+ Thu, 17 Sep 2020 15:53:30 +0000 (UTC)
+Received: from localhost (unknown [70.37.104.77])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A2BFE2075B;
+ Thu, 17 Sep 2020 15:53:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600358009;
+ bh=AkVfmFRS1tq9XqOXtkz1rJnYfLnCbqD01tnq5zvrUC8=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:From;
+ b=k8oqfWmr3PxXJpKU3h8QsGjes8x8UXZukh5iknxTuZQdvdnOhKyN0SSFDOMTTE322
+ ajENw4hJZIwAwuuBrhCc/D+pFul8YeCe4XmWUEHPkkG60nlsiafu0ktcC0584lh9IJ
+ hMuspPR7H/ufjgBzFJxt5Ai3DPICnuUlZK1BqtR4=
+Date: Thu, 17 Sep 2020 15:53:28 +0000
+From: Sasha Levin <sashal@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+To: "Nikunj A. Dadhania" <nikunj.dadhania@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/i915: Fix the race between the GEM close and
+ debugfs
+In-Reply-To: <20200915034118.32256-1-nikunj.dadhania@linux.intel.com>
+References: <20200915034118.32256-1-nikunj.dadhania@linux.intel.com>
+Message-Id: <20200917155329.A2BFE2075B@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +46,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Linux MM <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: tvrtko.ursulin@intel.com, stable@vger.kernel.org,
+ nikunj.dadhania@linux.intel.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBTZXAgMTcsIDIwMjAgYXQgNToyNCBQTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVw
-ZS5jYT4gd3JvdGU6Cj4KPiBPbiBUaHUsIFNlcCAxNywgMjAyMCBhdCAwNDo1NDo0NFBNICswMjAw
-LCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gQW0gMTcuMDkuMjAgdW0gMTY6MzUgc2Nocmll
-YiBKYXNvbiBHdW50aG9ycGU6Cj4gPiA+IE9uIFRodSwgU2VwIDE3LCAyMDIwIGF0IDAyOjI0OjI5
-UE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPiA+ID4gQW0gMTcuMDkuMjAgdW0g
-MTQ6MTggc2NocmllYiBKYXNvbiBHdW50aG9ycGU6Cj4gPiA+ID4gPiBPbiBUaHUsIFNlcCAxNywg
-MjAyMCBhdCAwMjowMzo0OFBNICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gPiA+
-ID4gPiBBbSAxNy4wOS4yMCB1bSAxMzozMSBzY2hyaWViIEphc29uIEd1bnRob3JwZToKPiA+ID4g
-PiA+ID4gPiBPbiBUaHUsIFNlcCAxNywgMjAyMCBhdCAxMDowOToxMkFNICswMjAwLCBEYW5pZWwg
-VmV0dGVyIHdyb3RlOgo+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gPiBZZWFoLCBidXQgaXQg
-ZG9lc24ndCB3b3JrIHdoZW4gZm9yd2FyZGluZyBmcm9tIHRoZSBkcm0gY2hhcmRldiB0byB0aGUK
-PiA+ID4gPiA+ID4gPiA+IGRtYS1idWYgb24gdGhlIGltcG9ydGVyIHNpZGUsIHNpbmNlIHlvdSdk
-IG5lZWQgYSB0b24gb2YgZGlmZmVyZW50Cj4gPiA+ID4gPiA+ID4gPiBhZGRyZXNzIHNwYWNlcy4g
-QW5kIHlvdSBzdGlsbCByZWx5IG9uIHRoZSBjb3JlIGNvZGUgcGlja2luZyB1cCB5b3VyCj4gPiA+
-ID4gPiA+ID4gPiBwZ29mZiBtYW5nbGluZywgd2hpY2ggZmVlbHMgYWJvdXQgYXMgcmlza3kgdG8g
-bWUgYXMgdGhlIHZtYSBmaWxlCj4gPiA+ID4gPiA+ID4gPiBwb2ludGVyIHdyYW5nbGluZyAtIGlm
-IGl0J3Mgbm90IGNvbnNpc3RlbnRseSBhcHBsaWVkIHRoZSByZXZlcnNlIG1hcAo+ID4gPiA+ID4g
-PiA+ID4gaXMgdG9hc3QgYW5kIHVubWFwX21hcHBpbmdfcmFuZ2UgZG9lc24ndCB3b3JrIGNvcnJl
-Y3RseSBmb3Igb3VyIG5lZWRzLgo+ID4gPiA+ID4gPiA+IEkgd291bGQgdGhpbmsgdGhlIHBnb2Zm
-IGhhcyB0byBiZSB0cmFuc2xhdGVkIGF0IHRoZSBzYW1lIHRpbWUgdGhlCj4gPiA+ID4gPiA+ID4g
-dm0tPnZtX2ZpbGUgaXMgY2hhbmdlZD8KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IFRoZSBv
-d25lciBvZiB0aGUgZG1hX2J1ZiBzaG91bGQgaGF2ZSBvbmUgdmlydHVhbCBhZGRyZXNzIHNwYWNl
-IGFuZCBGRCwKPiA+ID4gPiA+ID4gPiBhbGwgaXRzIGRtYSBidWZzIHNob3VsZCBiZSBsaW5rZWQg
-dG8gaXQsIGFuZCBhbGwgcGdvZmZzIHRyYW5zbGF0ZWQgdG8KPiA+ID4gPiA+ID4gPiB0aGF0IHNw
-YWNlLgo+ID4gPiA+ID4gPiBZZWFoLCB0aGF0IGlzIGV4YWN0bHkgbGlrZSBhbWRncHUgaXMgZG9p
-bmcgaXQuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEdvaW5nIHRvIGRvY3VtZW50IHRoYXQgc29t
-ZWhvdyB3aGVuIEknbSBkb25lIHdpdGggVFRNIGNsZWFudXBzLgo+ID4gPiA+ID4gQlRXLCB3aGls
-ZSBwZW9wbGUgYXJlIGxvb2tpbmcgYXQgdGhpcywgaXMgdGhlcmUgYSB3YXkgdG8gZ28gZnJvbSBh
-IFZNQQo+ID4gPiA+ID4gdG8gYSBkbWFfYnVmIHRoYXQgb3ducyBpdD8KPiA+ID4gPiBPbmx5IGEg
-ZHJpdmVyIHNwZWNpZmljIG9uZS4KPiA+ID4gU291bmRzIE9LCj4gPiA+Cj4gPiA+ID4gRm9yIFRU
-TSBkcml2ZXJzIHZtYS0+dm1fcHJpdmF0ZV9kYXRhIHBvaW50cyB0byB0aGUgYnVmZmVyIG9iamVj
-dC4gTm90IHN1cmUKPiA+ID4gPiBhYm91dCB0aGUgZHJpdmVycyB1c2luZyBHRU0gb25seS4KPiA+
-ID4gV2h5IGFyZSBkcml2ZXJzIGluIGNvbnRyb2wgb2YgdGhlIHZtYT8gSSB3b3VsZCB0aGluayBk
-bWFfYnVmIHNob3VsZCBiZQo+ID4gPiB0aGUgdm1hIG93bmVyLiBJSVJDIG1vZHVsZSBsaWZldGlt
-ZSBjb3JyZWN0bmVzcyBlc3NlbnRpYWxseSBoaW5ncyBvbgo+ID4gPiB0aGUgbW9kdWxlIG93bmVy
-IG9mIHRoZSBzdHJ1Y3QgZmlsZQo+ID4KPiA+IEJlY2F1c2UgdGhlIHBhZ2UgZmF1bHQgaGFuZGxp
-bmcgaXMgY29tcGxldGVseSBkcml2ZXIgc3BlY2lmaWMuCj4gPgo+ID4gV2UgY291bGQgaW5zdGFs
-bCBzb21lIERNQS1idWYgdm1vcHMsIGJ1dCB0aGF0IHdvdWxkIGp1c3QgYmUgYW5vdGhlciBsYXll
-ciBvZgo+ID4gcmVkaXJlY3Rpb24uCgpVaCBnZWV6IEkgZGlkbid0IGtub3cgYW1kZ3B1IHdhcyBk
-b2luZyB0aGF0IDotLwoKU2luY2UgdGhpcyBpcyBvbiwgSSBndWVzcyB0aGUgaW52ZXJzZSBvZiB0
-cnlpbmcgdG8gY29udmVydCBhIHVzZXJwdHIKaW50byBhIGRtYS1idWYgaXMgcHJvcGVybHkgcmVq
-ZWN0ZWQ/Cgo+IElmIGl0IGlzIGFscmVhZHkgdGFraW5nIGEgcGFnZSBmYXVsdCBJJ20gbm90IHN1
-cmUgdGhlIGV4dHJhIGZ1bmN0aW9uCj4gY2FsbCBpbmRpcmVjdGlvbiBpcyBnb2luZyB0byBiZSBh
-IGJpZyBkZWFsLiBIYXZpbmcgYSB1bmlmb3JtIFZNQQo+IHNvdW5kcyBzYW5lciB0aGFuIGV2ZXJ5
-IGRyaXZlciBjdXN0b20gcm9sbGluZyBzb21ldGhpbmcuCj4KPiBXaGVuIEkgdW53b3VuZCBhIHNp
-bWlsYXIgbWVzcyBpbiBSRE1BIGFsbCB0aGUgY3VzdG9tIFZNQSBzdHVmZiBpbiB0aGUKPiBkcml2
-ZXJzIHR1cm5lZCBvdXQgdG8gYmUgZ2VuZXJhbGx5IGJ1Z2d5LCBhdCBsZWFzdC4KPgo+IElzIHZt
-YS0+dm1fZmlsZS0+cHJpdmF0ZV9kYXRhIHVuaXZlcnNhbGx5IGEgZG1hX2J1ZiBwb2ludGVyIGF0
-IGxlYXN0PwoKTm9wZS4gSSB0aGluayBpZiB5b3Ugd2FudCB0aGlzIHdpdGhvdXQgc29tZSBsYXJn
-ZSBzY2FsZSByZXdyaXRlIG9mIGEKbG90IG9mIGNvZGUgd2UnZCBuZWVkIGEgdm1vcHMtPmdldF9k
-bWFidWYgb3Igc2ltaWxhci4gTm90IHByZXR0eSwgYnV0CndvdWxkIGdldCB0aGUgam9iIGRvbmUu
-Cgo+ID4gPiBTbywgdXNlciBWQSAtPiBmaW5kX3ZtYSAtPiBkbWFfYnVmIG9iamVjdCAtPiBkbWFf
-YnVmIG9wZXJhdGlvbnMgb24gdGhlCj4gPiA+IG1lbW9yeSBpdCByZXByZXNlbnRzCj4gPgo+ID4g
-QWgsIHllcyB3ZSBhcmUgYWxyZWFkeSBkb2luZyB0aGlzIGluIGFtZGdwdSBhcyB3ZWxsLiBCdXQg
-b25seSBmb3IgRE1BLWJ1ZnMKPiA+IG9yIG1vcmUgZ2VuZXJhbGx5IGJ1ZmZlcnMgd2hpY2ggYXJl
-IG1tYXBlZCBieSB0aGlzIGRyaXZlciBpbnN0YW5jZS4KPgo+IFNvIHRoZXJlIGlzIG5vIGdlbmVy
-YWwgZG1hX2J1ZiBzZXJ2aWNlPyBUaGF0IGlzIGEgcmVhbCBidW1tZXIKCk1vc3RseSBoaXN0b3Jp
-Y2FsIHJlYXNvbnMgYW5kICJpdCdzIGNvbXBsaWNhdGVkIi4gT25lIHByb2JsZW0gaXMgdGhhdApk
-bWEtYnVmIGlzbid0IGEgcG93ZXJmdWwgZW5vdWdoIGludGVyZmFjZSB0aGF0IGRyaXZlcnMgY291
-bGQgdXNlIGl0CmZvciBhbGwgdGhlaXIgbmF0aXZlIG9iamVjdHMsIGUuZy4gdXNlcnB0ciBkb2Vz
-bid0IHBhc3MgdGhyb3VnaCBpdCwKYW5kIGNsZXZlciBjYWNoZSBmbHVzaGluZyB0cmlja3MgYXJl
-bid0IGFsbG93ZWQgYW5kIGEgYnVuY2ggb2Ygb3RoZXIKdGhpbmdzLiBTbyB0aGVyZSdzIHNvbWUg
-c2VyaW91cyByb2FkYmxvY2tzIGJlZm9yZSB3ZSBjb3VsZCBoYXZlIGEKY29tbW9uIGFsbG9jYXRv
-ciAob3Igc2V0IG9mIGFsbG9jYXRvcnMpIGJlaGluZCBkbWEtYnVmLgotRGFuaWVsCi0tIApEYW5p
-ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
-Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi
+
+[This is an automated email]
+
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
+
+The bot has tested the following trees: v5.8.9, v5.4.65, v4.19.145, v4.14.198, v4.9.236, v4.4.236.
+
+v5.8.9: Build OK!
+v5.4.65: Failed to apply! Possible dependencies:
+    061489c65ff5 ("drm/i915/dsb: single register write function for DSB.")
+    11988e393813 ("drm/i915/execlists: Try rearranging breadcrumb flush")
+    2850748ef876 ("drm/i915: Pull i915_vma_pin under the vm->mutex")
+    5a90606df7cb ("drm/i915: Replace obj->pin_global with obj->frontbuffer")
+    67f3b58f3bac ("drm/i915/dsb: DSB context creation.")
+    8a9a982767b7 ("drm/i915: use a separate context for gpu relocs")
+    a4e7ccdac38e ("drm/i915: Move context management under GEM")
+    b27a96ad72fd ("drm/i915/dsb: Indexed register write function for DSB.")
+    bb120e1171a9 ("drm/i915: Show the logical context ring state on dumping")
+    c210e85b8f33 ("drm/i915/tgl: Extend MI_SEMAPHORE_WAIT")
+    d19d71fc2b15 ("drm/i915: Mark i915_request.timeline as a volatile, rcu pointer")
+    e8f6b4952ec5 ("drm/i915/execlists: Flush the post-sync breadcrumb write harder")
+
+v4.19.145: Failed to apply! Possible dependencies:
+    0258404f9d38 ("drm/i915: start moving runtime device info to a separate struct")
+    026844460743 ("drm/i915: Remove intel_context.active_link")
+    07d805721938 ("drm/i915: Introduce intel_runtime_pm_disable to pair intel_runtime_pm_enable")
+    13f1bfd3b332 ("drm/i915: Make object/vma allocation caches global")
+    1c71bc565cdb ("drm/i915/perf: simplify configure all context function")
+    2cc8376fd350 ("drm/i915: rename dev_priv info to __info to avoid usage")
+    2cd9a689e97b ("drm/i915: Refactor intel_display_set_init_power() logic")
+    37d7c9cc2eb6 ("drm/i915: Check engine->default_state mapping on module load")
+    55ac5a1614f9 ("drm/i915: Attach the pci match data to the device upon creation")
+    666424abfb86 ("drm/i915/execlists: Use coherent writes into the context image")
+    6dfc4a8f134f ("drm/i915: Verify power domains after enabling them")
+    722f3de39e03 ("i915/oa: Simplify updating contexts")
+    900ccf30f9e1 ("drm/i915: Only force GGTT coherency w/a on required chipsets")
+    c4d52feb2c46 ("drm/i915: Move over to intel_context_lookup()")
+    f6e8aa387171 ("drm/i915: Report the number of closed vma held by each context in debugfs")
+    fa9f668141f4 ("drm/i915: Export intel_context_instance()")
+
+v4.14.198: Failed to apply! Possible dependencies:
+    3bd4073524fa ("drm/i915: Consolidate get_fence with pin_fence")
+    465c403cb508 ("drm/i915: introduce simple gemfs")
+    66df1014efba ("drm/i915: Keep a small stash of preallocated WC pages")
+    67b48040255b ("drm/i915: Assert that the handle->vma lut is empty on object close")
+    73ebd503034c ("drm/i915: make mappable struct resource centric")
+    7789422665f5 ("drm/i915: make dsm struct resource centric")
+    82ad6443a55e ("drm/i915/gtt: Rename i915_hw_ppgtt base member")
+    969b0950a188 ("drm/i915: Add interface to reserve fence registers for vGPU")
+    a65adaf8a834 ("drm/i915: Track user GTT faulting per-vma")
+    b4563f595ed4 ("drm/i915: Pin fence for iomap")
+    e91ef99b9543 ("drm/i915/selftests: Remember to create the fake preempt context")
+    f6e8aa387171 ("drm/i915: Report the number of closed vma held by each context in debugfs")
+    f773568b6ff8 ("drm/i915: nuke the duplicated stolen discovery")
+
+v4.9.236: Failed to apply! Possible dependencies:
+    0e70447605f4 ("drm/i915: Move common code out of i915_gpu_error.c")
+    1b36595ffb35 ("drm/i915: Show RING registers through debugfs")
+    28a60dee2ce6 ("drm/i915/gvt: vGPU HW resource management")
+    3b3f1650b1ca ("drm/i915: Allocate intel_engine_cs structure only for the enabled engines")
+    82ad6443a55e ("drm/i915/gtt: Rename i915_hw_ppgtt base member")
+    85fd4f58d7ef ("drm/i915: Mark all non-vma being inserted into the address spaces")
+    9c870d03674f ("drm/i915: Use RPM as the barrier for controlling user mmap access")
+    bb6dc8d96b68 ("drm/i915: Implement pread without struct-mutex")
+    d636951ec01b ("drm/i915: Cleanup instdone collection")
+    e007b19d7ba7 ("drm/i915: Use the MRU stack search after evicting")
+    f6e8aa387171 ("drm/i915: Report the number of closed vma held by each context in debugfs")
+    f9e613728090 ("drm/i915: Try to print INSTDONE bits for all slice/subslice")
+
+v4.4.236: Failed to apply! Possible dependencies:
+    1b683729e7ac ("drm/i915: Remove redundant check in i915_gem_obj_to_vma")
+    1c7f4bca5a6f ("drm/i915: Rename vma->*_list to *_link for consistency")
+    3272db53136f ("drm/i915: Combine all i915_vma bitfields into a single set of flags")
+    596c5923197b ("drm/i915: Reduce the pointer dance of i915_is_ggtt()")
+    c1a415e261aa ("drm/i915: Disable shrinker for non-swapped backed objects")
+    d0710abbcd88 ("drm/i915: Set the map-and-fenceable flag for preallocated objects")
+    f6e8aa387171 ("drm/i915: Report the number of closed vma held by each context in debugfs")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
+
+-- 
+Thanks
+Sasha
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
