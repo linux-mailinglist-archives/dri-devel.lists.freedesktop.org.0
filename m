@@ -1,34 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35C426DD8C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:07:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9452226DD7F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:07:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD13F6EC31;
-	Thu, 17 Sep 2020 14:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEAE46EA78;
+	Thu, 17 Sep 2020 14:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A43D6EA31
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 12:04:02 +0000 (UTC)
-Received: from kevin (unknown [IPv6:2607:fea8:55f:a950::68f4])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C9FB029AEF5;
- Thu, 17 Sep 2020 13:03:47 +0100 (BST)
-Date: Thu, 17 Sep 2020 08:03:37 -0400
-From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 0/3] drm: panfrost: Coherency support
-Message-ID: <20200917120337.GA1684@kevin>
-References: <cover.1600213517.git.robin.murphy@arm.com>
- <d109e9da-feb3-c09f-2b7f-98c92ce39593@baylibre.com>
- <20200916170409.GA2543@kevin>
- <CAL_JsqLGO4YYPjQsjnzZCW5iT6n+keZw9G9mFALJip0nDo42Hw@mail.gmail.com>
- <d135f546-41aa-a6e2-52fe-7707d379c793@arm.com>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 222796E073
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 12:16:31 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 477ED9C2;
+ Thu, 17 Sep 2020 08:16:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 17 Sep 2020 08:16:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=A3z+Nrk/yqKWEBPZ/sOK9Hn/BV
+ h5Mhww/f/Scl+4Gts=; b=AosdZroopcWZK3EINVOoP3zmm7xXLkpIahEcHHd8R6
+ vg7+biTDe+B8k0JsuGCnSbVFY0AxzuH9wk/cbTUAnL8Rks3j9P/l009BT/oIJ5CS
+ sJ47BCO+h+t0H8RBKLG7tXo8xxEGD+xfCGigAj8quWR10167IZrDB8oesXdEtVsJ
+ 2MPlkQ/jcqjb1qkj8rT+7KBtjJzp4RbVxJHhteF2FvgvDKbLqUkAL7d49s8mj8IK
+ P2+vTAhojX1Dau+mgDBnP0YN6yO/OK8VuJeQ3BCNRNY9+N2ZXxEU78Qjb4iZPtiL
+ EK8X4Rt1HMVjKk9c+PFAmAHvrp/DunsYoS/qWv9CtHPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=A3z+Nrk/yqKWEBPZ/
+ sOK9Hn/BVh5Mhww/f/Scl+4Gts=; b=modBebajn6WYpznrGA5ccX3hOy7YZtfLr
+ RYacCAkTRoVw4cS57sWXGILYFKYd8xnFeGcPWUyHJspOmFLJ/EcXAbn0XpqnimQI
+ MmPxldqhZ1dOq2XQpfwKziQbCsBY1dq+V0vlWmSYER672sD2Xb+KAzbseHDSf6Ij
+ TKHqN09xeTsg9T1hVIPh77nnzmJRSr2yKmFNU4QKYqcBK9/YjUDVNH8TOiB8G12Q
+ IGNWUNhCVmjVHCjTFQu64jOPEQGXYdoKLyB57wqF0OnTRp1W3xDqD3mcDaHqfzJj
+ 36xWEpAndsLIPL2s3xooZsL6eKYZsykus1l+bXAPy2FSQcTCQLljw==
+X-ME-Sender: <xms:mlNjX_5ldi17csmNvU_1PNo6iILDrH11jML86tOxWcUad8BpZx11CQ>
+ <xme:mlNjX069KU38IOcz9OQhY6feIzNnJxLob5TI_v2kcgNGgx3g29TjQL9yXgSfoVAXp
+ 3GG6E1uCCH-Bq0-Yw8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdeggdehudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:mlNjX2cGInox7_U_BQMT-iJs_LxgLmT6qjsQCfnjJHYQ9Q7HYcdJ7Q>
+ <xmx:mlNjXwKwFBBLOrHF9Bo2BHH5WsO0cx-lydkPvzy2C_PnkQnC7TTT1w>
+ <xmx:mlNjXzKBDKloRDqFEtaopt_j062uAM0yAQ3vSJBe1AGz6Aazfi2ERA>
+ <xmx:m1NjXwo31eREzLUBjpVFl-i6aOL8Tzyd0zyUkFcYzknWsEzJwadNaQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0CD853280065;
+ Thu, 17 Sep 2020 08:16:25 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Eric Anholt <eric@anholt.net>
+Subject: [PATCH] drm/vc4: hvs: Pull the state of all the CRTCs prior to PV
+ muxing
+Date: Thu, 17 Sep 2020 14:16:23 +0200
+Message-Id: <20200917121623.42023-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <d135f546-41aa-a6e2-52fe-7707d379c793@arm.com>
 X-Mailman-Approved-At: Thu, 17 Sep 2020 14:07:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,76 +77,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Will Deacon <will@kernel.org>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Jerome Brunet <jbrunet@baylibre.com>
-Content-Type: multipart/mixed; boundary="===============0072472457=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The vc4 display engine has a first controller called the HVS that will
+perform the composition of the planes. That HVS has 3 FIFOs and can
+therefore compose planes for up to three outputs. The timings part is
+generated through a component called the Pixel Valve, and the BCM2711 has 6
+of them.
 
---===============0072472457==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
-Content-Disposition: inline
+Thus, the HVS has some bits to control which FIFO gets output to which
+Pixel Valve. The current code supports that muxing by looking at all the
+CRTCs in a new DRM atomic state in atomic_check, and given the set of
+contraints that we have, assigns FIFOs to CRTCs or reject the mode
+entirely. The actual muxing will occur during atomic_commit.
 
+However, that doesn't work if only a fraction of the CRTCs' state is
+updated in that state, since it will ignore the CRTCs that are kept running
+unmodified, and will thus unassign its associated FIFO, and later disable
+it.
 
---6TrnltStXW4iwmi0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In order to make the code work as expected, let's pull the CRTC state of
+all the enabled CRTC in our atomic_check so that we can operate on all the
+running CRTCs, no matter whether they are affected by the new state or not.
 
-> The DDK blob has the ability to mark only certain areas of memory as
-> coherent for performance reasons. For simple things like kmscube I would
-> expect that it's basically write-only from the CPU and almost all memory the
-> GPU touches isn't touched by the CPU. I.e. coherency isn't helping and the
-> coherency traffic is probably expensive. Whether the complexity is worth it
-> for "real" content I don't know - it may just be silly benchmarks that
-> benefit.
+Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_kms.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Right, Panfrost userspace specifically assumes GPU reads to be expensive
-and treats GPU memory as write-only *except* for a few special cases
-(compute-like workloads, glReadPixels, some blits, etc).
-
-The vast majority of the GPU memory - everything used in kmscube - will be
-write-only to the CPU and fed directly into the display zero-copy (or
-read by the GPU later as a dmabuf).
-
---6TrnltStXW4iwmi0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl9jUJAACgkQ/v5QWgr1
-WA2dWg/+OmkKrIz3I3zxUDFk1aW47mEA/JzLjdkrFq+J1K67FPajUIaqzgLjYq1b
-wB3a51QSJoN70Aw9O9jrV/GkEbpSf8QWObN4NtZqYcD58fECprh5oXmEfgD0u5gZ
-6Gkoijp15utLoOirt2LkEJpYAxrOjfA9n5+WQLn8qQY1QPwO2AjtNxXWlWNhYqvh
-CQwDQGoO9FiWNSRPZpx1yHEYP/aDMTW8MqwQ8JsQu2G42TS6ErQUC9OMMZjJ/TYS
-GLKA4ybkdSnlNwQH0h+7g6LX0Y3WGUUn1xxbd4P7OPFZapV+87+cQS8sottqH7tS
-Rrja9cH4d7/DjKmn1xjT5ftnagxGkzoJ9eYf13DTedymUAQxMGV5TdZhCeUT0HFz
-5es9SnkTjOFAQyKZbjiM5t5Sia0eUHLIKUwX6FFKnWxMTtLF4z8XGhizHQrZ8M5I
-tQW8f7BzInUEGN5H3FV6spp+P5tL7AkdTEGJ4p87EnoyJfTq2mxWAfTxxN9R01FQ
-3yDMyx9bUXif0CNnJjAyTN0WJt17twGKuqAnGu5+oLtK6BXuC5wv9yPyQZ5Zvwgv
-HnXnb+s10WYXgdOHRNebUvFnDYsIZTp8/qFXiAdKaHT/r7aL/UKm2XQqwz48O40W
-doi8CBItWk7+SxVkj3w5nxnyl9vhu0Md9HkBvGZEH3wfnPGu4/w=
-=k8jL
------END PGP SIGNATURE-----
-
---6TrnltStXW4iwmi0--
-
---===============0072472457==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 16e233e1406e..af3ee3dcdab6 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -620,6 +620,23 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
+ 	struct drm_crtc *crtc;
+ 	int i, ret;
+ 
++	/*
++	 * Since the HVS FIFOs are shared across all the pixelvalves and
++	 * the TXP (and thus all the CRTCs), we need to pull the current
++	 * state of all the enabled CRTCs so that an update to a single
++	 * CRTC still keeps the previous FIFOs enabled and assigned to
++	 * the same CRTCs, instead of evaluating only the CRTC being
++	 * modified.
++	 */
++	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
++		if (!crtc->state->enable)
++			continue;
++
++		crtc_state = drm_atomic_get_crtc_state(state, crtc);
++		if (IS_ERR(crtc_state))
++			return PTR_ERR(crtc_state);
++	}
++
+ 	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
+ 		struct vc4_crtc_state *vc4_crtc_state =
+ 			to_vc4_crtc_state(crtc_state);
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0072472457==--
