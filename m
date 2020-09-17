@@ -2,38 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C2426D085
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 03:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C35F26D1C7
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 05:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96AAB6EB73;
-	Thu, 17 Sep 2020 01:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D936E037;
+	Thu, 17 Sep 2020 03:30:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0A876EB73
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 01:21:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40360276;
- Thu, 17 Sep 2020 03:21:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1600305689;
- bh=qA+L9X7VsKmBKyD7nDs9/cepua7b6rG6CVKurJUmCCU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QJcrQuRn1cWgGRL5sV+xH2EJ5pvUvc65pepfBR2TyuxxqnQATg2dxcqdvnOsrh0jX
- b8JRO4rFGNyerRmFgQ2tzD4ZLAwVOUR6I225rICEKhRtd9wB265kY0MdudO5ZyvFLV
- yzuUA4vwNhl8Fh63jf8TBPKZhkVrq6P9SSIGhTP4=
-Date: Thu, 17 Sep 2020 04:20:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [GIT PULL FOR v5.10 - v2] R-Car display drivers miscellaneous changes
-Message-ID: <20200917012059.GU3853@pendragon.ideasonboard.com>
-References: <20200908160336.GA20954@pendragon.ideasonboard.com>
- <20200915175730.GA28219@pendragon.ideasonboard.com>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D8D346E037
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 03:30:55 +0000 (UTC)
+X-UUID: f693411af7824f15b89d931fbc3367a3-20200917
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=3c+peDytuMhcMrnaVbpiJTnq5XNIuqy9R+l3Dgk+J4U=; 
+ b=fTV3hx2DEfFsTzyLe/FreJRhD5icjfam73hkA3WSve8mAhsYRBcGTjzCcQYdErCtd5cDQR6sIMtGDNPE5ymV0SG357RcnIVQQYD0MAFvvWv8SyA+iaQc8Lm4mgNJGDM3fWHGYrxEWrcOu7fyTX8uUQgbxxvYUwZmGbXsXN2YQng=;
+X-UUID: f693411af7824f15b89d931fbc3367a3-20200917
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1797150735; Thu, 17 Sep 2020 11:30:48 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 17 Sep 2020 11:30:42 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 17 Sep 2020 11:30:46 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [v3 PATCH] drm/mediatek: dsi: fix scrolling of panel with small hfp
+ or hbp
+Date: Thu, 17 Sep 2020 11:30:09 +0800
+Message-ID: <20200917033009.24799-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.12.5
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200915175730.GA28219@pendragon.ideasonboard.com>
+X-TM-SNTS-SMTP: 4F827BECC77D9F2C29EC3F76CEDA6B6B769F669CE4672B087A307F8E1E8E80442000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,87 +54,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Replace horizontal_backporch_byte with vm->hback_porch * bpp to aovid
+flowing judgement negative number.
 
-As the original pull request hasn't been pulled yet, here's an updated
-version that collects more acks and rb's, and includes an additional
-patch.
+if ((vm->hfront_porch * dsi_tmp_buf_bpp + horizontal_backporch_byte) >
+	data_phy_cycles * dsi->lanes + delta)
 
-The following changes since commit 818280d5adf1d80e78f95821815148abe9407e14:
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 54 ++++++++++++++------------------------
+ 1 file changed, 19 insertions(+), 35 deletions(-)
 
-  Merge v5.9-rc5 into drm-next (2020-09-14 17:19:11 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/pinchartl/media.git tags/du-next-20200917
-
-for you to fetch changes up to ab00111864ee2c9742f6627c5ca1019730c0eedd:
-
-  drm: rcar-du: Put reference to VSP device (2020-09-17 03:42:17 +0300)
-
-----------------------------------------------------------------
-Miscellaneous R-Car display driver changes:
-
-- R8A7742, R8A774E1 and R8A77961 support
-- Fixes for pitch of YUV planar formats, non-visible plane handling and
-  VSP device reference count
-- Kconfig fix to avoid displaying disabled options in .config
-
-----------------------------------------------------------------
-Biju Das (2):
-      dt-bindings: display: bridge: lvds-codec: Document power-supply property
-      drm/bridge: lvds-codec: Add support for regulator
-
-Kuninori Morimoto (4):
-      dt-bindings: display: renesas: du: Document the r8a77961 bindings
-      dt-bindings: display: renesas: dw-hdmi: Tidyup example compatible
-      dt-bindings: display: renesas: dw-hdmi: Add R8A77961 support
-      drm: rcar-du: Add r8a77961 support
-
-Lad Prabhakar (5):
-      dt-bindings: display: renesas,du: Document the r8a7742 bindings
-      drm: rcar-du: Add r8a7742 support
-      dt-bindings: display: renesas,lvds: Document r8a7742 bindings
-      drm: rcar-du: lvds: Add r8a7742 support
-      drm: rcar-du: Update description for DRM_RCAR_DW_HDMI Kconfig entry
-
-Laurent Pinchart (3):
-      drm: rcar-du: Fix pitch handling for fully planar YUV formats
-      drm: rcar-du: Fix crash when enabling a non-visible plane
-      drm: rcar-du: Put reference to VSP device
-
-Marian-Cristian Rotariu (5):
-      dt-bindings: display: renesas,du: Document r8a774e1 bindings
-      drm: rcar-du: Add support for R8A774E1 SoC
-      dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
-      dt-bindings: display: renesas,dw-hdmi: Add r8a774e1 support
-      drm: rcar-du: lvds: Add support for R8A774E1 SoC
-
-Qian Cai (1):
-      drm: rcar-du: Make DRM_RCAR_WRITEBACK depends on DRM_RCAR_DU
-
- .../bindings/display/bridge/lvds-codec.yaml        |  3 ++
- .../bindings/display/bridge/renesas,dw-hdmi.txt    |  4 +-
- .../bindings/display/bridge/renesas,lvds.yaml      |  2 +
- .../devicetree/bindings/display/renesas,du.txt     |  6 +++
- drivers/gpu/drm/bridge/lvds-codec.c                | 29 ++++++++++++
- drivers/gpu/drm/rcar-du/Kconfig                    |  5 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c              | 37 ++++++++++++++-
- drivers/gpu/drm/rcar-du/rcar_du_kms.c              | 54 +++++++++++++++++++++-
- drivers/gpu/drm/rcar-du/rcar_du_kms.h              |  1 +
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c              | 14 +++++-
- drivers/gpu/drm/rcar-du/rcar_lvds.c                |  2 +
- 11 files changed, 149 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 16fd99dcdacf..ddddf69ebeaf 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -445,6 +445,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	u32 horizontal_backporch_byte;
+ 	u32 horizontal_frontporch_byte;
+ 	u32 dsi_tmp_buf_bpp, data_phy_cycles;
++	u32 delta;
+ 	struct mtk_phy_timing *timing = &dsi->phy_timing;
+ 
+ 	struct videomode *vm = &dsi->vm;
+@@ -475,42 +476,25 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	data_phy_cycles = timing->lpx + timing->da_hs_prepare +
+ 			  timing->da_hs_zero + timing->da_hs_exit + 3;
+ 
+-	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+-		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
+-		    data_phy_cycles * dsi->lanes + 18) {
+-			horizontal_frontporch_byte =
+-				vm->hfront_porch * dsi_tmp_buf_bpp -
+-				(data_phy_cycles * dsi->lanes + 18) *
+-				vm->hfront_porch /
+-				(vm->hfront_porch + vm->hback_porch);
+-
+-			horizontal_backporch_byte =
+-				horizontal_backporch_byte -
+-				(data_phy_cycles * dsi->lanes + 18) *
+-				vm->hback_porch /
+-				(vm->hfront_porch + vm->hback_porch);
+-		} else {
+-			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
+-			horizontal_frontporch_byte = vm->hfront_porch *
+-						     dsi_tmp_buf_bpp;
+-		}
++	delta = (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) ? 18 : 12;
++
++	if ((vm->hfront_porch * dsi_tmp_buf_bpp + horizontal_backporch_byte) >
++	    data_phy_cycles * dsi->lanes + delta) {
++		horizontal_frontporch_byte =
++			vm->hfront_porch * dsi_tmp_buf_bpp -
++			(data_phy_cycles * dsi->lanes + delta) *
++			vm->hfront_porch /
++			(vm->hfront_porch + vm->hback_porch);
++
++		horizontal_backporch_byte =
++			horizontal_backporch_byte -
++			(data_phy_cycles * dsi->lanes + delta) *
++			vm->hback_porch /
++			(vm->hfront_porch + vm->hback_porch);
+ 	} else {
+-		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
+-		    data_phy_cycles * dsi->lanes + 12) {
+-			horizontal_frontporch_byte =
+-				vm->hfront_porch * dsi_tmp_buf_bpp -
+-				(data_phy_cycles * dsi->lanes + 12) *
+-				vm->hfront_porch /
+-				(vm->hfront_porch + vm->hback_porch);
+-			horizontal_backporch_byte = horizontal_backporch_byte -
+-				(data_phy_cycles * dsi->lanes + 12) *
+-				vm->hback_porch /
+-				(vm->hfront_porch + vm->hback_porch);
+-		} else {
+-			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
+-			horizontal_frontporch_byte = vm->hfront_porch *
+-						     dsi_tmp_buf_bpp;
+-		}
++		DRM_WARN("HFP + HBP less than d-phy, FPS will under 60Hz\n");
++		horizontal_frontporch_byte = vm->hfront_porch *
++					     dsi_tmp_buf_bpp;
+ 	}
+ 
+ 	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
 -- 
-Regards,
-
-Laurent Pinchart
+2.12.5
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
