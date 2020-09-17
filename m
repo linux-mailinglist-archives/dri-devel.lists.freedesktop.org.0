@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475B026CFC3
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 02:08:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5853E26CFC5
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 02:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98CE36EB4D;
-	Thu, 17 Sep 2020 00:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253A26EB52;
+	Thu, 17 Sep 2020 00:08:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611AC6EB4D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:08:48 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id e4so130449pln.10
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 17:08:48 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77ABD6EB4D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:08:49 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id w7so76268pfi.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 17:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HqROGzlbToaRzBVid4qBojAP/QMcbnLz/KvrDQUDCZk=;
- b=ez20IhEcUSLjXdrIgPynHmB4aQQSYwbzKCtfooSXO/SuLI5RdKCLugtmG8Ehha2ztR
- GKKBmJtxvupbe4bUUK6OlIY6hd63zSsc4D9Mq7MD2vg/e/jQDfxBuQrhzL6Flv3uWZl4
- TRPJDEuHhGdQGsgTrDnUsINQZUhVxZTVIPH6I=
+ bh=ymOxxBlf3Bu02IZ3jPmEKr++nGZ0/geoYQ1uDOjJMKE=;
+ b=XL0YgefNY0jrFnPaSasaC6pXGQT+mywpQoUnRYXEVwtbi41d5KTE+i7rAP3HnL3uFb
+ QRWyYqJgiND9YjFVixusmS03r5pA3CLjtIY9IYEpraPnAOhbHuXV7Yll9o+KLAz5pfKY
+ 1y6TZ1dt7C+xRC78YAwrPhEKb0un+HRbBjl1Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HqROGzlbToaRzBVid4qBojAP/QMcbnLz/KvrDQUDCZk=;
- b=i2BzY17JgCDsGfGkx3CiuF/1iCZrXKRK9q+kHE1UuHTq20Akl1ywbM6Xs2x/BoxcGD
- 6f+2i6TeYTBPGKJdZTaVnS3rkgS1MI4Us+fziCNlc7kw8iNUW7LvAblvHDNq9i+ivboE
- 3TJM/XYOXzwqM8tzix3yQYOUWugA3LsiapvC6F/mYGvxlDIOVl1qLR4RwTeI64dCSNs7
- tHjYwl8kAfv/Pao2Uj2bYsIK8od6jwn5kPoYAq+1caALlJGfofjT8sBT3seAkTi4O8w4
- I39mdbvfbT8QbnvRdQGE/PrxgyGZ6sFntTWZ73fiR36Ym6L6oHzMb1W1tRNj9/P9NZJI
- QILw==
-X-Gm-Message-State: AOAM530kLslha4msN7n7CSCW7WJi8JsiU3YgOx8H7X+b0ulVewJM4jLD
- cB4t3t6qIzZEEOF/09wi9W69bMkWeS2WsQ==
-X-Google-Smtp-Source: ABdhPJwBap8xT2GWdgEjUwzAMubPrhIw32WNepQ/4iTnWBqH97myo0NPJJfJih29sLsI7yAWcpUUPQ==
-X-Received: by 2002:a17:90b:1741:: with SMTP id
- jf1mr5935995pjb.164.1600301327735; 
- Wed, 16 Sep 2020 17:08:47 -0700 (PDT)
+ bh=ymOxxBlf3Bu02IZ3jPmEKr++nGZ0/geoYQ1uDOjJMKE=;
+ b=KCIjdm0+sm1YMgiu1Jo7BunF/mcc11XCZMStP6eT1C3IzPYAYo2p1+QP77g55cbjAh
+ wz+rhoDpwaitfF0WckJPK0n/+B1zsAeqdzHsSsR4UWEMlJPwBtUwexBMbkVeFq1oqSIs
+ mgGsgqeEMtm3oW6j1ztz5W6dnu034oBUTVgnDnMSf2aRJoPhPiTvSC4RjHK5rQf69xFM
+ 5UkCS7mvyG2X3MJV7A9dXEHkxulK2xOSd3zvRMwOG8dQWLKe1yiQwPGd0+BhwIEgpmZv
+ JfYk0EegMv3bHoPUDK/l2saW7adasJanoE7VG6wzxu4qdYQd82dYwZ4iGaLf1b6SWEWF
+ X+PA==
+X-Gm-Message-State: AOAM5332GO5XQaHMPJRZUAHbUvt60tn76fOVpIwKqBt87zDsQB/+VOaM
+ maxINT81GtFrIz938NAAMoX+BXQDROy8uw==
+X-Google-Smtp-Source: ABdhPJy/ykIp8K7XzITPYvo9f/VHW6C+BndSnxj0igIVJfjSt36K9zbnyhewGQmlovJ0fSngeMX0RQ==
+X-Received: by 2002:a62:4ed6:0:b029:142:2501:35ec with SMTP id
+ c205-20020a624ed60000b0290142250135ecmr9044927pfb.76.1600301328687; 
+ Wed, 16 Sep 2020 17:08:48 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id o19sm13737917pfp.64.2020.09.16.17.08.46
+ by smtp.gmail.com with ESMTPSA id o19sm13737917pfp.64.2020.09.16.17.08.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 17:08:47 -0700 (PDT)
+ Wed, 16 Sep 2020 17:08:48 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 07/19] drm/virtgpu api: cross-device feature
-Date: Wed, 16 Sep 2020 17:08:26 -0700
-Message-Id: <20200917000838.735-7-gurchetansingh@chromium.org>
+Subject: [PATCH v3 08/19] drm/virtio: implement blob resources: probe for the
+ feature.
+Date: Wed, 16 Sep 2020 17:08:27 -0700
+Message-Id: <20200917000838.735-8-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200917000838.735-1-gurchetansingh@chromium.org>
 References: <20200917000838.735-1-gurchetansingh@chromium.org>
@@ -71,28 +72,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This feature was recently added to virtio-gpu, lets make
-it userspace queryable. It's an error to use
-BLOB_FLAG_USE_CROSS_DEVICE when this feature is not present.
+From: Gerd Hoffmann <kraxel@redhat.com>
 
+Let's proble for VIRTIO_GPU_F_RESOURCE_BLOB.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 ---
- include/uapi/drm/virtgpu_drm.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c |  1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c     |  1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h     |  1 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c     | 10 +++++++---
+ 4 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index e1b1518f9acc5..b9ec26e9c6463 100644
---- a/include/uapi/drm/virtgpu_drm.h
-+++ b/include/uapi/drm/virtgpu_drm.h
-@@ -74,6 +74,7 @@ struct drm_virtgpu_execbuffer {
- #define VIRTGPU_PARAM_CAPSET_QUERY_FIX 2 /* do we have the capset fix */
- #define VIRTGPU_PARAM_RESOURCE_BLOB 3 /* DRM_VIRTGPU_RESOURCE_CREATE_BLOB */
- #define VIRTGPU_PARAM_HOST_VISIBLE 4 /* Host blob resources are mappable */
-+#define VIRTGPU_PARAM_CROSS_DEVICE 5 /* Cross virtio-device resource sharing  */
+diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+index d5b0c543bd6d7..6b9b8376613f0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
++++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+@@ -49,6 +49,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
+ 	virtio_add_bool(m, "edid", vgdev->has_edid);
+ 	virtio_add_bool(m, "indirect", vgdev->has_indirect);
+ 	virtio_add_bool(m, "resource uuid", vgdev->has_resource_assign_uuid);
++	virtio_add_bool(m, "blob resources", vgdev->has_resource_blob);
+ 	virtio_add_int(m, "cap sets", vgdev->num_capsets);
+ 	virtio_add_int(m, "scanouts", vgdev->num_scanouts);
+ 	return 0;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index b039f493bda99..3d04e428be140 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -166,6 +166,7 @@ static unsigned int features[] = {
+ #endif
+ 	VIRTIO_GPU_F_EDID,
+ 	VIRTIO_GPU_F_RESOURCE_UUID,
++	VIRTIO_GPU_F_RESOURCE_BLOB,
+ };
+ static struct virtio_driver virtio_gpu_driver = {
+ 	.feature_table = features,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 272abe177ded6..b53478a6a3c08 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -208,6 +208,7 @@ struct virtio_gpu_device {
+ 	bool has_edid;
+ 	bool has_indirect;
+ 	bool has_resource_assign_uuid;
++	bool has_resource_blob;
  
- struct drm_virtgpu_getparam {
- 	__u64 param;
+ 	struct work_struct config_changed_work;
+ 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index eed57a9313098..0678e56100dae 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -152,10 +152,14 @@ int virtio_gpu_init(struct drm_device *dev)
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
+ 		vgdev->has_resource_assign_uuid = true;
+ 	}
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
++		vgdev->has_resource_blob = true;
++	}
+ 
+-	DRM_INFO("features: %cvirgl %cedid\n",
+-		 vgdev->has_virgl_3d ? '+' : '-',
+-		 vgdev->has_edid     ? '+' : '-');
++	DRM_INFO("features: %cvirgl %cedid %cresource_blob\n",
++		 vgdev->has_virgl_3d    ? '+' : '-',
++		 vgdev->has_edid        ? '+' : '-',
++		 vgdev->has_resource_blob ? '+' : '-');
+ 
+ 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
+ 	if (ret) {
 -- 
 2.26.2
 
