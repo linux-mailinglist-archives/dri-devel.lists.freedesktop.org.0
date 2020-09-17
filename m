@@ -2,59 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7105226D9AE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 12:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FCD26D9BE
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 13:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19946EBAC;
-	Thu, 17 Sep 2020 10:56:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1257F6EBAA;
+	Thu, 17 Sep 2020 11:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5366EBA8;
- Thu, 17 Sep 2020 10:56:25 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z4so1565185wrr.4;
- Thu, 17 Sep 2020 03:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=T7o1O276VNvFCMXreEbeFlPYMFMj08O5QtDTtLf9+io=;
- b=QB6L5K889Bo72oCmXlPEd6RO0QFJaiOuUuQYNXSbkbKHLE0z4jthWl14REa3WCR0Bt
- 7IHiIFNeD/Ta+yo/4I3eoGqh6G9kDPeQAYogqalpiHtq8aE0N2vVL/nLfC8G7fyUISnI
- HqZvSuiNmgZzkTOCBFRSXTB+sPRscquK8BzaCBsBZW04/6qzVITT/XTRzNX58D5ubsqj
- EBCDdFzw/4/+qKJ5jqHMFDrIQ6SPZ7RFWRnZTqbCA2A8CuvrZLIiZY8CyMBMGu+cZPGz
- +Xk5dHOFs8kS9Gn7mKXA7wGo6jD27ynEwYEI2R76ZDPCy8bCgvVnpggr26rleQIwiHel
- X5Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=T7o1O276VNvFCMXreEbeFlPYMFMj08O5QtDTtLf9+io=;
- b=ludas7inWT5XonVRCOouClOZ7pdfDexkwaa4X9hnqWUimtkKW0XEVzA9a3CKrvOPO0
- xJPn2a7AOugCyJ+TaJPSWVGoDRga/qGZ7CwfqlvOvRNK2S+r4Hm5xdtle0LWtFs2mFAP
- gXAZVKQqWwroEHTY//DjwGDLC0Vtdc9sWlKRbIDqfShzDrAxu9pBkC1NbbfUuTZB3MV/
- WcLTDnW/2RlqDWLYm7LDLLGR5OC4pJrjqxyHU+NSznG1TJy0cgyWHbfEc5sVKJk6zAHz
- 2Zvrd546nTtW8J9EWAaP2KGeft7zPPSxVBDGonFaukvKdpF2Myo66E2HQihfalrxYgHf
- JWlQ==
-X-Gm-Message-State: AOAM532md0XZrUrrWmVgpQORMW7LzRcdczuaN25b0AJGBBGbhuAMNDQx
- v3lbiDtfhBSjaXhmR6hET78=
-X-Google-Smtp-Source: ABdhPJwg7nkwQTaRBQuWwl0RcZSkUXHrdUc9WYlLoauvclz9jtCse6f5SG7t61si5y3RH63KecEA/w==
-X-Received: by 2002:adf:e711:: with SMTP id c17mr32158269wrm.359.1600340183749; 
- Thu, 17 Sep 2020 03:56:23 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id d83sm10820463wmf.23.2020.09.17.03.56.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 03:56:22 -0700 (PDT)
-Date: Thu, 17 Sep 2020 12:56:20 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 14/21] drm/tegra: Introduce GEM object functions
-Message-ID: <20200917105620.GK3515672@ulmo>
-References: <20200915145958.19993-1-tzimmermann@suse.de>
- <20200915145958.19993-15-tzimmermann@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1AB7D6EBAA
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 11:01:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E5E130E;
+ Thu, 17 Sep 2020 04:01:02 -0700 (PDT)
+Received: from [192.168.1.79] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E8523F68F;
+ Thu, 17 Sep 2020 04:01:00 -0700 (PDT)
+Subject: Re: [PATCH 0/3] drm: panfrost: Coherency support
+To: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh@kernel.org>, 
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+References: <cover.1600213517.git.robin.murphy@arm.com>
+ <d109e9da-feb3-c09f-2b7f-98c92ce39593@baylibre.com>
+ <20200916170409.GA2543@kevin>
+ <CAL_JsqLGO4YYPjQsjnzZCW5iT6n+keZw9G9mFALJip0nDo42Hw@mail.gmail.com>
+ <d135f546-41aa-a6e2-52fe-7707d379c793@arm.com>
+ <0518e067-3b9a-8fe3-619f-8fce4c6c9677@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <51a06e78-7b80-c65d-67c4-e026e729e505@arm.com>
+Date: Thu, 17 Sep 2020 12:00:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200915145958.19993-15-tzimmermann@suse.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <0518e067-3b9a-8fe3-619f-8fce4c6c9677@collabora.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +47,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, michal.simek@xilinx.com, nirmoy.das@amd.com,
- krzk@kernel.org, sam@ravnborg.org, emil.velikov@collabora.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- oleksandr_andrushchenko@epam.com, tomi.valkeinen@ti.com,
- linux-tegra@vger.kernel.org, linux@armlinux.org.uk, jonathanh@nvidia.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, chunkuang.hu@kernel.org, andi.shyti@intel.com,
- linux-arm-msm@vger.kernel.org, marek.olsak@amd.com, tianci.yin@amd.com,
- etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
- linux-mediatek@lists.infradead.org, rodrigo.vivi@intel.com,
- matthias.bgg@gmail.com, evan.quan@amd.com, sean@poorly.run,
- linux-arm-kernel@lists.infradead.org, tvrtko.ursulin@linux.intel.com,
- amd-gfx@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- hyun.kwon@xilinx.com, rodrigosiqueiramelo@gmail.com, aaron.liu@amd.com,
- Felix.Kuehling@amd.com, xinhui.pan@amd.com, sw0312.kim@samsung.com,
- hjc@rock-chips.com, chris@chris-wilson.co.uk, kyungmin.park@samsung.com,
- miaoqinglang@huawei.com, alexander.deucher@amd.com, Hawking.Zhang@amd.com,
- freedreno@lists.freedesktop.org, christian.koenig@amd.com
-Content-Type: multipart/mixed; boundary="===============0698950265=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Will Deacon <will@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Jerome Brunet <jbrunet@baylibre.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 17/09/2020 11:51, Tomeu Vizoso wrote:
+> On 9/17/20 12:38 PM, Steven Price wrote:
+>> On 16/09/2020 18:46, Rob Herring wrote:
+>>> On Wed, Sep 16, 2020 at 11:04 AM Alyssa Rosenzweig
+>>> <alyssa.rosenzweig@collabora.com> wrote:
+>>>>
+>>>>> So I get a performance regression with the dma-coherent approach, 
+>>>>> even if it's
+>>>>> clearly the cleaner.
+>>>>
+>>>> That's bizarre -- this should really be the faster of the two.
+>>>
+>>> Coherency may not be free. CortexA9 had something like 4x slower
+>>> memcpy if SMP was enabled as an example. I don't know if there's
+>>> anything going on like that specifically here. If there's never any
+>>> CPU accesses mixed in with kmscube, then there would be no benefit to
+>>> coherency.
+>>
+>> The DDK blob has the ability to mark only certain areas of memory as 
+>> coherent for performance reasons. For simple things like kmscube I 
+>> would expect that it's basically write-only from the CPU and almost 
+>> all memory the GPU touches isn't touched by the CPU. I.e. coherency 
+>> isn't helping and the coherency traffic is probably expensive. Whether 
+>> the complexity is worth it for "real" content I don't know - it may 
+>> just be silly benchmarks that benefit.
+> 
+> Or maybe it's only a problem for applications that do silly things? I 
+> don't think kmscube was ever optimized for performance.
 
---===============0698950265==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="NqNl6FRZtoRUn5bW"
-Content-Disposition: inline
+Well doing silly things is almost the definition of a benchmark ;) A lot 
+of the mobile graphics benchmarks suffer from not being very intelligent 
+in how they render (e.g. many have meshes that are far too detailed so 
+the triangles are smaller than the pixels).
 
+Of course there are also applications that get things wrong too.
 
---NqNl6FRZtoRUn5bW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Sep 15, 2020 at 04:59:51PM +0200, Thomas Zimmermann wrote:
-> GEM object functions deprecate several similar callback interfaces in
-> struct drm_driver. This patch replaces the per-driver callbacks with
-> per-instance callbacks in tegra.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/tegra/drm.c | 4 ----
->  drivers/gpu/drm/tegra/gem.c | 8 ++++++++
->  2 files changed, 8 insertions(+), 4 deletions(-)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---NqNl6FRZtoRUn5bW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9jQNQACgkQ3SOs138+
-s6HfWQ//YmrWsVV1CJUAgb5t2QX4pCrujVRekVE/g1njlA/b4hb8UrTwixaZox4k
-Y6ALc4RAngHpnPoebK9HTtI7eQ6gV3NzTvOZN432iqInp8UuFdrqwY9hkRcS5ak9
-gNSHqMgl0BAkIdZ7VM5EWvVcbSkWsGbOR2uTx45m3hieqf80Jlyto/yqcH8yHm0Y
-dNhlRIxSS23lHF4c79jOtCPyJjF2DaErfz+qFiFLmdV60AjeCfl6LZZSuSNSbSNv
-Ht8OICXXHv9dKx6IbgyAAJIf77DsMDyXHzNC6YxoBH1c1X3JgEinuNaj8h+ZXxrT
-klWtayTZ15xforiBumJH+Zi23DA+95v6eigfHDVje5APtRHxDgdnNOhW6zRF049I
-powiLvCaS10xJVB7+4DlXmvdJTRaw8jNMcOYR0Yyg5fwrbkjkHyFsi2iQyzclBEJ
-KM5kjLzpgBQpaEgpsCqxY0TJ0/bU/VdL532UpAyCK7D9RxN8sdhfU7A4xuwwAeNP
-t63YCPEKs9kd0rKW4W6tUOEm9IeNiHL0CL55oYNDUNk0ddTtmdlQkFKSOfDbGBwe
-X3RtJeu0oG5S40RXucqy2J4BJO5tKcymjFb3xqjaCP8nDF3ozvgmq/Hu4+MWkeL7
-b/rNCCE8o02rDlLqOHqxccc+bQXs6tQBkwI0mESWxpdRfBPoyt8=
-=1YYz
------END PGP SIGNATURE-----
-
---NqNl6FRZtoRUn5bW--
-
---===============0698950265==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0698950265==--
