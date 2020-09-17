@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D5326DEDF
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:58:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F22726DFC4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 17:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4B16EC41;
-	Thu, 17 Sep 2020 14:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8433889A74;
+	Thu, 17 Sep 2020 15:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E146EC41
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 14:57:58 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 86924ABC1;
- Thu, 17 Sep 2020 14:58:30 +0000 (UTC)
-Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v4
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200624182648.6976-1-nirmoy.das@amd.com>
- <20200624182648.6976-7-nirmoy.das@amd.com>
- <0f0520f2-3994-8ea8-b7ef-11135c148533@suse.de>
- <98c70355-1e01-a10c-099c-0a37dac5856f@amd.com>
- <5ec8d8d6-cd09-d7bd-19b1-fbd7b92d8198@suse.de>
- <6260eb85-3612-f1ed-fb65-41dc4132b238@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e85b8b55-682d-831f-3358-bf8d13f7f402@suse.de>
-Date: Thu, 17 Sep 2020 16:57:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7A1489306;
+ Thu, 17 Sep 2020 15:35:55 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id m6so2592215wrn.0;
+ Thu, 17 Sep 2020 08:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=++KjjTeArkQUc6wTWp+OUexd5LFyCKXsX9i3O0Psxsg=;
+ b=vdIO7GRao1HIL7dDL5HmL7RgluYPLILqZijreSW8tI3heqpGROlE+g6JUvU8DgkyI9
+ 6TRbJxmXdMuRcFA82d8pXd3KqM5j7x2k4VF0otEj9YS8sStZ7NYi+9Zhc46FRaWdD2gP
+ llkuK1ntu1GYTTlMyHPBP+HH4EzCrXnUtvklzb/PDqkmGQK4RyS4zghJkgC3we2Ld0xW
+ jUaxfCxYoyvRH/QdaHFxPor/58NzsYJaCw+Sm/AAhgw5/45wT+GtzNqM9qHorCwBDDTd
+ X+9CHr8U+PSeNMkaTn818RIsLuEevjd+mUn/9eGfmspJogTLkgloJG3WI9TZB94qfhGC
+ B+2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=++KjjTeArkQUc6wTWp+OUexd5LFyCKXsX9i3O0Psxsg=;
+ b=AQ1MHdaaw41bKRcgb7r8OWCWwwW/YCxLGcUhxRfAU8JUQrRT+X6iHAHIgh2khQUMhR
+ XMFZirzg12uBZifVlEad+/KaxxPf5trIF21fC+yhHnK05DSxnBNFAjJ/GivsIiVXvCNB
+ q6ngDsQuZssx3fYChvL5QYrW4o1zQJcQ+SAnoRU6JEz3gdkByF2KqZsZKLo8D+tFz5Nh
+ QHni610pUe20rhAm8f0zJYPLm9bC31jekmLL8kujOimNfCy8SAPN2PkwnCbNQmt4JoUM
+ hFtV5BKGk1xTGsQGGRAjT86AT5vfDZi3XAtU/8vZnYg/W/sLOqiRvokhzAwiZ9UtqdZz
+ pUTg==
+X-Gm-Message-State: AOAM533gNdxJ4kMLxU4ha7pWW7csk0Ui+YbpIvhwmllMa9JwxsmsFOyP
+ SH8e7NUbA4IywBitpQZG4mTe60JBKWv3kiDdB/o=
+X-Google-Smtp-Source: ABdhPJx+y5u32oEgAaxgCr4+qkhtdjMNEjLzBX2Y42T5/J7OajS6cvRPu2WGqZQFekeAyY44eKuWJ6ETVkhNYfMPRQs=
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr34902393wrl.419.1600356954497; 
+ Thu, 17 Sep 2020 08:35:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6260eb85-3612-f1ed-fb65-41dc4132b238@amd.com>
+References: <20200917034610.21703-1-dawning.pang@gmail.com>
+ <e4ac75c6-ce1f-7d4e-9402-82f499392521@amd.com>
+In-Reply-To: <e4ac75c6-ce1f-7d4e-9402-82f499392521@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 17 Sep 2020 11:35:43 -0400
+Message-ID: <CADnq5_N4S9gOGPcgUzdkyF2svD3_4bxMyB=k9Px_ddyT-q3RTA@mail.gmail.com>
+Subject: Re: [PATCH v1] powerplay:hwmgr - modify the return value
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,303 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sashal@kernel.org, thellstrom@vmware.com, airlied@linux.ie,
- kenny.ho@amd.com, brian.welty@intel.com, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- Daniel Vetter <daniel.vetter@ffwll.ch>, alexander.deucher@amd.com,
- sean@poorly.run, kraxel@redhat.com
-Content-Type: multipart/mixed; boundary="===============0841512946=="
+Cc: pelle@vangils.xyz, Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
+ Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ zhengbin <zhengbin13@huawei.com>, Xiaoliang Pang <dawning.pang@gmail.com>,
+ Eric Huang <JinHuiEric.Huang@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
+ Kenneth Feng <kenneth.feng@amd.com>, Yintian Tao <yttao@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0841512946==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="s8GnFLslP5E7O5ppaAupn1BuVQBbhQsiZ"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---s8GnFLslP5E7O5ppaAupn1BuVQBbhQsiZ
-Content-Type: multipart/mixed; boundary="X8okP15IHvfs9mcpeEVevCOKJzI4NBcFF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: sashal@kernel.org, thellstrom@vmware.com, airlied@linux.ie,
- kenny.ho@amd.com, brian.welty@intel.com, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- Daniel Vetter <daniel.vetter@ffwll.ch>, alexander.deucher@amd.com,
- sean@poorly.run, kraxel@redhat.com
-Message-ID: <e85b8b55-682d-831f-3358-bf8d13f7f402@suse.de>
-Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v4
-References: <20200624182648.6976-1-nirmoy.das@amd.com>
- <20200624182648.6976-7-nirmoy.das@amd.com>
- <0f0520f2-3994-8ea8-b7ef-11135c148533@suse.de>
- <98c70355-1e01-a10c-099c-0a37dac5856f@amd.com>
- <5ec8d8d6-cd09-d7bd-19b1-fbd7b92d8198@suse.de>
- <6260eb85-3612-f1ed-fb65-41dc4132b238@amd.com>
-In-Reply-To: <6260eb85-3612-f1ed-fb65-41dc4132b238@amd.com>
-
---X8okP15IHvfs9mcpeEVevCOKJzI4NBcFF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 17.09.20 um 14:32 schrieb Christian K=C3=B6nig:
-> Am 17.09.20 um 14:29 schrieb Thomas Zimmermann:
->> Hi Christian
->>
->> Am 17.09.20 um 13:12 schrieb Christian K=C3=B6nig:
->>> Hi Thomas,
->>>
->>> Am 17.09.20 um 12:51 schrieb Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 24.06.20 um 20:26 schrieb Nirmoy Das:
->>>>> Calculate GEM VRAM bo's offset within vram-helper without depending=
- on
->>>>> bo->offset.
->>>>>
->>>>> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
->>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>> ---
->>>>> =C2=A0=C2=A0 drivers/gpu/drm/drm_gem_vram_helper.c | 11 ++++++++++-=
-
->>>>> =C2=A0=C2=A0 1 file changed, 10 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> index 0023ce1d2cf7..ad096600d89f 100644
->>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> @@ -281,6 +281,15 @@ u64 drm_gem_vram_mmap_offset(struct
->>>>> drm_gem_vram_object *gbo)
->>>>> =C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0 EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
->>>>> =C2=A0=C2=A0 +static u64 drm_gem_vram_pg_offset(struct drm_gem_vram=
-_object *gbo)
->>>>> +{
->>>>> +=C2=A0=C2=A0=C2=A0 /* Keep TTM behavior for now, remove when drive=
-rs are audited */
->>>>> +=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
->>>> At this line I got
->>> Sounds like ast forgot to pin the cursor to VRAM.
->>>
->>> If you look at ast_cursor_page_flip(), you see:
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 off =3D drm_gem_vra=
-m_offset(gbo);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drm_WARN_ON_ONC=
-E(dev, off < 0))
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 return; /* Bug: we didn't pin the cursor HW B=
-O to
->>>> VRAM. */
->>> The drm_WARN_ON_ONCE() just never triggered before because it checks =
-for
->>> the wrong condition (off < 0).
->> GEM VRAM BOs have a pin counter. drm_gem_vram_offset() returns -ENODEV=
-
->> if the BO's pin count is 0 (i.e., the BO has not been pinned anywhere)=
-=2E
->> That's what we're testing here. Two cursor BOs are permanently pinned =
-to
->> the top of VRAM memory by ast_cursor_init(). If perma-pinning in
->> ast_cursor_init() fails, driver initialization should fail entirely.
->>
->> These cursor BOs do some sort of double buffering, On successful
->> initialization, the actual cursor image is later blit-ed into one of t=
-he
->> BOs.
->>
->> All this used to work from what I can tell. Is there any chance that t=
-he
->> recent TTM refactoring broke this?
->=20
-> Yeah, certainly possible. If you have time please bisect.
-
-FYI the bug is not in c44264f9f729 ("Merge tag 'v5.8' into drm-next")
-from Aug 11. I'll try to bisect.
-
-Best regards
-Thomas
-
->=20
-> Thanks,
-> Christian.
->=20
->>
->> Best regards
->> Thomas
->>
->>> Regards,
->>> Christian.
->>>
->>>> [=C2=A0 146.133821] ------------[ cut here ]------------
->>>> [=C2=A0 146.133872] WARNING: CPU: 6 PID: 7 at
->>>> drivers/gpu/drm/drm_gem_vram_helper.c:284 drm_gem_vram_offset+0x59/0=
-x60
->>>> [drm_vram_helper]
->>>> [=C2=A0 146.133880] Modules linked in: fuse(E) af_packet(E)
->>>> ebtable_filter(E)
->>>> ebtables(E) ip6table_filter(E) ip6_tables(E) iptable_filter(E)
->>>> ip_tables(E) x_tables(E) bpfilter(E) rfkill(E) dmi_sysfs(E) msr(E)
->>>> intel_powerclamp(E) coretemp(E) kv)
->>>> [=C2=A0 146.134051]=C2=A0 scsi_dh_emc(E) scsi_dh_alua(E)
->>>> [=C2=A0 146.134074] CPU: 6 PID: 7 Comm: kworker/u48:0 Tainted:
->>>> G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-E
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5.9.0-rc4-1-default+ #492
->>>> [=C2=A0 146.134083] Hardware name: Sun Microsystems SUN FIRE X2270 M=
-2/SUN
->>>> FIRE X2270 M2, BIOS 2.05=C2=A0=C2=A0=C2=A0 07/01/2010
->>>> [=C2=A0 146.134099] Workqueue: events_unbound commit_work
->>>> [=C2=A0 146.134116] RIP: 0010:drm_gem_vram_offset+0x59/0x60
->>>> [drm_vram_helper]
->>>> [=C2=A0 146.134128] Code: 02 00 00 00 74 24 48 8d bb 80 02 00 00 e8 =
-ef 27 17
->>>> d7 48 8b 83 80 02 00 00 5b 48 c1 e0 0c c3 0f 0b 48 c7 c0 ed ff ff ff=
- 5b
->>>> c3 <0f> 0b 31 c0 5b c3 90 66 66 66 66 90 41 56 41 55 49 89 d5 41 54 =
-49
->>>> [=C2=A0 146.134137] RSP: 0018:ffffc90000107c38 EFLAGS: 00010246
->>>> [=C2=A0 146.134149] RAX: 0000000000000000 RBX: ffff888111155000 RCX:=
-
->>>> ffffffffc032323b
->>>> [=C2=A0 146.134158] RDX: dffffc0000000000 RSI: ffff88810e236300 RDI:=
-
->>>> ffff888111155278
->>>> [=C2=A0 146.134168] RBP: ffff888109090000 R08: ffffffffc0323225 R09:=
-
->>>> 0000000000000002
->>>> [=C2=A0 146.134177] R10: ffffed1020675020 R11: 0000000000000001 R12:=
-
->>>> ffff888109091050
->>>> [=C2=A0 146.134187] R13: ffff88810e236300 R14: ffff888109090000 R15:=
-
->>>> 0000000000000000
->>>> [=C2=A0 146.134197] FS:=C2=A0 0000000000000000(0000) GS:ffff88811600=
-0000(0000)
->>>> knlGS:0000000000000000
->>>> [=C2=A0 146.134206] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080=
-050033
->>>> [=C2=A0 146.134215] CR2: 00007f60547d9100 CR3: 0000000029216002 CR4:=
-
->>>> 00000000000206e0
->>>> [=C2=A0 146.134223] Call Trace:
->>>> [=C2=A0 146.134245]=C2=A0 ast_cursor_page_flip+0x3e/0x150 [ast]
->>>> [=C2=A0 146.134272]=C2=A0 ast_cursor_plane_helper_atomic_update+0x8a=
-/0xc0 [ast]
->>>> [=C2=A0 146.134300]=C2=A0 drm_atomic_helper_commit_planes+0x197/0x4c=
-0
->>>> [=C2=A0 146.134341]=C2=A0 drm_atomic_helper_commit_tail_rpm+0x51/0x9=
-0
->>>> [=C2=A0 146.134357]=C2=A0 commit_tail+0x103/0x1c0
->>>> [=C2=A0 146.134390]=C2=A0 process_one_work+0x56a/0xa60
->>>> [=C2=A0 146.134431]=C2=A0 ? __lock_acquired+0x1ca/0x3d0
->>>> [=C2=A0 146.134447]=C2=A0 ? pwq_dec_nr_in_flight+0x110/0x110
->>>> [=C2=A0 146.134460]=C2=A0 ? __lock_contended+0x4a0/0x4a0
->>>> [=C2=A0 146.134491]=C2=A0 ? worker_thread+0x150/0x620
->>>> [=C2=A0 146.134521]=C2=A0 worker_thread+0x8b/0x620
->>>> [=C2=A0 146.134539]=C2=A0 ? _raw_spin_unlock_irqrestore+0x41/0x50
->>>> [=C2=A0 146.134583]=C2=A0 ? process_one_work+0xa60/0xa60
->>>> [=C2=A0 146.134597]=C2=A0 kthread+0x1e4/0x210
->>>> [=C2=A0 146.134612]=C2=A0 ? kthread_create_worker_on_cpu+0xb0/0xb0
->>>> [=C2=A0 146.134637]=C2=A0 ret_from_fork+0x22/0x30
->>>> [=C2=A0 146.134698] irq event stamp: 74111
->>>> [=C2=A0 146.134711] hardirqs last=C2=A0 enabled at (74117): [<ffffff=
-ff971c68f9>]
->>>> console_unlock+0x539/0x670
->>>> [=C2=A0 146.134723] hardirqs last disabled at (74122): [<ffffffff971=
-c68ef>]
->>>> console_unlock+0x52f/0x670
->>>> [=C2=A0 146.134737] softirqs last=C2=A0 enabled at (73354): [<ffffff=
-ff975469d5>]
->>>> wb_workfn+0x3f5/0x430
->>>> [=C2=A0 146.134749] softirqs last disabled at (73350): [<ffffffff973=
-f81d0>]
->>>> wb_wakeup_delayed+0x40/0xa0
->>>> [=C2=A0 146.134758] ---[ end trace 74dd5fac6a3a2c0c ]---
->>>>
->>>>
->>>> Happens with ast when doing
->>>>
->>>> =C2=A0=C2=A0=C2=A0 weston-launch
->>>>
->>>>
->>>>
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 return gbo->bo.mem.start;
->>>>> +}
->>>>> +
->>>>> =C2=A0=C2=A0 /**
->>>>> =C2=A0=C2=A0=C2=A0 * drm_gem_vram_offset() - \
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Returns a GEM VRAM object's of=
-fset in video memory
->>>>> @@ -297,7 +306,7 @@ s64 drm_gem_vram_offset(struct
->>>>> drm_gem_vram_object *gbo)
->>>>> =C2=A0=C2=A0 {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(!gbo->pin_cou=
-nt))
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
- (s64)-ENODEV;
->>>>> -=C2=A0=C2=A0=C2=A0 return gbo->bo.offset;
->>>>> +=C2=A0=C2=A0=C2=A0 return drm_gem_vram_pg_offset(gbo) << PAGE_SHIF=
-T;
->>>>> =C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0 EXPORT_SYMBOL(drm_gem_vram_offset);
->>>>> =C2=A0=20
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---X8okP15IHvfs9mcpeEVevCOKJzI4NBcFF--
-
---s8GnFLslP5E7O5ppaAupn1BuVQBbhQsiZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9jeXAUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMBbgf8Dbd36no/8X4DvWeHhPXhGmqCwAmq
-hCynKXUpMkO3ghzXqxRj0QRRsX4zcUxS2WoN++r/tTeedbXCoS8/uZqltYH0FJYq
-SnTyMjZUqD2FI11NgWL4xKk77woQRNiWA3jPlnYfpI4iuHVQxRw+T5qTGsQTkCGj
-2UHzkv0p1BXwYRKQioGIoiZeLkMVpfwAIRLO18EALViFXygwH6gZn7c4M1O8KYGd
-vYwBdCBxj3E+0oYybLSQ0xgVwzZRFxVV0E2ki4t4p+C1vNfAvq8S5hY2sB0GuYF3
-P6OKdhyhFMPvOq2f1bjIPk5tsMDUzt4vALPw0BCYlWSXtl3K3ki7uFBkww==
-=kdXT
------END PGP SIGNATURE-----
-
---s8GnFLslP5E7O5ppaAupn1BuVQBbhQsiZ--
-
---===============0841512946==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0841512946==--
+T24gVGh1LCBTZXAgMTcsIDIwMjAgYXQgNDoyOCBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTcuMDkuMjAgdW0gMDU6NDYgc2Nocmll
+YiBYaWFvbGlhbmcgUGFuZzoKPiA+IG1vZGlmeSB0aGUgcmV0dXJuIHZhbHVlIGlzIC1FSU5WQUwK
+Pgo+IE1heWJlIGJldHRlciB3cml0ZSBzb21ldGhpbmcgbGlrZSAiVGhlIGNvcnJlY3QgcmV0dXJu
+IHZhbHVlIHNob3VsZCBiZQo+IC1FSU5WQUwuIiBXaXRoIHRoYXQgZG9uZSBmZWVsIGZyZWUgdG8g
+YWRkIG15IGFja2VkLWJ5LgoKQXBwbGllZCB3aXRoIHVwZGF0ZWQgY29tbWl0IG1lc3NhZ2UuCgpU
+aGFua3MhCgpBbGV4CgoKPgo+IENocmlzdGlhbi4KPgo+ID4KPiA+IEZpeGVzOiBmODNhOTk5MTY0
+OGJiKCJkcm0vYW1kL3Bvd2VycGxheTogYWRkIFZlZ2ExMCBwb3dlcnBsYXkgc3VwcG9ydCAodjUp
+IikKPiA+IEZpeGVzOiAyY2FjMDVkZWU2ZTMwKCJkcm0vYW1kL3Bvd2VycGxheTogYWRkIHRoZSBo
+dyBtYW5hZ2VyIGZvciB2ZWdhMTIgKHY0KSIpCj4gPiBDYzogRXJpYyBIdWFuZyA8SmluSHVpRXJp
+Yy5IdWFuZ0BhbWQuY29tPgo+ID4gQ2M6IEV2YW4gUXVhbiA8ZXZhbi5xdWFuQGFtZC5jb20+Cj4g
+PiBTaWduZWQtb2ZmLWJ5OiBYaWFvbGlhbmcgUGFuZyA8ZGF3bmluZy5wYW5nQGdtYWlsLmNvbT4K
+PiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci92ZWdhMTBf
+aHdtZ3IuYyB8IDIgKy0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Iv
+dmVnYTEyX2h3bWdyLmMgfCAyICstCj4gPiAgIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25z
+KCspLCAyIGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+YW1kL3Bvd2VycGxheS9od21nci92ZWdhMTBfaHdtZ3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+cG93ZXJwbGF5L2h3bWdyL3ZlZ2ExMF9od21nci5jCj4gPiBpbmRleCBjMzc4YTAwMGM5MzQuLjdl
+YWRhMzA5OGZmYyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5
+L2h3bWdyL3ZlZ2ExMF9od21nci5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2Vy
+cGxheS9od21nci92ZWdhMTBfaHdtZ3IuYwo+ID4gQEAgLTQ2NTksNyArNDY1OSw3IEBAIHN0YXRp
+YyBpbnQgdmVnYTEwX2Rpc3BsYXlfY29uZmlndXJhdGlvbl9jaGFuZ2VkX3Rhc2soc3RydWN0IHBw
+X2h3bWdyICpod21ncikKPiA+ICAgICAgIGlmICgoZGF0YS0+d2F0ZXJfbWFya3NfYml0bWFwICYg
+V2F0ZXJNYXJrc0V4aXN0KSAmJgo+ID4gICAgICAgICAgICAgICAgICAgICAgICEoZGF0YS0+d2F0
+ZXJfbWFya3NfYml0bWFwICYgV2F0ZXJNYXJrc0xvYWRlZCkpIHsKPiA+ICAgICAgICAgICAgICAg
+cmVzdWx0ID0gc211bV9zbWNfdGFibGVfbWFuYWdlcihod21nciwgKHVpbnQ4X3QgKil3bV90YWJs
+ZSwgV01UQUJMRSwgZmFsc2UpOwo+ID4gLSAgICAgICAgICAgICBQUF9BU1NFUlRfV0lUSF9DT0RF
+KHJlc3VsdCwgIkZhaWxlZCB0byB1cGRhdGUgV01UQUJMRSEiLCByZXR1cm4gRUlOVkFMKTsKPiA+
+ICsgICAgICAgICAgICAgUFBfQVNTRVJUX1dJVEhfQ09ERShyZXN1bHQsICJGYWlsZWQgdG8gdXBk
+YXRlIFdNVEFCTEUhIiwgcmV0dXJuIC1FSU5WQUwpOwo+ID4gICAgICAgICAgICAgICBkYXRhLT53
+YXRlcl9tYXJrc19iaXRtYXAgfD0gV2F0ZXJNYXJrc0xvYWRlZDsKPiA+ICAgICAgIH0KPiA+Cj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEy
+X2h3bWdyLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci92ZWdhMTJfaHdt
+Z3IuYwo+ID4gaW5kZXggYTY3OGE2N2YxYzBkLi4wNGRhNTJjZWE4MjQgMTAwNjQ0Cj4gPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci92ZWdhMTJfaHdtZ3IuYwo+ID4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEyX2h3bWdyLmMK
+PiA+IEBAIC0yMzkwLDcgKzIzOTAsNyBAQCBzdGF0aWMgaW50IHZlZ2ExMl9kaXNwbGF5X2NvbmZp
+Z3VyYXRpb25fY2hhbmdlZF90YXNrKHN0cnVjdCBwcF9od21nciAqaHdtZ3IpCj4gPiAgICAgICAg
+ICAgICAgICAgICAgICAgIShkYXRhLT53YXRlcl9tYXJrc19iaXRtYXAgJiBXYXRlck1hcmtzTG9h
+ZGVkKSkgewo+ID4gICAgICAgICAgICAgICByZXN1bHQgPSBzbXVtX3NtY190YWJsZV9tYW5hZ2Vy
+KGh3bWdyLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICh1aW50OF90ICopd21fdGFibGUsIFRBQkxFX1dBVEVSTUFSS1MsIGZhbHNlKTsKPiA+IC0gICAg
+ICAgICAgICAgUFBfQVNTRVJUX1dJVEhfQ09ERShyZXN1bHQsICJGYWlsZWQgdG8gdXBkYXRlIFdN
+VEFCTEUhIiwgcmV0dXJuIEVJTlZBTCk7Cj4gPiArICAgICAgICAgICAgIFBQX0FTU0VSVF9XSVRI
+X0NPREUocmVzdWx0LCAiRmFpbGVkIHRvIHVwZGF0ZSBXTVRBQkxFISIsIHJldHVybiAtRUlOVkFM
+KTsKPiA+ICAgICAgICAgICAgICAgZGF0YS0+d2F0ZXJfbWFya3NfYml0bWFwIHw9IFdhdGVyTWFy
+a3NMb2FkZWQ7Cj4gPiAgICAgICB9Cj4gPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
