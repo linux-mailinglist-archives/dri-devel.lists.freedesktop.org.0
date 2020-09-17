@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7115326DE6D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:39:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 985DF26DE99
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:44:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92786EC19;
-	Thu, 17 Sep 2020 14:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECE2B6EC27;
+	Thu, 17 Sep 2020 14:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE416EC19
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 14:39:40 +0000 (UTC)
-IronPort-SDR: 0BZYmTEYTncYSAeY+VQnZA+k9PpBed+iAnXPyl9RrZD+z0Y8aohkEthbglv6SPWWRAQH0AX/og
- +XrGO7SzRkAQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244544824"
-X-IronPort-AV: E=Sophos;i="5.76,437,1592895600"; d="scan'208";a="244544824"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2020 07:39:39 -0700
-IronPort-SDR: hQe8/udD6ghyMfIJQ/+H8FCtNycviQ8qMgklm7SQVUsiNuiZn9NhVuecooTv1y2hMai0ApxBOJ
- JZZ+KNZuAevg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,437,1596524400"; d="scan'208";a="339450633"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2020 07:39:39 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 17 Sep 2020 07:39:39 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 17 Sep 2020 07:39:38 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
- Thu, 17 Sep 2020 07:39:38 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>
-Subject: RE: [PATCH] drm/vgem: validate vgem_device before exit operations
-Thread-Topic: [PATCH] drm/vgem: validate vgem_device before exit operations
-Thread-Index: AQHWjP67fRivhUchxEur7Py5NAbIE6ls5oJA
-Date: Thu, 17 Sep 2020 14:39:38 +0000
-Message-ID: <be357808ee34469dbbe06738c4928546@intel.com>
-References: <20200917142145.ipcxb2zo4up357t2@smtp.gmail.com>
-In-Reply-To: <20200917142145.ipcxb2zo4up357t2@smtp.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 84AC16EC27
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 14:44:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 5709A2A6042;
+ Thu, 17 Sep 2020 16:44:41 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Q4NW0xYCSMye; Thu, 17 Sep 2020 16:44:41 +0200 (CEST)
+Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id 0546C2A6016;
+ Thu, 17 Sep 2020 16:44:41 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1kIv9M-001DnB-7M; Thu, 17 Sep 2020 16:44:40 +0200
+To: christian.koenig@amd.com, =?UTF-8?Q?Thomas_Hellstr=c3=b6m?=
+ <thomas.hellstrom@intel.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <fabf5079-6c39-7c8f-2973-5b32494f852a@gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: Why can't ttm_tt_swapout() handle uncached or WC BOs?
+Message-ID: <5fb55684-c797-a104-253f-bf43634f0cec@daenzer.net>
+Date: Thu, 17 Sep 2020 16:44:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.1
 MIME-Version: 1.0
+In-Reply-To: <fabf5079-6c39-7c8f-2973-5b32494f852a@gmail.com>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +51,27 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Melissa Wen
->Sent: Thursday, September 17, 2020 10:22 AM
->To: Daniel Vetter <daniel@ffwll.ch>; David Airlie <airlied@linux.ie>
->Cc: dri-devel@lists.freedesktop.org
->Subject: [PATCH] drm/vgem: validate vgem_device before exit operations
->
->This patch adds a check for the vgem_device before handling it.
->
->Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
->---
-> drivers/gpu/drm/vgem/vgem_drv.c | 9 ++++++++-
-> 1 file changed, 8 insertions(+), 1 deletion(-)
->
->diff --git a/drivers/gpu/drm/vgem/vgem_drv.c
->b/drivers/gpu/drm/vgem/vgem_drv.c
->index cb884c890065..119ca887cb8a 100644
->--- a/drivers/gpu/drm/vgem/vgem_drv.c
->+++ b/drivers/gpu/drm/vgem/vgem_drv.c
->@@ -472,7 +472,14 @@ static int __init vgem_init(void)
->
-> static void __exit vgem_exit(void)
-> {
->-	struct platform_device *pdev = vgem_device->platform;
->+	struct platform_device *pdev;
->+
->+	if (!vgem_device) {
->+		DRM_INFO("vgem_device is NULL\n");
->+		return;
->+	}
-
-This only gets called on module_exit.
-
-If module_init fails, (which is where this is allocated), will the exit ever
-be called?
-
-M
-
-
->+
->+	pdev = vgem_device->platform;
->
-> 	drm_dev_unregister(&vgem_device->drm);
-> 	devres_release_group(&pdev->dev, NULL);
->--
->2.28.0
->
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wOS0xNyAyOjIwIHAubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gSGkgZ3V5
+cywKPiAKPiBNaWNoZWwgb25jZSBzdWJtaXR0ZWQgYSBwYXRjaCB0byBmaXggdHJpZ2dlcmluZyB0
+aGlzIEJVR19PTiBpbiAKPiB0dG1fdHRfc3dhcG91dCgpOgo+IAo+PiBCVUdfT04odHRtLT5jYWNo
+aW5nX3N0YXRlICE9IHR0X2NhY2hlZCk7Cj4gCj4gTm93IG15IHF1ZXN0aW9uIGlzIGRvZXMgYW55
+Ym9keSBrbm93IHdoeSB3ZSBoYXZlIHRoYXQgaW4gdGhlIGZpcnN0IHBsYWNlPwo+IAo+IFRoZSBv
+bmx5IHByb2JsZW1hdGljIHRoaW5nIEkgY2FuIHNlZSBpcyBjYWxsaW5nIGNvcHlfaGlnaHBhZ2Uo
+KSBhbmQgdGhhdCAKPiBvbmUgaXMganVzdCBkb2luZyBhIGttYXBfYXRvbWljKCkva3VubWFwX2F0
+b21pYygpIG9uIHRoZSBzb3VyY2UgYW5kIAo+IGRlc3RpbmF0aW9uLgo+IAo+IEkgY2FuJ3Qgc2Vl
+IHdoeSBpdCBzaG91bGQgYmUgcHJvYmxlbWF0aWMgZm9yIHRoaXMgdGVtcG9yYXJ5IG1hcHBpbmcg
+dG8gCj4gYmUgY2FjaGVkIGluc3RlYWQgb2YgdW5jYWNoZWQgb3IgV0M/Cj4gCj4gRG9lcyBhbnli
+b2R5IGhhcyBhbnkgaWRlYT8KCk9uZSB0aGluZyBpcyB0aGF0IEFGQUlLIHNvbWUgKEFSTT8pIENQ
+VXMgY2FuIGdldCB2ZXJ5IHVwc2V0IHdoZW4gdGhlcmUncyAKYm90aCBhIGNhY2hlZCBhbmQgdW5j
+YWNoZWFibGUgbWFwcGluZyBmb3IgdGhlIHNhbWUgcGh5c2ljYWwgcGFnZS4KCgotLSAKRWFydGhs
+aW5nIE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8v
+cmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAg
+ICAgICAgTWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
