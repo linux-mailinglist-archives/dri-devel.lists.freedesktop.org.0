@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0225126DB6D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 14:24:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C626226DB76
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 14:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 425B36E22D;
-	Thu, 17 Sep 2020 12:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D74B76E101;
+	Thu, 17 Sep 2020 12:26:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573AF6E22D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 12:24:33 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id i1so2344568edv.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 05:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=GBPWnK+O45hDPiwD6Yl2FVueQas8+06W2RHndFOU4x0=;
- b=YSwvclpgwQrjaZJLio4+fZCnlFslcy8Smk4D3Nl1taPur3YUbCtbgZhfm/6+rxDLDb
- wnpQZk8wKk/ZMKnF8vQJK7jlxVoRuJE6PwMpAZIlrRUdYNDuAbOMf896/BwdweSdvEDR
- egGfWHIWpyYNDLR+YDZFocW3Spw/+1H3TuHMdAE5hQV4Sa7vq171+oowCUwvVE1XPned
- BNGCHnafxMkf0uGcmrVb/SW+uYrSjukjUsITqm1O0eLlKXIQ//sx5vYoWXnSP9AjX43r
- JzICsn9YQNoT2j5O7gynMB4YyLqxhQ4BfDYgM40y/TSWY5dKWblFY0toaz+U49m5h2eD
- SrPQ==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8FB86E101
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 12:26:40 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id k15so1845193wrn.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 05:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=776kE571jxALYsOg06ejCyM2zHb/SfLHRc5/m8v10ss=;
+ b=IVQpQa30jthrbYlgwDGmu0dc3mjMkTqbdMKMaSnRvLnHMKlNvHBoPDQ8r760u+SVPm
+ 59vgHhoVxmVxKNvGKFX9QbbbOEpWzNWMXSHfbRt/bDygT1XUo/rI/mTP8lwcUxWU928G
+ cOYIpmnvb7A0tsT+gMKdSIF7Iz7lnU7Ky2wTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=GBPWnK+O45hDPiwD6Yl2FVueQas8+06W2RHndFOU4x0=;
- b=cTD6a5XqIeWvmEyboDvLggkmd//CwFj5alk6KKC/AdinKGtiTYzR5Jis2MKB24sBZK
- YBUekuGoYIJfn6NLosqE/3Tx0PqbOoby2ktG1MbzVqYtZalgXkcAnVD6alTdr2n5y6HD
- 28WG5Rb8ENStMJu956kz+q7DvOrfQanif4USPRMKLKjJqfvlnE+xxjYCLqm1oVFstidn
- TPEFYQgeumxjh3Sg2yNqH8BJeENFX3jhwoau3wPTzat330SVbm7tUysRnDbNUzW44uDL
- sjuGQ7SpyF5sLshcJRx6vt/7dvJOnzI/Wu7kxY1hqWZDL/SDwq7Mv6TUWbV7KpmUED4s
- ZyIA==
-X-Gm-Message-State: AOAM5336cynKoqETsGr09qWV3E+T7QF3uFzU5CoZzljI/AekYKqn+rkG
- lgSk6AKe6zXToKoGVJLtv7c=
-X-Google-Smtp-Source: ABdhPJxjg1yiXefIk0NeL3VjLQ2zbCP7yoFRn/H/W2k2rNszWXwepBIqx8bZOzhUQkVeMcmckHNfJw==
-X-Received: by 2002:a05:6402:1110:: with SMTP id
- u16mr32547477edv.253.1600345471990; 
- Thu, 17 Sep 2020 05:24:31 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id b5sm16198291edq.69.2020.09.17.05.24.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 05:24:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=776kE571jxALYsOg06ejCyM2zHb/SfLHRc5/m8v10ss=;
+ b=KBEhUPMFKHXRmgU5x3E9H9BA0ucUpAcdf57IomVy5yUDyo9BPGfIo/iSxdewlrTpgx
+ tcVWkLxfQzshzNgtUwijATOVBnV3Gmzrv4/4YLs5KqhYCCrWOZrIKbGuOwXEpYbyfka3
+ wTPTmrgbZWX4Zsoe5nm+QBchetmrHGZO61udkvM6OpqlTg9s70OcDDb+C7fp2solYBLi
+ uIe+F5GIZWEWRsT0x5dmGnqQgaTqW3sBvQ1kpDvhYLdV+I68vLEF05Iv3baZ8pv9hZbt
+ RuiVsfaZswvzIV89HBwDxxx9q1L666V04WCTtRUcBazttl6VRaunbNwCZWCpHOO6VeNJ
+ gDlA==
+X-Gm-Message-State: AOAM5302Xg4sv1BGUljlvPIpCUGmL1xwl2q+3NpZH7i8Ois8yd3MSNVb
+ OYkUHE/y2K2CxMKYOqnuo4OtvA==
+X-Google-Smtp-Source: ABdhPJxsVUfr3DZLp2Gh7FRSChhAJlPPexeSjbdhob6/sk140ihZIXopzA3J7Zp+4xfpjlTSOU6Fyg==
+X-Received: by 2002:a5d:4a49:: with SMTP id v9mr34943739wrs.153.1600345599608; 
+ Thu, 17 Sep 2020 05:26:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u186sm10458866wmu.34.2020.09.17.05.26.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Sep 2020 05:26:38 -0700 (PDT)
+Date: Thu, 17 Sep 2020 14:26:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: christian.koenig@amd.com
 Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-To: Jason Gunthorpe <jgg@ziepe.ca>, christian.koenig@amd.com
-References: <20200916095359.GD438822@phenom.ffwll.local>
- <20200916140710.GA8409@ziepe.ca>
- <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
+Message-ID: <20200917122636.GW438822@phenom.ffwll.local>
+Mail-Followup-To: christian.koenig@amd.com, Jason Gunthorpe <jgg@ziepe.ca>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Linux MM <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
  <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
  <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
  <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
@@ -61,14 +64,11 @@ References: <20200916095359.GD438822@phenom.ffwll.local>
  <20200917113110.GE8409@ziepe.ca>
  <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
  <20200917121858.GF8409@ziepe.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
-Date: Thu, 17 Sep 2020 14:24:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200917121858.GF8409@ziepe.ca>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +81,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Linux MM <linux-mm@kvack.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Linux MM <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTcuMDkuMjAgdW0gMTQ6MTggc2NocmllYiBKYXNvbiBHdW50aG9ycGU6Cj4gT24gVGh1LCBT
-ZXAgMTcsIDIwMjAgYXQgMDI6MDM6NDhQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-Pj4gQW0gMTcuMDkuMjAgdW0gMTM6MzEgc2NocmllYiBKYXNvbiBHdW50aG9ycGU6Cj4+PiBPbiBU
-aHUsIFNlcCAxNywgMjAyMCBhdCAxMDowOToxMkFNICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3Rl
-Ogo+Pj4KPj4+PiBZZWFoLCBidXQgaXQgZG9lc24ndCB3b3JrIHdoZW4gZm9yd2FyZGluZyBmcm9t
-IHRoZSBkcm0gY2hhcmRldiB0byB0aGUKPj4+PiBkbWEtYnVmIG9uIHRoZSBpbXBvcnRlciBzaWRl
-LCBzaW5jZSB5b3UnZCBuZWVkIGEgdG9uIG9mIGRpZmZlcmVudAo+Pj4+IGFkZHJlc3Mgc3BhY2Vz
-LiBBbmQgeW91IHN0aWxsIHJlbHkgb24gdGhlIGNvcmUgY29kZSBwaWNraW5nIHVwIHlvdXIKPj4+
-PiBwZ29mZiBtYW5nbGluZywgd2hpY2ggZmVlbHMgYWJvdXQgYXMgcmlza3kgdG8gbWUgYXMgdGhl
-IHZtYSBmaWxlCj4+Pj4gcG9pbnRlciB3cmFuZ2xpbmcgLSBpZiBpdCdzIG5vdCBjb25zaXN0ZW50
-bHkgYXBwbGllZCB0aGUgcmV2ZXJzZSBtYXAKPj4+PiBpcyB0b2FzdCBhbmQgdW5tYXBfbWFwcGlu
-Z19yYW5nZSBkb2Vzbid0IHdvcmsgY29ycmVjdGx5IGZvciBvdXIgbmVlZHMuCj4+PiBJIHdvdWxk
-IHRoaW5rIHRoZSBwZ29mZiBoYXMgdG8gYmUgdHJhbnNsYXRlZCBhdCB0aGUgc2FtZSB0aW1lIHRo
-ZQo+Pj4gdm0tPnZtX2ZpbGUgaXMgY2hhbmdlZD8KPj4+Cj4+PiBUaGUgb3duZXIgb2YgdGhlIGRt
-YV9idWYgc2hvdWxkIGhhdmUgb25lIHZpcnR1YWwgYWRkcmVzcyBzcGFjZSBhbmQgRkQsCj4+PiBh
-bGwgaXRzIGRtYSBidWZzIHNob3VsZCBiZSBsaW5rZWQgdG8gaXQsIGFuZCBhbGwgcGdvZmZzIHRy
-YW5zbGF0ZWQgdG8KPj4+IHRoYXQgc3BhY2UuCj4+IFllYWgsIHRoYXQgaXMgZXhhY3RseSBsaWtl
-IGFtZGdwdSBpcyBkb2luZyBpdC4KPj4KPj4gR29pbmcgdG8gZG9jdW1lbnQgdGhhdCBzb21laG93
-IHdoZW4gSSdtIGRvbmUgd2l0aCBUVE0gY2xlYW51cHMuCj4gQlRXLCB3aGlsZSBwZW9wbGUgYXJl
-IGxvb2tpbmcgYXQgdGhpcywgaXMgdGhlcmUgYSB3YXkgdG8gZ28gZnJvbSBhIFZNQQo+IHRvIGEg
-ZG1hX2J1ZiB0aGF0IG93bnMgaXQ/CgpPbmx5IGEgZHJpdmVyIHNwZWNpZmljIG9uZS4KCkZvciBU
-VE0gZHJpdmVycyB2bWEtPnZtX3ByaXZhdGVfZGF0YSBwb2ludHMgdG8gdGhlIGJ1ZmZlciBvYmpl
-Y3QuIE5vdCAKc3VyZSBhYm91dCB0aGUgZHJpdmVycyB1c2luZyBHRU0gb25seS4KCldoeSBhcmUg
-eW91IGFza2luZz8KClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4KPiBKYXNvbgo+IF9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gTGluYXJvLW1tLXNpZyBtYWls
-aW5nIGxpc3QKPiBMaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKPiBodHRwczovL2xpc3Rz
-LmxpbmFyby5vcmcvbWFpbG1hbi9saXN0aW5mby9saW5hcm8tbW0tc2lnCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Sep 17, 2020 at 02:24:29PM +0200, Christian K=F6nig wrote:
+> Am 17.09.20 um 14:18 schrieb Jason Gunthorpe:
+> > On Thu, Sep 17, 2020 at 02:03:48PM +0200, Christian K=F6nig wrote:
+> > > Am 17.09.20 um 13:31 schrieb Jason Gunthorpe:
+> > > > On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote:
+> > > > =
+
+> > > > > Yeah, but it doesn't work when forwarding from the drm chardev to=
+ the
+> > > > > dma-buf on the importer side, since you'd need a ton of different
+> > > > > address spaces. And you still rely on the core code picking up yo=
+ur
+> > > > > pgoff mangling, which feels about as risky to me as the vma file
+> > > > > pointer wrangling - if it's not consistently applied the reverse =
+map
+> > > > > is toast and unmap_mapping_range doesn't work correctly for our n=
+eeds.
+> > > > I would think the pgoff has to be translated at the same time the
+> > > > vm->vm_file is changed?
+> > > > =
+
+> > > > The owner of the dma_buf should have one virtual address space and =
+FD,
+> > > > all its dma bufs should be linked to it, and all pgoffs translated =
+to
+> > > > that space.
+> > > Yeah, that is exactly like amdgpu is doing it.
+> > > =
+
+> > > Going to document that somehow when I'm done with TTM cleanups.
+> > BTW, while people are looking at this, is there a way to go from a VMA
+> > to a dma_buf that owns it?
+> =
+
+> Only a driver specific one.
+> =
+
+> For TTM drivers vma->vm_private_data points to the buffer object. Not sure
+> about the drivers using GEM only.
+
+For gem drivers (which includes the ones using vram helpers, which uses
+ttm internally) that points at the drm_gem_object pointer. I guess that
+might be something we can unify a bit on the ttm mmap paths of the
+remaining driver, now that there's a drm_gem_object embedded anyway.
+-Daniel
+
+> =
+
+> Why are you asking?
+> =
+
+> Regards,
+> Christian.
+> =
+
+> > =
+
+> > Jason
+> > _______________________________________________
+> > Linaro-mm-sig mailing list
+> > Linaro-mm-sig@lists.linaro.org
+> > https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
