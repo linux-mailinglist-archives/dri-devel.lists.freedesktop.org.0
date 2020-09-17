@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3090B26E853
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:26:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A8526E85E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:27:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E299898BE;
-	Thu, 17 Sep 2020 22:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07ED56E421;
+	Thu, 17 Sep 2020 22:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2888893AB
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 22:25:55 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id o20so2114553pfp.11
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:25:55 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B0C6E421
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 22:27:38 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id k25so3383738ljg.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=slxxkPttXx89E/npUKwyp25sb5MdvAkiByWGPO08fKI=;
- b=lKBjWSanVuYWpsnBh3Amnt5RIHcOjSgdKK4ZNTWPDrvQIPSEJ2+3/zg7/5d7H2RM9q
- sLKHV7ifCsPqjGk7/whZbWC9fZHp+QdRwUf4+QXKU1F6pHByt94c4a2ekHwobrzjc2N/
- qmUktULDaF96fzOet8YWE92bl2XXsnYN73maY=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6ox/oz2JSZ//c69LHGTOfHo5afsC8E8GBRLlmiSUXyE=;
+ b=OUNfyFtkPx0dN0dUw2JK8YgHmtLJTWFh9VYJsfioH1iJka9MnFhwT87U1g/ig4AoO0
+ tyQxh1AHfBnCdBvJWP/1CNoDs02XpwQw+wWAMhN3l+SbvZkytXTtEJBSj9evg20EsRbL
+ y5BeZIu1SPmt/prOtZtEwQ/i03qXXzgw9TJTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=slxxkPttXx89E/npUKwyp25sb5MdvAkiByWGPO08fKI=;
- b=WmyuVYwwq6/FB7ZYR3LdjGtyr9c1hWno8FezMuNHoB9T+Y5LAxRG3LwQpO9hWap0Ss
- Ee2rZc6yJpWHPveO5JAX+vwDQrT6aRbqQbhI35xbNyeg623WcxwtRrs5x7e8uSVdytEq
- 3tMihURizwjnLozvYmBzztNK3jZkPa5WcRuud28UfZWxnPEZX6DnTI83OEkG+zMK0e86
- KJgQQ99j/wXSUdAwp0yTn4agj022B+hJhp83I61HdYbBk7Z/EqQcI5zUD71PfonQhLEd
- iLec6uCBq+c9xvgGNzPW5R4QvrIXmt4RCVTbiy+az0cDjsh8Ok17Py9KDmE4r43+Bnc5
- bpGQ==
-X-Gm-Message-State: AOAM531BtRO6DgHDF9YEb9OJmrzbgIXVKdE07FUdDtS1+SuGDweaZ7Pu
- D9SDqv7bGxsPdFyYZ8/e3ZpSALapru0jOA==
-X-Google-Smtp-Source: ABdhPJyRUhUdbS80FWqayCfLmIz3z7Oqc5hpj4smtH0+KnokCJ6aZ2kNg0iu6yugrquc9iiiI1kmew==
-X-Received: by 2002:a65:5cc5:: with SMTP id b5mr24138058pgt.417.1600381555251; 
- Thu, 17 Sep 2020 15:25:55 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id i9sm640020pfq.53.2020.09.17.15.25.54
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6ox/oz2JSZ//c69LHGTOfHo5afsC8E8GBRLlmiSUXyE=;
+ b=NlCZXiJfy4sisNU+btOfgrSWsHslvMxONA4xYStovj7b4F4VzDtjom/4aoZvcl0wSp
+ FnOTjKqLDbXtIV5e+0GygzPFyjNQpmMavdi3HD1eoBBaabWpwbyh0Vo8IKjob/wn1zOk
+ mClnZ4JK3ElTKWLZIt8K10W9eHQbGD6Rz8f+SuUOjTyP1ZSaqXQZCZ7wiVTEdTGhFLjy
+ X+Z62MLVqKAXcWXW9/yQWfGAGmbxyOcapPzCyHPAyhiqiExkMljCInr5WyIKbtr1JST8
+ Y9ravEVqBYdQxOXny7Wpf0P5iMvinSW95fVudAXJle5G8CJAtqT3vCIUQ3jsUson1wwP
+ nANg==
+X-Gm-Message-State: AOAM531swXZsQkRUtWj7/F7v5dczkql1Z0fnZ33mIf9ipBSL/y0g+jZY
+ UuQxVobDznG1S3jOOHSkVWuq3dLr53odDQ==
+X-Google-Smtp-Source: ABdhPJzoVawigcX1zH0HUpF39I99cNrshzLJTwO2bxWqfYJIm0ctPQCK24kFl1T/77ys8SPYCC4IuQ==
+X-Received: by 2002:a2e:a496:: with SMTP id h22mr10028087lji.24.1600381656654; 
+ Thu, 17 Sep 2020 15:27:36 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
+ [209.85.167.54])
+ by smtp.gmail.com with ESMTPSA id a197sm175323lfd.137.2020.09.17.15.27.36
  for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 15:25:54 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 09/19] drm/virtio: implement blob resources: probe for host
- visible region
-Date: Thu, 17 Sep 2020 15:25:52 -0700
-Message-Id: <20200917222552.713-1-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
-References: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Sep 2020 15:27:36 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id y11so3931930lfl.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:27:36 -0700 (PDT)
+X-Received: by 2002:ac2:434b:: with SMTP id o11mr8261132lfl.576.1600381655654; 
+ Thu, 17 Sep 2020 15:27:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200917000838.735-1-gurchetansingh@chromium.org>
+ <20200917000838.735-9-gurchetansingh@chromium.org>
+ <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
+In-Reply-To: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Thu, 17 Sep 2020 15:27:24 -0700
+X-Gmail-Original-Message-ID: <CAAfnVBnXQcKFMFpT8VrbPyeMVMc_4nc-3bRjn81kZz9gjvmm9A@mail.gmail.com>
+Message-ID: <CAAfnVBnXQcKFMFpT8VrbPyeMVMc_4nc-3bRjn81kZz9gjvmm9A@mail.gmail.com>
+Subject: Re: [PATCH v3 09/19] drm/virtio: implement blob resources: probe for
+ host visible region
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +71,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1451229560=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+--===============1451229560==
+Content-Type: multipart/alternative; boundary="000000000000179e2505af89e415"
 
-The availability of the host visible region means host 3D
-allocations can be directly mapped in the guest.
+--000000000000179e2505af89e415
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Co-developed-by: Gurchetan Singh <gurchetansingh@chromium.org>
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
----
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |  5 +++++
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 ++
- drivers/gpu/drm/virtio/virtgpu_kms.c     | 20 ++++++++++++++++++--
- 3 files changed, 25 insertions(+), 2 deletions(-)
+On Thu, Sep 17, 2020 at 2:40 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-index 6b9b8376613f0..a2cdd267914ac 100644
---- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-@@ -52,6 +52,11 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
- 	virtio_add_bool(m, "blob resources", vgdev->has_resource_blob);
- 	virtio_add_int(m, "cap sets", vgdev->num_capsets);
- 	virtio_add_int(m, "scanouts", vgdev->num_scanouts);
-+	if (vgdev->host_visible_region.len) {
-+		seq_printf(m, "%-16s : 0x%lx +0x%lx\n", "host visible region",
-+			   (unsigned long)vgdev->host_visible_region.addr,
-+			   (unsigned long)vgdev->host_visible_region.len);
-+	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index b53478a6a3c08..391637f0b362d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -209,6 +209,8 @@ struct virtio_gpu_device {
- 	bool has_indirect;
- 	bool has_resource_assign_uuid;
- 	bool has_resource_blob;
-+	bool has_host_visible;
-+	struct virtio_shm_region host_visible_region;
- 
- 	struct work_struct config_changed_work;
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 0678e56100dae..e17d3f5a0b54e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -155,11 +155,27 @@ int virtio_gpu_init(struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
- 		vgdev->has_resource_blob = true;
- 	}
-+	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
-+				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
-+		if (!devm_request_mem_region(&vgdev->vdev->dev,
-+					     vgdev->host_visible_region.addr,
-+					     vgdev->host_visible_region.len,
-+					     dev_name(&vgdev->vdev->dev))) {
-+			DRM_ERROR("Could not reserve host visible region\n");
-+			goto err_vqs;
-+		}
-+
-+		DRM_INFO("Host memory window: 0x%lx +0x%lx\n",
-+			 (unsigned long)vgdev->host_visible_region.addr,
-+			 (unsigned long)vgdev->host_visible_region.len);
-+		vgdev->has_host_visible = true;
-+	}
- 
--	DRM_INFO("features: %cvirgl %cedid %cresource_blob\n",
-+	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\n",
- 		 vgdev->has_virgl_3d    ? '+' : '-',
- 		 vgdev->has_edid        ? '+' : '-',
--		 vgdev->has_resource_blob ? '+' : '-');
-+		 vgdev->has_resource_blob ? '+' : '-',
-+		 vgdev->has_host_visible ? '+' : '-');
- 
- 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
- 	if (ret) {
--- 
-2.26.2
+>   Hi,
+>
+> > +             if (!devm_request_mem_region(&vgdev->vdev->dev,
+> > +
+> vgdev->host_visible_region.addr,
+> > +
+> vgdev->host_visible_region.len,
+> > +                                          dev_name(&vgdev->vdev->dev)))
+> {
+> > +                     DRM_ERROR("Could not reserve host visible
+> region\n");
+> > +                     goto err_vqs;
+> > +             }
+>
+> > +     if (vgdev->has_host_visible) {
+> > +             devm_release_mem_region(&vgdev->vdev->dev,
+> > +                                     vgdev->host_visible_region.addr,
+> > +                                     vgdev->host_visible_region.len);
+> > +     }
+>
+> Hmm. isn't it the point of the managed apis that the release happens
+> automatically?  I think you don't need the devm_release_mem_region
+> call (it doesn't break things though).
+>
+
+Ack, good catch.  Fixed.
+
+
+>
+> take care,
+>   Gerd
+>
+>
+
+--000000000000179e2505af89e415
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 17, 2020 at 2:40 AM Gerd =
+Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 H=
+i,<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!devm_request_mem=
+_region(&amp;vgdev-&gt;vdev-&gt;dev,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 vgdev-&gt;host_visible_region.addr,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 vgdev-&gt;host_visible_region.len,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 dev_name(&amp;vgdev-&gt;vdev-&gt;dev))) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0DRM_ERROR(&quot;Could not reserve host visible region\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0goto err_vqs;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (vgdev-&gt;has_host_visible) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0devm_release_mem_regi=
+on(&amp;vgdev-&gt;vdev-&gt;dev,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vgdev-&gt;ho=
+st_visible_region.addr,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vgdev-&gt;ho=
+st_visible_region.len);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+Hmm. isn&#39;t it the point of the managed apis that the release happens<br=
+>
+automatically?=C2=A0 I think you don&#39;t need the devm_release_mem_region=
+<br>
+call (it doesn&#39;t break things though).<br></blockquote><div><br></div><=
+div>Ack, good catch.=C2=A0 Fixed.</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div></div>
+
+--000000000000179e2505af89e415--
+
+--===============1451229560==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1451229560==--
