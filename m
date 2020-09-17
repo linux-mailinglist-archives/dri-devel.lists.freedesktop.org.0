@@ -1,38 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D06826D4C9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 09:33:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6912E26D4CA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 09:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B0D6E1E2;
-	Thu, 17 Sep 2020 07:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2FE6E184;
+	Thu, 17 Sep 2020 07:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5C76E184
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 07:33:44 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0BEC2ADBB;
- Thu, 17 Sep 2020 07:16:22 +0000 (UTC)
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
- <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
- <20200916122405.GQ438822@phenom.ffwll.local>
- <53743f37-4142-c076-296f-bfcba0840121@amd.com>
- <5192750d-6e99-3dae-286b-3fe0ded0d094@shipmail.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <eacc23d0-b18d-9b26-851d-e534174d43e3@suse.de>
-Date: Thu, 17 Sep 2020 09:16:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 284A16E184
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 07:33:52 +0000 (UTC)
+X-UUID: 6bf3f0a16c3a426f8b290967d0360315-20200917
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=6NUUedpXNQ5jCOHG+M6D9uQsy5p+hcL39YSoVGePx3c=; 
+ b=bFZnH+PglSm8fz8D0GqgaK2VrI4v9JOn6PU3NRas99SuV9A3vlV8VaX8p5F4acVpIN8x+ZDl/eqjc8NO1IW/YI4KoSOcOMSMnZOIe17dwNUvDKsqTTETXS7P7D2dDxCl7OHhhAvj3CdBKBuKzrHbjjt1NDiisbCQUwBFpeI1KV0=;
+X-UUID: 6bf3f0a16c3a426f8b290967d0360315-20200917
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 18555539; Thu, 17 Sep 2020 15:33:45 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 17 Sep 2020 15:33:41 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 17 Sep 2020 15:33:41 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [v2 PATCH] dt-bindings: display: mediatek: convert the dpi bindings
+ to yaml
+Date: Thu, 17 Sep 2020 15:33:05 +0800
+Message-ID: <20200917073305.25738-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.12.5
 MIME-Version: 1.0
-In-Reply-To: <5192750d-6e99-3dae-286b-3fe0ded0d094@shipmail.org>
+X-TM-SNTS-SMTP: C44404ACF078DEF47CC277602C88AD09DC917700FE540F3FA3845207F68AE0262000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,229 +54,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0747942647=="
+Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0747942647==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="uxJvT4Us4Le5dPFrdGQZoCDaGYvFFxZ3h"
+Convert display/mediatek/mediatek,dpi.txt to display/mediatek/mediatek,dpi.yaml
+and remove the old text bindings.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uxJvT4Us4Le5dPFrdGQZoCDaGYvFFxZ3h
-Content-Type: multipart/mixed; boundary="zW9WkKE1eYbqAMXwbqQcXvj43gpxi9EQe";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-Message-ID: <eacc23d0-b18d-9b26-851d-e534174d43e3@suse.de>
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
- <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
- <20200916122405.GQ438822@phenom.ffwll.local>
- <53743f37-4142-c076-296f-bfcba0840121@amd.com>
- <5192750d-6e99-3dae-286b-3fe0ded0d094@shipmail.org>
-In-Reply-To: <5192750d-6e99-3dae-286b-3fe0ded0d094@shipmail.org>
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ .../bindings/display/mediatek/mediatek,dpi.txt     | 42 ----------
+ .../bindings/display/mediatek/mediatek,dpi.yaml    | 97 ++++++++++++++++++++++
+ 2 files changed, 97 insertions(+), 42 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
 
---zW9WkKE1eYbqAMXwbqQcXvj43gpxi9EQe
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Christian and Thomas
-
-Am 16.09.20 um 15:37 schrieb Thomas Hellstr=C3=B6m (Intel):
->=20
-> On 9/16/20 2:59 PM, Christian K=C3=B6nig wrote:
->> Am 16.09.20 um 14:24 schrieb Daniel Vetter:
->>> On Wed, Sep 16, 2020 at 12:48:20PM +0200, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 16.09.20 um 11:37 schrieb Daniel Vetter:
->>>>> On Mon, Sep 14, 2020 at 01:25:18PM +0200, Thomas Zimmermann wrote:
->>>>>> Dma-buf provides vmap() and vunmap() for retrieving and releasing
->>>>>> mappings
->>>>>> of dma-buf memory in kernel address space. The functions operate
->>>>>> with plain
->>>>>> addresses and the assumption is that the memory can be accessed
->>>>>> with load
->>>>>> and store operations. This is not the case on some architectures
->>>>>> (e.g.,
->>>>>> sparc64) where I/O memory can only be accessed with dedicated
->>>>>> instructions.
->>>>>>
->>>>>> This patchset introduces struct dma_buf_map, which contains the
->>>>>> address of
->>>>>> a buffer and a flag that tells whether system- or I/O-memory
->>>>>> instructions
->>>>>> are required.
->>>>>>
->>>>>> Some background: updating the DRM framebuffer console on sparc64
->>>>>> makes the
->>>>>> kernel panic. This is because the framebuffer memory cannot be
->>>>>> accessed with
->>>>>> system-memory instructions. We currently employ a workaround in
->>>>>> DRM to
->>>>>> address this specific problem. [1]
->>>>>>
->>>>>> To resolve the problem, we'd like to address it at the most common=
-
->>>>>> point,
->>>>>> which is the dma-buf framework. The dma-buf mapping ideally knows
->>>>>> if I/O
->>>>>> instructions are required and exports this information to it's
->>>>>> users. The
->>>>>> new structure struct dma_buf_map stores the buffer address and a
->>>>>> flag that
->>>>>> signals I/O memory. Affected users of the buffer (e.g., drivers,
->>>>>> frameworks)
->>>>>> can then access the memory accordingly.
->>>>>>
->>>>>> This patchset only introduces struct dma_buf_map, and updates
->>>>>> struct dma_buf
->>>>>> and it's interfaces. Further patches can update dma-buf users. For=
-
->>>>>> example,
->>>>>> there's a prototype patchset for DRM that fixes the framebuffer
->>>>>> problem. [2]
->>>>>>
->>>>>> Further work: TTM, one of DRM's memory managers, already exports a=
-n
->>>>>> is_iomem flag of its own. It could later be switched over to
->>>>>> exporting struct
->>>>>> dma_buf_map, thus simplifying some code. Several DRM drivers
->>>>>> expect their
->>>>>> fbdev console to operate on I/O memory. These could possibly be
->>>>>> switched over
->>>>>> to the generic fbdev emulation, as soon as the generic code uses
->>>>>> struct
->>>>>> dma_buf_map.
->>>>>>
->>>>>> [1]
->>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Flore.kernel.org%2Fdri-devel%2F20200725191012.GA434957%40ravnborg.org%2F=
-&amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C04e3cc3e03ae40f1fa0f08=
-d85a3b6a68%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63735855852473238=
-5&amp;sdata=3DwTmFuB95GhKUU%2F2Q91V0%2BtzAu4%2BEe3VBUcriBy3jx2g%3D&amp;re=
-served=3D0
->>>>>>
->>>>>> [2]
->>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Flore.kernel.org%2Fdri-devel%2F20200806085239.4606-1-tzimmermann%40suse.=
-de%2F&amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C04e3cc3e03ae40f1f=
-a0f08d85a3b6a68%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637358558524=
-732385&amp;sdata=3DL4rBHmegO63b%2FiTQdTyH158KNxAZwSuJCQOaFszo5L0%3D&amp;r=
-eserved=3D0
->>>>>>
->>>>> lgtm, imo ready to convert the follow-up patches over to this. But
->>>>> I think
->>>>> would be good to get at least some ack from the ttm side for the
->>>>> overall
->>>>> plan.
->>>> Yup, it would be nice if TTM could had out these types automatically=
-=2E
->>>> Then all TTM-based drivers would automatically support it.
->>>>
->>>>> Also, I think we should put all the various helpers (writel/readl,
->>>>> memset,
->>>>> memcpy, whatever else) into the dma-buf-map.h helper, so that most
->>>>> code
->>>>> using this can just treat it as an abstract pointer type and never
->>>>> look
->>>>> underneath it.
->>>> We have some framebuffer helpers that rely on pointer arithmetic, so=
-
->>>> we'd need that too. No big deal wrt code, but I was worried about th=
-e
->>>> overhead. If a loop goes over framebuffer memory, there's an if/else=
-
->>>> branch for each access to the memory buffer.
->>> If we make all the helpers static inline, then the compiler should be=
-
->>> able
->>> to see that dma_buf_map.is_iomem is always the same, and produced rea=
-lly
->>> optimized code for it by pulling that check out from all the loops.
->>>
->>> So should only result in somewhat verbose code of having to call
->>> dma_buf_map pointer arthimetic helpers, but not in bad generated code=
-=2E
->>> Still worth double-checking I think, since e.g. on x86 the generated
->>> code
->>> should be the same for both cases (but maybe the compiler doesn't see=
-
->>> through the inline asm to realize that, so we might end up with 2
->>> copies).
->>
->> Can we have that even independent of DMA-buf? We have essentially the
->> same problem in TTM and the code around that is a complete mess if you=
-
->> ask me.
->>
->> Christian.
->>
-> I think this patchset looks good. Changing ttm_bo_kmap() over to
-> returning a struct dma-buf-map would probably work just fine. If we the=
-n
-> can have a set of helpers to operate on it, that's great.
->=20
-> /Thomas
-
-Can I count this as an A-b by one of you?
-
-Best regards
-Thomas
-
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---zW9WkKE1eYbqAMXwbqQcXvj43gpxi9EQe--
-
---uxJvT4Us4Le5dPFrdGQZoCDaGYvFFxZ3h
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9jDTIUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiM5BAf/VxjLY2e12LiNz7eZxYXeddR3p3aQ
-tEx97wmSftfyMc9fzM0Itrzr1ipNzgpk9W5HtJIOZLivg3K8Y1VH9si+g7IykgqR
-38yPic7I60pYMdj1ZosAnsY6PKzu5bIEPJ2b7kQ5D+rjaoidCXi9OknIVeaESyEV
-cLkbFWZw+tjqiNwguiio47jJ82UCEA7mpGULBWl4WUKfKtMn3UWiqs0AcS7EcXC2
-vTNUYMxd+FDlK77OYFE8Vbd7nmoVZXri5Weyujr5DazPNd72YMe9k8YhKd5CvgkM
-9GbSY5L5+WYCco/mSjxC5sOn9+3DvIG94qvo1W5pZKiOeDuhCsyRgSsbEg==
-=P7ku
------END PGP SIGNATURE-----
-
---uxJvT4Us4Le5dPFrdGQZoCDaGYvFFxZ3h--
-
---===============0747942647==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+deleted file mode 100644
+index 77def4456706..000000000000
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Mediatek DPI Device
+-===================
+-
+-The Mediatek DPI function block is a sink of the display subsystem and
+-provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
+-output bus.
+-
+-Required properties:
+-- compatible: "mediatek,<chip>-dpi"
+-  the supported chips are mt2701 , mt8173 and mt8183.
+-- reg: Physical base address and length of the controller's registers
+-- interrupts: The interrupt signal from the function block.
+-- clocks: device clocks
+-  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+-- clock-names: must contain "pixel", "engine", and "pll"
+-- port: Output port node with endpoint definitions as described in
+-  Documentation/devicetree/bindings/graph.txt. This port should be connected
+-  to the input port of an attached HDMI or LVDS encoder chip.
+-
+-Optional properties:
+-- pinctrl-names: Contain "default" and "sleep".
+-
+-Example:
+-
+-dpi0: dpi@1401d000 {
+-	compatible = "mediatek,mt8173-dpi";
+-	reg = <0 0x1401d000 0 0x1000>;
+-	interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
+-	clocks = <&mmsys CLK_MM_DPI_PIXEL>,
+-		 <&mmsys CLK_MM_DPI_ENGINE>,
+-		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+-	clock-names = "pixel", "engine", "pll";
+-	pinctrl-names = "default", "sleep";
+-	pinctrl-0 = <&dpi_pin_func>;
+-	pinctrl-1 = <&dpi_pin_idle>;
+-
+-	port {
+-		dpi0_out: endpoint {
+-			remote-endpoint = <&hdmi0_in>;
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+new file mode 100644
+index 000000000000..4de08bc46fb3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: mediatek DPI Controller Device Tree Bindings
++
++maintainers:
++  - CK Hu <ck.hu@mediatek.com>
++  - Jitao shi <jitao.shi@mediatek.com>
++
++description: |
++  The Mediatek DPI function block is a sink of the display subsystem and
++  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
++  output bus.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt2701-dpi
++      - mediatek,mt8173-dpi
++      - mediatek,mt8183-dpi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Pixel Clock
++      - description: Engine Clock
++      - description: DPI PLL
++
++  clock-names:
++    items:
++      - const: pixel
++      - const: engine
++      - const: pll
++
++  pinctrl-0: true
++  pinctrl-1: true
++
++  pinctrl-names:
++    items:
++      - const: default
++      - const: sleep
++
++  port:
++    type: object
++    description:
++      Output port node with endpoint definitions as described in
++      Documentation/devicetree/bindings/graph.txt. This port should be connected
++      to the input port of an attached HDMI or LVDS encoder chip.
++
++    properties:
++      endpoint:
++        type: object
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/mt8173-clk.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    dpi0: dpi@1401d000 {
++        compatible = "mediatek,mt8173-dpi";
++        reg = <0x1401d000 0x1000>;
++        interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
++        clocks = <&mmsys CLK_MM_DPI_PIXEL>,
++             <&mmsys CLK_MM_DPI_ENGINE>,
++             <&apmixedsys CLK_APMIXED_TVDPLL>;
++        clock-names = "pixel", "engine", "pll";
++        pinctrl-names = "default", "sleep";
++        pinctrl-0 = <&dpi_pin_func>;
++        pinctrl-1 = <&dpi_pin_idle>;
++
++        port {
++            dpi0_out: endpoint {
++                remote-endpoint = <&hdmi0_in>;
++            };
++        };
++    };
++
++...
+-- 
+2.12.5
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0747942647==--
