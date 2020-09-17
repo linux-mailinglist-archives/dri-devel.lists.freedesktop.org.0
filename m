@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6BB26E24A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 19:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2610426E250
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 19:26:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8C1289206;
-	Thu, 17 Sep 2020 17:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA036EC3D;
+	Thu, 17 Sep 2020 17:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 267A689206
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 17:25:03 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id y13so3085300iow.4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 10:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CqYxKt476hR3TTFF0OPhS2FDpNqXcLicmfcVy365+RE=;
- b=kDijGxaFsy0Fx1DBJ1DPcnkSBQUrCA95fmWOOOskitN+EMFd2wlne6Xh7JYoAm9HAx
- gEr0sVCuKQd920CYqMGED9kbS+y826E77Nqd+OIoEGarDdyj8QJY+baXknHG1vxaOmNk
- M87i/cEnyRSXuZre+/kZ+XqqRFEDTGscGl6KZkkgT235MCnLN3f6wxVKmSfkMtoUVWeI
- 1he6a6l8guWlcvZpRpHsjCIESM6NNJLXi873FbgA+Bvt18K6GcelhZyPCdfZ1DjUPx2O
- 4Pcy5cpm6qp6ymM3EofMkk8ozoekm00DxtQmJ04cNcmYGoBHZu5GR0xIgBt3pINtt3VB
- 2b9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CqYxKt476hR3TTFF0OPhS2FDpNqXcLicmfcVy365+RE=;
- b=t9Cx87pgCdIB/i1/JpvyXU8TnSFU5Gzvh+nsUaUb6rAhJQyNubhFFSgRD1Z015E6PE
- L3i2ydNM28t1yZE12U7MF0dyKcCMmCWtNBISXIq7BT/JsA5wX2MWPD08GW8lwKEgy9YA
- Vu1wp/FIqJDryrBJDmq1k8FsavgqdcxLabbokHZbW2rNj48dSlJPUmMb7dipAInPVUlf
- 3bTlR5BQq6fuzVLCt/pP/6UttXLPzu+p77h5SDm7cemSFTo7ezfdaoQn/RXLYygMYtRK
- H76bQ611QzSiTHJfWUCP8xjRWC3Gkvd11xvdw31JKm6si7BsLxFd1kJ28sp4vXnt/TBc
- LVgQ==
-X-Gm-Message-State: AOAM532Gb1h+z50zq0BicWa+piNc1/fjtbEk03Vlmg1d9AyKmfwX/XP7
- Y3y6BWOjnmtzj1AAUXt1BK/7BweUN6aRFluZjDaGDg==
-X-Google-Smtp-Source: ABdhPJxs7OGJ7hZTuQ1WqBLcV0e0QWNm4niJf9SPlPDeeC+169mDAzZbWtKlilgyvPaCcnx6J3wV2OnbVvroP467Nfw=
-X-Received: by 2002:a05:6602:2e81:: with SMTP id
- m1mr24076500iow.64.1600363502410; 
- Thu, 17 Sep 2020 10:25:02 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC8D6EC3C;
+ Thu, 17 Sep 2020 17:26:41 +0000 (UTC)
+IronPort-SDR: 2HewF80GE91S4m34AVbyMbDXFffblDv5VC3VLUJ5V0jtd5b301eKwFuYB6xhBii0KKwTLuVyVi
+ PCcdBODsrBVQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="157150412"
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; d="scan'208";a="157150412"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2020 10:26:39 -0700
+IronPort-SDR: G514JGVLOK+sUhI/C3txGDde3ZmT+wYLMiC+9qApFr442GdBdM/NFdMhk+U6+rJI3GFEE8NQ6y
+ 4S4EH+LbIKMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; d="scan'208";a="344432425"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 17 Sep 2020 10:26:35 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 17 Sep 2020 20:26:34 +0300
+Date: Thu, 17 Sep 2020 20:26:34 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Kevin Chowski <chowski@chromium.org>
+Subject: Re: [PATCH] i915: Introduce quirk for shifting eDP brightness.
+Message-ID: <20200917172634.GB6112@intel.com>
+References: <20200917110838.1.I63d52f5b96d7e81e1e2dc2a72c4bf5fd84d3d3d0@changeid>
 MIME-Version: 1.0
-References: <20200917164721.2038541-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200917164721.2038541-1-daniel.vetter@ffwll.ch>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Thu, 17 Sep 2020 19:24:58 +0200
-Message-ID: <CAP+8YyEqh4HRx7G5VefwEYTrLQthki7Zoxxx=g=EVYnz3dNDMw@mail.gmail.com>
-Subject: Re: [PATCH] drm/doc: Document that modifiers are always required for
- fb
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20200917110838.1.I63d52f5b96d7e81e1e2dc2a72c4bf5fd84d3d3d0@changeid>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +52,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Stone <daniels@collabora.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Juston Li <juston.li@intel.com>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWNrZWQtYnk6IEJhcyBOaWV1d2VuaHVpemVuIDxiYXNAYmFzbmlldXdlbmh1aXplbi5ubD4KCk9u
-IFRodSwgU2VwIDE3LCAyMDIwIGF0IDY6NDggUE0gRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBmZndsbC5jaD4gd3JvdGU6Cj4KPiBFdmVuIGZvciBsZWdhY3kgdXNlcnNwYWNlLCBzaW5jZSBv
-dGhlcndpc2UgR0VURkIyIGlzIGJyb2tlbiBhbmQgaWYgeW91Cj4gc3dpdGNoIGJldHdlZW4gbW9k
-aWZpZXItbGVzcyBhbmQgbW9kaWZpZXItYXdhcmUgY29tcG9zaXRvcnMsIHNtb290aAo+IHRyYW5z
-aXRpb25zIGJyZWFrLgo+Cj4gQWxzbyBpdCdzIGp1c3QgYmVzdCBwcmFjdGljZSB0byBtYWtlIHN1
-cmUgbW9kaWZpZXJzIGFyZSBpbnZhcmlhbnQgZm9yCj4gYSBnaXZlbiBkcm1fZmIsIGFuZCB0aGF0
-IGEgbW9kaWZpZXItYXdhcmUga21zIGRyaXZlcnMgb25seSBoYXMgb25lCj4gcGxhY2UgdG8gc3Rv
-cmUgdGhlbSwgaWdub3JpbmcgYW55IG9sZCBpbXBsaWNpdCBibyBmbGFncyBvciB3aGF0ZXZlcgo+
-IGVsc2UgbWlnaHQgZmxvYXQgYXJvdW5kLgo+Cj4gTW90aXZhdGVkIGJ5IHNvbWUgaXJjIGRpc2N1
-c3Npb24gd2l0aCBCYXMgYWJvdXQgYW1kZ3B1IG1vZGlmaWVyCj4gc3VwcG9ydC4KPgo+IEFja2Vk
-LWJ5OiBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+Cj4gQWNrZWQtYnk6IERhbmllbCBT
-dG9uZSA8ZGFuaWVsc0Bjb2xsYWJvcmEuY29tPgo+IEFja2VkLWJ5OiBQZWtrYSBQYWFsYW5lbiA8
-cGVra2EucGFhbGFuZW5AY29sbGFib3JhLmNvbT4KPiBGaXhlczogNDU1ZTAwZjE0MTJmICgiZHJt
-OiBBZGQgZ2V0ZmIyIGlvY3RsIikKPiBDYzogRGFuaWVsIFN0b25lIDxkYW5pZWxzQGNvbGxhYm9y
-YS5jb20+Cj4gQ2M6IEp1c3RvbiBMaSA8anVzdG9uLmxpQGludGVsLmNvbT4KPiBDYzogRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBDYzogVmlsbGUgU3lyasOkbMOkIDx2
-aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogQmFzIE5pZXV3ZW5odWl6ZW4gPGJh
-c0BiYXNuaWV1d2VuaHVpemVuLm5sPgo+IENjOiBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21haWwu
-Y29tPgo+IENjOiAiV2VudGxhbmQsIEhhcnJ5IiA8aGFycnkud2VudGxhbmRAYW1kLmNvbT4KPiBT
-aWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiAt
-LS0KPiBTZW5kaW5nIHRoaXMgb3V0IGFnYWluIHRvIGRvdWJsZS1jaGVjayB0aGVyZSdzIG5vIG9i
-amVjdGlvbnMgb3IgY29uY2VybnMuCj4gRnJvbSB3aGF0IEkgdW5kZXJzdGFuZCBsb29raW5nIGF0
-IHRoZSBjb2RlIHRoZSBsYXRlc3QgbW9kaWZpZXIgcGF0Y2hlcyBmb3IKPiBhbWRncHUgZm9sbG93
-IHRoaXMgbm93Lgo+Cj4gQ2hlZXJzLCBEYW5pZWwKPiAtLS0KPiAgaW5jbHVkZS9kcm0vZHJtX21v
-ZGVfY29uZmlnLmggfCAxMyArKysrKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNl
-cnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgg
-Yi9pbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaAo+IGluZGV4IGExOGY3M2ViM2NmNi4uNWZm
-YmI0ZWQ1YjM1IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oCj4g
-KysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgKPiBAQCAtNTgsNiArNTgsMTIgQEAg
-c3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5jcyB7Cj4gICAgICAgICAgKiBhY3R1YWwgbW9kaWZp
-ZXIgdXNlZCBpZiB0aGUgcmVxdWVzdCBkb2Vzbid0IGhhdmUgaXQgc3BlY2lmaWVkLAo+ICAgICAg
-ICAgICogaWUuIHdoZW4gKEBtb2RlX2NtZC0+ZmxhZ3MgJiBEUk1fTU9ERV9GQl9NT0RJRklFUlMp
-ID09IDAuCj4gICAgICAgICAgKgo+ICsgICAgICAgICogSU1QT1JUQU5UOiBUaGVzZSBpbXBsaWVk
-IG1vZGlmaWVycyBmb3IgbGVnYWN5IHVzZXJzcGFjZSBtdXN0IGJlCj4gKyAgICAgICAgKiBzdG9y
-ZWQgaW4gc3RydWN0ICZkcm1fZnJhbWVidWZmZXIsIGluY2x1ZGluZyBhbGwgcmVsZXZhbnQgbWV0
-YWRhdGEKPiArICAgICAgICAqIGxpa2UgJmRybV9mcmFtZWJ1ZmZlci5waXRjaGVzIGFuZCAmZHJt
-X2ZyYW1lYnVmZmVyLm9mZnNldHMgaWYgdGhlCj4gKyAgICAgICAgKiBtb2RpZmllciBlbmFibGVz
-IGFkZGl0aW9uYWwgcGxhbmVzIGJleW9uZCB0aGUgZm91cmNjIHBpeGVsIGZvcm1hdAo+ICsgICAg
-ICAgICogY29kZS4gVGhpcyBpcyByZXF1aXJlZCBieSB0aGUgR0VURkIyIGlvY3RsLgo+ICsgICAg
-ICAgICoKPiAgICAgICAgICAqIElmIHRoZSBwYXJhbWV0ZXJzIGFyZSBkZWVtZWQgdmFsaWQgYW5k
-IHRoZSBiYWNraW5nIHN0b3JhZ2Ugb2JqZWN0cyBpbgo+ICAgICAgICAgICogdGhlIHVuZGVybHlp
-bmcgbWVtb3J5IG1hbmFnZXIgYWxsIGV4aXN0LCB0aGVuIHRoZSBkcml2ZXIgYWxsb2NhdGVzCj4g
-ICAgICAgICAgKiBhIG5ldyAmZHJtX2ZyYW1lYnVmZmVyIHN0cnVjdHVyZSwgc3ViY2xhc3NlZCB0
-byBjb250YWluCj4gQEAgLTkxNSw2ICs5MjEsMTMgQEAgc3RydWN0IGRybV9tb2RlX2NvbmZpZyB7
-Cj4gICAgICAgICAgKiBAYWxsb3dfZmJfbW9kaWZpZXJzOgo+ICAgICAgICAgICoKPiAgICAgICAg
-ICAqIFdoZXRoZXIgdGhlIGRyaXZlciBzdXBwb3J0cyBmYiBtb2RpZmllcnMgaW4gdGhlIEFEREZC
-Mi4xIGlvY3RsIGNhbGwuCj4gKyAgICAgICAgKgo+ICsgICAgICAgICogSU1QT1JUQU5UOgo+ICsg
-ICAgICAgICoKPiArICAgICAgICAqIElmIHRoaXMgaXMgc2V0IHRoZSBkcml2ZXIgbXVzdCBmaWxs
-IG91dCB0aGUgZnVsbCBpbXBsaWNpdCBtb2RpZmllcgo+ICsgICAgICAgICogaW5mb3JtYXRpb24g
-aW4gdGhlaXIgJmRybV9tb2RlX2NvbmZpZ19mdW5jcy5mYl9jcmVhdGUgaG9vayBmb3IgbGVnYWN5
-Cj4gKyAgICAgICAgKiB1c2Vyc3BhY2Ugd2hpY2ggZG9lcyBub3Qgc2V0IG1vZGlmaWVycy4gT3Ro
-ZXJ3aXNlIHRoZSBHRVRGQjIgaW9jdGwgaXMKPiArICAgICAgICAqIGJyb2tlbiBmb3IgbW9kaWZp
-ZXIgYXdhcmUgdXNlcnNwYWNlLgo+ICAgICAgICAgICovCj4gICAgICAgICBib29sIGFsbG93X2Zi
-X21vZGlmaWVyczsKPgo+IC0tCj4gMi4yOC4wCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Sep 17, 2020 at 11:09:06AM -0600, Kevin Chowski wrote:
+> We have observed that Google Pixelbook's backlight hardware is
+> interpretting these backlight bits from the most-significant side of the
+> 16 bit word (if DP_EDP_PWMGEN_BIT_COUNT < 16), whereas the driver code
+> assumes the peripheral cares about the least-significant bits.
+
+The spec seems to agree with the msb interpretation. So looks like
+the current code is just broken?
+
+> =
+
+> Testing was done from within Chrome OS's build environment when the
+> patch is backported to 5.4 (the version we are newly targeting for the
+> Pixelbook); for the record:
+>    $ emerge-eve-kernelnext sys-kernel/chromeos-kernel-5_4 && \
+>       ./update_kernel.sh --remote=3D$IP
+> =
+
+> I used `/sys/kernel/debug/dri/0/eDP-1/i915_dpcd` on my laptop to verify
+> that the registers were being set according to what the actual hardware
+> expects; I also observe that the backlight is noticeably brighter with
+> this patch.
+> =
+
+> Signed-off-by: Kevin Chowski <chowski@chromium.org>
+> ---
+> =
+
+>  .../drm/i915/display/intel_dp_aux_backlight.c | 34 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_quirks.c   | 13 +++++++
+>  drivers/gpu/drm/i915/i915_drv.h               |  1 +
+>  3 files changed, 48 insertions(+)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/driv=
+ers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index acbd7eb66cbe3..99c98f217356d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -91,6 +91,23 @@ static u32 intel_dp_aux_get_backlight(struct intel_con=
+nector *connector)
+>  	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
+>  		level =3D (read_val[0] << 8 | read_val[1]);
+>  =
+
+> +	if (i915->quirks & QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS) {
+> +		if (!drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT,
+> +						&read_val[0])) {
+> +			DRM_DEBUG_KMS("Failed to read DPCD register 0x%x\n",
+> +					DP_EDP_PWMGEN_BIT_COUNT);
+> +			return 0;
+> +		}
+> +		// Only bits 4:0 are used, 7:5 are reserved.
+> +		read_val[0] =3D read_val[0] & 0x1F;
+> +		if (read_val[0] > 16) {
+> +			DRM_DEBUG_KMS("Invalid DP_EDP_PWNGEN_BIT_COUNT 0x%X, expected at most=
+ 16\n",
+> +						read_val[0]);
+> +			return 0;
+> +		}
+> +		level >>=3D 16 - read_val[0];
+> +	}
+> +
+>  	return level;
+>  }
+>  =
+
+> @@ -106,6 +123,23 @@ intel_dp_aux_set_backlight(const struct drm_connecto=
+r_state *conn_state, u32 lev
+>  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+>  	u8 vals[2] =3D { 0x0 };
+>  =
+
+> +	if (i915->quirks & QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS) {
+> +		if (!drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT,
+> +						&vals[0])) {
+> +			DRM_DEBUG_KMS("Failed to write aux backlight level: Failed to read DP=
+CD register 0x%x\n",
+> +					  DP_EDP_PWMGEN_BIT_COUNT);
+> +			return;
+> +		}
+> +		// Only bits 4:0 are used, 7:5 are reserved.
+> +		vals[0] =3D vals[0] & 0x1F;
+> +		if (vals[0] > 16) {
+> +			DRM_DEBUG_KMS("Failed to write aux backlight level: Invalid DP_EDP_PW=
+NGEN_BIT_COUNT 0x%X, expected at most 16\n",
+> +						vals[0]);
+> +			return;
+> +		}
+> +		level <<=3D (16 - vals[0]) & 0xFFFF;
+> +	}
+> +
+>  	vals[0] =3D level;
+>  =
+
+>  	/* Write the MSB and/or LSB */
+> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/dr=
+m/i915/display/intel_quirks.c
+> index 46beb155d835f..63b27d49b2864 100644
+> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
+> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+> @@ -53,6 +53,16 @@ static void quirk_increase_ddi_disabled_time(struct dr=
+m_i915_private *i915)
+>  	drm_info(&i915->drm, "Applying Increase DDI Disabled quirk\n");
+>  }
+>  =
+
+> +/*
+> + * Some eDP backlight hardware uses the most-significant bits of the bri=
+ghtness
+> + * register, so brightness values must be shifted first.
+> + */
+> +static void quirk_shift_edp_backlight_brightness(struct drm_i915_private=
+ *i915)
+> +{
+> +	i915->quirks |=3D QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS;
+> +	DRM_INFO("Applying shift eDP backlight brightness quirk\n");
+> +}
+> +
+>  struct intel_quirk {
+>  	int device;
+>  	int subsystem_vendor;
+> @@ -156,6 +166,9 @@ static struct intel_quirk intel_quirks[] =3D {
+>  	/* ASRock ITX*/
+>  	{ 0x3185, 0x1849, 0x2212, quirk_increase_ddi_disabled_time },
+>  	{ 0x3184, 0x1849, 0x2212, quirk_increase_ddi_disabled_time },
+> +
+> +	/* Google Pixelbook */
+> +	{ 0x591E, 0x8086, 0x2212, quirk_shift_edp_backlight_brightness },
+>  };
+>  =
+
+>  void intel_init_quirks(struct drm_i915_private *i915)
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_=
+drv.h
+> index e4f7f6518945b..cc93bede4fab8 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -525,6 +525,7 @@ struct i915_psr {
+>  #define QUIRK_PIN_SWIZZLED_PAGES (1<<5)
+>  #define QUIRK_INCREASE_T12_DELAY (1<<6)
+>  #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
+> +#define QUIRK_SHIFT_EDP_BACKLIGHT_BRIGHTNESS (1<<8)
+>  =
+
+>  struct intel_fbdev;
+>  struct intel_fbc_work;
+> -- =
+
+> 2.28.0.618.gf4bc123cb7-goog
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
