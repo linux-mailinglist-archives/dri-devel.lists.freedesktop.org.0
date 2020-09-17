@@ -1,72 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A0326DAFA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 14:03:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CE526DB5D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 14:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE936E957;
-	Thu, 17 Sep 2020 12:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E81756E13B;
+	Thu, 17 Sep 2020 12:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE336E957
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 12:03:54 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id gr14so2960368ejb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 05:03:54 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C52DB6E13B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 12:20:05 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id j11so3043365ejk.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 05:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=4IJg+4CZG5b0foFWn90FskEpijf8EknkkB/FydWSevk=;
- b=SHAudCosEoaJOlkj1OVOjFQm0Y2jdQloxoQK1u5ghFaOZNsqVQcaReGEzOO22+/PoG
- e+zmIJbfaxRDJn6F1W66FvvVqDnIsGGL6MnPxsZh8q19Odhf0uffGcPV6JlO9CSgYMj5
- QkbbrYxjVMjJru3LbVs2G9zuGLrpFenz8DlODuTJz87bSSJz05S7gbQDzrFDLzCPv/kp
- GJP8rX03ZnSiOdHNJDp+lHa+bInML9gW2trO21lhdxxYzkvRIn4jvoVv1FHWfSG5mPzM
- jBvCQfiVTBMNHksmujp+0ZgfYbsewbmHSE9bb1GJlNVIVWAigb+EHj3/Od4EcoLFVcPO
- dmXw==
+ h=reply-to:to:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=noHSkXZhEp/9jIAudJb7DDKYs2jm6VdqpaXUz54abiU=;
+ b=R9BuleTlFcIXe0WJ7IGLTjsHs0YW+sHPVO06h7S06L/iS6sK97r9elEWzJVMQVBTXk
+ SvshpF3aiO6NXJuKLJ7+McdEguurL6HrqiCv5gcBeFy5ifz8S+KFQWToGh0nl5g1dCEE
+ 8HkmCBiggpyrOVttbHvyp/q3eKm/yqZDxqGri1nY+YQyjpulB9ck5BU7UOq33EX5O8tI
+ N/WGJppw4DaFDrR8xfSGwptUQdNJzvu8vgJrG3Lbit9FOzeVyCHqd1Z4RzrlNgZGFY+d
+ lPXT0Zm+sgTx4sNPhG2Y1d6Cy1Who0PMIUMIf144W5EEkQRoZq3hcQP172v+hIn8AvO5
+ jX7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=4IJg+4CZG5b0foFWn90FskEpijf8EknkkB/FydWSevk=;
- b=V3aOe3NzrcsNW9CWIIL/HHjKBsfGTvAf9/yHW1kivSxG8ZPwixQ/dlhr6sm1By4uy7
- QX8eUl+jlhqEcTZb8Wm0Ia38aH9MWQv3c1ODQ/5Tu/X8/F8EZynKAZXi4SrqYJGbqz6w
- sSVSt3FnILq8cWrYl6F2OwE14VrqGdeV+C5DF+ppVrSk9iLHRJulLYKkkhbaMGb9Cyk1
- EwewyQPb/HhS+C6UdWawS5kQa1PUSKwBoge/IfOKQmL3dATmtr9Sot8QbKTBi2eOIar4
- mL2MiuT7+1FnQNkOprymGQA2t1KKg1UvT3dx4Cxa/haH504mlCKou68StEYvSkHgazC5
- sdcA==
-X-Gm-Message-State: AOAM532oydTTmKlbfogl3TkvKROLui1GE1VJSzXDg2WVybRn34K+2vNW
- YB1AirxUMqEEXG1FiI45CQkws7svo2Y=
-X-Google-Smtp-Source: ABdhPJxQ/GtwTry9ihPN5KEPP052Fm0uzzwbkUZn/afLWALJ8NH4ADJ6T2No/Zdu/rqor4uEEJWmkA==
-X-Received: by 2002:a17:906:d14e:: with SMTP id
- br14mr28329723ejb.299.1600344233035; 
- Thu, 17 Sep 2020 05:03:53 -0700 (PDT)
+ h=x-gm-message-state:reply-to:to:from:subject:message-id:date
+ :user-agent:mime-version:content-transfer-encoding:content-language;
+ bh=noHSkXZhEp/9jIAudJb7DDKYs2jm6VdqpaXUz54abiU=;
+ b=PhZ1ktf1zZFs9FmJi8JWkL7R3rc1+6BdDqg/PewxpGmAmKCP/PGjzsN7H6DUEWkXuQ
+ crcCeYZ0euw8H8T/YpxRIrsfUCC6voTlrAASWFYdklMxQe7dkmG9j51SBtpgQOMrRONC
+ axo+05/0qVaLwui7YQOSt/Qv6koT8NxcMk9fH7nO4Q0NSBCcrooK/iQUXTn2xmTgXzPJ
+ Ed2qIsOlJ4PU+yXH8LpbOAI53kt3iOJR9ZnBJux+Q3wfMJDGuYd2uyWg4ccU0Kmz7rED
+ rwgayMbVWxejrfPOhsOYYWZFlRl1F9WXppDoNHTbGKub2nwVdMqqG7e55u/r4NtuDEI0
+ /3cQ==
+X-Gm-Message-State: AOAM531VCG+AAH8X98nRvAxgstgdGQkyQRWQHrFUMrusaTk+b93FRLLb
+ 9xDQpuDwNPzD5i4s8DmGOCk=
+X-Google-Smtp-Source: ABdhPJwwFrJbxbhLX/mImlwLk0McIs4Yili8rCaapcssfC1XqjVk074DXMyJZqplZOO3uIx9OByOjw==
+X-Received: by 2002:a17:906:4a07:: with SMTP id
+ w7mr30321020eju.366.1600345204457; 
+ Thu, 17 Sep 2020 05:20:04 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
  ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id o3sm16325516edt.79.2020.09.17.05.03.49
+ by smtp.gmail.com with ESMTPSA id m10sm11593095ejx.123.2020.09.17.05.20.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 05:03:50 -0700 (PDT)
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel@ffwll.ch>
-References: <20200914140632.GD1221970@ziepe.ca>
- <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com>
- <20200916095359.GD438822@phenom.ffwll.local> <20200916140710.GA8409@ziepe.ca>
- <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
- <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
- <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
- <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
- <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
- <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
- <20200917113110.GE8409@ziepe.ca>
+ Thu, 17 Sep 2020 05:20:03 -0700 (PDT)
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
-Date: Thu, 17 Sep 2020 14:03:48 +0200
+Subject: Why can't ttm_tt_swapout() handle uncached or WC BOs?
+Message-ID: <fabf5079-6c39-7c8f-2973-5b32494f852a@gmail.com>
+Date: Thu, 17 Sep 2020 14:20:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200917113110.GE8409@ziepe.ca>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +72,31 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: christian.koenig@amd.com
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Linux MM <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.09.20 um 13:31 schrieb Jason Gunthorpe:
-> On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote:
->
->> Yeah, but it doesn't work when forwarding from the drm chardev to the
->> dma-buf on the importer side, since you'd need a ton of different
->> address spaces. And you still rely on the core code picking up your
->> pgoff mangling, which feels about as risky to me as the vma file
->> pointer wrangling - if it's not consistently applied the reverse map
->> is toast and unmap_mapping_range doesn't work correctly for our needs.
-> I would think the pgoff has to be translated at the same time the
-> vm->vm_file is changed?
->
-> The owner of the dma_buf should have one virtual address space and FD,
-> all its dma bufs should be linked to it, and all pgoffs translated to
-> that space.
+Hi guys,
 
-Yeah, that is exactly like amdgpu is doing it.
+Michel once submitted a patch to fix triggering this BUG_ON in 
+ttm_tt_swapout():
 
-Going to document that somehow when I'm done with TTM cleanups.
+> BUG_ON(ttm->caching_state != tt_cached);
 
+Now my question is does anybody know why we have that in the first place?
+
+The only problematic thing I can see is calling copy_highpage() and that 
+one is just doing a kmap_atomic()/kunmap_atomic() on the source and 
+destination.
+
+I can't see why it should be problematic for this temporary mapping to 
+be cached instead of uncached or WC?
+
+Does anybody has any idea?
+
+Thanks,
 Christian.
-
->
-> Jason
-> _______________________________________________
-> Linaro-mm-sig mailing list
-> Linaro-mm-sig@lists.linaro.org
-> https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
