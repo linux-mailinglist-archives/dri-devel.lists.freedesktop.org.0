@@ -2,76 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DDE26DCAC
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 15:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9489C26DD7D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:07:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8706EC7D;
-	Thu, 17 Sep 2020 13:19:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E726EC12;
+	Thu, 17 Sep 2020 14:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC57D6EC6E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 13:19:46 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id m6so2071625wrn.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 06:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
- b=Ol8zdtYKra8OqwKcXQZPTIzAIAjrxl7EnGA/qptW05V0voGayUZTJ1UOmlJx84mWcm
- 0r1ALbQGydxydvFM37pyuB+FPcNQJYGFXrs30Uy4uBKXsTI9vDopq0psqSt8WIVbv/3m
- SL42by4B46k89IfXDFWI+V95drUdRSPKiXLkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
- b=T+Y4v3XZv5O05o9HxrXPxMjV1CzmL86VvckJeM02dD2kpDbBevim74EshCeKXcEVY2
- nUNaTnd4kk2QGu+S+dPX9Cv+wha9FWj3SXeshykv7+4A3os19zvoKEpronHl981E7T88
- H+YG0Yk+HqirfhD9n4u2fzJJ9qxPvoYBTsHdE1fS0e4mcJqtqOAiw0TAXsCVTPQwyiX4
- h8IvZ960KjD29QcWbEU3THejMai7QYdGJJS3tiQPsFSQID7JItMhFsMrEU37bBJHjBqB
- SW5+Wqpde70vwwDEkURLvC7H1qO4tMsIIhQ5sJw7/nUHDzT/GN65ZTOeFTfNKJAxY0gs
- bkMw==
-X-Gm-Message-State: AOAM532oT8LjmJM0cRFW0vv6U2DxCnLAjxwzbNZcOUQ6LPTpurL+9DKT
- EvcMiHXSnvg5qmFT+jhjirTp9g==
-X-Google-Smtp-Source: ABdhPJwWrq6ZejmimL/ybiemi2sN/GPynbFDqZKwAC87Lkhqkhgx8buF3bHZlQuU+GRDRVJVnJpavA==
-X-Received: by 2002:a5d:6b84:: with SMTP id n4mr34531077wrx.55.1600348785370; 
- Thu, 17 Sep 2020 06:19:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d2sm39644798wro.34.2020.09.17.06.19.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 06:19:44 -0700 (PDT)
-Date: Thu, 17 Sep 2020 15:19:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
-Subject: Re: [PATCH] dma-resv: lockdep-prime address_space->i_mmap_rwsem for
- dma-resv
-Message-ID: <20200917131942.GX438822@phenom.ffwll.local>
-Mail-Followup-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?=
- <thomas_os@shipmail.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@mellanox.com>, Linux MM <linux-mm@kvack.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20200728135839.1035515-1-daniel.vetter@ffwll.ch>
- <38cbc4fb-3a88-47c4-2d6c-4d90f9be42e7@shipmail.org>
- <CAKMK7uFe-70DE5qOBJ6FwD8d_A0yZt+h5bCqA=e9QtYE1qwASQ@mail.gmail.com>
- <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
-MIME-Version: 1.0
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr770109.outbound.protection.outlook.com [40.107.77.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1756E994
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 08:16:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JPoEU+ODtEHMB9rK6rOVx20io1UsK4/gRGJtVj+PSANo+lMUiJMzsaCa1QzHe59bwx9fJtrDbCKVuK3mh+pZBDI0IBiJjv/N56BhXXLxYZ8m9LZkUFodY35kIuLi/Bgsgmc8VezNCxzD1vASIoTxzPk/bJIjkDwCoWRlpkrd0VxSusuhCuV8UWQVUZvNil0wKVITQTMVpZAGpaSt8l+tT6uYjpCuAz4tsmeaHaGqFT+RNR9REMbM9LPq9K0wq73f6LjiAOfpegvt/zPs7q5/2+JFaVWbwTNFvdlDO02iWJYoFmFI1o/7pVmFv2NXBHsjnRdHE9AnFasrXyB1dcrnjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kt+ABZFXET91HSDoDUgMjnqrBvUD32PtKh2vvAmOQrs=;
+ b=OepJ7ElXXq8frgTZSH5zlQ0iik2FA5Ld+K0236XdmY2+ph/2Y8RKSMEGgZtmuUPMH5NSZrNyi1bnoPEzIs5/+Jv2XLoPCIPpFBRn5HX/UpYHV2F+2P8+7xBYzBHqvOrGNAvqTtf429zYH4FM+O42kbumjZ5FAVxgcVp2/lg88rxy7zYTilOBXJzJziZQKH9Zw2xD2scwCljpFNOO9LzB/I4RERgHlIcWqV23q45dL6KgsVFCIYZYhgDFuYCVLcYytQSYiVuS08bNU5kNSboDxiFtUhoClYHYpAGDv1nwmARDcxK7/7kNsLWiFdRJ0G1B6Lk6sB+gTLmtoSmHs3uiZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kt+ABZFXET91HSDoDUgMjnqrBvUD32PtKh2vvAmOQrs=;
+ b=SQtU6f7Rc20WX8zFIxLiPMkRYY9hz746OLjqzWr5IzM9ReGjDHk+Zj6VF8jcJTRJLn1QCZu/pjLFO/jepD94ByNco57Dfqo2owo50ynswXcuAQ8+QlGUK6xymmXP90E/1pBS3fy3tFhATK9FYE3a8K1HuEq1sUKzPNo1G0jMQyA=
+Authentication-Results: analogixsemi.com; dkim=none (message not signed)
+ header.d=none;analogixsemi.com; dmarc=none action=none
+ header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BYAPR04MB3815.namprd04.prod.outlook.com (2603:10b6:a02:b4::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Thu, 17 Sep
+ 2020 08:16:52 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::1dc0:7d4b:9820:e68]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::3c04:982f:7d75:779e%7]) with mapi id 15.20.3370.019; Thu, 17 Sep 2020
+ 08:16:52 +0000
+Date: Thu, 17 Sep 2020 16:16:39 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: devel@driverdev.osuosl.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Nicolas Boichat <drinkcat@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v16 0/2] Add initial support for slimport anx7625
+Message-ID: <cover.1600324894.git.xji@analogixsemi.com>
 Content-Disposition: inline
-In-Reply-To: <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: HKAPR03CA0009.apcprd03.prod.outlook.com
+ (2603:1096:203:c8::14) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pc-user (114.247.245.146) by
+ HKAPR03CA0009.apcprd03.prod.outlook.com (2603:1096:203:c8::14) with Microsoft
+ SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
+ 15.20.3412.6 via Frontend Transport; Thu, 17 Sep 2020 08:16:51 +0000
+X-Originating-IP: [114.247.245.146]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8a372adb-dc6a-4516-fb3e-08d85ae207e2
+X-MS-TrafficTypeDiagnostic: BYAPR04MB3815:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR04MB3815CAE6DA79BAF9771209F2C73E0@BYAPR04MB3815.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: r5On4gL7ZyIYl7zQ9foxeSkqcgDUpxgGhjwzPxN5xxZZS4zmYOuvcHoLvitwC+4hHRCnnkUX6Z2j8lqUwTjVABdhK5pnHXKDVtMh79Pd7DQ2RM0uHfe3mRynQCO9o5+Lu/RDVXy2u+/Z0N92keEaD0Ok+wtq5rwI9lPHYUH8RKwggz6ul3MxsZLRC+S5Pn1Ff6xO8QwK5Ohs1fwrLHBNu5kKWzJjMDYfktFRSfxVARVMiU/SNQjkfs44rl1SCCANA0UdJmU30GXJ5JnBnxEyQyJkg/GKG7vSNtMpj9EGVUeXxDPRgfJvz8hJypdpyEyLhNezp+Z5pBI1FMxZDO+J2voireGD7wMO+AbqUa1TLtS2PFsfV7cPYA+m8977SCR7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(366004)(376002)(39850400004)(396003)(136003)(2616005)(86362001)(110136005)(956004)(36756003)(5660300002)(54906003)(6496006)(6666004)(107886003)(4326008)(8676002)(52116002)(66476007)(66556008)(66946007)(6486002)(478600001)(7416002)(8936002)(16526019)(26005)(83380400001)(2906002)(186003)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 9s2U67NYd2ob5dwi4o2CAhPjBrQ11qlWmErKMLLG4UqdhRhQmKNzOwfri1sG8H2X7anHoMNVB2uA3nAZA5AiRODtXzHoLm+j1ptjzpizCzPRdfDAET25Dp3N9boA2Zl7pFD/Jpfa9Xwu4GGcQAFTOEAdisovgAFbX0WfIO5M8hJlyGtuUqGaJJybSl2Z28HVHaRmu+jC8xAQ5nrSZY+9u1O1pHTnO7MajGT0ChmeQFZdQwuw8AjgFT4ZptDhHupqU4cZexhX43yi6d/eXIijQegcrgKRhR+y9xJ9NY2NMOhnHnPdC4Cu4OqVH6y/XlFBiQ02lKis6J7kheHJAKMMFJ6MTLuFYjZqBiQPNMzDpAUOBkn5ScopLuMaqP2qOTnhv/nnvXE/g5U3dRiN/dIotmLmIhts+x0ELJkkOPK00Lb4l0A1hYohPxwexfyRFJwbBS9qhqR2A0LpzxNfVyb7MrKDg6d4N9OG3HxDeHHcCWLrxsx1sa96i783uiINLtkH6keWq/sn+7VKivMyBT01EPiFXvBu6ihlKggGFyJ3Pl0yK4hDjskwrFHXuzJ8+3fMTbkLW5OIZfCh10HbIB4MsnGLzELOpCvrTpEJeT5UXcdc1l/NEiUWMf+/7KLI7OmApJbujsmkO8lOPxf8gwtx5g==
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a372adb-dc6a-4516-fb3e-08d85ae207e2
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 08:16:51.7964 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tKHnIEDU2SZohWH8xQReCjMPBLkEMnX/pOocZthdMiaAR6XI4hjmW9GkywN9LwPmtahEb7qxpWu5ube0bYUSng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3815
+X-Mailman-Approved-At: Thu, 17 Sep 2020 14:07:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,215 +97,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-xfs@vger.kernel.org, linux-rdma <linux-rdma@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dave Chinner <david@fromorbit.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Linux MM <linux-mm@kvack.org>, Jason Gunthorpe <jgg@mellanox.com>,
- Qian Cai <cai@lca.pw>, linux-fsdevel@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sheng Pan <span@analogixsemi.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 30, 2020 at 06:45:14PM +0200, Thomas Hellstr=F6m (Intel) wrote:
-> =
+Hi all,
 
-> On 7/30/20 3:17 PM, Daniel Vetter wrote:
-> > On Thu, Jul 30, 2020 at 2:17 PM Thomas Hellstr=F6m (Intel)
-> > <thomas_os@shipmail.org> wrote:
-> > > =
-
-> > > On 7/28/20 3:58 PM, Daniel Vetter wrote:
-> > > > GPU drivers need this in their shrinkers, to be able to throw out
-> > > > mmap'ed buffers. Note that we also need dma_resv_lock in shrinkers,
-> > > > but that loop is resolved by trylocking in shrinkers.
-> > > > =
-
-> > > > So full hierarchy is now (ignore some of the other branches we alre=
-ady
-> > > > have primed):
-> > > > =
-
-> > > > mmap_read_lock -> dma_resv -> shrinkers -> i_mmap_lock_write
-> > > > =
-
-> > > > I hope that's not inconsistent with anything mm or fs does, adding
-> > > > relevant people.
-> > > > =
-
-> > > Looks OK to me. The mapping_dirty_helpers run under the i_mmap_lock, =
-but
-> > > don't allocate any memory AFAICT.
-> > > =
-
-> > > Since huge page-table-entry splitting may happen under the i_mmap_lock
-> > > from unmap_mapping_range() it might be worth figuring out how new page
-> > > directory pages are allocated, though.
-> > ofc I'm not an mm expert at all, but I did try to scroll through all
-> > i_mmap_lock_write/read callers. Found the following:
-> > =
-
-> > - kernel/events/uprobes.c in build_map_info:
-> > =
-
-> >              /*
-> >               * Needs GFP_NOWAIT to avoid i_mmap_rwsem recursion through
-> >               * reclaim. This is optimistic, no harm done if it fails.
-> >               */
-> > =
-
-> > - I got lost in the hugetlb.c code and couldn't convince myself it's
-> > not allocating page directories at various levels with something else
-> > than GFP_KERNEL.
-> > =
-
-> > So looks like the recursion is clearly there and known, but the
-> > hugepage code is too complex and flying over my head.
-> > -Daniel
-> =
-
-> OK, so I inverted your annotation and ran a memory hog, and got the below
-> splat. So clearly your proposed reclaim->i_mmap_lock locking order is an
-> already established one.
-> =
-
-> So
-> =
-
-> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@intel.com>
-
-No one complaining that this is a terrible idea and two reviews from
-people who know stuff, so I went ahead and pushed this to drm-misc-next.
-
-Thanks for taking a look at this.
--Daniel
-
-> =
-
-> 8<-----------------------------------------------------------------------=
-----------------------
-> =
-
-> [=A0 308.324654] WARNING: possible circular locking dependency detected
-> [=A0 308.324655] 5.8.0-rc2+ #16 Not tainted
-> [=A0 308.324656] ------------------------------------------------------
-> [=A0 308.324657] kswapd0/98 is trying to acquire lock:
-> [=A0 308.324658] ffff92a16f758428 (&mapping->i_mmap_rwsem){++++}-{3:3}, a=
-t:
-> rmap_walk_file+0x1c0/0x2f0
-> [=A0 308.324663]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 but task is already holding lo=
-ck:
-> [=A0 308.324664] ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
-> __fs_reclaim_acquire+0x5/0x30
-> [=A0 308.324666]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 which lock already depends on =
-the new lock.
-> =
-
-> [=A0 308.324667]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 the existing dependency chain =
-(in reverse order) is:
-> [=A0 308.324667]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 -> #1 (fs_reclaim){+.+.}-{0:0}:
-> [=A0 308.324670]=A0=A0=A0=A0=A0=A0=A0 fs_reclaim_acquire+0x34/0x40
-> [=A0 308.324672]=A0=A0=A0=A0=A0=A0=A0 dma_resv_lockdep+0x186/0x224
-> [=A0 308.324675]=A0=A0=A0=A0=A0=A0=A0 do_one_initcall+0x5d/0x2c0
-> [=A0 308.324676]=A0=A0=A0=A0=A0=A0=A0 kernel_init_freeable+0x222/0x288
-> [=A0 308.324678]=A0=A0=A0=A0=A0=A0=A0 kernel_init+0xa/0x107
-> [=A0 308.324679]=A0=A0=A0=A0=A0=A0=A0 ret_from_fork+0x1f/0x30
-> [=A0 308.324680]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 -> #0 (&mapping->i_mmap_rwsem)=
-{++++}-{3:3}:
-> [=A0 308.324682]=A0=A0=A0=A0=A0=A0=A0 __lock_acquire+0x119f/0x1fc0
-> [=A0 308.324683]=A0=A0=A0=A0=A0=A0=A0 lock_acquire+0xa4/0x3b0
-> [=A0 308.324685]=A0=A0=A0=A0=A0=A0=A0 down_read+0x2d/0x110
-> [=A0 308.324686]=A0=A0=A0=A0=A0=A0=A0 rmap_walk_file+0x1c0/0x2f0
-> [=A0 308.324687]=A0=A0=A0=A0=A0=A0=A0 page_referenced+0x133/0x150
-> [=A0 308.324689]=A0=A0=A0=A0=A0=A0=A0 shrink_active_list+0x142/0x610
-> [=A0 308.324690]=A0=A0=A0=A0=A0=A0=A0 balance_pgdat+0x229/0x620
-> [=A0 308.324691]=A0=A0=A0=A0=A0=A0=A0 kswapd+0x200/0x470
-> [=A0 308.324693]=A0=A0=A0=A0=A0=A0=A0 kthread+0x11f/0x140
-> [=A0 308.324694]=A0=A0=A0=A0=A0=A0=A0 ret_from_fork+0x1f/0x30
-> [=A0 308.324694]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 other info that might help us =
-debug this:
-> =
-
-> [=A0 308.324695]=A0 Possible unsafe locking scenario:
-> =
-
-> [=A0 308.324695]=A0=A0=A0=A0=A0=A0=A0 CPU0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 CPU1
-> [=A0 308.324696]=A0=A0=A0=A0=A0=A0=A0 ----=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 ----
-> [=A0 308.324696]=A0=A0 lock(fs_reclaim);
-> [=A0 308.324697] lock(&mapping->i_mmap_rwsem);
-> [=A0 308.324698]=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 lock(fs_reclaim);
-> [=A0 308.324699]=A0=A0 lock(&mapping->i_mmap_rwsem);
-> [=A0 308.324699]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *** DEADLOCK ***
-> =
-
-> [=A0 308.324700] 1 lock held by kswapd0/98:
-> [=A0 308.324701]=A0 #0: ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
-> __fs_reclaim_acquire+0x5/0x30
-> [=A0 308.324702]
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 stack backtrace:
-> [=A0 308.324704] CPU: 1 PID: 98 Comm: kswapd0 Not tainted 5.8.0-rc2+ #16
-> [=A0 308.324705] Hardware name: VMware, Inc. VMware Virtual Platform/440BX
-> Desktop Reference Platform, BIOS 6.00 07/29/2019
-> [=A0 308.324706] Call Trace:
-> [=A0 308.324710]=A0 dump_stack+0x92/0xc8
-> [=A0 308.324711]=A0 check_noncircular+0x12d/0x150
-> [=A0 308.324713]=A0 __lock_acquire+0x119f/0x1fc0
-> [=A0 308.324715]=A0 lock_acquire+0xa4/0x3b0
-> [=A0 308.324716]=A0 ? rmap_walk_file+0x1c0/0x2f0
-> [=A0 308.324717]=A0 ? __lock_acquire+0x394/0x1fc0
-> [=A0 308.324719]=A0 down_read+0x2d/0x110
-> [=A0 308.324720]=A0 ? rmap_walk_file+0x1c0/0x2f0
-> [=A0 308.324721]=A0 rmap_walk_file+0x1c0/0x2f0
-> [=A0 308.324722]=A0 page_referenced+0x133/0x150
-> [=A0 308.324724]=A0 ? __page_set_anon_rmap+0x70/0x70
-> [=A0 308.324725]=A0 ? page_get_anon_vma+0x190/0x190
-> [=A0 308.324726]=A0 shrink_active_list+0x142/0x610
-> [=A0 308.324728]=A0 balance_pgdat+0x229/0x620
-> [=A0 308.324730]=A0 kswapd+0x200/0x470
-> [=A0 308.324731]=A0 ? lockdep_hardirqs_on_prepare+0xf5/0x170
-> [=A0 308.324733]=A0 ? finish_wait+0x80/0x80
-> [=A0 308.324734]=A0 ? balance_pgdat+0x620/0x620
-> [=A0 308.324736]=A0 kthread+0x11f/0x140
-> [=A0 308.324737]=A0 ? kthread_create_worker_on_cpu+0x40/0x40
-> [=A0 308.324739]=A0 ret_from_fork+0x1f/0x30
-> =
-
-> =
-
-> =
-
-> > > /Thomas
-> > > =
-
-> > > =
-
-> > > =
-
-> > =
+The following series add support for the Slimport ANX7625 transmitter, a
+ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
 
 
--- =
+This is the v16 version, any mistakes, please let me know, I will fix it in
+the next series.
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Change history:
+v16: Fix compile error
+ - Fix compiling error of incompitible interface of ".mode_valid()"
+
+v15: Fix comments from Sam and Hsin-Yi Wang
+ - Remove connector
+ - Allocate memory for edid at ".get_edid()"
+
+v14: Fix comments from Sam and Nicolas
+ - Check flags at drm_bridge_attach
+ - Use panel_bridge instead of drm_panel
+ - Fix not correct return value
+
+v13: Fix comments from Launrent Pinchart and Rob Herring
+ - Picked up Rob's Reviewed-By
+ - Add .detect and .get_edid interface in bridge funcs.
+
+v12: Fix comments from Hsin-Yi Wang
+ - Rebase the code on kernel 5.7, fix DRM interface not match issue.
+
+v11: Fix comments from Rob Herring
+ - Update commit message.
+ - Remove unused label.
+
+v10: Fix comments from Rob Herring, Daniel.
+ - Fix dt_binding_check warning.
+ - Update description.
+
+v9: Fix comments from Sam, Nicolas, Daniel
+ - Remove extcon interface.
+ - Remove DPI support.
+ - Fix dt_binding_check complains.
+ - Code clean up and update description.
+
+v8: Fix comments from Nicolas.
+ - Fix several coding format.
+ - Update description.
+
+v7:
+ - Fix critical timing(eg:odd hfp/hbp) in "mode_fixup" interface,
+   enhance MIPI RX tolerance by setting register MIPI_DIGITAL_ADJ_1 to 0x3D.
+
+
+Xin Ji (2):
+  dt-bindings: drm/bridge: anx7625: MIPI to DP transmitter DT schema
+  drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP
+
+ .../bindings/display/bridge/analogix,anx7625.yaml  |   95 +
+ drivers/gpu/drm/bridge/analogix/Kconfig            |    9 +
+ drivers/gpu/drm/bridge/analogix/Makefile           |    1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c          | 1849 ++++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h          |  390 +++++
+ 5 files changed, 2344 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+ create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
+ create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
+
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
