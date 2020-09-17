@@ -2,43 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3409626DD7B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D67426DD8D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 16:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEAC6E290;
-	Thu, 17 Sep 2020 14:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A56736EC35;
+	Thu, 17 Sep 2020 14:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Thu, 17 Sep 2020 11:22:35 UTC
-Received: from script.cs.helsinki.fi (script.cs.helsinki.fi [128.214.11.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 147EF6EA61
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 11:22:34 +0000 (UTC)
-X-DKIM: Courier DKIM Filter v0.50+pk-2017-10-25 mail.cs.helsinki.fi Thu,
- 17 Sep 2020 14:17:28 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.helsinki.fi;
- h=date:from:to:cc:subject:in-reply-to:message-id:references
- :mime-version:content-type; s=dkim20130528; bh=A15kmi7K9vxj0KLwp
- KIXvNREaizRkZ4bF/zEZ/+lTU8=; b=bqbU403t4f7CCyxuK6I2Nh1JJv4T8kXK7
- A0iIP+Vg/M0dBTZrKb2Qiz5VHBigY/jrU4u8LwSdW6WfdxA8Kgw9EdEwVPdbF4w0
- IBnmAucs6ut3cFQRFwz21NDUy2CwUtoA1sswwT1gYejD2xTgi86cneBjuN7vC4Uz
- ByIokwbmLk=
-Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
- (TLS: TLSv1/SSLv3,256bits,AES256-GCM-SHA384)
- by mail.cs.helsinki.fi with ESMTPS; Thu, 17 Sep 2020 14:17:28 +0300
- id 00000000005A0146.000000005F6345C8.0000389B
-Date: Thu, 17 Sep 2020 14:17:28 +0300 (EEST)
-From: "=?ISO-8859-15?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@cs.helsinki.fi>
-X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: drm/ast something ate high-res modes (5.3->5.6 regression)
-In-Reply-To: <5a3537c3-2c81-b9de-e4c7-c00577cdd43d@suse.de>
-Message-ID: <alpine.DEB.2.20.2009171407330.6530@whs-18.cs.helsinki.fi>
-References: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
- <5a3537c3-2c81-b9de-e4c7-c00577cdd43d@suse.de>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7D96E94B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 11:31:13 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id f142so1750099qke.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 04:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=nZ4b46gqz9ZMj0oSIJhPTVW/Re5tOMNlNB8GqNDw+ps=;
+ b=e9KgBjbTETq6hYc5oIxWtFuYQ1SoFGsGWxA4kvhtekqf6V6CMOH9pXjfTbuISASPWo
+ 4bZVeYOehOgOJ0u5bY/YPUtEgF4XQ19vKp8V/0m/N+sT6mdaGe9qVo9Gk0v4qi3fFJBN
+ X0VFFFaoBVE1uVC0GdBYcfidqaVtx/8FIVkJLSOxg2eoJAkBgMswVryFqbAy2jhDn0Zm
+ fimV1f+uedJRyrixr5wV3m+byauc/VMYGq6ivkwH0zO3SoZxBRNiWufSKrH3LcQiqEiP
+ 33anbnVMCvQ5wFzEuBZcN7VD9OgD57QNEm4Y1vFAatti5FabHopW0XlrAe28+0EdKa45
+ YASQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nZ4b46gqz9ZMj0oSIJhPTVW/Re5tOMNlNB8GqNDw+ps=;
+ b=jSr265lja3OAT1MrzHAmQABF4kgWeBD6Fk1S8VIUM3apClMoQ7CxmFCXfMFxh9Pqww
+ 6jTlM5/klL6LP1u0n81tGKAQc1bYz9eOC0lUMF4MH1DgGxIX1/UrfTHnd3BXl3FYC2Nm
+ XuF7dO4PR4LY/e3dIyHf4CoYUvrS77qRfPUvAWphh3O3o/JGQcWreahHQzbt8SeW68aQ
+ dBzJqv+9n5It/cebogkA91UnHUQuNLFcbO15EDucN30X1BRpdtsmZwg6T50RnrlSl7Bo
+ +cToXRvE22DGFOPS0mzl3Rw4IY3vXf8zldA1QCWQ9YyvdHKAhU6F7gUk+Y7Zl4AmYEcC
+ MJTw==
+X-Gm-Message-State: AOAM532Ued20MdDc6U7PIE1bTrxoJ9NkTta0pkYV4JGm20uaS/eXUri3
+ I9Iu8uG/mqhmKJZ5/UC/C2kp1w==
+X-Google-Smtp-Source: ABdhPJw56svcIeAcnROGFmKsbmVXol3TtQXkSVG9MOLdgGF5odtIzCjySvHoBe12rG9qsPWph3HcsA==
+X-Received: by 2002:a37:814:: with SMTP id 20mr27843480qki.142.1600342272474; 
+ Thu, 17 Sep 2020 04:31:12 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id y73sm21206411qkb.23.2020.09.17.04.31.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Sep 2020 04:31:11 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kIs86-000Q7S-Qt; Thu, 17 Sep 2020 08:31:10 -0300
+Date: Thu, 17 Sep 2020 08:31:10 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
+Message-ID: <20200917113110.GE8409@ziepe.ca>
+References: <20200914140632.GD1221970@ziepe.ca>
+ <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com>
+ <20200916095359.GD438822@phenom.ffwll.local>
+ <20200916140710.GA8409@ziepe.ca>
+ <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
+ <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
+ <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
+ <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
+ <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
+ <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=_script-14515-1600341448-0001-2"
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 17 Sep 2020 14:07:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,117 +80,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Linux MM <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
+On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote:
 
---=_script-14515-1600341448-0001-2
-Content-Type: text/plain; charset="iso-8859-15"
-Content-Transfer-Encoding: quoted-printable
+> Yeah, but it doesn't work when forwarding from the drm chardev to the
+> dma-buf on the importer side, since you'd need a ton of different
+> address spaces. And you still rely on the core code picking up your
+> pgoff mangling, which feels about as risky to me as the vma file
+> pointer wrangling - if it's not consistently applied the reverse map
+> is toast and unmap_mapping_range doesn't work correctly for our needs.
 
-Hi,
+I would think the pgoff has to be translated at the same time the
+vm->vm_file is changed?
 
-Yes, I can build custom kernels and test but I won't have time for that=20
-before the end of September so I'll do it only then.
+The owner of the dma_buf should have one virtual address space and FD,
+all its dma bufs should be linked to it, and all pgoffs translated to
+that space.
 
-And thanks a lot :-).
-
---=20
- i.
-
-
-On Thu, 17 Sep 2020, Thomas Zimmermann wrote:
-
-> Hi
->=20
-> Am 08.07.20 um 12:05 schrieb Ilpo J=E4rvinen:
-> > Hi,
-> >=20
-> > After upgrading kernel from 5.3 series to 5.6.16 something seems to=20
-> > prevent me from achieving high resolutions with the ast driver.
->=20
-> Are you able to build and run a test kernel?
->=20
-> I'm seriously considering moving ast to the SHMEM memory manager, which
-> would restore the higher resolutions.
->=20
-> If you're able to test, you need the git tree drm-tip/drm-tip and the
-> attached patch.
->=20
-> Alternatively, I've pushed all to
->=20
->   https://gitlab.freedesktop.org/tzimmermann/linux/-/tree/ast-shmem
->=20
-> You'd have to checkout the tree and switch to the ast-shmem branch.
->=20
-> Please report back if that solves the issue for you.
->=20
-> Best regards
-> Thomas
->=20
-> >=20
-> > With 5.6.16:
-> >=20
-> > $ xrandr
-> > Screen 0: minimum 320 x 200, current 1600 x 1200, maximum 1920 x 2048
-> > VGA-1 connected primary 1600x1200+0+0 (normal left inverted right x a=
-xis y axis) 519mm x 324mm
-> >    1600x1200     60.00*=20
-> >    1680x1050     59.95 =20
-> >    1280x1024     75.02    60.02 =20
-> >    1440x900      59.89 =20
-> >    1280x800      59.81 =20
-> >    1024x768      75.03    60.00 =20
-> >    800x600       75.00    60.32 =20
-> >    640x480       75.00    59.94 =20
-> >    1920x1200_60.0  59.95 =20
-> >=20
-> > If I try to change to that manually added high-res mode, I get:
-> > xrandr: Configure crtc 0 failed
-> >=20
-> > With 5.3 series I've this:
-> >=20
-> > Screen 0: minimum 320 x 200, current 1920 x 1200, maximum 1920 x 2048
-> > VGA-1 connected primary 1920x1200+0+0 (normal left inverted right x a=
-xis y axis) 519mm x 324mm
-> >    1920x1200     59.95*+
-> >    1600x1200     60.00 =20
-> >    1680x1050     59.95 =20
-> >    1280x1024     75.02    60.02 =20
-> >    1440x900      59.89 =20
-> >    1280x800      59.81 =20
-> >    1024x768      75.03    60.00 =20
-> >    800x600       75.00    60.32 =20
-> >    640x480       75.00    59.94 =20
-> >    1920x1200_60.0  59.95 =20
-> >=20
-> > As I've had issues in getting EDID reliably from the monitor, I provi=
-de it=20
-> > on kernel command-line (the one dumped from the monitor I use). In=20
-> > addition, I've another workaround for past issues related to EDID whi=
-ch=20
-> > always adds that 1920x1200_60.0 mode but now I cannot use even it to
-> > enter a high-res mode.
-> >=20
-> > If you need some additional info or want me to test a patch, just let =
-me=20
-> > know (but some delay is expected in testing patches). Thanks.
-> >=20
-> >=20
->=20
->
---=_script-14515-1600341448-0001-2
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=_script-14515-1600341448-0001-2--
