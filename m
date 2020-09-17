@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6848926CFC1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 02:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBFF26CFD2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 02:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F39A6E09E;
-	Thu, 17 Sep 2020 00:08:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E006EB5E;
+	Thu, 17 Sep 2020 00:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8DC6E09E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:08:43 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id z19so65408pfn.8
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 17:08:43 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 701776EB4A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:08:44 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id bd2so138287plb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Sep 2020 17:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V8m7qPDfB55B1mb2byxbuGqYmAz2nUtTaDYRFEV2hkc=;
- b=ZDGp+YY4ztgQiEho1mBRHBvjNVZTQDyA/S91eYaN8qtKN8NOCQ/gGC1lTPpofsPrCf
- yeRMY793r89nsPf/t0bcQtpU9nqJ0tsM7ID2L3j9uY2D5Db1WmRBmlTA2danDT7se58S
- qPcJg8cRHF1occcz3F7i+p5TQkbOjK4ItZ61U=
+ bh=RCQ+EYT2MzbQv/dr3N4s0E8HTwBjP5d0FY0g8w6KX0M=;
+ b=MQnquCti4+QAoiQHzyYjBuob9gaaGfwrmXfZFgoeaBbxH7ccK8iLssza5QA/tMvsKJ
+ 4/hA6fPvLfnNWwgxoQVYnzSEquwJPXKql5WTeCmLfpV7rfU3zxNcH9Fopy36kTiXYWKN
+ asJyIH3mFxZPJP5BXNPIofe+Iq3zmRq8Olhj8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V8m7qPDfB55B1mb2byxbuGqYmAz2nUtTaDYRFEV2hkc=;
- b=fTE+xPvSb9xofsJvVfLKusoEQaDmiQReNNM1AP938k0kHSPR4WfAu+1d6Vy8iz1juE
- 7Sh5j66SGhoRtSnDToMsYwqRfN2mNQ6qHG1x9S7WRqN8Gh7QqGgGXM4ROpm8uCQmLRiQ
- ONEX8FWETDN/Eqy4ZczeUChVy3cn8YUGm8Te/dVJBxgsQjlbB6wSHiQCK/hqu58+Ep3h
- LlVNJXso9zTOagfrAIwUE+EK2qVx9uUZLbMeop0by3QR/MZTrQ/Tcg3Kz9gb3UXngToP
- YaUeZ8wo2qlPnyxNTt83WkTPk8495SlHiGemLGM0GxPBCwTzuLImbIAYnr+l9BkxYswp
- Dahw==
-X-Gm-Message-State: AOAM5308LgcRzB+FmnlXxao3gDQaLLT4tF6yYKXPiDx6Rj27S4n+rNYp
- 8fl/CdcxyrdPt0UeAAFDxQoYLr0yPiQD3g==
-X-Google-Smtp-Source: ABdhPJw6CK2yJywdv3a/VTx7bPrkRQddTNkfciLS0QQvjxX/DtchLgVFdeoj/wdRUi+iLVnZcW0p3w==
-X-Received: by 2002:a63:4c49:: with SMTP id m9mr3553758pgl.391.1600301322649; 
- Wed, 16 Sep 2020 17:08:42 -0700 (PDT)
+ bh=RCQ+EYT2MzbQv/dr3N4s0E8HTwBjP5d0FY0g8w6KX0M=;
+ b=FMwvtDqTJlATkFFDhBslMnfV9bxgkCLF4ZwdrHb/hRdiCgs0JwJ04E1ZtFtY20XyUL
+ X1hIDPUidf/guZb4eMSgT+OsidBxbyVhnCYmLb42uSxzahk1Hli0X1NrAWisBEomgMw6
+ UZInPRC4FKx7jivHBcH8ATHamHn/WEXVgk2VwnGFmC6GF7rGD6LmzOUTf0LB9stVoVAm
+ baFW7rnAGh+w9oi8sQ04tFNYdHk3cvtu6MdwIQAnc7kLuYfyyWfJhyVxu3LMKZLzAW9N
+ DnEtmhofgIpa1tNf27eCQLNI4LXWsY0hxhZ6KOKr5mhRFkiSIEg8a4EluQLE8efcPCXg
+ QmVw==
+X-Gm-Message-State: AOAM530Fu8TRFKauolrnoYx61zWDTfcNI2W638G410iCrp+SQd43Hi4t
+ 1+7F77edbiW+lsUiK4N6h54rmweACAfDfA==
+X-Google-Smtp-Source: ABdhPJwWKIrWPNcLPlx+mi2rOy5yUDnGfcsMKyEgp49CZVdFobyOl9PLpYALemRCFbbjNX3LkZylTQ==
+X-Received: by 2002:a17:90b:3708:: with SMTP id
+ mg8mr5983067pjb.39.1600301323690; 
+ Wed, 16 Sep 2020 17:08:43 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id o19sm13737917pfp.64.2020.09.16.17.08.41
+ by smtp.gmail.com with ESMTPSA id o19sm13737917pfp.64.2020.09.16.17.08.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 17:08:42 -0700 (PDT)
+ Wed, 16 Sep 2020 17:08:43 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 02/19] drm/virtio: blob prep: make CPU responses more
- generic
-Date: Wed, 16 Sep 2020 17:08:21 -0700
-Message-Id: <20200917000838.735-2-gurchetansingh@chromium.org>
+Subject: [PATCH v3 03/19] virtio-gpu api: blob resources
+Date: Wed, 16 Sep 2020 17:08:22 -0700
+Message-Id: <20200917000838.735-3-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200917000838.735-1-gurchetansingh@chromium.org>
 References: <20200917000838.735-1-gurchetansingh@chromium.org>
@@ -71,89 +71,138 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RESOURCE_MAP_BLOB / RESOURCE_UNMAP_BLOB can use this.
+From: Gerd Hoffmann <kraxel@redhat.com>
 
+A blob resource is a container for:
+   - VIRTIO_GPU_BLOB_MEM_GUEST: a guest memory allocation
+     (referred to as a "guest-only blob resource")
+
+   - VIRTIO_GPU_BLOB_MEM_HOST3D: a host3d memory allocation
+     (referred to as a "host-only blob resource")
+
+   - VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST: a guest + host3d memory allocation
+     (referred to as a "default blob resource").
+
+The memory properties of the blob resource must be described by
+`blob_mem`.
+
+For default and guest only blob resources set, `nents` guest system
+pages are assigned to the resource.  For default blob resources,
+these guest pages are used for transfer operations. Attach/detach is
+also possible to allow swap-in/swap-out, but isn't required since it
+may not be applicable to future blob mem types
+(shared guest/guest vram).
+
+Host allocations depend on whether the 3D is supported. If 3D is not
+supported, the only valid field for `blob_mem` is
+VIRTIO_GPU_BLOB_MEM_GUEST.
+
+If 3D is supported, the virtio-gpu resource is created from the
+context local object identified by the `blob_id`. The actual host
+allocation done by the CMD_SUBMIT_3D.
+
+Userspace must specify if the blob resource is intended to be used
+for userspace mapping, sharing between virtio-gpu contexts and/or
+sharing between virtio devices. This is done via `blob_flags`.
+
+For 3D hosts, both VIRTIO_GPU_CMD_TRANSFER_TO_HOST_3D and
+VIRTIO_GPU_CMD_TRANSFER_FROM_HOST_3D may be used to update
+the host resource. There is no restriction on the image/buffer
+view the guest/host userspace has on the blob resource.
+
+VIRTIO_GPU_CMD_SET_SCANOUT_BLOB / VIRTIO_GPU_CMD_RESOURCE_FLUSH may
+be used with blob resources as well.  The modifier is intentionally
+left out of SCANOUT_BLOB, and auxilary blobs are also left out
+as a simplification.
+
+The use case for blob resources is zero-copy, needed for coherent
+memory in virglrenderer. Host only blob resources are not mappable
+without the feature described in the next patch, but are shareable.
+
+Future work:
+   - Emulated coherent `blob_mem` type for QEMU/vhost-user
+   - A `blob_mem` type for guest-only resources imported in
+     cache-coherent FOSS GPU/display drivers.
+   - Display integration involving the blob model using seamless
+     Wayland windows.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Co-developed-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Acked-by: Chia-I Wu <olvaffe@gmail.com>
+Acked-by: Lingfeng Yang <lfy@google.com>
+Link: https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/374
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  6 +++---
- drivers/gpu/drm/virtio/virtgpu_prime.c |  6 +++---
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 10 +++++-----
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ include/uapi/linux/virtio_gpu.h | 43 +++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 55c34b4fc3e99..272abe177ded6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -49,9 +49,9 @@
- #define DRIVER_MINOR 1
- #define DRIVER_PATCHLEVEL 0
+diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+index 747a5c5cc4e60..4ddf2fe342ed0 100644
+--- a/include/uapi/linux/virtio_gpu.h
++++ b/include/uapi/linux/virtio_gpu.h
+@@ -55,6 +55,11 @@
+  */
+ #define VIRTIO_GPU_F_RESOURCE_UUID       2
  
--#define UUID_INITIALIZING 0
--#define UUID_INITIALIZED 1
--#define UUID_INITIALIZATION_FAILED 2
-+#define STATE_INITIALIZING 0
-+#define STATE_OK 1
-+#define STATE_ERR 2
++/*
++ * VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
++ */
++#define VIRTIO_GPU_F_RESOURCE_BLOB       3
++
+ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_UNDEFINED = 0,
  
- struct virtio_gpu_object_params {
- 	uint32_t format;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index acd14ef73d563..3552db128ba3d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -34,8 +34,8 @@ static int virtgpu_virtio_get_uuid(struct dma_buf *buf,
- 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
- 	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
+@@ -71,6 +76,8 @@ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_CMD_GET_CAPSET,
+ 	VIRTIO_GPU_CMD_GET_EDID,
+ 	VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID,
++	VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB,
++	VIRTIO_GPU_CMD_SET_SCANOUT_BLOB,
  
--	wait_event(vgdev->resp_wq, bo->uuid_state != UUID_INITIALIZING);
--	if (bo->uuid_state != UUID_INITIALIZED)
-+	wait_event(vgdev->resp_wq, bo->uuid_state != STATE_INITIALIZING);
-+	if (bo->uuid_state != STATE_OK)
- 		return -ENODEV;
+ 	/* 3d commands */
+ 	VIRTIO_GPU_CMD_CTX_CREATE = 0x0200,
+@@ -359,4 +366,40 @@ struct virtio_gpu_resp_resource_uuid {
+ 	__u8 uuid[16];
+ };
  
- 	uuid_copy(uuid, &bo->uuid);
-@@ -81,7 +81,7 @@ struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
- 			return ERR_PTR(ret);
- 		virtio_gpu_notify(vgdev);
- 	} else {
--		bo->uuid_state = UUID_INITIALIZATION_FAILED;
-+		bo->uuid_state = STATE_ERR;
- 	}
- 
- 	exp_info.ops = &virtgpu_dmabuf_ops.ops;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index a7550044b8b2e..55529ed97d9c7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1127,14 +1127,14 @@ static void virtio_gpu_cmd_resource_uuid_cb(struct virtio_gpu_device *vgdev,
- 	uint32_t resp_type = le32_to_cpu(resp->hdr.type);
- 
- 	spin_lock(&vgdev->resource_export_lock);
--	WARN_ON(obj->uuid_state != UUID_INITIALIZING);
-+	WARN_ON(obj->uuid_state != STATE_INITIALIZING);
- 
- 	if (resp_type == VIRTIO_GPU_RESP_OK_RESOURCE_UUID &&
--	    obj->uuid_state == UUID_INITIALIZING) {
-+	    obj->uuid_state == STATE_INITIALIZING) {
- 		memcpy(&obj->uuid.b, resp->uuid, sizeof(obj->uuid.b));
--		obj->uuid_state = UUID_INITIALIZED;
-+		obj->uuid_state = STATE_OK;
- 	} else {
--		obj->uuid_state = UUID_INITIALIZATION_FAILED;
-+		obj->uuid_state = STATE_ERR;
- 	}
- 	spin_unlock(&vgdev->resource_export_lock);
- 
-@@ -1153,7 +1153,7 @@ virtio_gpu_cmd_resource_assign_uuid(struct virtio_gpu_device *vgdev,
- 	resp_buf = kzalloc(sizeof(*resp_buf), GFP_KERNEL);
- 	if (!resp_buf) {
- 		spin_lock(&vgdev->resource_export_lock);
--		bo->uuid_state = UUID_INITIALIZATION_FAILED;
-+		bo->uuid_state = STATE_ERR;
- 		spin_unlock(&vgdev->resource_export_lock);
- 		virtio_gpu_array_put_free(objs);
- 		return -ENOMEM;
++/* VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB */
++struct virtio_gpu_resource_create_blob {
++	struct virtio_gpu_ctrl_hdr hdr;
++	__le32 resource_id;
++#define VIRTIO_GPU_BLOB_MEM_GUEST             0x0001
++#define VIRTIO_GPU_BLOB_MEM_HOST3D            0x0002
++#define VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST      0x0003
++
++#define VIRTIO_GPU_BLOB_FLAG_USE_MAPPABLE     0x0001
++#define VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE    0x0002
++#define VIRTIO_GPU_BLOB_FLAG_USE_CROSS_DEVICE 0x0004
++	/* zero is invalid blob mem */
++	__le32 blob_mem;
++	__le32 blob_flags;
++	__le64 blob_id;
++	__le64 size;
++	__le32 nr_entries;
++	/*
++	 * sizeof(nr_entries * virtio_gpu_mem_entry) bytes follow
++	 */
++};
++
++/* VIRTIO_GPU_CMD_SET_SCANOUT_BLOB */
++struct virtio_gpu_set_scanout_blob {
++	struct virtio_gpu_ctrl_hdr hdr;
++	struct virtio_gpu_rect r;
++	__le32 scanout_id;
++	__le32 resource_id;
++	__le32 width;
++	__le32 height;
++	__le32 format;
++	__le32 padding;
++	__le32 strides[4];
++	__le32 offsets[4];
++};
++
+ #endif
 -- 
 2.26.2
 
