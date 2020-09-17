@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A8526E85E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:27:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 944CE26E93F
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 01:06:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07ED56E421;
-	Thu, 17 Sep 2020 22:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020286E426;
+	Thu, 17 Sep 2020 23:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62B0C6E421
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 22:27:38 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id k25so3383738ljg.9
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6ox/oz2JSZ//c69LHGTOfHo5afsC8E8GBRLlmiSUXyE=;
- b=OUNfyFtkPx0dN0dUw2JK8YgHmtLJTWFh9VYJsfioH1iJka9MnFhwT87U1g/ig4AoO0
- tyQxh1AHfBnCdBvJWP/1CNoDs02XpwQw+wWAMhN3l+SbvZkytXTtEJBSj9evg20EsRbL
- y5BeZIu1SPmt/prOtZtEwQ/i03qXXzgw9TJTY=
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 683A06E426
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 23:06:11 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id k14so4243440edo.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 16:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=21o8uO6u/9rSY/ugJHmV1CZGXcQtAgS36PEhFnGiU88=;
+ b=CNijEukGzsHb5ly+NXVKG9Q4TKhX83o8MqouvW7XiYr7765UkS0CEhGhbkVBYvUj4P
+ mMn4Ec0OJ+XxEgSk/eib8lUCuBW/OagkhssVSznv3kbAo34AWVEFBh+l5TiWQoI0l4Jb
+ a6r9ofZ34HxrgE3keRZYRWnmrXobMcN2xgtZm6T1TO4mCvQbgQ1HvamnDic94TAp7FHk
+ vYmzHSaxttuvtdKxm7IiXCxiSIPM4WO+eK+cKY/5KuO8XypzIZm8eWUx1RcdxouXmBT8
+ P4fCZlupE1KPZF/Lqepy4cNIauh3cFaLUTHEdK/okzldy1ujSM/6/UL28TveYgbryRnf
+ OB6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6ox/oz2JSZ//c69LHGTOfHo5afsC8E8GBRLlmiSUXyE=;
- b=NlCZXiJfy4sisNU+btOfgrSWsHslvMxONA4xYStovj7b4F4VzDtjom/4aoZvcl0wSp
- FnOTjKqLDbXtIV5e+0GygzPFyjNQpmMavdi3HD1eoBBaabWpwbyh0Vo8IKjob/wn1zOk
- mClnZ4JK3ElTKWLZIt8K10W9eHQbGD6Rz8f+SuUOjTyP1ZSaqXQZCZ7wiVTEdTGhFLjy
- X+Z62MLVqKAXcWXW9/yQWfGAGmbxyOcapPzCyHPAyhiqiExkMljCInr5WyIKbtr1JST8
- Y9ravEVqBYdQxOXny7Wpf0P5iMvinSW95fVudAXJle5G8CJAtqT3vCIUQ3jsUson1wwP
- nANg==
-X-Gm-Message-State: AOAM531swXZsQkRUtWj7/F7v5dczkql1Z0fnZ33mIf9ipBSL/y0g+jZY
- UuQxVobDznG1S3jOOHSkVWuq3dLr53odDQ==
-X-Google-Smtp-Source: ABdhPJzoVawigcX1zH0HUpF39I99cNrshzLJTwO2bxWqfYJIm0ctPQCK24kFl1T/77ys8SPYCC4IuQ==
-X-Received: by 2002:a2e:a496:: with SMTP id h22mr10028087lji.24.1600381656654; 
- Thu, 17 Sep 2020 15:27:36 -0700 (PDT)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
- [209.85.167.54])
- by smtp.gmail.com with ESMTPSA id a197sm175323lfd.137.2020.09.17.15.27.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 15:27:36 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id y11so3931930lfl.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:27:36 -0700 (PDT)
-X-Received: by 2002:ac2:434b:: with SMTP id o11mr8261132lfl.576.1600381655654; 
- Thu, 17 Sep 2020 15:27:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=21o8uO6u/9rSY/ugJHmV1CZGXcQtAgS36PEhFnGiU88=;
+ b=SrRupwoKRVOrT1WGtSRaan1GWPU9CwjUkLRdURvoJSTB/ZRGXoxaBFbTaX6pMMpap3
+ KxdST0+IqD0/Z+EIUqXkPn3LSkdzfqICa8+sLpjZ5PDci0nJ+trx6I3d+BV61LY338BY
+ CaVFIjNJ/T8N/IPO8Cz9RMR2M0G353Bu1THD2/4lYJhHjzhK+DpYc27faXFAwbJm7por
+ TndF4pw6E1l6Hre2jDWJkg1zo1xRlFeXDjncWB3DDTvW6AGsb355o22zqHRBd9XEqRCp
+ pS2QSuaXDjvEaUee6oCCQ08w3ic687gqyiHK1xv3Rkg3cxi8Pv+aXV1Wu2fYfn/9mqrt
+ 1SKg==
+X-Gm-Message-State: AOAM530cvac5J1C9L+eb2ax7N+mWQS2WsFYH6/WCsJQvCGNFuypLcEYY
+ BtL1asUqsy6fUIEdMPm+GTvQc/ucElo9BZDRaxI=
+X-Google-Smtp-Source: ABdhPJwb4AVINCLEyXkYxKOgZXcKWxkVnOShhUUYOwa1QJb4pxVEXJ2EYAWfXjH1ST26ZlDnbD6yyaMj/ZFRajjqwcE=
+X-Received: by 2002:a05:6402:1a48:: with SMTP id
+ bf8mr34988244edb.298.1600383969876; 
+ Thu, 17 Sep 2020 16:06:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200917000838.735-1-gurchetansingh@chromium.org>
- <20200917000838.735-9-gurchetansingh@chromium.org>
- <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
-In-Reply-To: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Thu, 17 Sep 2020 15:27:24 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBnXQcKFMFpT8VrbPyeMVMc_4nc-3bRjn81kZz9gjvmm9A@mail.gmail.com>
-Message-ID: <CAAfnVBnXQcKFMFpT8VrbPyeMVMc_4nc-3bRjn81kZz9gjvmm9A@mail.gmail.com>
-Subject: Re: [PATCH v3 09/19] drm/virtio: implement blob resources: probe for
- host visible region
-To: Gerd Hoffmann <kraxel@redhat.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 18 Sep 2020 09:05:58 +1000
+Message-ID: <CAPM=9txcHEa3-tZK3N+SAznbfHU_61UcQ01gq99m6riHzU5OOw@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.9-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,117 +61,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1451229560=="
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1451229560==
-Content-Type: multipart/alternative; boundary="000000000000179e2505af89e415"
-
---000000000000179e2505af89e415
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Sep 17, 2020 at 2:40 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-
->   Hi,
->
-> > +             if (!devm_request_mem_region(&vgdev->vdev->dev,
-> > +
-> vgdev->host_visible_region.addr,
-> > +
-> vgdev->host_visible_region.len,
-> > +                                          dev_name(&vgdev->vdev->dev)))
-> {
-> > +                     DRM_ERROR("Could not reserve host visible
-> region\n");
-> > +                     goto err_vqs;
-> > +             }
->
-> > +     if (vgdev->has_host_visible) {
-> > +             devm_release_mem_region(&vgdev->vdev->dev,
-> > +                                     vgdev->host_visible_region.addr,
-> > +                                     vgdev->host_visible_region.len);
-> > +     }
->
-> Hmm. isn't it the point of the managed apis that the release happens
-> automatically?  I think you don't need the devm_release_mem_region
-> call (it doesn't break things though).
->
-
-Ack, good catch.  Fixed.
-
-
->
-> take care,
->   Gerd
->
->
-
---000000000000179e2505af89e415
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 17, 2020 at 2:40 AM Gerd =
-Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 H=
-i,<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!devm_request_mem=
-_region(&amp;vgdev-&gt;vdev-&gt;dev,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 vgdev-&gt;host_visible_region.addr,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 vgdev-&gt;host_visible_region.len,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 dev_name(&amp;vgdev-&gt;vdev-&gt;dev))) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0DRM_ERROR(&quot;Could not reserve host visible region\n&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0goto err_vqs;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (vgdev-&gt;has_host_visible) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0devm_release_mem_regi=
-on(&amp;vgdev-&gt;vdev-&gt;dev,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vgdev-&gt;ho=
-st_visible_region.addr,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vgdev-&gt;ho=
-st_visible_region.len);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-Hmm. isn&#39;t it the point of the managed apis that the release happens<br=
->
-automatically?=C2=A0 I think you don&#39;t need the devm_release_mem_region=
-<br>
-call (it doesn&#39;t break things though).<br></blockquote><div><br></div><=
-div>Ack, good catch.=C2=A0 Fixed.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-take care,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div></div>
-
---000000000000179e2505af89e415--
-
---===============1451229560==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1451229560==--
+SGkgTGludXMsCgpBIGJ1bmNoIG9mIHNtYWxsIGZpeGVzLCBzb21lIG9mIHRoZSBpOTE1IG9uZXMg
+aGF2ZSBiZWVuIG91dCBmb3IgYQp3aGlsZSBhbmQgZ290IGJldHRlciBjb21taXQgbXNnIGV4cGxh
+aW5pbmcgc29tZSBiZXR0ZXIgcmVhc29uaW5nCmJlaGluZCB0aGVtLiAoaG9wZWZ1bGx5IHRoaXMg
+dHJlbmQgY29udGludWVzKS4gT3RoZXJ3aXNlIHRoZXJlIGEgZmV3CkFNRCByZWxhdGVkIG9uZXMg
+bW9zdGx5IHNtYWxsLCBvbmUgcmFkZW9uIFBMTCByZWdyZXNzaW9uIGZpeCBhbmQgYQpidW5jaCBv
+ZiBzbWFsbCBtZWRpYXRlayBmaXhlcy4KCkknbSBnb2luZyB0byBiZSBvZmZsaW5lIGZvciBhIGNv
+dXBsZSBvZiBkYXlzIGluIGEgZmV3IGhvdXJzIHRpbWUsIHNvCmlmIGFueXRoaW5nIGlzIHdyb25n
+IGxldCBEYW5pZWwga25vdyBhcyB3ZWxsLgoKRGF2ZS4KCmRybS1maXhlcy0yMDIwLTA5LTE4Ogpk
+cm0gZml4ZXMgZm9yIDUuOS1yYzYKCmFtZGdwdToKLSBTaWVubmEgQ2ljaGxpZCBmaXhlcwotIE5h
+dnkgRmxvdW5kZXIgZml4ZXMKLSBEQyBmaXhlcwoKYW1ka2ZkOgotIEZpeCBhIEdQVSByZXNldCBj
+cmFzaAotIEZpeCBhIG1lbW9yeSBsZWFrCgpyYWRlb246Ci0gUmV2ZXJ0IGEgUExMIGZpeCB0aGF0
+IGJyb2tlIG90aGVyIGJvYXJkcwoKaTkxNToKLSBBdm9pZCBleHBvc2luZyBhIHBhcnRpYWxseSBj
+b25zdHJ1Y3RlZCBjb250ZXh0Ci0gVXNlIFJDVSBpbnN0ZWFkIG9mIG11dGV4IGZvciBjb250ZXh0
+IHRlcm1pbmF0aW9uIGxpc3QgaXRlcmF0aW9uCi0gQXZvaWQgZGF0YSByYWNlIHJlcG9ydGVkIGJ5
+IEtDU0FOCi0gRmlsdGVyIHdha2VfZmxhZ3MgcGFzc2VkIHRvIGRlZmF1bHRfd2FrZV9mdW5jdGlv
+bgoKbWVkaWF0ZWs6Ci0gRml4IHNjcm9sbGluZyBvZiBwYW5lbAotIFJlbW92ZSBkdXBsaWNhdGVk
+IGluY2x1ZGUKLSBVc2UgQ1BVIHdoZW4gZmFpbCB0byBnZXQgY21kcSBldmVudAotIEFkZCBtaXNz
+aW5nIHB1dF9kZXZpY2UoKSBjYWxsClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQg
+ODU2ZGViODY2ZDE2ZTI5YmQ2NTk1MmUwMjg5MDY2ZjYwNzhhZjc3MzoKCiAgTGludXggNS45LXJj
+NSAoMjAyMC0wOS0xMyAxNjowNjowMCAtMDcwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCBy
+ZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtIHRh
+Z3MvZHJtLWZpeGVzLTIwMjAtMDktMTgKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byAx
+ZjA4ZmRlNzAwNzU3ODRkMjhkMTY4N2QwZTc1ODcxZTgxY2MxMTczOgoKICBNZXJnZSB0YWcgJ21l
+ZGlhdGVrLWRybS1maXhlcy01LjknIG9mCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
+aW51eC9rZXJuZWwvZ2l0L2NodW5rdWFuZy5odS9saW51eAppbnRvIGRybS1maXhlcyAoMjAyMC0w
+OS0xOCAwODo1MjowNiArMTAwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtIGZpeGVzIGZvciA1LjktcmM2CgphbWRn
+cHU6Ci0gU2llbm5hIENpY2hsaWQgZml4ZXMKLSBOYXZ5IEZsb3VuZGVyIGZpeGVzCi0gREMgZml4
+ZXMKCmFtZGtmZDoKLSBGaXggYSBHUFUgcmVzZXQgY3Jhc2gKLSBGaXggYSBtZW1vcnkgbGVhawoK
+cmFkZW9uOgotIFJldmVydCBhIFBMTCBmaXggdGhhdCBicm9rZSBvdGhlciBib2FyZHMKCmk5MTU6
+Ci0gQXZvaWQgZXhwb3NpbmcgYSBwYXJ0aWFsbHkgY29uc3RydWN0ZWQgY29udGV4dAotIFVzZSBS
+Q1UgaW5zdGVhZCBvZiBtdXRleCBmb3IgY29udGV4dCB0ZXJtaW5hdGlvbiBsaXN0IGl0ZXJhdGlv
+bgotIEF2b2lkIGRhdGEgcmFjZSByZXBvcnRlZCBieSBLQ1NBTgotIEZpbHRlciB3YWtlX2ZsYWdz
+IHBhc3NlZCB0byBkZWZhdWx0X3dha2VfZnVuY3Rpb24KCm1lZGlhdGVrOgotIEZpeCBzY3JvbGxp
+bmcgb2YgcGFuZWwKLSBSZW1vdmUgZHVwbGljYXRlZCBpbmNsdWRlCi0gVXNlIENQVSB3aGVuIGZh
+aWwgdG8gZ2V0IGNtZHEgZXZlbnQKLSBBZGQgbWlzc2luZyBwdXRfZGV2aWNlKCkgY2FsbAoKLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQpBbmRyZXkgR3JvZHpvdnNreSAoMSk6CiAgICAgIGRybS9hbWRncHU6IEluY2x1ZGUgc2ll
+bm5hX2NpY2hsaWQgaW4gVVNCQyBQRCBGVyBzdXBwb3J0LgoKQmhhd2FucHJlZXQgTGFraGEgKDIp
+OgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IERvbid0IHVzZSBEUk1fRVJST1IoKSBmb3IgRFRNIGFk
+ZCB0b3BvbG9neQogICAgICBkcm0vYW1kL2Rpc3BsYXk6IERvbid0IGxvZyBoZGNwIG1vZHVsZSB3
+YXJuaW5ncyBpbiBkbWVzZwoKQ2hyaXMgV2lsc29uICg0KToKICAgICAgZHJtL2k5MTUvZ2VtOiBE
+ZWxheSB0cmFja2luZyB0aGUgR0VNIGNvbnRleHQgdW50aWwgaXQgaXMgcmVnaXN0ZXJlZAogICAg
+ICBkcm0vaTkxNS9nZW06IFJlZHVjZSBjb250ZXh0IHRlcm1pbmF0aW9uIGxpc3QgaXRlcmF0aW9u
+IGd1YXJkIHRvIFJDVQogICAgICBkcm0vaTkxNTogQmUgd2FyeSBvZiBkYXRhIHJhY2VzIHdoZW4g
+cmVhZGluZyB0aGUgYWN0aXZlIGV4ZWNsaXN0cwogICAgICBkcm0vaTkxNTogRmlsdGVyIHdha2Vf
+ZmxhZ3MgcGFzc2VkIHRvIGRlZmF1bHRfd2FrZV9mdW5jdGlvbgoKQ2hyaXN0aWFuIEvDtm5pZyAo
+MSk6CiAgICAgIGRybS9yYWRlb246IHJldmVydCAiUHJlZmVyIGxvd2VyIGZlZWRiYWNrIGRpdmlk
+ZXJzIgoKQ2h1bi1LdWFuZyBIdSAoMSk6CiAgICAgIGRybS9tZWRpYXRlazogVXNlIENQVSB3aGVu
+IGZhaWwgdG8gZ2V0IGNtZHEgZXZlbnQKCkRhdmUgQWlybGllICgzKToKICAgICAgTWVyZ2UgdGFn
+ICdhbWQtZHJtLWZpeGVzLTUuOS0yMDIwLTA5LTE3JyBvZgpnaXQ6Ly9wZW9wbGUuZnJlZWRlc2t0
+b3Aub3JnL35hZ2Q1Zi9saW51eCBpbnRvIGRybS1maXhlcwogICAgICBNZXJnZSB0YWcgJ2RybS1p
+bnRlbC1maXhlcy0yMDIwLTA5LTE3JyBvZgpzc2g6Ly9naXQuZnJlZWRlc2t0b3Aub3JnL2dpdC9k
+cm0vZHJtLWludGVsIGludG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnbWVkaWF0ZWstZHJt
+LWZpeGVzLTUuOScgb2YKaHR0cHM6Ly9naXQua2VybmVsLm9yZy8uLi4vY2h1bmt1YW5nLmh1L2xp
+bnV4IGludG8gZHJtLWZpeGVzCgpEZW5uaXMgTGkgKDIpOgogICAgICBkcm0va2ZkOiBmaXggYSBz
+eXN0ZW0gY3Jhc2ggaXNzdWUgZHVyaW5nIEdQVSByZWNvdmVyeQogICAgICBkcm0vYW1ka2ZkOiBm
+aXggYSBtZW1vcnkgbGVhayBpc3N1ZQoKSmlhbnNvbmcgQ2hlbiAoMik6CiAgICAgIGRybS9hbWQv
+cG06IHN1cHBvcnQgcnVudGltZSBwcHRhYmxlIHVwZGF0ZSBmb3Igc2llbm5hX2NpY2hsaWQgZXRj
+LgogICAgICBkcm0vYW1kZ3B1OiBkZWNsYXJlIHRhIGZpcm13YXJlIGZvciBuYXZ5X2Zsb3VuZGVy
+CgpKaXRhbyBTaGkgKDEpOgogICAgICBkcm0vbWVkaWF0ZWs6IGRzaTogRml4IHNjcm9sbGluZyBv
+ZiBwYW5lbCB3aXRoIHNtYWxsIGhmcCBvciBoYnAKCkp1biBMZWkgKDEpOgogICAgICBkcm0vYW1k
+L2Rpc3BsYXk6IHVwZGF0ZSBudjF4IHN0dXR0ZXIgbGF0ZW5jaWVzCgpNaWNoZWwgRMOkbnplciAo
+MSk6CiAgICAgIGRybS9hbWRncHUvZGM6IFJlcXVpcmUgcHJpbWFyeSBwbGFuZSB0byBiZSBlbmFi
+bGVkIHdoZW5ldmVyIHRoZSBDUlRDIGlzCgpXYW5nIEhhaSAoMSk6CiAgICAgIGRybS9tZWRpYXRl
+azogUmVtb3ZlIGR1cGxpY2F0ZWQgaW5jbHVkZQoKWXUgS3VhaSAoNCk6CiAgICAgIGRybS9tZWRp
+YXRlazogQWRkIG1pc3NpbmcgcHV0X2RldmljZSgpIGNhbGwgaW4gbXRrX2RkcF9jb21wX2luaXQo
+KQogICAgICBkcm0vbWVkaWF0ZWs6IEFkZCBleGNlcHRpb24gaGFuZGluZyBpbiBtdGtfZHJtX3By
+b2JlKCkgaWYKY29tcG9uZW50IGluaXQgZmFpbAogICAgICBkcm0vbWVkaWF0ZWs6IEFkZCBtaXNz
+aW5nIHB1dF9kZXZpY2UoKSBjYWxsIGluIG10a19kcm1fa21zX2luaXQoKQogICAgICBkcm0vbWVk
+aWF0ZWs6IEFkZCBtaXNzaW5nIHB1dF9kZXZpY2UoKSBjYWxsIGluIG10a19oZG1pX2R0X3BhcnNl
+X3BkYXRhKCkKCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcHNwLmMgICAgICAg
+ICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9wc3BfdjExXzAuYyAgICAg
+ICAgICAgICB8ICAyICstCiAuLi4vZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2VfcXVldWVf
+bWFuYWdlci5jICB8ICA0ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2Rt
+L2FtZGdwdV9kbS5jICB8IDMyICsrKysrLS0tLS0tLS0tLQogLi4uL2dwdS9kcm0vYW1kL2Rpc3Bs
+YXkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2UuYyAgfCAgNCArLQogLi4uL2dwdS9kcm0vYW1kL2Rp
+c3BsYXkvbW9kdWxlcy9oZGNwL2hkY3BfbG9nLmggICAgfCAgMiArLQogLi4uL2dwdS9kcm0vYW1k
+L2Rpc3BsYXkvbW9kdWxlcy9oZGNwL2hkY3BfcHNwLmMgICAgfCAgMiArLQogZHJpdmVycy9ncHUv
+ZHJtL2FtZC9wb3dlcnBsYXkvYW1kZ3B1X3NtdS5jICAgICAgICAgfCAxMiArKysrLS0KIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250ZXh0LmMgICAgICAgIHwgNDggKysrKysr
+KysrKysrKystLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfbHJjLmMgICAg
+ICAgICAgICAgICAgfCAxNSArKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlcXVl
+c3QuYyAgICAgICAgICAgICAgICB8IDI1ICsrKysrKysrKystCiBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9pOTE1X3N3X2ZlbmNlLmMgICAgICAgICAgICAgICB8IDEwICsrKy0tCiBkcml2ZXJzL2dwdS9k
+cm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgICAgICAgICAgICB8IDIwICsrKysrLS0tLQogZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuYyAgICAgICAgfCAgMSArCiBk
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyAgICAgICAgICAgICB8IDE5ICsr
+KysrKy0tLQogZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgICAgICAgICAg
+ICAgfCAgOSArKy0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYyAgICAgICAg
+ICAgICAgICB8IDI2ICsrKysrKysrLS0tLQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25f
+ZGlzcGxheS5jICAgICAgICAgICAgfCAgMiArLQogMTggZmlsZXMgY2hhbmdlZCwgMTQ5IGluc2Vy
+dGlvbnMoKyksIDg2IGRlbGV0aW9ucygtKQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
