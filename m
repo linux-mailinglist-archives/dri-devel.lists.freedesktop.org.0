@@ -1,34 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3FF26E81A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:17:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3090B26E853
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 00:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E4C6E40C;
-	Thu, 17 Sep 2020 22:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E299898BE;
+	Thu, 17 Sep 2020 22:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
- Thu, 17 Sep 2020 21:53:14 UTC
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36EF46E40C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 21:53:14 +0000 (UTC)
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Sep 2020 14:47:09 -0700
-Received: from veeras-linux.qualcomm.com ([10.134.68.137])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 17 Sep 2020 14:47:09 -0700
-Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
- id A560D218D9; Thu, 17 Sep 2020 14:47:09 -0700 (PDT)
-From: Veera Sundaram Sankaran <veeras@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- sumit.semwal@linaro.org
-Subject: [PATCH] dma-fence: add get_signaled_timestamp to fence ops
-Date: Thu, 17 Sep 2020 14:45:38 -0700
-Message-Id: <1600379138-12774-1-git-send-email-veeras@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-X-Mailman-Approved-At: Thu, 17 Sep 2020 22:17:03 +0000
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2888893AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 22:25:55 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id o20so2114553pfp.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 15:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=slxxkPttXx89E/npUKwyp25sb5MdvAkiByWGPO08fKI=;
+ b=lKBjWSanVuYWpsnBh3Amnt5RIHcOjSgdKK4ZNTWPDrvQIPSEJ2+3/zg7/5d7H2RM9q
+ sLKHV7ifCsPqjGk7/whZbWC9fZHp+QdRwUf4+QXKU1F6pHByt94c4a2ekHwobrzjc2N/
+ qmUktULDaF96fzOet8YWE92bl2XXsnYN73maY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=slxxkPttXx89E/npUKwyp25sb5MdvAkiByWGPO08fKI=;
+ b=WmyuVYwwq6/FB7ZYR3LdjGtyr9c1hWno8FezMuNHoB9T+Y5LAxRG3LwQpO9hWap0Ss
+ Ee2rZc6yJpWHPveO5JAX+vwDQrT6aRbqQbhI35xbNyeg623WcxwtRrs5x7e8uSVdytEq
+ 3tMihURizwjnLozvYmBzztNK3jZkPa5WcRuud28UfZWxnPEZX6DnTI83OEkG+zMK0e86
+ KJgQQ99j/wXSUdAwp0yTn4agj022B+hJhp83I61HdYbBk7Z/EqQcI5zUD71PfonQhLEd
+ iLec6uCBq+c9xvgGNzPW5R4QvrIXmt4RCVTbiy+az0cDjsh8Ok17Py9KDmE4r43+Bnc5
+ bpGQ==
+X-Gm-Message-State: AOAM531BtRO6DgHDF9YEb9OJmrzbgIXVKdE07FUdDtS1+SuGDweaZ7Pu
+ D9SDqv7bGxsPdFyYZ8/e3ZpSALapru0jOA==
+X-Google-Smtp-Source: ABdhPJyRUhUdbS80FWqayCfLmIz3z7Oqc5hpj4smtH0+KnokCJ6aZ2kNg0iu6yugrquc9iiiI1kmew==
+X-Received: by 2002:a65:5cc5:: with SMTP id b5mr24138058pgt.417.1600381555251; 
+ Thu, 17 Sep 2020 15:25:55 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
+ by smtp.gmail.com with ESMTPSA id i9sm640020pfq.53.2020.09.17.15.25.54
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Sep 2020 15:25:54 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 09/19] drm/virtio: implement blob resources: probe for host
+ visible region
+Date: Thu, 17 Sep 2020 15:25:52 -0700
+Message-Id: <20200917222552.713-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
+References: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,87 +66,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pdhaval@codeaurora.org, Veera Sundaram Sankaran <veeras@codeaurora.org>,
- abhinavk@codeaurora.org
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an optional fence ops to allow drivers to be able to set the
-timestamp for a fence. Some drivers have hardware capability to get
-the precise timestamp of certain events based on which the fences
-are triggered. This allows it to set accurate timestamp factoring
-out any software and IRQ latencies. The get_signaled_timestamp ops,
-if defined by the driver would be used during fence signaling to set
-the timestamp, before setting the flag DMA_FENCE_FLAG_TIMESTAMP_BIT.
-If the callback is not defined, ktime_get is used to set the fence
-timestamp.
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+The availability of the host visible region means host 3D
+allocations can be directly mapped in the guest.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Co-developed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 ---
- drivers/dma-buf/dma-fence.c |  6 +++++-
- include/linux/dma-fence.h   | 13 +++++++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c |  5 +++++
+ drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 ++
+ drivers/gpu/drm/virtio/virtgpu_kms.c     | 20 ++++++++++++++++++--
+ 3 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 43624b4..95c6ab0 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -4,6 +4,7 @@
-  *
-  * Copyright (C) 2012 Canonical Ltd
-  * Copyright (C) 2012 Texas Instruments
-+ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
-  *
-  * Authors:
-  * Rob Clark <robdclark@gmail.com>
-@@ -340,7 +341,10 @@ int dma_fence_signal_locked(struct dma_fence *fence)
- 	/* Stash the cb_list before replacing it with the timestamp */
- 	list_replace(&fence->cb_list, &cb_list);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+index 6b9b8376613f0..a2cdd267914ac 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
++++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+@@ -52,6 +52,11 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
+ 	virtio_add_bool(m, "blob resources", vgdev->has_resource_blob);
+ 	virtio_add_int(m, "cap sets", vgdev->num_capsets);
+ 	virtio_add_int(m, "scanouts", vgdev->num_scanouts);
++	if (vgdev->host_visible_region.len) {
++		seq_printf(m, "%-16s : 0x%lx +0x%lx\n", "host visible region",
++			   (unsigned long)vgdev->host_visible_region.addr,
++			   (unsigned long)vgdev->host_visible_region.len);
++	}
+ 	return 0;
+ }
  
--	fence->timestamp = ktime_get();
-+	if (fence->ops->get_signaled_timestamp)
-+		fence->timestamp = fence->ops->get_signaled_timestamp(fence);
-+	else
-+		fence->timestamp = ktime_get();
- 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
- 	trace_dma_fence_signaled(fence);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index b53478a6a3c08..391637f0b362d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -209,6 +209,8 @@ struct virtio_gpu_device {
+ 	bool has_indirect;
+ 	bool has_resource_assign_uuid;
+ 	bool has_resource_blob;
++	bool has_host_visible;
++	struct virtio_shm_region host_visible_region;
  
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 09e23ad..ce73aba 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -4,6 +4,7 @@
-  *
-  * Copyright (C) 2012 Canonical Ltd
-  * Copyright (C) 2012 Texas Instruments
-+ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
-  *
-  * Authors:
-  * Rob Clark <robdclark@gmail.com>
-@@ -261,6 +262,18 @@ struct dma_fence_ops {
- 	 */
- 	void (*timeline_value_str)(struct dma_fence *fence,
- 				   char *str, int size);
+ 	struct work_struct config_changed_work;
+ 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 0678e56100dae..e17d3f5a0b54e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -155,11 +155,27 @@ int virtio_gpu_init(struct drm_device *dev)
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
+ 		vgdev->has_resource_blob = true;
+ 	}
++	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
++				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
++		if (!devm_request_mem_region(&vgdev->vdev->dev,
++					     vgdev->host_visible_region.addr,
++					     vgdev->host_visible_region.len,
++					     dev_name(&vgdev->vdev->dev))) {
++			DRM_ERROR("Could not reserve host visible region\n");
++			goto err_vqs;
++		}
 +
-+	/**
-+	 * @get_signaled_timestamp:
-+	 *
-+	 * Allows the driver to fill in precise timestamp for a fence.
-+	 * This ops would be used during fence signalling to set the timestamp,
-+	 * before setting the flag DMA_FENCE_FLAG_TIMESTAMP_BIT.
-+	 *
-+	 * This callback is optional. If this callback is not present,
-+	 * ktime_get is used to fill in the timestamp.
-+	 */
-+	ktime_t (*get_signaled_timestamp)(struct dma_fence *fence);
- };
++		DRM_INFO("Host memory window: 0x%lx +0x%lx\n",
++			 (unsigned long)vgdev->host_visible_region.addr,
++			 (unsigned long)vgdev->host_visible_region.len);
++		vgdev->has_host_visible = true;
++	}
  
- void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+-	DRM_INFO("features: %cvirgl %cedid %cresource_blob\n",
++	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\n",
+ 		 vgdev->has_virgl_3d    ? '+' : '-',
+ 		 vgdev->has_edid        ? '+' : '-',
+-		 vgdev->has_resource_blob ? '+' : '-');
++		 vgdev->has_resource_blob ? '+' : '-',
++		 vgdev->has_host_visible ? '+' : '-');
+ 
+ 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
+ 	if (ret) {
 -- 
-2.7.4
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
