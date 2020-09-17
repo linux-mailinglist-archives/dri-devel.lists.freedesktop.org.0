@@ -2,91 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B8026D524
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 09:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C60226D53E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 09:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB9A6EAE1;
-	Thu, 17 Sep 2020 07:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 908796EB0A;
+	Thu, 17 Sep 2020 07:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0C16EAE1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 07:50:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JtN9J6g67k4rLxABgl/uCHOLwpY6yXssOvCxG6f/0nMH/HwvziLNmzyVBcXmZmKTlMAXIxyJBvWrwp8WdKr/UtRRMRiIGAJIuK4ii/0Hpzmm8ambyaDaHgyCBhocQRHhAWUpWYytghqIzPLy0fjNvpQAfZYE1UpeOrenK8U+0rJQtf4qca0x4RLN91GKHKH6s3MrtphbFCSZwaZG8Dq+KCVinBwyDAp+Eepp8nahKsishLwNrfkJ252HdaTnpsulKp+p8n31YMeGdTElSRetVkhbdHeCHc66s5H8p3ZEP+3jlnYUSoQfob0GgTycglWDGgTW+qzVv9uwIEB2XD3smw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=niMxo3hKfXuAmFukHVY+rCXwtk8/jxQl6kp/McUuero=;
- b=kSN7r8FYSJWKnKU2QBtWm8qCKDVmGJwB4R58YR3V5EntNe9Mwl/G705HHfbF7AKzLglErm+txCmth53EXhM6YW9mulT4vDHt5p73JQVv94FyZrzML+f+3VqgGdRn1BxCb1WJQP6EX62VMFT7KH14Zn9QaActE5mX1MnjsbPBL+VmjR30KhoX/mfLMkndj6qKUlabZsqw3VWDQDAjvh07H88u/74czV3twyy70YmstHba4UEgHExR9as8Fnws79pzQC1fh4aocaiW4vc50L7KDz0jcQKcJTE5ZW7tRWESCTTR6TpRBRx6r89gC1aQc+YKudzU9L0a9+HPOFzf1brFkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=niMxo3hKfXuAmFukHVY+rCXwtk8/jxQl6kp/McUuero=;
- b=0DMfHwAZFf0TXAuIvo6F1y7TNDYO/RRb6cpQ/089gyLqpRvdlS0SArEvOnFZiKTwszAjKQ1QlxwB0tdzgk/l6fvWgBq2KO08vd3U4yg/lnjEHKE4GE1u7WAMfP+bQlJjh0RZG7sAMKRSMLDpjL34NKjnlP9+B51+mfQb9Dbnp3c=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4518.namprd12.prod.outlook.com (2603:10b6:208:266::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Thu, 17 Sep
- 2020 07:50:39 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3391.014; Thu, 17 Sep 2020
- 07:50:39 +0000
-Subject: Re: [PATCH 5/7] drm/ttm: add a simple assign mem to bo wrapper
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200917043040.146575-1-airlied@gmail.com>
- <20200917043040.146575-6-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <1ae9d49a-4ece-28d4-8eb6-21b9799538d5@amd.com>
-Date: Thu, 17 Sep 2020 09:50:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200917043040.146575-6-airlied@gmail.com>
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR0101CA0049.eurprd01.prod.exchangelabs.com
- (2603:10a6:200:41::17) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C49A96EB0A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 07:52:42 +0000 (UTC)
+Received: by mail-oo1-xc44.google.com with SMTP id y25so353402oog.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MLPliof4bq0obfk79tkyGvNCXOsQ7BD3hMLvNlRm5YM=;
+ b=lmjV7jmhWrrKBgwXp0qVWAIjnmXSdwAdsxB903/bd62vT+zHtKE9WbtHZyZXX3qNS2
+ WlUVKNrmMtsp72We2nbFAa2OXrUh1ZbfSLTjkPhxQFuOxy0qTO/EwUvkDEvVGIrlOppf
+ 13pXw6YdaE5AVqPvasda/afzRcLhX0t9qeEiA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MLPliof4bq0obfk79tkyGvNCXOsQ7BD3hMLvNlRm5YM=;
+ b=plLsSnmqQweHGu1j7UuHeZvMoL7WNxF2EZL6DPDcYos8h4GC5s2kBFpalk0XGXDCeJ
+ EaULJWnEUFHSGW74Dqe1z5dCyHP8o6ZrIu+ETh2R6ylbJJfl1c4gAA44Zy0FT5gAa8zg
+ 9bnRF0JdXAwtTmL99KcfGeUsSWz38dmTSBhS+9YD2HERDyJSq/TawxFjYhrbSFh7ONBl
+ PLVNmCTY+lmRVj1L3uJ5CMevLjJtyDTM0YRQDXC4voL9SnHmR1yg30eHE/73G2OyhjTl
+ c5JgH5Yt41F1sIOtRscdoM+vm1qHGlCPEGa9hazrSEo9AvTPM37miX4mlZRYwWSm0mD+
+ 1+SA==
+X-Gm-Message-State: AOAM53319Oki6c+liR5R9nD0xoWvrUFsVUNuKvoyoGJyZfy59qsG+Ki5
+ drFyJIPXf9WN9UnpW323Kh5cQJNAbi32FbBDB/NAzQ==
+X-Google-Smtp-Source: ABdhPJxPknb4buPkkRJBTjkJiQFcegse2PBpzAyrqY3dsF9AaqJyFoI197M/VYgwOZcC5hfcFxFqVJKZ4UAY/QNVlo0=
+X-Received: by 2002:a4a:3b44:: with SMTP id s65mr20346105oos.85.1600329161458; 
+ Thu, 17 Sep 2020 00:52:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR0101CA0049.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend
- Transport; Thu, 17 Sep 2020 07:50:38 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 641758b5-c118-43d8-71cb-08d85ade5e90
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4518:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB45181A903E69601DF4F055D0833E0@MN2PR12MB4518.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NeIFgerfKJ75SXnXyxl57yrVvQVGDW79mp4n7N6gq4OtlFkNcjqaWrmgqawdrIUbY+7tLXj/jJL0dEYvUmSTCkRZngAIfKxADUde/louZ7BV17H9b6XCvuh7/hS/qpyRUFqI4QE6zY3uIY5qBkR1aRByDiReChMK9JisRonbWHcBEPZ4f7HKCrcsBm6iBlU6D+H4wQATtmsrIsIBmUFuQiYfJbIv5j5khF3lXHHoCQjdbkb8HlkeZ4TCjI9JF+AgU3B43nswr67f7vV2TTsgWBacEbcr2aWb2UgpOqUs4AAJb3WSXD3t7w6ha2xiNg3qRKSqlUGNjK1M6FwMkiO6cCUNWGr61pCOz8kbY3C5V9ayO6LAIGHqet2t1sf79kpt
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(346002)(376002)(366004)(136003)(6666004)(8936002)(86362001)(16526019)(316002)(8676002)(31696002)(186003)(52116002)(83380400001)(2906002)(36756003)(5660300002)(66946007)(66574015)(6486002)(66556008)(31686004)(478600001)(2616005)(66476007)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: b2PR9pWQlgzvNS4AJjDybE1mxFSskP01EehlUC6B049V/KEUGA/uNNOJh2udnoDYpue3kP+mHugx5pdk4b2rYu6kZXioBwfZQs4zHKWk5qf/j/YL+50+zhSaOdC5aPsmMg0ODgXtifNpo8zMlqfCmUqjtA4MZLO4Z1nPC9DKpjxGAYzHm9SKq7RBNNf26IiJatzVoIaXRBbUYd12cWqQcDop+0G2JIyVcPvJrhIYWszuJ9BS9GAls7he2mG4xQF/HzAG2izzQ/dYepZCAsKIINQuZSMgk+b4L2AUV/S/hDODfYahE6oykdS9DQMNLvTdG1UnFHgwpwE7J5KxAmIL0NvwEiwrqMbAZdlJSHjdGRYNp568G3Nl0oQusxRNfepljEtWXf/cRTPIX6KtDzmja5F5x0zc3yCs1yQv4J/4PfU3E6iE0fWdXKRRmrTqDme0BEPOBwzfeTd93rzCnYc5RmzyEHgF+0Ad1hQ3aWIYZFaS9tvp7Og8upZYXGg/kMrMLldRcOpus8fWsnYD1J0fpictG4dqJoxsmSPz67fGR+A5E8r/iLRZjeSFV9rEWLHpfcS8GDEgqgqL/hgK8du1rL8n1ZupSdXaCgQH46wqjOG7BYVKT+Os2WoGVbnmVOWZdtDpvHN+A71lmEa1YBgnSy1K48ImpNmMHDtGWbpDl/Fx/vn+aTeMSC9cp6voSr/wOPmFcBs1G4sN9bPlSj4Ebw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 641758b5-c118-43d8-71cb-08d85ade5e90
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 07:50:39.0218 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zqp1nVp30DJ57xOKvGaOxvaN9+zvfnwPA4lRNL4Vbj+PQy7de/l4Zac0EKE778nC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4518
+References: <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ <871rj4owfn.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+ <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
+ <20200916152956.GV29330@paulmck-ThinkPad-P72>
+ <CAKMK7uGFyfhEyt=jmdk2jDO-hq0_Pf0ck+cKSELHjr2U3rPuYQ@mail.gmail.com>
+ <20200916205840.GD29330@paulmck-ThinkPad-P72>
+ <CAKMK7uHL2dMv80b8uBXr=BqHD2TQeODQQM1MGYhAfCYbX7sLrA@mail.gmail.com>
+ <20200916223951.GG29330@paulmck-ThinkPad-P72>
+In-Reply-To: <20200916223951.GG29330@paulmck-ThinkPad-P72>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 17 Sep 2020 09:52:30 +0200
+Message-ID: <CAKMK7uFXD7FzGZJZx0QAR2WdbewGmLnsSVaH7+HD0XSr--f0kw@mail.gmail.com>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+To: "Paul E. McKenney" <paulmck@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,71 +67,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, Jeff Dike <jdike@addtoit.com>,
+ linux-um <linux-um@lists.infradead.org>, Josh Triplett <josh@joshtriplett.org>,
+ Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>, alpha <linux-alpha@vger.kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTcuMDkuMjAgdW0gMDY6MzAgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gVGhpcyBwYXR0ZXJuIGlzIGNhbGxlZCBpbiBh
-IGZldyBwbGFjZXMsIGp1c3QgY2xlYW4gaXQgdXAuCj4KPiBTaWduZWQtb2ZmLWJ5OiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgoKUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcg
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRt
-L3R0bV9ib191dGlsLmMgfCAxOCArKysrKystLS0tLS0tLS0tLS0KPiAgIGluY2x1ZGUvZHJtL3R0
-bS90dG1fYm9fZHJpdmVyLmggICB8IDEwICsrKysrKysrLS0KPiAgIDIgZmlsZXMgY2hhbmdlZCwg
-MTQgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9f
-dXRpbC5jCj4gaW5kZXggOTE5NDg5ZjZhNWEzLi41YThkNzdlZjUwNGYgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3R0bS90dG1fYm9fdXRpbC5jCj4gQEAgLTg3LDkgKzg3LDcgQEAgaW50IHR0bV9ib19tb3ZlX3R0
-bShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCQkJcmV0dXJuIHJldDsKPiAgIAl9
-Cj4gICAKPiAtCSpvbGRfbWVtID0gKm5ld19tZW07Cj4gLQluZXdfbWVtLT5tbV9ub2RlID0gTlVM
-TDsKPiAtCj4gKwl0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gICAJcmV0dXJuIDA7
-Cj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MKHR0bV9ib19tb3ZlX3R0bSk7Cj4gQEAgLTI5OSw4ICsy
-OTcsOCBAQCBpbnQgdHRtX2JvX21vdmVfbWVtY3B5KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
-Ym8sCj4gICAJbWIoKTsKPiAgIG91dDI6Cj4gICAJb2xkX2NvcHkgPSAqb2xkX21lbTsKPiAtCSpv
-bGRfbWVtID0gKm5ld19tZW07Cj4gLQluZXdfbWVtLT5tbV9ub2RlID0gTlVMTDsKPiArCj4gKwl0
-dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gICAKPiAgIAlpZiAoIW1hbi0+dXNlX3R0
-KQo+ICAgCQl0dG1fYm9fdHRfZGVzdHJveShibyk7Cj4gQEAgLTUzNSw3ICs1MzMsNiBAQCBpbnQg
-dHRtX2JvX21vdmVfYWNjZWxfY2xlYW51cChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+
-ICAgewo+ICAgCXN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2ID0gYm8tPmJkZXY7Cj4gICAJc3Ry
-dWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICptYW4gPSB0dG1fbWFuYWdlcl90eXBlKGJkZXYsIG5l
-d19tZW0tPm1lbV90eXBlKTsKPiAtCXN0cnVjdCB0dG1fcmVzb3VyY2UgKm9sZF9tZW0gPSAmYm8t
-Pm1lbTsKPiAgIAlpbnQgcmV0Owo+ICAgCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqZ2hvc3Rf
-b2JqOwo+ICAgCj4gQEAgLTU4Miw4ICs1NzksNyBAQCBpbnQgdHRtX2JvX21vdmVfYWNjZWxfY2xl
-YW51cChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCQl0dG1fYm9fcHV0KGdob3N0
-X29iaik7Cj4gICAJfQo+ICAgCj4gLQkqb2xkX21lbSA9ICpuZXdfbWVtOwo+IC0JbmV3X21lbS0+
-bW1fbm9kZSA9IE5VTEw7Cj4gKwl0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gICAK
-PiAgIAlyZXR1cm4gMDsKPiAgIH0KPiBAQCAtNTk0LDkgKzU5MCw4IEBAIGludCB0dG1fYm9fcGlw
-ZWxpbmVfbW92ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCQkJIHN0cnVjdCB0
-dG1fcmVzb3VyY2UgKm5ld19tZW0pCj4gICB7Cj4gICAJc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
-ZXYgPSBiby0+YmRldjsKPiAtCXN0cnVjdCB0dG1fcmVzb3VyY2UgKm9sZF9tZW0gPSAmYm8tPm1l
-bTsKPiAgIAo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyICpmcm9tID0gdHRtX21hbmFn
-ZXJfdHlwZShiZGV2LCBvbGRfbWVtLT5tZW1fdHlwZSk7Cj4gKwlzdHJ1Y3QgdHRtX3Jlc291cmNl
-X21hbmFnZXIgKmZyb20gPSB0dG1fbWFuYWdlcl90eXBlKGJkZXYsIGJvLT5tZW0ubWVtX3R5cGUp
-Owo+ICAgCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqdG8gPSB0dG1fbWFuYWdlcl90eXBl
-KGJkZXYsIG5ld19tZW0tPm1lbV90eXBlKTsKPiAgIAo+ICAgCWludCByZXQ7Cj4gQEAgLTY3Myw4
-ICs2NjgsNyBAQCBpbnQgdHRtX2JvX3BpcGVsaW5lX21vdmUoc3RydWN0IHR0bV9idWZmZXJfb2Jq
-ZWN0ICpibywKPiAgIAkJdHRtX2JvX2ZyZWVfb2xkX25vZGUoYm8pOwo+ICAgCX0KPiAgIAo+IC0J
-Km9sZF9tZW0gPSAqbmV3X21lbTsKPiAtCW5ld19tZW0tPm1tX25vZGUgPSBOVUxMOwo+ICsJdHRt
-X2JvX2Fzc2lnbl9tZW0oYm8sIG5ld19tZW0pOwo+ICAgCj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4g
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggYi9pbmNsdWRlL2Ry
-bS90dG0vdHRtX2JvX2RyaXZlci5oCj4gaW5kZXggNzg0NmRmYTUwN2Y3Li4yNWNjOTMyZDYzZjEg
-MTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+ICsrKyBiL2lu
-Y2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPiBAQCAtNTM5LDYgKzUzOSwxMyBAQCBzdGF0
-aWMgaW5saW5lIHZvaWQgdHRtX2JvX21vdmVfdG9fbHJ1X3RhaWxfdW5sb2NrZWQoc3RydWN0IHR0
-bV9idWZmZXJfb2JqZWN0ICpibwo+ICAgCXNwaW5fdW5sb2NrKCZ0dG1fYm9fZ2xvYi5scnVfbG9j
-ayk7Cj4gICB9Cj4gICAKPiArc3RhdGljIGlubGluZSB2b2lkIHR0bV9ib19hc3NpZ25fbWVtKHN0
-cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gKwkJCQkgICAgIHN0cnVjdCB0dG1fcmVzb3Vy
-Y2UgKm5ld19tZW0pCj4gK3sKPiArCWJvLT5tZW0gPSAqbmV3X21lbTsKPiArCW5ld19tZW0tPm1t
-X25vZGUgPSBOVUxMOwo+ICt9Cj4gKwo+ICAgLyoqCj4gICAgKiB0dG1fYm9fbW92ZV9udWxsID0g
-YXNzaWduIG1lbW9yeSBmb3IgYSBidWZmZXIgb2JqZWN0Lgo+ICAgICogQGJvOiBUaGUgYm8gdG8g
-YXNzaWduIHRoZSBtZW1vcnkgdG8KPiBAQCAtNTUyLDggKzU1OSw3IEBAIHN0YXRpYyBpbmxpbmUg
-dm9pZCB0dG1fYm9fbW92ZV9udWxsKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gICAJ
-c3RydWN0IHR0bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+bWVtOwo+ICAgCj4gICAJV0FSTl9P
-TihvbGRfbWVtLT5tbV9ub2RlICE9IE5VTEwpOwo+IC0JKm9sZF9tZW0gPSAqbmV3X21lbTsKPiAt
-CW5ld19tZW0tPm1tX25vZGUgPSBOVUxMOwo+ICsJdHRtX2JvX2Fzc2lnbl9tZW0oYm8sIG5ld19t
-ZW0pOwo+ICAgfQo+ICAgCj4gICAvKioKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Thu, Sep 17, 2020 at 12:39 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Wed, Sep 16, 2020 at 11:43:02PM +0200, Daniel Vetter wrote:
+> > On Wed, Sep 16, 2020 at 10:58 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > >
+> > > On Wed, Sep 16, 2020 at 10:29:06PM +0200, Daniel Vetter wrote:
+> > > > On Wed, Sep 16, 2020 at 5:29 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > >
+> > > > > On Wed, Sep 16, 2020 at 09:37:17AM +0200, Daniel Vetter wrote:
+> > > > > > On Tue, Sep 15, 2020 at 7:35 PM Linus Torvalds
+> > > > > > <torvalds@linux-foundation.org> wrote:
+> > > > > > >
+> > > > > > > On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > > > > > > >
+> > > > > > > > OTOH, having a working 'preemptible()' or maybe better named
+> > > > > > > > 'can_schedule()' check makes tons of sense to make decisions about
+> > > > > > > > allocation modes or other things.
+> > > > > > >
+> > > > > > > No. I think that those kinds of decisions about actual behavior are
+> > > > > > > always simply fundamentally wrong.
+> > > > > > >
+> > > > > > > Note that this is very different from having warnings about invalid
+> > > > > > > use. THAT is correct. It may not warn in all configurations, but that
+> > > > > > > doesn't matter: what matters is that it warns in common enough
+> > > > > > > configurations that developers will catch it.
+> > > > > > >
+> > > > > > > So having a warning in "might_sleep()" that doesn't always trigger,
+> > > > > > > because you have a limited configuration that can't even detect the
+> > > > > > > situation, that's fine and dandy and intentional.
+> > > > > > >
+> > > > > > > But having code like
+> > > > > > >
+> > > > > > >        if (can_schedule())
+> > > > > > >            .. do something different ..
+> > > > > > >
+> > > > > > > is fundamentally complete and utter garbage.
+> > > > > > >
+> > > > > > > It's one thing if you test for "am I in hardware interrupt context".
+> > > > > > > Those tests aren't great either, but at least they make sense.
+> > > > > > >
+> > > > > > > But a driver - or some library routine - making a difference based on
+> > > > > > > some nebulous "can I schedule" is fundamentally and basically WRONG.
+> > > > > > >
+> > > > > > > If some code changes behavior, it needs to be explicit to the *caller*
+> > > > > > > of that code.
+> > > > > > >
+> > > > > > > So this is why GFP_ATOMIC is fine, but "if (!can_schedule())
+> > > > > > > do_something_atomic()" is pure shite.
+> > > > > > >
+> > > > > > > And I am not IN THE LEAST interested in trying to help people doing
+> > > > > > > pure shite. We need to fix them. Like the crypto code is getting
+> > > > > > > fixed.
+> > > > > >
+> > > > > > Just figured I'll throw my +1 in from reading too many (gpu) drivers.
+> > > > > > Code that tries to cleverly adjust its behaviour depending upon the
+> > > > > > context it's running in is harder to understand and blows up in more
+> > > > > > interesting ways. We still have drm_can_sleep() and it's mostly just
+> > > > > > used for debug code, and I've largely ended up just deleting
+> > > > > > everything that used it because when you're driver is blowing up the
+> > > > > > last thing you want is to realize your debug code and output can't be
+> > > > > > relied upon. Or worse, that the only Oops you have is the one in the
+> > > > > > debug code, because the real one scrolled away - the original idea
+> > > > > > behind drm_can_sleep was to make all the modeset code work
+> > > > > > automagically both in normal ioctl/kworker context and in the panic
+> > > > > > handlers or kgdb callbacks. Wishful thinking at best.
+> > > > > >
+> > > > > > Also at least for me that extends to everything, e.g. I much prefer
+> > > > > > explicit spin_lock and spin_lock_irq vs magic spin_lock_irqsave for
+> > > > > > locks shared with interrupt handlers, since the former two gives me
+> > > > > > clear information from which contexts such function can be called.
+> > > > > > Other end is the memalloc_no*_save/restore functions, where I recently
+> > > > > > made a real big fool of myself because I didn't realize how much that
+> > > > > > impacts everything that's run within - suddenly "GFP_KERNEL for small
+> > > > > > stuff never fails" is wrong everywhere.
+> > > > > >
+> > > > > > It's all great for debugging and sanity checks (and we run with all
+> > > > > > that stuff enabled in our CI), but really semantic changes depending
+> > > > > > upon magic context checks freak my out :-)
+> > > > >
+> > > > > All fair, but some of us need to write code that must handle being
+> > > > > invoked from a wide variety of contexts.  Now perhaps you like the idea of
+> > > > > call_rcu() for schedulable contexts, call_rcu_nosched() when preemption
+> > > > > is disabled, call_rcu_irqs_are_disabled() when interrupts are disabled,
+> > > > > call_rcu_raw_atomic() from contexts where (for example) raw spinlocks
+> > > > > are held, and so on.  However, from what I can see, most people instead
+> > > > > consistently prefer that the RCU API instead be consolidated.
+> > > > >
+> > > > > Some in-flight cache-efficiency work for kvfree_rcu() and call_rcu()
+> > > > > needs to be able to allocate memory occasionally.  It can do that when
+> > > > > invoked from some contexts, but not when invoked from others.  Right now,
+> > > > > in !PREEMPT kernels, it cannot tell, and must either do things to the
+> > > > > memory allocators that some of the MM hate or must unnecessarily invoke
+> > > > > workqueues.  Thomas's patches would allow the code to just allocate in
+> > > > > the common case when these primitives are invoked from contexts where
+> > > > > allocation is permitted.
+> > > > >
+> > > > > If we want to restrict access to the can_schedule() or whatever primitive,
+> > > > > fine and good.  We can add a check to checkpatch.pl, for example.  Maybe
+> > > > > we can go back to the old brlock approach of requiring certain people's
+> > > > > review for each addition to the kernel.
+> > > > >
+> > > > > But there really are use cases that it would greatly help.
+> > > >
+> > > > We can deadlock in random fun places if random stuff we're calling
+> > > > suddenly starts allocating. Sometimes. Maybe once in a blue moon, to
+> > > > make it extra fun to reproduce. Maybe most driver subsystems are less
+> > > > brittle, but gpu drivers definitely need to know about the details for
+> > > > exactly this example. And yes gpu drivers use rcu for freeing
+> > > > dma_fence structures, and that tends to happen in code that we only
+> > > > recently figured out should really not allocate memory.
+> > > >
+> > > > I think minimally you need to throw in an unconditional
+> > > > fs_reclaim_acquire();fs_reclaim_release(); so that everyone who runs
+> > > > with full debugging knows what might happen. It's kinda like
+> > > > might_sleep, but a lot more specific. might_sleep() alone is not
+> > > > enough, because in the specific code paths I'm thinking of (and
+> > > > created special lockdep annotations for just recently) sleeping is
+> > > > allowed, but any memory allocations with GFP_RECLAIM set are no-go.
+> > >
+> > > Completely agreed!  Any allocation on any free path must be handled
+> > > -extremely- carefully.  To that end...
+> > >
+> > > First, there is always a fallback in case the allocation fails.  Which
+> > > might have performance or corner-case robustness issues, but which will
+> > > at least allow forward progress.  Second, we consulted with a number of
+> > > MM experts to arrive at appropriate GFP_* flags (and their patience is
+> > > greatly appreciated).  Third, the paths that can allocate will do so about
+> > > one time of 500, so any issues should be spotted sooner rather than later.
+> > >
+> > > So you are quite right to be concerned, but I believe we will be doing the
+> > > right things.  And based on his previous track record, I am also quite
+> > > certain that Mr. Murphy will be on hand to provide me any additional
+> > > education that I might require.
+> > >
+> > > Finally, I have noted down your point about fs_reclaim_acquire() and
+> > > fs_reclaim_release().  Whether or not they prove to be needed, I do
+> > > appreciate your calling them to my attention.
+> >
+> > I just realized that since these dma_fence structs are refcounted and
+> > userspace can hold references (directly, it can pass them around
+> > behind file descriptors) we might never hit such a path until slightly
+> > unusual or evil userspace does something interesting. Do you have
+> > links to those patches? Some googling didn't turn up anything. I can
+> > then figure out whether it's better to risk not spotting issues with
+> > call_rcu vs slapping a memalloc_noio_save/restore around all these
+> > critical section which force-degrades any allocation to GFP_ATOMIC at
+> > most, but has the risk that we run into code that assumes "GFP_KERNEL
+> > never fails for small stuff" and has a decidedly less tested fallback
+> > path than rcu code.
+>
+> Here is the previous early draft version, which will change considerably
+> for the next version:
+>
+>         lore.kernel.org/lkml/20200809204354.20137-1-urezki@gmail.com
+>
+> This does kvfree_rcu(), but we expect to handle call_rcu() similarly.
+>
+> The version in preparation will use workqueues to do the allocation in a
+> known-safe environment and also use lockless access to certain portions
+> of the allocator caches (as noted earlier, this last is not much loved
+> by some of the MM guys).  Given Thomas's patch, we could with high
+> probability allocate directly, perhaps even not needing memory-allocator
+> modifications.
+>
+> Either way, kvfree_rcu(), and later call_rcu(), will avoid asking the
+> allocator to do anything that the calling context prohibits.  So what
+> types of bugs are you looking for?  Where reclaim calls back into the
+> driver or some such?
+
+Yeah pretty much. It's a problem for gpu, fs, block drivers and really
+anything else that's remotely involved in memory reclaim somehow.
+Generally this is all handled explicitly by passing gfp_t flags down
+any call chain, but in some cases it's instead solved with the
+memalloc_no* functions. E.g. sunrpc uses that to make sure the network
+stack (which generally just assumes it can allocate memory) doesn't,
+to avoid recursions back into nfs/sunrpc. To my knowledge there's no
+way to check at runtime with which gfp flags you're allowed to
+allocate memory, a preemptible check is definitely not enough.
+Disabled preemption implies only GFP_ATOMIC is allowed (ignoring nmi
+and stuff like that), but the inverse is not true.
+
+So if you want the automagic in call_rcu I think either
+- we need to replace all explicit gfp flags with the context marking
+memalloc_no* across the entire kernel, or at least anywhere rcu might
+be used.
+- audit all callchains and make sure a call_rcu_noalloc is used
+anywhere there might be a problem. probably better to have a
+call_rcu_gfp with explicit gfp flags parameter, since generally that
+needs to be passed down.
+
+But at least to me the lockless magic in mm sounds a lot safer, since
+it contains the complexity and doesn't leak it out to callers of
+call_rcu.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
