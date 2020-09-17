@@ -1,59 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E55B26DA8C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 13:43:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6F026DADA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 13:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D598D6E142;
-	Thu, 17 Sep 2020 11:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55BC76E145;
+	Thu, 17 Sep 2020 11:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517A46E142
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 11:42:59 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id d4so1643639wmd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 04:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=E4xWlrXweruHlaAxgSevk7wBVFJ7f+2b4AClFBSKPeY=;
- b=YLSsJm8exuvfODWOb53dhcrD7GGg5Q8BlD3XFoZNiHE84krwWMRq7yDQJUoi2nl4UW
- fUV3XL4FIEDsQpcIZBRGCSTSArVU08ObjC5ouh46zp6HVKmx5E6uqvWqND/V4Va0+uhO
- PogPk0yJ+clLQ/XBjt6vWlbY7Zi6Q7nIzEZH0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=E4xWlrXweruHlaAxgSevk7wBVFJ7f+2b4AClFBSKPeY=;
- b=MU6SGJwlL2/9KpA0DcK6XPr9eQtfefG83QpbyMca4ZQrpJBFOGq7yDHnNqL9ryJI3b
- kSJb7vMyh9K17iP8Xv4t2GZyBfQ/3PzMqUknxxemW2Gu6Wn8TTKxw5jy3FEE959RAkVA
- wjhnUcnwS5skTnAeZnkQx66Q5dAU1/RrgWVnIhrhmOxNAut4lygytvAwD2kV+TdUtk2h
- 55/x8M3T/ul110vLMdrQNgYVgW7ACqd1Zc6OGe3AWWmroZK3gaEblpAochgnURxBbEnx
- OfHIIgUPfiGm2Mo2Q+57MQb73r5Hnclornj0ACOJ6eACvZt45RRy9l9EQzSG6kpXDqZU
- RveA==
-X-Gm-Message-State: AOAM531nC2serEC8H1WhspF78zClGUDulFurY7wVYuSWI0vY/3O5Wnh1
- v6PGkCAPkxSzvCPqWdROeeYYtQ==
-X-Google-Smtp-Source: ABdhPJyYywPki1icujqAvyzUeaAkpap1JWVOubPRx4Fm1O4x0JVl+OGMqSGvVFmKJIBN1rLrcIFpoQ==
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr9511533wme.8.1600342977995; 
- Thu, 17 Sep 2020 04:42:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a20sm10363039wmm.40.2020.09.17.04.42.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 04:42:57 -0700 (PDT)
-Date: Thu, 17 Sep 2020 13:42:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/ttm: remove superflous extern attribute from funcs
-Message-ID: <20200917114255.GV438822@phenom.ffwll.local>
-References: <20200917094837.2787-1-christian.koenig@amd.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2077.outbound.protection.outlook.com [40.107.243.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E391D6E145
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 11:56:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZlACktM+RzCbiHIAvu2vDks3GGiiqT4wEptIBOfW7aqFULR+SbHtzs8TUek+irGrzRlFCqJhSWOX2id6uBP+VsOPMfaiHl/JKio2d+8wJ01oGkfxVbUs3+pkq2wUdchZJl0DHcZVl4KiRtgdQyv5y1vQLiD3bgpKLcRjQHC02IAd1euxnxMs6meXONfKHgg55TwZn85AwbgutShBWy8s6e6CvF7UfbMUtV38ymN+WIUaRttvbl9p+IDza5sxC1D11NPSMcmrPT0VCAWT0LnWI38PcJITktaJIECir750k0ZQo1ePjAx+v4X7K3LcS7Ts26RPtTFe6L/n47dTjSzPTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L9TMCTF2NL79IPMiBgTFU1ihOq5tg8q69j9hsFpjHqk=;
+ b=ifoQaM82+79PL76LESLBU5sCPPMhlPc68MrCC63VerXWucapyZEkY9+kHyXgjwvDPhkomLZT83Op3Wfb9whUoxzEbLRnJpGYCUCbQjEI2PJDTh+QbEgrDOLib8ipve0FkQIuypBIm7fw/4WenlUhZeqlPqbfdV5gWlpDPFXI9X75yaq9+s2uo6ejJJowO9mRzp9ybQUFeFH08PDhQ/hugTsGJrZpoSi6fR/7/iZeff7P85nCY2wSqrVzv3v73J9h/VLiITsx7LpfcZSz/P/RE0SY2q351+I2ArzQYTYHf43H8scf4yEnnWiTsQG16YjgVn60RnTDi6EniHxVJwf2jA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L9TMCTF2NL79IPMiBgTFU1ihOq5tg8q69j9hsFpjHqk=;
+ b=1jg1GOaBXgiKWpOgFV1KDpEJaPaNsRaIJneeIYTWAjilnbbIvBgJB8tFFkWL19YdRAmPNruxltjYq/irjKnZO6Z3mvNOVPGFfyCk9LpOfyrHwF4aFL0Pw4AP58mdJ6hf1yz3iLt6t2qLlHDPS7AS8mCIURh9JH1eMN0gdGy9sGY=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3792.namprd12.prod.outlook.com (2603:10b6:208:16e::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Thu, 17 Sep
+ 2020 11:56:20 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3391.014; Thu, 17 Sep 2020
+ 11:56:20 +0000
+Subject: Re: [PATCH] drm/ttm: remove redundant initialization of variable ret
+To: Jing Xiangfeng <jingxiangfeng@huawei.com>, ray.huang@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20200917114246.93291-1-jingxiangfeng@huawei.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <d7d1403a-acdb-e823-e7ba-e973860e3e4b@amd.com>
+Date: Thu, 17 Sep 2020 13:56:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200917114246.93291-1-jingxiangfeng@huawei.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR01CA0111.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::16) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200917094837.2787-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR01CA0111.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11 via Frontend
+ Transport; Thu, 17 Sep 2020 11:56:18 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 41b71631-cfd5-45b8-b678-08d85b00b0da
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3792:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3792D9C008BE7A8CCE63788F833E0@MN2PR12MB3792.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ghg3C3IJfVa54+wkTpxag+HyoAIN+xJqcBzEERfmJ8asAnd2aKRcyz2raHXoX52TFWo//A3OKBjwkurSut06Yql2ODoWglEZyNoXFx7u2jxctqIpsuntEgUSA/SfSvwG5jI97pF7L2taGSlfvRXhw5mkzS+nz6xLGjFmVHIROOxlN9lvTcMjhUNriNl9fydDKo7RLKtppjQQZZnouKS7ufblobPr9DFeRS/WudrtjciiAFbIkNx+VpoXa40cWJFebiTt4GyCAeHD6xwaLrniWVrT+9xCz3sriVP/WFJd6uUuHszbwLfWUXgZl2B62nxb7zza1MTkqIVaDw2aSdOKGCHSSCqPnZVaKR9sCrjFvN8/+V4YEiv0P7r8W/2w3pPh
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(136003)(39860400002)(396003)(366004)(6666004)(31686004)(2906002)(66946007)(83380400001)(52116002)(4326008)(6486002)(86362001)(16526019)(36756003)(8936002)(186003)(2616005)(31696002)(316002)(4744005)(66476007)(66556008)(478600001)(5660300002)(8676002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: YtYxhfCM+W6EzbvuizTiay150+VSmQmG24tYCqlaLSM5n2w5oQ14kcfPu9CoQY2n66bFoenkhNCUt/W1932lZi7JUAqEGrCVdKILhf9hBANuVIST2WrwoWOEpuihPNs34cnkSNBv3LfDNm+WUPLZfyb0xRyRZnT6u5iMeSo1jAdRCB4G7M1vhYWEuhXvFm0ijtMEkBXNhkX9rrldP67r8rTR4XH0snzp0mg/lb/N6fI5Ahn8lYIAPBtD0Lqg0f3mPN4EgfpmWuh7/7PZnt7Ic4AWHQEFEqb3PJHTK6MwCbBQ46tCxYmlOF9H6rCgg4Pd11KRjAQLEgsuUy15aU2QTGtfmzIxpxjgDe4sMYvyAncB9ktGTfwbdUsoclePt6ibmbRELr9KXRrI9xzEg7z5TdrJ94YO7F9JHaSV8Bh7eCyy4LBbHghw+EEcQLNMOzHULM/s2ImPjae97LoQZ9n+/onqdjP/ClwoPoQ6xZK5jRM2F1WPM1qQeOZxNY6oQCqWGC0VGXAOU8FZ7xfV8ovCefRjjYMGa71SId/7y9TXVFb9CEFDQ+ttXF7isfS9IepeZ3Jjin67MJEx9wuDfu5rcTWIGGGsj97zQ7iNahxPmGYlCXW9hZsLhR0L6bKUcfoQq1tFYPPzY4erWTVthmjdZmQNe5mwCPCKXTTaW1gZelNMyPUmL/wnjJkoML1LeBqZLMLVA/cviIJN3Uk8TnEObA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41b71631-cfd5-45b8-b678-08d85b00b0da
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 11:56:19.9925 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IFu1wsO4igYrEkYZIKm5c0AkrD6La2fsIkEfoKSYbtAfl0eHENV9RueMWro7mudH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3792
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,128 +99,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 17, 2020 at 11:48:37AM +0200, Christian K=F6nig wrote:
-> Extern is the default attribute for functions anyway.
-> =
+Am 17.09.20 um 13:42 schrieb Jing Xiangfeng:
+> The variable ret is being initialized with '-ENOMEM' that is
+> meaningless. So remove it.
+>
+> Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
 
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Stumbled over the same thing just a few days ago, so this is already 
+fixed in my branch.
 
 > ---
->  include/drm/ttm/ttm_execbuf_util.h | 19 ++++++++-----------
->  include/drm/ttm/ttm_memory.h       | 25 ++++++++++++-------------
->  2 files changed, 20 insertions(+), 24 deletions(-)
-> =
+>   drivers/gpu/drm/ttm/ttm_tt.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 3437711ddb43..4db87b9b57a8 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -388,7 +388,7 @@ int ttm_tt_swapout(struct ttm_tt *ttm, struct file *persistent_swap_storage)
+>   	struct page *from_page;
+>   	struct page *to_page;
+>   	int i;
+> -	int ret = -ENOMEM;
+> +	int ret;
+>   
+>   	BUG_ON(ttm->state != tt_unbound && ttm->state != tt_unpopulated);
+>   	BUG_ON(ttm->caching_state != tt_cached);
 
-> diff --git a/include/drm/ttm/ttm_execbuf_util.h b/include/drm/ttm/ttm_exe=
-cbuf_util.h
-> index 5a19843bb80d..a99d7fdf2964 100644
-> --- a/include/drm/ttm/ttm_execbuf_util.h
-> +++ b/include/drm/ttm/ttm_execbuf_util.h
-> @@ -58,9 +58,8 @@ struct ttm_validate_buffer {
->   * Undoes all buffer validation reservations for bos pointed to by
->   * the list entries.
->   */
-> -
-> -extern void ttm_eu_backoff_reservation(struct ww_acquire_ctx *ticket,
-> -				       struct list_head *list);
-> +void ttm_eu_backoff_reservation(struct ww_acquire_ctx *ticket,
-> +				struct list_head *list);
->  =
-
->  /**
->   * function ttm_eu_reserve_buffers
-> @@ -96,10 +95,9 @@ extern void ttm_eu_backoff_reservation(struct ww_acqui=
-re_ctx *ticket,
->   * ttm_eu_fence_buffer_objects() when command submission is complete or
->   * has failed.
->   */
-> -
-> -extern int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
-> -				  struct list_head *list, bool intr,
-> -				  struct list_head *dups);
-> +int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
-> +			   struct list_head *list, bool intr,
-> +			   struct list_head *dups);
->  =
-
->  /**
->   * function ttm_eu_fence_buffer_objects.
-> @@ -113,9 +111,8 @@ extern int ttm_eu_reserve_buffers(struct ww_acquire_c=
-tx *ticket,
->   * It also unreserves all buffers, putting them on lru lists.
->   *
->   */
-> -
-> -extern void ttm_eu_fence_buffer_objects(struct ww_acquire_ctx *ticket,
-> -					struct list_head *list,
-> -					struct dma_fence *fence);
-> +void ttm_eu_fence_buffer_objects(struct ww_acquire_ctx *ticket,
-> +				 struct list_head *list,
-> +				 struct dma_fence *fence);
->  =
-
->  #endif
-> diff --git a/include/drm/ttm/ttm_memory.h b/include/drm/ttm/ttm_memory.h
-> index 2d468d7c94e6..c1f167881e33 100644
-> --- a/include/drm/ttm/ttm_memory.h
-> +++ b/include/drm/ttm/ttm_memory.h
-> @@ -79,18 +79,17 @@ extern struct ttm_mem_global {
->  #endif
->  } ttm_mem_glob;
->  =
-
-> -extern int ttm_mem_global_init(struct ttm_mem_global *glob);
-> -extern void ttm_mem_global_release(struct ttm_mem_global *glob);
-> -extern int ttm_mem_global_alloc(struct ttm_mem_global *glob, uint64_t me=
-mory,
-> +int ttm_mem_global_init(struct ttm_mem_global *glob);
-> +void ttm_mem_global_release(struct ttm_mem_global *glob);
-> +int ttm_mem_global_alloc(struct ttm_mem_global *glob, uint64_t memory,
-> +			 struct ttm_operation_ctx *ctx);
-> +void ttm_mem_global_free(struct ttm_mem_global *glob, uint64_t amount);
-> +int ttm_mem_global_alloc_page(struct ttm_mem_global *glob,
-> +			      struct page *page, uint64_t size,
-> +			      struct ttm_operation_ctx *ctx);
-> +void ttm_mem_global_free_page(struct ttm_mem_global *glob,
-> +			      struct page *page, uint64_t size);
-> +size_t ttm_round_pot(size_t size);
-> +bool ttm_check_under_lowerlimit(struct ttm_mem_global *glob, uint64_t nu=
-m_pages,
->  				struct ttm_operation_ctx *ctx);
-> -extern void ttm_mem_global_free(struct ttm_mem_global *glob,
-> -				uint64_t amount);
-> -extern int ttm_mem_global_alloc_page(struct ttm_mem_global *glob,
-> -				     struct page *page, uint64_t size,
-> -				     struct ttm_operation_ctx *ctx);
-> -extern void ttm_mem_global_free_page(struct ttm_mem_global *glob,
-> -				     struct page *page, uint64_t size);
-> -extern size_t ttm_round_pot(size_t size);
-> -extern bool ttm_check_under_lowerlimit(struct ttm_mem_global *glob,
-> -			uint64_t num_pages, struct ttm_operation_ctx *ctx);
->  #endif
-> -- =
-
-> 2.17.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
