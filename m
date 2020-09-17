@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F03D26D00A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 02:39:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8097F26D01C
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 02:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9C96EB6E;
-	Thu, 17 Sep 2020 00:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3316EB6F;
+	Thu, 17 Sep 2020 00:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7E36EB6E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:39:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7106EB6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 00:44:17 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3055D276;
- Thu, 17 Sep 2020 02:39:18 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F212276;
+ Thu, 17 Sep 2020 02:44:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1600303158;
- bh=Tltwwb5/vif8GfymqHivlccgOKoi7hBKt4at6lyMSPQ=;
+ s=mail; t=1600303455;
+ bh=YUF7PnyeyRe/iS9JXGGKcrQwclQ2vieX+XKJuYJIxwE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U1O8AGVgrl/WeOdlQuIVcZ/XGaVqdT6g5c2hVhdeYj+coXCQ9J2tlFxA+6qkHpcsd
- dT4sGEVP3BVb/9tLlpI9ozL0lF+WdMxgbYC/SIJBTtjnJC7fB01qU5AKUue3TC80Gu
- 8pPHdR/CNkV/amGC188IoKAY4/QgyVRzp8hRTyLs=
-Date: Thu, 17 Sep 2020 03:38:48 +0300
+ b=qBFA8u9Chfplm6Sdlo/Y6YgL19tJzcfmQmg1bRcv1O8brondIzZGAJRjJb1WQwKjc
+ JpBspH8siQJa9eMq1GiH+peVIwYwYTsIOWVm8yrvRrF1lKz0PpNGnWoClNZ3GimW3Q
+ tEvR96cRbeUKWzKgjDu3AXuKwcNNyE4El9EZZK2k=
+Date: Thu, 17 Sep 2020 03:43:45 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH] dt-bindings: dp-connector: add binding for DisplayPort
- connector
-Message-ID: <20200917003848.GN3853@pendragon.ideasonboard.com>
-References: <20200916144440.233714-1-tomi.valkeinen@ti.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: Put reference to VSP device
+Message-ID: <20200917004345.GO3853@pendragon.ideasonboard.com>
+References: <20200915233004.GD14954@pendragon.ideasonboard.com>
+ <20200915233832.19769-1-laurent.pinchart+renesas@ideasonboard.com>
+ <1deb9fc0-7f87-ed4a-d719-401e08ad83ca@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200916144440.233714-1-tomi.valkeinen@ti.com>
+In-Reply-To: <1deb9fc0-7f87-ed4a-d719-401e08ad83ca@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,116 +47,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Swapnil Kashinath Jakhade <sjakhade@cadence.com>
+Cc: linux-renesas-soc@vger.kernel.org, Yu Kuai <yukuai3@huawei.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, yi.zhang@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi Kieran,
 
-Thank you for the patch.
-
-On Wed, Sep 16, 2020 at 05:44:40PM +0300, Tomi Valkeinen wrote:
-> Add binding for DisplayPort connector. A few notes:
+On Wed, Sep 16, 2020 at 11:26:36AM +0100, Kieran Bingham wrote:
+> On 16/09/2020 00:38, Laurent Pinchart wrote:
+> > The reference to the VSP device acquired with of_find_device_by_node()
+> > in rcar_du_vsp_init() is never released. Fix it with a drmm action,
+> > which gets run both in the probe error path and in the remove path.
+> > 
+> > Fixes: 6d62ef3ac30b ("drm: rcar-du: Expose the VSP1 compositor through KMS planes")
+> > Reported-by: Yu Kuai <yukuai3@huawei.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
-> * Similar to hdmi-connector, it has hpd-gpios as an optional property,
->   as the HPD could also be handled by, e.g., the DP bridge.
+> Looks nice and clean!
 > 
-> * dp-pwr-supply, which provides 3.3V on DP_PWR pin, is optional, as it
->   is not strictly required: standard DP cables do not even have the pin
->   connected.
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-> * No property for the connector type. Full size and mini connectors are
->   identical except for the connector size and form, so I believe there
->   is no need to include the type in the bindings.
-
-It could be useful to present information about the connector to
-userspace. For instance, a GUI could show a picture of the connector
-that the user should plug a cable in. This can also be added later, but
-I think it would be useful to have it from the start.
-
-> * No eDP. There's really no "eDP connector", as it's always a custom
->   made connection between the DP and the DP panel. So possibly there is
->   no need for edp-connector binding, but even if there is, I don't want
->   to guess what it could look like, and could it be part of the
->   dp-connector binding.
-
-Agreed.
-
-> * No DP++. I'm not familiar with DP++, but I think it's all handled by
->   the DP bridge, and does not need any new properties to the dp-connector.
-
-I'm not familiar with this either.
-
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Possibly with a type property added,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  .../display/connector/dp-connector.yaml       | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/connector/dp-connector.yaml
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > index f1a81c9b184d..fa09b3ae8b9d 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > @@ -13,6 +13,7 @@
+> >  #include <drm/drm_fourcc.h>
+> >  #include <drm/drm_gem_cma_helper.h>
+> >  #include <drm/drm_gem_framebuffer_helper.h>
+> > +#include <drm/drm_managed.h>
+> >  #include <drm/drm_plane_helper.h>
+> >  #include <drm/drm_vblank.h>
+> >  
+> > @@ -341,6 +342,13 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+> >  	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
+> >  };
+> >  
+> > +static void rcar_du_vsp_cleanup(struct drm_device *dev, void *res)
+> > +{
+> > +	struct rcar_du_vsp *vsp = res;
+> > +
+> > +	put_device(vsp->vsp);
 > 
-> diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-> new file mode 100644
-> index 000000000000..983be1fe43f0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/connector/dp-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: DisplayPort Connector
-> +
-> +maintainers:
-> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: dp-connector
-> +
-> +  label: true
-> +
-> +  hpd-gpios:
-> +    description: A GPIO line connected to HPD
-> +    maxItems: 1
-> +
-> +  dp-pwr-supply:
-> +    description: Power supply for the DP_PWR pin
-> +    maxItems: 1
-> +
-> +  port:
-> +    description: Connection to controller providing DP signals
-> +
-> +required:
-> +  - compatible
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    connector {
-> +        compatible = "dp-connector";
-> +        label = "dp0";
-> +
-> +        port {
-> +            dp_connector_in: endpoint {
-> +                remote-endpoint = <&dp_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
+> Ugh the asymmetry of the put_device is a bit annoying, because it's not
+> initially clear that the of_find_device_by_node() call 'gets' a reference.
+> 
+> (Or at least not until you find:
+>   https://lore.kernel.org/patchwork/patch/731284/)
+> 
+> It is stated in the commit message though so that's fine, and although I
+> thought perhaps a comment here might be useful to declare that it
+> releases the reference taken by of_find_device_by_node(), I'm not sure
+> it even adds that much value ... so either way.
+
+I think that the fact that drmm_add_action() is called right after
+of_find_device_by_node() makes this explicit enough.
+
+> > +}
+> > +
+> >  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> >  		     unsigned int crtcs)
+> >  {
+> > @@ -357,6 +365,10 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> >  
+> >  	vsp->vsp = &pdev->dev;
+> >  
+> > +	ret = drmm_add_action(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> >  	ret = vsp1_du_init(vsp->vsp);
+> >  	if (ret < 0)
+> >  		return ret;
+> > 
+> 
 
 -- 
 Regards,
