@@ -2,37 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEDB26DCA7
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 15:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DDE26DCAC
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 15:19:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82CBA6EC6C;
-	Thu, 17 Sep 2020 13:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8706EC7D;
+	Thu, 17 Sep 2020 13:19:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244126EC6C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 13:18:59 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8E43DAFA9;
- Thu, 17 Sep 2020 13:19:31 +0000 (UTC)
-Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v4
-To: Nirmoy <nirmodas@amd.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20200624182648.6976-1-nirmoy.das@amd.com>
- <20200624182648.6976-7-nirmoy.das@amd.com>
- <0f0520f2-3994-8ea8-b7ef-11135c148533@suse.de>
- <98c70355-1e01-a10c-099c-0a37dac5856f@amd.com>
- <5ec8d8d6-cd09-d7bd-19b1-fbd7b92d8198@suse.de>
- <8a5dae4c-0aff-d62a-3d9c-1e3b2e5a2a6e@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <5f9aef29-9ffc-18fa-5eb9-426926ff91d1@suse.de>
-Date: Thu, 17 Sep 2020 15:18:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC57D6EC6E
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 13:19:46 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id m6so2071625wrn.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 06:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
+ b=Ol8zdtYKra8OqwKcXQZPTIzAIAjrxl7EnGA/qptW05V0voGayUZTJ1UOmlJx84mWcm
+ 0r1ALbQGydxydvFM37pyuB+FPcNQJYGFXrs30Uy4uBKXsTI9vDopq0psqSt8WIVbv/3m
+ SL42by4B46k89IfXDFWI+V95drUdRSPKiXLkY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
+ b=T+Y4v3XZv5O05o9HxrXPxMjV1CzmL86VvckJeM02dD2kpDbBevim74EshCeKXcEVY2
+ nUNaTnd4kk2QGu+S+dPX9Cv+wha9FWj3SXeshykv7+4A3os19zvoKEpronHl981E7T88
+ H+YG0Yk+HqirfhD9n4u2fzJJ9qxPvoYBTsHdE1fS0e4mcJqtqOAiw0TAXsCVTPQwyiX4
+ h8IvZ960KjD29QcWbEU3THejMai7QYdGJJS3tiQPsFSQID7JItMhFsMrEU37bBJHjBqB
+ SW5+Wqpde70vwwDEkURLvC7H1qO4tMsIIhQ5sJw7/nUHDzT/GN65ZTOeFTfNKJAxY0gs
+ bkMw==
+X-Gm-Message-State: AOAM532oT8LjmJM0cRFW0vv6U2DxCnLAjxwzbNZcOUQ6LPTpurL+9DKT
+ EvcMiHXSnvg5qmFT+jhjirTp9g==
+X-Google-Smtp-Source: ABdhPJwWrq6ZejmimL/ybiemi2sN/GPynbFDqZKwAC87Lkhqkhgx8buF3bHZlQuU+GRDRVJVnJpavA==
+X-Received: by 2002:a5d:6b84:: with SMTP id n4mr34531077wrx.55.1600348785370; 
+ Thu, 17 Sep 2020 06:19:45 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d2sm39644798wro.34.2020.09.17.06.19.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Sep 2020 06:19:44 -0700 (PDT)
+Date: Thu, 17 Sep 2020 15:19:42 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
+Subject: Re: [PATCH] dma-resv: lockdep-prime address_space->i_mmap_rwsem for
+ dma-resv
+Message-ID: <20200917131942.GX438822@phenom.ffwll.local>
+Mail-Followup-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?=
+ <thomas_os@shipmail.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jason Gunthorpe <jgg@mellanox.com>, Linux MM <linux-mm@kvack.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20200728135839.1035515-1-daniel.vetter@ffwll.ch>
+ <38cbc4fb-3a88-47c4-2d6c-4d90f9be42e7@shipmail.org>
+ <CAKMK7uFe-70DE5qOBJ6FwD8d_A0yZt+h5bCqA=e9QtYE1qwASQ@mail.gmail.com>
+ <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
 MIME-Version: 1.0
-In-Reply-To: <8a5dae4c-0aff-d62a-3d9c-1e3b2e5a2a6e@amd.com>
+Content-Disposition: inline
+In-Reply-To: <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,315 +84,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sashal@kernel.org, thellstrom@vmware.com, airlied@linux.ie,
- kenny.ho@amd.com, brian.welty@intel.com, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- Daniel Vetter <daniel.vetter@ffwll.ch>, alexander.deucher@amd.com,
- sean@poorly.run, kraxel@redhat.com
-Content-Type: multipart/mixed; boundary="===============0073821746=="
+Cc: linux-xfs@vger.kernel.org, linux-rdma <linux-rdma@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Dave Chinner <david@fromorbit.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Linux MM <linux-mm@kvack.org>, Jason Gunthorpe <jgg@mellanox.com>,
+ Qian Cai <cai@lca.pw>, linux-fsdevel@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0073821746==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="BSqkFuMqtIUtMAKkZYc67MBMkGkCZjAKL"
+On Thu, Jul 30, 2020 at 06:45:14PM +0200, Thomas Hellstr=F6m (Intel) wrote:
+> =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---BSqkFuMqtIUtMAKkZYc67MBMkGkCZjAKL
-Content-Type: multipart/mixed; boundary="rPHqgzAUZlHNNQncYtyHh2idsVNJWliA3";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Nirmoy <nirmodas@amd.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- dri-devel@lists.freedesktop.org
-Cc: sashal@kernel.org, thellstrom@vmware.com, airlied@linux.ie,
- kenny.ho@amd.com, brian.welty@intel.com, nirmoy.das@amd.com,
- linux-graphics-maintainer@vmware.com, bskeggs@redhat.com,
- Daniel Vetter <daniel.vetter@ffwll.ch>, alexander.deucher@amd.com,
- sean@poorly.run, kraxel@redhat.com
-Message-ID: <5f9aef29-9ffc-18fa-5eb9-426926ff91d1@suse.de>
-Subject: Re: [PATCH 6/8] drm/vram-helper: don't use ttm bo->offset v4
-References: <20200624182648.6976-1-nirmoy.das@amd.com>
- <20200624182648.6976-7-nirmoy.das@amd.com>
- <0f0520f2-3994-8ea8-b7ef-11135c148533@suse.de>
- <98c70355-1e01-a10c-099c-0a37dac5856f@amd.com>
- <5ec8d8d6-cd09-d7bd-19b1-fbd7b92d8198@suse.de>
- <8a5dae4c-0aff-d62a-3d9c-1e3b2e5a2a6e@amd.com>
-In-Reply-To: <8a5dae4c-0aff-d62a-3d9c-1e3b2e5a2a6e@amd.com>
+> On 7/30/20 3:17 PM, Daniel Vetter wrote:
+> > On Thu, Jul 30, 2020 at 2:17 PM Thomas Hellstr=F6m (Intel)
+> > <thomas_os@shipmail.org> wrote:
+> > > =
 
---rPHqgzAUZlHNNQncYtyHh2idsVNJWliA3
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> > > On 7/28/20 3:58 PM, Daniel Vetter wrote:
+> > > > GPU drivers need this in their shrinkers, to be able to throw out
+> > > > mmap'ed buffers. Note that we also need dma_resv_lock in shrinkers,
+> > > > but that loop is resolved by trylocking in shrinkers.
+> > > > =
 
-Hi
+> > > > So full hierarchy is now (ignore some of the other branches we alre=
+ady
+> > > > have primed):
+> > > > =
 
-Am 17.09.20 um 14:58 schrieb Nirmoy:
->=20
-> On 9/17/20 2:29 PM, Thomas Zimmermann wrote:
->> Hi Christian
->>
->> Am 17.09.20 um 13:12 schrieb Christian K=C3=B6nig:
->>> Hi Thomas,
->>>
->>> Am 17.09.20 um 12:51 schrieb Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 24.06.20 um 20:26 schrieb Nirmoy Das:
->>>>> Calculate GEM VRAM bo's offset within vram-helper without depending=
- on
->>>>> bo->offset.
->>>>>
->>>>> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
->>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>> ---
->>>>> =C2=A0=C2=A0 drivers/gpu/drm/drm_gem_vram_helper.c | 11 ++++++++++-=
+> > > > mmap_read_lock -> dma_resv -> shrinkers -> i_mmap_lock_write
+> > > > =
 
->>>>> =C2=A0=C2=A0 1 file changed, 10 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> b/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> index 0023ce1d2cf7..ad096600d89f 100644
->>>>> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->>>>> @@ -281,6 +281,15 @@ u64 drm_gem_vram_mmap_offset(struct
->>>>> drm_gem_vram_object *gbo)
->>>>> =C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0 EXPORT_SYMBOL(drm_gem_vram_mmap_offset);
->>>>> =C2=A0=C2=A0 +static u64 drm_gem_vram_pg_offset(struct drm_gem_vram=
-_object *gbo)
->>>>> +{
->>>>> +=C2=A0=C2=A0=C2=A0 /* Keep TTM behavior for now, remove when drive=
-rs are audited */
->>>>> +=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(!gbo->bo.mem.mm_node))
->>>> At this line I got
->>> Sounds like ast forgot to pin the cursor to VRAM.
->>>
->>> If you look at ast_cursor_page_flip(), you see:
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 off =3D drm_gem_vra=
-m_offset(gbo);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drm_WARN_ON_ONC=
-E(dev, off < 0))
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 return; /* Bug: we didn't pin the cursor HW B=
-O to
->>>> VRAM. */
->>> The drm_WARN_ON_ONCE() just never triggered before because it checks =
-for
->>> the wrong condition (off < 0).
->> GEM VRAM BOs have a pin counter. drm_gem_vram_offset() returns -ENODEV=
+> > > > I hope that's not inconsistent with anything mm or fs does, adding
+> > > > relevant people.
+> > > > =
 
->> if the BO's pin count is 0 (i.e., the BO has not been pinned anywhere)=
-=2E
->> That's what we're testing here. Two cursor BOs are permanently pinned =
-to
->> the top of VRAM memory by ast_cursor_init(). If perma-pinning in
->> ast_cursor_init() fails, driver initialization should fail entirely.
->>
->> These cursor BOs do some sort of double buffering, On successful
->> initialization, the actual cursor image is later blit-ed into one of t=
-he
->> BOs.
->>
->> All this used to work from what I can tell. Is there any chance that t=
-he
->> recent TTM refactoring broke this?
->=20
->=20
-> In ast_cursor_blit(), cursor bo is pinned without any flags -->
-> "drm_gem_vram_pin(gbo, 0);"
->=20
-> But in ast_cursor_init() both cursors are pinned with TOPDOWN and VRAM
-> flag.
->=20
-> I wonder if that could cause any issue.
+> > > Looks OK to me. The mapping_dirty_helpers run under the i_mmap_lock, =
+but
+> > > don't allocate any memory AFAICT.
+> > > =
 
-It shouldn't. The BO has been pinned already when blit is running. Only
-the pin count is being incremented.
+> > > Since huge page-table-entry splitting may happen under the i_mmap_lock
+> > > from unmap_mapping_range() it might be worth figuring out how new page
+> > > directory pages are allocated, though.
+> > ofc I'm not an mm expert at all, but I did try to scroll through all
+> > i_mmap_lock_write/read callers. Found the following:
+> > =
 
-Best regards
-Thomas
+> > - kernel/events/uprobes.c in build_map_info:
+> > =
 
->=20
->=20
-> Regards,
->=20
-> Nirmoy
->=20
->=20
->=20
->>
->> Best regards
->> Thomas
->>
->>> Regards,
->>> Christian.
->>>
->>>> [=C2=A0 146.133821] ------------[ cut here ]------------
->>>> [=C2=A0 146.133872] WARNING: CPU: 6 PID: 7 at
->>>> drivers/gpu/drm/drm_gem_vram_helper.c:284 drm_gem_vram_offset+0x59/0=
-x60
->>>> [drm_vram_helper]
->>>> [=C2=A0 146.133880] Modules linked in: fuse(E) af_packet(E)
->>>> ebtable_filter(E)
->>>> ebtables(E) ip6table_filter(E) ip6_tables(E) iptable_filter(E)
->>>> ip_tables(E) x_tables(E) bpfilter(E) rfkill(E) dmi_sysfs(E) msr(E)
->>>> intel_powerclamp(E) coretemp(E) kv)
->>>> [=C2=A0 146.134051]=C2=A0 scsi_dh_emc(E) scsi_dh_alua(E)
->>>> [=C2=A0 146.134074] CPU: 6 PID: 7 Comm: kworker/u48:0 Tainted:
->>>> G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-E
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5.9.0-rc4-1-default+ #492
->>>> [=C2=A0 146.134083] Hardware name: Sun Microsystems SUN FIRE X2270 M=
-2/SUN
->>>> FIRE X2270 M2, BIOS 2.05=C2=A0=C2=A0=C2=A0 07/01/2010
->>>> [=C2=A0 146.134099] Workqueue: events_unbound commit_work
->>>> [=C2=A0 146.134116] RIP: 0010:drm_gem_vram_offset+0x59/0x60
->>>> [drm_vram_helper]
->>>> [=C2=A0 146.134128] Code: 02 00 00 00 74 24 48 8d bb 80 02 00 00 e8 =
-ef 27 17
->>>> d7 48 8b 83 80 02 00 00 5b 48 c1 e0 0c c3 0f 0b 48 c7 c0 ed ff ff ff=
- 5b
->>>> c3 <0f> 0b 31 c0 5b c3 90 66 66 66 66 90 41 56 41 55 49 89 d5 41 54 =
-49
->>>> [=C2=A0 146.134137] RSP: 0018:ffffc90000107c38 EFLAGS: 00010246
->>>> [=C2=A0 146.134149] RAX: 0000000000000000 RBX: ffff888111155000 RCX:=
+> >              /*
+> >               * Needs GFP_NOWAIT to avoid i_mmap_rwsem recursion through
+> >               * reclaim. This is optimistic, no harm done if it fails.
+> >               */
+> > =
 
->>>> ffffffffc032323b
->>>> [=C2=A0 146.134158] RDX: dffffc0000000000 RSI: ffff88810e236300 RDI:=
+> > - I got lost in the hugetlb.c code and couldn't convince myself it's
+> > not allocating page directories at various levels with something else
+> > than GFP_KERNEL.
+> > =
 
->>>> ffff888111155278
->>>> [=C2=A0 146.134168] RBP: ffff888109090000 R08: ffffffffc0323225 R09:=
+> > So looks like the recursion is clearly there and known, but the
+> > hugepage code is too complex and flying over my head.
+> > -Daniel
+> =
 
->>>> 0000000000000002
->>>> [=C2=A0 146.134177] R10: ffffed1020675020 R11: 0000000000000001 R12:=
+> OK, so I inverted your annotation and ran a memory hog, and got the below
+> splat. So clearly your proposed reclaim->i_mmap_lock locking order is an
+> already established one.
+> =
 
->>>> ffff888109091050
->>>> [=C2=A0 146.134187] R13: ffff88810e236300 R14: ffff888109090000 R15:=
+> So
+> =
 
->>>> 0000000000000000
->>>> [=C2=A0 146.134197] FS:=C2=A0 0000000000000000(0000) GS:ffff88811600=
-0000(0000)
->>>> knlGS:0000000000000000
->>>> [=C2=A0 146.134206] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080=
-050033
->>>> [=C2=A0 146.134215] CR2: 00007f60547d9100 CR3: 0000000029216002 CR4:=
+> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@intel.com>
 
->>>> 00000000000206e0
->>>> [=C2=A0 146.134223] Call Trace:
->>>> [=C2=A0 146.134245]=C2=A0 ast_cursor_page_flip+0x3e/0x150 [ast]
->>>> [=C2=A0 146.134272]=C2=A0 ast_cursor_plane_helper_atomic_update+0x8a=
-/0xc0 [ast]
->>>> [=C2=A0 146.134300]=C2=A0 drm_atomic_helper_commit_planes+0x197/0x4c=
-0
->>>> [=C2=A0 146.134341]=C2=A0 drm_atomic_helper_commit_tail_rpm+0x51/0x9=
-0
->>>> [=C2=A0 146.134357]=C2=A0 commit_tail+0x103/0x1c0
->>>> [=C2=A0 146.134390]=C2=A0 process_one_work+0x56a/0xa60
->>>> [=C2=A0 146.134431]=C2=A0 ? __lock_acquired+0x1ca/0x3d0
->>>> [=C2=A0 146.134447]=C2=A0 ? pwq_dec_nr_in_flight+0x110/0x110
->>>> [=C2=A0 146.134460]=C2=A0 ? __lock_contended+0x4a0/0x4a0
->>>> [=C2=A0 146.134491]=C2=A0 ? worker_thread+0x150/0x620
->>>> [=C2=A0 146.134521]=C2=A0 worker_thread+0x8b/0x620
->>>> [=C2=A0 146.134539]=C2=A0 ? _raw_spin_unlock_irqrestore+0x41/0x50
->>>> [=C2=A0 146.134583]=C2=A0 ? process_one_work+0xa60/0xa60
->>>> [=C2=A0 146.134597]=C2=A0 kthread+0x1e4/0x210
->>>> [=C2=A0 146.134612]=C2=A0 ? kthread_create_worker_on_cpu+0xb0/0xb0
->>>> [=C2=A0 146.134637]=C2=A0 ret_from_fork+0x22/0x30
->>>> [=C2=A0 146.134698] irq event stamp: 74111
->>>> [=C2=A0 146.134711] hardirqs last=C2=A0 enabled at (74117): [<ffffff=
-ff971c68f9>]
->>>> console_unlock+0x539/0x670
->>>> [=C2=A0 146.134723] hardirqs last disabled at (74122): [<ffffffff971=
-c68ef>]
->>>> console_unlock+0x52f/0x670
->>>> [=C2=A0 146.134737] softirqs last=C2=A0 enabled at (73354): [<ffffff=
-ff975469d5>]
->>>> wb_workfn+0x3f5/0x430
->>>> [=C2=A0 146.134749] softirqs last disabled at (73350): [<ffffffff973=
-f81d0>]
->>>> wb_wakeup_delayed+0x40/0xa0
->>>> [=C2=A0 146.134758] ---[ end trace 74dd5fac6a3a2c0c ]---
->>>>
->>>>
->>>> Happens with ast when doing
->>>>
->>>> =C2=A0=C2=A0=C2=A0 weston-launch
->>>>
->>>>
->>>>
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 return gbo->bo.mem.start;
->>>>> +}
->>>>> +
->>>>> =C2=A0=C2=A0 /**
->>>>> =C2=A0=C2=A0=C2=A0 * drm_gem_vram_offset() - \
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Returns a GEM VRAM object's of=
-fset in video memory
->>>>> @@ -297,7 +306,7 @@ s64 drm_gem_vram_offset(struct
->>>>> drm_gem_vram_object *gbo)
->>>>> =C2=A0=C2=A0 {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(!gbo->pin_cou=
-nt))
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
- (s64)-ENODEV;
->>>>> -=C2=A0=C2=A0=C2=A0 return gbo->bo.offset;
->>>>> +=C2=A0=C2=A0=C2=A0 return drm_gem_vram_pg_offset(gbo) << PAGE_SHIF=
-T;
->>>>> =C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0 EXPORT_SYMBOL(drm_gem_vram_offset);
->>>>> =C2=A0=20
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+No one complaining that this is a terrible idea and two reviews from
+people who know stuff, so I went ahead and pushed this to drm-misc-next.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Thanks for taking a look at this.
+-Daniel
+
+> =
+
+> 8<-----------------------------------------------------------------------=
+----------------------
+> =
+
+> [=A0 308.324654] WARNING: possible circular locking dependency detected
+> [=A0 308.324655] 5.8.0-rc2+ #16 Not tainted
+> [=A0 308.324656] ------------------------------------------------------
+> [=A0 308.324657] kswapd0/98 is trying to acquire lock:
+> [=A0 308.324658] ffff92a16f758428 (&mapping->i_mmap_rwsem){++++}-{3:3}, a=
+t:
+> rmap_walk_file+0x1c0/0x2f0
+> [=A0 308.324663]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 but task is already holding lo=
+ck:
+> [=A0 308.324664] ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
+> __fs_reclaim_acquire+0x5/0x30
+> [=A0 308.324666]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 which lock already depends on =
+the new lock.
+> =
+
+> [=A0 308.324667]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 the existing dependency chain =
+(in reverse order) is:
+> [=A0 308.324667]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 -> #1 (fs_reclaim){+.+.}-{0:0}:
+> [=A0 308.324670]=A0=A0=A0=A0=A0=A0=A0 fs_reclaim_acquire+0x34/0x40
+> [=A0 308.324672]=A0=A0=A0=A0=A0=A0=A0 dma_resv_lockdep+0x186/0x224
+> [=A0 308.324675]=A0=A0=A0=A0=A0=A0=A0 do_one_initcall+0x5d/0x2c0
+> [=A0 308.324676]=A0=A0=A0=A0=A0=A0=A0 kernel_init_freeable+0x222/0x288
+> [=A0 308.324678]=A0=A0=A0=A0=A0=A0=A0 kernel_init+0xa/0x107
+> [=A0 308.324679]=A0=A0=A0=A0=A0=A0=A0 ret_from_fork+0x1f/0x30
+> [=A0 308.324680]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 -> #0 (&mapping->i_mmap_rwsem)=
+{++++}-{3:3}:
+> [=A0 308.324682]=A0=A0=A0=A0=A0=A0=A0 __lock_acquire+0x119f/0x1fc0
+> [=A0 308.324683]=A0=A0=A0=A0=A0=A0=A0 lock_acquire+0xa4/0x3b0
+> [=A0 308.324685]=A0=A0=A0=A0=A0=A0=A0 down_read+0x2d/0x110
+> [=A0 308.324686]=A0=A0=A0=A0=A0=A0=A0 rmap_walk_file+0x1c0/0x2f0
+> [=A0 308.324687]=A0=A0=A0=A0=A0=A0=A0 page_referenced+0x133/0x150
+> [=A0 308.324689]=A0=A0=A0=A0=A0=A0=A0 shrink_active_list+0x142/0x610
+> [=A0 308.324690]=A0=A0=A0=A0=A0=A0=A0 balance_pgdat+0x229/0x620
+> [=A0 308.324691]=A0=A0=A0=A0=A0=A0=A0 kswapd+0x200/0x470
+> [=A0 308.324693]=A0=A0=A0=A0=A0=A0=A0 kthread+0x11f/0x140
+> [=A0 308.324694]=A0=A0=A0=A0=A0=A0=A0 ret_from_fork+0x1f/0x30
+> [=A0 308.324694]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 other info that might help us =
+debug this:
+> =
+
+> [=A0 308.324695]=A0 Possible unsafe locking scenario:
+> =
+
+> [=A0 308.324695]=A0=A0=A0=A0=A0=A0=A0 CPU0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 CPU1
+> [=A0 308.324696]=A0=A0=A0=A0=A0=A0=A0 ----=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 ----
+> [=A0 308.324696]=A0=A0 lock(fs_reclaim);
+> [=A0 308.324697] lock(&mapping->i_mmap_rwsem);
+> [=A0 308.324698]=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 lock(fs_reclaim);
+> [=A0 308.324699]=A0=A0 lock(&mapping->i_mmap_rwsem);
+> [=A0 308.324699]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *** DEADLOCK ***
+> =
+
+> [=A0 308.324700] 1 lock held by kswapd0/98:
+> [=A0 308.324701]=A0 #0: ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
+> __fs_reclaim_acquire+0x5/0x30
+> [=A0 308.324702]
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 stack backtrace:
+> [=A0 308.324704] CPU: 1 PID: 98 Comm: kswapd0 Not tainted 5.8.0-rc2+ #16
+> [=A0 308.324705] Hardware name: VMware, Inc. VMware Virtual Platform/440BX
+> Desktop Reference Platform, BIOS 6.00 07/29/2019
+> [=A0 308.324706] Call Trace:
+> [=A0 308.324710]=A0 dump_stack+0x92/0xc8
+> [=A0 308.324711]=A0 check_noncircular+0x12d/0x150
+> [=A0 308.324713]=A0 __lock_acquire+0x119f/0x1fc0
+> [=A0 308.324715]=A0 lock_acquire+0xa4/0x3b0
+> [=A0 308.324716]=A0 ? rmap_walk_file+0x1c0/0x2f0
+> [=A0 308.324717]=A0 ? __lock_acquire+0x394/0x1fc0
+> [=A0 308.324719]=A0 down_read+0x2d/0x110
+> [=A0 308.324720]=A0 ? rmap_walk_file+0x1c0/0x2f0
+> [=A0 308.324721]=A0 rmap_walk_file+0x1c0/0x2f0
+> [=A0 308.324722]=A0 page_referenced+0x133/0x150
+> [=A0 308.324724]=A0 ? __page_set_anon_rmap+0x70/0x70
+> [=A0 308.324725]=A0 ? page_get_anon_vma+0x190/0x190
+> [=A0 308.324726]=A0 shrink_active_list+0x142/0x610
+> [=A0 308.324728]=A0 balance_pgdat+0x229/0x620
+> [=A0 308.324730]=A0 kswapd+0x200/0x470
+> [=A0 308.324731]=A0 ? lockdep_hardirqs_on_prepare+0xf5/0x170
+> [=A0 308.324733]=A0 ? finish_wait+0x80/0x80
+> [=A0 308.324734]=A0 ? balance_pgdat+0x620/0x620
+> [=A0 308.324736]=A0 kthread+0x11f/0x140
+> [=A0 308.324737]=A0 ? kthread_create_worker_on_cpu+0x40/0x40
+> [=A0 308.324739]=A0 ret_from_fork+0x1f/0x30
+> =
+
+> =
+
+> =
+
+> > > /Thomas
+> > > =
+
+> > > =
+
+> > > =
+
+> > =
 
 
---rPHqgzAUZlHNNQncYtyHh2idsVNJWliA3--
+-- =
 
---BSqkFuMqtIUtMAKkZYc67MBMkGkCZjAKL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9jYjsUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMlLQgAvvz5DweGnXbnsS0SXbWNW9zPp6XT
-WRFzOLiXkkw+GTlAShIGNoZGQmCX2/Uie+dNZHQaB5T71+tu+pwaO+FZUR+LI7yT
-3wqMrpMzMVzFNPtwEyM/0Gvs/2sD16NRItBeW9pilWmkzf2ycXmBO3rY+XOP0Pik
-vCGB1vFDUqQLLbaH6EOCA4SaIZdiFODnGT7aoELhrD3ZTLqC0PeauRctsox04jjM
-WGq0yfDte0GEaWXiccncLy79v5akkcBt1dXfsaCWO/payrjfJ1q2Bip1LoPF99Jw
-+jMtcbIwpAl7jJ6eXyKjO5JyW/je2dQtZWWWJsUHbGvfVec03FRIulDBMA==
-=ODgH
------END PGP SIGNATURE-----
-
---BSqkFuMqtIUtMAKkZYc67MBMkGkCZjAKL--
-
---===============0073821746==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0073821746==--
