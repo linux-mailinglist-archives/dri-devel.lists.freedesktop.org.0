@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E024326D7D9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 11:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4823926D7E6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 11:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4697A6E0E7;
-	Thu, 17 Sep 2020 09:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7F06E108;
+	Thu, 17 Sep 2020 09:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44D5D6E0E7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 09:40:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FED46E108
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 09:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600335628;
+ s=mimecast20190719; t=1600335737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Bx8f5r0AzEc+1pKeIgZVZRf40dmO6jysVcMGVhNl7v8=;
- b=BIREgHcq2rE4H9O1NY1vvtoR7lpdOMYiqdsvI4ONFkkrsFVwyK7s8AUUck6Bej4j6L8Fyw
- 9ci45dAxExsbOSlXnGtonumClPJqUyDSd/Koryba0SpFr0dFnqle/8HhK2FG5yWtk0pQXF
- noDFJ3FstF4UJiI0AYXo8YJA1Lnj6tM=
+ bh=iS5Mu46s/6coPGf+33gk9z/5ILfLobD5qxbpXdLow+E=;
+ b=DfZACW43JiKJgE6p3Vc71nRjg7D4H5vkTFVjlwVQPaE2U+vHFKxzjycxv3mgR8MosBxBYd
+ pZQPzRHf374jiBwLLjAmcVImqZXY2fGyJwSI9p6X/zQ40IrBQTjseZvAGaKdUfBY3BcAux
+ Gr9EC4Y7DSRwHikgiefhS9A7JWMV6Zg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-2V0qrlEzPLCfl4oDtpwRGA-1; Thu, 17 Sep 2020 05:40:26 -0400
-X-MC-Unique: 2V0qrlEzPLCfl4oDtpwRGA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-152-BTnv9vcCO6mPK-m7iMr2JA-1; Thu, 17 Sep 2020 05:42:15 -0400
+X-MC-Unique: BTnv9vcCO6mPK-m7iMr2JA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97FD58015A4;
- Thu, 17 Sep 2020 09:40:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BF008064BA;
+ Thu, 17 Sep 2020 09:42:14 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C74860FC2;
- Thu, 17 Sep 2020 09:40:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31CA47839F;
+ Thu, 17 Sep 2020 09:42:14 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8A6EB9D5A; Thu, 17 Sep 2020 11:40:24 +0200 (CEST)
-Date: Thu, 17 Sep 2020 11:40:24 +0200
+ id 5191A9D5A; Thu, 17 Sep 2020 11:42:13 +0200 (CEST)
+Date: Thu, 17 Sep 2020 11:42:13 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH v3 09/19] drm/virtio: implement blob resources: probe for
- host visible region
-Message-ID: <20200917094024.3d5savf3pshlst7z@sirius.home.kraxel.org>
+Subject: Re: [PATCH v3 12/19] drm/virtio: implement blob resources: implement
+ vram object
+Message-ID: <20200917094213.33b5b7woesgstyxz@sirius.home.kraxel.org>
 References: <20200917000838.735-1-gurchetansingh@chromium.org>
- <20200917000838.735-9-gurchetansingh@chromium.org>
+ <20200917000838.735-12-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200917000838.735-9-gurchetansingh@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200917000838.735-12-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -74,23 +74,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
   Hi,
 
-> +		if (!devm_request_mem_region(&vgdev->vdev->dev,
-> +					     vgdev->host_visible_region.addr,
-> +					     vgdev->host_visible_region.len,
-> +					     dev_name(&vgdev->vdev->dev))) {
-> +			DRM_ERROR("Could not reserve host visible region\n");
-> +			goto err_vqs;
-> +		}
-
-> +	if (vgdev->has_host_visible) {
-> +		devm_release_mem_region(&vgdev->vdev->dev,
-> +					vgdev->host_visible_region.addr,
-> +					vgdev->host_visible_region.len);
+> +	if (resp_type == VIRTIO_GPU_RESP_OK_MAP_INFO) {
+> +		vram->map_info = resp->map_info;
+> +		vram->map_state = STATE_OK;
+> +	} else {
+> +		vram->map_state = STATE_ERR;
 > +	}
 
-Hmm. isn't it the point of the managed apis that the release happens
-automatically?  I think you don't need the devm_release_mem_region
-call (it doesn't break things though).
+Ah, found it, here. ok.
 
 take care,
   Gerd
