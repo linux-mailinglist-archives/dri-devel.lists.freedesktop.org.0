@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648DD26D2BA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 06:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1159F26D344
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Sep 2020 07:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5823A6E0D9;
-	Thu, 17 Sep 2020 04:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14F06E0EB;
+	Thu, 17 Sep 2020 05:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A48D6E0C5;
- Thu, 17 Sep 2020 04:38:42 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id di5so346541qvb.13;
- Wed, 16 Sep 2020 21:38:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2D/1WhzNvWoKabTAwepIDsgCoP4x6FgESoVCal4I6yA=;
- b=cR56v3AdtP6haPoEl3KHMOiDem3ghaJKH/2xIN+nUqngzwQJW1g4HxUURlnVFRfbBQ
- iBXRiJ+eJB2c40Pr+EKJ6n5vm5hfWJVeDjKUO/sHP7XPk5F0djOtRq7tWmnLFCxiL3nu
- bvpKOfMwaTIGvDAGgV6nW/1jUccLUbBy/jBr7YDLCHKJd4APeUTpVK8OIKEVaBEr6GQr
- /FL+2rvjg6h/UKJ8h2aqMzGKZpr7Hsj8/gRLIiEJ6fk0RMPou5+qLFm5I+KvihfKWnYT
- NyhCAvNnmqsU85GwSF4a0tOcQIDHLN5JgSSU12Eh/RDkHCIYgDrZwoLKY9u2gxibU6AT
- aphw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2D/1WhzNvWoKabTAwepIDsgCoP4x6FgESoVCal4I6yA=;
- b=NKCu8KAJYBr3UBvQ7ye6MJY0F68/3zn/91P2z/8yEEVPYSYtPXd7VKvPMMoZvOTj9L
- feAxugwz3CKSC1gICMciTKbezz6djEfl3JGvAZmB72SMjuHbY4OUR2HLxBa59NjW7aua
- swFIrw3OXFAzx3UZZROz1HvwrSZnx7marpOmbNgt70bb8xCt+YBfsdrV/pCBQwMTUYyh
- /21W54YgzWXa8BQ3hl0SK0c7Zk58F2TaFdLcksd82lJB3zCcKFHiyZy+xuLwHUHu9pB8
- fq00Fv7cEgpbAov18wR0Gss9VqDxMtvsD/BymrSA/Op8aFd70G6mygFnJ/jAa5HqiFCO
- /7Qw==
-X-Gm-Message-State: AOAM532d0rOEoXb6kUgh8R/BcRwoKcLvCOSYnioflDI7qP2kKL8Gt8tz
- wEt5mwofpKzStgMQtpbhjYplTOlZfRA=
-X-Google-Smtp-Source: ABdhPJyh88dagW+VaVF2Joox6nGD3EY5Q3u5E0PoKjCT9N24FQTVwj2KwVNPSBtmEoZYzZ7P2KuAJQ==
-X-Received: by 2002:a05:6214:c2:: with SMTP id
- f2mr10257969qvs.44.1600317521127; 
- Wed, 16 Sep 2020 21:38:41 -0700 (PDT)
-Received: from localhost.localdomain ([71.219.66.138])
- by smtp.gmail.com with ESMTPSA id w6sm20474739qti.63.2020.09.16.21.38.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 21:38:40 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu, amdkfd, radeon drm-fixes-5.9
-Date: Thu, 17 Sep 2020 00:38:18 -0400
-Message-Id: <20200917043818.3717-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62D486E0EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 05:52:26 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08H5qIrD078199;
+ Thu, 17 Sep 2020 00:52:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1600321938;
+ bh=SICXoOieM2uc9FJrfUuOfTfVBWoYANiwpphFfhvvh2s=;
+ h=From:To:CC:Subject:Date;
+ b=v+j4O2/BBzai3F030wbUG9FMh2NL3Tnz4ej2u8vmlVXmrVusHc4LTieIk18adEnqa
+ 91O3rnDA1DMix/22Kzpy3tLjgPRrbAocPGPdPnESGk/tBKBA1ju6D53Md3YMTrSmQP
+ p2/etACjp3jaGuM3hbYSZW93+vq8ZJV+CJkaYbYA=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08H5qIPf083732
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 17 Sep 2020 00:52:18 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 17
+ Sep 2020 00:52:18 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 17 Sep 2020 00:52:18 -0500
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08H5qFku071024;
+ Thu, 17 Sep 2020 00:52:16 -0500
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCHv2] dt-bindings: dp-connector: add binding for DisplayPort
+ connector
+Date: Thu, 17 Sep 2020 08:52:10 +0300
+Message-ID: <20200917055210.22868-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +60,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Swapnil Kashinath Jakhade <sjakhade@cadence.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2ZSwgRGFuaWVsLAoKRml4ZXMgZm9yIDUuOS4KClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQgN2Y3YTQ3OTUyYzBmOTgxZjljOWE2NDA5YzhjZjhkMDI1ZDU1YWY2NDoKCiAg
-TWVyZ2UgdGFnICdkcm0tbWlzYy1maXhlcy0yMDIwLTA5LTA5JyBvZiBnaXQ6Ly9hbm9uZ2l0LmZy
-ZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgaW50byBkcm0tZml4ZXMgKDIwMjAtMDktMTEgMDk6
-NDk6MjMgKzEwMDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAg
-Z2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGludXggdGFncy9hbWQtZHJtLWZp
-eGVzLTUuOS0yMDIwLTA5LTE3Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gODc1ZDM2
-OWQ4Zjc1Mjc1ZDMwZTU5NDIxNjAyZDkzNjY0MjZhYmZmNzoKCiAgZHJtL2FtZC9kaXNwbGF5OiBE
-b24ndCBsb2cgaGRjcCBtb2R1bGUgd2FybmluZ3MgaW4gZG1lc2cgKDIwMjAtMDktMTcgMDA6MTM6
-MzQgLTA0MDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tCmFtZC1kcm0tZml4ZXMtNS45LTIwMjAtMDktMTc6CgphbWRncHU6
-Ci0gU2llbm5hIENpY2hsaWQgZml4ZXMKLSBOYXZ5IEZsb3VuZGVyIGZpeGVzCi0gREMgZml4ZXMK
-CmFtZGtmZDoKLSBGaXggYSBHUFUgcmVzZXQgY3Jhc2gKLSBGaXggYSBtZW1vcnkgbGVhawoKcmFk
-ZW9uOgotIFJldmVydCBhIFBMTCBmaXggdGhhdCBicm9rZSBvdGhlciBib2FyZHMKCi0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-QW5kcmV5IEdyb2R6b3Zza3kgKDEpOgogICAgICBkcm0vYW1kZ3B1OiBJbmNsdWRlIHNpZW5uYV9j
-aWNobGlkIGluIFVTQkMgUEQgRlcgc3VwcG9ydC4KCkJoYXdhbnByZWV0IExha2hhICgyKToKICAg
-ICAgZHJtL2FtZC9kaXNwbGF5OiBEb24ndCB1c2UgRFJNX0VSUk9SKCkgZm9yIERUTSBhZGQgdG9w
-b2xvZ3kKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBEb24ndCBsb2cgaGRjcCBtb2R1bGUgd2Fybmlu
-Z3MgaW4gZG1lc2cKCkNocmlzdGlhbiBLw7ZuaWcgKDEpOgogICAgICBkcm0vcmFkZW9uOiByZXZl
-cnQgIlByZWZlciBsb3dlciBmZWVkYmFjayBkaXZpZGVycyIKCkRlbm5pcyBMaSAoMik6CiAgICAg
-IGRybS9rZmQ6IGZpeCBhIHN5c3RlbSBjcmFzaCBpc3N1ZSBkdXJpbmcgR1BVIHJlY292ZXJ5CiAg
-ICAgIGRybS9hbWRrZmQ6IGZpeCBhIG1lbW9yeSBsZWFrIGlzc3VlCgpKaWFuc29uZyBDaGVuICgy
-KToKICAgICAgZHJtL2FtZC9wbTogc3VwcG9ydCBydW50aW1lIHBwdGFibGUgdXBkYXRlIGZvciBz
-aWVubmFfY2ljaGxpZCBldGMuCiAgICAgIGRybS9hbWRncHU6IGRlY2xhcmUgdGEgZmlybXdhcmUg
-Zm9yIG5hdnlfZmxvdW5kZXIKCkp1biBMZWkgKDEpOgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IHVw
-ZGF0ZSBudjF4IHN0dXR0ZXIgbGF0ZW5jaWVzCgpNaWNoZWwgRMOkbnplciAoMSk6CiAgICAgIGRy
-bS9hbWRncHUvZGM6IFJlcXVpcmUgcHJpbWFyeSBwbGFuZSB0byBiZSBlbmFibGVkIHdoZW5ldmVy
-IHRoZSBDUlRDIGlzCgogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3BzcC5jICAg
-ICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvcHNwX3YxMV8wLmMg
-ICAgICAgICAgICAgfCAgMiArLQogLi4uL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1
-ZXVlX21hbmFnZXIuYyAgfCAgNCArKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRn
-cHVfZG0vYW1kZ3B1X2RtLmMgIHwgMzIgKysrKysrKy0tLS0tLS0tLS0tLS0tLQogLi4uL2dwdS9k
-cm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2UuYyAgfCAgNCArLS0KIC4uLi9n
-cHUvZHJtL2FtZC9kaXNwbGF5L21vZHVsZXMvaGRjcC9oZGNwX2xvZy5oICAgIHwgIDIgKy0KIC4u
-Li9ncHUvZHJtL2FtZC9kaXNwbGF5L21vZHVsZXMvaGRjcC9oZGNwX3BzcC5jICAgIHwgIDIgKy0K
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2FtZGdwdV9zbXUuYyAgICAgICAgIHwgMTIg
-KysrKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rpc3BsYXkuYyAgICAgICAg
-ICAgIHwgIDIgKy0KIDkgZmlsZXMgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgMzMgZGVsZXRp
-b25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Add binding for DisplayPort connector. A few notes:
+
+* Similar to hdmi-connector, it has hpd-gpios as an optional property,
+  as the HPD could also be handled by, e.g., the DP bridge.
+
+* dp-pwr-supply, which provides 3.3V on DP_PWR pin, is optional, as it
+  is not strictly required: standard DP cables do not even have the pin
+  connected.
+
+* Connector type. Full size and mini connectors are identical except for
+  the connector size and form, so I believe there is no functional need
+  for this property. But similar to 'label' property, it might be used
+  to present information about the connector to the userspace.
+
+* No eDP. There's really no "eDP connector", as it's always a custom
+  made connection between the DP and the DP panel. So possibly there is
+  no need for edp-connector binding, but even if there is, I don't want
+  to guess what it could look like, and could it be part of the
+  dp-connector binding.
+
+* No DP++. I'm not familiar with DP++, but I think it's all handled by
+  the DP bridge, and does not need any new properties to the dp-connector.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
+
+Changes in v2: Add connector type.
+
+
+ .../display/connector/dp-connector.yaml       | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/connector/dp-connector.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
+new file mode 100644
+index 000000000000..b5fc3e52899e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/connector/dp-connector.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: DisplayPort Connector
++
++maintainers:
++  - Tomi Valkeinen <tomi.valkeinen@ti.com>
++
++properties:
++  compatible:
++    const: dp-connector
++
++  label: true
++
++  type:
++    enum:
++      - full-size
++      - mini
++
++  hpd-gpios:
++    description: A GPIO line connected to HPD
++    maxItems: 1
++
++  dp-pwr-supply:
++    description: Power supply for the DP_PWR pin
++    maxItems: 1
++
++  port:
++    description: Connection to controller providing DP signals
++
++required:
++  - compatible
++  - type
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    connector {
++        compatible = "dp-connector";
++        label = "dp0";
++        type = "full-size";
++
++        port {
++            dp_connector_in: endpoint {
++                remote-endpoint = <&dp_out>;
++            };
++        };
++    };
++
++...
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
