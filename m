@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054FE26EBBC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:09:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C798626EBBD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:10:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD31D6E457;
-	Fri, 18 Sep 2020 02:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64F936E459;
+	Fri, 18 Sep 2020 02:10:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DDD6E455
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:09:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 529226E459
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:10:04 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 44383235F9;
- Fri, 18 Sep 2020 02:09:51 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6C7842389E;
+ Fri, 18 Sep 2020 02:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394992;
- bh=//ADPIBJVW5dyfiG5iHFZA/xCA2SvA5QdiLIX7CKf+4=;
+ s=default; t=1600395004;
+ bh=H06c2u1SI/UW90VBL+qv3ZMfKPxL+XH6IQqerxjacgE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gOmePQuRAm+sBObmsgixwoyGGyHDlha1rhrP2b+s0jNxF2Napr0ILhTrgslY6uygF
- 4VGv77gdQpnvg29dfIEJ6xLQFTP0+nwGkirw7Paiab2qbx3Q8zhyVZggwfVrbou16I
- Hmsw6Re5/jpJjJriRWNm/NIrcdXUklfmm8Ra8hAY=
+ b=t1t17v9onkcHzoZX/AeCGFn+HDrgKfG+rSPIri1zO07dxveMRAwvQf4sGD0xv4F32
+ Q1v4HJeH7XG/ArLipLTZUUqb7vTbc+0Ysn3GlotpehupMCOxW7t4OPu6bibvwuZTUG
+ WZO+Quj3+Us29/lfykEqQIg45O2w7voEMqH15DzM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 090/206] drm/amd/display:
- dal_ddc_i2c_payloads_create can fail causing panic
-Date: Thu, 17 Sep 2020 22:06:06 -0400
-Message-Id: <20200918020802.2065198-90-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 100/206] drm/amdgpu: increase atombios cmd timeout
+Date: Thu, 17 Sep 2020 22:06:16 -0400
+Message-Id: <20200918020802.2065198-100-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
 References: <20200918020802.2065198-1-sashal@kernel.org>
@@ -50,135 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Joshua Aberback <Joshua.Aberback@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ John Clements <john.clements@amd.com>, dri-devel@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <aric.cyr@amd.com>
+From: John Clements <john.clements@amd.com>
 
-[ Upstream commit 6a6c4a4d459ecacc9013c45dcbf2bc9747fdbdbd ]
+[ Upstream commit 1b3460a8b19688ad3033b75237d40fa580a5a953 ]
 
-[Why]
-Since the i2c payload allocation can fail need to check return codes
+mitigates race condition on BACO reset between GPU bootcode and driver reload
 
-[How]
-Clean up i2c payload allocations and check for errors
-
-Signed-off-by: Aric Cyr <aric.cyr@amd.com>
-Reviewed-by: Joshua Aberback <Joshua.Aberback@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: John Clements <john.clements@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/core/dc_link_ddc.c | 52 +++++++++----------
- 1 file changed, 25 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/atom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-index 46c9cb47a96e5..145af3bb2dfcb 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-@@ -127,22 +127,16 @@ struct aux_payloads {
- 	struct vector payloads;
- };
- 
--static struct i2c_payloads *dal_ddc_i2c_payloads_create(struct dc_context *ctx, uint32_t count)
-+static bool dal_ddc_i2c_payloads_create(
-+		struct dc_context *ctx,
-+		struct i2c_payloads *payloads,
-+		uint32_t count)
- {
--	struct i2c_payloads *payloads;
--
--	payloads = kzalloc(sizeof(struct i2c_payloads), GFP_KERNEL);
--
--	if (!payloads)
--		return NULL;
--
- 	if (dal_vector_construct(
- 		&payloads->payloads, ctx, count, sizeof(struct i2c_payload)))
--		return payloads;
--
--	kfree(payloads);
--	return NULL;
-+		return true;
- 
-+	return false;
- }
- 
- static struct i2c_payload *dal_ddc_i2c_payloads_get(struct i2c_payloads *p)
-@@ -155,14 +149,12 @@ static uint32_t dal_ddc_i2c_payloads_get_count(struct i2c_payloads *p)
- 	return p->payloads.count;
- }
- 
--static void dal_ddc_i2c_payloads_destroy(struct i2c_payloads **p)
-+static void dal_ddc_i2c_payloads_destroy(struct i2c_payloads *p)
- {
--	if (!p || !*p)
-+	if (!p)
- 		return;
--	dal_vector_destruct(&(*p)->payloads);
--	kfree(*p);
--	*p = NULL;
- 
-+	dal_vector_destruct(&p->payloads);
- }
- 
- static struct aux_payloads *dal_ddc_aux_payloads_create(struct dc_context *ctx, uint32_t count)
-@@ -580,9 +572,13 @@ bool dal_ddc_service_query_ddc_data(
- 
- 	uint32_t payloads_num = write_payloads + read_payloads;
- 
-+
- 	if (write_size > EDID_SEGMENT_SIZE || read_size > EDID_SEGMENT_SIZE)
- 		return false;
- 
-+	if (!payloads_num)
-+		return false;
-+
- 	/*TODO: len of payload data for i2c and aux is uint8!!!!,
- 	 *  but we want to read 256 over i2c!!!!*/
- 	if (dal_ddc_service_is_in_aux_transaction_mode(ddc)) {
-@@ -613,23 +609,25 @@ bool dal_ddc_service_query_ddc_data(
- 		dal_ddc_aux_payloads_destroy(&payloads);
- 
- 	} else {
--		struct i2c_payloads *payloads =
--			dal_ddc_i2c_payloads_create(ddc->ctx, payloads_num);
-+		struct i2c_command command = {0};
-+		struct i2c_payloads payloads;
- 
--		struct i2c_command command = {
--			.payloads = dal_ddc_i2c_payloads_get(payloads),
--			.number_of_payloads = 0,
--			.engine = DDC_I2C_COMMAND_ENGINE,
--			.speed = ddc->ctx->dc->caps.i2c_speed_in_khz };
-+		if (!dal_ddc_i2c_payloads_create(ddc->ctx, &payloads, payloads_num))
-+			return false;
-+
-+		command.payloads = dal_ddc_i2c_payloads_get(&payloads);
-+		command.number_of_payloads = 0;
-+		command.engine = DDC_I2C_COMMAND_ENGINE;
-+		command.speed = ddc->ctx->dc->caps.i2c_speed_in_khz;
- 
- 		dal_ddc_i2c_payloads_add(
--			payloads, address, write_size, write_buf, true);
-+			&payloads, address, write_size, write_buf, true);
- 
- 		dal_ddc_i2c_payloads_add(
--			payloads, address, read_size, read_buf, false);
-+			&payloads, address, read_size, read_buf, false);
- 
- 		command.number_of_payloads =
--			dal_ddc_i2c_payloads_get_count(payloads);
-+			dal_ddc_i2c_payloads_get_count(&payloads);
- 
- 		ret = dm_helpers_submit_i2c(
- 				ddc->ctx,
+diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
+index e9934de1b9cf8..0222bb7ea49b4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atom.c
++++ b/drivers/gpu/drm/amd/amdgpu/atom.c
+@@ -742,8 +742,8 @@ static void atom_op_jump(atom_exec_context *ctx, int *ptr, int arg)
+ 			cjiffies = jiffies;
+ 			if (time_after(cjiffies, ctx->last_jump_jiffies)) {
+ 				cjiffies -= ctx->last_jump_jiffies;
+-				if ((jiffies_to_msecs(cjiffies) > 5000)) {
+-					DRM_ERROR("atombios stuck in loop for more than 5secs aborting\n");
++				if ((jiffies_to_msecs(cjiffies) > 10000)) {
++					DRM_ERROR("atombios stuck in loop for more than 10secs aborting\n");
+ 					ctx->abort = true;
+ 				}
+ 			} else {
 -- 
 2.25.1
 
