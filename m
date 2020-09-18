@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB97D26FBCC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 13:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A57D26FBD1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 13:53:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C1F6ECD7;
-	Fri, 18 Sep 2020 11:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7606ECDA;
+	Fri, 18 Sep 2020 11:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEAF06E159;
- Fri, 18 Sep 2020 11:51:37 +0000 (UTC)
-IronPort-SDR: ees26yQb4YgNmY1VFvcgdPUXzxq3UfHh22mLIA5ur9JBJJX+WD+09isIMEQUeJRzWQFtfpsPQo
- yl0qGvwKgrmg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="147659058"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="147659058"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2607C6ECDA;
+ Fri, 18 Sep 2020 11:53:22 +0000 (UTC)
+IronPort-SDR: 0c5s9vS3c23Cakj5RCzAivbYo24cmRKmVSpIZf3PBXvUiwHvw0iBZQtWS3F89fvWsTZvkC/SsV
+ jCFpzLGiUc3w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="147659171"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="147659171"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 04:51:37 -0700
-IronPort-SDR: sUUF/kqZTjC9h2XnwEdF/YLwJYiUZSsjXMWhq1wOWdHZF1HlXO1TOqg/ZSuycKt0wbDBXsBeQw
- sBwprXwWNH7g==
+ 18 Sep 2020 04:53:21 -0700
+IronPort-SDR: woDn/3V4C/vD31UZm6cUstGHtEEs0LjXKGjSY4FvGU3QnjuKHbhvQqHCfzA2RUPPAheVZGKdgN
+ jb8KEV071g1Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="410266761"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="289316190"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 18 Sep 2020 04:51:33 -0700
+ by fmsmga008.fm.intel.com with SMTP; 18 Sep 2020 04:53:17 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Sep 2020 14:51:32 +0300
-Date: Fri, 18 Sep 2020 14:51:32 +0300
+ Fri, 18 Sep 2020 14:53:17 +0300
+Date: Fri, 18 Sep 2020 14:53:17 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Karthik B S <karthik.b.s@intel.com>
-Subject: Re: [PATCH v10 3/8] drm/i915: Add checks specific to async flips
-Message-ID: <20200918115132.GI6112@intel.com>
-References: <20200916150824.15749-4-karthik.b.s@intel.com>
- <20200918090234.18038-1-karthik.b.s@intel.com>
+Subject: Re: [PATCH v10 5/8] drm/i915: Add dedicated plane hook for async
+ flip case
+Message-ID: <20200918115317.GJ6112@intel.com>
+References: <20200916150824.15749-6-karthik.b.s@intel.com>
+ <20200918070045.9703-1-karthik.b.s@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200918090234.18038-1-karthik.b.s@intel.com>
+In-Reply-To: <20200918070045.9703-1-karthik.b.s@intel.com>
 X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,255 +63,125 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 18, 2020 at 02:32:34PM +0530, Karthik B S wrote:
-> If flip is requested on any other plane, reject it.
+On Fri, Sep 18, 2020 at 12:30:45PM +0530, Karthik B S wrote:
+> This hook is added to avoid writing other plane registers in case of
+> async flips, so that we do not write the double buffered registers
+> during async surface address update.
 > =
 
-> Make sure there is no change in fbc, offset and framebuffer modifiers
-> when async flip is requested.
-> =
-
-> If any of these are modified, reject async flip.
-> =
-
-> v2: -Replace DRM_ERROR (Paulo)
->     -Add check for changes in OFFSET, FBC, RC(Paulo)
-> =
-
-> v3: -Removed TODO as benchmarking tests have been run now.
-> =
-
-> v4: -Added more state checks for async flip (Ville)
->     -Moved intel_atomic_check_async to the end of intel_atomic_check
->      as the plane checks needs to pass before this. (Ville)
->     -Removed crtc_state->enable_fbc check. (Ville)
->     -Set the I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP flag for async
->      flip case as scanline counter is not reliable here.
-> =
-
-> v5: -Fix typo and other check patch errors seen in CI
->      in 'intel_atomic_check_async' function.
-> =
-
-> v6: -Don't call intel_atomic_check_async multiple times. (Ville)
->     -Remove the check for n_planes in intel_atomic_check_async
->     -Added documentation for async flips. (Paulo)
-> =
-
-> v7: -Replace 'intel_plane' with 'plane'. (Ville)
->     -Replace all uapi.foo as hw.foo. (Ville)
->     -Do not use intel_wm_need_update function. (Ville)
->     -Add destination coordinate check. (Ville)
->     -Do not allow async flip with linear buffer
->      on older hw as it has issues with this. (Ville)
->     -Remove break after intel_atomic_check_async. (Ville)
+> v7: -Plane ctl needs bits from skl_plane_ctl_crtc as well. (Ville)
+>     -Add a vfunc for skl_program_async_surface_address
+>      and call it from intel_update_plane. (Ville)
 > =
 
 > v8: -Rebased.
 > =
 
-> v9: -Replace DRM_DEBUG_KMS with drm_dbg_kms(). (Ville)
->     -Fix comment formatting. (Ville)
->     -Remove gen specific checks. (Ville)
->     -Remove irrelevant FB size check. (Ville)
->     -Add missing stride check. (Ville)
->     -Use drm_rect_equals() instead of individual checks. (Ville)
->     -Call intel_atomic_check_async before state dump. (Ville)
+> v9: -Use if-else instead of return in intel_update_plane(). (Ville)
+>     -Rename 'program_async_surface_address' to 'async_flip'. (Ville)
 > =
 
-> v10: -Fix the checkpatch errors seen on CI.
+> v10: -Check if async_flip hook is present before calling it.
+>       Otherwise it will OOPS during legacy cursor updates. (Ville)
 > =
 
 > Signed-off-by: Karthik B S <karthik.b.s@intel.com>
 > Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_display.c | 137 +++++++++++++++++++
->  1 file changed, 137 insertions(+)
+>  .../gpu/drm/i915/display/intel_atomic_plane.c |  6 ++++-
+>  .../drm/i915/display/intel_display_types.h    |  3 +++
+>  drivers/gpu/drm/i915/display/intel_sprite.c   | 24 +++++++++++++++++++
+>  3 files changed, 32 insertions(+), 1 deletion(-)
 > =
 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index 30e8908ee263..7327ed4a04f8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -14877,6 +14877,137 @@ static bool intel_cpu_transcoders_need_modeset(=
-struct intel_atomic_state *state,
->  	return false;
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/=
+gpu/drm/i915/display/intel_atomic_plane.c
+> index 79032701873a..6bd8e6cdd477 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -408,7 +408,11 @@ void intel_update_plane(struct intel_plane *plane,
+>  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
+>  =
+
+>  	trace_intel_update_plane(&plane->base, crtc);
+> -	plane->update_plane(plane, crtc_state, plane_state);
+> +
+> +	if (crtc_state->uapi.async_flip && plane->async_flip)
+> +		plane->async_flip(plane, crtc_state, plane_state);
+> +	else
+> +		plane->update_plane(plane, crtc_state, plane_state);
 >  }
 >  =
 
-> +/**
-> + * DOC: asynchronous flip implementation
-> + *
-> + * Asynchronous page flip is the implementation for the DRM_MODE_PAGE_FL=
-IP_ASYNC
-> + * flag. Currently async flip is only supported via the drmModePageFlip =
-IOCTL.
-> + * Correspondingly, support is currently added for primary plane only.
-> + *
-> + * Async flip can only change the plane surface address, so anything else
-> + * changing is rejected from the intel_atomic_check_async() function.
-> + * Once this check is cleared, flip done interrupt is enabled using
-> + * the skl_enable_flip_done() function.
-> + *
-> + * As soon as the surface address register is written, flip done interru=
-pt is
-> + * generated and the requested events are sent to the usersapce in the i=
-nterrupt
-> + * handler itself. The timestamp and sequence sent during the flip done =
-event
-> + * correspond to the last vblank and have no relation to the actual time=
- when
-> + * the flip done event was sent.
-> + */
-> +
-> +static int intel_atomic_check_async(struct intel_atomic_state *state)
-> +{
-> +	struct drm_i915_private *i915 =3D to_i915(state->base.dev);
-> +	struct intel_crtc_state *old_crtc_state, *new_crtc_state;
-> +	struct intel_plane_state *new_plane_state, *old_plane_state;a
-
-All plane/crtc states can be const I believe.
-
-> +	struct intel_crtc *crtc;
-> +	struct intel_plane *plane;
-> +	int i;
-> +
-> +	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
-> +					    new_crtc_state, i) {
-> +		if (needs_modeset(new_crtc_state)) {
-> +			drm_dbg_kms(&i915->drm, "Modeset Required. Async flip not supported\n=
-");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (!new_crtc_state->hw.active) {
-> +			drm_dbg_kms(&i915->drm, "CRTC inactive\n");
-> +			return -EINVAL;
-> +		}
-> +		if (old_crtc_state->active_planes !=3D new_crtc_state->active_planes) {
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Active planes cannot be changed during async flip\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
-> +					     new_plane_state, i) {
-> +		/*
-> +		 * TODO: Async flip is only supported through the page flip IOCTL
-> +		 * as of now. So support currently added for primary plane only.
-> +		 * Support for other planes on platforms on which supports
-> +		 * this(vlv/chv and icl+) should be added when async flip is
-> +		 * enabled in the atomic IOCTL path.
-> +		 */
-> +		if (plane->id !=3D PLANE_PRIMARY)
-> +			return -EINVAL;
-> +
-> +		/*
-> +		 * FIXME: This check is kept generic for all platforms.
-> +		 * Need to verify this for all gen9 and gen10 platforms to enable
-> +		 * this selectively if required.
-> +		 */
-> +		if (!(new_plane_state->hw.fb->modifier !=3D I915_FORMAT_MOD_X_TILED ||
-> +		      new_plane_state->hw.fb->modifier !=3D I915_FORMAT_MOD_Y_TILED ||
-> +		      new_plane_state->hw.fb->modifier !=3D I915_FORMAT_MOD_Yf_TILED))=
- {
-
-I suspect a switch() would be less ugly
-
-looks good otherwise
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Linear memory/CCS does not support async flips\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->color_plane[0].stride !=3D
-> +		    new_plane_state->color_plane[0].stride) {
-> +			drm_dbg_kms(&i915->drm, "Stride cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.fb->modifier !=3D
-> +		    new_plane_state->hw.fb->modifier) {
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Framebuffer modifiers cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.fb->format !=3D
-> +		    new_plane_state->hw.fb->format) {
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Framebuffer format cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.rotation !=3D
-> +		    new_plane_state->hw.rotation) {
-> +			drm_dbg_kms(&i915->drm, "Rotation cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (!drm_rect_equals(&old_plane_state->uapi.src, &new_plane_state->uap=
-i.src) ||
-> +		    !drm_rect_equals(&old_plane_state->uapi.dst, &new_plane_state->uap=
-i.dst)) {
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Plane size/co-ordinates cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.alpha !=3D new_plane_state->hw.alpha) {
-> +			drm_dbg_kms(&i915->drm, "Alpha value cannot be changed in async flip\=
-n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.pixel_blend_mode !=3D
-> +		    new_plane_state->hw.pixel_blend_mode) {
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Pixel blend mode cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.color_encoding !=3D new_plane_state->hw.color_=
-encoding) {
-> +			drm_dbg_kms(&i915->drm,
-> +				    "Color encoding cannot be changed in async flip\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (old_plane_state->hw.color_range !=3D new_plane_state->hw.color_ran=
-ge) {
-> +			drm_dbg_kms(&i915->drm, "Color range cannot be changed in async flip\=
-n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * intel_atomic_check - validate state object
->   * @dev: drm device
-> @@ -15045,6 +15176,12 @@ static int intel_atomic_check(struct drm_device =
-*dev,
+>  void intel_disable_plane(struct intel_plane *plane,
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
+/gpu/drm/i915/display/intel_display_types.h
+> index 3d4bf9b6a0a2..e3339e41ddf7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1183,6 +1183,9 @@ struct intel_plane {
+>  			   struct intel_plane_state *plane_state);
+>  	int (*min_cdclk)(const struct intel_crtc_state *crtc_state,
+>  			 const struct intel_plane_state *plane_state);
+> +	void (*async_flip)(struct intel_plane *plane,
+> +			   const struct intel_crtc_state *crtc_state,
+> +			   const struct intel_plane_state *plane_state);
+>  };
 >  =
 
->  	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
->  					    new_crtc_state, i) {
-> +		if (new_crtc_state->uapi.async_flip) {
-> +			ret =3D intel_atomic_check_async(state);
-> +			if (ret)
-> +				goto fail;
-> +		}
+>  struct intel_watermark_params {
+> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/dr=
+m/i915/display/intel_sprite.c
+> index 76a3d9bfe0de..3634e98b04c1 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
+> @@ -609,6 +609,29 @@ icl_program_input_csc(struct intel_plane *plane,
+>  			  PLANE_INPUT_CSC_POSTOFF(pipe, plane_id, 2), 0x0);
+>  }
+>  =
+
+> +static void
+> +skl_program_async_surface_address(struct intel_plane *plane,
+> +				  const struct intel_crtc_state *crtc_state,
+> +				  const struct intel_plane_state *plane_state)
+
+Pls rename this to skl_plane_async_flip() as well.
+
+With that
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+> +{
+> +	struct drm_i915_private *dev_priv =3D to_i915(plane->base.dev);
+> +	unsigned long irqflags;
+> +	enum plane_id plane_id =3D plane->id;
+> +	enum pipe pipe =3D plane->pipe;
+> +	u32 surf_addr =3D plane_state->color_plane[0].offset;
+> +	u32 plane_ctl =3D plane_state->ctl;
 > +
->  		if (!needs_modeset(new_crtc_state) &&
->  		    !new_crtc_state->update_pipe)
->  			continue;
+> +	plane_ctl |=3D skl_plane_ctl_crtc(crtc_state);
+> +
+> +	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
+> +
+> +	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
+> +	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id),
+> +			  intel_plane_ggtt_offset(plane_state) + surf_addr);
+> +
+> +	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+> +}
+> +
+>  static void
+>  skl_program_plane(struct intel_plane *plane,
+>  		  const struct intel_crtc_state *crtc_state,
+> @@ -3095,6 +3118,7 @@ skl_universal_plane_create(struct drm_i915_private =
+*dev_priv,
+>  	plane->get_hw_state =3D skl_plane_get_hw_state;
+>  	plane->check_plane =3D skl_plane_check;
+>  	plane->min_cdclk =3D skl_plane_min_cdclk;
+> +	plane->async_flip =3D skl_program_async_surface_address;
+>  =
+
+>  	if (INTEL_GEN(dev_priv) >=3D 11)
+>  		formats =3D icl_get_plane_formats(dev_priv, pipe,
 > -- =
 
 > 2.22.0
