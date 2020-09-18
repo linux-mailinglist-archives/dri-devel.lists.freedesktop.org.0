@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AE026EAF2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:02:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E163826EAF3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:03:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA516E435;
-	Fri, 18 Sep 2020 02:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE44A6E438;
+	Fri, 18 Sep 2020 02:03:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44B76E435
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:02:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3A86E436
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:03:05 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C110123718;
- Fri, 18 Sep 2020 02:02:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 425AB21734;
+ Fri, 18 Sep 2020 02:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394573;
- bh=mB0PswWSGZUE0hQctMizawBCYsl1DAYFkU5l1hbNNLQ=;
+ s=default; t=1600394585;
+ bh=OzleeDIta0QfHtPpyIbCwpHJnZGHsVVa7sJkl6FetZo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LctZEaljem9J0OpfHirw5iliTw8czdw5d2wr6BiQ1RR8TLpDZe1UvoZFT1GXRPfzO
- FCKq6vc1LYXjKrQmkO9dMDCVu7HOZ0wdSrkJ1lAn3VfuPSVMeVW6zFVaG/uPWiTa7h
- owNuAk4WCnLfwmHUqC7GIA+39Q95CQni+Mr4tbK8=
+ b=a8HSnMpOPpULYEQxr9atXQSMeKJ4+WZ4xoL9sQykVS56016Fo7qdpkC6QIh1aniJe
+ WuDYwzOPU9TIFPbOENkg6cG3FOHEtbj9ACaGGWCFlMwNxy8sVx787RFrdcZmVaQ6lI
+ kD/QJ/geDgHm6V85+ISLj581WovOTByq4THFYH4E=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 085/330] drm/scheduler: Avoid accessing freed bad
- job.
-Date: Thu, 17 Sep 2020 21:57:05 -0400
-Message-Id: <20200918020110.2063155-85-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 094/330] drm/amd/display: Initialize DSC PPS
+ variables to 0
+Date: Thu, 17 Sep 2020 21:57:14 -0400
+Message-Id: <20200918020110.2063155-94-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,73 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Emily Deng <Emily.Deng@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, David Francis <David.Francis@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+CgpbIFVw
-c3RyZWFtIGNvbW1pdCAxMzU1MTdkMzU2NWI0OGY0ZGVmM2IxYjgyMDA4YmMxN2ViNWQxYzkwIF0K
-ClByb2JsZW06CkR1ZSB0byBhIHJhY2UgYmV0d2VlbiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzIGlu
-IHNjaGVkIHRocmVhZCBhbmQKZHJtX3NjaGVkX2pvYl90aW1lZG91dCBpbiB0aW1lb3V0IHdvcmsg
-dGhlcmUgaXMgYSBwb3NzaWJsaXR5IHRoYXQKYmFkIGpvYiB3YXMgYWxyZWFkeSBmcmVlZCB3aGls
-ZSBzdGlsbCBiZWluZyBhY2Nlc3NlZCBmcm9tIHRoZQp0aW1lb3V0IHRocmVhZC4KCkZpeDoKSW5z
-dGVhZCBvZiBqdXN0IHBlZWtpbmcgYXQgdGhlIGJhZCBqb2IgaW4gdGhlIG1pcnJvciBsaXN0CnJl
-bW92ZSBpdCBmcm9tIHRoZSBsaXN0IHVuZGVyIGxvY2sgYW5kIHRoZW4gcHV0IGl0IGJhY2sgbGF0
-ZXIgd2hlbgp3ZSBhcmUgZ2FyYW50ZWVkIG5vIHJhY2Ugd2l0aCBtYWluIHNjaGVkIHRocmVhZCBp
-cyBwb3NzaWJsZSB3aGljaAppcyBhZnRlciB0aGUgdGhyZWFkIGlzIHBhcmtlZC4KCnYyOiBMb2Nr
-IGFyb3VuZCBwcm9jZXNzaW5nIHJpbmdfbWlycm9yX2xpc3QgaW4gZHJtX3NjaGVkX2NsZWFudXBf
-am9icy4KCnYzOiBSZWJhc2Ugb24gdG9wIG9mIGRybS1taXNjLW5leHQuIHYyIGlzIG5vdCBuZWVk
-ZWQgYW55bW9yZSBhcwpkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iIGFscmVhZHkgaGFzIGEgbG9j
-ayB0aGVyZS4KCnY0OiBGaXggY29tbWVudHMgdG8gcmVsZmVjdCBsYXRlc3QgY29kZSBpbiBkcm0t
-bWlzYy4KClNpZ25lZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNr
-eUBhbWQuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgpSZXZpZXdlZC1ieTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29tPgpU
-ZXN0ZWQtYnk6IEVtaWx5IERlbmcgPEVtaWx5LkRlbmdAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpMaW5rOiBodHRwczov
-L3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvMzQyMzU2ClNpZ25lZC1vZmYtYnk6IFNh
-c2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1
-bGVyL3NjaGVkX21haW4uYyB8IDI3ICsrKysrKysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUg
-Y2hhbmdlZCwgMjcgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9z
-Y2hlZHVsZXIvc2NoZWRfbWFpbi5jIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9t
-YWluLmMKaW5kZXggMzBjNWRkZDZkMDgxYy4uMTM0ZTkxMDZlYmFjMSAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3NjaGVkdWxlci9zY2hlZF9tYWluLmMKQEAgLTI4NCwxMCArMjg0LDIxIEBAIHN0YXRpYyB2b2lk
-IGRybV9zY2hlZF9qb2JfdGltZWRvdXQoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQogCXVuc2ln
-bmVkIGxvbmcgZmxhZ3M7CiAKIAlzY2hlZCA9IGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3QgZHJt
-X2dwdV9zY2hlZHVsZXIsIHdvcmtfdGRyLndvcmspOworCisJLyogUHJvdGVjdHMgYWdhaW5zdCBj
-b25jdXJyZW50IGRlbGV0aW9uIGluIGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgKi8KKwlzcGlu
-X2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKIAlqb2IgPSBsaXN0
-X2ZpcnN0X2VudHJ5X29yX251bGwoJnNjaGVkLT5yaW5nX21pcnJvcl9saXN0LAogCQkJCSAgICAg
-ICBzdHJ1Y3QgZHJtX3NjaGVkX2pvYiwgbm9kZSk7CiAKIAlpZiAoam9iKSB7CisJCS8qCisJCSAq
-IFJlbW92ZSB0aGUgYmFkIGpvYiBzbyBpdCBjYW5ub3QgYmUgZnJlZWQgYnkgY29uY3VycmVudAor
-CQkgKiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzLiBJdCB3aWxsIGJlIHJlaW5zZXJ0ZWQgYmFjayBh
-ZnRlciBzY2hlZC0+dGhyZWFkCisJCSAqIGlzIHBhcmtlZCBhdCB3aGljaCBwb2ludCBpdCdzIHNh
-ZmUuCisJCSAqLworCQlsaXN0X2RlbF9pbml0KCZqb2ItPm5vZGUpOworCQlzcGluX3VubG9ja19p
-cnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOworCiAJCWpvYi0+c2NoZWQt
-Pm9wcy0+dGltZWRvdXRfam9iKGpvYik7CiAKIAkJLyoKQEAgLTI5OCw2ICszMDksOCBAQCBzdGF0
-aWMgdm9pZCBkcm1fc2NoZWRfam9iX3RpbWVkb3V0KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykK
-IAkJCWpvYi0+c2NoZWQtPm9wcy0+ZnJlZV9qb2Ioam9iKTsKIAkJCXNjaGVkLT5mcmVlX2d1aWx0
-eSA9IGZhbHNlOwogCQl9CisJfSBlbHNlIHsKKwkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2No
-ZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKIAl9CiAKIAlzcGluX2xvY2tfaXJxc2F2ZSgmc2No
-ZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKQEAgLTM2OSw2ICszODIsMjAgQEAgdm9pZCBkcm1f
-c2NoZWRfc3RvcChzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKnNjaGVkLCBzdHJ1Y3QgZHJtX3Nj
-aGVkX2pvYiAqYmFkKQogCiAJa3RocmVhZF9wYXJrKHNjaGVkLT50aHJlYWQpOwogCisJLyoKKwkg
-KiBSZWluc2VydCBiYWNrIHRoZSBiYWQgam9iIGhlcmUgLSBub3cgaXQncyBzYWZlIGFzCisJICog
-ZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYiBjYW5ub3QgcmFjZSBhZ2FpbnN0IHVzIGFuZCByZWxl
-YXNlIHRoZQorCSAqIGJhZCBqb2IgYXQgdGhpcyBwb2ludCAtIHdlIHBhcmtlZCAod2FpdGVkIGZv
-cikgYW55IGluIHByb2dyZXNzCisJICogKGVhcmxpZXIpIGNsZWFudXBzIGFuZCBkcm1fc2NoZWRf
-Z2V0X2NsZWFudXBfam9iIHdpbGwgbm90IGJlIGNhbGxlZAorCSAqIG5vdyB1bnRpbCB0aGUgc2No
-ZWR1bGVyIHRocmVhZCBpcyB1bnBhcmtlZC4KKwkgKi8KKwlpZiAoYmFkICYmIGJhZC0+c2NoZWQg
-PT0gc2NoZWQpCisJCS8qCisJCSAqIEFkZCBhdCB0aGUgaGVhZCBvZiB0aGUgcXVldWUgdG8gcmVm
-bGVjdCBpdCB3YXMgdGhlIGVhcmxpZXN0CisJCSAqIGpvYiBleHRyYWN0ZWQuCisJCSAqLworCQls
-aXN0X2FkZCgmYmFkLT5ub2RlLCAmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QpOworCiAJLyoKIAkg
-KiBJdGVyYXRlIHRoZSBqb2IgbGlzdCBmcm9tIGxhdGVyIHRvICBlYXJsaWVyIG9uZSBhbmQgZWl0
-aGVyIGRlYWN0aXZlCiAJICogdGhlaXIgSFcgY2FsbGJhY2tzIG9yIHJlbW92ZSB0aGVtIGZyb20g
-bWlycm9yIGxpc3QgaWYgdGhleSBhbHJlYWR5Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: David Francis <David.Francis@amd.com>
+
+[ Upstream commit b6adc57cff616da18ff8cff028d2ddf585c97334 ]
+
+For DSC MST, sometimes monitors would break out
+in full-screen static. The issue traced back to the
+PPS generation code, where these variables were being used
+uninitialized and were picking up garbage.
+
+memset to 0 to avoid this
+
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: David Francis <David.Francis@amd.com>
+Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c | 3 +++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c   | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
+index a519dbc5ecb65..5d6cbaebebc03 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
+@@ -496,6 +496,9 @@ bool dp_set_dsc_pps_sdp(struct pipe_ctx *pipe_ctx, bool enable)
+ 		struct dsc_config dsc_cfg;
+ 		uint8_t dsc_packed_pps[128];
+ 
++		memset(&dsc_cfg, 0, sizeof(dsc_cfg));
++		memset(dsc_packed_pps, 0, 128);
++
+ 		/* Enable DSC hw block */
+ 		dsc_cfg.pic_width = stream->timing.h_addressable + stream->timing.h_border_left + stream->timing.h_border_right;
+ 		dsc_cfg.pic_height = stream->timing.v_addressable + stream->timing.v_border_top + stream->timing.v_border_bottom;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
+index 1b419407af942..01040501d40e3 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
+@@ -207,6 +207,9 @@ static bool dsc2_get_packed_pps(struct display_stream_compressor *dsc, const str
+ 	struct dsc_reg_values dsc_reg_vals;
+ 	struct dsc_optc_config dsc_optc_cfg;
+ 
++	memset(&dsc_reg_vals, 0, sizeof(dsc_reg_vals));
++	memset(&dsc_optc_cfg, 0, sizeof(dsc_optc_cfg));
++
+ 	DC_LOG_DSC("Getting packed DSC PPS for DSC Config:");
+ 	dsc_config_log(dsc, dsc_cfg);
+ 	DC_LOG_DSC("DSC Picture Parameter Set (PPS):");
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
