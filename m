@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D16726EADA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A6E26EADB
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:01:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2976E42F;
-	Fri, 18 Sep 2020 02:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB1736E430;
+	Fri, 18 Sep 2020 02:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B66646E42F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:01:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5FD46E430
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:01:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D006D2344C;
- Fri, 18 Sep 2020 02:01:36 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 16FD3208DB;
+ Fri, 18 Sep 2020 02:01:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394497;
- bh=mqHT6RbFDr81GU1HO9Nq0bacZnanhKGb6BtrvhIrp9c=;
+ s=default; t=1600394513;
+ bh=QJ2dpRTbPRNUbz7iVhxRcALpzJs8tArsFex247QhvQI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IvLVT3Is1yc1uTUZ8/vrMTA7IRTAd6Ab2kOWqZI0YK5ba0ggEZTrJ08K5/Bcu3vNj
- f4gsVudJ/r4YCU/YiM1lCkC4fhjyl0N5gx5voOxl8cNi3eM6l2An1z4C4hABV+fPV1
- DojRC0NPKS4taOOklyCy47CozFcZBcC3ogHzNRig=
+ b=1FgVv5h92Z/PipQRzVY5im3rXfG5mxNGKecnAomgN+voUuyKB1cgXHrRPklTz5VzL
+ /QJbAtIaRtq049QMFOVvekF1P9GHuHuCq/lDrzpcbvgGFHSzplU8hQd7/Ds6uShTne
+ P90QyeRtmBMuOgcf8zmZIm//9e55Ok478BNcpwQc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 022/330] drm/amd/display: Free gamma after
- calculating legacy transfer function
-Date: Thu, 17 Sep 2020 21:56:02 -0400
-Message-Id: <20200918020110.2063155-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 036/330] drm/amdgpu/powerplay: fix AVFS handling
+ with custom powerplay table
+Date: Thu, 17 Sep 2020 21:56:16 -0400
+Message-Id: <20200918020110.2063155-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,46 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Evan Quan <evan.quan@amd.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 0e3a7c2ec93b15f43a2653e52e9608484391aeaf ]
+[ Upstream commit 53dbc27ad5a93932ff1892a8e4ef266827d74a0f ]
 
-[Why]
-We're leaking memory by not freeing the gamma used to calculate the
-transfer function for legacy gamma.
+When a custom powerplay table is provided, we need to update
+the OD VDDC flag to avoid AVFS being enabled when it shouldn't be.
 
-[How]
-Release the gamma after we're done with it.
-
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Reviewed-by: Leo Li <sunpeng.li@amd.com>
+Bug: https://bugzilla.kernel.org/show_bug.cgi?id=205393
+Reviewed-by: Evan Quan <evan.quan@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index b43bb7f90e4e9..2233d293a707a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -210,6 +210,8 @@ static int __set_legacy_tf(struct dc_transfer_func *func,
- 	res = mod_color_calculate_regamma_params(func, gamma, true, has_rom,
- 						 NULL);
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
+index beacfffbdc3eb..ecbc9daea57e0 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
+@@ -3691,6 +3691,13 @@ static int vega10_set_power_state_tasks(struct pp_hwmgr *hwmgr,
+ 	PP_ASSERT_WITH_CODE(!result,
+ 			"Failed to upload PPtable!", return result);
  
-+	dc_gamma_release(&gamma);
++	/*
++	 * If a custom pp table is loaded, set DPMTABLE_OD_UPDATE_VDDC flag.
++	 * That effectively disables AVFS feature.
++	 */
++	if(hwmgr->hardcode_pp_table != NULL)
++		data->need_update_dpm_table |= DPMTABLE_OD_UPDATE_VDDC;
 +
- 	return res ? 0 : -ENOMEM;
- }
+ 	vega10_update_avfs(hwmgr);
  
+ 	/*
 -- 
 2.25.1
 
