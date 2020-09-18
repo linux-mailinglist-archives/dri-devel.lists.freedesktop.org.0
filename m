@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B8926FE2E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 15:23:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1A526FE32
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 15:25:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEC0F6E14F;
-	Fri, 18 Sep 2020 13:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED3126ECF1;
+	Fri, 18 Sep 2020 13:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5E9E6E14F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 13:23:44 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08IDNZQv079956;
- Fri, 18 Sep 2020 08:23:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600435415;
- bh=QAD9s+VLeCd2Hro5Hhz3PJVG5qgwt7yucas+t6eVGoY=;
- h=From:To:CC:Subject:Date;
- b=MyWr7fg1ml9qnU0sO0iIY0u35M+IsxbJZJCWHuq5d4rum6dD6C3caolk/VZ29GMSH
- W8C5c2m48ZqgwGfTFRccIk0da7c5Gd2tV8eqF6Be6qmq9NCLmXhJ37cXSextPKwo9k
- mWbhFjr7DBGHYWTxELZsA6qrDebtvU107o8dOtzo=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08IDNZQt111786;
- Fri, 18 Sep 2020 08:23:35 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 18
- Sep 2020 08:23:35 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 18 Sep 2020 08:23:35 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08IDNWks017529;
- Fri, 18 Sep 2020 08:23:33 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, ML
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [GIT PULL] cdns-mhdp bridge for 5.10
-Message-ID: <5dd15e3c-51ed-49c0-cf49-88c7af38d6b0@ti.com>
-Date: Fri, 18 Sep 2020 16:23:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99C866E182
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 13:25:12 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id k15so5609180wrn.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 06:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UBx1PEmn0W4aDiCsFb5YFigHJoHIwLLzOZ1tXmUxyJc=;
+ b=G7OaI49UWbNUKXHTKQeo5alyNmun03V6bN+GnHogC+Ep7LFe1X2G4zGD/dhLy1SgRu
+ gW9EvNLJGZiorbCOUuBCvgz4sw0q9XlemKqMrCrjV0FzRw7LajzE5RerIUud29d4RSvR
+ QSyz3t3+hPmRBcFwvSizUKafcAbYNNiIWOCMU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UBx1PEmn0W4aDiCsFb5YFigHJoHIwLLzOZ1tXmUxyJc=;
+ b=Y+t0WLqFoaftZHgaAkEcnSJYWvfi+uuLPDfTjtfaRIbdmbdg5unlAYlOmUu46/dRbc
+ bpDRG16nKAGnXP5YOpunqQKEF86tcmhZTHqDPjMoKFEHKJ3fbtQZynZipl0jFaAtbNAB
+ KEv5tpmXxBOc716dnLYkFnS/BfZf24s2lc3xOoEaoBYQcFMxILXAFFa59ttYBhTABoFg
+ hqI+sZ5D9vo3UoR/KV+zECmOQYOr4LrZyo7o6ulPAcs93geweLF6exkvE3j268Wf+ewc
+ b0g1bqB/QzaVGx2NkQ871DIybmLE5OLtwQfyvyfR9J+mMHFeVzfh23XBZLbXyjkOVvnN
+ BtnQ==
+X-Gm-Message-State: AOAM532gNjsNHGuHiolKuDEcbiTZmsfiteP3105xm45V9DtLpV0cv+2d
+ yv17UYuuOcVu0XC1295Ou7mnCUPe+irMqxs8
+X-Google-Smtp-Source: ABdhPJzi29RcoloJdDY7B+Pk6hmy9TeacocMO63nWs80KfgVLp4l18Ve5k6EzSNBv5IQwFlhykY9/Q==
+X-Received: by 2002:adf:e6c2:: with SMTP id y2mr40238845wrm.117.1600435510935; 
+ Fri, 18 Sep 2020 06:25:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k6sm4872693wmi.1.2020.09.18.06.25.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 06:25:10 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/4] managed drm_device, absolute final leftover bits
+Date: Fri, 18 Sep 2020 15:25:01 +0200
+Message-Id: <20200918132505.2316382-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,85 +61,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yuti Amonkar <yamonkar@cadence.com>,
- Neil Armstrong <narmstrong@baylibre.com>, "Nori, Sekhar" <nsekhar@ti.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Swapnil Jakhade <sjakhade@cadence.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi all,
 
-Here's a pull requests for Cadence MHDP DisplayPort bridge driver. It's almost
--rc6, but I'd like to see this merged in 5.10 to make it easier to get the last
-bits (mainly dts files) merged in 5.11.
+These are the leftovers of the leftovers of my initial drmm series to
+manage drm_device.
 
-The MHDP driver compile-time-depends on two PHY patches (queued in phy tree),
-for which there's a stable git branch based on -rc1 provided by Vinod:
+Changes:
+- bugfixed i915 selftests
+- patch from Luben to finalize the admgpu conversion
 
-git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy phy-attrs-5.10
+Alex & i915 maintainers, pls ack for merging this all through
+drm-misc-next since otherwise the final patch (and the resulting confusion
+with outdated docs) is held up another round.
 
-I have merged this stable branch here to keep MHDP compiling.
+Cheers, Daniel
 
-This is based on latest drm-next.
+Daniel Vetter (3):
+  drm/i915/selftest: Create mock_destroy_device
+  drm/i915/selftests: align more to real device lifetimes
+  drm/dev: Remove drm_dev_init
 
- Tomi	
+Luben Tuikov (1):
+  drm/amdgpu: Convert to using devm_drm_dev_alloc() (v2)
 
-The following changes since commit b40be05ed255d9a0257fb66ab2728ecca2c9d597:
-
-  Merge branch 'for-5.10-drm-sg-fix' of https://github.com/mszyprow/linux into drm-next (2020-09-17 16:07:11 +1000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git tags/cdns-mhdp-5.10
-
-for you to fetch changes up to afba7e6c5fc190b687f3d87bc6d1029d1500c059:
-
-  drm: bridge: cdns-mhdp8546: Add TI J721E wrapper (2020-09-18 15:16:02 +0300)
-
-----------------------------------------------------------------
-Cadence MHDP8546 DisplayPort bridge driver
-
-----------------------------------------------------------------
-Swapnil Jakhade (4):
-      phy: Add new PHY attribute max_link_rate
-      phy: cadence-torrent: Set Torrent PHY attributes
-      drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge
-      drm: bridge: cdns-mhdp8546: Add TI J721E wrapper
-
-Tomi Valkeinen (1):
-      Merge tag 'phy-attrs-5.10' of git://git.kernel.org/.../phy/linux-phy into 5.10/dp-pull
-
-Yuti Amonkar (1):
-      dt-bindings: drm/bridge: Document Cadence MHDP8546 bridge bindings
-
- .../bindings/display/bridge/cdns,mhdp8546.yaml     |  169 ++
- drivers/gpu/drm/bridge/Kconfig                     |    2 +
- drivers/gpu/drm/bridge/Makefile                    |    1 +
- drivers/gpu/drm/bridge/cadence/Kconfig             |   24 +
- drivers/gpu/drm/bridge/cadence/Makefile            |    4 +
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    | 2532 ++++++++++++++++++++
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |  400 ++++
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c   |   78 +
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h   |   19 +
- drivers/phy/cadence/phy-cadence-torrent.c          |    4 +
- include/linux/phy/phy.h                            |    2 +
- 11 files changed, 3235 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
- create mode 100644 drivers/gpu/drm/bridge/cadence/Kconfig
- create mode 100644 drivers/gpu/drm/bridge/cadence/Makefile
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 16 ++----
+ drivers/gpu/drm/drm_drv.c                     | 41 ++--------------
+ drivers/gpu/drm/drm_internal.h                |  1 +
+ drivers/gpu/drm/drm_managed.c                 | 13 -----
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_object.c  |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_phys.c    |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |  2 +-
+ .../drm/i915/selftests/intel_memory_region.c  |  2 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  | 49 ++++++++++++-------
+ .../gpu/drm/i915/selftests/mock_gem_device.h  |  2 +
+ include/drm/drm_drv.h                         |  4 --
+ 18 files changed, 51 insertions(+), 97 deletions(-)
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
