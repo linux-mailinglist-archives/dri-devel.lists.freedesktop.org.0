@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C2526EB6D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:06:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 631AE26EB75
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4862B6E107;
-	Fri, 18 Sep 2020 02:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BAD86E44A;
+	Fri, 18 Sep 2020 02:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F257C6E107
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:06:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A416E44A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:06:39 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2BCFD23770;
- Fri, 18 Sep 2020 02:06:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 59D5E238D6;
+ Fri, 18 Sep 2020 02:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394795;
- bh=ffDT/WKFTgV67vs+6P5VHGIfYyVvsSViiPmyQrIFwe0=;
+ s=default; t=1600394799;
+ bh=2dQoNSLwcFHgL9nUDXpmWel0uijiSICTv+90Rw3dA60=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tbY0crE8KOFG/32kJXkzQyL1R8WNS+Q/niwTxJpKAxaWGHJ5gDm1fLNSdOfsrm+2u
- pH/wmDPj5/sEQGd5PqMYwIAhXLxLx9nxzUHOUl0YFIZCsZnDq0tucZdiifFd9Pc1un
- xC82E5N/MT29JsVD1V6G7hGLr3dEdeuCuhRPuNAQ=
+ b=GB0C+t3n8B+Thngs1CGWIacdmsG2gfYR+U4Z7weCcP38LqYbnzCBJ0emFN8R46R3U
+ PdPUQii4ZDlJf9UdosIuf5JxH0BI/+yEWQ+IrAjhAmF1wed8kpRa+4qJZnIria5yPx
+ X6we+FCVqpQqk9SnR+6BebIWlECrwTK1XD+17JRc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 265/330] drm/amd/powerplay: try to do a graceful
- shutdown on SW CTF
-Date: Thu, 17 Sep 2020 22:00:05 -0400
-Message-Id: <20200918020110.2063155-265-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 268/330] drm/exynos: dsi: Remove bridge node
+ reference in error handling path in probe function
+Date: Thu, 17 Sep 2020 22:00:08 -0400
+Message-Id: <20200918020110.2063155-268-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,108 +50,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Evan Quan <evan.quan@amd.com>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Evan Quan <evan.quan@amd.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit 9495220577416632675959caf122e968469ffd16 ]
+[ Upstream commit 547a7348633b1f9923551f94ac3157a613d2c9f2 ]
 
-Normally this(SW CTF) should not happen. And by doing graceful
-shutdown we can prevent further damage.
+'exynos_dsi_parse_dt()' takes a reference to 'dsi->in_bridge_node'.
+This must be released in the error handling path.
 
-Signed-off-by: Evan Quan <evan.quan@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+In order to do that, add an error handling path and move the
+'exynos_dsi_parse_dt()' call from the beginning to the end of the probe
+function to ease the error handling path.
+This function only sets some variables which are used only in the
+'transfer' function.
+
+The call chain is:
+   .transfer
+    --> exynos_dsi_host_transfer
+      --> exynos_dsi_init
+        --> exynos_dsi_enable_clock  (use burst_clk_rate and esc_clk_rate)
+          --> exynos_dsi_set_pll     (use pll_clk_rate)
+
+While at it, also handle cases where 'component_add()' fails.
+
+This patch is similar to commit 70505c2ef94b ("drm/exynos: dsi: Remove bridge node reference in removal")
+which fixed the issue in the remove function.
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/powerplay/hwmgr/smu_helper.c  | 21 +++++++++++++++----
- drivers/gpu/drm/amd/powerplay/smu_v11_0.c     |  7 +++++++
- 2 files changed, 24 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu_helper.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu_helper.c
-index d09690fca4520..414added3d02c 100644
---- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu_helper.c
-+++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu_helper.c
-@@ -22,6 +22,7 @@
-  */
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 8ed94c9948008..b83acd696774b 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1741,10 +1741,6 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	dsi->dev = dev;
+ 	dsi->driver_data = of_device_get_match_data(dev);
  
- #include <linux/pci.h>
-+#include <linux/reboot.h>
+-	ret = exynos_dsi_parse_dt(dsi);
+-	if (ret)
+-		return ret;
+-
+ 	dsi->supplies[0].supply = "vddcore";
+ 	dsi->supplies[1].supply = "vddio";
+ 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(dsi->supplies),
+@@ -1805,11 +1801,25 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
- #include "hwmgr.h"
- #include "pp_debug.h"
-@@ -593,12 +594,18 @@ int phm_irq_process(struct amdgpu_device *adev,
- 	uint32_t src_id = entry->src_id;
++	ret = exynos_dsi_parse_dt(dsi);
++	if (ret)
++		return ret;
++
+ 	platform_set_drvdata(pdev, &dsi->encoder);
  
- 	if (client_id == AMDGPU_IRQ_CLIENTID_LEGACY) {
--		if (src_id == VISLANDS30_IV_SRCID_CG_TSS_THERMAL_LOW_TO_HIGH)
-+		if (src_id == VISLANDS30_IV_SRCID_CG_TSS_THERMAL_LOW_TO_HIGH) {
- 			pr_warn("GPU over temperature range detected on PCIe %d:%d.%d!\n",
- 						PCI_BUS_NUM(adev->pdev->devfn),
- 						PCI_SLOT(adev->pdev->devfn),
- 						PCI_FUNC(adev->pdev->devfn));
--		else if (src_id == VISLANDS30_IV_SRCID_CG_TSS_THERMAL_HIGH_TO_LOW)
-+			/*
-+			 * SW CTF just occurred.
-+			 * Try to do a graceful shutdown to prevent further damage.
-+			 */
-+			dev_emerg(adev->dev, "System is going to shutdown due to SW CTF!\n");
-+			orderly_poweroff(true);
-+		} else if (src_id == VISLANDS30_IV_SRCID_CG_TSS_THERMAL_HIGH_TO_LOW)
- 			pr_warn("GPU under temperature range detected on PCIe %d:%d.%d!\n",
- 					PCI_BUS_NUM(adev->pdev->devfn),
- 					PCI_SLOT(adev->pdev->devfn),
-@@ -609,12 +616,18 @@ int phm_irq_process(struct amdgpu_device *adev,
- 					PCI_SLOT(adev->pdev->devfn),
- 					PCI_FUNC(adev->pdev->devfn));
- 	} else if (client_id == SOC15_IH_CLIENTID_THM) {
--		if (src_id == 0)
-+		if (src_id == 0) {
- 			pr_warn("GPU over temperature range detected on PCIe %d:%d.%d!\n",
- 						PCI_BUS_NUM(adev->pdev->devfn),
- 						PCI_SLOT(adev->pdev->devfn),
- 						PCI_FUNC(adev->pdev->devfn));
--		else
-+			/*
-+			 * SW CTF just occurred.
-+			 * Try to do a graceful shutdown to prevent further damage.
-+			 */
-+			dev_emerg(adev->dev, "System is going to shutdown due to SW CTF!\n");
-+			orderly_poweroff(true);
-+		} else
- 			pr_warn("GPU under temperature range detected on PCIe %d:%d.%d!\n",
- 					PCI_BUS_NUM(adev->pdev->devfn),
- 					PCI_SLOT(adev->pdev->devfn),
-diff --git a/drivers/gpu/drm/amd/powerplay/smu_v11_0.c b/drivers/gpu/drm/amd/powerplay/smu_v11_0.c
-index c4d8c52c6b9ca..6c4405622c9bb 100644
---- a/drivers/gpu/drm/amd/powerplay/smu_v11_0.c
-+++ b/drivers/gpu/drm/amd/powerplay/smu_v11_0.c
-@@ -23,6 +23,7 @@
- #include <linux/firmware.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/reboot.h>
+ 	pm_runtime_enable(dev);
  
- #include "pp_debug.h"
- #include "amdgpu.h"
-@@ -1538,6 +1539,12 @@ static int smu_v11_0_irq_process(struct amdgpu_device *adev,
- 				PCI_BUS_NUM(adev->pdev->devfn),
- 				PCI_SLOT(adev->pdev->devfn),
- 				PCI_FUNC(adev->pdev->devfn));
-+			/*
-+			 * SW CTF just occurred.
-+			 * Try to do a graceful shutdown to prevent further damage.
-+			 */
-+			dev_emerg(adev->dev, "System is going to shutdown due to SW CTF!\n");
-+			orderly_poweroff(true);
- 		break;
- 		case THM_11_0__SRCID__THM_DIG_THERM_H2L:
- 			pr_warn("GPU under temperature range detected on PCIe %d:%d.%d!\n",
+-	return component_add(dev, &exynos_dsi_component_ops);
++	ret = component_add(dev, &exynos_dsi_component_ops);
++	if (ret)
++		goto err_disable_runtime;
++
++	return 0;
++
++err_disable_runtime:
++	pm_runtime_disable(dev);
++	of_node_put(dsi->in_bridge_node);
++
++	return ret;
+ }
+ 
+ static int exynos_dsi_remove(struct platform_device *pdev)
 -- 
 2.25.1
 
