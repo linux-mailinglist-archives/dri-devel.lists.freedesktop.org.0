@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CE026FCCA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B86426FCCE
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:45:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5235F6EC68;
-	Fri, 18 Sep 2020 12:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6BE46ECE9;
+	Fri, 18 Sep 2020 12:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46466EC68
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:45:04 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c18so5482508wrm.9
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 05:45:04 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 848CC6ECEA
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:45:39 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a17so5481311wrn.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 05:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Rq67HAUwjHPZKs/urtQHIUecwbG25ockaZcppSzjcdk=;
- b=TpojCR/NJV7QnBXzE5bQHyYCP1Is7E/ntFLj7ssPKhkvpykRxjDKSKIg3UvaymzoJT
- 7mNJ9YKZoAXnxw8/hIFwsiEWd49dgbOQIf91Ro/qCFYkZaPax87arhp+HM7SwlYhsYC8
- yLxbSU0XJbbkCoGD38hgCmp/eLHqlVvdSuYXA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mkjGA7pXWKUs0Nfv07SZZRXfgMyaUHALkc311WYJd5c=;
+ b=IjP59USZ4bt/dNbg6oSq65GvWXtsZNBOpmHcvEGwUUe7X+YQ8CuVdvzCJGUW31mYN+
+ kutEcRAjJR4RcIEaSUCQ+2SZ1Rv35nHNuqPRysdFMn9OVDXJ9a8uh6YI7JPIBIExQFFw
+ 1nb0o6gG1SpBjtUqoSxsN0I9Nz6cEgQsIpwa8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Rq67HAUwjHPZKs/urtQHIUecwbG25ockaZcppSzjcdk=;
- b=rxwA7W9bwuRen2gv8ZHTPNA9MPm4ioqAaknJIYEQzLeRAxMIt4NaHkURQDFsctdCzC
- bKmciFoTf/jWV/KLc3vUdz2bZncef6UjqMGGd/XtJhTeYJrkP2juPEZno3B2m7q5+5aS
- bWAi0oZgw3Knei4Povall27b1+SKz09gIqHhGL9aXlAUGt9F8eT6vLypOD/TLGcpv0Yp
- ++eVmkeoAzz5/YzYYztzUUQTMe0QS5NmBh1ipAFxNR9H1w4ltgP7YBKIsnz/n2H7OsjU
- oaEVyPmoxQj9mQndZzPmMX4DVD1lU7YSXhL89AiDXkAnP+ENbdmjoMj8t1Y6RitJRRKV
- z0BQ==
-X-Gm-Message-State: AOAM531A5UOAZagWN64NBdVn0ayl9elOSVx4nKTdLGRSafrY1p/II54t
- tZ4BPMOpl8B7iBfUtVGy+8fY/Q==
-X-Google-Smtp-Source: ABdhPJzKYZzudbcvRodjUlgUsP0VJIGUK9kF4w4HoQsJh5XPt6v+xzUfwtWTxa5cLbJwbgXqoGkK2A==
-X-Received: by 2002:a5d:4246:: with SMTP id s6mr36968595wrr.414.1600433103332; 
- Fri, 18 Sep 2020 05:45:03 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=mkjGA7pXWKUs0Nfv07SZZRXfgMyaUHALkc311WYJd5c=;
+ b=IY7uIVYSuEROOXGKV4rx3rpljWEbpyGGS+ppcxXug9FQ8o58VCUN24h4/FoyiyVRz0
+ VFKCGf58EX5W/F7mRzNxdsvI64zO+WoxxWYtIZC+f5AI1pmYFLg8kMmoPpn1vQR/bzC3
+ 4TQzB7aMknUaVkvfPed2gfTQkLBIoMO7bacesqDD9/MRwzDsri2CnwrqAnTISJFAXxj6
+ n21/9OoqQO2fVypfiecE8Snl13OlIzjleXBO5AHVKcMAKZ058CQi0uKqm2HFoGjtI6Oe
+ Y3FkUpWvxK25YKdo5NmZ1VfYJzt0cjvjkECykT9nKmo/PAbG5ZRGupXkpTywpvrVwvFT
+ Pnuw==
+X-Gm-Message-State: AOAM530jkz9Yguw9ginWCSbMlreSQbt8C7P7V/M2UHRXrjuCxlSnRKG8
+ OM50yvne27+0jMX9V00Le7Yfwt1AcsxLaGNF
+X-Google-Smtp-Source: ABdhPJyDK0gDuuHiczv9k6y+Mdkm1lj9HIgPKWCvChWYK5+PoIgy7TapyPO7BGOVyhxEfKVMzA4lGQ==
+X-Received: by 2002:adf:81a3:: with SMTP id 32mr37517353wra.368.1600433138210; 
+ Fri, 18 Sep 2020 05:45:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 185sm5639101wma.18.2020.09.18.05.45.02
+ by smtp.gmail.com with ESMTPSA id e18sm4912651wrx.50.2020.09.18.05.45.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 05:45:02 -0700 (PDT)
-Date: Fri, 18 Sep 2020 14:45:00 +0200
+ Fri, 18 Sep 2020 05:45:37 -0700 (PDT)
+Date: Fri, 18 Sep 2020 14:45:35 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Veera Sundaram Sankaran <veeras@codeaurora.org>
-Subject: Re: [PATCH] dma-fence: add get_signaled_timestamp to fence ops
-Message-ID: <20200918124500.GA438822@phenom.ffwll.local>
-References: <1600379138-12774-1-git-send-email-veeras@codeaurora.org>
+To: Jing Xiangfeng <jingxiangfeng@huawei.com>
+Subject: Re: [PATCH v2] fbcon: Remove the superfluous break
+Message-ID: <20200918124535.GB438822@phenom.ffwll.local>
+Mail-Followup-To: Jing Xiangfeng <jingxiangfeng@huawei.com>,
+ b.zolnierkie@samsung.com, gregkh@linuxfoundation.org,
+ ndesaulniers@google.com, gustavoars@kernel.org,
+ jirislaby@kernel.org, george.kennedy@oracle.com,
+ natechancellor@gmail.com, peda@axentia.se, krzysztof.h1@wp.pl,
+ akpm@linux-foundation.org, adaplas@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20200918010521.69950-1-jingxiangfeng@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1600379138-12774-1-git-send-email-veeras@codeaurora.org>
+In-Reply-To: <20200918010521.69950-1-jingxiangfeng@huawei.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,99 +73,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pdhaval@codeaurora.org, abhinavk@codeaurora.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: krzysztof.h1@wp.pl, akpm@linux-foundation.org, b.zolnierkie@samsung.com,
+ daniel.vetter@ffwll.ch, ndesaulniers@google.com, gustavoars@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ george.kennedy@oracle.com, linux-fbdev@vger.kernel.org,
+ gregkh@linuxfoundation.org, natechancellor@gmail.com, jirislaby@kernel.org,
+ peda@axentia.se
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 17, 2020 at 02:45:38PM -0700, Veera Sundaram Sankaran wrote:
-> Add an optional fence ops to allow drivers to be able to set the
-> timestamp for a fence. Some drivers have hardware capability to get
-> the precise timestamp of certain events based on which the fences
-> are triggered. This allows it to set accurate timestamp factoring
-> out any software and IRQ latencies. The get_signaled_timestamp ops,
-> if defined by the driver would be used during fence signaling to set
-> the timestamp, before setting the flag DMA_FENCE_FLAG_TIMESTAMP_BIT.
-> If the callback is not defined, ktime_get is used to set the fence
-> timestamp.
+On Fri, Sep 18, 2020 at 09:05:21AM +0800, Jing Xiangfeng wrote:
+> Remove the superfluous break, as there is a 'return' before it.
 > 
-> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+> Fixes: bad07ff74c32 ("fbcon: smart blitter usage for scrolling")
+> Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-We don't add hooks without implementations, please submit a complete patch
-series (and yes that would need to be with upstream drm/msm drivers if
-this is for qcom platforms).
-
-Thanks, Daniel
+Applied to drm-misc-next, thanks.
+-Daniel
 
 > ---
->  drivers/dma-buf/dma-fence.c |  6 +++++-
->  include/linux/dma-fence.h   | 13 +++++++++++++
->  2 files changed, 18 insertions(+), 1 deletion(-)
+>  drivers/video/fbdev/core/fbcon.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 43624b4..95c6ab0 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -4,6 +4,7 @@
->   *
->   * Copyright (C) 2012 Canonical Ltd
->   * Copyright (C) 2012 Texas Instruments
-> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->   *
->   * Authors:
->   * Rob Clark <robdclark@gmail.com>
-> @@ -340,7 +341,10 @@ int dma_fence_signal_locked(struct dma_fence *fence)
->  	/* Stash the cb_list before replacing it with the timestamp */
->  	list_replace(&fence->cb_list, &cb_list);
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 0b49b0f44edf..623359aadd1e 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -1727,7 +1727,6 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
+>  				    vc->vc_video_erase_char,
+>  				    vc->vc_size_row * count);
+>  			return true;
+> -			break;
 >  
-> -	fence->timestamp = ktime_get();
-> +	if (fence->ops->get_signaled_timestamp)
-> +		fence->timestamp = fence->ops->get_signaled_timestamp(fence);
-> +	else
-> +		fence->timestamp = ktime_get();
->  	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->  	trace_dma_fence_signaled(fence);
+>  		case SCROLL_WRAP_MOVE:
+>  			if (b - t - count > 3 * vc->vc_rows >> 2) {
+> @@ -1818,7 +1817,6 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
+>  				    vc->vc_video_erase_char,
+>  				    vc->vc_size_row * count);
+>  			return true;
+> -			break;
 >  
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 09e23ad..ce73aba 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -4,6 +4,7 @@
->   *
->   * Copyright (C) 2012 Canonical Ltd
->   * Copyright (C) 2012 Texas Instruments
-> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->   *
->   * Authors:
->   * Rob Clark <robdclark@gmail.com>
-> @@ -261,6 +262,18 @@ struct dma_fence_ops {
->  	 */
->  	void (*timeline_value_str)(struct dma_fence *fence,
->  				   char *str, int size);
-> +
-> +	/**
-> +	 * @get_signaled_timestamp:
-> +	 *
-> +	 * Allows the driver to fill in precise timestamp for a fence.
-> +	 * This ops would be used during fence signalling to set the timestamp,
-> +	 * before setting the flag DMA_FENCE_FLAG_TIMESTAMP_BIT.
-> +	 *
-> +	 * This callback is optional. If this callback is not present,
-> +	 * ktime_get is used to fill in the timestamp.
-> +	 */
-> +	ktime_t (*get_signaled_timestamp)(struct dma_fence *fence);
->  };
->  
->  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>  		case SCROLL_WRAP_MOVE:
+>  			if (b - t - count > 3 * vc->vc_rows >> 2) {
 > -- 
-> 2.7.4
+> 2.17.1
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
