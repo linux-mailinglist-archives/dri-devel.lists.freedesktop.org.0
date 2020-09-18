@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0366826FD80
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:48:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E5026FD8C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E436ECEB;
-	Fri, 18 Sep 2020 12:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4C36ECED;
+	Fri, 18 Sep 2020 12:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 898A76ECEB
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:48:52 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id l9so5456767wme.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 05:48:52 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733436ECED
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:51:50 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a17so5500006wrn.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 05:51:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=XApl2kYt9xUmRP5psUkQBhn2GDFKQJu7UH6yAt3QUWA=;
- b=A8p2oYFKY7zPaqTEiOXEd9EwjUjubmI5UxUmX2JaKANkCWPGfOgldA/C/f4mzKQQdw
- +SrkqGu42ESAhWYGb7V3XyrqV05qEXdsORrKto6EpEJhnyASo9U18DCOFcRiGzVCEsfc
- QYyq7gAb/SUs5vCrjYzg9O7R7k3hiAmZYAbso=
+ :mime-version:content-disposition:in-reply-to;
+ bh=LdqUwNGuUoOZQN1Vrg5rTKgqe2Vlz3PCWzH7mZwiHkg=;
+ b=VbIfCOkIPLpuuLEj3Czk6IQzde0+eqXqXF72Xa+y6PnfBTjb0prJZ3ApY6Wkqganxr
+ zm4vGX2vlar5ZHzsZX9tk+LbhMdOefJ/z3Nk4KvgAq/JpBGWqwSrkZnO6I2RM28UfZUZ
+ e26MMcvMpiieFDnfLYqY+aKuqxczdsAON1Gwc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=XApl2kYt9xUmRP5psUkQBhn2GDFKQJu7UH6yAt3QUWA=;
- b=hri2COLvMS2QEmdXk+SkXBsIQ2GO2rewC+oo5ymAD5IQqCSYN8VfVnvs6RzZj7ssiJ
- yI7/lzPW2CWI90on00BC6X3a6ZFw7UhNcs497AsmaFxqEJpvlEE0uXPGk59CvwIQs/Gr
- 9xCxoFVwiQ2bOApR7cGNTq1WyuvzZRb8ghOaK7N6xUZriE+W/1i1vtnB3pj5vNjoOm/B
- lYL0Srnh5gtNbcBjNWHJm5mcKNhTo+MLd1yYAlwfINtqb0VwlHGcYQJcy1ubXV1RZzJp
- Vk3vI1RWhfaU4XhOZ1ts7c6G1dbwhTDqrw07eWKTwslCm7jJLr7gHbtNsc5dspqpIA/h
- 60+g==
-X-Gm-Message-State: AOAM533TsFUB4bY4Sbo91o22RqZDxw/jqJCtc61tn9rlK0z8NcpDMo78
- Ku5diNviuxeMsoUw9I7Wfp4UXg==
-X-Google-Smtp-Source: ABdhPJws4fdJlwAFRicyfASJ6sKqsyVx8I56ikTXgryM1sw8YM3g8WD8s8WEkijsL4e0bWaUa5+i4w==
-X-Received: by 2002:a7b:cd05:: with SMTP id f5mr15140544wmj.116.1600433331211; 
- Fri, 18 Sep 2020 05:48:51 -0700 (PDT)
+ :in-reply-to;
+ bh=LdqUwNGuUoOZQN1Vrg5rTKgqe2Vlz3PCWzH7mZwiHkg=;
+ b=IIgfntwgEnylErY0ofO/xxYWpY93Lar2SvSjPY+97kcNaXXF0l8DpZyo2INea4i01Z
+ CPJYa/ooPBtUQW4CY1T7XU0n2mfcRm4VRHA99rVNGyyGeH9unyfkVltd5/SDko7n4IPD
+ sH0aaq3f2nrNKhOYx9tlwVQjh98Nb/CfF6YjhcDq+929YEM0AtM57KNz8zcjfUoXWnBx
+ cwkvOImSaAqQxGa5+RZK1Wa8pwheK/UIoBj7gUoXOuHOVsZej451+UG5EDtM6uRGeFj1
+ AgeEPE+9eQyoSMurtkCLEyaEeHqPQYNRE1w6scwogME8ThsVVFnZJ9Wi8sUS2OImg/EZ
+ MC6A==
+X-Gm-Message-State: AOAM530EKKqih2xJuwFeLqVAE78beiX1tODGzFo7rIDaV9OE8Q+0P/r8
+ V+K3iDMLJthd5vBnxsMViAqIyQ==
+X-Google-Smtp-Source: ABdhPJx/gY7W2/o0UKhvbfl13oUVULn2OYRrEJfQ7Obt1b0wGNHyDYhr7uARtrZSm+O1qJSvt3pukw==
+X-Received: by 2002:a5d:6cb1:: with SMTP id a17mr34096968wra.386.1600433509088; 
+ Fri, 18 Sep 2020 05:51:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p11sm4881656wma.11.2020.09.18.05.48.50
+ by smtp.gmail.com with ESMTPSA id o4sm4935851wrv.86.2020.09.18.05.51.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 05:48:50 -0700 (PDT)
-Date: Fri, 18 Sep 2020 14:48:48 +0200
+ Fri, 18 Sep 2020 05:51:48 -0700 (PDT)
+Date: Fri, 18 Sep 2020 14:51:46 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] dmabuf: fix NULL pointer dereference in dma_buf_release()
-Message-ID: <20200918124848.GE438822@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Charan Teja Reddy <charante@codeaurora.org>,
- sumit.semwal@linaro.org, arnd@arndb.de,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <1600425151-27670-1-git-send-email-charante@codeaurora.org>
- <7a4a51fb-008b-cd64-35e7-2a2765b2c3a6@amd.com>
+To: Yannick Fertre <yannick.fertre@st.com>
+Subject: Re: [PATCH] drm/panel: otm8009a: remove hack to force commands in HS
+Message-ID: <20200918125146.GF438822@phenom.ffwll.local>
+Mail-Followup-To: Yannick Fertre <yannick.fertre@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>,
+ Antonio Borneo <antonio.borneo@st.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200918114718.11106-1-yannick.fertre@st.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7a4a51fb-008b-cd64-35e7-2a2765b2c3a6@amd.com>
+In-Reply-To: <20200918114718.11106-1-yannick.fertre@st.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,78 +71,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: arnd@arndb.de, linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
- Charan Teja Reddy <charante@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Antonio Borneo <antonio.borneo@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 18, 2020 at 01:16:16PM +0200, Christian K=F6nig wrote:
-> Am 18.09.20 um 12:32 schrieb Charan Teja Reddy:
-> > NULL pointer dereference is observed while exporting the dmabuf but
-> > failed to allocate the 'struct file' which results into the dropping of
-> > the allocated dentry corresponding to this file in the dmabuf fs, which
-> > is ending up in dma_buf_release() and accessing the uninitialzed
-> > dentry->d_fsdata.
-> > =
+On Fri, Sep 18, 2020 at 01:47:18PM +0200, Yannick Fertre wrote:
+> From: Antonio Borneo <antonio.borneo@st.com>
+> 
+> The panel is able to receive commands in LP. The current hack to
+> force backlight commands in HS was due to workaround an incorrect
+> settings on DSI controller that prevents sending LP commands while
+> video out was active.
+> 
+> Remove the hack that forces HS commands.
+> 
+> Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
 
-> > Call stack on 5.4 is below:
-> >   dma_buf_release+0x2c/0x254 drivers/dma-buf/dma-buf.c:88
-> >   __dentry_kill+0x294/0x31c fs/dcache.c:584
-> >   dentry_kill fs/dcache.c:673 [inline]
-> >   dput+0x250/0x380 fs/dcache.c:859
-> >   path_put+0x24/0x40 fs/namei.c:485
-> >   alloc_file_pseudo+0x1a4/0x200 fs/file_table.c:235
-> >   dma_buf_getfile drivers/dma-buf/dma-buf.c:473 [inline]
-> >   dma_buf_export+0x25c/0x3ec drivers/dma-buf/dma-buf.c:585
-> > =
+This and the next are missing your s-o-b line. Also you've done a bunch of
+gpu patches arlready, want drm-misc commit rights so you can make sure
+they all do land?
 
-> > Fix this by checking for the valid pointer in the dentry->d_fsdata.
-> > =
+https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
 
-> > Fixes: 4ab59c3c638c ("dma-buf: Move dma_buf_release() from fops to dent=
-ry_ops")
-> > Cc: <stable@vger.kernel.org> [5.7+]
-> > Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
-> =
+There's tons more docs about how the tooling and process works.
 
-> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
-> =
+Cheers, Daniel
 
-> Going to pick this up for inclusion into drm-misc-next as well.
+> ---
+>  .../gpu/drm/panel/panel-orisetech-otm8009a.c   | 18 ++----------------
+>  1 file changed, 2 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> index 6ac1accade80..f80b44a8a700 100644
+> --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> @@ -99,20 +99,6 @@ static void otm8009a_dcs_write_buf(struct otm8009a *ctx, const void *data,
+>  		dev_warn(ctx->dev, "mipi dsi dcs write buffer failed\n");
+>  }
+>  
+> -static void otm8009a_dcs_write_buf_hs(struct otm8009a *ctx, const void *data,
+> -				      size_t len)
+> -{
+> -	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> -
+> -	/* data will be sent in dsi hs mode (ie. no lpm) */
+> -	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> -
+> -	otm8009a_dcs_write_buf(ctx, data, len);
+> -
+> -	/* restore back the dsi lpm mode */
+> -	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> -}
+> -
+>  #define dcs_write_seq(ctx, seq...)			\
+>  ({							\
+>  	static const u8 d[] = { seq };			\
+> @@ -400,7 +386,7 @@ static int otm8009a_backlight_update_status(struct backlight_device *bd)
+>  		 */
+>  		data[0] = MIPI_DCS_SET_DISPLAY_BRIGHTNESS;
+>  		data[1] = bd->props.brightness;
+> -		otm8009a_dcs_write_buf_hs(ctx, data, ARRAY_SIZE(data));
+> +		otm8009a_dcs_write_buf(ctx, data, ARRAY_SIZE(data));
+>  
+>  		/* set Brightness Control & Backlight on */
+>  		data[1] = 0x24;
+> @@ -412,7 +398,7 @@ static int otm8009a_backlight_update_status(struct backlight_device *bd)
+>  
+>  	/* Update Brightness Control & Backlight */
+>  	data[0] = MIPI_DCS_WRITE_CONTROL_DISPLAY;
+> -	otm8009a_dcs_write_buf_hs(ctx, data, ARRAY_SIZE(data));
+> +	otm8009a_dcs_write_buf(ctx, data, ARRAY_SIZE(data));
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.17.1
+> 
 
-drm-misc-fixes since this is a bugfix that needs to be backported.
--Daniel
-
-> =
-
-> > ---
-> >   drivers/dma-buf/dma-buf.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > =
-
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 58564d82..844967f 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -59,6 +59,8 @@ static void dma_buf_release(struct dentry *dentry)
-> >   	struct dma_buf *dmabuf;
-> >   	dmabuf =3D dentry->d_fsdata;
-> > +	if (unlikely(!dmabuf))
-> > +		return;
-> >   	BUG_ON(dmabuf->vmapping_counter);
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
