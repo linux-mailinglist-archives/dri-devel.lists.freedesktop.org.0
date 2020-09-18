@@ -1,55 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309C3270281
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 18:46:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3ACA2702F3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 19:10:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62EF46ED38;
-	Fri, 18 Sep 2020 16:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB49B6ED3F;
+	Fri, 18 Sep 2020 17:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAC26ED38
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 16:46:51 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id k18so6228568wmj.5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 09:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x2dP4UcE3sWQ3VomUCH89EZ1bsooBucMERiNI9LOr4o=;
- b=M7p0/el/7VYU9UxL73Xz4wuyltP/kOyR+IrgJFfDgxn2d0IAFvqwEXbvYBdaHzSr+W
- XUPp4uJ9w7vCps/87JacUoGuvEp6NehpzFK6ekOZiLLJkicVa6OAryl/PCfDFunbr7lm
- H3AArXWir/DqdaWhCs5E6EOJribV1sb83JP5SyGcOZJLfkx7kjQN+DLbw4XRck2qe38L
- 5RhpBv6pfxghL6oGfpujnvgnYAjRbykU8zs4Iwko2x96PH45g1lkeIZgyEL46PgUPtCR
- iK5MbljBP8R61H/FVJsbnr5NVIxA/ZDM+IpKIqAoSdtVZd80QRCG9mKIriXlTXaj25/O
- Y1lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x2dP4UcE3sWQ3VomUCH89EZ1bsooBucMERiNI9LOr4o=;
- b=mwB7k23Jo0vgtHzJ3MfAfxGEN+iWUmAyLESWTXFWso6yXB2+7HzYNfV1f8uDfSknjN
- 638ZurmIPKp5ooHhpmSgUVOiL4f5GjY6hwFInPx1Le4pgvo2IO6iGDzlvxajhLeUq5Rt
- oadeK1or2TdxVLnF2CU2RUkB3XTZY74PJ4Rp2m47xfo9LquyE5X5nMyh5Nkx8kj0VZyC
- T2EqUHCjzM4AZU8c6IPyxFVtj39pvM7YS6f72AVGpB4YOwA1s2oRUhr0Uk3S84c3nKm7
- Lg/42JJoWnFxvYuNcHkhWw6cY89823dMcSOye6c79AYbEBjktP5gUq30GtclOri6koVO
- Q2zg==
-X-Gm-Message-State: AOAM5314ChKUT3miKBp0uo2dLoNWYsobayD3wrl63az0fFprWr39DzcV
- DvB1+wuSbqmOuuXJZlBHJNzqnwhpcjwWKPEIF43Hsw==
-X-Google-Smtp-Source: ABdhPJy/gGJanF4ZoO96vmE+oOeRyKOjBs0RNno4WqWu/PRKvijSwIorHR/mTqBz1TpaSXxraAhStFFwsrhaaLORMp4=
-X-Received: by 2002:a1c:1d52:: with SMTP id d79mr17492245wmd.82.1600447610254; 
- Fri, 18 Sep 2020 09:46:50 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6642B6ED3E;
+ Fri, 18 Sep 2020 17:10:08 +0000 (UTC)
+IronPort-SDR: 5cq5OSJ+obZnS7ydEhr24UzxlffEgd6fR3TWs77H/vgNyZloTxk9+7LnwjDVWhRX8bJXcpk0ay
+ vdoOp1bZP2sw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="159304759"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="159304759"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 10:10:07 -0700
+IronPort-SDR: X4IJnje9UOuVdYFlyQvVeSXhRm8LtSeWqPHBeMArsSthArjyp9URw9o7JnoxpLIO7XIIbYsjqC
+ c9W+Mj6ClBJg==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="508943785"
+Received: from rdvivi-losangeles.jf.intel.com (HELO intel.com)
+ ([10.165.21.201])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 10:10:07 -0700
+Date: Fri, 18 Sep 2020 13:12:21 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 0/4] managed drm_device, absolute final
+ leftover bits
+Message-ID: <20200918171221.GB716636@intel.com>
+References: <20200918132505.2316382-1-daniel.vetter@ffwll.ch>
+ <CADnq5_NW_k6szxmLxvf+tca4-D7oUfkLg1W-P0Q8AjVPBK_=iQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200918145918.101068-1-maxime@cerno.tech>
- <20200918145918.101068-2-maxime@cerno.tech>
-In-Reply-To: <20200918145918.101068-2-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 18 Sep 2020 17:46:34 +0100
-Message-ID: <CAPY8ntA4b3Sf29OWMxS=cPHmGBx+8kCx_ix0mhcgqUWeTirL-A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/vc4: crtc: Keep the previously assigned HVS FIFO
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Disposition: inline
+In-Reply-To: <CADnq5_NW_k6szxmLxvf+tca4-D7oUfkLg1W-P0Q8AjVPBK_=iQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,170 +51,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+On Fri, Sep 18, 2020 at 11:03:12AM -0400, Alex Deucher wrote:
+> On Fri, Sep 18, 2020 at 9:25 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > Hi all,
+> >
+> > These are the leftovers of the leftovers of my initial drmm series to
+> > manage drm_device.
+> >
+> > Changes:
+> > - bugfixed i915 selftests
+> > - patch from Luben to finalize the admgpu conversion
+> >
+> > Alex & i915 maintainers, pls ack for merging this all through
+> > drm-misc-next since otherwise the final patch (and the resulting confusion
+> > with outdated docs) is held up another round.
+> 
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Thanks for the patch - it makes mode switching reliable for me! :-)
 
-On Fri, 18 Sep 2020 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The HVS FIFOs are currently assigned each time we have an atomic_check
-> for all the enabled CRTCs.
->
-> However, if we are running multiple outputs in parallel and we happen to
-> disable the first (by index) CRTC, we end up changing the assigned FIFO
-> of the second CRTC without disabling and reenabling the pixelvalve which
-> ends up in a stall and eventually a VBLANK timeout.
->
-> In order to fix this, we can create a special value for our assigned
-> channel to mark it as disabled, and if our CRTC already had an assigned
-> channel in its previous state, we keep on using it.
->
-> Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
-Review comments below though.
-
-> ---
->  drivers/gpu/drm/vc4/vc4_crtc.c | 13 ++++++++++---
->  drivers/gpu/drm/vc4/vc4_drv.h  |  1 +
->  drivers/gpu/drm/vc4/vc4_kms.c  | 21 +++++++++++++++------
->  3 files changed, 26 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-> index a393f93390a2..be754120faa8 100644
-> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> @@ -852,11 +852,18 @@ void vc4_crtc_destroy_state(struct drm_crtc *crtc,
->
->  void vc4_crtc_reset(struct drm_crtc *crtc)
->  {
-> +       struct vc4_crtc_state *vc4_crtc_state;
-> +
->         if (crtc->state)
->                 vc4_crtc_destroy_state(crtc, crtc->state);
-> -       crtc->state = kzalloc(sizeof(struct vc4_crtc_state), GFP_KERNEL);
-> -       if (crtc->state)
-> -               __drm_atomic_helper_crtc_reset(crtc, crtc->state);
-> +
-> +       vc4_crtc_state = kzalloc(sizeof(*vc4_crtc_state), GFP_KERNEL);
-> +       if (!vc4_crtc_state)
-> +               return;
-
-This error path has me worried, but I may have missed it.
-
-If crtc->state was set then it's been freed via
-vc4_crtc_destroy_state. However I don't see anything that has reset
-crtc->state to NULL.
-If the new alloc fails then I believe we exit with crtc->state still
-set to the old freed pointer.
-
-The old code directly set crtc->state, so it got reset to NULL by the failure.
-
-> +
-> +       vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
-> +       crtc->state = &vc4_crtc_state->base;
-> +       __drm_atomic_helper_crtc_reset(crtc, crtc->state);
->  }
->
->  static const struct drm_crtc_funcs vc4_crtc_funcs = {
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 8c8d96b6289f..2b13f2126f13 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -531,6 +531,7 @@ struct vc4_crtc_state {
->                 unsigned int bottom;
->         } margins;
->  };
-> +#define VC4_HVS_CHANNEL_DISABLED ((unsigned int) -1)
-
-Checkpatch whinge on that
-CHECK: No space is necessary after a cast
-#55: FILE: drivers/gpu/drm/vc4/vc4_drv.h:539:
-+#define VC4_HVS_CHANNEL_DISABLED ((unsigned int) -1)
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#55: FILE: drivers/gpu/drm/vc4/vc4_drv.h:539:
- };
-+#define VC4_HVS_CHANNEL_DISABLED ((unsigned int) -1)
-
->  static inline struct vc4_crtc_state *
->  to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 01fa60844695..f452dad50c22 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -616,7 +616,7 @@ static int
->  vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->         unsigned long unassigned_channels = GENMASK(NUM_CHANNELS - 1, 0);
-> -       struct drm_crtc_state *crtc_state;
-> +       struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->         struct drm_crtc *crtc;
->         int i, ret;
->
-> @@ -629,6 +629,7 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
->          * modified.
->          */
->         list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-> +               struct drm_crtc_state *crtc_state;
-
-Blank line between variables and code, or not in this subsystem?
-Checkpatch hasn't complained to me here.
-
->                 if (!crtc->state->enable)
->                         continue;
->
-> @@ -637,15 +638,23 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
->                         return PTR_ERR(crtc_state);
->         }
->
-> -       for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
-> -               struct vc4_crtc_state *vc4_crtc_state =
-> -                       to_vc4_crtc_state(crtc_state);
-> +       for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
-> +               struct vc4_crtc_state *new_vc4_crtc_state =
-> +                       to_vc4_crtc_state(new_crtc_state);
->                 struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
->                 unsigned int matching_channels;
->
-> -               if (!crtc_state->enable)
-> +               if (old_crtc_state->enable && !new_crtc_state->enable)
-> +                       new_vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
-> +
-> +               if (!new_crtc_state->enable)
->                         continue;
->
-> +               if (new_vc4_crtc_state->assigned_channel != VC4_HVS_CHANNEL_DISABLED) {
-> +                       unassigned_channels &= ~BIT(new_vc4_crtc_state->assigned_channel);
-> +                       continue;
-> +               }
-> +
->                 /*
->                  * The problem we have to solve here is that we have
->                  * up to 7 encoders, connected to up to 6 CRTCs.
-> @@ -674,7 +683,7 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
->                 if (matching_channels) {
->                         unsigned int channel = ffs(matching_channels) - 1;
->
-> -                       vc4_crtc_state->assigned_channel = channel;
-> +                       new_vc4_crtc_state->assigned_channel = channel;
->                         unassigned_channels &= ~BIT(channel);
->                 } else {
->                         return -EINVAL;
-> --
-> 2.26.2
->
+> 
+> >
+> > Cheers, Daniel
+> >
+> > Daniel Vetter (3):
+> >   drm/i915/selftest: Create mock_destroy_device
+> >   drm/i915/selftests: align more to real device lifetimes
+> >   drm/dev: Remove drm_dev_init
+> >
+> > Luben Tuikov (1):
+> >   drm/amdgpu: Convert to using devm_drm_dev_alloc() (v2)
+> >
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 16 ++----
+> >  drivers/gpu/drm/drm_drv.c                     | 41 ++--------------
+> >  drivers/gpu/drm/drm_internal.h                |  1 +
+> >  drivers/gpu/drm/drm_managed.c                 | 13 -----
+> >  .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+> >  .../drm/i915/gem/selftests/i915_gem_context.c |  2 +-
+> >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  2 +-
+> >  .../drm/i915/gem/selftests/i915_gem_object.c  |  2 +-
+> >  .../drm/i915/gem/selftests/i915_gem_phys.c    |  2 +-
+> >  drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+> >  .../gpu/drm/i915/selftests/i915_gem_evict.c   |  2 +-
+> >  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  2 +-
+> >  drivers/gpu/drm/i915/selftests/i915_request.c |  2 +-
+> >  drivers/gpu/drm/i915/selftests/i915_vma.c     |  2 +-
+> >  .../drm/i915/selftests/intel_memory_region.c  |  2 +-
+> >  .../gpu/drm/i915/selftests/mock_gem_device.c  | 49 ++++++++++++-------
+> >  .../gpu/drm/i915/selftests/mock_gem_device.h  |  2 +
+> >  include/drm/drm_drv.h                         |  4 --
+> >  18 files changed, 51 insertions(+), 97 deletions(-)
+> >
+> > --
+> > 2.28.0
+> >
+> > _______________________________________________
+> > amd-gfx mailing list
+> > amd-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
