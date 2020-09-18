@@ -1,90 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4F326FB36
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 13:16:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1747126FBAD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 13:40:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B1C56ECD3;
-	Fri, 18 Sep 2020 11:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A676E155;
+	Fri, 18 Sep 2020 11:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760043.outbound.protection.outlook.com [40.107.76.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE87C6ECD3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 11:16:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DpmUgzbsKNr2bLIM1sB0XjmglxCSpD5dBu6wotMb64yGCC2IsPsHYvjTK62FOE5EkVZ1ySv/D+ARoWtqGgkU9cng9SSrf02tB/zw38Qjecu29I4X9dsrZWCpg4xb38yKDc4k1zeeHTHKcV6blO31yuyL4coI+nEyW9BjVYFL+44c0Go2jbraNI1PFSkgrKKSd6JzW8xqM2+zruPwftfU9QneazoxhaT9U8Yz7bSAcvZV0keAaV99RZFNBdU5GoteufJaVeWqw4N8ixakUO7mMuq93VWnFXjlEbnFvhBQvT83qpqmHHov+irxxL++Uq2cWZ3ks56j435seTtEiDn1QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iiv3/44FtgnlymSQClCT8RVI8qwKcRv+ssElx6pYhuo=;
- b=R300IIsZTdM0M2FvRoIvqNMCJLrMnSPmf6/Z/E3d6E1sc/PkthZqT408ybBSEUV1DYtUsB0Wzulh4ipsbi71ftjIkxcHU5ehs/dDMlH05K/ZJ2RpqbNj2FVPUHazV2Guc8Fdhy7MNEvamtLaDYOsk3GWZXFyhI1u3zh78TeWPYUWvbonyG8z7HQOIio1maqSkiUv6IGolqbCNMeDmyY5mNvZ+mxHs2K/OiztHJGb3/zbfje+SaZYXNvZvqSjuOKpFkM4bgLo8sN0Vpvhhvb26164iPyLHsEjpE7ns3h3AhEpGnHFtlzBAYFflEVRMO+sZy14jkbBzGy7FZPspRdLAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iiv3/44FtgnlymSQClCT8RVI8qwKcRv+ssElx6pYhuo=;
- b=UByYjychr0hPLAApfzC0VesRvB/0jxFHfS/M7uWwb5K9n3SKemhu/AOmbo3TpSFZzy7PvclKOKBV7Yxhi9Ca/l6JOa6v6meRsUImcCYibA60mDPDy09BCaEJWb1BfwsiEGpRqgUhCNNU9v4l86kmDn3fuoogtcw/kS2KBADqZeA=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3677.namprd12.prod.outlook.com (2603:10b6:208:15a::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15; Fri, 18 Sep
- 2020 11:16:22 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3391.014; Fri, 18 Sep 2020
- 11:16:22 +0000
-Subject: Re: [PATCH] dmabuf: fix NULL pointer dereference in dma_buf_release()
-To: Charan Teja Reddy <charante@codeaurora.org>, sumit.semwal@linaro.org,
- arnd@arndb.de
-References: <1600425151-27670-1-git-send-email-charante@codeaurora.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <7a4a51fb-008b-cd64-35e7-2a2765b2c3a6@amd.com>
-Date: Fri, 18 Sep 2020 13:16:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <1600425151-27670-1-git-send-email-charante@codeaurora.org>
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR10CA0073.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:15::26) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE1BB6E155
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 11:40:15 +0000 (UTC)
+IronPort-SDR: SbgRb7NTS/ObiZ3blahAwA4sF8AYtuL77U9RXWdTYu6JLji0ejZBCjJc0XuNxCng8EMWRr3LdQ
+ TpmCQ7RHiomw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="221477395"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="221477395"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 04:40:15 -0700
+IronPort-SDR: 55e36s5Ev9VsX9/G/sFPNtGFcHQ6MVSc127EE3xumdUV6cMGPPZhsI3orub4sHoBsrL6I3aw7V
+ mriGTmtHEymw==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="452719886"
+Received: from bjfitton-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.251.83.18])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 04:40:13 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/dp: add subheadings to DPCD address definitions
+Date: Fri, 18 Sep 2020 14:40:16 +0300
+Message-Id: <20200918114017.30198-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR10CA0073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.11 via Frontend Transport; Fri, 18 Sep 2020 11:16:20 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 693b83d4-143e-4fd1-827b-08d85bc445fb
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3677:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3677429DEB345A0F2266AF96833F0@MN2PR12MB3677.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bsRO7dNULjTkpwp4SMFbIK/VLH5SnEm6LxiM4Hjiv81/eHL7YjJOnYPpRHDQ9tw1fUXFFNyCAaxjD2/LQIs//CyoMyva4BZaF96AG+pl3buPQXqTb4s9qv/kUCxdyCt56QSFxyQz61cREfY7ktzw8oYg0Xjm/eO09nxp8IzXEvvlgs6CBgUjOk8k3g7BIYXGECkoMzw/+kMoxwiYHnV5bfCDk98DnUQznFZvqqGnK5Zii1Etj1EFTBe91ytQV/7wK5K27uxobE1AIcuz5xvEHjwkC8z+2PqQgk1DkQXv67nQYcv8VtZpUswqG1yFmZ+NE+mVUsoM8cgW8PoaNxglTM4ZS/WTDYvyeEkpcgtOz2aTN4eaLz97Fe5ycIe2yHBq
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(366004)(346002)(136003)(376002)(83380400001)(52116002)(31686004)(4326008)(31696002)(6666004)(186003)(5660300002)(16526019)(6486002)(316002)(86362001)(66556008)(66476007)(66946007)(36756003)(478600001)(2906002)(8936002)(8676002)(2616005)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: flkrJMG51H99fX9atJL9h5v6kNohjt9FMa1mv8R/gnHg0NusOCiJF5NuN2/gVnY3aIo5v+TYrcpPCv5iZ+L9T8qElMonq/IKsmtEbhpcjssFBOtm3wWwoSP9y5aHol60ZWaIPevrvDHPqZWwF58vmPY7xJxi4GVo058a2JhuWO9ZhzrQC5EJc0t2vLxVm+yyG4qhWpZfsgm1kPwUWz1qY6RI28PyozuoVfjY+3qOPQ+g+BN0/7cW+FUpd08pFXw0tt+fnaaXSj7Yx7APFBTBDM+9M0YvJ+7BAtp+aMURR1NKPoCHiY3KrNnj6sj9urbo9QEdAcqQQKwkvBf6UYFgjbkJ05O1P/2MduiQi02lSr+k/bRaEtNcJxUEDrpKEQo03XbyE4cO6B7bDgRsMPFBFn2McIBlpKjXMCnQGcijY3BW5x6C0L6MLHh/VZx1kbF3AVdtXmo9tyDoBSq1aHR+hyVzYhLYQgPFRiBHjeQFxIT/CE8kLmzr3SnMaTfW/23/ZDm7xIPrjxj7B1g/Y89U/es6PhsEGqACmEl1esiY21WqaZL9psvnaUd0xCfQFHiJMZDrsRqCfjibkWmapbQzsYosCVSk9p6vnhLRmUPEwFwE70eVWvSvbO49fe38BiJ/3k17gBr2XVzPGaIhxGl1rapKfqIb/5oL3kCIJmz8IlGNCFqijPal7cDBe9FZdfM/AwRjxM0K8cGu2ELYvp8PHw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 693b83d4-143e-4fd1-827b-08d85bc445fb
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 11:16:22.3191 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vweHaVDvbAc724l/x8T48pepFdJfqPjPuQbnAtGy2/paOW9SUTv5d4jm3dyUcgaD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3677
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,43 +47,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: jani.nikula@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTguMDkuMjAgdW0gMTI6MzIgc2NocmllYiBDaGFyYW4gVGVqYSBSZWRkeToKPiBOVUxMIHBv
-aW50ZXIgZGVyZWZlcmVuY2UgaXMgb2JzZXJ2ZWQgd2hpbGUgZXhwb3J0aW5nIHRoZSBkbWFidWYg
-YnV0Cj4gZmFpbGVkIHRvIGFsbG9jYXRlIHRoZSAnc3RydWN0IGZpbGUnIHdoaWNoIHJlc3VsdHMg
-aW50byB0aGUgZHJvcHBpbmcgb2YKPiB0aGUgYWxsb2NhdGVkIGRlbnRyeSBjb3JyZXNwb25kaW5n
-IHRvIHRoaXMgZmlsZSBpbiB0aGUgZG1hYnVmIGZzLCB3aGljaAo+IGlzIGVuZGluZyB1cCBpbiBk
-bWFfYnVmX3JlbGVhc2UoKSBhbmQgYWNjZXNzaW5nIHRoZSB1bmluaXRpYWx6ZWQKPiBkZW50cnkt
-PmRfZnNkYXRhLgo+Cj4gQ2FsbCBzdGFjayBvbiA1LjQgaXMgYmVsb3c6Cj4gICBkbWFfYnVmX3Jl
-bGVhc2UrMHgyYy8weDI1NCBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jOjg4Cj4gICBfX2RlbnRy
-eV9raWxsKzB4Mjk0LzB4MzFjIGZzL2RjYWNoZS5jOjU4NAo+ICAgZGVudHJ5X2tpbGwgZnMvZGNh
-Y2hlLmM6NjczIFtpbmxpbmVdCj4gICBkcHV0KzB4MjUwLzB4MzgwIGZzL2RjYWNoZS5jOjg1OQo+
-ICAgcGF0aF9wdXQrMHgyNC8weDQwIGZzL25hbWVpLmM6NDg1Cj4gICBhbGxvY19maWxlX3BzZXVk
-bysweDFhNC8weDIwMCBmcy9maWxlX3RhYmxlLmM6MjM1Cj4gICBkbWFfYnVmX2dldGZpbGUgZHJp
-dmVycy9kbWEtYnVmL2RtYS1idWYuYzo0NzMgW2lubGluZV0KPiAgIGRtYV9idWZfZXhwb3J0KzB4
-MjVjLzB4M2VjIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmM6NTg1Cj4KPiBGaXggdGhpcyBieSBj
-aGVja2luZyBmb3IgdGhlIHZhbGlkIHBvaW50ZXIgaW4gdGhlIGRlbnRyeS0+ZF9mc2RhdGEuCj4K
-PiBGaXhlczogNGFiNTljM2M2MzhjICgiZG1hLWJ1ZjogTW92ZSBkbWFfYnVmX3JlbGVhc2UoKSBm
-cm9tIGZvcHMgdG8gZGVudHJ5X29wcyIpCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiBb
-NS43K10KPiBTaWduZWQtb2ZmLWJ5OiBDaGFyYW4gVGVqYSBSZWRkeSA8Y2hhcmFudGVAY29kZWF1
-cm9yYS5vcmc+CgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgoKR29pbmcgdG8gcGljayB0aGlzIHVwIGZvciBpbmNsdXNpb24gaW50byBkcm0t
-bWlzYy1uZXh0IGFzIHdlbGwuCgo+IC0tLQo+ICAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyB8
-IDIgKysKPiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+
-IGluZGV4IDU4NTY0ZDgyLi44NDQ5NjdmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9k
-bWEtYnVmLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gQEAgLTU5LDYgKzU5
-LDggQEAgc3RhdGljIHZvaWQgZG1hX2J1Zl9yZWxlYXNlKHN0cnVjdCBkZW50cnkgKmRlbnRyeSkK
-PiAgIAlzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmOwo+ICAgCj4gICAJZG1hYnVmID0gZGVudHJ5LT5k
-X2ZzZGF0YTsKPiArCWlmICh1bmxpa2VseSghZG1hYnVmKSkKPiArCQlyZXR1cm47Cj4gICAKPiAg
-IAlCVUdfT04oZG1hYnVmLT52bWFwcGluZ19jb3VudGVyKTsKPiAgIAoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Add the subheadings from the DP spec. No functional changes.
+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ include/drm/drm_dp_helper.h | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index c9f2851904d0..388083b4716b 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -106,8 +106,9 @@ struct drm_device;
+ #define DP_AUX_I2C_REPLY_DEFER		(0x2 << 2)
+ #define DP_AUX_I2C_REPLY_MASK		(0x3 << 2)
+ 
+-/* AUX CH addresses */
+-/* DPCD */
++/* DPCD Field Address Mapping */
++
++/* Receiver Capability */
+ #define DP_DPCD_REV                         0x000
+ # define DP_DPCD_REV_10                     0x10
+ # define DP_DPCD_REV_11                     0x11
+@@ -426,7 +427,7 @@ struct drm_device;
+ #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_1  0x0a1
+ #define DP_DSC_BRANCH_MAX_LINE_WIDTH        0x0a2
+ 
+-/* link configuration */
++/* Link Configuration */
+ #define	DP_LINK_BW_SET		            0x100
+ # define DP_LINK_RATE_TABLE		    0x00    /* eDP 1.4 */
+ # define DP_LINK_BW_1_62		    0x06
+@@ -580,6 +581,7 @@ struct drm_device;
+ #define DP_PAYLOAD_ALLOCATE_START_TIME_SLOT 0x1c1
+ #define DP_PAYLOAD_ALLOCATE_TIME_SLOT_COUNT 0x1c2
+ 
++/* Link/Sink Device Status */
+ #define DP_SINK_COUNT			    0x200
+ /* prior to 1.2 bit 7 was reserved mbz */
+ # define DP_GET_SINK_COUNT(x)		    ((((x) & 0x80) >> 1) | ((x) & 0x3f))
+@@ -779,20 +781,27 @@ struct drm_device;
+ #define DP_VC_PAYLOAD_ID_SLOT_1             0x2c1   /* 1.2 MST */
+ /* up to ID_SLOT_63 at 0x2ff */
+ 
++/* Source Device-specific */
+ #define DP_SOURCE_OUI			    0x300
++
++/* Sink Device-specific */
+ #define DP_SINK_OUI			    0x400
++
++/* Branch Device-specific */
+ #define DP_BRANCH_OUI			    0x500
+ #define DP_BRANCH_ID                        0x503
+ #define DP_BRANCH_REVISION_START            0x509
+ #define DP_BRANCH_HW_REV                    0x509
+ #define DP_BRANCH_SW_REV                    0x50A
+ 
++/* Link/Sink Device Power Control */
+ #define DP_SET_POWER                        0x600
+ # define DP_SET_POWER_D0                    0x1
+ # define DP_SET_POWER_D3                    0x2
+ # define DP_SET_POWER_MASK                  0x3
+ # define DP_SET_POWER_D3_AUX_ON             0x5
+ 
++/* eDP-specific */
+ #define DP_EDP_DPCD_REV			    0x700    /* eDP 1.2 */
+ # define DP_EDP_11			    0x00
+ # define DP_EDP_12			    0x01
+@@ -876,11 +885,13 @@ struct drm_device;
+ #define DP_EDP_REGIONAL_BACKLIGHT_BASE      0x740    /* eDP 1.4 */
+ #define DP_EDP_REGIONAL_BACKLIGHT_0	    0x741    /* eDP 1.4 */
+ 
++/* Sideband MSG Buffers */
+ #define DP_SIDEBAND_MSG_DOWN_REQ_BASE	    0x1000   /* 1.2 MST */
+ #define DP_SIDEBAND_MSG_UP_REP_BASE	    0x1200   /* 1.2 MST */
+ #define DP_SIDEBAND_MSG_DOWN_REP_BASE	    0x1400   /* 1.2 MST */
+ #define DP_SIDEBAND_MSG_UP_REQ_BASE	    0x1600   /* 1.2 MST */
+ 
++/* DPRX Event Status Indicator */
+ #define DP_SINK_COUNT_ESI		    0x2002   /* 1.2 */
+ /* 0-5 sink count */
+ # define DP_SINK_COUNT_CP_READY             (1 << 6)
+@@ -934,6 +945,7 @@ struct drm_device;
+ #define DP_LANE_ALIGN_STATUS_UPDATED_ESI       0x200e /* status same as 0x204 */
+ #define DP_SINK_STATUS_ESI                     0x200f /* status same as 0x205 */
+ 
++/* Extended Receiver Capability */
+ #define DP_DP13_DPCD_REV                    0x2200
+ #define DP_DP13_MAX_LINK_RATE               0x2201
+ 
+@@ -947,6 +959,7 @@ struct drm_device;
+ # define DP_VSC_EXT_CEA_SDP_SUPPORTED			(1 << 6)  /* DP 1.4 */
+ # define DP_VSC_EXT_CEA_SDP_CHAINING_SUPPORTED		(1 << 7)  /* DP 1.4 */
+ 
++/* Protocol Converter Extension */
+ /* HDMI CEC tunneling over AUX DP 1.3 section 5.3.3.3.1 DPCD 1.4+ */
+ #define DP_CEC_TUNNELING_CAPABILITY            0x3000
+ # define DP_CEC_TUNNELING_CAPABLE               (1 << 0)
+@@ -1013,6 +1026,7 @@ struct drm_device;
+ #define DP_PROTOCOL_CONVERTER_CONTROL_2		0x3052 /* DP 1.3 */
+ # define DP_CONVERSION_TO_YCBCR422_ENABLE	(1 << 0) /* DP 1.3 */
+ 
++/* HDCP 1.3 and HDCP 2.2 */
+ #define DP_AUX_HDCP_BKSV		0x68000
+ #define DP_AUX_HDCP_RI_PRIME		0x68005
+ #define DP_AUX_HDCP_AKSV		0x68007
+@@ -1058,7 +1072,7 @@ struct drm_device;
+ #define DP_HDCP_2_2_REG_STREAM_TYPE_OFFSET	0x69494
+ #define DP_HDCP_2_2_REG_DBG_OFFSET		0x69518
+ 
+-/* Link Training (LT)-tunable PHY Repeaters */
++/* LTTPR: Link Training (LT)-tunable PHY Repeaters */
+ #define DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV 0xf0000 /* 1.3 */
+ #define DP_MAX_LINK_RATE_PHY_REPEATER			    0xf0001 /* 1.4a */
+ #define DP_PHY_REPEATER_CNT				    0xf0002 /* 1.3 */
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
