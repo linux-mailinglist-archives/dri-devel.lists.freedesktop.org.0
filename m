@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E163826EAF3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BDC26EAF5
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:03:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE44A6E438;
-	Fri, 18 Sep 2020 02:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84BBA6E437;
+	Fri, 18 Sep 2020 02:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3A86E436
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:03:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40A056E437
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:03:37 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 425AB21734;
- Fri, 18 Sep 2020 02:03:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 454D923600;
+ Fri, 18 Sep 2020 02:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394585;
- bh=OzleeDIta0QfHtPpyIbCwpHJnZGHsVVa7sJkl6FetZo=;
+ s=default; t=1600394617;
+ bh=tWNmLNTC4xNwsIwyQ68ebsA5j2KIZRLstIrhjapgaXg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a8HSnMpOPpULYEQxr9atXQSMeKJ4+WZ4xoL9sQykVS56016Fo7qdpkC6QIh1aniJe
- WuDYwzOPU9TIFPbOENkg6cG3FOHEtbj9ACaGGWCFlMwNxy8sVx787RFrdcZmVaQ6lI
- kD/QJ/geDgHm6V85+ISLj581WovOTByq4THFYH4E=
+ b=sOQeA6mkfIT7pP4E34egmCAoMbS/OchyGJLUwmQGvAPUCtaCAVPBWWP52oZ8eHXRN
+ 49LmYBxd6GmFpis5UN0ZtkKr6PLoW8yCqCkn5R85gp4f4XcYBBxbK7I5pGaGr3nC/C
+ nBKBJtp9YcV5ffp3Q5OugZqs1CD2zZKevjT2rz18=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 094/330] drm/amd/display: Initialize DSC PPS
- variables to 0
-Date: Thu, 17 Sep 2020 21:57:14 -0400
-Message-Id: <20200918020110.2063155-94-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 119/330] drm/amd/display: fix workaround for
+ incorrect double buffer register for DLG ADL and TTU
+Date: Thu, 17 Sep 2020 21:57:39 -0400
+Message-Id: <20200918020110.2063155-119-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,64 +50,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Francis <David.Francis@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Tony Cheng <tony.cheng@amd.com>,
+ dri-devel@lists.freedesktop.org, Yongqiang Sun <yongqiang.sun@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Francis <David.Francis@amd.com>
+From: Tony Cheng <tony.cheng@amd.com>
 
-[ Upstream commit b6adc57cff616da18ff8cff028d2ddf585c97334 ]
+[ Upstream commit 85e148fb963d27152a14e6d399a47aed9bc99c15 ]
 
-For DSC MST, sometimes monitors would break out
-in full-screen static. The issue traced back to the
-PPS generation code, where these variables were being used
-uninitialized and were picking up garbage.
+[Why]
+these registers should have been double buffered. SW workaround we will have SW program the more aggressive (lower) values
+whenever we are upating this register, so we will not have underflow at expense of less optimzal request pattern.
 
-memset to 0 to avoid this
+[How]
+there is a driver bug where we don't check for 0, which is uninitialzed HW default.  since 0 is smaller than any value we need to program,
+driver end up with not programming these registers
 
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: David Francis <David.Francis@amd.com>
-Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
+Signed-off-by: Tony Cheng <tony.cheng@amd.com>
+Reviewed-by: Yongqiang Sun <yongqiang.sun@amd.com>
+Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c | 3 +++
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c   | 3 +++
- 2 files changed, 6 insertions(+)
+ .../gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c | 35 +++++++++++++------
+ 1 file changed, 25 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
-index a519dbc5ecb65..5d6cbaebebc03 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
-@@ -496,6 +496,9 @@ bool dp_set_dsc_pps_sdp(struct pipe_ctx *pipe_ctx, bool enable)
- 		struct dsc_config dsc_cfg;
- 		uint8_t dsc_packed_pps[128];
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
+index a00af513aa2b0..c8f77bd0ce8a6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
+@@ -73,32 +73,47 @@ void apply_DEDCN21_142_wa_for_hostvm_deadline(
+ 		struct _vcs_dpi_display_dlg_regs_st *dlg_attr)
+ {
+ 	struct dcn21_hubp *hubp21 = TO_DCN21_HUBP(hubp);
+-	uint32_t cur_value;
++	uint32_t refcyc_per_vm_group_vblank;
++	uint32_t refcyc_per_vm_req_vblank;
++	uint32_t refcyc_per_vm_group_flip;
++	uint32_t refcyc_per_vm_req_flip;
++	const uint32_t uninitialized_hw_default = 0;
  
-+		memset(&dsc_cfg, 0, sizeof(dsc_cfg));
-+		memset(dsc_packed_pps, 0, 128);
+-	REG_GET(VBLANK_PARAMETERS_5, REFCYC_PER_VM_GROUP_VBLANK, &cur_value);
+-	if (cur_value > dlg_attr->refcyc_per_vm_group_vblank)
++	REG_GET(VBLANK_PARAMETERS_5,
++			REFCYC_PER_VM_GROUP_VBLANK, &refcyc_per_vm_group_vblank);
 +
- 		/* Enable DSC hw block */
- 		dsc_cfg.pic_width = stream->timing.h_addressable + stream->timing.h_border_left + stream->timing.h_border_right;
- 		dsc_cfg.pic_height = stream->timing.v_addressable + stream->timing.v_border_top + stream->timing.v_border_bottom;
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
-index 1b419407af942..01040501d40e3 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
-@@ -207,6 +207,9 @@ static bool dsc2_get_packed_pps(struct display_stream_compressor *dsc, const str
- 	struct dsc_reg_values dsc_reg_vals;
- 	struct dsc_optc_config dsc_optc_cfg;
++	if (refcyc_per_vm_group_vblank == uninitialized_hw_default ||
++			refcyc_per_vm_group_vblank > dlg_attr->refcyc_per_vm_group_vblank)
+ 		REG_SET(VBLANK_PARAMETERS_5, 0,
+ 				REFCYC_PER_VM_GROUP_VBLANK, dlg_attr->refcyc_per_vm_group_vblank);
  
-+	memset(&dsc_reg_vals, 0, sizeof(dsc_reg_vals));
-+	memset(&dsc_optc_cfg, 0, sizeof(dsc_optc_cfg));
+ 	REG_GET(VBLANK_PARAMETERS_6,
+-			REFCYC_PER_VM_REQ_VBLANK,
+-			&cur_value);
+-	if (cur_value > dlg_attr->refcyc_per_vm_req_vblank)
++			REFCYC_PER_VM_REQ_VBLANK, &refcyc_per_vm_req_vblank);
 +
- 	DC_LOG_DSC("Getting packed DSC PPS for DSC Config:");
- 	dsc_config_log(dsc, dsc_cfg);
- 	DC_LOG_DSC("DSC Picture Parameter Set (PPS):");
++	if (refcyc_per_vm_req_vblank == uninitialized_hw_default ||
++			refcyc_per_vm_req_vblank > dlg_attr->refcyc_per_vm_req_vblank)
+ 		REG_SET(VBLANK_PARAMETERS_6, 0,
+ 				REFCYC_PER_VM_REQ_VBLANK, dlg_attr->refcyc_per_vm_req_vblank);
+ 
+-	REG_GET(FLIP_PARAMETERS_3, REFCYC_PER_VM_GROUP_FLIP, &cur_value);
+-	if (cur_value > dlg_attr->refcyc_per_vm_group_flip)
++	REG_GET(FLIP_PARAMETERS_3,
++			REFCYC_PER_VM_GROUP_FLIP, &refcyc_per_vm_group_flip);
++
++	if (refcyc_per_vm_group_flip == uninitialized_hw_default ||
++			refcyc_per_vm_group_flip > dlg_attr->refcyc_per_vm_group_flip)
+ 		REG_SET(FLIP_PARAMETERS_3, 0,
+ 				REFCYC_PER_VM_GROUP_FLIP, dlg_attr->refcyc_per_vm_group_flip);
+ 
+-	REG_GET(FLIP_PARAMETERS_4, REFCYC_PER_VM_REQ_FLIP, &cur_value);
+-	if (cur_value > dlg_attr->refcyc_per_vm_req_flip)
++	REG_GET(FLIP_PARAMETERS_4,
++			REFCYC_PER_VM_REQ_FLIP, &refcyc_per_vm_req_flip);
++
++	if (refcyc_per_vm_req_flip == uninitialized_hw_default ||
++			refcyc_per_vm_req_flip > dlg_attr->refcyc_per_vm_req_flip)
+ 		REG_SET(FLIP_PARAMETERS_4, 0,
+ 					REFCYC_PER_VM_REQ_FLIP, dlg_attr->refcyc_per_vm_req_flip);
+ 
+ 	REG_SET(FLIP_PARAMETERS_5, 0,
+ 			REFCYC_PER_PTE_GROUP_FLIP_C, dlg_attr->refcyc_per_pte_group_flip_c);
++
+ 	REG_SET(FLIP_PARAMETERS_6, 0,
+ 			REFCYC_PER_META_CHUNK_FLIP_C, dlg_attr->refcyc_per_meta_chunk_flip_c);
+ }
 -- 
 2.25.1
 
