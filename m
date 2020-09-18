@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B5C26EB9D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:06:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB70026EBA3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF5D6E44C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23E26E44E;
 	Fri, 18 Sep 2020 02:06:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DFE6E44C
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:06:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2833F6E44C
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:06:57 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 33B8F238A1;
- Fri, 18 Sep 2020 02:06:55 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4CA8C239D4;
+ Fri, 18 Sep 2020 02:06:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394815;
- bh=nQMlUgA5ip2ealbwyMbqTZUXyZAbiQSbCXBtW4ps8ZM=;
+ s=default; t=1600394817;
+ bh=Wsa4beIEYGpdtXfeQjSXG6vYREQhzVq+tgqNmQLTbOM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pAuwpv9ANh9mbckczcwZ2m/V/CdZv7JyoirBIh7RzcNJaXt1ZS5bCMCA1ksBMZsYc
- ScyNYmHaXEgS2IkuBuquHXkyY3RDlhY1ASJMjJe2BnlC8nHS8aojSM0cWRjajet8N0
- fRJb+msZFtdvpaL1Y/LXpnGuqDki7UXKkkaHov2w=
+ b=WNZUk24nUhOQZNJXfuXSOhuDAjTkWNp+ibeGrl0VHtxHlefDyvTmgWJxBp9E364SI
+ 5JElFtNxwzOUhlbbIC05jLxPUheq0jP+OKX3XaPqVdvcbAHgGxuv46xPFDqYQET8gi
+ S+YzUbBM5KgUGCti7KTcbfE1z7r+5UiehQW4h6ok=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 282/330] drm/nouveau: fix runtime pm imbalance on
- error
-Date: Thu, 17 Sep 2020 22:00:22 -0400
-Message-Id: <20200918020110.2063155-282-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 283/330] drm/nouveau/dispnv50: fix runtime pm
+ imbalance on error
+Date: Thu, 17 Sep 2020 22:00:23 -0400
+Message-Id: <20200918020110.2063155-283-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -59,7 +59,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-[ Upstream commit d7372dfb3f7f1602b87e0663e8b8646da23ebca7 ]
+[ Upstream commit dc455f4c888365595c0a13da445e092422d55b8d ]
 
 pm_runtime_get_sync() increments the runtime PM usage counter even
 the call returns an error code. Thus a pairing decrement is needed
@@ -69,25 +69,25 @@ Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_gem.c | 4 +++-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index fbfe254227740..7d39d4949ee77 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -78,8 +78,10 @@ nouveau_gem_object_open(struct drm_gem_object *gem, struct drm_file *file_priv)
- 		return ret;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 419a02260bfa7..ee2b1e1199e09 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -1032,8 +1032,10 @@ nv50_mstc_detect(struct drm_connector *connector, bool force)
+ 		return connector_status_disconnected;
  
- 	ret = pm_runtime_get_sync(dev);
+ 	ret = pm_runtime_get_sync(connector->dev->dev);
 -	if (ret < 0 && ret != -EACCES)
 +	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put_autosuspend(dev);
- 		goto out;
++		pm_runtime_put_autosuspend(connector->dev->dev);
+ 		return connector_status_disconnected;
 +	}
  
- 	ret = nouveau_vma_new(nvbo, vmm, &vma);
- 	pm_runtime_mark_last_busy(dev);
+ 	conn_status = drm_dp_mst_detect_port(connector, mstc->port->mgr,
+ 					     mstc->port);
 -- 
 2.25.1
 
