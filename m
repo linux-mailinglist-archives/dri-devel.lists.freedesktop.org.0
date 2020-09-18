@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D1E26ED00
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABB826ED02
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:17:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9CD46EC87;
-	Fri, 18 Sep 2020 02:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4A46EC8B;
+	Fri, 18 Sep 2020 02:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E93A6EC87
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:17:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2AD16EC8B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:17:22 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8586623718;
- Fri, 18 Sep 2020 02:17:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E8A8A23787;
+ Fri, 18 Sep 2020 02:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600395437;
- bh=5LskZOh2pD9zg+8IVR0T9t1IBdkFEYbOnCrQ+2yn3kE=;
+ s=default; t=1600395442;
+ bh=XO91kag5Q6XfDIlS8s8GXt9cwhzf2kZxdMNcZgYwiuo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=geZQFJA9lMxyDGerl1L/lE9xwjuYqOy010jrJ7q8t3luSkYPhpVlQlkoK7DAzFbvk
- RSVBOUdbWc2WEJPJZfxnsZ5LvV5KggXW6Yn7Ijt0SivDFFdcPVkPmbnuwUsKzpvfSi
- z4NMu3lXJ6oDBDaeXCZf+oHpdOxsX3rWDSHV7twU=
+ b=hJatsACNtq0FLTG7HvqSIIpsgJ7sSWI7SAEOsGw6JprXJ3K3eYwcLfLVPPe6GRiUT
+ N7uG9q98XO8jMpW/9kZGL1A+2EESpTovNs0rBFMeP3j46cAbu/44Tuma6XJJz3hUSE
+ HAB5ook5hdrbKNMg9wTXPxCM9wUj77qMbig0KFLg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 27/64] drm/omap: fix possible object reference leak
-Date: Thu, 17 Sep 2020 22:16:06 -0400
-Message-Id: <20200918021643.2067895-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 31/64] drm/amdgpu: increase atombios cmd timeout
+Date: Thu, 17 Sep 2020 22:16:10 -0400
+Message-Id: <20200918021643.2067895-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918021643.2067895-1-sashal@kernel.org>
 References: <20200918021643.2067895-1-sashal@kernel.org>
@@ -49,70 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Mukesh Ojha <mojha@codeaurora.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Markus Elfring <Markus.Elfring@web.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Wen Yang <wen.yang99@zte.com.cn>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ John Clements <john.clements@amd.com>, dri-devel@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wen Yang <wen.yang99@zte.com.cn>
+From: John Clements <john.clements@amd.com>
 
-[ Upstream commit 47340e46f34a3b1d80e40b43ae3d7a8da34a3541 ]
+[ Upstream commit 1b3460a8b19688ad3033b75237d40fa580a5a953 ]
 
-The call to of_find_matching_node returns a node pointer with refcount
-incremented thus it must be explicitly decremented after the last
-usage.
+mitigates race condition on BACO reset between GPU bootcode and driver reload
 
-Detected by coccinelle with the following warnings:
-drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
-drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
-
-Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Markus Elfring <Markus.Elfring@web.de>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: John Clements <john.clements@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/omap2/dss/omapdss-boot-init.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/atom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c b/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
-index 8b6f6d5fdd68b..43186fa8a13c9 100644
---- a/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
-+++ b/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
-@@ -194,7 +194,7 @@ static int __init omapdss_boot_init(void)
- 	dss = of_find_matching_node(NULL, omapdss_of_match);
- 
- 	if (dss == NULL || !of_device_is_available(dss))
--		return 0;
-+		goto put_node;
- 
- 	omapdss_walk_device(dss, true);
- 
-@@ -221,6 +221,8 @@ static int __init omapdss_boot_init(void)
- 		kfree(n);
- 	}
- 
-+put_node:
-+	of_node_put(dss);
- 	return 0;
- }
- 
+diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
+index 1b50e6c13fb3f..5fbf99d600587 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atom.c
++++ b/drivers/gpu/drm/amd/amdgpu/atom.c
+@@ -748,8 +748,8 @@ static void atom_op_jump(atom_exec_context *ctx, int *ptr, int arg)
+ 			cjiffies = jiffies;
+ 			if (time_after(cjiffies, ctx->last_jump_jiffies)) {
+ 				cjiffies -= ctx->last_jump_jiffies;
+-				if ((jiffies_to_msecs(cjiffies) > 5000)) {
+-					DRM_ERROR("atombios stuck in loop for more than 5secs aborting\n");
++				if ((jiffies_to_msecs(cjiffies) > 10000)) {
++					DRM_ERROR("atombios stuck in loop for more than 10secs aborting\n");
+ 					ctx->abort = true;
+ 				}
+ 			} else {
 -- 
 2.25.1
 
