@@ -2,52 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD5A26F5BB
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 08:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA60F26F659
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 08:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9300B6E10B;
-	Fri, 18 Sep 2020 06:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15AFD6ECAB;
+	Fri, 18 Sep 2020 06:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC7646E10B
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 06:07:02 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id r24so4087545ljm.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 23:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ILLtYDh87Hnf9dA6vVS4B7psVL7r7MTKfeGqDa+SuKE=;
- b=xu+0pooH8LiZDIx8k+PJPkqxKyO32tFfHElOtANSYujXsHlpbt9GYPehidVtEWjXNc
- /xXXU+SiXhhV3tr4L3m+CIptvYV9Y1sWjYBj8WA56yU7s/7WSQGfMxqHUrXiCP+Vkwzc
- rbTTOwP/FDgWbP0pNGUrmSktbFVvHDWG3Tb39PWpXuO4WsbpvOhX7D0h7hEM9jAkTZkj
- f08exOXNYS1HY9+Aqc9CZYVTuH+vJ+A0XrHZ1ELPpXxNrAW6ZJuG3d/8KAZK9gBIeH98
- izVqAFItF/kqSVd5X+drWxPWZiRPQpKhEvFC80MCdY3cJMOzEPLjMLled+pEAcD3ztnl
- D6uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ILLtYDh87Hnf9dA6vVS4B7psVL7r7MTKfeGqDa+SuKE=;
- b=YUrXSCKH4cifM/NmgERN116YR/0NYNjaPEMntS3GqhkbOBRWarO88m9AhL+a2aQZY8
- KwhzmslBp5TyqyzFC8+bbi5V7D2eB5/prhOpsVk/q/IwyscV5n/f7MLJP34dqvMymFtj
- q5VPKM5X4YY71AhzH4hMF63berIJn3l6JixwSsT1r+7jD5r41xtgwWVd9jGRvznbKV+3
- SqxhuK1gjKtUImEZsASoHXwKZ6b4Tvp7AVntyELowRhnuGmXa+p5lJSwblS8JLy/kHUz
- JupOd7uKg78gi+o12SXLuQfmpmoIyAI4n9Whgzx7Jk5oey93Jitg3O0FSYW4EHGzJjnN
- 4qcQ==
-X-Gm-Message-State: AOAM5331k4pSkE9z/NA0P+M0lIGLtp0sAGIwZ9Gw8gdDiTobwvaMfUXQ
- yb79ah/PNDlJoeXyZTqCoo5qTzYRBkpIlH7fvMqfUA==
-X-Google-Smtp-Source: ABdhPJyEXZuLz/9VD9TgkWSbpgqwjYtEuhse8iQmZ+kvD+VMvEh/eMgZha0C2GrZshLMMBrho/gEjAYIvq4mDVItvuo=
-X-Received: by 2002:a2e:9496:: with SMTP id c22mr10298851ljh.249.1600409220979; 
- Thu, 17 Sep 2020 23:07:00 -0700 (PDT)
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 024866E114
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 06:53:33 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20200918065331epoutp01ab8ac003ab1f9b5bc7751ed74bd0caaf~1zj7ACEEm2423224232epoutp01W
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 06:53:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20200918065331epoutp01ab8ac003ab1f9b5bc7751ed74bd0caaf~1zj7ACEEm2423224232epoutp01W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1600412011;
+ bh=xzDyugxaYFiOqUZwbCkII37WZqTnWgkEmL5BNpCoZMc=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=ihPf8/qxqhEJJo+XNoGLXY7Oa+4kRocibVdV8jLBKNuOVQUa4KBfrL5k0ghERlR4O
+ yZhmHQxyzb4TSFXzCkOV3ytWFp2yJ830KFurqdcCtMRy0zOFMZwZhc5bdX4KY3UOk/
+ LUpJSXWjyofupZsvGHoAHcbzuALJ1VGdboaIMuHo=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20200918065330epcas1p4c127c1a389542bf92bdd22e4a52558ce~1zj6N-KNQ3212532125epcas1p4e;
+ Fri, 18 Sep 2020 06:53:30 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.157]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4Bt4L00wyWzMqYkV; Fri, 18 Sep
+ 2020 06:53:28 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 9D.5E.18978.369546F5; Fri, 18 Sep 2020 15:53:23 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20200918065322epcas1p4aa0b72f61f074b7a1217b799a2ea8104~1zjzAIa8e3217632176epcas1p4g;
+ Fri, 18 Sep 2020 06:53:22 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200918065322epsmtrp1c8669bfa95c8675baf23da431815f599~1zjy-TjqL1263912639epsmtrp1H;
+ Fri, 18 Sep 2020 06:53:22 +0000 (GMT)
+X-AuditID: b6c32a35-603ff70000004a22-57-5f6459632f4d
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 84.B7.08303.269546F5; Fri, 18 Sep 2020 15:53:22 +0900 (KST)
+Received: from [10.113.111.64] (unknown [10.113.111.64]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200918065322epsmtip19fa0f8cb1345e201452f29e03cc88990~1zjyxcxtd1996919969epsmtip1Q;
+ Fri, 18 Sep 2020 06:53:22 +0000 (GMT)
+Subject: Re: [PATCH] drm/vc4: hvs: Pull the state of all the CRTCs prior to
+ PV muxing
+To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>
+From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Message-ID: <38b3fdbd-a8e8-43b0-3f66-5f4515353c0a@samsung.com>
+Date: Fri, 18 Sep 2020 15:53:02 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200914112521.1327-1-tzimmermann@suse.de>
-In-Reply-To: <20200914112521.1327-1-tzimmermann@suse.de>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Fri, 18 Sep 2020 11:36:49 +0530
-Message-ID: <CAO_48GGUiVbWBWdzDYWAH2N9Lp2AU+-78BcYyi-3+LXHM74JQA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20200917121623.42023-1-maxime@cerno.tech>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOJsWRmVeSWpSXmKPExsWy7bCmgW5yZEq8wa1t1hZre4+yWLydu5jF
+ 4srX92wWBxovM1q8X97FZrHp8TVWi4m3N7BbzPjxj9Fi3a3XbBY75h1ktHg09T6jA7dH0/tj
+ bB6z7p9l87hz7jybx/3u40wem5fUe7Qe/cXi0bdlFWMAe1S2TUZqYkpqkUJqXnJ+SmZeuq2S
+ d3C8c7ypmYGhrqGlhbmSQl5ibqqtkotPgK5bZg7QkUoKZYk5pUChgMTiYiV9O5ui/NKSVIWM
+ /OISW6XUgpScAssCveLE3OLSvHS95PxcK0MDAyNToMKE7Iydy2+yFDSIVXzYXtTAeEmwi5GT
+ Q0LAROL6lBXsXYxcHEICOxglZrw+xgzhfGKU+Lr1GxOE85lRYlfvBUaYlsdXf0G17GKUePay
+ gw3CecsosW35YiaQKmGBcInbs9eCdYgIuEhcXvQArINZ4AeTRMf/NmaQBJuArsTXnutgDbwC
+ dhLTpt5jB7FZBFQlZn6HaBYViJTY+fQlO0SNoMTJmU9YQGxOAXOJLac2gtnMAvIS29/OYYaw
+ xSVuPZkPdreEwA4OieUT1rBB3O0i8W7WUxYIW1ji1fEt7BC2lMTL/jYou1jiysxXLBDNDYwS
+ /RNnQyWMJfYvnQw0lQNog6bE+l36EGFFiZ2/5zJCLOaTePe1hxWkREKAV6KjTQiiRE3iWcMB
+ VghbRuJU73ImCNtDYuvBZ6wTGBVnIXltFpJ3ZiF5ZxbC4gWMLKsYxVILinPTU4sNCwyRo3sT
+ IzgFa5nuYJz49oPeIUYmDsZDjBIczEoivM22yfFCvCmJlVWpRfnxRaU5qcWHGE2BgT2RWUo0
+ OR+YBfJK4g1NjYyNjS1MDM1MDQ2VxHkf3lKIFxJITyxJzU5NLUgtgulj4uCUamA6Ilq1Y8V5
+ ra36Pxotj21q4cg8mNrPIGSqWXelcfFxpkJW27CJS4tY+dbbrFA5LL4xR5Jr0sGbE5RrNzo9
+ nHlA+PSN2QfeTjJydLRfWXI/dfY7GclpfC2BmscFDCpNCoKi5kfkLFqwpsTcS2NBZ3rN3Xcl
+ +v4JuXr7MjrONX1/kiSzZMZsOdbaUOWyZB35F8ZXJph2zk45scuu6XNN1/UImTOtym6SG9oa
+ HVg459poXjmeKp+fmn8qYmrrlQihJgaP511MN3MUtO0mWq94ab9EL+jMn67u25dYQ0xK5s6a
+ qKrW8eNa3pNd31devSfIsayh5sXE+2vOBfNOd9HftOvW4T1FiQ0Ga+vTn7+5I6TEUpyRaKjF
+ XFScCABAgmJySgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSnG5SZEq8Qe9aY4u1vUdZLN7OXcxi
+ ceXrezaLA42XGS3eL+9is9j0+BqrxcTbG9gtZvz4x2ix7tZrNosd8w4yWjyaep/Rgduj6f0x
+ No9Z98+yedw5d57N4373cSaPzUvqPVqP/mLx6NuyijGAPYrLJiU1J7MstUjfLoErY+fymywF
+ DWIVH7YXNTBeEuxi5OSQEDCReHz1F3sXIxeHkMAORom2MwfZIRIyEqv6t7B2MXIA2cIShw8X
+ Q9S8ZpR4v/8kC0iNsEC4xNeJfYwgtoiAi8TlRQ/ABjEL/GCSaPzeywbR0cUo8aN9DRNIFZuA
+ rsTXnutgNq+AncS0qffAtrEIqErM/L6WEWSbqECkxM4dlhAlghInZz4BW8YpYC6x5dRGMJtZ
+ wExi3uaHzBC2vMT2t3OgbHGJW0/mM01gFJqFpH0WkpZZSFpmIWlZwMiyilEytaA4Nz232LDA
+ KC+1XK84Mbe4NC9dLzk/dxMjOOK0tHYw7ln1Qe8QIxMH4yFGCQ5mJRHeZtvkeCHelMTKqtSi
+ /Pii0pzU4kOM0hwsSuK8X2ctjBMSSE8sSc1OTS1ILYLJMnFwSjUwKUheNDk+Jy7X5rXAVQ/j
+ gtsJzF4mzIf+70+7ona46/Hhh1LJ8wM3uWRv/OG9dl/31PfPMmUl3vO4Wem+a25+v2RRn872
+ ju7XoRKKq4R1avYKzNQtXG8Q3iZ0KGlfOfPHiydZeu5/f5GicWfDvBePI1jtD8VuL73R/oPl
+ wPGAUzv4I+bk53YsZth/+rTru78Hrj9x/T3xrcjcbP9Nmre37O3IkV5QIbzilB7f7cqgxisq
+ zbOW3ehW2WTJu9exav+yo3c020N8s6yatp3vEDrwkO+P45UbCp+K7v337Z1Sy7Saed9r6Y1m
+ /dM+NL0LUf2ZvV9Q45gDb5fhe13ed75+n3Sct292++VoaXmM22V6hxJLcUaioRZzUXEiAGrK
+ XsgnAwAA
+X-CMS-MailID: 20200918065322epcas1p4aa0b72f61f074b7a1217b799a2ea8104
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200917140744epcas1p4ae14fb989c92453b3b3d0defc171446d
+References: <CGME20200917140744epcas1p4ae14fb989c92453b3b3d0defc171446d@epcas1p4.samsung.com>
+ <20200917121623.42023-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,102 +117,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Koenig <christian.koenig@amd.com>, Dave Airlie <airlied@linux.ie>,
- mark.cave-ayland@ilande.co.uk,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, jonathanh@nvidia.com,
- matthew.auld@intel.com, Russell King <linux+etnaviv@armlinux.org.uk>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Pawel Osciak <pawel@osciak.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- etnaviv@lists.freedesktop.org, Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- thomas.hellstrom@intel.com, rodrigo.vivi@intel.com,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ =?UTF-8?B?64KY7ISx6rWt?= <sungguk.na@samsung.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+Hi Maxime,
 
-On Mon, 14 Sep 2020 at 16:55, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On 9/17/20 9:16 PM, Maxime Ripard wrote:
+> The vc4 display engine has a first controller called the HVS that will
+> perform the composition of the planes. That HVS has 3 FIFOs and can
+> therefore compose planes for up to three outputs. The timings part is
+> generated through a component called the Pixel Valve, and the BCM2711 has 6
+> of them.
 >
-> Dma-buf provides vmap() and vunmap() for retrieving and releasing mappings
-> of dma-buf memory in kernel address space. The functions operate with plain
-> addresses and the assumption is that the memory can be accessed with load
-> and store operations. This is not the case on some architectures (e.g.,
-> sparc64) where I/O memory can only be accessed with dedicated instructions.
+> Thus, the HVS has some bits to control which FIFO gets output to which
+> Pixel Valve. The current code supports that muxing by looking at all the
+> CRTCs in a new DRM atomic state in atomic_check, and given the set of
+> contraints that we have, assigns FIFOs to CRTCs or reject the mode
+> entirely. The actual muxing will occur during atomic_commit.
 >
-> This patchset introduces struct dma_buf_map, which contains the address of
-> a buffer and a flag that tells whether system- or I/O-memory instructions
-> are required.
+> However, that doesn't work if only a fraction of the CRTCs' state is
+> updated in that state, since it will ignore the CRTCs that are kept running
+> unmodified, and will thus unassign its associated FIFO, and later disable
+> it.
+>
+> In order to make the code work as expected, let's pull the CRTC state of
+> all the enabled CRTC in our atomic_check so that we can operate on all the
+> running CRTCs, no matter whether they are affected by the new state or not.
+>
+> Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Thank you for the patchset - it is a really nice, clean bit to add!
->
-> Some background: updating the DRM framebuffer console on sparc64 makes the
-> kernel panic. This is because the framebuffer memory cannot be accessed with
-> system-memory instructions. We currently employ a workaround in DRM to
-> address this specific problem. [1]
->
-> To resolve the problem, we'd like to address it at the most common point,
-> which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
-> instructions are required and exports this information to it's users. The
-> new structure struct dma_buf_map stores the buffer address and a flag that
-> signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
-> can then access the memory accordingly.
->
-> This patchset only introduces struct dma_buf_map, and updates struct dma_buf
-> and it's interfaces. Further patches can update dma-buf users. For example,
-> there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
->
-> Further work: TTM, one of DRM's memory managers, already exports an
-> is_iomem flag of its own. It could later be switched over to exporting struct
-> dma_buf_map, thus simplifying some code. Several DRM drivers expect their
-> fbdev console to operate on I/O memory. These could possibly be switched over
-> to the generic fbdev emulation, as soon as the generic code uses struct
-> dma_buf_map.
->
-> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
-> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
->
-> Thomas Zimmermann (3):
->   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
->   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
->   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+Thanks for the quick patch and detailed explanation.
 
-FWIW, for the series, please feel free to add my
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 
->
->  Documentation/driver-api/dma-buf.rst          |   3 +
->  drivers/dma-buf/dma-buf.c                     |  40 +++---
->  drivers/gpu/drm/drm_gem_cma_helper.c          |  16 ++-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 ++-
->  drivers/gpu/drm/drm_prime.c                   |  14 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 ++-
->  drivers/gpu/drm/tegra/gem.c                   |  23 ++--
->  .../common/videobuf2/videobuf2-dma-contig.c   |  17 ++-
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 ++-
->  .../common/videobuf2/videobuf2-vmalloc.c      |  21 ++-
->  include/drm/drm_prime.h                       |   5 +-
->  include/linux/dma-buf-map.h                   | 126 ++++++++++++++++++
->  include/linux/dma-buf.h                       |  11 +-
->  15 files changed, 274 insertions(+), 82 deletions(-)
->  create mode 100644 include/linux/dma-buf-map.h
->
-> --
-> 2.28.0
->
 
-Best,
-Sumit.
+Best regards,
+Hoegeun
+
+> ---
+>   drivers/gpu/drm/vc4/vc4_kms.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+> index 16e233e1406e..af3ee3dcdab6 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -620,6 +620,23 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
+>   	struct drm_crtc *crtc;
+>   	int i, ret;
+>   
+> +	/*
+> +	 * Since the HVS FIFOs are shared across all the pixelvalves and
+> +	 * the TXP (and thus all the CRTCs), we need to pull the current
+> +	 * state of all the enabled CRTCs so that an update to a single
+> +	 * CRTC still keeps the previous FIFOs enabled and assigned to
+> +	 * the same CRTCs, instead of evaluating only the CRTC being
+> +	 * modified.
+> +	 */
+> +	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+> +		if (!crtc->state->enable)
+> +			continue;
+> +
+> +		crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> +		if (IS_ERR(crtc_state))
+> +			return PTR_ERR(crtc_state);
+> +	}
+> +
+>   	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
+>   		struct vc4_crtc_state *vc4_crtc_state =
+>   			to_vc4_crtc_state(crtc_state);
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
