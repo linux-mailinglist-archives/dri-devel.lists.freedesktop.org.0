@@ -1,61 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B4B26FCB6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:40:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F64126FCBE
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439AD6E15D;
-	Fri, 18 Sep 2020 12:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA876E154;
+	Fri, 18 Sep 2020 12:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F3BF6E154
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:40:07 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08IBc0g3028190; Fri, 18 Sep 2020 13:47:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : subject :
- date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=6pOVws/I6cfHaGqYL8/y2lOPLnCLBYUUlSxVz/K1gjM=;
- b=e9strKYH1RVbhGaSdNeP0lL68WlXd+P0e9ZElZby+ED7SUMgXfMlGEc2h+PHRIH4EVEJ
- IHhALjste9W9q+YXbNCHU/pQtReSUwf/hma3pNSr8F/4bL/FDbMdpD0Q5riqAxJLH8Vn
- hhYzL9Ab+tiAr60XpD+9xNdJC7281ISlS5G1whOcxAu83fN6sJ6EYaeQtIvdyiLg6QBs
- Xu+vWAgvLFOCpbLVxudNiyETP21FLMldYPqcWboDXIvI9GQuiaf614Qr7pYG5woRV5aM
- aEVJ87qT6eDb4DXwpK25glBIGS7Q+rDD2MQ3lQ0V3j+5tsRVPbqSB70vvn9GSyU+jQkJ tg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 33k695qtvc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Sep 2020 13:47:42 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7127810002A;
- Fri, 18 Sep 2020 13:47:42 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7754021FEB3;
- Fri, 18 Sep 2020 13:47:39 +0200 (CEST)
-Received: from localhost (10.75.127.47) by SFHDAG6NODE1.st.com (10.75.127.16)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Fri, 18 Sep 2020 13:47:38 +0200
-From: Yannick Fertre <yannick.fertre@st.com>
-To: Yannick Fertre <yannick.fertre@st.com>, Philippe Cornu
- <philippe.cornu@st.com>, Antonio Borneo <antonio.borneo@st.com>, Thierry
- Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David
- Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/panel: rm68200: allow using non-continuous dsi clock
-Date: Fri, 18 Sep 2020 13:47:36 +0200
-Message-ID: <20200918114736.11322-1-yannick.fertre@st.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A93C6E154
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:42:07 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id x14so5464772wrl.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 05:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=SOcYopzpVA91Ur8JOndAUuW5kC5KQpU+aqaU8ciX7/I=;
+ b=XJthRxMj7p5FVQ8UB8QHPjpkyrZ1DYRAiW2zVjRAhJUW0e0QzTxX9S0LywyZSJEGAX
+ oQ6rcMf41/DYJXO67/Xq8aoMk84qRFYHTNdeA/7L9sScQbt/SEfZaJSlI5KxMxxR+CIT
+ M/6Aec09cMTtIOtfSD5s3TkOo40GHFODxElv0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=SOcYopzpVA91Ur8JOndAUuW5kC5KQpU+aqaU8ciX7/I=;
+ b=AJTYhS5eybRvudFnKcNREyk0uByXP8IPkCrcE/8NYaF1Bzqr2e6SXvQLMcDw05WEBS
+ u01Jivdx2ErRzRw2N+s2CJ8GrxcvYIZTsJWbeiZDYq4656RjucBd8VvYfpr2ShASbfk5
+ I7EXxiErW/gAIO8DsZ8fl2JF459CpjKIoQAAXGjDMMo/YulHkF5pgoxE/SrgSSpBl3+s
+ lnuwx+yvGtsGnD0BwXYmU5Y7r3YIb3CoTSUjOCaI73QEofk6rQmk/yMnLIg5f121osKx
+ ShZ18s4FRZamLNeywSUqAnvywJyDWvrrfGt5bmoy5RqBbwWIBm274KsFws6M5QvWoY2z
+ p9gg==
+X-Gm-Message-State: AOAM530F266RTra89FvrIlhs62oM+ilcezuaweR7cvGRZDrn5c9/GmQ5
+ Ft0xHJqf51h6cpahjIhxSX3Q3w==
+X-Google-Smtp-Source: ABdhPJzrTC3CW6AB1dTSGBrjqUS3H6j44ck9bWQgvGGmKSFb26qrBxqU+OHgoRbREA252KDgVlNEww==
+X-Received: by 2002:a5d:4a49:: with SMTP id v9mr41100529wrs.153.1600432926218; 
+ Fri, 18 Sep 2020 05:42:06 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d2sm5156057wro.34.2020.09.18.05.42.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 05:42:05 -0700 (PDT)
+Date: Fri, 18 Sep 2020 14:42:03 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: Re: [PATCH v1] fbdev: aty: remove CONFIG_PM container
+Message-ID: <20200918124203.GY438822@phenom.ffwll.local>
+Mail-Followup-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Andres Salomon <dilinger@queued.net>,
+ Antonino Daplas <adaplas@gmail.com>, linux-fbdev@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20200917115313.725622-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG6NODE1.st.com
- (10.75.127.16)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-18_14:2020-09-16,
- 2020-09-18 signatures=0
+Content-Disposition: inline
+In-Reply-To: <20200917115313.725622-1-vaibhavgupta40@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +79,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <bjorn@helgaas.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
+ Paul Mackerras <paulus@samba.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-geode@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel is able to work when dsi clock is non-continuous, thus
-the system power consumption can be reduced using such feature.
+On Thu, Sep 17, 2020 at 05:23:14PM +0530, Vaibhav Gupta wrote:
+> The changes made in below mentioned commit removed CONFIG_PM containers
+> from drivers/video/fbdev/aty/atyfb_base.c but not from
+> drivers/video/fbdev/aty/atyfb.h for respective callbacks.
+> 
+> This resulted in error for implicit declaration for those callbacks.
+> 
+> Fixes: 348b2956d5e6 ("fbdev: aty: use generic power management")
+> 
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Add MIPI_DSI_CLOCK_NON_CONTINUOUS to panel's mode_flags.
+Applied, thanks.
+-Daniel
 
-Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
----
- drivers/gpu/drm/panel/panel-raydium-rm68200.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>  drivers/video/fbdev/aty/atyfb.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/aty/atyfb.h b/drivers/video/fbdev/aty/atyfb.h
+> index a7833bc98225..551372f9b9aa 100644
+> --- a/drivers/video/fbdev/aty/atyfb.h
+> +++ b/drivers/video/fbdev/aty/atyfb.h
+> @@ -287,8 +287,8 @@ static inline void aty_st_8(int regindex, u8 val, const struct atyfb_par *par)
+>  #endif
+>  }
+>  
+> -#if defined(CONFIG_PM) || defined(CONFIG_PMAC_BACKLIGHT) || \
+> -defined (CONFIG_FB_ATY_GENERIC_LCD) || defined (CONFIG_FB_ATY_BACKLIGHT)
+> +#if defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) || \
+> +defined (CONFIG_FB_ATY_BACKLIGHT)
+>  extern void aty_st_lcd(int index, u32 val, const struct atyfb_par *par);
+>  extern u32 aty_ld_lcd(int index, const struct atyfb_par *par);
+>  #endif
+> -- 
+> 2.28.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-index f908eeafb1af..2b9e48b0a491 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-@@ -391,7 +391,7 @@ static int rm68200_probe(struct mipi_dsi_device *dsi)
- 	dsi->lanes = 2;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_LPM;
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 
- 	drm_panel_init(&ctx->panel, dev, &rm68200_drm_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
