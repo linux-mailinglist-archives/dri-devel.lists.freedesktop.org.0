@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BDC26EAF5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:03:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A30F26EAF9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BBA6E437;
-	Fri, 18 Sep 2020 02:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 941226E43A;
+	Fri, 18 Sep 2020 02:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A056E437
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:03:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E026E439
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:03:44 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 454D923600;
- Fri, 18 Sep 2020 02:03:36 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5F78D23730;
+ Fri, 18 Sep 2020 02:03:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394617;
- bh=tWNmLNTC4xNwsIwyQ68ebsA5j2KIZRLstIrhjapgaXg=;
+ s=default; t=1600394624;
+ bh=r4XzyFgrIDnrhs5XvlCuud1IHd6giWhagg01ZUiKYBA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sOQeA6mkfIT7pP4E34egmCAoMbS/OchyGJLUwmQGvAPUCtaCAVPBWWP52oZ8eHXRN
- 49LmYBxd6GmFpis5UN0ZtkKr6PLoW8yCqCkn5R85gp4f4XcYBBxbK7I5pGaGr3nC/C
- nBKBJtp9YcV5ffp3Q5OugZqs1CD2zZKevjT2rz18=
+ b=fLienNWS3qzh2BUMyWVb19uPluewWbewR+sQ1rlIFaMEKNzyphv/kGjFQ+DtyKT/H
+ pObE/MUsgj7V6CzAZ6bap+Atcyh9IefpjTZqx5DKR7brSoeIgTUb++Dd1VFJbZgZaq
+ 534aTuVqC3sNj0iKHxxXf7WJAsI4X9lkCKXWsWR4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 119/330] drm/amd/display: fix workaround for
- incorrect double buffer register for DLG ADL and TTU
-Date: Thu, 17 Sep 2020 21:57:39 -0400
-Message-Id: <20200918020110.2063155-119-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 125/330] drm/omap: fix possible object reference
+ leak
+Date: Thu, 17 Sep 2020 21:57:45 -0400
+Message-Id: <20200918020110.2063155-125-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,98 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Tony Cheng <tony.cheng@amd.com>,
- dri-devel@lists.freedesktop.org, Yongqiang Sun <yongqiang.sun@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mukesh Ojha <mojha@codeaurora.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Wen Yang <wen.yang99@zte.com.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tony Cheng <tony.cheng@amd.com>
+From: Wen Yang <wen.yang99@zte.com.cn>
 
-[ Upstream commit 85e148fb963d27152a14e6d399a47aed9bc99c15 ]
+[ Upstream commit 47340e46f34a3b1d80e40b43ae3d7a8da34a3541 ]
 
-[Why]
-these registers should have been double buffered. SW workaround we will have SW program the more aggressive (lower) values
-whenever we are upating this register, so we will not have underflow at expense of less optimzal request pattern.
+The call to of_find_matching_node returns a node pointer with refcount
+incremented thus it must be explicitly decremented after the last
+usage.
 
-[How]
-there is a driver bug where we don't check for 0, which is uninitialzed HW default.  since 0 is smaller than any value we need to program,
-driver end up with not programming these registers
+Detected by coccinelle with the following warnings:
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
 
-Signed-off-by: Tony Cheng <tony.cheng@amd.com>
-Reviewed-by: Yongqiang Sun <yongqiang.sun@amd.com>
-Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c | 35 +++++++++++++------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
-index a00af513aa2b0..c8f77bd0ce8a6 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubp.c
-@@ -73,32 +73,47 @@ void apply_DEDCN21_142_wa_for_hostvm_deadline(
- 		struct _vcs_dpi_display_dlg_regs_st *dlg_attr)
- {
- 	struct dcn21_hubp *hubp21 = TO_DCN21_HUBP(hubp);
--	uint32_t cur_value;
-+	uint32_t refcyc_per_vm_group_vblank;
-+	uint32_t refcyc_per_vm_req_vblank;
-+	uint32_t refcyc_per_vm_group_flip;
-+	uint32_t refcyc_per_vm_req_flip;
-+	const uint32_t uninitialized_hw_default = 0;
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+index 31502857f013d..ce67891eedd46 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+@@ -192,7 +192,7 @@ static int __init omapdss_boot_init(void)
+ 	dss = of_find_matching_node(NULL, omapdss_of_match);
  
--	REG_GET(VBLANK_PARAMETERS_5, REFCYC_PER_VM_GROUP_VBLANK, &cur_value);
--	if (cur_value > dlg_attr->refcyc_per_vm_group_vblank)
-+	REG_GET(VBLANK_PARAMETERS_5,
-+			REFCYC_PER_VM_GROUP_VBLANK, &refcyc_per_vm_group_vblank);
-+
-+	if (refcyc_per_vm_group_vblank == uninitialized_hw_default ||
-+			refcyc_per_vm_group_vblank > dlg_attr->refcyc_per_vm_group_vblank)
- 		REG_SET(VBLANK_PARAMETERS_5, 0,
- 				REFCYC_PER_VM_GROUP_VBLANK, dlg_attr->refcyc_per_vm_group_vblank);
+ 	if (dss == NULL || !of_device_is_available(dss))
+-		return 0;
++		goto put_node;
  
- 	REG_GET(VBLANK_PARAMETERS_6,
--			REFCYC_PER_VM_REQ_VBLANK,
--			&cur_value);
--	if (cur_value > dlg_attr->refcyc_per_vm_req_vblank)
-+			REFCYC_PER_VM_REQ_VBLANK, &refcyc_per_vm_req_vblank);
-+
-+	if (refcyc_per_vm_req_vblank == uninitialized_hw_default ||
-+			refcyc_per_vm_req_vblank > dlg_attr->refcyc_per_vm_req_vblank)
- 		REG_SET(VBLANK_PARAMETERS_6, 0,
- 				REFCYC_PER_VM_REQ_VBLANK, dlg_attr->refcyc_per_vm_req_vblank);
+ 	omapdss_walk_device(dss, true);
  
--	REG_GET(FLIP_PARAMETERS_3, REFCYC_PER_VM_GROUP_FLIP, &cur_value);
--	if (cur_value > dlg_attr->refcyc_per_vm_group_flip)
-+	REG_GET(FLIP_PARAMETERS_3,
-+			REFCYC_PER_VM_GROUP_FLIP, &refcyc_per_vm_group_flip);
-+
-+	if (refcyc_per_vm_group_flip == uninitialized_hw_default ||
-+			refcyc_per_vm_group_flip > dlg_attr->refcyc_per_vm_group_flip)
- 		REG_SET(FLIP_PARAMETERS_3, 0,
- 				REFCYC_PER_VM_GROUP_FLIP, dlg_attr->refcyc_per_vm_group_flip);
+@@ -217,6 +217,8 @@ static int __init omapdss_boot_init(void)
+ 		kfree(n);
+ 	}
  
--	REG_GET(FLIP_PARAMETERS_4, REFCYC_PER_VM_REQ_FLIP, &cur_value);
--	if (cur_value > dlg_attr->refcyc_per_vm_req_flip)
-+	REG_GET(FLIP_PARAMETERS_4,
-+			REFCYC_PER_VM_REQ_FLIP, &refcyc_per_vm_req_flip);
-+
-+	if (refcyc_per_vm_req_flip == uninitialized_hw_default ||
-+			refcyc_per_vm_req_flip > dlg_attr->refcyc_per_vm_req_flip)
- 		REG_SET(FLIP_PARAMETERS_4, 0,
- 					REFCYC_PER_VM_REQ_FLIP, dlg_attr->refcyc_per_vm_req_flip);
- 
- 	REG_SET(FLIP_PARAMETERS_5, 0,
- 			REFCYC_PER_PTE_GROUP_FLIP_C, dlg_attr->refcyc_per_pte_group_flip_c);
-+
- 	REG_SET(FLIP_PARAMETERS_6, 0,
- 			REFCYC_PER_META_CHUNK_FLIP_C, dlg_attr->refcyc_per_meta_chunk_flip_c);
++put_node:
++	of_node_put(dss);
+ 	return 0;
  }
+ 
 -- 
 2.25.1
 
