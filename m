@@ -1,44 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B8C2705D3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 21:53:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E297F2705E4
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 22:00:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07BA6ED7E;
-	Fri, 18 Sep 2020 19:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE44F6ED84;
+	Fri, 18 Sep 2020 20:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39EE96ED7E
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 19:53:20 +0000 (UTC)
-IronPort-SDR: jeey0dq+OVkdxf+VJZq4UlqCrTm+i6f6Wn4zYdK6LNpzZIElKGIotXylcDtnGUXOiwG7BlYL4D
- vD1ArIxLKfAA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="160941705"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="160941705"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 12:53:11 -0700
-IronPort-SDR: EcsRu0KIxCOBPNLBviZcL6QmnxwLFBpnPLybehn+1W4K7X2bbrXjvhMUNpGUY0ojZvXmzQZ8MQ
- zMG9FRtpAVaw==
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="452887680"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
- ([10.165.21.211])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 12:53:09 -0700
-Date: Fri, 18 Sep 2020 12:53:54 -0700
-From: "Navare, Manasi" <manasi.d.navare@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 2/2] drm/dp: add a number of DP 2.0 DPCD definitions
-Message-ID: <20200918195349.GB31898@labuser-Z97X-UD5H>
-References: <20200918114017.30198-1-jani.nikula@intel.com>
- <20200918114017.30198-2-jani.nikula@intel.com>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 989516ED80
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 20:00:31 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id d4so6395772wmd.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 13:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YQjfx1dlb8AV3hvmklM8AXojRWEWsKETVPO8LS2leI8=;
+ b=SYldkyYd1CBCqWWNOGAgru1KRufRNnCSgvmff391HiV2gNn4mEltKpr7B23Z+WAfpe
+ 3jcaSEkkAWL0kYfmmjtg0tKYRAXuGeJFLQs1l0ynYYsWnWPNcpURAqtVTL5BuXxs6s+H
+ divv0bcIgal0TMAzpcr+a9AMX9QchoZcUfQFc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YQjfx1dlb8AV3hvmklM8AXojRWEWsKETVPO8LS2leI8=;
+ b=mhOfKhg0Uf0NZAgQrS6nOG/mM/hc9O/4JxJ+D96hf5KwaM/GLL5YqwI/G8qSSgJ2nu
+ WrrvPAH97zjy3r3ZKmI2df7ckqUVqdljSU5Jd2ax5caAdDJe5XA4jMz2rN1m89zG2q9u
+ CqrpI1Tlx8ZUD3e6BiLrtUcnwcTFEBs8/Ivw0SKBWRKZe9RT88XwjqEDD+rYW+denkGK
+ 9eX4ItB9XCOQFN/BHluw1TiZaxaU4mSgTbFHlpeUcUtYIBtxev0zv4oHSLCvyANYbURi
+ LqnUBLTiJJLBJeUVgzE44qTNOd+G4OeNBfCwLvAHEgQS+G+y4ttZyd+VDbT1Z2xQB2hw
+ +2Gw==
+X-Gm-Message-State: AOAM530kqyhmsgQKakm4wQ8bVzDqgL0jkFLTWF8FyU/VZVETVXksgzgR
+ L0Jfgdh4yczfoWIC4TeeYugEhhA2xSqxzm9T
+X-Google-Smtp-Source: ABdhPJzSiplAkUIwO3Yl7gtgMxbtAxYnYHNrI3sm7sIjYgyAKSL2NgU6kO9Z44Lc3Sr1AoRryrv1Zw==
+X-Received: by 2002:a1c:7e90:: with SMTP id
+ z138mr16974535wmc.122.1600459229923; 
+ Fri, 18 Sep 2020 13:00:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id e18sm7492006wra.36.2020.09.18.13.00.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 13:00:28 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915/selftests: align more to real device lifetimes
+Date: Fri, 18 Sep 2020 22:00:24 +0200
+Message-Id: <20200918200024.2414549-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200918132505.2316382-3-daniel.vetter@ffwll.ch>
+References: <20200918132505.2316382-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200918114017.30198-2-jani.nikula@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,172 +64,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Matthew Auld <matthew.william.auld@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 18, 2020 at 02:40:17PM +0300, Jani Nikula wrote:
-> Prepare for future with DP 2.0 DPCD definitions, with a couple of
-> related drive-by cleanups. No functional changes.
-> 
-> v2: Send the version that actually builds.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+To avoid having to create all the device and driver scaffolding we
+just manually create and destroy a devres_group.
 
-Verified the below DP 2.0 DPCD registers from the DP 2.0 spec
+v2: Rebased
 
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
+v3: use devres_open/release_group so we can use devm without real
+hacks in the driver core or having to create an entire fake bus for
+testing drivers. Might want to extract this into helpers eventually,
+maybe as a mock_drm_dev_alloc or test_drm_dev_alloc.
 
-Manasi
+v4:
+- Fix IS_ERR handling (Matt)
+- Delete surplus put_device() in mock_device_release (intel-gfx-ci)
 
-> ---
->  include/drm/drm_dp_helper.h | 52 ++++++++++++++++++++++++++++++++-----
->  1 file changed, 45 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 388083b4716b..e144b4b9d79a 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -125,6 +125,7 @@ struct drm_device;
->  
->  #define DP_MAX_DOWNSPREAD                   0x003
->  # define DP_MAX_DOWNSPREAD_0_5		    (1 << 0)
-> +# define DP_STREAM_REGENERATION_STATUS_CAP  (1 << 1) /* 2.0 */
->  # define DP_NO_AUX_HANDSHAKE_LINK_TRAINING  (1 << 6)
->  # define DP_TPS4_SUPPORTED                  (1 << 7)
->  
-> @@ -142,6 +143,7 @@ struct drm_device;
->  
->  #define DP_MAIN_LINK_CHANNEL_CODING         0x006
->  # define DP_CAP_ANSI_8B10B		    (1 << 0)
-> +# define DP_CAP_ANSI_128B132B               (1 << 1) /* 2.0 */
->  
->  #define DP_DOWN_STREAM_PORT_COUNT	    0x007
->  # define DP_PORT_COUNT_MASK		    0x0f
-> @@ -185,8 +187,14 @@ struct drm_device;
->  #define DP_FAUX_CAP			    0x020   /* 1.2 */
->  # define DP_FAUX_CAP_1			    (1 << 0)
->  
-> +#define DP_SINK_VIDEO_FALLBACK_FORMATS      0x020   /* 2.0 */
-> +# define DP_FALLBACK_1024x768_60HZ_24BPP    (1 << 0)
-> +# define DP_FALLBACK_1280x720_60HZ_24BPP    (1 << 1)
-> +# define DP_FALLBACK_1920x1080_60HZ_24BPP   (1 << 2)
-> +
->  #define DP_MSTM_CAP			    0x021   /* 1.2 */
->  # define DP_MST_CAP			    (1 << 0)
-> +# define DP_SINGLE_STREAM_SIDEBAND_MSG      (1 << 1) /* 2.0 */
->  
->  #define DP_NUMBER_OF_AUDIO_ENDPOINTS	    0x022   /* 1.2 */
->  
-> @@ -434,6 +442,9 @@ struct drm_device;
->  # define DP_LINK_BW_2_7			    0x0a
->  # define DP_LINK_BW_5_4			    0x14    /* 1.2 */
->  # define DP_LINK_BW_8_1			    0x1e    /* 1.4 */
-> +# define DP_LINK_BW_10                      0x01    /* 2.0 128b/132b Link Layer */
-> +# define DP_LINK_BW_13_5                    0x04    /* 2.0 128b/132b Link Layer */
-> +# define DP_LINK_BW_20                      0x02    /* 2.0 128b/132b Link Layer */
->  
->  #define DP_LANE_COUNT_SET	            0x101
->  # define DP_LANE_COUNT_MASK		    0x0f
-> @@ -485,12 +496,15 @@ struct drm_device;
->  # define DP_TRAIN_PRE_EMPHASIS_SHIFT	    3
->  # define DP_TRAIN_MAX_PRE_EMPHASIS_REACHED  (1 << 5)
->  
-> +# define DP_TX_FFE_PRESET_VALUE_MASK        (0xf << 0) /* 2.0 128b/132b Link Layer */
-> +
->  #define DP_DOWNSPREAD_CTRL		    0x107
->  # define DP_SPREAD_AMP_0_5		    (1 << 4)
->  # define DP_MSA_TIMING_PAR_IGNORE_EN	    (1 << 7) /* eDP */
->  
->  #define DP_MAIN_LINK_CHANNEL_CODING_SET	    0x108
->  # define DP_SET_ANSI_8B10B		    (1 << 0)
-> +# define DP_SET_ANSI_128B132B               (1 << 1)
->  
->  #define DP_I2C_SPEED_CONTROL_STATUS	    0x109   /* DPI */
->  /* bitmask as for DP_I2C_SPEED_CAP */
-> @@ -509,8 +523,19 @@ struct drm_device;
->  # define DP_LINK_QUAL_PATTERN_ERROR_RATE    2
->  # define DP_LINK_QUAL_PATTERN_PRBS7	    3
->  # define DP_LINK_QUAL_PATTERN_80BIT_CUSTOM  4
-> -# define DP_LINK_QUAL_PATTERN_HBR2_EYE      5
-> -# define DP_LINK_QUAL_PATTERN_MASK	    7
-> +# define DP_LINK_QUAL_PATTERN_CP2520_PAT_1  5
-> +# define DP_LINK_QUAL_PATTERN_CP2520_PAT_2  6
-> +# define DP_LINK_QUAL_PATTERN_CP2520_PAT_3  7
-> +/* DP 2.0 UHBR10, UHBR13.5, UHBR20 */
-> +# define DP_LINK_QUAL_PATTERN_128B132B_TPS1 0x08
-> +# define DP_LINK_QUAL_PATTERN_128B132B_TPS2 0x10
-> +# define DP_LINK_QUAL_PATTERN_PRSBS9        0x18
-> +# define DP_LINK_QUAL_PATTERN_PRSBS11       0x20
-> +# define DP_LINK_QUAL_PATTERN_PRSBS15       0x28
-> +# define DP_LINK_QUAL_PATTERN_PRSBS23       0x30
-> +# define DP_LINK_QUAL_PATTERN_PRSBS31       0x38
-> +# define DP_LINK_QUAL_PATTERN_CUSTOM        0x40
-> +# define DP_LINK_QUAL_PATTERN_SQUARE        0x48
->  
->  #define DP_TRAINING_LANE0_1_SET2	    0x10f
->  #define DP_TRAINING_LANE2_3_SET2	    0x110
-> @@ -613,9 +638,9 @@ struct drm_device;
->  #define DP_LINK_STATUS_UPDATED		    (1 << 7)
->  
->  #define DP_SINK_STATUS			    0x205
-> -
-> -#define DP_RECEIVE_PORT_0_STATUS	    (1 << 0)
-> -#define DP_RECEIVE_PORT_1_STATUS	    (1 << 1)
-> +# define DP_RECEIVE_PORT_0_STATUS	    (1 << 0)
-> +# define DP_RECEIVE_PORT_1_STATUS	    (1 << 1)
-> +# define DP_STREAM_REGENERATION_STATUS      (1 << 2) /* 2.0 */
->  
->  #define DP_ADJUST_REQUEST_LANE0_1	    0x206
->  #define DP_ADJUST_REQUEST_LANE2_3	    0x207
-> @@ -628,6 +653,12 @@ struct drm_device;
->  # define DP_ADJUST_PRE_EMPHASIS_LANE1_MASK   0xc0
->  # define DP_ADJUST_PRE_EMPHASIS_LANE1_SHIFT  6
->  
-> +/* DP 2.0 128b/132b Link Layer */
-> +# define DP_ADJUST_TX_FFE_PRESET_LANE0_MASK  (0xf << 0)
-> +# define DP_ADJUST_TX_FFE_PRESET_LANE0_SHIFT 0
-> +# define DP_ADJUST_TX_FFE_PRESET_LANE1_MASK  (0xf << 4)
-> +# define DP_ADJUST_TX_FFE_PRESET_LANE1_SHIFT 4
-> +
->  #define DP_ADJUST_REQUEST_POST_CURSOR2      0x20c
->  # define DP_ADJUST_POST_CURSOR2_LANE0_MASK  0x03
->  # define DP_ADJUST_POST_CURSOR2_LANE0_SHIFT 0
-> @@ -945,9 +976,8 @@ struct drm_device;
->  #define DP_LANE_ALIGN_STATUS_UPDATED_ESI       0x200e /* status same as 0x204 */
->  #define DP_SINK_STATUS_ESI                     0x200f /* status same as 0x205 */
->  
-> -/* Extended Receiver Capability */
-> +/* Extended Receiver Capability: See DP_DPCD_REV for definitions */
->  #define DP_DP13_DPCD_REV                    0x2200
-> -#define DP_DP13_MAX_LINK_RATE               0x2201
->  
->  #define DP_DPRX_FEATURE_ENUMERATION_LIST    0x2210  /* DP 1.3 */
->  # define DP_GTC_CAP					(1 << 0)  /* DP 1.3 */
-> @@ -959,6 +989,14 @@ struct drm_device;
->  # define DP_VSC_EXT_CEA_SDP_SUPPORTED			(1 << 6)  /* DP 1.4 */
->  # define DP_VSC_EXT_CEA_SDP_CHAINING_SUPPORTED		(1 << 7)  /* DP 1.4 */
->  
-> +#define DP_128B132B_SUPPORTED_LINK_RATES       0x2215 /* 2.0 */
-> +# define DP_UHBR10                             (1 << 0)
-> +# define DP_UHBR20                             (1 << 1)
-> +# define DP_UHBR13_5                           (1 << 2)
-> +
-> +#define DP_128B132B_TRAINING_AUX_RD_INTERVAL   0x2216 /* 2.0 */
-> +# define DP_128B132B_TRAINING_AUX_RD_INTERVAL_MASK 0x7f
-> +
->  /* Protocol Converter Extension */
->  /* HDMI CEC tunneling over AUX DP 1.3 section 5.3.3.3.1 DPCD 1.4+ */
->  #define DP_CEC_TUNNELING_CAPABILITY            0x3000
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+v5:
+- do not switch to device_add - it breaks runtime pm in the tests and
+  with the devres_group_add/release no longer needed for automatic
+  cleanup (CI). Update commit message to match.
+- print correct error in pr_err (Matt)
+
+Cc: Matthew Auld <matthew.william.auld@gmail.com>
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (v3)
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.william.auld@gmail.com> (v4)
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ .../gpu/drm/i915/selftests/mock_gem_device.c  | 38 +++++++++----------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+index ac600d395c8f..3b574597cd7f 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
++++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+@@ -79,8 +79,6 @@ static void mock_device_release(struct drm_device *dev)
+ 
+ out:
+ 	i915_params_free(&i915->params);
+-	put_device(&i915->drm.pdev->dev);
+-	i915->drm.pdev = NULL;
+ }
+ 
+ static struct drm_driver mock_driver = {
+@@ -128,12 +126,6 @@ struct drm_i915_private *mock_gem_device(void)
+ 	pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+ 	if (!pdev)
+ 		return NULL;
+-	i915 = kzalloc(sizeof(*i915), GFP_KERNEL);
+-	if (!i915) {
+-		kfree(pdev);
+-		return NULL;
+-	}
+-
+ 	device_initialize(&pdev->dev);
+ 	pdev->class = PCI_BASE_CLASS_DISPLAY << 16;
+ 	pdev->dev.release = release_dev;
+@@ -144,8 +136,23 @@ struct drm_i915_private *mock_gem_device(void)
+ 	/* HACK to disable iommu for the fake device; force identity mapping */
+ 	pdev->dev.iommu = &fake_iommu;
+ #endif
++	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
++		put_device(&pdev->dev);
++		return NULL;
++	}
++
++	i915 = devm_drm_dev_alloc(&pdev->dev, &mock_driver,
++				  struct drm_i915_private, drm);
++	if (IS_ERR(i915)) {
++		pr_err("Failed to allocate mock GEM device: err=%d\n", PTR_ERR(i915));
++		devres_release_group(&pdev->dev, NULL);
++		put_device(&pdev->dev);
++
++		return NULL;
++	}
+ 
+ 	pci_set_drvdata(pdev, i915);
++	i915->drm.pdev = pdev;
+ 
+ 	dev_pm_domain_set(&pdev->dev, &pm_domain);
+ 	pm_runtime_enable(&pdev->dev);
+@@ -153,16 +160,6 @@ struct drm_i915_private *mock_gem_device(void)
+ 	if (pm_runtime_enabled(&pdev->dev))
+ 		WARN_ON(pm_runtime_get_sync(&pdev->dev));
+ 
+-	err = drm_dev_init(&i915->drm, &mock_driver, &pdev->dev);
+-	if (err) {
+-		pr_err("Failed to initialise mock GEM device: err=%d\n", err);
+-		put_device(&pdev->dev);
+-		kfree(i915);
+-
+-		return NULL;
+-	}
+-	i915->drm.pdev = pdev;
+-	drmm_add_final_kfree(&i915->drm, i915);
+ 
+ 	i915_params_copy(&i915->params, &i915_modparams);
+ 
+@@ -229,5 +226,8 @@ struct drm_i915_private *mock_gem_device(void)
+ 
+ void mock_destroy_device(struct drm_i915_private *i915)
+ {
+-	drm_dev_put(&i915->drm);
++	struct device *dev = i915->drm.dev;
++
++	devres_release_group(dev, NULL);
++	put_device(dev);
+ }
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
