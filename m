@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B3426EAD2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29AF26EAD9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6437F6E0F5;
-	Fri, 18 Sep 2020 02:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E1F6E42E;
+	Fri, 18 Sep 2020 02:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED976E0F5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:01:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6001C6E42E
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:01:33 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E192A21973;
- Fri, 18 Sep 2020 02:01:21 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 81F3B23444;
+ Fri, 18 Sep 2020 02:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394482;
- bh=TONmCrhRmlyoG/Lf9PQAI0I3daVMNT6ZohFbYpc+huA=;
+ s=default; t=1600394493;
+ bh=CaRo9/AHPZPm51FSWlzZAZXiIvY/hOJpN6jhNEj6A9g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WGW9QBohyuuWYvTSfgz4TfyDeoo6ojwehaRc4G4Nl9q+na+nXqy9Lt8lNb29Ivjj0
- SG01+bQEcO7peYQ41eSojpByPovFRuMQ0aAW8CgwACj0pBvxuT51aUUQ45XIOFvA0U
- 1aGf3uOha31sq/iUPjJMjkIel0RnQgoqO5Lcx4UI=
+ b=Q8+YkbS0yk2DcZRBEXwBpBZiZRlmrG7DmXj96ym7K2Hrd+RcRrtcqm+tDWIHqjwLZ
+ zvwlBIUK+MhJj11385T6nzVk3n20uOK3NWTqZcX0UkfbHBJPFNq2H0FL0S6NMwiSN5
+ Zo9UP41h7YWuZViSvqUNyBjWHE0Geg4sAQhBKcWg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 009/330] dma-fence: Serialise signal enabling
- (dma_fence_enable_sw_signaling)
-Date: Thu, 17 Sep 2020 21:55:49 -0400
-Message-Id: <20200918020110.2063155-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 018/330] gma/gma500: fix a memory disclosure bug
+ due to uninitialized bytes
+Date: Thu, 17 Sep 2020 21:55:58 -0400
+Message-Id: <20200918020110.2063155-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,170 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Kangjie Lu <kjlu@umn.edu>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+From: Kangjie Lu <kjlu@umn.edu>
 
-[ Upstream commit 9c98f021e4e717ffd9948fa65340ea3ef12b7935 ]
+[ Upstream commit 57a25a5f754ce27da2cfa6f413cfd366f878db76 ]
 
-Make dma_fence_enable_sw_signaling() behave like its
-dma_fence_add_callback() and dma_fence_default_wait() counterparts and
-perform the test to enable signaling under the fence->lock, along with
-the action to do so. This ensure that should an implementation be trying
-to flush the cb_list (by signaling) on retirement before freeing the
-fence, it can do so in a race-free manner.
+`best_clock` is an object that may be sent out. Object `clock`
+contains uninitialized bytes that are copied to `best_clock`,
+which leads to memory disclosure and information leak.
 
-See also 0fc89b6802ba ("dma-fence: Simply wrap dma_fence_signal_locked
-with dma_fence_signal").
-
-v2: Refactor all 3 enable_signaling paths to use a common function.
-v3: Don't argue, just keep the tracepoint in the existing spot.
-
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191004101140.32713-1-chris@chris-wilson.co.uk
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191018042953.31099-1-kjlu@umn.edu
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/dma-fence.c | 78 +++++++++++++++++--------------------
- 1 file changed, 35 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 2c136aee3e794..052a41e2451c1 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -273,6 +273,30 @@ void dma_fence_free(struct dma_fence *fence)
- }
- EXPORT_SYMBOL(dma_fence_free);
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
+index f56852a503e8d..8b784947ed3b9 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_display.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
+@@ -405,6 +405,8 @@ static bool cdv_intel_find_dp_pll(const struct gma_limit_t *limit,
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	struct gma_clock_t clock;
  
-+static bool __dma_fence_enable_signaling(struct dma_fence *fence)
-+{
-+	bool was_set;
++	memset(&clock, 0, sizeof(clock));
 +
-+	lockdep_assert_held(fence->lock);
-+
-+	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-+				   &fence->flags);
-+
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+		return false;
-+
-+	if (!was_set && fence->ops->enable_signaling) {
-+		trace_dma_fence_enable_signal(fence);
-+
-+		if (!fence->ops->enable_signaling(fence)) {
-+			dma_fence_signal_locked(fence);
-+			return false;
-+		}
-+	}
-+
-+	return true;
-+}
-+
- /**
-  * dma_fence_enable_sw_signaling - enable signaling on fence
-  * @fence: the fence to enable
-@@ -285,19 +309,12 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence)
- {
- 	unsigned long flags;
- 
--	if (!test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--			      &fence->flags) &&
--	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) &&
--	    fence->ops->enable_signaling) {
--		trace_dma_fence_enable_signal(fence);
--
--		spin_lock_irqsave(fence->lock, flags);
--
--		if (!fence->ops->enable_signaling(fence))
--			dma_fence_signal_locked(fence);
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+		return;
- 
--		spin_unlock_irqrestore(fence->lock, flags);
--	}
-+	spin_lock_irqsave(fence->lock, flags);
-+	__dma_fence_enable_signaling(fence);
-+	spin_unlock_irqrestore(fence->lock, flags);
- }
- EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
- 
-@@ -331,7 +348,6 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- {
- 	unsigned long flags;
- 	int ret = 0;
--	bool was_set;
- 
- 	if (WARN_ON(!fence || !func))
- 		return -EINVAL;
-@@ -343,25 +359,14 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- 
- 	spin_lock_irqsave(fence->lock, flags);
- 
--	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--				   &fence->flags);
--
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
--		ret = -ENOENT;
--	else if (!was_set && fence->ops->enable_signaling) {
--		trace_dma_fence_enable_signal(fence);
--
--		if (!fence->ops->enable_signaling(fence)) {
--			dma_fence_signal_locked(fence);
--			ret = -ENOENT;
--		}
--	}
--
--	if (!ret) {
-+	if (__dma_fence_enable_signaling(fence)) {
- 		cb->func = func;
- 		list_add_tail(&cb->node, &fence->cb_list);
--	} else
-+	} else {
- 		INIT_LIST_HEAD(&cb->node);
-+		ret = -ENOENT;
-+	}
-+
- 	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	return ret;
-@@ -461,7 +466,6 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 	struct default_wait_cb cb;
- 	unsigned long flags;
- 	signed long ret = timeout ? timeout : 1;
--	bool was_set;
- 
- 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 		return ret;
-@@ -473,21 +477,9 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 		goto out;
- 	}
- 
--	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--				   &fence->flags);
--
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (!__dma_fence_enable_signaling(fence))
- 		goto out;
- 
--	if (!was_set && fence->ops->enable_signaling) {
--		trace_dma_fence_enable_signal(fence);
--
--		if (!fence->ops->enable_signaling(fence)) {
--			dma_fence_signal_locked(fence);
--			goto out;
--		}
--	}
--
- 	if (!timeout) {
- 		ret = 0;
- 		goto out;
+ 	switch (refclk) {
+ 	case 27000:
+ 		if (target < 200000) {
 -- 
 2.25.1
 
