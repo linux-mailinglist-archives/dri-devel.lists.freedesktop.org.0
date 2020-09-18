@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8FD26EAF1
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AE026EAF2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747796E434;
-	Fri, 18 Sep 2020 02:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA516E435;
+	Fri, 18 Sep 2020 02:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899946E434
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:02:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44B76E435
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:02:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B640A2376E;
- Fri, 18 Sep 2020 02:02:50 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C110123718;
+ Fri, 18 Sep 2020 02:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394571;
- bh=OMVk3fI/tZs7pnCPVX8Wp4T55m38T8i17r0bLUz066E=;
+ s=default; t=1600394573;
+ bh=mB0PswWSGZUE0hQctMizawBCYsl1DAYFkU5l1hbNNLQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kNeCsZVID6Qz4M7nKNRXkTYwsBM3ysA0TD9JZpqTZd1fJ2GLpJ8SZh/IO27gcMngC
- N0ocJ1kQbu3SABZa9qoiGYD54F0lU1MaDHM0SQd/DKxyLxIDebf0mr+SV+OBhiGgnN
- Lle6t47fBF3CwnW5FtMxqS0fCFCnuCph++wtiMEw=
+ b=LctZEaljem9J0OpfHirw5iliTw8czdw5d2wr6BiQ1RR8TLpDZe1UvoZFT1GXRPfzO
+ FCKq6vc1LYXjKrQmkO9dMDCVu7HOZ0wdSrkJ1lAn3VfuPSVMeVW6zFVaG/uPWiTa7h
+ owNuAk4WCnLfwmHUqC7GIA+39Q95CQni+Mr4tbK8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 083/330] drm/mcde: Handle pending vblank while
- disabling display
-Date: Thu, 17 Sep 2020 21:57:03 -0400
-Message-Id: <20200918020110.2063155-83-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 085/330] drm/scheduler: Avoid accessing freed bad
+ job.
+Date: Thu, 17 Sep 2020 21:57:05 -0400
+Message-Id: <20200918020110.2063155-85-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -50,96 +50,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephan Gerhold <stephan@gerhold.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Emily Deng <Emily.Deng@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stephan Gerhold <stephan@gerhold.net>
-
-[ Upstream commit 97de863673f07f424dd0666aefb4b6ecaba10171 ]
-
-Disabling the display using MCDE currently results in a warning
-together with a delay caused by some timeouts:
-
-    mcde a0350000.mcde: MCDE display is disabled
-    ------------[ cut here ]------------
-    WARNING: CPU: 0 PID: 20 at drivers/gpu/drm/drm_atomic_helper.c:2258 drm_atomic_helper_commit_hw_done+0xe0/0xe4
-    Hardware name: ST-Ericsson Ux5x0 platform (Device Tree Support)
-    Workqueue: events drm_mode_rmfb_work_fn
-    [<c010f468>] (unwind_backtrace) from [<c010b54c>] (show_stack+0x10/0x14)
-    [<c010b54c>] (show_stack) from [<c079dd90>] (dump_stack+0x84/0x98)
-    [<c079dd90>] (dump_stack) from [<c011d1b0>] (__warn+0xb8/0xd4)
-    [<c011d1b0>] (__warn) from [<c011d230>] (warn_slowpath_fmt+0x64/0xc4)
-    [<c011d230>] (warn_slowpath_fmt) from [<c0413048>] (drm_atomic_helper_commit_hw_done+0xe0/0xe4)
-    [<c0413048>] (drm_atomic_helper_commit_hw_done) from [<c04159cc>] (drm_atomic_helper_commit_tail_rpm+0x44/0x6c)
-    [<c04159cc>] (drm_atomic_helper_commit_tail_rpm) from [<c0415f5c>] (commit_tail+0x50/0x10c)
-    [<c0415f5c>] (commit_tail) from [<c04160dc>] (drm_atomic_helper_commit+0xbc/0x128)
-    [<c04160dc>] (drm_atomic_helper_commit) from [<c0430790>] (drm_framebuffer_remove+0x390/0x428)
-    [<c0430790>] (drm_framebuffer_remove) from [<c0430860>] (drm_mode_rmfb_work_fn+0x38/0x48)
-    [<c0430860>] (drm_mode_rmfb_work_fn) from [<c01368a8>] (process_one_work+0x1f0/0x43c)
-    [<c01368a8>] (process_one_work) from [<c0136d48>] (worker_thread+0x254/0x55c)
-    [<c0136d48>] (worker_thread) from [<c013c014>] (kthread+0x124/0x150)
-    [<c013c014>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
-    Exception stack(0xeb14dfb0 to 0xeb14dff8)
-    dfa0:                                     00000000 00000000 00000000 00000000
-    dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-    dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
-    ---[ end trace 314909bcd4c7d50c ]---
-    [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:32:crtc-0] flip_done timed out
-    [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:34:DSI-1] flip_done timed out
-    [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:31:plane-0] flip_done timed out
-
-The reason for this is that there is a vblank event pending, but we
-never handle it after disabling the vblank interrupts.
-
-Check if there is an vblank event pending when disabling the display,
-and clear it by sending a fake vblank event in that case.
-
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
-Tested-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191106165835.2863-8-stephan@gerhold.net
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/mcde/mcde_display.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index 751454ae3cd10..28ed506285018 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -946,6 +946,7 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
- 	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *drm = crtc->dev;
- 	struct mcde *mcde = drm->dev_private;
-+	struct drm_pending_vblank_event *event;
- 
- 	if (mcde->te_sync)
- 		drm_crtc_vblank_off(crtc);
-@@ -953,6 +954,15 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
- 	/* Disable FIFO A flow */
- 	mcde_disable_fifo(mcde, MCDE_FIFO_A, true);
- 
-+	event = crtc->state->event;
-+	if (event) {
-+		crtc->state->event = NULL;
-+
-+		spin_lock_irq(&crtc->dev->event_lock);
-+		drm_crtc_send_vblank_event(crtc, event);
-+		spin_unlock_irq(&crtc->dev->event_lock);
-+	}
-+
- 	dev_info(drm->dev, "MCDE display is disabled\n");
- }
- 
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+CgpbIFVw
+c3RyZWFtIGNvbW1pdCAxMzU1MTdkMzU2NWI0OGY0ZGVmM2IxYjgyMDA4YmMxN2ViNWQxYzkwIF0K
+ClByb2JsZW06CkR1ZSB0byBhIHJhY2UgYmV0d2VlbiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzIGlu
+IHNjaGVkIHRocmVhZCBhbmQKZHJtX3NjaGVkX2pvYl90aW1lZG91dCBpbiB0aW1lb3V0IHdvcmsg
+dGhlcmUgaXMgYSBwb3NzaWJsaXR5IHRoYXQKYmFkIGpvYiB3YXMgYWxyZWFkeSBmcmVlZCB3aGls
+ZSBzdGlsbCBiZWluZyBhY2Nlc3NlZCBmcm9tIHRoZQp0aW1lb3V0IHRocmVhZC4KCkZpeDoKSW5z
+dGVhZCBvZiBqdXN0IHBlZWtpbmcgYXQgdGhlIGJhZCBqb2IgaW4gdGhlIG1pcnJvciBsaXN0CnJl
+bW92ZSBpdCBmcm9tIHRoZSBsaXN0IHVuZGVyIGxvY2sgYW5kIHRoZW4gcHV0IGl0IGJhY2sgbGF0
+ZXIgd2hlbgp3ZSBhcmUgZ2FyYW50ZWVkIG5vIHJhY2Ugd2l0aCBtYWluIHNjaGVkIHRocmVhZCBp
+cyBwb3NzaWJsZSB3aGljaAppcyBhZnRlciB0aGUgdGhyZWFkIGlzIHBhcmtlZC4KCnYyOiBMb2Nr
+IGFyb3VuZCBwcm9jZXNzaW5nIHJpbmdfbWlycm9yX2xpc3QgaW4gZHJtX3NjaGVkX2NsZWFudXBf
+am9icy4KCnYzOiBSZWJhc2Ugb24gdG9wIG9mIGRybS1taXNjLW5leHQuIHYyIGlzIG5vdCBuZWVk
+ZWQgYW55bW9yZSBhcwpkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iIGFscmVhZHkgaGFzIGEgbG9j
+ayB0aGVyZS4KCnY0OiBGaXggY29tbWVudHMgdG8gcmVsZmVjdCBsYXRlc3QgY29kZSBpbiBkcm0t
+bWlzYy4KClNpZ25lZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNr
+eUBhbWQuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
+Z0BhbWQuY29tPgpSZXZpZXdlZC1ieTogRW1pbHkgRGVuZyA8RW1pbHkuRGVuZ0BhbWQuY29tPgpU
+ZXN0ZWQtYnk6IEVtaWx5IERlbmcgPEVtaWx5LkRlbmdAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTog
+Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpMaW5rOiBodHRwczov
+L3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvMzQyMzU2ClNpZ25lZC1vZmYtYnk6IFNh
+c2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1
+bGVyL3NjaGVkX21haW4uYyB8IDI3ICsrKysrKysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUg
+Y2hhbmdlZCwgMjcgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9z
+Y2hlZHVsZXIvc2NoZWRfbWFpbi5jIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9t
+YWluLmMKaW5kZXggMzBjNWRkZDZkMDgxYy4uMTM0ZTkxMDZlYmFjMSAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3NjaGVkdWxlci9zY2hlZF9tYWluLmMKQEAgLTI4NCwxMCArMjg0LDIxIEBAIHN0YXRpYyB2b2lk
+IGRybV9zY2hlZF9qb2JfdGltZWRvdXQoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQogCXVuc2ln
+bmVkIGxvbmcgZmxhZ3M7CiAKIAlzY2hlZCA9IGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3QgZHJt
+X2dwdV9zY2hlZHVsZXIsIHdvcmtfdGRyLndvcmspOworCisJLyogUHJvdGVjdHMgYWdhaW5zdCBj
+b25jdXJyZW50IGRlbGV0aW9uIGluIGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgKi8KKwlzcGlu
+X2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKIAlqb2IgPSBsaXN0
+X2ZpcnN0X2VudHJ5X29yX251bGwoJnNjaGVkLT5yaW5nX21pcnJvcl9saXN0LAogCQkJCSAgICAg
+ICBzdHJ1Y3QgZHJtX3NjaGVkX2pvYiwgbm9kZSk7CiAKIAlpZiAoam9iKSB7CisJCS8qCisJCSAq
+IFJlbW92ZSB0aGUgYmFkIGpvYiBzbyBpdCBjYW5ub3QgYmUgZnJlZWQgYnkgY29uY3VycmVudAor
+CQkgKiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzLiBJdCB3aWxsIGJlIHJlaW5zZXJ0ZWQgYmFjayBh
+ZnRlciBzY2hlZC0+dGhyZWFkCisJCSAqIGlzIHBhcmtlZCBhdCB3aGljaCBwb2ludCBpdCdzIHNh
+ZmUuCisJCSAqLworCQlsaXN0X2RlbF9pbml0KCZqb2ItPm5vZGUpOworCQlzcGluX3VubG9ja19p
+cnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOworCiAJCWpvYi0+c2NoZWQt
+Pm9wcy0+dGltZWRvdXRfam9iKGpvYik7CiAKIAkJLyoKQEAgLTI5OCw2ICszMDksOCBAQCBzdGF0
+aWMgdm9pZCBkcm1fc2NoZWRfam9iX3RpbWVkb3V0KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykK
+IAkJCWpvYi0+c2NoZWQtPm9wcy0+ZnJlZV9qb2Ioam9iKTsKIAkJCXNjaGVkLT5mcmVlX2d1aWx0
+eSA9IGZhbHNlOwogCQl9CisJfSBlbHNlIHsKKwkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2No
+ZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKIAl9CiAKIAlzcGluX2xvY2tfaXJxc2F2ZSgmc2No
+ZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKQEAgLTM2OSw2ICszODIsMjAgQEAgdm9pZCBkcm1f
+c2NoZWRfc3RvcChzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKnNjaGVkLCBzdHJ1Y3QgZHJtX3Nj
+aGVkX2pvYiAqYmFkKQogCiAJa3RocmVhZF9wYXJrKHNjaGVkLT50aHJlYWQpOwogCisJLyoKKwkg
+KiBSZWluc2VydCBiYWNrIHRoZSBiYWQgam9iIGhlcmUgLSBub3cgaXQncyBzYWZlIGFzCisJICog
+ZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYiBjYW5ub3QgcmFjZSBhZ2FpbnN0IHVzIGFuZCByZWxl
+YXNlIHRoZQorCSAqIGJhZCBqb2IgYXQgdGhpcyBwb2ludCAtIHdlIHBhcmtlZCAod2FpdGVkIGZv
+cikgYW55IGluIHByb2dyZXNzCisJICogKGVhcmxpZXIpIGNsZWFudXBzIGFuZCBkcm1fc2NoZWRf
+Z2V0X2NsZWFudXBfam9iIHdpbGwgbm90IGJlIGNhbGxlZAorCSAqIG5vdyB1bnRpbCB0aGUgc2No
+ZWR1bGVyIHRocmVhZCBpcyB1bnBhcmtlZC4KKwkgKi8KKwlpZiAoYmFkICYmIGJhZC0+c2NoZWQg
+PT0gc2NoZWQpCisJCS8qCisJCSAqIEFkZCBhdCB0aGUgaGVhZCBvZiB0aGUgcXVldWUgdG8gcmVm
+bGVjdCBpdCB3YXMgdGhlIGVhcmxpZXN0CisJCSAqIGpvYiBleHRyYWN0ZWQuCisJCSAqLworCQls
+aXN0X2FkZCgmYmFkLT5ub2RlLCAmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QpOworCiAJLyoKIAkg
+KiBJdGVyYXRlIHRoZSBqb2IgbGlzdCBmcm9tIGxhdGVyIHRvICBlYXJsaWVyIG9uZSBhbmQgZWl0
+aGVyIGRlYWN0aXZlCiAJICogdGhlaXIgSFcgY2FsbGJhY2tzIG9yIHJlbW92ZSB0aGVtIGZyb20g
+bWlycm9yIGxpc3QgaWYgdGhleSBhbHJlYWR5Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
