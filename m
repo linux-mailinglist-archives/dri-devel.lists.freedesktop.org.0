@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A6E26EADB
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9E726EADD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:02:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1736E430;
-	Fri, 18 Sep 2020 02:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5318F6E432;
+	Fri, 18 Sep 2020 02:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5FD46E430
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:01:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2CB6E432
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:01:58 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 16FD3208DB;
- Fri, 18 Sep 2020 02:01:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A066421582;
+ Fri, 18 Sep 2020 02:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394513;
- bh=QJ2dpRTbPRNUbz7iVhxRcALpzJs8tArsFex247QhvQI=;
+ s=default; t=1600394518;
+ bh=KBXbAQqY+WESxYY3ikEmMr5gH9BlQ2Cc19yj1heB7fk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1FgVv5h92Z/PipQRzVY5im3rXfG5mxNGKecnAomgN+voUuyKB1cgXHrRPklTz5VzL
- /QJbAtIaRtq049QMFOVvekF1P9GHuHuCq/lDrzpcbvgGFHSzplU8hQd7/Ds6uShTne
- P90QyeRtmBMuOgcf8zmZIm//9e55Ok478BNcpwQc=
+ b=c+41q03om3HMOj5GxU0Sc4CRr5udUKnIqe22LTF7jW4+aUIkYXrUknoPFyT2zu8oL
+ ooaRTtZ3TA1PJg9N/o7VhNL7SEuA4CzIqWS2N29TUESnTKpJDET4oJ0R8KigXoGIOq
+ FxNEIB25RQJUZPHo01tMGiTRdSiAcmWXWaOYSsCw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 036/330] drm/amdgpu/powerplay: fix AVFS handling
- with custom powerplay table
-Date: Thu, 17 Sep 2020 21:56:16 -0400
-Message-Id: <20200918020110.2063155-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 040/330] drm/amdgpu/powerplay/smu7: fix AVFS
+ handling with custom powerplay table
+Date: Thu, 17 Sep 2020 21:56:20 -0400
+Message-Id: <20200918020110.2063155-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -59,7 +59,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 53dbc27ad5a93932ff1892a8e4ef266827d74a0f ]
+[ Upstream commit 901245624c7812b6c95d67177bae850e783b5212 ]
 
 When a custom powerplay table is provided, we need to update
 the OD VDDC flag to avoid AVFS being enabled when it shouldn't be.
@@ -69,27 +69,27 @@ Reviewed-by: Evan Quan <evan.quan@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c | 7 +++++++
+ drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-index beacfffbdc3eb..ecbc9daea57e0 100644
---- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c
-@@ -3691,6 +3691,13 @@ static int vega10_set_power_state_tasks(struct pp_hwmgr *hwmgr,
- 	PP_ASSERT_WITH_CODE(!result,
- 			"Failed to upload PPtable!", return result);
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+index e6da53e9c3f46..edd6d4912edeb 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+@@ -3986,6 +3986,13 @@ static int smu7_set_power_state_tasks(struct pp_hwmgr *hwmgr, const void *input)
+ 			"Failed to populate and upload SCLK MCLK DPM levels!",
+ 			result = tmp_result);
  
 +	/*
 +	 * If a custom pp table is loaded, set DPMTABLE_OD_UPDATE_VDDC flag.
 +	 * That effectively disables AVFS feature.
 +	 */
-+	if(hwmgr->hardcode_pp_table != NULL)
-+		data->need_update_dpm_table |= DPMTABLE_OD_UPDATE_VDDC;
++	if (hwmgr->hardcode_pp_table != NULL)
++		data->need_update_smu7_dpm_table |= DPMTABLE_OD_UPDATE_VDDC;
 +
- 	vega10_update_avfs(hwmgr);
- 
- 	/*
+ 	tmp_result = smu7_update_avfs(hwmgr);
+ 	PP_ASSERT_WITH_CODE((0 == tmp_result),
+ 			"Failed to update avfs voltages!",
 -- 
 2.25.1
 
