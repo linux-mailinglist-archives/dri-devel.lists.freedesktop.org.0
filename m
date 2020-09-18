@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA8827044E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 20:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5577027058D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 21:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E257F6ED79;
-	Fri, 18 Sep 2020 18:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6FE46E027;
+	Fri, 18 Sep 2020 19:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0FD6ED78
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 18:46:32 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id m7so8211439oie.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 11:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OWLyOFBXBxuFdicK9yh047E68CrePj5JHVLn2jb/hgc=;
- b=lQvac9yCQ4Y2xlyr74/8n4qf9CnTcQBST85F8+GVbkq7rzolXv7kz+igClydLKjZj1
- o91k31LQSk+eWcXrsFPidOeb4oW83/rLZrLHmMtlMIhPXSVuiKeCyWxk8n+SrEPnIAnU
- 5j1J+Icym0AwNt5pm6IdahgQF4QcXO4DVXCH4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OWLyOFBXBxuFdicK9yh047E68CrePj5JHVLn2jb/hgc=;
- b=qoVA2WVv4Bua/2/JH0EnLL+cw7EebOLlwdgLLK18M8sKl7Q0sYGXwMkBYzgI29gZec
- fru9ddUXJc2rtBR1NI6n7vS7CqOuJPchu8qmcVe9SfQ1Gg6zKdd9LyljmyTP6m0cA8lc
- UaPPfjSpRv/G/cd15oyf/V0CU0jE3tyBlyUE8+rDZLUTyMG47LFSYJaf8sHAYrBUiaVo
- rfk3U3oLJm20vMTMzqxF34QFUj3h2HVc5iirnZy2bWSgCzrCqIu2b2zYPkWly+WMPL2a
- jJHNMblkarSNGiodk01ngtMWpXHRA2U1oBJcttiBDA0sG5nk4+5F/assb0+NPrQwX4d5
- 0aHg==
-X-Gm-Message-State: AOAM5321r2vqhqpfbQrHO0n64uZUr9zFgfjqzB5IBxfb5G/mfxUg2mXW
- apj8KAehZDbzzeeeIQO7gwJJr+FaLeyQpQAS1xZE5Q==
-X-Google-Smtp-Source: ABdhPJxqVjGzJuuq1jWn3cgjpH7+eNSVRZvjkCFdXEg4lpR1qompWyNFCyiO5+s97tVf5PCeSp5L1BJf1tOBo85cET8=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr10441527oib.14.1600454791755; 
- Fri, 18 Sep 2020 11:46:31 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4385B6E027
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 19:29:20 +0000 (UTC)
+IronPort-SDR: FOvdu0RlH5eNla8gWgjnbHaIPOD0tx5uE/2iJexVDM5w+vyDs2/65t3WabF6AUgnf3wf6zPT36
+ koWTNjtKqFFA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="140019373"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="140019373"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 12:29:11 -0700
+IronPort-SDR: w81rL9/De/QtsqA2Ml8K10ZAiref0AKZzmRxUEOFg6zXLL4GHbNPZLn1FpkU0L2R0m0rimJQVE
+ FbRpxPoxf7DQ==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="307991359"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
+ ([10.165.21.211])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 12:29:10 -0700
+Date: Fri, 18 Sep 2020 12:29:56 -0700
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/2] drm/dp: add subheadings to DPCD address definitions
+Message-ID: <20200918192956.GA31898@labuser-Z97X-UD5H>
+References: <20200918114017.30198-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20200918132505.2316382-1-daniel.vetter@ffwll.ch>
- <20200918132505.2316382-3-daniel.vetter@ffwll.ch>
- <CAM0jSHOsowOK2Vytfv4MWVTToFs-6pShMyoZy1Or90zZysH_gg@mail.gmail.com>
- <CAKMK7uEZKVZ2T2jHg_XLo+N=_9AnBZxB668wFpEXGedNDE+b2A@mail.gmail.com>
- <CAM0jSHMD5LxEHqbdP8wfRr_6SUahjddGRLVdcF2Q47GUxOhk2A@mail.gmail.com>
-In-Reply-To: <CAM0jSHMD5LxEHqbdP8wfRr_6SUahjddGRLVdcF2Q47GUxOhk2A@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 18 Sep 2020 20:46:20 +0200
-Message-ID: <CAKMK7uH+CnVrzrGoMAq2dFnTQWigmb36qTJ8p4fJx9vAwig3Fw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/i915/selftests: align more to real device
- lifetimes
-To: Matthew Auld <matthew.william.auld@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200918114017.30198-1-jani.nikula@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,124 +50,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 18, 2020 at 8:31 PM Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Fri, 18 Sep 2020 at 19:22, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > On Fri, Sep 18, 2020 at 7:50 PM Matthew Auld
-> > <matthew.william.auld@gmail.com> wrote:
-> > >
-> > > On Fri, 18 Sep 2020 at 14:25, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > >
-> > > > The big change is device_add so that device_del can auto-cleanup
-> > > > devres resources. This allows us to use devm_drm_dev_alloc, which
-> > > > removes the last user of drm_dev_init.
-> > > >
-> > > > v2: Rebased
-> > > >
-> > > > v3: use devres_open/release_group so we can use devm without real
-> > > > hacks in the driver core or having to create an entire fake bus for
-> > > > testing drivers. Might want to extract this into helpers eventually,
-> > > > maybe as a mock_drm_dev_alloc or test_drm_dev_alloc.
-> > > >
-> > > > v4:
-> > > > - Fix IS_ERR handling (Matt)
-> > > > - Delete surplus put_device() in mock_device_release (intel-gfx-ci)
-> > > >
-> > > > Cc: Matthew Auld <matthew.william.auld@gmail.com>
-> > > > Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (v3)
-> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > ---
-> > > >  .../gpu/drm/i915/selftests/mock_gem_device.c  | 44 +++++++++++--------
-> > > >  1 file changed, 25 insertions(+), 19 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> > > > index ac600d395c8f..816f9af15fb3 100644
-> > > > --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> > > > +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> > > > @@ -79,8 +79,6 @@ static void mock_device_release(struct drm_device *dev)
-> > > >
-> > > >  out:
-> > > >         i915_params_free(&i915->params);
-> > > > -       put_device(&i915->drm.pdev->dev);
-> > > > -       i915->drm.pdev = NULL;
-> > > >  }
-> > > >
-> > > >  static struct drm_driver mock_driver = {
-> > > > @@ -128,12 +126,6 @@ struct drm_i915_private *mock_gem_device(void)
-> > > >         pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
-> > > >         if (!pdev)
-> > > >                 return NULL;
-> > > > -       i915 = kzalloc(sizeof(*i915), GFP_KERNEL);
-> > > > -       if (!i915) {
-> > > > -               kfree(pdev);
-> > > > -               return NULL;
-> > > > -       }
-> > > > -
-> > > >         device_initialize(&pdev->dev);
-> > > >         pdev->class = PCI_BASE_CLASS_DISPLAY << 16;
-> > > >         pdev->dev.release = release_dev;
-> > > > @@ -144,8 +136,29 @@ struct drm_i915_private *mock_gem_device(void)
-> > > >         /* HACK to disable iommu for the fake device; force identity mapping */
-> > > >         pdev->dev.iommu = &fake_iommu;
-> > > >  #endif
-> > > > +       err = device_add(&pdev->dev);
-> > > > +       if (err) {
-> > > > +               kfree(pdev);
-> > > > +               return NULL;
-> > > > +       }
-> > > > +
-> > > > +       if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
-> > > > +               device_del(&pdev->dev);
-> > > > +               return NULL;
-> > > > +       }
-> > > > +
-> > > > +       i915 = devm_drm_dev_alloc(&pdev->dev, &mock_driver,
-> > > > +                                 struct drm_i915_private, drm);
-> > > > +       if (IS_ERR(i915)) {
-> > > > +               pr_err("Failed to allocate mock GEM device: err=%d\n", err);
-> > >
-> > > err = PTR_ERR(i915)
-> >
-> > Are you sure? We return a pointer here, and callers just expect NULL
-> > when stuff fails (so neither errno nor ptr-encoded errno).
->
-> I just meant for the pr_err() which is printing the err(from the
-> copy-paste), but it will always be zero without the above.
+On Fri, Sep 18, 2020 at 02:40:16PM +0300, Jani Nikula wrote:
+> Add the subheadings from the DP spec. No functional changes.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Ah right, I missed that when applying your previous comment, thanks
-for pointing it out.
--Daniel
+Looks good to me
 
->
-> > -Daniel
-> >
-> > > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
 
+Manasi
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> ---
+>  include/drm/drm_dp_helper.h | 22 ++++++++++++++++++----
+>  1 file changed, 18 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index c9f2851904d0..388083b4716b 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -106,8 +106,9 @@ struct drm_device;
+>  #define DP_AUX_I2C_REPLY_DEFER		(0x2 << 2)
+>  #define DP_AUX_I2C_REPLY_MASK		(0x3 << 2)
+>  
+> -/* AUX CH addresses */
+> -/* DPCD */
+> +/* DPCD Field Address Mapping */
+> +
+> +/* Receiver Capability */
+>  #define DP_DPCD_REV                         0x000
+>  # define DP_DPCD_REV_10                     0x10
+>  # define DP_DPCD_REV_11                     0x11
+> @@ -426,7 +427,7 @@ struct drm_device;
+>  #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_1  0x0a1
+>  #define DP_DSC_BRANCH_MAX_LINE_WIDTH        0x0a2
+>  
+> -/* link configuration */
+> +/* Link Configuration */
+>  #define	DP_LINK_BW_SET		            0x100
+>  # define DP_LINK_RATE_TABLE		    0x00    /* eDP 1.4 */
+>  # define DP_LINK_BW_1_62		    0x06
+> @@ -580,6 +581,7 @@ struct drm_device;
+>  #define DP_PAYLOAD_ALLOCATE_START_TIME_SLOT 0x1c1
+>  #define DP_PAYLOAD_ALLOCATE_TIME_SLOT_COUNT 0x1c2
+>  
+> +/* Link/Sink Device Status */
+>  #define DP_SINK_COUNT			    0x200
+>  /* prior to 1.2 bit 7 was reserved mbz */
+>  # define DP_GET_SINK_COUNT(x)		    ((((x) & 0x80) >> 1) | ((x) & 0x3f))
+> @@ -779,20 +781,27 @@ struct drm_device;
+>  #define DP_VC_PAYLOAD_ID_SLOT_1             0x2c1   /* 1.2 MST */
+>  /* up to ID_SLOT_63 at 0x2ff */
+>  
+> +/* Source Device-specific */
+>  #define DP_SOURCE_OUI			    0x300
+> +
+> +/* Sink Device-specific */
+>  #define DP_SINK_OUI			    0x400
+> +
+> +/* Branch Device-specific */
+>  #define DP_BRANCH_OUI			    0x500
+>  #define DP_BRANCH_ID                        0x503
+>  #define DP_BRANCH_REVISION_START            0x509
+>  #define DP_BRANCH_HW_REV                    0x509
+>  #define DP_BRANCH_SW_REV                    0x50A
+>  
+> +/* Link/Sink Device Power Control */
+>  #define DP_SET_POWER                        0x600
+>  # define DP_SET_POWER_D0                    0x1
+>  # define DP_SET_POWER_D3                    0x2
+>  # define DP_SET_POWER_MASK                  0x3
+>  # define DP_SET_POWER_D3_AUX_ON             0x5
+>  
+> +/* eDP-specific */
+>  #define DP_EDP_DPCD_REV			    0x700    /* eDP 1.2 */
+>  # define DP_EDP_11			    0x00
+>  # define DP_EDP_12			    0x01
+> @@ -876,11 +885,13 @@ struct drm_device;
+>  #define DP_EDP_REGIONAL_BACKLIGHT_BASE      0x740    /* eDP 1.4 */
+>  #define DP_EDP_REGIONAL_BACKLIGHT_0	    0x741    /* eDP 1.4 */
+>  
+> +/* Sideband MSG Buffers */
+>  #define DP_SIDEBAND_MSG_DOWN_REQ_BASE	    0x1000   /* 1.2 MST */
+>  #define DP_SIDEBAND_MSG_UP_REP_BASE	    0x1200   /* 1.2 MST */
+>  #define DP_SIDEBAND_MSG_DOWN_REP_BASE	    0x1400   /* 1.2 MST */
+>  #define DP_SIDEBAND_MSG_UP_REQ_BASE	    0x1600   /* 1.2 MST */
+>  
+> +/* DPRX Event Status Indicator */
+>  #define DP_SINK_COUNT_ESI		    0x2002   /* 1.2 */
+>  /* 0-5 sink count */
+>  # define DP_SINK_COUNT_CP_READY             (1 << 6)
+> @@ -934,6 +945,7 @@ struct drm_device;
+>  #define DP_LANE_ALIGN_STATUS_UPDATED_ESI       0x200e /* status same as 0x204 */
+>  #define DP_SINK_STATUS_ESI                     0x200f /* status same as 0x205 */
+>  
+> +/* Extended Receiver Capability */
+>  #define DP_DP13_DPCD_REV                    0x2200
+>  #define DP_DP13_MAX_LINK_RATE               0x2201
+>  
+> @@ -947,6 +959,7 @@ struct drm_device;
+>  # define DP_VSC_EXT_CEA_SDP_SUPPORTED			(1 << 6)  /* DP 1.4 */
+>  # define DP_VSC_EXT_CEA_SDP_CHAINING_SUPPORTED		(1 << 7)  /* DP 1.4 */
+>  
+> +/* Protocol Converter Extension */
+>  /* HDMI CEC tunneling over AUX DP 1.3 section 5.3.3.3.1 DPCD 1.4+ */
+>  #define DP_CEC_TUNNELING_CAPABILITY            0x3000
+>  # define DP_CEC_TUNNELING_CAPABLE               (1 << 0)
+> @@ -1013,6 +1026,7 @@ struct drm_device;
+>  #define DP_PROTOCOL_CONVERTER_CONTROL_2		0x3052 /* DP 1.3 */
+>  # define DP_CONVERSION_TO_YCBCR422_ENABLE	(1 << 0) /* DP 1.3 */
+>  
+> +/* HDCP 1.3 and HDCP 2.2 */
+>  #define DP_AUX_HDCP_BKSV		0x68000
+>  #define DP_AUX_HDCP_RI_PRIME		0x68005
+>  #define DP_AUX_HDCP_AKSV		0x68007
+> @@ -1058,7 +1072,7 @@ struct drm_device;
+>  #define DP_HDCP_2_2_REG_STREAM_TYPE_OFFSET	0x69494
+>  #define DP_HDCP_2_2_REG_DBG_OFFSET		0x69518
+>  
+> -/* Link Training (LT)-tunable PHY Repeaters */
+> +/* LTTPR: Link Training (LT)-tunable PHY Repeaters */
+>  #define DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV 0xf0000 /* 1.3 */
+>  #define DP_MAX_LINK_RATE_PHY_REPEATER			    0xf0001 /* 1.4a */
+>  #define DP_PHY_REPEATER_CNT				    0xf0002 /* 1.3 */
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
