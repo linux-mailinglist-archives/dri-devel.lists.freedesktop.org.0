@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F45326F865
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 10:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4D926F94A
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 11:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6896E4A5;
-	Fri, 18 Sep 2020 08:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 690346EC81;
+	Fri, 18 Sep 2020 09:29:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1738D6E16D
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 08:32:26 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id a22so4342821ljp.13
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 01:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w66Tq3M5Jv+dNDw02sW2Tkz4nD4jpprbI+woSmcafcU=;
- b=JTjYIxSWD1+WCEkFoVdIJYTdxgpTUDEhCbSHp9PCxP1BP5+i31lH1smhIsHl6yADs2
- qsP0TQtfuxOhldW92XNclrotrrFV4fR5LWrQHolT6lCm2SYDScFnCGbuQUVndsotr6wU
- j3OToQ1v5J7c/6DYlyYMpNx+dIW4kvcSPvAuKoEKWesQnb70EqS4z8KSxEu3k2jIUMzD
- wg2eOQHxyoJQTopZpHDRXhEvxZH+i1EcNrIwrRbizdDKi52Czwh0jk6X0E4ySwApHUm1
- PLKSOHyX8n/v4JxF9x7LfThGIZlmfkHCyCg/NMWoIjk+j/YSW37M3weKLkp7xnTLvNtO
- CstA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w66Tq3M5Jv+dNDw02sW2Tkz4nD4jpprbI+woSmcafcU=;
- b=Z7v49MRneHTjoecpZUJ8aESzvrNbJAnM6k0aSaCfEDWP6eL1FgCAZnntyx8smAObCQ
- REG6FxnMwxsmUXDP8MFEFMhewX3hw5etsge+5KxvrJ5kZOZxb4L51TN57MCf601MQLmI
- ogRxyHRWsiRaWiW45z87d0atnSxl66+fD7/6uT0GOkfNxDvs3kzfGCFTPbzskD5kVCdd
- fdRbLDppiy8u6hsUKTIKs6W+J5SXn/Aw4aKpFdQpgC0Wy8gB2zELZvA107y6kCRnt385
- 4SLNLl2yFJM/6XtKS9ZSgyyEUn53lOcYSQFP+tKVqtD9YJUcCcBxjQkD98/7NurMUOvf
- GFPA==
-X-Gm-Message-State: AOAM530y2a/9rpy2dHMgh3H44hsmva0hgNT6kIz80RWSdCxg2BuGO2L3
- dJ9hfHC0YwQLJG639YXJzEM+zim2oN4uEZcFzfTSjA==
-X-Google-Smtp-Source: ABdhPJyQMlwb2QvzUphB9dKx4ikJo1Xr5baZSctpwqcXUKodxQKjBvpLueugGJmTcc5HR/Bao0+/pa1BGErKqWf9wxw=
-X-Received: by 2002:a2e:9496:: with SMTP id c22mr10460561ljh.249.1600417944360; 
- Fri, 18 Sep 2020 01:32:24 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5786EC81;
+ Fri, 18 Sep 2020 09:29:11 +0000 (UTC)
+IronPort-SDR: 9vEDsh8Bg6JBMi8CvawPwfcFyjxWBD6252byruta0HZyjF+RtiAhto+lX0ZBY7jHv2IVD83D7M
+ CunxeVZqhm7Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244734425"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="244734425"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2020 02:29:10 -0700
+IronPort-SDR: RaKI33efTXzDRtTDa85yc96hsyDYHkrzBKE/LMQFsX20OmNw761Jt7XN7+OvAUR4E3UvL6A1cc
+ Uo/lRM2pUzfQ==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="307820075"
+Received: from karthik-2012-client-platform.iind.intel.com ([10.223.74.217])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 18 Sep 2020 02:29:06 -0700
+From: Karthik B S <karthik.b.s@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v10 3/8] drm/i915: Add checks specific to async flips
+Date: Fri, 18 Sep 2020 14:32:34 +0530
+Message-Id: <20200918090234.18038-1-karthik.b.s@intel.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20200916150824.15749-4-karthik.b.s@intel.com>
+References: <20200916150824.15749-4-karthik.b.s@intel.com>
 MIME-Version: 1.0
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <CAO_48GGUiVbWBWdzDYWAH2N9Lp2AU+-78BcYyi-3+LXHM74JQA@mail.gmail.com>
-In-Reply-To: <CAO_48GGUiVbWBWdzDYWAH2N9Lp2AU+-78BcYyi-3+LXHM74JQA@mail.gmail.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Fri, 18 Sep 2020 14:02:13 +0530
-Message-ID: <CAO_48GFU0w-rOG1cwpdoK5mEJeUe=uH6FFzYV_5xEcpjjq11NA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,110 +48,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Koenig <christian.koenig@amd.com>, Dave Airlie <airlied@linux.ie>,
- mark.cave-ayland@ilande.co.uk,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, jonathanh@nvidia.com,
- matthew.auld@intel.com, Russell King <linux+etnaviv@armlinux.org.uk>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Pawel Osciak <pawel@osciak.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- etnaviv@lists.freedesktop.org, Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- thomas.hellstrom@intel.com, rodrigo.vivi@intel.com,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- "David S . Miller" <davem@davemloft.net>
+Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
+ Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
+ nicholas.kazlauskas@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+If flip is requested on any other plane, reject it.
 
-On Fri, 18 Sep 2020 at 11:36, Sumit Semwal <sumit.semwal@linaro.org> wrote:
->
-> Hello Thomas,
->
-> On Mon, 14 Sep 2020 at 16:55, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >
-> > Dma-buf provides vmap() and vunmap() for retrieving and releasing mappings
-> > of dma-buf memory in kernel address space. The functions operate with plain
-> > addresses and the assumption is that the memory can be accessed with load
-> > and store operations. This is not the case on some architectures (e.g.,
-> > sparc64) where I/O memory can only be accessed with dedicated instructions.
-> >
-> > This patchset introduces struct dma_buf_map, which contains the address of
-> > a buffer and a flag that tells whether system- or I/O-memory instructions
-> > are required.
->
-> Thank you for the patchset - it is a really nice, clean bit to add!
-> >
-> > Some background: updating the DRM framebuffer console on sparc64 makes the
-> > kernel panic. This is because the framebuffer memory cannot be accessed with
-> > system-memory instructions. We currently employ a workaround in DRM to
-> > address this specific problem. [1]
-> >
-> > To resolve the problem, we'd like to address it at the most common point,
-> > which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
-> > instructions are required and exports this information to it's users. The
-> > new structure struct dma_buf_map stores the buffer address and a flag that
-> > signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
-> > can then access the memory accordingly.
-> >
-> > This patchset only introduces struct dma_buf_map, and updates struct dma_buf
-> > and it's interfaces. Further patches can update dma-buf users. For example,
-> > there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
-> >
-> > Further work: TTM, one of DRM's memory managers, already exports an
-> > is_iomem flag of its own. It could later be switched over to exporting struct
-> > dma_buf_map, thus simplifying some code. Several DRM drivers expect their
-> > fbdev console to operate on I/O memory. These could possibly be switched over
-> > to the generic fbdev emulation, as soon as the generic code uses struct
-> > dma_buf_map.
-> >
-> > [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
-> > [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
-> >
-> > Thomas Zimmermann (3):
-> >   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
-> >   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
-> >   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
->
-> FWIW, for the series, please feel free to add my
-> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-Of course, once the errors found by kernel test robot are fixed :).
->
-> >
-> >  Documentation/driver-api/dma-buf.rst          |   3 +
-> >  drivers/dma-buf/dma-buf.c                     |  40 +++---
-> >  drivers/gpu/drm/drm_gem_cma_helper.c          |  16 ++-
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 ++-
-> >  drivers/gpu/drm/drm_prime.c                   |  14 +-
-> >  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
-> >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 ++-
-> >  drivers/gpu/drm/tegra/gem.c                   |  23 ++--
-> >  .../common/videobuf2/videobuf2-dma-contig.c   |  17 ++-
-> >  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 ++-
-> >  .../common/videobuf2/videobuf2-vmalloc.c      |  21 ++-
-> >  include/drm/drm_prime.h                       |   5 +-
-> >  include/linux/dma-buf-map.h                   | 126 ++++++++++++++++++
-> >  include/linux/dma-buf.h                       |  11 +-
-> >  15 files changed, 274 insertions(+), 82 deletions(-)
-> >  create mode 100644 include/linux/dma-buf-map.h
-> >
-> > --
-> > 2.28.0
-> >
->
-> Best,
-> Sumit.
+Make sure there is no change in fbc, offset and framebuffer modifiers
+when async flip is requested.
 
-Best,
-Sumit.
+If any of these are modified, reject async flip.
+
+v2: -Replace DRM_ERROR (Paulo)
+    -Add check for changes in OFFSET, FBC, RC(Paulo)
+
+v3: -Removed TODO as benchmarking tests have been run now.
+
+v4: -Added more state checks for async flip (Ville)
+    -Moved intel_atomic_check_async to the end of intel_atomic_check
+     as the plane checks needs to pass before this. (Ville)
+    -Removed crtc_state->enable_fbc check. (Ville)
+    -Set the I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP flag for async
+     flip case as scanline counter is not reliable here.
+
+v5: -Fix typo and other check patch errors seen in CI
+     in 'intel_atomic_check_async' function.
+
+v6: -Don't call intel_atomic_check_async multiple times. (Ville)
+    -Remove the check for n_planes in intel_atomic_check_async
+    -Added documentation for async flips. (Paulo)
+
+v7: -Replace 'intel_plane' with 'plane'. (Ville)
+    -Replace all uapi.foo as hw.foo. (Ville)
+    -Do not use intel_wm_need_update function. (Ville)
+    -Add destination coordinate check. (Ville)
+    -Do not allow async flip with linear buffer
+     on older hw as it has issues with this. (Ville)
+    -Remove break after intel_atomic_check_async. (Ville)
+
+v8: -Rebased.
+
+v9: -Replace DRM_DEBUG_KMS with drm_dbg_kms(). (Ville)
+    -Fix comment formatting. (Ville)
+    -Remove gen specific checks. (Ville)
+    -Remove irrelevant FB size check. (Ville)
+    -Add missing stride check. (Ville)
+    -Use drm_rect_equals() instead of individual checks. (Ville)
+    -Call intel_atomic_check_async before state dump. (Ville)
+
+v10: -Fix the checkpatch errors seen on CI.
+
+Signed-off-by: Karthik B S <karthik.b.s@intel.com>
+Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_display.c | 137 +++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 30e8908ee263..7327ed4a04f8 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -14877,6 +14877,137 @@ static bool intel_cpu_transcoders_need_modeset(struct intel_atomic_state *state,
+ 	return false;
+ }
+ 
++/**
++ * DOC: asynchronous flip implementation
++ *
++ * Asynchronous page flip is the implementation for the DRM_MODE_PAGE_FLIP_ASYNC
++ * flag. Currently async flip is only supported via the drmModePageFlip IOCTL.
++ * Correspondingly, support is currently added for primary plane only.
++ *
++ * Async flip can only change the plane surface address, so anything else
++ * changing is rejected from the intel_atomic_check_async() function.
++ * Once this check is cleared, flip done interrupt is enabled using
++ * the skl_enable_flip_done() function.
++ *
++ * As soon as the surface address register is written, flip done interrupt is
++ * generated and the requested events are sent to the usersapce in the interrupt
++ * handler itself. The timestamp and sequence sent during the flip done event
++ * correspond to the last vblank and have no relation to the actual time when
++ * the flip done event was sent.
++ */
++
++static int intel_atomic_check_async(struct intel_atomic_state *state)
++{
++	struct drm_i915_private *i915 = to_i915(state->base.dev);
++	struct intel_crtc_state *old_crtc_state, *new_crtc_state;
++	struct intel_plane_state *new_plane_state, *old_plane_state;
++	struct intel_crtc *crtc;
++	struct intel_plane *plane;
++	int i;
++
++	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
++					    new_crtc_state, i) {
++		if (needs_modeset(new_crtc_state)) {
++			drm_dbg_kms(&i915->drm, "Modeset Required. Async flip not supported\n");
++			return -EINVAL;
++		}
++
++		if (!new_crtc_state->hw.active) {
++			drm_dbg_kms(&i915->drm, "CRTC inactive\n");
++			return -EINVAL;
++		}
++		if (old_crtc_state->active_planes != new_crtc_state->active_planes) {
++			drm_dbg_kms(&i915->drm,
++				    "Active planes cannot be changed during async flip\n");
++			return -EINVAL;
++		}
++	}
++
++	for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
++					     new_plane_state, i) {
++		/*
++		 * TODO: Async flip is only supported through the page flip IOCTL
++		 * as of now. So support currently added for primary plane only.
++		 * Support for other planes on platforms on which supports
++		 * this(vlv/chv and icl+) should be added when async flip is
++		 * enabled in the atomic IOCTL path.
++		 */
++		if (plane->id != PLANE_PRIMARY)
++			return -EINVAL;
++
++		/*
++		 * FIXME: This check is kept generic for all platforms.
++		 * Need to verify this for all gen9 and gen10 platforms to enable
++		 * this selectively if required.
++		 */
++		if (!(new_plane_state->hw.fb->modifier != I915_FORMAT_MOD_X_TILED ||
++		      new_plane_state->hw.fb->modifier != I915_FORMAT_MOD_Y_TILED ||
++		      new_plane_state->hw.fb->modifier != I915_FORMAT_MOD_Yf_TILED)) {
++			drm_dbg_kms(&i915->drm,
++				    "Linear memory/CCS does not support async flips\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->color_plane[0].stride !=
++		    new_plane_state->color_plane[0].stride) {
++			drm_dbg_kms(&i915->drm, "Stride cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.fb->modifier !=
++		    new_plane_state->hw.fb->modifier) {
++			drm_dbg_kms(&i915->drm,
++				    "Framebuffer modifiers cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.fb->format !=
++		    new_plane_state->hw.fb->format) {
++			drm_dbg_kms(&i915->drm,
++				    "Framebuffer format cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.rotation !=
++		    new_plane_state->hw.rotation) {
++			drm_dbg_kms(&i915->drm, "Rotation cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (!drm_rect_equals(&old_plane_state->uapi.src, &new_plane_state->uapi.src) ||
++		    !drm_rect_equals(&old_plane_state->uapi.dst, &new_plane_state->uapi.dst)) {
++			drm_dbg_kms(&i915->drm,
++				    "Plane size/co-ordinates cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.alpha != new_plane_state->hw.alpha) {
++			drm_dbg_kms(&i915->drm, "Alpha value cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.pixel_blend_mode !=
++		    new_plane_state->hw.pixel_blend_mode) {
++			drm_dbg_kms(&i915->drm,
++				    "Pixel blend mode cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.color_encoding != new_plane_state->hw.color_encoding) {
++			drm_dbg_kms(&i915->drm,
++				    "Color encoding cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++
++		if (old_plane_state->hw.color_range != new_plane_state->hw.color_range) {
++			drm_dbg_kms(&i915->drm, "Color range cannot be changed in async flip\n");
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
+ /**
+  * intel_atomic_check - validate state object
+  * @dev: drm device
+@@ -15045,6 +15176,12 @@ static int intel_atomic_check(struct drm_device *dev,
+ 
+ 	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
+ 					    new_crtc_state, i) {
++		if (new_crtc_state->uapi.async_flip) {
++			ret = intel_atomic_check_async(state);
++			if (ret)
++				goto fail;
++		}
++
+ 		if (!needs_modeset(new_crtc_state) &&
+ 		    !new_crtc_state->update_pipe)
+ 			continue;
+-- 
+2.22.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
