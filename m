@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF5526EB49
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591CF26EBB9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:09:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 974316E105;
-	Fri, 18 Sep 2020 02:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C37F6E454;
+	Fri, 18 Sep 2020 02:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7AB56E105
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:05:58 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id i26so5900022ejb.12
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Sep 2020 19:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ImzYFdv7FV86GEX3X/1tw1hfTU6H6hUSLVTXY/iYER8=;
- b=Y58xKi1obOp2IninGGVaFXvJGsFdsmII8kZ+jjhOcGrqyYoWPKMSQuXr1fQOhMXDH7
- ke7OElRKM0lP/hUCKkFBTvxbnmcrdq8oW+XdwHOxwkf7zLpn3V350ZdQZ3wiTro5H1w9
- NufqIxN544+s5HOUZ91dQ1QSuFHGmjewxAfFYNqCStBz05lQIOYb59kYUSJqfbYpvw32
- BZ4k3oEBJRlfZ6KTuCgywM3T13KJPRsnM6XZoEtjsTLa6FHTEiarx8PMfGG4PViqHJam
- 3BiziNkfZFVdTo7dd7iTEAAe62jUVzgPBjXCC7cBiMbPzBYm7tv7De5ycK9NdPELUd6g
- iHXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ImzYFdv7FV86GEX3X/1tw1hfTU6H6hUSLVTXY/iYER8=;
- b=Aa5A8LgvulPtP8f6traw+pFfdNeALXcUA6mtJq4vwdV6jR0WAmFjpu//dZ6svlCHvy
- mWM6k6a4zeKnHujFDGLKDB7yPVLzKCXmybjA4UIZL2jx0QptVPBvnCq9e4/TJo+qS6oQ
- h+TG2YYjMbR2pw1PDPjzurnoJGTK9iEsWECh6M6A6dGlwFPPvP3WX5pHOQgr2bIo4sEo
- n0uMr6M03zSGjgr1DMz8khZCSuh/shhf0daZyR4xpl9EGy7eabgw3YsDKBLL+2xAD2Cv
- FCqT7e9P1IfMAqTKTO5zM/cERhJIUYPvT2welM/PwO+pItwiUZsoV28PI0wYmRyhJInD
- WVyQ==
-X-Gm-Message-State: AOAM533w0Mls6BEIr6pXwzPYoYcmZmTwf6zyFCcfNRDkLUNOFpGoDvsW
- 55uWqOryYUTGnnLWWTYzal9opAiM0VDbhBgAFBMB2Q==
-X-Google-Smtp-Source: ABdhPJxlg7ODADz80YFnr6Q7tPZD8jDi9k5Ly/WiLL8uJJ7BSWXenxN/XEM895zONY25h5SaYAzMlKPht9rTnAX/rTA=
-X-Received: by 2002:a17:906:37c6:: with SMTP id
- o6mr22553734ejc.404.1600394757373; 
- Thu, 17 Sep 2020 19:05:57 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA916E454
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:09:36 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BF4C923976;
+ Fri, 18 Sep 2020 02:09:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600394976;
+ bh=wwxPIW8PGdGdxTKdVdZAuckgVmVs/j536c8TrmjKENM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=SGamWM9+oBByQ299f+KyDaj7jhp9YXdxsoqa50OXVL/qvBwQjWnCZcqq+ATHVWiEm
+ 79WuLJrc1pIGrDdiW+qZgZwcsN9RIT0IkiHDBn5Te8C+vvvIYoEqXhqdMg/9U8eXEG
+ 7neq2D2fTUe7QJCdz4iTuZZW70M0/kmtiU4I4FUY=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 076/206] drm/omap: fix possible object reference
+ leak
+Date: Thu, 17 Sep 2020 22:05:52 -0400
+Message-Id: <20200918020802.2065198-76-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
+References: <20200918020802.2065198-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20200918020110.2063155-1-sashal@kernel.org>
-In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
-From: Eric Anholt <eric@anholt.net>
-Date: Thu, 17 Sep 2020 19:05:46 -0700
-Message-ID: <CADaigPWfTDJ_G6z3ZKm-bqBO8LPthEBkJoqXk=znGqvDhkw3bw@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.4 001/330] drm/v3d: don't leak bin job if
- v3d_job_init fails.
-To: Sasha Levin <sashal@kernel.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +50,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Iago Toral Quiroga <itoral@igalia.com>, LKML <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mukesh Ojha <mojha@codeaurora.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Wen Yang <wen.yang99@zte.com.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 17, 2020 at 7:01 PM Sasha Levin <sashal@kernel.org> wrote:
->
-> From: Iago Toral Quiroga <itoral@igalia.com>
->
-> [ Upstream commit 0d352a3a8a1f26168d09f7073e61bb4b328e3bb9 ]
->
-> If the initialization of the job fails we need to kfree() it
-> before returning.
->
-> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
-> Signed-off-by: Eric Anholt <eric@anholt.net>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20190916071125.5255-1-itoral@igalia.com
-> Fixes: a783a09ee76d ("drm/v3d: Refactor job management.")
-> Reviewed-by: Eric Anholt <eric@anholt.net>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+From: Wen Yang <wen.yang99@zte.com.cn>
 
-You're double freeing with this patch, the bug is already solved.
+[ Upstream commit 47340e46f34a3b1d80e40b43ae3d7a8da34a3541 ]
 
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 19c092d75266b..6316bf3646af5 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -565,6 +565,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
->                 ret = v3d_job_init(v3d, file_priv, &bin->base,
->                                    v3d_job_free, args->in_sync_bcl);
->                 if (ret) {
-> +                       kfree(bin);
->                         v3d_job_put(&render->base);
->                         kfree(bin);
->                         return ret;
-> --
-> 2.25.1
->
+The call to of_find_matching_node returns a node pointer with refcount
+incremented thus it must be explicitly decremented after the last
+usage.
+
+Detected by coccinelle with the following warnings:
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+
+Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+index 3bfb95d230e0e..d8fb686c1fda9 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+@@ -193,7 +193,7 @@ static int __init omapdss_boot_init(void)
+ 	dss = of_find_matching_node(NULL, omapdss_of_match);
+ 
+ 	if (dss == NULL || !of_device_is_available(dss))
+-		return 0;
++		goto put_node;
+ 
+ 	omapdss_walk_device(dss, true);
+ 
+@@ -218,6 +218,8 @@ static int __init omapdss_boot_init(void)
+ 		kfree(n);
+ 	}
+ 
++put_node:
++	of_node_put(dss);
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
