@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A22B26EAEE
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8FD26EAF1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:02:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685446E433;
-	Fri, 18 Sep 2020 02:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 747796E434;
+	Fri, 18 Sep 2020 02:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57FC56E433
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:02:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899946E434
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:02:51 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 580AD208DB;
- Fri, 18 Sep 2020 02:02:32 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B640A2376E;
+ Fri, 18 Sep 2020 02:02:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600394553;
- bh=xwGeazSpi1ZDfxGvFOWivR66MmVOUgjZdfhRepIv7cw=;
+ s=default; t=1600394571;
+ bh=OMVk3fI/tZs7pnCPVX8Wp4T55m38T8i17r0bLUz066E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sWY/CqGH0914EBPr/pvJeM1f71kW8A8pE2BeMWQAhdDb+FajyloanAQs1S+22g0wE
- Mq6X0EqaI0cgoH4tdCxYzhK4g+SaV857pOPJ4Ol5/8cYaHhHl655Jhs52iXBY88dHd
- +hsND3in9VY4Lfx+eC35qfG2gM0PcwjFzjj6iCRs=
+ b=kNeCsZVID6Qz4M7nKNRXkTYwsBM3ysA0TD9JZpqTZd1fJ2GLpJ8SZh/IO27gcMngC
+ N0ocJ1kQbu3SABZa9qoiGYD54F0lU1MaDHM0SQd/DKxyLxIDebf0mr+SV+OBhiGgnN
+ Lle6t47fBF3CwnW5FtMxqS0fCFCnuCph++wtiMEw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 069/330] drm/amdgpu: fix calltrace during kmd
- unload(v3)
-Date: Thu, 17 Sep 2020 21:56:49 -0400
-Message-Id: <20200918020110.2063155-69-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 083/330] drm/mcde: Handle pending vblank while
+ disabling display
+Date: Thu, 17 Sep 2020 21:57:03 -0400
+Message-Id: <20200918020110.2063155-83-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -51,334 +51,89 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Monk Liu <Monk.Liu@amd.com>,
- Xiaojie Yuan <xiaojie.yuan@amd.com>
+ Stephan Gerhold <stephan@gerhold.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Monk Liu <Monk.Liu@amd.com>
+From: Stephan Gerhold <stephan@gerhold.net>
 
-[ Upstream commit 82a829dc8c2bb03cc9b7e5beb1c5479aa3ba7831 ]
+[ Upstream commit 97de863673f07f424dd0666aefb4b6ecaba10171 ]
 
-issue:
-kernel would report a warning from a double unpin
-during the driver unloading on the CSB bo
+Disabling the display using MCDE currently results in a warning
+together with a delay caused by some timeouts:
 
-why:
-we unpin it during hw_fini, and there will be another
-unpin in sw_fini on CSB bo.
+    mcde a0350000.mcde: MCDE display is disabled
+    ------------[ cut here ]------------
+    WARNING: CPU: 0 PID: 20 at drivers/gpu/drm/drm_atomic_helper.c:2258 drm_atomic_helper_commit_hw_done+0xe0/0xe4
+    Hardware name: ST-Ericsson Ux5x0 platform (Device Tree Support)
+    Workqueue: events drm_mode_rmfb_work_fn
+    [<c010f468>] (unwind_backtrace) from [<c010b54c>] (show_stack+0x10/0x14)
+    [<c010b54c>] (show_stack) from [<c079dd90>] (dump_stack+0x84/0x98)
+    [<c079dd90>] (dump_stack) from [<c011d1b0>] (__warn+0xb8/0xd4)
+    [<c011d1b0>] (__warn) from [<c011d230>] (warn_slowpath_fmt+0x64/0xc4)
+    [<c011d230>] (warn_slowpath_fmt) from [<c0413048>] (drm_atomic_helper_commit_hw_done+0xe0/0xe4)
+    [<c0413048>] (drm_atomic_helper_commit_hw_done) from [<c04159cc>] (drm_atomic_helper_commit_tail_rpm+0x44/0x6c)
+    [<c04159cc>] (drm_atomic_helper_commit_tail_rpm) from [<c0415f5c>] (commit_tail+0x50/0x10c)
+    [<c0415f5c>] (commit_tail) from [<c04160dc>] (drm_atomic_helper_commit+0xbc/0x128)
+    [<c04160dc>] (drm_atomic_helper_commit) from [<c0430790>] (drm_framebuffer_remove+0x390/0x428)
+    [<c0430790>] (drm_framebuffer_remove) from [<c0430860>] (drm_mode_rmfb_work_fn+0x38/0x48)
+    [<c0430860>] (drm_mode_rmfb_work_fn) from [<c01368a8>] (process_one_work+0x1f0/0x43c)
+    [<c01368a8>] (process_one_work) from [<c0136d48>] (worker_thread+0x254/0x55c)
+    [<c0136d48>] (worker_thread) from [<c013c014>] (kthread+0x124/0x150)
+    [<c013c014>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+    Exception stack(0xeb14dfb0 to 0xeb14dff8)
+    dfa0:                                     00000000 00000000 00000000 00000000
+    dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+    dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+    ---[ end trace 314909bcd4c7d50c ]---
+    [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:32:crtc-0] flip_done timed out
+    [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:34:DSI-1] flip_done timed out
+    [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:31:plane-0] flip_done timed out
 
-fix:
-actually we don't need to pin/unpin it during
-hw_init/fini since it is created with kernel pinned,
-we only need to fullfill the CSB again during hw_init
-to prevent CSB/VRAM lost after S3
+The reason for this is that there is a vblank event pending, but we
+never handle it after disabling the vblank interrupts.
 
-v2:
-get_csb in init_rlc so hw_init() will make CSIB content
-back even after reset or s3
+Check if there is an vblank event pending when disabling the display,
+and clear it by sending a fake vblank event in that case.
 
-v3:
-use bo_create_kernel instead of bo_create_reserved for CSB
-otherwise the bo_free_kernel() on CSB is not aligned and
-would lead to its internal reserve pending there forever
-
-take care of gfx7/8 as well
-
-Signed-off-by: Monk Liu <Monk.Liu@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Reviewed-by: Xiaojie Yuan <xiaojie.yuan@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Tested-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191106165835.2863-8-stephan@gerhold.net
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c | 10 +----
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c  | 58 +------------------------
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c   |  2 +
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c   | 40 +----------------
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c   | 40 +----------------
- 5 files changed, 6 insertions(+), 144 deletions(-)
+ drivers/gpu/drm/mcde/mcde_display.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c
-index c8793e6cc3c5d..6373bfb47d55d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_rlc.c
-@@ -124,13 +124,12 @@ int amdgpu_gfx_rlc_init_sr(struct amdgpu_device *adev, u32 dws)
-  */
- int amdgpu_gfx_rlc_init_csb(struct amdgpu_device *adev)
- {
--	volatile u32 *dst_ptr;
- 	u32 dws;
- 	int r;
+diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
+index 751454ae3cd10..28ed506285018 100644
+--- a/drivers/gpu/drm/mcde/mcde_display.c
++++ b/drivers/gpu/drm/mcde/mcde_display.c
+@@ -946,6 +946,7 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
+ 	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_device *drm = crtc->dev;
+ 	struct mcde *mcde = drm->dev_private;
++	struct drm_pending_vblank_event *event;
  
- 	/* allocate clear state block */
- 	adev->gfx.rlc.clear_state_size = dws = adev->gfx.rlc.funcs->get_csb_size(adev);
--	r = amdgpu_bo_create_reserved(adev, dws * 4, PAGE_SIZE,
-+	r = amdgpu_bo_create_kernel(adev, dws * 4, PAGE_SIZE,
- 				      AMDGPU_GEM_DOMAIN_VRAM,
- 				      &adev->gfx.rlc.clear_state_obj,
- 				      &adev->gfx.rlc.clear_state_gpu_addr,
-@@ -141,13 +140,6 @@ int amdgpu_gfx_rlc_init_csb(struct amdgpu_device *adev)
- 		return r;
- 	}
+ 	if (mcde->te_sync)
+ 		drm_crtc_vblank_off(crtc);
+@@ -953,6 +954,15 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
+ 	/* Disable FIFO A flow */
+ 	mcde_disable_fifo(mcde, MCDE_FIFO_A, true);
  
--	/* set up the cs buffer */
--	dst_ptr = adev->gfx.rlc.cs_ptr;
--	adev->gfx.rlc.funcs->get_csb_buffer(adev, dst_ptr);
--	amdgpu_bo_kunmap(adev->gfx.rlc.clear_state_obj);
--	amdgpu_bo_unpin(adev->gfx.rlc.clear_state_obj);
--	amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 19876c90be0e1..d17edc850427a 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -993,39 +993,6 @@ static int gfx_v10_0_rlc_init(struct amdgpu_device *adev)
- 	return 0;
- }
- 
--static int gfx_v10_0_csb_vram_pin(struct amdgpu_device *adev)
--{
--	int r;
--
--	r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, false);
--	if (unlikely(r != 0))
--		return r;
--
--	r = amdgpu_bo_pin(adev->gfx.rlc.clear_state_obj,
--			AMDGPU_GEM_DOMAIN_VRAM);
--	if (!r)
--		adev->gfx.rlc.clear_state_gpu_addr =
--			amdgpu_bo_gpu_offset(adev->gfx.rlc.clear_state_obj);
--
--	amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--
--	return r;
--}
--
--static void gfx_v10_0_csb_vram_unpin(struct amdgpu_device *adev)
--{
--	int r;
--
--	if (!adev->gfx.rlc.clear_state_obj)
--		return;
--
--	r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, true);
--	if (likely(r == 0)) {
--		amdgpu_bo_unpin(adev->gfx.rlc.clear_state_obj);
--		amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--	}
--}
--
- static void gfx_v10_0_mec_fini(struct amdgpu_device *adev)
- {
- 	amdgpu_bo_free_kernel(&adev->gfx.mec.hpd_eop_obj, NULL, NULL);
-@@ -1787,25 +1754,7 @@ static void gfx_v10_0_enable_gui_idle_interrupt(struct amdgpu_device *adev,
- 
- static int gfx_v10_0_init_csb(struct amdgpu_device *adev)
- {
--	int r;
--
--	if (adev->in_gpu_reset) {
--		r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, false);
--		if (r)
--			return r;
--
--		r = amdgpu_bo_kmap(adev->gfx.rlc.clear_state_obj,
--				   (void **)&adev->gfx.rlc.cs_ptr);
--		if (!r) {
--			adev->gfx.rlc.funcs->get_csb_buffer(adev,
--					adev->gfx.rlc.cs_ptr);
--			amdgpu_bo_kunmap(adev->gfx.rlc.clear_state_obj);
--		}
--
--		amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--		if (r)
--			return r;
--	}
-+	adev->gfx.rlc.funcs->get_csb_buffer(adev, adev->gfx.rlc.cs_ptr);
- 
- 	/* csib */
- 	WREG32_SOC15(GC, 0, mmRLC_CSIB_ADDR_HI,
-@@ -3774,10 +3723,6 @@ static int gfx_v10_0_hw_init(void *handle)
- 	int r;
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 
--	r = gfx_v10_0_csb_vram_pin(adev);
--	if (r)
--		return r;
--
- 	if (!amdgpu_emu_mode)
- 		gfx_v10_0_init_golden_registers(adev);
- 
-@@ -3865,7 +3810,6 @@ static int gfx_v10_0_hw_fini(void *handle)
- 	}
- 	gfx_v10_0_cp_enable(adev, false);
- 	gfx_v10_0_enable_gui_idle_interrupt(adev, false);
--	gfx_v10_0_csb_vram_unpin(adev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-index 791ba398f007e..d92e92e5d50b7 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-@@ -4554,6 +4554,8 @@ static int gfx_v7_0_hw_init(void *handle)
- 
- 	gfx_v7_0_constants_init(adev);
- 
-+	/* init CSB */
-+	adev->gfx.rlc.funcs->get_csb_buffer(adev, adev->gfx.rlc.cs_ptr);
- 	/* init rlc */
- 	r = adev->gfx.rlc.funcs->resume(adev);
- 	if (r)
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-index cc88ba76a8d4a..467ed7fca884d 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-@@ -1321,39 +1321,6 @@ static int gfx_v8_0_rlc_init(struct amdgpu_device *adev)
- 	return 0;
- }
- 
--static int gfx_v8_0_csb_vram_pin(struct amdgpu_device *adev)
--{
--	int r;
--
--	r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, false);
--	if (unlikely(r != 0))
--		return r;
--
--	r = amdgpu_bo_pin(adev->gfx.rlc.clear_state_obj,
--			AMDGPU_GEM_DOMAIN_VRAM);
--	if (!r)
--		adev->gfx.rlc.clear_state_gpu_addr =
--			amdgpu_bo_gpu_offset(adev->gfx.rlc.clear_state_obj);
--
--	amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--
--	return r;
--}
--
--static void gfx_v8_0_csb_vram_unpin(struct amdgpu_device *adev)
--{
--	int r;
--
--	if (!adev->gfx.rlc.clear_state_obj)
--		return;
--
--	r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, true);
--	if (likely(r == 0)) {
--		amdgpu_bo_unpin(adev->gfx.rlc.clear_state_obj);
--		amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--	}
--}
--
- static void gfx_v8_0_mec_fini(struct amdgpu_device *adev)
- {
- 	amdgpu_bo_free_kernel(&adev->gfx.mec.hpd_eop_obj, NULL, NULL);
-@@ -3917,6 +3884,7 @@ static void gfx_v8_0_enable_gui_idle_interrupt(struct amdgpu_device *adev,
- 
- static void gfx_v8_0_init_csb(struct amdgpu_device *adev)
- {
-+	adev->gfx.rlc.funcs->get_csb_buffer(adev, adev->gfx.rlc.cs_ptr);
- 	/* csib */
- 	WREG32(mmRLC_CSIB_ADDR_HI,
- 			adev->gfx.rlc.clear_state_gpu_addr >> 32);
-@@ -4837,10 +4805,6 @@ static int gfx_v8_0_hw_init(void *handle)
- 	gfx_v8_0_init_golden_registers(adev);
- 	gfx_v8_0_constants_init(adev);
- 
--	r = gfx_v8_0_csb_vram_pin(adev);
--	if (r)
--		return r;
--
- 	r = adev->gfx.rlc.funcs->resume(adev);
- 	if (r)
- 		return r;
-@@ -4958,8 +4922,6 @@ static int gfx_v8_0_hw_fini(void *handle)
- 		pr_err("rlc is busy, skip halt rlc\n");
- 	amdgpu_gfx_rlc_exit_safe_mode(adev);
- 
--	gfx_v8_0_csb_vram_unpin(adev);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 6004fdacc8663..90dcc7afc9c43 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -1675,39 +1675,6 @@ static int gfx_v9_0_rlc_init(struct amdgpu_device *adev)
- 	return 0;
- }
- 
--static int gfx_v9_0_csb_vram_pin(struct amdgpu_device *adev)
--{
--	int r;
--
--	r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, false);
--	if (unlikely(r != 0))
--		return r;
--
--	r = amdgpu_bo_pin(adev->gfx.rlc.clear_state_obj,
--			AMDGPU_GEM_DOMAIN_VRAM);
--	if (!r)
--		adev->gfx.rlc.clear_state_gpu_addr =
--			amdgpu_bo_gpu_offset(adev->gfx.rlc.clear_state_obj);
--
--	amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--
--	return r;
--}
--
--static void gfx_v9_0_csb_vram_unpin(struct amdgpu_device *adev)
--{
--	int r;
--
--	if (!adev->gfx.rlc.clear_state_obj)
--		return;
--
--	r = amdgpu_bo_reserve(adev->gfx.rlc.clear_state_obj, true);
--	if (likely(r == 0)) {
--		amdgpu_bo_unpin(adev->gfx.rlc.clear_state_obj);
--		amdgpu_bo_unreserve(adev->gfx.rlc.clear_state_obj);
--	}
--}
--
- static void gfx_v9_0_mec_fini(struct amdgpu_device *adev)
- {
- 	amdgpu_bo_free_kernel(&adev->gfx.mec.hpd_eop_obj, NULL, NULL);
-@@ -2596,6 +2563,7 @@ static void gfx_v9_0_enable_gui_idle_interrupt(struct amdgpu_device *adev,
- 
- static void gfx_v9_0_init_csb(struct amdgpu_device *adev)
- {
-+	adev->gfx.rlc.funcs->get_csb_buffer(adev, adev->gfx.rlc.cs_ptr);
- 	/* csib */
- 	WREG32_RLC(SOC15_REG_OFFSET(GC, 0, mmRLC_CSIB_ADDR_HI),
- 			adev->gfx.rlc.clear_state_gpu_addr >> 32);
-@@ -3888,10 +3856,6 @@ static int gfx_v9_0_hw_init(void *handle)
- 
- 	gfx_v9_0_constants_init(adev);
- 
--	r = gfx_v9_0_csb_vram_pin(adev);
--	if (r)
--		return r;
--
- 	r = adev->gfx.rlc.funcs->resume(adev);
- 	if (r)
- 		return r;
-@@ -3977,8 +3941,6 @@ static int gfx_v9_0_hw_fini(void *handle)
- 	gfx_v9_0_cp_enable(adev, false);
- 	adev->gfx.rlc.funcs->stop(adev);
- 
--	gfx_v9_0_csb_vram_unpin(adev);
--
- 	return 0;
++	event = crtc->state->event;
++	if (event) {
++		crtc->state->event = NULL;
++
++		spin_lock_irq(&crtc->dev->event_lock);
++		drm_crtc_send_vblank_event(crtc, event);
++		spin_unlock_irq(&crtc->dev->event_lock);
++	}
++
+ 	dev_info(drm->dev, "MCDE display is disabled\n");
  }
  
 -- 
