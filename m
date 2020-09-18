@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C459926EC50
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827D626EC53
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 04:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE016E46D;
-	Fri, 18 Sep 2020 02:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60066E46B;
+	Fri, 18 Sep 2020 02:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1747F6E466
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:11:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF1C6E46B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 02:12:25 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4833D2389E;
- Fri, 18 Sep 2020 02:11:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 95145239E5;
+ Fri, 18 Sep 2020 02:12:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600395092;
- bh=WmY0h/LyaQQeF/T0eNBda+SBvSEMz0WiZq+JKE44jk8=;
+ s=default; t=1600395145;
+ bh=IoCVrsR79AYUsIpowAJgDUNoxfHUm/Ij+N8h1eGcPGE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nx1S4IHPCmv68iLej2xJj53npCFC8MSjjKBZCg7tcK7GgHSnDOLHo2m7TieB3vQ98
- ATEiAeVdXWuWuFKhzvGDhL7QGJ0o5MMC/bbDax+VDAH9wvc1F8UOs3/UKLTwBz0XA9
- Sp8J5YU62mnp96obpvSsaWcu7MgaH0WRL4Xal0CU=
+ b=MIEOrWnAT7OQQ8zRWO29LQz5Jcor7SWPHcAehdE9KpTmgifVVpxTfCIel1aQKoCF6
+ H0236AElKTFlT1SxLyA0ZB8QzJr94ETLrFVnrlWpdNFa04RdUfFVb+Bzo+clSebVJc
+ A0t8o6q7Ifvp4YIUwsXdBk9IiL7LxBAe0nmsfD7k=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 173/206] drm/nouveau/dispnv50: fix runtime pm
- imbalance on error
-Date: Thu, 17 Sep 2020 22:07:29 -0400
-Message-Id: <20200918020802.2065198-173-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 004/127] gma/gma500: fix a memory disclosure bug
+ due to uninitialized bytes
+Date: Thu, 17 Sep 2020 22:10:17 -0400
+Message-Id: <20200918021220.2066485-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
-References: <20200918020802.2065198-1-sashal@kernel.org>
+In-Reply-To: <20200918021220.2066485-1-sashal@kernel.org>
+References: <20200918021220.2066485-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,44 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Kangjie Lu <kjlu@umn.edu>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+From: Kangjie Lu <kjlu@umn.edu>
 
-[ Upstream commit dc455f4c888365595c0a13da445e092422d55b8d ]
+[ Upstream commit 57a25a5f754ce27da2cfa6f413cfd366f878db76 ]
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-the call returns an error code. Thus a pairing decrement is needed
-on the error handling path to keep the counter balanced.
+`best_clock` is an object that may be sent out. Object `clock`
+contains uninitialized bytes that are copied to `best_clock`,
+which leads to memory disclosure and information leak.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191018042953.31099-1-kjlu@umn.edu
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/gma500/cdv_intel_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index e06ea8c8184cb..1bb0a9f6fa730 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -909,8 +909,10 @@ nv50_mstc_detect(struct drm_connector *connector, bool force)
- 		return connector_status_disconnected;
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
+index 17db4b4749d5a..2e8479744ca4a 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_display.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
+@@ -415,6 +415,8 @@ static bool cdv_intel_find_dp_pll(const struct gma_limit_t *limit,
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	struct gma_clock_t clock;
  
- 	ret = pm_runtime_get_sync(connector->dev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put_autosuspend(connector->dev->dev);
- 		return connector_status_disconnected;
-+	}
- 
- 	conn_status = drm_dp_mst_detect_port(connector, mstc->port->mgr,
- 					     mstc->port);
++	memset(&clock, 0, sizeof(clock));
++
+ 	switch (refclk) {
+ 	case 27000:
+ 		if (target < 200000) {
 -- 
 2.25.1
 
