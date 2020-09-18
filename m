@@ -1,47 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C74526FBE7
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 13:58:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DB726FC0F
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Sep 2020 14:07:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585276ECDC;
-	Fri, 18 Sep 2020 11:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83DAE6EC51;
+	Fri, 18 Sep 2020 12:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 283496ECDC;
- Fri, 18 Sep 2020 11:58:48 +0000 (UTC)
-IronPort-SDR: 4UqgQ9mHOOp3RW0G0Rj33Bn88luMLqurqk2CZkQqVifr9qx2KZL0hIXEENW3QwBYAtpM14bb26
- JDaZIquAYD2w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="147600237"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="147600237"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 04:58:44 -0700
-IronPort-SDR: WY4k54HzVIXNKadB77dJ6hO7rFoaqefjzF8OUJRW+dpJ7JrvqxgjEjHIQ7yZBQslRUuv+enHFV
- oS56rhoJgZWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="344721374"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 18 Sep 2020 04:58:41 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Sep 2020 14:58:40 +0300
-Date: Fri, 18 Sep 2020 14:58:40 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Karthik B S <karthik.b.s@intel.com>
-Subject: Re: [PATCH v9 7/8] Documentation/gpu: Add asynchronous flip
- documentation for i915
-Message-ID: <20200918115840.GL6112@intel.com>
-References: <20200916150824.15749-1-karthik.b.s@intel.com>
- <20200916150824.15749-8-karthik.b.s@intel.com>
+X-Greylist: delayed 1263 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Sep 2020 12:07:45 UTC
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44F66EC51
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Sep 2020 12:07:45 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08IBapG6026037; Fri, 18 Sep 2020 13:46:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : subject :
+ date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=Yty8bNk5BZ6QpkJD9qLB6NIpkLKJoSR9prLWJoW10U4=;
+ b=LuvK0lpVTZ4TJpPKv4c3oCx9pNNOfW9SJCdgw0v3nTYhxDtKu782CBDOKG3MK4k9EMVI
+ HiCzLs9vz0kGUODaL994RvTtbUV6hUGqLk5hFBgqIwOvjNUpOjrUlBet0r7S4iRDfv6J
+ i2zNKl6wqzLxrIEbxbYPhKs4e6fD19ZZ1ELg4C74nKgq6fvHLBYcxwD5n2zPjUypKoIo
+ 7SotLBjsGRLWLW8lxDXnayezAGer0vPJ4Ov4H7KuSCluiCu8IONhnfsH33qyuOoJHrAY
+ EN/PoMZtFVNox5ybavL4HXBVshoBRBAfCkhiU59wmgUxoLrS9lv68jyFfE9o9SaHUSeC zw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 33k67a0re1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Sep 2020 13:46:38 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4F1B810002A;
+ Fri, 18 Sep 2020 13:46:36 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 259392B4D32;
+ Fri, 18 Sep 2020 13:46:36 +0200 (CEST)
+Received: from localhost (10.75.127.45) by SFHDAG6NODE1.st.com (10.75.127.16)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+ Fri, 18 Sep 2020 13:46:35 +0200
+From: Yannick Fertre <yannick.fertre@st.com>
+To: Yannick Fertre <yannick.fertre@st.com>, Philippe Cornu
+ <philippe.cornu@st.com>, Antonio Borneo <antonio.borneo@st.com>, "Vincent
+ Abriou" <vincent.abriou@st.com>, David Airlie <airlied@linux.ie>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/stm: dsi: Avoid printing errors for -EPROBE_DEFER
+Date: Fri, 18 Sep 2020 13:46:24 +0200
+Message-ID: <20200918114624.10759-1-yannick.fertre@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200916150824.15749-8-karthik.b.s@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG6NODE1.st.com
+ (10.75.127.16)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-18_14:2020-09-16,
+ 2020-09-18 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,70 +72,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 16, 2020 at 08:38:23PM +0530, Karthik B S wrote:
-> Add the details of the implementation of asynchronous flips for i915.
-> =
+Don't print error when probe deferred error is returned.
 
-> v7: -Rebased.
-> =
+Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
+---
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> v8: -Rebased.
-> =
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index 2e1f2664495d..164f79ef6269 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -419,7 +419,8 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
+ 	if (IS_ERR(dsi->dsi)) {
+ 		ret = PTR_ERR(dsi->dsi);
+-		DRM_ERROR("Failed to initialize mipi dsi host: %d\n", ret);
++		if (ret != -EPROBE_DEFER)
++			DRM_ERROR("Failed to initialize mipi dsi host: %d\n", ret);
+ 		goto err_dsi_probe;
+ 	}
+ 
+-- 
+2.17.1
 
-> v9: -Rebased.
-> =
-
-> Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-> Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
-> ---
->  Documentation/gpu/i915.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> =
-
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 33cc6ddf8f64..84ead508f7ad 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -118,6 +118,12 @@ Atomic Plane Helpers
->  .. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic_plane.c
->     :internal:
->  =
-
-> +Asynchronous Page Flip
-> +----------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display.c
-> +   :doc: asynchronous flip implementation
-
-A bit weird having this in one patch but the actual docs in the other.
-I guess just squash them together, or extract the docs from the other
-patch into this one?
-
-Either way
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-> +
->  Output Probing
->  --------------
->  =
-
-> -- =
-
-> 2.22.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
