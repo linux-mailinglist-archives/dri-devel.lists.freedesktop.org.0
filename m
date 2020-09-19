@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19164270D25
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 12:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8954270E28
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 15:38:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC7D6E3EF;
-	Sat, 19 Sep 2020 10:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8EE56E428;
+	Sat, 19 Sep 2020 13:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13C16E3EF;
- Sat, 19 Sep 2020 10:43:53 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id c18so7999532wrm.9;
- Sat, 19 Sep 2020 03:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7kGmbCRPBREbiuVKFWN0fD+J6+ed58tbBg4isMjD+qM=;
- b=ebqHlK76UnqgjkxZd2BdYuIiQ9Z6kH7xV37jsWwzzILwEma8GIELnfTtc36HP8Wy8j
- sgcaFMqgbGunTKpQWjJHOxHNIx1WzT9vafwatulCs6Pm/+OJntm/siaccKwORgKTn1mr
- PXCLRwTwo9XquHCk3JbBSPoHB2CMLdF+gKYxN2scAVioaS9t81xDCB3bJrM+/aKqm8A3
- dhib8iH/anxadNyn0xHT2jAcVRL4UPpVPmWUaCn88MVfN7O5S72EI70DI9VOdE/qsCut
- btGTZnOLyXftC44W+vqfpCjOqfYI6XfDUNVuQHrz+/UQmqDe05CjqxWq88Cgy//f47WY
- gVzA==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C30726E43F
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 13:38:11 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id s13so7817624wmh.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 06:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=65G2mMcXBuTW/HfXyf9Gk3ibJxUd1Ob33HKjuN8VVfY=;
+ b=Eb1FzPIde+TlyZFleT4lMNkqn2CcOox+WEXYVnJ2Q/lhhx0ziMAcFweB/7Jx/kbsxi
+ XoA4GbJSdJqRJUswORCQcYBN69fcDN3Np80w/7Gn9Cki7u3Xy0vIml63B6DTgfOPtlHI
+ rrox3IkwhJS6zVxzU74Z0K49Oi5y3S470FC+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7kGmbCRPBREbiuVKFWN0fD+J6+ed58tbBg4isMjD+qM=;
- b=E6NR8lwZ27zqK6it/ov/EAvfrMw9pb/GCOHl4NY5l2thkXTAjXPy8WS4LwoQJAPsyN
- jv9Nd8k5nWCIyXzU30UsPr/RMED0XVrB6bk/B6XfssizqJB6ASG5a85rWhSHdxsdZOKS
- 7k/qsXo2yhB0/bazq6QbJaGc+hjCrUzQXW3ibkSPi7itp9jLix3VrviSJ5ElINgp3LNK
- DfTikp3Oi1PJ6PDYS5AmpHvUhUxCmrWTIve2WxFuZ9Gukh6HyYOqhae2/lmH739qo3ep
- tx1W6nh49ZGjtkxRN1z1iW+midgE9dT8s9zNuQETvqhtMYqbzTKtOXKtROREGyJUoihA
- BCuA==
-X-Gm-Message-State: AOAM530qIZ2e9jzhsZAo4SMmmqGZ02TmAPhr/smlESHQw5vgVrcVztMn
- UPX5xcHgyo9/E41Xxhy/fZH8+dQEiGBGIFPYa4E=
-X-Google-Smtp-Source: ABdhPJz/vZP8XLnKQRDlxWuK+z9Jbl6qgZ368SWPTLjmr2tWnXC05rBMQGN0j4bLmuqNIebOYLz6NJmi7AVwXf1dlSc=
-X-Received: by 2002:adf:828f:: with SMTP id 15mr17679406wrc.49.1600512232453; 
- Sat, 19 Sep 2020 03:43:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=65G2mMcXBuTW/HfXyf9Gk3ibJxUd1Ob33HKjuN8VVfY=;
+ b=SAM9r71Q0ktVicHDZn/DFTmRmCTaZ+TU2CPWeSLaldJAixeZMOmzXt+WtWS16o69zc
+ VmiE2epxdykZ+VA/KAOnEoSgV/7auYHR15/yH1b/pAYVYOR29AXTXzCXFqFyiD/7B8K9
+ l+ff/D+B8ank+5bWpOfZ6itw0d2/T08FDNQUn3JBw8VSY4L623TtK3b/8FBppjEwrQWQ
+ c4ww/dGIk+eNiUvDz5vHucuwxONZFGsNGwjtIKF+5AltTd23QnuOGn4at5moxTYQsaqE
+ Ay/fA8IAf1y5EcfCftnIZaqMQjsTIHFAJZ7gIVielBI/YW2Do1S9UZ4QdtczSQ25IRDM
+ lZsQ==
+X-Gm-Message-State: AOAM532AW/CqDjGjccQZa8Xk82G/oVj7eyxbCbP1wFsmJRVIH+pwpyYy
+ BmZMO4kGto91BOTpmNkdDgnlxRgnV8jeW3Zm
+X-Google-Smtp-Source: ABdhPJwS0Tb9d3fIuOrqAj+f1yiOHTZLRe/+pqrXNJfNhtHR9opwMZms/5XqSSE3HKW9165bfuEJcQ==
+X-Received: by 2002:a05:600c:20b:: with SMTP id
+ 11mr21354070wmi.147.1600522690048; 
+ Sat, 19 Sep 2020 06:38:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i6sm12526069wra.1.2020.09.19.06.38.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Sep 2020 06:38:08 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915/selftests: align more to real device lifetimes
+Date: Sat, 19 Sep 2020 15:38:03 +0200
+Message-Id: <20200919133803.2463492-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200918132505.2316382-3-daniel.vetter@ffwll.ch>
+References: <20200918132505.2316382-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20200919100850.1639111-1-liushixin2@huawei.com>
-In-Reply-To: <20200919100850.1639111-1-liushixin2@huawei.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sat, 19 Sep 2020 18:43:40 +0800
-Message-ID: <CAKGbVbuVo3a=Qs3PThrYszh9++D_D+dLVWhpAYOwpVd9_jDnUw@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/lima: simplify the return expression of
- lima_devfreq_target
-To: Liu Shixin <liushixin2@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,56 +64,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, lima@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Matthew Auld <matthew.william.auld@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Looks good for me, patch is:
-Reviewed-by: Qiang Yu <yuq825@gmail.com>
+To avoid having to create all the device and driver scaffolding we
+just manually create and destroy a devres_group.
 
-Regards,
-Qiang
+v2: Rebased
 
-On Sat, Sep 19, 2020 at 5:47 PM Liu Shixin <liushixin2@huawei.com> wrote:
->
-> Simplify the return expression.
->
-> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
-> ---
->  drivers/gpu/drm/lima/lima_devfreq.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-> index bbe02817721b..5914442936ed 100644
-> --- a/drivers/gpu/drm/lima/lima_devfreq.c
-> +++ b/drivers/gpu/drm/lima/lima_devfreq.c
-> @@ -35,18 +35,13 @@ static int lima_devfreq_target(struct device *dev, unsigned long *freq,
->                                u32 flags)
->  {
->         struct dev_pm_opp *opp;
-> -       int err;
->
->         opp = devfreq_recommended_opp(dev, freq, flags);
->         if (IS_ERR(opp))
->                 return PTR_ERR(opp);
->         dev_pm_opp_put(opp);
->
-> -       err = dev_pm_opp_set_rate(dev, *freq);
-> -       if (err)
-> -               return err;
-> -
-> -       return 0;
-> +       return dev_pm_opp_set_rate(dev, *freq);
->  }
->
->  static void lima_devfreq_reset(struct lima_devfreq *devfreq)
-> --
-> 2.25.1
->
+v3: use devres_open/release_group so we can use devm without real
+hacks in the driver core or having to create an entire fake bus for
+testing drivers. Might want to extract this into helpers eventually,
+maybe as a mock_drm_dev_alloc or test_drm_dev_alloc.
+
+v4:
+- Fix IS_ERR handling (Matt)
+- Delete surplus put_device() in mock_device_release (intel-gfx-ci)
+
+v5:
+- do not switch to device_add - it breaks runtime pm in the tests and
+  with the devres_group_add/release no longer needed for automatic
+  cleanup (CI). Update commit message to match.
+- print correct error in pr_err (Matt)
+
+v6: Remove now unused err variable (CI).
+
+Cc: Matthew Auld <matthew.william.auld@gmail.com>
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (v3)
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.william.auld@gmail.com> (v4)
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ .../gpu/drm/i915/selftests/mock_gem_device.c  | 39 +++++++++----------
+ 1 file changed, 19 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+index ac600d395c8f..b7db3ec346ba 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
++++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+@@ -79,8 +79,6 @@ static void mock_device_release(struct drm_device *dev)
+ 
+ out:
+ 	i915_params_free(&i915->params);
+-	put_device(&i915->drm.pdev->dev);
+-	i915->drm.pdev = NULL;
+ }
+ 
+ static struct drm_driver mock_driver = {
+@@ -123,17 +121,10 @@ struct drm_i915_private *mock_gem_device(void)
+ #endif
+ 	struct drm_i915_private *i915;
+ 	struct pci_dev *pdev;
+-	int err;
+ 
+ 	pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+ 	if (!pdev)
+ 		return NULL;
+-	i915 = kzalloc(sizeof(*i915), GFP_KERNEL);
+-	if (!i915) {
+-		kfree(pdev);
+-		return NULL;
+-	}
+-
+ 	device_initialize(&pdev->dev);
+ 	pdev->class = PCI_BASE_CLASS_DISPLAY << 16;
+ 	pdev->dev.release = release_dev;
+@@ -144,8 +135,23 @@ struct drm_i915_private *mock_gem_device(void)
+ 	/* HACK to disable iommu for the fake device; force identity mapping */
+ 	pdev->dev.iommu = &fake_iommu;
+ #endif
++	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
++		put_device(&pdev->dev);
++		return NULL;
++	}
++
++	i915 = devm_drm_dev_alloc(&pdev->dev, &mock_driver,
++				  struct drm_i915_private, drm);
++	if (IS_ERR(i915)) {
++		pr_err("Failed to allocate mock GEM device: err=%d\n", PTR_ERR(i915));
++		devres_release_group(&pdev->dev, NULL);
++		put_device(&pdev->dev);
++
++		return NULL;
++	}
+ 
+ 	pci_set_drvdata(pdev, i915);
++	i915->drm.pdev = pdev;
+ 
+ 	dev_pm_domain_set(&pdev->dev, &pm_domain);
+ 	pm_runtime_enable(&pdev->dev);
+@@ -153,16 +159,6 @@ struct drm_i915_private *mock_gem_device(void)
+ 	if (pm_runtime_enabled(&pdev->dev))
+ 		WARN_ON(pm_runtime_get_sync(&pdev->dev));
+ 
+-	err = drm_dev_init(&i915->drm, &mock_driver, &pdev->dev);
+-	if (err) {
+-		pr_err("Failed to initialise mock GEM device: err=%d\n", err);
+-		put_device(&pdev->dev);
+-		kfree(i915);
+-
+-		return NULL;
+-	}
+-	i915->drm.pdev = pdev;
+-	drmm_add_final_kfree(&i915->drm, i915);
+ 
+ 	i915_params_copy(&i915->params, &i915_modparams);
+ 
+@@ -229,5 +225,8 @@ struct drm_i915_private *mock_gem_device(void)
+ 
+ void mock_destroy_device(struct drm_i915_private *i915)
+ {
+-	drm_dev_put(&i915->drm);
++	struct device *dev = i915->drm.dev;
++
++	devres_release_group(dev, NULL);
++	put_device(dev);
+ }
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
