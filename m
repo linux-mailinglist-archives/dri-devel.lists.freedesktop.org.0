@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7238270C03
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 10:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E579D270BF7
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 10:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EACC6E1D2;
-	Sat, 19 Sep 2020 08:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA0D6E1B1;
+	Sat, 19 Sep 2020 08:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30D66EDBA
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 01:28:03 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id AB19A843893E053C5C04;
- Sat, 19 Sep 2020 09:28:00 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 19 Sep 2020 09:27:54 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/dp: update kernel-doc line comments
-Date: Sat, 19 Sep 2020 09:25:30 +0800
-Message-ID: <1600478730-43417-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8B16EDBC;
+ Sat, 19 Sep 2020 01:35:43 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 96987FFA1B1B80233A53;
+ Sat, 19 Sep 2020 09:35:41 +0800 (CST)
+Received: from ubuntu.network (10.175.138.68) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 19 Sep 2020 09:35:33 +0800
+From: Zheng Yongjun <zhengyongjun3@huawei.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>, 
+ <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] gpu: nouveau: Remove set but not used variable
+Date: Sat, 19 Sep 2020 09:36:27 +0800
+Message-ID: <20200919013627.22682-1-zhengyongjun3@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
+X-Originating-IP: [10.175.138.68]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sat, 19 Sep 2020 08:46:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,58 +41,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Zheng Yongjun <zhengyongjun3@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update kernel-doc line comments to fix warnings reported by make W=1.
-
-drivers/gpu/drm/drm_dp_helper.c:1036: warning: Function parameter or member
-'dpcd' not described in 'drm_dp_subconnector_type'
-drivers/gpu/drm/drm_dp_helper.c:1036: warning: Function parameter or member
-'port_cap' not described in 'drm_dp_subconnector_type'
-drivers/gpu/drm/drm_dp_helper.c:1089: warning: Function parameter or member
-'connector' not described in 'drm_dp_set_subconnector_property'
-drivers/gpu/drm/drm_dp_helper.c:1089: warning: Function parameter or member
-'status' not described in 'drm_dp_set_subconnector_property'
-drivers/gpu/drm/drm_dp_helper.c:1089: warning: Function parameter or member
-'dpcd' not described in 'drm_dp_set_subconnector_property'
-drivers/gpu/drm/drm_dp_helper.c:1089: warning: Function parameter or member
-'port_cap' not described in 'drm_dp_set_subconnector_property'
-
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/drm_dp_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 90807a6..a12485f 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1026,7 +1026,7 @@ void drm_dp_downstream_debug(struct seq_file *m,
- }
- EXPORT_SYMBOL(drm_dp_downstream_debug);
- 
--/**
-+/*
-  * drm_dp_subconnector_type() - get DP branch device type
-  *
-  */
-@@ -1077,7 +1077,7 @@ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- }
- EXPORT_SYMBOL(drm_dp_subconnector_type);
- 
--/**
-+/*
-  * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
-  *
-  * Called by a driver on every detect event.
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOiBJbiBmdW5jdGlvbiBudjUwX21zdG1fY2xl
+YW51cDoKZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOjEzMDM6Njogd2Fy
+bmluZzogdmFyaWFibGUg4oCYcmV04oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1z
+ZXQtdmFyaWFibGVdCgpkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmM6IElu
+IGZ1bmN0aW9uIG52NTBfbXN0bV9wcmVwYXJlOgpkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNw
+bnY1MC9kaXNwLmM6MTMyNzo2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBu
+b3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCmRyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfc3ZtLmM6IEluIGZ1bmN0aW9uIG5vdXZlYXVfcGZuc19tYXA6CmRyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmM6ODE4OjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKA
+mHJldOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKdGhl
+c2UgdmFyaWFibGUgaXMgbmV2ZXIgdXNlZCwgc28gcmVtb3ZlIGl0LgoKU2lnbmVkLW9mZi1ieTog
+WmhlbmcgWW9uZ2p1biA8emhlbmd5b25nanVuM0BodWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8IDkgKysrLS0tLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jICAgfCAzICstLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGlu
+c2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvZGlzcG52NTAvZGlzcC5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52
+NTAvZGlzcC5jCmluZGV4IDFlZDI0MjA3MDAwMS4uN2NiNTYxOGU0NTkyIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCkBAIC0xMzA2LDEyICsxMzA2LDEwIEBAIG52NTBf
+bXN0bV9jbGVhbnVwKHN0cnVjdCBudjUwX21zdG0gKm1zdG0pCiB7CiAJc3RydWN0IG5vdXZlYXVf
+ZHJtICpkcm0gPSBub3V2ZWF1X2RybShtc3RtLT5vdXRwLT5iYXNlLmJhc2UuZGV2KTsKIAlzdHJ1
+Y3QgZHJtX2VuY29kZXIgKmVuY29kZXI7Ci0JaW50IHJldDsKIAogCU5WX0FUT01JQyhkcm0sICIl
+czogbXN0bSBjbGVhbnVwXG4iLCBtc3RtLT5vdXRwLT5iYXNlLmJhc2UubmFtZSk7Ci0JcmV0ID0g
+ZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMoJm1zdG0tPm1ncik7Ci0KLQlyZXQgPSBkcm1fZHBfdXBk
+YXRlX3BheWxvYWRfcGFydDIoJm1zdG0tPm1ncik7CisJZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMo
+Jm1zdG0tPm1ncik7CisJZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQyKCZtc3RtLT5tZ3IpOwog
+CiAJZHJtX2Zvcl9lYWNoX2VuY29kZXIoZW5jb2RlciwgbXN0bS0+b3V0cC0+YmFzZS5iYXNlLmRl
+dikgewogCQlpZiAoZW5jb2Rlci0+ZW5jb2Rlcl90eXBlID09IERSTV9NT0RFX0VOQ09ERVJfRFBN
+U1QpIHsKQEAgLTEzMzAsMTAgKzEzMjgsOSBAQCBudjUwX21zdG1fcHJlcGFyZShzdHJ1Y3QgbnY1
+MF9tc3RtICptc3RtKQogewogCXN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0o
+bXN0bS0+b3V0cC0+YmFzZS5iYXNlLmRldik7CiAJc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVy
+OwotCWludCByZXQ7CiAKIAlOVl9BVE9NSUMoZHJtLCAiJXM6IG1zdG0gcHJlcGFyZVxuIiwgbXN0
+bS0+b3V0cC0+YmFzZS5iYXNlLm5hbWUpOwotCXJldCA9IGRybV9kcF91cGRhdGVfcGF5bG9hZF9w
+YXJ0MSgmbXN0bS0+bWdyKTsKKwlkcm1fZHBfdXBkYXRlX3BheWxvYWRfcGFydDEoJm1zdG0tPm1n
+cik7CiAKIAlkcm1fZm9yX2VhY2hfZW5jb2RlcihlbmNvZGVyLCBtc3RtLT5vdXRwLT5iYXNlLmJh
+c2UuZGV2KSB7CiAJCWlmIChlbmNvZGVyLT5lbmNvZGVyX3R5cGUgPT0gRFJNX01PREVfRU5DT0RF
+Ul9EUE1TVCkgewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9z
+dm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmMKaW5kZXggMmRmMWMw
+NDYwNTU5Li4wMTU4M2U5OTU0YTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfc3ZtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0u
+YwpAQCAtODE1LDcgKzgxNSw2IEBAIG5vdXZlYXVfcGZuc19tYXAoc3RydWN0IG5vdXZlYXVfc3Zt
+bSAqc3ZtbSwgc3RydWN0IG1tX3N0cnVjdCAqbW0sCiAJCSB1bnNpZ25lZCBsb25nIGFkZHIsIHU2
+NCAqcGZucywgdW5zaWduZWQgbG9uZyBucGFnZXMpCiB7CiAJc3RydWN0IG5vdXZlYXVfcGZubWFw
+X2FyZ3MgKmFyZ3MgPSBub3V2ZWF1X3BmbnNfdG9fYXJncyhwZm5zKTsKLQlpbnQgcmV0OwogCiAJ
+YXJncy0+cC5hZGRyID0gYWRkcjsKIAlhcmdzLT5wLnNpemUgPSBucGFnZXMgPDwgUEFHRV9TSElG
+VDsKQEAgLTgyMyw3ICs4MjIsNyBAQCBub3V2ZWF1X3BmbnNfbWFwKHN0cnVjdCBub3V2ZWF1X3N2
+bW0gKnN2bW0sIHN0cnVjdCBtbV9zdHJ1Y3QgKm1tLAogCW11dGV4X2xvY2soJnN2bW0tPm11dGV4
+KTsKIAogCXN2bW0tPnZtbS0+dm1tLm9iamVjdC5jbGllbnQtPnN1cGVyID0gdHJ1ZTsKLQlyZXQg
+PSBudmlmX29iamVjdF9pb2N0bCgmc3ZtbS0+dm1tLT52bW0ub2JqZWN0LCBhcmdzLCBzaXplb2Yo
+KmFyZ3MpICsKKwludmlmX29iamVjdF9pb2N0bCgmc3ZtbS0+dm1tLT52bW0ub2JqZWN0LCBhcmdz
+LCBzaXplb2YoKmFyZ3MpICsKIAkJCQlucGFnZXMgKiBzaXplb2YoYXJncy0+cC5waHlzWzBdKSwg
+TlVMTCk7CiAJc3ZtbS0+dm1tLT52bW0ub2JqZWN0LmNsaWVudC0+c3VwZXIgPSBmYWxzZTsKIAot
+LSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
