@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FEE27104B
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 21:36:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F5327104F
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 21:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA8B89CC1;
-	Sat, 19 Sep 2020 19:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 155CE6E06B;
+	Sat, 19 Sep 2020 19:36:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6535489CC1
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 19:36:36 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id f18so5670031pfa.10
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:36:36 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2B7F6E04B
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 19:36:38 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id x123so5672517pfc.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/hbQvW/WwycKpSevUDMADl+bOt9pZZjBbbmr6AnIEaI=;
- b=LV6oI91d2+vZgOpBsE3f5tmaEmuLfA7Q10jGKazhq2CUGtcu8o0tldMSpggbrL5u7m
- sO5twsUD4PMa9te7nppTnFJHrV2oD/h0QfLir3MaGmWZ+OEx/ViSJsie0+YbKww6hPts
- A55PE8p4pOWQq/zHNIvzaRBXJ3OJL0jLKqQr9Z6WlEeEGa54bzoxNrk0au9GK8T0e4Al
- fvkRM0ECxrsqQ5f/aGK9ZUTPAwPKSrAcNKN7SNl1oRXr0DRcGg9kizSn6fbBQLZ68Z61
- iZkJ5p/0sgZZryPhSTJRgJzXioKskcTnmyJY7QY+yr4WGH2U9FxZ0v6AKNvXKVewCdQN
- iySg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7VsdxD+1OUY1iuOfImGtGZsxp93pIxtgiAELnGBIf8o=;
+ b=CvFnInfCybqLqP+tNr86/LOeDZ/1iIdJWcGulCo/xLwBSujQolgiXW2EBmO/2FJa44
+ S3tFBmDs4uSgRkDRTT3Knknj/t/JDLT1Wt7bqwCKVBr5KSpWpAf6qV6yZPL05aWUSr43
+ gc0hH8x8d9qI8v00skwhTHs6B5IjgZ+XAavj1OnrhDMS4IXWNrlyKw3gVv3wGl7mJBU7
+ u0Rn70DNl3/7jqM041w07g1NIZKyaYQrAZPH0yGqVGVPDlJ3Z3vkeg/Ndc9gDw0yJf8l
+ RkoMibyK7xtSzcVVZbBP0YsbfvHUT5DW27eIwRaUVCUht9GRLJcvmXbnIfSZdrXS9NEt
+ YbfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/hbQvW/WwycKpSevUDMADl+bOt9pZZjBbbmr6AnIEaI=;
- b=EPFLesW6vSDFeBWqs3FEUlbUCCJ1wj/LYDzmoD8TTQmYwB5fXW7PtmnRQhtaZt8RF+
- LDPUwVC2ppczJte+K+2ONzq164D9+9E5RNx1ag0Jhlutb8NEj6e7/oTqG2ohQssxYRyu
- IZPbmKTHle9pf88Um5Zlh/3OzkYA5VhE6MOFoK+PwvUWbozE/vOvNW9eC+v4cDXF7kBc
- lIat2QulPvpiBFDQsw6+F+XDfYKp2lybjbTaZ4Cpocsu+ChxKZFXNPsaSOx/gNqfM6Fq
- D26rJAOuPJHbowsUd7+PzYahD9twpPdbkEqQeM4Qy54i2/reVd1xS7gNpGYQ4wApGIyX
- Pi5w==
-X-Gm-Message-State: AOAM531cFCIIY4hxveteB0EWu77T6k1Ccxqdzxlsfy6n+Us2mqxsOPSN
- yznPh/m9AWp+zIogHUe1G5/JKbkv57Y=
-X-Google-Smtp-Source: ABdhPJx9BimOCWqRHWSyLRsQP7obbHYEpFxvnWsXd3DpadbJxUFwl1Fa6tKEJ5FKQ1joMc6DMSSa4A==
-X-Received: by 2002:a65:42c2:: with SMTP id l2mr11008521pgp.61.1600544195287; 
- Sat, 19 Sep 2020 12:36:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7VsdxD+1OUY1iuOfImGtGZsxp93pIxtgiAELnGBIf8o=;
+ b=ZtWLozfvW72Y/qqPehH9zywY4QOQw/vtgJAXm6HjJufN+uBSBsRkffJz4K012BXDUN
+ +lp8w8Z3I4/JJ0UptDWpMi+tPALaW9CVg7pI1+tRll/PP4CE0NAiJUVHr1zcQEXfM8A9
+ N+jpI7MmOs3H2NYbOnGj3/X138oNHAnZWrTrLvv2CK8fFuzlhjKByWjBrBChNSmTwmhN
+ j1ynlPN0p01DV0NXcsWEtJ+T3kmPzP0X2KedV6fMWPgdbjRC3f+hhz0lb7GpL3KkN2Ka
+ Pi4CfQzII95x4cIiSQi1T+VFx4JUhY6lYuEVc/b6Hzoh7Oa9Upt5YVXv+VJ3bSJUKly8
+ 7yPQ==
+X-Gm-Message-State: AOAM530OlQfGiCoUIfer1RHgOsoVTHGWbYij1mvgRSS7y6KxoGHRPfWJ
+ wy1GDd5OXFs7tU2DV9ko3S4nZYlgJqM=
+X-Google-Smtp-Source: ABdhPJz7NMJRNRuLfpWgnHbyS2MqLZ6mQ9iOw/mKZIE7oo1Gcm9Lw1ACSLLPOoArQXAbYQ7Ovip9xg==
+X-Received: by 2002:a63:4b1c:: with SMTP id y28mr26589970pga.53.1600544197645; 
+ Sat, 19 Sep 2020 12:36:37 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id g24sm7553133pfk.65.2020.09.19.12.36.33
+ by smtp.gmail.com with ESMTPSA id k27sm6778575pgb.12.2020.09.19.12.36.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Sep 2020 12:36:34 -0700 (PDT)
+ Sat, 19 Sep 2020 12:36:36 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/3] drm: commit_work scheduling
-Date: Sat, 19 Sep 2020 12:37:23 -0700
-Message-Id: <20200919193727.2093945-1-robdclark@gmail.com>
+Subject: [PATCH 1/3] drm/crtc: Introduce per-crtc kworker
+Date: Sat, 19 Sep 2020 12:37:24 -0700
+Message-Id: <20200919193727.2093945-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200919193727.2093945-1-robdclark@gmail.com>
+References: <20200919193727.2093945-1-robdclark@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,7 +68,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
  linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- timmurray@google.com, Tejun Heo <tj@kernel.org>
+ timmurray@google.com, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tejun Heo <tj@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -74,52 +77,69 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The android userspace treats the display pipeline as a realtime problem.
-And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-that I found.)
+This will be used for non-block atomic commits.
 
-But this presents a problem with using workqueues for non-blocking
-atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-preempt the worker.  Which is not really the outcome you want.. once
-the required fences are scheduled, you want to push the atomic commit
-down to hw ASAP.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/drm_crtc.c | 11 +++++++++++
+ include/drm/drm_crtc.h     |  8 ++++++++
+ 2 files changed, 19 insertions(+)
 
-But the decision of whether commit_work should be RT or not really
-depends on what userspace is doing.  For a pure CFS userspace display
-pipeline, commit_work() should remain SCHED_NORMAL.
-
-To handle this, convert non-blocking commit_work() to use per-CRTC
-kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-used to avoid serializing commits when userspace is using a per-CRTC
-update loop.
-
-A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
-priority commit work.
-
-A potential issue is that since 616d91b68cd ("sched: Remove
-sched_setscheduler*() EXPORTs") we have limited RT priority levels,
-meaning that commit_work() ends up running at the same priority level
-as vblank-work.  This shouldn't be a big problem *yet*, due to limited
-use of vblank-work at this point.  And if it could be arranged that
-vblank-work is scheduled before signaling out-fences and/or sending
-pageflip events, it could probably work ok to use a single priority
-level for both commit-work and vblank-work.
-
-Rob Clark (3):
-  drm/crtc: Introduce per-crtc kworker
-  drm/atomic: Use kthread worker for nonblocking commits
-  drm: Add a client-cap to set scheduling mode
-
- drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++----
- drivers/gpu/drm/drm_auth.c          |  4 ++++
- drivers/gpu/drm/drm_crtc.c          | 37 +++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_ioctl.c         | 13 ++++++++++
- include/drm/drm_atomic.h            | 31 ++++++++++++++++++++++++
- include/drm/drm_crtc.h              | 10 ++++++++
- include/uapi/drm/drm.h              | 13 ++++++++++
- 7 files changed, 117 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index aecdd7ea26dc..4f7c0bfce0a3 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -326,6 +326,14 @@ int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+ 					   config->prop_out_fence_ptr, 0);
+ 		drm_object_attach_property(&crtc->base,
+ 					   config->prop_vrr_enabled, 0);
++
++		crtc->worker = kthread_create_worker(0, "%s-worker", crtc->name);
++		if (IS_ERR(crtc->worker)) {
++			drm_mode_object_unregister(dev, &crtc->base);
++			ret = PTR_ERR(crtc->worker);
++			crtc->worker = NULL;
++			return ret;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -366,6 +374,9 @@ void drm_crtc_cleanup(struct drm_crtc *crtc)
+ 
+ 	kfree(crtc->name);
+ 
++	if (crtc->worker)
++		kthread_destroy_worker(crtc->worker);
++
+ 	memset(crtc, 0, sizeof(*crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_cleanup);
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 59b51a09cae6..8964a3732bca 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -30,6 +30,7 @@
+ #include <linux/types.h>
+ #include <linux/fb.h>
+ #include <linux/hdmi.h>
++#include <linux/kthread.h>
+ #include <linux/media-bus-format.h>
+ #include <uapi/drm/drm_mode.h>
+ #include <uapi/drm/drm_fourcc.h>
+@@ -1172,6 +1173,13 @@ struct drm_crtc {
+ 	 * Initialized via drm_self_refresh_helper_init().
+ 	 */
+ 	struct drm_self_refresh_data *self_refresh_data;
++
++	/**
++	 * worker:
++	 *
++	 * Per-CRTC worker for nonblock atomic commits.
++	 */
++	struct kthread_worker *worker;
+ };
+ 
+ /**
 -- 
 2.26.2
 
