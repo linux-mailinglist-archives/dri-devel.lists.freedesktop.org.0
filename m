@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F5327104F
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 21:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D389F271052
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 21:36:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155CE6E06B;
-	Sat, 19 Sep 2020 19:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB4A26E492;
+	Sat, 19 Sep 2020 19:36:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B7F6E04B
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 19:36:38 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id x123so5672517pfc.7
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:36:38 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57ECE6E04B
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 19:36:41 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id t14so5528558pgl.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7VsdxD+1OUY1iuOfImGtGZsxp93pIxtgiAELnGBIf8o=;
- b=CvFnInfCybqLqP+tNr86/LOeDZ/1iIdJWcGulCo/xLwBSujQolgiXW2EBmO/2FJa44
- S3tFBmDs4uSgRkDRTT3Knknj/t/JDLT1Wt7bqwCKVBr5KSpWpAf6qV6yZPL05aWUSr43
- gc0hH8x8d9qI8v00skwhTHs6B5IjgZ+XAavj1OnrhDMS4IXWNrlyKw3gVv3wGl7mJBU7
- u0Rn70DNl3/7jqM041w07g1NIZKyaYQrAZPH0yGqVGVPDlJ3Z3vkeg/Ndc9gDw0yJf8l
- RkoMibyK7xtSzcVVZbBP0YsbfvHUT5DW27eIwRaUVCUht9GRLJcvmXbnIfSZdrXS9NEt
- YbfQ==
+ bh=ZcEhH3LkJwJxm1/YqfDogAmQdhcYfaMPXbiNt/rTvIg=;
+ b=lg7Ubyu9WAKxfdBXsHIE0fpkFazRYiZBfqd7ekL+E3pANQ48iJwjSskg8Eb9/Ipxum
+ vvea2HDVe246HhZnx09J5sw/zvLq+X/chYapub84dru4tTYVy5R6QlX8GixKSFMagOqr
+ SiDjzfINE3Gr2AYrazENBJHXI+Xn+YIRbwOlharJlTl5xZXu9vm38MHB1s4zUFuB4X4w
+ sskrIy020y6bFI7vAwFVJ1MBDQ8yjM9uudCvs1Vou9g4OTbf5XR0romkoa4Qu00sItUw
+ Bs/0LoQsCfY349hIqWWmcPkKqQYRpNNjg2x6zMmr1m78mxkQkWqa7pQQL9OI+pbzk/bc
+ iXcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7VsdxD+1OUY1iuOfImGtGZsxp93pIxtgiAELnGBIf8o=;
- b=ZtWLozfvW72Y/qqPehH9zywY4QOQw/vtgJAXm6HjJufN+uBSBsRkffJz4K012BXDUN
- +lp8w8Z3I4/JJ0UptDWpMi+tPALaW9CVg7pI1+tRll/PP4CE0NAiJUVHr1zcQEXfM8A9
- N+jpI7MmOs3H2NYbOnGj3/X138oNHAnZWrTrLvv2CK8fFuzlhjKByWjBrBChNSmTwmhN
- j1ynlPN0p01DV0NXcsWEtJ+T3kmPzP0X2KedV6fMWPgdbjRC3f+hhz0lb7GpL3KkN2Ka
- Pi4CfQzII95x4cIiSQi1T+VFx4JUhY6lYuEVc/b6Hzoh7Oa9Upt5YVXv+VJ3bSJUKly8
- 7yPQ==
-X-Gm-Message-State: AOAM530OlQfGiCoUIfer1RHgOsoVTHGWbYij1mvgRSS7y6KxoGHRPfWJ
- wy1GDd5OXFs7tU2DV9ko3S4nZYlgJqM=
-X-Google-Smtp-Source: ABdhPJz7NMJRNRuLfpWgnHbyS2MqLZ6mQ9iOw/mKZIE7oo1Gcm9Lw1ACSLLPOoArQXAbYQ7Ovip9xg==
-X-Received: by 2002:a63:4b1c:: with SMTP id y28mr26589970pga.53.1600544197645; 
- Sat, 19 Sep 2020 12:36:37 -0700 (PDT)
+ bh=ZcEhH3LkJwJxm1/YqfDogAmQdhcYfaMPXbiNt/rTvIg=;
+ b=d4TOEM9d+x52wY2vVaeH5pUFSMEzFTRGvxY3tLZu0Ok/2pBwNsryV4ttwoHb0Nc0F/
+ rtcQQGPNQYrBxvjDXmSzEWN+O0dghLojzbLjwUcQqqSUOjykg8gpD4SJaQ0Lx4MH6QHb
+ AyGyoiyv61ZPk0US5YssRgrLZfreUxbR+kx2QdOK5qk0DX7I1FQ+/roRN8fpOCEPcxi+
+ zbAyhw8yOXFePAkP+RE5v4A1DXGytIQM4SCIHt7mwMYebMRcVQl8gRpzTGQWFsfOu5GB
+ rpCN5EtcI8W6svvSLWTVK0Z0zuCWMkV1y60mSEmPLhyBer8QbBW5saEiVIroOBJce7Gc
+ TeUA==
+X-Gm-Message-State: AOAM533miv3Km9f34Tc/B3qTDHfzU9X2nXkhIyrf+FxkzZ/D3f2k52bD
+ Y5Q7/5nUZa/8apfx4LFCasYj7L2FNE0=
+X-Google-Smtp-Source: ABdhPJw1pkeptMx0qD+T+XhkQAyHm1sDInLhYFcOAYQh5gmEsV+WcdgYPL5u/76isoo3XZIVFAt6Xg==
+X-Received: by 2002:a65:6088:: with SMTP id t8mr26953418pgu.404.1600544200308; 
+ Sat, 19 Sep 2020 12:36:40 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id k27sm6778575pgb.12.2020.09.19.12.36.36
+ by smtp.gmail.com with ESMTPSA id q5sm7477198pfn.172.2020.09.19.12.36.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Sep 2020 12:36:36 -0700 (PDT)
+ Sat, 19 Sep 2020 12:36:39 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/crtc: Introduce per-crtc kworker
-Date: Sat, 19 Sep 2020 12:37:24 -0700
-Message-Id: <20200919193727.2093945-2-robdclark@gmail.com>
+Subject: [PATCH 2/3] drm/atomic: Use kthread worker for nonblocking commits
+Date: Sat, 19 Sep 2020 12:37:25 -0700
+Message-Id: <20200919193727.2093945-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919193727.2093945-1-robdclark@gmail.com>
 References: <20200919193727.2093945-1-robdclark@gmail.com>
@@ -77,69 +77,115 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This will be used for non-block atomic commits.
+This will allow us to more easily switch scheduling rules based on what
+userspace wants.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/drm_crtc.c | 11 +++++++++++
- include/drm/drm_crtc.h     |  8 ++++++++
- 2 files changed, 19 insertions(+)
+ drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
+ include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index aecdd7ea26dc..4f7c0bfce0a3 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -326,6 +326,14 @@ int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
- 					   config->prop_out_fence_ptr, 0);
- 		drm_object_attach_property(&crtc->base,
- 					   config->prop_vrr_enabled, 0);
-+
-+		crtc->worker = kthread_create_worker(0, "%s-worker", crtc->name);
-+		if (IS_ERR(crtc->worker)) {
-+			drm_mode_object_unregister(dev, &crtc->base);
-+			ret = PTR_ERR(crtc->worker);
-+			crtc->worker = NULL;
-+			return ret;
-+		}
- 	}
- 
- 	return 0;
-@@ -366,6 +374,9 @@ void drm_crtc_cleanup(struct drm_crtc *crtc)
- 
- 	kfree(crtc->name);
- 
-+	if (crtc->worker)
-+		kthread_destroy_worker(crtc->worker);
-+
- 	memset(crtc, 0, sizeof(*crtc));
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 9e1ad493e689..75eeec5e7b10 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1659,11 +1659,11 @@ static void commit_tail(struct drm_atomic_state *old_state)
+ 	drm_atomic_state_put(old_state);
  }
- EXPORT_SYMBOL(drm_crtc_cleanup);
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 59b51a09cae6..8964a3732bca 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -30,6 +30,7 @@
- #include <linux/types.h>
- #include <linux/fb.h>
- #include <linux/hdmi.h>
-+#include <linux/kthread.h>
- #include <linux/media-bus-format.h>
- #include <uapi/drm/drm_mode.h>
- #include <uapi/drm/drm_fourcc.h>
-@@ -1172,6 +1173,13 @@ struct drm_crtc {
- 	 * Initialized via drm_self_refresh_helper_init().
+ 
+-static void commit_work(struct work_struct *work)
++static void commit_work(struct kthread_work *work)
+ {
+ 	struct drm_atomic_state *state = container_of(work,
+ 						      struct drm_atomic_state,
+-						      commit_work);
++						      commit_kwork);
+ 	commit_tail(state);
+ }
+ 
+@@ -1797,6 +1797,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+ 			     struct drm_atomic_state *state,
+ 			     bool nonblock)
+ {
++	struct kthread_worker *worker = NULL;
+ 	int ret;
+ 
+ 	if (state->async_update) {
+@@ -1814,7 +1815,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	INIT_WORK(&state->commit_work, commit_work);
++	kthread_init_work(&state->commit_kwork, commit_work);
+ 
+ 	ret = drm_atomic_helper_prepare_planes(dev, state);
+ 	if (ret)
+@@ -1857,8 +1858,12 @@ int drm_atomic_helper_commit(struct drm_device *dev,
  	 */
- 	struct drm_self_refresh_data *self_refresh_data;
+ 
+ 	drm_atomic_state_get(state);
++
+ 	if (nonblock)
+-		queue_work(system_unbound_wq, &state->commit_work);
++		worker = drm_atomic_pick_worker(state);
++
++	if (worker)
++		kthread_queue_work(worker, &state->commit_kwork);
+ 	else
+ 		commit_tail(state);
+ 
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index d07c851d255b..8d0ee19953df 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -373,8 +373,18 @@ struct drm_atomic_state {
+ 	 *
+ 	 * Work item which can be used by the driver or helpers to execute the
+ 	 * commit without blocking.
++	 *
++	 * This is deprecated, use commit_kwork.
+ 	 */
+ 	struct work_struct commit_work;
 +
 +	/**
-+	 * worker:
++	 * @commit_kwork:
 +	 *
-+	 * Per-CRTC worker for nonblock atomic commits.
++	 * Work item which can be used by the driver or helpers to execute the
++	 * commit without blocking.
 +	 */
-+	struct kthread_worker *worker;
++	struct kthread_work commit_kwork;
  };
  
+ void __drm_crtc_commit_free(struct kref *kref);
+@@ -954,6 +964,27 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
+ 		      (new_obj_state) = (__state)->private_objs[__i].new_state, 1); \
+ 	     (__i)++)
+ 
++/**
++ * drm_atomic_pick_worker - helper to get kworker to use for nonblocking commit
++ * @state: the &drm_atomic_state for the commit
++ *
++ * Pick an appropriate worker for a given atomic update.  The first CRTC
++ * invovled in the atomic update is used to pick the worker, to prevent
++ * serializing multiple pageflips / atomic-updates on indenpendent CRTCs.
++ */
++static inline struct kthread_worker *
++drm_atomic_pick_worker(const struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state;
++	struct drm_crtc *crtc;
++	unsigned i;
++
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
++		return crtc->worker;
++
++	return NULL;
++}
++
  /**
+  * drm_atomic_crtc_needs_modeset - compute combined modeset need
+  * @state: &drm_crtc_state for the CRTC
 -- 
 2.26.2
 
