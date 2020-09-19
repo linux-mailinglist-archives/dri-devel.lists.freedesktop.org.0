@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E579D270BF7
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 10:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F6D270BFF
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 10:46:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA0D6E1B1;
-	Sat, 19 Sep 2020 08:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099476E1BC;
+	Sat, 19 Sep 2020 08:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8B16EDBC;
- Sat, 19 Sep 2020 01:35:43 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 96987FFA1B1B80233A53;
- Sat, 19 Sep 2020 09:35:41 +0800 (CST)
-Received: from ubuntu.network (10.175.138.68) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 19 Sep 2020 09:35:33 +0800
-From: Zheng Yongjun <zhengyongjun3@huawei.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>, 
- <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] gpu: nouveau: Remove set but not used variable
-Date: Sat, 19 Sep 2020 09:36:27 +0800
-Message-ID: <20200919013627.22682-1-zhengyongjun3@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 095966EDC0;
+ Sat, 19 Sep 2020 02:51:41 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id BBB30DF5AD78B628E014;
+ Sat, 19 Sep 2020 10:51:35 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 19 Sep 2020 10:51:26 +0800
+From: Qinglang Miao <miaoqinglang@huawei.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH -next v2] drm/msm/dpu: Convert to DEFINE_SHOW_ATTRIBUTE
+Date: Sat, 19 Sep 2020 10:51:58 +0800
+Message-ID: <20200919025158.17264-1-miaoqinglang@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.138.68]
+X-Originating-IP: [10.175.113.25]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sat, 19 Sep 2020 08:46:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,65 +41,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zheng Yongjun <zhengyongjun3@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, Qinglang
+ Miao <miaoqinglang@huawei.com>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9n
-cHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOiBJbiBmdW5jdGlvbiBudjUwX21zdG1fY2xl
-YW51cDoKZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jOjEzMDM6Njogd2Fy
-bmluZzogdmFyaWFibGUg4oCYcmV04oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1z
-ZXQtdmFyaWFibGVdCgpkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmM6IElu
-IGZ1bmN0aW9uIG52NTBfbXN0bV9wcmVwYXJlOgpkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNw
-bnY1MC9kaXNwLmM6MTMyNzo2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBu
-b3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCmRyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L25vdXZlYXVfc3ZtLmM6IEluIGZ1bmN0aW9uIG5vdXZlYXVfcGZuc19tYXA6CmRyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmM6ODE4OjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKA
-mHJldOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKdGhl
-c2UgdmFyaWFibGUgaXMgbmV2ZXIgdXNlZCwgc28gcmVtb3ZlIGl0LgoKU2lnbmVkLW9mZi1ieTog
-WmhlbmcgWW9uZ2p1biA8emhlbmd5b25nanVuM0BodWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8IDkgKysrLS0tLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jICAgfCAzICstLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGlu
-c2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L25vdXZlYXUvZGlzcG52NTAvZGlzcC5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52
-NTAvZGlzcC5jCmluZGV4IDFlZDI0MjA3MDAwMS4uN2NiNTYxOGU0NTkyIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCkBAIC0xMzA2LDEyICsxMzA2LDEwIEBAIG52NTBf
-bXN0bV9jbGVhbnVwKHN0cnVjdCBudjUwX21zdG0gKm1zdG0pCiB7CiAJc3RydWN0IG5vdXZlYXVf
-ZHJtICpkcm0gPSBub3V2ZWF1X2RybShtc3RtLT5vdXRwLT5iYXNlLmJhc2UuZGV2KTsKIAlzdHJ1
-Y3QgZHJtX2VuY29kZXIgKmVuY29kZXI7Ci0JaW50IHJldDsKIAogCU5WX0FUT01JQyhkcm0sICIl
-czogbXN0bSBjbGVhbnVwXG4iLCBtc3RtLT5vdXRwLT5iYXNlLmJhc2UubmFtZSk7Ci0JcmV0ID0g
-ZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMoJm1zdG0tPm1ncik7Ci0KLQlyZXQgPSBkcm1fZHBfdXBk
-YXRlX3BheWxvYWRfcGFydDIoJm1zdG0tPm1ncik7CisJZHJtX2RwX2NoZWNrX2FjdF9zdGF0dXMo
-Jm1zdG0tPm1ncik7CisJZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQyKCZtc3RtLT5tZ3IpOwog
-CiAJZHJtX2Zvcl9lYWNoX2VuY29kZXIoZW5jb2RlciwgbXN0bS0+b3V0cC0+YmFzZS5iYXNlLmRl
-dikgewogCQlpZiAoZW5jb2Rlci0+ZW5jb2Rlcl90eXBlID09IERSTV9NT0RFX0VOQ09ERVJfRFBN
-U1QpIHsKQEAgLTEzMzAsMTAgKzEzMjgsOSBAQCBudjUwX21zdG1fcHJlcGFyZShzdHJ1Y3QgbnY1
-MF9tc3RtICptc3RtKQogewogCXN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0o
-bXN0bS0+b3V0cC0+YmFzZS5iYXNlLmRldik7CiAJc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVy
-OwotCWludCByZXQ7CiAKIAlOVl9BVE9NSUMoZHJtLCAiJXM6IG1zdG0gcHJlcGFyZVxuIiwgbXN0
-bS0+b3V0cC0+YmFzZS5iYXNlLm5hbWUpOwotCXJldCA9IGRybV9kcF91cGRhdGVfcGF5bG9hZF9w
-YXJ0MSgmbXN0bS0+bWdyKTsKKwlkcm1fZHBfdXBkYXRlX3BheWxvYWRfcGFydDEoJm1zdG0tPm1n
-cik7CiAKIAlkcm1fZm9yX2VhY2hfZW5jb2RlcihlbmNvZGVyLCBtc3RtLT5vdXRwLT5iYXNlLmJh
-c2UuZGV2KSB7CiAJCWlmIChlbmNvZGVyLT5lbmNvZGVyX3R5cGUgPT0gRFJNX01PREVfRU5DT0RF
-Ul9EUE1TVCkgewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9z
-dm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfc3ZtLmMKaW5kZXggMmRmMWMw
-NDYwNTU5Li4wMTU4M2U5OTU0YTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
-L25vdXZlYXVfc3ZtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9zdm0u
-YwpAQCAtODE1LDcgKzgxNSw2IEBAIG5vdXZlYXVfcGZuc19tYXAoc3RydWN0IG5vdXZlYXVfc3Zt
-bSAqc3ZtbSwgc3RydWN0IG1tX3N0cnVjdCAqbW0sCiAJCSB1bnNpZ25lZCBsb25nIGFkZHIsIHU2
-NCAqcGZucywgdW5zaWduZWQgbG9uZyBucGFnZXMpCiB7CiAJc3RydWN0IG5vdXZlYXVfcGZubWFw
-X2FyZ3MgKmFyZ3MgPSBub3V2ZWF1X3BmbnNfdG9fYXJncyhwZm5zKTsKLQlpbnQgcmV0OwogCiAJ
-YXJncy0+cC5hZGRyID0gYWRkcjsKIAlhcmdzLT5wLnNpemUgPSBucGFnZXMgPDwgUEFHRV9TSElG
-VDsKQEAgLTgyMyw3ICs4MjIsNyBAQCBub3V2ZWF1X3BmbnNfbWFwKHN0cnVjdCBub3V2ZWF1X3N2
-bW0gKnN2bW0sIHN0cnVjdCBtbV9zdHJ1Y3QgKm1tLAogCW11dGV4X2xvY2soJnN2bW0tPm11dGV4
-KTsKIAogCXN2bW0tPnZtbS0+dm1tLm9iamVjdC5jbGllbnQtPnN1cGVyID0gdHJ1ZTsKLQlyZXQg
-PSBudmlmX29iamVjdF9pb2N0bCgmc3ZtbS0+dm1tLT52bW0ub2JqZWN0LCBhcmdzLCBzaXplb2Yo
-KmFyZ3MpICsKKwludmlmX29iamVjdF9pb2N0bCgmc3ZtbS0+dm1tLT52bW0ub2JqZWN0LCBhcmdz
-LCBzaXplb2YoKmFyZ3MpICsKIAkJCQlucGFnZXMgKiBzaXplb2YoYXJncy0+cC5waHlzWzBdKSwg
-TlVMTCk7CiAJc3ZtbS0+dm1tLT52bW0ub2JqZWN0LmNsaWVudC0+c3VwZXIgPSBmYWxzZTsKIAot
-LSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Use DEFINE_SHOW_ATTRIBUTE macro to simplify the code.
+
+Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+---
+v2: based on linux-next(20200917), and can be applied to
+    mainline cleanly now.
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c | 15 +---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c     | 29 ++------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c  | 15 ++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c      | 17 ++----------
+ 4 files changed, 8 insertions(+), 68 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+index f1bc6a1af..84ea09d96 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
+@@ -288,19 +288,6 @@ static void dpu_disable_all_irqs(struct dpu_kms *dpu_kms)
+ }
+ 
+ #ifdef CONFIG_DEBUG_FS
+-#define DEFINE_DPU_DEBUGFS_SEQ_FOPS(__prefix)				\
+-static int __prefix ## _open(struct inode *inode, struct file *file)	\
+-{									\
+-	return single_open(file, __prefix ## _show, inode->i_private);	\
+-}									\
+-static const struct file_operations __prefix ## _fops = {		\
+-	.owner = THIS_MODULE,						\
+-	.open = __prefix ## _open,					\
+-	.release = single_release,					\
+-	.read = seq_read,						\
+-	.llseek = seq_lseek,						\
+-}
+-
+ static int dpu_debugfs_core_irq_show(struct seq_file *s, void *v)
+ {
+ 	struct dpu_irq *irq_obj = s->private;
+@@ -328,7 +315,7 @@ static int dpu_debugfs_core_irq_show(struct seq_file *s, void *v)
+ 	return 0;
+ }
+ 
+-DEFINE_DPU_DEBUGFS_SEQ_FOPS(dpu_debugfs_core_irq);
++DEFINE_SHOW_ATTRIBUTE(dpu_debugfs_core_irq);
+ 
+ void dpu_debugfs_core_irq_init(struct dpu_kms *dpu_kms,
+ 		struct dentry *parent)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 6169148b3..f56414a06 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1177,23 +1177,7 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+ 	return 0;
+ }
+ 
+-static int _dpu_debugfs_status_open(struct inode *inode, struct file *file)
+-{
+-	return single_open(file, _dpu_debugfs_status_show, inode->i_private);
+-}
+-
+-#define DEFINE_DPU_DEBUGFS_SEQ_FOPS(__prefix)                          \
+-static int __prefix ## _open(struct inode *inode, struct file *file)	\
+-{									\
+-	return single_open(file, __prefix ## _show, inode->i_private);	\
+-}									\
+-static const struct file_operations __prefix ## _fops = {		\
+-	.owner = THIS_MODULE,						\
+-	.open = __prefix ## _open,					\
+-	.release = single_release,					\
+-	.read = seq_read,						\
+-	.llseek = seq_lseek,						\
+-}
++DEFINE_SHOW_ATTRIBUTE(_dpu_debugfs_status);
+ 
+ static int dpu_crtc_debugfs_state_show(struct seq_file *s, void *v)
+ {
+@@ -1210,25 +1194,18 @@ static int dpu_crtc_debugfs_state_show(struct seq_file *s, void *v)
+ 
+ 	return 0;
+ }
+-DEFINE_DPU_DEBUGFS_SEQ_FOPS(dpu_crtc_debugfs_state);
++DEFINE_SHOW_ATTRIBUTE(dpu_crtc_debugfs_state);
+ 
+ static int _dpu_crtc_init_debugfs(struct drm_crtc *crtc)
+ {
+ 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+ 
+-	static const struct file_operations debugfs_status_fops = {
+-		.open =		_dpu_debugfs_status_open,
+-		.read =		seq_read,
+-		.llseek =	seq_lseek,
+-		.release =	single_release,
+-	};
+-
+ 	dpu_crtc->debugfs_root = debugfs_create_dir(dpu_crtc->name,
+ 			crtc->dev->primary->debugfs_root);
+ 
+ 	debugfs_create_file("status", 0400,
+ 			dpu_crtc->debugfs_root,
+-			dpu_crtc, &debugfs_status_fops);
++			dpu_crtc, &_dpu_debugfs_status_fops);
+ 	debugfs_create_file("state", 0600,
+ 			dpu_crtc->debugfs_root,
+ 			&dpu_crtc->base,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index bd6def436..da192e275 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1880,24 +1880,13 @@ static int _dpu_encoder_status_show(struct seq_file *s, void *data)
+ 	return 0;
+ }
+ 
+-static int _dpu_encoder_debugfs_status_open(struct inode *inode,
+-		struct file *file)
+-{
+-	return single_open(file, _dpu_encoder_status_show, inode->i_private);
+-}
++DEFINE_SHOW_ATTRIBUTE(_dpu_encoder_status);
+ 
+ static int _dpu_encoder_init_debugfs(struct drm_encoder *drm_enc)
+ {
+ 	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+ 	int i;
+ 
+-	static const struct file_operations debugfs_status_fops = {
+-		.open =		_dpu_encoder_debugfs_status_open,
+-		.read =		seq_read,
+-		.llseek =	seq_lseek,
+-		.release =	single_release,
+-	};
+-
+ 	char name[DPU_NAME_SIZE];
+ 
+ 	if (!drm_enc->dev) {
+@@ -1913,7 +1902,7 @@ static int _dpu_encoder_init_debugfs(struct drm_encoder *drm_enc)
+ 
+ 	/* don't error check these */
+ 	debugfs_create_file("status", 0600,
+-		dpu_enc->debugfs_root, dpu_enc, &debugfs_status_fops);
++		dpu_enc->debugfs_root, dpu_enc, &_dpu_encoder_status_fops);
+ 
+ 	for (i = 0; i < dpu_enc->num_phys_encs; i++)
+ 		if (dpu_enc->phys_encs[i]->ops.late_register)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 5abf0047c..0649d1dee 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -85,30 +85,17 @@ static int _dpu_danger_signal_status(struct seq_file *s,
+ 	return 0;
+ }
+ 
+-#define DEFINE_DPU_DEBUGFS_SEQ_FOPS(__prefix)				\
+-static int __prefix ## _open(struct inode *inode, struct file *file)	\
+-{									\
+-	return single_open(file, __prefix ## _show, inode->i_private);	\
+-}									\
+-static const struct file_operations __prefix ## _fops = {		\
+-	.owner = THIS_MODULE,						\
+-	.open = __prefix ## _open,					\
+-	.release = single_release,					\
+-	.read = seq_read,						\
+-	.llseek = seq_lseek,						\
+-}
+-
+ static int dpu_debugfs_danger_stats_show(struct seq_file *s, void *v)
+ {
+ 	return _dpu_danger_signal_status(s, true);
+ }
+-DEFINE_DPU_DEBUGFS_SEQ_FOPS(dpu_debugfs_danger_stats);
++DEFINE_SHOW_ATTRIBUTE(dpu_debugfs_danger_stats);
+ 
+ static int dpu_debugfs_safe_stats_show(struct seq_file *s, void *v)
+ {
+ 	return _dpu_danger_signal_status(s, false);
+ }
+-DEFINE_DPU_DEBUGFS_SEQ_FOPS(dpu_debugfs_safe_stats);
++DEFINE_SHOW_ATTRIBUTE(dpu_debugfs_safe_stats);
+ 
+ static void dpu_debugfs_danger_init(struct dpu_kms *dpu_kms,
+ 		struct dentry *parent)
+-- 
+2.23.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
