@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F6E27102D
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 21:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FEE27104B
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Sep 2020 21:36:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0566489FAD;
-	Sat, 19 Sep 2020 19:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA8B89CC1;
+	Sat, 19 Sep 2020 19:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7BCC6E497
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 19:19:57 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id w1so9202096edr.3
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=10sVGN8u2TwfCpnAq/jp4iLrESxL2PzGGvVZbBHI37U=;
- b=SNvzyY/D28nrQ/9in1B6Dzi002SQEpeIWQ8e1hzmI9hVRDCDcHjzeJE8AlbYJKjj8B
- G7NnpY7h0luEeygyoDxqLDk2AWGbQCdyloo3Y9XIxWLvxZdXjZ/NeK2kaD/mL0YWoior
- T+0jhpZUK76WT2Sz7na41qAPiBNog2OUpnoIA=
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6535489CC1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 19:36:36 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id f18so5670031pfa.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/hbQvW/WwycKpSevUDMADl+bOt9pZZjBbbmr6AnIEaI=;
+ b=LV6oI91d2+vZgOpBsE3f5tmaEmuLfA7Q10jGKazhq2CUGtcu8o0tldMSpggbrL5u7m
+ sO5twsUD4PMa9te7nppTnFJHrV2oD/h0QfLir3MaGmWZ+OEx/ViSJsie0+YbKww6hPts
+ A55PE8p4pOWQq/zHNIvzaRBXJ3OJL0jLKqQr9Z6WlEeEGa54bzoxNrk0au9GK8T0e4Al
+ fvkRM0ECxrsqQ5f/aGK9ZUTPAwPKSrAcNKN7SNl1oRXr0DRcGg9kizSn6fbBQLZ68Z61
+ iZkJ5p/0sgZZryPhSTJRgJzXioKskcTnmyJY7QY+yr4WGH2U9FxZ0v6AKNvXKVewCdQN
+ iySg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=10sVGN8u2TwfCpnAq/jp4iLrESxL2PzGGvVZbBHI37U=;
- b=DiWacpqOLl+ntMlPP1+EN8P1DyneoPNiR5U+sZPjVTYlBxvgV5JFBKcrW0NbplC8/x
- X7YI/RknLtSfph5T7Y8N0bihp+5m2r2/br7vLi24Lg/jE/ZKCrFtyZ7EH+fO60QKc3Y0
- xRg5iOrGxPvijfI/lRkXekIj6F53+Nak8LPzwyQfcFQdL1JONDOe6e8/rtEL6djy2z/t
- Mgz0R5E0GzQLTUV6NwBEktiqLNsBQdDNToUrrTGFxg9w3AftNFD1HE5pY/4PE2S4j8Of
- MnGPzjB1kGQXH+AshNYE5e2qsQyLAEB7n1AvOCinh/mahRBuQDFmkPviphNWpPcxkJHW
- Tggw==
-X-Gm-Message-State: AOAM53145LHStwdWRrgoFNaQ9HTi82uLFqRyOZx1IbzejyO+5GW8IiXW
- k2x6/VWMBY7sO2zB+FyPZvCPOqPNs8cNUQ==
-X-Google-Smtp-Source: ABdhPJwh1cggiU3buvhecGfg6fTR1avn4YBf8KKtjRIepoVgC5Ja45xbzhi5oOBFO70nhS1O1aTUjQ==
-X-Received: by 2002:aa7:d981:: with SMTP id u1mr43873444eds.250.1600543196135; 
- Sat, 19 Sep 2020 12:19:56 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
- [209.85.221.44])
- by smtp.gmail.com with ESMTPSA id p17sm4907352ejw.125.2020.09.19.12.19.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Sep 2020 12:19:55 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id c18so8826241wrm.9
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Sep 2020 12:19:55 -0700 (PDT)
-X-Received: by 2002:a19:8907:: with SMTP id l7mr12464193lfd.105.1600542797553; 
- Sat, 19 Sep 2020 12:13:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/hbQvW/WwycKpSevUDMADl+bOt9pZZjBbbmr6AnIEaI=;
+ b=EPFLesW6vSDFeBWqs3FEUlbUCCJ1wj/LYDzmoD8TTQmYwB5fXW7PtmnRQhtaZt8RF+
+ LDPUwVC2ppczJte+K+2ONzq164D9+9E5RNx1ag0Jhlutb8NEj6e7/oTqG2ohQssxYRyu
+ IZPbmKTHle9pf88Um5Zlh/3OzkYA5VhE6MOFoK+PwvUWbozE/vOvNW9eC+v4cDXF7kBc
+ lIat2QulPvpiBFDQsw6+F+XDfYKp2lybjbTaZ4Cpocsu+ChxKZFXNPsaSOx/gNqfM6Fq
+ D26rJAOuPJHbowsUd7+PzYahD9twpPdbkEqQeM4Qy54i2/reVd1xS7gNpGYQ4wApGIyX
+ Pi5w==
+X-Gm-Message-State: AOAM531cFCIIY4hxveteB0EWu77T6k1Ccxqdzxlsfy6n+Us2mqxsOPSN
+ yznPh/m9AWp+zIogHUe1G5/JKbkv57Y=
+X-Google-Smtp-Source: ABdhPJx9BimOCWqRHWSyLRsQP7obbHYEpFxvnWsXd3DpadbJxUFwl1Fa6tKEJ5FKQ1joMc6DMSSa4A==
+X-Received: by 2002:a65:42c2:: with SMTP id l2mr11008521pgp.61.1600544195287; 
+ Sat, 19 Sep 2020 12:36:35 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id g24sm7553133pfk.65.2020.09.19.12.36.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Sep 2020 12:36:34 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm: commit_work scheduling
+Date: Sat, 19 Sep 2020 12:37:23 -0700
+Message-Id: <20200919193727.2093945-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200919091751.011116649@linutronix.de>
- <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
- <20200919173906.GQ32101@casper.infradead.org>
-In-Reply-To: <20200919173906.GQ32101@casper.infradead.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 19 Sep 2020 12:13:01 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgyVxGaYkL71DhHgmyU=tE=4rEHgAkOYRq=1-9+q_adAw@mail.gmail.com>
-Message-ID: <CAHk-=wgyVxGaYkL71DhHgmyU=tE=4rEHgAkOYRq=1-9+q_adAw@mail.gmail.com>
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-To: Matthew Wilcox <willy@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,51 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
- Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Michael Ellerman <mpe@ellerman.id.au>,
- the arch/x86 maintainers <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
- Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Paul Mackerras <paulus@samba.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
+ linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ timmurray@google.com, Tejun Heo <tj@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 19, 2020 at 10:39 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> My concern with that is people might use kmap() and then pass the address
-> to a different task.  So we need to audit the current users of kmap()
-> and convert any that do that into using vmap() instead.
+From: Rob Clark <robdclark@chromium.org>
 
-Ahh. Yes, I guess they might do that. It sounds strange, but not
-entirely crazy - I could imagine some "PIO thread" that does IO to a
-page that has been set up by somebody else using kmap(). Or similar.
+The android userspace treats the display pipeline as a realtime problem.
+And arguably, if your goal is to not miss frame deadlines (ie. vblank),
+it is.  (See https://lwn.net/Articles/809545/ for the best explaination
+that I found.)
 
-                Linus
+But this presents a problem with using workqueues for non-blocking
+atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
+preempt the worker.  Which is not really the outcome you want.. once
+the required fences are scheduled, you want to push the atomic commit
+down to hw ASAP.
+
+But the decision of whether commit_work should be RT or not really
+depends on what userspace is doing.  For a pure CFS userspace display
+pipeline, commit_work() should remain SCHED_NORMAL.
+
+To handle this, convert non-blocking commit_work() to use per-CRTC
+kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
+used to avoid serializing commits when userspace is using a per-CRTC
+update loop.
+
+A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
+priority commit work.
+
+A potential issue is that since 616d91b68cd ("sched: Remove
+sched_setscheduler*() EXPORTs") we have limited RT priority levels,
+meaning that commit_work() ends up running at the same priority level
+as vblank-work.  This shouldn't be a big problem *yet*, due to limited
+use of vblank-work at this point.  And if it could be arranged that
+vblank-work is scheduled before signaling out-fences and/or sending
+pageflip events, it could probably work ok to use a single priority
+level for both commit-work and vblank-work.
+
+Rob Clark (3):
+  drm/crtc: Introduce per-crtc kworker
+  drm/atomic: Use kthread worker for nonblocking commits
+  drm: Add a client-cap to set scheduling mode
+
+ drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++----
+ drivers/gpu/drm/drm_auth.c          |  4 ++++
+ drivers/gpu/drm/drm_crtc.c          | 37 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_ioctl.c         | 13 ++++++++++
+ include/drm/drm_atomic.h            | 31 ++++++++++++++++++++++++
+ include/drm/drm_crtc.h              | 10 ++++++++
+ include/uapi/drm/drm.h              | 13 ++++++++++
+ 7 files changed, 117 insertions(+), 4 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
