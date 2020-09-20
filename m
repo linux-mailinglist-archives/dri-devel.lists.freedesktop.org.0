@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03512271C1D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 09:36:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4951271C07
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 09:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94F06E225;
-	Mon, 21 Sep 2020 07:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6E36E183;
+	Mon, 21 Sep 2020 07:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C018892E0;
- Sun, 20 Sep 2020 06:41:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 146F18966B;
+ Sun, 20 Sep 2020 08:49:23 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600584063;
+ s=2020; t=1600591762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CoLGj4bgeeSGrBtXaSAQtCzCSINs+vZ2LYYnDPrnZo8=;
- b=ZbudrrXW3BmBlMSesKPCFcaOuHlyqPwGJ2rDhOMbxt3mPAnInwIbTwlFWdXYV8k68cqtaX
- KfEuU6M33k6TNgEv2z3BoREDlGO2O9Fw5TgP2+5hcpWK7uStRqjbWtSKwO3gS4QCuyivwy
- 26cuDkJvS5X9yMAUHVa9s0UJUt+J6543xHxV5P3DaWXrCCPeOCRdXjTt3mHzSFT/GSvW6o
- JaVOcgOKbttRfnVUr6cHm/Y19mE/tWAhhxXhM/hU7XhieUh+8YV+lRCkQmefuoxYeKpcBS
- Vf7k79LGubJaArfFULHNmfuj7TyKvSea5/MDMs+6uMgB8Li/jQ7m/qvIhWo6HA==
+ bh=yl4SJva1ZaL/QSosb5XX7oiMR9yOUZ2hryRMeN6gUOs=;
+ b=h8jv+yltDHIngnBBGJjPbxbwRp4WWvfUYCE010JZcD8mxV4UaeO8dLdDu13Q2cG+LY8JOQ
+ h6npHbPhilGj3v1VUqWxvnxWjS/ksALdSUA+5C9fXgz9TR+62SaZPqFm9CDQlxwGmO5sxH
+ Og/nMSeW9my8zlDQTOZZtLu/e9zkMmPgdx5NK5E8Rcfn4iS1ni7EpBlci97FKZLWMkER3O
+ +JFJopKrMaT622cTfw+fq7PTs6AJTMpiNhuh5DlxWwRcA1+vumWCIqGRFavPq8Rwh2wOji
+ LMGpm7pbhOs/2HMUMaIGkJEZas3RBbG5QRgXaIHLQPqkcnXaia1X2M3U1G452Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600584063;
+ s=2020e; t=1600591762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CoLGj4bgeeSGrBtXaSAQtCzCSINs+vZ2LYYnDPrnZo8=;
- b=hJcFT5y1jFrtCoruYoZORnqggnYSJ5Wm/G+vHz1SccOLs4xq3SNs6bWtqMz5RIfu775hAi
- dKKPo41u4g/pn4AQ==
+ bh=yl4SJva1ZaL/QSosb5XX7oiMR9yOUZ2hryRMeN6gUOs=;
+ b=ZMmhQ6D75ka6LNiomg7OC2DwIv8yEqOFqmHU4LlJlX/duWyJlSPDqvfBsTbUq7MYp5KhFm
+ dW4ZRnByLA6ZBcCQ==
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
  kmap_atomic & friends
-In-Reply-To: <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+In-Reply-To: <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
 References: <20200919091751.011116649@linutronix.de>
  <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
-Date: Sun, 20 Sep 2020 08:41:02 +0200
-Message-ID: <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+Date: Sun, 20 Sep 2020 10:49:21 +0200
+Message-ID: <87k0wode9a.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 21 Sep 2020 07:34:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,84 +88,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 19 2020 at 10:18, Linus Torvalds wrote:
-> On Sat, Sep 19, 2020 at 2:50 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+On Sun, Sep 20 2020 at 08:41, Thomas Gleixner wrote:
+> On Sat, Sep 19 2020 at 10:18, Linus Torvalds wrote:
+>> Maybe I've missed something.  Is it because the new interface still
+>> does "pagefault_disable()" perhaps?
 >>
->> this provides a preemptible variant of kmap_atomic & related
->> interfaces. This is achieved by:
+>> But does it even need the pagefault_disable() at all? Yes, the
+>> *atomic* one obviously needed it. But why does this new one need to
+>> disable page faults?
 >
-> Ack. This looks really nice, even apart from the new capability.
+> It disables pagefaults because it can be called from atomic and
+> non-atomic context. That was the point to get rid of
 >
-> The only thing I really reacted to is that the name doesn't make sense
-> to me: "kmap_temporary()" seems a bit odd.
-
-Yeah. Couldn't come up with something useful.
-
-> Particularly for an interface that really is basically meant as a
-> better replacement of "kmap_atomic()" (but is perhaps also a better
-> replacement for "kmap()").
+>          if (preeemptible())
+>          	kmap();
+>          else
+>                 kmap_atomic();
 >
-> I think I understand how the name came about: I think the "temporary"
-> is there as a distinction from the "longterm" regular kmap(). So I
-> think it makes some sense from an internal implementation angle, but I
-> don't think it makes a lot of sense from an interface name.
->
-> I don't know what might be a better name, but if we want to emphasize
-> that it's thread-private and a one-off, maybe "local" would be a
-> better naming, and make it distinct from the "global" nature of the
-> old kmap() interface?
+> If it does not disable pagefaults, then it's just a lightweight variant
+> of kmap() for short lived mappings.
 
-Right, _local or _thread would be more intuitive.
+Actually most usage sites of kmap atomic do not need page faults to be
+disabled at all. As Daniel pointed out the implicit pagefault disable
+enforces copy_from_user_inatomic() even in places which are clearly
+preemptible task context.
 
-> However, another solution might be to just use this new preemptible
-> "local" kmap(), and remove the old global one entirely. Yes, the old
-> global one caches the page table mapping and that sounds really
-> efficient and nice. But it's actually horribly horribly bad, because
-> it means that we need to use locking for them. Your new "temporary"
-> implementation seems to be fundamentally better locking-wise, and only
-> need preemption disabling as locking (and is equally fast for the
-> non-highmem case).
->
-> So I wonder if the single-page TLB flush isn't a better model, and
-> whether it wouldn't be a lot simpler to just get rid of the old
-> complex kmap() entirely, and replace it with this?
->
-> I agree we can't replace the kmap_atomic() version, because maybe
-> people depend on the preemption disabling it also implied. But what
-> about replacing the non-atomic kmap()?
->
-> Maybe I've missed something.  Is it because the new interface still
-> does "pagefault_disable()" perhaps?
->
-> But does it even need the pagefault_disable() at all? Yes, the
-> *atomic* one obviously needed it. But why does this new one need to
-> disable page faults?
-
-It disables pagefaults because it can be called from atomic and
-non-atomic context. That was the point to get rid of
-
-         if (preeemptible())
-         	kmap();
-         else
-                kmap_atomic();
-
-If it does not disable pagefaults, then it's just a lightweight variant
-of kmap() for short lived mappings.
-
-> But apart from that question about naming (and perhaps replacing
-> kmap() entirely), I very much like it.
-
-I thought about it, but then I figured that kmap pointers can be
-handed to other contexts from the thread which sets up the mapping
-because it's 'permanent'.
-
-I'm not sure whether that actually happens, so we'd need to audit all
-kmap() users to be sure. If there is no such use case, then we surely
-can get of rid of kmap() completely. It's only 300+ instances to stare
-at and quite some of them are wrapped into other functions.
-
-Highmem sucks no matter what and the only sane solution is to remove it
-completely.
+As we need to look at each instance anyway we can add the PF disable
+explicitely to the very few places which actually need it.
 
 Thanks,
 
