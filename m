@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E8D2733B3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 22:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1132B2733BC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 22:44:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073FC6E07D;
-	Mon, 21 Sep 2020 20:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C370289F1B;
+	Mon, 21 Sep 2020 20:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4116C6E07D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 20:39:49 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id 77so8230412lfj.0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BKFgrSzh3CR2a5kqwdG0SseQYvO/gvpZ2oNSwM7Odnw=;
- b=ivMz11c0DZC4SwrM1y5LllakS0MN4lOSvJmS4Sh2MKocEvZkI4F+h2QsGoDBxwS0wK
- 82cUJChPGFy9Im+AFOuIB5JCCTSYqHcPMJ2etVZPnazUKjpv6QlS5TeYa2CvF6mW3Xin
- c20EnhACL33B0kzvOP0rI5lgtNHsXfNmO7A/yY5CKL4ow3nBZcrY2lOmde5S57+eaddb
- OvVg9AP1seDwxc99NMk7f5OH6bWbFyKoBuWdjZOXXGRHmlKg3UwPzH0+GV6ixMbhl/6N
- 4PMZHXcKUcYS46JYJTM4yi0hhwkaWI+0PjqOKFD1kwCmSOpZN2xL8JT5QVM3bO9lwuU8
- Xi3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BKFgrSzh3CR2a5kqwdG0SseQYvO/gvpZ2oNSwM7Odnw=;
- b=Vwvq2ZOXC7TdVxmTri31Ca0zt7rTTP1Fe4xRkNyMrMvfdO8INnMMrKOcT+c4g+EZ/X
- FoReW0w9UN5KJe+Pb+KyJUgwtPanuCIe1ikpDlXjzfre+l2ldLa8lT1fvsPMynuYUG9l
- sSZnGX5WOXlumGgg5OtlqB8FrmsXadQ/P+nSqRSnHGkyE3XROSraVbI2jaszu4uccDaH
- d6NIpqxOHQ9iGxH+NQUIGYFLSAf9z/jMZuq1EptaNuSKcdaNuzfHzbs/WVfsZbTHgB8F
- C+0l0Ug+HDVHeuPU3W+KKsOk4ZYavHxZsJKQo+hZDIcUsuKx3Hr8MBmxzJ2R1VBY/CNe
- apGw==
-X-Gm-Message-State: AOAM532SFjRJRPFBgHdMq7zUFoN+mDkIboECdoCAq2ysTs0tr4z/hoUZ
- wQV6idjND13wVTKpzEAEawZ6fQoXt1UUVGiEE0mtfQ==
-X-Google-Smtp-Source: ABdhPJwYVSHltY3th9CEo3qNJNhITzvPgcncUSbFODbhuE4Z8YRUO0nnLOKCQS36fRdYFem1iOMpkCKvNsOlOBRPJcw=
-X-Received: by 2002:a05:6512:370b:: with SMTP id
- z11mr489535lfr.571.1600720787591; 
- Mon, 21 Sep 2020 13:39:47 -0700 (PDT)
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61CEF89F1B;
+ Mon, 21 Sep 2020 20:44:38 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08LKdCRp085819;
+ Mon, 21 Sep 2020 20:44:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=7ujMtTvfd+IOkCnn7iI/GoTDPJ8pxvj1u7VSyDhDIiE=;
+ b=TgUfJcvqhnH4X5TErTOA7ctRXSXQGoVSuGYWQLux1TS6gP/EFUFQnZPW1RbI+0E3cL3B
+ in/KONvWNSkpL0McwdWOCYcEE71inohanA9TuEaBwbVsC+zymxPchZWkmSx8xBtSpz45
+ n4nSBlQUHVmHXIe079bdqGiphbvhJyNT4NA7Zc1AGj/hU0sZ8Gjz7k8rSC1nxwxqxoDc
+ M/3OmSs0Xen7YIDCD5IseKHAjxpvC1Wd93RKD+UTZE2zo/tF5x3Gs3ujB2MuqgPbpVVb
+ G2l9kt0/DZBWdfye+7ecmzj4ylCxjUBE6JtHlfJDOmpinNW39aF0e9JhEBK/pXjcS2Z0 kg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 33n9xks3vf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 21 Sep 2020 20:44:24 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08LKdmAx065052;
+ Mon, 21 Sep 2020 20:44:24 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 33nuw1usdt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Sep 2020 20:44:24 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08LKiFvM023808;
+ Mon, 21 Sep 2020 20:44:20 GMT
+Received: from [10.74.86.189] (/10.74.86.189)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 21 Sep 2020 13:44:14 -0700
+Subject: Re: [PATCH 6/6] x86/xen: open code alloc_vm_area in arch_gnttab_valloc
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
+References: <20200918163724.2511-1-hch@lst.de>
+ <20200918163724.2511-7-hch@lst.de>
+From: boris.ostrovsky@oracle.com
+Organization: Oracle Corporation
+Message-ID: <0833b9a8-5096-d105-a850-1336150eada1@oracle.com>
+Date: Mon, 21 Sep 2020 16:44:10 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.2.1
 MIME-Version: 1.0
-References: <20200916132301.2914017-1-yanaijie@huawei.com>
-In-Reply-To: <20200916132301.2914017-1-yanaijie@huawei.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 21 Sep 2020 22:39:36 +0200
-Message-ID: <CACRpkdZwwkiET_2h3B1rvcfM=SUMaOC8py8c6O6EYHh2Kc-hoA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/panel: samsung: make vint_table static const
-To: Jason Yan <yanaijie@huawei.com>
+In-Reply-To: <20200918163724.2511-7-hch@lst.de>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9751
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 malwarescore=0
+ mlxscore=0 suspectscore=2 adultscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009210152
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9751
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 malwarescore=0
+ suspectscore=2 priorityscore=1501 adultscore=0 spamscore=0 clxscore=1011
+ mlxlogscore=999 bulkscore=0 mlxscore=0 phishscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009210152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,35 +82,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Hulk Robot <hulkci@huawei.com>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, linux-mm@kvack.org,
+ Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ xen-devel@lists.xenproject.org, Nitin Gupta <ngupta@vflare.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 16, 2020 at 3:22 PM Jason Yan <yanaijie@huawei.com> wrote:
-
-> This eliminates the following sparse warning:
->
-> drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c:217:15: warning: symbol
-> 'vint_table' was not declared. Should it be static?
->
-> While at it, make the table const as it is never modified.
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Jason Yan <yanaijie@huawei.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Patch applied to drm-misc-next.
-
-Yours,
-Linus Walleij
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDkvMTgvMjAgMTI6MzcgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+ICAKPiArc3Rh
+dGljIGludCBnbnR0YWJfYXBwbHkocHRlX3QgKnB0ZSwgdW5zaWduZWQgbG9uZyBhZGRyLCB2b2lk
+ICpkYXRhKQo+ICt7Cj4gKwlwdGVfdCAqKipwID0gZGF0YTsKPiArCj4gKwkqKnAgPSBwdGU7Cj4g
+KwkoKnApKys7Cj4gKwlyZXR1cm4gMDsKPiArfQo+ICsKPiAgc3RhdGljIGludCBhcmNoX2dudHRh
+Yl92YWxsb2Moc3RydWN0IGdudHRhYl92bV9hcmVhICphcmVhLCB1bnNpZ25lZCBucl9mcmFtZXMp
+Cj4gIHsKPiAgCWFyZWEtPnB0ZXMgPSBrbWFsbG9jX2FycmF5KG5yX2ZyYW1lcywgc2l6ZW9mKCph
+cmVhLT5wdGVzKSwgR0ZQX0tFUk5FTCk7Cj4gIAlpZiAoYXJlYS0+cHRlcyA9PSBOVUxMKQo+ICAJ
+CXJldHVybiAtRU5PTUVNOwo+IC0KPiAtCWFyZWEtPmFyZWEgPSBhbGxvY192bV9hcmVhKFBBR0Vf
+U0laRSAqIG5yX2ZyYW1lcywgYXJlYS0+cHRlcyk7Cj4gLQlpZiAoYXJlYS0+YXJlYSA9PSBOVUxM
+KSB7Cj4gLQkJa2ZyZWUoYXJlYS0+cHRlcyk7Cj4gLQkJcmV0dXJuIC1FTk9NRU07Cj4gLQl9Cj4g
+LQo+ICsJYXJlYS0+YXJlYSA9IGdldF92bV9hcmVhKFBBR0VfU0laRSAqIG5yX2ZyYW1lcywgVk1f
+SU9SRU1BUCk7Cj4gKwlpZiAoIWFyZWEtPmFyZWEpCj4gKwkJZ290byBvdXRfZnJlZV9wdGVzOwo+
+ICsJaWYgKGFwcGx5X3RvX3BhZ2VfcmFuZ2UoJmluaXRfbW0sICh1bnNpZ25lZCBsb25nKWFyZWEt
+PmFyZWEtPmFkZHIsCj4gKwkJCVBBR0VfU0laRSAqIG5yX2ZyYW1lcywgZ250dGFiX2FwcGx5LCAm
+YXJlYS0+cHRlcykpCgoKVGhpcyB3aWxsIGVuZCB1cCBpbmNyZW1lbnRpbmcgYXJlYS0+cHRlcyBw
+b2ludGVyLiBTbyBwZXJoYXBzIHNvbWV0aGluZyBsaWtlCgoKcHRlX3QgKipwdGVzID0gYXJlYS0+
+cHRlczsKCmlmIChhcHBseV90b19wYWdlX3JhbmdlKCZpbml0X21tLCAodW5zaWduZWQgbG9uZylh
+cmVhLT5hcmVhLT5hZGRyLArCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIFBBR0VfU0laRSAqIG5yX2ZyYW1lcywgZ250dGFiX2FwcGx5LCAmcHRlcykpIHsKCsKg
+wqDCoMKgwqDCoCAuLi4KCn0KCgotYm9yaXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
