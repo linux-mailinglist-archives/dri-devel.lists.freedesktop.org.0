@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC30F273C49
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:46:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CDD273C76
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 575D16E087;
-	Tue, 22 Sep 2020 07:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28C306E7EA;
+	Tue, 22 Sep 2020 07:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E546E24B
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 08:02:20 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id E0748222A75F2A36BE81;
- Mon, 21 Sep 2020 16:02:15 +0800 (CST)
-Received: from huawei.com (10.175.113.32) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
- 16:02:07 +0800
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0121E6E23F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 08:02:31 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id B9DCD56D65C1DD58DE1D;
+ Mon, 21 Sep 2020 16:02:28 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
+ 16:02:18 +0800
 From: Liu Shixin <liushixin2@huawei.com>
-To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/ast: simplify the return expression of ast_*
- function
-Date: Mon, 21 Sep 2020 16:24:32 +0800
-Message-ID: <20200921082432.2591253-1-liushixin2@huawei.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH -next] omapfb: simplify the return expression of
+ panel_dpi_connect
+Date: Mon, 21 Sep 2020 16:24:43 +0800
+Message-ID: <20200921082443.2591721-1-liushixin2@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.113.32]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:36 +0000
+X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,7 +41,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Shixin <liushixin2@huawei.com>, linux-kernel@vger.kernel.org,
+Cc: Liu Shixin <liushixin2@huawei.com>, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -53,55 +53,31 @@ Simplify the return expression.
 
 Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/gpu/drm/ast/ast_drv.c  | 7 +------
- drivers/gpu/drm/ast/ast_mode.c | 7 +------
- 2 files changed, 2 insertions(+), 12 deletions(-)
+ drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index f0b4af1c390a..a2a3f32260f9 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -160,15 +160,10 @@ static int ast_drm_thaw(struct drm_device *dev)
- 
- static int ast_drm_resume(struct drm_device *dev)
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c
+index 37c9f5bfaefe..ff3d1e8e1e7b 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c
+@@ -37,16 +37,11 @@ static int panel_dpi_connect(struct omap_dss_device *dssdev)
  {
--	int ret;
--
- 	if (pci_enable_device(dev->pdev))
- 		return -EIO;
+ 	struct panel_drv_data *ddata = to_panel_data(dssdev);
+ 	struct omap_dss_device *in = ddata->in;
+-	int r;
  
--	ret = ast_drm_thaw(dev);
--	if (ret)
--		return ret;
--	return 0;
-+	return ast_drm_thaw(dev);
- }
- 
- static int ast_pm_suspend(struct device *dev)
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 834a156e3a75..4dca4ff01d41 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -636,18 +636,13 @@ ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
- 	struct drm_framebuffer *fb = new_state->fb;
- 	struct drm_crtc *crtc = new_state->crtc;
- 	struct ast_private *ast;
--	int ret;
- 
- 	if (!crtc || !fb)
+ 	if (omapdss_device_is_connected(dssdev))
  		return 0;
  
- 	ast = to_ast_private(plane->dev);
- 
--	ret = ast_cursor_blit(ast, fb);
--	if (ret)
--		return ret;
+-	r = in->ops.dpi->connect(in, dssdev);
+-	if (r)
+-		return r;
 -
 -	return 0;
-+	return ast_cursor_blit(ast, fb);
++	return in->ops.dpi->connect(in, dssdev);
  }
  
- static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
+ static void panel_dpi_disconnect(struct omap_dss_device *dssdev)
 -- 
 2.25.1
 
