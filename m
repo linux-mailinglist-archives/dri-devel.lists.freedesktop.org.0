@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1449E27332F
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 21:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75107273360
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 21:58:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBA46E563;
-	Mon, 21 Sep 2020 19:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6AE96E56A;
+	Mon, 21 Sep 2020 19:58:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2EC56E563;
- Mon, 21 Sep 2020 19:55:12 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id e17so688359wme.0;
- Mon, 21 Sep 2020 12:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YnHM6Hb2y75zAmIL8oMRMNOuTr0UGFyFVBu7fGiSews=;
- b=p6FPH/bXd02fVePtnRBJz3I1Vs4o+uGl8AUxVqGp329LcXDKk3VCkOUKY3G/kkIwtm
- YUgnsCOjAv+E1XErdswu98/iRlqOni8BJyXmyFKLOSCAZuWbBvDo+nlrhcrdSju/el56
- KdNQPfu3WsQ7Iv6ki9szDXn51b1CU2ZJhA//wUd+jeaBb5URBSMRk3k/F3WEbX4c3cYA
- RYdXPuj87JW6/RPe0xxa+3sfNf+iHaGdPgqQUt86/QnRXzVFMX9DltQFNLgdM+byistd
- huKGd258rIEXAmf3fIuhrCtS34bcMMGf30hnGmAgqiYZo7/yyug5WUMH2r3EXvmi5Vhu
- +fcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YnHM6Hb2y75zAmIL8oMRMNOuTr0UGFyFVBu7fGiSews=;
- b=kIGlqGUsfrev0RVDDjXy5GJzHWdpgGvzjhT9cXhGsTJk2be52iln8sHr4tempReN7T
- kWjN1LYqSr5OA5JL9p19q947qdCFMHDEvFU3JAJ1skSUZJUZESqCKRdkQxqHsqbp3jiv
- 9EbkDozY963CHeaLKzd05aQBTPIfbf1MTlGiPw7rdr3TleNRWVa70xFgwj5hSIXjWGcY
- JfqLFxjoXA0JykvsQ0InQtntfwEXJXLTtkuqKwK8g14Ou/ly5deDN/rUCGHCwCPHwZWe
- igjHJKQMQk3MwS3x9pX8tnFKLd62qkzZV14czK3zydGs9ZFOwd/GURusEWbGwCBnOh1x
- A8jA==
-X-Gm-Message-State: AOAM531bVDglbwZEA9UqirRhRaPn4p9kFr6ePDhNnOXep9veoub6ssOj
- QC8ILdH8+UQMySdM41hY7vkQUJ7B3hiv+IPjMKs=
-X-Google-Smtp-Source: ABdhPJwZgwV6vkAAjowteBj5ihZxbhwD17IBcHMtzvMBYdjNxn4Ob2SIcxa+cIei8JjO78UQaTrO9VPBs6T/VC7upMk=
-X-Received: by 2002:a1c:7d4d:: with SMTP id y74mr912983wmc.73.1600718111467;
- Mon, 21 Sep 2020 12:55:11 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727CE6E56A;
+ Mon, 21 Sep 2020 19:58:27 +0000 (UTC)
+IronPort-SDR: nBQfGYUes1e3liXo9/LS2tkDLbWYUVn0IbEjgy3mCye26RTIjNdhS8CZcZOzOVc2WiYhVVXLEt
+ eL6fjVpAGahA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="161391853"
+X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; d="scan'208";a="161391853"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2020 12:58:26 -0700
+IronPort-SDR: uOMQ77kzm8Nf+yWek1kTuScXulU6TmYu78CjdACPceLW7H1QaWd6t0P9Uf87NBJvd3fOhvq6oe
+ f2Bh5k5J2ZCg==
+X-IronPort-AV: E=Sophos;i="5.77,287,1596524400"; d="scan'208";a="485647918"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2020 12:58:25 -0700
+Date: Mon, 21 Sep 2020 12:58:25 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+Message-ID: <20200921195824.GM2540965@iweiny-DESK2.sc.intel.com>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <20200919173906.GQ32101@casper.infradead.org>
 MIME-Version: 1.0
-References: <20200915071820.76620-1-sudheesh.mavila@amd.com>
- <888285ed-62e9-53d7-7fde-e40ac64bc5a4@amd.com>
-In-Reply-To: <888285ed-62e9-53d7-7fde-e40ac64bc5a4@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 21 Sep 2020 15:55:00 -0400
-Message-ID: <CADnq5_NWnMraD_WPoms0G-bqmNxf7tN86h34Dm1Z+6ZTeqqzNg@mail.gmail.com>
-Subject: Re: [PATCH v1 ] drm/amd/pm: Removed fixed clock in auto mode DPM
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200919173906.GQ32101@casper.infradead.org>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +52,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
- Jason Yan <yanaijie@huawei.com>, Dave Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, zhengbin <zhengbin13@huawei.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Sudheesh Mavila <sudheesh.mavila@amd.com>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
+ Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZCB3aXRoIGZpeGVkIHVwIHdoaXRlc3BhY2UuCgpUaGFua3MsCgpBbGV4CgpPbiBUdWUs
-IFNlcCAxNSwgMjAyMCBhdCAzOjQ1IEFNIENocmlzdGlhbiBLw7ZuaWcKPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBBbSAxNS4wOS4yMCB1bSAwOToxOCBzY2hyaWViIFN1ZGhl
-ZXNoIE1hdmlsYToKPiA+ICAgICAgU01VMTBfVU1EX1BTVEFURV9QRUFLX0ZDTEsgdmFsdWUgc2hv
-dWxkIG5vdCBiZSB1c2VkIHRvIHNldCB0aGUgRFBNLgo+ID4KPiA+ICAgICAgQ2hhbmdlICBzdWdn
-ZXN0ZWQgYnkgRXZhbi5RdWFuQGFtZC5jb20KPgo+IENhbid0IHNheSBtdWNoIGFib3V0IHRoZSBj
-aGFuZ2UgaXRzZWxmLCBidXQgdGhlIENvbW1pdCBtZXNzYWdlIGlzCj4gaW5kZW50ZWQgYW5kIHRo
-ZSBpbmRlbnRhdGlvbiBpbiB0aGUgY29kZSBkb2Vzbid0IGxvb2sgY29uc2lzdGVudCBlaXRoZXIu
-Cj4KPiBDaHJpc3RpYW4uCj4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBTdWRoZWVzaCBNYXZpbGEg
-PHN1ZGhlZXNoLm1hdmlsYUBhbWQuY29tPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdyLmMgfCAxMCArKysrKystLS0tCj4gPiAgIDEg
-ZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdy
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci9zbXUxMF9od21nci5jCj4g
-PiBpbmRleCBjOWNmZTkwYTI5NDcuLjA4MWNiOWIxYjdjOCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdyLmMKPiA+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdyLmMKPiA+IEBAIC01
-NjYsNiArNTY2LDggQEAgc3RhdGljIGludCBzbXUxMF9kcG1fZm9yY2VfZHBtX2xldmVsKHN0cnVj
-dCBwcF9od21nciAqaHdtZ3IsCj4gPiAgICAgICBzdHJ1Y3Qgc211MTBfaHdtZ3IgKmRhdGEgPSBo
-d21nci0+YmFja2VuZDsKPiA+ICAgICAgIHVpbnQzMl90IG1pbl9zY2xrID0gaHdtZ3ItPmRpc3Bs
-YXlfY29uZmlnLT5taW5fY29yZV9zZXRfY2xvY2s7Cj4gPiAgICAgICB1aW50MzJfdCBtaW5fbWNs
-ayA9IGh3bWdyLT5kaXNwbGF5X2NvbmZpZy0+bWluX21lbV9zZXRfY2xvY2svMTAwOwo+ID4gKyAg
-ICAgdWludDMyX3QgaW5kZXhfZmNsayA9IGRhdGEtPmNsb2NrX3ZvbF9pbmZvLnZkZF9kZXBfb25f
-ZmNsay0+Y291bnQgLSAxOwo+ID4gKyAgICAgdWludDMyX3QgaW5kZXhfc29jY2xrID0gZGF0YS0+
-Y2xvY2tfdm9sX2luZm8udmRkX2RlcF9vbl9zb2NjbGstPmNvdW50IC0gMTsKPiA+Cj4gPiAgICAg
-ICBpZiAoaHdtZ3ItPnNtdV92ZXJzaW9uIDwgMHgxRTM3MDApIHsKPiA+ICAgICAgICAgICAgICAg
-cHJfaW5mbygic211IGZpcm13YXJlIHZlcnNpb24gdG9vIG9sZCwgY2FuIG5vdCBzZXQgZHBtIGxl
-dmVsXG4iKTsKPiA+IEBAIC02NzksMTMgKzY4MSwxMyBAQCBzdGF0aWMgaW50IHNtdTEwX2RwbV9m
-b3JjZV9kcG1fbGV2ZWwoc3RydWN0IHBwX2h3bWdyICpod21nciwKPiA+ICAgICAgICAgICAgICAg
-c211bV9zZW5kX21zZ190b19zbWNfd2l0aF9wYXJhbWV0ZXIoaHdtZ3IsCj4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUFBTTUNfTVNHX1NldEhhcmRNaW5G
-Y2xrQnlGcmVxLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGh3bWdyLT5kaXNwbGF5X2NvbmZpZy0+bnVtX2Rpc3BsYXkgPiAzID8KPiA+IC0gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTTVUxMF9VTURfUFNUQVRFX1BF
-QUtfRkNMSyA6Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRhdGEt
-PmNsb2NrX3ZvbF9pbmZvLnZkZF9kZXBfb25fZmNsay0+ZW50cmllc1swXS5jbGsgOgo+ID4gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1pbl9tY2xrLAo+ID4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5VTEwpOwo+ID4K
-PiA+ICAgICAgICAgICAgICAgc211bV9zZW5kX21zZ190b19zbWNfd2l0aF9wYXJhbWV0ZXIoaHdt
-Z3IsCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUFBT
-TUNfTVNHX1NldEhhcmRNaW5Tb2NjbGtCeUZyZXEsCj4gPiAtICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgU01VMTBfVU1EX1BTVEFURV9NSU5fU09DQ0xLLAo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkYXRhLT5jbG9ja192b2xfaW5m
-by52ZGRfZGVwX29uX3NvY2Nsay0+ZW50cmllc1swXS5jbGssCj4gPiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTlVMTCk7Cj4gPiAgICAgICAgICAgICAgIHNt
-dW1fc2VuZF9tc2dfdG9fc21jX3dpdGhfcGFyYW1ldGVyKGh3bWdyLAo+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBQU01DX01TR19TZXRIYXJkTWluVmNu
-LAo+ID4gQEAgLTY5OCwxMSArNzAwLDExIEBAIHN0YXRpYyBpbnQgc211MTBfZHBtX2ZvcmNlX2Rw
-bV9sZXZlbChzdHJ1Y3QgcHBfaHdtZ3IgKmh3bWdyLAo+ID4gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIE5VTEwpOwo+ID4gICAgICAgICAgICAgICBzbXVtX3Nl
-bmRfbXNnX3RvX3NtY193aXRoX3BhcmFtZXRlcihod21nciwKPiA+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBQUFNNQ19NU0dfU2V0U29mdE1heEZjbGtCeUZy
-ZXEsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU01V
-MTBfVU1EX1BTVEFURV9QRUFLX0ZDTEssCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBkYXRhLT5jbG9ja192b2xfaW5mby52ZGRfZGVwX29uX2ZjbGstPmVudHJpZXNbaW5kZXhfZmNs
-a10uY2xrLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IE5VTEwpOwo+ID4gICAgICAgICAgICAgICBzbXVtX3NlbmRfbXNnX3RvX3NtY193aXRoX3BhcmFt
-ZXRlcihod21nciwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBQUFNNQ19NU0dfU2V0U29mdE1heFNvY2Nsa0J5RnJlcSwKPiA+IC0gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTTVUxMF9VTURfUFNUQVRFX1BFQUtfU09D
-Q0xLLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGF0YS0+Y2xvY2tfdm9sX2lu
-Zm8udmRkX2RlcF9vbl9zb2NjbGstPmVudHJpZXNbaW5kZXhfc29jY2xrXS5jbGssCj4gPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTlVMTCk7Cj4gPiAgICAg
-ICAgICAgICAgIHNtdW1fc2VuZF9tc2dfdG9fc21jX3dpdGhfcGFyYW1ldGVyKGh3bWdyLAo+ID4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBQU01DX01TR19T
-ZXRTb2Z0TWF4VmNuLAo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KPiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9h
-bWQtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Sat, Sep 19, 2020 at 06:39:06PM +0100, Matthew Wilcox wrote:
+> On Sat, Sep 19, 2020 at 10:18:54AM -0700, Linus Torvalds wrote:
+> > On Sat, Sep 19, 2020 at 2:50 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > >
+> > > this provides a preemptible variant of kmap_atomic & related
+> > > interfaces. This is achieved by:
+> > 
+> > Ack. This looks really nice, even apart from the new capability.
+> > 
+> > The only thing I really reacted to is that the name doesn't make sense
+> > to me: "kmap_temporary()" seems a bit odd.
+> > 
+> > Particularly for an interface that really is basically meant as a
+> > better replacement of "kmap_atomic()" (but is perhaps also a better
+> > replacement for "kmap()").
+> > 
+> > I think I understand how the name came about: I think the "temporary"
+> > is there as a distinction from the "longterm" regular kmap(). So I
+> > think it makes some sense from an internal implementation angle, but I
+> > don't think it makes a lot of sense from an interface name.
+> > 
+> > I don't know what might be a better name, but if we want to emphasize
+> > that it's thread-private and a one-off, maybe "local" would be a
+> > better naming, and make it distinct from the "global" nature of the
+> > old kmap() interface?
+> > 
+> > However, another solution might be to just use this new preemptible
+> > "local" kmap(), and remove the old global one entirely. Yes, the old
+> > global one caches the page table mapping and that sounds really
+> > efficient and nice. But it's actually horribly horribly bad, because
+> > it means that we need to use locking for them. Your new "temporary"
+> > implementation seems to be fundamentally better locking-wise, and only
+> > need preemption disabling as locking (and is equally fast for the
+> > non-highmem case).
+> > 
+> > So I wonder if the single-page TLB flush isn't a better model, and
+> > whether it wouldn't be a lot simpler to just get rid of the old
+> > complex kmap() entirely, and replace it with this?
+> > 
+> > I agree we can't replace the kmap_atomic() version, because maybe
+> > people depend on the preemption disabling it also implied. But what
+> > about replacing the non-atomic kmap()?
+> 
+> My concern with that is people might use kmap() and then pass the address
+> to a different task.  So we need to audit the current users of kmap()
+> and convert any that do that into using vmap() instead.
+> 
+
+I've done some of this work.[3]  PKS and pmem stray write protection[2] depend
+on kmap to enable the correct PKS settings.  After working through the
+exception handling we realized that some users of kmap() seem to be doing just
+this; passing the address to a different task.
+
+From what I have found ~90% of kmap() callers are 'kmap_thread()' and the other
+~10% are kmap().[3]  But of those 10% I'm not familiar with the code enough to
+know if they really require a 'global' map.  What I do know is they save an
+address which appears to be used in other threads.  But I could be wrong.
+
+For PKS I added a 'global' implementation which could then be called by kmap()
+and added a new kmap_thread() call which used the original 'local' version of
+the PKS interface.  The PKS work is still being reviewed internally for the TIP
+core code.  But I've pushed it all to git hub for purposes of this
+discussion.[1]
+
+> I like kmap_local().  Or kmap_thread().
+
+I chose kmap_thread() so that makes sense to me.  I also thought about using
+kmap_global() as an alternative interface which would change just ~10% of the
+callers and make the series much smaller.  But internal discussions lead me to
+chose kmap_thread() as the new interface so that we don't change the semantics
+of kmap().
+
+Ira
+
+
+[1] https://github.com/weiny2/linux-kernel/tree/lm-pks-pmem-for-5.10-v3
+
+[2] https://lore.kernel.org/lkml/20200717072056.73134-1-ira.weiny@intel.com/
+
+[3]
+12:42:06 > git grep ' kmap(' *.c | grep -v '* ' | wc -l
+22
+
+12:43:32 > git grep ' kmap_thread(' *.c | grep -v '* ' | wc -l
+204
+
+Here are the callers which hand an address to another thread.
+
+12:45:25 > git grep ' kmap(' *.c | grep -v '* '
+arch/x86/mm/dump_pagetables.c:  [PKMAP_BASE_NR]         = { 0UL, "Persistent kmap() Area" },
+drivers/firewire/net.c:         ptr = kmap(dev->broadcast_rcv_buffer.pages[u]);
+drivers/gpu/drm/i915/gem/i915_gem_pages.c:              return kmap(sg_page(sgt->sgl));
+drivers/gpu/drm/i915/selftests/i915_perf.c:     scratch = kmap(ce->vm->scratch[0].base.page);
+drivers/gpu/drm/ttm/ttm_bo_util.c:              map->virtual = kmap(map->page);
+drivers/infiniband/hw/qib/qib_user_sdma.c:      mpage = kmap(page);
+drivers/misc/vmw_vmci/vmci_host.c:      context->notify = kmap(context->notify_page) + (uva & (PAGE_SIZE - 1));
+drivers/misc/xilinx_sdfec.c:            addr = kmap(pages[i]);
+drivers/mmc/host/usdhi6rol0.c:  host->pg.mapped         = kmap(host->pg.page);
+drivers/mmc/host/usdhi6rol0.c:  host->pg.mapped = kmap(host->pg.page);
+drivers/mmc/host/usdhi6rol0.c:  host->pg.mapped = kmap(host->pg.page);
+drivers/nvme/target/tcp.c:              iov->iov_base = kmap(sg_page(sg)) + sg->offset + sg_offset;
+drivers/scsi/libiscsi_tcp.c:            segment->sg_mapped = kmap(sg_page(sg));
+drivers/target/iscsi/iscsi_target.c:            iov[i].iov_base = kmap(sg_page(sg)) + sg->offset + page_off;
+drivers/target/target_core_transport.c:         return kmap(sg_page(sg)) + sg->offset;
+fs/btrfs/check-integrity.c:             block_ctx->datav[i] = kmap(block_ctx->pagev[i]);
+fs/ceph/dir.c:          cache_ctl->dentries = kmap(cache_ctl->page);
+fs/ceph/inode.c:                ctl->dentries = kmap(ctl->page);
+lib/scatterlist.c:              miter->addr = kmap(miter->page) + miter->__offset;
+net/ceph/pagelist.c:    pl->mapped_tail = kmap(page);
+net/ceph/pagelist.c:            pl->mapped_tail = kmap(page);
+virt/kvm/kvm_main.c:                    hva = kmap(page);
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
