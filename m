@@ -1,73 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36E8273196
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 20:11:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 795572731B3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 20:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E92A89322;
-	Mon, 21 Sep 2020 18:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9C006E519;
+	Mon, 21 Sep 2020 18:13:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFDA189E39
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 18:11:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A490A6E51A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 18:13:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600711890;
+ s=mimecast20190719; t=1600712003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hzvH6M5RSxqUJheqam9teVH+K2DUCz1tE6f6TiNbWPw=;
- b=BCKlTpHPCFRlhJHnopItAQKJSuzSa+VWG6QkK4Z7RzNs0EbqJOlgQGj9L4nmqnkDuL4efQ
- 84TbWhIY2ol7JVFplJ+9qIbQJtsDAv2QuTtPN4g23ZXGdvmeot4o9Kc4hYBT6hcnOgnRcm
- nY+TAt38RLt65RZ00TOlxkM909OzByA=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-V9Za0qjdPJ-LaLx90avUng-1; Mon, 21 Sep 2020 14:11:27 -0400
-X-MC-Unique: V9Za0qjdPJ-LaLx90avUng-1
-Received: by mail-qk1-f197.google.com with SMTP id 196so11563414qkn.6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 11:11:27 -0700 (PDT)
+ bh=8F5wpeF1GBgsrB1xCZMnCrLJFZZfmfwKArOQA+2WnqI=;
+ b=biJYtNK7NI6DvPVu/K2eglfCQfOOJ29XDij8dJp4/U2F6e4n3+GJ0EUqOD9Npk+8ITw14Z
+ ZixpAT0EKXBCWnHK/1zX4q/cgydtWCWeoAjLEMKEsro50YRULLSbyxZ5qrXaSGws2i1cX3
+ NQN01gX/HZadObERKhszRra3eavAUYg=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-W50YUGazOaa1N8Afu7k-og-1; Mon, 21 Sep 2020 14:13:22 -0400
+X-MC-Unique: W50YUGazOaa1N8Afu7k-og-1
+Received: by mail-qt1-f199.google.com with SMTP id r22so13668953qtc.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 11:13:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=hzvH6M5RSxqUJheqam9teVH+K2DUCz1tE6f6TiNbWPw=;
- b=hKFoSm8WeuQCDuET+mDNjC/aqIr8eT4MmCl+zlRsaho4aHaCJV8eOFWA0LUzuz2pgc
- 7zjlYxnGkvjkYaLNfFJwi7MbEyNyg3rxfIxA+gt+P/bgOoP4k9AJQZNeeZ7da2C67xhU
- w6TzJMX3duABbtUobP97s1o4gSv3ym8GOz9MjXPE/H+pwTV+A1BSdHFza+rXOLa6obLQ
- e9pViKL2pi/oUAlC8r/BoB0pt0U+noCverRP+v0X1bC9Qu1cLtamb1SHK3w5JuYPINGH
- QQ0Tvp/pDZcaNAJMM6HG1LYjk28EV3G/8URp7A7HoimPLSa9sNHv4bkR9y0oU49PNkWi
- bfkw==
-X-Gm-Message-State: AOAM532uOyAA/X6Zi+SqAu+LvSuk1/wLjwiFk/oWrfzF6+a0GH3/N1mk
- Pcm9kqwL2knKPNzlkKxhWYoPxSgXzRpsJA+8ucvx3kMDTv8eO0lyWVAIiZYeusj4YPkBkBz+VRu
- ROeBg/PTITf0zdg+E8PYZKk+nFQF5
-X-Received: by 2002:a05:620a:2082:: with SMTP id
- e2mr946138qka.421.1600711887008; 
- Mon, 21 Sep 2020 11:11:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/oz4y6Z65wyb8f5zL7wKknzmLX9r92w2Ax5gyx/tNEa9pPfRMQdZpq/i5rbwajLKLCWY+7A==
-X-Received: by 2002:a05:620a:2082:: with SMTP id
- e2mr946109qka.421.1600711886653; 
- Mon, 21 Sep 2020 11:11:26 -0700 (PDT)
+ bh=8F5wpeF1GBgsrB1xCZMnCrLJFZZfmfwKArOQA+2WnqI=;
+ b=n+sKkAoEtigTBth4tcvdu9soCee4HJMpg6zZREVeRBOy2nqr64BlNqvIUu9gz43Wv5
+ gP9d7b768B4pr5qpH9GIZ6aEvA4QKqqjPjcVLLgLsBD7+jOLyLpwexoqmz+IygkzWdel
+ Lfz39d0vPDGo50MWbDtRqdg6pmx0DOoBoYrgKaaN5OWmQjiD2nzomGBGKnXReZKDyvey
+ KGOjD+aQ3ATJWrG2b+5PnzDvmSYtxyLPH4SbFI/wBwAK48Ltn7hnR3B7R3d0cgM1CKb6
+ BGld5ImCsbMGTBYNbPWtTt4n79lu7DNt8MkhGo+w52UD1KSf2reNc44BXwsZvLjCpjXV
+ dlHg==
+X-Gm-Message-State: AOAM5304MqS1Zq0lJDj9ff2dDvJRATGhz7tNP9ieFO3GY/ej9k+NxRP3
+ GmcX9D1iM4/xT/oWIS2Y/KQPaMh1qZGpyGVoxuLfDJf5xr9lYwNlos5ZPoSlrpjksVEPn3KTemQ
+ IC1Gvk7qJJqvB8DJnmeHUL4t4QooK
+X-Received: by 2002:ad4:42a5:: with SMTP id e5mr1294634qvr.58.1600712001528;
+ Mon, 21 Sep 2020 11:13:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4HmD2czcEycYpzXGKM90KRmi9nizWQSnFZMEaNWx8kqZgIP1iydPcYOGb8uZXRLTrWbk4Pw==
+X-Received: by 2002:ad4:42a5:: with SMTP id e5mr1294616qvr.58.1600712001308;
+ Mon, 21 Sep 2020 11:13:21 -0700 (PDT)
 Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
  [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id t26sm9703493qkt.29.2020.09.21.11.11.24
+ by smtp.gmail.com with ESMTPSA id l21sm9624117qkl.128.2020.09.21.11.13.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 11:11:25 -0700 (PDT)
-Message-ID: <5f99b65c8a092df343c68249f2bce62e4cd0abff.camel@redhat.com>
-Subject: Re: [PATCH v3] drm/dp_mst: Retrieve extended DPCD caps for topology
- manager
+ Mon, 21 Sep 2020 11:13:20 -0700 (PDT)
+Message-ID: <3df7f6ec13348537bec5e0736563616e9ed05c28.camel@redhat.com>
+Subject: Re: [PATCH] drm/dp: start using more of the extended receiver caps
 From: Lyude Paul <lyude@redhat.com>
-To: Koba Ko <koba.ko@canonical.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,  dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Date: Mon, 21 Sep 2020 14:11:24 -0400
-In-Reply-To: <20200911034431.29059-1-koba.ko@canonical.com>
-References: <20200911034431.29059-1-koba.ko@canonical.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Mon, 21 Sep 2020 14:13:19 -0400
+In-Reply-To: <87d0354bqi.fsf@intel.com>
+References: <20200901123226.4177-1-jani.nikula@intel.com>
+ <c4b9aa428ccfa90cb29845f622eba8923eeb2e38.camel@redhat.com>
+ <87d0354bqi.fsf@intel.com>
 Organization: Red Hat
 User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
@@ -87,73 +83,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anthony.wong@canonical.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, sorry I lost track of this until just now. Comments down below:
-
-On Fri, 2020-09-11 at 11:44 +0800, Koba Ko wrote:
-> As per DP-1.3, First check DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT.
-> If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 1, read the DP_DP13_DPCD_REV to
-> get the faster capability.
-> If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 0, read DP_DPCD_REV.
+On Tue, 2020-09-01 at 21:01 +0300, Jani Nikula wrote:
+> On Tue, 01 Sep 2020, Lyude Paul <lyude@redhat.com> wrote:
+> > On Tue, 2020-09-01 at 15:32 +0300, Jani Nikula wrote:
+> > > In the future, we'll be needing more of the extended receiver capability
+> > > field starting at DPCD address 0x2200. (Specifically, we'll need main
+> > > link channel coding cap for DP 2.0.) Start using it now to not miss out
+> > > later on.
+> > > 
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> > > 
+> > > ---
+> > > 
+> > > I guess this can be merged after the topic branch to drm-misc-next or
+> > > so, but I'd prefer to have this fairly early on to catch any potential
+> > > issues.
+> > > ---
+> > >  drivers/gpu/drm/drm_dp_helper.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_dp_helper.c
+> > > b/drivers/gpu/drm/drm_dp_helper.c
+> > > index 1e7c638873c8..3a3c238452df 100644
+> > > --- a/drivers/gpu/drm/drm_dp_helper.c
+> > > +++ b/drivers/gpu/drm/drm_dp_helper.c
+> > > @@ -436,7 +436,7 @@ static u8 drm_dp_downstream_port_count(const u8
+> > > dpcd[DP_RECEIVER_CAP_SIZE])
+> > >  static int drm_dp_read_extended_dpcd_caps(struct drm_dp_aux *aux,
+> > >  					  u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> > >  {
+> > > -	u8 dpcd_ext[6];
+> > > +	u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
+> > 
+> > Not 100% sure this is right? It's not clear at first glance of the 2.0
+> > spec, but
+> > my assumption would be that on < DP2.0 devices that everything but those
+> > first 6
+> > bytes are zeroed out in the extended DPRX field. Since we memcpy()
+> > dpcd_ext
+> > using sizeof(dpcd_ext), we'd potentially end up zeroing out all of the
+> > DPCD caps
+> > that comes after those 6 bytes.
 > 
-> Signed-off-by: Koba Ko <koba.ko@canonical.com>
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> ---
-> Changelog:
-> 1. Adjust the commit message.
-> 2. use drm_dbg_kms instead and print the return code.
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
+> Re-reading stuff... AFAICT everything in 0x2200..0x220F should be
+> valid. They should match what's in 0x0000..0x000F except for 0x0000,
+> 0x0001, and 0x0005, for backwards compatibility.
 > 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 7753c718ddf9..63f8809b9aa4 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -3671,8 +3671,6 @@ EXPORT_SYMBOL(drm_dp_read_mst_cap);
->  int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr,
-> bool mst_state)
->  {
->  	int ret = 0;
-> -	u8 dpcd_ext = 0;
-> -	unsigned int dpcd_offset = 0;
->  	struct drm_dp_mst_branch *mstb = NULL;
->  
->  	mutex_lock(&mgr->payload_lock);
-> @@ -3686,17 +3684,11 @@ int drm_dp_mst_topology_mgr_set_mst(struct
-> drm_dp_mst_topology_mgr *mgr, bool ms
->  		struct drm_dp_payload reset_pay;
->  
->  		WARN_ON(mgr->mst_primary);
-> -		drm_dp_dpcd_read(mgr->aux,
-> -				 DP_TRAINING_AUX_RD_INTERVAL,
-> -				 &dpcd_ext, sizeof(dpcd_ext));
-> -
-> -		dpcd_offset =
-> -			((dpcd_ext & DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT)
-> ?  DP_DP13_DPCD_REV : DP_DPCD_REV);
+> Apparently there are no such backwards compatibility concerns with the
+> other receiver cap fields then.
+> 
+> But it gives me an uneasy feeling that many places in the spec refer to
+> 0x2200+ even though they should per spec be the same in 0x0000+.
+> 
+> I guess we can try without the change, and fix later if we hit issues.
 
-
-Uh, are you sure you formatted this patch correctly? None of these hunks are present upstream, this looks like it's a diff for the previous version of this patch that you sent out
->  
->  		/* get dpcd info */
-> -		ret = drm_dp_dpcd_read(mgr->aux, dpcd_offset, mgr->dpcd,
-> DP_RECEIVER_CAP_SIZE);
-> -		if (ret != DP_RECEIVER_CAP_SIZE) {
-> -			DRM_DEBUG_KMS("failed to read DPCD\n");
-> +		ret = drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd);
-> +		if (ret < 0) {
-> +			drm_dbg_kms(mgr->dev, "failed to read DPCD, ret %d\n",
-> ret);
->  			goto out_unlock;
->  		}
->  
+I'm fine with the change if it doesn't break things btw - just as long as
+we're making sure that we don't zero things out by accident
+> 
+> 
+> BR,
+> Jani.
+> 
 -- 
 Cheers,
 	Lyude Paul (she/her)
