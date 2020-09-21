@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2638E271F62
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 11:56:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2741A271F7E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 11:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683F789CE1;
-	Mon, 21 Sep 2020 09:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 159CC6E049;
+	Mon, 21 Sep 2020 09:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F08589CE1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 09:55:42 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id q9so11493888wmj.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 02:55:42 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC9B6E048
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 09:58:45 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id m6so12072167wrn.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 02:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GaxluQbCWl8Dbx46f9g0kwkbD7hwOAcaKSW3MFS4O6M=;
- b=rHpm4dZTQAvi5cH1dWmMUoBVjZCdepg8Ixa37P50FlkVn3ltfLcL6bWksRDMnVLGvM
- EdWIL+JHxNWYJiPsJpaloTiWbb1N4kHZr74BK1HL2cVypDIi6iGHjndJ7KKIZN1h708u
- ddGhT9TI7WPUoEnSwIVcyX9joNiTkqU6i0fLQdFIg/XdzymNO9i+F9KLUXnFb6M7vVCT
- lv7SosBae7O4/GJt0i04Svn7AaghWY2b/cMsgYs7p33Xq08TSbnrW1LSSrtFQ1MOjY/b
- RHkhCie56axWenlr0DEeHMlO/7RUExVEp1ubozVIXZR+BeLOLVGBNtaHNm87UXC+zuai
- 5yjg==
+ bh=etrKK7AWdfHjQZEPismEwo+emoOyvv0qi7+F3B83LVc=;
+ b=Xts2EYRCG2w/N/OJ3fzl0hqzFwPYIKoTP8Iu9CNGknrkIr7OED5hp9VtlxxGsivMC/
+ h8K0NEYmPbf6k2V5m68i9IK5ShbEibz6yprtkDRjJi3eX5TJup4nCZFMCEhiea3aVwmy
+ r8zZbsBZ5a+W60MViEURcsIlHAO36SKE53DgfDGKJcfkpKkTq98GI6v5FC4z3q9L5MHI
+ evDxAZSs1TuuX3YoEMy/t0F0uoY4zxXZE+ps3PAAWXmPYGqdL+hlKulY2ZfWXpolPjCR
+ UFt1r2g4zZM09jEL7jtjN3Z5zsWe0Y5uMg149UfQL6rRlpARBhfXUTPU0ITvJwisVLpP
+ JB0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=GaxluQbCWl8Dbx46f9g0kwkbD7hwOAcaKSW3MFS4O6M=;
- b=CIil67dJvqaGBjNz0s2SSLcFPOLE32QMJiKL3KwchbhbAuyEe9y9utCI//CFWLKnP/
- YW3ayqUa1MGa/V8JxSxvseUAgGKPCC+8RwGlElAuuS/SYt1mO+kHDcRsRENwFejkLZ3a
- 4aZsNH3Bo8M5KtC+bHGsUFHHmAhcYl7mgLco3spJP4qsw09XZMhLtQN59oX2ngcP1TTs
- QJzr9x+o7VTEsyRFaQfMKtkvIbe7oxDNoTxg4Eq2GI1uzvdo4HnLpGQ+orGoQ4+0tWQW
- 7odre1Cy8dih33ar6nt8j7SRcDKU9PAQKzn2rM5aTdet0adlt75GZ/E//svlOB8HwwWX
- 4xIQ==
-X-Gm-Message-State: AOAM5335OWG0DDD5ai6HW5tGk6DN5TSSeP4VOkoFOu0beH2M5E040jbM
- zG3AO7ATVHeQNWBls1LQg3yB9A==
-X-Google-Smtp-Source: ABdhPJygdx0iH12EpEZJwXyGZjj678KXxWjnyIJlKn0Z4o7uAiCHiUCo/CmrLWEYKrK2GHA9CIQJ1g==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr30098044wms.77.1600682140930; 
- Mon, 21 Sep 2020 02:55:40 -0700 (PDT)
+ bh=etrKK7AWdfHjQZEPismEwo+emoOyvv0qi7+F3B83LVc=;
+ b=KdCRB44K3J/qUZ+RKnvrYQKuZ5gg4NOX4Ijx5Ni0eeRsDHu3XvgVWabSPtiC34JRUk
+ 7Uy+kqJ1FFi+MoKqAIJw3cwqeZD+7HOxXe8g3/CW3K+JWtJva5bvfvp2KY58mdqVLZRl
+ L3Cl2T0OVHMpmon2P1fEKw0l3iHvUePn4gXkJXQfX+7ZbIpeeSAaQNnnNNWejRlYdQVv
+ rAstWbFxZDNPvTsqmGgG8KN2SidClEFP5B3QxYaqilYvRM8TCMD9vocIz1giB5MOAEiU
+ kbwk80//xdBSHNL3ZgwczqXm/wCk197nZJJ46i4aNFV3ar5gATMloytcHMY2u8a7/na+
+ ERpA==
+X-Gm-Message-State: AOAM532RDeWK7+oe6jWMQFu3YJvnsWfnmBnR9X7jUSi0CGH90Hg40uLb
+ LyY9+2Go0i1u14n9vrrla+nWsg==
+X-Google-Smtp-Source: ABdhPJzDQJjbohCSh9mQgFAafRTgPqozjjSiyF6xbtKdoQjdLehDaCVbpplUKF3fyqRhP1sdxEVsTg==
+X-Received: by 2002:a5d:6ac9:: with SMTP id u9mr28205701wrw.46.1600682323904; 
+ Mon, 21 Sep 2020 02:58:43 -0700 (PDT)
 Received: from [192.168.1.23] (home.beaume.starnux.net. [82.236.8.43])
- by smtp.gmail.com with ESMTPSA id a83sm18889799wmh.48.2020.09.21.02.55.38
+ by smtp.gmail.com with ESMTPSA id l19sm18823113wmi.8.2020.09.21.02.58.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Sep 2020 02:55:40 -0700 (PDT)
+ Mon, 21 Sep 2020 02:58:43 -0700 (PDT)
 Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Use kmemdup cf. kmalloc+memcpy
 To: Daniel Vetter <daniel@ffwll.ch>, Alex Dewar <alex.dewar90@gmail.com>
 References: <20200909190213.156302-1-alex.dewar90@gmail.com>
@@ -105,8 +105,8 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <78fd6e3a-6226-30b0-3bdd-84662d69ff88@baylibre.com>
-Date: Mon, 21 Sep 2020 11:55:38 +0200
+Message-ID: <7450528b-4204-ce6e-63ed-0976ba412dd5@baylibre.com>
+Date: Mon, 21 Sep 2020 11:58:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -181,7 +181,23 @@ On 20/09/2020 10:24, Daniel Vetter wrote:
 > -Daniel
 > 
 
-Applying now,
+Hmm, I applied this already:
+commit 33f290811d4c1a09c4e92f5bf0458525835dbcba
+Author: Alex Dewar <alex.dewar90@gmail.com>
+Date:   Wed Sep 9 20:02:08 2020 +0100
+
+    drm/bridge: dw-mipi-dsi: Use kmemdup cf. kmalloc+memcpy
+
+    kmemdup can be used instead of kmalloc+memcpy. Replace an occurrence of
+    this pattern.
+
+    Issue identified with Coccinelle.
+
+    Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
+    Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+    Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+    Link: https://patchwork.freedesktop.org/patch/msgid/20200909190213.156302-1-alex.dewar90@gmail.com
+
 Neil
 _______________________________________________
 dri-devel mailing list
