@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C97272580
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 15:27:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3D32725E4
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 15:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2259E6E2C0;
-	Mon, 21 Sep 2020 13:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40DAC6E34A;
+	Mon, 21 Sep 2020 13:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2416E2C0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:27:28 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id j2so12763074wrx.7
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 06:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=HKuU7JpLVU1PBj0jVIiCYxaLdFW/3Q4BrrvDHD/vFoM=;
- b=OjQfWOUGvS8vKD9rbIR3dJ08HDqYyREm1W/mAagKqnDl5qbkExQCWwYZwcwFzhW65d
- g+Krd0TSRSxmSrLmG6cwCGyArGhLNgVenAI6YgNEnXNPtw23BOsaJO0VC7UU2Y5zSUdU
- rHAXp2SzBL1sypBzEQA4T1xshK4AyA/D+UrLvtXtSaA+uzbKNY73Su/HeflR8CA84G90
- VfCB6s0zz4KPl0Cwl9UwkuWJqvZyf9D7xEVBidkz+JvQp/0NyCZYzCiB9lUdCN6iuhkn
- g+xG6BlS2ZsJgg1brj/iE8PJSnzt0f4pXsxdNx1aw7OLlUkVYqNxlSjmj4PgaX39GVhd
- SOPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=HKuU7JpLVU1PBj0jVIiCYxaLdFW/3Q4BrrvDHD/vFoM=;
- b=iyLHtcvnONXLxu9diFAX6Kr4D/s2H5PGR+auycKAP0rka4sXsk8MlD1tjqJHQmqTOK
- HL/iMAnoP7rl4wg3FLwlmIagRttWR+JAKTNCiOiJYRrSXT9uIvMQEVx+jiVfXGejuBXs
- Q0knUM286C8YwvDXJadowF8GIwXDF5NQmz9MG8VdPkWnDHvCkmHVofaN4aFIv6CIiUaO
- mJ9eObhKot3DFcanlKLAq5t6XMWtYJ5UzwQKyvqnE2WOvAZG2Fp4FgRt39xBvvkwgKl6
- +XDfgClpeJUi2WlXBvHV10AZ7rwbjyBGST7Y4xu6weQb7R0W6rOrsiLBqO7uwRGXH29/
- xLRw==
-X-Gm-Message-State: AOAM531UiYvYIh4F3eAeuVE9da+KFWMHK9jC+U0FnIBlHSNqf65fgzQR
- zgzDpQgyza6xgbELqZpCfyk=
-X-Google-Smtp-Source: ABdhPJwJAX4uVUX9aZ28FDXcSgA2gQ7vMBWi02ddoeec32uIkuLkE6NsU4P9DPevFlyqPCzJ83M1gw==
-X-Received: by 2002:adf:e690:: with SMTP id r16mr52023767wrm.15.1600694847222; 
- Mon, 21 Sep 2020 06:27:27 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id g14sm21591201wrv.25.2020.09.21.06.27.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 06:27:25 -0700 (PDT)
-Date: Mon, 21 Sep 2020 15:27:24 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH -next] gpu: host1x: simplify the return expression of
- host1x_cdma_init()
-Message-ID: <20200921132724.GC3955907@ulmo>
-References: <20200921131032.91972-1-miaoqinglang@huawei.com>
- <4378d69a-2338-779f-ab4d-3c64fbf7dfd3@kapsi.fi>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E426E34A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:40:30 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08LDe2ft052643;
+ Mon, 21 Sep 2020 08:40:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1600695602;
+ bh=AXdoqzco7TbaWou99N2XIIUtMQZd77nIXrviH2W24/A=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=YOgaj0O9zkuoslIVf0Y+mvdEZ0T93AgMdgfUgmMmhSt20QKE6C1NkzAv2KKo2AyhL
+ ilkrzOCVm/XX/jKiylUkE6wRntf2lTGKaCrkky0BFKCRkwol14ycpcWCCfQXtWc2DP
+ HVGI9epioE8fjfEaLkEybRXDkRXPr46HfKrZVfA0=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08LDe2MI045174
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 21 Sep 2020 08:40:02 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 21
+ Sep 2020 08:40:01 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 21 Sep 2020 08:40:01 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08LDe0TH075950;
+ Mon, 21 Sep 2020 08:40:00 -0500
+Subject: Re: [PATCH -next] drm: omapdrm: dss: simplify the return expression
+ of hdmi_init_pll_data
+To: Qinglang Miao <miaoqinglang@huawei.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20200921131015.91422-1-miaoqinglang@huawei.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <1f22b1c4-d92e-2dc8-7052-f6df23a187a6@ti.com>
+Date: Mon, 21 Sep 2020 16:39:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <4378d69a-2338-779f-ab4d-3c64fbf7dfd3@kapsi.fi>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <20200921131015.91422-1-miaoqinglang@huawei.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,96 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Qinglang Miao <miaoqinglang@huawei.com>, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1065764125=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============1065764125==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5QAgd0e35j3NYeGe"
-Content-Disposition: inline
+On 21/09/2020 16:10, Qinglang Miao wrote:
+> Simplify the return expression.
+> 
+> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/hdmi_pll.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c b/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
+> index cf2b000f3..c3e85b636 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
+> @@ -131,7 +131,6 @@ static int hdmi_init_pll_data(struct dss_device *dss,
+>  {
+>  	struct dss_pll *pll = &hpll->pll;
+>  	struct clk *clk;
+> -	int r;
+>  
+>  	clk = devm_clk_get(&pdev->dev, "sys_clk");
+>  	if (IS_ERR(clk)) {
+> @@ -151,11 +150,7 @@ static int hdmi_init_pll_data(struct dss_device *dss,
+>  
+>  	pll->ops = &hdmi_pll_ops;
+>  
+> -	r = dss_pll_register(dss, pll);
+> -	if (r)
+> -		return r;
+> -
+> -	return 0;
+> +	return dss_pll_register(dss, pll);
+>  }
+>  
+>  int hdmi_pll_init(struct dss_device *dss, struct platform_device *pdev,
+> 
 
+I like it more when there's a return 0 at the end of the function, especially in functions where
+there are multiple cases of if(...) return r. It's more easily readable, at least to my eyes.
 
---5QAgd0e35j3NYeGe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ Tomi
 
-On Mon, Sep 21, 2020 at 04:12:20PM +0300, Mikko Perttunen wrote:
-> On 9/21/20 4:10 PM, Qinglang Miao wrote:
-> > Simplify the return expression.
-> >=20
-> > Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
-> > ---
-> >   drivers/gpu/host1x/cdma.c | 8 +-------
-> >   1 file changed, 1 insertion(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/host1x/cdma.c b/drivers/gpu/host1x/cdma.c
-> > index e8d3fda91..08a0f9e10 100644
-> > --- a/drivers/gpu/host1x/cdma.c
-> > +++ b/drivers/gpu/host1x/cdma.c
-> > @@ -448,8 +448,6 @@ void host1x_cdma_update_sync_queue(struct host1x_cd=
-ma *cdma,
-> >    */
-> >   int host1x_cdma_init(struct host1x_cdma *cdma)
-> >   {
-> > -	int err;
-> > -
-> >   	mutex_init(&cdma->lock);
-> >   	init_completion(&cdma->complete);
-> > @@ -459,11 +457,7 @@ int host1x_cdma_init(struct host1x_cdma *cdma)
-> >   	cdma->running =3D false;
-> >   	cdma->torndown =3D false;
-> > -	err =3D host1x_pushbuffer_init(&cdma->push_buffer);
-> > -	if (err)
-> > -		return err;
-> > -
-> > -	return 0;
-> > +	return host1x_pushbuffer_init(&cdma->push_buffer);
->=20
-> IMHO, this makes it less readable since now it kind of looks like
-> host1x_pushbuffer_init is returning some meaningful value, instead of the
-> code just handling error values in a sequence.
-
-Agreed. Collapsing the error handling like this also makes adding code
-to the bottom of this function more complicated than necessary.
-
-Thierry
-
---5QAgd0e35j3NYeGe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9oqjoACgkQ3SOs138+
-s6G9VBAAwKVijJXmqtUarO6foeE0wYjzdiAw+S3cuykrlg/Ji+72FwUlyjGRympc
-NEzmcqnFQkYFQjNoNQNToHEni79t2WL2XmhUzElTmrkYxR5xAgwC149EOuLQXLnl
-c+FLhNe6udpnt4DHTtqcL1AZRWRA+JZ02lPpObT5MzQj/t5XN8/cjgtamZbH1FHN
-moaFT24SQ1V1D1wlCBan1aze4ruCppchbklRpuChNSS11loqp/Ywb3pnKlz5y+2J
-xL0pVwAezOefXyJjk0TfRjYD1KvO+htYOhDJ8R71z04VpgT0vv9dlfWvzA4GUsBB
-Su6w0ndEaFqw4dStkIuVFyF5jBS+idCw5r8B4GUSgBgpMxa41xmHRfVwVaD6Zab1
-mX3dAswkmq9g6Z5lsXswI23BCb7v6vdh4zsvpU3dlG6CgE237cnZSZgfo2oPtsNZ
-+DhjSxo4ZbnWFjU8U9MTxWi0kEXC7yZMmkw2RLCx+LDFMSAKOqNFXESfHSQoutQD
-rpOedKlY1YIamxTeUD8jT0qvKR4mufH/O4XNUZTU2TPdI0ONMiIA+23McNr6RmrF
-zOHwgWQUn8lYFhlgw7WtN6RXzR2Cr6Za/ekMPeAJRLwIGV9w0H6ZgmJYcA+ii4FX
-fNZQHGdlivmzHPOcXFATqQgFEaAR8pUBSdnGu5CrWhXq4BpcpSk=
-=SQV7
------END PGP SIGNATURE-----
-
---5QAgd0e35j3NYeGe--
-
---===============1065764125==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1065764125==--
