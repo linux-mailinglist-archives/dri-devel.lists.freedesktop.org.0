@@ -1,39 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2945272F4F
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 18:56:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0A2273096
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 19:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815ED6E4E3;
-	Mon, 21 Sep 2020 16:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B3A6E4FF;
+	Mon, 21 Sep 2020 17:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12A36E27F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 16:55:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 1C5B3FB02;
- Mon, 21 Sep 2020 18:55:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LDczi--xHyzy; Mon, 21 Sep 2020 18:55:55 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 11CD7457CD; Mon, 21 Sep 2020 18:55:53 +0200 (CEST)
-From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 3/3] dt-binding: display: Require two rests on mantix
- panel
-Date: Mon, 21 Sep 2020 18:55:52 +0200
-Message-Id: <71a9108f3472ba9af4bead01b1b770d1e73eb08e.1600707235.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1600707235.git.agx@sigxcpu.org>
-References: <cover.1600707235.git.agx@sigxcpu.org>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 780CD6E4FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 17:06:08 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id d15so14839262lfq.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 10:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8wJgx44R5NKEt8ZxeLzaDEWfeS0v7G2Y9ErgN5IEyXg=;
+ b=mNzQWgo+B1fYnaeTLARkCvewjZg9HcnUglJrVlEkdaZTsCBIwUdVhKu5NsKRipjeQl
+ +1Wb3BXlWXspQ2UTLhPpdoU9WPdPtcVRDOjY1+OHzOIPtdUKC3zdTjFu8H9kkPgrxw7z
+ 2EcpQhxo/HWFLZuFnAdTDEcWg9CAwLZU8KXlDofQqam3nJYziheaG1pj/UunWc8rNMio
+ abvFCVFfgLLT6dMxNQacRIhRtFiYHhHIcjWuS6yhs3ZjH87yQMtBVelNSq13ro/Zai38
+ 0fqd0ADEiyc4SFMVvin6lcxWOWmCnUl5oWu34M0fJozt9u0cvg2ZG8TIraFXcnL3jIhu
+ UqCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8wJgx44R5NKEt8ZxeLzaDEWfeS0v7G2Y9ErgN5IEyXg=;
+ b=IVuTYxf0RZwN/tn74x0YJ2jART3lOe35bOTZ1aoOGh2JRjw1yyoTDZTI8sHx8bF8/8
+ 3wUcNT56mpMbKCNgOOljFY6VvveyrXINd2hOYyM5TGgVc+jW2Q/Uq2JleWisKkv4SXzz
+ vAfru8bbUbjBr0abxI+KlKYNdfvzAO4JSu3dc97ful5dRib/mLXy2nTd91GWfQuFCYq6
+ AJ/50dQIgv4/nP+KJkB0bPV7X32fipgVy6bpqU4BqYu7Zn/z7mJXF18T/Ei0H9+dr+7n
+ 6ns9Uo4dDC342yRA87ZVDuyFOspItUuQyvjHTKy2bMbCvrCeSFb8PT75s6jGCcgpF5Kf
+ /7Hg==
+X-Gm-Message-State: AOAM530iZdqbiieW4XB9fPZPvKrBBAv/StOrveNKheD6Q/fNyZ6OuSAZ
+ yKdGYNzIAoXzjPkUhW1thixIQyaqB0Fw0WETvEc=
+X-Google-Smtp-Source: ABdhPJy8Jx5FwPowb4x2/95hAu/YP49gaxE6kf58oAxWBlMcnqfEtK51ywXCEko0zW0B8PeMXMJkQu5o+HuhTqI2OmY=
+X-Received: by 2002:a19:820c:: with SMTP id e12mr262729lfd.215.1600707966915; 
+ Mon, 21 Sep 2020 10:06:06 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1600707235.git.agx@sigxcpu.org>
+ <71a9108f3472ba9af4bead01b1b770d1e73eb08e.1600707235.git.agx@sigxcpu.org>
+In-Reply-To: <71a9108f3472ba9af4bead01b1b770d1e73eb08e.1600707235.git.agx@sigxcpu.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 21 Sep 2020 14:05:55 -0300
+Message-ID: <CAOMZO5B5ECcConvKej=RcaF8wvOxgq7nUzKJ-ad0aSAOzUqtbQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 3/3] dt-binding: display: Require two rests on
+ mantix panel
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,32 +63,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgbmVlZCB0byByZXNldCBib3RoIGZvciB0aGUgcGFuZWwgdG8gc2hvdyBhbiBpbWFnZS4KClNp
-Z25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+Ci0tLQogLi4uL2Jp
-bmRpbmdzL2Rpc3BsYXkvcGFuZWwvbWFudGl4LG1sYWYwNTd3ZTUxLXgueWFtbCAgICAgICB8IDcg
-KysrKystLQogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9w
-YW5lbC9tYW50aXgsbWxhZjA1N3dlNTEteC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbWFudGl4LG1sYWYwNTd3ZTUxLXgueWFtbAppbmRleCA5
-MzczMjNjYzlhYWEuLmJhNWExOGZhYzlmOSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbWFudGl4LG1sYWYwNTd3ZTUxLXgueWFtbAor
-KysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9tYW50
-aXgsbWxhZjA1N3dlNTEteC55YW1sCkBAIC0zNSw3ICszNSw5IEBAIHByb3BlcnRpZXM6CiAgIHZk
-ZGktc3VwcGx5OgogICAgIGRlc2NyaXB0aW9uOiAxLjhWIEkvTyB2b2x0YWdlIHN1cHBseQogCi0g
-IHJlc2V0LWdwaW9zOiB0cnVlCisgIHJlc2V0LWdwaW9zOgorICAgIG1pbkl0ZW1zOiAyCisgICAg
-bWF4SXRlbXM6IDIKIAogICBiYWNrbGlnaHQ6IHRydWUKIApAQCAtNjIsNyArNjQsOCBAQCBleGFt
-cGxlczoKICAgICAgICAgICAgIGF2ZGQtc3VwcGx5ID0gPCZyZWdfYXZkZD47CiAgICAgICAgICAg
-ICBhdmVlLXN1cHBseSA9IDwmcmVnX2F2ZWU+OwogICAgICAgICAgICAgdmRkaS1zdXBwbHkgPSA8
-JnJlZ18xdjhfcD47Ci0gICAgICAgICAgICByZXNldC1ncGlvcyA9IDwmZ3BpbzEgMjkgR1BJT19B
-Q1RJVkVfTE9XPjsKKyAgICAgICAgICAgIHJlc2V0LWdwaW9zID0gPCZncGlvMSAyOSBHUElPX0FD
-VElWRV9MT1c+LAorICAgICAgICAgICAgICAgICAgICAgICAgICA8JmdwaW8xIDI0IEdQSU9fQUNU
-SVZFX0xPVz47CiAgICAgICAgICAgICBiYWNrbGlnaHQgPSA8JmJhY2tsaWdodD47CiAgICAgICAg
-IH07CiAgICAgfTsKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+SGkgR3VpZG8sCgpPbiBNb24sIFNlcCAyMSwgMjAyMCBhdCAxOjU2IFBNIEd1aWRvIEfDvG50aGVy
+IDxhZ3hAc2lneGNwdS5vcmc+IHdyb3RlOgo+Cj4gV2UgbmVlZCB0byByZXNldCBib3RoIGZvciB0
+aGUgcGFuZWwgdG8gc2hvdyBhbiBpbWFnZS4KClRoZXJlIGlzIGEgdHlwbyBpbiAicmVzZXRzIiBp
+biB0aGUgU3ViamVjdCBsaW5lLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
