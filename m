@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C5B273C50
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:46:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B43E273C8A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:49:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F486E0E6;
-	Tue, 22 Sep 2020 07:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF1F6E82D;
+	Tue, 22 Sep 2020 07:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0014C89A5C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 18:18:28 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id s13so420658wmh.4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 11:18:28 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEB1989A5C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 18:18:30 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id e11so522167wme.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 11:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A1MQxxkBThDiurj1v2jhCnceLVLB/fGM4hxv7q+SCYY=;
- b=Jo7iHJOCck6o7eEnd+5pX9prtparE7DUushGGX5zieZVkWYeruvuLW89Pl6KE41MOM
- kISKm7ZBw/mss7rigBz3FgEnn7Kqy1QUnOJGwY89uQzQiAFS1z+9kfeQheqf7xghjR9B
- NT69XADwIeDGX0rv23yLg7NnMx+BL3fB8TrYBJqXm5yVFgCZKEWkxjhW7wyXH3LIy1/p
- qhGDLG7Ql2QtJL6ga6+9DRhVkofGkLtarUMiHIfYGc+MTzHw6VEqK3Icq7U/Tp7gR3UP
- oxChnT8yniIqa8g+FpaKCDwV1qZzytN0NdluY/gSYqhgTpWDw3j8eCgU6j4WkZX2JBZs
- Mo+g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wN1VQcr5gopN//+YP1c+kyMLVVksKqlHg3J3zrz7FOU=;
+ b=k8ytlwjsFo4BX7JUh7CapBzDGKRouXqIq9lZRGGlkP3m84azSYvitonhDLI+f0lqEx
+ hIUX1oEPHGxhWhptxVKAHTYTJ5ECdL4IZZ89GbFr+XImQxZBn2eedIMpr1Jk1BGSohAm
+ zZnEj8y3JuJO8a4zR5HmoSEq2R9/ygi3Sz884uloe2ckSJEqy2UE6VE7ug8jOn2aVKIT
+ cUYxsW8blV8BPFeIUUFBVG/eebmKS7TOCS4BdFhKdmxOUuhG9m+LpsgaXZXjZwG8yUhz
+ aSzn1x4rbgQUMkTbauI0jscb4TDFn8r6q3xrshq9B+sc6vRZx6xzdkAmZXPUN7ujw/dB
+ N33Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A1MQxxkBThDiurj1v2jhCnceLVLB/fGM4hxv7q+SCYY=;
- b=IZJwDrNVHEDAFbh/GCDgaf1/R7l8j2SdgCvLfxZ1hpfvvu+nzPg2HYHmBJSaXVcWhy
- ee60rumlb+hOqZTgnRtq3Jzz6k9acArL0z+lHgAUSGQhee6wqvamJ2t7Ocb0FbzNQZst
- tJvthNuujFe0LxVezx8HJBEl4Z/rpHSDuUEdbzBQq47u0A9vBcP1LuGtW+eEWLY7AgoP
- bWIZsc89CvY3hlneSsGDn9Rq7wAogvb57UpCUURir/0oapZnHLN2k92YqiQdK5ysLLPy
- SONtCkjj6YtgrZfw5accZ51SS+WFuZ7Sj67vViLAOwlQ0nXZbppQefli4NKmRoRXR389
- Y+zg==
-X-Gm-Message-State: AOAM5308jFJvBOM6rl/kG3ckbDS+2AVCLPN0xV2gNI0W8MAszZczBuVb
- dNrHxM2seFFXW17s5Bf6ljw=
-X-Google-Smtp-Source: ABdhPJzovgLUVrfshcXNKGJlgkuOJ9nLWi6qMfYi/YQ+Z/7uKl5Iv6EsKAxZiQe7OgRFA96Yf6ctWg==
-X-Received: by 2002:a1c:9c8c:: with SMTP id f134mr601309wme.27.1600712307674; 
- Mon, 21 Sep 2020 11:18:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wN1VQcr5gopN//+YP1c+kyMLVVksKqlHg3J3zrz7FOU=;
+ b=r0mV4sHD/deLkSAgKnln4qit/Mffs9qeUB+oBvZe8i9px5HdGW3Z+D7UqYqb81Fyhf
+ 8i4gN+70T8iHgR8HJnhrtyo+XSCyWGSseag//LXh2wS1ekgVSPNloO7Ps0bE8zhnGfh2
+ 6jKg/n60U47RS2uldEutL3qp03PQsQy9flcy5xMtR8GDyFxRkKqbZTlZ0/Dnz432nImD
+ EdAlSm+LfrrtAzDTYRX/ApkRNjgazHCmbDA1f8k/k7fxPQ8VH3CbcjTxkp9HTWPMTWEj
+ /MPtUPu80QfJh90/4Ld0jbo4/9q352siCWz5ekDdmB1m24Bwm2/txlyASbu0jmZj9NIT
+ 0MDA==
+X-Gm-Message-State: AOAM532uV9CvwGqqAQ9vAj2fiq6GJBpYYGdgfFA8UrG6BRBOmsmlrA4W
+ wMHkw6VSvhnfOeJoyFBMFtE=
+X-Google-Smtp-Source: ABdhPJwsqIQmUMoz2qqPyu7m3k2+6Iq+CcK5QecIPbZOLTffC9yTCP7aw529i0+eO1s8CZ8xoLOeDA==
+X-Received: by 2002:a7b:c215:: with SMTP id x21mr607808wmi.138.1600712308906; 
+ Mon, 21 Sep 2020 11:18:28 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.46.69])
- by smtp.gmail.com with ESMTPSA id h16sm23523249wre.87.2020.09.21.11.18.26
+ by smtp.gmail.com with ESMTPSA id h16sm23523249wre.87.2020.09.21.11.18.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 11:18:26 -0700 (PDT)
+ Mon, 21 Sep 2020 11:18:28 -0700 (PDT)
 From: Vicente Bergas <vicencb@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH 0/3] drm: rockchip: hdmi: enable higher resolutions than FHD
-Date: Mon, 21 Sep 2020 20:18:00 +0200
-Message-Id: <20200921181803.1160-1-vicencb@gmail.com>
+Subject: [PATCH 1/3] drm: rockchip: hdmi: remove vop_crtc_mode_fixup to fix
+ clock handling
+Date: Mon, 21 Sep 2020 20:18:01 +0200
+Message-Id: <20200921181803.1160-2-vicencb@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200921181803.1160-1-vicencb@gmail.com>
+References: <20200921181803.1160-1-vicencb@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,18 +77,83 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series enable a QHD HDMI monitor to work at native resolution.
-Tested on a Sapphire board with RK3399 connected to a Q27q-10 monitor at 2560x1440@60
+Under certain conditions vop_crtc_mode_fixup rounds the clock
+148500000 to 148501000 which leads to the following error:
+dwhdmi-rockchip ff940000.hdmi: PHY configuration failed (clock 148501000)
 
-Vicente Bergas (3):
-  drm: rockchip: remove vop_crtc_mode_fixup to fix clock handling
-  drm: rockchip: HDMI: allow any clock that is within the range
-  drm: rockchip: HDMI: add higher pixel clock frequencies
+The issue was found on RK3399 booting with u-boot. U-boot configures the
+display at 2560x1440 and then linux comes up with a black screen.
+A workaround was to un-plug and re-plug the HDMI display.
 
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  8 +++-
+Signed-off-by: Vicente Bergas <vicencb@gmail.com>
+Tested-by: Vicente Bergas <vicencb@gmail.com>
+---
  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 45 ---------------------
- 2 files changed, 7 insertions(+), 46 deletions(-)
+ 1 file changed, 45 deletions(-)
 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index c80f7d9fd13f..fe80da652994 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1142,50 +1142,6 @@ static void vop_crtc_disable_vblank(struct drm_crtc *crtc)
+ 	spin_unlock_irqrestore(&vop->irq_lock, flags);
+ }
+ 
+-static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+-				const struct drm_display_mode *mode,
+-				struct drm_display_mode *adjusted_mode)
+-{
+-	struct vop *vop = to_vop(crtc);
+-	unsigned long rate;
+-
+-	/*
+-	 * Clock craziness.
+-	 *
+-	 * Key points:
+-	 *
+-	 * - DRM works in in kHz.
+-	 * - Clock framework works in Hz.
+-	 * - Rockchip's clock driver picks the clock rate that is the
+-	 *   same _OR LOWER_ than the one requested.
+-	 *
+-	 * Action plan:
+-	 *
+-	 * 1. When DRM gives us a mode, we should add 999 Hz to it.  That way
+-	 *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells us to
+-	 *    make 60000 kHz then the clock framework will actually give us
+-	 *    the right clock.
+-	 *
+-	 *    NOTE: if the PLL (maybe through a divider) could actually make
+-	 *    a clock rate 999 Hz higher instead of the one we want then this
+-	 *    could be a problem.  Unfortunately there's not much we can do
+-	 *    since it's baked into DRM to use kHz.  It shouldn't matter in
+-	 *    practice since Rockchip PLLs are controlled by tables and
+-	 *    even if there is a divider in the middle I wouldn't expect PLL
+-	 *    rates in the table that are just a few kHz different.
+-	 *
+-	 * 2. Get the clock framework to round the rate for us to tell us
+-	 *    what it will actually make.
+-	 *
+-	 * 3. Store the rounded up rate so that we don't need to worry about
+-	 *    this in the actual clk_set_rate().
+-	 */
+-	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
+-	adjusted_mode->clock = DIV_ROUND_UP(rate, 1000);
+-
+-	return true;
+-}
+-
+ static bool vop_dsp_lut_is_enabled(struct vop *vop)
+ {
+ 	return vop_read_reg(vop, 0, &vop->data->common->dsp_lut_en);
+@@ -1512,7 +1468,6 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+ }
+ 
+ static const struct drm_crtc_helper_funcs vop_crtc_helper_funcs = {
+-	.mode_fixup = vop_crtc_mode_fixup,
+ 	.atomic_check = vop_crtc_atomic_check,
+ 	.atomic_begin = vop_crtc_atomic_begin,
+ 	.atomic_flush = vop_crtc_atomic_flush,
 -- 
 2.28.0
 
