@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B444272A37
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 17:33:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3910E272A33
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 17:33:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6866E514;
-	Mon, 21 Sep 2020 15:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA226E509;
+	Mon, 21 Sep 2020 15:33:02 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-X-Greylist: delayed 330 seconds by postgrey-1.36 at gabe;
- Mon, 21 Sep 2020 15:33:02 UTC
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E6C6E508
- for <dri-devel@freedesktop.org>; Mon, 21 Sep 2020 15:33:02 +0000 (UTC)
+X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
+ Mon, 21 Sep 2020 15:33:01 UTC
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8156E508
+ for <dri-devel@freedesktop.org>; Mon, 21 Sep 2020 15:33:01 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1600702384; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=s7K9SEo1X6Ibc0tt1bXFMEPa50tfSsiMzV95wUizo+8=;
- b=eLtwBm5KP9SEK71L5e1yhzasj3l9IBKNeZok7v6By/Bgn2CP+OrjxEb7vj0Ea3UWkJBvARHI
- 0HJSRXPxnVcPDAeu36UT5Qr60kS6a0TkCQknsyCavqnSBK2e5ZBKxWh0pmVsD/dhGqbvKQ3B
- FnRGCsdNrQAy2AMQIXL1OT1Jqco=
-X-Mailgun-Sending-Ip: 69.72.42.4
+ s=smtp; t=1600702381; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=avQ0IbfC3vpeC4s/OrvkMgUgXsYG4SFeOVjxKkrdGE4=;
+ b=qFQ04V5xQSzhQ762a4nimAgiTNS5ITmdyDyhz+XXLhIKh9ZR+QHL7TTbf9jr48wGZLChfxNx
+ ycwx4MDJ2xCl8uJV2CAdf2xoeHBbXatore2qDcUodxXSrVNSpNj2pNANlE+y4ZL0YF5frPSb
+ DwlVt09H34z7U+LUvkfM7nwipEk=
+X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5f68c6630566e2dcd74a13b9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Sep 2020 15:27:31
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 5f68c6654ab73023a71e3469 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Sep 2020 15:27:33
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id CFB46C433FE; Mon, 21 Sep 2020 15:27:30 +0000 (UTC)
+ id 5F4F6C433FE; Mon, 21 Sep 2020 15:27:33 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -40,19 +41,21 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
 Received: from akhilpo-linux.qualcomm.com (unknown [202.46.22.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D577EC433FE;
- Mon, 21 Sep 2020 15:27:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D577EC433FE
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2D85BC433C8;
+ Mon, 21 Sep 2020 15:27:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2D85BC433C8
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=akhilpo@codeaurora.org
 From: Akhil P Oommen <akhilpo@codeaurora.org>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/msm: Replace active_list with refcount
-Date: Mon, 21 Sep 2020 20:57:17 +0530
-Message-Id: <1600702038-10893-1-git-send-email-akhilpo@codeaurora.org>
+Subject: [PATCH 2/2] drm/msm: Leave inuse count intact on map failure
+Date: Mon, 21 Sep 2020 20:57:18 +0530
+Message-Id: <1600702038-10893-2-git-send-email-akhilpo@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1600702038-10893-1-git-send-email-akhilpo@codeaurora.org>
+References: <1600702038-10893-1-git-send-email-akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,158 +77,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the case where we have a back-to-back submission that shares the same
-BO, this BO will be prematurely moved to inactive_list while retiring the
-first submit. But it will be still part of the second submit which is
-being processed by the GPU. Now, if the shrinker happens to be triggered at
-this point, it will result in premature purging of this BO.
-
-To fix this, we can replace the active_list with reference counting and
-move the BO to inactive list only when this count becomes zero.
+Leave the inuse count intact on map failure to keep the accounting
+accurate.
 
 Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
 ---
- drivers/gpu/drm/msm/msm_drv.h |  5 ++---
- drivers/gpu/drm/msm/msm_gem.c | 30 ++++++++++++++++--------------
- drivers/gpu/drm/msm/msm_gem.h |  4 +++-
- drivers/gpu/drm/msm/msm_gpu.c | 11 +++++++----
- 4 files changed, 28 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/msm/msm_gem_vma.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 3193274..28e3c8d 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -309,9 +309,8 @@ void msm_gem_put_vaddr(struct drm_gem_object *obj);
- int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv);
- int msm_gem_sync_object(struct drm_gem_object *obj,
- 		struct msm_fence_context *fctx, bool exclusive);
--void msm_gem_move_to_active(struct drm_gem_object *obj,
--		struct msm_gpu *gpu, bool exclusive, struct dma_fence *fence);
--void msm_gem_move_to_inactive(struct drm_gem_object *obj);
-+void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu);
-+void msm_gem_active_put(struct drm_gem_object *obj);
- int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
- int msm_gem_cpu_fini(struct drm_gem_object *obj);
- void msm_gem_free_object(struct drm_gem_object *obj);
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 76a6c52..accc106 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -743,33 +743,36 @@ int msm_gem_sync_object(struct drm_gem_object *obj,
- 	return 0;
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index 80a8a26..8367a1c 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -88,8 +88,10 @@ msm_gem_map_vma(struct msm_gem_address_space *aspace,
+ 		ret = aspace->mmu->funcs->map(aspace->mmu, vma->iova, sgt,
+ 				size, prot);
+ 
+-	if (ret)
++	if (ret) {
+ 		vma->mapped = false;
++		vma->inuse++;
++	}
+ 
+ 	return ret;
  }
- 
--void msm_gem_move_to_active(struct drm_gem_object *obj,
--		struct msm_gpu *gpu, bool exclusive, struct dma_fence *fence)
-+void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
- 	WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
-+
- 	msm_obj->gpu = gpu;
--	if (exclusive)
--		dma_resv_add_excl_fence(obj->resv, fence);
--	else
--		dma_resv_add_shared_fence(obj->resv, fence);
- 	list_del_init(&msm_obj->mm_list);
--	list_add_tail(&msm_obj->mm_list, &gpu->active_list);
-+	atomic_inc(&msm_obj->active_count);
- }
- 
--void msm_gem_move_to_inactive(struct drm_gem_object *obj)
-+static void move_to_inactive(struct msm_gem_object *msm_obj)
- {
--	struct drm_device *dev = obj->dev;
-+	struct drm_device *dev = msm_obj->base.dev;
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_gem_object *msm_obj = to_msm_bo(obj);
--
--	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
- 
- 	msm_obj->gpu = NULL;
--	list_del_init(&msm_obj->mm_list);
- 	list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
- }
- 
-+void msm_gem_active_put(struct drm_gem_object *obj)
-+{
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+
-+	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
-+
-+	if (atomic_dec_and_test(&msm_obj->active_count))
-+		move_to_inactive(msm_obj);
-+}
-+
- int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
- {
- 	bool write = !!(op & MSM_PREP_WRITE);
-@@ -1104,7 +1107,6 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
- 	}
- 
- 	if (struct_mutex_locked) {
--		WARN_ON(!mutex_is_locked(&dev->struct_mutex));
- 		list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
- 	} else {
- 		mutex_lock(&dev->struct_mutex);
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 7b1c7a5..a1bf741 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -88,12 +88,14 @@ struct msm_gem_object {
- 	struct mutex lock; /* Protects resources associated with bo */
- 
- 	char name[32]; /* Identifier to print for the debugfs files */
-+
-+	atomic_t active_count;
- };
- #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
- 
- static inline bool is_active(struct msm_gem_object *msm_obj)
- {
--	return msm_obj->gpu != NULL;
-+	return atomic_read(&msm_obj->active_count);
- }
- 
- static inline bool is_purgeable(struct msm_gem_object *msm_obj)
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 29c8d73c..55d1648 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -698,8 +698,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
--		/* move to inactive: */
--		msm_gem_move_to_inactive(&msm_obj->base);
-+
-+		msm_gem_active_put(&msm_obj->base);
- 		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
- 		drm_gem_object_put_locked(&msm_obj->base);
- 	}
-@@ -774,6 +774,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
-+		struct drm_gem_object *drm_obj = &msm_obj->base;
- 		uint64_t iova;
- 
- 		/* can't happen yet.. but when we add 2d support we'll have
-@@ -786,9 +787,11 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 		msm_gem_get_and_pin_iova(&msm_obj->base, submit->aspace, &iova);
- 
- 		if (submit->bos[i].flags & MSM_SUBMIT_BO_WRITE)
--			msm_gem_move_to_active(&msm_obj->base, gpu, true, submit->fence);
-+			dma_resv_add_excl_fence(drm_obj->resv, submit->fence);
- 		else if (submit->bos[i].flags & MSM_SUBMIT_BO_READ)
--			msm_gem_move_to_active(&msm_obj->base, gpu, false, submit->fence);
-+			dma_resv_add_shared_fence(drm_obj->resv, submit->fence);
-+
-+		msm_gem_active_get(drm_obj, gpu);
- 	}
- 
- 	gpu->funcs->submit(gpu, submit);
 -- 
 2.7.4
 
