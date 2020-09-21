@@ -1,73 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C1F2735D6
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 00:35:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D072D273687
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 01:16:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 249006E0C9;
-	Mon, 21 Sep 2020 22:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007F76E5BB;
+	Mon, 21 Sep 2020 23:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 706FC6E0C9
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 22:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600727724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7Bv308wt74EoBs6AVElOXpr7+00zdHSmspBNFfgp+CM=;
- b=dsh/1u9b7G81zlBNgoySoh6WCZf6EgT21IST7yX3BHlEpjiWJ+jd60eUGXRR3y4Q3bDArv
- LW7OA0LCad1nKiTuwELreNbdOMTIibb9a5Hi+3ifsTRruBpl5op0rWvgTjaYyDuXeaJAze
- TZZLwBE7Zh/zrfi6Br6mUD3OZ039XFc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-OUZAu8VzOZK0EjzwB6c_gA-1; Mon, 21 Sep 2020 18:35:20 -0400
-X-MC-Unique: OUZAu8VzOZK0EjzwB6c_gA-1
-Received: by mail-qv1-f72.google.com with SMTP id w2so10357345qvr.19
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 15:35:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=7Bv308wt74EoBs6AVElOXpr7+00zdHSmspBNFfgp+CM=;
- b=WnS6o9TvLNd38kvgeZqb2QJQxAGSgmRcKEpwMMY5X4/Ezr5i8ukzip+sqJh/dTQM7C
- vKuS7ORI9bZAn62CHkGfGyjK3/JPi/SG/9U8hGAQAM/4M6Bkg9kTRkeMTZ4/OGuIlpzI
- 8pZSeqMuTu9r6mF57Xjc9kGyrr8bEj+sQpzA9wfId3e43osx4o4pArdGM2YiJ5Ub1+eJ
- tLSF2p3YskIfoSvX8ZDf65qkGpdFbzf3hBHziO0kxsMPxQM3Ucv2stAURPKj55G3HOZj
- pwUaONjX3WFvsTLaydbTfg8kSXCAMnzmpphTuRAa4bwFtB80EqI03wfuAy22+zv3x0dm
- /djA==
-X-Gm-Message-State: AOAM531IzCMTvSBLDh6mN1Rm1om3SURNIXkJ7lGiS6jltPhcQ42O+Zgc
- koWTliPyl4E0hK9juckTzMmoOb1unjxdfda+L0V0vLd0Zf6HQ9kmN6ZV5Nb+j7KaOIxipv7Baxp
- JhFSirvemr9OysHNhYg6pHamC8R4L
-X-Received: by 2002:a37:a483:: with SMTP id n125mr1997895qke.286.1600727719917; 
- Mon, 21 Sep 2020 15:35:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0yHNf68UJC7Hz9eWb6otQaSzaW2zUJcw35KsrMO+/R8qZZ/UV7xW+1OAroWltmA4PsazH2Q==
-X-Received: by 2002:a37:a483:: with SMTP id n125mr1997869qke.286.1600727719634; 
- Mon, 21 Sep 2020 15:35:19 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id h68sm10390223qkf.30.2020.09.21.15.35.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 15:35:18 -0700 (PDT)
-Message-ID: <470a3a448a80ae6f8e6e6f6a82f5ffc01c1d6033.camel@redhat.com>
-Subject: Re: [PATCH] drm/i915/dp: Tweak initial dpcd backlight.enabled value
-From: Lyude Paul <lyude@redhat.com>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Date: Mon, 21 Sep 2020 18:35:17 -0400
-In-Reply-To: <20200918002845.32766-1-sean@poorly.run>
-References: <20200918002845.32766-1-sean@poorly.run>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C4E6E5CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 23:15:36 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f6933e80000>; Mon, 21 Sep 2020 16:14:48 -0700
+Received: from [10.20.170.18] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 21 Sep
+ 2020 23:15:23 +0000
+Date: Mon, 21 Sep 2020 18:15:20 -0500
+From: Alex Goins <agoins@nvidia.com>
+X-X-Sender: agoins@agoins-DiGiTS
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v5 05/38] drm: prime: use sgtable iterators in
+ drm_prime_sg_to_page_addr_arrays()
+In-Reply-To: <20200513133245.6408-5-m.szyprowski@samsung.com>
+Message-ID: <alpine.DEB.2.20.2009211803580.19454@agoins-DiGiTS>
+References: <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <20200513133245.6408-1-m.szyprowski@samsung.com>
+ <CGME20200513133259eucas1p273f0e05005b7b1158d884295d35745fd@eucas1p2.samsung.com>
+ <20200513133245.6408-5-m.szyprowski@samsung.com>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1600730088; bh=66tErcQJxEuwrDfkE9u3WIgJy30Uod3BawGWzkjWP5A=;
+ h=Date:From:X-X-Sender:To:CC:Subject:In-Reply-To:Message-ID:
+ References:User-Agent:X-NVConfidentiality:MIME-Version:
+ Content-Type:X-Originating-IP:X-ClientProxiedBy;
+ b=rf6FnvPj/RQ6DhhRn2zM91taxS0SC2vW4kcTfvTh8k4ZjT7BzbxVevFz9dZdg+bGC
+ j++tgTstP46mOWpfr5idvoNya016BR2T5Hxi7VeCQWSY0Xt4R1/nApLt4HjVHrziU3
+ J3tOIvaJrPtq5Mgwzgw7Gw9Tb07hp/UHg2mXB8OH2JDvjWMPQzJRHGQEvsod/fKBrC
+ EvatL0nW8wWVYFpVQNFKkan8SkpbOcKZV2ip9BmiN/XZzag6NdJrm48UOOvhT8qGFL
+ ke3jjODO+LybTUa+aMMhEcqoxlC0LAJaGnW/41logx+zupgnipBi5umEKbtF2A0HRj
+ xeZg1nGkTElAw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,95 +60,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Chowski <chowski@chromium.org>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux-foundation.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U28gaWYgSSB1bmRlcnN0YW5kIHRoaXMgY29ycmVjdGx5LCBpdCBzb3VuZHMgbGlrZSB0aGF0IHNv
-bWUgUGl4ZWxib29rcyBib290IHVwCndpdGggRFBfRURQX0JBQ0tMSUdIVF9CUklHSFRORVNTX01T
-QiBzZXQgdG8gYSBub24temVybyB2YWx1ZSwgd2l0aG91dCB0aGUKcGFuZWwgYWN0dWFsbHkgaGF2
-aW5nIERQQ0QgYmFja2xpZ2h0IGNvbnRyb2xzIGVuYWJsZWQ/CgpJZiBJJ20gdW5kZXJzdGFuZGlu
-ZyB0aGF0IGNvcnJlY3RseSwgdGhlbiB0aGlzIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWU6CgpSZXZp
-ZXdlZC1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KCk9uIFRodSwgMjAyMC0wOS0x
-NyBhdCAyMDoyOCAtMDQwMCwgU2VhbiBQYXVsIHdyb3RlOgo+IEZyb206IFNlYW4gUGF1bCA8c2Vh
-bnBhdWxAY2hyb21pdW0ub3JnPgo+IAo+IEluIGNvbW1pdCA3OTk0NjcyMzA5MmIgKCJkcm0vaTkx
-NTogQXNzdW1lIDEwMCUgYnJpZ2h0bmVzcyB3aGVuIG5vdCBpbgo+IERQQ0QgY29udHJvbCBtb2Rl
-IiksIHdlIGZpeGVkIHRoZSBicmlnaHRuZXNzIGxldmVsIHdoZW4gRFBDRCBjb250cm9sIHdhcwo+
-IG5vdCBhY3RpdmUgdG8gbWF4IGJyaWdodG5lc3MuIFRoaXMgaXMgYXMgZ29vZCBhcyB3ZSBjYW4g
-Z3Vlc3Mgc2luY2UgbW9zdAo+IGJhY2tsaWdodHMgZ28gb24gZnVsbCB3aGVuIHVuY29udHJvbGxl
-ZC4KPiAKPiBIb3dldmVyIGluIGRvaW5nIHNvIHdlIGNoYW5nZWQgdGhlIHNlbWFudGljcyBvZiB0
-aGUgaW5pdGlhbAo+ICdiYWNrbGlnaHQuZW5hYmxlZCcgdmFsdWUuIEF0IGxlYXN0IG9uIFBpeGVs
-Ym9va3MsIHRoZXkgIHdlcmUgcmVseWluZwo+IG9uIHRoZSBicmlnaHRuZXNzIGxldmVsIGluIERQ
-X0VEUF9CQUNLTElHSFRfQlJJR0hUTkVTU19NU0IgdG8gYmUgMCBvbgo+IGJvb3Qgc3VjaCB0aGF0
-IGVuYWJsZWQgd291bGQgYmUgZmFsc2UuIFRoaXMgY2F1c2VzIHRoZSBkZXZpY2UgdG8gYmUKPiBl
-bmFibGVkIHdoZW4gdGhlIGJyaWdodG5lc3MgaXMgc2V0LiBXaXRob3V0IHRoaXMsIGJyaWdodG5l
-c3MgY29udHJvbAo+IGRvZXNuJ3Qgd29yay4gU28gYnkgY2hhbmdpbmcgYnJpZ2h0bmVzcyB0byBt
-YXgsIHdlIGFsc28gZmxpcHBlZCBlbmFibGVkCj4gdG8gYmUgdHJ1ZSBvbiBib290Lgo+IAo+IFRv
-IGZpeCB0aGlzLCBtYWtlIGVuYWJsZWQgYSBmdW5jdGlvbiBvZiBicmlnaHRuZXNzIGFuZCBiYWNr
-bGlnaHQgY29udHJvbAo+IG1lY2hhbmlzbS4KPiAKPiBGaXhlczogNzk5NDY3MjMwOTJiICgiZHJt
-L2k5MTU6IEFzc3VtZSAxMDAlIGJyaWdodG5lc3Mgd2hlbiBub3QgaW4gRFBDRAo+IGNvbnRyb2wg
-bW9kZSIpCj4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gQ2M6IEphbmkgTmlr
-dWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gQ2M6IEp1aGEtUGVra2EgSGVpa2tpbGEgPGp1
-aGFwZWtrYS5oZWlra2lsYUBnbWFpbC5jb20+Cj4gQ2M6ICJWaWxsZSBTeXJqw6Rsw6QiIDx2aWxs
-ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZp
-dmlAaW50ZWwuY29tPgo+IENjOiBLZXZpbiBDaG93c2tpIDxjaG93c2tpQGNocm9taXVtLm9yZz4+
-Cj4gU2lnbmVkLW9mZi1ieTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+Cj4gLS0t
-Cj4gIC4uLi9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYyB8IDMxICsr
-KysrKysrKysrKy0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDEx
-IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
-bGF5L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYwo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiBpbmRleCBhY2JkN2ViNjZjYmUuLjAzNmY1
-MDRhYzdkYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2RwX2F1eF9iYWNrbGlnaHQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jCj4gQEAgLTUyLDE3ICs1MiwxMSBAQCBzdGF0aWMgdm9p
-ZCBzZXRfYXV4X2JhY2tsaWdodF9lbmFibGUoc3RydWN0IGludGVsX2RwCj4gKmludGVsX2RwLCBi
-b29sIGVuYWJsZSkKPiAgCX0KPiAgfQo+ICAKPiAtLyoKPiAtICogUmVhZCB0aGUgY3VycmVudCBi
-YWNrbGlnaHQgdmFsdWUgZnJvbSBEUENEIHJlZ2lzdGVyKHMpIGJhc2VkCj4gLSAqIG9uIGlmIDgt
-Yml0KE1TQikgb3IgMTYtYml0KE1TQiBhbmQgTFNCKSB2YWx1ZXMgYXJlIHN1cHBvcnRlZAo+IC0g
-Ki8KPiAtc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChzdHJ1Y3QgaW50ZWxf
-Y29ubmVjdG9yICpjb25uZWN0b3IpCj4gK3N0YXRpYyBib29sIGludGVsX2RwX2F1eF9iYWNrbGln
-aHRfZHBjZF9tb2RlKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IKPiAqY29ubmVjdG9yKQo+ICB7Cj4g
-IAlzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gaW50ZWxfYXR0YWNoZWRfZHAoY29ubmVjdG9y
-KTsKPiAgCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gZHBfdG9faTkxNShpbnRlbF9k
-cCk7Cj4gLQl1OCByZWFkX3ZhbFsyXSA9IHsgMHgwIH07Cj4gIAl1OCBtb2RlX3JlZzsKPiAtCXUx
-NiBsZXZlbCA9IDA7Cj4gIAo+ICAJaWYgKGRybV9kcF9kcGNkX3JlYWRiKCZpbnRlbF9kcC0+YXV4
-LAo+ICAJCQkgICAgICBEUF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSLAo+IEBAIC03
-MCwxNSArNjQsMjkgQEAgc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChzdHJ1
-Y3QKPiBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvcikKPiAgCQlkcm1fZGJnX2ttcygmaTkxNS0+
-ZHJtLAo+ICAJCQkgICAgIkZhaWxlZCB0byByZWFkIHRoZSBEUENEIHJlZ2lzdGVyIDB4JXhcbiIs
-Cj4gIAkJCSAgICBEUF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSKTsKPiAtCQlyZXR1
-cm4gMDsKPiArCQlyZXR1cm4gZmFsc2U7Cj4gIAl9Cj4gIAo+ICsJcmV0dXJuIChtb2RlX3JlZyAm
-IERQX0VEUF9CQUNLTElHSFRfQ09OVFJPTF9NT0RFX01BU0spID09Cj4gKwkgICAgICAgRFBfRURQ
-X0JBQ0tMSUdIVF9DT05UUk9MX01PREVfRFBDRDsKPiArfQo+ICsKPiArLyoKPiArICogUmVhZCB0
-aGUgY3VycmVudCBiYWNrbGlnaHQgdmFsdWUgZnJvbSBEUENEIHJlZ2lzdGVyKHMpIGJhc2VkCj4g
-KyAqIG9uIGlmIDgtYml0KE1TQikgb3IgMTYtYml0KE1TQiBhbmQgTFNCKSB2YWx1ZXMgYXJlIHN1
-cHBvcnRlZAo+ICsgKi8KPiArc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChz
-dHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IpCj4gK3sKPiArCXN0cnVjdCBpbnRlbF9k
-cCAqaW50ZWxfZHAgPSBpbnRlbF9hdHRhY2hlZF9kcChjb25uZWN0b3IpOwo+ICsJc3RydWN0IGRy
-bV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBkcF90b19pOTE1KGludGVsX2RwKTsKPiArCXU4IHJlYWRf
-dmFsWzJdID0geyAweDAgfTsKPiArCXUxNiBsZXZlbCA9IDA7Cj4gKwo+ICAJLyoKPiAgCSAqIElm
-IHdlJ3JlIG5vdCBpbiBEUENEIGNvbnRyb2wgbW9kZSB5ZXQsIHRoZSBwcm9ncmFtbWVkIGJyaWdo
-dG5lc3MKPiAgCSAqIHZhbHVlIGlzIG1lYW5pbmdsZXNzIGFuZCB3ZSBzaG91bGQgYXNzdW1lIG1h
-eCBicmlnaHRuZXNzCj4gIAkgKi8KPiAtCWlmICgobW9kZV9yZWcgJiBEUF9FRFBfQkFDS0xJR0hU
-X0NPTlRST0xfTU9ERV9NQVNLKSAhPQo+IC0JICAgIERQX0VEUF9CQUNLTElHSFRfQ09OVFJPTF9N
-T0RFX0RQQ0QpCj4gKwlpZiAoIWludGVsX2RwX2F1eF9iYWNrbGlnaHRfZHBjZF9tb2RlKGNvbm5l
-Y3RvcikpCj4gIAkJcmV0dXJuIGNvbm5lY3Rvci0+cGFuZWwuYmFja2xpZ2h0Lm1heDsKPiAgCj4g
-IAlpZiAoZHJtX2RwX2RwY2RfcmVhZCgmaW50ZWxfZHAtPmF1eCwgRFBfRURQX0JBQ0tMSUdIVF9C
-UklHSFRORVNTX01TQiwKPiBAQCAtMzE5LDcgKzMyNyw4IEBAIHN0YXRpYyBpbnQgaW50ZWxfZHBf
-YXV4X3NldHVwX2JhY2tsaWdodChzdHJ1Y3QKPiBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvciwK
-PiAgCj4gIAlwYW5lbC0+YmFja2xpZ2h0Lm1pbiA9IDA7Cj4gIAlwYW5lbC0+YmFja2xpZ2h0Lmxl
-dmVsID0gaW50ZWxfZHBfYXV4X2dldF9iYWNrbGlnaHQoY29ubmVjdG9yKTsKPiAtCXBhbmVsLT5i
-YWNrbGlnaHQuZW5hYmxlZCA9IHBhbmVsLT5iYWNrbGlnaHQubGV2ZWwgIT0gMDsKPiArCXBhbmVs
-LT5iYWNrbGlnaHQuZW5hYmxlZCA9IGludGVsX2RwX2F1eF9iYWNrbGlnaHRfZHBjZF9tb2RlKGNv
-bm5lY3RvcikKPiAmJgo+ICsJCQkJICAgcGFuZWwtPmJhY2tsaWdodC5sZXZlbCAhPSAwOwo+ICAK
-PiAgCXJldHVybiAwOwo+ICB9Ci0tIApDaGVlcnMsCglMeXVkZSBQYXVsIChzaGUvaGVyKQoJU29m
-dHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+Tested-by: Alex Goins <agoins@nvidia.com>
+
+This change fixes a regression with drm_prime_sg_to_page_addr_arrays() and
+AMDGPU in v5.9.
+
+Commit 39913934 similarly revamped AMDGPU to use sgtable helper functions. When
+it changed from dma_map_sg_attrs() to dma_map_sgtable(), as a side effect it
+started correctly updating sgt->nents to the return value of dma_map_sg_attrs().
+However, drm_prime_sg_to_page_addr_arrays() incorrectly uses sgt->nents to
+iterate over pages, rather than sgt->orig_nents, resulting in it now returning
+the incorrect number of pages on AMDGPU.
+
+I had written a patch that changes drm_prime_sg_to_page_addr_arrays() to use
+for_each_sgtable_sg() instead of for_each_sg(), iterating using sgt->orig_nents:
+
+-       for_each_sg(sgt->sgl, sg, sgt->nents, count) {
++       for_each_sgtable_sg(sgt, sg, count) {
+
+This patch takes it further, but still has the effect of fixing the number of
+pages that drm_prime_sg_to_page_addr_arrays() returns. Something like this
+should be included in v5.9 to prevent a regression with AMDGPU.
+
+Thanks,
+Alex
+
+On Wed, 13 May 2020, Marek Szyprowski wrote:
+
+> Replace the current hand-crafted code for extracting pages and DMA
+> addresses from the given scatterlist by the much more robust
+> code based on the generic scatterlist iterators and recently
+> introduced sg_table-based wrappers. The resulting code is simple and
+> easy to understand, so the comment describing the old code is no
+> longer needed.
+> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+> For more information, see '[PATCH v5 00/38] DRM: fix struct sg_table nents
+> vs. orig_nents misuse' thread:
+> https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
+> ---
+>  drivers/gpu/drm/drm_prime.c | 47 ++++++++++++++-------------------------------
+>  1 file changed, 14 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 1d2e5fe..dfdf4d4 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -985,45 +985,26 @@ struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
+>  int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page **pages,
+>  				     dma_addr_t *addrs, int max_entries)
+>  {
+> -	unsigned count;
+> -	struct scatterlist *sg;
+> -	struct page *page;
+> -	u32 page_len, page_index;
+> -	dma_addr_t addr;
+> -	u32 dma_len, dma_index;
+> +	struct sg_dma_page_iter dma_iter;
+> +	struct sg_page_iter page_iter;
+> +	struct page **p = pages;
+> +	dma_addr_t *a = addrs;
+>  
+> -	/*
+> -	 * Scatterlist elements contains both pages and DMA addresses, but
+> -	 * one shoud not assume 1:1 relation between them. The sg->length is
+> -	 * the size of the physical memory chunk described by the sg->page,
+> -	 * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
+> -	 * described by the sg_dma_address(sg).
+> -	 */
+> -	page_index = 0;
+> -	dma_index = 0;
+> -	for_each_sg(sgt->sgl, sg, sgt->nents, count) {
+> -		page_len = sg->length;
+> -		page = sg_page(sg);
+> -		dma_len = sg_dma_len(sg);
+> -		addr = sg_dma_address(sg);
+> -
+> -		while (pages && page_len > 0) {
+> -			if (WARN_ON(page_index >= max_entries))
+> +	if (pages) {
+> +		for_each_sgtable_page(sgt, &page_iter, 0) {
+> +			if (p - pages >= max_entries)
+>  				return -1;
+> -			pages[page_index] = page;
+> -			page++;
+> -			page_len -= PAGE_SIZE;
+> -			page_index++;
+> +			*p++ = sg_page_iter_page(&page_iter);
+>  		}
+> -		while (addrs && dma_len > 0) {
+> -			if (WARN_ON(dma_index >= max_entries))
+> +	}
+> +	if (addrs) {
+> +		for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
+> +			if (a - addrs >= max_entries)
+>  				return -1;
+> -			addrs[dma_index] = addr;
+> -			addr += PAGE_SIZE;
+> -			dma_len -= PAGE_SIZE;
+> -			dma_index++;
+> +			*a++ = sg_page_iter_dma_address(&dma_iter);
+>  		}
+>  	}
+> +
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_prime_sg_to_page_addr_arrays);
+> -- 
+> 1.9.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
