@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DE9273C94
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:49:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F65273C82
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 879CC6E82B;
-	Tue, 22 Sep 2020 07:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CAD6E820;
+	Tue, 22 Sep 2020 07:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF2A6E248
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 08:02:32 +0000 (UTC)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 050CCA74C558471195E2;
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBE06E249
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 08:02:37 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 7C1B91F37484FC24A70D;
  Mon, 21 Sep 2020 16:02:30 +0800 (CST)
-Received: from huawei.com (10.175.113.32) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
- 16:02:20 +0800
+Received: from huawei.com (10.175.113.32) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
+ 16:02:21 +0800
 From: Liu Shixin <liushixin2@huawei.com>
 To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Subject: [PATCH -next] omapfb: simplify the return expression of
- sharp_ls_connect
-Date: Mon, 21 Sep 2020 16:24:44 +0800
-Message-ID: <20200921082444.2591773-1-liushixin2@huawei.com>
+ tpo_td043_connect
+Date: Mon, 21 Sep 2020 16:24:45 +0800
+Message-ID: <20200921082445.2591825-1-liushixin2@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.113.32]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:35 +0000
+X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,14 +53,14 @@ Simplify the return expression.
 
 Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- .../fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c  | 7 +------
+ .../fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c     | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c
-index a3912fc8031f..602324c5c9f9 100644
---- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c
-+++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c
-@@ -59,16 +59,11 @@ static int sharp_ls_connect(struct omap_dss_device *dssdev)
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+index bb85b21f0724..afac1d9445aa 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+@@ -337,16 +337,11 @@ static int tpo_td043_connect(struct omap_dss_device *dssdev)
  {
  	struct panel_drv_data *ddata = to_panel_data(dssdev);
  	struct omap_dss_device *in = ddata->in;
@@ -77,7 +77,7 @@ index a3912fc8031f..602324c5c9f9 100644
 +	return in->ops.dpi->connect(in, dssdev);
  }
  
- static void sharp_ls_disconnect(struct omap_dss_device *dssdev)
+ static void tpo_td043_disconnect(struct omap_dss_device *dssdev)
 -- 
 2.25.1
 
