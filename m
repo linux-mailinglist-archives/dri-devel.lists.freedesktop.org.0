@@ -1,53 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6EB272178
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 12:49:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B7627217C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 12:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9C76E044;
-	Mon, 21 Sep 2020 10:49:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297288970B;
+	Mon, 21 Sep 2020 10:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA786E044
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 10:49:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=+Ce2j6BK4131uYjorGXmkaktnjo2xDWmD45iu81+eGY=; b=WBss3/+LJn25tf2jl2Kd4BllMI
- We3aM8pS1bHk+lP+j+FgiErzPOP5101rI+iEOmhIiBWuEclNOK8yjXeMc8p2hvO66DyHQqRG+ibdj
- fNxQM2TO9oPahOrflU5CGkUoPhPyktIfZxoWHOY3bCCiIiJip2uorUCAcIJ2/5F4nuohyg/YUHlNc
- d5O5AVK+rnqDUnKxbfw+9B12rKUynM8ObjyYjNOPdklvEWrciu+346Xxd6P1M8ap9VwFZ/Hd4PL88
- Vr3wsnD98TRmaevM03kBW8JZcL8svKW7/HBzjsWyHFHP01ZNBq6xW7/V+e56JiWbSDZ5VukELoex3
- jH5DmECw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKJOK-0008Ei-4J; Mon, 21 Sep 2020 10:49:52 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4F336301478;
- Mon, 21 Sep 2020 12:49:47 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 89B2A243FFC0F; Mon, 21 Sep 2020 12:49:47 +0200 (CEST)
-Date: Mon, 21 Sep 2020 12:49:47 +0200
-From: peterz@infradead.org
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, timmurray@google.com,
- Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH 0/3] drm: commit_work scheduling
-Message-ID: <20200921104947.GQ1362448@hirez.programming.kicks-ass.net>
-References: <20200919193727.2093945-1-robdclark@gmail.com>
- <20200921092154.GJ438822@phenom.ffwll.local>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF0B89A77;
+ Mon, 21 Sep 2020 10:53:05 +0000 (UTC)
+IronPort-SDR: DeSgkot0gsKbeK4o+mVLbqRlawtTNHsp5RTnfGQTQHz4iDSHjuUkqEVt+99nVe81ECgY2+2PuU
+ C1YZu709tH0g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9750"; a="224492207"
+X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; d="scan'208";a="224492207"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2020 03:53:03 -0700
+IronPort-SDR: 9TfxMmVP8hKl6NMEIqzr+ru7eWjdqRgwmOag5dQGDIJziX3DBVwckgvfhI5EFJ27Wwkw0vaV6q
+ 0A9XmWbcO6Tg==
+X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; d="scan'208";a="485392918"
+Received: from kbs1-mobl1.gar.corp.intel.com (HELO [10.252.173.129])
+ ([10.252.173.129])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2020 03:53:00 -0700
+Subject: Re: [PATCH v10 5/8] drm/i915: Add dedicated plane hook for async flip
+ case
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20200916150824.15749-6-karthik.b.s@intel.com>
+ <20200918070045.9703-1-karthik.b.s@intel.com>
+ <20200918115317.GJ6112@intel.com>
+From: Karthik B S <karthik.b.s@intel.com>
+Message-ID: <5474e42c-f341-47c4-bc60-e695fa86cdf0@intel.com>
+Date: Mon, 21 Sep 2020 16:22:59 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200921092154.GJ438822@phenom.ffwll.local>
+In-Reply-To: <20200918115317.GJ6112@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +54,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: paulo.r.zanoni@intel.com, michel@daenzer.net,
+ dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 11:21:54AM +0200, Daniel Vetter wrote:
-
-> So question to rt/worker folks: What's the best way to let userspace set
-> the scheduling mode and priorities of things the kernel does on its
-> behalf? Surely we're not the first ones where if userspace runs with some
-> rt priority it'll starve out the kernel workers that it needs. Hardcoding
-> something behind a subsystem ioctl (which just means every time userspace
-> changes what it does, we need a new such flag or mode) can't be the right
-> thing.
-> 
-> Peter, Tejun?
-
-So regular workqueues do not support RT priorities, but you can set
-their nice value somewhere in /sys.
-
-The kthread_work stuff used in these patches result in a regular kthread
-and as such the user interface for changing its scheduling class or
-priority is that of any other 'random' task.
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiA5LzE4LzIwMjAgNToyMyBQTSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIEZyaSwg
+U2VwIDE4LCAyMDIwIGF0IDEyOjMwOjQ1UE0gKzA1MzAsIEthcnRoaWsgQiBTIHdyb3RlOgo+PiBU
+aGlzIGhvb2sgaXMgYWRkZWQgdG8gYXZvaWQgd3JpdGluZyBvdGhlciBwbGFuZSByZWdpc3RlcnMg
+aW4gY2FzZSBvZgo+PiBhc3luYyBmbGlwcywgc28gdGhhdCB3ZSBkbyBub3Qgd3JpdGUgdGhlIGRv
+dWJsZSBidWZmZXJlZCByZWdpc3RlcnMKPj4gZHVyaW5nIGFzeW5jIHN1cmZhY2UgYWRkcmVzcyB1
+cGRhdGUuCj4+Cj4+IHY3OiAtUGxhbmUgY3RsIG5lZWRzIGJpdHMgZnJvbSBza2xfcGxhbmVfY3Rs
+X2NydGMgYXMgd2VsbC4gKFZpbGxlKQo+PiAgICAgIC1BZGQgYSB2ZnVuYyBmb3Igc2tsX3Byb2dy
+YW1fYXN5bmNfc3VyZmFjZV9hZGRyZXNzCj4+ICAgICAgIGFuZCBjYWxsIGl0IGZyb20gaW50ZWxf
+dXBkYXRlX3BsYW5lLiAoVmlsbGUpCj4+Cj4+IHY4OiAtUmViYXNlZC4KPj4KPj4gdjk6IC1Vc2Ug
+aWYtZWxzZSBpbnN0ZWFkIG9mIHJldHVybiBpbiBpbnRlbF91cGRhdGVfcGxhbmUoKS4gKFZpbGxl
+KQo+PiAgICAgIC1SZW5hbWUgJ3Byb2dyYW1fYXN5bmNfc3VyZmFjZV9hZGRyZXNzJyB0byAnYXN5
+bmNfZmxpcCcuIChWaWxsZSkKPj4KPj4gdjEwOiAtQ2hlY2sgaWYgYXN5bmNfZmxpcCBob29rIGlz
+IHByZXNlbnQgYmVmb3JlIGNhbGxpbmcgaXQuCj4+ICAgICAgICBPdGhlcndpc2UgaXQgd2lsbCBP
+T1BTIGR1cmluZyBsZWdhY3kgY3Vyc29yIHVwZGF0ZXMuIChWaWxsZSkKPj4KPj4gU2lnbmVkLW9m
+Zi1ieTogS2FydGhpayBCIFMgPGthcnRoaWsuYi5zQGludGVsLmNvbT4KPj4gU2lnbmVkLW9mZi1i
+eTogVmFuZGl0YSBLdWxrYXJuaSA8dmFuZGl0YS5rdWxrYXJuaUBpbnRlbC5jb20+Cj4+IC0tLQo+
+PiAgIC4uLi9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYyB8ICA2ICsr
+KystCj4+ICAgLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oICAgIHwg
+IDMgKysrCj4+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUuYyAg
+IHwgMjQgKysrKysrKysrKysrKysrKysrKwo+PiAgIDMgZmlsZXMgY2hhbmdlZCwgMzIgaW5zZXJ0
+aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9hdG9taWNfcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfYXRvbWljX3BsYW5lLmMKPj4gaW5kZXggNzkwMzI3MDE4NzNhLi42YmQ4
+ZTZjZGQ0NzcgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfYXRvbWljX3BsYW5lLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9hdG9taWNfcGxhbmUuYwo+PiBAQCAtNDA4LDcgKzQwOCwxMSBAQCB2b2lkIGludGVsX3Vw
+ZGF0ZV9wbGFuZShzdHJ1Y3QgaW50ZWxfcGxhbmUgKnBsYW5lLAo+PiAgIAlzdHJ1Y3QgaW50ZWxf
+Y3J0YyAqY3J0YyA9IHRvX2ludGVsX2NydGMoY3J0Y19zdGF0ZS0+dWFwaS5jcnRjKTsKPj4gICAK
+Pj4gICAJdHJhY2VfaW50ZWxfdXBkYXRlX3BsYW5lKCZwbGFuZS0+YmFzZSwgY3J0Yyk7Cj4+IC0J
+cGxhbmUtPnVwZGF0ZV9wbGFuZShwbGFuZSwgY3J0Y19zdGF0ZSwgcGxhbmVfc3RhdGUpOwo+PiAr
+Cj4+ICsJaWYgKGNydGNfc3RhdGUtPnVhcGkuYXN5bmNfZmxpcCAmJiBwbGFuZS0+YXN5bmNfZmxp
+cCkKPj4gKwkJcGxhbmUtPmFzeW5jX2ZsaXAocGxhbmUsIGNydGNfc3RhdGUsIHBsYW5lX3N0YXRl
+KTsKPj4gKwllbHNlCj4+ICsJCXBsYW5lLT51cGRhdGVfcGxhbmUocGxhbmUsIGNydGNfc3RhdGUs
+IHBsYW5lX3N0YXRlKTsKPj4gICB9Cj4+ICAgCj4+ICAgdm9pZCBpbnRlbF9kaXNhYmxlX3BsYW5l
+KHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaCBiL2RyaXZlcnMvZ3B1L2RybS9p
+OTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oCj4+IGluZGV4IDNkNGJmOWI2YTBhMi4u
+ZTMzMzllNDFkZGY3IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
+L2ludGVsX2Rpc3BsYXlfdHlwZXMuaAo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaAo+PiBAQCAtMTE4Myw2ICsxMTgzLDkgQEAgc3RydWN0
+IGludGVsX3BsYW5lIHsKPj4gICAJCQkgICBzdHJ1Y3QgaW50ZWxfcGxhbmVfc3RhdGUgKnBsYW5l
+X3N0YXRlKTsKPj4gICAJaW50ICgqbWluX2NkY2xrKShjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19z
+dGF0ZSAqY3J0Y19zdGF0ZSwKPj4gICAJCQkgY29uc3Qgc3RydWN0IGludGVsX3BsYW5lX3N0YXRl
+ICpwbGFuZV9zdGF0ZSk7Cj4+ICsJdm9pZCAoKmFzeW5jX2ZsaXApKHN0cnVjdCBpbnRlbF9wbGFu
+ZSAqcGxhbmUsCj4+ICsJCQkgICBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19z
+dGF0ZSwKPj4gKwkJCSAgIGNvbnN0IHN0cnVjdCBpbnRlbF9wbGFuZV9zdGF0ZSAqcGxhbmVfc3Rh
+dGUpOwo+PiAgIH07Cj4+ICAgCj4+ICAgc3RydWN0IGludGVsX3dhdGVybWFya19wYXJhbXMgewo+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMKPj4gaW5kZXgg
+NzZhM2Q5YmZlMGRlLi4zNjM0ZTk4YjA0YzEgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9zcHJpdGUuYwo+PiBAQCAtNjA5LDYgKzYwOSwyOSBAQCBpY2xfcHJv
+Z3JhbV9pbnB1dF9jc2Moc3RydWN0IGludGVsX3BsYW5lICpwbGFuZSwKPj4gICAJCQkgIFBMQU5F
+X0lOUFVUX0NTQ19QT1NUT0ZGKHBpcGUsIHBsYW5lX2lkLCAyKSwgMHgwKTsKPj4gICB9Cj4+ICAg
+Cj4+ICtzdGF0aWMgdm9pZAo+PiArc2tsX3Byb2dyYW1fYXN5bmNfc3VyZmFjZV9hZGRyZXNzKHN0
+cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+ICsJCQkJICBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0
+Y19zdGF0ZSAqY3J0Y19zdGF0ZSwKPj4gKwkJCQkgIGNvbnN0IHN0cnVjdCBpbnRlbF9wbGFuZV9z
+dGF0ZSAqcGxhbmVfc3RhdGUpCj4gCj4gUGxzIHJlbmFtZSB0aGlzIHRvIHNrbF9wbGFuZV9hc3lu
+Y19mbGlwKCkgYXMgd2VsbC4KClRoYW5rcyBmb3IgdGhlIHJldmlldy4KU3VyZSwgSSdsbCB1cGRh
+dGUgdGhpcy4KPiAKPiBXaXRoIHRoYXQKPiBSZXZpZXdlZC1ieTogVmlsbGUgU3lyasOkbMOkIDx2
+aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiAKClRoYW5rcywKS2FydGhpay5CLlMKPj4g
+K3sKPj4gKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1KHBsYW5l
+LT5iYXNlLmRldik7Cj4+ICsJdW5zaWduZWQgbG9uZyBpcnFmbGFnczsKPj4gKwllbnVtIHBsYW5l
+X2lkIHBsYW5lX2lkID0gcGxhbmUtPmlkOwo+PiArCWVudW0gcGlwZSBwaXBlID0gcGxhbmUtPnBp
+cGU7Cj4+ICsJdTMyIHN1cmZfYWRkciA9IHBsYW5lX3N0YXRlLT5jb2xvcl9wbGFuZVswXS5vZmZz
+ZXQ7Cj4+ICsJdTMyIHBsYW5lX2N0bCA9IHBsYW5lX3N0YXRlLT5jdGw7Cj4+ICsKPj4gKwlwbGFu
+ZV9jdGwgfD0gc2tsX3BsYW5lX2N0bF9jcnRjKGNydGNfc3RhdGUpOwo+PiArCj4+ICsJc3Bpbl9s
+b2NrX2lycXNhdmUoJmRldl9wcml2LT51bmNvcmUubG9jaywgaXJxZmxhZ3MpOwo+PiArCj4+ICsJ
+aW50ZWxfZGVfd3JpdGVfZncoZGV2X3ByaXYsIFBMQU5FX0NUTChwaXBlLCBwbGFuZV9pZCksIHBs
+YW5lX2N0bCk7Cj4+ICsJaW50ZWxfZGVfd3JpdGVfZncoZGV2X3ByaXYsIFBMQU5FX1NVUkYocGlw
+ZSwgcGxhbmVfaWQpLAo+PiArCQkJICBpbnRlbF9wbGFuZV9nZ3R0X29mZnNldChwbGFuZV9zdGF0
+ZSkgKyBzdXJmX2FkZHIpOwo+PiArCj4+ICsJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmZGV2X3By
+aXYtPnVuY29yZS5sb2NrLCBpcnFmbGFncyk7Cj4+ICt9Cj4+ICsKPj4gICBzdGF0aWMgdm9pZAo+
+PiAgIHNrbF9wcm9ncmFtX3BsYW5lKHN0cnVjdCBpbnRlbF9wbGFuZSAqcGxhbmUsCj4+ICAgCQkg
+IGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLAo+PiBAQCAtMzA5NSw2
+ICszMTE4LDcgQEAgc2tsX3VuaXZlcnNhbF9wbGFuZV9jcmVhdGUoc3RydWN0IGRybV9pOTE1X3By
+aXZhdGUgKmRldl9wcml2LAo+PiAgIAlwbGFuZS0+Z2V0X2h3X3N0YXRlID0gc2tsX3BsYW5lX2dl
+dF9od19zdGF0ZTsKPj4gICAJcGxhbmUtPmNoZWNrX3BsYW5lID0gc2tsX3BsYW5lX2NoZWNrOwo+
+PiAgIAlwbGFuZS0+bWluX2NkY2xrID0gc2tsX3BsYW5lX21pbl9jZGNsazsKPj4gKwlwbGFuZS0+
+YXN5bmNfZmxpcCA9IHNrbF9wcm9ncmFtX2FzeW5jX3N1cmZhY2VfYWRkcmVzczsKPj4gICAKPj4g
+ICAJaWYgKElOVEVMX0dFTihkZXZfcHJpdikgPj0gMTEpCj4+ICAgCQlmb3JtYXRzID0gaWNsX2dl
+dF9wbGFuZV9mb3JtYXRzKGRldl9wcml2LCBwaXBlLAo+PiAtLSAKPj4gMi4yMi4wCj4gCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
