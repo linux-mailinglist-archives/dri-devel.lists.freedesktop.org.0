@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3D32725E4
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 15:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1282726C0
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:15:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40DAC6E34A;
-	Mon, 21 Sep 2020 13:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A1089FAC;
+	Mon, 21 Sep 2020 14:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E426E34A
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:40:30 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08LDe2ft052643;
- Mon, 21 Sep 2020 08:40:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600695602;
- bh=AXdoqzco7TbaWou99N2XIIUtMQZd77nIXrviH2W24/A=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=YOgaj0O9zkuoslIVf0Y+mvdEZ0T93AgMdgfUgmMmhSt20QKE6C1NkzAv2KKo2AyhL
- ilkrzOCVm/XX/jKiylUkE6wRntf2lTGKaCrkky0BFKCRkwol14ycpcWCCfQXtWc2DP
- HVGI9epioE8fjfEaLkEybRXDkRXPr46HfKrZVfA0=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08LDe2MI045174
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 21 Sep 2020 08:40:02 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 21
- Sep 2020 08:40:01 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 21 Sep 2020 08:40:01 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08LDe0TH075950;
- Mon, 21 Sep 2020 08:40:00 -0500
-Subject: Re: [PATCH -next] drm: omapdrm: dss: simplify the return expression
- of hdmi_init_pll_data
-To: Qinglang Miao <miaoqinglang@huawei.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>
-References: <20200921131015.91422-1-miaoqinglang@huawei.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <1f22b1c4-d92e-2dc8-7052-f6df23a187a6@ti.com>
-Date: Mon, 21 Sep 2020 16:39:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9EE189FAC
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 14:15:05 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kKMau-0000CD-8Z; Mon, 21 Sep 2020 16:15:04 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kKMar-0000oz-T0; Mon, 21 Sep 2020 16:15:01 +0200
+Message-ID: <b883059e51c97d34196a1ad15bbec66a89283c8e.camel@pengutronix.de>
+Subject: Re: [Re-send][PATCH] gpu/ipu-v3:reduce protected code area in ipu
+ idmac get/put
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Bernard <bernard@vivo.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Mon, 21 Sep 2020 16:15:01 +0200
+In-Reply-To: <AN*ApwBwDVasgemZb6*hx4qM.1.1600686717774.Hmail.bernard@vivo.com>
+References: <AN*ApwBwDVasgemZb6*hx4qM.1.1600686717774.Hmail.bernard@vivo.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20200921131015.91422-1-miaoqinglang@huawei.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,57 +50,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: opensource.kernel@vivo.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Bernard,
 
-On 21/09/2020 16:10, Qinglang Miao wrote:
-> Simplify the return expression.
-> 
-> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+On Mon, 2020-09-21 at 19:11 +0800, Bernard wrote:
+> This change will speed-up a bit these ipu_idmac_get &
+> ipu_idmac_put processing and there is no need to protect
+> kzalloc & kfree.
+
+I don't think that will be measurable, the channel lock is very unlikely
+to be contended. It might make more sense to replace the list walk with
+a bitfield.
+
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 > ---
->  drivers/gpu/drm/omapdrm/dss/hdmi_pll.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  drivers/gpu/ipu-v3/ipu-common.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c b/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
-> index cf2b000f3..c3e85b636 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
-> @@ -131,7 +131,6 @@ static int hdmi_init_pll_data(struct dss_device *dss,
+> diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
+> index b3dae9ec1a38..8b3a57864c2e 100644
+> --- a/drivers/gpu/ipu-v3/ipu-common.c
+> +++ b/drivers/gpu/ipu-v3/ipu-common.c
+> @@ -267,29 +267,30 @@ EXPORT_SYMBOL_GPL(ipu_rot_mode_to_degrees);
+>  struct ipuv3_channel *ipu_idmac_get(struct ipu_soc *ipu, unsigned num)
 >  {
->  	struct dss_pll *pll = &hpll->pll;
->  	struct clk *clk;
-> -	int r;
+>  	struct ipuv3_channel *channel;
+> +	struct ipuv3_channel *entry;
 >  
->  	clk = devm_clk_get(&pdev->dev, "sys_clk");
->  	if (IS_ERR(clk)) {
-> @@ -151,11 +150,7 @@ static int hdmi_init_pll_data(struct dss_device *dss,
+>  	dev_dbg(ipu->dev, "%s %d\n", __func__, num);
 >  
->  	pll->ops = &hdmi_pll_ops;
+>  	if (num > 63)
+>  		return ERR_PTR(-ENODEV);
 >  
-> -	r = dss_pll_register(dss, pll);
-> -	if (r)
-> -		return r;
-> -
-> -	return 0;
-> +	return dss_pll_register(dss, pll);
->  }
+> +	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+> +	if (!channel)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	channel->num = num;
+> +	channel->ipu = ipu;
+> +
+>  	mutex_lock(&ipu->channel_lock);
 >  
->  int hdmi_pll_init(struct dss_device *dss, struct platform_device *pdev,
+> -	list_for_each_entry(channel, &ipu->channels, list) {
+> -		if (channel->num == num) {
+> +	list_for_each_entry(entry, &ipu->channels, list) {
+> +		if (entry->num == num) {
+> +			kfree(channel);
+>  			channel = ERR_PTR(-EBUSY);
+>  			goto out;
+
+This leaks the channel memory allocated above.
+
+>  		}
+>  	}
 > 
+> -	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+> -	if (!channel) {
+> -		channel = ERR_PTR(-ENOMEM);
+> -		goto out;
+> -	}
+> -
+> -	channel->num = num;
+> -	channel->ipu = ipu;
+>  	list_add(&channel->list, &ipu->channels);
+>  
+>  out:
+> @@ -308,9 +309,10 @@ void ipu_idmac_put(struct ipuv3_channel *channel)
+>  	mutex_lock(&ipu->channel_lock);
+>  
+>  	list_del(&channel->list);
+> -	kfree(channel);
+>  
+>  	mutex_unlock(&ipu->channel_lock);
+> +
+> +	kfree(channel);
+>  }
+>  EXPORT_SYMBOL_GPL(ipu_idmac_put);
 
-I like it more when there's a return 0 at the end of the function, especially in functions where
-there are multiple cases of if(...) return r. It's more easily readable, at least to my eyes.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+regards
+Philipp
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
