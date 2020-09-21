@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328F1272817
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A8A272819
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F1B6E3A6;
-	Mon, 21 Sep 2020 14:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4B7F6E3A8;
+	Mon, 21 Sep 2020 14:41:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1FA6E3A4;
- Mon, 21 Sep 2020 14:41:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA13E6E3A6;
+ Mon, 21 Sep 2020 14:41:11 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 53DB1238D6;
- Mon, 21 Sep 2020 14:41:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9B4522388E;
+ Mon, 21 Sep 2020 14:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600699270;
- bh=O3h3G/LlPhnxLrt7R/eSmGNSC3iirLlq5K1qtaDXSDc=;
+ s=default; t=1600699271;
+ bh=BCGAqlWnO6+8kS1OsNDT/8VjpLmM3QQVmJ1VQfwz5i0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qBdZHKHEfSiB4MnHw30oLoYjQotZIQ74NuEdkYmrl/Kx9jKNDowk3huiB7DBDmgO2
- sBfPw1wdw0hAzzG9LLRGaHfHKQ1G23JzBh/DL7agMf8d5hAuxFyFa+BCSpVPfiv7mv
- xHT3ShEvq9Zp1N0ET+01lKZMwFExY8rkcLfa3m00=
+ b=QJEjVGubG/78feDv0n5GvoPhGJcI3gCbVAlSDLLAbf5KeJHMm07Pwcuo3cBvLqK2L
+ FP2zwo/khPo/YZDvdRWzm4p0Zu99z2W54k1dIkGt2xDS4H1/RIl1KeySucuIASon35
+ T8MDd1Gk0jnNwziWcFQvSD7SaqfacLUKJpzh3JD8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 12/15] drm/amd/display: update nv1x stutter
- latencies
-Date: Mon, 21 Sep 2020 10:40:51 -0400
-Message-Id: <20200921144054.2135602-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 13/15] drm/amdgpu/dc: Require primary plane to be
+ enabled whenever the CRTC is
+Date: Mon, 21 Sep 2020 10:40:52 -0400
+Message-Id: <20200921144054.2135602-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200921144054.2135602-1-sashal@kernel.org>
 References: <20200921144054.2135602-1-sashal@kernel.org>
@@ -50,52 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Jun Lei <jun.lei@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jun Lei <jun.lei@amd.com>
-
-[ Upstream commit c4790a8894232f39c25c7c546c06efe074e63384 ]
-
-[why]
-Recent characterization shows increased stutter latencies on some SKUs,
-leading to underflow.
-
-[how]
-Update SOC params to account for this worst case latency.
-
-Signed-off-by: Jun Lei <jun.lei@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index 05b98eadc2899..46afd048c1ea3 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -340,8 +340,8 @@ struct _vcs_dpi_soc_bounding_box_st dcn2_0_nv14_soc = {
- 			},
- 		},
- 	.num_states = 5,
--	.sr_exit_time_us = 8.6,
--	.sr_enter_plus_exit_time_us = 10.9,
-+	.sr_exit_time_us = 11.6,
-+	.sr_enter_plus_exit_time_us = 13.9,
- 	.urgent_latency_us = 4.0,
- 	.urgent_latency_pixel_data_only_us = 4.0,
- 	.urgent_latency_pixel_mixed_with_vm_data_us = 4.0,
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+CgpbIFVwc3RyZWFtIGNv
+bW1pdCAyZjIyOGFhYjIxYmJjNzRlOTBlMjY3YTcyMTIxNWVjOGJlNTFkYWY3IF0KCkRvbid0IGNo
+ZWNrIGRybV9jcnRjX3N0YXRlOjphY3RpdmUgZm9yIHRoaXMgZWl0aGVyLCBwZXIgaXRzCmRvY3Vt
+ZW50YXRpb24gaW4gaW5jbHVkZS9kcm0vZHJtX2NydGMuaDoKCiAqIEhlbmNlIGRyaXZlcnMgbXVz
+dCBub3QgY29uc3VsdCBAYWN0aXZlIGluIHRoZWlyIHZhcmlvdXMKICogJmRybV9tb2RlX2NvbmZp
+Z19mdW5jcy5hdG9taWNfY2hlY2sgY2FsbGJhY2sgdG8gcmVqZWN0IGFuIGF0b21pYwogKiBjb21t
+aXQuCgphdG9taWNfcmVtb3ZlX2ZiIGRpc2FibGVzIHRoZSBDUlRDIGFzIG5lZWRlZCBmb3IgZGlz
+YWJsaW5nIHRoZSBwcmltYXJ5CnBsYW5lLgoKVGhpcyBwcmV2ZW50cyBhdCBsZWFzdCB0aGUgZm9s
+bG93aW5nIHByb2JsZW1zIGlmIHRoZSBwcmltYXJ5IHBsYW5lIGdldHMKZGlzYWJsZWQgKGUuZy4g
+ZHVlIHRvIGRlc3Ryb3lpbmcgdGhlIEZCIGFzc2lnbmVkIHRvIHRoZSBwcmltYXJ5IHBsYW5lLAph
+cyBoYXBwZW5zIGUuZy4gd2l0aCBtdXR0ZXIgaW4gV2F5bGFuZCBtb2RlKToKCiogVGhlIGxlZ2Fj
+eSBjdXJzb3IgaW9jdGwgcmV0dXJuZWQgRUlOVkFMIGZvciBhIG5vbi0wIGN1cnNvciBGQiBJRAog
+ICh3aGljaCBlbmFibGVzIHRoZSBjdXJzb3IgcGxhbmUpLgoqIElmIHRoZSBjdXJzb3IgcGxhbmUg
+d2FzIGVuYWJsZWQsIGNoYW5naW5nIHRoZSBsZWdhY3kgRFBNUyBwcm9wZXJ0eQogIHZhbHVlIGZy
+b20gb2ZmIHRvIG9uIHJldHVybmVkIEVJTlZBTC4KCnYyOgoqIE1pbm9yIGNoYW5nZXMgdG8gY29k
+ZSBjb21tZW50IGFuZCBjb21taXQgbG9nLCBwZXIgcmV2aWV3IGZlZWRiYWNrLgoKR2l0TGFiOiBo
+dHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExMDgKR2l0TGFi
+OiBodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExNjUKR2l0
+TGFiOiBodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzEzNDQK
+U3VnZ2VzdGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpBY2tl
+ZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KUmV2aWV3ZWQtYnk6
+IE5pY2hvbGFzIEthemxhdXNrYXMgPG5pY2hvbGFzLmthemxhdXNrYXNAYW1kLmNvbT4KU2lnbmVk
+LW9mZi1ieTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYt
+Ynk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1i
+eTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIC4uLi9ncHUvZHJtL2FtZC9k
+aXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYyB8IDMyICsrKysrKy0tLS0tLS0tLS0tLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwppbmRleCA2
+MGU1MDE4MWY2ZDM5Li4yMzg0YWEwMTg5OTNkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKQEAgLTQyOTksMTkgKzQyOTksNiBAQCBz
+dGF0aWMgdm9pZCBkbV9jcnRjX2hlbHBlcl9kaXNhYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykK
+IHsKIH0KIAotc3RhdGljIGJvb2wgZG9lc19jcnRjX2hhdmVfYWN0aXZlX2N1cnNvcihzdHJ1Y3Qg
+ZHJtX2NydGNfc3RhdGUgKm5ld19jcnRjX3N0YXRlKQotewotCXN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYgPSBuZXdfY3J0Y19zdGF0ZS0+Y3J0Yy0+ZGV2OwotCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5l
+OwotCi0JZHJtX2Zvcl9lYWNoX3BsYW5lX21hc2socGxhbmUsIGRldiwgbmV3X2NydGNfc3RhdGUt
+PnBsYW5lX21hc2spIHsKLQkJaWYgKHBsYW5lLT50eXBlID09IERSTV9QTEFORV9UWVBFX0NVUlNP
+UikKLQkJCXJldHVybiB0cnVlOwotCX0KLQotCXJldHVybiBmYWxzZTsKLX0KLQogc3RhdGljIGlu
+dCBjb3VudF9jcnRjX2FjdGl2ZV9wbGFuZXMoc3RydWN0IGRybV9jcnRjX3N0YXRlICpuZXdfY3J0
+Y19zdGF0ZSkKIHsKIAlzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUgPSBuZXdfY3J0Y19z
+dGF0ZS0+c3RhdGU7CkBAIC00MzkxLDE5ICs0Mzc4LDIwIEBAIHN0YXRpYyBpbnQgZG1fY3J0Y19o
+ZWxwZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJcmV0dXJuIHJldDsK
+IAl9CiAKLQkvKiBJbiBzb21lIHVzZSBjYXNlcywgbGlrZSByZXNldCwgbm8gc3RyZWFtIGlzIGF0
+dGFjaGVkICovCi0JaWYgKCFkbV9jcnRjX3N0YXRlLT5zdHJlYW0pCi0JCXJldHVybiAwOwotCiAJ
+LyoKLQkgKiBXZSB3YW50IGF0IGxlYXN0IG9uZSBoYXJkd2FyZSBwbGFuZSBlbmFibGVkIHRvIHVz
+ZQotCSAqIHRoZSBzdHJlYW0gd2l0aCBhIGN1cnNvciBlbmFibGVkLgorCSAqIFdlIHJlcXVpcmUg
+dGhlIHByaW1hcnkgcGxhbmUgdG8gYmUgZW5hYmxlZCB3aGVuZXZlciB0aGUgQ1JUQyBpcywgb3Ro
+ZXJ3aXNlCisJICogZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCBtYXkgZW5kIHVwIHRyeWluZyB0
+byBlbmFibGUgdGhlIGN1cnNvciBwbGFuZSB3aGlsZSBhbGwgb3RoZXIKKwkgKiBwbGFuZXMgYXJl
+IGRpc2FibGVkLCB3aGljaCBpcyBub3Qgc3VwcG9ydGVkIGJ5IHRoZSBoYXJkd2FyZS4gQW5kIHRo
+ZXJlIGlzIGxlZ2FjeQorCSAqIHVzZXJzcGFjZSB3aGljaCBzdG9wcyB1c2luZyB0aGUgSFcgY3Vy
+c29yIGFsdG9nZXRoZXIgaW4gcmVzcG9uc2UgdG8gdGhlIHJlc3VsdGluZyBFSU5WQUwuCiAJICov
+Ci0JaWYgKHN0YXRlLT5lbmFibGUgJiYgc3RhdGUtPmFjdGl2ZSAmJgotCSAgICBkb2VzX2NydGNf
+aGF2ZV9hY3RpdmVfY3Vyc29yKHN0YXRlKSAmJgotCSAgICBkbV9jcnRjX3N0YXRlLT5hY3RpdmVf
+cGxhbmVzID09IDApCisJaWYgKHN0YXRlLT5lbmFibGUgJiYKKwkgICAgIShzdGF0ZS0+cGxhbmVf
+bWFzayAmIGRybV9wbGFuZV9tYXNrKGNydGMtPnByaW1hcnkpKSkKIAkJcmV0dXJuIC1FSU5WQUw7
+CiAKKwkvKiBJbiBzb21lIHVzZSBjYXNlcywgbGlrZSByZXNldCwgbm8gc3RyZWFtIGlzIGF0dGFj
+aGVkICovCisJaWYgKCFkbV9jcnRjX3N0YXRlLT5zdHJlYW0pCisJCXJldHVybiAwOworCiAJaWYg
+KGRjX3ZhbGlkYXRlX3N0cmVhbShkYywgZG1fY3J0Y19zdGF0ZS0+c3RyZWFtKSA9PSBEQ19PSykK
+IAkJcmV0dXJuIDA7CiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
