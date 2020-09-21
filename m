@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F2F2728CE
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:48:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786602728EB
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:49:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C63BD6E22C;
-	Mon, 21 Sep 2020 14:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B764D6E135;
+	Mon, 21 Sep 2020 14:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id D81EF6E135;
- Mon, 21 Sep 2020 14:48:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id CDC412A6045;
- Mon, 21 Sep 2020 16:48:07 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id n-6O19CCSCnF; Mon, 21 Sep 2020 16:48:07 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 192B92A6016;
- Mon, 21 Sep 2020 16:48:06 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1kKN6w-000aC1-Sy; Mon, 21 Sep 2020 16:48:05 +0200
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20200921144054.2135602-1-sashal@kernel.org>
- <20200921144054.2135602-13-sashal@kernel.org>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH AUTOSEL 5.4 13/15] drm/amdgpu/dc: Require primary plane to
- be enabled whenever the CRTC is
-Message-ID: <1ee666b4-f1af-a19f-e03a-fdfc00698d2f@daenzer.net>
-Date: Mon, 21 Sep 2020 16:48:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FD86E135
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 14:48:59 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id c18so13080703wrm.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 07:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8Zv6ka/HbfbAseTKohmUdj+PzByIjSDn23SwFBxovZE=;
+ b=Vi/pyuhehbVtaM5es/MNIorg8kYuLHqR4Pk/tlDQEoGcPqD8Rj4cQrUu/MZzhm/L+e
+ 0422Nw89EEsZtKGewGry7Qu8u7J6Jkg1tDNW+IDZog7xqDcGNT62tahg0oGX2Xdh8juw
+ PVi+soe882cpOcRssyDoSetx3ZkH69iGnwb9sPPy6maGzogZVhvsG/UFhT8bnxhM8yEN
+ sL41hsA3VT3r/sedft2RrZ9wZfZeTxaIi3hTaBwPWcOKIk4KjoZGkguEQ5R0eYQCwZxh
+ b6sk6IFzeynfsCkcuueaUWPvLh/gpqZnJw/rvfItDemQ4sHbdmbuSjmmy8nRDA5BuCEP
+ pFTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8Zv6ka/HbfbAseTKohmUdj+PzByIjSDn23SwFBxovZE=;
+ b=uHxdtfbmr1IGVMIxbiyemKShrYtXIl0kscEziJ/zTmidw4JJoEFP6ZMwcLbrfhTv/M
+ 2r+LmxZPieNOdASzRjkv8iJjtWZxh+IG9vvbSQde3eUVG+srCr/HSzq9P800tep/lNP+
+ hJSLgzIws8XSP+sYozEmL3PUscLiIetr3psy6syEzCYjJ4bc6bzCQEWTQgC15sdmQ2S/
+ r5fd6ltxvOAdvFTMk8Z/lGdw3Z/zcDla0W/f0ILCMAkSb2CGnoyd846i4d4Gqtmrgarl
+ ZQHNQtzeERczcElPiAZP6NgOILAT+ootD/h5iEj2TZ7BD/gJgWhWUnDOL9ApXJwC2K1A
+ QDUw==
+X-Gm-Message-State: AOAM53066MoU1UHS8njBR2jpQaieFcGjb08CqUeGKWDgW/SYnQ+omMP3
+ njoyoPccFEtICp7HpVW+0gAXKgdG8TE=
+X-Google-Smtp-Source: ABdhPJx/KK+qVodBx5bkpjchQyQT+19RDJDWiitfkOYl+3aZpss+xduff+fpMjCrcWYrOrkAzbVYBQ==
+X-Received: by 2002:adf:ee8d:: with SMTP id b13mr111959wro.249.1600699738405; 
+ Mon, 21 Sep 2020 07:48:58 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:3482:3104:ab8c:3ac2])
+ by smtp.gmail.com with ESMTPSA id i6sm23480992wra.1.2020.09.21.07.48.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Sep 2020 07:48:57 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, airlied@gmail.com, tzimmermann@suse.de,
+ bskeggs@redhat.com, kraxel@redhat.com, airlied@redhat.com,
+ sroland@vmware.com
+Subject: Nuke TTM_PL_FLAG_NO_EVICT
+Date: Mon, 21 Sep 2020 16:48:45 +0200
+Message-Id: <20200921144856.2797-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200921144054.2135602-13-sashal@kernel.org>
-Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,47 +68,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wOS0yMSA0OjQwIHAubS4sIFNhc2hhIExldmluIHdyb3RlOgo+IEZyb206IE1pY2hl
-bCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29tPgo+IAo+IFsgVXBzdHJlYW0gY29tbWl0IDJm
-MjI4YWFiMjFiYmM3NGU5MGUyNjdhNzIxMjE1ZWM4YmU1MWRhZjcgXQo+IAo+IERvbid0IGNoZWNr
-IGRybV9jcnRjX3N0YXRlOjphY3RpdmUgZm9yIHRoaXMgZWl0aGVyLCBwZXIgaXRzCj4gZG9jdW1l
-bnRhdGlvbiBpbiBpbmNsdWRlL2RybS9kcm1fY3J0Yy5oOgo+IAo+ICAgKiBIZW5jZSBkcml2ZXJz
-IG11c3Qgbm90IGNvbnN1bHQgQGFjdGl2ZSBpbiB0aGVpciB2YXJpb3VzCj4gICAqICZkcm1fbW9k
-ZV9jb25maWdfZnVuY3MuYXRvbWljX2NoZWNrIGNhbGxiYWNrIHRvIHJlamVjdCBhbiBhdG9taWMK
-PiAgICogY29tbWl0Lgo+IAo+IGF0b21pY19yZW1vdmVfZmIgZGlzYWJsZXMgdGhlIENSVEMgYXMg
-bmVlZGVkIGZvciBkaXNhYmxpbmcgdGhlIHByaW1hcnkKPiBwbGFuZS4KPiAKPiBUaGlzIHByZXZl
-bnRzIGF0IGxlYXN0IHRoZSBmb2xsb3dpbmcgcHJvYmxlbXMgaWYgdGhlIHByaW1hcnkgcGxhbmUg
-Z2V0cwo+IGRpc2FibGVkIChlLmcuIGR1ZSB0byBkZXN0cm95aW5nIHRoZSBGQiBhc3NpZ25lZCB0
-byB0aGUgcHJpbWFyeSBwbGFuZSwKPiBhcyBoYXBwZW5zIGUuZy4gd2l0aCBtdXR0ZXIgaW4gV2F5
-bGFuZCBtb2RlKToKPiAKPiAqIFRoZSBsZWdhY3kgY3Vyc29yIGlvY3RsIHJldHVybmVkIEVJTlZB
-TCBmb3IgYSBub24tMCBjdXJzb3IgRkIgSUQKPiAgICAod2hpY2ggZW5hYmxlcyB0aGUgY3Vyc29y
-IHBsYW5lKS4KPiAqIElmIHRoZSBjdXJzb3IgcGxhbmUgd2FzIGVuYWJsZWQsIGNoYW5naW5nIHRo
-ZSBsZWdhY3kgRFBNUyBwcm9wZXJ0eQo+ICAgIHZhbHVlIGZyb20gb2ZmIHRvIG9uIHJldHVybmVk
-IEVJTlZBTC4KPiAKPiB2MjoKPiAqIE1pbm9yIGNoYW5nZXMgdG8gY29kZSBjb21tZW50IGFuZCBj
-b21taXQgbG9nLCBwZXIgcmV2aWV3IGZlZWRiYWNrLgo+IAo+IEdpdExhYjogaHR0cHM6Ly9naXRs
-YWIuZ25vbWUub3JnL0dOT01FL211dHRlci8tL2lzc3Vlcy8xMTA4Cj4gR2l0TGFiOiBodHRwczov
-L2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExNjUKPiBHaXRMYWI6IGh0
-dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9tdXR0ZXIvLS9pc3N1ZXMvMTM0NAo+IFN1Z2dl
-c3RlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBBY2tlZC1i
-eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBSZXZpZXdlZC1ieTog
-TmljaG9sYXMgS2F6bGF1c2thcyA8bmljaG9sYXMua2F6bGF1c2thc0BhbWQuY29tPgo+IFNpZ25l
-ZC1vZmYtYnk6IE1pY2hlbCBEw6RuemVyIDxtZGFlbnplckByZWRoYXQuY29tPgo+IFNpZ25lZC1v
-ZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiBTaWduZWQt
-b2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+CgpJJ20gYSBiaXQgbmVydm91
-cyBhYm91dCB0aGlzIGdldHRpbmcgYmFja3BvcnRlZCBzbyBmYXIgYmFjayBzbyBxdWlja2x5LiAK
-SSdkIHByZWZlciB3YWl0aW5nIGZvciA1LjkgZmluYWwgZmlyc3QgYXQgbGVhc3QuCgoKLS0gCkVh
-cnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICBodHRw
-czovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAgICAgICAgICB8ICAg
-ICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi guys,
+
+The TTM_PL_FLAG_NO_EVICT flag was never a placement flag to begin with. Instead it affects LRU and eviction handling.
+
+So clean this up and provide the common logic of pinning/unpinning a buffer object instead.
+
+Since this affects basically all the driver using TTM please comment and/or test the patches.
+
+Regards,
+Christian.
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
