@@ -1,34 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E38273C7E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D724C273C7B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53F16E81B;
-	Tue, 22 Sep 2020 07:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650056E804;
+	Tue, 22 Sep 2020 07:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 89B676E4DE
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 16:10:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7956F147A;
- Mon, 21 Sep 2020 09:10:24 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
- [10.1.195.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D50D3F73B;
- Mon, 21 Sep 2020 09:10:23 -0700 (PDT)
-Date: Mon, 21 Sep 2020 17:10:21 +0100
-From: Qais Yousef <qais.yousef@arm.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 0/3] drm: commit_work scheduling
-Message-ID: <20200921161020.pjd6v6ul3beljwot@e107158-lin.cambridge.arm.com>
-References: <20200919193727.2093945-1-robdclark@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99076E39C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 16:18:57 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1600705136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pqOJVf49CUVVxcz8kEiVqivoHMj3m8RD+N1BRvW+DgU=;
+ b=G3YQ4qbryrlPa84ws3fLjF9qOAcMppOY6InukLyCoPgytd6pRmzIpgEBlei/bLk7TMcbMc
+ TxQDU7dd/hc+AYNgY6A6L/l25AeIVBpOQkGXNQLZEj7UNRDwLXSXwqWifLpbnxeDwy6WmJ
+ Hlvik19sHEe2VhWJSSozAd+ntterhOI=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 78C23B2C3;
+ Mon, 21 Sep 2020 16:19:32 +0000 (UTC)
+Subject: Re: [PATCH v3 7/9] soc: mediatek: cmdq: add jump function
+To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
+ Bibby Hsieh <bibby.hsieh@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>
+References: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1594136714-11650-8-git-send-email-dennis-yc.hsieh@mediatek.com>
+From: Matthias Brugger <mbrugger@suse.com>
+Message-ID: <1b66c203-e0ea-79f9-6856-a9be3e410dd2@suse.com>
+Date: Mon, 21 Sep 2020 18:18:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200919193727.2093945-1-robdclark@gmail.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <1594136714-11650-8-git-send-email-dennis-yc.hsieh@mediatek.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,69 +55,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- timmurray@google.com, dri-devel@lists.freedesktop.org,
- Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/19/20 12:37, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+
+
+On 07/07/2020 17:45, Dennis YC Hsieh wrote:
+> Add jump function so that client can jump to any address which
+> contains instruction.
 > 
-> The android userspace treats the display pipeline as a realtime problem.
-> And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> that I found.)
+> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+
+Now pushed to v5.9-next/soc
+
+Thanks!
+
+> ---
+>   drivers/soc/mediatek/mtk-cmdq-helper.c |   13 +++++++++++++
+>   include/linux/soc/mediatek/mtk-cmdq.h  |   11 +++++++++++
+>   2 files changed, 24 insertions(+)
 > 
-> But this presents a problem with using workqueues for non-blocking
-> atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> preempt the worker.  Which is not really the outcome you want.. once
-> the required fences are scheduled, you want to push the atomic commit
-> down to hw ASAP.
+> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> index b6e25f216605..d55dc3296105 100644
+> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> @@ -13,6 +13,7 @@
+>   #define CMDQ_POLL_ENABLE_MASK	BIT(0)
+>   #define CMDQ_EOC_IRQ_EN		BIT(0)
+>   #define CMDQ_REG_TYPE		1
+> +#define CMDQ_JUMP_RELATIVE	1
+>   
+>   struct cmdq_instruction {
+>   	union {
+> @@ -407,6 +408,18 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
+>   }
+>   EXPORT_SYMBOL(cmdq_pkt_assign);
+>   
+> +int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr)
+> +{
+> +	struct cmdq_instruction inst = {};
+> +
+> +	inst.op = CMDQ_CODE_JUMP;
+> +	inst.offset = CMDQ_JUMP_RELATIVE;
+> +	inst.value = addr >>
+> +		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
+> +	return cmdq_pkt_append_command(pkt, inst);
+> +}
+> +EXPORT_SYMBOL(cmdq_pkt_jump);
+> +
+>   int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+>   {
+>   	struct cmdq_instruction inst = { {0} };
+> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+> index d9390d76ee14..34354e952f60 100644
+> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+> @@ -253,6 +253,17 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+>   int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
+>   
+>   /**
+> + * cmdq_pkt_jump() - Append jump command to the CMDQ packet, ask GCE
+> + *		     to execute an instruction that change current thread PC to
+> + *		     a physical address which should contains more instruction.
+> + * @pkt:        the CMDQ packet
+> + * @addr:       physical address of target instruction buffer
+> + *
+> + * Return: 0 for success; else the error code is returned
+> + */
+> +int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr);
+> +
+> +/**
+>    * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
+>    * @pkt:	the CMDQ packet
+>    *
 > 
-> But the decision of whether commit_work should be RT or not really
-> depends on what userspace is doing.  For a pure CFS userspace display
-> pipeline, commit_work() should remain SCHED_NORMAL.
-
-Just a side note; this RT vs CFS inter-operatability is an issue that
-creeps up every now and again.
-
-https://lore.kernel.org/lkml/1567048502-6064-1-git-send-email-jing-ting.wu@mediatek.com/
-
-Does the UI thread in Android ever run as RT by the way? I always suspected it
-is one susceptible to such potential delays since it is part of the application
-thread and thought it can't be trusted to become RT.
-
-Those 120MHz displays will stress the pipeline :-)
-
-> 
-> To handle this, convert non-blocking commit_work() to use per-CRTC
-> kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-> used to avoid serializing commits when userspace is using a per-CRTC
-> update loop.
-> 
-> A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
-> priority commit work.
-> 
-> A potential issue is that since 616d91b68cd ("sched: Remove
-> sched_setscheduler*() EXPORTs") we have limited RT priority levels,
-> meaning that commit_work() ends up running at the same priority level
-> as vblank-work.  This shouldn't be a big problem *yet*, due to limited
-> use of vblank-work at this point.  And if it could be arranged that
-> vblank-work is scheduled before signaling out-fences and/or sending
-> pageflip events, it could probably work ok to use a single priority
-> level for both commit-work and vblank-work.
-
-This is a function of num_cpus too. As long as nr_cpus > nr_running_rt_tasks
-you should be fine.
-
-Cheers
-
---
-Qais Yousef
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
