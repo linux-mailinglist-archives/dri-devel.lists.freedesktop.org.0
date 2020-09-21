@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A553E272934
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B90E2729C2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 17:16:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6206E398;
-	Mon, 21 Sep 2020 14:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1A189D3E;
+	Mon, 21 Sep 2020 15:16:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC076E398
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 14:55:55 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id w2so12439656wmi.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 07:55:55 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7E2489D3E
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 15:16:25 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b79so13125770wmb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 08:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1gD5aOm8fuZMk6MimLqRwABTZfn3FP7FLxy/euBRZic=;
- b=tqzFSNwdl3Bk7iLcqBlHFWtq/IGqi1UjVmTmJLHpjjo7e5o2poI1OSijojjxtmKIfR
- YdAVU5XzOtc2dwyfRzCHxYV2Mf1OPmvwiLE9YW9QEfXdbyz5BzJ4FRC2WJQ/OqBb88yV
- hmZMaSG2WOI0PDOz+mrA9JyzfBABTXR94c7+oT2UMKsROiUkjymCrbGl4lovACHAvJnq
- VaAcYTjP+iqCvHpRx5Z9MG2s2lTocg8xsrEFl8T/tnV0ci9BO/2hWouSnpW1gouZ/LaK
- QGkZ0aPYcztp/rTndWD5SIhivgYv2xmUrWc6AD6JlPPUmKFaVcWJ/SUK22pT+ycBRj4d
- PQIg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=ozO/iVrWPutPSn7MG9oqalV9I25vI9GsLgmKgzJHohs=;
+ b=fEUr0FQ/pGsSNlQ+AvUR3ZL52zaO1Q8OjVVG5M45s9lJIi9EtWH9OnRoelGZ/pYYVk
+ hqiFmcMS8jn7KzVWKfngt/toQ32tkVB9fZNpEycRjRzusaykZzd+WNCwG5OMaNumnVMU
+ Ra+4xLihcv9Z4Pz0bnj29Lf/ZquGbqXlRZp0uCBElQ49fUrVvgg9BuPz3ydvtU5O7dF4
+ MTkvzOjsj0MnI5GIkOPZzDlDdmKi9908ICaAhcFxyED4882djbFgPjPC9wjtbvmv/cqw
+ V70G+GcE/FBGx75NDbaDpGNrL+MTrckN1AxX47OA6ys8tdQOoww0wzrIbzXJ9sCUocUB
+ mkVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1gD5aOm8fuZMk6MimLqRwABTZfn3FP7FLxy/euBRZic=;
- b=MBZZaSth7sdBIIUxUpT2GkI9gil7xP0TBbrof7150V9G6V/+u5qFBJ++s9d3yvq+M5
- QrUlb5NbPcScr0Rq9xoyx/QyrglcyRjI+MBfGMMxwKxAuOWpniqS5DJyKcNxaR7M1q7f
- apK2iuQIKSbW0jlK1yNlZIVu5szJSpd8H4P7/1sww+PRqegWpE4jV6z2NcppLRt4aXRl
- ZCBXPjJkXkP8vkrSbox+OzYpw6x9/XrhswK+Huww+qUN2zPqLN5vQXYrNvAxPQ4CCsWa
- 9DJkHlgpwm8bR80pjRgBUBZkzeYPk93qoiiLvqc67nwrQPEpDQopI2ydjP8HR+Bi+z68
- BQdg==
-X-Gm-Message-State: AOAM533lEbTMZWrk/4PwJpoT7nFFqmrHxp6Bh/T+prj/GdYhA0l/kzuY
- ns1LW3WUU1vxVj+4GppbTQP3BCktTT3w7XGhmeg=
-X-Google-Smtp-Source: ABdhPJxonY3gT1MbyqiHSexj8fbAdMxfyk43LjxB/pUJgUTXh2mmPGf6lxTa06IyXSstN6A4utQXvG1UZAhXAr2vXXI=
-X-Received: by 2002:a1c:3588:: with SMTP id c130mr66270wma.94.1600700153766;
- Mon, 21 Sep 2020 07:55:53 -0700 (PDT)
+ :message-id:subject:to;
+ bh=ozO/iVrWPutPSn7MG9oqalV9I25vI9GsLgmKgzJHohs=;
+ b=AjvwiESZvP6J5upXGYl/oPZz1hB+au8XrbyHYdu+t49FThFEhxptmZC7L+CAPhkdSx
+ AVmARiNlIm0SiPfwPSP3ngbCsRiQgASRuWsMujaiDOS66ajNIkIFJNs+GFEhiZYLYCev
+ gGg0mPeFrG+FsQJ/fHQDikrhIDHVr6RQ2U5PzvnYsKkfzlREheuhbXvLdVd8oMIe1Zw/
+ 2EXfFD36u4i4BifavFmucmlS8I2MTTcnsAWoOKc71mLz5KA1tAwGTOMr0hwZV3WfB5ay
+ OYJ9Ssis/W2vvAJ0t3bYgBxzNxzZovYjRtzZcVysanf7X1m5nYkEKtU9bdTgUsK660p5
+ KzHQ==
+X-Gm-Message-State: AOAM533cpQZlZtP7apckGP8GJemn0zGT6Kfza/wpTXzcMoHKVHWcWYKM
+ /VPgYX4IqNNHGKpNsSER++rdpnQGkFWppH/pO897k+h93d0=
+X-Google-Smtp-Source: ABdhPJxC1AqrWplmQno1yweczds849w2jR28oZRsSF9sWWMYGTcMyRFaGk5mBH71Zo+kXqQgIomtaijNtKYE375AhpY=
+X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr137774wmg.164.1600701384220; 
+ Mon, 21 Sep 2020 08:16:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200919193727.2093945-1-robdclark@gmail.com>
- <20200919193727.2093945-3-robdclark@gmail.com>
- <20200921092322.GK438822@phenom.ffwll.local>
-In-Reply-To: <20200921092322.GK438822@phenom.ffwll.local>
+ <20200921092154.GJ438822@phenom.ffwll.local>
+In-Reply-To: <20200921092154.GJ438822@phenom.ffwll.local>
 From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 21 Sep 2020 07:55:42 -0700
-Message-ID: <CAF6AEGu9b_6NOk-PcZnpv3UCi_muYdrayCaA83me1RTGoU+jHw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/atomic: Use kthread worker for nonblocking commits
+Date: Mon, 21 Sep 2020 08:16:12 -0700
+Message-ID: <CAF6AEGuDRk9D_aqyb6R8N5VHx2rvbZDf4uTqF3gQTrmzno+qtw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm: commit_work scheduling
 To: Rob Clark <robdclark@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>, 
- Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
- timmurray@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
- open list <linux-kernel@vger.kernel.org>
+ Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ Tim Murray <timmurray@google.com>, Tejun Heo <tj@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,141 +71,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 2:23 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Mon, Sep 21, 2020 at 2:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> On Sat, Sep 19, 2020 at 12:37:25PM -0700, Rob Clark wrote:
+> On Sat, Sep 19, 2020 at 12:37:23PM -0700, Rob Clark wrote:
 > > From: Rob Clark <robdclark@chromium.org>
 > >
-> > This will allow us to more easily switch scheduling rules based on what
-> > userspace wants.
+> > The android userspace treats the display pipeline as a realtime problem.
+> > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
+> > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
+> > that I found.)
 > >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > But this presents a problem with using workqueues for non-blocking
+> > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
+> > preempt the worker.  Which is not really the outcome you want.. once
+> > the required fences are scheduled, you want to push the atomic commit
+> > down to hw ASAP.
+> >
+> > But the decision of whether commit_work should be RT or not really
+> > depends on what userspace is doing.  For a pure CFS userspace display
+> > pipeline, commit_work() should remain SCHED_NORMAL.
+> >
+> > To handle this, convert non-blocking commit_work() to use per-CRTC
+> > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
+> > used to avoid serializing commits when userspace is using a per-CRTC
+> > update loop.
+> >
+> > A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
+> > priority commit work.
+> >
+> > A potential issue is that since 616d91b68cd ("sched: Remove
+> > sched_setscheduler*() EXPORTs") we have limited RT priority levels,
+> > meaning that commit_work() ends up running at the same priority level
+> > as vblank-work.  This shouldn't be a big problem *yet*, due to limited
+> > use of vblank-work at this point.  And if it could be arranged that
+> > vblank-work is scheduled before signaling out-fences and/or sending
+> > pageflip events, it could probably work ok to use a single priority
+> > level for both commit-work and vblank-work.
 >
-> I still think switching to the highpriority systemwq as a start (like i915
-> already does) would be a good first step no matter what we end up doing
-> for the android thing.
+> The part I don't like about this is that it all feels rather hacked
+> together, and if we add more stuff (or there's some different thing in the
+> system that also needs rt scheduling) then it doesn't compose.
 
-highpri wq is probably better than the current state, but it doesn't
-really address the problem.  You'll still end up with surfaceflinger
-preempting commit_work..
+The ideal thing would be that userspace is in control of the
+priorities.. the setclientcap approach seemed like a reasonable way to
+give the drm-master a way to opt in.
 
-And with non-RT priority, you'll still occasionally get lower priority
-threads which haven't had a chance to run for a while preempting you.
+I suppose instead userspace could use sched_setscheduler().. but that
+would require userspace to be root, and would require some way to find
+the tid.
+
+Is there some way we could arrange for the per-crtc kthread's to be
+owned by the drm master?  That would solve the "must be root" issue.
+And since the target audience is an atomic userspace, I suppose we
+could expose the tid as a read-only property on the crtc?
 
 BR,
 -R
 
-
-> -Daniel
+> So question to rt/worker folks: What's the best way to let userspace set
+> the scheduling mode and priorities of things the kernel does on its
+> behalf? Surely we're not the first ones where if userspace runs with some
+> rt priority it'll starve out the kernel workers that it needs. Hardcoding
+> something behind a subsystem ioctl (which just means every time userspace
+> changes what it does, we need a new such flag or mode) can't be the right
+> thing.
 >
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
-> >  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
-> >  2 files changed, 40 insertions(+), 4 deletions(-)
+> Peter, Tejun?
+>
+> Thanks, Daniel
+>
 > >
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index 9e1ad493e689..75eeec5e7b10 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -1659,11 +1659,11 @@ static void commit_tail(struct drm_atomic_state *old_state)
-> >       drm_atomic_state_put(old_state);
-> >  }
+> > Rob Clark (3):
+> >   drm/crtc: Introduce per-crtc kworker
+> >   drm/atomic: Use kthread worker for nonblocking commits
+> >   drm: Add a client-cap to set scheduling mode
 > >
-> > -static void commit_work(struct work_struct *work)
-> > +static void commit_work(struct kthread_work *work)
-> >  {
-> >       struct drm_atomic_state *state = container_of(work,
-> >                                                     struct drm_atomic_state,
-> > -                                                   commit_work);
-> > +                                                   commit_kwork);
-> >       commit_tail(state);
-> >  }
+> >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++----
+> >  drivers/gpu/drm/drm_auth.c          |  4 ++++
+> >  drivers/gpu/drm/drm_crtc.c          | 37 +++++++++++++++++++++++++++++
+> >  drivers/gpu/drm/drm_ioctl.c         | 13 ++++++++++
+> >  include/drm/drm_atomic.h            | 31 ++++++++++++++++++++++++
+> >  include/drm/drm_crtc.h              | 10 ++++++++
+> >  include/uapi/drm/drm.h              | 13 ++++++++++
+> >  7 files changed, 117 insertions(+), 4 deletions(-)
 > >
-> > @@ -1797,6 +1797,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
-> >                            struct drm_atomic_state *state,
-> >                            bool nonblock)
-> >  {
-> > +     struct kthread_worker *worker = NULL;
-> >       int ret;
-> >
-> >       if (state->async_update) {
-> > @@ -1814,7 +1815,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
-> >       if (ret)
-> >               return ret;
-> >
-> > -     INIT_WORK(&state->commit_work, commit_work);
-> > +     kthread_init_work(&state->commit_kwork, commit_work);
-> >
-> >       ret = drm_atomic_helper_prepare_planes(dev, state);
-> >       if (ret)
-> > @@ -1857,8 +1858,12 @@ int drm_atomic_helper_commit(struct drm_device *dev,
-> >        */
-> >
-> >       drm_atomic_state_get(state);
-> > +
-> >       if (nonblock)
-> > -             queue_work(system_unbound_wq, &state->commit_work);
-> > +             worker = drm_atomic_pick_worker(state);
-> > +
-> > +     if (worker)
-> > +             kthread_queue_work(worker, &state->commit_kwork);
-> >       else
-> >               commit_tail(state);
-> >
-> > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> > index d07c851d255b..8d0ee19953df 100644
-> > --- a/include/drm/drm_atomic.h
-> > +++ b/include/drm/drm_atomic.h
-> > @@ -373,8 +373,18 @@ struct drm_atomic_state {
-> >        *
-> >        * Work item which can be used by the driver or helpers to execute the
-> >        * commit without blocking.
-> > +      *
-> > +      * This is deprecated, use commit_kwork.
-> >        */
-> >       struct work_struct commit_work;
-> > +
-> > +     /**
-> > +      * @commit_kwork:
-> > +      *
-> > +      * Work item which can be used by the driver or helpers to execute the
-> > +      * commit without blocking.
-> > +      */
-> > +     struct kthread_work commit_kwork;
-> >  };
-> >
-> >  void __drm_crtc_commit_free(struct kref *kref);
-> > @@ -954,6 +964,27 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
-> >                     (new_obj_state) = (__state)->private_objs[__i].new_state, 1); \
-> >            (__i)++)
-> >
-> > +/**
-> > + * drm_atomic_pick_worker - helper to get kworker to use for nonblocking commit
-> > + * @state: the &drm_atomic_state for the commit
-> > + *
-> > + * Pick an appropriate worker for a given atomic update.  The first CRTC
-> > + * invovled in the atomic update is used to pick the worker, to prevent
-> > + * serializing multiple pageflips / atomic-updates on indenpendent CRTCs.
-> > + */
-> > +static inline struct kthread_worker *
-> > +drm_atomic_pick_worker(const struct drm_atomic_state *state)
-> > +{
-> > +     struct drm_crtc_state *crtc_state;
-> > +     struct drm_crtc *crtc;
-> > +     unsigned i;
-> > +
-> > +     for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-> > +             return crtc->worker;
-> > +
-> > +     return NULL;
-> > +}
-> > +
-> >  /**
-> >   * drm_atomic_crtc_needs_modeset - compute combined modeset need
-> >   * @state: &drm_crtc_state for the CRTC
 > > --
 > > 2.26.2
 > >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >
 > --
 > Daniel Vetter
